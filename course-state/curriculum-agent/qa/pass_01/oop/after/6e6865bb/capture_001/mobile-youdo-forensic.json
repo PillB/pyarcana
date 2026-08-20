@@ -1,0 +1,738 @@
+{
+  "tab": "youdo",
+  "screenshotTiles": [
+    {
+      "coverageStart": 0,
+      "coverageHeight": 844,
+      "scrollY": 0,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/6e6865bb/capture_001/mobile-youdo-tile-01.png",
+      "sha256": "b554f692df93fd329bbd6b58ccc63790a297902a673d0900349f81473b303dee"
+    },
+    {
+      "coverageStart": 844,
+      "coverageHeight": 844,
+      "scrollY": 844,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/6e6865bb/capture_001/mobile-youdo-tile-02.png",
+      "sha256": "505bdff1d125b6e93f0def0d8aadc3ba187ef3b2e86288e846d074fbd4ddd944"
+    },
+    {
+      "coverageStart": 1688,
+      "coverageHeight": 844,
+      "scrollY": 1688,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/6e6865bb/capture_001/mobile-youdo-tile-03.png",
+      "sha256": "e3010368574f52cc1c209455f1d0ebc863aa556f040a41bc364290cd4abc21fe"
+    },
+    {
+      "coverageStart": 2532,
+      "coverageHeight": 844,
+      "scrollY": 2532,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/6e6865bb/capture_001/mobile-youdo-tile-04.png",
+      "sha256": "717374869be14e35084a3e974f40998d3535776d2c2f84ef745e009de317b4a8"
+    },
+    {
+      "coverageStart": 3376,
+      "coverageHeight": 844,
+      "scrollY": 3376,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/6e6865bb/capture_001/mobile-youdo-tile-05.png",
+      "sha256": "1c55ccd61f296ae1de2058f1815c48adbf5f471475a25bfdba42ea76aea2ce9f"
+    },
+    {
+      "coverageStart": 4220,
+      "coverageHeight": 844,
+      "scrollY": 4220,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/6e6865bb/capture_001/mobile-youdo-tile-06.png",
+      "sha256": "874696267ab9e7d90fc5e9c4662d64a7cbe8994e2197c2f43709f6f6ecc7e5ec"
+    },
+    {
+      "coverageStart": 5064,
+      "coverageHeight": 844,
+      "scrollY": 5064,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/6e6865bb/capture_001/mobile-youdo-tile-07.png",
+      "sha256": "79b59c6f9ec9a2beba5120a13758a973e1827b5805a41afbe9834a4bc328e9d5"
+    },
+    {
+      "coverageStart": 5908,
+      "coverageHeight": 844,
+      "scrollY": 5908,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/6e6865bb/capture_001/mobile-youdo-tile-08.png",
+      "sha256": "47e471ff942f006c7411abc395b128b503f43bc89618705c78a15dbd25691f5a"
+    },
+    {
+      "coverageStart": 6752,
+      "coverageHeight": 11,
+      "scrollY": 5919,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/6e6865bb/capture_001/mobile-youdo-tile-09.png",
+      "sha256": "9c48019d5d9d93f07fac82c93ee1fd5d40b52b9652ea96a7ac25e2f6847aa93a"
+    }
+  ],
+  "forensic": {
+    "document": {
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "bodyHeight": 6763,
+      "title": "PyArcana · De cero a Data Scientist",
+      "url": "http://127.0.0.1:3219/?e2e=1787257875254#oop"
+    },
+    "headings": [
+      {
+        "tag": "h2",
+        "text": "Tú haces — Proyecto para tu portafolio",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85.625,
+          "y": 246.62261962890625,
+          "width": 240.375,
+          "height": 56
+        }
+      },
+      {
+        "tag": "h3",
+        "text": "Normalizadores puros (inicio CP-N1-B)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 599.6226196289062,
+          "width": 200,
+          "height": 56
+        }
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 2189.81005859375,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Proyecto enviado a mi GitHub",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 6423.18505859375,
+          "width": 262,
+          "height": 40
+        }
+      }
+    ],
+    "images": [
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 264.62261962890625,
+          "width": 13.625,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 344.62261962890625,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 617.6226196289062,
+          "width": 12,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1394.9976806640625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1462.9976806640625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1510.9976806640625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1578.9976806640625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1626.9976806640625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 2194.81005859375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 4322.06005859375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 5052.18505859375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85.453125,
+          "y": 6435.18505859375,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      }
+    ],
+    "code": [
+      {
+        "tag": "code",
+        "text": "función",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 154.84375,
+          "y": 937.6226196289062,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "entrada",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 229.65625,
+          "y": 937.6226196289062,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "salida",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 961.9976196289062,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "error",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 152.015625,
+          "y": 961.9976196289062,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "efecto permitido",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 961.9976196289062,
+          "width": 179.03125,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "prueba de idempotencia",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 986.3726196289062,
+          "width": 168.296875,
+          "height": 45.37493896484375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "@",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 148.8125,
+          "y": 1059.49755859375,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_nombre",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1108.24755859375,
+          "width": 136.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_email",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1132.62255859375,
+          "width": 129,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_telefono",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1156.99755859375,
+          "width": 152.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_direccion",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1181.37255859375,
+          "width": 160.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_record",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1205.74755859375,
+          "width": 136.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "\"\"\"normalizers_pure.py — inicio CP-N1-B (S05) Normalizadores puros de nombre, email, teléfono y dirección. Idempotencia demostrada. Sin I/O en el core. Datos sintéticos únicamente. \"\"\" from typing import Callable def normalize_nombre(raw: str) -> str: \"\"\"Colapsa espacios; title-case de palabras. Pre: str. Post: sin extremos ni dobles espacios; title por palabra. \"\"\" # Contrato: corrige el fallo del código inicial (no dejes NotImplemented) raise NotImplementedError def normalize_email(raw: str) -",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 2222.81005859375,
+          "width": 218,
+          "height": 2064.25
+        }
+      },
+      {
+        "tag": "code",
+        "text": "\"\"\"normalizers_pure.py — inicio CP-N1-B (S05) Normalizadores puros de nombre, email, teléfono y dirección. Idempotencia demostrada. Sin I/O en el core. Datos sintéticos únicamente. \"\"\" from typing import Callable def normalize_nombre(raw: str) -> str: \"\"\"Colapsa espacios; title-case de palabras. Pre: str. Post: sin extremos ni dobles espacios; title por palabra. \"\"\" # Contrato: corrige el fallo del código inicial (no dejes NotImplemented) raise NotImplementedError def normalize_email(raw: str) -",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 2241.81005859375,
+          "width": 724.96875,
+          "height": 2025.15625
+        }
+      },
+      {
+        "tag": "code",
+        "text": "title",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 4663.93505859375,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "@",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 4688.31005859375,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "print",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 5629.06005859375,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "title",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 236.25,
+          "y": 5702.18505859375,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "@",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 149.625,
+          "y": 5726.56005859375,
+          "width": 19.8125,
+          "height": 21
+        }
+      }
+    ],
+    "paragraphs": [
+      {
+        "tag": "p",
+        "text": "Ya reparaste promesas aisladas; ahora deben convivir sin que una función aprenda las reglas de las demás. Inicias CP-N1-B con cuatro normalizadores puros y un orquestador delgado. Antes de programar, dibuja una tabla con columnas función, entrada, salida, error, efecto permitido y prueba de idempotencia. Recorre en papel un registro feliz y un email sin @; después implementa normalize_nombre, normalize_email, normalize_telefono, normalize_direccion y normalize_record en ese orden. No hay archivo",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 739.6226196289062,
+          "width": 220,
+          "height": 609.3750610351562
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Implementar 4 normalizadores puros + orquestador normalize_record",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1392.9976806640625,
+          "width": 220,
+          "height": 60
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Demostrar idempotencia f(f(x)) == f(x) en cada uno",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1460.9976806640625,
+          "width": 220,
+          "height": 40
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Docstrings con pre/post; ValueError o política explícita en email",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1508.9976806640625,
+          "width": 220,
+          "height": 60
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Sin I/O ni prints dentro del core",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1576.9976806640625,
+          "width": 220,
+          "height": 40
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Suite de ejemplos/asserts ejecutable en __main__",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1624.9976806640625,
+          "width": 220,
+          "height": 40
+        }
+      },
+      {
+        "tag": "li",
+        "text": "`normalize_nombre` colapsa espacios y aplica `title` por palabra (política del laboratorio, no regla universal de nombres)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1708.9976806640625,
+          "width": 220,
+          "height": 92.8125
+        }
+      },
+      {
+        "tag": "li",
+        "text": "`normalize_email`: `strip` + `lower`; error si no hay `@` (gate mínimo, no validación integral de email)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1807.8101806640625,
+          "width": 220,
+          "height": 92.8125
+        }
+      },
+      {
+        "tag": "li",
+        "text": "`normalize_telefono`: solo dígitos (política de demostración)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1906.6226806640625,
+          "width": 220,
+          "height": 55.6875
+        }
+      },
+      {
+        "tag": "li",
+        "text": "`normalize_direccion`: colapsa espacios + `upper` determinista",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1968.3101806640625,
+          "width": 220,
+          "height": 55.6875
+        }
+      },
+      {
+        "tag": "li",
+        "text": "`is_idempotent` o asserts equivalentes para los cuatro normalizadores",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 2029.9976806640625,
+          "width": 220,
+          "height": 55.6873779296875
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Datos sintéticos; sin PII real",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 2091.68505859375,
+          "width": 220,
+          "height": 37.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un portafolio convincente no dice «usé funciones»; muestra una decisión y su evidencia. Documenta en español la política y el límite de cada normalizador, pega la salida de la suite y relaciona cada assert con una promesa. Explica por qué title y «contiene @» son reglas didácticas, no validadores universales de identidad. Incluye un ejemplo de error controlado y señala cómo la ausencia de I/O permite probar el núcleo sin archivos. No atribuyas impacto productivo que no hayas medido.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 4344.06005859375,
+          "width": 152,
+          "height": 658.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Antes de marcar listo, reconstruye el flujo sin mirar el starter: texto crudo → normalizador dueño de la política → valor o error → orquestador → dict. Después responde con evidencia: (1) ¿qué assert demuestra la política y cuál la idempotencia de cada función? (2) ¿qué caso revela que el email falla de forma controlada? (3) ¿qué línea prueba que el orquestador delega y no reimplementa? (4) ¿dónde vivirían print, lectura y escritura al conectar S08, y por qué? (5) ¿qué límite de title o @ explic",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 5114.18505859375,
+          "width": 152,
+          "height": 780
+        }
+      }
+    ],
+    "horizontalOverflow": [],
+    "fixedObstructions": []
+  }
+}

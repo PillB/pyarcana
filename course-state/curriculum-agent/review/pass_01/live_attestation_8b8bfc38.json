@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "attested_at": "2026-08-20T22:15:38Z",
+  "deployed_url": "https://pillb.github.io/pyarcana/",
+  "deployment_json": {
+    "url": "https://pillb.github.io/pyarcana/deployment.json",
+    "http_status": 200,
+    "git_sha": "8b8bfc38fea4b24f84d50bcfb31d70415ab2b9b9",
+    "section_count": 52,
+    "base_path": "/pyarcana"
+  },
+  "origin_main": "8b8bfc38fea4b24f84d50bcfb31d70415ab2b9b9",
+  "captures": [
+    {
+      "section_id": "numpy",
+      "phase": "live",
+      "source_sha": "8b8bfc38",
+      "capture_id": "capture_001",
+      "playwright": "2 passed in 30.1s",
+      "directory": "course-state/curriculum-agent/qa/pass_01/numpy/live/8b8bfc38/capture_001",
+      "geometry": {
+        "desktop_max_scroll_width": 1440,
+        "mobile_max_scroll_width": 390,
+        "overflow": 0,
+        "fixed_obstructions": 0,
+        "console_errors": 0,
+        "page_errors": 0,
+        "mobile_wedo_tiles": 49,
+        "mobile_wedo_body_height": 41095
+      },
+      "content_identity": "Colecciones y modelo tabular en memoria; hash #numpy"
+    },
+    {
+      "section_id": "data-acquisition",
+      "phase": "live",
+      "source_sha": "8b8bfc38",
+      "capture_id": "capture_001",
+      "playwright": "2 passed in 27.8s",
+      "directory": "course-state/curriculum-agent/qa/pass_01/data-acquisition/live/8b8bfc38/capture_001",
+      "geometry": {
+        "desktop_max_scroll_width": 1440,
+        "mobile_max_scroll_width": 390,
+        "overflow": 0,
+        "fixed_obstructions": 0,
+        "console_errors": 0,
+        "page_errors": 0,
+        "mobile_wedo_tiles": 53,
+        "mobile_wedo_body_height": 44009
+      },
+      "content_identity": {
+        "theory_shows_u_plus_sequences": true,
+        "composed_box_count_corrected": true,
+        "literal_joseu0301_absent": true,
+        "youdo_contract_includes_status_and_review_reasons": true
+      }
+    }
+  ],
+  "stale_live_directories_preserved": [
+    "course-state/curriculum-agent/qa/pass_01/data-acquisition/live/808e393b/capture_001"
+  ],
+  "known_limitations": [
+    "This binds S06/S07 geometry and visible identity to SHA 8b8bfc38 only.",
+    "It does not close LIMIT-CODEX-CORE-TOOL-EXPOSURE or realistic runtime receipts.",
+    "Keyboard-only, screen-reader order, and solution secrecy in client payloads remain separate gates."
+  ]
+}

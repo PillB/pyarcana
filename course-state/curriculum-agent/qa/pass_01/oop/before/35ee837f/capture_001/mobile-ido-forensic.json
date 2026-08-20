@@ -1,0 +1,2349 @@
+{
+  "tab": "ido",
+  "screenshotPath": "course-state/curriculum-agent/qa/pass_01/oop/before/35ee837f/capture_001/mobile-ido.jpg",
+  "screenshotSha256": "1ec0edbdab82f69d414abd4871b652a2c94e26adac870a7acd9ea70510a975e0",
+  "forensic": {
+    "document": {
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "bodyHeight": 17973,
+      "title": "PyArcana · De cero a Data Scientist",
+      "url": "http://127.0.0.1:3000/?e2e=1787256387083#oop"
+    },
+    "headings": [
+      {
+        "tag": "h2",
+        "text": "Yo hago — Demostración guiada",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 88.125,
+          "y": 245,
+          "width": 237.875,
+          "height": 56
+        }
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 1737.875,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 3787.125,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 232.171875,
+          "y": 5901.8125,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 7992.125,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "dict",
+        "testId": "term-hint-dict",
+        "role": null,
+        "ariaLabel": "Dict: Pares clave-valor con búsqueda O(1). {\"nombre\": \"Ana\", \"edad\": 25}. Métodos: get, items, keys, values.",
+        "box": {
+          "x": 137,
+          "y": 9819.34375,
+          "width": 25.984375,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 10019.59375,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "dict",
+        "testId": "term-hint-dict",
+        "role": null,
+        "ariaLabel": "Dict: Pares clave-valor con búsqueda O(1). {\"nombre\": \"Ana\", \"edad\": 25}. Métodos: get, items, keys, values.",
+        "box": {
+          "x": 172.984375,
+          "y": 10612.40625,
+          "width": 25.984375,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 11997.03125,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 14001.6875,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 16316.8125,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Entendido, marcado como visto",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 17632.03125,
+          "width": 262,
+          "height": 40
+        }
+      }
+    ],
+    "images": [
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 263,
+          "width": 16.125,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 343,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 1037.125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 1742.875,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 2067.625,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 2450.5,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 3175.875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 3792.125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 4263.4375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 4597.5625,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 5249.8125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 240.171875,
+          "y": 5906.8125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 6370.125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 6777.375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 7405.25,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 7997.125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 8445.34375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 8803.84375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 9407.34375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 10024.59375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 10495.90625,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 10831.03125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 11458.90625,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 12002.03125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 12404.0625,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 12713.8125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 13390.4375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 14006.6875,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 14524.1875,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 14955.8125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 15681.1875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 16321.8125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 16862.40625,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 17172.15625,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 78.9375,
+          "y": 17644.03125,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      }
+    ],
+    "code": [
+      {
+        "tag": "code",
+        "text": "def",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 162.03125,
+          "y": 730.625,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_nombre",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 1159.625,
+          "width": 136.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "\" Ana \"",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 171.46875,
+          "y": 1379,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "\"María José\"",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 1403.375,
+          "width": 105.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "\"QUISPE\"",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 1427.75,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "return",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 1500.875,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "for",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 193.71875,
+          "y": 1525.25,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "repr",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 1549.625,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "print",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 1622.75,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def normalize_nombre(raw): return \" \".join(raw.strip().split()).title() for s in [\" Ana \", \"María José\", \"QUISPE\"]: print(repr(s), \"→\", repr(normalize_nombre(s)))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 1774.875,
+          "width": 218,
+          "height": 147.46875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def normalize_nombre(raw): return \" \".join(raw.strip().split()).title() for s in [\" Ana \", \"María José\", \"QUISPE\"]: print(repr(s), \"→\", repr(normalize_nombre(s)))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 1793.875,
+          "width": 421.484375,
+          "height": 108.375
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "' Ana ' → 'Ana' 'María José' → 'María José' 'QUISPE' → 'Quispe'",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 1951.34375,
+          "width": 218,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "' Ana ' → 'Ana' 'María José' → 'María José' 'QUISPE' → 'Quispe'",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 1954.34375,
+          "width": 236.015625,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "strip",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 2089.625,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "split",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 166.25,
+          "y": 2089.625,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "join",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 234.5,
+          "y": 2089.625,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "title",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 2114,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "print",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 184.21875,
+          "y": 2235.875,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "return",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 2309,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 2333.375,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "\"QUISPE\"",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 2544.25,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "\"Quispe\"",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 2568.625,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_nombre",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 2641.75,
+          "width": 136.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "bucket=[]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 191.859375,
+          "y": 3298.375,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "good",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 3493.375,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "bad",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 3542.125,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def good(item, bucket=None): if bucket is None: bucket = [] bucket.append(item) return bucket def bad(item, bucket=[]): bucket.append(item) return bucket print(\"good\", good(1), good(2)) print(\"bad \", bad(1), bad(2))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 3832.125,
+          "width": 218,
+          "height": 309.125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def good(item, bucket=None): if bucket is None: bucket = [] bucket.append(item) return bucket def bad(item, bucket=[]): bucket.append(item) return bucket print(\"good\", good(1), good(2)) print(\"bad \", bad(1), bad(2))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 3851.125,
+          "width": 261.359375,
+          "height": 270.03125
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "good [1] [2] bad [1, 2] [1, 2]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 4170.25,
+          "width": 218,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "good [1] [2] bad [1, 2] [1, 2]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 4173.25,
+          "width": 151.71875,
+          "height": 39.09375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 180.1875,
+          "y": 4358.5625,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "good(...)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 196.453125,
+          "y": 4407.3125,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def f(x, acc=[])",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 4691.3125,
+          "width": 136.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 149.625,
+          "y": 4837.5625,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "\" X@Y.COM \"",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 184.109375,
+          "y": 5518.5625,
+          "width": 97.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "\"x\"",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 148.90625,
+          "y": 5542.9375,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "try/except",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 5664.8125,
+          "width": 90,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "ValueError",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 5713.5625,
+          "width": 90,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "@",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 221.765625,
+          "y": 5786.6875,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def normalize_email(raw: str) -> str: \"\"\"Pre: str. Post: lower strip con @. Raises ValueError.\"\"\" s = raw.strip().lower() if \"@\" not in s: raise ValueError(\"falta @\") return s print(normalize_email(\" X@Y.COM \")) try: normalize_email(\"x\") except ValueError as e: print(\"ValueError\", e)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 5938.8125,
+          "width": 218,
+          "height": 309.125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def normalize_email(raw: str) -> str: \"\"\"Pre: str. Post: lower strip con @. Raises ValueError.\"\"\" s = raw.strip().lower() if \"@\" not in s: raise ValueError(\"falta @\") return s print(normalize_email(\" X@Y.COM \")) try: normalize_email(\"x\") except ValueError as e: print(\"ValueError\", e)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 5957.8125,
+          "width": 531.015625,
+          "height": 270.03125
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "x@y.com ValueError falta @",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 6276.9375,
+          "width": 218,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "x@y.com ValueError falta @",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 6279.9375,
+          "width": 151.71875,
+          "height": 39.09375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "raise",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 114.25,
+          "y": 6392.125,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "lower",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 239.34375,
+          "y": 6538.375,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "@",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 200.5,
+          "y": 6562.75,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "x",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 134.4375,
+          "y": 6635.875,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "@",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 183,
+          "y": 6846.75,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "raise",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 214.8125,
+          "y": 6993,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "#",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 158.03125,
+          "y": 7041.75,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "norm_tel",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 7503.375,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "\"999000111\"",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 171.46875,
+          "y": 7600.875,
+          "width": 97.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "\"123\"",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 7625.25,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "\"999-000-111\"",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 7625.25,
+          "width": 143.09375,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "from typing import Optional, Tuple def norm_tel(raw: str) -> Tuple[bool, Optional[str], Optional[str]]: d = \"\".join(c for c in raw if c.isdigit()) if len(d) != 9: return False, None, \"se esperan 9 dígitos\" return True, d, None for v in [\"999000111\", \"123\", \"999-000-111\"]: print(v, norm_tel(v))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 8037.125,
+          "width": 218,
+          "height": 262.9375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "from typing import Optional, Tuple def norm_tel(raw: str) -> Tuple[bool, Optional[str], Optional[str]]: d = \"\".join(c for c in raw if c.isdigit()) if len(d) != 9: return False, None, \"se esperan 9 dígitos\" return True, d, None for v in [\"999000111\", \"123\", \"999-000-111\"]: print(v, norm_tel(v))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 8056.125,
+          "width": 573.234375,
+          "height": 223.84375
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "999000111 (True, '999000111', None) 123 (False, None, 'se esperan 9 dígitos') 999-000-111 (True, '999000111', None)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 8329.0625,
+          "width": 218,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "999000111 (True, '999000111', None) 123 (False, None, 'se esperan 9 dígitos') 999-000-111 (True, '999000111', None)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 8332.0625,
+          "width": 345.578125,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "Tuple[...]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 140.75,
+          "y": 8564.84375,
+          "width": 90,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "raise",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 179.4375,
+          "y": 8848.84375,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "(ok, value, err)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 8873.21875,
+          "width": 136.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "-> int",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 8970.71875,
+          "width": 141.078125,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "str",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 9019.46875,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_pair",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 9627.34375,
+          "width": 121.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "@",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 199.09375,
+          "y": 9773.59375,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def strip_collapse(s: str) -> str: return \" \".join(s.strip().split()) def norm_email(s: str) -> str: s = s.strip().lower() if \"@\" not in s: raise ValueError(\"email sin @\") return s def normalize_pair(nombre: str, email: str) -> dict: return {\"nombre\": strip_collapse(nombre).title(), \"email\": norm_email(email)} print(normalize_pair(\" ana perez \", \" Ana@Example.COM \"))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 10064.59375,
+          "width": 218,
+          "height": 332.21875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def strip_collapse(s: str) -> str: return \" \".join(s.strip().split()) def norm_email(s: str) -> str: s = s.strip().lower() if \"@\" not in s: raise ValueError(\"email sin @\") return s def normalize_pair(nombre: str, email: str) -> dict: return {\"nombre\": strip_collapse(nombre).title(), \"email\": norm_email(email)} print(normalize_pair(\" ana perez \", \" Ana@Example.COM \"))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 10083.59375,
+          "width": 682.765625,
+          "height": 293.125
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "{'nombre': 'Ana Perez', 'email': 'ana@example.com'}",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 10425.8125,
+          "width": 218,
+          "height": 39.09375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "{'nombre': 'Ana Perez', 'email': 'ana@example.com'}",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 10428.8125,
+          "width": 429.875,
+          "height": 16
+        }
+      },
+      {
+        "tag": "code",
+        "text": "strip",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 10665.15625,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "lower",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 153.34375,
+          "y": 10665.15625,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "title",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 208.6875,
+          "y": 10665.15625,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "strip",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 10924.78125,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "lower",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 192.34375,
+          "y": 10924.78125,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "title",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 247.6875,
+          "y": 10924.78125,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "once",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 11654.53125,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "twice",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 196.09375,
+          "y": 11654.53125,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "idem=True",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 11727.65625,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def normalize_telefono(raw: str) -> str: return \"\".join(c for c in raw if c.isdigit()) samples = [\"999-000-111\", \"(999) 000 111\", \"999000111\"] for s in samples: once = normalize_telefono(s) twice = normalize_telefono(once) print(s, \"→\", once, \"idem=\", once == twice)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 12042.03125,
+          "width": 218,
+          "height": 216.75
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def normalize_telefono(raw: str) -> str: return \"\".join(c for c in raw if c.isdigit()) samples = [\"999-000-111\", \"(999) 000 111\", \"999000111\"] for s in samples: once = normalize_telefono(s) twice = normalize_telefono(once) print(s, \"→\", once, \"idem=\", once == twice)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 12061.03125,
+          "width": 463.609375,
+          "height": 177.65625
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "999-000-111 → 999000111 idem= True (999) 000 111 → 999000111 idem= True 999000111 → 999000111 idem= True",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 12287.78125,
+          "width": 218,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "999-000-111 → 999000111 idem= True (999) 000 111 → 999000111 idem= True 999000111 → 999000111 idem= True",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 12290.78125,
+          "width": 303.4375,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "f(f(x)) == f(x)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 12450.4375,
+          "width": 129,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "f(f(x)) != f(x)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 12880.6875,
+          "width": 147.578125,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "999000 True",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 13002.5625,
+          "width": 147.078125,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "make_norm",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 13512.9375,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "prefix",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 201.875,
+          "y": 13561.6875,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "raw",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 189.4375,
+          "y": 13634.8125,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "prefix",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 13659.1875,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "+51",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 217.453125,
+          "y": 13732.3125,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "+5151…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 13854.1875,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def make_norm(prefix: str): def norm(raw: str) -> str: d = \"\".join(c for c in raw if c.isdigit()) country_digits = \"\".join(c for c in prefix if c.isdigit()) if country_digits and d.startswith(country_digits) and len(d) > 9: d = d[len(country_digits):] return prefix + d return norm pe = make_norm(\"+51\") print(pe(\"999000111\")) print(pe(\"999-000-111\")) print(pe(\"+51 999-000-111\"))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 14046.6875,
+          "width": 218,
+          "height": 332.21875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def make_norm(prefix: str): def norm(raw: str) -> str: d = \"\".join(c for c in raw if c.isdigit()) country_digits = \"\".join(c for c in prefix if c.isdigit()) if country_digits and d.startswith(country_digits) and len(d) > 9: d = d[len(country_digits):] return prefix + d return norm pe = make_norm(\"+51\") print(pe(\"999000111\")) print(pe(\"999-000-111\")) print(pe(\"+51 999-000-111\"))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 14065.6875,
+          "width": 623.8125,
+          "height": 293.125
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "+51999000111 +51999000111 +51999000111",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 14407.90625,
+          "width": 218,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "+51999000111 +51999000111 +51999000111",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 14410.90625,
+          "width": 101.15625,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "prefix",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 14570.5625,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "prefix",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 184.8125,
+          "y": 15122.6875,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "+51 999-000-111",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 15220.1875,
+          "width": 129,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "+5151…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 15268.9375,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "lower",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 178.6875,
+          "y": 15949.9375,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def normalize_direccion(raw: str) -> str: return \" \".join(raw.strip().split()).upper() def examples(fn): assert fn(\" av. larco 123 \") == \"AV. LARCO 123\" assert fn(fn(\"Calle 1\")) == fn(\"Calle 1\") return True assert examples(normalize_direccion) def normalize_direccion(raw: str) -> str: parts = raw.strip().split() return \" \".join(parts).upper() assert examples(normalize_direccion) print(\"refactor OK\", normalize_direccion(\" jr. unión 5 \"))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 16361.8125,
+          "width": 218,
+          "height": 401.5
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def normalize_direccion(raw: str) -> str: return \" \".join(raw.strip().split()).upper() def examples(fn): assert fn(\" av. larco 123 \") == \"AV. LARCO 123\" assert fn(fn(\"Calle 1\")) == fn(\"Calle 1\") return True assert examples(normalize_direccion) def normalize_direccion(raw: str) -> str: parts = raw.strip().split() return \" \".join(parts).upper() assert examples(normalize_direccion) print(\"refactor OK\", normalize_direccion(\" jr. unión 5 \"))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 16380.8125,
+          "width": 497.328125,
+          "height": 362.40625
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "refactor OK JR. UNIÓN 5",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 16792.3125,
+          "width": 218,
+          "height": 39.09375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "refactor OK JR. UNIÓN 5",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 16795.3125,
+          "width": 193.875,
+          "height": 16
+        }
+      }
+    ],
+    "paragraphs": [
+      {
+        "tag": "p",
+        "text": "En estas ocho demostraciones no mirarás código como quien contempla una pecera. Antes de cada ejecución, predice una salida o una relación; durante la lectura, sigue quién recibe cada valor; al final, explica qué línea hace verdadera la promesa. El hilo avanza desde def hasta refactor seguro con los normalizadores de CP-N1-B. Todo corre con datos sintéticos en browser-pyodide.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 557,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Antes de tocar un archivo, el junior define el núcleo puro de nombres. normalize_nombre recibe texto sintético sucio y retorna la forma canónica del laboratorio: colapso + title-case. Predicción: escribe qué aparecerá a la derecha de la flecha para \" Ana \", \"María José\" y \"QUISPE\"; decide también qué vería el caller si faltara return. Después sigue el for y usa repr para distinguir espacios reales de los imaginados. No hay print dentro del normalizador ni PII real.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 1059.125,
+          "width": 152,
+          "height": 633.75
+        }
+      },
+      {
+        "tag": "p",
+        "text": "strip + split + join + title es un solo contrato: colapsar basura de espacios y dejar cada palabra en title-case. La función retorna el canónico; el print del caller muestra el valor recibido. Si no hubiera return, el caller vería None aunque la pantalla “se viera bien” por un print interno.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 2086.625,
+          "width": 194,
+          "height": 316.875
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Si puedes decir en voz alta por qué \"QUISPE\" → \"Quispe\" y por qué no se imprime dentro de normalize_nombre, ya tienes el hábito del normalizador puro. El error clásico es confundir “se ve bien en pantalla” con “el caller recibió un valor”. En We Do corregirás un helper que imprime y no retorna.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 2492.5,
+          "width": 152,
+          "height": 414.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Los defaults de Python se evalúan una sola vez al definir la función. En un lote, bucket=[] puede acumular datos de filas que jamás debieron conocerse. Predicción: dibuja cuántas listas existen en las dos llamadas a good y cuántas en las dos llamadas a bad; luego escribe ambas líneas de salida. Ejecuta y atribuye la diferencia al momento de creación del objeto, no al nombre de la función.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 3197.875,
+          "width": 152,
+          "height": 536.25
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un default mutable es un objeto vivo reutilizado en cada llamada que no pasa el argumento. None + creación local aísla por llamada: cada good(...) arma su propia lista. Ese contraste es el mensaje pedagógico de la demo; no lo “arregles” mentalmente con copias del caller.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 4282.4375,
+          "width": 194,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Si en un PR de normalización ves def f(x, acc=[]), es P1 de producción: el default es un objeto vivo compartido. La reparación mental es “defaults inmutables o None + creación local”. En We Do reescribirás el antipatrón; no lo “arregles” copiando la lista en el caller.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 4639.5625,
+          "width": 152,
+          "height": 341.25
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un normalizador de email no es «solo lower»: promete una entrada, una forma de salida y una reacción ante el dominio inválido. Predicción: sin mirar el output, recorre el docstring y decide qué camino toman \" X@Y.COM \" y \"x\"; señala la línea que convierte cada promesa en conducta. Luego observa cómo el try/except del borde traduce el ValueError sin ocultarlo. Son datos sintéticos y el chequeo de @ sigue siendo un gate mínimo.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 5271.8125,
+          "width": 152,
+          "height": 585
+        }
+      },
+      {
+        "tag": "p",
+        "text": "El raise es parte del contrato de negocio, no un adorno de Python. El docstring no sustituye al código, pero debe coincidir en pre, post y errores. Un junior que solo hace lower sin comprobar @ incumple el gate mínimo; un revisor que lee el doc y ejecuta el caso x debe ver el mismo rechazo. Aun así, pasar este gate no demuestra que la dirección exista.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 6389.125,
+          "width": 194,
+          "height": 341.25
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Si el docstring dice “exige @” y el código no valida, gana el código y el revisor devuelve el PR. El error clásico es documentar la política y olvidar el raise. En We Do convertirás un # en docstring real y alinearás pre/post con el cuerpo.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 6819.375,
+          "width": 152,
+          "height": 316.875
+        }
+      },
+      {
+        "tag": "p",
+        "text": "A veces el lote debe seguir después de una fila inválida. norm_tel expresa tres posibilidades dentro de una tupla honesta. Predicción: para \"999000111\", \"123\" y \"999-000-111\", escribe el booleano, el valor y el error esperados. Después sigue el filtro de dígitos y la condición de longitud. Los hints describen la forma del resultado; identifica qué línea, no qué anotación, impone realmente la regla.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 7427.25,
+          "width": 152,
+          "height": 511.875
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Raise es contrato estricto (falla ruidosa en la fila). La tupla es borde tolerante: el lote imprime y sigue. Los hints (Tuple[...]) documentan forma para humanos y mypy; no convierten ni chequean al ejecutar. Mezclar raise y tuplas en el mismo helper sin documentar confunde al siguiente junior del pipeline.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 8464.34375,
+          "width": 194,
+          "height": 292.5
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Elegir raise o tupla (ok, value, err) es decisión de diseño del módulo: sé consistente. El error clásico es anotar -> int y devolver un str “porque se ve igual en el print”. En We Do verás que el hint no impide esa mentira en runtime.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 8845.84375,
+          "width": 152,
+          "height": 292.5
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Cuando un registro tiene varios campos, la tentación es escribir un bloque que «hace todo» y luego temer tocarlo. Aquí cada helper posee una política y normalize_pair solo coordina. Predicción: señala qué función cambiarías si el email dejara de aceptar texto sin @, y qué claves produciría el dict sin ejecutar. Después verifica que el orquestador llama y arma; no sabe colapsar ni validar por cuenta propia.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 9429.34375,
+          "width": 152,
+          "height": 537.25
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Cada pieza es pura y testeable sola. El orquestador solo compone: cambia una política en un helper y el dict de salida se actualiza sin copiar strip/lower/title en cinco sitios. Eso es lo que un revisor de CP-N1-B busca antes de aceptar el núcleo.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 10514.90625,
+          "width": 194,
+          "height": 269.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Si el orquestador vuelve a copiar strip/lower/title inline, el PR se vuelve inmantenible y cada política se “arregla” en un solo sitio a la vez. En We Do extraerás helpers y descompondrás un monstruo de tres campos con la misma salida.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 10873.03125,
+          "width": 161.6875,
+          "height": 316.875
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un normalizador de teléfono es puro e idempotente cuando reprocesar el valor canónico no lo sigue erosionando. Predicción: calcula once y twice para los tres ejemplos y decide por qué idem=True no demostraría, por sí solo, que la política de dígitos es correcta. Ejecuta después y separa las dos evidencias: salida esperada e igualdad de doble aplicación.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 11480.90625,
+          "width": 152,
+          "height": 463.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Idempotencia formal: f(f(x)) == f(x) en el caso feliz. Importa al re-procesar lotes: el ETL no debe “seguir transformando” un canónico. Pureza (sin print/I/O) permite medir eso con asserts, no capturando stdout.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 12423.0625,
+          "width": 194,
+          "height": 243.75
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Idempotencia es el test mínimo del gate: re-correr el ETL no debe “seguir transformando” un canónico. Si f(f(x)) != f(x), el lote se degrada en silencio entre corridas. En We Do lo demostrarás con una línea 999000 True — y verás que “estable” no basta si la política de dígitos falla.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 12755.8125,
+          "width": 152,
+          "height": 365.625
+        }
+      },
+      {
+        "tag": "p",
+        "text": "A veces necesitas fijar una política regional sin clase ni global mutable. make_norm fabrica una función que recuerda prefix. Predicción: traza dónde encuentra Python raw y prefix, y escribe las tres salidas, incluida la entrada que ya trae +51. Luego verifica que retirar el código existente antes de anteponerlo evita +5151…; el closure recuerda configuración, no historial de llamadas.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 13412.4375,
+          "width": 152,
+          "height": 536.25
+        }
+      },
+      {
+        "tag": "p",
+        "text": "LEGB: la interna resuelve prefix en el ámbito envolvente. Cada factory conserva su propia configuración y no se pisa con otra instancia. Antes de anteponer el prefijo, la demo retira el mismo código si ya venía en la entrada; así la política también es idempotente para los tres casos mostrados, sin recurrir a una clase ni a un global mutable.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 14543.1875,
+          "width": 194,
+          "height": 365.625
+        }
+      },
+      {
+        "tag": "p",
+        "text": "La interna recuerda el ámbito envolvente sin ensuciar el espacio de nombres global: cada factory cierra su propio prefix. Comprueba la frontera ya prefijada: volver a normalizar +51 999-000-111 no debe producir +5151…. En We Do verás primero que una asignación local no pisa el global y luego armarás factories PE/CL.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 14997.8125,
+          "width": 152,
+          "height": 414.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Antes de reorganizar un normalizador de dirección, fijas ejemplos que capturan upper, colapso e idempotencia. Predicción: nombra qué assert fallaría si el segundo cuerpo usara lower, y qué cambio de implementación podría pasar sin alterar la conducta cubierta. Ejecuta la suite antes y después: el verde no dice «código perfecto»; dice «estas promesas concretas sobrevivieron».",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 15703.1875,
+          "width": 152,
+          "height": 560.625
+        }
+      },
+      {
+        "tag": "p",
+        "text": "El ciclo es verde → refactor → verde. La suite de ejemplos es el contrato ejecutable: captura upper, colapso e idempotencia. Cambiar implementación sin cambiar expected es el hábito; cambiar expected “para que pase” es mentir sobre el gate.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 16881.40625,
+          "width": 194,
+          "height": 243.75
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Refactor sin suite es fe en la suerte. Si el refactor cambiara upper por lower, los asserts deben gritar — ese grito es el contrato. En We Do escribirás asserts de email, repararás un “refactor” que rompe upper, y armarás una tabla de casos para nombre.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 17214.15625,
+          "width": 152,
+          "height": 316.875
+        }
+      }
+    ],
+    "horizontalOverflow": [],
+    "fixedObstructions": []
+  }
+}

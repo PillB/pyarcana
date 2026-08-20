@@ -1,0 +1,641 @@
+{
+  "tab": "quiz",
+  "screenshotTiles": [
+    {
+      "coverageStart": 0,
+      "coverageHeight": 1000,
+      "scrollY": 0,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/6e6865bb/capture_001/desktop-quiz-tile-01.png",
+      "sha256": "d368193e295c0d0b89c07baa75e80b7a30fd3d1683dfc9097fb6200815fceeed"
+    },
+    {
+      "coverageStart": 1000,
+      "coverageHeight": 1000,
+      "scrollY": 1000,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/6e6865bb/capture_001/desktop-quiz-tile-02.png",
+      "sha256": "be65c8d9a6549fab7d1ca8abfa8c8f2543df16cafee9205369e43ef4a5ac9718"
+    },
+    {
+      "coverageStart": 2000,
+      "coverageHeight": 1000,
+      "scrollY": 2000,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/6e6865bb/capture_001/desktop-quiz-tile-03.png",
+      "sha256": "d6e2008786d26f37ee2a80c93182dd4c9fe328d7635fb4e1d992ff1db0053318"
+    },
+    {
+      "coverageStart": 3000,
+      "coverageHeight": 662,
+      "scrollY": 2662,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/6e6865bb/capture_001/desktop-quiz-tile-04.png",
+      "sha256": "d57d06738e8a530753c0cf7ec711c482718ba87780458ea3c54a966173fc3b1c"
+    }
+  ],
+  "forensic": {
+    "document": {
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "bodyHeight": 3662,
+      "title": "PyArcana · De cero a Data Scientist",
+      "url": "http://127.0.0.1:3219/?e2e=1787257858437#oop"
+    },
+    "headings": [
+      {
+        "tag": "h2",
+        "text": "Autocheck — Verifica tu aprendizaje",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 412,
+          "y": 247.57989501953125,
+          "width": 329.359375,
+          "height": 28
+        }
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "text": "A None",
+        "testId": "sc-q-0-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 492.57989501953125,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B 0",
+        "testId": "sc-q-0-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 550.5798950195312,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C False",
+        "testId": "sc-q-0-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 608.5798950195312,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Error siempre",
+        "testId": "sc-q-0-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 666.5798950195312,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Python no permite defaults",
+        "testId": "sc-q-1-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 866.5798950195312,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Solo falla con type hints",
+        "testId": "sc-q-1-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 924.5798950195312,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C El default mutable se comparte entre llamadas",
+        "testId": "sc-q-1-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 982.5798950195312,
+          "width": 822,
+          "height": 49.99993896484375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Convierte xs en tupla",
+        "testId": "sc-q-1-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1040.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Siempre imprime el resultado",
+        "testId": "sc-q-2-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1240.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Lee un archivo de config global",
+        "testId": "sc-q-2-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1298.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Solo puede usarse en clases",
+        "testId": "sc-q-2-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1356.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Mismo input → mismo output, sin efectos colaterales",
+        "testId": "sc-q-2-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1414.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A List, Else, Generator, Break",
+        "testId": "sc-q-3-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1614.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Local, Enclosing, Global, Builtin",
+        "testId": "sc-q-3-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1672.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Loop, Eval, Global, Binary",
+        "testId": "sc-q-3-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1730.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Lambda, Except, Goto, Block",
+        "testId": "sc-q-3-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1788.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A f(f(x)) == f(x) para entradas del dominio",
+        "testId": "sc-q-4-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1988.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B f se ejecuta solo una vez en la vida del proceso",
+        "testId": "sc-q-4-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2046.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C f no puede tener defaults",
+        "testId": "sc-q-4-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2104.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D f siempre lanza ValueError",
+        "testId": "sc-q-4-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2162.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Ninguna: ambos rellenan __doc__",
+        "testId": "sc-q-5-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2362.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B El comentario # se ejecuta en runtime",
+        "testId": "sc-q-5-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2420.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Solo el docstring queda en __doc__ y es el contrato legible por help()/herramientas",
+        "testId": "sc-q-5-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2478.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D El docstring prohíbe usar return",
+        "testId": "sc-q-5-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2536.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Que raw sea keyword-only",
+        "testId": "sc-q-6-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2736.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Que la función sea pura automáticamente",
+        "testId": "sc-q-6-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2794.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Crear un default mutable",
+        "testId": "sc-q-6-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2852.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Pasar digits_only solo como keyword (digits_only=...)",
+        "testId": "sc-q-6-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2910.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Reimplementa strip/lower/title en cada campo para no depender de helpers",
+        "testId": "sc-q-7-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3110.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Llama a normalizadores pequeños y arma el dict sin I/O en el núcleo",
+        "testId": "sc-q-7-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3168.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Debe abrir el CSV y escribir el resultado en disco",
+        "testId": "sc-q-7-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3226.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Solo puede existir dentro de una clase",
+        "testId": "sc-q-7-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3284.579833984375,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Enviar respuestas (0/8)",
+        "testId": "sc-submit",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 3403.579833984375,
+          "width": 864,
+          "height": 40
+        }
+      }
+    ],
+    "images": [
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 251.57989501953125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 317.57989501953125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 726.984375,
+          "y": 3415.579833984375,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      }
+    ],
+    "code": [],
+    "paragraphs": [
+      {
+        "tag": "p",
+        "text": "Si una función no tiene return, ¿qué devuelve la llamada?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 456.57989501953125,
+          "width": 374.234375,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "¿Por qué `def f(xs=[])` es peligroso?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 830.5798950195312,
+          "width": 242.453125,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Una función pura…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 1204.579833984375,
+          "width": 124.734375,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "LEGB significa…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 1578.579833984375,
+          "width": 106.640625,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Idempotencia de un normalizador f significa…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 1952.579833984375,
+          "width": 300.421875,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "¿Qué diferencia un docstring de un comentario `#` justo bajo `def`?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 2326.579833984375,
+          "width": 449.0625,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "En `def normalize_telefono(raw, *, digits_only=True)`, el `*` obliga a…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 2700.579833984375,
+          "width": 460.5625,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un orquestador delgado como `normalize_record`…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 3074.579833984375,
+          "width": 345.1875,
+          "height": 20
+        }
+      }
+    ],
+    "horizontalOverflow": [],
+    "fixedObstructions": []
+  }
+}

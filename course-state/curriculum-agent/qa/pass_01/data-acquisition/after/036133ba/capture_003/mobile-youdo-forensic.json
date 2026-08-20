@@ -1,0 +1,666 @@
+{
+  "tab": "youdo",
+  "screenshotTiles": [
+    {
+      "coverageStart": 0,
+      "coverageHeight": 844,
+      "scrollY": 0,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/after/036133ba/capture_003/mobile-youdo-tile-01.png",
+      "sha256": "a711191742afe709524beccecb5e103a0e790237e9fc4bc198f149533021b9fa"
+    },
+    {
+      "coverageStart": 844,
+      "coverageHeight": 844,
+      "scrollY": 844,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/after/036133ba/capture_003/mobile-youdo-tile-02.png",
+      "sha256": "bbd08d30cbaccee8484b425763e0446105cad4c53d887a1e69b59f5cb10ab0d9"
+    },
+    {
+      "coverageStart": 1688,
+      "coverageHeight": 844,
+      "scrollY": 1688,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/after/036133ba/capture_003/mobile-youdo-tile-03.png",
+      "sha256": "28033e9a7cf473480a7fee4c2486a7cc8d68cbcc4cd5b311330451834748cd83"
+    },
+    {
+      "coverageStart": 2532,
+      "coverageHeight": 844,
+      "scrollY": 2532,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/after/036133ba/capture_003/mobile-youdo-tile-04.png",
+      "sha256": "b15f00f4088d3fb4fe0f4d36a484636a5806cb46355d0967bd87bb9e5830fa85"
+    },
+    {
+      "coverageStart": 3376,
+      "coverageHeight": 844,
+      "scrollY": 3376,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/after/036133ba/capture_003/mobile-youdo-tile-05.png",
+      "sha256": "34c9bc8be1a389e9a13f194580c39d32f6f12a12f2197829ab258ae3d1e94e91"
+    },
+    {
+      "coverageStart": 4220,
+      "coverageHeight": 844,
+      "scrollY": 4220,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/after/036133ba/capture_003/mobile-youdo-tile-06.png",
+      "sha256": "c0fbed43f41d968a4a9c649ac0b702cf00a985992dc28a995d60ab8515ea90c9"
+    },
+    {
+      "coverageStart": 5064,
+      "coverageHeight": 844,
+      "scrollY": 5064,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/after/036133ba/capture_003/mobile-youdo-tile-07.png",
+      "sha256": "a94b4952f0174e771c6bcc8e97e1353a6ec6af09b7018c4e3505720334adf0c2"
+    },
+    {
+      "coverageStart": 5908,
+      "coverageHeight": 9,
+      "scrollY": 5073,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/after/036133ba/capture_003/mobile-youdo-tile-08.png",
+      "sha256": "a1ebf48a36360a11f4478086998b740e3f90e9b69a6212c9fd0b5c57de9b3039"
+    }
+  ],
+  "forensic": {
+    "document": {
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "bodyHeight": 5917,
+      "title": "PyArcana · De cero a Data Scientist",
+      "url": "http://127.0.0.1:3223/?e2e=1787260792346#data-acquisition"
+    },
+    "headings": [
+      {
+        "tag": "h2",
+        "text": "Tú haces — Proyecto para tu portafolio",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85.625,
+          "y": 245.2804718017578,
+          "width": 240.375,
+          "height": 55.99998474121094
+        }
+      },
+      {
+        "tag": "h3",
+        "text": "Normalización latinoamericana (CP-N1-B)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 104.171875,
+          "y": 598.280517578125,
+          "width": 200.828125,
+          "height": 84
+        }
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "text": "pipeline",
+        "testId": "term-hint-pipeline",
+        "role": null,
+        "ariaLabel": "Pipeline: Serie ordenada de pasos: la salida de un paso pasa al siguiente hasta producir el resultado.",
+        "box": {
+          "x": 203.015625,
+          "y": 815.0304565429688,
+          "width": 53.546875,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 2442.218017578125,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "pipeline",
+        "testId": "term-hint-pipeline",
+        "role": null,
+        "ariaLabel": "Pipeline: Serie ordenada de pasos: la salida de un paso pasa al siguiente hasta producir el resultado.",
+        "box": {
+          "x": 137,
+          "y": 4782.8115234375,
+          "width": 53.546875,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Proyecto enviado a mi GitHub",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 5576.5615234375,
+          "width": 262,
+          "height": 40
+        }
+      }
+    ],
+    "images": [
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 263.28045654296875,
+          "width": 13.625,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 343.28045654296875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 630.280517578125,
+          "width": 11.171875,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1349.530517578125,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1417.530517578125,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1465.530517578125,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1513.530517578125,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1581.530517578125,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 2447.218017578125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 3673.811767578125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 4184.5615234375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85.453125,
+          "y": 5588.5615234375,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      }
+    ],
+    "code": [
+      {
+        "tag": "code",
+        "text": "campo | raw | transformación prevista | normalized esperado | decisión/review",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 940.9054565429688,
+          "width": 208.8125,
+          "height": 94.12506103515625
+        }
+      },
+      {
+        "tag": "code",
+        "text": "str",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 153.09375,
+          "y": 1209.030517578125,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "\"\"\"latam_normalize.py — Normalización latinoamericana (CP-N1-B / S07) Conserva raw, produce normalized y lista transforms. Sin scraping, HTTP ni SQL. Datos sintéticos. \"\"\" from __future__ import annotations import unicodedata from typing import Any def nfc(s: str) -> str: return unicodedata.normalize(\"NFC\", s) def normalize_nombre(raw: str) -> tuple[str, list[str]]: \"\"\"Retorna (normalized, transforms).\"\"\" # Contrato: collapse, nfc; no inventar apellidos raise NotImplementedError def normalize_em",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 2475.218017578125,
+          "width": 218,
+          "height": 1163.59375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "\"\"\"latam_normalize.py — Normalización latinoamericana (CP-N1-B / S07) Conserva raw, produce normalized y lista transforms. Sin scraping, HTTP ni SQL. Datos sintéticos. \"\"\" from __future__ import annotations import unicodedata from typing import Any def nfc(s: str) -> str: return unicodedata.normalize(\"NFC\", s) def normalize_nombre(raw: str) -> tuple[str, list[str]]: \"\"\"Retorna (normalized, transforms).\"\"\" # Contrato: collapse, nfc; no inventar apellidos raise NotImplementedError def normalize_em",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 2494.218017578125,
+          "width": 665.875,
+          "height": 1124.5
+        }
+      },
+      {
+        "tag": "code",
+        "text": "+",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 166.296875,
+          "y": 3796.311767578125,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "raw → transforms → normalized → decisión",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 3845.061767578125,
+          "width": 103.296875,
+          "height": 94.125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "review",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 3966.936767578125,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "raw",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 4371.4365234375,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "transforms",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 180.609375,
+          "y": 4371.4365234375,
+          "width": 90,
+          "height": 21
+        }
+      }
+    ],
+    "paragraphs": [
+      {
+        "tag": "p",
+        "text": "Proyecto independiente (You Do): cierras el tramo textual de CP-N1-B con un pipeline que conserva raw, emite normalized y registra transforms por campo. Antes de programar, prepara una tabla con cinco columnas: campo | raw | transformación prevista | normalized esperado | decisión/review. Traza a mano un caso feliz y uno ambiguo; solo después implementa por etapas: nombre, email, teléfono e integración. Combinas Unicode NFC, nombres con dos apellidos y partículas, contacto modesto, str primero y",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 766.2804565429688,
+          "width": 220,
+          "height": 537.2500610351562
+        }
+      },
+      {
+        "tag": "li",
+        "text": "normalize_record → {raw, normalized, transforms, status, review_reasons}",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1347.530517578125,
+          "width": 220,
+          "height": 60
+        }
+      },
+      {
+        "tag": "li",
+        "text": "NFC + casefold donde corresponda en nombres",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1415.530517578125,
+          "width": 220,
+          "height": 40
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Dos apellidos / status review si el parse es incompleto",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1463.530517578125,
+          "width": 220,
+          "height": 40
+        }
+      },
+      {
+        "tag": "li",
+        "text": "str primero; regex solo si aporta y se justifica en el README",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1511.530517578125,
+          "width": 220,
+          "height": 60
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Tests con ejemplos latam sintéticos (partícula, plus email, +51)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1579.530517578125,
+          "width": 220,
+          "height": 60
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Firma normalize_record(raw: dict) documentada en docstring",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1683.530517578125,
+          "width": 220,
+          "height": 74.25
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Unicode NFC en campos de nombre; colapso de espacios documentado",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1763.780517578125,
+          "width": 220,
+          "height": 55.6875
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Sin scraping, HTTP ni SQL en este proyecto",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1825.468017578125,
+          "width": 220,
+          "height": 37.125
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Solo datos sintéticos peruanos/latam (sin PII real)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1868.593017578125,
+          "width": 220,
+          "height": 55.6875
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Email: un @, local/dominio no vacíos, cero espacios; plus permitido; inválido → review (no inventar local)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1930.280517578125,
+          "width": 220,
+          "height": 92.8125
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Teléfono: solo dígitos; conserva dígitos del prefijo 51; no inferir operadora ni raise por longitud",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 2029.093017578125,
+          "width": 220,
+          "height": 92.8125
+        }
+      },
+      {
+        "tag": "li",
+        "text": "transforms es un dict por campo cuya lista sigue el orden de aplicación (nfc, collapse_spaces, casefold, digits_only, …)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 2127.905517578125,
+          "width": 220,
+          "height": 92.8125
+        }
+      },
+      {
+        "tag": "li",
+        "text": "status es ok o review; review_reasons conserva razones por campo y queda vacío en el caso feliz",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 2226.718017578125,
+          "width": 220,
+          "height": 74.25
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Si agregas matching, empaqueta evidencia sin afirmaciones de parentesco ni identidad legal",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 2306.968017578125,
+          "width": 220,
+          "height": 74.25
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Muestra en README tres casos y su evidencia: nombre con partícula, email con + y teléfono con máscara. Incluye la tabla raw → transforms → normalized → decisión, un caso que termine en review y un test que habría fallado antes. Describe el límite de no-parentesco como decisión de diseño, no como promesa decorativa.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 3695.811767578125,
+          "width": 152,
+          "height": 438.749755859375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Antes de marcar listo, toma tu caso ambiguo y reconstruye la ejecución solo con raw, transforms y decisión. ¿Puedes señalar qué etapa causó cada cambio? ¿Qué dato se negó a inventar el programa? ¿Qué prueba distingue forma usable de existencia real? Si agregaste matching, intenta redactar una conclusión indebida y demuestra qué evidencia falta para sostenerla. Finalmente aplica el pipeline a un caso internacional con otra convención de nombre: registra dónde deja de servir tu heurística. En S08 ",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 4246.5615234375,
+          "width": 152,
+          "height": 781
+        }
+      }
+    ],
+    "horizontalOverflow": [],
+    "fixedObstructions": []
+  }
+}

@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-27T20:45:43.831415+00:00",
-  "sections": 2,
+  "generated_at": "2026-08-20T20:42:45.074959+00:00",
+  "sections": 1,
   "totals": {
-    "pass": 128,
+    "pass": 64,
     "fail": 0,
     "skip": 0,
-    "artifacts": 128
+    "artifacts": 64
   },
   "fail_count": 0,
   "p0_count": 0,
@@ -13,18 +13,8 @@
   "ok": true,
   "sections_detail": [
     {
-      "file": "src/lib/course/sections/s16-wxpython-gui.ts",
-      "section_id": "wxpython-gui",
-      "counts": {
-        "pass": 64,
-        "fail": 0,
-        "skip": 0
-      },
-      "artifact_count": 64
-    },
-    {
-      "file": "src/lib/course/sections/s32-microservices.ts",
-      "section_id": "microservices",
+      "file": "src/lib/course/sections/s06-numpy.ts",
+      "section_id": "numpy",
       "counts": {
         "pass": 64,
         "fail": 0,

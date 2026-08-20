@@ -1,0 +1,568 @@
+{
+  "tab": "youdo",
+  "screenshotTiles": [
+    {
+      "coverageStart": 0,
+      "coverageHeight": 844,
+      "scrollY": 0,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/7f7c5b08/capture_001/mobile-youdo-tile-01.png",
+      "sha256": "d769e47229dec61f32138a02e0d3c644f810e782e1fe7ecf41eff363812694e9"
+    },
+    {
+      "coverageStart": 844,
+      "coverageHeight": 844,
+      "scrollY": 844,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/7f7c5b08/capture_001/mobile-youdo-tile-02.png",
+      "sha256": "b5b4b3694bfd3892217b8bfee4028be74d398daf49d50fa6773fd90dca0f1b15"
+    },
+    {
+      "coverageStart": 1688,
+      "coverageHeight": 844,
+      "scrollY": 1688,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/7f7c5b08/capture_001/mobile-youdo-tile-03.png",
+      "sha256": "8cdfb3b18d434e5eca2b1afd17866187ec313f152d630d4584e71abeab8af083"
+    },
+    {
+      "coverageStart": 2532,
+      "coverageHeight": 844,
+      "scrollY": 2532,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/7f7c5b08/capture_001/mobile-youdo-tile-04.png",
+      "sha256": "3b1e31df80e78e1025aa8376706675c28086f536037d17d500a8645a7fa15947"
+    },
+    {
+      "coverageStart": 3376,
+      "coverageHeight": 844,
+      "scrollY": 3376,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/7f7c5b08/capture_001/mobile-youdo-tile-05.png",
+      "sha256": "cc996957fb85b33fcf9d81326f64bce2b5ced35f0e0605dc49af6e2b41816c73"
+    },
+    {
+      "coverageStart": 4220,
+      "coverageHeight": 844,
+      "scrollY": 4220,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/7f7c5b08/capture_001/mobile-youdo-tile-06.png",
+      "sha256": "4588c829db2e3a90142615b300b0bc1b9ef132d3f898fb768235dbb3369dc3fd"
+    },
+    {
+      "coverageStart": 5064,
+      "coverageHeight": 693,
+      "scrollY": 4913,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/7f7c5b08/capture_001/mobile-youdo-tile-07.png",
+      "sha256": "7dfa028b70a0d0874cde9b97252c9c6c0defde38522100bda5a132a7763c53fe"
+    }
+  ],
+  "forensic": {
+    "document": {
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "bodyHeight": 5757,
+      "title": "PyArcana · De cero a Data Scientist",
+      "url": "http://127.0.0.1:3220/?e2e=1787259401165#numpy"
+    },
+    "headings": [
+      {
+        "tag": "h2",
+        "text": "Tú haces — Proyecto para tu portafolio",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85.625,
+          "y": 246.3472442626953,
+          "width": 240.375,
+          "height": 55.99998474121094
+        }
+      },
+      {
+        "tag": "h3",
+        "text": "Modelo tabular en memoria (CP-N1-B)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105.1875,
+          "y": 599.3472900390625,
+          "width": 199.8125,
+          "height": 56
+        }
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 2017.7847900390625,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "shape",
+        "testId": "term-hint-shape",
+        "role": null,
+        "ariaLabel": "Shape: Forma o estructura de los datos: qué campos, niveles o dimensiones tiene un registro o colección.",
+        "box": {
+          "x": 205.359375,
+          "y": 3830.75341796875,
+          "width": 41.515625,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "list",
+        "testId": "term-hint-list",
+        "role": null,
+        "ariaLabel": "List: Secuencia ordenada mutable. [1, 2, 3]. Métodos: append, extend, insert, remove, sort.",
+        "box": {
+          "x": 251.34375,
+          "y": 4431.25341796875,
+          "width": 19.796875,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "dict",
+        "testId": "term-hint-dict",
+        "role": null,
+        "ariaLabel": "Dict: Colección de pares clave-valor: cada clave permite localizar su valor. Ejemplo: {\"nombre\": \"Ana\", \"edad\": 25}.",
+        "box": {
+          "x": 137,
+          "y": 4456.62841796875,
+          "width": 25.984375,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Proyecto enviado a mi GitHub",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 5417.12841796875,
+          "width": 262,
+          "height": 40
+        }
+      }
+    ],
+    "images": [
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 264.34722900390625,
+          "width": 13.625,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 344.34722900390625,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 617.3472900390625,
+          "width": 12.1875,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1297.2222900390625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1365.2222900390625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1433.2222900390625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1481.2222900390625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1529.2222900390625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 2022.7847900390625,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 3711.25341796875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 4247.37841796875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85.453125,
+          "y": 5429.12841796875,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      }
+    ],
+    "code": [
+      {
+        "tag": "code",
+        "text": "client_id",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 937.3472290039062,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "main",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 106.3125,
+          "y": 1034.84716796875,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "\"\"\"memory_model.py — Modelo tabular en memoria (CP-N1-B / S06) Clientes + contactos + transacciones en estructuras Python puras. Sin NumPy/pandas. Datos sintéticos LATAM únicamente. \"\"\" from __future__ import annotations import json from typing import Any, Callable def dedup_report(rows: list[dict], key_fn: Callable[[dict], Any]) -> dict: \"\"\"Devuelve {unique, conflicts} sin borrar traza de conflictos.\"\"\" # Implementa según el docstring (no dejes NotImplementedError). raise NotImplementedError de",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 2050.78466796875,
+          "width": 218,
+          "height": 1625.46875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "\"\"\"memory_model.py — Modelo tabular en memoria (CP-N1-B / S06) Clientes + contactos + transacciones en estructuras Python puras. Sin NumPy/pandas. Datos sintéticos LATAM únicamente. \"\"\" from __future__ import annotations import json from typing import Any, Callable def dedup_report(rows: list[dict], key_fn: Callable[[dict], Any]) -> dict: \"\"\"Devuelve {unique, conflicts} sin borrar traza de conflictos.\"\"\" # Implementa según el docstring (no dejes NotImplementedError). raise NotImplementedError de",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 2069.78466796875,
+          "width": 724.96875,
+          "height": 1586.375
+        }
+      }
+    ],
+    "paragraphs": [
+      {
+        "tag": "p",
+        "text": "Ahora diseñas la mesa de clasificación completa sin una solución para copiar. Trabaja en cuatro pasadas. Primero escribe los invariantes: la primera fila única se conserva, un payload distinto se reporta y ninguna transacción pierde su client_id. Después implementa cada helper y pruébalo por separado. En la tercera pasada compón el flujo de main; en la cuarta, ejecuta una matriz de bordes con duplicado idéntico, conflicto, ruta ausente, lista vacía y entrada desordenada. El éxito no es que el ar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 739.3472290039062,
+          "width": 220,
+          "height": 511.87506103515625
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Representar cliente/contacto/tx en list[dict] documentado",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1295.2222900390625,
+          "width": 220,
+          "height": 60
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Implementar dedup_report → unique + conflicts (idéntico ≠ conflicto)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1363.2222900390625,
+          "width": 220,
+          "height": 60
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Aplanar transacciones con client_id",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1431.2222900390625,
+          "width": 220,
+          "height": 40
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Acceder de forma segura a faltantes (get_nested)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1479.2222900390625,
+          "width": 220,
+          "height": 40
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Export determinista (sorted + sort_keys)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1527.2222900390625,
+          "width": 220,
+          "height": 40
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Tipos list[dict] o índices dict documentados",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1611.2222900390625,
+          "width": 220,
+          "height": 37.125
+        }
+      },
+      {
+        "tag": "li",
+        "text": "dedup_report(rows, key_fn) sin borrar conflictos; payload idéntico no entra a conflicts",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1654.3472900390625,
+          "width": 220,
+          "height": 74.25
+        }
+      },
+      {
+        "tag": "li",
+        "text": "sorted determinista en exports",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1734.5972900390625,
+          "width": 220,
+          "height": 37.125
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Datos sintéticos LATAM (example.com)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1777.7222900390625,
+          "width": 220,
+          "height": 37.125
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Sin importar NumPy ni pandas en esta entrega",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1820.8472900390625,
+          "width": 220,
+          "height": 37.125
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Corrida: python memory_model.py imprime flat, JSON estable y dedup_report con conflicto demo",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1863.9722900390625,
+          "width": 220,
+          "height": 92.8125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Presenta el proyecto como una decisión de diseño, no como una lista de funciones. Incluye el shape del store, el conflicto sintético que tu política conserva, dos dumps iguales obtenidos desde órdenes de entrada distintos y una breve justificación de cada colección. Un revisor debe poder reconstruir qué riesgo evita cada decisión sin abrir todo el código.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 3733.25341796875,
+          "width": 152,
+          "height": 464.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Revisa el proyecto con tres voces. Como autor, demuestra cada invariante con un assert y explica por qué elegiste list, dict o set. Como operador, pregunta qué ocurre con un lote vacío, un ID repetido y una ruta incompleta, y confirma que ninguna excepción queda disfrazada de éxito. Como revisor, busca mutaciones compartidas y salidas dependientes del orden. Cierra con una decisión que cambiarías al crecer el volumen y otra que mantendrías porque protege la trazabilidad.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 4309.37841796875,
+          "width": 152,
+          "height": 635.75
+        }
+      }
+    ],
+    "horizontalOverflow": [],
+    "fixedObstructions": []
+  }
+}

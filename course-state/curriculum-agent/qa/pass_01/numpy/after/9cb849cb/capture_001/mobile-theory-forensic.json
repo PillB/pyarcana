@@ -1,0 +1,2688 @@
+{
+  "tab": "theory",
+  "screenshotTiles": [
+    {
+      "coverageStart": 0,
+      "coverageHeight": 844,
+      "scrollY": 0,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-01.png",
+      "sha256": "ea74092eab5968c8fe83a5aa8f43d998f7f2e3cd871781304c1aeefb79ea24b2"
+    },
+    {
+      "coverageStart": 844,
+      "coverageHeight": 844,
+      "scrollY": 844,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-02.png",
+      "sha256": "e7cb0b1fa20cd66a3c9b44fdf1f434893f5c570bb598308ac6f959e6ad02cc3c"
+    },
+    {
+      "coverageStart": 1688,
+      "coverageHeight": 844,
+      "scrollY": 1688,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-03.png",
+      "sha256": "19a4a2e1e88848a17ca7aff47c88a5e0d3d576139d99b05ff9816a9cf6f69db9"
+    },
+    {
+      "coverageStart": 2532,
+      "coverageHeight": 844,
+      "scrollY": 2532,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-04.png",
+      "sha256": "e3771fb3aa6eff49ae00a7c02c6815b08187ee5f771e1096c2b86fef5f2f08aa"
+    },
+    {
+      "coverageStart": 3376,
+      "coverageHeight": 844,
+      "scrollY": 3376,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-05.png",
+      "sha256": "93cc4be35370e5fb79c6f17e8e43171a2f7f4e1d9bd34c15163d0475f182aa57"
+    },
+    {
+      "coverageStart": 4220,
+      "coverageHeight": 844,
+      "scrollY": 4220,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-06.png",
+      "sha256": "047059a54d2785abd27f6d1e28f57472b09c927d763f80716493f12df290b5b2"
+    },
+    {
+      "coverageStart": 5064,
+      "coverageHeight": 844,
+      "scrollY": 5064,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-07.png",
+      "sha256": "357c34d26213af88744cc1bc58ff2504487d3359b4d87321b16f370af2f55e32"
+    },
+    {
+      "coverageStart": 5908,
+      "coverageHeight": 844,
+      "scrollY": 5908,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-08.png",
+      "sha256": "a80051575b490c18d872bb012e3c1bdd4f25bdba914bf8c620ddfc46a00e2db5"
+    },
+    {
+      "coverageStart": 6752,
+      "coverageHeight": 844,
+      "scrollY": 6752,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-09.png",
+      "sha256": "92f1156e22071b83d6ca3639a8127200b7438360c2cd600c2662c10b74904928"
+    },
+    {
+      "coverageStart": 7596,
+      "coverageHeight": 844,
+      "scrollY": 7596,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-10.png",
+      "sha256": "b114cdecefdd0ee431eeb414c1b5998c496d4d4da6cb036ad6e2a8d50f147975"
+    },
+    {
+      "coverageStart": 8440,
+      "coverageHeight": 844,
+      "scrollY": 8440,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-11.png",
+      "sha256": "dc93d75a2ec5a753d22b507bcae88a516c8c76e3ac340b242c60c53127fc27aa"
+    },
+    {
+      "coverageStart": 9284,
+      "coverageHeight": 844,
+      "scrollY": 9284,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-12.png",
+      "sha256": "9f6ef797bc7f39323ccb413f43e3095fcfe31c9311bed958d2ba1f503d747b20"
+    },
+    {
+      "coverageStart": 10128,
+      "coverageHeight": 844,
+      "scrollY": 10128,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-13.png",
+      "sha256": "c008dd9b79c00eaf477b512f27dc04c519a1231d1cea82811232e87aee8fd1a0"
+    },
+    {
+      "coverageStart": 10972,
+      "coverageHeight": 844,
+      "scrollY": 10972,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-14.png",
+      "sha256": "ea059c3306f882f33179bcc7ced616c213166f6fefbfc55c6889a2da3cb61508"
+    },
+    {
+      "coverageStart": 11816,
+      "coverageHeight": 844,
+      "scrollY": 11816,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-15.png",
+      "sha256": "b18e1104449e27533e63e85e926ad0f1e1be14d1e75015c101a50f9d30011204"
+    },
+    {
+      "coverageStart": 12660,
+      "coverageHeight": 844,
+      "scrollY": 12660,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-16.png",
+      "sha256": "5e1028f8317e7b19ccb1b8208bcf3631ebac3c8a9bf4f65a393a8519b524828f"
+    },
+    {
+      "coverageStart": 13504,
+      "coverageHeight": 844,
+      "scrollY": 13504,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-17.png",
+      "sha256": "c8994db5f803b7868ec5e3be4e98905319af2965f6978b64cd7182da03572275"
+    },
+    {
+      "coverageStart": 14348,
+      "coverageHeight": 844,
+      "scrollY": 14348,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-18.png",
+      "sha256": "b7460a81bdf4ff06aa1efb5d700e1b182712e5e22651d8fcd0a7ab6c7c6fa055"
+    },
+    {
+      "coverageStart": 15192,
+      "coverageHeight": 844,
+      "scrollY": 15192,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-19.png",
+      "sha256": "ac578f8c29084064d2ceef9b3400a7f2a4f3f7e0c6b0cd9ec8cc9866db34569b"
+    },
+    {
+      "coverageStart": 16036,
+      "coverageHeight": 844,
+      "scrollY": 16036,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-20.png",
+      "sha256": "37ef1ea7cad2873e20ccb188fa0da343849cd58f19665561683fb81c6a17b0f8"
+    },
+    {
+      "coverageStart": 16880,
+      "coverageHeight": 844,
+      "scrollY": 16880,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-21.png",
+      "sha256": "5ee6138ed90d31081f834b1da7c0375a4489c5114bf193063e7ec8336fe99d52"
+    },
+    {
+      "coverageStart": 17724,
+      "coverageHeight": 116,
+      "scrollY": 16996,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-theory-tile-22.png",
+      "sha256": "343e46d56ee96f41d28f06e2689c1b41dd8b74e95f936dc530b44bc0707207af"
+    }
+  ],
+  "forensic": {
+    "document": {
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "bodyHeight": 17840,
+      "title": "PyArcana · De cero a Data Scientist",
+      "url": "http://127.0.0.1:3221/?e2e=1787259707944#numpy"
+    },
+    "headings": [
+      {
+        "tag": "h2",
+        "text": "Teoría",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 92,
+          "y": 245,
+          "width": 56.203125,
+          "height": 28
+        }
+      },
+      {
+        "tag": "h3",
+        "text": "Pruébalo tú mismo",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 92,
+          "y": 16365.71875,
+          "width": 152.515625,
+          "height": 28
+        }
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "text": "slicing",
+        "testId": "term-hint-slicing",
+        "role": null,
+        "ariaLabel": "Slicing: Extraer una porción de una secuencia. Sintaxis: secuencia[inicio:fin:paso].",
+        "box": {
+          "x": 170.140625,
+          "y": 1762.625,
+          "width": 43.71875,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 235.828125,
+          "y": 2665.375,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "shape",
+        "testId": "term-hint-shape",
+        "role": null,
+        "ariaLabel": "Shape: Forma o estructura de los datos: qué campos, niveles o dimensiones tiene un registro o colección.",
+        "box": {
+          "x": 64,
+          "y": 3547.75,
+          "width": 41.515625,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "tipo de dato",
+        "testId": "term-hint-tipo-de-dato",
+        "role": null,
+        "ariaLabel": "Tipo de dato: La naturaleza del valor: int (entero), float (decimal), str (texto), bool (True/False), list, dict, tuple, set.",
+        "box": {
+          "x": 64,
+          "y": 3573.125,
+          "width": 82.28125,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "variable",
+        "testId": "term-hint-variable",
+        "role": null,
+        "ariaLabel": "Variable: Una etiqueta que apunta a un valor en memoria. En Python no declaras el tipo — se infiere.",
+        "box": {
+          "x": 271.140625,
+          "y": 3720.375,
+          "width": 53.515625,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 235.828125,
+          "y": 4460.875,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "merge",
+        "testId": "term-hint-merge",
+        "role": null,
+        "ariaLabel": "Merge: Combinar dos colecciones o registros siguiendo una clave o regla común.",
+        "box": {
+          "x": 132.296875,
+          "y": 6399.25,
+          "width": 43.65625,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 235.828125,
+          "y": 6522.75,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "set",
+        "testId": "term-hint-set",
+        "role": null,
+        "ariaLabel": "Set: Conjunto sin duplicados. {1, 2, 3}. Operaciones: | unión, & intersección, - diferencia.",
+        "box": {
+          "x": 286.734375,
+          "y": 7357.8125,
+          "width": 21.171875,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 249.921875,
+          "y": 8358.0625,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "shape",
+        "testId": "term-hint-shape",
+        "role": null,
+        "ariaLabel": "Shape: Forma o estructura de los datos: qué campos, niveles o dimensiones tiene un registro o colección.",
+        "box": {
+          "x": 143.421875,
+          "y": 9682.53125,
+          "width": 41.515625,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 235.828125,
+          "y": 10374.28125,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "falsy",
+        "testId": "term-hint-truthiness",
+        "role": null,
+        "ariaLabel": "Truthiness: Valores que se evalúan como False: 0, 0.0, \"\", [], {}, None. Todo lo demás es True.",
+        "box": {
+          "x": 145.1875,
+          "y": 11718.59375,
+          "width": 31.890625,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 235.828125,
+          "y": 12296.84375,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 235.828125,
+          "y": 13987.46875,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "set",
+        "testId": "term-hint-set",
+        "role": null,
+        "ariaLabel": "Set: Conjunto sin duplicados. {1, 2, 3}. Operaciones: | unión, & intersección, - diferencia.",
+        "box": {
+          "x": 150.015625,
+          "y": 15156.53125,
+          "width": 21.171875,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 235.828125,
+          "y": 15710.40625,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Reset",
+        "testId": "demo-run-numpy-reset",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 171.78125,
+          "y": 16620.71875,
+          "width": 72.78125,
+          "height": 28
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Run",
+        "testId": "demo-run-numpy-run",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 248.5625,
+          "y": 16620.71875,
+          "width": 62.359375,
+          "height": 28
+        }
+      },
+      {
+        "tag": "textarea",
+        "text": "Editor de código Python",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Editor de código Python",
+        "box": {
+          "x": 113,
+          "y": 16667.71875,
+          "width": 212,
+          "height": 685.296875
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Ver pista",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 17450.015625,
+          "width": 69.03125,
+          "height": 16
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Marcar teoría como leída",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 17499.015625,
+          "width": 262,
+          "height": 40
+        }
+      }
+    ],
+    "images": [
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 249,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 1540.625,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 243.828125,
+          "y": 2670.375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 3272.25,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 243.828125,
+          "y": 4465.875,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 5344.875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 243.828125,
+          "y": 6527.75,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 7175.8125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 257.921875,
+          "y": 8363.0625,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 9265.15625,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 243.828125,
+          "y": 10379.28125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 11212.09375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 243.828125,
+          "y": 12301.84375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 12903.71875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 243.828125,
+          "y": 13992.46875,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 14548.15625,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 243.828125,
+          "y": 15715.40625,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 16178.71875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 16369.71875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 16427.71875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 16627.71875,
+          "width": 5.6875,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 181.78125,
+          "y": 16626.71875,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 258.5625,
+          "y": 16626.71875,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 17452.015625,
+          "width": 12,
+          "height": 12
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 101.3125,
+          "y": 17511.015625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      }
+    ],
+    "code": [
+      {
+        "tag": "code",
+        "text": "dict",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 535.375,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "set",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 265.671875,
+          "y": 535.375,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "example.com",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 69.5,
+          "y": 1290.25,
+          "width": 97.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "C00x",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 201.5625,
+          "y": 1290.25,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "list",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 177.890625,
+          "y": 1855.75,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "tuple",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 1928.875,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "txs[-3:]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 135.703125,
+          "y": 2139.875,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "[]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 288.71875,
+          "y": 2237.375,
+          "width": 27.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "n == 0",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 2261.75,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "rows[-0:]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 177.53125,
+          "y": 2286.125,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "n < 0",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 174.15625,
+          "y": 2310.5,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "x in una_lista",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 144.71875,
+          "y": 2375.25,
+          "width": 121.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "set",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 2570.25,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "dict",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137.03125,
+          "y": 2570.25,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def last_n(rows, n=3): \"\"\"Ventana de las últimas n filas (slicing, sin mutar).\"\"\" if n < 0: raise ValueError(\"n debe ser mayor o igual que 0\") return rows[-n:] if n else [] txs = [ {\"id\": \"T1\", \"monto\": 10}, {\"id\": \"T2\", \"monto\": 25}, {\"id\": \"T3\", \"monto\": 7}, {\"id\": \"T4\", \"monto\": 40}, ] ventana = last_n(txs, 3) keys = (\"id\", \"monto\") # contrato estable print(\"ventana ids:\", [r[\"id\"] for r in ventana]) print(\"keys:\", keys) print(\"T2 in slice?\", any(r[\"id\"] == \"T2\" for r in ventana))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 65,
+          "y": 2698.375,
+          "width": 260,
+          "height": 424.59375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def last_n(rows, n=3): \"\"\"Ventana de las últimas n filas (slicing, sin mutar).\"\"\" if n < 0: raise ValueError(\"n debe ser mayor o igual que 0\") return rows[-n:] if n else [] txs = [ {\"id\": \"T1\", \"monto\": 10}, {\"id\": \"T2\", \"monto\": 25}, {\"id\": \"T3\", \"monto\": 7}, {\"id\": \"T4\", \"monto\": 40}, ] ventana = last_n(txs, 3) keys = (\"id\", \"monto\") # contrato estable print(\"ventana ids:\", [r[\"id\"] for r in ventana]) print(\"keys:\", keys) print(\"T2 in slice?\", any(r[\"id\"] == \"T2\" for r in ventana))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 2717.375,
+          "width": 522.59375,
+          "height": 385.5
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "ventana ids: ['T2', 'T3', 'T4'] keys: ('id', 'monto') T2 in slice? True",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 65,
+          "y": 3151.96875,
+          "width": 260,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "ventana ids: ['T2', 'T3', 'T4'] keys: ('id', 'monto') T2 in slice? True",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 3154.96875,
+          "width": 261.296875,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "id_cliente, region, monto = fila",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 3502,
+          "width": 242.40625,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "ValueError",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 3674.625,
+          "width": 90,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "head, *rest = fila",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 140.625,
+          "y": 3748.75,
+          "width": 152.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "b = a",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 151.84375,
+          "y": 3959.75,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "a",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 211.046875,
+          "y": 3959.75,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "b",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 246.75,
+          "y": 3959.75,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "tags",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 261.984375,
+          "y": 4219.5,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "deepcopy",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 4268.25,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "import copy def isolate_clients(rows, mode=\"shallow\"): \"\"\"Copia superficial de filas o deepcopy según mode.\"\"\" if mode == \"deep\": return copy.deepcopy(rows) return rows.copy() # Unpacking fijo y con *rest (sobrante en lista) fila = (\"C001\", \"Lima\", 10, \"app\") cid, region, monto = fila[0], fila[1], fila[2] head, *rest = fila print(\"unpack fijo:\", cid, region, monto) print(\"head:\", head, \"rest:\", rest) clientes = [{\"id\": \"C001\", \"tags\": [\"vip\"]}] alias = clientes shallow = isolate_clients(clientes",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 65,
+          "y": 4493.875,
+          "width": 260,
+          "height": 632.4375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "import copy def isolate_clients(rows, mode=\"shallow\"): \"\"\"Copia superficial de filas o deepcopy según mode.\"\"\" if mode == \"deep\": return copy.deepcopy(rows) return rows.copy() # Unpacking fijo y con *rest (sobrante en lista) fila = (\"C001\", \"Lima\", 10, \"app\") cid, region, monto = fila[0], fila[1], fila[2] head, *rest = fila print(\"unpack fijo:\", cid, region, monto) print(\"head:\", head, \"rest:\", rest) clientes = [{\"id\": \"C001\", \"tags\": [\"vip\"]}] alias = clientes shallow = isolate_clients(clientes",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 4512.875,
+          "width": 497.3125,
+          "height": 593.34375
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "unpack fijo: C001 Lima 10 head: C001 rest: ['Lima', 10, 'app'] original tras alias: [{'id': 'C001', 'tags': ['vip', 'alias']}] original tras shallow mut de tags: [{'id': 'C001', 'tags': ['vip', 'alias', 'shallow']}] deep aislado: [{'id': 'C001', 'tags': ['vip', 'solo-deep']}] original final: [{'id': 'C001', 'tags': ['vip', 'alias', 'shallow']}]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 65,
+          "y": 5155.3125,
+          "width": 260,
+          "height": 154.5625
+        }
+      },
+      {
+        "tag": "code",
+        "text": "unpack fijo: C001 Lima 10 head: C001 rest: ['Lima', 10, 'app'] original tras alias: [{'id': 'C001', 'tags': ['vip', 'alias']}] original tras shallow mut de tags: [{'id': 'C001', 'tags': ['vip', 'alias', 'shallow']}] deep aislado: [{'id': 'C001', 'tags': ['vip', 'solo-deep']}] original final: [{'id': 'C001', 'tags': ['vip', 'alias', 'shallow']}]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 5158.3125,
+          "width": 741.734375,
+          "height": 131.46875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "{c['id']: c for c in filas}",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 5736.5,
+          "width": 233.234375,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "d[k]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 5923.125,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "KeyError",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 183.640625,
+          "y": 5947.5,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "d.get(k, default)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 5996.25,
+          "width": 144.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "k in d",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 204.921875,
+          "y": 6045,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "\"email\" in cliente",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 6093.75,
+          "width": 152.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "{base, override}",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 6231.625,
+          "width": 209.59375,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "base.update(override)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 6304.75,
+          "width": 175.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def index_by_id(filas): \"\"\"Índice id → fila para lookup O(1).\"\"\" return {c[\"id\"]: c for c in filas} def merge_config(base, override): \"\"\"Fusiona configs: override pisa base sin mutar originales.\"\"\" return {**base, **override} filas = [ {\"id\": \"C001\", \"region\": \"Lima\"}, {\"id\": \"C002\", \"region\": \"Cusco\"}, ] idx = index_by_id(filas) print(\"lookup C002:\", idx[\"C002\"][\"region\"]) print(\"get missing:\", idx.get(\"C999\", {}).get(\"region\", \"N/A\")) base = {\"timeout\": 30, \"retry\": 1} override = {\"retry\": 3} ",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 65,
+          "y": 6555.75,
+          "width": 260,
+          "height": 470.78125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def index_by_id(filas): \"\"\"Índice id → fila para lookup O(1).\"\"\" return {c[\"id\"]: c for c in filas} def merge_config(base, override): \"\"\"Fusiona configs: override pisa base sin mutar originales.\"\"\" return {**base, **override} filas = [ {\"id\": \"C001\", \"region\": \"Lima\"}, {\"id\": \"C002\", \"region\": \"Cusco\"}, ] idx = index_by_id(filas) print(\"lookup C002:\", idx[\"C002\"][\"region\"]) print(\"get missing:\", idx.get(\"C999\", {}).get(\"region\", \"N/A\")) base = {\"timeout\": 30, \"retry\": 1} override = {\"retry\": 3} ",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 6574.75,
+          "width": 564.734375,
+          "height": 431.6875
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "lookup C002: Cusco get missing: N/A merged: {'timeout': 30, 'retry': 3}",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 65,
+          "y": 7055.53125,
+          "width": 260,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "lookup C002: Cusco get missing: N/A merged: {'timeout': 30, 'retry': 3}",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 7058.53125,
+          "width": 295.015625,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "set",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 87.328125,
+          "y": 7402.1875,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "dict",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85.03125,
+          "y": 7597.1875,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "set",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 259.0625,
+          "y": 7597.1875,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "unique + conflicts",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 7930.0625,
+          "width": 218.59375,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "set(ids)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 76.03125,
+          "y": 8311.6875,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def cohort_ops(a, b): \"\"\"Intersección y diferencia de cohortes (sets de ids).\"\"\" return sorted(a & b), sorted(a - b) def dedup_with_conflicts(rows, key=\"id\"): \"\"\"Primera vista en unique; payload distinto → conflicts (no silenciar).\"\"\" seen, unique, conflicts = {}, [], [] for r in rows: rid = r[key] if rid not in seen: seen[rid] = r unique.append(r) elif seen[rid] != r: conflicts.append({\"id\": rid, \"kept\": seen[rid], \"other\": r}) return unique, conflicts lote_a = {\"C001\", \"C002\", \"C003\"} lote_b =",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 65,
+          "y": 8391.0625,
+          "width": 260,
+          "height": 701.71875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def cohort_ops(a, b): \"\"\"Intersección y diferencia de cohortes (sets de ids).\"\"\" return sorted(a & b), sorted(a - b) def dedup_with_conflicts(rows, key=\"id\"): \"\"\"Primera vista en unique; payload distinto → conflicts (no silenciar).\"\"\" seen, unique, conflicts = {}, [], [] for r in rows: rid = r[key] if rid not in seen: seen[rid] = r unique.append(r) elif seen[rid] != r: conflicts.append({\"id\": rid, \"kept\": seen[rid], \"other\": r}) return unique, conflicts lote_a = {\"C001\", \"C002\", \"C003\"} lote_b =",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 8410.0625,
+          "width": 758.640625,
+          "height": 662.625
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "intersección: ['C002', 'C003'] solo A: ['C001'] unique ids: ['C001'] n_conflicts: 1",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 65,
+          "y": 9121.78125,
+          "width": 260,
+          "height": 108.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "intersección: ['C002', 'C003'] solo A: ['C001'] unique ids: ['C001'] n_conflicts: 1",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 9124.78125,
+          "width": 252.875,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "for",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 268.84375,
+          "y": 9612.40625,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "list[dict]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 9710.90625,
+          "width": 90,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "client_id",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 115.03125,
+          "y": 9848.78125,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "tx_id",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 251.46875,
+          "y": 9848.78125,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "monto",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 9873.15625,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "client_id",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 9946.28125,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "txs: []",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 141.03125,
+          "y": 10108.53125,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "txs: 'oops'",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 10181.65625,
+          "width": 97.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "bool(txs)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 10206.03125,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "isinstance(txs, list)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 10254.78125,
+          "width": 175.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def flatten_txs(clients): \"\"\"Aplana txs anidadas a filas densas con client_id.\"\"\" return [ {\"client_id\": c[\"id\"], \"tx_id\": t[\"id\"], \"monto\": t[\"monto\"]} for c in clients for t in c[\"txs\"] ] def count_nested(clients): for c in clients: print(c[\"id\"], \"n_contacts=\", len(c[\"contacts\"]), \"n_txs=\", len(c[\"txs\"])) clients = [ { \"id\": \"C001\", \"contacts\": [{\"tipo\": \"email\", \"valor\": \"a@ex.com\"}], \"txs\": [{\"id\": \"T1\", \"monto\": 10}, {\"id\": \"T2\", \"monto\": 5}], }, { \"id\": \"C002\", \"contacts\": [], \"txs\": [{\"i",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 65,
+          "y": 10407.28125,
+          "width": 260,
+          "height": 655.53125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def flatten_txs(clients): \"\"\"Aplana txs anidadas a filas densas con client_id.\"\"\" return [ {\"client_id\": c[\"id\"], \"tx_id\": t[\"id\"], \"monto\": t[\"monto\"]} for c in clients for t in c[\"txs\"] ] def count_nested(clients): for c in clients: print(c[\"id\"], \"n_contacts=\", len(c[\"contacts\"]), \"n_txs=\", len(c[\"txs\"])) clients = [ { \"id\": \"C001\", \"contacts\": [{\"tipo\": \"email\", \"valor\": \"a@ex.com\"}], \"txs\": [{\"id\": \"T1\", \"monto\": 10}, {\"id\": \"T2\", \"monto\": 5}], }, { \"id\": \"C002\", \"contacts\": [], \"txs\": [{\"i",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 10426.28125,
+          "width": 691.296875,
+          "height": 616.4375
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "C001 n_contacts= 1 n_txs= 2 C002 n_contacts= 0 n_txs= 1 flat rows: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 10}, {'client_id': 'C001', 'tx_id': 'T2', 'monto': 5}, {'client_id': 'C002', 'tx_id': 'T3', 'monto': 20}]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 65,
+          "y": 11091.8125,
+          "width": 260,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "C001 n_contacts= 1 n_txs= 2 C002 n_contacts= 0 n_txs= 1 flat rows: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 10}, {'client_id': 'C001', 'tx_id': 'T2', 'monto': 5}, {'client_id': 'C002', 'tx_id': 'T3', 'monto': 20}]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 11094.8125,
+          "width": 1373.890625,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "profile",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 213.234375,
+          "y": 11534.96875,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "phone",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 11559.34375,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "phone",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 11583.71875,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "dig",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 262.125,
+          "y": 11632.46875,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "0",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 256.046875,
+          "y": 11746.96875,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "''",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 220.734375,
+          "y": 11771.34375,
+          "width": 27.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "[]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 295.296875,
+          "y": 11795.71875,
+          "width": 27.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "if not valor",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 11844.46875,
+          "width": 252.109375,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "get_nested",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 12006.71875,
+          "width": 90,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 176.796875,
+          "y": 12104.21875,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 12128.59375,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "try/except",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 196.859375,
+          "y": 12201.71875,
+          "width": 90,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def get_nested(d, *keys, default=None): \"\"\"Recorre claves; si falta un nivel, devuelve default (no KeyError).\"\"\" cur = d for k in keys: if not isinstance(cur, dict) or k not in cur: return default cur = cur[k] return cur c1 = {\"id\": \"C001\", \"profile\": {\"phone\": \"999111222\"}, \"email\": \"\"} c2 = {\"id\": \"C002\", \"profile\": {\"phone\": None}} c3 = {\"id\": \"C003\", \"profile\": {}} print(\"ok phone:\", get_nested(c1, \"profile\", \"phone\", default=\"MISSING\")) print(\"email empty:\", repr(c1.get(\"email\"))) # clave p",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 65,
+          "y": 12329.84375,
+          "width": 260,
+          "height": 401.5
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def get_nested(d, *keys, default=None): \"\"\"Recorre claves; si falta un nivel, devuelve default (no KeyError).\"\"\" cur = d for k in keys: if not isinstance(cur, dict) or k not in cur: return default cur = cur[k] return cur c1 = {\"id\": \"C001\", \"profile\": {\"phone\": \"999111222\"}, \"email\": \"\"} c2 = {\"id\": \"C002\", \"profile\": {\"phone\": None}} c3 = {\"id\": \"C003\", \"profile\": {}} print(\"ok phone:\", get_nested(c1, \"profile\", \"phone\", default=\"MISSING\")) print(\"email empty:\", repr(c1.get(\"email\"))) # clave p",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 12348.84375,
+          "width": 944.09375,
+          "height": 362.40625
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "ok phone: 999111222 email empty: '' phone None: None phone missing: MISSING",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 65,
+          "y": 12760.34375,
+          "width": 260,
+          "height": 108.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "ok phone: 999111222 email empty: '' phone None: None phone missing: MISSING",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 12763.34375,
+          "width": 185.4375,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "sorted(seq, key=fn)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 13177.84375,
+          "width": 160.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "list.sort(key=fn)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 113.078125,
+          "y": 13202.21875,
+          "width": 144.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 129.40625,
+          "y": 13250.96875,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "ordenadas = filas.sort(...)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 13324.09375,
+          "width": 146.796875,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "ordenadas",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 75.90625,
+          "y": 13372.84375,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "key",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 139.3125,
+          "y": 13413.21875,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "(region, nombre)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 106.21875,
+          "y": 13461.96875,
+          "width": 136.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "'100'",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 13721.71875,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "'20'",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 130.890625,
+          "y": 13721.71875,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "'100'",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 13770.46875,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "'20'",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 249.421875,
+          "y": 13770.46875,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def sort_region_name(rows): \"\"\"Orden estable región → nombre (nueva lista).\"\"\" return sorted(rows, key=lambda r: (r[\"region\"], r[\"nombre\"])) def top_by_monto(rows): return sorted(rows, key=lambda r: r[\"monto\"], reverse=True) clients = [ {\"nombre\": \"Zara\", \"region\": \"Lima\", \"monto\": 30}, {\"nombre\": \"Ana\", \"region\": \"Lima\", \"monto\": 50}, {\"nombre\": \"Luis\", \"region\": \"Cusco\", \"monto\": 20}, ] by_region_name = sort_region_name(clients) print([(r[\"region\"], r[\"nombre\"]) for r in by_region_name]) by_mo",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 65,
+          "y": 14020.46875,
+          "width": 260,
+          "height": 401.5
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def sort_region_name(rows): \"\"\"Orden estable región → nombre (nueva lista).\"\"\" return sorted(rows, key=lambda r: (r[\"region\"], r[\"nombre\"])) def top_by_monto(rows): return sorted(rows, key=lambda r: r[\"monto\"], reverse=True) clients = [ {\"nombre\": \"Zara\", \"region\": \"Lima\", \"monto\": 30}, {\"nombre\": \"Ana\", \"region\": \"Lima\", \"monto\": 50}, {\"nombre\": \"Luis\", \"region\": \"Cusco\", \"monto\": 20}, ] by_region_name = sort_region_name(clients) print([(r[\"region\"], r[\"nombre\"]) for r in by_region_name]) by_mo",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 14039.46875,
+          "width": 547.953125,
+          "height": 362.40625
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "[('Cusco', 'Luis'), ('Lima', 'Ana'), ('Lima', 'Zara')] top monto: Ana 50",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 65,
+          "y": 14450.96875,
+          "width": 260,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "[('Cusco', 'Luis'), ('Lima', 'Ana'), ('Lima', 'Zara')] top monto: Ana 50",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 14453.96875,
+          "width": 455.15625,
+          "height": 39.09375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "list",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 14826.65625,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "dict",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85.03125,
+          "y": 14851.03125,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "set",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 14875.40625,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "tuple",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 154.34375,
+          "y": 14899.78125,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "sort_keys=True",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 172.65625,
+          "y": 15444.65625,
+          "width": 121.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "import json def dump_deterministic(payload): \"\"\"JSON estable: sort ids + sort_keys.\"\"\" body = dict(payload) if \"ids\" in body: body[\"ids\"] = sorted(body[\"ids\"]) return json.dumps(body, sort_keys=True, ensure_ascii=False) payload = {\"b\": 2, \"a\": 1, \"ids\": [\"C002\", \"C001\"]} print(dump_deterministic(payload)) print(dump_deterministic(payload))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 65,
+          "y": 15743.40625,
+          "width": 260,
+          "height": 309.125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "import json def dump_deterministic(payload): \"\"\"JSON estable: sort ids + sort_keys.\"\"\" body = dict(payload) if \"ids\" in body: body[\"ids\"] = sorted(body[\"ids\"]) return json.dumps(body, sort_keys=True, ensure_ascii=False) payload = {\"b\": 2, \"a\": 1, \"ids\": [\"C002\", \"C001\"]} print(dump_deterministic(payload)) print(dump_deterministic(payload))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 15762.40625,
+          "width": 531.0625,
+          "height": 270.03125
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "{\"a\": 1, \"b\": 2, \"ids\": [\"C001\", \"C002\"]} {\"a\": 1, \"b\": 2, \"ids\": [\"C001\", \"C002\"]}",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 65,
+          "y": 16081.53125,
+          "width": 260,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "{\"a\": 1, \"b\": 2, \"ids\": [\"C001\", \"C002\"]} {\"a\": 1, \"b\": 2, \"ids\": [\"C001\", \"C002\"]}",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 81,
+          "y": 16084.53125,
+          "width": 345.578125,
+          "height": 39.09375
+        }
+      }
+    ],
+    "paragraphs": [
+      {
+        "tag": "p",
+        "text": "Mapa de la sección: modelo tabular en memoria",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 297,
+          "width": 262,
+          "height": 48.75
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Imagina un centro internacional de ayuda que recibe fichas sintéticas de envíos. Tres preguntas aparecen antes de abrir un archivo: «¿en qué orden llegaron?», «¿dónde está la ficha C002?» y «¿ya vimos este ID?». Una secuencia conserva el orden; un dict actúa como índice; un set responde pertenencia. Esas estructuras no compiten: cada una resuelve una pregunta distinta.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 361.75,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "En S04 aprendiste a recorrer datos y en S05 a encerrar reglas en funciones. Ahora compones ambas destrezas en un modelo tabular en memoria: clientes con contactos y transacciones, una tabla de acceso por ID y un registro separado de conflictos. Piensa en él como una mesa de clasificación temporal, no como una base de datos diminuta ni como una colección de trucos aislados.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 645.875,
+          "width": 262,
+          "height": 292.5
+        }
+      },
+      {
+        "tag": "p",
+        "text": "La ruta sigue la vida de una fila. T1 conserva ventanas y evita copias accidentales; T2 permite buscar y deduplicar sin borrar evidencia; T3 representa relaciones y distingue ausencia de vacío; T4 ordena y serializa de forma reproducible. Antes de cada ejemplo, predice qué propiedad debe sobrevivir: orden, identidad, relación o igualdad de la salida.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 954.375,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Trabajarás solo con la biblioteca estándar y datos sintéticos (example.com, IDs C00x). El objetivo de CP-N1-B es poder explicar por qué elegiste cada estructura y demostrar sus límites con una salida observable. En S08 conectarás este modelo a CSV y JSON. Por ahora, una buena decisión en memoria vale más que una biblioteca potente usada sin criterio.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 1238.5,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Listas, tuplas y slicing",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 1762.625,
+          "width": 262,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Una secuencia se parece a una fila de vagones: la posición forma parte del significado. Una list permite añadir o retirar vagones, por eso sirve para una cola de registros que crece. Una tuple conserva un trayecto fijo; úsala para headers o claves que varios helpers deben leer sin modificarlas. La pregunta práctica no es «¿cuál es mejor?», sino «¿debe cambiar este contenedor?».",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 1804,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un slice es una ventana sobre esa fila, no una operación sobre cada elemento. txs[-3:] crea una lista nueva con las tres últimas transacciones y deja intacta la original. Predice los bordes antes de ejecutar: una lista vacía produce []; n == 0 necesita tratamiento explícito porque rows[-0:] equivale a copiar todo; y n < 0 contradice el contrato de «últimas N».",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 2088.125,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Buscar con x in una_lista obliga a avanzar hasta encontrar el valor o llegar al final: costo O(n). Para una comprobación ocasional es una decisión sencilla y legible. Repetirla miles de veces dentro de otro bucle transforma esa sencillez en trabajo cuadrático; T2 mostrará cómo un set o un dict cambia la pregunta de «recorrer» a «consultar un índice».",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 2372.25,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Unpacking, aliasing y copia",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 3434.25,
+          "width": 262,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "El desempaquetado convierte la posición en nombres: id_cliente, region, monto = fila documenta el shape (la forma de la fila: qué tipo de dato va en cada posición) mejor que tres índices sueltos. Si sobran o faltan valores, Python detiene la operación con ValueError. Ese fallo temprano es una alarma útil: impide que una región termine silenciosamente en la variable del monto. head, *rest = fila sirve cuando solo la primera columna es fija y el resto puede variar.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 3474.625,
+          "width": 262,
+          "height": 344.25
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Una asignación no fotocopia el objeto; solo añade otra etiqueta. Si dos etiquetas de equipaje apuntan a la misma maleta, abrirla mediante cualquiera revela el mismo contenido. Así funciona b = a: a y b son nombres del mismo contenedor. El error del principiante es interpretar dos variables como dos historias independientes y descubrir la mutación mucho después.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 3834.875,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "La copia superficial crea un contenedor exterior nuevo, pero conserva referencias a los objetos interiores. Basta si solo reordenas filas; no basta si modificarás tags, contactos u otros campos anidados. deepcopy separa todo el grafo, aunque consume más memoria y puede ocultar una arquitectura demasiado mutable. Decide el nivel de aislamiento antes de mutar y prueba la identidad que esperas conservar.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 4119,
+          "width": 262,
+          "height": 316.875
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Diccionarios y pertenencia",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 5546.875,
+          "width": 262,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Una lista responde «¿qué llegó primero?»; un diccionario responde «¿qué registro corresponde a esta clave?». Piensa en el catálogo de una biblioteca: nadie recorre todos los estantes para localizar un código conocido. {c['id']: c for c in filas} construye ese catálogo con acceso O(1) promedio. Pero hay una frontera peligrosa: si el ID se repite, la última fila reemplaza a la anterior sin ceremonia. Detecta el conflicto antes de indexar.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 5587.25,
+          "width": 262,
+          "height": 316.875
+        }
+      },
+      {
+        "tag": "p",
+        "text": "d[k] expresa un invariante: la clave debe existir, y un KeyError denuncia que el programa rompió esa promesa. d.get(k, default) expresa una ausencia esperada. No los uses como sinónimos. Además, k in d pregunta por claves, no por calidad: \"email\" in cliente confirma que el casillero existe; no confirma que contenga una dirección válida.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 5920.125,
+          "width": 262,
+          "height": 243.75
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Al fusionar configuraciones, la precedencia es una regla de negocio disfrazada de sintaxis. {base, override} dice que el override gana y conserva intacto el original. base.update(override) puede ser correcto si la mutación es deliberada y local; sobre un diccionario compartido produce fallos distantes. Antes del merge, formula la pregunta que un test debe responder: ¿qué valor gana y qué objeto debe permanecer sin cambios?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 6179.875,
+          "width": 262,
+          "height": 317.875
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Deduplicación y operaciones de set",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 7357.8125,
+          "width": 262,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un set se parece a una lista de invitados que solo responde pertenencia: un nombre está o no está, sin posición ni payload asociado. Por eso resuelve unión, intersección y diferencia de cohortes con claridad. Sus elementos deben ser hashables (que pueden usarse como claves de un dict o miembros de un set, como strings o enteros); las listas y diccionarios mutables no pueden convertirse directamente en miembros.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 7399.1875,
+          "width": 262,
+          "height": 316.875
+        }
+      },
+      {
+        "tag": "p",
+        "text": "La deduplicación de negocio exige una segunda pregunta: «¿la fila repetida cuenta la misma historia?». Dos copias idénticas pueden tratarse como ruido; el mismo ID con otra región o email es un conflicto. Un set de IDs detecta la repetición, pero no conserva suficiente evidencia para compararla. El patrón unique + conflicts guarda la primera vista y registra cualquier desacuerdo en vez de decretar en silencio que «la última gana».",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 7732.0625,
+          "width": 262,
+          "height": 316.875
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Los sets tampoco prometen un orden apto para un informe. Ordena sus elementos al mostrar o serializar: el propósito no es embellecer la salida, sino hacerla reproducible. Si el mismo lote genera distinto texto en dos corridas, un diff no puede distinguir un cambio real de una casualidad de orden. Predice qué información perderías si redujeras todo el registro a set(ids).",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 8064.9375,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Estructuras anidadas y recorridos",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 9447.15625,
+          "width": 262,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un cliente no es una fila aislada: posee contactos y transacciones. Una estructura anidada representa esa relación como un árbol pequeño: el diccionario del cliente es el tronco y sus listas son ramas. El doble for no es complejidad accidental; sigue una arista real, cliente → transacción. Mientras el shape esté documentado, list[dict] basta para razonar sin introducir clases antes de necesitarlas.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 9487.53125,
+          "width": 262,
+          "height": 293.5
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Aplanar cambia la vista, no la verdad. Para producir una fila por transacción repites client_id junto a tx_id y monto; esa repetición deliberada conserva el vínculo cuando desaparece el árbol. Si omites client_id, obtienes montos huérfanos. Antes de exportar, cuenta contactos y transacciones: los totales son una prueba sencilla de que el recorrido no perdió ramas.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 9797.03125,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Forma y contenido son problemas diferentes. txs: [] tiene la forma correcta y expresa cero transacciones; una clave ausente o txs: 'oops' rompe el contrato. bool(txs) mezcla ambos problemas porque una lista vacía es falsy. isinstance(txs, list) pregunta por el shape que realmente necesitas y permite enviar solo las filas estructuralmente inválidas a revisión.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 10081.15625,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Acceso seguro y valores faltantes",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 11394.09375,
+          "width": 262,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "En un formulario internacional, «la página no llegó» y «la casilla llegó vacía» exigen respuestas distintas. Lo mismo ocurre en un diccionario anidado: puede faltar profile, faltar phone dentro del perfil o existir phone con valor vacío. Acceder con corchetes a cada nivel presupone que toda la ruta existe; un helper dig convierte esa suposición en una política visible.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 11434.46875,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Los valores falsy no significan automáticamente ausencia. 0 puede ser un monto legítimo; '' puede ser un campo presente pero inválido; [] puede representar una colección válida sin elementos. Si usas if not valor para todo, borras esas distinciones y distorsionas el reporte. Decide primero qué significa missing en el dominio y después escribe la condición.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 11718.59375,
+          "width": 262,
+          "height": 269.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "get_nested recorre la ruta nivel por nivel. Si falta una clave o aparece un objeto que ya no es diccionario, devuelve el sentinel acordado; si la clave existe con None, conserva None. Esa diferencia permite que la capa siguiente decida si rechaza, completa o acepta. Centralizarla evita veinte variantes de try/except y concentra los tests de borde en un solo contrato.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 12003.71875,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Ordenamiento y key",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 13085.71875,
+          "width": 262,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un tablero de salidas ordena vuelos sin alterar los registros que recibió. sorted(seq, key=fn) hace esa vista nueva; list.sort(key=fn) reorganiza la lista compartida y devuelve None. Ambos pueden ser correctos, pero responden a contratos distintos. El bug aparece al escribir ordenadas = filas.sort(...): el original cambia y ordenadas queda sin lista.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 13126.09375,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "La función key traduce una fila a su criterio de comparación. Una tupla como (region, nombre) se compara de izquierda a derecha: primero región y, solo en empate, nombre. El orden es estable, de modo que dos filas con la misma clave conservan su orden relativo previo. Esa propiedad permite encadenar decisiones sin inventar comparadores manuales.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 13410.21875,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Ordenar no corrige tipos. Los strings '100' y '20' se comparan carácter por carácter, por lo que '100' aparece antes que '20'. Normaliza el monto en S05 y ordena después; hacerlo al revés produce un ranking sintácticamente válido y semánticamente falso. Antes de confiar en un top, prueba un valor que revele la diferencia entre orden numérico y lexicográfico.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 13694.34375,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Estructura adecuada, complejidad y determinismo",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 14710.15625,
+          "width": 262,
+          "height": 48.75
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Elegir una colección es elegir qué pregunta será barata y clara. Una list favorece secuencia y append; un dict, búsqueda por clave; un set, pertenencia y operaciones de cohorte; una tuple, un contrato posicional fijo. Ninguna es «la estructura profesional» en abstracto. Defiende la elección nombrando la operación dominante y la propiedad que no puedes perder.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 14774.90625,
+          "width": 262,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Esa elección intercambia tiempo, memoria y legibilidad. Buscar n elementos dentro de una lista de n puede exigir n×n comparaciones; construir un set cuesta memoria adicional, pero reduce las consultas posteriores a O(1) promedio. Preindexar no siempre conviene para cinco filas y una sola búsqueda. Conviene cuando el número de consultas justifica el costo y cuando no necesitas conservar duplicados en ese índice.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 15059.03125,
+          "width": 262,
+          "height": 317.875
+        }
+      },
+      {
+        "tag": "p",
+        "text": "El cierre del modelo es una salida determinista: ordenas clientes por ID y serializas con sort_keys=True. El objetivo no es fingir que los diccionarios son aleatorios, sino fijar un contrato canónico para tests, hashes y revisiones. Ejecuta dos veces con la misma entrada y exige igualdad exacta; después cambia una fila y comprueba que el diff señale el cambio de negocio, no ruido de presentación.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 15392.90625,
+          "width": 262,
+          "height": 292.5
+        }
+      }
+    ],
+    "horizontalOverflow": [],
+    "fixedObstructions": []
+  }
+}

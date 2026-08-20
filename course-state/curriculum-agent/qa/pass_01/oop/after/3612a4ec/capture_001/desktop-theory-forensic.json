@@ -1,0 +1,3445 @@
+{
+  "tab": "theory",
+  "screenshotTiles": [
+    {
+      "coverageStart": 0,
+      "coverageHeight": 1000,
+      "scrollY": 0,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/3612a4ec/capture_001/desktop-theory-tile-01.png",
+      "sha256": "8cd95b8280bfad11b74bbdf7a6085392232e911fde93de1de334f33c6a233d86"
+    },
+    {
+      "coverageStart": 1000,
+      "coverageHeight": 1000,
+      "scrollY": 1000,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/3612a4ec/capture_001/desktop-theory-tile-02.png",
+      "sha256": "d87d854c2cffafa0ae82595d89f054bd75b9efa5f772af9c3d520d457955a43f"
+    },
+    {
+      "coverageStart": 2000,
+      "coverageHeight": 1000,
+      "scrollY": 2000,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/3612a4ec/capture_001/desktop-theory-tile-03.png",
+      "sha256": "a0d0469e7022f8f28d0a115e35eeb5830e846a1f79fac6e5c7fe411aed85d598"
+    },
+    {
+      "coverageStart": 3000,
+      "coverageHeight": 1000,
+      "scrollY": 3000,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/3612a4ec/capture_001/desktop-theory-tile-04.png",
+      "sha256": "da2e83ab95666246bd56bf2ea78f7406a6330984efe25c7d3e3f25b7f62c22a6"
+    },
+    {
+      "coverageStart": 4000,
+      "coverageHeight": 1000,
+      "scrollY": 4000,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/3612a4ec/capture_001/desktop-theory-tile-05.png",
+      "sha256": "8b44343abc8f91d9560274903c418cd51926858d96058e82164840d006c2c08c"
+    },
+    {
+      "coverageStart": 5000,
+      "coverageHeight": 1000,
+      "scrollY": 5000,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/3612a4ec/capture_001/desktop-theory-tile-06.png",
+      "sha256": "8faa05a7da5ee59313f6f9a885468d4d2e009b0bec4a6268cf4ba68fbf3fec65"
+    },
+    {
+      "coverageStart": 6000,
+      "coverageHeight": 1000,
+      "scrollY": 6000,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/3612a4ec/capture_001/desktop-theory-tile-07.png",
+      "sha256": "15b3d7eecf00489926892d177101463733712bec17395d8df1586f42557f1c84"
+    },
+    {
+      "coverageStart": 7000,
+      "coverageHeight": 1000,
+      "scrollY": 7000,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/3612a4ec/capture_001/desktop-theory-tile-08.png",
+      "sha256": "27f33007e5aa6e1630a6053d61312c20d9142a8286444291faaafe5da68c2604"
+    },
+    {
+      "coverageStart": 8000,
+      "coverageHeight": 1000,
+      "scrollY": 8000,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/3612a4ec/capture_001/desktop-theory-tile-09.png",
+      "sha256": "4c39232cb17701031f94ecfda80031a3085b8519d9b63ef21a44d50d65e21609"
+    },
+    {
+      "coverageStart": 9000,
+      "coverageHeight": 1000,
+      "scrollY": 9000,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/3612a4ec/capture_001/desktop-theory-tile-10.png",
+      "sha256": "5120cc4492748231add00aae3c9cc3ed393e2b8b11416dce62960b14b343c220"
+    },
+    {
+      "coverageStart": 10000,
+      "coverageHeight": 1000,
+      "scrollY": 10000,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/3612a4ec/capture_001/desktop-theory-tile-11.png",
+      "sha256": "9ad4b2c1782126897246384b69d186e408c5771bc39513db25c3e6433c119c5a"
+    },
+    {
+      "coverageStart": 11000,
+      "coverageHeight": 1000,
+      "scrollY": 11000,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/3612a4ec/capture_001/desktop-theory-tile-12.png",
+      "sha256": "af510698a1a1df298c4d07df45b96fc4c89347c6c9d486342ba8af91da3c5f21"
+    },
+    {
+      "coverageStart": 12000,
+      "coverageHeight": 959,
+      "scrollY": 11959,
+      "path": "course-state/curriculum-agent/qa/pass_01/oop/after/3612a4ec/capture_001/desktop-theory-tile-13.png",
+      "sha256": "bac341c880bb5af0875b172d6f929aaa073b5d0a4dea5dd2adb5d0d601e74d16"
+    }
+  ],
+  "forensic": {
+    "document": {
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "bodyHeight": 12959,
+      "title": "PyArcana · De cero a Data Scientist",
+      "url": "http://127.0.0.1:3218/?e2e=1787257539985#oop"
+    },
+    "headings": [
+      {
+        "tag": "h2",
+        "text": "Teoría",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 412,
+          "y": 245,
+          "width": 56.203125,
+          "height": 28
+        }
+      },
+      {
+        "tag": "h3",
+        "text": "Pruébalo tú mismo",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 412,
+          "y": 11842.375,
+          "width": 152.515625,
+          "height": 28
+        }
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 1157.828125,
+          "y": 1463.125,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 1157.828125,
+          "y": 2760.65625,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 1157.828125,
+          "y": 3827.25,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 1157.828125,
+          "y": 5102.21875,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "dict",
+        "testId": "term-hint-dict",
+        "role": null,
+        "ariaLabel": "Dict: Pares clave-valor con búsqueda O(1). {\"nombre\": \"Ana\", \"edad\": 25}. Métodos: get, items, keys, values.",
+        "box": {
+          "x": 732.8125,
+          "y": 6011,
+          "width": 25.984375,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 1157.828125,
+          "y": 6264,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "dict",
+        "testId": "term-hint-dict",
+        "role": null,
+        "ariaLabel": "Dict: Pares clave-valor con búsqueda O(1). {\"nombre\": \"Ana\", \"edad\": 25}. Métodos: get, items, keys, values.",
+        "box": {
+          "x": 559.65625,
+          "y": 7123.5,
+          "width": 25.984375,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "pipeline",
+        "testId": "term-hint-pipeline",
+        "role": null,
+        "ariaLabel": "Pipeline: Serie ordenada de pasos: la salida de un paso pasa al siguiente hasta producir el resultado.",
+        "box": {
+          "x": 1122.953125,
+          "y": 7123.5,
+          "width": 53.546875,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 1157.828125,
+          "y": 7376.5,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 1157.828125,
+          "y": 8629.65625,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 1157.828125,
+          "y": 9714.96875,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 1157.828125,
+          "y": 11036.125,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Reset",
+        "testId": "demo-run-oop-reset",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1091.859375,
+          "y": 12007.375,
+          "width": 72.78125,
+          "height": 28
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Run",
+        "testId": "demo-run-oop-run",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1168.640625,
+          "y": 12007.375,
+          "width": 62.359375,
+          "height": 28
+        }
+      },
+      {
+        "tag": "textarea",
+        "text": "Editor de código Python",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Editor de código Python",
+        "box": {
+          "x": 433,
+          "y": 12044.375,
+          "width": 814,
+          "height": 507.125
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Ver pista",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 12648.5,
+          "width": 69.03125,
+          "height": 16
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Marcar teoría como leída",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 12697.5,
+          "width": 864,
+          "height": 40
+        }
+      }
+    ],
+    "images": [
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 249,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1165.828125,
+          "y": 1468.125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 2139.28125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1165.828125,
+          "y": 2765.65625,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 3205.875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1165.828125,
+          "y": 3832.25,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 4549.59375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1165.828125,
+          "y": 5107.21875,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 5686,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1165.828125,
+          "y": 6269,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 6778.5,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1165.828125,
+          "y": 7381.5,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 8052.65625,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1165.828125,
+          "y": 8634.65625,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 9097.96875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1165.828125,
+          "y": 9719.96875,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 10483.5,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1165.828125,
+          "y": 11041.125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 11735.375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 11846.375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 11904.375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 12014.375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1101.859375,
+          "y": 12013.375,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1178.640625,
+          "y": 12013.375,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 12650.5,
+          "width": 12,
+          "height": 12
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 722.3125,
+          "y": 12709.5,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      }
+    ],
+    "code": [
+      {
+        "tag": "code",
+        "text": "def",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 471.8125,
+          "y": 469.875,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "return",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 502.25,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "return",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 708.78125,
+          "y": 502.25,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 788.921875,
+          "y": 502.25,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "print",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 778.078125,
+          "y": 599.375,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "f(f(x)) == f(x)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 512.46875,
+          "y": 631.75,
+          "width": 129,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "*",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 627,
+          "y": 728.875,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "nombre=",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 734.640625,
+          "y": 728.875,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_nombre",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 750.046875,
+          "y": 769.25,
+          "width": 136.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_email",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 895.0625,
+          "y": 769.25,
+          "width": 129,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_telefono",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1032.265625,
+          "y": 769.25,
+          "width": 152.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_direccion",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 793.625,
+          "width": 160.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "example.com",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 530.828125,
+          "y": 818,
+          "width": 97.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_nombre",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 898.75,
+          "width": 136.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_email",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 931.125,
+          "width": 129,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "strip",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 541.203125,
+          "y": 931.125,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "lower",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 609.453125,
+          "y": 931.125,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "ValueError",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 676.34375,
+          "y": 931.125,
+          "width": 90,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "@",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 819.21875,
+          "y": 931.125,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_telefono",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 963.5,
+          "width": 152.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_direccion",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 995.875,
+          "width": 160.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "upper",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 642.625,
+          "y": 995.875,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "f(f(x)) == f(x)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 787.859375,
+          "y": 1036.25,
+          "width": 129,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": ".title()",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 878.5625,
+          "y": 1076.625,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "@",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 536.578125,
+          "y": 1101,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 507.96875,
+          "y": 1230.5,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "return",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 547.71875,
+          "y": 1230.5,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def s05_section_contract(): return { \"case\": \"CASO-LIM-005\", \"gate\": \"CP-N1-B\", \"normalizers\": [\"nombre\", \"email\", \"telefono\", \"direccion\"], \"policies\": { \"nombre\": \"collapse+title\", \"email\": \"strip+lower+require_@\", \"telefono\": \"digits_only_demo\", \"direccion\": \"collapse+upper\", }, \"must\": [\"pure\", \"idempotent\", \"no_io_in_core\", \"no_real_pii\"], } c = s05_section_contract() print(\"case\", c[\"case\"]) print(\"gate\", c[\"gate\"]) print(\"must\", \",\".join(c[\"must\"])) print(\"email_policy\", c[\"policies\"][\"em",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 1496.125,
+          "width": 862,
+          "height": 470.78125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def s05_section_contract(): return { \"case\": \"CASO-LIM-005\", \"gate\": \"CP-N1-B\", \"normalizers\": [\"nombre\", \"email\", \"telefono\", \"direccion\"], \"policies\": { \"nombre\": \"collapse+title\", \"email\": \"strip+lower+require_@\", \"telefono\": \"digits_only_demo\", \"direccion\": \"collapse+upper\", }, \"must\": [\"pure\", \"idempotent\", \"no_io_in_core\", \"no_real_pii\"], } c = s05_section_contract() print(\"case\", c[\"case\"]) print(\"gate\", c[\"gate\"]) print(\"must\", \",\".join(c[\"must\"])) print(\"email_policy\", c[\"policies\"][\"em",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 1515.125,
+          "width": 598.5,
+          "height": 431.6875
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "case CASO-LIM-005 gate CP-N1-B must pure,idempotent,no_io_in_core,no_real_pii email_policy strip+lower+require_@",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 1995.90625,
+          "width": 862,
+          "height": 108.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "case CASO-LIM-005 gate CP-N1-B must pure,idempotent,no_io_in_core,no_real_pii email_policy strip+lower+require_@",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 1998.90625,
+          "width": 387.734375,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def nombre(params):",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 566.40625,
+          "y": 2373.78125,
+          "width": 160.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "return",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 837.1875,
+          "y": 2373.78125,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "return",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 929.515625,
+          "y": 2373.78125,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1175.203125,
+          "y": 2373.78125,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 698.359375,
+          "y": 2398.15625,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "nombre(args)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 959.59375,
+          "y": 2398.15625,
+          "width": 105.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_email",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 532.90625,
+          "y": 2422.53125,
+          "width": 129,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "email2",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 691.25,
+          "y": 2422.53125,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "datos",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 770.03125,
+          "y": 2422.53125,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_nombre",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 2511.65625,
+          "width": 136.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "return",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 439.75,
+          "y": 2576.40625,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "print",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 923.078125,
+          "y": 2600.78125,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "noop(1)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 537.671875,
+          "y": 2665.53125,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "x + 1",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 660.296875,
+          "y": 2665.53125,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "return",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 825.59375,
+          "y": 2665.53125,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def normalize_nombre(raw: str) -> str: \"\"\"Post: colapsa espacios y title-case por palabra (política CP-N1-B).\"\"\" return \" \".join(raw.strip().split()).title() print(normalize_nombre(\" María José \")) print(normalize_nombre(\"QUISPE\")) # sin return → None def noop(x): x + 1 print(noop(1))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 2793.65625,
+          "width": 862,
+          "height": 262.9375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def normalize_nombre(raw: str) -> str: \"\"\"Post: colapsa espacios y title-case por palabra (política CP-N1-B).\"\"\" return \" \".join(raw.strip().split()).title() print(normalize_nombre(\" María José \")) print(normalize_nombre(\"QUISPE\")) # sin return → None def noop(x): x + 1 print(noop(1))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 2812.65625,
+          "width": 649.015625,
+          "height": 223.84375
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "María José Quispe None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 3085.59375,
+          "width": 862,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "María José Quispe None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 3088.59375,
+          "width": 84.296875,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "fn(x=1)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 851.296875,
+          "y": 3440.375,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def f(xs=[])",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 782.265625,
+          "y": 3464.75,
+          "width": 105.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1160.984375,
+          "y": 3464.75,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "nombre, email",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 461.390625,
+          "y": 3578.25,
+          "width": 113.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def normalize_telefono(raw, , country=\"PE\")",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 532.125,
+          "y": 3618.625,
+          "width": 347.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 551.375,
+          "y": 3643,
+          "width": 12,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "country=",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 610.78125,
+          "y": 3643,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "raw",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 850.171875,
+          "y": 3667.375,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "country",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 901.46875,
+          "y": 3667.375,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "bucket=[]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 601.640625,
+          "y": 3732.125,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "bucket=None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 461.828125,
+          "y": 3756.5,
+          "width": 97.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def etiqueta(nombre, prefijo=\"Sr./Sra.\", *, upper=False): s = f\"{prefijo} {nombre}\" return s.upper() if upper else s print(etiqueta(\"Quispe\")) print(etiqueta(\"Quispe\", prefijo=\"Cliente\")) print(etiqueta(\"Quispe\", upper=True)) # Default mutable — MAL (demostración del bug) def bad_add(item, bucket=[]): bucket.append(item) return bucket print(bad_add(1), bad_add(2)) # ¡comparte la misma lista! def good_add(item, bucket=None): if bucket is None: bucket = [] bucket.append(item) return bucket print(g",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 3860.25,
+          "width": 862,
+          "height": 493.875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def etiqueta(nombre, prefijo=\"Sr./Sra.\", *, upper=False): s = f\"{prefijo} {nombre}\" return s.upper() if upper else s print(etiqueta(\"Quispe\")) print(etiqueta(\"Quispe\", prefijo=\"Cliente\")) print(etiqueta(\"Quispe\", upper=True)) # Default mutable — MAL (demostración del bug) def bad_add(item, bucket=[]): bucket.append(item) return bucket print(bad_add(1), bad_add(2)) # ¡comparte la misma lista! def good_add(item, bucket=None): if bucket is None: bucket = [] bucket.append(item) return bucket print(g",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 3879.25,
+          "width": 488.90625,
+          "height": 454.78125
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "Sr./Sra. Quispe Cliente Quispe SR./SRA. QUISPE [1, 2] [1, 2] [1] [2]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 4383.125,
+          "width": 862,
+          "height": 131.46875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "Sr./Sra. Quispe Cliente Quispe SR./SRA. QUISPE [1, 2] [1, 2] [1] [2]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 4386.125,
+          "width": 126.4375,
+          "height": 108.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "raw",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 844.203125,
+          "y": 4764.09375,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "@",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1092.359375,
+          "y": 4853.21875,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "str",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 602.84375,
+          "y": 4893.59375,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "ValueError",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 816.046875,
+          "y": 4893.59375,
+          "width": 90,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "@",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 673.859375,
+          "y": 4917.96875,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_email",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 648.3125,
+          "y": 5007.09375,
+          "width": 129,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "A@B.COM",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1119.96875,
+          "y": 5007.09375,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "sin-arroba",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 5007.09375,
+          "width": 859.484375,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def normalize_email(raw: str) -> str: \"\"\"Normaliza email sintético de intake. Pre: raw es str no vacío tras strip. Post: devuelve lowercased sin espacios extremos. Raises: ValueError si falta '@' o queda vacío. \"\"\" s = raw.strip().lower() if not s or \"@\" not in s: raise ValueError(\"email sin @ (gate mínimo)\") return s print(normalize_email(\" Ana.Perez@Example.COM \")) try: normalize_email(\"sin-arroba\") except ValueError as e: print(\"err:\", e)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 5135.21875,
+          "width": 862,
+          "height": 424.59375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def normalize_email(raw: str) -> str: \"\"\"Normaliza email sintético de intake. Pre: raw es str no vacío tras strip. Post: devuelve lowercased sin espacios extremos. Raises: ValueError si falta '@' o queda vacío. \"\"\" s = raw.strip().lower() if not s or \"@\" not in s: raise ValueError(\"email sin @ (gate mínimo)\") return s print(normalize_email(\" Ana.Perez@Example.COM \")) try: normalize_email(\"sin-arroba\") except ValueError as e: print(\"err:\", e)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 5154.21875,
+          "width": 446.765625,
+          "height": 385.5
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "ana.perez@example.com err: email sin @ (gate mínimo)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 5588.8125,
+          "width": 862,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "ana.perez@example.com err: email sin @ (gate mínimo)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 5591.8125,
+          "width": 252.875,
+          "height": 39.09375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def f(x: str) -> str",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 494.859375,
+          "y": 5900.5,
+          "width": 168,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "@",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 985.96875,
+          "y": 5989.625,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "raise ValueError",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 5989.625,
+          "width": 827.453125,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "(ok, value, error)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 538.5625,
+          "y": 6014,
+          "width": 152.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "Optional[str]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 6079.75,
+          "width": 113.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "str | None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 509.71875,
+          "y": 6079.75,
+          "width": 90,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "-> str",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 6079.75,
+          "width": 859.046875,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 565.109375,
+          "y": 6104.125,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "abc",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 558.796875,
+          "y": 6168.875,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "200",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 610.09375,
+          "y": 6168.875,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "parse_edad",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 800.203125,
+          "y": 6168.875,
+          "width": 90,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "from typing import Optional, Tuple def parse_edad(raw: str) -> Tuple[bool, Optional[int], Optional[str]]: try: n = int(raw.strip()) except ValueError: return False, None, \"no es entero\" if n < 0 or n > 120: return False, None, \"fuera de rango de dominio\" return True, n, None for v in [\"34\", \"abc\", \"200\"]: print(v, \"→\", parse_edad(v))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 6297,
+          "width": 862,
+          "height": 332.21875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "from typing import Optional, Tuple def parse_edad(raw: str) -> Tuple[bool, Optional[int], Optional[str]]: try: n = int(raw.strip()) except ValueError: return False, None, \"no es entero\" if n < 0 or n > 120: return False, None, \"fuera de rango de dominio\" return True, n, None for v in [\"34\", \"abc\", \"200\"]: print(v, \"→\", parse_edad(v))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 6316,
+          "width": 590.09375,
+          "height": 293.125
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "34 → (True, 34, None) abc → (False, None, 'no es entero') 200 → (False, None, 'fuera de rango de dominio')",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 6658.21875,
+          "width": 862,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "34 → (True, 34, None) abc → (False, None, 'no es entero') 200 → (False, None, 'fuera de rango de dominio')",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 6661.21875,
+          "width": 404.578125,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_record",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 952.671875,
+          "y": 7102.125,
+          "width": 136.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "strip_collapse",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 504.828125,
+          "y": 7216.625,
+          "width": 121.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "title_case_name",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 634.234375,
+          "y": 7216.625,
+          "width": 129,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "normalize_record",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 504.46875,
+          "y": 7305.75,
+          "width": 136.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def strip_collapse(s: str) -> str: return \" \".join(s.strip().split()) def title_case_name(s: str) -> str: return strip_collapse(s).title() def normalize_nombre(raw: str) -> str: return title_case_name(raw) def normalize_email(raw: str) -> str: s = raw.strip().lower() if \"@\" not in s: raise ValueError(\"email sin @\") return s def normalize_record(nombres: str, email: str) -> dict: return { \"nombres\": normalize_nombre(nombres), \"email\": normalize_email(email), } print(normalize_record(\" maría josé ",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 7409.5,
+          "width": 862,
+          "height": 540.0625
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def strip_collapse(s: str) -> str: return \" \".join(s.strip().split()) def title_case_name(s: str) -> str: return strip_collapse(s).title() def normalize_nombre(raw: str) -> str: return title_case_name(raw) def normalize_email(raw: str) -> str: s = raw.strip().lower() if \"@\" not in s: raise ValueError(\"email sin @\") return s def normalize_record(nombres: str, email: str) -> dict: return { \"nombres\": normalize_nombre(nombres), \"email\": normalize_email(email), } print(normalize_record(\" maría josé ",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 7428.5,
+          "width": 463.640625,
+          "height": 500.96875
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "{'nombres': 'María José', 'email': 'x@y.com'}",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 7978.5625,
+          "width": 862,
+          "height": 39.09375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "{'nombres': 'María José', 'email': 'x@y.com'}",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 7981.5625,
+          "width": 379.296875,
+          "height": 16
+        }
+      },
+      {
+        "tag": "code",
+        "text": "f(f(x)) == f(x)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 703.75,
+          "y": 8356.28125,
+          "width": 129,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "main",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 728.859375,
+          "y": 8445.40625,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "load_",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 894.59375,
+          "y": 8445.40625,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "save_",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 958.796875,
+          "y": 8445.40625,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "open(...)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1139.3125,
+          "y": 8469.78125,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "lambda",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 600.234375,
+          "y": 8494.15625,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 866.65625,
+          "y": 8494.15625,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "f(f(x)) == f(x)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 711.1875,
+          "y": 8534.53125,
+          "width": 129,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "f(x)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 933.453125,
+          "y": 8534.53125,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def normalize_telefono(raw: str) -> str: digits = \"\".join(ch for ch in raw if ch.isdigit()) return digits # Idempotencia: f(f(x)) == f(x) x = \"999-000-111\" y = normalize_telefono(x) z = normalize_telefono(y) print(y, z, \"idempotent=\", y == z) # Un segundo sample: dígitos ya canónicos print(normalize_telefono(\" (01) 234-5678 \"))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 8662.65625,
+          "width": 862,
+          "height": 309.125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def normalize_telefono(raw: str) -> str: digits = \"\".join(ch for ch in raw if ch.isdigit()) return digits # Idempotencia: f(f(x)) == f(x) x = \"999-000-111\" y = normalize_telefono(x) z = normalize_telefono(y) print(y, z, \"idempotent=\", y == z) # Un segundo sample: dígitos ya canónicos print(normalize_telefono(\" (01) 234-5678 \"))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 8681.65625,
+          "width": 455.203125,
+          "height": 270.03125
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "999000111 999000111 idempotent= True 012345678",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 9000.78125,
+          "width": 862,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "999000111 999000111 idempotent= True 012345678",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 9003.78125,
+          "width": 303.4375,
+          "height": 39.09375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "NameError",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 9376.84375,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "PREF",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 778.359375,
+          "y": 9376.84375,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "make_phone_normalizer(prefix)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 389.5,
+          "y": 9465.96875,
+          "width": 238.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "global",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 9530.71875,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "nonlocal",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 458.703125,
+          "y": 9530.71875,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "norm",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 596.28125,
+          "y": 9619.84375,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "raw",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 786.578125,
+          "y": 9619.84375,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "prefix",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 872.125,
+          "y": 9619.84375,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "PREF",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 981.078125,
+          "y": 9619.84375,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "PREF = \"+51\" # global del módulo (demo) def make_phone_normalizer(prefix: str): def norm(raw: str) -> str: # 1) dígitos del texto original (el '+' no sobrevive al filtro) d = \"\".join(c for c in raw if c.isdigit()) # 2) si ya trae código país 51 y hay dígitos de más, quítalo if d.startswith(\"51\") and len(d) > 9: d = d[2:] # 3) siempre antepone el prefix del factory (closure) return prefix + d return norm pe = make_phone_normalizer(PREF) print(pe(\"999000111\")) print(pe(\"+51999000111\")) x = 10 def ",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 9747.96875,
+          "width": 862,
+          "height": 586.25
+        }
+      },
+      {
+        "tag": "code",
+        "text": "PREF = \"+51\" # global del módulo (demo) def make_phone_normalizer(prefix: str): def norm(raw: str) -> str: # 1) dígitos del texto original (el '+' no sobrevive al filtro) d = \"\".join(c for c in raw if c.isdigit()) # 2) si ya trae código país 51 y hay dígitos de más, quítalo if d.startswith(\"51\") and len(d) > 9: d = d[2:] # 3) siempre antepone el prefix del factory (closure) return prefix + d return norm pe = make_phone_normalizer(PREF) print(pe(\"999000111\")) print(pe(\"+51999000111\")) x = 10 def ",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 9766.96875,
+          "width": 598.453125,
+          "height": 547.15625
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "+51999000111 +51999000111 LEGB enclosing x → 20",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 10363.21875,
+          "width": 862,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "+51999000111 +51999000111 LEGB enclosing x → 20",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 10366.21875,
+          "width": 177.015625,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "assert normalize_email('A@B.COM') == 'a@b.com'",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 722.046875,
+          "y": 10673.625,
+          "width": 370.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "strip_collapse",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 609.5,
+          "y": 10762.75,
+          "width": 121.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "@",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 607.703125,
+          "y": 10787.125,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "Ñ",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1012.28125,
+          "y": 10851.875,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 1103.078125,
+          "y": 10851.875,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def normalize_email(raw: str) -> str: # contrato de gate: strip+lower + validar '@' (T2-A / Tú haces) s = raw.strip().lower() if \"@\" not in s: raise ValueError(\"email sin @\") return s def _examples() -> None: assert normalize_email(\" A@B.COM \") == \"a@b.com\" assert normalize_email(normalize_email(\"A@B.COM\")) == \"a@b.com\" print(\"examples OK\") # refactor interno: misma conducta (misma política de '@') def normalize_email(raw: str) -> str: s = raw.strip() s = s.lower() if \"@\" not in s: raise ValueEr",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 11069.125,
+          "width": 862,
+          "height": 540.0625
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def normalize_email(raw: str) -> str: # contrato de gate: strip+lower + validar '@' (T2-A / Tú haces) s = raw.strip().lower() if \"@\" not in s: raise ValueError(\"email sin @\") return s def _examples() -> None: assert normalize_email(\" A@B.COM \") == \"a@b.com\" assert normalize_email(normalize_email(\"A@B.COM\")) == \"a@b.com\" print(\"examples OK\") # refactor interno: misma conducta (misma política de '@') def normalize_email(raw: str) -> str: s = raw.strip() s = s.lower() if \"@\" not in s: raise ValueEr",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 11088.125,
+          "width": 564.75,
+          "height": 500.96875
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "examples OK ana@example.com",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 385,
+          "y": 11638.1875,
+          "width": 862,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "examples OK ana@example.com",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 401,
+          "y": 11641.1875,
+          "width": 126.4375,
+          "height": 39.09375
+        }
+      }
+    ],
+    "paragraphs": [
+      {
+        "tag": "p",
+        "text": "Mapa de la sección: funciones con contrato",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 297,
+          "width": 864,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "En S04 aprendiste a recorrer datos y resumir decisiones; ahora debes poner nombre y límites a esas decisiones para no copiarlas por todo el programa. Una función no es una caja misteriosa: es una promesa pequeña con una puerta de entrada, una regla interna y una salida que otra pieza puede usar.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 337.375,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Diccionario de la sección (léelo antes de T1):",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 426.5,
+          "width": 864,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Función (def): bloque reutilizable con nombre de verbo.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 466.875,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "return: entrega un valor a quien llama (sin return → None).",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 499.25,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Contrato: precondiciones + postcondiciones documentadas (docstring) y alineadas al código.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 531.625,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Default seguro: no uses lista/dict mutable como valor por defecto.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 564,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Función pura: mismo input → mismo output, sin I/O ni prints.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 596.375,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Idempotencia: f(f(x)) == f(x) en el caso feliz.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 628.75,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Orquestador delgado: combina normalizadores sin reimplementar reglas.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 661.125,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "LEGB: orden Local → Enclosing → Global → Builtin.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 693.5,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Keyword-only: parámetros tras * que obligan nombre= en la llamada.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 725.875,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "El hilo conductor es un conjunto de funciones puras normalize_nombre, normalize_email, normalize_telefono, normalize_direccion que transforman texto sintético sin tocar disco ni red. La I/O se inyecta o se deja en el borde. Datos ficticios únicamente (example.com); nunca PII real. Caso de lab: inicio CP-N1-B.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 766.25,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Políticas canónicas del gate (no cambian a mitad de sección):",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 855.375,
+          "width": 864,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "normalize_nombre: colapsa espacios + title-case por palabra.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 895.75,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "normalize_email: strip + lower y ValueError si falta @.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 928.125,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "normalize_telefono: solo dígitos (demo).",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 960.5,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "normalize_direccion: colapsa + upper.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 992.875,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Cada normalizador debe ser idempotente en el caso feliz: f(f(x)) == f(x).",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 1033.25,
+          "width": 864,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Estas políticas son deliberadamente pequeñas para practicar contratos. .title() no representa todos los nombres reales y comprobar que exista @ no valida una dirección de correo completa: son reglas del laboratorio, no afirmaciones sobre identidad ni validadores listos para producción. En S07 ampliarás el tratamiento de texto y Unicode. Aquí importa que cada regla sea explícita, medible y consistente de principio a fin.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 1073.625,
+          "width": 864,
+          "height": 97.5
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Orden pedagógico:",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 1187.125,
+          "width": 864,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "T1 Funciones: def/return → params/defaults.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 1227.5,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "T2 Contratos: pre/post/docstrings → hints y errores de dominio.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 1259.875,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "T3 Diseño: funciones pequeñas → pureza/I/O.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 1292.25,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "li",
+        "text": "T4 Alcance: LEGB/closures → tests y refactor.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 388,
+          "y": 1324.625,
+          "width": 860,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Usa una pregunta durante toda la sección: ¿qué promete esta función a quien la llama? La teoría nombra la promesa, el I Do la hace visible, el We Do te obliga a repararla y el You Do reúne cuatro promesas sin mezclarlas. Más adelante empaquetarás el núcleo en una CLI y lo conectarás con archivos o clases; hoy debe poder probarse sin abrir nada.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 1365,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Definición, llamada y retorno",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 2241.28125,
+          "width": 864,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Piensa en una función como una ventanilla: recibe algo, realiza una tarea acotada y entrega un comprobante que el siguiente paso puede usar. Puente desde el mapa: la primera promesa que harás es sencilla —si entra texto de nombre, debe salir texto normalizado, no una impresión fugaz en la consola.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 2281.65625,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Una función se define con def nombre(params): y devuelve con return. Sin return explícito, Python devuelve None (bug silencioso en pipelines: el caller imprime None o encadena basura). Llamar es nombre(args). El nombre debe ser un verbo o acción clara: normalize_email, no email2 ni datos.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 2370.78125,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Las funciones son valores de primera clase: puedes pasarlas, guardarlas en listas y devolverlas. En S05 nos basta con definir, llamar y retornar resultados de normalización; no abuses de callbacks todavía. El primer normalizador del hilo, normalize_nombre, ya usa la política del gate: colapsar espacios y title-case por palabra — la misma que exige el bloque Tú haces.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 2459.90625,
+          "width": 864,
+          "height": 97.5
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un solo return temprano por caso de error de dominio es legible; evita funciones de 100 líneas con muchos returns confusos — descompón (T3). Los normalizadores retornan el valor canónico; print es solo demo o reporte al borde, nunca un efecto oculto dentro de la función pura del core.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 2573.40625,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Detente y predice: si noop(1) calcula x + 1 pero no ejecuta return, ¿qué recibe quien llama? Explica por qué ver un número impreso dentro de una función no responde esa pregunta. En T1-B ampliarás la promesa: no solo qué retorna, sino qué configuración acepta cada llamada.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 2662.53125,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Posicionales, keyword y defaults seguros",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 3307.875,
+          "width": 864,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Una función reutilizable necesita opciones, pero una opción mal diseñada puede recordar datos de una llamada anterior como si llevara una libreta secreta. Puente desde T1-A: ya sabes entregar un resultado; ahora aprenderás a recibir parámetros sin crear estado compartido accidental.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 3348.25,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Argumentos posicionales se atan por orden; keyword por nombre (fn(x=1)). Los defaults se evalúan una vez en la definición: nunca uses lista/dict mutable como default (def f(xs=[]) es un bug clásico P1 en pipelines). Usa None y crea la lista dentro de la función en cada llamada.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 3437.375,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Orden recomendado: obligatorios posicionales, luego opcionales con default. En llamadas, los keyword arguments tras los posicionales mejoran la lectura en sitios de llamada largos (orquestadores, tests) y evitan invertir argumentos silenciosamente — un swap nombre, email es un incidente de calidad de datos.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 3526.5,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Para normalizadores: def normalize_telefono(raw, , country=\"PE\") con keyword-only documenta la política regional sin confundir posiciones. El fuerza country= en la llamada; no puedes pasar el país como segundo posicional por error. En un ETL de fintech en Perú, ese flag explícito evita que un junior invierta raw y country y “normalice” un teléfono con el código de país equivocado.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 3615.625,
+          "width": 864,
+          "height": 97.5
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Dibuja la memoria: representa bucket=[] como una sola caja pegada a la definición y dos llamadas apuntando a ella. Luego representa bucket=None con una caja nueva dentro de cada llamada. Si puedes explicar por qué las salidas difieren sin decir «Python es raro», estás listo para documentar esa decisión como contrato en T2.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 3729.125,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Pre/postcondiciones y docstrings",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 4631.59375,
+          "width": 864,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un contrato útil no es una frase solemne; es la respuesta anticipada a dos preguntas del siguiente programador: «¿qué puedo entregar?» y «¿qué puedo esperar a cambio?». Puente desde T1-B: parámetros y defaults describen la puerta de entrada; precondiciones, postcondiciones y errores explican cómo cruzarla correctamente.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 4671.96875,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Una precondición es lo que debe cumplirse antes de llamar (p. ej. raw es str). Una postcondición es lo que garantiza el return (p. ej. sin espacios extremos, minúsculas en email, title-case en nombre). Juntas son el contrato del normalizador.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 4761.09375,
+          "width": 864,
+          "height": 48.75
+        }
+      },
+      {
+        "tag": "p",
+        "text": "El docstring (PEP 257) documenta contrato en español o inglés consistente del proyecto: qué hace, parámetros, retorno, errores. No copies la firma; explica la política de negocio (p. ej. colapsar espacios + title-case, o exigir @ en email).",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 4825.84375,
+          "width": 864,
+          "height": 48.75
+        }
+      },
+      {
+        "tag": "p",
+        "text": "En el intake sintético: pre = tipo str; post = forma canónica o ValueError de dominio. La política mínima de email del laboratorio es strip+lower y raise si falta @ — la misma en demos, Hacemos juntos y Tú haces. Esta regla detecta un fallo básico, pero no demuestra que la dirección exista ni que sea válida según todos los estándares. Si docstring y código discrepan, el revisor devuelve el PR.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 4890.59375,
+          "width": 864,
+          "height": 97.5
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Audita la promesa: tapa el cuerpo de normalize_email y predice, solo con el docstring, qué ocurrirá con A@B.COM y sin-arroba. Después abre el cuerpo y busca una línea que respalde cada promesa. Lo que no puedas enlazar es documentación huérfana o conducta indocumentada.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 5004.09375,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Type hints graduales y errores de dominio",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 5768,
+          "width": 864,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "En un lote de miles de filas, «algo salió mal» no basta: quien opera el proceso necesita saber si el texto no pudo convertirse o si el valor convertido viola una regla. Puente desde T2-A: el docstring narra el contrato; los hints hacen visible su forma y el resultado de dominio conserva información sobre cada camino.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 5808.375,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Los type hints (def f(x: str) -> str) no convierten en runtime (salvo checkers externos como mypy). Son documentación verificable y contrato para humanos. En S05 usamos hints graduales: anota lo público de los normalizadores; no atasques con genéricos avanzados ni Protocol todavía.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 5897.5,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un error de dominio no es un bug de Python: es un valor de negocio inválido (email sin @, edad 200). Opciones: raise ValueError, devolver (ok, value, error), o un dict de resultado. Sé consistente en el módulo: no mezcles raise y tuplas en el mismo archivo sin documentar por qué.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 5986.625,
+          "width": 864,
+          "height": 74.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Optional[str] / str | None documenta ausencia legítima (campo opcional del intake, no un bug). No uses hints falsos (-> str si puedes devolver None por olvido de return). Un hint que miente es peor que no anotar: el revisor y el typechecker confían en él, y un junior copiará la mentira en el siguiente normalizador del pipeline.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 6076.75,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Separa las causas: para abc y 200, predice qué parte de parse_edad decide el resultado y qué mensaje recibe el lote. Si ambos casos terminan en el mismo cajón mental de «error», aún falta distinguir forma de entrada y regla de dominio. T3 usará esa distinción en funciones pequeñas.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 6165.875,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Funciones pequeñas y composición",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 6880.5,
+          "width": 864,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Cuando una función sabe normalizar cuatro campos, abrir un archivo y escribir un log, no es versátil: es una reunión sin agenda. Puente desde T2: cada contrato que ya nombraste merece una pieza que pueda probarse y cambiarse sin convocar a todas las demás.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 6920.875,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Una función debe hacer una cosa en el nivel de abstracción correcto. Si normalizas nombre y además escribes archivo y logueas, sepáralas. Componer es llamar funciones pequeñas desde una orquestadora delgada que no reimplementa reglas de negocio.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 7010,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Beneficio: tests unitarios fáciles, reuso en CLI (S10) y en ETL (S08). El orquestador normalize_record llama a cuatro normalizadores y arma el dict sin I/O en el núcleo. En un banco o fintech en Perú, ese dict limpio alimenta el pipeline: si el orquestador reimplementa strip, cada fix se multiplica por cuatro y el code review se vuelve un laberinto.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 7099.125,
+          "width": 864,
+          "height": 74.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Regla práctica: si necesitas un comentario de sección en medio de la función, probablemente es otra función. Extrae y nombra el verbo (strip_collapse, title_case_name). El monstruo de 40 líneas con tres políticas de campo es el antipatrón que descompondrás en el We Do E3 — y el que un revisor junior aprende a rechazar.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 7189.25,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Prueba de sustitución: imagina que mañana cambia solo la política de email. Señala el único helper que debería modificarse y explica por qué normalize_record no necesita aprender la nueva regla. Si debes editar el orquestador y varios callers, encontraste duplicación, no composición.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 7278.375,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Pureza, efectos e inyección de I/O",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 8134.65625,
+          "width": 864,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Una función pura se parece a una regla en una hoja transparente: puedes aplicarla hoy, mañana o en un test y ver la misma transformación. Puente desde T3-A: separar responsabilidades permite dejar la transformación en el centro y mover consola, archivos y red hacia el borde.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 8175.03125,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Una función pura devuelve el mismo resultado para los mismos argumentos y no tiene efectos (no imprime, no lee disco, no muta globales ni los argumentos mutables del caller sin documentarlo). Los normalizadores del gate CP-N1-B deben ser puros: así los pruebas sin capturar stdout ni montar archivos temporales.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 8264.15625,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Los normalizadores deben ser idempotentes: f(f(x)) == f(x) para entradas válidas — doble normalizar no debe “romper” el valor canónico (p. ej. un title-case ya aplicado no se deforma). Demuéstralo con dos llamadas encadenadas antes de confiar en el ETL o en un assert de gate.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 8353.28125,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "La I/O (stdin, archivos, red) se queda en el borde: main, CLI, o funciones load_ / save_. El core no conoce el filesystem. Cuando necesites un normalizador alternativo en un test, inyéctalo como argumento (ver tip). No hardcodees open(...) dentro del pure core ni uses un lambda gigante como sustituto de un def con nombre.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 8442.40625,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Dos preguntas, no una: comprueba primero si f(f(x)) == f(x) y después si f(x) cumple la política. Una función que deja guiones puede ser perfectamente idempotente y perfectamente incorrecta. La estabilidad protege el reproceso; los ejemplos del contrato protegen el significado.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 8531.53125,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "LEGB y closures básicos",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 9219.96875,
+          "width": 864,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Configurar un normalizador por país sin llenar el módulo de variables globales exige entender de dónde toma cada nombre. Puente desde T3-B: la pureza evita estado oculto; LEGB te permite localizarlo y un closure encierra configuración explícita sin convertirla en estado compartido.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 9260.34375,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "LEGB: orden de búsqueda de nombres — Local, Enclosing (funciones anidadas), Global, Builtin. Si Python no halla el nombre, NameError. Saber LEGB evita el clásico “¿por qué usa el PREF del módulo y no el mío?” cuando fabricas normalizadores con prefijo de país.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 9349.46875,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un closure es una función interna que recuerda variables del enclosing scope. Útil para fabricar normalizadores configurados (make_phone_normalizer(prefix)), sin clases todavía: el factory cierra la política regional y devuelve una función pura lista para componer.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 9438.59375,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "global y nonlocal existen, pero en S05 casi no los necesitas: prefiere return de valores nuevos y factories con closure. Mutar globales complica tests, rompe pureza y hace que dos normalizadores compartan estado invisible entre llamadas — un antipatrón en ETL junior.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 9527.71875,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Traza la búsqueda: dentro de norm, busca mentalmente raw, luego prefix, luego PREF. Nombra en qué peldaño de LEGB aparece cada uno. Después crea dos factories con prefijos distintos: si una llamada puede alterar la otra, no has construido configuración encerrada, sino estado compartido.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 9616.84375,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Pruebas de ejemplo y refactor sin cambiar conducta",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 10565.5,
+          "width": 864,
+          "height": 24.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Refactorizar sin ejemplos es cambiar el motor de un avión guiándose por el sonido. Puente desde T4-A: ya sabes dónde vive cada nombre; ahora fijarás qué conducta debe sobrevivir cuando reorganices el interior.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 10605.875,
+          "width": 864,
+          "height": 48.75
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Antes de refactorizar, fija ejemplos ejecutables: assert normalize_email('A@B.COM') == 'a@b.com'. Luego cambia la forma interna; si los asserts siguen verdes, la conducta se preservó. Sin ejemplos, un “refactor” es un cambio de producto disfrazado — y el gate CP-N1-B lo detecta en la suite de idempotencia.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 10670.625,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "El refactor típico de S05: extraer strip_collapse, unificar defaults, renombrar verbos. No cambies la política de negocio “de paso” (p. ej. quitar validación de @ o el title-case) sin actualizar tests y docstring: eso es un cambio de producto, no un refactor.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 10759.75,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Idempotencia se prueba con doble llamada. Fronteras útiles: vacío, solo espacios, Unicode (Ñ, tildes), y None solo si el contrato lo admite. Cada frontera es un caso de prueba permanente: no la borres cuando “ya pasó una vez” en tu máquina local.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 10848.875,
+          "width": 864,
+          "height": 73.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Cierra el ciclo: escribe qué conducta protege cada assert antes de tocar la implementación. Tras el refactor, una luz verde solo demuestra lo que esos ejemplos cubren; enumera también la frontera que aún no probaste. Esa modestia convierte una suite en evidencia y no en ceremonia.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 10938,
+          "width": 864,
+          "height": 73.125
+        }
+      }
+    ],
+    "horizontalOverflow": [],
+    "fixedObstructions": []
+  }
+}

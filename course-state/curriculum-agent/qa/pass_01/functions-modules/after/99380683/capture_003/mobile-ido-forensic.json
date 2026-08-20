@@ -1,0 +1,2141 @@
+{
+  "tab": "ido",
+  "screenshotPath": "course-state/curriculum-agent/qa/pass_01/functions-modules/after/99380683/capture_003/mobile-ido.jpg",
+  "screenshotSha256": "16453a22471237f52c8625c275a0be9889d1a3336c51c4223f6590c96482a3ec",
+  "forensic": {
+    "document": {
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "bodyHeight": 16540,
+      "title": "PyArcana · De cero a Data Scientist",
+      "url": "http://127.0.0.1:3000/?e2e=1787255737922#functions-modules"
+    },
+    "headings": [
+      {
+        "tag": "h2",
+        "text": "Yo hago — Demostración guiada",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 88.125,
+          "y": 245,
+          "width": 237.875,
+          "height": 56
+        }
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "text": "dict",
+        "testId": "term-hint-dict",
+        "role": null,
+        "ariaLabel": "Dict: Pares clave-valor con búsqueda O(1). {\"nombre\": \"Ana\", \"edad\": 25}. Métodos: get, items, keys, values.",
+        "box": {
+          "x": 262.40625,
+          "y": 1209.75,
+          "width": 25.984375,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 1605,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 221.65625,
+          "y": 3607.09375,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 5747.75,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 231.90625,
+          "y": 7595.59375,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 9489.09375,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 217.171875,
+          "y": 11396.25,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 13127.34375,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 14973.90625,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Entendido, marcado como visto",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 16199.3125,
+          "width": 262,
+          "height": 40
+        }
+      }
+    ],
+    "images": [
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 263,
+          "width": 16.125,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 343,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 1041.5,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 1610,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 2058.21875,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 2392.34375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 3044.59375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 229.65625,
+          "y": 3612.09375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 4198.875,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 4606.125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 5282.75,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 5752.75,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 6200.96875,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 6510.71875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 7162.96875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 239.90625,
+          "y": 7600.59375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 8017.71875,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 8327.46875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 9024.09375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 9494.09375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 9896.125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 10181.5,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 10906.875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 225.171875,
+          "y": 11401.25,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 11757.09375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 12042.46875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 12694.71875,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 13132.34375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 13595.65625,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 13881.03125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 14508.90625,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 14978.90625,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 15380.9375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 15715.0625,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 78.9375,
+          "y": 16211.3125,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      }
+    ],
+    "code": [
+      {
+        "tag": "code",
+        "text": "def nombre(...)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 730.625,
+          "width": 232.75,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "output",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 211.984375,
+          "y": 803.75,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "list(range(n))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 1115.25,
+          "width": 121.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "n",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 191.84375,
+          "y": 1139.625,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "for",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 1212.75,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "range(n)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 1384.375,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "lote = [ {\"id\": \"C001\", \"edad\": 30}, {\"id\": \"C002\", \"edad\": 17}, {\"id\": \"C003\", \"edad\": 45}, ] for reg in lote: print(reg[\"id\"], \"edad=\", reg[\"edad\"]) n = len(lote) print(\"n=\", n, \"range →\", list(range(n)))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 1650,
+          "width": 218,
+          "height": 239.84375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "lote = [ {\"id\": \"C001\", \"edad\": 30}, {\"id\": \"C002\", \"edad\": 17}, {\"id\": \"C003\", \"edad\": 45}, ] for reg in lote: print(reg[\"id\"], \"edad=\", reg[\"edad\"]) n = len(lote) print(\"n=\", n, \"range →\", list(range(n)))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 1669,
+          "width": 354.078125,
+          "height": 200.75
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "C001 edad= 30 C002 edad= 17 C003 edad= 45 n= 3 range → [0, 1, 2]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 1918.84375,
+          "width": 218,
+          "height": 108.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "C001 edad= 30 C002 edad= 17 C003 edad= 45 n= 3 range → [0, 1, 2]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 1921.84375,
+          "width": 185.4375,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "for reg in lote",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 155.46875,
+          "y": 2080.21875,
+          "width": 129,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "range(n)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 2177.71875,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "range",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 2250.84375,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "range(3)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 2275.21875,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "enumerate(..., start=1)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 3142.71875,
+          "width": 115.203125,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "zip_strict",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 3337.71875,
+          "width": 90,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "zip",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 186.3125,
+          "y": 3508.34375,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "ids = [\"C001\", \"C002\", \"C003\"] regiones = [\"Lima\", \"Cusco\", \"Arequipa\"] def zip_strict(a, b): if len(a) != len(b): raise ValueError(\"desalineado\") return zip(a, b) for i, (rid, reg) in enumerate(zip_strict(ids, regiones), start=1): print(f\"fila {i}: {rid} @ {reg}\") mal = [\"Lima\", \"Cusco\"] try: list(zip_strict(ids, mal)) except ValueError: print(\"desalineado detectado\")",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 3652.09375,
+          "width": 218,
+          "height": 378.40625
+        }
+      },
+      {
+        "tag": "code",
+        "text": "ids = [\"C001\", \"C002\", \"C003\"] regiones = [\"Lima\", \"Cusco\", \"Arequipa\"] def zip_strict(a, b): if len(a) != len(b): raise ValueError(\"desalineado\") return zip(a, b) for i, (rid, reg) in enumerate(zip_strict(ids, regiones), start=1): print(f\"fila {i}: {rid} @ {reg}\") mal = [\"Lima\", \"Cusco\"] try: list(zip_strict(ids, mal)) except ValueError: print(\"desalineado detectado\")",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 3671.09375,
+          "width": 564.765625,
+          "height": 339.3125
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "fila 1: C001 @ Lima fila 2: C002 @ Cusco fila 3: C003 @ Arequipa desalineado detectado",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 4059.5,
+          "width": 218,
+          "height": 108.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "fila 1: C001 @ Lima fila 2: C002 @ Cusco fila 3: C003 @ Arequipa desalineado detectado",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 4062.5,
+          "width": 193.875,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "start=1",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 4220.875,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "len(a)==len(b)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 148.703125,
+          "y": 4318.375,
+          "width": 121.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "zip(..., strict=True)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 4342.75,
+          "width": 175.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "zip",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 4415.875,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "i",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 219.734375,
+          "y": 5332.125,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "line",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 5356.5,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "out",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 188.40625,
+          "y": 5356.5,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "END",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 183.578125,
+          "y": 5429.625,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "i",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 224.34375,
+          "y": 5551.5,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "break",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 5624.625,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "buf = [\"Ana|Lima\", \"Luis|Cusco\", \"END\", \"ignorada\"] i = 0 out = [] while i < len(buf): line = buf[i] i += 1 if line == \"END\": break out.append(line) print(out) print(\"indice final\", i)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 5792.75,
+          "width": 218,
+          "height": 286.03125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "buf = [\"Ana|Lima\", \"Luis|Cusco\", \"END\", \"ignorada\"] i = 0 out = [] while i < len(buf): line = buf[i] i += 1 if line == \"END\": break out.append(line) print(out) print(\"indice final\", i)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 5811.75,
+          "width": 429.9375,
+          "height": 246.9375
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "['Ana|Lima', 'Luis|Cusco'] indice final 3",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 6107.78125,
+          "width": 218,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "['Ana|Lima', 'Luis|Cusco'] indice final 3",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 6110.78125,
+          "width": 219.15625,
+          "height": 39.09375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "END",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 145.09375,
+          "y": 6247.34375,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "i",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 241.953125,
+          "y": 6296.09375,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "indice final 3",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 6393.59375,
+          "width": 175.984375,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "i",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 218.625,
+          "y": 6604.46875,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "END",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 6677.59375,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "while",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 6775.09375,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "ERROR",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 227.125,
+          "y": 7261.09375,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "ok:*",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 7309.84375,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "ok:3",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 207.53125,
+          "y": 7358.59375,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "continue",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 7431.71875,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "break",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 200.484375,
+          "y": 7480.46875,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "lines = [\"\", \"ok:1\", \"\", \"ok:2\", \"ERROR\", \"ok:3\"] kept = [] for ln in lines: if not ln: continue # salta vacíos if ln.startswith(\"ERROR\"): print(\"fatal, stop\") break # corta el lote kept.append(ln) print(\"kept\", kept)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 7632.59375,
+          "width": 218,
+          "height": 262.9375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "lines = [\"\", \"ok:1\", \"\", \"ok:2\", \"ERROR\", \"ok:3\"] kept = [] for ln in lines: if not ln: continue # salta vacíos if ln.startswith(\"ERROR\"): print(\"fatal, stop\") break # corta el lote kept.append(ln) print(\"kept\", kept)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 7651.59375,
+          "width": 413.0625,
+          "height": 223.84375
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "fatal, stop kept ['ok:1', 'ok:2']",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 7924.53125,
+          "width": 218,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "fatal, stop kept ['ok:1', 'ok:2']",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 7927.53125,
+          "width": 177.015625,
+          "height": 39.09375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "continue",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 8039.71875,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "break",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 168.484375,
+          "y": 8088.46875,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "continue",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 8518.71875,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "break",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 8543.09375,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "accept",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 9122.21875,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "reject",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 204.015625,
+          "y": 9122.21875,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "review",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 9146.59375,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "statuses = [\"accept\", \"reject\", \"review\", \"accept\", \"reject\"] counts = {\"accept\": 0, \"reject\": 0, \"review\": 0} for s in statuses: if s in counts: counts[s] += 1 n = len(statuses) tasa_reject = counts[\"reject\"] / n if n else None print(counts) print(\"n\", n, \"tasa_reject\", tasa_reject)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 9534.09375,
+          "width": 218,
+          "height": 239.84375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "statuses = [\"accept\", \"reject\", \"review\", \"accept\", \"reject\"] counts = {\"accept\": 0, \"reject\": 0, \"review\": 0} for s in statuses: if s in counts: counts[s] += 1 n = len(statuses) tasa_reject = counts[\"reject\"] / n if n else None print(counts) print(\"n\", n, \"tasa_reject\", tasa_reject)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 9553.09375,
+          "width": 514.21875,
+          "height": 200.75
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "{'accept': 2, 'reject': 2, 'review': 1} n 5 tasa_reject 0.4",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 9802.9375,
+          "width": 218,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "{'accept': 2, 'reject': 2, 'review': 1} n 5 tasa_reject 0.4",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 9805.9375,
+          "width": 328.734375,
+          "height": 39.09375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "n",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 141.96875,
+          "y": 10040,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 176.625,
+          "y": 10064.375,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 181.109375,
+          "y": 10421.5,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "rows = [ {\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"}, {\"id\": \"C3\", \"status\": \"reject\"}, ] rejects = [r[\"id\"] for r in rows if r[\"status\"] == \"reject\"] tasa = len(rejects) / len(rows) print(rejects, \"tasa\", tasa)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 11441.25,
+          "width": 218,
+          "height": 216.75
+        }
+      },
+      {
+        "tag": "code",
+        "text": "rows = [ {\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"}, {\"id\": \"C3\", \"status\": \"reject\"}, ] rejects = [r[\"id\"] for r in rows if r[\"status\"] == \"reject\"] tasa = len(rejects) / len(rows) print(rejects, \"tasa\", tasa)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 11460.25,
+          "width": 505.8125,
+          "height": 177.65625
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "['C2', 'C3'] tasa 0.6666666666666666",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 11687,
+          "width": 218,
+          "height": 39.09375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "['C2', 'C3'] tasa 0.6666666666666666",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 11690,
+          "width": 303.4375,
+          "height": 16
+        }
+      },
+      {
+        "tag": "code",
+        "text": "len(rows)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 188.375,
+          "y": 11876.59375,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "for",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 12258.09375,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "output",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 198.46875,
+          "y": 12719.71875,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "i",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 254.484375,
+          "y": 12768.46875,
+          "width": 19.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "flag",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 12792.84375,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "n_ok",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 196.09375,
+          "y": 12792.84375,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "n_ok",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 12841.59375,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "True",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 221.703125,
+          "y": 12865.96875,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "False",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 12939.09375,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "flags = [True, False, True, True] n_ok = 0 print(\"i flag n_ok\") for i, f in enumerate(flags): if f: n_ok += 1 print(i, f, n_ok) print(\"FINAL\", n_ok)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 13164.34375,
+          "width": 218,
+          "height": 216.75
+        }
+      },
+      {
+        "tag": "code",
+        "text": "flags = [True, False, True, True] n_ok = 0 print(\"i flag n_ok\") for i, f in enumerate(flags): if f: n_ok += 1 print(i, f, n_ok) print(\"FINAL\", n_ok)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 13183.34375,
+          "width": 278.1875,
+          "height": 177.65625
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "i flag n_ok 0 True 1 1 False 1 2 True 2 3 True 3 FINAL 3",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 13410.09375,
+          "width": 218,
+          "height": 154.5625
+        }
+      },
+      {
+        "tag": "code",
+        "text": "i flag n_ok 0 True 1 1 False 1 2 True 2 3 True 3 FINAL 3",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 13413.09375,
+          "width": 92.71875,
+          "height": 131.46875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "n=4",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 14582.65625,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "range(1, len(vals))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 14704.53125,
+          "width": 84,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "n = 4 steps_linear = sum(1 for _ in range(n)) steps_quad = sum(1 for _ in range(n) for __ in range(n)) print(\"linear\", steps_linear, \"quad\", steps_quad) vals = [10, 20, 30] skipped_first = [] for i in range(1, len(vals)): # omite el índice 0 — off-by-one de negocio skipped_first.append(vals[i]) print(\"skipped_first\", skipped_first)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 15018.90625,
+          "width": 218,
+          "height": 239.84375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "n = 4 steps_linear = sum(1 for _ in range(n)) steps_quad = sum(1 for _ in range(n) for __ in range(n)) print(\"linear\", steps_linear, \"quad\", steps_quad) vals = [10, 20, 30] skipped_first = [] for i in range(1, len(vals)): # omite el índice 0 — off-by-one de negocio skipped_first.append(vals[i]) print(\"skipped_first\", skipped_first)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 15037.90625,
+          "width": 623.8125,
+          "height": 200.75
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "linear 4 quad 16 skipped_first [20, 30]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 15287.75,
+          "width": 218,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "linear 4 quad 16 skipped_first [20, 30]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 15290.75,
+          "width": 185.4375,
+          "height": 39.09375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "range(1, len(vals))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 15500.4375,
+          "width": 114.53125,
+          "height": 45.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "for x in xs",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 16003.8125,
+          "width": 146.625,
+          "height": 45.375
+        }
+      }
+    ],
+    "paragraphs": [
+      {
+        "tag": "p",
+        "text": "Ocho demos I Do, una por subtema. Antes de pulsar Run, predice una línea de salida y nombra el invariante que esperas conservar; después compara tu explicación, no solo los caracteres impresos. Cada demo aporta una decisión al procesador por lotes de CP-N1-A. Si aparece def nombre(...), léelo por ahora como una receta nombrada. Todos los datos son sintéticos y cada output es un oráculo ejecutable.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 557,
+          "width": 262,
+          "height": 292.5
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Predice primero el último número de list(range(n)) cuando n vale 3. Luego sigue una sola ficha imaginaria por el for: entra como dict, se imprime y no cambia. La demostración contrasta el recorrido por valor, que basta para las edades, con range(n), que representa posiciones 0..n−1. Si tu predicción incluye 3, localiza la frontera exclusiva antes de continuar.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 1063.5,
+          "width": 152,
+          "height": 488.5
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Prefiere for reg in lote cuando solo te importa el valor: menos índices, menos off-by-one. Usa range(n) solo si el índice es imprescindible (reportes, posiciones). El stop de range es exclusivo — range(3) produce 0,1,2 — y así evitas numerar de más al recorrer N filas del batch.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 2077.21875,
+          "width": 194,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Prueba de comprensión: explica por qué hay tres iteraciones aunque el mayor índice sea 2. Esa separación entre cantidad e índice evita el off-by-one. Transfiérela a cualquier colección —eventos, pedidos o lecturas— antes de practicar contadores en We Do.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 2434.34375,
+          "width": 152,
+          "height": 341.25
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Antes de ejecutar, separa dos predicciones: enumerate(..., start=1) imprimirá tres rótulos humanos, mientras que columnas de longitudes 3 y 2 deben fallar de forma visible. El helper zip_strict convierte una pérdida silenciosa en una señal auditable. Pregúntate qué registro desaparecería si usaras zip sin la comprobación.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 3066.59375,
+          "width": 152,
+          "height": 487.5
+        }
+      },
+      {
+        "tag": "p",
+        "text": "start=1 numera para humanos (“fila 1…”); el índice interno de la lista sigue siendo 0-based. Validar len(a)==len(b) (o zip(..., strict=True) en 3.10+) evita el truncamiento silencioso de zip, que corrompe tasas de reject cuando una columna llega incompleta. Observa el try/except: el error ruidoso es el diseño correcto del pipeline.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 4217.875,
+          "width": 194,
+          "height": 341.25
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un resultado corto puede parecer ordenado y seguir siendo falso. La evidencia correcta no es «zip funcionó», sino «demostré que las longitudes coinciden». Lleva esa regla a importaciones CSV, respuestas de API o cualquier par de columnas antes de practicar el fallo ruidoso.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 4648.125,
+          "width": 152,
+          "height": 365.625
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Haz una traza de tres columnas —i, line, out— antes de pulsar Run. El buffer contiene dos datos, END y una línea posterior que jamás debe entrar. La garantía de terminación combina dos hechos: i avanza en cada vuelta y el centinela provoca break. Predice el índice final y justifícalo.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 5304.75,
+          "width": 152,
+          "height": 390
+        }
+      },
+      {
+        "tag": "p",
+        "text": "El centinela marca el fin del batch: END no se procesa y lo posterior no contamina contadores. Avanzar i en cada vuelta evita el bucle infinito; si la condición nunca cambia, el while no termina. El indice final 3 es intencional: ya pasaste el END.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 6219.96875,
+          "width": 194,
+          "height": 243.75
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Una prueba de terminación cabe en una frase: «i aumenta y no puede superar la longitud; END puede detener antes». Si no puedes escribir una frase equivalente para tu while, todavía no está listo. Usa esa disciplina en reintentos, colas y lecturas de flujo.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 6552.71875,
+          "width": 152,
+          "height": 341.25
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Clasifica cada entrada antes de ejecutar: vacío = ruido recuperable; ERROR = condición fatal; ok:* = dato conservable. Ahora predice si ok:3 aparecerá. El orden de las ramas importa: continue omite solo la vuelta actual, mientras break protege el resumen de todo lo posterior.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 7184.96875,
+          "width": 152,
+          "height": 365.625
+        }
+      },
+      {
+        "tag": "p",
+        "text": "continue limpia ruido (filas vacías) y sigue con la siguiente. break detiene el lote ante un error fatal de configuración: las filas posteriores no deben inflar contadores de éxito. Confundir ambos deja pasar basura o corta demasiado pronto.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 8036.71875,
+          "width": 194,
+          "height": 243.75
+        }
+      },
+      {
+        "tag": "p",
+        "text": "La pregunta no es «¿qué palabra clave recuerdo?», sino «¿sigue siendo confiable continuar?». Si sí, continue; si no, break. Aplica la misma clasificación a una línea vacía, una respuesta 5xx y un centinela: pueden parecer anomalías, pero no tienen la misma consecuencia.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 8369.46875,
+          "width": 152,
+          "height": 365.625
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Predice dos invariantes antes de ejecutar: la suma de accept, reject y review debe ser 5, y la tasa de reject debe usar esas cinco decisiones intentadas. El bucle hace un solo pase; el denominador no se negocia después de ver el resultado. Comprueba por qué 2/5 es honesto y 2/3 no lo sería.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 9046.09375,
+          "width": 152,
+          "height": 390
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un solo pase O(n) llena los contadores del resumen. La tasa usa el total de registros intentados, no “solo accepts”. Si el lote estuviera vacío, n sería 0 y reportarías None en vez de dividir (eso lo practicas en We Do).",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 9915.125,
+          "width": 194,
+          "height": 219.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Una tasa sin población de referencia es decoración. Di en voz alta: «dos rejects entre cinco intentos». Luego cambia mentalmente el lote a vacío: None expresa ausencia de observaciones; cero afirmaría que observaste una tasa perfecta. Esa distinción reaparece en cualquier indicador operativo.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 10223.5,
+          "width": 152,
+          "height": 414.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Lee la comprehension como una oración: «toma el id de cada fila si su status es reject». Predice la lista resultante y conserva aparte el denominador del lote completo. Si necesitas insertar prints, excepciones o varias decisiones dentro de esa oración, ya descubriste el límite de esta forma compacta.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 10928.875,
+          "width": 152,
+          "height": 414.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Una comprehension legible filtra sin un for largo cuando el criterio es simple. El denominador de la tasa sigue siendo len(rows) del lote completo. Si hay varias ramas, try/except o efectos laterales, vuelve al for clásico.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 11776.09375,
+          "width": 194,
+          "height": 219.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "La brevedad solo ayuda cuando preserva la intención a primera lectura. Usa comprehension para una transformación o filtro simple; vuelve al for cuando necesites historia, efectos o varias ramas. El criterio es la claridad del próximo lector, no el menor número de líneas.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 12084.46875,
+          "width": 152,
+          "height": 341.25
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Cubre el output y construye cuatro filas de una tabla con i, flag y n_ok. El invariante es sencillo: n_ok equivale a la cantidad de True observados hasta ese instante. La fila con False debe conservar el contador. Solo después compara tu película mental con la traza ejecutada.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 12716.71875,
+          "width": 152,
+          "height": 365.625
+        }
+      },
+      {
+        "tag": "p",
+        "text": "La traza hace visible cuándo y por qué sube el contador. Si la tabla no cuadra con el print final, el bug está en la actualización del estado — no en “Python raro”. Es la base para depurar resúmenes del gate.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 13614.65625,
+          "width": 194,
+          "height": 219.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "No corrijas el total final al azar: busca la primera fila donde estado esperado y estado real se separan. Allí vive el defecto. Esta técnica funciona igual para saldos, inventarios y contadores de eventos; la tabla cambia, el método permanece.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 13923.03125,
+          "width": 152,
+          "height": 316.875
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Antes de ejecutar, calcula los pasos para n=4: un recorrido visita 4 elementos; el doble recorrido visita 16 pares. Luego inspecciona range(1, len(vals)) y predice qué valor queda invisible. Rendimiento e integridad se unen aquí: un algoritmo puede ser lento y, además, contar una población incompleta.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 14530.90625,
+          "width": 152,
+          "height": 390
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Con n=4 ves 4 pasos lineales frente a 16 cuadráticos: el doble for no es “más rigor”, es más costo. range(1, len(vals)) omite el índice 0 — off-by-one de negocio que deja el primer registro fuera del resumen. Prefiere un solo pase O(n) para tasas.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 15399.9375,
+          "width": 194,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Pregunta primero qué relación exige el problema. Contar rechazos requiere mirar cada fila una vez; comparar cada fila con todas las demás sería otro problema. Y si solo necesitas el valor, elimina el índice: for x in xs borra de raíz una familia completa de off-by-one.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 15757.0625,
+          "width": 152,
+          "height": 341.25
+        }
+      }
+    ],
+    "horizontalOverflow": [],
+    "fixedObstructions": []
+  }
+}

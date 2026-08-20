@@ -37,7 +37,8 @@ Priority order when instructions conflict:
    do **not** prove production.
 9. **Deploy only the exact tested SHA.** After deploy, verify live Pages and
    progress-fixture compatibility.
-10. **Scan commits for secrets** before push.
+10. **For and before any content writing follow the instruction in Handcrafted Writing and Editorial Quality Protocol.docx**
+11. **Scan commits for secrets** before push.
 
 ## MUST NOT
 

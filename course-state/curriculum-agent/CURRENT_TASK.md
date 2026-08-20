@@ -64,7 +64,7 @@ Aim for fresh quiet passes 9 and 10. If pass 10 exposes a substantive defect, re
 
 ## Process corrections learned in S01–S07
 
-Apply these controls before starting the next ten-section chunk:
+Apply these controls before starting the next five-section chunk:
 
 - Treat instruction-only learner isolation as diagnostic evidence. Keep `LIMIT-CODEX-CORE-TOOL-EXPOSURE` open until an external harness can physically remove tools and repository access.
 - A realistic learner with execution disabled must return `CANNOT_VERIFY` or `BLOCKED_ENVIRONMENT`, leave `observed_output` empty, and never receive journey-completion credit.
@@ -76,13 +76,13 @@ Apply these controls before starting the next ten-section chunk:
 - Review global glossary aliases at the current section boundary. A technically correct future-specific definition can still leak concepts or distort the learner's present mental model.
 - Resolve visual-aid proposals with learner evidence: add a diagram only for an accepted obstacle that prose/code communicates less effectively; otherwise record it as optional P3 or `VISUAL_AID_NOT_REQUIRED`.
 - Runtime audits currently refresh tracked aggregate reports. Until they accept an immutable per-run output directory, preserve the console result but do not stage overwritten historical summaries as new proof.
-- The first delivery checkpoint covers S01–S07 because it includes the repaired audit harness. After merge and exact-SHA live validation, evaluate subsequent lessons in ten-lesson chunks while retaining section-level RED/GREEN and screenshot gates.
+- The first delivery checkpoint covered S01–S07, including the repaired audit harness, and merged via PR #30. PR #31 then hardened learner firewall provenance on `main`. The next work is five-section chunks with a hard live GitHub Pages gate between chunks: S06–S10, then S11–S15, and so on. Do not start the next chunk until the exact tested SHA is deployed and the live screenshot/state matrix matches.
 
-## Known limitations at the S01–S07 checkpoint
+## Known limitations at the S06–S10 chunk
 
 - `LIMIT-CODEX-CORE-TOOL-EXPOSURE`: physical tool removal is unavailable in the current learner execution surface. Prompt restrictions are defense in depth only, so these runs cannot establish the final knowledge-firewall gate.
 - `LIMIT-REALISTIC-RUNTIME-RECEIPTS`: realistic learners do not yet receive a student-visible isolated Python runtime with command, stdout, stderr, exit-status, and runtime hashes bound to each attempt.
-- `LIMIT-DEPLOYED-SHA-ATTESTATION`: GitHub Pages validation is inadmissible until the protected PR is independently approved, merged, deployed, and the live content is bound to the exact tested SHA.
+- `LIMIT-DEPLOYED-SHA-ATTESTATION`: S06/S07 live geometry and visible identity are now bound to SHA `8b8bfc38` (`review/pass_01/live_attestation_8b8bfc38.json`). Later S08–S10 edits require a new exact-SHA Pages deploy before that later work can count as live-verified.
 - Long-page screenshots establish pixel coverage and geometry, not fatigue, orientation, focus recovery, keyboard-only behavior, screen-reader order, or solution secrecy in serialized client payloads. Dedicated behavioral tests remain required.
 
 ## Final report

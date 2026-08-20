@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "run_id": "curriculum-audit-2026-08-20",
-  "source_sha": "ec1f167d79075e624e2cc8cebad684bad7f91870",
-  "deployed_baseline_sha": "ec1f167d79075e624e2cc8cebad684bad7f91870",
+  "source_sha": "8b8bfc38fea4b24f84d50bcfb31d70415ab2b9b9",
+  "deployed_baseline_sha": "8b8bfc38fea4b24f84d50bcfb31d70415ab2b9b9",
   "deployed_url": "https://pillb.github.io/pyarcana/",
   "outer_pass_budget": 10,
   "validation_round_budget": 5,

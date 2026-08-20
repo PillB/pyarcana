@@ -1,0 +1,2119 @@
+{
+  "tab": "ido",
+  "screenshotTiles": [
+    {
+      "coverageStart": 0,
+      "coverageHeight": 844,
+      "scrollY": 0,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-01.png",
+      "sha256": "136e64edea9c175250396c6d84451d08be85ce2e2761319da98b5f531a46a149"
+    },
+    {
+      "coverageStart": 844,
+      "coverageHeight": 844,
+      "scrollY": 844,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-02.png",
+      "sha256": "5a995b5cb92fd7759b592bb10d02afa1051e4d90d72a0ad15f35dd4f46afb598"
+    },
+    {
+      "coverageStart": 1688,
+      "coverageHeight": 844,
+      "scrollY": 1688,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-03.png",
+      "sha256": "a20634546445733ea8666ea34df60b295552e0106f074b649fa2bd4008556785"
+    },
+    {
+      "coverageStart": 2532,
+      "coverageHeight": 844,
+      "scrollY": 2532,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-04.png",
+      "sha256": "e739176671cbbf33a147b64b46d56d0d39633e564b61c1e71c68eace9508c932"
+    },
+    {
+      "coverageStart": 3376,
+      "coverageHeight": 844,
+      "scrollY": 3376,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-05.png",
+      "sha256": "0e6f9613bae807e9e336f3252137b0415d0b21791ac459eb8d4a41a31e0b6d5c"
+    },
+    {
+      "coverageStart": 4220,
+      "coverageHeight": 844,
+      "scrollY": 4220,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-06.png",
+      "sha256": "45eed160a8e51324b88d400c9c6435a370a51c772e84abb61ad88303e7754b95"
+    },
+    {
+      "coverageStart": 5064,
+      "coverageHeight": 844,
+      "scrollY": 5064,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-07.png",
+      "sha256": "85a0c4b99707ed1b37ef2b33cbdfabb53f4d65e0e166266163e5570f39d067dc"
+    },
+    {
+      "coverageStart": 5908,
+      "coverageHeight": 844,
+      "scrollY": 5908,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-08.png",
+      "sha256": "55db858bbcd6df38e7c0846b51d83d316b67bcbe5dc62df9f3cdf90ec9d41f0f"
+    },
+    {
+      "coverageStart": 6752,
+      "coverageHeight": 844,
+      "scrollY": 6752,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-09.png",
+      "sha256": "91079a4aa0710ac2b2db543b3ee76f146c66b196037b2a3b03673a8c26518280"
+    },
+    {
+      "coverageStart": 7596,
+      "coverageHeight": 844,
+      "scrollY": 7596,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-10.png",
+      "sha256": "7039d735e4eed721c5530550905a16e3eacc8620ff3dd851ba5ea1cec0c58603"
+    },
+    {
+      "coverageStart": 8440,
+      "coverageHeight": 844,
+      "scrollY": 8440,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-11.png",
+      "sha256": "cbf2e058fd92f642f37943c630fc432e63654fbce8e2b8b6f51863ddb60d291d"
+    },
+    {
+      "coverageStart": 9284,
+      "coverageHeight": 844,
+      "scrollY": 9284,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-12.png",
+      "sha256": "2802cfe9f50a7c26765fe5c1026ec771c6be0f01b209c2dee186cb40bcfe44d1"
+    },
+    {
+      "coverageStart": 10128,
+      "coverageHeight": 844,
+      "scrollY": 10128,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-13.png",
+      "sha256": "4339c6be9f54dc10792b2109dbcccc843cc013cb985c95b896733dd74a50eaf4"
+    },
+    {
+      "coverageStart": 10972,
+      "coverageHeight": 844,
+      "scrollY": 10972,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-14.png",
+      "sha256": "5e740abfc5890dc031fc394e0a30f3419a1bf518f640c9d618c20a743d3b9ce3"
+    },
+    {
+      "coverageStart": 11816,
+      "coverageHeight": 844,
+      "scrollY": 11816,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-15.png",
+      "sha256": "c4679e6af845cc1958c097fd6296eab0a7185eaf0ab399f0352fcac9367da866"
+    },
+    {
+      "coverageStart": 12660,
+      "coverageHeight": 844,
+      "scrollY": 12660,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-16.png",
+      "sha256": "00d5cb4b4fa2bc94e045e02282baae0991642cb10aed107e4f8e7a5a6b572318"
+    },
+    {
+      "coverageStart": 13504,
+      "coverageHeight": 844,
+      "scrollY": 13504,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-17.png",
+      "sha256": "ccfbcf0369af1dd716d2ba8372ad238641e1b0f515a068bf4c47ad97863c2710"
+    },
+    {
+      "coverageStart": 14348,
+      "coverageHeight": 844,
+      "scrollY": 14348,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-18.png",
+      "sha256": "a32af684debe5bad72bcee6da8cfa9c8548f339f023c8c73a07260d088d64fd5"
+    },
+    {
+      "coverageStart": 15192,
+      "coverageHeight": 844,
+      "scrollY": 15192,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-19.png",
+      "sha256": "3fd2ce8bf9f18e062a73c55be4dff68d9c8a021a2bf3c32fd1fb34f833c30f50"
+    },
+    {
+      "coverageStart": 16036,
+      "coverageHeight": 844,
+      "scrollY": 16036,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-20.png",
+      "sha256": "a9ee52068f026f1bff63550eeac7ef3ee065127bb639a668b42d8444c5b51989"
+    },
+    {
+      "coverageStart": 16880,
+      "coverageHeight": 497,
+      "scrollY": 16533,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_001/mobile-ido-tile-21.png",
+      "sha256": "426623ab070b22ca8453de661c7b8db531bbcc8d75dc3dfc90c48d55ce5cb7ec"
+    }
+  ],
+  "forensic": {
+    "document": {
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "bodyHeight": 17377,
+      "title": "PyArcana · De cero a Data Scientist",
+      "url": "http://127.0.0.1:3221/?e2e=1787259783474#data-acquisition"
+    },
+    "headings": [
+      {
+        "tag": "h2",
+        "text": "Yo hago — Demostración guiada",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 88.125,
+          "y": 246.49656677246094,
+          "width": 237.875,
+          "height": 56.00001525878906
+        }
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "text": "pipeline",
+        "testId": "term-hint-pipeline",
+        "role": null,
+        "ariaLabel": "Pipeline: Serie ordenada de pasos: la salida de un paso pasa al siguiente hasta producir el resultado.",
+        "box": {
+          "x": 64,
+          "y": 582.87158203125,
+          "width": 53.546875,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Pyodide",
+        "testId": "term-hint-pyodide",
+        "role": null,
+        "ariaLabel": "Pyodide: Python compilado a WebAssembly que corre en el navegador. Permite ejecutar código Python sin instalar nada localmente.",
+        "box": {
+          "x": 213.453125,
+          "y": 778.87158203125,
+          "width": 55.609375,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "intérprete",
+        "testId": "term-hint-interprete",
+        "role": null,
+        "ariaLabel": "Intérprete: El programa Python que lee y ejecuta tu código (`python` / `python3`). Verificar la versión y la ruta evita instalar paquetes en un Python y ejecutar otro.",
+        "box": {
+          "x": 64,
+          "y": 804.24658203125,
+          "width": 67.015625,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 1624.87158203125,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 3732.84033203125,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "pipeline",
+        "testId": "term-hint-pipeline",
+        "role": null,
+        "ariaLabel": "Pipeline: Serie ordenada de pasos: la salida de un paso pasa al siguiente hasta producir el resultado.",
+        "box": {
+          "x": 210.171875,
+          "y": 4460.05908203125,
+          "width": 53.546875,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 5832.30908203125,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 7677.05908203125,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 9734.02734375,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 11654.99609375,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 13558.30859375,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "pipeline",
+        "testId": "term-hint-pipeline",
+        "role": null,
+        "ariaLabel": "Pipeline: Serie ordenada de pasos: la salida de un paso pasa al siguiente hasta producir el resultado.",
+        "box": {
+          "x": 234.921875,
+          "y": 14243.49609375,
+          "width": 53.546875,
+          "height": 25.375
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 214.828125,
+          "y": 15522.62109375,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Entendido, marcado como visto",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 17037.68359375,
+          "width": 262,
+          "height": 40
+        }
+      }
+    ],
+    "images": [
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 264.49658203125,
+          "width": 16.125,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 344.49658203125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 1070.37158203125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 1629.87158203125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 2070.09033203125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 2404.21533203125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 3153.96533203125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 3737.84033203125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 4270.43408203125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 4605.55908203125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 5302.18408203125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 5837.30908203125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 6254.43408203125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 6564.18408203125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 7212.05908203125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 7682.05908203125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 8315.02734375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 8600.40234375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 9252.65234375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 9739.02734375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 10179.24609375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 10488.99609375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 11165.62109375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 11659.99609375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 12131.30859375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 12416.68359375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 13044.55859375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 13563.30859375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 14126.99609375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 14413.37109375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 15065.62109375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.828125,
+          "y": 15527.62109375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 16268.05859375,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105,
+          "y": 16553.43359375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 78.9375,
+          "y": 17049.68359375,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      }
+    ],
+    "code": [
+      {
+        "tag": "code",
+        "text": "casefold",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.390625,
+          "y": 585.87158203125,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "str",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 255.953125,
+          "y": 611.24658203125,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "fullmatch",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 659.99658203125,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "compile",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 240.078125,
+          "y": 659.99658203125,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "finditer",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 684.37158203125,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "unicodedata",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 69.5,
+          "y": 856.99658203125,
+          "width": 97.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "re",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 175.515625,
+          "y": 856.99658203125,
+          "width": 27.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "==",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 169.171875,
+          "y": 1387.87158203125,
+          "width": 27.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "casefold",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 200.765625,
+          "y": 1412.24658203125,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def s07_ido_1(): import unicodedata a = \"José\" b = \"Jose\\u0301\" print(\"sin norm:\", a == b, [hex(ord(c)) for c in a], [hex(ord(c)) for c in b]) na, nb = unicodedata.normalize(\"NFC\", a), unicodedata.normalize(\"NFC\", b) print(\"NFC:\", na == nb, na) print(\"casefold mañANA:\", \"mañANA\".casefold()) s07_ido_1()",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 1661.87158203125,
+          "width": 218,
+          "height": 262.9375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def s07_ido_1(): import unicodedata a = \"José\" b = \"Jose\\u0301\" print(\"sin norm:\", a == b, [hex(ord(c)) for c in a], [hex(ord(c)) for c in b]) na, nb = unicodedata.normalize(\"NFC\", a), unicodedata.normalize(\"NFC\", b) print(\"NFC:\", na == nb, na) print(\"casefold mañANA:\", \"mañANA\".casefold()) s07_ido_1()",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 1680.87158203125,
+          "width": 691.25,
+          "height": 223.84375
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "sin norm: False ['0x4a', '0x6f', '0x73', '0xe9'] ['0x4a', '0x6f', '0x73', '0x65', '0x301'] NFC: True José casefold mañANA: mañana",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 1953.80908203125,
+          "width": 218,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "sin norm: False ['0x4a', '0x6f', '0x73', '0xe9'] ['0x4a', '0x6f', '0x73', '0x65', '0x301'] NFC: True José casefold mañANA: mañana",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 1956.80908203125,
+          "width": 758.59375,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "==",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 177.6875,
+          "y": 2522.34033203125,
+          "width": 27.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "casefold",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 2839.21533203125,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "raw",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 3544.59033203125,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def s07_ido_2(): import unicodedata raw = \"María del Carmen Quispe Huamán\" norm = unicodedata.normalize(\"NFC\", \" \".join(raw.split())) toks = norm.split() apellidos = toks[-2:] given = \" \".join(toks[:-2]) print(\"raw:\", raw) print(\"given:\", given) print(\"apellido1:\", apellidos[0], \"apellido2:\", apellidos[1]) print(\"conserva raw en pipeline: sí\") s07_ido_2()",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 3769.84033203125,
+          "width": 218,
+          "height": 332.21875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def s07_ido_2(): import unicodedata raw = \"María del Carmen Quispe Huamán\" norm = unicodedata.normalize(\"NFC\", \" \".join(raw.split())) toks = norm.split() apellidos = toks[-2:] given = \" \".join(toks[:-2]) print(\"raw:\", raw) print(\"given:\", given) print(\"apellido1:\", apellidos[0], \"apellido2:\", apellidos[1]) print(\"conserva raw en pipeline: sí\") s07_ido_2()",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 3788.84033203125,
+          "width": 547.96875,
+          "height": 293.125
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "raw: María del Carmen Quispe Huamán given: María del Carmen apellido1: Quispe apellido2: Huamán conserva raw en pipeline: sí",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 4131.05908203125,
+          "width": 218,
+          "height": 108.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "raw: María del Carmen Quispe Huamán given: María del Carmen apellido1: Quispe apellido2: Huamán conserva raw en pipeline: sí",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 4134.05908203125,
+          "width": 295.015625,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "del",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 4796.80908203125,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "raw",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 203.453125,
+          "y": 4894.30908203125,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "split",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 5400.30908203125,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "join",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 192.34375,
+          "y": 5400.30908203125,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "replace",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 5424.68408203125,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def s07_ido_3(): raw = \" Jr. de la Unión 450 \" limpio = \" \".join(raw.strip().split()) print(limpio) # replace es literal: corrige abreviatura; la tilde de Jirón va en el reemplazo print(limpio.replace(\"Jr.\", \"Jirón\")) print(\"find Unión:\", limpio.find(\"Unión\")) s07_ido_3()",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 5869.30908203125,
+          "width": 218,
+          "height": 239.84375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def s07_ido_3(): raw = \" Jr. de la Unión 450 \" limpio = \" \".join(raw.strip().split()) print(limpio) # replace es literal: corrige abreviatura; la tilde de Jirón va en el reemplazo print(limpio.replace(\"Jr.\", \"Jirón\")) print(\"find Unión:\", limpio.find(\"Unión\")) s07_ido_3()",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 5888.30908203125,
+          "width": 699.59375,
+          "height": 200.75
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "Jr. de la Unión 450 Jirón de la Unión 450 find Unión: 10",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 6138.15283203125,
+          "width": 218,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "Jr. de la Unión 450 Jirón de la Unión 450 find Unión: 10",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 6141.15283203125,
+          "width": 177.015625,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "str",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 190.25,
+          "y": 6276.43408203125,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "replace",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 6349.55908203125,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "transforms",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 171.921875,
+          "y": 6422.68408203125,
+          "width": 90,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "raw",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 187.9375,
+          "y": 6447.05908203125,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "replace",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 153.78125,
+          "y": 6609.18408203125,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "split",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 224.734375,
+          "y": 6609.18408203125,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "join",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 175.6875,
+          "y": 6852.93408203125,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "re",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 6901.68408203125,
+          "width": 27.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "+tag",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 230.796875,
+          "y": 7261.43408203125,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "+51",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 223.6875,
+          "y": 7383.30908203125,
+          "width": 35.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def normalize_email(raw: str) -> str: s = raw.strip().casefold() if s.count(\"@\") != 1 or any(ch.isspace() for ch in s): raise ValueError(\"email requiere un @ y cero espacios\") local, domain = s.split(\"@\") if not local or not domain: raise ValueError(\"email requiere local y dominio\") return s def normalize_phone_pe(raw: str) -> str: return \"\".join(ch for ch in raw if ch.isdigit()) print(normalize_email(\" User+tag@Example.COM \")) print(normalize_phone_pe(\"(+51) 999-000-111\")) # Overvalidation mala",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 7722.05908203125,
+          "width": 218,
+          "height": 447.6875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def normalize_email(raw: str) -> str: s = raw.strip().casefold() if s.count(\"@\") != 1 or any(ch.isspace() for ch in s): raise ValueError(\"email requiere un @ y cero espacios\") local, domain = s.split(\"@\") if not local or not domain: raise ValueError(\"email requiere local y dominio\") return s def normalize_phone_pe(raw: str) -> str: return \"\".join(ch for ch in raw if ch.isdigit()) print(normalize_email(\" User+tag@Example.COM \")) print(normalize_phone_pe(\"(+51) 999-000-111\")) # Overvalidation mala",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 7741.05908203125,
+          "width": 682.796875,
+          "height": 408.59375
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "user+tag@example.com 51999000111 overfit rejects plus? True",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 8198.74609375,
+          "width": 218,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "user+tag@example.com 51999000111 overfit rejects plus? True",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 8201.74609375,
+          "width": 219.15625,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "search",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 193.375,
+          "y": 9326.40234375,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "fullmatch",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 9448.27734375,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def s07_ido_5(): import re pat = re.compile(r\"DNI\\s+(?P<dni>\\d{8})\\b\") text = \"Cliente demo DNI 12345678 activo\" m = pat.search(text) print(m.group(\"dni\") if m else None) print(\"fullmatch solo dígitos:\", bool(re.fullmatch(r\"\\d{8}\", \"12345678\"))) print(\"fullmatch con prefijo:\", bool(re.fullmatch(r\"\\d{8}\", \"DNI 12345678\"))) s07_ido_5()",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 9771.02734375,
+          "width": 218,
+          "height": 262.9375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def s07_ido_5(): import re pat = re.compile(r\"DNI\\s+(?P<dni>\\d{8})\\b\") text = \"Cliente demo DNI 12345678 activo\" m = pat.search(text) print(m.group(\"dni\") if m else None) print(\"fullmatch solo dígitos:\", bool(re.fullmatch(r\"\\d{8}\", \"12345678\"))) print(\"fullmatch con prefijo:\", bool(re.fullmatch(r\"\\d{8}\", \"DNI 12345678\"))) s07_ido_5()",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 9790.02734375,
+          "width": 682.8125,
+          "height": 223.84375
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "12345678 fullmatch solo dígitos: True fullmatch con prefijo: False",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 10062.96484375,
+          "width": 218,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "12345678 fullmatch solo dígitos: True fullmatch con prefijo: False",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 10065.96484375,
+          "width": 236.015625,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "m.group('dni')",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 154.046875,
+          "y": 10249.99609375,
+          "width": 121.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "search",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 169.796875,
+          "y": 10298.74609375,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "fullmatch",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 10323.12109375,
+          "width": 82.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "findall",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 201.078125,
+          "y": 11361.24609375,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "finditer",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 11409.99609375,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def s07_ido_6(): import re phone = re.compile(r\"\\b9\\d{8}\\b\") log = \"ok 999111222 noise 12345 otro 988777666\" print(\"findall:\", phone.findall(log)) for m in phone.finditer(log): print(m.group(), \"at\", m.start()) print(\"riesgo: evita patrones con cuantificadores anidados ambiguos\") s07_ido_6()",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 11699.99609375,
+          "width": 218,
+          "height": 262.9375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def s07_ido_6(): import re phone = re.compile(r\"\\b9\\d{8}\\b\") log = \"ok 999111222 noise 12345 otro 988777666\" print(\"findall:\", phone.findall(log)) for m in phone.finditer(log): print(m.group(), \"at\", m.start()) print(\"riesgo: evita patrones con cuantificadores anidados ambiguos\") s07_ido_6()",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 11718.99609375,
+          "width": 615.34375,
+          "height": 223.84375
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "findall: ['999111222', '988777666'] 999111222 at 3 988777666 at 30 riesgo: evita patrones con cuantificadores anidados ambiguos",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 11991.93359375,
+          "width": 218,
+          "height": 108.375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "findall: ['999111222', '988777666'] 999111222 at 3 988777666 at 30 riesgo: evita patrones con cuantificadores anidados ambiguos",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 11994.93359375,
+          "width": 505.734375,
+          "height": 85.28125
+        }
+      },
+      {
+        "tag": "code",
+        "text": "compile",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 12153.30859375,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "finditer",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 206.859375,
+          "y": 12202.05859375,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "review",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 13288.93359375,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "review",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 213.453125,
+          "y": 13362.05859375,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "import unicodedata def token_jaccard(a: str, b: str) -> float: def toks(s: str) -> set[str]: s = unicodedata.normalize(\"NFC\", s.replace(\".\", \" \")) return set(s.casefold().split()) A, B = toks(a), toks(b) if not A and not B: return 1.0 if not A or not B: return 0.0 return len(A & B) / len(A | B) s = token_jaccard(\"Juan Perez\", \"Juan P. Perez\") print(\"score\", round(s, 3)) print(\"decision\", \"review\" if 0.4 <= s < 1.0 else (\"exact\" if s == 1.0 else \"no_match\"))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 13603.30859375,
+          "width": 218,
+          "height": 401.5
+        }
+      },
+      {
+        "tag": "code",
+        "text": "import unicodedata def token_jaccard(a: str, b: str) -> float: def toks(s: str) -> set[str]: s = unicodedata.normalize(\"NFC\", s.replace(\".\", \" \")) return set(s.casefold().split()) A, B = toks(a), toks(b) if not A and not B: return 1.0 if not A or not B: return 0.0 return len(A & B) / len(A | B) s = token_jaccard(\"Juan Perez\", \"Juan P. Perez\") print(\"score\", round(s, 3)) print(\"decision\", \"review\" if 0.4 <= s < 1.0 else (\"exact\" if s == 1.0 else \"no_match\"))",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 13622.30859375,
+          "width": 741.90625,
+          "height": 362.40625
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "score 0.667 decision review",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 14033.80859375,
+          "width": 218,
+          "height": 62.1875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "score 0.667 decision review",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 14036.80859375,
+          "width": 126.4375,
+          "height": 39.09375
+        }
+      },
+      {
+        "tag": "code",
+        "text": "review",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 14173.37109375,
+          "width": 58.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "truth",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 15309.99609375,
+          "width": 51,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "def s07_ido_8(): # truth: same_entity sintético solo para ejercicio de métricas (no legal) rows = [ {\"a\": \"Ana\", \"b\": \"Ana\", \"pred\": \"match\", \"truth\": \"match\"}, {\"a\": \"José\", \"b\": \"Jose\", \"pred\": \"match\", \"truth\": \"match\"}, {\"a\": \"Luis\", \"b\": \"Luisa\", \"pred\": \"match\", \"truth\": \"no\"}, {\"a\": \"María del Carmen\", \"b\": \"Maria Carmen\", \"pred\": \"no\", \"truth\": \"match\"}, ] for r in rows: if r[\"pred\"] == \"match\" and r[\"truth\"] == \"no\": tag = \"FP\" elif r[\"pred\"] == \"no\" and r[\"truth\"] == \"match\": tag = \"FN",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 15559.62109375,
+          "width": 218,
+          "height": 516.96875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "def s07_ido_8(): # truth: same_entity sintético solo para ejercicio de métricas (no legal) rows = [ {\"a\": \"Ana\", \"b\": \"Ana\", \"pred\": \"match\", \"truth\": \"match\"}, {\"a\": \"José\", \"b\": \"Jose\", \"pred\": \"match\", \"truth\": \"match\"}, {\"a\": \"Luis\", \"b\": \"Luisa\", \"pred\": \"match\", \"truth\": \"no\"}, {\"a\": \"María del Carmen\", \"b\": \"Maria Carmen\", \"pred\": \"no\", \"truth\": \"match\"}, ] for r in rows: if r[\"pred\"] == \"match\" and r[\"truth\"] == \"no\": tag = \"FP\" elif r[\"pred\"] == \"no\" and r[\"truth\"] == \"match\": tag = \"FN",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 15578.62109375,
+          "width": 733.390625,
+          "height": 477.875
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "Ana vs Ana → TP José vs Jose → TP Luis vs Luisa → FP María del Carmen vs Maria Carmen → FN evidencia se conserva; no se afirma parentesco",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86,
+          "y": 16105.58984375,
+          "width": 218,
+          "height": 131.46875
+        }
+      },
+      {
+        "tag": "code",
+        "text": "Ana vs Ana → TP José vs Jose → TP Luis vs Luisa → FP María del Carmen vs Maria Carmen → FN evidencia se conserva; no se afirma parentesco",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 102,
+          "y": 16108.58984375,
+          "width": 387.734375,
+          "height": 108.375
+        }
+      }
+    ],
+    "paragraphs": [
+      {
+        "tag": "p",
+        "text": "Las ocho demos (I Do) modelan el pipeline T1→T4: NFC y casefold, nombres con dos apellidos, str antes que regex, contacto modesto, fullmatch disciplinado, compile y finditer sobre logs, Jaccard por tokens, y FP/FN con evidencia empaquetada. Los datos son sintéticos; el editor ejecuta Python real en tu navegador (Pyodide, el intérprete de Python que corre en el navegador sin servidor) con stdlib (unicodedata, re).",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 558.49658203125,
+          "width": 262,
+          "height": 319.875
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Predicción: antes de ejecutar, anota el booleano y el número de code points de cada forma de «José». En intake, el texto pegado desde un PDF puede llegar descompuesto (base + tilde). Sigue la causa, no solo la salida: sin normalizar falla ==; NFC alinea la forma; casefold aplica la política de mayúsculas. Si tu predicción falla, localiza cuál transformación cambió la evidencia.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 1092.37158203125,
+          "width": 152,
+          "height": 487.5
+        }
+      },
+      {
+        "tag": "p",
+        "text": "NFC alinea formas visualmente idénticas antes de comparar o indexar. Sin unificar code points, el matching de nombres produce falsos negativos silenciosos en padrones y CRM latam: el analista ve «José» dos veces y el sistema dice que no coinciden.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 2089.09033203125,
+          "width": 194,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Si puedes explicar por qué dos strings «iguales en pantalla» fallan ==, ya internalizaste el primer gate Unicode. El error clásico es comparar raw y culpar al CRM. Autochequeo: ¿puedes decir, sin mirar, qué imprime la lista de code points en la forma NFD de José? En We Do T1-A practicarás NFC, casefold y el diagnóstico NFD.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 2446.21533203125,
+          "width": 152,
+          "height": 438.75
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Predicción: antes de ejecutar, separa «María del Carmen Quispe Huamán» a mano y escribe qué tokens quedarán en given, apellido1 y apellido2. Luego sigue la heurística: colapsar, NFC, tokenizar y tomar los dos últimos tokens. Contrasta tu reparto con la salida y explica por qué conservar raw permite corregir un caso que la heurística no entienda. Es modelado, no identidad legal.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 3175.96533203125,
+          "width": 152,
+          "height": 511.875
+        }
+      },
+      {
+        "tag": "p",
+        "text": "La heurística «últimos dos tokens = apellidos» es práctica de modelado latam, no prueba de parentesco ni identidad legal. El given puede incluir partículas del nombre. Si faltan tokens, el pipeline real marca review (We Do E3) en vez de inventar demografía.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 4289.43408203125,
+          "width": 194,
+          "height": 269.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Dos apellidos finales + given con partículas es el patrón base latam del curso. El error clásico es forzar first/last US o borrar del «porque sobra». No es convención universal: documenta límites y conserva raw. We Do: split feliz, partículas, y fail-closed cuando hay pocos tokens.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 4647.55908203125,
+          "width": 152,
+          "height": 365.625
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Predicción: antes de ejecutar, escribe la cadena exacta tras split/join, tras replace y el índice donde esperas «Unión». Después sigue la demo y corrige tu traza, carácter por carácter si hace falta. La pregunta no es «¿puedo usar regex?», sino «¿qué operación literal explica mejor el cambio y deja el menor margen de sorpresa?».",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 5324.18408203125,
+          "width": 152,
+          "height": 463.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Los métodos str resuelven la limpieza de dirección sin regex: replace es literal y predecible. En el normalizador documentas el paso en transforms y conservas el raw por si mañana cambia la política de abreviaturas.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 6273.43408203125,
+          "width": 194,
+          "height": 243.75
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Si replace/split bastan, no escribas regex: menos backtracking y más tests. El error clásico es «ya pongo un patrón inteligente» para un guion o una abreviatura. We Do T2-A: CSV-like con strip, join estable, y dígitos de teléfono sin re.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 6606.18408203125,
+          "width": 152,
+          "height": 316.875
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Predicción: decide si el correo con +tag será aceptado por el contrato modesto y por la regex rígida; anota también qué ocurrirá con +51 al conservar solo dígitos. Ejecuta y separa dos ideas: normalizar forma no verifica existencia, y una regla más estricta puede empeorar el producto al crear falsos rechazos.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 7234.05908203125,
+          "width": 152,
+          "height": 390
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Validación modesta acepta plus-addressing y dominios reales; la regex overfit es un bug de producto que rechaza válidos. Preferir review posterior a un rechazo silencioso de correos legítimos en el intake.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 8334.02734375,
+          "width": 194,
+          "height": 219.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Validación modesta + cola de review supera a la regex hiper-estricta. El misconception es «cuanto más estricta, mejor calidad»: en realidad rechazas válidos (plus tags). We Do: implementar el contrato de email, dígitos de teléfono, y demostrar el rechazo del overfit.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 8642.40234375,
+          "width": 152,
+          "height": 341.25
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Predicción: dibuja qué fragmento captura search y marca si sobra texto a izquierda o derecha; después predice los dos booleanos de fullmatch. Ejecuta para comprobar una decisión de alcance: extraer de un log tolera contexto, validar un campo completo no. El grupo nombra evidencia sintética; no convierte el match en dato real.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 9274.65234375,
+          "width": 152,
+          "height": 414.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Los grupos con nombre documentan el contrato del campo (m.group('dni') en vez de índices mágicos). Confundir search con fullmatch genera falsos positivos de validación: un código embebido «pasa» cuando solo buscabas un substring en un log.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 10198.24609375,
+          "width": 194,
+          "height": 243.75
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Grupo nombrado > índice mágico. fullmatch para el campo exacto; search/finditer para logs. El error clásico es validar un formulario con el mismo patrón que usaste para extraer de un log. We Do: región de 3 letras, groupdict, y el contraste search vs. fullmatch.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 10530.99609375,
+          "width": 152,
+          "height": 365.625
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Predicción: antes de ejecutar, localiza a mano las dos secuencias de nueve dígitos que empiezan en 9 y calcula su índice inicial. Luego compara findall —valores— con finditer —valores y posiciones—. Si tus índices difieren, cuenta también los espacios: esa evidencia explica el resultado mejor que memorizar una API.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 11187.62109375,
+          "width": 152,
+          "height": 414.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "compile aclara reutilización del patrón en un lote de logs; finditer aporta span para evidencia. Extracción multi-match no es lo mismo que overvalidation de email: aquí buscas señales, no un gate de buzón.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 12150.30859375,
+          "width": 194,
+          "height": 219.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Extracción multi-match ≠ gate de email. Regex aburrida es feature. Autochequeo: ¿findall y finditer devuelven la misma información de posición? We Do: compile+reuse, findall de códigos, y política de backtracking sin ejecutar strings hostiles.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 12458.68359375,
+          "width": 152,
+          "height": 316.875
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Predicción: escribe ambos conjuntos de tokens, su intersección y su unión; calcula la fracción antes de ejecutar. Después verifica por qué ~0.667 cae en review. Si solo miras el número, pierdes la causa; si confundes review con fusión, conviertes una señal débil en una afirmación que el código no puede sostener.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 13066.55859375,
+          "width": 152,
+          "height": 438.75
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un score medio cae en review: es evidencia para un humano, no veredicto. Exact solo con igualdad plena tras el mismo pipeline de normalización. Nunca auto-fusionar ni afirmar identidad legal a partir de Jaccard.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 14145.99609375,
+          "width": 194,
+          "height": 220.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Score = evidencia para un humano, no veredicto. El error clásico es «0.67 es alto → fusionar cuentas». Exact solo con igualdad plena tras el mismo pipeline. We Do: exact match normalizado, implementación de Jaccard, y umbrales de decisión.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 14455.37109375,
+          "width": 152,
+          "height": 341.25
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Predicción: clasifica las cuatro filas como TP, FP, FN o TN antes de ejecutar y escribe qué costo tendría cada error en un sistema de cuentas. Compara después tu tabla con la salida. truth pertenece a este ejercicio sintético de métricas; no es una consulta registral ni autoriza una afirmación de parentesco.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 15087.62109375,
+          "width": 152,
+          "height": 390
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Nombrar FP/FN es el primer paso a tunear umbrales y políticas de review. Cada etiqueta tiene costo de negocio distinto: un falso positivo de fusión no es lo mismo que un falso negativo en un padrón de clientes.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 98,
+          "y": 16287.05859375,
+          "width": 194,
+          "height": 219.375
+        }
+      },
+      {
+        "tag": "p",
+        "text": "FP y FN tienen costo de negocio distinto (fusión errónea ≠ omitir un cliente real). El error clásico es optimizar solo «accuracy» sin nombrar el error. We Do: clasificar a mano, empaquetar evidencia, y enunciar por qué no hay parentesco automático.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 137,
+          "y": 16595.43359375,
+          "width": 152,
+          "height": 341.25
+        }
+      }
+    ],
+    "horizontalOverflow": [],
+    "fixedObstructions": []
+  }
+}

@@ -1,0 +1,544 @@
+{
+  "tab": "youdo",
+  "screenshotPath": "course-state/curriculum-agent/qa/pass_01/functions-modules/after/65fc7cf5/capture_001/mobile-youdo.jpg",
+  "screenshotSha256": "f49cb78a47caeda638188563965d045767a1ac1074e2c783792eec14827a0eb2",
+  "forensic": {
+    "document": {
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "bodyHeight": 4870,
+      "title": "PyArcana · De cero a Data Scientist",
+      "url": "http://127.0.0.1:3000/?e2e=1787254956989#functions-modules"
+    },
+    "headings": [
+      {
+        "tag": "h2",
+        "text": "Tú haces — Proyecto para tu portafolio",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 42.78125,
+          "y": 245,
+          "width": 331.21875,
+          "height": 56
+        }
+      },
+      {
+        "tag": "h3",
+        "text": "Client Intake & Data Quality Script (cierre CP-N1-A)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 58.421875,
+          "y": 558,
+          "width": 294.578125,
+          "height": 56
+        }
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "text": "Copiar",
+        "testId": null,
+        "role": null,
+        "ariaLabel": "Copiar código",
+        "box": {
+          "x": 262.828125,
+          "y": 1827.3125,
+          "width": 73.171875,
+          "height": 24
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Proyecto enviado a mi GitHub",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 16,
+          "y": 4528.9375,
+          "width": 358,
+          "height": 40
+        }
+      }
+    ],
+    "images": [
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 16,
+          "y": 263,
+          "width": 18.78125,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 36,
+          "y": 343,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 576,
+          "width": 13.421875,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 1109.625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 1157.625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 1205.625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 1253.625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 1301.625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 270.828125,
+          "y": 1832.3125,
+          "width": 14,
+          "height": 14
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 57,
+          "y": 3405.3125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 57,
+          "y": 3745.4375,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85.453125,
+          "y": 4540.9375,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      }
+    ],
+    "code": [
+      {
+        "tag": "code",
+        "text": "tasa_reject",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 207.578125,
+          "y": 871.625,
+          "width": 97.8125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 66.296875,
+          "y": 944.75,
+          "width": 43.203125,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "_run_tests",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 222.796875,
+          "y": 969.125,
+          "width": 90,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "tests OK",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 174.765625,
+          "y": 1017.875,
+          "width": 74.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "pre",
+        "text": "\"\"\"intake_quality_batch.py — cierre CP-N1-A (S04) Procesa múltiples registros sintéticos, resume tasas, conserva raw. Datos ficticios únicamente. No uses PII real. \"\"\" from __future__ import annotations from typing import Any def validate_record(record: dict[str, Any]) -> dict[str, Any]: \"\"\"Reutiliza lógica tipo S03: status global + detalle por campo. Mínimo: edad, region, monto_ingreso con accept|reject|review. \"\"\" # TODO: devolver {status, fields} con accept|reject|review por campo (S03) raise",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 38,
+          "y": 1860.3125,
+          "width": 314,
+          "height": 1510
+        }
+      },
+      {
+        "tag": "code",
+        "text": "\"\"\"intake_quality_batch.py — cierre CP-N1-A (S04) Procesa múltiples registros sintéticos, resume tasas, conserva raw. Datos ficticios únicamente. No uses PII real. \"\"\" from __future__ import annotations from typing import Any def validate_record(record: dict[str, Any]) -> dict[str, Any]: \"\"\"Reutiliza lógica tipo S03: status global + detalle por campo. Mínimo: edad, region, monto_ingreso con accept|reject|review. \"\"\" # TODO: devolver {status, fields} con accept|reject|review por campo (S03) raise",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 54,
+          "y": 1879.3125,
+          "width": 809.234375,
+          "height": 1470.90625
+        }
+      },
+      {
+        "tag": "code",
+        "text": "n_reject / n_total",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 141.625,
+          "y": 3503.4375,
+          "width": 152.40625,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "n_total",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 243.25,
+          "y": 3839.1875,
+          "width": 66.609375,
+          "height": 21
+        }
+      },
+      {
+        "tag": "code",
+        "text": "None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 153.21875,
+          "y": 3863.5625,
+          "width": 43.203125,
+          "height": 21
+        }
+      }
+    ],
+    "paragraphs": [
+      {
+        "tag": "p",
+        "text": "Ahora reúnes las piezas en una promesa verificable: cada registro sintético entra una vez, conserva su raw, recibe una decisión y contribuye exactamente una vez al resumen. Sobre el parser de S02 y las reglas de S03, construye un procesador O(n) que pueda explicar sus contadores accept/reject/review y la población usada por tasa_reject. Un lote vacío no es una tasa perfecta: es ausencia de observaciones y se representa con None. Antes de completar el starter, escribe los invariantes que _run_tes",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 698,
+          "width": 316,
+          "height": 365.625
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Procesar ≥3 registros sintéticos en un solo pase",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 1107.625,
+          "width": 316,
+          "height": 40
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Emitir contadores y tasa_reject con denominador correcto",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 1155.625,
+          "width": 316,
+          "height": 40
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Conservar el original (raw) de cada registro en el resultado",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 1203.625,
+          "width": 316,
+          "height": 40
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Reutilizar validación tri-estado por campo (S03)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 1251.625,
+          "width": 316,
+          "height": 40
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Demo reproducible con if __name__ == '__main__'",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 1299.625,
+          "width": 316,
+          "height": 40
+        }
+      },
+      {
+        "tag": "li",
+        "text": "process_batch(records) → summary con n_total, n_accept, n_reject, n_review, tasa_reject, results[]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 1383.625,
+          "width": 316,
+          "height": 55.6875
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Cada result incluye raw intacto + status agregado + detalle de campos (accept|reject|review)",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 1445.3125,
+          "width": 316,
+          "height": 55.6875
+        }
+      },
+      {
+        "tag": "li",
+        "text": "tasa_reject is None cuando n_total == 0 (sin ZeroDivisionError); si n_total > 0, tasa_reject ∈ [0, 1]",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 1507,
+          "width": 316,
+          "height": 55.6875
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Fixture de _run_tests (3 filas): n_total == 3; results[0]['raw']['raw_line'] == '30|Lima|0'; lote vacío → tasa_reject is None",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 1568.6875,
+          "width": 316,
+          "height": 74.25
+        }
+      },
+      {
+        "tag": "li",
+        "text": "Sin PII real; datos sintéticos embebidos; sin bucles O(n²) innecesarios para el resumen",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 1648.9375,
+          "width": 316,
+          "height": 55.6875
+        }
+      },
+      {
+        "tag": "li",
+        "text": "README o docstring en español: explica el denominador de tasas y por qué se conserva el raw",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 37,
+          "y": 1710.625,
+          "width": 316,
+          "height": 55.6875
+        }
+      },
+      {
+        "tag": "p",
+        "text": "En el README cuenta la historia de un lote pequeño: tabla de entradas, decisiones, suma de contadores y cálculo n_reject / n_total. Incluye el caso vacío y una captura reproducible de stdout. Explica qué auditoría permite el raw intacto y qué decisión de diseño mantiene el procesamiento en O(n); esas razones valen más que una captura aislada.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 89,
+          "y": 3427.3125,
+          "width": 248,
+          "height": 268.125
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Haz una defensa de cierre sin mirar el código: ¿por qué la suma de estados debe explicar n_total?, ¿por qué None distingue vacío de cero rejects?, ¿cómo demuestras que el raw no cambió?, ¿qué línea garantiza un solo pase? Luego altera un caso —lote vacío, primer registro inválido o 100,000 filas— y predice el comportamiento. Si tu explicación y tus tests cuentan la misma historia, el gate está listo.",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 89,
+          "y": 3787.4375,
+          "width": 248,
+          "height": 292.5
+        }
+      }
+    ],
+    "horizontalOverflow": []
+  }
+}

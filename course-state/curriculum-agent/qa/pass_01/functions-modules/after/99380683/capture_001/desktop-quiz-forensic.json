@@ -1,0 +1,613 @@
+{
+  "tab": "quiz",
+  "screenshotPath": "course-state/curriculum-agent/qa/pass_01/functions-modules/after/99380683/capture_001/desktop-quiz.jpg",
+  "screenshotSha256": "6b1819e0a889298e4ca2609e00463d29c378dae0b77559b345a60823db84e567",
+  "forensic": {
+    "document": {
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "bodyHeight": 3662,
+      "title": "PyArcana · De cero a Data Scientist",
+      "url": "http://127.0.0.1:3000/?retry=1787255447101#functions-modules"
+    },
+    "headings": [
+      {
+        "tag": "h2",
+        "text": "Autocheck — Verifica tu aprendizaje",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 412,
+          "y": 245,
+          "width": 329.359375,
+          "height": 28
+        }
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "text": "A 1,2,3 (empieza en 1)",
+        "testId": "sc-q-0-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 490,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B 0,1,2,3 (incluye el stop)",
+        "testId": "sc-q-0-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 548,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C 3 (solo el argumento)",
+        "testId": "sc-q-0-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 606,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D 0,1,2 (empieza en 0, excluye stop)",
+        "testId": "sc-q-0-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 664,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Lanza ValueError",
+        "testId": "sc-q-1-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 864,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Empareja solo (1,10) y (2,20); el 3 se pierde en silencio",
+        "testId": "sc-q-1-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 922,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Rellena con None el tercero",
+        "testId": "sc-q-1-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 980,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Empareja en producto cartesiano",
+        "testId": "sc-q-1-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1038,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Solo n_accept",
+        "testId": "sc-q-2-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1238,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Siempre 100",
+        "testId": "sc-q-2-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1296,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C n_total de registros procesados (intentados)",
+        "testId": "sc-q-2-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1354,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D n_review únicamente",
+        "testId": "sc-q-2-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1412,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Salta al siguiente ciclo del bucle",
+        "testId": "sc-q-3-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1612,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Termina todo el programa",
+        "testId": "sc-q-3-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1670,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Borra la lista",
+        "testId": "sc-q-3-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1728,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Convierte la línea en None",
+        "testId": "sc-q-3-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1786,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A O(1)",
+        "testId": "sc-q-4-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1986,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B O(n)",
+        "testId": "sc-q-4-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2044,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C O(log n)",
+        "testId": "sc-q-4-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2102,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D O(n²)",
+        "testId": "sc-q-4-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2160,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Nada: Python corta solo",
+        "testId": "sc-q-5-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2360,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Actualizar el estado (p. ej. avanzar el índice) y comprobar el centinela",
+        "testId": "sc-q-5-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2418,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Usar solo continue",
+        "testId": "sc-q-5-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2476,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Multiplicar n_total por 2",
+        "testId": "sc-q-5-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2534,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A continue y break hacen exactamente lo mismo",
+        "testId": "sc-q-6-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2734,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B break salta una fila; continue cierra todo el programa",
+        "testId": "sc-q-6-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2792,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C continue salta a la siguiente iteración; break termina el bucle actual",
+        "testId": "sc-q-6-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2850,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D continue solo existe en while; break solo en for",
+        "testId": "sc-q-6-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2908,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Numera filas desde 1 para humanos sin armar el índice a mano",
+        "testId": "sc-q-7-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3108,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Ordena la lista alfabéticamente",
+        "testId": "sc-q-7-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3166,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Elimina duplicados del lote",
+        "testId": "sc-q-7-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3224,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Convierte la lista en un dict",
+        "testId": "sc-q-7-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3282,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Enviar respuestas (0/8)",
+        "testId": "sc-submit",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 3401,
+          "width": 864,
+          "height": 40
+        }
+      }
+    ],
+    "images": [
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 249,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 315,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 726.984375,
+          "y": 3413,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      }
+    ],
+    "code": [],
+    "paragraphs": [
+      {
+        "tag": "p",
+        "text": "¿Qué produce list(range(3))?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 454,
+          "width": 191.28125,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "¿Qué hace zip([1,2,3],[10,20]) sin strict?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 828,
+          "width": 265.25,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "¿Para la tasa de reject del gate, el denominador debe ser?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 1202,
+          "width": 381.421875,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "¿Qué hace continue en un for de líneas de intake?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 1576,
+          "width": 326.375,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "¿Un doble for anidado sobre n elementos es aproximadamente?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 1950,
+          "width": 418.890625,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "En un while con centinela \"END\", ¿qué debe pasar cada iteración para no colgarte?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 2324,
+          "width": 544.609375,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "En un lote de líneas de intake, ¿cuál es la diferencia correcta entre continue y break?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 2698,
+          "width": 555.59375,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "¿Para qué sirve enumerate(ids, start=1) en un reporte de intake?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 3072,
+          "width": 423.453125,
+          "height": 20
+        }
+      }
+    ],
+    "horizontalOverflow": [],
+    "fixedObstructions": []
+  }
+}

@@ -1,0 +1,778 @@
+{
+  "tab": "quiz",
+  "screenshotTiles": [
+    {
+      "coverageStart": 0,
+      "coverageHeight": 1000,
+      "scrollY": 0,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_002/desktop-quiz-tile-01.png",
+      "sha256": "1d64ff31e57ba005f3cbd9a6df8add8e0743e3356773c685416faea1ff84e108"
+    },
+    {
+      "coverageStart": 1000,
+      "coverageHeight": 1000,
+      "scrollY": 1000,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_002/desktop-quiz-tile-02.png",
+      "sha256": "584770131ff38d0baf492bd65bb141b3386677abca3f3b15e1b3d1cd0e3e7cf4"
+    },
+    {
+      "coverageStart": 2000,
+      "coverageHeight": 1000,
+      "scrollY": 2000,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_002/desktop-quiz-tile-03.png",
+      "sha256": "226ebb97b51ae8f725dce551bfe3c070e39412d364b5e1e3efad27b4d66c69ad"
+    },
+    {
+      "coverageStart": 3000,
+      "coverageHeight": 1000,
+      "scrollY": 3000,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_002/desktop-quiz-tile-04.png",
+      "sha256": "de1e83988c19854214ccaf81d001dd606e5c796d207efb371abaee90f6ad4799"
+    },
+    {
+      "coverageStart": 4000,
+      "coverageHeight": 410,
+      "scrollY": 3410,
+      "path": "course-state/curriculum-agent/qa/pass_01/data-acquisition/before/9cb849cb/capture_002/desktop-quiz-tile-05.png",
+      "sha256": "8dd5abca1ccda1be9cfdc8b54435c23b5e2d68dfacbdbf9d2e4ecb2ebec11814"
+    }
+  ],
+  "forensic": {
+    "document": {
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "bodyHeight": 4410,
+      "title": "PyArcana · De cero a Data Scientist",
+      "url": "http://127.0.0.1:3221/?e2e=1787259813742#data-acquisition"
+    },
+    "headings": [
+      {
+        "tag": "h2",
+        "text": "Autocheck — Verifica tu aprendizaje",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 412,
+          "y": 247.04541015625,
+          "width": 329.359375,
+          "height": 28
+        }
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "text": "A Python no soporta tildes",
+        "testId": "sc-q-0-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 492.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B casefold borra la é",
+        "testId": "sc-q-0-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 550.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Formas Unicode distintas (NFC vs. NFD)",
+        "testId": "sc-q-0-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 608.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Son de tipos distintos",
+        "testId": "sc-q-0-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 666.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Marcar review y conservar raw",
+        "testId": "sc-q-1-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 866.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Inventar apellido2 vacío en silencio",
+        "testId": "sc-q-1-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 924.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Rechazar y borrar el registro",
+        "testId": "sc-q-1-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 982.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Asumir formato first/last US",
+        "testId": "sc-q-1-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1040.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Nunca",
+        "testId": "sc-q-2-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1240.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Cuando la transformación es literal/simple",
+        "testId": "sc-q-2-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1298.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Solo en emails",
+        "testId": "sc-q-2-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1356.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Solo si el string es ASCII",
+        "testId": "sc-q-2-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1414.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Se eliminan siempre del given",
+        "testId": "sc-q-3-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1614.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Solo existen en inglés",
+        "testId": "sc-q-3-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1672.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Obligan a usar un único `\\w+` en regex",
+        "testId": "sc-q-3-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1730.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Pueden quedar en given o apellidos; no fuerces first/last US",
+        "testId": "sc-q-3-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1788.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Fusionar identidades automáticamente",
+        "testId": "sc-q-4-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 1988.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Afirmar parentesco",
+        "testId": "sc-q-4-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2046.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Ir a review con evidencia (raw, score)",
+        "testId": "sc-q-4-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2104.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Borrar ambos registros",
+        "testId": "sc-q-4-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2162.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A fullmatch no coincide; search sí encuentra los 8 dígitos",
+        "testId": "sc-q-5-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2362.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Ambos fallan",
+        "testId": "sc-q-5-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2420.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C fullmatch coincide; search no",
+        "testId": "sc-q-5-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2478.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Lanza excepción",
+        "testId": "sc-q-5-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2536.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Regex que solo acepte .com",
+        "testId": "sc-q-6-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2736.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Exactamente un @, local y dominio no vacíos, sin espacios",
+        "testId": "sc-q-6-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2794.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Verificar que el buzón exista por SMTP",
+        "testId": "sc-q-6-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2852.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Rechazar plus addressing",
+        "testId": "sc-q-6-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 2910.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Usarlo siempre por elegancia",
+        "testId": "sc-q-7-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3110.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Confiar en que Python optimiza todo",
+        "testId": "sc-q-7-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3168.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Solo importa en JavaScript",
+        "testId": "sc-q-7-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3226.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Preferir patrones simples, limitar la entrada o usar `str`; `re` no ofrece timeout",
+        "testId": "sc-q-7-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3284.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Es obligatorio o fullmatch falla",
+        "testId": "sc-q-8-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3484.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Sustituye a NFC en nombres",
+        "testId": "sc-q-8-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3542.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Reutiliza el patrón con claridad (y un micro-ahorro); findall/finditer lo consumen",
+        "testId": "sc-q-8-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3600.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Valida que el buzón de email exista",
+        "testId": "sc-q-8-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3658.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Solo dígitos (`51999000111`); longitud/operadora van a review, no a raise automático",
+        "testId": "sc-q-9-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3858.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Conservar el `+` y validar operadora",
+        "testId": "sc-q-9-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3916.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Rechazar si no hay 9 dígitos locales exactos",
+        "testId": "sc-q-9-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 3974.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Usar regex que exija el formato con guiones",
+        "testId": "sc-q-9-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 405,
+          "y": 4032.04541015625,
+          "width": 822,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Enviar respuestas (0/10)",
+        "testId": "sc-submit",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 4151.04541015625,
+          "width": 864,
+          "height": 40
+        }
+      }
+    ],
+    "images": [
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 384,
+          "y": 251.04541015625,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 404,
+          "y": 317.04541015625,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 723.75,
+          "y": 4163.04541015625,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      }
+    ],
+    "code": [],
+    "paragraphs": [
+      {
+        "tag": "p",
+        "text": "¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 456.04541015625,
+          "width": 340.703125,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "En nombres latam, si solo hay un token, la política segura es…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 830.04541015625,
+          "width": 407.203125,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "¿Cuándo preferir str.replace/split sobre regex?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 1204.04541015625,
+          "width": 306.0625,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "En un parse de nombres latam, las partículas (`de`, `del`, `de la`)…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 1578.04541015625,
+          "width": 446.859375,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Un Jaccard 0.67 entre nombres debe…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 1952.04541015625,
+          "width": 256.046875,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "¿Qué hace `re.fullmatch(r'\\d{8}', 'DNI 12345678')` frente a `search`?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 2326.04541015625,
+          "width": 457.453125,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Política modesta de email en este curso exige…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 2700.04541015625,
+          "width": 311.71875,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Ante un patrón con cuantificadores anidados ambiguos, la postura del curso es…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 3074.04541015625,
+          "width": 532.875,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "¿Para qué sirve `re.compile` en un loop de extracción sobre logs?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 3448.04541015625,
+          "width": 432.4375,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "En un teléfono PE sintético `+51 999-000-111`, la política de normalización es…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 437,
+          "y": 3822.04541015625,
+          "width": 526.078125,
+          "height": 20
+        }
+      }
+    ],
+    "horizontalOverflow": [],
+    "fixedObstructions": []
+  }
+}

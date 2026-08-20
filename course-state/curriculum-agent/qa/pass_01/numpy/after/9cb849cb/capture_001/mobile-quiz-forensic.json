@@ -1,0 +1,720 @@
+{
+  "tab": "quiz",
+  "screenshotTiles": [
+    {
+      "coverageStart": 0,
+      "coverageHeight": 844,
+      "scrollY": 0,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-quiz-tile-01.png",
+      "sha256": "2a96adf4eddf4f5fb66707753f18f1e7092c0aafaa09a173f8ea179ebcf0d542"
+    },
+    {
+      "coverageStart": 844,
+      "coverageHeight": 844,
+      "scrollY": 844,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-quiz-tile-02.png",
+      "sha256": "529b8ee3920f9605a4cfcd663a9c52062873edae0f1cc077b4965dd8da3f218c"
+    },
+    {
+      "coverageStart": 1688,
+      "coverageHeight": 844,
+      "scrollY": 1688,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-quiz-tile-03.png",
+      "sha256": "4ed7c3abc7da666b5b3bbfff57fb7486823af5de7b5b2881e4ab002a7454d6ad"
+    },
+    {
+      "coverageStart": 2532,
+      "coverageHeight": 844,
+      "scrollY": 2532,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-quiz-tile-04.png",
+      "sha256": "e03c7f8ff6575a49dae8944775619dc49f3a3f4a65dd1940b1793d6c3f7ccac3"
+    },
+    {
+      "coverageStart": 3376,
+      "coverageHeight": 844,
+      "scrollY": 3376,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-quiz-tile-05.png",
+      "sha256": "dcb548f628f1016e2297ce4003c68953d9c046bd73d6ba1c895cefe6f0f5a8d8"
+    },
+    {
+      "coverageStart": 4220,
+      "coverageHeight": 692,
+      "scrollY": 4068,
+      "path": "course-state/curriculum-agent/qa/pass_01/numpy/after/9cb849cb/capture_001/mobile-quiz-tile-06.png",
+      "sha256": "4019ee242691fa7a83a5c451f8bf8f470dabb500b4d165c138930a64d48c47ca"
+    }
+  ],
+  "forensic": {
+    "document": {
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "bodyHeight": 4912,
+      "title": "PyArcana · De cero a Data Scientist",
+      "url": "http://127.0.0.1:3221/?e2e=1787259707944#numpy"
+    },
+    "headings": [
+      {
+        "tag": "h2",
+        "text": "Autocheck — Verifica tu aprendizaje",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 86.546875,
+          "y": 246.7471923828125,
+          "width": 239.453125,
+          "height": 56
+        }
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "text": "A 1,2 (primeros dos)",
+        "testId": "sc-q-0-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 655.7471923828125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B 3,4 (ultimos dos)",
+        "testId": "sc-q-0-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 713.7471923828125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C 4 (solo el ultimo)",
+        "testId": "sc-q-0-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 771.7471923828125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Error",
+        "testId": "sc-q-0-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 829.7471923828125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A a no cambia",
+        "testId": "sc-q-1-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1065.7471923828125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B se lanza error",
+        "testId": "sc-q-1-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1123.7471923828125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C a se convierte en tuple",
+        "testId": "sc-q-1-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1181.7471923828125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D a también ve el append (alias)",
+        "testId": "sc-q-1-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1239.7471923828125,
+          "width": 220,
+          "height": 66
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Listar conflicto en conflicts sin silenciar",
+        "testId": "sc-q-2-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1491.7471923828125,
+          "width": 220,
+          "height": 66
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Borrar ambas",
+        "testId": "sc-q-2-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1565.7471923828125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Quedarte con la última sin traza",
+        "testId": "sc-q-2-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1623.7471923828125,
+          "width": 220,
+          "height": 66
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Convertir a set de dicts",
+        "testId": "sc-q-2-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1697.7471923828125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A la lista ordenada",
+        "testId": "sc-q-3-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1897.7471923828125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B una tuple",
+        "testId": "sc-q-3-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 1955.7471923828125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C None (muta in-place)",
+        "testId": "sc-q-3-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 2013.7471923828125,
+          "width": 220,
+          "height": 49.9998779296875
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D un set",
+        "testId": "sc-q-3-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 2071.7470703125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A comprimir el archivo",
+        "testId": "sc-q-4-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 2287.7470703125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B salidas deterministas/reproducibles",
+        "testId": "sc-q-4-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 2345.7470703125,
+          "width": 220,
+          "height": 66
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C validar schema JSON Schema",
+        "testId": "sc-q-4-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 2419.7470703125,
+          "width": 220,
+          "height": 66
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D encriptar PII",
+        "testId": "sc-q-4-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 2493.7470703125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Sí: copy() hace deepcopy automático",
+        "testId": "sc-q-5-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 2769.7470703125,
+          "width": 220,
+          "height": 66
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B Solo si usas tuple",
+        "testId": "sc-q-5-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 2843.7470703125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C Se lanza TypeError",
+        "testId": "sc-q-5-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 2901.7470703125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D No: la copia es superficial; los dicts internos se comparten",
+        "testId": "sc-q-5-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 2959.7470703125,
+          "width": 220,
+          "height": 86
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A set de emails",
+        "testId": "sc-q-6-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 3271.7470703125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B list de strings y `in` en un loop",
+        "testId": "sc-q-6-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 3329.7470703125,
+          "width": 220,
+          "height": 66
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C tuple de emails",
+        "testId": "sc-q-6-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 3403.7470703125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D solo json.dumps",
+        "testId": "sc-q-6-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 3461.7470703125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Ambos lanzan KeyError",
+        "testId": "sc-q-7-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 3717.7470703125,
+          "width": 220,
+          "height": 50
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B get devuelve None; d x lanza KeyError",
+        "testId": "sc-q-7-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 3775.7470703125,
+          "width": 220,
+          "height": 66
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C get devuelve N/A; d x lanza KeyError",
+        "testId": "sc-q-7-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 3849.7470703125,
+          "width": 220,
+          "height": 66
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Ambos devuelven None siempre",
+        "testId": "sc-q-7-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 3923.7470703125,
+          "width": 220,
+          "height": 66
+        }
+      },
+      {
+        "tag": "button",
+        "text": "A Solo el monto, sin id de cliente",
+        "testId": "sc-q-8-opt-0",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 4195.7470703125,
+          "width": 220,
+          "height": 66
+        }
+      },
+      {
+        "tag": "button",
+        "text": "B client_id (denormalizado) junto a tx_id y monto",
+        "testId": "sc-q-8-opt-1",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 4269.7470703125,
+          "width": 220,
+          "height": 86
+        }
+      },
+      {
+        "tag": "button",
+        "text": "C El dict cliente completo embebido en cada tx",
+        "testId": "sc-q-8-opt-2",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 4363.7470703125,
+          "width": 220,
+          "height": 66
+        }
+      },
+      {
+        "tag": "button",
+        "text": "D Un set de ids sin montos",
+        "testId": "sc-q-8-opt-3",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 85,
+          "y": 4437.7470703125,
+          "width": 220,
+          "height": 66
+        }
+      },
+      {
+        "tag": "button",
+        "text": "Enviar respuestas (0/9)",
+        "testId": "sc-submit",
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 4572.7470703125,
+          "width": 262,
+          "height": 40
+        }
+      }
+    ],
+    "images": [
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 64,
+          "y": 264.7471923828125,
+          "width": 14.546875,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 84,
+          "y": 344.7471923828125,
+          "width": 20,
+          "height": 20
+        },
+        "alt": null
+      },
+      {
+        "tag": "svg",
+        "text": "",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 105.96875,
+          "y": 4584.7470703125,
+          "width": 16,
+          "height": 16
+        },
+        "alt": null
+      }
+    ],
+    "code": [],
+    "paragraphs": [
+      {
+        "tag": "p",
+        "text": "¿Qué produce xs[-2:] si xs = [1,2,3,4]?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 117,
+          "y": 603.7471923828125,
+          "width": 188,
+          "height": 40
+        }
+      },
+      {
+        "tag": "p",
+        "text": "`b = a` (listas) y mutas `b.append(1)`. ¿Qué pasa con `a`?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 117,
+          "y": 993.7471923828125,
+          "width": 188,
+          "height": 60
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Para reportar dos filas con mismo id y payload distinto debes…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 117,
+          "y": 1419.7471923828125,
+          "width": 188,
+          "height": 60
+        }
+      },
+      {
+        "tag": "p",
+        "text": "rows.sort(key=...) retorna…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 117,
+          "y": 1861.7471923828125,
+          "width": 180.421875,
+          "height": 20
+        }
+      },
+      {
+        "tag": "p",
+        "text": "json.dumps(..., sort_keys=True) ayuda a…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 117,
+          "y": 2235.7470703125,
+          "width": 188,
+          "height": 40
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Si haces `copia = rows.copy()` donde `rows` es `list[dict]` y mutas `copia[0]['tags']`, ¿el original queda aislado?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 117,
+          "y": 2657.7470703125,
+          "width": 188,
+          "height": 100
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Para membership masivo de emails en un lote (¿está este email en la cohorte?), la estructura más adecuada es…",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 117,
+          "y": 3159.7470703125,
+          "width": 188,
+          "height": 100
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Si falta la clave `\"x\"` en el dict `d`, ¿qué diferencia hay entre `d.get(\"x\", \"N/A\")` y `d[\"x\"]`?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 117,
+          "y": 3625.7470703125,
+          "width": 188,
+          "height": 80
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Al aplanar txs anidadas a filas densas para export, ¿qué debe incluir cada fila plana?",
+        "testId": null,
+        "role": null,
+        "ariaLabel": null,
+        "box": {
+          "x": 117,
+          "y": 4103.7470703125,
+          "width": 188,
+          "height": 80
+        }
+      }
+    ],
+    "horizontalOverflow": [],
+    "fixedObstructions": []
+  }
+}
