@@ -1,0 +1,49 @@
+{
+  "outer_pass": 1,
+  "section_id": "data-acquisition",
+  "source_sha": "9cb849cb92c3",
+  "status": "FIXED_PENDING_FRESH_VALIDATION",
+  "accepted_issues": [
+    {
+      "issue_id": "S07-P01-PACKET-001",
+      "severity": "P1",
+      "category": "PRODUCT_OR_UI_DEFECT",
+      "fingerprint": "ts-unicode-escape-decoder-drops-backslash-and-corrupts-combining-mark",
+      "expected": "The constrained packet preserves the rendered combining mark.",
+      "observed": "Four pre-fix learners received Joseu0301; three explicitly diagnosed the impossible fixture.",
+      "remediation": "Decode JavaScript Unicode and hexadecimal escapes in the existing packet builder.",
+      "regression_test": "tests/adversarial/test_newbie_packet.py::TestPacketIsolation::test_unicode_escape_in_visible_starter_preserves_combining_mark"
+    },
+    {
+      "issue_id": "S07-P01-ASSESS-002",
+      "severity": "P1",
+      "category": "ASSESSMENT_DEFECT",
+      "fingerprint": "youdo-review-requirement-absent-from-return-contract",
+      "expected": "The required review state has a deterministic learner-visible location.",
+      "observed": "The objective promised three return fields while requirements demanded review state and reasons.",
+      "remediation": "Add status and review_reasons to the You Do contract without supplying an implementation.",
+      "regression_test": "tests/adversarial/test_s07_text_first_quality.py::TestS07TextFirstQuality::test_you_do_places_review_state_in_the_return_contract"
+    },
+    {
+      "issue_id": "S07-P01-CODEPOINT-003",
+      "severity": "P1",
+      "category": "TECHNICAL_CONTENT_ERROR",
+      "fingerprint": "nfc-nfd-code-point-counts-off-by-one",
+      "expected": "The composed glyph is one code point and its decomposed form is two.",
+      "observed": "Learner-visible prose instructed two and three boxes while naming each box a code point.",
+      "remediation": "Correct the counts and print both deterministic U+ sequences in the worked example.",
+      "regression_test": "tests/adversarial/test_s07_text_first_quality.py::TestS07TextFirstQuality::test_unicode_prediction_uses_code_point_counts_and_prints_sequences"
+    }
+  ],
+  "visual_aid_decision": {
+    "status": "VISUAL_AID_NOT_REQUIRED",
+    "rationale": "Both independent epistemic learners formed and applied the composed-versus-combining-mark model. The repaired worked example now exposes the invisible U+ sequences directly. A responsive NFC/NFD diagram remains optional P3 enrichment, not an evidence-backed material repair."
+  },
+  "limitations": [
+    "Realistic execution remains BLOCKED_ENVIRONMENT because the manifests disable code execution.",
+    "Instruction-constrained learners are diagnostic, not proof of a physical knowledge firewall.",
+    "The before screenshot set became stale after learner-visible S07 edits and must not count as after evidence."
+  ],
+  "earliest_impacted_section": "S07",
+  "downstream_evidence_status": "S07_ONWARD_STALE"
+}

@@ -62,6 +62,29 @@ Use RED → GREEN → independent validation for every accepted P0/P1 and practi
 
 Aim for fresh quiet passes 9 and 10. If pass 10 exposes a substantive defect, repair and validate it but report `NOT_CONVERGED_AFTER_10_PASSES`. Never substitute positive prose for a failed gate.
 
+## Process corrections learned in S01–S07
+
+Apply these controls before starting the next ten-section chunk:
+
+- Treat instruction-only learner isolation as diagnostic evidence. Keep `LIMIT-CODEX-CORE-TOOL-EXPOSURE` open until an external harness can physically remove tools and repository access.
+- A realistic learner with execution disabled must return `CANNOT_VERIFY` or `BLOCKED_ENVIRONMENT`, leave `observed_output` empty, and never receive journey-completion credit.
+- Derive the authoritative exercise catalog from the sealed packet. Reject missing, duplicate, invented, or noncanonical IDs before sealing, including the independent You Do task.
+- Decode learner-visible TypeScript string escapes with JavaScript semantics. Mutation-test Unicode escapes, escaped backslashes, newlines, and arrays so packet extraction cannot silently change starter code.
+- Use lossless, bounded, overlapping PNG tiles for long pages. A single extremely tall JPEG is not admissible visual evidence. Assert nonblank content and contiguous full-document coverage for every tab and viewport.
+- Give interrupted or failed captures a new immutable capture ID. Never complete or reinterpret a partial directory as a successful capture.
+- Invalidate screenshot evidence after every content, tooltip, component, or layout edit. Rebuild the exact candidate and repeat the full after-capture matrix before push.
+- Review global glossary aliases at the current section boundary. A technically correct future-specific definition can still leak concepts or distort the learner's present mental model.
+- Resolve visual-aid proposals with learner evidence: add a diagram only for an accepted obstacle that prose/code communicates less effectively; otherwise record it as optional P3 or `VISUAL_AID_NOT_REQUIRED`.
+- Runtime audits currently refresh tracked aggregate reports. Until they accept an immutable per-run output directory, preserve the console result but do not stage overwritten historical summaries as new proof.
+- The first delivery checkpoint covers S01–S07 because it includes the repaired audit harness. After merge and exact-SHA live validation, evaluate subsequent lessons in ten-lesson chunks while retaining section-level RED/GREEN and screenshot gates.
+
+## Known limitations at the S01–S07 checkpoint
+
+- `LIMIT-CODEX-CORE-TOOL-EXPOSURE`: physical tool removal is unavailable in the current learner execution surface. Prompt restrictions are defense in depth only, so these runs cannot establish the final knowledge-firewall gate.
+- `LIMIT-REALISTIC-RUNTIME-RECEIPTS`: realistic learners do not yet receive a student-visible isolated Python runtime with command, stdout, stderr, exit-status, and runtime hashes bound to each attempt.
+- `LIMIT-DEPLOYED-SHA-ATTESTATION`: GitHub Pages validation is inadmissible until the protected PR is independently approved, merged, deployed, and the live content is bound to the exact tested SHA.
+- Long-page screenshots establish pixel coverage and geometry, not fatigue, orientation, focus recovery, keyboard-only behavior, screen-reader order, or solution secrecy in serialized client payloads. Dedicated behavioral tests remain required.
+
 ## Final report
 
 Report final status; exact admissible learner/provenance status; issues fixed and unresolved by severity/category; mental-model improvements; corrected exercises/self-checks; visual-aid decisions and assets; files and tests changed; commands/results; before/after/local/live screenshot manifests and forensic findings; final fresh S01–S52 result; correction-ledger location; deployed SHA parity; and only recommendations requiring human judgment.
