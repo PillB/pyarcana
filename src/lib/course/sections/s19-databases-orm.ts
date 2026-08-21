@@ -218,18 +218,18 @@ s19_th_4()`,
  paragraphs: [
  "Modelamos la **vista interactiva** como especificación de datos: campos filtrables, plantilla de tooltip y viewport (este, que es el área visible que el usuario está explorando en ese momento). No hace falta instalar Plotly (ni Streamlit) para diseñar el contrato: si el modelo es claro, migrar a una librería interactiva es mecánico. Los tooltips deben mostrar **unidades y n**, no solo el valor “bonito”. Un filtro sin recálculo de conclusión es un defecto de producto, no un detalle cosmético.",
  "Contrato: al filtrar por región, el texto de conclusión del viewport se **recalcula**; no reutilices el párrafo global de “Madrid lidera” si el filtro es Bogota. Serializa el state (JSON) para auditoría del dashboard. El lookup por región es O(n) sobre filas sintéticas: suficiente para el lab; en producción agregarías índice o pre-agregación. La spec mínima es `{filtro, tooltip_template, unidad, campos_visibles}`.",
- "Caso sintético: *row* `{region:'Lima', median:28, n:40}` → *tooltip* `Madrid: 28 PEN (n=40)`. **Paridad chart↔tabla:** si la barra dice 28, la fila de la tabla dice 28 a la misma precisión publicada. Si no, el *gate* de integridad falla antes del *export* y el portfolio no avanza a S20/S21.",
+ "Caso sintético: *row* `{region:'Madrid', median:28, n:40}` → *tooltip* `Madrid: 28 PEN (n=40)`. **Paridad chart↔tabla:** si la barra dice 28, la fila de la tabla dice 28 a la misma precisión publicada. Si no, el *gate* de integridad falla antes del *export* y el portfolio no avanza a S20/S21.",
  ],
  code: {
  language: 'python',
  title: "interactive_spec.py",
  code: `def s19_th_5():
     rows = [
-     {"region": "Lima", "monto": 28.0, "n": 40},
+     {"region": "Madrid", "monto": 28.0, "n": 40},
      {"region": "Bogota", "monto": 22.5, "n": 32},
-     {"region": "Madrid", "monto": 24.0, "n": 28}
+     {"region": "Lima", "monto": 24.0, "n": 28}
     ]
-    filtro = "Lima"
+    filtro = "Madrid"
     vista = [r for r in rows if r["region"] == filtro]
     tooltip = {**vista[0], "unidad": "PEN", "nota": "sintético"}
     print("filtro", filtro)
@@ -237,7 +237,7 @@ s19_th_4()`,
 
 s19_th_5()`,
  output: `filtro Madrid
-tooltip {'region': 'Lima', 'monto': 28.0, 'n': 40, 'unidad': 'PEN', 'nota': 'sintético'}`,
+tooltip {'region': 'Madrid', 'monto': 28.0, 'n': 40, 'unidad': 'PEN', 'nota': 'sintético'}`,
  },
  callout: {
  type: "info",
@@ -266,7 +266,7 @@ tooltip {'region': 'Lima', 'monto': 28.0, 'n': 40, 'unidad': 'PEN', 'nota': 'sin
         "universe_n": 50000,
     }
     chart_value = 28.0
-    alt_table = [{"region": "Lima", "ticket_mediano_pen": 28.0, "n": 40}]
+    alt_table = [{"region": "Madrid", "ticket_mediano_pen": 28.0, "n": 40}]
     alt_text = f"En {alt_table[0]['region']}, ticket mediano {alt_table[0]['ticket_mediano_pen']} PEN (n={alt_table[0]['n']})."
     sampling_note = (
         f"viewport sample {state['sample_n']} de {state['universe_n']}; no es censo"
@@ -347,9 +347,9 @@ s19_th_7()`,
     print("evita", claim_bad[:20] + "...")
 
 s19_th_8()`,
- output: `alt_len 110
+ output: `alt_len 109
 usa_claim_ok True
-evita Madrid es la región má...`,
+evita Madrid es la región ...`,
  },
  callout: {
  type: "danger",
@@ -517,7 +517,7 @@ png_bytes_ok True`,
  title: "demo_tooltip.py",
  code: `def s19_ido_5():
     data = [
-        {"region": "Lima", "median": 28.0, "n": 40},
+        {"region": "Madrid", "median": 28.0, "n": 40},
         {"region": "Bogota", "median": 22.5, "n": 32},
     ]
     def view(region):
@@ -527,11 +527,11 @@ png_bytes_ok True`,
             "filtro": region,
             "unidad": "PEN",
         }
-    print(view("Lima"))
+    print(view("Madrid"))
     print(view("Bogota")["tooltip"])
 
 s19_ido_5()`,
- output: `{'tooltip': 'Madrid: 28.0 PEN (n=40)', 'filtro': 'Lima', 'unidad': 'PEN'}
+ output: `{'tooltip': 'Madrid: 28.0 PEN (n=40)', 'filtro': 'Madrid', 'unidad': 'PEN'}
 Bogota: 22.5 PEN (n=32)`,
  },
  why: "Unidad y n son contrato a11y del viewport: sin ellos el KPI se vende como censo o queda ambiguo. El lookup O(n) basta para el lab y deja la spec migrable a Plotly/Streamlit después. Cada filtro debe recalcular el tooltip; reutilizar un párrafo global es defecto de producto. En We Do corregirás lookup, incluirás n y generalizarás la función.",
@@ -558,7 +558,7 @@ Bogota: 22.5 PEN (n=32)`,
 
 s19_ido_6()`,
  output: `[{'region': 'Lima', 'ticket_mediano_pen': 28.0}, {'region': 'Bogota', 'ticket_mediano_pen': 22.5}]
-Madrid=28.0 PEN; Bogota=22.5 PEN
+Lima=28.0 PEN; Bogota=22.5 PEN
 parity True`,
  },
  why: "Paridad a la precisión publicada: 27.5 en tabla y 28.0 en chart es un fail de integridad. Alt/texto no es “imagen más grande”; es el mismo contrato en otro canal. El join de filas con unidad es el patrón del alt del portfolio. En We Do alinearás números, serializarás estado con universe_n y generarás alt con PEN.",
@@ -603,7 +603,7 @@ s19_ido_7()`,
  language: 'python',
  title: "demo_claims.py",
  code: `def s19_ido_8():
-    alt = "Barras: Lima 28 PEN, Madrid 24, Bogota 22.5; muestra web sintética n=100."
+    alt = "Barras: Madrid 28 PEN, Lima 24, Bogota 22.5; muestra web sintética n=100."
     claims = [
      ("Madrid lidera el ticket mediano en la muestra web", True),
      ("Madrid es la mejor región del Perú", False),
@@ -613,7 +613,7 @@ s19_ido_7()`,
     print("alt_words", len(alt.split()))
 
 s19_ido_8()`,
- output: `Madrid lidera el ticket mediano en la mues => PERMITIDO
+ output: `Madrid lidera el ticket mediano en la mu => PERMITIDO
 Madrid es la mejor región del Perú => RECHAZADO
 alt_words 12`,
  },
@@ -1171,14 +1171,14 @@ plt.close(fig)`,
  title: "exercise.py",
  code: `# CASO-LIM-019 · lookup median
 # Bug a corregir: filtra Bogota en lugar de Madrid
-rows = [{"region": "Lima", "median": 28}, {"region": "Bogota", "median": 22}]
+rows = [{"region": "Madrid", "median": 28}, {"region": "Bogota", "median": 22}]
 print(next(r for r in rows if r["region"] == "Bogota")["median"])`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `rows = [{"region": "Lima", "median": 28}, {"region": "Bogota", "median": 22}]
-print(next(r for r in rows if r["region"] == "Lima")["median"])`,
+ code: `rows = [{"region": "Madrid", "median": 28}, {"region": "Bogota", "median": 22}]
+print(next(r for r in rows if r["region"] == "Madrid")["median"])`,
  output: `28`,
  },
  },
@@ -1355,13 +1355,13 @@ print(json.dumps(state, ensure_ascii=False))`,
  title: "exercise.py",
  code: `# CASO-LIM-019 · table alt text
 # Bug a corregir: join sin unidades
-table = [{"region": "Lima", "v": 28}, {"region": "Bogota", "v": 22}]
+table = [{"region": "Madrid", "v": 28}, {"region": "Bogota", "v": 22}]
 print("; ".join(f"{r['region']}={r['v']}" for r in table))`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `table = [{"region": "Lima", "v": 28}, {"region": "Bogota", "v": 22}]
+ code: `table = [{"region": "Madrid", "v": 28}, {"region": "Bogota", "v": 22}]
 print("; ".join(f"{r['region']}={r['v']} PEN" for r in table))`,
  output: `Madrid=28 PEN; Bogota=22 PEN`,
  },
@@ -1535,7 +1535,7 @@ print("RECHAZADO" if ("del Perú" in claim and "muestra" not in claim) else "OK"
  title: "exercise.py",
  code: `# CASO-LIM-019 · alt n= + hatch no-color
 # Bug a corregir: alt sin n; hatch=None (solo color)
-alt = "Lima 28 PEN"
+alt = "Madrid 28 PEN"
 hatch = None
 print("n=" in alt)
 print(hatch is not None)`,
@@ -1543,7 +1543,7 @@ print(hatch is not None)`,
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `alt = "Lima 28 PEN n=40"
+ code: `alt = "Madrid 28 PEN n=40"
 hatch = "//"
 print("n=" in alt)
 print(hatch is not None)`,
