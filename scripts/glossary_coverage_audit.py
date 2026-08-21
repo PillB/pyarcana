@@ -79,7 +79,9 @@ for sid in section_ids:
         for al in t["aliases"]:
             if len(al) < 2:
                 continue
-            if re.search(r"(?i)(?<![\\w/-])" + re.escape(al) + r"(?![\\w/-])", prose):
+            # `\\w` was a literal backslash + w, not a word class — the
+            # boundaries did not actually bound. See glossary_intro_audit.py.
+            if re.search(r"(?i)(?<![\w/-])" + re.escape(al) + r"(?![\w/-])", prose):
                 hit = True
                 break
         if hit:

@@ -268,7 +268,7 @@ fitted True`,
       heading: "Fit, transform y persistencia del estado",
       subtopicId: "S32-T3-B",
       paragraphs: [
-        "El **estado** (mediana, vocab, μ/σ) se serializa a JSON y se **reutiliza en serve**. Si el vocab o el schema cambian, hay **version bump** del feature set (`fs-v1` → `fs-v2`). Aplicar la mediana de train al batch de serve evita **skew silencioso**: reestimar en inferencia es otra forma de leakage. En producción, joblib/pickle cumplen el mismo rol que este JSON; aquí lo inspeccionas a ojo para ver el contrato sin binarios opacos.",
+        "El **estado** (mediana, vocab, μ/σ) se serializa a JSON y se **reutiliza en serve**. Si el vocab o el schema cambian, hay **version bump** del feature set (`fs-v1` → `fs-v2`). Aplicar la mediana de train al batch de serve evita **skew silencioso**: reestimar en inferencia es otra forma de leakage. En producción, joblib o pickle cumplen el mismo rol que este JSON; aquí lo inspeccionas a ojo para ver el contrato sin binarios opacos.",
         "Contrato: entrada state dict con `median` y `version`; salida round-trip JSON idéntico y apply de mediana al batch de serve. Error: servir **sin version** o con version vacía. Criterio: `fs-vN` en artefactos, schema congelado y misma función de apply en train e inferencia. Un serve sin `version` es `REJECT_UNVERSIONED`; sin JSON de state es `REQUEST_STATE_JSON`.",
         "Aplicación al caso sintético Red Andina: state `median=2`, `version=fs-v1` sobrevive al round-trip; al batch de serve `[None, 4]` se aplica → `[2, 4]`. Si mañana el vocab de `canal` crece, subes a `fs-v2` y el baseline S33 debe citar el id nuevo — no reutilizar el viejo en silencio. Este artefacto JSON es el **contrato de entrada** del baseline de S33.",
       ],
