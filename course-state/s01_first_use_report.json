@@ -3,27 +3,12 @@
   "first_hits": {
     "venv": {
       "location": "jobRelevance",
-      "snippet": " Python + paquetes, con la herramienta `venv`), usar **Git** (historial de cambios del código) y un edit",
-      "defined_at_first_use": true
-    },
-    "repo": {
-      "location": "jobRelevance",
-      "snippet": "l primer día suelen pedirte **clonar un repo** (repositorio: la carpeta del proyecto con su historial Gi",
+      "snippet": "smo resultado. Aquí aprendes a crear un entorno virtual (una carpeta con su propio Python y librerías), a usar Git ",
       "defined_at_first_use": true
     },
     "git": {
       "location": "jobRelevance",
-      "snippet": "tes, con la herramienta `venv`), usar **Git** (historial de cambios del código) y un editor como VS Cod",
-      "defined_at_first_use": true
-    },
-    "github": {
-      "location": "jobRelevance",
-      "snippet": "ta del proyecto con su historial Git en GitHub u otro remoto), **activar el entorno virtual** y correr un ",
-      "defined_at_first_use": true
-    },
-    "clonar": {
-      "location": "jobRelevance",
-      "snippet": "requipa, el primer día suelen pedirte **clonar un repo** (repositorio: la carpeta del proyecto con su hist",
+      "snippet": "n su propio Python y librerías), a usar Git para conservar el historial de cambios y a comprobar cada p",
       "defined_at_first_use": true
     },
     "repl": {
@@ -59,6 +44,21 @@
     "pr": {
       "location": "theory.heading",
       "snippet": "Ramas, Pull Requests y recuperación segura",
+      "defined_at_first_use": true
+    },
+    "repo": {
+      "location": "theory.paragraph",
+      "snippet": "**Git (T3):** *Repo (repositorio)* — la carpeta del proyecto bajo **Git** (el s",
+      "defined_at_first_use": true
+    },
+    "github": {
+      "location": "theory.paragraph",
+      "snippet": "opiar un repo desde un remoto (p. ej. **GitHub**) a tu laptop. *Commit* — guardar un snapshot del historia",
+      "defined_at_first_use": true
+    },
+    "clonar": {
+      "location": "theory.paragraph",
+      "snippet": "que conserva el historial de cambios). *Clonar* — copiar un repo desde un remoto (p. ej. **GitHub**) a tu ",
       "defined_at_first_use": true
     }
   },

@@ -1,0 +1,437 @@
+{
+  "schema_version": 1,
+  "scope": "curriculum_audit",
+  "campaign_id": "CAMP-20260820-02",
+  "generated_at": "2026-08-20T19:20:00Z",
+  "source_git_sha": "8b8bfc38fea4b24f84d50bcfb31d70415ab2b9b9",
+  "method": {
+    "topology": "git merge-base + rev-list --left-right --count against origin/main",
+    "pr_correlation": "gh pr list --state all (PR 1-31)",
+    "content_equivalence": "git cat-file -e probes for the branch's material paths on origin/main",
+    "rule": "ahead/diverged is never by itself a merge reason; NO_COMMON_ANCESTOR, tracked .env, or unclear provenance defaults to QUARANTINED"
+  },
+  "allowed_decisions": [
+    "HISTORICAL_READ_ONLY",
+    "SUPERSEDED_IGNORE",
+    "SALVAGE_IDEAS_ONLY",
+    "CANDIDATE_PORT",
+    "QUARANTINED"
+  ],
+  "campaign_branch": {
+    "name": "audit/campaign-c02-s01-s05-20260820",
+    "created_from": "origin/main@8b8bfc38fea4b24f84d50bcfb31d70415ab2b9b9",
+    "inherited_pass_credit": 0,
+    "inherited_learner_mastery": 0
+  },
+  "branches": [
+    {
+      "branch": "origin/main",
+      "tip_sha": "8b8bfc38fea4b24f84d50bcfb31d70415ab2b9b9",
+      "ahead": 0,
+      "behind": 0,
+      "relationship": "CANONICAL_BASE",
+      "prs": [31],
+      "pr_state": "MERGED",
+      "decision": "CANDIDATE_PORT",
+      "rationale": "Authoritative fresh base for this campaign. All campaign work branches from this exact SHA."
+    },
+    {
+      "branch": "main (local)",
+      "tip_sha": "ec1f167d79075e624e2cc8cebad684bad7f91870",
+      "ahead": 0,
+      "behind": 24,
+      "relationship": "CONTAINED_STALE",
+      "prs": [29],
+      "pr_state": "MERGED",
+      "decision": "SUPERSEDED_IGNORE",
+      "risk_flags": ["stale_local_ref"],
+      "rationale": "Local main lagged origin/main by 24 commits at campaign start. Campaign base is origin/main; local ref is not used and is left untouched (no destructive git)."
+    },
+    {
+      "branch": "audit/curriculum-s06-s10-20260820",
+      "tip_sha": "44b5bcc0984b294d43add44e86c66b4502279a24",
+      "ahead": 1,
+      "behind": 0,
+      "relationship": "DIVERGENT",
+      "prs": [],
+      "pr_state": "NO_PR",
+      "material_paths": [
+        "AGENTS.md",
+        "Handcrafted Writing and Editorial Quality Protocol.docx",
+        "PyArcana_Curriculum_Audit_v3_bundle/",
+        "course-state/curriculum-agent/qa/pass_01/**",
+        "course-state/curriculum-agent/context_manifests/pass1-s07-*"
+      ],
+      "evidence_value": "MIXED",
+      "decision": "CANDIDATE_PORT",
+      "ported": [
+        "AGENTS.md MUST rule 10 (Handcrafted Writing and Editorial Quality Protocol)",
+        "Handcrafted Writing and Editorial Quality Protocol.docx",
+        "PyArcana_Curriculum_Audit_v3_bundle/ (SKILL_v3, SYSTEM_PROMPT_v3, RUN_CONFIG_v3, Forensic_Review)"
+      ],
+      "not_ported": [
+        "course-state/curriculum-agent/qa/pass_01/** S07 capture evidence",
+        "pass1-s07-* context manifests"
+      ],
+      "rationale": "Human-authored commit carrying this campaign's governance inputs (policy rule, writing protocol, audit bundle). Those are task inputs, not learner evidence, so they are ported. Its S07 learner/screenshot artifacts belong to the previous campaign and are marked HISTORICAL_DIAGNOSTIC; porting them would launder stale learner evidence into a fresh campaign."
+    },
+    {
+      "branch": "audit/curriculum-zero-prereq-20260820",
+      "tip_sha": "30c656fd",
+      "ahead": 0,
+      "behind": 3,
+      "relationship": "CONTAINED",
+      "prs": [30],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Fully contained in origin/main via PR #30 merge 808e393b. May inform hypotheses; nothing to port."
+    },
+    {
+      "branch": "fix/pr30-review-firewall",
+      "tip_sha": "8d00e771",
+      "ahead": 0,
+      "behind": 1,
+      "relationship": "CONTAINED",
+      "prs": [31],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "risk_flags": ["pr31_merged_with_open_review_findings_is_a_permanent_regression_case"],
+      "rationale": "Contained in origin/main. Skill section V1 records PR #31-style merge-with-open-findings as a standing regression case for this campaign's review gate."
+    },
+    {
+      "branch": "origin/agent/code-rendering-fidelity",
+      "tip_sha": "a0467943",
+      "ahead": 7,
+      "behind": 233,
+      "relationship": "DIVERGENT",
+      "prs": [2],
+      "pr_state": "MERGED",
+      "supersession": "PR #2 merged at 342c8ddb; material paths verified present on origin/main",
+      "material_paths": ["src/lib/code-highlighting.ts", "scripts/code_rendering.spec.ts", "tests/adversarial/code-highlighting.test.ts", "public/favicon.svg"],
+      "decision": "SUPERSEDED_IGNORE",
+      "rationale": "Divergent topology despite merged PR history. All four material artifacts exist on origin/main (git cat-file probe). Divergence is post-merge branch drift, not unlanded work."
+    },
+    {
+      "branch": "origin/agent/text-first-s10",
+      "tip_sha": "c048caee",
+      "ahead": 2,
+      "behind": 155,
+      "relationship": "DIVERGENT",
+      "prs": [15],
+      "pr_state": "OPEN",
+      "material_paths": ["course-state/curriculum_hardening/agent_packets/S10_AGENT_PACKET.md", "expert_audit/independent_worklog/S10.md"],
+      "evidence_value": "LOW",
+      "decision": "SALVAGE_IDEAS_ONLY",
+      "rationale": "Open draft, documentation-only, two files, no source or test change. An open draft is not a merge recommendation. Its S10 observations may seed hypotheses when this campaign reaches S10; they are not evidence."
+    },
+    {
+      "branch": "origin/codex/pyarcana-full-audit-recovery-2",
+      "tip_sha": "ee812c55",
+      "ahead": 6,
+      "behind": 234,
+      "relationship": "DIVERGENT",
+      "prs": [1],
+      "pr_state": "MERGED",
+      "supersession": "PR #1 merged at ad5e2358, which is the merge-base; the 6 later commits never landed",
+      "material_paths": [".github/workflows/tests.yml", "course-state/audits/*.md", "scripts/e2e journey specs"],
+      "evidence_value": "MEDIUM",
+      "decision": "SALVAGE_IDEAS_ONLY",
+      "risk_flags": ["unlanded_ci_and_e2e_changes", "audit docs absent from main (university_github_benchmark.md probe: ABSENT)"],
+      "rationale": "The merged PR is the merge-base; six post-merge commits (full-curriculum E2E journey budgeting, HUD locator alignment, bounded browser regression) were never merged. Not wholesale-merged. If this campaign reproduces a defect those commits address, reproduce on current main, write a fresh RED, then minimally reimplement."
+    },
+    {
+      "branch": "origin/fix/codex-review-findings",
+      "tip_sha": "2c085ece",
+      "ahead": 1,
+      "behind": 44,
+      "relationship": "DIVERGENT",
+      "prs": [26],
+      "pr_state": "CLOSED_UNMERGED",
+      "material_paths": ["capstone_validation/validation/*.md", "course-state/capstones/CP-FINAL/**", "course-state/capstones/CP-N4-C/**"],
+      "decision": "SALVAGE_IDEAS_ONLY",
+      "rationale": "Closed unmerged and intentionally superseded by later scoped work. Capstone/credential material may inform the capstone and badge phase; requires fresh RED on current main before any port."
+    },
+    {
+      "branch": "origin/feat/pyarcana-capstone-system",
+      "tip_sha": "234a4748",
+      "ahead": 27,
+      "behind": 44,
+      "relationship": "DIVERGENT",
+      "prs": [],
+      "pr_state": "NO_PR",
+      "risk_flags": ["tracked_.env_50_bytes", "1363_changed_paths", "vendored_runtime_build_scripts", "unreviewed"],
+      "decision": "QUARANTINED",
+      "rationale": "Broad unreviewed divergence with a tracked .env. Secret-like material and huge blast radius default to quarantine. Ideas only, never a merge or cherry-pick source."
+    },
+    {
+      "branch": "origin/feat/scoped-capstone-improvements",
+      "tip_sha": "da370703",
+      "relationship": "NO_COMMON_ANCESTOR",
+      "prs": [],
+      "pr_state": "NO_PR",
+      "risk_flags": ["no_common_ancestor", "tracked_.env_50_bytes"],
+      "decision": "QUARANTINED",
+      "rationale": "No shared history with main and a tracked .env. Unclear provenance defaults to quarantine."
+    },
+    {
+      "branch": "origin/feat/scoped-v3",
+      "tip_sha": "99e059c3",
+      "relationship": "NO_COMMON_ANCESTOR",
+      "prs": [24],
+      "pr_state": "CLOSED_UNMERGED",
+      "risk_flags": ["no_common_ancestor", "tracked_.env_59_bytes"],
+      "decision": "QUARANTINED",
+      "rationale": "Closed unmerged, no shared history, tracked .env. Superseded by PR #25 (feat/scoped-v4, merged)."
+    },
+    {
+      "branch": "origin/feat/scoped-improvements-v2",
+      "tip_sha": "c3372b70",
+      "ahead": 0,
+      "behind": 44,
+      "relationship": "CONTAINED",
+      "prs": [],
+      "pr_state": "NO_PR",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Tip equals a commit already contained in origin/main."
+    },
+    {
+      "branch": "origin/feat/scoped-v4",
+      "tip_sha": "011d413b",
+      "ahead": 0,
+      "behind": 37,
+      "relationship": "CONTAINED",
+      "prs": [25],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged and contained."
+    },
+    {
+      "branch": "origin/fix/tour-sidebar-disclaimers",
+      "tip_sha": "fff3f89c",
+      "ahead": 0,
+      "behind": 38,
+      "relationship": "CONTAINED",
+      "prs": [27],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged and contained."
+    },
+    {
+      "branch": "origin/fixer-wave-s01-s09-remediation",
+      "tip_sha": "84aa9e4d",
+      "ahead": 0,
+      "behind": 107,
+      "relationship": "CONTAINED",
+      "prs": [17],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged and contained. Prior S01-S09 remediation informs hypotheses only; this campaign inherits zero pass credit from it."
+    },
+    {
+      "branch": "origin/fixer-wave-s10-s52-remediation",
+      "tip_sha": "67b306b3",
+      "ahead": 0,
+      "behind": 112,
+      "relationship": "CONTAINED",
+      "prs": [16],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged and contained."
+    },
+    {
+      "branch": "origin/solarized-industry-alignment",
+      "tip_sha": "68fa966b",
+      "ahead": 0,
+      "behind": 102,
+      "relationship": "CONTAINED",
+      "prs": [18, 19, 20, 21],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged and contained."
+    },
+    {
+      "branch": "origin/agent/independent-fixer-s04-s06",
+      "tip_sha": "0a2bbc4b",
+      "ahead": 0,
+      "behind": 206,
+      "relationship": "CONTAINED",
+      "prs": [3],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged and contained."
+    },
+    {
+      "branch": "origin/agent/independent-fixer-s07-s09-final",
+      "tip_sha": "4fc4eceb",
+      "ahead": 0,
+      "behind": 182,
+      "relationship": "CONTAINED",
+      "prs": [7],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged and contained."
+    },
+    {
+      "branch": "origin/agent/independent-recovery-s01-s03",
+      "tip_sha": "cfb72425",
+      "ahead": 0,
+      "behind": 194,
+      "relationship": "CONTAINED",
+      "prs": [5],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged and contained."
+    },
+    {
+      "branch": "origin/agent/text-first-s01-s03",
+      "tip_sha": "65b36f9d",
+      "ahead": 0,
+      "behind": 173,
+      "relationship": "CONTAINED",
+      "prs": [9],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged and contained."
+    },
+    {
+      "branch": "origin/agent/text-first-s04-s06",
+      "tip_sha": "fe61c38b",
+      "ahead": 0,
+      "behind": 164,
+      "relationship": "CONTAINED",
+      "prs": [11],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged and contained."
+    },
+    {
+      "branch": "origin/agent/text-first-s07",
+      "tip_sha": "e17f8585",
+      "ahead": 0,
+      "behind": 158,
+      "relationship": "CONTAINED",
+      "prs": [13],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged and contained."
+    },
+    {
+      "branch": "origin/agent/record-b01-deployment",
+      "tip_sha": "0db742ae",
+      "relationship": "CONTAINED",
+      "prs": [6],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged deployment record. Historical deployment attestations cannot serve as fresh deployment evidence for this campaign."
+    },
+    {
+      "branch": "origin/agent/record-b02-deployment",
+      "tip_sha": "ba6e4e7d",
+      "relationship": "CONTAINED",
+      "prs": [4],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged deployment record; not fresh evidence."
+    },
+    {
+      "branch": "origin/agent/record-b03-deployment",
+      "tip_sha": "3e6c6089",
+      "relationship": "CONTAINED",
+      "prs": [8],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged deployment record; not fresh evidence."
+    },
+    {
+      "branch": "origin/agent/record-t01-deployment",
+      "tip_sha": "022cb686",
+      "relationship": "CONTAINED",
+      "prs": [10],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged deployment record; not fresh evidence."
+    },
+    {
+      "branch": "origin/agent/record-t02-deployment",
+      "tip_sha": "644e357c",
+      "relationship": "CONTAINED",
+      "prs": [12],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged deployment record; not fresh evidence."
+    },
+    {
+      "branch": "origin/agent/record-t03-deployment",
+      "tip_sha": "6e0c87ec",
+      "relationship": "CONTAINED",
+      "prs": [14],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged deployment record; not fresh evidence."
+    },
+    {
+      "branch": "safe-agent/post-deploy-bc4f0a22",
+      "tip_sha": "d4e20ac0",
+      "relationship": "CONTAINED",
+      "prs": [29],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged and contained (local and remote refs identical)."
+    },
+    {
+      "branch": "safe-agent/post-deploy-evidence",
+      "tip_sha": "f1e4d8db",
+      "relationship": "CONTAINED",
+      "prs": [23],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged and contained."
+    },
+    {
+      "branch": "safe-agent/protocol-baseline",
+      "tip_sha": "5bf0e891",
+      "relationship": "CONTAINED",
+      "prs": [22],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged and contained."
+    },
+    {
+      "branch": "safe-agent/ready-hardening",
+      "tip_sha": "b91f3954",
+      "relationship": "CONTAINED",
+      "prs": [28],
+      "pr_state": "MERGED",
+      "decision": "HISTORICAL_READ_ONLY",
+      "rationale": "Merged and contained. Its narrower READY decision does not satisfy this campaign's curriculum scope."
+    },
+    {
+      "branch": "safe-agent/skeptic-gaps (local only)",
+      "tip_sha": "c3372b70",
+      "relationship": "CONTAINED",
+      "prs": [],
+      "pr_state": "NO_PR",
+      "decision": "SUPERSEDED_IGNORE",
+      "rationale": "Local-only ref pointing at a commit already contained in origin/main."
+    },
+    {
+      "branch": "live-validate (local only)",
+      "tip_sha": "ec1f167d",
+      "relationship": "CONTAINED",
+      "prs": [],
+      "pr_state": "NO_PR",
+      "decision": "SUPERSEDED_IGNORE",
+      "rationale": "Local-only ref equal to the stale local main; contained in origin/main."
+    }
+  ],
+  "summary": {
+    "total_refs_classified": 36,
+    "HISTORICAL_READ_ONLY": 24,
+    "SUPERSEDED_IGNORE": 4,
+    "SALVAGE_IDEAS_ONLY": 3,
+    "CANDIDATE_PORT": 2,
+    "QUARANTINED": 3,
+    "wholesale_merges_performed": 0,
+    "note": "CANDIDATE_PORT counts origin/main (campaign base) and audit/curriculum-s06-s10-20260820 (governance inputs only, no learner evidence)."
+  }
+}

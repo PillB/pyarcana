@@ -91,3 +91,12 @@ exemplars_private/
 prisma/db/
 db/
 backups/
+
+# Curriculum-audit rendered forensics: the PNG tiles are regenerable and would add
+# ~33 MB per section per capture. Each tile is bound by SHA-256 inside its
+# forensic_manifest.json, which IS committed, so the evidence stays verifiable.
+course-state/curriculum-agent/qa/**/*.png
+# Learner stages are the disposable input the runner hashes into each context
+# manifest; the manifest records every file and digest, so the stage itself is
+# not committed (matches existing repository practice).
+course-state/curriculum-agent/staging/

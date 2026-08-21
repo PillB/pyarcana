@@ -25,7 +25,7 @@ export const section01: CourseSection = {
     {
       text: 'Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)',
     },
-    { text: 'Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)' },
+    { text: 'Instalar VS Code y añadir las extensiones Python y Ruff, que son las que usarás en esta sección' },
     {
       text: 'Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub',
     },
@@ -172,6 +172,51 @@ executable: /ruta/a/python`,
       },
     },
     {
+      heading: 'Leer una línea de terminal: los conectores del día 1',
+      subtopicId: 'S01-T1-B',
+      paragraphs: [
+        'Una receta dice «pica la cebolla **y luego** sofríela». El «y luego» no es un ingrediente: es el pegamento entre dos acciones. Las líneas de terminal funcionan igual. Además de los comandos hay unos pocos símbolos que deciden **a dónde va el resultado** y **qué ocurre después**. Sin ellos, las demos de hoy se vuelven caracteres que copias sin entender, y un error se vuelve imposible de diagnosticar. Son seis conectores y cinco comandos; con eso se lee cada línea que verás en esta sección.',
+        '**Guardar la salida en un archivo.** Por omisión un comando escribe su resultado en pantalla. La **redirección** `>` envía la salida a un archivo en lugar de mostrarla, y **borra lo que ese archivo tuviera antes**. `>>` hace lo mismo pero **añade al final, sin borrar lo anterior**. Por eso `python -m pip freeze > requirements.txt` escribe la lista de paquetes desde cero, mientras que `echo "Setup con venv." >> README.md` agrega una línea al README existente. Confusión frecuente: usar `>` cuando querías `>>` deja el archivo con una sola línea y sin aviso.',
+        '**Pasar la salida a otro comando.** La **tubería** `|` toma la salida del comando de la izquierda y la entrega como entrada al de la derecha, sin crear archivos intermedios. Así, `python -m pip list | head` significa «lista los paquetes y muéstrame solo el principio». **`head`** muestra las primeras líneas de lo que recibe. **`grep`** filtra y busca las líneas que contienen un texto: `grep -i "requests==" requirements.txt` busca esa dependencia ignorando mayúsculas.',
+        '**Encadenar dos comandos.** `&&` ejecuta el segundo comando **solo si el anterior tuvo éxito**, es decir si devolvió código de salida 0: `mkdir -p lab_venv && cd lab_venv` entra a la carpeta únicamente si se pudo crear. `||` es el complemento: ejecuta el segundo **si el primero falla**. Por eso `which python || where python` prueba primero el comando de macOS/Linux y recurre al de Windows cuando el primero no existe. Ambos operadores se apoyan en el código de salida que acabas de aprender.',
+        '**Carpetas y ubicación de programas.** **`mkdir`** crea una carpeta, y con la opción `-p` no falla si esa carpeta ya existía. **`rm -rf`** borra una carpeta con todo su contenido y no pide confirmación, así que escríbelo despacio y úsalo solo sobre carpetas de práctica. **`which`** (macOS/Linux) y **`where`** (Windows) responden dónde está el programa que se ejecutaría: la ruta que el PATH encontró primero.',
+        '**Silenciar un error esperado.** Un programa tiene dos salidas separadas: el resultado normal y los mensajes de error. `2>` redirige **solo los errores**, y `/dev/null` es un destino especial que descarta todo lo que recibe. Por eso `comando 2>/dev/null` ejecuta el comando y descarta sus mensajes de error en vez de ensuciar la pantalla. En un starter verás `2>/dev/null || true`: «no muestres el error y, si el comando falla, continúa igual». El equivalente habitual en PowerShell es `2>$null`.',
+      ],
+      code: {
+        language: 'bash',
+        title: 'Los conectores, uno por uno',
+        code: `# 1) mkdir -p crea la carpeta; && entra solo si se creó bien
+mkdir -p lab_conectores && cd lab_conectores
+
+# 2) > escribe desde cero (borra lo anterior)
+echo "primera linea" > notas.txt
+
+# 3) >> anade al final (conserva lo anterior)
+echo "segunda linea" >> notas.txt
+
+# 4) | pasa la salida de un comando al siguiente; head muestra el principio
+cat notas.txt | head -1
+
+# 5) grep filtra las lineas que contienen un texto
+grep "segunda" notas.txt
+
+# 6) || ejecuta el segundo solo si el primero falla
+which python3 || where python3
+
+# 7) 2>/dev/null descarta el mensaje de error de un comando que no existe
+comando_que_no_existe 2>/dev/null
+echo $?
+
+# 8) limpieza: rm -rf borra la carpeta de practica y su contenido
+cd ..
+rm -rf lab_conectores`,
+        output: `primera linea
+segunda linea
+/usr/bin/python3
+127`,
+      },
+    },
+    {
       heading: 'cwd, PATH y códigos de salida en la shell',
       subtopicId: 'S01-T1-B',
       paragraphs: [
@@ -220,6 +265,8 @@ ok
         'Un taller ordenado no confunde el banco de trabajo con la herramienta ni con el cuaderno de registro. Nuestro stack también separa responsabilidades: Python ejecuta, VS Code ayuda a escribir e inspeccionar, Git conserva la historia y GitHub aloja una copia remota para colaborar. Instala y verifica cada pieza por separado; si una falla, sabrás qué contrato reparar en vez de reinstalar todo al azar.',
         'Una decisión clave es **qué frontera de dependencias usar**. `venv` viene con Python y resuelve el alcance de esta sección sin introducir otro gestor. `conda` puede ser adecuado cuando un equipo ya depende de su ecosistema o necesita gestionar componentes no Python; `uv`, Poetry y PDM ofrecen otros flujos. No los descartamos: los posponemos para que primero puedas explicar qué se aísla, cómo se reproduce y qué herramienta es responsable de cada paso.',
         'Python trae una **biblioteca estándar** con módulos como `sys`, `datetime`, `os` y `json`; se importan sin `pip install`. Paquetes de terceros como `pandas`, `numpy` o `matplotlib` se distribuyen por separado y deben instalarse en el entorno activo. Ante `ModuleNotFoundError`, no instales por reflejo: identifica primero si el nombre pertenece a la biblioteca estándar, a un paquete externo ausente o a un módulo de tu propio proyecto.',
+        '**Antes de instalar nada, abre la terminal**, porque es donde comprobarás cada pieza. En **Windows** pulsa la tecla Windows, escribe `PowerShell` y ábrelo. En **macOS** pulsa Command + Espacio, escribe `Terminal` y pulsa Enter. En **Linux** (Ubuntu y derivados) usa Ctrl + Alt + T, o busca «Terminal» en el menú de aplicaciones. Se abrirá una ventana con una línea de texto esperando: eso es el **prompt**, el punto donde escribes un comando y pulsas Enter. No necesitas configurarla; solo tenerla abierta a un lado mientras avanzas.',
+        '**Instalar Git y GitHub CLI.** Git no viene preinstalado en Windows y en macOS puede pedirte las herramientas de desarrollo. Descarga el instalador desde `https://git-scm.com/downloads`, acepta las opciones por defecto y **cierra y vuelve a abrir la terminal** para que reconozca el comando nuevo. En macOS con Homebrew basta `brew install git`; en Ubuntu, `sudo apt install git`. **GitHub CLI** (el comando `gh`) es una herramienta aparte que sirve para iniciar sesión en GitHub desde la terminal: instálala desde `https://cli.github.com/` (o con `brew install gh` / `sudo apt install gh`). Necesitarás además una **cuenta gratuita** en `https://github.com/signup`. Verifica ambas con `git --version` y `gh --version` antes de continuar: si el sistema responde «comando no encontrado», la instalación no terminó o la terminal sigue siendo la anterior.',
         'Después de instalar, **verifica en la terminal** (no asumas que el instalador “ya quedó”). El bloque de abajo es el checklist copy-paste del día 1: Python responde con 3.12.x, Git responde con su versión, y el editor está listo (CLI `code` o menú de VS Code). Solo entonces pasas a crear `.venv` y a `python -m pip`. Si un comando falla, repara esa pieza antes de seguir — no encadenes installs a ciegas.',
       ],
       code: {
@@ -229,9 +276,14 @@ ok
 python3 --version
 # Python 3.12.3   (o python --version / py --version en Windows)
 
-# 2) Git (instalador: https://git-scm.com/)
+# 2) Git (instalador: https://git-scm.com/downloads)
 git --version
 # git version 2.43.0
+
+# 2b) GitHub CLI, el comando gh (instalador: https://cli.github.com/)
+#     Sirve para iniciar sesion en GitHub desde la terminal (lo usaras en T3).
+gh --version
+# gh version 2.40.0
 
 # 3) VS Code (https://code.visualstudio.com/) — CLI opcional:
 #    Paleta de comandos → "Shell Command: Install 'code' command in PATH"
@@ -243,6 +295,7 @@ code --version
 `,
         output: `Python 3.12.3
 git version 2.43.0
+gh version 2.40.0
 1.85.0
 ...`,
       },
@@ -334,12 +387,18 @@ python -c "import requests; print(requests.__version__)"
       paragraphs: [
         'Imagina abrir dentro de seis meses un análisis cuyo resultado cambió y necesitar saber cuándo, cómo y por qué. Una carpeta con archivos finales no responde; Git sí puede hacerlo si el historial está bien narrado. Git es un **sistema de control de versiones** local: `status` muestra el presente, `add` selecciona lo que entrará en la próxima fotografía y `commit` conserva esa fotografía con una explicación. GitHub o GitLab publican el historial, pero no lo sustituyen.',
         'En este curso usamos **Conventional Commits**: un prefijo + una descripción concreta, en minúsculas tras el prefijo (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`). Ejemplos: `feat: agregar script hello_env`, `docs: documentar instalación del venv`, `fix: corregir ruta en README`. Evita «cambios», «wip» o «arreglé algo»: obligan a abrir el diff para descubrir la intención.',
+        '**Antes del primer commit, Git necesita saber quién eres.** Cada commit guarda un nombre y un correo, así que en una máquina nueva Git rechaza el commit hasta que los configures una sola vez con `git config --global user.name "Tu Nombre"` y `git config --global user.email "tu@correo.com"`. `--global` los aplica a todos tus repos; si prefieres una identidad distinta solo en este proyecto, usa `--local` dentro de la carpeta del repo. No es un dato decorativo: es lo que aparece como autor en el historial que otra persona leerá.',
         'Leer un **diff** es tan importante como escribir el commit. `git diff` muestra cambios *sin* stage; `git diff --staged` lo ya agregado; `git show` el último commit (o un hash). Líneas con `+` se añadieron; con `-` se quitaron. Un archivo nuevo aparece como todo `+`. Antes de `commit`, lee el diff: es tu última revisión de calidad y la misma habilidad que usarás al revisar un Pull Request de un colega.',
       ],
       code: {
         language: 'bash',
         title: 'init, commit Conventional Commits, show',
-        code: `git init -b main
+        code: `# Identidad: Git firma cada commit con un nombre y un correo.
+# La primera vez en una maquina nueva, configuralos o el commit se rechaza.
+git config --global user.name "Tu Nombre"
+git config --global user.email "tu@correo.com"
+
+git init -b main
 echo "# python-ds-journey" > README.md
 git add README.md
 git commit -m "docs: agregar README inicial"
@@ -2194,7 +2253,7 @@ LOG_LEVEL=INFO
       'requirements.txt pinneado (python -m pip freeze) usable con install -r',
       'pyproject.toml con [tool.ruff] mínimo; ruff check limpio en scripts/hello_env.py',
       'README: título, descripción, install (venv + pip -r), uso, mención esqueleto CP-N1-A, nota de seguridad',
-      'data/clients_synthetic.csv + data/data_dictionary.md (columnas del CSV; PII falsa)',
+      'data/clients_synthetic.csv con las columnas client_id, full_name, country, signup_date, monthly_amount y 5–10 filas inventadas (ninguna persona real); data/data_dictionary.md describe cada una de esas columnas — ver la plantilla del starter',
       'scripts/hello_env.py con if __name__ == "__main__" y exit 0',
       '≥3 commits Conventional Commits; 1 rama feat/* con PR o merge documentado',
     ],
@@ -2211,6 +2270,30 @@ LOG_LEVEL=INFO
 # ├── scripts/
 # │   └── hello_env.py
 # └── section_01/          # opcional: notas de la sección
+#
+# ---------------------------------------------------------------------------
+# data/clients_synthetic.csv — un CSV es un archivo de texto donde cada linea
+# es una fila y las comas separan las columnas. La primera linea son los
+# nombres de columna. Copia estas 5 columnas y escribe 5 a 10 filas inventadas
+# (datos falsos, ninguna persona real):
+#
+# client_id,full_name,country,signup_date,monthly_amount
+# C001,Maria Quispe,PE,2026-01-15,150.50
+# C002,John Smith,US,2026-02-03,420.00
+# C003,Ana Ferreira,BR,2026-02-20,89.90
+#
+# ---------------------------------------------------------------------------
+# data/data_dictionary.md — explica cada columna del CSV para quien lo reciba.
+# Una fila por columna, con este formato:
+#
+# | columna         | tipo   | ejemplo      | descripcion                        |
+# |-----------------|--------|--------------|------------------------------------|
+# | client_id       | texto  | C001         | Identificador unico del cliente     |
+# | full_name       | texto  | Maria Quispe | Nombre sintetico, no persona real   |
+# | country         | texto  | PE           | Codigo de pais de dos letras        |
+# | signup_date     | fecha  | 2026-01-15   | Fecha de alta en formato AAAA-MM-DD |
+# | monthly_amount  | numero | 150.50       | Monto mensual en soles              |
+# ---------------------------------------------------------------------------
 #
 # scripts/hello_env.py — smoke del entorno (sin type hints; S01 no los exige)
 import sys

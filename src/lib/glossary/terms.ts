@@ -62,7 +62,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: 'Python',
     definition: 'String formatting con f prefijo. Permite insertar variables directamente con {}.',
     example: 'f"Hola {nombre}, tienes {edad} años"',
-    firstSectionId: 'basics',
+    firstSectionId: 'setup',
   },
   {
     id: 'slicing',

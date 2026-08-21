@@ -65,7 +65,9 @@ export function Callout({ type = 'info', title, children, className }: CalloutPr
       <div className={cn('mt-0.5 shrink-0', c.iconColor)}>
         <Icon className="h-5 w-5" />
       </div>
-      <div className="flex-1 space-y-1">
+      {/* min-w-0: a flex item defaults to min-width:auto and would push long
+          exercise preambles past a narrow viewport, where they are clipped. */}
+      <div className="min-w-0 flex-1 space-y-1">
         {title && (
           <div className={cn('text-sm font-semibold', c.titleColor)}>
             {title}

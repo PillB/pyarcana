@@ -48,17 +48,19 @@ export function CodeBlock({
       data-code-language={language}
     >
       <div className="flex items-center justify-between border-b border-border/60 bg-muted/40 px-4 py-2">
-        <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+        {/* min-w-0 + truncate: a long title must shrink instead of pushing the
+            copy button past the right edge of a narrow viewport. */}
+        <div className="flex min-w-0 items-center gap-2 text-xs font-medium text-muted-foreground">
           {isShell ? (
-            <Terminal className="h-3.5 w-3.5" />
+            <Terminal className="h-3.5 w-3.5 shrink-0" />
           ) : (
-            <span className="h-2 w-2 rounded-full bg-primary/60" />
+            <span className="h-2 w-2 shrink-0 rounded-full bg-primary/60" />
           )}
-          <span className="uppercase tracking-wide">{title || language}</span>
+          <span className="truncate uppercase tracking-wide">{title || language}</span>
         </div>
         <button
           onClick={copy}
-          className="flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          className="flex shrink-0 items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
           aria-label="Copiar código"
         >
           {copied ? (

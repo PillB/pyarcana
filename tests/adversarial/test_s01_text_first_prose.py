@@ -37,10 +37,12 @@ class Section01TextFirstProseTests(unittest.TestCase):
             "Un cirujano no ensaya",
             "En una imprenta",
             "qué no debo subir",
+            # CAMP-20260820-02: terminal connectors taught before the demos need them.
+            "pica la cebolla",
         ):
             self.assertIn(phrase, source)
 
-        self.assertEqual(theory.count("      heading:"), 13)
+        self.assertEqual(theory.count("      heading:"), 14)
         self.assertNotIn("En el 90% de los casos", theory)
         self.assertNotIn("3-5 GB", theory)
         self.assertNotIn("bancos y fintech en Perú", theory)
