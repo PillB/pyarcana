@@ -1,0 +1,89 @@
+{
+  "base": "http://localhost:4600/pyarcana/",
+  "checks": [
+    {
+      "viewport": "desktop",
+      "storage_key_present": true,
+      "completedSections": [
+        "setup",
+        "basics",
+        "data-structures",
+        "stdlib-deep",
+        "data-engineering",
+        "career-strategy"
+      ],
+      "substeps_data_engineering": [
+        "theory",
+        "ido",
+        "wedo",
+        "youdo",
+        "quiz"
+      ],
+      "substeps_stdlib_deep": [
+        "theory",
+        "ido",
+        "wedo",
+        "youdo",
+        "quiz"
+      ],
+      "quizScores": {
+        "setup": 100,
+        "basics": 87,
+        "stdlib-deep": 92,
+        "data-engineering": 100,
+        "career-strategy": 75
+      },
+      "bookmarks": [
+        "stdlib-deep",
+        "data-engineering",
+        "rag"
+      ],
+      "lastVisited": "data-engineering",
+      "startDate": "2026-03-04T11:22:33.000Z",
+      "console_errors": [],
+      "reset_warning": []
+    },
+    {
+      "viewport": "mobile",
+      "storage_key_present": true,
+      "completedSections": [
+        "setup",
+        "basics",
+        "data-structures",
+        "stdlib-deep",
+        "data-engineering",
+        "career-strategy"
+      ],
+      "substeps_data_engineering": [
+        "theory",
+        "ido",
+        "wedo",
+        "youdo",
+        "quiz"
+      ],
+      "substeps_stdlib_deep": [
+        "theory",
+        "ido",
+        "wedo",
+        "youdo",
+        "quiz"
+      ],
+      "quizScores": {
+        "setup": 100,
+        "basics": 87,
+        "stdlib-deep": 92,
+        "data-engineering": 100,
+        "career-strategy": 75
+      },
+      "bookmarks": [
+        "stdlib-deep",
+        "data-engineering",
+        "rag"
+      ],
+      "lastVisited": "data-engineering",
+      "startDate": "2026-03-04T11:22:33.000Z",
+      "console_errors": [],
+      "reset_warning": []
+    }
+  ]
+}

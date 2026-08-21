@@ -200,6 +200,63 @@ nota_ic z_approx; bootstrap si colas pesadas o n chico`,
  },
  },
  {
+ heading: "De la diferencia observada al experimento aleatorizado",
+ subtopicId: "S18-T2-B",
+ paragraphs: [
+ "Acabas de medir una diferencia entre dos grupos y su incertidumbre: d≈1.1, con un intervalo alrededor de la media de B. Falta la pregunta que decide si esa diferencia significa algo más que “B y A salieron distintos”: **¿cómo se formaron los grupos?** Si B son los comercios que se inscribieron solos al plan nuevo y A los que no, la diferencia mezcla dos cosas que ninguna aritmética posterior puede separar: lo que el plan hizo, y lo que ya era distinto en quien decidió inscribirse. Un intervalo más estrecho no arregla eso; solo estima con más precisión un número que responde a otra pregunta.",
+ "La pregunta causal se formula sobre un **contrafactual**: ¿cuánto habría facturado *este mismo* comercio si no hubiera tenido el plan? Ese número no está en tus datos —nadie vive las dos historias— y por eso aquí el diseño pesa más que el cálculo. Para escribirla con precisión necesitas cinco piezas: la **unidad** (el comercio), el **tratamiento** (tener el plan), el **control** (no tenerlo), el **resultado** o *outcome* (ticket promedio del mes) y el **estimando** o *estimand*, que es la cantidad exacta que quieres estimar: “diferencia promedio de ticket entre tener y no tener el plan, en comercios como estos, durante un mes”. Si no logras escribir el estimando en una frase, todavía no tienes una pregunta, tienes una intuición.",
+ "La **asignación aleatoria** es el mecanismo que vuelve comparables a los dos grupos. Lanzas una moneda por comercio: la moneda no sabe cuánto facturaba antes, en qué región opera ni qué variables olvidaste medir. Por eso reparte todas esas características —**incluidas las que nunca observaste**— de forma pareja *en promedio* entre tratamiento y control. Vale la pena detenerse en ese *en promedio*. Aleatorizar no vuelve idénticos a los dos grupos; lo que garantiza es que su diferencia esperada, antes de aplicar el tratamiento, sea cero. Con n chico un sorteo puede salir desbalanceado por azar, y el intervalo que reportas ya carga esa incertidumbre.",
+ "En `CASO-LIM-018` el efecto real del plan es 5.00 PEN y el confusor es el volumen previo del comercio. Con **autoselección** —se inscribe quien ya facturaba más de 110— la diferencia observada es **41.35**: ocho veces el efecto verdadero, y el volumen medio de cada grupo delata por qué (124.7 contra 89.0). Con **asignación aleatoria** sobre la misma población y el mismo efecto, la diferencia baja a **5.50** con IC 95% (1.18, 9.82), y los volúmenes medios quedan en 100.3 y 99.1: parecidos, no iguales. El experimento no entregó un número más bonito; entregó un número que responde la pregunta que hiciste.",
+ ],
+ code: {
+ language: 'python',
+ title: "diseno_experimento.py",
+ code: `def s18_th_experimento():
+    import numpy as np
+
+    rng = np.random.default_rng(18)
+    n = 400
+    volumen = rng.normal(100, 20, n)   # confusor: volumen previo del comercio
+    efecto_real = 5.0                  # PEN que el plan realmente agrega
+
+    # (1) Autoselección: se inscribe quien ya facturaba más
+    adopta = volumen > 110
+    y_obs = volumen + efecto_real * adopta + rng.normal(0, 5, n)
+    dif_obs = y_obs[adopta].mean() - y_obs[~adopta].mean()
+
+    # (2) Asignación aleatoria: la moneda ignora el volumen previo
+    trata = rng.random(n) < 0.5
+    y_exp = volumen + efecto_real * trata + rng.normal(0, 5, n)
+    dif_exp = y_exp[trata].mean() - y_exp[~trata].mean()
+    se = np.sqrt(y_exp[trata].var(ddof=1) / trata.sum()
+                 + y_exp[~trata].var(ddof=1) / (~trata).sum())
+
+    print("efecto_real", efecto_real)
+    print("dif_autoseleccion", round(float(dif_obs), 2))
+    print("dif_aleatorizada", round(float(dif_exp), 2))
+    print("ic95_aleatorizada", (round(float(dif_exp - 1.96 * se), 2),
+                                round(float(dif_exp + 1.96 * se), 2)))
+    print("volumen_medio_autoseleccion", (round(float(volumen[adopta].mean()), 1),
+                                          round(float(volumen[~adopta].mean()), 1)))
+    print("volumen_medio_aleatorizada", (round(float(volumen[trata].mean()), 1),
+                                         round(float(volumen[~trata].mean()), 1)))
+
+s18_th_experimento()`,
+ output: `efecto_real 5.0
+dif_autoseleccion 41.35
+dif_aleatorizada 5.5
+ic95_aleatorizada (1.18, 9.82)
+volumen_medio_autoseleccion (124.7, 89.0)
+volumen_medio_aleatorizada (100.3, 99.1)`,
+ },
+ callout: {
+ type: "warning",
+ title: "El diseño manda sobre el cálculo",
+ content:
+ "Una d de Cohen grande sobre grupos autoseleccionados sigue siendo asociación. Antes de elegir el verbo del informe, escribe una frase que diga cómo se formaron los grupos: por sorteo o por decisión propia.",
+ },
+ },
+ {
  heading: "Correlación y confusión",
  subtopicId: "S18-T3-A",
  paragraphs: [
@@ -246,6 +303,67 @@ nota Spearman=1 monotona; Pearson puede ser <1 en la escala original`,
  title: "Correlación ≠ causalidad",
  content:
  "Si no controlas confusores ni tienes diseño causal, no uses verbos causales en el informe. Residualizar es un chequeo, no identificación causal.",
+ },
+ },
+ {
+ heading: "Leer el resultado sin exagerarlo: valor p, guardrails y pruebas repetidas",
+ subtopicId: "S18-T3-A",
+ paragraphs: [
+ "Cuando el experimento termina aparece el **valor p** (*p-value*), y con él dos malentendidos que salen caros en un informe. El valor p es la probabilidad de observar una diferencia al menos tan grande como la tuya **si el tratamiento no tuviera ningún efecto**. Es una afirmación condicional sobre los datos bajo un supuesto, no una afirmación sobre el mundo: no es la probabilidad de que el plan no sirva, y “p = 0.03” no significa “97% de certeza de que funciona”.",
+ "El segundo malentendido es el simétrico: un valor p alto **no** prueba que no hay efecto. Casi siempre significa que tu experimento no tuvo resolución para distinguir el efecto del ruido. Con los 400 comercios del bloque anterior y un IC de (1.18, 9.82), no puedes descartar ni 1.2 ni 9.8 PEN; llamar a eso “sin efecto” sería inventar precisión. Por eso el intervalo va siempre junto al p, y por eso conviene separar dos preguntas distintas: la **significancia estadística** pregunta si la diferencia se distingue del ruido; la **significancia práctica** pregunta si alcanza para justificar la decisión. Con n muy grande, diferencias de céntimos salen “significativas” y no cambian nada; con n chico, efectos que sí importan pasan desapercibidos.",
+ "Antes de mirar los datos, declara la **métrica primaria** —una sola, la que define el éxito— y una o dos **métricas guardrail**: indicadores que no deben empeorar aunque la primaria mejore. Si la primaria es el ticket promedio, un guardrail razonable es la tasa de cancelación, porque subir el ticket empujando a los comercios chicos a irse arregla el indicador y empeora el negocio. Declararlas por adelantado también te protege de ti mismo: después de ver los resultados, cualquier métrica que salió bien parece haber sido la importante desde el principio.",
+ "Dos hábitos rompen esa disciplina desde adentro, y ambos se pueden medir. El primero es probar muchas métricas y reportar la que salió bien: en la corrida de abajo, veinte comparaciones **sin ningún efecto real** producen dos “significativas” al 5% —cuando por puro azar esperarías una— y un p mínimo de 0.0283 que en una lámina se vería convincente. El segundo es **mirar temprano y parar cuando el resultado gusta** (*peeking*). Ahí la comparación es directa, porque el código mide las dos tasas de la misma forma sobre los mismos 2000 experimentos sin efecto: revisando una sola vez al final, la tasa de falsos positivos sale **0.045**, cerca del 5% prometido; revisando diez veces y parando en la primera favorable, sube a **0.191**. Cuadruplicaste tu tasa de error sin cambiar los datos, solo el momento de mirar. Fija el plan —métrica, duración, criterio de parada— antes de empezar, y si exploras después, dilo en el informe. Y recuerda el caso habitual: la mayoría de tus análisis **no** vendrá de un experimento, y ahí sigue mandando el contrato de verbos de esta sección — asociación observada, confusores listados, sin verbo causal.",
+ ],
+ code: {
+ language: 'python',
+ title: "leer_valor_p.py",
+ code: `def s18_th_pvalor():
+    import math
+    import numpy as np
+
+    rng = np.random.default_rng(2018)
+
+    def p_dos_colas(a, b):
+        # z de diferencia de medias; p = P(|Z| >= |z|) bajo "no hay efecto"
+        se = math.sqrt(a.var(ddof=1) / len(a) + b.var(ddof=1) / len(b))
+        z = (a.mean() - b.mean()) / se
+        return math.erfc(abs(z) / math.sqrt(2))
+
+    # (1) Veinte métricas revisadas, ninguna con efecto real
+    ps = [p_dos_colas(rng.normal(100, 15, 200), rng.normal(100, 15, 200))
+          for _ in range(20)]
+    print("metricas_probadas", len(ps))
+    print("esperadas_por_azar", round(20 * 0.05, 1))
+    print("significativas_p05", sum(p < 0.05 for p in ps))
+    print("p_minimo", round(min(ps), 4))
+
+    # (2) Peeking: 2000 experimentos sin efecto. Ambas tasas se miden igual.
+    una, diez = 0, 0
+    for _ in range(2000):
+        a = rng.normal(100, 15, 500)
+        b = rng.normal(100, 15, 500)
+        if p_dos_colas(a, b) < 0.05:            # una sola mirada, al final
+            una += 1
+        for k in range(50, 501, 50):            # diez miradas, paro al primer p<0.05
+            if p_dos_colas(a[:k], b[:k]) < 0.05:
+                diez += 1
+                break
+    print("falso_positivo_una_mirada", round(una / 2000, 3))
+    print("falso_positivo_diez_miradas", round(diez / 2000, 3))
+
+s18_th_pvalor()`,
+ output: `metricas_probadas 20
+esperadas_por_azar 1.0
+significativas_p05 2
+p_minimo 0.0283
+falso_positivo_una_mirada 0.045
+falso_positivo_diez_miradas 0.191`,
+ },
+ callout: {
+ type: "info",
+ title: "Qué escribir en el informe",
+ content:
+ "Métrica primaria y guardrails declarados antes de mirar; efecto con IC y n; el valor p acompañado, nunca solo; y una frase que diga si los grupos se formaron por sorteo o por autoselección.",
  },
  },
  {
@@ -1715,6 +1833,7 @@ print(note)`,
  "Diagnosticar sesgo muestral vs. cuotas y declarar cobertura LIMITADA/OK",
  "Reportar al menos un IC (z y/o bootstrap documentado) o tamaño de efecto (p. ej. d de Cohen) con n.",
  "Interpretar correlación/Spearman o segmentos sin afirmaciones causales; flags Tukey ≠ fraude",
+ "Clasificar cada comparación de grupos como observacional o experimental, y justificar el verbo que usas para describirla",
  "Entregar script/notebook con notas de datos, seed y huella de filas listo para S19.",
  ],
  requirements: [
@@ -1725,6 +1844,7 @@ print(note)`,
  "Español profesional (es-PE)",
  "Salida mínima auditable: (1) resumen tabular, (2) bias_pp + cobertura, (3) ic95_z o boot_ic95 o d + n, (4) etiqueta no-causal, (5) nota de datos en JSON",
  "Si usas z sobre montos lognormales, declara el límite; si hay colas, documenta bootstrap",
+ "Si comparas dos grupos, una frase debe decir cómo se formaron (sorteo o autoselección) antes de cualquier verbo causal",
  ],
  starterCode: `import hashlib
 import json
@@ -1871,6 +1991,20 @@ print(df.head())
  explanation:
  "El tamaño de efecto habla de magnitud, no de prueba causal ni de decisión automática. Siempre acompáñalo de n e incertidumbre.",
  },
+ {
+ question: "Los comercios que se inscribieron solos al plan nuevo facturan en promedio 41 PEN más que los que no se inscribieron. ¿Qué conclusión es defendible?",
+ options: ["El plan aumenta el ticket en unos 41 PEN; conviene lanzarlo a todos", "La diferencia mezcla el efecto del plan con lo que ya distinguía a quien decidió inscribirse; estimar el efecto requiere asignación aleatoria", "No se puede reportar la diferencia porque no es causal, así que se omite del informe", "Con un intervalo más estrecho, esa misma comparación pasaría a ser causal"],
+ correctIndex: 1,
+ explanation:
+ "Los grupos se formaron por autoselección: quien ya facturaba más se inscribió. Esa diferencia previa viaja dentro de los 41 PEN y ninguna aritmética posterior la separa. El distractor más sutil es el último: más precisión estrecha el intervalo alrededor del número equivocado, porque aquí el problema está en el diseño y no en el cálculo. Tampoco corresponde borrar el hallazgo: se reporta como asociación observada, con n y confusores listados.",
+ },
+ {
+ question: "En el piloto aleatorizado la diferencia es 5.50 PEN con IC 95% (1.18, 9.82) y p = 0.013. ¿Cuál es la lectura correcta del valor p?",
+ options: ["Hay 98.7% de probabilidad de que el plan funcione", "Queda probado que el efecto del plan es 5.50 PEN", "Como p < 0.05, el intervalo ya no aporta y puede omitirse del informe", "Si el plan no tuviera efecto, un resultado así de extremo sería poco probable; los datos son compatibles con efectos de ~1.2 a ~9.8 PEN"],
+ correctIndex: 3,
+ explanation:
+ "El valor p es condicional: supone que no hay efecto y pregunta qué tan raro sería este resultado bajo ese supuesto. No se invierte para dar la probabilidad de que el plan sirva — ese es el error de la primera opción. El intervalo tampoco sobra: 5.50 es el punto estimado, pero los datos aún admiten desde ~1.2 hasta ~9.8 PEN, y esa diferencia sí cambia si la decisión conviene.",
+ },
  ],
  },
  resources: {
@@ -1909,6 +2043,11 @@ print(df.head())
  label: "OpenIntro Statistics",
  url: "https://www.openintro.org/book/os/",
  note: "IC, sesgo, interpretación cuidadosa",
+ },
+ {
+ label: "NumPy Generator (random)",
+ url: "https://numpy.org/doc/stable/reference/random/generator.html",
+ note: "default_rng, random y normal: la moneda reproducible del experimento",
  },
  ],
  books: [

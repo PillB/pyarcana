@@ -1,0 +1,16 @@
+{
+  "interpreter": "3.9.6",
+  "mode": "non-isolated (user site-packages visible)",
+  "rows": [
+    {
+      "artifact": "code-block-4",
+      "exit": 0,
+      "declared_matches_actual": true
+    },
+    {
+      "artifact": "code-block-6",
+      "exit": 0,
+      "declared_matches_actual": true
+    }
+  ]
+}

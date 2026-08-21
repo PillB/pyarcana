@@ -1,0 +1,70 @@
+[
+  {
+    "section": "s18",
+    "viewport": "desktop",
+    "new_heading_rendered": true,
+    "bodyScrollW": 1440,
+    "bodyClientW": 1440,
+    "pageOverflows": false,
+    "unscrollableWideEls": 2,
+    "console_errors": [],
+    "headings": [
+      "H1:EDA, estadística descriptiva e incertidumbre",
+      "H2:Teoría",
+      "H3:Pruébalo tú mismo",
+      "H2:Bienvenido a PyArcana",
+      "H3:Bienvenido a PyArcana"
+    ]
+  },
+  {
+    "section": "s18",
+    "viewport": "mobile",
+    "new_heading_rendered": true,
+    "bodyScrollW": 390,
+    "bodyClientW": 390,
+    "pageOverflows": false,
+    "unscrollableWideEls": 2,
+    "console_errors": [],
+    "headings": [
+      "H1:EDA, estadística descriptiva e incertidumbre",
+      "H2:Teoría",
+      "H3:Pruébalo tú mismo",
+      "H2:Bienvenido a PyArcana",
+      "H3:Bienvenido a PyArcana"
+    ]
+  },
+  {
+    "section": "s15",
+    "viewport": "desktop",
+    "new_heading_rendered": true,
+    "bodyScrollW": 1440,
+    "bodyClientW": 1440,
+    "pageOverflows": false,
+    "unscrollableWideEls": 2,
+    "console_errors": [],
+    "headings": [
+      "H1:Pandas: ingesta, selección y tipos",
+      "H2:Teoría",
+      "H3:Pruébalo tú mismo",
+      "H2:Bienvenido a PyArcana",
+      "H3:Bienvenido a PyArcana"
+    ]
+  },
+  {
+    "section": "s15",
+    "viewport": "mobile",
+    "new_heading_rendered": true,
+    "bodyScrollW": 390,
+    "bodyClientW": 390,
+    "pageOverflows": false,
+    "unscrollableWideEls": 2,
+    "console_errors": [],
+    "headings": [
+      "H1:Pandas: ingesta, selección y tipos",
+      "H2:Teoría",
+      "H3:Pruébalo tú mismo",
+      "H2:Bienvenido a PyArcana",
+      "H3:Bienvenido a PyArcana"
+    ]
+  }
+]
