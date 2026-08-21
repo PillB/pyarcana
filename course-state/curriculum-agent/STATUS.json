@@ -1,0 +1,93 @@
+{
+  "schema_version": 3,
+  "scope": "curriculum_audit",
+  "campaign_id": "CAMP-20260820-02",
+  "skill_version": "3.0.0",
+  "skill_frozen": true,
+  "skill_source": ".agents/skills/pyarcana-curriculum-audit/SKILL.md + PyArcana_Curriculum_Audit_v3_bundle/PyArcana_Curriculum_Audit_SKILL_v3.md",
+  "source_git_sha": "8b8bfc38fea4b24f84d50bcfb31d70415ab2b9b9",
+  "source_tree_sha": "5c0a38e570229538b68f7cc1d7e432a5376f8fd1",
+  "campaign_branch": "audit/campaign-c02-s01-s05-20260820",
+  "status_generated_at": "2026-08-21T06:30:00Z",
+  "outer_pass": 1,
+  "pass_state": "REPAIRING",
+  "chunk": {
+    "first": "S01",
+    "last": "S05",
+    "label": "chunk-1"
+  },
+  "section_cursor": "S01",
+  "completed_sections_in_pass": [
+    "S01"
+  ],
+  "inherited_pass_credit": 0,
+  "inherited_learner_mastery": 0,
+  "admissible_learner_turns": 6,
+  "diagnostic_learner_turns": 0,
+  "evidence_tiers_available": {
+    "E0": "available",
+    "E1": "not needed; superseded by E2 on this campaign",
+    "E2": "AVAILABLE — Claude CLI tool-free learner surface attested per turn",
+    "E3": "AVAILABLE — scripts/student_runtime.py issues per-attempt receipts bound to Python 3.12",
+    "E4": "pending — requires exact-SHA Pages deployment for this campaign",
+    "E5": "unavailable in this automated run"
+  },
+  "harness": {
+    "learner_runner": "scripts/curriculum_learner_runner.py",
+    "learner_firewall": "scripts/curriculum_learner_firewall.py",
+    "forensic_capture": "scripts/curriculum_forensic_capture.py",
+    "learner_output_schema": "course-state/curriculum-agent/schemas/learner_output.schema.json",
+    "isolation_surface": "claude --print --safe-mode --tools \"\" --disable-slash-commands --strict-mcp-config --setting-sources \"\" --no-session-persistence",
+    "isolation_attested_by": "runner-observed CLI init event; StructuredOutput is the only permitted tool"
+  },
+  "open_p0": [],
+  "open_p1": [],
+  "open_p2": [
+    "C02-S01-P2-PREMATURE-STRING-OPS",
+    "C02-S01-P2-YOUDO-REQUIREMENTS",
+    "glossary forward refs: Streamlit, Embedding (S30+, out of chunk)"
+  ],
+  "known_limitations": [
+    "LIMIT-PRETRAINED-KNOWLEDGE",
+    "LIMIT-STATIC-ANSWER-SECRECY",
+    "LIMIT-EXTERNAL-RUNTIMES",
+    "LIMIT-HUMAN-CALIBRATION",
+    "LIMIT-REALISTIC-RUNTIME-SCOPE"
+  ],
+  "resolved_limitations": [
+    {
+      "id": "LIMIT-CODEX-CORE-TOOL-EXPOSURE",
+      "status": "RESOLVED",
+      "detail": "Superseded on this campaign. Learner turns now run through a Claude CLI session whose reported capability surface is empty (tools, mcp_servers, slash_commands, skills, plugins), in a disposable directory outside the repository. The runner refuses any turn whose init event exposes a capability, so learner evidence is E2 rather than E1 diagnostic."
+    },
+    {
+      "id": "LIMIT-REALISTIC-RUNTIME-RECEIPTS",
+      "status": "RESOLVED",
+      "detail": "scripts/student_runtime.py runs each attempt in a disposable directory outside the repository and the sealer fills observed_output from a digest-bound receipt."
+    }
+  ],
+  "branch_ledger": "course-state/curriculum-agent/campaigns/CAMP-20260820-02/branch_decision_ledger.json",
+  "historical_evidence_policy": "All learner runs, screenshots and reports produced before CAMP-20260820-02 are HISTORICAL_DIAGNOSTIC and count zero toward this campaign.",
+  "pr": null,
+  "expected_head_sha": null,
+  "latest_reviewed_head_sha": null,
+  "ci_state": null,
+  "manual_gate_state": "NOT_REACHED",
+  "deployment": {
+    "tested_sha": null,
+    "merge_sha": null,
+    "deployed_sha": null,
+    "content_manifest_sha": null,
+    "live_verified": false
+  },
+  "invalidation_boundary": null,
+  "campaign_status": "PASS_IN_PROGRESS",
+  "rendered_evidence": {
+    "authoritative_capture": "course-state/curriculum-agent/qa/pass_01/setup/after/prodbuil/capture_002",
+    "surface": "production static export served under /pyarcana",
+    "states": 12,
+    "tiles": 245,
+    "clean": true,
+    "note": "Tile PNGs are hash-bound in the manifest and git-ignored; manifests are committed."
+  }
+}

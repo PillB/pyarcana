@@ -1,0 +1,2710 @@
+{
+  "base_url": "http://localhost:3000",
+  "campaign_id": "CAMP-20260820-02",
+  "capture_id": "capture_001",
+  "clean": false,
+  "console_errors": [],
+  "console_warnings": [],
+  "failed_requests": [
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "desktop"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "desktop"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "mobile"
+    }
+  ],
+  "findings": [
+    "desktop/onboarding-tour: 1 control(s) without accessible name",
+    "desktop/theory: tile capture aborted — tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+    "desktop/theory: incomplete tile coverage (None)",
+    "desktop/ido: tile capture aborted — tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+    "desktop/ido: incomplete tile coverage (None)",
+    "desktop/wedo: tile capture aborted — tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+    "desktop/wedo: incomplete tile coverage (None)",
+    "desktop/youdo: tile capture aborted — tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+    "desktop/youdo: incomplete tile coverage (None)",
+    "desktop/quiz: tile capture aborted — tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+    "desktop/quiz: incomplete tile coverage (None)",
+    "mobile/onboarding-tour: 14 element(s) outside viewport width",
+    "mobile/theory: tile capture aborted — tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+    "mobile/theory: incomplete tile coverage (None)",
+    "mobile/theory: 14 element(s) outside viewport width",
+    "mobile/ido: tile capture aborted — tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+    "mobile/ido: incomplete tile coverage (None)",
+    "mobile/ido: 6 element(s) outside viewport width",
+    "mobile/wedo: tile capture aborted — tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+    "mobile/wedo: incomplete tile coverage (None)",
+    "mobile/wedo: 27 element(s) outside viewport width",
+    "mobile/youdo: tile capture aborted — tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+    "mobile/youdo: incomplete tile coverage (None)",
+    "mobile/youdo: 3 element(s) outside viewport width",
+    "mobile/quiz: tile capture aborted — tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+    "mobile/quiz: incomplete tile coverage (None)"
+  ],
+  "generated_at": "2026-08-21T05:11:08.603683+00:00",
+  "outer_pass": 1,
+  "page_errors": [],
+  "phase": "after",
+  "schema_version": 1,
+  "scope": "curriculum_audit",
+  "section_id": "setup",
+  "source_git_sha": "8b8bfc38c02fix1",
+  "started_at": "2026-08-21T05:10:27.031854+00:00",
+  "states": [
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": null,
+      "coverage_complete": true,
+      "coverage_gap": null,
+      "document_height": 1000,
+      "geometry": {
+        "clientWidth": 1440,
+        "controlsWithoutAccessibleName": [
+          {
+            "cls": "inline-flex items-center justify-center gap-2 whitespace-now",
+            "tag": "BUTTON",
+            "testid": null
+          }
+        ],
+        "fixedElements": [
+          {
+            "cls": "",
+            "height": 0,
+            "left": 0,
+            "tag": "SPAN",
+            "testid": null,
+            "top": 0,
+            "width": 0
+          },
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 1318,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 932,
+            "width": 98
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 48,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 48,
+            "left": 1380,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed bottom-4 left-1/2 -translate-x-1/2 z-40 hidden md:flex",
+            "height": 20,
+            "left": 631,
+            "tag": "DIV",
+            "testid": null,
+            "top": 964,
+            "width": 178
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 1020,
+            "tag": "OL",
+            "testid": null,
+            "top": 968,
+            "width": 420
+          },
+          {
+            "cls": "data-[state=open]:animate-in data-[state=closed]:animate-out",
+            "height": 1000,
+            "left": 0,
+            "tag": "DIV",
+            "testid": null,
+            "top": 0,
+            "width": 1440
+          },
+          {
+            "cls": "bg-background data-[state=open]:animate-in data-[state=close",
+            "height": 247,
+            "left": 496,
+            "tag": "DIV",
+            "testid": null,
+            "top": 377,
+            "width": 448
+          },
+          {
+            "cls": "",
+            "height": 0,
+            "left": 0,
+            "tag": "SPAN",
+            "testid": null,
+            "top": 17461,
+            "width": 0
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Teoría"
+          },
+          {
+            "level": "H3",
+            "text": "Pruébalo tú mismo"
+          },
+          {
+            "level": "H2",
+            "text": "Bienvenido a PyArcana"
+          },
+          {
+            "level": "H3",
+            "text": "Bienvenido a PyArcana"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [],
+        "scrollHeight": 17461,
+        "scrollWidth": 1440,
+        "sectionRootText": 38572,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "flex items-center gap-1.5 text-xs font-medium text-violet-60",
+            "height": 16,
+            "tag": "BUTTON",
+            "text": "Ver pista",
+            "width": 69
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          }
+        ],
+        "viewportWidth": 1440
+      },
+      "label": "desktop-onboarding-tour",
+      "scroll_locked": true,
+      "tab": "onboarding-tour",
+      "tab_selected": null,
+      "tile_count": 1,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 297061,
+          "file": "desktop-onboarding-tour-tile-01.png",
+          "height": 1000,
+          "index": 1,
+          "sha256": "15fa69ee85e55a6e52e301a8a0657b89082f6587af0ad4ece71cbeb3dd75f8da",
+          "y_end": 1000,
+          "y_start": 0
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "desktop"
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": "tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+      "coverage_complete": false,
+      "coverage_gap": null,
+      "document_height": 17461,
+      "geometry": {
+        "clientWidth": 1440,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 1318,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 932,
+            "width": 98
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 48,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 48,
+            "left": 1380,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed bottom-4 left-1/2 -translate-x-1/2 z-40 hidden md:flex",
+            "height": 20,
+            "left": 631,
+            "tag": "DIV",
+            "testid": null,
+            "top": 964,
+            "width": 178
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 1020,
+            "tag": "OL",
+            "testid": null,
+            "top": 968,
+            "width": 420
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Teoría"
+          },
+          {
+            "level": "H3",
+            "text": "Pruébalo tú mismo"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [],
+        "scrollHeight": 17461,
+        "scrollWidth": 1440,
+        "sectionRootText": 38605,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "flex items-center gap-1.5 text-xs font-medium text-violet-60",
+            "height": 16,
+            "tag": "BUTTON",
+            "text": "Ver pista",
+            "width": 69
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          }
+        ],
+        "viewportWidth": 1440
+      },
+      "label": "desktop-theory",
+      "scroll_locked": false,
+      "tab": "theory",
+      "tab_selected": "active",
+      "tile_count": 1,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 318861,
+          "file": "desktop-theory-tile-01.png",
+          "height": 1600,
+          "index": 1,
+          "sha256": "0d65f5d0d37f179b4038d2e6b67db2c953b6afee38073f519dda22ad890a185c",
+          "y_end": 1600,
+          "y_start": 0
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "desktop"
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": "tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+      "coverage_complete": false,
+      "coverage_gap": null,
+      "document_height": 9686,
+      "geometry": {
+        "clientWidth": 1440,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 1318,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 932,
+            "width": 98
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 48,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 48,
+            "left": 1380,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed bottom-4 left-1/2 -translate-x-1/2 z-40 hidden md:flex",
+            "height": 20,
+            "left": 631,
+            "tag": "DIV",
+            "testid": null,
+            "top": 964,
+            "width": 178
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 1020,
+            "tag": "OL",
+            "testid": null,
+            "top": 968,
+            "width": 420
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Yo hago — Demostración guiada"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [],
+        "scrollHeight": 9686,
+        "scrollWidth": 1440,
+        "sectionRootText": 13414,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          }
+        ],
+        "viewportWidth": 1440
+      },
+      "label": "desktop-ido",
+      "scroll_locked": false,
+      "tab": "ido",
+      "tab_selected": "active",
+      "tile_count": 1,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 258240,
+          "file": "desktop-ido-tile-01.png",
+          "height": 1600,
+          "index": 1,
+          "sha256": "5cdcf95d3efc132a37e280d51c674d6002baf34f6ef9072535df32ab6732588d",
+          "y_end": 1600,
+          "y_start": 0
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "desktop"
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": "tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+      "coverage_complete": false,
+      "coverage_gap": null,
+      "document_height": 32117,
+      "geometry": {
+        "clientWidth": 1440,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 1318,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 932,
+            "width": 98
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 48,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 48,
+            "left": 1380,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed bottom-4 left-1/2 -translate-x-1/2 z-40 hidden md:flex",
+            "height": 20,
+            "left": 631,
+            "tag": "DIV",
+            "testid": null,
+            "top": 964,
+            "width": 178
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 1020,
+            "tag": "OL",
+            "testid": null,
+            "top": 968,
+            "width": 420
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Hacemos juntos — Práctica guiada"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [],
+        "scrollHeight": 32117,
+        "scrollWidth": 1440,
+        "sectionRootText": 31044,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "list",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "set",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          }
+        ],
+        "viewportWidth": 1440
+      },
+      "label": "desktop-wedo",
+      "scroll_locked": false,
+      "tab": "wedo",
+      "tab_selected": "active",
+      "tile_count": 1,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 257620,
+          "file": "desktop-wedo-tile-01.png",
+          "height": 1600,
+          "index": 1,
+          "sha256": "e48022b62c6b759f4b0ebd4644277179beccf113a52332ff9e7daedafc0d651f",
+          "y_end": 1600,
+          "y_start": 0
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "desktop"
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": "tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+      "coverage_complete": false,
+      "coverage_gap": null,
+      "document_height": 4728,
+      "geometry": {
+        "clientWidth": 1440,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 1318,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 932,
+            "width": 98
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 48,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 48,
+            "left": 1380,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed bottom-4 left-1/2 -translate-x-1/2 z-40 hidden md:flex",
+            "height": 20,
+            "left": 631,
+            "tag": "DIV",
+            "testid": null,
+            "top": 964,
+            "width": 178
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 1020,
+            "tag": "OL",
+            "testid": null,
+            "top": 968,
+            "width": 420
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Tú haces — Proyecto para tu portafolio"
+          },
+          {
+            "level": "H3",
+            "text": "Esqueleto CP-N1-A — Reproducible Client Intake Repo"
+          },
+          {
+            "level": "H3",
+            "text": "Evaluaciones de tema (V3)"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [],
+        "scrollHeight": 4728,
+        "scrollWidth": 1440,
+        "sectionRootText": 7635,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          }
+        ],
+        "viewportWidth": 1440
+      },
+      "label": "desktop-youdo",
+      "scroll_locked": false,
+      "tab": "youdo",
+      "tab_selected": "active",
+      "tile_count": 1,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 307489,
+          "file": "desktop-youdo-tile-01.png",
+          "height": 1600,
+          "index": 1,
+          "sha256": "cc922e9504ecd7a5ed9eca379decb0bad8318d37607dba3094cddaf82eda219e",
+          "y_end": 1600,
+          "y_start": 0
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "desktop"
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": "tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+      "coverage_complete": false,
+      "coverage_gap": null,
+      "document_height": 3662,
+      "geometry": {
+        "clientWidth": 1440,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 1318,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 932,
+            "width": 98
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 48,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 48,
+            "left": 1380,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed bottom-4 left-1/2 -translate-x-1/2 z-40 hidden md:flex",
+            "height": 20,
+            "left": 631,
+            "tag": "DIV",
+            "testid": null,
+            "top": 964,
+            "width": 178
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 1020,
+            "tag": "OL",
+            "testid": null,
+            "top": 968,
+            "width": 420
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Autocheck — Verifica tu aprendizaje"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [],
+        "scrollHeight": 3662,
+        "scrollWidth": 1440,
+        "sectionRootText": 2065,
+        "smallTouchTargets": [
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          }
+        ],
+        "viewportWidth": 1440
+      },
+      "label": "desktop-quiz",
+      "scroll_locked": false,
+      "tab": "quiz",
+      "tab_selected": "active",
+      "tile_count": 1,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 206211,
+          "file": "desktop-quiz-tile-01.png",
+          "height": 1600,
+          "index": 1,
+          "sha256": "a07336069f2376fadb3b39b073041035f0acd94f10641707351641b5a4db2248",
+          "y_end": 1600,
+          "y_start": 0
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "desktop"
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": null,
+      "coverage_complete": true,
+      "coverage_gap": null,
+      "document_height": 844,
+      "geometry": {
+        "clientWidth": 390,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "",
+            "height": 0,
+            "left": 0,
+            "tag": "SPAN",
+            "testid": null,
+            "top": 0,
+            "width": 0
+          },
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 342,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 720,
+            "width": 36
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 44,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 44,
+            "left": 334,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 0,
+            "tag": "OL",
+            "testid": null,
+            "top": 0,
+            "width": 390
+          },
+          {
+            "cls": "data-[state=open]:animate-in data-[state=closed]:animate-out",
+            "height": 844,
+            "left": 0,
+            "tag": "DIV",
+            "testid": null,
+            "top": 0,
+            "width": 390
+          },
+          {
+            "cls": "bg-background data-[state=open]:animate-in data-[state=close",
+            "height": 270,
+            "left": 0,
+            "tag": "DIV",
+            "testid": null,
+            "top": 574,
+            "width": 390
+          },
+          {
+            "cls": "",
+            "height": 0,
+            "left": 0,
+            "tag": "SPAN",
+            "testid": null,
+            "top": 34167,
+            "width": 0
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Teoría"
+          },
+          {
+            "level": "H3",
+            "text": "Pruébalo tú mismo"
+          },
+          {
+            "level": "H2",
+            "text": "Bienvenido a PyArcana"
+          },
+          {
+            "level": "H3",
+            "text": "Bienvenido a PyArcana"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [
+          {
+            "cls": "",
+            "left": 81,
+            "right": 899,
+            "tag": "CODE",
+            "text": "def section_contract():\n    return {\n        \"case\": \"CASO-L",
+            "width": 818
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 401,
+            "right": 578,
+            "tag": "SPAN",
+            "text": "\"requirements_pinned\"",
+            "width": 177
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 595,
+            "right": 772,
+            "tag": "SPAN",
+            "text": "\"secrets_out_of_repo\"",
+            "width": 177
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 789,
+            "right": 882,
+            "tag": "SPAN",
+            "text": "\"git_smoke\"",
+            "width": 93
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 342,
+            "right": 519,
+            "tag": "SPAN",
+            "text": "\"zero_prior_baseline\"",
+            "width": 177
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 334,
+            "right": 502,
+            "tag": "SPAN",
+            "text": "\"secrets_in_repo_ok\"",
+            "width": 169
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 81,
+            "right": 561,
+            "tag": "SPAN",
+            "text": "# Ejecutar: python hello_sys.py  → exit 0 si no hay error",
+            "width": 480
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 115,
+            "right": 460,
+            "tag": "SPAN",
+            "text": "# sys.argv[0] = script; usuario desde [1]",
+            "width": 346
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 199,
+            "right": 469,
+            "tag": "SPAN",
+            "text": "\"uso: python check_arg.py <arg>\"",
+            "width": 270
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 174,
+            "right": 494,
+            "tag": "SPAN",
+            "text": "\"import sys; print('ok'); sys.exit(0)\"",
+            "width": 320
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 165,
+            "right": 620,
+            "tag": "SPAN",
+            "text": "\"import sys; print(sys.executable); print(sys.prefix)\"",
+            "width": 455
+          },
+          {
+            "cls": "text-[var(--code-fg)] opacity-90",
+            "left": 81,
+            "right": 410,
+            "tag": "CODE",
+            "text": ".../python-ds-journey/.venv/bin/python3\n.../python-ds-journe",
+            "width": 329
+          },
+          {
+            "cls": "code-tok-keyword",
+            "left": 519,
+            "right": 570,
+            "tag": "SPAN",
+            "text": "python",
+            "width": 51
+          },
+          {
+            "cls": "code-tok-keyword",
+            "left": 671,
+            "right": 696,
+            "tag": "SPAN",
+            "text": "git",
+            "width": 25
+          }
+        ],
+        "scrollHeight": 34167,
+        "scrollWidth": 390,
+        "sectionRootText": 38572,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "flex items-center gap-1.5 text-xs font-medium text-violet-60",
+            "height": 16,
+            "tag": "BUTTON",
+            "text": "Ver pista",
+            "width": 69
+          }
+        ],
+        "viewportWidth": 390
+      },
+      "label": "mobile-onboarding-tour",
+      "scroll_locked": true,
+      "tab": "onboarding-tour",
+      "tab_selected": null,
+      "tile_count": 1,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 71930,
+          "file": "mobile-onboarding-tour-tile-01.png",
+          "height": 844,
+          "index": 1,
+          "sha256": "bfe2ed356e776f18cfc4bcee90c9b4fa16008db1317f0c097a19cc0297c164c8",
+          "y_end": 844,
+          "y_start": 0
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "mobile"
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": "tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+      "coverage_complete": false,
+      "coverage_gap": null,
+      "document_height": 34201,
+      "geometry": {
+        "clientWidth": 390,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 342,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 720,
+            "width": 36
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 44,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 44,
+            "left": 334,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 0,
+            "tag": "OL",
+            "testid": null,
+            "top": 0,
+            "width": 390
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Teoría"
+          },
+          {
+            "level": "H3",
+            "text": "Pruébalo tú mismo"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [
+          {
+            "cls": "",
+            "left": 81,
+            "right": 899,
+            "tag": "CODE",
+            "text": "def section_contract():\n    return {\n        \"case\": \"CASO-L",
+            "width": 818
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 401,
+            "right": 578,
+            "tag": "SPAN",
+            "text": "\"requirements_pinned\"",
+            "width": 177
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 595,
+            "right": 772,
+            "tag": "SPAN",
+            "text": "\"secrets_out_of_repo\"",
+            "width": 177
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 789,
+            "right": 882,
+            "tag": "SPAN",
+            "text": "\"git_smoke\"",
+            "width": 93
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 342,
+            "right": 519,
+            "tag": "SPAN",
+            "text": "\"zero_prior_baseline\"",
+            "width": 177
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 334,
+            "right": 502,
+            "tag": "SPAN",
+            "text": "\"secrets_in_repo_ok\"",
+            "width": 169
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 81,
+            "right": 561,
+            "tag": "SPAN",
+            "text": "# Ejecutar: python hello_sys.py  → exit 0 si no hay error",
+            "width": 480
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 115,
+            "right": 460,
+            "tag": "SPAN",
+            "text": "# sys.argv[0] = script; usuario desde [1]",
+            "width": 346
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 199,
+            "right": 469,
+            "tag": "SPAN",
+            "text": "\"uso: python check_arg.py <arg>\"",
+            "width": 270
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 174,
+            "right": 494,
+            "tag": "SPAN",
+            "text": "\"import sys; print('ok'); sys.exit(0)\"",
+            "width": 320
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 165,
+            "right": 620,
+            "tag": "SPAN",
+            "text": "\"import sys; print(sys.executable); print(sys.prefix)\"",
+            "width": 455
+          },
+          {
+            "cls": "text-[var(--code-fg)] opacity-90",
+            "left": 81,
+            "right": 410,
+            "tag": "CODE",
+            "text": ".../python-ds-journey/.venv/bin/python3\n.../python-ds-journe",
+            "width": 329
+          },
+          {
+            "cls": "code-tok-keyword",
+            "left": 519,
+            "right": 570,
+            "tag": "SPAN",
+            "text": "python",
+            "width": 51
+          },
+          {
+            "cls": "code-tok-keyword",
+            "left": 671,
+            "right": 696,
+            "tag": "SPAN",
+            "text": "git",
+            "width": 25
+          }
+        ],
+        "scrollHeight": 34201,
+        "scrollWidth": 390,
+        "sectionRootText": 38605,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "flex items-center gap-1.5 text-xs font-medium text-violet-60",
+            "height": 16,
+            "tag": "BUTTON",
+            "text": "Ver pista",
+            "width": 69
+          }
+        ],
+        "viewportWidth": 390
+      },
+      "label": "mobile-theory",
+      "scroll_locked": false,
+      "tab": "theory",
+      "tab_selected": "active",
+      "tile_count": 1,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 86933,
+          "file": "mobile-theory-tile-01.png",
+          "height": 1600,
+          "index": 1,
+          "sha256": "e1dbc38ada558b53ac027a304cf7fb927b7d72fdaa6e927fe89955e71701b0b4",
+          "y_end": 1600,
+          "y_start": 0
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "mobile"
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": "tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+      "coverage_complete": false,
+      "coverage_gap": null,
+      "document_height": 19027,
+      "geometry": {
+        "clientWidth": 390,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 342,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 720,
+            "width": 36
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 44,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 44,
+            "left": 334,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 0,
+            "tag": "OL",
+            "testid": null,
+            "top": 0,
+            "width": 390
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Yo hago — Demostración guiada"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [
+          {
+            "cls": "",
+            "left": 102,
+            "right": 633,
+            "tag": "CODE",
+            "text": "pwd\n# .../python-ds-journey  (o Get-Location en PowerShell)\n",
+            "width": 531
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 102,
+            "right": 566,
+            "tag": "SPAN",
+            "text": "# .../python-ds-journey  (o Get-Location en PowerShell)",
+            "width": 464
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 195,
+            "right": 515,
+            "tag": "SPAN",
+            "text": "\"import sys; print('ok'); sys.exit(0)\"",
+            "width": 320
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 186,
+            "right": 448,
+            "tag": "SPAN",
+            "text": "\"import sys; print(sys.prefix)\"",
+            "width": 261
+          },
+          {
+            "cls": "text-[var(--code-fg)] opacity-90",
+            "left": 102,
+            "right": 422,
+            "tag": "CODE",
+            "text": ".../python-ds-journey/.venv\n.../python-ds-journey/.venv/bin/",
+            "width": 320
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 220,
+            "right": 473,
+            "tag": "SPAN",
+            "text": "\"docs: agregar README inicial\"",
+            "width": 253
+          }
+        ],
+        "scrollHeight": 19027,
+        "scrollWidth": 390,
+        "sectionRootText": 13414,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          }
+        ],
+        "viewportWidth": 390
+      },
+      "label": "mobile-ido",
+      "scroll_locked": false,
+      "tab": "ido",
+      "tab_selected": "active",
+      "tile_count": 1,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 92576,
+          "file": "mobile-ido-tile-01.png",
+          "height": 1600,
+          "index": 1,
+          "sha256": "28caadc95518d59ba8c687b36623da3e1a6308e606cd3d02e4bd273f203617f9",
+          "y_end": 1600,
+          "y_start": 0
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "mobile"
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": "tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+      "coverage_complete": false,
+      "coverage_gap": null,
+      "document_height": 51304,
+      "geometry": {
+        "clientWidth": 390,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 342,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 720,
+            "width": 36
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 44,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 44,
+            "left": 334,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 0,
+            "tag": "OL",
+            "testid": null,
+            "top": 0,
+            "width": 390
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Hacemos juntos — Práctica guiada"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [
+          {
+            "cls": "",
+            "left": 102,
+            "right": 675,
+            "tag": "CODE",
+            "text": "# CASO-LIM-001 · laboratorio REPL\n# TAREA: completa los ____",
+            "width": 573
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 102,
+            "right": 675,
+            "tag": "SPAN",
+            "text": "# TAREA: completa los ____ y reproduce la sesión en tu termi",
+            "width": 573
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 279,
+            "right": 734,
+            "tag": "SPAN",
+            "text": "# usa un nombre sintético, no datos reales de terceros",
+            "width": 455
+          },
+          {
+            "cls": "code-tok-number",
+            "left": 422,
+            "right": 439,
+            "tag": "SPAN",
+            "text": "3.",
+            "width": 17
+          },
+          {
+            "cls": "code-tok-keyword",
+            "left": 456,
+            "right": 481,
+            "tag": "SPAN",
+            "text": "del",
+            "width": 25
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 195,
+            "right": 540,
+            "tag": "SPAN",
+            "text": "\"import sys; print('ok'); sys.exit(____)\"",
+            "width": 346
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 321,
+            "right": 692,
+            "tag": "SPAN",
+            "text": "# bash/zsh: $?  |  PowerShell: $LASTEXITCODE",
+            "width": 371
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 136,
+            "right": 448,
+            "tag": "SPAN",
+            "text": "# sys.argv: [script, arg1, arg2, ...]",
+            "width": 312
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 220,
+            "right": 532,
+            "tag": "SPAN",
+            "text": "\"Uso: python check_arg.py <un_valor>\"",
+            "width": 312
+          },
+          {
+            "cls": "flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground tra",
+            "left": 319,
+            "right": 392,
+            "tag": "BUTTON",
+            "text": "Copiar",
+            "width": 73
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 186,
+            "right": 431,
+            "tag": "SPAN",
+            "text": "\"import sys; print(sys.____)\"",
+            "width": 244
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 338,
+            "right": 566,
+            "tag": "SPAN",
+            "text": "# o Activate.ps1 en Windows",
+            "width": 228
+          },
+          {
+            "cls": "flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground tra",
+            "left": 332,
+            "right": 405,
+            "tag": "BUTTON",
+            "text": "Copiar",
+            "width": 73
+          },
+          {
+            "cls": "",
+            "left": 360,
+            "right": 397,
+            "tag": "SPAN",
+            "text": "Copiar",
+            "width": 37
+          },
+          {
+            "cls": "flex-1 space-y-1",
+            "left": 137,
+            "right": 434,
+            "tag": "DIV",
+            "text": "Antes de empezarContexto: el historial es la memoria del equ",
+            "width": 297
+          },
+          {
+            "cls": "text-sm font-semibold text-sky-900 dark:text-sky-200",
+            "left": 137,
+            "right": 434,
+            "tag": "DIV",
+            "text": "Antes de empezar",
+            "width": 297
+          },
+          {
+            "cls": "text-sm text-foreground/90 [&>p]:my-0 [&>p+p]:mt-2 [&_code]:rounded [&_code]:bg-",
+            "left": 137,
+            "right": 434,
+            "tag": "DIV",
+            "text": "Contexto: el historial es la memoria del equipo; un mensaje ",
+            "width": 297
+          },
+          {
+            "cls": "space-y-4 text-[15px] leading-relaxed text-foreground/90",
+            "left": 137,
+            "right": 434,
+            "tag": "DIV",
+            "text": "Contexto: el historial es la memoria del equipo; un mensaje ",
+            "width": 297
+          },
+          {
+            "cls": "space-y-2 pl-1",
+            "left": 137,
+            "right": 434,
+            "tag": "UL",
+            "text": "Contexto: el historial es la memoria del equipo; un mensaje ",
+            "width": 297
+          },
+          {
+            "cls": "flex gap-2.5",
+            "left": 141,
+            "right": 434,
+            "tag": "LI",
+            "text": "Contexto: el historial es la memoria del equipo; un mensaje ",
+            "width": 293
+          },
+          {
+            "cls": "flex-1 [&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_cod",
+            "left": 157,
+            "right": 434,
+            "tag": "SPAN",
+            "text": "Contexto: el historial es la memoria del equipo; un mensaje ",
+            "width": 277
+          },
+          {
+            "cls": "",
+            "left": 157,
+            "right": 427,
+            "tag": "SPAN",
+            "text": "Contexto: el historial es la memoria del equipo; un mensaje ",
+            "width": 270
+          },
+          {
+            "cls": "",
+            "left": 208,
+            "right": 411,
+            "tag": "SPAN",
+            "text": "con prefijo docs: o feat:.",
+            "width": 203
+          },
+          {
+            "cls": "",
+            "left": 356,
+            "right": 407,
+            "tag": "CODE",
+            "text": "feat:",
+            "width": 51
+          },
+          {
+            "cls": "",
+            "left": 157,
+            "right": 434,
+            "tag": "CODE",
+            "text": "feat|fix|docs|chore|refactor|test:",
+            "width": 277
+          },
+          {
+            "cls": "flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground tra",
+            "left": 329,
+            "right": 402,
+            "tag": "BUTTON",
+            "text": "Copiar",
+            "width": 73
+          },
+          {
+            "cls": "",
+            "left": 357,
+            "right": 394,
+            "tag": "SPAN",
+            "text": "Copiar",
+            "width": 37
+          }
+        ],
+        "scrollHeight": 51304,
+        "scrollWidth": 390,
+        "sectionRootText": 31044,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "list",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "set",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          }
+        ],
+        "viewportWidth": 390
+      },
+      "label": "mobile-wedo",
+      "scroll_locked": false,
+      "tab": "wedo",
+      "tab_selected": "active",
+      "tile_count": 1,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 96233,
+          "file": "mobile-wedo-tile-01.png",
+          "height": 1600,
+          "index": 1,
+          "sha256": "b873cd252de2518cdb2bf7bfc550c51080c697bb7c83ab1bb1a3c8b5c46f0e29",
+          "y_end": 1600,
+          "y_start": 0
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "mobile"
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": "tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+      "coverage_complete": false,
+      "coverage_gap": null,
+      "document_height": 8096,
+      "geometry": {
+        "clientWidth": 390,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 342,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 720,
+            "width": 36
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 44,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 44,
+            "left": 334,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 0,
+            "tag": "OL",
+            "testid": null,
+            "top": 0,
+            "width": 390
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Tú haces — Proyecto para tu portafolio"
+          },
+          {
+            "level": "H3",
+            "text": "Esqueleto CP-N1-A — Reproducible Client Intake Repo"
+          },
+          {
+            "level": "H3",
+            "text": "Evaluaciones de tema (V3)"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [
+          {
+            "cls": "",
+            "left": 102,
+            "right": 802,
+            "tag": "CODE",
+            "text": "# Estructura esperada (esqueleto CP-N1-A):\n# python-ds-journ",
+            "width": 700
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 102,
+            "right": 456,
+            "tag": "SPAN",
+            "text": "# Estructura esperada (esqueleto CP-N1-A):",
+            "width": 354
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 186,
+            "right": 473,
+            "tag": "SPAN",
+            "text": "f\"Python {sys.version.split()[0]}\"",
+            "width": 287
+          }
+        ],
+        "scrollHeight": 8096,
+        "scrollWidth": 390,
+        "sectionRootText": 7635,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          }
+        ],
+        "viewportWidth": 390
+      },
+      "label": "mobile-youdo",
+      "scroll_locked": false,
+      "tab": "youdo",
+      "tab_selected": "active",
+      "tile_count": 1,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 91139,
+          "file": "mobile-youdo-tile-01.png",
+          "height": 1600,
+          "index": 1,
+          "sha256": "872090e34a656abf99b391404c49e8f966b5becd4630c323632dd137d3db351a",
+          "y_end": 1600,
+          "y_start": 0
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "mobile"
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": "tile 2 at y=1480 height=1600: Page.screenshot: Clipped area is either empty or outside the resulting image\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+      "coverage_complete": false,
+      "coverage_gap": null,
+      "document_height": 4646,
+      "geometry": {
+        "clientWidth": 390,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 342,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 720,
+            "width": 36
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 44,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 44,
+            "left": 334,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 0,
+            "tag": "OL",
+            "testid": null,
+            "top": 0,
+            "width": 390
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Autocheck — Verifica tu aprendizaje"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [],
+        "scrollHeight": 4646,
+        "scrollWidth": 390,
+        "sectionRootText": 2065,
+        "smallTouchTargets": [],
+        "viewportWidth": 390
+      },
+      "label": "mobile-quiz",
+      "scroll_locked": false,
+      "tab": "quiz",
+      "tab_selected": "active",
+      "tile_count": 1,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 75603,
+          "file": "mobile-quiz-tile-01.png",
+          "height": 1600,
+          "index": 1,
+          "sha256": "859f76bc9c4e76e65b612497d8510c87ea39698b4a125de0334c2873094248df",
+          "y_end": 1600,
+          "y_start": 0
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "mobile"
+    }
+  ],
+  "status": "COMPLETE",
+  "tabs": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+  ],
+  "tile_height": 1600,
+  "tile_overlap": 120,
+  "viewports": {
+    "desktop": {
+      "height": 1000,
+      "width": 1440
+    },
+    "mobile": {
+      "height": 844,
+      "width": 390
+    }
+  }
+}

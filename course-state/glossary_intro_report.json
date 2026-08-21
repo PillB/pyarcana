@@ -1,14 +1,22 @@
 {
-  "generated_at": "2026-07-22T17:33:08.653846Z",
+  "generated_at": "2026-08-21T14:44:06.226775Z",
   "terms": 89,
   "sections": 52,
-  "forward_refs": 1,
+  "forward_refs": 2,
   "issues": [
     {
-      "term": "f-string",
-      "id": "f-string",
-      "declared_first": "basics",
-      "found_first": "setup",
+      "term": "Streamlit",
+      "id": "streamlit",
+      "declared_first": "streamlit-dashboards",
+      "found_first": "rpa-automation",
+      "severity": "P2",
+      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
+    },
+    {
+      "term": "Embedding",
+      "id": "embedding",
+      "declared_first": "rag",
+      "found_first": "rpa-automation",
       "severity": "P2",
       "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
     }

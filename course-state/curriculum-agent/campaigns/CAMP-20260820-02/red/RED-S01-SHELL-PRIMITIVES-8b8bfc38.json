@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "scope": "curriculum_audit",
+  "gate": "shell_primitive_first_use",
+  "code_fields": "shell-language blocks only: iDo.steps[].code where language=bash, plus theory.code / weDo.exercises[].starterCode / youDo.starterCode that the shell-block classifier accepts. Python blocks are excluded.",
+  "sections_audited": 5,
+  "unexplained_primitive_count": 9,
+  "ok": false,
+  "results": [
+    {
+      "section_index": 1,
+      "section_id": "setup",
+      "issues": [
+        {
+          "primitive": "redirect_write",
+          "uses_in_learner_code": 8,
+          "defined_in_learner_prose": false,
+          "severity": "P1",
+          "sample_line": "python -m pip freeze > requirements.txt"
+        },
+        {
+          "primitive": "redirect_append",
+          "uses_in_learner_code": 2,
+          "defined_in_learner_prose": false,
+          "severity": "P1",
+          "sample_line": "echo \"Setup con venv.\" >> README.md"
+        },
+        {
+          "primitive": "pipe",
+          "uses_in_learner_code": 2,
+          "defined_in_learner_prose": false,
+          "severity": "P1",
+          "sample_line": "README.md | 1 +"
+        },
+        {
+          "primitive": "or_else",
+          "uses_in_learner_code": 3,
+          "defined_in_learner_prose": false,
+          "severity": "P1",
+          "sample_line": "which python || where python"
+        },
+        {
+          "primitive": "and_then",
+          "uses_in_learner_code": 2,
+          "defined_in_learner_prose": false,
+          "severity": "P1",
+          "sample_line": "mkdir -p lab_venv_t2a && cd lab_venv_t2a"
+        },
+        {
+          "primitive": "discard_stderr",
+          "uses_in_learner_code": 1,
+          "defined_in_learner_prose": false,
+          "severity": "P1",
+          "sample_line": "____ 2>/dev/null || true"
+        },
+        {
+          "primitive": "grep",
+          "uses_in_learner_code": 3,
+          "defined_in_learner_prose": false,
+          "severity": "P1",
+          "sample_line": "grep -i \"requests==\" requirements.txt"
+        },
+        {
+          "primitive": "head",
+          "uses_in_learner_code": 1,
+          "defined_in_learner_prose": false,
+          "severity": "P1",
+          "sample_line": "python -m pip list | head"
+        },
+        {
+          "primitive": "which_where",
+          "uses_in_learner_code": 4,
+          "defined_in_learner_prose": false,
+          "severity": "P1",
+          "sample_line": "which python || where python"
+        }
+      ],
+      "ok": false
+    }
+  ]
+}

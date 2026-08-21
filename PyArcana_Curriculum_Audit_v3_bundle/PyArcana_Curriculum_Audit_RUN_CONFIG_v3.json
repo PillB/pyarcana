@@ -1,0 +1,79 @@
+{
+  "schema_version": 3,
+  "campaign": {
+    "outer_passes_max": 10,
+    "final_quiet_passes": [
+      9,
+      10
+    ],
+    "primary_profile": "ZERO_TECH",
+    "learner_count": 2,
+    "skill_frozen_during_campaign": true
+  },
+  "learners": {
+    "semantic_runtime": "physically_tool_free_required",
+    "codex_cli_tool_exposed_runs": "DIAGNOSTIC_ONLY",
+    "network": false,
+    "repository_access": false,
+    "future_section_access": false,
+    "web": false,
+    "skills": false,
+    "shell": false,
+    "patch_tools": false,
+    "prior_session_resume": false
+  },
+  "evidence_tiers": {
+    "E0": "deterministic tests",
+    "E1": "diagnostic model run with unproven isolation",
+    "E2": "tool-free packet-only semantic learner",
+    "E3": "E2 plus per-attempt runtime receipts",
+    "E4": "exact-SHA deployed product evidence",
+    "E5": "human calibration"
+  },
+  "visual_validation": {
+    "full_matrix_passes": [
+      1,
+      9,
+      10
+    ],
+    "intermediate": "full automated sweep + screenshots for changed/risk-affected sections",
+    "viewports": [
+      {
+        "name": "desktop",
+        "width": 1440,
+        "height": 1000
+      },
+      {
+        "name": "mobile",
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "tabs": [
+      "theory",
+      "ido",
+      "wedo",
+      "youdo",
+      "quiz"
+    ]
+  },
+  "merge_gate": {
+    "block_unresolved": [
+      "P0",
+      "P1"
+    ],
+    "require_disposition": [
+      "P2"
+    ],
+    "review_must_match_latest_head": true,
+    "policy_changes_require_independent_human_or_reviewer_gate": true
+  },
+  "scope": {
+    "sections": "S01-S52",
+    "projects": true,
+    "capstones": true,
+    "badges": 31,
+    "claim_evidence_contracts": true,
+    "live_pages": true
+  }
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-20T18:00:00Z",
+  "updated_at": "2026-08-21T05:00:00Z",
   "limitations": [
     {
       "id": "LIMIT-PRETRAINED-KNOWLEDGE",
@@ -29,8 +29,18 @@
     },
     {
       "id": "LIMIT-CODEX-CORE-TOOL-EXPOSURE",
-      "status": "ACCEPTED_DIAGNOSTIC_LIMITATION",
-      "detail": "Codex exec still exposes a core apply_patch capability and skill-aware system behavior after user config, rules, shell and web are disabled. The user directed the audit to continue with explicit no-tool learner instructions. Results are diagnostic evidence, not proof of a physical knowledge firewall."
+      "status": "RESOLVED",
+      "detail": "Superseded on CAMP-20260820-02. Learner turns run through a Claude CLI session started with --tools \"\" --safe-mode --strict-mcp-config --setting-sources \"\" --disable-slash-commands --no-session-persistence, in a disposable directory outside the repository. The runner reads the CLI's own init event and refuses any turn whose tools, mcp_servers, slash_commands, skills or plugins are non-empty; StructuredOutput is the only permitted entry because it is the schema response channel. Learner runs are therefore E2 rather than E1 diagnostic."
+    },
+    {
+      "id": "LIMIT-REALISTIC-RUNTIME-RECEIPTS",
+      "status": "RESOLVED",
+      "detail": "scripts/student_runtime.py provides the isolated per-attempt runtime and binds each execution to a receipt (request, code, stdin, runtime, command, stdout, stderr, exit code, digest). The sealer fills observed_output from the receipt and fails closed on fabricated, replayed, tampered or mis-bound results."
+    },
+    {
+      "id": "LIMIT-REALISTIC-RUNTIME-SCOPE",
+      "status": "KNOWN_LIMITATION",
+      "detail": "The isolated student runtime executes stdlib-only Python. Exercises needing pip installs, network access, Git, GitHub CLI or a real shell still return BLOCKED_ENVIRONMENT rather than a receipt, so S01 practical steps remain unverifiable by execution."
     }
   ]
 }

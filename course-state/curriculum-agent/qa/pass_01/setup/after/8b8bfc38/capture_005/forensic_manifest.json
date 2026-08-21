@@ -1,0 +1,4996 @@
+{
+  "base_url": "http://localhost:3000",
+  "campaign_id": "CAMP-20260820-02",
+  "capture_id": "capture_005",
+  "clean": false,
+  "console_errors": [],
+  "console_warnings": [],
+  "failed_requests": [
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "desktop"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "desktop"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "desktop"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "desktop"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "desktop"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "mobile"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "mobile"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "mobile"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "mobile"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "mobile"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "mobile"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "mobile"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "mobile"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "mobile"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "mobile"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "mobile"
+    },
+    {
+      "failure": "net::ERR_ABORTED",
+      "url": "http://localhost:3000/?_rsc=1ch6o",
+      "viewport": "mobile"
+    }
+  ],
+  "findings": [
+    "mobile/onboarding-tour: 14 element(s) outside viewport width",
+    "mobile/theory: 14 element(s) outside viewport width",
+    "mobile/ido: 6 element(s) outside viewport width",
+    "mobile/wedo: incomplete tile coverage (None)",
+    "mobile/wedo: 27 element(s) outside viewport width",
+    "mobile/youdo: 3 element(s) outside viewport width"
+  ],
+  "generated_at": "2026-08-21T14:08:47.777409+00:00",
+  "outer_pass": 1,
+  "page_errors": [],
+  "phase": "after",
+  "schema_version": 1,
+  "scope": "curriculum_audit",
+  "section_id": "setup",
+  "source_git_sha": "8b8bfc38c02fix1",
+  "started_at": "2026-08-21T14:06:51.426506+00:00",
+  "states": [
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": null,
+      "coverage_complete": true,
+      "coverage_gap": null,
+      "document_height": 1000,
+      "geometry": {
+        "clientWidth": 1440,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "",
+            "height": 0,
+            "left": 0,
+            "tag": "SPAN",
+            "testid": null,
+            "top": 0,
+            "width": 0
+          },
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 1318,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 932,
+            "width": 98
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 48,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 48,
+            "left": 1380,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed bottom-4 left-1/2 -translate-x-1/2 z-40 hidden md:flex",
+            "height": 20,
+            "left": 631,
+            "tag": "DIV",
+            "testid": null,
+            "top": 964,
+            "width": 178
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 1020,
+            "tag": "OL",
+            "testid": null,
+            "top": 968,
+            "width": 420
+          },
+          {
+            "cls": "data-[state=open]:animate-in data-[state=closed]:animate-out",
+            "height": 1000,
+            "left": 0,
+            "tag": "DIV",
+            "testid": null,
+            "top": 0,
+            "width": 1440
+          },
+          {
+            "cls": "bg-background data-[state=open]:animate-in data-[state=close",
+            "height": 247,
+            "left": 496,
+            "tag": "DIV",
+            "testid": null,
+            "top": 377,
+            "width": 448
+          },
+          {
+            "cls": "",
+            "height": 0,
+            "left": 0,
+            "tag": "SPAN",
+            "testid": null,
+            "top": 17461,
+            "width": 0
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Teoría"
+          },
+          {
+            "level": "H3",
+            "text": "Pruébalo tú mismo"
+          },
+          {
+            "level": "H2",
+            "text": "Bienvenido a PyArcana"
+          },
+          {
+            "level": "H3",
+            "text": "Bienvenido a PyArcana"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [],
+        "scrollHeight": 17461,
+        "scrollWidth": 1440,
+        "sectionRootText": 38572,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "flex items-center gap-1.5 text-xs font-medium text-violet-60",
+            "height": 16,
+            "tag": "BUTTON",
+            "text": "Ver pista",
+            "width": 69
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          }
+        ],
+        "viewportWidth": 1440
+      },
+      "label": "desktop-onboarding-tour",
+      "scroll_locked": true,
+      "tab": "onboarding-tour",
+      "tab_selected": null,
+      "tile_count": 1,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 298427,
+          "file": "desktop-onboarding-tour-tile-01.png",
+          "height": 1000,
+          "index": 1,
+          "sha256": "c787d6b274d1e6433b47d57a0a25fbbe93831eb21570955efa589ed0e8cb7e89",
+          "y_end": 1000,
+          "y_start": 0
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "desktop",
+      "viewport_height": 1000
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": null,
+      "coverage_complete": true,
+      "coverage_gap": null,
+      "document_height": 17461,
+      "geometry": {
+        "clientWidth": 1440,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 1318,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 932,
+            "width": 98
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 48,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 48,
+            "left": 1380,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed bottom-4 left-1/2 -translate-x-1/2 z-40 hidden md:flex",
+            "height": 20,
+            "left": 631,
+            "tag": "DIV",
+            "testid": null,
+            "top": 964,
+            "width": 178
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 1020,
+            "tag": "OL",
+            "testid": null,
+            "top": 968,
+            "width": 420
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Teoría"
+          },
+          {
+            "level": "H3",
+            "text": "Pruébalo tú mismo"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [],
+        "scrollHeight": 17461,
+        "scrollWidth": 1440,
+        "sectionRootText": 38605,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "flex items-center gap-1.5 text-xs font-medium text-violet-60",
+            "height": 16,
+            "tag": "BUTTON",
+            "text": "Ver pista",
+            "width": 69
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          }
+        ],
+        "viewportWidth": 1440
+      },
+      "label": "desktop-theory",
+      "scroll_locked": false,
+      "tab": "theory",
+      "tab_selected": "active",
+      "tile_count": 20,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 318500,
+          "file": "desktop-theory-tile-01.png",
+          "height": 1000,
+          "index": 1,
+          "sha256": "1f9e6ac13b54953a51ee56a95b718cc2dbe14a29cd9bb124759748df1765555f",
+          "y_end": 1000,
+          "y_start": 0
+        },
+        {
+          "blank": false,
+          "bytes": 289350,
+          "file": "desktop-theory-tile-02.png",
+          "height": 1000,
+          "index": 2,
+          "sha256": "f84c2a7df0c571f8d1c75f68f27d75a5b046a14c7e1fd7b1f0cf039c6c2594a8",
+          "y_end": 1880,
+          "y_start": 880
+        },
+        {
+          "blank": false,
+          "bytes": 339474,
+          "file": "desktop-theory-tile-03.png",
+          "height": 1000,
+          "index": 3,
+          "sha256": "d29692b4aef5a96fde5c59059392077eb5a62e4f9cbd824fd46660977c313f43",
+          "y_end": 2760,
+          "y_start": 1760
+        },
+        {
+          "blank": false,
+          "bytes": 289699,
+          "file": "desktop-theory-tile-04.png",
+          "height": 1000,
+          "index": 4,
+          "sha256": "94c72c5c98381a8a4b530bf4f4c954484d16d610e4623924eeb957b3c81fe709",
+          "y_end": 3640,
+          "y_start": 2640
+        },
+        {
+          "blank": false,
+          "bytes": 342573,
+          "file": "desktop-theory-tile-05.png",
+          "height": 1000,
+          "index": 5,
+          "sha256": "fa7679bd0e1bd27357f44d4919ebd34f9f3f2d32e6aab331b76d3009314dfa4c",
+          "y_end": 4520,
+          "y_start": 3520
+        },
+        {
+          "blank": false,
+          "bytes": 307773,
+          "file": "desktop-theory-tile-06.png",
+          "height": 1000,
+          "index": 6,
+          "sha256": "d29be2ad409b13737374ced985097eb58f1c498f7917d4153065f3b4207f41e8",
+          "y_end": 5400,
+          "y_start": 4400
+        },
+        {
+          "blank": false,
+          "bytes": 340248,
+          "file": "desktop-theory-tile-07.png",
+          "height": 1000,
+          "index": 7,
+          "sha256": "c232e0ee5b27a798957e558aee2ab455762a742aebbee182b85880d6fe6901bd",
+          "y_end": 6280,
+          "y_start": 5280
+        },
+        {
+          "blank": false,
+          "bytes": 293966,
+          "file": "desktop-theory-tile-08.png",
+          "height": 1000,
+          "index": 8,
+          "sha256": "af2f65f57fd48f4a6c216d76394df6d9f754c702f45f08316e229a4b8a6a9280",
+          "y_end": 7160,
+          "y_start": 6160
+        },
+        {
+          "blank": false,
+          "bytes": 238806,
+          "file": "desktop-theory-tile-09.png",
+          "height": 1000,
+          "index": 9,
+          "sha256": "87393546cada044414717fe5f5cd181f707ce0e6434fe2a73c59a9cc40da48c9",
+          "y_end": 8040,
+          "y_start": 7040
+        },
+        {
+          "blank": false,
+          "bytes": 379078,
+          "file": "desktop-theory-tile-10.png",
+          "height": 1000,
+          "index": 10,
+          "sha256": "e5c5d48073766bf09ac3a318a9af098a7dd2b11590634acd86dec1f8976619bf",
+          "y_end": 8920,
+          "y_start": 7920
+        },
+        {
+          "blank": false,
+          "bytes": 278560,
+          "file": "desktop-theory-tile-11.png",
+          "height": 1000,
+          "index": 11,
+          "sha256": "687d82ee86a00c7bc2e14078a1dc4a7735fde2bfbab66cee1a4a32b6f5cea12c",
+          "y_end": 9800,
+          "y_start": 8800
+        },
+        {
+          "blank": false,
+          "bytes": 362030,
+          "file": "desktop-theory-tile-12.png",
+          "height": 1000,
+          "index": 12,
+          "sha256": "57754844451047523fcd50d108b8b869caecf348231a6606f5d81f146a6729dc",
+          "y_end": 10680,
+          "y_start": 9680
+        },
+        {
+          "blank": false,
+          "bytes": 320694,
+          "file": "desktop-theory-tile-13.png",
+          "height": 1000,
+          "index": 13,
+          "sha256": "d88c2b7614695d716738251ba887703a145e7c0f6c31186723a477449dfcf30a",
+          "y_end": 11560,
+          "y_start": 10560
+        },
+        {
+          "blank": false,
+          "bytes": 325160,
+          "file": "desktop-theory-tile-14.png",
+          "height": 1000,
+          "index": 14,
+          "sha256": "30fb52603db2c1f7bf5bf6ae7be4d5a6bd690ad7194fc5c8308f8c7275c94104",
+          "y_end": 12440,
+          "y_start": 11440
+        },
+        {
+          "blank": false,
+          "bytes": 288347,
+          "file": "desktop-theory-tile-15.png",
+          "height": 1000,
+          "index": 15,
+          "sha256": "b37a59730aa2e797f2d6955b2a8958a1715e81e6e25a752eafd211e14f742edb",
+          "y_end": 13320,
+          "y_start": 12320
+        },
+        {
+          "blank": false,
+          "bytes": 352709,
+          "file": "desktop-theory-tile-16.png",
+          "height": 1000,
+          "index": 16,
+          "sha256": "6649cfa8bb12410e25fe5e346a657751470a864d0ca2054586275593e1641379",
+          "y_end": 14200,
+          "y_start": 13200
+        },
+        {
+          "blank": false,
+          "bytes": 312584,
+          "file": "desktop-theory-tile-17.png",
+          "height": 1000,
+          "index": 17,
+          "sha256": "29107466c747f09b30c91b860d04f0dee47c29c7c4a46e9b387d4015be109a76",
+          "y_end": 15080,
+          "y_start": 14080
+        },
+        {
+          "blank": false,
+          "bytes": 318923,
+          "file": "desktop-theory-tile-18.png",
+          "height": 1000,
+          "index": 18,
+          "sha256": "31c4ec7ea7761cda480b8bba4dce1b556409b7458e040ecdc47ca0b7f3e0b13f",
+          "y_end": 15960,
+          "y_start": 14960
+        },
+        {
+          "blank": false,
+          "bytes": 237094,
+          "file": "desktop-theory-tile-19.png",
+          "height": 1000,
+          "index": 19,
+          "sha256": "3ec287cc6ebc348376cad59b186683cb000c50fdcbf9eb5534b5ad9697fff8cf",
+          "y_end": 16840,
+          "y_start": 15840
+        },
+        {
+          "blank": false,
+          "bytes": 220018,
+          "file": "desktop-theory-tile-20.png",
+          "height": 1000,
+          "index": 20,
+          "sha256": "bfd1e7041c54f4b858433de7a5277f09920f434f9470601b6419ecbc0bbbafc2",
+          "y_end": 17461,
+          "y_start": 16461
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "desktop",
+      "viewport_height": 1000
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": null,
+      "coverage_complete": true,
+      "coverage_gap": null,
+      "document_height": 9686,
+      "geometry": {
+        "clientWidth": 1440,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 1318,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 932,
+            "width": 98
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 48,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 48,
+            "left": 1380,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed bottom-4 left-1/2 -translate-x-1/2 z-40 hidden md:flex",
+            "height": 20,
+            "left": 631,
+            "tag": "DIV",
+            "testid": null,
+            "top": 964,
+            "width": 178
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 1020,
+            "tag": "OL",
+            "testid": null,
+            "top": 968,
+            "width": 420
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Yo hago — Demostración guiada"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [],
+        "scrollHeight": 9686,
+        "scrollWidth": 1440,
+        "sectionRootText": 13414,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          }
+        ],
+        "viewportWidth": 1440
+      },
+      "label": "desktop-ido",
+      "scroll_locked": false,
+      "tab": "ido",
+      "tab_selected": "active",
+      "tile_count": 11,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 257923,
+          "file": "desktop-ido-tile-01.png",
+          "height": 1000,
+          "index": 1,
+          "sha256": "724f6e51c3aca3ef971e77f0e2aa029469e0759a8ab136a1b7de46abc317c486",
+          "y_end": 1000,
+          "y_start": 0
+        },
+        {
+          "blank": false,
+          "bytes": 234573,
+          "file": "desktop-ido-tile-02.png",
+          "height": 1000,
+          "index": 2,
+          "sha256": "0faa7ab988254b528b2756046ffce1765e733d252c158f3ef563e031f1932067",
+          "y_end": 1880,
+          "y_start": 880
+        },
+        {
+          "blank": false,
+          "bytes": 248345,
+          "file": "desktop-ido-tile-03.png",
+          "height": 1000,
+          "index": 3,
+          "sha256": "fcbb81adedcfdf06622fe8b8ca801dd1c2232a95420a3aeb171186df99590664",
+          "y_end": 2760,
+          "y_start": 1760
+        },
+        {
+          "blank": false,
+          "bytes": 244157,
+          "file": "desktop-ido-tile-04.png",
+          "height": 1000,
+          "index": 4,
+          "sha256": "f8d975e9ea8bbe450cbabd58758178e5fe668a92db4054beecb07bcf6edfdc0d",
+          "y_end": 3640,
+          "y_start": 2640
+        },
+        {
+          "blank": false,
+          "bytes": 269523,
+          "file": "desktop-ido-tile-05.png",
+          "height": 1000,
+          "index": 5,
+          "sha256": "0882d2c0eea8a35b8cdded9a7f3e303ebf30420a90e8b63c3de29cc7d7d51814",
+          "y_end": 4520,
+          "y_start": 3520
+        },
+        {
+          "blank": false,
+          "bytes": 262039,
+          "file": "desktop-ido-tile-06.png",
+          "height": 1000,
+          "index": 6,
+          "sha256": "c0a744c3913ffa407225e1b5585cb3e842d51d70015a7bba3b85ddbe47560177",
+          "y_end": 5400,
+          "y_start": 4400
+        },
+        {
+          "blank": false,
+          "bytes": 251612,
+          "file": "desktop-ido-tile-07.png",
+          "height": 1000,
+          "index": 7,
+          "sha256": "e4a71c5d427dfe17e912112eb8043e75f980ab865786faf90cf943bd9069557a",
+          "y_end": 6280,
+          "y_start": 5280
+        },
+        {
+          "blank": false,
+          "bytes": 280825,
+          "file": "desktop-ido-tile-08.png",
+          "height": 1000,
+          "index": 8,
+          "sha256": "41233e09c07df8bd661afb69e210dda6f030622a40b007c237270688325b8fe6",
+          "y_end": 7160,
+          "y_start": 6160
+        },
+        {
+          "blank": false,
+          "bytes": 247660,
+          "file": "desktop-ido-tile-09.png",
+          "height": 1000,
+          "index": 9,
+          "sha256": "7b9166b3607250c082a555d9db007cb38687e0572865be0fd21833b4922f8ad4",
+          "y_end": 8040,
+          "y_start": 7040
+        },
+        {
+          "blank": false,
+          "bytes": 258558,
+          "file": "desktop-ido-tile-10.png",
+          "height": 1000,
+          "index": 10,
+          "sha256": "82df159f26c227d122862bea5553c4ed501c83b619ceb1906329e89e26712336",
+          "y_end": 8920,
+          "y_start": 7920
+        },
+        {
+          "blank": false,
+          "bytes": 242656,
+          "file": "desktop-ido-tile-11.png",
+          "height": 1000,
+          "index": 11,
+          "sha256": "0a9a2409d612aaec90e3a5b8688871eef2bca554fdb6ffd7c9ae01a9c8b4f99d",
+          "y_end": 9686,
+          "y_start": 8686
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "desktop",
+      "viewport_height": 1000
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": null,
+      "coverage_complete": true,
+      "coverage_gap": null,
+      "document_height": 32117,
+      "geometry": {
+        "clientWidth": 1440,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 1318,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 932,
+            "width": 98
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 48,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 48,
+            "left": 1380,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed bottom-4 left-1/2 -translate-x-1/2 z-40 hidden md:flex",
+            "height": 20,
+            "left": 631,
+            "tag": "DIV",
+            "testid": null,
+            "top": 964,
+            "width": 178
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 1020,
+            "tag": "OL",
+            "testid": null,
+            "top": 968,
+            "width": 420
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Hacemos juntos — Práctica guiada"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [],
+        "scrollHeight": 32117,
+        "scrollWidth": 1440,
+        "sectionRootText": 31044,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "list",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "set",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          }
+        ],
+        "viewportWidth": 1440
+      },
+      "label": "desktop-wedo",
+      "scroll_locked": false,
+      "tab": "wedo",
+      "tab_selected": "active",
+      "tile_count": 37,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 257698,
+          "file": "desktop-wedo-tile-01.png",
+          "height": 1000,
+          "index": 1,
+          "sha256": "5012954c4beeb06c5f6d7f9054893c5b81730187134dde15712409da847bd047",
+          "y_end": 1000,
+          "y_start": 0
+        },
+        {
+          "blank": false,
+          "bytes": 219291,
+          "file": "desktop-wedo-tile-02.png",
+          "height": 1000,
+          "index": 2,
+          "sha256": "e03a42cd37e5f46abd042a8813ceb489dc1b9486af30ef8753740685929763d2",
+          "y_end": 1880,
+          "y_start": 880
+        },
+        {
+          "blank": false,
+          "bytes": 237511,
+          "file": "desktop-wedo-tile-03.png",
+          "height": 1000,
+          "index": 3,
+          "sha256": "4ecd4dff365ccd3d7c8c21f3570787ec288da6e922bcb257e8434478035929d6",
+          "y_end": 2760,
+          "y_start": 1760
+        },
+        {
+          "blank": false,
+          "bytes": 234733,
+          "file": "desktop-wedo-tile-04.png",
+          "height": 1000,
+          "index": 4,
+          "sha256": "d096da5c7e3d9e5afa1f7a685e239ef277c05f79eb42f41df2e6b490a9fd0f5e",
+          "y_end": 3640,
+          "y_start": 2640
+        },
+        {
+          "blank": false,
+          "bytes": 235156,
+          "file": "desktop-wedo-tile-05.png",
+          "height": 1000,
+          "index": 5,
+          "sha256": "7afb33efa253e72b4420de35ade9e9833a7ca6fe959a7f662ec4f9f8d3461fd2",
+          "y_end": 4520,
+          "y_start": 3520
+        },
+        {
+          "blank": false,
+          "bytes": 232286,
+          "file": "desktop-wedo-tile-06.png",
+          "height": 1000,
+          "index": 6,
+          "sha256": "aff4b3dd7490751a1c52fe232d708616feda468364b968fe3b1c32c233bec83c",
+          "y_end": 5400,
+          "y_start": 4400
+        },
+        {
+          "blank": false,
+          "bytes": 241205,
+          "file": "desktop-wedo-tile-07.png",
+          "height": 1000,
+          "index": 7,
+          "sha256": "605af52f9fc31d224bcc2e8d67c3fdb5dc716876881a8ec36def1e57bc0de20c",
+          "y_end": 6280,
+          "y_start": 5280
+        },
+        {
+          "blank": false,
+          "bytes": 235927,
+          "file": "desktop-wedo-tile-08.png",
+          "height": 1000,
+          "index": 8,
+          "sha256": "1b9a78580e14f3d266e2b3fca16cddf8b3004cf81350983960dbb32a6ecf1808",
+          "y_end": 7160,
+          "y_start": 6160
+        },
+        {
+          "blank": false,
+          "bytes": 229072,
+          "file": "desktop-wedo-tile-09.png",
+          "height": 1000,
+          "index": 9,
+          "sha256": "13bf23446b9acacfbf7b04001a0615e3b63fd4965cf02aa7cfc3cbdfa9aa3a38",
+          "y_end": 8040,
+          "y_start": 7040
+        },
+        {
+          "blank": false,
+          "bytes": 204423,
+          "file": "desktop-wedo-tile-10.png",
+          "height": 1000,
+          "index": 10,
+          "sha256": "c25fd103f99cdf553d3123de59a697302b7197aad3c70d2dd7998e97601951f6",
+          "y_end": 8920,
+          "y_start": 7920
+        },
+        {
+          "blank": false,
+          "bytes": 247100,
+          "file": "desktop-wedo-tile-11.png",
+          "height": 1000,
+          "index": 11,
+          "sha256": "cc94447b555b861f2cb6fb488a26ec1c5445244374fb84d2f15018c5cdb59fc6",
+          "y_end": 9800,
+          "y_start": 8800
+        },
+        {
+          "blank": false,
+          "bytes": 220745,
+          "file": "desktop-wedo-tile-12.png",
+          "height": 1000,
+          "index": 12,
+          "sha256": "9a45caadad78a723b63e7bfda490c1e87709f5043c962fe8faa706642cb1b786",
+          "y_end": 10680,
+          "y_start": 9680
+        },
+        {
+          "blank": false,
+          "bytes": 220321,
+          "file": "desktop-wedo-tile-13.png",
+          "height": 1000,
+          "index": 13,
+          "sha256": "f39b9f38989412c87bf6cef82f5db62c603f5da69b02d2a73f132fa309a06379",
+          "y_end": 11560,
+          "y_start": 10560
+        },
+        {
+          "blank": false,
+          "bytes": 246106,
+          "file": "desktop-wedo-tile-14.png",
+          "height": 1000,
+          "index": 14,
+          "sha256": "c7e0996be1f6836331fc171f8b7c49fde8f9b4f81ec5fc00d5f31a0fd4f1ec0d",
+          "y_end": 12440,
+          "y_start": 11440
+        },
+        {
+          "blank": false,
+          "bytes": 227125,
+          "file": "desktop-wedo-tile-15.png",
+          "height": 1000,
+          "index": 15,
+          "sha256": "6b47d5aec9884248cfbef17bb9b6a3c8376434ff576bcea4092c1451b7196aa7",
+          "y_end": 13320,
+          "y_start": 12320
+        },
+        {
+          "blank": false,
+          "bytes": 214104,
+          "file": "desktop-wedo-tile-16.png",
+          "height": 1000,
+          "index": 16,
+          "sha256": "2e37d13529ed62822c72d3d08ae88e8c2550b8777a01dbca2915e425893909e0",
+          "y_end": 14200,
+          "y_start": 13200
+        },
+        {
+          "blank": false,
+          "bytes": 248383,
+          "file": "desktop-wedo-tile-17.png",
+          "height": 1000,
+          "index": 17,
+          "sha256": "32f6e743c1283a866f8a6e28f9b0d58dc3e0cecbbe90350d602609cba312c65b",
+          "y_end": 15080,
+          "y_start": 14080
+        },
+        {
+          "blank": false,
+          "bytes": 234757,
+          "file": "desktop-wedo-tile-18.png",
+          "height": 1000,
+          "index": 18,
+          "sha256": "25f18ffd5ea8e5b887d7c63e395498389b99290f65ad60c79a371348e2bf9fa5",
+          "y_end": 15960,
+          "y_start": 14960
+        },
+        {
+          "blank": false,
+          "bytes": 203589,
+          "file": "desktop-wedo-tile-19.png",
+          "height": 1000,
+          "index": 19,
+          "sha256": "06460ba3e2320db222558ce10a69a623f6898168ecff006d7ea4669b7f89d139",
+          "y_end": 16840,
+          "y_start": 15840
+        },
+        {
+          "blank": false,
+          "bytes": 241892,
+          "file": "desktop-wedo-tile-20.png",
+          "height": 1000,
+          "index": 20,
+          "sha256": "64f9efa7a9530ca7280fa0cc74fee8833d37369ac49731dcfc0a719eda4c065e",
+          "y_end": 17720,
+          "y_start": 16720
+        },
+        {
+          "blank": false,
+          "bytes": 231069,
+          "file": "desktop-wedo-tile-21.png",
+          "height": 1000,
+          "index": 21,
+          "sha256": "1c6ed84eb7717610935f8bf231207bf4679172ad3ea745805d8751f278895080",
+          "y_end": 18600,
+          "y_start": 17600
+        },
+        {
+          "blank": false,
+          "bytes": 227706,
+          "file": "desktop-wedo-tile-22.png",
+          "height": 1000,
+          "index": 22,
+          "sha256": "c4c3593dde990fe3d02e0a897c8bc81f526295f234f5640eda973bef66a63c1e",
+          "y_end": 19480,
+          "y_start": 18480
+        },
+        {
+          "blank": false,
+          "bytes": 228183,
+          "file": "desktop-wedo-tile-23.png",
+          "height": 1000,
+          "index": 23,
+          "sha256": "cf805cbbeb4eff42d206fc4ce2d5a6b4b89473871cf6064ac66174e753f8774e",
+          "y_end": 20360,
+          "y_start": 19360
+        },
+        {
+          "blank": false,
+          "bytes": 210303,
+          "file": "desktop-wedo-tile-24.png",
+          "height": 1000,
+          "index": 24,
+          "sha256": "cb03ade0d8ec507f59fdc62ebfadec5aefe66726a02a6d4202fe2f223c7660d5",
+          "y_end": 21240,
+          "y_start": 20240
+        },
+        {
+          "blank": false,
+          "bytes": 237780,
+          "file": "desktop-wedo-tile-25.png",
+          "height": 1000,
+          "index": 25,
+          "sha256": "1e3c4ee17204190c6fa27604c58792b8199b14554b3b7f8ba68981e62491d0b9",
+          "y_end": 22120,
+          "y_start": 21120
+        },
+        {
+          "blank": false,
+          "bytes": 203426,
+          "file": "desktop-wedo-tile-26.png",
+          "height": 1000,
+          "index": 26,
+          "sha256": "adb4c1a7276ddb97e1410edbd4a79614d5cb0f73507ed409d450a5cb48f492e6",
+          "y_end": 23000,
+          "y_start": 22000
+        },
+        {
+          "blank": false,
+          "bytes": 233416,
+          "file": "desktop-wedo-tile-27.png",
+          "height": 1000,
+          "index": 27,
+          "sha256": "c8578d3038682212fd3c7873937bcf4857a158e7b84fe50fc1af1cefeaab1a7c",
+          "y_end": 23880,
+          "y_start": 22880
+        },
+        {
+          "blank": false,
+          "bytes": 214356,
+          "file": "desktop-wedo-tile-28.png",
+          "height": 1000,
+          "index": 28,
+          "sha256": "3e6eb124b7d3d3aca064bfa41d1b13ea9513d0a9507c62d3ecbc95518895dbda",
+          "y_end": 24760,
+          "y_start": 23760
+        },
+        {
+          "blank": false,
+          "bytes": 217906,
+          "file": "desktop-wedo-tile-29.png",
+          "height": 1000,
+          "index": 29,
+          "sha256": "4563850f29e4a1b86a049c9677c424eec92f251bcd2a0076fa420f48cb519511",
+          "y_end": 25640,
+          "y_start": 24640
+        },
+        {
+          "blank": false,
+          "bytes": 231528,
+          "file": "desktop-wedo-tile-30.png",
+          "height": 1000,
+          "index": 30,
+          "sha256": "74c91f9c8cff7e7d3e8da3082a98fcfefc18c08c46e5f0e1909e4b5772960bf2",
+          "y_end": 26520,
+          "y_start": 25520
+        },
+        {
+          "blank": false,
+          "bytes": 214236,
+          "file": "desktop-wedo-tile-31.png",
+          "height": 1000,
+          "index": 31,
+          "sha256": "55dcf62ada365e913dfa2e7e3c9899b2339afab1fb1b7b6fbd9f40f56e0f5ca2",
+          "y_end": 27400,
+          "y_start": 26400
+        },
+        {
+          "blank": false,
+          "bytes": 204721,
+          "file": "desktop-wedo-tile-32.png",
+          "height": 1000,
+          "index": 32,
+          "sha256": "2f59f7a927556ea25c4f98efbc603d3cd59c40441668f75b67124b2df62561e1",
+          "y_end": 28280,
+          "y_start": 27280
+        },
+        {
+          "blank": false,
+          "bytes": 231184,
+          "file": "desktop-wedo-tile-33.png",
+          "height": 1000,
+          "index": 33,
+          "sha256": "47ec9877904e144a32d89c156e1aba12248d0bddafb4a47b9b055065f6548f71",
+          "y_end": 29160,
+          "y_start": 28160
+        },
+        {
+          "blank": false,
+          "bytes": 215871,
+          "file": "desktop-wedo-tile-34.png",
+          "height": 1000,
+          "index": 34,
+          "sha256": "03954c329e7cd1f3bb5b941905f0b9c6668d6af7c99ee002f05ad8b0a756bffa",
+          "y_end": 30040,
+          "y_start": 29040
+        },
+        {
+          "blank": false,
+          "bytes": 234149,
+          "file": "desktop-wedo-tile-35.png",
+          "height": 1000,
+          "index": 35,
+          "sha256": "81d67aba0af84cf74b7c41fa33f53419b27b896e1a8ed178cbed4e140c700690",
+          "y_end": 30920,
+          "y_start": 29920
+        },
+        {
+          "blank": false,
+          "bytes": 235567,
+          "file": "desktop-wedo-tile-36.png",
+          "height": 1000,
+          "index": 36,
+          "sha256": "3a26c27fdbec2d11bba0445522ffa258cd04abe78dfd90354a4794f017c2bdec",
+          "y_end": 31800,
+          "y_start": 30800
+        },
+        {
+          "blank": false,
+          "bytes": 215165,
+          "file": "desktop-wedo-tile-37.png",
+          "height": 1000,
+          "index": 37,
+          "sha256": "24f82fb218aec6b162e24b5ac2ca0a51d9049134c5d27020db6440be10506bf2",
+          "y_end": 32117,
+          "y_start": 31117
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "desktop",
+      "viewport_height": 1000
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": null,
+      "coverage_complete": true,
+      "coverage_gap": null,
+      "document_height": 4728,
+      "geometry": {
+        "clientWidth": 1440,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 1318,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 932,
+            "width": 98
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 48,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 48,
+            "left": 1380,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed bottom-4 left-1/2 -translate-x-1/2 z-40 hidden md:flex",
+            "height": 20,
+            "left": 631,
+            "tag": "DIV",
+            "testid": null,
+            "top": 964,
+            "width": 178
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 1020,
+            "tag": "OL",
+            "testid": null,
+            "top": 968,
+            "width": 420
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Tú haces — Proyecto para tu portafolio"
+          },
+          {
+            "level": "H3",
+            "text": "Esqueleto CP-N1-A — Reproducible Client Intake Repo"
+          },
+          {
+            "level": "H3",
+            "text": "Evaluaciones de tema (V3)"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [],
+        "scrollHeight": 4728,
+        "scrollWidth": 1440,
+        "sectionRootText": 7635,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          }
+        ],
+        "viewportWidth": 1440
+      },
+      "label": "desktop-youdo",
+      "scroll_locked": false,
+      "tab": "youdo",
+      "tab_selected": "active",
+      "tile_count": 6,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 306254,
+          "file": "desktop-youdo-tile-01.png",
+          "height": 1000,
+          "index": 1,
+          "sha256": "d88a05189c0dd6d2d9320bccb40fc42ba1bb980c5a9aa8abb1cb99a76ccb6955",
+          "y_end": 1000,
+          "y_start": 0
+        },
+        {
+          "blank": false,
+          "bytes": 276455,
+          "file": "desktop-youdo-tile-02.png",
+          "height": 1000,
+          "index": 2,
+          "sha256": "7a5190b5a941d33ab599f7053119ab6621e0aa5448f12ca75d9f2d7f739c438c",
+          "y_end": 1880,
+          "y_start": 880
+        },
+        {
+          "blank": false,
+          "bytes": 283337,
+          "file": "desktop-youdo-tile-03.png",
+          "height": 1000,
+          "index": 3,
+          "sha256": "a8685ae383682f533e0eeef9aeb6179e0be615ab7c9ab9cccf67ae4c0cd66ffb",
+          "y_end": 2760,
+          "y_start": 1760
+        },
+        {
+          "blank": false,
+          "bytes": 243114,
+          "file": "desktop-youdo-tile-04.png",
+          "height": 1000,
+          "index": 4,
+          "sha256": "2ee12a339a444d1ee424f120941bede941a4f75b5f0d580bcf197e9020e731bc",
+          "y_end": 3640,
+          "y_start": 2640
+        },
+        {
+          "blank": false,
+          "bytes": 224931,
+          "file": "desktop-youdo-tile-05.png",
+          "height": 1000,
+          "index": 5,
+          "sha256": "bcde5a38e859dc6a61bec4a31ebc784013e6925104afd2e3e2c98c56c6bdd61f",
+          "y_end": 4520,
+          "y_start": 3520
+        },
+        {
+          "blank": false,
+          "bytes": 223751,
+          "file": "desktop-youdo-tile-06.png",
+          "height": 1000,
+          "index": 6,
+          "sha256": "79ddf38b2a503d0bde6094cfef9b35101abf3f30eba24bae7e61eef61371cfec",
+          "y_end": 4728,
+          "y_start": 3728
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "desktop",
+      "viewport_height": 1000
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": null,
+      "coverage_complete": true,
+      "coverage_gap": null,
+      "document_height": 3662,
+      "geometry": {
+        "clientWidth": 1440,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 1318,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 932,
+            "width": 98
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 48,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 48,
+            "left": 1380,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 936,
+            "width": 48
+          },
+          {
+            "cls": "fixed bottom-4 left-1/2 -translate-x-1/2 z-40 hidden md:flex",
+            "height": 20,
+            "left": 631,
+            "tag": "DIV",
+            "testid": null,
+            "top": 964,
+            "width": 178
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 1020,
+            "tag": "OL",
+            "testid": null,
+            "top": 968,
+            "width": 420
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Autocheck — Verifica tu aprendizaje"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [],
+        "scrollHeight": 3662,
+        "scrollWidth": 1440,
+        "sectionRootText": 2065,
+        "smallTouchTargets": [
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          },
+          {
+            "cls": "h-1.5 w-6 rounded-full transition-all hover:scale-110 bg-mut",
+            "height": 6,
+            "tag": "BUTTON",
+            "text": "",
+            "width": 24
+          }
+        ],
+        "viewportWidth": 1440
+      },
+      "label": "desktop-quiz",
+      "scroll_locked": false,
+      "tab": "quiz",
+      "tab_selected": "active",
+      "tile_count": 5,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 205810,
+          "file": "desktop-quiz-tile-01.png",
+          "height": 1000,
+          "index": 1,
+          "sha256": "c79b1846d153add94b84a89b9bd5fdb2fe803847eee9d637850b1fa91b610413",
+          "y_end": 1000,
+          "y_start": 0
+        },
+        {
+          "blank": false,
+          "bytes": 182399,
+          "file": "desktop-quiz-tile-02.png",
+          "height": 1000,
+          "index": 2,
+          "sha256": "e6aed5b7efe196a4a3ac19a43c16543bda66b6dc8dab22d9cfc2b6eea517dc21",
+          "y_end": 1880,
+          "y_start": 880
+        },
+        {
+          "blank": false,
+          "bytes": 194740,
+          "file": "desktop-quiz-tile-03.png",
+          "height": 1000,
+          "index": 3,
+          "sha256": "14b44df73a4f820d0999c61193830d1da4b55b206c093aef008fd034ee73bc99",
+          "y_end": 2760,
+          "y_start": 1760
+        },
+        {
+          "blank": false,
+          "bytes": 187061,
+          "file": "desktop-quiz-tile-04.png",
+          "height": 1000,
+          "index": 4,
+          "sha256": "dd91f22e0f6c2de48c135f5f281d7ac7333db9d024251e0b5627f594ee90d7a0",
+          "y_end": 3640,
+          "y_start": 2640
+        },
+        {
+          "blank": false,
+          "bytes": 188601,
+          "file": "desktop-quiz-tile-05.png",
+          "height": 1000,
+          "index": 5,
+          "sha256": "71ffc29e42f56c65f844a1d1461879d39625336a2a62b93b0e904da5c197f489",
+          "y_end": 3662,
+          "y_start": 2662
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "desktop",
+      "viewport_height": 1000
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": null,
+      "coverage_complete": true,
+      "coverage_gap": null,
+      "document_height": 844,
+      "geometry": {
+        "clientWidth": 390,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "",
+            "height": 0,
+            "left": 0,
+            "tag": "SPAN",
+            "testid": null,
+            "top": 0,
+            "width": 0
+          },
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 342,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 720,
+            "width": 36
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 44,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 44,
+            "left": 334,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 0,
+            "tag": "OL",
+            "testid": null,
+            "top": 0,
+            "width": 390
+          },
+          {
+            "cls": "data-[state=open]:animate-in data-[state=closed]:animate-out",
+            "height": 844,
+            "left": 0,
+            "tag": "DIV",
+            "testid": null,
+            "top": 0,
+            "width": 390
+          },
+          {
+            "cls": "bg-background data-[state=open]:animate-in data-[state=close",
+            "height": 270,
+            "left": 0,
+            "tag": "DIV",
+            "testid": null,
+            "top": 574,
+            "width": 390
+          },
+          {
+            "cls": "",
+            "height": 0,
+            "left": 0,
+            "tag": "SPAN",
+            "testid": null,
+            "top": 34167,
+            "width": 0
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Teoría"
+          },
+          {
+            "level": "H3",
+            "text": "Pruébalo tú mismo"
+          },
+          {
+            "level": "H2",
+            "text": "Bienvenido a PyArcana"
+          },
+          {
+            "level": "H3",
+            "text": "Bienvenido a PyArcana"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [
+          {
+            "cls": "",
+            "left": 81,
+            "right": 899,
+            "tag": "CODE",
+            "text": "def section_contract():\n    return {\n        \"case\": \"CASO-L",
+            "width": 818
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 401,
+            "right": 578,
+            "tag": "SPAN",
+            "text": "\"requirements_pinned\"",
+            "width": 177
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 595,
+            "right": 772,
+            "tag": "SPAN",
+            "text": "\"secrets_out_of_repo\"",
+            "width": 177
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 789,
+            "right": 882,
+            "tag": "SPAN",
+            "text": "\"git_smoke\"",
+            "width": 93
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 342,
+            "right": 519,
+            "tag": "SPAN",
+            "text": "\"zero_prior_baseline\"",
+            "width": 177
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 334,
+            "right": 502,
+            "tag": "SPAN",
+            "text": "\"secrets_in_repo_ok\"",
+            "width": 169
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 81,
+            "right": 561,
+            "tag": "SPAN",
+            "text": "# Ejecutar: python hello_sys.py  → exit 0 si no hay error",
+            "width": 480
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 115,
+            "right": 460,
+            "tag": "SPAN",
+            "text": "# sys.argv[0] = script; usuario desde [1]",
+            "width": 346
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 199,
+            "right": 469,
+            "tag": "SPAN",
+            "text": "\"uso: python check_arg.py <arg>\"",
+            "width": 270
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 174,
+            "right": 494,
+            "tag": "SPAN",
+            "text": "\"import sys; print('ok'); sys.exit(0)\"",
+            "width": 320
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 165,
+            "right": 620,
+            "tag": "SPAN",
+            "text": "\"import sys; print(sys.executable); print(sys.prefix)\"",
+            "width": 455
+          },
+          {
+            "cls": "text-[var(--code-fg)] opacity-90",
+            "left": 81,
+            "right": 410,
+            "tag": "CODE",
+            "text": ".../python-ds-journey/.venv/bin/python3\n.../python-ds-journe",
+            "width": 329
+          },
+          {
+            "cls": "code-tok-keyword",
+            "left": 519,
+            "right": 570,
+            "tag": "SPAN",
+            "text": "python",
+            "width": 51
+          },
+          {
+            "cls": "code-tok-keyword",
+            "left": 671,
+            "right": 696,
+            "tag": "SPAN",
+            "text": "git",
+            "width": 25
+          }
+        ],
+        "scrollHeight": 34167,
+        "scrollWidth": 390,
+        "sectionRootText": 38572,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "flex items-center gap-1.5 text-xs font-medium text-violet-60",
+            "height": 16,
+            "tag": "BUTTON",
+            "text": "Ver pista",
+            "width": 69
+          }
+        ],
+        "viewportWidth": 390
+      },
+      "label": "mobile-onboarding-tour",
+      "scroll_locked": true,
+      "tab": "onboarding-tour",
+      "tab_selected": null,
+      "tile_count": 1,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 71929,
+          "file": "mobile-onboarding-tour-tile-01.png",
+          "height": 844,
+          "index": 1,
+          "sha256": "4e550618f71e39ebb4225e29eb1caca01ff377f5a37f4219da84386fe5bdcc67",
+          "y_end": 844,
+          "y_start": 0
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "mobile",
+      "viewport_height": 844
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": null,
+      "coverage_complete": true,
+      "coverage_gap": null,
+      "document_height": 34201,
+      "geometry": {
+        "clientWidth": 390,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 342,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 720,
+            "width": 36
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 44,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 44,
+            "left": 334,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 0,
+            "tag": "OL",
+            "testid": null,
+            "top": 0,
+            "width": 390
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Teoría"
+          },
+          {
+            "level": "H3",
+            "text": "Pruébalo tú mismo"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [
+          {
+            "cls": "",
+            "left": 81,
+            "right": 899,
+            "tag": "CODE",
+            "text": "def section_contract():\n    return {\n        \"case\": \"CASO-L",
+            "width": 818
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 401,
+            "right": 578,
+            "tag": "SPAN",
+            "text": "\"requirements_pinned\"",
+            "width": 177
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 595,
+            "right": 772,
+            "tag": "SPAN",
+            "text": "\"secrets_out_of_repo\"",
+            "width": 177
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 789,
+            "right": 882,
+            "tag": "SPAN",
+            "text": "\"git_smoke\"",
+            "width": 93
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 342,
+            "right": 519,
+            "tag": "SPAN",
+            "text": "\"zero_prior_baseline\"",
+            "width": 177
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 334,
+            "right": 502,
+            "tag": "SPAN",
+            "text": "\"secrets_in_repo_ok\"",
+            "width": 169
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 81,
+            "right": 561,
+            "tag": "SPAN",
+            "text": "# Ejecutar: python hello_sys.py  → exit 0 si no hay error",
+            "width": 480
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 115,
+            "right": 460,
+            "tag": "SPAN",
+            "text": "# sys.argv[0] = script; usuario desde [1]",
+            "width": 346
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 199,
+            "right": 469,
+            "tag": "SPAN",
+            "text": "\"uso: python check_arg.py <arg>\"",
+            "width": 270
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 174,
+            "right": 494,
+            "tag": "SPAN",
+            "text": "\"import sys; print('ok'); sys.exit(0)\"",
+            "width": 320
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 165,
+            "right": 620,
+            "tag": "SPAN",
+            "text": "\"import sys; print(sys.executable); print(sys.prefix)\"",
+            "width": 455
+          },
+          {
+            "cls": "text-[var(--code-fg)] opacity-90",
+            "left": 81,
+            "right": 410,
+            "tag": "CODE",
+            "text": ".../python-ds-journey/.venv/bin/python3\n.../python-ds-journe",
+            "width": 329
+          },
+          {
+            "cls": "code-tok-keyword",
+            "left": 519,
+            "right": 570,
+            "tag": "SPAN",
+            "text": "python",
+            "width": 51
+          },
+          {
+            "cls": "code-tok-keyword",
+            "left": 671,
+            "right": 696,
+            "tag": "SPAN",
+            "text": "git",
+            "width": 25
+          }
+        ],
+        "scrollHeight": 34201,
+        "scrollWidth": 390,
+        "sectionRootText": 38605,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "flex items-center gap-1.5 text-xs font-medium text-violet-60",
+            "height": 16,
+            "tag": "BUTTON",
+            "text": "Ver pista",
+            "width": 69
+          }
+        ],
+        "viewportWidth": 390
+      },
+      "label": "mobile-theory",
+      "scroll_locked": false,
+      "tab": "theory",
+      "tab_selected": "active",
+      "tile_count": 48,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 87048,
+          "file": "mobile-theory-tile-01.png",
+          "height": 844,
+          "index": 1,
+          "sha256": "b50d5a9ebfb23266a649318f91c9af434312c2da05128ec323dcaf7b35de806c",
+          "y_end": 844,
+          "y_start": 0
+        },
+        {
+          "blank": false,
+          "bytes": 106806,
+          "file": "mobile-theory-tile-02.png",
+          "height": 844,
+          "index": 2,
+          "sha256": "03cbfca2462e27ba24a99373d8094a89fe5db51c503bdcd85fcf8fec1276d381",
+          "y_end": 1568,
+          "y_start": 724
+        },
+        {
+          "blank": false,
+          "bytes": 106940,
+          "file": "mobile-theory-tile-03.png",
+          "height": 844,
+          "index": 3,
+          "sha256": "577a611c4666e90ab1879ce6039b942d7ffd04e8625d7e7c73eb43cca2823772",
+          "y_end": 2292,
+          "y_start": 1448
+        },
+        {
+          "blank": false,
+          "bytes": 94190,
+          "file": "mobile-theory-tile-04.png",
+          "height": 844,
+          "index": 4,
+          "sha256": "a509d1630cc3af4b6a983a8eb309c8ef57c877a35cfcc1bb115d64fc3de86250",
+          "y_end": 3016,
+          "y_start": 2172
+        },
+        {
+          "blank": false,
+          "bytes": 103668,
+          "file": "mobile-theory-tile-05.png",
+          "height": 844,
+          "index": 5,
+          "sha256": "3f782a3c580eed19626ee8d6d238737a9f46ddcc32d01af6b1ec6f15ecd50979",
+          "y_end": 3740,
+          "y_start": 2896
+        },
+        {
+          "blank": false,
+          "bytes": 110350,
+          "file": "mobile-theory-tile-06.png",
+          "height": 844,
+          "index": 6,
+          "sha256": "331ee1ba2cb0d071a7e1e3d4fc16d2fc78f128986673f8714178bd2fb86dcd82",
+          "y_end": 4464,
+          "y_start": 3620
+        },
+        {
+          "blank": false,
+          "bytes": 111512,
+          "file": "mobile-theory-tile-07.png",
+          "height": 844,
+          "index": 7,
+          "sha256": "b6d5c6116f074a00e2740c6e76731263107279c344dc70c32aa67cb3059b0a5b",
+          "y_end": 5188,
+          "y_start": 4344
+        },
+        {
+          "blank": false,
+          "bytes": 87829,
+          "file": "mobile-theory-tile-08.png",
+          "height": 844,
+          "index": 8,
+          "sha256": "c70e3691e3ed1d0fa844e3d95f4911dec7f99fd7ec95e19114716e6912eb71b5",
+          "y_end": 5912,
+          "y_start": 5068
+        },
+        {
+          "blank": false,
+          "bytes": 105600,
+          "file": "mobile-theory-tile-09.png",
+          "height": 844,
+          "index": 9,
+          "sha256": "8cb376189895ad226f9ee04a22bfa766627d61e052a76decf34bbf138af04f0e",
+          "y_end": 6636,
+          "y_start": 5792
+        },
+        {
+          "blank": false,
+          "bytes": 94363,
+          "file": "mobile-theory-tile-10.png",
+          "height": 844,
+          "index": 10,
+          "sha256": "ccf011fed4ebeaf10ea6cf58729610e9b7353f2e8fabfff4df1726ed70f9913e",
+          "y_end": 7360,
+          "y_start": 6516
+        },
+        {
+          "blank": false,
+          "bytes": 97746,
+          "file": "mobile-theory-tile-11.png",
+          "height": 844,
+          "index": 11,
+          "sha256": "b22490c990bfed346b789eacda72bde4594ef05c5263f4087e4e7db956b2bd5a",
+          "y_end": 8084,
+          "y_start": 7240
+        },
+        {
+          "blank": false,
+          "bytes": 111525,
+          "file": "mobile-theory-tile-12.png",
+          "height": 844,
+          "index": 12,
+          "sha256": "f8dbe95061ff1fb47e95509bc0036b1d067915e30d57cb2e4f22fa17d40903b5",
+          "y_end": 8808,
+          "y_start": 7964
+        },
+        {
+          "blank": false,
+          "bytes": 111805,
+          "file": "mobile-theory-tile-13.png",
+          "height": 844,
+          "index": 13,
+          "sha256": "8c1d2699780d711f3e665cda80a0cc1fbdb8b08514a554ff58584c5f5f071aaa",
+          "y_end": 9532,
+          "y_start": 8688
+        },
+        {
+          "blank": false,
+          "bytes": 87818,
+          "file": "mobile-theory-tile-14.png",
+          "height": 844,
+          "index": 14,
+          "sha256": "eb61eebd1b94c8e759e2678caedffc14f33f1acdb2fea2fc0b69a4846d2b8213",
+          "y_end": 10256,
+          "y_start": 9412
+        },
+        {
+          "blank": false,
+          "bytes": 114426,
+          "file": "mobile-theory-tile-15.png",
+          "height": 844,
+          "index": 15,
+          "sha256": "80bf3d508af26aae6f3ecd9b145a1d6396128fb4a54b6b6b6fc94fdfeaacc421",
+          "y_end": 10980,
+          "y_start": 10136
+        },
+        {
+          "blank": false,
+          "bytes": 107802,
+          "file": "mobile-theory-tile-16.png",
+          "height": 844,
+          "index": 16,
+          "sha256": "648ac30cbd897896d5c9c9e4da713b8ee4ba122faf4020c2b1c20cd886ec54af",
+          "y_end": 11704,
+          "y_start": 10860
+        },
+        {
+          "blank": false,
+          "bytes": 111865,
+          "file": "mobile-theory-tile-17.png",
+          "height": 844,
+          "index": 17,
+          "sha256": "4b972a9f373cd9d49a7e24f4f4d77c45aa8abe7004b54f7fff3e530ba5b388c7",
+          "y_end": 12428,
+          "y_start": 11584
+        },
+        {
+          "blank": false,
+          "bytes": 97375,
+          "file": "mobile-theory-tile-18.png",
+          "height": 844,
+          "index": 18,
+          "sha256": "9443a1677d42c8f0085b884e309a7b2da107811a333ca0f86a5a8fde7c1db98c",
+          "y_end": 13152,
+          "y_start": 12308
+        },
+        {
+          "blank": false,
+          "bytes": 97918,
+          "file": "mobile-theory-tile-19.png",
+          "height": 844,
+          "index": 19,
+          "sha256": "40321e48e992685f21ca0317121db8505529d6149444da65cd1edadd12a25c6a",
+          "y_end": 13876,
+          "y_start": 13032
+        },
+        {
+          "blank": false,
+          "bytes": 102424,
+          "file": "mobile-theory-tile-20.png",
+          "height": 844,
+          "index": 20,
+          "sha256": "9e7dcdd7c71487356c2aa73f8417511b883e156d0c2ec631bef2fdbcdef806f3",
+          "y_end": 14600,
+          "y_start": 13756
+        },
+        {
+          "blank": false,
+          "bytes": 87161,
+          "file": "mobile-theory-tile-21.png",
+          "height": 844,
+          "index": 21,
+          "sha256": "80577a59de1fb808434e959fca70d74131ead06614b2f144efac35e7a63d1d56",
+          "y_end": 15324,
+          "y_start": 14480
+        },
+        {
+          "blank": false,
+          "bytes": 99304,
+          "file": "mobile-theory-tile-22.png",
+          "height": 844,
+          "index": 22,
+          "sha256": "ac132c57e7f16a008e6861ec7070ba45a4876c42ec750290506bc9b98825a01b",
+          "y_end": 16048,
+          "y_start": 15204
+        },
+        {
+          "blank": false,
+          "bytes": 111238,
+          "file": "mobile-theory-tile-23.png",
+          "height": 844,
+          "index": 23,
+          "sha256": "a31e0a8c2ea34d122f5196acde2eea432622c8212ec810456cf3b199089bcf01",
+          "y_end": 16772,
+          "y_start": 15928
+        },
+        {
+          "blank": false,
+          "bytes": 113399,
+          "file": "mobile-theory-tile-24.png",
+          "height": 844,
+          "index": 24,
+          "sha256": "5e327ecdd89e96645fd4aec1b7ad7468b39847d17f40242326085b659253708d",
+          "y_end": 17496,
+          "y_start": 16652
+        },
+        {
+          "blank": false,
+          "bytes": 102304,
+          "file": "mobile-theory-tile-25.png",
+          "height": 844,
+          "index": 25,
+          "sha256": "b7da6b160e4a9fe19227d15bcedcd9b19bfbe92d9065f00d3c720d8dec941d55",
+          "y_end": 18220,
+          "y_start": 17376
+        },
+        {
+          "blank": false,
+          "bytes": 94684,
+          "file": "mobile-theory-tile-26.png",
+          "height": 844,
+          "index": 26,
+          "sha256": "bb6cf7ee03e1b9e5cf6beb62b8245265997769078305748c3676ddbf2f253a01",
+          "y_end": 18944,
+          "y_start": 18100
+        },
+        {
+          "blank": false,
+          "bytes": 105325,
+          "file": "mobile-theory-tile-27.png",
+          "height": 844,
+          "index": 27,
+          "sha256": "435712f6a87890d1d4f30f882e7a0b20c170484413ae51481c6fe598b482f22c",
+          "y_end": 19668,
+          "y_start": 18824
+        },
+        {
+          "blank": false,
+          "bytes": 105885,
+          "file": "mobile-theory-tile-28.png",
+          "height": 844,
+          "index": 28,
+          "sha256": "ef88a47c71ccb1c0a5540ba1e96c82098df98988870e64c99f7e6230264eeb03",
+          "y_end": 20392,
+          "y_start": 19548
+        },
+        {
+          "blank": false,
+          "bytes": 104616,
+          "file": "mobile-theory-tile-29.png",
+          "height": 844,
+          "index": 29,
+          "sha256": "411060311b75e0409c39188bf180f2a279ff8bb63060c622b7d644bd6a07ef25",
+          "y_end": 21116,
+          "y_start": 20272
+        },
+        {
+          "blank": false,
+          "bytes": 100310,
+          "file": "mobile-theory-tile-30.png",
+          "height": 844,
+          "index": 30,
+          "sha256": "96c958ecc08120c254e2c9ba34685e580adb1335bc39592258a94ff4f8b4bf9b",
+          "y_end": 21840,
+          "y_start": 20996
+        },
+        {
+          "blank": false,
+          "bytes": 110004,
+          "file": "mobile-theory-tile-31.png",
+          "height": 844,
+          "index": 31,
+          "sha256": "438dd6cea16274dc5d0706f4a15161554b0b1fe1a6679f3da3ed88eef1320e22",
+          "y_end": 22564,
+          "y_start": 21720
+        },
+        {
+          "blank": false,
+          "bytes": 116977,
+          "file": "mobile-theory-tile-32.png",
+          "height": 844,
+          "index": 32,
+          "sha256": "c7d9304078359aa3d586f22b79ad326a280dae5a491a6439812915264210dc0b",
+          "y_end": 23288,
+          "y_start": 22444
+        },
+        {
+          "blank": false,
+          "bytes": 93859,
+          "file": "mobile-theory-tile-33.png",
+          "height": 844,
+          "index": 33,
+          "sha256": "1f1df9c666b840c93e797ccb4205560c4b715d8fadf24aac073d73edc919f372",
+          "y_end": 24012,
+          "y_start": 23168
+        },
+        {
+          "blank": false,
+          "bytes": 102347,
+          "file": "mobile-theory-tile-34.png",
+          "height": 844,
+          "index": 34,
+          "sha256": "926bc1a188494a56b1195da05a9cbc98d82b84596b7685a681f60d05379e181c",
+          "y_end": 24736,
+          "y_start": 23892
+        },
+        {
+          "blank": false,
+          "bytes": 106820,
+          "file": "mobile-theory-tile-35.png",
+          "height": 844,
+          "index": 35,
+          "sha256": "906dba2154386b9f8fe6faccba7c5b747a31b98ed693383bd31da4649c508c2b",
+          "y_end": 25460,
+          "y_start": 24616
+        },
+        {
+          "blank": false,
+          "bytes": 94774,
+          "file": "mobile-theory-tile-36.png",
+          "height": 844,
+          "index": 36,
+          "sha256": "b42db8665e6fcfc3052896a4779fca227d2e9ede98ed27d265f97d2cfe951afc",
+          "y_end": 26184,
+          "y_start": 25340
+        },
+        {
+          "blank": false,
+          "bytes": 97146,
+          "file": "mobile-theory-tile-37.png",
+          "height": 844,
+          "index": 37,
+          "sha256": "b7b3c312d050cc1dfde6810eede283a7c2cc99f6b4ef69b8ebed42834281df2d",
+          "y_end": 26908,
+          "y_start": 26064
+        },
+        {
+          "blank": false,
+          "bytes": 113371,
+          "file": "mobile-theory-tile-38.png",
+          "height": 844,
+          "index": 38,
+          "sha256": "e8d617e0c3c233e36b98e2204bb99383f1d2e40c9d34ee06dca0eeab6a954e0e",
+          "y_end": 27632,
+          "y_start": 26788
+        },
+        {
+          "blank": false,
+          "bytes": 109802,
+          "file": "mobile-theory-tile-39.png",
+          "height": 844,
+          "index": 39,
+          "sha256": "77c58014471ca7d07a8a85e65f71d55c0409ecc902f5829790a33d6d6591dcfa",
+          "y_end": 28356,
+          "y_start": 27512
+        },
+        {
+          "blank": false,
+          "bytes": 91908,
+          "file": "mobile-theory-tile-40.png",
+          "height": 844,
+          "index": 40,
+          "sha256": "d6a486dfb874a97f3058321b8850921bff3ed43efa965c8e3964efdee2337512",
+          "y_end": 29080,
+          "y_start": 28236
+        },
+        {
+          "blank": false,
+          "bytes": 109475,
+          "file": "mobile-theory-tile-41.png",
+          "height": 844,
+          "index": 41,
+          "sha256": "9ef1e7f91ea38877ffb5b80a0b4674e54a28a927caaefc707c7caf627cf146fc",
+          "y_end": 29804,
+          "y_start": 28960
+        },
+        {
+          "blank": false,
+          "bytes": 107367,
+          "file": "mobile-theory-tile-42.png",
+          "height": 844,
+          "index": 42,
+          "sha256": "d032baae3a2d06430e8c34d8e525dc8d9806ace0e40625efec0c5e0455e7bc68",
+          "y_end": 30528,
+          "y_start": 29684
+        },
+        {
+          "blank": false,
+          "bytes": 93225,
+          "file": "mobile-theory-tile-43.png",
+          "height": 844,
+          "index": 43,
+          "sha256": "3d0bfd8244ed41efb22d6e5ae73f68846576a128cb9d3fb40ad8667d0c35e3d3",
+          "y_end": 31252,
+          "y_start": 30408
+        },
+        {
+          "blank": false,
+          "bytes": 111448,
+          "file": "mobile-theory-tile-44.png",
+          "height": 844,
+          "index": 44,
+          "sha256": "3e2374c39bd483f5b53bb840f99d2f19a3ee57832982c38bfd9c10d412a2745c",
+          "y_end": 31976,
+          "y_start": 31132
+        },
+        {
+          "blank": false,
+          "bytes": 92631,
+          "file": "mobile-theory-tile-45.png",
+          "height": 844,
+          "index": 45,
+          "sha256": "cbc3682c3f71121b913698304028ac958ce1b6fb82c14fe917101dfd34791a4b",
+          "y_end": 32700,
+          "y_start": 31856
+        },
+        {
+          "blank": false,
+          "bytes": 96698,
+          "file": "mobile-theory-tile-46.png",
+          "height": 844,
+          "index": 46,
+          "sha256": "397881f683d2de4c607b6ea4c9ff3f67d59513ea35bba8ec6d91257ec54e1b61",
+          "y_end": 33424,
+          "y_start": 32580
+        },
+        {
+          "blank": false,
+          "bytes": 78748,
+          "file": "mobile-theory-tile-47.png",
+          "height": 844,
+          "index": 47,
+          "sha256": "8f3c6525a1a11efef6fe2fddccfb9ff92d49f9f7d62b29fff48b10bf3ebe19eb",
+          "y_end": 34148,
+          "y_start": 33304
+        },
+        {
+          "blank": false,
+          "bytes": 78673,
+          "file": "mobile-theory-tile-48.png",
+          "height": 844,
+          "index": 48,
+          "sha256": "dd12699a17ddf9579711b92ef2fb1406258bba7d8a7fe721bc821f490beff29b",
+          "y_end": 34201,
+          "y_start": 33357
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "mobile",
+      "viewport_height": 844
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": null,
+      "coverage_complete": true,
+      "coverage_gap": null,
+      "document_height": 19027,
+      "geometry": {
+        "clientWidth": 390,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 342,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 720,
+            "width": 36
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 44,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 44,
+            "left": 334,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 0,
+            "tag": "OL",
+            "testid": null,
+            "top": 0,
+            "width": 390
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Yo hago — Demostración guiada"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [
+          {
+            "cls": "",
+            "left": 102,
+            "right": 633,
+            "tag": "CODE",
+            "text": "pwd\n# .../python-ds-journey  (o Get-Location en PowerShell)\n",
+            "width": 531
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 102,
+            "right": 566,
+            "tag": "SPAN",
+            "text": "# .../python-ds-journey  (o Get-Location en PowerShell)",
+            "width": 464
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 195,
+            "right": 515,
+            "tag": "SPAN",
+            "text": "\"import sys; print('ok'); sys.exit(0)\"",
+            "width": 320
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 186,
+            "right": 448,
+            "tag": "SPAN",
+            "text": "\"import sys; print(sys.prefix)\"",
+            "width": 261
+          },
+          {
+            "cls": "text-[var(--code-fg)] opacity-90",
+            "left": 102,
+            "right": 422,
+            "tag": "CODE",
+            "text": ".../python-ds-journey/.venv\n.../python-ds-journey/.venv/bin/",
+            "width": 320
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 220,
+            "right": 473,
+            "tag": "SPAN",
+            "text": "\"docs: agregar README inicial\"",
+            "width": 253
+          }
+        ],
+        "scrollHeight": 19027,
+        "scrollWidth": 390,
+        "sectionRootText": 13414,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          }
+        ],
+        "viewportWidth": 390
+      },
+      "label": "mobile-ido",
+      "scroll_locked": false,
+      "tab": "ido",
+      "tab_selected": "active",
+      "tile_count": 27,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 92576,
+          "file": "mobile-ido-tile-01.png",
+          "height": 844,
+          "index": 1,
+          "sha256": "28caadc95518d59ba8c687b36623da3e1a6308e606cd3d02e4bd273f203617f9",
+          "y_end": 844,
+          "y_start": 0
+        },
+        {
+          "blank": false,
+          "bytes": 82586,
+          "file": "mobile-ido-tile-02.png",
+          "height": 844,
+          "index": 2,
+          "sha256": "406ccba03b2e1c7bce84a2d13fa827019ed1fc74741c857cc8915da37a3075c1",
+          "y_end": 1568,
+          "y_start": 724
+        },
+        {
+          "blank": false,
+          "bytes": 72978,
+          "file": "mobile-ido-tile-03.png",
+          "height": 844,
+          "index": 3,
+          "sha256": "f1485a34267d9145bf802a6583340ce363888df31d4d8aa7725e9dccacfedd41",
+          "y_end": 2292,
+          "y_start": 1448
+        },
+        {
+          "blank": false,
+          "bytes": 94104,
+          "file": "mobile-ido-tile-04.png",
+          "height": 844,
+          "index": 4,
+          "sha256": "7c0fa029a06121a377746ae3451b42e733a0993df8cd1394fcfc856503117e12",
+          "y_end": 3016,
+          "y_start": 2172
+        },
+        {
+          "blank": false,
+          "bytes": 73652,
+          "file": "mobile-ido-tile-05.png",
+          "height": 844,
+          "index": 5,
+          "sha256": "28a7929b97faa37254de686779feac68b875cfd8f2941ab81ce8ed40d8834235",
+          "y_end": 3740,
+          "y_start": 2896
+        },
+        {
+          "blank": false,
+          "bytes": 78340,
+          "file": "mobile-ido-tile-06.png",
+          "height": 844,
+          "index": 6,
+          "sha256": "0c20ddc5b2c0b844e4df51521528e1c472f66e6213c210eeb36f9dc51db845ac",
+          "y_end": 4464,
+          "y_start": 3620
+        },
+        {
+          "blank": false,
+          "bytes": 90207,
+          "file": "mobile-ido-tile-07.png",
+          "height": 844,
+          "index": 7,
+          "sha256": "aa15a29c2b7ff16164b2d5a1ca9ed4bd9d57b3eb1ca602c16aa756222e130627",
+          "y_end": 5188,
+          "y_start": 4344
+        },
+        {
+          "blank": false,
+          "bytes": 77071,
+          "file": "mobile-ido-tile-08.png",
+          "height": 844,
+          "index": 8,
+          "sha256": "a5c243ecb3d99626be5f477b7697fe86e4cc4b8ba0776ddd7f80d4e70d95e1a5",
+          "y_end": 5912,
+          "y_start": 5068
+        },
+        {
+          "blank": false,
+          "bytes": 87107,
+          "file": "mobile-ido-tile-09.png",
+          "height": 844,
+          "index": 9,
+          "sha256": "ffecf8bb2c0243c63fde2c3f6aeb4262899cc7b9e538527d2f881185e2bb50f2",
+          "y_end": 6636,
+          "y_start": 5792
+        },
+        {
+          "blank": false,
+          "bytes": 90223,
+          "file": "mobile-ido-tile-10.png",
+          "height": 844,
+          "index": 10,
+          "sha256": "b6c4f552eaae5d9f6c24769c1370467bc1658246db896f311f8eaf7bfc5e77fb",
+          "y_end": 7360,
+          "y_start": 6516
+        },
+        {
+          "blank": false,
+          "bytes": 74735,
+          "file": "mobile-ido-tile-11.png",
+          "height": 844,
+          "index": 11,
+          "sha256": "97f5f94358f9a6dca39dee6f5f7679466a068b649efd0dbc9a7438282481ca73",
+          "y_end": 8084,
+          "y_start": 7240
+        },
+        {
+          "blank": false,
+          "bytes": 81648,
+          "file": "mobile-ido-tile-12.png",
+          "height": 844,
+          "index": 12,
+          "sha256": "afc055e701e96675d04a76b522a92e109ea91b39c553c1fae96ab6dc707e60af",
+          "y_end": 8808,
+          "y_start": 7964
+        },
+        {
+          "blank": false,
+          "bytes": 88548,
+          "file": "mobile-ido-tile-13.png",
+          "height": 844,
+          "index": 13,
+          "sha256": "87eb6c7e99883d48bace46467d970a26d808860a7afd9fffdcba3f7417ed280c",
+          "y_end": 9532,
+          "y_start": 8688
+        },
+        {
+          "blank": false,
+          "bytes": 73553,
+          "file": "mobile-ido-tile-14.png",
+          "height": 844,
+          "index": 14,
+          "sha256": "b694ee7c041c94fc0b6404051b52f9819f0ec87b1793e7f2faf0b066cc9a8d39",
+          "y_end": 10256,
+          "y_start": 9412
+        },
+        {
+          "blank": false,
+          "bytes": 86866,
+          "file": "mobile-ido-tile-15.png",
+          "height": 844,
+          "index": 15,
+          "sha256": "980008e0785cf94b3242f657f233f2297f3fc0c894e9f20dfa1cd5e64e31ea15",
+          "y_end": 10980,
+          "y_start": 10136
+        },
+        {
+          "blank": false,
+          "bytes": 90143,
+          "file": "mobile-ido-tile-16.png",
+          "height": 844,
+          "index": 16,
+          "sha256": "26cc9691fca78886d7399f6510f37d218fd607ad1d6ada475e9e75f9c6753077",
+          "y_end": 11704,
+          "y_start": 10860
+        },
+        {
+          "blank": false,
+          "bytes": 75108,
+          "file": "mobile-ido-tile-17.png",
+          "height": 844,
+          "index": 17,
+          "sha256": "70503d094fd0baa81aade26c7995c58ccef4d32d291c23093116eaf64ce1ab53",
+          "y_end": 12428,
+          "y_start": 11584
+        },
+        {
+          "blank": false,
+          "bytes": 82613,
+          "file": "mobile-ido-tile-18.png",
+          "height": 844,
+          "index": 18,
+          "sha256": "0f8887050e7368d19a0a3ee9c9b19a39ff481c58bdeedabfdca1ffa67b437123",
+          "y_end": 13152,
+          "y_start": 12308
+        },
+        {
+          "blank": false,
+          "bytes": 92620,
+          "file": "mobile-ido-tile-19.png",
+          "height": 844,
+          "index": 19,
+          "sha256": "0472d6094e893604acd7189562c328d9291313af2a2c8d27893d0df80745935f",
+          "y_end": 13876,
+          "y_start": 13032
+        },
+        {
+          "blank": false,
+          "bytes": 71418,
+          "file": "mobile-ido-tile-20.png",
+          "height": 844,
+          "index": 20,
+          "sha256": "b7dc6bd45d30812a257b3a0a6f0e5f8f6a29de81a942157e50ee5657b46098f6",
+          "y_end": 14600,
+          "y_start": 13756
+        },
+        {
+          "blank": false,
+          "bytes": 82681,
+          "file": "mobile-ido-tile-21.png",
+          "height": 844,
+          "index": 21,
+          "sha256": "110cf480937c25ab145910a4b5b7b86abd8573234f01b278968408d8afe996a2",
+          "y_end": 15324,
+          "y_start": 14480
+        },
+        {
+          "blank": false,
+          "bytes": 91309,
+          "file": "mobile-ido-tile-22.png",
+          "height": 844,
+          "index": 22,
+          "sha256": "caf34c4fd4140fb5b1d83f5782e2a5552df208b77ff1b26f949eaa86934a0a23",
+          "y_end": 16048,
+          "y_start": 15204
+        },
+        {
+          "blank": false,
+          "bytes": 74868,
+          "file": "mobile-ido-tile-23.png",
+          "height": 844,
+          "index": 23,
+          "sha256": "539a3b3b04c0cd62ea8478c7636ed2357fd6604da34b6da0417c2b94d873147d",
+          "y_end": 16772,
+          "y_start": 15928
+        },
+        {
+          "blank": false,
+          "bytes": 82835,
+          "file": "mobile-ido-tile-24.png",
+          "height": 844,
+          "index": 24,
+          "sha256": "2ceb2308805c6fd809b69b96713663d77b980006e7c54e6042baf09bc6e730b2",
+          "y_end": 17496,
+          "y_start": 16652
+        },
+        {
+          "blank": false,
+          "bytes": 92681,
+          "file": "mobile-ido-tile-25.png",
+          "height": 844,
+          "index": 25,
+          "sha256": "a2cd9dd66161f1399039745e137f688bbf861d7e488e08b1ef7a5f22752a6b51",
+          "y_end": 18220,
+          "y_start": 17376
+        },
+        {
+          "blank": false,
+          "bytes": 77878,
+          "file": "mobile-ido-tile-26.png",
+          "height": 844,
+          "index": 26,
+          "sha256": "f834da0bf1cd0743b301b6ece8c52904d7fac46ea5e761c794fc2e45467192f7",
+          "y_end": 18944,
+          "y_start": 18100
+        },
+        {
+          "blank": false,
+          "bytes": 75824,
+          "file": "mobile-ido-tile-27.png",
+          "height": 844,
+          "index": 27,
+          "sha256": "9c9cfcc07e55fd4fd8669a098b77c79fe55f031fcce2340e91d0b210734c7a08",
+          "y_end": 19027,
+          "y_start": 18183
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "mobile",
+      "viewport_height": 844
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": null,
+      "coverage_complete": false,
+      "coverage_gap": null,
+      "document_height": 51304,
+      "geometry": {
+        "clientWidth": 390,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 342,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 720,
+            "width": 36
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 44,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 44,
+            "left": 334,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 0,
+            "tag": "OL",
+            "testid": null,
+            "top": 0,
+            "width": 390
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Hacemos juntos — Práctica guiada"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [
+          {
+            "cls": "",
+            "left": 102,
+            "right": 675,
+            "tag": "CODE",
+            "text": "# CASO-LIM-001 · laboratorio REPL\n# TAREA: completa los ____",
+            "width": 573
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 102,
+            "right": 675,
+            "tag": "SPAN",
+            "text": "# TAREA: completa los ____ y reproduce la sesión en tu termi",
+            "width": 573
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 279,
+            "right": 734,
+            "tag": "SPAN",
+            "text": "# usa un nombre sintético, no datos reales de terceros",
+            "width": 455
+          },
+          {
+            "cls": "code-tok-number",
+            "left": 422,
+            "right": 439,
+            "tag": "SPAN",
+            "text": "3.",
+            "width": 17
+          },
+          {
+            "cls": "code-tok-keyword",
+            "left": 456,
+            "right": 481,
+            "tag": "SPAN",
+            "text": "del",
+            "width": 25
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 195,
+            "right": 540,
+            "tag": "SPAN",
+            "text": "\"import sys; print('ok'); sys.exit(____)\"",
+            "width": 346
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 321,
+            "right": 692,
+            "tag": "SPAN",
+            "text": "# bash/zsh: $?  |  PowerShell: $LASTEXITCODE",
+            "width": 371
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 136,
+            "right": 448,
+            "tag": "SPAN",
+            "text": "# sys.argv: [script, arg1, arg2, ...]",
+            "width": 312
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 220,
+            "right": 532,
+            "tag": "SPAN",
+            "text": "\"Uso: python check_arg.py <un_valor>\"",
+            "width": 312
+          },
+          {
+            "cls": "flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground tra",
+            "left": 319,
+            "right": 392,
+            "tag": "BUTTON",
+            "text": "Copiar",
+            "width": 73
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 186,
+            "right": 431,
+            "tag": "SPAN",
+            "text": "\"import sys; print(sys.____)\"",
+            "width": 244
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 338,
+            "right": 566,
+            "tag": "SPAN",
+            "text": "# o Activate.ps1 en Windows",
+            "width": 228
+          },
+          {
+            "cls": "flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground tra",
+            "left": 332,
+            "right": 405,
+            "tag": "BUTTON",
+            "text": "Copiar",
+            "width": 73
+          },
+          {
+            "cls": "",
+            "left": 360,
+            "right": 397,
+            "tag": "SPAN",
+            "text": "Copiar",
+            "width": 37
+          },
+          {
+            "cls": "flex-1 space-y-1",
+            "left": 137,
+            "right": 434,
+            "tag": "DIV",
+            "text": "Antes de empezarContexto: el historial es la memoria del equ",
+            "width": 297
+          },
+          {
+            "cls": "text-sm font-semibold text-sky-900 dark:text-sky-200",
+            "left": 137,
+            "right": 434,
+            "tag": "DIV",
+            "text": "Antes de empezar",
+            "width": 297
+          },
+          {
+            "cls": "text-sm text-foreground/90 [&>p]:my-0 [&>p+p]:mt-2 [&_code]:rounded [&_code]:bg-",
+            "left": 137,
+            "right": 434,
+            "tag": "DIV",
+            "text": "Contexto: el historial es la memoria del equipo; un mensaje ",
+            "width": 297
+          },
+          {
+            "cls": "space-y-4 text-[15px] leading-relaxed text-foreground/90",
+            "left": 137,
+            "right": 434,
+            "tag": "DIV",
+            "text": "Contexto: el historial es la memoria del equipo; un mensaje ",
+            "width": 297
+          },
+          {
+            "cls": "space-y-2 pl-1",
+            "left": 137,
+            "right": 434,
+            "tag": "UL",
+            "text": "Contexto: el historial es la memoria del equipo; un mensaje ",
+            "width": 297
+          },
+          {
+            "cls": "flex gap-2.5",
+            "left": 141,
+            "right": 434,
+            "tag": "LI",
+            "text": "Contexto: el historial es la memoria del equipo; un mensaje ",
+            "width": 293
+          },
+          {
+            "cls": "flex-1 [&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_cod",
+            "left": 157,
+            "right": 434,
+            "tag": "SPAN",
+            "text": "Contexto: el historial es la memoria del equipo; un mensaje ",
+            "width": 277
+          },
+          {
+            "cls": "",
+            "left": 157,
+            "right": 427,
+            "tag": "SPAN",
+            "text": "Contexto: el historial es la memoria del equipo; un mensaje ",
+            "width": 270
+          },
+          {
+            "cls": "",
+            "left": 208,
+            "right": 411,
+            "tag": "SPAN",
+            "text": "con prefijo docs: o feat:.",
+            "width": 203
+          },
+          {
+            "cls": "",
+            "left": 356,
+            "right": 407,
+            "tag": "CODE",
+            "text": "feat:",
+            "width": 51
+          },
+          {
+            "cls": "",
+            "left": 157,
+            "right": 434,
+            "tag": "CODE",
+            "text": "feat|fix|docs|chore|refactor|test:",
+            "width": 277
+          },
+          {
+            "cls": "flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground tra",
+            "left": 329,
+            "right": 402,
+            "tag": "BUTTON",
+            "text": "Copiar",
+            "width": 73
+          },
+          {
+            "cls": "",
+            "left": 357,
+            "right": 394,
+            "tag": "SPAN",
+            "text": "Copiar",
+            "width": 37
+          }
+        ],
+        "scrollHeight": 51304,
+        "scrollWidth": 390,
+        "sectionRootText": 31044,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "list",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "pip",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "set",
+            "width": 21
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          },
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "git",
+            "width": 18
+          }
+        ],
+        "viewportWidth": 390
+      },
+      "label": "mobile-wedo",
+      "scroll_locked": false,
+      "tab": "wedo",
+      "tab_selected": "active",
+      "tile_count": 60,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 94677,
+          "file": "mobile-wedo-tile-01.png",
+          "height": 844,
+          "index": 1,
+          "sha256": "82e29a0d635f45b67a104876c93fb440ce365e63971b5accef6b3d509538c1eb",
+          "y_end": 844,
+          "y_start": 0
+        },
+        {
+          "blank": false,
+          "bytes": 76796,
+          "file": "mobile-wedo-tile-02.png",
+          "height": 844,
+          "index": 2,
+          "sha256": "8970cead1d79e12cba69c90c5407b6b69dbde472d8f0649316c64a3f3b2674c5",
+          "y_end": 1568,
+          "y_start": 724
+        },
+        {
+          "blank": false,
+          "bytes": 79059,
+          "file": "mobile-wedo-tile-03.png",
+          "height": 844,
+          "index": 3,
+          "sha256": "eedf9e9e3a47bcf2c4e7357a3fa81a2bd7ed785676c6241ac64a53abb6829503",
+          "y_end": 2292,
+          "y_start": 1448
+        },
+        {
+          "blank": false,
+          "bytes": 76713,
+          "file": "mobile-wedo-tile-04.png",
+          "height": 844,
+          "index": 4,
+          "sha256": "8309f870217901b9482e1bb0cc80e53119551dc46c738c39dea0d1874f048c99",
+          "y_end": 3016,
+          "y_start": 2172
+        },
+        {
+          "blank": false,
+          "bytes": 74787,
+          "file": "mobile-wedo-tile-05.png",
+          "height": 844,
+          "index": 5,
+          "sha256": "406dc24d437488d285775eaae3806bf4bcaa0dce619b7d60eb3df9212778cdfe",
+          "y_end": 3740,
+          "y_start": 2896
+        },
+        {
+          "blank": false,
+          "bytes": 75055,
+          "file": "mobile-wedo-tile-06.png",
+          "height": 844,
+          "index": 6,
+          "sha256": "2b8f7a4beb5665f710a6b81702326b7f0b3bcfb679532683c2761e537335e7dc",
+          "y_end": 4464,
+          "y_start": 3620
+        },
+        {
+          "blank": false,
+          "bytes": 76810,
+          "file": "mobile-wedo-tile-07.png",
+          "height": 844,
+          "index": 7,
+          "sha256": "c2980e4dd89148ad9ea14b7d63538f33d22616f7275e94c6ab96488c2fa04fb5",
+          "y_end": 5188,
+          "y_start": 4344
+        },
+        {
+          "blank": false,
+          "bytes": 77470,
+          "file": "mobile-wedo-tile-08.png",
+          "height": 844,
+          "index": 8,
+          "sha256": "93cd9f6aa174f080862fe457f3405b999f62de33c1cf96d2e4c7377b97854ae1",
+          "y_end": 5912,
+          "y_start": 5068
+        },
+        {
+          "blank": false,
+          "bytes": 79451,
+          "file": "mobile-wedo-tile-09.png",
+          "height": 844,
+          "index": 9,
+          "sha256": "a017cbf4ee099e2df6795d7dc08995b67ad2f22f7c668ba45cb5308770f7f949",
+          "y_end": 6636,
+          "y_start": 5792
+        },
+        {
+          "blank": false,
+          "bytes": 88489,
+          "file": "mobile-wedo-tile-10.png",
+          "height": 844,
+          "index": 10,
+          "sha256": "19d3d2a72fd4909953820a485c30ea55aaaf09792ca0db07030dcf0ebf26a19b",
+          "y_end": 7360,
+          "y_start": 6516
+        },
+        {
+          "blank": false,
+          "bytes": 73001,
+          "file": "mobile-wedo-tile-11.png",
+          "height": 844,
+          "index": 11,
+          "sha256": "3324f96e0e2809a9f785acdcc9a805e2d8060f5b033fa2bec034205dc908aeb1",
+          "y_end": 8084,
+          "y_start": 7240
+        },
+        {
+          "blank": false,
+          "bytes": 77657,
+          "file": "mobile-wedo-tile-12.png",
+          "height": 844,
+          "index": 12,
+          "sha256": "59d76d399dc9fdd34f3f2cc76ab618280b58bf98803bb6a248fa5fb7f6540ffb",
+          "y_end": 8808,
+          "y_start": 7964
+        },
+        {
+          "blank": false,
+          "bytes": 80092,
+          "file": "mobile-wedo-tile-13.png",
+          "height": 844,
+          "index": 13,
+          "sha256": "b51d2e6427f0ea2efb53619f40f99024c8e047e1d8f1454de846056d0ba2209f",
+          "y_end": 9532,
+          "y_start": 8688
+        },
+        {
+          "blank": false,
+          "bytes": 76628,
+          "file": "mobile-wedo-tile-14.png",
+          "height": 844,
+          "index": 14,
+          "sha256": "a249fc225666427d76a63af6fe0c176b69dd5f981e6691a19340738f074a377d",
+          "y_end": 10256,
+          "y_start": 9412
+        },
+        {
+          "blank": false,
+          "bytes": 77331,
+          "file": "mobile-wedo-tile-15.png",
+          "height": 844,
+          "index": 15,
+          "sha256": "d391a8b02d8aa9216a9f1a1efd5ebad8da015b00840d13b739003611a5fff351",
+          "y_end": 10980,
+          "y_start": 10136
+        },
+        {
+          "blank": false,
+          "bytes": 81554,
+          "file": "mobile-wedo-tile-16.png",
+          "height": 844,
+          "index": 16,
+          "sha256": "b91f64a5556db87273ba9e1779dc77f235477fcc44321ffdb4a427e151ddc3cb",
+          "y_end": 11704,
+          "y_start": 10860
+        },
+        {
+          "blank": false,
+          "bytes": 78226,
+          "file": "mobile-wedo-tile-17.png",
+          "height": 844,
+          "index": 17,
+          "sha256": "e914138baec559ff201f46ee031d0113cda32621b23d1e279424454f7f2cb2b1",
+          "y_end": 12428,
+          "y_start": 11584
+        },
+        {
+          "blank": false,
+          "bytes": 75046,
+          "file": "mobile-wedo-tile-18.png",
+          "height": 844,
+          "index": 18,
+          "sha256": "7dc20c1b261598d9df938ad7fb44c0511a6d9a35d6c978cfb41454a021e6be0b",
+          "y_end": 13152,
+          "y_start": 12308
+        },
+        {
+          "blank": false,
+          "bytes": 76519,
+          "file": "mobile-wedo-tile-19.png",
+          "height": 844,
+          "index": 19,
+          "sha256": "abc673bd82c98e20c9e22b48cc72df98335914184d74e1eb12a83e62625c6db1",
+          "y_end": 13876,
+          "y_start": 13032
+        },
+        {
+          "blank": false,
+          "bytes": 68714,
+          "file": "mobile-wedo-tile-20.png",
+          "height": 844,
+          "index": 20,
+          "sha256": "874aaa985fe3dac07a2503c2ed9a7c317efcacb2b81c809e7396c48f8781d9f0",
+          "y_end": 14600,
+          "y_start": 13756
+        },
+        {
+          "blank": false,
+          "bytes": 79561,
+          "file": "mobile-wedo-tile-21.png",
+          "height": 844,
+          "index": 21,
+          "sha256": "382dbee855fb4242f4e472a4beaab68c4722d2ab70a5a9b7decc39903f5f8092",
+          "y_end": 15324,
+          "y_start": 14480
+        },
+        {
+          "blank": false,
+          "bytes": 78532,
+          "file": "mobile-wedo-tile-22.png",
+          "height": 844,
+          "index": 22,
+          "sha256": "037a81b5acbff38677adf0e2b90eb8e3ccef328970768ce77366939941df3fe5",
+          "y_end": 16048,
+          "y_start": 15204
+        },
+        {
+          "blank": false,
+          "bytes": 74844,
+          "file": "mobile-wedo-tile-23.png",
+          "height": 844,
+          "index": 23,
+          "sha256": "057811c22405ab0e8a81be0021b8ae1d0eb7008a6d33d639bf87a134310aaf6b",
+          "y_end": 16772,
+          "y_start": 15928
+        },
+        {
+          "blank": false,
+          "bytes": 74421,
+          "file": "mobile-wedo-tile-24.png",
+          "height": 844,
+          "index": 24,
+          "sha256": "cca263fe4a72efd37f5e45ad3c72883751ca3f0cff0bd679967a970cb83730e4",
+          "y_end": 17496,
+          "y_start": 16652
+        },
+        {
+          "blank": false,
+          "bytes": 77955,
+          "file": "mobile-wedo-tile-25.png",
+          "height": 844,
+          "index": 25,
+          "sha256": "cb6c2b142e62cd06d4a40e88ee39576a1554af8927a026c838f73435aab65e44",
+          "y_end": 18220,
+          "y_start": 17376
+        },
+        {
+          "blank": false,
+          "bytes": 78702,
+          "file": "mobile-wedo-tile-26.png",
+          "height": 844,
+          "index": 26,
+          "sha256": "d36a76466e3520a2a2be718f4361ceeb0825bb8a7146f772f99e860493dde34c",
+          "y_end": 18944,
+          "y_start": 18100
+        },
+        {
+          "blank": false,
+          "bytes": 78633,
+          "file": "mobile-wedo-tile-27.png",
+          "height": 844,
+          "index": 27,
+          "sha256": "2d8ebf319a64ac69a7079adc69d24c55ccf618285fb8a7177d7c71b27ba00bc9",
+          "y_end": 19668,
+          "y_start": 18824
+        },
+        {
+          "blank": false,
+          "bytes": 79344,
+          "file": "mobile-wedo-tile-28.png",
+          "height": 844,
+          "index": 28,
+          "sha256": "a8907c8352ed0401289e47a8ccb4fee2df2721709941e6354b4468cf016166fe",
+          "y_end": 20392,
+          "y_start": 19548
+        },
+        {
+          "blank": false,
+          "bytes": 75460,
+          "file": "mobile-wedo-tile-29.png",
+          "height": 844,
+          "index": 29,
+          "sha256": "730299182fc7e772776deecab401858cbcf67a153c1cc524fa16031220a44fb6",
+          "y_end": 21116,
+          "y_start": 20272
+        },
+        {
+          "blank": false,
+          "bytes": 77011,
+          "file": "mobile-wedo-tile-30.png",
+          "height": 844,
+          "index": 30,
+          "sha256": "7a431d2d14613d47c3a50966968ea7090bafdc958a4e08d132cbc5803cb7932a",
+          "y_end": 21840,
+          "y_start": 20996
+        },
+        {
+          "blank": false,
+          "bytes": 80957,
+          "file": "mobile-wedo-tile-31.png",
+          "height": 844,
+          "index": 31,
+          "sha256": "730cf24d3a4ec043b7bb706e1a112ddb66a5594a06bce686ce468c5e8343af3d",
+          "y_end": 22564,
+          "y_start": 21720
+        },
+        {
+          "blank": false,
+          "bytes": 75015,
+          "file": "mobile-wedo-tile-32.png",
+          "height": 844,
+          "index": 32,
+          "sha256": "4293d7e0e60dd83e8408fb150be7af397baed37e5d8d5c7ec9a0efdef0bf7bfd",
+          "y_end": 23288,
+          "y_start": 22444
+        },
+        {
+          "blank": false,
+          "bytes": 78762,
+          "file": "mobile-wedo-tile-33.png",
+          "height": 844,
+          "index": 33,
+          "sha256": "3c2613672ee9c8756ff65f39ca860e46d0b62837b3940b7b8db2d26ec301a345",
+          "y_end": 24012,
+          "y_start": 23168
+        },
+        {
+          "blank": false,
+          "bytes": 84235,
+          "file": "mobile-wedo-tile-34.png",
+          "height": 844,
+          "index": 34,
+          "sha256": "9e388d7ceaca146094d089230cc783fb18a2acb4bf6871d3622ce2a42e0f5e1c",
+          "y_end": 24736,
+          "y_start": 23892
+        },
+        {
+          "blank": false,
+          "bytes": 79044,
+          "file": "mobile-wedo-tile-35.png",
+          "height": 844,
+          "index": 35,
+          "sha256": "7e9e6a5cec7d611c8a7fab539330b3759887dd67d5ba8c3e5888dee17d5c9e74",
+          "y_end": 25460,
+          "y_start": 24616
+        },
+        {
+          "blank": false,
+          "bytes": 75557,
+          "file": "mobile-wedo-tile-36.png",
+          "height": 844,
+          "index": 36,
+          "sha256": "a192badede445c967e1af874f136d2374975f8a14e89c3ba512d2b6c51243757",
+          "y_end": 26184,
+          "y_start": 25340
+        },
+        {
+          "blank": false,
+          "bytes": 72761,
+          "file": "mobile-wedo-tile-37.png",
+          "height": 844,
+          "index": 37,
+          "sha256": "20056b2a78f4cd86afb792a90b619ff3a139b31739da3a03cd6077205ea5dde1",
+          "y_end": 26908,
+          "y_start": 26064
+        },
+        {
+          "blank": false,
+          "bytes": 78083,
+          "file": "mobile-wedo-tile-38.png",
+          "height": 844,
+          "index": 38,
+          "sha256": "dd46f6e4a1ee2f37780ebc1ee49144760c860374c7ab6dd00733741895b14cef",
+          "y_end": 27632,
+          "y_start": 26788
+        },
+        {
+          "blank": false,
+          "bytes": 81054,
+          "file": "mobile-wedo-tile-39.png",
+          "height": 844,
+          "index": 39,
+          "sha256": "62f6d6a1a48ba7a087f18a8e7762c71e4f6e4c3208d95d2b5630e0992fd5e69a",
+          "y_end": 28356,
+          "y_start": 27512
+        },
+        {
+          "blank": false,
+          "bytes": 75578,
+          "file": "mobile-wedo-tile-40.png",
+          "height": 844,
+          "index": 40,
+          "sha256": "e553008c8d375e8ea3e3222e4a1c20ac9415608d453463460d48639ce7170179",
+          "y_end": 29080,
+          "y_start": 28236
+        },
+        {
+          "blank": false,
+          "bytes": 77658,
+          "file": "mobile-wedo-tile-41.png",
+          "height": 844,
+          "index": 41,
+          "sha256": "ed3a51204adf6ef04977f100a9393725d5526f453d4b2a146bac74569c6d078b",
+          "y_end": 29804,
+          "y_start": 28960
+        },
+        {
+          "blank": false,
+          "bytes": 72571,
+          "file": "mobile-wedo-tile-42.png",
+          "height": 844,
+          "index": 42,
+          "sha256": "1ee0ed7d2748b8b34518f263ba64386db06e2882f46757d9257b4da5ccbbcd72",
+          "y_end": 30528,
+          "y_start": 29684
+        },
+        {
+          "blank": false,
+          "bytes": 78401,
+          "file": "mobile-wedo-tile-43.png",
+          "height": 844,
+          "index": 43,
+          "sha256": "3c98e5e1db49438254cad4690d28005fa211b558f29b48d1cb0385c56452c99c",
+          "y_end": 31252,
+          "y_start": 30408
+        },
+        {
+          "blank": false,
+          "bytes": 83207,
+          "file": "mobile-wedo-tile-44.png",
+          "height": 844,
+          "index": 44,
+          "sha256": "0de7d5f306e329bab6990c6086b36e4e8cde17c8b7ea824bf94afd99b2c6ed6a",
+          "y_end": 31976,
+          "y_start": 31132
+        },
+        {
+          "blank": false,
+          "bytes": 72573,
+          "file": "mobile-wedo-tile-45.png",
+          "height": 844,
+          "index": 45,
+          "sha256": "6de65efea575bd9c316e4348f14db3973259b5402210a7ab2e2008c96e9cfb1d",
+          "y_end": 32700,
+          "y_start": 31856
+        },
+        {
+          "blank": false,
+          "bytes": 73883,
+          "file": "mobile-wedo-tile-46.png",
+          "height": 844,
+          "index": 46,
+          "sha256": "f928c1f4eba515fa1187d0e9c2a0d2847319143e0944ade250a05838f5c01e21",
+          "y_end": 33424,
+          "y_start": 32580
+        },
+        {
+          "blank": false,
+          "bytes": 72718,
+          "file": "mobile-wedo-tile-47.png",
+          "height": 844,
+          "index": 47,
+          "sha256": "9db5d0660588e98dae5a0dcc38891b22bd2983a1a38a0d6ad0bd9fb425d5e209",
+          "y_end": 34148,
+          "y_start": 33304
+        },
+        {
+          "blank": false,
+          "bytes": 75037,
+          "file": "mobile-wedo-tile-48.png",
+          "height": 844,
+          "index": 48,
+          "sha256": "1264da4a5bf71c73552cdf8d31729e567165a23aa7a8b484f60a9da3e2101f59",
+          "y_end": 34872,
+          "y_start": 34028
+        },
+        {
+          "blank": false,
+          "bytes": 77674,
+          "file": "mobile-wedo-tile-49.png",
+          "height": 844,
+          "index": 49,
+          "sha256": "9153107db598dc52aa7a359106faaf66f4074947f8afaa87aa62b9f9275d110e",
+          "y_end": 35596,
+          "y_start": 34752
+        },
+        {
+          "blank": false,
+          "bytes": 76600,
+          "file": "mobile-wedo-tile-50.png",
+          "height": 844,
+          "index": 50,
+          "sha256": "1573da60a93dd4b1ef38e241ef32a8d73febb8e8c482b8e921d2cb4f2f381a5e",
+          "y_end": 36320,
+          "y_start": 35476
+        },
+        {
+          "blank": false,
+          "bytes": 59287,
+          "file": "mobile-wedo-tile-51.png",
+          "height": 844,
+          "index": 51,
+          "sha256": "76afef89a183750ffd3098642dd98e98406287e45113bfbce3e6850dfab2ebec",
+          "y_end": 37044,
+          "y_start": 36200
+        },
+        {
+          "blank": false,
+          "bytes": 76613,
+          "file": "mobile-wedo-tile-52.png",
+          "height": 844,
+          "index": 52,
+          "sha256": "010fb9930b88bace838a319cbcdc965358c020062541336638ee8ad65213eea5",
+          "y_end": 37768,
+          "y_start": 36924
+        },
+        {
+          "blank": false,
+          "bytes": 76745,
+          "file": "mobile-wedo-tile-53.png",
+          "height": 844,
+          "index": 53,
+          "sha256": "5104a918fee49655f1fc192f0b43214deb47f2dd5b47f4377d6f638c53058eea",
+          "y_end": 38492,
+          "y_start": 37648
+        },
+        {
+          "blank": false,
+          "bytes": 75331,
+          "file": "mobile-wedo-tile-54.png",
+          "height": 844,
+          "index": 54,
+          "sha256": "007551ab3b74c389fb87aa2fe75d006243a58588cbf7791c92c5496f09a946b4",
+          "y_end": 39216,
+          "y_start": 38372
+        },
+        {
+          "blank": false,
+          "bytes": 72428,
+          "file": "mobile-wedo-tile-55.png",
+          "height": 844,
+          "index": 55,
+          "sha256": "bf283cd11347d4d49ae552d5988f1d19c1cfaea4a56385141fa4e56beb9cf4f3",
+          "y_end": 39940,
+          "y_start": 39096
+        },
+        {
+          "blank": false,
+          "bytes": 75115,
+          "file": "mobile-wedo-tile-56.png",
+          "height": 844,
+          "index": 56,
+          "sha256": "44c6654c90af9114c36c460447baa6437cc412081c854b49ac0813c2a384fe6e",
+          "y_end": 40664,
+          "y_start": 39820
+        },
+        {
+          "blank": false,
+          "bytes": 72620,
+          "file": "mobile-wedo-tile-57.png",
+          "height": 844,
+          "index": 57,
+          "sha256": "a93893609d66bd112649b4f28aee63c508b5ba4c6546089fe93cebc500a55eb1",
+          "y_end": 41388,
+          "y_start": 40544
+        },
+        {
+          "blank": false,
+          "bytes": 75989,
+          "file": "mobile-wedo-tile-58.png",
+          "height": 844,
+          "index": 58,
+          "sha256": "59fc98fd118321d568d4a47e3600f4d5a084951d70db4540f78584912ae7affd",
+          "y_end": 42112,
+          "y_start": 41268
+        },
+        {
+          "blank": false,
+          "bytes": 74691,
+          "file": "mobile-wedo-tile-59.png",
+          "height": 844,
+          "index": 59,
+          "sha256": "f1d82b6eb293928ccb415b0f835d5eea36d39bcff3a4fd0cd083b864dc24a308",
+          "y_end": 42836,
+          "y_start": 41992
+        },
+        {
+          "blank": false,
+          "bytes": 74156,
+          "file": "mobile-wedo-tile-60.png",
+          "height": 844,
+          "index": 60,
+          "sha256": "ecbb448b4e47c4650bcbf21e926bf8b55d29f8f489e3da666cb7e4d6270f844e",
+          "y_end": 43560,
+          "y_start": 42716
+        }
+      ],
+      "truncated_at_max_tiles": true,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "mobile",
+      "viewport_height": 844
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": null,
+      "coverage_complete": true,
+      "coverage_gap": null,
+      "document_height": 8096,
+      "geometry": {
+        "clientWidth": 390,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 342,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 720,
+            "width": 36
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 44,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 44,
+            "left": 334,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 0,
+            "tag": "OL",
+            "testid": null,
+            "top": 0,
+            "width": 390
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Tú haces — Proyecto para tu portafolio"
+          },
+          {
+            "level": "H3",
+            "text": "Esqueleto CP-N1-A — Reproducible Client Intake Repo"
+          },
+          {
+            "level": "H3",
+            "text": "Evaluaciones de tema (V3)"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [
+          {
+            "cls": "",
+            "left": 102,
+            "right": 802,
+            "tag": "CODE",
+            "text": "# Estructura esperada (esqueleto CP-N1-A):\n# python-ds-journ",
+            "width": 700
+          },
+          {
+            "cls": "code-tok-comment",
+            "left": 102,
+            "right": 456,
+            "tag": "SPAN",
+            "text": "# Estructura esperada (esqueleto CP-N1-A):",
+            "width": 354
+          },
+          {
+            "cls": "code-tok-string",
+            "left": 186,
+            "right": 473,
+            "tag": "SPAN",
+            "text": "f\"Python {sys.version.split()[0]}\"",
+            "width": 287
+          }
+        ],
+        "scrollHeight": 8096,
+        "scrollWidth": 390,
+        "sectionRootText": 7635,
+        "smallTouchTargets": [
+          {
+            "cls": "inline cursor-help border-b border-dotted border-primary/70 ",
+            "height": 25,
+            "tag": "BUTTON",
+            "text": "Git",
+            "width": 20
+          }
+        ],
+        "viewportWidth": 390
+      },
+      "label": "mobile-youdo",
+      "scroll_locked": false,
+      "tab": "youdo",
+      "tab_selected": "active",
+      "tile_count": 12,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 88790,
+          "file": "mobile-youdo-tile-01.png",
+          "height": 844,
+          "index": 1,
+          "sha256": "66f3da53d6bf60a6abc0e70c24b016d6cefda161ace77b2099bd289b2c75b97d",
+          "y_end": 844,
+          "y_start": 0
+        },
+        {
+          "blank": false,
+          "bytes": 99524,
+          "file": "mobile-youdo-tile-02.png",
+          "height": 844,
+          "index": 2,
+          "sha256": "381fa6699efa0d7fc9a47ab5c0d39a43f13d1b40c1cc4602616758b4a2db8435",
+          "y_end": 1568,
+          "y_start": 724
+        },
+        {
+          "blank": false,
+          "bytes": 94190,
+          "file": "mobile-youdo-tile-03.png",
+          "height": 844,
+          "index": 3,
+          "sha256": "d043aa8c265ac166fb6ca8fabb1d883d448f43d44252584a5b72146640d745a4",
+          "y_end": 2292,
+          "y_start": 1448
+        },
+        {
+          "blank": false,
+          "bytes": 85734,
+          "file": "mobile-youdo-tile-04.png",
+          "height": 844,
+          "index": 4,
+          "sha256": "3a1c49ab856bfaeee3652466b6488ece08e44bac92462d49451fd6ff3d529f06",
+          "y_end": 3016,
+          "y_start": 2172
+        },
+        {
+          "blank": false,
+          "bytes": 82133,
+          "file": "mobile-youdo-tile-05.png",
+          "height": 844,
+          "index": 5,
+          "sha256": "31c2df1798a3d89d24e98099826bae311650b9d44f9bc0baa38816636c2e7d93",
+          "y_end": 3740,
+          "y_start": 2896
+        },
+        {
+          "blank": false,
+          "bytes": 90263,
+          "file": "mobile-youdo-tile-06.png",
+          "height": 844,
+          "index": 6,
+          "sha256": "7714d45c220d853896bd439fb5b79b3cf901e19dd880f975ef019a27015990f9",
+          "y_end": 4464,
+          "y_start": 3620
+        },
+        {
+          "blank": false,
+          "bytes": 83527,
+          "file": "mobile-youdo-tile-07.png",
+          "height": 844,
+          "index": 7,
+          "sha256": "752f574b815a94b7033641db47e6210ebe345a9eaef97b54358ab50e08bd3621",
+          "y_end": 5188,
+          "y_start": 4344
+        },
+        {
+          "blank": false,
+          "bytes": 83044,
+          "file": "mobile-youdo-tile-08.png",
+          "height": 844,
+          "index": 8,
+          "sha256": "47eb4057cedac69926f9460d0c9daa8e083b92c7c63b4f1d59a89fd0492a9fb8",
+          "y_end": 5912,
+          "y_start": 5068
+        },
+        {
+          "blank": false,
+          "bytes": 85829,
+          "file": "mobile-youdo-tile-09.png",
+          "height": 844,
+          "index": 9,
+          "sha256": "f8a348aa4958c39939b8afe3e7efb8f917d0ed423e15e5c696a5953b0365436d",
+          "y_end": 6636,
+          "y_start": 5792
+        },
+        {
+          "blank": false,
+          "bytes": 82652,
+          "file": "mobile-youdo-tile-10.png",
+          "height": 844,
+          "index": 10,
+          "sha256": "859b2960e8421f88ab4cb691ab5ebf07e3182c86821718ba02d33bccae30f53f",
+          "y_end": 7360,
+          "y_start": 6516
+        },
+        {
+          "blank": false,
+          "bytes": 82375,
+          "file": "mobile-youdo-tile-11.png",
+          "height": 844,
+          "index": 11,
+          "sha256": "c8b36012605890d3312b03978334d2eedc2d4f371b893f2103c5a929142c31e3",
+          "y_end": 8084,
+          "y_start": 7240
+        },
+        {
+          "blank": false,
+          "bytes": 81618,
+          "file": "mobile-youdo-tile-12.png",
+          "height": 844,
+          "index": 12,
+          "sha256": "3261dc1fc8b4a1ded7392cedc6e20b854946699f06a507855b00c247c5a483aa",
+          "y_end": 8096,
+          "y_start": 7252
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "mobile",
+      "viewport_height": 844
+    },
+    {
+      "answer_boundary": {
+        "revealedFeedbackBeforeAttempt": [],
+        "visibleAnswerMarkers": []
+      },
+      "blank_tiles": [],
+      "capture_error": null,
+      "coverage_complete": true,
+      "coverage_gap": null,
+      "document_height": 4646,
+      "geometry": {
+        "clientWidth": 390,
+        "controlsWithoutAccessibleName": [],
+        "fixedElements": [
+          {
+            "cls": "inline-flex items-center justify-center whitespace-nowrap te",
+            "height": 44,
+            "left": 342,
+            "tag": "BUTTON",
+            "testid": "feedback-open",
+            "top": 720,
+            "width": 36
+          },
+          {
+            "cls": "fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded",
+            "height": 44,
+            "left": 12,
+            "tag": "BUTTON",
+            "testid": "section-prev",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounde",
+            "height": 44,
+            "left": 334,
+            "tag": "BUTTON",
+            "testid": "section-next",
+            "top": 784,
+            "width": 44
+          },
+          {
+            "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-revers",
+            "height": 32,
+            "left": 0,
+            "tag": "OL",
+            "testid": null,
+            "top": 0,
+            "width": 390
+          }
+        ],
+        "headings": [
+          {
+            "level": "H1",
+            "text": "Entorno reproducible y trabajo seguro"
+          },
+          {
+            "level": "H2",
+            "text": "Autocheck — Verifica tu aprendizaje"
+          }
+        ],
+        "horizontalOverflow": 0,
+        "images": [],
+        "overflowingElements": [],
+        "scrollHeight": 4646,
+        "scrollWidth": 390,
+        "sectionRootText": 2065,
+        "smallTouchTargets": [],
+        "viewportWidth": 390
+      },
+      "label": "mobile-quiz",
+      "scroll_locked": false,
+      "tab": "quiz",
+      "tab_selected": "active",
+      "tile_count": 7,
+      "tiles": [
+        {
+          "blank": false,
+          "bytes": 75603,
+          "file": "mobile-quiz-tile-01.png",
+          "height": 844,
+          "index": 1,
+          "sha256": "859f76bc9c4e76e65b612497d8510c87ea39698b4a125de0334c2873094248df",
+          "y_end": 844,
+          "y_start": 0
+        },
+        {
+          "blank": false,
+          "bytes": 65914,
+          "file": "mobile-quiz-tile-02.png",
+          "height": 844,
+          "index": 2,
+          "sha256": "550ee2170a2ddac0b25b361028da61894bfd8c4c63fc0a7a94f41d3833c60e26",
+          "y_end": 1568,
+          "y_start": 724
+        },
+        {
+          "blank": false,
+          "bytes": 67973,
+          "file": "mobile-quiz-tile-03.png",
+          "height": 844,
+          "index": 3,
+          "sha256": "1e2940c5a26110bc24daaccda9a90ba0962c211f95bf74f34d64c67aab21ca14",
+          "y_end": 2292,
+          "y_start": 1448
+        },
+        {
+          "blank": false,
+          "bytes": 73175,
+          "file": "mobile-quiz-tile-04.png",
+          "height": 844,
+          "index": 4,
+          "sha256": "d1865cc64dcfe72349d6082903d8c881aff7aca53137ac997bbd0050dbd18477",
+          "y_end": 3016,
+          "y_start": 2172
+        },
+        {
+          "blank": false,
+          "bytes": 67104,
+          "file": "mobile-quiz-tile-05.png",
+          "height": 844,
+          "index": 5,
+          "sha256": "420e8acbc0f93d8da91b30f1eee7f0a735bfec2af498a4250ca628fa4cb647c7",
+          "y_end": 3740,
+          "y_start": 2896
+        },
+        {
+          "blank": false,
+          "bytes": 62128,
+          "file": "mobile-quiz-tile-06.png",
+          "height": 844,
+          "index": 6,
+          "sha256": "4b398959e459ff11003583c97121d0ceff6e6ba5385eae541a4e42fcdcbd22d3",
+          "y_end": 4464,
+          "y_start": 3620
+        },
+        {
+          "blank": false,
+          "bytes": 71879,
+          "file": "mobile-quiz-tile-07.png",
+          "height": 844,
+          "index": 7,
+          "sha256": "f22854828cb3889a5db231cf102d3c20bac8ffc44d5173a6eab3718a021df2d3",
+          "y_end": 4646,
+          "y_start": 3802
+        }
+      ],
+      "truncated_at_max_tiles": false,
+      "url": "http://localhost:3000/#setup",
+      "viewport": "mobile",
+      "viewport_height": 844
+    }
+  ],
+  "status": "COMPLETE",
+  "tabs": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+  ],
+  "tile_height": 1600,
+  "tile_overlap": 120,
+  "viewports": {
+    "desktop": {
+      "height": 1000,
+      "width": 1440
+    },
+    "mobile": {
+      "height": 844,
+      "width": 390
+    }
+  }
+}

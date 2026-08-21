@@ -37,7 +37,13 @@ Priority order when instructions conflict:
    do **not** prove production.
 9. **Deploy only the exact tested SHA.** After deploy, verify live Pages and
    progress-fixture compatibility.
-10. **Scan commits for secrets** before push.
+10. **Follow the editorial protocol for learner-facing prose.** Before creating or
+    editing curriculum prose, read and apply
+    `docs/policies/HANDCRAFTED_WRITING_PROTOCOL.md` (canonical text; the `.docx`
+    is a human-distribution copy generated from it). If it conflicts with the
+    active curriculum-audit skill or an explicit human requirement, apply the
+    authority hierarchy at the top of this file and record the conflict.
+11. **Scan commits for secrets** before push.
 
 ## MUST NOT
 

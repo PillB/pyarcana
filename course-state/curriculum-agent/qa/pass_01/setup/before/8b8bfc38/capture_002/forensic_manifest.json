@@ -1,0 +1,40 @@
+{
+  "base_url": "http://localhost:3000",
+  "campaign_id": "CAMP-20260820-02",
+  "capture_id": "capture_002",
+  "clean": false,
+  "console_errors": [],
+  "console_warnings": [],
+  "failed_requests": [],
+  "findings": [],
+  "generated_at": "2026-08-21T00:29:41.146110+00:00",
+  "outer_pass": 1,
+  "page_errors": [],
+  "phase": "before",
+  "schema_version": 1,
+  "scope": "curriculum_audit",
+  "section_id": "setup",
+  "source_git_sha": "8b8bfc38fea4b24f84d50bcfb31d70415ab2b9b9",
+  "started_at": "2026-08-21T00:29:33.144931+00:00",
+  "states": [],
+  "status": "FAILED",
+  "tabs": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+  ],
+  "tile_height": 1600,
+  "tile_overlap": 120,
+  "viewports": {
+    "desktop": {
+      "height": 1000,
+      "width": 1440
+    },
+    "mobile": {
+      "height": 844,
+      "width": 390
+    }
+  }
+}

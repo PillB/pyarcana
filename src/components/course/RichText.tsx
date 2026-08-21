@@ -81,7 +81,7 @@ export function RichText({ content, sectionId }: RichTextProps) {
               {block.items!.map((item, j) => (
                 <li key={j} className="flex gap-2.5">
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/60" />
-                  <span className="flex-1 [&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px] [&_code]:font-mono">
+                  <span className="min-w-0 flex-1 [&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px] [&_code]:font-mono [&_code]:break-words">
                     <InlineAnnotated html={annotate(item)} />
                   </span>
                 </li>

@@ -1,0 +1,48 @@
+{
+  "base_url": "http://localhost:4321/pyarcana",
+  "campaign_id": "CAMP-20260820-02",
+  "capture_id": "capture_001",
+  "clean": false,
+  "console_errors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 (File not found)",
+      "type": "error",
+      "viewport": "desktop"
+    }
+  ],
+  "console_warnings": [],
+  "failed_requests": [],
+  "findings": [
+    "console errors: 1"
+  ],
+  "generated_at": "2026-08-21T14:40:42.049435+00:00",
+  "outer_pass": 1,
+  "page_errors": [],
+  "phase": "after",
+  "schema_version": 1,
+  "scope": "curriculum_audit",
+  "section_id": "setup",
+  "source_git_sha": "prodbuild-c02fix4",
+  "started_at": "2026-08-21T14:38:19.198261+00:00",
+  "states": [],
+  "status": "FAILED",
+  "tabs": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+  ],
+  "tile_height": 1600,
+  "tile_overlap": 120,
+  "viewports": {
+    "desktop": {
+      "height": 1000,
+      "width": 1440
+    },
+    "mobile": {
+      "height": 844,
+      "width": 390
+    }
+  }
+}
