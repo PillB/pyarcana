@@ -79,9 +79,30 @@ class Section03IndependentContractTests(unittest.TestCase):
                 run = subprocess.run(
                     [sys.executable, "-c", code],
                     cwd=ROOT,
-                    check=True,
+                    check=False,
                     capture_output=True,
                     text=True,
+                )
+                # S03 teaches structural pattern matching, which needs Python
+                # 3.10+. On an older interpreter those blocks raise SyntaxError
+                # before running — that is an environment limit, not a content
+                # defect, so skip exactly those and keep every other failure
+                # fatal. Mirrors the `requires_python_3_10_plus` classification
+                # in scripts/python_content_runtime_audit.py.
+                if (
+                    run.returncode != 0
+                    and sys.version_info < (3, 10)
+                    and "SyntaxError" in run.stderr
+                    and re.search(r"^\s*case\s+", code, re.MULTILINE)
+                ):
+                    self.skipTest(
+                        "block uses match/case; requires Python 3.10+ "
+                        f"(running {sys.version_info.major}.{sys.version_info.minor})"
+                    )
+                self.assertEqual(
+                    run.returncode,
+                    0,
+                    f"block {index} exited {run.returncode}:\n{run.stderr[-800:]}",
                 )
                 self.assertEqual(run.stdout.rstrip(), expected.rstrip())
 

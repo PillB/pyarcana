@@ -89,7 +89,7 @@ s15_th_1()`,
     import pandas as pd
     from io import StringIO
 
-    csv = "cliente_id,monto,fecha\nC001,10.5,2024-01-15\nC002,NA,2024-02-01\n"
+    csv = "cliente_id,monto,fecha\\nC001,10.5,2024-01-15\\nC002,NA,2024-02-01\\n"
     df = pd.read_csv(
         StringIO(csv),
         dtype={"cliente_id": "string"},
@@ -839,7 +839,7 @@ print(out.round(2).to_dict())`,
           code: `# Error a corregir: sin na_values, 'SIN_DATO' se lee como string y isna da 0
 import pandas as pd
 from io import StringIO
-df = pd.read_csv(StringIO("a,b\n1,2\n3,SIN_DATO\n"))
+df = pd.read_csv(StringIO("a,b\\n1,2\\n3,SIN_DATO\\n"))
 print(int(df["b"].isna().sum()))
 `,
         },
@@ -848,7 +848,7 @@ print(int(df["b"].isna().sum()))
           title: "exercise.py",
           code: `import pandas as pd
 from io import StringIO
-df = pd.read_csv(StringIO("a,b\n1,2\n3,SIN_DATO\n"), na_values=["SIN_DATO"])
+df = pd.read_csv(StringIO("a,b\\n1,2\\n3,SIN_DATO\\n"), na_values=["SIN_DATO"])
 print(int(df["b"].isna().sum()))`,
           output: `1`,
         },
@@ -879,7 +879,7 @@ print(int(df["b"].isna().sum()))`,
           code: `# Error a corregir: sin parse_dates la fecha queda como object/string
 import pandas as pd
 from io import StringIO
-df = pd.read_csv(StringIO("fecha,x\n2024-01-01,1\n"))
+df = pd.read_csv(StringIO("fecha,x\\n2024-01-01,1\\n"))
 print(str(df["fecha"].dtype))
 `,
         },
@@ -888,7 +888,7 @@ print(str(df["fecha"].dtype))
           title: "exercise.py",
           code: `import pandas as pd
 from io import StringIO
-df = pd.read_csv(StringIO("fecha,x\n2024-01-01,1\n"), parse_dates=["fecha"])
+df = pd.read_csv(StringIO("fecha,x\\n2024-01-01,1\\n"), parse_dates=["fecha"])
 print(str(df["fecha"].dtype))`,
           output: `datetime64[ns]`,
         },
@@ -919,7 +919,7 @@ print(str(df["fecha"].dtype))`,
           code: `# Error a corregir: sin decimal=',' el monto queda como texto '15,50'; falta usecols
 import pandas as pd
 from io import StringIO
-raw = "cliente_id;monto;z\nC001;15,50;9\n"
+raw = "cliente_id;monto;z\\nC001;15,50;9\\n"
 df = pd.read_csv(StringIO(raw), sep=";")
 print(df["monto"].tolist())
 `,
@@ -929,7 +929,7 @@ print(df["monto"].tolist())
           title: "exercise.py",
           code: `import pandas as pd
 from io import StringIO
-raw = "cliente_id;monto;z\nC001;15,50;9\n"
+raw = "cliente_id;monto;z\\nC001;15,50;9\\n"
 df = pd.read_csv(
     StringIO(raw),
     sep=";",

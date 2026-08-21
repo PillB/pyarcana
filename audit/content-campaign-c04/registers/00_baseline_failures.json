@@ -1,0 +1,223 @@
+{
+  "phase": "0-baseline",
+  "generated_at": "2026-08-21T18:42:49.387793+00:00",
+  "totals": {
+    "pass": 2968,
+    "fail": 26,
+    "skip": 361,
+    "artifacts": 3355
+  },
+  "p0": 4,
+  "p1": 22,
+  "ok": false,
+  "failures": [
+    {
+      "section": "data-structures",
+      "file": "src/lib/course/sections/s03-data-structures.ts",
+      "kind": "starter",
+      "artifact": "starterCode-16",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "sklearn",
+      "file": "src/lib/course/sections/s10-sklearn.ts",
+      "kind": "starter",
+      "artifact": "starterCode-17",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "testing",
+      "file": "src/lib/course/sections/s11-testing.ts",
+      "kind": "starter",
+      "artifact": "starterCode-0",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "testing",
+      "file": "src/lib/course/sections/s11-testing.ts",
+      "kind": "starter",
+      "artifact": "starterCode-9",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "testing",
+      "file": "src/lib/course/sections/s11-testing.ts",
+      "kind": "starter",
+      "artifact": "starterCode-10",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "testing",
+      "file": "src/lib/course/sections/s11-testing.ts",
+      "kind": "starter",
+      "artifact": "starterCode-13",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "performance",
+      "file": "src/lib/course/sections/s12-performance.ts",
+      "kind": "starter",
+      "artifact": "starterCode-22",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "rpa-automation",
+      "file": "src/lib/course/sections/s13-rpa-automation.ts",
+      "kind": "starter",
+      "artifact": "starterCode-15",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "databases-orm",
+      "file": "src/lib/course/sections/s19-databases-orm.ts",
+      "kind": "solution",
+      "artifact": "solutionCode-17",
+      "reason": "output_mismatch",
+      "severity": "P1"
+    },
+    {
+      "section": "databases-orm",
+      "file": "src/lib/course/sections/s19-databases-orm.ts",
+      "kind": "demo",
+      "artifact": "code-block-5",
+      "reason": "output_mismatch",
+      "severity": "P1"
+    },
+    {
+      "section": "databases-orm",
+      "file": "src/lib/course/sections/s19-databases-orm.ts",
+      "kind": "demo",
+      "artifact": "code-block-13",
+      "reason": "output_mismatch",
+      "severity": "P1"
+    },
+    {
+      "section": "databases-orm",
+      "file": "src/lib/course/sections/s19-databases-orm.ts",
+      "kind": "demo",
+      "artifact": "code-block-16",
+      "reason": "output_mismatch",
+      "severity": "P1"
+    },
+    {
+      "section": "rag",
+      "file": "src/lib/course/sections/s20-rag.ts",
+      "kind": "starter",
+      "artifact": "starterCode-19",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "computer-vision",
+      "file": "src/lib/course/sections/s23-computer-vision.ts",
+      "kind": "starter",
+      "artifact": "starterCode-10",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "rpa-advanced",
+      "file": "src/lib/course/sections/s24-rpa-advanced.ts",
+      "kind": "starter",
+      "artifact": "starterCode-13",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "starter",
+      "artifact": "starterCode-0",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "starter",
+      "artifact": "starterCode-3",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "starter",
+      "artifact": "starterCode-6",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "starter",
+      "artifact": "starterCode-9",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "starter",
+      "artifact": "starterCode-15",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "starter",
+      "artifact": "starterCode-18",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "starter",
+      "artifact": "starterCode-21",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1"
+    },
+    {
+      "section": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "solution",
+      "artifact": "solutionCode-12",
+      "reason": "nonzero_exit",
+      "severity": "P0"
+    },
+    {
+      "section": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "solution",
+      "artifact": "solutionCode-15",
+      "reason": "nonzero_exit",
+      "severity": "P0"
+    },
+    {
+      "section": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "solution",
+      "artifact": "solutionCode-18",
+      "reason": "nonzero_exit",
+      "severity": "P0"
+    },
+    {
+      "section": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "solution",
+      "artifact": "solutionCode-21",
+      "reason": "nonzero_exit",
+      "severity": "P0"
+    }
+  ]
+}

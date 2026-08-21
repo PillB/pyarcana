@@ -219,7 +219,7 @@ True`,
     print(df2["monto_region_mean"].tolist())
 
 s17_th_5()`,
- output: `{'region': ['Madrid', 'Cusco', 'Lima'], 'monto_sum': [5.0, 15.0, 30.0], 'n': [1, 1, 2]}
+ output: `{'region': ['Cusco', 'Lima', 'Madrid'], 'monto_sum': [15.0, 30.0, 5.0], 'n': [1, 2, 1]}
 [15.0, 15.0, 5.0, 15.0]`,
  },
  callout: {
@@ -474,7 +474,7 @@ s17_ido_4()`,
     print(df["mean_reg"].tolist())
 
 s17_ido_5()`,
- output: `{'region': ['Madrid', 'Cusco', 'Lima'], 'total': [20.0, 30.0, 10.0], 'n': [2, 1, 1]}
+ output: `{'region': ['Cusco', 'Lima', 'Madrid'], 'total': [30.0, 10.0, 20.0], 'n': [1, 1, 2]}
 [10.0, 30.0, 10.0, 10.0]`,
  },
  why: "`agg` produce la tabla ejecutiva (una fila por grupo); `transform` reinyecta la media al shape original para scores por fila. Named agg documenta el schema del CSV ejecutivo (`total`, `n`); `as_index=False` facilita merges posteriores. No mezcles sum y mean sin contrato: confundir operadores es el bug clásico de “me quedé sin filas” en un feature store.",
@@ -1099,7 +1099,7 @@ print(df.groupby("region")["monto"].mean().to_dict())`,
  code: `import pandas as pd
 df = pd.DataFrame({"region": ["Lima", "Lima", "Madrid"], "monto": [1.0, 2.0, 3.0]})
 print(df.groupby("region")["monto"].sum().to_dict())`,
- output: `{'Madrid': 3.0, 'Lima': 3.0}`,
+ output: `{'Lima': 3.0, 'Madrid': 3.0}`,
  },
  },
  {
