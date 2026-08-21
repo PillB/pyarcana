@@ -66,7 +66,7 @@ export const section20: CourseSection = {
 
 s20_th_1()`,
         output: `['Entrada', 'Salida']
-Madrid 28.0`,
+Lima 28.0`,
       },
       callout: {
         type: "tip",
@@ -522,7 +522,7 @@ non_anchor_D1 None`,
     print("reconcile", abs(det["monto"].sum() - portada) < 0.01)
 
 s20_ido_5()`,
-          output: `{'Madrid': 8.0, 'Bogota': 5.5, 'Lima': 22.0}
+          output: `{'Bogota': 5.5, 'Lima': 22.0, 'Madrid': 8.0}
 reconcile True`,
         },
         why:
@@ -635,7 +635,7 @@ manifest = {
     "tests": {"has_header": o1.startswith("region,monto"), "n_data": 2},
 }
 print(json.dumps(manifest, ensure_ascii=False))`,
-          output: `{"sha1_8": "3e819052", "idempotent": true, "backup": "results.prev.xlsx", "tests": {"has_header": true, "n_data": 2}}`,
+          output: `{"sha1_8": "1dc6ebd4", "idempotent": true, "backup": "results.prev.xlsx", "tests": {"has_header": true, "n_data": 2}}`,
         },
         why:
           "Orden canónico de filas antes de hashear; backup path versionado; tests `has_header` / `n_data` sin abrir Excel GUI. Idempotencia + backup + tests estructurales + manifest cierran el excel factory listo para CP-N2-B. El JSON es obligatorio en el checklist de entrega.",
@@ -1281,7 +1281,7 @@ print(df.groupby("region")["monto"].mean().to_dict())`,
           code: `import pandas as pd
 df = pd.DataFrame({"region": ["Lima", "Lima", "Bogota"], "monto": [10.0, 5.0, 7.0]})
 print(df.groupby("region")["monto"].sum().to_dict())`,
-          output: `{'Bogota': 7.0, 'Madrid': 15.0}`,
+          output: `{'Bogota': 7.0, 'Lima': 15.0}`,
         },
       },
       {

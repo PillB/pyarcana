@@ -1,0 +1,32 @@
+{
+  "campaign": "content-campaign-c03",
+  "date": "2026-08-21",
+  "branch": "audit/content-campaign-c03-20260821",
+  "baseline_sha": "7aa825ac9595d5813d28e8a8421aa43ce194678a",
+  "immutable": [
+    "UR-01 improve learner-facing curriculum content",
+    "UR-02 do not redesign levels or phases",
+    "UR-03 preserve S01-S52 numbering and order",
+    "UR-04 preserve learner save/progress/history compatibility",
+    "UR-05 reconstruct requirements from local evidence, not the package",
+    "UR-06 use current evidence and the versions actually in use",
+    "UR-07 apply the Handcrafted Writing protocol",
+    "UR-08 explain rather than assume",
+    "UR-09 two substantive content iterations",
+    "UR-10 do not self-certify",
+    "UR-11 surface uncertainty rather than guessing",
+    "UR-12 implement, do not stop at a plan",
+    "UR-13 one bounded unit at a time",
+    "UR-14 prove no damage to what learners already earned",
+    "UR-15 fetch branches and consider repository state"
+  ],
+  "frozen_identities": {
+    "storage_key": "python-ds-progress",
+    "progress_fields": ["completedSections","completedSubSteps","quizScores","lastVisited","bookmarks","startDate","isHydratedFromServer"],
+    "sub_steps": ["theory","ido","wedo","youdo","quiz"],
+    "sections": 52,
+    "exercise_ids": 1248,
+    "subtopics_per_section": 8,
+    "demos_per_section": 8
+  }
+}

@@ -1479,7 +1479,7 @@ assert b1 == "async" and n1 == 0
 assert b2 == "background" and n2 == 1 and q[0]["status"] == "queued"
 print("S41-T3-A", "PASS")
 
-meets_contract = results == ["CONTINUE", "THIN_THE_HANDLER", "REVIEW_DEPENDENCY_BOUNDARY"]
+meets_contract = b1 == "async" and b2 == "background" and len(q) == 1
 ` ,
           output: `S41-T3-A PASS` ,
         },
@@ -1682,7 +1682,7 @@ err = out_to["error"]
 assert err.get("status") == 504 and "trace_id" in err and "email" not in err
 print("S41-T3-B", "PASS")
 
-meets_contract = timeout_order == ["client", "service", "db"]
+meets_contract = out_ok["outcome"] == "ok" and err["status"] == 504 and res == []
 ` ,
           output: `S41-T3-B PASS` ,
         },
@@ -1869,7 +1869,7 @@ assert pyramid_ok(12, 5, 2) is True
 assert pyramid_ok(2, 5, 12) is False
 print("S41-T4-A", "PASS")
 
-meets_contract = unit_count >= contract_count and contract_count >= e2e_count
+meets_contract = pyramid_ok(12, 5, 2) and not pyramid_ok(2, 5, 12)
 ` ,
           output: `S41-T4-A PASS` ,
         },
@@ -2060,7 +2060,7 @@ assert b["status"] == 429 and "retry_after_s" in b
 assert "email" not in logged and logged.get("trace_id") == "tr-are-041"
 print("S41-T4-B", "PASS")
 
-meets_contract = quota_resp == 429 and v1_fields.issubset(v11_fields)
+meets_contract = b["status"] == 429 and "email" not in logged
 ` ,
           output: `S41-T4-B PASS` ,
         },

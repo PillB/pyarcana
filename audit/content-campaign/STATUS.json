@@ -1,0 +1,25 @@
+{
+  "campaign": "content-campaign-c03",
+  "phase": "COMPLETE_PENDING_INDEPENDENT_HUMAN_REVIEW",
+  "branch": "audit/content-campaign-c03-20260821",
+  "baseline_sha": "7aa825ac9595d5813d28e8a8421aa43ce194678a",
+  "requirements_sha256": "6de4f9e40d1edf929f285b19daa56bbc2a3500df60f5440de1c31e39bedc0373",
+  "committed": false,
+  "units": [
+    {"id": "U1", "section": "S18 data-engineering", "gate": "VALIDATED", "iterations": 2, "compat": "COMPATIBLE_ADDITIVE + COMPATIBLE_SEMANTIC_REFINEMENT", "lines": "+139/-0"},
+    {"id": "U2", "section": "S15 stdlib-deep", "gate": "VALIDATED", "iterations": 2, "compat": "COMPATIBLE_ADDITIVE", "lines": "+57/-0"}
+  ],
+  "open_material_doubts": 0,
+  "accepted_limitations": [
+    "D-004 two pre-existing glossary gate failures, unchanged",
+    "writer and editorial reviewer were the same agent in separate passes; independent human review recommended before merge",
+    "no deployment performed, so no live GitHub Pages claim is made",
+    "the repository runtime audit skipped the two numpy snippets on this machine (-I hides user site-packages); their outputs were verified by direct execution"
+  ],
+  "pre_existing_failures_not_caused_by_campaign": {
+    "glossary_intro_forward_refs": 2,
+    "glossary_coverage_p1_missing": 46,
+    "test_s03_independent_contract_errors": 4
+  },
+  "quiet_rounds": 2
+}

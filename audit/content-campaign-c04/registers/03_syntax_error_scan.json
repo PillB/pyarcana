@@ -1,0 +1,80 @@
+{
+  "s02-basics": [
+    [
+      "starterCode-7",
+      "starter",
+      "invalid syntax"
+    ]
+  ],
+  "s03-data-structures": [
+    [
+      "starterCode-16",
+      "starter",
+      "invalid syntax"
+    ],
+    [
+      "solutionCode-16",
+      "solution",
+      "invalid syntax"
+    ],
+    [
+      "solutionCode-17",
+      "solution",
+      "invalid syntax"
+    ],
+    [
+      "code-block-6",
+      "demo",
+      "invalid syntax"
+    ],
+    [
+      "code-block-14",
+      "demo",
+      "invalid syntax"
+    ]
+  ],
+  "s10-sklearn": [
+    [
+      "starterCode-17",
+      "starter",
+      "EOL while scanning string literal"
+    ]
+  ],
+  "s15-stdlib-deep": [
+    [
+      "starterCode-3",
+      "starter",
+      "EOL while scanning string literal"
+    ],
+    [
+      "starterCode-4",
+      "starter",
+      "EOL while scanning string literal"
+    ],
+    [
+      "starterCode-5",
+      "starter",
+      "EOL while scanning string literal"
+    ],
+    [
+      "solutionCode-3",
+      "solution",
+      "EOL while scanning string literal"
+    ],
+    [
+      "solutionCode-4",
+      "solution",
+      "EOL while scanning string literal"
+    ],
+    [
+      "solutionCode-5",
+      "solution",
+      "EOL while scanning string literal"
+    ],
+    [
+      "code-block-1",
+      "demo",
+      "EOL while scanning string literal"
+    ]
+  ]
+}

@@ -89,7 +89,7 @@ s15_th_1()`,
     import pandas as pd
     from io import StringIO
 
-    csv = "cliente_id,monto,fecha\nC001,10.5,2024-01-15\nC002,NA,2024-02-01\n"
+    csv = "cliente_id,monto,fecha\\nC001,10.5,2024-01-15\\nC002,NA,2024-02-01\\n"
     df = pd.read_csv(
         StringIO(csv),
         dtype={"cliente_id": "string"},
@@ -331,6 +331,63 @@ s15_th_8()`,
         title: "Provenance mínima",
         content:
           "source + filas + hash del artefacto bastan para reconciliar ingesta en CP-N2-A.",
+      },
+    },
+    {
+      heading: "Por qué el formato columnar cambia el trabajo que hace la máquina",
+      subtopicId: "S15-T4-B",
+      paragraphs: [
+        "Ya sabes exportar a Parquet conservando el mapa columna→dtype. Falta la razón por la que ese formato existe, y es una razón física antes que una preferencia. Un CSV guarda los datos **por filas**: primero el registro completo de C001, después el completo de C002. Parquet los guarda **por columnas**: primero todos los `cliente_id`, luego todos los `monto`, luego todas las `region`. Con dos columnas y dos filas la diferencia no se nota. Con cuarenta columnas y millones de filas, esa decisión de acomodo determina cuánto tiene que leer la máquina cuando preguntas por tres de ellas.",
+        "Supón que tu consulta solo necesita `monto`. En un archivo por filas, llegar a ese campo obliga a recorrer cada registro entero: los otros treinta y nueve valores de cada fila se leen igual, aunque los descartes enseguida. En un archivo por columnas, `monto` está contiguo y el lector toma ese bloque y ninguno más. A esa capacidad —empujar la selección de columnas hasta la capa que lee el archivo, en lugar de leer todo y filtrar después— se le llama **projection pushdown** (*empuje de la proyección*). No es una opción que actives: es la consecuencia de cómo quedaron acomodados los bytes.",
+        "Los formatos columnares además parten la tabla en bloques de filas llamados **row groups** (*grupos de filas*) y guardan, por cada bloque y cada columna, un resumen mínimo: el valor menor y el mayor. Si preguntas por `monto > 19` y un bloque declara que su máximo es 13, el lector puede **saltarse el bloque completo** sin abrirlo. Eso es **filter pushdown** con **pruning** (*poda*) de bloques. La demostración de abajo lo reproduce a mano con listas de Python, para que la mecánica quede a la vista: 36 valores leídos con organización por filas, 12 leyendo solo la columna pedida, y 4 cuando las estadísticas por bloque permiten descartar dos de los tres grupos.",
+        "Dos límites honestos, porque esto no es magia. El primero: la poda depende de que los datos estén **ordenados o agrupados de forma útil**. Si cada bloque contiene montos de todo el rango, ningún mínimo ni máximo descarta nada y el pruning no ahorra una sola lectura — por eso la partición de un dataset se decide pensando en cómo se va a consultar, no por costumbre. El segundo: partir de más produce **muchos archivos diminutos**, y el costo de abrir cada uno termina comiéndose la ganancia. Conviene además no confundir dos capas: **Parquet** es cómo quedan los datos *en el archivo*, mientras que **Arrow** es cómo quedan *en memoria* una vez leídos; motores como DuckDB o Polars usan ambas y ofrecen un `EXPLAIN` (o `.explain()`) que muestra qué columnas y qué bloques terminó leyendo el plan. Ninguno hace falta aquí y ninguno se instala en este curso. Lo que viaja contigo es el modelo mental: el formato no solo preserva tipos, también decide cuánto tiene que leer la máquina para responderte.",
+      ],
+      code: {
+        language: 'python',
+        title: "layout_columnar.py",
+        code: `def s15_th_columnar():
+    filas = [{"id": i, "region": ["Lima", "Madrid"][i % 2], "monto": 10 + i}
+             for i in range(12)]
+
+    # (1) Organización por filas: cada registro guardado junto
+    por_filas = [tuple(f.values()) for f in filas]
+    leidos_filas = sum(len(r) for r in por_filas)   # tocar la fila = tocar sus 3 campos
+
+    # (2) Organización por columnas, partida en row groups de 4 filas
+    def grupo(rows):
+        return {
+            "monto": [r["monto"] for r in rows],
+            "region": [r["region"] for r in rows],
+            "stats": {"monto_min": min(r["monto"] for r in rows),
+                      "monto_max": max(r["monto"] for r in rows)},
+        }
+
+    grupos = [grupo(filas[i:i + 4]) for i in range(0, 12, 4)]
+    leidos_columna = sum(len(g["monto"]) for g in grupos)          # projection pushdown
+
+    vistos = [g for g in grupos if g["stats"]["monto_max"] > 19]   # row-group pruning
+    leidos_podados = sum(len(g["monto"]) for g in vistos)
+
+    print("valores_leidos_por_filas", leidos_filas)
+    print("valores_leidos_por_columnas", leidos_columna)
+    print("grupos_totales", len(grupos))
+    print("grupos_tras_podar", len(vistos))
+    print("valores_leidos_con_poda", leidos_podados)
+    print("stats_por_grupo", [g["stats"] for g in grupos])
+
+s15_th_columnar()`,
+        output: `valores_leidos_por_filas 36
+valores_leidos_por_columnas 12
+grupos_totales 3
+grupos_tras_podar 1
+valores_leidos_con_poda 4
+stats_por_grupo [{'monto_min': 10, 'monto_max': 13}, {'monto_min': 14, 'monto_max': 17}, {'monto_min': 18, 'monto_max': 21}]`,
+      },
+      callout: {
+        type: "info",
+        title: "Formato y consulta se eligen juntos",
+        content:
+          "Elegir Parquet no acelera nada por sí solo. Acelera cuando la consulta pide pocas columnas y cuando la partición permite descartar bloques enteros. Anota en el manifest por qué elegiste esa partición.",
       },
     },
   ],
@@ -782,7 +839,7 @@ print(out.round(2).to_dict())`,
           code: `# Error a corregir: sin na_values, 'SIN_DATO' se lee como string y isna da 0
 import pandas as pd
 from io import StringIO
-df = pd.read_csv(StringIO("a,b\n1,2\n3,SIN_DATO\n"))
+df = pd.read_csv(StringIO("a,b\\n1,2\\n3,SIN_DATO\\n"))
 print(int(df["b"].isna().sum()))
 `,
         },
@@ -791,7 +848,7 @@ print(int(df["b"].isna().sum()))
           title: "exercise.py",
           code: `import pandas as pd
 from io import StringIO
-df = pd.read_csv(StringIO("a,b\n1,2\n3,SIN_DATO\n"), na_values=["SIN_DATO"])
+df = pd.read_csv(StringIO("a,b\\n1,2\\n3,SIN_DATO\\n"), na_values=["SIN_DATO"])
 print(int(df["b"].isna().sum()))`,
           output: `1`,
         },
@@ -822,7 +879,7 @@ print(int(df["b"].isna().sum()))`,
           code: `# Error a corregir: sin parse_dates la fecha queda como object/string
 import pandas as pd
 from io import StringIO
-df = pd.read_csv(StringIO("fecha,x\n2024-01-01,1\n"))
+df = pd.read_csv(StringIO("fecha,x\\n2024-01-01,1\\n"))
 print(str(df["fecha"].dtype))
 `,
         },
@@ -831,7 +888,7 @@ print(str(df["fecha"].dtype))
           title: "exercise.py",
           code: `import pandas as pd
 from io import StringIO
-df = pd.read_csv(StringIO("fecha,x\n2024-01-01,1\n"), parse_dates=["fecha"])
+df = pd.read_csv(StringIO("fecha,x\\n2024-01-01,1\\n"), parse_dates=["fecha"])
 print(str(df["fecha"].dtype))`,
           output: `datetime64[ns]`,
         },
@@ -862,7 +919,7 @@ print(str(df["fecha"].dtype))`,
           code: `# Error a corregir: sin decimal=',' el monto queda como texto '15,50'; falta usecols
 import pandas as pd
 from io import StringIO
-raw = "cliente_id;monto;z\nC001;15,50;9\n"
+raw = "cliente_id;monto;z\\nC001;15,50;9\\n"
 df = pd.read_csv(StringIO(raw), sep=";")
 print(df["monto"].tolist())
 `,
@@ -872,7 +929,7 @@ print(df["monto"].tolist())
           title: "exercise.py",
           code: `import pandas as pd
 from io import StringIO
-raw = "cliente_id;monto;z\nC001;15,50;9\n"
+raw = "cliente_id;monto;z\\nC001;15,50;9\\n"
 df = pd.read_csv(
     StringIO(raw),
     sep=";",

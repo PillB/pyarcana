@@ -1,0 +1,332 @@
+{
+  "total": 36,
+  "p0": 6,
+  "p1": 30,
+  "newly_revealed": 10,
+  "failures": [
+    {
+      "section_id": "data-structures",
+      "file": "src/lib/course/sections/s03-data-structures.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-16",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_hv0l3caw/snippet.py\", line 3\n    match code:\n          ^\nSyntaxError: invalid syntax\n"
+    },
+    {
+      "section_id": "sklearn",
+      "file": "src/lib/course/sections/s10-sklearn.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-17",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_hrtoglum/snippet.py\", line 6\n    return \"empezandon{\"ok\": true}nfin\"\n                        ^\nSyntaxError: invalid syntax\n"
+    },
+    {
+      "section_id": "testing",
+      "file": "src/lib/course/sections/s11-testing.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-0",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "ataclasses.py\", line 863, in <listcomp>\n    cls_fields = [_get_field(cls, name, type)\n  File \"/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/dataclasses.py\", line 747, in _get_field\n    raise ValueError(f'mutable default {type(f.default)} for field '\nValueError: mutable default <class 'list'> for field emails is not allowed: use default_factory\n"
+    },
+    {
+      "section_id": "testing",
+      "file": "src/lib/course/sections/s11-testing.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-9",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_mml9qlni/snippet.py\", line 14, in <module>\n    print(len({a, b, c}))\nTypeError: unhashable type: 'ResolvedEntity'\n"
+    },
+    {
+      "section_id": "testing",
+      "file": "src/lib/course/sections/s11-testing.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-10",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_fbmqoky2/snippet.py\", line 11, in <module>\n    s = {\nTypeError: unhashable type: 'Evidence'\n"
+    },
+    {
+      "section_id": "testing",
+      "file": "src/lib/course/sections/s11-testing.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-13",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "classes.py\", line 863, in <listcomp>\n    cls_fields = [_get_field(cls, name, type)\n  File \"/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/dataclasses.py\", line 747, in _get_field\n    raise ValueError(f'mutable default {type(f.default)} for field '\nValueError: mutable default <class 'list'> for field evidences is not allowed: use default_factory\n"
+    },
+    {
+      "section_id": "performance",
+      "file": "src/lib/course/sections/s12-performance.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-22",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_zv24mjpg/snippet.py\", line 8, in <module>\n    assert abs(d - 111.19) < 0.05\nAssertionError\n"
+    },
+    {
+      "section_id": "rpa-automation",
+      "file": "src/lib/course/sections/s13-rpa-automation.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-15",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_zr6hj7gi/snippet.py\", line 7, in <module>\n    assert 0 <= thresholds[\"review_low\"] < thresholds[\"accept_min\"] <= 1\nAssertionError\n"
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-3",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "pet.py\", line 5, in <module>\n    print(int(df[\"b\"].isna().sum()))\n  File \"/Users/pabloillescas/Library/Python/3.9/lib/python/site-packages/pandas/core/frame.py\", line 4113, in __getitem__\n    indexer = self.columns.get_loc(key)\n  File \"/Users/pabloillescas/Library/Python/3.9/lib/python/site-packages/pandas/core/indexes/base.py\", line 3819, in get_loc\n    raise KeyError(key) from err\nKeyError: 'b'\n"
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "solution",
+      "artifact_id": "solutionCode-3",
+      "reason": "nonzero_exit",
+      "severity": "P0",
+      "stderr": "t recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_nb8k5aoo/snippet.py\", line 4, in <module>\n    print(int(df[\"b\"].isna().sum()))\n  File \"/Users/pabloillescas/Library/Python/3.9/lib/python/site-packages/pandas/core/frame.py\", line 4113, in __getitem__\n    indexer = self.columns.get_loc(key)\n  File \"/Users/pabloillescas/Library/Python/3.9/lib/python/site-packages"
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "solution",
+      "artifact_id": "solutionCode-4",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "solution",
+      "artifact_id": "solutionCode-5",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-1",
+      "reason": "nonzero_exit",
+      "severity": "P0",
+      "stderr": "gine\n    return mapping[engine](f, **self.options)\n  File \"/Users/pabloillescas/Library/Python/3.9/lib/python/site-packages/pandas/io/parsers/c_parser_wrapper.py\", line 161, in __init__\n    self._validate_parse_dates_presence(self.names)  # type: ignore[has-type]\n  File \"/Users/pabloillescas/Library/Python/3.9/lib/python/site-packages/pandas/io/parsers/base_parser.py\", line 243, in _validate_parse"
+    },
+    {
+      "section_id": "packaging",
+      "file": "src/lib/course/sections/s17-packaging.ts",
+      "kind": "solution",
+      "artifact_id": "solutionCode-12",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "packaging",
+      "file": "src/lib/course/sections/s17-packaging.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-4",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "packaging",
+      "file": "src/lib/course/sections/s17-packaging.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-12",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "databases-orm",
+      "file": "src/lib/course/sections/s19-databases-orm.ts",
+      "kind": "solution",
+      "artifact_id": "solutionCode-17",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "databases-orm",
+      "file": "src/lib/course/sections/s19-databases-orm.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-5",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "databases-orm",
+      "file": "src/lib/course/sections/s19-databases-orm.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-13",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "databases-orm",
+      "file": "src/lib/course/sections/s19-databases-orm.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-16",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "rag",
+      "file": "src/lib/course/sections/s20-rag.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-19",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "4lb29vbh/snippet.py\", line 16, in <module>\n    print(classify(\"in_use.xlsx\", fake_open))\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_4lb29vbh/snippet.py\", line 6, in classify\n    opener(name)\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_4lb29vbh/snippet.py\", line 13, in fake_open\n    raise PermissionError(\"locked by user\")\nPermissionError: locked by user\n"
+    },
+    {
+      "section_id": "rag",
+      "file": "src/lib/course/sections/s20-rag.ts",
+      "kind": "solution",
+      "artifact_id": "solutionCode-13",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "rag",
+      "file": "src/lib/course/sections/s20-rag.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-12",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "computer-vision",
+      "file": "src/lib/course/sections/s23-computer-vision.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-10",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_pmy2_75h/snippet.py\", line 5, in <module>\n    raise PermissionError('login required')\nPermissionError: login required\n"
+    },
+    {
+      "section_id": "rpa-advanced",
+      "file": "src/lib/course/sections/s24-rpa-advanced.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-13",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "ython3.9/_strptime.py\", line 568, in _strptime_datetime\n    tt, fraction, gmtoff_fraction = _strptime(data_string, format)\n  File \"/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/_strptime.py\", line 349, in _strptime\n    raise ValueError(\"time data %r does not match format %r\" %\nValueError: time data '15/01/2026' does not match format '%m/%d/%Y'\n"
+    },
+    {
+      "section_id": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-0",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_a29xaecj/snippet.py\", line 16, in <module>\n    assert status_for(\"POST\", \"/v1/jobs\") == 201\nAssertionError\n"
+    },
+    {
+      "section_id": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-3",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_lbzmlb2k/snippet.py\", line 11, in <module>\n    assert idempotent_create(store, \"idem-are-1\", {\"name\": \"job\"}) == \"replay\"\nAssertionError\n"
+    },
+    {
+      "section_id": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-6",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_kf_neggy/snippet.py\", line 19, in <module>\n    assert len(mem_a) == 1 and len(mem_b) == 1\nAssertionError\n"
+    },
+    {
+      "section_id": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-9",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_fgx2blm7/snippet.py\", line 11, in <module>\n    assert st_ok == 200 and \"secret\" not in body_ok and body_ok.get(\"name\") == \"er-run\"\nAssertionError\n"
+    },
+    {
+      "section_id": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-15",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_i8tthpjr/snippet.py\", line 16, in <module>\n    assert out_to[\"outcome\"] == \"timeout\" and res == []\nAssertionError\n"
+    },
+    {
+      "section_id": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-18",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_priaq6qz/snippet.py\", line 11, in <module>\n    assert level_detects(\"domain\", \"integration\") is False\nAssertionError\n"
+    },
+    {
+      "section_id": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-21",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_1u9u1063/snippet.py\", line 13, in <module>\n    assert a[\"status\"] == 200 and a.get(\"remaining\") == 27\nAssertionError\n"
+    },
+    {
+      "section_id": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "solution",
+      "artifact_id": "solutionCode-12",
+      "reason": "nonzero_exit",
+      "severity": "P0",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_18kk1gdp/snippet.py\", line 21, in <module>\n    meets_contract = results == [\"CONTINUE\", \"THIN_THE_HANDLER\", \"REVIEW_DEPENDENCY_BOUNDARY\"]\nNameError: name 'results' is not defined\n"
+    },
+    {
+      "section_id": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "solution",
+      "artifact_id": "solutionCode-15",
+      "reason": "nonzero_exit",
+      "severity": "P0",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_3cpoddr7/snippet.py\", line 27, in <module>\n    meets_contract = timeout_order == [\"client\", \"service\", \"db\"]\nNameError: name 'timeout_order' is not defined\n"
+    },
+    {
+      "section_id": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "solution",
+      "artifact_id": "solutionCode-18",
+      "reason": "nonzero_exit",
+      "severity": "P0",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_dr11f1hj/snippet.py\", line 15, in <module>\n    meets_contract = unit_count >= contract_count and contract_count >= e2e_count\nNameError: name 'unit_count' is not defined\n"
+    },
+    {
+      "section_id": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "kind": "solution",
+      "artifact_id": "solutionCode-21",
+      "reason": "nonzero_exit",
+      "severity": "P0",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_aq1v5cws/snippet.py\", line 18, in <module>\n    meets_contract = quota_resp == 429 and v1_fields.issubset(v11_fields)\nNameError: name 'quota_resp' is not defined\n"
+    }
+  ]
+}

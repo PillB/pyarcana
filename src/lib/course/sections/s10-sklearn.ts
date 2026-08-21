@@ -1676,10 +1676,10 @@ desde file`,
 from io import StringIO
 
 def bad_cli():
-    return "empezando\n{\"ok\": true}\nfin"
+    return "empezando\\n{\\"ok\\": true}\\nfin"
 
 def good_cli(err: StringIO) -> str:
-    return "empezando\n{\"ok\": true}\nfin"
+    return "empezando\\n{\\"ok\\": true}\\nfin"
 
 print("BAD")
 print(bad_cli())

@@ -1,0 +1,9 @@
+{
+  "check": "TS-evaluated code strings vs python audit extractor",
+  "method": "evaluate every active section module with tsx, dump theory/iDo/weDo code strings, compare byte-for-byte against extract_artifacts()",
+  "ts_ground_truth_strings": 3360,
+  "byte_identical_after_fix": 3360,
+  "mismatched": 0,
+  "before_fix": "extract_balanced_template dropped the backslash, so a source \\n became the letter n while TypeScript produced a real newline; the audit executed a different program than the one shipped",
+  "after_fix": "escapes decoded with TS semantics (simple escapes, \\xHH, \\uHHHH, \\u{...}, line continuation)"
+}

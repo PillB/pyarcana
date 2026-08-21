@@ -1,0 +1,23 @@
+{"check":"v3_regression_counts","cmd":"node scripts/v3_regression_counts.test.mjs","result":"PASS","detail":"course_sections=52, setup_exercises=24, setup_demos=8"}
+{"check":"v3_invariant_validator","cmd":"python3 scripts/v3_invariant_validator.py","result":"PASS","detail":"failures=0, v3_tagged=52"}
+{"check":"check_section_structure","cmd":"python3 scripts/check_section_structure.py","result":"PASS","detail":"subtopics=8 demos=8 exercises=24"}
+{"check":"preservation_sentinel","cmd":"node scripts/preservation_sentinel.mjs","result":"PASS","detail":"unauthorized_deletes=0 failures=0"}
+{"check":"test_preservation","cmd":"npm run test:preservation","result":"PASS","detail":"node 17/17, python 6/6"}
+{"check":"identity_diff","cmd":"baseline JSON before/after","result":"PASS","detail":"section/exercise/subtopic/demo ID sets IDENTICAL; 1248 unique exercise ids unchanged"}
+{"check":"additivity","cmd":"git diff --numstat","result":"PASS","detail":"s18 +139/-0, s15 +57/-0, glossary +58/-0; zero deletions"}
+{"check":"snippet_execution","cmd":"extract_artifacts + execute on python 3.9.6","result":"PASS","detail":"3/3 exit 0 and declared output EXACT match"}
+{"check":"runtime_audit_s15","cmd":"python3 scripts/python_content_runtime_audit.py --only s15-stdlib-deep","result":"PASS","detail":"new stdlib snippet status=pass reason=ok"}
+{"check":"runtime_audit_s18","cmd":"python3 scripts/python_content_runtime_audit.py --only s18-data-engineering","result":"INCONCLUSIVE","detail":"numpy snippets skipped as missing_dependency because run_python uses -I which hides user site-packages on this machine; see D-001"}
+{"check":"selfcheck_position_bias","cmd":"node scripts/rebalance_selfcheck_positions.mjs --from 1 --to 52","result":"PASS","detail":"exit 0; S18 indices 1,3,0,2,1,3,0,2,1,3 match required cycle"}
+{"check":"exam_pedagogy","cmd":"npm run test:exam-pedagogy","result":"PASS","detail":"seed_q=1248 concepts=416 p0=0 p1=0, identical to baseline"}
+{"check":"typescript","cmd":"npx tsc --noEmit","result":"PASS","detail":"exit 0"}
+{"check":"eslint","cmd":"npx eslint <3 changed files>","result":"PASS","detail":"exit 0"}
+{"check":"static_build","cmd":"npm run build:static","result":"PASS","detail":"exit 0; all 3 new demos found in out/_next/static/chunks"}
+{"check":"adversarial_node","cmd":"npm run test:adversarial:node","result":"PASS","detail":"105/105 (was 98; +7 from the new fixture test)"}
+{"check":"adversarial_python","cmd":"npm run test:adversarial:py","result":"PASS_WITH_PREEXISTING","detail":"294 tests, 4 errors, all test_s03 match-syntax on python 3.9; proven pre-existing by stashing campaign changes"}
+{"check":"legacy_fixture_unit","cmd":"node --import tsx --test tests/adversarial/content-campaign-progress-fixture.test.ts","result":"PASS","detail":"7/7"}
+{"check":"legacy_fixture_browser","cmd":"playwright against local static build at /pyarcana basePath","result":"PASS","detail":"desktop+mobile: 6 completed sections, 5 sub-steps on both touched sections, quiz scores, bookmarks, lastVisited, startDate all intact; 0 console errors; 0 reset warnings"}
+{"check":"render_inspection","cmd":"playwright 1440x1000 and 390x844","result":"PASS","detail":"3/3 new blocks visible; pageOverflows=false; 0 console errors; sidebar shows '6 de 52 secciones completadas'; S18 header shows 100% Completada"}
+{"check":"glossary_regression","cmd":"glossary_intro_audit + glossary_coverage_audit","result":"NOT_WORSENED","detail":"forward_refs 2->2, p1_missing 46->46, sections_with_intros 15->17"}
+{"check":"forward_reference_scan","cmd":"scan of added lines only","result":"PASS","detail":"only S15 and S18 referenced, both <= host section"}
+{"check":"resource_url","cmd":"curl -o /dev/null -w %{http_code}","result":"PASS","detail":"numpy Generator docs 200"}

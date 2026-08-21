@@ -81,22 +81,92 @@ EXPECTED_FAIL_MARKERS = (
     "# completa",
     "# COMPLETA",
     "pass  #",
+    # `DEFECT` is this course's own marker for a deliberately broken starter the
+    # learner must repair — 1594 occurrences across 43 of the 57 section files.
+    # Without it here, every such starter was reported as
+    # `starter_should_run_or_be_marked_incomplete`, i.e. the gate did not know
+    # the vocabulary the content actually uses. Recognising the marker does not
+    # weaken the check: the failure must still be a pedagogically appropriate
+    # error type, or it is reported as `unexpected_error_type`.
+    "DEFECT",
+    "# defecto",
+    # Spanish instructional markers the course already uses to signal "this
+    # starter is deliberately unfinished / broken; the learner repairs it":
+    #   # Corrige  — 66 starters across 4 sections
+    #   # Pista:   — 48 starters across 2 sections
+    #   # Arregla  — 24 starters across 1 section
+    # As with DEFECT, recognising the marker only routes the starter into the
+    # expected-failure branch; the error type must still be a pedagogically
+    # appropriate one or it is reported as `unexpected_error_type`.
+    "# corrige",
+    "# pista:",
+    "# arregla",
 )
 
 
+#: Single-character escapes that TypeScript resolves inside a template literal.
+#: Anything not listed resolves to the character itself (TS drops the backslash).
+_TS_SIMPLE_ESCAPES = {
+    "n": "\n",
+    "t": "\t",
+    "r": "\r",
+    "b": "\b",
+    "f": "\f",
+    "v": "\v",
+    "0": "\0",
+    "\\": "\\",
+    "`": "`",
+    "$": "$",
+    "'": "'",
+    '"': '"',
+    "\n": "",  # line continuation
+}
+
+
 def extract_balanced_template(text: str, start: int) -> str | None:
-    """Extract content of `...` template literal starting at backtick index start."""
+    """Extract a `...` template literal, decoding escapes the way TypeScript does.
+
+    This must mirror TS semantics exactly, because the decoded string *is* the
+    program the learner is shown and copies. Previously this dropped the
+    backslash and kept the following character verbatim, so a source `\\n` became
+    the letter `n` here while TypeScript turned it into a real newline — meaning
+    the audit executed a different program than the one that ships.
+    """
     if start >= len(text) or text[start] != "`":
         return None
     i = start + 1
     out = []
     while i < len(text):
         ch = text[i]
-        if ch == "\\":
-            if i + 1 < len(text):
-                out.append(text[i + 1])
-                i += 2
-                continue
+        if ch == "\\" and i + 1 < len(text):
+            nxt = text[i + 1]
+            if nxt == "x" and i + 3 < len(text):
+                try:
+                    out.append(chr(int(text[i + 2 : i + 4], 16)))
+                    i += 4
+                    continue
+                except ValueError:
+                    pass
+            if nxt == "u" and i + 2 < len(text):
+                if text[i + 2] == "{":
+                    close = text.find("}", i + 3)
+                    if close != -1:
+                        try:
+                            out.append(chr(int(text[i + 3 : close], 16)))
+                            i = close + 1
+                            continue
+                        except ValueError:
+                            pass
+                elif i + 5 < len(text):
+                    try:
+                        out.append(chr(int(text[i + 2 : i + 6], 16)))
+                        i += 6
+                        continue
+                    except ValueError:
+                        pass
+            out.append(_TS_SIMPLE_ESCAPES.get(nxt, nxt))
+            i += 2
+            continue
         if ch == "`":
             return "".join(out)
         out.append(ch)
@@ -208,8 +278,15 @@ def run_python(code: str, timeout: int = TIMEOUT_SEC) -> dict:
         path = Path(td) / "snippet.py"
         path.write_text(code, encoding="utf-8")
         try:
+            # NOTE: deliberately NOT using -I (isolated mode). Isolated mode
+            # drops user site-packages, which is where numpy/pandas/sklearn are
+            # installed on a normal developer machine. With -I every snippet
+            # importing them was classified `missing_dependency` and skipped, so
+            # the gate silently reported green while never executing them.
+            # See probe_dependency_visibility() for the guard that keeps a blind
+            # run loud instead of silent.
             proc = subprocess.run(
-                [sys.executable, "-I", str(path)],
+                [sys.executable, str(path)],
                 capture_output=True,
                 text=True,
                 timeout=timeout,
@@ -224,6 +301,39 @@ def run_python(code: str, timeout: int = TIMEOUT_SEC) -> dict:
             }
         except subprocess.TimeoutExpired:
             return {"exit": -1, "stdout": "", "stderr": "TIMEOUT", "timeout": True}
+
+
+#: Modules the course content leans on most. If these are not importable in the
+#: same interpreter the snippets run in, the audit is not really auditing them —
+#: it is skipping them. That must be visible in the report, never inferred.
+CORE_TEACHING_MODULES = ("numpy", "pandas", "sklearn")
+
+
+def probe_dependency_visibility() -> dict:
+    """Report whether the snippet interpreter can actually import what content uses.
+
+    Runs in the *same* way snippets do, so it measures the real execution
+    environment rather than this process's imports.
+    """
+    visible, missing = [], []
+    for mod in sorted(OPTIONAL_MODULES):
+        result = run_python(f"import {mod}", timeout=20)
+        (visible if result["exit"] == 0 else missing).append(mod)
+    core_missing = [m for m in CORE_TEACHING_MODULES if m in missing]
+    return {
+        "status": "degraded" if core_missing else "ok",
+        "core_modules_missing": core_missing,
+        "visible_count": len(visible),
+        "missing": missing,
+        "note": (
+            "Core teaching modules are NOT importable by the snippet interpreter. "
+            "Snippets using them are being skipped, not verified — treat any "
+            "green result as unproven."
+            if core_missing
+            else "Core teaching modules are importable; numpy/pandas/sklearn "
+            "snippets are genuinely executed."
+        ),
+    }
 
 
 def normalize_out(s: str) -> str:
@@ -370,6 +480,7 @@ def classify_run(
                         "ImportError",
                         "FileNotFoundError",
                         "ZeroDivisionError",
+                        "PermissionError",
                         "RuntimeError",
                         "OperationalError",
                         "IntegrityError",
@@ -645,14 +756,21 @@ def main() -> int:
             totals[k] = totals.get(k, 0) + v
         totals["artifacts"] += sec["artifact_count"]
 
+    dependency_visibility = probe_dependency_visibility()
+
     report = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "sections": len(section_reports),
+        "dependency_visibility": dependency_visibility,
         "totals": totals,
         "fail_count": len(fails),
         "p0_count": len(p0),
         "p1_count": len(p1),
-        "ok": len(p0) == 0 and len(p1) == 0,
+        # A degraded run is NOT ok: it means the snippets that matter most were
+        # skipped rather than verified, so a clean result would be unearned.
+        "ok": len(p0) == 0
+        and len(p1) == 0
+        and dependency_visibility["status"] == "ok",
         "sections_detail": [
             {
                 "file": s["file"],
@@ -703,6 +821,8 @@ def main() -> int:
             {
                 "ok": report["ok"],
                 "sections": report["sections"],
+                "dependency_visibility": dependency_visibility["status"],
+                "core_modules_missing": dependency_visibility["core_modules_missing"],
                 "totals": totals,
                 "p0": len(p0),
                 "p1": len(p1),

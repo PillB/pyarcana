@@ -1,0 +1,25 @@
+{
+  "interpreter": "3.9.6",
+  "mode": "non-isolated (user site-packages visible)",
+  "note": "the repo audit runs snippets with -I, which hides user site-packages and skips every numpy/pandas snippet on this machine; this run is the real execution evidence",
+  "rows": [
+    {
+      "file": "s18-data-engineering",
+      "artifact": "code-block-4",
+      "exit": 0,
+      "declared_output_matches_actual": true
+    },
+    {
+      "file": "s18-data-engineering",
+      "artifact": "code-block-6",
+      "exit": 0,
+      "declared_output_matches_actual": true
+    },
+    {
+      "file": "s15-stdlib-deep",
+      "artifact": "code-block-8",
+      "exit": 0,
+      "declared_output_matches_actual": true
+    }
+  ]
+}
