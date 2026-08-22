@@ -1,22 +1,31 @@
 {
-  "generated_at": "2026-08-22T19:58:34.687537+00:00",
+  "generated_at": "2026-08-22T22:51:24.319726+00:00",
   "sections": 52,
   "dependency_visibility": {
     "status": "ok",
     "core_modules_missing": [],
-    "visible_count": 13,
+    "visible_count": 4,
     "missing": [
+      "PIL",
       "anthropic",
       "boto3",
+      "bs4",
       "chromadb",
       "cv2",
       "dbt",
+      "dotenv",
+      "fastapi",
       "google",
+      "httpx",
       "kafka",
       "langchain",
+      "matplotlib",
       "neo4j",
       "openai",
+      "pydantic",
+      "pytest",
       "redis",
+      "requests",
       "seaborn",
       "sqlalchemy",
       "streamlit",
@@ -27,9 +36,9 @@
     "note": "Core teaching modules are importable; numpy/pandas/sklearn snippets are genuinely executed."
   },
   "totals": {
-    "pass": 3287,
+    "pass": 3265,
     "fail": 0,
-    "skip": 70,
+    "skip": 92,
     "artifacts": 3357
   },
   "fail_count": 0,
@@ -61,9 +70,9 @@
       "file": "src/lib/course/sections/s03-data-structures.ts",
       "section_id": "data-structures",
       "counts": {
-        "pass": 61,
+        "pass": 65,
         "fail": 0,
-        "skip": 4
+        "skip": 0
       },
       "artifact_count": 65
     },
@@ -221,9 +230,9 @@
       "file": "src/lib/course/sections/s19-databases-orm.ts",
       "section_id": "databases-orm",
       "counts": {
-        "pass": 65,
+        "pass": 56,
         "fail": 0,
-        "skip": 0
+        "skip": 9
       },
       "artifact_count": 65
     },
@@ -241,9 +250,9 @@
       "file": "src/lib/course/sections/s21-fastapi.ts",
       "section_id": "fastapi",
       "counts": {
-        "pass": 64,
+        "pass": 46,
         "fail": 0,
-        "skip": 0
+        "skip": 18
       },
       "artifact_count": 64
     },
@@ -261,9 +270,9 @@
       "file": "src/lib/course/sections/s23-computer-vision.ts",
       "section_id": "computer-vision",
       "counts": {
-        "pass": 65,
+        "pass": 64,
         "fail": 0,
-        "skip": 0
+        "skip": 1
       },
       "artifact_count": 65
     },
@@ -521,9 +530,9 @@
       "file": "src/lib/course/sections/s49-data-contracts.ts",
       "section_id": "data-contracts",
       "counts": {
-        "pass": 62,
+        "pass": 64,
         "fail": 0,
-        "skip": 2
+        "skip": 0
       },
       "artifact_count": 64
     },

@@ -1,7 +1,7 @@
 {
   "campaign": "content-campaign-c04",
   "supersedes": "content-campaign-c03",
-  "phase": "PHASES_1_TO_4_COMPLETE_PENDING_INDEPENDENT_VALIDATION",
+  "phase": "PHASES_C_D_E_COMPLETE_PENDING_LIVE_ATTESTATION",
   "updated_at": "2026-08-22",
   "branch": "audit/content-campaign-c04-20260821",
   "baseline_sha": "77310e40910c8b5310a1d875c51cdcb75b49427e",
@@ -9,7 +9,7 @@
   "committed": true,
   "pushed": true,
   "pull_request": 37,
-  "note": "C03's two content units (S18, S15) merged. C04 continued on the same requirement set: it made the content gates honest, repaired what they then exposed, and rewrote all 52 section intros.",
+  "note": "C03's two content units (S18, S15) merged. C04 continued on the same requirement set: it made the content gates honest, repaired what they then exposed, rewrote all 52 section intros, re-taught S15 for pandas 3, and ran the learner-firewall/packet-builder harness on S15.",
   "units": [
     {
       "id": "U1",
@@ -85,6 +85,20 @@
       "iterations": 2,
       "detail": "30/52 opened with a term dump, 23/52 carried a section_contract() code block, 15/52 a T1->T4 arrow chain, 12/52 scheduling metadata. All now open on a concrete situation; the metadata moved verbatim into one collapsed 'Contrato de la sección (referencia)' block. Pass 2 caught five sections sharing the heading 'Mapa de la sección: ...', a collision between S01 and S43, and a duplicated 'Imagina ...' opening.",
       "campaign": "c04"
+    },
+    {
+      "id": "U11",
+      "scope": "pandas-3 object re-teach in S15",
+      "gate": "VALIDATED",
+      "detail": "Taught pandas 3: inferred text is str, schema ids are nullable string, object means mixed types. Recaptured 4 dtype-printing artifacts and two manifest memory figures. starterCode-14 (S15-T3-A-E3) used errors='ignore', which raises a pandas-internal AssertionError in 3.0.5; the starter now raises ValueError without coerce and the learner repairs it with errors='coerce'. Pin moved to pandas==3.0.5 numpy==2.2.6. Full audit 3265 pass / 0 fail / 92 skip (22 extra skips are fastapi/sqlalchemy/cv2 missing from the clean venv; 6 match/case snippets now pass on 3.12).",
+      "campaign": "c04"
+    },
+    {
+      "id": "U12",
+      "scope": "independent validation of S15 via learner firewall + packet builder",
+      "gate": "VALIDATED",
+      "detail": "newbie_packet_builder S15 packet_sha f2b1e046…; firewall stage_turn LEARNER_A epistemic S15 verify_stage ok; context_manifest_sha256 84718037…; firewall unittest 36/36. Evidence: audit/content-campaign-c04/evidence/phase_e_s15_firewall.json. This is E0/harness validation, not a full E2 learner journey.",
+      "campaign": "c04"
     }
   ],
   "test_expectations_changed": [
@@ -108,7 +122,7 @@
     "tsc": "pass",
     "lint": "pass (6 pre-existing warnings, 0 errors)",
     "adversarial": "332 passed, 1 skipped",
-    "content_runtime_audit": {"pass": 3287, "fail": 0, "skip": 70, "artifacts": 3357},
+    "content_runtime_audit": {"pass": 3265, "fail": 0, "skip": 92, "artifacts": 3357, "note": "clean pandas-3.0.5 venv; 22 extra skips are fastapi/sqlalchemy/cv2 missing from the declared environment"},
     "v3_invariant": "ok, 52 sections tagged",
     "glossary_coverage_p1_missing": 0,
     "glossary_intro_forward_refs": 0,
@@ -118,15 +132,14 @@
   "identity_check": {"sections": 52, "exercise_ids": 1248, "subtopics": 416, "demos": 416},
   "open_material_doubts": 0,
   "accepted_limitations": [
-    "the writer and the editorial reviewer are the same agent in separate passes; independent validation (phase 6) has not yet run",
+    "the writer and the editorial reviewer are the same agent in separate passes; Phase E ran the firewall/packet-builder harness, not a second human editor",
     "no deployment claim is made in this record; deployment is tracked separately",
     "LENGTH_TELL remains at 21 sections where the correct self-check option is much the longest — detected, recorded, not repaired",
-    "the pandas-3 string-dtype re-teach in S15 is deliberately deferred: it is a re-teach, not a value swap, and needs an author decision on what the pandas-3 lesson is"
+    "clean teaching venv does not install fastapi/sqlalchemy/cv2, so 22 snippets that used to execute against user site-packages now skip as missing_dependency"
   ],
   "still_open": [
-    "PHASE D — pandas-3 object re-teach in S15: 4 dtype-string artifacts, starterCode-14's array_strptime assertion, 11 prose mentions. See content-campaign-c04/registers/07_pandas3_gap.md.",
-    "PHASE E — independent validation via scripts/curriculum_learner_firewall.py and newbie_packet_builder.py with the sha256-pinned context manifests",
-    "LENGTH_TELL x21"
+    "LENGTH_TELL x21",
+    "LIVE Pages attestation of this SHA"
   ],
   "quiet_rounds": 0
 }

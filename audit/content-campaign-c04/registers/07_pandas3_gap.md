@@ -93,17 +93,30 @@ verified in both. The feedback now teaches why that matters: a contract should
 assert what you care about and nothing more, and this exact test broke on a
 version bump with nothing wrong in the learner's code.
 
-**String dtype — deliberately not done.** S15 teaches `object` as *"el default
-peligroso de un CSV mal tipado"* across 11 prose mentions. Under pandas 3 a text
-column is `str`, and `object` is reserved for genuinely heterogeneous data — so
-the claim's premise changes, not just its value. Rewriting this by swapping
-`'object'` for `'str'` would leave prose that explains the wrong thing. It needs
-an author deciding what the pandas-3 lesson actually is: `str` as the sane
-default, and `object` as the smell that now means something narrower.
+**String dtype — done (2026-08-22).** The pandas-3 lesson is:
+
+- `str` is the inferred default for homogeneous text (missing as `NaN`);
+- `string` (`astype('string')`) is the nullable schema contract (missing as `pd.NA`), still what CP-N2-A asks for ids;
+- `object` is the leftover for mixed Python types. Seeing it on a supposed-text column means inference refused to call it `str`.
+
+Declared outputs were recaptured under pandas 3.0.5 / numpy 2.2.6 (no pyarrow).
+`series_df.py` now prints `dtypes.astype(str)` so the learner sees `'str'`, not
+the `StringDtype(storage='python', …)` repr. Memory figures in the two
+manifests moved with the dtype (266→254, 335→315); the CSV hashes did not.
+
+**`array_strptime` — diagnosed, not papered over.** `starterCode-14` is
+S15-T3-A-E3: `pd.to_datetime(..., errors="ignore")`. In pandas 3.0.5 that
+path raises a pandas-internal `AssertionError`. `errors='ignore'` is no longer
+a real option. The starter now uses the default (`raise` → `ValueError` on
+`"no-fecha"`), marked `DEFECT`; the learner repairs it with `errors='coerce'`.
+The exercise still teaches countable NaT; it no longer pretends `ignore` works.
 
 ## Current state
 
-- Declared environment (pandas 2.3.3): **0 failures**, gate green.
-- pandas 3.0.5: **5 failures**, down from 6.
-- Remaining: `solutionCode-20`, `code-block-1`, `code-block-4`, `code-block-14`
-  (dtype strings) and `starterCode-14` (pandas-internal assertion).
+- Declared environment: pandas 3.0.5 / numpy 2.2.6 / scikit-learn 1.6.1 /
+  scipy 1.13.1.
+- S15 under that environment: **65 pass / 0 fail**.
+- All 52 sections: **3265 pass / 0 fail / 92 skip**. The skip increase versus
+  the pandas-2 local run (70) is fastapi/sqlalchemy/cv2 missing from the clean
+  venv, not a dtype mismatch.
+- A learner who `pip install pandas` now sees the dtype the lesson describes.
