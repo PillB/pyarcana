@@ -1893,6 +1893,20 @@ if __name__ == "__main__":
         explanation:
           "Un Index estable (ids de cliente, esto es, el eje de etiquetas que identifica filas por negocio) alinea tablas y auditoría. Si es clave de negocio, documéntala al exportar; si no, `index=False` evita basura `Unnamed`.",
       },
+      {
+        question: "Una consulta necesita solo la columna `monto` de una tabla de 40 columnas. ¿Por qué un archivo columnar puede leer mucho menos que un CSV equivalente?",
+        options: ["Porque Parquet siempre comprime más que un CSV", "Porque los valores de cada columna están guardados contiguos, así que el lector toma ese bloque y no toca los otros 39", "Porque Parquet guarda las filas ya ordenadas por la columna que consultes", "Porque el CSV gasta la mayor parte del tiempo convirtiendo texto a número"],
+        correctIndex: 1,
+        explanation:
+          "El ahorro viene del acomodo físico: por columnas, `monto` es un bloque contiguo y el resto ni se lee (projection pushdown). La compresión ayuda, pero no es el mecanismo, y Parquet no ordena por la columna que consultes — el orden lo decides tú al escribir.",
+      },
+      {
+        question: "Decides particionar un dataset por `cliente_id`, que tiene 50 000 valores distintos. ¿Qué es lo más probable que ocurra?",
+        options: ["Las consultas filtradas por fecha se vuelven más rápidas", "El pruning por estadísticas deja de funcionar porque los bloques ya no guardan mínimo y máximo", "Cada partición queda más grande, así que se lee menos en total", "Aparecen decenas de miles de archivos diminutos y el costo de abrirlos se come la ganancia de la poda"],
+        correctIndex: 3,
+        explanation:
+          "Particionar por una columna de cardinalidad altísima produce un archivo por valor. El descubrimiento y la apertura de cada uno cuesta más que el escaneo que evitaste. Los bloques siguen guardando sus estadísticas; el problema es el tamaño, no la ausencia de metadatos. La clave de partición se elige por el patrón de consulta y de reproceso, no por costumbre.",
+      },
     ],
   },
   resources: {

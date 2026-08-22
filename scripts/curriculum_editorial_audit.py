@@ -167,6 +167,36 @@ def audit(sid: str, idx: int, path: Path) -> list[dict]:
         hints = quoted(blk, "hint") + [
             h for h in re.findall(r'"((?:[^"\\]|\\.)*)"', "".join(quoted(blk, "hints")))
         ]
+        # Support is meant to fade. In a `guided` exercise the instruction
+        # already walks the learner through the steps, so a hint restating a
+        # line is consistent with that tier. In `transfer` / `independent` the
+        # learner is supposed to derive it, and handing the line over removes
+        # the exercise — that is the defect.
+        tier_m = re.search(r'kind:\s*"([^"]+)"', blk)
+        tier = tier_m.group(1) if tier_m else "unknown"
+        guided = tier == "guided"
+
+        # Fading support: a `transfer` / `independent` exercise whose own
+        # INSTRUCTION spells out a solution line is not independent practice —
+        # the learner transcribes instead of deriving. This outranks a leaking
+        # hint, because rewriting the hint would change nothing while the
+        # instruction still gives the answer away.
+        if not guided and tier != "unknown":
+            for ins in quoted(blk, "instruction"):
+                given = [s for s in sol_lines if s in ins]
+                if given:
+                    eid_m = re.search(r"(S\d{2}-T\d-[AB]-E\d)", blk)
+                    findings.append(
+                        {
+                            "section": sid,
+                            "index": idx,
+                            "kind": "SUPPORT_NOT_FADING",
+                            "severity": "P1",
+                            "detail": f"{eid_m.group(1) if eid_m else '?'} ({tier}): instruction states a solution line verbatim",
+                            "excerpt": given[0][:160],
+                        }
+                    )
+                    break
         for h in hints:
             hit = [s for s in sol_lines if s in h]
             if hit:
@@ -175,9 +205,9 @@ def audit(sid: str, idx: int, path: Path) -> list[dict]:
                     {
                         "section": sid,
                         "index": idx,
-                        "kind": "ANSWER_LEAKAGE",
-                        "severity": "P1",
-                        "detail": f"{eid.group(1) if eid else '?'}: hint contains a full solution line",
+                        "kind": "ANSWER_LEAKAGE" if not guided else "GUIDED_HINT_RESTATES",
+                        "severity": "INFO" if guided else "P1",
+                        "detail": f"{eid.group(1) if eid else '?'} ({tier}): hint contains a full solution line",
                         "excerpt": hit[0][:160],
                     }
                 )

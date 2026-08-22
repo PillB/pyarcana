@@ -1,11 +1,13 @@
 {
   "sections_audited": 52,
-  "p1_total": 41,
-  "info_total": 31,
+  "p1_total": 39,
+  "info_total": 42,
   "by_kind": {
     "LENGTH_TELL": 21,
     "FORWARD_POINTER": 31,
-    "ANSWER_LEAKAGE": 20
+    "SUPPORT_NOT_FADING": 9,
+    "ANSWER_LEAKAGE": 9,
+    "GUIDED_HINT_RESTATES": 11
   },
   "ok": false,
   "findings": [
@@ -64,6 +66,14 @@
       "severity": "INFO",
       "detail": "preamble cites S10 (later than S09); pointer only",
       "excerpt": " con el número de salida, rompes pipes y el contrato CLI de S10.\\n- **Meta:** progreso a logs estruc"
+    },
+    {
+      "section": "visualization",
+      "index": 9,
+      "kind": "SUPPORT_NOT_FADING",
+      "severity": "P1",
+      "detail": "S09-T1-A-E1 (independent): instruction states a solution line verbatim",
+      "excerpt": "class ValidationError(Exception):"
     },
     {
       "section": "testing",
@@ -126,7 +136,7 @@
       "index": 15,
       "kind": "LENGTH_TELL",
       "severity": "P1",
-      "detail": "correct option is much the longest in 6/10 questions",
+      "detail": "correct option is much the longest in 7/12 questions",
       "excerpt": ""
     },
     {
@@ -144,6 +154,14 @@
       "severity": "P1",
       "detail": "correct option is much the longest in 5/8 questions",
       "excerpt": ""
+    },
+    {
+      "section": "packaging",
+      "index": 17,
+      "kind": "SUPPORT_NOT_FADING",
+      "severity": "P1",
+      "detail": "S17-T2-A-E3 (transfer): instruction states a solution line verbatim",
+      "excerpt": "out = pd.concat([a, b], ignore_index=True)"
     },
     {
       "section": "packaging",
@@ -262,31 +280,31 @@
       "index": 23,
       "kind": "ANSWER_LEAKAGE",
       "severity": "P1",
-      "detail": "S23-T2-A-E3: hint contains a full solution line",
+      "detail": "S23-T2-A-E3 (transfer): hint contains a full solution line",
       "excerpt": "return 'reuse' if state.get('token') else 'login'"
     },
     {
       "section": "computer-vision",
       "index": 23,
-      "kind": "ANSWER_LEAKAGE",
-      "severity": "P1",
-      "detail": "S23-T2-B-E1: hint contains a full solution line",
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S23-T2-B-E1 (guided): hint contains a full solution line",
       "excerpt": "ctx['auth'] = password == 'sandbox'"
     },
     {
       "section": "computer-vision",
       "index": 23,
-      "kind": "ANSWER_LEAKAGE",
-      "severity": "P1",
-      "detail": "S23-T3-B-E1: hint contains a full solution line",
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S23-T3-B-E1 (guided): hint contains a full solution line",
       "excerpt": "return k in {'timeout', '429'}"
     },
     {
       "section": "computer-vision",
       "index": 23,
-      "kind": "ANSWER_LEAKAGE",
-      "severity": "P1",
-      "detail": "S23-T4-B-E1: hint contains a full solution line",
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S23-T4-B-E1 (guided): hint contains a full solution line",
       "excerpt": "return 'human_handoff' if captcha else 'continue'"
     },
     {
@@ -294,7 +312,7 @@
       "index": 23,
       "kind": "ANSWER_LEAKAGE",
       "severity": "P1",
-      "detail": "S23-T4-B-E3: hint contains a full solution line",
+      "detail": "S23-T4-B-E3 (transfer): hint contains a full solution line",
       "excerpt": "print(sorted(payload.keys()), payload['step'])"
     },
     {
@@ -308,6 +326,22 @@
     {
       "section": "rpa-advanced",
       "index": 24,
+      "kind": "SUPPORT_NOT_FADING",
+      "severity": "P1",
+      "detail": "S24-T1-B-E3 (transfer): instruction states a solution line verbatim",
+      "excerpt": "best = max(scores, key=scores.get)"
+    },
+    {
+      "section": "rpa-advanced",
+      "index": 24,
+      "kind": "SUPPORT_NOT_FADING",
+      "severity": "P1",
+      "detail": "S24-T4-A-E3 (transfer): instruction states a solution line verbatim",
+      "excerpt": "coverage_auto = auto / (auto + review)"
+    },
+    {
+      "section": "rpa-advanced",
+      "index": 24,
       "kind": "LENGTH_TELL",
       "severity": "P1",
       "detail": "correct option is much the longest in 4/5 questions",
@@ -316,25 +350,41 @@
     {
       "section": "streamlit-dashboards",
       "index": 25,
-      "kind": "ANSWER_LEAKAGE",
-      "severity": "P1",
-      "detail": "S25-T3-A-E1: hint contains a full solution line",
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S25-T3-A-E1 (guided): hint contains a full solution line",
       "excerpt": "print(obj['n'], REQUIRED.issubset(obj))"
     },
     {
       "section": "streamlit-dashboards",
       "index": 25,
-      "kind": "ANSWER_LEAKAGE",
-      "severity": "P1",
-      "detail": "S25-T4-A-E1: hint contains a full solution line",
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S25-T4-A-E1 (guided): hint contains a full solution line",
       "excerpt": "schema_ok = all(k in pred for k in required)"
+    },
+    {
+      "section": "integrator-phase1",
+      "index": 26,
+      "kind": "SUPPORT_NOT_FADING",
+      "severity": "P1",
+      "detail": "S26-T2-B-E2 (independent): instruction states a solution line verbatim",
+      "excerpt": "state['report'] = 'superseded'"
+    },
+    {
+      "section": "llm-agents",
+      "index": 28,
+      "kind": "SUPPORT_NOT_FADING",
+      "severity": "P1",
+      "detail": "S28-T4-A-E3 (transfer): instruction states a solution line verbatim",
+      "excerpt": "pending = [i for i in items if i not in done]"
     },
     {
       "section": "llm-agents",
       "index": 28,
       "kind": "ANSWER_LEAKAGE",
       "severity": "P1",
-      "detail": "S28-T4-A-E3: hint contains a full solution line",
+      "detail": "S28-T4-A-E3 (transfer): hint contains a full solution line",
       "excerpt": "pending = [i for i in items if i not in done]"
     },
     {
@@ -364,9 +414,17 @@
     {
       "section": "streaming-data",
       "index": 31,
+      "kind": "SUPPORT_NOT_FADING",
+      "severity": "P1",
+      "detail": "S31-T2-B-E3 (transfer): instruction states a solution line verbatim",
+      "excerpt": "total = sum(a['n'] for a in aggs.values())"
+    },
+    {
+      "section": "streaming-data",
+      "index": 31,
       "kind": "ANSWER_LEAKAGE",
       "severity": "P1",
-      "detail": "S31-T2-B-E3: hint contains a full solution line",
+      "detail": "S31-T2-B-E3 (transfer): hint contains a full solution line",
       "excerpt": "total = sum(a['n'] for a in aggs.values())"
     },
     {
@@ -452,17 +510,17 @@
     {
       "section": "advanced-models",
       "index": 33,
-      "kind": "ANSWER_LEAKAGE",
-      "severity": "P1",
-      "detail": "S33-T1-B-E1: hint contains a full solution line",
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S33-T1-B-E1 (guided): hint contains a full solution line",
       "excerpt": "maj = max(set(y), key=y.count)"
     },
     {
       "section": "advanced-models",
       "index": 33,
-      "kind": "ANSWER_LEAKAGE",
-      "severity": "P1",
-      "detail": "S33-T2-B-E1: hint contains a full solution line",
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S33-T2-B-E1 (guided): hint contains a full solution line",
       "excerpt": "ranked = sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True)"
     },
     {
@@ -470,15 +528,15 @@
       "index": 33,
       "kind": "ANSWER_LEAKAGE",
       "severity": "P1",
-      "detail": "S33-T2-B-E2: hint contains a full solution line",
+      "detail": "S33-T2-B-E2 (independent): hint contains a full solution line",
       "excerpt": "ranked = sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True)"
     },
     {
       "section": "advanced-models",
       "index": 33,
-      "kind": "ANSWER_LEAKAGE",
-      "severity": "P1",
-      "detail": "S33-T4-B-E1: hint contains a full solution line",
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S33-T4-B-E1 (guided): hint contains a full solution line",
       "excerpt": "n_groups = len(set(entities))"
     },
     {
@@ -486,7 +544,7 @@
       "index": 33,
       "kind": "ANSWER_LEAKAGE",
       "severity": "P1",
-      "detail": "S33-T4-B-E2: hint contains a full solution line",
+      "detail": "S33-T4-B-E2 (independent): hint contains a full solution line",
       "excerpt": "n_groups = len(set(entities))"
     },
     {
@@ -494,7 +552,7 @@
       "index": 33,
       "kind": "ANSWER_LEAKAGE",
       "severity": "P1",
-      "detail": "S33-T4-B-E3: hint contains a full solution line",
+      "detail": "S33-T4-B-E3 (transfer): hint contains a full solution line",
       "excerpt": "n_groups = len(set(entities))"
     },
     {
@@ -502,7 +560,7 @@
       "index": 33,
       "kind": "LENGTH_TELL",
       "severity": "P1",
-      "detail": "correct option is much the longest in 3/7 questions",
+      "detail": "correct option is much the longest in 4/9 questions",
       "excerpt": ""
     },
     {
@@ -518,7 +576,7 @@
       "index": 36,
       "kind": "ANSWER_LEAKAGE",
       "severity": "P1",
-      "detail": "S36-T2-B-E2: hint contains a full solution line",
+      "detail": "S36-T2-B-E2 (independent): hint contains a full solution line",
       "excerpt": "scale_ok = statistics.pstdev(features) > 0"
     },
     {
@@ -526,23 +584,39 @@
       "index": 36,
       "kind": "ANSWER_LEAKAGE",
       "severity": "P1",
-      "detail": "S36-T3-B-E2: hint contains a full solution line",
+      "detail": "S36-T3-B-E2 (independent): hint contains a full solution line",
       "excerpt": "overflow = expected > capacity"
+    },
+    {
+      "section": "dbt-bigquery",
+      "index": 37,
+      "kind": "SUPPORT_NOT_FADING",
+      "severity": "P1",
+      "detail": "S37-T2-A-E2 (independent): instruction states a solution line verbatim",
+      "excerpt": "reduction = round(1 - blocked / all_p, 3)"
+    },
+    {
+      "section": "dbt-bigquery",
+      "index": 37,
+      "kind": "SUPPORT_NOT_FADING",
+      "severity": "P1",
+      "detail": "S37-T4-A-E3 (transfer): instruction states a solution line verbatim",
+      "excerpt": "all_pass = all(measured[k] <= budget[k] for k in keys)"
     },
     {
       "section": "performance-extreme",
       "index": 38,
-      "kind": "ANSWER_LEAKAGE",
-      "severity": "P1",
-      "detail": "S38-T2-B-E1: hint contains a full solution line",
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S38-T2-B-E1 (guided): hint contains a full solution line",
       "excerpt": "timed_out = latency_ms > timeout_s * 1000"
     },
     {
       "section": "llm-finetuning",
       "index": 41,
-      "kind": "ANSWER_LEAKAGE",
-      "severity": "P1",
-      "detail": "S41-T2-A-E1: hint contains a full solution line",
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S41-T2-A-E1 (guided): hint contains a full solution line",
       "excerpt": "return create_job(get_store(), body)"
     },
     {
@@ -556,9 +630,9 @@
     {
       "section": "graph-rag",
       "index": 42,
-      "kind": "ANSWER_LEAKAGE",
-      "severity": "P1",
-      "detail": "S42-T4-B-E1: hint contains a full solution line",
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S42-T4-B-E1 (guided): hint contains a full solution line",
       "excerpt": "return audit.isdisjoint(pii) and deleted and derived_deleted and key_separate"
     },
     {

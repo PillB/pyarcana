@@ -2510,6 +2510,20 @@ if __name__ == "__main__":
         correctIndex: 3,
         explanation:
           "Ganar solo al dummy no basta si una regla simple ya es mejor. Documenta beats_dummy y beats_rule (y costo cuando FP/FN son asimétricos) antes de subir complejidad.",
+      },
+      {
+        question: "Evalúas un modelo que predice la carga de revisión de la próxima semana y usas un split aleatorio. ¿Cuál es el problema de fondo?",
+        options: ["Un split aleatorio siempre deja folds desbalanceados", "Observaciones posteriores entran al train, así que el ensayo usa información que el sistema real no tendría en el momento de predecir", "Los modelos no pueden entrenarse con datos ordenados por fecha", "El MAE deja de ser comparable entre folds de distinto tamaño"],
+        correctIndex: 1,
+        explanation:
+          "La validación debe reproducir la restricción de información del problema real: el lunes, los casos del viernes todavía no existen. Un split aleatorio deja que marzo enseñe a predecir febrero; Python no se queja y el score hasta mejora, pero mide un problema que producción nunca podrá resolver así. El desbalance de folds es otro tema, y sí se puede entrenar con datos ordenados — de hecho es lo que exige el origen móvil.",
+      },
+      {
+        question: "Sobre la misma serie, el baseline estacional promedia MAE 1.10 y el ingenuo de “ayer” 3.86. Tu candidato saca 1.05. ¿Qué reportas?",
+        options: ["Que apenas mejora al baseline estacional, y que compararlo contra el de “ayer” exageraría su aporte", "Que el candidato es más de tres veces mejor que el baseline", "Que el baseline estacional debe descartarse por ser demasiado exigente", "Que con un MAE de 1.05 el modelo ya está listo para producción"],
+        correctIndex: 0,
+        explanation:
+          "El rival correcto es el mejor baseline simple disponible, no el más fácil de ganar. Contra el estacional la mejora es de 0.05 casos por día — real, pero pequeña frente al costo de mantener un modelo. Elegir el baseline débil no hace mejor al candidato: solo le regala el crédito de haber aprendido el día de la semana.",
       }
     ],
   },
