@@ -26,12 +26,29 @@ export const section39: CourseSection = {
   ],
   theory: [
     {
-      heading: "Cierre CP-N3-C + regresión N3 + CF-3",
+            heading: "El día a día no es reentrenar el modelo: es decidir caso por caso",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **Responsible ML Case Triage:** flujo intake→ER→grafo→features→score→cola humana. **Evidence packet:** hechos + path + features + incertidumbre (no un número suelto). **Abstención / human_only:** modos que priorizan control humano. **Model/data/system card:** límites y ownership publicados. **CF-3:** gate de contratos del nivel 3 revisado por un evaluador externo. **auto_fraud=False:** el score prioriza revisión; nunca declara fraude ni parentesco.",
-        "En operaciones de riesgo de una fintech o banco en Lima, el día a día no es reentrenar el ranker: es **triage de casos** con evidencia citable, cola humana y auditoría. **S39 cierra el nivel 3** con el sistema demoable **Responsible ML Case Triage**. No inventas un producto nuevo: ensamblas lo ya aprendido en S27–S38 (calidad, ER, grafo, features, ranking, calibración, explicación, monitoreo y colas) en un recorrido que un revisor humano puede auditar de punta a punta con fixtures sintéticos peruanos. Esta sección se autoincluye en el smoke de regresión **S27–S39**.",
-        "Qué entregas aquí (contrato de promoción, conceptual). Entrada: CP-N3-A, CP-N3-B y **CP-N3-C**, más smoke de regresión S27–S39 y el expediente **CF-3**. Salida de esta sección: bundle e2e con packets, audit, cards y notas de gate. Error: autodeclarar promoción sin revisión externa. Criterio: dejas evidencia reproducible; la decisión de cierre del nivel la registra un revisor, no tu script.",
-        "Orden pedagógico: **T1 Arquitectura del flujo** (pipeline y ownership) → **T2 Workbench del revisor** (packet, decisión y apelación) → **T3 Riesgo y ops** (privacidad, fairness, drift y human_only) → **T4 Producto y cierre** (aceptación, demo, cards, valor y post mórtem). El caso sintético `CASO-LIM-039` modela una cola de onboarding digital en una fintech ficticia en Lima: datos inventados, sin PII real y sin etiqueta automática de fraude. Si el mapa se siente denso, avanza T1→T4 en ese orden; el You Do ensambla todo al final.",
+        "En un equipo de riesgo, casi nadie pasa el día ajustando un ranker. Se pasa el día mirando casos concretos, decidiendo cuáles necesitan atención y dejando escrito por qué. Esta sección arma ese sistema completo y cierra el nivel: intake, resolución de entidades, grafo, features, score y cola humana, conectados de punta a punta.",
+        "La pieza que sostiene todo es el **paquete de evidencia**. No es el score: es el conjunto de hechos del caso, el camino en el grafo que lo conecta con otros, las features que pesaron, la incertidumbre asociada y el espacio donde la persona que revisa deja su decisión. Un número suelto obliga a confiar; un paquete permite juzgar.",
+        "Eso cambia el criterio de éxito del sistema. No es cuántos casos clasifica bien, sino si un revisor puede sostener su decisión frente a alguien que la cuestione — incluida la persona afectada. De ahí salen las tres cosas que suelen faltar: una vía de apelación, un registro de quién decidió qué, y casos marcados como exclusivamente humanos, donde el sistema prioriza pero no propone.",
+        "También cambia qué se vigila en operación. Un modelo que funcionaba puede degradarse porque el mundo cambió y no porque el código se rompiera; ese **drift** se detecta comparando lo que entra hoy con lo que entraba cuando se validó. Y la equidad no es una revisión de una sola vez: es una métrica que se sigue mirando por grupo mientras el sistema esté vivo.",
+        "La pregunta que cierra el nivel es la que hará quien evalúe tu trabajo: **¿puede un revisor defender esta decisión con lo que el sistema le entregó?** Tú dejas el expediente completo; el cierre del nivel lo declara una revisión externa, no tú.",
+      ],
+      callout: {
+        type: "info",
+        title: "Gate CP-N3-C + regresión",
+        content:
+          "Entregable de S39: triage responsable demoable. Promoción N3 = CP-N3-A/B/C + regresión S27–S39 + CF-3 con revisión externa. Tú dejas el expediente; no autodeclaras el cierre del nivel.",
+      },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Entregable, orden de los subtemas y condiciones de promoción.",
+        "**Qué entregas.** Recibes CP-N3-A, CP-N3-B y CP-N3-C, más la regresión de S27 a S39 y el expediente CF-3. Entregas un bundle de extremo a extremo con paquetes de evidencia, auditoría, fichas y notas de gate.",
+        "**Orden de los subtemas.** T1 arma la arquitectura del flujo y define responsabilidades. T2 construye el banco de trabajo del revisor: paquete, decisión y apelación. T3 cubre riesgo y operación: privacidad, equidad, drift y casos exclusivamente humanos. T4 cierra con producto y aceptación.",
+        "**Promoción de nivel.** Requiere CP-N3-A, B y C, la regresión de S27 a S39 y CF-3 con revisión externa. No se autodeclara.",
       ],
       code: {
         language: 'python',
@@ -52,12 +69,6 @@ print("self_declared_promotion", c["self_declared_promotion"])
         output: `case CASO-LIM-039
 auto_fraud False
 self_declared_promotion False`,
-      },
-      callout: {
-        type: "info",
-        title: "Gate CP-N3-C + regresión",
-        content:
-          "Entregable de S39: triage responsable demoable. Promoción N3 = CP-N3-A/B/C + regresión S27–S39 + CF-3 con revisión externa. Tú dejas el expediente; no autodeclaras el cierre del nivel.",
       },
     },
     {

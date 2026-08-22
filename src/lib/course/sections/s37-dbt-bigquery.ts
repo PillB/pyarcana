@@ -25,13 +25,29 @@ export const section37: CourseSection = {
   ],
   theory: [
     {
-      heading: "Rendimiento del triage (escala del matching)",
+            heading: "Optimizar sin medir es cambiar código y esperar",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **Wall time:** reloj de pared (`time.perf_counter`). **CPU time:** tiempo de procesador (`time.process_time`). **Warmup:** corrida descartada (el cold start — arranque en frío — miente). **Blocking:** particionar por clave para no generar todos los pares O(n²). **Performance budget:** umbral de ms/memoria/pares que el CI light puede fallar. **same_result:** el speedup no vale si cambia el resultado funcional del matching o de las features.",
-        "Escalar el triage no es «hacer el código más ingenioso»: es medir el path caliente, preservar el mismo resultado funcional y publicar un reporte antes/después con dataset, hardware y límites explícitos. Sin esa disciplina, la optimización es teatro y puede romper privacidad o tests. Historia típica: un PR mergea un recorte del 2 % en un loop interno y, con n=1e5 pares, el wall se duplica porque nadie midió el fixture completo.",
-        "Contrato del gate de escala. Entrada: fixture sintético `CASO-LIM-037`, métricas wall/CPU (y nota de memoria), conteo de pares candidatos y budgets acordados. Salida: reporte de escala con speedup y reducción de pares, más tests de regresión de performance. Error: cambiar el resultado semántico, omitir warmup o microoptimizar un 2 % sin medición bloquea el gate.",
-        "Caso Red Andina (ficticio): matching y features sobre registros sintéticos de Lima/Cusco. Esta sección escala el path de triage (matching y features), no un laboratorio de SQL en la nube. Orden: T1 Medición → T2 Algos/blocking → T3 Memoria → T4 Budgets y costo total. Usamos **stdlib** (`time`, `statistics`, `collections`) para medir sin dependencias nuevas.",
-        "Puente **S14 → S30 → S37**: en NumPy/vectorización (S14) mediste work denso; en entity resolution (S30) mediste **recall de blocking**. Aquí unes ambas líneas: mides **costo** (pares y wall) sin abandonar `same_result`. Un blocking más agresivo que baje el recall no es victoria de escala. Puente **S37 → S38**: los budgets y el reporte before/after de esta sección son la base cuando el path corra con colas, reintentos y variabilidad de proveedor.",
+        "La intuición sobre qué parte de un programa es lenta suele estar equivocada, y no por falta de experiencia: los cuellos de botella se esconden en lugares poco vistosos. Reescribir la función que *parece* costosa produce a menudo un código más difícil de leer y exactamente el mismo tiempo total.",
+        "Medir tiene su propia disciplina. El **wall time** es el reloj de pared, lo que espera una persona; el **CPU time** es lo que realmente trabajó el procesador. Cuando difieren mucho, el programa está esperando —disco, red— y optimizar el cálculo no cambiará nada. Además, la primera corrida siempre miente: cachés fríos, importaciones, compilaciones. Por eso se descarta un **warmup** antes de tomar números.",
+        "Con la medición en mano aparece la regla que gobierna la sección, y es una restricción más que una técnica: la versión optimizada debe producir **el mismo resultado** que la original. Un cambio que acelera y altera la salida no es una optimización, es otro programa. Por eso cada mejora viene acompañada de una comprobación de equivalencia, no solo de un cronómetro.",
+        "En este dominio concreto, la palanca grande no es hacer el cálculo más rápido sino hacer menos cálculos. Comparar todos los pares crece con el cuadrado del número de registros; el blocking que viste en S30 recorta ese universo. Ahí está el orden de magnitud — y también el precio, porque un bloque mal elegido descarta pares verdaderos y eso hay que medirlo junto con la velocidad.",
+        "La pregunta que atraviesa la sección tiene dos mitades inseparables: **¿es más rápido, y sigue dando lo mismo?** Un reporte de escala sin dataset, hardware y límites declarados no es evidencia: es una anécdota con números.",
+      ],
+      callout: {
+        type: "info",
+        title: "Gate de escala",
+        content:
+          "Mismo resultado funcional + reporte antes/después con dataset/hardware/límites. Optimización reversible y justificada; no salta privacidad ni tests.",
+      },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Contrato del gate y hilo entre secciones.",
+        "**Contrato del gate de escala.** Recibes el fixture sintético, métricas de reloj y CPU con nota de memoria, el conteo de pares candidatos y los presupuestos acordados. Entregas un reporte antes/después con la aceleración y la reducción de pares, más las pruebas que demuestran el mismo resultado funcional. La optimización debe ser reversible y justificada, y no puede saltarse privacidad ni pruebas.",
+        "**Orden de los subtemas.** T1 medición. T2 algoritmos y blocking. T3 estructuras y memoria. T4 reporte y límites.",
+        "**Hilo entre secciones.** En S14 mediste trabajo denso con NumPy; en S30 mediste el recall del blocking. Aquí se juntan las dos líneas: se mide el costo —pares y tiempo— sin abandonar la equivalencia de resultados.",
       ],
       code: {
         language: 'python',
@@ -52,12 +68,6 @@ print("skip_privacy_or_tests", c["skip_privacy_or_tests"])
         output: `case CASO-LIM-037
 micro_only_ok False
 skip_privacy_or_tests False`,
-      },
-      callout: {
-        type: "info",
-        title: "Gate de escala",
-        content:
-          "Mismo resultado funcional + reporte antes/después con dataset/hardware/límites. Optimización reversible y justificada; no salta privacidad ni tests.",
       },
     },
     {

@@ -26,13 +26,13 @@ export const section28: CourseSection = {
   ],
   theory: [
     {
-      heading: "QA de datos del motor ER",
+            heading: "Los ejemplos se acaban antes que los casos",
       paragraphs: [
-        "En S27 convertiste normalización y matching en contratos **pytest**. Aquí **amplías la suite**: propiedades y pruebas metamórficas, contratos de datos/goldens, dobles controlados e integración sin flakes. En S29 el almacén SQL consumirá estos mismos contratos como regresión de schema.",
-        "**Diccionario del módulo** (léelo una vez; cada subtema lo profundiza):\n\n- **Invariante:** propiedad que siempre debe cumplirse (`normalize` idempotente, score en [0, 1]).\n- **Prueba de propiedades (property-based testing):** generar muchos casos desde la invariante, no solo un ejemplo feliz.\n- **Prueba metamórfica:** no conoces el score “correcto”, pero sí una relación bajo una transformación del input.\n- **Contrato de schema/calidad:** reglas de tipos, nulls y negocio en el borde de ingest.\n- **Golden:** snapshot versionado de salida esperada; **drift** es la divergencia actual vs. golden.\n- **Doble (mock/fake/stub):** sustituto controlado de HTTP, DB o reloj.\n- **Flake:** prueba inestable (pasa o falla sin cambio de código).\n- **Fail-closed:** si el contrato se rompe, el batch se detiene con evidencia — no se “arregla” en silencio.",
-        "Orden del módulo: **T1 Propiedades** (invariantes, generación, metamórficas) → **T2 Datos** (schema, quality, goldens) → **T3 Dobles** (mocks/fakes/reloj, contratos de borde) → **T4 Sistema/CI** (integración, encoding/cardinalidad/orden/timeout/reanudación, flakes). Fixture de laboratorio (una sola vez en este módulo): `CASO-LIM-028` (run_id=cpn3a-dataqa), contactos sintéticos `@example.pe` — sin PII real y sin autoveredicto de fraude o parentesco.",
-        "Lo que ya sabes (S16 calidad + S27 pytest) y lo que es **nuevo aquí**: S16 fallaba cerrado ante schema roto; S27 fijó AAA, fixtures y oráculos. S28 añade **generación desde propiedades**, **goldens versionados con revisión**, **dobles en bordes HTTP/DB/reloj** e **integración multi-componente determinista**. ER solo decide *misma entidad* — nunca parentesco ni fraude.",
-        "Caso de desk PE (banca, fintech o retail en Lima): un batch sintético de contactos entra al matcher en CI local. Un fallo de golden muestra expected vs. actual; un fallo de propiedad imprime la semilla y el input que rompió la invariante. Eso es evidencia revisable para el revisor humano, no un “True” mágico en pantalla ni una etiqueta de fraude.",
+        "Escribiste pruebas para el nombre con tilde, el nombre en mayúsculas, el nombre con espacios de más. Funcionan, y aun así el módulo falla en producción con un nombre que no se te ocurrió. El problema no es que hayas escrito pocas pruebas: es que estabas enumerando casos cuando podías estar declarando una regla.",
+        "Ese cambio de enfoque es el corazón de la sección. En vez de decir «para esta entrada espero esta salida», declaras algo que debe ser cierto **siempre** — normalizar dos veces da lo mismo que normalizar una vez; el score siempre cae entre cero y uno — y dejas que la máquina genere cientos de entradas buscando el contraejemplo. Eso es una **prueba de propiedades**, y cuando encuentra uno te devuelve la semilla exacta para reproducirlo.",
+        "Hay una variante especialmente útil cuando no sabes cuál es la salida correcta pero sí sabes cómo debe cambiar. Si agregas espacios al principio de un nombre, el resultado normalizado no debería moverse. No hace falta conocer el valor esperado para comprobar esa relación: basta comparar dos ejecuciones. Se llaman **pruebas metamórficas** y sirven justo donde el oráculo es caro o imposible.",
+        "Los datos necesitan su propio tipo de prueba. Un **golden** es una salida aprobada que se guarda versionada; la prueba compara contra ella y cualquier diferencia obliga a una revisión humana consciente — actualizar el golden porque «ahora sale distinto» es exactamente cómo se aprueba una regresión sin darse cuenta.",
+        "La pregunta que gobierna la sección es más ambiciosa que la de S27: **¿qué debe ser verdad siempre, sin importar la entrada?** Y el mismo límite ético sigue vigente: estas pruebas verifican identidad de registros y calidad técnica, no autorizan conclusiones sobre riesgo ni relaciones entre personas.",
       ],
       callout: {
         type: "info",
@@ -40,6 +40,16 @@ export const section28: CourseSection = {
         content:
           "Las pruebas verifican identidad de registros y calidad técnica; no autorizan inferencias de relación o riesgo. Matching ≠ fraude. Ritmo sugerido: ~4–5 h T1 propiedades, ~4–5 h T2 schema/goldens, ~4 h T3 dobles, ~5–6 h T4 integración/CI + portfolio You Do (total ≈ 19 h).",
       },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, ritmo y criterios de cierre.",
+        "**Orden de los subtemas.** T1 cubre invariantes, generación y pruebas metamórficas. T2 pasa a datos: schema, calidad y goldens. T3 introduce los dobles —mocks, fakes, reloj controlado— y los contratos de borde. T4 cierra con integración y estabilidad en CI: codificación, cardinalidad, orden, timeouts y reanudación.",
+        "**Qué es nuevo aquí.** S16 ya fallaba de forma cerrada ante un schema roto y S27 fijó la estructura, las fixtures y el oráculo. Lo que se agrega es generar desde propiedades, versionar goldens con revisión, controlar los bordes con dobles y sostener la integración sin pruebas intermitentes.",
+        "**Ritmo orientativo.** Unas diecinueve horas: cuatro o cinco en propiedades, otras tantas en schema y goldens, cuatro en dobles y cinco o seis en integración más el proyecto.",
+      ],
     },
     {
       heading: "Invariantes y generación de casos",

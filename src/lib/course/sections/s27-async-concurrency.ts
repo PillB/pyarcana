@@ -26,11 +26,13 @@ export const section27: CourseSection = {
   ],
   theory: [
     {
-      heading: "Estrategia pytest e inicio CP-N3-A",
+            heading: "El pipeline de S26 descansa sobre una suposición que nadie escribió",
       paragraphs: [
-        "En S26 orquestaste el VP (pipeline de verificación) con evidencia por estado: RPA (automatización robótica de procesos) más un analista HITL (humano en el bucle, *human-in-the-loop*). Ese pipeline **asume** que `normalize_name` y el matching se comportan igual mañana que hoy. Si alguien “arregla” un `strip` o un umbral sin red de seguridad, el clerical queue hereda basura con confianza falsa. Aquí **inicias CP-N3-A**: conviertes esos supuestos en **contratos de prueba** con pytest, para que un refactor o un typo no rompa en silencio lo que ya automatizaste.",
-        "Trabajamos un módulo sintético sobre contactos del **Caso 27** (run_id=`cpn3a-01`, correos `@example.pe`): sin PII real y **sin** auto-veredicto de fraude o parentesco. Cada bug reproducido debe dejar un test de regresión con oráculo fijo. Matching solo responde: ¿son la misma entidad sintética tras normalizar? El resto del curso (S28+) ampliará dobles e integración; hoy sellas la base unitaria.",
-        "Orden de aprendizaje: **T1 Diseño** (pirámide, riesgo, AAA y oráculos) → **T2 Pytest** (discovery, asserts, fixtures y scopes) → **T3 Bordes** (excepciones, floats, fechas, tmp, negativos) → **T4 Cobertura** (ramas de negocio y mutación conceptual). Dual-track honesto: en tu máquina `python -m pytest -q`; en este entorno del curso ejecutamos el **mismo contrato** como módulo con `assert` + `print` cuando no invocas el CLI. No hay teatro de “pytest sin pytest”: verás formas `test_*` reales aunque el runner del curso no sea el CLI.",
+        "Que `normalize_name` se comporte mañana como se comportó hoy. Nadie lo prometió por escrito; simplemente funciona, y todo lo que construiste encima da por hecho que seguirá funcionando. Una prueba es esa promesa puesta por escrito, en un formato que la máquina puede verificar cada vez.",
+        "Conviene entender qué es una prueba antes de escribir la primera. Es una nota que le dejas a quien toque este código dentro de seis meses —probablemente tú— diciendo: esto era importante, y así se comprobaba. Por eso una prueba que solo verifica que el programa no explota vale poco. La que vale nombra el comportamiento: con esta entrada, esta salida, por esta razón.",
+        "La estructura que ordena cada prueba es sencilla: preparas el escenario, ejecutas la acción, compruebas el resultado. Lo difícil no es esa forma sino el **oráculo** — la fuente que decide qué resultado es correcto. Si el oráculo es «lo que devuelve el código hoy», la prueba no comprueba nada: bendice el comportamiento actual, incluido el error que todavía no descubriste.",
+        "De ahí sale la disciplina que atraviesa la sección. Cuando aparece un bug, primero se escribe la prueba que lo reproduce y falla; recién después se arregla. Así queda demostrado que la prueba sirve — porque la viste fallar — y que el arreglo funciona. Una prueba que nunca falló no ha probado que sabe detectar nada.",
+        "La pregunta que te acompaña es corta: **¿qué comportamiento estoy fijando aquí, y cómo sabré si alguien lo rompe?** Trabajas sobre contactos sintéticos del caso 27, con correos `@example.pe`. Y un límite que no se negocia: comparar dos registros responde si apuntan a la misma persona, no si alguien cometió fraude o tiene parentesco con otro.",
       ],
       callout: {
         type: "info",
@@ -38,6 +40,15 @@ export const section27: CourseSection = {
         content:
           "Fixtures y ejercicios usan solo contactos sintéticos `@example.pe`. Una prueba de similitud **no** etiqueta fraude ni parentesco. Esa ética queda fijada aquí: no la repitas en cada párrafo; sí aplícala en cada assert y mensaje de error.",
       },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas y criterios de cierre.",
+        "**Orden de los subtemas.** T1 trata el diseño: la pirámide de pruebas, dónde está el riesgo, la estructura preparar-ejecutar-comprobar y el problema del oráculo. T2 baja a pytest concreto: descubrimiento, asserts, fixtures y sus alcances. T3 va a los bordes, que es donde viven los errores: excepciones, flotantes, fechas, archivos temporales y casos negativos. T4 cierra con cobertura de ramas de negocio.",
+        "**Criterio de cierre.** Cada bug reproducido deja una prueba de regresión con un oráculo fijo, no con el valor que el código devuelve hoy.",
+      ],
     },
     {
       heading: "Riesgos y pirámide de pruebas",

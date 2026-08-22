@@ -25,12 +25,13 @@ export const section33: CourseSection = {
   ],
   theory: [
     {
-      heading: "Por qué baselines antes de modelos opacos",
+            heading: "Antes de preguntar si el modelo es bueno, pregunta contra qué",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de modelar). **Baseline:** ancla mínima — dummy majority (“siempre la clase más frecuente”) o regla simple (`x >= thr`). **Target:** lo que intentas priorizar (aquí `needs_review_7d`), **nunca** un veredicto de fraude. **Horizonte:** ventana temporal del target (p. ej. 7 días). **beats_dummy:** si la métrica del modelo supera al dummy; puede ser **False** y el run sigue válido. **beats_rule:** si supera a la regla determinista (el ancla más fuerte del lab). **Group CV:** validación cruzada donde cada entidad cae en un solo fold de validación (train y valid disjuntos por entidad). **L2 (config):** regularización declarada en el entrenamiento (`penalty=\"l2\"` y fuerza C o λ). **l2_sq (Σw²):** solo diagnóstico de magnitud de coeficientes — **no** prueba de que se usó L2. **Stump:** árbol de profundidad 1. **Seed:** semilla que hace reproducible el experimento.",
-        "Google *Rules of ML* lo resume así: lanza primero con **heurística o baseline**, mide el valor, y solo después sube la complejidad. En muchos equipos se desplegó un modelo opaco que **no** superaba a “siempre la clase mayoritaria”: meses de ingeniería, cero valor en cola. Esta sección no empuja stacking por deporte: define **unidad de scoring**, **target** y **horizonte**, y conserva un **baseline determinista** antes de cualquier modelo en el workbench de Red Andina (CP-N3-B).",
-        "Producto incremental: comparación **honesta** sobre el target sintético `needs_review_7d`. Entrada: features de S32 ya sin leakage (p. ej. `shared_phone`, `amount_z`). **Espina numérica del lab** (misma `y=[1,1,0]` o fixtures del demo): dummy majority ≈0.667; la regla simple y el stump se calculan; la logística declara L2 en params; `beats_dummy` y `beats_rule` quedan en True o False según métrica y costo. Un experimento que **no** supera al mejor baseline se registra y documenta — no se borra.",
-        "Orden de la sección: **T1 framing y baseline** → **T2 lineales regularizados** → **T3 stumps y control de overfit** → **T4 tracking y group CV**. Usamos Python estándar (sigmoid, stump, seed) antes de API pesadas; en recursos quedan sklearn y Rules of ML. Predicción de prioridad de revisión ≠ veredicto de culpa."
+        "Hay equipos que pasaron meses construyendo un modelo que nunca superó a «responder siempre lo más frecuente». No es una anécdota rara: pasa cada vez que se mide el acierto sin compararlo con nada. Con 90% de casos negativos, un sistema que dice «no» a todo acierta el 90% y no sirve para nada.",
+        "Por eso lo primero que se construye no es el modelo sino su rival. Un **baseline** es la respuesta más tonta que sea razonable: siempre la clase mayoritaria, o una regla de una línea del tipo «si el monto supera este umbral, revisar». Es deliberadamente pobre, y esa es su virtud — si lo sofisticado no le gana, lo sofisticado no se ha ganado su costo de mantenimiento.",
+        "Antes hace falta cerrar qué se predice, y con qué honestidad se nombra. El **target** de esta sección es `needs_review_7d`: si un caso debería entrar a la cola de revisión humana en los próximos siete días. No es una etiqueta de fraude, y la diferencia no es de vocabulario — un modelo que prioriza una cola y un modelo que acusa a alguien son productos distintos con responsabilidades distintas.",
+        "Ese `7d` es el **horizonte**, y no se puede inventar. Sin un horizonte explícito, «va a necesitar revisión» no tiene significado comprobable: ¿mañana? ¿alguna vez? Cuando falta, el flujo pide el dato en lugar de asumir un valor por defecto.",
+        "La pregunta que atraviesa la sección es incómoda a propósito: **¿esto es mejor que lo más tonto que se me ocurre, y cuánto mejor?** Se trabaja con Python estándar —una sigmoide, un stump, una semilla fija— antes de tocar librerías pesadas, porque el objetivo es entender la comparación y no invocar una API.",
       ],
       callout: {
         type: "info",
@@ -38,6 +39,16 @@ export const section33: CourseSection = {
         content:
           "Sin baseline documentado no se promociona modelo. Target needs_review_* con horizonte explícito (no fraud). Datos sintéticos únicamente. Un run con beats_dummy=False se loguea igual. Anota prevalencia antes del fit.",
       },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas y criterios de promoción.",
+        "**Orden de los subtemas.** T1 fija el encuadre y el baseline. T2 pasa a modelos lineales regularizados. T3 introduce stumps y el control del sobreajuste. T4 cierra con el registro de experimentos y la validación cruzada por grupo.",
+        "**Criterios de promoción.** Sin baseline documentado no se promociona un modelo. El target debe ser del tipo `needs_review_*` con horizonte explícito, nunca `fraud`. Un run que no le gana al baseline se registra igual — ocultarlo es lo que convierte un experimento en propaganda. La prevalencia se anota antes de ajustar nada.",
+        "**Referencia.** Las *Rules of ML* de Google resumen el mismo criterio: lanza primero con una heurística o un baseline, mide el valor, y solo después sube la complejidad.",
+      ],
     },
     {
       heading: "Unidad, target y horizonte",

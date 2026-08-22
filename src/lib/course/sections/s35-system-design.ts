@@ -25,12 +25,13 @@ export const section35: CourseSection = {
   ],
   theory: [
     {
-      heading: "Inicio CP-N3-C: ficha de caso responsable",
+            heading: "Explicar no es acusar, y la diferencia hay que dejarla escrita",
       paragraphs: [
-        "Esta sección **inicia CP-N3-C** y parte de S34: reutilizas métricas, umbrales y baselines ya presentados en el workbench. El caso sintético `CASO-LIM-035` de Red Andina (organización ficticia en Lima) se ejecuta **sin** credenciales, servicios externos ni PII real: es el laboratorio donde la ficha de caso se vuelve producto, no un diagrama abstracto.",
-        "Producto incremental: **ficha de caso** que separa **evidencia observada**, **contribución del modelo**, **incertidumbre** y **decisión humana**. Entrada: score, features y cohorte; salida: plantilla auditable **sin** auto-etiqueta de fraude (`means_fraud=False`). Taxonomía que usarás en T1–T4: **global** (importancia del modelo en todo el batch) vs. **local** (contribución al score de *este* caso); **equidad** (slices y proxies) vs. **incertidumbre** (banda y OOD, casos fuera del dominio de train); **gobernanza** (card + override, decisión humana que reemplaza al modelo). Pregunta guía de la semana: ¿qué capa del caso estoy mirando y qué **no** puedo afirmar desde ella?",
-        "Orden de la sección: **T1 explicación** (global y local) → **T2 equidad/slices y proxies** → **T3 incertidumbre y abstención OOD** → **T4 model card, contestabilidad y override**. Cada bloque cierra con un puente al siguiente: el mapa global no basta sin explicación del caso; la explicación del caso no basta sin slices; los slices no bastan sin banda/OOD; la incertidumbre no basta sin card y audit. El producto es la ficha auditable; explicar **no** es acusar.",
-        "Glosario mínimo de la ficha: **evidencia** = hechos del caso; **modelo** = score y contribuciones (no veredicto); **incertidumbre** = banda/OOD; **humano** = decisión con `by` auditable. Códigos de política: `REJECT_*` = incumplimiento del contrato; `REQUEST_*` = falta dato para decidir; `CONTINUE`/`PASS` = contrato satisfecho en el lab. No memorices la lista entera: cada subtema introduce el código que usa."
+        "Un caso llega a la cola con un score alto. El revisor abre la ficha y encuentra un número, una lista de features y nada más. Con eso no puede decidir bien: no distingue qué es un hecho comprobado del expediente, qué es una inferencia del modelo y qué tan seguro está el modelo de su propia inferencia. Esta sección construye la ficha que sí permite decidir.",
+        "La estructura tiene cuatro capas que no deben mezclarse. La **evidencia** son hechos del caso: esta cuenta existe, esta transferencia ocurrió en esta fecha. La **contribución del modelo** es qué features empujaron el score y en qué dirección — una explicación de la aritmética, no una acusación. La **incertidumbre** dice cuánta confianza cabe en eso. Y la **decisión humana** es de una persona con nombre, registrada como tal.",
+        "Confundir la segunda capa con la primera es el error que esta sección existe para prevenir. Que una feature contribuya al score significa que el modelo la pesó, no que sea la causa de nada. Escribir «el sistema detectó que el cliente…» convierte una contribución numérica en una afirmación sobre una persona, y es exactamente el paso que no se puede dar.",
+        "Después está la pregunta de a quién le va peor. Un modelo puede tener buena métrica global y comportarse notablemente peor con un grupo concreto; el promedio lo esconde. Y hay que vigilar las **proxies** — una variable que no es el atributo sensible pero lo predice bien, como un distrito, y que reintroduce por la ventana lo que se sacó por la puerta.",
+        "Falta la salida honesta. Cuando un caso no se parece a nada de lo que el modelo vio, la respuesta correcta no es un score con dos decimales, es abstenerse. La pregunta que atraviesa la sección junta las cuatro capas: **¿qué parte de esto es evidencia, qué parte es el modelo, cuánta duda hay y quién firma la decisión?**",
       ],
       callout: {
         type: "info",
@@ -38,6 +39,16 @@ export const section35: CourseSection = {
         content:
           "Inicio CP-N3-C: la ficha distingue las cuatro capas; explicar no es acusar. No des por cerrada la sección si falta evidencia, banda de incertidumbre o audit trail del override.",
       },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Entregable, orden de los subtemas y códigos de política.",
+        "**Producto incremental.** Una ficha de caso que separa evidencia observada, contribución del modelo, incertidumbre y decisión humana. Recibe score, features y cohorte; entrega una plantilla auditable sin auto-etiquetado.",
+        "**Orden de los subtemas.** T1 cubre la explicación global y local. T2 pasa a equidad, slices y proxies. T3 trata la incertidumbre y la abstención ante casos fuera de distribución. T4 cierra con la ficha de modelo, la contestabilidad y el override.",
+        "**Cierre.** No des la sección por cerrada si falta evidencia, banda de incertidumbre o rastro de auditoría del override.",
+      ],
     },
     {
       heading: "Coeficientes e importancia por permutación",
