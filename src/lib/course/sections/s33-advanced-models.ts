@@ -2353,12 +2353,14 @@ assert valid["n_groups"] == 3
       "Dummy, regla y costo derivados de y vs. predicciones",
       "Modelo (stump o lineal) con seed fija y comparación honesta al mejor baseline",
       "Run log completo y group CV con disyunción train/valid por entidad",
+      "Declarar qué dependencia manda en tu split — entidad, tiempo o ambas — y, si es tiempo, entregar el manifiesto de folds con origen y horizonte",
     ],
     requirements: [
       "has_baseline=True con dummy y regla documentados antes de promocionar modelo",
       "Sin label de fraude ni PII real",
       "es-PE sintético; seed fija en params",
       "beats_dummy y beats_rule calculados (pueden ser False) y logueados",
+      "Si el problema es temporal: folds de origen móvil con `max(train) < min(valid)` verificado, baseline estacional y MAE de baseline y candidato sobre los mismos folds",
     ],
     starterCode: `# baselines CP-N3-B — CASO-LIM-033 (sintético únicamente)
 # Pipeline: framing → dummy+costo+regla → stump → run log → group CV.

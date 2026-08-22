@@ -2446,6 +2446,7 @@ meets_contract True` ,
       "Validar un DAG acíclico de assets y un plan de backfill sin solape.",
       "Emitir PASS / QUARANTINE_DATASET / OPEN_QUALITY_INCIDENT según contrato, freshness y owner.",
       "Registrar lineage run→inputs→outputs y un runbook de recovery con RTO medido.",
+      "Dejar una nota de layout: qué clave de partición elegiste, qué consultas se benefician de saltarse particiones y qué reproceso limita el blast radius.",
     ],
     requirements: [
       "Usa exclusivamente fixtures sintéticos `CASO-HYO-046`.",
