@@ -1,0 +1,26 @@
+[
+  {
+    "section": "numpy",
+    "file": "s06-numpy",
+    "artifact": "starterCode-9",
+    "kind": "starter",
+    "seed0": "{'a@ex.com', 'b@ex.com'}",
+    "seedN": "{'b@ex.com', 'a@ex.com'}"
+  },
+  {
+    "section": "pandas",
+    "file": "s08-pandas",
+    "artifact": "starterCode-18",
+    "kind": "starter",
+    "seed0": "45960692 19",
+    "seedN": "-7331643 20"
+  },
+  {
+    "section": "llm-agents",
+    "file": "s28-llm-agents",
+    "artifact": "starterCode-23",
+    "kind": "starter",
+    "seed0": "False\n['c', 'b', 'a', 'b', 'b']",
+    "seedN": "False\n['c', 'c', 'b', 'b', 'c']"
+  }
+]

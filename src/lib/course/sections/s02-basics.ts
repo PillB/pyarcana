@@ -390,7 +390,7 @@ raw '  Ñahui  ' clean 'Ñahui'`,
   ],
   iDo: {
     intro:
-      'Partimos del taller que preparaste en S01 (`.venv` activo o sandbox del navegador) y seguimos un registro sintético desde su apariencia en pantalla hasta un resultado auditable. En cada demo aplica el mismo ritual: **predice una línea**, **sigue el código**, **comprueba la salida** y **explica la diferencia**. Recorrerás literales, conversión, nombres, identidad, operadores, `Decimal`, f-strings y el parser final (el programa que descompone el texto de entrada en datos estructurados). Copiar y ejecutar confirma que Python hizo algo; explicar por qué hizo *eso* confirma que aprendiste. Solo datos ficticios, nunca PII real.',
+      'Partimos del taller que preparaste en S01 (`.venv` activo, o el sandbox del navegador — un entorno aislado que ejecuta Python dentro de la página, sin instalar nada) y seguimos un registro sintético desde su apariencia en pantalla hasta un resultado auditable. En cada demo aplica el mismo ritual: **predice una línea**, **sigue el código**, **comprueba la salida** y **explica la diferencia**. Recorrerás literales, conversión, nombres, identidad, operadores, `Decimal`, f-strings y el parser final (el programa que descompone el texto de entrada en datos estructurados). Copiar y ejecutar confirma que Python hizo algo; explicar por qué hizo *eso* confirma que aprendiste. Solo datos ficticios, nunca PII real.',
     steps: [
       {
         demoId: 'S02-T1-A-DEMO',

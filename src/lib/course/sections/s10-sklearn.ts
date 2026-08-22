@@ -1047,7 +1047,7 @@ print(complete_project({"name": "familiarity", "version": "0.1.0"}))`,
         kind: "independent",
         title: "Listar layout `src/` instalable",
         preamble:
-          "- **Contexto:** el bootstrap del proyecto debe listar qué archivos tocan el install editable.\n- **Meta:** construir paths `src/<paquete>/…` desde módulos y anexar `pyproject.toml`.\n- **Éxito:** cuatro líneas en orden: tres bajo src (init, normalize, cli) y pyproject al final.\n- **Límites:** no hardcodees solo dos paths; `pyproject.toml` no va bajo `src/`.",
+          "- **Contexto:** el bootstrap del proyecto —su arranque: qué debe existir antes de que nada funcione— debe listar qué archivos tocan el install editable.\n- **Meta:** construir paths `src/<paquete>/…` desde módulos y anexar `pyproject.toml`.\n- **Éxito:** cuatro líneas en orden: tres bajo src (init, normalize, cli) y pyproject al final.\n- **Límites:** no hardcodees solo dos paths; `pyproject.toml` no va bajo `src/`.",
         instruction:
           "1. Implementa `src_layout(package, modules)` desde los argumentos.\n2. Incluye todos los módulos de la lista.\n3. Añade `pyproject.toml` al final.\n4. Imprime un path por línea.",
         hint: "Por cada módulo: f'src/{package}/{mod}'; luego pyproject.toml.",
