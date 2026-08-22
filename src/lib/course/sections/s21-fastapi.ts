@@ -25,12 +25,13 @@ export const section21: CourseSection = {
  ],
  theory: [
  {
- heading: "Reporting Factory y cierre CP-N2-B",
+  heading: "El Excel dice 28.0 y el informe dice 30, «porque redondeé»",
  paragraphs: [
- "Imagina la reunión de operaciones en Lima: el Excel de S20 muestra ticket mediano **28.0 PEN (n=40)** y el DOCX del analista dice **30 PEN** “porque redondeó a mano”. El comité no firma. En analytics y operaciones en Perú, **cerrar CP-N2-B** no es “exportar bonito”: es un **Reporting Factory** con cinco piezas — plantillas Jinja, documentos DOCX/PDF locales, narrativa ejecutiva y paridad numérica con el dashboard (S19) y el Excel (S20) — más provenance y cola de aprobación humana. Las API HTTP se tratan más adelante; aquí el entregable son **archivos locales verificables**.",
- "Una sola corrida produce artefactos alineados: mismos *n* y métricas clave que el EDA de S18 y el factory de S20. Usamos solo datos sintéticos Lima/Madrid (sin PII) y no publicamos el informe sin checklist visual. El hilo del lab es **CASO-LIM-021**: ticket mediano 28 PEN, n=40, cobertura web-only. Si en un artefacto aparece n=32 y en otro n=40, el factory ya falló el criterio de paridad antes de hablar de diseño.",
- "Orden pedagógico (no saltes adelante): **T1 Plantillas** (Jinja, separación datos/presentación, tablas seguras) → **T2 Documentos** (DOCX real; PDF digital vs. imagen/OCR) → **T3 Narrativa** (resumen, método, hallazgos, figuras/tablas, limitaciones) → **T4 Gobernanza** (redacción y a11y, provenance, aprobación). En cada subtema: teoría → demo I Do → tres ejercicios (E1 guiado, E2 con menos andamiaje, E3 de transferencia). Ritmo sugerido (~18 h): sesiones 1–2 en T1; 3–5 en T2 (artefactos reales); 6–7 en T3; 8 en T4 + You Do + self-check. El You Do une las piezas; no es un atajo para saltarte T2.",
- "**Diccionario de la sección** (consúltalo al dudar):\n- **context** = dict versionado que alimenta todas las plantillas.\n- **missing ≠ 0** = celda `—` cuando no hay dato (el mismo glifo `—` también se usa como raya tipográfica en prosa; en tablas significa ausencia).\n- **PDF digital** = texto seleccionable (pypdf extrae).\n- **needs_ocr** = extracción vacía sin inventar texto.\n- **paridad** = mismas métricas clave en dashboard, Excel y documento.\n- **provenance** = run_id + huellas + checklist visual antes de `pending_review`.\n\n**Qué no es el foco:** montar API HTTP, autenticación ni despliegue en la nube — solo el paquete de reportes locales del cierre CP-N2-B.",
+   "El comité no firma, y hace bien. No es un problema de decimales: es que dos artefactos que deberían venir de la misma corrida se contradicen, y nadie sabe cuál creer. Esta sección resuelve eso construyendo los documentos desde una única fuente de datos, de modo que discrepar sea imposible en vez de improbable.",
+   "La idea central es separar los datos de su presentación. Se arma un **contexto** —un diccionario con los números ya calculados y versionado— y la plantilla solo lo coloca en su sitio. La plantilla no calcula, no redondea y no decide: si empieza a hacerlo, vuelves a tener dos fuentes de verdad con distinta aritmética.",
+   "Esa separación resuelve además un problema de seguridad que es fácil pasar por alto. Si el texto de un campo entra directo en la plantilla, un valor con caracteres especiales puede romper el documento o alterar su estructura. La plantilla escapa lo que inserta, por la misma razón por la que una consulta a base de datos usa parámetros en vez de pegar texto.",
+   "Hay un detalle pequeño con consecuencias grandes: **falta no es cero**. Una celda sin dato se escribe con un guion largo, no con un `0`, porque un cero se suma y se promedia mientras que un guion obliga a preguntar. El mismo glifo sirve como marca de redacción cuando un dato existe pero no debe mostrarse.",
+   "La pregunta que atraviesa la sección es de trazabilidad: **¿puedo señalar de qué corrida salió cada número de este informe?** Los artefactos deben compartir los mismos totales y tamaños de muestra que el EDA y el libro de Excel anteriores, y ninguno se publica sin una revisión visual del resultado.",
  ],
  callout: {
  type: "info",
@@ -38,8 +39,17 @@ export const section21: CourseSection = {
  content:
  "En tu venv: `pip install jinja2 python-docx reportlab pypdf pymupdf pillow`. No uses PII real. Trabaja en un directorio de lab limpio: los demos crean `informe.docx` / `informe.pdf` / PNG locales. La revisión de cierre exige los archivos, el texto extraído, una vista renderizada y sus hashes; un dict en memoria no sustituye esos artefactos. En canvas ReportLab con Helvetica por defecto, los demos usan ASCII (`sintetico`) a propósito; en DOCX y Markdown del lab escribe **sintético** con tilde.",
  },
- },
- {
+},
+{
+ heading: "Contrato de la sección (referencia)",
+ optional: true,
+ paragraphs: [
+   "Bloque de referencia. Orden de los subtemas y dependencias.",
+   "**Orden de los subtemas.** T1 trata las plantillas: Jinja, separación entre datos y presentación, y tablas seguras. T2 pasa a los documentos: DOCX real, y la diferencia entre un PDF digital y uno que es una imagen escaneada. T3 cubre la narrativa: resumen, método, hallazgos y límites. T4 cierra con la trazabilidad y la revisión previa a publicar.",
+   "**Dependencias del laboratorio.** En tu entorno virtual: `jinja2`, `python-docx`, `reportlab`, `pypdf`, `pymupdf` y `pillow`. Trabaja en un directorio limpio: las demostraciones crean archivos locales. Sin datos personales reales.",
+ ],
+},
+{
  heading: "Jinja y separación datos/presentación",
  subtopicId: "S21-T1-A",
  paragraphs: [

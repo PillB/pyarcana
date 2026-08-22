@@ -26,11 +26,13 @@ export const section10: CourseSection = {
   ],
   theory: [
     {
-      heading: "Del notebook suelto al paquete instalable (mapa)",
+            heading: "Cuando el código tiene que salir de tu laptop",
       paragraphs: [
-        "Hasta S09 tu lógica vive en scripts y módulos sueltos. Aquí empaquetas **familiarity_core**: imports estables, un archivo **`pyproject.toml`** (que es la ficha técnica que describe cómo se llama y se instala tu paquete), una **CLI** — interfaz de línea de comandos, el programa que se ejecuta en la terminal — con subcomandos y **config por precedencia** (es decir, un orden fijo de quién decide cada valor cuando varias fuentes lo definen). Es la herramienta que el equipo puede instalar con `pip install -e .` y ejecutar sin notebook.",
-        "Integra el ETL de CP-N1-B (S08) y la observabilidad de S09 (logs sin PII, exit codes). Entorno local con biblioteca estándar: argparse, pathlib y metadata de empaquetado. Si config o schema no cuadran al arranque, el programa aborta de inmediato (fail-closed) antes de procesar nada a ciegas.",
-        "Orden: **T1 Módulos** → **T2 Paquetes** → **T3 CLI** → **T4 Configuración**. Caso de lab: CLI local con datos sintéticos y exit codes 0/1/2 — **nunca** PII real ni claims de fraude.",
+        "Alguien del equipo necesita correr tu limpieza de datos el lunes a las siete. Le pasas la carpeta y empiezas a explicar: abre el notebook, ejecuta las celdas de arriba abajo pero salta la tercera, y antes cambia la ruta en la línea catorce. Eso no es una herramienta; es una instrucción oral que se degrada cada vez que se repite.",
+        "Empaquetar es la diferencia entre prestar tus apuntes y publicar un manual. El archivo que hace posible ese salto es **`pyproject.toml`**: la ficha técnica del proyecto. Dice cómo se llama, qué versiones de qué bibliotecas necesita y —lo más útil— qué comando queda disponible en la terminal después de instalarlo. Con él, `pip install -e .` convierte una carpeta de scripts en algo que se invoca por su nombre.",
+        "Ese nombre invocable es la **CLI** (interfaz de línea de comandos): el programa se ejecuta escribiendo una palabra en la terminal, seguida de subcomandos y opciones. La ventaja no es estética. Un comando se puede escribir en la documentación, agendar para que corra solo de madrugada o encadenar con otro; una celda de notebook no.",
+        "Queda un problema que aparece en cuanto el programa tiene usuarios: el mismo valor puede llegar por varios caminos. Un umbral puede venir del valor por defecto en el código, de un archivo de configuración, de una variable de entorno o de una bandera escrita en la terminal. Si no hay un orden fijo que decida quién gana, dos ejecuciones aparentemente idénticas dan resultados distintos y nadie sabe por qué. A ese orden fijo se le llama **precedencia**, y declararlo es la mitad del trabajo.",
+        "La pregunta que atraviesa la sección la hace alguien que nunca vio este repositorio: **¿qué necesito saber para ejecutarlo bien la primera vez?** Si la respuesta cabe en `--help`, el empaquetado funcionó. Aquí el programa vive en tu máquina y usa solo la biblioteca estándar: publicar en un índice público, servir por HTTP o distribuir binarios son otros oficios y llegan más adelante.",
       ],
       callout: {
         type: "info",
@@ -38,8 +40,19 @@ export const section10: CourseSection = {
         content:
           "Gate: CLI ingest|normalize|compare|report; install editable; ayuda útil; lógica separada de I/O.",
       },
-    },
-    {
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, alcance y criterio de cierre.",
+        "**Orden de los subtemas.** T1 trata los módulos: imports estables y separación entre lógica y entrada/salida. T2 pasa a los paquetes y a la metadata de instalación. T3 construye la CLI con subcomandos y códigos de salida. T4 cierra con la configuración por precedencia.",
+        "**Qué integra.** El ETL de CP-N1-B que quedó en S08 y la observabilidad de S09: registros sin datos personales y códigos de salida 0, 1 y 2 según el tipo de fallo.",
+        "**Criterio de cierre.** Un paquete instalable en modo editable, con los subcomandos `ingest`, `normalize`, `compare` y `report`, una ayuda que sirva sin leer el código, y la lógica separada de la entrada/salida.",
+        "**Límites.** Datos sintéticos únicamente. Si la configuración o el schema no cuadran al arrancar, el programa se detiene antes de procesar nada; nunca datos personales reales ni afirmaciones automáticas de fraude.",
+      ],
+     },
+     {
       heading: "Imports, namespaces y __main__",
       subtopicId: "S10-T1-A",
       paragraphs: [

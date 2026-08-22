@@ -25,12 +25,28 @@ export const section51: CourseSection = {
   ],
   theory: [
     {
-      heading: "Ruta de S51: Observabilidad, gobernanza y UX del copiloto",
+            heading: "Cuando el copiloto se equivoca delante de un usuario",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **Trace:** correlación prompt/retrieval/tool/respuesta con versiones. **Redacción:** PII fuera de logs exportables. **Tokens, costo y latencia:** SLI del copiloto. **Registro de artefactos:** modelo, prompt, dataset versionados. **Audit trail:** quién aprobó qué. **Drift y feedback:** señales de desalineación. **Post mortem blameless:** aprendizaje sin culpas. **Contestabilidad:** corrección y apelación del usuario. **CF-5:** congela interfaces y artefactos para integración final. **a11y:** accesibilidad (WCAG) del UI del copiloto. **SLO:** objetivo de nivel de servicio (umbral medible de calidad). **SLI:** indicador que alimenta el SLO (disponibilidad, faithfulness, drift). **Error budget:** margen de fallos permitido antes de congelar releases. **Burn:** tasa de consumo del error budget. **RTO:** tiempo objetivo de recuperación tras un incidente.",
-        "Esta sección parte de S50 (evals y red team) y opera el **copiloto en producción controlada**: traces, registry, SLO/incidentes y UX contestable. El caso `CASO-MOQ-051` (Moquegua sintético) se ejecuta sin credenciales ni servicios externos. Hallazgos de S50 (eval fallida, prompt inyectable) se convierten aquí en **señales de ops**: drift slice, incidente o freeze de release — no se reentrenan a ciegas.",
-        "Producto incremental: **Auditable AI Operations Copilot** y freeze **CF-5**. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida: dashboard **redactado**, SLO con owner, audit trail append-only y mecanismo de corrección/apelación. Error: PII en sink o release sin pin de versiones. Los artefactos se **acumulan** de T1 a T4: traza → métricas → bundle pinneado → ticket de cambio → alerta SLO → timeline de incidente → confirmación UX → ruta de apelación.",
-        "Orden de aprendizaje: T1 traces y redacción → T2 registry y auditoría → T3 SLO e incidentes → T4 UX contestable y a11y. Cada tema cierra con un artefacto comprobable del **Auditable AI Operations Copilot**. Practicas solo con **stdlib** y fixtures sintéticos: sin telemetría real de PII ni backends externos obligatorios.",
+        "No es una hipótesis: pasa. La pregunta que decide si el sistema es operable no es si falla, sino qué puede hacer esa persona después. Si la única salida es escribir un correo y esperar, el copiloto no está en producción — está suelto.",
+        "Todo lo que sigue depende de poder reconstruir un caso concreto. Un **trace** es el hilo que une la pregunta, lo que se recuperó, qué herramientas se llamaron y qué respuesta salió, junto con las versiones exactas de prompt, modelo y datos que intervinieron. Sin ese hilo, «el sistema respondió mal ayer» es un reporte imposible de investigar.",
+        "Ese hilo cruza un límite delicado. Los registros que hacen depurable el sistema son también los que pueden convertirse en una filtración: lo que se guarda para entender un fallo puede contener datos de la persona que lo sufrió. De ahí la redacción — los datos personales no salen en los registros exportables — y de ahí que la auditoría se guarde en un registro al que solo se añade, nunca se edita.",
+        "La operación necesita además números con dueño. Un objetivo de servicio sin responsable es una aspiración; con responsable es un compromiso, y define qué cuenta como incidente y quién responde. Los hallazgos de S50 —una evaluación fallida, un prompt que resultó inyectable— entran aquí como alertas y como pruebas de regresión, no como notas sueltas.",
+        "La pregunta que atraviesa la sección mira desde el otro lado de la pantalla: **si el sistema se equivoca conmigo, ¿puedo saber por qué y puedo pedir que se corrija?** Eso es lo que convierte una interfaz en una interfaz contestable. Practicas con la biblioteca estándar y fixtures sintéticos sobre `CASO-MOQ-051`: sin telemetría real ni credenciales.",
+      ],
+      callout: {
+        type: "info",
+        title: "Gate de promoción",
+        content:
+          "Evidencia mínima para cerrar el primer subtema: caso sintético con asserts locales. Si no tienes esa evidencia, repite el laboratorio antes de avanzar.",
+      },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Reúne el entregable, el orden de los subtemas y los criterios de promoción.",
+        "**Producto incremental.** El copiloto de operaciones auditable y el congelamiento CF-5. Recibes identificadores de traza, versiones de prompt, modelo y dataset, evidencia, retroalimentación y política. Entregas un tablero redactado, objetivos de servicio con dueño, un rastro de auditoría al que solo se añade, y un mecanismo de corrección y apelación. Falla si aparecen datos personales en un sink o si un release no es trazable.",
+        "**Orden de los subtemas.** T1 traces y redacción. T2 registro y auditoría. T3 objetivos de servicio e incidentes. T4 interfaz contestable y accesibilidad.",
       ],
       code: {
         language: 'python',
@@ -51,12 +67,6 @@ print("raw_pii_in_logs_ok", c["raw_pii_in_logs_ok"])
         output: `case CASO-MOQ-051
 cf5_freeze True
 raw_pii_in_logs_ok False`,
-      },
-      callout: {
-        type: "info",
-        title: "Gate de promoción",
-        content:
-          "Evidencia mínima para cerrar el primer subtema: caso sintético con asserts locales. Si no tienes esa evidencia, repite el laboratorio antes de avanzar.",
       },
     },
     {

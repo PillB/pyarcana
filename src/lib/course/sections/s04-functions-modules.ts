@@ -25,13 +25,13 @@ export const section04: CourseSection = {
   ],
   theory: [
     {
-      heading: "Mapa de la sección: iteración y resúmenes por lotes",
+            heading: "Cuando la tasa mejora sola porque el denominador encogió",
       paragraphs: [
         "Imagina una cinta transportadora: cada registro entra una vez, recibe una decisión y deja una marca en el resumen. El **bucle** mueve la cinta; el **centinela** (`\"\"`, `\"END\"`) indica que no llegan más cajas; la **tasa** compara un contador con todas las cajas intentadas. Si no llegó ninguna, la respuesta honesta es `None`, no una división inventada.",
-        "Desde **S03** ya validas un registro (accept / reject / review). Ahora sostienes tres invariantes durante **muchas filas**: cada fila se procesa como máximo una vez, los contadores explican el total y el raw permanece intacto. Un solo pase **O(n)** basta para cerrar el gate **CP-N1-A**; empaquetado, CLI y decorators pueden esperar.",
-        "El hilo conductor es un **script de intake por lotes**. Lee líneas sintéticas (o una lista en memoria que simula stdin), valida cada registro, imprime por stdout un resumen y **conserva el original (raw)** de cada fila. Caso de laboratorio: `CASO-LIM-004`. Datos ficticios únicamente (`example.com`, teléfonos inventados). Nunca subas PII real al repo.",
-        "Orden pedagógico: **T1 Recorrido** (`for`/`range` → `enumerate`/`zip`) → **T2 Repetición** (`while`/centinelas → `break`/`continue`) → **T3 Patrones** (contadores/acumuladores → comprehensions) → **T4 Razonamiento** (trazado de estado → costo y off-by-one). En cada subtema: teoría → demo I Do → We Do (E1 guiado, E2 independiente, E3 transferencia).",
-        "Ritmo sugerido (~18 h): sesiones 1–2 solo T1; 3–4 T2; 5–6 T3; 7–8 T4 + You Do del bloque + self-check. Si un demo se siente denso, rehazlo con lápiz (tabla TRACE) antes de copiar la solución. Cuando veas `def ...` en un ejemplo, es solo una **receta nombrada** para el playground — el diseño formal de funciones llega en la sección siguiente.",
+        "Desde **S03** ya validas un registro: aceptar, rechazar o revisar. Un registro. Lo nuevo aquí es sostener esa decisión a lo largo de muchas filas sin que se degrade en el camino, y eso se apoya en tres promesas que no pueden romperse ni una sola vez. Cada fila se procesa como máximo una vez, ni dos ni ninguna. Los contadores suman exactamente el total de filas intentadas. Y el texto original de cada fila sobrevive intacto, porque es lo único que permite auditar la decisión después.",
+        "La tercera promesa es la que más se rompe sin querer, y casi siempre por el denominador. Si divides los aceptados entre los procesados en vez de entre los intentados, la tasa mejora sola cada vez que una fila falla antes de tiempo. El número sube, el trabajo empeora, y el informe se ve mejor. Por eso la pregunta que atraviesa la sección es de aritmética elemental: **¿sobre cuántas cosas estoy calculando esto, exactamente?**",
+        "Un solo recorrido de la lista basta para todo. Eso se llama **O(n)** —el trabajo crece en proporción al número de filas, no más rápido— y aquí no es una optimización sino una consecuencia: si necesitas recorrer dos veces, probablemente estás guardando mal la información en el primer paso.",
+        "El hilo conductor es un **script de intake por lotes**: lee líneas sintéticas, valida cada registro, imprime un resumen y conserva el original de cada fila. Cuando veas `def ...` en un ejemplo, tómalo como una receta con nombre para poder reutilizarla; el diseño formal de funciones, con sus contratos, llega en la sección siguiente.",
       ],
       callout: {
         type: "info",
@@ -39,8 +39,19 @@ export const section04: CourseSection = {
         content:
           "El target de entrega es el **Client Intake & Data Quality Script** (gate CP-N1-A): lotes, contadores, tasas con denominador correcto y raw intacto. No cubrimos decorators ni packaging aquí; cuando llegues a módulos/CLI y OOP de dominio, reutilizarás estos bucles sobre el mismo hilo de intake.",
       },
-    },
-    {
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, ritmo y criterio de cierre.",
+        "**Orden de los subtemas.** T1 trata el recorrido: `for` y `range`, después `enumerate` y `zip`. T2 pasa a la repetición: `while`, centinelas, `break` y `continue`. T3 cubre los patrones: contadores, acumuladores y comprensiones. T4 cierra con el razonamiento: trazar el estado paso a paso, el costo y los errores de uno en uno.",
+        "**Ritmo orientativo.** Unas dieciocho horas, dos sesiones por subtema, más el proyecto del bloque y el autochequeo. Si una demostración se siente densa, rehazla con lápiz y tabla de traza antes de copiar la solución.",
+        "**Criterio de cierre (CP-N1-A).** El script de intake y calidad de datos: lotes, contadores, tasas con el denominador correcto y el original intacto.",
+        "**Límites.** Caso `CASO-LIM-004` con datos ficticios (`example.com`, teléfonos inventados). Aquí no se cubren decorators ni empaquetado: cuando llegues a módulos, CLI y objetos de dominio reutilizarás estos bucles sobre el mismo hilo de intake.",
+      ],
+     },
+     {
       heading: "for, range y secuencias",
       subtopicId: "S04-T1-A",
       paragraphs: [

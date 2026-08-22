@@ -25,13 +25,29 @@ export const section52: CourseSection = {
   ],
   theory: [
     {
-      heading: "Ruta de S52 · Capstone FINAL (plataforma de relación y operaciones)",
+            heading: "Doce piezas que hasta ahora vivieron separadas",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1).\n\n- **CP-FINAL:** capstone de integración del currículo completo.\n- **CF-1 revalidación:** stakeholders, jobs y métricas actualizadas.\n- **No-go:** decisión de no desplegar si riesgo o evidencia faltan.\n- **Bounded contexts:** fronteras intake, ER, relationship, triage, reporting, copilot (integradas por API/evento, no por DB compartida).\n- **HITL:** human-in-the-loop — humano decide en riesgos sensibles.\n- **RAG:** retrieval-augmented generation con citas.\n- **RPO/RTO:** Recovery Point/Time Objective (cuánto dato y tiempo puedes perder).\n- **SLO:** Service Level Objective.\n- **ADR:** Architecture Decision Record.\n- **C4:** modelo de arquitectura (contexto→contenedores→componentes→código).\n- **Regresión S1–S52:** smoke de contratos y demos.\n- **Disaster exercise:** backup/rollback probados con reloj.\n- **System/model cards:** límites y ownership.\n- **Demo reproducible:** un comando + fixtures sintéticos.\n- **Defensa técnica:** trade-offs y contribución personal.\n- **Promoción máster:** 52/52 + 12/12 + CP-FINAL + regresión sin P0/P1; **no compensa** CP-N4-C.",
-        "Esta sección es el **cierre senior-master**: integra S01–S51 y los **12 capstones** en la **Enterprise Relationship & Operations Intelligence Platform** (producto del CV, no un curso de soft skills). El caso `CASO-PER-052` (plataforma nacional sintética multi-región: Lima, Arequipa, Cusco, Piura — datos inventados) corre sin credenciales, sin PII real y sin autoetiquetar fraude. La graduación exige 52/52 + 12/12 + CP-FINAL + regresión — **sin compensar** CP-N4-C. Aquí **carrera profesional** significa **portfolio técnico defendible** (demo, métricas, límites y contribución personal).",
-        "Producto incremental defendible. **Entrada:** artefactos congelados S1–S51, contratos, riesgos, no-go y benchmark. **Salida:** producto reproducible, demo, cards, evidencia de drill y defensa de trade-offs/contribución personal.\n\n**El gate bloquea la graduación** si se da alguna de estas condiciones: P0 o P1 abiertos; PII real; dependencia no reproducible; rollback no probado; afirmación sin evidencia.\n\nCuando ese gate pasa en serio — con reloj, baseline y bundle de 8 — el cierre no es castigo: es **celebración legítima** de un portfolio que un revisor externo puede ejecutar y cuestionar.",
-        "Cómo se ensamblan los 12 capstones (grafo de dependencia, no basurero de repos sueltos):\n\n- Fundaciones de datos/ETL/entidad (ER) alimentan **intake + er + relationship**.\n- Modelos, evals y RAG alimentan **reporting + copilot** siempre bajo HITL.\n- RPA y operación alimentan **triage** y el paquete de DR.\n\nCada CP-N* aporta un artefacto o contrato reutilizable, pero **ningún capstone parcial compensa** un CP-N4-C fallido ni un P0 abierto.\n\nEl hilo narrativo de defensa es: CF-1 delta → no-go firmado → mapa de 6 contexts → cadena HITL → matriz de 6 capas → drill RPO/RTO → demo ≤10 min → evidence bundle de 8.",
-        "Orden de ensamblaje (no saltes etapas): **T1** revalida CF-1 y firma no-go → **T2** cablea seis contexts + HITL → **T3** congela verificación y mide DR → **T4** empaqueta demo/CV y el bundle de 8 artefactos.\n\nPlan 80 h orientativo:\n\n- Semanas 1–2: CF-1/no-go (~16 h).\n- Semanas 3–5: integración contexts/HITL y contract tests (~24 h).\n- Semanas 6–7: evals/red team/SLO/drill medido (~16 h).\n- Semanas 8–9: demo + evidence bundle + defensa oral (~16–24 h).\n\niDo modela el procedimiento con fixtures; weDo entrena **alfabetización de gate** (qué código emitir ante válido/adverso/ausente); youDo es el **ensamblaje real de 80 h** — API, regresión S1–S52, drill y bundle. Stack: **stdlib** + artefactos del curso.",
+        "Cada capstone anterior resolvió su problema y se quedó ahí. Esta sección los conecta en una sola plataforma, y ese ejercicio revela lo que ninguna pieza aislada podía mostrar: dónde dos contextos usan la misma palabra para cosas distintas, dónde una decisión razonable aguas arriba deja sin salida a otra aguas abajo, y qué falta cuando el sistema tiene que sostenerse completo.",
+        "El ensamblaje tiene una forma, no es un depósito de repositorios. Las fundaciones de datos, ETL y resolución de entidades alimentan la admisión y el grafo de relaciones. Los modelos, las evaluaciones y el RAG alimentan el reporte y el copiloto, siempre con revisión humana en el medio. La automatización y la operación alimentan el triage. Si una pieza no puede nombrar de quién recibe y a quién entrega, todavía no está integrada.",
+        "Antes de cablear nada, se revalida el punto de partida. Los interesados cambiaron, las métricas envejecieron y algunos supuestos de la semana uno ya no se sostienen. Parte del trabajo profesional es firmar un **no-go**: decidir explícitamente que algo no se despliega porque el riesgo o la evidencia no alcanzan. Es una decisión defendible, no una derrota.",
+        "Lo que se entrega no es un repositorio bonito sino un producto que puedas defender en una conversación. Eso significa poder explicar por qué elegiste cada trade-off, qué mediste, qué salió mal en el simulacro de recuperación y cuánto de esto hiciste tú. La pregunta que ordena la sección es exactamente la que te harán: **¿por qué está construido así y qué pasa cuando falla?**",
+        "El caso `CASO-PER-052` es una plataforma nacional sintética con varias regiones. No hay datos reales, y el objetivo no es el tamaño del sistema sino que cada afirmación sobre él esté respaldada por evidencia que alguien más pueda volver a ejecutar.",
+      ],
+      callout: {
+        type: "info",
+        title: "Gate de promoción + cierre de carrera",
+        content: "CP-FINAL · plataforma integral defendible: 52/52, 12/12 capstones, CP-FINAL y regresión completa pasan sin compensar CP-N4-C. Si falta evidencia, no se promociona. Cuando el gate pasa con evidencia real (baseline, reloj de drill, 8 artefactos, contribución personal), el portfolio es **carrera defendible** — listo para demo de entrevista y defensa de trade-offs.",
+      },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Reúne el entregable, el orden de ensamblaje y los criterios de graduación.",
+        "**Producto.** Recibes los artefactos congelados de S01–S51, sus contratos, los riesgos, las decisiones de no-go y el benchmark. Entregas un producto reproducible, una demostración, las fichas de modelo y datos, la evidencia del simulacro de recuperación y la defensa de tus trade-offs y de tu contribución personal.",
+        "**Orden de ensamblaje.** T1 revalida CF-1 y firma los no-go. T2 cablea los seis contextos con revisión humana. T3 congela la verificación y mide la recuperación ante desastre. T4 empaqueta la demostración, el CV y el paquete de ocho artefactos. No conviene saltar etapas: cada una asume que la anterior quedó firmada.",
+        "**Ritmo orientativo.** Unas ochenta horas: dos semanas para CF-1 y los no-go, tres para la integración de contextos, y el resto para congelar, medir y empaquetar.",
+        "**Graduación.** Requiere 52 de 52 secciones, 12 de 12 capstones, CP-FINAL y la regresión completa, sin compensar CP-N4-C. Sin evidencia real —baseline, reloj del simulacro, los ocho artefactos y tu contribución— no se promociona.",
       ],
       code: {
         language: 'python',
@@ -52,11 +68,6 @@ print("pii_or_secrets_ok", c["pii_or_secrets_ok"])
         output: `case CASO-PER-052
 cp_n4c_cannot_compensate True
 pii_or_secrets_ok False`,
-      },
-      callout: {
-        type: "info",
-        title: "Gate de promoción + cierre de carrera",
-        content: "CP-FINAL · plataforma integral defendible: 52/52, 12/12 capstones, CP-FINAL y regresión completa pasan sin compensar CP-N4-C. Si falta evidencia, no se promociona. Cuando el gate pasa con evidencia real (baseline, reloj de drill, 8 artefactos, contribución personal), el portfolio es **carrera defendible** — listo para demo de entrevista y defensa de trade-offs.",
       },
     },
     {

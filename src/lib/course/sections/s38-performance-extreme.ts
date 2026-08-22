@@ -25,12 +25,29 @@ export const section38: CourseSection = {
   ],
   theory: [
     {
-      heading: "Operación del triage (CP-N3-C)",
+            heading: "El batch se cae al 80% y alguien pregunta si hay que volver a empezar",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1).\n\n- **Bound (I/O vs. CPU):** cuello de botella medido.\n- **GIL:** Global Interpreter Lock de CPython (limita CPU multi-thread).\n- **Backpressure:** cola con `maxsize` que frena al productor (señal atómica con `put_nowait` / `Full`, no solo `full()`).\n- **Token bucket:** rate limit didáctico (aquí estático; en prod se rellena por ventana).\n- **Observabilidad (o11y):** logs + metrics + traces unidos por `correlation_id`.\n- **SLI/SLO:** indicador vs. objetivo de servicio; **error budget** es lo que se consume al violar el SLO.\n- **Idempotency key:** `case:step:ver` identifica el intento; la semántica exige un store que rechace reaplicaciones.\n- **DLQ:** dead-letter queue de mensajes venenosos.\n- **last_done / resume_from:** último paso checkpointed vs. siguiente pendiente.",
-        "Esta sección opera el pipeline de triage CP-N3-C bajo carga realista: el batch debe reanudarse tras un crash, trazar cada caso sintético y sobrevivir a un proveedor lento o a un worker caído. No optimizamos microsegundos a ciegas; diseñamos concurrencia correcta, observabilidad y workflows con checkpoint e idempotencia. Continúa la disciplina de S37 (medir antes de cambiar) y prepara los contratos que S39 ensamblará en el Case Triage N3.",
-        "Contrato operativo de la sección. Entrada: cola de casos sintéticos `CASO-LIM-038`, límites de tasa del proveedor mock, budgets de latencia p95 y políticas de retry y DLQ. Salida: pipeline reanudable con trace por case_id, métricas de cola y runbook de fallos. Error: side effect duplicado, PII raw en logs o cola sin backpressure bloquea promoción. Criterio: mismo resultado funcional tras reejecución controlada.",
-        "Caso sintético Red Andina (organización ficticia, datos inventados): un worker de scoring recibe picos de I/O hacia una API mock y CPU de features en lotes. Seguiremos el caso `c-synth-1` a lo largo de T1–T4: medir bound → acotar cola y tasa → emitir o11y sin PII → checkpoint e idempotencia → retry, DLQ y runbook. El foco es **concurrencia correcta y resiliencia operativa**, no micro-optimización con Numba/Cython.\n\nOrden: T1 Concurrencia → T2 Control de carga → T3 Observabilidad → T4 Workflows resilientes. Stack didáctico: **stdlib** (`json`, `time`, `queue`, dicts) + contratos de asyncio/multiprocessing sin red real en el playground (pools reales en tu entorno local al cerrar el You Do).",
+        "Esa pregunta no debería tener respuesta dramática. Si el proceso guardó por dónde iba y cada paso puede repetirse sin duplicar su efecto, se retoma donde estaba. Si no, hay que decidir entre rehacer horas de trabajo o arriesgarse a procesar dos veces lo mismo. La diferencia entre ambos escenarios se diseña antes, no durante el incidente.",
+        "Antes de acelerar nada conviene saber qué está esperando el programa. Si pasa el tiempo esperando respuestas de red o disco, está limitado por **I/O**, y lanzar más hilos ayuda porque casi todos están ociosos. Si pasa el tiempo calculando, está limitado por **CPU**, y en CPython los hilos no ayudarán: el **GIL** permite que solo uno ejecute bytecode a la vez. Medir cuál de los dos casos es el tuyo decide la herramienta; adivinarlo produce trabajo inútil.",
+        "Al aumentar la concurrencia aparece un problema nuevo. Si produces trabajo más rápido de lo que se consume, la cola crece hasta agotar la memoria. Una cola con tamaño máximo hace que el productor se frene solo cuando el consumidor se atrasa — eso es **backpressure**, y es la diferencia entre un sistema que se degrada y uno que se cae.",
+        "Falta lo que pasa cuando el problema es de otro. Un proveedor lento no debe arrastrar a todo el pipeline: el reintento se aplica solo a errores transitorios y con espera creciente, y lo que sigue fallando termina en una cola aparte en vez de bloquear la fila. Y todo caso conserva su identificador de punta a punta, porque sin ese hilo un fallo intermitente es imposible de investigar.",
+        "La pregunta que gobierna la sección es operativa: **si esto se cae ahora, ¿puede retomar sin repetir efectos?** Se sigue un solo caso sintético a lo largo de los cuatro subtemas para que la respuesta se pueda comprobar y no solo afirmar.",
+      ],
+      callout: {
+        type: "info",
+        title: "Gate de operación",
+        content:
+          "Pipeline reanudable con trace por caso, sin PII real en logs y con runbook de proveedor lento / proceso caído / reejecución. Si falta evidencia de idempotencia, no se promociona.",
+      },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Contrato operativo y criterios de promoción.",
+        "**Contrato operativo.** Recibes una cola de casos sintéticos, los límites de tasa de un proveedor simulado, presupuestos de latencia p95 y las políticas de reintento y cola de mensajes muertos. Entregas un pipeline reanudable con traza por caso, métricas de latencia y un manual de operación.",
+        "**Orden de los subtemas.** T1 mide el cuello de botella. T2 acota la concurrencia y aplica backpressure. T3 cubre reintentos, aislamiento y cola de descarte. T4 cierra con trazas, métricas y reanudación.",
+        "**Promoción.** Sin evidencia de idempotencia no se promociona. Ningún dato personal real en los registros.",
       ],
       code: {
         language: 'python',
@@ -51,12 +68,6 @@ print("pii_in_logs_ok", c["pii_in_logs_ok"])
         output: `case CASO-LIM-038
 duplicate_side_effect_ok False
 pii_in_logs_ok False`,
-      },
-      callout: {
-        type: "info",
-        title: "Gate de operación",
-        content:
-          "Pipeline reanudable con trace por caso, sin PII real en logs y con runbook de proveedor lento / proceso caído / reejecución. Si falta evidencia de idempotencia, no se promociona.",
       },
     },
     {

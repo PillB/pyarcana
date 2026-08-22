@@ -25,14 +25,32 @@ export const section02: CourseSection = {
   ],
   theory: [
     {
-      heading: 'Mapa de la sección: de literales al parser de intake',
+            heading: "Cuarenta y dos, con y sin comillas",
       paragraphs: [
-        'En S01 preparaste el taller: intérprete, entorno virtual y repositorio. Ahora llega la primera pieza que merece entrar en él. Un formulario puede mostrar `42` y `"42"` como si fueran gemelos; para Python son habitantes de mundos distintos, y esa diferencia decide si una comparación funciona o engaña.',
-        '**Antes de T1, tres ideas base** —sin memorizar todavía todo el mapa—. Un **literal** es un valor escrito en el código (`34`, `"Quispe"`, `True`). Un **tipo** explica qué operaciones tienen sentido para ese valor (`int`, `float`, `str`, `bool`, `NoneType`). Con **`=`** le das un nombre; con **`==`** preguntas si dos valores son iguales. Piensa en esta secuencia: **valor → significado → operación permitida**. Cada idea volverá con demo, predicción y práctica.',
-        'Más adelante en la sección verás identidad (`is` vs. `==`), `Decimal` para soles (no `float` para montos), I/O (entrada y salida de texto, con `input`/`print` y f-strings, que son cadenas con variables incrustadas). También verás el contrato **raw/clean**: conservas el original para auditoría y limpias una copia. **PII** real (información personal identificable) está prohibida en el laboratorio; usa solo datos sintéticos. Si el mapa se siente denso, avanza T1→T4 en ese orden: no hace falta dominar `Decimal` el primer día.',
-        'En esta sección dominas lo que un parser de intake necesita primero: **qué es un valor**, **qué tipo tiene**, **cómo se nombra**, **cómo se opera** y **cómo entra/sale texto** sin perder el original. Verás `if` y `for` solo como **sintaxis de apoyo** en demos y prácticas (no son el tema a dominar aún): el control de flujo profundo y la iteración llegan en secciones siguientes.',
-        'El hilo conductor es un **registro sintético de cliente** (nombres, dos apellidos, contacto, dirección y a veces edad o monto). Todo el material usa datos ficticios (`example.com`, teléfonos inventados). Nunca subas PII real al repo. Caso de laboratorio: `CASO-LIM-002`.',
-        'Orden pedagógico: **T1 Valores** (literales → inspección/conversión), **T2 Nombres** (asignación/PEP 8 → identidad y copias), **T3 Operadores** (precedencia → Decimal para dinero), **T4 I/O** (f-strings → parse con errores). En cada subtema harás teoría, una demo I Do y tres prácticas We Do (guiada, independiente y de transferencia). Ritmo sugerido (~18 h): sesiones 1–2 solo T1; 3–4 T2; 5–6 T3; 7–8 T4 + You Do + self-check y evaluaciones formativas por tema.',
+        "En S01 preparaste el taller: intérprete, entorno virtual y repositorio. Ahora llega la primera pieza que merece entrar en él. Un formulario puede mostrar `42` y `\"42\"` como si fueran gemelos; para Python son habitantes de mundos distintos, y esa diferencia decide si una comparación funciona o engaña.",
+        "Tres ideas bastan para empezar. Un **literal** es un valor escrito directamente en el código: `34`, `\"Quispe\"`, `True`. Su **tipo** —`int`, `float`, `str`, `bool`, `NoneType`— no es una etiqueta burocrática, sino la respuesta a qué operaciones tienen sentido con ese valor: dos números se suman, dos textos se pegan uno detrás de otro, y `\"42\" + 8` no significa nada. Y hay dos signos que se parecen y no se parecen en nada: con **`=`** le pones nombre a un valor, con **`==`** preguntas si dos valores son iguales. Escribir uno por el otro es el error más frecuente de las primeras semanas.",
+        "La secuencia que se repite en toda la sección es **valor → significado → operación permitida**, y se lee en ese orden. Cuando algo no funciona, la culpa casi nunca está en la operación: está en que el valor no era del tipo que suponías.",
+        "Hay un punto donde esto deja de ser teoría y se vuelve dinero. Los `float` no representan de forma exacta la mayoría de los decimales, así que `0.1 + 0.2` no da `0.3` sino algo con un residuo minúsculo. Para dibujar un gráfico da igual; para sumar montos en soles, no. Por eso los montos usan `Decimal` y no `float`, y por eso lo vas a ver desde el principio en vez de aprenderlo después de un descuadre.",
+        "Y hay un contrato que arrastrarás durante todo el curso: **raw/clean**. El valor tal como llegó se conserva sin tocar; la limpieza se hace sobre una copia. Suena a exceso de cuidado hasta la primera vez que alguien pregunta por qué un registro quedó así y la única respuesta posible es mirar el original.",
+        "La pregunta que atraviesa la sección es la que le harías a un dato desconocido: **¿qué es esto realmente, y qué puedo hacer con ello sin mentir?** El hilo conductor es un registro sintético de cliente —nombres, dos apellidos, contacto, dirección, a veces edad o monto—, todo ficticio. Verás `if` y `for` en las demostraciones, pero como sintaxis de apoyo, no como el tema: el control de flujo y la iteración tienen sus propias secciones más adelante.",
+      ],
+      callout: {
+        type: 'info',
+        title: 'Qué NO es el foco de esta sección',
+        content:
+          'No profundizamos aún en condicionales complejos, bucles como herramienta principal, `*args`/`**kwargs` ni comprensiones. La entrega de esta sección es el **esqueleto del parser de intake** (tipos, nombres, operadores, `Decimal` y entrada/salida con `raw`/`clean`/`errors`), no una calculadora genérica de propinas.',
+      },
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, ritmo y alcance.",
+        "**Orden de los subtemas.** T1 trata los valores: literales, inspección y conversión. T2 pasa a los nombres: asignación, convenciones PEP 8, identidad y copias. T3 cubre los operadores: precedencia y `Decimal` para dinero. T4 cierra con la entrada y salida: f-strings —cadenas con variables incrustadas— y la lectura de datos con manejo de errores.",
+        "**Ritmo orientativo.** Unas dieciocho horas, dos sesiones por subtema, más el proyecto y el autochequeo. Avanza T1 a T4 en ese orden: no hace falta dominar `Decimal` el primer día.",
+        "**Criterio de cierre (CASO-LIM-002).** El esqueleto del parser de intake: tipos, nombres, operadores, `Decimal` y entrada/salida con `raw`, `clean` y `errors`. No es una calculadora genérica de propinas.",
+        "**Fuera de alcance por ahora.** Condicionales complejos, los bucles como herramienta principal, `*args` y `**kwargs`, y las comprensiones. Llegan cuando el modelo de valores y tipos ya esté firme.",
+        "**Límites.** Solo datos sintéticos (`example.com`, teléfonos inventados). Nunca información personal identificable real en el repositorio.",
       ],
       code: {
         language: 'python',
@@ -57,14 +75,8 @@ focus values_types_ops_io
 if_for_as_support_syntax True
 real_pii_ok False`,
       },
-      callout: {
-        type: 'info',
-        title: 'Qué NO es el foco de esta sección',
-        content:
-          'No profundizamos aún en condicionales complejos, bucles como herramienta principal, `*args`/`**kwargs` ni comprensiones. La entrega de esta sección es el **esqueleto del parser de intake** (tipos, nombres, operadores, `Decimal` y entrada/salida con `raw`/`clean`/`errors`), no una calculadora genérica de propinas.',
-      },
-    },
-    {
+     },
+     {
       heading: 'Literales y tipos básicos',
       subtopicId: 'S02-T1-A',
       paragraphs: [

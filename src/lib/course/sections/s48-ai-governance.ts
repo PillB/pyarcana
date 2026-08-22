@@ -25,12 +25,27 @@ export const section48: CourseSection = {
   ],
   theory: [
     {
-      heading: "Ruta de S48: aplicaciones LLM y RAG con evidencia",
+            heading: "Una respuesta segura de sí misma no es una respuesta respaldada",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1): **Embedding** — vector con versión de modelo (p. ej. `emb-v2`). **Similitud** — solo ordena (dot de query·d1 = 0.8 > d2 = 0.1 → top d1; no prueba el claim). **Chunking** — unidades semánticas (`d1#sla`, no rebanadas de N letras). **ACL** — filtro **antes** del ranking (rol `guest` → lista vacía). **Retrieval híbrido** — lexical + vector; mide Recall@k en holdout. **Grounding** — cada claim apunta a un `evidence_id` permitido y no vacío. **Abstención** — support bajo → no responder. **Prompt injection en documentos** — data hostil, no instrucción. **Holdout eval** — recall de retrieval y faithfulness de respuesta se miden por separado.",
-        "Esta sección construye un **asistente RAG con evidencia** sobre el serving de S47: indexas documentos autorizados, recuperas con ACL, citas y groundedness. Las demos usan **stdlib** (scores, sets) como vector store conceptual. El caso `CASO-PUN-048` (cooperativa ficticia en Puno) no llama API de LLM reales ni indexa PII.",
-        "Hilo conductor: un socio pregunta por el SLA y el reglamento interno. Producto incremental: respuesta estructurada con `evidence_ids`. Entrada: query, corpus con ACL, holdout de recall y política de citas. Salida: top-k permitido, claims ⊆ cited, inyección ignorada. Error de promoción: recall bajo baseline, chunk borrado aún visible, o claim sin soporte. En S49 los agentes consumirán este asistente como tool acotado.",
-        "Orden: T1 retrieval y holdout → T2 chunking y ACL → T3 ranking híbrido y citas → T4 grounding, costo y abstención. Cada subtema deja un artefacto comprobable (ranking versionado, chunks deduplicados, top-k permitido, respuesta con evidence_ids o abstención). Stack didáctico: **stdlib** (scores, sets) sin API de LLM reales ni PII.",
+        "Un asistente que contesta cualquier pregunta con el mismo tono tranquilo es peligroso precisamente por eso: el tono no distingue entre lo que leyó en un documento y lo que completó por su cuenta. Esta sección trata de construir uno que solo afirme lo que puede señalar con el dedo.",
+        "El mecanismo de fondo es más modesto de lo que sugiere el nombre. Cada fragmento de documento se convierte en un **embedding**: un vector que representa su significado de forma que textos parecidos queden cerca. Buscar es entonces medir cercanía. Y aquí conviene ser preciso sobre lo que eso demuestra — la similitud **ordena** los candidatos, nada más. Que un fragmento sea el más parecido a la pregunta no prueba que contenga la respuesta.",
+        "Antes de ordenar hay que decidir qué se puede mirar. El filtro de permisos va **antes** del ranking, no después: si primero buscas en todo el corpus y luego tachas lo que el usuario no debía ver, el resultado ya está contaminado por documentos prohibidos, aunque no se muestren. Y el corpus se corta en unidades con sentido —un artículo, una cláusula— y no en rebanadas de N caracteres que parten una frase por la mitad.",
+        "Lo que convierte esto en una aplicación defendible es la última regla: cada afirmación de la respuesta debe apuntar a un fragmento citado. Si no hay fragmento que la sostenga, el sistema se abstiene. Abstenerse es una respuesta correcta; inventar con confianza no lo es.",
+        "La pregunta que gobierna la sección es de auditoría: **¿de qué fragmento salió esta frase, y tenía derecho el usuario a verlo?** El caso `CASO-PUN-048` es una cooperativa ficticia en Puno; las demos usan la biblioteca estándar como almacén conceptual, sin llamar a modelos reales ni indexar datos personales.",
+      ],
+      callout: {
+        type: "info",
+        title: "Gate de evidencia",
+        content: "Esta sección usa un caso sintético (`CASO-PUN-048`) con asserts automáticos: si un reclamo no está soportado por un fragmento permitido, el sistema no responde.",
+      },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Reúne el entregable, el orden de los subtemas y los criterios de promoción.",
+        "**Producto incremental.** Una respuesta estructurada con sus `evidence_ids`. Recibes la consulta, un corpus con permisos, un holdout de recall y la política de citas. Entregas un top-k permitido, afirmaciones contenidas en lo citado e inmunidad a instrucciones inyectadas en los documentos. La promoción falla si el recall cae por debajo del baseline o si un fragmento borrado sigue siendo visible.",
+        "**Orden de los subtemas.** T1 recuperación y holdout. T2 troceado y permisos. T3 ranking híbrido y citas. T4 fundamentación, costo y abstención.",
       ],
       code: {
         language: 'python',
@@ -51,11 +66,6 @@ print("ungrounded_claim_ok", c["ungrounded_claim_ok"])
         output: `case CASO-PUN-048
 policy_only_topic False
 ungrounded_claim_ok False`,
-      },
-      callout: {
-        type: "info",
-        title: "Gate de evidencia",
-        content: "Esta sección usa un caso sintético (`CASO-PUN-048`) con asserts automáticos: si un reclamo no está soportado por un fragmento permitido, el sistema no responde.",
       },
     },
     {

@@ -25,20 +25,13 @@ export const section26: CourseSection = {
   ],
   theory: [
     {
-      heading: "Cierre CP-N2-C: orquestación del VP y regresión N2",
+            heading: "Cinco piezas que funcionan por separado todavía no son un sistema",
       paragraphs: [
-        "S25 te dejó **ai_assist** evaluado: la IA propone, el humano cierra. S26 cierra el **Value Proposition RPA + AI Analyst** de CP-N2-C. Orquesta el pipeline sintético Excel/sistema → validación → análisis → IA asistida → informe → aprobación humana → borrador de correo, con evidencia por estado y recuperación ante fallas. En un escritorio de operaciones en Lima, el `run_id` une logs, artefactos y la cola HITL sin reescribir historial.",
-        "La regresión N2 (S14–S26 + CF-2) exige contratos estables entre análisis, reporting y automatización: mismos fixtures sintéticos, mismos predicados de éxito, y cero etiquetas automáticas de fraude. Matching o score de IA solo alimentan revisión humana; el correo no se envía sin aprobación explícita registrada en audit. **CF-2** (contrato cruzado de interfaces entre capstones) fija las interfaces entre Familiarity (producto de la Fase 0), reporting y automatización que la regresión N2 debe revalidar.",
-        "Orden pedagógico: **T1 Orquestación** (DAG/estados/límites) → **T2 Resiliencia** (checkpoint, retry, DLQ, idempotencia, rollback) → **T3 HITL** (colas, approve/reject/edit) → **T4 Operación/E2E** (SLO, runbook, costo/valor). Cada bloque asume el anterior: sin path no hay checkpoint; sin HITL no hay draft; sin E2E no hay promoción.",
-        "Diccionario rápido de la sección para que leas el resto sin tropezar con siglas:",
-        "- **DAG**: grafo de dependencias sin ciclos.",
-        "- **HITL** (human-in-the-loop): revisión humana obligatoria.",
-        "- **DLQ** (dead-letter queue): cola de ítems que agotaron reintentos.",
-        "- **SLO**: objetivo de servicio medible.",
-        "- **fail-closed**: ante duda, bloquear.",
-        "- **drain**: vaciar workers antes de cambiar schema.",
-        "- **page on-call**: avisar al turno de guardia con severidad explícita.",
-        "Privacidad: usa solo datos sintéticos; no uses RUC ni nombres reales de clientes.",
+        "Tienes ingesta, calidad, análisis, reporte, correo y asistencia de IA. Cada una anda. Conectarlas revela lo que ninguna mostraba sola: qué pasa cuando la tercera falla y la cuarta ya empezó, quién decide reintentar, y cómo se retoma el trabajo a mitad de camino sin repetir lo que ya salió.",
+        "El primer instrumento es hacer explícito el orden. Un grafo de dependencias dice qué necesita qué, y su única regla dura es que no puede tener ciclos. Con esa forma dibujada aparecen las preguntas que importan: qué pasos pueden correr a la vez, cuáles bloquean a los demás, y dónde conviene guardar un punto de control para no rehacer todo tras una caída.",
+        "Después viene la resiliencia, que es sobre todo saber distinguir fallos. Un tiempo de espera agotado suele curarse solo y merece un reintento; un dato mal formado no se cura reintentando y solo desperdicia tiempo. Lo que agota sus reintentos va a una cola aparte para que alguien lo mire, en vez de bloquear la fila. Y como todo esto implica repetir pasos, cada uno tiene que poder ejecutarse dos veces sin duplicar su efecto.",
+        "Luego está la parte que hace responsable al conjunto. La IA propone y una persona cierra: la cola de revisión con aprobar, rechazar o editar no es una etapa opcional al final, es lo que convierte una cadena de automatismos en un proceso del que alguien responde. Cada decisión queda con su autor y su momento.",
+        "La pregunta que cierra el nivel es operativa: **si esto se cae a mitad de camino, ¿qué se repite, qué se pierde y quién se entera?** El nivel se promociona con evidencia reproducible sobre datos sintéticos, no con una demostración que salió bien una vez.",
       ],
       callout: {
         type: "info",
@@ -46,8 +39,18 @@ export const section26: CourseSection = {
         content:
           "La promoción exige CP-N2-A/B/C, regresión S14–S26 y CF-2 aprobados con evidencia reproducible.",
       },
-    },
-    {
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas y condiciones de promoción.",
+        "**Orden de los subtemas.** T1 arma la orquestación: grafo, estados y límites. T2 pasa a la resiliencia: puntos de control, reintentos, cola de descarte, idempotencia y reversión. T3 cubre la revisión humana: colas y decisiones de aprobar, rechazar o editar. T4 cierra con la operación y la prueba de extremo a extremo.",
+        "**Contexto.** S26 cierra CP-N2-C orquestando el pipeline sintético completo: hoja de cálculo y sistema, validación, análisis, reporte y notificación.",
+        "**Promoción de nivel.** Exige CP-N2-A, B y C, la regresión de S14 a S26 y CF-2, todos aprobados con evidencia reproducible. La regresión pide contratos estables entre análisis, reporte y automatización: mismos fixtures, mismos predicados de éxito y ninguna etiqueta automática de fraude.",
+      ],
+     },
+     {
       heading: "Tasks, flows, DAG y estados del VP",
       subtopicId: "S26-T1-A",
       paragraphs: [

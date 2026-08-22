@@ -26,11 +26,13 @@ export const section32: CourseSection = {
   ],
   theory: [
     {
-      heading: "Tabla de features versionada sin leakage",
+            heading: "El modelo que brilla en el notebook y se derrumba en producción",
       paragraphs: [
-        "Imagina un modelo offline con AUC excelente que se derrumba al desplegarse: las features de train usaron el timestamp del outcome o la mediana del set completo. Eso es **leakage** — filtrar al entrenamiento información que no existiría en el momento de la decisión. En un workbench de investigación relacional el daño es doble: métricas optimistas y colas humanas que confían en scores contaminados. Aquí construyes la **tabla de features versionada** del workbench **CP-N3-B** con filas sintéticas por par entidad/caso (`run_id=cpn3b-feat`) en la Red Andina ficticia. El gate es **train ≡ serve**: la misma transformación en entrenamiento e inferencia, sin leakage temporal ni de label.",
-        "Historia mínima del fallo (antes de la solución): un notebook cuenta eventos con `ts <= t` e incluye el instante de decisión; el AUC sube; en serve, con la ventana correcta, el score colapsa. Otro fallo: la mediana de amount se calcula sobre train+test y el z-score “conoce” el futuro. Esta sección te da el camino inverso — catálogo, ventana half-open, stats congeladas, split sin overlap y `fs-vN` — para que el baseline de S33 no herede un espejismo.",
-        "Producto incremental: **catálogo** + transformers **fit/transform idénticos** en train e inferencia, **sin futuro** ni labels de decisión como feature. Entrada: eventos y grafo sintético (continuación del grafo de evidencia de S31: shared address, degree, path); salida: feature set id `fs-vN` con hash de schema listo para el baseline de S33. Orden: **T1 tipos** → **T2 relacionales/grafo** → **T3 pipelines** → **T4 validación/leakage**. Features de contacto o shared address **no** son etiqueta de fraude ni parentesco: son señales para el modelo o la cola humana, no veredictos.",
+        "El AUC era excelente. Se despliega, y el score colapsa. No hubo un error de código ni un cambio de datos: el modelo entrenó con información que, en el momento real de decidir, todavía no existía. Eso es **leakage**, y es el fallo más caro de esta parte del curso porque no lanza ninguna excepción — solo produce una promesa que la realidad no cumple.",
+        "Vale la pena ver el mecanismo en concreto, porque enunciado suena obvio y en la práctica no lo es. Un notebook cuenta eventos con `ts <= t`, incluyendo el instante mismo de la decisión; el AUC sube. En producción, con la ventana correcta, ese conteo es otro. Segunda variante, más sutil: la mediana usada para normalizar se calculó sobre todo el dataset, entrenamiento y prueba juntos — así que el conjunto de prueba influyó en cómo se transformó a sí mismo.",
+        "De ahí sale la pregunta que hay que hacerle a cada feature, una por una: **¿este valor existiría, con este número, en el instante en que el sistema tiene que decidir?** Si la respuesta necesita un «bueno, en realidad…», la feature no entra.",
+        "Hay un segundo tipo de fuga que no tiene que ver con el tiempo sino con la respuesta. Una columna llamada `decision_final` o `label_revisado` describe el resultado que intentas predecir. Entrenar con ella da métricas perfectas y un modelo inútil, porque en el momento de predecir esa columna está vacía.",
+        "La consecuencia práctica ordena toda la sección: la transformación que aplicas al entrenar y la que aplicas al servir tienen que ser **la misma pieza de código**, no dos implementaciones que se parecen. Cuando son dos, divergen, y la divergencia se nota como una caída de rendimiento sin causa aparente. Trabajas con eventos y el grafo sintético que viene de S31.",
       ],
       callout: {
         type: "info",
@@ -38,6 +40,15 @@ export const section32: CourseSection = {
         content:
           "Train≡serve, sin leakage temporal ni de label. Solo PII sintético (caso Red Andina / workbench CP-N3-B, sin PII real). Si hay timestamps futuros en features, la sección no se considera superada.",
       },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Entregable y criterios de cierre.",
+        "**Producto incremental.** Un catálogo de features y transformadores cuyo ajuste y aplicación son idénticos en entrenamiento e inferencia, sin información futura ni etiquetas de decisión usadas como feature. La entrada son los eventos y el grafo sintético que continúa el de S31 — dirección compartida, teléfono compartido, transferencias.",
+        "**Criterio de cierre.** Equivalencia entre entrenamiento y servicio, sin fuga temporal ni de etiqueta. Si quedan timestamps futuros en las features, la sección no se considera superada. Solo datos sintéticos.",
+      ],
     },
     {
       heading: "Diccionario mínimo de la sección",

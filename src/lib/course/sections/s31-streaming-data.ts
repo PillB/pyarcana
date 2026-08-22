@@ -25,11 +25,13 @@ export const section31: CourseSection = {
   ],
   theory: [
     {
-      heading: "De entidades resueltas a grafo de evidencia (inicio CP-N3-B)",
+            heading: "Saber quién es cada uno todavía no dice cómo están conectados",
       paragraphs: [
-        "En S30 respondiste **¿misma entidad?** Aquí **inicias CP-N3-B**: modelar **cómo están conectadas** las entidades resueltas con caminos reproducibles y **evidencia por arista**. El grafo *explica* conexiones auditables; **no** etiqueta fraude ni parentesco.",
-        "Hilo conductor: contactos, cuentas y transferencias **sintéticas** del fixture `CASO-LIM-031` (`run_id=cpn3b-01`, `@example.pe`, Lima / Red Andina). Contrato: filas → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
-        "Orden: **T1 Modelo** → **T2 Construcción** → **T3 Algoritmos** → **T4 Calidad y privacidad**. El revisor ve **path (camino) + evidencia**, nunca un auto-veredicto. Schema canónico de aristas en esta sección: `owns` · `transfer` · `shared_phone` · `shared_email` · `has_phone` · `has_email`.",
+        "S30 resolvió identidades: estos dos registros son la misma persona. Esta sección hace la pregunta siguiente, que es distinta y más delicada — qué relación hay entre entidades ya resueltas, y qué evidencia sostiene cada afirmación de relación.",
+        "Un grafo es la estructura natural para eso. Los **nodos** son las entidades resueltas; las **aristas** son los hechos que las conectan: comparten un teléfono, una dirección, hubo una transferencia. Lo importante es que cada arista no es una opinión sino un registro con origen — de qué fila salió, cuándo, con qué confianza. Una arista sin **provenance** es decoración: se ve convincente y no se puede auditar.",
+        "Con esa estructura aparece la pregunta que la hace útil: ¿hay un **camino** entre A y B, y de cuántos pasos? Dos personas conectadas por una transferencia directa no están en la misma situación que dos conectadas por cuatro saltos a través de un teléfono compartido en una oficina. La longitud y el tipo de cada paso son parte del hallazgo, no un detalle técnico.",
+        "Aquí conviene ser explícito sobre el límite, porque este es el material con el que más fácil se abusa. Un camino en el grafo explica cómo dos entidades están conectadas en los datos. No prueba parentesco, no prueba colusión y no etiqueta a nadie. Lo que ve el revisor es el camino más su evidencia, nunca un veredicto automático.",
+        "La pregunta que gobierna la sección junta las dos mitades: **¿qué camino conecta a estos dos, y qué respalda cada paso de ese camino?** Trabajas con contactos, cuentas y transferencias sintéticas del fixture `CASO-LIM-031`.",
       ],
       callout: {
         type: "info",
@@ -37,6 +39,16 @@ export const section31: CourseSection = {
         content:
           "Los ids canónicos del ER alimentan nodos; las transacciones y contactos alimentan aristas. Sin provenance, el grafo es decoración y no sirve al workbench (mesa de trabajo del investigador).",
       },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, esquema de aristas y contrato de entrada.",
+        "**Orden de los subtemas.** T1 fija el modelo. T2 construye el grafo desde filas. T3 aplica los algoritmos de recorrido. T4 cierra con calidad y privacidad.",
+        "**Esquema canónico de aristas** en esta sección: `owns`, `transfer`, `shared_phone`, `shared_address`. Cada una con tipo, peso y provenance.",
+        "**Contrato de entrada.** Filas convertidas a grafo con tipos, pesos y origen. Si falta `record_id` o el schema no cuadra, el error es tipificado y explícito. Los ids canónicos que produjo el ER alimentan los nodos; las transacciones y contactos alimentan las aristas.",
+      ],
     },
     {
       heading: "Nodos, aristas, dirección y peso",

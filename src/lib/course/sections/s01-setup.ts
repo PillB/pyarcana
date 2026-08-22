@@ -35,16 +35,30 @@ export const section01: CourseSection = {
   ],
   theory: [
     {
-      heading: 'Por qué el setup importa más de lo que crees',
+            heading: "Dos equipos, dos unidades, una nave perdida",
       paragraphs: [
-        '**Diccionario del día 1.** En 1999, la misión Mars Climate Orbiter se perdió porque dos equipos representaron las mismas medidas con unidades distintas. El software reproducible evita la versión cotidiana de ese desastre: dos personas creen ejecutar «el mismo proyecto», pero usan intérpretes o dependencias diferentes. Antes de tocar la terminal, construye un vocabulario común; el resto de la sección convertirá cada término en una comprobación observable.',
-        '**Intérprete y terminal (T1):** *Intérprete* — el programa `python`/`python3` que ejecuta tu código. *Terminal (shell)* — la ventana de texto donde escribes comandos.',
-        '**Entornos (T2):** *Entorno virtual (`venv`)* — **entorno virtual** (una carpeta aislada con el Python y los paquetes del proyecto), para no mezclar dependencias entre proyectos. *pip* — instalador de paquetes de terceros. *requirements.txt* — archivo que lista esas dependencias con versión.',
-        '**Git (T3):** *Repo (repositorio)* — la carpeta del proyecto bajo **Git** (el sistema que conserva el historial de cambios). *Clonar* — copiar un repo desde un remoto (p. ej. **GitHub**) a tu laptop. *Commit* — guardar un snapshot del historial con un mensaje. *Pull Request (PR)* — pedir que revisen e integren tus cambios.',
-        'Vuelve a este bloque cuando veas una palabra en negrita y no la recuerdes.',
-        'El setup parece invisible cuando funciona y se vuelve protagonista cuando falla. La prueba profesional es sencilla: una colega en Nairobi, otra en Berlín, ambas **clonan tu repo**, crean su propio **entorno virtual** y ejecutan `python -m pip install -r requirements.txt`; después, la prueba mínima debe producir el resultado documentado. Si solo funciona en tu laptop, todavía no tienes un proyecto reproducible: tienes una casualidad local.',
-        'Usaremos Python 3.12, VS Code, Git y el módulo estándar `venv`. Existen alternativas válidas —PyCharm, GitLab, `conda`, `uv`—, pero introducirlas todas a la vez ocultaría el modelo mental. Primero dominarás una ruta portable y explícita; cuando entiendas qué problema resuelve cada pieza, cambiar de herramienta será una decisión informada y no un acto de fe.',
-        'La regla de oro es **un proyecto = un entorno virtual = un archivo de dependencias**. El entorno aísla los paquetes del proyecto, como una cocina de laboratorio que conserva sus ingredientes separados y etiquetados. En el caso sintético `CASO-LIM-001`, cada afirmación deberá dejar evidencia: versión del intérprete, ruta del entorno, dependencias declaradas, historial Git y ausencia de secretos.',
+        "En 1999 la misión Mars Climate Orbiter se perdió porque dos equipos representaron las mismas medidas con unidades distintas. Nadie mintió y nadie se equivocó al calcular; simplemente, cada lado dio por supuesto algo que el otro no compartía. La versión cotidiana de ese desastre no destruye una nave: dos personas creen ejecutar «el mismo proyecto» con intérpretes o dependencias diferentes, los números salen distintos, y nada avisa.",
+        "De ahí sale la única prueba que importa en esta sección, y no es un examen sino una escena: una colega en Nairobi, otra en Berlín, ambas clonan tu repositorio, crean su propio entorno aislado y ejecutan `python -m pip install -r requirements.txt`; después, la prueba mínima debe producir el resultado que tú documentaste. Si solo funciona en tu laptop, todavía no tienes un proyecto reproducible: tienes una casualidad local.",
+        "Para llegar ahí hacen falta cuatro piezas y conviene saber qué hace cada una. El **intérprete** es el programa `python` que lee tu código y lo ejecuta; la **terminal** es la ventana de texto donde le das órdenes. El **entorno virtual** (una carpeta aislada con el Python y los paquetes del proyecto), que crea el módulo `venv`, es una cocina de laboratorio: guarda los ingredientes de este proyecto separados y etiquetados, para que instalar algo aquí no altere lo que otro proyecto ya usaba. **pip** es quien trae esos ingredientes de fuera, y **`requirements.txt`** es la lista escrita de cuáles son y en qué versión. Sin esa lista, «instala lo que haga falta» es una instrucción que cada persona interpreta distinto.",
+        "La cuarta pieza guarda la historia en lugar del estado. **Git** (el sistema que conserva el historial de cambios) registra cómo el proyecto llegó a ser lo que es; la carpeta bajo su control se llama **repositorio**, copiarla desde un servidor como GitHub se llama **clonar**, y cada punto guardado del historial es un **commit** con su mensaje. Cuando quieres que alguien revise tus cambios antes de integrarlos, abres un **pull request**. Ninguna de estas palabras es difícil; lo difícil es que casi nunca te las explican antes de usarlas.",
+        "La regla que ordena todo cabe en una línea: **un proyecto, un entorno virtual, un archivo de dependencias**. Y la pregunta que te acompaña de principio a fin es la de tu colega al otro lado del mundo: **¿podría reproducir esto sin preguntarme nada?** Cada afirmación que hagas en el caso `CASO-LIM-001` tendrá que dejar evidencia observable —la versión del intérprete, la ruta del entorno, las dependencias declaradas, el historial de Git y la ausencia de secretos en el repositorio—, porque en reproducibilidad la palabra de nadie cuenta.",
+        "Usaremos Python 3.12, VS Code, Git y el módulo estándar `venv`. Existen alternativas válidas —PyCharm, GitLab, `conda`, `uv`—, pero introducirlas todas a la vez ocultaría el modelo mental. Primero dominarás una ruta portable y explícita; cuando entiendas qué problema resuelve cada pieza, cambiar de herramienta será una decisión informada y no un acto de fe.",
+      ],
+      callout: {
+        type: 'tip',
+        title: 'Si una palabra te frena, no la memorices todavía',
+        content:
+          'Los términos en negrita de este bloque vuelven a aparecer más adelante, cada uno con su demostración y su comprobación. Basta con que sepas a qué se refiere cada uno; el dominio llega al usarlos. Y si algo no funciona en tu máquina, ese es el material de la sección, no una interrupción de la sección.',
+      },
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Ritmo, criterio de cierre y límites del caso.",
+        "**Ritmo orientativo (unas 18 horas).** De tres a cuatro horas para el núcleo: Python, `venv`, `pip` y Git en local. De seis a ocho para GitHub, el pull request, Ruff y el `.gitignore`. El resto, para pulir el esqueleto CP-N1-A y la lista de comprobación de máquina limpia. No hace falta terminar el portafolio en un solo día: con el núcleo de tres o cuatro horas ya tendrás un intérprete, un entorno y un commit limpio.",
+        "**Criterio de cierre (CASO-LIM-001).** Cada afirmación deja evidencia: versión del intérprete, ruta del entorno, dependencias declaradas con versión, historial de Git y ausencia de secretos en el repositorio. Ese esqueleto es la base de tu capstone, que cerrarás en S04.",
+        "**Límites.** Sin datos personales reales y sin credenciales en el repositorio. Si una comprobación no se puede demostrar en una máquina recién instalada, todavía no cuenta como cerrada.",
       ],
       code: {
         language: 'python',
@@ -66,14 +80,8 @@ print("secrets_in_repo_ok", c["secrets_in_repo_ok"])
 zero_prior_baseline True
 secrets_in_repo_ok False`,
       },
-      callout: {
-        type: 'tip',
-        title: 'Diccionario del día 1 + ritmo sugerido (18 h totales)',
-        content:
-          'Si una palabra en negrita no te queda clara, vuelve a este bloque. **Ritmo sugerido (18 h totales):** 3–4 h de núcleo (Python + `venv` + `pip` + `git` local); 6–8 h para GitHub/PR/Ruff/`.gitignore`; el resto, para pulir el esqueleto CP-N1-A y el checklist de máquina limpia. Ese esqueleto es la base inicial de tu capstone, que cerrarás en S04. No hace falta terminar el portafolio en un solo día. Con el núcleo de 3–4 h ya tendrás un intérprete, un `venv` y un commit limpio.',
-      },
-    },
-    {
+     },
+     {
       heading: 'El intérprete Python y el REPL',
       subtopicId: 'S01-T1-A',
       paragraphs: [

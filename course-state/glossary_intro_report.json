@@ -1,25 +1,8 @@
 {
-  "generated_at": "2026-08-21T14:44:06.226775Z",
-  "terms": 89,
+  "generated_at": "2026-08-22T19:52:54.101683Z",
+  "terms": 95,
   "sections": 52,
-  "forward_refs": 2,
-  "issues": [
-    {
-      "term": "Streamlit",
-      "id": "streamlit",
-      "declared_first": "streamlit-dashboards",
-      "found_first": "rpa-automation",
-      "severity": "P2",
-      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
-    },
-    {
-      "term": "Embedding",
-      "id": "embedding",
-      "declared_first": "rag",
-      "found_first": "rpa-automation",
-      "severity": "P2",
-      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
-    }
-  ],
-  "ok": false
+  "forward_refs": 0,
+  "issues": [],
+  "ok": true
 }

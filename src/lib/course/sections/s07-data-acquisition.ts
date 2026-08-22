@@ -25,21 +25,34 @@ export const section07: CourseSection = {
   ],
   theory: [
     {
-      heading: "Mapa de la sección: texto latinoamericano y matching con evidencia",
+            heading: "Dos nombres idénticos que la computadora ve distintos",
       paragraphs: [
-        "S06 te dejó colecciones capaces de guardar registros; S07 pregunta si el texto dentro de esos registros significa lo que parece. Dominas normalización Unicode, nombres con dos apellidos y métodos `str` antes que regex. Haces matching con evidencia **sin afirmar parentesco**. Scraping, SQL y APIs públicas se abordan más adelante (archivos y ETL en S08; servicios en S12).",
-        "El incremento **CP-N1-B** es un **normalizador de registro** que conserva `raw`, produce `normalized` y lista `transforms`. Solo usas datos sintéticos peruanos o latam; **nunca PII real**. Si el schema no cuadra o falta evidencia, **no completes campos en silencio**: cierras por fallo (*fail-closed*) y dejas el caso en revisión antes que inventar datos.",
-        "Usa este mapa de decisiones: **conservar `raw` → normalizar → comparar → reunir evidencia → decidir o enviar a `review`**. T1 explica Unicode; T2 elige `str` y valida contacto sin exceso; T3 reserva regex para patrones; T4 mide similitud y sus errores. *I Do* hace visible el razonamiento, *We Do* te entrega parte del volante y *You Do* integra el contrato `raw` / `normalized` / `transforms`.",
-        "**Antes de empezar:** toma dos valores que parezcan iguales y predice en qué etapa podrían divergir. Si no puedes nombrar la etapa, todavía no necesitas una regex: necesitas observar `raw`, transformación y resultado.",
+        "Escribe «José» dos veces, una copiada de un formulario web y otra tecleada en tu editor. En pantalla son iguales. Para Python pueden no serlo: una versión guarda la é como un solo carácter y la otra como una e seguida de una tilde suelta. La comparación devuelve `False`, el cruce de tablas no encuentra la coincidencia, y no hay ningún error que te avise. S06 te dejó colecciones capaces de guardar registros; esta sección pregunta si el texto que está dentro de ellos significa lo que parece.",
+        "Poner de acuerdo esas dos formas de escribir lo mismo se llama **normalización Unicode**, y es el primer paso porque sin él todo lo demás compara ruido. A partir de ahí el trabajo es de escalera: los métodos de texto de Python resuelven la mayoría de los casos —quitar espacios sobrantes, unificar mayúsculas, separar apellidos—, y solo cuando el patrón es genuinamente irregular se justifica una expresión regular. El orden importa en la dirección contraria a la intuición: la herramienta poderosa se usa al final, no al principio.",
+        "Después viene comparar, y comparar nombres es más difícil de lo que parece en una región donde la gente lleva dos apellidos, los tildes se pierden al escribir rápido y «Ma. del Carmen» es la misma persona que «María del Carmen». Se puede medir cuánto se parecen dos textos, pero ese parecido es una **señal**, no una conclusión. Dos personas pueden llamarse igual; una misma persona puede aparecer escrita de cinco maneras. Por eso el resultado de esta sección nunca afirma parentesco: reúne evidencia y la deja a la vista.",
+        "Todo eso se sostiene sobre un contrato de tres partes que verás en cada ejercicio. El **`raw`** es el valor tal como llegó y no se toca nunca, porque es lo único que permite auditar después. El **`normalized`** es el valor listo para comparar. Y **`transforms`** es la lista de lo que se le hizo en el camino, en orden. Con esas tres cosas cualquiera puede reconstruir por qué dos filas se cruzaron o por qué no.",
+        "Usa este mapa de decisiones cuando te pierdas: **conservar `raw` → normalizar → comparar → reunir evidencia → decidir o enviar a `review`**. Y una pregunta antes de empezar: toma dos valores que parezcan iguales y predice en qué etapa podrían divergir. Si no puedes nombrar la etapa, todavía no necesitas una expresión regular; necesitas mirar el `raw`, la transformación y el resultado, en ese orden.",
+        "Cuando el schema no cuadre o falte evidencia, la respuesta correcta es no completar el campo. Se cierra por fallo y el caso queda en revisión. Un dato inventado con buena intención es indistinguible de un dato inventado con mala intención una vez que está guardado.",
       ],
       callout: {
         type: "info",
         title: "Alcance de S07",
         content:
-          "El foco es normalización de texto latam y evidencia de matching. No implementes scraping, clientes HTTP ni SQL aquí; esos caminos llegan en secciones posteriores (archivos/ETL en S08, servicios en S12).",
+          "El foco es normalización de texto latam y evidencia de matching. No implementes scraping —la extracción automática de datos desde páginas web—, clientes HTTP ni SQL aquí; esos caminos llegan en secciones posteriores (archivos/ETL en S08, servicios en S12).",
       },
-    },
-    {
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, alcance y criterio de cierre.",
+        "**Orden de los subtemas.** T1 explica Unicode y sus formas de normalización. T2 elige los métodos de texto y valida el contacto sin exigir de más. T3 reserva las expresiones regulares para los patrones que de verdad lo son. T4 mide la similitud entre textos y, sobre todo, sus errores.",
+        "**Cómo se enseña.** El *I Do* hace visible el razonamiento, el *We Do* te entrega parte del volante y el *You Do* integra el contrato `raw` / `normalized` / `transforms` completo.",
+        "**Criterio de cierre (CP-N1-B).** Un normalizador de registro que conserve `raw`, produzca `normalized` y liste `transforms`, con la comparación acompañada de su evidencia.",
+        "**Límites.** Solo datos sintéticos peruanos o latinoamericanos, nunca datos personales reales y nunca afirmaciones de parentesco. La extracción desde webs, el SQL y las APIs públicas se tratan más adelante: archivos y ETL en S08, servicios en S12.",
+      ],
+     },
+     {
       heading: "Code points, normalización y casefold",
       subtopicId: "S07-T1-A",
       paragraphs: [

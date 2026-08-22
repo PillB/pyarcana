@@ -25,12 +25,13 @@ export const section30: CourseSection = {
   ],
   theory: [
     {
-      heading: "Cierre CP-N3-A: motor de entity resolution testeable",
+            heading: "Dos fichas con el mismo nombre mal escrito de dos maneras distintas",
       paragraphs: [
-        "**Antes de T1, tres ideas base** (no memorices el resto aún). **Entity resolution (ER)** responde solo *¿dos registros apuntan a la misma entidad del mundo real?* Un **score de matching** no es veredicto de fraude ni de parentesco: solo **prioriza** la cola de revisión clerical. **Blocking** es la regla que reduce el espacio de pares antes del scorer; sin **candidate recall** medido sobre gold sintético, no sabes si el motor “pierde” matches reales.",
-        "**S30 cierra CP-N3-A.** Entregas un motor **testeable**: benchmark etiquetado sintético (`CASO-LIM-030`, contactos Lima `@example.pe`), comparadores explicables, blocking con recall medido, umbrales `auto_match` | `review` | `non_match` y métricas honestas. Contrato de salida: decisión + explicación por campo. Falta gold o blocking sin recall = error de diseño, no “métrica opcional”.",
-        "Hilo S29 → S30 → S31: el almacén SQL de pares/decisiones (S29) alimenta este motor; la fusión de entidades usa **Union-Find**; en S31 esos nodos de entidad alimentan el grafo de evidencia. Integra tests (S27) y propiedades (S28) en la suite del portfolio.",
-        "Orden pedagógico: **T1 Comparadores** (exact/edit/token/fecha → missing y frecuencia). Luego **T2 Blocking y costo** (claves, candidate recall, pares imposibles) → **T3 Matching** (pesos didácticos, umbrales, cola clerical, clusters) → **T4 Evaluación** (split por entidad, P/R/F1, co-cluster, error slices). Ritmo sugerido (~18 h): sesiones 1–3 en T1; 4–6 en T2; 7–10 en T3; 11–14 en T4 + You Do; 15–18 pulen tests, README y demos del portfolio.",
+        "«María Rodríguez» en una, «Maria Rodriguez Perez» en otra, con teléfonos que coinciden en seis de nueve dígitos. ¿Es la misma persona? A veces sí, a veces son madre e hija, y a veces son dos desconocidas que comparten un apellido común. Esta sección trata de responder esa pregunta con evidencia y de decir con honestidad cuándo no se puede responder.",
+        "Antes de nada, un límite que ordena todo lo demás. La **entity resolution** contesta una sola pregunta: ¿estos dos registros apuntan a la misma entidad del mundo real? Un score alto no es un veredicto de fraude ni una prueba de parentesco. Lo único que hace un score es ordenar una cola para que una persona revise primero lo más probable.",
+        "Comparar todo contra todo es inviable: un millón de registros da medio billón de pares. La salida es el **blocking** — agrupar por una clave barata, como las primeras letras del apellido más el año, y comparar solo dentro de cada grupo. Se gana tiempo y se paga un precio que hay que medir: los pares verdaderos que quedaron en grupos distintos y ya nunca se compararán.",
+        "El resultado no es un sí o un no, sino tres zonas. Por encima de cierto umbral se acepta automáticamente; por debajo de otro se descarta; en medio queda la franja que va a revisión humana. Elegir esos dos umbrales es una decisión de negocio con consecuencias asimétricas — unir dos personas distintas no cuesta lo mismo que dejar duplicada a una sola.",
+        "La pregunta que gobierna la sección tiene dos partes: **¿qué evidencia tengo de que son la misma entidad, y qué hago con la duda?** Trabajas sobre contactos sintéticos de Lima con correos `@example.pe`, y la respuesta a la segunda parte nunca es adivinar: es enviar a revisión.",
       ],
       callout: {
         type: "info",
@@ -38,6 +39,16 @@ export const section30: CourseSection = {
         content:
           "La promoción exige un motor ER ejecutable y evidencia de sus métricas, errores y casos enviados a revisión. Ética de la sección (una sola vez, aquí): scores priorizan humanos; nunca auto-etiquetan fraude ni parentesco.",
       },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, hilo entre secciones y criterios de promoción.",
+        "**Orden de los subtemas.** T1 construye los comparadores —exacto, por edición, por tokens, por fecha— y trata los campos ausentes y la frecuencia de los valores. T2 pasa al blocking y su costo: claves, recall de candidatos y pares imposibles. T3 arma el matching con pesos, umbrales, cola clerical y agrupación. T4 cierra con la evaluación, partiendo por entidad para no inflar las métricas.",
+        "**Hilo entre secciones.** El almacén de pares y decisiones de S29 alimenta este motor; la fusión de entidades usa Union-Find; en S31 esos nodos alimentan el grafo de evidencia. Las pruebas de S27 y las propiedades de S28 entran a la suite del portafolio.",
+        "**Promoción.** Exige un motor ejecutable y evidencia de sus métricas, sus errores y los casos que envió a revisión.",
+      ],
     },
     {
       heading: "exact, edit/token y fecha",

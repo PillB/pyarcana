@@ -25,12 +25,27 @@ export const section43: CourseSection = {
   ],
   theory: [
     {
-      heading: "Ruta de S43: Contenedores y reproducibilidad operativa",
+            heading: "«En mi máquina funciona» es un síntoma, no una excusa",
       paragraphs: [
-        "**Mapa de ideas** (T1 las aterriza con un Dockerfile real):\n\n- **Layer caché:** deps/lock antes de app para no invalidar el caché en cada commit.\n- **Non-root:** UID ≥1000 sin capabilities extras.\n- **Secret injection:** solo en runtime, nunca en capas.\n- **Health/readiness:** el proceso solo se declara listo cuando puede servir.\n- **Compose:** API/worker/DB/caché con redes y health.\n- **Multi-stage:** toolchain fuera de la imagen final.\n- **Resource limits:** CPU/memoria acotadas y > 0.\n- **SBOM/scan:** inventario y CVE crítico antes de promover.\n\nEn S44 conectarás estos gates al pipeline CI/CD.",
-        "Esta sección empaqueta el servicio seguro de S42 en **contenedores reproducibles** sin exigir un cluster. Aprendes los contratos de Dockerfile y Compose (referencia Docker oficial) y los verificas primero con modelos en Python/stdlib que puedes correr en el navegador o en local. El caso `CASO-TRU-043` (plataforma ficticia en Trujillo) es sintético: sin secretos reales ni registro remoto obligatorio.",
-        "Producto incremental: Governed Python Service Platform. Entrada: código fijado, lock de deps, configuración no secreta y secretos inyectados en runtime. Salida: layers cacheables, non-root, health/readiness, compose API/worker/DB/caché y runbook de recovery. Error de promoción: root UID, secret horneado, health falso o migración no reversible.",
-        "Orden de aprendizaje: T1 Dockerfile y non-root → T2 configuración, secretos y señales → T3 Compose y migraciones → T4 locks, multi-stage, scan y límites. En cada bloque verás el contrato, una demo que lo calcula y ejercicios que fallan cerrado si el build no es reproducible. **Stack de práctica (stdlib):** modela el contrato con la biblioteca estándar; en el youDo documentas los artefactos reales (Dockerfile/Compose) listos para un entorno con Docker.",
+        "La frase aparece cuando el programa depende de algo que nadie escribió: una versión instalada hace meses, una variable que solo existe en tu terminal, un archivo que está ahí porque una vez lo copiaste. El servicio de S42 puede ser impecable y aun así no volver a nacer igual en otra computadora.",
+        "Un contenedor es una receta, no el plato. La receta enumera los ingredientes con su versión exacta y el orden en que se agregan, de modo que quien la siga en otra cocina obtenga lo mismo. Esa es la diferencia entre «tengo el programa» y «puedo reconstruir el programa»: lo segundo es lo que permite volver atrás cuando algo se rompe a las tres de la mañana.",
+        "El orden de los pasos importa por una razón concreta. Las dependencias cambian poco y tu código cambia todo el tiempo; si instalas las dependencias antes de copiar el código, esa parte de la receta se reutiliza —eso es el **caché de capas**— y cada build tarda segundos en vez de minutos. Invertir ese orden funciona igual, pero desperdicia el tiempo de todo el equipo.",
+        "Dos decisiones que parecen detalles y no lo son. La primera: el proceso no corre como administrador, porque un servicio que puede escribir en cualquier parte convierte cualquier fallo en un problema mayor. La segunda: los secretos se inyectan al arrancar y nunca se hornean en la receta — una capa es un archivo que alguien puede leer después, y lo que quedó dentro queda dentro para siempre.",
+        "La pregunta que atraviesa la sección es una sola: **¿esto vuelve a nacer igual en una máquina limpia?** Practicas el contrato con la biblioteca estándar, verificable en local o en el navegador, y en el proyecto documentas los artefactos reales. El caso `CASO-TRU-043` es una plataforma ficticia en Trujillo: sin secretos reales ni registro remoto obligatorio.",
+      ],
+      callout: {
+        type: "info",
+        title: "Gate de promoción",
+        content: "CP-N4-A · servicio reproducible en contenedores: build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo. Si falta evidencia, no se promociona.",
+      },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Reúne el entregable, el orden de los subtemas y los criterios de promoción.",
+        "**Producto incremental.** Una plataforma de servicio gobernada. Recibes código fijado, un lock de dependencias, configuración no secreta y secretos inyectados en tiempo de ejecución. Entregas capas cacheables, ejecución sin privilegios de administrador, sondas de salud y disponibilidad, una composición de API, worker, base y caché, y un manual de recuperación. La promoción falla con UID root, un secreto horneado en una capa, una sonda de salud que miente o una migración que no se puede revertir.",
+        "**Orden de los subtemas.** T1 construye el Dockerfile y saca el proceso de root. T2 separa configuración, secretos y señales. T3 arma la composición y las migraciones. T4 cierra con locks, multi-stage, escaneo y límites de recursos.",
       ],
       code: {
         language: 'python',
@@ -51,11 +66,6 @@ print("root_uid_ok", c["root_uid_ok"])
         output: `case CASO-TRU-043
 topic containers_reproducibility
 root_uid_ok False`,
-      },
-      callout: {
-        type: "info",
-        title: "Gate de promoción",
-        content: "CP-N4-A · servicio reproducible en contenedores: build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo. Si falta evidencia, no se promociona.",
       },
     },
     {

@@ -25,21 +25,13 @@ export const section13: CourseSection = {
   ],
   theory: [
     {
-      heading: "Mapa del Familiarity Evidence Dashboard y cierre N1",
+            heading: "Dos filas que podrían ser la misma persona",
       paragraphs: [
-        "Aquí cierras **CP-N1-C** (el gate práctico del Nivel 1) con un **Familiarity Evidence Dashboard**: entity resolution por reglas —esto es, decidir si dos filas hablan de la misma persona—, señales de relación **separadas** del score ER, explicación humana y operación responsable. La automatización de browser, OCR y orquestación avanzada llegan en secciones posteriores; en N1 el producto es la ficha de evidencia auditable que un revisor puede leer en cinco minutos.",
-        "Promoción de nivel: tres capstones N1, **regresión S01–S13 (level-1)** y **CF-1** aprobados. Solo datos sintéticos pseudonimizados (`C00x`, Lima/Arequipa). Si falta evidencia o el schema no cuadra, **falla cerrado** — no auto-merge, no `auto_fraud`. Stack: stdlib + reglas deterministas de S01–S12; **sin** sklearn ni NumPy/Pandas de S14–S15.",
-        "Desde **S12** ya traes HTTP con timeout/retry, SQL parametrizado y geoseñal con política de egress (solo ciudad/mock, sin PII cruda a geocoders públicos). En S13 esos ladrillos alimentan **tooltips del mapa** y la ficha: `geo_distance_km=…; source=mock`. No reaprendes el adapter: lo **conectas** a la vista de evidencia.",
-        "Orden de estudio: **T1 Identidad (ER)** → **T2 Relación** → **T3 Decisión** → **T4 Producto/ops + CF-1**. Métrica del gate: dos scores visibles en ficha + cola clerical + privacy sheet + demo de un comando. Nunca PII real ni `is_family` automático.",
-        "**Diccionario de la sección:**",
-        "- *entity resolution (ER)*: decide si dos filas hablan de la misma entidad; no de parentesco ni fraude.",
-        "- *blocking*: acota pares candidatos antes de reglas finas.",
-        "- *cola clerical*: la bandeja humana de duda.",
-        "- *fail-closed*: niega el merge si falta evidencia.",
-        "- *uncertainty* (`low`/`med`/`high`): declara qué tan confiable es el score.",
-        "- *CP-N1-C*: el gate práctico de cierre del Nivel 1; pide dashboard, regresión S01–S13 y CF-1.",
-        "- *CF-1*: el paquete de privacidad + demo + runbook del cierre de nivel.",
-        "**Ritmo sugerido (19 h):** ~6 h T1–T2 (identidad y señales), ~5 h T3 (matriz y explicación), ~5 h T4 (dashboard + CF-1), ~3 h regresión S01–S13 y pulido de portfolio.",
+        "«Ana María Quispe Rojas, Lima, ana.quispe@ejemplo.pe». «Ana M. Quispe R., Lima, aquispe@ejemplo.pe». ¿Es la misma persona? Un revisor humano dudaría, y esa duda es información. El error que cierra esta sección es querer eliminarla: forzar una respuesta binaria donde la evidencia solo alcanza para un «probablemente». Lo que vas a construir no resuelve la duda, la hace visible y la pone en manos de alguien que pueda decidir.",
+        "Decidir si dos filas hablan de la misma entidad se llama **resolución de identidad**. Comparar todas las filas contra todas es inviable en cuanto crecen los datos, así que primero se acota: solo se comparan en detalle los pares que comparten algo barato de mirar, como la ciudad o la inicial del apellido. Ese recorte previo se llama **bloqueo**, y es la diferencia entre un proceso que termina y uno que no.",
+        "Sobre los pares que sobreviven al recorte se aplican reglas explícitas, y el resultado no es un sí o un no, sino tres caminos: unir, rechazar, o mandar a la **cola clerical** —la bandeja donde una persona revisa lo que el programa no puede afirmar—. Cada caso llega ahí con su nivel de **incertidumbre** declarado, baja, media o alta, porque un revisor necesita saber cuánto pesar lo que está leyendo.",
+        "Hay una separación que el producto tiene que mostrar y no solo respetar. El puntaje que dice «estas dos filas son la misma persona» y el puntaje que dice «estas dos personas están relacionadas» son cosas distintas, se calculan por separado y se muestran por separado. Confundirlos convierte una coincidencia de apellido en una acusación. Ninguna parte de esta sección concluye parentesco ni fraude: si falta evidencia, no se une nada.",
+        "La pregunta que ordena todo el trabajo es la de quien recibirá la ficha: **¿podría alguien que no escribió este código reconstruir la decisión en cinco minutos?** Eso obliga a que cada puntaje muestre de qué señales salió y qué le faltó. La sección cierra el Nivel 1, así que el trabajo se hace con la biblioteca estándar y las reglas deterministas de S01 a S12; la automatización de navegador, el reconocimiento de texto en imágenes y la orquestación avanzada llegan después.",
       ],
       callout: {
         type: "info",
@@ -47,8 +39,21 @@ export const section13: CourseSection = {
         content:
           "El objetivo de S13 es el dashboard de evidencia + cierre N1. Solo datos sintéticos; nunca PII real; nunca auto_fraud/is_family. Primero la identidad, luego la relación, luego la decisión y, al final, el producto.",
       },
-    },
-    {
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, ritmo, criterio de cierre y promoción de nivel.",
+        "**Orden de los subtemas.** T1 trata la identidad: comparación, bloqueo y puntaje de resolución. T2 pasa a las señales de relación, calculadas aparte. T3 construye la decisión: matriz de reglas, umbrales y explicación legible. T4 cierra con el producto y la operación, más el paquete CF-1.",
+        "**Ritmo orientativo.** Unas diecinueve horas: seis para identidad y señales, cinco para la matriz y la explicación, cinco para el tablero y CF-1, y tres para repasar S01 a S13 y pulir el portafolio.",
+        "**Criterio de cierre (CP-N1-C).** Los dos puntajes visibles y separados en la ficha, la cola clerical operativa, una hoja de privacidad y una demostración que quepa en un comando.",
+        "**Promoción de nivel.** Los tres capstones del Nivel 1 aprobados, la regresión de S01 a S13 en verde y el paquete CF-1 —privacidad, demostración y runbook— entregado.",
+        "**Qué se hereda de S12.** El cliente HTTP con timeout y reintentos, el SQL con marcadores de posición y la señal geográfica con su política de salida de datos. Aquí no se vuelven a construir: se conectan a la ficha de evidencia y a las etiquetas del mapa.",
+        "**Límites.** Solo datos sintéticos pseudonimizados. Si falta evidencia o el schema no cuadra, el proceso falla cerrado: sin unión automática y sin ninguna marca automática de fraude.",
+      ],
+     },
+     {
       heading: "Normalización, blocking y entity resolution",
       subtopicId: "S13-T1-A",
       paragraphs: [

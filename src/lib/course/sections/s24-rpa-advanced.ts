@@ -25,12 +25,13 @@ export const section24: CourseSection = {
   ],
   theory: [
     {
-      heading: "OCR Document AI para intake CP-N2-C",
+            heading: "El documento no trae los datos: trae una imagen de los datos",
       paragraphs: [
-        "Llegas desde el adaptador web de la sección anterior (S23): una **descarga verificada** (PDF/PNG sintético) es la entrada típica del intake. Aquí no vuelves a scrapear el portal — **consumes el artefacto** y lo conviertes en campos con evidencia. Construyes el **document intake** de CP-N2-C: imagen sintética → preproceso → adapter OCR (confidence + bbox) → normalización a schema → validación cross-field → golden set por campo. En un backoffice sintético de facturas en Lima, el objetivo es encolar revisión, no “cerrar” casos por score.",
-        "Primero practicamos con la biblioteca estándar y adapters simulados; un motor real (p. ej. Tesseract) solo entra si el entorno lo declara instalado. Todo documento es **sintético** (facturas demo, IDs fake). Conservas **bounding boxes** y te **abstienes** si confidence < umbral de campo crítico (p. ej. RUC). Coincidir totales o RUC **no prueba fraude** ni parentesco: solo genera `reasons[]` para humanos. Política fail-closed: `auto_fraud_label=False` siempre en este path.",
-        "**Mini-glosario de intake** (léelo una vez; lo reutilizas en demos y ejercicios). **bbox** (*caja delimitadora*): rectángulo `[x0,y0,x1,y1]` que localiza el valor en la página para el revisor. **confidence** (*confianza*): score 0–1 del motor por token o campo. **HITL** (*human-in-the-loop*, humano en el bucle): cola donde un humano decide. **golden set** (*conjunto dorado etiquetado*): páginas/campos etiquetados a mano para medir exactitud. **adapter:** interfaz común (`real`/`fake`) hacia el motor OCR. **fail-closed** (*cerrado ante la duda*): si hay duda, no autoaceptas. **coverage_auto:** fracción de docs que pasan sin revisión humana. **preflight** (*chequeo previo*): mime, tamaño y orientación antes del motor.",
-        "Orden: **T1 Imagen** (DPI, deskew, ruido, orientación) → **T2 OCR** (idiomas, layout, KV/tablas) → **T3 Extracción** (schema, validación, cola) → **T4 Evaluación** (golden set, privacidad, hostiles, fallback). Frontera real/fake: TesseractAdapter vs. FakeOcrAdapter nunca se confunden en contract tests. Más adelante, el texto OCR alimenta endpoints de IA (S25) como entrada **no confiable** — aquí aprendes a no inventar dígitos ni cerrar por score.",
+        "Una factura escaneada es, para el programa, un rectángulo de píxeles. No hay campo «monto» ni campo «fecha»: hay manchas oscuras que a un ojo humano le parecen números. Todo lo que sigue en esta sección consiste en convertir eso en datos con los que se pueda trabajar, sabiendo en todo momento cuánto de esa conversión es lectura y cuánto es conjetura.",
+        "Antes de leer conviene arreglar la imagen, porque el reconocimiento hereda cada defecto del original. Una hoja escaneada torcida, con poca resolución o con ruido de fondo produce lecturas erráticas, y ninguna sofisticación posterior recupera lo que se perdió ahí. Enderezar, limpiar y comprobar la resolución no es preprocesamiento decorativo: es la mitad del resultado.",
+        "El reconocimiento devuelve texto acompañado de dos cosas que importan tanto como el texto. La primera es dónde estaba: la caja que localiza ese valor en la página, para que un revisor humano pueda mirar el original y confirmarlo en dos segundos en vez de buscarlo. La segunda es cuánta confianza tiene el motor en esa lectura — y aquí hay que ser preciso, porque esa confianza mide qué tan segura está la máquina de haber leído bien los caracteres, no de que el dato sea correcto.",
+        "Con eso aparece la decisión que ordena el flujo. Un campo leído con alta confianza y que además cumple su formato esperado puede pasar; uno con baja confianza, o que no cuadra con el schema, va a revisión. **Abstenerse es una salida válida** — de hecho es la salida correcta cuando el documento está mal escaneado. Inventar un valor plausible para que el proceso no se detenga es el peor resultado posible, porque nadie se entera.",
+        "La pregunta que gobierna la sección junta lectura y responsabilidad: **¿de dónde salió este valor, y qué tan seguro estoy de haberlo leído bien?** Todos los documentos son sintéticos, y se practica primero con la biblioteca estándar y adaptadores simulados.",
       ],
       callout: {
         type: "info",
@@ -38,8 +39,18 @@ export const section24: CourseSection = {
         content:
           "Dominas el **contrato de intake** (evidencia, abstención, schema, golden por campo) con demos sintéticos. El layout multi-columna avanzado y los procesadores comerciales de Document AI quedan como lectura en Recursos. También son extensión opcional cuando el runtime lo permita. `TesseractAdapter` llama un motor real si está instalado; `FakeOcrAdapter` nunca se presenta como OCR real: devuelve observaciones fijadas para tests de parsing, abstención y evaluación.",
       },
-    },
-    {
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas y alcance.",
+        "**Orden de los subtemas.** T1 trata la imagen: resolución, enderezado, ruido y orientación. T2 pasa al reconocimiento: idiomas, disposición, pares clave-valor y tablas. T3 cubre la extracción: schema, validación y cola de revisión. T4 cierra con la evaluación: conjunto de referencia por campo, privacidad y documentos hostiles.",
+        "**Entrada.** Una descarga verificada del adaptador web de S23. Aquí no se vuelve a recorrer el portal: se consume el artefacto.",
+        "**Alcance.** El objetivo es el contrato de admisión —evidencia, abstención, schema y referencia por campo— con demos sintéticos. La maquetación multicolumna avanzada y los procesadores comerciales quedan como lectura.",
+      ],
+     },
+     {
       heading: "DPI, deskew, crop y contraste",
       subtopicId: "S24-T1-A",
       paragraphs: [

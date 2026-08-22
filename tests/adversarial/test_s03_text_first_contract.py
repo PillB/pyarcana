@@ -29,7 +29,12 @@ class Section03TextFirstContractTests(unittest.TestCase):
 
         required_learner_visible_anchors = (
             "**Puente desde S02.**",
-            "**Diccionario de navegación.**",
+            # CAMP-20260821: the up-front "Diccionario de navegación" term dump was
+            # dissolved into glosses at the point of need (protocol §3.6). The
+            # anchor now pins the sentence that carries the section's core idea,
+            # so the requirement is still enforced — just against teaching prose
+            # instead of a dictionary block.
+            "un invariante es una promesa que el programa no puede romper",
             "**Antes de continuar, predice:**",
             "plataforma de alquiler de bicicletas de Ámsterdam",
             "**Modelo mental.**",

@@ -42,11 +42,13 @@ export const section29: CourseSection = {
   ],
   theory: [
     {
-      heading: "Almacén relacional del ER para CP-N3-A",
+            heading: "Un UPDATE puede borrar la razón por la que alguien decidió algo",
       paragraphs: [
-        "Modelas el **almacén ER** del capstone CP-N3-A: `source_records` ↔ `entity_source_links` ↔ `entities` → `candidate_pairs` → `decisions` (append-only) → `evidence`. Sin historia de decisiones no hay auditoría: un UPDATE in-place del label borra el rastro de quién cambió de `review` a `match`. Fixture de lab: **CASO-LIM-029** (`run_id=cpn3a-sql`, correos `@example.pe`, ids `ent-00N`). Solo datos sintéticos; **match ≠ fraude** ni parentesco; fallo cerrado (*fail-closed*) si falta llave o el join multiplica filas sin documentar *fan-out*.",
-        "SQLite local es una base real y reproducible para observar constraints, NULL, planes y transacciones. En SQLite las foreign keys están **apagadas por defecto**: cada conexión debe ejecutar `PRAGMA foreign_keys = ON` o el `REFERENCES` es solo documentación. Las diferencias con PostgreSQL/Oracle se declaran cuando importan (p. ej. isolation rica, pooling de servidor).",
-        "Mapa de cardinalidades del almacén:\n`entities` 1—N `entity_source_links` N—1 `source_records` (una entidad canónica consolida varios registros fuente) · `entities` N—N vía `candidate_pairs` (con `entity_a < entity_b` y UNIQUE del par) · `candidate_pairs` 1—N `decisions` · `decisions` 1—N `evidence`.\nOrden de estudio: **T1 Modelo** (PK/FK/historia) → **T2 Consulta** (CTE/windows/anti-join) → **T3 Transacción** (ACID/upsert) → **T4 Evolución** (índices/migraciones/repo).\nRuta de carga: **núcleo** = teoría + I Do + E1 de cada subtema; **consolidación** = E2; **extensión** = E3 y You Do. Puedes posponer E3 sin romper el puente a S30 si el núcleo y el proyecto mínimo están sólidos.",
+        "Cambias el label de un par de registros directamente sobre la fila y el sistema queda correcto: dice lo que ahora crees. También queda mudo — ya no puede decir qué decía antes, quién lo cambió ni con qué evidencia. Para un almacén que sostiene decisiones sobre personas, eso no es un detalle de estilo.",
+        "La diferencia es la que hay entre una pizarra y un libro contable. En la pizarra se borra y se reescribe; el estado siempre es el actual y la historia no existe. En el libro contable no se borra: se agrega un asiento nuevo que corrige al anterior, y el saldo se lee recorriendo la secuencia. Las decisiones de esta sección viven en una tabla **append-only**, de solo agregar, por esa razón.",
+        "Alrededor de esa tabla hay un modelo con forma. Los registros de origen se enlazan a entidades canónicas, las entidades se emparejan en candidatos, y cada candidato acumula decisiones que a su vez apuntan a su evidencia. Cada flecha de ese recorrido es una **foreign key**: una promesa de que lo referido existe. Con una advertencia práctica en SQLite — vienen apagadas por defecto, así que sin `PRAGMA foreign_keys = ON` esa promesa es solo un comentario.",
+        "Después aparece lo que casi siempre se aprende tarde: `NULL` no significa cero ni cadena vacía, significa «no se sabe», y por eso casi ninguna comparación con `NULL` devuelve verdadero. Un filtro escrito sin tenerlo en cuenta descarta filas en silencio, y el resultado se ve perfectamente razonable.",
+        "La pregunta que atraviesa la sección es de auditoría: **¿puedo reconstruir cómo llegamos a esta decisión?** Cada afirmación sobre índices, atomicidad o valores nulos se comprueba ejecutando una consulta y mirando el resultado real, no citando la regla.",
       ],
       callout: {
         type: "info",
@@ -54,6 +56,15 @@ export const section29: CourseSection = {
         content:
           "Cada afirmación sobre NULL, índices o atomicidad se verifica con consultas y código que imprime el resultado real, no con strings que solo nombran el concepto.",
       },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Modelo del almacén y criterios de cierre.",
+        "**Modelo.** Este es el almacén de entidades del capstone CP-N3-A. Una entidad consolida varios registros de origen, de modo que la relación va de uno a muchos. Las entidades se emparejan entre sí a través de candidatos, con el par ordenado y único para no duplicar la misma comparación en los dos sentidos. Cada candidato acumula sus decisiones, y cada decisión apunta a la evidencia que la sostiene.",
+        "**Por qué SQLite.** Es una base real y reproducible, suficiente para observar restricciones, valores nulos, planes de ejecución y transacciones sin montar un servidor. Las diferencias con otros motores se señalan cuando aparecen.",
+      ],
     },
     {
       heading: "Claves, constraints y normalización",

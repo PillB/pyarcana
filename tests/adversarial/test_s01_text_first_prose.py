@@ -42,7 +42,11 @@ class Section01TextFirstProseTests(unittest.TestCase):
         ):
             self.assertIn(phrase, source)
 
-        self.assertEqual(theory.count("      heading:"), 14)
+        # CAMP-20260821: 14 -> 15. The intro's dev metadata (pacing, gate
+        # criteria, the section_contract() listing) moved into a folded
+        # `optional: true` reference block, which adds one heading. The count is
+        # still pinned exactly; only the expected structure changed.
+        self.assertEqual(theory.count("      heading:"), 15)
         self.assertNotIn("En el 90% de los casos", theory)
         self.assertNotIn("3-5 GB", theory)
         self.assertNotIn("bancos y fintech en Perú", theory)

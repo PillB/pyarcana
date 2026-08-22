@@ -25,12 +25,30 @@ export const section19: CourseSection = {
  ],
  theory: [
  {
- heading: "Mapa de la sección: visualización y comunicación accesible",
+  heading: "Un gráfico es una decisión sobre qué mirar primero",
  paragraphs: [
- "**Antes de T1, el diccionario de la sección** (vuelve en cada subtema). *Pregunta analítica:* qué decisión habilita el gráfico. *Audiencia:* ejecutivo (pocas categorías, una idea) vs. analista (más detalle). *Encoding:* canal visual (posición, longitud, color, forma). *Baseline:* origen del eje; en barras de magnitudes absolutas debe ser 0. *Alt text:* equivalente no visual con hallazgo y n. *Paridad:* los mismos números en chart, tabla y caption. *Sobreclaim:* lenguaje que excede la evidencia de la muestra. Si el mapa se siente denso, avanza T1→T4 en orden: primero eliges el chart, luego lo dibujas, luego lo haces accesible e íntegro.",
- "Desde el EDA de S18 llegas con medianas, n e incertidumbre por región (Lima / Bogota / Madrid, PEN, datos sintéticos del lab **CASO-LIM-019**). Aquí **traduces el hallazgo a figura**: el mismo “mediana por región, n, limitación web” se empaqueta como chart + caption + alt + tabla hermana. **Hallazgo ≠ decisión:** el dashboard muestra evidencia con marco muestral, no un veredicto de negocio disfrazado de color o de título sensacionalista.",
- "Orden pedagógico (~19 h). **T1 Intención:** pregunta, audiencia, *chart choice* y ejes honestos. **T2 Estático:** Matplotlib, composición multi-panel y export versionado. **T3 Interactivo y a11y:** modelo de filtros y tooltips, estado serializable, tabla alternativa y *sampling* honesto. **T4 Integridad:** unidades, fuente, contraste, alt text y no sobreclaim. En cada subtema: teoría → demo I Do → tres We Do (guiado / independiente / transferencia) → al final You Do del portfolio y self-check.",
- "El hilo conductor es el **dashboard ejecutivo CP-N2-B**: cuatro gráficos estáticos (medianas, volumen, tendencia, scatter n–mediana) más una vista interactiva lógica, todos con conclusión limitada a la evidencia y versión no visual equivalente. El foco es comunicación visual honesta que alimenta la factoría Excel (S20) y los reportes DOCX/PDF (S21). Solo datos sintéticos; nunca PII real.",
+   "El EDA de S18 dejó medianas, tamaños de muestra e incertidumbre. Convertirlos en figura no es decorarlos: es elegir qué comparación salta a la vista y cuál queda en segundo plano. Esa elección orienta la conversación del comité antes de que alguien lea una sola cifra.",
+   "Por eso el orden correcto empieza fuera del gráfico. Primero la pregunta —qué decisión habilita esta figura—, después la audiencia, y recién entonces el tipo de gráfico. Una gerencia necesita una idea y pocas categorías; un equipo de análisis aguanta más detalle. Elegir el gráfico primero y buscarle la pregunta después produce láminas bonitas que no ayudan a decidir nada.",
+   "Hay una decisión técnica con consecuencias éticas directas: dónde empieza el eje. Recortar el eje vertical para que empiece cerca del valor mínimo hace que una diferencia del tres por ciento parezca abismal. El gráfico no miente en los números, miente en la impresión — y la impresión es lo que la gente recuerda. Para comparar magnitudes con barras, el eje arranca en cero.",
+   "Todo número mostrado necesita su contexto pegado: unidad, tamaño de muestra y la limitación que ya venía del EDA. Y todo gráfico necesita una alternativa no visual con **los mismos** números, porque quien usa lector de pantalla merece la misma evidencia y no un resumen empobrecido. Si la tabla y la barra no coinciden hasta la precisión publicada, uno de los dos está mal.",
+   "La pregunta que atraviesa la sección mantiene la disciplina del EDA: **¿qué afirma esta figura, y hasta dónde llega la evidencia que la respalda?** Un título que generaliza a toda la población desde una muestra web es un sobreclaim, aunque el gráfico sea impecable.",
+ ],
+ callout: {
+ type: "info",
+ title: "Fuera de alcance en S19",
+ content:
+ "No profundizamos en reportes DOCX/PDF aquí (ese es el foco de S21) ni en dashboards con librerías interactivas obligatorias (Plotly/Streamlit). El foco es la elección del gráfico, ejes honestos, export reproducible y accesibilidad (a11y) para el dashboard CP-N2-B. Solo datos sintéticos; nunca PII real.",
+ },
+},
+{
+ heading: "Contrato de la sección (referencia)",
+ optional: true,
+ paragraphs: [
+   "Bloque de referencia. Orden de los subtemas, entregable y alcance.",
+   "**Orden de los subtemas.** T1 trata la intención: pregunta, audiencia, elección de gráfico y ejes honestos. T2 pasa a lo estático: composición multi-panel y exportación versionada. T3 cubre lo interactivo y la accesibilidad: modelo de filtro, tooltip y paridad. T4 cierra con la narrativa y el control de sobreclaims.",
+   "**Entregable.** El tablero ejecutivo CP-N2-B: cuatro gráficos estáticos más una vista interactiva modelada como datos, todos con su conclusión limitada a la evidencia.",
+   "**Alcance.** Los informes en DOCX y PDF son el foco de S21, no de aquí, y no se exige ninguna librería interactiva. Lo que se practica es la elección del gráfico, la honestidad de los ejes, la exportación reproducible y la paridad entre figura y tabla.",
+   "**Ritmo orientativo.** Unas diecinueve horas.",
  ],
  code: {
  language: 'python',
@@ -63,14 +81,8 @@ deliverable CP-N2-B_dashboard
 gates 6
 real_pii_ok False`,
  },
- callout: {
- type: "info",
- title: "Fuera de alcance en S19",
- content:
- "No profundizamos en reportes DOCX/PDF aquí (ese es el foco de S21) ni en dashboards con librerías interactivas obligatorias (Plotly/Streamlit). El foco es la elección del gráfico, ejes honestos, export reproducible y accesibilidad (a11y) para el dashboard CP-N2-B. Solo datos sintéticos; nunca PII real.",
- },
- },
- {
+},
+{
  heading: "Pregunta, audiencia y elección de gráfico",
  subtopicId: "S19-T1-A",
  paragraphs: [

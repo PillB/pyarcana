@@ -25,11 +25,33 @@ export const section08: CourseSection = {
   ],
   theory: [
     {
-      heading: "Mapa de la sección: archivos, CSV/JSON y gate CP-N1-B",
+            heading: "El archivo que no escribiste tú",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1; no memorices el resto aún). **Path:** ruta con `pathlib.Path` (cross-platform). **Dialect:** delimitador y reglas del CSV (`,` vs. `;`). **Cuarentena:** filas o archivos que fallan el contrato, guardados con **motivo** (`reason`) y **raw** intacto. **JSONL:** un objeto JSON por línea (append-friendly). **Provenance:** rastro del input (`path`, `sha256`, `bytes`). **Manifest:** JSON de la corrida con conteos por fuente. **Reconcile:** `n_in == n_clean + n_quarantine` por fuente y en totales. **Fail-closed:** si no cuadra, exit ≠ 0 — no publiques clean a medias. **stdlib only:** pathlib, csv, json, hashlib, shutil, Decimal; el análisis tabular con **pandas** llega en el bloque de datos intermedio.",
-        "**De dónde venías y a dónde vas.** En **S07** fijaste texto y Unicode (tildes, encodings, mojibake). Aquí esos bytes **viven en disco**: si `read_text(encoding='utf-8')` falla, mandas el archivo a **cuarentena** o reintentas con un encoding **documentado**. Integra normalizadores (S05–S07) y el modelo en memoria (S06). En S08 cierras el gate **CP-N1-B**: ingesta **CSV + JSON** con **pathlib**, **cuarentena**, **hashes**, **manifest** y reconciliación — todo en **stdlib**, sin librerías externas de datos. Entorno **local-python**: sintéticos en `data/`; salidas en `out/`. Si el schema no cuadra, cuarentena con motivo — nunca rellenes en silencio.",
-        "**Orden y ritmo (~18 h).** **T1 Archivos** (Path/UTF-8 → atomic/newlines) → **T2 CSV** (dialect/cast → cuarentena) → **T3 JSON** (array/JSONL → schema/nulls) → **T4 Provenance** (hash/backup → manifest/reconcile) → You Do CP-N1-B. En cada subtema: teoría, un I Do y tres We Do (E1 guiado → E2 independiente → E3 transferencia). Laboratorio sintético Perú: clientes `C00x` y montos PEN ficticios. Nunca PII real ni inferencia automática de parentesco o fraude.",
+        "En S07 arreglaste el texto que ya tenías en memoria. Ahora ese texto llega dentro de un archivo que preparó otra persona, en otra máquina, con otro programa, y que nadie va a corregir por ti. Un exportado de Excel puede traer punto y coma en vez de coma; puede empezar con tres bytes invisibles que Excel añade y que convierten la primera columna en algo con un nombre raro; puede estar guardado en una codificación antigua que transforma «Muñoz» en «MuÃ±oz». De esas tres, la peligrosa es la última: no falla, solo miente.",
+        "Por eso la primera decisión es dónde se detiene el programa. Cuando una fila no cumple lo prometido, hay dos salidas malas y una buena. Descartarla en silencio pierde información. Rellenarla con un valor plausible inventa información. La buena es la **cuarentena**: la fila se aparta a un archivo propio, acompañada del motivo por el que no pasó y de su texto original intacto. Nadie tiene que adivinar después qué se descartó ni por qué.",
+        "La cuarentena solo sirve si las cuentas cuadran, y esa es la idea que sostiene la sección entera. Si entraron mil filas, la suma de las limpias más las apartadas tiene que dar mil exactamente. A esa comprobación se le llama **reconciliación**, y cuando no cuadra el programa termina con error en lugar de publicar un resultado a medias. Un resultado a medias es peor que ninguno, porque parece completo.",
+        "Falta poder responder de dónde salió todo esto. Cada corrida deja dos rastros. La **procedencia** describe el archivo de entrada: su ruta, su tamaño y su huella digital —un `sha256`, ese número largo que cambia por completo si alguien altera un solo carácter—. El **manifest** es el resumen de la corrida: cuántas filas entraron por cada fuente, cuántas salieron limpias, cuántas quedaron apartadas. Con esos dos archivos, la corrida del martes se puede comparar con la del miércoles sin abrir un solo dato.",
+        "Verás dos formas de guardar JSON y conviene distinguirlas desde el principio: un archivo con una lista completa hay que leerlo entero antes de tocar nada, mientras que **JSONL** —un objeto JSON por línea— se puede leer de a poco y se le puede añadir al final sin reescribirlo. Para un registro de cuarentena que crece durante la corrida, la segunda forma es la natural.",
+        "La pregunta que atraviesa la sección es de contabilidad, no de programación: **¿cuántas filas entraron y dónde está cada una ahora?** Todo se hace con la biblioteca estándar —`pathlib`, `csv`, `json`, `hashlib`, `Decimal`—, sin bibliotecas externas de datos. Pandas llega en el bloque intermedio; primero hay que entender qué es lo que pandas te va a estar ahorrando.",
+      ],
+      callout: {
+        type: "info",
+        title: "Gate CP-N1-B — qué cuenta como cierre",
+        content:
+          "Al finalizar esta sección demuestras un ETL local reproducible: clean + quarantine + manifest reconciliado por fuente, con hash del crudo y exit ≠ 0 si no cuadra. El CLI instalable llega en S10 (Módulos & CLI). Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.",
+      },
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, ritmo, vocabulario y criterio de cierre.",
+        "**Orden de los subtemas.** T1 trata los archivos: rutas con `pathlib`, UTF-8, escritura atómica y saltos de línea. T2 pasa al CSV: dialecto, conversión de tipos y cuarentena. T3 cubre JSON: lista frente a JSONL, schema y nulos. T4 cierra con procedencia: huella del crudo, copia de respaldo, manifest y reconciliación.",
+        "**Ritmo orientativo.** Unas dieciocho horas, dos sesiones por subtema, más el proyecto CP-N1-B y el autochequeo al final.",
+        "**Vocabulario que se usa a lo largo de la sección.** *Ruta* (`pathlib.Path`): la dirección de un archivo, escrita de forma que funcione igual en Windows, macOS y Linux. *Dialecto*: las reglas concretas de un CSV, empezando por el separador. *Falla cerrada*: si la reconciliación no cuadra, el programa termina con código distinto de cero y no publica nada.",
+        "**Criterio de cierre (CP-N1-B).** Un ETL local reproducible: archivo limpio, archivo de cuarentena y manifest reconciliado por fuente, con la huella del crudo y salida distinta de cero si las cuentas no cuadran. La CLI instalable llega en S10.",
+        "**Qué integra.** Los normalizadores de S05 a S07 y el modelo en memoria de S06. Entorno local, datos sintéticos en `data/` y salidas en `out/`.",
+        "**Límites.** Solo la biblioteca estándar. Nunca datos personales reales, nunca inferencia automática de parentesco o fraude.",
       ],
       code: {
         language: 'python',
@@ -53,14 +75,8 @@ artifacts clean,quarantine,manifest
 reconcile n_in == n_clean + n_quarantine
 real_pii_ok False`,
       },
-      callout: {
-        type: "info",
-        title: "Gate CP-N1-B — qué cuenta como cierre",
-        content:
-          "Al finalizar esta sección demuestras un ETL local reproducible: clean + quarantine + manifest reconciliado por fuente, con hash del crudo y exit ≠ 0 si no cuadra. El CLI instalable llega en S10 (Módulos & CLI). Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.",
-      },
-    },
-    {
+     },
+     {
       heading: "pathlib, with, modos y encodings",
       subtopicId: "S08-T1-A",
       paragraphs: [

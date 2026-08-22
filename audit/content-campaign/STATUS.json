@@ -1,25 +1,145 @@
 {
-  "campaign": "content-campaign-c03",
-  "phase": "COMPLETE_PENDING_INDEPENDENT_HUMAN_REVIEW",
-  "branch": "audit/content-campaign-c03-20260821",
-  "baseline_sha": "7aa825ac9595d5813d28e8a8421aa43ce194678a",
+  "campaign": "content-campaign-c04",
+  "supersedes": "content-campaign-c03",
+  "phase": "PHASES_C_D_E_COMPLETE_PENDING_LIVE_ATTESTATION",
+  "updated_at": "2026-08-22",
+  "branch": "audit/content-campaign-c04-20260821",
+  "baseline_sha": "77310e40910c8b5310a1d875c51cdcb75b49427e",
   "requirements_sha256": "6de4f9e40d1edf929f285b19daa56bbc2a3500df60f5440de1c31e39bedc0373",
-  "committed": false,
+  "committed": true,
+  "pushed": true,
+  "pull_request": 37,
+  "note": "C03's two content units (S18, S15) merged. C04 continued on the same requirement set: it made the content gates honest, repaired what they then exposed, rewrote all 52 section intros, re-taught S15 for pandas 3, and ran the learner-firewall/packet-builder harness on S15.",
   "units": [
-    {"id": "U1", "section": "S18 data-engineering", "gate": "VALIDATED", "iterations": 2, "compat": "COMPATIBLE_ADDITIVE + COMPATIBLE_SEMANTIC_REFINEMENT", "lines": "+139/-0"},
-    {"id": "U2", "section": "S15 stdlib-deep", "gate": "VALIDATED", "iterations": 2, "compat": "COMPATIBLE_ADDITIVE", "lines": "+57/-0"}
+    {
+      "id": "U1",
+      "section": "S18 data-engineering",
+      "gate": "VALIDATED",
+      "iterations": 2,
+      "compat": "COMPATIBLE_ADDITIVE + COMPATIBLE_SEMANTIC_REFINEMENT",
+      "lines": "+139/-0",
+      "campaign": "c03"
+    },
+    {
+      "id": "U2",
+      "section": "S15 stdlib-deep",
+      "gate": "VALIDATED",
+      "iterations": 2,
+      "compat": "COMPATIBLE_ADDITIVE",
+      "lines": "+57/-0",
+      "campaign": "c03"
+    },
+    {
+      "id": "U3",
+      "scope": "content runtime audit made honest",
+      "gate": "VALIDATED",
+      "detail": "three root causes fixed rather than symptoms: -I hid user site-packages (291 snippets never executed); extract_balanced_template dropped backslashes so the audit ran a different program than the one shipped; EXPECTED_FAIL_MARKERS did not know DEFECT, this course's own marker for a deliberately broken starter. 26 reported failures -> 38 honest -> 0.",
+      "campaign": "c04"
+    },
+    {
+      "id": "U4",
+      "scope": "S41 crashing reference solutions",
+      "gate": "VALIDATED",
+      "detail": "four solutionCode blocks carried orphaned contract lines and raised on execution",
+      "campaign": "c04"
+    },
+    {
+      "id": "U5",
+      "scope": "S19 internal contradiction",
+      "gate": "VALIDATED",
+      "detail": "prose asserted 'Madrid lidera el ticket mediano' seven times while the fixture had Lima leading. Fixed in the fixture direction, not the prose direction, because changing Madrid->Lima tripped test_over_localized_language (PE city tokens capped at 55; the change pushed it to 78).",
+      "campaign": "c04"
+    },
+    {
+      "id": "U6",
+      "scope": "S11 nondeterministic demo",
+      "gate": "VALIDATED",
+      "detail": "a mutable-key lookup returned None about 12% of the time under PYTHONHASHSEED variation, contradicting its own declared output. Proven over 60 runs (53 None / 7 row), fix verified 60/60.",
+      "campaign": "c04"
+    },
+    {
+      "id": "U7",
+      "scope": "pedagogy gates: support fading and answer leakage",
+      "gate": "VALIDATED",
+      "detail": "SUPPORT_NOT_FADING 9 -> 0, ANSWER_LEAKAGE 9 -> 0, GUIDED_HINT_RESTATES reduced to INFO tier",
+      "campaign": "c04"
+    },
+    {
+      "id": "U8",
+      "scope": "glossary and anglicism gates",
+      "gate": "VALIDATED",
+      "detail": "glossary coverage 55 -> 0 P1 misses, glossary intro 1 -> 0 forward refs, anglicism 12 -> 0 unglossed first uses. Two audit scripts had a literal-backslash boundary regex that silently under-matched.",
+      "campaign": "c04"
+    },
+    {
+      "id": "U9",
+      "scope": "declared teaching environment + CI content gates",
+      "gate": "VALIDATED",
+      "detail": "requirements-content.txt pins numpy 2.0.2 / pandas 2.3.3 / scikit-learn 1.6.1 / scipy 1.13.1; a content-gates job runs the runtime audit, v3 invariants and both glossary audits so these cannot drift again",
+      "campaign": "c04"
+    },
+    {
+      "id": "U10",
+      "scope": "all 52 section intros rewritten, dev metadata folded",
+      "gate": "VALIDATED",
+      "iterations": 2,
+      "detail": "30/52 opened with a term dump, 23/52 carried a section_contract() code block, 15/52 a T1->T4 arrow chain, 12/52 scheduling metadata. All now open on a concrete situation; the metadata moved verbatim into one collapsed 'Contrato de la sección (referencia)' block. Pass 2 caught five sections sharing the heading 'Mapa de la sección: ...', a collision between S01 and S43, and a duplicated 'Imagina ...' opening.",
+      "campaign": "c04"
+    },
+    {
+      "id": "U11",
+      "scope": "pandas-3 object re-teach in S15",
+      "gate": "VALIDATED",
+      "detail": "Taught pandas 3: inferred text is str, schema ids are nullable string, object means mixed types. Recaptured 4 dtype-printing artifacts and two manifest memory figures. starterCode-14 (S15-T3-A-E3) used errors='ignore', which raises a pandas-internal AssertionError in 3.0.5; the starter now raises ValueError without coerce and the learner repairs it with errors='coerce'. Pin moved to pandas==3.0.5 numpy==2.2.6. Full audit 3265 pass / 0 fail / 92 skip (22 extra skips are fastapi/sqlalchemy/cv2 missing from the clean venv; 6 match/case snippets now pass on 3.12).",
+      "campaign": "c04"
+    },
+    {
+      "id": "U12",
+      "scope": "independent validation of S15 via learner firewall + packet builder",
+      "gate": "VALIDATED",
+      "detail": "newbie_packet_builder S15 packet_sha f2b1e046…; firewall stage_turn LEARNER_A epistemic S15 verify_stage ok; context_manifest_sha256 84718037…; firewall unittest 36/36. Evidence: audit/content-campaign-c04/evidence/phase_e_s15_firewall.json. This is E0/harness validation, not a full E2 learner journey.",
+      "campaign": "c04"
+    }
   ],
+  "test_expectations_changed": [
+    {
+      "test": "tests/adversarial/test_s01_text_first_prose.py",
+      "change": "theory heading count 14 -> 15",
+      "why": "the folded reference block adds one heading; the count is still pinned exactly, only the expected structure changed"
+    },
+    {
+      "test": "tests/adversarial/test_s03_text_first_contract.py",
+      "change": "anchor '**Diccionario de navegación.**' replaced by the sentence carrying the section's core idea",
+      "why": "the up-front term dump was dissolved into glosses at the point of need per protocol §3.6; the requirement is still enforced, against teaching prose instead of a dictionary block"
+    },
+    {
+      "test": "tests/adversarial/test_copy_and_resources.py",
+      "change": "URLs stripped before the forbidden-book scan",
+      "why": "pre-existing red gate unrelated to this campaign: '\\bbook\\b' matched 'sre-book' inside a canonical URL. The gate exists to stop book recommendations in learner-visible copy; a resource that is genuinely a book is still caught by its title and description."
+    }
+  ],
+  "gates_at_head": {
+    "tsc": "pass",
+    "lint": "pass (6 pre-existing warnings, 0 errors)",
+    "adversarial": "332 passed, 1 skipped",
+    "content_runtime_audit": {"pass": 3265, "fail": 0, "skip": 92, "artifacts": 3357, "note": "clean pandas-3.0.5 venv; 22 extra skips are fastapi/sqlalchemy/cv2 missing from the declared environment"},
+    "v3_invariant": "ok, 52 sections tagged",
+    "glossary_coverage_p1_missing": 0,
+    "glossary_intro_forward_refs": 0,
+    "anglicism_unglossed_first_uses": 0,
+    "preservation_sentinel_unauthorized_deletes": 0
+  },
+  "identity_check": {"sections": 52, "exercise_ids": 1248, "subtopics": 416, "demos": 416},
   "open_material_doubts": 0,
   "accepted_limitations": [
-    "D-004 two pre-existing glossary gate failures, unchanged",
-    "writer and editorial reviewer were the same agent in separate passes; independent human review recommended before merge",
-    "no deployment performed, so no live GitHub Pages claim is made",
-    "the repository runtime audit skipped the two numpy snippets on this machine (-I hides user site-packages); their outputs were verified by direct execution"
+    "the writer and the editorial reviewer are the same agent in separate passes; Phase E ran the firewall/packet-builder harness, not a second human editor",
+    "no deployment claim is made in this record; deployment is tracked separately",
+    "LENGTH_TELL remains at 21 sections where the correct self-check option is much the longest — detected, recorded, not repaired",
+    "clean teaching venv does not install fastapi/sqlalchemy/cv2, so 22 snippets that used to execute against user site-packages now skip as missing_dependency"
   ],
-  "pre_existing_failures_not_caused_by_campaign": {
-    "glossary_intro_forward_refs": 2,
-    "glossary_coverage_p1_missing": 46,
-    "test_s03_independent_contract_errors": 4
-  },
-  "quiet_rounds": 2
+  "still_open": [
+    "LENGTH_TELL x21",
+    "LIVE Pages attestation of this SHA"
+  ],
+  "quiet_rounds": 0
 }

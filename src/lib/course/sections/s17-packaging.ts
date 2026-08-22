@@ -25,11 +25,13 @@ export const section17: CourseSection = {
  ],
  theory: [
  {
- heading: "Mapa de la sección: joins → forma → agregación → reconciliación",
+  heading: "Unes dos tablas y de pronto hay más filas que antes",
  paragraphs: [
- "En esta sección cierras el portfolio de calidad + EDA: unes tablas sintéticas de clientes y transacciones, reshapes long/wide, agregas con groupby y redactas un memo de reconciliación sin leakage temporal. El empaquetado de módulos/CLI ya se trabajó en la sección de módulos y CLI; aquí el “paquete” es la evidencia analítica reproducible que un stakeholder puede re-ejecutar.",
- "El hilo conductor es un **portfolio ejecutivo** con regiones ficticias (Lima, Cusco, Madrid), `cliente_id` tipo `C00x` y montos en PEN sintéticos. Entregable: dataset limpio + script reproducible + respuestas de negocio con evidencia + memo de límites y no-claims. Nunca PII real ni datos de producción. Cada bloque de teoría termina en un demo (I Do) y tres ejercicios (We Do); el You Do integra todo en un solo script.",
- "Orden pedagógico (gradual release): **T1 Joins** (claves, cardinalidad, validate, anti-join) → **T2 Forma** (concat, melt, pivot, nombres estables) → **T3 Agregación** (groupby/agg/transform, ventanas y cohortes) → **T4 Reconciliación** (totales, denominadores, cutoff anti-leakage). Solo APIs de pandas ya vistas en S15–S16 más merge/groupby de esta sección. **Ritmo sugerido (~18 h):** ~4 h T1, ~4 h T2, ~5 h T3, ~3 h T4 + We Do de integración, ~2 h You Do/memo. **Después, S18** abre la lectura de incertidumbre (hallazgo vs. hipótesis, intervalos): aquí dejas las tablas y los gates listos para esa capa.",
+   "No es un error del código: es lo que ocurre cuando la clave por la que unes no es única en uno de los lados. Cada coincidencia múltiple multiplica filas, los totales se inflan y el resultado sigue pareciendo perfectamente normal. Contar las filas antes y después de una unión es el hábito más barato de esta sección y el que más disgustos evita.",
+   "Antes de unir hay que saber qué se espera. Si cada cliente tiene muchas transacciones, la relación es de uno a muchos y el resultado debe tener tantas filas como transacciones. Si esperabas uno a uno y sale otra cosa, la sorpresa está en los datos, no en la operación — y es mejor enterarse ahí que en la reunión. También conviene mirar lo que **no** casó: las filas huérfanas suelen ser el hallazgo más interesante del día.",
+   "Después viene la forma. Los mismos datos pueden estar **largos** —una fila por cliente y mes— o **anchos**, con un mes por columna. Ninguna es mejor: la larga es cómoda para agregar y la ancha para leer en una tabla. Cambiar de una a otra es rutinario, y lo único que hay que cuidar es que los nombres de columna sigan significando lo mismo después del cambio.",
+   "Agrupar es el paso donde aparecen las respuestas de negocio, y también donde se cuela el error más silencioso: agregar sin declarar sobre qué población. «El ticket promedio es 42» no significa nada sin decir de cuántos clientes, en qué periodo y excluyendo qué. Un promedio sin denominador es un número decorativo.",
+   "La sección cierra reconciliando: el total agregado debe cuadrar con el detalle, y si no cuadra hay que explicar la diferencia en lugar de ajustarla. La pregunta que la atraviesa es de control: **¿cuántas filas debería tener esto, y por qué tiene otras?** El entregable no es un paquete publicado sino un dataset limpio, un script que se puede volver a correr y un memo con los límites.",
  ],
  callout: {
  type: "info",
@@ -37,8 +39,18 @@ export const section17: CourseSection = {
  content:
  "No publicas un paquete en PyPI: empaquetas un dataset limpio, un script reproducible y un memo de límites para un stakeholder. Joins y groupby son el camino. Si no puedes re-ejecutar el script y recuperar los mismos números, el “paquete” no está listo.",
  },
- },
- {
+},
+{
+ heading: "Contrato de la sección (referencia)",
+ optional: true,
+ paragraphs: [
+   "Bloque de referencia. Orden de los subtemas y entregable.",
+   "**Orden de los subtemas.** T1 cubre las uniones: claves, cardinalidad, validación y anti-join. T2 pasa a la forma: concatenar, pasar de largo a ancho y mantener nombres estables. T3 trata la agregación con `groupby`, ventanas y cohortes. T4 cierra con la reconciliación y el memo.",
+   "**Entregable.** Un portafolio ejecutivo con regiones ficticias y montos sintéticos: dataset limpio, script reproducible, respuestas de negocio con su evidencia y un memo de límites. Si no puedes volver a ejecutar el script y recuperar los mismos números, el paquete no está terminado.",
+   "**Nota de alcance.** Aquí no se publica nada en PyPI; el empaquetado de módulos y la línea de comandos ya se trataron antes.",
+ ],
+},
+{
  heading: "Diccionario rápido de la sección",
  paragraphs: [
  "**Cardinalidad:** cuántas filas del lado derecho (o izquierdo) corresponden a cada clave (1:1, 1:m, m:m). **Fan-out:** explosión de filas por claves duplicadas en un join (típico m:m accidental).",

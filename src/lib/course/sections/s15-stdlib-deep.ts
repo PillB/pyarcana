@@ -25,20 +25,27 @@ export const section15: CourseSection = {
   ],
   theory: [
     {
-      heading: "Mapa de la sección: de NumPy a tablas tipadas",
+            heading: "Cuando cada columna habla un idioma distinto",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1; vuelve a él cuando un término te detenga). **Series:** vector con **Index** (etiquetas de negocio, no solo 0..n-1). **DataFrame:** tabla de columnas (Series) alineadas por el mismo Index. **dtype:** tipo de una columna (`string`, `float64`, `datetime64`, `category`…). **Schema:** contrato columna→tipo esperado. **Coerción:** conversión explícita (texto→número, texto→fecha); con `errors='coerce'`, lo inválido pasa a NaN/NaT y **se cuenta** en un reporte. Distingue **nulos del parser** (tokens ya reconocidos al leer) de **fallos de conversión** (texto basura que solo se vuelve NaN tras `to_numeric`/`to_datetime`). **loc / iloc:** selección por etiqueta vs. por posición. **Chained assignment:** asignar en cadena `df[...][...] =` no actualiza el padre de forma fiable. **Manifest:** registro de filas, columnas, dtypes, memoria y provenance. **Provenance:** de dónde salió el archivo y si cambió entre corridas (origen + hash del artefacto).",
-        "En la sección de NumPy aprendiste a calcular en **vectores homogéneos**. Aquí el objeto de trabajo cambia: **tablas con columnas de tipos distintos** que llegan como CSV/Excel de un retailer o un banco sintético. El hilo de laboratorio es **clientes y transacciones** (Lima/Arequipa/Cusco, montos en PEN, ids `C00x`/`T00x`). Sin PII real. Si falta una columna del schema o el dtype no cuadra, **falla explicable** — no inventes defaults. Los quality gates profundos y los joins de tablas quedan para más adelante; aquí te enfocas en **ingesta honesta**: leer, tipar, reportar y exportar de forma reproducible.",
-        "Orden pedagógico: **T1 Modelo/lectura** (Series/DataFrame + parser) → **T2 Selección** (loc/iloc/assign + copias seguras) → **T3 Tipos** (nullable, coerce, schema) → **T4 Exportación** (CSV/Excel, contrato de dtypes, manifest). En cada subtema: teoría → demo I Do → tres prácticas We Do (guiada, independiente, transferencia). Ritmo sugerido (~18 h): sesiones 1–2 en T1; 3–4 en T2; 5–6 en T3; 7–8 en T4 + You Do + self-check. Criterio de cierre: filas reconciliadas, reporte de coerciones y manifest con provenance. Nunca PII real ni trates un score sintético como culpa, fraude o decisión automática sobre una persona.",
+        "NumPy te dio velocidad a cambio de una condición: que todo el bloque fuera del mismo tipo. Los archivos que llegan de verdad no cumplen eso. Un CSV de transacciones trae identificadores de texto, montos decimales, fechas y categorías, todo en la misma tabla — y cada columna necesita su propio tratamiento.",
+        "Esa tabla es un **DataFrame**, y conviene verlo como lo que es: un conjunto de columnas alineadas por una misma fila de referencia. Cada columna, por separado, es una **Series** — un vector con etiquetas. Y esas etiquetas son el **Index**, que puede ser el aburrido 0, 1, 2 o algo que signifique algo para el negocio, como el identificador del cliente. La diferencia importa más de lo que parece: cuando dos tablas se combinan, pandas las alinea por el Index, no por el orden en que están escritas.",
+        "El tipo de cada columna se llama **dtype**, y el conjunto de todos ellos es el **schema**: el contrato que el archivo promete cumplir. Aquí está la trampa central de la sección — leer un CSV sin declarar ese contrato casi siempre funciona. Pandas adivina, y adivina razonablemente bien. El problema es el día en que un monto viene con coma decimal y la columna entera se vuelve texto: no falla nada, los gráficos salen, y los totales están mal.",
+        "Por eso la conversión se pide de forma explícita y se cuenta lo que no se pudo convertir. Un valor ilegible se transforma en «faltante» y queda registrado en un reporte, en vez de desaparecer. La regla que gobierna la sección es esa: **nunca arreglar en silencio**. Si tres montos no se pudieron leer, el número tres aparece en algún lado.",
+        "La pregunta que te acompaña de principio a fin es la del contrato: **¿qué promete cada columna, y qué pasa exactamente cuando el archivo no cumple?** El hilo es clientes y transacciones sintéticas, sin datos personales reales. Exporta con `index=False` salvo que el index sea una clave de negocio documentada. Las uniones entre tablas y las verificaciones de calidad profundas llegan después; aquí el trabajo es la ingesta honesta — leer, tipar, reportar y exportar de forma que otra persona pueda repetirlo.",
       ],
-      callout: {
-        type: "info",
-        title: "Contrato de esta sección",
-        content:
-          "Stack: pandas + lo ya visto en el curso (paths, StringIO, dicts, funciones). Reporta coerciones; no “arregles” en silencio. Exporta con `index=False` salvo que el index sea clave de negocio documentada. Para Excel necesitas `openpyxl`; si no está, entrega CSV + schema JSON y documenta el límite.",
-      },
-    },
-    {
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, ritmo, criterio de cierre y dependencias.",
+        "**Orden de los subtemas.** T1 fija el modelo y la lectura: Series, DataFrame y las opciones del parser. T2 pasa a la selección con `loc` e `iloc` y a las copias seguras. T3 trata los tipos: valores nulos, conversión explícita y schema. T4 cierra con la exportación: CSV, Excel, contrato de dtypes y manifest.",
+        "**Ritmo orientativo.** Unas dieciocho horas: dos sesiones por subtema, más el proyecto y el autochequeo al final.",
+        "**Criterio de cierre.** Filas reconciliadas, un reporte de conversiones fallidas y un manifest con la procedencia del archivo.",
+        "**Dependencias.** pandas 3 y lo ya visto en el curso: rutas, `StringIO`, diccionarios y funciones. Para Excel hace falta `openpyxl`; si no está disponible, se entrega CSV más un schema en JSON y se documenta el límite. El texto homogéneo infiere `str`; el schema de identificadores pide `string` (nullable); `object` queda para columnas que mezclaron tipos.",
+      ],
+     },
+     {
       heading: "Series, DataFrame e Index",
       subtopicId: "S15-T1-A",
       paragraphs: [
@@ -60,12 +67,12 @@ export const section15: CourseSection = {
     }).set_index("cliente_id")
     print(s.loc["C001"])
     print(df.index.tolist())
-    print(df.dtypes.to_dict())
+    print(df.dtypes.astype(str).to_dict())
 
 s15_th_1()`,
         output: `0.9
 ['C001', 'C002', 'C003']
-{'region': dtype('O'), 'score': dtype('float64')}`,
+{'region': 'str', 'score': 'float64'}`,
       },
       callout: {
         type: "tip",
@@ -78,7 +85,7 @@ s15_th_1()`,
       heading: "Lectura CSV/Excel y opciones del parser",
       subtopicId: "S15-T1-B",
       paragraphs: [
-        "`read_csv` y `read_excel` aceptan `dtype`, `parse_dates`, `na_values`, `usecols`, `sep` y `decimal`. Controlar el parser evita columnas `object` silenciosas y fechas como string que rompen filtros temporales. Cada parámetro es un **contrato de archivo**: si el CSV real usa `;` y coma decimal, el código debe declararlo — no “adivinar” después mirando el `head()`. Un extracto de retail en Lima con montos `15,50` leído como si el decimal fuera punto se vuelve basura numérica o se queda en texto: el bug no es “pandas raro”, es el contrato de parser no declarado.",
+        "`read_csv` y `read_excel` aceptan `dtype`, `parse_dates`, `na_values`, `usecols`, `sep` y `decimal`. Controlar el parser evita dos silencios distintos. Si un monto llega como texto homogéneo, pandas 3 lo guarda como `str` — un dtype de texto, no un saco de objetos — y los totales no se pueden sumar aunque el `head()` se vea bien. Si la columna mezcla un número con un nombre, ya no es texto: queda como `object`, el tipo que pandas reserva para valores heterogéneos. Las fechas sin `parse_dates` se quedan como texto y los filtros temporales fallan o mienten. Cada parámetro es un **contrato de archivo**: si el CSV real usa `;` y coma decimal, el código debe declararlo — no “adivinar” después mirando el `head()`. Un extracto de retail en Lima con montos `15,50` leído como si el decimal fuera punto se vuelve basura numérica o se queda en texto: el bug no es “pandas raro”, es el contrato de parser no declarado.",
         "En datasets latinos declara encoding (`utf-8` o el real del proveedor), separador y **decimal** (`decimal=','` cuando el monto viene como `15,50`). Evita reescribir el archivo a mano con `.replace(',', '.')` salvo un preproceso documentado y acotado: el parámetro `decimal` es el camino idiomático cuando no hay comas de miles que confundan el parseo. `usecols` recorta columnas basura antes de tipar. Cuidado con `na_values`: tokens como `NA` o `N/A` **ya son nulos por defecto** en `read_csv`; `na_values` sirve para marcadores **propios del proveedor** (`SIN_DATO`, `ND`, `-999`). Excel requiere motor de terceros (`openpyxl`: `pip install openpyxl`). Fail-closed: si falta una columna requerida del schema de ingesta, no continúes “con lo que haya”.",
         "Siempre reconcilia **filas leídas vs. esperadas** y lista columnas + dtypes **antes** de confiar en un `head()` bonito. Caso sintético de laboratorio: CSV con `SIN_DATO` en monto → declara `na_values=['SIN_DATO']` (o cuenta la conversión con `to_numeric`), `cliente_id` como `string`, `monto` como `float64` y `fecha` como `datetime64`. Si el entorno no tiene `openpyxl`, completa el contrato con CSV + schema JSON y documenta el límite en el README del laboratorio — no finjas un export Excel que no corre.",
       ],
@@ -101,7 +108,7 @@ s15_th_1()`,
     print(len(df))
 
 s15_th_2()`,
-        output: `{'cliente_id': 'string', 'monto': 'float64', 'fecha': 'datetime64[ns]'}
+        output: `{'cliente_id': 'string', 'monto': 'float64', 'fecha': 'datetime64[us]'}
 [False, True]
 2`,
       },
@@ -187,7 +194,7 @@ s15_th_4()`,
       heading: "Strings, nullable, fechas y categorías",
       subtopicId: "S15-T3-A",
       paragraphs: [
-        "Los dtypes **string**, **Int64**/**boolean** nullable, **datetime64** y **category** controlan memoria y errores de comparación. El dtype `object` heterogéneo es el default peligroso de un CSV mal tipado: mezcla texto, números y `None` sin avisar. Tipar es **declarar intención**: “esta columna es fecha”, “esta es monto”, “esta es etiqueta de región”. `int64` clásico **no admite nulos**; si un contador llega con huecos, usa `Int64` (nullable) con `pd.NA`, no fuerces ceros. `category` ahorra memoria solo con **cardinalidad baja o acotada** (regiones, estados); no castees ids casi únicos “por costumbre”.",
+        "Los dtypes **string**, **Int64**/**boolean** nullable, **datetime64** y **category** controlan memoria y errores de comparación. En pandas 3 conviene no confundir tres nombres que parecen lo mismo. El default de una columna de texto homogéneo es `str`: solo admite cadenas o ausentes (`NaN`), y meterle un número provoca error. `string` — el que pide el schema de CP-N2-A para los identificadores — es el contrato nullable, con `pd.NA` para los huecos; se pide con `astype('string')` y no llega solo por inferencia. `object` ya no es «el texto que olvidaste tipar»: es el cajón de valores heterogéneos, y verlo en una columna que creías texto significa que el archivo mezcló tipos y pandas se negó a llamarlo `str`. Tipar es **declarar intención**: “esta columna es fecha”, “esta es monto”, “esta es etiqueta de región”, “este id es `string` y no el `str` inferido”. `int64` clásico **no admite nulos**; si un contador llega con huecos, usa `Int64` (nullable) con `pd.NA`, no fuerces ceros. `category` ahorra memoria solo con **cardinalidad baja o acotada** (regiones, estados); no castees ids casi únicos “por costumbre”.",
         "Convierte con `astype('string')`, `pd.to_numeric(..., errors=...)`, `pd.to_datetime`, `astype('category')`. Con `errors='coerce'`, los inválidos pasan a NaN/NaT — preferible a tumbar todo el lote **si cuentas** los fallos y los reportas. Normaliza texto de región con `str.title()` **antes** de `category` para no duplicar “lima” y “Lima” como dos categorías distintas (el mismo cliente sintético no debería ocupar dos etiquetas).",
         "Reporta cuántos valores no convirtieron: ese número es **evidencia de calidad**, no un detalle cosmético. Caso sintético: monto `x` y fecha `bad` → un NaN cada uno (fallo de **conversión**, no nulo del parser); región normalizada + `category` para Lima/Arequipa. El conteo de NaN nuevos es el embrión del **reporte de coerciones** de T3-B y del manifest de exportación de T4. Sin conteo, `errors='coerce'` se convierte en una forma elegante de esconder basura.",
       ],
@@ -209,7 +216,7 @@ s15_th_4()`,
     print("monto_na", int(df["monto_num"].isna().sum()), "fecha_na", int(df["fecha_dt"].isna().sum()))
 
 s15_th_5()`,
-        output: `{'region': 'category', 'monto': 'object', 'fecha': 'object', 'monto_num': 'float64', 'fecha_dt': 'datetime64[ns]'}
+        output: `{'region': 'category', 'monto': 'str', 'fecha': 'str', 'monto_num': 'float64', 'fecha_dt': 'datetime64[us]'}
 monto_na 1 fecha_na 1`,
       },
       callout: {
@@ -287,7 +294,7 @@ coercion_report {'monto': 1}`,
 s15_th_7()`,
         output: `['cliente_id', 'monto', 'region']
 excel_bytes True
-parquet_contract {'cliente_id': 'object', 'monto': 'float64', 'region': 'object'}`,
+parquet_contract {'cliente_id': 'str', 'monto': 'float64', 'region': 'str'}`,
       },
       callout: {
         type: "warning",
@@ -302,7 +309,7 @@ parquet_contract {'cliente_id': 'object', 'monto': 'float64', 'region': 'object'
       paragraphs: [
         "Un **manifest** registra filas, columnas, dtypes, `memory_usage` y provenance (`source`, hash del artefacto). Sin eso no hay reconciliación de ingesta en **CP-N2-A**: no sabes si el CSV de “esta mañana” es el mismo que el de ayer, ni cuántas filas salieron del pipeline, ni si alguien reordenó columnas a mano. El manifest es la contraparte del reporte de coerciones: uno habla de **tipos y fallos**, el otro de **artefacto y origen**.",
         "`index=False` en export evita columnas `Unnamed` al reingestar (salvo Index de negocio documentado). El hash (p. ej. SHA-256 truncado del CSV — una huella digital criptográfica del archivo) detecta si el artefacto cambió entre corridas. Hashea el **mismo payload** que entregas (`df.to_csv(index=False).encode()`), no el `repr` del DataFrame (la representación textual que pandas imprime en pantalla): el repr cambia con opciones de display y **no es** el archivo que pasa al siguiente equipo.",
-        "Documenta memoria antes/después de castear a `category`/`string` cuando el dataset crece (`memory_usage(deep=True)` para strings `object`; sin `deep=True` subestimas el costo real). Caso sintético listo para portfolio: manifest JSON con `rows`, `columns`, `dtypes`, `memory_bytes`, `source=synthetic_clientes_v1` y un `content_sha256` corto. Ese JSON es evidencia de que tu ingesta es auditable — el cierre natural de la sección antes del You Do de dos tablas.",
+        "Documenta memoria antes/después de castear a `category`/`string` cuando el dataset crece (`memory_usage(deep=True)` para columnas de texto; sin `deep=True` subestimas el costo real, sobre todo si alguna columna quedó como `object` heterogéneo). Caso sintético listo para portfolio: manifest JSON con `rows`, `columns`, `dtypes`, `memory_bytes`, `source=synthetic_clientes_v1` y un `content_sha256` corto. Ese JSON es evidencia de que tu ingesta es auditable — el cierre natural de la sección antes del You Do de dos tablas.",
       ],
       code: {
         language: 'python',
@@ -324,7 +331,7 @@ parquet_contract {'cliente_id': 'object', 'monto': 'float64', 'region': 'object'
     print(json.dumps(manifest, sort_keys=True))
 
 s15_th_8()`,
-        output: `{"columns": ["cliente_id", "monto"], "content_sha256": "dff001519894", "dtypes": {"cliente_id": "object", "monto": "float64"}, "memory_bytes": 266, "rows": 2, "source": "synthetic_clientes_v1"}`,
+        output: `{"columns": ["cliente_id", "monto"], "content_sha256": "dff001519894", "dtypes": {"cliente_id": "str", "monto": "float64"}, "memory_bytes": 254, "rows": 2, "source": "synthetic_clientes_v1"}`,
       },
       callout: {
         type: "tip",
@@ -461,11 +468,11 @@ C003;20,0;2024-03-03
 
 s15_ido_2()`,
           output: `3 1
-datetime64[ns]
+datetime64[us]
 ['C001', 'C002', 'C003']`,
         },
         why:
-          "Cada parámetro de `read_csv` es un **contrato de archivo** (esto es, una declaración explícita de cómo leer el CSV). `sep` y `decimal=','` son idiomáticos frente a un `.replace` manual frágil. Sin `parse_dates` las fechas rompen filtros temporales; `dtype` y `na_values` evitan columnas `object` opacas. En We Do T1-B practicarás na_values del proveedor, fechas y CSV latino con usecols.",
+          "Cada parámetro de `read_csv` es un **contrato de archivo** (esto es, una declaración explícita de cómo leer el CSV). `sep` y `decimal=','` son idiomáticos frente a un `.replace` manual frágil. Sin `parse_dates` las fechas rompen filtros temporales; `dtype` y `na_values` evitan que un monto se quede como `str` opaco o que una columna mezclada quede como `object`. En We Do T1-B practicarás na_values del proveedor, fechas y CSV latino con usecols.",
         retrospective:
           "Si puedes explicar por qué `15,50` sin `decimal=','` no es 15.5, ya internalizaste el contrato del parser. El error clásico es «arreglar» el archivo a mano y perder trazabilidad. We Do T1-B practica na_values, parse_dates y usecols.",
       },
@@ -608,7 +615,7 @@ schema = {"cliente_id": "string", "monto": "float64", "fecha": "datetime64"}
 df, rep = apply_schema(raw, schema)
 print(df.dtypes.astype(str).to_dict())
 print(rep)`,
-          output: `{'cliente_id': 'string', 'monto': 'float64', 'fecha': 'datetime64[ns]'}
+          output: `{'cliente_id': 'string', 'monto': 'float64', 'fecha': 'datetime64[us]'}
 {'cliente_id': 0, 'monto': 1, 'fecha': 1}`,
         },
         why:
@@ -648,10 +655,10 @@ print(rep)`,
 
 s15_ido_7()`,
           output: `rows 2 excel_ok True
-contract {'cliente_id': 'object', 'monto': 'float64', 'region': 'object'}`,
+contract {'cliente_id': 'str', 'monto': 'float64', 'region': 'str'}`,
         },
         why:
-          "`index=False` evita `Unnamed: 0` al reingestar; el assert de columnas es la prueba mínima de export; el dict de dtypes documenta el contrato aunque no haya motor Parquet. En We Do T4-A practicarás CSV, Excel y contrato de dtypes por separado.",
+          "`index=False` evita `Unnamed: 0` al reingestar; el assert de columnas es la prueba mínima de export; el dict de dtypes documenta el contrato aunque no haya motor Parquet. En pandas 3 el texto inferido aparece como `str`, no como `object`. En We Do T4-A practicarás CSV, Excel y contrato de dtypes por separado.",
         retrospective:
           "Si puedes explicar por qué el assert de columnas va **después** del re-read, ya tienes el hábito de round-trip. El error clásico es confiar en el DF en memoria y descubrir `Unnamed: 0` al reingestar. Pregunta: ¿qué prueba el `excel_ok` además del CSV? We Do T4-A: CSV sin index, Excel en memoria y contrato de dtypes.",
       },
@@ -681,7 +688,7 @@ contract {'cliente_id': 'object', 'monto': 'float64', 'region': 'object'}`,
     print(json.dumps(manifest, sort_keys=True))
 
 s15_ido_8()`,
-          output: `{"columns": ["cliente_id", "monto"], "content_sha256": "15375056672a", "dtypes": {"cliente_id": "object", "monto": "float64"}, "memory_bytes": 335, "rows": 3, "source": "synthetic_tx_v1"}`,
+          output: `{"columns": ["cliente_id", "monto"], "content_sha256": "15375056672a", "dtypes": {"cliente_id": "str", "monto": "float64"}, "memory_bytes": 315, "rows": 3, "source": "synthetic_tx_v1"}`,
         },
         why:
           "Hashear el payload exportado (no `str(df)`) hace el hash estable entre corridas; `memory_usage(deep=True)` no subestima strings; `source` es provenance mínima. El manifest reconcilia filas de entrada y de salida. En We Do T4-B practicarás memoria, manifest mínimo y hash truncado.",
@@ -867,7 +874,7 @@ print(int(df["b"].isna().sum()))`,
           "parse_dates en read_csv con la columna de fecha.",
           "str(df['fecha'].dtype).",
         ],
-        edgeCases: ["dtype object", "formato de fecha inválido"],
+        edgeCases: ["fecha queda como texto (str)", "formato de fecha inválido"],
         tests: "str(df['fecha'].dtype).startswith('datetime64')",
         feedback:
           "Sin `parse_dates` la columna queda como texto: un `head()` bonito miente. Declara el contrato en `read_csv` para que el dtype sea `datetime64` desde la ingesta y los filtros temporales no fallen en silencio. Fíjate en cómo está escrita la comprobación: compara la **familia** del dtype, no la cadena completa. pandas cambió la resolución por defecto de `datetime64[ns]` a `datetime64[us]` en la versión 3, y cualquier test atado al texto exacto se rompió sin que el código del alumno tuviera nada de malo. Un contrato debe afirmar lo que te importa —«esto es una fecha, no texto»— y nada más.",
@@ -876,7 +883,7 @@ print(int(df["b"].isna().sum()))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Error a corregir: sin parse_dates la fecha queda como object/string
+          code: `# Error a corregir: sin parse_dates la fecha queda como texto (str)
 import pandas as pd
 from io import StringIO
 df = pd.read_csv(StringIO("fecha,x\\n2024-01-01,1\\n"))
@@ -1184,24 +1191,24 @@ print(df["score"].tolist())`,
         kind: "guided",
         title: "Región normalizada a category",
         preamble:
-          "- **Contexto:** «lima» y «Lima» no deben ser dos categorías distintas en un reporte de regiones.\n- **Meta:** normalizar con `str.title()` y castear a `category`.\n- **Éxito:** `dtype.name` imprime `category`.\n- **Límites:** no dejes `object`; title **antes** del astype.",
+          "- **Contexto:** «lima» y «Lima» no deben ser dos categorías distintas en un reporte de regiones.\n- **Meta:** normalizar con `str.title()` y castear a `category`.\n- **Éxito:** `dtype.name` imprime `category`.\n- **Límites:** no dejes el texto inferido (`str`); title **antes** del astype.",
         instruction:
-          "1. Abre el starter: imprime el dtype crudo (`object`).\n2. Encadena `.str.title().astype('category')` sobre la serie.\n3. Imprime `s.dtype.name`.\n4. Verifica `category`.",
+          "1. Abre el starter: imprime el dtype inferido (`str`).\n2. Encadena `.str.title().astype('category')` sobre la serie.\n3. Imprime `s.dtype.name`.\n4. Verifica `category`.",
         hint: "Normaliza texto y luego castea a category.",
         hints: [
           "str.title() primero para unificar mayúsculas y minúsculas de región.",
           "astype('category'); print(s.dtype.name).",
         ],
-        edgeCases: ["object residual", "sin title"],
+        edgeCases: ["str residual", "sin title"],
         tests: "dtype.name == 'category' tras title + astype",
         feedback:
-          "Sin `title`, las mayúsculas inconsistentes duplican categorías. Sin `astype('category')`, el dtype sigue siendo object. Encadena ambos en ese orden.",
+          "Sin `title`, las mayúsculas inconsistentes duplican categorías. Sin `astype('category')`, el dtype sigue siendo el texto inferido (`str`). Encadena ambos en ese orden.",
         retrospective:
           "Normalizar texto **antes** de `category` evita dos categorías para el mismo valor de negocio (`lima`/`Lima`). El error clásico es castear a category y «limpiar mayúsculas después», cuando ya fijaste etiquetas duplicadas. Pregunta: ¿cuántas categorías distintas tendrías con el fixture del starter si omites `title`? Siguiente (E2): montos basura a NaN contable.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Error a corregir: no aplica title ni category; imprime object
+          code: `# Error a corregir: no aplica title ni category; imprime el str inferido
 import pandas as pd
 df = pd.DataFrame({"region": ["lima", "Lima"]})
 s = df["region"]
@@ -1265,27 +1272,27 @@ print(s.tolist())`,
         kind: "transfer",
         title: "Fechas inválidas a NaT contable",
         preamble:
-          "- **Contexto:** una fecha basura (`no-fecha`) debe volverse NaT y contarse, no quedarse como string opaco.\n- **Meta:** parsear con `errors='coerce'` e imprimir cuántos NaT hay.\n- **Éxito:** imprime `1`.\n- **Límites:** no uses `errors='ignore'`; cuenta con `isna`, no con `len` del series entero.",
+          "- **Contexto:** una fecha basura (`no-fecha`) debe volverse NaT y contarse, no tumbar todo el lote.\n- **Meta:** parsear con `errors='coerce'` e imprimir cuántos NaT hay.\n- **Éxito:** imprime `1`.\n- **Límites:** no dejes el default (`raise`); cuenta con `isna`, no con `len` del series entero.",
         instruction:
-          "1. Lee el DEFECT: `errors='ignore'` no deja NaT contable de forma fiable.\n2. Cambia a `errors='coerce'`.\n3. Imprime `int(s.isna().sum())`.\n4. Verifica `1`.",
+          "1. Lee el DEFECT: `to_datetime` sin `errors='coerce'` lanza `ValueError` ante `no-fecha`.\n2. Añade `errors='coerce'`.\n3. Imprime `int(s.isna().sum())`.\n4. Verifica `1`.",
         hint: "Parse de fechas con basura contable.",
         hints: [
-          "Prefiere `errors='coerce'` sobre `errors='ignore'` al parsear fechas basura.",
+          "Añade `errors='coerce'` para que la fecha ilegible sea NaT en vez de un error.",
           "int(s.isna().sum()) — NaT cuenta como na.",
         ],
         edgeCases: ["errors raise", "contar len"],
         tests: "isna().sum() == 1 tras to_datetime coerce",
         feedback:
-          "`errors='ignore'` no deja un NaT contable de forma fiable: la basura puede seguir como string opaco. Usa `errors='coerce'`, cuenta con `isna` (NaT es nulo) e imprime el entero — aquí debe ser `1`.",
+          "Sin `errors='coerce'`, una sola fecha ilegible tumba el lote con `ValueError`. Con `coerce`, la basura es NaT y se puede contar. Usa `isna` (NaT es nulo) e imprime el entero — aquí debe ser `1`. En pandas 3, `errors='ignore'` ya no es una opción real: o conviertes y cuentas, o fallas en voz alta.",
         retrospective:
-          "NaT contable es el gemelo del NaN numérico en el reporte de calidad. Pregunta: ¿por qué `ignore` es peligroso en un pipeline auditado? Puente a T3-B: schema + reporte `{columna: n_fallos}`.",
+          "NaT contable es el gemelo del NaN numérico en el reporte de calidad. Pregunta: ¿por qué un pipeline auditado prefiere un NaT contado a un `ValueError` a mitad de lote? Puente a T3-B: schema + reporte `{columna: n_fallos}`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Error a corregir: errors='ignore' no deja un NaT contable de forma fiable
+          code: `# Error a corregir (DEFECT): to_datetime sin coerce tumba el lote ante una fecha basura
 import pandas as pd
-s = pd.to_datetime(pd.Series(["2024-01-01", "no-fecha"]), errors="ignore")
-print(int(pd.isna(s).sum() if hasattr(s, '__iter__') else 0))
+s = pd.to_datetime(pd.Series(["2024-01-01", "no-fecha"]))
+print(int(s.isna().sum()))
 `,
         },
         solutionCode: {
@@ -1357,7 +1364,7 @@ print(int(df["monto"].isna().sum() - before))`,
         feedback:
           "No inventes la columna. Valida el schema y propaga KeyError como `missing`. Rellenar ceros «para que corra» miente al dashboard.",
         retrospective:
-          "Fail-closed = el contrato habla antes que el dashboard. El error clásico es «rellenar para que pase el test». Luego (E3): tipar ids a dtype `string` de pandas (no object).",
+          "Fail-closed = el contrato habla antes que el dashboard. El error clásico es «rellenar para que pase el test». Luego (E3): tipar ids a dtype `string` de pandas (no el `str` inferido, ni `object`).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1389,24 +1396,24 @@ except KeyError:
         kind: "transfer",
         title: "Ids como dtype string de pandas",
         preamble:
-          "- **Contexto:** el schema de CP-N2-A declara `cliente_id: string`; el default de Series de texto suele ser `object`.\n- **Meta:** castear a dtype `string` de pandas e imprimir `str(dtype)`.\n- **Éxito:** imprime `string`.\n- **Límites:** no dejes `object`; no uses `category` para ids casi únicos.",
+          "- **Contexto:** el schema de CP-N2-A declara `cliente_id: string`. El default de una Series de texto en pandas 3 es `str` (texto inferido, ausentes como `NaN`), que no es el dtype nullable `string` (ausentes como `pd.NA`).\n- **Meta:** castear a dtype `string` de pandas e imprimir `str(dtype)`.\n- **Éxito:** imprime `string`.\n- **Límites:** no dejes el `str` inferido; no uses `category` para ids casi únicos.",
         instruction:
-          "1. Lee el DEFECT: imprime el dtype por defecto (`object`).\n2. Aplica `astype('string')`.\n3. Imprime `str(s.dtype)`.\n4. Verifica `string`.",
-        hint: "Dtype string nullable de pandas, no object.",
+          "1. Lee el DEFECT: imprime el dtype inferido (`str`).\n2. Aplica `astype('string')`.\n3. Imprime `str(s.dtype)`.\n4. Verifica `string`.",
+        hint: "Dtype string nullable de pandas, no el str inferido.",
         hints: [
           "Castea la serie al dtype string de pandas.",
           "print(str(s.dtype)).",
         ],
-        edgeCases: ["object", "category"],
+        edgeCases: ["str inferido", "category"],
         tests: "str(dtype) == 'string' tras astype('string')",
         feedback:
-          "El default de Series de texto es object. Usa `astype('string')` de pandas para el contrato tipado del schema.",
+          "El default de una Series de texto en pandas 3 es `str`, no `object`. `object` aparece cuando la columna mezcló tipos. El schema pide `string` (nullable, `pd.NA`): usa `astype('string')`.",
         retrospective:
-          "`string` nullable es el contrato tipado; `object` es el default opaco. Pregunta: ¿por qué no castear ids únicos a category «por costumbre»? Puente a T4-A: exportar sin perder el mapa de columnas.",
+          "`string` nullable es el contrato tipado; `str` es el default inferido; `object` es el cajón heterogéneo. Pregunta: ¿por qué no castear ids únicos a category «por costumbre»? Puente a T4-A: exportar sin perder el mapa de columnas.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Error a corregir: deja object; debe ser dtype string de pandas
+          code: `# Error a corregir: deja el str inferido; debe ser dtype string de pandas
 import pandas as pd
 s = pd.Series(["C001"])
 print(str(s.dtype))
@@ -1514,7 +1521,7 @@ print(len(bio.getvalue()) > 0)`,
         kind: "transfer",
         title: "Contrato de dtypes por columna",
         preamble:
-          "- **Contexto:** si el entorno no tiene motor Parquet, un dict columna→dtype es el contrato de tipos que acompaña al CSV.\n- **Meta:** construir `{col: str(dtype)}` e imprimirlo ordenado por clave.\n- **Éxito:** `{'cliente_id': 'object', 'monto': 'float64'}`.\n- **Límites:** no dejes el dict vacío; usa `str(dtype)`, no el objeto dtype crudo sin convertir.",
+          "- **Contexto:** si el entorno no tiene motor Parquet, un dict columna→dtype es el contrato de tipos que acompaña al CSV.\n- **Meta:** construir `{col: str(dtype)}` e imprimirlo ordenado por clave.\n- **Éxito:** `{'cliente_id': 'str', 'monto': 'float64'}`.\n- **Límites:** no dejes el dict vacío; usa `str(dtype)`, no el objeto dtype crudo sin convertir.",
         instruction:
           "1. Lee el DEFECT: `contract = {}`.\n2. Llena con comprehension sobre `df.columns`.\n3. Imprime `dict(sorted(contract.items()))`.\n4. Verifica el mapa del fixture.",
         hint: "Mapa columna → dtype legible.",
@@ -1545,7 +1552,7 @@ print(dict(sorted(contract.items())))
 df = pd.DataFrame({"cliente_id": ["C001"], "monto": [1.0]})
 contract = {c: str(df[c].dtype) for c in df.columns}
 print(dict(sorted(contract.items())))`,
-          output: `{'cliente_id': 'object', 'monto': 'float64'}`,
+          output: `{'cliente_id': 'str', 'monto': 'float64'}`,
         },
       },
       {
@@ -1554,7 +1561,7 @@ print(dict(sorted(contract.items())))`,
         kind: "guided",
         title: "Memoria real con deep True",
         preamble:
-          "- **Contexto:** al castear a `category`/`string` en datasets grandes, necesitas medir memoria **real** de object/string.\n- **Meta:** calcular `memory_usage(deep=True).sum()` y decir si es `> 0`.\n- **Éxito:** imprime `True`.\n- **Límites:** no imprimas un booleano fijo; `deep=True` importa para strings.",
+          "- **Contexto:** al castear a `category`/`string` en datasets grandes, necesitas medir memoria **real** de las columnas de texto.\n- **Meta:** calcular `memory_usage(deep=True).sum()` y decir si es `> 0`.\n- **Éxito:** imprime `True`.\n- **Límites:** no imprimas un booleano fijo; `deep=True` importa para strings.",
         instruction:
           "1. Abre el starter: imprime `False` sin medir.\n2. Calcula `int(df.memory_usage(deep=True).sum()) > 0`.\n3. Imprime ese booleano.\n4. Verifica `True` con el fixture de strings.",
         hint: "Mide memoria profunda del DataFrame.",
@@ -1565,7 +1572,7 @@ print(dict(sorted(contract.items())))`,
         edgeCases: ["deep=False en strings", "no sum"],
         tests: "memory_usage(deep=True).sum() > 0 → True",
         feedback:
-          "Un booleano hardcodeado no es una medición. `deep=True` cuenta el contenido de object/string; sin él subestimas el costo real de columnas de texto.",
+          "Un booleano hardcodeado no es una medición. `deep=True` cuenta el contenido de las columnas de texto; sin él subestimas el costo real, sobre todo si alguna quedó como `object` heterogéneo.",
         retrospective:
           "Medir antes/después de castear es el hábito de optimización honesta. El error clásico es imprimir un booleano fijo o usar `deep=False` y subestimar strings. Pregunta: ¿por qué este fixture de regiones necesita `deep=True`? Siguiente (E2): armar el manifest mínimo de filas y columnas.",
         starterCode: {
@@ -1865,7 +1872,7 @@ if __name__ == "__main__":
         options: ["Convierte la columna fecha a datetime en la lectura", "Borra filas con fecha inválida", "Obliga a usar Excel en vez de CSV", "Solo formatea el print de la fecha"],
         correctIndex: 0,
         explanation:
-          "Parse_dates tipa la columna como `datetime` (un tipo de fecha con el que pandas filtra y ordena temporalmente) en la ingesta; sin eso suele quedar `object`/`string` (texto opaco).",
+          "Parse_dates tipa la columna como `datetime` (un tipo de fecha con el que pandas filtra y ordena temporalmente) en la ingesta; sin eso suele quedar como texto (`str`). La resolución concreta (`[ns]` o `[us]`) depende de la versión y no es el contrato: lo que importa es que sea una fecha, no texto.",
       },
       {
         question: "Si el schema exige la columna 'monto' y el CSV no la trae, ¿qué es lo correcto en esta sección?",

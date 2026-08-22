@@ -25,13 +25,29 @@ export const section45: CourseSection = {
   ],
   theory: [
     {
-      heading: "Ruta de S45: cloud, almacenamiento, colas e infraestructura",
+            heading: "El worker se muere a la mitad del trabajo",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1; cada término reaparece en su subtema). **Object store:** blobs/artefactos por key (T1-A). **Relacional:** invariantes y consultas (T1-A/B). **Cache:** copia descartable, no fuente de verdad (T1-A). **Delivery semantics:** at-least-once / at-most-once / exactly-once como propiedad compuesta (T2-A). **Visibility timeout:** ventana sin ack tras la cual el mensaje puede reaparecer (T2-A). **Dedup:** idempotency key del mensaje (T2-B). **DLQ:** dead-letter de mensajes venenosos (T2-B). **IAM least-privilege:** permisos mínimos por rol (T3-B). **Egress control:** salidas de red autorizadas (T3-B). **IaC:** infra declarativa por entorno (T4-A). **Budget/quota:** costo y límites medidos en **PEN** = soles peruanos sintéticos (T4-B).",
-        "Esta sección opera el artefacto de S44 como **job asíncrono en la nube** (modelo didáctico, sin cuenta real): object store, relacional, cache, colas con delivery semantics y presupuestos. Contratos al estilo Well-Architected / lenguaje de IaC (referencia). El caso `CASO-IQU-045` (reportes sintéticos en Iquitos) no usa credenciales ni egress real.",
-        "Puente desde S44: el artefacto de pipeline (imagen/paquete firmado o bundle de release) es la **entrada** del job; aquí decides dónde se guarda el resultado, cómo se encola el trabajo, qué pasa si el worker muere a mitad, y con qué permisos y presupuesto corre. No reimplementas CI: **consumes** su salida de forma idempotente.",
-        "Producto incremental: arquitectura distribuida mínima. Entrada: job idempotente, artefacto, política de entrega, presupuesto e IAM least-privilege. Salida: estado durable, resultado en object store y terminales en DLQ. Error de promoción: cache como verdad, ack antes de efecto, egress no autorizado o restore no medido.",
-        "Orden: T1 persistencia → T2 colas/dedup/DLQ → T3 compute/IAM/egress → T4 configuración declarativa, costo y recovery. Primero ves demos locales del contrato, luego reparas predicados fallidos (válido / adverso / dato faltante) y al final armas el job mínimo en el proyecto. Stack didáctico: **stdlib** de Python modelando contratos cloud **sin cuenta real ni egress**.",
+        "No es una hipótesis incómoda: es lo que ocurre cuando una máquina se reinicia, un despliegue reemplaza el proceso o la red se corta. La pregunta no es cómo evitarlo — no se puede — sino qué queda del trabajo cuando pasa, y qué ocurre cuando alguien lo reintenta.",
+        "Piensa en la barra de una cocina con los pedidos colgados en un riel. El pedido no vive en la cabeza del cocinero: está escrito y colgado, así que si el cocinero sale, otro toma el papel y sigue. Una **cola** es ese riel. El trabajo se encola, alguien lo toma, y solo cuando termina avisa que puede retirarse del riel — ese aviso es el **ack**. Si el cocinero se va sin avisar, el pedido vuelve a aparecer y otro lo hace.",
+        "De ahí sale la regla que ordena toda la sección: el ack va **después** del efecto, nunca antes. Si confirmas primero y fallas después, el trabajo desaparece del riel sin haberse hecho. Y como el pedido puede reaparecer, el trabajo tiene que poder repetirse sin duplicar el resultado — eso es ser **idempotente**, y por eso el mismo identificador que traías desde S44 sirve aquí para reconocer un reintento.",
+        "Cada cosa que guardas quiere un lugar distinto según lo que promete. Un **object store** guarda archivos grandes por clave y no pregunta qué contienen. Una base relacional sostiene invariantes: que dos filas no se contradigan. Un **cache** es una copia descartable — si lo tratas como fuente de verdad, un día la verdad se borra sola y nadie lo nota hasta que las cifras no cuadran.",
+        "La pregunta que te acompaña es sencilla de formular y molesta de responder: **si el proceso muere justo aquí, ¿qué queda y qué se repite?** Modelas todo con la biblioteca estándar sobre `CASO-IQU-045`, reportes sintéticos en Iquitos: sin cuenta cloud, sin credenciales y sin salida de red real.",
+      ],
+      callout: {
+        type: "info",
+        title: "Gate de promoción y carga de trabajo",
+        content:
+          "Gate **CP-N4-B · job asíncrono resiliente**: reintentos no duplican resultados; DLQ, IAM, backup y costo quedan medidos. Las ~20 h se reparten en ~6 h de teoría y demos, ~8 h de weDo y ~6 h del youDo del proyecto (stdlib, sin cuenta cloud real).",
+      },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Reúne el entregable, el orden de los subtemas y los criterios de promoción.",
+        "**Producto incremental.** Una arquitectura distribuida mínima. Recibes un job idempotente, el artefacto de S44, una política de entrega, un presupuesto y permisos mínimos. Entregas estado durable, el resultado en el object store y los terminales en una cola de mensajes muertos. La promoción falla si el cache se usa como fuente de verdad, si el ack ocurre antes del efecto, si hay salida de red no autorizada o si el restore no está medido.",
+        "**Orden de los subtemas.** T1 decide dónde vive cada cosa. T2 pasa a colas, deduplicación y cola de mensajes muertos. T3 cubre cómputo, permisos y salida de red. T4 cierra con configuración declarativa, costo y recuperación.",
+        "**Ritmo.** Alrededor de veinte horas: unas seis de teoría y demos, ocho de práctica guiada y seis del proyecto.",
       ],
       code: {
         language: 'python',
@@ -52,12 +68,6 @@ print("cache_as_source_of_truth_ok", c["cache_as_source_of_truth_ok"])
         output: `case CASO-IQU-045
 terraform_only_topic False
 cache_as_source_of_truth_ok False`,
-      },
-      callout: {
-        type: "info",
-        title: "Gate de promoción y carga de trabajo",
-        content:
-          "Gate **CP-N4-B · job asíncrono resiliente**: reintentos no duplican resultados; DLQ, IAM, backup y costo quedan medidos. Las ~20 h se reparten en ~6 h de teoría y demos, ~8 h de weDo y ~6 h del youDo del proyecto (stdlib, sin cuenta cloud real).",
       },
     },
     {

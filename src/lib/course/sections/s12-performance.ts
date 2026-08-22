@@ -25,11 +25,14 @@ export const section12: CourseSection = {
   ],
   theory: [
     {
-      heading: "Mapa de la sección: HTTP, SQL y geodatos responsables",
+            heading: "El primer dato que no controlas",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1; el resto profundiza cada término). **Status code:** el código HTTP que devuelve el servidor (2xx éxito, 4xx error de cliente, 5xx error de servidor). **Timeout:** tiempo máximo de espera por request (cada pedido al servidor) — en un cliente real siempre pasas `timeout=`. **Retry/backoff:** reintentar solo errores **transitorios** (los que se curan solos, como 429 y 503) con espera creciente entre intentos. **Provenance (traza de origen):** metadatos del fetch (los datos que describen cómo se obtuvo la respuesta: `source_url`, `fetched_at`, `status_code`, `cache_hit`) **sin** secretos. **SQL parametrizado:** placeholders `?` en lugar de f-strings (los strings formateados con `f\"...\"`) cuando el input viaja en la consulta. **Geocoder autorizado/mock:** proveedor permitido o simulado en local. **Egress (salida de datos):** qué campos pueden salir de tu sistema hacia un servicio externo. **Geoseñal:** distancia u otra métrica geo que alimenta un score de relación — **no** es parentesco ni fraude. **Fail-closed (falla cerrado):** si el contrato falla, el código se detiene; no se inventan filas ni coordenadas.",
-        "Imagina el onboarding (el alta de un cliente) de un caso sintético en Madrid: un proveedor te lista señales por HTTP (el protocolo de la web), tú las guardas en SQLite local (la base de datos en archivo) y calculas una distancia a Callao para el score de relación. El hilo conductor es ese **adaptador de señales sintéticas** (entidades, evidencias, coordenadas) con timeout, caché, provenance y fallback offline (una salida de emergencia cuando no hay red). Construyes el incremento de **adquisición y geoevidencia del capstone CP-N1-C**: cliente HTTP síncrono resiliente, SQLite parametrizado y geocoder mock/autorizado **sin PII bancaria a servicios públicos**. Solo datos sintéticos latam (`example.com`, Madrid/Barcelona, ids `C00x`). Si el schema (la forma esperada del JSON o del SQL) no cuadra, **falla cerrado**.",
-        "Orden del aprendizaje: **T1 HTTP** (status, JSON, timeout, paginación, retry) → **T2 Auth/caché/contratos** (secretos en env, provenance, fallback) → **T3 SQL** (CRUD, join, placeholders, transacciones) → **T4 Geodatos responsables** (normalize, egress, Haversine como señal). Gate de la sección (la puerta que debes cruzar): adaptador con status/retry selectivo + join local de caso + geoseñal documentada. En **S13** armarás el dashboard de evidencia; aquí cierras la adquisición. Nunca tokens en logs ni claims de parentesco/fraude. El profiling (la medición de rendimiento) y la concurrencia (ejecutar varias tareas a la vez) de producción se tratan más adelante en el tramo de sistemas; no son el foco de esta semana."
+        "Todo lo que has leído hasta ahora venía de un archivo tuyo, en tu disco, con el contenido que tú pusiste. Un servicio externo no funciona así: no te debe nada. Puede tardar diez segundos, puede responder que está saturado, puede devolver el campo que esperabas con otro nombre, y puede estar caído justo el día de la demostración. La sección entera trata de escribir código que siga siendo honesto cuando eso pasa.",
+        "La primera herramienta es leer la respuesta antes que el contenido. Todo servicio web contesta con un **código de estado**, un número de tres cifras que resume qué ocurrió: los 200 son éxito, los 400 significan que el pedido estaba mal formulado, los 500 que el problema es del otro lado. Esa distinción decide la acción. Si el error es tuyo, reintentar es inútil; si es del servidor y probablemente pasajero —el 429 «vas muy rápido» o el 503 «vuelve luego»—, reintentar tiene sentido, esperando un poco más en cada intento para no empeorar la congestión.",
+        "La segunda es no esperar para siempre. Cada pedido lleva un **timeout**, un tiempo máximo de espera; sin él, un servicio que no responde no da error, simplemente cuelga tu programa hasta que alguien lo mata. Y cuando la respuesta llega, se guarda junto con su **procedencia**: de qué dirección vino, cuándo, con qué código de estado y si salió de la caché. Sin ese rastro, dentro de un mes tendrás un número en una tabla y ninguna forma de saber de dónde salió.",
+        "Los datos que traigas hay que guardarlos, y ahí aparece la regla más importante de la sección. Una consulta SQL se arma con marcadores de posición —el `?` que deja el hueco— y nunca pegando texto del usuario dentro de la consulta. La razón es concreta: si el nombre pegado incluye comillas y un fragmento de SQL, la base de datos lo obedece. Un marcador de posición convierte ese texto en un valor y no en una instrucción.",
+        "La última pieza es geográfica y también ética. Calcular la distancia entre dos puntos es una señal más para un puntaje de relación, nada más: la cercanía no prueba parentesco ni fraude. Y antes de mandar cualquier dato a un servicio de terceros hay que decidir explícitamente qué campos pueden salir de tu sistema —la ciudad sí, la dirección exacta y el número de cuenta no.",
+        "La pregunta que te acompaña es doble y hay que poder contestar las dos partes: **¿de dónde salió este dato, y qué hace mi programa cuando el servicio no responde?** Si la segunda respuesta es «no sé», todavía no está terminado. Medir el rendimiento y ejecutar varias tareas a la vez son temas del tramo de sistemas; aquí basta con un cliente síncrono que se porte bien.",
       ],
       callout: {
         type: "info",
@@ -37,8 +40,19 @@ export const section12: CourseSection = {
         content:
           "Un adaptador HTTP + almacén SQLite + geocoder mock con provenance y política de egress. Gate: status→acción N1, join de caso y geoseñal Lima–Callao con disclaimer. Datos sintéticos únicamente; nunca PII real ni tokens en logs.",
       },
-    },
-    {
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, vocabulario y criterio de cierre.",
+        "**Orden de los subtemas.** T1 cubre HTTP: códigos de estado, JSON, timeout, paginación y reintentos. T2 trata autenticación, caché y contratos: secretos en variables de entorno, procedencia y salida de emergencia sin red. T3 pasa a SQL: altas y consultas, uniones, marcadores de posición y transacciones. T4 cierra con geodatos responsables: normalización, política de salida de datos y distancia como señal.",
+        "**Vocabulario que se usa a lo largo de la sección.** *Reintento con espera creciente*: repetir solo los errores pasajeros, esperando cada vez más. *Procedencia*: los metadatos del pedido (dirección de origen, fecha, código de estado, si vino de caché), nunca los secretos. *Salida de datos*: qué campos pueden abandonar tu sistema hacia un servicio externo. *Geocodificador simulado*: un sustituto local del proveedor real, para no mandar datos a nadie durante la práctica. *Falla cerrada*: si el contrato no se cumple, el programa se detiene en lugar de inventar filas o coordenadas.",
+        "**Criterio de cierre.** Un adaptador con reintento selectivo según el código de estado, una unión local del caso en SQLite y una señal geográfica documentada con su advertencia.",
+        "**Límites.** Solo datos sintéticos latinoamericanos. Nunca tokens en los registros, nunca datos bancarios hacia servicios públicos, nunca afirmaciones automáticas de parentesco o fraude.",
+      ],
+     },
+     {
       heading: "requests/responses, status y JSON",
       subtopicId: "S12-T1-A",
       paragraphs: [

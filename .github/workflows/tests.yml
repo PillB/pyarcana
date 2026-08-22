@@ -280,9 +280,8 @@ jobs:
       # silently skips the numeric content can never look green.
       # Pinned, because every `output:` block in the curriculum is a promise
       # about what the learner will see, and that is only checkable against a
-      # named environment. An unpinned install pulled pandas 3.0.5, whose
-      # default string dtype is `str` rather than `object`, and six S15
-      # artifacts that print dtype contracts stopped matching.
+      # named environment. The content teaches pandas 3 (`str` inferred, `string`
+      # as the nullable schema contract, `object` for mixed types).
       - name: Install the declared teaching environment
         run: python3 -m pip install -r requirements-content.txt
 

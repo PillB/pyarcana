@@ -25,13 +25,30 @@ export const section36: CourseSection = {
  ],
  theory: [
  {
- heading: "Señales no supervisadas para triage (mapa S36)",
+ heading: "Encontrar estructura cuando nadie etiquetó nada",
  paragraphs: [
- "**Diccionario de la sección** (léelo antes de T1):\n\n- **Clustering:** agrupar puntos por similitud sin etiqueta de conducta.\n- **Centroide:** promedio geométrico de un grupo (no es una etiqueta moral).\n- **Assign–update:** paso núcleo de k-means — asignar cada punto al centroide más cercano y recalcular medias.\n- **Núcleo density (idea DBSCAN):** punto con ≥`min_samples` vecinos en radio `eps`, **contando el propio punto** (convención sklearn); no eliges k, eliges densidad.\n- **Escalamiento (scale):** poner features en una escala comparable (p. ej. z-score) antes de distancias.\n- **PCA:** proyección a pocas dimensiones para *explorar*, no para decidir culpa (el lab usa pesos fijos documentados; sklearn aprende autovectores).\n- **Anomalía / outlier:** punto raro respecto a una referencia.\n- **Novelty:** punto nuevo frente a un modelo de normalidad ya fijado.\n- **Path length (idea IF):** cuántos cortes bastan para aislar un punto; path corto suele indicar rareza geométrica, no culpa.\n- **contamination:** hipótesis de fracción a marcar (control de cola), *no* tasa de fraude.\n- **precision@k (P@k):** de los k primeros del ranking, qué fracción era útil al revisor.\n- **HITL:** *human-in-the-loop*, revisión humana obligatoria antes de acciones que afectan personas.\n- **Fail-closed:** si falta evidencia, revisor o contrato, no se emite sanción automática.\n- **Leakage temporal:** usar datos del futuro (o del mes evaluado) al ajustar la normalidad del pasado.\n- **PII:** datos personales identificables (en este lab no se usan datos reales).",
- "Clustering y detección de rareza alimentan el triage CP-N3-C como **señales auxiliares**, no como veredictos. Se evalúan por utilidad de revisión (¿ahorra tiempo al humano?) y nunca se traducen solas en fraude, parentesco o sanción. El lenguaje *fail-closed* protege a las personas detrás de los registros sintéticos del laboratorio.",
- "Puente de carrera: en S35 armaste la ficha del caso (evidencia | modelo | incertidumbre | humano). Aquí agregas **scores no supervisados** a la capa modelo/cola, sin tocar la decisión humana. En S37 medirás costo y tiempo de generar estas señales; en S39 las integrarás al triage responsable de CP-N3-C.",
- "Contrato de la sección. Entrada: features sintéticas `CASO-LIM-036`, capacidad de cola de revisión y etiquetas escasas. Salida: clusters/scores de rareza con aviso ético, backtest temporal y precision@k. Error: tratar anomalía como culpa, contamination como tasa de fraude, o fit con leakage de futuro bloquea el gate de señales.",
- "Caso Red Andina (ficticio, Lima): montos y frecuencias inventadas. Orden: T1 Clustering → T2 Dimensión/PCA → T3 Anomalías → T4 Tiempo y etiquetas escasas. Stack didáctico: **stdlib** (`statistics`, listas) para progressive disclosure; sklearn se cita como referencia profesional sin exigir la librería en ejercicios. Esta sección no decide fraude ni parentesco: solo produce señales para la cola de revisión."
+ "Hasta ahora cada modelo aprendió de ejemplos ya juzgados: esto necesitaba revisión, esto no. Aquí desaparece esa guía. Tienes registros y ninguna etiqueta, y la pregunta cambia de «¿a cuál de estas categorías pertenece?» a «¿qué grupos hay aquí, y cuáles se salen de todos ellos?».",
+ "Agrupar por parecido se llama **clustering**, y su mecanismo es más simple de lo que sugiere el nombre. Eliges cuántos grupos quieres, colocas un punto de referencia en cada uno —el **centroide**, que es sencillamente el promedio de sus miembros—, asignas cada dato al centroide más cercano y recalculas los promedios. Repites hasta que nada se mueve. Conviene decirlo antes de que la costumbre lo olvide: un centroide es un promedio geométrico, no una categoría moral.",
+ "Todo esto se apoya en medir distancias, y ahí hay una trampa de escala. Si una columna va de 0 a 1 y otra de 0 a 100 000, la segunda domina la distancia y la primera deja de existir para el algoritmo. Poner las features en una escala comparable antes de medir no es un paso opcional de limpieza: decide qué agrupa el modelo.",
+ "La otra mitad de la sección busca lo contrario del grupo: el punto que no encaja. Aquí es donde más fácil se resbala el lenguaje. Que un registro sea **raro** significa que se parece poco al resto — nada más. La frecuencia no es evidencia de conducta, y el parámetro que fija qué fracción marcar es una decisión sobre el tamaño de la cola, no una estimación de cuántos casos son ilícitos. Confundir esas dos cosas es cómo un sistema estadístico se convierte en una acusación.",
+ "Y como no hay etiquetas, tampoco hay una métrica que diga si acertaste. Lo que se puede medir es la utilidad para quien revisa: de los primeros k casos que el sistema puso arriba, ¿cuántos valieron el tiempo? La pregunta que atraviesa la sección se sostiene sobre esa distinción: **¿esto es raro, o simplemente poco frecuente — y quién decide qué significa?** La respuesta a la última parte es siempre una persona.",
+ ],
+ callout: {
+ type: "warning",
+ title: "Señal auxiliar, nunca veredicto",
+ content:
+ "Clustering y rareza alimentan la cola de revisión como señales de apoyo. No se traducen solas en fraude, parentesco ni sanción, y si falta evidencia o revisor humano, no se emite ninguna acción automática.",
+ },
+ },
+ {
+ heading: "Contrato de la sección (referencia)",
+ optional: true,
+ paragraphs: [
+ "Bloque de referencia. Entrada, salida, orden de los subtemas y errores que bloquean el gate.",
+ "**Contrato.** Recibes features sintéticas del caso, la capacidad de la cola de revisión y unas pocas etiquetas. Entregas clusters y scores de rareza con su aviso ético, un backtest temporal —ajustar la normalidad solo con el pasado y puntuar el futuro— y la precisión sobre los primeros k. El gate se bloquea si se trata la anomalía como culpa, si el parámetro de contaminación se lee como tasa de fraude, o si el ajuste usa datos del futuro.",
+ "**Orden de los subtemas.** T1 clustering. T2 reducción de dimensión y PCA, para explorar y no para decidir. T3 anomalías y novedad. T4 tiempo y etiquetas escasas.",
+ "**Puente entre secciones.** En S35 armaste la ficha del caso con sus cuatro capas; aquí agregas scores no supervisados a la capa del modelo, sin tocar la decisión humana. En S37 medirás lo que cuesta generarlos y en S39 se integran al triage responsable.",
+ "**Stack.** Biblioteca estándar (`statistics`, listas). sklearn se cita como referencia profesional, sin exigirlo en los ejercicios.",
  ],
  code: {
  language: 'python',
@@ -52,12 +69,6 @@ print("hitl", c["human_review"])
  output: `case CASO-LIM-036
 auto_guilt False
 hitl True`,
- },
- callout: {
- type: "info",
- title: "Ética de señales",
- content:
- "Anomalía ≠ culpa. Señal de rareza → candidato a revisión humana. Sin PII (datos personales identificables) real; sin concluir conducta indebida automática.",
  },
  },
  {

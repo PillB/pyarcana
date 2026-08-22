@@ -1,0 +1,24 @@
+{
+  "campaign_id": "CAMP-C04-PE",
+  "section": 15,
+  "source_revision_at_run": "b5f10d2c1ce37e6d8a0e562da4b5eab15a3bb9d2",
+  "note": "source_revision is HEAD at validation; working-tree S15 is the packet. Re-pin after commit if SHA must bind the tree.",
+  "packet_sha": "f2b1e0462bf5d80fca0e6973310ee99fdfce975a38422e1331a90f096e5b24cc",
+  "staged_packet_sha256": "f57af1285ee4cac6f338074c8b4d103ae6cffb1714bb5ed4e40e0066def6834d",
+  "context_manifest_id": "c04e-s15b-p01-LEARNER_A-epistemic-s15",
+  "context_manifest_sha256": "847180370135bc4f38b100aa3e8cd6e04488952c53eeff628d0ed1249e065d60",
+  "manifest_packet_sha": "f2b1e0462bf5d80fca0e6973310ee99fdfce975a38422e1331a90f096e5b24cc",
+  "stage_files": [
+    "AGENTS.md",
+    "learner_baseline.json",
+    "packet.json",
+    "prior_knowledge_state.json"
+  ],
+  "verify_stage": "ok",
+  "learner_id": "LEARNER_A",
+  "mode": "epistemic",
+  "active_title": "Pandas: ingesta, selecci\u00f3n y tipos",
+  "prior_sections": 14,
+  "selfCheck_stems": 12,
+  "has_correctIndex_in_active_selfCheck": false
+}

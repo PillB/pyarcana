@@ -1,0 +1,517 @@
+{
+  "sections_audited": 52,
+  "p1_total": 21,
+  "info_total": 42,
+  "by_kind": {
+    "LENGTH_TELL": 21,
+    "FORWARD_POINTER": 31,
+    "GUIDED_HINT_RESTATES": 11
+  },
+  "ok": false,
+  "findings": [
+    {
+      "section": "setup",
+      "index": 1,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 4/8 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "data-structures",
+      "index": 3,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 4/8 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "functions-modules",
+      "index": 4,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 4/8 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "data-acquisition",
+      "index": 7,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S08 (later than S07); pointer only",
+      "excerpt": "* sin comillas escapadas aquí; no uses el módulo `csv` aún (S08); no regex."
+    },
+    {
+      "section": "data-acquisition",
+      "index": 7,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 5/10 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "pandas",
+      "index": 8,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 5/11 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "visualization",
+      "index": 9,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S10 (later than S09); pointer only",
+      "excerpt": " con el número de salida, rompes pipes y el contrato CLI de S10.\\n- **Meta:** progreso a logs estruc"
+    },
+    {
+      "section": "testing",
+      "index": 11,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S12 (later than S11); pointer only",
+      "excerpt": "mentación concreta que habla con la base de datos) llega en S12."
+    },
+    {
+      "section": "testing",
+      "index": 11,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 5/6 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "performance",
+      "index": 12,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S13 (later than S12); pointer only",
+      "excerpt": "_id=C001`, no por magia. Ese join es lo que el dashboard de S13 consumirá."
+    },
+    {
+      "section": "performance",
+      "index": 12,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S13 (later than S12); pointer only",
+      "excerpt": "ede traer basura (`extra`) o faltar claves; el dashboard de S13 no debe tragar basura.\\n- **Meta:** "
+    },
+    {
+      "section": "performance",
+      "index": 12,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S13 (later than S12); pointer only",
+      "excerpt": "** si el proveedor renombra `lon` a `longitude`, el mapa de S13 se llena de huecos silenciosos.\\n- *"
+    },
+    {
+      "section": "performance",
+      "index": 12,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S13 (later than S12); pointer only",
+      "excerpt": "ntidades sintéticas alimenta `relationship_signal_score` en S13; **no** es veredicto familiar ni de "
+    },
+    {
+      "section": "security",
+      "index": 14,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 5/11 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "stdlib-deep",
+      "index": 15,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 7/12 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "wxpython-gui",
+      "index": 16,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S17 (later than S16); pointer only",
+      "excerpt": "- **Contexto:** S17 hará joins asumiendo una fila por cl"
+    },
+    {
+      "section": "wxpython-gui",
+      "index": 16,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 5/8 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "packaging",
+      "index": 17,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 3/5 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "data-engineering",
+      "index": 18,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S19 (later than S18); pointer only",
+      "excerpt": "- **Contexto:** el cierre hacia S19 exige n_raw, n_final y seed en la mi"
+    },
+    {
+      "section": "data-engineering",
+      "index": 18,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 8/10 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "databases-orm",
+      "index": 19,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S20 (later than S19); pointer only",
+      "excerpt": "es > 1000` será True antes de mirar la salida. Sin binario, S20/S21 no pueden re-renderizar ni archi"
+    },
+    {
+      "section": "databases-orm",
+      "index": 19,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S21 (later than S19); pointer only",
+      "excerpt": " 1000` será True antes de mirar la salida. Sin binario, S20/S21 no pueden re-renderizar ni archivar."
+    },
+    {
+      "section": "databases-orm",
+      "index": 19,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S21 (later than S19); pointer only",
+      "excerpt": "ring del pie antes de mirar la salida. El mismo pie viaja a S21 para que el DOCX no invente otra fue"
+    },
+    {
+      "section": "databases-orm",
+      "index": 19,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S21 (later than S19); pointer only",
+      "excerpt": "texto:** la figura del portfolio no viaja sola: el informe (S21) necesita saber *por qué* ese encodi"
+    },
+    {
+      "section": "rag",
+      "index": 20,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S21 (later than S20); pointer only",
+      "excerpt": "eano `reconcile True`. Sin este control, el paquete viaja a S21 con números “optimistas”."
+    },
+    {
+      "section": "rag",
+      "index": 20,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S21 (later than S20); pointer only",
+      "excerpt": "cto, el revisor de CP-N2-B no cierra el excel factory hacia S21."
+    },
+    {
+      "section": "fastapi",
+      "index": 21,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S22 (later than S21); pointer only",
+      "excerpt": "o — y **nunca** marques `approved` desde el factory (eso es S22 humano)."
+    },
+    {
+      "section": "fastapi",
+      "index": 21,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S22 (later than S21); pointer only",
+      "excerpt": "o:** el factory prepara el paquete; la aprobación humana es S22. Marcar `approved` en código es frau"
+    },
+    {
+      "section": "rapidfuzz-entity",
+      "index": 22,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 3/5 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "computer-vision",
+      "index": 23,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S24 (later than S23); pointer only",
+      "excerpt": ", no con éxito silencioso. Ese archivo verificado es el que S24 usará en OCR."
+    },
+    {
+      "section": "computer-vision",
+      "index": 23,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S24 (later than S23); pointer only",
+      "excerpt": "*y** periodo (`2026-01`); sin fecha, el binario que llega a S24 (OCR) no es usable para el mes del r"
+    },
+    {
+      "section": "computer-vision",
+      "index": 23,
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S23-T2-B-E1 (guided): hint contains a full solution line",
+      "excerpt": "ctx['auth'] = password == 'sandbox'"
+    },
+    {
+      "section": "computer-vision",
+      "index": 23,
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S23-T3-B-E1 (guided): hint contains a full solution line",
+      "excerpt": "return k in {'timeout', '429'}"
+    },
+    {
+      "section": "computer-vision",
+      "index": 23,
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S23-T4-B-E1 (guided): hint contains a full solution line",
+      "excerpt": "return 'human_handoff' if captcha else 'continue'"
+    },
+    {
+      "section": "computer-vision",
+      "index": 23,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 6/9 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "rpa-advanced",
+      "index": 24,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 4/5 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "streamlit-dashboards",
+      "index": 25,
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S25-T3-A-E1 (guided): hint contains a full solution line",
+      "excerpt": "print(obj['n'], REQUIRED.issubset(obj))"
+    },
+    {
+      "section": "streamlit-dashboards",
+      "index": 25,
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S25-T4-A-E1 (guided): hint contains a full solution line",
+      "excerpt": "schema_ok = all(k in pred for k in required)"
+    },
+    {
+      "section": "security-infra",
+      "index": 30,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S31 (later than S30); pointer only",
+      "excerpt": "erge mal validado puede sobrefundir nodos que irán al grafo S31."
+    },
+    {
+      "section": "security-infra",
+      "index": 30,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S31 (later than S30); pointer only",
+      "excerpt": " **Contexto:** en el Caso 30, si e1=e2 y e2=e3, el export a S31 debe ver un solo cluster.\\n- **Meta:"
+    },
+    {
+      "section": "security-infra",
+      "index": 30,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 5/9 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "streaming-data",
+      "index": 31,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 7/10 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "microservices",
+      "index": 32,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S33 (later than S32); pointer only",
+      "excerpt": "ve. Si mañana cambia el vocab de `canal`, subes a `fs-v2` — S33 debe citar el id nuevo, no reutiliza"
+    },
+    {
+      "section": "microservices",
+      "index": 32,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S33 (later than S32); pointer only",
+      "excerpt": "p y ok. Observa que overlap 0 es el gate antes del baseline S33."
+    },
+    {
+      "section": "microservices",
+      "index": 32,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S33 (later than S32); pointer only",
+      "excerpt": "ibas: predice leaky, skew y el id. En promote limpio (hacia S33) leaky vacío, skew False e id `fs-v*"
+    },
+    {
+      "section": "microservices",
+      "index": 32,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S33 (later than S32); pointer only",
+      "excerpt": "- **Contexto:** en promote hacia S33, faltar el catálogo no es “seguir ig"
+    },
+    {
+      "section": "microservices",
+      "index": 32,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S33 (later than S32); pointer only",
+      "excerpt": "* sin ancho `w` no hay feature de frecuencia legítima hacia S33.\\n- **Meta:** válido → CONTINUE; t i"
+    },
+    {
+      "section": "microservices",
+      "index": 32,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S33 (later than S32); pointer only",
+      "excerpt": "- **Contexto:** el id `fs-vN` es lo que el baseline S33 citará; version vacía no se promueve"
+    },
+    {
+      "section": "microservices",
+      "index": 32,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S33 (later than S32); pointer only",
+      "excerpt": "**Contexto:** sin version en el record no hay artefacto que S33 pueda citar.\\n- **Meta:** state+appl"
+    },
+    {
+      "section": "microservices",
+      "index": 32,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S33 (later than S32); pointer only",
+      "excerpt": "- **Contexto:** el promote hacia S33 solo avanza con catálogo limpio, ske"
+    },
+    {
+      "section": "microservices",
+      "index": 32,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S33 (later than S32); pointer only",
+      "excerpt": "ontexto:** el feature_set id es el contrato que el baseline S33 debe citar; sin id no se entrena.\\n-"
+    },
+    {
+      "section": "advanced-models",
+      "index": 33,
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S33-T1-B-E1 (guided): hint contains a full solution line",
+      "excerpt": "maj = max(set(y), key=y.count)"
+    },
+    {
+      "section": "advanced-models",
+      "index": 33,
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S33-T2-B-E1 (guided): hint contains a full solution line",
+      "excerpt": "ranked = sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True)"
+    },
+    {
+      "section": "advanced-models",
+      "index": 33,
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S33-T4-B-E1 (guided): hint contains a full solution line",
+      "excerpt": "n_groups = len(set(entities))"
+    },
+    {
+      "section": "advanced-models",
+      "index": 33,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 4/9 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "cv-ai-integration",
+      "index": 34,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 5/8 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "performance-extreme",
+      "index": 38,
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S38-T2-B-E1 (guided): hint contains a full solution line",
+      "excerpt": "timed_out = latency_ms > timeout_s * 1000"
+    },
+    {
+      "section": "llm-finetuning",
+      "index": 41,
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S41-T2-A-E1 (guided): hint contains a full solution line",
+      "excerpt": "return create_job(get_store(), body)"
+    },
+    {
+      "section": "llm-finetuning",
+      "index": 41,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 4/8 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "graph-rag",
+      "index": 42,
+      "kind": "GUIDED_HINT_RESTATES",
+      "severity": "INFO",
+      "detail": "S42-T4-B-E1 (guided): hint contains a full solution line",
+      "excerpt": "return audit.isdisjoint(pii) and deleted and derived_deleted and key_separate"
+    },
+    {
+      "section": "llmops",
+      "index": 43,
+      "kind": "FORWARD_POINTER",
+      "severity": "INFO",
+      "detail": "preamble cites S44 (later than S43); pointer only",
+      "excerpt": "Cierra el camino a S44: la imagen multi-stage de Trujillo e"
+    },
+    {
+      "section": "iac",
+      "index": 45,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 5/7 questions",
+      "excerpt": ""
+    },
+    {
+      "section": "tech-leadership",
+      "index": 50,
+      "kind": "LENGTH_TELL",
+      "severity": "P1",
+      "detail": "correct option is much the longest in 5/10 questions",
+      "excerpt": ""
+    }
+  ]
+}

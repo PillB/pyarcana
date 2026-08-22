@@ -25,12 +25,13 @@ export const section14: CourseSection = {
   ],
   theory: [
     {
-      heading: "Mapa de la sección: NumPy para un tablero de calidad",
+            heading: "Dejar de contar uno por uno",
       paragraphs: [
-        "**Diccionario rápido** (léelo antes de T1; vuelve cuando un término te detenga):\n\n- **ndarray** — bloque homogéneo de datos.\n- **dtype** — tipo de cada elemento.\n- **shape** — tupla de dimensiones.\n- **máscara** — filtro booleano del mismo shape.\n- **ufunc** — operación elemento a elemento.\n- **broadcast** — alineación automática de shapes.\n- **view vs. copy** — compartir o no la memoria subyacente.\n- **NaN/inf** — ausencia o no-finito; **no son ceros de negocio**.\n\nNo memorices la API entera el primer día: cada término vuelve en su subtema con demo y práctica.",
-        "**Puente desde S13:** el dashboard de evidencia de S13 trabaja reglas y scores **por caso**, con listas y dicts de Python y **sin NumPy**. Aquí abres el nivel 2 (N2 — la fase Competente del curso; **CP-N2-A**): pasas de juicios por reglas a **vectores numéricos** sobre lotes sintéticos. En S15 (pandas) cargarás tablas; en S14 el contrato es el array homogéneo que alimentará esas métricas.",
-        "El hilo conductor es un **tablero de calidad** en NumPy: completitud, unicidad, rangos y señales por pares. Solo datos sintéticos LatAm (Lima/Arequipa/Cusco, ids `C00x`). Si el shape o dtype no cumple el contrato de la función, **aserta y falla de forma segura** (fail-closed) — no “arregles” en silencio. Stack: NumPy ndarray/ufunc/broadcast; **sin** pandas (S15) ni sklearn.",
-        "Orden pedagógico:\n\n- **T1 Arrays** — dtype/shape → máscaras.\n- **T2 Operaciones** — ufuncs/reducciones → broadcast.\n- **T3 Semántica** — views/copies → NaN/inf.\n- **T4 Rendimiento** — vectorizar → memoria y `allclose`.\n\nRitmo sugerido (~18 h): sesiones 1–2 solo T1; 3–4 T2; 5–6 T3; 7–8 T4 + **Tú haces** + self-check. Criterio de entrega: métricas vectorizadas equivalentes al baseline en loop dentro de tolerancia (`allclose`). Nunca PII real ni scores tratados como culpa.",
+        "Hasta S13 tratabas cada caso por separado: un bucle recorre la lista, evalúa una regla y acumula. Funciona, se lee bien y con mil filas es instantáneo. Con dos millones deja de serlo, y el problema no es que Python sea lento — es que le estás pidiendo dos millones de decisiones pequeñas en vez de una grande.",
+        "La diferencia es la de contar monedas de una en una frente a pesarlas todas juntas. Un **ndarray** de NumPy es un bloque de memoria donde todos los elementos tienen el mismo tipo y el mismo tamaño, y eso permite que la operación se aplique al bloque entero de una vez. Por eso importa el **dtype**, el tipo de cada elemento: es lo que hace posible ese tratamiento uniforme. Si mezclas textos y números, se pierde la ventaja y vuelves a contar monedas.",
+        "El segundo concepto es la **forma**. Un array conoce sus dimensiones, y casi todo error de NumPy es un desacuerdo entre formas: sumar algo de diez elementos con algo de doce. La ventaja es que ese desacuerdo se detecta al instante en lugar de propagarse; la desventaja es que hay que aprender a leer el mensaje.",
+        "De ahí sale la herramienta que reemplaza al `if` dentro del bucle. En vez de preguntar caso por caso, construyes una **máscara**: un array de verdaderos y falsos del mismo tamaño que los datos, que dice qué posiciones cumplen la condición. Filtrar es entonces aplicar la máscara, y contar es sumar los verdaderos. La condición se expresa una vez, sobre todo el conjunto.",
+        "La pregunta que atraviesa la sección es un hábito nuevo: **¿estoy pidiendo una operación sobre todo el bloque, o lo estoy recorriendo a mano sin darme cuenta?** El hilo es un tablero de calidad —completitud, unicidad, rangos— sobre datos sintéticos. Aquí no entra pandas todavía: eso es S15.",
       ],
       callout: {
         type: "info",
@@ -38,8 +39,18 @@ export const section14: CourseSection = {
         content:
           "Solo NumPy sobre datos sintéticos. No uses pandas (S15), sklearn ni PII real. Si el contrato dtype/shape falla, reporta el error; no lo ocultes. El foco es el tablero de calidad vectorizado: no deep learning ni frameworks de ML.",
       },
-    },
-    {
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, ritmo y límites.",
+        "**Orden de los subtemas.** T1 cubre arrays: dtype, forma y máscaras. T2 pasa a operaciones: funciones universales, reducciones y broadcast. T3 trata la semántica que más sorprende: vistas frente a copias, y NaN e infinito. T4 cierra con rendimiento, memoria y comparación aproximada.",
+        "**Ritmo orientativo.** Unas dieciocho horas repartidas entre los cuatro subtemas, con el proyecto y el autochequeo al final.",
+        "**Límites.** Solo NumPy sobre datos sintéticos: nada de pandas, sklearn ni datos personales reales. Si el contrato de tipo o forma falla, se reporta el error en lugar de ocultarlo. El foco es el tablero de calidad vectorizado, no el aprendizaje profundo.",
+      ],
+     },
+     {
       heading: "ndarray, dtype y shape",
       subtopicId: "S14-T1-A",
       paragraphs: [

@@ -42,12 +42,13 @@ export const section34: CourseSection = {
   ],
   theory: [
     {
-      heading: "Cierre CP-N3-B: de scores a cola de revisión humana",
+            heading: "Un score no es una decisión",
       paragraphs: [
-        "Esta sección **cierra CP-N3-B**. En S31 armaste el grafo de relaciones, en S32 las features de evidencia y en S33 un baseline responsable que ya produce un número por caso. Hoy ese número deja de vivir en un notebook: se convierte en una **cola de revisión humana** — un ranking con métricas honestas, calibración fuera de muestra y umbrales versionados por costo y capacidad. Sin esa capa, el score es decoración: no prioriza a nadie de forma auditable.",
-        "Imagina el mini-tablero sintético `CASO-LIM-034` en Red Andina: cinco scores `[0.1, 0.4, 0.55, 0.6, 0.9]` y etiquetas `needs_review` `[0, 0, 1, 0, 1]`. Es el mismo hilo de punta a punta. En T1 mides confusión, F1 y la calidad del ranking; en T2 enfrentas el desbalance y la prevalencia; en T3 preguntas si el score se comporta como probabilidad útil (Brier y reliability); en T4 eliges thr-v1 bajo capacidad y dejas la zona gris en **abstain**. Nunca imprimes `fraud=true`: el score solo ordena trabajo humano.",
-        "Mapa mental: **T1** confusión y ranking → **T2** desbalance y prevalencia → **T3** Brier y calibrador en holdout → **T4** umbral por costo/capacidad y banda de abstención. Entity resolution o matching de identidad **no** equivale a parentesco ni a fraude. Solo datos sintéticos.",
-        "Glosario del workbench (códigos de política, no de Python): `REJECT_*` = la evidencia está completa pero **rompe** la política (accuracy sola, resample global, thr sin versionar, forzar label en banda). `REQUEST_*` = **falta** un campo necesario (counts, capacidad, base rate, set de calibración). Regla de oro: no inventes evidencia y no autoetiquetes fraude. Cuando falte un dato, pides; cuando la política se rompe, rechazas.",
+        "Al final de S33 cada caso tiene un número. Ese número no dice a quién revisar: para eso hace falta un corte, y elegir dónde cortar es una decisión de negocio con consecuencias que no son simétricas. Esta sección convierte el número en una cola que un equipo humano puede realmente atender.",
+        "El primer paso es dejar de mirar el acierto global. Con cinco casos y dos que importan, la exactitud es un promedio que esconde justo lo que necesitas saber: cuántos de los que marcaste valían la pena —**precisión**— y cuántos de los que valían la pena marcaste —**recall**. Subir una casi siempre baja la otra, y cuál priorizas depende de qué error duele más.",
+        "Hay una propiedad distinta del score que suele confundirse con acierto. Un modelo está **calibrado** cuando, de los casos a los que asignó 0.7, aproximadamente el 70% resulta positivo. Un modelo puede ordenar perfectamente y estar pésimamente calibrado — sirve para priorizar, no sirve para decir «hay un 70% de probabilidad». Y en cuanto alguien lea ese número como probabilidad, la diferencia importa.",
+        "Recién entonces se elige el umbral, y se elige con dos restricciones reales: cuánto cuesta cada tipo de error, y cuántos casos por día puede revisar el equipo. Un corte que produce el doble de casos de los que caben en la jornada no es más seguro; es una cola que crece hasta que alguien empieza a cerrar casos sin mirarlos.",
+        "La pregunta que gobierna la sección tiene dos partes: **¿dónde corto, y quién paga el error de cada lado?** Y el límite de siempre sigue en pie — priorizar una cola de revisión no es determinar fraude ni parentesco, y la banda intermedia existe justamente para que un humano decida.",
       ],
       callout: {
         type: "info",
@@ -55,6 +56,16 @@ export const section34: CourseSection = {
         content:
           "Ranking calibrado para humanos. Matching ≠ parentesco ni fraude. Sin PII real. `REJECT_*` / `REQUEST_*` son políticas de cola del workbench. Al final del You Do tendrás un reporte con confusión, precision@k, Brier, thr-v* y abstain.",
       },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, hilo del caso y códigos de política.",
+        "**Orden de los subtemas.** T1 mide confusión y calidad del ranking. T2 enfrenta el desbalance y la prevalencia. T3 introduce Brier y la calibración sobre un holdout. T4 cierra con el umbral por costo y capacidad, y la banda de abstención.",
+        "**Hilo del caso.** El mismo tablero sintético recorre la sección entera: cinco scores y sus etiquetas, de punta a punta, para que cada métrica se pueda calcular a mano y comprobar.",
+        "**Códigos de política del workbench** (no son de Python). `REJECT_*` significa que la evidencia está completa pero rompe la política — usar exactitud sola, remuestrear globalmente, un umbral sin versionar, forzar una etiqueta dentro de la banda de abstención. `REQUEST_*` significa que falta un campo necesario para decidir.",
+      ],
     },
     {
       heading: "Matriz de confusión, precision, recall y F1",

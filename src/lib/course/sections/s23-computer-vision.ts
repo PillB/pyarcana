@@ -25,11 +25,28 @@ export const section23: CourseSection = {
   ],
   theory: [
     {
-      heading: "Browser RPA contra una fixture local controlada",
+            heading: "Automatizar un sitio es escribir instrucciones para algo que cambia",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **DOM:** árbol de objetos de la página (Document Object Model); lo recorres con locators. **Locator:** consulta estable de un control (preferir rol y nombre visibles). **Auto-wait:** esperar a que el control sea usable, no `sleep` fijo. **Page Object:** clase que encapsula selectores y acciones de una pantalla. **Trace:** paquete de evidencia de la corrida (pasos, red, DOM) para diagnosticar fallas. **storage_state:** cookies/localStorage reutilizables entre corridas. **API-first:** preferir endpoint o export al clic de la UI. **Handoff humano:** detener el robot ante CAPTCHA/ToS y pasar evidencia a una persona. **CI:** integración continua, el runner que ejecuta pruebas en cada push. **ToS:** términos del servicio (reglas contractuales del sitio). **CAPTCHA:** desafío automático para distinguir humano de bot. **PII:** información personal identificable (datos sensibles del cliente). **Flaky:** prueba que a veces pasa y a veces falla por timing o entorno inestable.",
-        "En S22 dejaste el hilo de **CP-N2-C** en borrador de correo con aprobación humana. Aquí construyes el **adaptador web**: obtener un reporte desde un **sitio de práctica local** (HTML/CSV sintéticos), sin red externa ni credenciales reales de bancos o SUNAT. El dato debe salir con **trace** y, si hubo download, **integridad** verificada (hash o tamaño).",
-        "Practicamos primero el **contrato** con DOM/sesión en dicts (reproducible en cualquier máquina sin Chromium). La misma lógica se mapea a Playwright real (`get_by_role`, `expect`, download, tracing) cuando instales el runtime en local — el sketch de abajo muestra esa forma. Orden: **T1 Navegación** (locators, auto-wait) → **T2 Flujos** (forms, auth, Page Objects) → **T3 Diagnóstico** (trace, retries, reanudación) → **T4 Límites** (API-first, ToS/CAPTCHA/handoff). RPA es último recurso tras API/export; nunca bypass de CAPTCHA ni términos. En **S24** el hilo CP-N2-C sigue con OCR/Document AI sobre el binario que aquí descargas con integridad verificada.",
+        "El reporte que necesitas está detrás de un portal: iniciar sesión, filtrar, descargar. Hacerlo a mano cada lunes es tedioso; automatizarlo es fácil de empezar y sorprendentemente fácil de romper, porque la página que describiste hoy puede tener otra estructura la semana que viene sin que nadie te avise.",
+        "De ahí sale la decisión que más determina si el robot sobrevive: cómo señalas un control. Buscarlo por su posición en el árbol de la página —el tercer div dentro del segundo formulario— funciona hasta el primer rediseño. Buscarlo por lo que **es** para quien lo usa —el botón que dice «Descargar», el campo etiquetado «Usuario»— sobrevive a los cambios de maquetado, porque esa identidad es la que el sitio no puede cambiar sin cambiar también lo que ve la persona.",
+        "El segundo problema es el tiempo. Una página moderna no termina de cargar de una vez: pide datos, dibuja, vuelve a pedir. Un robot que actúa inmediatamente encuentra un botón que todavía no existe, y la reacción instintiva —esperar tres segundos y seguir— produce lo peor de los dos mundos: lento cuando la red va bien y frágil cuando va mal. La forma correcta es esperar **una condición**: que el elemento esté ahí y sea utilizable.",
+        "Después está lo que el robot deja atrás. Una sesión abierta, un archivo descargado a medias, una pestaña colgada. Un proceso desatendido tiene que poder repetirse sin acumular basura, y tiene que dejar rastro de qué hizo — porque cuando falle a las seis de la mañana, ese rastro es lo único que habrá.",
+        "La pregunta que atraviesa la sección es de robustez: **si la página cambia un poco, ¿esto falla de forma clara o hace algo incorrecto en silencio?** Practicas el contrato modelando el árbol de la página y la sesión con diccionarios, reproducible en cualquier máquina; la misma lógica se traslada a Playwright real cuando lo instales.",
+      ],
+      callout: {
+        type: "info",
+        title: "Dos modos de práctica",
+        content:
+          "En los ejercicios calificados modelamos DOM y sesión con dicts (reproducible sin Chromium). Cuando instales Playwright en local, el mismo contrato aplica a `page.get_by_role`, downloads y traces reales. El sketch de arriba es la forma API; no se ejecuta en el grader.",
+      },
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Contexto del capstone y equivalencias con Playwright.",
+        "**Contexto.** En S22 quedó el borrador de correo con aprobación humana. Aquí se construye el adaptador web que obtiene el reporte desde un sitio de práctica local con HTML y CSV sintéticos.",
+        "**Equivalencias.** Los ejercicios calificados modelan el árbol de la página y la sesión con diccionarios, para que corran sin navegador. El mismo contrato se aplica a `page.get_by_role`, a las descargas y a las trazas reales cuando instales Playwright en local.",
       ],
       code: {
         language: 'python',
@@ -59,14 +76,8 @@ print("maps_to", "get_by_role + expect_download + trace")`,
         output: `sketch_ready True
 maps_to get_by_role + expect_download + trace`,
       },
-      callout: {
-        type: "info",
-        title: "Dos modos de práctica",
-        content:
-          "En los ejercicios calificados modelamos DOM y sesión con dicts (reproducible sin Chromium). Cuando instales Playwright en local, el mismo contrato aplica a `page.get_by_role`, downloads y traces reales. El sketch de arriba es la forma API; no se ejecuta en el grader.",
-      },
-    },
-    {
+     },
+     {
       heading: "DOM y locators orientados a usuario",
       subtopicId: "S23-T1-A",
       paragraphs: [

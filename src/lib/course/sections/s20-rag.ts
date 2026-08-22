@@ -25,12 +25,13 @@ export const section20: CourseSection = {
   ],
   theory: [
     {
-      heading: "Excel factory: de la plantilla al manifest (mapa)",
+            heading: "La hoja de cálculo que alguien va a abrir y editar a mano",
       paragraphs: [
-        "Esta sección es **automatización robusta de Excel** con openpyxl: un reporting factory que manipula hojas, celdas, fórmulas vs. valores, estilos, conciliación, validación estructural, batch e idempotencia. El objetivo no es “hacer un xlsx bonito”, sino entregar un artefacto auditable que un VP de finanzas u operaciones pueda abrir mañana sin sorpresas.",
-        "**Diccionario de la sección** (léelo una vez; el resto lo usa). **Plantilla master** (plantilla maestra): xlsx de referencia que no se sobrescribe. **Celda ancla:** esquina superior izquierda de un merge (ahí vive el valor). **Valor materializado:** número ya calculado en Python y escrito a la celda (no dependes de Excel para evaluarlo). **Conciliación:** comparar totales/n del Excel de salida vs. el DataFrame fuente. **Fail-closed:** si la conciliación falla, no emites el paquete. **Manifest** (manifiesto): JSON con estados de batch, `reconcile_ok`, backup (respaldo) y hashes. **Idempotencia:** misma entrada + misma versión de script → mismo resultado lógico (sin filas fantasma). **Cuarentena:** aislar un archivo corrupto sin tumbar el lote.",
-        "Hilo del caso: workbook (libro de Excel) sintético `cpn2b_factory.xlsx` con hojas canónicas **Entrada** (datos crudos) y **Salida** (KPIs materializados); opcionalmente **Datos** como staging intermedio. Regiones Madrid/Bogota/Berlin y montos PEN. Una corrida debe ser reejecutable sin corromper plantillas ni inventar filas. Nunca PII real en celdas.",
-        "Orden de aprendizaje: **T1 Modelo de libro** (sheets, celdas, encabezados; fórmulas vs. valores materializados) → **T2 Presentación** (estilos, plantillas copy→save, fechas ISO, merges) → **T3 Calidad** (conciliación, pivots lógicos, validación, preservación) → **T4 Operación** (batch, corruptos/locks, backups, idempotencia, tests estructurales). Prerrequisitos S17–S19. Cierra hacia el paquete de reportes de S21 y el gate (control de calidad) CP-N2-B.",
+        "Un reporte que termina en Excel tiene un destino distinto al de un CSV: alguien lo abre, filtra, escribe una nota al margen y lo reenvía. Eso impone condiciones que no aparecen cuando el destino es otro programa — la plantilla no se puede sobrescribir, el archivo tiene que poder regenerarse igual, y lo que se ve tiene que coincidir con lo que se calculó.",
+        "La primera distinción es entre lo que Excel muestra y lo que guarda. Una celda con una fórmula guarda la fórmula; el número que ves lo calculó Excel al abrir el archivo. Si tu programa lee esa celda sin que Excel haya pasado por ahí, puede encontrarse con la fórmula en vez del resultado. Por eso este flujo **materializa** los valores: calcula en Python y escribe números, dejando las fórmulas donde son la intención explícita.",
+        "La segunda es que la plantilla es sagrada. El patrón es copiar la plantilla maestra a un archivo nuevo, escribir sobre la copia y guardar; nunca abrir la maestra y salvar encima. Suena obvio hasta que un proceso automático corre dos veces y la plantilla queda con los datos del primer cliente incrustados.",
+        "La tercera es la repetición. Un reporte que se genera cada semana se va a regenerar, y volver a correrlo sobre el mismo insumo debe producir el mismo resultado sin duplicar filas ni acumular estilos. Eso es ser **idempotente**, y aquí se comprueba corriendo el proceso dos veces y comparando.",
+        "La pregunta que gobierna la sección es de confianza operativa: **si esto corre otra vez el lunes, ¿sale lo mismo y la plantilla queda intacta?** El caso es un libro sintético con hojas de entrada y salida, sin datos personales reales.",
       ],
       callout: {
         type: "tip",
@@ -38,8 +39,17 @@ export const section20: CourseSection = {
         content:
           "Salida esperada: workbook de resultados + manifest (estados, conciliación, backup). La plantilla master no se sobrescribe. Datos solo sintéticos. Hojas canónicas: Entrada, Datos, Salida.",
       },
-    },
-    {
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas y salida esperada.",
+        "**Orden de los subtemas.** T1 fija el modelo del libro: hojas, celdas, encabezados y la diferencia entre fórmula y valor materializado. T2 pasa a la presentación: estilos, el patrón copiar-y-guardar, fechas en formato ISO y celdas combinadas. T3 cubre la calidad: conciliación y validación estructural. T4 cierra con el procesamiento por lotes y la idempotencia.",
+        "**Salida esperada.** El libro de resultados más un manifest con estados, conciliación y respaldo. Las hojas canónicas son Entrada, Datos y Salida. La plantilla maestra no se sobrescribe y los datos son solo sintéticos.",
+      ],
+     },
+     {
       heading: "Sheets, celdas y encabezados estables",
       subtopicId: "S20-T1-A",
       paragraphs: [

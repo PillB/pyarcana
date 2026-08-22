@@ -26,12 +26,29 @@ export const section22: CourseSection = {
   ],
   theory: [
     {
-      heading: "Email con aprobación humana e inicio CP-N2-C",
+            heading: "El último paso antes de que un mensaje salga hacia una persona",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1; cada término se desempaca en T1–T4):\n- **CP-N2-C:** Capstone de Nivel 2, Canal C — notificación con aprobación humana. Inicia en S22 y se conecta al canal web en S23.\n- **HITL:** Human-In-The-Loop, aprobación humana obligatoria antes de cualquier envío (simulado).\n- **MIME:** mensaje multiparte (text/html + adjuntos).\n- **Draft sandbox:** borrador local o API de prueba — **no envío real**.\n- **Scopes mínimos:** permisos OAuth justos para lo que el producto hace (aquí: drafts).\n- **Resolución de destinatario:** mapear id de negocio → email verificado.\n- **Cola de aprobación:** revisión humana obligatoria antes de cualquier envío (simulado).\n- **Máquina de estados:** `draft` → `pending_review` → `approved` | `rejected` | `needs_edit`.\n- **Idempotency key:** evita duplicar drafts al reintentar (`sha256` hex de **16** caracteres).\n- **Fail-closed:** sin transición válida ni aprobación humana no hay envío.\n- **Matching ≠ fraude:** coincidir contactos no prueba parentesco ni culpa.",
-        "Aquí **inicias CP-N2-C**: el canal de **notificación con aprobación humana** que toma el paquete de reporte ya reconciliado (S21: DOCX/PDF/dashboard) y prepara un **borrador** seguro. Enfocamos MIME, sanitización HTML, scopes mínimos, drafts con expiración, resolución de destinatarios sintéticos, privacidad de listas, cola de aprobación e idempotencia. El entity resolution probabilístico profundo llega más adelante en el roadmap; aquí el matching de contactos solo sirve para **entrega correcta**. En S23 conectarás un adaptador web (browser RPA); en esta sección el canal es `.eml` o draft de sandbox — el mismo contrato de gates, otro transporte.",
-        "Hilo operativo (Lima / operaciones sintéticas): el paquete del run `cpn2c-01` ya salió de Reporting Factory (S21). La mesa de control necesita avisar a `revisora@example.pe` sin spamear ni exponer listas. Caso de laboratorio **Caso 22**: contactos fake `@example.pe`, revisora humana de turno, SLA (acuerdo de nivel de servicio) de respuesta en cola. **Ningún correo real se envía**: solo `.eml` locales o drafts de sandbox. Matching de contactos es para **entrega correcta**, nunca para inferir fraude, parentesco o culpabilidad.",
-        "Orden de aprendizaje (divulgación progresiva): **T1 Mensaje** (MIME, templates seguros) → **T2 Proveedor** (OAuth/scopes, adaptadores de draft) → **T3 Destinatario** (resolución, verificación, CC/BCC, mínima divulgación) → **T4 Workflow** (máquina de estados de aprobación, audit log (registro de auditoría), reintento sin duplicar). Si te trabas, vuelve al diccionario y al contrato del intro: **draft-only**, **human_approval**, **synthetic_recipients**, **idempotent_retry**.",
+        "Todo lo anterior producía artefactos que alguien iba a buscar. Un correo es distinto: llega sin que nadie lo pida, a una dirección concreta, y no se puede deshacer. Por eso esta sección construye el canal de notificación con una condición que no se negocia — lo que el sistema prepara es un **borrador**, y quien decide enviarlo es una persona.",
+        "Esa decisión de diseño ordena todo lo demás. El sistema puede resolver a quién correspondería avisar, redactar el asunto y el cuerpo a partir del reporte ya reconciliado, adjuntar lo que haga falta y dejarlo listo. No aprieta el botón. La aprobación humana no es un trámite añadido al final: es el control que hace responsable a un flujo automático que toca a terceros.",
+        "Hay un error de destinatarios que se comete una sola vez y se recuerda para siempre: poner en copia visible a una lista de personas que no se conocen entre sí. Eso expone las direcciones de todas a todas. La copia oculta existe justamente para eso, y la regla es de mínima divulgación — cada destinatario recibe lo que necesita y nada sobre los demás.",
+        "El contenido también necesita cuidado. Un asunto que resume el caso puede filtrar información sensible en la bandeja de entrada de alguien, visible en la pantalla de bloqueo del teléfono. Y el cuerpo se construye con la misma disciplina de S21: plantilla que escapa lo que inserta, datos que vienen de la corrida y no de la memoria de nadie.",
+        "La pregunta que gobierna la sección es la que conviene hacerse antes de cada envío: **¿quién recibe esto, qué ve exactamente, y quién autorizó que saliera?** Ninguna ruta de la lección envía correo real: se generan archivos locales o borradores en un entorno de pruebas, con contactos de laboratorio.",
+      ],
+      callout: {
+        type: "info",
+        title: "Límite operativo (gates)",
+        content:
+          "Solo se crean `.eml` locales o drafts de sandbox con contactos de laboratorio (`@example.pe` es allowlist del curso, no un dominio “imposible de enrutar” por RFC). Ninguna ruta de la lección envía correo real. Sin `pending_review` aprobado por humano, el pipeline no promueve el draft.",
+      },
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas y contexto del capstone.",
+        "**Orden de los subtemas.** T1 arma el mensaje: estructura MIME y plantillas seguras. T2 pasa al proveedor: autorización, alcances y adaptadores de borrador. T3 trata al destinatario: resolución, verificación, copia oculta y mínima divulgación. T4 cierra con la aprobación humana y el rastro de auditoría.",
+        "**Contexto.** Aquí inicia CP-N2-C, el canal de notificación con aprobación humana, que toma el paquete de reporte ya reconciliado en S21 y prepara el borrador seguro.",
+        "**Seguridad del laboratorio.** Solo se crean archivos `.eml` locales o borradores en entorno de pruebas, con contactos del curso.",
       ],
       code: {
         language: 'python',
@@ -52,14 +69,8 @@ print("auto_send_ok", c["auto_send_ok"])
 gates 4
 auto_send_ok False`,
       },
-      callout: {
-        type: "info",
-        title: "Límite operativo (gates)",
-        content:
-          "Solo se crean `.eml` locales o drafts de sandbox con contactos de laboratorio (`@example.pe` es allowlist del curso, no un dominio “imposible de enrutar” por RFC). Ninguna ruta de la lección envía correo real. Sin `pending_review` aprobado por humano, el pipeline no promueve el draft.",
-      },
-    },
-    {
+     },
+     {
       heading: "MIME, encoding, HTML/text y attachments",
       subtopicId: "S22-T1-A",
       paragraphs: [

@@ -493,6 +493,7 @@
           ],
           "human_review_required": true,
           "privacy_sheet": {
+            "correction": "human_reviewer_may_amend",
             "data_minimization": "synthetic only",
             "no_pii": "true",
             "retention": "training_demo"
@@ -1381,6 +1382,7 @@
         ],
         "human_review_required": true,
         "privacy_sheet": {
+          "correction": "human_reviewer_may_amend",
           "data_minimization": "synthetic only",
           "no_pii": "true",
           "retention": "training_demo"
