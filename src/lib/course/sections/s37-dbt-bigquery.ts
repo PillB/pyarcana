@@ -1093,7 +1093,7 @@ ok True`,
         preamble:
           "- **Contexto:** el reporte de blocking no basta con «bajaron los pares»: necesitas la fracción eliminada en [0,1], comparable entre fixtures.\n- **Meta:** con `blocked=10` y `all=45`, calcular `round(1 - blocked/all, 3)`.\n- **Éxito:** `0.778` / `ok True` / `blocking True`.\n- **Límites:** no reportes `blocked/all` como reduction; no lo confundas con `pair_factor = all//blocked` (T4-B).",
         instruction:
-          "1. Starter imprime `blocked/all_p` (0.222).\n2. Calcula `reduction = round(1 - blocked / all_p, 3)`.\n3. Imprime reduction, `ok` si es 0.778, y `blocking True`.",
+          "1. Starter imprime `blocked/all_p` (0.222).\n2. Calcula la reducción: qué fracción de los pares evita el bloqueo, redondeada a 3 decimales.\n3. Imprime reduction, `ok` si es 0.778, y `blocking True`.",
         hint: "reduction = 1 - blocked/all (fracción en [0,1]).",
         hints: ["reduction = 1 - blocked/all.", "No confundas con pair_factor = all//blocked de T4-B."],
         edgeCases: ["blocking sin métrica", "sintético"],
@@ -1673,7 +1673,7 @@ measured 12`,
         preamble:
           "- **Contexto:** bajar p95 inflando pares candidatos o memoria es un tradeoff oculto; el gate de escala del triage mira las tres dimensiones.\n- **Meta:** con límites y medidos de latency/memory/pairs, calcular `all_pass` y listar las tres keys.\n- **Éxito:** `['latency_p95', 'memory', 'pairs']` / `all_pass True` / `n 3`.\n- **Límites:** no budgetees solo latency; no hardcodees `all_pass True`.",
         instruction:
-          "1. Starter deja `budget` solo con latency y fuerza `all_pass True`.\n2. Completa budget con memory 512 y pairs 10000.\n3. `all_pass = all(measured[k] <= budget[k] for k in keys)`.\n4. Imprime keys, all_pass y `n` = 3.",
+          "1. Starter deja `budget` solo con latency y fuerza `all_pass True`.\n2. Completa budget con memory 512 y pairs 10000.\n3. `all_pass` es verdadero solo si cada métrica medida cabe dentro de su presupuesto.\n4. Imprime keys, all_pass y `n` = 3.",
         hint: "Latencia sola no basta: cada dimensión debe cumplir measured <= budget.",
         hints: ["Incluye las tres claves en el dict de límites.", "all_pass = all(measured[k] <= budget[k] for k in keys)."],
         edgeCases: ["solo p95", "sintético"],

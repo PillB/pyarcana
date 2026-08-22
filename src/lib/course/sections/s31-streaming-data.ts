@@ -1286,8 +1286,8 @@ detail_kept True`,
         preamble:
           "- **Contexto:** un bug silencioso es agregar y «perder» filas: el path deja de ser auditable.\n- **Meta:** construir capa agregada (`n` y `records` por par) y verificar `sum(n) == len(detail)`.\n- **Éxito:** `ok True` / `total 5` / `detail_n 5`.\n- **Límites:** no hardcodees `ok True`; construye desde `detail`; sin PII.",
         instruction:
-          "1. Acumula `n` y `records` por `(src, dst)`.\n2. Calcula `total = sum(a['n'] for a in aggs.values())`.\n3. Imprime `ok`, `total` y `detail_n`.\n4. No borres filas del detalle original.",
-        hint: "Primero agrega; luego total = sum(a['n'] for a in aggs.values()); ok = total == detail_n.",
+          "1. Acumula `n` y `records` por `(src, dst)`.\n2. Calcula el total sumando el `n` de cada agregado.\n3. Imprime `ok`, `total` y `detail_n`.\n4. No borres filas del detalle original.",
+        hint: "Primero agrega por par; el total sale de sumar el `n` de cada agregado, y `ok` compara ese total contra el detalle.",
         hints: [
           "Acumula n y records por (src, dst) a partir de detail.",
           "El invariante garantiza que no perdiste filas de detalle al agregar.",

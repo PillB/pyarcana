@@ -1677,6 +1677,7 @@ print(hashlib.sha256(blob).hexdigest()[:8])`,
       "Emitir coercion_report {columna: n_fallos} sin rellenar defaults ocultos",
       "Reconciliar filas/columnas (rows, columns, missing_columns) frente al schema",
       "Exportar con index=False y construir manifest (source, rows, columns, sha1 del CSV)",
+      "Justificar en el manifest la decisión de layout: qué columnas pide la consulta habitual y por qué esa partición ayuda o no a saltarse bloques",
     ],
     requirements: [
       "Implementa las cuatro funciones del starter: ingest_clientes, ingest_transacciones, reconcile, export_with_manifest",
@@ -1688,6 +1689,7 @@ print(hashlib.sha256(blob).hexdigest()[:8])`,
       "main() + if __name__ == '__main__' reproducible: primero _run_tests(), luego imprime report/reconcile/manifest de clientes y transacciones",
       "README corto en español: qué falló, por qué no inventaste defaults, dependencias (openpyxl solo si exportas Excel)",
       "Límite honesto: sin joins profundos ni quality gates avanzados — solo ingesta tipada + provenance",
+      "Si eliges particionar, el manifest debe decir por qué esa clave y qué pasaría con archivos diminutos si la cardinalidad fuera alta",
     ],
     starterCode: `"""ingest_cp_n2a.py — incremento CP-N2-A (S15)
 Ingesta tipada de clientes y transacciones sintéticas (Perú).

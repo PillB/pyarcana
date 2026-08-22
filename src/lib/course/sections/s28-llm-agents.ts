@@ -1474,8 +1474,8 @@ print(n * (n - 1) // 2)`,
         preamble:
           "- **Contexto:** un batch reanudado no debe reprocesar ids en `done`; y tildes Latam en NFD deben unificarse a NFC antes de igualar nombres.\n- **Meta:** pendientes en orden original + `encoding_ok True` tras NFC.\n- **Éxito:** dos líneas: `['b', 'c']` y `encoding_ok True`.\n- **Límites:** no imprimas `items` completo; no compares NFD crudo con “María”; sin PII real.",
         instruction:
-          "1. Corrige el DEFECT: imprime todos los items y compara NFD crudo.\n2. `pending = [i for i in items if i not in done]`.\n3. `unicodedata.normalize(\"NFC\", nfd) == \"María\"`.\n4. Imprime pending y `encoding_ok` con el booleano.",
-        hint: "pending = [i for i in items if i not in done]; NFC unifica tildes precompuestas",
+          "1. Corrige el DEFECT: imprime todos los items y compara NFD crudo.\n2. Arma la lista de pendientes: los items que todavía no aparecen en `done`.\n3. `unicodedata.normalize(\"NFC\", nfd) == \"María\"`.\n4. Imprime pending y `encoding_ok` con el booleano.",
+        hint: "Pendiente es lo que está en `items` y todavía no en `done`. Para la tilde, normaliza a NFC antes de comparar.",
         hints: [
           "list comp filtrando done",
           "import unicodedata; normalize('NFC', nfd) == 'María'",

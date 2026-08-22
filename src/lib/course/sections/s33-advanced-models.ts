@@ -1457,7 +1457,7 @@ assert meets_contract is True
           "- **Contexto:** un informe con scaled=False o causal=True no debe pasar el gate de interpretación.\n- **Meta:** top calculado + tres rutas PASS / REJECT_UNSCALED_COEF / MISSING:scaled.\n- **Éxito:** `PASS REJECT_UNSCALED_COEF MISSING:scaled`.\n- **Límites:** missing de scaled primero; top debe ser shared_phone; no des PASS al adverso.",
         instruction:
           "1. Corrige ranking con reverse=True.\n2. Arma valid con top, scaled True, causal False.\n3. PASS solo si scaled, !causal y top correcto.\n4. Imprime las tres salidas.",
-        hint: "ranked = sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True); top = ranked[0].",
+        hint: "Ordena las features por magnitud del coeficiente, de mayor a menor; el top es la primera.",
         hints: [
           "top debe ser shared_phone; el válido lleva top, scaled True y causal False.",
           "Primero missing de scaled; el adverso falla por flags de interpretación, no por schema.",
@@ -2202,7 +2202,7 @@ assert meets_contract is True
           "- **Contexto:** random_split=True con entidades repetidas infla la métrica: el modelo ve al par en train y «acierta» en valid.\n- **Meta:** n_groups/mean calculados + PASS / REJECT_RANDOM_LEAK / MISSING:entities.\n- **Éxito:** `PASS REJECT_RANDOM_LEAK MISSING:entities`.\n- **Límites:** n_groups de set; mean con 3 decimales; PASS solo random_split False y ≥2 grupos.",
         instruction:
           "1. Corrige n_groups y mean.\n2. assess: missing entities primero; PASS con random_split False, n_groups>=2 y mean==0.65.\n3. No des PASS al adverso random.\n4. Imprime las tres salidas.",
-        hint: "n_groups = len(set(entities)); mean = round(sum(folds)/len(folds), 3); PASS si random_split False y n_groups >= 2.",
+        hint: "Los grupos son entidades únicas, no filas. La media va a 3 decimales. PASS exige split no aleatorio y al menos dos grupos.",
         hints: [
           "e1 se repite: n_groups es 3, no 4. mean con round(..., 3) es 0.65.",
           "Primero missing de entities; el adverso falla por random_split True.",
@@ -2279,7 +2279,7 @@ assert valid["n_groups"] == 3 and valid["mean"] == 0.65
           "- **Contexto:** sin ids de entidad no puedes garantizar disyunción entre folds: se pide la lista, no se inventa el split.\n- **Meta:** n_groups=3 calculado y decide CONTINUE / REJECT_RANDOM_LEAK / REQUEST_GROUP_IDS.\n- **Éxito:** `CONTINUE REJECT_RANDOM_LEAK REQUEST_GROUP_IDS`.\n- **Límites:** n_groups = len(set(...)); missing → REQUEST_GROUP_IDS; random_split True → REJECT.",
         instruction:
           "1. Corrige n_groups a len(set(entities)).\n2. Missing → `REQUEST_GROUP_IDS`.\n3. CONTINUE solo random_split False y n_groups >= 2 (y coherente con set de entities).\n4. Imprime las tres decisiones.",
-        hint: "n_groups = len(set(entities)); missing → REQUEST_GROUP_IDS; random_split True → REJECT.",
+        hint: "Cuenta entidades únicas, no filas. Sin entities se pide la lista; con split aleatorio se rechaza.",
         hints: [
           "CONTINUE solo con random_split False y n_groups >= 2 (calculado, no inventado).",
           "Sin entities no hay CV confiable por entidad: se pide la lista.",
@@ -2353,12 +2353,14 @@ assert valid["n_groups"] == 3
       "Dummy, regla y costo derivados de y vs. predicciones",
       "Modelo (stump o lineal) con seed fija y comparación honesta al mejor baseline",
       "Run log completo y group CV con disyunción train/valid por entidad",
+      "Declarar qué dependencia manda en tu split — entidad, tiempo o ambas — y, si es tiempo, entregar el manifiesto de folds con origen y horizonte",
     ],
     requirements: [
       "has_baseline=True con dummy y regla documentados antes de promocionar modelo",
       "Sin label de fraude ni PII real",
       "es-PE sintético; seed fija en params",
       "beats_dummy y beats_rule calculados (pueden ser False) y logueados",
+      "Si el problema es temporal: folds de origen móvil con `max(train) < min(valid)` verificado, baseline estacional y MAE de baseline y candidato sobre los mismos folds",
     ],
     starterCode: `# baselines CP-N3-B — CASO-LIM-033 (sintético únicamente)
 # Pipeline: framing → dummy+costo+regla → stump → run log → group CV.

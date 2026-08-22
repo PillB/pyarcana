@@ -1089,7 +1089,7 @@ print(store['r'])`,
         preamble:
           "- **Contexto:** falló `draft_email` después de materializar el informe; hay que revertir el side-effect del draft sin borrar evidencia.\n- **Meta:** `pop` del draft y marcar `report='superseded'`.\n- **Éxito:** `{'report': 'superseded'}`.\n- **Límites:** no borres el report; no dejes el draft huérfano.",
         instruction:
-          "1. Revisa el starter: imprime el state intacto (DEFECT).\n2. Haz `state.pop('draft', None)`.\n3. Asigna `state['report'] = 'superseded'`.\n4. Imprime `state`.",
+          "1. Revisa el starter: imprime el state intacto (DEFECT).\n2. Quita del state la clave del borrador, sin fallar si no estuviera.\n3. Marca el reporte como `superseded`.\n4. Imprime `state`.",
         hint: "pop draft + superseded",
         hints: [
           "state.pop('draft', None) quita el borrador.",
