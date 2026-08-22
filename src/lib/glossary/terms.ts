@@ -27,7 +27,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     definition: 'Una etiqueta que apunta a un valor en memoria. En Python no declaras el tipo — se infiere.',
     example: 'x = 42\\nnombre = "Ana"',
     related: ["Tipo de dato", "Asignación"],
-    firstSectionId: 'setup',
+    firstSectionId: 'data-structures',
   },
   {
     id: 'tipo-de-dato',
@@ -35,7 +35,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Tipo de dato', 'tipos de datos'],
     category: 'Python',
     definition: 'La naturaleza del valor: int (entero), float (decimal), str (texto), bool (True/False), list, dict, tuple, set.',
-    firstSectionId: 'basics',
+    firstSectionId: 'numpy',
   },
   {
     id: 'list-comprehension',
@@ -44,7 +44,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: 'Python',
     definition: 'Sintaxis compacta para crear listas a partir de otras. Más rápido y pythónico que un loop for.',
     example: '[x**2 for x in range(5) if x > 0]  # [1, 4, 9, 16]',
-    firstSectionId: 'basics',
+    firstSectionId: 'functions-modules',
   },
   {
     id: 'dict-comprehension',
@@ -53,7 +53,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: 'Python',
     definition: 'Similar a list comprehension pero crea diccionarios.',
     example: '{k: v**2 for k, v in {"a": 1, "b": 2}.items()}',
-    firstSectionId: 'data-structures',
+    firstSectionId: 'functions-modules',
   },
   {
     id: 'f-string',
@@ -71,7 +71,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: 'Python',
     definition: 'Extraer una porción de una secuencia. Sintaxis: secuencia[inicio:fin:paso].',
     example: 'lista[1:4]  # elementos del índice 1 al 3\\nlista[::-1]  # reverso',
-    firstSectionId: 'data-structures',
+    firstSectionId: 'setup',
   },
   {
     id: 'truthiness',
@@ -87,7 +87,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Dunder method', 'dunder', '__init__'],
     category: 'Python',
     definition: 'Métodos especiales con __ al inicio y fin (double underscore). Ej: __init__, __str__, __repr__, __len__.',
-    firstSectionId: 'oop',
+    firstSectionId: 'sklearn',
   },
   {
     id: 'decorador',
@@ -105,16 +105,16 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: 'Python',
     definition: 'Función que usa yield para producir valores uno a uno, sin cargar todo en memoria.',
     example: 'def cuenta():\\n    for i in range(10):\\n        yield i',
-    firstSectionId: 'functions-modules',
+    firstSectionId: 'oop',
   },
   {
     id: 'context-manager',
     term: 'Context manager',
-    aliases: ['Context manager', 'contextlib'],
+    aliases: ['Context manager', 'contextlib', 'with open'],
     category: 'Python',
     definition: 'Objeto que define setup (__enter__) y cleanup (__exit__). Se usa con el statement with.',
     example: 'with open("f.csv") as f:\\n    data = f.read()',
-    firstSectionId: 'functions-modules',
+    firstSectionId: 'pandas',
   },
   {
     id: 'abc',
@@ -122,7 +122,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["ABC"],
     category: 'Python',
     definition: 'Abstract Base Class. Define interfaces: métodos que las subclases DEBEN implementar. No se puede instanciar directamente.',
-    firstSectionId: 'setup',
+    firstSectionId: 'basics',
   },
   {
     id: 'args-y-kwargs',
@@ -130,7 +130,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['args y kwargs', 'kwargs', '**kwargs', '*args'],
     category: 'Python',
     definition: '*args junta argumentos posicionales en tupla. **kwargs junta argumentos keyword en dict.',
-    firstSectionId: 'functions-modules',
+    firstSectionId: 'basics',
   },
   {
     id: 'virtual-environment-venv',
@@ -334,7 +334,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Coverage', 'cobertura'],
     category: 'Tooling',
     definition: 'Porcentaje de líneas de código cubiertas por tests. pytest --cov=mi_modulo.',
-    firstSectionId: 'testing',
+    firstSectionId: 'packaging',
   },
   {
     id: 'list',
@@ -350,7 +350,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Dict"],
     category: 'Python',
     definition: 'Colección de pares clave-valor: cada clave permite localizar su valor. Ejemplo: {"nombre": "Ana", "edad": 25}.',
-    firstSectionId: 'setup',
+    firstSectionId: 'basics',
   },
   {
     id: 'tuple',
@@ -374,7 +374,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["defaultdict"],
     category: 'Python',
     definition: 'Dict que crea valores default automáticamente. from collections import defaultdict.',
-    firstSectionId: 'data-structures',
+    firstSectionId: 'security-infra',
   },
   {
     id: 'counter',
@@ -382,7 +382,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Counter"],
     category: 'Python',
     definition: 'Dict especializado para contar. Counter("hola") → {"h":1, "o":1, "l":1, "a":1}.',
-    firstSectionId: 'data-structures',
+    firstSectionId: 'pandas',
   },
   {
     id: 'namedtuple',
@@ -390,7 +390,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["namedtuple"],
     category: 'Python',
     definition: 'Tuple con campos nombrados. Más legible que índices. from collections import namedtuple.',
-    firstSectionId: 'data-structures',
+    firstSectionId: 'architecture-ddd-decisions',
   },
   {
     id: 'ndarray',
@@ -398,7 +398,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["ndarray"],
     category: 'NumPy',
     definition: 'Estructura principal de NumPy. Array n-dimensional, todos los elementos del mismo tipo.',
-    firstSectionId: 'numpy',
+    firstSectionId: 'security',
   },
   {
     id: 'vectorizaci-n',
@@ -406,7 +406,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Vectorización', 'vectorizado', 'vectorized'],
     category: 'NumPy',
     definition: 'Operaciones aplicadas elemento a elemento sin loops de Python. 50-100x más rápido.',
-    firstSectionId: 'numpy',
+    firstSectionId: 'security',
   },
   {
     id: 'broadcasting',
@@ -414,15 +414,15 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Broadcasting"],
     category: 'NumPy',
     definition: 'Permite operar arrays de shapes distintas. NumPy "estira" el más pequeño sin copiar datos.',
-    firstSectionId: 'numpy',
+    firstSectionId: 'security',
   },
   {
     id: 'boolean-masking',
     term: 'Boolean masking',
-    aliases: ["Boolean masking"],
+    aliases: ["Boolean masking", 'máscara booleana'],
     category: 'NumPy',
     definition: 'Usar un array booleano como índice para filtrar. arr[arr > 5] devuelve elementos que cumplen.',
-    firstSectionId: 'numpy',
+    firstSectionId: 'security',
   },
   {
     id: 'shape',
@@ -438,7 +438,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["dtype"],
     category: 'NumPy',
     definition: 'Tipo de datos del array. int64, float32, bool, etc. arr.dtype.',
-    firstSectionId: 'basics',
+    firstSectionId: 'security',
   },
   {
     id: 'reshape',
@@ -446,7 +446,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Reshape"],
     category: 'NumPy',
     definition: 'Cambiar la shape sin cambiar los datos. arr.reshape(3, 4). -1 = wildcard.',
-    firstSectionId: 'numpy',
+    firstSectionId: 'security',
   },
   {
     id: 'dataframe',
@@ -454,7 +454,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['DataFrame', 'pd.DataFrame'],
     category: 'Pandas',
     definition: 'Tabla 2D con columnas de tipos distintos. Equivalente a una hoja de Excel. pd.read_csv() lo crea.',
-    firstSectionId: 'pandas',
+    firstSectionId: 'stdlib-deep',
   },
   {
     id: 'series',
@@ -462,7 +462,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Series', 'pd.Series'],
     category: 'Pandas',
     definition: 'Columna de un DataFrame. 1D con índice. df["col"] devuelve una Series.',
-    firstSectionId: 'pandas',
+    firstSectionId: 'stdlib-deep',
   },
   {
     id: 'groupby',
@@ -470,7 +470,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["GroupBy"],
     category: 'Pandas',
     definition: 'Patrón split-apply-combine. df.groupby("region")["ventas"].sum(). Agrupa por una clave y agrega.',
-    firstSectionId: 'pandas',
+    firstSectionId: 'stdlib-deep',
   },
   {
     id: 'merge',
@@ -483,18 +483,18 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'pivot-table',
     term: 'Pivot table',
-    aliases: ["Pivot table"],
+    aliases: ["Pivot table", 'pivot'],
     category: 'Pandas',
     definition: 'Reestructura datos largos a anchos. df.pivot_table(index, columns, values, aggfunc).',
-    firstSectionId: 'pandas',
+    firstSectionId: 'packaging',
   },
   {
     id: 'iloc-vs-loc',
     term: 'iloc vs loc',
-    aliases: ["iloc vs loc"],
+    aliases: ["iloc vs loc", 'iloc'],
     category: 'Pandas',
     definition: 'loc usa labels (nombres), iloc usa posiciones (enteros 0-based).',
-    firstSectionId: 'pandas',
+    firstSectionId: 'stdlib-deep',
   },
   {
     id: 'apply',
@@ -510,7 +510,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["EDA"],
     category: 'Data Science',
     definition: 'Exploratory Data Analysis. Inspeccionar datos antes de modelar: .info(), .describe(), .value_counts(), visualizaciones.',
-    firstSectionId: 'setup',
+    firstSectionId: 'security',
   },
   {
     id: 'missing-values',
@@ -518,7 +518,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Missing values', 'valores faltantes', 'NaN'],
     category: 'Pandas',
     definition: 'Valores nulos (NaN). isnull().sum() para contar. fillna() para imputar, dropna() para eliminar.',
-    firstSectionId: 'pandas',
+    firstSectionId: 'numpy',
   },
   {
     id: 'resample',
@@ -526,7 +526,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Resample"],
     category: 'Pandas',
     definition: 'Cambiar frecuencia de serie temporal. df.resample("M").sum() agrupa por mes.',
-    firstSectionId: 'pandas',
+    firstSectionId: 'packaging',
   },
   {
     id: 'pipeline',
@@ -542,7 +542,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["ColumnTransformer"],
     category: 'ML',
     definition: 'Aplica transformaciones distintas a columnas distintas en paralelo. Numéricas: scaler, categóricas: onehot.',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'microservices',
   },
   {
     id: 'cross-validation',
@@ -550,15 +550,15 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Cross-validation', 'validación cruzada', 'cross_val'],
     category: 'ML',
     definition: 'Divide datos en K folds, entrena en K-1 y evalúa en 1, rotando. cross_val_score. Estratificado para desbalance.',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'microservices',
   },
   {
     id: 'overfitting',
     term: 'Overfitting',
-    aliases: ['Overfitting', 'sobreajuste'],
+    aliases: ['Overfitting', 'sobreajuste', 'overfit'],
     category: 'ML',
     definition: 'Modelo memoriza training data, generaliza mal. Síntomas: train score >> test score. Fix: más datos, regularización, simpler model.',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'data-acquisition',
   },
   {
     id: 'roc-auc',
@@ -566,7 +566,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["ROC-AUC"],
     category: 'ML',
     definition: 'Área bajo curva ROC. Métrica para clasificación binaria. 0.5 = azar, 1.0 = perfecto. Robusta a desbalance.',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'cv-ai-integration',
   },
   {
     id: 'precision',
@@ -574,7 +574,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Precision"],
     category: 'ML',
     definition: 'De los positivos predichos, cuántos son reales. TP / (TP + FP). Alto = pocos falsos positivos.',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'rpa-automation',
   },
   {
     id: 'recall',
@@ -582,15 +582,15 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Recall"],
     category: 'ML',
     definition: 'De los positivos reales, cuántos detectas. TP / (TP + FN). Alto = pocos falsos negativos.',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'rpa-automation',
   },
   {
     id: 'f1-score',
     term: 'F1-score',
-    aliases: ["F1-score"],
+    aliases: ["F1-score", 'F1'],
     category: 'ML',
     definition: 'Media armónica de precision y recall. Útil cuando hay desbalance. 2 * (P * R) / (P + R).',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'streamlit-dashboards',
   },
   {
     id: 'shap',
@@ -598,15 +598,15 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["SHAP"],
     category: 'ML',
     definition: 'SHapley Additive exPlanations. Explica contribución de cada feature a una predicción. Beeswarm global, waterfall individual.',
-    firstSectionId: 'numpy',
+    firstSectionId: 'advanced-models',
   },
   {
     id: 'hyperparameter-tuning',
     term: 'Hyperparameter tuning',
-    aliases: ["Hyperparameter tuning"],
+    aliases: ["Hyperparameter tuning", 'hiperparámetro'],
     category: 'ML',
     definition: 'Encontrar mejores hiperparámetros. GridSearchCV (exhaustivo) o RandomizedSearchCV (más eficiente).',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'ai-apis-advanced',
   },
   {
     id: 'standardscaler',
@@ -614,23 +614,23 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["StandardScaler"],
     category: 'ML',
     definition: 'Normaliza a media 0, std 1. (x - mean) / std. Para modelos sensibles a escala (SVM, regresión).',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'ai-apis-advanced',
   },
   {
     id: 'onehotencoder',
     term: 'OneHotEncoder',
-    aliases: ["OneHotEncoder"],
+    aliases: ["OneHotEncoder", 'one-hot'],
     category: 'ML',
     definition: 'Convierte categóricas en binarias. drop="first" evita multicolinealidad.',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'microservices',
   },
   {
     id: 'stratifiedkfold',
     term: 'StratifiedKFold',
-    aliases: ["StratifiedKFold"],
+    aliases: ["StratifiedKFold", 'split estratificado', 'stratified split'],
     category: 'ML',
     definition: 'KFold que mantiene proporción de clases en cada fold. Obligatorio para clasificación desbalanceada.',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'cv-ai-integration',
   },
   {
     id: 'joblib',
@@ -638,7 +638,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["joblib"],
     category: 'ML',
     definition: 'Persistencia de modelos. joblib.dump(model, "model.joblib"). Más eficiente que pickle para arrays NumPy.',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'microservices',
   },
   {
     id: 'outlier',
@@ -646,7 +646,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Outlier"],
     category: 'Data Science',
     definition: 'Valor atípico. Detectar con IQR: Q1 - 1.5*IQR a Q3 + 1.5*IQR. Los outliers afectan media y modelos.',
-    firstSectionId: 'data-structures',
+    firstSectionId: 'wxpython-gui',
   },
   {
     id: 'iqr',
@@ -654,7 +654,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["IQR"],
     category: 'Data Science',
     definition: 'Rango intercuartílico. Q3 - Q1. Medida robusta de dispersión.',
-    firstSectionId: 'pandas',
+    firstSectionId: 'wxpython-gui',
   },
   {
     id: 'correlaci-n',
@@ -662,7 +662,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Correlación"],
     category: 'Data Science',
     definition: 'Relación entre dos variables. -1 a 1. np.corrcoef, df.corr(). Cuidado: correlación no implica causalidad.',
-    firstSectionId: 'pandas',
+    firstSectionId: 'visualization',
   },
   {
     id: 'distribuci-n-normal',
@@ -670,7 +670,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Distribución normal"],
     category: 'Data Science',
     definition: 'Campana de Gauss. Media=mediana=moda. 68% dentro de 1 std, 95% dentro de 2 std.',
-    firstSectionId: 'pandas',
+    firstSectionId: 'data-engineering',
   },
   {
     id: 'p-value',
@@ -678,7 +678,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["p-value"],
     category: 'Data Science',
     definition: 'Probabilidad de observar el resultado si la hipótesis nula es cierta. <0.05 típicamente "significativo".',
-    firstSectionId: 'pandas',
+    firstSectionId: 'data-engineering',
   },
   {
     id: 'feature-engineering',
@@ -686,15 +686,15 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Feature engineering', 'ingeniería de features'],
     category: 'Data Science',
     definition: 'Crear nuevas features a partir de las existentes. Ej: año de fecha, ratio de dos columnas, bins de edad.',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'microservices',
   },
   {
     id: 'train-test-split',
     term: 'Train/test split',
-    aliases: ["Train/test split"],
+    aliases: ["Train/test split", 'train/test'],
     category: 'ML',
     definition: 'Dividir datos en entrenamiento (80%) y prueba (20%). El modelo nunca "ve" el test durante training.',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'security-infra',
   },
   {
     id: 'data-leakage',
@@ -702,7 +702,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Data leakage', 'fuga de datos'],
     category: 'ML',
     definition: 'Cuando info del test set "contamina" el entrenamiento. Pipeline lo previene aplicando fit solo en train.',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'databases-orm',
   },
   {
     id: 'pyodide',
@@ -710,7 +710,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['pyodide', 'Pyodide'],
     category: 'Tooling',
     definition: 'Python compilado a WebAssembly que corre en el navegador. Permite ejecutar código Python sin instalar nada localmente.',
-    firstSectionId: 'setup',
+    firstSectionId: 'basics',
   },
   {
     id: 'rag',
@@ -718,7 +718,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["retrieval-augmented"],
     category: 'ML',
     definition: 'Retrieval-Augmented Generation: recupera documentos relevantes y los pasa al LLM como contexto para responder con fuentes.',
-    firstSectionId: 'setup',
+    firstSectionId: 'rag',
   },
   {
     id: 'mlops',
@@ -750,7 +750,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["streamlit"],
     category: 'Tooling',
     definition: 'Framework de Python para dashboards interactivos con poco código, útil para demos internas.',
-    firstSectionId: 'streamlit-dashboards',
+    firstSectionId: 'rpa-automation',
   },
   {
     id: 'llm',
@@ -758,7 +758,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["llm", "LLMs"],
     category: 'ML',
     definition: 'Large Language Model: modelo de lenguaje de gran escala entrenado para generar y comprender texto.',
-    firstSectionId: 'data-acquisition',
+    firstSectionId: 'data-engineering',
   },
   {
     id: 'embedding',
@@ -766,7 +766,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["embeddings", "embedding"],
     category: 'ML',
     definition: 'Vector denso que representa significado de texto (o imagen) para búsqueda semántica y clustering.',
-    firstSectionId: 'rag',
+    firstSectionId: 'rpa-automation',
   },
   {
     id: 'asignacion-aleatoria',

@@ -29,7 +29,10 @@ SECTIONS_DIR = ROOT / "src/lib/course/sections"
 OUT = ROOT / "course-state/python_runtime_audit_report.json"
 ISSUES = ROOT / "course-state/python_content_issue_registry.json"
 
-TIMEOUT_SEC = 8
+#: Per-snippet wall-clock budget. Generous enough that a slow shared CI runner
+#: does not turn a working snippet red, tight enough to still catch a runaway
+#: loop. Override with PYARCANA_SNIPPET_TIMEOUT where the host is slower.
+TIMEOUT_SEC = int(os.environ.get("PYARCANA_SNIPPET_TIMEOUT", "8"))
 OPTIONAL_MODULES = {
     "numpy",
     "pandas",

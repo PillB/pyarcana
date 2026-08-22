@@ -27,7 +27,9 @@ import {
   CircleHelp,
   ArrowRight,
   LayoutGrid,
+  ChevronDown,
 } from 'lucide-react'
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -397,27 +399,56 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
         <BookOpen className="h-5 w-5 text-sky-600" />
         <h2 className="text-xl font-semibold">Teoría</h2>
       </div>
-      {section.theory.map((block, i) => (
-        <div key={i} className="space-y-4">
-          <RichText
-            sectionId={section.id}
-            content={block.heading + '\n\n' + block.paragraphs.join('\n\n')}
-          />
-          {block.code && (
-            <CodeBlock
-              code={block.code.code}
-              language={block.code.language}
-              title={block.code.title}
-              output={block.code.output}
+      {section.theory.map((block, i) => {
+        const body = (
+          <>
+            <RichText
+              sectionId={section.id}
+              content={
+                block.optional
+                  ? block.paragraphs.join('\n\n')
+                  : block.heading + '\n\n' + block.paragraphs.join('\n\n')
+              }
             />
-          )}
-          {block.callout && (
-            <Callout type={block.callout.type} title={block.callout.title}>
-              {block.callout.content}
-            </Callout>
-          )}
-        </div>
-      ))}
+            {block.code && (
+              <CodeBlock
+                code={block.code.code}
+                language={block.code.language}
+                title={block.code.title}
+                output={block.code.output}
+              />
+            )}
+            {block.callout && (
+              <Callout type={block.callout.type} title={block.callout.title}>
+                {block.callout.content}
+              </Callout>
+            )}
+          </>
+        )
+
+        // Optional deeper dive: collapsed by default so the section's main
+        // thread stays readable. The heading moves into the trigger.
+        if (block.optional) {
+          return (
+            <Collapsible key={i} className="rounded-lg border border-dashed border-sky-300 dark:border-sky-800">
+              <CollapsibleTrigger className="group flex w-full items-center gap-2 rounded-lg px-4 py-3 text-left hover:bg-sky-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 dark:hover:bg-sky-950/40">
+                <ChevronDown className="h-4 w-4 shrink-0 text-sky-600 transition-transform group-data-[state=open]:rotate-180" />
+                <span className="flex-1 font-semibold">{block.heading}</span>
+                <Badge variant="outline" className="shrink-0 text-xs font-normal">
+                  Profundización opcional
+                </Badge>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="space-y-4 px-4 pb-4">{body}</CollapsibleContent>
+            </Collapsible>
+          )
+        }
+
+        return (
+          <div key={i} className="space-y-4">
+            {body}
+          </div>
+        )
+      })}
 
       {/* Interactive playground — appears in every section's theory tab */}
       <InteractivePlaygroundDemo sectionId={section.id} sectionTitle={section.title} />

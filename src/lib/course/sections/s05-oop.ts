@@ -651,9 +651,9 @@ print("refactor OK", normalize_direccion("  jr. unión 5 "))`,
         kind: "guided",
         instruction:
           "1. Abre el starter: `n_palabras` hace `print` del conteo y no tiene `return`.\n2. El caller hace `print(n_palabras(...))` y hoy ve `None`.\n3. Calcula tokens con `strip` + `split` y **devuelve** el entero.\n4. Deja un solo `print` en el caller; la línea exacta debe ser `2`.",
-        hint: "return len(raw.strip().split())",
+        hint: "La función debe **devolver** el conteo, no imprimirlo. ¿Qué te queda si limpias el texto y lo separas?",
         hints: [
-          "return len(raw.strip().split())",
+          "`strip()` quita los espacios de los extremos; `split()` sin argumentos separa por cualquier cantidad de espacios. La respuesta es el largo de esa lista.",
           "No uses print dentro de n_palabras; el print va en el caller.",
         ],
         edgeCases: ["return vs. print", "espacios múltiples"],

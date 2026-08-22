@@ -61,7 +61,10 @@ for t in terms:
     # find earliest occurrence
     earliest = None
     for sid, i in idx.items():
-        if re.search(r"(?i)(?<![\\w/-])" + re.escape(t["term"]) + r"(?![\\w/-])", section_text[sid]):
+        # NOTE: these were `\\w` inside a raw string, i.e. a literal backslash
+        # followed by `w` — not a word class. The look-around therefore almost
+        # never fired, so "Valor p" matched inside "valor por defecto".
+        if re.search(r"(?i)(?<![\w/-])" + re.escape(t["term"]) + r"(?![\w/-])", section_text[sid]):
             if earliest is None or i < earliest[0]:
                 earliest = (i, sid)
     if earliest and earliest[0] < fi:

@@ -1465,9 +1465,9 @@ print(len(s))`,
         kind: "transfer",
         title: "Key mutable vs FrozenEntity en dict",
         preamble:
-          "- **Contexto:** usar una entidad mutable como key de dict (clave de diccionario) es un bug clásico de matching en memoria.\n- **Meta:** demostrar el lookup (búsqueda por clave) roto tras mutar y la versión frozen segura.\n- **Éxito:** `BUG lookup_after_mutate None` y `SAFE row`.\n- **Límites:** no “arregles” el mutable con hacks; muestra el contraste; solo stdlib.",
+          "- **Contexto:** usar una entidad mutable como key de dict (clave de diccionario) es un bug clásico de matching en memoria.\n- **Meta:** demostrar que tras mutar la key ya no encuentras la entrada ni buscándola con los valores originales, y contrastar con la versión frozen.\n- **Éxito:** `BUG lookup_after_mutate None` y `SAFE row`.\n- **Límites:** no “arregles” el mutable con hacks; muestra el contraste; solo stdlib.",
         instruction:
-          "1. Conserva el bloque mutable que muta `name` tras insertar.\n2. Observa que `d.get(m)` devuelve `None`.\n3. Añade `FrozenEntity` frozen e inserta/lookup con la misma identidad.\n4. Imprime las dos líneas con prefijos `BUG` y `SAFE`.",
+          "1. Conserva el bloque mutable que muta `name` tras insertar.\n2. Busca la entrada con los mismos valores con que la guardaste — `d.get(MutableEntity('E1', 'Ana'))` — y observa que devuelve `None`.\n3. Añade `FrozenEntity` frozen e inserta/lookup con la misma identidad.\n4. Imprime las dos líneas con prefijos `BUG` y `SAFE`.",
         hint: "Imprime BUG y SAFE.",
         hints: [
           "Imprime BUG y SAFE.",
@@ -1476,7 +1476,7 @@ print(len(s))`,
         edgeCases: ["No implementes __hash__ en mutables"],
         tests: "Dos líneas: `BUG lookup_after_mutate None` y `SAFE row`.",
         feedback:
-          "Si el hash depende de un campo mutable, tras mutar el dict “pierde” la entrada (`get` → `None`) aunque el objeto siga en memoria. Frozen cierra esa puerta: misma identidad ⇒ mismo bucket (la ranura interna del dict donde se guarda el valor).",
+          "Si el hash depende de un campo mutable, al mutar cambias el hash pero la entrada sigue archivada bajo el hash viejo: la buscas con los valores originales, el dict va al lugar correcto y la comparación falla porque el objeto guardado ya no vale lo mismo. El resultado es `None` aunque el objeto siga en memoria. Frozen cierra esa puerta: misma identidad ⇒ mismo bucket (la ranura interna del dict donde se guarda el valor).",
         retrospective:
           "Si el hash depende de un campo mutable, el dict “pierde” la entrada. Frozen cierra esa puerta. En T3-A agruparás entidades y evidencias con composición, no con herencia forzada.",
         starterCode: {
@@ -1496,7 +1496,7 @@ class MutableEntity:
 m = MutableEntity("E1", "Ana")
 d = {m: "row"}
 m.name = "Ana P"
-print("BUG lookup_after_mutate", d.get(m))
+print("BUG lookup_after_mutate", d.get(MutableEntity("E1", "Ana")))
 print("SAFE", "skipped")
 `,
         },
@@ -1515,7 +1515,7 @@ print("SAFE", "skipped")
 m = MutableEntity("E1", "Ana")
 d = {m: "row"}
 m.name = "Ana P"  # mutó la key
-print("BUG lookup_after_mutate", d.get(m))
+print("BUG lookup_after_mutate", d.get(MutableEntity("E1", "Ana")))
 
 from dataclasses import dataclass
 
