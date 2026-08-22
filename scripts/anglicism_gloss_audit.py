@@ -39,6 +39,18 @@ TERMS = [
     "race condition", "backfill", "lineage", "freshness", "chunking",
     "retrieval", "grounding", "hallucination", "red teaming", "sandbox",
     "rate limit", "circuit breaker", "feature store", "warm start",
+    # Added after a discovery pass over learner prose rather than guessed: these
+    # are the high-frequency English concept words the course actually uses.
+    # Bare code identifiers the learner types (`pass`, `null`, `str`) are
+    # excluded — those are syntax, not vocabulary needing translation.
+    # `ranking` is deliberately absent: the RAE accepts it as Spanish and it is
+    # ordinary usage in Peru. Glossing a naturalised word patronises the reader,
+    # which the protocol forbids as firmly as dropping an unexplained one.
+    "rollback", "runbook", "matching", "seed", "recall", "precision",
+    "checkpoint", "blocking", "checklist", "factory", "loop",
+    "review", "ticket", "assess", "dataset", "mock", "timeout", "pipeline",
+    "wrapper", "parser", "payload", "endpoint", "commit", "branch", "merge",
+    "cache", "batch", "stub", "fixture", "linter", "scraping", "crawler",
 ]
 
 GLOSS_NEAR = re.compile(

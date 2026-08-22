@@ -31,7 +31,7 @@ export const section04: CourseSection = {
         "Desde **S03** ya validas un registro (accept / reject / review). Ahora sostienes tres invariantes durante **muchas filas**: cada fila se procesa como máximo una vez, los contadores explican el total y el raw permanece intacto. Un solo pase **O(n)** basta para cerrar el gate **CP-N1-A**; empaquetado, CLI y decorators pueden esperar.",
         "El hilo conductor es un **script de intake por lotes**. Lee líneas sintéticas (o una lista en memoria que simula stdin), valida cada registro, imprime por stdout un resumen y **conserva el original (raw)** de cada fila. Caso de laboratorio: `CASO-LIM-004`. Datos ficticios únicamente (`example.com`, teléfonos inventados). Nunca subas PII real al repo.",
         "Orden pedagógico: **T1 Recorrido** (`for`/`range` → `enumerate`/`zip`) → **T2 Repetición** (`while`/centinelas → `break`/`continue`) → **T3 Patrones** (contadores/acumuladores → comprehensions) → **T4 Razonamiento** (trazado de estado → costo y off-by-one). En cada subtema: teoría → demo I Do → We Do (E1 guiado, E2 independiente, E3 transferencia).",
-        "Ritmo sugerido (~18 h): sesiones 1–2 solo T1; 3–4 T2; 5–6 T3; 7–8 T4 + You Do del batch + self-check. Si un demo se siente denso, rehazlo con lápiz (tabla TRACE) antes de copiar la solución. Cuando veas `def ...` en un ejemplo, es solo una **receta nombrada** para el playground — el diseño formal de funciones llega en la sección siguiente.",
+        "Ritmo sugerido (~18 h): sesiones 1–2 solo T1; 3–4 T2; 5–6 T3; 7–8 T4 + You Do del bloque + self-check. Si un demo se siente denso, rehazlo con lápiz (tabla TRACE) antes de copiar la solución. Cuando veas `def ...` en un ejemplo, es solo una **receta nombrada** para el playground — el diseño formal de funciones llega en la sección siguiente.",
       ],
       callout: {
         type: "info",
@@ -1176,7 +1176,7 @@ print(out)`,
         feedback:
           "Si al final ves `2 1 0`, accept/reject van bien pero `n_total` nunca subió. El `+= 1` de total va en **cada** iteración, no solo en accept.",
         retrospective:
-          "Comprueba el invariante `n_accept + n_reject == n_total` para este fixture. Si olvidas la rama reject, el programa aún imprime números, pero ya no puede explicar el lote. Añade mentalmente un status review y decide si el invariante debe ampliarse o si review queda fuera por contrato.",
+          "Comprueba el invariante `n_accept + n_reject == n_total` para este fixture (los datos fijos de prueba con los que corres el ejercicio). Si olvidas la rama reject, el programa aún imprime números, pero ya no puede explicar el lote. Añade mentalmente un status review y decide si el invariante debe ampliarse o si review queda fuera por contrato.",
         starterCode: {
           language: 'python',
           title: "contadores_base.py",
