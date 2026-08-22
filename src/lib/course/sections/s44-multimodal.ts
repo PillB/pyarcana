@@ -25,12 +25,27 @@ export const section44: CourseSection = {
   ],
   theory: [
     {
-      heading: "Ruta de S44: CI/CD y seguridad de la cadena de suministro",
+            heading: "¿De dónde salió exactamente lo que está corriendo en producción?",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **CI matrix:** combinaciones soportadas de runtime/OS. **Least privilege:** permisos mínimos del workflow. **Pinning:** deps y actions por digest/SHA inmutable. **SBOM:** inventario de componentes del artefacto. **Provenance/attestation:** quién construyó qué y con qué inputs (SLSA). **Canary/blue-green:** promoción gradual. **Rollback:** volver a digest previo verificado. **Branch protection:** review + checks obligatorios antes de merge.",
-        "Esta sección lleva el servicio contenedorizado de S43 a una **cadena de suministro verificable**: CI con lint/types/tests, permisos mínimos, SBOM/provenance y promoción con rollback. Modelamos contratos al estilo GitHub Actions/SLSA con dicts de **stdlib** (sin registry remoto obligatorio). El caso `CASO-PIU-044` es un repositorio sintético de operaciones en Piura: sin secretos reales ni PII. Lo que sigue en S45 (cloud/colas) asume que ya sabes **no promover un digest huérfano** de evidencia.",
-        "Producto incremental: un pipeline con supply-chain gates que un auditor podría re-ejecutar. Entrada: commit revisado, dependencias fijadas (lockfile), workflow con least privilege. Salida: artefacto identificado por digest, SBOM, provenance y evidencia de promote/rollback. El gate **bloquea** si hay test crítico rojo, secreto en logs, dependencia insegura sin pin o attestation ausente — y no convierte incertidumbre en éxito silencioso.",
-        "Orden de aprendizaje: T1 matrices de check → T2 permisos/secretos y SBOM → T3 environments/canary/rollback → T4 branch protection y fallos auditables. Primero observas el contrato en demos locales (I Do); luego reparas predicados fallidos y clasificas valid/invalid/missing (We Do E1–E3); al final armas el pipeline de portafolio con evidencia de promote/rollback (You Do / CP-N4-B). Stack didáctico: **stdlib** modelando la superficie real de GHA/SLSA sin pedir cuenta de registry.",
+        "Es una pregunta razonable y, en la mayoría de los equipos, nadie sabe responderla con precisión. Se sabe qué repositorio, más o menos qué commit, probablemente qué versión de las dependencias. «Más o menos» y «probablemente» son suficientes hasta el día en que una librería resulta comprometida y hay que decir, con nombre y fecha, qué se construyó con ella.",
+        "Piensa en la etiqueta de un alimento envasado. No dice solo «galletas»: dice qué lleva, quién lo hizo, en qué planta y en qué fecha. Eso no mejora el sabor — sirve para que, si aparece un problema con un ingrediente, se pueda retirar exactamente lo afectado en lugar de vaciar el supermercado. Un **SBOM** (*Software Bill of Materials*) es esa etiqueta: el inventario de todo lo que entró en tu artefacto.",
+        "La etiqueta sola no basta si cualquiera puede reimprimirla. Por eso el artefacto se identifica por **digest** —una huella criptográfica del contenido, no una etiqueta como `latest` que alguien puede reapuntar mañana— y por eso las dependencias se fijan por SHA inmutable en lugar de por rango de versión. Y por eso existe la **provenance**: un registro firmado de quién construyó qué, con qué entradas y en qué máquina.",
+        "El otro lado de la cadena es el permiso. Un workflow de integración continua suele tener acceso a más de lo que necesita, y ese exceso es lo que convierte un script comprometido en un incidente. El principio es aburrido y funciona: cada paso recibe el permiso mínimo para hacer su trabajo, y nada más.",
+        "La pregunta que atraviesa la sección es de auditoría: **¿puedo demostrar, sin confiar en mi memoria, de dónde salió esto?** Y su corolario práctico — si algo sale mal, ¿puedo volver atrás sin rehacer el camino a mano? Modelas los contratos con la biblioteca estándar sobre `CASO-PIU-044`, un repositorio sintético de operaciones en Piura, sin registro remoto obligatorio ni secretos reales.",
+      ],
+      callout: {
+        type: "info",
+        title: "Gate de promoción",
+        content: "Promociona solo con asserts locales en verde, digest verificable y evidencia retenida. Si falta evidencia o un check crítico falla, el gate se queda en bloqueo.",
+      },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Reúne el entregable, el orden de los subtemas y los criterios de promoción.",
+        "**Producto incremental.** Un pipeline con controles de cadena de suministro que un auditor podría re-ejecutar. Recibes un commit revisado, dependencias fijadas por lockfile y un workflow con permisos mínimos. Entregas un artefacto identificado por digest, su SBOM, su provenance y evidencia de promoción y rollback. El gate bloquea si un test crítico está rojo, si un secreto aparece en logs, si una dependencia insegura no está fijada o si falta la attestation.",
+        "**Orden de los subtemas.** T1 arma las matrices de verificación. T2 pasa a permisos, secretos y SBOM. T3 cubre entornos, canary y rollback. T4 cierra con protección de ramas y fallos auditables.",
       ],
       code: {
         language: 'python',
@@ -51,11 +66,6 @@ print("unpinned_vuln_dep_ok", c["unpinned_vuln_dep_ok"])
         output: `case CASO-PIU-044
 supply_chain_cicd True
 unpinned_vuln_dep_ok False`,
-      },
-      callout: {
-        type: "info",
-        title: "Gate de promoción",
-        content: "Promociona solo con asserts locales en verde, digest verificable y evidencia retenida. Si falta evidencia o un check crítico falla, el gate se queda en bloqueo.",
       },
     },
     {

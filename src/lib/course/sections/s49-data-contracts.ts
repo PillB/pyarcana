@@ -25,12 +25,28 @@ export const section49: CourseSection = {
   ],
   theory: [
     {
-      heading: "Ruta de S49: Agentes, herramientas y context engineering",
+            heading: "Antes de darle autonomía, pregunta si hace falta",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). Cada término se usa como enunciado y como contrato:\n\n- **Workflow vs. agente**: pasos conocidos vs. decisiones acotadas con evaluator.\n- **Planner / worker / evaluator**: descomponer, ejecutar, verificar.\n- **Tool de responsabilidad única**: un solo efecto, bien tipado.\n- **Idempotencia de tool**: misma key ⇒ un solo side effect.\n- **Context mínimo / JIT retrieval**: solo lo necesario, justo a tiempo.\n- **Checkpoint / LKG**: *last-known-good* para recovery.\n- **Budget**: `max_steps`, `max_tokens` y `max_cost_pen` (costo sintético en el lab).\n- **Sandbox + human approval**: sin red, prod ni riesgo sin aprobación explícita.\n\n**Códigos de acción del laboratorio** (fail-closed, nunca un éxito silencioso): `KEEP_DETERMINISTIC_WORKFLOW` (no promociones el agente aún; conserva el workflow), `STOP_AGENT_LOOP`, `DENY_TOOL_CALL`, `COMPACT_AND_CHECKPOINT`, `STOP_BUDGET_EXHAUSTED`, `REQUEST_HUMAN_APPROVAL`.",
-        "Esta sección extiende el RAG con evidencia de S48 hacia **agentes y tools**: el retrieval ya no basta; hace falta decidir *si* conviene un agente, *qué* tools puede invocar, *cuánto* contexto y presupuesto consume, y *cuándo* parar o pedir aprobación. Stack didáctico: demos en **stdlib** (contadores, sets, dicts de estado) sin frameworks de agentes ni red abierta. El caso sintético `CASO-AYA-049` (entidad ficticia en Ayacucho) no trae PII real ni tools con red abierta. En S50 conectarás estas puertas a evals y red team del gate CP-N4-C.",
-        "**Hilo conductor (trayectoria feliz):**\n\n1. Mides baseline vs. agente y eliges **workflow** o **agent** con ADR.\n2. El planner descompone en ≤ `max_steps` y el evaluator cierra el loop.\n3. Cada tool tiene schema estrecho, scope en allowlist e **idempotency key**.\n4. El contexto se arma con **JIT** y checkpoint.\n5. Si se agota el budget o falta approval, el run emite un código de stop — no inventa éxito.\n\n**Producto incremental:** propuesta de plan + tool calls auditables.\n**Fallos de promoción típicos:** «éxito» sin `known_steps`, *god-tool* multi-efecto, *replay* de side effects o `network=open` sin humano.",
-        "Orden pedagógico: **T1** modo y routing → **T2** tools (SRP, schema, permisos, idempotencia) → **T3** context engineering (JIT, compaction, LKG) → **T4** stops, budgets, sandbox y HITL. En la demostración verás micro-mecanismos ejecutables; en el laboratorio repararás funciones de dominio y enrutarás **válido, adverso o incierto** hasta fallar cerrado. Esta sección enseña **uso gobernado de tools por un agente** (no validación tabular de datasets). Ritmo sugerido (~20 h): sesiones 1–2 en T1; 3–5 en T2; 6–8 en T3; 9–10 en T4 + portfolio y self-check.",
+        "La respuesta muchas veces es no. Cuando los pasos se conocen de antemano, un flujo fijo es más barato, más rápido y mucho más fácil de depurar que un agente que decide sobre la marcha. La primera decisión de esta sección no es cómo construir un agente, sino cuándo no construirlo.",
+        "La diferencia real está en quién elige la secuencia. En un **workflow** la eliges tú al escribirlo. En un **agente** la elige el modelo en tiempo de ejecución, dentro de límites que tú fijas. Eso compra flexibilidad cuando el camino no se puede anticipar, y cuesta previsibilidad siempre. Se paga esa cuenta a propósito o no se paga.",
+        "Si el agente se justifica, la seguridad está en las herramientas que puede invocar. Una **tool** con una sola responsabilidad, un esquema estrecho y una lista explícita de permisos es auditable; una herramienta genérica que «hace cosas con la base de datos» no lo es. Y como un agente reintenta, cada herramienta con efectos necesita su clave de idempotencia, por la misma razón que la necesitaba la API de S41.",
+        "Queda el recurso que siempre se agota: el contexto. Cargarlo todo por si acaso es caro y además empeora las decisiones, porque lo relevante se diluye. La disciplina es traer la información cuando se necesita y no antes, y dejar puntos de control para poder retomar sin releer la historia entera.",
+        "Toda la sección gira sobre una pregunta con dos filos: **¿cuándo debe parar, y quién decide si eso ya requiere una persona?** Los límites de pasos, los presupuestos y la aprobación humana no son adornos de seguridad; son las condiciones que hacen que la autonomía sea defendible. Las demos usan la biblioteca estándar — contadores, conjuntos y diccionarios de estado — sin llamar a modelos reales.",
+      ],
+      callout: {
+        type: "info",
+        title: "Gate de promoción",
+        content: "Promueve solo con evidencia ejecutable (fixtures + asserts). La confianza verbal no basta: si falta un campo o un assert, el gate queda bloqueado.",
+      },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Reúne el entregable, el orden de los subtemas y los criterios de promoción.",
+        "**Trayectoria esperada.** Mides el baseline contra el agente y eliges modo con un ADR que lo justifique. El planner descompone dentro de un máximo de pasos y el evaluator cierra el ciclo. Cada herramienta tiene esquema estrecho, permisos en lista blanca y clave de idempotencia. El contexto se arma cuando hace falta, con puntos de control. Si el presupuesto se agota, el sistema para y entrega lo último bueno.",
+        "**Orden de los subtemas.** T1 decide el modo y el enrutamiento. T2 cubre las herramientas: responsabilidad única, esquema, permisos, idempotencia. T3 trata el contexto: carga tardía, compactación, último estado bueno. T4 cierra con condiciones de parada, presupuestos, aislamiento y aprobación humana.",
+        "**Evidencia.** Solo promueve lo que trae fixtures y asserts ejecutables. La confianza verbal no cuenta: si falta un campo o un assert, el gate queda bloqueado.",
       ],
       code: {
         language: 'python',
@@ -51,11 +67,6 @@ print("prod_side_effect_without_approval_ok", c["prod_side_effect_without_approv
         output: `case CASO-AYA-049
 topic_is_agent_tools True
 prod_side_effect_without_approval_ok False`,
-      },
-      callout: {
-        type: "info",
-        title: "Gate de promoción",
-        content: "Promueve solo con evidencia ejecutable (fixtures + asserts). La confianza verbal no basta: si falta un campo o un assert, el gate queda bloqueado.",
       },
     },
     {

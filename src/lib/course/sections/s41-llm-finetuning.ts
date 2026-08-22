@@ -25,13 +25,28 @@ export const section41: CourseSection = {
   ],
   theory: [
     {
-      heading: "Ruta de S41: API con FastAPI y contratos HTTP",
+            heading: "Cuando la frontera deja de ser un diagrama y empieza a responder",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **Recurso:** sustantivo versionado (`/v1/jobs`). **Status semántico:** 201 create, 200 read (colección o ítem existente), **422** validación de body (Pydantic/FastAPI), **405** método no permitido en un path que sí existe, **404** ítem ausente (`/v1/jobs/{id}`), 409 conflicto de negocio/idempotencia, 429 rate limit, 5xx servidor. No uses 400 genérico para enmascarar un 422 de esquema. **Idempotency-Key:** la misma clave + el mismo body canónico ⇒ un solo side effect; body distinto ⇒ conflicto, no segundo create. **OpenAPI:** contrato de request/response documentado y fiel al comportamiento. **Dependency injection:** handler delgado; capacidad inyectada (`Depends` en FastAPI). **Compatibilidad de lectura:** clientes v1 siguen leyendo campos estables. **PII en errores:** prohibido — códigos, título y `trace_id` seguros (estilo RFC 9457).",
-        "S41 implementa las fronteras de S40 como **contratos HTTP** del control plane: API versionada de jobs sintéticos para una oficina ficticia en Arequipa (`CASO-ARE-041`). Progressive disclosure: primero modelamos el contrato en **stdlib** (dicts y funciones); los recursos enlazan el equivalente en FastAPI/OpenAPI/TestClient sin exigir un cluster real. Sin credenciales, sin red externa y sin PII real.",
-        "Producto incremental: `POST/GET /v1/jobs` con identidad sintética e Idempotency-Key. Salida: status semánticos, body sin campos internos y errores tipados. Error de promoción: duplicar side effects en replay, filtrar PII en errores o romper compatibilidad de lectura.",
-        "Orden: T1 recursos/status e idempotencia → T2 routing/deps y validación → T3 sync/async y errores → T4 tests, rate limit y observabilidad. Cada tema deja un artefacto medible (matriz HTTP, replay, handler delgado, vista pública, boundary async, timeout cascade, pirámide de tests, 429+trace). En el laboratorio, los códigos `RETURN_*` / `THIN_THE_HANDLER` / etc. son **tokens de lab** fail-closed (no enums de producción); el mapeo profesional vive en status OpenAPI y Problem Details.",
-        "**Puente stdlib → FastAPI (referencia).** Path operation: `@app.post(\"/v1/jobs\")` ≈ función que recibe body y devuelve status+dict. Dependencia: `Depends(get_store)` ≈ fábrica inyectable `get_store()`. Modelo: `JobCreate(BaseModel)` ≈ dict validado antes del dominio. Docs: `/docs` OpenAPI ≈ contrato que debe coincidir con tests. Test: `TestClient(app).post(...)` ≈ llamar el handler con store fake y asertar status/body.",
+        "Una frontera dibujada en un plano no obliga a nadie. En S40 decidiste qué pertenece a cada contexto y quién responde por él; en cuanto ese sistema atiende a otro equipo, la frontera tiene que viajar por un cable y sostenerse sola, sin que tú estés al lado para explicarla.",
+        "Una API es una ventanilla con el reglamento pegado en el vidrio. Quien llega no te conoce: lee qué puede pedir, en qué forma, y qué significa cada respuesta que recibe. El **recurso** es el sustantivo que atiendes —`/v1/jobs`, no `/crearTrabajo`—, y el número que devuelves no es decoración: **201** dice «lo creé», **404** dice «eso no existe», **422** dice «entendí tu formato pero tus datos no cumplen». Devolver 400 para todo es cerrar la ventanilla y gritar «hay un problema» sin decir cuál.",
+        "Hay una promesa más difícil que el formato: la de no hacer dos veces lo mismo. Si la red se corta después de que tu servidor creó el trabajo pero antes de que el cliente reciba la respuesta, ese cliente reintentará. Una **Idempotency-Key** es el recibo que permite reconocer el reintento y devolver el resultado original en lugar de crear un segundo trabajo. Sin ella, un timeout se convierte en dos cobros.",
+        "La pregunta que gobierna la sección es la que se hace quien consume: **¿qué me promete esta respuesta, y qué pasa si la pido otra vez?** Cada decisión —el status, la forma del body, qué campos internos no salen— es una respuesta a eso.",
+        "Trabajas primero con la biblioteca estándar: diccionarios y funciones que modelan el contrato sin levantar servidor. Los recursos enlazan el equivalente en FastAPI, pero no necesitas un cluster, credenciales ni red para aprender qué promete un 201. El caso es sintético (`CASO-ARE-041`, una oficina ficticia en Arequipa) y no hay PII real.",
+      ],
+      callout: {
+        type: "info",
+        title: "Gate de promoción",
+        content: "CP-N4-A se demuestra con evidencia local: create idempotente, errores sin PII y lectura compatible v1. Si un assert falla, el gate queda bloqueado.",
+      },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. No hace falta leerlo para seguir la sección: reúne el entregable, el orden de los subtemas y los criterios con que se evalúa.",
+        "**Producto incremental.** `POST` y `GET` sobre `/v1/jobs` con identidad sintética e Idempotency-Key. Entregas status semánticos, un body sin campos internos y errores tipados. La promoción falla si un replay duplica efectos, si un error filtra PII o si se rompe la compatibilidad de lectura.",
+        "**Orden de los subtemas.** T1 fija recursos, status e idempotencia, porque son el vocabulario. T2 pasa a routing, dependencias y validación. T3 separa lo síncrono de lo asíncrono y tipa los errores. T4 cierra con pruebas, límite de tasa y observabilidad.",
+        "**Tokens de laboratorio.** Los códigos `RETURN_*` y `THIN_THE_HANDLER` que verás en los ejercicios son marcas del laboratorio para fallar de forma explícita, no enums de producción.",
       ],
       code: {
         language: 'python',
@@ -54,11 +69,6 @@ print("pii_in_errors_ok", c["pii_in_errors_ok"])
 gates ['idempotent_create', 'no_pii_in_errors', 'read_compat']
 duplicate_side_effect_ok False
 pii_in_errors_ok False`,
-      },
-      callout: {
-        type: "info",
-        title: "Gate de promoción",
-        content: "CP-N4-A se demuestra con evidencia local: create idempotente, errores sin PII y lectura compatible v1. Si un assert falla, el gate queda bloqueado.",
       },
     },
     {

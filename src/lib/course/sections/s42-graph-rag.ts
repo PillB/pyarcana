@@ -25,12 +25,28 @@ export const section42: CourseSection = {
   ],
   theory: [
     {
-      heading: "Ruta de S42: Schemas, seguridad y privacidad de servicios",
+            heading: "El mismo pedido, ahora sin suponer que quien llama es de fiar",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **Schema estricto:** forma + tipos + rechazo de campos extra. **Authn/authz:** quién eres vs. qué puedes hacer. **RBAC/scopes:** roles y permisos deny-by-default. **SSRF/path traversal:** abuso de URL o rutas del servidor. **Minimización/retención:** solo el dato necesario, solo el tiempo necesario. **Pseudonimización:** identificadores derivados sin reidentificación fácil. **Redacción:** campo sensible no reaparece en logs, respuestas ni backups activos. **Missing ≠ breach:** falta de evidencia se enruta a revisión humana; no se inventa un allow ni se confunde con un ataque demostrado.",
-        "Esta sección **endurece el control plane de S41** (HTTP versionado). Imagina la misma petición JSON que ya sabes versionar: ahora le exigimos schema estricto, binding al dueño del caso, scope de servicio y controles de URL/path antes de tocar almacenamiento. Modelamos con **stdlib** (dicts, sets) los contratos al estilo Pydantic/JSON Schema y los controles OWASP **sin** levantar un cluster ni llamar red real. El caso `CASO-CUS-042` (mesa de soporte sintética en Cusco) no usa credenciales reales, PII ni servicios externos.",
-        "Producto incremental: threat model + matriz de permisos. Entrada: schemas estrictos, identidad de servicio, scope, propósito y retención. Salida: allow/deny auditable, redacción y purga de derivados. Error de promoción: campo extra aceptado, lectura cross-tenant, path/URL no permitidos o retención vencida sin bloqueo. El demo del mapa reproduce esa historia de un solo request: schema OK no basta si el actor no es el dueño.",
-        "Orden: T1 schemas/evolución → T2 authn/authz y scopes → T3 injection/SSRF/secretos → T4 minimización, auditoría y borrado. Primero la forma del payload (como en S41), luego el permiso sobre el recurso, después el abuso de entrada y al final el ciclo de privacidad. Cada subtema tiene un **contrato local medible**; el gate global **CP-N4-A** solo se aprueba cuando no hay lectura cross-tenant y la redacción se sostiene. S43 tomará este control plane ya endurecido hacia plataforma gobernada.",
+        "El JSON que ayer procesaste sin pestañear puede venir hoy de alguien que no debería ver ese caso. Nada en la forma del pedido lo delata: viene bien escrito, con los campos correctos y un token válido. La sección anterior te enseñó a versionar y responder; esta te enseña a desconfiar en el orden correcto.",
+        "Piensa en la puerta de un edificio con recepción. Que el documento esté bien impreso solo prueba que es un documento. Después hay que ver si esa persona es quien dice ser —**autenticación**— y si tiene derecho a subir a ese piso en particular —**autorización**—. Son dos preguntas distintas, y confundirlas es cómo un sistema termina dejando que un inquilino abra el departamento de al lado.",
+        "El primer filtro es la forma. Un **schema estricto** no solo verifica que estén los campos esperados: rechaza los que sobran. Un campo extra aceptado en silencio es la grieta por donde entra un valor que nadie validó. Después viene el permiso, y la regla es negar por defecto: si el sistema no puede demostrar que tienes derecho, no lo tienes. Recién al final se mira el contenido, porque una URL o una ruta también son entradas — y un servidor que sigue cualquier dirección que le pasen termina pidiendo datos a sí mismo por encargo de un extraño.",
+        "La pregunta que se repite en cada subtema tiene tres partes: **¿quién es, qué está pidiendo, y tiene derecho a eso?** Ninguna de las tres se responde mirando el formato.",
+        "Queda un ciclo que no es de ataque sino de higiene: guardar solo el dato necesario, solo el tiempo necesario, y poder borrarlo de verdad cuando toca. Modelas todo con la biblioteca estándar —diccionarios y conjuntos— sobre un caso sintético, sin levantar servicios ni usar datos reales.",
+      ],
+      callout: {
+        type: "info",
+        title: "Gate de promoción CP-N4-A",
+        content: "Control plane seguro y privado: (1) un actor nunca lee el caso de otro tenant, (2) un campo redactado no reaparece en logs, respuestas ni backups activos. Si falta evidencia o la rama es incertidumbre (missing), no se promociona: fail-closed y revisión humana.",
+      },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Reúne el entregable, el orden de los subtemas y los criterios de promoción.",
+        "**Producto incremental.** Un modelo de amenazas y una matriz de permisos. Recibes schemas estrictos, identidad de servicio, scope, propósito y retención. Entregas decisiones allow/deny auditables, redacción y purga de derivados. La promoción falla si se acepta un campo extra, si hay lectura cruzada entre tenants, si se permite una URL o ruta no autorizada, o si una retención vencida no bloquea.",
+        "**Orden de los subtemas.** T1 fija la forma del payload y su evolución. T2 pasa al permiso sobre el recurso. T3 mira el abuso de entrada: inyección, SSRF y secretos. T4 cierra con minimización, auditoría y borrado.",
+        "**Gate global.** CP-N4-A solo se aprueba cuando no existe lectura cruzada entre tenants y la redacción se sostiene en logs, respuestas y backups activos.",
       ],
       code: {
         language: 'python',
@@ -65,11 +81,6 @@ print(
 cross_tenant_read_ok False
 redaction_holds True
 s41_request DENY_CROSS_TENANT`,
-      },
-      callout: {
-        type: "info",
-        title: "Gate de promoción CP-N4-A",
-        content: "Control plane seguro y privado: (1) un actor nunca lee el caso de otro tenant, (2) un campo redactado no reaparece en logs, respuestas ni backups activos. Si falta evidencia o la rama es incertidumbre (missing), no se promociona: fail-closed y revisión humana.",
       },
     },
     {

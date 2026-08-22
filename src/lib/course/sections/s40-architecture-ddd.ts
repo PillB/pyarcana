@@ -25,16 +25,29 @@ export const section40: CourseSection = {
   ],
   theory: [
     {
-      heading: "Ruta de S40: Arquitectura, DDD y decisiones técnicas",
+      heading: "Arquitectura: poner por escrito la forma que hoy vive en tu cabeza",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1).",
-        "**Quality attribute (QA):** escenario medible con fuente, estímulo, respuesta, umbral y dueño. **Trade-off:** elección entre alternativas con scores y riesgo residual aceptado. **Bounded context:** frontera de lenguaje ubicuo y ownership del modelo.",
-        "**Ports/adapters:** las dependencias apuntan al dominio, no al revés. **C4:** niveles context, container, component y code. **ADR:** Architecture Decision Record (contexto, decisión, consecuencias, rollback). **Medida + dueño + consecuencia:** trío mínimo para promover un trade-off.",
-        "Esta sección abre el Nivel 4 (experto→máster) a partir del cierre CP-N3-C en S39 (triage y controles). Solo reutiliza contratos, pruebas y controles ya enseñados: no hay APIs cloud ni credenciales. El caso `CASO-LIM-040` (Red Andina, Lima sintético) modela un mapa de arquitectura para intake → ER → grafo → triage → reporting → IA auxiliar, sin PII real. Lo que aprendas aquí (ports, evolución aditiva) alimenta S41 (APIs) y deja la orquestación de agentes para más adelante.",
-        "Producto incremental: dossier de arquitectura gobernada. Entrada: FR, escenarios de quality attributes, vocabulario ubicuo y restricciones (latencia, dueños, secretos fuera del repo). Salida: capas/ports, bounded contexts, C4 (context/container) y ADRs versionados con medida, dueño y consecuencia. Error de promoción: frontera ambigua, dependencia invertida o trade-off sin umbral.",
-        "Orden de aprendizaje: T1 requisitos y trade-offs → T2 capas/ports → T3 bounded contexts y modelo → T4 C4/ADR y evolución de APIs.",
-        "En cada subtema verás un criterio medible, una demo que calcula el contrato y laboratorio E1/E2/E3. E1 a menudo ensambla un artefacto de oficio (context map, ports/DIP, entity/VO, C4+ADR, consumer contract); E2 y E3 refuerzan fail-closed.",
-        "**Alcance:** arquitectura y DDD aplicados a intake→ER→triage→reporting; no orquestación de agentes LLM. Stack didáctico: **stdlib** (dicts, listas) para progressive disclosure.",
+        "En S39 cerraste el triage con controles y evidencia. El sistema funciona, pero su forma existe sobre todo en tu memoria: qué habla con qué, quién puede cambiar qué, y qué se rompe si mañana alguien reemplaza el motor de reglas. Esta sección trata de escribir esa forma antes de que el equipo crezca y cada persona recuerde una versión distinta.",
+        "Piensa en un plano de edificio y no en una fotografía. La foto muestra cómo se ve hoy; el plano señala cuáles son los muros de carga —lo que no se mueve sin consecuencias— y cuáles son tabiques que cualquiera puede correr un domingo. Un **bounded context** es justamente eso: la frontera dentro de la cual una palabra significa una sola cosa y alguien responde por el modelo. Fuera de ella, «cliente» puede significar algo distinto sin que nadie esté mintiendo.",
+        "La arquitectura deja de ser opinión cuando empiezas a medir. Un **quality attribute** es un escenario con número: no «el sistema debe ser rápido», sino «con 200 casos simultáneos el intake responde en menos de dos segundos, y el dueño es el equipo de datos». Cada decisión se archiva en un **ADR** (*Architecture Decision Record*): en qué contexto la tomaste, qué decidiste, qué consecuencias aceptas y cómo se revierte. De ahí sale la regla que gobierna la sección — ningún trade-off se promueve sin medida, dueño y consecuencia.",
+        "Falta la dirección de las dependencias. En un diseño de **ports y adapters**, el dominio no sabe si los datos llegan de SQLite, de una API o de un CSV: declara un puerto —lo que necesita recibir— y otra pieza escribe el adaptador que lo cumple. La pregunta que te acompaña durante toda la sección es corta: **si mañana cambio esta pieza, ¿qué más tengo que tocar?** Si la respuesta incluye el dominio, la dependencia está invertida y el plano miente.",
+        "Un límite honesto antes de empezar: aquí no orquestas agentes ni llamas servicios en la nube. Trabajas con la biblioteca estándar sobre el caso sintético `CASO-LIM-040`, porque lo que se practica es la forma de las decisiones y no la infraestructura que las ejecuta. Los puertos, contextos y ADRs que salgan de aquí son la materia prima que S41 convierte en APIs con contrato.",
+      ],
+      callout: {
+        type: "info",
+        title: "Contrato de la sección",
+        content:
+          "CP-N4-A exige fronteras explícitas y, en cada trade-off, medida, dueño y consecuencia. El caso es sintético (Red Andina, Lima): sin PII real ni secretos en el repo.",
+      },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia, no de lectura obligatoria: reúne el alcance, el orden de los subtemas y los criterios con que se evalúa la sección. Ábrelo si quieres saber exactamente qué se espera del entregable.",
+        "**Producto incremental.** Un dossier de arquitectura gobernada. Recibes requisitos funcionales, escenarios de quality attributes, el vocabulario ubicuo del dominio y las restricciones (latencia, dueños, secretos fuera del repo). Entregas capas y puertos, bounded contexts, un C4 en niveles context y container, y ADRs versionados con medida, dueño y consecuencia. La promoción falla si una frontera queda ambigua, si una dependencia apunta al revés o si un trade-off no trae umbral.",
+        "**Orden de los subtemas.** T1 parte de los requisitos y los trade-offs, porque sin criterio medible no hay con qué decidir. T2 traduce esa decisión a capas y puertos. T3 dibuja las fronteras de significado y el modelo que vive dentro de cada una. T4 documenta todo en C4 y ADR, y cierra con la evolución de APIs sin romper a quien ya consume.",
+        "**Alcance.** Arquitectura y DDD aplicados al recorrido intake → ER → triage → reporting. La orquestación de agentes LLM queda fuera a propósito. El stack es la biblioteca estándar (dicts y listas), para que la atención esté en las fronteras y no en las dependencias.",
       ],
       code: {
         language: 'python',
@@ -59,9 +72,9 @@ pii_allowed False`,
       },
       callout: {
         type: "info",
-        title: "Contrato de la sección",
+        title: "Qué mide este contrato",
         content:
-          "CP-N4-A exige fronteras explícitas y, en cada trade-off, medida, dueño y consecuencia. El caso es sintético (Red Andina, Lima): sin PII real ni secretos en el repo.",
+          "Los nombres de los gates son los criterios internos con que se revisa la sección; verlos aquí te dice qué se comprueba, no qué tienes que memorizar.",
       },
     },
     {

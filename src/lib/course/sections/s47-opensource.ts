@@ -25,12 +25,28 @@ export const section47: CourseSection = {
   ],
   theory: [
     {
-      heading: "Ruta de S47: MLOps: experimentos, registro y serving",
+            heading: "Un modelo que nadie puede reproducir tampoco se puede defender",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **CF-4:** Checkpoint Final 4 (S47) — arquitectura desplegable, lineage, SLO, rollback y evidencia de supply chain. **CP-N4-B:** capstone Production Data/ML Platform de Nivel 4. **Experiment run:** params + metrics + seed + artefactos + dataset version. **Lineage:** data/code/env que produjo el run. **Model registry (moderno):** versiones con alias (`champion`/`challenger`) y tags de validación; en lab usamos gates de entorno (`staging`/`production`) como modelo simplificado. **Model card:** límites, intended use y riesgos. **Feature consistency:** mismas firmas train/serve. **Shadow/canary:** tráfico gradual sin sustituir todo. **Fallback:** modelo o regla previa si p95/errores fallan. **Retirement:** retirar versión con audit, no borrar evidencia.",
-        "Esta sección cierra el puente desde el lineage de datos (S46) hacia el **lineage de modelos y serving**: experiment tracking, model registry, feature store parity y rollout con SLO. Los demos usan **stdlib** al estilo MLflow/registry (sin cluster GPU ni servicios externos). El caso `CASO-TAC-047` (priorización sintética de atención en Tacna) no entrena en GPU ni sube modelos reales.",
-        "Producto incremental (una versión del ranker sintético en Tacna recorre toda la sección): **T1** deja un run comparable y un candidato que gana en holdout → **T2** lo registra con firma, card y approve en Staging → **T3** exige paridad batch/online y p95 con fallback → **T4** abre canary al 5% y, si rompe, rollback a last-good con audit. Error de promoción en cualquier tramo: métrica no reproducible, `stage=production` sin approve, leakage train/serve o p95 fuera de SLO sin fallback.",
-        "Orden de lectura y lab: T1 runs/métricas → T2 registry/cards → T3 features online/batch → T4 traffic y rollback. Teoría medible, demos con helpers y laboratorio con un defecto de promoción por ejercicio. Stack didáctico: **stdlib** que modela contratos al estilo MLflow/registry sin cluster GPU ni servicios externos obligatorios.",
+        "Entrenaste algo que funciona. Seis semanas después la métrica cae y alguien pregunta qué cambió: ¿los datos, el código, una versión de librería, la semilla? Si la respuesta honesta es «no sé», el modelo no es un activo — es una anécdota que por ahora funciona.",
+        "Un **run** de experimento es el equivalente de un cuaderno de laboratorio: qué parámetros usaste, sobre qué versión del dataset, con qué semilla, y qué métricas salieron. Anotarlo no es burocracia; es lo único que permite comparar dos intentos y decir cuál ganó por mérito y cuál por azar de la partición.",
+        "Cuando un candidato gana, hace falta un lugar donde viva con nombre y estado. Un **registry** de modelos es ese archivo: cada versión con su firma —qué entradas espera y qué devuelve—, su ficha de uso y sus límites, y un estado que dice si está en pruebas o sirviendo tráfico. Sin firma, el día que alguien cambie el orden de dos columnas nadie se entera hasta que las predicciones se tuercen.",
+        "El error más caro de esta etapa es silencioso: el modelo se entrena con features calculadas de una forma y sirve con features calculadas de otra. Se llama **train/serve skew** y no lanza ninguna excepción — solo produce predicciones peores de lo que prometió el holdout. Por eso se exige paridad explícita entre el cálculo por lotes y el cálculo en línea.",
+        "La pregunta que atraviesa la sección es de reversibilidad: **si esto sale mal a las tres de la tarde, ¿puedo volver a la versión anterior sin perder la evidencia de lo que pasó?** De ahí salen el despliegue gradual y el rollback a la última versión buena. Los demos usan la biblioteca estándar sobre `CASO-TAC-047`, una priorización sintética de atenciones en Tacna: sin cluster de GPU ni servicios externos.",
+      ],
+      callout: {
+        type: "info",
+        title: "Gate de promoción",
+        content: "CP-N4-B + CF-4 · modelo promovible y reversible: solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia. Si falta evidencia, no se promociona.",
+      },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Reúne el entregable, el orden de los subtemas y los criterios de promoción.",
+        "**Producto incremental.** Una versión del ranker sintético recorre la sección entera: T1 deja un run comparable y un candidato que gana en holdout; T2 lo registra con firma, ficha y aprobación en Staging; T3 exige paridad entre lotes y línea, con latencia medida y plan de respaldo; T4 abre un despliegue gradual al 5% y, si algo rompe, vuelve a la última versión buena conservando la evidencia.",
+        "**Orden de los subtemas.** T1 runs y métricas. T2 registry y fichas. T3 features en línea y por lotes. T4 tráfico y rollback.",
+        "**Gate.** CP-N4-B y CF-4: solo promueven los controles aprobados, y una versión previa debe poder restaurarse sin perder evidencia.",
       ],
       code: {
         language: 'python',
@@ -50,11 +66,6 @@ print("prod_without_approve_ok", c["prod_without_approve_ok"])
         output: `case CASO-TAC-047
 gates repro_metrics,approve_before_prod,feature_parity,rollback_possible
 prod_without_approve_ok False`,
-      },
-      callout: {
-        type: "info",
-        title: "Gate de promoción",
-        content: "CP-N4-B + CF-4 · modelo promovible y reversible: solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia. Si falta evidencia, no se promociona.",
       },
     },
     {

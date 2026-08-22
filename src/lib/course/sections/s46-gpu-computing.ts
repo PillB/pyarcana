@@ -25,21 +25,28 @@ export const section46: CourseSection = {
   ],
   theory: [
     {
-      heading: "Ruta de S46: Ingeniería de datos y orquestación de producción",
+            heading: "Los hechos no llegan en orden",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1):",
-        "- **Event time:** cuándo ocurrió el hecho (no el *processing time* del worker).",
-        "- **Watermark:** aserción de progreso en *event time*; un watermark `t` declara que no se esperan más eventos con timestamp ≤ `t`.",
-        "- **Late data:** llega después de que el watermark superó su timestamp. Política: drop / side-output / update / quarantine.",
-        "- **Exactly-once (compuesto):** end-to-end con sinks idempotentes + checkpoints; no es un flag mágico del broker.",
-        "- **DAG/asset:** grafo de dependencias sin ciclos.",
-        "- **Backfill:** *re-run* acotado de rangos históricos.",
-        "- **Data contract:** schema + freshness + ownership.",
-        "- **Lineage:** de qué *run* o tabla salió cada fila.",
-        "- **Incremental load:** particiones / *keys* sin *full rewrite* ciego.",
-        "Puente S45 → S46 → S47. En S45 modelaste un **job asíncrono** con *artifact store*, *status*, *retry*, DLQ e *idempotency keys*. Aquí ese job se vuelve **pipeline de datos de producción**. El mismo `event_id` / *idempotency key* alimenta el *dedup* del sink. La cola *at-least-once* obliga a sinks idempotentes. El *object store* aloja particiones y artefactos de *lineage*. En S47 (MLOps) esas tablas versionadas, el *lineage* y la *freshness* serán la base de *features*, *experiment tracking* y *serving*. Un pipeline sin contratos no es un buen dataset de entrenamiento.",
-        "Producto incremental: orquestación de producción. Entrada: eventos con `event_time`, schema, **SLA** de frescura y *keys* de idempotencia. Salida: ventanas cerradas con política de *late data*, sink deduplicado, DAG acíclico y alertas de calidad. Error de promoción: *late data* silenciosa, edges cíclicos, *schema drift* no detectado o segundo *run* que reescribe sin control.",
-        "Orden: T1 event-time/watermarks → T2 DAG tipado y *checkpoint* → T3 calidad/freshness → T4 *re-runs* y SLI/SLO. El watermark y la *late policy* de T1 habilitan el *merge* incremental de T4 (solo filas ON_TIME / ALLOWED_LATE entran al sink). El DAG acíclico de T2 ordena qué *asset* se backfillea. Los contratos de T3 deciden cuándo cuarentenar. Stack didáctico: **stdlib** (dicts, listas) para modelar contratos al estilo Airflow / dbt / streaming **sin cluster**. El foco es corrección de datos y operación del pipeline, no kernels de hardware. Para `CASO-HYO-046` (Huancayo sintético): eventos de atención de una entidad ficticia, sin PII real ni servicios externos.",
+        "Un evento ocurre a las 10:03 y tu sistema lo recibe a las 10:47, porque un teléfono estuvo sin señal en el camino. Nada falló. Así se comporta cualquier flujo de datos real, y la consecuencia es incómoda: en el momento de calcular el total de las diez de la mañana, todavía no tienes todo lo que ocurrió a las diez de la mañana.",
+        "Conviene separar dos relojes que solemos confundir. El **event time** es cuándo pasó el hecho; el *processing time* es cuándo lo viste. Agrupar por el segundo es cómodo y produce cifras que no significan nada: el pico de las 10:47 sería en realidad el atasco de la red, no un pico de actividad.",
+        "Entonces, ¿cuándo cierras la cuenta? Es el problema del cierre de una edición de periódico: en algún momento la imprenta arranca, sabiendo que alguna noticia llegará después. Un **watermark** es esa hora de cierre declarada — la afirmación de que ya no esperas eventos anteriores a cierto instante. No es una certeza, es una decisión, y por eso viene acompañada de una política explícita para lo que llegue tarde: descartarlo, guardarlo aparte, corregir el resultado o ponerlo en cuarentena. Lo que no es aceptable es que la llegada tardía desaparezca en silencio.",
+        "Con el tiempo resuelto aparece la segunda estructura: qué se calcula antes que qué. Un **DAG** es el grafo de esas dependencias, y su única regla dura es que no puede tener ciclos — si A espera a B y B espera a A, nada arranca nunca. Ese grafo es también lo que permite rehacer un tramo del pasado sin tocar el resto: un **backfill** acotado.",
+        "La pregunta que gobierna la sección tiene dos mitades: **¿cuándo puedo cerrar esta ventana, y qué hago con lo que llegue después?** Modelas los contratos con la biblioteca estándar; el objetivo es la política de tiempo, no el motor que la ejecuta.",
+      ],
+      callout: {
+        type: "info",
+        title: "Gate de promoción",
+        content: "Evidencia mínima de S46-T1-A: caso sintético con asserts; sin evidencia no promociones.",
+      },
+    },
+    {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Reúne el entregable, el orden de los subtemas y los criterios de promoción.",
+        "**Producto incremental.** Una orquestación de producción. Recibes eventos con su `event_time`, un schema, un acuerdo de frescura y claves de idempotencia. Entregas ventanas cerradas con política de datos tardíos, un sink deduplicado, un DAG acíclico y alertas de calidad. La promoción falla si un dato tardío se pierde en silencio, si el grafo tiene ciclos, si un cambio de schema pasa inadvertido o si una segunda ejecución reescribe sin control.",
+        "**Orden de los subtemas.** T1 fija event time y watermarks. T2 arma el DAG tipado y los checkpoints. T3 cubre calidad y frescura. T4 cierra con reejecuciones e indicadores de servicio.",
+        "**Puente entre secciones.** El mismo identificador de idempotencia de S45 alimenta aquí la deduplicación del sink; una cola que entrega al menos una vez obliga a que ese sink sea idempotente. Las tablas que salgan de aquí son las que S47 convierte en features y modelos.",
       ],
       code: {
         language: 'python',
@@ -65,11 +72,6 @@ print("silent_late_data_ok", c["silent_late_data_ok"])
         output: `case CASO-HYO-046
 require_late_policy True
 silent_late_data_ok False`,
-      },
-      callout: {
-        type: "info",
-        title: "Gate de promoción",
-        content: "Evidencia mínima de S46-T1-A: caso sintético con asserts; sin evidencia no promociones.",
       },
     },
     {
