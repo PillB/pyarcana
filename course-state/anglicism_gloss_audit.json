@@ -1,0 +1,73 @@
+{
+  "terms_checked": 79,
+  "terms_found_in_prose": 72,
+  "unglossed_first_uses": 0,
+  "info_metadata": 8,
+  "ok": true,
+  "findings": [
+    {
+      "term": "lineage",
+      "section": "pandas",
+      "index": 8,
+      "severity": "INFO",
+      "where": "metadata",
+      "excerpt": "ications (Kleppmann) — ch. de storage/batch\",\n        note: \"Ideas de lineage, idempotencia y fail-closed; mapear a CP-N1-B local.\",\n      },\n    ],\n    courses: ["
+    },
+    {
+      "term": "blocking",
+      "section": "rpa-automation",
+      "index": 13,
+      "severity": "INFO",
+      "where": "metadata",
+      "excerpt": "endible.\",\n  learningOutcomes: [\n    { text: \"Aplicar normalización y blocking para ER determinista y entity_resolution_score\" },\n    { text: \"Evaluar ER con etiquetas"
+    },
+    {
+      "term": "drift",
+      "section": "wxpython-gui",
+      "index": 16,
+      "severity": "INFO",
+      "where": "metadata",
+      "excerpt": "tagline: \"Suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato\",\n  estimatedHours: 18,\n  lev"
+    },
+    {
+      "term": "leakage",
+      "section": "packaging",
+      "index": 17,
+      "severity": "INFO",
+      "where": "metadata",
+      "excerpt": "es y totales (diff, residual, tolerancia eps)\" },\n { text: \"Controlar leakage temporal con cutoff/as-of y reportar el delta de leakage\" }\n ],\n theory: [\n {\n  heading:"
+    },
+    {
+      "term": "resampling",
+      "section": "cv-ai-integration",
+      "index": 34,
+      "severity": "INFO",
+      "where": "metadata",
+      "excerpt": "aria de analistas\",\n    },\n    {\n      text: \"Aplicar class weights o resampling solo dentro del fold de train y documentar la política CV-safe (test intacto)\",\n    },"
+    },
+    {
+      "term": "holdout",
+      "section": "cv-ai-integration",
+      "index": 34,
+      "severity": "INFO",
+      "where": "metadata",
+      "excerpt": "un calibrador afín (implementación simplificada de Platt) solo sobre holdout versionado, nunca sobre el test final\",\n    },\n    {\n      text: \"Elegir umbral thr-vN bu"
+    },
+    {
+      "term": "watermark",
+      "section": "gpu-computing",
+      "index": 46,
+      "severity": "INFO",
+      "where": "metadata",
+      "excerpt": "time, allowed-late, late u out-of-window dado event_time, window_end, watermark y allowed_lateness, con política documentada\" },\n    { text: \"Componer exactly-once end-t"
+    },
+    {
+      "term": "hallucination",
+      "section": "tech-leadership",
+      "index": 50,
+      "severity": "INFO",
+      "where": "metadata",
+      "excerpt": "oning del corpus y least privilege de tools\" },\n    { text: \"Detectar hallucination crítica en holdout y forzar abstención o escalamiento humano fail-closed\" },\n    { text:"
+    }
+  ]
+}
