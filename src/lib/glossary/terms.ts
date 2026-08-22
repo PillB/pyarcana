@@ -627,10 +627,10 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'stratifiedkfold',
     term: 'StratifiedKFold',
-    aliases: ["StratifiedKFold"],
+    aliases: ["StratifiedKFold", 'split estratificado', 'stratified split'],
     category: 'ML',
     definition: 'KFold que mantiene proporción de clases en cada fold. Obligatorio para clasificación desbalanceada.',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'cv-ai-integration',
   },
   {
     id: 'joblib',

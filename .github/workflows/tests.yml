@@ -262,3 +262,51 @@ jobs:
           path: |
             test-results/
             playwright-report/
+
+  content-gates:
+    name: Content gates (runtime audit, V3 invariants, glossary)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # The runtime audit executes every Python snippet the course ships.
+      # These must be importable by the snippet interpreter or the audit reports
+      # `dependency_visibility: degraded` and fails — by design, so a run that
+      # silently skips the numeric content can never look green.
+      - name: Install the libraries the curriculum teaches
+        run: python3 -m pip install numpy pandas scikit-learn
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Python content runtime audit (all 52 sections)
+        run: npm run test:python-content
+        env:
+          # Shared runners are slower than a dev machine; this is headroom for a
+          # working snippet, not tolerance for a runaway one.
+          PYARCANA_SNIPPET_TIMEOUT: '30'
+
+      - name: V3 structural invariants
+        run: npm run test:v3
+
+      - name: Glossary first-use and coverage
+        run: |
+          python3 scripts/glossary_intro_audit.py
+          python3 scripts/glossary_coverage_audit.py
+
+      - name: Upload audit reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-gate-reports
+          path: |
+            course-state/python_runtime_audit_report.json
+            course-state/glossary_intro_report.json
+            course-state/glossary_coverage_report.json
