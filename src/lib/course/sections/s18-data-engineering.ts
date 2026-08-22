@@ -25,11 +25,13 @@ export const section18: CourseSection = {
  ],
  theory: [
  {
- heading: "Mapa de la sección: del dataset limpio al EDA con incertidumbre",
+  heading: "Un número sin su incertidumbre es media respuesta",
  paragraphs: [
- "En **S17** cerraste **CP-N2-A** con joins, agregaciones y un memo de límites sobre un dataset limpio. Aquí empiezas **CP-N2-B**: centro/dispersión, métricas robustas, sesgo muestral, intervalos básicos, correlación sin causalidad y notebooks con notas de datos reproducibles. Reutiliza la lógica de limpieza y el hábito de documentar cobertura; ahora cada hallazgo también declara incertidumbre.",
- "El hilo conductor es un **dataset sintético de tickets/montos** con regiones ficticias Madrid, Berlin y Bogota, ids `T00x` y montos en PEN. Cada hallazgo del portafolio (esto es, el dossier de evidencias que entregas al negocio) debe citar un cálculo (n, métrica, IC o flag, una marca de anomalía) y declarar incertidumbre: hallazgo ≠ hipótesis ≠ decisión de negocio. Los gráficos honestos y el dashboard se profundizan en **S19**.",
- "Orden pedagógico: **T1 Distribuciones** (centro, cuantiles, robustez y escalas) → **T2 Inferencia básica** (población/muestra, IC, bootstrap conceptual y tamaño de efecto) → **T3 Relaciones** (Pearson/Spearman, confusión, segmentos y anomalías sin afirmación causal) → **T4 Comunicación** (plantilla Q→H→E y notas de datos). Solo numpy/pandas ya vistos; sin PII real.",
+   "El dataset ya está limpio y unido. Ahora alguien pregunta cuánto gasta un cliente típico, y la tentación es responder con el promedio y pasar al siguiente punto. Pero un promedio calculado sobre cuarenta tickets y otro calculado sobre cuarenta mil no valen lo mismo, y ninguno de los dos dice cuán dispersos están los datos que resume.",
+   "Empieza por el centro, que ya trae su primera decisión. La **media** reparte el total entre todos y por eso un solo ticket enorme la arrastra; la **mediana** es el valor que parte la muestra en dos mitades y no se inmuta ante ese extremo. Cuando las dos se separan mucho, esa separación es en sí misma un hallazgo: la distribución tiene cola. Reportar solo una de ellas es elegir qué historia contar.",
+   "Después viene cuánta confianza cabe en el número. Un **intervalo de confianza** dice, bajo un modelo de muestreo, en qué rango se mueve razonablemente el valor real. No significa que el 95% de los datos caiga ahí, ni que quede probado nada: comunica incertidumbre, no certeza. Y con muestras chicas o montos muy sesgados, la aproximación habitual se vuelve tosca — conviene decirlo en vez de disimularlo.",
+   "La parte más delicada llega con las relaciones. Que dos variables suban juntas es una **asociación observada**, y nada más. Un tercer factor puede estar moviendo a las dos a la vez, y el mismo dato admite entonces varias explicaciones. Por eso esta sección impone un contrato de verbos: en un análisis exploratorio se escribe «se asocia con», no «causa». La diferencia no es de estilo — es la diferencia entre un hallazgo y una acusación.",
+   "La pregunta que atraviesa la sección es de honestidad: **¿qué respalda este número, y qué no puedo concluir a partir de él?** El hilo es un conjunto sintético de tickets, y las anomalías que aparezcan son candidatas a revisión, nunca prueba de nada sobre una persona.",
  ],
  callout: {
  type: "info",
@@ -37,8 +39,17 @@ export const section18: CourseSection = {
  content:
  "Prioriza EDA e incertidumbre con datos sintéticos para el inicio de CP-N2-B. Nunca PII real. No conviertas correlación ni anomalías en culpa ni en decisión automática.",
  },
- },
- {
+},
+{
+ heading: "Contrato de la sección (referencia)",
+ optional: true,
+ paragraphs: [
+   "Bloque de referencia. Orden de los subtemas y criterio de cierre.",
+   "**Orden de los subtemas.** T1 cubre distribuciones: centro, cuantiles, métricas robustas y escalas. T2 pasa a la inferencia básica: población y muestra, intervalos, bootstrap y tamaño de efecto. T3 trata las relaciones y los segmentos sin afirmación causal. T4 cierra con la comunicación: pregunta, hipótesis, evidencia y notas de datos.",
+   "**Criterio de cierre.** Cada conclusión del portafolio cita el cálculo que la sostiene —n, métrica, intervalo o marca— y declara su límite de cobertura. Sin datos personales reales.",
+ ],
+},
+{
  heading: "Centro, dispersión y cuantiles",
  subtopicId: "S18-T1-A",
  paragraphs: [

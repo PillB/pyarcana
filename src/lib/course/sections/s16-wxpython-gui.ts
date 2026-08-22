@@ -25,11 +25,13 @@ export const section16: CourseSection = {
   ],
   theory: [
     {
-      heading: "Mapa de la sección: del CSV tipado al quality gate",
+            heading: "El lunes que alguien rellena los nulos con cero",
       paragraphs: [
-        "En S15 leíste clientes y transacciones con dtypes controlados. Imagina el lunes siguiente: alguien hace `monto.fillna(0)` «para que no falle el job». El KPI (indicador clave de desempeño) de ticket promedio se infla y, en la reunión de gerencia, nadie puede decir **cuántas filas se inventaron**.\n\nEn **S16** construyes el **quality gate de CP-N2-A** (la etapa A del capstone *Executive Data Quality & EDA* del nivel Competente) para que eso no pase. Abarca seis frentes: políticas de null, imputación limitada con indicadores, duplicados vs. conflictos, normalización y outliers. Suma contratos de schema/cross-field y una cuarentena con audit trail (rastro de auditoría append-only: solo se agregan eventos, nunca se modifican ni borran).",
-        "Regla de oro: **nunca “arreglar” en silencio**. Toda transformación deja una métrica, un indicador o una fila en cuarentena. **Fail-closed** significa que, si el contrato se rompe, el job **no** aprueba en silencio: publica métricas y termina con error (exit code ≠ 0). Los datos son sintéticos — regiones Lima/Madrid/Cusco, prefijos `S/`, ids `C00x` — y nunca incluyen PII real ni DNI de personas.",
-        "Orden pedagógico: **T1 Ausencia** (required/optional, indicadores, cap de imputación) → **T2 Duplicados** (exactos vs. conflictos, evidencia de clave) → **T3 Normalización** (strings, números, fechas y categorías; outliers) → **T4 Contratos** (schema, cross-field, métricas y audit). Solo pandas + stdlib de S01–S16. El conjunto limpio alimenta los joins y el portfolio de **S17**.",
+        "El job venía fallando y la solución fue rápida: `monto.fillna(0)`. Ahora corre. Dos semanas después, en la reunión de gerencia, el ticket promedio aparece más bajo de lo que nadie esperaba y nadie sabe por qué — porque los montos que faltaban ahora valen cero y arrastran el promedio hacia abajo. El código no falló ni una sola vez.",
+        "Esa es la diferencia entre un dato ausente y un dato conocido. `NaN` significa «no sé»; cero significa «sé que es cero». Sustituir el primero por el segundo no repara nada: convierte una incertidumbre visible en una cifra falsa e invisible. La primera decisión de esta sección es distinguir qué columnas pueden faltar y cuáles, si faltan, obligan a detener el proceso.",
+        "De ahí sale la regla que ordena todo lo demás: **nunca arreglar en silencio**. Toda transformación deja un rastro — una métrica, un indicador, o una fila apartada en cuarentena. Si rellenas, se registra cuántas filas rellenaste; si descartas, se registra cuántas y por qué. Un pipeline que limpia sin dejar cuenta de lo que limpió no es reproducible: es una opinión ejecutada.",
+        "Lo mismo vale para los duplicados, que casi nunca son idénticos. Dos filas del mismo cliente con la dirección escrita distinto no son un duplicado exacto sino un conflicto, y resolverlo requiere una regla explícita sobre cuál gana. Y para los valores extremos: un monto cien veces mayor que el resto puede ser un error de captura o el cliente más grande. Marcarlo como sospechoso es honesto; borrarlo porque estorba al gráfico no lo es.",
+        "Cuando el contrato se rompe, el trabajo se detiene y publica sus métricas en lugar de aprobar a medias — eso es **fail-closed**. La pregunta que atraviesa la sección es la que conviene hacerse antes de cada transformación: **¿puedo explicar esto con una métrica o una fila en cuarentena?** Si no, no se aplica.",
       ],
       callout: {
         type: "info",
@@ -37,8 +39,17 @@ export const section16: CourseSection = {
         content:
           "Si no puedes explicar la transformación con una métrica o una fila en cuarentena, no la apliques. El conjunto limpio de esta sección alimenta el portfolio y los joins de S17.",
       },
-    },
-    {
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas y criterio de cierre.",
+        "**Orden de los subtemas.** T1 trata la ausencia: campos requeridos y opcionales, indicadores y el límite de cuánto se puede imputar. T2 pasa a los duplicados: exactos frente a conflictivos, y la evidencia de la clave. T3 cubre la normalización de textos, números, fechas y categorías, más los valores extremos. T4 cierra con los contratos y el quality gate.",
+        "**Criterio de cierre.** El conjunto limpio que sale de aquí alimenta el portafolio y las uniones de S17, así que debe poder re-ejecutarse y dar los mismos números.",
+      ],
+     },
+     {
       heading: "Nulls y políticas por campo",
       subtopicId: "S16-T1-A",
       paragraphs: [

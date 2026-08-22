@@ -25,11 +25,13 @@ export const section15: CourseSection = {
   ],
   theory: [
     {
-      heading: "Mapa de la sección: de NumPy a tablas tipadas",
+            heading: "Cuando cada columna habla un idioma distinto",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1; vuelve a él cuando un término te detenga). **Series:** vector con **Index** (etiquetas de negocio, no solo 0..n-1). **DataFrame:** tabla de columnas (Series) alineadas por el mismo Index. **dtype:** tipo de una columna (`string`, `float64`, `datetime64`, `category`…). **Schema:** contrato columna→tipo esperado. **Coerción:** conversión explícita (texto→número, texto→fecha); con `errors='coerce'`, lo inválido pasa a NaN/NaT y **se cuenta** en un reporte. Distingue **nulos del parser** (tokens ya reconocidos al leer) de **fallos de conversión** (texto basura que solo se vuelve NaN tras `to_numeric`/`to_datetime`). **loc / iloc:** selección por etiqueta vs. por posición. **Chained assignment:** asignar en cadena `df[...][...] =` no actualiza el padre de forma fiable. **Manifest:** registro de filas, columnas, dtypes, memoria y provenance. **Provenance:** de dónde salió el archivo y si cambió entre corridas (origen + hash del artefacto).",
-        "En la sección de NumPy aprendiste a calcular en **vectores homogéneos**. Aquí el objeto de trabajo cambia: **tablas con columnas de tipos distintos** que llegan como CSV/Excel de un retailer o un banco sintético. El hilo de laboratorio es **clientes y transacciones** (Lima/Arequipa/Cusco, montos en PEN, ids `C00x`/`T00x`). Sin PII real. Si falta una columna del schema o el dtype no cuadra, **falla explicable** — no inventes defaults. Los quality gates profundos y los joins de tablas quedan para más adelante; aquí te enfocas en **ingesta honesta**: leer, tipar, reportar y exportar de forma reproducible.",
-        "Orden pedagógico: **T1 Modelo/lectura** (Series/DataFrame + parser) → **T2 Selección** (loc/iloc/assign + copias seguras) → **T3 Tipos** (nullable, coerce, schema) → **T4 Exportación** (CSV/Excel, contrato de dtypes, manifest). En cada subtema: teoría → demo I Do → tres prácticas We Do (guiada, independiente, transferencia). Ritmo sugerido (~18 h): sesiones 1–2 en T1; 3–4 en T2; 5–6 en T3; 7–8 en T4 + You Do + self-check. Criterio de cierre: filas reconciliadas, reporte de coerciones y manifest con provenance. Nunca PII real ni trates un score sintético como culpa, fraude o decisión automática sobre una persona.",
+        "NumPy te dio velocidad a cambio de una condición: que todo el bloque fuera del mismo tipo. Los archivos que llegan de verdad no cumplen eso. Un CSV de transacciones trae identificadores de texto, montos decimales, fechas y categorías, todo en la misma tabla — y cada columna necesita su propio tratamiento.",
+        "Esa tabla es un **DataFrame**, y conviene verlo como lo que es: un conjunto de columnas alineadas por una misma fila de referencia. Cada columna, por separado, es una **Series** — un vector con etiquetas. Y esas etiquetas son el **Index**, que puede ser el aburrido 0, 1, 2 o algo que signifique algo para el negocio, como el identificador del cliente. La diferencia importa más de lo que parece: cuando dos tablas se combinan, pandas las alinea por el Index, no por el orden en que están escritas.",
+        "El tipo de cada columna se llama **dtype**, y el conjunto de todos ellos es el **schema**: el contrato que el archivo promete cumplir. Aquí está la trampa central de la sección — leer un CSV sin declarar ese contrato casi siempre funciona. Pandas adivina, y adivina razonablemente bien. El problema es el día en que un monto viene con coma decimal y la columna entera se vuelve texto: no falla nada, los gráficos salen, y los totales están mal.",
+        "Por eso la conversión se pide de forma explícita y se cuenta lo que no se pudo convertir. Un valor ilegible se transforma en «faltante» y queda registrado en un reporte, en vez de desaparecer. La regla que gobierna la sección es esa: **nunca arreglar en silencio**. Si tres montos no se pudieron leer, el número tres aparece en algún lado.",
+        "La pregunta que te acompaña de principio a fin es la del contrato: **¿qué promete cada columna, y qué pasa exactamente cuando el archivo no cumple?** El hilo es clientes y transacciones sintéticas, sin datos personales reales. Las uniones entre tablas y las verificaciones de calidad profundas llegan después; aquí el trabajo es la ingesta honesta — leer, tipar, reportar y exportar de forma que otra persona pueda repetirlo.",
       ],
       callout: {
         type: "info",
@@ -37,8 +39,19 @@ export const section15: CourseSection = {
         content:
           "Stack: pandas + lo ya visto en el curso (paths, StringIO, dicts, funciones). Reporta coerciones; no “arregles” en silencio. Exporta con `index=False` salvo que el index sea clave de negocio documentada. Para Excel necesitas `openpyxl`; si no está, entrega CSV + schema JSON y documenta el límite.",
       },
-    },
-    {
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, ritmo, criterio de cierre y dependencias.",
+        "**Orden de los subtemas.** T1 fija el modelo y la lectura: Series, DataFrame y las opciones del parser. T2 pasa a la selección con `loc` e `iloc` y a las copias seguras. T3 trata los tipos: valores nulos, conversión explícita y schema. T4 cierra con la exportación: CSV, Excel, contrato de dtypes y manifest.",
+        "**Ritmo orientativo.** Unas dieciocho horas: dos sesiones por subtema, más el proyecto y el autochequeo al final.",
+        "**Criterio de cierre.** Filas reconciliadas, un reporte de conversiones fallidas y un manifest con la procedencia del archivo.",
+        "**Dependencias.** pandas y lo ya visto en el curso: rutas, `StringIO`, diccionarios y funciones. Para Excel hace falta `openpyxl`; si no está disponible, se entrega CSV más un schema en JSON y se documenta el límite.",
+      ],
+     },
+     {
       heading: "Series, DataFrame e Index",
       subtopicId: "S15-T1-A",
       paragraphs: [
