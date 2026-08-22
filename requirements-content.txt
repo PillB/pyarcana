@@ -1,0 +1,26 @@
+# Declared teaching environment for the PyArcana curriculum.
+#
+# Every `output:` block in src/lib/course/sections/ states what the learner will
+# see when they run the snippet. That is only a meaningful promise against a
+# named environment, so this file is the environment the content is verified
+# against, and the one CI installs before running the runtime audit.
+#
+# Verified with: python3 scripts/python_content_runtime_audit.py
+# Last full green run: 2026-08-22, 3285 pass / 0 fail across 52 sections.
+#
+# ── Why these are pinned, not floating ───────────────────────────────────────
+# pandas 3.0 changed the default string dtype from `object` to `str`. The course
+# teaches dtype contracts explicitly and prints them — S15 alone declares
+# `{'cliente_id': 'object', 'monto': 'float64'}` — so an unpinned install
+# silently invalidates those outputs. CI proved it: with pandas 3.0.5, six S15
+# artifacts failed, five of them dtype strings that no longer match.
+#
+# This pin makes the gate testable. It does NOT mean the content is current: a
+# learner running `pip install pandas` today gets 3.x and will see `str` where
+# the course says `object`. Migrating the dtype-printing content to pandas 3 is
+# tracked separately — see audit/content-campaign-c04/registers/07_pandas3_gap.md.
+
+numpy==2.0.2
+pandas==2.3.3
+scikit-learn==1.6.1
+scipy==1.13.1

@@ -278,8 +278,13 @@ jobs:
       # These must be importable by the snippet interpreter or the audit reports
       # `dependency_visibility: degraded` and fails — by design, so a run that
       # silently skips the numeric content can never look green.
-      - name: Install the libraries the curriculum teaches
-        run: python3 -m pip install numpy pandas scikit-learn
+      # Pinned, because every `output:` block in the curriculum is a promise
+      # about what the learner will see, and that is only checkable against a
+      # named environment. An unpinned install pulled pandas 3.0.5, whose
+      # default string dtype is `str` rather than `object`, and six S15
+      # artifacts that print dtype contracts stopped matching.
+      - name: Install the declared teaching environment
+        run: python3 -m pip install -r requirements-content.txt
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
