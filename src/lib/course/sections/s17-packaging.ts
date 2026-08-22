@@ -912,7 +912,7 @@ print(w.columns.tolist())`,
  preamble:
  "- **Contexto:** el portfolio une snapshots diarios; el memo debe decir cuántos lotes entraron y cuántas filas salieron.\n- **Meta:** `pd.concat` vertical de dos DataFrames de una fila e imprimir el dict de contrato.\n- **Éxito:** `{'n_lotes': 2, 'n_filas': 2}`.\n- **Límites:** no uses `axis=1` (alinea columnas, no apila casos); no midas solo `len(a)`.",
  instruction:
- "1. Lee el DEFECT: `n_filas` es `len(a)`.\n2. `out = pd.concat([a, b], ignore_index=True)`.\n3. Imprime el dict con `n_lotes=2` y `n_filas=len(out)`.\n4. Si n_filas es 1, aún no apilaste.",
+ "1. Lee el DEFECT: `n_filas` es `len(a)`.\n2. Apila los dos lotes en un solo DataFrame, sin arrastrar los índices originales.\n3. Imprime el dict con `n_lotes=2` y `n_filas=len(out)`.\n4. Si n_filas es 1, aún no apilaste.",
  hint: "pd.concat vertical de las dos tablas; mide el largo del resultado, no solo de a.",
  hints: [
  "pd.concat vertical de las dos tablas; mide el largo del resultado, no solo de a.",

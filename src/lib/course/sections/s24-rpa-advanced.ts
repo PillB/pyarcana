@@ -761,7 +761,7 @@ print(sum(flags))`,
         preamble:
           "- **Contexto:** si el mejor score de orientación es bajo, el intake prefiere un humano que gire la página antes de quemar OCR.\n- **Meta:** elegir best + score; si score<0.5 → `manual_orient`, si no `auto`.\n- **Éxito:** `180 0.7 auto` en una línea.\n- **Límites:** no uses min; no imprimas `ocr_now`; con score 0.7 aún rotas *antes* del motor.",
         instruction:
-          "1. Corrige el DEFECT: `min` y action `ocr_now`.\n2. `best = max(scores, key=scores.get)`; `score = scores[best]`.\n3. `action = \"manual_orient\" if score < 0.5 else \"auto\"`.\n4. Imprime best, score, action.",
+          "1. Corrige el DEFECT: `min` y action `ocr_now`.\n2. Quédate con la orientación de mayor score, y guarda también ese score.\n3. Decide la acción por el score: por debajo de 0.5 hay que reorientar a mano; de 0.5 en adelante va automático.\n4. Imprime best, score, action.",
         hint: "max key= + umbral 0.5",
         hints: [
           "best = max(scores, key=scores.get); score = scores[best]",
@@ -1406,7 +1406,7 @@ print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))`,
         preamble:
           "- **Contexto:** coverage alta con RUC basura en auto es un dashboard verde mentiroso.\n- **Meta:** calcular acc_ruc sobre golden de 2 filas y coverage_auto = auto/(auto+review).\n- **Éxito:** `0.5 0.7` en una línea.\n- **Límites:** no uses review rate; no hardcodees acc; no sustituyas accuracy por cobertura.",
         instruction:
-          "1. Elimina el hardcode 1.0 y el `review/(auto+review)`.\n2. Mide acc_ruc con pred==true.\n3. `coverage_auto = auto / (auto + review)`.\n4. Imprime ambos floats.",
+          "1. Elimina el hardcode 1.0 y el `review/(auto+review)`.\n2. Mide acc_ruc con pred==true.\n3. Calcula la cobertura automática: qué proporción del total resolvió el sistema sin pasar por revisión.\n4. Imprime ambos floats.",
         hint: "field_acc + auto/(auto+review)",
         hints: [
           "acc_ruc = sum(pred==true) / n sobre el golden",

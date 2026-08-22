@@ -993,7 +993,7 @@ print(hashlib.sha256(b'data').hexdigest()[:8])`,
           "- **Contexto:** re-loguear en cada caso multiplica flakes y tiempo de suite; Playwright guarda `storage_state` para reusar cookies entre corridas.\n- **Meta:** implementar `session_mode(state)`: con token → `reuse`, sin token → `login`.\n- **Éxito:** dos líneas `reuse` luego `login`.\n- **Límites:** no siempre `login`; no hardcodees el resultado de las dos llamadas.",
         instruction:
           "1. Completa el cuerpo de `session_mode` (starter siempre devuelve login).\n2. Usa `state.get('token')` para decidir.\n3. Mantén los dos `print` de prueba.\n4. Función reutilizable sobre el dict.",
-        hint: "def session_mode(state): return 'reuse' if state.get('token') else 'login'",
+        hint: "Si ya hay token guardado se reutiliza la sesión; si no, toca autenticarse.",
         hints: [
           "storage_state en Playwright reutiliza cookies/localStorage entre tests.",
           "Re-loguear en cada caso multiplica flakes y tiempo de suite.",
@@ -1666,7 +1666,7 @@ print('abort' if sig.get('tos_forbidden') else 'human_handoff')`,
           "- **Contexto:** el ticket de handoff debe permitir a un analista de ops en Lima continuar en minutos: url, step y screenshot — sin cookies ni passwords.\n- **Meta:** imprimir keys ordenadas del payload y el step.\n- **Éxito:** `['screenshot', 'step', 'url'] export`.\n- **Límites:** no imprimas solo el step; no agregues secretos al payload.",
         instruction:
           "1. Imprime `sorted(payload.keys())` y `payload['step']` en un print.\n2. Mantén el dict del starter.\n3. No filtres keys a mano.\n4. Contrato exacto del grader (espacio entre lista y step).",
-        hint: "print(sorted(payload.keys()), payload['step'])",
+        hint: "Imprime las claves en orden alfabético y, aparte, el valor de `step`.",
         hints: [
           "El ticket de handoff debe ser actuable en minutos, no un dump de sesión.",
           "No incluyas passwords ni storage_state en el payload público.",

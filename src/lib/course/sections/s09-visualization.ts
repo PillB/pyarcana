@@ -783,7 +783,7 @@ print(with_retry(lambda a: (_ for _ in ()).throw(ValueError("monto"))))`,
           "- **Contexto:** en el triage de CASO-LIM-009 el on-call necesita el **tipo** correcto, no un `Exception` genérico que lo obligue a leer el stack entero.\n- **Meta:** asociar cada fallo sintético al tipo más adecuado (stdlib + un custom de dominio).\n- **Éxito:** cinco líneas `fallo -> Tipo` en el orden del starter: ValueError, TypeError, KeyError, FileNotFoundError, ValidationError.\n- **Límites:** no uses `Exception` para todos; no inventes un sexto tipo; solo stdlib + la clase `ValidationError` que declares.",
         id: "S09-T1-A-E1",
         instruction:
-          "Paso 1: Abre el starter: el bucle imprime siempre `ValueError`.\nPaso 2: Declara `class ValidationError(Exception): pass` para la regla de negocio.\nPaso 3: Asigna cada string del array al tipo correcto (tipo incorrecto ≠ valor ilegal ≠ clave ≠ I/O ≠ dominio).\nPaso 4: Imprime `f\"{fallo} -> {tipo}\"` en el orden del array; sin texto extra.",
+          "Paso 1: Abre el starter: el bucle imprime siempre `ValueError`.\nPaso 2: Define tu propia excepción para la regla de negocio —heredando de `Exception`— y llámala `ValidationError`.\nPaso 3: Asigna cada string del array al tipo correcto (tipo incorrecto ≠ valor ilegal ≠ clave ≠ I/O ≠ dominio).\nPaso 4: Imprime `f\"{fallo} -> {tipo}\"` en el orden del array; sin texto extra.",
         hint: "Cinco clases distintas: no mapees todo a ValueError.",
         hints: [
           "Piensa: tipo incorrecto vs. valor ilegal vs. clave ausente vs. I/O vs. genérico de dominio.",
