@@ -859,18 +859,18 @@ print(int(df["b"].isna().sum()))`,
         kind: "independent",
         title: "parse_dates al ingerir la fecha",
         preamble:
-          "- **Contexto:** si `fecha` queda como texto, los filtros temporales y el orden cronológico fallan en silencio o con errores confusos.\n- **Meta:** tipar la columna en la lectura con `parse_dates`.\n- **Éxito:** `str(df['fecha'].dtype)` imprime `datetime64[ns]`.\n- **Límites:** no conviertas después con un bucle manual; declara el contrato en `read_csv`.",
+          "- **Contexto:** si `fecha` queda como texto, los filtros temporales y el orden cronológico fallan en silencio o con errores confusos.\n- **Meta:** tipar la columna en la lectura con `parse_dates`.\n- **Éxito:** imprimes `True`, porque el dtype pertenece a la familia `datetime64` (la resolución concreta —`[ns]`, `[us]`— depende de la versión de pandas y no es lo que estás comprobando).\n- **Límites:** no conviertas después con un bucle manual; declara el contrato en `read_csv`.",
         instruction:
-          "1. Revisa el starter: lee sin `parse_dates` (dtype object/string).\n2. Añade `parse_dates=['fecha']`.\n3. Imprime `str(df['fecha'].dtype)`.\n4. Confirma `datetime64[ns]`.",
+          "1. Revisa el starter: lee sin `parse_dates`, así que la fecha queda como texto.\n2. Añade `parse_dates=['fecha']`.\n3. Comprueba la **familia** del dtype, no su texto exacto: `str(df['fecha'].dtype).startswith('datetime64')`.\n4. Confirma que imprime `True`.",
         hint: "Declara la columna de fecha en la lectura.",
         hints: [
           "parse_dates en read_csv con la columna de fecha.",
           "str(df['fecha'].dtype).",
         ],
         edgeCases: ["dtype object", "formato de fecha inválido"],
-        tests: "str(df['fecha'].dtype) == 'datetime64[ns]'",
+        tests: "str(df['fecha'].dtype).startswith('datetime64')",
         feedback:
-          "Sin `parse_dates` la columna queda como texto: un `head()` bonito miente. Declara el contrato en `read_csv` para que el dtype sea `datetime64` desde la ingesta y los filtros temporales no fallen en silencio.",
+          "Sin `parse_dates` la columna queda como texto: un `head()` bonito miente. Declara el contrato en `read_csv` para que el dtype sea `datetime64` desde la ingesta y los filtros temporales no fallen en silencio. Fíjate en cómo está escrita la comprobación: compara la **familia** del dtype, no la cadena completa. pandas cambió la resolución por defecto de `datetime64[ns]` a `datetime64[us]` en la versión 3, y cualquier test atado al texto exacto se rompió sin que el código del alumno tuviera nada de malo. Un contrato debe afirmar lo que te importa —«esto es una fecha, no texto»— y nada más.",
         retrospective:
           "Tipar en la ingesta es más barato que «arreglar» después. El error clásico es confiar en un `head()` bonito con strings de fecha. Luego (E3) el CSV latino combina sep, decimal y usecols.",
         starterCode: {
@@ -889,8 +889,8 @@ print(str(df["fecha"].dtype))
           code: `import pandas as pd
 from io import StringIO
 df = pd.read_csv(StringIO("fecha,x\\n2024-01-01,1\\n"), parse_dates=["fecha"])
-print(str(df["fecha"].dtype))`,
-          output: `datetime64[ns]`,
+print(str(df["fecha"].dtype).startswith("datetime64"))`,
+          output: `True`,
         },
       },
       {

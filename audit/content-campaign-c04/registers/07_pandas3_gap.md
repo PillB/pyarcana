@@ -64,3 +64,46 @@ section files** contain `dtype`, with S15 the concentration. The work is:
 This is a bounded but genuine content project. It must not be done by
 find-and-replacing `'object'` with `'str'`: the surrounding explanation is part
 of the lesson.
+
+---
+
+# Refined analysis (2026-08-22, verified against a real pandas 3.0.5 environment)
+
+The earlier estimate of "13 section files contain `dtype`" overstated it.
+`datetime64[ns]` appears in exactly two files, and one of them
+(`s07-pandas.ts`) is inactive. **Real exposure is S15 alone.**
+
+A pandas 3.0.5 / numpy 2.5.2 / Python 3.12 venv reproduced CI exactly (6 fails,
+117 skips, same artifacts), so every number below is observed, not inferred.
+
+## Two changes, needing very different treatment
+
+| change | artifacts | nature |
+|---|---|---|
+| default datetime resolution `datetime64[ns]` → `[us]` | 4 | mechanical |
+| default string dtype `object` → `str` | 2 | **re-teach** |
+| `array_strptime` raises `AssertionError` | 1 starter | needs diagnosis |
+
+**Datetime — done.** `S15-T1-B` asserted `str(dtype) == 'datetime64[ns]'` in its
+preamble, instruction, `tests` and declared output. The lesson there is "declare
+`parse_dates` so the column is a real date, not text"; the resolution suffix is
+incidental to it. The assertion now checks the dtype *family*
+(`.startswith('datetime64')`), which is `True` under both 2.3.3 and 3.0.5 —
+verified in both. The feedback now teaches why that matters: a contract should
+assert what you care about and nothing more, and this exact test broke on a
+version bump with nothing wrong in the learner's code.
+
+**String dtype — deliberately not done.** S15 teaches `object` as *"el default
+peligroso de un CSV mal tipado"* across 11 prose mentions. Under pandas 3 a text
+column is `str`, and `object` is reserved for genuinely heterogeneous data — so
+the claim's premise changes, not just its value. Rewriting this by swapping
+`'object'` for `'str'` would leave prose that explains the wrong thing. It needs
+an author deciding what the pandas-3 lesson actually is: `str` as the sane
+default, and `object` as the smell that now means something narrower.
+
+## Current state
+
+- Declared environment (pandas 2.3.3): **0 failures**, gate green.
+- pandas 3.0.5: **5 failures**, down from 6.
+- Remaining: `solutionCode-20`, `code-block-1`, `code-block-4`, `code-block-14`
+  (dtype strings) and `starterCode-14` (pandas-internal assertion).

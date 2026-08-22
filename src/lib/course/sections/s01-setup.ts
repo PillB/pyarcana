@@ -679,7 +679,7 @@ docs: agregar README inicial
         environment: 'local-python',
         description: 'Flujo local de rama feature y plan de PR (remoto opcional, sin force-push)',
         preamble:
-          'Partes de un historial estable en `main` y necesitas experimentar sin convertirlo en borrador público. Predice qué mostrará `git branch --show-current` después de `git switch -c feat/hello-env`; esa respuesta es la evidencia de aislamiento. El `push` y el PR requieren un remoto, pero la rama local no. Observa también el límite ético del flujo: recuperar cambios con `restore` o `stash` no autoriza a reescribir `main` con force-push.',
+          'Partes de un historial estable en `main` y necesitas experimentar sin convertirlo en borrador público. Predice qué mostrará `git branch --show-current` (una *branch* o rama es una línea de trabajo paralela: commits que aún no tocan `main`) después de `git switch -c feat/hello-env`; esa respuesta es la evidencia de aislamiento. El `push` y el PR requieren un remoto, pero la rama local no. Observa también el límite ético del flujo: recuperar cambios con `restore` o `stash` no autoriza a reescribir `main` con force-push.',
         code: {
           language: 'bash',
           title: 'Terminal — branch + PR',
@@ -1890,7 +1890,7 @@ Borra cambios sin commit de forma fácil de lamentar. Primero restore/stash; har
         kind: 'guided',
         title: 'Config mínima de Ruff en `pyproject.toml`',
         preamble:
-          '- **Contexto:** el linter del equipo debe ser el mismo en tu laptop y en CI.\n- **Meta:** completar `[tool.ruff]` y `select = ["E","F","I"]`.\n- **Éxito:** archivo con `line-length = 88`, `target-version`, y select E/F/I.\n- **Límites:** no pongas la config bajo `[tool.black]`; `select` es lista, no string `"E,F,I"`; no `ALL` el día 1.',
+          '- **Contexto:** el linter —la herramienta que revisa el estilo y los errores del código sin ejecutarlo— debe ser el mismo en tu laptop y en CI.\n- **Meta:** completar `[tool.ruff]` y `select = ["E","F","I"]`.\n- **Éxito:** archivo con `line-length = 88`, `target-version`, y select E/F/I.\n- **Límites:** no pongas la config bajo `[tool.black]`; `select` es lista, no string `"E,F,I"`; no `ALL` el día 1.',
         id: 'S01-T4-A-E1',
         instruction:
           '1. Completa `line-length` y `target-version`.\n2. Completa la lista `select`.\n3. Guarda en la raíz del proyecto de práctica.',
