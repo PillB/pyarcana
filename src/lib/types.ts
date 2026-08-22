@@ -26,6 +26,13 @@ export interface TheoryBlock {
   callout?: Callout
   /** V3 stable id, e.g. S01-T1-A */
   subtopicId?: string
+  /**
+   * Optional deeper dive: rendered collapsed by default, so the main thread of
+   * the section stays readable and the learner opens it only if they want it.
+   * Omitted (the default) keeps the existing always-expanded behaviour, so no
+   * existing block is affected.
+   */
+  optional?: boolean
 }
 
 export interface IDoStep {

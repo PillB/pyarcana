@@ -205,6 +205,69 @@ scaled True`,
       },
     },
     {
+      heading: "De la regresión logística a una red neuronal diminuta",
+      subtopicId: "S33-T2-B",
+      optional: true,
+      paragraphs: [
+        "Esta sección es **opcional**: nada de lo que viene después la necesita. Está aquí porque la regresión logística que acabas de ajustar ya contiene, en miniatura, todo lo que hace una red neuronal, y verlo una vez desmitifica la palabra para siempre.",
+        "Repasa lo que hace la logística: multiplica cada feature por un peso, suma un sesgo y pasa el resultado por una sigmoide para obtener algo que se lee como probabilidad. Una red neuronal repite ese mismo gesto **por capas**. Los valores intermedios se llaman **activaciones**: representaciones que el modelo calcula por su cuenta, en vez de columnas que tú nombraste en el catálogo de features. Lo importante no es la palabra “neuronal”. Lo importante es que definiste cuatro cosas: parámetros, un cálculo hacia adelante, una **pérdida** que mide qué tan mal va, y un procedimiento para mover los parámetros de modo que esa pérdida baje.",
+        "Ese procedimiento se apoya en el **gradiente**: cuánto cambiaría la pérdida si movieras un peso un poquito. Si subir el peso empeora la pérdida, el gradiente apunta en una dirección; el paso de entrenamiento va en la contraria. **Backpropagation** no es más que aplicar la regla de la cadena hacia atrás por las capas para obtener todos esos gradientes de una sola pasada. Los frameworks lo hacen por ti con **diferenciación automática**, y esa comodidad recién es útil cuando ya tienes el ciclo en la cabeza: adelante calcula, la pérdida juzga, el gradiente indica hacia dónde, el paso corrige.",
+        "La pieza que convierte capas apiladas en algo más expresivo que una logística es la **función de activación** — aquí `tanh`. Sin ella, componer dos capas lineales da otra transformación lineal, y apilar no compra nada. El caso de abajo lo mide en vez de afirmarlo: sobre XOR —cuatro puntos que ninguna recta separa— la red con `tanh` acierta **4 de 4** con pérdida 0.001; la misma red sin activación acierta **2 de 4** y se queda en una pérdida de **0.6931**, que es exactamente ln 2: el número al que llega un modelo que no aprendió nada y predice la misma probabilidad para todo.",
+        "Dos límites honestos antes de cerrar. Primero, esta red tiene cuatro ejemplos y ninguna validación: es una demostración de mecánica, no un resultado. Con datos reales seguirías necesitando todo lo de esta sección —baseline, folds sin leakage, análisis de errores— y una red pequeña casi nunca gana a una logística bien hecha sobre datos tabulares. Segundo, nada de esto se instala en el curso: es NumPy, el mismo que ya usas. Si algún día pasas a PyTorch, lo que llevas contigo es este ciclo; lo que cambia es quién calcula los gradientes.",
+      ],
+      code: {
+        language: 'python',
+        title: "red_diminuta.py",
+        code: `def s33_th_red_neuronal():
+    import numpy as np
+
+    rng = np.random.default_rng(33)
+    # XOR: ninguna recta separa estos cuatro puntos
+    X = np.array([[0., 0.], [0., 1.], [1., 0.], [1., 1.]])
+    y = np.array([[0.], [1.], [1.], [0.]])
+
+    def entrena(con_activacion, pasos=4000, lr=0.5):
+        W1 = rng.normal(0, 1, (2, 4)); b1 = np.zeros((1, 4))
+        W2 = rng.normal(0, 1, (4, 1)); b2 = np.zeros((1, 1))
+        for _ in range(pasos):
+            z1 = X @ W1 + b1
+            a1 = np.tanh(z1) if con_activacion else z1     # la no linealidad
+            z2 = a1 @ W2 + b2
+            p = 1 / (1 + np.exp(-z2))                      # sigmoide -> probabilidad
+            perdida = -np.mean(y * np.log(p + 1e-9) + (1 - y) * np.log(1 - p + 1e-9))
+            dz2 = (p - y) / len(X)                         # gradientes (regla de la cadena)
+            dW2 = a1.T @ dz2; db2 = dz2.sum(0, keepdims=True)
+            da1 = dz2 @ W2.T
+            dz1 = da1 * (1 - a1 ** 2) if con_activacion else da1
+            dW1 = X.T @ dz1; db1 = dz1.sum(0, keepdims=True)
+            W1 -= lr * dW1; b1 -= lr * db1                  # un paso cuesta abajo
+            W2 -= lr * dW2; b2 -= lr * db2
+        return float(perdida), (p > 0.5).astype(int).ravel()
+
+    perd_con, pred_con = entrena(True)
+    perd_sin, pred_sin = entrena(False)
+    objetivo = y.ravel().astype(int)
+    print("objetivo      ", objetivo.tolist())
+    print("con_tanh pred ", pred_con.tolist(), "perdida", round(perd_con, 4))
+    print("sin_tanh pred ", pred_sin.tolist(), "perdida", round(perd_sin, 4))
+    print("aciertos_con  ", int((pred_con == objetivo).sum()), "de 4")
+    print("aciertos_sin  ", int((pred_sin == objetivo).sum()), "de 4")
+
+s33_th_red_neuronal()`,
+        output: `objetivo       [0, 1, 1, 0]
+con_tanh pred  [0, 1, 1, 0] perdida 0.001
+sin_tanh pred  [0, 0, 0, 0] perdida 0.6931
+aciertos_con   4 de 4
+aciertos_sin   2 de 4`,
+      },
+      callout: {
+        type: "info",
+        title: "Qué llevarte de aquí",
+        content:
+          "Parámetros, cálculo hacia adelante, pérdida, gradiente, paso. Sin activación, apilar capas no compra nada. Y en datos tabulares, una logística bien validada sigue siendo un rival duro.",
+      },
+    },
+    {
       heading: "Stumps, voto y ensambles controlados",
       subtopicId: "S33-T3-A",
       paragraphs: [
@@ -354,6 +417,68 @@ random_leak_ok False`,
         title: "Qué escribir ahora",
         content:
           "n_groups = len(set(entities)); mean_fold con round(..., 3); verifica train∩valid vacío por entidad. Si hay random_split o intersección → REJECT_RANDOM_LEAK. Sin entities → REQUEST_GROUP_IDS.",
+      },
+    },
+    {
+      heading: "Cuando la dependencia es el tiempo: origen móvil y baseline estacional",
+      subtopicId: "S33-T4-B",
+      paragraphs: [
+        "El group CV que acabas de hacer resuelve **una** dependencia: filas que comparten entidad. Hay otra que rompe evaluaciones con la misma facilidad y no se arregla igual — el **tiempo**. No existe un esquema de validación universalmente correcto; lo elige la dependencia que tienes. Si filas de la misma entidad se filtran entre folds, preservas el grupo. Si observaciones posteriores no deben informar predicciones anteriores, preservas el orden temporal. Algunos sistemas necesitan las dos cosas a la vez.",
+        "Cuando el problema es temporal, cierra primero el contrato que ya conoces de T1-A: **origen** (el instante desde el que predices) y **horizonte** (cuán lejos está el objetivo). En producción el lunes por la mañana los casos del viernes todavía no existen, y esa puerta solo abre en un sentido. Un split aleatorio la viola en silencio: marzo entra a train, febrero a valid, Python no se queja y el score hasta se ve bien. El experimento simplemente ensayó un problema que el sistema real nunca tendrá permiso de resolver. La disciplina de ventanas half-open que viste en S32 protege cada *feature*; esto protege el *split*.",
+        "La forma práctica es la **validación de origen móvil**: mueve el origen hacia adelante y evalúa cada período nuevo usando solo datos anteriores. Con **ventana expansiva** el train crece y conserva toda la historia; con **ventana deslizante** mantienes solo el pasado reciente, útil cuando lo viejo ya no se parece al proceso actual. Ambas preservan el mismo invariante, y conviene verificarlo con una aserción en vez de confiar: `max(indice_train) < min(indice_valid)` en cada fold.",
+        "Falta el rival. Un **baseline estacional ingenuo** —“este martes se parece al martes pasado”— cuesta una línea y obliga al candidato a ganarse su complejidad. La corrida de abajo lo mide con **MAE** (*mean absolute error*), el error absoluto promedio, que se lee en las unidades del problema: un MAE de 1.10 significa equivocarse en algo más de un caso por día. Sobre la misma serie, el baseline estacional promedia **1.10** y el ingenuo de “ayer” **3.86** — más del triple. Elegir mal el baseline no solo te da un rival débil: te hace creer que tu modelo aportó algo cuando solo capturó el día de la semana. Y si el candidato pierde, eso se registra; no se arregla barajando fechas ni retocando el último fold hasta que la historia quede bonita.",
+      ],
+      code: {
+        language: 'python',
+        title: "origen_movil.py",
+        code: `def s33_th_origen_movil():
+    from statistics import mean
+
+    # 28 dias sinteticos de carga de revision: patron semanal claro
+    serie = [40, 42, 45, 47, 50, 44, 38, 41, 43, 46, 48, 52, 45, 39,
+             42, 44, 47, 50, 53, 46, 40, 43, 45, 48, 51, 54, 47, 41]
+    H = 7  # horizonte: predecimos los 7 dias siguientes al origen
+
+    def folds(n, inicio=7, ventana=None):
+        """El origen avanza. ventana=None -> expansiva; entero -> deslizante."""
+        salida, origen = [], inicio
+        while origen + H <= n:
+            ini = 0 if ventana is None else max(0, origen - ventana)
+            salida.append((ini, origen, origen + H))
+            origen += H
+        return salida
+
+    def frontera_respetada(f):
+        # el ultimo indice de train debe ser anterior al primer indice de valid
+        return all(max(range(ini, org)) < min(range(org, fin)) for ini, org, fin in f)
+
+    def mae(pred, ini, org, fin):
+        return mean(abs(serie[i] - pred(i)) for i in range(org, fin))
+
+    exp = folds(len(serie))
+    des = folds(len(serie), ventana=14)
+    print("folds_expansivos ", exp)
+    print("folds_deslizantes", des)
+    print("frontera_respetada", frontera_respetada(exp), frontera_respetada(des))
+    est = [mae(lambda i: serie[i - 7], *f) for f in exp]   # naive estacional
+    ayer = [mae(lambda i: serie[i - 1], *f) for f in exp]  # naive "ayer"
+    print("mae_estacional_por_fold", [round(m, 2) for m in est])
+    print("mae_ayer_por_fold      ", [round(m, 2) for m in ayer])
+    print("mae_estacional_prom", round(mean(est), 2), "| mae_ayer_prom", round(mean(ayer), 2))
+
+s33_th_origen_movil()`,
+        output: `folds_expansivos  [(0, 7, 14), (0, 14, 21), (0, 21, 28)]
+folds_deslizantes [(0, 7, 14), (0, 14, 21), (7, 21, 28)]
+frontera_respetada True True
+mae_estacional_por_fold [1.14, 1.14, 1]
+mae_ayer_por_fold       [3.86, 3.86, 3.86]
+mae_estacional_prom 1.1 | mae_ayer_prom 3.86`,
+      },
+      callout: {
+        type: "warning",
+        title: "La dependencia elige el split",
+        content:
+          "Entidades compartidas → group CV. Orden temporal → origen móvil con `max(train) < min(valid)` verificado. Baseline y candidato se comparan sobre los mismos folds, y el último período no se retoca.",
       },
     }
   ],
