@@ -25,15 +25,32 @@ export const section03: CourseSection = {
   ],
   theory: [
     {
-      heading: 'Mapa de la sección: del booleano al motor de reglas',
+            heading: "Un cero que significa cero y un cero que significa «nadie contestó»",
       paragraphs: [
-        'Imagina un formulario internacional de ayuda de emergencia. Dos registros contienen `monto = 0`: uno declara correctamente que no hubo ingresos; el otro dejó el campo sin responder y debería contener `None`. Para Python, ambos valores son falsy; para la operación, cuentan historias distintas. Esta sección empieza precisamente en esa grieta entre la mecánica del lenguaje y el significado del dato.',
-        '**Puente desde S02.** Ya sabes convertir texto a `int`, `float` o `str`, conservar el valor original y representar una conversión fallida. Ahora añadirás una segunda capa: decidir si el valor convertido se **acepta**, se **rechaza** o pasa a **revisión**. La conversión prepara el dato; la regla interpreta su estado sin inventar información.',
-        'El hilo conductor es un **validador de campos** (`validate_field` / `validate_record`). La forma del resultado evoluciona deliberadamente: primero usamos strings cortos (`"accept"` / `"review"`) para observar una decisión; después aparecen dicts `{status, code}` para distinguir causas; en el **You Do** estandarizas `{status, code, message}` para que otra persona pueda actuar. No memorices las tres formas a la vez: sigue la razón de cada ampliación.',
-        '**Diccionario de navegación.** *Truthiness* es la manera en que Python decide si un objeto cuenta como verdadero; una *allowlist* es una colección explícita de valores permitidos; una *guard clause* es una salida temprana que protege una precondición; una *decision table* relaciona condiciones con acciones; un *invariante* es una promesa que debe cumplirse siempre. Conservamos estos términos de industria, pero cada uno aparecerá primero como una idea y luego como sintaxis.',
-        'Orden pedagógico: **T1 Booleanos** (comparaciones → truthiness) → **T2 Control** (if/elif/else → guards) → **T3 Reglas** (rangos/allowlists → decision tables/match) → **T4 Verificación** (invariantes → mensajes y tests de ramas). Cada rama del motor debe ser **testeable** con un caso accept, reject y review.',
-        '**Ritmo sugerido (~18 h).** En las sesiones 1–2 trabaja solo T1: predice booleanos y separa `None` de `0`. En las sesiones 3–4 convierte esas predicciones en una rama dominante. Reserva T3 para combinar políticas y T4 para demostrar que cada rama funciona. El orden importa: primero una pregunta que produce `True` o `False`; luego una decisión; al final, una decisión explicable y verificable.',
-        '**Antes de continuar, predice:** si un campo contiene `0`, ¿debería ir a accept, reject o review? La respuesta correcta es “depende del invariante”. Al terminar S03 deberás poder nombrar ese invariante, implementar la rama y exhibir una prueba que impida cambiarla por accidente.',
+        "En un formulario internacional de ayuda de emergencia, dos registros contienen `monto = 0`: uno declara correctamente que no hubo ingresos; el otro dejó el campo sin responder y debería contener `None`. Para Python, ambos valores son falsy; para la operación, cuentan historias distintas. Esta sección empieza precisamente en esa grieta entre la mecánica del lenguaje y el significado del dato.",
+        "**Puente desde S02.** Ya sabes convertir texto a `int`, `float` o `str`, conservar el valor original y representar una conversión fallida. Ahora añadirás una segunda capa: decidir si el valor convertido se **acepta**, se **rechaza** o pasa a **revisión**. La conversión prepara el dato; la regla interpreta su estado sin inventar información.",
+        "Esa grieta tiene nombre. Python decide por su cuenta si un objeto «cuenta como verdadero» —el cero, la cadena vacía, la lista vacía y `None` cuentan como falsos—, y a esa comodidad se le llama *truthiness*. Es útil para escribir rápido y es exactamente lo que no debes usar cuando el valor significa algo. `if monto:` mezcla el cero con la ausencia; `if monto is None:` los separa. La sección entera vive de esa distinción.",
+        "Sobre ella se construyen tres herramientas que verás una tras otra. Una **lista de permitidos** es la colección explícita de los valores que aceptas, escrita de antemano; es más segura que una lista de prohibidos porque lo que olvidaste queda fuera en vez de quedar dentro. Una **salida temprana** es un `if` al principio de la función que rechaza lo imposible y devuelve de inmediato, para que el cuerpo trabaje solo con datos que ya cumplen sus condiciones. Y una **tabla de decisión** es la lista completa de combinaciones de condiciones con la acción que corresponde a cada una: se escribe antes que el código, y si una combinación queda sin fila, es un caso que olvidaste.",
+        "Todo eso apunta a una sola cosa: un invariante es una promesa que el programa no puede romper, y una regla sin invariante declarado es una opinión. «El monto nunca es negativo» es un invariante. «El cero significa cero y la ausencia significa revisión» también. Escríbelos primero; las ramas del código salen casi solas después.",
+        "El hilo conductor es un **validador de campos** (`validate_field` / `validate_record`). La forma del resultado evoluciona deliberadamente: primero usamos strings cortos (`\"accept\"` / `\"review\"`) para observar una decisión; después aparecen dicts `{status, code}` para distinguir causas; en el **You Do** estandarizas `{status, code, message}` para que otra persona pueda actuar. No memorices las tres formas a la vez: sigue la razón de cada ampliación.",
+        "**Antes de continuar, predice:** si un campo contiene `0`, ¿debería ir a accept, reject o review? La respuesta correcta es “depende del invariante”. Al terminar S03 deberás poder nombrar ese invariante, implementar la rama y exhibir una prueba que impida cambiarla por accidente.",
+      ],
+      callout: {
+        type: 'info',
+        title: 'Una capa por vez',
+        content:
+          'Aquí no construirás lectores CSV/JSON ni procesos de archivos. Trabajarás con registros sintéticos ya convertidos. La pregunta es una sola: **¿qué decisión permite la evidencia disponible?** Esa capa produce el motor de reglas de **CP-N1-A**. Las colecciones y los archivos llegarán después.',
+      },
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, ritmo y criterio de cierre.",
+        "**Orden de los subtemas.** T1 trata los booleanos: comparaciones y truthiness. T2 pasa al control de flujo: `if`/`elif`/`else` y salidas tempranas. T3 construye las reglas: rangos, listas de permitidos, tablas de decisión y `match`. T4 cierra con la verificación: invariantes, mensajes accionables y pruebas por rama.",
+        "**Ritmo orientativo.** En las primeras sesiones trabaja solo T1: predice booleanos y separa `None` de `0`. Después convierte esas predicciones en una rama dominante. Reserva T3 para combinar políticas y T4 para demostrar que cada rama funciona. El orden importa: primero una pregunta que produce `True` o `False`; luego una decisión; al final, una decisión explicable y verificable.",
+        "**Criterio de cierre (CP-N1-A).** Cada rama del motor debe ser comprobable con un caso de aceptación, uno de rechazo y uno de revisión, y cada mensaje debe decirle a alguien qué hacer a continuación.",
+        "**Límites.** Caso `CASO-LIM-003`. Aquí no se construyen lectores de CSV ni de JSON: trabajas con registros sintéticos ya convertidos. Las colecciones y los archivos llegan después. Nunca datos personales reales.",
       ],
       code: {
         language: 'python',
@@ -63,14 +80,8 @@ none_is_not_zero True
 collections_csv_json_in_scope False
 capstone_increment CP-N1-A`,
       },
-      callout: {
-        type: 'info',
-        title: 'Una capa por vez',
-        content:
-          'Aquí no construirás lectores CSV/JSON ni procesos de archivos. Trabajarás con registros sintéticos ya convertidos. La pregunta es una sola: **¿qué decisión permite la evidencia disponible?** Esa capa produce el motor de reglas de **CP-N1-A**. Las colecciones y los archivos llegarán después.',
-      },
-    },
-    {
+     },
+     {
       heading: 'Comparaciones y el operador in',
       subtopicId: 'S03-T1-A',
       paragraphs: [

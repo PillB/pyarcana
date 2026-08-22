@@ -25,12 +25,14 @@ export const section09: CourseSection = {
   ],
   theory: [
     {
-      heading: "Mapa: excepciones, diagnóstico, logs y resiliencia",
+            heading: "Las dos y diez de la mañana",
       paragraphs: [
-        "En S08 dejaste un ETL con **cuarentena** y **manifest**. En producción eso no basta si el job muere con un traceback opaco o si el log de ERROR incluye el email completo del cliente. Esta sección arranca **CP-N1-C**: convertir fallos en **señales operables** — tipo de error, correlación y privacidad — sin claims de fraude ni parentesco.",
-        "Hilo conductor: un **pipeline de intake sintético** (clientes `C00x`, emails `ejemplo.pe`, montos con `Decimal`). Validar filas, encadenar causas y **enmascarar datos personales (PII)** antes de escribir logs. También decidirás entre **fail-fast** (config) y **cuarentena** (data). El entorno es **local-python**. Reutiliza normalizadores de S05–S07 y los conteos reconciliados de S08: cada fila en cuarentena debería poder llevar `error_class` y `correlation_id` para el post mórtem.",
-        "Imagina el job `ingest_clientes` de CASO-LIM-009 a las 02:10: el on-call ve un stack confuso, no sabe si reintentar el proveedor o cuarentenar una fila, y en Slack aparece un email completo. Al cerrar esta sección sabrás clasificar el fallo, enmascarar PII y dejar una bitácora que otra persona pueda seguir sin adivinar.",
-        "Orden de aprendizaje: **T1 Excepciones** (tipos, raise, fronteras) → **T2 Diagnóstico** (traceback, minimal repro) → **T3 Logging** (niveles, correlation_id, enmascarado) → **T4 Resiliencia** (fail-fast vs. cuarentena, retries idempotentes). S10 (Módulos y CLI) empaquetará este vocabulario en un CLI con handlers limpios; aquí construyes el contrato operativo del pipeline.",
+        "El trabajo `ingest_clientes` falló a las 02:10. Quien está de guardia abre el registro y encuentra sesenta líneas de traza que terminan en `KeyError: 'monto'`. Con eso no sabe lo esencial: si el problema es una fila mala que debería apartarse, una variable de configuración que alguien cambió ayer, o el proveedor que está caído y basta con reintentar. Baja un poco más y encuentra otra cosa: el correo completo de un cliente, impreso en el mensaje de error y ahora visible en el canal donde llegan las alertas.",
+        "Esta sección convierte esos fallos en señales que se pueden usar. La primera pieza es que el tipo de error ya es un diagnóstico. Cuando defines excepciones propias —una para el dato inválido, otra para la configuración incompleta, otra para el proveedor que no responde— el nombre del error contesta la pregunta de las 02:10 antes de leer una sola línea de traza. Elegir bien ese nombre vale más que cualquier mensaje largo.",
+        "La segunda es que un fallo casi nunca ocurre donde se nota. Una traza se lee de abajo hacia arriba: abajo está el síntoma, arriba está el origen. Y cuando encadenas una excepción sobre otra conservas las dos, porque «no pude convertir el monto» y «no pude procesar el archivo del proveedor» son piezas distintas de la misma historia.",
+        "La tercera es que el registro tiene que servir sin traicionar a nadie. Un identificador de correlación —un número que acompaña a todo lo que ocurre durante una misma corrida— permite reunir después todas las líneas de ese trabajo, incluso entre miles de otros. Y antes de escribir cualquier cosa, los datos personales se enmascaran: `a***@ejemplo.pe` basta para reconocer un caso y no expone a la persona. Un registro que no se puede compartir no sirve para depurar en equipo.",
+        "Queda una decisión que se toma una vez y se respeta siempre: qué merece detener el programa. Si la configuración está mal, todo lo que venga después será basura, así que se falla de inmediato. Si una fila viene mal, el resto del archivo sigue siendo bueno, así que se aparta y se continúa. Confundir las dos produce los dos peores resultados posibles: un proceso que se cae por una fila, o un proceso que procesa mil archivos con la configuración equivocada.",
+        "La pregunta que ordena la sección es la de esa persona de guardia: **¿qué puede hacer con esto alguien que no escribió el código, a las dos de la mañana, sin poder preguntarte?** El hilo es el mismo intake sintético de siempre, con los conteos reconciliados de S08 detrás: cada fila apartada debería poder llevar su clase de error y su identificador de correlación para el análisis del día siguiente.",
       ],
       callout: {
         type: "info",
@@ -38,8 +40,19 @@ export const section09: CourseSection = {
         content:
           "Gate operativo: bitácora auditable que nunca registra email/teléfono/dirección completos y diferencia **fallos** de datos, configuración y proveedor. Sin claims de fraude ni parentesco.",
       },
-    },
-    {
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, criterio de cierre y límites.",
+        "**Orden de los subtemas.** T1 trata las excepciones: tipos, `raise` y fronteras. T2 pasa al diagnóstico: lectura de trazas y reproducción mínima. T3 cubre el registro: niveles, identificador de correlación y enmascarado. T4 cierra con la resiliencia: fallar rápido frente a apartar en cuarentena, y reintentos que se puedan repetir sin duplicar nada.",
+        "**Criterio de cierre (inicio CP-N1-C).** Una bitácora auditable que nunca registre correo, teléfono ni dirección completos, y que distinga los fallos de datos, de configuración y de proveedor.",
+        "**Qué integra y hacia dónde va.** Reutiliza los normalizadores de S05 a S07 y los conteos reconciliados de S08. En S10 este vocabulario se empaqueta en una CLI con manejadores limpios; aquí se construye el contrato operativo.",
+        "**Límites.** Caso `CASO-LIM-009` con datos sintéticos: clientes `C00x`, correos `@ejemplo.pe` y montos en `Decimal`. Nunca datos personales reales ni afirmaciones de fraude o parentesco.",
+      ],
+     },
+     {
       heading: "Tipos específicos, raise y chaining",
       subtopicId: "S09-T1-A",
       paragraphs: [

@@ -25,11 +25,11 @@ export const section06: CourseSection = {
   ],
   theory: [
     {
-      heading: "Mapa de la sección: modelo tabular en memoria",
+      heading: "Tres preguntas antes de abrir un archivo",
       paragraphs: [
         "Imagina un centro internacional de ayuda que recibe fichas sintéticas de envíos. Tres preguntas aparecen antes de abrir un archivo: «¿en qué orden llegaron?», «¿dónde está la ficha C002?» y «¿ya vimos este ID?». Una secuencia conserva el orden; un `dict` actúa como índice; un `set` responde pertenencia. Esas estructuras no compiten: cada una resuelve una pregunta distinta.",
         "En S04 aprendiste a recorrer datos y en S05 a encerrar reglas en funciones. Ahora compones ambas destrezas en un modelo tabular en memoria: clientes con contactos y transacciones, una tabla de acceso por ID y un registro separado de conflictos. Piensa en él como una mesa de clasificación temporal, no como una base de datos diminuta ni como una colección de trucos aislados.",
-        "La ruta sigue la vida de una fila. T1 conserva ventanas y evita copias accidentales; T2 permite buscar y deduplicar sin borrar evidencia; T3 representa relaciones y distingue ausencia de vacío; T4 ordena y serializa de forma reproducible. Antes de cada ejemplo, predice qué propiedad debe sobrevivir: orden, identidad, relación o igualdad de la salida.",
+        "La sección sigue la vida de una fila y en cada tramo hay una propiedad que no se puede perder. Primero el orden: recortar una parte de la secuencia no debe alterar el original por accidente. Después la identidad: buscar un cliente por su ID y detectar repetidos sin borrar la evidencia de que hubo un choque. Luego la relación entre entidades, donde aparece la distinción que más confunde al principio, la de un campo ausente frente a un campo presente pero vacío. Y al final la reproducibilidad: ordenar y guardar de forma que dos corridas den byte por byte el mismo archivo. Antes de cada ejemplo, pregúntate cuál de esas cuatro cosas está en juego.",
         "Trabajarás solo con la biblioteca estándar y datos sintéticos (`example.com`, IDs `C00x`). El objetivo de CP-N1-B es poder explicar por qué elegiste cada estructura y demostrar sus límites con una salida observable. En S08 conectarás este modelo a CSV y JSON. Por ahora, una buena decisión en memoria vale más que una biblioteca potente usada sin criterio.",
       ],
       callout: {

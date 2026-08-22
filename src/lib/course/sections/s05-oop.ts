@@ -25,14 +25,33 @@ export const section05: CourseSection = {
   ],
   theory: [
     {
-      heading: "Mapa de la sección: funciones con contrato",
+            heading: "Una promesa pequeña que alguien más va a cobrar",
       paragraphs: [
         "En S04 aprendiste a recorrer datos y resumir decisiones; ahora debes poner nombre y límites a esas decisiones para no copiarlas por todo el programa. Una función no es una caja misteriosa: es una promesa pequeña con una puerta de entrada, una regla interna y una salida que otra pieza puede usar.",
-        "**Diccionario de la sección** (léelo antes de T1):\n\n- **Función (`def`)**: bloque reutilizable con nombre de verbo.\n- **`return`**: entrega un valor a quien llama (sin `return` → `None`).\n- **Contrato**: precondiciones + postcondiciones documentadas (docstring) y alineadas al código.\n- **Default seguro**: no uses lista/dict mutable como valor por defecto.\n- **Función pura**: mismo input → mismo output, sin I/O ni `print`s.\n- **Idempotencia**: `f(f(x)) == f(x)` en el caso feliz.\n- **Orquestador delgado**: combina normalizadores sin reimplementar reglas.\n- **LEGB**: orden Local → Enclosing → Global → Builtin.\n- **Keyword-only**: parámetros tras `*` que obligan `nombre=` en la llamada.",
-        "El hilo conductor es un conjunto de **funciones puras** `normalize_nombre`, `normalize_email`, `normalize_telefono`, `normalize_direccion` que transforman texto sintético **sin** tocar disco ni red. La I/O se inyecta o se deja en el borde. Datos ficticios únicamente (`example.com`); **nunca** PII real. Caso de lab: inicio **CP-N1-B**.",
-        "**Políticas canónicas del gate** (no cambian a mitad de sección):\n\n- `normalize_nombre`: colapsa espacios + **title-case por palabra**.\n- `normalize_email`: `strip` + `lower` y `ValueError` si falta `@`.\n- `normalize_telefono`: solo dígitos (demo).\n- `normalize_direccion`: colapsa + `upper`.\n\nCada normalizador debe ser **idempotente** en el caso feliz: `f(f(x)) == f(x)`.",
-        "Estas políticas son deliberadamente pequeñas para practicar contratos. `.title()` **no** representa todos los nombres reales y comprobar que exista `@` **no** valida una dirección de correo completa: son reglas del laboratorio, no afirmaciones sobre identidad ni validadores listos para producción. En S07 ampliarás el tratamiento de texto y Unicode. Aquí importa que cada regla sea explícita, medible y consistente de principio a fin.",
-        "Orden pedagógico:\n\n- **T1 Funciones**: `def`/`return` → params/defaults.\n- **T2 Contratos**: pre/post/docstrings → hints y errores de dominio.\n- **T3 Diseño**: funciones pequeñas → pureza/I/O.\n- **T4 Alcance**: LEGB/closures → tests y refactor.\n\nUsa una pregunta durante toda la sección: **¿qué promete esta función a quien la llama?** La teoría nombra la promesa, el I Do la hace visible, el We Do te obliga a repararla y el You Do reúne cuatro promesas sin mezclarlas. Más adelante empaquetarás el núcleo en una CLI y lo conectarás con archivos o clases; hoy debe poder probarse sin abrir nada.",
+        "Esa promesa tiene un nombre técnico, **contrato**, y dos mitades. Lo que la función exige para trabajar —qué recibe y en qué estado— son sus precondiciones. Lo que garantiza a cambio —qué devuelve, y qué hace cuando no puede cumplir— son sus postcondiciones. La docstring es donde se escriben, y su único requisito es incómodo: tiene que decir la verdad sobre el código que está debajo. Una docstring que promete más de lo que el código cumple es peor que no tener ninguna, porque quien la lee deja de comprobar.",
+        "El contrato se vuelve verificable si la función es **pura**: con la misma entrada da siempre la misma salida, y no toca disco, ni red, ni imprime nada por su cuenta. Una función pura se puede probar sin montar nada alrededor, y ese es el motivo real de la regla, no una preferencia de estilo. Toda la entrada y salida se queda en el borde del programa; el núcleo solo transforma valores.",
+        "Sobre eso se apoya la propiedad que persigue la sección entera. **Idempotencia** significa que aplicar la función dos veces da lo mismo que aplicarla una: `f(f(x)) == f(x)`. Suena a curiosidad matemática y es una necesidad operativa: los datos se reprocesan, los trabajos se reintentan, y una normalización que no es idempotente convierte cada reintento en un resultado distinto.",
+        "El hilo conductor son cuatro funciones puras —`normalize_nombre`, `normalize_email`, `normalize_telefono`, `normalize_direccion`— y un orquestador delgado que las combina sin reimplementar ninguna regla. Las políticas de cada una son deliberadamente pequeñas y no cambian a mitad de sección: verás la lista completa en el bloque de referencia, junto al orden de los subtemas.",
+        "Y hay que ser honestos sobre lo que esas reglas no son. `.title()` **no** representa todos los nombres reales, y comprobar que exista `@` **no** valida una dirección de correo: son reglas de laboratorio para practicar contratos, no afirmaciones sobre la identidad de nadie ni validadores listos para producción. En S07 ampliarás el tratamiento de texto y Unicode. Aquí lo que importa es que cada regla sea explícita, medible y consistente de principio a fin.",
+        "Usa una sola pregunta durante toda la sección: **¿qué promete esta función a quien la llama?** La teoría nombra la promesa, el I Do la hace visible, el We Do te obliga a repararla y el You Do reúne cuatro promesas sin mezclarlas. Más adelante empaquetarás el núcleo en una CLI y lo conectarás con archivos o clases; hoy debe poder probarse sin abrir nada.",
+      ],
+      callout: {
+        type: "tip",
+        title: "Qué entregas al cerrar S05",
+        content:
+          "Cuatro normalizadores puros + orquestador con docstring, hints graduales e idempotencia demostrada (inicio CP-N1-B). Sin clases todavía y sin leer CSV: eso llega cuando el core ya es confiable.",
+      },
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Vocabulario, políticas del gate y orden de los subtemas.",
+        "**Vocabulario.** *Función* (`def`): bloque reutilizable con nombre de verbo. *`return`*: entrega un valor a quien llama; sin `return`, la función devuelve `None`. *Valor por defecto seguro*: nunca una lista o un diccionario como valor por defecto de un parámetro. *Orquestador delgado*: combina normalizadores sin reimplementar reglas. *LEGB*: el orden en que Python busca un nombre — local, envolvente, global, incorporado. *Solo por palabra clave*: los parámetros que van después de un `*` y obligan a escribir `nombre=` al llamar.",
+        "**Políticas canónicas del gate** (no cambian a mitad de sección). `normalize_nombre`: colapsa espacios y pone mayúscula inicial por palabra. `normalize_email`: recorta espacios, pasa a minúsculas y lanza `ValueError` si falta la arroba. `normalize_telefono`: deja solo dígitos, como demostración. `normalize_direccion`: colapsa espacios y pasa a mayúsculas. Cada una debe ser idempotente en el caso feliz.",
+        "**Orden de los subtemas.** T1 cubre las funciones: `def`, `return`, parámetros y valores por defecto. T2 trata los contratos: precondiciones, postcondiciones, docstrings, anotaciones de tipo y errores de dominio. T3 pasa al diseño: funciones pequeñas, pureza y entrada/salida en el borde. T4 cierra con el alcance de los nombres, los closures, las pruebas y el refactor.",
+        "**Criterio de cierre (inicio CP-N1-B).** Los cuatro normalizadores puros más el orquestador, con docstring, anotaciones graduales e idempotencia demostrada. Todavía sin clases y sin leer CSV: eso llega cuando el núcleo ya es confiable.",
+        "**Límites.** Caso `CASO-LIM-005` con datos ficticios (`example.com`). Nunca datos personales reales.",
       ],
       code: {
         language: "python",
@@ -62,14 +81,8 @@ gate CP-N1-B
 must pure,idempotent,no_io_in_core,no_real_pii
 email_policy strip+lower+require_@`,
       },
-      callout: {
-        type: "tip",
-        title: "Qué entregas al cerrar S05",
-        content:
-          "Cuatro normalizadores puros + orquestador con docstring, hints graduales e idempotencia demostrada (inicio CP-N1-B). Sin clases todavía y sin leer CSV: eso llega cuando el core ya es confiable.",
-      },
-    },
-    {
+     },
+     {
       heading: "Definición, llamada y retorno",
       subtopicId: "S05-T1-A",
       paragraphs: [

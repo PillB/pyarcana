@@ -58,7 +58,13 @@ class TestResourcesCopy:
         assert self.RESOURCES.exists(), "ResourcesPage.tsx not found"
     
     def test_no_book_references(self):
-        content = self.RESOURCES.read_text().lower()
+        # The gate exists to stop the catalogue from recommending books instead
+        # of doing. That is a property of learner-visible copy — titles,
+        # providers, `whyUseful` — so URLs are stripped before scanning: a slug
+        # like `sre.google/sre-book/...` is an address, not a recommendation.
+        # A resource that really is a book still gets caught, because its title
+        # and description are still scanned.
+        content = re.sub(r'https?://\S+', ' ', self.RESOURCES.read_text().lower())
         for pattern in FORBIDDEN_BOOKS:
             matches = re.findall(pattern, content)
             # Filter out false positives: "Bookmark" (UI icon), "notebook"

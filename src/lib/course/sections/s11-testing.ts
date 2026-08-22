@@ -25,11 +25,13 @@ export const section11: CourseSection = {
   ],
   theory: [
     {
-      heading: "De dicts anónimos a un modelo de dominio (mapa)",
+            heading: "Un diccionario no promete nada",
       paragraphs: [
-        "Tras el paquete y la CLI de S10, el código deja de ser **dicts anónimos** y pasa a un **núcleo de dominio** con nombre: `ClientRecord`, `ResolvedEntity`, `Transaction` y `RelationshipEvidence`. Cada tipo nombra un concepto de matching local y admite invariantes y tests puros. La CLI solo invoca servicios; las reglas de negocio viven en los objetos.",
-        "Ninguna clase emite veredicto de **fraude** ni **parentesco**. Los scores son **datos**, no decisiones legales. Entorno **local-python**. Si un campo obligatorio falta o viola un invariante, **falla al construir** — no rellenes en silencio. Stack: `dataclass`, properties, composition y `Protocol`; sin frameworks web ni ORMs (llegan más adelante).",
-        "Orden: **T1 Objetos** → **T2 Encapsulación** → **T3 Diseño** → **T4 Límites** (repos/tests). Caso sintético PE: ids `C00x`/`E0x`, emails `@ejemplo.pe`, montos `Decimal` en PEN/USD. Gate CP-N1-C: cuatro tipos + tests puros + README de límites éticos. Nunca PII real ni APIs `is_fraud`/`is_family`.",
+        "Hasta aquí un cliente ha sido un diccionario: `{'id': 'C001', 'nombre': 'Ana', 'monto': '150.00'}`. Es cómodo y no protege nada. Nadie impide escribir `registro['nombe']` con la letra cambiada; nadie impide que a mitad del programa aparezca un registro sin `monto`; nadie impide que el mismo campo sea texto en una función y número en la siguiente. El error no se nota donde se comete, sino tres funciones más adelante, cuando ya perdiste el rastro.",
+        "La alternativa es darle nombre a la cosa. Un diccionario es una hoja en blanco donde cabe cualquier anotación; un tipo con nombre es un formulario impreso: tiene casillas fijas, y las casillas obligatorias no se pueden dejar vacías. `ClientRecord`, `ResolvedEntity`, `Transaction` y `RelationshipEvidence` son esos formularios, y a partir de ahora son el vocabulario del programa.",
+        "Lo que un formulario aporta de verdad son los **invariantes**: las condiciones que tienen que ser ciertas siempre para que ese objeto tenga sentido. Un monto no puede ser negativo; una moneda tiene que ser una de las permitidas; una entidad resuelta necesita al menos una evidencia. La decisión que ordena la sección es *dónde* se comprueba eso, y la respuesta es: al construir el objeto. Si un campo obligatorio falta, la construcción falla ahí mismo en lugar de rellenar en silencio y contaminar todo lo que venga después.",
+        "Hay una frontera ética que estos tipos hacen visible. `RelationshipEvidence` guarda señales de relación y un puntaje; ninguna clase de esta sección emite un veredicto. Un puntaje es un dato con incertidumbre, no una conclusión legal sobre una persona. Por eso no existe ninguna función que se llame `is_fraud` ni `is_family`: no es un olvido, es el diseño.",
+        "La pregunta que se repite en cada tipo que escribas es corta: **¿qué tiene que ser verdad para que este objeto pueda existir?** Contestarla te da las validaciones, los mensajes de error y las pruebas casi gratis. Trabajarás con `dataclass`, propiedades, composición y `Protocol` de la biblioteca estándar; los frameworks web y los ORM —las bibliotecas que traducen objetos a tablas de base de datos— llegan más adelante, cuando ya sepas qué es lo que estarías traduciendo.",
       ],
       callout: {
         type: "info",
@@ -37,8 +39,19 @@ export const section11: CourseSection = {
         content:
           "Gate: cuatro tipos explícitos, invariantes, tests sin red/DB, README de límites éticos del modelo.",
       },
-    },
-    {
+     },
+     {
+      heading: "Contrato de la sección (referencia)",
+      optional: true,
+      paragraphs: [
+        "Bloque de referencia. Orden de los subtemas, alcance y criterio de cierre.",
+        "**Orden de los subtemas.** T1 introduce los objetos y las `dataclass`. T2 trata la encapsulación: propiedades y validación en el borde. T3 pasa al diseño: composición antes que herencia. T4 cierra con los límites: repositorios en memoria y pruebas puras.",
+        "**Caso de laboratorio.** Datos sintéticos peruanos: identificadores `C00x` y `E0x`, correos `@ejemplo.pe`, montos en `Decimal` sobre soles y dólares.",
+        "**Criterio de cierre (CP-N1-C).** Los cuatro tipos con sus invariantes, pruebas que corren sin red ni base de datos, y un README que declare los límites éticos del modelo.",
+        "**Límites.** Nunca datos personales reales. Ninguna interfaz `is_fraud` ni `is_family`: los puntajes son datos, no decisiones sobre personas.",
+      ],
+     },
+     {
       heading: "Clases, instancias y dataclass",
       subtopicId: "S11-T1-A",
       paragraphs: [
