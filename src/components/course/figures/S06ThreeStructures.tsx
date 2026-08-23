@@ -38,7 +38,7 @@ export function S06ThreeStructures({ title }: { title: string }) {
   const cardH = 168
 
   return (
-    <FigSvg title={title} viewBox={`0 0 ${FIG.width} 240`}>
+    <FigSvg title={title} viewBox={`0 0 ${FIG.width} 252`}>
       <FigText x={FIG.width / 2} y={24} weight={600}>
         No compiten: cada una contesta una pregunta distinta
       </FigText>
@@ -120,7 +120,7 @@ export function S06ThreeStructures({ title }: { title: string }) {
         )
       })}
 
-      <FigText x={FIG.width / 2} y={234} size={FIG.microSize} fill="var(--muted-foreground)">
+      <FigText x={FIG.width / 2} y={238} size={FIG.microSize} fill="var(--muted-foreground)">
         Orden · acceso por clave · pertenencia
       </FigText>
     </FigSvg>

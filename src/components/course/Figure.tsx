@@ -118,9 +118,13 @@ export function FigureFrame({ figure }: { figure: FigureData }) {
  * viewBox inside a 340px phone column renders at scale 0.53, which turns 14px
  * type into 7px — legible in a mockup, useless on a phone. So the canvas is
  * deliberately narrow (560) and a floor is set on the rendered width: at
- * MIN_WIDTH the scale is 460/560 ≈ 0.82, so the smallest type still lands at
- * roughly 11.5px. Below that floor the frame scrolls instead of shrinking,
- * which is why FigureFrame wraps every figure in an overflow-x container.
+ * MIN_WIDTH the scale is 460/560 ≈ 0.82, so the smallest type lands at
+ * 14 × 0.82 ≈ 11.5px. The first version used 13px here and measured 10.7px on
+ * a real phone viewport — legible in a mockup, not in a hand.
+ *
+ * Below that floor the frame scrolls rather than shrinking further: a wide
+ * diagram is one of the few things that legitimately wants more width than a
+ * phone has, and squeezing it costs more than scrolling it.
  */
 export const FIG = {
   /** Design canvas width. Every figure uses this so they scale identically. */
@@ -128,9 +132,9 @@ export const FIG = {
   /** Never render narrower than this — see the scale arithmetic above. */
   minWidth: 460,
   /** Body label. */
-  labelSize: 14,
+  labelSize: 15,
   /** Secondary annotation. Nothing in a figure goes below this. */
-  microSize: 13,
+  microSize: 14,
   stroke: 1.5,
   strokeBold: 2,
   radius: 6,
