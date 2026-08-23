@@ -1847,7 +1847,7 @@ if __name__ == "__main__":
     questions: [
       {
         question: "¿Por qué declarar encoding='utf-8' al abrir texto?",
-        options: ["Es más rápido", "Comprime el archivo", "Activa pathlib", "Evita depender del locale del SO (p. ej. Windows)"],
+        options: ["Permite leer cualquier archivo sin que falle la decodificación", "Convierte automáticamente los acentos a su forma sin tilde", "Detecta el encoding real del archivo antes de leerlo", "Evita depender del locale del SO (p. ej. Windows)"],
         correctIndex: 3,
         explanation:
           "El default de texto no es portátil; UTF-8 explícito evita mojibake y `UnicodeDecodeError` inesperados.",
@@ -1896,28 +1896,28 @@ if __name__ == "__main__":
       },
       {
         question: "Para montos en CSV/JSON del gate, ¿qué contrato usas?",
-        options: ["Decimal desde texto, quantize 0.01, serializar como string", "float y redondeo con round()", "int de céntimos sin validar", "None silencioso si el cast falla"],
+        options: ["Decimal desde texto, quantize 0.01, serializar como string", "float con round(x, 2) al escribir, que ya deja dos decimales", "int de céntimos, porque los enteros no pierden precisión", "Decimal en memoria y float al serializar, que es más compacto"],
         correctIndex: 0,
         explanation:
           "Continúa el contrato de S02: Decimal, nunca float; fallos de cast → cuarentena.",
       },
       {
         question: "`null` JSON con clave presente vs. clave ausente…",
-        options: ["Son siempre lo mismo en Python", "null borra la clave automáticamente", "pathlib los unifica", "null → None con clave presente; clave ausente no aparece en el dict"],
+        options: ["Ambos llegan como None, así que el contrato no los distingue", "La clave ausente se completa con None al validar el schema", "json.load convierte la clave ausente en una cadena vacía", "null → None con clave presente; clave ausente no aparece en el dict"],
         correctIndex: 3,
         explanation:
           "'email' in obj es True si email: null; False si la clave no existe.",
       },
       {
         question: "¿Por qué no alcanza validar solo n_in == n_clean + n_quarantine en el total agregado?",
-        options: ["Porque el hash debe coincidir con n_in", "Porque un sobrante en una fuente puede compensar un faltante en otra", "Porque Decimal no soporta sumas", "Porque JSONL no tiene totales"],
+        options: ["Porque el total no detecta filas duplicadas dentro de una fuente", "Porque un sobrante en una fuente puede compensar un faltante en otra", "Porque las fuentes pueden tener distinto número de columnas", "Porque la cuarentena puede contener filas de más de una fuente"],
         correctIndex: 1,
         explanation:
           "Reconciliación por fuente evita errores compensados entre CSV y JSON.",
       },
       {
         question: "Al abrir un CSV en disco con el módulo csv, ¿por qué usas newline=''?",
-        options: ["Para forzar encoding latin-1", "Para desactivar DictReader", "Para que el módulo csv controle los terminadores y evite CR dobles en Windows", "Para comprimir el archivo al vuelo"],
+        options: ["Para que las líneas en blanco del final no cuenten como filas", "Para que los saltos de línea dentro de un campo entrecomillado no rompan la fila", "Para que el módulo csv controle los terminadores y evite CR dobles en Windows", "Para que el archivo se escriba con el salto de línea del sistema"],
         correctIndex: 2,
         explanation:
           "newline='' deja el control de líneas al módulo csv; sin eso, Windows puede romper el dialecto al releer el clean.",

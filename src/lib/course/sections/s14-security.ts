@@ -1782,7 +1782,7 @@ if __name__ == "__main__":
       },
       {
         question: "Una máscara booleana a > 0.5 se usa principalmente para:",
-        options: ["Cambiar el dtype", "Forzar una copy siempre", "Aumentar ndim", "Filtrar o seleccionar elementos que cumplen la condición"],
+        options: ["Reordenar los elementos que cumplen la condición al inicio", "Contar cuántos elementos cumplen sin devolverlos", "Reemplazar por NaN los elementos que no cumplen", "Filtrar o seleccionar elementos que cumplen la condición"],
         correctIndex: 3,
         explanation:
           "Las máscaras booleanas filtran/seleccionan de forma vectorizada.",
@@ -1796,7 +1796,7 @@ if __name__ == "__main__":
       },
       {
         question: "Mutar un slice simple de un ndarray normalmente:",
-        options: ["Nunca afecta al original", "Convierte todo a object", "Puede mutar el array base porque suele ser un view", "Borra el dtype"],
+        options: ["Nunca afecta al original: el corte siempre copia", "Afecta al original solo si el corte no es contiguo", "Puede mutar el array base porque suele ser un view", "Afecta al original solo si los dtypes coinciden"],
         correctIndex: 2,
         explanation:
           "Los slices simples suelen ser views que comparten memoria.",
@@ -1810,21 +1810,21 @@ if __name__ == "__main__":
       },
       {
         question: "¿Cuándo son compatibles dos shapes para broadcasting?",
-        options: ["Solo si son idénticos", "Si el producto de las dimensiones coincide", "Solo con keepdims=True", "Sí, de derecha a izquierda: cada dimensión es igual, o una es 1, o está ausente"],
+        options: ["Solo si las formas son idénticas en todas las dimensiones", "Si el producto de las dimensiones coincide", "Solo si una de las dos formas tiene una única dimensión", "Sí, de derecha a izquierda: cada dimensión es igual, o una es 1, o está ausente"],
         correctIndex: 3,
         explanation:
           "El broadcasting alinea de derecha a izquierda; si no hay compatibilidad, ValueError.",
       },
       {
         question: "np.allclose(a, b, rtol=…, atol=…) sirve principalmente para:",
-        options: ["Comparar floats con tolerancia (p. ej. loop vs vectorizado)", "Cambiar el dtype a float32", "Forzar una view", "Eliminar NaN automáticamente"],
+        options: ["Comparar floats con tolerancia (p. ej. loop vs vectorizado)", "Comparar con == tras redondear ambos a seis decimales", "Comprobar que ambos arrays comparten el mismo dtype", "Comparar la suma de ambos arrays en vez de elemento a elemento"],
         correctIndex: 0,
         explanation:
           "allclose/assert_allclose validan equivalencia numérica con rtol (tolerancia relativa, escala con la magnitud) y atol (tolerancia absoluta, cubre cercanos a cero).",
       },
       {
         question: "Un benchmark honesto loop vs vectorizado debe incluir:",
-        options: ["Solo N=10 y el tiempo del loop", "Solo el ratio sin chequear igualdad", "Mismo input/dtype, timing y verificación de equivalencia numérica", "Usar print en cada iteración del loop"],
+        options: ["El tiempo de ambos con el mismo N, sin comparar resultados", "El ratio de tiempos repetido varias veces y promediado", "Mismo input/dtype, timing y verificación de equivalencia numérica", "El tiempo del vectorizado con N grande y el del loop con N pequeño"],
         correctIndex: 2,
         explanation:
           "Sin equivalencia, un ratio de tiempo no demuestra que la versión vectorizada sea correcta. El ratio exacto además varía por máquina.",

@@ -1962,14 +1962,14 @@ print("audit_n", len(audit))
     questions: [
       {
         question: "¿Qué garantiza no enviar correo real en el gate de S22?",
-        options: ["Usar mail.full", "Solo drafts/.eml en sandbox y aprobación humana", "CC a todos", "Desactivar UTF-8"],
+        options: ["Enviar solo a direcciones del dominio de pruebas", "Solo drafts/.eml en sandbox y aprobación humana", "Dejar el envío activo pero con la bandeja del robot como destino", "Marcar el borrador como no enviable con una cabecera propia"],
         correctIndex: 1,
         explanation:
           "El contrato de la sección es draft-only: escribes `.eml` o drafts de sandbox y pasas por cola humana. Ningún happy path de S22 llama SMTP real ni asume envío automático.",
       },
       {
         question: "Un score alto de similitud entre dos emails implica:",
-        options: ["Fraude demostrado", "Parentesco", "Envío automático", "Solo evidencia débil de contacto a revisar; no prueba de fraude"],
+        options: ["Que las dos cuentas pertenecen a la misma persona", "Que una de las dos direcciones es un alias de la otra", "Que el dominio compartido basta para unir los registros", "Solo evidencia débil de contacto a revisar; no prueba de fraude"],
         correctIndex: 3,
         explanation:
           "Matching prioriza revisión de **entrega correcta**. No es prueba de fraude, parentesco ni identidad legal; por eso el pipeline anota `match_no_es_fraude` y exige verificación + HITL.",
@@ -1983,7 +1983,7 @@ print("audit_n", len(audit))
       },
       {
         question: "La idempotency key al reintentar create_draft debe:",
-        options: ["Crear siempre un draft nuevo", "Borrar el audit log", "Reutilizar el mismo draft_id si la key existe", "Enviar el correo"],
+        options: ["Crear un draft nuevo y descartar el anterior por si cambió", "Reutilizar el draft solo si el contenido no cambió", "Reutilizar el mismo draft_id si la key existe", "Devolver error para que quien llama decida qué hacer"],
         correctIndex: 2,
         explanation:
           "Misma key (`sha256(run|to|body_ver)[:16]`) → mismo draft_id y evento `retry_hit` en el audit. Así un doble clic o un reintento de red no spamea al destinatario.",

@@ -1692,28 +1692,28 @@ print("gate", gate_file({"mime": "image/png", "n_bytes": 12_000}))
     questions: [
       {
         question: "¿Qué haces si confidence de RUC es 0.6 (umbral lab 0.85)?",
-        options: ["Aceptar igual", "Inventar dígitos", "Etiquetar fraude", "Abstener y encolar revisión"],
+        options: ["Reintentar el OCR a mayor resolución y aceptar el segundo valor", "Aceptar el valor y marcarlo como baja confianza en el reporte", "Bajar el umbral a 0.6 si la mayoría de documentos queda debajo", "Abstener y encolar revisión"],
         correctIndex: 3,
         explanation:
           "Abstención bajo umbral es control de calidad: el campo crítico va a cola HITL. No se inventan dígitos ni se etiqueta fraude por score bajo.",
       },
       {
         question: "¿Qué implica una discrepancia entre el total y la suma de líneas en la validación cross-field?",
-        options: ["Fraude probado", "Cola de revisión / corrección", "Borrar el doc", "Subir DPI"],
+        options: ["Corregir el total con la suma de líneas, que es el dato granular", "Cola de revisión / corrección", "Aceptarlo si la diferencia es menor al 1 % del total", "Recalcular el IGV, que suele ser el origen del descuadre"],
         correctIndex: 1,
         explanation:
           "Validación ≠ acusación de fraude. Solo acumula reasons[] (p. ej. total_mismatch) y status=needs_review para humanos.",
       },
       {
         question: "¿Por qué medir accuracy por campo (p. ej. acc_ruc) y no solo un accuracy global?",
-        options: ["Es más corto", "OCR no tiene global", "Los campos críticos pueden fallar aunque el global se vea bien", "Solo para imágenes"],
+        options: ["El accuracy global no se puede calcular si falta algún campo", "Cada campo necesita además su propio umbral de confianza", "Los campos críticos pueden fallar aunque el global se vea bien", "El promedio por campo siempre queda por encima del global"],
         correctIndex: 2,
         explanation:
           "Campos caros (RUC, total) necesitan SLO propio; un accuracy global o una coverage_auto alta los disimula.",
       },
       {
         question: "Un archivo application/zip llega al intake de facturas. ¿Qué hace el gate de admisión?",
-        options: ["Gate reject/review por mime no permitido", "Siempre OK", "OCR directo", "Enviar por email"],
+        options: ["Gate reject/review por mime no permitido", "Descomprimirlo y procesar cada factura que contenga dentro", "Aceptarlo si el nombre del archivo termina en .pdf", "Convertirlo a PDF antes de pasarlo al OCR"],
         correctIndex: 0,
         explanation:
           "Allowlist de mime (pdf/png/jpeg) y tope de tamaño: zip no es documento de factura del lab; se rechaza antes del motor.",

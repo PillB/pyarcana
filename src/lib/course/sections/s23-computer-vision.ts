@@ -1809,7 +1809,7 @@ print("resume_after_login", next_step("login"))
     questions: [
       {
         question: "¿Por qué preferir get_by_role a CSS nth-child?",
-        options: ["Es más corto de escribir siempre", "Playwright no soporta CSS", "Refleja la UI accesible y suele ser más estable ante cambios de layout", "Evita assertions"],
+        options: ["Se ejecuta antes porque no recorre el árbol del DOM", "Funciona igual aunque la página cambie de idioma", "Refleja la UI accesible y suele ser más estable ante cambios de layout", "Espera automáticamente y el selector CSS no lo hace"],
         correctIndex: 2,
         explanation:
           "Roles y nombres accesibles cambian menos que la jerarquía CSS y alinean robot y usabilidad (a11y = estabilidad).",
@@ -1823,14 +1823,14 @@ print("resume_after_login", next_step("login"))
       },
       {
         question: "API/export primero significa:",
-        options: ["RPA siempre", "Buscar integración no-UI antes de automatizar el browser", "Prohibir Excel", "Solo cloud"],
+        options: ["Automatizar la UI primero y migrar a la API si falla", "Buscar integración no-UI antes de automatizar el browser", "Pedir al proveedor una API antes de empezar el proyecto", "Usar la UI solo cuando el volumen sea bajo"],
         correctIndex: 1,
         explanation:
           "Jerarquía api > export > rpa > human: RPA es último recurso de automatización.",
       },
       {
         question: "Un retry seguro reintenta:",
-        options: ["Cualquier error", "Solo éxitos", "Captchas", "Solo fallas transitorias (timeout/red/429), no captcha ni 403 de negocio"],
+        options: ["Cualquier error, siempre que el reintento sea idempotente", "Todo salvo los 5xx, que indican un fallo del servidor", "Los 403, porque suelen resolverse cambiando de user-agent", "Solo fallas transitorias (timeout/red/429), no captcha ni 403 de negocio"],
         correctIndex: 3,
         explanation:
           "Retry selectivo evita loops dañinos y respeta stop conditions éticas.",
@@ -1844,7 +1844,7 @@ print("resume_after_login", next_step("login"))
       },
       {
         question: "¿Para qué sirve un Page Object en el adapter web?",
-        options: ["Para encapsular selectores y acciones de una pantalla y reducir acoplamiento", "Para guardar contraseñas en la clase", "Para saltarse el auto-wait de Playwright", "Para evadir el CAPTCHA con otro user-agent"],
+        options: ["Para encapsular selectores y acciones de una pantalla y reducir acoplamiento", "Para agrupar en una clase todos los locators del sitio entero", "Para poder ejecutar los pasos de la pantalla en paralelo", "Para reemplazar las assertions por comprobaciones internas"],
         correctIndex: 0,
         explanation:
           "Si cambia el label del botón, tocas un método del PO, no decenas de tests.",
@@ -1858,14 +1858,14 @@ print("resume_after_login", next_step("login"))
       },
       {
         question: "Si last_ok_step='login' y los steps son login → form → export, ¿qué debe ejecutar el robot al reanudar?",
-        options: ["Volver a login para «estar seguros»", "export saltándose form", "Abortar siempre y pedir CAPTCHA", "form (el siguiente step), evitando el doble envío del login"],
+        options: ["Volver a login: la sesión pudo expirar entre corridas", "export, porque form ya quedó implícito al guardar el paso", "Reiniciar desde el principio para dejar el estado limpio", "form (el siguiente step), evitando el doble envío del login"],
         correctIndex: 3,
         explanation:
           "La reanudación por checkpoint salta al siguiente paso tras `last_ok_step`; rehacer login/form puede enviar dos veces el formulario al portal.",
       },
       {
         question: "¿Para qué se reutiliza storage_state (cookies/localStorage) entre corridas del adaptador?",
-        options: ["Para hardcodear la contraseña en el código del robot", "Para evadir el CAPTCHA guardando el token del captcha", "Para reusar la sesión autenticada y no volver a iniciar sesión en cada caso (menos flakes y menos tiempo de suite)", "Para reemplazar locators por CSS nth-child"],
+        options: ["Para compartir la misma sesión entre varios casos en paralelo", "Para que el navegador conserve la caché y cargue más rápido", "Para reusar la sesión autenticada y no volver a iniciar sesión en cada caso (menos flakes y menos tiempo de suite)", "Para evitar tener que declarar el timeout en cada paso"],
         correctIndex: 2,
         explanation:
           "storage_state serializa la sesión: iniciar sesión una vez, reuso en tests de negocio. Nunca sustituye handoff ni viola ToS.",

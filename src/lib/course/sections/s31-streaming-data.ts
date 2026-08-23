@@ -2111,7 +2111,7 @@ if __name__ == "__main__":
     questions: [
       {
         question: "En CP-N3-B, un score alto de centralidad significa:",
-        options: ["Fraude confirmado", "Parentesco automático", "Posición estructural que requiere contexto, no culpa", "Borrar al nodo"],
+        options: ["Que el nodo tiene más transferencias que ningún otro", "Que el nodo une comunidades que estarían separadas sin él", "Posición estructural que requiere contexto, no culpa", "Que el nodo aparece en la mayoría de los caminos más cortos"],
         correctIndex: 2,
         explanation:
           "Centralidad mide estructura de la red; no es veredicto de culpabilidad.",
@@ -2125,28 +2125,28 @@ if __name__ == "__main__":
       },
       {
         question: "Al agregar transferencias entre el mismo par debes:",
-        options: ["Borrar record_ids", "Conservar detalle o punteros además del agregado", "Etiquetar fraude", "Eliminar el multigrafo"],
+        options: ["Sumar los montos y quedarte solo con el total del par", "Conservar detalle o punteros además del agregado", "Promediar las fechas para tener un único instante por par", "Quedarte con la transferencia mayor como representante del par"],
         correctIndex: 1,
         explanation:
           "El agregado acelera filtros; el detalle responde la auditoría.",
       },
       {
         question: "Shared phone entre dos entidades implica:",
-        options: ["Parentesco legal", "Colusión", "Fraude automático", "Un hecho de contacto compartido a investigar con evidencia, no veredicto"],
+        options: ["Que las dos entidades son la misma persona mal resuelta", "Que el teléfono pertenece a una de las dos y no a la otra", "Que la arista debe pesar más que una transferencia directa", "Un hecho de contacto compartido a investigar con evidencia, no veredicto"],
         correctIndex: 3,
         explanation:
           "Hecho de contacto ≠ veredicto de parentesco o fraude.",
       },
       {
         question: "Un camino E1→phone→E2 en el grafo de evidencia implica…",
-        options: ["fraude o parentesco legal automático", "borrar nodos INF- del grafo", "hipótesis de relación con evidencia auditable para revisión humana", "omitir provenance de aristas"],
+        options: ["que las dos entidades pertenecen a la misma comunidad del grafo", "que la distancia de dos saltos vale igual que una arista directa", "hipótesis de relación con evidencia auditable para revisión humana", "que el teléfono compartido identifica al titular de ambas cuentas"],
         correctIndex: 2,
         explanation:
           "El grafo soporta investigación: evidencia y caminos, no veredictos.",
       },
       {
         question: "¿Por qué modelar un multigrafo en transferencias E1→E2?",
-        options: ["Para conservar varios hechos/fuente entre el mismo par sin colapsar auditoría", "Para borrar el detalle y dejar un solo peso", "Porque NetworkX lo exige siempre", "Para etiquetar fraude automáticamente"],
+        options: ["Para conservar varios hechos/fuente entre el mismo par sin colapsar auditoría", "Para poder recorrer el grafo en ambas direcciones sin duplicar nodos", "Para que los pesos se sumen solos al consultar el par", "Para permitir que un par tenga aristas de ida y de vuelta distintas"],
         correctIndex: 0,
         explanation:
           "Varias aristas = varios hechos auditables; el agregado es una capa aparte.",
@@ -2174,7 +2174,7 @@ if __name__ == "__main__":
       },
       {
         question: "Si mezclas PEN y conteos en el mismo campo weight sin documentar unidades:",
-        options: ["Rompes agregaciones y comparaciones posteriores del workbench", "Mejora el ranking automático de fraude", "NetworkX lo corrige solo", "El multigrafo deja de ser necesario"],
+        options: ["Rompes agregaciones y comparaciones posteriores del workbench", "El grafo sigue siendo correcto: el peso es solo un número", "Se corrige al normalizar los pesos entre 0 y 1 antes de agregar", "Solo afecta a la visualización, no a las métricas calculadas"],
         correctIndex: 0,
         explanation:
           "El peso es evidencia cuantitativa: declara unidades (PEN, count, score) en el schema.",

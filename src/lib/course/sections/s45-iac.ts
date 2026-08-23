@@ -2044,19 +2044,19 @@ print(CASE_ID, "skeleton", STORE_ADR["artifact"], "budget_ok", gate_budget_ok())
     questions: [
       {
         question: "¿Qué evidencia permite aprobar la elección de stores en `CASO-IQU-045`?",
-        options: ["ADR de persistencia con fuente de verdad (object + relacional; cache no autoritativo)", "un print sin assert ni versión", "una captura de pantalla sin fuente", "datos personales reales para que parezca auténtico"],
+        options: ["ADR de persistencia con fuente de verdad (object + relacional; cache no autoritativo)", "la salida del job con marca de tiempo y código de salida cero", "el diagrama de arquitectura aprobado por el equipo", "la política de IAM aplicada, sin la prueba de restauración"],
         correctIndex: 0,
         explanation: "La teoría exige ADR de persistencia con fuente de verdad; evidencia decorativa o PII no satisface el contrato.",
       },
       {
         question: "Ante un mensaje poison tras N reintentos (o un breach de entrega), ¿qué respuesta preserva seguridad y auditabilidad?",
-        options: ["continuar y ocultar el warning", "inventar evidencia faltante", "terminar en DLQ (p. ej. SEND_TO_DLQ / DEDUP_OR_DLQ) y conservar evidencia", "borrar el trace para reducir ruido"],
+        options: ["reintentar con espera creciente hasta agotar el presupuesto", "descartar el mensaje tras N intentos y registrar el conteo", "terminar en DLQ (p. ej. SEND_TO_DLQ / DEDUP_OR_DLQ) y conservar evidencia", "devolverlo al final de la cola para no bloquear a los demás"],
         correctIndex: 2,
         explanation: "Los contratos de S45 fallan cerrado: breach o poison van a contención/DLQ con evidencia; la incertidumbre se enruta a inspección, no a éxito silencioso.",
       },
       {
         question: "¿Cuál resultado demuestra el gate `CP-N4-B · job asíncrono resiliente`?",
-        options: ["el archivo S45 existe, aunque no pruebe el gate", "el README afirma que funciona", "se usó la herramienta más nueva", "reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos"],
+        options: ["el job corre de punta a punta sin errores en un entorno limpio", "la infraestructura está descrita en código y versionada", "el coste mensual estimado está por debajo del presupuesto", "reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos"],
         correctIndex: 3,
         explanation: "El gate es conductual y medible: reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos.",
       },
@@ -2080,7 +2080,7 @@ print(CASE_ID, "skeleton", STORE_ADR["artifact"], "budget_ok", gate_budget_ok())
       },
       {
         question: "Si `forecast_pen` (soles sintéticos) supera `budget_pen` o la cuota se rebosa, ¿qué token corresponde?",
-        options: ["ACK silencioso y seguir escalando workers", "borrar el plan de IaC para reducir costo contable", "marcar cache como fuente de verdad del presupuesto", "FREEZE_SCALE_OUT (y revisión del responsable de costo si falta evidencia de recovery/export)"],
+        options: ["escalar horizontalmente y revisar el coste al cierre del mes", "mover la carga a instancias más baratas sin cambiar el plan", "subir el presupuesto al valor observado y seguir operando", "FREEZE_SCALE_OUT (y revisión del responsable de costo si falta evidencia de recovery/export)"],
         correctIndex: 3,
         explanation: "T4-B trata presupuesto/cuota y recovery medidos: sobre-presupuesto o cuota rota congela scale-out; la incertidumbre de export/restore va a revisión humana, no a éxito.",
       },

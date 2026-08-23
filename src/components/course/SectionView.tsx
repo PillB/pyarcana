@@ -438,7 +438,10 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
             <Collapsible key={i} className="rounded-lg border border-dashed border-sky-300 dark:border-sky-800">
               <CollapsibleTrigger className="group flex w-full items-center gap-2 rounded-lg px-4 py-3 text-left hover:bg-sky-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 dark:hover:bg-sky-950/40">
                 <ChevronDown className="h-4 w-4 shrink-0 text-sky-600 transition-transform group-data-[state=open]:rotate-180" />
-                <span className="flex-1 font-semibold">{block.heading}</span>
+                {/* min-w-0: a flex-1 item defaults to min-width:auto and refuses to
+                    shrink below its text, pushing the badge past a 320px viewport.
+                    Same defect the Callout already carries a regression test for. */}
+                <span className="min-w-0 flex-1 font-semibold">{block.heading}</span>
                 <Badge variant="outline" className="shrink-0 text-xs font-normal">
                   Profundización opcional
                 </Badge>

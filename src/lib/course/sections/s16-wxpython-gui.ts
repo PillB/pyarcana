@@ -1741,14 +1741,14 @@ if __name__ == "__main__":
       },
       {
         question: "Conservar region_raw al normalizar sirve para:",
-        options: ["Acelerar groupby", "Imputar nulls automáticamente", "Auditar y disputar la forma canónica sin perder el valor original", "Validar one_to_one en merge"],
+        options: ["Elegir la forma más frecuente y descartar el resto", "Normalizar el texto antes de comparar para no duplicar categorías", "Auditar y disputar la forma canónica sin perder el valor original", "Registrar solo la forma canónica, que ya resume el original"],
         correctIndex: 2,
         explanation:
           "Normalizar ≠ borrar historia: el raw lateral permite auditoría y rollback conceptual del transform.",
       },
       {
         question: "IQR sin domain bounds es riesgoso porque:",
-        options: ["Puede marcar (o borrar) colas legítimas de negocio como si fueran error", "No funciona con floats", "Siempre es más lento que z-score", "Requiere MultiIndex"],
+        options: ["Puede marcar (o borrar) colas legítimas de negocio como si fueran error", "Solo detecta valores extremos por arriba, nunca por abajo", "Depende del promedio, así que un extremo desplaza el umbral", "Necesita que la columna siga una distribución normal"],
         correctIndex: 0,
         explanation:
           "IQR solo identifica candidatos estadísticos; los bounds de dominio deciden error vs. flag plausible.",
@@ -1769,14 +1769,14 @@ if __name__ == "__main__":
       },
       {
         question: "Fail-closed en un quality gate significa:",
-        options: ["Cerrar el notebook al primer warning", "Reintentar fillna hasta que pass=True", "Si el contrato se rompe, el job no aprueba en silencio: falla con métricas y cuarentena", "Aprobar el batch y loguear el error después"],
+        options: ["Detener el job en el primer aviso, aunque sea recuperable", "Reintentar la limpieza hasta que el contrato pase", "Si el contrato se rompe, el job no aprueba en silencio: falla con métricas y cuarentena", "Aprobar el lote y registrar el incidente para el día siguiente"],
         correctIndex: 2,
         explanation:
           "Fail-closed protege al consumidor (S17, gerencia, riesgo): el gate publica el fallo con evidencia en lugar de “arreglar” y seguir.",
       },
       {
         question: "Ante dos filas con el mismo cliente_id y regiones distintas, la acción correcta es:",
-        options: ["Clasificar como conflicto, conservar evidencia en cuarentena y documentar la regla de resolución", "drop_duplicates keep='first' sin log", "Promediar las regiones como texto", "Rellenar región con moda global del dataset"],
+        options: ["Clasificar como conflicto, conservar evidencia en cuarentena y documentar la regla de resolución", "Quedarse con el primer registro, que suele ser el más antiguo", "Elegir la región que aparece en más filas del conflicto", "Rellenar la región con la más frecuente del dataset completo"],
         correctIndex: 0,
         explanation:
           "Conflicto de atributo ≠ duplicado exacto: borrar a ciegas elimina la evidencia. Cuarentena y audit permiten revisión humana.",

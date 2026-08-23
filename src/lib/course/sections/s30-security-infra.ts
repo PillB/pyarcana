@@ -1908,7 +1908,7 @@ if __name__ == "__main__":
     questions: [
       {
         question: "El motor ER de CP-N3-A debe decidir:",
-        options: ["Fraude automático", "Si dos registros son la misma entidad", "Parentescos", "Riesgo crediticio"],
+        options: ["Si dos registros comparten al menos un atributo de contacto", "Si dos registros son la misma entidad", "Si dos registros deben ir al mismo bloque de comparación", "Si dos registros superan el umbral de similitud textual"],
         correctIndex: 1,
         explanation:
           "Entity resolution solo decide si dos registros apuntan a la misma entidad del mundo real. Parentesco, colusión o fraude son tareas distintas (más adelante en el path de investigación).",
@@ -1929,7 +1929,7 @@ if __name__ == "__main__":
       },
       {
         question: "Reglas de blocking en unión (OR) vs. intersección (AND):",
-        options: ["OR baja candidate recall; AND siempre lo sube", "OR y AND producen el mismo conjunto de candidatos", "OR suele subir candidate recall; AND reduce candidatos y puede matar recall de gold matches", "AND es obligatorio antes de medir candidate recall"],
+        options: ["OR baja candidate recall; AND siempre lo sube", "OR y AND dan el mismo recall si las claves son independientes", "OR suele subir candidate recall; AND reduce candidatos y puede matar recall de gold matches", "AND sube candidate recall porque exige coincidencias más firmes"],
         correctIndex: 2,
         explanation:
           "OR (unión de claves) deja pasar más pares verdaderos match al scorer. AND (intersección) recorta candidatos y CPU, pero si es demasiado estricta el gold match nunca llega al scorer. Siempre mide candidate recall con gold sintético.",
@@ -1943,14 +1943,14 @@ if __name__ == "__main__":
       },
       {
         question: "Split por entidad evita:",
-        options: ["Usar sqlite", "Blocking", "Review", "Leakage (fuga) de identidad entre train y test"],
+        options: ["Sobreajuste del umbral a los pares del conjunto de entrenamiento", "Desbalance: los no-match superan a los match por varios órdenes", "Deriva: las claves de bloqueo cambian entre train y test", "Leakage (fuga) de identidad entre train y test"],
         correctIndex: 3,
         explanation:
           "Si la misma entidad aparece en train y test, las métricas se inflan. Particiona entidades primero; un par mixto es cross_split y no cuenta como test limpio.",
       },
       {
         question: "Un score alto de match en ER sintético implica…",
-        options: ["prioridad de revisión / enlace de entidad candidato, no veredicto legal", "fraude o parentesco probado automáticamente", "bloquear el schema_migrations", "omitir blocking y comparar all-pairs siempre"],
+        options: ["prioridad de revisión / enlace de entidad candidato, no veredicto legal", "que las dos entidades pertenecen al mismo cluster final", "que el par ya no necesita pasar por la cola clerical", "que el umbral de similitud puede subirse sin perder recall"],
         correctIndex: 0,
         explanation:
           "ER propone misma entidad con evidencia; el espacio de labels es match / non_match / uncertain. El score didáctico no es probabilidad calibrada ni prueba de fraude.",
@@ -1964,7 +1964,7 @@ if __name__ == "__main__":
       },
       {
         question: "Co-cluster completeness (vista simplificada de cluster) mide:",
-        options: ["Solo la precisión pairwise del scorer", "La fracción de pares gold match que el sistema mantiene en el mismo cluster", "El tamaño máximo de bloque de blocking", "El número de ítems en la cola clerical"],
+        options: ["La precisión pairwise del scorer sobre los pares candidatos", "La fracción de pares gold match que el sistema mantiene en el mismo cluster", "La proporción de pares gold match que el blocking deja pasar", "La proporción de clusters que contienen un solo registro"],
         correctIndex: 1,
         explanation:
           "Un F1 pairwise alto puede esconder clusters partidos. Co-cluster completeness pregunta: de los pares gold que deberían estar juntos, ¿cuántos quedaron unidos tras Union-Find? (En blocking, pairs completeness mide candidatos; aquí es vista de cluster.)",

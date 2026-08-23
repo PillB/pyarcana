@@ -1,22 +1,13 @@
 {
   "sections_audited": 52,
-  "p1_total": 13,
+  "p1_total": 0,
   "info_total": 42,
   "by_kind": {
-    "LENGTH_TELL": 13,
     "FORWARD_POINTER": 31,
     "GUIDED_HINT_RESTATES": 11
   },
-  "ok": false,
+  "ok": true,
   "findings": [
-    {
-      "section": "data-structures",
-      "index": 3,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 4/8 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
-    },
     {
       "section": "data-acquisition",
       "index": 7,
@@ -24,14 +15,6 @@
       "severity": "INFO",
       "detail": "preamble cites S08 (later than S07); pointer only",
       "excerpt": "* sin comillas escapadas aquí; no uses el módulo `csv` aún (S08); no regex."
-    },
-    {
-      "section": "pandas",
-      "index": 8,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 5/11 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
     },
     {
       "section": "visualization",
@@ -48,14 +31,6 @@
       "severity": "INFO",
       "detail": "preamble cites S12 (later than S11); pointer only",
       "excerpt": "mentación concreta que habla con la base de datos) llega en S12."
-    },
-    {
-      "section": "testing",
-      "index": 11,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 5/6 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
     },
     {
       "section": "performance",
@@ -90,14 +65,6 @@
       "excerpt": "ntidades sintéticas alimenta `relationship_signal_score` en S13; **no** es veredicto familiar ni de "
     },
     {
-      "section": "security",
-      "index": 14,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 5/11 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
-    },
-    {
       "section": "wxpython-gui",
       "index": 16,
       "kind": "FORWARD_POINTER",
@@ -106,28 +73,12 @@
       "excerpt": "- **Contexto:** S17 hará joins asumiendo una fila por cl"
     },
     {
-      "section": "wxpython-gui",
-      "index": 16,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 4/8 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
-    },
-    {
       "section": "data-engineering",
       "index": 18,
       "kind": "FORWARD_POINTER",
       "severity": "INFO",
       "detail": "preamble cites S19 (later than S18); pointer only",
       "excerpt": "- **Contexto:** el cierre hacia S19 exige n_raw, n_final y seed en la mi"
-    },
-    {
-      "section": "data-engineering",
-      "index": 18,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 8/10 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
     },
     {
       "section": "databases-orm",
@@ -194,14 +145,6 @@
       "excerpt": "o:** el factory prepara el paquete; la aprobación humana es S22. Marcar `approved` en código es frau"
     },
     {
-      "section": "rapidfuzz-entity",
-      "index": 22,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 3/5 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
-    },
-    {
       "section": "computer-vision",
       "index": 23,
       "kind": "FORWARD_POINTER",
@@ -242,22 +185,6 @@
       "excerpt": "return 'human_handoff' if captcha else 'continue'"
     },
     {
-      "section": "computer-vision",
-      "index": 23,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 6/9 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
-    },
-    {
-      "section": "rpa-advanced",
-      "index": 24,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 4/5 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
-    },
-    {
       "section": "streamlit-dashboards",
       "index": 25,
       "kind": "GUIDED_HINT_RESTATES",
@@ -288,22 +215,6 @@
       "severity": "INFO",
       "detail": "preamble cites S31 (later than S30); pointer only",
       "excerpt": " **Contexto:** en el Caso 30, si e1=e2 y e2=e3, el export a S31 debe ver un solo cluster.\\n- **Meta:"
-    },
-    {
-      "section": "security-infra",
-      "index": 30,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 5/9 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
-    },
-    {
-      "section": "streaming-data",
-      "index": 31,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 6/10 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
     },
     {
       "section": "microservices",
@@ -402,14 +313,6 @@
       "excerpt": "n_groups = len(set(entities))"
     },
     {
-      "section": "cv-ai-integration",
-      "index": 34,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 5/8 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
-    },
-    {
       "section": "performance-extreme",
       "index": 38,
       "kind": "GUIDED_HINT_RESTATES",
@@ -440,14 +343,6 @@
       "severity": "INFO",
       "detail": "preamble cites S44 (later than S43); pointer only",
       "excerpt": "Cierra el camino a S44: la imagen multi-stage de Trujillo e"
-    },
-    {
-      "section": "iac",
-      "index": 45,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 4/7 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
     }
   ]
 }
