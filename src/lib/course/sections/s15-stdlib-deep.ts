@@ -47,6 +47,13 @@ export const section15: CourseSection = {
      },
      {
       heading: "Series, DataFrame e Index",
+      figure: {
+        id: "S15-dataframe",
+        caption:
+          "El Index es la columna que no es una columna: es contra qué se alinean las demás cuando dos tablas se juntan. Fíjate en el dtype de monto — nada falló al leer el archivo.",
+        alt:
+          "Una tabla con una columna de Index a la izquierda y tres columnas de datos. Cada columna lleva su dtype encima. La columna monto aparece con borde punteado y dtype de texto porque sus valores usan coma decimal.",
+      },
       subtopicId: "S15-T1-A",
       paragraphs: [
         "Una **Series** es un vector con **Index** (etiquetas); un **DataFrame** es una tabla de columnas — cada columna es una Series alineada por el mismo Index. Esa idea es el puente desde NumPy: ya no tienes un solo dtype por array, sino **columnas heterogéneas** unidas por un eje de etiqueta. Si sumas dos Series con índices distintos, pandas **alinea por etiqueta**: el resultado tiene la unión de índices y pone NaN donde falta valor. El Index no es decoración: es el eje de negocio que decide qué filas se combinan.",
@@ -1841,7 +1848,7 @@ if __name__ == "__main__":
       },
       {
         question: "SettingWithCopyWarning se relaciona con:",
-        options: ["Asignación en cadena que no actualiza el DataFrame padre de forma fiable (chained assignment)", "Parquet vs. CSV", "Falta de openpyxl", "MultiIndex obligatorio"],
+        options: ["Asignación en cadena que no actualiza el DataFrame padre de forma fiable (chained assignment)", "Modificar un DataFrame mientras se recorre con iterrows", "Asignar sobre un subset creado con .copy() explícita", "Filtrar por máscara booleana en vez de por posición"],
         correctIndex: 0,
         explanation:
           "Asignar en cadena (`df[mask]['col'] = ...`) no actualiza el DataFrame original de forma fiable (en pandas moderno con Copy-on-Write —esto es, escritura sobre copia automática— la cadena no escribe en el padre). Usa un solo `loc` sobre el padre o `.copy()` explícito del subset.",
@@ -1855,14 +1862,14 @@ if __name__ == "__main__":
       },
       {
         question: "Un manifest de export debería incluir al menos:",
-        options: ["Solo el nombre del analista", "Contraseñas de BD", "PII real de clientes", "Filas, columnas y provenance/hash del artefacto"],
+        options: ["Solo el conteo de filas: las columnas ya viajan en el CSV", "Las estadísticas descriptivas de cada columna numérica", "El código que generó el archivo, para poder re-ejecutarlo", "Filas, columnas y provenance/hash del artefacto"],
         correctIndex: 3,
         explanation:
           "Para reconciliar CP-N2-A necesitas filas, columnas y trazabilidad del archivo (source + hash del payload exportado, esto es, la huella digital del archivo que entrega el pipeline). Nunca PII real (datos personales identificables reales) ni secretos en el manifest.",
       },
       {
         question: "En pandas, ¿por qué preferir df.loc[mask, col] = val sobre un subset sin .copy()?",
-        options: ["loc es más lento y por eso es más seguro", "copy() está deprecado", "Evita SettingWithCopyWarning y deja la asignación en el DataFrame original", "iloc no existe en pandas 2"],
+        options: ["loc valida el tipo del valor antes de asignarlo y el subset no", "El subset siempre es una copia, así que la asignación se pierde", "Evita SettingWithCopyWarning y deja la asignación en el DataFrame original", "loc permite asignar varias columnas a la vez y el subset no"],
         correctIndex: 2,
         explanation:
           "La asignación en cadena no es el contrato profesional. `loc` sobre el DF (o `.copy()` explícito del subset) hace la mutación intencional y predecible, alineada con Copy-on-Write (escritura sobre copia automática).",
@@ -1890,14 +1897,14 @@ if __name__ == "__main__":
       },
       {
         question: "¿Para qué sirve astype('category') en una columna de región (Lima/Arequipa)?",
-        options: ["Convierte texto a fechas automáticamente", "Borra duplicados de región", "Reduce memoria y fija un conjunto de valores conocidos; conviene normalizar con str.title antes", "Es obligatorio antes de to_csv"],
+        options: ["Acelera cualquier operación de texto sobre esa columna", "Agrupa las filas repetidas en un solo registro por región", "Reduce memoria y fija un conjunto de valores conocidos; conviene normalizar con str.title antes", "Ordena las regiones alfabéticamente al hacer groupby"],
         correctIndex: 2,
         explanation:
           "`category` es un dtype compacto para labels de cardinalidad baja o acotada (esto es, pocos valores únicos como regiones o estados). Normaliza mayúsculas/minúsculas antes para no duplicar 'lima' y 'Lima'; mide memoria si la cardinalidad (la cantidad de valores únicos) crece.",
       },
       {
         question: "Si el Index de negocio es cliente_id, ¿qué conviene al alinear o reexportar?",
-        options: ["Mantener un index estable y documentado; no perder la clave al exportar si es eje de negocio", "Borrar el index y usar solo posiciones 0..n-1 siempre", "Usar solo iloc y nunca loc", "Convertir el index a float64"],
+        options: ["Mantener un index estable y documentado; no perder la clave al exportar si es eje de negocio", "Reindexar con reset_index antes de cada unión para evitar choques", "Exportar con index=False y recuperar la clave desde otra columna", "Ordenar el index antes de exportar para que el archivo sea estable"],
         correctIndex: 0,
         explanation:
           "Un Index estable (ids de cliente, esto es, el eje de etiquetas que identifica filas por negocio) alinea tablas y auditoría. Si es clave de negocio, documéntala al exportar; si no, `index=False` evita basura `Unnamed`.",

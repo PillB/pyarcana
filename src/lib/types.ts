@@ -19,11 +19,33 @@ export interface Callout {
   content: string
 }
 
+/**
+ * A teaching diagram rendered next to the prose it explains.
+ *
+ * Figures are inline SVG components, not images: they follow the theme tokens,
+ * scale without loss, and are checked by the same geometry gates as the rest of
+ * the page. A figure earns its place only by removing work the prose was doing
+ * badly — Mayer's coherence principle — so decorative diagrams are out of scope.
+ */
+export interface Figure {
+  /** Key into the registry in src/components/course/figures/index.ts */
+  id: string
+  /** Shown under the figure. Carries the teaching point; never restates the prose. */
+  caption: string
+  /** What a screen-reader user needs to hear instead of seeing the figure. */
+  alt: string
+}
+
 export interface TheoryBlock {
   heading: string
   paragraphs: string[]
   code?: CodeExample
   callout?: Callout
+  /**
+   * Optional diagram, rendered between the prose and the code so it sits with
+   * the words it explains (spatial contiguity) rather than in a gallery.
+   */
+  figure?: Figure
   /** V3 stable id, e.g. S01-T1-A */
   subtopicId?: string
   /**

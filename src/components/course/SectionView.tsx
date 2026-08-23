@@ -53,6 +53,8 @@ import type { CourseSection } from '@/lib/types'
 import { CodeBlock } from './CodeBlock'
 import { Callout } from './Callout'
 import { RichText } from './RichText'
+import { FigureFrame } from './Figure'
+import { SteppedCode } from './SteppedCode'
 import { ProgressRing } from './ProgressRing'
 import { ExamView } from './ExamView'
 import { CodePlayground } from './CodePlayground'
@@ -410,6 +412,9 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
                   : block.heading + '\n\n' + block.paragraphs.join('\n\n')
               }
             />
+            {/* Spatial contiguity: the figure sits between the prose it
+                explains and the code that follows, never in a gallery. */}
+            {block.figure && <FigureFrame figure={block.figure} />}
             {block.code && (
               <CodeBlock
                 code={block.code.code}
@@ -490,11 +495,15 @@ function IDoTab({ section, onDone, done }: { section: CourseSection; onDone: () 
                 <RichText content={step.preamble} sectionId={section.id} />
               </Callout>
             )}
-            <CodeBlock
+            {/* I Do only: the demo arrives at the learner's pace, so the
+                "Predicción" the preamble already asks for happens before the
+                output is legible instead of next to it. */}
+            <SteppedCode
               code={step.code.code}
               language={step.code.language}
               title={step.code.title}
               output={step.code.output}
+              demoId={step.demoId}
             />
             <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
               <div className="flex items-center gap-2 text-xs font-semibold text-amber-700 dark:text-amber-300">

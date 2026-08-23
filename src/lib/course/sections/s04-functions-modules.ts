@@ -26,6 +26,13 @@ export const section04: CourseSection = {
   theory: [
     {
             heading: "Cuando la tasa mejora sola porque el denominador encogió",
+            figure: {
+              id: "S04-denominator",
+              caption:
+                "Las dos fórmulas usan los mismos tres aciertos. Solo cambia contra cuántas filas se comparan, y esa diferencia es la que hace subir el número sin que el trabajo mejore.",
+              alt:
+                "Seis filas avanzan por una cinta; una se desvía antes de la decisión, así que cinco llegan. Abajo, dos tarjetas comparan las fórmulas: tres entre seis da 50 %, tres entre cinco da 60 %.",
+            },
       paragraphs: [
         "Imagina una cinta transportadora: cada registro entra una vez, recibe una decisión y deja una marca en el resumen. El **bucle** mueve la cinta; el **centinela** (`\"\"`, `\"END\"`) indica que no llegan más cajas; la **tasa** compara un contador con todas las cajas intentadas. Si no llegó ninguna, la respuesta honesta es `None`, no una división inventada.",
         "Desde **S03** ya validas un registro: aceptar, rechazar o revisar. Un registro. Lo nuevo aquí es sostener esa decisión a lo largo de muchas filas sin que se degrade en el camino, y eso se apoya en tres promesas que no pueden romperse ni una sola vez. Cada fila se procesa como máximo una vez, ni dos ni ninguna. Los contadores suman exactamente el total de filas intentadas. Y el texto original de cada fila sobrevive intacto, porque es lo único que permite auditar la decisión después.",

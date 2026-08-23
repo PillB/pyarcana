@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-22T22:51:24.319726+00:00",
+  "generated_at": "2026-08-23T00:59:10.774582+00:00",
   "sections": 52,
   "dependency_visibility": {
     "status": "ok",
@@ -35,10 +35,21 @@
     ],
     "note": "Core teaching modules are importable; numpy/pandas/sklearn snippets are genuinely executed."
   },
+  "environment_matches_pins": {
+    "status": "ok",
+    "declared": {
+      "numpy": "2.2.6",
+      "pandas": "3.0.5",
+      "scikit-learn": "1.6.1",
+      "scipy": "1.13.1"
+    },
+    "drift": [],
+    "note": "The snippet interpreter matches the declared teaching environment."
+  },
   "totals": {
-    "pass": 3265,
+    "pass": 3240,
     "fail": 0,
-    "skip": 92,
+    "skip": 117,
     "artifacts": 3357
   },
   "fail_count": 0,
@@ -190,9 +201,9 @@
       "file": "src/lib/course/sections/s15-stdlib-deep.ts",
       "section_id": "stdlib-deep",
       "counts": {
-        "pass": 65,
+        "pass": 62,
         "fail": 0,
-        "skip": 0
+        "skip": 3
       },
       "artifact_count": 65
     },
@@ -240,9 +251,9 @@
       "file": "src/lib/course/sections/s20-rag.ts",
       "section_id": "rag",
       "counts": {
-        "pass": 64,
+        "pass": 42,
         "fail": 0,
-        "skip": 0
+        "skip": 22
       },
       "artifact_count": 64
     },

@@ -312,6 +312,62 @@ def run_python(code: str, timeout: int = TIMEOUT_SEC) -> dict:
 CORE_TEACHING_MODULES = ("numpy", "pandas", "sklearn")
 
 
+def declared_pins() -> dict[str, str]:
+    """The versions requirements-content.txt says the content was verified against."""
+    path = ROOT / "requirements-content.txt"
+    pins: dict[str, str] = {}
+    if not path.exists():
+        return pins
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.split("#", 1)[0].strip()
+        if "==" in line:
+            name, _, version = line.partition("==")
+            pins[name.strip().lower()] = version.strip()
+    return pins
+
+
+def probe_version_drift() -> dict:
+    """Compare the snippet interpreter's libraries against the declared pins.
+
+    Every `output:` block in the curriculum is a promise about what the learner
+    will see, and that promise is only true in a named environment. When the
+    interpreter's pandas differs from the pinned one, the mismatches that follow
+    are the *environment* disagreeing with the content, not the content being
+    wrong — and reporting them as content failures sends whoever ran the script
+    hunting a bug that is not there.
+
+    This exists because moving the pin to pandas 3 made bare
+    `npm run test:python-content` produce four such phantom failures on a
+    machine still holding pandas 2.
+    """
+    pins = declared_pins()
+    drift = []
+    for name, want in pins.items():
+        probe = run_python(
+            f"import {name}, sys; sys.stdout.write({name}.__version__)", timeout=25
+        )
+        got = (probe.get("stdout") or "").strip()
+        if probe["exit"] != 0:
+            continue  # absence is already reported by the visibility probe
+        if got and got != want:
+            drift.append({"package": name, "declared": want, "installed": got})
+    return {
+        "status": "drifted" if drift else "ok",
+        "declared": pins,
+        "drift": drift,
+        "note": (
+            "The interpreter running the snippets does NOT match "
+            "requirements-content.txt. Declared outputs are only true in the "
+            "declared environment, so output_mismatch findings below are most "
+            "likely this drift rather than broken content. Re-run inside an "
+            "environment built from requirements-content.txt before treating "
+            "any of them as real."
+            if drift
+            else "The snippet interpreter matches the declared teaching environment."
+        ),
+    }
+
+
 def probe_dependency_visibility() -> dict:
     """Report whether the snippet interpreter can actually import what content uses.
 
@@ -760,11 +816,13 @@ def main() -> int:
         totals["artifacts"] += sec["artifact_count"]
 
     dependency_visibility = probe_dependency_visibility()
+    version_drift = probe_version_drift()
 
     report = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "sections": len(section_reports),
         "dependency_visibility": dependency_visibility,
+        "environment_matches_pins": version_drift,
         "totals": totals,
         "fail_count": len(fails),
         "p0_count": len(p0),
@@ -826,6 +884,7 @@ def main() -> int:
                 "sections": report["sections"],
                 "dependency_visibility": dependency_visibility["status"],
                 "core_modules_missing": dependency_visibility["core_modules_missing"],
+                "environment_matches_pins": version_drift["status"],
                 "totals": totals,
                 "p0": len(p0),
                 "p1": len(p1),
@@ -834,6 +893,16 @@ def main() -> int:
             indent=2,
         )
     )
+    if version_drift["status"] == "drifted":
+        drift = ", ".join(
+            f"{d['package']} {d['installed']} (declared {d['declared']})"
+            for d in version_drift["drift"]
+        )
+        print(
+            "\nWARNING — the interpreter does not match requirements-content.txt: "
+            f"{drift}.\n{version_drift['note']}",
+            file=sys.stderr,
+        )
     return 0 if report["ok"] else 1
 
 

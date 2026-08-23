@@ -318,6 +318,13 @@ print(provenance_backup())`,
     },
     {
       heading: "Reconciliación y manifest de corrida",
+      figure: {
+        id: "S08-reconcile",
+        caption:
+          "La suma es la única prueba de que ninguna fila se perdió por el camino. Cuando no cuadra, lo que falta no es un número: es una fila que nadie sabe dónde quedó.",
+        alt:
+          "Mil filas entran por la izquierda y el flujo se divide en dos: 987 pasan el contrato y 13 quedan en cuarentena. Abajo, la igualdad 1000 igual a 987 más 13.",
+      },
       subtopicId: "S08-T4-B",
       paragraphs: [
         "El **manifest** de la corrida es un JSON con `run_id` (opcional), una lista `sources` y totales **derivados**. Cada fuente lleva `name`, `sha256` del crudo y conteos `n_in`, `n_clean`, `n_quarantine` (más `reconcile_ok` calculado). Los totales se **suman** desde las fuentes; no se hardcodean ni se copian de un run anterior “porque se veía bien”.",

@@ -84,6 +84,13 @@ email_policy strip+lower+require_@`,
      },
      {
       heading: "Definición, llamada y retorno",
+      figure: {
+        id: "S05-contract",
+        caption:
+          "Lo que está fuera de la caja es el contrato; lo de dentro es implementación. Cambiar el cuerpo sin tocar los bordes es libre, y cambiar los bordes nunca lo es.",
+        alt:
+          "Una caja central con el nombre de la función. A la izquierda, lo que exige de quien la llama; a la derecha, lo que garantiza a cambio. Flechas entran y salen de la caja.",
+      },
       subtopicId: "S05-T1-A",
       paragraphs: [
         "Piensa en una función como una ventanilla: recibe algo, realiza una tarea acotada y entrega un comprobante que el siguiente paso puede usar. **Puente desde el mapa:** la primera promesa que harás es sencilla —si entra texto de nombre, debe salir texto normalizado, no una impresión fugaz en la consola.",
