@@ -179,7 +179,7 @@ assert_ok True`,
       paragraphs: [
         "Las **fixtures** inyectan dependencias (datos sintéticos, `tmp_path`, relojes fijos) **sin globals** ni setup copiado en cada test. En pytest real escribes `@pytest.fixture` y el nombre del parámetro de la función de test recibe el valor. El **scope por defecto es function**: cada test recibe setup fresco; eso es lo que hace que la suite sea orden-independiente.",
         "Scopes: `function` (default), `class`, `module`, `session`. Un fixture session mutado contamina toda la suite y produce *flakes* de orden (“pasa solo si corre después de X”). Session-scope solo para recursos caros de **solo lectura** (catálogo estático, configuración inmutable, conexión de lectura a un dataset de fixtures). Si necesitas mutar, vuelve a function o usa una factory.",
-        "Las **factory fixtures** devuelven callables para crear N entidades sintéticas por caso (`make_contact(i)`). Mecanismo clave de aislamiento: **copia profunda** de estructuras mutables; un `list.copy()` superficial comparte dicts internos y un test ensucia al siguiente. Si ves un fallo que solo aparece con `-x` o al reordenar, sospecha fixture mutable con scope ancho.",
+        "Las **factory fixtures** devuelven callables para crear N entidades sintéticas por caso (`make_contact(i)`). Mecanismo clave de aislamiento: **copia profunda** de estructuras mutables; un `list.copy()` superficial comparte dicts internos y un test ensucia al siguiente. Si ves un fallo que solo aparece con `-x` o al reordenar, sospecha fixture mutable con scope ancho. Precisión sobre `-x`: no reordena nada ni provoca fallos nuevos — solo detiene la corrida en el primero. Lo que cambia es lo que **ves**: los fallos posteriores dejan de ejecutarse, así que un `-x` verde no significa suite verde. Para el acoplamiento por orden, la herramienta es `pytest-randomly` o `-p no:randomly` según lo que quieras fijar.",
       ],
       code: {
         language: 'python',
@@ -1277,7 +1277,7 @@ print(Path(path).read_text(encoding='utf-8').strip())`,
         ],
         edgeCases: ["None vs. cadena vacía; mensajes sin PII real."],
         tests: "salida coincide con solution output",
-        feedback: "El mensaje de la excepción es el contrato del caso negativo. Solo imprimir el nombre del tipo no acelera el fix en CI.",
+        feedback: "El mensaje de la excepción es lo que acelera el diagnóstico en CI: solo imprimir el nombre del tipo obliga a abrir el código para saber qué pasó. Distinto es afirmarlo en un test con `match=`, y ahí conviene medir: el mensaje rara vez es contrato público, así que fijarlo entero produce pruebas que se rompen cuando alguien mejora la redacción. Afirma la parte estable —el campo, el código de error— y deja fuera la prosa.",
         retrospective:
           "El mensaje es el contrato del negativo; el tipo solo no dice *qué* falló. Siguiente (E2): un email sintético sin `@` no puede marcar ok.",
         starterCode: {
