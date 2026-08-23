@@ -192,7 +192,7 @@ least_privilege_ok True`,
         type: "warning",
         title: "Scopes y envío",
         content:
-          "En el lab, deniega `mail.send`/`mail.full` si solo creas drafts. En Gmail real, revisa el URI de scope: `gmail.compose` puede enviar; el fail-closed del producto (sin botón send + HITL) sigue siendo obligatorio.",
+          "En el lab, deniega `mail.send`/`mail.full` si solo creas drafts. En Gmail real, revisa el URI de scope: `gmail.compose` puede enviar; el fail-closed del producto sigue siendo obligatorio: sin botón de envío y con **HITL** (*human in the loop*, una persona que aprueba antes de que algo salga).",
       },
     },
     {
