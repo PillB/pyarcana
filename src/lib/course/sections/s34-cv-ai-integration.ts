@@ -2387,14 +2387,14 @@ if __name__ == "__main__":
     questions: [
       {
         question: "Con desbalance fuerte en una cola de revisión, conviene priorizar:",
-        options: ["Solo accuracy", "Precision/recall o PR-AUC (familia PR) de la cola", "Solo loss de train", "Color del dashboard"],
+        options: ["Accuracy, ponderada por el peso de cada clase", "Precision/recall o PR-AUC (familia PR) de la cola", "ROC-AUC, que es invariante al desbalance de clases", "La matriz de confusión sin umbral, para ver todo a la vez"],
         correctIndex: 1,
         explanation:
           "Accuracy engaña con prevalencia baja; P/R y la familia PR describen mejor la cola de revisión.",
       },
       {
         question: "Resamplear todo el dataset antes de CV:",
-        options: ["Es best practice", "Elimina necesidad de thr", "Garantiza calibración", "Introduce fuga de datos y métricas infladas"],
+        options: ["Es correcto si se resamplea también el conjunto de test", "Solo afecta al recall, no a la precision", "Es aceptable cuando la clase positiva es muy rara", "Introduce fuga de datos y métricas infladas"],
         correctIndex: 3,
         explanation:
           "El resampling debe vivir dentro del fold de train; hacerlo global contamina la validación.",
@@ -2408,7 +2408,7 @@ if __name__ == "__main__":
       },
       {
         question: "Score en banda low–high del workbench debe:",
-        options: ["Forzar 1", "Forzar 0", "Abstener según política (abstain)", "Borrar el caso"],
+        options: ["Resolverse con el valor más frecuente de la banda", "Enviarse al modelo secundario para desempatar", "Abstener según política (abstain)", "Reetiquetarse con el umbral de la corrida anterior"],
         correctIndex: 2,
         explanation:
           "La abstención es salida de primera clase para zona gris; no fabricar labels 0/1.",
@@ -2429,14 +2429,14 @@ if __name__ == "__main__":
       },
       {
         question: "Con clase positiva rara en cola de revisión, ¿por qué preferir familia PR (precision-recall / AP) sobre ROC-AUC sola?",
-        options: ["Porque ROC puede verse optimista cuando los negativos dominan; PR enfoca la cola positiva", "Porque ROC ignora siempre el thr", "Porque PR no necesita labels", "Porque sklearn prohíbe ROC"],
+        options: ["Porque ROC puede verse optimista cuando los negativos dominan; PR enfoca la cola positiva", "Porque ROC no se puede calcular con clases desbalanceadas", "Porque PR-AUC siempre es mayor que ROC-AUC en estos casos", "Porque ROC exige que las clases estén balanceadas al 50 %"],
         correctIndex: 0,
         explanation:
           "Con prevalencia baja, muchos verdaderos negativos inflan ROC; PR y average precision miran la calidad de la cola positiva que el workbench prioriza.",
       },
       {
         question: "Si precision@k es alta, pero load > capacity del equipo de analistas, el workbench debe:",
-        options: ["Ignorar capacity y maximizar recall", "Autoetiquetar el excedente como fraude", "Tratar overload como breach operativo (reevaluar thr / k) aunque la métrica de top-k luzca bien", "Bajar k a cero y cerrar el tablero"],
+        options: ["Mantener el umbral: la métrica de top-k ya está validada", "Ampliar la cola y priorizar por score dentro del excedente", "Tratar overload como breach operativo (reevaluar thr / k) aunque la métrica de top-k luzca bien", "Repartir el excedente entre analistas de otras colas"],
         correctIndex: 2,
         explanation:
           "Una cola brillante en el papel que satura a los humanos no es operable: capacity y thr versionado van juntos.",

@@ -2532,35 +2532,35 @@ if __name__ == "__main__":
     questions: [
       {
         question: "¿Por qué `field(default_factory=list)` y no `= []`?",
-        options: ["Es más corto", "Obliga a usar Protocol", "Evita el default mutable compartido entre instancias", "Activa el garbage collector"],
+        options: ["Permite que el valor por defecto dependa de otros campos", "Hace que la lista sea inmutable dentro de la instancia", "Evita el default mutable compartido entre instancias", "Evita copiar la lista cada vez que se crea un objeto"],
         correctIndex: 2,
         explanation:
           "Un default `[]` se evalúa una sola vez: todas las instancias comparten la misma lista. `default_factory=list` crea una lista nueva por instancia.",
       },
       {
         question: "RelationshipEvidence.signal_score representa…",
-        options: ["Una señal/dato numérico, no un veredicto de fraude o familia", "Veredicto legal de parentesco", "Password hasheado", "Exit code del CLI"],
+        options: ["Una señal/dato numérico, no un veredicto de fraude o familia", "La probabilidad calibrada de que la relación exista", "Un umbral ya aplicado, por eso viene entre 0 y 1", "El número de evidencias que respaldan la relación"],
         correctIndex: 0,
         explanation:
           "En matching de familiaridad el score es evidencia numérica. El dominio no emite parentesco legal ni fraude; eso queda fuera del núcleo CP-N1-C.",
       },
       {
         question: "Un Protocol EntityStore sirve para…",
-        options: ["Conectarse solo a Postgres", "Definir un puerto get/save implementable por dobles de prueba y adaptadores", "Reemplazar dataclass", "Serializar a PDF"],
+        options: ["Comprobar en ejecución que el adaptador implementa get y save", "Definir un puerto get/save implementable por dobles de prueba y adaptadores", "Heredar una implementación por defecto de get y save", "Obligar a que todos los adaptadores compartan una clase base"],
         correctIndex: 1,
         explanation:
           "Protocol describe un puerto estructural (un punto de extensión del dominio descrito por la forma de sus métodos): FakeStore en tests y adapter SQL en S12 pueden implementar get/save sin heredar de una ABC pesada (una clase base abstracta, más rígida que un Protocol).",
       },
       {
         question: "Objeto inválido: ¿cuándo fallar?",
-        options: ["Al final del mes", "Nunca", "Solo en producción", "En la construcción (__post_init__/validate)"],
+        options: ["Al serializar, que es cuando el objeto sale del sistema", "En la primera lectura del campo, para no pagar el costo si no se usa", "En el borde de la CLI, para poder dar un mensaje amable", "En la construcción (__post_init__/validate)"],
         correctIndex: 3,
         explanation:
           "Fail-closed al construir evita un ClientRecord o Transaction inválido circulando por el set de resolución.",
       },
       {
         question: "Client hereda de PersonInfo…",
-        options: ["Siempre es la mejor opción", "Es obligatoria en Python", "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar", "Impide tests"],
+        options: ["Conviene cuando Client necesita todos los campos de PersonInfo", "Conviene si PersonInfo no va a cambiar de forma nunca más", "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar", "Conviene porque evita repetir los validadores en las dos clases"],
         correctIndex: 2,
         explanation:
           "Sin subtipo real (is-a), la herencia acopla jerarquías. Composición (Client tiene PersonInfo) mantiene el grafo de dominio auditable.",

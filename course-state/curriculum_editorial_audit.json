@@ -1,9 +1,9 @@
 {
   "sections_audited": 52,
-  "p1_total": 11,
+  "p1_total": 7,
   "info_total": 42,
   "by_kind": {
-    "LENGTH_TELL": 11,
+    "LENGTH_TELL": 7,
     "FORWARD_POINTER": 31,
     "GUIDED_HINT_RESTATES": 11
   },
@@ -48,14 +48,6 @@
       "severity": "INFO",
       "detail": "preamble cites S12 (later than S11); pointer only",
       "excerpt": "mentación concreta que habla con la base de datos) llega en S12."
-    },
-    {
-      "section": "testing",
-      "index": 11,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 5/6 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
     },
     {
       "section": "performance",
@@ -234,22 +226,6 @@
       "excerpt": "return 'human_handoff' if captcha else 'continue'"
     },
     {
-      "section": "computer-vision",
-      "index": 23,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 6/9 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
-    },
-    {
-      "section": "rpa-advanced",
-      "index": 24,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 4/5 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
-    },
-    {
       "section": "streamlit-dashboards",
       "index": 25,
       "kind": "GUIDED_HINT_RESTATES",
@@ -384,14 +360,6 @@
       "severity": "INFO",
       "detail": "S33-T4-B-E1 (guided): hint contains a full solution line",
       "excerpt": "n_groups = len(set(entities))"
-    },
-    {
-      "section": "cv-ai-integration",
-      "index": 34,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 5/8 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
     },
     {
       "section": "performance-extreme",
