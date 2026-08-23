@@ -138,6 +138,17 @@ def teaching_text(path: Path) -> str:
     return text[:55000]
 
 
+class ReviewCallFailed(RuntimeError):
+    """The reviewer never answered. NOT the same as finding no defects.
+
+    Ten sections once came back with zero findings and were nearly reported as
+    clean; the cause was an exhausted API balance returning HTTP 402. A failed
+    call silently became an empty finding list, which reads exactly like a
+    passing review. Failures are now raised, recorded per section, and make the
+    whole run not-ok.
+    """
+
+
 def ask(prompt: str, model: str, timeout: int = 900) -> dict | None:
     NEUTRAL_CWD.mkdir(parents=True, exist_ok=True)
     cmd = [
@@ -153,10 +164,14 @@ def ask(prompt: str, model: str, timeout: int = 900) -> dict | None:
     try:
         r = subprocess.run(cmd, cwd=NEUTRAL_CWD, capture_output=True, text=True, timeout=timeout)
     except subprocess.TimeoutExpired:
-        return None
+        raise ReviewCallFailed(f"timed out after {timeout}s")
+    blob = ((r.stdout or "") + (r.stderr or ""))
+    for marker in ("Payment Required", "usage balance exhausted", "Internal error", "rate limit"):
+        if marker.lower() in blob.lower():
+            raise ReviewCallFailed(blob.strip()[:200])
     raw = (r.stdout or "").strip()
     if not raw:
-        return None
+        raise ReviewCallFailed(f"empty stdout (exit {r.returncode}): {(r.stderr or '').strip()[:160]}")
     try:
         return json.loads(raw)
     except json.JSONDecodeError:
@@ -222,7 +237,7 @@ def main() -> int:
     else:
         want = [15, 18, 31]
 
-    rows, all_findings, skipped = [], [], []
+    rows, all_findings, skipped, failed = [], [], [], []
     for idx in want:
         rec = parsed[idx - 1]
         path = ROOT / rec["file"]
@@ -240,7 +255,12 @@ def main() -> int:
             'Devuelve JSON: {"findings":[{"kind":"...","quote":"...","problem":"...","severity":"..."}]}. '
             "Lista vacía si no hay defectos reales."
         )
-        raw = _findings_of(ask(prompt, args.model))
+        try:
+            raw = _findings_of(ask(prompt, args.model))
+        except ReviewCallFailed as exc:
+            failed.append({"index": idx, "file": path.name, "error": str(exc)})
+            print(f"S{idx:02d} {path.name:28s} CALL FAILED: {exc}", flush=True)
+            continue
         checked = verify(raw, text)
         verified = [f for f in checked if f["quote_verified"]]
         rows.append(
@@ -288,7 +308,9 @@ def main() -> int:
         ),
         "sections_reviewed": len(rows),
         "sections_skipped": skipped,
-        "coverage_complete": not skipped,
+        "sections_failed": failed,
+        # Zero findings only means "clean" when every call actually returned.
+        "coverage_complete": not skipped and not failed,
         "total_verified_findings": len(all_findings),
         "sections": rows,
     }
