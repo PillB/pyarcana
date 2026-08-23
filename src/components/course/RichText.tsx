@@ -108,7 +108,7 @@ export function RichText({ content, sectionId }: RichTextProps) {
         return (
           <p
             key={i}
-            className="[&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px] [&_code]:font-mono [&_code]:break-words"
+            className="break-words [&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px] [&_code]:font-mono [&_code]:break-words"
           >
             <InlineAnnotated html={annotate(block.content)} />
           </p>

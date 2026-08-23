@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T03:49:15.345477+00:00",
+  "generated_at": "2026-08-23T05:28:01.330570+00:00",
   "scope": "all active sections",
   "sections_checked": 52,
   "note": "Harness-level validation of the learner firewall across the whole curriculum. This proves the packet withholds answers and future content; it is NOT a learner journey, and does not substitute for independent human review of the teaching itself.",
@@ -12,364 +12,364 @@
       "index": 1,
       "title": "Entorno reproducible y trabajo seguro",
       "prior_sections": 0,
-      "packet_sha": "82b0d4eb347287b7",
+      "packet_sha": "1d6c9a3d073fbf2b",
       "leaks": []
     },
     {
       "index": 2,
       "title": "Valores, tipos, operadores e I/O",
       "prior_sections": 1,
-      "packet_sha": "149dd4ebf3c6250e",
+      "packet_sha": "568a1f8640416a5a",
       "leaks": []
     },
     {
       "index": 3,
       "title": "Decisiones y reglas de validación",
       "prior_sections": 2,
-      "packet_sha": "1d94c806ec8a8183",
+      "packet_sha": "7ed2436237af7e92",
       "leaks": []
     },
     {
       "index": 4,
       "title": "Iteración y resúmenes transaccionales",
       "prior_sections": 3,
-      "packet_sha": "cb1cf7575a911bb9",
+      "packet_sha": "7fe15d528f0a15f1",
       "leaks": []
     },
     {
       "index": 5,
       "title": "Funciones, contratos y descomposición",
       "prior_sections": 4,
-      "packet_sha": "083a1041bc44ce89",
+      "packet_sha": "f5acd2e4c60b923c",
       "leaks": []
     },
     {
       "index": 6,
       "title": "Colecciones y estructuras de datos",
       "prior_sections": 5,
-      "packet_sha": "c1e5a9fdbac25dd3",
+      "packet_sha": "0e7d51de7cd67672",
       "leaks": []
     },
     {
       "index": 7,
       "title": "Texto, Unicode y expresiones regulares",
       "prior_sections": 6,
-      "packet_sha": "0a4a5ee984fb06b3",
+      "packet_sha": "194e5f0079fd066b",
       "leaks": []
     },
     {
       "index": 8,
       "title": "Archivos, CSV, JSON y contratos de ingesta",
       "prior_sections": 7,
-      "packet_sha": "b2d2acc71ec88c05",
+      "packet_sha": "3e8788f47082ebdc",
       "leaks": []
     },
     {
       "index": 9,
       "title": "Excepciones, debugging y logging seguro",
       "prior_sections": 8,
-      "packet_sha": "350fdbd720f4554b",
+      "packet_sha": "78be032e4833dfcb",
       "leaks": []
     },
     {
       "index": 10,
       "title": "Módulos, packaging y CLI profesional",
       "prior_sections": 9,
-      "packet_sha": "7331e102a4983489",
+      "packet_sha": "87709e7f53088aca",
       "leaks": []
     },
     {
       "index": 11,
       "title": "OOP y modelo de dominio",
       "prior_sections": 10,
-      "packet_sha": "b0be5d97adb3a81c",
+      "packet_sha": "5b89d0ea1b3ad7f4",
       "leaks": []
     },
     {
       "index": 12,
       "title": "APIs, SQL y geodatos responsables",
       "prior_sections": 11,
-      "packet_sha": "ff808b31da1336e1",
+      "packet_sha": "37968d71fe3dd946",
       "leaks": []
     },
     {
       "index": 13,
       "title": "Familiarity Evidence Dashboard y cierre de nivel",
       "prior_sections": 12,
-      "packet_sha": "5f039aa7eaa8c32d",
+      "packet_sha": "ee44572271415bf4",
       "leaks": []
     },
     {
       "index": 14,
       "title": "NumPy y cómputo vectorizado",
       "prior_sections": 13,
-      "packet_sha": "c07d8de6de25c477",
+      "packet_sha": "84f679d14e7e5c8d",
       "leaks": []
     },
     {
       "index": 15,
       "title": "Pandas: ingesta, selección y tipos",
       "prior_sections": 14,
-      "packet_sha": "7db9ad382cbd8914",
+      "packet_sha": "b7cfd6ec5ff55dda",
       "leaks": []
     },
     {
       "index": 16,
       "title": "Calidad, limpieza y contratos de datos",
       "prior_sections": 15,
-      "packet_sha": "5d482f3c64b0fc3e",
+      "packet_sha": "41800cab0af091f7",
       "leaks": []
     },
     {
       "index": 17,
       "title": "Joins, reshape, groupby y cierre analítico",
       "prior_sections": 16,
-      "packet_sha": "19bd5ba66998aefa",
+      "packet_sha": "8aaa1b9792d62c4f",
       "leaks": []
     },
     {
       "index": 18,
       "title": "EDA, estadística descriptiva e incertidumbre",
       "prior_sections": 17,
-      "packet_sha": "acac281bad1fc512",
+      "packet_sha": "1bd2ce5712c141ea",
       "leaks": []
     },
     {
       "index": 19,
       "title": "Visualización y comunicación accesible",
       "prior_sections": 18,
-      "packet_sha": "85649592a1eba479",
+      "packet_sha": "3f9e08420dbb3f8a",
       "leaks": []
     },
     {
       "index": 20,
       "title": "Automatización robusta de Excel",
       "prior_sections": 19,
-      "packet_sha": "79ae8aba6b32d8bf",
+      "packet_sha": "f1047534bbb535b2",
       "leaks": []
     },
     {
       "index": 21,
       "title": "Documentos, plantillas y reportes trazables",
       "prior_sections": 20,
-      "packet_sha": "37f36ded41bf3525",
+      "packet_sha": "9bca8ec6611047a3",
       "leaks": []
     },
     {
       "index": 22,
       "title": "Email, identidad y aprobación humana",
       "prior_sections": 21,
-      "packet_sha": "5a0596d781a569a2",
+      "packet_sha": "268f2184f71abf4b",
       "leaks": []
     },
     {
       "index": 23,
       "title": "Browser RPA con Playwright",
       "prior_sections": 22,
-      "packet_sha": "3dcfcacdf3159c3c",
+      "packet_sha": "9a8d8295be5cd094",
       "leaks": []
     },
     {
       "index": 24,
       "title": "OCR y Document AI",
       "prior_sections": 23,
-      "packet_sha": "67db56b8f89e57c4",
+      "packet_sha": "94bcc5cf27f22e87",
       "leaks": []
     },
     {
       "index": 25,
       "title": "Endpoints de IA, Hugging Face y prompting evaluado",
       "prior_sections": 24,
-      "packet_sha": "e398adaaf254bf15",
+      "packet_sha": "8ffb42de46f8141d",
       "leaks": []
     },
     {
       "index": 26,
       "title": "Orquestación y VP RPA + AI Analyst",
       "prior_sections": 25,
-      "packet_sha": "25072f8df628b14c",
+      "packet_sha": "d3fc49339737b543",
       "leaks": []
     },
     {
       "index": 27,
       "title": "Estrategia de pruebas con pytest",
       "prior_sections": 26,
-      "packet_sha": "72d2870c649b168e",
+      "packet_sha": "5b1b588cfc70e361",
       "leaks": []
     },
     {
       "index": 28,
       "title": "Pruebas de datos, propiedades e integración",
       "prior_sections": 27,
-      "packet_sha": "927875d70020a97f",
+      "packet_sha": "963915cb36d57fb1",
       "leaks": []
     },
     {
       "index": 29,
       "title": "SQL avanzado y modelado relacional",
       "prior_sections": 28,
-      "packet_sha": "9ed8c331f59ea2ce",
+      "packet_sha": "c937c92163798077",
       "leaks": []
     },
     {
       "index": 30,
       "title": "Entity resolution probabilístico",
       "prior_sections": 29,
-      "packet_sha": "ca03d9ae77838ed3",
+      "packet_sha": "8310169b064c39a5",
       "leaks": []
     },
     {
       "index": 31,
       "title": "Grafos y evidencia relacional",
       "prior_sections": 30,
-      "packet_sha": "92a37294634f2ec0",
+      "packet_sha": "d2fe8fcc13256b2c",
       "leaks": []
     },
     {
       "index": 32,
       "title": "Feature engineering y pipelines sin leakage",
       "prior_sections": 31,
-      "packet_sha": "f4a5f3f9e536c776",
+      "packet_sha": "0c04bb7d6384c58c",
       "leaks": []
     },
     {
       "index": 33,
       "title": "ML supervisado y baselines responsables",
       "prior_sections": 32,
-      "packet_sha": "d38fa108f80ca830",
+      "packet_sha": "b2d5eceb4668640c",
       "leaks": []
     },
     {
       "index": 34,
       "title": "Métricas, desbalance, calibración y umbrales",
       "prior_sections": 33,
-      "packet_sha": "409218ee63a193d7",
+      "packet_sha": "58522f5ad2af81b6",
       "leaks": []
     },
     {
       "index": 35,
       "title": "Explicabilidad, equidad e incertidumbre",
       "prior_sections": 34,
-      "packet_sha": "39cf0e89ea168249",
+      "packet_sha": "b46da4d437973cae",
       "leaks": []
     },
     {
       "index": 36,
       "title": "Clustering, anomalías y validación temporal",
       "prior_sections": 35,
-      "packet_sha": "f3510a8b37a51338",
+      "packet_sha": "9fafff273d78332e",
       "leaks": []
     },
     {
       "index": 37,
       "title": "Profiling, algoritmos y rendimiento",
       "prior_sections": 36,
-      "packet_sha": "f187b000a659d63a",
+      "packet_sha": "a66df0727afa2ced",
       "leaks": []
     },
     {
       "index": 38,
       "title": "Concurrencia, observabilidad y workflows resilientes",
       "prior_sections": 37,
-      "packet_sha": "334ace0c87d830d3",
+      "packet_sha": "bb8887e6c316bc56",
       "leaks": []
     },
     {
       "index": 39,
       "title": "Responsible ML Case Triage y cierre de nivel",
       "prior_sections": 38,
-      "packet_sha": "a149cc616cc39b9f",
+      "packet_sha": "65980896b6f2df8c",
       "leaks": []
     },
     {
       "index": 40,
       "title": "Arquitectura, DDD y decisiones técnicas",
       "prior_sections": 39,
-      "packet_sha": "b1ef64c8ceee7e93",
+      "packet_sha": "369973c69f14c058",
       "leaks": []
     },
     {
       "index": 41,
       "title": "APIs con FastAPI y contratos HTTP",
       "prior_sections": 40,
-      "packet_sha": "e73c228b7c2977da",
+      "packet_sha": "302e4730d2dd43f0",
       "leaks": []
     },
     {
       "index": 42,
       "title": "Schemas, seguridad y privacidad de servicios",
       "prior_sections": 41,
-      "packet_sha": "1bd58109c6781a2a",
+      "packet_sha": "3e0bbf837c8509d5",
       "leaks": []
     },
     {
       "index": 43,
       "title": "Contenedores y reproducibilidad operativa",
       "prior_sections": 42,
-      "packet_sha": "a281c682c804daa2",
+      "packet_sha": "36851121c78fd95c",
       "leaks": []
     },
     {
       "index": 44,
       "title": "CI/CD y seguridad de la cadena de suministro",
       "prior_sections": 43,
-      "packet_sha": "f3516e787e96368b",
+      "packet_sha": "5f0cbc9c7aadea6f",
       "leaks": []
     },
     {
       "index": 45,
       "title": "Cloud, almacenamiento, colas e infraestructura",
       "prior_sections": 44,
-      "packet_sha": "0a7922f3cf8866db",
+      "packet_sha": "596d8838ebcee5d0",
       "leaks": []
     },
     {
       "index": 46,
       "title": "Ingeniería de datos y orquestación de producción",
       "prior_sections": 45,
-      "packet_sha": "08fb49d545c26392",
+      "packet_sha": "b32fb21227f41839",
       "leaks": []
     },
     {
       "index": 47,
       "title": "MLOps: experimentos, registro y serving",
       "prior_sections": 46,
-      "packet_sha": "e2d089c758a448c6",
+      "packet_sha": "53f54ac97e67b341",
       "leaks": []
     },
     {
       "index": 48,
       "title": "LLM applications y RAG con evidencia",
       "prior_sections": 47,
-      "packet_sha": "90d74f3bfc0bfd93",
+      "packet_sha": "33de145900c2f7fa",
       "leaks": []
     },
     {
       "index": 49,
       "title": "Agentes, herramientas y context engineering",
       "prior_sections": 48,
-      "packet_sha": "7b6407fe4b95a12b",
+      "packet_sha": "789588852924b4a0",
       "leaks": []
     },
     {
       "index": 50,
       "title": "Evals, red teaming y fiabilidad de IA",
       "prior_sections": 49,
-      "packet_sha": "5519f99df48bb091",
+      "packet_sha": "0a58c7096f5b61e6",
       "leaks": []
     },
     {
       "index": 51,
       "title": "Observabilidad, gobernanza y UX del copiloto",
       "prior_sections": 50,
-      "packet_sha": "4f85bd3cc8599600",
+      "packet_sha": "b61e4f8704e7838c",
       "leaks": []
     },
     {
       "index": 52,
       "title": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
       "prior_sections": 51,
-      "packet_sha": "5918c4f8f689ea6f",
+      "packet_sha": "6ba0a812f723796f",
       "leaks": []
     }
   ]

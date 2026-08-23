@@ -352,3 +352,67 @@ Three of my own wait loops in this session were broken: `pgrep -f "code_renderin
 matches the shell command *containing* that pattern, so the loop waited on
 itself forever. Wait on a PID, not on a pattern that includes your own command
 line.
+
+
+---
+
+# Closing the mobile items (2026-08-23)
+
+## Type floor: 10.7px -> 11.5px, measured both times
+
+The earlier review recorded a 10.7px smallest label as a known cost. It is now
+fixed rather than accepted: `FIG.microSize` 13 -> 14 and `labelSize` 14 -> 15,
+which at the 460/560 canvas scale puts the smallest rendered label at exactly
+**11.5px** on a 390px viewport — confirmed by the render probe on every figure,
+not inferred from the arithmetic.
+
+Raising it broke one figure, which is why the probe exists: S06's closing
+caption sat at y=234 on a 240-high canvas, and 14px descenders pushed it past
+the edge in both themes. Canvas is now 252.
+
+The gate also flagged S31, and half of that complaint was wrong. It was reading
+the explanation panel *below* the graph — ordinary page copy at the site's own
+13px scale, the same size every figcaption uses. Holding that to the diagram
+floor would create a two-tier rule for identical text, so the DOM check is now
+scoped to what is drawn inside the diagram: nodes and edge labels.
+
+## In-frame scrolling: accepted, with the reasoning recorded
+
+At a 390px viewport the prose column measures 262px against a 390px viewport —
+128px goes to page padding — so a 460px figure scrolls ~224px inside its frame.
+
+A breakout would recover most of that, and it was rejected: it risks
+reintroducing the page-level overflow fixed in the same pass, which is a strictly
+worse defect than scrolling. A diagram is one of the few things that
+legitimately wants more width than a phone has, the scroll is bounded inside the
+figure, and the page never moves. Authoring mobile-specific viewBoxes remains
+the real fix if this is ever revisited.
+
+## 320px overflow: four defects, not three
+
+The first pass found three and measured 0px on the five sections it checked.
+The render probe then reported a 4px residual on the pandas section, which the
+earlier sweep had not covered. The cause was not code:
+
+    pathlib/csv/json/hashlib/shutil/Decimal
+
+A slash-joined run is one word to the browser, sitting in a paragraph 192px
+wide inside a callout. The earlier fix had added `break-words` to inline `<code>`
+only, so prose was still unbreakable. Prose now wraps too.
+
+**0px overflow** now measured across pandas, basics, testing, numpy, setup and
+data-engineering, and the probe reports `page_overflow_note: none` across all
+eleven figures in both themes at all three viewports.
+
+## The 42 INFO editorial findings: reviewed, no action
+
+- **11 GUIDED_HINT_RESTATES** are all in E1, the *guided* tier. Showing more is
+  what guided means under Gradual Release, and the audit already separates
+  guided from independent — an earlier fix in this campaign.
+- **31 FORWARD_POINTER** are pointers and motivation, not dependencies:
+  *"ese join es lo que el dashboard de S13 consumirá"* tells a learner why
+  today's constraint matters. A first pass with a crude regex mislabelled 29 of
+  these as suspicious; reading them showed the opposite.
+
+Decisive check: the audit reports **zero FORWARD_DEPENDENCY**, which is the P1
+kind that appears inside a task. No mislabelled P1s. No action needed.

@@ -1,6 +1,9 @@
 /**
  * Review pass 1 — static checks on every teaching figure.
  *
+ * The floor moved 13 -> 14 after measuring the rendered page: at the canvas
+ * scale a 13px label lands at 10.7px on a phone, which is not a readable size.
+ *
  * These are the properties that can be decided from source alone, so they are
  * decided here instead of by looking at screenshots: theme tokens rather than
  * literal colours (or the figure breaks in one theme), a viewBox (or it cannot
@@ -26,7 +29,7 @@ const SHELL = readFileSync(
 
 // The canvas contract the shell declares; the probes below depend on it.
 const CANVAS_WIDTH = 560
-const MICRO_SIZE = 13
+const MICRO_SIZE = 14
 
 test('every figure file is registered', () => {
   const index = readFileSync(`${DIR}index.tsx`, 'utf8')
@@ -111,12 +114,29 @@ for (const file of FIGURE_FILES) {
       }
     })
   } else {
-    test(`${file}: no Tailwind type below the micro size`, () => {
+    test(`${file}: no Tailwind type below the micro size inside the diagram`, () => {
       // Same floor, different mechanism: a div tree sizes text in CSS, not in
       // viewBox units, so the arbitrary-value classes are what to check.
-      const sizes = [...src.matchAll(/text-\[(\d+)px\]/g)].map((m) => Number(m[1]))
+      //
+      // Scope matters. The floor exists because figure labels are small and
+      // dense; it applies to what is drawn *inside* the diagram — the nodes and
+      // edge labels. Prose rendered beside the figure (its explanation panel,
+      // its instruction line) is ordinary page copy and follows the site scale,
+      // the same 13px the shell uses for every figcaption. Holding that to the
+      // diagram floor would create a two-tier rule for identical text.
+      const nodeStart = src.indexOf('function EntityNode')
+      const nodeEnd = src.indexOf('const NODE_TYPES')
+      assert.ok(nodeStart > -1 && nodeEnd > nodeStart, 'expected a node component to scope to')
+      const inDiagram =
+        src.slice(nodeStart, nodeEnd) +
+        (src.match(/labelStyle:\s*\{[^}]*\}/g) ?? []).join(' ')
+      const sizes = [
+        ...[...inDiagram.matchAll(/text-\[(\d+)px\]/g)].map((m) => Number(m[1])),
+        ...[...inDiagram.matchAll(/fontSize:\s*(\d+)/g)].map((m) => Number(m[1])),
+      ]
       const tooSmall = sizes.filter((s) => s < MICRO_SIZE)
-      assert.deepEqual(tooSmall, [], `${file} has type below ${MICRO_SIZE}px: ${tooSmall.join(', ')}`)
+      assert.deepEqual(tooSmall, [], `${file} draws type below ${MICRO_SIZE}px: ${tooSmall.join(', ')}`)
+      assert.ok(sizes.length > 0, 'expected to find sized text inside the diagram')
     })
 
     test(`${file}: declares a height and an accessible name`, () => {

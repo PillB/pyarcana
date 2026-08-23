@@ -45,10 +45,10 @@ function EntityNode({ data, selected }: NodeProps) {
       }}
     >
       <Handle type="target" position={Position.Left} style={{ opacity: 0 }} />
-      <div className="text-[13px] font-semibold" style={{ color: tint }}>
+      <div className="text-[14px] font-semibold" style={{ color: tint }}>
         {d.label}
       </div>
-      <div className="text-[13px] text-muted-foreground">{d.sub}</div>
+      <div className="text-[14px] text-muted-foreground">{d.sub}</div>
       <Handle type="source" position={Position.Right} style={{ opacity: 0 }} />
     </div>
   )
@@ -103,7 +103,7 @@ export function S31EvidenceGraph({ title }: { title: string }) {
           stroke: active.includes(id) ? 'var(--chart-2)' : 'var(--border)',
           strokeWidth: active.includes(id) ? 2 : 1.5,
         },
-        labelStyle: { fill: 'var(--muted-foreground)', fontSize: 13 },
+        labelStyle: { fill: 'var(--muted-foreground)', fontSize: 14 },
         labelBgStyle: { fill: 'var(--card)' },
       })),
     [active],
