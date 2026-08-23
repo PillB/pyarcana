@@ -153,3 +153,34 @@ export function explain(token: string, region: RegionCode): string | null {
   const local = t.equivalentIn[region]
   return local ? `${t.gloss} — ${local}` : t.gloss
 }
+
+/**
+ * The region as a snapshot React can read directly, with no effect.
+ *
+ * `detectRegion()` reads browser APIs, so it cannot run during static export.
+ * The obvious shape -- useState('REST') plus useEffect(setRegion) -- is exactly
+ * the cascading-render pattern react-hooks/set-state-in-effect rejects, and CI
+ * catches it. useSyncExternalStore is built for this: React supports the server
+ * and client snapshots differing, so there is no setState and no hydration
+ * mismatch. SteppedCode.tsx already reads its reveal preference this way.
+ *
+ * The snapshot must be referentially stable or React re-renders forever, hence
+ * the module-level cache. A reader's time zone does not change mid-session, so
+ * nothing ever needs to invalidate it.
+ */
+let cachedRegion: RegionCode | null = null
+
+export function subscribeRegion(): () => void {
+  // Nothing to subscribe to: the value is fixed for the life of the document.
+  return () => {}
+}
+
+export function getRegionSnapshot(): RegionCode {
+  if (cachedRegion === null) cachedRegion = detectRegion()
+  return cachedRegion
+}
+
+/** Static export has no reader yet; 'REST' renders the country-independent gloss. */
+export function getRegionServerSnapshot(): RegionCode {
+  return 'REST'
+}

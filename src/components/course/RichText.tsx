@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useSyncExternalStore } from 'react'
 import { CodeBlock } from './CodeBlock'
 import { Callout } from './Callout'
 import { CodePlayground } from './CodePlayground'
@@ -8,7 +8,14 @@ import { InlineAnnotated } from './InlineAnnotated'
 import type { TheoryBlock as TheoryBlockType, Callout as CalloutType, CodeExample } from '@/lib/types'
 import { GLOSSARY_TERMS, termsAvailableAt, type GlossaryTerm } from '@/lib/glossary'
 import { SITE_BASE_PATH } from '@/lib/runtime-mode'
-import { REGIONAL_TERMS, explain, detectRegion, type RegionCode } from '@/lib/locale/regional-reference'
+import {
+  REGIONAL_TERMS,
+  explain,
+  subscribeRegion,
+  getRegionSnapshot,
+  getRegionServerSnapshot,
+  type RegionCode,
+} from '@/lib/locale/regional-reference'
 
 interface RichTextProps {
   content: string
@@ -33,13 +40,14 @@ export function RichText({ content, sectionId }: RichTextProps) {
   }, [sectionId])
   // New Set every render so React Strict Mode double-mount cannot reuse a filled seen set
   const seen = new Set<string>()
-  // Resolved after mount, so the server output and the first client paint agree
-  // and hydration does not mismatch. Before that everyone is 'REST', which
-  // renders the country-independent gloss rather than nothing.
-  const [region, setRegion] = useState<RegionCode>('REST')
-  useEffect(() => {
-    setRegion(detectRegion())
-  }, [])
+  // Read as an external snapshot, not through an effect: the server renders
+  // 'REST' and the client its own region, which React supports without a
+  // hydration mismatch and without the cascading render an effect would cause.
+  const region = useSyncExternalStore(
+    subscribeRegion,
+    getRegionSnapshot,
+    getRegionServerSnapshot,
+  )
   // Annotate plain markdown first (so **bold** does not hide terms), then render HTML
   const annotate = (text: string) =>
     annotateRegional(renderInline(annotateGlossaryTermsPlain(text, available, seen)), region)
