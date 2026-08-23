@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-23T15:08:32.474271+00:00",
-  "reviewer": "xAI Grok via local grok CLI",
+  "generated_at": "2026-08-23T15:40:40.122209+00:00",
+  "reviewer": "OpenAI Codex via local codex CLI",
   "model": "cli default",
   "method": "independent expert review of learner-visible theory prose",
   "superseded": "An earlier design had this model sit the self-checks with a blind control. It scored 100% in both arms — a ceiling effect, since the model already knows the subject. Those numbers were discarded as uninformative rather than reported as validation.",
@@ -11,16 +11,552 @@
     "only the section prose is supplied, in the prompt"
   ],
   "verification": "Every finding must quote the source verbatim; quotes are checked back against the file. Unverifiable quotes are recorded but not counted as defects.",
-  "sections_reviewed": 0,
+  "sections_reviewed": 10,
   "sections_skipped": [],
-  "sections_failed": [
+  "sections_failed": [],
+  "coverage_complete": true,
+  "total_verified_findings": 53,
+  "sections": [
     {
-      "index": 4,
-      "file": "s04-functions-modules.ts",
-      "error": "{\"type\":\"error\",\"message\":\"Internal error: {\\n  \\\"message\\\": \\\"API error (status 402 Payment Required): Grok Build usage balance exhausted\\\",\\n  \\\"http_status\\\": 402\\n}\"}\nError: Internal error: {\n  \"m"
+      "index": 14,
+      "file": "s14-security.ts",
+      "title": "NumPy y cómputo vectorizado",
+      "chars_reviewed": 10921,
+      "findings_returned": 4,
+      "findings_verified": 4,
+      "findings_unverified": 0,
+      "by_kind": {
+        "UNCLEAR": 1,
+        "FACTUAL": 3
+      },
+      "findings": [
+        {
+          "kind": "FACTUAL",
+          "quote": "La máscara debe alinear el eje indexado — si no, `ValueError` (falla de forma segura).",
+          "problem": "Cuando una máscara booleana no coincide con la dimensión indexada, NumPy normalmente lanza `IndexError`, no `ValueError`. El tipo de excepción forma parte del comportamiento que el alumnado podría comprobar o capturar.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "`np.finfo(float).eps` acota el ruido de redondeo cuando comparas con tolerancia (`allclose`).",
+          "problem": "`eps` expresa la separación relativa entre 1 y el siguiente número representable, pero no acota en general el error acumulado de una operación. La tolerancia de `allclose` debe elegirse según la escala, las operaciones realizadas y el error esperado; usar `eps` como cota general es incorrecto.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Un **ndarray** de NumPy es un bloque de memoria donde todos los elementos tienen el mismo tipo y el mismo tamaño, y eso permite que la operación se aplique al bloque entero de una vez. Por eso importa el **dtype**, el tipo de cada elemento: es lo que hace posible ese tratamiento uniforme. Si mezclas textos y números, se pierde la ventaja y vuelves a contar monedas.",
+          "problem": "Mezclar textos y números al crear un array no implica necesariamente procesamiento elemento a elemento: NumPy puede convertirlos a un dtype homogéneo de texto. En otros casos puede producir `object`, que sí pierde muchas ventajas de la vectorización. El texto confunde ambos resultados y presenta como universal una consecuencia que depende del dtype inferido.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "De ahí sale la herramienta que reemplaza al `if` dentro del bucle. En vez de preguntar caso por caso, construyes una **máscara**: un array de verdaderos y falsos del mismo tamaño que los datos, que dice qué posiciones cumplen la condición.",
+          "problem": "Una máscara no siempre debe tener el mismo tamaño total que los datos. En un array multidimensional puede corresponder solo al eje o a las dimensiones iniciales que se indexan; por ejemplo, una máscara de shape `(n,)` puede seleccionar filas de datos con shape `(n, m)`. La formulación induce una regla de shapes demasiado restrictiva.",
+          "severity": "baja",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "file": "s16-wxpython-gui.ts",
+      "title": "Calidad, limpieza y contratos de datos",
+      "chars_reviewed": 9261,
+      "findings_returned": 5,
+      "findings_verified": 5,
+      "findings_unverified": 0,
+      "by_kind": {
+        "UNCLEAR": 1,
+        "CONTRADICTS": 2,
+        "FACTUAL": 1,
+        "UNSUPPORTED": 1
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Caso sintético Perú: `cliente_id` y `monto` son required; `email` es optional.",
+          "problem": "Más adelante se permite imputar `monto`, aunque el propio material establece que los campos required no deben imputarse para superar el proceso. No se indica que el segundo caso use un contrato diferente donde `monto` sea optional.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Caso: monto con 2/5 null y cap=0.4 → se permite `fillna(mediana)` + columna `was_null`.",
+          "problem": "Contradice la política anterior «No imputes un required» después de haber declarado `monto` como required. El ejemplo puede inducir a imputar precisamente un campo que debería ir a cuarentena o hacer fallar el gate.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Contrato: usa `duplicated(keep=False)` para exactos y `groupby(clave)[attr].transform('nunique')>1` para conflictos.",
+          "problem": "La detección propuesta para conflictos solo examina un atributo (`attr`), pero la definición habla de atributos distintos en general. Puede omitir conflictos presentes en cualquier otra columna relevante. Además, `nunique` excluye nulos por defecto, por lo que un grupo con un valor y un nulo tampoco se marcaría como conflicto.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": ")>1` para conflictos. Solo después eliges política `keep=",
+          "problem": "Es un fragmento truncado y duplicado que interrumpe el material y deja una instrucción sintácticamente incompleta.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Caso: serie con 5000 (cola plausible) y -1 (error). `stat` marca ambos; `domain` solo -1; `plausible_extreme` = 5000.",
+          "problem": "No se muestran los demás valores de la serie ni se define el método o umbral estadístico. Sin esa información no puede afirmarse que IQR, z-score u otra máscara estadística marque tanto 5000 como -1.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 17,
+      "file": "s17-packaging.ts",
+      "title": "Joins, reshape, groupby y cierre analítico",
+      "chars_reviewed": 11602,
+      "findings_returned": 5,
+      "findings_verified": 5,
+      "findings_unverified": 0,
+      "by_kind": {
+        "UNCLEAR": 2,
+        "CONTRADICTS": 1,
+        "FACTUAL": 2
+      },
+      "findings": [
+        {
+          "kind": "FACTUAL",
+          "quote": "Si cada cliente tiene muchas transacciones, la relación es de uno a muchos y el resultado debe tener tantas filas como transacciones.",
+          "problem": "No necesariamente. En un left join desde clientes, los clientes sin transacciones también generan una fila y las transacciones huérfanas no aparecen; por tanto, el resultado puede tener un número de filas distinto del total de transacciones.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "|...` hace que pandas **falle temprano** con `MergeError` si la cardinalidad real no coincide con el contrato. Es un quality gate de join, no un lujo opcional: un m:m accidental multiplica filas y sesga sumas de montos.\",\n \"`indicator=True` agrega la columna `_merge` con valores `left_only` / `right_only` / `both`. El **anti-join** clásico filtra `left_only` (clientes sin transacciones) o, al revés, `right_only` (tx huérfanas sin maestro). Cuenta huérfanos y expórtalos a una tabla de evidencia.\",\n \"Caso sintético: cli={C001,C002}, tx={C001,C003}. Left anti-join → C002; right-only → C003. Si intentas `validate=",
+          "problem": "El material contiene un fragmento truncado y restos de una representación de lista o JSON. La explicación queda interrumpida en medio de `validate=` y no constituye contenido didáctico legible ni código ejecutable.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "`resample` requiere DatetimeIndex.",
+          "problem": "La afirmación es demasiado absoluta: `resample` también puede operar usando una columna temporal mediante el parámetro `on`, sin que el DataFrame tenga un DatetimeIndex.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": ")`) documenta el contrato de columnas de salida.\",\n \"Contrato: `as_index=False` facilita merges posteriores; no mezcles sin documentar si el index del groupby es la clave. Evita aplicar `mean` cuando la pregunta de negocio pide **suma de PEN** o conteos de clientes — el error más común en tableros es “promedio” cuando el stakeholder pidió “total”.\",\n \"Caso sintético: regiones Lima (dos filas), Madrid y Cusco con montos → `agg` produce total y n; `transform(",
+          "problem": "Es otro fragmento corrupto: empieza y termina a mitad de expresiones y contiene comillas y separadores propios de una serialización. Interrumpe la explicación y no puede interpretarse como prosa o código completo.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Caso sintético: total nacional 100 PEN; partes Lima/Madrid/Cusco (60/30/10);",
+          "problem": "El ejemplo presenta un total nacional en PEN pero incluye Madrid como una de sus partes junto con ciudades peruanas. Salvo que se declare que son etiquetas ficticias sin significado geográfico, esas partes no pueden reconciliar coherentemente un total nacional peruano.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 19,
+      "file": "s19-databases-orm.ts",
+      "title": "Visualización y comunicación accesible",
+      "chars_reviewed": 16635,
+      "findings_returned": 10,
+      "findings_verified": 10,
+      "findings_unverified": 0,
+      "by_kind": {
+        "UNCLEAR": 6,
+        "UNSUPPORTED": 3,
+        "FACTUAL": 1
+      },
+      "findings": [
+        {
+          "kind": "UNCLEAR",
+          "quote": "`, dpi documentado (p. ej. 120), nombre versionado. En local guardas PNG/SVG según audiencia (diapositivas vs. impresión); en demos del curso a menudo validamos metadata y, cuando corresponde, un `savefig` real a buffer. Tests no miran “se ve bien en mi monitor”: miran `get_ylim()[0]==0`, `get_ylabel()` y conteo de barras — un contrato reproducible en CI con backend `Agg` (este backend, que es el modo sin ventana de Matplotlib, ideal para servidores y pipelines).\",\n \"Caso: bar de regiones con `ylabel=",
+          "problem": "Es un fragmento duplicado y truncado con comillas y sintaxis residual; no forma una explicación ni código válido.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": ")` (archivo o buffer); el dict de export (`fmt`, `dpi`, `panels`, `name`) versiona el binario hacia S20/S21 — no sustituye el PNG.\",\n \"Caso sintético: 1×2 subplots con títulos “Vol” y “Med”; `savefig` a PNG 120 dpi y meta `{fmt:",
+          "problem": "El material contiene otro fragmento duplicado y cortado a mitad de una estructura, aparentemente residuo de serialización o edición.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Ese lenguaje nació como SEQUEL y hoy se llama SQL",
+          "problem": "La redacción atribuye implícitamente a la propuesta de Codd el nacimiento de SEQUEL. Codd propuso el modelo relacional; SEQUEL fue desarrollado posteriormente por Donald Chamberlin y Raymond Boyce a partir de ese modelo.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Las cuatro operaciones fundamentales de SQL son `SELECT` (seleccionar columnas), `WHERE` (filtrar filas), `GROUP BY` (agrupar por categoría) y `JOIN` (combinar tablas).",
+          "problem": "Presenta una selección didáctica como clasificación canónica. WHERE y GROUP BY son cláusulas de SELECT, JOIN es una operación de combinación, y se omiten operaciones fundamentales como inserción, actualización y eliminación.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Calcula el factor de inflación visual `(altura_truco / altura_honesta)` antes de exportar al dashboard de CP-N2-B",
+          "problem": "No define qué altura debe medirse ni para qué barra. En el ejemplo 50 frente a 45 con origen 40, las alturas recortadas son menores que las honestas, por lo que esa razón no cuantifica directamente la exageración de la diferencia percibida.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "En visualización, significa no usar métricas calculadas sobre el dataset completo para elegir qué graficar — solo usa lo que verías en producción.",
+          "problem": "Equipara de forma demasiado general la fuga de datos de ML con seleccionar visualizaciones. En EDA descriptivo puede ser legítimo calcular métricas sobre todo el conjunto disponible; la restricción solo corresponde a contextos predictivos o evaluativos con separación temporal o de entrenamiento/prueba.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "La fuga de datos es el enemigo común de ambas: si tus números están contaminados, tu gráfico es hermoso pero falso, y tu consulta SQL es rápida pero engañosa.",
+          "problem": "Una consulta SQL o una visualización descriptiva no padecen necesariamente fuga de datos; esta conclusión mezcla extracción y comunicación con un problema específico de diseño y evaluación predictiva.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "`), etiqueta de valor o posición. Paletas amigables con daltonismo (p. ej. evitar rojo/verde exclusivos; preferir azul/naranja o viridis) reducen riesgo; el canal de posición sigue siendo el más robusto. **Alt text** describe el hallazgo principal y n, no “imagen de barras”.\",\n \"Contrato de claims:",
+          "problem": "Es contenido repetido que comienza a mitad de una expresión y conserva comillas y separadores propios de datos serializados, no de material didáctico.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Por ejemplo, `SELECT region, AVG(ticket) FROM ventas WHERE fecha >= \n\n GROUP BY region` devuelve el ticket promedio por región desde enero.",
+          "problem": "La consulta final está truncada: falta el literal de fecha y el cierre de la condición, por lo que el SQL mostrado no es ejecutable.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "`import sqlite3; conn = sqlite3.connect(\n\nSELECT region, AVG(ticket) FROM ventas GROUP BY region",
+          "problem": "El ejemplo de Python está truncado y mezcla sin delimitación la llamada a `sqlite3.connect` con una consulta SQL; faltan la ruta, comillas, paréntesis y la llamada a `pd.read_sql`.",
+          "severity": "alta",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 20,
+      "file": "s20-rag.ts",
+      "title": "Automatización robusta de Excel",
+      "chars_reviewed": 11324,
+      "findings_returned": 5,
+      "findings_verified": 5,
+      "findings_unverified": 0,
+      "by_kind": {
+        "UNCLEAR": 1,
+        "FACTUAL": 1,
+        "JARGON": 1,
+        "CONTRADICTS": 1,
+        "UNSUPPORTED": 1
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Nunca escribas sobre el master sin backup.",
+          "problem": "La formulación permite sobrescribir la plantilla maestra si existe un backup, pero el material había establecido que la plantilla es «sagrada» y que nunca debe abrirse y guardarse encima. Para un principiante, las dos reglas operativas son incompatibles.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Un libro de Excel es un grafo de **hojas + celdas + encabezados**.",
+          "problem": "Un libro de Excel no es, en general, un grafo compuesto por esos tres elementos. Su estructura básica es jerárquica (libro, hojas, filas/celdas); solo ciertas relaciones, como referencias entre fórmulas, pueden modelarse como un grafo. La definición resulta técnicamente engañosa.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "el archivo “abierto por el contador” (lock) no debe tumbar el lote de la noche: se marca `locked`",
+          "problem": "Que un archivo esté abierto en Excel no implica de forma portable que el proceso pueda detectar un estado `locked`: depende del sistema operativo, del modo de apertura, de permisos y de si se lee o se intenta sobrescribir. El texto no explica el mecanismo ni cómo distinguir un bloqueo de otros errores de acceso.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "El factory de CP-N2-B prefiere materializar métricas ya validadas en pandas y copiar el número a la hoja `Salida` — así S21 recibe un artefacto que no necesita reabrirse en Excel para auditar.",
+          "problem": "`factory`, `CP-N2-B` y `S21` no se definen en el material mostrado. Para una audiencia principiante, la oración depende de referencias internas y jerga que impiden entender quién realiza la operación y qué representa el destino.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Timeout y tamaño máximo por archivo evitan un DoS accidental (denegación de servicio por carpeta enorme o archivo de 2 GB).",
+          "problem": "No se explica cómo imponer un timeout por archivo; openpyxl no ofrece por sí solo un límite de tiempo de apertura. Además, un límite por archivo no resuelve una «carpeta enorme», que requiere también límites de cantidad o tiempo total del lote.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 21,
+      "file": "s21-fastapi.ts",
+      "title": "Documentos, plantillas y reportes trazables",
+      "chars_reviewed": 11180,
+      "findings_returned": 6,
+      "findings_verified": 6,
+      "findings_unverified": 0,
+      "by_kind": {
+        "UNCLEAR": 1,
+        "FACTUAL": 1,
+        "JARGON": 1,
+        "CONTRADICTS": 2,
+        "UNSUPPORTED": 1
+      },
+      "findings": [
+        {
+          "kind": "FACTUAL",
+          "quote": "Contrato operativo: `Template(...).render(**ctx)`. En HTML confía en autoescape;",
+          "problem": "`jinja2.Template(...)` no activa el autoescape de HTML de forma predeterminada. Para confiar en él hay que configurar un `Environment` con `autoescape`, por ejemplo mediante `select_autoescape`. El contrato mostrado puede producir HTML sin escapar.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "La plantilla no calcula, no redondea y no decide: si empieza a hacerlo, vuelves a tener dos fuentes de verdad con distinta aritmética.",
+          "problem": "Más adelante se permite formatear —y por tanto redondear— dentro de Jinja con `'%.2f'|format(...)`. Esto contradice la regla absoluta de que la plantilla no redondea y deja ambiguo dónde debe fijarse la precisión.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "El mismo glifo sirve como marca de redacción cuando un dato existe pero no debe mostrarse.",
+          "problem": "Usar «—» tanto para un dato ausente como para uno existente pero ocultado vuelve indistinguibles dos estados semánticamente distintos. Sin una marca o nota obligatoria que los diferencie, el lector no puede saber si falta el dato o fue censurado.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Caso CASO-LIM-021: `median is None` → `—`; `28.456` → `28.46` a 2 decimales en tablas de detalle; en resúmenes ejecutivos a menudo 1 decimal PEN (coherente con T4).",
+          "problem": "Después se exige «misma precisión decimal (p. ej. 1 decimal PEN) en dashboard, Excel e informe» y «unidades PEN a 1 decimal en todo el paquete». No se aclara si las tablas de detalle quedan exceptuadas, por lo que los contratos de precisión son incompatibles tal como están escritos.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "firmar PDF (`%PDF`)",
+          "problem": "«Firmar» suele significar aplicar una firma digital o criptográfica. Comprobar que el archivo comienza con `%PDF` solo valida una cabecera o número mágico; la expresión puede hacer creer a una persona principiante que el PDF quedó firmado.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Checklist mínima (`has_h1` + al menos un alt con longitud útil > 10; lista vacía no pasa) evita publicar un paquete ilegible para lectores con tecnología asistiva",
+          "problem": "Comprobar un encabezado y la longitud de un único texto alternativo no garantiza que el paquete sea legible con tecnología asistiva. No valida, entre otras cosas, la pertinencia del texto alternativo, el orden de lectura, todos los elementos visuales ni la estructura accesible de las tablas.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 22,
+      "file": "s22-rapidfuzz-entity.ts",
+      "title": "Email, identidad y aprobación humana",
+      "chars_reviewed": 13409,
+      "findings_returned": 6,
+      "findings_verified": 6,
+      "findings_unverified": 0,
+      "by_kind": {
+        "UNCLEAR": 3,
+        "FACTUAL": 2,
+        "UNSUPPORTED": 1
+      },
+      "findings": [
+        {
+          "kind": "UNCLEAR",
+          "quote": ")` ofrece ambas representaciones del cuerpo; el cliente de correo elige cuál mostrar.\",\n        \"Contrato operativo: `MIMEText(..., \n\n)` para el cuerpo; adjuntos con `MIMEApplication` + header `Content-Disposition` y `filename` legible.",
+          "problem": "El material contiene texto truncado y restos aparentes de una estructura serializada. La llamada a `MIMEText` queda incompleta y el fragmento no constituye contenido didáctico legible ni código válido.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "\"Caso sintético Caso 22: `MIMEText(",
+          "problem": "La oración y la expresión de código están truncadas, por lo que el caso sintético queda incompleto.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": " in url`). Un host como `example.pe.evil.test` lo burlaría, y el curso no enseña ese bypass como solución.\",\n        \"Contrato: el template `Hola {name}` con `name = ",
+          "problem": "Es otro fragmento corrupto: comienza a mitad de una expresión, contiene restos de serialización y termina con una asignación incompleta.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Contar esos headers en los ejercicios guiados valida que el árbol multiparte quedó bien anidado",
+          "problem": "Contar encabezados `Content-Type` no valida el anidamiento del árbol MIME. Un mensaje mal estructurado puede tener el número esperado de encabezados; habría que analizar la estructura y comprobar los tipos y relaciones entre sus partes.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Los ids secuenciales evitan colisiones en el laboratorio",
+          "problem": "Que los identificadores sean secuenciales no evita por sí solo las colisiones. Hace falta una fuente de secuencia única y persistente o una coordinación equivalente; reinicios, varios procesos o varios stores pueden producir el mismo id.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Un correo es distinto: llega sin que nadie lo pida, a una dirección concreta, y no se puede deshacer.",
+          "problem": "La afirmación absoluta de que un correo «no se puede deshacer» es inexacta: algunos proveedores ofrecen cancelación durante una demora previa al envío y ciertos sistemas permiten intentos limitados de recuperación. Lo correcto sería indicar que, una vez entregado, no se puede retirar de forma fiable.",
+          "severity": "baja",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 23,
+      "file": "s23-computer-vision.ts",
+      "title": "Browser RPA con Playwright",
+      "chars_reviewed": 11190,
+      "findings_returned": 4,
+      "findings_verified": 3,
+      "findings_unverified": 1,
+      "by_kind": {
+        "CONTRADICTS": 1,
+        "FACTUAL": 2
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles.",
+          "problem": "Más adelante se fija el orden «role → testid → texto → CSS», que omite `get_by_label` y antepone `testid` al texto. Las dos recomendaciones no definen una jerarquía coherente para el alumnado.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "cuando el rol se mantiene, el robot sigue estable: **accesibilidad = estabilidad**.",
+          "problem": "La accesibilidad suele producir localizadores más resistentes, pero no equivale a estabilidad: los roles o nombres accesibles también pueden cambiar, repetirse o depender del estado y la localización. La igualdad presentada es una generalización excesiva.",
+          "severity": "baja",
+          "quote_verified": false
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Caso PE sintético (Lima, America/Lima): form con periodo `2026-01`, upload de `plantilla.xlsx` sintética y download con `sha256` hex corto.",
+          "problem": "Un digest SHA-256 hexadecimal completo tiene 64 caracteres. Si se usa solo un prefijo, debe llamarse checksum truncado o prefijo del SHA-256; describirlo como «sha256 hex corto» induce a confundirlo con el digest completo y reduce la resistencia a colisiones.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Reanudación con checkpoint: el robot guarda `last_ok_step` (p. ej. `login`, `form`) y, al reintentar la corrida, salta al **siguiente** paso en vez de rehacer todo el flujo. Eso evita el doble envío del login/form y hace la corrida **idempotente a nivel de paso** cuando el backend del portal demo lo permite (mismo periodo, mismo export).",
+          "problem": "Guardar el último paso confirmado no garantiza idempotencia. Si el efecto remoto ocurre y el proceso falla antes de persistir el checkpoint, el paso se repetirá; además, omitir pasos previos solo funciona si su estado remoto y de sesión sigue vigente. Se requieren operaciones idempotentes o claves de idempotencia, checkpoints atómicos respecto del efecto, o reconciliación antes de reanudar.",
+          "severity": "alta",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 24,
+      "file": "s24-rpa-advanced.ts",
+      "title": "OCR y Document AI",
+      "chars_reviewed": 13272,
+      "findings_returned": 4,
+      "findings_verified": 4,
+      "findings_unverified": 0,
+      "by_kind": {
+        "UNSUPPORTED": 1,
+        "FACTUAL": 3
+      },
+      "findings": [
+        {
+          "kind": "FACTUAL",
+          "quote": "**DPI** es densidad de puntos por pulgada: el lab eleva a **≥200** (ideal **300** efectivos) *antes* del motor.",
+          "problem": "En una imagen rasterizada corresponde hablar de píxeles por pulgada (PPI), y elevar el valor DPI o remuestrear de 96 a 200/300 no recupera detalle perdido. Presentarlo como mejora previa al OCR puede enseñar que cambiar metadatos o interpolar crea resolución efectiva.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Fechas de boleta `DD/MM/YYYY` → `YYYY-MM-DD` con `strptime` day-first (formato PE); el formato US `%m/%d/%Y` interpreta mal el día 15.",
+          "problem": "El formato `%m/%d/%Y` no interpreta erróneamente un día 15 situado primero: intenta usar 15 como mes y normalmente lanza `ValueError`. La interpretación silenciosamente incorrecta ocurre en fechas ambiguas cuyos dos primeros números son como máximo 12.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Un OCR previo a orientar permuta dígitos de RUC;",
+          "problem": "La orientación incorrecta puede degradar o alterar el reconocimiento, pero no existe una regla general por la que específicamente «permute» dígitos. El texto presenta como efecto determinado lo que, sin un resultado concreto del adaptador simulado, es solo una posibilidad.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "`total` float",
+          "problem": "Usar `float` para importes monetarios puede introducir errores de representación binaria y afectar comparaciones como la tolerancia de 0.01 descrita después. Para montos decimales exactos corresponde enseñar `Decimal` o una representación entera en centavos.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 25,
+      "file": "s25-streamlit-dashboards.ts",
+      "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+      "chars_reviewed": 11101,
+      "findings_returned": 5,
+      "findings_verified": 5,
+      "findings_unverified": 0,
+      "by_kind": {
+        "UNCLEAR": 1,
+        "FACTUAL": 2,
+        "UNSUPPORTED": 1,
+        "CONTRADICTS": 1
+      },
+      "findings": [
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "¿label set fijo y ≥500 ejemplos de train? → `specialized_model`.",
+          "problem": "El umbral de 500 ejemplos se presenta como criterio general para elegir un modelo especializado, pero no existe un número universal: la cantidad necesaria depende de la tarea, el número y balance de clases, la calidad de las etiquetas y el modelo utilizado.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Un solo `try/except TimeoutError` es el primer ladrillo; el contador de fallas evita martillar un servicio caído.",
+          "problem": "Muchos clientes HTTP no lanzan el `TimeoutError` incorporado de Python ante un timeout, sino excepciones propias, como `requests.Timeout` o `httpx.TimeoutException`. Para principiantes, este consejo puede producir un manejo de fallos que no capture los timeouts reales.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Forma estable del clasificador: texto (o batch) → lista o dict con `label`, `score` y `model`.",
+          "problem": "El contrato no es estable si permite indistintamente una lista o un diccionario, y tampoco especifica la estructura de la lista para lotes. Esto contradice el objetivo declarado de tener una forma única que puedan validar por igual los adaptadores local y HTTP.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "por cada clave en la unión pred∪gold, 1 si `pred[k]==gold[k]`, 0 si no; promedias.",
+          "problem": "Para una clave perteneciente a la unión pero ausente en `pred` o en `gold`, acceder mediante `pred[k]` o `gold[k]` provoca `KeyError`; la definición no indica cómo representar o comparar campos ausentes. Debería especificar acceso seguro y asignar cero cuando la clave falte en cualquiera de los dos.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "**Local** (o VPC privada) cuando hay PII/sintéticos sensibles, datos de cliente o necesitas costo predecible. **Cloud** solo con DPA, minimización de campos y modelo permitido por licencia e intended use.",
+          "problem": "La frase permite inferir que datos personales podrían enviarse a un servicio cloud si existe DPA y minimización, pero antes se establece de forma absoluta: «no salen datos personales reales hacia ningún endpoint». Debe aclararse si la prohibición abarca todos los endpoints o solo los públicos/externos.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
     }
-  ],
-  "coverage_complete": false,
-  "total_verified_findings": 0,
-  "sections": []
+  ]
 }
