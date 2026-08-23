@@ -240,6 +240,8 @@ function parseBlocks(text: string): Block[] {
   return blocks
 }
 
+const SENTINEL = String.fromCharCode(2)
+
 function renderInline(text: string): string {
   // Protect term markers so bold/code regex do not split them
   const markers: string[] = []
@@ -252,12 +254,30 @@ function renderInline(text: string): string {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-  // inline code
-  out = out.replace(/`([^`]+)`/g, '<code>$1</code>')
+  // Inline code: stash the CONTENT, not just wrap it.
+  //
+  // Replacing straight to `<code>$1</code>` leaves the code text in the string,
+  // so the bold and italic passes below still see the asterisks inside it.
+  // `print(*args)` then donates its `*` to an emphasis pair and a real
+  // `**bold**` nearby loses its partner, rendering a literal `**` on the page.
+  // Observed live in S02 and S21.
+  //
+  // Same placeholder technique this function already uses for glossary terms.
+  const codeSpans: string[] = []
+  out = out.replace(/`([^`]+)`/g, (_m, inner: string) => {
+    const i = codeSpans.length
+    codeSpans.push(inner)
+    return SENTINEL + i + SENTINEL
+  })
   // bold
   out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
   // italic
   out = out.replace(/\*([^*]+)\*/g, '<em>$1</em>')
+  // restore code spans now that emphasis parsing is done
+  out = out.replace(
+    new RegExp(SENTINEL + '(\\d+)' + SENTINEL, 'g'),
+    (_m, i: string) => `<code>${codeSpans[Number(i)]}</code>`,
+  )
   // links [text](url) — basePath-aware: root-absolute URLs (e.g. "/security")
   // get the SITE_BASE_PATH prefix so they resolve correctly under /pyarcana on
   // GitHub Pages. External (http(s)://), protocol-relative (//), anchor (#),
