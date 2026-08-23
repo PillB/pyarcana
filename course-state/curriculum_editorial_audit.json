@@ -1,9 +1,9 @@
 {
   "sections_audited": 52,
-  "p1_total": 13,
+  "p1_total": 11,
   "info_total": 42,
   "by_kind": {
-    "LENGTH_TELL": 13,
+    "LENGTH_TELL": 11,
     "FORWARD_POINTER": 31,
     "GUIDED_HINT_RESTATES": 11
   },
@@ -120,14 +120,6 @@
       "severity": "INFO",
       "detail": "preamble cites S19 (later than S18); pointer only",
       "excerpt": "- **Contexto:** el cierre hacia S19 exige n_raw, n_final y seed en la mi"
-    },
-    {
-      "section": "data-engineering",
-      "index": 18,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 8/10 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
     },
     {
       "section": "databases-orm",
@@ -295,14 +287,6 @@
       "kind": "LENGTH_TELL",
       "severity": "P1",
       "detail": "explanatory asymmetry in 5/9 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
-    },
-    {
-      "section": "streaming-data",
-      "index": 31,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 6/10 questions: the correct option carries a reason its distractors lack",
       "excerpt": ""
     },
     {

@@ -1955,28 +1955,28 @@ print(df.head())
  questions: [
  {
  question: "¿Qué comunica mejor un ticket “típico” con outliers fuertes?",
- options: ["Solo la media", "Mediana (y opcionalmente IQR)", "Solo el máximo", "La moda de ids"],
+ options: ["La media, porque usa todos los datos y no descarta ninguno", "Mediana (y opcionalmente IQR)", "La media recortada al 10 %, que ya elimina los extremos", "El máximo, para dimensionar el peor caso del negocio"],
  correctIndex: 1,
  explanation:
  "La mediana es robusta a colas pesadas; la media se infla con outliers.",
  },
  {
  question: "Una correlación alta entre X e Y implica:",
- options: ["Que X causa Y", "Que no hay confusores", "Que el IC es innecesario", "Asociación observada (no causal por sí sola)"],
+ options: ["Que X causa Y, salvo que el tamaño de muestra sea pequeño", "Que existe una relación lineal fuerte y por tanto predecible", "Que al controlar por una tercera variable la relación se mantiene", "Asociación observada (no causal por sí sola)"],
  correctIndex: 3,
  explanation:
  "Correlación no implica causalidad; puede haber confusores.",
  },
  {
  question: "¿Qué debe incluir una nota de datos mínima?",
- options: ["Origen, filtros, n y límites de cobertura", "Solo el gráfico final", "La contraseña del VPN", "El prompt del LLM"],
+ options: ["Origen, filtros, n y límites de cobertura", "El gráfico final y el código que lo genera, para reproducirlo", "El promedio y la desviación de cada columna numérica", "La fecha de extracción y el nombre de quien hizo la consulta"],
  correctIndex: 0,
  explanation:
  "La nota de datos hace auditable y reproducible el EDA.",
  },
  {
  question: "El sesgo de muestra ocurre cuando:",
- options: ["std es alta", "Usas mediana", "La muestra no representa la población de interés", "n > 30"],
+ options: ["La desviación estándar es alta respecto a la media", "La muestra es pequeña aunque se haya elegido al azar", "La muestra no representa la población de interés", "Los datos se recogieron en un solo día de la semana"],
  correctIndex: 2,
  explanation:
  "Selección no representativa sesga estimaciones aunque el cálculo sea correcto.",
@@ -1997,7 +1997,7 @@ print(df.head())
  },
  {
  question: "Una tasa de flags Tukey más alta en Bogota implica:",
- options: ["Hallazgo descriptivo de anomalías univariadas; la decisión de investigación es humana", "Fraude demostrado en Bogota", "Que la media es mejor que la mediana", "Que el IC es innecesario"],
+ options: ["Hallazgo descriptivo de anomalías univariadas; la decisión de investigación es humana", "Que Bogota concentra las transacciones de mayor monto del país", "Que el umbral de Tukey se calculó con los datos de otra ciudad", "Que la distribución de Bogota tiene más dispersión que las otras"],
  correctIndex: 0,
  explanation:
  "Anomalía ≠ culpa ni fraude automático. Documenta método, n y límites; la investigación es posterior y humana.",
