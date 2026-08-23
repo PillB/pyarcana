@@ -1,0 +1,112 @@
+{
+  "generated_at": "2026-08-23T06:09:00.778675+00:00",
+  "reviewer": "xAI Grok via local grok CLI",
+  "model": "cli default",
+  "method": "independent expert review of learner-visible theory prose",
+  "superseded": "An earlier design had this model sit the self-checks with a blind control. It scored 100% in both arms — a ceiling effect, since the model already knows the subject. Those numbers were discarded as uninformative rather than reported as validation.",
+  "isolation": [
+    "neutral cwd: no project instructions (Agents.md not loaded)",
+    "--tools '': physically unable to read the repository",
+    "--disable-web-search: cannot look anything up",
+    "only the section prose is supplied, in the prompt"
+  ],
+  "verification": "Every finding must quote the source verbatim; quotes are checked back against the file. Unverifiable quotes are recorded but not counted as defects.",
+  "sections_reviewed": 1,
+  "total_verified_findings": 11,
+  "sections": [
+    {
+      "index": 31,
+      "file": "s31-streaming-data.ts",
+      "title": "Grafos y evidencia relacional",
+      "chars_reviewed": 9668,
+      "findings_returned": 11,
+      "findings_verified": 11,
+      "findings_unverified": 0,
+      "by_kind": {
+        "CONTRADICTS": 5,
+        "JARGON": 2,
+        "UNCLEAR": 3,
+        "FACTUAL": 1
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Los **nodos** son las entidades resueltas; las **aristas** son los hechos que las conectan: comparten un teléfono, una dirección, hubo una transferencia.",
+          "problem": "Ese modelo (nodos = personas resueltas; teléfono, dirección y transferencia = aristas) choca con lo que sigue: «Un nodo es una entidad del caso: cliente, cuenta, email o teléfono sintético», transferencias cuenta→cuenta, y contactos como nodos intermedios. Quien empieza no puede saber qué grafo tiene que construir.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "**Esquema canónico de aristas** en esta sección: `owns`, `transfer`, `shared_phone`, `shared_address`.",
+          "problem": "El esquema canónico no incluye `has_phone`/`has_email`, pero el patrón «preferencia canónica» usa exactamente esos tipos y degrada `shared_phone` a «atajo derivado, no el modelo primario». La sección insiste en tipos estables para auditar el path y luego enseña dos catálogos incompatibles.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Preferencia canónica: el valor de contacto como **nodo** intermedio (`E1 → ph:900 ← E2`).",
+          "problem": "Con `has_phone`/`owns` dirigidos hacia el teléfono o la cuenta no hay camino dirigido `E1 → ph:900 → E2` ni entre dos personas unidas por una transferencia (`E1→acc1→acc2←E2`). El storyboard y la pregunta «¿hay un camino entre A y B?» asumen ese recorrido, y el texto solo menciona el grafo no dirigido subyacente para componentes conexas, no para paths.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "**Grado** (degree): número de vecinos (in/out en dirigidos).",
+          "problem": "El propio material exige un multigrafo (varias transferencias o contactos entre el mismo par). Ahí el grado cuenta aristas incidentes con multiplicidad, no vecinos distintos. Cincuenta transferencias al mismo destino suben el degree y no el recuento de vecinos; la fórmula `deg(v)/(n-1)` que dan después es además para grafo simple, no para el grafo de trabajo.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Cada una con tipo, peso y provenance.",
+          "problem": "Más abajo la arista tiene «opcionalmente dirección y peso». El contrato de entrada no deja claro si el peso es obligatorio, ni dónde vive la «confianza» que el arranque atribuye a cada arista: no está en provenance (`source_system`, `run_id`, `record_id`) y el peso solo a veces es un `score`.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Usa ids **sintéticos estables** (`ent-001`, `acc-1`)",
+          "problem": "Conviven tres convenciones sin tabla de correspondencia: `ent-001`/`acc-1`, el fixture `E1`/`ph:900`, y al interpretar `PER-…` vs `INF-…`. `INF` ni siquiera es un tipo de nodo en el modelo (cliente, cuenta, email, teléfono), pero el texto pide usarlo para no culpar hubs.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "El path **reproducible** lista nodos en orden estable (vecinos sorted) y, en producción, incluye aristas y evidencia.",
+          "problem": "La pregunta que gobierna la sección es «qué camino conecta a estos dos, y qué respalda cada paso»; también se dice que el workbench necesita sumario y fuente. Dejar aristas y evidencia solo «en producción» contradice ese contrato y sugiere que en el ejercicio basta una lista de nodos.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "la clave de agregado incluye al menos `(src, dst, etype)`",
+          "problem": "Para etypes no dirigidos (`shared_phone`, `shared_address`) esa clave cuenta dos veces el mismo hecho si un extremo entra como src y otra vez como dst. El texto pide no mezclar convenciones por etype, pero no dice cómo normalizar el par.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Dos personas conectadas por una transferencia directa no están en la misma situación que dos conectadas por cuatro saltos a través de un teléfono compartido en una oficina.",
+          "problem": "En el modelo que luego se enseña, una transferencia entre personas no es un hop directo (pasa por cuentas) y un teléfono compartido son 1 hop (`shared_phone`) o 2 (`E1 → ph:900 → E2`), no cuatro. El ejemplo motivador no se puede mapear al schema.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "BFS/DFS con **límite de profundidad** (*hop limit*, máximo de saltos).",
+          "problem": "Nombra BFS y DFS sin decir que son búsqueda en amplitud y en profundidad, ni cuándo usar cada una. En un curso para quien empieza, eso no enseña el algoritmo de recorrido que T3 anuncia; solo deja un acrónimo.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "A escala tipo SNAP (miles o millones de nodos)",
+          "problem": "SNAP no es una escala: es una colección de datasets de Stanford. El paréntesis mezcla miles y millones, así que el término no aclara el umbral y exige un referente que el texto no introduce.",
+          "severity": "baja",
+          "quote_verified": true
+        }
+      ]
+    }
+  ]
+}

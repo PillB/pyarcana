@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-08-23T05:57:48.515142+00:00",
+  "reviewer": "xAI Grok via local grok CLI",
+  "model": "cli default",
+  "isolation": [
+    "neutral cwd: no project instructions (Agents.md not loaded)",
+    "--tools '': physically unable to read the repository",
+    "--disable-web-search: cannot look the answers up",
+    "answer key never placed in any prompt"
+  ],
+  "note": "TAUGHT reads the section prose then answers; BLIND answers the same questions with no material. Lift is the part attributable to the lesson. A high BLIND score means the questions are guessable without the teaching, which is what the distractor pass addressed.",
+  "sections": [
+    {
+      "index": 3,
+      "file": "s03-data-structures.ts",
+      "questions": 8,
+      "taught_correct": 8,
+      "taught_total": 8,
+      "blind_correct": 8,
+      "blind_total": 8,
+      "taught_pct": 100,
+      "blind_pct": 100,
+      "lift": 0,
+      "answered_taught": 8,
+      "answered_blind": 8
+    },
+    {
+      "index": 15,
+      "file": "s15-stdlib-deep.ts",
+      "questions": 12,
+      "taught_correct": 12,
+      "taught_total": 12,
+      "blind_correct": 12,
+      "blind_total": 12,
+      "taught_pct": 100,
+      "blind_pct": 100,
+      "lift": 0,
+      "answered_taught": 12,
+      "answered_blind": 12
+    },
+    {
+      "index": 31,
+      "file": "s31-streaming-data.ts",
+      "questions": 10,
+      "taught_correct": 10,
+      "taught_total": 10,
+      "blind_correct": 10,
+      "blind_total": 10,
+      "taught_pct": 100,
+      "blind_pct": 100,
+      "lift": 0,
+      "answered_taught": 10,
+      "answered_blind": 10
+    }
+  ],
+  "mean_taught_pct": 100,
+  "mean_blind_pct": 100,
+  "mean_lift": 0
+}
