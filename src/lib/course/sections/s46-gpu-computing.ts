@@ -358,7 +358,7 @@ no_dup_rerun True`,
       heading: "SLO, incidentes y data recovery",
       subtopicId: "S46-T4-B",
       paragraphs: [
-        "Un **SLO de datos** une un **SLI** (indicador medido, p. ej. proporción de particiones frescas) con un objetivo y una ventana. Un **incidente de datos** protege consumidores (dejar de publicar basura), recupera particiones y documenta causa + prevención. El **RTO** mide cuánto tarda la recuperación — un *runbook* sin dueño es teatro.",
+        "Un **SLO de datos** une un **SLI** (indicador medido, p. ej. proporción de particiones frescas) con un objetivo y una ventana. Un **incidente de datos** protege consumidores (dejar de publicar basura), recupera particiones y documenta causa + prevención. El **RTO** (*recovery time objective*) es el techo que te comprometes a no superar al recuperarte; lo que mides después es el tiempo real y se compara contra él — un *runbook* sin dueño es teatro.",
         "Contrato operativo de operación. Entrada: `freshness_sli`, `freshness_slo`, `rto_minutes`, `target_rto`, `postmortem_actions` y *owner*. Salida: PASS si SLI ≥ SLO, RTO ≤ target, ≥1 acción de **post mórtem** y *owner*. Error: SLI bajo o RTO excedido → declarar incidente y activar *runbook*. Criterio: simulacro medido, no promesa en README.",
         "Aplicación a `CASO-HYO-046`: el SLO de frescura del dashboard de atenciones es 0.99. Un lag masivo baja el SLI a 0.80 y el RTO del *replay* a 90 min (>30). Se declara `DECLARE_DATA_INCIDENT` y se activa el *runbook* de *recovery*. Riesgo de ingeniería de datos: consumidores de ML (S47) entrenan sobre datos “vivos” que en realidad están congelados.",
       ],
