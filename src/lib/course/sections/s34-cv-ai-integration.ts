@@ -31,7 +31,7 @@ export const section34: CourseSection = {
       text: "Calcular Brier medio sobre un conjunto y un bin de reliability (mean_p vs. frecuencia observada)",
     },
     {
-      text: "Aplicar un calibrador afín (implementación simplificada de Platt) solo sobre holdout versionado, nunca sobre el test final",
+      text: "Aplicar un calibrador afín (una recta recortada: no es Platt, que ajusta una sigmoide, pero basta para ver el mecanismo sin dependencias) solo sobre holdout versionado, nunca sobre el test final",
     },
     {
       text: "Elegir umbral thr-vN buscando candidatos por costo (c_fp, c_fn) sujeto a capacidad de revisión",
