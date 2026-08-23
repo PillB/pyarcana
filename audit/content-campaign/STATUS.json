@@ -2,7 +2,7 @@
   "campaign": "content-campaign-c04",
   "supersedes": "content-campaign-c03",
   "phase": "PHASES_C_D_E_COMPLETE_PENDING_LIVE_ATTESTATION",
-  "updated_at": "2026-08-22",
+  "updated_at": "2026-08-23",
   "branch": "audit/content-campaign-c04-20260821",
   "baseline_sha": "77310e40910c8b5310a1d875c51cdcb75b49427e",
   "requirements_sha256": "6de4f9e40d1edf929f285b19daa56bbc2a3500df60f5440de1c31e39bedc0373",
@@ -99,6 +99,20 @@
       "gate": "VALIDATED",
       "detail": "newbie_packet_builder S15 packet_sha f2b1e046…; firewall stage_turn LEARNER_A epistemic S15 verify_stage ok; context_manifest_sha256 84718037…; firewall unittest 36/36. Evidence: audit/content-campaign-c04/evidence/phase_e_s15_firewall.json. This is E0/harness validation, not a full E2 learner journey.",
       "campaign": "c04"
+    },
+    {
+      "id": "U13",
+      "scope": "self-check distractor quality across the curriculum",
+      "gate": "VALIDATED",
+      "detail": "LENGTH_TELL 21 -> 0; the editorial audit reports ok:true for the first time. A full scan found 155 tell-questions across 49 sections, of which 60 were false positives where the options are artifacts (commit messages, commands) and being longer is being right. The detector now excludes those and names the real defect, explanatory asymmetry. ~230 distractors rewritten as misconceptions a learner could hold; nothing padded. S31 was the worst: every distractor was an ethical strawman, so the answer was readable from tone without touching the content.",
+      "campaign": "c04"
+    },
+    {
+      "id": "U14",
+      "scope": "Phase E widened from one section to all 52",
+      "gate": "VALIDATED_HARNESS_ONLY",
+      "detail": "scripts/phase_e_packet_sweep.py builds the cumulative learner packet for every active section and asserts the firewall on the shape the builder really emits: selfCheck_stems present with options and no correctIndex/answer/explanation; weDo present with starterCode but no solutionCode and no hint; prior == index-1; stable packet hash. Each withholding assertion is paired with a positive one so the check cannot pass by the learner receiving nothing, and a negative control plants a leak so a green result proves the gate can go red. 52 sections, 0 leaks, control true. This is harness validation, NOT a learner journey and NOT independent human review.",
+      "campaign": "c04"
     }
   ],
   "test_expectations_changed": [
@@ -122,24 +136,38 @@
     "tsc": "pass",
     "lint": "pass (6 pre-existing warnings, 0 errors)",
     "adversarial": "332 passed, 1 skipped",
-    "content_runtime_audit": {"pass": 3265, "fail": 0, "skip": 92, "artifacts": 3357, "note": "clean pandas-3.0.5 venv; 22 extra skips are fastapi/sqlalchemy/cv2 missing from the declared environment"},
+    "content_runtime_audit": {
+      "pass": 3265,
+      "fail": 0,
+      "skip": 92,
+      "artifacts": 3357,
+      "note": "clean pandas-3.0.5 venv; 22 extra skips are fastapi/sqlalchemy/cv2 missing from the declared environment"
+    },
     "v3_invariant": "ok, 52 sections tagged",
     "glossary_coverage_p1_missing": 0,
     "glossary_intro_forward_refs": 0,
     "anglicism_unglossed_first_uses": 0,
     "preservation_sentinel_unauthorized_deletes": 0
   },
-  "identity_check": {"sections": 52, "exercise_ids": 1248, "subtopics": 416, "demos": 416},
+  "identity_check": {
+    "sections": 52,
+    "exercise_ids": 1248,
+    "subtopics": 416,
+    "demos": 416
+  },
   "open_material_doubts": 0,
   "accepted_limitations": [
     "the writer and the editorial reviewer are the same agent in separate passes; Phase E ran the firewall/packet-builder harness, not a second human editor",
     "no deployment claim is made in this record; deployment is tracked separately",
-    "LENGTH_TELL remains at 21 sections where the correct self-check option is much the longest — detected, recorded, not repaired",
-    "clean teaching venv does not install fastapi/sqlalchemy/cv2, so 22 snippets that used to execute against user site-packages now skip as missing_dependency"
+    "clean teaching venv does not install fastapi/sqlalchemy/cv2, so 22 snippets that used to execute against user site-packages now skip as missing_dependency",
+    "Phase E remains harness-level: the packet firewall is proven across all 52 sections, but no learner journey has been run and the writer and reviewer are still the same agent. The reference package is explicit that this does not constitute independent certification."
   ],
   "still_open": [
-    "LENGTH_TELL x21",
-    "LIVE Pages attestation of this SHA"
+    "PHASE E (real): a learner journey and independent human review — the packet firewall is proven, the teaching is not independently certified",
+    "42 INFO editorial findings (31 FORWARD_POINTER, 11 GUIDED_HINT_RESTATES) — informational by design",
+    "pre-existing 320px page-chrome overflow (basics 66px, testing 202px) — found by the figure probe, not caused by this campaign",
+    "mobile figure ergonomics: 10.7px smallest label, ~224px in-frame scroll at 390px — three options recorded, none chosen",
+    "30 CANDIDATE figures analysed and not built"
   ],
   "quiet_rounds": 0
 }
