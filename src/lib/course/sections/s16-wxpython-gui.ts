@@ -63,11 +63,17 @@ export const section16: CourseSection = {
         code: `def s16_th_1():
     import pandas as pd
 
-    policy = {"cliente_id": "required", "email": "optional", "monto": "required"}
+    policy = {
+        "cliente_id": "required",
+        "email": "optional",
+        "monto": "required",
+        "descuento": "optional",
+    }
     df = pd.DataFrame({
         "cliente_id": ["C001", None, "C003"],
         "email": [None, "a@example.com", "b@example.com"],
         "monto": [10.0, 5.0, None],
+        "descuento": [None, 2.0, 3.0],
     })
     violations = {}
     for col, pol in policy.items():
@@ -92,9 +98,9 @@ null_rate_email 0.3333333333333333`,
       heading: "Indicadores y límites de imputación",
       subtopicId: "S16-T1-B",
       paragraphs: [
-        "Un **indicador de ausencia** (`monto_was_null`) preserva señal cuando imputas un optional: el modelo, el auditor y el stakeholder de riesgo ven qué filas fueron tocadas. Imputar sin indicador borra evidencia y crea falsos ceros indistinguibles de ceros reales de negocio.",
+        "Un **indicador de ausencia** (`descuento_was_null`) preserva señal cuando imputas un optional: el modelo, el auditor y el stakeholder de riesgo ven qué filas fueron tocadas. Imputar sin indicador borra evidencia y crea falsos ceros indistinguibles de ceros reales de negocio.",
         "Límites del gate: no imputar más del **cap** (p. ej. 30–40% null en la columna), no imputar llaves de negocio (`cliente_id`), y documentar la regla (mediana, constante de dominio). Si `null_rate > cap`, el gate imprime `blocked`/`fail` y **no** rellena en silencio.",
-        "Caso: monto con 2/5 null y cap=0.4 → **si el campo fuera optional** se permitiría `fillna(mediana)` + columna `was_null`. Con `monto`, que este mismo caso declara required, no: ahí la política manda cuarentena, no relleno. El cap decide *cuánto* nulo tolera un optional; nunca convierte un required en imputable. Si el rate supera el cap, no hay fill silencioso. La mediana se calcula solo sobre no-nulos **pre**-imputación; post-fill no se recalcula para “maquillar” el reporte.",
+        "Caso: `descuento` —optional en el contrato— con 2/5 null y cap=0.4 → se permite `fillna(mediana)` + columna `was_null`. Con `monto`, que el mismo contrato declara required, la respuesta sería otra: cuarentena, no relleno, por mucho que el rate quepa bajo el cap. El cap decide *cuánto* nulo tolera un optional; nunca convierte un required en imputable. Si el rate supera el cap, no hay fill silencioso. La mediana se calcula solo sobre no-nulos **pre**-imputación; post-fill no se recalcula para “maquillar” el reporte.",
       ],
       code: {
         language: 'python',
@@ -102,22 +108,23 @@ null_rate_email 0.3333333333333333`,
         code: `def s16_th_2():
     import pandas as pd
 
-    df = pd.DataFrame({"monto": [10.0, None, None, 8.0, 12.0]})
+    # descuento es optional en el contrato de arriba; por eso puede imputarse.
+    df = pd.DataFrame({"descuento": [10.0, None, None, 8.0, 12.0]})
     cap = 0.4
-    rate = df["monto"].isna().mean()
+    rate = df["descuento"].isna().mean()
     print("null_rate", rate)
     if rate > cap:
         print("gate", "fail_impute_cap")
     else:
         df = df.copy()
-        df["monto_was_null"] = df["monto"].isna()
-        med = df["monto"].median()
-        df["monto"] = df["monto"].fillna(med)
+        df["descuento_was_null"] = df["descuento"].isna()
+        med = df["descuento"].median()
+        df["descuento"] = df["descuento"].fillna(med)
         print(df.to_dict(orient="list"))
 
 s16_th_2()`,
         output: `null_rate 0.4
-{'monto': [10.0, 10.0, 10.0, 8.0, 12.0], 'monto_was_null': [False, True, True, False, False]}`,
+{'descuento': [10.0, 10.0, 10.0, 8.0, 12.0], 'descuento_was_null': [False, True, True, False, False]}`,
       },
       callout: {
         type: "tip",

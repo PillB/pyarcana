@@ -63,7 +63,7 @@ export const section34: CourseSection = {
       paragraphs: [
         "Bloque de referencia. Orden de los subtemas, hilo del caso y códigos de política.",
         "**Orden de los subtemas.** T1 mide confusión y calidad del ranking. T2 enfrenta el desbalance y la prevalencia. T3 introduce Brier y la calibración sobre un holdout. T4 cierra con el umbral por costo y capacidad, y la banda de abstención.",
-        "**Hilo del caso.** El mismo tablero sintético recorre la sección entera: cinco scores y sus etiquetas, de punta a punta, para que cada métrica se pueda calcular a mano y comprobar.",
+        "**Hilo del caso.** El escenario es uno solo —`CASO-LIM-034`— y el You Do cierra sobre su tablero de cinco scores con sus etiquetas. Los demos de cada subtema, en cambio, usan conjuntos deliberadamente diminutos y hechos a medida de la métrica que enseñan: dos casos para la matriz de confusión, cuatro puntos para el barrido de umbral, cuatro para calibración. Es a propósito, y conviene saberlo antes de comparar cifras entre subtemas: cada juego está dimensionado para que puedas calcular la métrica **a mano**, que es la única forma de saber si la entendiste. Por eso el umbral del You Do se descubre con los cinco puntos y no se copia del demo de cuatro.",
         "**Códigos de política del workbench** (no son de Python). `REJECT_*` significa que la evidencia está completa pero rompe la política — usar exactitud sola, remuestrear globalmente, un umbral sin versionar, forzar una etiqueta dentro de la banda de abstención. `REQUEST_*` significa que falta un campo necesario para decidir.",
       ],
     },

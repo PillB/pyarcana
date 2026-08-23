@@ -89,7 +89,7 @@ llm_structured`,
       subtopicId: "S25-T1-B",
       paragraphs: [
         "Antes de desplegar, lee la **model card** (ficha del modelo): uso previsto (*intended use*, uso contemplado por el autor), limitaciones, sesgos y datos de entrenamiento. Revisa la **licencia** (MIT/Apache suelen permitir reuso comercial; otras piden revisión legal). *not_for* (usos prohibidos) en la card no es decoración: si lista adjudicación de fraude o biometría, ese uso queda bloqueado en tu política aunque la licencia sea permisiva.",
-        "**Local** (o VPC privada) cuando hay PII/sintéticos sensibles, datos de cliente o necesitas costo predecible. **Cloud** solo con DPA, minimización de campos y modelo permitido por licencia e intended use. El **mismo contract test** (schema + golden) debe pasar en ambos despliegues; el adapter no cambia el contrato de salida.",
+        "**Local** (o VPC privada) cuando hay PII/sintéticos sensibles, datos de cliente o necesitas costo predecible. **Cloud** solo para datos sin PII real —sintéticos o ya anonimizados—, y aun así con DPA, minimización de campos y un modelo permitido por licencia e intended use. Que exista un DPA no habilita enviar datos personales reales: esa regla no tiene excepción contractual; el DPA gobierna todo lo demás. El **mismo contract test** (schema + golden) debe pasar en ambos despliegues; el adapter no cambia el contrato de salida.",
         "Registra en metadata del run: `deploy_choice`, licencia, hash o versión de la model card y `model_id`. En el lab, el desk Lima mockea HF o endpoint local; la decisión se audita junto con el golden, sin autoveredicto.",
       ],
       code: {

@@ -260,7 +260,7 @@ no_fallback False`,
       subtopicId: "S47-T4-A",
       paragraphs: [
         "El modelo ya sirve con SLO; ahora el tráfico se abre con cuidado. **Shadow** observa sin decidir; **canary** recibe un presupuesto de tráfico (p. ej. ≤ 10%) y los monitoring hooks comparan calidad, drift y errores antes de promover. Un mode `full` al 100% sin hooks no es canary: es un deploy a ciegas.",
-        "Contrato de canary. Entrada: `mode`, `traffic_pct`, `quality_delta`, `max_quality_drop`, `error_rate`, `max_error_rate`, `hooks`. Salida: `PASS` solo si mode es shadow/canary, tráfico ≤ 10%, calidad dentro de presupuesto (`quality_delta ≥ −max_quality_drop`) y hooks activos. Error local: over-traffic, calidad caída o hooks off → `STOP_CANARY`. Si falta `hooks` → `COLLECT_MORE_SHADOW_EVIDENCE`.",
+        "Contrato de canary. Entrada: `mode`, `traffic_pct`, `quality_delta`, `max_quality_drop`, `error_rate`, `max_error_rate`, `hooks`. Salida: `PASS` solo si mode es shadow/canary, tráfico ≤ 10%, calidad dentro de presupuesto (`quality_delta ≥ −max_quality_drop`), **errores bajo el techo** (`error_rate ≤ max_error_rate`) y hooks activos. Error local: over-traffic, calidad caída o hooks off → `STOP_CANARY`. Si falta `hooks` → `COLLECT_MORE_SHADOW_EVIDENCE`.",
         "En `CASO-TAC-047-4A` el equipo abre canary al 5% del tráfico de priorización en Tacna: error 0.4% bajo el techo, `quality_delta` dentro del presupuesto y hooks de calidad/drift activos → puede continuar. Un mode `full` al 100% con caída de calidad −0.2 y hooks apagados se detiene de inmediato (`STOP_CANARY`).",
       ],
       code: {
@@ -296,7 +296,7 @@ quality_drop False`,
       paragraphs: [
         "Si el canary falla — o si una versión envejeció — el camino CF-4 exige **rollback al last-known-good** con features compatibles y **retirement** auditado: se bloquea uso nuevo, se conserva evidencia y se registra quién retiró qué. Borrar el trace para «reducir ruido» destruye el gate de auditoría.",
         "Contrato de restauración. Entrada: `current`, `last_good`, `compatible_features`, `rollback_tested`, `retired`, `audit_entry`. Salida: `PASS` solo si hay last-good distinto del current, features compatibles, rollback ensayado, retiro registrado y audit entry. Error local: incompatibilidad o rollback no probado → `ROLLBACK_TO_LAST_GOOD`. Si falta `audit_entry` → `REVIEW_RETIREMENT`.",
-        "En `CASO-TAC-047-4B` el equipo de priorización en Tacna restaura de `1.2.0` a `1.1.0` (last-known-good) con features compatibles, rollback ensayado en staging, `1.0.0` retirado y `audit_entry` firmado. Un path con `compatible_features=False`, rollback no probado o retired vacío fuerza `ROLLBACK_TO_LAST_GOOD` y, si falta audit, `REVIEW_RETIREMENT` — nunca se borra el trace para «limpiar» el tablero.",
+        "En `CASO-TAC-047-4B` el equipo de priorización en Tacna restaura de `1.2.0` a `1.1.0` (last-known-good) con features compatibles, rollback ensayado en staging, `1.0.0` retirado y `audit_entry` firmado. Un path con `compatible_features=False` o rollback no probado fuerza `ROLLBACK_TO_LAST_GOOD`. Un `retired` vacío o un `audit_entry` ausente no son eso: no hay nada roto en el artefacto al que vuelves, falta la constancia de quién retiró qué, así que la ruta es `REVIEW_RETIREMENT` — nunca se borra el trace para «limpiar» el tablero.",
       ],
       code: {
         language: 'python',

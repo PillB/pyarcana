@@ -163,7 +163,7 @@ dims ['outcome', 'process', 'trajectory', 'recovery']`,
       paragraphs: [
         "**Graders deterministas** cubren contratos (schema, cites presentes, tool en allowlist); **humanos** juzgan matices y severidad; **LLM judges** escalan volumen solo tras **calibración** contra anclas. Ninguno es oráculo: se mide **acuerdo** y se adjudican desacuerdos. Un judge sin gold-set ancla no puede bloquear promote solo. El tramo T1 te dio filas con scores 0–3; aquí el ensemble decide si confías en esas puntuaciones a escala.",
         "Contrato de jueces. Entrada: scores det/humano/LLM en [0,1] y tasa de acuerdo humano-LLM. Salida: tasa de acuerdo y lista de items en desacuerdo para adjudicación. Error local: scores fuera de rango o acuerdo < umbral → `RECALIBRATE_GRADERS`. El promote global sigue esperando holdout sellado (T2-B) y red team (T3); aquí solo validas el ensemble de jueces.",
-        "En Ica, tres jueces puntúan la misma respuesta `cite_sla`: det=0.86 (schema+cite), humano=0.82, LLM=0.80; acuerdo 0.78 ≥ 0.75. Un item con humano=2 y LLM=0 se manda a `ADJUDICATE_DISAGREEMENT` antes de usarlo en el scorecard baseline/candidato. Datos sintéticos; no se usa PII.",
+        "En Ica, tres jueces puntúan la misma respuesta `cite_sla`: det=0.86 (schema+cite), humano=0.82, LLM=0.80; acuerdo 0.78 ≥ 0.75. Un item con humano=0.67 y LLM=0.0 —el nivel 2 de la rúbrica 0–3 normalizado como 2/3, frente a un 0— se manda a `ADJUDICATE_DISAGREEMENT` antes de usarlo en el scorecard baseline/candidato. Datos sintéticos; no se usa PII.",
       ],
       code: {
         language: 'python',

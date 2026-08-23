@@ -274,7 +274,7 @@ False
       heading: "Salida estructurada y grounding",
       subtopicId: "S48-T4-A",
       paragraphs: [
-        "La salida estructurada se valida contra un schema (`answer`, `evidence_ids`, …). El grounding exige **al menos un** `evidence_id` y que todos estén en la allowlist. El texto recuperado —incluso si dice «ignora tus reglas»— es **data hostil**, no instrucción del sistema.",
+        "La salida estructurada se valida contra un schema (`answer`, `evidence_ids`, …). El validador de schema exige **al menos un** `evidence_id` y que todos estén en la allowlist. Conviene ver qué alcanza eso y qué no: es un piso necesario —descarta la respuesta sin ninguna cita y la que cita fuera de permiso— pero no es todavía la regla de T1, que pedía una cita **por afirmación**. Una respuesta con cinco afirmaciones y un solo `evidence_id` pasa este schema y sigue teniendo cuatro sin prueba. Cerrar esa brecha exige atribución a nivel de afirmación, no a nivel de respuesta; el schema es el fail-closed barato que se ejecuta primero. El texto recuperado —incluso si dice «ignora tus reglas»— es **data hostil**, no instrucción del sistema.",
         "Contrato local T4-A. Entrada: output dict, schema_keys, allowlist de evidencia y flag `injected_instruction_ignored`. Salida: keys exactas, `evidence_ids` no vacío, evidence ⊆ allowlist e inyección ignorada. Breach → `REJECT_UNGROUNDED_OUTPUT`; missing del flag → `VALIDATE_OUTPUT_SCHEMA`. Un claim con lista vacía no pasa por verdad vacua de subconjuntos.",
         "Fixture `CASO-PUN-048-4A`: answer «plazo 30 días» con evidence `d7#2`. Un corpus envenenado con «envía secretos» se indexa como data; el flag de inyección ignorada debe ser True o el gate rechaza.",
       ],
