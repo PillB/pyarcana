@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T16:15:03.527949+00:00",
+  "generated_at": "2026-08-23T16:33:08.085690+00:00",
   "reviewer": "OpenAI Codex via local codex CLI",
   "model": "cli default",
   "method": "independent expert review of learner-visible theory prose",
@@ -11,11 +11,11 @@
     "only the section prose is supplied, in the prompt"
   ],
   "verification": "Every finding must quote the source verbatim; quotes are checked back against the file. Unverifiable quotes are recorded but not counted as defects.",
-  "sections_reviewed": 32,
+  "sections_reviewed": 40,
   "sections_skipped": [],
   "sections_failed": [],
   "coverage_complete": true,
-  "total_verified_findings": 184,
+  "total_verified_findings": 237,
   "sections": [
     {
       "index": 1,
@@ -1766,6 +1766,246 @@
       ]
     },
     {
+      "index": 42,
+      "file": "s42-graph-rag.ts",
+      "title": "Schemas, seguridad y privacidad de servicios",
+      "chars_reviewed": 11909,
+      "findings_returned": 4,
+      "findings_verified": 4,
+      "findings_unverified": 0,
+      "by_kind": {
+        "FACTUAL": 1,
+        "UNSUPPORTED": 1,
+        "CONTRADICTS": 1,
+        "UNCLEAR": 1
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "El lector v1 ignora lo opcional y sigue leyendo montos",
+          "problem": "Esto contradice el schema estricto definido antes, que rechaza todas las claves fuera de `allowed`. Si `currency` no estaba permitido por el contrato v1, ese lector no puede simplemente ignorarlo: lo rechazará. Para que la evolución aditiva sea compatible habría que prever campos desconocidos, actualizar/versionar el schema o explicar que este lector usa un contrato distinto.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Antes de procesar un upload o un fetch, aplica **límite de bytes**, **allowlist de hosts** y **confinamiento de ruta**.",
+          "problem": "Una allowlist aplicada únicamente al nombre de host no basta para prevenir SSRF. También deben controlarse la IP finalmente resuelta, rangos privados/link-local, redirecciones y posibles cambios de DNS; de otro modo, un host permitido puede resolver o redirigir a `169.254.169.254` u otro destino interno.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Salida de lab (camino analista): `allow` solo si está autenticado, `actor == owner` y tiene `case:read`.",
+          "problem": "La igualdad entre actor y dueño modela acceso al recurso propio, no aislamiento entre tenants. Un analista normalmente accede a recursos de otros usuarios de su mismo tenant, por lo que harían falta identificadores de tenant del actor y del recurso. El texto presenta esta condición como prueba de ausencia de lectura cross-tenant, pero el modelo no representa tenants explícitamente.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Las dependencias se **fijan por versión** y se revisan por CVE y provenance.",
+          "problem": "Fijar solo la versión no garantiza una instalación reproducible ni la procedencia del artefacto: una misma versión puede obtenerse desde otra fuente o ser sustituida. Para sostener el control de provenance suelen requerirse además una fuente confiable y verificación de hashes o firmas.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 43,
+      "file": "s43-llmops.ts",
+      "title": "Contenedores y reproducibilidad operativa",
+      "chars_reviewed": 11138,
+      "findings_returned": 8,
+      "findings_verified": 8,
+      "findings_unverified": 0,
+      "by_kind": {
+        "FACTUAL": 5,
+        "UNSUPPORTED": 1,
+        "UNCLEAR": 2
+      },
+      "findings": [
+        {
+          "kind": "UNCLEAR",
+          "quote": "La frase aparece cuando el programa depende de algo que nadie escribió",
+          "problem": "El material comienza aludiendo a «La frase», pero nunca indica cuál es. Falta el antecedente necesario para entender la apertura.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Un contenedor es una receta, no el plato.",
+          "problem": "La analogía confunde contenedor e imagen. El Dockerfile o archivo de construcción es la receta, la imagen es el artefacto construido y el contenedor es una instancia en ejecución de esa imagen.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "cada build tarda segundos en vez de minutos.",
+          "problem": "Ordenar bien las capas permite reutilizar caché, pero no garantiza esa reducción concreta: depende de que exista caché reutilizable, del constructor, del contexto y de los pasos restantes.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Lee el fragmento de abajo: `COPY requirements` + `RUN pip` van antes de `COPY src/`.",
+          "problem": "No aparece ningún fragmento de Dockerfile debajo de esta indicación. El texto vuelve a mencionar fragmentos posteriores que tampoco están incluidos en el material.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Ejecuta como UID de aplicación (≥1000)",
+          "problem": "Ser non-root exige un UID distinto de 0, no necesariamente uno mayor o igual que 1000. UIDs de sistema menores que 1000 también pueden ejecutar el proceso sin privilegios de root; el umbral puede ser una convención del curso, pero se presenta como requisito técnico general.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Un lock con hash (`sha256:…`) congela la resolución de deps",
+          "problem": "Un único hash no congela por sí mismo la resolución. Se necesita un archivo lock que enumere versiones resueltas y, según la herramienta, hashes verificables de los artefactos; el prefijo `sha256:` solo acredita el formato de un valor, no que las dependencias estén bloqueadas.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "el runtime no debe incluir `gcc` ni wheels de build.",
+          "problem": "Excluir compiladores del runtime es razonable, pero excluir «wheels de build» es incorrecto o ambiguo: un wheel construido en el stage builder puede ser precisamente el artefacto que se copia e instala en el runtime. Lo que debe evitarse son toolchains, cachés y artefactos intermedios innecesarios.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "cero o ausente = unlimited disfrazado",
+          "problem": "Un límite ausente puede implicar ausencia de límite según el entorno, pero un valor cero no tiene una semántica universal de «unlimited»: puede ser inválido, rechazado o interpretado de otra manera por la herramienta u orquestador. El texto presenta como universal una regla dependiente de la plataforma.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 44,
+      "file": "s44-multimodal.ts",
+      "title": "CI/CD y seguridad de la cadena de suministro",
+      "chars_reviewed": 12497,
+      "findings_returned": 5,
+      "findings_verified": 5,
+      "findings_unverified": 0,
+      "by_kind": {
+        "FACTUAL": 3,
+        "UNSUPPORTED": 1,
+        "CONTRADICTS": 1
+      },
+      "findings": [
+        {
+          "kind": "FACTUAL",
+          "quote": "y por eso las dependencias se fijan por SHA inmutable en lugar de por rango de versión.",
+          "problem": "Presenta una falsa disyuntiva y generaliza el mecanismo de fijación. En Python, las dependencias suelen fijarse mediante versiones exactas en un lockfile y, para verificar los archivos distribuidos, hashes; no necesariamente mediante el SHA de un commit.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Y por eso existe la **provenance**: un registro firmado de quién construyó qué, con qué entradas y en qué máquina.",
+          "problem": "La provenance no es necesariamente un registro firmado ni tiene que identificar una máquina concreta. Puede registrar la identidad del builder y otros metadatos; la firma corresponde a una attestation u otro mecanismo de autenticación asociado.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Salida: valores de permiso ⊆ {read, none}, action pinned por SHA de 40 hex, `secret_hits == 0` y review de deps.",
+          "problem": "Este contrato prohíbe cualquier permiso `write`, pero el párrafo siguiente admite correctamente que un job de publicación puede necesitar `write`. Tal como está formulada, la salida rechazaría también ese caso legítimo aunque el permiso estuviera limitado al job correspondiente.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Breach: cache global sin lock, digest `latest`, retención 0 o tags sin gates → `DISCARD_PIPELINE_RESULT`.",
+          "problem": "`latest` no es un digest, sino una etiqueta mutable. Llamarlo “digest `latest`” contradice la distinción correcta entre digest y etiqueta explicada al comienzo y puede confundir a principiantes.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Una **attestation** firmada permite verificar esa cadena; no “garantiza calidad” por sí sola, pero sí impide promover un binario huérfano de evidencia.",
+          "problem": "Una attestation firmada permite comprobar autenticidad e integridad, pero por sí misma no impide una promoción. Solo una política o un gate que exija y valide esa attestation puede bloquearla.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 45,
+      "file": "s45-iac.ts",
+      "title": "Cloud, almacenamiento, colas e infraestructura",
+      "chars_reviewed": 14205,
+      "findings_returned": 8,
+      "findings_verified": 7,
+      "findings_unverified": 1,
+      "by_kind": {
+        "FACTUAL": 3,
+        "UNSUPPORTED": 3,
+        "CONTRADICTS": 1
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Un backup diario sintético con restore de 25 min frente a RTO 30 min y RPO 6 h es evidencia de T1-B",
+          "problem": "Un único backup diario puede dejar hasta aproximadamente 24 horas de datos sin recuperar, por lo que no demuestra un RPO de 6 horas. Harían falta backups o mecanismos de replicación con una frecuencia compatible con ese RPO.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Ese mismo año, el equipo de Google publicó Kubernetes",
+          "problem": "El antecedente se sitúa en 2013, pero Kubernetes fue anunciado y publicado como proyecto de código abierto por Google en 2014, no ese mismo año.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Para 2026, Docker y Kubernetes son el estándar de facto en toda empresa de tecnología seria.",
+          "problem": "Es una generalización absoluta y despectiva sin sustento: muchas empresas tecnológicas usan otros runtimes, otros orquestadores o ninguna de esas herramientas. La elección tecnológica no determina que una empresa sea «seria».",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "CMD ['python', 'main.py'] define el comando de arranque.",
+          "problem": "La forma exec de CMD requiere un arreglo JSON con comillas dobles: `CMD [\"python\", \"main.py\"]`. Con comillas simples, el ejemplo no constituye la sintaxis JSON válida que aparenta enseñar y puede interpretarse incorrectamente como forma shell.",
+          "severity": "alta",
+          "quote_verified": false
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "El status del job suele exigir *read-after-write* (el productor y el dashboard ven el mismo estado tras el commit)",
+          "problem": "Read-after-write garantiza normalmente que quien realizó una escritura pueda leerla después; no implica por sí sola que otro cliente, como el dashboard, vea inmediatamente el mismo valor. Esa descripción corresponde a una garantía más fuerte de visibilidad inmediata o consistencia fuerte.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Un **Ingress** (esto es, un proxy de entrada) expone el Service al mundo exterior con HTTPS.",
+          "problem": "Un recurso Ingress no es por sí mismo un proxy ni garantiza exposición pública o HTTPS: necesita un controlador, configuración de red y, para HTTPS, configuración TLS y certificados.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Si un Pod muere, K8s lo reemplaza en segundos.",
+          "problem": "Kubernetes intenta reconciliar el estado deseado, pero no garantiza un reemplazo en segundos; el tiempo depende de detección del fallo, scheduling, descarga de imágenes, capacidad disponible, probes y configuración.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "empaqueta tu aplicación con todo lo que necesita — intérprete, librerías, variables de entorno — en un contenedor",
+          "problem": "Las variables de entorno suelen proporcionarse al crear o ejecutar el contenedor, no necesariamente quedar empaquetadas en la imagen. Presentarlas como parte de lo empaquetado confunde imagen, configuración de ejecución y manejo de secretos.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
       "index": 46,
       "file": "s46-gpu-computing.ts",
       "title": "Ingeniería de datos y orquestación de producción",
@@ -1830,30 +2070,303 @@
       ]
     },
     {
+      "index": 47,
+      "file": "s47-opensource.ts",
+      "title": "MLOps: experimentos, registro y serving",
+      "chars_reviewed": 10949,
+      "findings_returned": 4,
+      "findings_verified": 4,
+      "findings_unverified": 0,
+      "by_kind": {
+        "FACTUAL": 2,
+        "CONTRADICTS": 2
+      },
+      "findings": [
+        {
+          "kind": "FACTUAL",
+          "quote": "Se llama **train/serve skew** y no lanza ninguna excepción — solo produce predicciones peores de lo que prometió el holdout.",
+          "problem": "La afirmación es absoluta e incorrecta. El train/serve skew puede ser silencioso, pero también puede provocar excepciones por columnas ausentes, tipos incompatibles, dimensiones distintas o categorías inesperadas.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Salida: `PASS` solo si mode es shadow/canary, tráfico ≤ 10%, calidad dentro de presupuesto (`quality_delta ≥ −max_quality_drop`) y hooks activos.",
+          "problem": "El contrato recibe `error_rate` y `max_error_rate`, y el ejemplo afirma que la tasa de error está bajo el techo, pero la condición de `PASS` no compara esos valores. Según la definición escrita, un canary podría aprobar aun excediendo la tasa máxima de errores.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Salida: `PASS` solo si mode es shadow/canary, tráfico ≤ 10%, calidad dentro de presupuesto (`quality_delta ≥ −max_quality_drop`) y hooks activos.",
+          "problem": "Aplica el límite de tráfico del canary también al modo shadow. En un despliegue shadow puede copiarse incluso el 100% de las solicitudes porque sus resultados no deciden la respuesta; el porcentaje seguro de canary no es directamente aplicable.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Un path con `compatible_features=False`, rollback no probado o retired vacío fuerza `ROLLBACK_TO_LAST_GOOD` y, si falta audit, `REVIEW_RETIREMENT`",
+          "problem": "El propio contrato limita `ROLLBACK_TO_LAST_GOOD` a incompatibilidad o rollback no probado. `retired` vacío representa un defecto de retiro/auditoría y no justifica por sí mismo volver a ejecutar el rollback; el ejemplo mezcla dos respuestas operativas diferentes.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
       "index": 48,
       "file": "s48-ai-governance.ts",
       "title": "LLM applications y RAG con evidencia",
       "chars_reviewed": 8416,
-      "findings_returned": 0,
-      "findings_verified": 0,
+      "findings_returned": 5,
+      "findings_verified": 5,
       "findings_unverified": 0,
-      "by_kind": {},
-      "findings": [],
-      "unreliable": true,
-      "unreliable_reason": "zero findings recorded during the run where the Grok balance was exhausted; a failed call was indistinguishable from a clean review. Must be re-reviewed before being treated as clean."
+      "by_kind": {
+        "FACTUAL": 3,
+        "CONTRADICTS": 1,
+        "UNCLEAR": 1
+      },
+      "findings": [
+        {
+          "kind": "FACTUAL",
+          "quote": "dedup por hash evita evidencia duplicada y fugas entre versiones.",
+          "problem": "Deduplicar por hash puede eliminar fragmentos legítimos que contienen el mismo texto pero pertenecen a documentos, secciones, permisos o versiones diferentes. Además, la deduplicación por sí sola no evita fugas entre versiones; eso depende del filtrado por versión, la ACL y la invalidación del índice y la caché.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "si dos secciones colapsan al mismo hash, se re-chunka.",
+          "problem": "Volver a trocear no es una solución general para hashes repetidos: las secciones podrían tener texto idéntico legítimamente o podría existir una colisión del algoritmo. Hay que distinguir igualdad de contenido de colisión y preservar la identidad y metadata de cada procedencia.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "El grounding exige **al menos un** `evidence_id` y que todos estén en la allowlist.",
+          "problem": "Tener una sola evidencia permitida no garantiza la regla establecida antes de que cada afirmación esté respaldada por un fragmento. Una respuesta con varias afirmaciones, solo una fundamentada, superaría esta validación.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Salida: `answer` solo si todos los umbrales se cumplen; si no, `abstain` con razón.",
+          "problem": "El contrato incluye el recall como condición para emitir cada respuesta, pero Recall@K es normalmente una métrica agregada calculada sobre un conjunto de evaluación con respuestas relevantes conocidas, no una señal disponible para decidir una consulta individual en producción. Se mezclan un gate de promoción del sistema y el gate de abstención por falta de soporte de una respuesta concreta.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Breach → `KEEP_EMBEDDING_BASELINE` si el candidato no mejora o el holdout no es el de RAG; missing de costo → `EVALUATE_ERROR_SLICES`.",
+          "problem": "La acción asociada a la ausencia del costo no corresponde al defecto: evaluar segmentos de error no proporciona el costo de reindexación faltante. El material no explica cómo esa acción permite resolver o cerrar el incumplimiento.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 49,
+      "file": "s49-data-contracts.ts",
+      "title": "Agentes, herramientas y context engineering",
+      "chars_reviewed": 12226,
+      "findings_returned": 3,
+      "findings_verified": 3,
+      "findings_unverified": 0,
+      "by_kind": {
+        "FACTUAL": 1,
+        "CONTRADICTS": 2
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Mecanismo de compactación: el conjunto de hechos post-compaction debe conservar las restricciones críticas (`facts_before` ⊆ `facts_after` en el lab)",
+          "problem": "La relación indicada exige conservar todos los hechos anteriores, no solo las restricciones críticas. Esto contradice la compactación descrita y el ejemplo posterior, donde se eliminan `paso_ruidoso` y `log_largo`. Debería compararse únicamente el subconjunto de hechos críticos con `facts_after`.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "la **idempotency key** garantiza que un retry no duplique side effects",
+          "problem": "Una clave de idempotencia por sí sola no garantiza que el efecto no se duplique. También hacen falta almacenamiento duradero, exclusión o atomicidad ante llamadas concurrentes y una estrategia para fallos entre aplicar el efecto y registrar la clave. El mecanismo descrito solo consulta el store antes del efecto, por lo que deja carreras y ventanas de fallo.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Mecanismo de llamada: `schema_valid`, `scope` ∈ `granted`, key no vacía, `effects == 1` tras N intentos",
+          "problem": "El contrato se formula para las llamadas a tools en general, pero exige exactamente un efecto y una clave no vacía incluso para tools de lectura. Eso contradice el ejemplo anterior de `get_case_status`, declarado «sin side effect», para el cual el número correcto de efectos sería cero y normalmente no sería necesaria una clave de idempotencia.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
     },
     {
       "index": 50,
       "file": "s50-tech-leadership.ts",
       "title": "Evals, red teaming y fiabilidad de IA",
       "chars_reviewed": 11434,
-      "findings_returned": 0,
-      "findings_verified": 0,
+      "findings_returned": 4,
+      "findings_verified": 4,
       "findings_unverified": 0,
-      "by_kind": {},
-      "findings": [],
-      "unreliable": true,
-      "unreliable_reason": "zero findings recorded during the run where the Grok balance was exhausted; a failed call was indistinguishable from a clean review. Must be re-reviewed before being treated as clean."
+      "by_kind": {
+        "FACTUAL": 2,
+        "CONTRADICTS": 1,
+        "UNCLEAR": 1
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Entrada: scores det/humano/LLM en [0,1] y tasa de acuerdo humano-LLM.",
+          "problem": "El contrato exige puntuaciones entre 0 y 1, pero el ejemplo posterior usa «humano=2». No se explica ninguna conversión desde la rúbrica 0–3, por lo que el ejemplo viola su propio contrato.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Error local: slices que no suman tasks, holdout vacío o niveles fuera de {0,1,2,3} → `REBUILD_EVAL_DATASET`.",
+          "problem": "Los slices de evaluación pueden solaparse: una misma tarea puede pertenecer, por ejemplo, a idioma, longitud y adversarial simultáneamente. Por ello, sus tamaños no tienen por qué sumar el número total de tareas; presentar esa suma como requisito general puede rechazar datasets válidos.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Otro caso: la salida imprime un token `sk-live-//redacted` → exfil P0.",
+          "problem": "Una cadena explícitamente redactada y sintética no demuestra exfiltración de un secreto. Puede servir como marcador de una prueba, pero el texto debería aclarar que el fixture simula una filtración; tal como está, clasifica un valor no secreto como exfiltración real P0.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "aquí cierras el eje operativo del scorecard del Tú haces.",
+          "problem": "«del Tú haces» es un fragmento gramaticalmente inconexo y no identifica ningún concepto definido, por lo que impide entender a qué scorecard se refiere.",
+          "severity": "baja",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 51,
+      "file": "s51-integrator-final.ts",
+      "title": "Observabilidad, gobernanza y UX del copiloto",
+      "chars_reviewed": 13030,
+      "findings_returned": 8,
+      "findings_verified": 8,
+      "findings_unverified": 0,
+      "by_kind": {
+        "FACTUAL": 3,
+        "JARGON": 1,
+        "CONTRADICTS": 1,
+        "UNCLEAR": 3
+      },
+      "findings": [
+        {
+          "kind": "UNCLEAR",
+          "quote": "Los hallazgos de S50 —una evaluación fallida, un prompt que resultó inyectable— entran aquí como alertas y como pruebas de regresión, no como notas sueltas.",
+          "problem": "«S50» no se define en el material, por lo que una persona que empieza no puede saber a qué sección, fase o artefacto se refiere.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Este artefacto alimenta el registry y el dashboard de T1-B en adelante.",
+          "problem": "No se identifica con claridad cuál es «este artefacto» y la nomenclatura mezcla «T1-B» con casos rotulados «1A» y «1B». La referencia interna resulta difícil de seguir.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "El **costo** se deriva de tokens × precio por etapa; si la suma por etapa no reconcilia `total_tokens`, el dashboard miente.",
+          "problem": "No todas las etapas se cobran mediante tokens ni todos sus tokens forman parte del contador facturable del modelo. Retrieval y tools pueden tener precios por consulta, tiempo, almacenamiento o ejecución; además, `total_tokens` suele referirse al uso del modelo. La regla presentada como universal puede producir una contabilidad incorrecta.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "**Redacción** aplica a atributos, eventos, payloads y mensajes de error: un stack trace con email o Authorization es PII en el sink.",
+          "problem": "Un valor de `Authorization` es un secreto o credencial, pero no necesariamente información personal identificable. Equipararlo siempre con PII confunde dos categorías de seguridad que pueden requerir controles y respuestas diferentes.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "el **audit log** es **append-only** para eventos de decisión, pero también se **depura** según política legal",
+          "problem": "El texto no explica cómo puede depurarse un registro que «solo se añade, nunca se edita». Es posible conciliar ambos requisitos mediante borrado por particiones, expiración del almacenamiento o separación entre evidencia inmutable y datos personales, pero el mecanismo debe aclararse para que el contrato sea implementable.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "**Accesibilidad** (WCAG 2.2 AA): flujo completo por teclado, labels para lector de pantalla, contraste ≥ 4.5:1 y lenguaje claro no son opcionales en un copiloto de operaciones.",
+          "problem": "Presentar 4.5:1 como umbral general de WCAG 2.2 AA es impreciso: ese valor corresponde al texto normal; el texto grande admite 3:1 y los componentes gráficos o de interfaz tienen otros criterios. El contrato tampoco distingue estos casos.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Salida: respuesta listable al usuario o `BLOCK_UNCONFIRMED_ACTION`.",
+          "problem": "«Respuesta listable» no se define y no es una propiedad habitual de una interfaz contestable. No queda claro qué condición verificable debe cumplir la salida.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "En ops de IA se modela como árbol de **spans** padre/hijo (prompt → retrieval → tool → answer) con atributos por span, no como tres strings sueltos.",
+          "problem": "Para material dirigido a principiantes, la frase introduce «ops», «spans», «retrieval», «tool» y «strings» sin explicar su significado ni mostrar una representación concreta en Python.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 52,
+      "file": "s52-career-strategy.ts",
+      "title": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
+      "chars_reviewed": 11562,
+      "findings_returned": 5,
+      "findings_verified": 5,
+      "findings_unverified": 0,
+      "by_kind": {
+        "FACTUAL": 2,
+        "JARGON": 1,
+        "CONTRADICTS": 1,
+        "UNCLEAR": 1
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Entregas un producto reproducible, una demostración, las fichas de modelo y datos, la evidencia del simulacro de recuperación y la defensa de tus trade-offs y de tu contribución personal.",
+          "problem": "Se exige una ficha de datos, pero el bundle final obligatorio enumera ocho artefactos y no incluye ninguna data card: architecture.md, README, ADR, system_card, model_card, LICENSE, demo_video y defense_notes. No queda claro si la ficha de datos fue omitida o si no es realmente obligatoria.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Mides: availability ≥ SLO, edad del backup ≤ RPO (horas), tiempo de rollback ≤ RTO (minutos), y **restore verificado** en un drill.",
+          "problem": "Equipara incorrectamente el RTO con el tiempo de rollback. El RTO limita el tiempo hasta restaurar el servicio tras una interrupción; un rollback puede ser solo una de las acciones de recuperación y puede terminar sin que el servicio ni los datos estén restaurados. Asimismo, la edad del backup por sí sola no demuestra el RPO si no se verifica hasta qué punto temporal pueden recuperarse los datos.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Predicado medible: `availability >= slo` y `backup_age_h <= rpo_h` y `rollback_min <= rto_min` y `disaster_exercise` (restore verificado).",
+          "problem": "La comparación de disponibilidad carece de una ventana temporal y de una definición común de medición para `availability` y `slo`. Sin ellas, el predicado puede comparar valores obtenidos en periodos distintos y no constituye un gate reproducible.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Los contract tests end-to-end fallan el release si un productor rompe el schema",
+          "problem": "Confunde pruebas de contrato con pruebas end-to-end. Una prueba de contrato verifica la compatibilidad entre productor y consumidor sin necesitar recorrer el sistema completo; el propio material luego enumera contract e integration como capas distintas. La formulación puede enseñar una clasificación incorrecta a principiantes.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "Tras firmar no-go (T1), la plataforma se descompone en **seis bounded contexts**: intake, er, relationship, triage, reporting, copilot.",
+          "problem": "Introduce numerosos términos centrales en inglés y abreviaturas sin definirlos para una audiencia principiante. En particular, no explica qué es un bounded context ni expande `er`; después añade HITL, RPA, RAG, SLO, RPO, RTO, ADR y C4 con el mismo problema, dificultando seguir los contratos y gates.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
     }
   ],
   "prior_runs": [
@@ -1973,16 +2486,57 @@
         50
       ],
       "total_verified_findings": 150
+    },
+    {
+      "generated_at": "2026-08-23T16:15:03.527949+00:00",
+      "reviewer": "OpenAI Codex via local codex CLI",
+      "sections": [
+        1,
+        2,
+        14,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        46,
+        48,
+        50
+      ],
+      "total_verified_findings": 184
     }
   ],
   "sections_this_run": [
-    28,
-    29,
-    30,
-    37,
-    38,
-    39,
-    40,
-    41
+    42,
+    43,
+    44,
+    45,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52
   ]
 }
