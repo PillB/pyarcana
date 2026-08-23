@@ -1,36 +1,20 @@
 {
   "sections_audited": 52,
-  "p1_total": 21,
+  "p1_total": 14,
   "info_total": 42,
   "by_kind": {
-    "LENGTH_TELL": 21,
+    "LENGTH_TELL": 14,
     "FORWARD_POINTER": 31,
     "GUIDED_HINT_RESTATES": 11
   },
   "ok": false,
   "findings": [
     {
-      "section": "setup",
-      "index": 1,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "correct option is much the longest in 4/8 questions",
-      "excerpt": ""
-    },
-    {
       "section": "data-structures",
       "index": 3,
       "kind": "LENGTH_TELL",
       "severity": "P1",
-      "detail": "correct option is much the longest in 4/8 questions",
-      "excerpt": ""
-    },
-    {
-      "section": "functions-modules",
-      "index": 4,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "correct option is much the longest in 4/8 questions",
+      "detail": "explanatory asymmetry in 4/8 questions: the correct option carries a reason its distractors lack",
       "excerpt": ""
     },
     {
@@ -42,19 +26,11 @@
       "excerpt": "* sin comillas escapadas aquí; no uses el módulo `csv` aún (S08); no regex."
     },
     {
-      "section": "data-acquisition",
-      "index": 7,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "correct option is much the longest in 5/10 questions",
-      "excerpt": ""
-    },
-    {
       "section": "pandas",
       "index": 8,
       "kind": "LENGTH_TELL",
       "severity": "P1",
-      "detail": "correct option is much the longest in 5/11 questions",
+      "detail": "explanatory asymmetry in 5/11 questions: the correct option carries a reason its distractors lack",
       "excerpt": ""
     },
     {
@@ -78,7 +54,7 @@
       "index": 11,
       "kind": "LENGTH_TELL",
       "severity": "P1",
-      "detail": "correct option is much the longest in 5/6 questions",
+      "detail": "explanatory asymmetry in 5/6 questions: the correct option carries a reason its distractors lack",
       "excerpt": ""
     },
     {
@@ -118,7 +94,7 @@
       "index": 14,
       "kind": "LENGTH_TELL",
       "severity": "P1",
-      "detail": "correct option is much the longest in 5/11 questions",
+      "detail": "explanatory asymmetry in 5/11 questions: the correct option carries a reason its distractors lack",
       "excerpt": ""
     },
     {
@@ -126,7 +102,7 @@
       "index": 15,
       "kind": "LENGTH_TELL",
       "severity": "P1",
-      "detail": "correct option is much the longest in 7/12 questions",
+      "detail": "explanatory asymmetry in 6/12 questions: the correct option carries a reason its distractors lack",
       "excerpt": ""
     },
     {
@@ -142,15 +118,7 @@
       "index": 16,
       "kind": "LENGTH_TELL",
       "severity": "P1",
-      "detail": "correct option is much the longest in 5/8 questions",
-      "excerpt": ""
-    },
-    {
-      "section": "packaging",
-      "index": 17,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "correct option is much the longest in 3/5 questions",
+      "detail": "explanatory asymmetry in 4/8 questions: the correct option carries a reason its distractors lack",
       "excerpt": ""
     },
     {
@@ -166,7 +134,7 @@
       "index": 18,
       "kind": "LENGTH_TELL",
       "severity": "P1",
-      "detail": "correct option is much the longest in 8/10 questions",
+      "detail": "explanatory asymmetry in 8/10 questions: the correct option carries a reason its distractors lack",
       "excerpt": ""
     },
     {
@@ -238,7 +206,7 @@
       "index": 22,
       "kind": "LENGTH_TELL",
       "severity": "P1",
-      "detail": "correct option is much the longest in 3/5 questions",
+      "detail": "explanatory asymmetry in 3/5 questions: the correct option carries a reason its distractors lack",
       "excerpt": ""
     },
     {
@@ -286,7 +254,7 @@
       "index": 23,
       "kind": "LENGTH_TELL",
       "severity": "P1",
-      "detail": "correct option is much the longest in 6/9 questions",
+      "detail": "explanatory asymmetry in 6/9 questions: the correct option carries a reason its distractors lack",
       "excerpt": ""
     },
     {
@@ -294,7 +262,7 @@
       "index": 24,
       "kind": "LENGTH_TELL",
       "severity": "P1",
-      "detail": "correct option is much the longest in 4/5 questions",
+      "detail": "explanatory asymmetry in 4/5 questions: the correct option carries a reason its distractors lack",
       "excerpt": ""
     },
     {
@@ -334,7 +302,7 @@
       "index": 30,
       "kind": "LENGTH_TELL",
       "severity": "P1",
-      "detail": "correct option is much the longest in 5/9 questions",
+      "detail": "explanatory asymmetry in 5/9 questions: the correct option carries a reason its distractors lack",
       "excerpt": ""
     },
     {
@@ -342,7 +310,7 @@
       "index": 31,
       "kind": "LENGTH_TELL",
       "severity": "P1",
-      "detail": "correct option is much the longest in 7/10 questions",
+      "detail": "explanatory asymmetry in 6/10 questions: the correct option carries a reason its distractors lack",
       "excerpt": ""
     },
     {
@@ -442,19 +410,11 @@
       "excerpt": "n_groups = len(set(entities))"
     },
     {
-      "section": "advanced-models",
-      "index": 33,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "correct option is much the longest in 4/9 questions",
-      "excerpt": ""
-    },
-    {
       "section": "cv-ai-integration",
       "index": 34,
       "kind": "LENGTH_TELL",
       "severity": "P1",
-      "detail": "correct option is much the longest in 5/8 questions",
+      "detail": "explanatory asymmetry in 5/8 questions: the correct option carries a reason its distractors lack",
       "excerpt": ""
     },
     {
@@ -472,14 +432,6 @@
       "severity": "INFO",
       "detail": "S41-T2-A-E1 (guided): hint contains a full solution line",
       "excerpt": "return create_job(get_store(), body)"
-    },
-    {
-      "section": "llm-finetuning",
-      "index": 41,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "correct option is much the longest in 4/8 questions",
-      "excerpt": ""
     },
     {
       "section": "graph-rag",
@@ -502,15 +454,7 @@
       "index": 45,
       "kind": "LENGTH_TELL",
       "severity": "P1",
-      "detail": "correct option is much the longest in 5/7 questions",
-      "excerpt": ""
-    },
-    {
-      "section": "tech-leadership",
-      "index": 50,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "correct option is much the longest in 5/10 questions",
+      "detail": "explanatory asymmetry in 4/7 questions: the correct option carries a reason its distractors lack",
       "excerpt": ""
     }
   ]

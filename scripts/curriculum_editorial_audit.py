@@ -71,6 +71,22 @@ def quoted(text: str, key: str) -> list[str]:
     return [m.group(1) for m in re.finditer(rf'\b{key}:\s*"((?:[^"\\]|\\.)*)"', text)]
 
 
+#: Options that are *artifacts* rather than explanations — code, commands, file
+#: names, printed output, commit messages. For these, being longer is being
+#: right, so a length difference is content and not a tell.
+_ARTIFACT = re.compile(
+    r"[`(){}\[\]=<>]|^[a-z]+:\s|\bdef \b|\bimport \b|\.(py|csv|json|toml|txt)\b"
+    r"|--[a-z]|\bgit \b|\bpip \b|_[a-z]",
+    re.M,
+)
+
+
+def _artifact_options(opts: list[str]) -> bool:
+    """True when the options are artifacts, so length carries meaning."""
+    hits = sum(1 for o in opts if _ARTIFACT.search(o))
+    return hits >= max(2, len(opts) // 2)
+
+
 def split_options(raw: str) -> list[str]:
     """Split an `options: [...]` body into whole option strings.
 
@@ -238,10 +254,23 @@ def audit(sid: str, idx: int, path: Path) -> list[dict]:
                 }
             )
         if ci < len(opts):
-            lens = [len(o) for o in opts]
-            others = [l for k, l in enumerate(lens) if k != ci]
-            if others and lens[ci] > max(others) * 1.6:
-                longest_correct += 1
+            others_txt = [o for k, o in enumerate(opts) if k != ci]
+            if others_txt and len(opts[ci]) > max(len(o) for o in others_txt) * 1.6:
+                # Length is only a *tell* when it is unearned. In a question whose
+                # options are artifacts — a commit message, a command, a code
+                # expression, a printed output — the correct one is longer
+                # *because being specific is the answer*:
+                #
+                #   correct: "feat: agregar cálculo de churn por segmento"
+                #   others : "wip" / "cambios" / "arreglé el bug de ayer"
+                #
+                # Padding those distractors would make them better commit
+                # messages and destroy the question. So artifact options are
+                # excluded, and what is reported is the defect that actually
+                # exists: the correct option explains itself and the distractors
+                # do not, which lets a learner pick the one carrying a reason.
+                if not _artifact_options(opts):
+                    longest_correct += 1
     if total_q >= 4 and longest_correct >= max(3, total_q // 2):
         findings.append(
             {
@@ -249,7 +278,10 @@ def audit(sid: str, idx: int, path: Path) -> list[dict]:
                 "index": idx,
                 "kind": "LENGTH_TELL",
                 "severity": "P1",
-                "detail": f"correct option is much the longest in {longest_correct}/{total_q} questions",
+                "detail": (
+                    f"explanatory asymmetry in {longest_correct}/{total_q} questions: "
+                    "the correct option carries a reason its distractors lack"
+                ),
                 "excerpt": "",
             }
         )
