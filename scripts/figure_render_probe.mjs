@@ -59,16 +59,87 @@ const PROBE = (figureId) => {
   const isFlow = !!fig.querySelector('.react-flow')
   const figBox0 = fig.getBoundingClientRect()
   if (!svg || isFlow) {
+    // A React Flow figure paints its labels as HTML nodes, not <text>. The
+    // first version of this branch returned textCount: 0 with empty clipped
+    // and overlaps arrays, so the one figure whose nodes are positioned by a
+    // layout engine -- the one most likely to collide -- reported clean
+    // without anything being measured. Measure the HTML instead.
+    if (!isFlow) {
+      return {
+        present: true,
+        kind: 'none',
+        figureWidth: Math.round(figBox0.width),
+        figureOverflow: Math.max(0, Math.round(figBox0.right - window.innerWidth)),
+        pageOverflow: Math.max(0, Math.round(document.documentElement.scrollWidth - window.innerWidth)),
+        textCount: 0,
+        clipped: [],
+        overlaps: [],
+        smallestRenderedPx: null,
+      }
+    }
+
+    const pane = fig.querySelector('.react-flow__viewport') ?? fig
+    const paneBox = (fig.querySelector('.react-flow') ?? fig).getBoundingClientRect()
+    // React Flow scales its whole viewport with a CSS transform. getComputedStyle
+    // reports the *authored* font-size, which is not what the reader sees: at a
+    // 0.36 fit-scale a 14px label paints at 5px. Read the matrix and apply it,
+    // or this probe certifies legibility it never measured.
+    const vpTransform = getComputedStyle(pane).transform
+    const flowScale = (() => {
+      if (!vpTransform || vpTransform === 'none') return 1
+      const m = vpTransform.match(/matrix\(([^)]+)\)/)
+      if (!m) return 1
+      const parts = m[1].split(',').map(Number)
+      return Number.isFinite(parts[0]) && parts[0] > 0 ? parts[0] : 1
+    })()
+    const nodes = [...fig.querySelectorAll('.react-flow__node')].map((n) => {
+      const b = n.getBoundingClientRect()
+      const cs = getComputedStyle(n)
+      return {
+        label: (n.textContent ?? '').trim().slice(0, 40),
+        x: b.left, y: b.top, w: b.width, h: b.height,
+        right: b.right, bottom: b.bottom,
+        px: Math.round(parseFloat(cs.fontSize) * flowScale * 10) / 10,
+        z: cs.zIndex === 'auto' ? 0 : Number(cs.zIndex),
+      }
+    })
+
+    // A node painted outside the flow pane is clipped from the reader's view.
+    const clipped = nodes
+      .filter((n) => n.x < paneBox.left - 1 || n.right > paneBox.right + 1 ||
+                     n.y < paneBox.top - 1 || n.bottom > paneBox.bottom + 1)
+      .map((n) => n.label)
+
+    // Two node boxes sharing pixels: one label is sitting on another.
+    const overlaps = []
+    for (let i = 0; i < nodes.length; i += 1) {
+      for (let j = i + 1; j < nodes.length; j += 1) {
+        const a = nodes[i]; const b = nodes[j]
+        const ox = Math.min(a.right, b.right) - Math.max(a.x, b.x)
+        const oy = Math.min(a.bottom, b.bottom) - Math.max(a.y, b.y)
+        if (ox > 1 && oy > 1) {
+          overlaps.push({ a: a.label, b: b.label, px: Math.round(ox * oy) })
+        }
+      }
+    }
+
+    // Edge labels are separate elements and collide with nodes just as easily.
+    const edgeLabels = [...fig.querySelectorAll('.react-flow__edge-textwrapper, .react-flow__edge-text')].length
+
     return {
       present: true,
-      kind: isFlow ? 'dom' : 'none',
+      kind: 'dom',
       figureWidth: Math.round(figBox0.width),
       figureOverflow: Math.max(0, Math.round(figBox0.right - window.innerWidth)),
       pageOverflow: Math.max(0, Math.round(document.documentElement.scrollWidth - window.innerWidth)),
-      textCount: 0,
-      clipped: [],
-      overlaps: [],
-      smallestRenderedPx: null,
+      paneHeight: Math.round(paneBox.height),
+      nodeCount: nodes.length,
+      edgeLabelCount: edgeLabels,
+      textCount: nodes.length,
+      clipped,
+      overlaps,
+      flowScale: Math.round(flowScale * 1000) / 1000,
+      smallestRenderedPx: nodes.length ? Math.min(...nodes.map((n) => n.px)) : null,
     }
   }
 
@@ -189,8 +260,11 @@ try {
             // Context, not a figure finding — recorded so it is not lost.
             report.page_overflow_context.push(`${where}: page already scrolls ${r.pageOverflow}px (chrome, not the figure)`)
           }
-          if (r.smallestRenderedPx !== null && r.smallestRenderedPx < 10.5 && vp.name !== 'stress-320') {
-            report.findings.push(`${where}: smallest label renders at ${r.smallestRenderedPx}px`)
+          // The SVG figures hold 11.5px at every viewport including the 320px
+          // stress case, so exempting stress-320 lets a figure be illegible
+          // exactly where legibility is hardest. Hold one floor everywhere.
+          if (r.smallestRenderedPx !== null && r.smallestRenderedPx < 11) {
+            report.findings.push(`${where}: smallest label renders at ${r.smallestRenderedPx}px (floor 11)`)
           }
         }
         await ctx.close()
