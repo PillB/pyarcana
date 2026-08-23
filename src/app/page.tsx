@@ -274,18 +274,20 @@ export default function Home() {
             variant="ghost"
             size="icon"
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden"
+            className="shrink-0 lg:hidden"
             aria-label={tr('nav.menu')}
           >
             <Menu className="h-5 w-5" />
           </Button>
-          <button onClick={handleHome} className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg gradient-primary text-xs font-bold text-white">
+          {/* min-w-0 + truncate: at 320px the brand must give way rather than
+              push the control cluster past the edge of the viewport. */}
+          <button onClick={handleHome} className="flex min-w-0 items-center gap-2">
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg gradient-primary text-xs font-bold text-white">
               Py
             </div>
-            <span className="text-sm font-bold" style={{ fontFamily: 'var(--font-display)' }}>PyArcana</span>
+            <span className="truncate text-sm font-bold" style={{ fontFamily: 'var(--font-display)' }}>PyArcana</span>
           </button>
-          <div className="flex items-center gap-1">
+          <div className="flex shrink-0 items-center gap-1">
             <Button
               variant="ghost"
               size="icon"

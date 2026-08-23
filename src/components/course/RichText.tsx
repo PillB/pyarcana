@@ -97,7 +97,7 @@ export function RichText({ content, sectionId }: RichTextProps) {
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
                     {j + 1}
                   </span>
-                  <span className="flex-1 pt-0.5 [&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px] [&_code]:font-mono">
+                  <span className="min-w-0 flex-1 pt-0.5 [&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px] [&_code]:font-mono [&_code]:break-words">
                     <InlineAnnotated html={annotate(item)} />
                   </span>
                 </li>
@@ -108,7 +108,7 @@ export function RichText({ content, sectionId }: RichTextProps) {
         return (
           <p
             key={i}
-            className="[&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px] [&_code]:font-mono"
+            className="[&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px] [&_code]:font-mono [&_code]:break-words"
           >
             <InlineAnnotated html={annotate(block.content)} />
           </p>
