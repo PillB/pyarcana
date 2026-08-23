@@ -42,12 +42,14 @@ export function S04Denominator({ title }: { title: string }) {
             <motion.rect
               key={i}
               x={34 + i * (boxW + 16)}
+              y={falls ? beltY + beltH + 12 : beltY + 5}
               width={boxW}
               height={beltH - 10}
               rx={FIG.radius}
               fill={falls ? 'var(--chart-4)' : 'var(--card)'}
               stroke={falls ? 'var(--chart-4)' : 'var(--border)'}
               strokeWidth={FIG.stroke}
+              initial={false}
               animate={{ y: falls ? beltY + beltH + 12 : beltY + 5, opacity: falls ? 0.85 : 1 }}
               transition={transition}
             />

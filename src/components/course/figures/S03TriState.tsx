@@ -120,9 +120,11 @@ export function S03TriState({ title }: { title: string }) {
 
         {/* the record itself, sitting at the door that decided it */}
         <motion.circle
+          cx={tokenX}
           cy={laneY + doorH / 2}
           r={8}
           fill={exitColor[record.out]}
+          initial={false}
           animate={{ cx: tokenX }}
           transition={transition}
         />

@@ -140,3 +140,53 @@ test('the shell wires accessibility for all figures at once', () => {
   assert.match(SHELL, /overflow-x-auto/, 'a figure wider than the column must scroll, not clip the page')
   assert.match(SHELL, /minWidth: FIG\.minWidth/, 'the type floor depends on a rendered min-width')
 })
+
+/**
+ * Framer Motion writes animated SVG attributes on first paint. If a length
+ * attribute (cx, y, …) exists only inside `animate={{ }}` and not as a static
+ * JSX prop, the first frame — including SSR — emits `cx="undefined"`. The
+ * browser then logs:
+ *
+ *   Error: <circle> attribute cx: Expected length, "undefined".
+ *
+ * `scripts/regression.spec.ts` fails the 52-section walk on any console error.
+ * CI job "Browser Regression" failed on S03 (`data-structures`) for exactly
+ * this: the token `motion.circle` animated `cx` with no static `cx={...}`.
+ * S04 had the same pattern on `y`. Opacity/scale are not SVG length attrs
+ * and do not produce that error.
+ */
+test('motion SVG length attributes are not left to animate from undefined', () => {
+  const LENGTH_ATTRS = new Set([
+    'cx',
+    'cy',
+    'r',
+    'x',
+    'y',
+    'width',
+    'height',
+    'x1',
+    'y1',
+    'x2',
+    'y2',
+    'rx',
+    'ry',
+  ])
+  const offenders = []
+  for (const file of FIGURE_FILES) {
+    const src = readFileSync(`${DIR}${file}`, 'utf8')
+    const blocks = src.match(/<motion\.(?:circle|rect|ellipse|line|path)\b[\s\S]*?\/>/g) ?? []
+    for (const block of blocks) {
+      const animate = block.match(/animate=\{\{([^}]+)\}\}/)
+      if (!animate) continue
+      const keys = [...animate[1].matchAll(/\b([A-Za-z][\w]*)\s*:/g)].map((m) => m[1])
+      for (const key of keys) {
+        if (!LENGTH_ATTRS.has(key)) continue
+        const hasStatic = new RegExp(`\\b${key}=\\{`).test(block)
+        if (!hasStatic) {
+          offenders.push(`${file}: animates ${key} without a static ${key}={...}`)
+        }
+      }
+    }
+  }
+  assert.deepEqual(offenders, [], offenders.join('; '))
+})
