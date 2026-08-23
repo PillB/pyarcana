@@ -106,7 +106,7 @@ catalog_ok True unknown []`,
       paragraphs: [
         "Un **missing indicator** (1 si el valor era ausente) + fill (mediana/moda de **train**) preserva la **señal de ausencia**. Rellenar en silencio con 0 o con la mediana del set completo es **silent fill** y suele filtrar estadísticas de test. El z-score usa **μ/σ solo de train**, congelados en fit; reestimarlos en serve es leakage o skew.",
         "Contrato: entrada serie con `None`, fill/μ/σ aprendidos en train; salida indicator, serie rellena y z sobre la serie rellena. Error: calcular mediana con filas de test o re-fit en serve. Criterio: **stats congeladas en fit**. Encoding one-hot con columna `unknown` sigue la misma idea: vocab de train, no del batch de serve.",
-        "Aplicación al caso sintético Red Andina: `[1, None, 3]` → indicator + fill mediana 2 → z con μ=0, σ=2 del train fit sobre la serie completa rellena. `silent_fill` debe quedar en False porque el indicator viaja junto al valor.",
+        "Aplicación al caso sintético Red Andina: `[1, None, 3]` → indicator + fill con la mediana **de train** (2) → z aplicando los μ=0 y σ=2 **congelados en el fit de train**, no recalculados sobre esta serie. Si los recalcularas aquí obtendrías μ=2, y esa diferencia es exactamente la fuga que la sección persigue. `silent_fill` debe quedar en False porque el indicator viaja junto al valor.",
       ],
       code: {
         language: 'python',
