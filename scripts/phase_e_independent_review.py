@@ -104,9 +104,14 @@ SCHEMA = json.dumps(
 
 def teaching_text(path: Path) -> str:
     src = path.read_text(encoding="utf-8")
-    start, end = src.find("theory: ["), src.find("\n  iDo:")
-    if start < 0 or end < 0:
+    start = src.find("theory: [")
+    # Section files do not share one indentation: some use two spaces, some one,
+    # so a literal "\n  iDo:" silently returned nothing for those and the review
+    # skipped the section without saying so. Match the key at any indent.
+    m_end = re.search(r"\n\s*iDo:", src[start:]) if start >= 0 else None
+    if start < 0 or not m_end:
         return ""
+    end = start + m_end.start()
     block = re.sub(r"code:\s*`[\s\S]*?`", " ", src[start:end])
     block = re.sub(r"output:\s*`[\s\S]*?`", " ", block)
     # Only strings that are actually `paragraphs:` entries. Matching every long
@@ -117,7 +122,19 @@ def teaching_text(path: Path) -> str:
     for arr in re.findall(r"paragraphs:\s*\[([\s\S]*?)\n\s*\]", block):
         paras += re.findall(r'"((?:\\.|[^"\\]){40,})"', arr)
         paras += re.findall(r"'((?:\\.|[^'\\]){40,})'", arr)
-    text = "\n\n".join(p.replace("\\n", "\n").replace('\\"', '"') for p in paras)
+    # Decode the way TypeScript does, or the reviewer reads escapes as content:
+    # `Scripts\\\\Activate.ps1` in source renders as a single backslash, and a
+    # reviewer shown the raw form correctly reports a path that is not wrong.
+    def _decode(s: str) -> str:
+        return (
+            s.replace("\\\\", "\x00")
+            .replace("\\n", "\n")
+            .replace('\\"', '"')
+            .replace("\\'", "'")
+            .replace("\x00", "\\")
+        )
+
+    text = "\n\n".join(_decode(p) for p in paras)
     return text[:55000]
 
 
@@ -205,12 +222,17 @@ def main() -> int:
     else:
         want = [15, 18, 31]
 
-    rows, all_findings = [], []
+    rows, all_findings, skipped = [], [], []
     for idx in want:
         rec = parsed[idx - 1]
         path = ROOT / rec["file"]
         text = teaching_text(path)
         if len(text) < 400:
+            # Never skip in silence. An earlier boundary bug returned empty prose
+            # for any file whose indentation differed, and the sweep quietly
+            # reviewed fewer sections than it reported.
+            skipped.append({"index": idx, "file": path.name, "chars": len(text)})
+            print(f"S{idx:02d} {path.name:28s} SKIPPED: only {len(text)} chars extracted", flush=True)
             continue
         prompt = (
             "Revisa el siguiente material didáctico y devuelve los defectos que encuentres.\n\n"
@@ -265,6 +287,8 @@ def main() -> int:
             "counted as defects."
         ),
         "sections_reviewed": len(rows),
+        "sections_skipped": skipped,
+        "coverage_complete": not skipped,
         "total_verified_findings": len(all_findings),
         "sections": rows,
     }

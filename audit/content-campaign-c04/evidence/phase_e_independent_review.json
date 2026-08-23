@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T06:09:00.778675+00:00",
+  "generated_at": "2026-08-23T06:35:23.603936+00:00",
   "reviewer": "xAI Grok via local grok CLI",
   "model": "cli default",
   "method": "independent expert review of learner-visible theory prose",
@@ -11,98 +11,310 @@
     "only the section prose is supplied, in the prompt"
   ],
   "verification": "Every finding must quote the source verbatim; quotes are checked back against the file. Unverifiable quotes are recorded but not counted as defects.",
-  "sections_reviewed": 1,
-  "total_verified_findings": 11,
+  "sections_reviewed": 3,
+  "sections_skipped": [],
+  "coverage_complete": true,
+  "total_verified_findings": 34,
   "sections": [
     {
-      "index": 31,
-      "file": "s31-streaming-data.ts",
-      "title": "Grafos y evidencia relacional",
-      "chars_reviewed": 9668,
-      "findings_returned": 11,
-      "findings_verified": 11,
-      "findings_unverified": 0,
+      "index": 18,
+      "file": "s18-data-engineering.ts",
+      "title": "EDA, estadística descriptiva e incertidumbre",
+      "chars_reviewed": 14349,
+      "findings_returned": 9,
+      "findings_verified": 8,
+      "findings_unverified": 1,
       "by_kind": {
-        "CONTRADICTS": 5,
-        "JARGON": 2,
-        "UNCLEAR": 3,
-        "FACTUAL": 1
+        "CONTRADICTS": 2,
+        "JARGON": 1,
+        "UNSUPPORTED": 1,
+        "UNCLEAR": 2,
+        "FACTUAL": 2
       },
       "findings": [
         {
           "kind": "CONTRADICTS",
-          "quote": "Los **nodos** son las entidades resueltas; las **aristas** son los hechos que las conectan: comparten un teléfono, una dirección, hubo una transferencia.",
-          "problem": "Ese modelo (nodos = personas resueltas; teléfono, dirección y transferencia = aristas) choca con lo que sigue: «Un nodo es una entidad del caso: cliente, cuenta, email o teléfono sintético», transferencias cuenta→cuenta, y contactos como nodos intermedios. Quien empieza no puede saber qué grafo tiene que construir.",
+          "quote": "“¿El ticket mediano en Madrid supera 25 PEN?” → median(monto|region==Lima)=27.5, n=40, IC z o bootstrap documentado, límite “solo canal web”. Conclusión permitida: hipótesis provisional en web Madrid",
+          "problem": "La pregunta, el cálculo y la conclusión no coinciden: se pregunta por Madrid, se calcula la mediana de Lima y se restringe la cobertura al canal web, que no estaba en la pregunta. Un principiante copiaría este patrón y reportaría la región equivocada.",
           "severity": "alta",
           "quote_verified": true
         },
         {
           "kind": "CONTRADICTS",
-          "quote": "**Esquema canónico de aristas** en esta sección: `owns`, `transfer`, `shared_phone`, `shared_address`.",
-          "problem": "El esquema canónico no incluye `has_phone`/`has_email`, pero el patrón «preferencia canónica» usa exactamente esos tipos y degrada `shared_phone` a «atajo derivado, no el modelo primario». La sección insiste en tipos estables para auditar el path y luego enseña dos catálogos incompatibles.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "CONTRADICTS",
-          "quote": "Preferencia canónica: el valor de contacto como **nodo** intermedio (`E1 → ph:900 ← E2`).",
-          "problem": "Con `has_phone`/`owns` dirigidos hacia el teléfono o la cuenta no hay camino dirigido `E1 → ph:900 → E2` ni entre dos personas unidas por una transferencia (`E1→acc1→acc2←E2`). El storyboard y la pregunta «¿hay un camino entre A y B?» asumen ese recorrido, y el texto solo menciona el grafo no dirigido subyacente para componentes conexas, no para paths.",
+          "quote": "un valor p alto **no** prueba que no hay efecto. Casi siempre significa que tu experimento no tuvo resolución para distinguir el efecto del ruido. Con los 400 comercios del bloque anterior y un IC de (1.18, 9.82), no puedes descartar ni 1.2 ni 9.8 PEN; llamar a eso “sin efecto” sería inventar precisión.",
+          "problem": "El IC (1.18, 9.82) no incluye el 0, así que corresponde a un resultado estadísticamente significativo (p bajo), no a un p alto. Ese intervalo no ilustra el malentendido anunciado: nadie llamaría «sin efecto» a un intervalo enteramente positivo; ilustra incertidumbre de magnitud, que es otra lección.",
           "severity": "alta",
           "quote_verified": true
         },
         {
           "kind": "FACTUAL",
-          "quote": "**Grado** (degree): número de vecinos (in/out en dirigidos).",
-          "problem": "El propio material exige un multigrafo (varias transferencias o contactos entre el mismo par). Ahí el grado cuenta aristas incidentes con multiplicidad, no vecinos distintos. Cincuenta transferencias al mismo destino suben el degree y no el recuento de vecinos; la fórmula `deg(v)/(n-1)` que dan después es además para grafo simple, no para el grafo de trabajo.",
+          "quote": "un valor p alto **no** prueba que no hay efecto. Casi siempre significa que tu experimento no tuvo resolución para distinguir el efecto del ruido.",
+          "problem": "Un p alto no prueba la nula, pero no «casi siempre» significa falta de resolución: también es compatible con un efecto nulo o demasiado pequeño. Esa lectura empuja a interpretar toda no-rechazo como experimento subpotenciado.",
           "severity": "media",
           "quote_verified": true
         },
         {
-          "kind": "CONTRADICTS",
-          "quote": "Cada una con tipo, peso y provenance.",
-          "problem": "Más abajo la arista tiene «opcionalmente dirección y peso». El contrato de entrada no deja claro si el peso es obligatorio, ni dónde vive la «confianza» que el arranque atribuye a cada arista: no está en provenance (`source_system`, `run_id`, `record_id`) y el peso solo a veces es un `score`.",
-          "severity": "media",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": "Usa ids **sintéticos estables** (`ent-001`, `acc-1`)",
-          "problem": "Conviven tres convenciones sin tabla de correspondencia: `ent-001`/`acc-1`, el fixture `E1`/`ph:900`, y al interpretar `PER-…` vs `INF-…`. `INF` ni siquiera es un tipo de nodo en el modelo (cliente, cuenta, email, teléfono), pero el texto pide usarlo para no culpar hubs.",
-          "severity": "media",
-          "quote_verified": true
-        },
-        {
-          "kind": "CONTRADICTS",
-          "quote": "El path **reproducible** lista nodos en orden estable (vecinos sorted) y, en producción, incluye aristas y evidencia.",
-          "problem": "La pregunta que gobierna la sección es «qué camino conecta a estos dos, y qué respalda cada paso»; también se dice que el workbench necesita sumario y fuente. Dejar aristas y evidencia solo «en producción» contradice ese contrato y sugiere que en el ejercicio basta una lista de nodos.",
+          "kind": "FACTUAL",
+          "quote": "median(monto|region==Lima)=27.5, n=40, IC z o bootstrap documentado",
+          "problem": "El único intervalo z enseñado es media ± z·(s/√n), válido para la media. Ofrecer «IC z» para una mediana es incorrecto: el error típico de la mediana no es s/√n y exige bootstrap o un método de estadísticos de orden.",
           "severity": "media",
           "quote_verified": true
         },
         {
           "kind": "UNCLEAR",
-          "quote": "la clave de agregado incluye al menos `(src, dst, etype)`",
-          "problem": "Para etypes no dirigidos (`shared_phone`, `shared_address`) esa clave cuenta dos veces el mismo hecho si un extremo entra como src y otra vez como dst. El texto pide no mezclar convenciones por etype, pero no dice cómo normalizar el par.",
+          "quote": "pob Madrid 0.55 / Berlin 0.25 / Bogota 0.20 vs. muestra 80% Madrid → bias Madrid +0.25",
+          "problem": "Mezcla proporciones (0.55) con porcentajes (80%) y luego un sesgo +0.25 en proporción. Un principiante puede calcular 80 − 0.55 y no recuperar el +0.25, aunque 0.80 − 0.55 sea correcto.",
           "severity": "media",
           "quote_verified": true
         },
         {
           "kind": "UNCLEAR",
-          "quote": "Dos personas conectadas por una transferencia directa no están en la misma situación que dos conectadas por cuatro saltos a través de un teléfono compartido en una oficina.",
-          "problem": "En el modelo que luego se enseña, una transferencia entre personas no es un hop directo (pasa por cuentas) y un teléfono compartido son 1 hop (`shared_phone`) o 2 (`E1 → ph:900 → E2`), no cuatro. El ejemplo motivador no se puede mapear al schema.",
+          "quote": "Caso sintético: media B ~108 vs. A ~94, d≈1.1 — magnitud + incertidumbre, no veredicto causal de campaña.",
+          "problem": "Se afirma «magnitud + incertidumbre» y, en el párrafo siguiente, «un intervalo alrededor de la media de B», pero no se da ningún IC. El único intervalo posterior, (1.18, 9.82) alrededor de 5.50, no cuadra con una diferencia de ~14 entre 108 y 94; quedan dos casos pegados con cifras incompatibles.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "montos lognormales (como tickets de T1)",
+          "problem": "T1 solo mostró cola y media ≠ mediana. Eso no identifica lognormalidad (vale igual para gamma, Pareto, etc.). Se presenta como hecho del material de T1.",
           "severity": "baja",
           "quote_verified": true
         },
         {
           "kind": "JARGON",
-          "quote": "BFS/DFS con **límite de profundidad** (*hop limit*, máximo de saltos).",
-          "problem": "Nombra BFS y DFS sin decir que son búsqueda en amplitud y en profundidad, ni cuándo usar cada una. En un curso para quien empieza, eso no enseña el algoritmo de recorrido que T3 anuncia; solo deja un acrónimo.",
+          "quote": "`log1p` de montos reduce asimetría visual para EDA",
+          "problem": "No se dice que log1p es log(1+x). A diferencia de mean/median/std, el nombre no es transparente para quien empieza, y hace ilegible el contrato de no interpretar diferencias log como PEN.",
           "severity": "baja",
           "quote_verified": true
         },
         {
+          "kind": "FACTUAL",
+          "quote": "Spearman usa rangos y resume asociación monótona (útil con relaciones no lineales leves o outliers).",
+          "problem": "Spearman resume asociación monótona en general, también cuando la no linealidad es fuerte (p. ej. exponencial). Restringirlo a no linealidades «leves» es falso y acota mal cuándo usarlo frente a Pearson.",
+          "severity": "baja",
+          "quote_verified": false
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "file": "s01-setup.ts",
+      "title": "Entorno reproducible y trabajo seguro",
+      "chars_reviewed": 32536,
+      "findings_returned": 15,
+      "findings_verified": 14,
+      "findings_unverified": 1,
+      "by_kind": {
+        "FACTUAL": 8,
+        "JARGON": 2,
+        "CONTRADICTS": 2,
+        "UNCLEAR": 2
+      },
+      "findings": [
+        {
+          "kind": "UNCLEAR",
+          "quote": "Hay una diferencia crítica entre **sesión REPL** y **script `.py`**. En el REPL cada línea se ejecuta al presionar Enter. En un script, escribes el programa completo en un archivo y lo lanzas con `python hello.py`. El script es lo que subes a GitHub y lo que corre en producción o en un pipeline. El REPL es tu laboratorio de bolsillo. Cuando un colega dice \n\n, te está pidiendo el REPL. Cuando dice \n\n, te está pidiendo un archivo. Confundir ambos genera la sensación de que \n\n en la laptop y falla en el servidor.",
+          "problem": "El texto está truncado: faltan las citas del colega y la frase «a mí me funciona». Quedan huecos vacíos que un principiante no puede reconstruir. El mismo patrón se repite en otros bloques (`if __name__ ==`, `print(f`, `select = [`).",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Por eso `which python || where python` prueba primero el comando de macOS/Linux y recurre al de Windows cuando el primero no existe.",
+          "problem": "En Windows el material manda abrir PowerShell, donde `where` es un alias de `Where-Object`, no el localizador de programas. El fallback no encuentra Python: hay que usar `where.exe python` o `Get-Command python`. El truco solo funciona en cmd.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "`&&` ejecuta el segundo comando **solo si el anterior tuvo éxito**, es decir si devolvió código de salida 0: `mkdir -p lab_venv && cd lab_venv` entra a la carpeta únicamente si se pudo crear. `||` es el complemento: ejecuta el segundo **si el primero falla**.",
+          "problem": "Windows PowerShell 5.1 (el que se abre con Inicio → PowerShell) no acepta `&&` ni `||`; fallan como error de sintaxis. Esos operadores existen en bash/zsh, cmd y PowerShell 7 (`pwsh`), no en el PowerShell que el propio texto indica usar.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "en Windows PowerShell, `.venv\\Scripts\\Activate.ps1`. El prompt suele mostrar `(.venv)`.",
+          "problem": "En una instalación por defecto de Windows, ejecutar ese script suele fallar por la ExecutionPolicy («running scripts is disabled»). El material sí avisa de «Add python.exe to PATH» y de reabrir la terminal tras Git, pero omite el bloqueo más frecuente al activar el venv.",
+          "severity": "alta",
+          "quote_verified": false
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Así, `python -m pip list | head` significa «lista los paquetes y muéstrame solo el principio». **`head`** muestra las primeras líneas de lo que recibe. **`grep`** filtra y busca las líneas que contienen un texto: `grep -i \"requests==\" requirements.txt` busca esa dependencia ignorando mayúsculas.",
+          "problem": "`head` y `grep` no son comandos de PowerShell, que es la terminal que se pide abrir en Windows. Pegarlos tal cual produce «no se reconoce como comando». El equivalente nativo sería `Select-Object -First` y `Select-String`.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Nunca instales paquetes \"a ciegas\" sin saber qué `python` los va a recibir: el prefijo `python3 -m pip` evita el pip huérfano que apunta a otro intérprete.",
+          "problem": "En Windows acaba de indicar `python` o `py`, no `python3`. Fijar `python3 -m pip` como regla general contradice esa guía y en Windows suele fallar porque `python3` no existe. La regla coherente, que el propio texto da después, es `python -m pip` con el mismo ejecutable ya verificado.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "El bloque de abajo es el checklist copy-paste del día 1: Python responde con 3.12.x, Git responde con su versión, y el editor está listo",
+          "problem": "Antes admite «3.10+ es aceptable si lo documentas» y «apuntamos a Python 3.12 o superior». El checklist del día 1, en cambio, exige 3.12.x. Quien siga la excepción documentada con 3.10 o 3.11 no puede cerrar esa lista.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "`git diff` muestra cambios *sin* stage; `git diff --staged` lo ya agregado; `git show` el último commit (o un hash). Líneas con `+` se añadieron; con `-` se quitaron. Un archivo nuevo aparece como todo `+`.",
+          "problem": "Un archivo nuevo sin `git add` no aparece en `git diff` (Git ignora untracked). Solo se ve como todo `+` en `git diff --staged` después de agregarlo, o con `git status`. Es el tropiezo clásico del primer commit.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "`2 + 2` devuelve `4`, `type(\"hola\")` devuelve `<class \\'str\\'>`.",
+          "problem": "La salida real del REPL es `<class 'str'>`. La barra antes de la comilla es un escape de JSON/código que no debe ver el alumno; si la copia, no coincidirá con lo que Python imprime.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "**`mkdir`** crea una carpeta, y con la opción `-p` no falla si esa carpeta ya existía.",
+          "problem": "Eso es el `-p` de Unix (`--parents`). En PowerShell `mkdir` es `New-Item`: `-p` se interpreta como `-Path`, no como «no falles si existe», y crear un directorio que ya está suele error. La afirmación no es portable al Windows que el curso incluye.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "`venv` viene con Python y resuelve el alcance de esta sección sin introducir otro gestor.",
+          "problem": "En Debian/Ubuntu el módulo suele ir en el paquete separado `python3-venv` / `python3.12-venv`. Sin él, `python3 -m venv .venv` falla (`No module named venv` o ensurepip). El texto sí detalla `sudo apt install git` y `gh`, pero presenta `venv` como siempre disponible al instalar Python.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Unix → `source .venv/bin/activate`; PowerShell → `.venv\\\\Scripts\\\\Activate.ps1`; cmd → `.venv\\\\Scripts\\\\activate.bat`.",
+          "problem": "Dentro de código inline el alumno ve barras dobles. El comando correcto es `.venv\\Scripts\\Activate.ps1` (una barra por nivel). Es escape filtrado al material, no la ruta real.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Los comandos de abajo son **copy-paste real** de terminal (bash/zsh o PowerShell con `python`/`py`).",
+          "problem": "Anuncia bloques copy-paste que no aparecen (igual con «el bloque de abajo es el checklist» y «los bloques de abajo son la misma lección»). Quien lea este texto no tiene nada que pegar.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
           "kind": "JARGON",
-          "quote": "A escala tipo SNAP (miles o millones de nodos)",
-          "problem": "SNAP no es una escala: es una colección de datasets de Stanford. El paréntesis mezcla miles y millones, así que el término no aclara el umbral y exige un referente que el texto no introduce.",
+          "quote": "Si un comando del I Do falla, pregunta en este orden:",
+          "problem": "«I Do» es jerga de diseño instruccional (I Do / We Do / You Do) que el material no define. Para quien empieza parece un comando o un archivo.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "En S01 **no** construyes el validador de admisión: solo dejas estructura y smoke.",
+          "problem": "«Smoke» (smoke test) no se explica. En un curso para principiantes queda como una pieza más que hay que dejar, sin decir qué archivo o qué comprobación es.",
+          "severity": "baja",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "file": "s02-basics.ts",
+      "title": "Valores, tipos, operadores e I/O",
+      "chars_reviewed": 21531,
+      "findings_returned": 12,
+      "findings_verified": 12,
+      "findings_unverified": 0,
+      "by_kind": {
+        "CONTRADICTS": 4,
+        "JARGON": 2,
+        "FACTUAL": 1,
+        "UNCLEAR": 5
+      },
+      "findings": [
+        {
+          "kind": "UNCLEAR",
+          "quote": "`, la cantidad `7` y la bandera `True` en una misma fila. A simple vista son datos breves; para el programa, cada uno promete operaciones distintas. **Puente desde el mapa:** antes de convertir nada, aprende a reconocer qué clase de objeto tienes delante.',\n        'Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\n\n`, `True`, `None`.",
+          "problem": "El material interpola fragmentos tipo JSON, duplica párrafos y se traga los literales entre comillas. Quedan ejemplos vacíos (` `` ` en lugar de `\"Quispe\"` o `\"42\"`) justo donde el alumno debería ver la diferencia entre tipos.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "**`str`** (texto Uni , `\"Ñahui\"`)",
+          "problem": "La definición de `str` está cortada: «texto Uni» no se entiende (ni «Unicode» ni un ejemplo completo) y no dice qué operaciones tiene sentido hacer con un texto.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Cuando algo no funciona, la culpa casi nunca está en la operación: está en que el valor no era del tipo que suponías.",
+          "problem": "La misma sección enseña fallos con el tipo correcto: `-3**2` vale `-9` por precedencia, `//` no trunca hacia cero, y un nombre mal escrito lanza `NameError`. Diagnosticar casi todo como error de tipo choca con T2 y T3.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "**Fuera de alcance por ahora.** Condicionales complejos, los bucles como herramienta principal, `*args` y `**kwargs`, y las comprensiones.",
+          "problem": "En T4-A se presenta `print(*args, sep=\" \", end=...)` usando exactamente `*args`, que se acaba de declarar fuera de alcance, sin aclarar que no hay que aprender a definirlo.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "El operador morsa `:=` existe en Python reciente, pero **en esta sección** comparas siempre con `==`.",
+          "problem": "`:=` no compara: es una asignación. El «pero comparas con `==`» sugiere que la morsa es otra forma de preguntar igualdad, que es justo la confusión que el párrafo quiere evitar.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "**`isinstance(x, int)`** responde “¿puedo tratarlo como int?” (incluye subtipos). En parsers, `isinstance` suele ser más útil que comparar `type(x) is int`, porque documenta la intención de validación.",
+          "problem": "T1-A acaba de decir que `isinstance(True, int)` es `True` y que en negocio no se trate `bool` como `0`/`1`. Preferir `isinstance` para validar enteros en el parser aceptaría `True` como edad.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "El helper **`safe_int`** usa un solo contrato en toda la sección: vacío tras `strip` → error de vacío; dígitos OK → `(True, n, None)`; letras → `ValueError` capturado con mensaje por campo.",
+          "problem": "No es el mismo contrato que T1-B: allá la rama 3 es «letras u otra basura» (cubre `int(\"19.5\")`, que T1-B marca como `ValueError`). Aquí solo dice «letras». Además el éxito va en tupla y el fallo no: no se dice si vacío/basura devuelven `(False, None, msg)` o qué.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Importa: `from decimal import Decimal, ROUND_HALF_EVEN`.",
+          "problem": "En el mismo bloque se pide capturar `InvalidOperation`, que no está en ese import. Copiar la línea al pie de la letra y escribir `except InvalidOperation` produce `NameError`. `ROUND_HALF_EVEN` se importa pero no se usa en el `quantize(Decimal(\"0.01\"))` mostrado.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "**`print(*args, sep=\" \", end=\"\\\n\")`** controla separadores y fin de línea.",
+          "problem": "El `\\n` quedó partido en un salto de línea real dentro del argumento `end`. El snippet, tal como se lee, no es el `end=\"\\n\"` de `print` y parece código inválido.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "En el browser/Pyodide a menudo **simulas input** con variables o parámetros de función (testeable).",
+          "problem": "`Pyodide` no se define. S01 preparó intérprete, entorno virtual y repositorio; un principiante no tiene por qué saber qué es un runtime de Python en el navegador ni por qué cambiaría `input()`.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "Las pruebas son **asserts** o pytest: no basta con “mirar la consola”.",
+          "problem": "`pytest` aparece como requisito de cierre sin haberse introducido (qué es, cómo se instala, cómo se corre). En S01 solo hubo intérprete, venv y repositorio.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Para independizar: **`a.copy()`** o **`a[:]`** (copia superficial).",
+          "problem": "Se etiqueta la copia como «superficial» en un «preview mínimo» de listas, sin decir qué nivel copia ni cuándo no basta. El término abre un problema (copia profunda) que la sección declara fuera de alcance.",
           "severity": "baja",
           "quote_verified": true
         }

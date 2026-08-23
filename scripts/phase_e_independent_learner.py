@@ -89,9 +89,11 @@ def teaching_text(path: Path) -> str:
     """The section's learner-visible theory prose, without code or metadata."""
     src = path.read_text(encoding="utf-8")
     start = src.find("theory: [")
-    end = src.find("\n  iDo:")
-    if start < 0 or end < 0:
+    # See note in phase_e_independent_review: indentation varies between files.
+    m_end = re.search(r"\n\s*iDo:", src[start:]) if start >= 0 else None
+    if start < 0 or not m_end:
         return ""
+    end = start + m_end.start()
     block = src[start:end]
     block = re.sub(r"code:\s*`[\s\S]*?`", " ", block)
     block = re.sub(r"output:\s*`[\s\S]*?`", " ", block)
@@ -103,7 +105,19 @@ def teaching_text(path: Path) -> str:
     for arr in re.findall(r"paragraphs:\s*\[([\s\S]*?)\n\s*\]", block):
         paras += re.findall(r'"((?:\\.|[^"\\]){40,})"', arr)
         paras += re.findall(r"'((?:\\.|[^'\\]){40,})'", arr)
-    text = "\n\n".join(p.replace("\\n", "\n").replace('\\"', '"') for p in paras)
+    # Decode the way TypeScript does, or the reviewer reads escapes as content:
+    # `Scripts\\\\Activate.ps1` in source renders as a single backslash, and a
+    # reviewer shown the raw form correctly reports a path that is not wrong.
+    def _decode(s: str) -> str:
+        return (
+            s.replace("\\\\", "\x00")
+            .replace("\\n", "\n")
+            .replace('\\"', '"')
+            .replace("\\'", "'")
+            .replace("\x00", "\\")
+        )
+
+    text = "\n\n".join(_decode(p) for p in paras)
     return text[:60000]
 
 
