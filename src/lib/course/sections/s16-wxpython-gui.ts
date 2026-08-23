@@ -94,7 +94,7 @@ null_rate_email 0.3333333333333333`,
       paragraphs: [
         "Un **indicador de ausencia** (`monto_was_null`) preserva señal cuando imputas un optional: el modelo, el auditor y el stakeholder de riesgo ven qué filas fueron tocadas. Imputar sin indicador borra evidencia y crea falsos ceros indistinguibles de ceros reales de negocio.",
         "Límites del gate: no imputar más del **cap** (p. ej. 30–40% null en la columna), no imputar llaves de negocio (`cliente_id`), y documentar la regla (mediana, constante de dominio). Si `null_rate > cap`, el gate imprime `blocked`/`fail` y **no** rellena en silencio.",
-        "Caso: monto con 2/5 null y cap=0.4 → se permite `fillna(mediana)` + columna `was_null`. Si el rate supera el cap, no hay fill silencioso. La mediana se calcula solo sobre no-nulos **pre**-imputación; post-fill no se recalcula para “maquillar” el reporte.",
+        "Caso: monto con 2/5 null y cap=0.4 → **si el campo fuera optional** se permitiría `fillna(mediana)` + columna `was_null`. Con `monto`, que este mismo caso declara required, no: ahí la política manda cuarentena, no relleno. El cap decide *cuánto* nulo tolera un optional; nunca convierte un required en imputable. Si el rate supera el cap, no hay fill silencioso. La mediana se calcula solo sobre no-nulos **pre**-imputación; post-fill no se recalcula para “maquillar” el reporte.",
       ],
       code: {
         language: 'python',
