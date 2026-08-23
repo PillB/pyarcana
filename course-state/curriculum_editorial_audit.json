@@ -1,9 +1,9 @@
 {
   "sections_audited": 52,
-  "p1_total": 14,
+  "p1_total": 13,
   "info_total": 42,
   "by_kind": {
-    "LENGTH_TELL": 14,
+    "LENGTH_TELL": 13,
     "FORWARD_POINTER": 31,
     "GUIDED_HINT_RESTATES": 11
   },
@@ -95,14 +95,6 @@
       "kind": "LENGTH_TELL",
       "severity": "P1",
       "detail": "explanatory asymmetry in 5/11 questions: the correct option carries a reason its distractors lack",
-      "excerpt": ""
-    },
-    {
-      "section": "stdlib-deep",
-      "index": 15,
-      "kind": "LENGTH_TELL",
-      "severity": "P1",
-      "detail": "explanatory asymmetry in 6/12 questions: the correct option carries a reason its distractors lack",
       "excerpt": ""
     },
     {
