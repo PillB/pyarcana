@@ -99,11 +99,21 @@ const PROBE = (figureId) => {
     const nodes = [...fig.querySelectorAll('.react-flow__node')].map((n) => {
       const b = n.getBoundingClientRect()
       const cs = getComputedStyle(n)
+      // The wrapper's font-size is inherited and is not what the label uses:
+      // this graph sets text-[14px] on descendant divs. Reading the wrapper
+      // measures a size no reader ever sees, so take the smallest size among
+      // the elements that actually hold text.
+      const textEls = [...n.querySelectorAll('*')].filter(
+        (el) => el.children.length === 0 && (el.textContent ?? '').trim().length > 0,
+      )
+      const sizes = (textEls.length ? textEls : [n]).map((el) =>
+        parseFloat(getComputedStyle(el).fontSize),
+      )
       return {
         label: (n.textContent ?? '').trim().slice(0, 40),
         x: b.left, y: b.top, w: b.width, h: b.height,
         right: b.right, bottom: b.bottom,
-        px: Math.round(parseFloat(cs.fontSize) * flowScale * 10) / 10,
+        px: Math.round(Math.min(...sizes) * flowScale * 10) / 10,
         z: cs.zIndex === 'auto' ? 0 : Number(cs.zIndex),
       }
     })
@@ -128,7 +138,31 @@ const PROBE = (figureId) => {
     }
 
     // Edge labels are separate elements and collide with nodes just as easily.
-    const edgeLabels = [...fig.querySelectorAll('.react-flow__edge-textwrapper, .react-flow__edge-text')].length
+    // Counting them was not checking them: a clipped or overlapping edge label
+    // left findings empty, which is the same blind spot in a smaller place.
+    const edgeBoxes = [...fig.querySelectorAll('.react-flow__edge-textwrapper, .react-flow__edge-text')]
+      .map((e) => {
+        const b = e.getBoundingClientRect()
+        return {
+          label: (e.textContent ?? '').trim().slice(0, 40) || '(edge)',
+          x: b.left, y: b.top, right: b.right, bottom: b.bottom,
+          px: parseFloat(getComputedStyle(e).fontSize) * flowScale,
+        }
+      })
+      .filter((e) => e.right > e.x && e.bottom > e.y)
+    const edgeLabels = edgeBoxes.length
+
+    for (const e of edgeBoxes) {
+      if (e.x < paneBox.left - 1 || e.right > paneBox.right + 1 ||
+          e.y < paneBox.top - 1 || e.bottom > paneBox.bottom + 1) {
+        clipped.push(e.label)
+      }
+      for (const n of nodes) {
+        const ox = Math.min(e.right, n.right) - Math.max(e.x, n.x)
+        const oy = Math.min(e.bottom, n.bottom) - Math.max(e.y, n.y)
+        if (ox > 1 && oy > 1) overlaps.push({ a: e.label, b: n.label, px: Math.round(ox * oy) })
+      }
+    }
 
     return {
       present: true,
@@ -143,7 +177,10 @@ const PROBE = (figureId) => {
       clipped,
       overlaps,
       flowScale: Math.round(flowScale * 1000) / 1000,
-      smallestRenderedPx: nodes.length ? Math.min(...nodes.map((n) => n.px)) : null,
+      smallestRenderedPx: (() => {
+        const all = [...nodes.map((n) => n.px), ...edgeBoxes.map((e) => e.px)].filter(Number.isFinite)
+        return all.length ? Math.round(Math.min(...all) * 10) / 10 : null
+      })(),
     }
   }
 

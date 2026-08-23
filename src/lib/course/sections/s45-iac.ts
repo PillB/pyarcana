@@ -126,14 +126,24 @@ retriable_truth object + relational`,
 ) -> bool:
     return backup_age_h <= rpo_h and restore_min <= rto_min
 
-def lifecycle_policy(hot_days: int, backup: str) -> dict:
-    return {"hot_days": hot_days, "backup": backup, "cold_after_days": hot_days}
+def lifecycle_policy(hot_days: int, backup_every_h: int, rpo_h: int) -> dict:
+    # Cadence is what bounds RPO: the worst case is a failure just before the
+    # next copy, so max data loss is one full interval.
+    return {
+        "hot_days": hot_days,
+        "backup_every_h": backup_every_h,
+        "max_data_loss_h": backup_every_h,
+        "meets_rpo": backup_every_h <= rpo_h,
+        "cold_after_days": hot_days,
+    }
 
-print(lifecycle_policy(30, "daily"))
+print(lifecycle_policy(30, 4, 6))
+print(lifecycle_policy(30, 24, 6))
 print("consistency", "job_status_read_after_write")
 print("restore_ok", restore_within_slo(4, 6, 25, 30))
 print("restore_breach", restore_within_slo(24, 6, 90, 30))`,
-        output: `{'hot_days': 30, 'backup': 'daily', 'cold_after_days': 30}
+        output: `{'hot_days': 30, 'backup_every_h': 4, 'max_data_loss_h': 4, 'meets_rpo': True, 'cold_after_days': 30}
+{'hot_days': 30, 'backup_every_h': 24, 'max_data_loss_h': 24, 'meets_rpo': False, 'cold_after_days': 30}
 consistency job_status_read_after_write
 restore_ok True
 restore_breach False`,
