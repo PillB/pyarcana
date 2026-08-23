@@ -140,6 +140,13 @@ validate_fail True`,
  },
  {
  heading: "Concat, melt y pivot",
+      figure: {
+        id: "S17-wide-long",
+        caption:
+          "Wide y long no son dos conjuntos de datos: son dos disposiciones del mismo. Reconocer cuál tienes en la mano es lo que decide si `groupby` te sirve o te estorba.",
+        alt:
+          "Dos tablas lado a lado con los mismos cuatro valores. A la izquierda, formato wide: una columna por mes. A la derecha, formato long: una fila por combinación de región y mes. Entre ambas, una flecha etiquetada melt en un sentido y pivot en el otro.",
+      },
  subtopicId: "S17-T2-A",
  paragraphs: [
  "`concat` apila filas (`axis=0`) o alinea columnas (`axis=1`). `melt` lleva **wide→long** (ideal para series por mes); `pivot` / `pivot_table` hacen **long→wide** para reportes tabulares. Elige long cuando el análisis es multipunto en el tiempo; wide cuando el stakeholder pide una fila por cliente y columnas por periodo.",

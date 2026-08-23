@@ -38,6 +38,10 @@ const TARGETS = [
   ['security', 'S14-view-vs-copy'],
   ['stdlib-deep', 'S15-dataframe'],
   ['data-engineering', 'S18-interval'],
+  ['packaging', 'S17-wide-long'],
+  ['microservices', 'S32-leakage'],
+  ['ai-apis-advanced', 'S36-rolling-origin'],
+  ['gpu-computing', 'S46-event-time'],
   ['streaming-data', 'S31-evidence-graph'],
 ]
 

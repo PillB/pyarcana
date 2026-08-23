@@ -76,6 +76,13 @@ silent_late_data_ok False`,
     },
     {
       heading: "Ventanas, event time y watermarks",
+      figure: {
+        id: "S46-event-time",
+        caption:
+          "El watermark corta sobre el eje de event time, pero lo que decide la etiqueta es cuándo llega cada hecho. Por eso un evento puede ser tardío aunque su timestamp sea anterior al de otro que sí entró a tiempo.",
+        alt:
+          "Un eje horizontal de event time con una línea vertical en 110 marcada como watermark y una banda de gracia de 5 unidades a su izquierda. Tres puntos —112, 105 y 100— con flechas punteadas hacia la derecha que representan su llegada, etiquetados ON_TIME, ALLOWED_LATE y LATE respectivamente.",
+      },
       subtopicId: "S46-T1-A",
       paragraphs: [
         "**Event time** es cuándo ocurrió el hecho en el mundo. **Processing time** es el reloj del worker. Las **ventanas** agrupan por rangos de *event time*. El **watermark** no es solo un “atraso aceptado”: es una aserción de progreso. Un watermark `t` afirma que no se esperan más eventos con timestamp ≤ `t`. Un evento es **late** si se evalúa cuando el watermark ya superó su timestamp. **Allowed lateness**, en este lab, es una banda de gracia relativa al watermark que modela el *trade-off completeness* vs. *latencia*. La condición tiene dos lados y ambos importan: `0 < wm − et ≤ gracia`. El lado derecho dice «no llegó demasiado tarde»; el izquierdo dice «llegó tarde**, para empezar**». Sin él, un evento puntual (wm 110, et 112 → −2) también cumpliría `≤ gracia` y quedaría clasificado como tardío admitido en vez de a tiempo. En motores como Beam/Flink la gracia se amarra también al cierre de ventana; aquí la simplificamos para razonar etiquetas sin cluster.",
