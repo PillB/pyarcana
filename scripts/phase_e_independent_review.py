@@ -260,15 +260,27 @@ def ask(prompt: str, model: str, timeout: int = 900) -> dict | None:
         return json.loads(raw)
     except json.JSONDecodeError:
         m = re.search(r"\{[\s\S]*\}", raw)
+        if not m:
+            raise ReviewCallFailed(f"response was not JSON: {raw[:160]}")
         try:
-            return json.loads(m.group(0)) if m else None
-        except json.JSONDecodeError:
-            return None
+            return json.loads(m.group(0))
+        except json.JSONDecodeError as exc:
+            raise ReviewCallFailed(f"malformed JSON: {exc}")
 
 
 def _findings_of(payload: dict | None) -> list[dict]:
-    if not payload:
-        return []
+    """Return the findings list, or fail closed.
+
+    Previously this returned [] for anything it did not recognise — None,
+    malformed JSON, a truncated object, an unfamiliar envelope. An empty list is
+    indistinguishable from "reviewed and found nothing", so an unrecognised
+    response silently became a clean section. Only a response that actually
+    carries the contract counts as a review.
+    """
+    if payload is None:
+        raise ReviewCallFailed("no response payload")
+    if not isinstance(payload, dict):
+        raise ReviewCallFailed(f"response was {type(payload).__name__}, not an object")
     if isinstance(payload.get("findings"), list):
         return payload["findings"]
     for v in payload.values():
@@ -281,7 +293,7 @@ def _findings_of(payload: dict | None) -> list[dict]:
                 continue
             if isinstance(inner, dict) and isinstance(inner.get("findings"), list):
                 return inner["findings"]
-    return []
+    raise ReviewCallFailed(f"response lacks a findings list: {str(payload)[:160]}")
 
 
 def _norm(s: str) -> str:
@@ -402,7 +414,37 @@ def main() -> int:
         "total_verified_findings": len(all_findings),
         "sections": rows,
     }
+    # AGENTS.md sets a zero deletion budget, and this artifact is evidence.
+    # Overwriting it wholesale meant each run erased the findings of the last:
+    # a single-section run replaced a report holding thirteen verified findings
+    # from other sections. Results are now merged by section index, so a run
+    # can add or refresh a section but never silently drop one.
     OUT.parent.mkdir(parents=True, exist_ok=True)
+    merged: dict[int, dict] = {}
+    if OUT.exists():
+        try:
+            prior = json.loads(OUT.read_text(encoding="utf-8"))
+            for row in prior.get("sections", []):
+                if isinstance(row, dict) and "index" in row:
+                    merged[int(row["index"])] = row
+            report["prior_runs"] = (prior.get("prior_runs") or []) + [
+                {
+                    "generated_at": prior.get("generated_at"),
+                    "reviewer": prior.get("reviewer"),
+                    "sections": sorted(merged),
+                    "total_verified_findings": prior.get("total_verified_findings"),
+                }
+            ]
+        except (json.JSONDecodeError, OSError, ValueError, TypeError):
+            report["prior_runs"] = [{"note": "previous report unreadable; kept nothing"}]
+    for row in rows:
+        merged[int(row["index"])] = row
+    report["sections"] = [merged[k] for k in sorted(merged)]
+    report["sections_reviewed"] = len(report["sections"])
+    report["total_verified_findings"] = sum(
+        r.get("findings_verified", 0) for r in report["sections"]
+    )
+    report["sections_this_run"] = sorted(int(r["index"]) for r in rows)
     OUT.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
     print(json.dumps({k: v for k, v in report.items() if k != "sections"}, indent=2, ensure_ascii=False))
     return 0

@@ -1,7 +1,7 @@
 {
   "ok": true,
-  "head": "48bd426e833f523e5fab97a2207beac68bcfda3c",
-  "base": "48bd426e833f523e5fab97a2207beac68bcfda3c",
+  "head": "e84cfaa454239ac0e8b617d39198263a35096700",
+  "base": "e84cfaa454239ac0e8b617d39198263a35096700",
   "unauthorized_deletes": [],
   "authorized_deletes": [],
   "curriculum": {
@@ -13,5 +13,5 @@
   "failure_count": 0,
   "failures": [],
   "warnings": [],
-  "checked_at": "2026-08-23T05:28:15.772Z"
+  "checked_at": "2026-08-23T16:05:28.285Z"
 }
