@@ -148,7 +148,7 @@ compat semver`,
       heading: "Cola, evidence packet y explicación usable",
       subtopicId: "S39-T2-A",
       paragraphs: [
-        "La cola ordena casos por score calibrado y por capacidad del equipo. El **evidence packet** es lo que el revisor ve: hechos sintéticos, path de grafo, top features, incertidumbre (in/out of distribution) y contribuciones del modelo. Un número suelto no es un workbench: sin path ni evidencia, el caso no debe entrar a cola humana como «listo». **Umbral calibrado** aquí significa que el corte se eligió en validación (S34) para una tasa de cola sostenible y una confiabilidad razonable del ranking. Conviene no llamarlo simplemente «calibración»: en S34 esa palabra nombra otra cosa —que el score se parezca a una probabilidad— y son decisiones distintas que se toman por separado. No es que el score sea probabilidad de fraude ni veredicto legal.",
+        "La cola ordena casos por score calibrado y por capacidad del equipo. El **evidence packet** es lo que el revisor ve: hechos sintéticos, path de grafo, top features, incertidumbre (in/out of distribution) y contribuciones del modelo. Un número suelto no es un workbench: sin path ni evidencia, el caso no debe entrar a cola humana como «listo». El corte que decide qué entra a cola se llama aquí **umbral operativo**, y se elige en validación por capacidad del turno y coste de revisar de más o de menos. Deliberadamente no lo llamamos «umbral calibrado»: en S34 *calibración* nombra otra cosa —que el score se parezca a una probabilidad observada— y esa propiedad no te dice dónde cortar. Son dos decisiones separadas: primero calibras el score, después eliges el corte con el que tu equipo puede vivir. No es que el score sea probabilidad de fraude ni veredicto legal.",
         "El packet mínimo no es un dump del modelo: es el set de hechos que un revisor puede citar. Entrada: case_id, score, evidence[], graph_path[], uncertainty y opcional model_contrib. Salida: packet auditable + capas de explicación (S35) + bucket de prioridad por umbrales. Error: score solo o path omitido cuando el modelo usó señales relacionales. Éxito: el revisor reconstruye por qué el caso llegó a cola sin magia del modelo.",
         "Para `CASO-LIM-039-T2A`, el packet incluye score 0.81, evidencia `shared_phone_synth`, path `E1 → ph:900 → E2` e incertidumbre `in_distribution`. Con thr_hi=0.75 y thr_lo=0.40 el bucket es `queue_now`; 0.55 iría a `queue_batch` y 0.20 a `skip`. En un batch sintético de cinco scores, thr_hi=0.75 deja dos casos en cola inmediata: si la capacidad del turno es 3, el umbral es viable; si fuera 1, habría que subir thr o batchar más. La UI didáctica puede ser un dict en CLI: lo importante es la estructura. El revisor decide; el modelo solo prioriza.",
       ],
@@ -482,7 +482,7 @@ owner_required True`,
         demoId: "S39-T2-A-DEMO",
         subtopicId: "S39-T2-A",
         environment: "local-python",
-        description: "Evidence packet: claves mínimas, capas contadas, bucket por umbrales calibrados y carga de cola frente a capacidad.",
+        description: "Evidence packet: claves mínimas, capas contadas, bucket por umbrales operativos y carga de cola frente a capacidad.",
         preamble:
           "El revisor de onboarding no puede trabajar con un número suelto. Esta demo ordena las claves del packet (`case_id`, `evidence`, `graph_path`, `score`), cuenta capas, marca que score solo no basta, calcula bucket con umbrales 0.75/0.40 y carga de cola frente a capacidad 3. Observa `score_alone_ok False` y `within_capacity True`. No escribas: predice bucket para score 0.81.",
         code: {
@@ -517,7 +517,7 @@ score_alone_ok False
 bucket queue_now
 load {'n_queue_now': 2, 'within_capacity': True}`,
         },
-        why: "El umbral calibrado (S34) ordena capacidad de cola sin convertir el score en fraude. Path y evidencia citables son el workbench del revisor: sin ellos el caso es un número huérfano. `score_alone_ok=False` es política del producto, no un detalle de UI. En We Do repararás el predicado «score > 0» y el fail-closed de gaps en el packet.",
+        why: "El umbral operativo ordena capacidad de cola sin convertir el score en fraude; la calibración de S34 es un requisito previo distinto, no el corte mismo. Path y evidencia citables son el workbench del revisor: sin ellos el caso es un número huérfano. `score_alone_ok=False` es política del producto, no un detalle de UI. En We Do repararás el predicado «score > 0» y el fail-closed de gaps en el packet.",
         retrospective:
           "Packet = hechos + path + score (+ incertidumbre). El error clásico es encolar solo con 0.99 y llamar eso workbench. Pregunta: con thr_hi=0.75 y capacity=3, ¿por qué `within_capacity True` con dos `queue_now`? We Do: predicado mínimo, empty vs. missing, capas + uncertainty.",
       },
