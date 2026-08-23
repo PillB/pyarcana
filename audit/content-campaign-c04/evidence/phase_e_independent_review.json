@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T16:09:34.590343+00:00",
+  "generated_at": "2026-08-23T16:15:03.527949+00:00",
   "reviewer": "OpenAI Codex via local codex CLI",
   "model": "cli default",
   "method": "independent expert review of learner-visible theory prose",
@@ -11,11 +11,11 @@
     "only the section prose is supplied, in the prompt"
   ],
   "verification": "Every finding must quote the source verbatim; quotes are checked back against the file. Unverifiable quotes are recorded but not counted as defects.",
-  "sections_reviewed": 24,
+  "sections_reviewed": 32,
   "sections_skipped": [],
   "sections_failed": [],
   "coverage_complete": true,
-  "total_verified_findings": 150,
+  "total_verified_findings": 184,
   "sections": [
     {
       "index": 1,
@@ -951,6 +951,122 @@
       ]
     },
     {
+      "index": 28,
+      "file": "s28-llm-agents.ts",
+      "title": "Pruebas de datos, propiedades e integración",
+      "chars_reviewed": 10217,
+      "findings_returned": 4,
+      "findings_verified": 4,
+      "findings_unverified": 0,
+      "by_kind": {
+        "FACTUAL": 3,
+        "UNCLEAR": 1
+      },
+      "findings": [
+        {
+          "kind": "FACTUAL",
+          "quote": "Eso es una **prueba de propiedades**, y cuando encuentra uno te devuelve la semilla exacta para reproducirlo.",
+          "problem": "No es una característica general de las pruebas de propiedades. Hypothesis normalmente informa el ejemplo falsificador reducido y puede ofrecer mecanismos de reproducción, pero no necesariamente devuelve una «semilla exacta». Esto depende de la herramienta y de su configuración.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Si `f(f(x)) != f(x)`, cada etapa del pipeline “reescribe” el nombre y el matching se vuelve no determinista entre corridas.",
+          "problem": "La falta de idempotencia no implica no determinismo. Una función determinista no idempotente puede producir exactamente el mismo resultado en cada corrida si se aplica el mismo número de veces; el problema real es que el resultado depende de cuántos pases se ejecuten.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "**Cardinalidad de pares:** `C(n,2)` o igualdad de nombre.",
+          "problem": "La regla está incompleta y mezcla dos criterios distintos. `C(n,2)` solo corresponde a generar todos los pares posibles de un conjunto de n elementos; si los pares se limitan por igualdad de nombre, la cardinalidad debe calcularse por grupo, por ejemplo como la suma de `C(n_g,2)`.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "`casefold` (no solo `lower` en un lado) es el contrato de igualdad de texto del ER para Unicode.",
+          "problem": "`casefold` solo proporciona comparación caseless más amplia que `lower`; no resuelve por sí solo equivalencias entre formas Unicode canónicamente distintas, como NFC y NFD. Para un contrato general de igualdad Unicode también debe especificarse la normalización.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 29,
+      "file": "s29-mlops.ts",
+      "title": "SQL avanzado y modelado relacional",
+      "chars_reviewed": 11099,
+      "findings_returned": 2,
+      "findings_verified": 2,
+      "findings_unverified": 0,
+      "by_kind": {
+        "UNCLEAR": 1,
+        "CONTRADICTS": 1
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Una entidad consolida varios registros de origen, de modo que la relación va de uno a muchos.",
+          "problem": "Más adelante se afirma que el vínculo fuente–entidad es N–N mediante `entity_source_links`. Ambas cardinalidades no pueden describir simultáneamente el mismo vínculo sin explicar una restricción adicional; el modelo queda inconsistente.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Es el patrón correcto para reingestar un registro fuente cuando el CRM reenvía el mismo `external_id`;",
+          "problem": "El upsert descrito justo antes actualiza atributos de una entidad, pero el ejemplo de conflicto se basa en `external_id`, presentado como clave de negocio de `source_records`. No se aclara si el upsert ocurre en `entities` o en `source_records`, ni cómo se resuelve desde ese registro hasta el id estable de la entidad.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 30,
+      "file": "s30-security-infra.ts",
+      "title": "Entity resolution probabilístico",
+      "chars_reviewed": 11508,
+      "findings_returned": 4,
+      "findings_verified": 4,
+      "findings_unverified": 0,
+      "by_kind": {
+        "UNCLEAR": 2,
+        "CONTRADICTS": 1,
+        "UNSUPPORTED": 1
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "En el scorer, un `missing` suele contribuir 0 al peso de ese campo en lugar de empujar hacia `non_match`.",
+          "problem": "Más adelante se establece que los campos ausentes se omiten del denominador. Conservar el peso y aportar cero produce una penalización; omitirlo del denominador no. El contrato de cálculo queda contradictorio.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Modelo **didáctico** de esta sección: `score = suma(sim·peso) / suma(pesos)` sobre similitudes en [0,1] **observadas** (campos missing se omiten del denominador).",
+          "problem": "No se define qué ocurre cuando todos los campos están ausentes: el denominador sería cero y el score quedaría indefinido. Falta especificar una salida segura, por ejemplo `review` o `insufficient_evidence`.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Un score 0.875 con phone en 0.0 debe aterrizar en `review`, no en `auto_match` ciego.",
+          "problem": "La categoría depende de `t_low`, `t_high`, los pesos y el significado del cero en teléfono, pero ninguno de esos valores se fija para este caso. Con lo expuesto no se puede concluir que 0.875 pertenezca necesariamente a `review`.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "En el demo de abajo el recall es **0.0 a propósito**: `López` y `lopez` generan claves distintas sin plegado de acentos.",
+          "problem": "En el material mostrado no aparece el demo anunciado ni los datos necesarios para comprobar el recall de 0.0. La afirmación queda como una referencia colgante.",
+          "severity": "baja",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
       "index": 31,
       "file": "s31-streaming-data.ts",
       "title": "Grafos y evidencia relacional",
@@ -1395,6 +1511,261 @@
       ]
     },
     {
+      "index": 37,
+      "file": "s37-dbt-bigquery.ts",
+      "title": "Profiling, algoritmos y rendimiento",
+      "chars_reviewed": 10429,
+      "findings_returned": 7,
+      "findings_verified": 7,
+      "findings_unverified": 0,
+      "by_kind": {
+        "FACTUAL": 5,
+        "UNCLEAR": 1,
+        "UNSUPPORTED": 1
+      },
+      "findings": [
+        {
+          "kind": "FACTUAL",
+          "quote": "Además, la primera corrida siempre miente: cachés fríos, importaciones, compilaciones.",
+          "problem": "«Siempre» es incorrecto. Una primera ejecución puede ser representativa del arranque en frío, y no todo programa realiza importaciones, compilación dinámica ni trabajo afectado de forma relevante por cachés frías. Descartarla depende de si se quiere medir rendimiento estable o latencia de arranque.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Cuando difieren mucho, el programa está esperando —disco, red— y optimizar el cálculo no cambiará nada.",
+          "problem": "Una diferencia grande entre wall time y CPU time no demuestra específicamente espera de disco o red: también puede deberse a suspensión explícita, espera de locks, planificación del sistema operativo, procesos hijos o recursos externos. Además, afirmar que optimizar el cálculo «no cambiará nada» es absoluto; sí puede reducir la parte de CPU aunque no sea el cuello de botella principal.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "La memoria pico limita si el job cabe en el worker: `tracemalloc` muestrea alocaciones del **mismo path** medido.",
+          "problem": "`tracemalloc` rastrea principalmente memoria asignada mediante los allocators de Python, no necesariamente la memoria residente total del proceso ni todas las asignaciones nativas de extensiones como NumPy. Su pico no basta por sí solo para determinar si el job cabe en el worker.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Cuando el wall ya indicó *qué tramo* es caro, `cProfile` nombra la **función** exacta (hot path, la ruta o tramo más costoso del código) sin adivinar.",
+          "problem": "El wall time por sí solo no identifica qué tramo es caro, y `cProfile` no garantiza señalar una única función «exacta»: hay que interpretar tiempo propio frente a acumulado, llamadas anidadas y trabajo realizado en extensiones nativas; además, el perfilador introduce sobrecarga.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "La primera corrida miente: las memorias caché de CPU, el `import` y el JIT de las librerías distorsionan el cold start (arranque en frío).",
+          "problem": "Python y sus librerías no usan necesariamente JIT, y el `import` solo afecta la medición si ocurre dentro del tramo ejecutado. También puede ser precisamente el cold start lo que se desea medir, por lo que calificar siempre esa corrida como falsa induce una metodología incorrecta.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Luego se reporta la mediana (robusta frente a un outlier) y, con más muestras, un proxy de cola (p. ej. el máximo con N chico, o el p95 con N grande).",
+          "problem": "El máximo de una muestra pequeña no es un estimador estable de latencia de cola y depende fuertemente de N. Presentarlo como proxy de cola sin advertir esa limitación puede producir comparaciones engañosas; un p95 también requiere suficientes muestras y una convención de cálculo declarada.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "`pair_factor = before_pairs // after_pairs` dice «cuántas veces menos pares»",
+          "problem": "La división entera trunca el factor cuando la razón no es exacta y puede exagerar o volver ambigua la expresión «cuántas veces menos». Además falla si `after_pairs` es cero. Para un ratio debe usarse división real y definirse aparte el caso cero.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 38,
+      "file": "s38-performance-extreme.ts",
+      "title": "Concurrencia, observabilidad y workflows resilientes",
+      "chars_reviewed": 13284,
+      "findings_returned": 4,
+      "findings_verified": 4,
+      "findings_unverified": 0,
+      "by_kind": {
+        "FACTUAL": 2,
+        "CONTRADICTS": 2
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "**Orden de los subtemas.** T1 mide el cuello de botella. T2 acota la concurrencia y aplica backpressure. T3 cubre reintentos, aislamiento y cola de descarte. T4 cierra con trazas, métricas y reanudación.",
+          "problem": "El orden anunciado no coincide con el desarrollo posterior: T3 trata observabilidad y SLO, mientras que los reintentos y la DLQ aparecen en T4. Esto dificulta seguir la estructura didáctica.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "La idempotency key (`case:step:ver`) **identifica** el intento; la semántica exige un registro atómico que evite reaplicar el side effect si la key ya se vio.",
+          "problem": "Una clave de idempotencia debe identificar la operación lógica que puede reintentarse, no cada intento individual. Si cada intento tuviera una clave diferente, el registro no impediría duplicar el efecto. El ejemplo posterior usa de hecho una clave estable por caso, paso y versión.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "El **error budget** se consume cuando se viola el SLO: al agotarse, la política operativa prioriza estabilidad (p. ej. pausar deploys no urgentes) sobre features nuevas.",
+          "problem": "El presupuesto de error se consume con cada evento malo durante la ventana de medición, incluso mientras el servicio todavía cumple el SLO. La violación del SLO normalmente indica que el presupuesto ya se agotó o se sobrepasó; no es el momento en que empieza a consumirse.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Un rate limit (token bucket **didáctico estático**: tokens iniciales sin recarga en el fixture) protege al proveedor mock de un ban o de saturación. En prod el bucket se rellena por ventana de tiempo; aquí solo practicamos allow/deny y cola acotada para fijar el modelo mental.",
+          "problem": "Un bucket sin recarga no implementa una tasa ni permite comprobar un límite «por ventana» como exige después el criterio de carga; solo impone una cuota total desde su creación. Puede enseñar ráfaga o agotamiento, pero no rate limiting temporal.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 39,
+      "file": "s39-integrator-phase2.ts",
+      "title": "Responsible ML Case Triage y cierre de nivel",
+      "chars_reviewed": 12164,
+      "findings_returned": 5,
+      "findings_verified": 5,
+      "findings_unverified": 0,
+      "by_kind": {
+        "FACTUAL": 1,
+        "UNCLEAR": 1,
+        "CONTRADICTS": 1,
+        "UNSUPPORTED": 2
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Si features se ejecuta después del score, el modelo puede usar labels futuros de la cola.",
+          "problem": "La causalidad y el orden son incoherentes: un score no puede usar features que se materializan después de calcularlo. Además, ejecutar features después del score no explica por sí mismo el uso de labels futuros; el leakage depende de cómo se construyen las features y de sus ventanas temporales.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "**Calibración** aquí significa que el umbral se eligió en validación (S34) para una tasa de cola sostenible y una confiabilidad razonable del ranking.",
+          "problem": "Confunde calibración con selección de umbral y planificación de capacidad. En modelado, la calibración evalúa la correspondencia entre los scores o probabilidades predichas y las frecuencias observadas; elegir un umbral operativo sostenible es una decisión distinta.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "un pico de score medio sin cambio de intake dispara alerta de calibración",
+          "problem": "Un cambio en la media de los scores puede indicar drift de las predicciones, pero no permite diagnosticar un problema de calibración sin outcomes o labels posteriores con los que contrastar los scores. Además, afirmar que no cambió el intake no descarta cambios en features derivadas, ER, grafo o modelo.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Si hay incidente T0 de exposición de campos, se fuerza human_only y rollback al ranker anterior.",
+          "problem": "No se justifica que volver al ranker anterior contenga una exposición de campos. La fuga podría estar en intake, el paquete de evidencia, permisos, logs o interfaz; el material debería identificar o aislar el componente causante antes de presentar el rollback del ranker como respuesta.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "slice metrics de false-queue rate",
+          "problem": "La métrica `false-queue rate` se usa sin definir denominador, criterio de falsedad ni momento de obtención del label. Para principiantes, esto impide implementarla y puede confundirse con tasa de falsos positivos, proporción de casos improcedentes dentro de la cola u otra medida.",
+          "severity": "baja",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 40,
+      "file": "s40-architecture-ddd.ts",
+      "title": "Arquitectura, DDD y decisiones técnicas",
+      "chars_reviewed": 12627,
+      "findings_returned": 3,
+      "findings_verified": 3,
+      "findings_unverified": 0,
+      "by_kind": {
+        "FACTUAL": 1,
+        "CONTRADICTS": 1,
+        "UNSUPPORTED": 1
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Si la respuesta incluye el dominio, la dependencia está invertida y el plano miente.",
+          "problem": "El material usa «dependencia invertida» aquí como defecto, pero después presenta la inversión de dependencias (DIP) como el diseño correcto. Si cambiar un adaptador obliga a modificar el dominio, lo que está mal es la separación o la dirección de la dependencia, no que la dependencia esté «invertida».",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "la traducción `case→record` es el Anti-Corruption Layer (ACL)",
+          "problem": "Una traducción o correspondencia entre dos términos no constituye por sí sola una ACL. La ACL es el componente o conjunto de adaptadores que aísla un modelo y realiza esas traducciones.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Los cambios **compatibles** son aditivos: añaden campos o eventos sin romper consumidores de la versión previa.",
+          "problem": "La adición no garantiza compatibilidad en todos los contratos. Añadir campos puede romper consumidores con validación estricta o deserialización cerrada, y añadir eventos puede afectar consumidores que rechacen tipos desconocidos. La compatibilidad depende de las reglas explícitas del contrato y de los consumidores.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 41,
+      "file": "s41-llm-finetuning.ts",
+      "title": "APIs con FastAPI y contratos HTTP",
+      "chars_reviewed": 11939,
+      "findings_returned": 6,
+      "findings_verified": 5,
+      "findings_unverified": 1,
+      "by_kind": {
+        "FACTUAL": 3,
+        "UNCLEAR": 1,
+        "UNSUPPORTED": 1
+      },
+      "findings": [
+        {
+          "kind": "FACTUAL",
+          "quote": "Una **Idempotency-Key** (header de industria, p. ej. Stripe) liga una clave al **hash canónico del body** y a la respuesta guardada.",
+          "problem": "La identidad de una solicitud idempotente no debería depender solo de la clave y el cuerpo: también debe acotarse, como mínimo, por operación o endpoint y normalmente por cliente o tenant. De lo contrario, reutilizar la misma clave en operaciones distintas puede provocar colisiones incorrectas.",
+          "severity": "alta",
+          "quote_verified": false
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Artefacto de este subtema: un store durable de claves donde la primera llamada es `created`, la segunda idéntica es `replay` y `len(store)==1`.",
+          "problem": "Comprobar dos llamadas secuenciales y `len(store)==1` no demuestra idempotencia ante reintentos concurrentes. Sin una reserva o escritura atómica, dos solicitudes simultáneas pueden observar la clave ausente y crear dos trabajos.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "El **versionado** (`/v1/...`) congela campos públicos;",
+          "problem": "Una versión de URL no congela por sí sola los campos públicos. La compatibilidad depende de una política y de controles del contrato; incluso dentro de v1 pueden hacerse cambios aditivos compatibles.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "El trabajo **CPU-bound** (parse pesado, crypto, score) o **durable** (job que debe sobrevivir al request) no debe esconderse en una coroutine del request. Tampoco en una tarea en memoria sin cola durable: muévelo a worker/background con store confiable.",
+          "problem": "“worker/background” mezcla mecanismos con garantías diferentes. Una tarea background en memoria puede ejecutarse en el mismo proceso, bloquearlo y perderse al reiniciarse; no satisface por sí sola ni el aislamiento de CPU ni la durabilidad. Habría que exigir un proceso/worker apropiado y, para trabajos durables, una cola o registro persistente.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "(**RFC 9457 Problem Details**: `type`, `title`, `status`, `trace_id`).",
+          "problem": "`trace_id` no es un miembro definido por RFC 9457; es una extensión permitida. Los miembros estándar son `type`, `status`, `title`, `detail` e `instance`. Presentarlo dentro de la enumeración como si perteneciera al estándar es inexacto.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "**Rate limiting** (idea de token bucket) responde **429** con `retry_after_s` cuando `used > limit`",
+          "problem": "La comparación de un contador acumulado `used` contra `limit` no describe un token bucket, que requiere capacidad, tokens disponibles, coste y reposición temporal. Además, `retry_after_s` no sustituye al header HTTP estándar `Retry-After` si se pretende comunicar al cliente cuándo reintentar.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
       "index": 46,
       "file": "s46-gpu-computing.ts",
       "title": "Ingeniería de datos y orquestación de producción",
@@ -1571,10 +1942,47 @@
         50
       ],
       "total_verified_findings": 142
+    },
+    {
+      "generated_at": "2026-08-23T16:09:34.590343+00:00",
+      "reviewer": "OpenAI Codex via local codex CLI",
+      "sections": [
+        1,
+        2,
+        14,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        46,
+        48,
+        50
+      ],
+      "total_verified_findings": 150
     }
   ],
   "sections_this_run": [
-    26,
-    27
+    28,
+    29,
+    30,
+    37,
+    38,
+    39,
+    40,
+    41
   ]
 }
