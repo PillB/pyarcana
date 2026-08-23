@@ -260,7 +260,7 @@ no_fallback False`,
       subtopicId: "S47-T4-A",
       paragraphs: [
         "El modelo ya sirve con SLO; ahora el tráfico se abre con cuidado. **Shadow** observa sin decidir; **canary** recibe un presupuesto de tráfico (p. ej. ≤ 10%) y los monitoring hooks comparan calidad, drift y errores antes de promover. Un mode `full` al 100% sin hooks no es canary: es un deploy a ciegas.",
-        "Contrato de canary. Entrada: `mode`, `traffic_pct`, `quality_delta`, `max_quality_drop`, `error_rate`, `max_error_rate`, `hooks`. Salida: `PASS` solo si mode es shadow/canary, tráfico ≤ 10%, calidad dentro de presupuesto (`quality_delta ≥ −max_quality_drop`) y hooks activos. Error local: over-traffic, calidad caída o hooks off → `STOP_CANARY`. Si falta `hooks` → `COLLECT_MORE_SHADOW_EVIDENCE`.",
+        "Contrato de canary. Entrada: `mode`, `traffic_pct`, `quality_delta`, `max_quality_drop`, `error_rate`, `max_error_rate`, `hooks`. Salida: `PASS` solo si mode es shadow/canary, tráfico ≤ 10%, calidad dentro de presupuesto (`quality_delta ≥ −max_quality_drop`), **errores bajo el techo** (`error_rate ≤ max_error_rate`) y hooks activos. Error local: over-traffic, calidad caída o hooks off → `STOP_CANARY`. Si falta `hooks` → `COLLECT_MORE_SHADOW_EVIDENCE`.",
         "En `CASO-TAC-047-4A` el equipo abre canary al 5% del tráfico de priorización en Tacna: error 0.4% bajo el techo, `quality_delta` dentro del presupuesto y hooks de calidad/drift activos → puede continuar. Un mode `full` al 100% con caída de calidad −0.2 y hooks apagados se detiene de inmediato (`STOP_CANARY`).",
       ],
       code: {
