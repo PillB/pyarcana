@@ -149,6 +149,13 @@ verdict False`,
  },
  {
  heading: "Elección de k, estabilidad multi-seed y límites de métricas",
+      figure: {
+        id: "S36-rolling-origin",
+        caption:
+          "Tres pliegues, cada uno con su propio origen. La ventana de entrenamiento solo crece hacia atrás, y lo que queda a la derecha de cada pliegue todavía no había ocurrido cuando ese pliegue tuvo que predecir.",
+        alt:
+          "Tres filas apiladas sobre un eje de tiempo. En cada fila, un bloque verde de entrenamiento seguido de un bloque naranja de validación, y después un bloque punteado que representa el futuro aún no disponible. El bloque verde crece en cada fila sucesiva.",
+      },
  subtopicId: "S36-T1-B",
  paragraphs: [
  "Elige **k** con estabilidad multi-seed y sentido de negocio (capacidad de cola), no solo maximizando silhouette. Las métricas internas fallan con formas raras, solapamiento y desbalance: un score alto puede ser un espejismo geométrico. Reporta sensibilidad a seed en el notebook de señales del triage sintético.",

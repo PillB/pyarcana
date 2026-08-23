@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useSyncExternalStore } from 'react'
 import { CodeBlock } from './CodeBlock'
 import { Callout } from './Callout'
 import { CodePlayground } from './CodePlayground'
@@ -8,6 +8,14 @@ import { InlineAnnotated } from './InlineAnnotated'
 import type { TheoryBlock as TheoryBlockType, Callout as CalloutType, CodeExample } from '@/lib/types'
 import { GLOSSARY_TERMS, termsAvailableAt, type GlossaryTerm } from '@/lib/glossary'
 import { SITE_BASE_PATH } from '@/lib/runtime-mode'
+import {
+  REGIONAL_TERMS,
+  explain,
+  subscribeRegion,
+  getRegionSnapshot,
+  getRegionServerSnapshot,
+  type RegionCode,
+} from '@/lib/locale/regional-reference'
 
 interface RichTextProps {
   content: string
@@ -32,9 +40,17 @@ export function RichText({ content, sectionId }: RichTextProps) {
   }, [sectionId])
   // New Set every render so React Strict Mode double-mount cannot reuse a filled seen set
   const seen = new Set<string>()
+  // Read as an external snapshot, not through an effect: the server renders
+  // 'REST' and the client its own region, which React supports without a
+  // hydration mismatch and without the cascading render an effect would cause.
+  const region = useSyncExternalStore(
+    subscribeRegion,
+    getRegionSnapshot,
+    getRegionServerSnapshot,
+  )
   // Annotate plain markdown first (so **bold** does not hide terms), then render HTML
   const annotate = (text: string) =>
-    renderInline(annotateGlossaryTermsPlain(text, available, seen))
+    annotateRegional(renderInline(annotateGlossaryTermsPlain(text, available, seen)), region)
 
   return (
     <div
@@ -241,6 +257,56 @@ function parseBlocks(text: string): Block[] {
 }
 
 const SENTINEL = String.fromCharCode(2)
+
+/**
+ * Regional tokens get an <abbr>, and nothing else.
+ *
+ * The constraint that shapes this: the rendered text must stay byte-identical.
+ * `code_rendering.spec.ts` compares what the page shows against the lesson
+ * source, and 15 prose tests pin exact sentences. An <abbr> wrapper changes the
+ * element tree and leaves textContent untouched, so the reader outside Peru
+ * gets the explanation on hover and focus while every fidelity gate still sees
+ * the same characters.
+ *
+ * Applied only inside prose. Code and output blocks render through CodeBlock,
+ * which this function never touches -- a lesson that prints "PEN" must keep
+ * printing exactly that, because the runtime audit executes it and compares.
+ */
+const REGION_STASH = String.fromCharCode(3)
+
+function annotateRegional(html: string, region: RegionCode): string {
+  if (region === 'PE') return html
+
+  // Stash the parts that must not be touched: <code> spans, because a lesson's
+  // code is quoted verbatim, and every tag, because a token can appear inside
+  // an attribute. Excluding '>' from the preceding character class was the
+  // cheaper guard and it silently skipped **PEN**, which is how the token
+  // usually appears -- an annotation that quietly does nothing where it is
+  // most needed is worse than none.
+  const stash: string[] = []
+  const keep = (m: string) => {
+    const i = stash.length
+    stash.push(m)
+    return REGION_STASH + i + REGION_STASH
+  }
+  let out = html.replace(/<code\b[^>]*>[\s\S]*?<\/code>/g, keep).replace(/<[^>]+>/g, keep)
+
+  for (const token of Object.keys(REGIONAL_TERMS)) {
+    const sentence = explain(token, region)
+    if (!sentence) continue
+    const escaped = token.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&')
+    // A word boundary does not work for "S/", so bound on non-word neighbours.
+    const rx = new RegExp(`(^|[^A-Za-z0-9_])(${escaped})(?![A-Za-z0-9_])`, 'g')
+    out = out.replace(rx, (_m, before: string, hit: string) =>
+      `${before}<abbr title="${sentence.replace(/"/g, '&quot;')}" class="cursor-help underline decoration-dotted decoration-muted-foreground/60 underline-offset-2">${hit}</abbr>`,
+    )
+  }
+
+  return out.replace(
+    new RegExp(REGION_STASH + '(\\d+)' + REGION_STASH, 'g'),
+    (_m, i: string) => stash[Number(i)],
+  )
+}
 
 function renderInline(text: string): string {
   // Protect term markers so bold/code regex do not split them

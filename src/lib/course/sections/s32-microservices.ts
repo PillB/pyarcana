@@ -102,6 +102,13 @@ catalog_ok True unknown []`,
     },
     {
       heading: "Missing indicators, escalamiento y encoding",
+      figure: {
+        id: "S32-leakage",
+        caption:
+          "El mismo feature, la misma fórmula. La única diferencia es dónde termina la ventana — y esa diferencia es toda la fuga.",
+        alt:
+          "Dos barras horizontales sobre una línea vertical que marca el corte temporal entre train y test. La barra superior, en rojo, cruza el corte y se extiende sobre la zona de test con la nota «ya leyó el futuro». La inferior, en verde, se detiene exactamente en el corte.",
+      },
       subtopicId: "S32-T1-B",
       paragraphs: [
         "Un **missing indicator** (1 si el valor era ausente) + fill (mediana/moda de **train**) preserva la **señal de ausencia**. Rellenar en silencio con 0 o con la mediana del set completo es **silent fill** y suele filtrar estadísticas de test. El z-score usa **μ/σ solo de train**, congelados en fit; reestimarlos en serve es leakage o skew.",

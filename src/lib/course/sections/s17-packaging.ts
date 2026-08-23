@@ -140,6 +140,13 @@ validate_fail True`,
  },
  {
  heading: "Concat, melt y pivot",
+      figure: {
+        id: "S17-wide-long",
+        caption:
+          "Wide y long no son dos conjuntos de datos: son dos disposiciones del mismo. Reconocer cuál tienes en la mano es lo que decide si `groupby` te sirve o te estorba.",
+        alt:
+          "Dos tablas lado a lado con los mismos cuatro valores. A la izquierda, formato wide: una columna por mes. A la derecha, formato long: una fila por combinación de región y mes. Entre ambas, una flecha etiquetada melt en un sentido y pivot en el otro.",
+      },
  subtopicId: "S17-T2-A",
  paragraphs: [
  "`concat` apila filas (`axis=0`) o alinea columnas (`axis=1`). `melt` lleva **wide→long** (ideal para series por mes); `pivot` / `pivot_table` hacen **long→wide** para reportes tabulares. Elige long cuando el análisis es multipunto en el tiempo; wide cuando el stakeholder pide una fila por cliente y columnas por periodo.",
@@ -286,7 +293,7 @@ s17_th_6()`,
  paragraphs: [
  "Tras joins y agregaciones, el stakeholder pregunta: “¿cuadra el total?”. Reconciliación ejecutiva: la **suma de partes debe igualar el total** de referencia (o la diferencia queda documentada con tolerancia `abs(diff)<eps`). Los **denominadores** de tasas (pagados/activos, completos/universo) deben ser el mismo filtro que declaras en el texto del hallazgo — no un universo “más cómodo”.",
  "Contrato de **tabla puente**: `total → segmento_A → residual`. Si Lima=60 y total=100, el residual del resto es 40. Nunca uses un denominador de otro corte temporal o geográfico solo porque “sale un número bonito” en el slide. El residual es evidencia, no un error a esconder.",
- "Caso sintético: total nacional 100 PEN; partes Lima/Madrid/Cusco (60/30/10); tasa de completitud 150/200=0.75. El portfolio imprime `diff`, `reconciled` y la tasa con su denominador explícito para el stakeholder no técnico. Si el join de T1 tenía fan-out no documentado, este bloque es el primero que “no cierra”: por eso T1 va antes que T4.",
+ "Caso sintético: total consolidado 100 PEN; partes 60/30/10 en tres regiones del fixture; tasa de completitud 150/200=0.75. Las etiquetas de región del fixture (`Lima`, `Madrid`, `Cusco`) son identificadores sintéticos para tener claves distintas y ordenables: no son una desagregación geográfica real y no debes leerlas como tal. El portfolio imprime `diff`, `reconciled` y la tasa con su denominador explícito para el stakeholder no técnico. Si el join de T1 tenía fan-out no documentado, este bloque es el primero que “no cierra”: por eso T1 va antes que T4.",
  ],
  code: {
  language: 'python',

@@ -121,8 +121,20 @@ def teaching_text(path: Path) -> str:
     # teaching — a finding about my extractor, not about the course.
     paras = []
     for arr in re.findall(r"paragraphs:\s*\[([\s\S]*?)\n\s*\]", block):
-        paras += re.findall(r'"((?:\\.|[^"\\]){40,})"', arr)
-        paras += re.findall(r"'((?:\\.|[^'\\]){40,})'", arr)
+        # One ordered pass over both quote styles. Two separate findall calls
+        # appended every double-quoted entry before every single-quoted one,
+        # which silently reordered any section that mixed them -- the reviewer
+        # then reported the scrambling as incoherent teaching.
+        #
+        # No length floor either. A {40,} minimum looked harmless and was not:
+        # it dropped exactly the short entries that carry structure, e.g. the
+        # markdown rows "| 3 | score < 0.40 | `abstain` |" of S13's decision
+        # matrix. The reviewer saw two of five rules and correctly reported the
+        # table as incomplete -- a finding about this extractor, not the course.
+        # Matching only inside a paragraphs: [...] array already excludes the
+        # structural noise the floor was there to suppress.
+        for m in re.finditer(r"""(?:"((?:\\.|[^"\\])*)"|'((?:\\.|[^'\\])*)')""", arr):
+            paras.append(m.group(1) if m.group(1) is not None else m.group(2))
     # Decode the way TypeScript does, or the reviewer reads escapes as content:
     # `Scripts\\\\Activate.ps1` in source renders as a single backslash, and a
     # reviewer shown the raw form correctly reports a path that is not wrong.

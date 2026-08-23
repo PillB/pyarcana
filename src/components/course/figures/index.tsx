@@ -11,6 +11,10 @@ import { S08Reconcile } from './S08Reconcile'
 import { S14ViewVsCopy } from './S14ViewVsCopy'
 import { S15DataFrame } from './S15DataFrame'
 import { S18Interval } from './S18Interval'
+import { S17WideLong } from './S17WideLong'
+import { S32Leakage } from './S32Leakage'
+import { S36RollingOrigin } from './S36RollingOrigin'
+import { S46EventTime } from './S46EventTime'
 
 /**
  * The graph figure is loaded on demand, not with the registry.
@@ -56,7 +60,11 @@ export const FIGURES: Record<string, ComponentType<{ title: string }>> = {
   'S08-reconcile': S08Reconcile,
   'S14-view-vs-copy': S14ViewVsCopy,
   'S15-dataframe': S15DataFrame,
+  'S17-wide-long': S17WideLong,
   'S18-interval': S18Interval,
+  'S32-leakage': S32Leakage,
+  'S36-rolling-origin': S36RollingOrigin,
+  'S46-event-time': S46EventTime,
   'S31-evidence-graph': S31EvidenceGraph,
 }
 
