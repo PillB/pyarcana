@@ -138,7 +138,7 @@ s16_th_2()`,
       subtopicId: "S16-T2-A",
       paragraphs: [
         "**Duplicado exacto**: mismas columnas relevantes idénticas. **Conflicto**: misma clave de negocio con atributos distintos (p. ej. dos regiones para un `cliente_id`). Tratarlos igual con `drop_duplicates` ciego puede borrar el único rastro del conflicto y dejar un maestro mentiroso.",
-        "Contrato: usa `duplicated(keep=False)` para exactos y `groupby(clave)[attr].transform('nunique')>1` para conflictos. Solo después eliges política `keep='first'|'last'` o envío a cuarentena. **Clasifica antes de borrar**; el orden evita pérdida de evidencia.",
+        "Contrato: usa `duplicated(keep=False)` para exactos y, para conflictos, `groupby(clave)[attr].transform('nunique')>1` **por cada atributo que deba coincidir** — con un solo `attr` detectas los conflictos de esa columna y ninguno más, así que dos filas de la misma clave que difieren solo en la dirección pasarían como si no hubiera conflicto. Recorre la lista de atributos del contrato y combina las máscaras con `|`. Solo después eliges política `keep='first'|'last'` o envío a cuarentena. **Clasifica antes de borrar**; el orden evita pérdida de evidencia.",
         "Caso sintético: C001 repetido exacto (Lima, score 0.9); C002 con Cusco vs. Madrid. Salida esperada: `exact_rows` para C001 y `conflict_ids` para C002. El portfolio de calidad de CP-N2-A debe listar ambos tipos por separado en el memo.",
       ],
       code: {
