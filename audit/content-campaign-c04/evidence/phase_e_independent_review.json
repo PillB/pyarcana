@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T15:40:40.122209+00:00",
+  "generated_at": "2026-08-23T16:09:34.590343+00:00",
   "reviewer": "OpenAI Codex via local codex CLI",
   "model": "cli default",
   "method": "independent expert review of learner-visible theory prose",
@@ -11,12 +11,235 @@
     "only the section prose is supplied, in the prompt"
   ],
   "verification": "Every finding must quote the source verbatim; quotes are checked back against the file. Unverifiable quotes are recorded but not counted as defects.",
-  "sections_reviewed": 10,
+  "sections_reviewed": 24,
   "sections_skipped": [],
   "sections_failed": [],
   "coverage_complete": true,
-  "total_verified_findings": 53,
+  "total_verified_findings": 150,
   "sections": [
+    {
+      "index": 1,
+      "file": "s01-setup.ts",
+      "title": "Entorno reproducible y trabajo seguro",
+      "chars_reviewed": 32536,
+      "findings_returned": 15,
+      "findings_verified": 14,
+      "findings_unverified": 1,
+      "by_kind": {
+        "FACTUAL": 8,
+        "JARGON": 2,
+        "CONTRADICTS": 2,
+        "UNCLEAR": 2
+      },
+      "findings": [
+        {
+          "kind": "UNCLEAR",
+          "quote": "Hay una diferencia crítica entre **sesión REPL** y **script `.py`**. En el REPL cada línea se ejecuta al presionar Enter. En un script, escribes el programa completo en un archivo y lo lanzas con `python hello.py`. El script es lo que subes a GitHub y lo que corre en producción o en un pipeline. El REPL es tu laboratorio de bolsillo. Cuando un colega dice \n\n, te está pidiendo el REPL. Cuando dice \n\n, te está pidiendo un archivo. Confundir ambos genera la sensación de que \n\n en la laptop y falla en el servidor.",
+          "problem": "El texto está truncado: faltan las citas del colega y la frase «a mí me funciona». Quedan huecos vacíos que un principiante no puede reconstruir. El mismo patrón se repite en otros bloques (`if __name__ ==`, `print(f`, `select = [`).",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Por eso `which python || where python` prueba primero el comando de macOS/Linux y recurre al de Windows cuando el primero no existe.",
+          "problem": "En Windows el material manda abrir PowerShell, donde `where` es un alias de `Where-Object`, no el localizador de programas. El fallback no encuentra Python: hay que usar `where.exe python` o `Get-Command python`. El truco solo funciona en cmd.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "`&&` ejecuta el segundo comando **solo si el anterior tuvo éxito**, es decir si devolvió código de salida 0: `mkdir -p lab_venv && cd lab_venv` entra a la carpeta únicamente si se pudo crear. `||` es el complemento: ejecuta el segundo **si el primero falla**.",
+          "problem": "Windows PowerShell 5.1 (el que se abre con Inicio → PowerShell) no acepta `&&` ni `||`; fallan como error de sintaxis. Esos operadores existen en bash/zsh, cmd y PowerShell 7 (`pwsh`), no en el PowerShell que el propio texto indica usar.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "en Windows PowerShell, `.venv\\Scripts\\Activate.ps1`. El prompt suele mostrar `(.venv)`.",
+          "problem": "En una instalación por defecto de Windows, ejecutar ese script suele fallar por la ExecutionPolicy («running scripts is disabled»). El material sí avisa de «Add python.exe to PATH» y de reabrir la terminal tras Git, pero omite el bloqueo más frecuente al activar el venv.",
+          "severity": "alta",
+          "quote_verified": false
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Así, `python -m pip list | head` significa «lista los paquetes y muéstrame solo el principio». **`head`** muestra las primeras líneas de lo que recibe. **`grep`** filtra y busca las líneas que contienen un texto: `grep -i \"requests==\" requirements.txt` busca esa dependencia ignorando mayúsculas.",
+          "problem": "`head` y `grep` no son comandos de PowerShell, que es la terminal que se pide abrir en Windows. Pegarlos tal cual produce «no se reconoce como comando». El equivalente nativo sería `Select-Object -First` y `Select-String`.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Nunca instales paquetes \"a ciegas\" sin saber qué `python` los va a recibir: el prefijo `python3 -m pip` evita el pip huérfano que apunta a otro intérprete.",
+          "problem": "En Windows acaba de indicar `python` o `py`, no `python3`. Fijar `python3 -m pip` como regla general contradice esa guía y en Windows suele fallar porque `python3` no existe. La regla coherente, que el propio texto da después, es `python -m pip` con el mismo ejecutable ya verificado.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "El bloque de abajo es el checklist copy-paste del día 1: Python responde con 3.12.x, Git responde con su versión, y el editor está listo",
+          "problem": "Antes admite «3.10+ es aceptable si lo documentas» y «apuntamos a Python 3.12 o superior». El checklist del día 1, en cambio, exige 3.12.x. Quien siga la excepción documentada con 3.10 o 3.11 no puede cerrar esa lista.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "`git diff` muestra cambios *sin* stage; `git diff --staged` lo ya agregado; `git show` el último commit (o un hash). Líneas con `+` se añadieron; con `-` se quitaron. Un archivo nuevo aparece como todo `+`.",
+          "problem": "Un archivo nuevo sin `git add` no aparece en `git diff` (Git ignora untracked). Solo se ve como todo `+` en `git diff --staged` después de agregarlo, o con `git status`. Es el tropiezo clásico del primer commit.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "`2 + 2` devuelve `4`, `type(\"hola\")` devuelve `<class \\'str\\'>`.",
+          "problem": "La salida real del REPL es `<class 'str'>`. La barra antes de la comilla es un escape de JSON/código que no debe ver el alumno; si la copia, no coincidirá con lo que Python imprime.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "**`mkdir`** crea una carpeta, y con la opción `-p` no falla si esa carpeta ya existía.",
+          "problem": "Eso es el `-p` de Unix (`--parents`). En PowerShell `mkdir` es `New-Item`: `-p` se interpreta como `-Path`, no como «no falles si existe», y crear un directorio que ya está suele error. La afirmación no es portable al Windows que el curso incluye.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "`venv` viene con Python y resuelve el alcance de esta sección sin introducir otro gestor.",
+          "problem": "En Debian/Ubuntu el módulo suele ir en el paquete separado `python3-venv` / `python3.12-venv`. Sin él, `python3 -m venv .venv` falla (`No module named venv` o ensurepip). El texto sí detalla `sudo apt install git` y `gh`, pero presenta `venv` como siempre disponible al instalar Python.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Unix → `source .venv/bin/activate`; PowerShell → `.venv\\\\Scripts\\\\Activate.ps1`; cmd → `.venv\\\\Scripts\\\\activate.bat`.",
+          "problem": "Dentro de código inline el alumno ve barras dobles. El comando correcto es `.venv\\Scripts\\Activate.ps1` (una barra por nivel). Es escape filtrado al material, no la ruta real.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Los comandos de abajo son **copy-paste real** de terminal (bash/zsh o PowerShell con `python`/`py`).",
+          "problem": "Anuncia bloques copy-paste que no aparecen (igual con «el bloque de abajo es el checklist» y «los bloques de abajo son la misma lección»). Quien lea este texto no tiene nada que pegar.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "Si un comando del I Do falla, pregunta en este orden:",
+          "problem": "«I Do» es jerga de diseño instruccional (I Do / We Do / You Do) que el material no define. Para quien empieza parece un comando o un archivo.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "En S01 **no** construyes el validador de admisión: solo dejas estructura y smoke.",
+          "problem": "«Smoke» (smoke test) no se explica. En un curso para principiantes queda como una pieza más que hay que dejar, sin decir qué archivo o qué comprobación es.",
+          "severity": "baja",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "file": "s02-basics.ts",
+      "title": "Valores, tipos, operadores e I/O",
+      "chars_reviewed": 21531,
+      "findings_returned": 12,
+      "findings_verified": 12,
+      "findings_unverified": 0,
+      "by_kind": {
+        "CONTRADICTS": 4,
+        "JARGON": 2,
+        "FACTUAL": 1,
+        "UNCLEAR": 5
+      },
+      "findings": [
+        {
+          "kind": "UNCLEAR",
+          "quote": "`, la cantidad `7` y la bandera `True` en una misma fila. A simple vista son datos breves; para el programa, cada uno promete operaciones distintas. **Puente desde el mapa:** antes de convertir nada, aprende a reconocer qué clase de objeto tienes delante.',\n        'Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\n\n`, `True`, `None`.",
+          "problem": "El material interpola fragmentos tipo JSON, duplica párrafos y se traga los literales entre comillas. Quedan ejemplos vacíos (` `` ` en lugar de `\"Quispe\"` o `\"42\"`) justo donde el alumno debería ver la diferencia entre tipos.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "**`str`** (texto Uni , `\"Ñahui\"`)",
+          "problem": "La definición de `str` está cortada: «texto Uni» no se entiende (ni «Unicode» ni un ejemplo completo) y no dice qué operaciones tiene sentido hacer con un texto.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Cuando algo no funciona, la culpa casi nunca está en la operación: está en que el valor no era del tipo que suponías.",
+          "problem": "La misma sección enseña fallos con el tipo correcto: `-3**2` vale `-9` por precedencia, `//` no trunca hacia cero, y un nombre mal escrito lanza `NameError`. Diagnosticar casi todo como error de tipo choca con T2 y T3.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "**Fuera de alcance por ahora.** Condicionales complejos, los bucles como herramienta principal, `*args` y `**kwargs`, y las comprensiones.",
+          "problem": "En T4-A se presenta `print(*args, sep=\" \", end=...)` usando exactamente `*args`, que se acaba de declarar fuera de alcance, sin aclarar que no hay que aprender a definirlo.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "El operador morsa `:=` existe en Python reciente, pero **en esta sección** comparas siempre con `==`.",
+          "problem": "`:=` no compara: es una asignación. El «pero comparas con `==`» sugiere que la morsa es otra forma de preguntar igualdad, que es justo la confusión que el párrafo quiere evitar.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "**`isinstance(x, int)`** responde “¿puedo tratarlo como int?” (incluye subtipos). En parsers, `isinstance` suele ser más útil que comparar `type(x) is int`, porque documenta la intención de validación.",
+          "problem": "T1-A acaba de decir que `isinstance(True, int)` es `True` y que en negocio no se trate `bool` como `0`/`1`. Preferir `isinstance` para validar enteros en el parser aceptaría `True` como edad.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "El helper **`safe_int`** usa un solo contrato en toda la sección: vacío tras `strip` → error de vacío; dígitos OK → `(True, n, None)`; letras → `ValueError` capturado con mensaje por campo.",
+          "problem": "No es el mismo contrato que T1-B: allá la rama 3 es «letras u otra basura» (cubre `int(\"19.5\")`, que T1-B marca como `ValueError`). Aquí solo dice «letras». Además el éxito va en tupla y el fallo no: no se dice si vacío/basura devuelven `(False, None, msg)` o qué.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Importa: `from decimal import Decimal, ROUND_HALF_EVEN`.",
+          "problem": "En el mismo bloque se pide capturar `InvalidOperation`, que no está en ese import. Copiar la línea al pie de la letra y escribir `except InvalidOperation` produce `NameError`. `ROUND_HALF_EVEN` se importa pero no se usa en el `quantize(Decimal(\"0.01\"))` mostrado.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "**`print(*args, sep=\" \", end=\"\\\n\")`** controla separadores y fin de línea.",
+          "problem": "El `\\n` quedó partido en un salto de línea real dentro del argumento `end`. El snippet, tal como se lee, no es el `end=\"\\n\"` de `print` y parece código inválido.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "En el browser/Pyodide a menudo **simulas input** con variables o parámetros de función (testeable).",
+          "problem": "`Pyodide` no se define. S01 preparó intérprete, entorno virtual y repositorio; un principiante no tiene por qué saber qué es un runtime de Python en el navegador ni por qué cambiaría `input()`.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "Las pruebas son **asserts** o pytest: no basta con “mirar la consola”.",
+          "problem": "`pytest` aparece como requisito de cierre sin haberse introducido (qué es, cómo se instala, cómo se corre). En S01 solo hubo intérprete, venv y repositorio.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Para independizar: **`a.copy()`** o **`a[:]`** (copia superficial).",
+          "problem": "Se etiqueta la copia como «superficial» en un «preview mínimo» de listas, sin decir qué nivel copia ni cuándo no basta. El término abre un problema (copia profunda) que la sección declara fuera de alcance.",
+          "severity": "baja",
+          "quote_verified": true
+        }
+      ]
+    },
     {
       "index": 14,
       "file": "s14-security.ts",
@@ -160,6 +383,87 @@
           "problem": "El ejemplo presenta un total nacional en PEN pero incluye Madrid como una de sus partes junto con ciudades peruanas. Salvo que se declare que son etiquetas ficticias sin significado geográfico, esas partes no pueden reconciliar coherentemente un total nacional peruano.",
           "severity": "media",
           "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 18,
+      "file": "s18-data-engineering.ts",
+      "title": "EDA, estadística descriptiva e incertidumbre",
+      "chars_reviewed": 14349,
+      "findings_returned": 9,
+      "findings_verified": 8,
+      "findings_unverified": 1,
+      "by_kind": {
+        "CONTRADICTS": 2,
+        "JARGON": 1,
+        "UNSUPPORTED": 1,
+        "UNCLEAR": 2,
+        "FACTUAL": 2
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "“¿El ticket mediano en Madrid supera 25 PEN?” → median(monto|region==Lima)=27.5, n=40, IC z o bootstrap documentado, límite “solo canal web”. Conclusión permitida: hipótesis provisional en web Madrid",
+          "problem": "La pregunta, el cálculo y la conclusión no coinciden: se pregunta por Madrid, se calcula la mediana de Lima y se restringe la cobertura al canal web, que no estaba en la pregunta. Un principiante copiaría este patrón y reportaría la región equivocada.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "un valor p alto **no** prueba que no hay efecto. Casi siempre significa que tu experimento no tuvo resolución para distinguir el efecto del ruido. Con los 400 comercios del bloque anterior y un IC de (1.18, 9.82), no puedes descartar ni 1.2 ni 9.8 PEN; llamar a eso “sin efecto” sería inventar precisión.",
+          "problem": "El IC (1.18, 9.82) no incluye el 0, así que corresponde a un resultado estadísticamente significativo (p bajo), no a un p alto. Ese intervalo no ilustra el malentendido anunciado: nadie llamaría «sin efecto» a un intervalo enteramente positivo; ilustra incertidumbre de magnitud, que es otra lección.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "un valor p alto **no** prueba que no hay efecto. Casi siempre significa que tu experimento no tuvo resolución para distinguir el efecto del ruido.",
+          "problem": "Un p alto no prueba la nula, pero no «casi siempre» significa falta de resolución: también es compatible con un efecto nulo o demasiado pequeño. Esa lectura empuja a interpretar toda no-rechazo como experimento subpotenciado.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "median(monto|region==Lima)=27.5, n=40, IC z o bootstrap documentado",
+          "problem": "El único intervalo z enseñado es media ± z·(s/√n), válido para la media. Ofrecer «IC z» para una mediana es incorrecto: el error típico de la mediana no es s/√n y exige bootstrap o un método de estadísticos de orden.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "pob Madrid 0.55 / Berlin 0.25 / Bogota 0.20 vs. muestra 80% Madrid → bias Madrid +0.25",
+          "problem": "Mezcla proporciones (0.55) con porcentajes (80%) y luego un sesgo +0.25 en proporción. Un principiante puede calcular 80 − 0.55 y no recuperar el +0.25, aunque 0.80 − 0.55 sea correcto.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Caso sintético: media B ~108 vs. A ~94, d≈1.1 — magnitud + incertidumbre, no veredicto causal de campaña.",
+          "problem": "Se afirma «magnitud + incertidumbre» y, en el párrafo siguiente, «un intervalo alrededor de la media de B», pero no se da ningún IC. El único intervalo posterior, (1.18, 9.82) alrededor de 5.50, no cuadra con una diferencia de ~14 entre 108 y 94; quedan dos casos pegados con cifras incompatibles.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "montos lognormales (como tickets de T1)",
+          "problem": "T1 solo mostró cola y media ≠ mediana. Eso no identifica lognormalidad (vale igual para gamma, Pareto, etc.). Se presenta como hecho del material de T1.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "`log1p` de montos reduce asimetría visual para EDA",
+          "problem": "No se dice que log1p es log(1+x). A diferencia de mean/median/std, el nombre no es transparente para quien empieza, y hace ilegible el contrato de no interpretar diferencias log como PEN.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Spearman usa rangos y resume asociación monótona (útil con relaciones no lineales leves o outliers).",
+          "problem": "Spearman resume asociación monótona en general, también cuando la no linealidad es fuerte (p. ej. exponencial). Restringirlo a no linealidades «leves» es falso y acota mal cuándo usarlo frente a Pearson.",
+          "severity": "baja",
+          "quote_verified": false
         }
       ]
     },
@@ -557,6 +861,720 @@
           "quote_verified": true
         }
       ]
+    },
+    {
+      "index": 26,
+      "file": "s26-integrator-phase1.ts",
+      "title": "Orquestación y VP RPA + AI Analyst",
+      "chars_reviewed": 8897,
+      "findings_returned": 3,
+      "findings_verified": 3,
+      "findings_unverified": 0,
+      "by_kind": {
+        "CONTRADICTS": 1,
+        "FACTUAL": 1,
+        "UNCLEAR": 1
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Con el path estable, un crash a mitad de `analyze` exige **checkpoint**: persiste ids ya procesados para reanudar sin rehacer ingest costoso. Tras el fallo, solo quedan pendientes los no marcados. Lab: set en memoria; capstone: JSON.",
+          "problem": "Un set mantenido solo en memoria no sobrevive a la caída del proceso, por lo que no permite reanudar después de un crash como afirma el párrafo. El laboratorio tendría que simular la reanudación sin reiniciar el proceso o usar almacenamiento persistente.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "En deploy: **`disable_schedule` → drain** (vaciar workers) antes de cambiar schema de informe — no mezclar versiones a mitad del batch.",
+          "problem": "“Drain” no significa simplemente “vaciar workers”: normalmente implica dejar de aceptar trabajo nuevo y permitir que termine el trabajo en curso. La formulación no aclara qué ocurre con las tareas pendientes ni cuál es la condición que habilita el despliegue.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Primero detienes el cron America/Lima, drenas workers (vacías la cola en vuelo), luego *pages on-call* (avisas al turno de guardia) con severidad explícita.",
+          "problem": "Drenar workers no equivale necesariamente a vaciar la cola: puede completar únicamente las tareas en ejecución y dejar trabajo pendiente en la cola. Además, colocar el aviso al on-call después del drenaje puede retrasar la notificación de un incidente; esa secuencia requeriría una justificación específica.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 27,
+      "file": "s27-async-concurrency.ts",
+      "title": "Estrategia de pruebas con pytest",
+      "chars_reviewed": 11652,
+      "findings_returned": 5,
+      "findings_verified": 5,
+      "findings_unverified": 0,
+      "by_kind": {
+        "UNCLEAR": 1,
+        "UNSUPPORTED": 2,
+        "FACTUAL": 2
+      },
+      "findings": [
+        {
+          "kind": "FACTUAL",
+          "quote": "Oráculos frágiles generan *flakes* (tests que fallan al azar): reloj real (`datetime.now()`), orden de un `set`, JSON sin `sort_keys`, red o disco no mockeados.",
+          "problem": "La ausencia de `sort_keys` no vuelve aleatoria por sí sola la serialización JSON: los diccionarios conservan el orden de inserción. Tampoco toda prueba que usa disco sin mock es inestable; las pruebas con directorios temporales, recomendadas después en el propio material, pueden ser deterministas.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "El **scope por defecto es function**: cada test recibe setup fresco; eso es lo que hace que la suite sea orden-independiente.",
+          "problem": "El scope `function` solo aísla el valor de esa fixture. No garantiza que la suite sea independiente del orden si existen globals, cachés, archivos, bases de datos u otros estados compartidos.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Si ves un fallo que solo aparece con `-x` o al reordenar, sospecha fixture mutable con scope ancho.",
+          "problem": "`-x` únicamente detiene pytest tras el primer fallo; no reordena las pruebas ni debería provocar un fallo que no aparece sin esa opción. Puede ocultar fallos posteriores, no servir como indicio normal de contaminación por orden.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Un `raises` que solo mira el tipo acepta un mensaje basura; el mensaje forma parte del contrato.",
+          "problem": "El mensaje de una excepción no forma parte necesariamente del contrato público. Comprobarlo siempre puede crear pruebas frágiles ante cambios legítimos de redacción; solo corresponde cuando el contenido del mensaje es un requisito explícito.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "`NamedTemporaryFile(..., delete=False)` deja un path reabrable para reabrir y assert.",
+          "problem": "Con `delete=False` el archivo no se elimina automáticamente. La explicación omite la limpieza posterior y puede inducir a principiantes a acumular archivos temporales.",
+          "severity": "baja",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 31,
+      "file": "s31-streaming-data.ts",
+      "title": "Grafos y evidencia relacional",
+      "chars_reviewed": 9668,
+      "findings_returned": 11,
+      "findings_verified": 11,
+      "findings_unverified": 0,
+      "by_kind": {
+        "CONTRADICTS": 5,
+        "JARGON": 2,
+        "UNCLEAR": 3,
+        "FACTUAL": 1
+      },
+      "findings": [
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Los **nodos** son las entidades resueltas; las **aristas** son los hechos que las conectan: comparten un teléfono, una dirección, hubo una transferencia.",
+          "problem": "Ese modelo (nodos = personas resueltas; teléfono, dirección y transferencia = aristas) choca con lo que sigue: «Un nodo es una entidad del caso: cliente, cuenta, email o teléfono sintético», transferencias cuenta→cuenta, y contactos como nodos intermedios. Quien empieza no puede saber qué grafo tiene que construir.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "**Esquema canónico de aristas** en esta sección: `owns`, `transfer`, `shared_phone`, `shared_address`.",
+          "problem": "El esquema canónico no incluye `has_phone`/`has_email`, pero el patrón «preferencia canónica» usa exactamente esos tipos y degrada `shared_phone` a «atajo derivado, no el modelo primario». La sección insiste en tipos estables para auditar el path y luego enseña dos catálogos incompatibles.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Preferencia canónica: el valor de contacto como **nodo** intermedio (`E1 → ph:900 ← E2`).",
+          "problem": "Con `has_phone`/`owns` dirigidos hacia el teléfono o la cuenta no hay camino dirigido `E1 → ph:900 → E2` ni entre dos personas unidas por una transferencia (`E1→acc1→acc2←E2`). El storyboard y la pregunta «¿hay un camino entre A y B?» asumen ese recorrido, y el texto solo menciona el grafo no dirigido subyacente para componentes conexas, no para paths.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "**Grado** (degree): número de vecinos (in/out en dirigidos).",
+          "problem": "El propio material exige un multigrafo (varias transferencias o contactos entre el mismo par). Ahí el grado cuenta aristas incidentes con multiplicidad, no vecinos distintos. Cincuenta transferencias al mismo destino suben el degree y no el recuento de vecinos; la fórmula `deg(v)/(n-1)` que dan después es además para grafo simple, no para el grafo de trabajo.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Cada una con tipo, peso y provenance.",
+          "problem": "Más abajo la arista tiene «opcionalmente dirección y peso». El contrato de entrada no deja claro si el peso es obligatorio, ni dónde vive la «confianza» que el arranque atribuye a cada arista: no está en provenance (`source_system`, `run_id`, `record_id`) y el peso solo a veces es un `score`.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Usa ids **sintéticos estables** (`ent-001`, `acc-1`)",
+          "problem": "Conviven tres convenciones sin tabla de correspondencia: `ent-001`/`acc-1`, el fixture `E1`/`ph:900`, y al interpretar `PER-…` vs `INF-…`. `INF` ni siquiera es un tipo de nodo en el modelo (cliente, cuenta, email, teléfono), pero el texto pide usarlo para no culpar hubs.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "El path **reproducible** lista nodos en orden estable (vecinos sorted) y, en producción, incluye aristas y evidencia.",
+          "problem": "La pregunta que gobierna la sección es «qué camino conecta a estos dos, y qué respalda cada paso»; también se dice que el workbench necesita sumario y fuente. Dejar aristas y evidencia solo «en producción» contradice ese contrato y sugiere que en el ejercicio basta una lista de nodos.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "la clave de agregado incluye al menos `(src, dst, etype)`",
+          "problem": "Para etypes no dirigidos (`shared_phone`, `shared_address`) esa clave cuenta dos veces el mismo hecho si un extremo entra como src y otra vez como dst. El texto pide no mezclar convenciones por etype, pero no dice cómo normalizar el par.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Dos personas conectadas por una transferencia directa no están en la misma situación que dos conectadas por cuatro saltos a través de un teléfono compartido en una oficina.",
+          "problem": "En el modelo que luego se enseña, una transferencia entre personas no es un hop directo (pasa por cuentas) y un teléfono compartido son 1 hop (`shared_phone`) o 2 (`E1 → ph:900 → E2`), no cuatro. El ejemplo motivador no se puede mapear al schema.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "BFS/DFS con **límite de profundidad** (*hop limit*, máximo de saltos).",
+          "problem": "Nombra BFS y DFS sin decir que son búsqueda en amplitud y en profundidad, ni cuándo usar cada una. En un curso para quien empieza, eso no enseña el algoritmo de recorrido que T3 anuncia; solo deja un acrónimo.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "A escala tipo SNAP (miles o millones de nodos)",
+          "problem": "SNAP no es una escala: es una colección de datasets de Stanford. El paréntesis mezcla miles y millones, así que el término no aclara el umbral y exige un referente que el texto no introduce.",
+          "severity": "baja",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 32,
+      "file": "s32-microservices.ts",
+      "title": "Feature engineering y pipelines sin leakage",
+      "chars_reviewed": 11729,
+      "findings_returned": 5,
+      "findings_verified": 5,
+      "findings_unverified": 0,
+      "by_kind": {
+        "CONTRADICTS": 1,
+        "FACTUAL": 4
+      },
+      "findings": [
+        {
+          "kind": "FACTUAL",
+          "quote": "`[1, None, 3]` → indicator + fill mediana 2 → z con μ=0, σ=2 del train fit sobre la serie completa rellena.",
+          "problem": "La mediana 2 es correcta para [1, 3], y la serie rellena es [1, 2, 3]. El fit de z-score sobre esa serie no puede dar μ=0 y σ=2: la media es 2 y la desviación es 1 (muestral) o √(2/3)≈0.82 (poblacional). Quien reproduzca el ejemplo obtendrá otros parámetros y otros z.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Aplicar la mediana de train al batch de serve evita **skew silencioso**: reestimar en inferencia es otra forma de leakage.",
+          "problem": "Reestimar mediana o μ/σ en serve es sesgo train–serve (otra transformación que la de train), no leakage. El leakage es contaminar el entrenamiento o la evaluación con futuro, etiqueta o test. El texto lo llama «leakage o skew» y luego «otra forma de leakage», y contradice su propia definición (información que no existiría en el momento de decidir: el batch de serve sí existe entonces).",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "**Leakage:** usar en el entrenamiento información que no existiría en el momento de la decisión (futuro, label, o identidad vista en test).",
+          "problem": "Futuro y label sí son información no disponible en t. La identidad vista en test no: el problema del overlap es contaminación del split/evaluación (el modelo puede memorizar la entidad), no que esa identidad «no existiera» al decidir. El paréntesis mete tres fenómenos distintos en una definición que solo cubre los dos primeros.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Rellenar en silencio con 0 o con la mediana del set completo es **silent fill** y suele filtrar estadísticas de test.",
+          "problem": "Rellenar con la mediana del dataset entero sí filtra/filtra estadísticas de test hacia el transform. Rellenar con 0 no usa el test: oculta la ausencia y sesga la distribución, pero no es fuga de estadísticas de prueba. El «o» atribuye el mismo mecanismo a los dos casos.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "cadena numérica fill0 luego *2 sobre montos",
+          "problem": "En el mismo caso Red Andina se exige missing indicator + mediana de train y se marca el fill con 0 como silent fill; aquí la cadena numérica de referencia es fill0. Quien implemente el catálogo no sabe cuál de las dos políticas es la del entregable.",
+          "severity": "baja",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 33,
+      "file": "s33-advanced-models.ts",
+      "title": "ML supervisado y baselines responsables",
+      "chars_reviewed": 18829,
+      "findings_returned": 12,
+      "findings_verified": 12,
+      "findings_unverified": 0,
+      "by_kind": {
+        "JARGON": 1,
+        "UNCLEAR": 3,
+        "UNSUPPORTED": 2,
+        "CONTRADICTS": 2,
+        "FACTUAL": 4
+      },
+      "findings": [
+        {
+          "kind": "FACTUAL",
+          "quote": "En 2016, el laboratorio de inteligencia artificial de Meta (entonces Facebook) en París publicó PyTorch",
+          "problem": "PyTorch lo publicó Facebook AI Research en 2016, con el núcleo del desarrollo en EE. UU. (sobre todo FAIR en Nueva York: Soumith Chintala, Sam Gross, Gregory Chanan, Adam Paszke), no el laboratorio de París. Atribuirlo a FAIR París es un error de hecho.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "en lugar de definir un grafo estático y luego ejecutarlo, PyTorch construye el grafo dinámicamente a medida que el código Python se ejecuta. Esta diferencia filosófica — *eager execution* frente a *graph execution*",
+          "problem": "El contraste define-and-run vs define-by-run era cierto frente a TensorFlow 1.x. Desde TensorFlow 2.0 (2019) la ejecución eager es el modo por defecto; presentar esa oposición como la diferencia vigente entre los dos frameworks, en un curso situado en 2026, es inexacto.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "para 2023, más del 80% de los artículos en NeurIPS usaban PyTorch",
+          "problem": "El texto afirma un porcentaje concreto sobre NeurIPS 2023 sin fuente ni recorte (¿papers que declaran framework? ¿Papers with Code?). Las cifras públicas rondan el uso mayoritario de PyTorch en conferencias, pero «más del 80% de los artículos en NeurIPS» queda como cifra precisa no sostenida.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Las ofertas de trabajo en Estados Unidos tienden a mencionar TensorFlow en roles de producción (por su despliegue en servidores con TensorFlow Serving), mientras que las ofertas en China — especialmente en ByteDance, DeepSeek y Baidu — prefieren PyTorch por su flexibilidad en investigación.",
+          "problem": "Hacia 2026 PyTorch es el framework dominante también en producción en EE. UU. (Meta, OpenAI, Tesla, Microsoft, etc.); TensorFlow Serving no explica un sesgo laboral estadounidense actual. En China, Baidu impulsa PaddlePaddle como stack propio, no «prefiere PyTorch». El corte geográfico TF-producción vs PT-investigación es un estereotipo desactualizado.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Cuando un modelo falla en producción, la capacidad de inspeccionar el grafo dinámico paso a paso es lo que separa una depuración de horas de una de días.",
+          "problem": "Afirmación operativa sin evidencia: fallos en producción suelen venir de datos, serving, latencia o drift, no de inspeccionar el grafo de autograd. Tampoco se sostiene que esa capacidad ahorre sistemáticamente «días» frente a «horas», ni es exclusiva de PyTorch (TF 2 también es eager).",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "una fuerza C o λ",
+          "problem": "C (sklearn) y λ (formulación habitual) son inversas: C más grande relaja la regularización; λ más grande la endurece. Llamar a ambas «fuerza» sin decirlo invita a regularizar en el sentido contrario.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "que es exactamente ln 2: el número al que llega un modelo que no aprendió nada y predice la misma probabilidad para todo",
+          "problem": "La BCE vale ln 2 solo si esa probabilidad constante es 0.5. Predecir la misma p ≠ 0.5 para todo no da ln 2. Falta esa condición; «la misma probabilidad para todo» no basta.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Esta sección es **opcional**: nada de lo que viene después la necesita.",
+          "problem": "Más adelante el material incluye un bloque entero de PyTorch/TensorFlow (tensores, autograd, módulos, `torch.nn.Linear`, bucle `loss.backward()`). Quien se salte la minirred no tiene el ciclo que ese bloque da por sentado, y el propio texto había dicho que PyTorch no se instala y queda para «si algún día».",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Se trabaja con Python estándar —una sigmoide, un stump, una semilla fija— antes de tocar librerías pesadas, porque el objetivo es entender la comparación y no invocar una API.",
+          "problem": "El mismo material termina invocando APIs pesadas (`torch.nn.Linear`, `tf.keras.layers.Dense`, `model.fit()`, `optimizer.step()`) y un panorama laboral de frameworks, en contra del criterio que acaba de fijar.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Un MAE de 1.10 significa equivocarse en algo más de un caso por día. Sobre la misma serie, el baseline estacional promedia **1.10** y el ingenuo de “ayer” **3.86**",
+          "problem": "Hasta aquí el problema era clasificación binaria (`needs_review_7d`, accuracy, costo FP/FN, dummy majority). De golpe el rival pasa a ser un baseline de series temporales medido con MAE en «casos por día», sin declarar que cambió la tarea a pronóstico de conteos. Un principiante no puede saber si sigue evaluando el mismo target.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "un **breach de producto**",
+          "problem": "Anglicismo opaco para quien empieza: «breach» sugiere brecha de seguridad, no una regla de producto del lab (el ML no puede llamarse `fraud`). En español didáctico no se entiende qué se viola ni qué debe hacer el alumno.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "**Random Forest** (*bagging* de árboles con muestreo) y **boosting** (que reasigna pesos a los residuos o errores en rondas sucesivas)",
+          "problem": "Bagging, boosting, residuos y «predictores débiles» aparecen sin definición previa en un curso para quien empieza. Además RF no es solo bagging con muestreo: también subsamplea features, matiz que aquí se pierde detrás de los préstamos del inglés.",
+          "severity": "baja",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 34,
+      "file": "s34-cv-ai-integration.ts",
+      "title": "Métricas, desbalance, calibración y umbrales",
+      "chars_reviewed": 13604,
+      "findings_returned": 6,
+      "findings_verified": 6,
+      "findings_unverified": 0,
+      "by_kind": {
+        "JARGON": 2,
+        "FACTUAL": 1,
+        "UNCLEAR": 2,
+        "CONTRADICTS": 1
+      },
+      "findings": [
+        {
+          "kind": "FACTUAL",
+          "quote": "Aquí usamos un **mapa afín** `clip(a·raw + b)` como implementación simplificada de Platt",
+          "problem": "Platt scaling no es un mapa afín recortado: es una regresión logística, p = 1/(1+exp(A·s+B)) (una sigmoide sobre el score). clip(a·raw+b) es otra cosa (transformación lineal saturada) y ni siquiera se parece numéricamente: con los mismos a=0.8, b=0.1 y raw=1.5/−0.2/0.4, Platt daría ~0.79/0.49/0.60, no [1.0, 0.0, 0.42]. El texto define Platt bien como regresión logística y acto seguido enseña la fórmula incorrecta bajo ese nombre; en sklearn, CalibratedClassifierCV(method='sigmoid') no hace este clip.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "El mismo tablero sintético recorre la sección entera: cinco scores y sus etiquetas, de punta a punta, para que cada métrica se pueda calcular a mano y comprobar.",
+          "problem": "No hay ningún tablero de cinco scores que recorra la sección. CASO-LIM-034 reaparece con datos incompatibles: y=[1,0] (2 casos), top-3 [1,0,1], calibración [0.1,0.2,0.8,0.9], mapa afín [1.5,−0.2,0.4], umbral [0.1,0.4,0.6,0.9] con etiquetas [0,0,1,1]. Ni coinciden entre sí ni con los «cinco casos y dos que importan» del inicio, así que no se puede comprobar «cada métrica» a mano sobre el mismo hilo.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "El ejemplo de abajo simula un fold con índices de train y test: el rebalance solo toca train.",
+          "problem": "No hay ningún ejemplo debajo con índices de train/test. El texto sigue con n0=9, n1=1 y el ratio de pesos; la plantilla fold_plan(...) tampoco muestra índices ni un fold simulado. La referencia queda colgando.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "la misma especificidad del modelo produce peor precision",
+          "problem": "«Especificidad» (TNR = TN/(TN+FP)) aparece sin definir, a diferencia de precisión y recall, que sí se explican en lenguaje llano y con fórmula. Quien empieza no tiene por qué ligar esa palabra con los falsos positivos; la frase se sostiene con prevalencia y PPV, pero el término queda opaco.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "`F1 = 2·P·R/(P+R)` (con cuidado de ceros: si no hay predicciones positivas, P=0; si no hay positivos reales, R=0)",
+          "problem": "El «cuidado de ceros» no cubre el denominador de F1. Sin predicciones positivas hay TP=0 y FP=0: si además R=0, F1 = 0/0. Lo mismo si no hay positivos reales y P=0. Falta la convención (habitualmente F1=0) que el alumno necesita para calcular a mano.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "Esa frase evita el training-serving skew de las probabilidades cuando el thr de T4 se elige sobre scores «calibrados».",
+          "problem": "«Training-serving skew» se introduce en inglés, sin definición, en una lección que hasta ahí habla de colas y Brier. No se explica qué sesgo es, ni por qué documentar el set de ajuste lo evita; el alumno no puede usar la advertencia.",
+          "severity": "baja",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 35,
+      "file": "s35-system-design.ts",
+      "title": "Explicabilidad, equidad e incertidumbre",
+      "chars_reviewed": 11926,
+      "findings_returned": 8,
+      "findings_verified": 8,
+      "findings_unverified": 0,
+      "by_kind": {
+        "UNCLEAR": 2,
+        "JARGON": 1,
+        "CONTRADICTS": 2,
+        "FACTUAL": 3
+      },
+      "findings": [
+        {
+          "kind": "FACTUAL",
+          "quote": "Los **coeficientes** de un modelo lineal y la **importancia por permutación** miden sensibilidad: cuánto cae una métrica de negocio al barajar una feature",
+          "problem": "Esa definición describe solo la importancia por permutación. Un coeficiente lineal es el peso en la combinación lineal (cambio de la salida del modelo por unidad de feature), no la caída de una métrica de negocio al barajar la columna. El texto atribuye el mismo procedimiento a ambos; la comparación posterior (lineal vs caja negra) no corrige el error.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "la **predicción conformal** (p. ej. MAPIE) usa un **set de calibración** y busca **cobertura** empírica: que el valor verdadero caiga en la banda con la frecuencia prometida (p. ej. 90 %).",
+          "problem": "La cobertura conformal estándar es P(Y ∈ Ĉ(X)) ≥ 1−α sobre el outcome, no un intervalo alrededor del score. En clasificación el análogo habitual es un conjunto de etiquetas, no p±q. En el propio caso, p=0.6 con banda [0.5, 0.7] no puede contener el valor verdadero 0 o 1, así que la analogía no se sostiene para la ficha que se está construyendo.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Brier (score de calibración de probabilidades) y bandas son **complementarios**, no rivales.",
+          "problem": "Brier no es un score de calibración: es una regla de puntuación propia (MSE entre la probabilidad predicha y el 0/1) que mezcla calibración y refinamiento. Aparece una sola vez, sin fórmula ni papel en la ficha, yuxtapuesto a bandas toy que el texto declara sin claim de cobertura.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "`shared_phone` aporta 0.9 al score de cola",
+          "problem": "En T3 el mismo CASO-LIM-035 pasa a p=0.6 con banda [0.5, 0.7]. Con baseline=0, una contribución de 0.9 ya no cabe en un score 0.6 salvo contribuciones negativas que nunca se muestran. El texto pide verificar baseline + Σ contrib ≈ salida del modelo y el ejemplo corrido no lo cumple; además T1-B insiste en que el aditivo no está en escala de probabilidad y T3 trata p como si lo estuviera.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "OOD es **cambio de dominio** (otra capa de la ficha, otro verbo de política).",
+          "problem": "La ficha se definió con cuatro capas que no deben mezclarse, y el propio contrato guarda OOD en uncertainty.reason (capa de incertidumbre), no como quinta capa. Además un z-score extremo es un outlier en el mismo dominio; «cambio de dominio» encaja con canal nuevo, no con max(|z|)>thr.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "LIM n=100 precision=0.6 (`ok_n`) vs. AQP n=8 precision=0.9 (`low_n`). **No** se afirma paridad de fraude ni se grita inequidad con n=8; solo se documenta daño diferencial **potencial** en revisión.",
+          "problem": "Precision 0.9 frente a 0.6 no indica por sí sola daño al slice AQP; si el daño de la cola son falsos positivos, el contraste apunta más a LIM. Se enseña a etiquetar «daño» sin decir quién sufre qué métrica, justo cuando se prohíbe la afirmación fuerte por n bajo.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "se marca high, se **retira** del ranking y se documenta n bajo en AQP antes de cualquier afirmación de paridad. Con proxies mitigados, T3 comunica qué tan estable es el score restante.",
+          "problem": "Retirar district_code del ranking de importancia no mitiga el proxy: el modelo puede seguir usándolo para puntuar. El texto llama a eso «proxies mitigados» y habla de «score restante» como si la puntuación hubiera cambiado (drop+retrain), sin decir cuál de las dos acciones es. El alumno puede creer que ocultar el feature en la explicación basta.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "JARGON",
+          "quote": "p. ej. **TPR gap** (diferencia de true positive rate entre grupos) o **precision@slice**",
+          "problem": "No se dice qué es un verdadero positivo ni que TPR/recall y precision miden daños distintos (¿a quién no cazamos? vs ¿a quién metemos en cola?). Para principiantes en español, el acrónimo en inglés y tratar TPR, precision@slice, precision@k y tasa de queue como ejemplos intercambiables de equidad deja el criterio vacío.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 36,
+      "file": "s36-ai-apis-advanced.ts",
+      "title": "Clustering, anomalías y validación temporal",
+      "chars_reviewed": 13388,
+      "findings_returned": 7,
+      "findings_verified": 7,
+      "findings_unverified": 0,
+      "by_kind": {
+        "UNSUPPORTED": 2,
+        "FACTUAL": 2,
+        "UNCLEAR": 2,
+        "CONTRADICTS": 1
+      },
+      "findings": [
+        {
+          "kind": "FACTUAL",
+          "quote": "un centroide es un promedio geométrico, no una categoría moral.",
+          "problem": "En español, «promedio geométrico» es la media geométrica (raíz n-ésima del producto), no el centroide de k-means. El centroide es la media aritmética de las coordenadas. El contraste retórico geométrico/moral no corrige el término: quien lo busque o lo implemente al pie de la letra calculará otra estadística.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Agrupar por parecido se llama **clustering**, y su mecanismo es más simple de lo que sugiere el nombre. Eliges cuántos grupos quieres, colocas un punto de referencia en cada uno —el **centroide**, que es sencillamente el promedio de sus miembros—, asignas cada dato al centroide más cercano y recalculas los promedios.",
+          "problem": "Presenta elegir k y los centroides como el mecanismo del clustering. En el mismo bloque T1 el texto describe un método density-based donde «No eliges k; eliges densidad». Clustering no se reduce a k-means; la apertura y T1 se contradicen.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "colocas un punto de referencia en cada uno —el **centroide**, que es sencillamente el promedio de sus miembros—, asignas cada dato al centroide más cercano y recalculas los promedios.",
+          "problem": "El procedimiento queda circular: define el centroide como promedio de unos miembros que aún no se han asignado. Falta la inicialización (puntos al azar, k-means++, min/max, etc.). Sin ese paso no se puede ejecutar ni el primer assign.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "un assign–update con k=2 separa bajo/alto en el espacio z",
+          "problem": "Ese resultado de un solo ciclo depende de los centroides iniciales, que no se dan. Con xs=[1.0,1.2,5.0,5.2,5.1], si se inicializa en los dos primeros puntos (ambos bajos), el assign deja 1.2 en el grupo alto y un ciclo no separa bajo/alto. La afirmación del caso no está determinada por los datos que se muestran.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "Antes de k-means, **escala** features: sin scale, gana la magnitud (soles vs. conteos de eventos). El núcleo didáctico es un **toy 1D**",
+          "problem": "La trampa de escala (una columna 0–1 frente a otra 0–100 000) exige al menos dos features. En 1D el z-score es una transformación afín y no cambia `argmin |x − c_i|`. El micro-lab no puede ilustrar lo que el texto dice que «decide qué agrupa el modelo», y el fallo «mezclas montos crudos con conteos» no es ejercitable con una sola lista xs.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Ambos piden scale previo y `contamination` de capacidad, no de «tasa de fraude».",
+          "problem": "Isolation Forest parte un eje entre su propio min y max; es invariante a un reescalado afín por feature (el z-score no cambia los path lengths). No «pide» scale, a diferencia de LOF, k-means o DBSCAN. Tratar IF y LOF como si exigieran lo mismo enseña una propiedad falsa de Isolation Forest.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Un proxy legible de «cuánto pesa el primer eje» es `|w0|/(|w0|+|w1|)` — masa del componente, **no** la varianza explicada de autovalores reales.",
+          "problem": "`|w0|/(|w0|+|w1|)` es la proporción L1 de la primera variable (x) en la combinación lineal, no el peso del primer eje PC. En esta misma sección «ejes PC» son las componentes; el peso de PC1 sería la varianza explicada, que aquí no existe (pesos fijos y una sola proyección). El nombre planta la confusión que el aviso intenta evitar.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 46,
+      "file": "s46-gpu-computing.ts",
+      "title": "Ingeniería de datos y orquestación de producción",
+      "chars_reviewed": 12650,
+      "findings_returned": 7,
+      "findings_verified": 6,
+      "findings_unverified": 1,
+      "by_kind": {
+        "FACTUAL": 2,
+        "CONTRADICTS": 4
+      },
+      "findings": [
+        {
+          "kind": "UNCLEAR",
+          "quote": "Timeline trabajado (stream `[100, 108, 115]`, lag 5 → watermark 110, ventana 120, gracia 5): 112 es ON_TIME (por encima del watermark); 100 es LATE (`wm − et = 10 > 5`, side-output o drop según política); 105 es ALLOWED_LATE (entra por gracia).",
+          "problem": "El contrato dice watermark = max(event_time) − lag sobre la lista a etiquetar, pero el ejemplo fija 110 con [100, 108, 115] y clasifica 112 y 105, que no están en esa lista. 100 sí está en el stream: si se evalúa al llegar, el watermark aún no ha superado su timestamp. Aplicar el contrato al stream daría etiquetas para 100, 108 y 115, no este trío, y un 112 en la lista subiría el max y bajaría el watermark a 107.",
+          "severity": "alta",
+          "quote_verified": false
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "**Allowed lateness**, en este lab, es una banda de gracia relativa al watermark (`wm − et ≤ gracia`)",
+          "problem": "La desigualdad también se cumple para eventos a tiempo (112: 110 − 112 = −2 ≤ 5), que el texto etiqueta ON_TIME y no ALLOWED_LATE. Una banda respecto al watermark exige además et ≤ wm (o wm − et ≥ 0). Sin esa cota las dos etiquetas no son disjuntas y la regla no basta para implementarla.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "`late_policy` ∈ {update, side-output, quarantine}",
+          "problem": "El mismo material no fija un conjunto de políticas: al inicio son cuatro (descartarlo, guardarlo aparte, corregir el resultado o cuarentena), el contrato de tiempo documenta side-output / drop / update, y este contrato sustituye drop por quarantine. El alumno no sabe cuál es el enumerado válido.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "e2 *late* con política *update* → actualiza la fila o va a *side-output*; nunca “mezcla silenciosa”.",
+          "problem": "Con política update el evento tardío debe actualizar la fila; ir a side-output es otra política. El «o» asigna dos efectos incompatibles a la misma política en la secuencia trabajada.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "El **RTO** mide cuánto tarda la recuperación",
+          "problem": "RTO (Recovery Time Objective) es el techo aceptable de recuperación, no el tiempo medido. El texto sí separa SLI (medido) y SLO (objetivo), pero trata el RTO como si fuera el SLI: «el RTO del replay a 90 min (>30)». Lo medido sería el tiempo real de recuperación; 30 min sería el RTO.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "el SLO de frescura del dashboard de atenciones es 0.99",
+          "problem": "Antes, el SLO de freshness es un atraso máximo («cuánto atraso máximo tolera el consumidor», PASS si lag ≤ SLO, freshness ≤ 15 min): una duración. 0.99 es una proporción y el contrato de operación compara SLI ≥ SLO. El mismo nombre queda con tipos incompatibles (minutos vs. 0–1) y con desigualdades opuestas.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Exactly-once compuesto = idempotent_sink + dedup + checkpoint + late_policy; no magia del *middleware*.",
+          "problem": "Exactly-once end-to-end trata reintentos y efectos duplicados (checkpoint + sink idempotente; dedup casi duplica el sink). La late_policy decide qué hacer cuando el watermark ya pasó (completitud/latencia), no la semántica de entrega única. Meterla en la igualdad mezcla dos problemas; si falta, el fallo típico es pérdida o ventana incompleta, no el «exactly-once» del broker.",
+          "severity": "media",
+          "quote_verified": true
+        }
+      ]
+    },
+    {
+      "index": 48,
+      "file": "s48-ai-governance.ts",
+      "title": "LLM applications y RAG con evidencia",
+      "chars_reviewed": 8416,
+      "findings_returned": 0,
+      "findings_verified": 0,
+      "findings_unverified": 0,
+      "by_kind": {},
+      "findings": [],
+      "unreliable": true,
+      "unreliable_reason": "zero findings recorded during the run where the Grok balance was exhausted; a failed call was indistinguishable from a clean review. Must be re-reviewed before being treated as clean."
+    },
+    {
+      "index": 50,
+      "file": "s50-tech-leadership.ts",
+      "title": "Evals, red teaming y fiabilidad de IA",
+      "chars_reviewed": 11434,
+      "findings_returned": 0,
+      "findings_verified": 0,
+      "findings_unverified": 0,
+      "by_kind": {},
+      "findings": [],
+      "unreliable": true,
+      "unreliable_reason": "zero findings recorded during the run where the Grok balance was exhausted; a failed call was indistinguishable from a clean review. Must be re-reviewed before being treated as clean."
     }
+  ],
+  "prior_runs": [
+    {
+      "sha": "6bac5cb2",
+      "generated_at": "2026-08-23T06:09:00.778675+00:00",
+      "reviewer": "xAI Grok via local grok CLI",
+      "sections": [
+        31
+      ]
+    },
+    {
+      "sha": "448ffb02",
+      "generated_at": "2026-08-23T06:35:23.603936+00:00",
+      "reviewer": "xAI Grok via local grok CLI",
+      "sections": [
+        1,
+        2,
+        18
+      ]
+    },
+    {
+      "sha": "8ad69627",
+      "generated_at": "2026-08-23T07:18:11.758675+00:00",
+      "reviewer": "xAI Grok via local grok CLI",
+      "sections": [
+        33,
+        34,
+        36,
+        46
+      ]
+    },
+    {
+      "sha": "bdbe0cfb",
+      "generated_at": "2026-08-23T07:31:23.189195+00:00",
+      "reviewer": "xAI Grok via local grok CLI",
+      "sections": [
+        32,
+        35,
+        48,
+        50
+      ]
+    },
+    {
+      "sha": "e84cfaa4",
+      "generated_at": "2026-08-23T15:40:40.122209+00:00",
+      "reviewer": "OpenAI Codex via local codex CLI",
+      "sections": [
+        14,
+        16,
+        17,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ]
+    },
+    {
+      "generated_at": "2026-08-23T15:40:40.122209+00:00",
+      "reviewer": "OpenAI Codex via local codex CLI",
+      "sections": [
+        1,
+        2,
+        14,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        46,
+        48,
+        50
+      ],
+      "total_verified_findings": 142
+    }
+  ],
+  "sections_this_run": [
+    26,
+    27
   ]
 }
