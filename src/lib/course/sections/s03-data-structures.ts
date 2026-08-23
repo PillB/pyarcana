@@ -2026,7 +2026,7 @@ Invariante: menores y ausentes → review; solo fuera de 0-120 o tipo mal → re
 # DEFECT: mensajes vagos
 accionables = [
     "Error",
-    "inválido",
+    "Validación fallida en el registro 42 (código E-RANGE-07).",
     "bad age",
 ]
 for a in accionables:
@@ -2395,7 +2395,7 @@ if __name__ == "__main__":
       },
       {
         question: '¿Cuándo aporta más claridad `match/case` que `if` en un motor de reglas introductorio?',
-        options: ['Cuando el sujeto es un literal/estado finito (códigos) y hay case _', 'Siempre; match deprecó if en Python 3.12', 'Solo para rangos numéricos de montos', 'Nunca; match está deprecado'],
+        options: ['Cuando el sujeto es un literal/estado finito (códigos) y hay case _', 'Cuando hay que comparar rangos numéricos con varios límites', 'Cuando el número de ramas pasa de cinco, sea cual sea el sujeto', 'Cuando cada rama devuelve el mismo tipo de resultado'],
         correctIndex: 0,
         explanation:
           '`match` es estable desde Python 3.10 y hace visible una tabla de estados finitos, incluido `case _`. No reemplaza `if`: los rangos numéricos y las combinaciones de campos suelen leerse mejor como comparaciones.',
@@ -2411,7 +2411,7 @@ if __name__ == "__main__":
       {
         question:
           '¿Cuál de estos mensajes de validación es accionable para operaciones de intake?',
-        options: ['Error', 'inválido', 'bad', "Campo 'edad'=-5 fuera de rango; usa un entero 0–120."],
+        options: ['Validación fallida en el registro 42 (código E-RANGE-07).', 'El campo edad no es válido; corrígelo y vuelve a enviar.', 'El valor de edad está fuera del rango permitido por la política.', "Campo 'edad'=-5 fuera de rango; usa un entero 0–120."],
         correctIndex: 3,
         explanation:
           'La opción correcta permite actuar porque identifica campo, valor problemático, frontera y corrección esperada. “Error”, “inválido” y “bad” solo anuncian que algo falló; obligan a adivinar la causa o leer el código.',
