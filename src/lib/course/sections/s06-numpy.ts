@@ -26,6 +26,13 @@ export const section06: CourseSection = {
   theory: [
     {
       heading: "Tres preguntas antes de abrir un archivo",
+      figure: {
+        id: "S06-three-structures",
+        caption:
+          "Elegir estructura no es elegir la mejor, sino reconocer qué pregunta estás haciendo. La misma tabla puede necesitar las tres a la vez.",
+        alt:
+          "Tres tarjetas lado a lado. La primera muestra celdas numeradas en orden y se llama list. La segunda muestra claves apuntando a fichas y se llama dict. La tercera muestra un conjunto de identificadores sin orden y se llama set.",
+      },
       paragraphs: [
         "Imagina un centro internacional de ayuda que recibe fichas sintéticas de envíos. Tres preguntas aparecen antes de abrir un archivo: «¿en qué orden llegaron?», «¿dónde está la ficha C002?» y «¿ya vimos este ID?». Una secuencia conserva el orden; un `dict` actúa como índice; un `set` responde pertenencia. Esas estructuras no compiten: cada una resuelve una pregunta distinta.",
         "En S04 aprendiste a recorrer datos y en S05 a encerrar reglas en funciones. Ahora compones ambas destrezas en un modelo tabular en memoria: clientes con contactos y transacciones, una tabla de acceso por ID y un registro separado de conflictos. Piensa en él como una mesa de clasificación temporal, no como una base de datos diminuta ni como una colección de trucos aislados.",

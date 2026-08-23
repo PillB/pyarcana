@@ -165,6 +165,13 @@ print("5 and 99 →", 5 and 99)`,
     },
     {
       heading: 'Ramas de decisión con if/elif/else',
+      figure: {
+        id: "S03-tri-state",
+        caption:
+          "Cada puerta es una pregunta, y la salida que abre ya es la decisión. Por eso una sola rama puede dominar: el registro nunca llega a la siguiente pregunta.",
+        alt:
+          "Un registro entra por la izquierda y atraviesa tres puertas en fila. Cada puerta lleva una pregunta y tiene debajo una salida propia: review, reject y accept. El registro sale por la primera puerta que se abre.",
+      },
       subtopicId: 'S03-T2-A',
       paragraphs: [
         'Un centro de soporte de Montreal clasifica cada solicitud como urgente, estándar o diferida. Si dos etiquetas pueden quedar activas a la vez, nadie sabe qué cola debe recibirla. `if/elif/else` resuelve esa ambigüedad con una promesa sencilla: una entrada, una rama dominante.',

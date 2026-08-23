@@ -111,7 +111,17 @@ test.describe('Code rendering fidelity', () => {
       await skip.click()
       await page.waitForTimeout(500)
     } catch { /* tour may not appear */ }
-    await expect(page.getByTestId('section-root')).toHaveAttribute('data-section-id', 'setup')
+    // The first navigation pays for the client bundle; the 52×5 walk after it
+    // does not. Measured on an untouched checkout of caa0f1f0, `#setup` needs
+    // 4.7–5.2s to hydrate against a dev server, so Playwright's 5s default made
+    // this line fail before a single section had been checked — on unmodified
+    // code. The assertion is unchanged; only the budget now matches the cold
+    // start the test itself creates.
+    await expect(page.getByTestId('section-root')).toHaveAttribute(
+      'data-section-id',
+      'setup',
+      { timeout: 30_000 },
+    )
 
     for (const section of SECTION_IDS) {
       if (section !== 'setup') await selectSection(page, section)

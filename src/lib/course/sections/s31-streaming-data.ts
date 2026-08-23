@@ -229,6 +229,13 @@ detail_kept True`,
     },
     {
       heading: "Grado, componentes y caminos",
+      figure: {
+        id: "S31-evidence-graph",
+        caption:
+          "Los dos caminos dirían «están conectados». Uno lo dice con una transferencia entre esas dos entidades; el otro, con un teléfono que comparte toda una oficina.",
+        alt:
+          "Un grafo de cuatro entidades. Ana Q. es el caso abierto. Una arista directa la une a Luis M. mediante una transferencia. Otra la une a la Oficina Lima por un teléfono compartido, y desde ahí una tercera llega a Marta R. por el mismo teléfono. Al elegir un destino se resalta el camino y se listan las evidencias de cada arista.",
+      },
       subtopicId: "S31-T3-A",
       paragraphs: [
         "**Grado** (degree): número de vecinos (in/out en dirigidos). Sirve para filtrar **hubs** (nodos de alto grado) y priorizar exploración — **no** para culpar a un nodo. En grafos dirigidos, reporta in-degree y out-degree por separado cuando el flujo importa (p. ej. transferencias).",

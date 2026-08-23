@@ -47,6 +47,13 @@ export const section15: CourseSection = {
      },
      {
       heading: "Series, DataFrame e Index",
+      figure: {
+        id: "S15-dataframe",
+        caption:
+          "El Index es la columna que no es una columna: es contra qué se alinean las demás cuando dos tablas se juntan. Fíjate en el dtype de monto — nada falló al leer el archivo.",
+        alt:
+          "Una tabla con una columna de Index a la izquierda y tres columnas de datos. Cada columna lleva su dtype encima. La columna monto aparece con borde punteado y dtype de texto porque sus valores usan coma decimal.",
+      },
       subtopicId: "S15-T1-A",
       paragraphs: [
         "Una **Series** es un vector con **Index** (etiquetas); un **DataFrame** es una tabla de columnas — cada columna es una Series alineada por el mismo Index. Esa idea es el puente desde NumPy: ya no tienes un solo dtype por array, sino **columnas heterogéneas** unidas por un eje de etiqueta. Si sumas dos Series con índices distintos, pandas **alinea por etiqueta**: el resultado tiene la unión de índices y pone NaN donde falta valor. El Index no es decoración: es el eje de negocio que decide qué filas se combinan.",

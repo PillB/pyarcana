@@ -190,6 +190,13 @@ shape_error operands could not be broadcast together`,
     },
     {
       heading: "Views/copies y mutabilidad",
+      figure: {
+        id: "S14-view-vs-copy",
+        caption:
+          "El corte no trae números nuevos: trae otra forma de mirar los mismos. La copia sí los trae, y por eso cuesta memoria — el precio de no afectar al original.",
+        alt:
+          "Arriba, un único bloque de cuatro celdas con dos nombres apuntando a él: el array original y una vista sobre parte de él; escribir en la vista cambia el bloque. Abajo, un bloque distinto y separado, con borde punteado, al que apunta la copia.",
+      },
       subtopicId: "S14-T3-A",
       paragraphs: [
         "Un **view** comparte memoria con el array base (`arr.base is not None` a menudo); un **copy** es un bloque independiente. Los slices simples (`raw[:2]`, `raw[:]`) suelen ser views; fancy index y máscaras booleanas suelen copiar. Confundirlos es el bug más caro en un pipeline de calidad: normalizas un slice “temporal” y corrompes el raw que alimenta la auditoría.",

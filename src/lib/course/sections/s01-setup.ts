@@ -226,6 +226,13 @@ segunda linea
     },
     {
       heading: 'cwd, PATH y códigos de salida en la shell',
+      figure: {
+        id: "S01-cwd-path",
+        caption:
+          "Las dos preguntas se confunden porque ambas respuestas parecen rutas. La de la izquierda ubica; la de la derecha ordena una búsqueda y se detiene en la primera coincidencia.",
+        alt:
+          "Dos paneles. A la izquierda, un árbol de carpetas con «informe/» resaltada y una flecha que la señala: es la carpeta actual. A la derecha, tres rutas numeradas en orden de búsqueda, con «.venv/bin» resaltada como la primera que responde.",
+      },
       subtopicId: 'S01-T1-B',
       paragraphs: [
         'Piensa en **cwd** y **PATH** como dos respuestas a preguntas distintas: «¿en qué habitación estoy?» y «¿en qué directorios busca herramientas el sistema?». Ya viste `sys.exit` dentro de Python; ahora comprobarás desde la shell que cambiar de habitación no instala una herramienta y que encontrar la herramienta no garantiza encontrar tu archivo. El código de salida confirma el resultado sin depender del color o del texto de la consola.',

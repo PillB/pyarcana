@@ -338,3 +338,17 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* === I Do: the line currently being written ===
+   A clip sweep, not a character-by-character rewrite: the text is already
+   complete in the DOM (the code-fidelity gate depends on that), so only its
+   visible portion animates. The reduced-motion block above neutralises this
+   automatically, since it is a CSS animation rather than a JS-driven one. */
+@keyframes code-line-sweep {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+.code-line-sweep {
+  animation: code-line-sweep 420ms steps(28, end) both;
+}

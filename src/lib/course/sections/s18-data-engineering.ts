@@ -159,6 +159,13 @@ bias_pp {'Lima': 0.25, 'Madrid': -0.09, 'Bogota': -0.16}`,
  },
  {
  heading: "Intervalos básicos y tamaño de efecto",
+ figure: {
+   id: "S18-interval",
+   caption:
+     "Los dos estudios reportarían el mismo titular. Solo uno de ellos permite actuar sobre él.",
+   alt:
+     "Un eje de soles con dos estimaciones marcadas. Ambas tienen el mismo promedio de 24, pero la de cuatrocientos casos tiene un intervalo estrecho y la de doce casos abarca casi todo el eje.",
+ },
  subtopicId: "S18-T2-B",
  paragraphs: [
  "Un **intervalo de confianza** aproximado para la media con n grande y colas razonables: media ± z·(s/√n) (z≈1.96 para 95%). El IC habla de un **parámetro** (p. ej. media poblacional) bajo un modelo de muestreo: **no** significa “el 95% de los datos cae en el intervalo” ni “quedó probado al 95% que la media es el punto central”.",

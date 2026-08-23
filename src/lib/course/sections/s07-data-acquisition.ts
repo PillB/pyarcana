@@ -54,6 +54,13 @@ export const section07: CourseSection = {
      },
      {
       heading: "Code points, normalización y casefold",
+      figure: {
+        id: "S07-nfc-nfd",
+        caption:
+          "El navegador dibuja lo mismo en los dos casos; Python cuenta las piezas. Esa es toda la diferencia entre que un cruce de tablas encuentre a la persona o no la encuentre.",
+        alt:
+          "Dos filas de casillas. La primera guarda J, o, s y é como cuatro piezas. La segunda guarda J, o, s, e y una tilde suelta como cinco piezas. Abajo, la comparación entre las dos cadenas devuelve False.",
+      },
       subtopicId: "S07-T1-A",
       paragraphs: [
         "Python 3 `str` es Unicode. Con `ord('ñ')` y `chr(241)` exploras **code points**. La misma letra puede codificarse de formas distintas: **NFC** (compuesta) o **NFD** (base + marca combinante). Al comparar nombres latam sin unificar formas obtienes **falsos negativos** (“José” ≠ “José”), aunque se vean idénticos en pantalla.",
