@@ -1,8 +1,8 @@
 {
-  "terms_checked": 79,
-  "terms_found_in_prose": 72,
+  "terms_checked": 106,
+  "terms_found_in_prose": 89,
   "unglossed_first_uses": 0,
-  "info_metadata": 8,
+  "info_metadata": 9,
   "ok": true,
   "findings": [
     {
@@ -38,6 +38,14 @@
       "excerpt": "es y totales (diff, residual, tolerancia eps)\" },\n { text: \"Controlar leakage temporal con cutoff/as-of y reportar el delta de leakage\" }\n ],\n theory: [\n {\n  heading:"
     },
     {
+      "term": "AUC",
+      "section": "microservices",
+      "index": 32,
+      "severity": "INFO",
+      "where": "metadata",
+      "excerpt": "otebook y se derrumba en producción\",\n      paragraphs: [\n        \"El AUC era excelente. Se despliega, y el score colapsa. No hubo un error de código ni un cambio"
+    },
+    {
       "term": "resampling",
       "section": "cv-ai-integration",
       "index": 34,
@@ -51,7 +59,7 @@
       "index": 34,
       "severity": "INFO",
       "where": "metadata",
-      "excerpt": "un calibrador afín (implementación simplificada de Platt) solo sobre holdout versionado, nunca sobre el test final\",\n    },\n    {\n      text: \"Elegir umbral thr-vN bu"
+      "excerpt": "gmoide, pero basta para ver el mecanismo sin dependencias) solo sobre holdout versionado, nunca sobre el test final\",\n    },\n    {\n      text: \"Elegir umbral thr-vN bu"
     },
     {
       "term": "watermark",

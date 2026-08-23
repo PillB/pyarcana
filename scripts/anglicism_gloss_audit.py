@@ -51,6 +51,23 @@ TERMS = [
     "review", "ticket", "assess", "dataset", "mock", "timeout", "pipeline",
     "wrapper", "parser", "payload", "endpoint", "commit", "branch", "merge",
     "cache", "batch", "stub", "fixture", "linter", "scraping", "crawler",
+    # Added after an independent review (Phase E) found 17 unexplained terms the
+    # 79-word list could not see. The list was written by the same author as the
+    # content, so it encoded the same blind spots — which is precisely the failure
+    # mode an outside reader exists to catch.
+    #
+    # Metric acronyms: a beginner cannot expand these from context.
+    "TPR", "TNR", "PPV", "NPV", "FPR", "AUC", "MAE", "RMSE",
+    # Operations vocabulary.
+    "RTO", "RPO", "SLO", "SLI", "ADR", "DLQ", "HITL",
+    # Algorithms named only by initials.
+    "BFS", "DFS",
+    # Ensemble vocabulary introduced without translation.
+    "bagging", "boosting",
+    # Tooling a beginner meets before it is introduced.
+    "Pyodide", "pytest", "factory", "smoke test",
+    # Terms the course uses constantly and never defines in Spanish.
+    "schema", "gate", "spans", "skew",
 ]
 
 GLOSS_NEAR = re.compile(
