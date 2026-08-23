@@ -62,7 +62,7 @@ export const section29: CourseSection = {
       optional: true,
       paragraphs: [
         "Bloque de referencia. Modelo del almacén y criterios de cierre.",
-        "**Modelo.** Este es el almacén de entidades del capstone CP-N3-A. Una entidad consolida varios registros de origen, de modo que la relación va de uno a muchos. Las entidades se emparejan entre sí a través de candidatos, con el par ordenado y único para no duplicar la misma comparación en los dos sentidos. Cada candidato acumula sus decisiones, y cada decisión apunta a la evidencia que la sostiene.",
+        "**Modelo.** Este es el almacén de entidades del capstone CP-N3-A. Una entidad consolida varios registros de origen. La tentación es modelar eso como uno a muchos —una FK a `entities` dentro de `source_records`— y por eso conviene decir desde el principio por qué aquí el vínculo es **N–N** y vive en su propia tabla, `entity_source_links`: mientras la resolución sigue abierta, un mismo registro de origen puede estar ligado a más de una entidad candidata, y deshacer un vínculo tiene que ser quitar una fila del enlace, no pisar un campo del registro. Con una FK, cada cambio de opinión borraría la anterior. Las entidades se emparejan entre sí a través de candidatos, con el par ordenado y único para no duplicar la misma comparación en los dos sentidos. Cada candidato acumula sus decisiones, y cada decisión apunta a la evidencia que la sostiene.",
         "**Por qué SQLite.** Es una base real y reproducible, suficiente para observar restricciones, valores nulos, planes de ejecución y transacciones sin montar un servidor. Las diferencias con otros motores se señalan cuando aparecen.",
       ],
     },
