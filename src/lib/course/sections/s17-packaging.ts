@@ -286,7 +286,7 @@ s17_th_6()`,
  paragraphs: [
  "Tras joins y agregaciones, el stakeholder pregunta: “¿cuadra el total?”. Reconciliación ejecutiva: la **suma de partes debe igualar el total** de referencia (o la diferencia queda documentada con tolerancia `abs(diff)<eps`). Los **denominadores** de tasas (pagados/activos, completos/universo) deben ser el mismo filtro que declaras en el texto del hallazgo — no un universo “más cómodo”.",
  "Contrato de **tabla puente**: `total → segmento_A → residual`. Si Lima=60 y total=100, el residual del resto es 40. Nunca uses un denominador de otro corte temporal o geográfico solo porque “sale un número bonito” en el slide. El residual es evidencia, no un error a esconder.",
- "Caso sintético: total nacional 100 PEN; partes Lima/Madrid/Cusco (60/30/10); tasa de completitud 150/200=0.75. El portfolio imprime `diff`, `reconciled` y la tasa con su denominador explícito para el stakeholder no técnico. Si el join de T1 tenía fan-out no documentado, este bloque es el primero que “no cierra”: por eso T1 va antes que T4.",
+ "Caso sintético: total consolidado 100 PEN; partes 60/30/10 en tres regiones del fixture; tasa de completitud 150/200=0.75. Las etiquetas de región del fixture (`Lima`, `Madrid`, `Cusco`) son identificadores sintéticos para tener claves distintas y ordenables: no son una desagregación geográfica real y no debes leerlas como tal. El portfolio imprime `diff`, `reconciled` y la tasa con su denominador explícito para el stakeholder no técnico. Si el join de T1 tenía fan-out no documentado, este bloque es el primero que “no cierra”: por eso T1 va antes que T4.",
  ],
  code: {
  language: 'python',
