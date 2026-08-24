@@ -1211,7 +1211,7 @@ ban_risk True`,
           "- **Contexto:** el geocoding mock de `c-synth-1` llega a 8000 ms; sin presupuesto el worker cuelga.\n- **Meta:** devolver status timeout, seconds=5 y on_fail `retry_or_dlq`.\n- **Éxito:** `5` / `on_fail retry_or_dlq` / `ok True`.\n- **Límites:** no uses timeout_s=0; no ignores el fallo; simulación local sin threads reales.",
         instruction:
           "1. Starter ignora latency y devuelve seconds=0, on_fail ignore, status ok (DEFECTO).\n2. Compara latency_ms > timeout_s*1000.\n3. Si superado → status timeout; siempre on_fail retry_or_dlq y seconds=timeout_s.\n4. Imprime seconds, on_fail y ok.",
-        hint: "timed_out = latency_ms > timeout_s * 1000; seconds debe ser > 0.",
+        hint: "Los dos valores están en unidades distintas: uno en milisegundos y otro en segundos. Llévalos a la misma antes de compararlos, y comprueba que el límite no sea cero ni negativo.",
         hints: [
           "seconds>0 evita hang infinito; on_fail = retry_or_dlq.",
           "Si latency supera el presupuesto, status es timeout (no ok).",

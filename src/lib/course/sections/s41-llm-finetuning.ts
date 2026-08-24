@@ -1053,7 +1053,7 @@ assert results == ["CONTINUE", "RETURN_IDEMPOTENCY_CONFLICT", "REPLAY_STORED_RES
           "- **Contexto:** en `CASO-ARE-041-2A` el POST de jobs debe poder probarse con dos fakes sin reescribir la ruta.\n- **Meta:** `create_job(store, body)` puro y `thin_handler(get_store, body)` que solo orquesta.\n- **Éxito:** cada fake recibe un job, sin `status_code` en el body; imprime `S41-T2-A PASS`.\n- **Límites:** no uses un global; no pongas status HTTP en el dominio; no ignores `get_store`.",
         instruction:
           "S41-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. Elimina `GLOBAL` y el campo `status_code`.\n2. `create_job` recibe `store` y hace append.\n3. `thin_handler` es `return create_job(get_store(), body)`.\n4. Conserva asserts de longitud y ausencia de status_code.",
-        hint: "El dominio no debe conocer status codes ni un global: recibe `store` y `body`. El handler es `return create_job(get_store(), body)`.",
+        hint: "El dominio no debe conocer status codes ni alcanzar un global: todo lo que necesita tiene que llegarle como argumento. Al handler le toca conseguir esas piezas y pasárselas.",
         hints: [
           "El dominio no debe conocer status codes ni un global: recibe `store` y `body`. El handler es `return create_job(get_store(), body)`.",
           "Prueba DI: llama thin_handler con lambda: mem_a y luego lambda: mem_b; ambos stores crecen independientemente.",

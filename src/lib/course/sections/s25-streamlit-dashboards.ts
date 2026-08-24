@@ -1223,7 +1223,7 @@ except TimeoutError:
           "- **Contexto:** el modelo devuelve un string; el gate del asistente opera sobre un dict parseado.\n- **Meta:** `json.loads` + comprobar REQUIRED ⊆ keys; imprimir `n` y el booleano.\n- **Éxito:** `1 True` en una línea.\n- **Límites:** no imprimas el string raw; no omitas issubset.",
         instruction:
           "1. Abre el starter: imprime `raw` sin parsear.\n2. Haz `obj = json.loads(raw)`.\n3. Imprime `obj['n']` y `REQUIRED.issubset(obj)`.\n4. No mutes REQUIRED.",
-        hint: "obj = json.loads(raw); print(obj['n'], REQUIRED.issubset(obj))",
+        hint: "El texto crudo hay que convertirlo a objeto antes de mirarlo. Para las claves obligatorias, `set` ya sabe responder «¿están todas las mías dentro de las tuyas?».",
         hints: [
           "Sin loads no hay contrato: el schema y las métricas operan sobre dicts.",
           "REQUIRED.issubset(obj) o REQUIRED <= set(obj); n debe ser int del JSON",
@@ -1492,7 +1492,7 @@ print(log)`,
           "- **Contexto:** el gate de promote del lab exige al menos exact y schema_ok sobre filas golden.\n- **Meta:** calcular `exact=pred==gold` y `schema_ok=all(k in pred for k in required)`.\n- **Éxito:** `{'exact': True, 'schema_ok': True}`.\n- **Límites:** no hardcodes False; un solo print del dict.",
         instruction:
           "1. Abre el starter: imprime dict con False fijos.\n2. Calcula exact y schema_ok.\n3. Imprime el dict de métricas.\n4. No alteres pred/gold.",
-        hint: "exact = pred==gold; schema_ok = all(k in pred for k in required)",
+        hint: "Son dos preguntas distintas: si la predicción coincide entera con la referencia, y si trae todas las claves que el contrato exige. Resuélvelas por separado.",
         hints: [
           "Un solo print del dict de métricas (no booleans sueltos)",
           "Schema y exact son gates distintos: ambos deben pasar para promote fácil",

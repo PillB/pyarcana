@@ -1056,7 +1056,7 @@ login`,
           "- **Contexto:** el sandbox de CP-N2-C autentica solo con password `sandbox` (credencial demo, no banco ni SUNAT).\n- **Meta:** en `LoginPage.submit`, setear `ctx['auth'] = (password == 'sandbox')`.\n- **Éxito:** imprime `True` tras submit con sandbox.\n- **Límites:** no hardcodees secretos reales; el estado va en `ctx`, no en `self.auth`.",
         instruction:
           "1. Dentro de `submit`, asigna `ctx['auth']` con la comparación de password.\n2. No cambies la firma ni el print final.\n3. Llama ya existente con `'sandbox'`.\n4. Corrige solo el cuerpo del método.",
-        hint: "Dentro de submit: ctx['auth'] = password == 'sandbox'.",
+        hint: "El estado de sesión lo escribe `submit`, no el llamador: ¿qué tiene que quedar guardado en `ctx` para que el siguiente paso sepa que hubo login?",
         hints: [
           "El Page Object encapsula la acción; el estado de sesión vive en ctx.",
           "No reescribas la firma: submit(self, ctx, password).",
@@ -1313,7 +1313,7 @@ print(pkg)`,
           "- **Contexto:** en el portal demo, timeout y 429 son transitorios; CAPTCHA es stop condition ética — no se “reintenta con otro user-agent”.\n- **Meta:** `should_retry(k)` True solo para `timeout` y `429`.\n- **Éxito:** tres líneas `timeout True`, `captcha False`, `429 True`.\n- **Límites:** no incluyas captcha ni 403 de negocio en el set.",
         instruction:
           "1. Quita `'captcha'` del set en `should_retry`.\n2. Mantén el loop de impresión sobre timeout, captcha, 429.\n3. No reordenes las tres líneas.\n4. Corrige solo la política.",
-        hint: "return k in {'timeout', '429'} — sin captcha.",
+        hint: "Pregúntate cuáles de los tres se resuelven solos si esperas y vuelves a intentar. El que necesita a una persona no pertenece al conjunto.",
         hints: [
           "Reintentar CAPTCHA es un anti-patrón ético y técnico.",
           "Timeout y 429 son transitorios; captcha es stop condition.",
@@ -1602,7 +1602,7 @@ print(decide({'api': False, 'export': True, 'rpa_allowed': True}))`,
           "- **Contexto:** en el portal demo, captcha=True es stop condition: handoff humano con evidencia, nunca continue.\n- **Meta:** `decide(captcha)` → handoff si True, continue si False; probar **ambos** casos.\n- **Éxito:** dos líneas `human_handoff` luego `continue`.\n- **Límites:** no inviertas la ternaria; no omitas el caso False.",
         instruction:
           "1. Corrige la ternaria: handoff si captcha, continue si no.\n2. Añade `print(decide(False))`.\n3. Mantén `print(decide(True))` primero.\n4. Sin bypass ni servicios externos.",
-        hint: "return 'human_handoff' if captcha else 'continue' — invoca decide dos veces.",
+        hint: "Una sola condición decide entre seguir y traspasar. Llama a `decide` con cada caso por separado para ver las dos salidas.",
         hints: [
           "CAPTCHA es stop condition ética: no se reintenta ni se resuelve con bots.",
           "El starter invierte la ternaria y además solo prueba un caso: corrige ambos.",
