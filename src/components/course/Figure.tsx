@@ -3,7 +3,7 @@
 import { useState, type ReactNode } from 'react'
 import { useReducedMotion } from 'framer-motion'
 import type { Figure as FigureData } from '@/lib/types'
-import { FIGURES } from './figures'
+import { resolveFigure } from './figures'
 
 /**
  * The single shell every teaching diagram renders inside.
@@ -75,7 +75,7 @@ export function FigStepButton({
 }
 
 export function FigureFrame({ figure }: { figure: FigureData }) {
-  const Drawing = FIGURES[figure.id]
+  const Drawing = resolveFigure(figure.id)
 
   // An unknown id must not blank the lesson: the caption still teaches.
   if (!Drawing) {

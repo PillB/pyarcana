@@ -18,7 +18,7 @@
  *   node scripts/figure_render_probe.mjs --base-url http://localhost:3000
  */
 import { chromium } from 'playwright'
-import { writeFileSync, mkdirSync } from 'node:fs'
+import { writeFileSync, mkdirSync, readFileSync, readdirSync } from 'node:fs'
 
 const args = Object.fromEntries(
   process.argv.slice(2).flatMap((a, i, arr) => (a.startsWith('--') ? [[a.slice(2), arr[i + 1]]] : [])),
@@ -27,23 +27,28 @@ const BASE = args['base-url'] ?? 'http://localhost:3000'
 const OUT = args.out ?? 'course-state/figure_render_report.json'
 
 /** section id -> figure id, mirroring the registry. */
-const TARGETS = [
-  ['setup', 'S01-cwd-path'],
-  ['data-structures', 'S03-tri-state'],
-  ['functions-modules', 'S04-denominator'],
-  ['oop', 'S05-contract'],
-  ['numpy', 'S06-three-structures'],
-  ['data-acquisition', 'S07-nfc-nfd'],
-  ['pandas', 'S08-reconcile'],
-  ['security', 'S14-view-vs-copy'],
-  ['stdlib-deep', 'S15-dataframe'],
-  ['data-engineering', 'S18-interval'],
-  ['packaging', 'S17-wide-long'],
-  ['microservices', 'S32-leakage'],
-  ['ai-apis-advanced', 'S36-rolling-origin'],
-  ['gpu-computing', 'S46-event-time'],
-  ['streaming-data', 'S31-evidence-graph'],
-]
+/**
+ * section id -> figure id, read from the content rather than hardcoded.
+ *
+ * This was a literal fifteen-row array. At ninety-two figures a hand-kept list
+ * rots on the first commit that adds one, and a probe that silently stops
+ * covering a figure is worse than no probe -- the whole reason this file exists
+ * is that the previous gate reported clean on a figure it never measured.
+ */
+const TARGETS = (() => {
+  const dir = 'src/lib/course/sections'
+  const rows = []
+  for (const file of readdirSync(dir).filter((f) => f.endsWith('.ts')).sort()) {
+    const src = readFileSync(`${dir}/${file}`, 'utf8')
+    const sec = src.match(/\n\s*id:\s*["']([^"']+)["']/)
+    if (!sec) continue
+    for (const m of src.matchAll(/figure:\s*\{\s*\n?\s*id:\s*["']([^"']+)["']/g)) {
+      rows.push([sec[1], m[1]])
+    }
+  }
+  return rows
+})()
+
 
 const VIEWPORTS = [
   { name: 'desktop', width: 1440, height: 1000 },

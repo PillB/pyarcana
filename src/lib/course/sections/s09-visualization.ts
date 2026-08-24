@@ -106,6 +106,13 @@ cause: ParseError no parseable: 'abc'`,
     },
     {
       heading: "Fronteras de recuperación y cleanup",
+      figure: {
+        id: "S09-failfast",
+        caption:
+          "La frontera no es una convención de estilo: después de decidir ya no queda fila que mandar a cuarentena, solo un resumen que corregir.",
+        alt:
+          "Cuatro etapas en fila —leer, parsear, validar, decidir— unidas por flechas, con una línea vertical punteada entre parsear y validar marcada como el punto tras el cual la fila ya no puede enviarse a cuarentena.",
+      },
       subtopicId: "S09-T1-B",
       paragraphs: [
         "`try/except/else/finally` dibuja el borde del job: **else** corre solo si no hubo excepción (camino feliz legible, p. ej. «lote legible»); **finally** siempre (cleanup de handles y contadores). El `with` hace lo mismo de forma idiomática vía context managers. No dejes un `StringIO`/archivo abierto en el crash path del intake CASO-LIM-009.",
