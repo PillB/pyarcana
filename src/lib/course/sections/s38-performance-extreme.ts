@@ -121,6 +121,13 @@ measure_first True`,
     },
     {
       heading: "I/O vs. CPU, GIL y serialización",
+      figure: {
+        id: "S38-backpressure",
+        caption:
+          "Queue.full() es consultivo; la señal segura de rechazo es put_nowait con queue.Full.",
+        alt:
+          "Dos barras: una cola sin maxsize que crece hasta agotar la memoria, y otra acotada donde el productor espera.",
+      },
       subtopicId: "S38-T1-B",
       paragraphs: [
         "El GIL de CPython limita el paralelismo de CPU multi-thread: varios hilos de Python puro casi no aceleran un cálculo denso. Los procesos evitan el GIL, pero pagan serialización e IPC (pickle/json entre procesos). Si el payload entre workers es grande, el pool puede ser **más lento** que un solo proceso bien vectorizado: el tiempo se va en copiar bytes, no en score. Por eso la decisión «processes» de T1-A solo es completa cuando también mides el tamaño del blob que cruzará el boundary.",
@@ -375,6 +382,13 @@ resume_from score`,
     },
     {
       heading: "Retry, dead-letter, replay y runbook",
+      figure: {
+        id: "S38-retry-window",
+        caption:
+          "El checkpoint ahorra trabajo. Lo que evita el duplicado es que el paso sea repetible sin consecuencia.",
+        alt:
+          "Un eje de tiempo con envío, crash y reintento, y una banda donde el efecto existe y nadie lo ha anotado.",
+      },
       subtopicId: "S38-T4-B",
       paragraphs: [
         "Retry con backoff exponencial (y jitter en prod) absorbe fallos transitorios. La DLQ (dead-letter queue) aísla mensajes venenosos que fallan siempre. El replay es controlado: no se reinyecta la DLQ entera sin inspección. El runbook lista síntomas → checks → acciones para el on-call.",

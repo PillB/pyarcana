@@ -27,6 +27,13 @@ export const section28: CourseSection = {
   theory: [
     {
             heading: "Los ejemplos se acaban antes que los casos",
+            figure: {
+              id: "S49-agent-loop",
+              caption:
+                "Reservar la clave y aplicar el efecto tienen que ser una sola operación: si no, dos llamadas simultáneas crean dos trabajos.",
+              alt:
+                "Grafo del bucle: plan llama a tool, tool reserva en el store de claves, la observación replanifica o detiene.",
+            },
       paragraphs: [
         "Escribiste pruebas para el nombre con tilde, el nombre en mayúsculas, el nombre con espacios de más. Funcionan, y aun así el módulo falla en producción con un nombre que no se te ocurrió. El problema no es que hayas escrito pocas pruebas: es que estabas enumerando casos cuando podías estar declarando una regla.",
         "Ese cambio de enfoque es el corazón de la sección. En vez de decir «para esta entrada espero esta salida», declaras algo que debe ser cierto **siempre** — normalizar dos veces da lo mismo que normalizar una vez; el score siempre cae entre cero y uno — y dejas que la máquina genere cientos de entradas buscando el contraejemplo. Eso es una **prueba de propiedades**, y cuando encuentra uno te devuelve la semilla exacta para reproducirlo.",

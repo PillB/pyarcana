@@ -144,6 +144,13 @@ tiene CRLF True`,
     },
     {
       heading: "Dialectos, headers y tipos",
+      figure: {
+        id: "S08-quarantine-split",
+        caption:
+          "n_in = n_clean + n_quarantine. Si la suma no cuadra, perdiste filas sin enterarte.",
+        alt:
+          "Tres etapas —entrada, validar, clean— con una frontera tras validar que marca la salida a cuarentena.",
+      },
       subtopicId: "S08-T2-A",
       paragraphs: [
         "`csv.DictReader` / `DictWriter` trabajan con headers: cada fila sale como dict. **Declara `fieldnames`** al escribir; no confíes en el orden “que se ve” en Excel. El cast de tipos (`int`, `Decimal`) es **explícito**: un fallo va a cuarentena con `{raw, reason}` — nunca un `0` mágico sin traza. El contrato monetario de S02 continúa: `Decimal` desde texto, cuantizado a `0.01`, serializado como **string** (`\"10.50\"`), **nunca** `float` (el binario del float rompe cuadraturas y tests).",

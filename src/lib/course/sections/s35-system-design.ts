@@ -87,6 +87,13 @@ print(report)`,
     },
     {
       heading: "Explicación local, correlación y límites",
+      figure: {
+        id: "S35-card-layers",
+        caption:
+          "Estar fuera de distribución no añade una quinta capa: se registra dentro de la incertidumbre, como su razón.",
+        alt:
+          "Grafo de cuatro nodos en fila: evidencia, contribución del modelo, incertidumbre y decisión humana.",
+      },
       subtopicId: "S35-T1-B",
       paragraphs: [
         "Después del mapa global, la **explicación local** asigna contribución de features al score de **este** caso. En literatura, **SHAP** (aditividad con *baseline*/valor esperado) y **LIME** (modelo local lineal) son familias distintas con trade-offs de costo y estabilidad. Aquí el lab usa un aditivo mínimo `contrib = valor × peso` en espacio lineal, con **baseline = 0** solo como andamiaje: **no** es SHAP ni LIME, y no asume escala de probabilidad. En un modelo real conviene documentar dominio de salida (p. ej. log-odds) y verificar `baseline + Σ contrib ≈ salida del modelo`. **Correlación ≠ causalidad**: la contribución no es causa del comportamiento humano ni prueba legal.",

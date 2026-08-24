@@ -116,6 +116,13 @@ ok True`,
  },
  {
  heading: "Ejes, escalas y encodings honestos",
+ figure: {
+   id: "S19-chart-choice",
+   caption:
+     "El gráfico no es estético: codifica la comparación que quieres que el lector haga.",
+   alt:
+     "Cuatro guardas que van de la pregunta al tipo de gráfico apropiado.",
+ },
  subtopicId: "S19-T1-B",
  paragraphs: [
  "Ejes de **magnitudes absolutas en barras** deben incluir cero salvo justificación explícita; recortar el eje infla diferencias y engaña al comité. Jerarquía de encodings: posición > longitud > color > forma. El **dual-axis** (dos escalas Y distintas) confunde con frecuencia: si lo usas, declara el riesgo y prefiere paneles separados.",

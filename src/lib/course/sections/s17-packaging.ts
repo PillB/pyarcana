@@ -103,6 +103,13 @@ tx_unique False
  },
  {
  heading: "Validate, duplicación accidental y anti-join",
+ figure: {
+   id: "S17-join-fanout",
+   caption:
+     "Declara la cardinalidad esperada con validate= y pandas falla temprano en vez de inflar el total en silencio.",
+   alt:
+     "Dos tablas: antes, un cliente por fila; después, el mismo cliente repetido una vez por venta.",
+ },
  subtopicId: "S17-T1-B",
  paragraphs: [
  "El parámetro `validate='one_to_one'|'one_to_many'|...` hace que pandas **falle temprano** con `MergeError` si la cardinalidad real no coincide con el contrato. Es un quality gate de join, no un lujo opcional: un m:m accidental multiplica filas y sesga sumas de montos.",

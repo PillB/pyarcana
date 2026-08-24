@@ -119,6 +119,13 @@ date 0.5`,
     },
     {
       heading: "ausencia de campo (missingness) y frecuencia",
+      figure: {
+        id: "S30-er-pipeline",
+        caption:
+          "La zona gris no es un fallo del modelo: es el caso donde la evidencia solo alcanza para un «probablemente».",
+        alt:
+          "Grafo de dos registros a un par candidato, de ahí a un score, y del score a entidad resuelta o cola humana.",
+      },
       subtopicId: "S30-T1-B",
       paragraphs: [
         "Los comparadores de T1-A asumen que ambos lados tienen valor. **Ausencia de campo (missingness)**: un vacío no es desacuerdo fuerte ni acuerdo. Usa el estado `missing` en la comparación (no lo trates como `disagree`). Si penalizas missing como desacuerdo, inflas non-matches espurios cuando una fuente simplemente no trae el campo.",

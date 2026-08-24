@@ -109,6 +109,13 @@ permissions {'contents': 'read'}`,
     },
     {
       heading: "caches, artifacts y condiciones",
+      figure: {
+        id: "S44-supply-chain",
+        caption:
+          "Rápidos antes que costosos, y el token con contents: read hasta el job que realmente publica.",
+        alt:
+          "Cinco etapas de lint a publicar, con la frontera del permiso de escritura tras los tests.",
+      },
       subtopicId: "S44-T1-B",
       paragraphs: [
         "La **caché** acelera las instalaciones (pip/npm), pero **no es fuente de verdad**: un `cache hit` no prueba que el build sea reproducible. El **artifact** (wheel, SBOM, logs) lleva digest y retención porque es la evidencia que otro job o auditor puede re-descargar. Las **condiciones** del workflow (`if:`, filtros de branch/tag/fork) deben cubrir los caminos de release; un tag de prod sin los mismos gates que `main` es un atajo peligroso.",

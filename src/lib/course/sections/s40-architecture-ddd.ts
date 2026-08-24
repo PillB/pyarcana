@@ -116,6 +116,13 @@ owner platform`,
     },
     {
       heading: "Trade-offs, riesgos y criterios medibles",
+      figure: {
+        id: "S40-ports-adapters",
+        caption:
+          "Si cambiar un adapter obliga a tocar el dominio, la flecha va al revés y el plano miente.",
+        alt:
+          "Grafo con dos adapters que implementan un port, y el port definido por el dominio.",
+      },
       subtopicId: "S40-T1-B",
       paragraphs: [
         "Un **trade-off** compara alternativas contra criterios ponderados y registra riesgo residual (probabilidad × impacto) con mitigación. No existe la opción «siempre mejor»: sync puede simplificar la operación y async puede bajar latencia percibida a costa de complejidad de mensajes.",

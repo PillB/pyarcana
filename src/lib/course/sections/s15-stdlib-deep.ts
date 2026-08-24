@@ -90,6 +90,13 @@ s15_th_1()`,
     },
     {
       heading: "Lectura CSV/Excel y opciones del parser",
+      figure: {
+        id: "S15-dtype-contract",
+        caption:
+          "Un dict columna→tipo no comprueba que la columna exista: eso hay que pedirlo aparte.",
+        alt:
+          "Cuatro capas apiladas: bytes en disco, dtype declarado, validación de columnas y DataFrame de trabajo.",
+      },
       subtopicId: "S15-T1-B",
       paragraphs: [
         "`read_csv` acepta `dtype`, `parse_dates`, `na_values`, `usecols`, `sep` y `decimal`. `read_excel` comparte los primeros, pero no `sep`: un archivo de Excel no tiene separador de columnas que elegir, porque las celdas ya vienen delimitadas por el formato. Controlar el parser evita dos silencios distintos. Si un monto llega como texto homogéneo, pandas 3 lo guarda como `str` — un dtype de texto, no un saco de objetos — y los totales no se pueden sumar aunque el `head()` se vea bien. Si la columna mezcla un número con un nombre, ya no es texto: queda como `object`, el tipo que pandas reserva para valores heterogéneos. Las fechas sin `parse_dates` se quedan como texto y los filtros temporales fallan o mienten. Cada parámetro es un **contrato de archivo**: si el CSV real usa `;` y coma decimal, el código debe declararlo — no “adivinar” después mirando el `head()`. Un extracto de retail en Lima con montos `15,50` leído como si el decimal fuera punto se vuelve basura numérica o se queda en texto: el bug no es “pandas raro”, es el contrato de parser no declarado.",

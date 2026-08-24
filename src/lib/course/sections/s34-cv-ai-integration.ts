@@ -121,6 +121,13 @@ accuracy_only False`,
     },
     {
       heading: "Precision@k, recall@k y carga de revisión",
+      figure: {
+        id: "S34-threshold-bands",
+        caption:
+          "La incertidumbre entra antes que el score: 0.95 con incertidumbre alta sigue yendo a revisión.",
+        alt:
+          "Cinco guardas evaluadas en orden, de invalid_input a accept.",
+      },
       subtopicId: "S34-T1-B",
       paragraphs: [
         "En un workbench de investigación de relaciones no revisas todo el universo: miras los **k primeros** del ranking, porque el equipo de analistas tiene un tope diario. **precision@k** es la fracción de positivos en ese top-k (calidad del recorte). **recall@k** es la fracción de *todos* los positivos reales capturados en ese top-k (cobertura). Una cola con precision@k alta, pero que genera más alertas que personas, puede «ganar» el notebook y perder el turno: la métrica de ranking y la **capacidad** viajan juntas.",

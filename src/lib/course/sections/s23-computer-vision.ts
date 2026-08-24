@@ -117,6 +117,13 @@ prefer_role_over_css True`,
     },
     {
       heading: "Auto-waiting y assertions",
+      figure: {
+        id: "S23-rpa-recovery",
+        caption:
+          "Un CAPTCHA no es un fallo transitorio: es una condición de parada con traspaso humano.",
+        alt:
+          "Cuatro etapas —login, formulario, export, verificar— con una frontera tras export donde el efecto ya está en el portal.",
+      },
       subtopicId: "S23-T1-B",
       paragraphs: [
         "Playwright **auto-espera** a que el elemento sea interactuable (visible, estable, habilitado, recibe eventos). Evita `time.sleep` fijos: un sleep de 5 s **falla en CI lento** y **desperdicia** tiempo en CI rápido. Usa `expect` con timeout explícito y condiciones de readiness del paso de negocio (título, fila de tabla, download started).",

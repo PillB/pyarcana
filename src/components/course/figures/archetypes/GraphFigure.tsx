@@ -70,8 +70,8 @@ export function GraphFigure({ title, data }: { title: string; data: GraphData })
   const narrow = paneWidth > 0 && paneWidth < 420
 
   const nodes: Node[] = useMemo(() => {
-    const colW = narrow ? 78 : 190
-    const rowH = narrow ? 88 : 84
+    const colW = narrow ? 82 : 240
+    const rowH = narrow ? 104 : 108
     return data.nodes.map((n, i) => ({
       id: n.id,
       type: 'box',

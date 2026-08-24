@@ -112,6 +112,13 @@ retriable_truth object + relational`,
     },
     {
       heading: "Consistencia, lifecycle y backups",
+      figure: {
+        id: "S45-backup-cadence",
+        caption:
+          "Un restore rápido no compensa una cadencia lenta: el dato que nunca se copió no está en ningún sitio.",
+        alt:
+          "Un eje de horas con el RPO marcado y dos cadencias, cada cuatro horas y diaria.",
+      },
       subtopicId: "S45-T1-B",
       paragraphs: [
         "La **consistencia se define por operación**, no por eslogan de la plataforma: el status del job suele exigir *read-after-write* (quien escribió vuelve a leer y ve su propia escritura). Fíjate en el alcance, que es más estrecho de lo que suena: garantiza que el **productor** no lea un valor viejo, no que cualquier otro cliente lo vea de inmediato. Que el dashboard —otro lector— vea el mismo estado exige una garantía más fuerte, monotónica o lineal, y hay que pedirla aparte, mientras un índice de búsqueda puede ser eventual. El **lifecycle** mueve copias calientes a frío y expira temporales; el **backup solo cuenta** cuando un restore medido cumple RPO (edad máxima del backup) y RTO (minutos de restauración).",

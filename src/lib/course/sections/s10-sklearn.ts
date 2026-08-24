@@ -123,6 +123,13 @@ True`,
     },
     {
       heading: "Layout src, pyproject.toml y builds",
+      figure: {
+        id: "S10-config-precedence",
+        caption:
+          "Cada capa pisa a la anterior. Documenta el orden o nadie sabrá por qué su valor no se aplicó.",
+        alt:
+          "Cuatro etapas en fila —default, archivo, entorno, flag— unidas por flechas.",
+      },
       subtopicId: "S10-T2-A",
       paragraphs: [
         "Layout **src/**: poner el código bajo `src/familiarity_core/...` evita que Python importe el paquete desde el repo **sin** instalarlo primero. El archivo `pyproject.toml` declara name, version, requires-python y el build backend — el programa que construye el paquete instalable, p. ej. setuptools o hatchling.",

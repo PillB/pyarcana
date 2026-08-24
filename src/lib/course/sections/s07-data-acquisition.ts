@@ -138,6 +138,13 @@ apellidos: Quispe Huamán`,
     },
     {
       heading: "split / join / search / replace",
+      figure: {
+        id: "S07-encoding-chain",
+        caption:
+          "Leer UTF-8 como Latin-1 no lanza error: produce «MuÃ±oz» y sigue adelante. Ese es el fallo que miente en vez de fallar.",
+        alt:
+          "Cuatro etapas —bytes, decode, str, normalizar— con una frontera tras decode marcada como el punto donde se elige mal sin que nada falle.",
+      },
       subtopicId: "S07-T2-A",
       paragraphs: [
         "Antes de regex: `strip`, `split`, `join`, `replace`, `find`, `startswith`. En la limpieza de direcciones, teléfonos enmascarados y tokens de *intake*, la mayor parte se resuelve así. Obtienes menos *backtracking*, más legibilidad y mayor facilidad de testeo que con un patrón “inteligente”.",

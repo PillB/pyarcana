@@ -129,6 +129,13 @@ False`,
     },
     {
       heading: "Evolución, discriminated unions y validación de negocio",
+      figure: {
+        id: "S42-trust-boundary",
+        caption:
+          "La forma se rechaza antes de authz y antes de los logs: un campo no declarado no debe llegar ni a escribirse.",
+        alt:
+          "Grafo del cliente a la validación, de ahí a authz y al dominio, con una rama a logs solo tras validar.",
+      },
       subtopicId: "S42-T1-B",
       paragraphs: [
         "La evolución segura prefiere campos opcionales **aditivos** y discriminated unions **exhaustivas** (cada `type` conocido tiene rama). Renombrar o reinterpretar un campo obligatorio rompe lectores previos: el worker de ayer esperaba `amount` y mañana recibe otra semántica bajo el mismo nombre. Eso exige **versión o migración explícita**, no un silent cast en el borde. El costo de un `add_optional` bien hecho es bajo; el de un rename silencioso es un incidente de integración.",

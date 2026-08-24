@@ -118,6 +118,13 @@ has_user True`,
     },
     {
       heading: "Bases, usuarios no root y tamaño",
+      figure: {
+        id: "S43-image-layers",
+        caption:
+          "Copiar el código antes que las dependencias invalida todo lo que hay encima en cada commit.",
+        alt:
+          "Cuatro capas apiladas de la base pinned al código de la aplicación, las dos superiores en línea punteada.",
+      },
       subtopicId: "S43-T1-B",
       paragraphs: [
         "Con el caché de layers en orden (T1-A), endureces la **imagen de runtime**. Una base mínima reduce superficie de ataque, pero debe seguir parchable: fija tag o digest (nunca `latest` suelto). Distroless/slim recortan shell y paquetes; el trade-off es depuración más difícil (lo resuelves en T4-B con shells efímeros, no root permanente). Ejecuta como UID de aplicación (≥1000), sin `CAP_SYS_ADMIN` ni capabilities extras, y acota el tamaño runtime (MB).",

@@ -127,6 +127,13 @@ blocked_use True`,
     },
     {
       heading: "S25-T2-A · Pipelines y endpoints de Hugging Face con contrato mock",
+      figure: {
+        id: "S25-eval-loop",
+        caption:
+          "El bucle solo sirve si los casos no cambian entre vueltas: si mueves la vara, la mejora es tuya, no del prompt.",
+        alt:
+          "Cuatro etapas —prompt, salida, evaluar, ajustar— unidas por flechas.",
+      },
       subtopicId: "S25-T2-A",
       paragraphs: [
         "En producción la forma típica es `from transformers import pipeline` → `clf = pipeline('text-classification', model=model_id)` → `clf(texts)` devuelve lista de `{label, score}`. Un Inference Endpoint HTTP debe devolver el **mismo contrato de salida del clasificador** que tu adapter local. En el curso **mockeamos** el pipeline para correr sin bajar pesos: el mock devuelve `{model, label, score}` (añadimos `model` nosotros) idéntico al adapter real para que el test de contrato no mienta. La clave del artefacto en este contrato es **`model`**; no uses un segundo nombre en el dict de salida.",

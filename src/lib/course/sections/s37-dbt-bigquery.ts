@@ -153,6 +153,13 @@ hot_ok True`,
     },
     {
       heading: "Benchmark: fixture, warmup y variabilidad",
+      figure: {
+        id: "S37-where-time-goes",
+        caption:
+          "Optimizar antes de medir habría atacado el 21% y dejado intacto el 64%.",
+        alt:
+          "Cuatro barras horizontales con el porcentaje de tiempo de cada etapa del job.",
+      },
       subtopicId: "S37-T1-B",
       paragraphs: [
         "La primera corrida miente: las memorias caché de CPU, el `import` y el JIT de las librerías distorsionan el cold start (arranque en frío). El warmup descarta esa corrida. Luego se reporta la mediana (robusta frente a un outlier) y, con más muestras, un proxy de cola (p. ej. el máximo con N chico, o el p95 con N grande). El fixture fija el dataset sintético y una nota de hardware del laboratorio.",

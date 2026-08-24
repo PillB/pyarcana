@@ -54,6 +54,13 @@ export const section12: CourseSection = {
      },
      {
       heading: "requests/responses, status y JSON",
+      figure: {
+        id: "S12-request-lifecycle",
+        caption:
+          "Cada etapa tiene su excepción. Confundirlas hace que un JSON roto se reintente como si fuera la red.",
+        alt:
+          "Cuatro etapas —construir, enviar, status, parsear— unidas por flechas.",
+      },
       subtopicId: "S12-T1-A",
       paragraphs: [
         "Un cliente HTTP síncrono (que espera la respuesta antes de seguir) hace **GET/POST** (los verbos de pedir y enviar datos), recibe un **status code** y un cuerpo (a menudo JSON, el formato de texto para datos en la web). En este curso usamos un **cliente mock** (una simulación que reemplaza al proveedor real) o `urllib` con fixtures (datos de prueba fijos): la pedagogía es **status primero, body después**, no pelear con la librería de red del día. Si el status no es 2xx, no asumas que el JSON “tiene sentido” — un 404 puede traer un mensaje de error o un cuerpo vacío.",
@@ -107,6 +114,13 @@ good_json {'id': 'C001'}`,
     },
     {
       heading: "Timeout, paginación, retry/backoff y rate limit",
+      figure: {
+        id: "S12-retry-or-not",
+        caption:
+          "Reintentar un 400 solo repite el mismo error más rápido y castiga al proveedor.",
+        alt:
+          "Cuatro guardas en orden: timeout y 429 reintentan, 5xx reintenta acotado, 4xx de negocio va a DLQ.",
+      },
       subtopicId: "S12-T1-B",
       paragraphs: [
         "Ya sabes leer status y JSON; ahora el adaptador no se cuelga ni se come mil filas de un golpe. **Timeout** acota la espera por request. En un cliente real pasas siempre `timeout=` (p. ej. `urlopen(req, timeout=5)` o el equivalente del SDK); aquí lo modelamos como `cost_s` (el costo simulado) frente a `timeout_s` (el límite) para tests deterministas (que dan siempre el mismo resultado) sin red. **Paginación** (`page` o `cursor`/`next`) recorre colecciones grandes sin traer todo de una vez al heap (la memoria del proceso) — crítico cuando el proveedor lista miles de señales sintéticas para el caso.",

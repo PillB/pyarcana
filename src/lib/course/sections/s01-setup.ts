@@ -83,6 +83,13 @@ secrets_in_repo_ok False`,
      },
      {
       heading: 'El intérprete Python y el REPL',
+      figure: {
+        id: "S01-repl-vs-script",
+        caption:
+          "El REPL es un bucle; el script es un archivo que corre entero en una máquina que no es la tuya. Confundirlos es el origen de «a mí me funciona».",
+        alt:
+          "Tres etapas —escribes, Enter, se ejecuta— unidas por flechas, con una línea punteada que marca que el script no tiene ese bucle.",
+      },
       subtopicId: 'S01-T1-A',
       paragraphs: [
         'Un texto de Python no se ejecuta por sí solo, del mismo modo que una partitura no produce música sin intérprete. El **intérprete Python** lee las instrucciones y las convierte en acciones; por eso la primera pregunta no es «¿mi código está bien?», sino «¿qué Python está leyendo este código?». En la terminal puede responder como `python`, `python3` o `py`. Empieza con `--version`, anota la respuesta y conserva esa evidencia: para el curso apuntamos a **Python 3.12 o superior** (3.10+ es aceptable si lo documentas).',

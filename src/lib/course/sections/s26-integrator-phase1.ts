@@ -136,6 +136,13 @@ cron 0 6 * * 1-5 tz America/Lima`,
     },
     {
       heading: "Checkpoints, reintentos con backoff y dead-letter (DLQ)",
+      figure: {
+        id: "S26-orchestration",
+        caption:
+          "El checkpoint solo cumple su promesa si sobrevive al proceso; un set en memoria muere con él.",
+        alt:
+          "Cuatro etapas —ingest, analyze, checkpoint, report— con la frontera dibujada tras el checkpoint.",
+      },
       subtopicId: "S26-T2-A",
       paragraphs: [
         "Con el path estable, un crash a mitad de `analyze` exige **checkpoint**: dejar por escrito qué ids ya se procesaron, para reanudar sin rehacer un ingest costoso. Tras el fallo, solo quedan pendientes los no marcados. El contrato es una línea — **skip si id ∈ ckpt** — y es lo que practicas aquí con un `set` en memoria. Sé claro sobre lo que ese `set` demuestra y lo que no: te deja ejercitar el contrato dentro de un proceso vivo, pero muere con el proceso, así que no sobreviviría al crash del que estamos hablando. Reanudar de verdad exige que la marca viva fuera del proceso; en el capstone eso es un JSON en disco, y en producción una tabla o un almacén de estado.",

@@ -127,6 +127,13 @@ labels ['ON_TIME', 'LATE', 'ALLOWED_LATE']`,
     },
     {
       heading: "Late data y exactly-once como propiedad compuesta",
+      figure: {
+        id: "S46-exactly-once",
+        caption:
+          "Si falta un eslabón, el «exactly-once» del marketing se convierte en doble conteo en el dashboard.",
+        alt:
+          "Tres etapas —fuente at-least-once, motor con checkpoint, sink idempotente— unidas por flechas.",
+      },
       subtopicId: "S46-T1-B",
       paragraphs: [
         "**Exactly-once end-to-end no es un switch del broker.** Es una cadena: la fuente suele ser *at-least-once* (reintentos); el motor guarda **checkpoint** del progreso; el **sink es idempotente** por clave de negocio (`event_id`); y el *late data* tiene política explícita (update / side-output / quarantine). Si falta un eslabón, el “exactly-once” del marketing se convierte en doble conteo en el dashboard de Huancayo.",

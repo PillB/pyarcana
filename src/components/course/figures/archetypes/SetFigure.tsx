@@ -21,7 +21,7 @@ export function SetFigure({ title, data }: { title: string; data: SetData }) {
   const noteLines = data.note ? wrapLines(data.note, FIG.width - 48) : []
 
   const n = data.regions.length
-  const bandH = 46
+  const bandH = 56
   const outerX = 40
   const outerY = 62 + headBlock
   const outerW = FIG.width - 80
@@ -64,7 +64,7 @@ export function SetFigure({ title, data }: { title: string; data: SetData }) {
               x={outerX + inset}
               y={y}
               width={w}
-              height={bandH - 10}
+              height={bandH - 12}
               rx={FIG.radius}
               fill={tintOf(r.tint)}
               fillOpacity={0.16}
@@ -73,7 +73,7 @@ export function SetFigure({ title, data }: { title: string; data: SetData }) {
             />
             <FigText
               x={outerX + inset + 12}
-              y={y + (r.sub ? 13 : (bandH - 10) / 2)}
+              y={y + (r.sub ? 15 : (bandH - 12) / 2)}
               anchor="start"
               size={FIG.microSize}
               weight={600}
@@ -82,7 +82,7 @@ export function SetFigure({ title, data }: { title: string; data: SetData }) {
               {r.label}
             </FigText>
             {r.sub ? (
-              <FigText x={outerX + inset + 12} y={y + 27} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">
+              <FigText x={outerX + inset + 12} y={y + 35} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">
                 {r.sub}
               </FigText>
             ) : null}

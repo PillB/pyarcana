@@ -171,6 +171,13 @@ SR./SRA. QUISPE
     },
     {
       heading: "Pre/postcondiciones y docstrings",
+      figure: {
+        id: "S05-contract-order",
+        caption:
+          "La precondición se comprueba antes de tocar nada. Si no, el error aparece a mitad del cuerpo y con estado ya modificado.",
+        alt:
+          "Tres etapas —precondición, cuerpo, postcondición— con la frontera dibujada tras la primera.",
+      },
       subtopicId: "S05-T2-A",
       paragraphs: [
         "Un contrato útil no es una frase solemne; es la respuesta anticipada a dos preguntas del siguiente programador: «¿qué puedo entregar?» y «¿qué puedo esperar a cambio?». **Puente desde T1-B:** parámetros y defaults describen la puerta de entrada; precondiciones, postcondiciones y errores explican cómo cruzarla correctamente.",

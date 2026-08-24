@@ -17,10 +17,10 @@ export function StackFigure({ title, data }: { title: string; data: StackData })
   const noteLines = data.note ? wrapLines(data.note, FIG.width - 48) : []
   const layers = [...data.layers].reverse()
   const n = layers.length
-  const layerH = 40
+  const layerH = 52
   const topY = 62 + headBlock
-  const boxX = 90
-  const boxW = 380
+  const boxX = 108
+  const boxW = 360
   const height = topY + n * layerH + (noteLines.length ? 52 + (noteLines.length - 1) * 18 : 26)
   const volatileFrom = data.volatileFrom ?? n
 
@@ -51,7 +51,7 @@ export function StackFigure({ title, data }: { title: string; data: StackData })
             />
             <FigText
               x={boxX + 14}
-              y={y + (l.sub ? 13 : (layerH - 6) / 2)}
+              y={y + (l.sub ? 15 : (layerH - 8) / 2)}
               anchor="start"
               size={FIG.microSize}
               weight={600}
@@ -60,7 +60,7 @@ export function StackFigure({ title, data }: { title: string; data: StackData })
               {l.label}
             </FigText>
             {l.sub ? (
-              <FigText x={boxX + 14} y={y + 26} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">
+              <FigText x={boxX + 14} y={y + 34} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">
                 {l.sub}
               </FigText>
             ) : null}
@@ -68,10 +68,12 @@ export function StackFigure({ title, data }: { title: string; data: StackData })
         )
       })}
 
-      <FigText x={boxX - 12} y={topY + 12} anchor="end" size={FIG.microSize} fill="var(--muted-foreground)">
+      {/* Anchored inside the canvas: at 320px an end-anchored caption at
+          boxX - 12 started at a negative x and was clipped. */}
+      <FigText x={24} y={topY + 14} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">
         cambia más
       </FigText>
-      <FigText x={boxX - 12} y={topY + n * layerH - 18} anchor="end" size={FIG.microSize} fill="var(--muted-foreground)">
+      <FigText x={24} y={topY + n * layerH - 20} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">
         cambia menos
       </FigText>
 

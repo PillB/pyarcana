@@ -88,6 +88,13 @@ prevalence 0.25`,
     },
     {
       heading: "Costos, baseline de regla y dummy estimator",
+      figure: {
+        id: "S33-baseline-gap",
+        caption:
+          "Sin la primera barra, 0.87 parece un logro. Con ella, la pregunta es si vale su coste de mantenimiento.",
+        alt:
+          "Tres barras sobre una misma escala: clase mayoritaria, regresión logística y modelo complejo.",
+      },
       subtopicId: "S33-T1-B",
       paragraphs: [
         "El **dummy majority** (predecir siempre la clase más frecuente) y una **regla simple** (p. ej. `x >= thr` sobre un score de S32) anclan el valor mínimo del workbench. El costo `fp * c_fp + fn * c_fn` traduce errores a **impacto de cola**, no a moral de fraude: un FN caro significa un caso que debió revisarse y no se priorizó a tiempo.",

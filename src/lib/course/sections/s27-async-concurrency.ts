@@ -52,6 +52,13 @@ export const section27: CourseSection = {
     },
     {
       heading: "Riesgos y pirámide de pruebas",
+      figure: {
+        id: "S27-test-pyramid",
+        caption:
+          "Una suite invertida tarda diez minutos y falla por motivos que no son el código.",
+        alt:
+          "Tres capas apiladas: unitarias, integración y end-to-end, esta última en línea punteada.",
+      },
       subtopicId: "S27-T1-A",
       paragraphs: [
         "La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena el tiempo (no la forma de la pirámide). Un bug en matching de entidades justifica más tests que un typo de log o un cambio de color en la UI de revisión. Si solo mides “número de tests”, puedes hinchar la base con asserts triviales y dejar sin contrato la rama que mueve el clerical queue.",
@@ -175,6 +182,13 @@ assert_ok True`,
     },
     {
       heading: "Fixtures, scopes y aislamiento",
+      figure: {
+        id: "S28-property-coverage",
+        caption:
+          "El margen que queda fuera es donde viven los fallos de producción.",
+        alt:
+          "Dos regiones anidadas dentro del universo de entradas posibles: property-based contiene a las basadas en ejemplos.",
+      },
       subtopicId: "S27-T2-B",
       paragraphs: [
         "Las **fixtures** inyectan dependencias (datos sintéticos, `tmp_path`, relojes fijos) **sin globals** ni setup copiado en cada test. En pytest real escribes `@pytest.fixture` y el nombre del parámetro de la función de test recibe el valor. El **scope por defecto es function**: cada test recibe setup fresco; eso es lo que hace que la suite sea orden-independiente.",

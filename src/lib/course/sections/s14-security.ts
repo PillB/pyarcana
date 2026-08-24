@@ -82,6 +82,13 @@ scores float64 (4,) 32`,
     },
     {
       heading: "Creación, indexación y máscaras",
+      figure: {
+        id: "S14-view-scope",
+        caption:
+          "Escribir en la vista cambia el original. Ese es el bug que no lanza ninguna excepción.",
+        alt:
+          "Dos regiones anidadas dentro del array original: la vista escribe en la misma memoria, la copia tiene la suya.",
+      },
       subtopicId: "S14-T1-B",
       paragraphs: [
         "`np.array`, `arange`, `linspace` y `zeros`/`ones`/`full` crean arrays. **Indexación** clásica (`a[i]`, `a[i:j]`) y **fancy index** (indexación avanzada con lista de enteros, p. ej. `a[[0,2]]`) seleccionan elementos sin un loop Python por cliente. Esa diferencia importa: en un tablero de calidad con miles de filas sintéticas, el índice vectorizado evita el coste del intérprete en cada fila.",

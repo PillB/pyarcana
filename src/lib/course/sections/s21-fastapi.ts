@@ -51,6 +51,13 @@ export const section21: CourseSection = {
 },
 {
  heading: "Jinja y separación datos/presentación",
+ figure: {
+   id: "S21-render-pipeline",
+   caption:
+     "El filtro de formato decide cuántos decimales se ven; no altera el valor que viaja al Excel.",
+   alt:
+     "Cuatro capas apiladas: datos, cálculo en Python, plantilla Jinja y documento final.",
+ },
  subtopicId: "S21-T1-A",
  paragraphs: [
  "Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). Calcula métricas **antes** del render: la plantilla no es el lugar de joins pesados ni de reglas de negocio opacas. Un solo `context` versionado (run_id, métricas, límites) alimenta DOCX, PDF y, más adelante, el correo de aprobación en S22. Si cada canal inventa su propio formato de KPI, la paridad muere en el primer redondeo.",

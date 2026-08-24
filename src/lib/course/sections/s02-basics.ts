@@ -203,6 +203,13 @@ s02_th_3()
     },
     {
       heading: 'Identidad, mutabilidad y copias superficiales',
+      figure: {
+        id: "S03-truthiness",
+        caption:
+          "Un if desnudo funde ausente, cero y vacío en la misma rama. Por eso la ausencia se pregunta con `is None`.",
+        alt:
+          "Cuatro guardas evaluadas en orden: is None da ausente; == 0 y == vacío dan presente; el resto, presente.",
+      },
       subtopicId: 'S02-T2-B',
       paragraphs: [
         'Dos etiquetas de equipaje pueden describir maletas iguales sin estar pegadas a la misma maleta. Python distingue esas preguntas: **¿tienen el mismo contenido?** y **¿son el mismo objeto?**. **Puente desde T2-A:** asignar un segundo nombre no siempre crea una segunda cosa.',
@@ -289,6 +296,13 @@ a + b * c = 16
     },
     {
       heading: 'Decimal para dinero y redondeo',
+      figure: {
+        id: "S02-decimal-rounding",
+        caption:
+          "Redondear una sola vez, al final. Hacerlo en cada paso acumula el error y con float ni siquiera es reproducible.",
+        alt:
+          "Un eje de cuatro pasos con una línea vertical en el tercero marcada como la única vez que se redondea.",
+      },
       subtopicId: 'S02-T3-B',
       paragraphs: [
         'Una diferencia de redondeo puede parecer invisible en una operación y volverse material al repetirse miles de veces. La lección no exige dramatismo: **representar dinero es elegir qué errores aceptas**. **Puente desde T3-A:** la fórmula puede ser correcta y, sin embargo, el tipo numérico puede traicionarla.',

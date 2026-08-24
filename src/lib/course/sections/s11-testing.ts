@@ -86,6 +86,13 @@ ClientRecord C001`,
     },
     {
       heading: "Invariantes y estados válidos",
+      figure: {
+        id: "S11-invariant-where",
+        caption:
+          "Comprobar después permite que exista, aunque sea un instante, un objeto imposible — y alguien lo va a usar.",
+        alt:
+          "Tres guardas evaluadas al construir: campo ausente falla, valor fuera de dominio lanza ValueError, todo válido produce un objeto coherente.",
+      },
       subtopicId: "S11-T1-B",
       paragraphs: [
         "`__post_init__` (el gancho que ejecuta la dataclass justo después de construir el objeto) valida al instante. Si el estado es inválido, **falla al crear** — un `ClientRecord` a medias en el set de resolución (el conjunto donde se agrupan entidades únicas) es peor que un `ValueError` temprano (una excepción de Python que indica un valor inválido). Las reglas viven junto al tipo, no en un script suelto del CLI.",

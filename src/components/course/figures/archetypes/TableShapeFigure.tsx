@@ -17,7 +17,7 @@ export function TableShapeFigure({ title, data, idPrefix }: { title: string; dat
   const cellH = 24
   const top = 84 + headBlock
   const maxRows = Math.max(data.left.rows.length, data.right.rows.length)
-  const height = top + (maxRows + 1) * cellH + (noteLines.length ? 50 + (noteLines.length - 1) * 18 : 26)
+  const height = top + (maxRows + 1) * cellH + 22 + (noteLines.length ? 50 + (noteLines.length - 1) * 18 : 26)
 
   const panel = (
     x: number,
@@ -66,12 +66,16 @@ export function TableShapeFigure({ title, data, idPrefix }: { title: string; dat
       {panel(leftX, data.left)}
       {panel(rightX, data.right)}
 
+      {/* The verbs used to sit at the arrow's midpoint, which is a 58px gap --
+          wide enough for the arrow and not for the word, so "over(partition by)"
+          landed on the neighbouring cell. They now sit above the arrow, clear of
+          both panels. */}
       <FigArrow x1={leftX + 232} y1={midY} x2={rightX - 6} y2={midY} markerId={`${idPrefix}-arrow`} />
-      <FigText x={(leftX + 232 + rightX) / 2} y={midY - 14} size={FIG.microSize} mono fill="var(--muted-foreground)">
+      <FigText x={(leftX + 232 + rightX) / 2} y={top - 16} size={FIG.microSize} mono fill="var(--muted-foreground)">
         {data.forward}
       </FigText>
       {data.backward ? (
-        <FigText x={(leftX + 232 + rightX) / 2} y={midY + 16} size={FIG.microSize} mono fill="var(--muted-foreground)">
+        <FigText x={(leftX + 232 + rightX) / 2} y={top + (maxRows + 1) * cellH + 16} size={FIG.microSize} mono fill="var(--muted-foreground)">
           {data.backward}
         </FigText>
       ) : null}

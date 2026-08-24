@@ -266,8 +266,21 @@ try {
     await ctx.close()
   }
 
+  // Grouped by section, and by (theme, viewport) inside that.
+  //
+  // The loop used to open a fresh browser context and reload the page for every
+  // figure at every viewport in every theme. With one figure per section that
+  // was 6 loads each; at two per section it silently doubled the work for no
+  // extra coverage, because both figures are on the same page. Ninety-two
+  // figures that way is 552 loads and the probe stops being runnable.
+  const bySection = new Map()
   for (const [sectionId, figureId] of TARGETS) {
-    report.figures[figureId] = {}
+    if (!bySection.has(sectionId)) bySection.set(sectionId, [])
+    bySection.get(sectionId).push(figureId)
+  }
+
+  for (const [sectionId, figureIds] of bySection) {
+    for (const figureId of figureIds) report.figures[figureId] = {}
     for (const theme of THEMES) {
       for (const vp of VIEWPORTS) {
         const ctx = await browser.newContext({
@@ -286,8 +299,9 @@ try {
         await page.waitForSelector('[data-testid="section-root"]', { timeout: 90000 })
         // theory is the default tab; give layout a beat to settle
         await page.waitForTimeout(600)
-        const r = await page.evaluate(PROBE, figureId)
         const key = `${theme}/${vp.name}`
+        for (const figureId of figureIds) {
+        const r = await page.evaluate(PROBE, figureId)
         report.figures[figureId][key] = r
 
         const where = `${figureId} @ ${key}`
@@ -312,6 +326,7 @@ try {
           if (r.smallestRenderedPx !== null && r.smallestRenderedPx < 11) {
             report.findings.push(`${where}: smallest label renders at ${r.smallestRenderedPx}px (floor 11)`)
           }
+        }
         }
         await ctx.close()
       }
