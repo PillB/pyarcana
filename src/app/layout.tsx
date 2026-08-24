@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Cormorant_Garamond, Marcellus } from "next/font/google";
 import "./globals.css";
+import "./qa.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/Providers";
+import { QAFooterBridge } from "@/components/course/QAFooterBridge";
 import { SITE_BASE_PATH } from "@/lib/runtime-mode";
 
 const inter = Inter({
@@ -108,6 +110,7 @@ export default function RootLayout({
       >
         <Providers>
           {children}
+          <QAFooterBridge />
           <Toaster />
         </Providers>
       </body>
