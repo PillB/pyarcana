@@ -189,6 +189,120 @@ const PROBE = (figureId) => {
     }
   }
 
+  // ---- contrast, measured on what is painted ----------------------------
+  //
+  // The a11y gate in test:ux-gates checks page colours and never looks inside
+  // an <svg>, so a figure can hold text at 1.8:1 and every gate stays green.
+  //
+  // The first version of this block parsed colours with a /rgba?\(/ regex. This
+  // theme is authored in oklch, and the figure frame's own background comes
+  // back as oklab(... / 0.4), so every element failed to parse, every element
+  // was skipped, and the check reported zero low-contrast elements while
+  // measuring none of them. That is the fifth time in this campaign a gate has
+  // reported clean without looking, and the first one I built myself.
+  //
+  // So the browser does the conversion: paint the colour onto a 1x1 canvas and
+  // read the bytes back. That works for any colour space the browser accepts,
+  // including whatever the theme is rewritten in next.
+  const _cv = document.createElement('canvas')
+  _cv.width = 1
+  _cv.height = 1
+  const _cx = _cv.getContext('2d', { willReadFrequently: true })
+  const toRGBA = (css) => {
+    if (!css || css === 'none' || css === 'transparent') return null
+    _cx.clearRect(0, 0, 1, 1)
+    _cx.fillStyle = '#000'
+    _cx.fillStyle = css
+    // An unparseable value leaves fillStyle at the previous colour; if the
+    // browser did not accept it, treat it as unknown rather than as black.
+    if (_cx.fillStyle === '#000000' && !/^(#000000|black|rgb\(0, ?0, ?0\))$/i.test(css.trim())) {
+      return null
+    }
+    _cx.fillRect(0, 0, 1, 1)
+    const d = _cx.getImageData(0, 0, 1, 1).data
+    return { r: d[0], g: d[1], b: d[2], a: d[3] / 255 }
+  }
+  const over = (fg, bg) => ({
+    r: fg.r * fg.a + bg.r * (1 - fg.a),
+    g: fg.g * fg.a + bg.g * (1 - fg.a),
+    b: fg.b * fg.a + bg.b * (1 - fg.a),
+    a: 1,
+  })
+  const lum = (c) => {
+    const f = (v) => {
+      const x = v / 255
+      return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4)
+    }
+    return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b)
+  }
+  const ratio = (a, b) => {
+    const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p)
+    return (x + 0.05) / (y + 0.05)
+  }
+
+  // What is actually behind the figure: composite every translucent ancestor
+  // background down onto the first opaque one. The figure frame itself is
+  // painted at 40% alpha, so the naive "parent background" is not the answer.
+  const behind = (() => {
+    const stack = []
+    let el = fig
+    while (el) {
+      const c = toRGBA(getComputedStyle(el).backgroundColor)
+      if (c && c.a > 0) {
+        stack.push(c)
+        if (c.a >= 0.99) break
+      }
+      el = el.parentElement
+    }
+    let base = { r: 255, g: 255, b: 255, a: 1 }
+    for (let i = stack.length - 1; i >= 0; i -= 1) base = over(stack[i], base)
+    return base
+  })()
+
+  const lowContrast = []
+  for (const el of svg.querySelectorAll('text, rect, line, circle, path')) {
+    const cs = getComputedStyle(el)
+    const isText = el.tagName.toLowerCase() === 'text'
+    // For a shape, what the reader relies on is its BORDER, not its fill.
+    // WCAG 1.4.11 covers the parts of a graphic needed to understand it; a card
+    // background sitting a shade off the page is a surface, not information,
+    // and measuring it flags every panel in the set at ~1.05:1. Measure the
+    // stroke, which is what actually delineates the box, and fall back to the
+    // fill only when the shape is filled with a tint that carries meaning
+    // (a translucent chart colour) rather than a surface colour.
+    const strokeC = isText ? null : toRGBA(cs.stroke)
+    const fillOpAttr = el.getAttribute('fill-opacity')
+    const tintedFill = !isText && fillOpAttr !== null && parseFloat(fillOpAttr) < 1
+    const useStroke = !isText && strokeC !== null && !tintedFill
+    const raw = isText ? toRGBA(cs.fill) : useStroke ? strokeC : tintedFill ? toRGBA(cs.fill) : null
+    if (!raw) continue
+    const opAttr = el.getAttribute(useStroke ? 'stroke-opacity' : 'fill-opacity')
+    const op =
+      (opAttr !== null ? parseFloat(opAttr) : parseFloat((useStroke ? cs.strokeOpacity : cs.fillOpacity) || '1')) *
+      parseFloat(cs.opacity || '1')
+    if (!Number.isFinite(op) || op <= 0.02) continue
+    // A stepped figure dims what has not been revealed yet -- that is the
+    // animation doing its job, not a styling defect. Measuring the resting
+    // state flagged S03's "reject" and "accept" at 2.4:1 when both are at full
+    // contrast the moment the learner steps to them. Skip element-level
+    // opacity below 1; the colour itself is still checked at full strength.
+    const elOpacity = parseFloat(cs.opacity || '1')
+    if (elOpacity < 0.95) continue
+    const painted = over({ ...raw, a: raw.a * op }, behind)
+    const r = ratio(painted, behind)
+    // WCAG 2.2: 4.5 for body text; 3.0 for large text, interface components and
+    // graphics that carry meaning. Figure labels are 14-15px, so body text.
+    const floor = isText ? 4.5 : 3.0
+    if (r < floor) {
+      lowContrast.push({
+        tag: el.tagName.toLowerCase() + (useStroke ? ':stroke' : tintedFill ? ':tint' : ''),
+        text: isText ? (el.textContent ?? '').trim().slice(0, 32) : '',
+        ratio: Math.round(r * 100) / 100,
+        floor,
+      })
+    }
+  }
+
   const svgBox = svg.getBoundingClientRect()
   const vb = svg.viewBox.baseVal
   const scale = vb.width ? svgBox.width / vb.width : 1
@@ -235,6 +349,7 @@ const PROBE = (figureId) => {
   return {
     present: true,
     kind: 'svg',
+    lowContrast,
     scale: Number(scale.toFixed(3)),
     svgWidth: Math.round(svgBox.width),
     figureWidth: Math.round(figBox.width),
@@ -325,6 +440,13 @@ try {
           // exactly where legibility is hardest. Hold one floor everywhere.
           if (r.smallestRenderedPx !== null && r.smallestRenderedPx < 11) {
             report.findings.push(`${where}: smallest label renders at ${r.smallestRenderedPx}px (floor 11)`)
+          }
+          if (r.lowContrast?.length) {
+            const worst = r.lowContrast.slice().sort((a, b) => a.ratio - b.ratio).slice(0, 3)
+            report.findings.push(
+              `${where}: ${r.lowContrast.length} element(s) below contrast floor: ` +
+                worst.map((c) => `${c.tag}${c.text ? ` "${c.text}"` : ''} ${c.ratio}:1 < ${c.floor}`).join(', '),
+            )
           }
         }
         }

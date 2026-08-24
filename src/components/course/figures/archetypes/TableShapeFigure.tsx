@@ -1,7 +1,7 @@
 'use client'
 
 import { FIG, FigSvg, FigText, FigArrow, FigArrowDefs } from '../../Figure'
-import { tintOf, type TableShapeData , wrapLines } from './types'
+import { INK, tintOf, type TableShapeData , wrapLines } from './types'
 
 /**
  * The same values in two layouts.
@@ -27,12 +27,12 @@ export function TableShapeFigure({ title, data, idPrefix }: { title: string; dat
     const cellW = Math.floor(206 / cols)
     return (
       <g>
-        <FigText x={x} y={68} anchor="start" size={FIG.microSize} weight={600} fill={tintOf(p.tint)}>
+        <FigText x={x} y={68} anchor="start" size={FIG.microSize} weight={600} fill={INK.label}>
           {p.title}
         </FigText>
         {p.head.map((h, c) => (
           <g key={`h-${c}`}>
-            <rect x={x + c * cellW} y={top} width={cellW} height={cellH} fill={tintOf(p.tint)} fillOpacity={0.2} stroke="var(--border)" strokeWidth={FIG.stroke} />
+            <rect x={x + c * cellW} y={top} width={cellW} height={cellH} fill={tintOf(p.tint)} fillOpacity={INK.tintFillOpacity} stroke={INK.outline} strokeWidth={FIG.stroke} />
             <FigText x={x + c * cellW + cellW / 2} y={top + cellH / 2} size={FIG.microSize} weight={600} mono>
               {h}
             </FigText>
@@ -41,7 +41,7 @@ export function TableShapeFigure({ title, data, idPrefix }: { title: string; dat
         {p.rows.map((r, ri) =>
           r.map((v, c) => (
             <g key={`${ri}-${c}`}>
-              <rect x={x + c * cellW} y={top + (ri + 1) * cellH} width={cellW} height={cellH} fill="var(--card)" stroke="var(--border)" strokeWidth={FIG.stroke} />
+              <rect x={x + c * cellW} y={top + (ri + 1) * cellH} width={cellW} height={cellH} fill="var(--card)" stroke={INK.outline} strokeWidth={FIG.stroke} />
               <FigText x={x + c * cellW + cellW / 2} y={top + (ri + 1) * cellH + cellH / 2} size={FIG.microSize} mono fill="var(--muted-foreground)">
                 {v}
               </FigText>

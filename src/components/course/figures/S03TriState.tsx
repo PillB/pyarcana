@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { FIG, FigSvg, FigBox, FigText, FigArrow, FigArrowDefs, FigStepButton, useFigureSteps } from '../Figure'
+import { INK } from './archetypes/types'
 
 /**
  * S03 — the row of doors, and the three ways out.
@@ -34,9 +35,9 @@ export function S03TriState({ title }: { title: string }) {
   const startX = 96
 
   const exitColor: Record<string, string> = {
-    accept: 'var(--chart-2)',
-    reject: 'var(--chart-4)',
-    review: 'var(--chart-3)',
+    accept: 'var(--fig-2)',
+    reject: 'var(--fig-4)',
+    review: 'var(--fig-3)',
   }
   const tokenX = startX + record.stops * (doorW + gap) + doorW / 2
 
@@ -65,7 +66,7 @@ export function S03TriState({ title }: { title: string }) {
                 w={doorW}
                 h={doorH}
                 fill={reached ? 'var(--muted)' : 'var(--card)'}
-                stroke={exits ? exitColor[d.out] : 'var(--border)'}
+                stroke={exits ? exitColor[d.out] : 'var(--muted-foreground)'}
               />
               <FigText
                 x={cx}
@@ -92,7 +93,7 @@ export function S03TriState({ title }: { title: string }) {
                 w={104}
                 h={34}
                 fill="var(--card)"
-                stroke={exits ? exitColor[d.out] : 'var(--border)'}
+                stroke={exits ? exitColor[d.out] : 'var(--muted-foreground)'}
               />
               <FigText
                 x={cx}

@@ -34,12 +34,12 @@ function EntityNode({ data, selected }: NodeProps) {
   const d = data as unknown as EntityData & { narrow?: boolean }
   const narrow = d.narrow === true
   const tint =
-    d.role === 'caso' ? 'var(--chart-4)' : d.role === 'lugar' ? 'var(--chart-3)' : 'var(--chart-1)'
+    d.role === 'caso' ? 'var(--fig-4)' : d.role === 'lugar' ? 'var(--fig-3)' : 'var(--fig-1)'
   return (
     <div
       className="rounded-md border px-3 py-2 text-center"
       style={{
-        borderColor: selected ? tint : 'var(--border)',
+        borderColor: selected ? tint : 'var(--muted-foreground)',
         background: 'var(--card)',
         borderWidth: selected ? 2 : 1,
         minWidth: narrow ? 96 : 118,
@@ -145,7 +145,7 @@ export function S31EvidenceGraph({ title }: { title: string }) {
         label: narrow ? undefined : label,
         animated: active.includes(id),
         style: {
-          stroke: active.includes(id) ? 'var(--chart-2)' : 'var(--border)',
+          stroke: active.includes(id) ? 'var(--fig-1)' : 'var(--muted-foreground)',
           strokeWidth: active.includes(id) ? 2 : 1.5,
         },
         labelStyle: { fill: 'var(--muted-foreground)', fontSize: 14 },

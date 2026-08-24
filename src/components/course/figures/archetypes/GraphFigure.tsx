@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ReactFlow, Background, Handle, Position, type Edge, type Node, type NodeProps } from '@xyflow/react'
 import '@xyflow/react/dist/base.css'
 import { useTheme } from 'next-themes'
-import { tintOf, type GraphData } from './types'
+import { INK, tintOf, type GraphData } from './types'
 
 /**
  * Entities and the edges between them, laid out for the column it lands in.
@@ -32,7 +32,7 @@ function GraphNodeBox({ data, selected }: NodeProps) {
     <div
       className="rounded-md border px-2 py-2 text-center"
       style={{
-        borderColor: selected ? tint : 'var(--border)',
+        borderColor: selected ? tint : INK.outline,
         background: 'var(--card)',
         borderWidth: selected ? 2 : 1,
         minWidth: d.narrow ? 96 : 118,
@@ -108,7 +108,7 @@ export function GraphFigure({ title, data }: { title: string; data: GraphData })
         // information is not lost, only the crowded placement.
         label: narrow || dense ? undefined : e.label,
         style: {
-          stroke: e.derived ? 'var(--border)' : 'var(--chart-2)',
+          stroke: e.derived ? INK.outline : 'var(--fig-1)',
           strokeWidth: e.derived ? 1.5 : 2,
           strokeDasharray: e.derived ? '5 4' : undefined,
         },
@@ -152,7 +152,7 @@ export function GraphFigure({ title, data }: { title: string; data: GraphData })
           panOnScroll={false}
           preventScrolling={false}
         >
-          <Background gap={18} size={1} color="var(--border)" />
+          <Background gap={18} size={1} color={INK.outline} />
         </ReactFlow>
       </div>
 

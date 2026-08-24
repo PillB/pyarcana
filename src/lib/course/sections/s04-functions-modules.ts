@@ -53,7 +53,7 @@ export const section04: CourseSection = {
       paragraphs: [
         "Bloque de referencia. Orden de los subtemas, ritmo y criterio de cierre.",
         "**Orden de los subtemas.** T1 trata el recorrido: `for` y `range`, después `enumerate` y `zip`. T2 pasa a la repetición: `while`, centinelas, `break` y `continue`. T3 cubre los patrones: contadores, acumuladores y comprensiones. T4 cierra con el razonamiento: trazar el estado paso a paso, el costo y los errores de uno en uno.",
-        "**Ritmo orientativo.** Unas 9 horas según la calibración del contenido actual, incluyendo el proyecto del bloque y el autochequeo.",
+        "**Ritmo orientativo (unas 9 horas).** De esas, tres para el núcleo: al terminarlo ya tienes un bucle que cuenta bien y sabe sobre cuántas cosas está calculando. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
         "**Criterio de cierre (CP-N1-A).** El script de intake y calidad de datos: lotes, contadores, tasas con el denominador correcto y el original intacto.",
         "**Límites.** Caso `CASO-LIM-004` con datos ficticios (`example.com`, teléfonos inventados). Aquí no se cubren decorators ni empaquetado: cuando llegues a módulos, CLI y objetos de dominio reutilizarás estos bucles sobre el mismo hilo de intake.",
       ],

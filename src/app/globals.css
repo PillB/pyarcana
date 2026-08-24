@@ -78,6 +78,24 @@
   --chart-3: oklch(0.72 0.11 40);
   --chart-4: oklch(0.62 0.06 200);
   --chart-5: oklch(0.74 0.10 20);
+
+  /* Figure palette.
+   *
+   * The --chart-* tokens are tuned for filled chart areas, where a large block
+   * of colour carries the signal. Measured against the page in light mode they
+   * are 1.85:1 (chart-2), 2.21:1 (chart-5) and 3.28:1 (chart-4) -- fine for a
+   * bar, unreadable as a 14px label or a 1.5px outline. 453 elements across 81
+   * of the 92 teaching figures were below the WCAG floor because of it, and
+   * only in light mode, which is why reading them in dark mode hid it.
+   *
+   * These keep each chart hue and drop the lightness until the colour clears
+   * 4.5:1 as text. Charts keep --chart-*; figures use --fig-*. */
+  --fig-1: oklch(0.45 0.10 135);
+  --fig-2: oklch(0.45 0.13 88);
+  --fig-3: oklch(0.45 0.13 40);
+  --fig-4: oklch(0.45 0.09 200);
+  --fig-5: oklch(0.45 0.14 20);
+
   --sidebar: oklch(0.96 0.015 85);
   --sidebar-foreground: oklch(0.27 0.025 50);
   --sidebar-primary: oklch(0.50 0.08 135);
@@ -118,6 +136,15 @@
   --chart-3: oklch(0.72 0.11 40);
   --chart-4: oklch(0.62 0.06 200);
   --chart-5: oklch(0.74 0.10 20);
+
+  /* Same hues, raised instead of dropped: on a dark page the readable end of
+   * each hue is the light end. */
+  --fig-1: oklch(0.80 0.11 135);
+  --fig-2: oklch(0.84 0.13 88);
+  --fig-3: oklch(0.80 0.12 40);
+  --fig-4: oklch(0.78 0.08 200);
+  --fig-5: oklch(0.80 0.12 20);
+
   --sidebar: oklch(0.20 0.015 60);
   --sidebar-foreground: oklch(0.94 0.012 85);
   --sidebar-primary: oklch(0.68 0.10 135);

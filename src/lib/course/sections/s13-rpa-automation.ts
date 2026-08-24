@@ -46,7 +46,7 @@ export const section13: CourseSection = {
       paragraphs: [
         "Bloque de referencia. Orden de los subtemas, ritmo, criterio de cierre y promoción de nivel.",
         "**Orden de los subtemas.** T1 trata la identidad: comparación, bloqueo y puntaje de resolución. T2 pasa a las señales de relación, calculadas aparte. T3 construye la decisión: matriz de reglas, umbrales y explicación legible. T4 cierra con el producto y la operación, más el paquete CF-1.",
-        "**Ritmo orientativo.** Unas 9 horas según la calibración del contenido actual para recorrer T1–T4, el entregable y el autochequeo.",
+        "**Ritmo orientativo (unas 9 horas).** De esas, tres o cuatro para el núcleo: al terminarlo ya tienes un bloqueo que reduce los pares y dos puntajes que no se mezclan. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
         "**Criterio de cierre (CP-N1-C).** Los dos puntajes visibles y separados en la ficha, la cola clerical operativa, una hoja de privacidad y una demostración que quepa en un comando.",
         "**Promoción de nivel.** Los tres capstones del Nivel 1 aprobados, la regresión de S01 a S13 en verde y el paquete CF-1 —privacidad, demostración y runbook— entregado.",
         "**Qué se hereda de S12.** El cliente HTTP con timeout y reintentos, el SQL con marcadores de posición y la señal geográfica con su política de salida de datos. Aquí no se vuelven a construir: se conectan a la ficha de evidencia y a las etiquetas del mapa.",

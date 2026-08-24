@@ -42,7 +42,7 @@ export function S17WideLong({ title }: { title: string }) {
       {head.map((hLabel, c) => (
         <g key={`h${c}`}>
           <rect x={x + c * cell.w} y={top} width={cell.w} height={cell.h}
-                fill={tint} fillOpacity={0.2} stroke="var(--border)" strokeWidth={FIG.stroke} />
+                fill={tint} fillOpacity={0.2} stroke="var(--muted-foreground)" strokeWidth={FIG.stroke} />
           <FigText x={x + c * cell.w + cell.w / 2} y={top + cell.h / 2} size={FIG.microSize} weight={600} mono>
             {hLabel}
           </FigText>
@@ -52,7 +52,7 @@ export function S17WideLong({ title }: { title: string }) {
         r.map((v, c) => (
           <g key={`${ri}-${c}`}>
             <rect x={x + c * cell.w} y={top + (ri + 1) * cell.h} width={cell.w} height={cell.h}
-                  fill="var(--card)" stroke="var(--border)" strokeWidth={FIG.stroke} />
+                  fill="var(--card)" stroke="var(--muted-foreground)" strokeWidth={FIG.stroke} />
             <FigText x={x + c * cell.w + cell.w / 2} y={top + (ri + 1) * cell.h + cell.h / 2}
                      size={FIG.microSize} mono
                      fill={c === 2 ? 'var(--foreground)' : 'var(--muted-foreground)'}>
@@ -74,15 +74,15 @@ export function S17WideLong({ title }: { title: string }) {
         Reshape no calcula nada: solo mueve dónde vive cada valor.
       </FigText>
 
-      <FigText x={wideX} y={68} anchor="start" size={FIG.microSize} weight={600} fill="var(--chart-2)">
+      <FigText x={wideX} y={68} anchor="start" size={FIG.microSize} weight={600} fill="var(--fig-2)">
         wide — un mes por columna
       </FigText>
-      {table(wideX, wideHead, wideRows, 'var(--chart-2)')}
+      {table(wideX, wideHead, wideRows, 'var(--fig-2)')}
 
-      <FigText x={longX} y={68} anchor="start" size={FIG.microSize} weight={600} fill="var(--chart-4)">
+      <FigText x={longX} y={68} anchor="start" size={FIG.microSize} weight={600} fill="var(--fig-4)">
         long — un valor por fila
       </FigText>
-      {table(longX, longHead, longRows, 'var(--chart-4)')}
+      {table(longX, longHead, longRows, 'var(--fig-4)')}
 
       <FigArrow x1={244} y1={150} x2={314} y2={150} markerId="s17-arrow" />
       <FigText x={279} y={136} size={FIG.microSize} mono fill="var(--muted-foreground)">

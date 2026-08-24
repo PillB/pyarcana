@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { FIG, FigSvg, FigBox, FigText, FigArrow, FigArrowDefs, FigStepButton, useFigureSteps } from '../../Figure'
-import { tintOf, wrapLines, type FlowData } from './types'
+import { INK, tintOf, wrapLines, type FlowData } from './types'
 
 /**
  * A pipeline, walked one stage at a time.
@@ -57,7 +57,7 @@ export function FlowFigure({ title, data, idPrefix }: { title: string; data: Flo
                 w={boxW}
                 h={boxH}
                 fill={shown ? 'var(--card)' : 'var(--muted)'}
-                stroke={shown ? tintOf(s.tint) : 'var(--border)'}
+                stroke={shown ? tintOf(s.tint) : INK.outline}
               />
               <FigText
                 x={xOf(i) + boxW / 2}
@@ -100,7 +100,7 @@ export function FlowFigure({ title, data, idPrefix }: { title: string; data: Flo
               y1={topY - 22}
               x2={xOf(data.boundaryAfter) + boxW + gap / 2}
               y2={topY + boxH + 22}
-              stroke="var(--chart-1)"
+              stroke="var(--fig-1)"
               strokeWidth={FIG.strokeBold}
               strokeDasharray="5 4"
             />
@@ -112,7 +112,7 @@ export function FlowFigure({ title, data, idPrefix }: { title: string; data: Flo
               // on the canvas instead of being cut in half.
               const x = Math.min(FIG.width - half - 8, Math.max(half + 8, cx))
               return (
-                <FigText x={x} y={topY - 34} size={FIG.microSize} fill="var(--chart-1)" weight={600}>
+                <FigText x={x} y={topY - 34} size={FIG.microSize} fill="var(--fig-1)" weight={600}>
                   {label}
                 </FigText>
               )

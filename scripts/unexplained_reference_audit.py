@@ -17,7 +17,6 @@ import json
 import re
 import sys
 from pathlib import Path
-from typing import TypeAlias
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -31,7 +30,10 @@ GLOSSARY = ROOT / "src/lib/glossary/terms.ts"
 # A position is (1-based section index, 0-based sentence ordinal).  -1 is
 # reserved for a glossary definition available from the moment the section is
 # opened, before its first prose sentence.
-Position: TypeAlias = tuple[int, int]
+# A plain alias rather than typing.TypeAlias: that name is 3.10+, and importing
+# it broke collection of the whole adversarial suite on 3.9. Nothing here needs
+# the annotation to be explicit.
+Position = tuple[int, int]
 
 PY_VOCAB = {
     "dict", "list", "set", "tuple", "str", "int", "float", "bool", "None",

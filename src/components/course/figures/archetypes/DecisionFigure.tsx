@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { FIG, FigSvg, FigBox, FigText, FigArrow, FigArrowDefs, FigStepButton, useFigureSteps } from '../../Figure'
-import { tintOf, type DecisionData , wrapLines } from './types'
+import { INK, tintOf, type DecisionData , wrapLines } from './types'
 
 /**
  * A guard-clause funnel, evaluated in order.
@@ -62,7 +62,7 @@ export function DecisionFigure({ title, data, idPrefix }: { title: string; data:
                 w={testW}
                 h={rowH - 8}
                 fill={matched ? 'var(--card)' : 'var(--muted)'}
-                stroke={matched ? tintOf(b.tint) : 'var(--border)'}
+                stroke={matched ? tintOf(b.tint) : INK.outline}
               />
               {wrapLines(b.test, testW - 20, 6.6).map((tl, ti, arr) => (
                 <FigText
@@ -91,7 +91,7 @@ export function DecisionFigure({ title, data, idPrefix }: { title: string; data:
                   anchor="start"
                   size={FIG.microSize}
                   weight={600}
-                  fill={tintOf(b.tint)}
+                  fill={INK.label}
                 >
                   {rl}
                 </FigText>
@@ -103,7 +103,7 @@ export function DecisionFigure({ title, data, idPrefix }: { title: string; data:
                   y1={y + rowH - 8}
                   x2={testX - 12}
                   y2={y + rowH}
-                  stroke="var(--border)"
+                  stroke={INK.outline}
                   strokeWidth={FIG.stroke}
                 />
               ) : null}
@@ -116,10 +116,10 @@ export function DecisionFigure({ title, data, idPrefix }: { title: string; data:
           y1={topY + (rowH - 8) / 2}
           x2={testX - 12}
           y2={topY + (n - 1) * rowH + (rowH - 8) / 2}
-          stroke="var(--border)"
+          stroke={INK.outline}
           strokeWidth={FIG.stroke}
         />
-        <line x1={128} y1={topY + (rowH - 8) / 2} x2={testX - 2} y2={topY + (rowH - 8) / 2} stroke="var(--border)" strokeWidth={FIG.stroke} />
+        <line x1={128} y1={topY + (rowH - 8) / 2} x2={testX - 2} y2={topY + (rowH - 8) / 2} stroke={INK.outline} strokeWidth={FIG.stroke} />
 
         {noteLines.map((l, i) => (
         <FigText key={l} x={24} y={height - 18 - (noteLines.length - 1) * 18 + i * 18} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">

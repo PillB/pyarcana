@@ -29,31 +29,31 @@ export function S32Leakage({ title }: { title: string }) {
       </FigText>
 
       {/* the split boundary, drawn once, full height */}
-      <line x1={cut} y1={44} x2={cut} y2={212} stroke="var(--chart-1)" strokeWidth={FIG.strokeBold} />
+      <line x1={cut} y1={44} x2={cut} y2={212} stroke="var(--fig-1)" strokeWidth={FIG.strokeBold} />
       <FigText x={cut - 6} y={58} anchor="end" size={FIG.microSize} fill="var(--muted-foreground)">
         train
       </FigText>
       <FigText x={cut + 6} y={58} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">
         test
       </FigText>
-      <FigText x={cut} y={206} size={FIG.microSize} fill="var(--chart-1)" weight={600}>
+      <FigText x={cut} y={206} size={FIG.microSize} fill="var(--fig-1)" weight={600}>
         corte temporal
       </FigText>
 
       {/* leaking feature: the window spans the cut */}
       <rect x={x0} y={bad.y} width={x1 - x0} height={bad.h} rx={FIG.radius}
-            fill="var(--chart-5)" fillOpacity={0.18} stroke="var(--chart-5)" strokeWidth={FIG.stroke} />
-      <FigText x={20} y={bad.y - 16} anchor="start" size={FIG.microSize} fill="var(--chart-5)" weight={600}>
+            fill="var(--fig-5)" fillOpacity={0.55} stroke="var(--fig-5)" strokeWidth={FIG.stroke} />
+      <FigText x={20} y={bad.y - 16} anchor="start" size={FIG.microSize} fill="var(--fig-5)" weight={600}>
         media móvil sobre toda la serie
       </FigText>
-      <FigText x={(cut + x1) / 2} y={bad.y + bad.h / 2} size={FIG.microSize} fill="var(--chart-5)">
+      <FigText x={(cut + x1) / 2} y={bad.y + bad.h / 2} size={FIG.microSize} fill="var(--fig-5)">
         ya leyó el futuro
       </FigText>
 
       {/* correct feature: the window stops at the cut */}
       <rect x={x0} y={good.y} width={cut - x0} height={good.h} rx={FIG.radius}
-            fill="var(--chart-2)" fillOpacity={0.18} stroke="var(--chart-2)" strokeWidth={FIG.stroke} />
-      <FigText x={20} y={good.y - 16} anchor="start" size={FIG.microSize} fill="var(--chart-2)" weight={600}>
+            fill="var(--fig-2)" fillOpacity={0.55} stroke="var(--fig-2)" strokeWidth={FIG.stroke} />
+      <FigText x={20} y={good.y - 16} anchor="start" size={FIG.microSize} fill="var(--fig-2)" weight={600}>
         media móvil calculada solo hasta el corte
       </FigText>
 

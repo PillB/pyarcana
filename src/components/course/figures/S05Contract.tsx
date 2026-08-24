@@ -36,8 +36,8 @@ export function S05ContractWindow({ title }: { title: string }) {
       </FigText>
 
       {/* what it demands */}
-      <FigBox x={16} y={sideY} w={sideW} h={sideH} fill="var(--card)" stroke="var(--chart-1)" />
-      <FigText x={86} y={sideY + 18} size={FIG.microSize} weight={600} fill="var(--chart-1)">
+      <FigBox x={16} y={sideY} w={sideW} h={sideH} fill="var(--card)" stroke="var(--fig-1)" />
+      <FigText x={86} y={sideY + 18} size={FIG.microSize} weight={600} fill="var(--fig-1)">
         Exige
       </FigText>
       <FigText x={86} y={sideY + 38} size={FIG.microSize} mono>
@@ -49,7 +49,7 @@ export function S05ContractWindow({ title }: { title: string }) {
       <FigArrow x1={160} y1={midY} x2={bodyX - 6} y2={midY} markerId="s05-arrow" />
 
       {/* the body — deliberately opaque */}
-      <FigBox x={bodyX} y={boxY} w={bodyW} h={bodyH} fill="var(--muted)" stroke="var(--border)" />
+      <FigBox x={bodyX} y={boxY} w={bodyW} h={bodyH} fill="var(--muted)" stroke="var(--muted-foreground)" />
       <FigText x={bodyX + bodyW / 2} y={boxY + 30} mono weight={600}>
         normalize_email
       </FigText>
@@ -64,13 +64,13 @@ export function S05ContractWindow({ title }: { title: string }) {
 
       {/* what it guarantees */}
       <FigArrow x1={bodyX + bodyW + 6} y1={midY} x2={rightX - 6} y2={midY} markerId="s05-arrow" />
-      <FigBox x={rightX} y={sideY} w={sideW} h={sideH} fill="var(--card)" stroke="var(--chart-2)" />
+      <FigBox x={rightX} y={sideY} w={sideW} h={sideH} fill="var(--card)" stroke="var(--fig-2)" />
       <FigText
         x={rightX + sideW / 2}
         y={sideY + 18}
         size={FIG.microSize}
         weight={600}
-        fill="var(--chart-2)"
+        fill="var(--fig-2)"
       >
         Garantiza
       </FigText>
