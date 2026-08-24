@@ -85,7 +85,7 @@ const FALLBACK_KEY = 'pyarcana:qa-issues:v1'
 const TESTER_KEY = 'pyarcana:qa-tester:v1'
 const MAX_PACKAGE_CHARACTERS = 16 * 1024 * 1024
 const MAX_PACKAGE_ISSUES = 1000
-const SAFE_SCREENSHOT_DATA_URL = /^data:image\/(?:png|jpeg|webp);base64,/i
+const SAFE_SCREENSHOT_DATA_URL = /^data:image\/[a-z0-9.+-]+;base64,/i
 
 const QA_CATEGORY_VALUES = new Set<string>(QA_CATEGORIES.map((item) => item.value))
 const QA_CAUSE_VALUES = new Set<string>(QA_CAUSES.map((item) => item.value))
