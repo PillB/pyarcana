@@ -116,7 +116,7 @@ seed 42`,
       paragraphs: [
         "**Idempotencia**: `f(f(x)) == f(x)`. En ER, `normalize` debe ser idempotente: un segundo pase no cambia el texto canónico. Si `f(f(x)) != f(x)`, cada etapa del pipeline “reescribe” el nombre y el matching se vuelve no determinista entre corridas.",
         "**Simetría**: si el comparador es simétrico, `sim(a,b) == sim(b,a)`. Documenta excepciones (distancias dirigidas, embeddings con orden de query) en el nombre del test. No asumas simetría solo porque “se ve simétrico” en el happy path (el camino feliz donde todo entra limpio).",
-        "**Pruebas metamórficas (metamorphic)**: no conoces el score “correcto” absoluto, pero sí una **relación** entre salidas. Ejemplo: rellenar espacios no debe cambiar `normalize`; reordenar tokens puede o no ser invariante según tu modelo de nombre. Cuando no hay oráculo absoluto, la relación entre salidas *es* el oráculo. No confundas metamórfica con “casefold equality”: casefold es normalización; metamórfica es *transformar el input y predecir cómo se mueve la salida*.",
+        "**Pruebas metamórficas (metamorphic)**: no conoces el score “correcto” absoluto, pero sí una **relación** entre salidas. Ejemplo: rellenar espacios no debe cambiar `normalize`; reordenar tokens puede o no ser invariante según tu modelo de nombre. Cuando no hay oráculo absoluto, la relación entre salidas *es* el oráculo. No confundas metamórfica con “casefold equality”: `casefold` normaliza **mayúsculas y minúsculas**, y solo eso —no toca las formas Unicode que viste en S07, así que «José» en NFC y en NFD siguen siendo distintos después de aplicarlo—; metamórfica es *transformar el input y predecir cómo se mueve la salida*.",
       ],
       code: {
         language: "python",
