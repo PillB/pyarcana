@@ -32,21 +32,65 @@ import json
 import re
 from pathlib import Path
 
+import sys
+
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+# Reuse the anglicism gate rather than reimplementing it. That gate already
+# knows two things this pass needs and got wrong on its own: what counts as a
+# gloss in this course's voice, and that a term with a glossary entry is
+# explained by the hover hint the UI shows, not only by prose. Duplicating
+# either would let the two gates disagree about the same sentence.
+from anglicism_gloss_audit import GLOSS_NEAR, glossary_available  # noqa: E402
 SECTIONS = ROOT / "src/lib/course/sections"
 INDEX = ROOT / "src/lib/course/index.ts"
 GLOSSARY = ROOT / "src/lib/glossary/terms.ts"
 
-# Terms a Spanish-speaking beginner is not expected to arrive with, that the
-# course uses without always introducing. Deliberately not a jargon list: these
-# are the ones that turn up inside asides.
-ASSUMED_WORLD = [
-    "Unix", "POSIX", "Linux", "kernel", "shell de login", "daemon",
-    "dotfile", "inode", "symlink", "hard link", "PATH del sistema",
-    "endianness", "big-endian", "little-endian", "ASCII", "locale del SO",
-    "stdin", "stderr", "descriptor de archivo", "pipe con nombre",
-    "variable de entorno", "secretos", "`.env`", "12-factor",
-    "glob", "regex", "wildcard", "here-doc",
+# NO HAND-WRITTEN TERM LIST.
+#
+# The first version of this pass carried one, and that was the defect: a list
+# only finds the terms whoever wrote it already thought of. The objection is
+# general -- any technical term that (1) the course has not previously explained
+# and exemplified, and (2) buys the reader nothing but trivia.
+#
+# So the vocabulary is derived from the corpus. A token counts as technical when
+# the course itself marks it as such:
+#
+#   * it sits in a code span, which is the author's own signal for "this is a
+#     name from the machine, not ordinary Spanish";
+#   * it is an acronym (two or more capitals), which no beginner can decode;
+#   * it is capitalised mid-sentence, i.e. a proper noun -- a product, a
+#     standard, a company, a format.
+#
+# Spanish sentence-initial capitals and the course's own identifiers (CASO-,
+# CP-, S01-T1-A) are excluded: they are scaffolding, not vocabulary.
+
+# Python's own vocabulary is taught by use throughout the course and is not
+# the kind of term this pass is about; place names are setting, not vocabulary.
+PY_VOCAB = {
+    "dict", "list", "set", "tuple", "str", "int", "float", "bool", "None",
+    "True", "False", "finally", "except", "raise", "yield", "lambda", "async",
+    "await", "class", "import", "return", "print", "len", "range", "open",
+    "self", "args", "kwargs", "None",
+}
+
+STOPWORDS = {
+    "Python", "Windows", "macOS", "Linux", "Git", "GitHub", "Excel",
+    "Ana", "Luis", "Marta", "Lima", "Cusco", "Perú", "PyArcana",
+    "Nivel", "Sección", "Contrato", "Entrada", "Salida", "Error", "Meta",
+    "Éxito", "Límites", "Contexto", "Mecanismo", "Ancla", "Caso", "Borde",
+    "Objetivo", "Resultado", "Nota", "Regla", "Ejemplo", "Antes", "Después",
+}
+
+TOKEN_PATTERNS = [
+    # a name inside a code span, without call parens or dots -- `argparse`,
+    # `NFC`, `POSIX`. Dotted and called forms are usage, not a new term.
+    (r"`([A-Za-z][A-Za-z0-9_-]{2,})`", "code-span name"),
+    # an acronym: SSRF, RPO, TOCTOU, GIL
+    (r"(?<![A-Za-z])([A-Z]{2,6})(?![A-Za-z])", "acronym"),
+    # a proper noun mid-sentence: Unix, Docker, Kubernetes, Pydantic
+    (r"(?<=[a-záéíóúñ,] )([A-Z][a-zA-Z]{3,})", "proper noun"),
 ]
 
 # Sentence shapes that introduce a second concept only to contrast with it.
@@ -107,39 +151,96 @@ def sentences(text: str) -> list[str]:
     return [re.sub(r"\x00(\d+)\x00", lambda m: stash[int(m.group(1))], p) for p in parts]
 
 
-def first_introduction(order: list[str]) -> dict[str, int]:
-    """term -> the 1-based section where the course first *defines* it.
+def load_bearing_pre(plain: str) -> bool:
+    return bool(
+        re.search(
+            r"\b(usa|escribe|ejecuta|define|declara|nunca|siempre|debe|"
+            r"corrige|implementa|devuelve|imprime|no )\b",
+            plain,
+            re.I,
+        )
+    )
 
-    Without this the pass is per-sentence and therefore blind to the fix it
-    recommends: glossing «secretos» once in S01 left all 25 later uses flagged,
-    because nothing was looking at what the reader had already been told. A
-    term introduced earlier is available later -- the same rule
-    src/lib/glossary already applies with firstSectionId.
 
-    "Defined" means the term appears next to an explanatory marker: an em dash,
-    a parenthetical, or one of the phrases the course uses to unpack a word.
+def candidate_terms(text: str) -> set[str]:
+    """Every token the course itself marks as technical vocabulary."""
+    out: set[str] = set()
+    for rx, _kind in TOKEN_PATTERNS:
+        for m in re.finditer(rx, text):
+            t = m.group(1)
+            if t in STOPWORDS or t in PY_VOCAB or len(t) < 3:
+                continue
+            # Identifier fragments the tokenizer split out of snake_case names.
+            if re.fullmatch(r"[a-z]+id|[a-z]+_[a-z]+", t):
+                continue
+            # The course's own identifiers are scaffolding, not vocabulary.
+            if re.fullmatch(r"(CASO|CP|S\d+|T\d+|N\d)[A-Z0-9-]*", t):
+                continue
+            out.add(t)
+    return out
+
+
+GLOSS_MARK = GLOSS_NEAR.pattern
+
+
+def glossary_terms_available() -> dict[str, int]:
+    """alias(lower) -> section index from which the hover definition exists."""
+    try:
+        return {k.lower(): v for k, v in glossary_available().items()}
+    except Exception:
+        return {}
+
+
+def introduction_map(order: list[str]) -> dict[str, int]:
+    """term -> 1-based section where the course first *explains* it.
+
+    Explained means the course's own convention: the term appears next to a
+    gloss marker -- an em dash, a parenthetical, or one of the phrases used to
+    unpack a word. The marker may trail a few words, because a gloss rarely
+    sits flush against its term.
     """
-    first: dict[str, int] = {}
+    # A glossary entry is an explanation the reader can reach on hover, so it
+    # counts as introduced from the section where it becomes available.
+    first: dict[str, int] = dict(glossary_terms_available())
     for i, name in enumerate(order, 1):
         src = (SECTIONS / f"{name}.ts").read_text(encoding="utf-8")
-        body = "\n".join(m.group(0) for m in re.finditer(r"paragraphs:\s*\[([\s\S]*?)\n\s*\]", src))
-        for term in ASSUMED_WORLD:
-            bare = term.strip("`")
-            if bare.lower() in first:
+        body = "\n".join(
+            m.group(1) for m in re.finditer(r"paragraphs:\s*\[([\s\S]*?)\n\s*\]", src)
+        )
+        for term in candidate_terms(body):
+            key = term.lower()
+            if key in first:
                 continue
-            # A gloss often lands a few words after the term -- "la ausencia de
-            # **secretos** en el repositorio —contraseñas, claves de API…" -- so
-            # the marker is allowed to trail rather than sit flush against it.
-            if re.search(
-                rf"{re.escape(bare)}s?\*{{0,2}}[^.]{{0,40}}?(—|\(|,\s*(?:esto es|es decir|o sea)|:\s*[a-z])",
-                body,
-            ):
-                first[bare.lower()] = i
+            if re.search(rf"`?{re.escape(term)}`?\*{{0,2}}[^.]{{0,45}}?{GLOSS_MARK}", body):
+                first[key] = i
     return first
 
 
-def audit_section(name: str, idx: int, order: list[str], gloss: dict[str, str],
-                  introduced: dict[str, int]) -> list[dict]:
+def corpus_frequency(order: list[str]) -> dict[str, int]:
+    """How often each candidate term is used across the whole course.
+
+    This is the second of the two questions. A term that appears once, inside a
+    story, is colour: the reader meets it, shrugs, and moves on. A term that
+    appears thirty times and is never explained is a standing tax -- every one
+    of those thirty sentences asks the reader to nod at something they cannot
+    evaluate. The counts separate a vocabulary gap that must be closed from a
+    piece of trivia that should simply go.
+    """
+    freq: dict[str, int] = {}
+    for name in order:
+        src = (SECTIONS / f"{name}.ts").read_text(encoding="utf-8")
+        body = "\n".join(
+            m.group(1) for m in re.finditer(r"paragraphs:\s*\[([\s\S]*?)\n\s*\]", src)
+        )
+        for t in candidate_terms(body):
+            freq[t.lower()] = freq.get(t.lower(), 0) + len(
+                re.findall(rf"(?<![\w`]){re.escape(t)}(?![\w])", body)
+            )
+    return freq
+
+
+def audit_section(name: str, idx: int, introduced: dict[str, int],
+                  freq: dict[str, int]) -> list[dict]:
     src = (SECTIONS / f"{name}.ts").read_text(encoding="utf-8")
     sid_m = re.search(r"\n\s*id:\s*['\"]([^'\"]+)['\"]", src)
     sid = sid_m.group(1) if sid_m else name
@@ -148,54 +249,42 @@ def audit_section(name: str, idx: int, order: list[str], gloss: dict[str, str],
     for ctx, para in paragraphs(src):
         for sent in sentences(para):
             plain = re.sub(r"[*_]", "", sent)
-            reasons = []
-
-            for term in ASSUMED_WORLD:
-                bare = term.strip("`")
-                hit = re.search(rf"(?<![\w`/]){re.escape(bare)}(?![\w])", plain)
-                if not hit:
-                    continue
-                # Introduced right here? Then it is grounded, not assumed.
-                if re.search(
-                    rf"{re.escape(bare)}[^.]{{0,40}}?(—|\(|,\s*(?:esto es|es decir|o sea))", plain
-                ):
-                    continue
-                # Already introduced at or before this section: the reader has
-                # been told, so using it is not an assumption.
-                intro = introduced.get(bare.lower())
+            ungrounded = []
+            for term in candidate_terms(plain):
+                intro = introduced.get(term.lower())
+                # Explained here, or earlier: the reader has been told.
                 if intro is not None and intro <= idx:
                     continue
-                # Naming the reader's own platform is not an assumption: they
-                # know which machine they are sitting at. "macOS/Linux" as a
-                # column label teaches nothing and costs nothing. The problem is
-                # the term used as *justification* -- inside the clause that
-                # explains why something is the way it is.
-                before = plain[max(0, hit.start() - 60) : hit.start()]
-                as_label = re.search(r"(Windows|macOS)\s*[·/→|-]\s*$|^\s*\*\*[^*]{0,30}$", before)
-                explanatory = re.search(
-                    r"(porque|ya que|dado que|puesto que|queda|se distingue|"
-                    r"a diferencia|de modo que|así que|: )\s*[^.]{0,60}$",
-                    before,
-                )
-                if as_label and not explanatory:
+                # Explained in this very sentence.
+                if re.search(rf"`?{re.escape(term)}`?\*{{0,2}}[^.]{{0,45}}?{GLOSS_MARK}", plain):
                     continue
-                if not explanatory and not re.search(r"[(,]\s*[^.]{0,40}$", before):
-                    # Bare mention in a list or a heading-like fragment: cheap,
-                    # not a claim the reader has to evaluate.
-                    continue
-                reasons.append(f"assumes «{bare}» inside an explanation")
+                ungrounded.append(term)
 
+            reasons = []
+            recurring = [t for t in ungrounded if freq.get(t.lower(), 0) >= 4]
+            oneoff = [t for t in ungrounded if freq.get(t.lower(), 0) < 4]
+            if recurring:
+                reasons.append(
+                    "recurring but never explained: "
+                    + ", ".join(f"{t}×{freq.get(t.lower(), 0)}" for t in sorted(recurring)[:4])
+                )
+            if oneoff and not load_bearing_pre(plain):
+                reasons.append("one-off technical aside: " + ", ".join(sorted(oneoff)[:4]))
             for rx, why in ASIDE_SHAPES:
                 if re.search(rx, plain, re.I):
                     reasons.append(why)
-
             if not reasons:
                 continue
 
-            # An aside is cheap to remove when the sentence is not the
-            # instruction: no imperative, no contract language.
+            # Question 2: does the sentence do work? An instruction or a
+            # contract earns its terms; an aside has to justify itself.
             load_bearing = bool(
-                re.search(r"\b(usa|escribe|ejecuta|define|declara|nunca|siempre|debe|no )\b", plain, re.I)
+                re.search(
+                    r"\b(usa|escribe|ejecuta|define|declara|nunca|siempre|debe|"
+                    r"corrige|implementa|devuelve|imprime|no )\b",
+                    plain,
+                    re.I,
+                )
             )
             findings.append(
                 {
@@ -204,7 +293,8 @@ def audit_section(name: str, idx: int, order: list[str], gloss: dict[str, str],
                     "index": idx,
                     "context": ctx[:60],
                     "sentence": sent.strip()[:260],
-                    "reasons": sorted(set(reasons)),
+                    "reasons": reasons,
+                    "ungrounded": sorted(ungrounded),
                     "looks_load_bearing": load_bearing,
                 }
             )
@@ -218,14 +308,30 @@ def main() -> int:
     args = ap.parse_args()
 
     order = section_order()
-    gloss = glossary_first_use()
-    introduced = first_introduction(order)
+    introduced = introduction_map(order)
     names = [args.section] if args.section else order
 
+    freq = corpus_frequency(order)
     all_f = []
     for i, n in enumerate(names, 1):
         idx = order.index(n) + 1 if n in order else i
-        all_f += audit_section(n, idx, order, gloss, introduced)
+        all_f += audit_section(n, idx, introduced, freq)
+
+    # The sentence list is the worklist; the term list is the finding. A term
+    # used dozens of times and never explained is one decision, not forty.
+    tally: dict[str, tuple[int, int, str]] = {}
+    for f in all_f:
+        for t in f["ungrounded"]:
+            n = freq.get(t.lower(), 0)
+            if n < 4:
+                continue
+            hits, _, first_sec = tally.get(t, (0, n, f["section"]))
+            tally[t] = (hits + 1, n, first_sec)
+    print("RECURRING TERMS THE COURSE NEVER EXPLAINS")
+    print(f"  {'term':16s} {'uses':>5} {'flagged':>8}  first seen")
+    for t, (hits, n, sec) in sorted(tally.items(), key=lambda kv: -kv[1][1])[:22]:
+        print(f"  {t:16s} {n:>5} {hits:>8}  {sec}")
+    print()
 
     disposable = [f for f in all_f if not f["looks_load_bearing"]]
     print(f"sentences flagged: {len(all_f)}   of which not load-bearing: {len(disposable)}")

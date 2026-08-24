@@ -164,7 +164,7 @@ True True`,
  heading: "PDF digital real: generación, extracción y render",
  subtopicId: "S21-T2-B",
  paragraphs: [
- "Un **PDF digital** tiene texto seleccionable (pypdf extrae); un **PDF escaneado** es imagen y puede requerir OCR con tasa de error. Si la extracción queda vacía, el contrato devuelve `needs_ocr` — **no inventa texto**. El render a PNG (PyMuPDF) prueba legibilidad visual; la extracción prueba la capa digital. Ninguna sustituye la reconciliación tabular.",
+ "Un **PDF digital** tiene texto seleccionable (pypdf extrae); un **PDF escaneado** es imagen y puede requerir **OCR** —*optical character recognition*: leer las letras que hay dibujadas en una imagen— con la tasa de error que eso implica. Si la extracción queda vacía, el contrato devuelve `needs_ocr` — **no inventa texto**. El render a PNG (PyMuPDF) prueba legibilidad visual; la extracción prueba la capa digital. Ninguna sustituye la reconciliación tabular.",
  "Contrato: generar PDF local con `n=40`, extraer texto, firmar PDF (`%PDF`); render primera página a PNG y verificar existencia de ambos artefactos. El hash del PDF entra al provenance del paquete.",
  "Caso: PDF imagen-only con texto dibujado en un PNG sintético → pypdf no recupera capa de texto → `needs_ocr`. El paquete documenta el modo (digital vs. OCR pendiente); no finge un PDF nativo. Más adelante (S24) profundizarás OCR; aquí aprendes a **abstenerte con honestidad**.",
  ],
