@@ -416,3 +416,51 @@ eleven figures in both themes at all three viewports.
 
 Decisive check: the audit reports **zero FORWARD_DEPENDENCY**, which is the P1
 kind that appears inside a task. No mislabelled P1s. No action needed.
+
+---
+
+## Addendum — the build to 92, and the twelve that stayed at one
+
+*Added after the figure layer was scaled from 15 to 92.*
+
+The brief was at least two figures per section. The evidence does not support a
+quota: Mayer's coherence principle and the seductive-details work (Harp & Mayer
+1998; Mayer, Heiser & Lonn 2001) find that graphics which are not load-bearing
+measurably reduce learning — "presenting more information can result in less
+learning". What the evidence *does* support is the multimedia principle: words
+and pictures beat words alone.
+
+Those two reconcile on one condition, which became the rule for all 77 new
+figures: **the figure depicts a process, structure or comparison that already
+exists in its own section.** Not an illustration of the topic — a diagram of
+something the prose is already trying to describe in sequence.
+
+Twelve sections had one such thing and not two. Rather than invent a second,
+they carry one figure each. Each row below says what the single figure carries
+and why a second would have been decoration:
+
+| section | the figure it carries | why not a second |
+|---|---|---|
+| S11 Testing / OOP | where an invariant is checked | The rest of the section is naming and behaviour — vocabulary, not shape. |
+| S16 Calidad y contratos | quarantine rows with their reasons | Null policy is a decision table, already drawn; imputation is arithmetic. |
+| S19 Visualización | choosing the chart from the question | The section *is* about charts; a diagram about diagrams competes with its own subject. |
+| S20 Excel | the workbook hierarchy | Formulas versus materialised values is a two-item contrast prose states in one line. |
+| S21 Documentos | who calculates and who formats | Template syntax is text; drawing it adds a second encoding of the same text. |
+| S23 Browser RPA | the recovery boundary | Selector strategy is an ordered list, and the section already gives it as one. |
+| S35 Explicabilidad | the four card layers | Local explanation is a worked example, better read than drawn. |
+| S39 Case triage | the five staged contracts | The rest is threshold arithmetic, drawn in S34 where it is taught. |
+| S41 FastAPI | status codes as a decision | Pagination and versioning are conventions, not shapes. |
+| S50 Evals | slices overlapping | The rubric is a table in the prose already. |
+| S51 Observabilidad | redaction classes | The trace tree belongs to S51 and is drawn; the rest is instrumentation detail. |
+| S52 Capstone | what survives outside your head | The bundle is an eight-item list; a diagram of a list is a list. |
+
+**What the build actually cost, and where.** Three measured rounds produced 26
+distinct defects and every one was in an archetype rather than in a figure —
+which is the argument for the architecture stated as evidence rather than as
+intention. Fixing the label-to-subtitle gap once repaired every stacked and
+nested figure in the course; fixing the flow outcome's double-counted headline
+offset repaired every pipeline.
+
+**Final state:** 92 figures, 0 clipped, 0 occluded, smallest rendered label
+11.2px at a 320px viewport in dark mode.
+
