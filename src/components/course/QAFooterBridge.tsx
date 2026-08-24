@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useSyncExternalStore } from 'react'
 import { COURSE_SECTIONS } from '@/lib/course'
 import { QAHarness } from './QAHarness'
 
@@ -18,8 +18,11 @@ const EMPTY: LiveQaContext = {
   activeSubStep: null,
 }
 
+const subscribeHydration = () => () => undefined
+
 export function QAFooterBridge() {
   const [context, setContext] = useState<LiveQaContext>(EMPTY)
+  const hydrated = useSyncExternalStore(subscribeHydration, () => true, () => false)
 
   const readContext = useCallback(() => {
     const root = document.querySelector<HTMLElement>('[data-section-id]')
@@ -70,6 +73,10 @@ export function QAFooterBridge() {
       observer.disconnect()
     }
   }, [readContext])
+
+  if (!hydrated) {
+    return <div className="border-t border-border/50 bg-muted/20 py-1.5" aria-hidden="true" />
+  }
 
   return (
     <div className="border-t border-border/50 bg-muted/20 py-1.5 text-center" data-testid="qa-footer-bridge">
