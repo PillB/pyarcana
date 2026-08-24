@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Cormorant_Garamond, Marcellus } from "next/font/google";
 import "./globals.css";
+import "./qa.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/Providers";
 import { QAFooterBridge } from "@/components/course/QAFooterBridge";
