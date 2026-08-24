@@ -83,6 +83,13 @@ const DB_VERSION = 1
 const STORE_NAME = 'issues'
 const FALLBACK_KEY = 'pyarcana:qa-issues:v1'
 const TESTER_KEY = 'pyarcana:qa-tester:v1'
+const MAX_PACKAGE_CHARACTERS = 16 * 1024 * 1024
+const MAX_PACKAGE_ISSUES = 1000
+const SAFE_SCREENSHOT_DATA_URL = /^data:image\/[a-z0-9.+-]+;base64,/i
+
+const QA_CATEGORY_VALUES = new Set<string>(QA_CATEGORIES.map((item) => item.value))
+const QA_CAUSE_VALUES = new Set<string>(QA_CAUSES.map((item) => item.value))
+const QA_SEVERITY_VALUES = new Set<string>(QA_SEVERITIES.map((item) => item.value))
 
 function requestAsPromise<T>(request: IDBRequest<T>): Promise<T> {
   return new Promise((resolve, reject) => {
@@ -117,106 +124,168 @@ async function openQaDb(): Promise<IDBDatabase> {
   })
 }
 
-function fallbackRead(): QAIssue[] {
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return !!value && typeof value === 'object' && !Array.isArray(value)
+}
+
+function isNullableString(value: unknown): value is string | null {
+  return value === null || typeof value === 'string'
+}
+
+function isFiniteNonNegativeNumber(value: unknown): value is number {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0
+}
+
+function isSectionIndex(value: unknown): value is number | null {
+  return value === null || (typeof value === 'number' && Number.isInteger(value) && value >= 1)
+}
+
+function isQaContext(value: unknown): value is QAContext {
+  if (!isRecord(value) || !isRecord(value.viewport)) return false
+  const viewport = value.viewport
+  return typeof value.path === 'string'
+    && typeof value.hash === 'string'
+    && isNullableString(value.sectionId)
+    && isSectionIndex(value.sectionIndex)
+    && isNullableString(value.sectionTitle)
+    && isNullableString(value.subStep)
+    && isFiniteNonNegativeNumber(viewport.width)
+    && isFiniteNonNegativeNumber(viewport.height)
+    && isFiniteNonNegativeNumber(value.scrollY)
+    && typeof value.userAgent === 'string'
+    && typeof value.language === 'string'
+    && isNullableString(value.deploymentSha)
+    && isNullableString(value.elementHint)
+}
+
+function isSafeScreenshot(value: unknown): value is string | null | undefined {
+  return value === undefined
+    || value === null
+    || (typeof value === 'string' && SAFE_SCREENSHOT_DATA_URL.test(value))
+}
+
+function isQaIssue(value: unknown): value is QAIssue {
+  if (!isRecord(value)) return false
+  return typeof value.id === 'string'
+    && typeof value.createdAt === 'string'
+    && typeof value.updatedAt === 'string'
+    && (value.status === 'open' || value.status === 'resolved')
+    && typeof value.category === 'string'
+    && QA_CATEGORY_VALUES.has(value.category)
+    && typeof value.cause === 'string'
+    && QA_CAUSE_VALUES.has(value.cause)
+    && typeof value.severity === 'string'
+    && QA_SEVERITY_VALUES.has(value.severity)
+    && typeof value.title === 'string'
+    && typeof value.description === 'string'
+    && typeof value.expected === 'string'
+    && typeof value.actual === 'string'
+    && typeof value.reproductionSteps === 'string'
+    && typeof value.improvement === 'string'
+    && isQaContext(value.context)
+    && isSafeScreenshot(value.screenshotDataUrl)
+}
+
+function fallbackReadRaw(): unknown[] {
   if (typeof localStorage === 'undefined') return []
   try {
     const raw = localStorage.getItem(FALLBACK_KEY)
     if (!raw) return []
-    const parsed = JSON.parse(raw)
-    return Array.isArray(parsed) ? (parsed as QAIssue[]) : []
+    const parsed: unknown = JSON.parse(raw)
+    return Array.isArray(parsed) ? parsed : []
   } catch {
     return []
   }
 }
 
-/**
- * Thrown when neither IndexedDB nor localStorage could keep the report.
- *
- * The tester needs to know this before the form clears. A QA tool that says
- * "saved" and did not save costs more than one that refuses: the report is
- * gone, and the person who found the bug believes it is filed.
- */
-export class QAStorageError extends Error {
-  constructor(message: string, readonly cause?: unknown) {
-    super(message)
-    this.name = 'QAStorageError'
-  }
+function fallbackRead(): QAIssue[] {
+  // Fail closed for rendering/export while retaining rejected legacy records in
+  // the raw fallback array. They are quarantined rather than silently deleted.
+  return fallbackReadRaw().filter(isQaIssue)
 }
 
-function fallbackWrite(issues: QAIssue[]): void {
+function fallbackWrite(records: unknown[]): void {
   if (typeof localStorage === 'undefined') {
-    throw new QAStorageError('Este navegador no permite guardar el reporte localmente.')
+    throw new Error('El almacenamiento local alternativo no está disponible.')
   }
   try {
-    localStorage.setItem(FALLBACK_KEY, JSON.stringify(issues))
+    localStorage.setItem(FALLBACK_KEY, JSON.stringify(records))
   } catch (error) {
-    // Reachable with an attached screenshot near the 6 MB limit: the base64
-    // data URL is larger than the file, so the serialised session can exceed
-    // the localStorage quota. Swallowing it here made saveQaIssue resolve and
-    // the submit handler clear the form and report success.
-    throw new QAStorageError(
-      'No se pudo guardar el reporte: el almacenamiento del navegador está lleno. ' +
-        'Exporta la sesión o quita la captura adjunta y vuelve a intentarlo.',
-      error,
-    )
+    if (error instanceof DOMException && error.name === 'QuotaExceededError') {
+      throw new Error('No se pudo guardar la incidencia: se agotó la cuota de almacenamiento local del navegador.')
+    }
+    throw new Error('No se pudo guardar la incidencia en el almacenamiento local alternativo.')
   }
 }
 
 export async function listQaIssues(): Promise<QAIssue[]> {
+  let db: IDBDatabase | null = null
   try {
-    const db = await openQaDb()
+    db = await openQaDb()
     const transaction = db.transaction(STORE_NAME, 'readonly')
-    const issues = await requestAsPromise(transaction.objectStore(STORE_NAME).getAll()) as QAIssue[]
+    const rawIssues = await requestAsPromise(transaction.objectStore(STORE_NAME).getAll()) as unknown[]
     await transactionDone(transaction)
-    db.close()
-    return issues.sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    return rawIssues.filter(isQaIssue).sort((a, b) => b.createdAt.localeCompare(a.createdAt))
   } catch {
     return fallbackRead().sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+  } finally {
+    db?.close()
   }
 }
 
 export async function saveQaIssue(issue: QAIssue): Promise<void> {
+  let db: IDBDatabase | null = null
   try {
-    const db = await openQaDb()
+    db = await openQaDb()
     const transaction = db.transaction(STORE_NAME, 'readwrite')
     transaction.objectStore(STORE_NAME).put(issue)
     await transactionDone(transaction)
-    db.close()
-  } catch (indexedDbError) {
-    const issues = fallbackRead().filter((item) => item.id !== issue.id)
-    issues.push(issue)
-    // Deliberately not caught: if the fallback also fails the caller must hear
-    // about it rather than be told the report was filed.
-    try {
-      fallbackWrite(issues)
-    } catch (fallbackError) {
-      if (fallbackError instanceof QAStorageError) throw fallbackError
-      throw new QAStorageError('No se pudo guardar el reporte.', fallbackError ?? indexedDbError)
-    }
+    return
+  } catch {
+    // Preserve records that the current schema cannot safely render. A normal
+    // save is not an implicit migration or deletion operation. Only replace a
+    // raw record when it has the same explicit issue id as the new record.
+    const records = fallbackReadRaw().filter((item) => !isRecord(item) || item.id !== issue.id)
+    records.push(issue)
+    // Web Storage writes are synchronous and throw on quota or access failure.
+    // Do not swallow that exception: the form layer must know persistence failed
+    // so it can preserve the tester's draft instead of claiming success.
+    fallbackWrite(records)
+  } finally {
+    db?.close()
   }
 }
 
 export async function deleteQaIssue(id: string): Promise<void> {
+  let db: IDBDatabase | null = null
   try {
-    const db = await openQaDb()
+    db = await openQaDb()
     const transaction = db.transaction(STORE_NAME, 'readwrite')
     transaction.objectStore(STORE_NAME).delete(id)
     await transactionDone(transaction)
-    db.close()
+    return
   } catch {
-    fallbackWrite(fallbackRead().filter((item) => item.id !== id))
+    // Deletion is explicit and id-scoped; unrelated quarantined records survive.
+    fallbackWrite(fallbackReadRaw().filter((item) => !isRecord(item) || item.id !== id))
+  } finally {
+    db?.close()
   }
 }
 
 export async function clearQaIssues(): Promise<void> {
+  let db: IDBDatabase | null = null
   try {
-    const db = await openQaDb()
+    db = await openQaDb()
     const transaction = db.transaction(STORE_NAME, 'readwrite')
     transaction.objectStore(STORE_NAME).clear()
     await transactionDone(transaction)
-    db.close()
+    return
   } catch {
+    // This is the one intentional destructive fallback operation: the tester
+    // explicitly confirmed clearing the complete local QA session.
     fallbackWrite([])
+  } finally {
+    db?.close()
   }
 }
 
@@ -257,60 +326,32 @@ export function buildQaPackage(issues: QAIssue[], tester: string): QAPackage {
   }
 }
 
-/**
- * Validate an imported issue down to the fields the UI actually dereferences.
- *
- * The first version checked that `context` existed and was an object, which
- * `{}` satisfies. An imported package could therefore be accepted, persisted,
- * and switch the harness to the review tab -- where ContextPreview reads
- * `context.viewport.width` and throws, leaving the session unreviewable and
- * the tester with no way back to it. A predicate is only worth what it checks.
- */
-function isQaContext(value: unknown): value is QAContext {
-  if (!value || typeof value !== 'object') return false
-  const ctx = value as Partial<QAContext> & { viewport?: { width?: unknown; height?: unknown } }
-  return typeof ctx.path === 'string'
-    && typeof ctx.hash === 'string'
-    && !!ctx.viewport
-    && typeof ctx.viewport === 'object'
-    && typeof ctx.viewport.width === 'number'
-    && typeof ctx.viewport.height === 'number'
-}
-
-function isOneOf(value: unknown, options: readonly { value: string }[]): boolean {
-  return typeof value === 'string' && options.some((option) => option.value === value)
-}
-
-function isQaIssue(value: unknown): value is QAIssue {
-  if (!value || typeof value !== 'object') return false
-  const issue = value as Partial<QAIssue>
-  return typeof issue.id === 'string'
-    && typeof issue.createdAt === 'string'
-    && typeof issue.title === 'string'
-    && typeof issue.description === 'string'
-    // The enums are checked against the taxonomy, not merely for being strings:
-    // an unknown category renders an empty label and cannot be filtered.
-    && isOneOf(issue.category, QA_CATEGORIES)
-    && isOneOf(issue.cause, QA_CAUSES)
-    && isOneOf(issue.severity, QA_SEVERITIES)
-    && isQaContext(issue.context)
-}
-
 export function parseQaPackage(text: string): QAPackage {
-  const value = JSON.parse(text) as Partial<QAPackage>
-  if (value.schemaVersion !== QA_SCHEMA_VERSION) {
+  if (text.length > MAX_PACKAGE_CHARACTERS) {
+    throw new Error('El paquete QA supera el límite de 16 MB y no se importará.')
+  }
+
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(text)
+  } catch {
+    throw new Error('El archivo no contiene JSON válido.')
+  }
+
+  if (!isRecord(parsed) || parsed.schemaVersion !== QA_SCHEMA_VERSION) {
     throw new Error(`Paquete QA incompatible: se esperaba ${QA_SCHEMA_VERSION}.`)
   }
-  if (!Array.isArray(value.issues) || !value.issues.every(isQaIssue)) {
-    throw new Error('El paquete QA no contiene una lista válida de incidencias.')
+  if (!Array.isArray(parsed.issues) || parsed.issues.length > MAX_PACKAGE_ISSUES || !parsed.issues.every(isQaIssue)) {
+    throw new Error('El paquete QA no contiene una lista válida de incidencias o alguno de sus contextos está incompleto.')
   }
+
   return {
     schemaVersion: QA_SCHEMA_VERSION,
-    exportedAt: typeof value.exportedAt === 'string' ? value.exportedAt : new Date().toISOString(),
-    tester: typeof value.tester === 'string' ? value.tester : '',
-    sourceDeploymentSha: typeof value.sourceDeploymentSha === 'string' ? value.sourceDeploymentSha : null,
-    issueCount: value.issues.length,
-    issues: value.issues,
+    exportedAt: typeof parsed.exportedAt === 'string' ? parsed.exportedAt : new Date().toISOString(),
+    tester: typeof parsed.tester === 'string' ? parsed.tester : '',
+    sourceDeploymentSha: typeof parsed.sourceDeploymentSha === 'string' ? parsed.sourceDeploymentSha : null,
+    issueCount: parsed.issues.length,
+    issues: parsed.issues,
   }
 }
 

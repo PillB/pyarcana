@@ -39,7 +39,6 @@ import {
   type QACause,
   type QAContext,
   type QAIssue,
-  QAStorageError,
   type QASeverity,
 } from '@/lib/qa-session'
 
@@ -247,10 +246,6 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
         context: capturedContext.current ?? snapshotContext(),
         screenshotDataUrl,
       }
-      // Only clear the form once the write is known to have landed. This used
-      // to clear unconditionally, so a full storage quota -- reachable with a
-      // screenshot near the 6 MB limit, whose base64 form is larger than the
-      // file -- lost the report and told the tester it had been saved.
       await saveQaIssue(issue)
       await refreshIssues()
       setSelectedId(issue.id)
@@ -259,11 +254,9 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
       setMessage(`Guardado localmente como ${issue.id.slice(0, 8)}.`)
       setTab('review')
     } catch (error) {
-      setMessage(
-        error instanceof QAStorageError
-          ? `${error.message} Tu reporte sigue en el formulario.`
-          : 'No se pudo guardar el reporte. Tu reporte sigue en el formulario.',
-      )
+      const detail = error instanceof Error ? error.message : 'No se pudo persistir la incidencia.'
+      setMessage(`${detail} El formulario y la captura se conservaron. Libera espacio o quita/comprime la evidencia y vuelve a intentar.`)
+      setTab('report')
     } finally {
       setBusy(false)
     }
@@ -381,16 +374,24 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
   }
 
   const handleDelete = async (id: string) => {
-    await deleteQaIssue(id)
-    await refreshIssues()
-    setMessage('Incidencia eliminada de esta sesión local.')
+    try {
+      await deleteQaIssue(id)
+      await refreshIssues()
+      setMessage('Incidencia eliminada de esta sesión local.')
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'No se pudo eliminar la incidencia local.')
+    }
   }
 
   const handleClear = async () => {
     if (!window.confirm('¿Eliminar todas las incidencias QA guardadas en este navegador?')) return
-    await clearQaIssues()
-    await refreshIssues()
-    setMessage('Sesión QA local vaciada.')
+    try {
+      await clearQaIssues()
+      await refreshIssues()
+      setMessage('Sesión QA local vaciada.')
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'No se pudo vaciar la sesión QA local.')
+    }
   }
 
   const updateTester = (value: string) => {
