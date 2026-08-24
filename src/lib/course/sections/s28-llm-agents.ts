@@ -7,7 +7,7 @@ export const section28: CourseSection = {
   shortTitle: "Propiedades e integración",
   tagline:
     "Suite que caza errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas",
-  estimatedHours: 19,
+  estimatedHours: 9,
   level: "Práctica independiente",
   phase: 2,
   icon: "ShieldCheck",

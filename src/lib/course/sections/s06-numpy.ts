@@ -6,7 +6,7 @@ export const section06: CourseSection = {
   title: "Colecciones y estructuras de datos",
   shortTitle: "Colecciones",
   tagline: "listas, dicts, sets y estructuras anidadas para modelo en memoria",
-  estimatedHours: 18,
+  estimatedHours: 9,
   level: "Intermedio",
   phase: 0,
   icon: "Layers",

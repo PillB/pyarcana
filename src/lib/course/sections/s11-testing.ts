@@ -6,7 +6,7 @@ export const section11: CourseSection = {
   title: "OOP y modelo de dominio",
   shortTitle: "OOP dominio",
   tagline: "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
-  estimatedHours: 19,
+  estimatedHours: 9,
   level: "Intermedio",
   phase: 0,
   icon: "Boxes",

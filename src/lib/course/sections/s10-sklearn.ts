@@ -7,7 +7,7 @@ export const section10: CourseSection = {
   title: "Módulos, packaging y CLI profesional",
   shortTitle: "Módulos & CLI",
   tagline: "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
-  estimatedHours: 18,
+  estimatedHours: 9,
   level: "Intermedio",
   phase: 0,
   icon: "Package",

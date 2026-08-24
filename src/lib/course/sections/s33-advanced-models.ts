@@ -6,7 +6,7 @@ export const section33: CourseSection = {
   title: "ML supervisado y baselines responsables",
   shortTitle: "Baselines ML responsables",
   tagline: "comparación honesta que conserva el baseline determinista y demuestra cuándo el ML agrega —o no agrega— valor",
-  estimatedHours: 18,
+  estimatedHours: 10,
   level: "Integración avanzada",
   phase: 2,
   icon: "LineChart",

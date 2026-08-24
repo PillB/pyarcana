@@ -6,7 +6,7 @@ export const section08: CourseSection = {
   title: "Archivos, CSV, JSON y contratos de ingesta",
   shortTitle: "Archivos & ETL",
   tagline: "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
-  estimatedHours: 18,
+  estimatedHours: 9,
   level: "Intermedio",
   phase: 0,
   icon: "FileStack",

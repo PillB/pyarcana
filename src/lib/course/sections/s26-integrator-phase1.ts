@@ -6,7 +6,7 @@ export const section26: CourseSection = {
   title: "Orquestación y VP RPA + AI Analyst",
   shortTitle: "VP RPA + AI Analyst",
   tagline: "VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo con datos sintéticos, evidencia de cada estado y recuperación de fallas.",
-  estimatedHours: 19,
+  estimatedHours: 9,
   level: "Práctica independiente",
   phase: 1,
   icon: "Award",

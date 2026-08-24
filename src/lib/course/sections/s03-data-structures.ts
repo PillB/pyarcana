@@ -6,7 +6,7 @@ export const section03: CourseSection = {
   title: 'Decisiones y reglas de validación',
   shortTitle: 'Decisiones & Reglas',
   tagline: 'Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy',
-  estimatedHours: 18,
+  estimatedHours: 9,
   level: 'Principiante',
   phase: 0,
   icon: 'GitBranch',

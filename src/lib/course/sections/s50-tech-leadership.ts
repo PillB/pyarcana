@@ -6,7 +6,7 @@ export const section50: CourseSection = {
   title: "Evals, red teaming y fiabilidad de IA",
   shortTitle: "Evals y red team",
   tagline: "Suite repetible baseline/candidato con holdout, jueces calibrados, red team y SLO: bloquea regresiones P0/P1 y tool misuse en la trayectoria",
-  estimatedHours: 20,
+  estimatedHours: 9,
   level: "Producción gobernada",
   phase: 3,
   icon: "ShieldCheck",

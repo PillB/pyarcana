@@ -6,7 +6,7 @@ export const section40: CourseSection = {
   title: "Arquitectura, DDD y decisiones técnicas",
   shortTitle: "Arquitectura y DDD",
   tagline: "mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos",
-  estimatedHours: 20,
+  estimatedHours: 9,
   level: "Producción gobernada",
   phase: 3,
   icon: "Network",

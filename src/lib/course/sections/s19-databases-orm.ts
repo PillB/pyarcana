@@ -6,7 +6,7 @@ export const section19: CourseSection = {
  title: "Visualización y comunicación accesible",
  shortTitle: "Viz accesible",
  tagline: "Cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a la evidencia y versión no visual equivalente.",
- estimatedHours: 19,
+ estimatedHours: 9,
  level: "Práctica independiente",
  phase: 1,
  icon: "BarChart3",

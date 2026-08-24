@@ -6,7 +6,7 @@ export const section17: CourseSection = {
  title: "Joins, reshape, groupby y cierre analítico",
  shortTitle: "Joins · groupby · cierre",
  tagline: "Portfolio ejecutivo de calidad + EDA: dataset limpio, script reproducible, reconciliación y preguntas de negocio",
- estimatedHours: 18,
+ estimatedHours: 9,
  level: "Práctica independiente",
  phase: 1,
  icon: "GitMerge",

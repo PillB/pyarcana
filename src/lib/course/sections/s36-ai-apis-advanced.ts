@@ -6,7 +6,7 @@ export const section36: CourseSection = {
  title: "Clustering, anomalías y validación temporal",
  shortTitle: "Clustering y anomalías",
  tagline: "Señales auxiliares evaluadas por utilidad de revisión; una anomalía nunca es conclusión de conducta indebida.",
- estimatedHours: 19,
+ estimatedHours: 9,
  level: "Integración avanzada",
  phase: 2,
  icon: "ScanSearch",

@@ -6,7 +6,7 @@ export const section15: CourseSection = {
   title: "Pandas: ingesta, selección y tipos",
   shortTitle: "Pandas ingesta",
   tagline: "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
-  estimatedHours: 18,
+  estimatedHours: 10,
   level: "Práctica independiente",
   phase: 1,
   icon: "Table2",

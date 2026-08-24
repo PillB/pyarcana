@@ -6,7 +6,7 @@ export const section52: CourseSection = {
   title: "Enterprise Relationship & Operations Intelligence Platform: capstone final",
   shortTitle: "Capstone FINAL",
   tagline: "CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV",
-  estimatedHours: 80,
+  estimatedHours: 29,
   level: "Producción gobernada",
   phase: 3,
   icon: "Rocket",

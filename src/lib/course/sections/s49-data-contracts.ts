@@ -6,7 +6,7 @@ export const section49: CourseSection = {
   title: "Agentes, herramientas y context engineering",
   shortTitle: "Agentes y tools",
   tagline: "Agente acotado que consulta casos y reportes y prepara propuestas; no envía, no modifica prod ni decide riesgo sin aprobación.",
-  estimatedHours: 20,
+  estimatedHours: 9,
   level: "Producción gobernada",
   phase: 3,
   icon: "FileCheck",

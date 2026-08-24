@@ -6,7 +6,7 @@ export const section37: CourseSection = {
   title: "Profiling, algoritmos y rendimiento",
   shortTitle: "Profiling y rendimiento",
   tagline: "Reporte antes/después con el mismo resultado, dataset, hardware y límites; optimización reversible y justificada.",
-  estimatedHours: 19,
+  estimatedHours: 9,
   level: "Integración avanzada",
   phase: 2,
   icon: "Timer",

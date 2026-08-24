@@ -6,7 +6,7 @@ export const section13: CourseSection = {
   title: "Familiarity Evidence Dashboard y cierre de nivel",
   shortTitle: "Evidence Dashboard",
   tagline: "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
-  estimatedHours: 19,
+  estimatedHours: 9,
   level: "Intermedio",
   phase: 0,
   icon: "LayoutDashboard",

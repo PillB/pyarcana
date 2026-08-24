@@ -61,7 +61,7 @@ export const COURSE_META: CourseMeta = {
   description:
     'Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta operar plataformas acotadas de datos e IA con evidencia y revisión humana. Incluye adquisición de datos, análisis con pandas, ML con salvaguardas, RPA con IA, seguridad, ingeniería de datos, LLMs y automatización multi-modal. Bienvenido a PyArcana.',
   totalSections: 52,
-  totalHours: 1040,
+  totalHours: 491,
   targetRole: 'Persona que construye, automatiza y gobierna sistemas de datos e IA con un método reproducible y revisión humana',
 }
 
@@ -90,8 +90,8 @@ export function getSectionsByPhase(phase: 0 | 1 | 2 | 3): CourseSection[] {
 // workplace seniority, employment level or external certification.
 // Phase numeric `id` (0–3) is preserved so saved progress keys stay stable.
 export const PHASES = [
-  { id: 0, name: 'Fundamentos Guiados', level: 'Principiante → principiante avanzado', sections: '1-13', hours: 240, color: 'from-violet-500 to-violet-700' },
-  { id: 1, name: 'Práctica Aplicada Independiente', level: 'Principiante avanzado → práctica independiente guiada', sections: '14-26', hours: 240, color: 'from-blue-500 to-indigo-600' },
-  { id: 2, name: 'Integración y Evaluación Avanzada', level: 'Práctica independiente → capacidad integrada avanzada', sections: '27-39', hours: 240, color: 'from-purple-500 to-fuchsia-600' },
-  { id: 3, name: 'Sistemas de Producción Gobernados', level: 'Capacidad integrada avanzada → dominio de sistemas a nivel curricular', sections: '40-52', hours: 320, color: 'from-amber-500 to-red-600' },
+  { id: 0, name: 'Fundamentos Guiados', level: 'Principiante → principiante avanzado', sections: '1-13', hours: 118, color: 'from-violet-500 to-violet-700' },
+  { id: 1, name: 'Práctica Aplicada Independiente', level: 'Principiante avanzado → práctica independiente guiada', sections: '14-26', hours: 118, color: 'from-blue-500 to-indigo-600' },
+  { id: 2, name: 'Integración y Evaluación Avanzada', level: 'Práctica independiente → capacidad integrada avanzada', sections: '27-39', hours: 118, color: 'from-purple-500 to-fuchsia-600' },
+  { id: 3, name: 'Sistemas de Producción Gobernados', level: 'Capacidad integrada avanzada → dominio de sistemas a nivel curricular', sections: '40-52', hours: 137, color: 'from-amber-500 to-red-600' },
 ] as const

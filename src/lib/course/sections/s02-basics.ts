@@ -6,7 +6,7 @@ export const section02: CourseSection = {
   title: 'Valores, tipos, operadores e I/O',
   shortTitle: 'Valores y tipos',
   tagline: 'Literales, nombres, operadores, Decimal e I/O para validar la captura inicial',
-  estimatedHours: 18,
+  estimatedHours: 9,
   level: 'Principiante',
   phase: 0,
   icon: 'Code2',

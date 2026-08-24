@@ -6,7 +6,7 @@ export const section25: CourseSection = {
   title: "Endpoints de IA, Hugging Face y prompting evaluado",
   shortTitle: "IA endpoints y prompts",
   tagline: "clasificador/extractor especializado y generador de narrativa con JSON validado; no se acepta una salida sin evidencia ni eval contra baseline",
-  estimatedHours: 19,
+  estimatedHours: 9,
   level: "Práctica independiente",
   phase: 1,
   icon: "Sparkles",

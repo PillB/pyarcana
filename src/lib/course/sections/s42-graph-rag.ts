@@ -6,7 +6,7 @@ export const section42: CourseSection = {
   title: "Schemas, seguridad y privacidad de servicios",
   shortTitle: "Schemas y seguridad",
   tagline: "Threat model y pruebas de permisos: un usuario no lee el caso de otro ni recupera datos redactados",
-  estimatedHours: 20,
+  estimatedHours: 9,
   level: "Producción gobernada",
   phase: 3,
   icon: "Share2",

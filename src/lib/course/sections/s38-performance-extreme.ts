@@ -6,7 +6,7 @@ export const section38: CourseSection = {
   title: "Concurrencia, observabilidad y workflows resilientes",
   shortTitle: "Concurrencia y resiliencia",
   tagline: "pipeline reanudable con trace por caso, métricas de cola y manejo de proveedor lento, proceso caído y reejecución",
-  estimatedHours: 19,
+  estimatedHours: 9,
   level: "Integración avanzada",
   phase: 2,
   icon: "Activity",

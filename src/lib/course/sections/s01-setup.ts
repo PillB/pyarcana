@@ -7,7 +7,7 @@ export const section01: CourseSection = {
   shortTitle: 'Entorno reproducible',
   tagline:
     'Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1 · Ritmo sugerido: 3–4 h núcleo, 6–8 h GitHub/Ruff, resto para pulir CP-N1-A',
-  estimatedHours: 18,
+  estimatedHours: 10,
   level: 'Principiante',
   phase: 0,
   icon: 'Wrench',

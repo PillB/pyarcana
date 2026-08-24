@@ -6,7 +6,7 @@ export const section48: CourseSection = {
   title: "LLM applications y RAG con evidencia",
   shortTitle: "RAG con evidencia",
   tagline: "Asistente sobre documentos autorizados, citas verificables y abstención cuando el retrieval no sostiene la respuesta.",
-  estimatedHours: 20,
+  estimatedHours: 9,
   level: "Producción gobernada",
   phase: 3,
   icon: "Scale",

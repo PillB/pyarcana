@@ -6,7 +6,7 @@ export const section05: CourseSection = {
   title: "Funciones, contratos y descomposición",
   shortTitle: "Funciones & Contratos",
   tagline: "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
-  estimatedHours: 18,
+  estimatedHours: 9,
   level: "Principiante",
   phase: 0,
   icon: "FunctionSquare",

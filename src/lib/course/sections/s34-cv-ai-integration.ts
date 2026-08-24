@@ -7,7 +7,7 @@ export const section34: CourseSection = {
   shortTitle: "Métricas y umbrales",
   tagline:
     "De scores del baseline a una cola humana calibrada: métricas honestas, thr versionado y abstención — nunca autofraude",
-  estimatedHours: 18,
+  estimatedHours: 9,
   level: "Integración avanzada",
   phase: 2,
   icon: "Gauge",

@@ -6,7 +6,7 @@ export const section20: CourseSection = {
   title: "Automatización robusta de Excel",
   shortTitle: "Excel factory",
   tagline: "adaptador que lee los formatos sintéticos del VP, produce un workbook de resultados sin dañar la plantilla y deja manifest de cambios",
-  estimatedHours: 18,
+  estimatedHours: 9,
   level: "Práctica independiente",
   phase: 1,
   icon: "FileSpreadsheet",

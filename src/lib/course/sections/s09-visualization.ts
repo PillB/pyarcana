@@ -6,7 +6,7 @@ export const section09: CourseSection = {
   title: "Excepciones, debugging y logging seguro",
   shortTitle: "Excepciones & logs",
   tagline: "Excepciones específicas, diagnóstico, logging sin datos personales expuestos y resiliencia del pipeline de familiaridad",
-  estimatedHours: 19,
+  estimatedHours: 9,
   level: "Intermedio",
   phase: 0,
   icon: "ShieldAlert",

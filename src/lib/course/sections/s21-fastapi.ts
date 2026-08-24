@@ -6,7 +6,7 @@ export const section21: CourseSection = {
  title: "Documentos, plantillas y reportes trazables",
  shortTitle: "Reportes trazables",
  tagline: "Una corrida genera dashboard, DOCX/PDF y workbook con números reconciliados, provenance y revisión visual",
- estimatedHours: 18,
+ estimatedHours: 9,
  level: "Práctica independiente",
  phase: 1,
  icon: "FileStack",

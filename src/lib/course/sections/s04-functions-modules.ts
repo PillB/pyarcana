@@ -6,7 +6,7 @@ export const section04: CourseSection = {
   title: "Iteración y resúmenes transaccionales",
   shortTitle: "Iteración & Resúmenes",
   tagline: "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
-  estimatedHours: 18,
+  estimatedHours: 9,
   level: "Principiante",
   phase: 0,
   icon: "Repeat",

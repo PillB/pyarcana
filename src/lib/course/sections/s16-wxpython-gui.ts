@@ -6,7 +6,7 @@ export const section16: CourseSection = {
   title: "Calidad, limpieza y contratos de datos",
   shortTitle: "Calidad y contratos",
   tagline: "Suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato",
-  estimatedHours: 18,
+  estimatedHours: 9,
   level: "Práctica independiente",
   phase: 1,
   icon: "ShieldCheck",

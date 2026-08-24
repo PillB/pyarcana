@@ -6,7 +6,7 @@ export const section31: CourseSection = {
   title: "Grafos y evidencia relacional",
   shortTitle: "Grafos y evidencia",
   tagline: "grafo de evidencia relacional: responde cómo están conectados con camino reproducible y sin convertir centralidad en culpabilidad",
-  estimatedHours: 18,
+  estimatedHours: 9,
   level: "Integración avanzada",
   phase: 2,
   icon: "Network",

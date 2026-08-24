@@ -6,7 +6,7 @@ export const section14: CourseSection = {
   title: "NumPy y cómputo vectorizado",
   shortTitle: "NumPy vectorizado",
   tagline: "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
-  estimatedHours: 18,
+  estimatedHours: 9,
   level: "Práctica independiente",
   phase: 1,
   icon: "Binary",

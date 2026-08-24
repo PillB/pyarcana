@@ -6,7 +6,7 @@ export const section07: CourseSection = {
   title: "Texto, Unicode y expresiones regulares",
   shortTitle: "Texto & Unicode",
   tagline: "Unicode latam, cadenas y regex sin sobrevalidar",
-  estimatedHours: 20,
+  estimatedHours: 9,
   level: "Intermedio",
   phase: 0,
   icon: "Languages",

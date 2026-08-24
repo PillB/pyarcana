@@ -6,7 +6,7 @@ export const section35: CourseSection = {
   title: "Explicabilidad, equidad e incertidumbre",
   shortTitle: "Explicabilidad y equidad",
   tagline: "Ficha de caso que distingue evidencia observada, contribución del modelo, incertidumbre y decisión humana",
-  estimatedHours: 18,
+  estimatedHours: 9,
   level: "Integración avanzada",
   phase: 2,
   icon: "Scale",
