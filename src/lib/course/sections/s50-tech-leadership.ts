@@ -36,7 +36,7 @@ export const section50: CourseSection = {
       callout: {
         type: "info",
         title: "Gate de promoción",
-        content: "Plan de ~20 h: teoría + 8 demos → 8 labs E1 → 16 labs assess/decide → portfolio scorecard. Asserts sin scorecard no cierran **CP-N4-C**.",
+        content: "Ritmo orientativo: unas 9 h según la calibración actual. Asserts sin scorecard no cierran **CP-N4-C**.",
       },
     },
     {
@@ -46,7 +46,7 @@ export const section50: CourseSection = {
         "Bloque de referencia. Reúne el entregable, el orden de los subtemas y los criterios de promoción.",
         "**Producto incremental.** Una tarjeta de resultados que compara baseline contra candidato. Recibes tareas y slices versionados, un holdout sellado, un conjunto de adversarios y los objetivos de servicio. Entregas cobertura por slice, bloqueo de inyecciones, abstención en casos críticos sin respaldo, latencia p95 dentro del objetivo y una decisión explícita de promover o bloquear. La promoción falla si el holdout fue tocado o si se invocó una herramienta prohibida.",
         "**Orden de los subtemas.** T1 arma el dataset y califica trayectorias. T2 calibra jueces y sella el holdout. T3 hace red team de inyección, exfiltración y corpus. T4 fuerza la abstención y opera latencia y recuperación.",
-        "**Ritmo.** Unas veinte horas: teoría y ocho demos, ocho laboratorios guiados, dieciséis de evaluación y decisión, y la tarjeta de resultados del portafolio. Sin scorecard no cierra CP-N4-C.",
+        "**Ritmo.** Unas 9 horas según la calibración del contenido actual para teoría, demos, laboratorios y la tarjeta de resultados del portafolio.",
       ],
       code: {
         language: 'python',

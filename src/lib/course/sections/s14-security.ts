@@ -46,7 +46,7 @@ export const section14: CourseSection = {
       paragraphs: [
         "Bloque de referencia. Orden de los subtemas, ritmo y límites.",
         "**Orden de los subtemas.** T1 cubre arrays: dtype, forma y máscaras. T2 pasa a operaciones: funciones universales, reducciones y broadcast. T3 trata la semántica que más sorprende: vistas frente a copias, y NaN e infinito. T4 cierra con rendimiento, memoria y comparación aproximada.",
-        "**Ritmo orientativo.** Unas dieciocho horas repartidas entre los cuatro subtemas, con el proyecto y el autochequeo al final.",
+        "**Ritmo orientativo.** Unas 9 horas según la calibración del contenido actual, repartidas entre los cuatro subtemas, el proyecto y el autochequeo.",
         "**Límites.** Solo NumPy sobre datos sintéticos: nada de pandas, sklearn ni datos personales reales. Si el contrato de tipo o forma falla, se reporta el error en lugar de ocultarlo. El foco es el tablero de calidad vectorizado, no el aprendizaje profundo.",
       ],
      },

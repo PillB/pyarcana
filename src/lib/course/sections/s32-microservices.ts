@@ -6,7 +6,7 @@ export const section32: CourseSection = {
   title: "Feature engineering y pipelines sin leakage",
   shortTitle: "Features sin leakage",
   tagline:
-    "Tabla de features versionada con train≡serve, sin futuro ni labels de decisión. Ritmo sugerido: ~10–12 h de núcleo (T1–T4 + labs E1), 14–16 h con E2/E3 y You Do, 18 h si profundizas skew y versionado hacia S33.",
+    "Tabla de features versionada con train≡serve, sin futuro ni labels de decisión. Ritmo sugerido: unas 9 h para la ruta completa de esta sección según la calibración actual.",
   estimatedHours: 9,
   level: "Integración avanzada",
   phase: 2,
