@@ -1,8 +1,8 @@
 import { expect, test } from '@playwright/test'
 import { readFile } from 'node:fs/promises'
 
-const PIXEL_PNG = Buffer.from(
-  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Y9ZQMcAAAAASUVORK5CYII=',
+const PIXEL_GIF = Buffer.from(
+  'R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==',
   'base64',
 )
 
@@ -204,9 +204,9 @@ test.describe('PyArcana public GitHub Pages edition', () => {
     await page.getByTestId('qa-description').fill('El enunciado exige un término y una decisión que no aparecen en la teoría ni en I Do / We Do.')
     await page.getByTestId('qa-repro').fill('1. Abrir S01\n2. Ir al ejercicio\n3. Intentar responder usando solo el material visible')
     await page.locator('input[type="file"][accept="image/*"]').setInputFiles({
-      name: 'qa-evidence.png',
-      mimeType: 'image/png',
-      buffer: PIXEL_PNG,
+      name: 'qa-evidence.gif',
+      mimeType: 'image/gif',
+      buffer: PIXEL_GIF,
     })
     await page.getByTestId('qa-save-issue').click()
 
@@ -241,7 +241,7 @@ test.describe('PyArcana public GitHub Pages edition', () => {
     expect(payload.issueCount).toBe(1)
     expect(payload.issues[0].category).toBe('unanswerable-question')
     expect(payload.issues[0].context.sectionIndex).toBe(1)
-    expect(payload.issues[0].screenshotDataUrl).toMatch(/^data:image\/png;base64,/)
+    expect(payload.issues[0].screenshotDataUrl).toMatch(/^data:image\/gif;base64,/)
 
     page.once('dialog', (dialog) => dialog.accept())
     await page.getByRole('button', { name: /Vaciar sesión local/i }).click()
