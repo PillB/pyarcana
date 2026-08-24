@@ -45,7 +45,9 @@ test.describe('Internal QA testing harness', () => {
 
     await page.getByRole('button', { name: 'Close' }).click()
     await page.reload()
-    await expect(page.getByRole('heading', { name: 'PyArcana', level: 1 })).toBeVisible({ timeout: 15000 })
+    await page.waitForLoadState('domcontentloaded')
+    await expect(page.locator('body')).not.toContainText('Application error')
+    await expect(page.getByTestId('qa-harness-open')).toBeAttached({ timeout: 15000 })
     await page.keyboard.press('Control+Alt+q')
     await page.getByTestId('qa-tab-review').click()
     await expect(page.getByTestId('qa-issue-row')).toHaveCount(1)
