@@ -46,12 +46,19 @@ export const section31: CourseSection = {
       paragraphs: [
         "Bloque de referencia. Orden de los subtemas, esquema de aristas y contrato de entrada.",
         "**Orden de los subtemas.** T1 fija el modelo. T2 construye el grafo desde filas. T3 aplica los algoritmos de recorrido. T4 cierra con calidad y privacidad.",
-        "**Esquema canónico de aristas** en esta sección: `owns` y `transfer` entre entidad y cuenta, y `has_phone` / `has_email` de una entidad al valor de contacto. Cada una con tipo, peso y provenance. `shared_phone` y `shared_address` también aparecen en el material, pero como **atajos derivados** —resúmenes precalculados de «estas dos entidades coinciden en un contacto»—, no como el modelo primario; T1-B explica por qué la diferencia importa.",
+        "**Esquema canónico de aristas** en esta sección, con sus extremos, porque el tipo sin los extremos no basta para construir el grafo: `owns` va de una **entidad** a una **cuenta**; `transfer` va de **cuenta a cuenta**, nunca de una persona a otra; `has_phone` y `has_email` van de una entidad al **valor de contacto**. Cada una con tipo, peso y provenance. `shared_phone` y `shared_email` también aparecen en el material, pero como **atajos derivados** —resúmenes precalculados de «estas dos entidades coinciden en un contacto»—, no como el modelo primario; T1-B explica por qué la diferencia importa.",
         "**Contrato de entrada.** Filas convertidas a grafo con tipos, pesos y origen. Si falta `record_id` o el schema no cuadra, el error es tipificado y explícito. Los ids canónicos que produjo el ER alimentan los nodos; las transacciones y contactos alimentan las aristas.",
       ],
     },
     {
       heading: "Nodos, aristas, dirección y peso",
+      figure: {
+        id: "S31-degree-context",
+        caption:
+          "El mismo tipo de arista, dos historias distintas. Sin contexto, el score ordena la cola por el nodo equivocado.",
+        alt:
+          "Dos barras: un teléfono compartido por dos personas y otro compartido por cuarenta.",
+      },
       subtopicId: "S31-T1-A",
       paragraphs: [
         "Un **nodo** es una entidad del caso: cliente, cuenta, email o teléfono sintético. Una **arista** es un **hecho relacional** con tipo (`etype`), y opcionalmente **dirección** y **peso**. El peso puede ser monto en PEN, frecuencia o score de confianza. Sin tipos estables, el path del revisor no se puede filtrar ni auditar.",

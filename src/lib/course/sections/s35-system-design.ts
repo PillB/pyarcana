@@ -87,6 +87,13 @@ print(report)`,
     },
     {
       heading: "Explicación local, correlación y límites",
+      figure: {
+        id: "S35-card-layers",
+        caption:
+          "Estar fuera de distribución no añade una quinta capa: se registra dentro de la incertidumbre, como su razón.",
+        alt:
+          "Grafo de cuatro nodos en fila: evidencia, contribución del modelo, incertidumbre y decisión humana.",
+      },
       subtopicId: "S35-T1-B",
       paragraphs: [
         "Después del mapa global, la **explicación local** asigna contribución de features al score de **este** caso. En literatura, **SHAP** (aditividad con *baseline*/valor esperado) y **LIME** (modelo local lineal) son familias distintas con trade-offs de costo y estabilidad. Aquí el lab usa un aditivo mínimo `contrib = valor × peso` en espacio lineal, con **baseline = 0** solo como andamiaje: **no** es SHAP ni LIME, y no asume escala de probabilidad. En un modelo real conviene documentar dominio de salida (p. ej. log-odds) y verificar `baseline + Σ contrib ≈ salida del modelo`. **Correlación ≠ causalidad**: la contribución no es causa del comportamiento humano ni prueba legal.",
@@ -193,7 +200,7 @@ means_fraud False`,
       heading: "Calibración e intervalos (conformal a alto nivel)",
       subtopicId: "S35-T3-A",
       paragraphs: [
-        "Un **score puntual engaña**; comunicar un **intervalo** deja claro qué tan estable es la señal de cola. En producción, la **predicción conformal** (p. ej. MAPIE) usa un **set de calibración** y busca **cobertura** empírica: que el valor verdadero caiga en la banda con la frecuencia prometida (p. ej. 90 %). El lab **no** implementa calibración: practicas una **banda ilustrativa** `p±q` con `level=\"toy\"` y `coverage_claim=False`. El hábito de **no publicar solo el punto** es el gate de la ficha; el algoritmo conformal queda en recursos.",
+        "Un **score puntual engaña**; comunicar un **intervalo** deja claro qué tan estable es la señal de cola. En producción, la **predicción conformal** (p. ej. MAPIE) usa un **set de calibración** y busca **cobertura** empírica: que el resultado verdadero caiga dentro de lo predicho con la frecuencia prometida (p. ej. 90 %). Conviene saber qué forma toma «lo predicho» según la tarea, porque no siempre es una banda: en regresión sí es un intervalo alrededor del valor, pero en clasificación —que es el caso de esta sección— el objeto conformal es un **conjunto de etiquetas**, que puede traer una, varias o ninguna, y decir «ninguna» es precisamente la abstención honesta. El lab **no** implementa calibración: practicas una **banda ilustrativa** `p±q` con `level=\"toy\"` y `coverage_claim=False`. El hábito de **no publicar solo el punto** es el gate de la ficha; el algoritmo conformal queda en recursos.",
         "Contrato: entrada `p`, `q` y (en portfolio) `q_source`; salida `(lo, hi)`, label de nivel y flag de no-cobertura. Error: publicar solo `p` **sin** ancho (`q==0` o `level=point`) o afirmar cobertura real con banda toy. Criterio: todo score de ficha lleva banda o flag de no-cobertura. Brier (score de calibración de probabilidades) y bandas son **complementarios**, no rivales.",
         "Aplicación a `CASO-LIM-035`: `p=0.6` con `q=0.1` produce `[0.5, 0.7]` nivel toy **sin** claim de cobertura; el analista ve incertidumbre **antes** de override. Si el caso sale del soporte de train, la banda *dentro* del dominio no basta: T3-B fuerza abstención por OOD."
       ],

@@ -51,6 +51,13 @@ export const section16: CourseSection = {
      },
      {
       heading: "Nulls y políticas por campo",
+      figure: {
+        id: "S16-quarantine-reasons",
+        caption:
+          "Sin el motivo, la cuarentena es un montón de filas que nadie sabe cómo reparar.",
+        alt:
+          "Dos tablas: la entrada con filas incompletas y la cuarentena con cada fila y su motivo.",
+      },
       subtopicId: "S16-T1-A",
       paragraphs: [
         "Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente con indicador de ausencia). Mezclar ambas sin documentar es la causa clásica de “defaults mágicos” que envenenan el EDA (análisis exploratorio de datos) de S17.",
@@ -138,7 +145,7 @@ s16_th_2()`,
       subtopicId: "S16-T2-A",
       paragraphs: [
         "**Duplicado exacto**: mismas columnas relevantes idénticas. **Conflicto**: misma clave de negocio con atributos distintos (p. ej. dos regiones para un `cliente_id`). Tratarlos igual con `drop_duplicates` ciego puede borrar el único rastro del conflicto y dejar un maestro mentiroso.",
-        "Contrato: usa `duplicated(keep=False)` para exactos y `groupby(clave)[attr].transform('nunique')>1` para conflictos. Solo después eliges política `keep='first'|'last'` o envío a cuarentena. **Clasifica antes de borrar**; el orden evita pérdida de evidencia.",
+        "Contrato: usa `duplicated(keep=False)` para exactos y, para conflictos, `groupby(clave)[attr].transform('nunique')>1` **por cada atributo que deba coincidir** — con un solo `attr` detectas los conflictos de esa columna y ninguno más, así que dos filas de la misma clave que difieren solo en la dirección pasarían como si no hubiera conflicto. Recorre la lista de atributos del contrato y combina las máscaras con `|`. Solo después eliges política `keep='first'|'last'` o envío a cuarentena. **Clasifica antes de borrar**; el orden evita pérdida de evidencia.",
         "Caso sintético: C001 repetido exacto (Lima, score 0.9); C002 con Cusco vs. Madrid. Salida esperada: `exact_rows` para C001 y `conflict_ids` para C002. El portfolio de calidad de CP-N2-A debe listar ambos tipos por separado en el memo.",
       ],
       code: {

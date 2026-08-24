@@ -168,7 +168,7 @@ False`,
       subtopicId: 'S02-T2-A',
       paragraphs: [
         'Un programa pequeño puede sobrevivir a `x`, `dato2` y `AP`; un equipo distribuido no debería tener que adivinarlos. **Puente desde T1:** una vez que el valor tiene un tipo, necesita un nombre estable que conserve su significado durante la lectura, la prueba y la revisión.',
-        '**`=` asigna** un nombre a un valor en el espacio de nombres (*namespace*) actual. **`==` compara** igualdad y devuelve un `bool`. `if x = 1:` es **SyntaxError** (asignación no es expresión). El operador morsa `:=` existe en Python reciente, pero **en esta sección** comparas siempre con `==`. Mezclar `=` y `==` es un error frecuente en revisiones de código junior.',
+        '**`=` asigna** un nombre a un valor en el espacio de nombres (*namespace*) actual. **`==` compara** igualdad y devuelve un `bool`. `if x = 1:` es **SyntaxError** (asignación no es expresión). El operador morsa `:=` existe en Python reciente, pero no es otra forma de preguntar por igualdad: **asigna** un valor a un nombre dentro de una expresión, y el resultado es ese valor. Decirlo importa aquí porque la confusión que esta sección quiere evitar es justamente entre asignar y comparar, y la morsa está del lado de asignar. **En esta sección** comparas siempre con `==`. Mezclar `=` y `==` es un error frecuente en revisiones de código junior.',
         'PEP 8 (guía de estilo): **`snake_case`** para variables y funciones (`apellido_paterno`, `parse_client`); **`UPPER_CASE`** para constantes (`EDAD_MINIMA`, `IGV_TASA`); **`CapWords`** para clases (más adelante). Evita nombres de una sola letra confusos: **`l`, `O`, `I`** se confunden con `1` y `0`. Prefiere `longitud`, `indice`, `columna`.',
         'En el esquema (*schema*) de intake usa nombres estables y en español técnico claro: `nombres`, `apellido_paterno`, `apellido_materno`, `contacto`, `direccion`. No inventes parentesco real a partir de apellidos: son **campos de texto**, no una afirmación genealógica. Si un nombre no existe aún, Python lanza **`NameError`**: señala un error de escritura o el uso de un nombre antes de asignarlo.',
         '**Prueba de lectura:** tapa el valor y observa solo el nombre. ¿Podrías explicar qué guarda `apellido_paterno` y por qué `EDAD_MINIMA` parece una regla estable? Si el nombre necesita un comentario para revelar lo esencial, aún puede mejorar. En T2-B verás que dos nombres también pueden señalar el mismo objeto.',
@@ -203,6 +203,13 @@ s02_th_3()
     },
     {
       heading: 'Identidad, mutabilidad y copias superficiales',
+      figure: {
+        id: "S03-truthiness",
+        caption:
+          "Un if desnudo funde ausente, cero y vacío en la misma rama. Por eso la ausencia se pregunta con `is None`.",
+        alt:
+          "Cuatro guardas evaluadas en orden: is None da ausente; == 0 y == vacío dan presente; el resto, presente.",
+      },
       subtopicId: 'S02-T2-B',
       paragraphs: [
         'Dos etiquetas de equipaje pueden describir maletas iguales sin estar pegadas a la misma maleta. Python distingue esas preguntas: **¿tienen el mismo contenido?** y **¿son el mismo objeto?**. **Puente desde T2-A:** asignar un segundo nombre no siempre crea una segunda cosa.',
@@ -289,6 +296,13 @@ a + b * c = 16
     },
     {
       heading: 'Decimal para dinero y redondeo',
+      figure: {
+        id: "S02-decimal-rounding",
+        caption:
+          "Redondear una sola vez, al final. Hacerlo en cada paso acumula el error y con float ni siquiera es reproducible.",
+        alt:
+          "Un eje de cuatro pasos con una línea vertical en el tercero marcada como la única vez que se redondea.",
+      },
       subtopicId: 'S02-T3-B',
       paragraphs: [
         'Una diferencia de redondeo puede parecer invisible en una operación y volverse material al repetirse miles de veces. La lección no exige dramatismo: **representar dinero es elegir qué errores aceptas**. **Puente desde T3-A:** la fórmula puede ser correcta y, sin embargo, el tipo numérico puede traicionarla.',

@@ -69,6 +69,13 @@ export const section34: CourseSection = {
     },
     {
       heading: "Matriz de confusión, precision, recall y F1",
+      figure: {
+        id: "S34-confusion-cost",
+        caption:
+          "Bajar el umbral atrapa más positivos y llena la cola; subirlo la vacía y deja pasar casos. No hay opción sin coste.",
+        alt:
+          "Dos matrices de confusión, una con umbral bajo y otra con umbral alto.",
+      },
       subtopicId: "S34-T1-A",
       paragraphs: [
         "Con **desbalance**, un solo porcentaje de aciertos (accuracy) engaña: si casi nadie necesita revisión, predecir siempre «no revisar» luce genial en el dashboard y no prioriza a nadie. Piensa en la cola como un filtro de calidad, no como un concurso de aciertos globales. **Precision** responde: de lo que mandas a cola, ¿cuánto era realmente positivo? **Recall** responde: de los positivos reales, ¿cuántos atrapaste? **F1** es la media armónica de ambos: castiga cuando uno de los dos se desploma. Cuando el costo de un FN pesa más que el de un FP (perder un caso que sí merecía revisión), la familia se generaliza a **Fβ** con β>1. En el workbench anclamos en F1 y dejamos el desbalance de costos al umbral versionado de T4.",
@@ -121,6 +128,13 @@ accuracy_only False`,
     },
     {
       heading: "Precision@k, recall@k y carga de revisión",
+      figure: {
+        id: "S34-threshold-bands",
+        caption:
+          "La incertidumbre entra antes que el score: 0.95 con incertidumbre alta sigue yendo a revisión.",
+        alt:
+          "Cinco guardas evaluadas en orden, de invalid_input a accept.",
+      },
       subtopicId: "S34-T1-B",
       paragraphs: [
         "En un workbench de investigación de relaciones no revisas todo el universo: miras los **k primeros** del ranking, porque el equipo de analistas tiene un tope diario. **precision@k** es la fracción de positivos en ese top-k (calidad del recorte). **recall@k** es la fracción de *todos* los positivos reales capturados en ese top-k (cobertura). Una cola con precision@k alta, pero que genera más alertas que personas, puede «ganar» el notebook y perder el turno: la métrica de ranking y la **capacidad** viajan juntas.",

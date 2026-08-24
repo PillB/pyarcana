@@ -3,7 +3,8 @@
 import { useState, type ReactNode } from 'react'
 import { useReducedMotion } from 'framer-motion'
 import type { Figure as FigureData } from '@/lib/types'
-import { FIGURES } from './figures'
+import { FIGURES, FIGURE_DATA } from './figures'
+import { ArchetypeFigure } from './figures/archetypes'
 
 /**
  * The single shell every teaching diagram renders inside.
@@ -75,10 +76,15 @@ export function FigStepButton({
 }
 
 export function FigureFrame({ figure }: { figure: FigureData }) {
+  // Indexed directly rather than through a helper: a component returned from a
+  // function call reads to the React lint as a component created during render,
+  // which is the error it exists to catch. The map lookup is the shape the rule
+  // accepts, and it is what this file did before archetypes existed.
   const Drawing = FIGURES[figure.id]
+  const drawingData = Drawing ? undefined : FIGURE_DATA[figure.id]
 
   // An unknown id must not blank the lesson: the caption still teaches.
-  if (!Drawing) {
+  if (!Drawing && !drawingData) {
     if (process.env.NODE_ENV !== 'production') {
       // eslint-disable-next-line no-console
       console.warn(`[Figure] unknown figure id: ${figure.id}`)
@@ -93,7 +99,11 @@ export function FigureFrame({ figure }: { figure: FigureData }) {
       className="my-5 rounded-lg border border-border bg-card/40 p-3 sm:p-4"
     >
       <div className="overflow-x-auto">
-        <Drawing title={figure.alt} />
+        {Drawing ? (
+          <Drawing title={figure.alt} />
+        ) : drawingData ? (
+          <ArchetypeFigure title={figure.alt} data={drawingData} id={figure.id} />
+        ) : null}
       </div>
       <figcaption className="mt-3 text-[13px] leading-relaxed text-muted-foreground">
         {figure.caption}

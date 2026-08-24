@@ -55,6 +55,13 @@ export const section13: CourseSection = {
      },
      {
       heading: "Normalización, blocking y entity resolution",
+      figure: {
+        id: "S13-blocking",
+        caption:
+          "Solo se comparan pares dentro del mismo bloque. Lo que cae en bloques distintos no se evalúa nunca — por eso una clave sola no basta.",
+        alt:
+          "Grafo con dos bloques; del primero cuelgan dos registros que sí se comparan entre sí, del segundo uno aislado.",
+      },
       subtopicId: "S13-T1-A",
       paragraphs: [
         "**Ancla:** entity resolution (ER) responde *¿es la misma entidad en dos filas?* No responde *¿son familia?* ni *¿hay fraude?* Esas preguntas se tratan con otros scores y con humanos. Sin normalización, `D-12.34` y `d1234` parecen identidades distintas aunque son el mismo documento sintético: por eso casefold (pasar todo a minúsculas) y limpieza de no-alfanuméricos van **antes** de cualquier comparación.",
@@ -97,6 +104,13 @@ relationship_signal_score SEPARATE`,
     },
     {
       heading: "Verdad etiquetada, precision/recall y revisión clerical",
+      figure: {
+        id: "S13-two-scores",
+        caption:
+          "La mezcla cruza el umbral de 0.80 empujada por la relación. Por eso la identidad se decide sobre ER y no sobre la mezcla.",
+        alt:
+          "Tres barras: identidad 0.70, relación 1.00 y la combinación ponderada 0.82.",
+      },
       subtopicId: "S13-T1-B",
       paragraphs: [
         "**Ancla:** sin etiquetas no sabes si tu regla de ER ayuda o daña. Con pares **sintéticos** etiquetados calculas **TP** (dijiste match y era match), **FP** (dijiste match y no lo era) y **FN** (era match y lo dejaste pasar). De ahí: precision = TP/(TP+FP) y recall = TP/(TP+FN). La etiqueta es ground truth (verdad de referencia) de *identidad en el fixture del curso* — **no** es un veredicto legal sobre personas reales.",

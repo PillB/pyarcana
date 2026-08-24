@@ -75,10 +75,17 @@ ungrounded_critical_ok False`,
     },
     {
       heading: "Task dataset y rúbrica",
+      figure: {
+        id: "S50-slice-overlap",
+        caption:
+          "Exigir que los tamaños sumen el total rompería datasets correctos: los slices se solapan a propósito.",
+        alt:
+          "Dos regiones solapadas dentro de todas las tareas del dataset.",
+      },
       subtopicId: "S50-T1-A",
       paragraphs: [
         "El **task dataset** no es un dump de chats: representa **trabajos reales del copiloto** (citar SLA, recuperar caso, reanudar tras fallo de tool) y **slices versionados** (idioma, longitud, tool-required, adversarial). Separa train/dev/**holdout** con IDs inmutables; la **rúbrica 0–3** ancla cada nivel con ejemplos observables (qué se ve en la respuesta o trayectoria), no adjetivos vagos. Cambiar rúbrica o slice sin bump de versión invalida la comparación baseline/candidato.",
-        "Contrato de dataset. Entrada: tareas con IDs inmutables, mapa de slices (normal/edge/adversarial) y rúbrica 0–3 con anclas. Salida: manifiesto `dataset@version` + rúbrica firmada. Error local: slices que no suman tasks, holdout vacío o niveles fuera de {0,1,2,3} → `REBUILD_EVAL_DATASET`. El gate global de promote (P0/P1, injection, grader) se ensaya en T2–T4; aquí solo cierras el dataset.",
+        "Contrato de dataset. Entrada: tareas con IDs inmutables, mapa de slices (normal/edge/adversarial) y rúbrica 0–3 con anclas. Salida: manifiesto `dataset@version` + rúbrica firmada. Error local: una tarea que no pertenece a ningún slice, holdout vacío o niveles fuera de {0,1,2,3} → `REBUILD_EVAL_DATASET`. Nota que la comprobación es de **cobertura**, no de suma: los slices se solapan a propósito —una misma tarea puede ser a la vez de idioma, de longitud y adversarial—, así que sus tamaños no tienen por qué sumar el total y exigir que lo hagan rompería datasets correctos. El gate global de promote (P0/P1, injection, grader) se ensaya en T2–T4; aquí solo cierras el dataset.",
         "En `CASO-ICA-050`, el copiloto de operaciones de una org ficticia en Ica debe citar el SLA de reposición de stock. La tarea `cite_sla` vive en el slice normal (25/40), edge (10) y adversarial (5); el holdout (10) se sella y no se usa para reescribir el prompt. Ancla 3: «cita `SLA-12` y el claim se alinea con el umbral»; ancla 0: respuesta fluida sin `cite_id`. Sin PII real; la señal no prueba fraude ni parentesco.",
       ],
       code: {

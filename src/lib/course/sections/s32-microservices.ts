@@ -66,6 +66,13 @@ export const section32: CourseSection = {
     },
     {
       heading: "Features numéricas, categóricas y de texto",
+      figure: {
+        id: "S32-feature-pipeline",
+        caption:
+          "Un fit_transform sobre todo el dataset invierte las dos primeras etapas y regala métricas que producción no repetirá.",
+        alt:
+          "Cuatro etapas —split, fit, transform, evaluar— con la frontera dibujada tras el split.",
+      },
       subtopicId: "S32-T1-A",
       paragraphs: [
         "Diseña con **semántica temporal**: ¿la feature está **disponible en t de decisión**? Numéricas (montos, conteos), categóricas (canal, región) y texto derivado (`note_len`, `token_count`) viven en un **feature catalog** con dtype y missing policy. Una columna inventada solo en serve rompe train≡serve y suele ser síntoma de notebook ad-hoc.",

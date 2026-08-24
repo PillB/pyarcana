@@ -1,6 +1,10 @@
 import type { ComponentType } from 'react'
 import dynamic from 'next/dynamic'
 
+import { ArchetypeFigure } from './archetypes'
+export { FIGURE_DATA } from './data'
+import { FIGURE_DATA } from './data'
+
 import { S01CwdPath } from './S01CwdPath'
 import { S03TriState } from './S03TriState'
 import { S04Denominator } from './S04Denominator'
@@ -68,4 +72,17 @@ export const FIGURES: Record<string, ComponentType<{ title: string }>> = {
   'S31-evidence-graph': S31EvidenceGraph,
 }
 
-export const FIGURE_IDS = Object.keys(FIGURES)
+/**
+ * Resolve a figure id to something renderable.
+ *
+ * Two kinds coexist deliberately. The first fifteen are bespoke components,
+ * each drawing one idea that has no sibling anywhere else in the course; they
+ * stay as they are. Everything after them is a typed data entry rendered by a
+ * shared archetype, because seventy-seven more bespoke files would be ~8,500
+ * lines of one-off SVG and would guarantee that the set stops looking like one
+ * family.
+ *
+ * Bespoke wins on lookup so an id can be promoted from data to a hand-drawn
+ * figure later without touching any section file.
+ */
+export const FIGURE_IDS = [...Object.keys(FIGURES), ...Object.keys(FIGURE_DATA)]

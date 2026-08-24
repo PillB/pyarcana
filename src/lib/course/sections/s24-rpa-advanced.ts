@@ -52,6 +52,13 @@ export const section24: CourseSection = {
      },
      {
       heading: "DPI, deskew, crop y contraste",
+      figure: {
+        id: "S24-ocr-pipeline",
+        caption:
+          "Reescalar de 96 a 200 no añade detalle: interpola píxeles que nunca se registraron.",
+        alt:
+          "Cuatro etapas —captura, deskew, OCR, campos— con la frontera tras la captura.",
+      },
       subtopicId: "S24-T1-A",
       paragraphs: [
         "Cuando una boleta llega al intake a **96 DPI** (foto de celular, PDF rasterizado barato), el motor OCR confunde “8” con “B” y el RUC se rompe. Una precisión de vocabulario que aquí cambia lo que puedes hacer: **DPI** (puntos por pulgada) es una medida de *impresión*; lo que tiene una imagen ya capturada son **PPI**, píxeles por pulgada. La diferencia importa porque la cifra que te salva se decide en la **captura**: escanea o fotografía a ≥300 PPI efectivos y el motor tiene detalle con el que trabajar. Reescalar después de 96 a 200 no recupera nada — interpola píxeles que nunca se registraron, y un “8” que ya se perdió sigue perdido, ahora más grande. Por eso el lab exige el mínimo *antes* del motor y no acepta un upscale como sustituto. **Deskew** corrige la inclinación del escaneo; **crop** recorta márgenes negros que distraen al layout; **contraste** ayuda tinta débil. Ninguna de estas ops “arregla fraude”: no inventan dígitos ni reescriben montos.",
@@ -126,6 +133,13 @@ denoise [0, 0, 0, 0, 0]`,
     },
     {
       heading: "Idiomas, layout y confidence",
+      figure: {
+        id: "S24-field-confidence",
+        caption:
+          "Sin la región guardada, un revisor no puede comprobar de dónde salió el número que va a aprobar.",
+        alt:
+          "Grafo de imagen a región a texto con confianza, que se bifurca a campo aceptado o a revisión.",
+      },
       subtopicId: "S24-T2-A",
       paragraphs: [
         "Configura **idiomas** (`spa+eng`) según el corpus: facturas PE en español con tokens EN de software (“SUBTOTAL”, “SKU”). Un motor mal configurado en solo `eng` castiga acentos y “RUC”. El **layout** (bloques, columnas) guía el **orden de lectura**: en el lab ordenamos por bbox `(y0, x0)` — arriba→abajo, izquierda→derecha. No concatenes columnas a ciegas o mezclarás el “Total” de la derecha con ítems de la izquierda.",

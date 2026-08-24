@@ -28,7 +28,7 @@ export const section17: CourseSection = {
   heading: "Unes dos tablas y de pronto hay más filas que antes",
  paragraphs: [
    "No es un error del código: es lo que ocurre cuando la clave por la que unes no es única en uno de los lados. Cada coincidencia múltiple multiplica filas, los totales se inflan y el resultado sigue pareciendo perfectamente normal. Contar las filas antes y después de una unión es el hábito más barato de esta sección y el que más disgustos evita.",
-   "Antes de unir hay que saber qué se espera. Si cada cliente tiene muchas transacciones, la relación es de uno a muchos y el resultado debe tener tantas filas como transacciones. Si esperabas uno a uno y sale otra cosa, la sorpresa está en los datos, no en la operación — y es mejor enterarse ahí que en la reunión. También conviene mirar lo que **no** casó: las filas huérfanas suelen ser el hallazgo más interesante del día.",
+   "Antes de unir hay que saber qué se espera. Si cada cliente tiene muchas transacciones, la relación es de uno a muchos y el resultado crece hacia el lado de las transacciones. «Tantas filas como transacciones» solo es exacto en un `inner join` donde toda transacción tiene cliente: en un `left join` desde clientes, cada cliente sin transacciones aporta igualmente su fila con nulos, y las transacciones huérfanas no aparecen. Por eso el conteo esperado depende del tipo de join, y por eso se declara antes de unir. Si esperabas uno a uno y sale otra cosa, la sorpresa está en los datos, no en la operación — y es mejor enterarse ahí que en la reunión. También conviene mirar lo que **no** casó: las filas huérfanas suelen ser el hallazgo más interesante del día.",
    "Después viene la forma. Los mismos datos pueden estar **largos** —una fila por cliente y mes— o **anchos**, con un mes por columna. Ninguna es mejor: la larga es cómoda para agregar y la ancha para leer en una tabla. Cambiar de una a otra es rutinario, y lo único que hay que cuidar es que los nombres de columna sigan significando lo mismo después del cambio.",
    "Agrupar es el paso donde aparecen las respuestas de negocio, y también donde se cuela el error más silencioso: agregar sin declarar sobre qué población. «El ticket promedio es 42» no significa nada sin decir de cuántos clientes, en qué periodo y excluyendo qué. Un promedio sin denominador es un número decorativo.",
    "La sección cierra reconciliando: el total agregado debe cuadrar con el detalle, y si no cuadra hay que explicar la diferencia en lugar de ajustarla. La pregunta que la atraviesa es de control: **¿cuántas filas debería tener esto, y por qué tiene otras?** El entregable no es un paquete publicado sino un dataset limpio, un script que se puede volver a correr y un memo con los límites.",
@@ -103,6 +103,13 @@ tx_unique False
  },
  {
  heading: "Validate, duplicación accidental y anti-join",
+ figure: {
+   id: "S17-join-fanout",
+   caption:
+     "Declara la cardinalidad esperada con validate= y pandas falla temprano en vez de inflar el total en silencio.",
+   alt:
+     "Dos tablas: antes, un cliente por fila; después, el mismo cliente repetido una vez por venta.",
+ },
  subtopicId: "S17-T1-B",
  paragraphs: [
  "El parámetro `validate='one_to_one'|'one_to_many'|...` hace que pandas **falle temprano** con `MergeError` si la cardinalidad real no coincide con el contrato. Es un quality gate de join, no un lujo opcional: un m:m accidental multiplica filas y sesga sumas de montos.",

@@ -28,7 +28,7 @@ export const section37: CourseSection = {
             heading: "Optimizar sin medir es cambiar código y esperar",
       paragraphs: [
         "La intuición sobre qué parte de un programa es lenta suele estar equivocada, y no por falta de experiencia: los cuellos de botella se esconden en lugares poco vistosos. Reescribir la función que *parece* costosa produce a menudo un código más difícil de leer y exactamente el mismo tiempo total.",
-        "Medir tiene su propia disciplina. El **wall time** es el reloj de pared, lo que espera una persona; el **CPU time** es lo que realmente trabajó el procesador. Cuando difieren mucho, el programa está esperando —disco, red— y optimizar el cálculo no cambiará nada. Además, la primera corrida siempre miente: cachés fríos, importaciones, compilaciones. Por eso se descarta un **warmup** antes de tomar números.",
+        "Medir tiene su propia disciplina. El **wall time** es el reloj de pared, lo que espera una persona; el **CPU time** es lo que realmente trabajó el procesador. Cuando difieren mucho, el programa está esperando algo, y optimizar el cálculo no cambiará nada. Qué está esperando es una segunda pregunta: disco y red son lo habitual, pero un `sleep`, un lock disputado o simplemente un procesador ocupado por otros producen la misma brecha, y confundirlos manda a optimizar el lugar equivocado. Además, la primera corrida suele mentir —cachés fríos, importaciones, compilaciones—, así que se descarta un **warmup** antes de tomar números. «Suele», no «siempre»: si lo que te importa es cuánto tarda el arranque en frío, esa primera corrida es exactamente la medición que buscas y descartarla borra tu dato.",
         "Con la medición en mano aparece la regla que gobierna la sección, y es una restricción más que una técnica: la versión optimizada debe producir **el mismo resultado** que la original. Un cambio que acelera y altera la salida no es una optimización, es otro programa. Por eso cada mejora viene acompañada de una comprobación de equivalencia, no solo de un cronómetro.",
         "En este dominio concreto, la palanca grande no es hacer el cálculo más rápido sino hacer menos cálculos. Comparar todos los pares crece con el cuadrado del número de registros; el blocking que viste en S30 recorta ese universo. Ahí está el orden de magnitud — y también el precio, porque un bloque mal elegido descarta pares verdaderos y eso hay que medirlo junto con la velocidad.",
         "La pregunta que atraviesa la sección tiene dos mitades inseparables: **¿es más rápido, y sigue dando lo mismo?** Un reporte de escala sin dataset, hardware y límites declarados no es evidencia: es una anécdota con números.",
@@ -72,6 +72,13 @@ skip_privacy_or_tests False`,
     },
     {
       heading: "Wall, CPU y profiling de memoria",
+      figure: {
+        id: "S37-percentiles",
+        caption:
+          "Un p95 de 5 s con media de 200 ms es un incidente de experiencia, no un pico normal.",
+        alt:
+          "Tres barras: media, mediana y percentil 95 de latencia.",
+      },
       subtopicId: "S37-T1-A",
       paragraphs: [
         "Wall time es el reloj de pared que percibe el usuario o el batch (`time.perf_counter`); CPU time es el tiempo de procesador (`time.process_time`). Cuando wall >> CPU, el job espera I/O o al SO; cuando ambos crecen, el path es **compute-bound** (acotado por cómputo, no por I/O). La memoria pico limita si el job cabe en el worker, y aquí hay que ser preciso con qué mide cada herramienta. `tracemalloc` rastrea lo que se reserva **a través del asignador de Python**, en el mismo path que estás midiendo; es excelente para saber qué línea tuya acumula objetos. Lo que **no** te da es la memoria residente del proceso, que es la cifra contra la que el worker te mata: quedan fuera los buffers que reservan extensiones en C con su propio asignador —NumPy y pandas, entre otras—, y la memoria que el intérprete ya devolvió al asignador pero no al sistema. Para el límite del contenedor, mira el RSS del proceso; para saber qué parte de tu código lo empuja, `tracemalloc`. Cuando el wall ya indicó *qué tramo* es caro, `cProfile` nombra la **función** exacta (hot path, la ruta o tramo más costoso del código) sin adivinar.",
@@ -153,6 +160,13 @@ hot_ok True`,
     },
     {
       heading: "Benchmark: fixture, warmup y variabilidad",
+      figure: {
+        id: "S37-where-time-goes",
+        caption:
+          "Optimizar antes de medir habría atacado el 21% y dejado intacto el 64%.",
+        alt:
+          "Cuatro barras horizontales con el porcentaje de tiempo de cada etapa del job.",
+      },
       subtopicId: "S37-T1-B",
       paragraphs: [
         "La primera corrida miente: las memorias caché de CPU, el `import` y el JIT de las librerías distorsionan el cold start (arranque en frío). El warmup descarta esa corrida. Luego se reporta la mediana (robusta frente a un outlier) y, con más muestras, un proxy de cola (p. ej. el máximo con N chico, o el p95 con N grande). El fixture fija el dataset sintético y una nota de hardware del laboratorio.",

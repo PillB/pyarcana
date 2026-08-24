@@ -117,9 +117,16 @@ REDACT_AND_QUARANTINE_TRACE`,
     },
     {
       heading: "Tokens, costo, latencia y redacción",
+      figure: {
+        id: "S51-redaction-classes",
+        caption:
+          "Llamar PII a un token confunde la respuesta al incidente: uno se notifica, el otro se revoca.",
+        alt:
+          "Tres guardas que separan datos personales, secretos y campos que sí se registran.",
+      },
       subtopicId: "S51-T1-B",
       paragraphs: [
-        "**Tokens, costo y latencia** se miden **por etapa** (prompt build, retrieval, generation, tools) y por **percentil** (p50/p95), no solo media. Un p95 de 5 s con media de 200 ms es un incidente de UX, no un «pico normal». El **costo** se deriva de tokens × precio por etapa; si la suma por etapa no reconcilia `total_tokens`, el dashboard miente. **Redacción** aplica a atributos, eventos, payloads y mensajes de error: un stack trace con email o Authorization es PII en el sink.",
+        "**Tokens, costo y latencia** se miden **por etapa** (prompt build, retrieval, generation, tools) y por **percentil** (p50/p95), no solo media. Un p95 de 5 s con media de 200 ms es un incidente de UX, no un «pico normal». El **costo** no sale de una sola fórmula, y suponerlo es la forma habitual de subestimarlo: la generación se cobra por tokens, pero retrieval y tools suelen cobrarse por consulta, por tiempo de ejecución o por almacenamiento, y sus tokens no entran en el contador facturable del modelo. Reconcilia lo que es reconciliable —que los tokens por etapa de modelo sumen `total_tokens`— y suma aparte las etapas que se tarifan de otra forma. Un dashboard que multiplica todo por un precio por token miente hacia abajo. **Redacción** aplica a atributos, eventos, payloads y mensajes de error: un stack trace con un email filtra datos personales; uno con un `Authorization` filtra una credencial. Conviene no llamar PII a las dos cosas: la primera obliga por privacidad, la segunda obliga a **rotar** el secreto expuesto. Ambas se redactan, por razones distintas y con respuestas distintas al incidente.",
         "Contrato de costo y latencia. Entrada: contadores de tokens por etapa (prompt, retrieval, generation), latencias p50/p95 y un sink de atributos. Salida: fila de dashboard con suma de tokens reconciliada, p95 ≤ SLO y **prueba de redacción** (email/token ausentes del export). Error: media en lugar de percentil, total que no cuadra, o PII en atributos → `ALERT_COST_LATENCY` / `FIX_REDACTION_PIPELINE`. Criterio: un on-call explica el costo de `CASO-MOQ-051` sin abrir raw logs.",
         "En `CASO-MOQ-051-1B`, el dashboard de la entidad ficticia de Moquegua muestra 800+400+300=1500 tokens y p95=900 ms (SLO 1200 ms). Antes de exportar, los atributos `email` y `prompt_raw` se reemplazan por `[REDACTED]`. Ningún campo del caso prueba fraude o parentesco; solo calidad y privacidad operativa del sistema.",
       ],
@@ -373,7 +380,7 @@ ASK_USER_TO_CONFIRM`,
       heading: "Accesibilidad, corrección y contestabilidad",
       subtopicId: "S51-T4-B",
       paragraphs: [
-        "La confirmación de T4-A no basta si el panel es solo-mouse o ilegible. **Accesibilidad** (WCAG 2.2 AA): flujo completo por teclado, labels para lector de pantalla, contraste ≥ 4.5:1 y lenguaje claro no son opcionales en un copiloto de operaciones. **Contestabilidad** explica cómo **corregir** el dato, **apelar** y obtener respuesta humana con SLA — sin dark patterns (urgencia falsa, opt-out escondido). CF-5 exige flujo demostrable, no solo un banner de disclaimer. Cierra el hilo del producto: traza + métricas redactadas + registry + change ticket + SLO + incidente + UX + a11y = freeze de interfaces.",
+        "La confirmación de T4-A no basta si el panel es solo-mouse o ilegible. **Accesibilidad** (WCAG 2.2 AA): flujo completo por teclado, labels para lector de pantalla, contraste suficiente y lenguaje claro no son opcionales en un copiloto de operaciones. «Suficiente» tiene números distintos según el elemento, y citar 4.5:1 para todo es la imprecisión habitual: 4.5:1 aplica al texto normal, 3:1 al texto grande (≥ 24 px, o ≥ 18,66 px en negrita) y 3:1 a componentes de interfaz y a los gráficos que transmiten información. **Contestabilidad** explica cómo **corregir** el dato, **apelar** y obtener respuesta humana con SLA — sin dark patterns (urgencia falsa, opt-out escondido). CF-5 exige flujo demostrable, no solo un banner de disclaimer. Cierra el hilo del producto: traza + métricas redactadas + registry + change ticket + SLO + incidente + UX + a11y = freeze de interfaces.",
         "Contrato de a11y y apelación. Entrada: `keyboard_complete`, `screen_reader_labels`, `contrast_ratio` vs. `min_contrast`, `correction_available`, `appeal_to_human`. Salida: flujo completable o `FAIL_ACCESSIBILITY_GATE`. Error: contraste bajo, teclado incompleto o sin corrección/apelación. Si falta ruta humana → `ROUTE_CONTESTATION`. Criterio: un usuario puede corregir y apelar sin mouse y con lector de pantalla; la apelación queda enlazada al `trace_id` y al release pinneado.",
         "En `CASO-MOQ-051-4B`, el panel de la entidad ficticia de Moquegua alcanza contraste 5.1 (≥4.5), teclado y labels OK, corrección de dato y apelación a humano. Un panel solo-mouse con contraste 2.1 se bloquea. El caso es sintético; no prueba fraude ni parentesco.",
       ],

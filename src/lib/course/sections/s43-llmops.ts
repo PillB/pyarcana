@@ -70,6 +70,13 @@ root_uid_ok False`,
     },
     {
       heading: "Dockerfile, layers y caché",
+      figure: {
+        id: "S43-multistage",
+        caption:
+          "Un gcc en la imagen final es superficie de ataque que nadie va a usar nunca en producción.",
+        alt:
+          "Tres capas: el stage builder, la copia del artefacto y el stage runtime sin toolchain.",
+      },
       subtopicId: "S43-T1-A",
       paragraphs: [
         "Ordena layers de **estable a cambiante**: base y dependencias primero, código de aplicación después. Así el caché de build acelera los commits de la app sin re-resolver pip en cada push. Un caché «mágico» que depende de estado oculto del host rompe la reproducibilidad entre máquinas. Lee el fragmento de abajo: `COPY requirements` + `RUN pip` van antes de `COPY src/`.",
@@ -118,6 +125,13 @@ has_user True`,
     },
     {
       heading: "Bases, usuarios no root y tamaño",
+      figure: {
+        id: "S43-image-layers",
+        caption:
+          "Copiar el código antes que las dependencias invalida todo lo que hay encima en cada commit.",
+        alt:
+          "Cuatro capas apiladas de la base pinned al código de la aplicación, las dos superiores en línea punteada.",
+      },
       subtopicId: "S43-T1-B",
       paragraphs: [
         "Con el caché de layers en orden (T1-A), endureces la **imagen de runtime**. Una base mínima reduce superficie de ataque, pero debe seguir parchable: fija tag o digest (nunca `latest` suelto). Distroless/slim recortan shell y paquetes; el trade-off es depuración más difícil (lo resuelves en T4-B con shells efímeros, no root permanente). Ejecuta como UID de aplicación (≥1000), sin `CAP_SYS_ADMIN` ni capabilities extras, y acota el tamaño runtime (MB).",
@@ -314,7 +328,7 @@ ephemeral ['tmp', 'cache']`,
       heading: "Locks y multi-stage builds",
       subtopicId: "S43-T4-A",
       paragraphs: [
-        "Con migraciones seguras (T3-B), fijas **qué** se instala y **dónde** se compila. Un lock con hash (`sha256:…`) congela la resolución de deps; sin lock, el build de mañana no es el de hoy. **Multi-stage**: stage `builder` tiene compilers/SDK; stage `runtime` solo copia artefactos y deps de ejecución — sin toolchain. El `COPY --from=builder` es el puente; el runtime no debe incluir `gcc` ni wheels de build. El fragmento de abajo muestra builder → runtime con pin de base y `USER` non-root en la imagen final.",
+        "Con migraciones seguras (T3-B), fijas **qué** se instala y **dónde** se compila. Lo que congela la resolución de dependencias es un **archivo lock**: la lista completa de versiones ya resueltas, y —según la herramienta— el hash de cada artefacto descargado. Un `sha256:` suelto no hace eso; acredita **un** artefacto concreto, que es exactamente lo que necesitas para fijar la imagen base, pero no dice nada sobre qué versión de qué paquete entra. Son dos pines distintos y hacen falta los dos: el digest para la base, el lock para las deps. Sin lock, el build de mañana no es el de hoy. **Multi-stage**: stage `builder` tiene compilers/SDK; stage `runtime` solo copia artefactos y deps de ejecución — sin toolchain. El `COPY --from=builder` es el puente; el runtime no debe incluir `gcc` ni wheels de build. El fragmento de abajo muestra builder → runtime con pin de base y `USER` non-root en la imagen final.",
         "Contrato de lock y stages. Entrada: texto multi-stage (o modelo), `lock_hash`, flag `compiler_in_runtime`, deps de runtime locked. Salida: lock verificado e imagen runtime reducida (sin toolchain). Error: lock `latest`/flotante, solo stage runtime sin builder, o `gcc`/`g++` en la imagen final. Criterio: `lock_hash` con prefijo `sha256:`, stages builder+runtime, `COPY --from=builder` y runtime sin compiler.",
         "En `CASO-TRU-043-T4A` el build de Trujillo usa builder+runtime, lock hasheado y runtime sin compiler. Breach → `BLOCK_UNPINNED_BUILD`; falta de lock de runtime → `REGENERATE_LOCK`.",
       ],

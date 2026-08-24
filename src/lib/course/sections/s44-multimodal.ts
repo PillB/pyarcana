@@ -70,6 +70,13 @@ unpinned_vuln_dep_ok False`,
     },
     {
       heading: "lint/types/tests y matrices",
+      figure: {
+        id: "S44-permission-scope",
+        caption:
+          "Un tag como v4 se puede mover; el SHA no. Esa es toda la diferencia entre un pin y una esperanza.",
+        alt:
+          "Tres guardas sobre el permiso del workflow, el del job de release y el pin de la action.",
+      },
       subtopicId: "S44-T1-A",
       paragraphs: [
         "Un pipeline de supply chain no empieza publicando: empieza **certificando el código**. CI ejecuta checks **rápidos antes de costosos** (lint → types → tests) para fallar barato. La **matriz** solo cubre runtimes/OS que el equipo realmente soporta (p. ej. Python 3.11 y 3.12), no una combinatoria infinita que gasta minutos y oculta la señal. Un test verde sin logs ni artifact no es gate: es un semáforo sin evidencia. El dict del lab mapea claves de un workflow real (`on`, `permissions`, `matrix`, `steps`).",
@@ -109,6 +116,13 @@ permissions {'contents': 'read'}`,
     },
     {
       heading: "caches, artifacts y condiciones",
+      figure: {
+        id: "S44-supply-chain",
+        caption:
+          "Rápidos antes que costosos, y el token con contents: read hasta el job que realmente publica.",
+        alt:
+          "Cinco etapas de lint a publicar, con la frontera del permiso de escritura tras los tests.",
+      },
       subtopicId: "S44-T1-B",
       paragraphs: [
         "La **caché** acelera las instalaciones (pip/npm), pero **no es fuente de verdad**: un `cache hit` no prueba que el build sea reproducible. El **artifact** (wheel, SBOM, logs) lleva digest y retención porque es la evidencia que otro job o auditor puede re-descargar. Las **condiciones** del workflow (`if:`, filtros de branch/tag/fork) deben cubrir los caminos de release; un tag de prod sin los mismos gates que `main` es un atajo peligroso.",

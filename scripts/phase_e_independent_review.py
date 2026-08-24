@@ -113,8 +113,30 @@ def teaching_text(path: Path) -> str:
     if start < 0 or not m_end:
         return ""
     end = start + m_end.start()
-    block = re.sub(r"code:\s*`[\s\S]*?`", " ", src[start:end])
-    block = re.sub(r"output:\s*`[\s\S]*?`", " ", block)
+    raw_block = src[start:end]
+
+    # Code and output are stashed, not deleted.
+    #
+    # Deleting them made this reviewer structurally unable to find a whole class
+    # of defect, and the class turned out to be the most common one in the
+    # campaign: prose corrected while the runnable artifact beside it kept the
+    # old behaviour. Seven such defects reached the GitHub reviewer -- an SSRF
+    # lab that still allowlisted on hostname after the prose said that was
+    # insufficient; a resilience gate still checking rollback_min after the
+    # prose separated it from RTO; a backup demo still on "daily" under prose
+    # requiring every four hours. None were visible here, because a reviewer
+    # shown only prose can only judge prose.
+    #
+    # A learner sees the paragraph, the code and the printed output together,
+    # so the reviewer now sees them together too, in source order.
+    artifacts: list[tuple[int, str]] = []
+    def _stash(m: re.Match) -> str:
+        kind = m.group(1)
+        body = m.group(2)
+        artifacts.append((m.start(), f"[{kind.upper()}]\n{body}"))
+        return " "
+
+    block = re.sub(r"(code|output):\s*`([\s\S]*?)`", _stash, raw_block)
     # Only strings that are actually `paragraphs:` entries. Matching every long
     # quoted run swept in structural fragments (callout scaffolding, stray
     # commas), and the reviewer then reported the mangling as a defect in the
@@ -147,7 +169,14 @@ def teaching_text(path: Path) -> str:
             .replace("\x00", "\\")
         )
 
-    text = "\n\n".join(_decode(p) for p in paras)
+    body = "\n\n".join(_decode(p) for p in paras)
+    # Appended rather than interleaved: reconstructing exact source order across
+    # two different regexes was fragile, and what the check needs is only that
+    # the reviewer can compare the two, not that they alternate perfectly.
+    if artifacts:
+        joined = "\n\n".join(a for _, a in artifacts)
+        body = body + "\n\n=== CÓDIGO Y SALIDAS DE ESTA SECCIÓN ===\n\n" + joined
+    text = body
     return text[:55000]
 
 

@@ -52,6 +52,13 @@ export const section30: CourseSection = {
     },
     {
       heading: "exact, edit/token y fecha",
+      figure: {
+        id: "S30-missing-weight",
+        caption:
+          "La segunda opción baja el score y puede cruzar el umbral inferior: un dato que nadie tenía acaba pareciendo un desacuerdo.",
+        alt:
+          "Dos barras que comparan el score resultante al omitir el campo ausente frente a conservar su peso.",
+      },
       subtopicId: "S30-T1-A",
       paragraphs: [
         "Tras el mapa de la sección, el primer ladrillo del motor son los **comparadores**. **Exact**: igualdad **después** de normalizar (`casefold` + colapsar espacios). **Edit** (Levenshtein normalizado): typos y diferencias de acentos leves. **Token**: Jaccard u overlap de palabras (orden “Ana López” / “López Ana”). **Fecha**: distancia en días con tolerancia. Cada uno aporta evidencia de identidad, no un veredicto de riesgo.",
@@ -119,10 +126,17 @@ date 0.5`,
     },
     {
       heading: "ausencia de campo (missingness) y frecuencia",
+      figure: {
+        id: "S30-er-pipeline",
+        caption:
+          "La zona gris no es un fallo del modelo: es el caso donde la evidencia solo alcanza para un «probablemente».",
+        alt:
+          "Grafo de dos registros a un par candidato, de ahí a un score, y del score a entidad resuelta o cola humana.",
+      },
       subtopicId: "S30-T1-B",
       paragraphs: [
         "Los comparadores de T1-A asumen que ambos lados tienen valor. **Ausencia de campo (missingness)**: un vacío no es desacuerdo fuerte ni acuerdo. Usa el estado `missing` en la comparación (no lo trates como `disagree`). Si penalizas missing como desacuerdo, inflas non-matches espurios cuando una fuente simplemente no trae el campo.",
-        "La ausencia puede ser **informativa**: ciertas fuentes nunca publican teléfono. Modela el patrón por fuente (`source_system`); no asumas **MCAR** (missing completely at random: aleatorio completo) sin evidencia. Eso obliga a decidir qué hace un `missing` en el scorer, y hay dos opciones que se parecen y no lo son. Contribuir 0 **conservando** el peso en el denominador es una penalización: el par baja de score por un dato que nadie tenía. Omitir el campo de numerador y denominador es neutral: el par se juzga sobre lo observado. Esta sección usa la segunda, y en T3 la verás escrita como `suma(sim·peso) / suma(pesos)` sobre campos observados. Ninguna de las dos empuja hacia `non_match`: la ausencia no es desacuerdo.",
+        "La ausencia puede ser **informativa**: ciertas fuentes nunca publican teléfono. Modela el patrón por fuente (`source_system`); no asumas **MCAR** (missing completely at random: aleatorio completo) sin evidencia. Eso obliga a decidir qué hace un `missing` en el scorer, y hay dos opciones que se parecen y no lo son. Contribuir 0 **conservando** el peso en el denominador es una penalización: el par baja de score por un dato que nadie tenía. Omitir el campo de numerador y denominador es neutral: el par se juzga sobre lo observado. Esta sección usa la segunda, y en T3 la verás escrita como `suma(sim·peso) / suma(pesos)` sobre campos observados. La diferencia tiene consecuencia en la decisión, no solo en el número: conservar el peso baja el score agregado y puede cruzar el umbral inferior hacia `non_match`, de modo que un dato que nadie tenía acaba pareciendo un desacuerdo. Omitir el campo no puede hacer eso. Por eso el enunciado que importa es el de la ausencia: **vacío no es desacuerdo**, y solo la segunda opción lo respeta.",
         "**Frecuencia**: valores muy comunes (nombre “María”, dominio genérico) bajan el peso de un acuerdo exacto — intuición de *u-probability* alta en Fellegi–Sunter. Aquí usamos `base/frecuencia` como **heurística didáctica**, no como estimación m/u completa. En contactos Lima sintéticos, un acuerdo en “María” pesa menos que en un apellido raro. Con comparadores y missing listos, T2 ataca el problema de escala: no puedes comparar all-pairs.",
       ],
       code: {

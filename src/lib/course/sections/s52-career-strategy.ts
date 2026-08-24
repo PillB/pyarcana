@@ -72,6 +72,13 @@ pii_or_secrets_ok False`,
     },
     {
       heading: "Stakeholders, jobs y success metrics de CF-1",
+      figure: {
+        id: "S52-defense-evidence",
+        caption:
+          "Lo que queda fuera del bundle no existe para la defensa, por bien que lo sepas explicar en persona.",
+        alt:
+          "Dos regiones anidadas: lo que viaja en el bundle frente al conocimiento que sigue en tu cabeza.",
+      },
       subtopicId: "S52-T1-A",
       paragraphs: [
         "Antes de cablear la plataforma final, **revalida CF-1**: stakeholders, jobs y success metrics pueden haber cambiado desde S01. Registra el **delta** (quién se fue, qué métrica se retiró) en un change_log. Sin matriz viva stakeholder/job/métrica + baseline sintético congelado, el portfolio defiende un producto fantasma y el gate exige `REOPEN_CF1`.",
@@ -226,25 +233,31 @@ layers ['unit', 'contract', 'integration', 'evals', 'red_team', 'performance']`,
       subtopicId: "S52-T3-B",
       paragraphs: [
         "Con la matriz de tests en verde (T3-A), **SLO, backup, rollback y disaster exercise** se demuestran con **reloj y evidencia**, no con promesas de runbook. Mides: availability ≥ SLO, edad del backup ≤ RPO (horas), tiempo de **restablecimiento del servicio** ≤ RTO (minutos) y **restore verificado** en un drill. Ojo con equiparar RTO y tiempo de rollback: el RTO acota cuánto puede estar caído el servicio, y el rollback es solo **una** de las formas de levantarlo —a veces la más rápida, a veces no la aplicable—. Si el incidente exige restaurar desde backup, el reloj del RTO sigue corriendo aunque el rollback hubiera sido veloz. Un PDF de procedimientos sin ejercicio **no reduce el riesgo** operativo.",
-        "Predicado medible: `availability >= slo` y `backup_age_h <= rpo_h` y `rollback_min <= rto_min` y `disaster_exercise` (restore verificado). Breach → `NO_GO_RESILIENCE`. Si falta el flag de drill → `RUN_DISASTER_EXERCISE`. Un tabletop verbal («hablamos de qué haríamos») **sin números** no cuenta para CP-FINAL.",
-        "En `CASO-PER-052-3B` (avail 0.999, slo 0.995, backup 3 h ≤ RPO 4 h, rollback 8 min ≤ RTO 15 min, restore ok) pasa. Un fixture con avail 0.7 y rollback 120 min se bloquea con `NO_GO_RESILIENCE`. Puente a T4: con DR medido ya puedes narrar demo (baseline→resultado) y empaquetar el evidence bundle de 8.",
+        "Predicado medible: `availability >= slo` y `backup_age_h <= rpo_h` y `recovery_min <= rto_min` y `disaster_exercise` (restore verificado). Fíjate en cuál es la variable: el RTO acota el tiempo hasta que el servicio vuelve a atender, no lo que tardó el rollback. Un rollback de 8 minutos seguido de 52 de restauración incumple un RTO de 15. Breach → `NO_GO_RESILIENCE`. Si falta el flag de drill → `RUN_DISASTER_EXERCISE`. Un tabletop verbal («hablamos de qué haríamos») **sin números** no cuenta para CP-FINAL.",
+        "En `CASO-PER-052-3B` (avail 0.999, slo 0.995, backup 3 h ≤ RPO 4 h, servicio restablecido en 11 min ≤ RTO 15 min, restore ok) pasa. Un fixture con avail 0.7 y 120 min hasta restablecer se bloquea con `NO_GO_RESILIENCE`. Puente a T4: con DR medido ya puedes narrar demo (baseline→resultado) y empaquetar el evidence bundle de 8.",
       ],
       code: {
         language: 'python',
         title: "slo_backup_rollback_disaster.py",
-        code: `def resilience(availability: float, slo: float, backup_age_h: int, rpo_h: int, rollback_min: int, rto_min: int, restored: bool) -> dict:
+        code: `def resilience(availability: float, slo: float, backup_age_h: int, rpo_h: int, recovery_min: int, rto_min: int, restored: bool) -> dict:
+    # recovery_min is time until the service is serving again, which is what
+    # the RTO bounds. Rollback is one way to get there and is often faster
+    # than the restore path the incident actually forces you down.
     ok = (
         availability >= slo
         and backup_age_h <= rpo_h
-        and rollback_min <= rto_min
+        and recovery_min <= rto_min
         and restored
     )
-    return {"ok": ok, "rpo_h": rpo_h, "rto_min": rto_min, "restore_verified": restored}
+    return {"ok": ok, "rpo_h": rpo_h, "rto_min": rto_min, "recovery_min": recovery_min, "restore_verified": restored}
 
-print(resilience(0.999, 0.995, 3, 4, 8, 15, True))
+print(resilience(0.999, 0.995, 3, 4, 11, 15, True))
+# Rollback took 8 minutes; restoring the service took 60. The RTO is blown.
+print(resilience(0.999, 0.995, 3, 4, 60, 15, True))
 print(resilience(0.7, 0.995, 72, 4, 120, 15, False))`,
-        output: `{'ok': True, 'rpo_h': 4, 'rto_min': 15, 'restore_verified': True}
-{'ok': False, 'rpo_h': 4, 'rto_min': 15, 'restore_verified': False}`,
+        output: `{'ok': True, 'rpo_h': 4, 'rto_min': 15, 'recovery_min': 11, 'restore_verified': True}
+{'ok': False, 'rpo_h': 4, 'rto_min': 15, 'recovery_min': 60, 'restore_verified': True}
+{'ok': False, 'rpo_h': 4, 'rto_min': 15, 'recovery_min': 120, 'restore_verified': False}`,
       },
       callout: {
         type: "tip",

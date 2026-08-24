@@ -85,6 +85,13 @@ s41_request DENY_CROSS_TENANT`,
     },
     {
       heading: "Pydantic y JSON Schema",
+      figure: {
+        id: "S42-additive-evolution",
+        caption:
+          "Poner additionalProperties: false en tus consumidores internos convierte todo cambio aditivo en uno de ruptura.",
+        alt:
+          "Tres guardas que clasifican un cambio de schema como aditivo o de ruptura.",
+      },
       subtopicId: "S42-T1-A",
       paragraphs: [
         "Pydantic y JSON Schema describen forma, tipos y restricciones del borde HTTP. Un schema de borde **estricto** modela `extra=forbid` / `additionalProperties: false`: solo las claves en un conjunto *allowed* pasan. Si el cliente manda `note_interna` o un flag de debug no declarado, el borde debe rechazar **antes** de authz, de logs enriquecidos o de persistencia. Eso **no sustituye** invariantes de negocio (p. ej. `status ∈ {open, closed}`): la forma es el primer fail-closed; la autorización y el dominio vienen después.",
@@ -129,6 +136,13 @@ False`,
     },
     {
       heading: "Evolución, discriminated unions y validación de negocio",
+      figure: {
+        id: "S42-trust-boundary",
+        caption:
+          "La forma se rechaza antes de authz y antes de los logs: un campo no declarado no debe llegar ni a escribirse.",
+        alt:
+          "Grafo del cliente a la validación, de ahí a authz y al dominio, con una rama a logs solo tras validar.",
+      },
       subtopicId: "S42-T1-B",
       paragraphs: [
         "La evolución segura prefiere campos opcionales **aditivos** y discriminated unions **exhaustivas** (cada `type` conocido tiene rama). Renombrar o reinterpretar un campo obligatorio rompe lectores previos: el worker de ayer esperaba `amount` y mañana recibe otra semántica bajo el mismo nombre. Eso exige **versión o migración explícita**, no un silent cast en el borde. El costo de un `add_optional` bien hecho es bajo; el de un rename silencioso es un incidente de integración.",
@@ -235,7 +249,7 @@ False`,
       heading: "Límites de entrada, injection y SSRF/path traversal",
       subtopicId: "S42-T3-A",
       paragraphs: [
-        "Antes de procesar un upload o un fetch, aplica **límite de bytes**, **allowlist de hosts** y **confinamiento de ruta**. Una URL o un path del usuario **nunca** se convierte directamente en socket o filesystem: el clásico SSRF a `169.254.169.254` (metadata cloud) y el path `../etc/passwd` son adversarios reales, no teoría abstracta. Y sobre la allowlist conviene decir lo que no cubre, porque creerla suficiente es el error caro: filtrar por **nombre de host** no impide que ese nombre permitido resuelva a una dirección interna, ni que una redirección `3xx` lleve la petición a otra parte, ni que el DNS conteste una IP distinta en la segunda consulta. El control que cierra esas puertas es sobre la **IP ya resuelta** —rechazar rangos privados, loopback y link-local— aplicado también a cada salto de redirección. Las tres puertas son **conjuntas**: fallar una basta para rechazar.",
+        "Antes de procesar un upload o un fetch, aplica **límite de bytes**, **allowlist de hosts junto con verificación de la IP resuelta** y **confinamiento de ruta**. Una URL o un path del usuario **nunca** se convierte directamente en socket o filesystem: el clásico SSRF a `169.254.169.254` (metadata cloud) y el path `../etc/passwd` son adversarios reales, no teoría abstracta. Y sobre la allowlist conviene decir lo que no cubre, porque creerla suficiente es el error caro: filtrar por **nombre de host** no impide que ese nombre permitido resuelva a una dirección interna, ni que una redirección `3xx` lleve la petición a otra parte, ni que el DNS conteste una IP distinta en la segunda consulta. El control que cierra esas puertas es sobre la **IP ya resuelta** —rechazar rangos privados, loopback y link-local— aplicado también a cada salto de redirección. Las tres puertas son **conjuntas**: fallar una basta para rechazar.",
         "Contrato local anti-abuso. Entrada: tamaño del body, host de la URL, path resuelto y raíz permitida. Salida: aceptar solo si `bytes ≤ max`, `host ∈ allowlist` y el path queda bajo `root/`. Error: metadata IP, path `/etc/passwd` o `..` de traversal. Criterio: el caso adverso debe **fallar por contenido** (host o path calculados), no por una etiqueta impresa a mano.",
         "En `CASO-CUS-042-3A`, el adjunto de un ticket de Cusco se guarda bajo `/safe/reports/`. Un body de 9999 bytes, host de metadata cloud o path `/etc/passwd` produce `REJECT_UNTRUSTED_INPUT`. Si falta la raíz de confinamiento en el registro, se abre `SECURITY_REVIEW` (no se asume breach ni se inventa un root por defecto).",
       ],
@@ -251,21 +265,35 @@ False`,
         raise ValueError("escape")
     return joined
 
-def url_allowed(url: str, allow: set) -> bool:
+BLOCKED_PREFIXES = ("127.", "10.", "192.168.", "169.254.", "::1")
+
+def ip_allowed(ip: str) -> bool:
+    # Loopback, private and link-local are never a legitimate destination
+    # for a fetch driven by user input.
+    return not ip.startswith(BLOCKED_PREFIXES)
+
+def url_allowed(url: str, allow: set, resolve) -> bool:
     host = url.split("://", 1)[-1].split("/", 1)[0]
-    return host in allow
+    if host not in allow:
+        return False
+    # The allowlist is on the name; the connection is to the address. A
+    # permitted name that resolves into a private range is the bypass.
+    return ip_allowed(resolve(host))
+
+# Synthetic resolver: one honest host, one that answers with metadata IP.
+DNS = {"docs.example.pe": "93.184.216.34", "rebind.example.pe": "169.254.169.254"}
 
 print(safe_path("/data", "a.txt"))
 try:
     safe_path("/data", "../etc/passwd")
 except ValueError as e:
     print("blocked", e)
-print("ssrf_ok", url_allowed("https://docs.example.pe/a", {"docs.example.pe"}))
-print("ssrf_block", url_allowed("http://169.254.169.254/", {"docs.example.pe"}))`,
+print("ssrf_ok", url_allowed("https://docs.example.pe/a", set(DNS), DNS.get))
+print("ssrf_rebind", url_allowed("https://rebind.example.pe/a", set(DNS), DNS.get))`,
         output: `/data/a.txt
 blocked traversal
 ssrf_ok True
-ssrf_block False`,
+ssrf_rebind False`,
       },
       callout: {
         type: "tip",

@@ -18,7 +18,7 @@
  *   node scripts/figure_render_probe.mjs --base-url http://localhost:3000
  */
 import { chromium } from 'playwright'
-import { writeFileSync, mkdirSync } from 'node:fs'
+import { writeFileSync, mkdirSync, readFileSync, readdirSync } from 'node:fs'
 
 const args = Object.fromEntries(
   process.argv.slice(2).flatMap((a, i, arr) => (a.startsWith('--') ? [[a.slice(2), arr[i + 1]]] : [])),
@@ -27,23 +27,28 @@ const BASE = args['base-url'] ?? 'http://localhost:3000'
 const OUT = args.out ?? 'course-state/figure_render_report.json'
 
 /** section id -> figure id, mirroring the registry. */
-const TARGETS = [
-  ['setup', 'S01-cwd-path'],
-  ['data-structures', 'S03-tri-state'],
-  ['functions-modules', 'S04-denominator'],
-  ['oop', 'S05-contract'],
-  ['numpy', 'S06-three-structures'],
-  ['data-acquisition', 'S07-nfc-nfd'],
-  ['pandas', 'S08-reconcile'],
-  ['security', 'S14-view-vs-copy'],
-  ['stdlib-deep', 'S15-dataframe'],
-  ['data-engineering', 'S18-interval'],
-  ['packaging', 'S17-wide-long'],
-  ['microservices', 'S32-leakage'],
-  ['ai-apis-advanced', 'S36-rolling-origin'],
-  ['gpu-computing', 'S46-event-time'],
-  ['streaming-data', 'S31-evidence-graph'],
-]
+/**
+ * section id -> figure id, read from the content rather than hardcoded.
+ *
+ * This was a literal fifteen-row array. At ninety-two figures a hand-kept list
+ * rots on the first commit that adds one, and a probe that silently stops
+ * covering a figure is worse than no probe -- the whole reason this file exists
+ * is that the previous gate reported clean on a figure it never measured.
+ */
+const TARGETS = (() => {
+  const dir = 'src/lib/course/sections'
+  const rows = []
+  for (const file of readdirSync(dir).filter((f) => f.endsWith('.ts')).sort()) {
+    const src = readFileSync(`${dir}/${file}`, 'utf8')
+    const sec = src.match(/\n\s*id:\s*["']([^"']+)["']/)
+    if (!sec) continue
+    for (const m of src.matchAll(/figure:\s*\{\s*\n?\s*id:\s*["']([^"']+)["']/g)) {
+      rows.push([sec[1], m[1]])
+    }
+  }
+  return rows
+})()
+
 
 const VIEWPORTS = [
   { name: 'desktop', width: 1440, height: 1000 },
@@ -99,11 +104,21 @@ const PROBE = (figureId) => {
     const nodes = [...fig.querySelectorAll('.react-flow__node')].map((n) => {
       const b = n.getBoundingClientRect()
       const cs = getComputedStyle(n)
+      // The wrapper's font-size is inherited and is not what the label uses:
+      // this graph sets text-[14px] on descendant divs. Reading the wrapper
+      // measures a size no reader ever sees, so take the smallest size among
+      // the elements that actually hold text.
+      const textEls = [...n.querySelectorAll('*')].filter(
+        (el) => el.children.length === 0 && (el.textContent ?? '').trim().length > 0,
+      )
+      const sizes = (textEls.length ? textEls : [n]).map((el) =>
+        parseFloat(getComputedStyle(el).fontSize),
+      )
       return {
         label: (n.textContent ?? '').trim().slice(0, 40),
         x: b.left, y: b.top, w: b.width, h: b.height,
         right: b.right, bottom: b.bottom,
-        px: Math.round(parseFloat(cs.fontSize) * flowScale * 10) / 10,
+        px: Math.round(Math.min(...sizes) * flowScale * 10) / 10,
         z: cs.zIndex === 'auto' ? 0 : Number(cs.zIndex),
       }
     })
@@ -128,7 +143,31 @@ const PROBE = (figureId) => {
     }
 
     // Edge labels are separate elements and collide with nodes just as easily.
-    const edgeLabels = [...fig.querySelectorAll('.react-flow__edge-textwrapper, .react-flow__edge-text')].length
+    // Counting them was not checking them: a clipped or overlapping edge label
+    // left findings empty, which is the same blind spot in a smaller place.
+    const edgeBoxes = [...fig.querySelectorAll('.react-flow__edge-textwrapper, .react-flow__edge-text')]
+      .map((e) => {
+        const b = e.getBoundingClientRect()
+        return {
+          label: (e.textContent ?? '').trim().slice(0, 40) || '(edge)',
+          x: b.left, y: b.top, right: b.right, bottom: b.bottom,
+          px: parseFloat(getComputedStyle(e).fontSize) * flowScale,
+        }
+      })
+      .filter((e) => e.right > e.x && e.bottom > e.y)
+    const edgeLabels = edgeBoxes.length
+
+    for (const e of edgeBoxes) {
+      if (e.x < paneBox.left - 1 || e.right > paneBox.right + 1 ||
+          e.y < paneBox.top - 1 || e.bottom > paneBox.bottom + 1) {
+        clipped.push(e.label)
+      }
+      for (const n of nodes) {
+        const ox = Math.min(e.right, n.right) - Math.max(e.x, n.x)
+        const oy = Math.min(e.bottom, n.bottom) - Math.max(e.y, n.y)
+        if (ox > 1 && oy > 1) overlaps.push({ a: e.label, b: n.label, px: Math.round(ox * oy) })
+      }
+    }
 
     return {
       present: true,
@@ -143,7 +182,10 @@ const PROBE = (figureId) => {
       clipped,
       overlaps,
       flowScale: Math.round(flowScale * 1000) / 1000,
-      smallestRenderedPx: nodes.length ? Math.min(...nodes.map((n) => n.px)) : null,
+      smallestRenderedPx: (() => {
+        const all = [...nodes.map((n) => n.px), ...edgeBoxes.map((e) => e.px)].filter(Number.isFinite)
+        return all.length ? Math.round(Math.min(...all) * 10) / 10 : null
+      })(),
     }
   }
 
@@ -224,8 +266,21 @@ try {
     await ctx.close()
   }
 
+  // Grouped by section, and by (theme, viewport) inside that.
+  //
+  // The loop used to open a fresh browser context and reload the page for every
+  // figure at every viewport in every theme. With one figure per section that
+  // was 6 loads each; at two per section it silently doubled the work for no
+  // extra coverage, because both figures are on the same page. Ninety-two
+  // figures that way is 552 loads and the probe stops being runnable.
+  const bySection = new Map()
   for (const [sectionId, figureId] of TARGETS) {
-    report.figures[figureId] = {}
+    if (!bySection.has(sectionId)) bySection.set(sectionId, [])
+    bySection.get(sectionId).push(figureId)
+  }
+
+  for (const [sectionId, figureIds] of bySection) {
+    for (const figureId of figureIds) report.figures[figureId] = {}
     for (const theme of THEMES) {
       for (const vp of VIEWPORTS) {
         const ctx = await browser.newContext({
@@ -244,8 +299,9 @@ try {
         await page.waitForSelector('[data-testid="section-root"]', { timeout: 90000 })
         // theory is the default tab; give layout a beat to settle
         await page.waitForTimeout(600)
-        const r = await page.evaluate(PROBE, figureId)
         const key = `${theme}/${vp.name}`
+        for (const figureId of figureIds) {
+        const r = await page.evaluate(PROBE, figureId)
         report.figures[figureId][key] = r
 
         const where = `${figureId} @ ${key}`
@@ -270,6 +326,7 @@ try {
           if (r.smallestRenderedPx !== null && r.smallestRenderedPx < 11) {
             report.findings.push(`${where}: smallest label renders at ${r.smallestRenderedPx}px (floor 11)`)
           }
+        }
         }
         await ctx.close()
       }

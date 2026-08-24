@@ -71,6 +71,13 @@ prod_side_effect_without_approval_ok False`,
     },
     {
       heading: "Workflow vs. agente",
+      figure: {
+        id: "S49-tool-effects",
+        caption:
+          "Exigir clave a un get_case_status denegaría todas las lecturas; repetirlas es inofensivo.",
+        alt:
+          "Tres guardas que distinguen una tool de lectura de una que produce efecto.",
+      },
       subtopicId: "S49-T1-A",
       paragraphs: [
         "Usa **workflow** cuando pasos y ramas son conocidos y deterministas; reserva **agente** solo para decisiones acotadas con beneficio medible frente a un baseline y salida verificable por un evaluator. Un agente abierto sin presupuesto ni tools de responsabilidad única no es «más inteligente»: es un riesgo de side effects (envíos, writes, costos) que un pipeline fijo no habría tomado.",
@@ -110,6 +117,13 @@ need_evidence`,
     },
     {
       heading: "Routing, planner/worker y evaluator–optimizer",
+      figure: {
+        id: "S49-context-budget",
+        caption:
+          "Compactar puede borrar pasos ruidosos; case_id, budget y no_prod_write tienen que sobrevivir.",
+        alt:
+          "Tres barras con el reparto del presupuesto de contexto frente a su máximo.",
+      },
       subtopicId: "S49-T1-B",
       paragraphs: [
         "El **router** elige la ruta (p. ej. caso vs. reporte), el **planner** descompone en pasos acotados, el **worker** ejecuta tools y el **evaluator** critica la salida. El patrón **evaluator–optimizer** cierra el loop: si el evaluator falla, se replanifica o se reintenta el worker — pero solo hasta un `max_steps` (o `max_iters`) explícito. Sin cota, el «agente» se convierte en un while infinito con costo y riesgo crecientes.",
@@ -175,7 +189,7 @@ do_everything False`,
       heading: "Schema, permisos, idempotencia y errores",
       subtopicId: "S49-T2-B",
       paragraphs: [
-        "El **schema** valida argumentos *antes* de ejecutar; los **permisos** se chequean en runtime contra un allowlist de scopes; la **idempotency key** garantiza que un retry no duplique side effects; los errores se clasifican en `retryable` vs. `terminal` **sin** volcar secretos al log. Un agente que reintenta ciegamente una tool de escritura sin key es un generador de dobles cargos o dobles envíos.",
+        "El **schema** valida argumentos *antes* de ejecutar; los **permisos** se chequean en runtime contra un allowlist de scopes; la **idempotency key** es la pieza que permite que un retry no duplique side effects —permite, no garantiza: hace falta además que el registro de claves sea duradero, que reservar la clave y aplicar el efecto ocurran de forma atómica (dos llamadas simultáneas pueden encontrar la clave ausente a la vez), y una regla para el caso de fallo entre aplicar el efecto y anotarlo—; los errores se clasifican en `retryable` vs. `terminal` **sin** volcar secretos al log. Un agente que reintenta ciegamente una tool de escritura sin key es un generador de dobles cargos o dobles envíos.",
         "Mecanismo de llamada, **para tools que producen un efecto**: `schema_valid`, `scope` ∈ `granted`, key de idempotencia no vacía, `effects == 1` tras N intentos y `error_kind` ∈ {retryable, terminal}. Un tool de solo lectura como `get_case_status` no entra en esa cuenta: no tiene efecto que duplicar, así que no lleva clave de idempotencia y repetirlo es inofensivo. Le exiges schema y scope, nada más. Si el scope es `prod:write` sin grant, o hay effects duplicados, o el kind es un dump de secreto, responde `DENY_TOOL_CALL`. Entrada: call + store de keys. Salida: resultado o denegación tipada. El store se consulta *antes* de aplicar el efecto.",
         "En `CASO-AYA-049`, dos llamadas a `report:prepare` con la misma key devuelven el mismo efecto (replay seguro: `attempts` puede ser 2, `effects` sigue en 1). `prod:write` fuera del grant se niega. Evidencia: store de idempotencia serializable. Sin secretos reales en la salida del lab.",
       ],

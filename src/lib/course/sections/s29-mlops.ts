@@ -130,6 +130,13 @@ check_score True`,
     },
     {
       heading: "Temporalidad y provenance",
+      figure: {
+        id: "S29-provenance",
+        caption:
+          "Mientras la resolución sigue abierta un registro puede colgar de dos entidades. Con una FK, cada cambio de opinión borraría el anterior.",
+        alt:
+          "Grafo con dos source_records unidos a entity_source_links, que enlaza con una entidad resuelta y otra candidata.",
+      },
       subtopicId: "S29-T1-B",
       paragraphs: [
         "**Temporalidad**: modela `valid_from`/`valid_to` o, más simple en el lab, una tabla de eventos donde cada cambio es una fila nueva. No sobrescribas la decisión anterior con UPDATE del label: inserta una nueva fila versionada. Así puedes reconstruir “qué veía el revisor el martes” para el mismo par — requisito de auditoría del almacén ER, no un detalle cosmético de esquema.",
@@ -184,6 +191,13 @@ overwrite False`,
     },
     {
       heading: "CTEs, windows y anti-joins",
+      figure: {
+        id: "S29-window-vs-group",
+        caption:
+          "groupby colapsa; window conserva la fila y añade el total de su partición.",
+        alt:
+          "Dos tablas: la de groupby con una fila por región, la de window con todas las filas más su total.",
+      },
       subtopicId: "S29-T2-A",
       paragraphs: [
         "Una **CTE** (`WITH nombre AS (… )`) nombra un paso intermedio: candidatos filtrados, scores ordenados. Las **window functions** (`ROW_NUMBER() OVER (ORDER BY score DESC)` o `PARTITION BY block_key ORDER BY score DESC`) asignan rango **sin colapsar filas** como haría un `GROUP BY`. `PARTITION BY` reinicia el contador por cubeta de blocking: “top-1 por bloque”.",

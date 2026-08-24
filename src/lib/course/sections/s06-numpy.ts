@@ -138,6 +138,13 @@ original final: [{'id': 'C001', 'tags': ['vip', 'alias', 'shallow']}]`,
     },
     {
       heading: "Diccionarios y pertenencia",
+      figure: {
+        id: "S06-list-vs-dict",
+        caption:
+          "Con tres filas da igual; con cien mil, la estructura decide si «¿está?» cuesta un paso o un recorrido.",
+        alt:
+          "Dos tablas con los mismos clientes: a la izquierda una lista indexada, a la derecha un diccionario por clave.",
+      },
       subtopicId: "S06-T2-A",
       paragraphs: [
         "Una lista responde «¿qué llegó primero?»; un diccionario responde «¿qué registro corresponde a esta clave?». Piensa en el catálogo de una biblioteca: nadie recorre todos los estantes para localizar un código conocido. `{c['id']: c for c in filas}` construye ese catálogo con acceso O(1) promedio. Pero hay una frontera peligrosa: si el ID se repite, la última fila reemplaza a la anterior sin ceremonia. Detecta el conflicto antes de indexar.",

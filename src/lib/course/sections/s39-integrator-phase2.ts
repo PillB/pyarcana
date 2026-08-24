@@ -111,6 +111,13 @@ auto_fraud False`,
     },
     {
       heading: "Contratos, versiones y ownership (SemVer)",
+      figure: {
+        id: "S39-triage-stages",
+        caption:
+          "Si un feature se materializa contra la cola ya resuelta, el modelo entrena sobre su propio futuro.",
+        alt:
+          "Cinco etapas —intake, ER, grafo, features, cola— con la frontera antes de la cola humana.",
+      },
       subtopicId: "S39-T1-B",
       paragraphs: [
         "Cada artefacto del triage — motor de ER, `graph_schema`, `feature_set`, ranker, umbral y plantilla de packet — debe tener **owner**, **versión semver** y **política de compatibilidad**. Sin owner no hay on-call; sin versión no hay regresión; sin política de breaking change el revisor recibe un packet que el modelo ya no entiende.",

@@ -70,6 +70,13 @@ ungrounded_claim_ok False`,
     },
     {
       heading: "Embeddings y similitud",
+      figure: {
+        id: "S48-chunk-provenance",
+        caption:
+          "Si el hash es solo del texto, dos fragmentos iguales de documentos con permisos distintos se colapsan en uno.",
+        alt:
+          "Tres capas apiladas: documento con versión, sección y fragmento con su hash de procedencia.",
+      },
       subtopicId: "S48-T1-A",
       paragraphs: [
         "Los embeddings proyectan texto a un espacio vectorial; la **similitud solo ordena candidatos** — no prueba verdad ni autoriza un claim. Versión del modelo, normalización y métrica (cosine, dot) son parte del contrato del índice: cambiar cualquiera sin re-eval rompe el holdout.",
@@ -100,6 +107,13 @@ emb_dim 2`,
     },
     {
       heading: "Límites, versiones y evaluación",
+      figure: {
+        id: "S48-evidence-allowlist",
+        caption:
+          "Deduplicar por el texto puede dejar como superviviente el fragmento que el lector no tenía derecho a ver.",
+        alt:
+          "Grafo del usuario a los documentos que puede ver y de ahí a la respuesta citada.",
+      },
       subtopicId: "S48-T1-B",
       paragraphs: [
         "Cambiar el modelo de embedding no es un deploy cosmético: exige **baseline de recall en holdout**, presupuesto de reindexación y slices de error. Recall@K del retrieval y calidad de la respuesta se miden por separado; un candidato más caro que no supera al baseline se descarta.",
@@ -131,7 +145,7 @@ holdout rag-holdout-v1`,
       heading: "Chunking, metadata y dedup",
       subtopicId: "S48-T2-A",
       paragraphs: [
-        "El chunking productivo sigue **unidades semánticas** (secciones, cláusulas, títulos), no rebanadas ciegas de N caracteres. Cada chunk conserva `doc_id`, sección, hash estable y versión de fuente; dedup por hash evita evidencia duplicada y fugas entre versiones.",
+        "El chunking productivo sigue **unidades semánticas** (secciones, cláusulas, títulos), no rebanadas ciegas de N caracteres. Cada chunk conserva `doc_id`, sección, hash estable y versión de fuente. El dedup evita evidencia duplicada, pero fíjate sobre qué se calcula el hash: si es solo el texto, dos fragmentos idénticos que pertenecen a documentos, secciones, versiones o **permisos** distintos se colapsan en uno, y el superviviente puede ser el que el lector no tenía derecho a ver. El hash de dedup incluye la procedencia —`doc_id`, sección y versión—, no solo el contenido. Y el dedup no es lo que impide la fuga entre versiones: eso lo hace filtrar por la versión pedida antes de recuperar.",
         "Contrato local T2-A. Entrada: secciones con texto y metadata. Salida: chunks con ids `doc#section`, hashes únicos y `source_version`. Breach → `DEDUP_AND_RECHUNK` si hay hashes repetidos o metadata vacía; missing de versión → `RESTORE_CHUNK_METADATA`.",
         "El reglamento sintético de la cooperativa se parte en secciones `sla`, `horario` y `limites` (no en bloques de 10 letras). Cada fragmento lleva hash y provenance `d1-v3`; si dos secciones colapsan al mismo hash, se re-chunka.",
       ],
@@ -308,7 +322,7 @@ False`,
       subtopicId: "S48-T4-B",
       paragraphs: [
         "Retrieval eval (Recall@K) y answer eval (faithfulness/groundedness) son **gates separados**. Costo y latencia tienen presupuesto; la abstención es un resultado exitoso cuando el soporte es insuficiente.",
-        "Contrato local T4-B. Entrada: recall, faithfulness, costo y flag/score de support. Salida: `answer` solo si todos los umbrales se cumplen; si no, `abstain` con razón. Breach → `ABSTAIN_WITH_REASON`; missing de support → `TUNE_RETRIEVAL_OR_BUDGET`.",
+        "Contrato local T4-B. Entrada: recall, faithfulness, costo y flag/score de support. Salida: `answer` solo si todos los umbrales se cumplen; si no, `abstain` con razón. Una precisión sobre el recall, porque mezcla dos escalas: Recall@K se mide **sobre un conjunto de evaluación** con relevancias conocidas, así que no es una propiedad de la respuesta que estás por emitir. Aquí funciona como un umbral de **habilitación del sistema** —si el recall medido en la última evaluación cayó por debajo, el pipeline se abstiene en lugar de responder—, no como una medición que se recalcula por consulta. Breach → `ABSTAIN_WITH_REASON`; missing de support → `TUNE_RETRIEVAL_OR_BUDGET`.",
         "En `CASO-PUN-048-4B`, support 0.8 con recall y faithfulness en umbral responde; support 0.2 se abstiene y registra ~1200 tokens del intento. No es veredicto de conducta: solo groundedness sobre documentos autorizados.",
       ],
       code: {

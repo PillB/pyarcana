@@ -27,6 +27,13 @@ export const section28: CourseSection = {
   theory: [
     {
             heading: "Los ejemplos se acaban antes que los casos",
+            figure: {
+              id: "S49-agent-loop",
+              caption:
+                "Reservar la clave y aplicar el efecto tienen que ser una sola operación: si no, dos llamadas simultáneas crean dos trabajos.",
+              alt:
+                "Grafo del bucle: plan llama a tool, tool reserva en el store de claves, la observación replanifica o detiene.",
+            },
       paragraphs: [
         "Escribiste pruebas para el nombre con tilde, el nombre en mayúsculas, el nombre con espacios de más. Funcionan, y aun así el módulo falla en producción con un nombre que no se te ocurrió. El problema no es que hayas escrito pocas pruebas: es que estabas enumerando casos cuando podías estar declarando una regla.",
         "Ese cambio de enfoque es el corazón de la sección. En vez de decir «para esta entrada espero esta salida», declaras algo que debe ser cierto **siempre** — normalizar dos veces da lo mismo que normalizar una vez; el score siempre cae entre cero y uno — y dejas que la máquina genere cientos de entradas buscando el contraejemplo. Eso es una **prueba de propiedades**, y cuando encuentra uno te devuelve la semilla exacta para reproducirlo.",
@@ -53,6 +60,13 @@ export const section28: CourseSection = {
     },
     {
       heading: "Invariantes y generación de casos",
+      figure: {
+        id: "S28-tool-schema",
+        caption:
+          "Un nombre que «suena útil» en el prompt no es un criterio: el registro de tools se audita antes del run.",
+        alt:
+          "Cuatro guardas que deciden si una tool es llamable o se deshabilita.",
+      },
       subtopicId: "S28-T1-A",
       paragraphs: [
         "Una **invariante** es una propiedad que **siempre** debe cumplirse en el dominio ER: `normalize` es **idempotente** (`f(f(x)) == f(x)`); scores en **[0, 1]**; ids no vacíos; pares canónicos `entity_a < entity_b`. Si se rompe, el matching deja de ser un contrato y se vuelve intuición.",

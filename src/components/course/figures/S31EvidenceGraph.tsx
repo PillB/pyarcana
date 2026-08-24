@@ -137,7 +137,12 @@ export function S31EvidenceGraph({ title }: { title: string }) {
         id,
         source,
         target: sourceTarget,
-        label,
+        // In the stacked layout the nodes sit close enough that an edge label
+        // lands on top of one -- measured, not guessed: the probe found
+        // "teléfono" overlapping "Luis M." at 390px and 320px. Nothing is lost
+        // by dropping it there, because the panel below names the evidence on
+        // every edge of the selected path in full sentences.
+        label: narrow ? undefined : label,
         animated: active.includes(id),
         style: {
           stroke: active.includes(id) ? 'var(--chart-2)' : 'var(--border)',
@@ -146,7 +151,7 @@ export function S31EvidenceGraph({ title }: { title: string }) {
         labelStyle: { fill: 'var(--muted-foreground)', fontSize: 14 },
         labelBgStyle: { fill: 'var(--card)' },
       })),
-    [active],
+    [active, narrow],
   )
 
   const onNodeClick = useCallback((_: unknown, node: Node) => {

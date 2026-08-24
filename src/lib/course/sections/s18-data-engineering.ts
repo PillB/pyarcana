@@ -122,6 +122,13 @@ log1p [2.398, 2.565, 2.485, 2.639, 2.603, 5.303]`,
  },
  {
  heading: "Población, muestra y sesgo",
+ figure: {
+   id: "S18-sample-vs-population",
+   caption:
+     "Cada margen que queda fuera es un sesgo con nombre; el intervalo solo cubre el ruido, no ese hueco.",
+   alt:
+     "Dos regiones anidadas dentro de la población: el marco muestral y quienes respondieron.",
+ },
  subtopicId: "S18-T2-A",
  paragraphs: [
  "La **población** es el universo de interés (p. ej. todos los tickets del canal en el mes); la **muestra** es lo observado. El **sesgo de selección** aparece si el muestreo no es representativo — p. ej. solo Madrid o solo canal web — aunque el `mean` esté bien calculado.",

@@ -117,6 +117,13 @@ prefer_role_over_css True`,
     },
     {
       heading: "Auto-waiting y assertions",
+      figure: {
+        id: "S23-rpa-recovery",
+        caption:
+          "Un CAPTCHA no es un fallo transitorio: es una condición de parada con traspaso humano.",
+        alt:
+          "Cuatro etapas —login, formulario, export, verificar— con una frontera tras export donde el efecto ya está en el portal.",
+      },
       subtopicId: "S23-T1-B",
       paragraphs: [
         "Playwright **auto-espera** a que el elemento sea interactuable (visible, estable, habilitado, recibe eventos). Evita `time.sleep` fijos: un sleep de 5 s **falla en CI lento** y **desperdicia** tiempo en CI rápido. Usa `expect` con timeout explícito y condiciones de readiness del paso de negocio (título, fila de tabla, download started).",
@@ -288,7 +295,7 @@ has_screenshot True`,
       paragraphs: [
         "Retries solo para errores **transitorios** (timeout, red, 429), **nunca** para CAPTCHA, 403 de negocio ni ToS. `should_retry(kind)` codifica esa política en una sola función legible para el runbook y el grader. Tras `max_attempts` de timeout → fail con conteo de intentos, no un loop infinito que castigue al portal demo ni al runner de CI.",
         "Recuperación ante DOM inestable: si `err=='stale'` (nodo reemplazado tras un re-render), la action es `goto_home` o renavegar al listado — **no** `continue` sobre un handle viejo. Tras la renavegación, reobtienes el locator; reutilizar un handle de un árbol anterior es una fuente clásica de flakes en browser RPA.",
-        "Reanudación con checkpoint: el robot guarda `last_ok_step` (p. ej. `login`, `form`) y, al reintentar la corrida, salta al **siguiente** paso en vez de rehacer todo el flujo. Eso evita el doble envío del login/form y hace la corrida **idempotente a nivel de paso** cuando el backend del portal demo lo permite (mismo periodo, mismo export).",
+        "Reanudación con checkpoint: el robot guarda `last_ok_step` (p. ej. `login`, `form`) y, al reintentar la corrida, salta al **siguiente** paso en vez de rehacer todo el flujo. Eso evita rehacer el flujo entero, pero no alcanza para llamarlo idempotente, y la diferencia es donde viven los incidentes: entre el momento en que el efecto ocurre en el portal y el momento en que escribes `last_ok_step` hay una ventana, y un crash ahí deja el envío hecho y el checkpoint sin escribir — al reintentar, lo envías dos veces. El checkpoint ahorra trabajo; lo que evita el duplicado es que el propio paso sea repetible sin consecuencia, porque el portal deduplica por una clave de negocio (mismo periodo, mismo export) o porque compruebas el estado antes de reenviar. Saltarte pasos previos también supone que ninguno dejó estado que el siguiente necesite.",
         "Caso sintético CASO-LIM-023: tres timeouts seguidos → fail con `attempts=3`. Un captcha en medio no se “reintenta con otro user-agent”: va a `human_handoff` (T4). El runbook documenta `max_attempts=3`, backoff opcional y la lista de pasos seguros de reanudar frente a los que exigen revisión humana.",
       ],
       code: {
