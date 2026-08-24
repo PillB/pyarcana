@@ -1,78 +1,43 @@
 #!/usr/bin/env python3
-"""Find sentences that spend the learner's attention on something they cannot use.
+"""Find technical terms that cost learner attention before they are explained.
 
-THE CASE THAT PROMPTED THIS. S01, on why the folder is called `.venv`:
+The report is deliberately a worklist, not a verdict. Vocabulary is derived
+from the course's own signals (code spans, acronyms and mid-sentence proper
+nouns), then checked against glossary availability and prose explanations in
+*source order*. A definition later in the same section must never explain a
+use that the learner encountered earlier.
 
-    "queda semi-oculto en listados Unix y se distingue de archivos .env de
-     secretos."
-
-Twenty words, in the first lesson, resting on four things never introduced:
-what Unix is, what a listing is, what a `.env` file is, and what "secrets"
-means in this trade. The reader cannot evaluate any of it. And the sentence is
-not load-bearing -- remove it and the instruction ("call the folder .venv") is
-unchanged. It is not wrong. It is a cost with no return.
-
-Generalised, the questions worth asking of every sentence are:
-
-  1. Does it introduce a term the learner has had no chance to learn?
-  2. Is the term load-bearing, or is it decoration on an instruction that
-     stands without it?
-  3. If it is load-bearing, is it grounded here, or assumed?
-
-This pass answers (1) mechanically and flags the shapes that usually mean (2).
-Judging (2) and (3) is a reading job and stays one: the output is a worklist,
-not a verdict.
-
-Run: python3 scripts/unexplained_reference_audit.py [--section s01-setup] [--json out.json]
+Run:
+    python3 scripts/unexplained_reference_audit.py [--section s01-setup] [--json out.json]
 """
 from __future__ import annotations
 
 import argparse
 import json
 import re
-from pathlib import Path
-
 import sys
+from pathlib import Path
+from typing import TypeAlias
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-# Reuse the anglicism gate rather than reimplementing it. That gate already
-# knows two things this pass needs and got wrong on its own: what counts as a
-# gloss in this course's voice, and that a term with a glossary entry is
-# explained by the hover hint the UI shows, not only by prose. Duplicating
-# either would let the two gates disagree about the same sentence.
 from anglicism_gloss_audit import GLOSS_NEAR, glossary_available  # noqa: E402
+
 SECTIONS = ROOT / "src/lib/course/sections"
 INDEX = ROOT / "src/lib/course/index.ts"
 GLOSSARY = ROOT / "src/lib/glossary/terms.ts"
 
-# NO HAND-WRITTEN TERM LIST.
-#
-# The first version of this pass carried one, and that was the defect: a list
-# only finds the terms whoever wrote it already thought of. The objection is
-# general -- any technical term that (1) the course has not previously explained
-# and exemplified, and (2) buys the reader nothing but trivia.
-#
-# So the vocabulary is derived from the corpus. A token counts as technical when
-# the course itself marks it as such:
-#
-#   * it sits in a code span, which is the author's own signal for "this is a
-#     name from the machine, not ordinary Spanish";
-#   * it is an acronym (two or more capitals), which no beginner can decode;
-#   * it is capitalised mid-sentence, i.e. a proper noun -- a product, a
-#     standard, a company, a format.
-#
-# Spanish sentence-initial capitals and the course's own identifiers (CASO-,
-# CP-, S01-T1-A) are excluded: they are scaffolding, not vocabulary.
+# A position is (1-based section index, 0-based sentence ordinal).  -1 is
+# reserved for a glossary definition available from the moment the section is
+# opened, before its first prose sentence.
+Position: TypeAlias = tuple[int, int]
 
-# Python's own vocabulary is taught by use throughout the course and is not
-# the kind of term this pass is about; place names are setting, not vocabulary.
 PY_VOCAB = {
     "dict", "list", "set", "tuple", "str", "int", "float", "bool", "None",
     "True", "False", "finally", "except", "raise", "yield", "lambda", "async",
     "await", "class", "import", "return", "print", "len", "range", "open",
-    "self", "args", "kwargs", "None",
+    "self", "args", "kwargs",
 }
 
 STOPWORDS = {
@@ -84,22 +49,12 @@ STOPWORDS = {
 }
 
 TOKEN_PATTERNS = [
-    # a name inside a code span, without call parens or dots -- `argparse`,
-    # `NFC`, `POSIX`. Dotted and called forms are usage, not a new term.
     (r"`([A-Za-z][A-Za-z0-9_-]{2,})`", "code-span name"),
-    # an acronym: SSRF, RPO, TOCTOU, GIL
     (r"(?<![A-Za-z])([A-Z]{2,6})(?![A-Za-z])", "acronym"),
-    # a proper noun mid-sentence: Unix, Docker, Kubernetes, Pydantic
     (r"(?<=[a-záéíóúñ,] )([A-Z][a-zA-Z]{3,})", "proper noun"),
 ]
 
-# Sentence shapes that introduce a second concept only to contrast with it.
 ASIDE_SHAPES = [
-    # These must name a *thing* on the far side, not merely contain the word
-    # "diferencia". The first version fired on "esa diferencia decide si..."
-    # and on "42 y \"42\" como gemelos" -- sentences that are the lesson, not an
-    # aside about something else. A contrast is only suspect when it introduces
-    # a second named artefact the reader has no use for.
     (r"se distingue de (?:los? |las? |un |una )?[`\w.]", "contrast with a second named thing"),
     (r"a diferencia de (?:los? |las? |un |una )?[`A-Z\w.]+\b", "contrast with a second named thing"),
     (r"no confundir con (?:los? |las? |un |una )?[`\w.]", "contrast with a second named thing"),
@@ -111,44 +66,67 @@ ASIDE_SHAPES = [
     (r"algunos (?:autores|equipos|tutoriales)", "unattributed disagreement"),
 ]
 
+GLOSS_MARK = GLOSS_NEAR.pattern
+
 
 def section_order() -> list[str]:
-    return re.findall(r"from '\./sections/([^']+)'", INDEX.read_text(encoding="utf-8"))
+    return re.findall(r"from ['\"]\./sections/([^'\"]+)['\"]", INDEX.read_text(encoding="utf-8"))
 
 
 def glossary_first_use() -> dict[str, str]:
-    """term -> the section id where the glossary says it is first introduced."""
+    """term -> section id declared by the glossary (kept for report tooling)."""
     src = GLOSSARY.read_text(encoding="utf-8")
     out: dict[str, str] = {}
-    for m in re.finditer(
-        r"term:\s*['\"]([^'\"]+)['\"][\s\S]{0,400}?firstSectionId:\s*['\"]([^'\"]+)['\"]", src
+    for match in re.finditer(
+        r"term:\s*['\"]([^'\"]+)['\"][\s\S]{0,400}?firstSectionId:\s*['\"]([^'\"]+)['\"]",
+        src,
     ):
-        out[m.group(1).lower()] = m.group(2)
+        out[match.group(1).lower()] = match.group(2)
     return out
 
 
 def paragraphs(src: str) -> list[tuple[str, str]]:
-    """(subtopic-or-heading, paragraph text) in source order."""
-    out = []
-    ctx = "?"
-    for m in re.finditer(
-        r"heading:\s*['\"]([^'\"]+)['\"]|paragraphs:\s*\[([\s\S]*?)\n\s*\]", src
+    """Return (heading, paragraph) pairs in learner-visible source order."""
+    out: list[tuple[str, str]] = []
+    context = "?"
+    for match in re.finditer(
+        r"heading:\s*['\"]([^'\"]+)['\"]|paragraphs:\s*\[([\s\S]*?)\n\s*\]",
+        src,
     ):
-        if m.group(1):
-            ctx = m.group(1)
+        if match.group(1):
+            context = match.group(1)
             continue
-        for q in re.finditer(r'"((?:\\.|[^"\\]){20,})"|\'((?:\\.|[^\'\\]){20,})\'', m.group(2)):
-            out.append((ctx, (q.group(1) or q.group(2))))
+        for quoted in re.finditer(
+            r'"((?:\\.|[^"\\]){20,})"|\'((?:\\.|[^\'\\]){20,})\'',
+            match.group(2),
+        ):
+            out.append((context, quoted.group(1) or quoted.group(2)))
     return out
 
 
 def sentences(text: str) -> list[str]:
-    t = text.replace("\\n", " ")
-    # Keep code spans intact: a period inside `a.b` is not a sentence end.
+    value = text.replace("\\n", " ")
     stash: list[str] = []
-    t = re.sub(r"`[^`]+`", lambda m: (stash.append(m.group(0)), f"\x00{len(stash)-1}\x00")[1], t)
-    parts = re.split(r"(?<=[.:;])\s+(?=[A-ZÁÉÍÓÚÑ¿¡*])", t)
-    return [re.sub(r"\x00(\d+)\x00", lambda m: stash[int(m.group(1))], p) for p in parts]
+
+    def stash_code(match: re.Match[str]) -> str:
+        stash.append(match.group(0))
+        return f"\x00{len(stash) - 1}\x00"
+
+    value = re.sub(r"`[^`]+`", stash_code, value)
+    parts = re.split(r"(?<=[.:;])\s+(?=[A-ZÁÉÍÓÚÑ¿¡*])", value)
+    return [
+        re.sub(r"\x00(\d+)\x00", lambda match: stash[int(match.group(1))], part)
+        for part in parts
+    ]
+
+
+def iter_sentences(src: str):
+    """Yield heading, sentence and a monotonic sentence ordinal."""
+    ordinal = 0
+    for context, paragraph in paragraphs(src):
+        for sentence in sentences(paragraph):
+            yield context, sentence, ordinal
+            ordinal += 1
 
 
 def load_bearing_pre(plain: str) -> bool:
@@ -163,193 +141,197 @@ def load_bearing_pre(plain: str) -> bool:
 
 
 def candidate_terms(text: str) -> set[str]:
-    """Every token the course itself marks as technical vocabulary."""
+    """Return tokens the course itself visually marks as technical vocabulary."""
     out: set[str] = set()
-    for rx, _kind in TOKEN_PATTERNS:
-        for m in re.finditer(rx, text):
-            t = m.group(1)
-            if t in STOPWORDS or t in PY_VOCAB or len(t) < 3:
+    for regex, _kind in TOKEN_PATTERNS:
+        for match in re.finditer(regex, text):
+            term = match.group(1)
+            if term in STOPWORDS or term in PY_VOCAB or len(term) < 3:
                 continue
-            # Identifier fragments the tokenizer split out of snake_case names.
-            if re.fullmatch(r"[a-z]+id|[a-z]+_[a-z]+", t):
+            if re.fullmatch(r"[a-z]+id|[a-z]+_[a-z]+", term):
                 continue
-            # The course's own identifiers are scaffolding, not vocabulary.
-            if re.fullmatch(r"(CASO|CP|S\d+|T\d+|N\d)[A-Z0-9-]*", t):
+            if re.fullmatch(r"(CASO|CP|S\d+|T\d+|N\d)[A-Z0-9-]*", term):
                 continue
-            out.add(t)
+            out.add(term)
     return out
 
 
-GLOSS_MARK = GLOSS_NEAR.pattern
+def sentence_explains(term: str, sentence: str) -> bool:
+    """Whether this sentence contains the course's local gloss pattern."""
+    return bool(
+        re.search(
+            rf"`?{re.escape(term)}`?\*{{0,2}}[^.]{{0,45}}?{GLOSS_MARK}",
+            sentence,
+        )
+    )
 
 
 def glossary_terms_available() -> dict[str, int]:
-    """alias(lower) -> section index from which the hover definition exists."""
+    """alias(lower) -> section index from which a hover definition exists."""
     try:
-        return {k.lower(): v for k, v in glossary_available().items()}
+        return {key.lower(): value for key, value in glossary_available().items()}
     except Exception:
         return {}
 
 
-def introduction_map(order: list[str]) -> dict[str, int]:
-    """term -> 1-based section where the course first *explains* it.
-
-    Explained means the course's own convention: the term appears next to a
-    gloss marker -- an em dash, a parenthetical, or one of the phrases used to
-    unpack a word. The marker may trail a few words, because a gloss rarely
-    sits flush against its term.
-    """
-    # A glossary entry is an explanation the reader can reach on hover, so it
-    # counts as introduced from the section where it becomes available.
-    first: dict[str, int] = dict(glossary_terms_available())
-    for i, name in enumerate(order, 1):
-        src = (SECTIONS / f"{name}.ts").read_text(encoding="utf-8")
-        body = "\n".join(
-            m.group(1) for m in re.finditer(r"paragraphs:\s*\[([\s\S]*?)\n\s*\]", src)
-        )
-        for term in candidate_terms(body):
-            key = term.lower()
-            if key in first:
+def explanation_positions_in_source(src: str, section_index: int) -> dict[str, Position]:
+    """Find the first prose explanation for each term, preserving sentence order."""
+    positions: dict[str, Position] = {}
+    for _context, sentence, ordinal in iter_sentences(src):
+        plain = re.sub(r"[*_]", "", sentence)
+        for term in candidate_terms(plain):
+            if not sentence_explains(term, plain):
                 continue
-            if re.search(rf"`?{re.escape(term)}`?\*{{0,2}}[^.]{{0,45}}?{GLOSS_MARK}", body):
-                first[key] = i
+            key = term.lower()
+            position = (section_index, ordinal)
+            if key not in positions or position < positions[key]:
+                positions[key] = position
+    return positions
+
+
+def introduced_by(introduction: Position, section_index: int, sentence_position: int) -> bool:
+    """True only if an explanation was available at or before this occurrence."""
+    return introduction <= (section_index, sentence_position)
+
+
+def introduction_map(order: list[str]) -> dict[str, Position]:
+    """term -> exact earliest point at which the learner can know the term."""
+    first: dict[str, Position] = {
+        term: (section_index, -1)
+        for term, section_index in glossary_terms_available().items()
+    }
+    for section_index, name in enumerate(order, 1):
+        src = (SECTIONS / f"{name}.ts").read_text(encoding="utf-8")
+        for term, position in explanation_positions_in_source(src, section_index).items():
+            if term not in first or position < first[term]:
+                first[term] = position
     return first
 
 
 def corpus_frequency(order: list[str]) -> dict[str, int]:
-    """How often each candidate term is used across the whole course.
-
-    This is the second of the two questions. A term that appears once, inside a
-    story, is colour: the reader meets it, shrugs, and moves on. A term that
-    appears thirty times and is never explained is a standing tax -- every one
-    of those thirty sentences asks the reader to nod at something they cannot
-    evaluate. The counts separate a vocabulary gap that must be closed from a
-    piece of trivia that should simply go.
-    """
-    freq: dict[str, int] = {}
+    """Count candidate-term uses across the whole active course."""
+    frequency: dict[str, int] = {}
     for name in order:
         src = (SECTIONS / f"{name}.ts").read_text(encoding="utf-8")
         body = "\n".join(
-            m.group(1) for m in re.finditer(r"paragraphs:\s*\[([\s\S]*?)\n\s*\]", src)
+            match.group(1)
+            for match in re.finditer(r"paragraphs:\s*\[([\s\S]*?)\n\s*\]", src)
         )
-        for t in candidate_terms(body):
-            freq[t.lower()] = freq.get(t.lower(), 0) + len(
-                re.findall(rf"(?<![\w`]){re.escape(t)}(?![\w])", body)
+        for term in candidate_terms(body):
+            key = term.lower()
+            frequency[key] = frequency.get(key, 0) + len(
+                re.findall(rf"(?<![\w`]){re.escape(term)}(?![\w])", body)
             )
-    return freq
+    return frequency
 
 
-def audit_section(name: str, idx: int, introduced: dict[str, int],
-                  freq: dict[str, int]) -> list[dict]:
+def audit_section(
+    name: str,
+    idx: int,
+    introduced: dict[str, Position],
+    freq: dict[str, int],
+) -> list[dict]:
     src = (SECTIONS / f"{name}.ts").read_text(encoding="utf-8")
-    sid_m = re.search(r"\n\s*id:\s*['\"]([^'\"]+)['\"]", src)
-    sid = sid_m.group(1) if sid_m else name
-    findings = []
+    sid_match = re.search(r"\n\s*id:\s*['\"]([^'\"]+)['\"]", src)
+    sid = sid_match.group(1) if sid_match else name
+    findings: list[dict] = []
 
-    for ctx, para in paragraphs(src):
-        for sent in sentences(para):
-            plain = re.sub(r"[*_]", "", sent)
-            ungrounded = []
-            for term in candidate_terms(plain):
-                intro = introduced.get(term.lower())
-                # Explained here, or earlier: the reader has been told.
-                if intro is not None and intro <= idx:
-                    continue
-                # Explained in this very sentence.
-                if re.search(rf"`?{re.escape(term)}`?\*{{0,2}}[^.]{{0,45}}?{GLOSS_MARK}", plain):
-                    continue
-                ungrounded.append(term)
-
-            reasons = []
-            recurring = [t for t in ungrounded if freq.get(t.lower(), 0) >= 4]
-            oneoff = [t for t in ungrounded if freq.get(t.lower(), 0) < 4]
-            if recurring:
-                reasons.append(
-                    "recurring but never explained: "
-                    + ", ".join(f"{t}×{freq.get(t.lower(), 0)}" for t in sorted(recurring)[:4])
-                )
-            if oneoff and not load_bearing_pre(plain):
-                reasons.append("one-off technical aside: " + ", ".join(sorted(oneoff)[:4]))
-            for rx, why in ASIDE_SHAPES:
-                if re.search(rx, plain, re.I):
-                    reasons.append(why)
-            if not reasons:
+    for context, sentence, ordinal in iter_sentences(src):
+        plain = re.sub(r"[*_]", "", sentence)
+        ungrounded: list[str] = []
+        for term in candidate_terms(plain):
+            intro = introduced.get(term.lower())
+            if intro is not None and introduced_by(intro, idx, ordinal):
                 continue
+            # A term is usable in the sentence that defines it, but not before.
+            if sentence_explains(term, plain):
+                continue
+            ungrounded.append(term)
 
-            # Question 2: does the sentence do work? An instruction or a
-            # contract earns its terms; an aside has to justify itself.
-            load_bearing = bool(
-                re.search(
-                    r"\b(usa|escribe|ejecuta|define|declara|nunca|siempre|debe|"
-                    r"corrige|implementa|devuelve|imprime|no )\b",
-                    plain,
-                    re.I,
+        reasons: list[str] = []
+        recurring = [term for term in ungrounded if freq.get(term.lower(), 0) >= 4]
+        oneoff = [term for term in ungrounded if freq.get(term.lower(), 0) < 4]
+        if recurring:
+            reasons.append(
+                "recurring but not yet explained: "
+                + ", ".join(
+                    f"{term}×{freq.get(term.lower(), 0)}" for term in sorted(recurring)[:4]
                 )
             )
-            findings.append(
-                {
-                    "section": sid,
-                    "file": f"{name}.ts",
-                    "index": idx,
-                    "context": ctx[:60],
-                    "sentence": sent.strip()[:260],
-                    "reasons": reasons,
-                    "ungrounded": sorted(ungrounded),
-                    "looks_load_bearing": load_bearing,
-                }
-            )
+        if oneoff and not load_bearing_pre(plain):
+            reasons.append("one-off technical aside: " + ", ".join(sorted(oneoff)[:4]))
+        for regex, why in ASIDE_SHAPES:
+            if re.search(regex, plain, re.I):
+                reasons.append(why)
+        if not reasons:
+            continue
+
+        findings.append(
+            {
+                "section": sid,
+                "file": f"{name}.ts",
+                "index": idx,
+                "context": context[:60],
+                "sentence_position": ordinal,
+                "sentence": sentence.strip()[:260],
+                "reasons": reasons,
+                "ungrounded": sorted(ungrounded),
+                "looks_load_bearing": load_bearing_pre(plain),
+            }
+        )
     return findings
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--section", default="")
-    ap.add_argument("--json", default="")
-    args = ap.parse_args()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--section", default="")
+    parser.add_argument("--json", default="")
+    args = parser.parse_args()
 
     order = section_order()
     introduced = introduction_map(order)
     names = [args.section] if args.section else order
+    frequency = corpus_frequency(order)
 
-    freq = corpus_frequency(order)
-    all_f = []
-    for i, n in enumerate(names, 1):
-        idx = order.index(n) + 1 if n in order else i
-        all_f += audit_section(n, idx, introduced, freq)
+    findings: list[dict] = []
+    for fallback_index, name in enumerate(names, 1):
+        index = order.index(name) + 1 if name in order else fallback_index
+        findings += audit_section(name, index, introduced, frequency)
 
-    # The sentence list is the worklist; the term list is the finding. A term
-    # used dozens of times and never explained is one decision, not forty.
     tally: dict[str, tuple[int, int, str]] = {}
-    for f in all_f:
-        for t in f["ungrounded"]:
-            n = freq.get(t.lower(), 0)
-            if n < 4:
+    for finding in findings:
+        for term in finding["ungrounded"]:
+            uses = frequency.get(term.lower(), 0)
+            if uses < 4:
                 continue
-            hits, _, first_sec = tally.get(t, (0, n, f["section"]))
-            tally[t] = (hits + 1, n, first_sec)
-    print("RECURRING TERMS THE COURSE NEVER EXPLAINS")
+            hits, _, first_section = tally.get(term, (0, uses, finding["section"]))
+            tally[term] = (hits + 1, uses, first_section)
+
+    print("RECURRING TERMS USED BEFORE THE COURSE EXPLAINS THEM")
     print(f"  {'term':16s} {'uses':>5} {'flagged':>8}  first seen")
-    for t, (hits, n, sec) in sorted(tally.items(), key=lambda kv: -kv[1][1])[:22]:
-        print(f"  {t:16s} {n:>5} {hits:>8}  {sec}")
+    for term, (hits, uses, section) in sorted(tally.items(), key=lambda item: -item[1][1])[:22]:
+        print(f"  {term:16s} {uses:>5} {hits:>8}  {section}")
     print()
 
-    disposable = [f for f in all_f if not f["looks_load_bearing"]]
-    print(f"sentences flagged: {len(all_f)}   of which not load-bearing: {len(disposable)}")
+    disposable = [finding for finding in findings if not finding["looks_load_bearing"]]
+    print(f"sentences flagged: {len(findings)}   of which not load-bearing: {len(disposable)}")
     by_reason: dict[str, int] = {}
-    for f in all_f:
-        for r in f["reasons"]:
-            by_reason[r] = by_reason.get(r, 0) + 1
-    for r, c in sorted(by_reason.items(), key=lambda kv: -kv[1]):
-        print(f"  {c:>4}  {r}")
+    for finding in findings:
+        for reason in finding["reasons"]:
+            by_reason[reason] = by_reason.get(reason, 0) + 1
+    for reason, count in sorted(by_reason.items(), key=lambda item: -item[1]):
+        print(f"  {count:>4}  {reason}")
 
     if args.json:
-        Path(args.json).write_text(json.dumps(all_f, indent=2, ensure_ascii=False), encoding="utf-8")
+        Path(args.json).write_text(
+            json.dumps(findings, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
         print(f"\nwritten to {args.json}")
     else:
-        for f in disposable[:20]:
-            print(f"\n  {f['section']} · {f['context']}")
-            print(f"    {f['sentence'][:150]}")
-            print(f"    -> {'; '.join(f['reasons'])}")
+        for finding in disposable[:20]:
+            print(f"\n  {finding['section']} · {finding['context']}")
+            print(f"    {finding['sentence'][:150]}")
+            print(f"    -> {'; '.join(finding['reasons'])}")
     return 0
 
 
