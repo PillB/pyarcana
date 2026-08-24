@@ -6,7 +6,7 @@ export const section46: CourseSection = {
   title: "Ingeniería de datos y orquestación de producción",
   shortTitle: "Data eng producción",
   tagline: "Pipeline incremental y backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto",
-  estimatedHours: 20,
+  estimatedHours: 9,
   level: "Producción gobernada",
   phase: 3,
   icon: "GitBranch",

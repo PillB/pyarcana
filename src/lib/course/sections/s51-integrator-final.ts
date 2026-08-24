@@ -6,7 +6,7 @@ export const section51: CourseSection = {
   title: "Observabilidad, gobernanza y UX del copiloto",
   shortTitle: "Obs y UX copiloto",
   tagline: "Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces",
-  estimatedHours: 20,
+  estimatedHours: 9,
   level: "Producción gobernada",
   phase: 3,
   icon: "Crown",

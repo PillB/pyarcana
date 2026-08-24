@@ -60,6 +60,11 @@ TERMS = [
     "TPR", "TNR", "PPV", "NPV", "FPR", "AUC", "MAE", "RMSE",
     # Operations vocabulary.
     "RTO", "RPO", "SLO", "SLI", "ADR", "DLQ", "HITL",
+    # Found by scripts/unexplained_reference_audit.py, which derives its
+    # vocabulary from the corpus instead of from a list. PII was used 91 times
+    # across the course and explained nowhere -- and it was not in this list,
+    # which is exactly the blind spot a hand-written list has.
+    "PII", "OCR", "ACL", "CVE", "DOCX",
     # Algorithms named only by initials.
     "BFS", "DFS",
     # Ensemble vocabulary introduced without translation.

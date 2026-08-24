@@ -6,7 +6,7 @@ export const section52: CourseSection = {
   title: "Enterprise Relationship & Operations Intelligence Platform: capstone final",
   shortTitle: "Capstone FINAL",
   tagline: "CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV",
-  estimatedHours: 80,
+  estimatedHours: 29,
   level: "Producción gobernada",
   phase: 3,
   icon: "Rocket",
@@ -46,7 +46,7 @@ export const section52: CourseSection = {
         "Bloque de referencia. Reúne el entregable, el orden de ensamblaje y los criterios de graduación.",
         "**Producto.** Recibes los artefactos congelados de S01–S51, sus contratos, los riesgos, las decisiones de no-go y el benchmark. Entregas un producto reproducible, una demostración, la ficha de modelo y la de sistema, la evidencia del simulacro de recuperación y la defensa de tus trade-offs y de tu contribución personal.",
         "**Orden de ensamblaje.** T1 revalida CF-1 y firma los no-go. T2 cablea los seis contextos con revisión humana. T3 congela la verificación y mide la recuperación ante desastre. T4 empaqueta la demostración, el CV y el paquete de ocho artefactos. No conviene saltar etapas: cada una asume que la anterior quedó firmada.",
-        "**Ritmo orientativo.** Unas ochenta horas: dos semanas para CF-1 y los no-go, tres para la integración de contextos, y el resto para congelar, medir y empaquetar.",
+        "**Ritmo orientativo.** Unas 29 horas según la calibración del contenido actual para revalidar CF-1, integrar los contextos, verificar la recuperación y empaquetar la defensa final.",
         "**Graduación.** Requiere 52 de 52 secciones, 12 de 12 capstones, CP-FINAL y la regresión completa, sin compensar CP-N4-C. Sin evidencia real —baseline, reloj del simulacro, los ocho artefactos y tu contribución— no se promociona.",
       ],
       code: {

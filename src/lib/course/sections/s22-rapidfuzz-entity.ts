@@ -7,7 +7,7 @@ export const section22: CourseSection = {
   shortTitle: "Email y aprobación",
   tagline:
     "Crea borradores en sandbox o archivos .eml. Ningún correo real se envía automáticamente; todo destinatario requiere confirmación humana.",
-  estimatedHours: 19,
+  estimatedHours: 9,
   level: "Práctica independiente",
   phase: 1,
   icon: "Mail",

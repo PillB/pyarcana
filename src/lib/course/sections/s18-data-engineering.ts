@@ -6,7 +6,7 @@ export const section18: CourseSection = {
  title: "EDA, estadística descriptiva e incertidumbre",
  shortTitle: "EDA e incertidumbre",
  tagline: "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
- estimatedHours: 18,
+ estimatedHours: 9,
  level: "Práctica independiente",
  phase: 1,
  icon: "BarChart3",

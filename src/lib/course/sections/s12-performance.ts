@@ -6,7 +6,7 @@ export const section12: CourseSection = {
   title: "APIs, SQL y geodatos responsables",
   shortTitle: "APIs · SQL · Geo",
   tagline: "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
-  estimatedHours: 19,
+  estimatedHours: 9,
   level: "Intermedio",
   phase: 0,
   icon: "MapPin",

@@ -6,7 +6,7 @@ export const section33: CourseSection = {
   title: "ML supervisado y baselines responsables",
   shortTitle: "Baselines ML responsables",
   tagline: "comparación honesta que conserva el baseline determinista y demuestra cuándo el ML agrega —o no agrega— valor",
-  estimatedHours: 18,
+  estimatedHours: 10,
   level: "Integración avanzada",
   phase: 2,
   icon: "LineChart",
@@ -992,7 +992,7 @@ assert valid["prevalence"] == 0.25
           "- **Contexto:** CASO-LIM-033-1B exige dummy majority **y** regla `x>=1` documentados antes del ML.\n- **Meta:** calcular dummy_acc≈0.667, cost=1 (un FP) y rule_acc=1.0.\n- **Éxito:** `S33-T1-B PASS`.\n- **Límites:** majority con `max(set(y), key=y.count)` (no `min`); costo desde y vs. dummy; no dejes cost=0 inventado.",
         instruction:
           "1. Abre el starter: `min` de clase, cost=0 y `v < 1` en la regla (DEFECT).\n2. Cambia a `max` para majority.\n3. Suma c_fp/c_fn al comparar y vs. dummy.\n4. Regla con `v >= 1.0`; imprime `S33-T1-B PASS`.",
-        hint: "maj = max(set(y), key=y.count); dummy = [maj]*len(y); costo desde y vs. dummy; rule_pred = [int(v>=1) for v in x].",
+        hint: "El dummy predice siempre la clase que más aparece: cuéntalas y quédate con la ganadora. El coste sale de comparar y con esa predicción constante; la regla se evalúa aparte = [int(v>=1) for v in x].",
         hints: [
           "maj = max(...); dummy = [maj]*n; suma c_fp/c_fn al comparar y vs. dummy → cost=1, acc≈0.667.",
           "Regla: pred [1,1,0] sobre x=[1,1,0] → rule_acc=1.0. Documenta dummy **y** regla antes del ML.",
@@ -1432,7 +1432,7 @@ assert results == ["CONTINUE", "REJECT_UNREGULARIZED", "REQUEST_SIGMOID"]
           "- **Contexto:** el informe del workbench lista features S32 por importancia de coeficiente solo si están escaladas.\n- **Meta:** top=`shared_phone`, scaled True, causal False.\n- **Éxito:** `S33-T2-B PASS`.\n- **Límites:** `sorted(..., reverse=True)`; no exijas causal True; no compares |coef| si scaled=False.",
         instruction:
           "1. Abre el starter: sorted sin reverse y causal is True en el contrato (DEFECT).\n2. Añade reverse=True.\n3. Exige causal is False (y scaled True, top shared_phone).\n4. Imprime `S33-T2-B PASS`.",
-        hint: "ranked = sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True); top debe ser shared_phone.",
+        hint: "Lo que importa es la magnitud del coeficiente, no su signo: un peso negativo grande pesa tanto como uno positivo grande. Ordena por esa magnitud, de mayor a menor.",
         hints: [
           "ranked = sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True); top debe ser shared_phone.",
           "scaled True y causal False son obligatorios antes de rankear para el informe.",
@@ -2173,7 +2173,7 @@ assert win["beats_dummy"] is True and lose["beats_dummy"] is False
           "- **Contexto:** CASO-LIM-033-4B exige entidades únicas, media de folds y train∩valid vacío.\n- **Meta:** n_groups=3, mean=0.65, disjoint True.\n- **Éxito:** `S33-T4-B PASS`.\n- **Límites:** len(set(entities)); round(..., 3) no 2; calcula isdisjoint, no hardcodes True.",
         instruction:
           "1. Abre el starter: len(entities), round 2, disjoint=True fijo (DEFECT).\n2. n_groups = len(set(entities)).\n3. mean con 3 decimales; disjoint con set(...).isdisjoint(...).\n4. Imprime `S33-T4-B PASS`.",
-        hint: "n_groups = len(set(entities)); mean = round(sum(folds)/len(folds), 3); set(train).isdisjoint(set(valid)).",
+        hint: "Cuenta entidades distintas, no filas. Y para comprobar que un pliegue no filtra, pregunta si los dos conjuntos comparten algún elemento — `set` tiene un método para exactamente eso.",
         hints: [
           "n_groups = len(set(entities)); debe ser 3 (e1 se repite).",
           "mean_fold con 3 decimales: 0.65 exacto (no round a 2). Disyunción: train∩valid vacío.",

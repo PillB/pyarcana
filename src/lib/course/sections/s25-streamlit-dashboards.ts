@@ -6,7 +6,7 @@ export const section25: CourseSection = {
   title: "Endpoints de IA, Hugging Face y prompting evaluado",
   shortTitle: "IA endpoints y prompts",
   tagline: "clasificador/extractor especializado y generador de narrativa con JSON validado; no se acepta una salida sin evidencia ni eval contra baseline",
-  estimatedHours: 19,
+  estimatedHours: 9,
   level: "Práctica independiente",
   phase: 1,
   icon: "Sparkles",
@@ -180,7 +180,7 @@ print(mock_pipeline(["Factura enero", "Hola mundo"]))`,
       subtopicId: "S25-T2-B",
       paragraphs: [
         "**Batch** reduce la sobrecarga de red; **timeout** evita colgar el flujo del VP; la **caché** por hash de `input+model` evita refacturar el mismo ticket. Estima **costo** (tokens o requests) por run y por día. Si el endpoint cae, el fallback es regla determinista o `human_review` — nunca inventes un JSON de “éxito” falso.",
-        "**Circuit breaker simple** (interruptor de circuito): tras N fallas consecutivas (p. ej. 3 timeouts), abre el circuito: deja de llamar al endpoint, enruta a fallback y alerta. Un solo `try/except TimeoutError` es el primer ladrillo; el contador de fallas evita martillar un servicio caído.",
+        "**Circuit breaker simple** (interruptor de circuito): tras N fallas consecutivas (p. ej. 3 timeouts), abre el circuito: deja de llamar al endpoint, enruta a fallback y alerta. Un solo `try/except` alrededor de la llamada es el primer ladrillo — y ojo con qué excepción capturas: los clientes HTTP no suelen lanzar el `TimeoutError` de Python sino el suyo propio (`requests.Timeout`, `httpx.TimeoutException`), así que captura el del cliente que estés usando; el contador de fallas evita martillar un servicio caído.",
         "Prompts largos y tools activos (T3) multiplican tokens: la operación de inferencia y el diseño del prompt se planifican juntos. En el lab, si `fail=True` → `fallback rules_or_human`; schema y golden siguen siendo gate de promote.",
       ],
       code: {
@@ -308,7 +308,7 @@ print(run_checkpointed([
       heading: "S25-T4-A · Golden set, schema, acierto por campo y revisión humana",
       subtopicId: "S25-T4-A",
       paragraphs: [
-        "Evalúa el asistente contra un **golden set** (conjunto dorado de referencia; input → JSON esperado). Métricas mínimas: **exact match** (coincidencia exacta; *pred == gold*), **schema rate** (tasa de cumplimiento de las keys requeridas; en el lab, gate de presencia, no motor JSON Schema completo) y **tasa de acierto por campo** (`field_match_rate`): por cada clave en la unión pred∪gold, 1 si `pred[k]==gold[k]`, 0 si no; promedias. **No es F1 estadístico** (no calcula precisión/recall por clase); es un proxy de lab para ver qué campos fallan. Sin eval vs. baseline (línea base), el “demo que suena bien” no se promociona.",
+        "Evalúa el asistente contra un **golden set** (conjunto dorado de referencia; input → JSON esperado). Métricas mínimas: **exact match** (coincidencia exacta; *pred == gold*), **schema rate** (tasa de cumplimiento de las keys requeridas; en el lab, gate de presencia, no motor JSON Schema completo) y **tasa de acierto por campo** (`field_match_rate`): por cada clave en la unión pred∪gold, 1 si el valor coincide, 0 si no; promedias. Una clave puede estar en uno y faltar en el otro —para eso es la unión—, así que compara con `pred.get(k)` y `gold.get(k)`: indexar directamente lanzaría `KeyError` justo en el caso que la métrica existe para contar. **No es F1 estadístico** (no calcula precisión/recall por clase); es un proxy de lab para ver qué campos fallan. Sin eval vs. baseline (línea base), el “demo que suena bien” no se promociona.",
         "Salidas borderline o con `schema_fail` → **revisión humana** obligatoria antes del informe. Injection detectada o tools no permitidos → fail-closed a cola HITL (humano en el bucle, *human-in-the-loop*). Fixture `CASO-LIM-025` sin PII real.",
         "Baseline profesional: **reglas** o el modelo anterior; el LLM debe ganar en utilidad sin perder anclaje (campos citados, `evidence_ids` que existan en el fixture OCR). El score del clasificador no se convierte en etiqueta de fraude en el promote.",
       ],
@@ -1223,7 +1223,7 @@ except TimeoutError:
           "- **Contexto:** el modelo devuelve un string; el gate del asistente opera sobre un dict parseado.\n- **Meta:** `json.loads` + comprobar REQUIRED ⊆ keys; imprimir `n` y el booleano.\n- **Éxito:** `1 True` en una línea.\n- **Límites:** no imprimas el string raw; no omitas issubset.",
         instruction:
           "1. Abre el starter: imprime `raw` sin parsear.\n2. Haz `obj = json.loads(raw)`.\n3. Imprime `obj['n']` y `REQUIRED.issubset(obj)`.\n4. No mutes REQUIRED.",
-        hint: "obj = json.loads(raw); print(obj['n'], REQUIRED.issubset(obj))",
+        hint: "El texto crudo hay que convertirlo a objeto antes de mirarlo. Para las claves obligatorias, `set` ya sabe responder «¿están todas las mías dentro de las tuyas?».",
         hints: [
           "Sin loads no hay contrato: el schema y las métricas operan sobre dicts.",
           "REQUIRED.issubset(obj) o REQUIRED <= set(obj); n debe ser int del JSON",
@@ -1492,7 +1492,7 @@ print(log)`,
           "- **Contexto:** el gate de promote del lab exige al menos exact y schema_ok sobre filas golden.\n- **Meta:** calcular `exact=pred==gold` y `schema_ok=all(k in pred for k in required)`.\n- **Éxito:** `{'exact': True, 'schema_ok': True}`.\n- **Límites:** no hardcodes False; un solo print del dict.",
         instruction:
           "1. Abre el starter: imprime dict con False fijos.\n2. Calcula exact y schema_ok.\n3. Imprime el dict de métricas.\n4. No alteres pred/gold.",
-        hint: "exact = pred==gold; schema_ok = all(k in pred for k in required)",
+        hint: "Son dos preguntas distintas: si la predicción coincide entera con la referencia, y si trae todas las claves que el contrato exige. Resuélvelas por separado.",
         hints: [
           "Un solo print del dict de métricas (no booleans sueltos)",
           "Schema y exact son gates distintos: ambos deben pasar para promote fácil",

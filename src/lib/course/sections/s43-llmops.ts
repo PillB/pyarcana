@@ -6,7 +6,7 @@ export const section43: CourseSection = {
   title: "Contenedores y reproducibilidad operativa",
   shortTitle: "Contenedores",
   tagline: "Governed Python Service Platform: un comando, tests/health, non-root, configuración y recuperación documentadas.",
-  estimatedHours: 20,
+  estimatedHours: 9,
   level: "Producción gobernada",
   phase: 3,
   icon: "Package",

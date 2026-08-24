@@ -6,7 +6,7 @@ export const section31: CourseSection = {
   title: "Grafos y evidencia relacional",
   shortTitle: "Grafos y evidencia",
   tagline: "grafo de evidencia relacional: responde cómo están conectados con camino reproducible y sin convertir centralidad en culpabilidad",
-  estimatedHours: 18,
+  estimatedHours: 9,
   level: "Integración avanzada",
   phase: 2,
   icon: "Network",
@@ -210,10 +210,17 @@ shared_phone True`,
         {"src": "E1", "dst": "E2", "etype": "transfer", "amount": 50.0, "record_id": "tx-2"},
         {"src": "E2", "dst": "E3", "etype": "transfer", "amount": 20.0, "record_id": "tx-3"},
     ]
-    # clave semántica: no mezclar transfer con shared_phone del mismo par
+    # Clave semántica: no mezclar transfer con shared_phone del mismo par.
+    # Y el orden de los extremos solo distingue en los tipos dirigidos: en uno
+    # no dirigido, (E1,E2) y (E2,E1) son el mismo hecho y deben caer en la
+    # misma clave, o el mismo teléfono compartido se cuenta dos veces.
+    UNDIRECTED = {"shared_phone", "shared_email"}
     agg = defaultdict(lambda: {"sum": 0.0, "n": 0, "records": []})
     for d in detail:
-        k = (d["src"], d["dst"], d["etype"])
+        ends = (d["src"], d["dst"])
+        if d["etype"] in UNDIRECTED:
+            ends = tuple(sorted(ends))
+        k = (ends[0], ends[1], d["etype"])
         agg[k]["sum"] += d["amount"]
         agg[k]["n"] += 1
         agg[k]["records"].append(d["record_id"])

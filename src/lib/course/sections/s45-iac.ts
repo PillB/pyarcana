@@ -6,7 +6,7 @@ export const section45: CourseSection = {
   title: "Cloud, almacenamiento, colas e infraestructura",
   shortTitle: "Cloud y colas",
   tagline: "job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados",
-  estimatedHours: 20,
+  estimatedHours: 9,
   level: "Producción gobernada",
   phase: 3,
   icon: "Cloud",

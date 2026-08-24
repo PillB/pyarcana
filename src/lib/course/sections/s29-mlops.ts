@@ -7,7 +7,7 @@ export const section29: CourseSection = {
   shortTitle: "SQL almacén ER",
   tagline:
     "Almacén relacional del ER: fuentes, entidades, pares, decisiones append-only y evidencia — con constraints, consultas de cola y transacciones atómicas en SQLite de laboratorio",
-  estimatedHours: 18,
+  estimatedHours: 9,
   level: "Integración avanzada",
   phase: 2,
   icon: "Database",

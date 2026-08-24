@@ -6,7 +6,7 @@ export const section44: CourseSection = {
   title: "CI/CD y seguridad de la cadena de suministro",
   shortTitle: "CI/CD supply chain",
   tagline: "pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback",
-  estimatedHours: 20,
+  estimatedHours: 9,
   level: "Producción gobernada",
   phase: 3,
   icon: "GitBranch",

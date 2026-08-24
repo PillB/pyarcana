@@ -6,7 +6,7 @@ export const section39: CourseSection = {
   title: "Responsible ML Case Triage y cierre de nivel",
   shortTitle: "Case Triage N3",
   tagline: "Responsible ML Case Triage con baseline, calibración, abstención, monitoreo y revisión; promoción N3 con regresión S27–S39 y CF-3",
-  estimatedHours: 19,
+  estimatedHours: 9,
   level: "Integración avanzada",
   phase: 2,
   icon: "Award",

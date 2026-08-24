@@ -6,8 +6,8 @@ export const section32: CourseSection = {
   title: "Feature engineering y pipelines sin leakage",
   shortTitle: "Features sin leakage",
   tagline:
-    "Tabla de features versionada con train≡serve, sin futuro ni labels de decisión. Ritmo sugerido: ~10–12 h de núcleo (T1–T4 + labs E1), 14–16 h con E2/E3 y You Do, 18 h si profundizas skew y versionado hacia S33.",
-  estimatedHours: 18,
+    "Tabla de features versionada con train≡serve, sin futuro ni labels de decisión. Ritmo sugerido: unas 9 h para la ruta completa de esta sección según la calibración actual.",
+  estimatedHours: 9,
   level: "Integración avanzada",
   phase: 2,
   icon: "TableProperties",
@@ -53,7 +53,7 @@ export const section32: CourseSection = {
     {
       heading: "Diccionario mínimo de la sección",
       paragraphs: [
-        "**Leakage:** usar en el entrenamiento información que no existiría en el momento de la decisión (futuro, label, o identidad vista en test). **Train≡serve:** el código y el estado (mediana, vocabulario, μ/σ) que transforman filas en train son los mismos que en inferencia. Si solo el notebook de train conoce un fill o un vocab, hay skew silencioso.",
+        "**Leakage:** usar en el entrenamiento información que no existiría en el momento de decidir — el futuro, o la etiqueta. La **contaminación del split** es pariente pero no es lo mismo: cuando una misma entidad aparece en train y en test, la información sí existía en el momento de la decisión; lo que falla es la evaluación, porque el modelo puede reconocer la entidad en vez de generalizar. Se arreglan en sitios distintos: la fuga, revisando cómo se construye el feature; la contaminación, agrupando el split por entidad. **Train≡serve:** el código y el estado (mediana, vocabulario, μ/σ) que transforman filas en train son los mismos que en inferencia. Si solo el notebook de train conoce un fill o un vocab, hay skew silencioso.",
         "**Ventana half-open [t−w, t):** cuenta eventos con timestamp ≥ t−w y **estrictamente < t**; no incluye el instante de decisión. **Feature set `fs-vN`:** identificador versionado del catálogo + transformers fit; un cambio de vocab o schema sube N. **Skew train–serve:** divergencia de distribuciones o de lógica entre entrenamiento e inferencia; se monitorea (p. ej. |mean_serve − mean_train| > tol).",
         "**Fail-closed en features:** si falta catálogo, estado fit o ventana documentada, no inventes valores: devuelve `REQUEST_*` (pedir el prerequisito). Si detectas futuro, label-as-feature, silent fill u overlap de entidades, devuelve `REJECT_*` (incumplimiento demostrado). Ausencia ≠ incumplimiento. El vocabulario de gates es entrevista-relevante y se reutiliza en MLOps posteriores.",
       ],
@@ -118,7 +118,7 @@ catalog_ok True unknown []`,
       },
       subtopicId: "S32-T1-B",
       paragraphs: [
-        "Un **missing indicator** (1 si el valor era ausente) + fill (mediana/moda de **train**) preserva la **señal de ausencia**. Rellenar en silencio con 0 o con la mediana del set completo es **silent fill** y suele filtrar estadísticas de test. El z-score usa **μ/σ solo de train**, congelados en fit; reestimarlos en serve es leakage o skew.",
+        "Un **missing indicator** (1 si el valor era ausente) + fill (mediana/moda de **train**) preserva la **señal de ausencia**. Rellenar en silencio es **silent fill**, y las dos formas habituales fallan de manera distinta. Con la mediana del set completo sí hay fuga: esa mediana vio el test y entra en la transformación. Con 0 no la hay —el test no interviene— pero escondes la ausencia y desplazas la distribución, que es un problema propio. Ninguna de las dos es aceptable sin indicador; solo la primera contamina. El z-score usa **μ/σ solo de train**, congelados en fit; reestimarlos en serve es leakage o skew.",
         "Contrato: entrada serie con `None`, fill/μ/σ aprendidos en train; salida indicator, serie rellena y z sobre la serie rellena. Error: calcular mediana con filas de test o re-fit en serve. Criterio: **stats congeladas en fit**. Encoding one-hot con columna `unknown` sigue la misma idea: vocab de train, no del batch de serve.",
         "Aplicación al caso sintético Red Andina: `[1, None, 3]` → indicator + fill con la mediana **de train** (2) → z aplicando los μ=0 y σ=2 **congelados en el fit de train**, no recalculados sobre esta serie. Si los recalcularas aquí obtendrías μ=2, y esa diferencia es exactamente la fuga que la sección persigue. `silent_fill` debe quedar en False porque el indicator viaja junto al valor.",
       ],
@@ -293,7 +293,7 @@ fitted True`,
       heading: "Fit, transform y persistencia del estado",
       subtopicId: "S32-T3-B",
       paragraphs: [
-        "El **estado** (mediana, vocab, μ/σ) se serializa a JSON y se **reutiliza en serve**. Si el vocab o el schema cambian, hay **version bump** del feature set (`fs-v1` → `fs-v2`). Aplicar la mediana de train al batch de serve evita **skew silencioso**: reestimar en inferencia es otra forma de leakage. En producción, joblib o pickle cumplen el mismo rol que este JSON; aquí lo inspeccionas a ojo para ver el contrato sin binarios opacos.",
+        "El **estado** (mediana, vocab, μ/σ) se serializa a JSON y se **reutiliza en serve**. Si el vocab o el schema cambian, hay **version bump** del feature set (`fs-v1` → `fs-v2`). Aplicar la mediana de train al batch de serve evita **skew silencioso**. Y conviene llamarlo por su nombre, porque no es leakage: reestimar en inferencia no contamina el entrenamiento con nada, aplica una transformación distinta de la que el modelo aprendió. El síntoma también es distinto — la fuga infla tus métricas offline, el skew las deja intactas y degrada en producción. En producción, joblib o pickle cumplen el mismo rol que este JSON; aquí lo inspeccionas a ojo para ver el contrato sin binarios opacos.",
         "Contrato: entrada state dict con `median` y `version`; salida round-trip JSON idéntico y apply de mediana al batch de serve. Error: servir **sin version** o con version vacía. Criterio: `fs-vN` en artefactos, schema congelado y misma función de apply en train e inferencia. Un serve sin `version` es `REJECT_UNVERSIONED`; sin JSON de state es `REQUEST_STATE_JSON`.",
         "Aplicación al caso sintético Red Andina: state `median=2`, `version=fs-v1` sobrevive al round-trip; al batch de serve `[None, 4]` se aplica → `[2, 4]`. Si mañana el vocab de `canal` crece, subes a `fs-v2` y el baseline S33 debe citar el id nuevo — no reutilizar el viejo en silencio. Este artefacto JSON es el **contrato de entrada** del baseline de S33.",
       ],

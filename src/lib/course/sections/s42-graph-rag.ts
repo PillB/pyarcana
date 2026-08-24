@@ -6,7 +6,7 @@ export const section42: CourseSection = {
   title: "Schemas, seguridad y privacidad de servicios",
   shortTitle: "Schemas y seguridad",
   tagline: "Threat model y pruebas de permisos: un usuario no lee el caso de otro ni recupera datos redactados",
-  estimatedHours: 20,
+  estimatedHours: 9,
   level: "Producción gobernada",
   phase: 3,
   icon: "Share2",
@@ -2163,7 +2163,7 @@ assert results == ["CONTINUE", "MINIMIZE_AND_EXPIRE", "PRIVACY_OWNER_REVIEW"]` ,
           "- **Contexto:** al cerrar un ticket de Cusco, el audit no debe llevar email y deben borrarse primario y derivados con llave separada.\n- **Meta:** `purge_ok` = audit.isdisjoint(pii) ∧ deleted ∧ derived_deleted ∧ key_separate.\n- **Éxito:** `S42-T4-B PASS` con audit de tokens y purga completa.\n- **Límites:** no apruebes email en audit; no ignores derivados.",
         instruction:
           "S42-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter aprueba si hay ∩ con PII o derivado vivo (bug).\n2. Implementa isdisjoint + flags de borrado + key_separate.\n3. Conserva print PASS/PURGE_DERIVATIVES.",
-        hint: "return audit.isdisjoint(pii) and deleted and derived_deleted and key_separate",
+        hint: "Son cuatro condiciones que deben cumplirse a la vez: que el rastro de auditoría no contenga datos personales, que el original se borrara, que lo derivado también, y que la clave viva aparte",
         hints: [
           "return audit.isdisjoint(pii) and deleted and derived_deleted and key_separate",
           "En E2, email en audit + export vivo es el adverso clásico de purga incompleta.",

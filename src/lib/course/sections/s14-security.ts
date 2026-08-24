@@ -6,7 +6,7 @@ export const section14: CourseSection = {
   title: "NumPy y cómputo vectorizado",
   shortTitle: "NumPy vectorizado",
   tagline: "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
-  estimatedHours: 18,
+  estimatedHours: 9,
   level: "Práctica independiente",
   phase: 1,
   icon: "Binary",
@@ -30,7 +30,7 @@ export const section14: CourseSection = {
         "Hasta S13 tratabas cada caso por separado: un bucle recorre la lista, evalúa una regla y acumula. Funciona, se lee bien y con mil filas es instantáneo. Con dos millones deja de serlo, y el problema no es que Python sea lento — es que le estás pidiendo dos millones de decisiones pequeñas en vez de una grande.",
         "La diferencia es la de contar monedas de una en una frente a pesarlas todas juntas. Un **ndarray** de NumPy es un bloque de memoria donde todos los elementos tienen el mismo tipo y el mismo tamaño, y eso permite que la operación se aplique al bloque entero de una vez. Por eso importa el **dtype**, el tipo de cada elemento: es lo que hace posible ese tratamiento uniforme. Si mezclas textos y números, se pierde la ventaja y vuelves a contar monedas.",
         "El segundo concepto es la **forma**. Un array conoce sus dimensiones, y casi todo error de NumPy es un desacuerdo entre formas: sumar algo de diez elementos con algo de doce. La ventaja es que ese desacuerdo se detecta al instante en lugar de propagarse; la desventaja es que hay que aprender a leer el mensaje.",
-        "De ahí sale la herramienta que reemplaza al `if` dentro del bucle. En vez de preguntar caso por caso, construyes una **máscara**: un array de verdaderos y falsos del mismo tamaño que los datos, que dice qué posiciones cumplen la condición. Filtrar es entonces aplicar la máscara, y contar es sumar los verdaderos. La condición se expresa una vez, sobre todo el conjunto.",
+        "De ahí sale la herramienta que reemplaza al `if` dentro del bucle. En vez de preguntar caso por caso, construyes una **máscara**: un array de verdaderos y falsos que dice qué posiciones cumplen la condición. Filtrar es entonces aplicar la máscara, y contar es sumar los verdaderos. La condición se expresa una vez, sobre todo el conjunto.",
         "La pregunta que atraviesa la sección es un hábito nuevo: **¿estoy pidiendo una operación sobre todo el bloque, o lo estoy recorriendo a mano sin darme cuenta?** El hilo es un tablero de calidad —completitud, unicidad, rangos— sobre datos sintéticos. Aquí no entra pandas todavía: eso es S15.",
       ],
       callout: {
@@ -46,7 +46,7 @@ export const section14: CourseSection = {
       paragraphs: [
         "Bloque de referencia. Orden de los subtemas, ritmo y límites.",
         "**Orden de los subtemas.** T1 cubre arrays: dtype, forma y máscaras. T2 pasa a operaciones: funciones universales, reducciones y broadcast. T3 trata la semántica que más sorprende: vistas frente a copias, y NaN e infinito. T4 cierra con rendimiento, memoria y comparación aproximada.",
-        "**Ritmo orientativo.** Unas dieciocho horas repartidas entre los cuatro subtemas, con el proyecto y el autochequeo al final.",
+        "**Ritmo orientativo.** Unas 9 horas según la calibración del contenido actual, repartidas entre los cuatro subtemas, el proyecto y el autochequeo.",
         "**Límites.** Solo NumPy sobre datos sintéticos: nada de pandas, sklearn ni datos personales reales. Si el contrato de tipo o forma falla, se reporta el error en lugar de ocultarlo. El foco es el tablero de calidad vectorizado, no el aprendizaje profundo.",
       ],
      },
@@ -92,7 +92,7 @@ scores float64 (4,) 32`,
       subtopicId: "S14-T1-B",
       paragraphs: [
         "`np.array`, `arange`, `linspace` y `zeros`/`ones`/`full` crean arrays. **Indexación** clásica (`a[i]`, `a[i:j]`) y **fancy index** (indexación avanzada con lista de enteros, p. ej. `a[[0,2]]`) seleccionan elementos sin un loop Python por cliente. Esa diferencia importa: en un tablero de calidad con miles de filas sintéticas, el índice vectorizado evita el coste del intérprete en cada fila.",
-        "Una **máscara booleana** `a > umbral` produce un array `bool` del mismo shape; `a[mask]` filtra. Es la forma idiomática de calidad: “clientes sintéticos con score bajo 0.5” o “región Lima y score bajo 0.6”. Combina condiciones con `&` / `|` (y paréntesis); no uses `and`/`or` de Python entre arrays. La máscara debe alinear el eje indexado — si no, `ValueError` (falla de forma segura).",
+        "Una **máscara booleana** `a > umbral` produce un array `bool` del mismo shape; `a[mask]` filtra. Es la forma idiomática de calidad: “clientes sintéticos con score bajo 0.5” o “región Lima y score bajo 0.6”. Combina condiciones con `&` / `|` (y paréntesis); no uses `and`/`or` de Python entre arrays. La máscara debe alinear el eje indexado — si no, `IndexError` (falla de forma segura, y el mensaje nombra el eje que no cuadra).",
         "Filtrar con máscara suele devolver **copia** (o un 1D nuevo); no asumas que es un view ni mutes el padre por accidente. Caso sintético Lima/Arequipa/Cusco: `ids[score < 0.5]` → `C002`, `C004`; fancy index `score[[0, 2]]` recupera scores de dos clientes sin recorrer la lista a mano.",
       ],
       code: {
@@ -243,7 +243,7 @@ vista_base_is_raw True`,
       subtopicId: "S14-T3-B",
       paragraphs: [
         "`np.nan` y `±inf` rompen `mean`/`sum` clásicos: NaN **contagia** (el resultado de la media es nan) e inf **domina** (una suma con inf es inf). Antes de publicar una métrica de negocio usa `np.isnan` / `isinf` / `isfinite`, o reducciones `nansum` / `nanmean` con la política documentada del tablero.",
-        "`np.finfo(float).eps` acota el ruido de redondeo cuando comparas con tolerancia (`allclose`). Un overflow en float produce `inf`; no lo trates como un score válido de calidad. **Falla de forma segura** (fail-closed): si el batch trae inf donde no es semántico, rechaza el lote o filtra con traza — no sustituyas por 0 en silencio.",
+        "`np.finfo(float).eps` es la distancia entre 1.0 y el siguiente número representable: te da la escala del error de **un** redondeo cerca de 1, que es lo que necesitas para elegir la tolerancia de un `allclose`. No acota el error **acumulado** de una cadena de operaciones, que puede ser mucho mayor y crece con el número de pasos. Un overflow en float produce `inf`; no lo trates como un score válido de calidad. **Falla de forma segura** (fail-closed): si el batch trae inf donde no es semántico, rechaza el lote o filtra con traza — no sustituyas por 0 en silencio.",
         "En calidad de datos, un NaN **no es cero**: es **ausencia de medición**. Reporta la tasa de no-finitos aparte de la media de los finitos; mezclarlos distorsiona completitud y rangos. Caso sintético: `[1, nan, 3, inf]` → media solo sobre `isfinite` (= 2.0); convierte inf a nan antes de `nansum` si inf no es un valor de negocio.",
       ],
       code: {
@@ -394,7 +394,7 @@ scores_shape (4,) nbytes 32`,
         environment: "local-python",
         description: "Indexar y filtrar clientes sintéticos con máscara booleana",
         preamble:
-          "El tablero necesita “clientes sintéticos de Lima con score bajo 0.6” sin un `for` por fila. Sigue la demo: `region` y `score` se combinan con `&` (y paréntesis), no con `and` de Python. Predice la lista `filtrados` y el entero `count` antes de mirar la salida. Datos solo sintéticos (`C00x`, Lima/Arequipa/Cusco); la máscara debe alinear el eje o NumPy lanza `ValueError`.",
+          "El tablero necesita “clientes sintéticos de Lima con score bajo 0.6” sin un `for` por fila. Sigue la demo: `region` y `score` se combinan con `&` (y paréntesis), no con `and` de Python. Predice la lista `filtrados` y el entero `count` antes de mirar la salida. Datos solo sintéticos (`C00x`, Lima/Arequipa/Cusco); la máscara debe alinear el eje o NumPy lanza `IndexError`.",
         code: {
           language: 'python',
           title: "demo_masks.py",
