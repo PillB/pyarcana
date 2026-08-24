@@ -51,7 +51,11 @@ export function QAFooterBridge() {
   }, [])
 
   useEffect(() => {
-    readContext()
+    // DOM-derived course context is an external-system synchronization. Defer
+    // the first read to the next animation frame so the effect only installs
+    // subscriptions synchronously and React does not cascade a render from the
+    // effect body itself.
+    const initialFrame = window.requestAnimationFrame(readContext)
     window.addEventListener('hashchange', readContext)
     const observer = new MutationObserver(readContext)
     observer.observe(document.body, {
@@ -61,6 +65,7 @@ export function QAFooterBridge() {
       attributeFilter: ['aria-selected', 'data-section-id'],
     })
     return () => {
+      window.cancelAnimationFrame(initialFrame)
       window.removeEventListener('hashchange', readContext)
       observer.disconnect()
     }
