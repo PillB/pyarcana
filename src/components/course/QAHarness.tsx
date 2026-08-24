@@ -39,6 +39,7 @@ import {
   type QACause,
   type QAContext,
   type QAIssue,
+  QAStorageError,
   type QASeverity,
 } from '@/lib/qa-session'
 
@@ -246,6 +247,10 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
         context: capturedContext.current ?? snapshotContext(),
         screenshotDataUrl,
       }
+      // Only clear the form once the write is known to have landed. This used
+      // to clear unconditionally, so a full storage quota -- reachable with a
+      // screenshot near the 6 MB limit, whose base64 form is larger than the
+      // file -- lost the report and told the tester it had been saved.
       await saveQaIssue(issue)
       await refreshIssues()
       setSelectedId(issue.id)
@@ -253,6 +258,12 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
       setScreenshotDataUrl(null)
       setMessage(`Guardado localmente como ${issue.id.slice(0, 8)}.`)
       setTab('review')
+    } catch (error) {
+      setMessage(
+        error instanceof QAStorageError
+          ? `${error.message} Tu reporte sigue en el formulario.`
+          : 'No se pudo guardar el reporte. Tu reporte sigue en el formulario.',
+      )
     } finally {
       setBusy(false)
     }

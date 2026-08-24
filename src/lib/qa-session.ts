@@ -129,12 +129,36 @@ function fallbackRead(): QAIssue[] {
   }
 }
 
+/**
+ * Thrown when neither IndexedDB nor localStorage could keep the report.
+ *
+ * The tester needs to know this before the form clears. A QA tool that says
+ * "saved" and did not save costs more than one that refuses: the report is
+ * gone, and the person who found the bug believes it is filed.
+ */
+export class QAStorageError extends Error {
+  constructor(message: string, readonly cause?: unknown) {
+    super(message)
+    this.name = 'QAStorageError'
+  }
+}
+
 function fallbackWrite(issues: QAIssue[]): void {
-  if (typeof localStorage === 'undefined') return
+  if (typeof localStorage === 'undefined') {
+    throw new QAStorageError('Este navegador no permite guardar el reporte localmente.')
+  }
   try {
     localStorage.setItem(FALLBACK_KEY, JSON.stringify(issues))
-  } catch {
-    // Storage may be unavailable or the screenshot may exceed quota.
+  } catch (error) {
+    // Reachable with an attached screenshot near the 6 MB limit: the base64
+    // data URL is larger than the file, so the serialised session can exceed
+    // the localStorage quota. Swallowing it here made saveQaIssue resolve and
+    // the submit handler clear the form and report success.
+    throw new QAStorageError(
+      'No se pudo guardar el reporte: el almacenamiento del navegador está lleno. ' +
+        'Exporta la sesión o quita la captura adjunta y vuelve a intentarlo.',
+      error,
+    )
   }
 }
 
@@ -158,10 +182,17 @@ export async function saveQaIssue(issue: QAIssue): Promise<void> {
     transaction.objectStore(STORE_NAME).put(issue)
     await transactionDone(transaction)
     db.close()
-  } catch {
+  } catch (indexedDbError) {
     const issues = fallbackRead().filter((item) => item.id !== issue.id)
     issues.push(issue)
-    fallbackWrite(issues)
+    // Deliberately not caught: if the fallback also fails the caller must hear
+    // about it rather than be told the report was filed.
+    try {
+      fallbackWrite(issues)
+    } catch (fallbackError) {
+      if (fallbackError instanceof QAStorageError) throw fallbackError
+      throw new QAStorageError('No se pudo guardar el reporte.', fallbackError ?? indexedDbError)
+    }
   }
 }
 
@@ -226,6 +257,30 @@ export function buildQaPackage(issues: QAIssue[], tester: string): QAPackage {
   }
 }
 
+/**
+ * Validate an imported issue down to the fields the UI actually dereferences.
+ *
+ * The first version checked that `context` existed and was an object, which
+ * `{}` satisfies. An imported package could therefore be accepted, persisted,
+ * and switch the harness to the review tab -- where ContextPreview reads
+ * `context.viewport.width` and throws, leaving the session unreviewable and
+ * the tester with no way back to it. A predicate is only worth what it checks.
+ */
+function isQaContext(value: unknown): value is QAContext {
+  if (!value || typeof value !== 'object') return false
+  const ctx = value as Partial<QAContext> & { viewport?: { width?: unknown; height?: unknown } }
+  return typeof ctx.path === 'string'
+    && typeof ctx.hash === 'string'
+    && !!ctx.viewport
+    && typeof ctx.viewport === 'object'
+    && typeof ctx.viewport.width === 'number'
+    && typeof ctx.viewport.height === 'number'
+}
+
+function isOneOf(value: unknown, options: readonly { value: string }[]): boolean {
+  return typeof value === 'string' && options.some((option) => option.value === value)
+}
+
 function isQaIssue(value: unknown): value is QAIssue {
   if (!value || typeof value !== 'object') return false
   const issue = value as Partial<QAIssue>
@@ -233,10 +288,12 @@ function isQaIssue(value: unknown): value is QAIssue {
     && typeof issue.createdAt === 'string'
     && typeof issue.title === 'string'
     && typeof issue.description === 'string'
-    && typeof issue.category === 'string'
-    && typeof issue.severity === 'string'
-    && !!issue.context
-    && typeof issue.context === 'object'
+    // The enums are checked against the taxonomy, not merely for being strings:
+    // an unknown category renders an empty label and cannot be filtered.
+    && isOneOf(issue.category, QA_CATEGORIES)
+    && isOneOf(issue.cause, QA_CAUSES)
+    && isOneOf(issue.severity, QA_SEVERITIES)
+    && isQaContext(issue.context)
 }
 
 export function parseQaPackage(text: string): QAPackage {
