@@ -43,9 +43,9 @@ export const section28: CourseSection = {
       ],
       callout: {
         type: "info",
-        title: "Límite del resultado + ritmo (19 h)",
+        title: "Límite del resultado + ritmo (9 h)",
         content:
-          "Las pruebas verifican identidad de registros y calidad técnica; no autorizan inferencias de relación o riesgo. Matching ≠ fraude. Ritmo sugerido: ~4–5 h T1 propiedades, ~4–5 h T2 schema/goldens, ~4 h T3 dobles, ~5–6 h T4 integración/CI + portfolio You Do (total ≈ 19 h).",
+          "Las pruebas verifican identidad de registros y calidad técnica; no autorizan inferencias de relación o riesgo. Matching ≠ fraude. Ritmo orientativo: unas 9 horas según la calibración del contenido actual.",
       },
     },
     {
@@ -55,7 +55,7 @@ export const section28: CourseSection = {
         "Bloque de referencia. Orden de los subtemas, ritmo y criterios de cierre.",
         "**Orden de los subtemas.** T1 cubre invariantes, generación y pruebas metamórficas. T2 pasa a datos: schema, calidad y goldens. T3 introduce los dobles —mocks, fakes, reloj controlado— y los contratos de borde. T4 cierra con integración y estabilidad en CI: codificación, cardinalidad, orden, timeouts y reanudación.",
         "**Qué es nuevo aquí.** S16 ya fallaba de forma cerrada ante un schema roto y S27 fijó la estructura, las fixtures y el oráculo. Lo que se agrega es generar desde propiedades, versionar goldens con revisión, controlar los bordes con dobles y sostener la integración sin pruebas intermitentes.",
-        "**Ritmo orientativo.** Unas diecinueve horas: cuatro o cinco en propiedades, otras tantas en schema y goldens, cuatro en dobles y cinco o seis en integración más el proyecto.",
+        "**Ritmo orientativo.** Unas 9 horas según la calibración del contenido actual para propiedades, schema y goldens, dobles e integración/CI con el proyecto.",
       ],
     },
     {

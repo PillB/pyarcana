@@ -56,7 +56,7 @@ export const section01: CourseSection = {
       optional: true,
       paragraphs: [
         "Bloque de referencia. Ritmo, criterio de cierre y límites del caso.",
-        "**Ritmo orientativo (unas 18 horas).** De tres a cuatro horas para el núcleo: Python, `venv`, `pip` y Git en local. De seis a ocho para GitHub, el pull request, Ruff y el `.gitignore`. El resto, para pulir el esqueleto CP-N1-A y la lista de comprobación de máquina limpia. No hace falta terminar el portafolio en un solo día: con el núcleo de tres o cuatro horas ya tendrás un intérprete, un entorno y un commit limpio.",
+        "**Ritmo orientativo.** Unas 10 horas según la calibración del contenido actual, incluyendo explicación, demostraciones, práctica guiada, práctica independiente y cierre del bloque.",
         "**Criterio de cierre (CASO-LIM-001).** Cada afirmación deja evidencia: versión del intérprete, ruta del entorno, dependencias declaradas con versión, historial de Git y ausencia de secretos en el repositorio. Ese esqueleto es la base de tu capstone, que cerrarás en S04.",
         "**Límites.** Sin datos personales reales y sin credenciales en el repositorio. Si una comprobación no se puede demostrar en una máquina recién instalada, todavía no cuenta como cerrada.",
       ],

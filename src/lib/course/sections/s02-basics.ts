@@ -47,7 +47,7 @@ export const section02: CourseSection = {
       paragraphs: [
         "Bloque de referencia. Orden de los subtemas, ritmo y alcance.",
         "**Orden de los subtemas.** T1 trata los valores: literales, inspección y conversión. T2 pasa a los nombres: asignación, convenciones PEP 8, identidad y copias. T3 cubre los operadores: precedencia y `Decimal` para dinero. T4 cierra con la entrada y salida: f-strings —cadenas con variables incrustadas— y la lectura de datos con manejo de errores.",
-        "**Ritmo orientativo.** Unas dieciocho horas, dos sesiones por subtema, más el proyecto y el autochequeo. Avanza T1 a T4 en ese orden: no hace falta dominar `Decimal` el primer día.",
+        "**Ritmo orientativo.** Unas 9 horas según la calibración del contenido actual. Avanza T1 a T4 en ese orden y usa el autochequeo para decidir qué repasar.",
         "**Criterio de cierre (CASO-LIM-002).** El esqueleto del parser de intake: tipos, nombres, operadores, `Decimal` y entrada/salida con `raw`, `clean` y `errors`. No es una calculadora genérica de propinas.",
         "**Fuera de alcance por ahora.** Condicionales complejos, los bucles como herramienta principal, **definir** funciones con `*args` y `**kwargs`, y las comprensiones. Matiz sobre `*args`: en T4-A vas a *llamar* a `print(*valores, sep=…)`, y eso está bien — usar una función que acepta varios argumentos no exige saber escribir una. Lo que queda para después es ponerle `*args` a una función tuya. Llegan cuando el modelo de valores y tipos ya esté firme.",
         "**Límites.** Solo datos sintéticos (`example.com`, teléfonos inventados). Nunca información personal identificable real en el repositorio.",
