@@ -52,6 +52,21 @@ def main() -> int:
     require(component, 'data-testid="qa-review-dashboard"', "QAHarness.tsx")
     require(component, 'data-testid="qa-location-breadcrumb"', "QAHarness.tsx")
 
+    # Imported QA files are untrusted state. Require a fail-closed structural
+    # boundary so malformed nested context/enums cannot reach ContextPreview.
+    require(store, "function isQaContext", "qa-session.ts")
+    require(store, "QA_CATEGORY_VALUES.has", "qa-session.ts")
+    require(store, "QA_CAUSE_VALUES.has", "qa-session.ts")
+    require(store, "QA_SEVERITY_VALUES.has", "qa-session.ts")
+    require(store, "SAFE_SCREENSHOT_DATA_URL", "qa-session.ts")
+    require(store, "MAX_PACKAGE_ISSUES", "qa-session.ts")
+
+    # A failed fallback write must remain a failure. Silent localStorage quota
+    # loss would make the UI clear an unsaved tester report.
+    require(store, "QuotaExceededError", "qa-session.ts")
+    require(store, "throw new Error('No se pudo guardar la incidencia", "qa-session.ts")
+    require(component, "El formulario y la captura se conservaron", "QAHarness.tsx")
+
     # The harness must be globally mounted below the learner experience and must
     # derive the current course node rather than requiring a server/admin route.
     require(bridge, "[data-section-id]", "QAFooterBridge.tsx")
