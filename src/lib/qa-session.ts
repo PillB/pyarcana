@@ -186,24 +186,30 @@ function isQaIssue(value: unknown): value is QAIssue {
     && isSafeScreenshot(value.screenshotDataUrl)
 }
 
-function fallbackRead(): QAIssue[] {
+function fallbackReadRaw(): unknown[] {
   if (typeof localStorage === 'undefined') return []
   try {
     const raw = localStorage.getItem(FALLBACK_KEY)
     if (!raw) return []
     const parsed: unknown = JSON.parse(raw)
-    return Array.isArray(parsed) ? parsed.filter(isQaIssue) : []
+    return Array.isArray(parsed) ? parsed : []
   } catch {
     return []
   }
 }
 
-function fallbackWrite(issues: QAIssue[]): void {
+function fallbackRead(): QAIssue[] {
+  // Fail closed for rendering/export while retaining rejected legacy records in
+  // the raw fallback array. They are quarantined rather than silently deleted.
+  return fallbackReadRaw().filter(isQaIssue)
+}
+
+function fallbackWrite(records: unknown[]): void {
   if (typeof localStorage === 'undefined') {
     throw new Error('El almacenamiento local alternativo no está disponible.')
   }
   try {
-    localStorage.setItem(FALLBACK_KEY, JSON.stringify(issues))
+    localStorage.setItem(FALLBACK_KEY, JSON.stringify(records))
   } catch (error) {
     if (error instanceof DOMException && error.name === 'QuotaExceededError') {
       throw new Error('No se pudo guardar la incidencia: se agotó la cuota de almacenamiento local del navegador.')
@@ -236,12 +242,15 @@ export async function saveQaIssue(issue: QAIssue): Promise<void> {
     await transactionDone(transaction)
     return
   } catch {
-    const issues = fallbackRead().filter((item) => item.id !== issue.id)
-    issues.push(issue)
+    // Preserve records that the current schema cannot safely render. A normal
+    // save is not an implicit migration or deletion operation. Only replace a
+    // raw record when it has the same explicit issue id as the new record.
+    const records = fallbackReadRaw().filter((item) => !isRecord(item) || item.id !== issue.id)
+    records.push(issue)
     // Web Storage writes are synchronous and throw on quota or access failure.
     // Do not swallow that exception: the form layer must know persistence failed
     // so it can preserve the tester's draft instead of claiming success.
-    fallbackWrite(issues)
+    fallbackWrite(records)
   } finally {
     db?.close()
   }
@@ -256,7 +265,8 @@ export async function deleteQaIssue(id: string): Promise<void> {
     await transactionDone(transaction)
     return
   } catch {
-    fallbackWrite(fallbackRead().filter((item) => item.id !== id))
+    // Deletion is explicit and id-scoped; unrelated quarantined records survive.
+    fallbackWrite(fallbackReadRaw().filter((item) => !isRecord(item) || item.id !== id))
   } finally {
     db?.close()
   }
@@ -271,6 +281,8 @@ export async function clearQaIssues(): Promise<void> {
     await transactionDone(transaction)
     return
   } catch {
+    // This is the one intentional destructive fallback operation: the tester
+    // explicitly confirmed clearing the complete local QA session.
     fallbackWrite([])
   } finally {
     db?.close()
