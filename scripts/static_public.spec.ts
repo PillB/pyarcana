@@ -33,6 +33,40 @@ function malformedQaPackage() {
   }
 }
 
+function legacyFallbackRecord() {
+  const now = new Date().toISOString()
+  return {
+    id: 'qa-legacy-pre-validator',
+    createdAt: now,
+    updatedAt: now,
+    status: 'open',
+    category: 'content',
+    // Intentionally missing `cause`: a previous version could have persisted it,
+    // but the current runtime must quarantine rather than silently erase it.
+    severity: 'medium',
+    title: 'Reporte legacy preservado',
+    description: 'Registro anterior al validador estricto.',
+    expected: '',
+    actual: '',
+    reproductionSteps: '',
+    improvement: '',
+    context: {
+      path: '/pyarcana/',
+      hash: '',
+      sectionId: null,
+      sectionIndex: null,
+      sectionTitle: null,
+      subStep: null,
+      viewport: { width: 1366, height: 768 },
+      scrollY: 0,
+      userAgent: 'legacy-test',
+      language: 'es-PE',
+      deploymentSha: null,
+      elementHint: null,
+    },
+  }
+}
+
 test.describe('PyArcana public GitHub Pages edition', () => {
   test.beforeEach(async ({ page }) => {
     // Set localStorage before navigation to prevent tour from appearing
@@ -186,6 +220,24 @@ test.describe('PyArcana public GitHub Pages edition', () => {
 
   test('QA harness persists and round-trips a tagged issue at laptop size', async ({ page }) => {
     await page.setViewportSize({ width: 1366, height: 768 })
+
+    // Force the supported fallback path and seed one older record that the
+    // current validator intentionally cannot render. Saving a new issue must
+    // not make that quarantined data disappear.
+    await page.addInitScript(() => {
+      Object.defineProperty(window, 'indexedDB', {
+        configurable: true,
+        get: () => undefined,
+      })
+    })
+    await page.reload()
+    await page.waitForLoadState('domcontentloaded')
+    await expect(page.getByTestId('qa-harness-open')).toBeAttached({ timeout: 15000 })
+    const legacyRecord = legacyFallbackRecord()
+    await page.evaluate((record) => {
+      localStorage.setItem('pyarcana:qa-issues:v1', JSON.stringify([record]))
+    }, legacyRecord)
+
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
     await expect(page.getByTestId('qa-footer-bridge')).toBeVisible()
     await expect(page.getByTestId('qa-harness-open')).toContainText('QA interna')
@@ -214,6 +266,11 @@ test.describe('PyArcana public GitHub Pages edition', () => {
     await expect(page.getByTestId('qa-issue-row')).toHaveCount(1)
     await expect(page.getByTestId('qa-location-breadcrumb')).toContainText('S01')
     await expect(page.getByTestId('qa-screenshot-preview')).toBeVisible()
+
+    const fallbackRecords = await page.evaluate(() => JSON.parse(localStorage.getItem('pyarcana:qa-issues:v1') ?? '[]'))
+    expect(fallbackRecords).toHaveLength(2)
+    expect(fallbackRecords.find((item: { id?: string }) => item.id === 'qa-legacy-pre-validator')).toEqual(legacyRecord)
+    expect(fallbackRecords.some((item: { title?: string }) => item.title === 'La pregunta pide información que la sección no enseña')).toBeTruthy()
 
     await page.getByRole('button', { name: 'Close' }).click()
     await page.reload()
