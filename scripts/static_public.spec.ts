@@ -6,6 +6,33 @@ const PIXEL_PNG = Buffer.from(
   'base64',
 )
 
+function malformedQaPackage() {
+  const now = new Date().toISOString()
+  return {
+    schemaVersion: 'pyarcana.qa.v1',
+    exportedAt: now,
+    tester: 'malformed-import',
+    sourceDeploymentSha: null,
+    issueCount: 1,
+    issues: [{
+      id: 'qa-malformed-context',
+      createdAt: now,
+      updatedAt: now,
+      status: 'open',
+      category: 'functionality',
+      cause: 'unknown',
+      severity: 'medium',
+      title: 'Contexto incompleto',
+      description: 'Este paquete no debe entrar al dashboard.',
+      expected: '',
+      actual: '',
+      reproductionSteps: '',
+      improvement: '',
+      context: {},
+    }],
+  }
+}
+
 test.describe('PyArcana public GitHub Pages edition', () => {
   test.beforeEach(async ({ page }) => {
     // Set localStorage before navigation to prevent tour from appearing
@@ -103,6 +130,58 @@ test.describe('PyArcana public GitHub Pages edition', () => {
     await expect
       .poll(async () => page.locator('pre, code').count(), { timeout: 15000 })
       .toBeGreaterThan(0)
+  })
+
+  test('QA harness rejects malformed imported contexts without crashing review', async ({ page }) => {
+    await page.setViewportSize({ width: 1366, height: 768 })
+    await page.keyboard.press('Control+Alt+q')
+    await expect(page.getByTestId('qa-harness-dialog')).toBeVisible()
+    await page.getByTestId('qa-tab-session').click()
+
+    await page.locator('input[type="file"][accept*="json"]').setInputFiles({
+      name: 'qa-malformed-context.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(malformedQaPackage()), 'utf8'),
+    })
+
+    await expect(page.getByTestId('qa-message')).toContainText(/lista válida|contextos está incompleto/i)
+    await expect(page.getByTestId('qa-issue-count')).toContainText('0 incidencias')
+    await expect(page.locator('body')).not.toContainText('Application error')
+  })
+
+  test('QA harness preserves the draft when IndexedDB and localStorage fallback both fail', async ({ page }) => {
+    const title = 'Borrador que no debe perderse'
+    const description = 'La persistencia simulada falla y este texto debe seguir editable.'
+
+    await page.addInitScript(() => {
+      Object.defineProperty(window, 'indexedDB', {
+        configurable: true,
+        get: () => undefined,
+      })
+      const originalSetItem = Storage.prototype.setItem
+      Storage.prototype.setItem = function setItem(key: string, value: string) {
+        if (key === 'pyarcana:qa-issues:v1') {
+          throw new DOMException('Simulated localStorage quota exhaustion', 'QuotaExceededError')
+        }
+        return originalSetItem.call(this, key, value)
+      }
+    })
+    await page.reload()
+    await page.waitForLoadState('domcontentloaded')
+    await expect(page.getByTestId('qa-harness-open')).toBeAttached({ timeout: 15000 })
+
+    await page.keyboard.press('Control+Alt+q')
+    await expect(page.getByTestId('qa-harness-dialog')).toBeVisible()
+    await page.getByTestId('qa-title').fill(title)
+    await page.getByTestId('qa-description').fill(description)
+    await page.getByTestId('qa-save-issue').click()
+
+    await expect(page.getByTestId('qa-message')).toContainText(/cuota de almacenamiento local/i)
+    await expect(page.getByTestId('qa-message')).toContainText(/formulario y la captura se conservaron/i)
+    await expect(page.getByTestId('qa-title')).toHaveValue(title)
+    await expect(page.getByTestId('qa-description')).toHaveValue(description)
+    await expect(page.getByTestId('qa-tab-report')).toHaveAttribute('aria-selected', 'true')
+    await expect(page.getByTestId('qa-issue-count')).toContainText('0 incidencias')
   })
 
   test('QA harness persists and round-trips a tagged issue at laptop size', async ({ page }) => {
