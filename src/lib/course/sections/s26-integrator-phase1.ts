@@ -52,6 +52,13 @@ export const section26: CourseSection = {
      },
      {
       heading: "Tasks, flows, DAG y estados del VP",
+      figure: {
+        id: "S26-dag-states",
+        caption:
+          "Confundir skipped con success infla la tasa de éxito con tareas que nunca corrieron.",
+        alt:
+          "Cinco guardas que asignan a cada tarea su estado, de pending a skipped.",
+      },
       subtopicId: "S26-T1-A",
       paragraphs: [
         "Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni generar draft_email antes de approve. Path canónico del VP (7 steps): **ingest → validate → analyze → ai_assist → report → approve → draft_email**. Ese orden es el contrato del cierre CP-N2-C; las vistas parciales de ejercicios lo declaran cuando omiten AI o email a propósito.",

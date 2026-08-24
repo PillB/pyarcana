@@ -75,6 +75,13 @@ ungrounded_critical_ok False`,
     },
     {
       heading: "Task dataset y rúbrica",
+      figure: {
+        id: "S50-slice-overlap",
+        caption:
+          "Exigir que los tamaños sumen el total rompería datasets correctos: los slices se solapan a propósito.",
+        alt:
+          "Dos regiones solapadas dentro de todas las tareas del dataset.",
+      },
       subtopicId: "S50-T1-A",
       paragraphs: [
         "El **task dataset** no es un dump de chats: representa **trabajos reales del copiloto** (citar SLA, recuperar caso, reanudar tras fallo de tool) y **slices versionados** (idioma, longitud, tool-required, adversarial). Separa train/dev/**holdout** con IDs inmutables; la **rúbrica 0–3** ancla cada nivel con ejemplos observables (qué se ve en la respuesta o trayectoria), no adjetivos vagos. Cambiar rúbrica o slice sin bump de versión invalida la comparación baseline/candidato.",

@@ -51,6 +51,13 @@ export const section16: CourseSection = {
      },
      {
       heading: "Nulls y políticas por campo",
+      figure: {
+        id: "S16-quarantine-reasons",
+        caption:
+          "Sin el motivo, la cuarentena es un montón de filas que nadie sabe cómo reparar.",
+        alt:
+          "Dos tablas: la entrada con filas incompletas y la cuarentena con cada fila y su motivo.",
+      },
       subtopicId: "S16-T1-A",
       paragraphs: [
         "Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente con indicador de ausencia). Mezclar ambas sin documentar es la causa clásica de “defaults mágicos” que envenenan el EDA (análisis exploratorio de datos) de S17.",

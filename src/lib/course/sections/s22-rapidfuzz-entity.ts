@@ -72,6 +72,13 @@ auto_send_ok False`,
      },
      {
       heading: "MIME, encoding, HTML/text y attachments",
+      figure: {
+        id: "S22-mime-parts",
+        caption:
+          "Enviar solo HTML deja sin nada al cliente que no lo renderiza; la parte de texto plano no es opcional.",
+        alt:
+          "Cuatro capas apiladas del sobre multipart a las partes de texto, HTML y adjunto.",
+      },
       subtopicId: "S22-T1-A",
       paragraphs: [
         "**MIME** (`email.mime`) es el formato con el que construyes un correo profesional: no es un string suelto, sino un **árbol** de partes con tipo, charset y disposición. En operaciones (mesa de control, tickets, notificaciones a clientes sintéticos) el borrador suele llevar text/plain + text/html + un adjunto de meta del run. Charset **UTF-8** evita mojibake en nombres y acentos del español peruano. `MIMEMultipart('alternative')` ofrece ambas representaciones del cuerpo; el cliente de correo elige cuál mostrar.",
@@ -245,6 +252,13 @@ bytes 184`,
     },
     {
       heading: "Resolución y verificación de destinatarios",
+      figure: {
+        id: "S22-recipient-resolution",
+        caption:
+          "Un alias que resuelve a un buzón externo es el caso que la allowlist existe para atrapar.",
+        alt:
+          "Grafo de la solicitud a la resolución, luego la verificación de dominio, y de ahí al envío o al bloqueo.",
+      },
       subtopicId: "S22-T3-A",
       paragraphs: [
         "Antes de poner un `To:` en el borrador, el pipeline **resuelve** y **verifica** al destinatario. Resolución: mapear un id de negocio (`C001`) a un email desde un directorio sintético. Verificación: formato básico, dominio allowlisted (`example.pe`) y estado activo. Los estados del contacto van de `unresolved` → `candidate` → `verified` | `rejected`. Sin `verified`, fail-closed: no se encola aprobación para envío (aunque en el curso solo simules).",

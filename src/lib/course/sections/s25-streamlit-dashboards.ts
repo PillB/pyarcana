@@ -86,6 +86,13 @@ llm_structured`,
     },
     {
       heading: "S25-T1-B · Model cards, licencias y decisión local o cloud",
+      figure: {
+        id: "S25-local-vs-cloud",
+        caption:
+          "Que exista un DPA no habilita enviar datos personales reales: gobierna todo lo demás.",
+        alt:
+          "Tres guardas que van del tipo de dato al lugar donde puede correr el modelo.",
+      },
       subtopicId: "S25-T1-B",
       paragraphs: [
         "Antes de desplegar, lee la **model card** (ficha del modelo): uso previsto (*intended use*, uso contemplado por el autor), limitaciones, sesgos y datos de entrenamiento. Revisa la **licencia** (MIT/Apache suelen permitir reuso comercial; otras piden revisión legal). *not_for* (usos prohibidos) en la card no es decoración: si lista adjudicación de fraude o biometría, ese uso queda bloqueado en tu política aunque la licencia sea permisiva.",

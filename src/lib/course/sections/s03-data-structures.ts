@@ -83,6 +83,13 @@ capstone_increment CP-N1-A`,
      },
      {
       heading: 'Comparaciones y el operador in',
+      figure: {
+        id: "S03-guard-order",
+        caption:
+          "Mover la última guarda al principio cambia la clasificación de todos los registros, no de algunos.",
+        alt:
+          "Cuatro guardas evaluadas en orden, del campo ausente al accept final.",
+      },
       subtopicId: 'S03-T1-A',
       paragraphs: [
         'En una plataforma de alquiler de bicicletas de Ámsterdam, una regla puede preguntar si la edad declarada supera un mínimo y si la estación pertenece al catálogo activo. Antes de escribir una sola rama, el sistema necesita respuestas elementales: `True` o `False`. Piensa en cada comparación como una pregunta cerrada que el código puede contestar sin ambigüedad.',

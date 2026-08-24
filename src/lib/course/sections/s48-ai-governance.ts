@@ -70,6 +70,13 @@ ungrounded_claim_ok False`,
     },
     {
       heading: "Embeddings y similitud",
+      figure: {
+        id: "S48-chunk-provenance",
+        caption:
+          "Si el hash es solo del texto, dos fragmentos iguales de documentos con permisos distintos se colapsan en uno.",
+        alt:
+          "Tres capas apiladas: documento con versión, sección y fragmento con su hash de procedencia.",
+      },
       subtopicId: "S48-T1-A",
       paragraphs: [
         "Los embeddings proyectan texto a un espacio vectorial; la **similitud solo ordena candidatos** — no prueba verdad ni autoriza un claim. Versión del modelo, normalización y métrica (cosine, dot) son parte del contrato del índice: cambiar cualquiera sin re-eval rompe el holdout.",
@@ -100,6 +107,13 @@ emb_dim 2`,
     },
     {
       heading: "Límites, versiones y evaluación",
+      figure: {
+        id: "S48-evidence-allowlist",
+        caption:
+          "Deduplicar por el texto puede dejar como superviviente el fragmento que el lector no tenía derecho a ver.",
+        alt:
+          "Grafo del usuario a los documentos que puede ver y de ahí a la respuesta citada.",
+      },
       subtopicId: "S48-T1-B",
       paragraphs: [
         "Cambiar el modelo de embedding no es un deploy cosmético: exige **baseline de recall en holdout**, presupuesto de reindexación y slices de error. Recall@K del retrieval y calidad de la respuesta se miden por separado; un candidato más caro que no supera al baseline se descarta.",

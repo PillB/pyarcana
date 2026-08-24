@@ -69,6 +69,13 @@ export const section34: CourseSection = {
     },
     {
       heading: "Matriz de confusión, precision, recall y F1",
+      figure: {
+        id: "S34-confusion-cost",
+        caption:
+          "Bajar el umbral atrapa más positivos y llena la cola; subirlo la vacía y deja pasar casos. No hay opción sin coste.",
+        alt:
+          "Dos matrices de confusión, una con umbral bajo y otra con umbral alto.",
+      },
       subtopicId: "S34-T1-A",
       paragraphs: [
         "Con **desbalance**, un solo porcentaje de aciertos (accuracy) engaña: si casi nadie necesita revisión, predecir siempre «no revisar» luce genial en el dashboard y no prioriza a nadie. Piensa en la cola como un filtro de calidad, no como un concurso de aciertos globales. **Precision** responde: de lo que mandas a cola, ¿cuánto era realmente positivo? **Recall** responde: de los positivos reales, ¿cuántos atrapaste? **F1** es la media armónica de ambos: castiga cuando uno de los dos se desploma. Cuando el costo de un FN pesa más que el de un FP (perder un caso que sí merecía revisión), la familia se generaliza a **Fβ** con β>1. En el workbench anclamos en F1 y dejamos el desbalance de costos al umbral versionado de T4.",

@@ -51,6 +51,13 @@ export const section20: CourseSection = {
      },
      {
       heading: "Sheets, celdas y encabezados estables",
+      figure: {
+        id: "S20-sheet-structure",
+        caption:
+          "Leer por índice de hoja rompe cuando alguien reordena las pestañas; leer por nombre no.",
+        alt:
+          "Tres capas apiladas: libro, hoja y fila o celda.",
+      },
       subtopicId: "S20-T1-A",
       paragraphs: [
         "Un libro de Excel es un grafo de **hojas + celdas + encabezados**. Nombra hojas de forma estable (`Entrada`, `Datos`, `Salida`); evita “Hoja1” en el entregable. Los encabezados de la fila 1 anclan lecturas programáticas (`iter_rows`) y la conciliación posterior. Si el negocio habla de “tablas” o “named ranges”, en este tramo usamos el equivalente práctico: headers fijos + sheetnames contractuales — el mismo contrato que un schema de API, solo que el “endpoint” es un archivo que el VP abre en Excel.",

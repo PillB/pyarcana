@@ -73,6 +73,13 @@ hitl True`,
  },
  {
  heading: "Escalamiento y centroides 1D (núcleo de k-means / density)",
+ figure: {
+   id: "S36-scale-trap",
+   caption:
+     "La distancia euclídea suma ambas: la segunda domina por completo, y el clúster solo agrupa por monto.",
+   alt:
+     "Dos barras que comparan el rango de una columna de 0 a 1 con otra de 0 a 100 000.",
+ },
  subtopicId: "S36-T1-A",
  paragraphs: [
  "Antes de k-means, **escala** features: sin scale, gana la magnitud (soles vs. conteos de eventos). El núcleo didáctico es un **toy 1D**: z-score, un paso **assign → update** de centroides (el corazón de k-means) y, en paralelo, una idea density-based. Los centroides y los núcleos de densidad son resúmenes geométricos, no etiquetas de fraude ni de parentesco.",

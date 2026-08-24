@@ -72,6 +72,13 @@ pii_or_secrets_ok False`,
     },
     {
       heading: "Stakeholders, jobs y success metrics de CF-1",
+      figure: {
+        id: "S52-defense-evidence",
+        caption:
+          "Lo que queda fuera del bundle no existe para la defensa, por bien que lo sepas explicar en persona.",
+        alt:
+          "Dos regiones anidadas: lo que viaja en el bundle frente al conocimiento que sigue en tu cabeza.",
+      },
       subtopicId: "S52-T1-A",
       paragraphs: [
         "Antes de cablear la plataforma final, **revalida CF-1**: stakeholders, jobs y success metrics pueden haber cambiado desde S01. Registra el **delta** (quién se fue, qué métrica se retiró) en un change_log. Sin matriz viva stakeholder/job/métrica + baseline sintético congelado, el portfolio defiende un producto fantasma y el gate exige `REOPEN_CF1`.",

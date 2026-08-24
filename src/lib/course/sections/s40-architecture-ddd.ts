@@ -79,6 +79,13 @@ pii_allowed False`,
     },
     {
       heading: "Requisitos funcionales y quality attributes",
+      figure: {
+        id: "S40-layer-imports",
+        caption:
+          "Si el dominio importa FastAPI, cambiar de framework se convierte en reescribir las reglas de negocio.",
+        alt:
+          "Tres capas apiladas: dominio, aplicación e infraestructura.",
+      },
       subtopicId: "S40-T1-A",
       paragraphs: [
         "Un **requisito funcional (FR)** describe una capacidad del negocio: «el triage de Red Andina acepta un lote sintético y devuelve scores de prioridad». Un **quality attribute (QA)** no se escribe con adjetivos («rápido», «escalable»): se escribe como **escenario medible** con fuente, estímulo, entorno, respuesta, medida y umbral. Sin esos campos, el requisito no es auditable ni negociable.",

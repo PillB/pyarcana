@@ -52,6 +52,13 @@ export const section31: CourseSection = {
     },
     {
       heading: "Nodos, aristas, dirección y peso",
+      figure: {
+        id: "S31-degree-context",
+        caption:
+          "El mismo tipo de arista, dos historias distintas. Sin contexto, el score ordena la cola por el nodo equivocado.",
+        alt:
+          "Dos barras: un teléfono compartido por dos personas y otro compartido por cuarenta.",
+      },
       subtopicId: "S31-T1-A",
       paragraphs: [
         "Un **nodo** es una entidad del caso: cliente, cuenta, email o teléfono sintético. Una **arista** es un **hecho relacional** con tipo (`etype`), y opcionalmente **dirección** y **peso**. El peso puede ser monto en PEN, frecuencia o score de confianza. Sin tipos estables, el path del revisor no se puede filtrar ni auditar.",

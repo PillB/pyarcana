@@ -70,6 +70,13 @@ prod_without_approve_ok False`,
     },
     {
       heading: "S47-T1-A · Tracking y reproducibilidad de experiment runs",
+      figure: {
+        id: "S47-registry-promotion",
+        caption:
+          "Sin una versión anterior nombrada no hay rollback: solo hay un modelo en producción y ninguna salida.",
+        alt:
+          "Cuatro guardas que deciden si un candidato puede promoverse.",
+      },
       subtopicId: "S47-T1-A",
       paragraphs: [
         "Tracking registra **parámetros, métricas, seed, artefactos y versión de dataset**. Reproducibilidad no es «el dashboard se ve bien»: es poder **re-ejecutar el run** con el mismo seed y params y obtener la métrica dentro de una tolerancia declarada. Sin seed presente y sin params no vacíos, el número es anécdota, no evidencia de promote.",
@@ -137,6 +144,13 @@ r-latest ok False delta None`,
     },
     {
       heading: "S47-T2-A · Firmas de I/O, stages del registry y approvals",
+      figure: {
+        id: "S47-shadow-vs-canary",
+        caption:
+          "Shadow responde a «¿se cae?»; canary a «¿empeora la calidad para alguien real?». No se saltan.",
+        alt:
+          "Tres barras con el porcentaje de tráfico que ve la salida en shadow, canary y despliegue completo.",
+      },
       subtopicId: "S47-T2-A",
       paragraphs: [
         "Con un candidato que ya ganó en holdout, el **registry** exige otra capa de gobernanza. Una firma fija nombres y tipos de entrada/salida (el **contrato del servicio**, no un dict inventado por el run). En la práctica moderna de MLflow se prefieren **alias** (`champion`/`challenger`) y tags de validación por versión; en este lab modelamos el mismo gate con un entorno gobernado (`staging` antes de `production`). La aprobación es **independiente del digest**: un hash correcto sin `approved=True` no autoriza el entorno de producción.",

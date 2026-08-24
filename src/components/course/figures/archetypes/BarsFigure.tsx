@@ -39,9 +39,25 @@ export function BarsFigure({ title, data }: { title: string; data: BarsData }) {
               {b.label}
             </FigText>
             <rect x={x0} y={y} width={w} height={24} rx={FIG.radius} fill={tintOf(b.tint)} fillOpacity={0.28} stroke={tintOf(b.tint)} strokeWidth={FIG.stroke} />
-            <FigText x={x0 + w + 8} y={y + 12} anchor="start" size={FIG.microSize} weight={600} fill={tintOf(b.tint)}>
-              {b.display ?? String(b.value)}
-            </FigText>
+            {/* A bar at the domain maximum leaves no room to its right, so a
+                long label is drawn inside the bar instead of past its end. */}
+            {(() => {
+              const label = b.display ?? String(b.value)
+              const needs = label.length * 7.2
+              const outside = x0 + w + 8 + needs < FIG.width - 8
+              return (
+                <FigText
+                  x={outside ? x0 + w + 8 : x0 + w - 8}
+                  y={y + 12}
+                  anchor={outside ? 'start' : 'end'}
+                  size={FIG.microSize}
+                  weight={600}
+                  fill={outside ? tintOf(b.tint) : 'var(--foreground)'}
+                >
+                  {label}
+                </FigText>
+              )
+            })()}
           </g>
         )
       })}

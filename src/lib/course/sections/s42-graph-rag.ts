@@ -85,6 +85,13 @@ s41_request DENY_CROSS_TENANT`,
     },
     {
       heading: "Pydantic y JSON Schema",
+      figure: {
+        id: "S42-additive-evolution",
+        caption:
+          "Poner additionalProperties: false en tus consumidores internos convierte todo cambio aditivo en uno de ruptura.",
+        alt:
+          "Tres guardas que clasifican un cambio de schema como aditivo o de ruptura.",
+      },
       subtopicId: "S42-T1-A",
       paragraphs: [
         "Pydantic y JSON Schema describen forma, tipos y restricciones del borde HTTP. Un schema de borde **estricto** modela `extra=forbid` / `additionalProperties: false`: solo las claves en un conjunto *allowed* pasan. Si el cliente manda `note_interna` o un flag de debug no declarado, el borde debe rechazar **antes** de authz, de logs enriquecidos o de persistencia. Eso **no sustituye** invariantes de negocio (p. ej. `status ∈ {open, closed}`): la forma es el primer fail-closed; la autorización y el dominio vienen después.",

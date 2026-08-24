@@ -24,7 +24,7 @@ export function TableShapeFigure({ title, data, idPrefix }: { title: string; dat
     p: TableShapeData['left'],
   ) => {
     const cols = p.head.length
-    const cellW = Math.floor(226 / cols)
+    const cellW = Math.floor(206 / cols)
     return (
       <g>
         <FigText x={x} y={68} anchor="start" size={FIG.microSize} weight={600} fill={tintOf(p.tint)}>
@@ -52,8 +52,8 @@ export function TableShapeFigure({ title, data, idPrefix }: { title: string; dat
     )
   }
 
-  const leftX = 22
-  const rightX = 312
+  const leftX = 18
+  const rightX = 336
   const midY = top + ((maxRows + 1) * cellH) / 2
 
   return (
@@ -70,12 +70,12 @@ export function TableShapeFigure({ title, data, idPrefix }: { title: string; dat
           wide enough for the arrow and not for the word, so "over(partition by)"
           landed on the neighbouring cell. They now sit above the arrow, clear of
           both panels. */}
-      <FigArrow x1={leftX + 232} y1={midY} x2={rightX - 6} y2={midY} markerId={`${idPrefix}-arrow`} />
-      <FigText x={(leftX + 232 + rightX) / 2} y={top - 16} size={FIG.microSize} mono fill="var(--muted-foreground)">
+      <FigArrow x1={leftX + 212} y1={midY} x2={rightX - 6} y2={midY} markerId={`${idPrefix}-arrow`} />
+      <FigText x={(leftX + 212 + rightX) / 2} y={top - 34} size={FIG.microSize} mono fill="var(--muted-foreground)">
         {data.forward}
       </FigText>
       {data.backward ? (
-        <FigText x={(leftX + 232 + rightX) / 2} y={top + (maxRows + 1) * cellH + 16} size={FIG.microSize} mono fill="var(--muted-foreground)">
+        <FigText x={(leftX + 212 + rightX) / 2} y={top + (maxRows + 1) * cellH + 16} size={FIG.microSize} mono fill="var(--muted-foreground)">
           {data.backward}
         </FigText>
       ) : null}

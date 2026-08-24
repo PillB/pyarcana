@@ -104,6 +104,13 @@ relationship_signal_score SEPARATE`,
     },
     {
       heading: "Verdad etiquetada, precision/recall y revisión clerical",
+      figure: {
+        id: "S13-two-scores",
+        caption:
+          "La mezcla cruza el umbral de 0.80 empujada por la relación. Por eso la identidad se decide sobre ER y no sobre la mezcla.",
+        alt:
+          "Tres barras: identidad 0.70, relación 1.00 y la combinación ponderada 0.82.",
+      },
       subtopicId: "S13-T1-B",
       paragraphs: [
         "**Ancla:** sin etiquetas no sabes si tu regla de ER ayuda o daña. Con pares **sintéticos** etiquetados calculas **TP** (dijiste match y era match), **FP** (dijiste match y no lo era) y **FN** (era match y lo dejaste pasar). De ahí: precision = TP/(TP+FP) y recall = TP/(TP+FN). La etiqueta es ground truth (verdad de referencia) de *identidad en el fixture del curso* — **no** es un veredicto legal sobre personas reales.",

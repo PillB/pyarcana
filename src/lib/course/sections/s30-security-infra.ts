@@ -52,6 +52,13 @@ export const section30: CourseSection = {
     },
     {
       heading: "exact, edit/token y fecha",
+      figure: {
+        id: "S30-missing-weight",
+        caption:
+          "La segunda opción baja el score y puede cruzar el umbral inferior: un dato que nadie tenía acaba pareciendo un desacuerdo.",
+        alt:
+          "Dos barras que comparan el score resultante al omitir el campo ausente frente a conservar su peso.",
+      },
       subtopicId: "S30-T1-A",
       paragraphs: [
         "Tras el mapa de la sección, el primer ladrillo del motor son los **comparadores**. **Exact**: igualdad **después** de normalizar (`casefold` + colapsar espacios). **Edit** (Levenshtein normalizado): typos y diferencias de acentos leves. **Token**: Jaccard u overlap de palabras (orden “Ana López” / “López Ana”). **Fecha**: distancia en días con tolerancia. Cada uno aporta evidencia de identidad, no un veredicto de riesgo.",

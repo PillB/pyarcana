@@ -52,6 +52,13 @@ export const section33: CourseSection = {
     },
     {
       heading: "Unidad, target y horizonte",
+      figure: {
+        id: "S33-overfit-gap",
+        caption:
+          "Con esa brecha, el modelo memorizó. Y apenas supera al baseline: dos problemas, no uno.",
+        alt:
+          "Tres barras sobre la misma escala: train, test y baseline.",
+      },
       subtopicId: "S33-T1-A",
       paragraphs: [
         "Antes de entrenar, cierra el **problema de scoring**: la **unidad** (par de entidades, caso o cuenta en el instante `t`), el **target observable** y el **horizonte** temporal (p. ej. 7 días). En el workbench de Red Andina, un target llamado `fraud` o `is_fraud` es un **breach de producto**: el ML solo prioriza la cola de revisión humana, no etiqueta delito ni parentesco.",

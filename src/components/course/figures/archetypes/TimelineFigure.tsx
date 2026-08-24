@@ -27,7 +27,7 @@ export function TimelineFigure({ title, data }: { title: string; data: TimelineD
   const topY = 76 + headBlock
   const rowH = 38
   const axisY = topY + n * rowH + 12
-  const height = axisY + 46
+  const height = axisY + (data.graceLabel ? 46 + wrapLines(data.graceLabel, 210).length * 16 : 46)
 
   return (
     <div>
@@ -57,9 +57,20 @@ export function TimelineFigure({ title, data }: { title: string; data: TimelineD
           </g>
         ) : null}
         {data.graceLabel && typeof data.boundaryAt === 'number' && data.graceWidth ? (
-          <FigText x={sx(data.boundaryAt - data.graceWidth) - 6} y={axisY + 30} anchor="end" size={FIG.microSize} fill="var(--muted-foreground)">
-            {data.graceLabel}
-          </FigText>
+          <>
+            {wrapLines(data.graceLabel, 210).map((gl, gi) => (
+              <FigText
+                key={gl}
+                x={24}
+                y={axisY + 48 + gi * 16}
+                anchor="start"
+                size={FIG.microSize}
+                fill="var(--muted-foreground)"
+              >
+                {gl}
+              </FigText>
+            ))}
+          </>
         ) : null}
 
         {data.events.map((e, i) => {
@@ -75,7 +86,16 @@ export function TimelineFigure({ title, data }: { title: string; data: TimelineD
                 {String(e.at)}
               </FigText>
               {e.sub ? (
-                <FigText x={sx(e.at) + 12} y={y} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">
+                // Anchored to the side with room: a dot near the right edge of
+                // the axis pushed its subtitle off the canvas ("RTO incumplido",
+                // "pérdida máxima 24 h").
+                <FigText
+                  x={sx(e.at) > FIG.width * 0.6 ? sx(e.at) - 12 : sx(e.at) + 12}
+                  y={y}
+                  anchor={sx(e.at) > FIG.width * 0.6 ? 'end' : 'start'}
+                  size={FIG.microSize}
+                  fill="var(--muted-foreground)"
+                >
                   {e.sub}
                 </FigText>
               ) : null}

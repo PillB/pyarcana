@@ -90,6 +90,13 @@ ana perez`,
     },
     {
       heading: "Dependencias cíclicas y API pública",
+      figure: {
+        id: "S10-package-layout",
+        caption:
+          "Sin src, ejecutar desde la raíz importa la carpeta local y no el paquete instalado; el fallo aparece solo en otra máquina.",
+        alt:
+          "Tres capas apiladas: el paquete en src, el pyproject.toml y la instalación editable.",
+      },
       subtopicId: "S10-T1-B",
       paragraphs: [
         "El prefijo `_` marca helpers **privados** (es una convención: el guion bajo le dice al lector «esto es detalle interno, no lo importes de afuera»). La fachada — el archivo `__init__.py` o `api.py` que el equipo ve como entrada al paquete — reexporta solo lo **estable**. Si un usuario importa `_strip`, mañana no puedes renombrarlo sin romperle el código.",

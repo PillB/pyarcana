@@ -29,7 +29,7 @@ export function FlowFigure({ title, data, idPrefix }: { title: string; data: Flo
   const topY = 92 + headBlock
   const xOf = (i: number) => marginX + i * (boxW + gap)
 
-  const height = 208 + headBlock + outLines.length * 18
+  const height = 168 + headBlock + boxH + Math.max(1, outLines.length) * 18 + 24
 
   return (
     <div>
@@ -104,22 +104,26 @@ export function FlowFigure({ title, data, idPrefix }: { title: string; data: Flo
               strokeWidth={FIG.strokeBold}
               strokeDasharray="5 4"
             />
-            <FigText
-              x={xOf(data.boundaryAfter) + boxW + gap / 2}
-              y={topY - 34}
-              size={FIG.microSize}
-              fill="var(--chart-1)"
-              weight={600}
-            >
-              {data.boundaryLabel ?? 'frontera'}
-            </FigText>
+            {(() => {
+              const label = data.boundaryLabel ?? 'frontera'
+              const half = (label.length * 7.2) / 2
+              const cx = xOf(data.boundaryAfter) + boxW + gap / 2
+              // Clamped so a long caption on a boundary near either edge stays
+              // on the canvas instead of being cut in half.
+              const x = Math.min(FIG.width - half - 8, Math.max(half + 8, cx))
+              return (
+                <FigText x={x} y={topY - 34} size={FIG.microSize} fill="var(--chart-1)" weight={600}>
+                  {label}
+                </FigText>
+              )
+            })()}
           </g>
         ) : null}
 
         {data.outcome ? (
           <motion.g initial={false} animate={{ opacity: isLast ? 1 : 0 }} transition={transition}>
             {outLines.map((l, i) => (
-              <FigText key={l} x={marginX} y={topY + boxH + headBlock + 50 + i * 18} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">
+              <FigText key={l} x={marginX} y={topY + boxH + 50 + i * 18} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">
                 {l}
               </FigText>
             ))}

@@ -19,11 +19,21 @@ export function DecisionFigure({ title, data, idPrefix }: { title: string; data:
   const n = data.branches.length
   const { step, next, reset, transition, isLast } = useFigureSteps(n + 1)
 
-  const rowH = 40
+  // The row has to fit whichever of the two columns wraps taller.
+  const maxResultLines = Math.max(
+    1,
+    ...data.branches.map((b) => wrapLines(b.result, FIG.width - 344 - 16).length),
+    ...data.branches.map((b) => wrapLines(b.test, 176, 6.6).length),
+  )
+  const rowH = 34 + maxResultLines * 18
   const topY = 78 + headBlock
-  const testX = 150
-  const testW = 236
-  const resultX = 410
+  const testX = 132
+  const testW = 196
+  const resultX = 344
+  // Results are authored freely and were clipped whenever they ran long
+  // ('clave + reserva atómica', 'contents: write, solo ahí'). Wrap inside the
+  // column that is actually left rather than trusting the author to count.
+  const resultBudget = FIG.width - resultX - 16
   const height = topY + n * rowH + (noteLines.length ? 54 + (noteLines.length - 1) * 18 : 30)
 
   return (
@@ -54,9 +64,18 @@ export function DecisionFigure({ title, data, idPrefix }: { title: string; data:
                 fill={matched ? 'var(--card)' : 'var(--muted)'}
                 stroke={matched ? tintOf(b.tint) : 'var(--border)'}
               />
-              <FigText x={testX + 10} y={y + (rowH - 8) / 2} anchor="start" size={FIG.microSize} mono>
-                {b.test}
-              </FigText>
+              {wrapLines(b.test, testW - 20, 6.6).map((tl, ti, arr) => (
+                <FigText
+                  key={tl}
+                  x={testX + 10}
+                  y={y + (rowH - 8) / 2 + (ti - (arr.length - 1) / 2) * 16}
+                  anchor="start"
+                  size={FIG.microSize}
+                  mono
+                >
+                  {tl}
+                </FigText>
+              ))}
               <FigArrow
                 x1={testX + testW + 2}
                 y1={y + (rowH - 8) / 2}
@@ -64,16 +83,19 @@ export function DecisionFigure({ title, data, idPrefix }: { title: string; data:
                 y2={y + (rowH - 8) / 2}
                 markerId={`${idPrefix}-arrow`}
               />
-              <FigText
-                x={resultX}
-                y={y + (rowH - 8) / 2}
-                anchor="start"
-                size={FIG.microSize}
-                weight={600}
-                fill={tintOf(b.tint)}
-              >
-                {b.result}
-              </FigText>
+              {wrapLines(b.result, resultBudget).map((rl, ri, arr) => (
+                <FigText
+                  key={rl}
+                  x={resultX}
+                  y={y + (rowH - 8) / 2 + (ri - (arr.length - 1) / 2) * 16}
+                  anchor="start"
+                  size={FIG.microSize}
+                  weight={600}
+                  fill={tintOf(b.tint)}
+                >
+                  {rl}
+                </FigText>
+              ))}
               {/* the fall-through line: only drawn once this test has been passed over */}
               {i < n - 1 ? (
                 <line

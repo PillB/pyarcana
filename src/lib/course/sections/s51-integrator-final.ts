@@ -117,6 +117,13 @@ REDACT_AND_QUARANTINE_TRACE`,
     },
     {
       heading: "Tokens, costo, latencia y redacción",
+      figure: {
+        id: "S51-redaction-classes",
+        caption:
+          "Llamar PII a un token confunde la respuesta al incidente: uno se notifica, el otro se revoca.",
+        alt:
+          "Tres guardas que separan datos personales, secretos y campos que sí se registran.",
+      },
       subtopicId: "S51-T1-B",
       paragraphs: [
         "**Tokens, costo y latencia** se miden **por etapa** (prompt build, retrieval, generation, tools) y por **percentil** (p50/p95), no solo media. Un p95 de 5 s con media de 200 ms es un incidente de UX, no un «pico normal». El **costo** no sale de una sola fórmula, y suponerlo es la forma habitual de subestimarlo: la generación se cobra por tokens, pero retrieval y tools suelen cobrarse por consulta, por tiempo de ejecución o por almacenamiento, y sus tokens no entran en el contador facturable del modelo. Reconcilia lo que es reconciliable —que los tokens por etapa de modelo sumen `total_tokens`— y suma aparte las etapas que se tarifan de otra forma. Un dashboard que multiplica todo por un precio por token miente hacia abajo. **Redacción** aplica a atributos, eventos, payloads y mensajes de error: un stack trace con un email filtra datos personales; uno con un `Authorization` filtra una credencial. Conviene no llamar PII a las dos cosas: la primera obliga por privacidad, la segunda obliga a **rotar** el secreto expuesto. Ambas se redactan, por razones distintas y con respuestas distintas al incidente.",

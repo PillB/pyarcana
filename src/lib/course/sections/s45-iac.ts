@@ -72,6 +72,13 @@ cache_as_source_of_truth_ok False`,
     },
     {
       heading: "Almacén de objetos, relacional y caché",
+      figure: {
+        id: "S45-rto-vs-rollback",
+        caption:
+          "Un rollback de 8 minutos seguido de 52 de restauración incumple un objetivo de 15 minutos: el reloj cuenta hasta que el servicio atiende, no hasta que el rollback termina.",
+        alt:
+          "Un eje de minutos desde el incidente con el objetivo de tiempo de recuperación marcado, el momento en que el rollback está listo y el momento en que el servicio queda restablecido.",
+      },
       subtopicId: "S45-T1-A",
       paragraphs: [
         "Elige **object store** para blobs/artefactos por key (PDF/JSON del reporte), **relacional** para invariantes y consultas (status del job, contadores), y **cache** solo para copias descartables del dashboard. **No uses cache como registro autoritativo**: si el job reintenta, la verdad debe vivir en store o DB durable, no en un TTL que mentirá al revisor. El patrón de acceso decide el medio: escritura rara + lectura por key → object; transacciones e integridad → relacional; hot-path de lectura → cache con TTL.",
@@ -117,7 +124,7 @@ retriable_truth object + relational`,
         caption:
           "Un restore rápido no compensa una cadencia lenta: el dato que nunca se copió no está en ningún sitio.",
         alt:
-          "Un eje de horas con el RPO marcado y dos cadencias, cada cuatro horas y diaria.",
+          "Un eje de horas con el objetivo de punto de recuperación marcado como línea vertical, y dos cadencias de respaldo: cada cuatro horas y diaria.",
       },
       subtopicId: "S45-T1-B",
       paragraphs: [

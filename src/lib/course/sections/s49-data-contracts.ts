@@ -71,6 +71,13 @@ prod_side_effect_without_approval_ok False`,
     },
     {
       heading: "Workflow vs. agente",
+      figure: {
+        id: "S49-tool-effects",
+        caption:
+          "Exigir clave a un get_case_status denegaría todas las lecturas; repetirlas es inofensivo.",
+        alt:
+          "Tres guardas que distinguen una tool de lectura de una que produce efecto.",
+      },
       subtopicId: "S49-T1-A",
       paragraphs: [
         "Usa **workflow** cuando pasos y ramas son conocidos y deterministas; reserva **agente** solo para decisiones acotadas con beneficio medible frente a un baseline y salida verificable por un evaluator. Un agente abierto sin presupuesto ni tools de responsabilidad única no es «más inteligente»: es un riesgo de side effects (envíos, writes, costos) que un pipeline fijo no habría tomado.",
@@ -110,6 +117,13 @@ need_evidence`,
     },
     {
       heading: "Routing, planner/worker y evaluator–optimizer",
+      figure: {
+        id: "S49-context-budget",
+        caption:
+          "Compactar puede borrar pasos ruidosos; case_id, budget y no_prod_write tienen que sobrevivir.",
+        alt:
+          "Tres barras con el reparto del presupuesto de contexto frente a su máximo.",
+      },
       subtopicId: "S49-T1-B",
       paragraphs: [
         "El **router** elige la ruta (p. ej. caso vs. reporte), el **planner** descompone en pasos acotados, el **worker** ejecuta tools y el **evaluator** critica la salida. El patrón **evaluator–optimizer** cierra el loop: si el evaluator falla, se replanifica o se reintenta el worker — pero solo hasta un `max_steps` (o `max_iters`) explícito. Sin cota, el «agente» se convierte en un while infinito con costo y riesgo crecientes.",

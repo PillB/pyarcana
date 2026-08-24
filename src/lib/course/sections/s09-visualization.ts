@@ -161,6 +161,13 @@ fatal: config inválida: delimiter vacío`,
     },
     {
       heading: "Traceback y debugger",
+      figure: {
+        id: "S09-error-boundary",
+        caption:
+          "Atrapar Exception en el origen borra el tipo; atraparlo todo en la frontera pierde el contexto de dónde ocurrió.",
+        alt:
+          "Tres capas apiladas: origen, capa de dominio y frontera de recuperación.",
+      },
       subtopicId: "S09-T2-A",
       paragraphs: [
         "Un **traceback** lista frames del más reciente al más profundo (o viceversa según la herramienta). El frame útil suele ser **tu código**, no el de la stdlib: en el job de intake empieza por la última línea de `normalize` o `validate`, no por el interior de `csv` o `logging`. Si el stack solo muestra la librería, sube un frame hasta tu módulo del pipeline.",

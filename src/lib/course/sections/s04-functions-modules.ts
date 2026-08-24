@@ -60,6 +60,13 @@ export const section04: CourseSection = {
      },
      {
       heading: "for, range y secuencias",
+      figure: {
+        id: "S04-loop-invariant",
+        caption:
+          "Dividir entre procesadas da 0.80; entre intentadas, 0.67. La tasa mejora sola cada vez que una fila falla antes de tiempo.",
+        alt:
+          "Tres barras sobre la misma escala: filas intentadas, procesadas y aceptadas.",
+      },
       subtopicId: "S04-T1-A",
       paragraphs: [
         "Cuando la pregunta es «¿qué hago con cada elemento de una colección conocida?», piensa primero en **`for`**. `for x in secuencia` entrega cada valor una vez y en orden; el índice es equipaje innecesario hasta que una necesidad concreta —posición, reporte o acceso paralelo— lo justifique.",

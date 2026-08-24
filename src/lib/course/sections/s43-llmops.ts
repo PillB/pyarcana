@@ -70,6 +70,13 @@ root_uid_ok False`,
     },
     {
       heading: "Dockerfile, layers y caché",
+      figure: {
+        id: "S43-multistage",
+        caption:
+          "Un gcc en la imagen final es superficie de ataque que nadie va a usar nunca en producción.",
+        alt:
+          "Tres capas: el stage builder, la copia del artefacto y el stage runtime sin toolchain.",
+      },
       subtopicId: "S43-T1-A",
       paragraphs: [
         "Ordena layers de **estable a cambiante**: base y dependencias primero, código de aplicación después. Así el caché de build acelera los commits de la app sin re-resolver pip en cada push. Un caché «mágico» que depende de estado oculto del host rompe la reproducibilidad entre máquinas. Lee el fragmento de abajo: `COPY requirements` + `RUN pip` van antes de `COPY src/`.",

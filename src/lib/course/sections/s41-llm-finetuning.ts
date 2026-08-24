@@ -73,6 +73,13 @@ pii_in_errors_ok False`,
     },
     {
       heading: "Recursos, métodos y status",
+      figure: {
+        id: "S41-status-codes",
+        caption:
+          "Devolver 200 con un cuerpo de error obliga a cada cliente a inventarse cómo detectar el fallo.",
+        alt:
+          "Cuatro guardas que asignan el código de estado según lo que ocurrió con la petición.",
+      },
       subtopicId: "S41-T1-A",
       paragraphs: [
         "Desde S40 ya tienes fronteras de dominio; aquí la frontera se vuelve **HTTP**. Modela recursos con **sustantivos** versionados (`/v1/jobs`, `/v1/health`), no verbos en la URL. El método comunica intención: **GET** es lectura segura e idempotente; **POST** crea o encola. El **status** es parte del contrato: **201** crea un recurso (cuerpo del job nuevo; opcionalmente header `Location`), **200** lectura OK de colección o ítem, **422** body inválido (validación de esquema; FastAPI/Pydantic lo usa por defecto), **404** ítem ausente (`/v1/jobs/{id}`), **409** conflicto de negocio/idempotencia, **500** fallo interno. Elegir 200 en un create exitoso confunde a clientes y a OpenAPI.",

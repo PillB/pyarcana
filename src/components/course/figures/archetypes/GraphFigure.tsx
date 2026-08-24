@@ -68,10 +68,11 @@ export function GraphFigure({ title, data }: { title: string; data: GraphData })
   }, [])
 
   const narrow = paneWidth > 0 && paneWidth < 420
+  const dense = data.nodes.length > 4 || data.edges.length > 4
 
   const nodes: Node[] = useMemo(() => {
-    const colW = narrow ? 82 : 240
-    const rowH = narrow ? 104 : 108
+    const colW = narrow ? 82 : 268
+    const rowH = narrow ? 136 : 124
     return data.nodes.map((n, i) => ({
       id: n.id,
       type: 'box',
@@ -84,7 +85,10 @@ export function GraphFigure({ title, data }: { title: string; data: GraphData })
       // stacked layout therefore ignores them and lays the nodes out by their
       // position in the array, which is unique by construction.
       position: narrow
-        ? { x: (i % 2) * colW, y: Math.floor(i / 2) * rowH + (i % 2) * (rowH / 2) }
+        // Staggering by rowH/2 put boxes 52px apart while a two-line node is
+        // 54px tall, so consecutive nodes overlapped by 2px at 390 and 320.
+        // The offset is now a fixed clearance above the tallest node box.
+        ? { x: (i % 2) * colW, y: Math.floor(i / 2) * rowH + (i % 2) * 64 }
         : { x: n.col * colW, y: n.row * rowH },
       data: { label: n.label, sub: n.sub, tint: n.tint, narrow },
       width: narrow ? 96 : 118,
@@ -98,7 +102,11 @@ export function GraphFigure({ title, data }: { title: string; data: GraphData })
         id: `${e.from}-${e.to}`,
         source: e.from,
         target: e.to,
-        label: narrow ? undefined : e.label,
+        // Dropped whenever the graph is dense: measured collisions between
+        // edge captions and node boxes on S13 and S49 at desktop width. The
+        // legend under the figure names every edge in full sentences, so the
+        // information is not lost, only the crowded placement.
+        label: narrow || dense ? undefined : e.label,
         style: {
           stroke: e.derived ? 'var(--border)' : 'var(--chart-2)',
           strokeWidth: e.derived ? 1.5 : 2,
@@ -107,12 +115,12 @@ export function GraphFigure({ title, data }: { title: string; data: GraphData })
         labelStyle: { fill: 'var(--muted-foreground)', fontSize: 14 },
         labelBgStyle: { fill: 'var(--card)' },
       })),
-    [data.edges, narrow],
+    [data.edges, narrow, dense],
   )
 
   const rows = Math.max(...data.nodes.map((n) => n.row)) + 1
   const stackedRows = Math.ceil(data.nodes.length / 2) + 1
-  const height = narrow ? Math.max(300, stackedRows * 84) : Math.max(240, rows * 92)
+  const height = narrow ? Math.max(320, stackedRows * 104) : Math.max(240, rows * 92)
 
   const onInit = useCallback((instance: { fitView: (o?: { padding?: number }) => void }) => {
     flowRef.current = instance

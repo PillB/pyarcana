@@ -60,6 +60,13 @@ export const section28: CourseSection = {
     },
     {
       heading: "Invariantes y generación de casos",
+      figure: {
+        id: "S28-tool-schema",
+        caption:
+          "Un nombre que «suena útil» en el prompt no es un criterio: el registro de tools se audita antes del run.",
+        alt:
+          "Cuatro guardas que deciden si una tool es llamable o se deshabilita.",
+      },
       subtopicId: "S28-T1-A",
       paragraphs: [
         "Una **invariante** es una propiedad que **siempre** debe cumplirse en el dominio ER: `normalize` es **idempotente** (`f(f(x)) == f(x)`); scores en **[0, 1]**; ids no vacíos; pares canónicos `entity_a < entity_b`. Si se rompe, el matching deja de ser un contrato y se vuelve intuición.",

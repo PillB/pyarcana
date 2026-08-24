@@ -72,6 +72,13 @@ skip_privacy_or_tests False`,
     },
     {
       heading: "Wall, CPU y profiling de memoria",
+      figure: {
+        id: "S37-percentiles",
+        caption:
+          "Un p95 de 5 s con media de 200 ms es un incidente de experiencia, no un pico normal.",
+        alt:
+          "Tres barras: media, mediana y percentil 95 de latencia.",
+      },
       subtopicId: "S37-T1-A",
       paragraphs: [
         "Wall time es el reloj de pared que percibe el usuario o el batch (`time.perf_counter`); CPU time es el tiempo de procesador (`time.process_time`). Cuando wall >> CPU, el job espera I/O o al SO; cuando ambos crecen, el path es **compute-bound** (acotado por cómputo, no por I/O). La memoria pico limita si el job cabe en el worker, y aquí hay que ser preciso con qué mide cada herramienta. `tracemalloc` rastrea lo que se reserva **a través del asignador de Python**, en el mismo path que estás midiendo; es excelente para saber qué línea tuya acumula objetos. Lo que **no** te da es la memoria residente del proceso, que es la cifra contra la que el worker te mata: quedan fuera los buffers que reservan extensiones en C con su propio asignador —NumPy y pandas, entre otras—, y la memoria que el intérprete ya devolvió al asignador pero no al sistema. Para el límite del contenedor, mira el RSS del proceso; para saber qué parte de tu código lo empuja, `tracemalloc`. Cuando el wall ya indicó *qué tramo* es caro, `cProfile` nombra la **función** exacta (hot path, la ruta o tramo más costoso del código) sin adivinar.",
