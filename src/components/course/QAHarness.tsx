@@ -253,6 +253,10 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
       setScreenshotDataUrl(null)
       setMessage(`Guardado localmente como ${issue.id.slice(0, 8)}.`)
       setTab('review')
+    } catch (error) {
+      const detail = error instanceof Error ? error.message : 'No se pudo persistir la incidencia.'
+      setMessage(`${detail} El formulario y la captura se conservaron. Libera espacio o quita/comprime la evidencia y vuelve a intentar.`)
+      setTab('report')
     } finally {
       setBusy(false)
     }
@@ -370,16 +374,24 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
   }
 
   const handleDelete = async (id: string) => {
-    await deleteQaIssue(id)
-    await refreshIssues()
-    setMessage('Incidencia eliminada de esta sesión local.')
+    try {
+      await deleteQaIssue(id)
+      await refreshIssues()
+      setMessage('Incidencia eliminada de esta sesión local.')
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'No se pudo eliminar la incidencia local.')
+    }
   }
 
   const handleClear = async () => {
     if (!window.confirm('¿Eliminar todas las incidencias QA guardadas en este navegador?')) return
-    await clearQaIssues()
-    await refreshIssues()
-    setMessage('Sesión QA local vaciada.')
+    try {
+      await clearQaIssues()
+      await refreshIssues()
+      setMessage('Sesión QA local vaciada.')
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'No se pudo vaciar la sesión QA local.')
+    }
   }
 
   const updateTester = (value: string) => {
