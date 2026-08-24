@@ -138,7 +138,12 @@ test.describe('PyArcana public GitHub Pages edition', () => {
 
     await page.getByRole('button', { name: 'Close' }).click()
     await page.reload()
-    await expect(page.getByRole('heading', { name: 'PyArcana', level: 1 })).toBeVisible({ timeout: 15000 })
+    await page.waitForLoadState('domcontentloaded')
+    await expect(page.locator('body')).not.toContainText('Application error')
+    // Reload can legitimately restore the learner directly into S01 rather
+    // than the landing page, so the QA trigger—not the landing h1—is the
+    // invariant that proves the hydrated workspace is ready for persistence.
+    await expect(page.getByTestId('qa-harness-open')).toBeAttached({ timeout: 15000 })
     await page.keyboard.press('Control+Alt+q')
     await page.getByTestId('qa-tab-review').click()
     await expect(page.getByTestId('qa-issue-row')).toHaveCount(1)
