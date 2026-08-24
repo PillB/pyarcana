@@ -107,7 +107,39 @@ def sentences(text: str) -> list[str]:
     return [re.sub(r"\x00(\d+)\x00", lambda m: stash[int(m.group(1))], p) for p in parts]
 
 
-def audit_section(name: str, idx: int, order: list[str], gloss: dict[str, str]) -> list[dict]:
+def first_introduction(order: list[str]) -> dict[str, int]:
+    """term -> the 1-based section where the course first *defines* it.
+
+    Without this the pass is per-sentence and therefore blind to the fix it
+    recommends: glossing «secretos» once in S01 left all 25 later uses flagged,
+    because nothing was looking at what the reader had already been told. A
+    term introduced earlier is available later -- the same rule
+    src/lib/glossary already applies with firstSectionId.
+
+    "Defined" means the term appears next to an explanatory marker: an em dash,
+    a parenthetical, or one of the phrases the course uses to unpack a word.
+    """
+    first: dict[str, int] = {}
+    for i, name in enumerate(order, 1):
+        src = (SECTIONS / f"{name}.ts").read_text(encoding="utf-8")
+        body = "\n".join(m.group(0) for m in re.finditer(r"paragraphs:\s*\[([\s\S]*?)\n\s*\]", src))
+        for term in ASSUMED_WORLD:
+            bare = term.strip("`")
+            if bare.lower() in first:
+                continue
+            # A gloss often lands a few words after the term -- "la ausencia de
+            # **secretos** en el repositorio —contraseñas, claves de API…" -- so
+            # the marker is allowed to trail rather than sit flush against it.
+            if re.search(
+                rf"{re.escape(bare)}s?\*{{0,2}}[^.]{{0,40}}?(—|\(|,\s*(?:esto es|es decir|o sea)|:\s*[a-z])",
+                body,
+            ):
+                first[bare.lower()] = i
+    return first
+
+
+def audit_section(name: str, idx: int, order: list[str], gloss: dict[str, str],
+                  introduced: dict[str, int]) -> list[dict]:
     src = (SECTIONS / f"{name}.ts").read_text(encoding="utf-8")
     sid_m = re.search(r"\n\s*id:\s*['\"]([^'\"]+)['\"]", src)
     sid = sid_m.group(1) if sid_m else name
@@ -127,6 +159,11 @@ def audit_section(name: str, idx: int, order: list[str], gloss: dict[str, str]) 
                 if re.search(
                     rf"{re.escape(bare)}[^.]{{0,40}}?(—|\(|,\s*(?:esto es|es decir|o sea))", plain
                 ):
+                    continue
+                # Already introduced at or before this section: the reader has
+                # been told, so using it is not an assumption.
+                intro = introduced.get(bare.lower())
+                if intro is not None and intro <= idx:
                     continue
                 # Naming the reader's own platform is not an assumption: they
                 # know which machine they are sitting at. "macOS/Linux" as a
@@ -182,11 +219,13 @@ def main() -> int:
 
     order = section_order()
     gloss = glossary_first_use()
+    introduced = first_introduction(order)
     names = [args.section] if args.section else order
 
     all_f = []
     for i, n in enumerate(names, 1):
-        all_f += audit_section(n, order.index(n) + 1 if n in order else i, order, gloss)
+        idx = order.index(n) + 1 if n in order else i
+        all_f += audit_section(n, idx, order, gloss, introduced)
 
     disposable = [f for f in all_f if not f["looks_load_bearing"]]
     print(f"sentences flagged: {len(all_f)}   of which not load-bearing: {len(disposable)}")
