@@ -61,6 +61,14 @@ def main() -> int:
     require(store, "SAFE_SCREENSHOT_DATA_URL", "qa-session.ts")
     require(store, "MAX_PACKAGE_ISSUES", "qa-session.ts")
 
+    # Failed validation is not permission to destroy older local evidence.
+    # Rendering is filtered, but the raw fallback array must be carried forward
+    # on ordinary saves/deletes until an explicit migration or clear operation.
+    require(store, "function fallbackReadRaw", "qa-session.ts")
+    require(store, "return fallbackReadRaw().filter(isQaIssue)", "qa-session.ts")
+    require(store, "const records = fallbackReadRaw().filter", "qa-session.ts")
+    require(store, "quarantined records survive", "qa-session.ts")
+
     # A failed fallback write must remain a failure. Silent localStorage quota
     # loss would make the UI clear an unsaved tester report.
     require(store, "QuotaExceededError", "qa-session.ts")
