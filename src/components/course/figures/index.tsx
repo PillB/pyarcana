@@ -2,6 +2,7 @@ import type { ComponentType } from 'react'
 import dynamic from 'next/dynamic'
 
 import { ArchetypeFigure } from './archetypes'
+export { FIGURE_DATA } from './data'
 import { FIGURE_DATA } from './data'
 
 import { S01CwdPath } from './S01CwdPath'
@@ -84,14 +85,4 @@ export const FIGURES: Record<string, ComponentType<{ title: string }>> = {
  * Bespoke wins on lookup so an id can be promoted from data to a hand-drawn
  * figure later without touching any section file.
  */
-export function resolveFigure(id: string): ComponentType<{ title: string }> | null {
-  const bespoke = FIGURES[id]
-  if (bespoke) return bespoke
-  const data = FIGURE_DATA[id]
-  if (!data) return null
-  const Rendered = ({ title }: { title: string }) => <ArchetypeFigure title={title} data={data} id={id} />
-  Rendered.displayName = `ArchetypeFigure(${id})`
-  return Rendered
-}
-
 export const FIGURE_IDS = [...Object.keys(FIGURES), ...Object.keys(FIGURE_DATA)]
