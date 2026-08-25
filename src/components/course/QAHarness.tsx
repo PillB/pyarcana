@@ -11,8 +11,11 @@ import {
   MonitorCheck,
   Send,
   Trash2,
+  GraduationCap,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { QATour } from './QATour'
+import { QA_TOUR_STORAGE_KEY } from '@/lib/qa-tour-content'
 import {
   Dialog,
   DialogContent,
@@ -138,6 +141,21 @@ function severityClasses(severity: QASeverity): string {
 export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep }: QAHarnessProps) {
   const [open, setOpen] = useState(false)
   const [tab, setTab] = useState<Tab>('report')
+  const [tourOpen, setTourOpen] = useState(false)
+
+  // Shown once per browser, the first time the workspace is opened. A tester
+  // who dismisses it can reopen it from the Tutorial button at any time; the
+  // key is its own, so completing the platform tour never suppresses this.
+  useEffect(() => {
+    if (!open) return
+    let seen = '1'
+    try {
+      seen = localStorage.getItem(QA_TOUR_STORAGE_KEY) ?? ''
+    } catch {
+      seen = '1'
+    }
+    if (!seen) setTourOpen(true)
+  }, [open])
   const [issues, setIssues] = useState<QAIssue[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [tester, setTesterState] = useState('')
@@ -418,8 +436,15 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
-          className="flex max-h-[90vh] w-[min(1180px,calc(100vw-2rem))] max-w-none flex-col gap-0 overflow-hidden p-0"
+          className="flex max-h-[90vh] w-[min(1180px,calc(100vw-2rem))] flex-col gap-0 overflow-hidden p-0 sm:!max-w-[min(1180px,calc(100vw-2rem))]"
           data-testid="qa-harness-dialog"
+          // While the tutorial is up, a pointerdown on its overlay is an
+          // interaction outside this content, so Radix closed the workspace
+          // underneath it -- dismissing the tutorial threw the tester out of
+          // the form they were about to fill. Moving the tour out of the
+          // Dialog tree did not help, because the detector is global.
+          onInteractOutside={(event) => { if (tourOpen) event.preventDefault() }}
+          onEscapeKeyDown={(event) => { if (tourOpen) event.preventDefault() }}
         >
           <DialogHeader className="border-b border-border px-5 py-4 pr-12">
             <div className="flex flex-wrap items-start justify-between gap-3">
@@ -432,8 +457,24 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
                   Reporta evidencia reproducible. Todo se guarda primero en este navegador; nada se envía automáticamente.
                 </DialogDescription>
               </div>
-              <div className="rounded-full border border-border bg-muted/50 px-3 py-1 text-xs text-muted-foreground" data-testid="qa-issue-count">
-                {issueCountText}
+              <div className="flex items-center gap-2">
+                {/* Placed in the header rather than buried in a tab: a tester
+                    who does not know the taxonomy needs to find this before
+                    filling anything in, not after. */}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setTourOpen(true)}
+                  data-testid="qa-tour-open"
+                  className="gap-1.5"
+                >
+                  <GraduationCap className="h-4 w-4" />
+                  Tutorial
+                </Button>
+                <div className="rounded-full border border-border bg-muted/50 px-3 py-1 text-xs text-muted-foreground" data-testid="qa-issue-count">
+                  {issueCountText}
+                </div>
               </div>
             </div>
           </DialogHeader>
@@ -703,6 +744,11 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
           </div>
         </DialogContent>
       </Dialog>
+      {/* Outside <Dialog>, not merely portalled out of it. Rendered as a child
+          of the Dialog tree, Radix reads a click on the tour's overlay as an
+          outside-click and closes the workspace underneath -- so dismissing the
+          tutorial threw the tester out of the form they were about to fill. */}
+      <QATour open={tourOpen} onClose={() => setTourOpen(false)} />
     </>
   )
 }

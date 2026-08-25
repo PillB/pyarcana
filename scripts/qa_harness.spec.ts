@@ -10,7 +10,12 @@ const PIXEL_PNG = Buffer.from(
 
 test.describe('Internal QA testing harness', () => {
   test.beforeEach(async ({ page }) => {
-    await page.addInitScript(() => localStorage.setItem('pyarcana:tourCompleted', '1'))
+    await page.addInitScript(() => {
+      localStorage.setItem('pyarcana:tourCompleted', '1')
+      // The QA tutorial has its own key by design; without it the tutorial
+      // auto-opens over the workspace these tests are exercising.
+      localStorage.setItem('pyarcana:qaTourCompleted', '1')
+    })
     await page.goto('/pyarcana/')
     await page.waitForLoadState('domcontentloaded')
     await expect(page.getByRole('heading', { name: 'PyArcana', level: 1 })).toBeVisible({ timeout: 15000 })
@@ -77,5 +82,45 @@ test.describe('Internal QA testing harness', () => {
     await expect(page.getByTestId('qa-review-dashboard')).toBeVisible()
     await expect(page.getByTestId('qa-issue-row')).toHaveCount(1)
     await expect(page.getByTestId('qa-location-breadcrumb')).toContainText('S01')
+  })
+
+  test('the QA tutorial opens once, teaches by asking, and leaves the workspace open', async ({ page }) => {
+    // Opt back in: the suite seeds qaTourCompleted so the tutorial does not
+    // cover the form, which means this is the only test that sees it. Cleared
+    // after load and then reloaded, because an addInitScript registered here
+    // would not re-run for a hash-only navigation.
+    // No reload: beforeEach's addInitScript re-runs on every navigation and
+    // would put the key straight back. The harness reads it when the dialog
+    // opens, so clearing it in the live page is enough.
+    await page.evaluate(() => localStorage.removeItem('pyarcana:qaTourCompleted'))
+    await page.getByTestId('qa-harness-open').click()
+
+    // First run: it introduces itself without being asked.
+    await expect(page.getByTestId('qa-tour')).toBeVisible({ timeout: 20000 })
+
+    // It teaches by asking. A wrong answer has to explain itself, not just
+    // refuse -- the useful thing is why Contenido is the wrong axis here.
+    await page.getByTestId('qa-tour-next').click()
+    await page.getByTestId('qa-tour-option-content').click()
+    await expect(page.getByTestId('qa-tour-feedback')).toContainText(/afirmación equivocada/i)
+    await page.getByTestId('qa-tour-option-unanswerable-question').click()
+    await expect(page.getByTestId('qa-tour-feedback')).toContainText(/Correcto/i)
+    await expect(page.getByText(/Regla:/)).toBeVisible()
+
+    // Dismissing the tutorial must not throw the tester out of the form they
+    // were about to fill: Radix reads a click on the overlay as an interaction
+    // outside the dialog and closed the whole workspace.
+    await page.getByTestId('qa-tour-skip').click()
+    await expect(page.getByTestId('qa-tour')).toHaveCount(0)
+    await expect(page.getByTestId('qa-harness-dialog')).toBeVisible()
+
+    // Reopenable on demand, and silent on the next visit.
+    await page.getByTestId('qa-tour-open').click()
+    await expect(page.getByTestId('qa-tour')).toBeVisible()
+    await page.getByTestId('qa-tour-skip').click()
+    await expect(page.getByTestId('qa-tour')).toHaveCount(0)
+
+    // Skipping wrote the key, so a returning tester is not interrupted again.
+    expect(await page.evaluate(() => localStorage.getItem('pyarcana:qaTourCompleted'))).toBe('1')
   })
 })

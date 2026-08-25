@@ -69,9 +69,15 @@ function legacyFallbackRecord() {
 
 test.describe('PyArcana public GitHub Pages edition', () => {
   test.beforeEach(async ({ page }) => {
-    // Set localStorage before navigation to prevent tour from appearing
+    // Set localStorage before navigation to prevent tours from appearing.
+    // Two keys, because the QA workspace tutorial is deliberately independent
+    // of the platform tour: a tester who finished the course tour months ago
+    // still meets the QA one the first time they open the workspace. Without
+    // this the tutorial auto-opens over the report form and every QA test here
+    // times out clicking through it.
     await page.addInitScript(() => {
       localStorage.setItem('pyarcana:tourCompleted', '1')
+      localStorage.setItem('pyarcana:qaTourCompleted', '1')
     })
     await page.goto('/pyarcana/')
     // Wait for page to hydrate — the heading may take time on CI

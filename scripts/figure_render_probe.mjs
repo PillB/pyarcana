@@ -49,6 +49,32 @@ const TARGETS = (() => {
   return rows
 })()
 
+/**
+ * --sections S03,S14 restricts the run to those sections.
+ *
+ * A full pass is ~312 page loads. Verifying one fix should not cost that, and
+ * paying it every time is how a probe quietly stops being run at all. The
+ * filter narrows the run; it never widens it, and CI passes no flag, so the
+ * committed gate is always the whole set.
+ */
+const ONLY = args.sections
+  ? new Set(args.sections.split(',').map((s) => s.trim().toLowerCase()).filter(Boolean))
+  : null
+const SELECTED = ONLY
+  ? TARGETS.filter(([sec, fig]) => {
+      const s = sec.toLowerCase()
+      const f = fig.toLowerCase()
+      // Sections are slugs ("data-structures") but figure ids carry the S-number
+      // ("s03-tri-state"), and S03 is what anyone reading a finding will type.
+      // Accept the slug, the exact figure id, or an S-number prefix of one.
+      return [...ONLY].some((t) => s === t || f === t || f.startsWith(`${t}-`))
+    })
+  : TARGETS
+if (ONLY && SELECTED.length === 0) {
+  console.error(`--sections matched nothing. Known sections: ${[...new Set(TARGETS.map((t) => t[0]))].join(', ')}`)
+  process.exit(2)
+}
+
 
 const VIEWPORTS = [
   { name: 'desktop', width: 1440, height: 1000 },
@@ -423,7 +449,7 @@ try {
   // extra coverage, because both figures are on the same page. Ninety-two
   // figures that way is 552 loads and the probe stops being runnable.
   const bySection = new Map()
-  for (const [sectionId, figureId] of TARGETS) {
+  for (const [sectionId, figureId] of SELECTED) {
     if (!bySection.has(sectionId)) bySection.set(sectionId, [])
     bySection.get(sectionId).push(figureId)
   }

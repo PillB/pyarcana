@@ -12,6 +12,12 @@ import { INK } from './archetypes/types'
  * shows what prose has to claim: the record leaves by the *first* door that
  * opens, so a single dominant branch decides the outcome and the later
  * questions are never asked.
+ *
+ * The un-taken doors used to fade to 45%/50% alpha. That reads as "skipped"
+ * at a glance, but the probe measured those labels at 2.43:1 -- and they are
+ * not decoration: the caption asks the learner to read which questions were
+ * never asked. Emphasis now comes from hue and weight, which cost nothing in
+ * legibility, and the alpha stays at 1.
  */
 export function S03TriState({ title }: { title: string }) {
   // Each record stops at a different door — that is the point of the exercise.
@@ -72,7 +78,7 @@ export function S03TriState({ title }: { title: string }) {
                 x={cx}
                 y={laneY + doorH / 2}
                 size={FIG.microSize}
-                opacity={reached ? 1 : 0.45}
+                fill={reached ? INK.label : INK.muted}
               >
                 {d.q}
               </FigText>
@@ -99,9 +105,8 @@ export function S03TriState({ title }: { title: string }) {
                 x={cx}
                 y={laneY + doorH + 67}
                 mono
-                weight={600}
-                fill={exits ? exitColor[d.out] : 'var(--muted-foreground)'}
-                opacity={exits ? 1 : 0.5}
+                weight={exits ? 600 : 400}
+                fill={exits ? exitColor[d.out] : INK.muted}
               >
                 {d.out}
               </FigText>
