@@ -148,4 +148,103 @@ test.describe('Internal QA testing harness', () => {
     // Skipping wrote the key, so a returning tester is not interrupted again.
     expect(await page.evaluate(() => localStorage.getItem('pyarcana:qaTourCompleted'))).toBe('1')
   })
+
+  test('the element picker names the thing you point at, not the body', async ({ page }) => {
+    await page.getByTestId('qa-harness-open').click()
+    await expect(page.getByTestId('qa-harness-dialog')).toBeVisible({ timeout: 20000 })
+
+    // Nothing is claimed until the tester points at something. The field used
+    // to capture document.activeElement, which is <body> unless focus happened
+    // to be somewhere -- true of every report, and useless in all of them.
+    await expect(page.getByTestId('qa-harness-dialog')).not.toContainText('Elemento')
+
+    await page.getByTestId('qa-pick-element').click()
+    await expect(page.getByTestId('qa-element-picker')).toBeVisible()
+
+    // The workspace steps aside rather than closing: the page underneath has to
+    // be clickable, and the draft has to survive the detour.
+    await expect(page.getByTestId('qa-harness-dialog')).toHaveCSS('opacity', '0')
+
+    // Point at a control that carries a test id and click it. The click must be
+    // swallowed: picking the QA button must not re-open anything.
+    const target = page.getByTestId('qa-harness-open')
+    await target.click({ force: true })
+
+    await expect(page.getByTestId('qa-element-picker')).toHaveCount(0)
+    await expect(page.getByTestId('qa-harness-dialog')).toHaveCSS('opacity', '1')
+    // A selector a reviewer can paste, plus the text that was on screen.
+    await expect(page.getByTestId('qa-harness-dialog')).toContainText('[data-testid="qa-harness-open"]')
+    await expect(page.getByTestId('qa-harness-dialog')).toContainText('QA interna')
+
+    // And it can be taken back off.
+    await page.getByTestId('qa-clear-element').click()
+    await expect(page.getByTestId('qa-clear-element')).toHaveCount(0)
+  })
+
+  test('the element picker resolves a click on an icon to the control around it', async ({ page }) => {
+    await page.getByTestId('qa-harness-open').click()
+    await expect(page.getByTestId('qa-harness-dialog')).toBeVisible({ timeout: 20000 })
+    await page.getByTestId('qa-pick-element').click()
+    await expect(page.getByTestId('qa-element-picker')).toBeVisible()
+
+    // People click the painted pixel. The svg inside the QA button is not the
+    // subject of anyone's bug report; the button is.
+    const icon = page.locator('[data-testid="qa-harness-open"] svg').first()
+    await icon.click({ force: true })
+
+    await expect(page.getByTestId('qa-harness-dialog')).toContainText('[data-testid="qa-harness-open"]')
+    await expect(page.getByTestId('qa-harness-dialog')).not.toContainText('svg —')
+  })
+
+  test('Escape leaves the picker without changing the report', async ({ page }) => {
+    await page.getByTestId('qa-harness-open').click()
+    await page.getByTestId('qa-title').fill('Un borrador a medio escribir')
+    await page.getByTestId('qa-pick-element').click()
+    await expect(page.getByTestId('qa-element-picker')).toBeVisible()
+    await page.keyboard.press('Escape')
+
+    await expect(page.getByTestId('qa-element-picker')).toHaveCount(0)
+    // Escape cancels the aim; it must not close the workspace or lose the draft.
+    await expect(page.getByTestId('qa-harness-dialog')).toBeVisible()
+    await expect(page.getByTestId('qa-title')).toHaveValue('Un borrador a medio escribir')
+  })
+
+  test('the picker disambiguates: unique over short, stable over generated', async ({ page }) => {
+    // A fixture with the three things that make a naive selector useless: many
+    // identical tags, a framework-generated id that differs next render, and a
+    // duplicated aria-label. Injected into the real page so the selector is
+    // resolved against a real document with everything else in it.
+    await page.evaluate(() => {
+      const host = document.createElement('div')
+      host.id = 'picker-fixture'
+      host.innerHTML = `
+        <div><span>uno</span></div>
+        <div><span>dos</span></div>
+        <div id="radix-:r99:"><button aria-label="Duplicado">generado</button></div>
+        <div><button aria-label="Duplicado">tambien duplicado</button></div>
+        <div><button data-testid="fixture-unico" aria-label="Duplicado">el bueno</button></div>
+      `
+      document.body.appendChild(host)
+    })
+
+    const pickAndRead = async (selector: string) => {
+      await page.getByTestId('qa-harness-open').click()
+      await page.getByTestId('qa-pick-element').click()
+      await page.locator(selector).first().click({ force: true })
+      const text = await page.getByTestId('qa-harness-dialog').innerText()
+      await page.keyboard.press('Escape')
+      return text
+    }
+
+    // A test id wins outright, even though an aria-label is also present.
+    expect(await pickAndRead('[data-testid="fixture-unico"]')).toContain('[data-testid="fixture-unico"]')
+
+    // The generated id must not be offered: #radix-:r99: is gone next render.
+    const generated = await pickAndRead('#picker-fixture button[aria-label="Duplicado"]')
+    expect(generated).not.toContain('radix-')
+    // And whatever it did choose has to actually resolve to one element.
+    const chosen = generated.match(/#picker-fixture[^\n—]*|\[data-testid[^\]]*\]/)?.[0]?.trim()
+    expect(chosen, 'no selector was recorded').toBeTruthy()
+    expect(await page.locator(chosen!).count()).toBe(1)
+  })
 })

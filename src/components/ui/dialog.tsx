@@ -77,6 +77,7 @@ function DialogContent({
   children,
   showCloseButton = true,
   size = 'md',
+  suspended = false,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean
@@ -85,10 +86,18 @@ function DialogContent({
    * with a 2rem gutter, so no size can produce a horizontally scrolling page.
    */
   size?: keyof typeof DIALOG_SIZES
+  /**
+   * Step the dialog aside without closing it. The content stays mounted -- so a
+   * half-written report survives -- but it stops being visible and stops taking
+   * clicks, and the backdrop goes away entirely so the page underneath is
+   * usable. Pair with `modal={false}` on the Dialog root, or Radix will keep
+   * blocking pointer events on the body.
+   */
+  suspended?: boolean
 }) {
   return (
     <DialogPortal data-slot="dialog-portal">
-      <DialogOverlay />
+      {!suspended && <DialogOverlay />}
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
@@ -100,6 +109,7 @@ function DialogContent({
           // scrolls instead of pushing the controls past the bottom edge.
           "max-h-[90dvh]",
           DIALOG_SIZES[size],
+          suspended && 'pointer-events-none opacity-0',
           className
         )}
         {...props}
