@@ -186,7 +186,11 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
     sectionTitle,
     subStep: activeSubStep,
     viewport: { width: window.innerWidth, height: window.innerHeight },
-    scrollY: Math.round(window.scrollY || 0),
+    // Clamped at zero: Safari's rubber-band overscroll reports a negative
+    // scrollY, which is a real value and not a useful one. Capturing it made
+    // the validator quarantine the issue on the very next refresh, so the
+    // tester was told the report saved and then could not find it.
+    scrollY: Math.max(0, Math.round(window.scrollY || 0)),
     userAgent: navigator.userAgent,
     language: navigator.language,
     deploymentSha,

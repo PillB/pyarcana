@@ -40,7 +40,7 @@ export const section15: CourseSection = {
       paragraphs: [
         "Bloque de referencia. Orden de los subtemas, ritmo, criterio de cierre y dependencias.",
         "**Orden de los subtemas.** T1 fija el modelo y la lectura: Series, DataFrame y las opciones del parser. T2 pasa a la selección con `loc` e `iloc` y a las copias seguras. T3 trata los tipos: valores nulos, conversión explícita y schema. T4 cierra con la exportación: CSV, Excel, contrato de dtypes y manifest.",
-        "**Ritmo orientativo (unas 10 horas).** De esas, tres o cuatro para el núcleo: al terminarlo ya tienes leer un archivo a un DataFrame declarando los tipos en vez de descubrirlos. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
+        "**Ritmo orientativo (unas 10 horas).** De esas, tres o cuatro para el núcleo: al terminarlo ya puedes llevar un archivo a un DataFrame declarando los tipos en vez de descubrirlos. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
         "**Criterio de cierre.** Filas reconciliadas, un reporte de conversiones fallidas y un manifest con la procedencia del archivo.",
         "**Dependencias.** pandas 3 y lo ya visto en el curso: rutas, `StringIO`, diccionarios y funciones. Para Excel hace falta `openpyxl`; si no está disponible, se entrega CSV más un schema en JSON y se documenta el límite. El texto homogéneo infiere `str`; el schema de identificadores pide `string` (nullable); `object` queda para columnas que mezclaron tipos.",
       ],

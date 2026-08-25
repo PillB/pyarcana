@@ -64,7 +64,13 @@ export function S07NfcNfd({ title }: { title: string }) {
                     y={rowY[r] + cell / 2}
                     size={18}
                     mono
-                    fill={isAccent ? 'var(--card)' : 'var(--foreground)'}
+                    // The accent is drawn reversed out of a filled box to show
+                    // it is a mark of its own, not a letter. --card against
+                    // --fig-4 measured 1.03:1, which is the reversal in the
+                    // code and a blank square on the screen; the theme's own
+                    // inverse token is what the rest of the app uses for text
+                    // on a filled surface.
+                    fill={isAccent ? 'var(--primary-foreground)' : 'var(--foreground)'}
                   >
                     {ch}
                   </FigText>

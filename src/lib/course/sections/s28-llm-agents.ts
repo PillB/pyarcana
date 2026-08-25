@@ -55,7 +55,7 @@ export const section28: CourseSection = {
         "Bloque de referencia. Orden de los subtemas, ritmo y criterios de cierre.",
         "**Orden de los subtemas.** T1 cubre invariantes, generación y pruebas metamórficas. T2 pasa a datos: schema, calidad y goldens. T3 introduce los dobles —mocks, fakes, reloj controlado— y los contratos de borde. T4 cierra con integración y estabilidad en CI: codificación, cardinalidad, orden, timeouts y reanudación.",
         "**Qué es nuevo aquí.** S16 ya fallaba de forma cerrada ante un schema roto y S27 fijó la estructura, las fixtures y el oráculo. Lo que se agrega es generar desde propiedades, versionar goldens con revisión, controlar los bordes con dobles y sostener la integración sin pruebas intermitentes.",
-        "**Ritmo orientativo (unas 9 horas).** De esas, tres para el núcleo: al terminarlo ya tienes escribir una propiedad que valga para entradas que no se te ocurrieron. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
+        "**Ritmo orientativo (unas 9 horas).** De esas, tres para el núcleo: al terminarlo ya sabes escribir una propiedad que valga para entradas que no se te ocurrieron. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
       ],
     },
     {

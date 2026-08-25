@@ -151,7 +151,10 @@ function isQaContext(value: unknown): value is QAContext {
     && isNullableString(value.subStep)
     && isFiniteNonNegativeNumber(viewport.width)
     && isFiniteNonNegativeNumber(viewport.height)
-    && isFiniteNonNegativeNumber(value.scrollY)
+    // Any finite scroll, not only non-negative: records captured before the
+    // clamp above -- or on a browser that reports overscroll -- are still
+    // perfectly reviewable, and quarantining them loses a real report.
+    && typeof value.scrollY === 'number' && Number.isFinite(value.scrollY)
     && typeof value.userAgent === 'string'
     && typeof value.language === 'string'
     && isNullableString(value.deploymentSha)

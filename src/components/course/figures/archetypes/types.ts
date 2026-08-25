@@ -197,11 +197,16 @@ export const INK = {
   /** The line that delineates a shape. Never --border: 1.24:1 in light. */
   outline: 'var(--muted-foreground)',
   /** A shape's fill when the tint itself is the information.
-   *  0.16-0.28 was the original range and measured 1.1-1.3:1 against the page:
-   *  the colour was there in the code and not on the screen. 0.35 reached
-   *  1.36-1.85. 0.55 clears the 3:1 floor for a graphical object while leaving
-   *  --foreground labels well above 4.5:1 on top of it. */
-  tintFillOpacity: 0.55,
+   *  Measured, not guessed, because every earlier value was guessed and every
+   *  one of them was short. Composited over the light page background:
+   *
+   *    0.16-0.28  1.1-1.3:1   the original range -- in the code, not on screen
+   *    0.35       1.36-1.85
+   *    0.55       2.48-2.76   still under the 3:1 floor for a graphic
+   *    0.70       3.2-3.6     clears it on all five hues, with headroom
+   *
+   *  --foreground labels stay above 4.5:1 on top of the darkest of these. */
+  tintFillOpacity: 0.7,
 } as const
 
 /** Chart tokens, indexed so data files never name a colour. */

@@ -47,7 +47,7 @@ export function S46EventTime({ title }: { title: string }) {
         width={sx(wm) - sx(wm - grace)}
         height={148}
         fill="var(--fig-4)"
-        fillOpacity={0.55}
+        fillOpacity={0.7}
       />
 
       {/* watermark line */}

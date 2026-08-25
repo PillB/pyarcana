@@ -286,10 +286,44 @@ const PROBE = (figureId) => {
     // state flagged S03's "reject" and "accept" at 2.4:1 when both are at full
     // contrast the moment the learner steps to them. Skip element-level
     // opacity below 1; the colour itself is still checked at full strength.
-    const elOpacity = parseFloat(cs.opacity || '1')
-    if (elOpacity < 0.95) continue
-    const painted = over({ ...raw, a: raw.a * op }, behind)
-    const r = ratio(painted, behind)
+    // Opacity composites down the tree but does not inherit as a computed
+    // value, so a <text> inside a dimmed <g> still reports opacity 1. Checking
+    // only the element let S03's stepped labels through as 2.4:1 defects when
+    // they are simply not revealed yet. Walk up to the svg.
+    let effectiveOpacity = 1
+    for (let node = el; node && node !== svg; node = node.parentElement) {
+      effectiveOpacity *= parseFloat(getComputedStyle(node).opacity || '1')
+    }
+    if (effectiveOpacity < 0.95) continue
+    // What a label sits ON is often a filled shape, not the page. Measuring
+    // reversed-out text against the page backdrop reported S07's accent glyph
+    // at 1.02:1 -- white on white -- when it is actually white on a dark box.
+    // SVG has no z-order query, so find the smallest painted rect in the same
+    // group that geometrically contains this element.
+    let backdrop = behind
+    if (isText) {
+      const tb = el.getBoundingClientRect()
+      let best = null
+      let bestArea = Infinity
+      for (const cand of (el.parentElement ?? svg).querySelectorAll('rect')) {
+        const cs2 = getComputedStyle(cand)
+        const cf = toRGBA(cs2.fill)
+        if (!cf) continue
+        const cOp = parseFloat(cand.getAttribute('fill-opacity') ?? cs2.fillOpacity ?? '1')
+        if (!Number.isFinite(cOp) || cOp < 0.5) continue
+        const cb = cand.getBoundingClientRect()
+        if (cb.left > tb.left + 1 || cb.right < tb.right - 1) continue
+        if (cb.top > tb.top + 1 || cb.bottom < tb.bottom - 1) continue
+        const area = cb.width * cb.height
+        if (area < bestArea) {
+          bestArea = area
+          best = over({ ...cf, a: cf.a * cOp }, behind)
+        }
+      }
+      if (best) backdrop = best
+    }
+    const painted = over({ ...raw, a: raw.a * op }, backdrop)
+    const r = ratio(painted, backdrop)
     // WCAG 2.2: 4.5 for body text; 3.0 for large text, interface components and
     // graphics that carry meaning. Figure labels are 14-15px, so body text.
     const floor = isText ? 4.5 : 3.0

@@ -36,9 +36,9 @@ export function S36RollingOrigin({ title }: { title: string }) {
             {`pliegue ${i + 1}`}
           </FigText>
           <rect x={x0} y={f.y} width={span * f.train} height={h} rx={FIG.radius}
-                fill="var(--fig-2)" fillOpacity={0.55} stroke="var(--fig-2)" strokeWidth={FIG.stroke} />
+                fill="var(--fig-2)" fillOpacity={0.7} stroke="var(--fig-2)" strokeWidth={FIG.stroke} />
           <rect x={x0 + span * f.train} y={f.y} width={span * (f.test - f.train)} height={h} rx={FIG.radius}
-                fill="var(--fig-4)" fillOpacity={0.3} stroke="var(--fig-4)" strokeWidth={FIG.stroke} />
+                fill="var(--fig-4)" fillOpacity={0.7} stroke="var(--fig-4)" strokeWidth={FIG.stroke} />
           {/* everything after this fold's test window is simply not available yet */}
           <rect x={x0 + span * f.test} y={f.y} width={span * (1 - f.test)} height={h} rx={FIG.radius}
                 fill="none" stroke="var(--muted-foreground)" strokeWidth={FIG.stroke} strokeDasharray="4 4" />
@@ -51,9 +51,9 @@ export function S36RollingOrigin({ title }: { title: string }) {
       </FigText>
 
       <g>
-        <rect x={x0} y={206} width={16} height={11} rx={2} fill="var(--fig-2)" fillOpacity={0.55} stroke="var(--fig-2)" strokeWidth={FIG.stroke} />
+        <rect x={x0} y={206} width={16} height={11} rx={2} fill="var(--fig-2)" fillOpacity={0.7} stroke="var(--fig-2)" strokeWidth={FIG.stroke} />
         <FigText x={x0 + 22} y={212} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">entrena</FigText>
-        <rect x={x0 + 96} y={206} width={16} height={11} rx={2} fill="var(--fig-4)" fillOpacity={0.3} stroke="var(--fig-4)" strokeWidth={FIG.stroke} />
+        <rect x={x0 + 96} y={206} width={16} height={11} rx={2} fill="var(--fig-4)" fillOpacity={0.7} stroke="var(--fig-4)" strokeWidth={FIG.stroke} />
         <FigText x={x0 + 118} y={212} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">valida</FigText>
         <rect x={x0 + 190} y={206} width={16} height={11} rx={2} fill="none" stroke="var(--muted-foreground)" strokeWidth={FIG.stroke} strokeDasharray="3 3" />
         <FigText x={x0 + 212} y={212} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">aún no ocurrió</FigText>

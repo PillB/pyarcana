@@ -42,7 +42,7 @@ export function S17WideLong({ title }: { title: string }) {
       {head.map((hLabel, c) => (
         <g key={`h${c}`}>
           <rect x={x + c * cell.w} y={top} width={cell.w} height={cell.h}
-                fill={tint} fillOpacity={0.2} stroke="var(--muted-foreground)" strokeWidth={FIG.stroke} />
+                fill={tint} fillOpacity={0.7} stroke="var(--muted-foreground)" strokeWidth={FIG.stroke} />
           <FigText x={x + c * cell.w + cell.w / 2} y={top + cell.h / 2} size={FIG.microSize} weight={600} mono>
             {hLabel}
           </FigText>

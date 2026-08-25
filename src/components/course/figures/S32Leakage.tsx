@@ -42,7 +42,7 @@ export function S32Leakage({ title }: { title: string }) {
 
       {/* leaking feature: the window spans the cut */}
       <rect x={x0} y={bad.y} width={x1 - x0} height={bad.h} rx={FIG.radius}
-            fill="var(--fig-5)" fillOpacity={0.55} stroke="var(--fig-5)" strokeWidth={FIG.stroke} />
+            fill="var(--fig-5)" fillOpacity={0.7} stroke="var(--fig-5)" strokeWidth={FIG.stroke} />
       <FigText x={20} y={bad.y - 16} anchor="start" size={FIG.microSize} fill="var(--fig-5)" weight={600}>
         media móvil sobre toda la serie
       </FigText>
@@ -52,7 +52,7 @@ export function S32Leakage({ title }: { title: string }) {
 
       {/* correct feature: the window stops at the cut */}
       <rect x={x0} y={good.y} width={cut - x0} height={good.h} rx={FIG.radius}
-            fill="var(--fig-2)" fillOpacity={0.55} stroke="var(--fig-2)" strokeWidth={FIG.stroke} />
+            fill="var(--fig-2)" fillOpacity={0.7} stroke="var(--fig-2)" strokeWidth={FIG.stroke} />
       <FigText x={20} y={good.y - 16} anchor="start" size={FIG.microSize} fill="var(--fig-2)" weight={600}>
         media móvil calculada solo hasta el corte
       </FigText>
