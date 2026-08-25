@@ -56,7 +56,7 @@ export const section01: CourseSection = {
       optional: true,
       paragraphs: [
         "Bloque de referencia. Ritmo, criterio de cierre y límites del caso.",
-        "**Ritmo orientativo.** Unas 10 horas según la calibración del contenido actual, incluyendo explicación, demostraciones, práctica guiada, práctica independiente y cierre del bloque.",
+        "**Ritmo orientativo (unas 10 horas).** De esas, tres o cuatro para el núcleo: al terminarlo ya tienes un intérprete verificado, un entorno virtual y un primer commit limpio. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
         "**Criterio de cierre (CASO-LIM-001).** Cada afirmación deja evidencia: versión del intérprete, ruta del entorno, dependencias declaradas con versión, historial de Git y ausencia de secretos en el repositorio. Ese esqueleto es la base de tu capstone, que cerrarás en S04.",
         "**Límites.** Sin datos personales reales y sin credenciales en el repositorio. Si una comprobación no se puede demostrar en una máquina recién instalada, todavía no cuenta como cerrada.",
       ],

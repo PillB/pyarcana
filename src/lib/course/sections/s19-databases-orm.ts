@@ -48,7 +48,7 @@ export const section19: CourseSection = {
    "**Orden de los subtemas.** T1 trata la intención: pregunta, audiencia, elección de gráfico y ejes honestos. T2 pasa a lo estático: composición multi-panel y exportación versionada. T3 cubre lo interactivo y la accesibilidad: modelo de filtro, tooltip y paridad. T4 cierra con la narrativa y el control de sobreclaims.",
    "**Entregable.** El tablero ejecutivo CP-N2-B: cuatro gráficos estáticos más una vista interactiva modelada como datos, todos con su conclusión limitada a la evidencia.",
    "**Alcance.** Los informes en **DOCX** —el formato de documento de Word— y PDF son el foco de S21, no de aquí, y no se exige ninguna librería interactiva. Lo que se practica es la elección del gráfico, la honestidad de los ejes, la exportación reproducible y la paridad entre figura y tabla.",
-   "**Ritmo orientativo.** Unas 9 horas según la calibración del contenido actual.",
+   "**Ritmo orientativo (unas 9 horas).** De esas, tres para el núcleo: al terminarlo ya eliges el gráfico a partir de la pregunta, no del gusto. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
  ],
  code: {
  language: 'python',

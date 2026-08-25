@@ -1,6 +1,7 @@
 'use client'
 
 import { FIG, FigSvg, FigBox, FigText } from '../Figure'
+import { INK } from './archetypes/types'
 
 /**
  * S06 — three structures, three different questions.
@@ -16,19 +17,19 @@ export function S06ThreeStructures({ title }: { title: string }) {
       q: '¿en qué orden\nllegaron?',
       name: 'list',
       shape: 'seq' as const,
-      tint: 'var(--chart-1)',
+      tint: 'var(--fig-1)',
     },
     {
       q: '¿dónde está\nC002?',
       name: 'dict',
       shape: 'map' as const,
-      tint: 'var(--chart-2)',
+      tint: 'var(--fig-2)',
     },
     {
       q: '¿ya vimos\neste ID?',
       name: 'set',
       shape: 'set' as const,
-      tint: 'var(--chart-3)',
+      tint: 'var(--fig-3)',
     },
   ]
   const cardW = 164
@@ -48,7 +49,7 @@ export function S06ThreeStructures({ title }: { title: string }) {
         const cx = x + cardW / 2
         return (
           <g key={c.name}>
-            <FigBox x={x} y={cardY} w={cardW} h={cardH} fill="var(--card)" stroke={c.tint} />
+            <FigBox x={x} y={cardY} w={cardW} h={cardH} fill="var(--card)" stroke={INK.outline} />
 
             {c.q.split('\n').map((line, li) => (
               <FigText key={li} x={cx} y={cardY + 22 + li * 17} size={FIG.microSize}>
@@ -80,7 +81,7 @@ export function S06ThreeStructures({ title }: { title: string }) {
                     w={58}
                     h={28}
                     fill="var(--card)"
-                    stroke={r === 1 ? c.tint : 'var(--border)'}
+                    stroke={r === 1 ? c.tint : 'var(--muted-foreground)'}
                   />
                   <FigText
                     x={cx + 35}
@@ -101,7 +102,7 @@ export function S06ThreeStructures({ title }: { title: string }) {
                   cy={cardY + 92}
                   r={38}
                   fill="var(--muted)"
-                  stroke={c.tint}
+                  stroke={INK.outline}
                   strokeWidth={FIG.stroke}
                 />
                 <FigText x={cx} y={cardY + 86} size={FIG.microSize} mono>

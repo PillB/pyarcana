@@ -167,8 +167,50 @@ export type FigureData =
   | SetData
   | GraphData
 
+/**
+ * Contrast-safe roles, because the chart palette is not a text palette.
+ *
+ * Measured in the browser against the page background:
+ *
+ *              light    dark
+ *   --border    1.24     18.53      unusable as a diagram outline in light
+ *   --chart-2   1.85     10.77      unusable as label text in light
+ *   --chart-5   2.21      7.84      unusable as label text in light
+ *   --chart-4   3.28      5.29      fine for a shape, fails 4.5 for text
+ *   --muted-fg  7.85      9.44      safe everywhere
+ *   --fg       13.92     15.85      safe everywhere
+ *
+ * The chart tokens are tuned for filled areas, where a large block of colour
+ * carries the signal. Used for 14px type or a 1.5px outline they vanish -- and
+ * they vanish only in light mode, which is why reading the figures in dark
+ * mode while building them hid it. 453 elements across 81 of the 92 figures
+ * were below the WCAG floor.
+ *
+ * So archetypes address colour by ROLE. A tint may fill a shape; it may not be
+ * the only thing carrying a word or an edge.
+ */
+export const INK = {
+  /** Primary label text. */
+  label: 'var(--foreground)',
+  /** Secondary label text: captions, units, annotations. */
+  muted: 'var(--muted-foreground)',
+  /** The line that delineates a shape. Never --border: 1.24:1 in light. */
+  outline: 'var(--muted-foreground)',
+  /** A shape's fill when the tint itself is the information.
+   *  Measured, not guessed, because every earlier value was guessed and every
+   *  one of them was short. Composited over the light page background:
+   *
+   *    0.16-0.28  1.1-1.3:1   the original range -- in the code, not on screen
+   *    0.35       1.36-1.85
+   *    0.55       2.48-2.76   still under the 3:1 floor for a graphic
+   *    0.70       3.2-3.6     clears it on all five hues, with headroom
+   *
+   *  --foreground labels stay above 4.5:1 on top of the darkest of these. */
+  tintFillOpacity: 0.7,
+} as const
+
 /** Chart tokens, indexed so data files never name a colour. */
-export const TINT = ['var(--muted-foreground)', 'var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)'] as const
+export const TINT = ['var(--muted-foreground)', 'var(--fig-1)', 'var(--fig-2)', 'var(--fig-3)', 'var(--fig-4)', 'var(--fig-5)'] as const
 
 export function tintOf(i?: number): string {
   return TINT[i ?? 0] ?? TINT[0]

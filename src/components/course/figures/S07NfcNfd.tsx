@@ -21,13 +21,13 @@ export function S07NfcNfd({ title }: { title: string }) {
       label: 'NFC',
       chars: ['J', 'o', 's', 'é'],
       count: '4 code points',
-      tint: 'var(--chart-2)',
+      tint: 'var(--fig-2)',
     },
     {
       label: 'NFD',
       chars: ['J', 'o', 's', 'e', '◌́'],
       count: '5 code points',
-      tint: 'var(--chart-4)',
+      tint: 'var(--fig-4)',
     },
   ]
 
@@ -56,15 +56,21 @@ export function S07NfcNfd({ title }: { title: string }) {
                     y={rowY[r]}
                     w={cell}
                     h={cell}
-                    fill={isAccent ? 'var(--chart-4)' : 'var(--muted)'}
-                    stroke={isAccent ? row.tint : 'var(--border)'}
+                    fill={isAccent ? 'var(--fig-4)' : 'var(--muted)'}
+                    stroke={isAccent ? row.tint : 'var(--muted-foreground)'}
                   />
                   <FigText
                     x={x + cell / 2}
                     y={rowY[r] + cell / 2}
                     size={18}
                     mono
-                    fill={isAccent ? 'var(--card)' : 'var(--foreground)'}
+                    // The accent is drawn reversed out of a filled box to show
+                    // it is a mark of its own, not a letter. --card against
+                    // --fig-4 measured 1.03:1, which is the reversal in the
+                    // code and a blank square on the screen; the theme's own
+                    // inverse token is what the rest of the app uses for text
+                    // on a filled surface.
+                    fill={isAccent ? 'var(--primary-foreground)' : 'var(--foreground)'}
                   >
                     {ch}
                   </FigText>

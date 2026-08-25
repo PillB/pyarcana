@@ -46,7 +46,7 @@ export const section50: CourseSection = {
         "Bloque de referencia. Reúne el entregable, el orden de los subtemas y los criterios de promoción.",
         "**Producto incremental.** Una tarjeta de resultados que compara baseline contra candidato. Recibes tareas y slices versionados, un holdout sellado, un conjunto de adversarios y los objetivos de servicio. Entregas cobertura por slice, bloqueo de inyecciones, abstención en casos críticos sin respaldo, latencia p95 dentro del objetivo y una decisión explícita de promover o bloquear. La promoción falla si el holdout fue tocado o si se invocó una herramienta prohibida.",
         "**Orden de los subtemas.** T1 arma el dataset y califica trayectorias. T2 calibra jueces y sella el holdout. T3 hace red team de inyección, exfiltración y corpus. T4 fuerza la abstención y opera latencia y recuperación.",
-        "**Ritmo.** Unas 9 horas según la calibración del contenido actual para teoría, demos, laboratorios y la tarjeta de resultados del portafolio.",
+        "**Ritmo (unas 9 horas).** Reparte entre la teoría, las demostraciones, los laboratorios y la tarjeta de resultados del portafolio; no hace falta hacerlo de una sentada.",
       ],
       code: {
         language: 'python',

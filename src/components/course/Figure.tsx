@@ -181,7 +181,10 @@ export function FigBox({
   w,
   h,
   fill = 'var(--muted)',
-  stroke = 'var(--border)',
+  // Not --border: measured at 1.24:1 against the page in light mode, which is
+  // invisible as the outline of a diagram shape. --muted-foreground is 7.85:1
+  // in light and 9.44:1 in dark, and it is what every figure now delineates with.
+  stroke = 'var(--muted-foreground)',
   dashed = false,
 }: {
   x: number

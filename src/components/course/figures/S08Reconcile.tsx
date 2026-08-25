@@ -30,27 +30,27 @@ export function S08Reconcile({ title }: { title: string }) {
         1000
       </FigText>
 
-      <FigArrow x1={inX + inW + 6} y1={midY} x2={outX - 46} y2={midY - 44} markerId="s08-arrow" stroke="var(--chart-2)" />
-      <FigArrow x1={inX + inW + 6} y1={midY} x2={outX - 46} y2={midY + 44} markerId="s08-arrow" stroke="var(--chart-4)" />
+      <FigArrow x1={inX + inW + 6} y1={midY} x2={outX - 46} y2={midY - 44} markerId="s08-arrow" stroke="var(--fig-2)" />
+      <FigArrow x1={inX + inW + 6} y1={midY} x2={outX - 46} y2={midY + 44} markerId="s08-arrow" stroke="var(--fig-4)" />
 
-      <FigText x={262} y={midY - 56} size={FIG.microSize} fill="var(--chart-2)">
+      <FigText x={262} y={midY - 56} size={FIG.microSize} fill="var(--fig-2)">
         pasan el contrato
       </FigText>
-      <FigText x={262} y={midY + 68} size={FIG.microSize} fill="var(--chart-4)">
+      <FigText x={262} y={midY + 68} size={FIG.microSize} fill="var(--fig-4)">
         no lo cumplen
       </FigText>
 
       {/* the two exits */}
-      <FigBox x={outX} y={midY - 76} w={outW} h={58} fill="var(--card)" stroke="var(--chart-2)" />
-      <FigText x={outX + outW / 2} y={midY - 58} size={FIG.microSize} mono fill="var(--chart-2)">
+      <FigBox x={outX} y={midY - 76} w={outW} h={58} fill="var(--card)" stroke="var(--fig-2)" />
+      <FigText x={outX + outW / 2} y={midY - 58} size={FIG.microSize} mono fill="var(--fig-2)">
         n_clean
       </FigText>
       <FigText x={outX + outW / 2} y={midY - 36} size={18} weight={600}>
         987
       </FigText>
 
-      <FigBox x={outX} y={midY + 18} w={outW} h={58} fill="var(--card)" stroke="var(--chart-4)" />
-      <FigText x={outX + outW / 2} y={midY + 36} size={FIG.microSize} mono fill="var(--chart-4)">
+      <FigBox x={outX} y={midY + 18} w={outW} h={58} fill="var(--card)" stroke="var(--fig-4)" />
+      <FigText x={outX + outW / 2} y={midY + 36} size={FIG.microSize} mono fill="var(--fig-4)">
         n_quarantine
       </FigText>
       <FigText x={outX + outW / 2} y={midY + 58} size={18} weight={600}>

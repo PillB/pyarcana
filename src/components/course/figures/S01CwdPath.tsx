@@ -21,13 +21,13 @@ export function S01CwdPath({ title }: { title: string }) {
       <FigArrowDefs id="s01-arrow" />
 
       {/* left: cwd — a place */}
-      <FigText x={leftX} y={24} anchor="start" mono weight={600} fill="var(--chart-1)">
+      <FigText x={leftX} y={24} anchor="start" mono weight={600} fill="var(--fig-1)">
         cwd
       </FigText>
       <FigText x={leftX} y={44} anchor="start" size={FIG.microSize}>
         ¿En qué carpeta estoy parado?
       </FigText>
-      <FigBox x={leftX} y={topY} w={colW} h={132} fill="var(--card)" stroke="var(--chart-1)" />
+      <FigBox x={leftX} y={topY} w={colW} h={132} fill="var(--card)" stroke="var(--fig-1)" />
       {['proyectos/', '  informe/', '    datos.csv'].map((line, i) => (
         <FigText
           key={i}
@@ -36,7 +36,7 @@ export function S01CwdPath({ title }: { title: string }) {
           anchor="start"
           size={FIG.microSize}
           mono
-          fill={i === 1 ? 'var(--chart-1)' : 'var(--muted-foreground)'}
+          fill={i === 1 ? 'var(--fig-1)' : 'var(--muted-foreground)'}
           weight={i === 1 ? 600 : 400}
         >
           {line}
@@ -48,20 +48,20 @@ export function S01CwdPath({ title }: { title: string }) {
         x2={leftX + 132}
         y2={topY + 56}
         markerId="s01-arrow"
-        stroke="var(--chart-1)"
+        stroke="var(--fig-1)"
       />
       <FigText
         x={leftX + 208}
         y={topY + 98}
         anchor="start"
         size={FIG.microSize}
-        fill="var(--chart-1)"
+        fill="var(--fig-1)"
       >
         aquí
       </FigText>
 
       {/* right: PATH — an order of search */}
-      <FigText x={rightX} y={24} anchor="start" mono weight={600} fill="var(--chart-2)">
+      <FigText x={rightX} y={24} anchor="start" mono weight={600} fill="var(--fig-2)">
         PATH
       </FigText>
       <FigText x={rightX} y={44} anchor="start" size={FIG.microSize}>
@@ -75,7 +75,7 @@ export function S01CwdPath({ title }: { title: string }) {
             w={colW}
             h={34}
             fill="var(--card)"
-            stroke={i === 2 ? 'var(--chart-2)' : 'var(--border)'}
+            stroke={i === 2 ? 'var(--fig-2)' : 'var(--muted-foreground)'}
           />
           <FigText
             x={rightX + 12}
@@ -83,7 +83,7 @@ export function S01CwdPath({ title }: { title: string }) {
             anchor="start"
             size={FIG.microSize}
             mono
-            fill={i === 2 ? 'var(--chart-2)' : 'var(--muted-foreground)'}
+            fill={i === 2 ? 'var(--fig-2)' : 'var(--muted-foreground)'}
           >
             {`${i + 1}. ${p}`}
           </FigText>

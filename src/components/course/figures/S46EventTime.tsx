@@ -1,6 +1,7 @@
 'use client'
 
 import { FIG, FigSvg, FigText } from '../Figure'
+import { INK } from './archetypes/types'
 
 /**
  * S46 — two clocks, and the gap between them.
@@ -25,9 +26,9 @@ export function S46EventTime({ title }: { title: string }) {
   const grace = 5
 
   const arrivals = [
-    { t: 112, y: 96, label: 'ON_TIME', tint: 'var(--chart-2)' },
-    { t: 105, y: 138, label: 'ALLOWED_LATE', tint: 'var(--chart-4)' },
-    { t: 100, y: 180, label: 'LATE', tint: 'var(--chart-5)' },
+    { t: 112, y: 96, label: 'ON_TIME', tint: 'var(--fig-2)' },
+    { t: 105, y: 138, label: 'ALLOWED_LATE', tint: 'var(--fig-4)' },
+    { t: 100, y: 180, label: 'LATE', tint: 'var(--fig-5)' },
   ]
 
   return (
@@ -45,13 +46,13 @@ export function S46EventTime({ title }: { title: string }) {
         y={64}
         width={sx(wm) - sx(wm - grace)}
         height={148}
-        fill="var(--chart-4)"
-        fillOpacity={0.12}
+        fill="var(--fig-4)"
+        fillOpacity={0.7}
       />
 
       {/* watermark line */}
-      <line x1={sx(wm)} y1={64} x2={sx(wm)} y2={212} stroke="var(--chart-1)" strokeWidth={FIG.strokeBold} />
-      <FigText x={sx(wm)} y={226} size={FIG.microSize} fill="var(--chart-1)" weight={600}>
+      <line x1={sx(wm)} y1={64} x2={sx(wm)} y2={212} stroke="var(--fig-1)" strokeWidth={FIG.strokeBold} />
+      <FigText x={sx(wm)} y={226} size={FIG.microSize} fill="var(--fig-1)" weight={600}>
         watermark 110
       </FigText>
       <FigText x={sx(wm - grace) - 4} y={226} size={FIG.microSize} anchor="end" fill="var(--muted-foreground)">
@@ -59,7 +60,7 @@ export function S46EventTime({ title }: { title: string }) {
       </FigText>
 
       {/* event-time axis */}
-      <line x1={x0} y1={212} x2={x1} y2={212} stroke="var(--border)" strokeWidth={FIG.stroke} />
+      <line x1={x0} y1={212} x2={x1} y2={212} stroke="var(--muted-foreground)" strokeWidth={FIG.stroke} />
       <FigText x={20} y={200} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">
         event time
       </FigText>
@@ -73,7 +74,7 @@ export function S46EventTime({ title }: { title: string }) {
             y1={a.y}
             x2={x1 - 6}
             y2={a.y}
-            stroke={a.tint}
+            stroke={INK.outline}
             strokeWidth={FIG.stroke}
             strokeDasharray="4 4"
           />

@@ -1,7 +1,9 @@
 'use client'
 
-import { FIG, FigSvg, FigBox, FigText } from '../../Figure'
-import { tintOf, type StackData , wrapLines } from './types'
+import { motion } from 'framer-motion'
+
+import { FIG, FigSvg, FigStepButton, useFigureSteps, FigBox, FigText } from '../../Figure'
+import { INK, tintOf, type StackData , wrapLines } from './types'
 
 /**
  * Layers, bottom-first, the way the thing is actually built.
@@ -15,6 +17,9 @@ export function StackFigure({ title, data }: { title: string; data: StackData })
   const headLines = wrapLines(data.headline, FIG.width - 48, 8.2)
   const headBlock = (headLines.length - 1) * 20
   const noteLines = data.note ? wrapLines(data.note, FIG.width - 48) : []
+  // Revealed from the base up, which is the order the thing is actually built
+  // and the opposite of the order prose has to list it in.
+  const { step, next, reset, transition, isLast } = useFigureSteps(data.layers.length + 1)
   const layers = [...data.layers].reverse()
   const n = layers.length
   const layerH = 52
@@ -25,6 +30,7 @@ export function StackFigure({ title, data }: { title: string; data: StackData })
   const volatileFrom = data.volatileFrom ?? n
 
   return (
+    <div>
     <FigSvg title={title} viewBox={`0 0 ${FIG.width} ${height}`}>
       {headLines.map((l, i) => (
         <FigText key={l} x={24} y={26 + i * 20} anchor="start" weight={600}>
@@ -38,15 +44,16 @@ export function StackFigure({ title, data }: { title: string; data: StackData })
         const logical = n - 1 - visual
         const y = topY + visual * layerH
         const isVolatile = logical >= volatileFrom
+        const shown = step > logical
         return (
-          <g key={l.label}>
+          <motion.g key={l.label} initial={false} animate={{ opacity: shown ? 1 : 0.2 }} transition={transition}>
             <FigBox
               x={boxX}
               y={y}
               w={boxW}
               h={layerH - 6}
               fill="var(--card)"
-              stroke={tintOf(l.tint)}
+              stroke={INK.outline}
               dashed={isVolatile}
             />
             <FigText
@@ -55,7 +62,7 @@ export function StackFigure({ title, data }: { title: string; data: StackData })
               anchor="start"
               size={FIG.microSize}
               weight={600}
-              fill={tintOf(l.tint)}
+              fill={INK.label}
             >
               {l.label}
             </FigText>
@@ -64,7 +71,7 @@ export function StackFigure({ title, data }: { title: string; data: StackData })
                 {l.sub}
               </FigText>
             ) : null}
-          </g>
+          </motion.g>
         )
       })}
 
@@ -83,5 +90,9 @@ export function StackFigure({ title, data }: { title: string; data: StackData })
         </FigText>
       ))}
     </FigSvg>
+    <FigStepButton onClick={isLast ? reset : next}>
+      {isLast ? 'Reiniciar' : step === 0 ? 'Construir de abajo hacia arriba' : 'Siguiente capa'}
+    </FigStepButton>
+    </div>
   )
 }

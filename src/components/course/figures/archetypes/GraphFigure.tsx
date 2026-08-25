@@ -4,7 +4,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ReactFlow, Background, Handle, Position, type Edge, type Node, type NodeProps } from '@xyflow/react'
 import '@xyflow/react/dist/base.css'
 import { useTheme } from 'next-themes'
-import { tintOf, type GraphData } from './types'
+import { FigStepButton, useFigureSteps } from '../../Figure'
+import { INK, tintOf, type GraphData } from './types'
 
 /**
  * Entities and the edges between them, laid out for the column it lands in.
@@ -32,7 +33,7 @@ function GraphNodeBox({ data, selected }: NodeProps) {
     <div
       className="rounded-md border px-2 py-2 text-center"
       style={{
-        borderColor: selected ? tint : 'var(--border)',
+        borderColor: selected ? tint : INK.outline,
         background: 'var(--card)',
         borderWidth: selected ? 2 : 1,
         minWidth: d.narrow ? 96 : 118,
@@ -67,6 +68,11 @@ export function GraphFigure({ title, data }: { title: string; data: GraphData })
     return () => ro.disconnect()
   }, [])
 
+  // Revealed edge by edge. A graph shown all at once asks the reader to find
+  // the path themselves; revealed in order it *is* the path, which is what
+  // every one of these figures is actually about -- what connects to what, and
+  // in what order the connection was established.
+  const { step, next, reset, isLast } = useFigureSteps(data.edges.length + 1)
   const narrow = paneWidth > 0 && paneWidth < 420
   const dense = data.nodes.length > 4 || data.edges.length > 4
 
@@ -98,7 +104,7 @@ export function GraphFigure({ title, data }: { title: string; data: GraphData })
 
   const edges: Edge[] = useMemo(
     () =>
-      data.edges.map((e) => ({
+      data.edges.map((e, i) => ({
         id: `${e.from}-${e.to}`,
         source: e.from,
         target: e.to,
@@ -107,15 +113,17 @@ export function GraphFigure({ title, data }: { title: string; data: GraphData })
         // legend under the figure names every edge in full sentences, so the
         // information is not lost, only the crowded placement.
         label: narrow || dense ? undefined : e.label,
+        animated: step > i && !e.derived,
         style: {
-          stroke: e.derived ? 'var(--border)' : 'var(--chart-2)',
+          stroke: e.derived ? INK.outline : 'var(--fig-1)',
           strokeWidth: e.derived ? 1.5 : 2,
           strokeDasharray: e.derived ? '5 4' : undefined,
+          opacity: step > i ? 1 : 0.22,
         },
         labelStyle: { fill: 'var(--muted-foreground)', fontSize: 14 },
         labelBgStyle: { fill: 'var(--card)' },
       })),
-    [data.edges, narrow, dense],
+    [data.edges, narrow, dense, step],
   )
 
   const rows = Math.max(...data.nodes.map((n) => n.row)) + 1
@@ -152,7 +160,7 @@ export function GraphFigure({ title, data }: { title: string; data: GraphData })
           panOnScroll={false}
           preventScrolling={false}
         >
-          <Background gap={18} size={1} color="var(--border)" />
+          <Background gap={18} size={1} color={INK.outline} />
         </ReactFlow>
       </div>
 
@@ -173,6 +181,10 @@ export function GraphFigure({ title, data }: { title: string; data: GraphData })
             ))}
         </ul>
       ) : null}
+
+      <FigStepButton onClick={isLast ? reset : next}>
+        {isLast ? 'Reiniciar' : step === 0 ? 'Recorrer las conexiones' : 'Siguiente arista'}
+      </FigStepButton>
 
       {data.note ? <p className="mt-2 text-[13px] text-muted-foreground">{data.note}</p> : null}
     </div>

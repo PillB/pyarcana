@@ -1,6 +1,7 @@
 'use client'
 
 import { FIG, FigSvg, FigText } from '../Figure'
+import { INK } from './archetypes/types'
 
 /**
  * S18 — the same estimate, with and without its uncertainty.
@@ -18,8 +19,8 @@ export function S18Interval({ title }: { title: string }) {
   const sx = (v: number) => x0 + (v / 40) * (x1 - x0)
 
   const rows = [
-    { label: 'n = 400', mean: 24, lo: 22.6, hi: 25.4, y: 74, tint: 'var(--chart-2)' },
-    { label: 'n = 12', mean: 24, lo: 14.8, hi: 33.2, y: 122, tint: 'var(--chart-4)' },
+    { label: 'n = 400', mean: 24, lo: 22.6, hi: 25.4, y: 74, tint: 'var(--fig-2)' },
+    { label: 'n = 12', mean: 24, lo: 14.8, hi: 33.2, y: 122, tint: 'var(--fig-4)' },
   ]
 
   return (
@@ -43,7 +44,7 @@ export function S18Interval({ title }: { title: string }) {
             y1={r.y + 8}
             x2={sx(r.hi)}
             y2={r.y + 8}
-            stroke={r.tint}
+            stroke={INK.outline}
             strokeWidth={FIG.strokeBold}
           />
           {[r.lo, r.hi].map((v) => (
@@ -53,7 +54,7 @@ export function S18Interval({ title }: { title: string }) {
               y1={r.y}
               x2={sx(v)}
               y2={r.y + 16}
-              stroke={r.tint}
+              stroke={INK.outline}
               strokeWidth={FIG.strokeBold}
             />
           ))}
@@ -72,7 +73,7 @@ export function S18Interval({ title }: { title: string }) {
       ))}
 
       {/* axis */}
-      <line x1={x0} y1={axisY} x2={x1} y2={axisY} stroke="var(--border)" strokeWidth={FIG.stroke} />
+      <line x1={x0} y1={axisY} x2={x1} y2={axisY} stroke="var(--muted-foreground)" strokeWidth={FIG.stroke} />
       {[0, 10, 20, 30, 40].map((v) => (
         <g key={v}>
           <line
@@ -80,7 +81,7 @@ export function S18Interval({ title }: { title: string }) {
             y1={axisY}
             x2={sx(v)}
             y2={axisY + 6}
-            stroke="var(--border)"
+            stroke="var(--muted-foreground)"
             strokeWidth={FIG.stroke}
           />
           <FigText x={sx(v)} y={axisY + 20} size={FIG.microSize} fill="var(--muted-foreground)">

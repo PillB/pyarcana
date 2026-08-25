@@ -13,9 +13,9 @@ import { FIG, FigSvg, FigBox, FigText } from '../Figure'
  */
 export function S15DataFrame({ title }: { title: string }) {
   const cols = [
-    { name: 'cliente_id', dtype: 'str', tint: 'var(--chart-1)', vals: ['C001', 'C002', 'C003'] },
-    { name: 'monto', dtype: 'str', tint: 'var(--chart-4)', vals: ['15,50', '8,00', '22,10'] },
-    { name: 'fecha', dtype: 'datetime64', tint: 'var(--chart-2)', vals: ['2024-01-05', '2024-01-06', '2024-01-08'] },
+    { name: 'cliente_id', dtype: 'str', tint: 'var(--fig-1)', vals: ['C001', 'C002', 'C003'] },
+    { name: 'monto', dtype: 'str', tint: 'var(--fig-4)', vals: ['15,50', '8,00', '22,10'] },
+    { name: 'fecha', dtype: 'datetime64', tint: 'var(--fig-2)', vals: ['2024-01-05', '2024-01-06', '2024-01-08'] },
   ]
   const idxW = 44
   const colW = 148
@@ -42,7 +42,7 @@ export function S15DataFrame({ title }: { title: string }) {
             w={idxW}
             h={rowH}
             fill="var(--muted)"
-            stroke="var(--border)"
+            stroke="var(--muted-foreground)"
           />
           <FigText x={gridX + idxW / 2} y={bodyY + r * rowH + rowH / 2} size={FIG.microSize} mono>
             {r}
@@ -70,7 +70,7 @@ export function S15DataFrame({ title }: { title: string }) {
                   w={colW - 8}
                   h={rowH}
                   fill="var(--card)"
-                  stroke={suspect ? c.tint : 'var(--border)'}
+                  stroke={suspect ? c.tint : 'var(--muted-foreground)'}
                   dashed={suspect}
                 />
                 <FigText
@@ -88,7 +88,7 @@ export function S15DataFrame({ title }: { title: string }) {
         )
       })}
 
-      <FigText x={20} y={230} anchor="start" size={FIG.microSize} fill="var(--chart-4)">
+      <FigText x={20} y={230} anchor="start" size={FIG.microSize} fill="var(--fig-4)">
         La coma decimal dejó `monto` como texto. Nada falló; los totales están mal.
       </FigText>
     </FigSvg>

@@ -52,8 +52,8 @@ export function S14ViewVsCopy({ title }: { title: string }) {
                 width={cell}
                 height={cell}
                 rx={FIG.radius}
-                fill={active ? 'var(--chart-4)' : 'var(--muted)'}
-                stroke="var(--border)"
+                fill={active ? 'var(--fig-4)' : 'var(--muted)'}
+                stroke="var(--muted-foreground)"
                 strokeWidth={FIG.stroke}
                 animate={{ scale: active ? 1.06 : 1 }}
                 style={{ transformOrigin: `${baseX + i * cell + cell / 2}px ${baseY + cell / 2}px` }}
@@ -84,7 +84,7 @@ export function S14ViewVsCopy({ title }: { title: string }) {
         />
 
         {/* the view */}
-        <FigText x={30} y={150} anchor="start" mono weight={600} fill="var(--chart-2)">
+        <FigText x={30} y={150} anchor="start" mono weight={600} fill="var(--fig-2)">
           vista
         </FigText>
         <FigText x={30} y={168} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">
@@ -96,14 +96,14 @@ export function S14ViewVsCopy({ title }: { title: string }) {
           x2={baseX + cell + 20}
           y2={baseY + cell + 6}
           markerId="s14-arrow"
-          stroke="var(--chart-2)"
+          stroke="var(--fig-2)"
         />
         <FigText
           x={364}
           y={baseY + cell / 2}
           anchor="start"
           size={FIG.microSize}
-          fill="var(--chart-2)"
+          fill="var(--fig-2)"
         >
           {written ? 'el original cambió' : 'escribir en la vista'}
         </FigText>
@@ -112,13 +112,13 @@ export function S14ViewVsCopy({ title }: { title: string }) {
           y={baseY + cell / 2 + 17}
           anchor="start"
           size={FIG.microSize}
-          fill="var(--chart-2)"
+          fill="var(--fig-2)"
         >
           {written ? 'sin tocar arr' : 'cambia el original'}
         </FigText>
 
         {/* the copy — unchanged, on purpose */}
-        <FigText x={baseX + (cell * 4) / 2} y={196} weight={600} fill="var(--chart-1)">
+        <FigText x={baseX + (cell * 4) / 2} y={196} weight={600} fill="var(--fig-1)">
           Copia: otro bloque distinto
         </FigText>
         {copy.map((v, i) => (
@@ -129,7 +129,7 @@ export function S14ViewVsCopy({ title }: { title: string }) {
               w={cell}
               h={cell}
               fill="var(--card)"
-              stroke="var(--chart-1)"
+              stroke="var(--fig-1)"
               dashed
             />
             <FigText x={baseX + i * cell + cell / 2} y={copyY + cell / 2} mono>
@@ -137,7 +137,7 @@ export function S14ViewVsCopy({ title }: { title: string }) {
             </FigText>
           </g>
         ))}
-        <FigText x={30} y={234} anchor="start" mono weight={600} fill="var(--chart-1)">
+        <FigText x={30} y={234} anchor="start" mono weight={600} fill="var(--fig-1)">
           copia
         </FigText>
         <FigText x={30} y={252} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">
@@ -149,7 +149,7 @@ export function S14ViewVsCopy({ title }: { title: string }) {
           x2={baseX - 8}
           y2={234}
           markerId="s14-arrow"
-          stroke="var(--chart-1)"
+          stroke="var(--fig-1)"
           dashed
         />
       </FigSvg>

@@ -1,7 +1,9 @@
 'use client'
 
-import { FIG, FigSvg, FigText, FigArrow, FigArrowDefs } from '../../Figure'
-import { tintOf, type TableShapeData , wrapLines } from './types'
+import { motion } from 'framer-motion'
+
+import { FIG, FigSvg, FigText, FigArrow, FigArrowDefs, FigStepButton, useFigureSteps } from '../../Figure'
+import { INK, tintOf, type TableShapeData , wrapLines } from './types'
 
 /**
  * The same values in two layouts.
@@ -11,6 +13,10 @@ import { tintOf, type TableShapeData , wrapLines } from './types'
  * the thing a learner who can recite the definitions still cannot recognise.
  */
 export function TableShapeFigure({ title, data, idPrefix }: { title: string; data: TableShapeData; idPrefix: string }) {
+  // Two states, because the teaching is the move between them: the left shape,
+  // then the same values rearranged. Showing both at once asks the reader to
+  // diff two tables in their head, which is the work the figure exists to save.
+  const { step, next, reset, transition, isLast } = useFigureSteps(2)
   const headLines = wrapLines(data.headline, FIG.width - 48, 8.2)
   const headBlock = (headLines.length - 1) * 20
   const noteLines = data.note ? wrapLines(data.note, FIG.width - 48) : []
@@ -27,12 +33,12 @@ export function TableShapeFigure({ title, data, idPrefix }: { title: string; dat
     const cellW = Math.floor(206 / cols)
     return (
       <g>
-        <FigText x={x} y={68} anchor="start" size={FIG.microSize} weight={600} fill={tintOf(p.tint)}>
+        <FigText x={x} y={68} anchor="start" size={FIG.microSize} weight={600} fill={INK.label}>
           {p.title}
         </FigText>
         {p.head.map((h, c) => (
           <g key={`h-${c}`}>
-            <rect x={x + c * cellW} y={top} width={cellW} height={cellH} fill={tintOf(p.tint)} fillOpacity={0.2} stroke="var(--border)" strokeWidth={FIG.stroke} />
+            <rect x={x + c * cellW} y={top} width={cellW} height={cellH} fill={tintOf(p.tint)} fillOpacity={INK.tintFillOpacity} stroke={INK.outline} strokeWidth={FIG.stroke} />
             <FigText x={x + c * cellW + cellW / 2} y={top + cellH / 2} size={FIG.microSize} weight={600} mono>
               {h}
             </FigText>
@@ -41,7 +47,7 @@ export function TableShapeFigure({ title, data, idPrefix }: { title: string; dat
         {p.rows.map((r, ri) =>
           r.map((v, c) => (
             <g key={`${ri}-${c}`}>
-              <rect x={x + c * cellW} y={top + (ri + 1) * cellH} width={cellW} height={cellH} fill="var(--card)" stroke="var(--border)" strokeWidth={FIG.stroke} />
+              <rect x={x + c * cellW} y={top + (ri + 1) * cellH} width={cellW} height={cellH} fill="var(--card)" stroke={INK.outline} strokeWidth={FIG.stroke} />
               <FigText x={x + c * cellW + cellW / 2} y={top + (ri + 1) * cellH + cellH / 2} size={FIG.microSize} mono fill="var(--muted-foreground)">
                 {v}
               </FigText>
@@ -57,6 +63,7 @@ export function TableShapeFigure({ title, data, idPrefix }: { title: string; dat
   const midY = top + ((maxRows + 1) * cellH) / 2
 
   return (
+    <div>
     <FigSvg title={title} viewBox={`0 0 ${FIG.width} ${height}`}>
       <FigArrowDefs id={`${idPrefix}-arrow`} />
       <FigText x={22} y={26} anchor="start" weight={600}>
@@ -64,7 +71,9 @@ export function TableShapeFigure({ title, data, idPrefix }: { title: string; dat
       </FigText>
 
       {panel(leftX, data.left)}
-      {panel(rightX, data.right)}
+      <motion.g initial={false} animate={{ opacity: isLast ? 1 : 0.18 }} transition={transition}>
+        {panel(rightX, data.right)}
+      </motion.g>
 
       {/* The verbs used to sit at the arrow's midpoint, which is a 58px gap --
           wide enough for the arrow and not for the word, so "over(partition by)"
@@ -86,5 +95,9 @@ export function TableShapeFigure({ title, data, idPrefix }: { title: string; dat
         </FigText>
       ))}
     </FigSvg>
+    <FigStepButton onClick={isLast ? reset : next}>
+      {isLast ? 'Reiniciar' : 'Reorganizar'}
+    </FigStepButton>
+    </div>
   )
 }

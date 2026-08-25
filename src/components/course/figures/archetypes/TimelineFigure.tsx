@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { FIG, FigSvg, FigText, FigStepButton, useFigureSteps } from '../../Figure'
-import { tintOf, type TimelineData , wrapLines } from './types'
+import { INK, tintOf, type TimelineData , wrapLines } from './types'
 
 /**
  * One time axis with a line events are judged against.
@@ -43,15 +43,15 @@ export function TimelineFigure({ title, data }: { title: string; data: TimelineD
             y={topY - 12}
             width={sx(data.boundaryAt) - sx(data.boundaryAt - data.graceWidth)}
             height={axisY - topY + 12}
-            fill="var(--chart-4)"
-            fillOpacity={0.12}
+            fill="var(--fig-4)"
+            fillOpacity={INK.tintFillOpacity}
           />
         ) : null}
 
         {typeof data.boundaryAt === 'number' ? (
           <g>
-            <line x1={sx(data.boundaryAt)} y1={topY - 12} x2={sx(data.boundaryAt)} y2={axisY} stroke="var(--chart-1)" strokeWidth={FIG.strokeBold} />
-            <FigText x={sx(data.boundaryAt)} y={axisY + 30} size={FIG.microSize} fill="var(--chart-1)" weight={600}>
+            <line x1={sx(data.boundaryAt)} y1={topY - 12} x2={sx(data.boundaryAt)} y2={axisY} stroke="var(--fig-1)" strokeWidth={FIG.strokeBold} />
+            <FigText x={sx(data.boundaryAt)} y={axisY + 30} size={FIG.microSize} fill="var(--fig-1)" weight={600}>
               {data.boundaryLabel ?? 'límite'}
             </FigText>
           </g>
@@ -78,11 +78,11 @@ export function TimelineFigure({ title, data }: { title: string; data: TimelineD
           const shown = step > i
           return (
             <motion.g key={`${e.label}-${e.at}`} initial={false} animate={{ opacity: shown ? 1 : 0.18 }} transition={transition}>
-              <FigText x={24} y={y} anchor="start" size={FIG.microSize} weight={600} fill={tintOf(e.tint)}>
+              <FigText x={24} y={y} anchor="start" size={FIG.microSize} weight={600} fill={INK.label}>
                 {e.label}
               </FigText>
               <circle cx={sx(e.at)} cy={y} r={5} fill={tintOf(e.tint)} />
-              <FigText x={sx(e.at)} y={y - 17} size={FIG.microSize} mono fill={tintOf(e.tint)}>
+              <FigText x={sx(e.at)} y={y - 17} size={FIG.microSize} mono fill={INK.label}>
                 {String(e.at)}
               </FigText>
               {e.sub ? (
@@ -103,7 +103,7 @@ export function TimelineFigure({ title, data }: { title: string; data: TimelineD
           )
         })}
 
-        <line x1={x0} y1={axisY} x2={x1} y2={axisY} stroke="var(--border)" strokeWidth={FIG.stroke} />
+        <line x1={x0} y1={axisY} x2={x1} y2={axisY} stroke={INK.outline} strokeWidth={FIG.stroke} />
         <FigText x={24} y={axisY} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">
           {data.axisLabel}
         </FigText>

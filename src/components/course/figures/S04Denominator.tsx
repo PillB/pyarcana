@@ -46,8 +46,8 @@ export function S04Denominator({ title }: { title: string }) {
               width={boxW}
               height={beltH - 10}
               rx={FIG.radius}
-              fill={falls ? 'var(--chart-4)' : 'var(--card)'}
-              stroke={falls ? 'var(--chart-4)' : 'var(--border)'}
+              fill={falls ? 'var(--fig-4)' : 'var(--card)'}
+              stroke={falls ? 'var(--fig-4)' : 'var(--muted-foreground)'}
               strokeWidth={FIG.stroke}
               initial={false}
               animate={{ y: falls ? beltY + beltH + 12 : beltY + 5, opacity: falls ? 0.85 : 1 }}
@@ -64,9 +64,9 @@ export function S04Denominator({ title }: { title: string }) {
               x2={dropX}
               y2={beltY + beltH + 30}
               markerId="s04-arrow"
-              stroke="var(--chart-4)"
+              stroke="var(--fig-4)"
             />
-            <FigText x={dropX} y={beltY + beltH + 61} size={FIG.microSize} fill="var(--chart-4)">
+            <FigText x={dropX} y={beltY + beltH + 61} size={FIG.microSize} fill="var(--fig-4)">
               falla antes de decidir
             </FigText>
           </>
@@ -78,16 +78,16 @@ export function S04Denominator({ title }: { title: string }) {
         </FigText>
 
         {/* the two denominators, side by side, so the difference is unarguable */}
-        <FigBox x={24} y={196} w={250} h={48} fill="var(--card)" stroke="var(--chart-2)" />
-        <FigText x={149} y={214} size={FIG.microSize} mono fill="var(--chart-2)" weight={600}>
+        <FigBox x={24} y={196} w={250} h={48} fill="var(--card)" stroke="var(--fig-2)" />
+        <FigText x={149} y={214} size={FIG.microSize} mono fill="var(--fig-2)" weight={600}>
           aceptadas / intentadas
         </FigText>
         <FigText x={149} y={232} size={FIG.microSize} fill="var(--muted-foreground)">
           {scored ? '3 / 6 = 50 %   ← honesto' : '· · ·'}
         </FigText>
 
-        <FigBox x={290} y={196} w={246} h={48} fill="var(--card)" stroke="var(--chart-4)" dashed />
-        <FigText x={413} y={214} size={FIG.microSize} mono fill="var(--chart-4)" weight={600}>
+        <FigBox x={290} y={196} w={246} h={48} fill="var(--card)" stroke="var(--fig-4)" dashed />
+        <FigText x={413} y={214} size={FIG.microSize} mono fill="var(--fig-4)" weight={600}>
           aceptadas / procesadas
         </FigText>
         <FigText x={413} y={232} size={FIG.microSize} fill="var(--muted-foreground)">
