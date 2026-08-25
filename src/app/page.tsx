@@ -327,15 +327,23 @@ export default function Home() {
         </header>
 
         {/* Desktop top bar */}
-        <header className="sticky top-0 z-20 hidden items-center justify-between border-b border-border bg-background/70 px-6 py-3 backdrop-blur lg:flex">
-          <div className="flex items-center gap-3">
+        {/*
+          gap-2 and min-w-0: at exactly 1024px -- the lg breakpoint, so this bar
+          appears at its tightest -- the section title on the left and the
+          control cluster on the right came to 1067px and pushed the whole page
+          into a horizontal scroll. Neither side could shrink, because a flex
+          child defaults to min-width:auto. The title gives way now; the
+          controls do not.
+        */}
+        <header className="sticky top-0 z-20 hidden items-center justify-between gap-2 border-b border-border bg-background/70 px-6 py-3 backdrop-blur lg:flex">
+          <div className="flex min-w-0 items-center gap-3">
             {view !== 'home' && (
               <Button variant="ghost" size="sm" onClick={handleHome} className="gap-1.5">
                 <ArrowLeft className="h-4 w-4" />
                 {tr('nav.back')}
               </Button>
             )}
-            <div className="text-sm text-muted-foreground">
+            <div className="min-w-0 truncate text-sm text-muted-foreground">
               {view === 'home' && tr('nav.home')}
               {view === 'resources' && tr('nav.resources')}
               {view === 'capstones' && (
@@ -357,7 +365,7 @@ export default function Home() {
               )}
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             {/* Capstones / Projects view */}
             <Button
               variant="ghost"
@@ -414,6 +422,7 @@ export default function Home() {
               size="sm"
               onClick={() => setGlossaryOpen(true)}
               className="gap-1.5"
+              data-testid="glossary-open"
               title="Glosario (Cmd+K)"
             >
               <BookOpen className="h-3.5 w-3.5" />

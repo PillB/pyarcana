@@ -436,7 +436,12 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
-          className="flex max-h-[90vh] w-[min(1180px,calc(100vw-2rem))] flex-col gap-0 overflow-hidden p-0 sm:!max-w-[min(1180px,calc(100vw-2rem))]"
+          size="workspace"
+          // The `sm:!max-w-…` override this replaced was fighting the base
+          // `sm:max-w-lg` with an !important, which worked and told the next
+          // dialog nothing. The width is a size now, and the height cap lives
+          // in the primitive.
+          className="flex flex-col gap-0 overflow-hidden p-0"
           data-testid="qa-harness-dialog"
           // While the tutorial is up, a pointerdown on its overlay is an
           // interaction outside this content, so Radix closed the workspace

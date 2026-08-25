@@ -86,7 +86,7 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
       // DialogContent, which is a transformed containing block. Staying in that
       // subtree is what puts the tour inside Radix's focus scope, so the
       // exercise options are reachable by Tab and not only by mouse.
-      className="absolute inset-0 z-[60] flex items-end justify-center overflow-y-auto bg-black/40 p-4 sm:items-center"
+      className="absolute inset-0 z-[60] flex items-center justify-center bg-black/40 p-3 sm:p-4"
       role="dialog"
       aria-modal="true"
       aria-label="Tutorial de QA"
@@ -95,12 +95,19 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
       <div
         ref={panelRef}
         tabIndex={-1}
-        // A step carrying a case, four options, the feedback for a wrong pick
-        // and the rule can outgrow a short window. Capping it and scrolling
-        // inside keeps the controls reachable; the modal's scroll lock means
-        // the page underneath cannot be scrolled to reveal them.
-        className="my-auto max-h-full w-full max-w-xl overflow-y-auto rounded-xl border border-border bg-background p-5 shadow-xl outline-none"
+        // Three rows: header, a body that scrolls, and a footer pinned to the
+        // bottom. Letting the whole panel scroll was not enough -- on step 2 a
+        // correct answer adds both the feedback and the rule, and the Siguiente
+        // button was pushed past the bottom edge with the scroll lock making it
+        // unreachable. Only the middle row can grow now, so the controls are
+        // always on screen at any height.
+        //
+        // Width tracks the workspace it overlays rather than sitting at a fixed
+        // 36rem: the tour points at fields in that workspace, so a panel much
+        // narrower than it wastes the space and re-wraps every label.
+        className="grid max-h-full w-full max-w-[min(46rem,100%)] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden rounded-xl border border-border bg-background shadow-xl outline-none"
       >
+        <div className="p-5 pb-0">
         <div className="mb-3 flex items-start justify-between gap-3">
           <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
             <GraduationCap className="h-4 w-4 text-primary" />
@@ -116,7 +123,9 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
             <X className="h-4 w-4" />
           </button>
         </div>
+        </div>
 
+        <div className="overflow-y-auto px-5 pb-1">
         <h2 className="text-lg font-semibold">{step.title}</h2>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
 
@@ -168,7 +177,9 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
           </div>
         )}
 
-        <div className="mt-5 flex items-center justify-between gap-3">
+        </div>
+
+        <div className="flex items-center justify-between gap-3 border-t border-border p-5 pt-4">
           <button
             type="button"
             onClick={finish}

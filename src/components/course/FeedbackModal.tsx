@@ -107,7 +107,7 @@ export function FeedbackModal({ open, onClose, sectionId }: FeedbackModalProps) 
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto" data-testid="feedback-modal">
+      <DialogContent size="md" className="overflow-y-auto" data-testid="feedback-modal">
         <DialogHeader>
           <div className="mb-1 flex justify-center">
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
