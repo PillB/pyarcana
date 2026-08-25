@@ -81,3 +81,60 @@ test('the tutorial keys its own completion, not the platform tour', () => {
     assert.match(src, /pyarcana:qaTourCompleted/, `${spec} opens the harness without seeding the tutorial key`)
   }
 })
+
+test('every option the form offers is defined, with a worked example', () => {
+  // The tour used to teach only the boundaries the exercises could fit -- four
+  // options at a time -- so nine of the twenty-one choices were never defined
+  // anywhere. A tester met "Compatibilidad / rendimiento" for the first time in
+  // the dropdown itself, which is exactly where a taxonomy stops being usable.
+  const session = readFileSync('src/lib/qa-session.ts', 'utf8')
+
+  const valuesOf = (constName) => {
+    const block = session.slice(session.indexOf(`export const ${constName} = [`))
+    return [...block.slice(0, block.indexOf(']')).matchAll(/value:\s*'([a-z-]+)'/g)].map((m) => m[1])
+  }
+  const definedIn = (constName) => {
+    const block = CONTENT.slice(CONTENT.indexOf(`export const ${constName}: QATermDefinition[] = [`))
+    const end = block.indexOf('\n]')
+    return [...block.slice(0, end).matchAll(/value:\s*'([a-z-]+)'/g)].map((m) => m[1])
+  }
+
+  for (const [form, tour] of [
+    ['QA_CATEGORIES', 'QA_CATEGORY_DEFINITIONS'],
+    ['QA_CAUSES', 'QA_CAUSE_DEFINITIONS'],
+    ['QA_SEVERITIES', 'QA_SEVERITY_DEFINITIONS'],
+  ]) {
+    const offered = valuesOf(form)
+    const defined = definedIn(tour)
+    assert.ok(offered.length > 0, `${form}: could not read the form's options`)
+    assert.deepEqual(
+      offered.filter((v) => !defined.includes(v)),
+      [],
+      `${form}: options the tester is offered but the tutorial never defines`,
+    )
+    assert.deepEqual(
+      defined.filter((v) => !offered.includes(v)),
+      [],
+      `${tour}: definitions for options the form no longer offers`,
+    )
+  }
+})
+
+test('each definition says what it means and shows one', () => {
+  // "X means abc, such as cde" -- the example is the half that makes a
+  // definition checkable, so an empty or throwaway one is worse than none.
+  const entries = [...CONTENT.matchAll(
+    /value:\s*'([a-z-]+)',\s*\n\s*means:\s*\n?\s*'((?:[^'\\]|\\.)*)',\s*\n\s*example:\s*\n?\s*'((?:[^'\\]|\\.)*)',/g,
+  )]
+  assert.equal(entries.length, 21, `expected 21 defined options, found ${entries.length}`)
+  for (const [, value, means, example] of entries) {
+    assert.ok(means.trim().length > 20, `${value}: "means" is too short to define anything`)
+    assert.ok(example.trim().length > 30, `${value}: needs a concrete example, not a gesture at one`)
+    // A definition that restates the label teaches nothing.
+    assert.ok(
+      !means.trim().toLowerCase().startsWith(value.split('-')[0]),
+      `${value}: the meaning just repeats the label`,
+    )
+  }
+})
+

@@ -98,9 +98,20 @@ test.describe('Internal QA testing harness', () => {
     // First run: it introduces itself without being asked.
     await expect(page.getByTestId('qa-tour')).toBeVisible({ timeout: 20000 })
 
+    // Every option the form offers is defined before the tester is asked to
+    // choose one. Nine of the twenty-one used to appear for the first time in
+    // the dropdown itself, with no definition anywhere.
+    await page.getByTestId('qa-tour-next').click()
+    await expect(page.getByTestId('qa-tour-definitions')).toBeVisible()
+    for (const value of [
+      'functionality', 'content', 'unexplained-term', 'unanswerable-question',
+      'assessment-design', 'ui-ux', 'accessibility', 'compatibility', 'other',
+    ]) {
+      await expect(page.getByTestId(`qa-tour-def-${value}`)).toContainText(/significa .+Por ejemplo:/s)
+    }
+
     // It teaches by asking. A wrong answer has to explain itself, not just
     // refuse -- the useful thing is why Contenido is the wrong axis here.
-    await page.getByTestId('qa-tour-next').click()
     await page.getByTestId('qa-tour-option-content').click()
     await expect(page.getByTestId('qa-tour-feedback')).toContainText(/afirmación equivocada/i)
     await page.getByTestId('qa-tour-option-unanswerable-question').click()

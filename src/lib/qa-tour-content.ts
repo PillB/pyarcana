@@ -32,6 +32,25 @@ export interface QAExercise {
   rule: string
 }
 
+/**
+ * One option of the form, defined and then shown happening.
+ *
+ * The exercises teach the boundaries that are genuinely hard, but they can only
+ * put four options on screen at a time, so nine of the twenty-one choices the
+ * form offers were never defined anywhere -- a tester met "Compatibilidad /
+ * rendimiento" for the first time in the dropdown, with nothing to go on.
+ *
+ * Keyed by value, not label: the labels live in qa-session.ts and are rendered
+ * from there, so a renamed option cannot leave a stale definition behind.
+ */
+export interface QATermDefinition {
+  value: string
+  /** What it means, in one clause a tester can hold in their head. */
+  means: string
+  /** One concrete case, specific enough to be wrong if it were made up. */
+  example: string
+}
+
 export interface QATourStep {
   id: string
   title: string
@@ -39,7 +58,139 @@ export interface QATourStep {
   target?: string
   body: string
   exercise?: QAExercise
+  /** Which field's full option list to define under this step. */
+  definitions?: 'category' | 'cause' | 'severity'
 }
+
+/**
+ * Every category, defined with a case from this course rather than a generic
+ * one. Several are drawn from defects that were actually found and fixed here,
+ * which is the point: a tester should be able to check the example against the
+ * product instead of taking it on faith.
+ */
+export const QA_CATEGORY_DEFINITIONS: QATermDefinition[] = [
+  {
+    value: 'functionality',
+    means: 'algo del sitio no hace lo que dice que hace',
+    example: 'el botón «Exportar paquete» no descarga ningún archivo y la consola no muestra ningún error.',
+  },
+  {
+    value: 'content',
+    means: 'una afirmación del material es falsa, o se contradice con otra parte del curso',
+    example: 'una sección afirma que la mediana no se ve afectada por valores extremos y más abajo la usa como ejemplo de medida que sí se ve afectada.',
+  },
+  {
+    value: 'unexplained-term',
+    means: 'una palabra técnica se usa antes de que el curso la defina',
+    example: '«PII» aparece por primera vez en S01 y el glosario recién la explica en S30, veintinueve secciones después.',
+  },
+  {
+    value: 'unanswerable-question',
+    means: 'el ejercicio pide algo que la teoría hasta ese punto no enseñó, aunque esté bien escrito',
+    example: 'un ejercicio de S06 pide resolverlo con un DataFrame de pandas, y pandas se enseña por primera vez en S15.',
+  },
+  {
+    value: 'assessment-design',
+    means: 'el ejercicio se puede acertar por la razón equivocada, o no distingue a quien entendió de quien no',
+    example: 'en un self-check de cuatro opciones la correcta es siempre la más larga, así que se acierta contando palabras.',
+  },
+  {
+    value: 'ui-ux',
+    means: 'la interfaz funciona, pero confunde, estorba o esconde algo que hacía falta',
+    example: 'en una ventana de 600 px de alto el botón «Siguiente» del tutorial queda por debajo del borde y no hay forma de desplazarse hasta él.',
+  },
+  {
+    value: 'accessibility',
+    means: 'alguien que navega con teclado, usa lector de pantalla o necesita contraste no puede usarlo',
+    example: 'las etiquetas «accept» y «reject» de un diagrama miden 2.43:1 contra el fondo, por debajo del mínimo de 4.5:1.',
+  },
+  {
+    value: 'compatibility',
+    means: 'funciona en un navegador, sistema o pantalla y no en otro, o va notablemente lento',
+    example: 'la sección tarda ocho segundos en pintar en Safari y menos de uno en Chrome, en el mismo equipo.',
+  },
+  {
+    value: 'other',
+    means: 'lo puedes reproducir y no encaja en ninguna de las anteriores',
+    example: 'el pie de página declara una licencia y el repositorio declara otra distinta.',
+  },
+]
+
+/**
+ * Every probable cause. This is a hypothesis about where the problem starts,
+ * not a second opinion about what it is -- which is why "No determinado" is a
+ * real answer and not a way of giving up.
+ */
+export const QA_CAUSE_DEFINITIONS: QATermDefinition[] = [
+  {
+    value: 'content-gap',
+    means: 'falta material, o dos partes del curso dicen cosas distintas',
+    example: 'el ejercicio depende de un concepto que ninguna sección anterior llega a introducir.',
+  },
+  {
+    value: 'logic-state',
+    means: 'el programa calcula mal, o recuerda mal lo que ya pasó',
+    example: 'marcas un ejercicio como completo, cambias de pestaña, vuelves, y aparece sin completar.',
+  },
+  {
+    value: 'navigation',
+    means: 'llegas a donde no debías, o no puedes llegar a donde sí',
+    example: 'cerrar el glosario te deja en la portada en vez de la sección que estabas leyendo.',
+  },
+  {
+    value: 'data-persistence',
+    means: 'lo que se guardó no sobrevive, o se guarda algo que no era',
+    example: 'el progreso desaparece al recargar en una ventana privada, sin ningún aviso de que no se estaba guardando.',
+  },
+  {
+    value: 'browser-device',
+    means: 'depende del entorno: un navegador, una versión, un sistema o un tamaño concreto',
+    example: 'solo ocurre en Firefox en Windows, y no se reproduce en Chrome ni en el mismo Firefox en macOS.',
+  },
+  {
+    value: 'accessibility',
+    means: 'la barrera es de acceso y no de lógica: el contenido está, y hay quien no puede alcanzarlo',
+    example: 'el foco del teclado nunca entra al tutorial; Tab salta directamente al formulario que está detrás.',
+  },
+  {
+    value: 'visual-layout',
+    means: 'los elementos se pisan, se cortan o se salen de su caja',
+    example: 'a 1024 px de ancho el encabezado suma 1067 px y empuja toda la página a desplazamiento horizontal.',
+  },
+  {
+    value: 'unknown',
+    means: 'lo viste, lo puedes reproducir, y no tienes una hipótesis honesta de por qué',
+    example: 'falla una de cada cinco veces sin que cambies nada entre intento e intento.',
+  },
+]
+
+/**
+ * Every severity. All four measure one thing: what the person who hits this can
+ * still do. Not how annoying it is, and not how hard it looks to fix -- that is
+ * the reviewer's problem, not the tester's.
+ */
+export const QA_SEVERITY_DEFINITIONS: QATermDefinition[] = [
+  {
+    value: 'blocker',
+    means: 'no hay manera de seguir y no existe ningún rodeo',
+    example: 'el examen final no carga, así que nadie puede cerrar el nivel por ninguna vía.',
+  },
+  {
+    value: 'high',
+    means: 'hay rodeo, pero es caro, o nadie lo encontraría sin que se lo cuenten',
+    example: 'guardar falla siempre, salvo que borres a mano el almacenamiento del sitio antes de cada intento.',
+  },
+  {
+    value: 'medium',
+    means: 'estorba de verdad y aun así puedes seguir por tu cuenta',
+    example: 'un diagrama se corta en el móvil, y el párrafo de al lado explica lo mismo en palabras.',
+  },
+  {
+    value: 'low',
+    means: 'cosmético o de detalle: nadie se queda sin hacer nada por esto',
+    example: 'falta una tilde en el título de una sección.',
+  },
+]
 
 export const QA_TOUR_STEPS: QATourStep[] = [
   {
@@ -107,6 +258,7 @@ export const QA_TOUR_STEPS: QATourStep[] = [
         'Pregúntate qué falta. Si falta una definición, es Término no explicado. Si falta material '
         + 'para poder responder, es Pregunta no respondible. Si lo que hay es falso, es Contenido.',
     },
+    definitions: 'category',
   },
   {
     id: 'causa',
@@ -158,6 +310,7 @@ export const QA_TOUR_STEPS: QATourStep[] = [
         'Accesibilidad como causa es sobre si se puede percibir y operar. Si el elemento se percibe '
         + 'y se opera bien y solo está mal colocado, es maquetación.',
     },
+    definitions: 'cause',
   },
   {
     id: 'severidad',
@@ -207,6 +360,7 @@ export const QA_TOUR_STEPS: QATourStep[] = [
         'Antes de elegir, escribe el rodeo. Si no puedes escribirlo, es Bloqueante. Si lo escribes '
         + 'y es incómodo, es Alta. Si lo escribes y es trivial, Media o Baja.',
     },
+    definitions: 'severity',
   },
   {
     id: 'evidencia',
