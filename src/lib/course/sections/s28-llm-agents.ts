@@ -1,3 +1,13 @@
+/**
+ * S28 — Pruebas de datos, propiedades e integración
+ *
+ * The filename and the exported id ("llm-agents") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section28: CourseSection = {
@@ -28,11 +38,11 @@ export const section28: CourseSection = {
     {
             heading: "Los ejemplos se acaban antes que los casos",
             figure: {
-              id: "S49-agent-loop",
+              id: "S28-property-coverage",
               caption:
-                "Reservar la clave y aplicar el efecto tienen que ser una sola operación: si no, dos llamadas simultáneas crean dos trabajos.",
+                "El margen que queda fuera es donde viven los fallos de producción.",
               alt:
-                "Grafo del bucle: plan llama a tool, tool reserva en el store de claves, la observación replanifica o detiene.",
+                "Dos regiones anidadas dentro del universo de entradas posibles: property-based contiene a las basadas en ejemplos.",
             },
       paragraphs: [
         "Escribiste pruebas para el nombre con tilde, el nombre en mayúsculas, el nombre con espacios de más. Funcionan, y aun así el módulo falla en producción con un nombre que no se te ocurrió. El problema no es que hayas escrito pocas pruebas: es que estabas enumerando casos cuando podías estar declarando una regla.",
@@ -60,13 +70,6 @@ export const section28: CourseSection = {
     },
     {
       heading: "Invariantes y generación de casos",
-      figure: {
-        id: "S28-tool-schema",
-        caption:
-          "Un nombre que «suena útil» en el prompt no es un criterio: el registro de tools se audita antes del run.",
-        alt:
-          "Cuatro guardas que deciden si una tool es llamable o se deshabilita.",
-      },
       subtopicId: "S28-T1-A",
       paragraphs: [
         "Una **invariante** es una propiedad que **siempre** debe cumplirse en el dominio ER: `normalize` es **idempotente** (`f(f(x)) == f(x)`); scores en **[0, 1]**; ids no vacíos; pares canónicos `entity_a < entity_b`. Si se rompe, el matching deja de ser un contrato y se vuelve intuición.",
@@ -200,6 +203,13 @@ contract schema+quality`,
     },
     {
       heading: "Datasets golden, drift y reconciliación",
+      figure: {
+        id: "S28-golden-drift",
+        caption:
+          "Clasificar el diff viene antes de tocar nada; sin clasificar, la política es bloquear.",
+        alt:
+          "Embudo de cuatro ramas para un diff contra el golden: ruido, bug, cambio firmado y sin clasificar.",
+      },
       subtopicId: "S28-T2-B",
       paragraphs: [
         "Un **golden** es un snapshot versionado de salida esperada (JSON/CSV sintético en el repo). Sirve de regresión del pipeline: mismos inputs sintéticos → misma estructura de pares (o de reporte de calidad). No es “la verdad del mundo real”; es el contrato de no-regresión del lab.",

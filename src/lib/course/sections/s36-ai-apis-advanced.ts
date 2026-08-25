@@ -1,3 +1,13 @@
+/**
+ * S36 — Clustering, anomalías y validación temporal
+ *
+ * The filename and the exported id ("ai-apis-advanced") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section36: CourseSection = {
@@ -26,6 +36,13 @@ export const section36: CourseSection = {
  theory: [
  {
  heading: "Encontrar estructura cuando nadie etiquetó nada",
+ figure: {
+   id: "S36-k-vs-density",
+   caption:
+     "k-means te pide cuántos grupos hay; density te pide qué tan cerca es cerca.",
+   alt:
+     "Tabla que compara k-means y clustering por densidad segun lo que cada uno exige de entrada.",
+ },
  paragraphs: [
  "Hasta ahora cada modelo aprendió de ejemplos ya juzgados: esto necesitaba revisión, esto no. Aquí desaparece esa guía. Tienes registros y ninguna etiqueta, y la pregunta cambia de «¿a cuál de estas categorías pertenece?» a «¿qué grupos hay aquí, y cuáles se salen de todos ellos?».",
  "Agrupar por parecido se llama **clustering**, y no es un algoritmo sino una familia de ellos, que se diferencian sobre todo en qué te piden de entrada. El más común —k-means, con el que empezamos aquí— te pide el número de grupos, y su mecanismo es más simple de lo que sugiere el nombre. Eliges cuántos grupos quieres y colocas los primeros puntos de referencia donde puedas —al azar entre los datos, o con `k-means++`, que los separa a propósito—, porque el promedio de un grupo no existe hasta que hay miembros que promediar. A partir de ahí el ciclo se sostiene solo: hay un punto de referencia en cada grupo —el **centroide**, que es sencillamente el promedio de sus miembros—, asignas cada dato al centroide más cercano y recalculas los promedios. Repites hasta que nada se mueve. Conviene decirlo antes de que la costumbre lo olvide: un centroide es un promedio de coordenadas —la media aritmética de sus miembros, punto por punto—, no una categoría moral. Y conviene no llamarlo «promedio geométrico», porque en estadística ese nombre está tomado: la media geométrica es la raíz n-ésima del producto, y no es lo que k-means calcula.",

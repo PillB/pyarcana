@@ -1,3 +1,13 @@
+/**
+ * S22 — Email, identidad y aprobación humana
+ *
+ * The filename and the exported id ("rapidfuzz-entity") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section22: CourseSection = {
@@ -356,6 +366,13 @@ to_visible_to_others ['ana@example.pe', 'luis@example.pe']`,
     },
     {
       heading: "Cola de aprobación y máquina de estados",
+      figure: {
+        id: "S22-approval-gate",
+        caption:
+          "El aprobador es un estado de la máquina, no un paso opcional antes de enviar.",
+        alt:
+          "Flujo de un borrador de correo con la aprobacion humana como frontera antes del envio.",
+      },
       subtopicId: "S22-T4-A",
       paragraphs: [
         "La **cola de aprobación** es el corazón human-in-the-loop de CP-N2-C: una máquina de estados `draft` → `pending_review` → `approved` | `rejected` | `needs_edit`. Cada transición lleva **actor** (quién) y, en producción, timestamp. Sin transición válida, fail-closed: no hay envío ni promoción del draft. En tu código y en el You Do usa siempre `pending_review` (nunca el atajo `pending`) y `needs_edit` cuando la revisora pide cambios.",

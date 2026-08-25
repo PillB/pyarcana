@@ -107,6 +107,17 @@ test.describe('Internal QA testing harness', () => {
     await expect(page.getByTestId('qa-tour-feedback')).toContainText(/Correcto/i)
     await expect(page.getByText(/Regla:/)).toBeVisible()
 
+    // Usable without a mouse. The tutorial used to be portalled to <body> as a
+    // sibling of the Radix dialog, which keeps focus inside its own content: a
+    // keyboard-only tester could see the options and never reach them. Tab from
+    // the panel has to land inside the tour, not behind it.
+    await page.keyboard.press('Tab')
+    const reached = await page.evaluate(() => {
+      const tour = document.querySelector('[data-testid="qa-tour"]')
+      return !!tour && !!document.activeElement && tour.contains(document.activeElement)
+    })
+    expect(reached, 'Tab from the tour panel escaped into the workspace behind it').toBe(true)
+
     // Dismissing the tutorial must not throw the tester out of the form they
     // were about to fill: Radix reads a click on the overlay as an interaction
     // outside the dialog and closed the whole workspace.
@@ -117,6 +128,9 @@ test.describe('Internal QA testing harness', () => {
     // Reopenable on demand, and silent on the next visit.
     await page.getByTestId('qa-tour-open').click()
     await expect(page.getByTestId('qa-tour')).toBeVisible()
+    // Restarts at step 1. It used to reopen wherever it was left, which for a
+    // finished tour is the one screen with nothing left to teach.
+    await expect(page.getByTestId('qa-tour')).toContainText('paso 1 de')
     await page.getByTestId('qa-tour-skip').click()
     await expect(page.getByTestId('qa-tour')).toHaveCount(0)
 

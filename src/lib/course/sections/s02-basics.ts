@@ -1,3 +1,13 @@
+/**
+ * S02 — Valores, tipos, operadores e I/O
+ *
+ * The filename and the exported id ("basics") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section02: CourseSection = {
@@ -204,7 +214,7 @@ s02_th_3()
     {
       heading: 'Identidad, mutabilidad y copias superficiales',
       figure: {
-        id: "S03-truthiness",
+        id: "S02-truthiness",
         caption:
           "Un if desnudo funde ausente, cero y vacío en la misma rama. Por eso la ausencia se pregunta con `is None`.",
         alt:

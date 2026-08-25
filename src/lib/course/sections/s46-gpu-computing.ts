@@ -1,3 +1,13 @@
+/**
+ * S46 — Ingeniería de datos y orquestación de producción
+ *
+ * The filename and the exported id ("gpu-computing") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section46: CourseSection = {

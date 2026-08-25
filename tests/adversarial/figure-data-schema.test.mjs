@@ -82,3 +82,60 @@ test('data entries do not declare a headline longer than two wrapped lines', () 
     }
   }
 })
+
+test('every data entry is attached to a section', () => {
+  // The inverse of the test above, and the one that was missing. Six finished
+  // figures -- S20-rag-grounding, S31-path-evidence, S37-query-plan,
+  // S41-request-path, S50-judge-ensemble, S51-trace-spans -- sat in the data
+  // files referenced by nothing at all. They compile, they typecheck, and the
+  // render probe never sees them because the probe walks sections. Authoring a
+  // figure and forgetting to attach it is invisible without this.
+  const attached = new Set(attachments().keys())
+  const orphans = [...declaredDataIds()].filter((id) => !id.startsWith('ZZ-') && !attached.has(id))
+  assert.deepEqual(orphans, [], 'figure entries that no section renders')
+})
+
+test('a figure id names the section it is attached to', () => {
+  // Not cosmetics. Every section file is named for a pre-V3 ordering -- the
+  // file holding "Pruebas de datos, propiedades e integración" is called
+  // s28-llm-agents.ts -- so the slug is actively misleading. Matching figures
+  // to the slug is how two agent diagrams ended up in a testing lesson and the
+  // testing lesson's own property-coverage figure ended up one section away.
+  // The id prefix is the only place the intended section is written down, so
+  // it has to agree with where the figure actually hangs.
+  const index = readFileSync('src/lib/course/index.ts', 'utf8')
+  const numberOf = new Map(
+    [...index.matchAll(/import\s+\{\s*section(\d{2})\s*\}\s+from\s+['"]\.\/sections\/([^'"]+)['"]/g)]
+      .map((m) => [`${m[2]}.ts`, Number(m[1])]),
+  )
+  const wrong = []
+  for (const [id, files] of attachments()) {
+    const m = id.match(/^S(\d{2})-/)
+    if (!m) continue
+    const actual = numberOf.get(files[0])
+    if (actual !== undefined && Number(m[1]) !== actual) {
+      wrong.push(`${id} is attached to S${String(actual).padStart(2, '0')} (${files[0]})`)
+    }
+  }
+  assert.deepEqual(wrong, [], 'figure ids that name a different section than the one rendering them')
+})
+
+test('no figure hangs on an optional theory block', () => {
+  // Optional blocks render collapsed, so a figure attached to one is never in
+  // the DOM: invisible to the learner who does not expand it, and invisible to
+  // the render probe, which reported S33-nn-cycle as "figure not rendered" at
+  // all six viewport/theme combinations. A figure that cannot be measured is a
+  // figure whose contrast and clipping nobody is checking.
+  const offenders = []
+  for (const f of readdirSync(SECTIONS).filter((n) => n.endsWith('.ts'))) {
+    const src = readFileSync(`${SECTIONS}/${f}`, 'utf8')
+    for (const m of src.matchAll(/heading:\s*["'][^"']+["']/g)) {
+      const next = src.indexOf('heading:', m.index + 1)
+      const block = src.slice(m.index, next < 0 ? src.length : next)
+      const fig = block.match(/figure:\s*\{\s*\n?\s*id:\s*["']([^"']+)["']/)
+      if (fig && /\boptional:\s*true\b/.test(block)) offenders.push(`${fig[1]} (${f})`)
+    }
+  }
+  assert.deepEqual(offenders, [], 'figures on collapsed blocks are never rendered or measured')
+})
+

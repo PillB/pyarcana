@@ -1,3 +1,13 @@
+/**
+ * S16 — Calidad, limpieza y contratos de datos
+ *
+ * The filename and the exported id ("wxpython-gui") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section16: CourseSection = {
@@ -26,6 +36,13 @@ export const section16: CourseSection = {
   theory: [
     {
             heading: "El lunes que alguien rellena los nulos con cero",
+            figure: {
+              id: "S16-null-policy",
+              caption:
+                "Rellenar con cero un importe ausente inventa un dato; en otro campo sería correcto.",
+              alt:
+                "Embudo que separa el nulo por campo: ausente, no aplica y cero real siguen politicas distintas.",
+            },
       paragraphs: [
         "El job venía fallando y la solución fue rápida: `monto.fillna(0)`. Ahora corre. Dos semanas después, en la reunión de gerencia, el ticket promedio aparece más bajo de lo que nadie esperaba y nadie sabe por qué — porque los montos que faltaban ahora valen cero y arrastran el promedio hacia abajo. El código no falló ni una sola vez.",
         "Esa es la diferencia entre un dato ausente y un dato conocido. `NaN` significa «no sé»; cero significa «sé que es cero». Sustituir el primero por el segundo no repara nada: convierte una incertidumbre visible en una cifra falsa e invisible. La primera decisión de esta sección es distinguir qué columnas pueden faltar y cuáles, si faltan, obligan a detener el proceso.",

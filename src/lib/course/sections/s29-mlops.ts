@@ -1,3 +1,13 @@
+/**
+ * S29 — SQL avanzado y modelado relacional
+ *
+ * The filename and the exported id ("mlops") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section29: CourseSection = {
@@ -254,6 +264,13 @@ antijoin True`,
     },
     {
       heading: "Cardinalidad, NULL y planes",
+      figure: {
+        id: "S29-query-plan",
+        caption:
+          "El plan es un árbol y se lee de abajo hacia arriba.",
+        alt:
+          "Grafo en arbol del plan de una consulta: los escaneos en las hojas y el resultado en la raiz.",
+      },
       subtopicId: "S29-T2-B",
       paragraphs: [
         "**Cardinalidad** de un join define explosión de pares: sin *blocking* el producto cartesiano es inviable. Con n = 10 000 entidades: n² ≈ 100 millones de filas; n(n−1) ≈ 99,99 millones (sin diagonal, ambos sentidos); y C(n,2) ≈ 50 millones con orden canónico `a.id < b.id`. En producción, las cubetas de *blocking* reducen aún más. Estima filas **antes** de correr el join sobre nombres o bloques.",

@@ -1,3 +1,13 @@
+/**
+ * S41 — APIs con FastAPI y contratos HTTP
+ *
+ * The filename and the exported id ("llm-finetuning") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section41: CourseSection = {
@@ -205,6 +215,13 @@ jobs 2 domain_imports_http False`,
     },
     {
       heading: "Validación, serialización y documentación",
+      figure: {
+        id: "S41-request-path",
+        caption:
+          "Una petición mal formada debe morir en el borde, no dentro del handler.",
+        alt:
+          "Grafo del camino de una peticion: routing, validacion de modelo y handler, con el punto de rechazo marcado.",
+      },
       subtopicId: "S41-T2-B",
       paragraphs: [
         "El handler delgado asume un body ya confiable: hay que **validar el esquema** antes del dominio (Pydantic en FastAPI). Campos requeridos, tipos y rangos. Un body incompleto devuelve **422** con detalle de campos — no 200 con defaults silenciosos. Después, **serializa una vista pública** (allow-list): nunca expongas `internal_key`, `db_pk` o secretos. OpenAPI debe **coincidir** con status y shape reales; si el código devuelve 422 y el doc dice 400, regenera el contrato.",

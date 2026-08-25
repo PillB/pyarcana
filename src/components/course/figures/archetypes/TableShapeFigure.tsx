@@ -38,7 +38,22 @@ export function TableShapeFigure({ title, data, idPrefix }: { title: string; dat
         </FigText>
         {p.head.map((h, c) => (
           <g key={`h-${c}`}>
-            <rect x={x + c * cellW} y={top} width={cellW} height={cellH} fill={tintOf(p.tint)} fillOpacity={INK.tintFillOpacity} stroke={INK.outline} strokeWidth={FIG.stroke} />
+            {/*
+              The header band used to carry the tint at INK.tintFillOpacity, with
+              foreground text on top. That reads well in light mode and fails in
+              both: the probe measured these labels at 3.77:1 light and 2.57:1
+              dark, because the dark palette's tints are *light* and near-white
+              text lands on a pale band.
+
+              A faint wash of the tint fixed the text and then failed the 3:1
+              floor for graphical objects at 1.32:1 -- correctly, since a wash
+              that carries meaning has to be visible. So the tint stops being a
+              fill here and becomes the solid rule below, which clears 3:1 on
+              its own; the band itself is the neutral --muted, whose whole job
+              is to sit under text.
+            */}
+            <rect x={x + c * cellW} y={top} width={cellW} height={cellH} fill="var(--muted)" stroke={INK.outline} strokeWidth={FIG.stroke} />
+            <rect x={x + c * cellW} y={top + cellH - 3} width={cellW} height={3} fill={tintOf(p.tint)} />
             <FigText x={x + c * cellW + cellW / 2} y={top + cellH / 2} size={FIG.microSize} weight={600} mono>
               {h}
             </FigText>

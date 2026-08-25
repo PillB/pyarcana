@@ -1,3 +1,13 @@
+/**
+ * S49 — Agentes, herramientas y context engineering
+ *
+ * The filename and the exported id ("data-contracts") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section49: CourseSection = {
@@ -187,6 +197,13 @@ do_everything False`,
     },
     {
       heading: "Schema, permisos, idempotencia y errores",
+      figure: {
+        id: "S49-tool-schema",
+        caption:
+          "Una tool sin permiso no debe aparecer en el menú del modelo.",
+        alt:
+          "Un esquema de tool con sus permisos evaluados antes de la llamada, no despues.",
+      },
       subtopicId: "S49-T2-B",
       paragraphs: [
         "El **schema** valida argumentos *antes* de ejecutar; los **permisos** se chequean en runtime contra un allowlist de scopes; la **idempotency key** es la pieza que permite que un retry no duplique side effects —permite, no garantiza: hace falta además que el registro de claves sea duradero, que reservar la clave y aplicar el efecto ocurran de forma atómica (dos llamadas simultáneas pueden encontrar la clave ausente a la vez), y una regla para el caso de fallo entre aplicar el efecto y anotarlo—; los errores se clasifican en `retryable` vs. `terminal` **sin** volcar secretos al log. Un agente que reintenta ciegamente una tool de escritura sin key es un generador de dobles cargos o dobles envíos.",

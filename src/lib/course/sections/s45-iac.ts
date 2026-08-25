@@ -1,3 +1,13 @@
+/**
+ * S45 — Cloud, almacenamiento, colas e infraestructura
+ *
+ * The filename and the exported id ("iac") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section45: CourseSection = {
@@ -73,11 +83,11 @@ cache_as_source_of_truth_ok False`,
     {
       heading: "Almacén de objetos, relacional y caché",
       figure: {
-        id: "S45-rto-vs-rollback",
+        id: "S45-consistency-by-op",
         caption:
-          "Un rollback de 8 minutos seguido de 52 de restauración incumple un objetivo de 15 minutos: el reloj cuenta hasta que el servicio atiende, no hasta que el rollback termina.",
+          "La consistencia se elige operación por operación, no como una etiqueta del sistema.",
         alt:
-          "Un eje de minutos desde el incidente con el objetivo de tiempo de recuperación marcado, el momento en que el rollback está listo y el momento en que el servicio queda restablecido.",
+          "Embudo que asigna a cada operacion la garantia de consistencia que necesita.",
       },
       subtopicId: "S45-T1-A",
       paragraphs: [
@@ -352,6 +362,13 @@ unexpected_destroy False`,
     },
     {
       heading: "Costos, cuotas, recovery y portabilidad",
+      figure: {
+        id: "S45-rto-vs-rollback",
+        caption:
+          "El RTO se mide hasta que el servicio responde, no hasta que el rollback termina.",
+        alt:
+          "Linea de tiempo del incidente con el rollback a mitad de camino y el RTO cerrando mas tarde.",
+      },
       subtopicId: "S45-T4-B",
       paragraphs: [
         "Presupuesto y **cuotas** son controles operativos, no promesas de marketing. En este curso los montos sintéticos van en **PEN** (soles peruanos): campos `forecast_pen` / `budget_pen`. **Recovery** y **portability** se ensayan con exportaciones y formatos abiertos (imágenes, dumps, manifiestos), no se afirman sin drill.",

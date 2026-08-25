@@ -1,3 +1,13 @@
+/**
+ * S33 — ML supervisado y baselines responsables
+ *
+ * The filename and the exported id ("advanced-models") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section33: CourseSection = {
@@ -154,6 +164,13 @@ rule_acc 1.0`,
     },
     {
       heading: "Regresión logística y regularización L2",
+      figure: {
+        id: "S33-nn-cycle",
+        caption:
+          "Los cuatro pasos de la red son los que ya usabas en la regresión logística.",
+        alt:
+          "Ciclo de cuatro etapas: forward, perdida, gradiente y actualizacion de pesos.",
+      },
       subtopicId: "S33-T2-A",
       paragraphs: [
         "La **regresión logística** modela P(y=1|x) con la **sigmoid** σ(z)=1/(1+e^{-z}), donde z = w·x + b. Es el primer modelo **interpretable** del workbench: cada feature de S32 aporta un peso legible, no una caja negra. La regularización **L2** es una **configuración de entrenamiento** (`penalty=\"l2\"` y una fuerza C o λ): al optimizar, el objetivo penaliza coeficientes grandes. Eso **no** se demuestra midiendo solo Σw² de un vector ya ajustado.",

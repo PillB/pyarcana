@@ -1,3 +1,13 @@
+/**
+ * S43 — Contenedores y reproducibilidad operativa
+ *
+ * The filename and the exported id ("llmops") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section43: CourseSection = {
@@ -26,6 +36,13 @@ export const section43: CourseSection = {
   theory: [
     {
             heading: "«En mi máquina funciona» es un síntoma, no una excusa",
+            figure: {
+              id: "S43-container-vs-image",
+              caption:
+                "El Dockerfile es la receta, la imagen el plato preparado y el contenedor el plato servido.",
+              alt:
+                "Tres etapas en fila que separan Dockerfile, imagen y contenedor en ejecucion.",
+            },
       paragraphs: [
         "La frase aparece cuando el programa depende de algo que nadie escribió: una versión instalada hace meses, una variable que solo existe en tu terminal, un archivo que está ahí porque una vez lo copiaste. El servicio de S42 puede ser impecable y aun así no volver a nacer igual en otra computadora.",
         "El **Dockerfile** es la receta, la **imagen** es el plato ya preparado y el **contenedor** es ese plato servido y comiéndose: una instancia en ejecución. Confundirlos lleva a preguntas sin sentido, como «¿por qué mi contenedor no tiene mis cambios?» cuando lo que hace falta es reconstruir la imagen. La receta enumera los ingredientes con su versión exacta y el orden en que se agregan, de modo que quien la siga en otra cocina obtenga lo mismo. Esa es la diferencia entre «tengo el programa» y «puedo reconstruir el programa»: lo segundo es lo que permite volver atrás cuando algo se rompe a las tres de la mañana.",

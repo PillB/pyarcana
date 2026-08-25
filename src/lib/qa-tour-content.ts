@@ -60,9 +60,15 @@ export const QA_TOUR_STEPS: QATourStep[] = [
       + 'curso usa antes de definirla. **Pregunta no respondible** es un ejercicio que no se puede '
       + 'contestar con lo enseñado hasta ahí, aunque todo lo demás sea correcto.',
     exercise: {
+      // Verifiable against the live index: S06 is "Colecciones y estructuras de
+      // datos" and pandas is first taught in S15, "Pandas: ingesta, selección y
+      // tipos". The example this replaced used S12 and S08 in the wrong order --
+      // S08 teaches CSV and comes first -- so the scenario did not demonstrate a
+      // missing prerequisite and the "correct" answer did not follow from it.
       symptom:
-        'En S12 el ejercicio pide usar el módulo `csv`, pero la teoría de esa sección nunca lo '
-        + 'menciona: aparece por primera vez en S08, que va después.',
+        'En S06 el ejercicio pide resolverlo con un DataFrame de pandas, pero S06 trata de '
+        + 'colecciones de Python y pandas se enseña por primera vez en S15, nueve secciones '
+        + 'más adelante.',
       field: 'category',
       fieldLabel: 'Tipo',
       options: [
