@@ -1,3 +1,13 @@
+/**
+ * S50 — Evals, red teaming y fiabilidad de IA
+ *
+ * The filename and the exported id ("tech-leadership") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section50: CourseSection = {
@@ -166,6 +176,13 @@ dims ['outcome', 'process', 'trajectory', 'recovery']`,
     },
     {
       heading: "Graders deterministas, humanos y LLM",
+      figure: {
+        id: "S50-judge-ensemble",
+        caption:
+          "Tres jueces que coinciden dan una señal; uno solo da una opinión.",
+        alt:
+          "Grafo de tres graders que convergen en un veredicto, con la rama de desacuerdo saliendo a adjudicacion humana.",
+      },
       subtopicId: "S50-T2-A",
       paragraphs: [
         "**Graders deterministas** cubren contratos (schema, cites presentes, tool en allowlist); **humanos** juzgan matices y severidad; **LLM judges** escalan volumen solo tras **calibración** contra anclas. Ninguno es oráculo: se mide **acuerdo** y se adjudican desacuerdos. Un judge sin gold-set ancla no puede bloquear promote solo. El tramo T1 te dio filas con scores 0–3; aquí el ensemble decide si confías en esas puntuaciones a escala.",

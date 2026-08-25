@@ -1,3 +1,13 @@
+/**
+ * S51 — Observabilidad, gobernanza y UX del copiloto
+ *
+ * The filename and the exported id ("integrator-final") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section51: CourseSection = {
@@ -71,6 +81,13 @@ raw_pii_in_logs_ok False`,
     },
     {
       heading: "Traces de prompts, retrieval y tools",
+      figure: {
+        id: "S51-trace-spans",
+        caption:
+          "Una traza es un árbol de spans: el padre dura lo que duran sus hijos.",
+        alt:
+          "Grafo en arbol de spans de una traza, con el span padre conteniendo retrieval y llamadas a tools.",
+      },
       subtopicId: "S51-T1-A",
       paragraphs: [
         "Un **trace** correlaciona **prompt template**, **retrieval**, **tool calls** y **respuesta** con **versiones** (prompt/modelo/índice) y un **trace_id** de correlación (prefijo `tr-`). En ops de IA se modela como árbol de **spans** padre/hijo (prompt → retrieval → tool → answer) con atributos por span, no como tres strings sueltos. Sin correlación no hay auditoría: no se puede reconstruir «qué se citó y qué tool se llamó».",

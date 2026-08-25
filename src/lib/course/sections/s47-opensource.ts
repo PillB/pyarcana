@@ -1,3 +1,13 @@
+/**
+ * S47 — MLOps: experimentos, registro y serving
+ *
+ * The filename and the exported id ("opensource") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section47: CourseSection = {
@@ -107,6 +117,13 @@ missing_seed False`,
     },
     {
       heading: "S47-T1-B · Lineage data/code/env y comparación honesta",
+      figure: {
+        id: "S47-model-lineage",
+        caption:
+          "Sin datos, código y entorno anotados, un experimento no se puede volver a correr.",
+        alt:
+          "Flujo de un experimento al registro y al serving, con datos, codigo y entorno acompanando cada paso.",
+      },
       subtopicId: "S47-T1-B",
       paragraphs: [
         "Habiendo fijado el rerun, el siguiente riesgo es **comparar manzanas con naranjas**. Un run solo es comparable si fija tres anclas de lineage: versión de datos, commit de código y entorno bloqueado (lockfile/imagen). Además, la **definición de métrica** y el **split** (holdout, no el train) deben ser idénticos entre baseline y candidato; si no, un F1=0.90 en train no es evidencia de promote.",
@@ -271,6 +288,13 @@ no_fallback False`,
     },
     {
       heading: "S47-T4-A · Shadow, canary y monitoring hooks",
+      figure: {
+        id: "S47-canary-budget",
+        caption:
+          "Un canary se detiene si falla cualquiera de sus cuatro presupuestos, no solo el de error.",
+        alt:
+          "Barras comparadas de los cuatro presupuestos que vigila un canary: error, latencia, costo y saturacion.",
+      },
       subtopicId: "S47-T4-A",
       paragraphs: [
         "El modelo ya sirve con SLO; ahora el tráfico se abre con cuidado. **Shadow** observa sin decidir; **canary** recibe un presupuesto de tráfico (p. ej. ≤ 10%) y los monitoring hooks comparan calidad, drift y errores antes de promover. Un mode `full` al 100% sin hooks no es canary: es un deploy a ciegas.",

@@ -12,7 +12,19 @@ import type { FigureData } from '../archetypes/types'
  */
 export const MISC_FIGURES: Record<string, FigureData> = {
   // ---------------------------------------------------------------- decision
-  'S03-truthiness': {
+  'S28-golden-drift': {
+    kind: 'decision',
+    headline: 'Un diff contra el golden no se resuelve actualizando el golden',
+    input: 'salida ≠ golden',
+    branches: [
+      { test: 'orden o float', result: 'normaliza y repite', tint: 2 },
+      { test: 'bug del matcher', result: 'arregla el código', tint: 5 },
+      { test: 'cambio de política firmado', result: 'reconcilia con nota', tint: 3 },
+      { test: 'sin clasificar', result: 'blocked_drift', tint: 4 },
+    ],
+    note: 'Actualizar el golden porque «ahora sale distinto» es exactamente cómo se aprueba una regresión sin que nadie la vea.',
+  },
+  'S02-truthiness': {
     kind: 'decision',
     headline: 'Qué es falso en un if, y por qué eso no significa «ausente»',
     input: 'valor',
@@ -280,19 +292,6 @@ export const MISC_FIGURES: Record<string, FigureData> = {
     forward: 'misma familia',
     note: 'Clustering no es k-means: la diferencia entre estos dos es qué le pides al algoritmo, no qué tan bueno es.',
   },
-  'S46-window-lateness': {
-    kind: 'timeline',
-    headline: 'La misma ventana, tres llegadas distintas',
-    from: 92, to: 124, axisLabel: 'event time',
-    boundaryAt: 110, boundaryLabel: 'watermark',
-    graceWidth: 5, graceLabel: 'gracia',
-    events: [
-      { at: 112, label: 'ON_TIME', sub: 'por encima del watermark', tint: 2 },
-      { at: 105, label: 'ALLOWED_LATE', sub: 'entra por gracia', tint: 4 },
-      { at: 100, label: 'LATE', sub: 'side-output o drop', tint: 5 },
-    ],
-    note: 'El watermark lo fija el stream que ya llegó; lo que se juzga es el instante en que llega cada hecho.',
-  },
   'S47-canary-budget': {
     kind: 'bars',
     headline: 'Un canary pasa por cuatro cosas a la vez, no por una',
@@ -489,7 +488,7 @@ export const MISC_FIGURES: Record<string, FigureData> = {
     ],
     note: 'Confundir skipped con success infla la tasa de éxito con tareas que nunca corrieron.',
   },
-  'S28-tool-schema': {
+  'S49-tool-schema': {
     kind: 'decision',
     headline: 'Una tool se deshabilita antes de llamarla, no después',
     input: 'tool',

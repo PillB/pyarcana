@@ -436,7 +436,12 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
-          className="flex max-h-[90vh] w-[min(1180px,calc(100vw-2rem))] flex-col gap-0 overflow-hidden p-0 sm:!max-w-[min(1180px,calc(100vw-2rem))]"
+          size="workspace"
+          // The `sm:!max-w-…` override this replaced was fighting the base
+          // `sm:max-w-lg` with an !important, which worked and told the next
+          // dialog nothing. The width is a size now, and the height cap lives
+          // in the primitive.
+          className="flex flex-col gap-0 overflow-hidden p-0"
           data-testid="qa-harness-dialog"
           // While the tutorial is up, a pointerdown on its overlay is an
           // interaction outside this content, so Radix closed the workspace
@@ -742,13 +747,21 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
               </div>
             )}
           </div>
+          {/*
+            Inside DialogContent, not a sibling portal. Radix keeps focus inside
+            its own content, so a tour portalled to <body> could be clicked but
+            never tabbed into: a keyboard-only tester could not reach the exercise
+            options at all. Mounted here it shares the focus scope, and
+            DialogContent is a transformed containing block, so the overlay is
+            absolute to the workspace instead of fixed to the viewport.
+          */}
+          <QATour open={tourOpen} onClose={() => setTourOpen(false)} />
         </DialogContent>
       </Dialog>
       {/* Outside <Dialog>, not merely portalled out of it. Rendered as a child
           of the Dialog tree, Radix reads a click on the tour's overlay as an
           outside-click and closes the workspace underneath -- so dismissing the
           tutorial threw the tester out of the form they were about to fill. */}
-      <QATour open={tourOpen} onClose={() => setTourOpen(false)} />
     </>
   )
 }

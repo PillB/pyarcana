@@ -1,3 +1,13 @@
+/**
+ * S03 — Decisiones y reglas de validación
+ *
+ * The filename and the exported id ("data-structures") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section03: CourseSection = {

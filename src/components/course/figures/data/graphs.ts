@@ -28,7 +28,7 @@ export const GRAPH_FIGURES: Record<string, FigureData> = {
     note: 'Solo se comparan pares dentro del mismo bloque. Lo que cae en bloques distintos no se evalúa nunca — por eso una sola clave no basta.',
   },
 
-  'S20-rag-grounding': {
+  'S48-rag-grounding': {
     kind: 'graph',
     headline: 'Cada afirmación apunta a un fragmento, o el sistema se abstiene',
     nodes: [
@@ -104,25 +104,6 @@ export const GRAPH_FIGURES: Record<string, FigureData> = {
     note: 'Deduplicar por el texto colapsa fragmentos iguales de documentos con permisos distintos, y el superviviente puede ser el prohibido.',
   },
 
-  'S49-agent-loop': {
-    kind: 'graph',
-    headline: 'El bucle del agente, con la clave que evita el doble efecto',
-    nodes: [
-      { id: 'p', label: 'plan', tint: 3, col: 0, row: 0 },
-      { id: 't', label: 'tool', sub: 'schema + scope', tint: 1, col: 1, row: 0 },
-      { id: 'k', label: 'store de claves', sub: 'duradero', tint: 4, col: 1, row: 1 },
-      { id: 'o', label: 'observación', tint: 2, col: 2, row: 0 },
-      { id: 's', label: 'parada', sub: 'presupuesto', tint: 5, col: 3, row: 0 },
-    ],
-    edges: [
-      { from: 'p', to: 't', label: 'llama' },
-      { from: 't', to: 'k', label: 'reserva antes de aplicar' },
-      { from: 't', to: 'o' },
-      { from: 'o', to: 'p', label: 'replanifica' },
-      { from: 'o', to: 's', label: 'o se detiene' },
-    ],
-    note: 'Reservar la clave y aplicar el efecto tienen que ser una sola operación: si no, dos llamadas simultáneas crean dos trabajos.',
-  },
 
   'S40-ports-adapters': {
     kind: 'graph',
@@ -215,23 +196,6 @@ export const GRAPH_FIGURES: Record<string, FigureData> = {
     note: 'Sin la región guardada, un revisor no puede comprobar de dónde salió el número que va a aprobar.',
   },
 
-  'S31-path-evidence': {
-    kind: 'graph',
-    headline: 'El contacto como nodo deja ver cuántos lo comparten',
-    nodes: [
-      { id: 'e1', label: 'entidad A', tint: 4, col: 0, row: 0 },
-      { id: 'ph', label: 'ph:900', sub: 'contacto', tint: 3, col: 1, row: 0 },
-      { id: 'e2', label: 'entidad B', tint: 2, col: 2, row: 0 },
-      { id: 'e3', label: 'entidad C', tint: 2, col: 2, row: 1 },
-    ],
-    edges: [
-      { from: 'e1', to: 'ph', label: 'has_phone' },
-      { from: 'ph', to: 'e2', label: 'has_phone' },
-      { from: 'ph', to: 'e3', label: 'has_phone' },
-      { from: 'e1', to: 'e2', label: 'shared_phone', derived: true },
-    ],
-    note: 'Dos entidades en un teléfono es señal; cuarenta es una centralita. Con aristas directas ese número queda repartido.',
-  },
 
   'S35-card-layers': {
     kind: 'graph',
@@ -250,7 +214,7 @@ export const GRAPH_FIGURES: Record<string, FigureData> = {
     note: 'Estar fuera de distribución no añade una quinta capa: se registra dentro de la incertidumbre, como su razón.',
   },
 
-  'S37-query-plan': {
+  'S29-query-plan': {
     kind: 'graph',
     headline: 'El plan es un árbol y se lee de abajo hacia arriba',
     nodes: [

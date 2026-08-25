@@ -1,3 +1,13 @@
+/**
+ * S48 — LLM applications y RAG con evidencia
+ *
+ * The filename and the exported id ("ai-governance") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section48: CourseSection = {
@@ -286,6 +296,13 @@ False
     },
     {
       heading: "Salida estructurada y grounding",
+      figure: {
+        id: "S48-rag-grounding",
+        caption:
+          "Cada afirmación apunta a un fragmento, o el sistema se abstiene.",
+        alt:
+          "Grafo de una consulta que recupera dos fragmentos permitidos y de las afirmaciones que cada uno sostiene.",
+      },
       subtopicId: "S48-T4-A",
       paragraphs: [
         "La salida estructurada se valida contra un schema (`answer`, `evidence_ids`, …). El validador de schema exige **al menos un** `evidence_id` y que todos estén en la allowlist. Conviene ver qué alcanza eso y qué no: es un piso necesario —descarta la respuesta sin ninguna cita y la que cita fuera de permiso— pero no es todavía la regla de T1, que pedía una cita **por afirmación**. Una respuesta con cinco afirmaciones y un solo `evidence_id` pasa este schema y sigue teniendo cuatro sin prueba. Cerrar esa brecha exige atribución a nivel de afirmación, no a nivel de respuesta; el schema es el fail-closed barato que se ejecuta primero. El texto recuperado —incluso si dice «ignora tus reglas»— es **data hostil**, no instrucción del sistema.",
@@ -319,6 +336,13 @@ False`,
     },
     {
       heading: "Eval de retrieval/respuesta, costo y abstención",
+      figure: {
+        id: "S48-abstention",
+        caption:
+          "Abstenerse es una respuesta correcta cuando la evidencia no alcanza.",
+        alt:
+          "Conjuntos que separan las preguntas respondibles con evidencia de aquellas donde abstenerse es lo correcto.",
+      },
       subtopicId: "S48-T4-B",
       paragraphs: [
         "Retrieval eval (Recall@K) y answer eval (faithfulness/groundedness) son **gates separados**. Costo y latencia tienen presupuesto; la abstención es un resultado exitoso cuando el soporte es insuficiente.",

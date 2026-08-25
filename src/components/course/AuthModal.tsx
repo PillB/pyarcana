@@ -249,7 +249,7 @@ export function AuthModal({ open, onClose, defaultTab = 'login' }: AuthModalProp
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="max-w-md">
+      <DialogContent size="sm">
         <DialogHeader>
           <div className="mb-2 flex justify-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl gradient-primary shadow-glow">

@@ -9,6 +9,20 @@ import type { FigureData } from '../archetypes/types'
  * can no longer be made — disappears into the middle of a sentence.
  */
 export const FLOW_FIGURES: Record<string, FigureData> = {
+  'S27-aaa-oracle': {
+    kind: 'flow',
+    headline: 'Cada etapa falla por una razón distinta; mezclarlas borra el diagnóstico',
+    stages: [
+      { label: 'Arrange', sub: 'raw sintético', tint: 3 },
+      { label: 'Act', sub: 'normalize_name', tint: 1 },
+      { label: 'Assert', sub: 'contra el oráculo', tint: 2 },
+    ],
+    boundaryAfter: 1,
+    boundaryLabel: 'a partir de aquí el test solo es tan fiable como su oráculo',
+    outcome:
+      'Un fallo en Arrange señala el dato; en Act, la función; en Assert, el comparador. Si las tres van en la misma línea, señala las tres a la vez.',
+  },
+
   'S09-failfast': {
     kind: 'flow',
     headline: 'Fallar temprano y fallar tarde no cuestan lo mismo',
@@ -236,14 +250,4 @@ export const FLOW_FIGURES: Record<string, FigureData> = {
     outcome: 'Si falta un eslabón, el «exactly-once» del marketing se convierte en doble conteo en el dashboard.',
   },
 
-  'S52-evidence-bundle': {
-    kind: 'flow',
-    headline: 'Lo que un revisor externo necesita para ejecutar y cuestionar',
-    stages: [
-      { label: 'reproducir', sub: 'README + entorno', tint: 2 },
-      { label: 'entender', sub: 'C4 + ADR', tint: 3 },
-      { label: 'cuestionar', sub: 'cards + defensa', tint: 4 },
-    ],
-    outcome: 'Ocho artefactos, y la falta de licencia o de evidencia de no-go bloquea la publicación.',
-  },
 }

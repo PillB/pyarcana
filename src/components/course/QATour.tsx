@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
 import { GraduationCap, ChevronLeft, ChevronRight, X, Check } from 'lucide-react'
 import { QA_TOUR_STEPS, QA_TOUR_STORAGE_KEY, type QATourStep } from '@/lib/qa-tour-content'
 
@@ -32,6 +31,13 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
     } catch {
       // A tester in private mode still gets the tour; it simply reappears.
     }
+    // Rewind on the way out, not on the way in. The component stays mounted
+    // inside the workspace, so without this the Tutorial button reopened a
+    // finished tour on "Listo" -- the one screen with nothing left to teach.
+    // Resetting here also keeps it out of an effect, which the React Compiler
+    // rules reject for good reason.
+    setIndex(0)
+    setPicked(null)
     onClose()
   }, [onClose])
 
@@ -69,20 +75,18 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
   }, [open, step?.target])
 
   if (!open || !step) return null
-  if (typeof document === 'undefined') return null
 
   const ex = step.exercise
   const chosen = ex && picked ? ex.options.find((o) => o.value === picked) : undefined
   const isRight = !!ex && picked === ex.correct
 
-  return createPortal(
+  return (
     <div
-      // pointer-events restored explicitly: Radix sets `pointer-events: none`
-      // on <body> while its dialog is open and re-enables it only on its own
-      // content, so a portalled overlay renders correctly and swallows every
-      // click. Playwright reported the harness subtree intercepting instead.
-      style={{ pointerEvents: 'auto' }}
-      className="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 p-4 sm:items-center"
+      // Absolute, not fixed, and not portalled: this renders inside the QA
+      // DialogContent, which is a transformed containing block. Staying in that
+      // subtree is what puts the tour inside Radix's focus scope, so the
+      // exercise options are reachable by Tab and not only by mouse.
+      className="absolute inset-0 z-[60] flex items-center justify-center bg-black/40 p-3 sm:p-4"
       role="dialog"
       aria-modal="true"
       aria-label="Tutorial de QA"
@@ -91,8 +95,19 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
       <div
         ref={panelRef}
         tabIndex={-1}
-        className="w-full max-w-xl rounded-xl border border-border bg-background p-5 shadow-xl outline-none"
+        // Three rows: header, a body that scrolls, and a footer pinned to the
+        // bottom. Letting the whole panel scroll was not enough -- on step 2 a
+        // correct answer adds both the feedback and the rule, and the Siguiente
+        // button was pushed past the bottom edge with the scroll lock making it
+        // unreachable. Only the middle row can grow now, so the controls are
+        // always on screen at any height.
+        //
+        // Width tracks the workspace it overlays rather than sitting at a fixed
+        // 36rem: the tour points at fields in that workspace, so a panel much
+        // narrower than it wastes the space and re-wraps every label.
+        className="grid max-h-full w-full max-w-[min(46rem,100%)] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden rounded-xl border border-border bg-background shadow-xl outline-none"
       >
+        <div className="p-5 pb-0">
         <div className="mb-3 flex items-start justify-between gap-3">
           <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
             <GraduationCap className="h-4 w-4 text-primary" />
@@ -108,7 +123,9 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
             <X className="h-4 w-4" />
           </button>
         </div>
+        </div>
 
+        <div className="overflow-y-auto px-5 pb-1">
         <h2 className="text-lg font-semibold">{step.title}</h2>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
 
@@ -160,7 +177,9 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
           </div>
         )}
 
-        <div className="mt-5 flex items-center justify-between gap-3">
+        </div>
+
+        <div className="flex items-center justify-between gap-3 border-t border-border p-5 pt-4">
           <button
             type="button"
             onClick={finish}
@@ -191,7 +210,6 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
           </div>
         </div>
       </div>
-    </div>,
-    document.body,
+    </div>
   )
 }

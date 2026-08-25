@@ -46,13 +46,45 @@ function DialogOverlay({
   )
 }
 
+/**
+ * Dialog widths, as one clamp per size.
+ *
+ * The base used to end in `sm:max-w-lg`. That is a responsive-prefixed utility,
+ * so it outranks any unprefixed `max-w-*` a caller passes in `className` and
+ * wins silently above the sm breakpoint: the QA workspace asked for 1180px and
+ * rendered at 512, and the glossary still asks for `max-w-3xl` and renders at
+ * 512 too. Nothing warns you; the dialog is just narrow.
+ *
+ * Sizes live here instead, unprefixed, and every one is clamped with a 2rem
+ * gutter so no choice can produce a horizontally scrolling page.
+ *
+ * The clamp is `100%`, not `100vw`. For a fixed element the percentage resolves
+ * against the initial containing block, which excludes the classic scrollbar;
+ * `100vw` includes it, so on a short window where the page scrolls vertically
+ * the dialog came out a scrollbar-width too wide and pushed the page sideways.
+ * The probe caught exactly that at 1024x480 in three separate dialogs.
+ */
+const DIALOG_SIZES = {
+  sm: 'max-w-[min(24rem,calc(100%-2rem))]',
+  md: 'max-w-[min(32rem,calc(100%-2rem))]',
+  lg: 'max-w-[min(48rem,calc(100%-2rem))]',
+  xl: 'max-w-[min(64rem,calc(100%-2rem))]',
+  workspace: 'max-w-[min(1180px,calc(100%-2rem))]',
+} as const
+
 function DialogContent({
   className,
   children,
   showCloseButton = true,
+  size = 'md',
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean
+  /**
+   * How wide this dialog is allowed to get. Always clamped to the viewport
+   * with a 2rem gutter, so no size can produce a horizontally scrolling page.
+   */
+  size?: keyof typeof DIALOG_SIZES
 }) {
   return (
     <DialogPortal data-slot="dialog-portal">
@@ -60,7 +92,14 @@ function DialogContent({
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg",
+          "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] grid-rows-[minmax(0,1fr)] gap-4 rounded-lg border p-6 shadow-lg duration-200",
+          // Height first: dvh, not vh, because mobile browser chrome makes vh
+          // taller than what you can actually see, which is how a dialog's own
+          // footer buttons end up under the URL bar with no way to scroll to
+          // them. The row track is minmax(0,1fr) so a tall child shrinks and
+          // scrolls instead of pushing the controls past the bottom edge.
+          "max-h-[90dvh]",
+          DIALOG_SIZES[size],
           className
         )}
         {...props}

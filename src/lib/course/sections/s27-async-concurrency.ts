@@ -1,3 +1,13 @@
+/**
+ * S27 — Estrategia de pruebas con pytest
+ *
+ * The filename and the exported id ("async-concurrency") both come from a pre-V3 ordering
+ * and no longer describe what this section teaches. The id is the URL hash and
+ * a learner save key, so it cannot be changed without losing progress.
+ *
+ * Read `title` below, never the slug. Matching content to the slug is how three
+ * agent diagrams ended up attached to a data-testing lesson.
+ */
 import type { CourseSection } from '../../types'
 
 export const section27: CourseSection = {
@@ -98,6 +108,13 @@ ok True`,
     },
     {
       heading: "Arrange–Act–Assert y oráculos confiables",
+      figure: {
+        id: "S27-aaa-oracle",
+        caption:
+          "Si el setup y el assert van juntos, el fallo ya no dice cuál de los tres se rompió.",
+        alt:
+          "Tres etapas en fila, Arrange, Act y Assert, con una frontera despues de Act marcando donde entra el oraculo.",
+      },
       subtopicId: "S27-T1-B",
       paragraphs: [
         "**AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Si mezclas el setup con el assert, un fallo no te dice si se rompió el dato de entrada, la función bajo prueba o el comparador. Pierdes tiempo en CI y en code review. Un test AAA legible se lee en 10 segundos: “dado este raw sintético, al normalizar, espero este oráculo”.",
@@ -182,13 +199,6 @@ assert_ok True`,
     },
     {
       heading: "Fixtures, scopes y aislamiento",
-      figure: {
-        id: "S28-property-coverage",
-        caption:
-          "El margen que queda fuera es donde viven los fallos de producción.",
-        alt:
-          "Dos regiones anidadas dentro del universo de entradas posibles: property-based contiene a las basadas en ejemplos.",
-      },
       subtopicId: "S27-T2-B",
       paragraphs: [
         "Las **fixtures** inyectan dependencias (datos sintéticos, `tmp_path`, relojes fijos) **sin globals** ni setup copiado en cada test. En pytest real escribes `@pytest.fixture` y el nombre del parámetro de la función de test recibe el valor. El **scope por defecto es function**: cada test recibe setup fresco; eso es lo que hace que la suite sea orden-independiente.",

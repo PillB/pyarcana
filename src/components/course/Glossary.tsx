@@ -83,7 +83,7 @@ export function Glossary({ open, onClose }: GlossaryProps) {
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="max-h-[85vh] max-w-3xl overflow-hidden p-0">
+      <DialogContent size="lg" className="overflow-hidden p-0">
         <DialogHeader className="border-b border-border px-6 py-4">
           <DialogTitle className="flex items-center gap-2">
             <BookOpen className="h-5 w-5 text-primary" />
