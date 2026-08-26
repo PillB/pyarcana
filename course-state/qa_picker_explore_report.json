@@ -1,7 +1,15 @@
 {
   "base": "http://127.0.0.1:4321/pyarcana",
+  "profiles": [
+    "chromium-desktop",
+    "chromium-phone-touch",
+    "chromium-tablet-touch",
+    "webkit-desktop",
+    "webkit-phone-touch"
+  ],
   "picks": [
     {
+      "profile": "chromium-desktop",
       "route": "home",
       "tab": "report",
       "kind": "heading",
@@ -12,6 +20,7 @@
       "resolvedTag": "h1"
     },
     {
+      "profile": "chromium-desktop",
       "route": "home",
       "tab": "report",
       "kind": "heading",
@@ -22,6 +31,7 @@
       "resolvedTag": "h2"
     },
     {
+      "profile": "chromium-desktop",
       "route": "home",
       "tab": "report",
       "kind": "paragraph",
@@ -32,6 +42,7 @@
       "resolvedTag": "p"
     },
     {
+      "profile": "chromium-desktop",
       "route": "home",
       "tab": "report",
       "kind": "paragraph",
@@ -42,6 +53,7 @@
       "resolvedTag": "p"
     },
     {
+      "profile": "chromium-desktop",
       "route": "home",
       "tab": "report",
       "kind": "button",
@@ -52,6 +64,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "home",
       "tab": "report",
       "kind": "button",
@@ -62,6 +75,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "home",
       "tab": "report",
       "kind": "button",
@@ -72,6 +86,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "home",
       "tab": "report",
       "kind": "link",
@@ -82,6 +97,7 @@
       "resolvedTag": "a"
     },
     {
+      "profile": "chromium-desktop",
       "route": "home",
       "tab": "report",
       "kind": "link",
@@ -92,6 +108,7 @@
       "resolvedTag": "a"
     },
     {
+      "profile": "chromium-desktop",
       "route": "home",
       "tab": "report",
       "kind": "list-item",
@@ -102,6 +119,7 @@
       "resolvedTag": "li"
     },
     {
+      "profile": "chromium-desktop",
       "route": "home",
       "tab": "report",
       "kind": "list-item",
@@ -112,6 +130,7 @@
       "resolvedTag": "li"
     },
     {
+      "profile": "chromium-desktop",
       "route": "home",
       "tab": "report",
       "kind": "figure-svg-shape",
@@ -122,6 +141,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "home",
       "tab": "report",
       "kind": "figure-svg-shape",
@@ -132,6 +152,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "home",
       "tab": "report",
       "kind": "image",
@@ -142,6 +163,7 @@
       "resolvedTag": "img"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-setup",
       "tab": "report",
       "kind": "heading",
@@ -152,6 +174,7 @@
       "resolvedTag": "h1"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-setup",
       "tab": "report",
       "kind": "heading",
@@ -162,6 +185,7 @@
       "resolvedTag": "h2"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-setup",
       "tab": "report",
       "kind": "paragraph",
@@ -172,6 +196,7 @@
       "resolvedTag": "p"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-setup",
       "tab": "report",
       "kind": "paragraph",
@@ -182,6 +207,7 @@
       "resolvedTag": "p"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-setup",
       "tab": "report",
       "kind": "code-token",
@@ -192,6 +218,7 @@
       "resolvedTag": "pre"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-setup",
       "tab": "report",
       "kind": "code-token",
@@ -202,6 +229,7 @@
       "resolvedTag": "pre"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-setup",
       "tab": "report",
       "kind": "code-block",
@@ -212,6 +240,7 @@
       "resolvedTag": "pre"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-setup",
       "tab": "report",
       "kind": "button",
@@ -222,6 +251,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-setup",
       "tab": "report",
       "kind": "button",
@@ -232,6 +262,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-setup",
       "tab": "report",
       "kind": "button",
@@ -242,6 +273,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-setup",
       "tab": "report",
       "kind": "link",
@@ -252,6 +284,7 @@
       "resolvedTag": "a"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-setup",
       "tab": "report",
       "kind": "figure-svg-text",
@@ -262,6 +295,7 @@
       "resolvedTag": "figure"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-setup",
       "tab": "report",
       "kind": "figure-svg-text",
@@ -272,6 +306,7 @@
       "resolvedTag": "figure"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-setup",
       "tab": "report",
       "kind": "figure-svg-shape",
@@ -282,6 +317,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-setup",
       "tab": "report",
       "kind": "input",
@@ -292,6 +328,7 @@
       "resolvedTag": "textarea"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-data-structures",
       "tab": "report",
       "kind": "heading",
@@ -302,6 +339,7 @@
       "resolvedTag": "h1"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-data-structures",
       "tab": "report",
       "kind": "heading",
@@ -312,6 +350,7 @@
       "resolvedTag": "h2"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-data-structures",
       "tab": "report",
       "kind": "paragraph",
@@ -322,6 +361,7 @@
       "resolvedTag": "p"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-data-structures",
       "tab": "report",
       "kind": "paragraph",
@@ -332,6 +372,7 @@
       "resolvedTag": "p"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-data-structures",
       "tab": "report",
       "kind": "code-token",
@@ -342,6 +383,7 @@
       "resolvedTag": "pre"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-data-structures",
       "tab": "report",
       "kind": "code-token",
@@ -352,6 +394,7 @@
       "resolvedTag": "pre"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-data-structures",
       "tab": "report",
       "kind": "code-block",
@@ -362,6 +405,7 @@
       "resolvedTag": "pre"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-data-structures",
       "tab": "report",
       "kind": "button",
@@ -372,6 +416,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-data-structures",
       "tab": "report",
       "kind": "button",
@@ -382,6 +427,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-data-structures",
       "tab": "report",
       "kind": "button",
@@ -392,6 +438,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-data-structures",
       "tab": "report",
       "kind": "link",
@@ -402,6 +449,7 @@
       "resolvedTag": "a"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-data-structures",
       "tab": "report",
       "kind": "figure-svg-text",
@@ -412,6 +460,7 @@
       "resolvedTag": "figure"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-data-structures",
       "tab": "report",
       "kind": "figure-svg-text",
@@ -422,6 +471,7 @@
       "resolvedTag": "figure"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-data-structures",
       "tab": "report",
       "kind": "figure-svg-shape",
@@ -432,6 +482,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-data-structures",
       "tab": "report",
       "kind": "figure-svg-shape",
@@ -442,6 +493,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-data-structures",
       "tab": "report",
       "kind": "input",
@@ -452,6 +504,7 @@
       "resolvedTag": "textarea"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-rag",
       "tab": "report",
       "kind": "heading",
@@ -462,6 +515,7 @@
       "resolvedTag": "h1"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-rag",
       "tab": "report",
       "kind": "heading",
@@ -472,6 +526,7 @@
       "resolvedTag": "h2"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-rag",
       "tab": "report",
       "kind": "paragraph",
@@ -482,6 +537,7 @@
       "resolvedTag": "p"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-rag",
       "tab": "report",
       "kind": "paragraph",
@@ -492,6 +548,7 @@
       "resolvedTag": "p"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-rag",
       "tab": "report",
       "kind": "code-token",
@@ -502,6 +559,7 @@
       "resolvedTag": "pre"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-rag",
       "tab": "report",
       "kind": "code-token",
@@ -512,6 +570,7 @@
       "resolvedTag": "pre"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-rag",
       "tab": "report",
       "kind": "code-block",
@@ -522,6 +581,7 @@
       "resolvedTag": "pre"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-rag",
       "tab": "report",
       "kind": "button",
@@ -532,6 +592,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-rag",
       "tab": "report",
       "kind": "button",
@@ -542,6 +603,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-rag",
       "tab": "report",
       "kind": "button",
@@ -552,6 +614,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-rag",
       "tab": "report",
       "kind": "link",
@@ -562,6 +625,7 @@
       "resolvedTag": "a"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-rag",
       "tab": "report",
       "kind": "figure-svg-text",
@@ -572,6 +636,7 @@
       "resolvedTag": "figure"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-rag",
       "tab": "report",
       "kind": "figure-svg-text",
@@ -582,6 +647,7 @@
       "resolvedTag": "figure"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-rag",
       "tab": "report",
       "kind": "figure-svg-shape",
@@ -592,6 +658,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-rag",
       "tab": "report",
       "kind": "figure-svg-shape",
@@ -602,6 +669,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-rag",
       "tab": "report",
       "kind": "input",
@@ -612,6 +680,7 @@
       "resolvedTag": "textarea"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "heading",
@@ -622,6 +691,7 @@
       "resolvedTag": "h1"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "heading",
@@ -632,6 +702,7 @@
       "resolvedTag": "h2"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "paragraph",
@@ -642,6 +713,7 @@
       "resolvedTag": "p"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "paragraph",
@@ -652,6 +724,7 @@
       "resolvedTag": "p"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "code-token",
@@ -662,6 +735,7 @@
       "resolvedTag": "pre"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "code-token",
@@ -672,6 +746,7 @@
       "resolvedTag": "pre"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "code-block",
@@ -682,6 +757,7 @@
       "resolvedTag": "pre"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "button",
@@ -692,6 +768,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "button",
@@ -702,6 +779,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "button",
@@ -712,6 +790,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "link",
@@ -722,6 +801,7 @@
       "resolvedTag": "a"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "link",
@@ -732,6 +812,7 @@
       "resolvedTag": "a"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "list-item",
@@ -742,6 +823,7 @@
       "resolvedTag": "li"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "list-item",
@@ -752,6 +834,7 @@
       "resolvedTag": "li"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "figure-svg-text",
@@ -762,6 +845,7 @@
       "resolvedTag": "figure"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "figure-svg-text",
@@ -772,6 +856,7 @@
       "resolvedTag": "figure"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "figure-svg-shape",
@@ -782,6 +867,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "figure-svg-shape",
@@ -792,6 +878,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "reactflow-node",
@@ -802,6 +889,7 @@
       "resolvedTag": "div"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "reactflow-node",
@@ -812,6 +900,7 @@
       "resolvedTag": "div"
     },
     {
+      "profile": "chromium-desktop",
       "route": "section-streaming-data",
       "tab": "report",
       "kind": "input",
@@ -822,6 +911,7 @@
       "resolvedTag": "textarea"
     },
     {
+      "profile": "chromium-desktop",
       "route": "privacy",
       "tab": "report",
       "kind": "heading",
@@ -832,6 +922,7 @@
       "resolvedTag": "h1"
     },
     {
+      "profile": "chromium-desktop",
       "route": "privacy",
       "tab": "report",
       "kind": "heading",
@@ -842,6 +933,7 @@
       "resolvedTag": "h2"
     },
     {
+      "profile": "chromium-desktop",
       "route": "privacy",
       "tab": "report",
       "kind": "paragraph",
@@ -852,6 +944,7 @@
       "resolvedTag": "p"
     },
     {
+      "profile": "chromium-desktop",
       "route": "privacy",
       "tab": "report",
       "kind": "paragraph",
@@ -862,6 +955,7 @@
       "resolvedTag": "p"
     },
     {
+      "profile": "chromium-desktop",
       "route": "privacy",
       "tab": "report",
       "kind": "button",
@@ -872,6 +966,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "privacy",
       "tab": "report",
       "kind": "link",
@@ -882,6 +977,7 @@
       "resolvedTag": "a"
     },
     {
+      "profile": "chromium-desktop",
       "route": "privacy",
       "tab": "report",
       "kind": "link",
@@ -892,6 +988,7 @@
       "resolvedTag": "a"
     },
     {
+      "profile": "chromium-desktop",
       "route": "privacy",
       "tab": "report",
       "kind": "list-item",
@@ -902,6 +999,7 @@
       "resolvedTag": "li"
     },
     {
+      "profile": "chromium-desktop",
       "route": "privacy",
       "tab": "report",
       "kind": "list-item",
@@ -912,16 +1010,7 @@
       "resolvedTag": "li"
     },
     {
-      "route": "privacy",
-      "tab": "report",
-      "kind": "figure-svg-shape",
-      "selector": "[data-testid=\"legal-page-privacy\"] > a",
-      "matches": 1,
-      "relation": "ancestor",
-      "intendedTag": "path",
-      "resolvedTag": "a"
-    },
-    {
+      "profile": "chromium-desktop",
       "route": "terms",
       "tab": "report",
       "kind": "heading",
@@ -932,6 +1021,7 @@
       "resolvedTag": "h1"
     },
     {
+      "profile": "chromium-desktop",
       "route": "terms",
       "tab": "report",
       "kind": "heading",
@@ -942,6 +1032,7 @@
       "resolvedTag": "h2"
     },
     {
+      "profile": "chromium-desktop",
       "route": "terms",
       "tab": "report",
       "kind": "button",
@@ -952,6 +1043,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "terms",
       "tab": "report",
       "kind": "link",
@@ -962,6 +1054,7 @@
       "resolvedTag": "a"
     },
     {
+      "profile": "chromium-desktop",
       "route": "terms",
       "tab": "report",
       "kind": "link",
@@ -972,16 +1065,7 @@
       "resolvedTag": "p"
     },
     {
-      "route": "terms",
-      "tab": "report",
-      "kind": "figure-svg-shape",
-      "selector": "div:nth-of-type(1) > a",
-      "matches": 1,
-      "relation": "ancestor",
-      "intendedTag": "path",
-      "resolvedTag": "a"
-    },
-    {
+      "profile": "chromium-desktop",
       "route": "verify",
       "tab": "report",
       "kind": "heading",
@@ -992,6 +1076,7 @@
       "resolvedTag": "h1"
     },
     {
+      "profile": "chromium-desktop",
       "route": "verify",
       "tab": "report",
       "kind": "button",
@@ -1002,6 +1087,7 @@
       "resolvedTag": "div"
     },
     {
+      "profile": "chromium-desktop",
       "route": "verify",
       "tab": "report",
       "kind": "button",
@@ -1012,16 +1098,7 @@
       "resolvedTag": "button"
     },
     {
-      "route": "verify",
-      "tab": "report",
-      "kind": "figure-svg-shape",
-      "selector": "body > div:nth-of-type(2) > div:nth-of-type(1) > svg",
-      "matches": 1,
-      "relation": "ancestor",
-      "intendedTag": "path",
-      "resolvedTag": "svg"
-    },
-    {
+      "profile": "chromium-desktop",
       "route": "verify",
       "tab": "report",
       "kind": "input",
@@ -1032,6 +1109,7 @@
       "resolvedTag": "input"
     },
     {
+      "profile": "chromium-desktop",
       "route": "external-resources",
       "tab": "report",
       "kind": "heading",
@@ -1042,6 +1120,7 @@
       "resolvedTag": "h1"
     },
     {
+      "profile": "chromium-desktop",
       "route": "external-resources",
       "tab": "report",
       "kind": "button",
@@ -1052,6 +1131,7 @@
       "resolvedTag": "button"
     },
     {
+      "profile": "chromium-desktop",
       "route": "external-resources",
       "tab": "report",
       "kind": "link",
@@ -1062,31 +1142,3509 @@
       "resolvedTag": "a"
     },
     {
+      "profile": "chromium-phone-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "#badge-explainer-title",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "section:nth-of-type(1) > div:nth-of-type(3) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(3) > p:nth-of-type(2)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "li:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "li:nth-of-type(2)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "image",
+      "selector": "img",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "img",
+      "resolvedTag": "img"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "[data-testid=\"section-root\"] > div:nth-of-type(1) > p",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "code-block",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "pre",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "input",
+      "selector": "textarea[aria-label=\"Editor de código Python\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "textarea",
+      "resolvedTag": "textarea"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "[data-testid=\"section-root\"] > div:nth-of-type(1) > p",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "code-block",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "pre",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "input",
+      "selector": "textarea[aria-label=\"Editor de código Python\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "textarea",
+      "resolvedTag": "textarea"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "[data-testid=\"section-root\"] > div:nth-of-type(1) > p",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "code-block",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "pre",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "[data-testid=\"course-figure\"]",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "[data-testid=\"course-figure\"]",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "input",
+      "selector": "textarea[aria-label=\"Editor de código Python\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "textarea",
+      "resolvedTag": "textarea"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "[data-testid=\"section-root\"] > div:nth-of-type(1) > p",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "code-block",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "pre",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "link",
+      "selector": "a[aria-label=\"React Flow attribution\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "ul > li",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "ol > li:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "reactflow-node",
+      "selector": "[data-testid=\"rf__node-e1\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "div",
+      "resolvedTag": "div"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "reactflow-node",
+      "selector": "[data-testid=\"rf__node-e2\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "div",
+      "resolvedTag": "div"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "input",
+      "selector": "textarea[aria-label=\"Editor de código Python\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "textarea",
+      "resolvedTag": "textarea"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "section:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "header > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "header > p:nth-of-type(2)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"qa-harness-open\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "link",
+      "selector": "[data-testid=\"legal-page-privacy\"] > a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "link",
+      "selector": "p:nth-of-type(2) > a:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "section:nth-of-type(1) > div > ul > li:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "section:nth-of-type(1) > div > ul > li:nth-of-type(2)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "terms",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "terms",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div > h2:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "terms",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"qa-harness-open\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "terms",
+      "tab": "report",
+      "kind": "link",
+      "selector": "div:nth-of-type(1) > a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "terms",
+      "tab": "report",
+      "kind": "link",
+      "selector": "p:nth-of-type(2)",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "a",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "verify",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "verify",
+      "tab": "report",
+      "kind": "button",
+      "selector": "body > div:nth-of-type(2) > div:nth-of-type(2)",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "button",
+      "resolvedTag": "div"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "verify",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"qa-harness-open\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "verify",
+      "tab": "report",
+      "kind": "input",
+      "selector": "input[aria-label=\"ID de verificación\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "input",
+      "resolvedTag": "input"
+    },
+    {
+      "profile": "chromium-phone-touch",
       "route": "external-resources",
       "tab": "report",
-      "kind": "figure-svg-shape",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "external-resources",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"qa-harness-open\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "chromium-phone-touch",
+      "route": "external-resources",
+      "tab": "report",
+      "kind": "link",
       "selector": "a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "#badge-explainer-title",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "section:nth-of-type(1) > div:nth-of-type(3) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(3) > p:nth-of-type(2)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "link",
+      "selector": "[data-testid=\"progress-storage-notice\"] > div > div > p:nth-of-type(2) > a:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "li:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "li:nth-of-type(2)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "image",
+      "selector": "img",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "img",
+      "resolvedTag": "img"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "[data-testid=\"section-root\"] > div:nth-of-type(1) > p",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "code-block",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "pre",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "input",
+      "selector": "textarea[aria-label=\"Editor de código Python\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "textarea",
+      "resolvedTag": "textarea"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "[data-testid=\"section-root\"] > div:nth-of-type(1) > p",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "code-block",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "pre",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "input",
+      "selector": "textarea[aria-label=\"Editor de código Python\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "textarea",
+      "resolvedTag": "textarea"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "[data-testid=\"section-root\"] > div:nth-of-type(1) > p",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "code-block",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "pre",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "input",
+      "selector": "textarea[aria-label=\"Editor de código Python\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "textarea",
+      "resolvedTag": "textarea"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "[data-testid=\"section-root\"] > div:nth-of-type(1) > p",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "code-block",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "pre",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "link",
+      "selector": "a[aria-label=\"React Flow attribution\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "ul > li",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "ol > li:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "reactflow-node",
+      "selector": "[data-testid=\"rf__node-e1\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "div",
+      "resolvedTag": "div"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "reactflow-node",
+      "selector": "[data-testid=\"rf__node-e2\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "div",
+      "resolvedTag": "div"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "input",
+      "selector": "textarea[aria-label=\"Editor de código Python\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "textarea",
+      "resolvedTag": "textarea"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "section:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "header > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "header > p:nth-of-type(2)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"qa-harness-open\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "link",
+      "selector": "[data-testid=\"legal-page-privacy\"] > a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "link",
+      "selector": "p:nth-of-type(2) > a:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "section:nth-of-type(1) > div > ul > li:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "section:nth-of-type(1) > div > ul > li:nth-of-type(2)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "terms",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "terms",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div > h2:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "terms",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"qa-harness-open\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "terms",
+      "tab": "report",
+      "kind": "link",
+      "selector": "div:nth-of-type(1) > a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "terms",
+      "tab": "report",
+      "kind": "link",
+      "selector": "p:nth-of-type(2)",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "a",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "verify",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "verify",
+      "tab": "report",
+      "kind": "button",
+      "selector": "body > div:nth-of-type(2) > div:nth-of-type(2)",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "button",
+      "resolvedTag": "div"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "verify",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"qa-harness-open\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "verify",
+      "tab": "report",
+      "kind": "input",
+      "selector": "input[aria-label=\"ID de verificación\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "input",
+      "resolvedTag": "input"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "external-resources",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "external-resources",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"qa-harness-open\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "chromium-tablet-touch",
+      "route": "external-resources",
+      "tab": "report",
+      "kind": "link",
+      "selector": "a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "home",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "home",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "#badge-explainer-title",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "home",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "section:nth-of-type(1) > div:nth-of-type(3) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "home",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(3) > p:nth-of-type(2)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "home",
+      "tab": "report",
+      "kind": "button",
+      "selector": "nav > button",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "home",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(1) > div > button",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "home",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(2) > div > button",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "home",
+      "tab": "report",
+      "kind": "link",
+      "selector": "header:nth-of-type(2) > div:nth-of-type(2) > a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "home",
+      "tab": "report",
+      "kind": "link",
+      "selector": "[data-testid=\"progress-storage-notice\"] > div > div > p:nth-of-type(2) > a:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "home",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "li:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "home",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "li:nth-of-type(2)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "home",
+      "tab": "report",
+      "kind": "figure-svg-shape",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(1) > div > button",
       "matches": 1,
       "relation": "ancestor",
       "intendedTag": "path",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "home",
+      "tab": "report",
+      "kind": "figure-svg-shape",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(2) > div > button",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "path",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "home",
+      "tab": "report",
+      "kind": "image",
+      "selector": "img",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "img",
+      "resolvedTag": "img"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "[data-testid=\"section-root\"] > div:nth-of-type(1) > p",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "code-block",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "pre",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "button",
+      "selector": "nav > button",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(1) > div:nth-of-type(1) > button",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"sidebar-substep-theory\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "link",
+      "selector": "a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "figure-svg-shape",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(1) > div:nth-of-type(1) > button",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "path",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "input",
+      "selector": "textarea[aria-label=\"Editor de código Python\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "textarea",
+      "resolvedTag": "textarea"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "[data-testid=\"section-root\"] > div:nth-of-type(1) > p",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "code-block",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "pre",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "button",
+      "selector": "nav > button",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(1) > div > button",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(2) > div > button",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "link",
+      "selector": "a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "figure-svg-shape",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(1) > div > button",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "path",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "figure-svg-shape",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(2) > div > button",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "path",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "input",
+      "selector": "textarea[aria-label=\"Editor de código Python\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "textarea",
+      "resolvedTag": "textarea"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "[data-testid=\"section-root\"] > div:nth-of-type(1) > p",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "code-block",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "pre",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "button",
+      "selector": "nav > button",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(1) > div > button",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(2) > div > button",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "link",
+      "selector": "a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "[data-testid=\"course-figure\"]",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "[data-testid=\"course-figure\"]",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "figure-svg-shape",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(1) > div > button",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "path",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "figure-svg-shape",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(2) > div > button",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "path",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "input",
+      "selector": "textarea[aria-label=\"Editor de código Python\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "textarea",
+      "resolvedTag": "textarea"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "[data-testid=\"section-root\"] > div:nth-of-type(1) > p",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "code-block",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "pre",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "button",
+      "selector": "nav > button",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(1) > div > button",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(2) > div > button",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "link",
+      "selector": "header:nth-of-type(2) > div:nth-of-type(2) > a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "link",
+      "selector": "a[aria-label=\"React Flow attribution\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "ul > li",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "ol > li:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "figure-svg-shape",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(1) > div > button",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "path",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "figure-svg-shape",
+      "selector": "[data-testid=\"sidebar-sections\"] > div > div:nth-of-type(2) > div > button",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "path",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "reactflow-node",
+      "selector": "[data-testid=\"rf__node-e1\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "div",
+      "resolvedTag": "div"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "reactflow-node",
+      "selector": "[data-testid=\"rf__node-e2\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "div",
+      "resolvedTag": "div"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "input",
+      "selector": "textarea[aria-label=\"Editor de código Python\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "textarea",
+      "resolvedTag": "textarea"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "section:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "header > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "header > p:nth-of-type(2)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"qa-harness-open\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "link",
+      "selector": "[data-testid=\"legal-page-privacy\"] > a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "link",
+      "selector": "p:nth-of-type(2) > a:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "section:nth-of-type(1) > div > ul > li:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "section:nth-of-type(1) > div > ul > li:nth-of-type(2)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "terms",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "terms",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div > h2:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "terms",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"qa-harness-open\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "terms",
+      "tab": "report",
+      "kind": "link",
+      "selector": "div:nth-of-type(1) > a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "terms",
+      "tab": "report",
+      "kind": "link",
+      "selector": "p:nth-of-type(2)",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "a",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "verify",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "verify",
+      "tab": "report",
+      "kind": "button",
+      "selector": "body > div:nth-of-type(2) > div:nth-of-type(2)",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "button",
+      "resolvedTag": "div"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "verify",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"qa-harness-open\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "verify",
+      "tab": "report",
+      "kind": "input",
+      "selector": "input[aria-label=\"ID de verificación\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "input",
+      "resolvedTag": "input"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "external-resources",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "external-resources",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"qa-harness-open\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-desktop",
+      "route": "external-resources",
+      "tab": "report",
+      "kind": "link",
+      "selector": "a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "#badge-explainer-title",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "section:nth-of-type(1) > div:nth-of-type(3) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(3) > p:nth-of-type(2)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "li:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "li:nth-of-type(2)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "home",
+      "tab": "report",
+      "kind": "image",
+      "selector": "img",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "img",
+      "resolvedTag": "img"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "[data-testid=\"section-root\"] > div:nth-of-type(1) > p",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "code-block",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "pre",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-setup",
+      "tab": "report",
+      "kind": "input",
+      "selector": "textarea[aria-label=\"Editor de código Python\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "textarea",
+      "resolvedTag": "textarea"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "[data-testid=\"section-root\"] > div:nth-of-type(1) > p",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "code-block",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "pre",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-data-structures",
+      "tab": "report",
+      "kind": "input",
+      "selector": "textarea[aria-label=\"Editor de código Python\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "textarea",
+      "resolvedTag": "textarea"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "[data-testid=\"section-root\"] > div:nth-of-type(1) > p",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "code-block",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "pre",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "[data-testid=\"course-figure\"]",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "[data-testid=\"course-figure\"]",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-rag",
+      "tab": "report",
+      "kind": "input",
+      "selector": "textarea[aria-label=\"Editor de código Python\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "textarea",
+      "resolvedTag": "textarea"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "[data-testid=\"section-root\"] > div:nth-of-type(1) > p",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "code-token",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "span",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "code-block",
+      "selector": "div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > pre",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "pre",
+      "resolvedTag": "pre"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "link",
+      "selector": "a[aria-label=\"React Flow attribution\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "ul > li",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "ol > li:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "figure-svg-text",
+      "selector": "div:nth-of-type(4) > figure",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "text",
+      "resolvedTag": "figure"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "reactflow-node",
+      "selector": "[data-testid=\"rf__node-e1\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "div",
+      "resolvedTag": "div"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "reactflow-node",
+      "selector": "[data-testid=\"rf__node-e2\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "div",
+      "resolvedTag": "div"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "section-streaming-data",
+      "tab": "report",
+      "kind": "input",
+      "selector": "textarea[aria-label=\"Editor de código Python\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "textarea",
+      "resolvedTag": "textarea"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "section:nth-of-type(1) > h2",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "header > p:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "paragraph",
+      "selector": "header > p:nth-of-type(2)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "p",
+      "resolvedTag": "p"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"qa-harness-open\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "link",
+      "selector": "[data-testid=\"legal-page-privacy\"] > a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "link",
+      "selector": "p:nth-of-type(2) > a:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "section:nth-of-type(1) > div > ul > li:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "privacy",
+      "tab": "report",
+      "kind": "list-item",
+      "selector": "section:nth-of-type(1) > div > ul > li:nth-of-type(2)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "li",
+      "resolvedTag": "li"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "terms",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "terms",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "div:nth-of-type(2) > div > h2:nth-of-type(1)",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h2",
+      "resolvedTag": "h2"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "terms",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"qa-harness-open\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "terms",
+      "tab": "report",
+      "kind": "link",
+      "selector": "div:nth-of-type(1) > a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "terms",
+      "tab": "report",
+      "kind": "link",
+      "selector": "p:nth-of-type(2) > a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
+      "resolvedTag": "a"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "verify",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "verify",
+      "tab": "report",
+      "kind": "button",
+      "selector": "body > div:nth-of-type(2) > div:nth-of-type(2)",
+      "matches": 1,
+      "relation": "ancestor",
+      "intendedTag": "button",
+      "resolvedTag": "div"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "verify",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"qa-harness-open\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "verify",
+      "tab": "report",
+      "kind": "input",
+      "selector": "input[aria-label=\"ID de verificación\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "input",
+      "resolvedTag": "input"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "external-resources",
+      "tab": "report",
+      "kind": "heading",
+      "selector": "h1",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "h1",
+      "resolvedTag": "h1"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "external-resources",
+      "tab": "report",
+      "kind": "button",
+      "selector": "[data-testid=\"qa-harness-open\"]",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "button",
+      "resolvedTag": "button"
+    },
+    {
+      "profile": "webkit-phone-touch",
+      "route": "external-resources",
+      "tab": "report",
+      "kind": "link",
+      "selector": "a",
+      "matches": 1,
+      "relation": "exact",
+      "intendedTag": "a",
       "resolvedTag": "a"
     }
   ],
   "findings": [],
   "counts": {
-    "heading": 16,
-    "paragraph": 12,
-    "button": 20,
-    "link": 12,
-    "list-item": 6,
-    "figure-svg-shape": 13,
-    "image": 1,
-    "code-token": 8,
-    "code-block": 4,
-    "figure-svg-text": 8,
-    "input": 5,
-    "reactflow-node": 2
+    "heading": 80,
+    "paragraph": 60,
+    "button": 55,
+    "link": 43,
+    "list-item": 30,
+    "figure-svg-shape": 18,
+    "image": 5,
+    "code-token": 40,
+    "code-block": 20,
+    "figure-svg-text": 34,
+    "input": 25,
+    "reactflow-node": 10
   },
-  "totalPicks": 107,
+  "unsampleable": 28,
+  "totalPicks": 420,
   "ok": true
 }

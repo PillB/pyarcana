@@ -15,7 +15,7 @@
  *
  *   node scripts/qa_picker_explore.mjs --base-url http://127.0.0.1:4321/pyarcana
  */
-import { chromium } from 'playwright'
+import { chromium, webkit, devices } from 'playwright'
 import { writeFileSync, mkdirSync } from 'node:fs'
 
 const args = Object.fromEntries(
@@ -67,23 +67,37 @@ const KINDS = [
   { kind: 'image', selector: 'img', take: 1 },
 ]
 
-const report = { base: BASE, picks: [], findings: [], counts: {} }
+/**
+ * Engine and input profiles.
+ *
+ * The first sweep ran desktop Chromium at 1440x900 and nothing else, which left
+ * the two things most likely to break untested: the picker listens for
+ * `pointermove` to track what is under the cursor, and a finger produces no
+ * hover at all -- it moves and lands in one gesture. And Safari is the browser
+ * this course's audience is most likely to be on.
+ */
+const ALL_PROFILES = [
+  { name: 'chromium-desktop', engine: chromium, ctx: { viewport: { width: 1440, height: 900 } } },
+  { name: 'chromium-phone-touch', engine: chromium, ctx: { ...devices['Pixel 7'] }, touch: true },
+  { name: 'chromium-tablet-touch', engine: chromium, ctx: { ...devices['iPad (gen 7)'] }, touch: true },
+  { name: 'webkit-desktop', engine: webkit, ctx: { viewport: { width: 1440, height: 900 } } },
+  { name: 'webkit-phone-touch', engine: webkit, ctx: { ...devices['iPhone 14'] }, touch: true },
+]
+const ONLY_PROFILES = args.profiles ? new Set(args.profiles.split(',').map((p) => p.trim())) : null
+const PROFILES = ONLY_PROFILES ? ALL_PROFILES.filter((p) => ONLY_PROFILES.has(p.name)) : ALL_PROFILES
+
+const report = { base: BASE, profiles: PROFILES.map((p) => p.name), picks: [], findings: [], counts: {} }
 
 function note(finding) {
-  report.findings.push(finding)
+  // Prefixed so a defect that only exists on one engine or one input method is
+  // legible as exactly that, instead of looking like a site-wide failure.
+  report.findings.push(finding.startsWith(profile?.name ?? '~') ? finding : `${profile?.name ?? 'setup'}/${finding}`)
 }
 
-const browser = await chromium.launch()
-const context = await browser.newContext({ viewport: { width: 1440, height: 900 } })
-await context.addInitScript(() => {
-  localStorage.setItem('pyarcana:tourCompleted', '1')
-  localStorage.setItem('pyarcana:qaTourCompleted', '1')
-})
-const page = await context.newPage()
-
+/** Rebound once per profile; every helper below reads these. */
+let page
+let profile
 const consoleErrors = []
-page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text()) })
-page.on('pageerror', (e) => consoleErrors.push(`pageerror: ${e.message}`))
 
 /** Read the hint the workspace recorded, straight out of the context preview. */
 async function recordedHint() {
@@ -120,25 +134,57 @@ async function openHarness(tab) {
  * handler and elementFromPoint, which is where the interesting behaviour lives.
  */
 async function pickAt(handle, meta) {
-  // Into view before measuring: a boundingBox for something below the fold is a
-  // real rectangle at coordinates the mouse cannot reach, and every click there
-  // lands on whatever happens to be at that point instead.
-  await handle.scrollIntoViewIfNeeded().catch(() => {})
-  await page.waitForTimeout(80)
-  const box = await handle.boundingBox()
-  if (!box || box.width < 2 || box.height < 2) return null
-
   const before = await page.getByTestId('qa-pick-element').count()
   if (!before) { note(`${meta.route}/${meta.tab}: no "Señalar elemento" control in this tab`); return null }
   await page.getByTestId('qa-pick-element').click()
   const pickerUp = await page.locator('[data-testid="qa-element-picker"]').count()
   if (!pickerUp) { note(`${meta.route}/${meta.tab}/${meta.kind}: picker did not activate`); return null }
 
+  // Measure AFTER the picker is up, not before. Activating it takes the dialog
+  // non-modal, which releases Radix's scroll lock and can move the page --
+  // coordinates taken beforehand then point at whatever slid into that spot.
+  // That is what produced eight touch-only "unrelated element" findings that
+  // were entirely the probe's own doing.
+  await handle.scrollIntoViewIfNeeded().catch(() => {})
+  await page.waitForTimeout(120)
+  const box = await handle.boundingBox()
+  if (!box || box.width < 2 || box.height < 2) { await page.keyboard.press('Escape'); return null }
+
   // Mark the intended target so we can check the resolved selector against it.
   await handle.evaluate((el) => { el.setAttribute('data-probe-target', '1') })
-  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)
-  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2)
-  await page.waitForTimeout(120)
+
+  // An inline element that wraps across lines has several rects, and the centre
+  // of their union can sit outside the element entirely -- which is how tapping
+  // one link "hit" its neighbour. Verify the aim point before trusting it.
+  const aimOk = await page.evaluate(({ x, y }) => {
+    const intended = document.querySelector('[data-probe-target="1"]')
+    if (!intended) return false
+    // The TOPMOST non-picker element, not anywhere in the stack. Searching the
+    // whole stack passed elements sitting *under* the sticky header, and then
+    // called it a defect when the picker named the header -- which is the right
+    // answer, because the header is what a tester sees and taps at that point.
+    const top = document.elementsFromPoint(x, y).find((el) => !el.closest('[data-qa-picker]'))
+    return !!top && (top === intended || intended.contains(top) || top.contains(intended))
+  }, { x: box.x + box.width / 2, y: box.y + box.height / 2 })
+  if (!aimOk) {
+    report.unsampleable = (report.unsampleable ?? 0) + 1
+    await handle.evaluate((el) => { el.removeAttribute('data-probe-target') }).catch(() => {})
+    await page.keyboard.press('Escape')
+    await page.waitForTimeout(80)
+    return null
+  }
+  const cx = box.x + box.width / 2
+  const cy = box.y + box.height / 2
+  if (profile.touch) {
+    // A finger never hovers. It arrives and lands in one gesture, so the
+    // pointermove that the highlight depends on may be the same event as the
+    // tap -- or may not happen at all. Tapping is the only honest test of that.
+    await page.touchscreen.tap(cx, cy)
+  } else {
+    await page.mouse.move(cx, cy)
+    await page.mouse.click(cx, cy)
+  }
+  await page.waitForTimeout(160)
 
   let stillPicking = await page.locator('[data-testid="qa-element-picker"]').count()
   if (stillPicking) {
@@ -215,11 +261,22 @@ async function pickAt(handle, meta) {
   if (restored !== '1') note(`${where}: workspace did not come back (opacity ${restored})`)
 
   report.counts[meta.kind] = (report.counts[meta.kind] ?? 0) + 1
-  report.picks.push({ ...meta, selector, ...verdict })
+  report.picks.push({ profile: profile.name, ...meta, selector, ...verdict })
   return selector
 }
 
-for (const route of ROUTES) {
+for (profile of PROFILES) {
+  const browser = await profile.engine.launch()
+  const context = await browser.newContext(profile.ctx)
+  await context.addInitScript(() => {
+    localStorage.setItem('pyarcana:tourCompleted', '1')
+    localStorage.setItem('pyarcana:qaTourCompleted', '1')
+  })
+  page = await context.newPage()
+  page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(`[${profile.name}] ${m.text()}`) })
+  page.on('pageerror', (e) => consoleErrors.push(`[${profile.name}] pageerror: ${e.message}`))
+
+  for (const route of ROUTES) {
   for (const tab of ['report', 'session', 'review']) {
     try {
       // Close whatever the last iteration left open, then navigate. Without
@@ -268,12 +325,13 @@ for (const route of ROUTES) {
         }
       }
     } catch (error) {
-      note(`${route.name}/${tab}: ${String(error).split('\n')[0]}`)
+      note(`${profile.name}/${route.name}/${tab}: ${String(error).split('\n')[0]}`)
     }
   }
-}
+  }
 
-await browser.close()
+  await browser.close()
+}
 
 if (consoleErrors.length) {
   const unique = [...new Set(consoleErrors)].slice(0, 8)
@@ -295,6 +353,7 @@ report.selectorStats = {
 console.log(JSON.stringify({
   ok: report.ok,
   totalPicks: report.totalPicks,
+  unsampleable: report.unsampleable ?? 0,
   selectorStats: report.selectorStats,
   byKind: report.counts,
   findings: report.findings.slice(0, 40),
