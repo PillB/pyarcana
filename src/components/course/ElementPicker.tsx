@@ -27,6 +27,10 @@ export function ElementPicker({
 }) {
   const [box, setBox] = useState<{ top: number; left: number; width: number; height: number } | null>(null)
   const [label, setLabel] = useState<string>('')
+  // Even with the click passing through, a banner parked over the thing you are
+  // trying to aim at is the wrong place for it. It moves to the other end when
+  // the pointer comes near.
+  const [bannerAtBottom, setBannerAtBottom] = useState(false)
   const targetRef = useRef<Element | null>(null)
 
   // Mounted only while picking, so there is no inactive state to reset -- which
@@ -36,10 +40,16 @@ export function ElementPicker({
     /** The picker's own chrome must never be pickable. */
     const isOwnUi = (el: Element | null) => !!el?.closest('[data-qa-picker]')
 
+    // elementsFromPoint, not elementFromPoint: the banner sits over the top of
+    // the page, and with the singular call anything underneath it resolved to
+    // the picker's own chrome and could not be picked at all. Walking the stack
+    // skips our UI and finds the page beneath it.
     const resolve = (x: number, y: number): Element | null => {
-      const under = document.elementFromPoint(x, y)
-      if (!under || isOwnUi(under)) return null
-      return meaningfulTarget(under)
+      for (const candidate of document.elementsFromPoint(x, y)) {
+        if (isOwnUi(candidate)) continue
+        return meaningfulTarget(candidate)
+      }
+      return null
     }
 
     const onMove = (event: PointerEvent) => {
@@ -48,6 +58,7 @@ export function ElementPicker({
       targetRef.current = el
       const r = el.getBoundingClientRect()
       setBox({ top: r.top, left: r.left, width: r.width, height: r.height })
+      setBannerAtBottom(event.clientY < window.innerHeight * 0.28)
       setLabel(el.tagName.toLowerCase() + (el.getAttribute('data-testid') ? `[${el.getAttribute('data-testid')}]` : ''))
     }
 
@@ -94,7 +105,11 @@ export function ElementPicker({
           style={{ top: box.top, left: box.left, width: box.width, height: box.height }}
         />
       )}
-      <div className="pointer-events-auto absolute inset-x-0 top-0 flex justify-center p-3">
+      <div
+        className={`pointer-events-none absolute inset-x-0 flex justify-center p-3 transition-[top,bottom] ${
+          bannerAtBottom ? 'bottom-0' : 'top-0'
+        }`}
+      >
         <div className="flex max-w-[min(38rem,calc(100%-1rem))] items-center gap-3 rounded-lg border border-border bg-background/95 px-4 py-2 text-sm shadow-lg backdrop-blur">
           <Crosshair className="h-4 w-4 shrink-0 text-primary" />
           <span className="min-w-0 flex-1">
@@ -108,7 +123,7 @@ export function ElementPicker({
             type="button"
             onClick={onCancel}
             data-testid="qa-element-picker-cancel"
-            className="flex h-9 shrink-0 items-center gap-1 rounded-md border border-border px-2 text-xs hover:bg-muted"
+            className="pointer-events-auto flex h-9 shrink-0 items-center gap-1 rounded-md border border-border px-2 text-xs hover:bg-muted"
           >
             <X className="h-3.5 w-3.5" />
             Esc

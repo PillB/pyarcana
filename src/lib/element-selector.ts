@@ -72,8 +72,22 @@ export function meaningfulTarget(start: Element): Element {
   return start.tagName.toLowerCase() === 'html' ? document.body : start
 }
 
-function cssEscape(value: string): string {
+/** For an identifier: `#my-id`. CSS.escape is exactly right here. */
+function escapeIdent(value: string): string {
   return typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(value) : value.replace(/["\\]/g, '\\$&')
+}
+
+/**
+ * For a quoted attribute value: `[aria-label="…"]`.
+ *
+ * CSS.escape is for identifiers, not strings, and running a label through it
+ * produced `[aria-label="Editor\ de\ código\ Python"]`. That does match -- an
+ * escaped space inside quotes is a space -- but a reviewer pasting it into
+ * devtools sees escaping that looks like a mistake, and one hand-edit makes it
+ * one. Inside quotes only the backslash and the quote itself need escaping.
+ */
+function escapeAttrValue(value: string): string {
+  return value.replace(/[\\"]/g, '\\$&')
 }
 
 function isUnique(selector: string, root: Document | ShadowRoot): boolean {
@@ -109,40 +123,45 @@ export function uniqueSelector(el: Element, root: Document = document): string {
 
   const testId = el.getAttribute('data-testid')
   if (testId) {
-    const sel = `[data-testid="${cssEscape(testId)}"]`
+    const sel = `[data-testid="${escapeAttrValue(testId)}"]`
     if (isUnique(sel, root)) return sel
   }
 
   if (el.id && !UNSTABLE_ID.test(el.id)) {
-    const sel = `#${cssEscape(el.id)}`
+    const sel = `#${escapeIdent(el.id)}`
     if (isUnique(sel, root)) return sel
   }
 
   const label = el.getAttribute('aria-label')
   if (label) {
-    const sel = `${tag}[aria-label="${cssEscape(label)}"]`
+    const sel = `${tag}[aria-label="${escapeAttrValue(label)}"]`
     if (isUnique(sel, root)) return sel
   }
 
   const name = el.getAttribute('name')
   if (name) {
-    const sel = `${tag}[name="${cssEscape(name)}"]`
+    const sel = `${tag}[name="${escapeAttrValue(name)}"]`
     if (isUnique(sel, root)) return sel
   }
 
   // Structural path, anchored to the nearest ancestor that has a stable name so
   // the result stays short and readable instead of a twelve-step chain.
   const parts: string[] = [step(el)]
+  // Test the leaf on its own before climbing. Without this the loop always
+  // prepends the parent first, so a page with a single <h1> recorded
+  // `div:nth-of-type(3) > h1` -- unique either way, and needlessly specific,
+  // which is exactly the part that breaks when the markup is refactored.
+  if (isUnique(parts[0], root)) return parts[0]
   let node = el.parentElement
   let depth = 0
   while (node && node !== root.documentElement && depth < 8) {
     const anchorId = node.getAttribute('data-testid')
-    if (anchorId && isUnique(`[data-testid="${cssEscape(anchorId)}"]`, root)) {
-      const sel = `[data-testid="${cssEscape(anchorId)}"] > ${parts.join(' > ')}`
+    if (anchorId && isUnique(`[data-testid="${escapeAttrValue(anchorId)}"]`, root)) {
+      const sel = `[data-testid="${escapeAttrValue(anchorId)}"] > ${parts.join(' > ')}`
       if (isUnique(sel, root)) return sel
     }
-    if (node.id && !UNSTABLE_ID.test(node.id) && isUnique(`#${cssEscape(node.id)}`, root)) {
-      const sel = `#${cssEscape(node.id)} > ${parts.join(' > ')}`
+    if (node.id && !UNSTABLE_ID.test(node.id) && isUnique(`#${escapeIdent(node.id)}`, root)) {
+      const sel = `#${escapeIdent(node.id)} > ${parts.join(' > ')}`
       if (isUnique(sel, root)) return sel
     }
     parts.unshift(step(node))
