@@ -41,7 +41,7 @@ export const section08: CourseSection = {
         "Por eso la primera decisión es dónde se detiene el programa. Cuando una fila no cumple lo prometido, hay dos salidas malas y una buena. Descartarla en silencio pierde información. Rellenarla con un valor plausible inventa información. La buena es la **cuarentena**: la fila se aparta a un archivo propio, acompañada del motivo por el que no pasó y de su texto original intacto. Nadie tiene que adivinar después qué se descartó ni por qué.",
         "La cuarentena solo sirve si las cuentas cuadran, y esa es la idea que sostiene la sección entera. Si entraron mil filas, la suma de las limpias más las apartadas tiene que dar mil exactamente. A esa comprobación se le llama **reconciliación**, y cuando no cuadra el programa termina con error en lugar de publicar un resultado a medias. Un resultado a medias es peor que ninguno, porque parece completo.",
         "Falta poder responder de dónde salió todo esto. Cada corrida deja dos rastros. La **procedencia** describe el archivo de entrada: su ruta, su tamaño y su huella digital —un `sha256`, ese número largo que se calcula sobre los **bytes** del archivo y cambia por completo si alguien altera uno solo—. El **manifest** es el resumen de la corrida: cuántas filas entraron por cada fuente, cuántas salieron limpias, cuántas quedaron apartadas. Con esos dos archivos, la corrida del martes se puede comparar con la del miércoles sin abrir un solo dato.",
-        "Verás dos formas de guardar JSON y conviene distinguirlas desde el principio: un archivo con una lista completa hay que leerlo entero antes de tocar nada, mientras que **JSONL** —un objeto JSON por línea— se puede leer de a poco y se le puede añadir al final sin reescribirlo. Para un registro de cuarentena que crece durante la corrida, la segunda forma es la natural — con una salvedad que verás en T1-B y conviene anticipar. El `write_atomic` de este curso escribe el archivo entero y luego reemplaza el destino, que es lo contrario de añadir una línea. No es un olvido: son dos garantías distintas y eliges una. Añadiendo línea a línea ves el progreso en vivo, pero si el proceso muere a media escritura la última línea queda partida y el archivo deja de ser JSONL válido. Acumulando en memoria y escribiendo una vez al final, el archivo o está completo o no existe. En el lab hacemos lo segundo, porque el lote cabe en memoria; con un lote que no cupiera, el append incremental vuelve a ser la respuesta correcta.",
+        "Verás dos formas de guardar JSON y conviene distinguirlas desde el principio: un archivo con una lista completa hay que leerlo entero antes de tocar nada, mientras que **JSONL** —un objeto JSON por línea— se puede leer de a poco y se le puede añadir al final sin reescribirlo. Para un registro de cuarentena que crece durante la corrida, la segunda forma es la natural — con una salvedad que verás en T1-B y conviene anticipar. El `write_atomic` de este curso escribe el archivo entero y luego reemplaza el destino, que es lo contrario de añadir una línea. No es un olvido: son dos garantías distintas y eliges una. Añadiendo línea a línea ves el progreso en vivo, pero si el proceso muere a media escritura la última línea queda partida y el archivo deja de ser JSONL válido. Acumulando en memoria y escribiendo una vez al final, quien lea el destino ve la versión anterior completa o la nueva completa, nunca media. Ojo con lo que eso no promete: si el proceso muere antes del reemplazo, el destino se queda en la versión vieja, y ante un corte de luz ni siquiera eso está garantizado sin `flush` y `fsync` del archivo y del directorio. Lo que compras aquí es que nadie lea un archivo a medias, no que el dato sobreviva a todo. En el lab hacemos lo segundo, porque el lote cabe en memoria; con un lote que no cupiera, el append incremental vuelve a ser la respuesta correcta.",
         "La pregunta que atraviesa la sección es de contabilidad, no de programación: **¿cuántas filas entraron y dónde está cada una ahora?** Todo se hace con la biblioteca estándar —`pathlib`, `csv`, `json`, `hashlib`, `Decimal`—, sin bibliotecas externas de datos. Pandas llega en el bloque intermedio; primero hay que entender qué es lo que pandas te va a estar ahorrando.",
       ],
       callout: {
@@ -134,22 +134,28 @@ dest = td / "out.txt"
 
 def write_atomic(path: Path, text: str) -> None:
     path = Path(path)
-    tmp = path.with_name(path.name + ".tmp")
+    # Unico por corrida. Con un \"out.txt.tmp\" fijo, dos procesos que escriben
+    # a la vez comparten el temporal y os.replace publica una mezcla de ambos.
+    fd, tmp_name = tempfile.mkstemp(dir=path.parent, prefix=path.name + ".", suffix=".tmp")
+    os.close(fd)
+    tmp = Path(tmp_name)
     tmp.write_text(text, encoding="utf-8")
     os.replace(tmp, path)
 
 write_atomic(dest, "hola\\n")
 print(dest.read_text(encoding="utf-8"), end="")
+print("sobra algun .tmp:", any(p.suffix == ".tmp" for p in td.iterdir()))
 sample = b"a\\r\\nb\\n"
 print("tiene CRLF", b"\\r\\n" in sample)`,
         output: `hola
+sobra algun .tmp: False
 tiene CRLF True`,
       },
       callout: {
         type: "warning",
         title: "No dejes dest truncado",
         content:
-          "Evita open(dest,'w') largos sin temp: un crash mid-write deja basura a consumidores del clean. Contrato del curso: name + '.tmp' + os.replace.",
+          "Evita open(dest,'w') largos sin temp: un crash mid-write deja basura a consumidores del clean. Contrato del curso: temporal unico por corrida (mkstemp en el mismo directorio) + os.replace.",
       },
     },
     {
@@ -177,21 +183,31 @@ def parse_monto_rows(raw, delimiter=","):
     rows = list(csv.DictReader(io.StringIO(raw), delimiter=delimiter))
     out = []
     for r in rows:
+        # DictReader no se queja de las filas irregulares: las columnas de mas
+        # caen bajo la clave None y las de menos dejan el valor en None. Hay
+        # que preguntarlo antes, o Decimal(None) revienta con TypeError y la
+        # fila tumba la corrida en vez de irse a cuarentena.
+        if None in r or any(v is None for v in r.values()):
+            out.append({"raw": dict(r), "reason": "col_count"})
+            continue
         try:
             r["monto"] = str(Decimal(r["monto"]).quantize(Decimal("0.01")))
             out.append(r)
-        except (InvalidOperation, KeyError):
+        except (InvalidOperation, KeyError, TypeError):
             out.append({"raw": dict(r), "reason": "cast_monto"})
     return out
 
 raw_comma = "id,nombre,monto\\nC001,Ana,10.5\\nC002,Luis,20\\n"
 raw_semi = "id;nombre;monto\\nC001;Ana;10.5\\n"
+raw_irregular = "id,nombre,monto\\nC003,Rosa\\nC004,Jose,7.5,extra\\n"
 print(parse_monto_rows(raw_comma))
 print(parse_monto_rows(raw_semi, delimiter=";"))
+print(parse_monto_rows(raw_irregular))
 # Excel "CSV UTF-8" a menudo trae BOM; en disco: open(..., encoding="utf-8-sig")
 print("utf-8-sig quita BOM:", "\\ufeffid".encode().decode("utf-8-sig"))`,
         output: `[{'id': 'C001', 'nombre': 'Ana', 'monto': '10.50'}, {'id': 'C002', 'nombre': 'Luis', 'monto': '20.00'}]
 [{'id': 'C001', 'nombre': 'Ana', 'monto': '10.50'}]
+[{'raw': {'id': 'C003', 'nombre': 'Rosa', 'monto': None}, 'reason': 'col_count'}, {'raw': {'id': 'C004', 'nombre': 'Jose', 'monto': '7.5', None: ['extra']}, 'reason': 'col_count'}]
 utf-8-sig quita BOM: id`,
       },
       callout: {
@@ -215,19 +231,25 @@ utf-8-sig quita BOM: id`,
         code: `import csv, io
 
 def quarantine_irregular(text):
-    reader = csv.reader(io.StringIO(text))
-    header = next(reader)
+    lines = text.splitlines(keepends=True)
+    header = next(csv.reader([lines[0]]))
     clean, quar = [], []
-    for row in reader:
+    for line in lines[1:]:
+        if not line.strip():
+            continue
+        row = next(csv.reader([line]))
         if len(row) != len(header):
-            quar.append({"raw": row, "reason": "col_count"})
+            # La linea tal como llego, no la lista ya parseada: las comillas,
+            # los espacios y el terminador son justo lo que necesita quien
+            # revise para reproducir por que fallo.
+            quar.append({"raw": line, "reason": "col_count"})
         else:
             clean.append(dict(zip(header, row)))
     return clean, quar
 
 text = "id,nombre\\nC001,Ana\\nC002,Luis,EXTRA\\nC003\\n"
 print(quarantine_irregular(text))`,
-        output: `([{'id': 'C001', 'nombre': 'Ana'}], [{'raw': ['C002', 'Luis', 'EXTRA'], 'reason': 'col_count'}, {'raw': ['C003'], 'reason': 'col_count'}])`,
+        output: `([{'id': 'C001', 'nombre': 'Ana'}], [{'raw': 'C002,Luis,EXTRA\\n', 'reason': 'col_count'}, {'raw': 'C003\\n', 'reason': 'col_count'}])`,
       },
       callout: {
         type: "danger",
@@ -309,22 +331,26 @@ print(obj)`,
         code: `from pathlib import Path
 import hashlib, tempfile, shutil
 
-def provenance_backup(src_name="clients.csv"):
+def provenance_backup(src_name="clients.csv", run_id="2026-08-26T12-00-00Z"):
     td = Path(tempfile.mkdtemp())
     src = td / src_name
     src.write_text("id\\nC1\\n", encoding="utf-8")
-    bak = td / f"{src_name}.bak"
+    # backups/{run_id}/{nombre}: un "clients.csv.bak" fijo pisa el respaldo de
+    # la corrida anterior, que es exactamente la evidencia que querias guardar.
+    bak = td / "backups" / run_id / src_name
+    bak.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(src, bak)
     dig = hashlib.sha256(src.read_bytes()).hexdigest()
     return {
         "path": src.name,
         "sha256": dig,
         "bytes": src.stat().st_size,
+        "bak_rel": f"backups/{run_id}/{src_name}",
         "bak_ok": bak.read_bytes() == src.read_bytes(),
     }
 
 print(provenance_backup())`,
-        output: `{'path': 'clients.csv', 'sha256': 'b776a3a3926835c70a8b32f595320ba866cf1c5c8d9106d2e50f36b5a9548fc9', 'bytes': 6, 'bak_ok': True}`,
+        output: `{'path': 'clients.csv', 'sha256': 'b776a3a3926835c70a8b32f595320ba866cf1c5c8d9106d2e50f36b5a9548fc9', 'bytes': 6, 'bak_rel': 'backups/2026-08-26T12-00-00Z/clients.csv', 'bak_ok': True}`,
       },
       callout: {
         type: "tip",
@@ -356,20 +382,34 @@ print(provenance_backup())`,
 def build_manifest(sources):
     for s in sources:
         s["reconcile_ok"] = s["n_in"] == s["n_clean"] + s["n_quarantine"]
-    return {
+    manifest = {
         "sources": sources,
         "n_in": sum(s["n_in"] for s in sources),
         "n_clean": sum(s["n_clean"] for s in sources),
         "n_quarantine": sum(s["n_quarantine"] for s in sources),
         "reconcile_ok": all(s["reconcile_ok"] for s in sources),
     }
+    # Fail-closed de verdad: devolver reconcile_ok=False y seguir publicando es
+    # lo mismo que no comprobar nada. La excepcion es lo que hace que la corrida
+    # termine con exit != 0.
+    if not manifest["reconcile_ok"]:
+        rotas = [s["name"] for s in sources if not s["reconcile_ok"]]
+        raise ValueError(f"reconcile fallo en {rotas}")
+    return manifest
 
 sources = [
     {"name": "clients.csv", "sha256": "abc", "n_in": 6, "n_clean": 5, "n_quarantine": 1},
     {"name": "transactions.json", "sha256": "def", "n_in": 2, "n_clean": 2, "n_quarantine": 0},
 ]
-print(json.dumps(build_manifest(sources), ensure_ascii=False, sort_keys=True))`,
-        output: `{"n_clean": 7, "n_in": 8, "n_quarantine": 1, "reconcile_ok": true, "sources": [{"n_clean": 5, "n_in": 6, "n_quarantine": 1, "name": "clients.csv", "reconcile_ok": true, "sha256": "abc"}, {"n_clean": 2, "n_in": 2, "n_quarantine": 0, "name": "transactions.json", "reconcile_ok": true, "sha256": "def"}]}`,
+print(json.dumps(build_manifest(sources), ensure_ascii=False, sort_keys=True))
+
+rotas = [{"name": "clients.csv", "sha256": "abc", "n_in": 6, "n_clean": 4, "n_quarantine": 1}]
+try:
+    build_manifest(rotas)
+except ValueError as e:
+    print("exit != 0:", e)`,
+        output: `{"n_clean": 7, "n_in": 8, "n_quarantine": 1, "reconcile_ok": true, "sources": [{"n_clean": 5, "n_in": 6, "n_quarantine": 1, "name": "clients.csv", "reconcile_ok": true, "sha256": "abc"}, {"n_clean": 2, "n_in": 2, "n_quarantine": 0, "name": "transactions.json", "reconcile_ok": true, "sha256": "def"}]}
+exit != 0: reconcile fallo en ['clients.csv']`,
       },
       callout: {
         type: "success",
