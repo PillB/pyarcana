@@ -1779,7 +1779,7 @@ if __name__ == "__main__":
       },
       {
         question: "IQR sin domain bounds es riesgoso porque:",
-        options: ["Puede marcar (o borrar) colas legítimas de negocio como si fueran error", "Solo detecta valores extremos por arriba, nunca por abajo", "Depende del promedio, así que un extremo desplaza el umbral", "Necesita que la columna siga una distribución normal"],
+        options: ["Puede marcar (o borrar) colas legítimas de negocio como si fueran error", "Solo detecta valores extremos por arriba, nunca por abajo", "Depende del promedio, así que un extremo desplaza el umbral", "Necesita que la columna siga una distribución normal (la campana simétrica)"],
         correctIndex: 0,
         explanation:
           "IQR solo identifica candidatos estadísticos; los bounds de dominio deciden error vs. flag plausible.",
