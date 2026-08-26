@@ -10,10 +10,11 @@ import { GLOSSARY_TERMS, termsAvailableAt, type GlossaryTerm } from '@/lib/gloss
 import { SITE_BASE_PATH } from '@/lib/runtime-mode'
 import {
   REGIONAL_TERMS,
+  annotateRegional,
   explain,
-  subscribeRegion,
-  getRegionSnapshot,
   getRegionServerSnapshot,
+  getRegionSnapshot,
+  subscribeRegion,
   type RegionCode,
 } from '@/lib/locale/regional-reference'
 
@@ -50,7 +51,7 @@ export function RichText({ content, sectionId }: RichTextProps) {
   )
   // Annotate plain markdown first (so **bold** does not hide terms), then render HTML
   const annotate = (text: string) =>
-    annotateRegional(renderInline(annotateGlossaryTermsPlain(text, available, seen)), region)
+    annotateRegional(renderInline(annotateGlossaryTermsPlain(text, available, seen)), region, seen)
 
   return (
     <div
@@ -272,41 +273,6 @@ const SENTINEL = String.fromCharCode(2)
  * which this function never touches -- a lesson that prints "PEN" must keep
  * printing exactly that, because the runtime audit executes it and compares.
  */
-const REGION_STASH = String.fromCharCode(3)
-
-function annotateRegional(html: string, region: RegionCode): string {
-  if (region === 'PE') return html
-
-  // Stash the parts that must not be touched: <code> spans, because a lesson's
-  // code is quoted verbatim, and every tag, because a token can appear inside
-  // an attribute. Excluding '>' from the preceding character class was the
-  // cheaper guard and it silently skipped **PEN**, which is how the token
-  // usually appears -- an annotation that quietly does nothing where it is
-  // most needed is worse than none.
-  const stash: string[] = []
-  const keep = (m: string) => {
-    const i = stash.length
-    stash.push(m)
-    return REGION_STASH + i + REGION_STASH
-  }
-  let out = html.replace(/<code\b[^>]*>[\s\S]*?<\/code>/g, keep).replace(/<[^>]+>/g, keep)
-
-  for (const token of Object.keys(REGIONAL_TERMS)) {
-    const sentence = explain(token, region)
-    if (!sentence) continue
-    const escaped = token.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&')
-    // A word boundary does not work for "S/", so bound on non-word neighbours.
-    const rx = new RegExp(`(^|[^A-Za-z0-9_])(${escaped})(?![A-Za-z0-9_])`, 'g')
-    out = out.replace(rx, (_m, before: string, hit: string) =>
-      `${before}<abbr title="${sentence.replace(/"/g, '&quot;')}" class="cursor-help underline decoration-dotted decoration-muted-foreground/60 underline-offset-2">${hit}</abbr>`,
-    )
-  }
-
-  return out.replace(
-    new RegExp(REGION_STASH + '(\\d+)' + REGION_STASH, 'g'),
-    (_m, i: string) => stash[Number(i)],
-  )
-}
 
 function renderInline(text: string): string {
   // Protect term markers so bold/code regex do not split them
