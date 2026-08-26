@@ -11,18 +11,20 @@
  * a copy of the code under test is not a test of it: the real function moved to
  * one mark per token and case-sensitive matching, and the copy kept passing on
  * the old rules. It now imports the real thing, which is why that function
- * lives in the locale module rather than inside a React component.
+ * lives in the locale module rather than inside a React component. The suite
+ * runs under `--import tsx`, so a .mjs test can import the .ts module directly
+ * and the file keeps the path it has always had.
  */
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { annotateRegional, REGIONAL_TERMS } from '../../src/lib/locale/regional-reference'
+import { annotateRegional, REGIONAL_TERMS } from '../../src/lib/locale/regional-reference.ts'
 
-const strip = (h: string) => h.replace(/<[^>]+>/g, '')
+const strip = (h) => h.replace(/<[^>]+>/g, '')
 /** A fresh `seen` per call, the way RichText builds one per render. */
-const run = (html: string) => annotateRegional(html, 'MX', new Set<string>())
-const marks = (html: string) => (run(html).match(/<abbr/g) ?? []).length
+const run = (html) => annotateRegional(html, 'MX', new Set())
+const marks = (html) => (run(html).match(/<abbr/g) ?? []).length
 
-const CASES: [string, number][] = [
+const CASES = [
   ['El monto es 100 PEN y el RUC tiene 11 dígitos.', 2],
   ['<strong>PEN</strong> en negrita', 1],
   ['un <code>PEN</code> dentro de código', 0],
@@ -52,7 +54,7 @@ for (const [input, expected] of CASES) {
 test('a token is marked once per section, not once per mention', () => {
   // Eleven dotted underlines on PEN in one section stops reading as help. This
   // is also what makes common words like "soles" or "Lima" safe to annotate.
-  const seen = new Set<string>()
+  const seen = new Set()
   const first = annotateRegional('PEN aquí y PEN allá', 'MX', seen)
   assert.equal((first.match(/<abbr/g) ?? []).length, 1, 'more than one mark in the same block')
   const second = annotateRegional('otra vez PEN', 'MX', seen)
