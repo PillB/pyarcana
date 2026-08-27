@@ -448,7 +448,7 @@ optional_nulls 1`,
         environment: "local-python",
         description: "Imputar mediana solo si null_rate <= cap; marcar indicador",
         preamble:
-          "Cuando el monto optional tiene nulls, el gate puede imputar **solo si** el `null_rate` no supera el cap, y debe dejar un indicador de qué filas se tocaron. En esta demo `cap=0.5` y un null de cuatro filas: sigue el `status`, el rate y el dict final. Predice si verás `imputed` o `blocked` y en qué posición `monto_was_null` es True.",
+          "Cambia el contrato para esta demo: aquí `monto` es **optional**, no el required del caso anterior. Vale la pena decirlo en voz alta porque el nombre del campo no cambia y la política sí — es justo el «mezclar ambas sin documentar» contra el que te previene esta sección. Con `monto` optional y nulls, el gate puede imputar **solo si** el `null_rate` no supera el cap, y debe dejar un indicador de qué filas se tocaron. En esta demo `cap=0.5` y un null de cuatro filas: sigue el `status`, el rate y el dict final. Predice si verás `imputed` o `blocked` y en qué posición `monto_was_null` es True.",
         code: {
           language: 'python',
           title: "demo_impute.py",
@@ -1779,7 +1779,7 @@ if __name__ == "__main__":
       },
       {
         question: "IQR sin domain bounds es riesgoso porque:",
-        options: ["Puede marcar (o borrar) colas legítimas de negocio como si fueran error", "Solo detecta valores extremos por arriba, nunca por abajo", "Depende del promedio, así que un extremo desplaza el umbral", "Necesita que la columna siga una distribución normal"],
+        options: ["Puede marcar (o borrar) colas legítimas de negocio como si fueran error", "Solo detecta valores extremos por arriba, nunca por abajo", "Depende del promedio, así que un extremo desplaza el umbral", "Necesita que la columna siga una distribución normal (la campana simétrica)"],
         correctIndex: 0,
         explanation:
           "IQR solo identifica candidatos estadísticos; los bounds de dominio deciden error vs. flag plausible.",

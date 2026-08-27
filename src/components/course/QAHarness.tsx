@@ -8,6 +8,7 @@ import {
   FileUp,
   Mail,
   MapPin,
+  Crosshair,
   MonitorCheck,
   Send,
   Trash2,
@@ -15,6 +16,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { QATour } from './QATour'
+import { ElementPicker } from './ElementPicker'
 import { QA_TOUR_STORAGE_KEY } from '@/lib/qa-tour-content'
 import {
   Dialog,
@@ -64,18 +66,6 @@ const EMPTY_FORM = {
   actual: '',
   reproductionSteps: '',
   improvement: '',
-}
-
-function textHint(element: Element | null): string | null {
-  if (!(element instanceof HTMLElement)) return null
-  const testId = element.dataset.testid
-  if (testId) return `[data-testid="${testId}"]`
-  if (element.id) return `#${element.id}`
-  const role = element.getAttribute('role')
-  const label = element.getAttribute('aria-label')
-  if (role && label) return `${role}[aria-label="${label}"]`
-  const text = element.innerText?.trim().replace(/\s+/g, ' ').slice(0, 80)
-  return text ? `${element.tagName.toLowerCase()}: ${text}` : element.tagName.toLowerCase()
 }
 
 function dataUrlFromFile(file: File): Promise<string> {
@@ -165,6 +155,10 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
   const [message, setMessage] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const capturedContext = useRef<QAContext | null>(null)
+  const [picking, setPicking] = useState(false)
+  // capturedContext is a ref, so writing the picked element into it does not
+  // repaint the preview on its own. This is the nudge that does.
+  const [contextRevision, setContextRevision] = useState(0)
   const importRef = useRef<HTMLInputElement | null>(null)
   const screenshotRef = useRef<HTMLInputElement | null>(null)
 
@@ -212,7 +206,11 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
     userAgent: navigator.userAgent,
     language: navigator.language,
     deploymentSha,
-    elementHint: textHint(document.activeElement),
+    // Not document.activeElement: unless the tester happened to have something
+    // focused that is <body>, and every report claimed the problem was in the
+    // body element. Null means "not pointed at anything yet", and the tester
+    // can point with the picker.
+    elementHint: null,
   }), [activeSubStep, deploymentSha, sectionId, sectionIndex, sectionTitle])
 
   const openHarness = useCallback((nextTab: Tab = 'report') => {
@@ -434,8 +432,15 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
         QA interna
       </button>
 
-      <Dialog open={open} onOpenChange={setOpen}>
+      {/*
+        modal={!picking}: while the tester is aiming, Radix must stop trapping
+        focus and stop putting pointer-events:none on the body, or the page
+        underneath cannot be clicked at all. The content stays mounted either
+        way, so a half-written report survives the detour.
+      */}
+      <Dialog open={open} onOpenChange={setOpen} modal={!picking}>
         <DialogContent
+          suspended={picking}
           size="workspace"
           // The `sm:!max-w-…` override this replaced was fighting the base
           // `sm:max-w-lg` with an !important, which worked and told the next
@@ -448,8 +453,12 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
           // underneath it -- dismissing the tutorial threw the tester out of
           // the form they were about to fill. Moving the tour out of the
           // Dialog tree did not help, because the detector is global.
-          onInteractOutside={(event) => { if (tourOpen) event.preventDefault() }}
-          onEscapeKeyDown={(event) => { if (tourOpen) event.preventDefault() }}
+          // Aiming at the page is, by construction, an interaction outside this
+          // content -- so picking an element closed the workspace out from under
+          // the half-written report it belonged to. Escape is the same story:
+          // while aiming it cancels the aim, not the report.
+          onInteractOutside={(event) => { if (tourOpen || picking) event.preventDefault() }}
+          onEscapeKeyDown={(event) => { if (tourOpen || picking) event.preventDefault() }}
         >
           <DialogHeader className="border-b border-border px-5 py-4 pr-12">
             <div className="flex flex-wrap items-start justify-between gap-3">
@@ -593,8 +602,32 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
                     <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
                       <MapPin className="h-4 w-4 text-primary" /> Contexto capturado
                     </div>
-                    <ContextPreview context={capturedContext.current ?? snapshotContext()} />
-                    <Button type="button" variant="outline" size="sm" className="mt-3 w-full" onClick={() => { capturedContext.current = snapshotContext(); setMessage('Ubicación actualizada.') }}>
+                    <ContextPreview key={contextRevision} context={capturedContext.current ?? snapshotContext()} />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="mt-3 w-full"
+                      data-testid="qa-pick-element"
+                      onClick={() => { setMessage(null); setPicking(true) }}
+                    >
+                      <Crosshair className="mr-1.5 h-3.5 w-3.5" />
+                      {capturedContext.current?.elementHint ? 'Señalar otro elemento' : 'Señalar elemento'}
+                    </Button>
+                    {capturedContext.current?.elementHint && (
+                      <button
+                        type="button"
+                        data-testid="qa-clear-element"
+                        className="mt-1 w-full text-xs text-muted-foreground underline-offset-2 hover:underline"
+                        onClick={() => {
+                          if (capturedContext.current) capturedContext.current.elementHint = null
+                          setContextRevision((n) => n + 1)
+                        }}
+                      >
+                        Quitar el elemento señalado
+                      </button>
+                    )}
+                    <Button type="button" variant="outline" size="sm" className="mt-2 w-full" onClick={() => { const picked = capturedContext.current?.elementHint ?? null; capturedContext.current = { ...snapshotContext(), elementHint: picked }; setContextRevision((n) => n + 1); setMessage('Ubicación actualizada.') }}>
                       Actualizar ubicación
                     </Button>
                   </div>
@@ -758,6 +791,23 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
           <QATour open={tourOpen} onClose={() => setTourOpen(false)} />
         </DialogContent>
       </Dialog>
+
+      {/*
+        Outside the Dialog on purpose. While picking, the workspace is suspended
+        and non-modal; the picker has to keep painting over the live page and
+        keep receiving events from it, which it cannot do from inside a
+        pointer-events:none subtree.
+      */}
+      {picking && <ElementPicker
+        onCancel={() => setPicking(false)}
+        onPick={(hint) => {
+          const base = capturedContext.current ?? snapshotContext()
+          capturedContext.current = { ...base, elementHint: hint }
+          setContextRevision((n) => n + 1)
+          setPicking(false)
+          setMessage('Elemento señalado.')
+        }}
+      />}
       {/* Outside <Dialog>, not merely portalled out of it. Rendered as a child
           of the Dialog tree, Radix reads a click on the tour's overlay as an
           outside-click and closes the workspace underneath -- so dismissing the

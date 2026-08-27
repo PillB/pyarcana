@@ -102,6 +102,97 @@ export const REGIONAL_TERMS: Record<string, RegionalTerm> = {
       BR: 'como a Receita Federal',
     },
   },
+  soles: {
+    token: 'soles',
+    gloss: 'el plural de sol, la moneda peruana en la que están los montos del curso',
+    matters: 'no',
+    equivalentIn: {
+      MX: 'como decir pesos en México',
+      CO: 'como decir pesos en Colombia',
+      AR: 'como decir pesos en Argentina',
+      CL: 'como decir pesos en Chile',
+      ES: 'como decir euros en España',
+      US: 'como decir dólares en Estados Unidos',
+      BR: 'como dizer reais no Brasil',
+    },
+  },
+  IGV: {
+    token: 'IGV',
+    gloss: 'el impuesto al consumo en Perú, 18% sobre el monto sin impuesto',
+    matters: 'format',
+    equivalentIn: {
+      MX: 'como el IVA mexicano, 16%',
+      CO: 'como el IVA colombiano, 19%',
+      AR: 'como el IVA argentino, 21%',
+      CL: 'como el IVA chileno, 19%',
+      ES: 'como el IVA español, 21%',
+      US: 'como el sales tax, que allá varía por estado',
+      BR: 'como o ICMS/ISS, que lá variam por estado',
+    },
+  },
+  RENIEC: {
+    token: 'RENIEC',
+    gloss: 'el registro civil peruano, la fuente del DNI',
+    matters: 'no',
+    equivalentIn: {
+      MX: 'como el RENAPO mexicano',
+      CO: 'como la Registraduría colombiana',
+      AR: 'como el RENAPER argentino',
+      CL: 'como el Registro Civil chileno',
+      ES: 'como el Registro Civil español',
+      US: 'como la Social Security Administration',
+      BR: 'como o registro civil brasileiro',
+    },
+  },
+  // A city name reads as a city, so the gloss answers the question a reader
+  // actually has -- does this one matter to the exercise -- rather than telling
+  // them what Lima is. Only Lima is listed: it carries 62 of the ~130 place
+  // mentions, and once a reader knows the fixtures are Peruvian the rest follow
+  // without an underline on every one.
+  Lima: {
+    token: 'Lima',
+    gloss: 'la capital de Perú; en los casos del curso es solo la ciudad de la sucursal, nunca parte de la respuesta',
+    matters: 'no',
+    equivalentIn: {
+      MX: 'léelo como leerías Guadalajara',
+      CO: 'léelo como leerías Medellín',
+      AR: 'léelo como leerías Córdoba',
+      CL: 'léelo como leerías Valparaíso',
+      ES: 'léelo como leerías Sevilla',
+      US: 'read it the way you would read Denver',
+      BR: 'leia como leria Recife',
+    },
+  },
+  // The one place a Peruvian surname changes the answer: S07 normalises names
+  // with Unicode, and the tilde in Huamán is the whole exercise.
+  Huamán: {
+    token: 'Huamán',
+    gloss: 'apellido andino frecuente; su tilde es justamente lo que se normaliza en los ejercicios de texto',
+    matters: 'yes',
+    equivalentIn: {
+      MX: 'el mismo problema que tienen Peña o Muñoz',
+      CO: 'el mismo problema que tienen Peña o Muñoz',
+      AR: 'el mismo problema que tienen Peña o Muñoz',
+      CL: 'el mismo problema que tienen Peña o Muñoz',
+      ES: 'el mismo problema que tienen Peña o Muñoz',
+      US: 'the same problem any accented surname has',
+      BR: 'o mesmo problema de Conceição ou Assunção',
+    },
+  },
+  Quispe: {
+    token: 'Quispe',
+    gloss: 'apellido andino muy frecuente, usado en los casos sintéticos por lo mismo que Smith en inglés',
+    matters: 'no',
+    equivalentIn: {
+      MX: 'como Hernández en México',
+      CO: 'como Rodríguez en Colombia',
+      AR: 'como González en Argentina',
+      CL: 'como González en Chile',
+      ES: 'como García en España',
+      US: 'like Smith in the United States',
+      BR: 'como Silva no Brasil',
+    },
+  },
 }
 
 /**
@@ -183,4 +274,58 @@ export function getRegionSnapshot(): RegionCode {
 /** Static export has no reader yet; 'REST' renders the country-independent gloss. */
 export function getRegionServerSnapshot(): RegionCode {
   return 'REST'
+}
+
+const REGION_STASH = String.fromCharCode(3)
+
+/**
+ * `seen` is shared with the glossary annotator on purpose: both mark a term the
+ * first time a reader meets it in a section and leave it alone after that.
+ * Regional tokens used to be annotated on every occurrence, so a section
+ * mentioning PEN eleven times carried eleven dotted underlines -- which stops
+ * reading as help and starts reading as damage, and made adding common tokens
+ * like "soles" or "Lima" impossible without burying the prose.
+ */
+export function annotateRegional(html: string, region: RegionCode, seen: Set<string>): string {
+  if (region === 'PE') return html
+
+  // Stash the parts that must not be touched: <code> spans, because a lesson's
+  // code is quoted verbatim, and every tag, because a token can appear inside
+  // an attribute. Excluding '>' from the preceding character class was the
+  // cheaper guard and it silently skipped **PEN**, which is how the token
+  // usually appears -- an annotation that quietly does nothing where it is
+  // most needed is worse than none.
+  const stash: string[] = []
+  const keep = (m: string) => {
+    const i = stash.length
+    stash.push(m)
+    return REGION_STASH + i + REGION_STASH
+  }
+  let out = html.replace(/<code\b[^>]*>[\s\S]*?<\/code>/g, keep).replace(/<[^>]+>/g, keep)
+
+  for (const token of Object.keys(REGIONAL_TERMS)) {
+    const key = `regional:${token}`
+    if (seen.has(key)) continue
+    const sentence = explain(token, region)
+    if (!sentence) continue
+    const escaped = token.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&')
+    // A word boundary does not work for "S/", so bound on non-word neighbours.
+    // Case-sensitive, and not global: tokens are written the way they appear,
+    // and matching case-insensitively would put a dotted underline on the
+    // lowercase "lima" in S15's example about why "lima" and "Lima" are two
+    // different category strings -- annotating the very distinction the
+    // paragraph is drawing. No 'g' flag: one mark per section, like the
+    // glossary, which is what makes common words safe to add at all.
+    const rx = new RegExp(`(^|[^A-Za-z0-9_])(${escaped})(?![A-Za-z0-9_])`)
+    const before = out
+    out = out.replace(rx, (_m, lead: string, hit: string) =>
+      `${lead}<abbr title="${sentence.replace(/"/g, '&quot;')}" class="cursor-help underline decoration-dotted decoration-muted-foreground/60 underline-offset-2">${hit}</abbr>`,
+    )
+    if (out !== before) seen.add(key)
+  }
+
+  return out.replace(
+    new RegExp(REGION_STASH + '(\\d+)' + REGION_STASH, 'g'),
+    (_m, i: string) => stash[Number(i)],
+  )
 }

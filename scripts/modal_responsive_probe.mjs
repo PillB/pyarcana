@@ -65,6 +65,23 @@ const MODALS = [
     dialog: '[data-testid="qa-tour"]',
   },
   {
+    id: 'qa-tour-step2-all-definitions',
+    // The tallest the tutorial ever gets: step 2 answered correctly, so the
+    // feedback and the rule are both showing, on top of the full list of nine
+    // category definitions. If the pinned footer survives this it survives
+    // anything the tutorial can produce.
+    open: async (page) => {
+      await page.evaluate(() => localStorage.removeItem('pyarcana:qaTourCompleted'))
+      await page.getByTestId('qa-harness-open').click()
+      await page.getByTestId('qa-tour').waitFor({ timeout: 20000 })
+      await page.getByTestId('qa-tour-next').click()
+      await page.getByTestId('qa-tour-definitions').waitFor()
+      await page.getByTestId('qa-tour-option-unanswerable-question').click()
+      await page.getByTestId('qa-tour-feedback').waitFor()
+    },
+    dialog: '[data-testid="qa-tour"]',
+  },
+  {
     id: 'feedback-modal',
     // The FAB is rendered behind `!IS_STATIC_SITE`, so it does not exist on the
     // Pages build at all. Probing it there produced six identical click

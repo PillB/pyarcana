@@ -2,7 +2,26 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { GraduationCap, ChevronLeft, ChevronRight, X, Check } from 'lucide-react'
-import { QA_TOUR_STEPS, QA_TOUR_STORAGE_KEY, type QATourStep } from '@/lib/qa-tour-content'
+import {
+  QA_TOUR_STEPS,
+  QA_TOUR_STORAGE_KEY,
+  QA_CATEGORY_DEFINITIONS,
+  QA_CAUSE_DEFINITIONS,
+  QA_SEVERITY_DEFINITIONS,
+  type QATourStep,
+} from '@/lib/qa-tour-content'
+import { QA_CATEGORIES, QA_CAUSES, QA_SEVERITIES } from '@/lib/qa-session'
+
+/**
+ * The full option list for one field: label from the form, meaning and example
+ * from the tour. Zipped at render time rather than duplicated, so a renamed
+ * option shows up as a missing definition instead of a stale one.
+ */
+const DEFINITION_SETS = {
+  category: { options: QA_CATEGORIES, defs: QA_CATEGORY_DEFINITIONS },
+  cause: { options: QA_CAUSES, defs: QA_CAUSE_DEFINITIONS },
+  severity: { options: QA_SEVERITIES, defs: QA_SEVERITY_DEFINITIONS },
+} as const
 
 /**
  * The QA tester tour. Deliberately independent of InteractiveTour.
@@ -128,6 +147,28 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
         <div className="overflow-y-auto px-5 pb-1">
         <h2 className="text-lg font-semibold">{step.title}</h2>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
+
+        {step.definitions && (
+          <dl className="mt-4 space-y-2" data-testid="qa-tour-definitions">
+            {DEFINITION_SETS[step.definitions].options.map((opt) => {
+              const def = DEFINITION_SETS[step.definitions!].defs.find((d) => d.value === opt.value)
+              if (!def) return null
+              return (
+                <div
+                  key={opt.value}
+                  data-testid={`qa-tour-def-${opt.value}`}
+                  className="rounded-md border border-border bg-muted/30 px-3 py-2 text-sm leading-relaxed"
+                >
+                  <dt className="inline font-medium">{opt.label}</dt>
+                  <dd className="inline text-muted-foreground">
+                    {' '}significa {def.means}.{' '}
+                    <span className="text-foreground/80">Por ejemplo: {def.example}</span>
+                  </dd>
+                </div>
+              )
+            })}
+          </dl>
+        )}
 
         {ex && (
           <div className="mt-4 rounded-lg border border-border bg-muted/40 p-4">
