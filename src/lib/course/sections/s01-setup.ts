@@ -226,7 +226,8 @@ cat notas.txt | head -1
 grep "segunda" notas.txt
 
 # 6) || ejecuta el segundo solo si el primero falla
-which python3 || where python3
+# (PowerShell 5.1 no tiene || ; alli se encadena con if. Esto es bash.)
+grep "tercera" notas.txt || echo "no aparece"
 
 # 7) 2>/dev/null descarta el mensaje de error de un comando que no existe
 comando_que_no_existe 2>/dev/null
@@ -237,7 +238,7 @@ cd ..
 rm -rf lab_conectores`,
         output: `primera linea
 segunda linea
-/usr/bin/python3
+no aparece
 127`,
       },
     },
@@ -370,7 +371,8 @@ source .venv/bin/activate
 # .venv\\Scripts\\Activate.ps1
 
 python -c "import sys; print(sys.executable); print(sys.prefix)"
-which python || where python
+which python
+# Windows PowerShell: where.exe python   (where a secas es otro comando)
 # deactivate   # cuando termines
 `,
         output: `.../python-ds-journey/.venv/bin/python3
@@ -534,18 +536,25 @@ select = ["E", "F", "I"]
       code: {
         language: 'bash',
         title: '.gitignore + .env.example (verificación)',
-        code: `# .gitignore mínimo (fragmento)
-# .venv/
-# venv/
-# __pycache__/
-# *.pyc
-# .env
-# .ipynb_checkpoints/
+        code: `# Escribe el .gitignore de verdad. Comentar las reglas -- ponerles '#'
+# delante para "mostrarlas" -- deja un archivo que no ignora nada, y el
+# primero que se sube es .env.
+cat > .gitignore <<'EOF'
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+.ipynb_checkpoints/
+EOF
 
-# .env.example (sí se versiona; sin secretos)
-# API_TOKEN=
-# DATABASE_URL=
+# .env.example sí se versiona: nombres de variables, nunca valores.
+cat > .env.example <<'EOF'
+API_TOKEN=
+DATABASE_URL=
+EOF
 
+# Pregúntale a Git qué regla lo tapó, en vez de confiar en que funcionó.
 git check-ignore -v .env
 `,
         output: `.gitignore:5:.env    .env`,
