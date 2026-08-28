@@ -39,7 +39,7 @@ export const section21: CourseSection = {
  paragraphs: [
    "El comité no firma, y hace bien. No es un problema de decimales: es que dos artefactos que deberían venir de la misma corrida se contradicen, y nadie sabe cuál creer. Esta sección resuelve eso construyendo los documentos desde una única fuente de datos, de modo que discrepar sea imposible en vez de improbable.",
    "La idea central es separar los datos de su presentación. Se arma un **contexto** —un diccionario con los números ya calculados y versionado— y la plantilla solo lo coloca en su sitio. La plantilla no calcula y no decide: si empieza a hacerlo, vuelves a tener dos fuentes de verdad con distinta aritmética. Con el redondeo hace falta una distinción fina, porque más abajo usarás `'%.2f'|format(...)` dentro de Jinja y parecería una excepción. No lo es: ese filtro **formatea para mostrar**, no altera el valor que Python calculó ni el que viaja al Excel de S20. La aritmética —incluido cualquier `round()` que cambie un total— ocurre una sola vez en Python; la plantilla solo decide cuántos decimales se ven.",
-   "Esa separación resuelve además un problema de seguridad que es fácil pasar por alto. Si el texto de un campo entra directo en la plantilla, un valor con caracteres especiales puede romper el documento o alterar su estructura. La plantilla escapa lo que inserta, por la misma razón por la que una consulta a base de datos usa parámetros en vez de pegar texto.",
+   "Esa separación resuelve además un problema de seguridad que es fácil pasar por alto. Si el texto de un campo entra directo en la plantilla, un valor con caracteres especiales puede romper el documento o alterar su estructura. Una plantilla **configurada para escapar** neutraliza lo que inserta, por la misma razón por la que una consulta a base de datos usa parámetros en vez de pegar texto. La configuración no es un detalle: en Jinja hay que pedirla, y más abajo verás que `Template(...)` a secas no escapa nada.",
    "Hay un detalle pequeño con consecuencias grandes: **falta no es cero**. Una celda sin dato se escribe con un guion largo, no con un `0`, porque un cero se suma y se promedia mientras que un guion obliga a preguntar. El mismo glifo sirve como marca de redacción cuando un dato existe pero no debe mostrarse.",
    "La pregunta que atraviesa la sección es de trazabilidad: **¿puedo señalar de qué corrida salió cada número de este informe?** Los artefactos deben compartir los mismos totales y tamaños de muestra que el EDA y el libro de Excel anteriores, y ninguno se publica sin una revisión visual del resultado.",
  ],
@@ -71,7 +71,7 @@ export const section21: CourseSection = {
  subtopicId: "S21-T1-A",
  paragraphs: [
  "Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). Calcula métricas **antes** del render: la plantilla no es el lugar de joins pesados ni de reglas de negocio opacas. Un solo `context` versionado (run_id, métricas, límites) alimenta DOCX, PDF y, más adelante, el correo de aprobación en S22. Si cada canal inventa su propio formato de KPI, la paridad muere en el primer redondeo.",
- "Contrato operativo: `Template(...).render(**ctx)`. Cuidado con un detalle que muerde: `Template(...)` a secas **no** escapa HTML. El autoescape hay que pedirlo, con `Environment(autoescape=select_autoescape(['html']))`, y renderizar desde ese entorno. Sin eso, un nombre que contenga `<script>` entra tal cual en la página. Nunca marques input de usuario con `mark_safe` sin sanitizar. En texto plano (Markdown, cuerpo de DOCX vía plantilla) define política de caracteres. En un factory serio, configura `StrictUndefined` para que falte una variable a gritos en lugar de dejar un hueco vacío en el informe. Los KPI llegan ya redondeados (1–2 decimales PEN) desde Python: no “se redondean a ojo” en la plantilla ni en el Word del autor. El revisor debe poder re-renderizar el mismo context y obtener la misma cadena.",
+ "Contrato operativo: `Template(...).render(**ctx)`. Cuidado con un detalle que muerde: `Template(...)` a secas **no** escapa HTML. El autoescape hay que pedirlo, con `Environment(autoescape=select_autoescape(['html']))`, y renderizar desde ese entorno. Sin eso, un nombre que contenga `<script>` entra tal cual en la página. Nunca marques input de usuario como seguro —el filtro `|safe` de Jinja, o envolverlo en `Markup`— sin sanitizarlo antes. En texto plano (Markdown, cuerpo de DOCX vía plantilla) define política de caracteres. En un factory serio, configura `StrictUndefined` para que falte una variable a gritos en lugar de dejar un hueco vacío en el informe. Los KPI llegan ya redondeados (1–2 decimales PEN) desde Python: no “se redondean a ojo” en la plantilla ni en el Word del autor. El revisor debe poder re-renderizar el mismo context y obtener la misma cadena.",
  "Caso CASO-LIM-021: portada `CASO-LIM-021 · {{ region }} (n={{ n }})` → `CASO-LIM-021 · Lima (n=40)`; KPI `{{ m }} PEN (n={{ n }})` → `28 PEN (n=40)`. Una función `render_kpi(ctx)` centraliza el template fijo región/mediana/n y evita que cada autor del informe invente su propio formato. Así el dashboard S19 y el Excel S20 hablan el mismo idioma numérico — y el DOCX de esta sección no se desvía.",
  ],
  code: {
@@ -95,7 +95,7 @@ KPI: &lt;b&gt;28&lt;/b&gt;`,
  type: "tip",
  title: "Context dict único y autoescape",
  content:
- "Pasa un context versionado (run_id, métricas, límites) a todas las plantillas del factory. En HTML, activa autoescape en el Environment: el demo de arriba convierte `<b>28</b>` en entidades (`&lt;b&gt;…`), no en markup. Nunca uses `mark_safe` sobre input de usuario sin sanitizar. En este lab de texto plano (Markdown/DOCX) no hace falta desactivar el escape; cuando empaquetes HTML del dashboard, deja autoescape encendido.",
+ "Pasa un context versionado (run_id, métricas, límites) a todas las plantillas del factory. En HTML, activa autoescape en el Environment: el demo de arriba convierte `<b>28</b>` en entidades (`&lt;b&gt;…`), no en markup. Nunca apliques `|safe` ni `Markup` sobre input de usuario sin sanitizarlo antes: los dos apagan el escape justo donde hace falta. En este lab de texto plano (Markdown/DOCX) no hace falta desactivar el escape; cuando empaquetes HTML del dashboard, deja autoescape encendido.",
  },
  },
  {
@@ -192,9 +192,13 @@ True True`,
     c.drawString(72, 760, "Resumen sintetico: n=40")
     c.save()
     text = "".join(page.extract_text() or "" for page in PdfReader(pdf).pages)
-    page = fitz.open(pdf)[0]
     png = Path("informe-p1.png")
-    page.get_pixmap(matrix=fitz.Matrix(1, 1)).save(png)
+    # El Document tiene que seguir vivo mientras uses la Page. Con
+    # fitz.open(pdf)[0] nadie guarda el documento, se puede liberar en cuanto
+    # termina la expresion, y la pagina queda huerfana: get_pixmap falla a
+    # veces y funciona otras, que es la peor forma de fallar.
+    with fitz.open(pdf) as doc:
+        doc[0].get_pixmap(matrix=fitz.Matrix(1, 1)).save(png)
     print(pdf.read_bytes()[:4] == b"%PDF", "n=40" in text)
     print(png.exists(), png.stat().st_size > 0)
 
