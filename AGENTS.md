@@ -239,9 +239,17 @@ when twelve still carried data from an earlier run.
 Before reporting work as shipped, confirm the change itself is at the deployed
 SHA. Check the content, not the commit:
 
+```sh
+# Brace the variable. In zsh, "$SHA:AGENTS.md" is not what you wrote:
+# ':A' is a parameter modifier meaning "absolute path", so the argument
+# becomes <abspath>GENTS.md, git errors, and a piped `grep -c` prints 0 --
+# a missing-content result produced by the shell, not by the repository.
+git show "${DEPLOYED_SHA}:path/to/file" | grep -q '<the thing you added>'
 ```
-git show <deployed-sha>:path/to/file | grep -q '<the thing you added>'
-```
+
+Check the exit status or read the output. A `grep -c` on an empty pipe returns
+0 whether the content is absent or the command failed, so a bare count is not
+evidence of absence until you have seen `git show` succeed.
 
 Do **not** use `git merge-base --is-ancestor <your-commit> main`. Squash-merge
 rewrites history: the branch commit is never an ancestor of the squashed result,
