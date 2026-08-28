@@ -234,6 +234,36 @@ call and was allowed to run through eleven more identical failures, and the
 finding totals were briefly reported as if all sections had been re-reviewed
 when twelve still carried data from an earlier run.
 
+### "Shipped" means the content is live, and SHAs do not prove it
+
+Before reporting work as shipped, confirm the change itself is at the deployed
+SHA. Check the content, not the commit:
+
+```
+git show <deployed-sha>:path/to/file | grep -q '<the thing you added>'
+```
+
+Do **not** use `git merge-base --is-ancestor <your-commit> main`. Squash-merge
+rewrites history: the branch commit is never an ancestor of the squashed result,
+so that check reports "not in main" for work that is plainly there. It fails
+open in the other direction too -- an ancestor commit whose change was later
+reverted still passes.
+
+This is not hypothetical in either direction. A commit here was pushed to a
+branch whose PR had already merged, sat orphaned, and was reported as shipped;
+its tooltips and tutorial steps were on no branch anyone would deploy. The
+ancestor check was then written as the fix, shipped, and immediately reported
+"NOT in main" for the recovered commit that had just been squash-merged. The
+first version of a verification is not automatically better than no
+verification -- test the check itself against a case whose answer you know.
+
+A second signal is worth naming: **an unexplained change in a test count is
+evidence, not noise.** The node suite went 237 to 236 between two runs here.
+The preservation sentinel showed no deletions, so it was written off as a
+misread. The real cause was that the branch under test no longer contained the
+commit that added the missing test -- the orphan, visible an hour before it was
+found.
+
 ### Tautological tests considered harmful
 
 A test that cannot fail is worse than no test, because it converts an unchecked
@@ -284,7 +314,7 @@ Do **not** report READY if any of:
 - a decision fails the expert standard above and the objection has not been
   stated to the user  
 - a known gap, unfixed finding, or unmet target is absent from the report  
-- work is reported as shipped without confirming the commit is an ancestor of
+- work is reported as shipped without confirming the **content** is present at
   the deployed SHA  
 
 ---
