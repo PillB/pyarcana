@@ -204,6 +204,36 @@ context, print the real state, dump the element the tool says is intercepting.
 Record what the cause turned out to be in the commit message. An error explained
 once should not have to be diagnosed twice.
 
+### A blocked dependency is a stop, not a retry
+
+If a task or gate needs another service, agent or API and that resource is
+unavailable, unstable, rate-limited or out of quota, **stop and tell the user**.
+Do not keep calling it, do not work around it silently, and do not let a batch
+run to completion against a resource that already refused the first request.
+
+Retrying a blocked resource costs time and quota and produces nothing. Worse, it
+buries the real news — that the work cannot be finished right now — under a wall
+of identical failures the user has to read to discover it.
+
+What to do instead:
+
+1. **Stop at the first refusal** that is clearly about availability rather than
+   about the request: quota, rate limit, auth failure, service down, timeout on
+   every call. One retry to rule out a transient blip is fine; a second is not.
+2. **Say what is blocked, what it blocked, and what remains undone.** Name the
+   sections, files or checks that did not get their answer.
+3. **Do not substitute a weaker signal without saying so.** Falling back to an
+   older report, a cached result or your own judgement is sometimes right, but
+   it is a different kind of evidence and must be labelled as one.
+4. **Never report the blocked work as complete.** A gate that could not run is
+   not a gate that passed. Counts drawn from a partially-refreshed dataset are
+   stale in the parts that were refused, and saying so is mandatory.
+
+This has already gone wrong here: a review batch hit `usage limit` on its first
+call and was allowed to run through eleven more identical failures, and the
+finding totals were briefly reported as if all sections had been re-reviewed
+when twelve still carried data from an earlier run.
+
 ### Tautological tests considered harmful
 
 A test that cannot fail is worse than no test, because it converts an unchecked
@@ -254,6 +284,8 @@ Do **not** report READY if any of:
 - a decision fails the expert standard above and the objection has not been
   stated to the user  
 - a known gap, unfixed finding, or unmet target is absent from the report  
+- work is reported as shipped without confirming the commit is an ancestor of
+  the deployed SHA  
 
 ---
 
