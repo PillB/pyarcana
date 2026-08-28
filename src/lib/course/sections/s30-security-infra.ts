@@ -361,6 +361,7 @@ label_space ['match', 'non_match', 'uncertain']`,
         code: `pairs = [
     {"a": "e1", "b": "e2", "y": 1},
     {"a": "e1", "b": "e3", "y": 0},
+    {"a": "e1", "b": "e4", "y": 0},   # mixto: e1 esta en train, e4 no
     {"a": "e4", "b": "e5", "y": 1},
     {"a": "e4", "b": "e6", "y": 0},
 ]
@@ -368,23 +369,31 @@ label_space ['match', 'non_match', 'uncertain']`,
 train_entities = {"e1", "e2", "e3"}
 
 def entity_split(pairs, train_entities):
-    train, test = [], []
+    # Tres cubos, no dos. Mandar el par mixto a test es el error clasico de
+    # esta seccion: e1 entrena y vuelve a aparecer en la evaluacion, asi que
+    # la metrica mide memoria y no generalizacion. Sin el par mixto en el
+    # fixture, un split de dos cubos imprime overlap 0 y parece correcto.
+    train, test, cross = [], [], []
     for p in pairs:
         ents = {p["a"], p["b"]}
         if ents <= train_entities:
             train.append(p)
+        elif ents & train_entities:
+            cross.append(p)
         else:
             test.append(p)
-    return train, test
+    return train, test, cross
 
-tr, te = entity_split(pairs, train_entities)
+tr, te, cross = entity_split(pairs, train_entities)
 train_ents = {p["a"] for p in tr} | {p["b"] for p in tr}
 test_ents = {p["a"] for p in te} | {p["b"] for p in te}
 print("train_n", len(tr))
 print("test_n", len(te))
+print("cross_split_n", len(cross))
 print("entity_overlap", len(train_ents & test_ents))`,
         output: `train_n 2
 test_n 2
+cross_split_n 1
 entity_overlap 0`,
       },
       callout: {
@@ -656,23 +665,27 @@ print(find("e1") == find("e4"), "review_applied")`,
         environment: "local-python",
         description: "Split por entidad: train solo con {e1,e2,e3}; el par e4–e5 cae en test.",
         preamble:
-          "Sin evaluación honesta el motor es teatro. En esta demo el train solo incluye entidades {e1,e2,e3}; el par e4–e5 cae en test. No escribas: predice los conteos y por qué un split aleatorio de *pares* con entidades compartidas infla el F1 del notebook y falla con contactos nuevos del Caso 30.",
+          "Sin evaluación honesta el motor es teatro. En esta demo el train solo incluye entidades {e1,e2,e3}; el par e4–e5 cae en test y el par e1–e4 en cross_split. No escribas: predice los conteos y por qué un split aleatorio de *pares* con entidades compartidas infla el F1 del notebook y falla con contactos nuevos del Caso 30.",
         code: {
           language: 'python',
           title: "split_demo.py",
           code: `def entity_split(pairs, train_e):
     tr = [p for p in pairs if {p[0], p[1]} <= train_e]
-    te = [p for p in pairs if not ({p[0], p[1]} <= train_e)]
-    return len(tr), len(te)
+    # "no es train" no significa "es test". El par con un pie dentro y otro
+    # fuera es cross_split, y meterlo en test devuelve al train a la
+    # evaluacion por la puerta de atras.
+    cross = [p for p in pairs if not ({p[0], p[1]} <= train_e) and ({p[0], p[1]} & train_e)]
+    te = [p for p in pairs if not ({p[0], p[1]} & train_e)]
+    return len(tr), len(te), len(cross)
 
-pairs = [("e1", "e2", 1), ("e4", "e5", 1), ("e1", "e3", 0)]
+pairs = [("e1", "e2", 1), ("e4", "e5", 1), ("e1", "e3", 0), ("e1", "e4", 0)]
 train_e = {"e1", "e2", "e3"}
-tr, te = entity_split(pairs, train_e)
-print("train", tr, "test", te)`,
-          output: `train 2 test 1`,
+tr, te, cross = entity_split(pairs, train_e)
+print("train", tr, "test", te, "cross_split", cross)`,
+          output: `train 2 test 1 cross_split 1`,
         },
         why:
-          "Un par es train solo si ambos extremos ⊆ train_e; si no, no es train limpio (en demos simples se etiqueta test; en E3 se distingue `cross_split`). Leakage de identidad engaña al cierre CP-N3-A. En We Do: etiqueta train/test, prevalencia y pares mixtos.",
+          "Un par es train solo si ambos extremos ⊆ train_e, y test solo si ninguno lo está. El mixto es `cross_split` desde la primera demo, no una sutileza que se deja para E3: etiquetarlo test es precisamente el leakage que esta sección enseña a evitar. Leakage de identidad engaña al cierre CP-N3-A. En We Do: etiqueta train/test, prevalencia y pares mixtos.",
         retrospective:
           "Split por entidad es la guardia anti-leakage: la misma identidad no entrena y examina. El error clásico es partir *pares* al azar. Pregunta: el par e1–e4 (mixto), ¿es train limpio en esta demo simple? We Do: clasificación, base rate y `cross_split` explícito.",
       },
