@@ -136,6 +136,60 @@ Each commit maps to a requirement or accepted defect. Inspect
 `git diff --name-status` before staging. Prefer explicit path staging. No mass
 formatting mixed with behavior changes.
 
+## Expert standard (binds every feature and every decision)
+
+The bar is not "meets the stated constraints". The bar is what the best
+practitioner in the relevant field would judge correct, measured against
+evidence: peer-reviewed results, the preponderance of published research,
+standards bodies, or the authoritative reference for that domain.
+
+For each non-trivial decision:
+
+1. **Name the expert and the benchmark.** Who would review this — an
+   accessibility specialist, a psychometrician, a statistician, a distributed
+   systems engineer, a Spanish-language editor — and against what published
+   standard or result?
+2. **State why they would reject the current choice.** If you can articulate
+   that reason, the choice is already wrong. Do not ship it and note the
+   objection; change it.
+3. **Prefer the feasible ideal over the cheap satisfier.** A gate that passes
+   because it measures nothing, a selector that resolves because it names
+   `body`, a definition that restates its own label — these satisfy the
+   constraint and fail the expert. Optimising for the constraint is how a
+   codebase accumulates work that looks done.
+4. **Research before deciding, not after being challenged.** Where a field has
+   a settled answer — WCAG thresholds, reading-rate meta-analyses, Mayer's
+   multimedia principles, item-writing guidelines for assessment — find it and
+   use it. Where it does not, say so rather than inventing authority.
+
+**Every trade-off is stated to the user, never absorbed.** If the ideal was not
+reached, the report says what was traded, why, and what the expert would still
+object to. Silence about a known gap is a false claim of completeness. The
+same applies to scope: work left undone is named, not omitted.
+
+Particular weight goes to:
+
+- **Methodological and scientific correctness.** Claims about statistics,
+  measurement, ML, security or systems behaviour must be true as an expert in
+  that field would state them, not merely defensible to a beginner. A worked
+  example whose narrative and output disagree is a defect regardless of whether
+  any test caught it.
+- **State of the art.** Prefer current accepted practice over what merely
+  works. Where the repository's existing pattern is behind the field, say so.
+- **Usability and intuitiveness of the flow.** A feature a user cannot find,
+  cannot reach by keyboard, or reaches only by accident is not finished.
+  Walk the actual path a person takes, at the sizes and on the devices they
+  use, before calling it done.
+- **Quality-of-life.** Defaults that spare a person work, states that survive
+  a detour, controls placed where the hand already is. These are part of the
+  feature, not polish to be deferred.
+
+**Verification follows the same standard.** A passing gate is evidence only if
+it can fail: demonstrate it by breaking the thing it guards and watching it
+report. Empty findings prove nothing on their own.
+
+---
+
 ## Release readiness (READY)
 
 Do **not** report READY if any of:
@@ -148,6 +202,9 @@ Do **not** report READY if any of:
 - critical E2E flaky  
 - live deploy differs from tested SHA  
 - core feature has only local evidence  
+- a decision fails the expert standard above and the objection has not been
+  stated to the user  
+- a known gap, unfixed finding, or unmet target is absent from the report  
 
 ---
 

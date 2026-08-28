@@ -158,20 +158,34 @@ has_user True`,
       code: {
         language: 'python',
         title: "bases_nonroot_size.py",
-        code: `def audit_runtime(base: str, uid: int, caps: set, runtime_mb: int, max_mb: int) -> dict:
+        code: `import re
+
+DIGEST = re.compile(r"^sha256:[0-9a-f]{64}$")
+DEMO_DIGEST = "sha256:" + "3f" * 32
+
+def audit_runtime(base: str, uid: int, caps: set, runtime_mb: int, max_mb: int) -> dict:
     nonroot = uid >= 1000
     slim_ok = runtime_mb <= max_mb
-    pinned = base != "latest" and not base.endswith(":latest")
+    # Un tag no es un pin: python:3.12-slim se mueve en cuanto publican un
+    # parche. Solo el digest fija los bytes, y tiene forma exacta: 64 hex.
+    # Aceptar "cualquier cosa que no sea latest" aprueba justo lo que quieres
+    # bloquear.
+    _, _, digest = base.partition("@")
+    pinned = bool(DIGEST.match(digest))
     ok = pinned and nonroot and not caps and slim_ok
-    return {"base": base, "uid": uid, "nonroot": nonroot, "ok": ok}
+    return {"base": base, "uid": uid, "nonroot": nonroot, "pinned": pinned, "ok": ok}
 
-r = audit_runtime("python:3.12-slim@sha256:demo", 10001, set(), 118, 150)
+r = audit_runtime(f"python:3.12-slim@{DEMO_DIGEST}", 10001, set(), 118, 150)
 print("nonroot", r["nonroot"])
 print("uid", r["uid"])
-print("ok", r["ok"])`,
+print("ok", r["ok"])
+print("tag suelto pinned:", audit_runtime("python:3.12-slim", 10001, set(), 118, 150)["pinned"])
+print("digest corto pinned:", audit_runtime("python:3.12-slim@sha256:abc", 10001, set(), 118, 150)["pinned"])`,
         output: `nonroot True
 uid 10001
-ok True`,
+ok True
+tag suelto pinned: False
+digest corto pinned: False`,
       },
       callout: {
         type: "tip",
@@ -352,22 +366,31 @@ ephemeral ['tmp', 'cache']`,
       code: {
         language: 'python',
         title: "locks_multistage.py",
-        code: `MINI_MULTI = """
-FROM python:3.12-slim@sha256:demo AS builder
+        code: `import re
+
+DIGEST = re.compile(r"^sha256:[0-9a-f]{64}$")
+BASE_DIGEST = "sha256:" + "3f" * 32
+LOCK_DIGEST = "sha256:" + "9c" * 32
+
+MINI_MULTI = f"""
+FROM python:3.12-slim@{BASE_DIGEST} AS builder
 WORKDIR /build
-COPY requirements.txt .
-RUN pip wheel --no-cache-dir -r requirements.txt -w /wheels
-FROM python:3.12-slim@sha256:demo AS runtime
+COPY requirements.txt requirements.lock ./
+RUN pip wheel --no-cache-dir --require-hashes -r requirements.lock -w /wheels
+FROM python:3.12-slim@{BASE_DIGEST} AS runtime
 WORKDIR /app
 COPY --from=builder /wheels /wheels
-RUN pip install --no-cache-dir /wheels/*
+RUN pip install --no-cache-dir --no-index --find-links=/wheels /wheels/*
 COPY src/ ./src/
+ENV PYTHONPATH=/app/src
 USER 10001
 CMD ["python", "-m", "app"]
 """
 
 def multistage_plan(dockerfile: str, lock_hash: str) -> dict:
-    pinned = lock_hash.startswith("sha256:")
+    # startswith("sha256:") aprueba "sha256:", "sha256:abc" y "sha256:demo".
+    # Un lock es un digest completo o no es un lock.
+    pinned = bool(DIGEST.match(lock_hash))
     has_builder = "AS builder" in dockerfile
     has_runtime = "AS runtime" in dockerfile
     has_copy = "COPY --from=builder" in dockerfile
@@ -381,13 +404,17 @@ def multistage_plan(dockerfile: str, lock_hash: str) -> dict:
         "reproducible": ok,
     }
 
-p = multistage_plan(MINI_MULTI, "sha256:abc")
+p = multistage_plan(MINI_MULTI, LOCK_DIGEST)
 print("multistage", p["multistage"])
 print("lock", p["lock"])
-print("reproducible", p["reproducible"])`,
+print("runtime_slim", p["runtime_slim"])
+print("reproducible", p["reproducible"])
+print("lock 'sha256:demo':", multistage_plan(MINI_MULTI, "sha256:demo")["lock"])`,
         output: `multistage True
 lock pinned
-reproducible True`,
+runtime_slim True
+reproducible True
+lock 'sha256:demo': floating`,
       },
       callout: {
         type: "tip",
@@ -475,24 +502,34 @@ cache stable_layers_first`,
         environment: "local-python",
         description: "Demo: bases, usuarios no root y tamaño",
         preamble:
-          "Antes de publicar la imagen de la API de Trujillo, el equipo audita base, usuario y tamaño — no el “look and feel” del tag. En esta demo `python:3.12-slim@sha256:demo` corre como UID 10001 sin capabilities y bajo techo de 150 MB. No escribas: predice `nonroot`, `uid` y si `ok` es True. Observa por qué `latest` o UID 0 tumbarían el gate aunque el servicio “arranque”.",
+          "Antes de publicar la imagen de la API de Trujillo, el equipo audita base, usuario y tamaño — no el “look and feel” del tag. En esta demo la base va fijada por digest (64 hex, no un tag) y corre como UID 10001 sin capabilities y bajo techo de 150 MB. No escribas: predice `nonroot`, `uid` y si `ok` es True. Observa por qué `latest` o UID 0 tumbarían el gate aunque el servicio “arranque”.",
         code: {
           language: 'python',
           title: "demo_bases_nonroot_size.py",
-          code: `def audit_runtime(base: str, uid: int, caps: set, runtime_mb: int, max_mb: int) -> dict:
+          code: `import re
+
+DIGEST = re.compile(r"^sha256:[0-9a-f]{64}$")
+DEMO_DIGEST = "sha256:" + "3f" * 32
+
+def audit_runtime(base: str, uid: int, caps: set, runtime_mb: int, max_mb: int) -> dict:
     nonroot = uid >= 1000
     slim_ok = runtime_mb <= max_mb
-    pinned = base != "latest" and not base.endswith(":latest")
+    # Un tag no es un pin: python:3.12-slim se mueve en cuanto publican un
+    # parche. Solo el digest fija los bytes, y tiene forma exacta: 64 hex.
+    _, _, digest = base.partition("@")
+    pinned = bool(DIGEST.match(digest))
     ok = pinned and nonroot and not caps and slim_ok
-    return {"base": base, "uid": uid, "nonroot": nonroot, "ok": ok}
+    return {"base": base, "uid": uid, "nonroot": nonroot, "pinned": pinned, "ok": ok}
 
-r = audit_runtime("python:3.12-slim@sha256:demo", 10001, set(), 118, 150)
+r = audit_runtime(f"python:3.12-slim@{DEMO_DIGEST}", 10001, set(), 118, 150)
 print("nonroot", r["nonroot"])
 print("uid", r["uid"])
-print("ok", r["ok"])`,
+print("ok", r["ok"])
+print("tag suelto pinned:", audit_runtime("python:3.12-slim", 10001, set(), 118, 150)["pinned"])`,
           output: `nonroot True
 uid 10001
-ok True`,
+ok True
+tag suelto pinned: False`,
         },
         why:
           "Base pinned ≠ `latest`: el digest o tag fijo hace parchable y auditable la imagen. UID ≥1000 sin capabilities extras es privilegio mínimo real. `runtime_mb ≤ max_mb` es presupuesto de superficie, no vanity metric. El breach se nombra `REBUILD_NONROOT`; sin techo de MB no hay criterio de base (`SELECT_PATCHABLE_BASE`).",

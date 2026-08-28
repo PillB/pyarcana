@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-26T22:36:11.190834+00:00",
+  "generated_at": "2026-08-27T15:09:17.334976+00:00",
   "reviewer": "OpenAI Codex via local codex CLI",
   "model": "cli default",
   "method": "independent expert review of learner-visible theory prose",
@@ -15,7 +15,7 @@
   "sections_skipped": [],
   "sections_failed": [],
   "coverage_complete": true,
-  "total_verified_findings": 281,
+  "total_verified_findings": 274,
   "sections": [
     {
       "index": 1,
@@ -144,62 +144,43 @@
       "index": 3,
       "file": "s03-data-structures.ts",
       "title": "Decisiones y reglas de validación",
-      "chars_reviewed": 21572,
-      "findings_returned": 7,
-      "findings_verified": 7,
+      "chars_reviewed": 24829,
+      "findings_returned": 4,
+      "findings_verified": 4,
       "findings_unverified": 0,
       "by_kind": {
-        "UNSUPPORTED": 2,
-        "UNCLEAR": 5
+        "UNSUPPORTED": 1,
+        "UNCLEAR": 1,
+        "CONTRADICTS": 1,
+        "FACTUAL": 1
       },
       "findings": [
         {
-          "kind": "UNCLEAR",
-          "quote": "**Criterio de cierre (CP-N1-A).** Cada rama del motor debe ser comprobable con un caso de aceptación, uno de rechazo y uno de revisión, y cada mensaje debe decirle a alguien qué hacer a continuación.",
-          "problem": "La formulación confunde ramas con estados: una rama concreta normalmente produce un solo estado, por lo que no puede comprobarse esa misma rama con casos de aceptación, rechazo y revisión. Probablemente se quiso exigir al menos un caso para cada rama o para cada estado producido por el motor.",
+          "kind": "FACTUAL",
+          "quote": "**Predice y comprueba.** Sin ejecutar el ejemplo, decide qué línea cambiaría si `region = \"R-OESTE\"` y cuál cambiaría si `monto = 2000`.",
+          "problem": "El ejercicio está mal planteado. Cambiar `region` a `\"R-OESTE\"` modifica tres líneas del resultado (`region ==`, `region !=` y `region in ALLOWED`), no una. Cambiar `monto` de 1500 a 2000 no modifica ninguna salida booleana, porque 2000 sigue siendo positivo y pertenece al intervalo inclusivo.",
           "severity": "media",
           "quote_verified": true
         },
         {
-          "kind": "UNCLEAR",
-          "quote": "}` es `False` — normaliza antes o documenta el contrato.',\n        '**`is` vs. `==`**: usa **`is None` / `is not None`** para ausencia. No uses `is` para comparar números o strings de negocio (`True is 1` es `False` aunque `True == 1` sea `True`). `==` pregunta “¿mismo valor?”; `is` pregunta “¿mismo objeto?”.',\n        '**Modelo mental.** `==` y los operadores de rango miran el **valor**; `in` pregunta si ese valor pertenece a un catálogo; `is None` comprueba la señal especial de ausencia. Son preguntas distintas. Si las fundes en una expresión larga antes de poder predecirlas por separado, el error queda escondido dentro de un `if` aparentemente razonable.',\n        '**Predice y comprueba.** Sin ejecutar el ejemplo, decide qué línea cambiaría si `region = ",
-          "problem": "Es un fragmento corrupto de una representación interna: comienza a mitad de una frase, contiene comillas, comas e indentación propias de una lista serializada y termina con un literal sin cerrar. No constituye material didáctico legible.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": "`, `()`, `[]`, `{}`, `set()`, `range(0)`. Casi todo lo demás es **truthy**, incluso `[0]` o `\n\n` — por eso **no** uses truthiness como “¿existe el campo?”.',\n        'El error canónico del intake: **`if monto:` trata `0` como “no hay monto”**. En negocio, **cero puede ser válido** y **`None` significa ausente**. Separa políticas: presencia con `is None`, rango con comparaciones numéricas, vacío de texto con `== \n\n` o `not s.strip()` según el contrato. **Nunca** conviertas ausencia en reject automático sin documentarlo.',\n        '`and` / `or` hacen **short-circuit** (cortocircuito, que es detener la evaluación en cuanto saben la respuesta) y **devuelven un operando** (no siempre `True`/`False`). `",
-          "problem": "El bloque está mutilado: faltan valores dentro de varios literales de código y aparecen delimitadores de una estructura serializada. Además duplica de forma dañada el contenido correcto que se presenta inmediatamente después.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": ", ...}`). Si el valor no está, suele ir a **`review`** (dato desconocido) o **`reject`** (política estricta). Nombra constantes en **`UPPER_CASE`**.',\n        'Un **rango** usa comparaciones o encadenamiento: `MIN_EDAD <= edad <= MAX_EDAD`. Combina reglas con **`and`/`or`** de forma explícita; documenta si el fallo de allowlist es distinto del fallo de rango (códigos `NOT_IN_ALLOWLIST` vs. `OUT_OF_RANGE`).',\n        'Tri-estado en dominio: **accept** (cumple), **reject** (viola una regla estricta) y **review** (ausente, desconocido o valor atípico que requiere revisión). El cero en montos suele ser accept si el invariante lo permite.',\n        '**No confundas desconocido con inválido.** `NOT_IN_ALLOWLIST` describe la relación entre un valor y un catálogo; `OUT_OF_RANGE` describe una violación numérica. El status final depende de la política, pero conservar códigos distintos permite revisar el catálogo sin ocultar un error de rango.',\n        '**Predice la pareja, no una condición aislada.** En el ejemplo, explica por qué `(",
-          "problem": "Es otro bloque residual de una lista o plantilla: comienza y termina a mitad de expresiones y conserva comillas, comas e indentación de serialización. El texto se repite correctamente después, pero este fragmento interrumpe la lectura.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": "`, códigos de error). Soporta **OR patterns** (`case \n\nCuando una mesa de ayuda global añade un estado nuevo, el peligro no es solo olvidar una línea de Python: es que dos equipos interpreten el código de manera distinta.",
-          "problem": "La oración queda truncada dentro de un ejemplo de `case` y se enlaza abruptamente con una sección nueva. Falta el inicio del fragmento y no se cierra el literal ni la explicación de los patrones OR.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNSUPPORTED",
-          "quote": "Después ejecútalo.",
-          "problem": "El material ordena ejecutar un ejemplo, pero en el fragmento mostrado no aparece el código que debe ejecutarse ni se identifica aquí un archivo concreto. Las predicciones sobre `region` y `monto` no pueden comprobarse solo con este contenido.",
+          "kind": "CONTRADICTS",
+          "quote": "\"invariant_text\": \"contacto es str de 9 dígitos o None (review)\",",
+          "problem": "La implementación aplica `c.strip()` antes de medir y validar, por lo que acepta valores como `\" 999000111 \"`, aunque no son strings de exactamente nueve dígitos según el invariante declarado. El contrato debería permitir explícitamente espacios periféricos o la función debería rechazarlos.",
           "severity": "media",
           "quote_verified": true
         },
         {
           "kind": "UNSUPPORTED",
-          "quote": "Antes de ejecutar `truthiness_monto.py`, anota la salida de `bool(None)`, `bool(0)` y `bool(-5)`. Luego compárala con `decide_monto`.",
-          "problem": "Se remite a un archivo y a una función cuyo código no está incluido en el material mostrado. Por tanto, no es posible predecir ni comprobar el comportamiento de `decide_monto` a partir de esta sección.",
+          "quote": "if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}",
+          "problem": "Este control acepta `True` y `False` como edades porque `bool` es una subclase de `int` en Python. Así, el validador puede aceptar `True` como la edad 1 y `False` como la edad 0, algo no contemplado por el contrato didáctico. Si se exige un entero y no un booleano, debe excluirse `bool` explícitamente.",
           "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "Cada rama del motor debe ser comprobable con un caso de aceptación, uno de rechazo y uno de revisión",
+          "problem": "Una rama individual produce una sola decisión, por lo que no puede comprobarse a la vez con casos de aceptación, rechazo y revisión. Probablemente se quiso exigir esos tres casos para el motor completo, además de una prueba por cada rama.",
+          "severity": "baja",
           "quote_verified": true
         }
       ]
@@ -258,34 +239,26 @@
       "index": 5,
       "file": "s05-oop.ts",
       "title": "Funciones, contratos y descomposición",
-      "chars_reviewed": 16685,
-      "findings_returned": 3,
-      "findings_verified": 3,
+      "chars_reviewed": 22596,
+      "findings_returned": 2,
+      "findings_verified": 2,
       "findings_unverified": 0,
       "by_kind": {
-        "UNSUPPORTED": 1,
-        "CONTRADICTS": 1,
-        "FACTUAL": 1
+        "FACTUAL": 1,
+        "CONTRADICTS": 1
       },
       "findings": [
         {
-          "kind": "FACTUAL",
-          "quote": "Los **type hints** (`def f(x: str) -> str`) **no** convierten en runtime (salvo checkers externos como mypy).",
-          "problem": "La excepción es incorrecta: mypy es un comprobador estático y tampoco convierte valores ni aplica los tipos durante la ejecución. Los type hints no realizan conversión; algunas herramientas pueden comprobarlos estáticamente o, con otras bibliotecas, validarlos en runtime.",
+          "kind": "CONTRADICTS",
+          "quote": "**Criterio de cierre (inicio CP-N1-B).** Los cuatro normalizadores puros más el orquestador, con docstring, anotaciones graduales e idempotencia demostrada.",
+          "problem": "El código de la sección no satisface este criterio: no implementa `normalize_direccion`, el orquestador `normalize_record` solo procesa nombre y email, y no demuestra la idempotencia de los cuatro normalizadores.",
           "severity": "alta",
           "quote_verified": true
         },
         {
-          "kind": "CONTRADICTS",
-          "quote": "Para normalizadores: `def normalize_telefono(raw, *, country=\"PE\")` con **keyword-only** documenta la política regional sin confundir posiciones.",
-          "problem": "El bloque de políticas canónicas establece que `normalize_telefono` únicamente deja los dígitos y no define ninguna conducta dependiente de `country`. Introducir este parámetro como política regional promete una configuración cuyo efecto no está especificado y contradice la afirmación de que las políticas permanecen constantes.",
-          "severity": "media",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNSUPPORTED",
-          "quote": "El contrato se vuelve verificable si la función es **pura**",
-          "problem": "La pureza facilita pruebas reproducibles, pero no vuelve verificable por sí sola un contrato: sigue siendo necesario definir propiedades o casos y comprobarlos, y las pruebas finitas no demuestran en general el contrato para todas las entradas.",
+          "kind": "FACTUAL",
+          "quote": "Una función **pura** devuelve el mismo resultado para los mismos argumentos y **no tiene efectos** (no imprime, no lee disco, no muta globales ni los argumentos mutables del caller sin documentarlo).",
+          "problem": "Documentar la mutación de un argumento no convierte la función en pura. Una función que modifica un objeto mutable recibido del llamador tiene un efecto observable, esté documentado o no.",
           "severity": "media",
           "quote_verified": true
         }
@@ -295,27 +268,26 @@
       "index": 6,
       "file": "s06-numpy.ts",
       "title": "Colecciones y estructuras de datos",
-      "chars_reviewed": 11297,
+      "chars_reviewed": 18151,
       "findings_returned": 2,
       "findings_verified": 2,
       "findings_unverified": 0,
       "by_kind": {
-        "FACTUAL": 1,
-        "UNCLEAR": 1
+        "CONTRADICTS": 2
       },
       "findings": [
         {
-          "kind": "FACTUAL",
-          "quote": "Si sobran o faltan valores, Python detiene la operación con `ValueError`. Ese fallo temprano es una alarma útil: impide que una región termine silenciosamente en la variable del monto.",
-          "problem": "El desempaquetado solo comprueba la cantidad de elementos, no su significado ni su tipo. Una fila con tres valores en orden incorrecto puede asignar una región a `monto` sin producir ningún error.",
-          "severity": "media",
+          "kind": "CONTRADICTS",
+          "quote": "Ese fallo temprano es una alarma útil: impide que una región termine silenciosamente en la variable del monto.",
+          "problem": "El desempaquetado solo detecta una cantidad incorrecta de elementos. Como el propio párrafo reconoce, si región y monto están intercambiados pero la fila conserva la misma longitud, la asignación ocurre sin error y la región sí puede terminar silenciosamente en la variable del monto.",
+          "severity": "alta",
           "quote_verified": true
         },
         {
-          "kind": "UNCLEAR",
-          "quote": "` se comparan carácter por carácter, por lo que `",
-          "problem": "Es un fragmento truncado y duplicado que carece de significado y rompe la continuidad del material.",
-          "severity": "alta",
+          "kind": "CONTRADICTS",
+          "quote": "cid, region, monto = fila[0], fila[1], fila[2]",
+          "problem": "Este ejemplo no desempaqueta la fila completa: selecciona tres posiciones y omite silenciosamente el cuarto valor, \"app\". Por tanto, no demuestra el contrato de longitud ni el ValueError por valores sobrantes explicado en el texto; una forma coherente sería desempaquetar cuatro variables o usar `cid, region, monto = fila` con una fila de tres elementos.",
+          "severity": "media",
           "quote_verified": true
         }
       ]
@@ -324,34 +296,63 @@
       "index": 7,
       "file": "s07-data-acquisition.ts",
       "title": "Texto, Unicode y expresiones regulares",
-      "chars_reviewed": 15279,
-      "findings_returned": 3,
-      "findings_verified": 3,
+      "chars_reviewed": 18983,
+      "findings_returned": 7,
+      "findings_verified": 7,
       "findings_unverified": 0,
       "by_kind": {
-        "JARGON": 1,
-        "UNCLEAR": 2
+        "UNSUPPORTED": 1,
+        "UNCLEAR": 1,
+        "CONTRADICTS": 5
       },
       "findings": [
         {
-          "kind": "UNCLEAR",
-          "quote": ")` y `chr(241)` exploras **code points**. La misma letra puede codificarse de formas distintas: **NFC** (compuesta) o **NFD** (base + marca combinante). Al comparar nombres latam sin unificar formas obtienes **falsos negativos** (“José” ≠ “José”), aunque se vean idénticos en pantalla.\",\n        \"`unicodedata.normalize(\n\n, s)` unifica formas **antes** de comparar o tokenizar. Sin eso, `",
-          "problem": "El fragmento está truncado y contiene restos de una estructura serializada. Empieza a mitad de una expresión, corta la llamada a `unicodedata.normalize` y termina con un delimitador incompleto, por lo que no constituye material didáctico legible ni código ejecutable.",
+          "kind": "CONTRADICTS",
+          "quote": "b = \"Jose\\\\u0301\"",
+          "problem": "Ese literal contiene los caracteres visibles `\\`, `u`, `0`, `3`, `0`, `1`, no una marca combinante. Por tanto, normalizarlo con NFC no lo convierte en «José» y la salida anunciada `NFC equal? True` no corresponde al código. Debería usarse `b = \"Jose\\u0301\"` en el código fuente real.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "pat = re.compile(r\"^(?P<dni>\\\\d{8})$\")",
+          "problem": "Dentro de un raw string, `\\\\d` hace que la expresión regular busque una barra invertida literal seguida de ocho letras `d`; no representa ocho dígitos. `fullmatch(\"12345678\")` devolvería `None`, en contradicción con la salida `12345678`. El patrón correcto en código Python es `r\"^(?P<dni>\\d{8})$\"`.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "print(\"search mid:\", bool(re.search(r\"\\\\d{8}\", \"DNI 12345678 PE\")))",
+          "problem": "Por el doble escape, el patrón no busca ocho dígitos y esta llamada devuelve `False`, no el `True` mostrado en la salida.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "phone = re.compile(r\"\\\\b9\\\\d{8}\\\\b\")",
+          "problem": "Los dobles escapes dentro del raw string impiden que `\\b` y `\\d` funcionen como límite de palabra y dígito. `findall` no produciría los teléfonos ni los spans mostrados.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "El **`raw`** es el valor tal como llegó y no se toca nunca, porque es lo único que permite auditar después. El **`normalized`** es el valor listo para comparar. Y **`transforms`** es la lista de lo que se le hizo en el camino, en orden.",
+          "problem": "Los normalizadores de email y teléfono devuelven únicamente un `str`; no conservan `raw` ni registran `transforms`. Los demás ejemplos tampoco construyen el contrato de tres partes que el material afirma que aparecerá en cada ejercicio.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "(\"José Pérez\", \"Jose Perez\", 0.9, \"review\")",
+          "problem": "El score está escrito manualmente y no resulta del Jaccard definido en la sección. Con la tokenización mostrada, que aplica NFC y `casefold` pero no elimina tildes, los conjuntos `{josé, pérez}` y `{jose, perez}` no comparten tokens y su Jaccard sería `0.0`, no `0.9`. El ejemplo presenta como evidencia una cifra sin método que la sustente.",
           "severity": "alta",
           "quote_verified": true
         },
         {
           "kind": "UNCLEAR",
-          "quote": ".join(s.split())` colapsa espacios. `split(",
-          "problem": "Es un fragmento duplicado y truncado: faltan el inicio de la expresión y el argumento o cierre de `split`. Así presentado no es código válido ni una explicación completa.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "JARGON",
-          "quote": "Cuando el schema no cuadre o falte evidencia, la respuesta correcta es no completar el campo.",
-          "problem": "Se usa «schema» sin definirlo ni traducirlo para un público principiante. No queda claro si se refiere a la estructura del registro, a campos obligatorios, a tipos o a alguna regla de validación.",
-          "severity": "baja",
+          "quote": "Teléfono PE sintético de demo: extrae dígitos y conserva el prefijo de país `51` cuando viene como `+51`.",
+          "problem": "La implementación conserva todos los caracteres para los que `str.isdigit()` sea verdadero y no comprueba que `51` estuviera precedido por `+`; también conservaría ese prefijo en `51 999...` y aceptaría numerales Unicode no ASCII. No implementa específicamente la política descrita.",
+          "severity": "media",
           "quote_verified": true
         }
       ]
@@ -432,49 +433,49 @@
       "index": 9,
       "file": "s09-visualization.ts",
       "title": "Excepciones, debugging y logging seguro",
-      "chars_reviewed": 12985,
+      "chars_reviewed": 20203,
       "findings_returned": 5,
       "findings_verified": 5,
       "findings_unverified": 0,
       "by_kind": {
         "UNSUPPORTED": 1,
-        "FACTUAL": 2,
-        "UNCLEAR": 2
+        "CONTRADICTS": 2,
+        "FACTUAL": 2
       },
       "findings": [
         {
           "kind": "FACTUAL",
-          "quote": "Un identificador de correlación —un número que acompaña a todo lo que ocurre durante una misma corrida—",
-          "problem": "Un identificador de correlación no tiene que ser un número; suele ser una cadena, por ejemplo un UUID o «corr-9c2e», como usa después el propio material.",
-          "severity": "baja",
+          "quote": "Un **traceback** lista frames del más reciente al más profundo (o viceversa según la herramienta).",
+          "problem": "“Más reciente” y “más profundo” normalmente describen el mismo extremo de la pila, no órdenes opuestos. En el traceback estándar de Python, los frames se muestran desde la llamada más antigua hasta el punto más profundo y reciente donde se produjo la excepción; algunas interfaces pueden invertir la presentación, pero la formulación dada no explica correctamente ninguno de los órdenes.",
+          "severity": "media",
           "quote_verified": true
         },
         {
-          "kind": "UNCLEAR",
-          "quote": "Abajo está el error y, justo encima, la línea que lo lanzó: casi siempre es ahí donde está el problema.",
-          "problem": "La línea indicada es donde se manifestó o propagó la excepción, no necesariamente donde se originó el defecto. En errores causados por datos, estado previo o una llamada interna, afirmar que casi siempre está ahí puede inducir a un diagnóstico incorrecto.",
+          "kind": "CONTRADICTS",
+          "quote": "def validate_row(row: dict) -> Decimal:\n    try:\n        m = parse_monto(row[\"monto\"])\n    except ParseError as e:\n        raise ValidationError(f\"fila {row.get('id')}: monto inválido\") from e",
+          "problem": "Si falta la clave `monto`, `row[\"monto\"]` lanza `KeyError`, pero el bloque solo captura `ParseError`. Por tanto, una fila con un campo requerido ausente escapa como excepción genérica de implementación, en contra de la taxonomía propuesta y de la idea de clasificar los fallos de datos mediante una excepción propia.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "raise ParseError(f\"no parseable: {raw!r}\") from e",
+          "problem": "El mensaje incorpora el valor original completo mediante `raw!r`, aunque el propio material exige enmascarar el valor problemático cuando pueda contener datos personales y no construir mensajes con datos crudos. La función acepta cualquier `object`, por lo que su contrato no impide que ese valor sea sensible.",
           "severity": "media",
           "quote_verified": true
         },
         {
           "kind": "FACTUAL",
-          "quote": ")` da contexto accionable. Para montos del intake: **`Decimal` desde texto**, `quantize(Decimal(",
-          "problem": "Es un fragmento truncado y duplicado que deja código y Markdown sin cerrar, por lo que el contenido resulta ininteligible.",
+          "quote": "Decimal(str(raw).strip().replace(\",\", \".\"))",
+          "problem": "Sustituir indiscriminadamente comas por puntos interpreta silenciosamente formatos ambiguos: por ejemplo, `\"1,234\"` se convierte en `1.234` y después se cuantiza como `1.23`, aunque la coma pudiera ser un separador de miles y representar `1234`. Para montos, este parser puede producir un importe incorrecto en vez de rechazar la entrada ambigua.",
           "severity": "alta",
           "quote_verified": true
         },
         {
-          "kind": "UNCLEAR",
-          "quote": "Un **traceback** lista frames del más reciente al más profundo (o viceversa según la herramienta).",
-          "problem": "«Más reciente» y «más profundo» no describen extremos opuestos de un orden. En el traceback estándar de Python, los frames se presentan desde la llamada más externa hasta la más interna, seguida de la excepción; si se habla de otras herramientas, habría que indicar cuál invierte el orden.",
-          "severity": "media",
-          "quote_verified": true
-        },
-        {
           "kind": "UNSUPPORTED",
-          "quote": "Ojo: un nombre con 3 tokens puede **no lanzar** y aun así truncar mal el segundo apellido — ese bug silencioso no aparece en el `except`; el minimal repro del ValueError es el de 1 token.",
-          "problem": "El material no muestra el parser ni su contrato, así que no permite concluir que tres tokens produzcan truncamiento ni que uno produzca específicamente un ValueError. El comportamiento depende de una implementación ausente.",
-          "severity": "media",
+          "quote": "casi siempre una cadena como un UUID o `corr-9c2e`, no un número",
+          "problem": "Un identificador de correlación no tiene que ser necesariamente una cadena: también puede ser numérico si es único, estable y se propaga sin pérdida. Presentar “no un número” como requisito técnico absoluto carece de justificación.",
+          "severity": "baja",
           "quote_verified": true
         }
       ]
@@ -483,55 +484,48 @@
       "index": 10,
       "file": "s10-sklearn.ts",
       "title": "Módulos, packaging y CLI profesional",
-      "chars_reviewed": 10254,
-      "findings_returned": 6,
-      "findings_verified": 6,
+      "chars_reviewed": 15513,
+      "findings_returned": 5,
+      "findings_verified": 5,
       "findings_unverified": 0,
       "by_kind": {
-        "FACTUAL": 5,
-        "UNCLEAR": 1
+        "FACTUAL": 2,
+        "CONTRADICTS": 3
       },
       "findings": [
         {
-          "kind": "FACTUAL",
-          "quote": "Con él, `pip install -e .` convierte una carpeta de scripts en algo que se invoca por su nombre.",
-          "problem": "`pyproject.toml` por sí solo no crea un comando invocable. Además del empaquetado, hay que declarar un entry point, por ejemplo en `[project.scripts]`, y apuntarlo a una función importable.",
+          "kind": "CONTRADICTS",
+          "quote": "# Camino import: la API es usable sin side-effects de CLI\nprint(\"import_safe\", normalize_name(\"José\"))",
+          "problem": "El `print` está en el nivel superior del módulo, por lo que se ejecuta también al importarlo. El ejemplo no es libre de efectos secundarios de CLI como afirma el comentario.",
           "severity": "alta",
           "quote_verified": true
         },
         {
           "kind": "FACTUAL",
-          "quote": "Ejecutar `python -m familiarity_core` usa el paquete como `__main__` sin pelear con `sys.path` (la lista interna que decide de qué carpetas importar).",
-          "problem": "Para ejecutar un paquete con `python -m familiarity_core`, el paquete debe contener un módulo `familiarity_core.__main__` (normalmente `__main__.py`). El texto omite este requisito esencial y puede hacer creer que cualquier paquete es ejecutable así.",
-          "severity": "alta",
+          "quote": "Ejecutar `python -m familiarity_core` corre el paquete sin pelear con `sys.path` (la lista interna que decide de qué carpetas importar).",
+          "problem": "La opción `-m` no evita los problemas de resolución de módulos: Python todavía debe encontrar `familiarity_core` mediante `sys.path`. Si el paquete no está instalado o su ubicación no está en esa lista, el comando falla antes de buscar `__main__.py`.",
+          "severity": "media",
           "quote_verified": true
         },
         {
-          "kind": "UNCLEAR",
-          "quote": "` cuando el archivo se ejecuta directamente como script. Ejecutar `python -m familiarity_core` usa el paquete como `__main__` sin pelear con `sys.path` (la lista interna que decide de qué carpetas importar).\",\n        \"`if __name__ == ",
-          "problem": "Es un fragmento corrupto o pegado accidentalmente: comienza y termina a mitad de expresiones e incluye comillas, comas y sangría propias de una representación de datos. No constituye material didáctico legible.",
-          "severity": "alta",
+          "kind": "CONTRADICTS",
+          "quote": "Soportar path o **`-`** para stdin — *standard input*, la entrada estándar — habilita pipes: `cat data.json | familiarity normalize`.",
+          "problem": "El ejemplo no pasa `-`, pese a que después el propio material muestra `cat data.json | familiarity normalize -`. El primer comando solo leerá stdin si se implementa además stdin como entrada predeterminada, comportamiento que no se declara ni aparece en el parser mostrado.",
+          "severity": "media",
           "quote_verified": true
         },
         {
-          "kind": "FACTUAL",
-          "quote": "**`__all__`** documenta la API pública — la lista corta de nombres que el equipo puede importar con confianza — y comunica intención.",
-          "problem": "`__all__` controla principalmente qué nombres exporta `from módulo import *`; no determina ni garantiza por sí mismo qué nombres son una API pública o cuáles pueden importarse. Puede usarse para comunicar esa intención, pero presentarlo sin este matiz atribuye al mecanismo un efecto que Python no impone.",
+          "kind": "CONTRADICTS",
+          "quote": "print(out)  # stdout = datos\nprint(\"--- stderr ---\")\nprint(log.getvalue().strip())",
+          "problem": "Las tres llamadas a `print` escriben en stdout. Por tanto, la demostración envía también el marcador y los registros a stdout, contradiciendo la separación enseñada y contaminando una redirección de la salida de datos.",
           "severity": "media",
           "quote_verified": true
         },
         {
           "kind": "FACTUAL",
-          "quote": "SemVer — *Semantic Versioning*, un esquema de versiones de tres números — en simple: **añadir** es minor; **renombrar/eliminar** es major.",
-          "problem": "La regla depende de la compatibilidad de la API pública: solo una funcionalidad añadida de forma compatible corresponde a MINOR. Añadir elementos también puede introducir incompatibilidades, y renombrar o eliminar detalles no públicos no exige necesariamente MAJOR. El propio material ofrece después la formulación correcta basada en compatibilidad.",
-          "severity": "media",
-          "quote_verified": true
-        },
-        {
-          "kind": "FACTUAL",
-          "quote": "Si falta metadata clave (`name`, `version`), el instalador aborta (fail-closed).",
-          "problem": "La afirmación sobre `version` no es universal: en la metadata PEP 621 la versión puede declararse como dinámica y obtenerse mediante el backend de construcción. La instalación solo tiene que fallar si la configuración final no permite producir metadata válida, no simplemente porque no haya un campo `version` literal.",
-          "severity": "media",
+          "quote": "Los **imports circulares** (módulo A importa a B y B importa a A: Python se enreda) se rompen extrayendo un tercer módulo compartido, usando *lazy import* — que es postergar el `import` hasta dentro de una función, cuando ya hace falta — o invirtiendo la dirección de dependencias.",
+          "problem": "Un ciclo de imports no falla necesariamente: Python registra módulos parcialmente inicializados en `sys.modules`, y muchos ciclos funcionan si no se accede demasiado pronto a nombres aún no definidos. El problema real depende del orden de inicialización; presentarlo como un enredo inevitable es inexacto.",
+          "severity": "baja",
           "quote_verified": true
         }
       ]
@@ -540,54 +534,46 @@
       "index": 11,
       "file": "s11-testing.ts",
       "title": "OOP y modelo de dominio",
-      "chars_reviewed": 14839,
-      "findings_returned": 6,
-      "findings_verified": 6,
+      "chars_reviewed": 21743,
+      "findings_returned": 5,
+      "findings_verified": 5,
       "findings_unverified": 0,
       "by_kind": {
-        "CONTRADICTS": 4,
-        "FACTUAL": 2
+        "CONTRADICTS": 5
       },
       "findings": [
         {
-          "kind": "FACTUAL",
-          "quote": "}`. Es cómodo y no protege nada. Nadie impide escribir `registro[",
-          "problem": "Es un fragmento truncado y duplicado que interrumpe el material: empieza cerrando una estructura inexistente y termina con una expresión incompleta.",
+          "kind": "CONTRADICTS",
+          "quote": "Los cuatro tipos con sus invariantes, pruebas que corren sin red ni base de datos, y un README que declare los límites éticos del modelo.",
+          "problem": "El material no implementa los cuatro tipos prometidos: no incluye ninguna definición de `Transaction`. Tampoco muestra el README exigido por su propio criterio de cierre.",
           "severity": "alta",
           "quote_verified": true
         },
         {
           "kind": "CONTRADICTS",
-          "quote": "una entidad resuelta necesita al menos una evidencia.",
-          "problem": "Más adelante, `ResolvedEntity` se construye únicamente con identificador y nombre (`ResolvedEntity(\"E1\", \"Ana\")`), mientras las evidencias pertenecen a `CaseFile`. Por tanto, el material no aplica ni sostiene este supuesto invariante de `ResolvedEntity`.",
+          "quote": "un `CaseFile` no puede sostener una relación sin al menos una `RelationshipEvidence` que la respalde.",
+          "problem": "La implementación permite construir `CaseFile(entity=ResolvedEntity(\"E1\"))` con una lista de evidencias vacía y no contiene validación que haga cumplir el invariante anunciado.",
           "severity": "alta",
           "quote_verified": true
         },
         {
           "kind": "CONTRADICTS",
-          "quote": "Un monto no puede ser negativo;",
-          "problem": "Después se establece que `Transaction.amount` debe ser positivo y que `amount<=0` se rechaza. La primera regla permite cero, mientras que la segunda lo prohíbe.",
-          "severity": "media",
-          "quote_verified": true
-        },
-        {
-          "kind": "FACTUAL",
-          "quote": "**`frozen=True`** (congelar el objeto al construirlo, impidiendo mutarlo después) habilita hash seguro (un número fijo que Python usa para ubicar el objeto en sets y diccionarios) para sets y dicts de matching local.",
-          "problem": "`frozen=True` no garantiza por sí solo que el objeto pueda calcularse con `hash`: si algún campo incluido en comparación contiene un valor no hashable, como una lista, `hash(objeto)` falla. Además, un hash no es necesariamente un número fijo entre ejecuciones de Python.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "CONTRADICTS",
-          "quote": "Usa `field(compare=False)` (una directiva que excluye un campo de la comparación) para etiquetas visibles (`display_name`) que se pueden corregir sin romper la igualdad.",
-          "problem": "El texto acaba de prescribir `frozen=True`, que impide corregir `display_name` mediante asignación. `compare=False` excluye el campo de la igualdad y del hash generado, pero no permite mutarlo; habría que explicar que la corrección crea una nueva instancia o renunciar a `frozen=True`.",
+          "quote": "`to_dict`/`from_dict` (métodos que convierten entre el objeto de dominio y un diccionario plano) viven en el **borde** de serialización (la frontera donde el objeto entra o sale del sistema), no mezclados con invariantes de negocio (las reglas que el objeto siempre cumple).",
+          "problem": "El código coloca `to_dict` directamente dentro de la entidad de dominio `ClientRecord`, en contra de la separación arquitectónica que el texto prescribe.",
           "severity": "media",
           "quote_verified": true
         },
         {
           "kind": "CONTRADICTS",
-          "quote": "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes (reglas que el objeto siempre cumple, sin importar desde dónde se le llame) en T1-B, donde `from_dict` construye la dataclass desde un dict.",
-          "problem": "Más adelante se afirma que `to_dict`/`from_dict` viven en el borde de serialización y no mezclados con las invariantes de negocio. No queda definido si `from_dict` es un método de la entidad o un adaptador externo, dos diseños distintos que el material presenta como norma.",
+          "quote": "Scores de resolución/relación son **campos**; un test verifica finitud (que el valor es finito, no NaN ni infinito), rango, par canónico y que no hay veredictos.",
+          "problem": "El test mostrado solo comprueba el rango de una instancia válida y la ausencia de dos métodos. En ese mismo bloque, `RelationshipEvidence` no tiene `__post_init__`, por lo que acepta NaN, infinito, valores fuera de rango y pares no canónicos. El test no verifica ni hace cumplir los invariantes anunciados.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Fail-closed si falta `client_id` en `from_dict`.",
+          "problem": "No se implementa ni se muestra ningún método `from_dict`, por lo que esta conducta prometida no está respaldada por el código de la sección.",
           "severity": "media",
           "quote_verified": true
         }
@@ -597,48 +583,47 @@
       "index": 12,
       "file": "s12-performance.ts",
       "title": "APIs, SQL y geodatos responsables",
-      "chars_reviewed": 15925,
+      "chars_reviewed": 21855,
       "findings_returned": 5,
       "findings_verified": 5,
       "findings_unverified": 0,
       "by_kind": {
         "CONTRADICTS": 2,
-        "FACTUAL": 2,
-        "UNCLEAR": 1
+        "FACTUAL": 3
       },
       "findings": [
         {
           "kind": "FACTUAL",
           "quote": "CRUD = CREATE/INSERT/SELECT/UPDATE (DELETE con cuidado y soft-delete si hace falta auditoría).",
-          "problem": "CRUD significa Create, Read, Update y Delete. En SQL, la correspondencia habitual es INSERT, SELECT, UPDATE y DELETE; la enumeración mezcla CREATE con INSERT y deja DELETE fuera de la definición principal.",
-          "severity": "media",
+          "problem": "CRUD significa Create, Read, Update y Delete. INSERT implementa Create y SELECT implementa Read; la enumeración dada omite Delete y trata CREATE e INSERT como operaciones distintas del acrónimo.",
+          "severity": "alta",
           "quote_verified": true
         },
         {
           "kind": "FACTUAL",
           "quote": "Usa placeholders `?` (o `:name` con `Connection.row_factory`).",
-          "problem": "Los parámetros con nombre `:name` no dependen de `Connection.row_factory`. `row_factory` controla cómo se representan las filas devueltas por consultas, no la sintaxis de parametrización.",
+          "problem": "`Connection.row_factory` no habilita ni está relacionado con los placeholders nombrados `:name`; solo controla cómo se representan las filas devueltas. Los parámetros nombrados se pasan mediante un mapeo a `execute`.",
           "severity": "media",
           "quote_verified": true
         },
         {
-          "kind": "UNCLEAR",
-          "quote": "1` no debe devolver filas ajenas.\",\n        \"`executemany` (ejecutar varios inserts de golpe) + `BEGIN`/`COMMIT` hacen batch **atómico** (todo o nada); un `UNIQUE` roto → `ROLLBACK` (deshacer) y `COUNT(*)==0`. No dejes la DB a medias con 2 de 3 inserts “casi ok”: en compliance, un estado parcial es peor que un fallo ruidoso. Reporta la fila ofensora en el log de aplicación, no en el SQL interpolado.\",\n        \"`UNIQUE`/`NOT NULL` (restricciones de SQL) e **índices** (estructuras que aceleran búsquedas) en `document_id` / `entity_id` aceleran lookups (búsquedas por clave) del caso y documentan el modelo. Caso sintético: batch `C001/D-100`, `C002/D-200`, `C003/D-100` (duplicado) → status `rolled_back` y count `0`. **Qué observar en el demo:** la tupla `(",
-          "problem": "El material contiene un fragmento corrupto que parece provenir de una lista o cadena serializada: empieza a mitad de una expresión, duplica párrafos anteriores, incluye comillas y comas ajenas al contenido y termina truncado. Así resulta ilegible y no puede ejecutarse ni interpretarse como ejemplo válido.",
+          "kind": "CONTRADICTS",
+          "quote": "return re.sub(r\"\\\\s+\", \" \", s.strip())",
+          "problem": "El patrón raw `r\"\\\\s+\"` busca una barra invertida seguida de una o más letras `s`, no espacios en blanco. Por tanto no colapsa los espacios internos y la salida mostrada (`addr av. larco 123`) no corresponde a este código.",
           "severity": "alta",
           "quote_verified": true
         },
         {
           "kind": "CONTRADICTS",
-          "quote": "**Límites.** Solo datos sintéticos latinoamericanos.",
-          "problem": "Más adelante se presentan Madrid y Barcelona como ciudades del conjunto de demostración, aunque ambas están en España y contradicen el límite declarado.",
+          "quote": "**Provenance (traza de origen)**: cada fetch deja `source_url`, `fetched_at`, `status_code`, `cache_hit` (y a veces `body_sha12` o `auth_scheme`).",
+          "problem": "El ejemplo de procedencia posterior no incluye `status_code`, pese a afirmar que cada obtención debe registrarlo. Además, `cached_get` no modela ningún código de estado.",
           "severity": "media",
           "quote_verified": true
         },
         {
-          "kind": "CONTRADICTS",
-          "quote": "`MockGeocoder` devuelve lat/lon fijos por ciudad de demo (Madrid, Barcelona) para demos offline reproducibles; ciudad desconocida (Cusco en el ejercicio) → `None` (fail-closed).",
-          "problem": "El mismo párrafo de caso afirma después que `geocode(\"lima\")` devuelve coordenadas de Lima. La descripción no aclara que Lima forme parte del almacén del mock y, además, usa Madrid y Barcelona pese al límite de datos latinoamericanos.",
+          "kind": "FACTUAL",
+          "quote": "Todo servicio web contesta con un **código de estado**, un número de tres cifras que resume qué ocurrió",
+          "problem": "Un intento contra un servicio web puede fallar antes de recibir una respuesta HTTP —por timeout, error DNS, rechazo de conexión o fallo TLS— y entonces no existe código de estado. La afirmación absoluta contradice incluso los timeouts de red tratados después.",
           "severity": "media",
           "quote_verified": true
         }
@@ -648,50 +633,63 @@
       "index": 13,
       "file": "s13-rpa-automation.ts",
       "title": "Familiarity Evidence Dashboard y cierre de nivel",
-      "chars_reviewed": 15821,
-      "findings_returned": 5,
-      "findings_verified": 5,
-      "findings_unverified": 0,
+      "chars_reviewed": 25094,
+      "findings_returned": 7,
+      "findings_verified": 6,
+      "findings_unverified": 1,
       "by_kind": {
         "CONTRADICTS": 2,
-        "UNCLEAR": 1,
-        "FACTUAL": 2
+        "FACTUAL": 4
       },
       "findings": [
         {
           "kind": "FACTUAL",
-          "quote": "el producto cartesiano de *N* registros es *N×N* pares (todas las combinaciones posibles)",
-          "problem": "Para comparar filas distintas como pares no ordenados, la cantidad habitual es N(N−1)/2. N×N incluye comparaciones de cada fila consigo misma y cuenta dos veces cada pareja si el orden no importa. Llamarlo «todas las combinaciones posibles» induce a calcular mal la complejidad concreta.",
+          "quote": "return re.sub(r\"\\\\s+\", \" \", n.casefold().strip())",
+          "problem": "La expresión regular está doblemente escapada. En una cadena raw, `r\"\\\\s+\"` busca una barra invertida seguida de una o más letras `s`; no busca espacios en blanco. Debería ser `r\"\\s+\"`. El ejemplo no revela el error porque `split()` sin argumentos separa igualmente sobre espacios consecutivos.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "score = 1.0 if norm_doc(a[\"document_id\"]) == norm_doc(b[\"document_id\"]) and block_key(a) == block_key(b) else 0.0",
+          "problem": "El código solo puede producir 1.0 o 0.0, pero el contrato expuesto inmediatamente antes exige 0.5 cuando coincide únicamente el documento. Tampoco implementa las varias claves de bloqueo que, según el texto, rescatan pares separados por la clave de nombre.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "sa = set(a.casefold().split())\n    sb = set(b.casefold().split())",
+          "problem": "`surname_overlap` calcula Jaccard sobre todos los tokens del nombre completo, incluidos los nombres de pila, aunque la señal se presenta como `surname_jaccard` y el texto habla de «tokens de apellido». En el ejemplo, el 0.2 resulta de incluir `Ana` y `Luis`; usando solo los apellidos sería 1/3, no 1/5.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "def shared_contact(a, b, field):\n    return a.get(field) and a.get(field) == b.get(field)",
+          "problem": "La función no garantiza el booleano que promete el material: si el campo falta devuelve `None`, y si contiene una cadena vacía devuelve `\"\"`. Conviene devolver explícitamente `bool(a.get(field)) and a.get(field) == b.get(field)`.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "def counterparties(entity):\n    s = set()\n    for a, b, _ in txs:\n        if a == entity:\n            s.add(b)\n        if b == entity:\n            s.add(a)\n    return s",
+          "problem": "La función elimina la dirección de las transacciones. Por ello puede declarar una contraparte común cuando A paga a D pero D paga a C, aunque el caso definido en el texto es «A y C pagan a D». Para esa señal deben compararse receptores comunes de pagos salientes, o distinguirse explícitamente las direcciones.",
           "severity": "media",
           "quote_verified": true
         },
         {
           "kind": "CONTRADICTS",
-          "quote": "En nombres peruanos sintéticos del curso: con `Nombre ApellidoPaterno ApellidoMaterno`, toma el **segundo** token (`parts[1]`, el apellido paterno)",
-          "problem": "La regla contradice el ejemplo que abre el material: en «Ana María Quispe Rojas», `parts[1]` es «María», no el apellido paterno. También falla con nombres compuestos y, por tanto, puede separar registros de la misma persona durante el bloqueo.",
+          "quote": "\"egress_public_geocoder\": \"city_address_only\"",
+          "problem": "La hoja permite enviar direcciones a un geocoder público, mientras el material establece «sin egress de PII a geocoders públicos» y exige datos exclusivamente sintéticos. Una dirección puede ser un dato identificable; además, el valor no deja explícito que solo se permiten ubicaciones sintéticas o agregadas.",
           "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "FACTUAL",
-          "quote": "por eso casefold (pasar todo a minúsculas)",
-          "problem": "`casefold()` no equivale simplemente a pasar texto a minúsculas; realiza una normalización de mayúsculas/minúsculas más agresiva para comparaciones Unicode. La explicación es inexacta y puede crear expectativas erróneas sobre su salida.",
-          "severity": "baja",
           "quote_verified": true
         },
         {
           "kind": "UNCLEAR",
-          "quote": "la función `decide_ops_status(score, uncertainty)` recorre cinco reglas en orden y devuelve el primer estado que aplica:",
-          "problem": "Solo se presentan dos reglas de las cinco anunciadas. Los ejemplos permiten inferir parcialmente las bandas restantes, pero no especifican de forma completa la supuesta matriz «total y sin huecos», especialmente el tratamiento formal de los intervalos y estados restantes.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "CONTRADICTS",
-          "quote": "**Mecanismo:** combina ER y relación con pesos **explícitos** (canónico de ficha: 0.6·ER + 0.4·REL).",
-          "problem": "El material insiste en que identidad y relación deben decidirse por separado, pero luego crea un score combinado que alimenta una decisión descrita como «aceptar el par de identidad». Así, una señal de relación alta puede elevar un ER insuficiente hasta `accept_pair`, confundiendo precisamente los conceptos que el texto ordena separar.",
-          "severity": "alta",
-          "quote_verified": true
+          "quote": "pseudonimiza nombres (por ejemplo `A*** Q***`)",
+          "problem": "`A*** Q***` es enmascaramiento, no pseudonimización en sentido estricto: conserva iniciales y estructura del nombre y no asigna un identificador sustituto estable. Presentarlo como pseudonimización puede enseñar una clasificación de privacidad incorrecta.",
+          "severity": "media",
+          "quote_verified": false
         }
       ]
     },
@@ -699,41 +697,55 @@
       "index": 14,
       "file": "s14-security.ts",
       "title": "NumPy y cómputo vectorizado",
-      "chars_reviewed": 10921,
-      "findings_returned": 4,
-      "findings_verified": 4,
+      "chars_reviewed": 15517,
+      "findings_returned": 6,
+      "findings_verified": 6,
       "findings_unverified": 0,
       "by_kind": {
-        "UNCLEAR": 1,
-        "FACTUAL": 3
+        "UNSUPPORTED": 1,
+        "FACTUAL": 5
       },
       "findings": [
         {
           "kind": "FACTUAL",
-          "quote": "La máscara debe alinear el eje indexado — si no, `ValueError` (falla de forma segura).",
-          "problem": "Cuando una máscara booleana no coincide con la dimensión indexada, NumPy normalmente lanza `IndexError`, no `ValueError`. El tipo de excepción forma parte del comportamiento que el alumnado podría comprobar o capturar.",
+          "quote": "Si mezclas textos y números, se pierde la ventaja y vuelves a contar monedas.",
+          "problem": "NumPy normalmente convierte esos valores a un dtype común, por ejemplo texto, en vez de abandonar necesariamente el procesamiento vectorizado. El coste y las operaciones disponibles dependen del dtype resultante; la afirmación es demasiado absoluta.",
           "severity": "media",
           "quote_verified": true
         },
         {
           "kind": "FACTUAL",
-          "quote": "`np.finfo(float).eps` acota el ruido de redondeo cuando comparas con tolerancia (`allclose`).",
-          "problem": "`eps` expresa la separación relativa entre 1 y el siguiente número representable, pero no acota en general el error acumulado de una operación. La tolerancia de `allclose` debe elegirse según la escala, las operaciones realizadas y el error esperado; usar `eps` como cota general es incorrecto.",
-          "severity": "media",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": "Un **ndarray** de NumPy es un bloque de memoria donde todos los elementos tienen el mismo tipo y el mismo tamaño, y eso permite que la operación se aplique al bloque entero de una vez. Por eso importa el **dtype**, el tipo de cada elemento: es lo que hace posible ese tratamiento uniforme. Si mezclas textos y números, se pierde la ventaja y vuelves a contar monedas.",
-          "problem": "Mezclar textos y números al crear un array no implica necesariamente procesamiento elemento a elemento: NumPy puede convertirlos a un dtype homogéneo de texto. En otros casos puede producir `object`, que sí pierde muchas ventajas de la vectorización. El texto confunde ambos resultados y presenta como universal una consecuencia que depende del dtype inferido.",
-          "severity": "media",
-          "quote_verified": true
-        },
-        {
-          "kind": "FACTUAL",
-          "quote": "De ahí sale la herramienta que reemplaza al `if` dentro del bucle. En vez de preguntar caso por caso, construyes una **máscara**: un array de verdaderos y falsos del mismo tamaño que los datos, que dice qué posiciones cumplen la condición.",
-          "problem": "Una máscara no siempre debe tener el mismo tamaño total que los datos. En un array multidimensional puede corresponder solo al eje o a las dimensiones iniciales que se indexan; por ejemplo, una máscara de shape `(n,)` puede seleccionar filas de datos con shape `(n, m)`. La formulación induce una regla de shapes demasiado restrictiva.",
+          "quote": "Un array conoce sus dimensiones, y casi todo error de NumPy es un desacuerdo entre formas",
+          "problem": "Los errores de forma son frecuentes, pero NumPy también produce muchos errores por tipos incompatibles, índices inválidos, conversiones, arrays de solo lectura y otras causas. «Casi todo error» transmite una regla falsa a principiantes.",
           "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "Crear con dtype **explícito** evita sorpresas (`int` vs `float` en divisiones, o `object` lento y no vectorizable).",
+          "problem": "Un array con dtype `object` sí admite operaciones expresadas mediante operadores y ufuncs de NumPy, aunque normalmente estas delegan en objetos Python y pierden gran parte del rendimiento. Calificarlo como «no vectorizable» confunde la interfaz vectorizada con su implementación y rendimiento.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "si no cuadra, `assert` o `ValueError` temprano (falla de forma segura).",
+          "problem": "`assert` no es una validación segura de entradas: Python puede eliminarlo al ejecutarse con optimización (`-O`). Para comprobar contratos de un pipeline debe lanzarse explícitamente una excepción como `ValueError` o `TypeError`.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "e inf **domina** (una suma con inf es inf).",
+          "problem": "Una suma que contiene infinito no siempre resulta en infinito: si aparecen `+inf` y `-inf`, el resultado es `nan`. La frase debería distinguir esos casos.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "`np.finfo(float).eps` es la distancia entre 1.0 y el siguiente número representable: te da la escala del error de **un** redondeo cerca de 1, que es lo que necesitas para elegir la tolerancia de un `allclose`.",
+          "problem": "Aunque la definición de `eps` es correcta, no basta para elegir las tolerancias de `allclose`. `rtol` y `atol` deben depender de la escala, el algoritmo, la acumulación de error y la precisión exigida por el dominio; además, cerca de cero `eps` no proporciona una tolerancia absoluta útil por sí solo.",
+          "severity": "alta",
           "quote_verified": true
         }
       ]
@@ -742,104 +754,55 @@
       "index": 15,
       "file": "s15-stdlib-deep.ts",
       "title": "Pandas: ingesta, selección y tipos",
-      "chars_reviewed": 22258,
-      "findings_returned": 13,
-      "findings_verified": 12,
-      "findings_unverified": 1,
+      "chars_reviewed": 25948,
+      "findings_returned": 6,
+      "findings_verified": 6,
+      "findings_unverified": 0,
       "by_kind": {
-        "UNCLEAR": 6,
-        "FACTUAL": 6
+        "UNCLEAR": 1,
+        "FACTUAL": 5
       },
       "findings": [
         {
           "kind": "FACTUAL",
-          "quote": "cuando dos tablas se combinan, pandas las alinea por el Index, no por el orden en que están escritas.",
-          "problem": "Es una generalización incorrecta. Algunas operaciones, como ciertas formas de `concat` y las operaciones aritméticas, alinean por índice; `merge` y `join` pueden combinar mediante columnas o claves especificadas. No toda combinación de tablas se alinea por el Index.",
+          "quote": "cuando dos Series se suman o se concatenan por filas, pandas las alinea por el Index y no por el orden en que están escritas.",
+          "problem": "La alineación por Index sí ocurre en operaciones aritméticas, pero `pd.concat(..., axis=0)` apila las Series en orden y conserva sus etiquetas, incluso si quedan duplicadas; no alinea las filas por Index.",
           "severity": "alta",
           "quote_verified": true
         },
         {
           "kind": "FACTUAL",
-          "quote": "`read_csv` y `read_excel` aceptan `dtype`, `parse_dates`, `na_values`, `usecols`, `sep` y `decimal`.",
-          "problem": "`read_excel` no acepta el parámetro `sep`; este corresponde a archivos de texto delimitado como los leídos por `read_csv`. Presentar la lista como común a ambas funciones induce a una llamada inválida.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": "` cuando el monto viene como `15,50`). Evita reescribir el archivo a mano con `.replace(\n\n)` salvo un preproceso documentado y acotado",
-          "problem": "El fragmento está truncado y contiene una llamada `.replace()` partida y sin argumentos. Parece un residuo de edición que impide entender o ejecutar el ejemplo.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": "no continúes “con lo que haya”.\",\n        \"Siempre reconcilia **filas leídas vs. esperadas**",
-          "problem": "Aparecen comillas, coma e indentación propias de una representación JSON o de una lista incrustadas en el material. Son residuos de serialización ajenos al contenido didáctico.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": "CSV con `SIN_DATO` en monto → declara `na_values=[\n\n**loc** selecciona por **etiqueta**",
-          "problem": "La expresión `na_values=[` queda incompleta y el texto salta abruptamente a otro subtema, por lo que el ejemplo no es válido ni comprensible.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": "]]`. Evita el encadenamiento `df[cols][rows]` o `df[df.a > 0][\n\nLa asignación en cadena",
-          "problem": "Hay restos truncados de código y una transición rota. La segunda expresión de indexación queda sin columna ni cierre sintáctico útil.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": "Nunca `df[df.a > 0][\n\n] = 1`.",
-          "problem": "El ejemplo que pretende mostrar el patrón prohibido perdió el nombre de la columna, de modo que el código mostrado es sintácticamente inválido.",
+          "quote": "`merge` y `join(on=…)` combinan por las **columnas** que les indiques, y ahí el Index no interviene.",
+          "problem": "En `DataFrame.join(on=...)`, la columna indicada del DataFrame izquierdo se compara normalmente con el Index del objeto derecho. Por tanto, el Index sí interviene. `merge` también puede usar índices mediante `left_index` y `right_index`.",
           "severity": "alta",
           "quote_verified": true
         },
         {
           "kind": "FACTUAL",
-          "quote": "En pandas moderno (con **Copy-on-Write** —esto es, escritura sobre copia automática— por defecto desde 2.x/3.x)",
-          "problem": "Copy-on-Write no fue el comportamiento predeterminado durante pandas 2.x; allí era una opción habilitable. Se convirtió en el valor predeterminado en pandas 3.0. La formulación «desde 2.x/3.x» confunde disponibilidad con activación por defecto.",
-          "severity": "media",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": "Caso sintético: con `loc` marcas scores bajos como `flag=\n\nLos dtypes **string**, **Int64**/**boolean** nullable",
-          "problem": "La asignación queda truncada después de `flag=` y el texto salta al subtema de dtypes, dejando incompleto el ejemplo.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": "se pide con `astype(\n\n)`, `pd.to_numeric(..., errors=...)`, `pd.to_datetime`, `astype(\n\n`, los inválidos pasan a NaN/NaT",
-          "problem": "Varias llamadas perdieron sus argumentos y cierres, incluido el valor de `errors`. El resultado es código inválido y una explicación gramaticalmente rota.",
-          "severity": "alta",
-          "quote_verified": false
-        },
-        {
-          "kind": "FACTUAL",
-          "quote": "el schema te avisa en la primera fila de código",
-          "problem": "Un diccionario columna→tipo no valida por sí solo el archivo ni garantiza avisar en la primera línea. Para detectar columnas faltantes, extras o conversiones inválidas hace falta aplicar y validar explícitamente el contrato; además, algunas coerciones pueden ocultar los errores si se usa `errors='coerce'`.",
+          "quote": "`object` queda para columnas que mezclaron tipos.",
+          "problem": "`object` es un dtype genérico capaz de contener objetos Python; no implica necesariamente que la columna haya mezclado tipos. También puede aparecer en columnas homogéneas creadas o convertidas explícitamente como `object`.",
           "severity": "media",
           "quote_verified": true
         },
         {
           "kind": "FACTUAL",
-          "quote": "Parquet los guarda **por columnas**: primero todos los `cliente_id`, luego todos los `monto`, luego todas las `region`.",
-          "problem": "Parquet organiza los datos en grupos de filas y, dentro de cada grupo, en fragmentos por columna. No guarda necesariamente primero una columna completa de toda la tabla y después la siguiente. La simplificación contradice parcialmente la explicación posterior sobre row groups.",
+          "quote": "`object` ya no es «el texto que olvidaste tipar»: es el cajón de valores heterogéneos, y verlo en una columna que creías texto significa que el archivo mezcló tipos y pandas se negó a llamarlo `str`.",
+          "problem": "Ver dtype `object` no demuestra que el archivo haya mezclado tipos ni que pandas haya rechazado inferir `str`; existen otras causas, como una conversión explícita a `object`, determinadas operaciones o datos construidos fuera del parser.",
           "severity": "media",
           "quote_verified": true
         },
         {
           "kind": "FACTUAL",
-          "quote": "No es una opción que actives: es la consecuencia de cómo quedaron acomodados los bytes.",
-          "problem": "La disposición columnar hace posible la proyección, pero que ocurra projection pushdown depende del lector, el motor y la consulta, y en algunas APIs se controla solicitando columnas concretas. No es una consecuencia automática e inevitable del formato.",
+          "quote": "**Parquet** es cómo quedan los datos *en el archivo*, mientras que **Arrow** es cómo quedan *en memoria* una vez leídos",
+          "problem": "Arrow es un formato y modelo de datos columnar en memoria, pero leer Parquet no implica que los datos queden necesariamente en representación Arrow. Según la biblioteca y el destino, pueden materializarse directamente como arrays de NumPy, extensiones de pandas u otras representaciones.",
           "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNCLEAR",
+          "quote": "El segundo: partir de más produce **muchos archivos diminutos**",
+          "problem": "«partir de más» parece una errata o formulación incompleta. En este contexto debería decir «particionar en exceso» o «crear demasiadas particiones/archivos».",
+          "severity": "baja",
           "quote_verified": true
         }
       ]
@@ -848,50 +811,62 @@
       "index": 16,
       "file": "s16-wxpython-gui.ts",
       "title": "Calidad, limpieza y contratos de datos",
-      "chars_reviewed": 9261,
-      "findings_returned": 5,
-      "findings_verified": 5,
+      "chars_reviewed": 16098,
+      "findings_returned": 7,
+      "findings_verified": 7,
       "findings_unverified": 0,
       "by_kind": {
-        "UNCLEAR": 1,
-        "CONTRADICTS": 2,
-        "FACTUAL": 1,
-        "UNSUPPORTED": 1
+        "CONTRADICTS": 5,
+        "FACTUAL": 2
       },
       "findings": [
         {
-          "kind": "CONTRADICTS",
-          "quote": "Caso sintético Perú: `cliente_id` y `monto` son required; `email` es optional.",
-          "problem": "Más adelante se permite imputar `monto`, aunque el propio material establece que los campos required no deben imputarse para superar el proceso. No se indica que el segundo caso use un contrato diferente donde `monto` sea optional.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "CONTRADICTS",
-          "quote": "Caso: monto con 2/5 null y cap=0.4 → se permite `fillna(mediana)` + columna `was_null`.",
-          "problem": "Contradice la política anterior «No imputes un required» después de haber declarado `monto` como required. El ejemplo puede inducir a imputar precisamente un campo que debería ir a cuarentena o hacer fallar el gate.",
-          "severity": "alta",
+          "kind": "FACTUAL",
+          "quote": "Un pipeline que limpia sin dejar cuenta de lo que limpió no es reproducible: es una opinión ejecutada.",
+          "problem": "Registrar métricas o filas apartadas aporta trazabilidad, pero no garantiza reproducibilidad. Para reproducir el resultado también hacen falta, entre otras cosas, entradas/versiones, código, configuración, dependencias y reglas deterministas.",
+          "severity": "media",
           "quote_verified": true
         },
         {
           "kind": "FACTUAL",
-          "quote": "Contrato: usa `duplicated(keep=False)` para exactos y `groupby(clave)[attr].transform('nunique')>1` para conflictos.",
-          "problem": "La detección propuesta para conflictos solo examina un atributo (`attr`), pero la definición habla de atributos distintos en general. Puede omitir conflictos presentes en cualquier otra columna relevante. Además, `nunique` excluye nulos por defecto, por lo que un grupo con un valor y un nulo tampoco se marcaría como conflicto.",
+          "quote": "`groupby(clave)[attr].transform('nunique')>1` **por cada atributo que deba coincidir**",
+          "problem": "`nunique` excluye los nulos por defecto. Por tanto, valores como `Lima` y `NaN` dentro de una misma clave producen un conteo de 1 y el conflicto no se detecta, aunque los atributos no coincidan. Debe definirse explícitamente la política de nulos y, si cuentan como valor distinto, usar `dropna=False`.",
           "severity": "alta",
           "quote_verified": true
         },
         {
-          "kind": "UNCLEAR",
-          "quote": ")>1` para conflictos. Solo después eliges política `keep=",
-          "problem": "Es un fragmento truncado y duplicado que interrumpe el material y deja una instrucción sintácticamente incompleta.",
+          "kind": "CONTRADICTS",
+          "quote": "por defecto flag y cuarentena, nunca drop silencioso solo por IQR.",
+          "problem": "Poner en cuarentena todo outlier estadístico, incluido uno plausible, lo excluye del conjunto `clean`. Esto contradice la indicación posterior de que S17 solo consume `clean` y de que su EDA no debe perder la cola legítima. Los candidatos plausibles deberían poder quedar marcados en `clean`, salvo que una regla explícita determine su rechazo.",
           "severity": "alta",
           "quote_verified": true
         },
         {
-          "kind": "UNSUPPORTED",
-          "quote": "Caso: serie con 5000 (cola plausible) y -1 (error). `stat` marca ambos; `domain` solo -1; `plausible_extreme` = 5000.",
-          "problem": "No se muestran los demás valores de la serie ni se define el método o umbral estadístico. Sin esa información no puede afirmarse que IQR, z-score u otra máscara estadística marque tanto 5000 como -1.",
+          "kind": "CONTRADICTS",
+          "quote": "Contrato de **schema**: columnas presentes, dtypes esperados y nullability por campo.",
+          "problem": "El código de `s16_th_7` solo comprueba nombres de columnas mediante una diferencia de conjuntos; no valida los dtypes ni la nullability que el contrato promete.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Cada regla devuelve máscara de fallos + código de error legible para cuarentena.",
+          "problem": "`s16_th_7` calcula máscaras, pero su salida solo imprime índices bajo etiquetas genéricas (`cross_fail_idx` y `neg_idx`); no genera códigos de error por fila ni una estructura utilizable para cuarentena.",
           "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "Métricas operables del run: `rows_in`, `rows_clean`, `rows_quarantine`, tasas de null/dup/fail_schema y `pass` booleano.",
+          "problem": "El ejemplo final `s16_th_8` omite por completo las tasas de null, duplicados y fallos de esquema que el propio material presenta como métricas operables del run.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "El gate publica el reporte aunque `pass=False` (exit code ≠ 0 acompañado de un JSON de métricas).",
+          "problem": "`s16_th_8` imprime un JSON con `pass=false`, pero termina normalmente y no produce un código de salida distinto de cero. El ejemplo no implementa el comportamiento fail-closed descrito.",
+          "severity": "alta",
           "quote_verified": true
         }
       ]
@@ -900,48 +875,49 @@
       "index": 17,
       "file": "s17-packaging.ts",
       "title": "Joins, reshape, groupby y cierre analítico",
-      "chars_reviewed": 11602,
+      "chars_reviewed": 15931,
       "findings_returned": 5,
       "findings_verified": 5,
       "findings_unverified": 0,
       "by_kind": {
-        "UNCLEAR": 2,
-        "CONTRADICTS": 1,
-        "FACTUAL": 2
+        "UNSUPPORTED": 1,
+        "UNCLEAR": 1,
+        "FACTUAL": 2,
+        "CONTRADICTS": 1
       },
       "findings": [
         {
-          "kind": "FACTUAL",
-          "quote": "Si cada cliente tiene muchas transacciones, la relación es de uno a muchos y el resultado debe tener tantas filas como transacciones.",
-          "problem": "No necesariamente. En un left join desde clientes, los clientes sin transacciones también generan una fila y las transacciones huérfanas no aparecen; por tanto, el resultado puede tener un número de filas distinto del total de transacciones.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": "|...` hace que pandas **falle temprano** con `MergeError` si la cardinalidad real no coincide con el contrato. Es un quality gate de join, no un lujo opcional: un m:m accidental multiplica filas y sesga sumas de montos.\",\n \"`indicator=True` agrega la columna `_merge` con valores `left_only` / `right_only` / `both`. El **anti-join** clásico filtra `left_only` (clientes sin transacciones) o, al revés, `right_only` (tx huérfanas sin maestro). Cuenta huérfanos y expórtalos a una tabla de evidencia.\",\n \"Caso sintético: cli={C001,C002}, tx={C001,C003}. Left anti-join → C002; right-only → C003. Si intentas `validate=",
-          "problem": "El material contiene un fragmento truncado y restos de una representación de lista o JSON. La explicación queda interrumpida en medio de `validate=` y no constituye contenido didáctico legible ni código ejecutable.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "FACTUAL",
-          "quote": "`resample` requiere DatetimeIndex.",
-          "problem": "La afirmación es demasiado absoluta: `resample` también puede operar usando una columna temporal mediante el parámetro `on`, sin que el DataFrame tenga un DatetimeIndex.",
+          "kind": "CONTRADICTS",
+          "quote": "La **cardinalidad** esperada (1:1, 1:m, m:1, m:m) determina si el número de filas se mantiene, crece (fan-out) o produce cartesianos accidentales.",
+          "problem": "La cardinalidad por sí sola no determina el número final de filas: también intervienen el tipo de join, las claves sin coincidencia y la distribución de duplicados. Esto contradice la explicación anterior, que correctamente afirma que el conteo esperado depende del tipo de join.",
           "severity": "media",
           "quote_verified": true
         },
         {
           "kind": "UNCLEAR",
-          "quote": ")`) documenta el contrato de columnas de salida.\",\n \"Contrato: `as_index=False` facilita merges posteriores; no mezcles sin documentar si el index del groupby es la clave. Evita aplicar `mean` cuando la pregunta de negocio pide **suma de PEN** o conteos de clientes — el error más común en tableros es “promedio” cuando el stakeholder pidió “total”.\",\n \"Caso sintético: regiones Lima (dos filas), Madrid y Cusco con montos → `agg` produce total y n; `transform(",
-          "problem": "Es otro fragmento corrupto: empieza y termina a mitad de expresiones y contiene comillas y separadores propios de una serialización. Interrumpe la explicación y no puede interpretarse como prosa o código completo.",
-          "severity": "alta",
+          "quote": "El **anti-join** clásico filtra `left_only` (clientes sin transacciones) o, al revés, `right_only` (tx huérfanas sin maestro).",
+          "problem": "En un `left merge`, como el usado inmediatamente después en el código, nunca aparecen filas `right_only`. Para obtener las transacciones huérfanas hay que usar un `outer merge`, un `right merge` adecuado o invertir los lados; el texto no especifica ese cambio y puede inducir a buscar `right_only` en el resultado mostrado.",
+          "severity": "media",
           "quote_verified": true
         },
         {
-          "kind": "CONTRADICTS",
-          "quote": "Caso sintético: total nacional 100 PEN; partes Lima/Madrid/Cusco (60/30/10);",
-          "problem": "El ejemplo presenta un total nacional en PEN pero incluye Madrid como una de sus partes junto con ciudades peruanas. Salvo que se declare que son etiquetas ficticias sin significado geográfico, esas partes no pueden reconciliar coherentemente un total nacional peruano.",
+          "kind": "FACTUAL",
+          "quote": "`resample` requiere DatetimeIndex.",
+          "problem": "La afirmación es demasiado restrictiva. `resample` también admite PeriodIndex y TimedeltaIndex, y puede operar sobre una columna temporal mediante parámetros como `on=` sin que el DataFrame tenga DatetimeIndex.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "# mal: usar max global incluyendo febrero",
+          "problem": "El código no calcula ningún máximo: la línea siguiente usa `tx[\"monto\"].sum()`. El comentario describe una operación distinta de la ejecutada.",
+          "severity": "baja",
+          "quote_verified": true
+        },
+        {
+          "kind": "UNSUPPORTED",
+          "quote": "**validar** `set(df.columns)==expected`",
+          "problem": "Comparar conjuntos no valida completamente el esquema: elimina duplicados e ignora el orden. Aunque después se diga que el orden puede comprobarse aparte, esta expresión puede aprobar columnas duplicadas y por ello no sirve como gate general de esquema estable.",
           "severity": "media",
           "quote_verified": true
         }
@@ -1009,83 +985,54 @@
       "index": 19,
       "file": "s19-databases-orm.ts",
       "title": "Visualización y comunicación accesible",
-      "chars_reviewed": 16635,
-      "findings_returned": 10,
-      "findings_verified": 10,
+      "chars_reviewed": 19832,
+      "findings_returned": 6,
+      "findings_verified": 6,
       "findings_unverified": 0,
       "by_kind": {
-        "UNCLEAR": 6,
-        "UNSUPPORTED": 3,
-        "FACTUAL": 1
+        "FACTUAL": 2,
+        "CONTRADICTS": 4
       },
       "findings": [
         {
-          "kind": "UNCLEAR",
-          "quote": "`, dpi documentado (p. ej. 120), nombre versionado. En local guardas PNG/SVG según audiencia (diapositivas vs. impresión); en demos del curso a menudo validamos metadata y, cuando corresponde, un `savefig` real a buffer. Tests no miran “se ve bien en mi monitor”: miran `get_ylim()[0]==0`, `get_ylabel()` y conteo de barras — un contrato reproducible en CI con backend `Agg` (este backend, que es el modo sin ventana de Matplotlib, ideal para servidores y pipelines).\",\n \"Caso: bar de regiones con `ylabel=",
-          "problem": "Es un fragmento duplicado y truncado con comillas y sintaxis residual; no forma una explicación ni código válido.",
+          "kind": "CONTRADICTS",
+          "quote": "filtro_region=Madrid` → estado JSON compacto con `sample_n` y `universe_n` cuando aplique",
+          "problem": "El ejemplo ejecutable posterior fija `filtro_region` en \"Lima\", pero muestra valor, tabla alternativa y texto alternativo de Madrid. La conclusión accesible no corresponde al estado filtrado, precisamente el defecto que el material dice evitar.",
           "severity": "alta",
           "quote_verified": true
         },
         {
-          "kind": "UNCLEAR",
-          "quote": ")` (archivo o buffer); el dict de export (`fmt`, `dpi`, `panels`, `name`) versiona el binario hacia S20/S21 — no sustituye el PNG.\",\n \"Caso sintético: 1×2 subplots con títulos “Vol” y “Med”; `savefig` a PNG 120 dpi y meta `{fmt:",
-          "problem": "El material contiene otro fragmento duplicado y cortado a mitad de una estructura, aparentemente residuo de serialización o edición.",
+          "kind": "CONTRADICTS",
+          "quote": "{'filtro_region': 'Lima', 'metric': 'median', 'sample_n': 5000, 'universe_n': 50000}\nEn Madrid, ticket mediano 28.0 PEN (n=40).\nmatch True",
+          "problem": "El `match True` solo compara dos valores de Madrid y oculta que el filtro activo es Lima. Por tanto, no demuestra paridad entre la vista filtrada, el gráfico y su alternativa accesible.",
+          "severity": "alta",
+          "quote_verified": true
+        },
+        {
+          "kind": "CONTRADICTS",
+          "quote": "# simular export metadata\n    export = {\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2, \"name\": \"fig_s19_v1.png\"}",
+          "problem": "El ejemplo no exporta ninguna figura, aunque el propio material establece como contrato que debe ejecutarse realmente `fig.savefig(...)` y que el diccionario de metadatos no sustituye al PNG.",
+          "severity": "media",
+          "quote_verified": true
+        },
+        {
+          "kind": "FACTUAL",
+          "quote": "el Pipeline aplica transformaciones solo sobre `X_train`",
+          "problem": "Un pipeline ajusta (`fit`) los transformadores solo con `X_train`, pero después también transforma los datos de validación, prueba o producción mediante `transform`. Decir que aplica transformaciones únicamente sobre `X_train` confunde ajuste con aplicación.",
           "severity": "alta",
           "quote_verified": true
         },
         {
           "kind": "FACTUAL",
-          "quote": "Ese lenguaje nació como SEQUEL y hoy se llama SQL",
-          "problem": "La redacción atribuye implícitamente a la propuesta de Codd el nacimiento de SEQUEL. Codd propuso el modelo relacional; SEQUEL fue desarrollado posteriormente por Donald Chamberlin y Raymond Boyce a partir de ese modelo.",
-          "severity": "media",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNSUPPORTED",
-          "quote": "Las cuatro operaciones fundamentales de SQL son `SELECT` (seleccionar columnas), `WHERE` (filtrar filas), `GROUP BY` (agrupar por categoría) y `JOIN` (combinar tablas).",
-          "problem": "Presenta una selección didáctica como clasificación canónica. WHERE y GROUP BY son cláusulas de SELECT, JOIN es una operación de combinación, y se omiten operaciones fundamentales como inserción, actualización y eliminación.",
-          "severity": "media",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": "Calcula el factor de inflación visual `(altura_truco / altura_honesta)` antes de exportar al dashboard de CP-N2-B",
-          "problem": "No define qué altura debe medirse ni para qué barra. En el ejemplo 50 frente a 45 con origen 40, las alturas recortadas son menores que las honestas, por lo que esa razón no cuantifica directamente la exageración de la diferencia percibida.",
-          "severity": "media",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNSUPPORTED",
-          "quote": "En visualización, significa no usar métricas calculadas sobre el dataset completo para elegir qué graficar — solo usa lo que verías en producción.",
-          "problem": "Equipara de forma demasiado general la fuga de datos de ML con seleccionar visualizaciones. En EDA descriptivo puede ser legítimo calcular métricas sobre todo el conjunto disponible; la restricción solo corresponde a contextos predictivos o evaluativos con separación temporal o de entrenamiento/prueba.",
+          "quote": "describir el conjunto que tienes es precisamente para lo que sirve el EDA, y calcular una media o un histograma sobre todo lo disponible es legítimo",
+          "problem": "En un flujo de evaluación con un conjunto de prueba reservado, inspeccionarlo mediante EDA también puede influir en selección de variables, limpieza, umbrales o modelado y contaminar la evaluación. No es legítimo explorar «todo lo disponible» si eso incluye el test que se pretende mantener intacto.",
           "severity": "alta",
           "quote_verified": true
         },
         {
-          "kind": "UNSUPPORTED",
-          "quote": "La fuga de datos es el enemigo común de ambas: si tus números están contaminados, tu gráfico es hermoso pero falso, y tu consulta SQL es rápida pero engañosa.",
-          "problem": "Una consulta SQL o una visualización descriptiva no padecen necesariamente fuga de datos; esta conclusión mezcla extracción y comunicación con un problema específico de diseño y evaluación predictiva.",
-          "severity": "media",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": "`), etiqueta de valor o posición. Paletas amigables con daltonismo (p. ej. evitar rojo/verde exclusivos; preferir azul/naranja o viridis) reducen riesgo; el canal de posición sigue siendo el más robusto. **Alt text** describe el hallazgo principal y n, no “imagen de barras”.\",\n \"Contrato de claims:",
-          "problem": "Es contenido repetido que comienza a mitad de una expresión y conserva comillas y separadores propios de datos serializados, no de material didáctico.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": "Por ejemplo, `SELECT region, AVG(ticket) FROM ventas WHERE fecha >= \n\n GROUP BY region` devuelve el ticket promedio por región desde enero.",
-          "problem": "La consulta final está truncada: falta el literal de fecha y el cierre de la condición, por lo que el SQL mostrado no es ejecutable.",
-          "severity": "alta",
-          "quote_verified": true
-        },
-        {
-          "kind": "UNCLEAR",
-          "quote": "`import sqlite3; conn = sqlite3.connect(\n\nSELECT region, AVG(ticket) FROM ventas GROUP BY region",
-          "problem": "El ejemplo de Python está truncado y mezcla sin delimitación la llamada a `sqlite3.connect` con una consulta SQL; faltan la ruta, comillas, paréntesis y la llamada a `pd.read_sql`.",
+          "kind": "CONTRADICTS",
+          "quote": "Barras del ticket mediano sintético: Lima 28 PEN (n=40), Madrid 24 (n=28), Bogota 22.5 (n=32). Eje Y desde 0.",
+          "problem": "El texto alternativo omite la unidad en Madrid y Bogota, pese al contrato de incluir unidades. Además, el `claim_ok` inmediato afirma que Madrid tiene el ticket más alto, pero estos mismos números muestran que Lima tiene 28 y Madrid 24.",
           "severity": "alta",
           "quote_verified": true
         }
@@ -3228,19 +3175,81 @@
         52
       ],
       "total_verified_findings": 305
+    },
+    {
+      "generated_at": "2026-08-26T22:36:11.190834+00:00",
+      "reviewer": "OpenAI Codex via local codex CLI",
+      "sections": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "total_verified_findings": 281
     }
   ],
   "sections_this_run": [
-    1,
-    2,
-    4,
-    18,
-    20,
-    21,
-    27,
-    28,
-    31,
-    33,
-    43
+    3,
+    5,
+    6,
+    7,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    19
   ]
 }

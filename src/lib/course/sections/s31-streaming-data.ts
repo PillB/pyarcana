@@ -84,23 +84,35 @@ export const section31: CourseSection = {
         "E1": {"kind": "entity", "label": "Cliente-Demo-01"},
         "E2": {"kind": "entity", "label": "Cliente-Demo-02"},
         "C1": {"kind": "account", "label": "cta-1001"},
+        "C2": {"kind": "account", "label": "cta-1002"},
     }
+    # transfer va de cuenta a cuenta. Para ir de E1 a E2 hay que pasar por owns
+    # en los dos extremos; colgar la transferencia de la persona borra ese salto
+    # y con el la unica prueba de quien es titular. Cada arista lleva el
+    # record_id de la fila que la origino, o el path no se puede auditar.
     edges = [
-        {"src": "E1", "dst": "C1", "etype": "owns", "weight": 1.0, "unit": "count", "directed": True},
-        {"src": "E1", "dst": "E2", "etype": "shared_phone", "weight": 0.8, "unit": "score", "directed": False},
-        {"src": "C1", "dst": "E2", "etype": "transfer", "weight": 250.0, "unit": "PEN", "directed": True},
+        {"src": "E1", "dst": "C1", "etype": "owns", "weight": 1.0, "unit": "count",
+         "directed": True, "record_id": "own-0001"},
+        {"src": "E2", "dst": "C2", "etype": "owns", "weight": 1.0, "unit": "count",
+         "directed": True, "record_id": "own-0002"},
+        {"src": "E1", "dst": "E2", "etype": "shared_phone", "weight": 0.8, "unit": "score",
+         "directed": False, "record_id": "ctc-0007"},
+        {"src": "C1", "dst": "C2", "etype": "transfer", "weight": 250.0, "unit": "PEN",
+         "directed": True, "record_id": "tx-0042"},
     ]
     print("n_nodes", len(nodes))
     print("n_edges", len(edges))
     print("types", sorted({e["etype"] for e in edges}))
     print("units", sorted({e["unit"] for e in edges}))
+    print("con provenance", all(e.get("record_id") for e in edges))
 
 s31_th_1()
 `,
-        output: `n_nodes 3
-n_edges 3
+        output: `n_nodes 4
+n_edges 4
 types ['owns', 'shared_phone', 'transfer']
-units ['PEN', 'count', 'score']`,
+units ['PEN', 'count', 'score']
+con provenance True`,
       },
       callout: {
         type: "tip",
