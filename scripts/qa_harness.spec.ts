@@ -98,6 +98,17 @@ test.describe('Internal QA testing harness', () => {
     // First run: it introduces itself without being asked.
     await expect(page.getByTestId('qa-tour')).toBeVisible({ timeout: 20000 })
 
+    // The workspace is taught before the taxonomy: which tab is for what, how
+    // the context gets captured, how to get in and out without losing a draft.
+    // The tour used to open straight onto the category dropdown, which explains
+    // the fields to someone who does not yet know where they are.
+    await page.getByTestId('qa-tour-next').click()
+    await expect(page.getByTestId('qa-tour')).toContainText(/pesta/i)
+    await page.getByTestId('qa-tour-next').click()
+    await expect(page.getByTestId('qa-tour')).toContainText(/Señalar elemento/i)
+    await page.getByTestId('qa-tour-next').click()
+    await expect(page.getByTestId('qa-tour')).toContainText(/Alt \+ Q/i)
+
     // Every option the form offers is defined before the tester is asked to
     // choose one. Nine of the twenty-one used to appear for the first time in
     // the dropdown itself, with no definition anywhere.
@@ -217,6 +228,10 @@ test.describe('Internal QA testing harness', () => {
     await page.evaluate(() => {
       const host = document.createElement('div')
       host.id = 'picker-fixture'
+      // Into the section content, not the end of <body>. Appended after the
+      // footer it left the page in a state where the QA launcher never
+      // settled for Playwright, which is a property of where the fixture was
+      // put and not of anything the picker does.
       host.innerHTML = `
         <div><span>uno</span></div>
         <div><span>dos</span></div>
@@ -224,7 +239,8 @@ test.describe('Internal QA testing harness', () => {
         <div><button aria-label="Duplicado">tambien duplicado</button></div>
         <div><button data-testid="fixture-unico" aria-label="Duplicado">el bueno</button></div>
       `
-      document.body.appendChild(host)
+      const root = document.querySelector('[data-testid="section-root"]') ?? document.body
+      root.appendChild(host)
     })
 
     const pickAndRead = async (selector: string) => {
@@ -232,7 +248,17 @@ test.describe('Internal QA testing harness', () => {
       await page.getByTestId('qa-pick-element').click()
       await page.locator(selector).first().click({ force: true })
       const text = await page.getByTestId('qa-harness-dialog').innerText()
-      await page.keyboard.press('Escape')
+      // Escape may land on an open hint before the dialog. That is the correct
+      // order -- WCAG 2.2 SC 1.4.13 asks that hover/focus content be
+      // dismissible, so the transient thing goes first -- but it means one
+      // press is not guaranteed to close the workspace. Press until it is gone
+      // rather than assume.
+      for (let attempt = 0; attempt < 4; attempt += 1) {
+        if (!(await page.locator('[data-testid="qa-harness-dialog"]').count())) break
+        await page.keyboard.press('Escape')
+        await page.waitForTimeout(150)
+      }
+      await expect(page.getByTestId('qa-harness-dialog')).toHaveCount(0)
       return text
     }
 

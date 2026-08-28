@@ -17,6 +17,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { QATour } from './QATour'
 import { ElementPicker } from './ElementPicker'
+import { QAHint } from './QAHint'
 import { QA_TOUR_STORAGE_KEY } from '@/lib/qa-tour-content'
 import {
   Dialog,
@@ -421,16 +422,17 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => openHarness('report')}
-        className="inline-flex items-center gap-1 rounded px-1.5 py-1 text-[11px] text-muted-foreground/70 underline decoration-dotted underline-offset-4 transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        data-testid="qa-harness-open"
-        title="QA interna · Ctrl/⌘ + Alt + Q"
-      >
-        <Bug className="h-3 w-3" aria-hidden="true" />
-        QA interna
-      </button>
+      <QAHint label="Abre el workspace de QA para reportar lo que encuentres. Atajo: Ctrl/⌘ + Alt + Q." side="top">
+        <button
+          type="button"
+          onClick={() => openHarness('report')}
+          className="inline-flex items-center gap-1 rounded px-1.5 py-1 text-[11px] text-muted-foreground/70 underline decoration-dotted underline-offset-4 transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          data-testid="qa-harness-open"
+        >
+          <Bug className="h-3 w-3" aria-hidden="true" />
+          QA interna
+        </button>
+      </QAHint>
 
       {/*
         modal={!picking}: while the tester is aiming, Radix must stop trapping
@@ -475,41 +477,46 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
                 {/* Placed in the header rather than buried in a tab: a tester
                     who does not know the taxonomy needs to find this before
                     filling anything in, not after. */}
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setTourOpen(true)}
-                  data-testid="qa-tour-open"
-                  className="gap-1.5"
-                >
-                  <GraduationCap className="h-4 w-4" />
-                  Tutorial
-                </Button>
-                <div className="rounded-full border border-border bg-muted/50 px-3 py-1 text-xs text-muted-foreground" data-testid="qa-issue-count">
-                  {issueCountText}
-                </div>
+                <QAHint label="Recorrido guiado: qué significa cada campo y cómo moverte por el workspace. Puedes repetirlo cuando quieras." side="bottom">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setTourOpen(true)}
+                    data-testid="qa-tour-open"
+                    className="gap-1.5"
+                  >
+                    <GraduationCap className="h-4 w-4" />
+                    Tutorial
+                  </Button>
+                </QAHint>
+                <QAHint label="Incidencias guardadas en este navegador. No se envían solas a ningún sitio: se exportan desde la pestaña Sesión." side="bottom">
+                  <div className="cursor-help rounded-full border border-border bg-muted/50 px-3 py-1 text-xs text-muted-foreground" data-testid="qa-issue-count" tabIndex={0}>
+                    {issueCountText}
+                  </div>
+                </QAHint>
               </div>
             </div>
           </DialogHeader>
 
           <div className="flex border-b border-border bg-muted/20 px-4" role="tablist" aria-label="Secciones del workspace QA">
             {([
-              ['report', 'Reportar'],
-              ['session', 'Sesión'],
-              ['review', 'Revisión'],
-            ] as const).map(([value, label]) => (
-              <button
-                key={value}
-                type="button"
-                role="tab"
-                aria-selected={tab === value}
-                onClick={() => setTab(value)}
-                className={`border-b-2 px-4 py-3 text-sm font-medium transition ${tab === value ? 'border-primary text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground'}`}
-                data-testid={`qa-tab-${value}`}
-              >
-                {label}
-              </button>
+              ['report', 'Reportar', 'Escribes una incidencia nueva: qué viste, dónde y cómo reproducirlo.'],
+              ['session', 'Sesión', 'Quién prueba y qué haces con lo reunido: exportar, importar, compartir o borrar.'],
+              ['review', 'Revisión', 'Lees lo ya reportado, con su contexto y su evidencia, y lo cierras o lo borras.'],
+            ] as const).map(([value, label, hint]) => (
+              <QAHint key={value} label={hint} side="bottom">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={tab === value}
+                  onClick={() => setTab(value)}
+                  className={`border-b-2 px-4 py-3 text-sm font-medium transition ${tab === value ? 'border-primary text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground'}`}
+                  data-testid={`qa-tab-${value}`}
+                >
+                  {label}
+                </button>
+              </QAHint>
             ))}
           </div>
 
@@ -603,6 +610,7 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
                       <MapPin className="h-4 w-4 text-primary" /> Contexto capturado
                     </div>
                     <ContextPreview key={contextRevision} context={capturedContext.current ?? snapshotContext()} />
+                    <QAHint label="Aparta el workspace y te deja hacer clic en el elemento del que hablas. Anota un selector que quien revise puede pegar en devtools." side="left">
                     <Button
                       type="button"
                       variant="outline"
@@ -614,7 +622,9 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
                       <Crosshair className="mr-1.5 h-3.5 w-3.5" />
                       {capturedContext.current?.elementHint ? 'Señalar otro elemento' : 'Señalar elemento'}
                     </Button>
+                    </QAHint>
                     {capturedContext.current?.elementHint && (
+                      <QAHint label="Borra el selector guardado. La incidencia sigue apuntando a la sección y la vista, solo deja de señalar un elemento concreto." side="left">
                       <button
                         type="button"
                         data-testid="qa-clear-element"
@@ -626,10 +636,13 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
                       >
                         Quitar el elemento señalado
                       </button>
+                      </QAHint>
                     )}
-                    <Button type="button" variant="outline" size="sm" className="mt-2 w-full" onClick={() => { const picked = capturedContext.current?.elementHint ?? null; capturedContext.current = { ...snapshotContext(), elementHint: picked }; setContextRevision((n) => n + 1); setMessage('Ubicación actualizada.') }}>
-                      Actualizar ubicación
-                    </Button>
+                    <QAHint label="Vuelve a capturar sección, scroll y tamaño de ventana. Úsalo si navegaste después de abrir el formulario." side="left">
+                      <Button type="button" variant="outline" size="sm" className="mt-2 w-full" onClick={() => { const picked = capturedContext.current?.elementHint ?? null; capturedContext.current = { ...snapshotContext(), elementHint: picked }; setContextRevision((n) => n + 1); setMessage('Ubicación actualizada.') }}>
+                        Actualizar ubicación
+                      </Button>
+                    </QAHint>
                   </div>
 
                   <div className="rounded-xl border border-border p-4">
@@ -641,22 +654,30 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
                       <div className="mb-3 flex h-28 items-center justify-center rounded-lg border border-dashed border-border text-xs text-muted-foreground">Sin captura</div>
                     )}
                     <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                      <Button type="button" variant="outline" size="sm" onClick={handleScreenCapture} disabled={busy} className="gap-1.5">
-                        <Camera className="h-3.5 w-3.5" /> Capturar
-                      </Button>
-                      <Button type="button" variant="outline" size="sm" onClick={() => screenshotRef.current?.click()} className="gap-1.5">
-                        <FileUp className="h-3.5 w-3.5" /> Adjuntar
-                      </Button>
+                      <QAHint label="Pide al navegador una captura de pantalla. Tú eliges qué ventana compartir, y la imagen no sale de este equipo." side="left">
+                        <Button type="button" variant="outline" size="sm" onClick={handleScreenCapture} disabled={busy} className="gap-1.5">
+                          <Camera className="h-3.5 w-3.5" /> Capturar
+                        </Button>
+                      </QAHint>
+                      <QAHint label="Sube una imagen que ya tengas. Revísala antes: se guarda dentro del paquete que exportes." side="left">
+                        <Button type="button" variant="outline" size="sm" onClick={() => screenshotRef.current?.click()} className="gap-1.5">
+                          <FileUp className="h-3.5 w-3.5" /> Adjuntar
+                        </Button>
+                      </QAHint>
                     </div>
                     <input ref={screenshotRef} type="file" accept="image/*" className="hidden" onChange={(event) => void handleScreenshotFile(event.target.files?.[0])} />
                     {screenshotDataUrl && (
-                      <button type="button" onClick={() => setScreenshotDataUrl(null)} className="mt-2 text-xs text-muted-foreground underline hover:text-foreground">Quitar captura</button>
+                      <QAHint label="Descarta la imagen adjunta. El resto del formulario no se toca." side="left">
+                        <button type="button" onClick={() => setScreenshotDataUrl(null)} className="mt-2 text-xs text-muted-foreground underline hover:text-foreground">Quitar captura</button>
+                      </QAHint>
                     )}
                   </div>
 
-                  <Button type="submit" className="w-full" disabled={busy} data-testid="qa-save-issue">
-                    Guardar incidencia local
-                  </Button>
+                  <QAHint label="Guarda la incidencia en este navegador y limpia el formulario. Nada se envía: para entregarla, exporta desde Sesión." side="top">
+                    <Button type="submit" className="w-full" disabled={busy} data-testid="qa-save-issue">
+                      Guardar incidencia local
+                    </Button>
+                  </QAHint>
                 </aside>
               </form>
             )}
@@ -685,24 +706,34 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
                     <p className="mt-1 text-sm text-muted-foreground">El JSON es autosuficiente: al importarlo aquí se reconstruyen lista, contexto y capturas.</p>
                   </div>
                   <div className="grid gap-2 sm:grid-cols-2">
+                    <QAHint label="Descarga todas las incidencias en un archivo JSON. Ese archivo es la entrega: incluye contexto, repro y capturas." side="top">
                     <Button type="button" variant="outline" onClick={handleDownload} className="gap-2" data-testid="qa-export">
                       <Download className="h-4 w-4" /> Descargar
                     </Button>
+                    </QAHint>
+                    <QAHint label="Carga un paquete exportado para seguir una sesión en otro equipo. Se añade a lo que ya tienes, no lo reemplaza." side="top">
                     <Button type="button" variant="outline" onClick={() => importRef.current?.click()} className="gap-2" data-testid="qa-import">
                       <FileUp className="h-4 w-4" /> Importar
                     </Button>
-                    <Button type="button" variant="outline" onClick={() => void handleShare()} className="gap-2">
-                      <Send className="h-4 w-4" /> Compartir
-                    </Button>
-                    <Button type="button" variant="outline" onClick={handleEmail} className="gap-2">
-                      <Mail className="h-4 w-4" /> Correo
-                    </Button>
+                    </QAHint>
+                    <QAHint label="Usa el menú de compartir del sistema si tu navegador lo soporta; si no, descarga el archivo." side="top">
+                      <Button type="button" variant="outline" onClick={() => void handleShare()} className="gap-2">
+                        <Send className="h-4 w-4" /> Compartir
+                      </Button>
+                    </QAHint>
+                    <QAHint label="Descarga el paquete y abre tu cliente de correo con las instrucciones. El adjunto lo pones tú: mailto: no puede." side="top">
+                      <Button type="button" variant="outline" onClick={handleEmail} className="gap-2">
+                        <Mail className="h-4 w-4" /> Correo
+                      </Button>
+                    </QAHint>
                   </div>
                   <input ref={importRef} type="file" accept="application/json,.json" className="hidden" onChange={(event) => void handleImport(event.target.files?.[0])} />
                   <p className="text-xs text-muted-foreground">El botón Correo descarga primero el archivo y abre tu cliente de correo con instrucciones para adjuntarlo; los navegadores no permiten que `mailto:` añada adjuntos automáticamente.</p>
-                  <Button type="button" variant="ghost" onClick={() => void handleClear()} className="text-destructive hover:text-destructive">
-                    <Trash2 className="mr-2 h-4 w-4" /> Vaciar sesión local
-                  </Button>
+                  <QAHint label="Borra todas las incidencias de este navegador y no se puede deshacer. Exporta antes si aún no has entregado." side="top">
+                    <Button type="button" variant="ghost" onClick={() => void handleClear()} className="text-destructive hover:text-destructive">
+                      <Trash2 className="mr-2 h-4 w-4" /> Vaciar sesión local
+                    </Button>
+                  </QAHint>
                 </section>
               </div>
             )}
@@ -717,8 +748,8 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
                   <div className="max-h-[58vh] overflow-y-auto p-2">
                     {!issues.length && <div className="p-6 text-center text-sm text-muted-foreground">Todavía no hay incidencias.</div>}
                     {issues.map((issue) => (
+                      <QAHint key={issue.id} label="Abre la incidencia: su ubicación exacta, los pasos para reproducirla y la captura si la tiene." side="right">
                       <button
-                        key={issue.id}
                         type="button"
                         onClick={() => setSelectedId(issue.id)}
                         className={`mb-2 w-full rounded-lg border p-3 text-left transition ${selectedId === issue.id ? 'border-primary bg-primary/5' : 'border-border bg-background hover:bg-muted/50'}`}
@@ -730,6 +761,7 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
                         </div>
                         <div className="truncate text-xs text-muted-foreground">{contextLabel(issue)}</div>
                       </button>
+                      </QAHint>
                     ))}
                   </div>
                 </aside>
@@ -749,9 +781,11 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
                             <span className="rounded border border-border bg-muted/40 px-2 py-1">{QA_CAUSES.find((item) => item.value === selected.cause)?.label ?? selected.cause}</span>
                           </div>
                         </div>
-                        <Button type="button" variant="ghost" size="sm" onClick={() => void handleDelete(selected.id)} className="text-destructive hover:text-destructive">
-                          <Trash2 className="mr-1.5 h-4 w-4" /> Eliminar
-                        </Button>
+                        <QAHint label="Borra solo esta incidencia, sin deshacer. Las demás y el resto de la sesión quedan intactas." side="left">
+                          <Button type="button" variant="ghost" size="sm" onClick={() => void handleDelete(selected.id)} className="text-destructive hover:text-destructive">
+                            <Trash2 className="mr-1.5 h-4 w-4" /> Eliminar
+                          </Button>
+                        </QAHint>
                       </div>
 
                       <div className="rounded-xl border border-border bg-muted/20 p-4">

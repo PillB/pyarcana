@@ -151,6 +151,7 @@ python_sum 15`,
     from openpyxl import Workbook, load_workbook
     from openpyxl.styles import Font, PatternFill
     from pathlib import Path
+    import hashlib
     import shutil
     import tempfile
 
@@ -165,6 +166,11 @@ python_sum 15`,
         ws0["A1"].fill = PatternFill("solid", fgColor="1F4E79")
         wb0.save(master)
 
+        # Hash antes de tocar nada. "El archivo sigue ahi" no es lo que
+        # promete copy->save: promete que la plantilla no cambio, y eso
+        # solo lo demuestra comparar sus bytes.
+        antes = hashlib.sha256(master.read_bytes()).hexdigest()
+
         out = Path(tmp) / "out" / "results.xlsx"
         out.parent.mkdir(parents=True)
         shutil.copy(master, out)
@@ -173,7 +179,8 @@ python_sum 15`,
         ws["A2"] = "Lima"
         wb.save(out)
         print("saved", out.name)
-        print("master_intact", master.exists())
+        despues = hashlib.sha256(master.read_bytes()).hexdigest()
+        print("master_intact", antes == despues)
         print("header_bold", wb["Entrada"]["A1"].font.bold)
 
 s20_th_3()`,
