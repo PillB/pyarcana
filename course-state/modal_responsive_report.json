@@ -1,0 +1,450 @@
+{
+  "base": "http://127.0.0.1:4321/pyarcana",
+  "modals": {
+    "qa-harness": {
+      "phone-320": {
+        "present": true,
+        "viewport": {
+          "width": 320,
+          "height": 640
+        },
+        "dialog": {
+          "width": 288,
+          "height": 576,
+          "top": 32,
+          "bottom": 608
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 320,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 320
+      },
+      "phone-390": {
+        "present": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "dialog": {
+          "width": 358,
+          "height": 760,
+          "top": 42,
+          "bottom": 802
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 390,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 390
+      },
+      "split-768": {
+        "present": true,
+        "viewport": {
+          "width": 768,
+          "height": 800
+        },
+        "dialog": {
+          "width": 736,
+          "height": 720,
+          "top": 40,
+          "bottom": 760
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 768,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 768
+      },
+      "macbook-1440": {
+        "present": true,
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "dialog": {
+          "width": 1180,
+          "height": 750,
+          "top": 75,
+          "bottom": 825
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 1440,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 1440
+      },
+      "short-1280x600": {
+        "present": true,
+        "viewport": {
+          "width": 1280,
+          "height": 600
+        },
+        "dialog": {
+          "width": 1180,
+          "height": 540,
+          "top": 30,
+          "bottom": 570
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 1280,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 1280
+      },
+      "very-short-1024x480": {
+        "present": true,
+        "viewport": {
+          "width": 1024,
+          "height": 480
+        },
+        "dialog": {
+          "width": 992,
+          "height": 432,
+          "top": 24,
+          "bottom": 456
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 1024,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 1024
+      }
+    },
+    "qa-tour-step2-answered": {
+      "phone-320": {
+        "present": true,
+        "viewport": {
+          "width": 320,
+          "height": 640
+        },
+        "dialog": {
+          "width": 286,
+          "height": 574,
+          "top": 33,
+          "bottom": 607
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 320,
+        "widthRatio": 0.99,
+        "clipped": [],
+        "baselineScrollWidth": 320
+      },
+      "phone-390": {
+        "present": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "dialog": {
+          "width": 356,
+          "height": 758,
+          "top": 43,
+          "bottom": 801
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 390,
+        "widthRatio": 0.99,
+        "clipped": [],
+        "baselineScrollWidth": 390
+      },
+      "split-768": {
+        "present": true,
+        "viewport": {
+          "width": 768,
+          "height": 800
+        },
+        "dialog": {
+          "width": 734,
+          "height": 718,
+          "top": 41,
+          "bottom": 759
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 768,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 768
+      },
+      "macbook-1440": {
+        "present": true,
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "dialog": {
+          "width": 1178,
+          "height": 748,
+          "top": 76,
+          "bottom": 824
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 1440,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 1440
+      },
+      "short-1280x600": {
+        "present": true,
+        "viewport": {
+          "width": 1280,
+          "height": 600
+        },
+        "dialog": {
+          "width": 1178,
+          "height": 538,
+          "top": 31,
+          "bottom": 569
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 1280,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 1280
+      },
+      "very-short-1024x480": {
+        "present": true,
+        "viewport": {
+          "width": 1024,
+          "height": 480
+        },
+        "dialog": {
+          "width": 990,
+          "height": 430,
+          "top": 25,
+          "bottom": 455
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 1024,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 1024
+      }
+    },
+    "qa-tour-step2-all-definitions": {
+      "phone-320": {
+        "present": true,
+        "viewport": {
+          "width": 320,
+          "height": 640
+        },
+        "dialog": {
+          "width": 286,
+          "height": 574,
+          "top": 33,
+          "bottom": 607
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 320,
+        "widthRatio": 0.99,
+        "clipped": [],
+        "baselineScrollWidth": 320
+      },
+      "phone-390": {
+        "present": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "dialog": {
+          "width": 356,
+          "height": 758,
+          "top": 43,
+          "bottom": 801
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 390,
+        "widthRatio": 0.99,
+        "clipped": [],
+        "baselineScrollWidth": 390
+      },
+      "split-768": {
+        "present": true,
+        "viewport": {
+          "width": 768,
+          "height": 800
+        },
+        "dialog": {
+          "width": 734,
+          "height": 718,
+          "top": 41,
+          "bottom": 759
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 768,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 768
+      },
+      "macbook-1440": {
+        "present": true,
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "dialog": {
+          "width": 1178,
+          "height": 748,
+          "top": 76,
+          "bottom": 824
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 1440,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 1440
+      },
+      "short-1280x600": {
+        "present": true,
+        "viewport": {
+          "width": 1280,
+          "height": 600
+        },
+        "dialog": {
+          "width": 1178,
+          "height": 538,
+          "top": 31,
+          "bottom": 569
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 1280,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 1280
+      },
+      "very-short-1024x480": {
+        "present": true,
+        "viewport": {
+          "width": 1024,
+          "height": 480
+        },
+        "dialog": {
+          "width": 990,
+          "height": 430,
+          "top": 25,
+          "bottom": 455
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 1024,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 1024
+      }
+    },
+    "feedback-modal": {
+      "skipped": "not rendered on the static export; probe it against the dev server"
+    },
+    "glossary": {
+      "phone-320": {
+        "present": true,
+        "viewport": {
+          "width": 320,
+          "height": 640
+        },
+        "dialog": {
+          "width": 288,
+          "height": 576,
+          "top": 32,
+          "bottom": 608
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 320,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 320
+      },
+      "phone-390": {
+        "present": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "dialog": {
+          "width": 358,
+          "height": 682,
+          "top": 81,
+          "bottom": 763
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 390,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 390
+      },
+      "split-768": {
+        "present": true,
+        "viewport": {
+          "width": 768,
+          "height": 800
+        },
+        "dialog": {
+          "width": 736,
+          "height": 626,
+          "top": 87,
+          "bottom": 713
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 768,
+        "widthRatio": 1,
+        "clipped": [],
+        "baselineScrollWidth": 768
+      },
+      "macbook-1440": {
+        "present": true,
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "dialog": {
+          "width": 768,
+          "height": 681,
+          "top": 110,
+          "bottom": 791
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 1440,
+        "widthRatio": 0.65,
+        "clipped": [],
+        "baselineScrollWidth": 1440
+      },
+      "short-1280x600": {
+        "present": true,
+        "viewport": {
+          "width": 1280,
+          "height": 600
+        },
+        "dialog": {
+          "width": 768,
+          "height": 516,
+          "top": 42,
+          "bottom": 558
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 1280,
+        "widthRatio": 0.65,
+        "clipped": [],
+        "baselineScrollWidth": 1280
+      },
+      "very-short-1024x480": {
+        "present": true,
+        "viewport": {
+          "width": 1024,
+          "height": 480
+        },
+        "dialog": {
+          "width": 768,
+          "height": 432,
+          "top": 24,
+          "bottom": 456
+        },
+        "overflowsViewportY": 0,
+        "pageScrollWidth": 1024,
+        "widthRatio": 0.77,
+        "clipped": [],
+        "baselineScrollWidth": 1024
+      }
+    }
+  },
+  "findings": [],
+  "ok": true
+}

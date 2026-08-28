@@ -1,31 +1,22 @@
 {
-  "generated_at": "2026-08-23T00:59:10.774582+00:00",
+  "generated_at": "2026-08-28T01:26:46.597265+00:00",
   "sections": 52,
   "dependency_visibility": {
     "status": "ok",
     "core_modules_missing": [],
-    "visible_count": 4,
+    "visible_count": 13,
     "missing": [
-      "PIL",
       "anthropic",
       "boto3",
-      "bs4",
       "chromadb",
       "cv2",
       "dbt",
-      "dotenv",
-      "fastapi",
       "google",
-      "httpx",
       "kafka",
       "langchain",
-      "matplotlib",
       "neo4j",
       "openai",
-      "pydantic",
-      "pytest",
       "redis",
-      "requests",
       "seaborn",
       "sqlalchemy",
       "streamlit",
@@ -36,26 +27,37 @@
     "note": "Core teaching modules are importable; numpy/pandas/sklearn snippets are genuinely executed."
   },
   "environment_matches_pins": {
-    "status": "ok",
+    "status": "drifted",
     "declared": {
       "numpy": "2.2.6",
       "pandas": "3.0.5",
       "scikit-learn": "1.6.1",
       "scipy": "1.13.1"
     },
-    "drift": [],
-    "note": "The snippet interpreter matches the declared teaching environment."
+    "drift": [
+      {
+        "package": "numpy",
+        "declared": "2.2.6",
+        "installed": "2.0.2"
+      },
+      {
+        "package": "pandas",
+        "declared": "3.0.5",
+        "installed": "2.3.3"
+      }
+    ],
+    "note": "The interpreter running the snippets does NOT match requirements-content.txt. Declared outputs are only true in the declared environment, so output_mismatch findings below are most likely this drift rather than broken content. Re-run inside an environment built from requirements-content.txt before treating any of them as real."
   },
   "totals": {
-    "pass": 3240,
-    "fail": 0,
-    "skip": 117,
-    "artifacts": 3357
+    "pass": 3284,
+    "fail": 4,
+    "skip": 70,
+    "artifacts": 3358
   },
-  "fail_count": 0,
+  "fail_count": 4,
   "p0_count": 0,
-  "p1_count": 0,
-  "ok": true,
+  "p1_count": 4,
+  "ok": false,
   "sections_detail": [
     {
       "file": "src/lib/course/sections/s01-setup.ts",
@@ -81,9 +83,9 @@
       "file": "src/lib/course/sections/s03-data-structures.ts",
       "section_id": "data-structures",
       "counts": {
-        "pass": 65,
+        "pass": 61,
         "fail": 0,
-        "skip": 0
+        "skip": 4
       },
       "artifact_count": 65
     },
@@ -201,9 +203,9 @@
       "file": "src/lib/course/sections/s15-stdlib-deep.ts",
       "section_id": "stdlib-deep",
       "counts": {
-        "pass": 62,
-        "fail": 0,
-        "skip": 3
+        "pass": 61,
+        "fail": 4,
+        "skip": 0
       },
       "artifact_count": 65
     },
@@ -241,9 +243,9 @@
       "file": "src/lib/course/sections/s19-databases-orm.ts",
       "section_id": "databases-orm",
       "counts": {
-        "pass": 56,
+        "pass": 65,
         "fail": 0,
-        "skip": 9
+        "skip": 0
       },
       "artifact_count": 65
     },
@@ -251,9 +253,9 @@
       "file": "src/lib/course/sections/s20-rag.ts",
       "section_id": "rag",
       "counts": {
-        "pass": 42,
+        "pass": 64,
         "fail": 0,
-        "skip": 22
+        "skip": 0
       },
       "artifact_count": 64
     },
@@ -261,9 +263,9 @@
       "file": "src/lib/course/sections/s21-fastapi.ts",
       "section_id": "fastapi",
       "counts": {
-        "pass": 46,
+        "pass": 64,
         "fail": 0,
-        "skip": 18
+        "skip": 0
       },
       "artifact_count": 64
     },
@@ -281,9 +283,9 @@
       "file": "src/lib/course/sections/s23-computer-vision.ts",
       "section_id": "computer-vision",
       "counts": {
-        "pass": 64,
+        "pass": 65,
         "fail": 0,
-        "skip": 1
+        "skip": 0
       },
       "artifact_count": 65
     },
@@ -481,11 +483,11 @@
       "file": "src/lib/course/sections/s43-llmops.ts",
       "section_id": "llmops",
       "counts": {
-        "pass": 64,
+        "pass": 65,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 64
+      "artifact_count": 65
     },
     {
       "file": "src/lib/course/sections/s44-multimodal.ts",
@@ -541,9 +543,9 @@
       "file": "src/lib/course/sections/s49-data-contracts.ts",
       "section_id": "data-contracts",
       "counts": {
-        "pass": 64,
+        "pass": 62,
         "fail": 0,
-        "skip": 0
+        "skip": 2
       },
       "artifact_count": 64
     },
@@ -578,5 +580,42 @@
       "artifact_count": 65
     }
   ],
-  "failures": []
+  "failures": [
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "solution",
+      "artifact_id": "solutionCode-20",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-1",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-4",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-14",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    }
+  ]
 }

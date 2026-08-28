@@ -1,11 +1,48 @@
 {
-  "generated_at": "2026-08-23T00:59:10.774582+00:00",
+  "generated_at": "2026-08-28T01:26:46.597265+00:00",
   "p0": [],
-  "p1": [],
+  "p1": [
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "solution",
+      "artifact_id": "solutionCode-20",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-1",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-4",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-14",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    }
+  ],
   "summary": {
     "p0": 0,
-    "p1": 0,
-    "pass": 3240,
-    "skip": 117
+    "p1": 4,
+    "pass": 3284,
+    "skip": 70
   }
 }
