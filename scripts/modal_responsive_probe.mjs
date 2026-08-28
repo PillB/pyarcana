@@ -44,6 +44,16 @@ const VIEWPORTS = [
  * Each modal names how to open it and, optionally, how to drive it into its
  * tallest state. The tall state is the point: an empty dialog always fits.
  */
+/** Walk the tutorial forward until the first exercise is on screen. */
+async function advanceToExercise(page) {
+  for (let step = 0; step < 12; step += 1) {
+    if (await page.locator('[data-testid="qa-tour-option-unanswerable-question"]').count()) return
+    await page.getByTestId('qa-tour-next').click()
+    await page.waitForTimeout(120)
+  }
+  throw new Error('the tutorial never reached an exercise')
+}
+
 const MODALS = [
   {
     id: 'qa-harness',
@@ -56,9 +66,10 @@ const MODALS = [
       await page.evaluate(() => localStorage.removeItem('pyarcana:qaTourCompleted'))
       await page.getByTestId('qa-harness-open').click()
       await page.getByTestId('qa-tour').waitFor({ timeout: 20000 })
-      // Step 2, answered correctly: the reported case. A right answer reveals
-      // both the feedback and the rule, which is the tallest this step gets.
-      await page.getByTestId('qa-tour-next').click()
+      // Advance until the first exercise instead of counting clicks. Hard-coding
+      // "one Next" broke the moment the tour gained its navigation steps, and a
+      // probe that encodes the step order will break again on the next edit.
+      await advanceToExercise(page)
       await page.getByTestId('qa-tour-option-unanswerable-question').click()
       await page.getByTestId('qa-tour-feedback').waitFor()
     },
@@ -74,7 +85,7 @@ const MODALS = [
       await page.evaluate(() => localStorage.removeItem('pyarcana:qaTourCompleted'))
       await page.getByTestId('qa-harness-open').click()
       await page.getByTestId('qa-tour').waitFor({ timeout: 20000 })
-      await page.getByTestId('qa-tour-next').click()
+      await advanceToExercise(page)
       await page.getByTestId('qa-tour-definitions').waitFor()
       await page.getByTestId('qa-tour-option-unanswerable-question').click()
       await page.getByTestId('qa-tour-feedback').waitFor()

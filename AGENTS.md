@@ -188,6 +188,85 @@ Particular weight goes to:
 it can fail: demonstrate it by breaking the thing it guards and watching it
 report. Empty findings prove nothing on their own.
 
+### One failed hypothesis, then research
+
+The first guess about an error is a hypothesis. **If it turns out wrong, stop
+guessing and go find out how the error is actually caused and solved** — the
+library's issue tracker, its source, the spec, the standard, or the accounts of
+people who hit the same message. A second guess costs another edit, another
+build and another test cycle, and lands no closer than the first.
+
+The tell is the shape of the reasoning: "it must be X" followed by "then it must
+be Y". Each is a fresh story fitted to the same symptom, and neither is evidence.
+Prefer the diagnostic that names the cause outright — read the actual error
+context, print the real state, dump the element the tool says is intercepting.
+
+Record what the cause turned out to be in the commit message. An error explained
+once should not have to be diagnosed twice.
+
+### A blocked dependency is a stop, not a retry
+
+If a task or gate needs another service, agent or API and that resource is
+unavailable, unstable, rate-limited or out of quota, **stop and tell the user**.
+Do not keep calling it, do not work around it silently, and do not let a batch
+run to completion against a resource that already refused the first request.
+
+Retrying a blocked resource costs time and quota and produces nothing. Worse, it
+buries the real news — that the work cannot be finished right now — under a wall
+of identical failures the user has to read to discover it.
+
+What to do instead:
+
+1. **Stop at the first refusal** that is clearly about availability rather than
+   about the request: quota, rate limit, auth failure, service down, timeout on
+   every call. One retry to rule out a transient blip is fine; a second is not.
+2. **Say what is blocked, what it blocked, and what remains undone.** Name the
+   sections, files or checks that did not get their answer.
+3. **Do not substitute a weaker signal without saying so.** Falling back to an
+   older report, a cached result or your own judgement is sometimes right, but
+   it is a different kind of evidence and must be labelled as one.
+4. **Never report the blocked work as complete.** A gate that could not run is
+   not a gate that passed. Counts drawn from a partially-refreshed dataset are
+   stale in the parts that were refused, and saying so is mandatory.
+
+This has already gone wrong here: a review batch hit `usage limit` on its first
+call and was allowed to run through eleven more identical failures, and the
+finding totals were briefly reported as if all sections had been re-reviewed
+when twelve still carried data from an earlier run.
+
+### Tautological tests considered harmful
+
+A test that cannot fail is worse than no test, because it converts an unchecked
+area into one that looks checked. Delete or fix them on sight; never add one to
+raise a count.
+
+Recognisable forms, all of which have shipped in this repository:
+
+- **Comparing a value to itself.** `digest_a = f"deps:{h}"` next to
+  `digest_b = f"deps:{h}"`, then asserting they match — it proves the language
+  is deterministic, not that two builds agree.
+- **Asserting the shape of a pass.** A probe branch that returns
+  `{clipped: [], overlaps: []}` without measuring anything.
+- **Matching nothing.** A parser looking for `rgb()` against an `oklch` theme,
+  or a term scan whose regex never fires: zero findings reported as zero
+  defects.
+- **Restating the implementation.** Asserting a helper is called by name rather
+  than asserting the guarantee it exists to provide; the test then breaks on
+  renames and passes through behaviour changes.
+- **A satisfiable-by-degenerate-answer check.** `body` matches exactly one
+  element and is an ancestor of everything, so an element-selector test that
+  only checks uniqueness and ancestry accepts the useless answer.
+- **A copy of the code under test.** A test that re-implements the function so
+  it can run in isolation tests the copy; the original changed and the copy kept
+  passing.
+- **Vacuous truth.** `all()` over an empty list, a subset check against an
+  empty allowlist, a loop whose body never executes.
+
+The check to apply before committing any test: **name the change to production
+code that would make this fail.** If you cannot, it is tautological. Where the
+cost is low, prove it — break the thing, watch the test go red, restore it, and
+say so in the commit message.
+
 ---
 
 ## Release readiness (READY)
@@ -205,6 +284,8 @@ Do **not** report READY if any of:
 - a decision fails the expert standard above and the objection has not been
   stated to the user  
 - a known gap, unfixed finding, or unmet target is absent from the report  
+- work is reported as shipped without confirming the commit is an ancestor of
+  the deployed SHA  
 
 ---
 

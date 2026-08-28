@@ -202,6 +202,39 @@ export const QA_TOUR_STEPS: QATourStep[] = [
       + 'elegir entre categorías que se parecen. Puedes saltarlo y volver cuando quieras.',
   },
   {
+    id: 'pestanas',
+    title: 'Tres pestañas, tres momentos distintos',
+    target: '[data-testid="qa-tab-report"]',
+    body:
+      '**Reportar** es donde escribes lo que acabas de ver. **Sesión** es quién prueba y qué '
+      + 'haces con lo reunido: exportar el paquete, importar el de otra persona, o vaciar. '
+      + '**Revisión** es leer lo ya guardado con su contexto y su captura. El orden normal es '
+      + 'ese: reportas durante la prueba, revisas al final, exportas para entregar. '
+      + 'Nada sale de tu navegador hasta que exportas a mano.',
+  },
+  {
+    id: 'contexto',
+    title: 'El contexto se captura solo; tú lo afinas',
+    target: '[data-testid="qa-pick-element"]',
+    body:
+      'Al abrir el workspace se guardan sección, scroll, tamaño de ventana y el SHA del deploy, '
+      + 'sin que hagas nada. Dos botones lo ajustan. **Señalar elemento** aparta el workspace y '
+      + 'te deja hacer clic en la cosa concreta de la que hablas: anota un selector que quien '
+      + 'revise puede pegar en devtools. **Actualizar ubicación** vuelve a capturar la posición, '
+      + 'y lo necesitas si navegaste después de abrir el formulario.',
+  },
+  {
+    id: 'atajos',
+    title: 'Cómo entrar, salir y no perder lo escrito',
+    target: '[data-testid="qa-tour-open"]',
+    body:
+      'El workspace se abre desde **QA interna** en el pie o con **Ctrl/⌘ + Alt + Q**. Escape lo '
+      + 'cierra. Mientras señalas un elemento, Escape cancela solo la puntería y el borrador '
+      + 'sigue donde estaba. Cada control tiene una explicación corta: pasa el ratón por encima, '
+      + 'o tócalo si estás en pantalla táctil. Este tutorial vuelve desde el botón **Tutorial**, '
+      + 'las veces que quieras.',
+  },
+  {
     id: 'tipo',
     title: 'Tipo: qué clase de problema es',
     target: '[data-testid="qa-category"]',

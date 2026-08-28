@@ -138,3 +138,46 @@ test('each definition says what it means and shows one', () => {
   }
 })
 
+
+test('the tutorial teaches the workspace, not only the form fields', () => {
+  // A tester who has never opened this dialog does not need the difference
+  // between Contenido and Término no explicado first -- they need to know which
+  // of three tabs they are in, where the context comes from, and how to get out
+  // without losing what they typed. The tour opened straight onto the category
+  // dropdown, explaining fields to someone who did not yet know where they were.
+  const steps = [...CONTENT.matchAll(/id: '([a-z0-9-]+)',\s*\n\s*title: '([^']+)'/g)]
+    .map((m) => ({ id: m[1], title: m[2] }))
+  const ids = steps.map((s) => s.id)
+
+  for (const required of ['pestanas', 'contexto', 'atajos']) {
+    assert.ok(ids.includes(required), `the tutorial lost its "${required}" step`)
+  }
+
+  // Orientation before taxonomy: you cannot classify a field you cannot find.
+  const firstField = Math.min(...['tipo', 'causa', 'severidad'].map((id) => ids.indexOf(id)).filter((i) => i >= 0))
+  for (const nav of ['pestanas', 'contexto', 'atajos']) {
+    assert.ok(
+      ids.indexOf(nav) < firstField,
+      `"${nav}" comes after the field steps; orientation has to precede classification`,
+    )
+  }
+
+  // Each navigation step must point at something real in the workspace, or it
+  // is describing a UI the reader cannot locate.
+  const harness = readFileSync('src/components/course/QAHarness.tsx', 'utf8')
+  const literals = new Set([...harness.matchAll(/data-testid="([^"]+)"/g)].map((m) => m[1]))
+
+  // The tab ids are built from a template -- data-testid={`qa-tab-${value}`} --
+  // so a literal search misses them. Accepting any `qa-tab-*` instead would
+  // make this check tautological: it would pass a target that does not exist.
+  // The three values are read out of the tab list itself, so a renamed tab
+  // fails here rather than being waved through.
+  const tabValues = [...harness.matchAll(/\['(report|session|review)', '[^']+', '/g)].map((m) => m[1])
+  assert.equal(tabValues.length, 3, 'could not read the tab list; this check would be vacuous')
+  for (const value of tabValues) literals.add(`qa-tab-${value}`)
+
+  for (const m of CONTENT.matchAll(/target: '\[data-testid="([^"]+)"\]'/g)) {
+    const id = m[1]
+    assert.ok(literals.has(id), `the tutorial highlights [data-testid="${id}"], which the workspace does not render`)
+  }
+})
