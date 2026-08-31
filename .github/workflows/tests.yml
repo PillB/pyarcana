@@ -194,6 +194,11 @@ jobs:
           python3 -m http.server 4173 --bind 127.0.0.1 --directory .ci-static &
           BASE_URL=http://127.0.0.1:4173 PAGES_BASE=1 npx playwright test scripts/static_public.spec.ts scripts/safe_agent_journeys.spec.ts --reporter=list
 
+      - name: Accessibility (axe, WCAG 2.2 AA)
+        if: matrix.mode == 'static'
+        run: |
+          BASE_URL=http://127.0.0.1:4173 PAGES_BASE=1 npx playwright test scripts/a11y.spec.ts --reporter=list
+
   regression-content:
     name: Content Regression (no sections removed)
     runs-on: ubuntu-latest
