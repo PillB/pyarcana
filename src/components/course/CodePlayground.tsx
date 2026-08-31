@@ -271,13 +271,13 @@ export function CodePlayground({
           <Terminal className="h-3.5 w-3.5" />
           <span>{title}</span>
           {pyodideReady && (
-            <span className="flex items-center gap-1 rounded-full bg-green-500/10 px-2 py-0.5 text-[10px] text-green-600">
+            <span className="flex items-center gap-1 rounded-full bg-green-500/10 px-2 py-0.5 text-[10px] text-green-800 dark:text-green-300">
               <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
               Python listo
             </span>
           )}
           {loading && (
-            <span className="flex items-center gap-1 text-[10px] text-amber-600">
+            <span className="flex items-center gap-1 text-[10px] text-amber-700 dark:text-amber-300">
               <Loader2 className="h-3 w-3 animate-spin" />
               Ejecutando...
             </span>

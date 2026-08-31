@@ -117,7 +117,13 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
         className="flex-1 overflow-y-auto scroll-area-thin px-3 py-3"
         data-testid="sidebar-sections"
         role="list"
-        aria-label={t('sidebar.sectionsDone', lang)}
+        // fill(), like the visible copy two lines up. Without it a screen
+        // reader announced the template itself -- "{done} de {total} secciones
+        // completadas" -- while sighted users saw the real numbers.
+        aria-label={fill(t('sidebar.sectionsDone', lang), {
+          done: completedCount,
+          total: sections.length,
+        })}
       >
         <div className="space-y-1">
           {sections.map((section, idx) => {
@@ -136,33 +142,43 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
               : null
 
             return (
-              <div key={section.id}>
+              // role="listitem": the container declares role="list", and a list
+              // whose children are anything else is a critical axe violation
+              // because assistive tech cannot report position or count.
+              <div key={section.id} role="listitem">
                 {phaseHeader && (
                   <div className="mt-4 mb-1 px-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60">
                     {phaseHeader}
                   </div>
                 )}
+                {/*
+                  The row used to be a div with role="button" wrapping the
+                  bookmark button. Nesting one control inside another is a
+                  serious axe violation for a reason: a screen reader announces
+                  the outer as a single button and the inner one is unreliable
+                  to reach, while a keyboard user tabs into a button that is
+                  inside a button. It also meant hand-rolling Enter and Space.
+                  The container is now inert and holds two siblings: a real
+                  button for navigation and a real button for the bookmark.
+                */}
                 <div
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => {
-                    onSelectSection(section.id)
-                    setLastVisited(section.id)
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault()
-                      onSelectSection(section.id)
-                      setLastVisited(section.id)
-                    }
-                  }}
                   className={cn(
-                    'group relative flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-all',
+                    'group relative flex w-full items-center gap-3 rounded-lg pr-2 transition-all',
                     isActive
                       ? 'bg-sidebar-accent shadow-sm'
                       : 'hover:bg-sidebar-accent/50'
                   )}
                 >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onSelectSection(section.id)
+                      setLastVisited(section.id)
+                    }}
+                    aria-current={isActive ? 'page' : undefined}
+                    data-testid={`sidebar-section-${section.id}`}
+                    className="flex min-w-0 flex-1 cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
                   <div
                     className={cn(
                       'relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-xs font-bold transition-colors',
@@ -194,13 +210,14 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
                     </div>
                   </div>
 
+                  </button>
+
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      toggleBookmark(section.id)
-                    }}
-                    className="shrink-0 p-1 text-muted-foreground/40 opacity-0 transition-opacity hover:text-primary group-hover:opacity-100"
+                    type="button"
+                    onClick={() => toggleBookmark(section.id)}
+                    className="shrink-0 p-1 text-muted-foreground opacity-0 transition-opacity hover:text-primary focus-visible:opacity-100 group-hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     aria-label={t('sidebar.bookmark', lang)}
+                    aria-pressed={isBookmarked}
                   >
                     {isBookmarked ? (
                       <BookmarkCheck className="h-3.5 w-3.5 text-primary" />

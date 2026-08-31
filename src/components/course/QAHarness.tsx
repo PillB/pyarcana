@@ -426,7 +426,7 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
         <button
           type="button"
           onClick={() => openHarness('report')}
-          className="inline-flex items-center gap-1 rounded px-1.5 py-1 text-[11px] text-muted-foreground/70 underline decoration-dotted underline-offset-4 transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="inline-flex items-center gap-1 rounded px-1.5 py-1 text-[11px] text-muted-foreground underline decoration-dotted underline-offset-4 transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           data-testid="qa-harness-open"
         >
           <Bug className="h-3 w-3" aria-hidden="true" />

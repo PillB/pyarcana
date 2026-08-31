@@ -203,7 +203,11 @@ test.describe('Safe-Agent learner journeys', () => {
     await expect(page.getByRole('heading', { name: 'PyArcana', level: 1 })).toBeVisible({
       timeout: 20000,
     })
-    await page.locator('aside [role="button"]').filter({ hasText: /S01|Entorno|setup/i }).first().click()
+    // Target the navigation button by id, not by `[role="button"]` and a text
+    // filter. That selector matched the row only while the row was a div
+    // pretending to be a button; the row is a real button now, and a text
+    // filter over every control in the sidebar is fragile either way.
+    await page.getByTestId('sidebar-section-setup').first().click()
     await expect(page.locator('[data-testid="section-root"]')).toBeVisible({ timeout: 20000 })
     const before = await page.evaluate(() => localStorage.getItem('python-ds-progress'))
     await page.locator('[data-testid="sidebar-substep-ido"]').first().click()
