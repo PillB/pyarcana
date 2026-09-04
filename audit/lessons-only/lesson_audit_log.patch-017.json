@@ -1,0 +1,60 @@
+{
+  "schema_version":"1.0.0",
+  "campaign_id":"lessons-only-adversarial-20260903",
+  "patch_id":"patch-017",
+  "applies_after":[
+    "audit/lessons-only/lesson_audit_log.json",
+    "audit/lessons-only/lesson_audit_log.patch-001.json",
+    "audit/lessons-only/lesson_audit_log.patch-002.json",
+    "audit/lessons-only/lesson_audit_log.patch-003.json",
+    "audit/lessons-only/lesson_audit_log.patch-004.json",
+    "audit/lessons-only/lesson_audit_log.patch-005.json",
+    "audit/lessons-only/lesson_audit_log.patch-006.json",
+    "audit/lessons-only/lesson_audit_log.patch-007.json",
+    "audit/lessons-only/lesson_audit_log.patch-008.json",
+    "audit/lessons-only/lesson_audit_log.patch-009.json",
+    "audit/lessons-only/lesson_audit_log.patch-010.json",
+    "audit/lessons-only/lesson_audit_log.patch-011.json",
+    "audit/lessons-only/lesson_audit_log.patch-012.json",
+    "audit/lessons-only/lesson_audit_log.patch-013.json",
+    "audit/lessons-only/lesson_audit_log.patch-014.json",
+    "audit/lessons-only/lesson_audit_log.patch-015.json",
+    "audit/lessons-only/lesson_audit_log.patch-016.json",
+    "audit/lessons-only/lesson_audit_log.patch-016a.json",
+    "audit/lessons-only/sections/S17.json",
+    "audit/lessons-only/sections/S17.paragraphs-01.json",
+    "audit/lessons-only/sections/S17.paragraphs-02.json"
+  ],
+  "source_git_sha":"535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "operations":[
+    {"op":"replace","path":"/coverage/S17/status","from":"PENDING","to":"AUDITED_REPAIR_REQUIRED"},
+    {"op":"add_section_shard","section":"S17","path":"audit/lessons-only/sections/S17.json","paragraph_audit_paths":["audit/lessons-only/sections/S17.paragraphs-01.json","audit/lessons-only/sections/S17.paragraphs-02.json"],"canonical_file":"src/lib/course/sections/s17-packaging.ts","canonical_blob_sha":"948e1c6d3b937313beee683974e4363c3c90c059","verdict":"REPAIR_REQUIRED","severity_counts":{"P0":0,"P1":11,"P2":8,"P3":0},"material_findings":19,"theory_blocks_reviewed":11,"paragraphs_reviewed":38,"paragraph_coverage_complete":true},
+    {"op":"advance_next_round","from":"S17","to":"S18"},
+    {"op":"extend_concept_ledger","source":"audit/lessons-only/sections/S17.json#/concept_ledger_delta","credit_rule_for_next_section":"Only concepts with state USABLE may be assumed in S18. PARTIAL, MENTION_ONLY, MISCONCEPTION_RISK and MISSING receive no automatic prerequisite credit."}
+  ],
+  "effective_campaign_state":{
+    "sections_inspected":17,
+    "canonical_sections":52,
+    "coverage_percent":32.692,
+    "section_status":{"S01-S17":"AUDITED_REPAIR_REQUIRED","S18-S52":"PENDING"},
+    "known_findings_before_global_deduplication":{"P0":0,"P1":190,"P2":164,"P3":1,"total":355},
+    "material_findings_before_global_deduplication":354,
+    "note_on_counts":"Running local counts only. Mandatory global passes may merge recurring root causes, reject false positives or change severity when later dependency evidence is available."
+  },
+  "S18_entry_watchlist":[
+    "Do not inherit groupby/agg/transform as fully USABLE: missing-key universe and client-vs-row denominator remain PARTIAL.",
+    "Do not inherit monetary totals as trustworthy until the Decimal/analytical boundary is explicit.",
+    "Do not assume S17 reconciliation proved pipeline conservation; current T4-A is hardcoded and disconnected from T1-T3.",
+    "Do not treat pivot_table output as grain-preserving merely because sums match.",
+    "Do not inherit rolling as prior-only; current-inclusive/default semantics remain PARTIAL.",
+    "Do not assume EDA has already been taught merely because S17 uses the acronym; S18 owns the full EDA mental model.",
+    "Carry cutoff/as-of basic principle as USABLE, but require integration with every time-dependent metric.",
+    "Any S18 rates/averages must distinguish row count from unique-entity denominator and state missing-group policy.",
+    "Join/index and concat semantics remain unsafe from S15/S17 and cannot be silently relied on in EDA preparation.",
+    "The S16/S17 clean analytical universe remains unproven until disjointness, missing-key policy and exclusions are reconciled."
+  ],
+  "next_round":"S18",
+  "must_re_read_review_contract":true,
+  "must_re_read_comprehension_contract":true,
+  "status":"EFFECTIVE_RUNNING_LOG_ADVANCED_TO_S17"
+}
