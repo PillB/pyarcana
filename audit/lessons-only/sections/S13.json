@@ -1,0 +1,385 @@
+{
+  "schema_version": "1.3.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S13",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s13-rpa-automation.ts",
+  "canonical_blob_sha": "16ae66aaf0f1771d2c8223d312d639a7b88bf3a8",
+  "title": "Familiarity Evidence Dashboard y cierre de nivel",
+  "short_title": "Evidence Dashboard",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "learner_entry_state": {
+    "baseline": "ZERO_TECH_CAPABLE",
+    "prior_sections": ["S01","S02","S03","S04","S05","S06","S07","S08","S09","S10","S11","S12"],
+    "credit_rule": "Only concepts marked USABLE in the effective prior ledger count as learned.",
+    "not_creditable": [
+      "safe HTTP request construction",
+      "safe retry/backoff and idempotency semantics",
+      "authenticated cache isolation",
+      "provider-drift contract verification",
+      "executable geocoder egress allowlist",
+      "stable S11 domain serialization boundary",
+      "universal personal-name/surname parsing",
+      "referential integrity merely from SQL naming",
+      "Level-1 closure merely because S13 says it closes the level"
+    ]
+  },
+  "roadmap_expectation": {
+    "prerequisites": "S1-S12",
+    "project": "close CP-N1-C plus N1 regression",
+    "T1": "normalization, blocking and entity resolution; labeled truth, precision/recall and clerical review",
+    "T2": "shared email/phone/address, distance and surnames; direct transactions and common counterparties",
+    "T3": "evidence score, uncertainty and explanation; review threshold, abstention and no automatic inference",
+    "T4": "pseudonymized dashboard/map and case sheet; privacy, access, tests, demo and runbook",
+    "gate": "deterministic ER with entity_resolution_score separate from relationship_signal_score, traceable geoevidence, human review and explicit limits",
+    "promotion": "three N1 capstones, S1-S13 level regression and CF-1 approved",
+    "CF1_authoritative": "stakeholders, jobs-to-be-done, success metrics, constraints/no-go, contracts and base demo; owner/reviewer, complete traceability, synthetic demo and green N1 tests; checkpoint records version/revision, date, owner, reviewer, paths/hashes, commands, results and issues",
+    "level_regression_authoritative": "critical tests of all three N1 capstones, E2E integration, one recovery item per prior topic, privacy/security controls; zero critical failures and at least 80% of noncritical evidence"
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/",
+    "status": "NEEDS_E4_RENDER",
+    "note": "Public rendered page remained unavailable through the supported page fetch. Source-level renderer inspection was used only where behavior is provable from SectionView/RichText; no screenshot or hydrated-layout parity claim is made."
+  },
+  "audit_metadata": {
+    "theory_blocks_reviewed": 10,
+    "paragraphs_reviewed": 56,
+    "paragraphs_expected": 56,
+    "paragraph_coverage_complete": true,
+    "theory_code_blocks_reviewed": 8,
+    "theory_figures_reviewed": 2,
+    "theory_callouts_reviewed": 9,
+    "learning_outcomes_reviewed": 8
+  },
+  "severity_counts": {"P0":0,"P1":20,"P2":7,"P3":0},
+  "material_findings": 27,
+  "verdict": "REPAIR_REQUIRED",
+  "confirmed_findings": [
+    {
+      "finding_id":"S13-F01","severity":"P2","category":"PERSISTENT_WIDOW_TERM_CLUSTER","location":"metadata/opening/reference/T3/T4",
+      "evidence":"ER, CP-N1-C, CF-1, gate, scaffold, runbook, egress and cola clerical recur as compact labels; several are expanded only after they already carry instructional weight.",
+      "learner_failure_mode":"A learner can follow the local sentence yet not know whether a label names a metric, project checkpoint, course-internal gate, interface artifact or operational procedure.",
+      "minimal_fix":"Use Spanish head terms first and expand each internal acronym/ID once at first use; keep the short label only afterward."
+    },
+    {
+      "finding_id":"S13-F02","severity":"P1","category":"FORGOTTEN_PREREQUISITE","location":"reference block p6",
+      "evidence":"S13 says the S12 HTTP client with timeout/retries and geographic egress policy are inherited and will not be rebuilt. The effective S12 ledger leaves real HTTP request construction MENTION_ONLY, retry/backoff MISCONCEPTION_RISK and egress enforcement PARTIAL/prose-only.",
+      "learner_failure_mode":"The capstone can treat missing or unsafe infrastructure as a solved prerequisite and wire it into the final product without ever seeing a correct implementation.",
+      "minimal_fix":"Revalidate only the unsafe S12 edges at S13 entry: one real/faked synchronous GET adapter, bounded idempotent retry, and executable egress guard before integration."
+    },
+    {
+      "finding_id":"S13-F03","severity":"P1","category":"MECHANISM_NOT_IMPLEMENTED","location":"S13-T1-A p2 + er_rules.py",
+      "evidence":"Prose says blocking uses several keys and a document key rescues pairs split by the surname/region key. The code has one block_key and scores an already-selected pair; it never generates candidate pairs or unions multiple blocking passes.",
+      "learner_failure_mode":"The learner can implement a key formatter but cannot implement blocking as a candidate-generation algorithm; true pairs separated by the only key are never compared.",
+      "minimal_fix":"Show a tiny candidate generator that produces pairs from at least two blocking keys and unions/deduplicates the candidate pairs before fine comparison."
+    },
+    {
+      "finding_id":"S13-F04","severity":"P1","category":"PROSE_CODE_CONTRADICTION","location":"S13-T1-A p3 + er_rules.py",
+      "evidence":"The paragraph defines 1.0 for same document+block, 0.5 for same document only, and 0.0 otherwise. Canonical theory code implements only 1.0 when both match, else 0.0. Spot-check same document/different region returned 0.0.",
+      "learner_failure_mode":"A learner cannot know which contract is canonical and will produce different scores depending on whether they copied prose or code.",
+      "minimal_fix":"Make the theory code implement exactly the documented 1.0/0.5/0.0 cascade and test all three branches."
+    },
+    {
+      "finding_id":"S13-F05","severity":"P1","category":"FAIL_CLOSED_FALSE_CLAIM","location":"S13-T1-A p4 + er_rules.py",
+      "evidence":"Prose says missing document, empty name or unusable block fails closed. block_key indexes parts[0] on an empty name and calls casefold on region without validation. Spot-checks raised IndexError for empty name and AttributeError for region=None.",
+      "learner_failure_mode":"Bad input crashes the capstone instead of producing a reviewable invalid-data state, contradicting the safety model being taught.",
+      "minimal_fix":"Validate required strings before normalization/blocking and return an explicit invalid_candidate/error result rather than indexing/casefolding unchecked values."
+    },
+    {
+      "finding_id":"S13-F06","severity":"P1","category":"KNOWN_BROKEN_NAME_HEURISTIC","location":"S13-T1-A p2 + block_key",
+      "evidence":"The lesson explicitly demonstrates that parts[1] misclassifies its own opening example 'Ana María Quispe Rojas' as surname 'maría', yet makes parts[1] the canonical paternal-surname rule. Prior S07 name parsing remains MISCONCEPTION_RISK.",
+      "learner_failure_mode":"The learner is taught to knowingly encode a parsing rule that breaks common multi-token given names, causing systematic missed candidates when document evidence is absent or dirty.",
+      "minimal_fix":"Use the already-structured apellido_paterno field in the synthetic schema; if only a full name is available, label token parsing as a lossy fallback and route ambiguity to review instead of making it canonical."
+    },
+    {
+      "finding_id":"S13-F07","severity":"P1","category":"EVALUATION_MENTAL_MODEL_OVERCLAIM","location":"S13-T1-B p2",
+      "evidence":"The text says imperfect recall is compensated by the clerical queue. A queue only reviews candidates routed to it; false negatives rejected below the queue or eliminated during blocking are never recovered by that queue.",
+      "learner_failure_mode":"The learner can accept poor candidate recall believing human review repairs missed pairs that humans never see.",
+      "minimal_fix":"State that clerical review reduces risk only for surfaced uncertain candidates; blocking/candidate recall must be measured separately because missed candidates are unrecoverable downstream."
+    },
+    {
+      "finding_id":"S13-F08","severity":"P2","category":"THRESHOLD_POLICY_DRIFT","location":"S13-T1-B p2 vs S13-T3-B",
+      "evidence":"T1-B defines the clerical band as [0.4, 0.7], while T3-B routes every score from 0.4 up to but not including 0.8 to needs_review.",
+      "learner_failure_mode":"Scores in [0.7,0.8) have two incompatible operational policies depending on which subsection the learner follows.",
+      "minimal_fix":"Choose one review band and reuse the same named thresholds everywhere."
+    },
+    {
+      "finding_id":"S13-F09","severity":"P1","category":"FAIL_CLOSED_FALSE_CLAIM","location":"S13-T1-B p2 + pr_metrics.py",
+      "evidence":"Prose says non-finite label/score input fails closed. pr_metrics accepts arbitrary tuple values and silently ignores malformed labels/predictions. Spot-check malformed values produced tp=fp=fn=0 rather than an error.",
+      "learner_failure_mode":"Corrupt evaluation data can silently look like zero errors instead of invalid evaluation evidence.",
+      "minimal_fix":"Validate truth/prediction values against an explicit binary schema before counting; reject malformed/nonfinite inputs with a clear error."
+    },
+    {
+      "finding_id":"S13-F10","severity":"P2","category":"METRIC_UNDEFINED_STATE_HIDDEN","location":"S13-T1-B pr_metrics.py",
+      "evidence":"When TP+FP or TP+FN is zero, the helper returns 0.0 without distinguishing 'metric is undefined because denominator is zero' from a measured precision/recall of zero.",
+      "learner_failure_mode":"A reviewer can interpret lack of evaluable positives as genuine model performance of 0.0 and miss that the evaluation set/prediction policy is degenerate.",
+      "minimal_fix":"Return/print an explicit undefined marker or status alongside the metric when the denominator is zero."
+    },
+    {
+      "finding_id":"S13-F11","severity":"P1","category":"TECHNICAL_FALSE_LABEL","location":"S13-T2-A p1-p3 + surname_overlap",
+      "evidence":"The signal is named surname_jaccard, but surname_overlap tokenizes each full name. For 'Ana Quispe Rojas' vs 'Luis Quispe Díaz' the code reports 0.2 because given names are in the union; the surnames alone have Jaccard 1/3 ≈ 0.333.",
+      "learner_failure_mode":"The learner believes a surname-similarity feature is being computed while the implementation also penalizes unrelated given-name tokens, corrupting the meaning of the feature and its weight.",
+      "minimal_fix":"Compute Jaccard from explicit surname fields/tokens only, or rename the feature to full_name_token_jaccard and change the prose/weights accordingly."
+    },
+    {
+      "finding_id":"S13-F12","severity":"P1","category":"FAIL_CLOSED_FALSE_CLAIM","location":"S13-T2-A p4 + shared_contact",
+      "evidence":"shared_contact returns None when a field is missing and '' when empty because it uses 'a.get(field) and ...'. The weighted formula expects a numeric/boolean; 0.5 * None raises TypeError.",
+      "learner_failure_mode":"Exactly the missing-field case that prose says should fail closed can crash score calculation instead of producing an explicit unavailable signal.",
+      "minimal_fix":"Return an explicit signal state/value such as False plus available=False, and make scoring policy handle unavailable evidence deliberately."
+    },
+    {
+      "finding_id":"S13-F13","severity":"P1","category":"DOMAIN_SCOPE_ERROR","location":"S13-T2-A geo_close_pair",
+      "evidence":"Each entity dict carries a single km field and geo_close_pair requires both entities to report the same km. Distance is a property of a pair of coordinates/entities, not an intrinsic per-entity attribute; one entity has different distances to different peers.",
+      "learner_failure_mode":"The learner can persist/reuse one 'km' on an entity as if it were universally meaningful, producing impossible relationship evidence when the entity is compared with multiple peers.",
+      "minimal_fix":"Compute or store distance on the pair/evidence object from two coordinates, with source/provenance, never as a scalar property of each entity."
+    },
+    {
+      "finding_id":"S13-F14","severity":"P2","category":"ROADMAP_COVERAGE_GAP","location":"S13-T2-A",
+      "evidence":"Roadmap T2 calls for shared email/phone/address plus distance/surnames. Theory's canonical relationship implementation demonstrates phone, geo and name-token overlap only; email/address are not integrated into the taught score/evidence model.",
+      "learner_failure_mode":"The learner reaches the capstone without a canonical treatment of two roadmap-required relationship signals or their missing/normalization semantics.",
+      "minimal_fix":"Add one compact signal registry/example that includes email and address availability/normalization, even if their N1 weight is zero or they remain explanatory evidence."
+    },
+    {
+      "finding_id":"S13-F15","severity":"P1","category":"DIRECTIONAL_GRAPH_SEMANTICS_LOST","location":"S13-T2-B p1-p3 + counterparties",
+      "evidence":"Prose defines common counterparties as 'A and C pay D'. counterparties treats edges as undirected. Counterexample A->D and D->C still yields D as common even though C did not pay D.",
+      "learner_failure_mode":"Direction-sensitive transaction evidence is silently converted into undirected adjacency, so the dashboard can describe a common payee pattern that did not occur.",
+      "minimal_fix":"Define the intended relation (e.g. outgoing payees) and intersect outgoing_counterparties(A) with outgoing_counterparties(C); teach a separate undirected relation only if desired and name it differently."
+    },
+    {
+      "finding_id":"S13-F16","severity":"P1","category":"CONSTRUCT_CONFLATION","location":"S13-T3-A p2-p4 + uncertainty",
+      "evidence":"The lesson insists ER and relationship are different constructs, then sets uncertainty=high whenever |ER-REL|>0.5. High ER and low REL can be completely coherent: the same person/identity can have little relationship evidence to another entity.",
+      "learner_failure_mode":"The learner is taught that disagreement between deliberately independent scores is evidence of uncertainty, reintroducing the conceptual fusion the lesson repeatedly warns against.",
+      "minimal_fix":"Compute uncertainty from evidence quality within each construct (missing fields, contradictory identity rules, provenance/quality) rather than from numerical distance between ER and REL."
+    },
+    {
+      "finding_id":"S13-F17","severity":"P1","category":"EXPLAINABILITY_OVERCLAIM","location":"opening p5 + S13-T3-A",
+      "evidence":"The lesson requires a reviewer to reconstruct the decision in five minutes and says each score must show the signals that produced it. explain() exposes only aggregate ER, aggregate REL, missing fields and rules_version; it omits component rules/signals, weights, pair/case identity, source/provenance and calculation inputs.",
+      "learner_failure_mode":"A reviewer can recompute the 0.6/0.4 blend but cannot reconstruct why ER or REL had their values, so the underlying decision remains unauditable.",
+      "minimal_fix":"Include component evidence with raw/normalized synthetic inputs or stable references, weights/rules fired, pair/case id, source/provenance and rules version."
+    },
+    {
+      "finding_id":"S13-F18","severity":"P1","category":"WRONG_HANDOFF_HAZARD","location":"S13-T3-A -> S13-T3-B",
+      "evidence":"T3-A correctly warns that evidence_score must never drive identity acceptance, but the immediately following function is decide_ops_status(score, uncertainty) and its prose/table use the generic term score rather than entity_resolution_score.",
+      "learner_failure_mode":"The learner can naturally pass the just-created evidence_score into the next subsection and accept an identity pair because relationship evidence pushed the blended score over 0.8.",
+      "minimal_fix":"Rename the parameter/table column to entity_resolution_score and show the exact call site from a case card, keeping evidence_score only for queue ordering."
+    },
+    {
+      "finding_id":"S13-F19","severity":"P1","category":"PLATFORM_DEPENDENCY_FORGOTTEN_PREREQUISITE","location":"S13-T3-B final paragraph",
+      "evidence":"A gate-level portfolio audit instructs the learner to use grep. S01 did not leave shell portability safe to inherit; grep is not a guaranteed default command on Windows.",
+      "learner_failure_mode":"A Windows learner can be blocked from performing a mandatory safety audit by tooling the course never established portably.",
+      "minimal_fix":"Provide a Python stdlib repository scan as the canonical cross-platform mechanism; optionally mention grep as a Unix convenience."
+    },
+    {
+      "finding_id":"S13-F20","severity":"P1","category":"SOURCE_RENDERER_CONTENT_FAILURE","location":"S13-T3-B decision matrix",
+      "evidence":"The decision table is authored as twelve separate paragraph strings containing Markdown table rows. SectionView joins theory paragraphs with blank lines. RichText.parseBlocks supports paragraphs/lists/code/callouts but no table parsing; therefore the central matrix is parsed as literal pipe-delimited paragraphs, not a table.",
+      "learner_failure_mode":"The most important decision policy loses row/column structure in the rendered lesson, raising comparison load and making exact boundary rules harder to scan or access semantically.",
+      "minimal_fix":"Represent the matrix with a renderer-supported structure (ordered list or dedicated table component) or add tested Markdown-table support to RichText."
+    },
+    {
+      "finding_id":"S13-F21","severity":"P1","category":"DEPENDENCIA_FUERA_DE_LECCION","location":"S13-T4-A dashboard/map scaffold",
+      "evidence":"The theory promises an auditable dashboard/map scaffold but dashboard_scaffold.py only builds three dictionaries and prints rows; it creates no HTML/UI/map. A standalone FamiliarityDashboard component exists in the app, but the S13 lesson neither embeds nor links to that #familiarity view, and the normal SectionView does not mount it.",
+      "learner_failure_mode":"A learner can finish all S13 theory code yet still have no learner-visible path from those dictionaries to the dashboard/map artifact that the outcome and gate require.",
+      "minimal_fix":"Provide/teach a minimal static scaffold artifact in the lesson or explicitly link/embed the supplied dashboard template and show how the S13 case schema feeds it."
+    },
+    {
+      "finding_id":"S13-F22","severity":"P2","category":"PRIVACY_TRANSFER_MISCONCEPTION_RISK","location":"S13-T4-A p2 + pseudonymize",
+      "evidence":"The synthetic demo replaces every name token with first initial + *** and calls this pseudonymization, but it does not state that initials combined with city/map/other quasi-identifiers may remain linkable in real data.",
+      "learner_failure_mode":"The learner can transfer the synthetic-display technique to real cases and interpret masked names as anonymized/safe-to-share data.",
+      "minimal_fix":"Add one sentence: display masking/pseudonymization reduces direct exposure but does not anonymize real records; real-data release requires separate privacy assessment/minimization."
+    },
+    {
+      "finding_id":"S13-F23","severity":"P1","category":"ROADMAP_GATE_CONTRADICTION","location":"reference p4-p5 + S13-T4-B",
+      "evidence":"S13 repeatedly defines CF-1 as privacy sheet + demo + runbook/access. The authoritative roadmap defines CF-1 as stakeholders, jobs-to-be-done, success metrics, constraints/no-go, contracts and base demo, with owner/reviewer and complete traceability; checkpoint records version/revision, date, paths/hashes, commands, results and issues.",
+      "learner_failure_mode":"A learner can satisfy S13's stated CF-1 and be told the level closes while missing mandatory artifacts required by the curriculum authority.",
+      "minimal_fix":"Replace S13's local CF-1 checklist with the authoritative CF-1 schema and show one complete synthetic manifest row."
+    },
+    {
+      "finding_id":"S13-F24","severity":"P1","category":"CLOSURE_EVIDENCE_GAP","location":"S13-T4-B p3 + ops_cf1.py",
+      "evidence":"S13 reduces level regression to re-running 'critical checks' from LEVEL1_REGRESSION_MATRIX and noting pass/fail; ops_cf1.py only prints 'S01-S13 checklist required'. Roadmap requires critical tests of all three capstones, E2E integration, a recovery item per previous topic and privacy/security controls with explicit gate evidence.",
+      "learner_failure_mode":"The learner can self-attest thirteen text lines instead of executing the regression evidence required for promotion.",
+      "minimal_fix":"Teach an executable regression manifest/harness that records command, exit/result, evidence path/hash and criticality for each required capstone/E2E/privacy/security check."
+    },
+    {
+      "finding_id":"S13-F25","severity":"P1","category":"REPRODUCIBILITY_OVERCLAIM","location":"S13-T4-B p2 + ops_cf1.py",
+      "evidence":"The lesson requires one-command clean-machine reproduction with 'python -m demo_n1_dashboard --synthetic', but theory only prints that string and repository code search did not find a demo_n1_dashboard module on main.",
+      "learner_failure_mode":"The learner is instructed to demonstrate a command whose module is neither built nor supplied by the theory, so the promised reproducible gate can fail immediately with module-not-found.",
+      "minimal_fix":"Provide the module/template as an explicit learner artifact or teach how to create it from the completed pipeline, then run the exact command as verification instead of printing it."
+    },
+    {
+      "finding_id":"S13-F26","severity":"P2","category":"PRIVACY_SHEET_PROSE_CODE_GAP","location":"S13-T4-B p1 + privacy_sheet",
+      "evidence":"Prose says the sheet fixes local retention, viewer/reviewer access and what leaves the environment. Code records data_class, pii_real, egress label and role names, but no retention period/rule, no permission matrix and no evidence behind the self-assertion pii_real=False.",
+      "learner_failure_mode":"A learner can present a few labels as a privacy control without specifying retention or what each role may actually see/do.",
+      "minimal_fix":"Add retention, field-level/operation-level access notes, egress fields and evidence/source showing the fixture is synthetic."
+    },
+    {
+      "finding_id":"S13-F27","severity":"P2","category":"INCIDENT_PLAYBOOK_OVERGENERALIZED","location":"S13-T4-B p2 + incident_actions",
+      "evidence":"The same trigger 'token_or_name_in_log' always produces rotate_secret, redact_logs, postmortem. Secret exposure and personal-data exposure have different first containment/evidence/notification questions; rotating a secret does not remediate a leaked name.",
+      "learner_failure_mode":"The learner can apply a rote three-word response without identifying what leaked, where it propagated, whether credentials remain active, or what privacy containment is needed.",
+      "minimal_fix":"Split secret_leak and pii_log_leak branches with causal actions; define postmortem in plain language and record affected logs/scope before claiming closure."
+    }
+  ],
+  "rejected_findings": [
+    {"candidate":"N(N-1)/2 pair count is wrong","verdict":"REJECTED","reason":"It is the correct count of unordered distinct record pairs."},
+    {"candidate":"Precision/recall formulas are wrong","verdict":"REJECTED","reason":"The canonical formulas and 2TP/1FP/1FN example are correct."},
+    {"candidate":"T3-B decision matrix has numeric holes or mishandles bool/NaN","verdict":"REJECTED","reason":"The canonical function validates bool/type/isfinite/range/uncertainty and covers the stated boundaries correctly."},
+    {"candidate":"Any ER+REL evidence score is inherently invalid","verdict":"REJECTED","reason":"The lesson explicitly scopes evidence_score to human queue prioritization and warns against using it for identity acceptance; the confirmed defects are the cross-construct uncertainty rule and ambiguous next-step parameter."},
+    {"candidate":"accept_pair is a legal/fraud verdict","verdict":"REJECTED","reason":"The lesson repeatedly defines it as an operational identity-pair action and forbids legal/fraud/kinship inference."},
+    {"candidate":"Pseudonymized synthetic fixtures constitute a current PII leak","verdict":"REJECTED","reason":"The examples are synthetic; the confirmed issue is the missing transfer caveat for real data."},
+    {"candidate":"Blocking is defective merely because it can miss matches","verdict":"REJECTED","reason":"Blocking is inherently recall-sensitive candidate reduction; the material defects are unimplemented multi-key rescue and the known-broken canonical surname heuristic."},
+    {"candidate":"collusion_claim=False itself declares no collusion as a factual verdict","verdict":"REJECTED","reason":"In context it records that the system is not making a collusion claim; the lesson consistently forbids such inference."},
+    {"candidate":"Fixed relationship weights are invalid because they are not statistically calibrated","verdict":"REJECTED","reason":"They are explicitly framed as a deterministic N1 course policy, not a calibrated probability."},
+    {"candidate":"Audit the standalone FamiliarityDashboard component's algorithms/UI as part of S13 lesson","verdict":"OUT_OF_SCOPE","reason":"The campaign audits lesson theory only; component existence is used solely to establish an unbridged external dependency."}
+  ],
+  "adversarial_questions": [
+    {"question":"Can a learner implement the claimed multi-key blocking candidate pipeline from S13 theory alone?","answer":"No. The theory code formats one key and scores a supplied pair; it never builds or unions candidate sets from multiple blocking passes."},
+    {"question":"Can a reviewer reconstruct a case decision in five minutes from the canonical case card?","answer":"No. The card exposes aggregate ER/REL/missing/rules_version but not the component rules, input/provenance and weights that created ER/REL."},
+    {"question":"Can a learner satisfy the authoritative N1/CF-1 promotion gate by following S13 theory exactly?","answer":"No. The local CF-1 definition and level-regression evidence are materially incomplete, and the one-command demo target is not realized in the lesson/repository evidence inspected."}
+  ],
+  "technical_spot_checks": [
+    {"target":"S13-T1-A er_rules","observed":"same normalized doc + same block -> 1.0; same doc + different region -> 0.0 although prose promises 0.5"},
+    {"target":"S13-T1-A block_key","observed":"empty name raises IndexError; region=None raises AttributeError, contradicting fail-closed prose"},
+    {"target":"S13-T1-B metrics","observed":"2TP/1FP/1FN -> precision=recall=0.666666... as expected"},
+    {"target":"S13-T1-B malformed evaluation","observed":"malformed labels/predictions are silently ignored; zero denominator becomes 0.0"},
+    {"target":"S13-T2-A shared_contact","observed":"missing field returns None and empty field returns empty string; multiplying None by a weight raises TypeError"},
+    {"target":"S13-T2-A surname feature","observed":"full-name token Jaccard for Ana Quispe Rojas vs Luis Quispe Díaz = 0.2; surname-only Jaccard = 1/3"},
+    {"target":"S13-T2-B counterparties","observed":"A->D plus D->C is still reported as common D because adjacency is treated as undirected, contradicting 'A and C pay D'"},
+    {"target":"S13-T3-A uncertainty","observed":"ER=.95, REL=.10, no missing -> evidence_score=.61 and uncertainty=high solely due cross-construct gap"},
+    {"target":"S13-T3-B thresholds","observed":"-.1 invalid; .399 abstain; .4/.799 review; .8 accept; .9/high review; NaN invalid — canonical boundary code is correct"},
+    {"target":"rendering of T3-B matrix","observed":"SectionView joins each paragraph with a blank line; RichText has no table block/parser, so the individually stored Markdown table rows are parsed as ordinary paragraphs with literal pipes"}
+  ],
+  "paragraph_level_audit": [
+    {"locator":"opening.p1","current_excerpt":"«Ana María Quispe Rojas...». «Ana M. Quispe R....». ¿Es la misma persona?... la duda es información.","status":"SIN_CAMBIO","finding_ids":[],"improved_version":"SIN_CAMBIO — conservar el párrafo actual.","rationale":"Strong concrete problem framing; no unsupported mechanism is required yet."},
+    {"locator":"opening.p2","current_excerpt":"Decidir si dos filas hablan de la misma entidad se llama resolución de identidad... ese recorte previo se llama bloqueo.","status":"REWRITE_TARGETED","finding_ids":["S13-F03"],"improved_version":"Resolver identidad significa decidir qué filas podrían referirse a la misma entidad. Antes de aplicar reglas detalladas, el sistema genera una lista reducida de pares candidatos mediante una o más claves baratas —por ejemplo, región+apellido estructurado y, en una pasada separada, documento normalizado— y une los pares encontrados. Ese paso es blocking: reduce comparaciones sin fingir que una sola clave puede encontrar todos los matches.","rationale":"Adds the missing candidate-generation mechanism and avoids implying that merely having a block key is blocking."},
+    {"locator":"opening.p3","current_excerpt":"...tres caminos: unir, rechazar, o mandar a la cola clerical... incertidumbre baja, media o alta.","status":"REWRITE_TARGETED","finding_ids":["S13-F01"],"improved_version":"Los pares candidatos terminan en tres rutas operativas: aceptar el par de identidad, rechazarlo o enviarlo a una cola de revisión humana (cola clerical). La cola contiene solo los casos que el sistema sí llegó a comparar y cuya evidencia no basta para decidir automáticamente; no recupera pares que el blocking nunca generó.","rationale":"Spanish-first terminology and explicit scope of human review."},
+    {"locator":"opening.p4","current_excerpt":"El puntaje que dice ‘estas dos filas son la misma persona’ y el puntaje que dice ‘estas dos personas están relacionadas’ son cosas distintas...","status":"SIN_CAMBIO","finding_ids":[],"improved_version":"SIN_CAMBIO — conservar el párrafo actual.","rationale":"This is the correct core separation and is later used as an audit invariant."},
+    {"locator":"opening.p5","current_excerpt":"¿podría alguien que no escribió este código reconstruir la decisión en cinco minutos?... cada puntaje muestre de qué señales salió y qué le faltó.","status":"REWRITE_TARGETED","finding_ids":["S13-F17"],"improved_version":"La prueba de auditabilidad es concreta: otra persona debe poder reconstruir cada puntaje a partir de la ficha. Para eso la ficha debe nombrar el par/caso, las señales y reglas que se activaron, los valores o referencias de entrada, los pesos, lo que faltó, la procedencia y la versión de reglas. Mostrar solo el número final no permite reconstruirlo.","rationale":"Makes the five-minute claim operational rather than rhetorical."},
+
+    {"locator":"reference.p1","current_excerpt":"Bloque de referencia. Orden de los subtemas, ritmo, criterio de cierre y promoción de nivel.","status":"SIN_CAMBIO","finding_ids":[],"improved_version":"SIN_CAMBIO — conservar.","rationale":"Orientation only."},
+    {"locator":"reference.p2","current_excerpt":"T1 trata la identidad... T4 cierra con el producto y la operación, más el paquete CF-1.","status":"REWRITE_TARGETED","finding_ids":["S13-F01"],"improved_version":"T1 trata identidad; T2 señales de relación; T3 decisión operativa y explicación; T4 producto y operación. El cierre incluye CF-1, el primer checkpoint transversal del curso, cuyo contenido completo se enumera en T4-B.","rationale":"Expands CF-1 before relying on it."},
+    {"locator":"reference.p3","current_excerpt":"Ritmo orientativo (unas 9 horas)...","status":"SIN_CAMBIO","finding_ids":[],"improved_version":"SIN_CAMBIO — conservar.","rationale":"No material technical/pedagogical defect."},
+    {"locator":"reference.p4","current_excerpt":"Criterio de cierre (CP-N1-C): dos puntajes... cola clerical... privacy sheet... demo en un comando.","status":"REWRITE_TARGETED","finding_ids":["S13-F23","S13-F25"],"improved_version":"CP-N1-C cierra cuando el dashboard muestra ER y relación por separado, la revisión humana funciona, la geoevidencia conserva procedencia, la ficha de privacidad está completa y el comando de demo existe y se ejecuta desde una instalación limpia; imprimir el comando no cuenta como evidencia de que funcione.","rationale":"Separates capstone evidence from a printed string and avoids incomplete closure."},
+    {"locator":"reference.p5","current_excerpt":"Promoción de nivel: tres capstones... regresión S01-S13... paquete CF-1 —privacidad, demostración y runbook—.","status":"REWRITE_MAJOR","finding_ids":["S13-F23","S13-F24"],"improved_version":"La promoción exige los tres capstones N1, la regresión ejecutable del nivel y CF-1 completo. CF-1 registra stakeholders, jobs-to-be-done, métricas de éxito, restricciones/no-go, contratos, demo base, owner y revisor, además de versión/fecha, paths o hashes, comandos, resultados e issues. La regresión ejecuta pruebas críticas de los tres capstones, integración E2E, recuperación de temas previos y controles de privacidad/seguridad.","rationale":"Aligns lesson with authoritative roadmap rather than redefining the gate locally."},
+    {"locator":"reference.p6","current_excerpt":"Qué se hereda de S12: cliente HTTP con timeout y reintentos, SQL parametrizado y señal geográfica con política de salida; aquí no se vuelven a construir.","status":"REWRITE_MAJOR","finding_ids":["S13-F02"],"improved_version":"S12 introdujo HTTP/timeout/retry, SQL parametrizado y geodatos, pero S13 no puede asumir como seguros los bordes que todavía son frágiles. Antes de integrarlos, revalida un GET síncrono con timeout y retry solo cuando repetir sea seguro, y ejecuta una allowlist de salida que bloquee PII antes de cualquier geocoder externo. Después conecta esas salidas validadas a la ficha.","rationale":"Repairs a broken prerequisite edge at the capstone boundary."},
+    {"locator":"reference.p7","current_excerpt":"Solo datos sintéticos pseudonimizados... si falta evidencia o schema no cuadra, falla cerrado.","status":"REWRITE_TARGETED","finding_ids":["S13-F22"],"improved_version":"En S13 solo se usan datos sintéticos. La vista puede enmascarar nombres para practicar minimización, pero ese enmascarado no convierte datos reales en anónimos. Si falta evidencia o el schema no cumple el contrato, el caso queda inválido o en revisión; no se inventan joins, coordenadas ni veredictos.","rationale":"Preserves synthetic-data safety and adds the missing transfer boundary."},
+
+    {"locator":"S13-T1-A.p1","current_excerpt":"ER responde ¿es la misma entidad?... casefold y limpieza antes de comparar.","status":"SIN_CAMBIO","finding_ids":[],"improved_version":"SIN_CAMBIO — conservar.","rationale":"Correct mental model and sequencing."},
+    {"locator":"S13-T1-A.p2","current_excerpt":"Blocking apellido paterno+región... usa varias claves... parts[1]... Ana María rompe la regla... documento como segunda clave rescata.","status":"REWRITE_MAJOR","finding_ids":["S13-F03","S13-F06"],"improved_version":"Blocking reduce pares candidatos, pero debe preservar recall suficiente. En el dataset sintético usa el campo estructurado apellido_paterno junto con región para una pasada y documento normalizado para otra; luego une y deduplica los pares candidatos de ambas pasadas. No derives el apellido canónico con parts[1]: ‘Ana María Quispe Rojas’ demuestra por qué un nombre de pila de varios tokens vuelve ambigua esa heurística. Si solo existe nombre completo, trátalo como fallback lossy y envía la ambigüedad a revisión.","rationale":"Removes a knowingly broken canonical parser and actually teaches multi-key blocking."},
+    {"locator":"S13-T1-A.p3","current_excerpt":"Contrato N1: 1.0 doc+block; 0.5 solo doc; 0.0 otro caso.","status":"REWRITE_TARGETED","finding_ids":["S13-F04"],"improved_version":"Después de generar candidatos, el score ER de esta regla didáctica es 1.0 si coinciden documento normalizado y bloque estructurado, 0.5 si coincide solo el documento y 0.0 en otro caso. El bloque de código debe ejecutar y probar las tres ramas con los mismos fixtures que describe este párrafo.","rationale":"Forces prose/code contract alignment."},
+    {"locator":"S13-T1-A.p4","current_excerpt":"Si falta document_id, nombre vacío o bloque sin tokens, no inventes 1.0... fail-closed.","status":"REWRITE_TARGETED","finding_ids":["S13-F05"],"improved_version":"Valida antes de bloquear: document_id, apellido_paterno/región y demás campos requeridos deben ser strings utilizables. Si falta un requerido, devuelve un estado explícito invalid_input o necesita revisión; no indexes una lista vacía ni llames métodos sobre None. Fallar cerrado significa controlar el caso, no dejar que Python explote incidentalmente.","rationale":"Makes fail-closed observable and implementable."},
+
+    {"locator":"S13-T1-B.p1","current_excerpt":"Con pares sintéticos etiquetados calculas TP/FP/FN... precision/recall... ground truth del fixture.","status":"SIN_CAMBIO","finding_ids":[],"improved_version":"SIN_CAMBIO — conservar.","rationale":"Definitions/formulas are correct and scoped to synthetic ground truth."},
+    {"locator":"S13-T1-B.p2","current_excerpt":"En ER alto riesgo priorizas precision... recall imperfecto se compensa con cola clerical... [0.4,0.7]... fail closed.","status":"REWRITE_MAJOR","finding_ids":["S13-F07","S13-F08","S13-F09"],"improved_version":"En este ejercicio de alto costo por merge falso priorizas precision y envías a revisión humana los candidatos en la banda review_low=0.40 hasta accept_min=0.80. Esa cola reduce riesgo solo para pares que el blocking sí produjo; no recupera falsos negativos descartados antes. Antes de calcular métricas valida que truth/pred sean etiquetas binarias válidas y que los scores usados por la política sean numéricos finitos.","rationale":"Corrects recall misconception, unifies thresholds and makes validation causal."},
+    {"locator":"S13-T1-B.p3","current_excerpt":"6 pares, 2 TP, 1 FP, 1 FN -> precision .667 recall .667; no publicar accuracy solo.","status":"REWRITE_TARGETED","finding_ids":["S13-F10"],"improved_version":"Con 2 TP, 1 FP y 1 FN, precision=2/3 y recall=2/3 ≈0.667. Publica ambos junto con TP/FP/FN. Si no hay predicciones positivas o no hay positivos reales, marca la métrica correspondiente como undefined/no evaluable en vez de confundir esa ausencia con un rendimiento medido de 0.0.","rationale":"Adds correct zero-denominator semantics without changing the worked example."},
+    {"locator":"S13-T1-B.p4","current_excerpt":"Un FP no implica fraude... colisión de identidad estimada.","status":"SIN_CAMBIO","finding_ids":[],"improved_version":"SIN_CAMBIO — conservar.","rationale":"Important ethical boundary, technically sound."},
+
+    {"locator":"S13-T2-A.p1","current_excerpt":"relationship score... shared_phone, geo_close, surname_jaccard.","status":"REWRITE_TARGETED","finding_ids":["S13-F11","S13-F14"],"improved_version":"El score de relación reúne señales explícitas y separadas de identidad: teléfono/email/dirección compartidos cuando existen, cercanía geográfica del par y similitud de apellidos calculada sobre campos de apellido —no sobre todos los tokens del nombre completo. Cada señal conserva nombre, disponibilidad, valor y fuente para que el revisor sepa qué significa.","rationale":"Corrects the false feature label and covers the roadmap signal family."},
+    {"locator":"S13-T2-A.p2","current_excerpt":"rel=0.5 phone +0.3 geo +0.2 surname_jaccard; ambos registros reportan el mismo km.","status":"REWRITE_MAJOR","finding_ids":["S13-F13"],"improved_version":"La fórmula didáctica N1 puede conservar 0.5·shared_phone + 0.3·geo_close + 0.2·surname_jaccard, pero geo_close se calcula para el par: toma las coordenadas/procedencia de A y B, calcula o recupera la distancia del par y compara con el umbral. No guardes ‘km de la relación’ como una propiedad idéntica dentro de cada entidad.","rationale":"Moves pair-relative evidence to the correct domain scope."},
+    {"locator":"S13-T2-A.p3","current_excerpt":"phone compartido + km=1.2 en ambos + Jaccard de apellidos .2 -> rel .84.","status":"REWRITE_MAJOR","finding_ids":["S13-F11","S13-F13"],"improved_version":"Caso trabajado: phone compartido=1, distancia del par=1.2 km -> geo_close=1 y Jaccard de apellidos explícitos=1/3 para {Quispe,Rojas} vs {Quispe,Díaz}. Con los pesos N1, rel=0.5+0.3+0.2·(1/3)≈0.867. La ficha lista cada señal y su procedencia; kinship_verdict permanece ausente/None porque el score no prueba parentesco.","rationale":"Uses the feature the prose names and a correctly scoped distance."},
+    {"locator":"S13-T2-A.p4","current_excerpt":"Si falta señal con peso no cero, no inventes True ni km promedio... señal != parentesco.","status":"REWRITE_TARGETED","finding_ids":["S13-F12"],"improved_version":"Si una señal está ausente, representa explícitamente available=False y aplica la política documentada para evidencia faltante; no uses None accidentalmente dentro de una suma ponderada. Ausencia no equivale a False observado. En ningún caso apellido/teléfono/distancia autorizan is_family=true.","rationale":"Prevents missing data from crashing or masquerading as observed negative evidence."},
+
+    {"locator":"S13-T2-B.p1","current_excerpt":"A↔B y contrapartes comunes (A y C pagan a D) son evidencia operativa, no colusión.","status":"REWRITE_TARGETED","finding_ids":["S13-F15"],"improved_version":"Define primero la dirección de la señal: una transacción directa puede resumirse como existencia del par A↔B, pero una contraparte común ‘A y C pagan a D’ exige comparar receptores salientes de A y C. No conviertas automáticamente todo el grafo dirigido en vecinos no dirigidos.","rationale":"Prevents semantic drift between direct-pair and common-payee evidence."},
+    {"locator":"S13-T2-B.p2","current_excerpt":"graphlet triples emisor-receptor-monto... direct_tx/common_counterparty... RelationshipEvidence.","status":"REWRITE_TARGETED","finding_ids":["S13-F15","S13-F17"],"improved_version":"Representa cada transacción como emisor→receptor+monto y cada evidencia como type, ids, direction_semantics, value/count, source y explanation. Para common_counterparty conserva via y especifica que via proviene de la intersección de receptores salientes. Así el objeto conserva suficiente traza para reconstruir la evidencia.","rationale":"Aligns data structure with directional meaning and auditability."},
+    {"locator":"S13-T2-B.p3","current_excerpt":"A↔B 2 tx y A,C→D -> direct_tx + common_counterparty via D; collusion_claim=False.","status":"SIN_CAMBIO","finding_ids":[],"improved_version":"SIN_CAMBIO en el escenario descrito; el código debe respetar exactamente su dirección.","rationale":"The scenario itself is valid; implementation is the problem."},
+    {"locator":"S13-T2-B.p4","current_excerpt":"grafo vacío/no vecinos -> lista vacía; no inventar; no flag colusión.","status":"SIN_CAMBIO","finding_ids":[],"improved_version":"SIN_CAMBIO — conservar.","rationale":"Correct fail-empty and inference boundary."},
+
+    {"locator":"S13-T3-A.p1","current_excerpt":"case card: evidence_score + uncertainty + tres bullets; no publicar score sin bullets.","status":"REWRITE_TARGETED","finding_ids":["S13-F17"],"improved_version":"La ficha debe llevar evidence_score, una banda de calidad/incertidumbre y una explicación que permita reconstruirlo. Tres líneas genéricas no bastan por sí mismas: incluye al menos las reglas/señales componentes, sus valores o referencias, pesos, missing y versión de reglas.","rationale":"Raises explanation from count-of-bullets to reproducible evidence."},
+    {"locator":"S13-T3-A.p2","current_excerpt":"evidence_score=0.6 ER+0.4 REL para ordenar cola... uncertainty high si |ER-REL|>.5 o >=2 missing.","status":"REWRITE_MAJOR","finding_ids":["S13-F16","S13-F18"],"improved_version":"evidence_score puede ordenar la cola humana, pero nunca decide identidad. Mantén entity_resolution_score como entrada exclusiva de la política de accept/review. La banda de incertidumbre se deriva de calidad dentro de cada constructo —campos faltantes, reglas de identidad contradictorias, evidencia sin procedencia—; no de |ER−REL|, porque identidad y relación están diseñadas para poder diferir sin conflicto.","rationale":"Removes a contradiction in the lesson's central construct separation and clarifies the next-step handoff."},
+    {"locator":"S13-T3-A.p3","current_excerpt":"explain(.9,.4,['phone']) -> .7, med... rules_version.","status":"REWRITE_TARGETED","finding_ids":["S13-F17"],"improved_version":"En el ejemplo, muestra además pair_id/case_id, componentes que construyeron ER y REL, sus pesos, missing, source/provenance y rules_version. Entonces el revisor puede recalcular tanto los scores base como evidence_score, no solo la mezcla final.","rationale":"Makes audit reconstruction possible."},
+    {"locator":"S13-T3-A.p4","current_excerpt":"faltan campos -> uncertainty; señales conflictivas ER alto REL bajo se explican.","status":"REWRITE_MAJOR","finding_ids":["S13-F16"],"improved_version":"Campos obligatorios faltantes o evidencia interna contradictoria elevan la banda de calidad/revisión. ER alto y REL bajo, por sí solos, no son conflicto: pueden describir perfectamente una identidad fuerte con poca relación operativa. Explícalos por separado y conserva sus límites.","rationale":"Stops treating independent constructs as mutually validating."},
+
+    {"locator":"S13-T3-B.p1","current_excerpt":"decide qué hacer con un par: invalid_input/abstain/needs_review/accept_pair; nunca auto_fraud/is_family.","status":"REWRITE_TARGETED","finding_ids":["S13-F18"],"improved_version":"La política decide qué hacer con un par de identidad usando entity_resolution_score y la calidad/incertidumbre de identidad: invalid_input, abstain, needs_review o accept_pair. evidence_score solo ordena trabajo humano y no entra a esta función. Ningún estado equivale a fraude, parentesco o veredicto legal.","rationale":"Names the actual input construct at the policy boundary."},
+    {"locator":"S13-T3-B.p2","current_excerpt":"decide_ops_status(score, uncertainty) recorre cinco reglas.","status":"REWRITE_TARGETED","finding_ids":["S13-F18"],"improved_version":"La función decide_identity_status(entity_resolution_score, identity_uncertainty) evalúa cinco reglas en orden y devuelve el primer estado aplicable.","rationale":"Eliminates generic score handoff hazard."},
+    {"locator":"S13-T3-B.p3","current_excerpt":"| # | Condición | Estado |","status":"RENDER_REPAIR","finding_ids":["S13-F20"],"improved_version":"1. Entrada inválida → invalid_input","rationale":"Renderer has no Markdown table support; use a supported ordered list or dedicated table."},
+    {"locator":"S13-T3-B.p4","current_excerpt":"|---|-----------|--------|","status":"DELETE_RENDER_ARTIFACT","finding_ids":["S13-F20"],"improved_version":"Eliminar esta fila separadora si se usa una lista; no debe aparecer como contenido learner-facing.","rationale":"It becomes literal pipe text under the current parser."},
+    {"locator":"S13-T3-B.p5","current_excerpt":"| 1 | score inválido... | invalid_input |","status":"RENDER_REPAIR","finding_ids":["S13-F18","S13-F20"],"improved_version":"1. Si entity_resolution_score no es un número finito en [0,1], es bool, o identity_uncertainty no es low/med/high → invalid_input.","rationale":"Supported rendering plus precise construct name."},
+    {"locator":"S13-T3-B.p6","current_excerpt":"| 2 | uncertainty=high... | needs_review |","status":"RENDER_REPAIR","finding_ids":["S13-F20"],"improved_version":"2. Si identity_uncertainty=high, incluso con ER alto → needs_review.","rationale":"Preserves rule in supported structure."},
+    {"locator":"S13-T3-B.p7","current_excerpt":"| 3 | score < 0.40 | abstain |","status":"RENDER_REPAIR","finding_ids":["S13-F20"],"improved_version":"3. Si entity_resolution_score < review_low (0.40) → abstain.","rationale":"Named threshold avoids later drift."},
+    {"locator":"S13-T3-B.p8","current_excerpt":"| 4 | score < 0.80 | needs_review |","status":"RENDER_REPAIR","finding_ids":["S13-F08","S13-F20"],"improved_version":"4. Si review_low ≤ entity_resolution_score < accept_min (0.80) → needs_review.","rationale":"Unifies the review band and table rendering."},
+    {"locator":"S13-T3-B.p9","current_excerpt":"| 5 | resto | accept_pair |","status":"RENDER_REPAIR","finding_ids":["S13-F20"],"improved_version":"5. En otro caso, si identity_uncertainty no es high → accept_pair.","rationale":"Supported prose preserves total policy."},
+    {"locator":"S13-T3-B.p10","current_excerpt":"0.399 abstain; .4 review; .799 review; .8 accept si no high.","status":"SIN_CAMBIO","finding_ids":[],"improved_version":"SIN_CAMBIO — conservar después de la lista de reglas.","rationale":"Exact boundary examples are correct."},
+    {"locator":"S13-T3-B.p11","current_excerpt":"Human-in-the-loop... acción de datos, no veredicto legal/KYC/lista negra.","status":"SIN_CAMBIO","finding_ids":[],"improved_version":"SIN_CAMBIO — conservar.","rationale":"Correct operational/legal boundary."},
+    {"locator":"S13-T3-B.p12","current_excerpt":"busca con grep y elimina cualquier path is_family/auto_fraud... DECISION_MATRIX.","status":"REWRITE_TARGETED","finding_ids":["S13-F19"],"improved_version":"Audita el proyecto con un script Python portable que recorra archivos de texto y falle si encuentra asignaciones/salidas prohibidas como is_family o auto_fraud. En Unix puedes usar grep como atajo opcional, pero el gate no debe depender de una herramienta de shell que Windows no garantiza.","rationale":"Makes the mandatory safety scan cross-platform."},
+
+    {"locator":"S13-T4-A.p1","current_excerpt":"gate pide scaffold auditable: tres fichas + puntos de mapa... revisor en cinco minutos.","status":"REWRITE_MAJOR","finding_ids":["S13-F21"],"improved_version":"El gate necesita un artefacto visible, no solo dicts impresos. Usa el scaffold estático proporcionado o una página HTML mínima que reciba la lista de tres casos y dibuje fichas + puntos sintéticos; enlaza explícitamente desde S13 a esa plantilla y muestra el mapeo de campos case_id/ER/REL/lat/lon/tooltip.","rationale":"Bridges lesson code to the product outcome."},
+    {"locator":"S13-T4-A.p2","current_excerpt":"pseudonimiza nombres A*** Q***; egress S12; ER y REL separados.","status":"REWRITE_TARGETED","finding_ids":["S13-F02","S13-F22"],"improved_version":"Para la demo sintética enmascara nombres en la vista y conserva ER/REL separados. Antes de cualquier proveedor externo ejecuta la allowlist de egress; no confíes solo en una regla escrita. En datos reales, iniciales + ciudad/mapa siguen pudiendo ser linkables: enmascarar no equivale a anonimizar.","rationale":"Repairs inherited egress debt and privacy transfer risk."},
+    {"locator":"S13-T4-A.p3","current_excerpt":"Casos trabajados (mínimo tres):","status":"SIN_CAMBIO","finding_ids":[],"improved_version":"SIN_CAMBIO — conservar.","rationale":"Useful orientation."},
+    {"locator":"S13-T4-A.p4","current_excerpt":"CASE-1 A*** Q*** — ER .92, REL .41.","status":"SIN_CAMBIO","finding_ids":[],"improved_version":"SIN_CAMBIO — conservar como fixture sintético.","rationale":"No material defect in the example itself."},
+    {"locator":"S13-T4-A.p5","current_excerpt":"CASE-2 L*** H*** — ER medio, REL más alto...","status":"SIN_CAMBIO","finding_ids":[],"improved_version":"SIN_CAMBIO — conservar.","rationale":"Correctly illustrates separation without automatic kinship."},
+    {"locator":"S13-T4-A.p6","current_excerpt":"CASE-3 M*** R*** — ER .77, REL .22: duda/cola clerical.","status":"REWRITE_TARGETED","finding_ids":["S13-F08"],"improved_version":"CASE-3 M*** R*** — ER 0.77, REL 0.22: ER cae dentro de la única banda canónica needs_review [0.40,0.80); REL se muestra aparte y no altera la decisión de identidad.","rationale":"Uses the unified review threshold and preserves construct separation."},
+    {"locator":"S13-T4-A.p7","current_excerpt":"Los tres aparecen en el demo I Do y en el scaffold de teoría.","status":"REWRITE_MAJOR","finding_ids":["S13-F21"],"improved_version":"Los tres fixtures alimentan la plantilla/scaffold visible enlazado desde esta teoría. La evidencia de cierre debe incluir una vista renderizada de esas fichas y puntos; los prints sirven para verificar datos, no sustituyen el dashboard.","rationale":"Removes unsupported claim that the printed dictionaries themselves are a scaffold."},
+    {"locator":"S13-T4-A.p8","current_excerpt":"si no coords/no puede pseudonimizarse, no inventes nombre/latlon; source tooltip explícito; portfolio screenshot.","status":"REWRITE_TARGETED","finding_ids":["S13-F22"],"improved_version":"Si faltan coordenadas, omite el punto y muestra el motivo; no inventes un domicilio. El tooltip conserva source/provenance. En la demo sintética puedes capturar la vista; con datos reales una captura requiere revisar también quasi-identificadores, no solo enmascarar el nombre.","rationale":"Keeps fail-closed map behavior and adds realistic privacy boundary."},
+
+    {"locator":"S13-T4-B.p1","current_excerpt":"CF-1 privacy sheet fija synthetic_only, retención local, egress, viewer/reviewer...","status":"REWRITE_MAJOR","finding_ids":["S13-F23","S13-F26"],"improved_version":"La privacy sheet es una parte de CF-1, no CF-1 completo. Registra clase/fuente sintética, campos guardados, retención, egress permitido/prohibido y permisos concretos de viewer/reviewer. CF-1 añade stakeholders/JTBD, métricas de éxito, no-go, contratos, owner/reviewer y trazabilidad versionada del checkpoint.","rationale":"Aligns local privacy artifact with authoritative gate and fills missing retention/access semantics."},
+    {"locator":"S13-T4-B.p2","current_excerpt":"tests green; demo one-command python -m demo_n1_dashboard --synthetic; runbook incident token or name -> rotate_secret/redact_logs/postmortem; clean machine.","status":"REWRITE_MAJOR","finding_ids":["S13-F25","S13-F27"],"improved_version":"La entrega ejecuta —no imprime— el comando de demo de un módulo que existe en el proyecto y comprueba su exit status/output en una instalación limpia. El runbook separa incidentes: secret_leak -> revocar/rotar credencial, localizar usos y sanear logs; pii_log_leak -> contener acceso/propagación, identificar datos/personas afectadas según política y sanear los registros. Después documenta causa, alcance y reparación en un postmortem breve.","rationale":"Turns decorative command/playbook labels into executable and causal operations."},
+    {"locator":"S13-T4-B.p3","current_excerpt":"artefactos CF-1 + checklist S01-S13 cierran nivel; ~30 min re-ejecuta checks críticos de LEVEL1_REGRESSION_MATRIX y anota pass/fail.","status":"REWRITE_MAJOR","finding_ids":["S13-F23","S13-F24"],"improved_version":"La regresión de nivel no es un checklist autoafirmado: ejecuta pruebas críticas de CP-N1-A/B/C, una integración E2E, recuperación de temas anteriores y controles de privacidad/seguridad. Cada fila del manifest registra criticality, comando, resultado, evidence path/hash y issue si falla; el gate exige cero fallas críticas y el umbral de evidencia no crítica definido por el roadmap.","rationale":"Restores evidence-based promotion contract."},
+    {"locator":"S13-T4-B.p4","current_excerpt":"demo no escribe aprobado en ledger; gate formal es revisión humana.","status":"REWRITE_TARGETED","finding_ids":["S13-F23","S13-F24"],"improved_version":"El script produce evidencia verificable; no se autoconcede la promoción. El gate formal revisa el manifest de CF-1 y la regresión contra sus criterios, con owner/reviewer y resultados trazables. Solo ese proceso puede marcar el checkpoint aprobado.","rationale":"Preserves correct no-self-approval idea while connecting it to the actual gate artifacts."}
+  ],
+  "artifact_audit": {
+    "metadata_and_outcomes": [
+      {"artifact":"tagline/jobRelevance/outcomes","status":"REPAIR_REQUIRED","finding_ids":["S13-F01","S13-F21","S13-F23","S13-F25"],"note":"The promised closure/product scope is broader than what theory executes."}
+    ],
+    "figures": [
+      {"id":"S13-blocking","status":"PARTIAL","finding_ids":["S13-F03","S13-F06"],"note":"Caption correctly warns one key is insufficient, but the canonical code never implements the multiple-key candidate union the figure motivates."},
+      {"id":"S13-two-scores","status":"USABLE","finding_ids":[],"note":"The figure correctly demonstrates why relationship evidence must not push identity acceptance."}
+    ],
+    "code_blocks": [
+      {"title":"er_rules.py","status":"REPAIR_REQUIRED","finding_ids":["S13-F03","S13-F04","S13-F05","S13-F06"]},
+      {"title":"pr_metrics.py","status":"REPAIR_REQUIRED","finding_ids":["S13-F09","S13-F10"]},
+      {"title":"rel_signals.py","status":"REPAIR_REQUIRED","finding_ids":["S13-F11","S13-F12","S13-F13","S13-F14"]},
+      {"title":"tx_graphlet.py","status":"REPAIR_REQUIRED","finding_ids":["S13-F15"]},
+      {"title":"evidence_card.py","status":"REPAIR_REQUIRED","finding_ids":["S13-F16","S13-F17"]},
+      {"title":"thresholds.py","status":"PARTIAL","finding_ids":["S13-F18"],"note":"Boundary logic is technically correct, but the generic score parameter makes the handoff unsafe."},
+      {"title":"dashboard_scaffold.py","status":"REPAIR_REQUIRED","finding_ids":["S13-F21","S13-F22"]},
+      {"title":"ops_cf1.py","status":"REPAIR_REQUIRED","finding_ids":["S13-F23","S13-F24","S13-F25","S13-F26","S13-F27"]}
+    ],
+    "renderer_evidence": {
+      "status":"CONFIRMED_SOURCE_LEVEL_DEFECT",
+      "finding_id":"S13-F20",
+      "note":"SectionView joins separate theory paragraphs with blank lines; RichText parseBlocks has no Markdown table type, so S13's decision-matrix rows are not structurally rendered as a table."
+    },
+    "external_dashboard_dependency": {
+      "status":"UNBRIDGED",
+      "finding_id":"S13-F21",
+      "note":"FamiliarityDashboard exists as a separate app view (#familiarity), but S13 theory has no learner-facing link/embed and the normal SectionView does not mount it."
+    }
+  },
+  "concept_ledger_delta": [
+    {"term":"entity resolution","state":"PARTIAL","depth":"CORE_MENTAL_MODEL","reason":"Construct separation is strong, but canonical candidate/blocking mechanism and fail-closed implementation are defective."},
+    {"term":"blocking","state":"MISCONCEPTION_RISK","depth":"CORE_MENTAL_MODEL","reason":"Multiple-key rescue is described but not implemented; canonical surname heuristic is knowingly broken."},
+    {"term":"precision/recall","state":"PARTIAL","depth":"CORE_MENTAL_MODEL","reason":"Formulas are correct; malformed inputs, zero-denominator state and recall/clerical-queue relationship are not safe."},
+    {"term":"clerical review queue","state":"PARTIAL","depth":"CORE_MENTAL_MODEL","reason":"Human review boundary is clear but threshold policy drifts and queue is overstated as compensation for recall loss."},
+    {"term":"relationship_signal_score","state":"MISCONCEPTION_RISK","depth":"CORE_MENTAL_MODEL","reason":"Separation from ER is clear but surname feature, missing signals and pair-distance domain model are wrong."},
+    {"term":"common counterparty","state":"MISCONCEPTION_RISK","depth":"MICRO_DEFINITION","reason":"Prose is directional; code silently makes the graph undirected."},
+    {"term":"evidence_score","state":"PARTIAL","depth":"MICRO_DEFINITION","reason":"Queue-priority scope is stated, but uncertainty incorrectly derives from ER-vs-REL disagreement and explanation is insufficient to reconstruct inputs."},
+    {"term":"decision thresholds","state":"PARTIAL","depth":"CORE_MENTAL_MODEL","reason":"Canonical boundary code is correct, but handoff uses generic score and prior review-band text conflicts."},
+    {"term":"pseudonymized dashboard/map","state":"MENTION_ONLY","depth":"CONTEXT_ONLY","reason":"Theory prints dictionaries; learner-visible dashboard/map construction is external and unbridged."},
+    {"term":"CF-1","state":"MISCONCEPTION_RISK","depth":"CORE_MENTAL_MODEL","reason":"Lesson's local definition omits material roadmap-required checkpoint fields/evidence."},
+    {"term":"Level-1 regression","state":"MISCONCEPTION_RISK","depth":"CORE_MENTAL_MODEL","reason":"Reduced to checklist/self-attestation instead of executable roadmap-required regression evidence."},
+    {"term":"one-command reproducible demo","state":"MISSING","depth":"CORE_MENTAL_MODEL","reason":"Command is printed but target module was not found/taught in inspected main source."}
+  ],
+  "S14_entry_watchlist": [
+    "S14 must not treat 'Level 1 closed' as evidence: S13 itself is REPAIR_REQUIRED and the authoritative N1/CF-1 gates are not established by S13 theory.",
+    "Only concepts marked USABLE in the effective S01-S13 ledger may be assumed; S13 ER/blocking/relationship/regression concepts are not automatic prerequisites for NumPy.",
+    "When S14 introduces ndarray versus Python list, explicitly bridge from the usable collection model rather than assuming shape/dtype/vectorization knowledge.",
+    "Audit first exposure to dtype, shape, axis, masks, ufunc/reduction and broadcasting for widow terms and causal examples.",
+    "Check views/copies and mutation carefully because earlier aliasing/copy concepts had historical misconceptions.",
+    "Validate numeric precision/NaN behavior and do not import S02 float/Decimal misconceptions into NumPy explanations.",
+    "Keep S14 scope on NumPy; do not use the S13 capstone closure narrative as a substitute for a clean Level-1-to-Level-2 prerequisite bridge."
+  ],
+  "priority_repair_order": [
+    "S13-F23 authoritative CF-1 alignment",
+    "S13-F24 executable N1 regression evidence",
+    "S13-F25 realized one-command demo",
+    "S13-F03/F04/F05/F06 blocking+ER mechanism and fail-closed contract",
+    "S13-F11/F12/F13/F15 relationship feature/domain semantics",
+    "S13-F16/F17/F18 score separation, uncertainty and explainability",
+    "S13-F20 decision-matrix renderer failure",
+    "S13-F21 dashboard/map lesson bridge",
+    "S13-F02 revalidate unsafe S12 integration edges",
+    "remaining P2 terminology/privacy/operational precision"
+  ]
+}
