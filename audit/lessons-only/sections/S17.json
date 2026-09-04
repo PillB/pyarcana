@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.4.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S17",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s17-packaging.ts",
+  "canonical_blob_sha": "948e1c6d3b937313beee683974e4363c3c90c059",
+  "title": "Joins, reshape, groupby y cierre analítico",
+  "short_title": "Joins · groupby · cierre",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": ["PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA", "Solarized Website Content Comprehension Auditor & Rewriter"],
+  "learner_entry_state": {
+    "baseline": "ZERO_TECH_CAPABLE",
+    "credit_rule": "Only prior concepts marked USABLE count as learned.",
+    "critical_dependency_warning": "S16 is AUDITED_REPAIR_REQUIRED. Its clean/quarantine partition, PEN/category normalization, schema enforcement and audit provenance are not safe prerequisites. S15 DataFrame.join/concat mental models also remain unsafe.",
+    "not_creditable": ["S16 output is clean merely because it is named clean", "non-null validated join keys", "PEN float as canonical money", "DataFrame.join column-on-column semantics", "concat alignment semantics", "schema set check as complete schema gate"]
+  },
+  "roadmap_expectation": {
+    "prerequisite": "S16",
+    "environment": "local",
+    "T1": "joins with cardinality/fan-out validation and anti-join evidence",
+    "T2": "concat and long/wide reshape with stable output schema",
+    "T3": "groupby/agg/transform plus ordered windows and cohorts",
+    "T4": "reconciled totals/denominators and temporal cutoff/as-of controls",
+    "gate": "reproducible analytical close whose row universe, totals, denominators, exclusions and time boundary are explainable"
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/#packaging",
+    "status": "CARD_METADATA_VISIBLE_THEORY_NEEDS_HYDRATED_RENDER",
+    "card_title": "Joins · groupby · cierre",
+    "card_tagline": "Portfolio ejecutivo de calidad + EDA: dataset limpio, script reproducible, reconciliación y preguntas de negocio",
+    "note": "The public crawl exposes the S17 card, but not the hash-routed lesson theory. Detailed source-to-render parity remains unproven."
+  },
+  "audit_metadata": {"theory_blocks_reviewed":11,"paragraphs_reviewed":38,"paragraphs_expected":38,"paragraph_coverage_complete":true,"theory_code_blocks_reviewed":8,"theory_figures_reviewed":2,"theory_callouts_reviewed":9,"learning_outcomes_reviewed":8},
+  "severity_counts": {"P0":0,"P1":11,"P2":8,"P3":0},
+  "material_findings": 19,
+  "verdict": "REPAIR_REQUIRED",
+  "adversarial_review": {
+    "most_likely_beginner_failure": "Treat row growth, orphan coverage, client counts and reconciliation as separate checks and therefore accept a plausible dashboard that contains null-key false matches, unseen right-side orphans or transaction-row counts mislabeled as client counts.",
+    "suspected_hidden_prerequisite": "A fully validated S16 clean dataset plus safe pandas Index/concat semantics from S15; neither is creditable in the effective ledger.",
+    "most_likely_misconception": "If totals still sum and validate did not raise, the join/reshape/aggregation must have preserved the intended business grain.",
+    "three_adversarial_questions": [
+      "Can the learner prove every row in an S17 aggregate belongs to the declared universe, including missing join/group keys and right-side orphans?",
+      "Can the learner distinguish preserved total from preserved grain after pivot_table, concat and groupby?",
+      "Can the final reconciliation actually fail when an upstream join is wrong, or is it separately hand-authored arithmetic?"
+    ]
+  },
+  "confirmed_findings": [
+    {"finding_id":"S17-F01","severity":"P1","category":"FORGOTTEN_PREREQUISITE_UNTRUSTED_CLEAN_DATA","location":"tagline + jobRelevance + reference + dictionary callout","evidence":"S17 assumes a clean dataset and clean keys from S16, while effective S16 leaves clean/quarantine partitioning, money/category normalization, schema enforcement and provenance non-USABLE.","learner_failure_mode":"Learner can carry duplicated/quarantined rows or invalid canonical keys into joins and treat the aggregates as analysis-ready.","why_it_matters":"Every later S17 control assumes the analytical universe is valid.","minimal_fix":"Add an S17 entry preflight proving disjoint clean/quarantine, non-null normalized join keys and required schema before merge.","rewrite_needed":true,"confidence":1.0,"cross_section_dependency":"S16 -> S17"},
+    {"finding_id":"S17-F02","severity":"P2","category":"MERGE_DTYPE_FAILURE_MISDESCRIBED","location":"dictionary callout","evidence":"Callout says str-int join produces false orphans; current pandas commonly rejects string/object versus integer merge keys with ValueError before an orphan table exists.","learner_failure_mode":"Learner can diagnose the wrong failure surface or assume a successful merge proves semantic alignment.","minimal_fix":"Say incompatible dtypes may raise; compatible text can still mismatch semantically. Normalize and validate representation plus values.","rewrite_needed":true,"confidence":0.97,"cross_section_dependency":"S15 -> S17"},
+    {"finding_id":"S17-F03","severity":"P1","category":"NULL_JOIN_KEYS_CREATE_FALSE_MATCHES","location":"T1-A p2 + code + callout","evidence":"No null-key policy exists. pandas matches null merge keys to null keys. A one-null left key can be is_unique and pass one_to_many; is_unique and nunique()==len disagree because nunique drops missing by default.","learner_failure_mode":"Missing cliente_id can match missing transaction ids and manufacture false relationships while validate passes.","why_it_matters":"False matches manufacture evidence rather than merely losing coverage.","minimal_fix":"Reject/quarantine null join keys before merge; explain pandas null-match behavior and use one uniqueness check after missing policy.","rewrite_needed":true,"confidence":1.0,"cross_section_dependency":"S16 -> S17"},
+    {"finding_id":"S17-F04","severity":"P1","category":"MERGE_JOIN_SEMANTICS_CONFLATED","location":"T1-A p1","evidence":"`merge` and `join` are grouped as interchangeable key joins. DataFrame.join is index-oriented by default and join(on=key) matches the caller column to the other frame Index; S15 already left this unsafe.","learner_failure_mode":"Learner can join on the wrong right-hand key/index and obtain plausible misalignment.","minimal_fix":"Teach merge(on=...) as primary column-key operation; separately microdefine DataFrame.join index semantics with set_index.","rewrite_needed":true,"confidence":1.0,"cross_section_dependency":"S15 -> S17"},
+    {"finding_id":"S17-F05","severity":"P1","category":"VALIDATE_CONTRACT_NOT_SHOWN_ON_SUCCESSFUL_JOIN","location":"LO2 + T1-A/T1-B code","evidence":"The normal client-to-transactions 1:m merge omits validate; the only theory validate call deliberately fails one_to_one.","learner_failure_mode":"Learner can treat validate as an after-the-fact debugging stunt instead of a routine executable contract.","minimal_fix":"Use validate='one_to_many' on the canonical successful join, then contrast with a failing contract.","rewrite_needed":true,"confidence":1.0,"cross_section_dependency":"S17"},
+    {"finding_id":"S17-F06","severity":"P1","category":"RIGHT_ANTI_JOIN_PROMISED_BUT_NOT_DEMONSTRATED","location":"dictionary + T1-B + validate_anti.py","evidence":"Text promises C002 left orphan and C003 right orphan, but code uses how='left'; that result cannot contain right_only and only prints C002.","learner_failure_mode":"Learner can inspect a left merge for right_only, see none and incorrectly conclude no orphan transactions exist.","why_it_matters":"Transaction-without-master rows are a referential-integrity problem.","minimal_fix":"Use outer+indicator or two explicit bilateral anti joins and print both sides with denominators.","rewrite_needed":true,"confidence":1.0,"cross_section_dependency":"S17"},
+    {"finding_id":"S17-F07","severity":"P2","category":"ANTI_JOIN_DUPLICATE_TERMINOLOGY_CONTRADICTION","location":"T1-A callout","evidence":"Callout says 'anti-join de duplicados' although the lesson elsewhere correctly defines anti-join as unmatched rows and fan-out/duplicates as a different failure.","learner_failure_mode":"Learner can try to detect duplicate-key fan-out with left_only/right_only instead of uniqueness/cardinality checks.","minimal_fix":"Say 'exporta las claves duplicadas y, por separado, los anti-joins de filas sin pareja'.","rewrite_needed":true,"confidence":1.0,"cross_section_dependency":"S17"},
+    {"finding_id":"S17-F08","severity":"P1","category":"CONCAT_OUTCOME_UNDER_TAUGHT_PRIOR_MISCONCEPTION_UNREPAIRED","location":"LO3 + T2-A","evidence":"Concat is an explicit outcome but has no theory worked example. One sentence omits alignment on the non-concatenation axis and default outer label behavior; S15 concat semantics were already unsafe.","learner_failure_mode":"Learner can be surprised by inserted missing values, duplicate columns or index alignment that does not follow physical row position.","minimal_fix":"Add axis=0 and axis=1 worked examples with mismatched labels, including join/ignore_index/keys.","rewrite_needed":true,"confidence":1.0,"cross_section_dependency":"S15 -> S17"},
+    {"finding_id":"S17-F09","severity":"P1","category":"PIVOT_TABLE_PRESENTED_AS_REVERSIBLE_RESHAPE","location":"T2-A figure + prose + melt_pivot.py","evidence":"Figure/prose frame wide and long as the same data and send melt output 'de regreso' through pivot_table. pivot_table aggregates duplicate index/column combinations and can destroy row-level detail; pivot instead requires uniqueness.","learner_failure_mode":"Learner can believe melt→pivot_table(sum) is an information-preserving inverse because the total still matches.","why_it_matters":"Preserved totals do not prove preserved grain.","minimal_fix":"Teach pivot as reshape with unique pairs and pivot_table as reshape-plus-aggregation; add a duplicate-pair counterexample.","rewrite_needed":true,"confidence":1.0,"cross_section_dependency":"S17"},
+    {"finding_id":"S17-F10","severity":"P2","category":"MELT_ROW_COUNT_FORMULA_GRAIN_ASSUMPTION","location":"T2-A p3","evidence":"`len(long)==n_clientes*n_meses` only holds if each wide row is one unique client and all selected value columns are months; general melt count is source rows × value_vars.","learner_failure_mode":"Duplicate client rows can make the formula encode a false grain assumption.","minimal_fix":"Use len(wide)*len(value_vars), then separately assert unique client grain when intended.","rewrite_needed":true,"confidence":0.99,"cross_section_dependency":"S17"},
+    {"finding_id":"S17-F11","severity":"P2","category":"SCHEMA_SET_CHECK_IGNORES_DUPLICATE_COLUMN_NAMES","location":"LO4 + T2-B","evidence":"set(df.columns)==set(expected) discards multiplicity. Duplicate column labels can pass membership even though names are ambiguous.","learner_failure_mode":"Learner can pass the declared schema gate with duplicate columns and later select/export ambiguous data.","minimal_fix":"Check columns.is_unique, then missing/extra sets, and order separately when required.","rewrite_needed":true,"confidence":1.0,"cross_section_dependency":"S16 -> S17"},
+    {"finding_id":"S17-F12","severity":"P1","category":"GROUPBY_DEFAULT_DROPS_MISSING_KEYS_SILENTLY","location":"T3-A + T4-A dependency","evidence":"No missing-group policy is declared. pandas GroupBy defaults dropna=True, so rows with missing region can contribute to raw totals yet disappear from regional parts without an exception.","learner_failure_mode":"Learner can publish segmented totals that silently omit unclassified rows and misread the residual as unexplained loss.","why_it_matters":"This violates the section's universe/denominator/reconciliation promise.","minimal_fix":"Explicitly quarantine, bucket or group missing keys with dropna=False and reconcile included/excluded rows.","rewrite_needed":true,"confidence":1.0,"cross_section_dependency":"S16 -> S17"},
+    {"finding_id":"S17-F13","severity":"P1","category":"ROW_COUNT_MASQUERADES_AS_CLIENT_DENOMINATOR","location":"opening p4 + T3-A + groupby_agg.py","evidence":"Prose discusses client counts, but code has no cliente_id and defines n=('monto','size'), which counts rows/transactions, not unique clients.","learner_failure_mode":"Learner can use transaction rows as a client denominator and produce misleading rates/averages.","why_it_matters":"Denominator correctness is a stated section outcome.","minimal_fix":"Add cliente_id and publish n_rows=size separately from n_clientes=nunique.","rewrite_needed":true,"confidence":1.0,"cross_section_dependency":"S17"},
+    {"finding_id":"S17-F14","severity":"P2","category":"RESAMPLE_DATETIMEINDEX_FALSE_REQUIREMENT","location":"T3-B p1","evidence":"Text says resample requires DatetimeIndex. DataFrame.resample also supports a datetime-like column with on= or a datetime-like MultiIndex level with level=.","learner_failure_mode":"Learner can unnecessarily mutate the index or conclude resample is unavailable with a normal datetime column.","minimal_fix":"Say resample needs a datetime-like index/level, or a DataFrame datetime column supplied via on=.","rewrite_needed":true,"confidence":1.0,"cross_section_dependency":"S15 -> S17"},
+    {"finding_id":"S17-F15","severity":"P2","category":"ROLLING_WINDOW_AND_PRESENT_INCLUSION_UNDEREXPLAINED","location":"T3-B + windows_cohorts.py","evidence":"Prose mixes 'periodos' and '7d' while code uses rolling(3), which means three observations. Default rolling includes the current observation; prior-only/as-of rolling is not contrasted.","learner_failure_mode":"Learner can call rolling(7) a seven-day measure on irregular data or use current-inclusive rolling as if it used only prior history.","minimal_fix":"Contrast observation windows vs time windows and descriptive current-inclusive vs shift/closed-left prior-only windows.","rewrite_needed":true,"confidence":1.0,"cross_section_dependency":"S17 -> later feature engineering"},
+    {"finding_id":"S17-F16","severity":"P1","category":"PEN_FLOAT_CONTRACT_REGRESSION","location":"jobRelevance + T1/T3/T4 code","evidence":"Amounts are repeatedly labeled PEN but represented as Python floats and reconciled with float eps. S02 established Decimal for soles and S17 introduces no explicit analytical conversion boundary.","learner_failure_mode":"Learner can abandon the earlier exact-money contract during aggregation/reconciliation without understanding precision tradeoffs.","why_it_matters":"Monetary reconciliation is a correctness gate here.","minimal_fix":"Keep canonical PEN as Decimal, or explicitly teach/preserve a Decimal→analytical-float boundary and its precision policy.","rewrite_needed":true,"confidence":1.0,"cross_section_dependency":"S02 -> S16 -> S17"},
+    {"finding_id":"S17-F17","severity":"P1","category":"RECONCILIATION_IS_HARDCODED_NOT_DERIVED","location":"LO7 + T4-A + reconcile.py","evidence":"Code hand-authors total=100 and parts 60/30/10 in a fresh object; neither is derived from T1-T3. Therefore the claimed upstream fan-out cannot make this check fail.","learner_failure_mode":"Learner can hand-enter matching totals, get ok=True and believe a broken pipeline is reconciled.","why_it_matters":"Reconciliation is the section-level closure mechanism.","minimal_fix":"Use one shared fixture: source total → validated join → aggregate → explicit exclusions/residual → reconstructed total.","rewrite_needed":true,"confidence":1.0,"cross_section_dependency":"S17"},
+    {"finding_id":"S17-F18","severity":"P2","category":"ANTI_LEAKAGE_CONTROL_NOT_CONNECTED_TO_ROLLING_TRANSFORM","location":"T3-A/T3-B -> T4-B","evidence":"T4-B demonstrates cutoff only with a separate sum; it does not govern transform or rolling introduced immediately before, and default rolling is current-inclusive.","learner_failure_mode":"Learner can reproduce the cutoff demo yet still calculate historical transform/rolling features from the full dataset and call the workflow leakage-safe.","minimal_fix":"Filter/as-of before the earlier aggregation/feature and show prior-only rolling; distinguish post-cutoff data from actual use of future information.","rewrite_needed":true,"confidence":0.99,"cross_section_dependency":"S17 -> later ML/features"},
+    {"finding_id":"S17-F19","severity":"P2","category":"WIDOW_TERMS_AND_PREMATURE_EDA_LABEL","location":"tagline + jobRelevance + opening/reference/T3","evidence":"EDA, portfolio, stakeholder and claims appear before Spanish-first definitions; EDA's dedicated mental model is S18. The quick dictionary omits these deliverable-bearing terms.","learner_failure_mode":"ZERO_TECH learner can understand code but not know what 'portfolio ejecutivo + EDA' or a causal claim is supposed to mean.","minimal_fix":"First use: análisis exploratorio de datos (EDA), portafolio, parte interesada/destinatario (stakeholder), afirmación causal; keep S18 as deeper EDA.","rewrite_needed":true,"confidence":0.98,"cross_section_dependency":"S17 -> S18"}
+  ],
+  "paragraph_audit_files": ["audit/lessons-only/sections/S17.paragraphs-01.json", "audit/lessons-only/sections/S17.paragraphs-02.json"],
+  "code_audit": [
+    {"locator":"T1-A.join_card.py","status":"REPAIR","finding_ids":["S17-F03","S17-F05"],"observed":"Output is correct for fixture, but no validate and no null-key policy.","improved_direction":"Reject/quarantine null keys, verify left uniqueness, execute with validate='one_to_many'."},
+    {"locator":"T1-B.validate_anti.py","status":"FAIL_COVERAGE","finding_ids":["S17-F06"],"observed":"Left merge cannot produce right_only; C003 is never emitted.","improved_direction":"Outer+indicator or bilateral anti joins."},
+    {"locator":"T2-A.melt_pivot.py","status":"REPAIR","finding_ids":["S17-F08","S17-F09","S17-F10"],"observed":"Unique fixture round-trip works, but no concat example and no duplicate-pivot counterexample.","improved_direction":"Teach concat and pivot vs pivot_table grain loss."},
+    {"locator":"T2-B.stable_names.py","status":"REPAIR","finding_ids":["S17-F11"],"observed":"Set equality proves membership only.","improved_direction":"columns.is_unique + missing/extra + optional order."},
+    {"locator":"T3-A.groupby_agg.py","status":"FAIL_EDGE_CONTRACT","finding_ids":["S17-F12","S17-F13","S17-F16","S17-F18"],"observed":"Default groupby drops missing region; n=size counts rows; PEN uses float; transform has no cutoff boundary.","improved_direction":"Explicit missing policy, n_rows/n_clients, Decimal boundary, as-of filter."},
+    {"locator":"T3-B.windows_cohorts.py","status":"REPAIR","finding_ids":["S17-F14","S17-F15","S17-F18"],"observed":"Output is correct; rolling count/time and current/prior-only semantics are underexplained; resample requirement is overstated.","improved_direction":"Contrast observation/time windows and prior-only rolling; fix resample model."},
+    {"locator":"T4-A.reconcile.py","status":"FAIL_INTEGRATION","finding_ids":["S17-F16","S17-F17"],"observed":"Hardcoded arithmetic is disconnected from upstream transformations and cannot catch fan-out.","improved_direction":"Derive reference and parts from shared fixture."},
+    {"locator":"T4-B.no_leak.py","status":"REPAIR","finding_ids":["S17-F18"],"observed":"115 vs 15 is correct, but cutoff is not transferred to transform/rolling.","improved_direction":"Apply cutoff before a prior feature and show prior-only rolling."}
+  ],
+  "meta_leak_report": {
+    "confirmed_learner_facing_leaks": [],
+    "source_only_meta_text": [{"location":"file header comment","text":"Matching content to the slug is how three agent diagrams ended up attached to a data-testing lesson.","verdict":"SOURCE_ONLY_NOT_CONFIRMED_RENDERED"}],
+    "widow_terms": ["EDA","portfolio","stakeholder","claims"]
+  },
+  "rejected_hypotheses": [
+    {"hypothesis":"Any join row growth is a defect.","verdict":"REJECTED_FINDING","reason":"1:m joins legitimately grow; the defect is undeclared/contract-violating growth."},
+    {"hypothesis":"pandas 3 native left_anti/right_anti must replace indicator=True.","verdict":"REJECTED_FINDING","reason":"Native anti joins exist, but indicator remains valid and pedagogically transparent."},
+    {"hypothesis":"pivot_table(sum) necessarily corrupts the total.","verdict":"REJECTED_FINDING","reason":"Sum may be preserved; grain/detail can still be lost."},
+    {"hypothesis":"GroupBy must always use dropna=False.","verdict":"REJECTED_FINDING","reason":"Missing groups may be excluded by explicit policy; silent default exclusion is the defect."},
+    {"hypothesis":"size is inherently the wrong aggregation.","verdict":"REJECTED_FINDING","reason":"size correctly counts rows; the defect is confusing row count with clients."},
+    {"hypothesis":"Current-inclusive rolling is always leakage.","verdict":"REJECTED_FINDING","reason":"It is valid descriptive EDA; prior-only use needs a different boundary."},
+    {"hypothesis":"All float analytics are invalid.","verdict":"REJECTED_FINDING","reason":"Float can be appropriate; this course already set a Decimal-for-PEN contract and provides no conversion boundary."},
+    {"hypothesis":"Detailed live S17 is proven different from source.","verdict":"REJECTED_FINDING","reason":"Only card metadata is retrievable; detailed render mismatch is unproven."},
+    {"hypothesis":"The source header comment is a learner meta-leak.","verdict":"REJECTED_FINDING","reason":"It is a TypeScript comment with no render evidence."}
+  ],
+  "technical_spot_checks": [
+    {"check":"null-key merge","result":"One left null matched two right nulls under validate=one_to_many; validate passed."},
+    {"check":"uniqueness with one null","result":"is_unique=True while nunique()==len=False."},
+    {"check":"bilateral orphan visibility","result":"left+indicator cannot emit C003 right_only; outer+indicator can."},
+    {"check":"groupby missing-key accounting","result":"raw sum 35; default region groupby accounted 30; dropna=False accounted 35."},
+    {"check":"row vs client count","result":"two Lima rows from one client give size=2 but unique clients=1."},
+    {"check":"duplicate schema columns","result":"set(['id','amount','amount']) equals set(['id','amount'])."},
+    {"check":"pivot duplicate grain","result":"pivot raises on duplicate id/month; pivot_table(sum) collapses 10+20 to 30."},
+    {"check":"rolling present inclusion","result":"rolling(3) includes current observation; shifted rolling is prior-only."},
+    {"check":"resample datetime column","result":"DataFrame.resample(..., on='fecha') works without DatetimeIndex."}
+  ],
+  "concept_ledger_delta": {
+    "USABLE": ["cardinality 1:1/1:m mental model", "fan-out concept", "left join basic retention", "melt wide-to-long", "cohort as first valid observation period", "cutoff/as-of basic principle"],
+    "PARTIAL": ["validate", "anti-join", "concat", "pivot/pivot_table", "stable reshape schema", "groupby/agg/transform", "rolling", "reconciliation", "temporal leakage control"],
+    "MISCONCEPTION_RISK": ["DataFrame.join", "null merge keys", "client denominators", "PEN numerical representation", "S16 clean dataset inheritance"],
+    "MENTION_ONLY": ["resample", "EDA full model"]
+  },
+  "dependency_edges": ["S15 join/index -> S17-F04", "S15 concat -> S17-F08", "S16 untrusted clean/key normalization -> S17-F01/F03/F12", "S02 Decimal for PEN -> S17-F16", "S17 partial aggregation/window semantics -> S18"],
+  "priority_repairs": [
+    {"priority":1,"finding_ids":["S17-F01","S17-F03","S17-F04","S17-F05","S17-F06"],"action":"Repair join boundary and bilateral evidence."},
+    {"priority":2,"finding_ids":["S17-F12","S17-F13","S17-F17"],"action":"Make aggregation/reconciliation preserve a declared universe and derive close from one fixture."},
+    {"priority":3,"finding_ids":["S17-F08","S17-F09","S17-F10","S17-F11"],"action":"Repair concat/reshape/grain/schema teaching."},
+    {"priority":4,"finding_ids":["S17-F14","S17-F15","S17-F18"],"action":"Repair time semantics and apply cutoff to feature operations."},
+    {"priority":5,"finding_ids":["S17-F16"],"action":"Restore or explicitly bridge Decimal-for-PEN contract."},
+    {"priority":6,"finding_ids":["S17-F02","S17-F07","S17-F19"],"action":"Correct diagnostic terminology and widow terms."}
+  ],
+  "next_round_watchlist": {
+    "next_section":"S18",
+    "rules":[
+      "Do not inherit groupby/agg/transform as fully USABLE: missing-key universe and client-vs-row denominator remain PARTIAL.",
+      "Do not inherit monetary totals as trustworthy until Decimal/analytical boundary is explicit.",
+      "Do not assume S17 reconciliation proved pipeline conservation; T4-A is hardcoded and disconnected.",
+      "Do not treat pivot_table output as grain-preserving merely because sums match.",
+      "Do not inherit rolling as prior-only; current-inclusive/default semantics remain PARTIAL.",
+      "Do not assume EDA is already taught merely because S17 uses the acronym; S18 owns its full model.",
+      "Carry cutoff/as-of basic principle as USABLE but require integration with each time-dependent metric.",
+      "S18 rates/averages must distinguish row count from unique-entity denominator and state missing-group policy."
+    ]
+  },
+  "status": "AUDITED_REPAIR_REQUIRED"
+}
