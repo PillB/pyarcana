@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "patch_id": "patch-014",
+  "applies_after": [
+    "audit/lessons-only/lesson_audit_log.json",
+    "audit/lessons-only/lesson_audit_log.patch-001.json",
+    "audit/lessons-only/lesson_audit_log.patch-002.json",
+    "audit/lessons-only/lesson_audit_log.patch-003.json",
+    "audit/lessons-only/lesson_audit_log.patch-004.json",
+    "audit/lessons-only/lesson_audit_log.patch-005.json",
+    "audit/lessons-only/lesson_audit_log.patch-006.json",
+    "audit/lessons-only/lesson_audit_log.patch-007.json",
+    "audit/lessons-only/lesson_audit_log.patch-008.json",
+    "audit/lessons-only/lesson_audit_log.patch-009.json",
+    "audit/lessons-only/lesson_audit_log.patch-010.json",
+    "audit/lessons-only/lesson_audit_log.patch-011.json",
+    "audit/lessons-only/lesson_audit_log.patch-012.json",
+    "audit/lessons-only/lesson_audit_log.patch-013.json",
+    "audit/lessons-only/sections/S14.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "operations": [
+    {"op":"replace","path":"/coverage/S14/status","from":"PENDING","to":"AUDITED_REPAIR_REQUIRED"},
+    {"op":"add_section_shard","section":"S14","path":"audit/lessons-only/sections/S14.json","canonical_file":"src/lib/course/sections/s14-security.ts","canonical_blob_sha":"54b3e5ed48c327d275f28003d91ba58152c76261","audit_blob_sha":"ac472c75157692ecf8435508e6c3de95f8518ced","verdict":"REPAIR_REQUIRED","severity_counts":{"P0":0,"P1":10,"P2":11,"P3":0},"material_findings":21,"theory_blocks_reviewed":10,"paragraphs_reviewed":33},
+    {"op":"advance_next_round","from":"S14","to":"S15"},
+    {"op":"extend_concept_ledger","source":"audit/lessons-only/sections/S14.json#/concept_ledger_delta","credit_rule_for_next_section":"Only concepts with state USABLE may be assumed in S15. PARTIAL, MENTION_ONLY, MISCONCEPTION_RISK and MISSING receive no automatic prerequisite credit."}
+  ],
+  "effective_campaign_state": {
+    "sections_inspected": 14,
+    "canonical_sections": 52,
+    "coverage_percent": 26.923,
+    "section_status": {
+      "S01":"AUDITED_REPAIR_REQUIRED",
+      "S02":"AUDITED_REPAIR_REQUIRED",
+      "S03":"AUDITED_REPAIR_REQUIRED",
+      "S04":"AUDITED_REPAIR_REQUIRED",
+      "S05":"AUDITED_REPAIR_REQUIRED",
+      "S06":"AUDITED_REPAIR_REQUIRED",
+      "S07":"AUDITED_REPAIR_REQUIRED",
+      "S08":"AUDITED_REPAIR_REQUIRED",
+      "S09":"AUDITED_REPAIR_REQUIRED",
+      "S10":"AUDITED_REPAIR_REQUIRED",
+      "S11":"AUDITED_REPAIR_REQUIRED",
+      "S12":"AUDITED_REPAIR_REQUIRED",
+      "S13":"AUDITED_REPAIR_REQUIRED",
+      "S14":"AUDITED_REPAIR_REQUIRED",
+      "S15-S52":"PENDING"
+    },
+    "known_material_findings_before_global_deduplication": {"P0":0,"P1":154,"P2":141,"P3":0,"total":295},
+    "note_on_counts":"Running local counts only. Mandatory global passes may merge recurring root causes, reject false positives or change severity when later dependency evidence is available."
+  },
+  "S15_entry_watchlist": [
+    "Do not inherit S14 broadcasting as safe automatic knowledge until compatible-but-wrong axis semantics are repaired.",
+    "Do not assume allclose establishes a full output contract; shape and NaN/inf policy remain misconception risks.",
+    "Do not inherit 'NaN means missing' universally into pandas; S15 must distinguish missing-value representation from invalid computation/domain policy.",
+    "Do not inherit object dtype as simply non-vectorizable; pandas object/string/nullable dtypes need a precise bridge.",
+    "S14/Level-2 entry does not prove S13/N1 gate closure; keep that cross-section dependency open.",
+    "Pandas copy/view and chained-assignment semantics must not be taught as if NumPy slice rules transfer unchanged.",
+    "Current public crawl shows S14 as 18h while main source says 9h; keep live/source parity unresolved until a current hydrated render verifies deployment."
+  ],
+  "next_round": "S15",
+  "must_re_read_review_contract": true,
+  "must_re_read_comprehension_contract": true,
+  "status": "EFFECTIVE_RUNNING_LOG_ADVANCED_TO_S14"
+}
