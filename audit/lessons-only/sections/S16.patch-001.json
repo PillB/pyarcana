@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S16",
+  "patch_id": "S16.patch-001",
+  "applies_after": "audit/lessons-only/sections/S16.json",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "reason": "Second adversarial pass extends rather than overwrites the existing complete S16 shard.",
+  "overturned_rejection": {
+    "prior": "Using float for PEN is automatically a correctness defect.",
+    "new": "CONFIRMED",
+    "why": "Canonical S02 explicitly says montos en soles use Decimal rather than float. S16 uses float for PEN without declaring a conversion boundary."
+  },
+  "amend_existing": [
+    {
+      "finding_id": "S16-F09",
+      "add_evidence": [
+        "norm_money('USD 10')->10.0",
+        "norm_money('S/ 1O.50')->1.5",
+        "norm_money('abc')->NaN",
+        "norm_money('1.2.3')->ValueError"
+      ],
+      "note": "The parser inconsistently deletes invalid characters, silently converts some malformed inputs and crashes on others."
+    }
+  ],
+  "new_findings": [
+    {
+      "finding_id": "S16-F18",
+      "severity": "P1",
+      "category": "MONEY_FLOAT_CONTRADICTS_S02_DECIMAL",
+      "location": "LO5 + T3-A",
+      "evidence": "S16 calls normalized PEN outputs floats and norm_money returns float; S02 established Decimal for soles.",
+      "learner_failure_mode": "A learner can discard the earlier Decimal-for-money contract during cleaning and later aggregate approximate binary floats as canonical PEN.",
+      "minimal_fix": "Parse canonical PEN to Decimal. Teach any later Decimal-to-float analytics boundary explicitly."
+    },
+    {
+      "finding_id": "S16-F19",
+      "severity": "P2",
+      "category": "CONFLICT_DETECTION_DROPS_MISSING_VALUES",
+      "location": "T2-A",
+      "evidence": "SeriesGroupBy.nunique defaults dropna=True. For one key with ['Lima', None], the canonical expression returns count 1.",
+      "learner_failure_mode": "A learner can label value-versus-missing sources as consistent when the attribute contract expects agreement.",
+      "minimal_fix": "Declare missing semantics per attribute; preclassify null disagreement or use dropna=False when missing is a distinct state."
+    },
+    {
+      "finding_id": "S16-F20",
+      "severity": "P2",
+      "category": "UNKNOWN_CATEGORY_AUTO_CANONICALIZATION",
+      "location": "T3-A",
+      "evidence": "cat_map.get(x.upper(), x.title()) promotes every unknown non-null token to a clean-looking title-cased category.",
+      "learner_failure_mode": "A learner can let typos/new category codes enter clean data without an unmapped-category signal.",
+      "minimal_fix": "Normalize text, then validate against the category map/allowlist; unknown values get an explicit reason."
+    },
+    {
+      "finding_id": "S16-F21",
+      "severity": "P1",
+      "category": "OUTLIER_DISPOSITION_CONTRADICTION",
+      "location": "T3-B",
+      "evidence": "The prose says stat outliers are flagged and quarantined, then says plausible 5000 must remain visible to S17; code marks 5000 stat-only, not domain_error.",
+      "learner_failure_mode": "A learner can quarantine legitimate tail observations solely because IQR flagged them.",
+      "minimal_fix": "Domain errors quarantine; stat-only plausible extremes stay clean with a flag unless a separate policy says otherwise."
+    },
+    {
+      "finding_id": "S16-F22",
+      "severity": "P2",
+      "category": "AUDIT_EVENTS_LACK_RUN_SOURCE_PROVENANCE",
+      "location": "T4-B",
+      "evidence": "Events contain event/n/reason but no run_id, timestamp, source/input hash, contract version or row/rule references.",
+      "learner_failure_mode": "A learner can keep ordered events that still cannot reconstruct which run/input/rules they audit.",
+      "minimal_fix": "Add run_id, observed_at, input/source id+hash, contract_version and row/rule references."
+    },
+    {
+      "finding_id": "S16-F23",
+      "severity": "P3",
+      "category": "SPANISH_REDACTION_ACCESSIBILITY_POLISH",
+      "location": "opening figure alt + terminology",
+      "evidence": "Figure alt says 'politicas' without accent and learner copy alternates portfolio/portafolio.",
+      "learner_failure_mode": "No technical misconception, but accessibility-facing copy and editorial consistency remain below publication standard.",
+      "minimal_fix": "Use 'políticas' and standardize 'portafolio'."
+    }
+  ],
+  "paragraph_amendments": [
+    {
+      "locator": "T2-A.p2",
+      "add": ["S16-F19"],
+      "improved_version": "Declara exact_cols/conflict_attrs y la política de missing. Si ausencia frente a valor observado cuenta como discrepancia, no permitas que el dropna=True por defecto la borre. S17 enseñará groupby/transform; S16 debe enseñar primero la política."
+    },
+    {
+      "locator": "T3-A.p1",
+      "add": ["S16-F20"],
+      "improved_version": "Normaliza representación y después valida categorías. Un token fuera del mapa queda unmapped; no se vuelve válido solo por title-casing."
+    },
+    {
+      "locator": "T3-A.p2",
+      "add": ["S16-F18"],
+      "improved_version": "Valida el token PEN completo y conviértelo al Decimal canónico de S02. Un formato/moneda no permitido conserva raw y produce invalid_money_format."
+    },
+    {
+      "locator": "T3-A.p3",
+      "add": ["S16-F18", "S16-F20"],
+      "improved_version": "Los montos PEN permitidos producen Decimal; fechas que no parsean producen invalid_date_format; categorías no mapeadas producen unmapped_category. Raw permanece intacto."
+    },
+    {
+      "locator": "T3-B.p2",
+      "add": ["S16-F21"],
+      "improved_version": "Domain error bloquea o cuarentena. Un stat_outlier dentro del dominio queda en clean con flag/review; IQR por sí solo no lo excluye."
+    },
+    {
+      "locator": "T3-B.p3",
+      "add": ["S16-F21"],
+      "improved_version": "5000 permanece en clean con stat_outlier=True; -1 entra a cuarentena por domain_error_monto. Así S17 conserva la cola legítima."
+    },
+    {
+      "locator": "T4-B.p2",
+      "add": ["S16-F22"],
+      "improved_version": "El audit del lab identifica run, tiempo, input/source, versión del contrato y regla/filas. Una lista solo modela orden; no garantiza append-only. El entrypoint emite métricas y luego devuelve un exit status coherente."
+    }
+  ],
+  "figure_amendment": {
+    "id": "S16-null-policy",
+    "add": ["S16-F23"],
+    "corrected_alt": "Embudo que separa el nulo por campo: ausente, no aplica y cero real siguen políticas distintas."
+  },
+  "effective_section_state": {
+    "verdict": "REPAIR_REQUIRED",
+    "severity_counts": {"P0": 0, "P1": 15, "P2": 7, "P3": 1},
+    "material_findings": 22,
+    "total_findings": 23,
+    "paragraphs_reviewed": 32
+  },
+  "spot_checks_added": [
+    {
+      "check": "money parser",
+      "result": "USD 10->10.0; S/ 1O.50->1.5; abc->NaN; 1.2.3->ValueError"
+    },
+    {
+      "check": "conflict missingness",
+      "result": "Default groupby nunique treats ['Lima', None] as one observed unique value."
+    }
+  ],
+  "status": "S16_AUDIT_EXTENDED"
+}
