@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "patch_id": "patch-012",
+  "applies_after": [
+    "audit/lessons-only/lesson_audit_log.json",
+    "audit/lessons-only/lesson_audit_log.patch-001.json",
+    "audit/lessons-only/lesson_audit_log.patch-002.json",
+    "audit/lessons-only/lesson_audit_log.patch-003.json",
+    "audit/lessons-only/lesson_audit_log.patch-004.json",
+    "audit/lessons-only/lesson_audit_log.patch-005.json",
+    "audit/lessons-only/lesson_audit_log.patch-006.json",
+    "audit/lessons-only/lesson_audit_log.patch-007.json",
+    "audit/lessons-only/lesson_audit_log.patch-008.json",
+    "audit/lessons-only/lesson_audit_log.patch-009.json",
+    "audit/lessons-only/lesson_audit_log.patch-010.json",
+    "audit/lessons-only/lesson_audit_log.patch-011.json",
+    "audit/lessons-only/sections/S12.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "operations": [
+    {"op":"replace","path":"/coverage/S12/status","from":"PENDING","to":"AUDITED_REPAIR_REQUIRED"},
+    {"op":"add_section_shard","section":"S12","path":"audit/lessons-only/sections/S12.json","canonical_file":"src/lib/course/sections/s12-performance.ts","canonical_blob_sha":"5a62bde969a9b63a72f036fc0f1cd0c3de11a6b0","verdict":"REPAIR_REQUIRED","severity_counts":{"P0":0,"P1":13,"P2":10,"P3":0},"material_findings":23,"elements_reviewed":86,"paragraphs_reviewed":35},
+    {"op":"advance_next_round","from":"S12","to":"S13"},
+    {"op":"extend_concept_ledger","source":"audit/lessons-only/sections/S12.json#/concept_ledger_delta","credit_rule_for_next_section":"Only concepts with state USABLE may be assumed in S13. PARTIAL, MENTION_ONLY, MISCONCEPTION_RISK and MISSING receive no automatic prerequisite credit."}
+  ],
+  "effective_campaign_state": {
+    "sections_inspected": 12,
+    "canonical_sections": 52,
+    "coverage_percent": 23.0769230769,
+    "section_status": {
+      "S01":"AUDITED_REPAIR_REQUIRED",
+      "S02":"AUDITED_REPAIR_REQUIRED",
+      "S03":"AUDITED_REPAIR_REQUIRED",
+      "S04":"AUDITED_REPAIR_REQUIRED",
+      "S05":"AUDITED_REPAIR_REQUIRED",
+      "S06":"AUDITED_REPAIR_REQUIRED",
+      "S07":"AUDITED_REPAIR_REQUIRED",
+      "S08":"AUDITED_REPAIR_REQUIRED",
+      "S09":"AUDITED_REPAIR_REQUIRED",
+      "S10":"AUDITED_REPAIR_REQUIRED",
+      "S11":"AUDITED_REPAIR_REQUIRED",
+      "S12":"AUDITED_REPAIR_REQUIRED",
+      "S13-S52":"PENDING"
+    },
+    "known_material_findings_before_global_deduplication": {"P0":0,"P1":124,"P2":123,"P3":0,"total":247},
+    "note_on_counts":"Running local counts only. Mandatory global passes may merge recurring root causes, reject false positives or change severity when later dependency evidence is available."
+  },
+  "S13_entry_watchlist": [
+    "S13 is the N1 closing integration section and must not treat S12 HTTP/retry mechanics as mastered; real synchronous request construction is MENTION_ONLY and retry/backoff is MISCONCEPTION_RISK.",
+    "S13 must preserve ClientRecord/client_id versus ResolvedEntity/entity_id versus RelationshipEvidence pair semantics; S12 SQL collapsed evidence.entity_id directly onto clients.id.",
+    "S13 must use one canonical domain model and explicit external DTO -> validation -> domain mapping; S11/S12 do not leave this boundary safe to inherit.",
+    "Authenticated cache keying is unsafe in S12 because it is URL-only; do not reuse it for case/evidence/geocoder data.",
+    "Provider contract fixtures do not prove current provider schema; any S13 external-adapter health/drift claim needs current provider/sandbox evidence or a clearly scoped local regression claim.",
+    "Geocoder egress safety remains PARTIAL because the allowlist is prose-only; S13 must execute the allowlist before any external call.",
+    "Haversine is only a spherical approximate geosignal; it must not become a kinship/fraud verdict or an exact route/WGS84 geodesic claim.",
+    "SQL joins do not prove referential integrity; S13 must enable/enforce or explicitly reconcile orphan evidence.",
+    "S07 surname/name parsing remains MISCONCEPTION_RISK and must not be treated as universal truth in entity resolution.",
+    "S09/S10 process-exit/logging/configuration defects remain relevant to the S13 capstone gate; printed labels do not prove operational failure or success.",
+    "CP-N1-C/CASO identifiers remain a persistent widow-term family unless expanded globally."
+  ],
+  "next_round": "S13",
+  "must_re_read_review_contract": true,
+  "must_re_read_comprehension_contract": true,
+  "status": "EFFECTIVE_RUNNING_LOG_ADVANCED_TO_S12"
+}
