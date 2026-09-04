@@ -1,0 +1,302 @@
+{
+  "schema_version": "1.3.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S12",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s12-performance.ts",
+  "canonical_blob_sha": "5a62bde969a9b63a72f036fc0f1cd0c3de11a6b0",
+  "title": "APIs, SQL y geodatos responsables",
+  "short_title": "APIs · SQL · Geo",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "learner_entry_state": {
+    "baseline": "ZERO_TECH_CAPABLE",
+    "prior_sections": ["S01","S02","S03","S04","S05","S06","S07","S08","S09","S10","S11"],
+    "credit_rule": "Only concepts marked USABLE in the effective prior ledger count as learned.",
+    "not_creditable": [
+      "invariants as lifecycle guarantees",
+      "dataclass/type-hint runtime validation",
+      "Protocol runtime signature validation",
+      "stable domain serialization boundary",
+      "Transaction amount/currency contract",
+      "safe retry/idempotency semantics",
+      "reliable provenance",
+      "reliable process exit semantics"
+    ]
+  },
+  "roadmap_expectation": {
+    "prerequisites": "S8-S11",
+    "T1": "HTTP requests/responses/status/JSON; timeout, pagination, retry/backoff and rate limit",
+    "T2": "auth/secrets; cache, provenance, contract tests and fallback",
+    "T3": "SQLite schema/CRUD/joins; parameters, transactions, constraints and basic indexes",
+    "T4": "authorized normalization/geocoding; coordinate quality, Haversine/routes, caching and provider policy",
+    "gate": "limited synchronous HTTP + SQLite + mock/interchangeable geocoder with synthetic/precomputed coordinates and no banking PII egress"
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/",
+    "status": "NEEDS_E4_RENDER",
+    "note": "Public GitHub Pages fetch remained unavailable in this environment; no hydrated-render parity claim is made."
+  },
+  "audit_metadata": {
+    "elements_reviewed": 86,
+    "paragraphs_reviewed": 35,
+    "paragraphs_expected": 35,
+    "paragraph_coverage_complete": true
+  },
+  "severity_counts": {"P0":0,"P1":13,"P2":10,"P3":0},
+  "material_findings": 23,
+  "verdict": "REPAIR_REQUIRED",
+  "reference_checks": [
+    {"source":"RFC 9110 HTTP Semantics","url":"https://www.rfc-editor.org/rfc/rfc9110.html","used_for":["4xx semantics","503","Retry-After","idempotent retry"]},
+    {"source":"RFC 6585","url":"https://www.rfc-editor.org/rfc/rfc6585.html","used_for":["429 Too Many Requests"]},
+    {"source":"Python sqlite3 docs","url":"https://docs.python.org/3.13/library/sqlite3.html","used_for":["parameter substitution","transactions","connection semantics"]},
+    {"source":"SQLite foreign key docs","url":"https://www.sqlite.org/foreignkeys.html","used_for":["foreign-key enforcement","child-key indexes"]},
+    {"source":"SQLite quirks","url":"https://www.sqlite.org/quirks.html","used_for":["TEXT PRIMARY KEY may permit NULL","FK enforcement default"]},
+    {"source":"SQLite CREATE TABLE / indexes","url":"https://www.sqlite.org/lang_createtable.html","used_for":["UNIQUE constraints","automatic index implications"]},
+    {"source":"GeographicLib","url":"https://geographiclib.sourceforge.io/html/python/code.html","used_for":["WGS84 ellipsoid vs spherical approximation"]}
+  ],
+  "confirmed_findings": [
+    {
+      "finding_id":"S12-F01","severity":"P2","category":"PERSISTENT_WIDOW_TERM","location":"opening/reference/T1-A/T1-B",
+      "evidence":"CP-N1-C, CASO-LIM-012, N1, DLQ, egress and related internal/ops labels appear before one stable learner-facing expansion; DLQ appears in a figure alt without definition.",
+      "learner_failure_mode":"A reasonable learner can recognize labels yet not know whether they denote a capstone increment, case, policy level, queue, or data-boundary concept.",
+      "minimal_fix":"Expand CP-N1-C and CASO-LIM-012 once, define N1 as the course-local retry policy, spell out dead-letter queue before DLQ, and keep egress paired with the Spanish meaning salida de datos."
+    },
+    {
+      "finding_id":"S12-F02","severity":"P1","category":"FALSE_HTTP_STATUS_MENTAL_MODEL","location":"opening p2 + S12-T1-A p2",
+      "evidence":"Opening says 'los 400 significan que el pedido estaba mal formulado' and then treats 429 as a server-side transient example. T1-A later correctly makes 429 a special retryable 4xx under course policy.",
+      "learner_failure_mode":"The learner can classify every 4xx as malformed request while simultaneously memorizing 429 as a server error, producing incompatible status-to-action logic.",
+      "minimal_fix":"Teach status classes as broad categories, then classify action by specific status: 400 malformed/bad request, 401 auth, 404 missing, 429 rate limit, 503 unavailable."
+    },
+    {
+      "finding_id":"S12-F03","severity":"P1","category":"OUTCOME_NOT_TAUGHT","location":"S12-T1-A",
+      "evidence":"Outcome promises consuming synchronous HTTP APIs, headers, timeout and response handling; theory code only constructs MockResponse objects and a local dictionary. urllib/urlopen is mentioned but never demonstrated.",
+      "learner_failure_mode":"The learner can reason about a fake status object yet still cannot construct a request, pass headers/timeout, receive bytes, decode the body, or map network exceptions in a real synchronous adapter.",
+      "minimal_fix":"Add one minimal stdlib adapter around urllib.request with a transport seam/fake so the mechanism is visible without requiring live internet."
+    },
+    {
+      "finding_id":"S12-F04","severity":"P1","category":"OUTCOME_NOT_TAUGHT","location":"S12-T1-B paginate_rate.py",
+      "evidence":"T1-B promises retry/backoff, Retry-After and max_retries; the canonical code implements pagination and increments a delay counter only. No should_retry, attempts, backoff schedule or Retry-After handling exists.",
+      "learner_failure_mode":"The learner reaches practice knowing the words retry/backoff but with no executable model of when an attempt repeats, how long it waits, or when it stops.",
+      "minimal_fix":"Add a deterministic bounded retry loop with explicit retryable statuses, attempt counter, Retry-After/backoff delay and terminal failure path."
+    },
+    {
+      "finding_id":"S12-F05","severity":"P1","category":"FORGOTTEN_PREREQUISITE_IDEMPOTENCY","location":"S12-T1-A/T1-B",
+      "evidence":"The section introduces GET/POST and then describes retrying timeouts/statuses generically even though S09 left idempotency MISCONCEPTION_RISK. It never limits automatic retry to safe/idempotent operations or explains how a POST becomes safely retryable.",
+      "learner_failure_mode":"A learner can wrap a non-idempotent POST/write in the same timeout retry policy and duplicate side effects when the first attempt succeeded but the response was lost.",
+      "minimal_fix":"State that the canonical retry demo is a GET/read; do not automatically retry non-idempotent writes unless the operation contract/idempotency key makes repetition safe."
+    },
+    {
+      "finding_id":"S12-F06","severity":"P2","category":"FIGURE_POLICY_CONTRADICTION","location":"figure S12-retry-or-not",
+      "evidence":"Figure alt says '5xx reintenta acotado, 4xx de negocio va a DLQ' while the local N1 prose says only 429/503/timeouts retry and explicitly maps 500 to fail_server without blind retry.",
+      "learner_failure_mode":"The visual summary teaches a broader retry policy than the text and can override the narrower rule the learner is supposed to implement.",
+      "minimal_fix":"Make the figure use the exact course table: timeout/429/503 -> bounded retry; 400 -> fix request; 404 -> missing; 500 -> fail_server under N1."
+    },
+    {
+      "finding_id":"S12-F07","severity":"P1","category":"SECRET_HANDLING_EXAMPLE_CONTRADICTION","location":"S12-T2-A auth_cache_prov.py",
+      "evidence":"Prose says never hardcode or use a demo token pasted into code; canonical code immediately executes os.environ['API_TOKEN'] = 'demo-token-not-real'.",
+      "learner_failure_mode":"The learner can infer that putting a token-like value into source is the normal way to populate an environment variable, exactly the mechanism the paragraph warns against.",
+      "minimal_fix":"Inject a synthetic environment mapping into get_token for the deterministic demo, while showing that real os.environ is populated outside source code."
+    },
+    {
+      "finding_id":"S12-F08","severity":"P1","category":"AUTHENTICATED_CACHE_ISOLATION_RISK","location":"S12-T2-A cached_get",
+      "evidence":"The authenticated-adapter subtopic caches GET responses using sha256(url) only. Authentication identity/scope/tenant is absent from the key and cache policy.",
+      "learner_failure_mode":"If two identities can see different representations at the same URL, a learner can reuse one principal's cached response for another principal.",
+      "minimal_fix":"Cache only explicitly public/shared resources or include a non-secret authorization scope/tenant identifier in the cache key; never include the raw bearer token."
+    },
+    {
+      "finding_id":"S12-F09","severity":"P1","category":"CONTRACT_TEST_EVIDENCE_OVERCLAIM","location":"S12-T2-B p1 + assert_contract",
+      "evidence":"Prose says a provider field rename makes the fixture-based contract test fail before production. assert_contract only inspects a fixed local payload; it has no connection to the provider's current schema.",
+      "learner_failure_mode":"A green static fixture test can be mistaken for evidence that the provider has not drifted.",
+      "minimal_fix":"Distinguish local adapter regression tests from provider/sandbox contract checks; static fixtures catch code regressions only after the expected contract/fixture is updated from trusted provider evidence."
+    },
+    {
+      "finding_id":"S12-F10","severity":"P1","category":"FALLBACK_MECHANISM_NOT_DEMONSTRATED","location":"S12-T2-B contract_fallback.py",
+      "evidence":"Prose says 5xx/network failure triggers precomputed fallback. Code merely switches on a caller-supplied online boolean; no request failure/status causes the branch and no failure reason is carried.",
+      "learner_failure_mode":"The learner cannot implement the actual causal boundary failure -> fallback -> provenance because the demo models a manual mode switch instead.",
+      "minimal_fix":"Use a fake online adapter that raises/returns 503, catch/classify that failure at the boundary, select the offline dataset, and record fallback_reason."
+    },
+    {
+      "finding_id":"S12-F11","severity":"P1","category":"FORGOTTEN_PREREQUISITE_DOMAIN_INTEGRATION","location":"entire S12 theory",
+      "evidence":"S11 is a required prerequisite, but canonical S12 theory never references ClientRecord, ResolvedEntity, Transaction or RelationshipEvidence. External JSON, cache bodies, SQL rows and evidence continue as anonymous dicts/tuples.",
+      "learner_failure_mode":"The first real external boundary bypasses the named domain model and reinforces the pre-S11 habit of allowing unvalidated dictionaries to circulate through the system.",
+      "minimal_fix":"Show the complete boundary: external DTO/dict -> explicit validation/parsing -> canonical S11 domain constructor -> repository mapping."
+    },
+    {
+      "finding_id":"S12-F12","severity":"P1","category":"CROSS_SECTION_DOMAIN_MODEL_CONTRADICTION","location":"S12-T3-A",
+      "evidence":"Paragraph says clients/transactions/evidence names are aligned with S11. DDL creates clients(id,name) and evidence(entity_id), then inserts evidence.entity_id='C001' and joins it directly to clients.id. S11 distinguishes ClientRecord client_id C... from ResolvedEntity entity_id E... and RelationshipEvidence left_id/right_id.",
+      "learner_failure_mode":"The learner can collapse client identity and resolved-entity identity, destroying the layer separation that CP-N1-C relies on.",
+      "minimal_fix":"Either map evidence explicitly to client_id and rename it honestly, or persist the S11 entity/evidence model with separate client/entity keys and relationships."
+    },
+    {
+      "finding_id":"S12-F13","severity":"P1","category":"SQL_OUTCOME_ARTIFACT_INCOMPLETE","location":"S12-T3-A",
+      "evidence":"Roadmap/outcome says schema, CRUD and joins and prose names clients, transactions and evidence. The theory DDL creates only clients/evidence and demonstrates CREATE/INSERT/SELECT; no transactions table and no UPDATE/DELETE path is shown.",
+      "learner_failure_mode":"The learner reaches the SQL gate without a theory-local worked model for the full CRUD vocabulary or one of the three domain tables the paragraph claims exists.",
+      "minimal_fix":"Either narrow the outcome to create/insert/select/join or add a minimal transactions table plus one UPDATE and clearly scoped DELETE/soft-delete example."
+    },
+    {
+      "finding_id":"S12-F14","severity":"P1","category":"REFERENTIAL_INTEGRITY_GAP","location":"S12-T3-A/T3-B",
+      "evidence":"evidence.entity_id is only a TEXT column. No FOREIGN KEY is declared or enabled; the callout explicitly says 'FKs lógicas primero'. Orphan evidence is therefore accepted and an inner JOIN silently drops it.",
+      "learner_failure_mode":"The learner can mistake naming convention for enforced referential integrity and publish incomplete case joins without a database error.",
+      "minimal_fix":"Declare the actual foreign key for the chosen model, enable PRAGMA foreign_keys=ON per connection, and add an orphan-insert negative example; otherwise label the schema intentionally non-enforcing and reconcile orphans explicitly."
+    },
+    {
+      "finding_id":"S12-F15","severity":"P2","category":"INDEX_DESIGN_MISCONCEPTION","location":"S12-T3-B params_tx.py",
+      "evidence":"document_id is declared UNIQUE and then CREATE INDEX idx_doc ON clients(document_id) creates another index over the same column; the prose also mentions entity_id indexing but no entity_id index is demonstrated.",
+      "learner_failure_mode":"The only indexing example teaches that indexes are added by ritual rather than because a query plan needs them, while omitting the child/join key that would be a more defensible candidate.",
+      "minimal_fix":"Remove the redundant document_id index, add an entity/join-key index only if the schema/query requires it, and show EXPLAIN QUERY PLAN or at least the query that motivates the index."
+    },
+    {
+      "finding_id":"S12-F16","severity":"P2","category":"COORDINATE_VALIDATION_CONTRACT_GAP","location":"S12-T4-B valid_coord",
+      "evidence":"Prose explicitly says strings are invalid coordinates and should be rejected. valid_coord('bad', -77) raises TypeError instead of returning False or an explicit domain error; 91 and NaN happen to produce False.",
+      "learner_failure_mode":"A malformed provider payload can crash the pipeline at the validation function rather than enter the documented invalid-coordinate path.",
+      "minimal_fix":"Validate numeric type/finite value first and return a documented result or raise one deliberate validation error."
+    },
+    {
+      "finding_id":"S12-F17","severity":"P2","category":"GEOSPATIAL_MODEL_PRECISION","location":"S12-T4-B p2",
+      "evidence":"Text says Haversine estimates km 'entre dos puntos WGS84 con radio R=6371 km'. The implemented formula is a spherical Haversine approximation using a mean radius; WGS84 itself is an ellipsoid.",
+      "learner_failure_mode":"The learner can describe the result as a WGS84 geodesic or route distance rather than a spherical straight-line surface approximation from lat/lon coordinates.",
+      "minimal_fix":"Say 'para coordenadas lat/lon expresadas en WGS84, usamos aquí una aproximación esférica Haversine con R=6371 km; no es distancia de ruta ni geodésica elipsoidal exacta'."
+    },
+    {
+      "finding_id":"S12-F18","severity":"P1","category":"SAFETY_OUTCOME_NOT_IMPLEMENTED","location":"S12-T4-A",
+      "evidence":"Prose promises an allowlist ALLOWED={'address','city','country'} and says allowed_for_public_geocoder returns False when document_id appears. No such function or egress-check code exists in the canonical theory block.",
+      "learner_failure_mode":"The section's central privacy boundary remains a sentence; the learner has no executable guard preventing document_id/name/account fields from being sent to a provider adapter.",
+      "minimal_fix":"Implement sanitize_geocoder_payload/allowed_for_public_geocoder before the geocoder call and demonstrate an allowed payload plus a blocked document_id payload."
+    },
+    {
+      "finding_id":"S12-F19","severity":"P2","category":"PROVENANCE_TIMESTAMP_SIMULATION_GAP","location":"S12-T2-A auth_cache_prov.py",
+      "evidence":"The code imports time and computes cache age using the actual clock, but fetched_at is hard-coded to 2026-07-20T12:00:00Z while prose describes it as metadata of each fetch.",
+      "learner_failure_mode":"The learner can record a plausible-looking timestamp unrelated to the actual acquisition event and call the manifest provenance.",
+      "minimal_fix":"Inject a clock for deterministic tests and set fetched_at from that clock at the actual fetch/cache decision boundary."
+    },
+    {
+      "finding_id":"S12-F20","severity":"P2","category":"FALLBACK_PROVENANCE_INCOMPLETE","location":"S12-T2-B prose/callout vs code",
+      "evidence":"Callout says fallback leaves mode=offline and the reason in provenance. The returned dict contains mode only; there is no provenance object, failure reason, source version or offline dataset identity.",
+      "learner_failure_mode":"An auditor sees that fallback happened but cannot determine why or which frozen source supplied the coordinates.",
+      "minimal_fix":"Return/record fallback_reason, source_id/version, generated_at and mode alongside the value."
+    },
+    {
+      "finding_id":"S12-F21","severity":"P2","category":"SQLITE_PRIMARY_KEY_PORTABILITY_TRAP","location":"S12-T3-A sqlite_join.py",
+      "evidence":"Schema uses id TEXT PRIMARY KEY without NOT NULL. In ordinary SQLite rowid tables this historical quirk can permit NULL primary-key values; an execution check inserted (NULL,'x') successfully.",
+      "learner_failure_mode":"A beginner reasonably expects PRIMARY KEY to guarantee a non-null identity and may persist rows with no ID while believing the constraint blocks them.",
+      "minimal_fix":"Declare TEXT PRIMARY KEY NOT NULL (or an appropriate STRICT/WITHOUT ROWID design) and demonstrate the negative insert if identity presence matters."
+    },
+    {
+      "finding_id":"S12-F22","severity":"P2","category":"GEO_CACHE_POLICY_NOT_DEMONSTRATED","location":"S12-T4-B p3",
+      "evidence":"Outcome/prose requires caching geocodes under provider TTL/policy. T4-B has no cache code or provider-policy artifact; it only points back to the generic URL cache from T2-A, which itself has auth-scope issues.",
+      "learner_failure_mode":"The learner can cache geocoder results indefinitely or without normalized keys/provider terms because no domain-specific cache contract is shown.",
+      "minimal_fix":"Add a tiny geocode cache keyed by normalized authorized query + provider/version with explicit TTL/policy and no sensitive raw address when policy forbids storage."
+    },
+    {
+      "finding_id":"S12-F23","severity":"P2","category":"RESPONSE_PARSING_DEMO_SPLIT_MODEL","location":"S12-T1-A mock_http_status.py",
+      "evidence":"MockResponse.json() simply returns the prebuilt _payload and never parses self.text. parse_json_body separately parses raw text. The same response object therefore does not model the causal path response bytes/text -> JSON decode -> payload/error.",
+      "learner_failure_mode":"The learner can think response.json() and JSON decoding failure are independent mechanisms rather than two views of the same response body.",
+      "minimal_fix":"Make the mock response store text and let json() call json.loads(text), so invalid body raises the same decode error the adapter must classify."
+    }
+  ],
+  "execution_checks": [
+    {"check":"T3-B atomic rollback", "observed":"The shown duplicate document_id batch rolls back and COUNT(*) is 0; suspected atomicity defect rejected."},
+    {"check":"S12 Haversine fixture", "observed":"The supplied Lima/Callao coordinates produce approximately 8.95 km with R=6371; numeric fixture is correct."},
+    {"check":"SQLite UNIQUE index", "observed":"UNIQUE document_id creates sqlite_autoindex_clients_2 before the lesson adds idx_doc; the explicit same-column index is redundant."},
+    {"check":"SQLite TEXT PRIMARY KEY nullability", "observed":"CREATE TABLE clients(id TEXT PRIMARY KEY,name TEXT) accepted an INSERT with id=NULL in the tested SQLite runtime."},
+    {"check":"valid_coord string input", "observed":"valid_coord('bad', -77) raises TypeError; valid_coord(91,0) and valid_coord(nan,-77) return False."},
+    {"check":"S11 domain reuse search", "observed":"No ClientRecord, ResolvedEntity or Transaction references occur in canonical S12 theory source."}
+  ],
+  "rejected_hypotheses": [
+    {"hypothesis":"The T3-B rollback example leaves two successful inserts committed after the third fails.","verdict":"REJECTED","reason":"Execution confirmed explicit rollback leaves count zero in the demonstrated runtime."},
+    {"hypothesis":"The Lima-Callao Haversine output 8.95 km is numerically wrong.","verdict":"REJECTED","reason":"Execution of the exact spherical formula reproduces 8.95 km."},
+    {"hypothesis":"Parameterized ? placeholders shown in S12 are vulnerable to the same SQL injection as f-string interpolation.","verdict":"REJECTED","reason":"Python sqlite3 parameter substitution treats bound values as values; the lesson's basic security direction is correct."},
+    {"hypothesis":"Using a mock geocoder instead of a live public provider is a pedagogical defect.","verdict":"REJECTED","reason":"The roadmap explicitly allows/requires a mock/interchangeable geocoder and synthetic/precomputed coordinates; deterministic offline practice is appropriate."},
+    {"hypothesis":"All 5xx must always be retried, so the N1 policy that does not retry 500 is technically false.","verdict":"REJECTED","reason":"Retry behavior is application policy; the defect is inconsistency/under-teaching, not failure to retry every 5xx."},
+    {"hypothesis":"The source-only historical filename comment is learner-visible meta leakage.","verdict":"REJECTED","reason":"No evidence shows the TypeScript comment renders on the lesson page."}
+  ],
+  "paragraph_audit": [
+    {"locator":"opening.p1","current_content_excerpt":"Todo lo que has leído hasta ahora venía de un archivo tuyo... Un servicio externo no funciona así...","status":"SIN_CAMBIO","findings":[],"improved_paragraph":"SIN_CAMBIO","rationale":"Concrete uncertainty bridge survived attack; actor, failure modes and reason for the section are clear."},
+    {"locator":"opening.p2","current_content_excerpt":"los 200 son éxito, los 400 significan que el pedido estaba mal formulado, los 500...","status":"CHANGE_REQUIRED","findings":["S12-F02"],"improved_paragraph":"Los códigos de estado agrupan respuestas, pero la acción depende del código concreto. Un 2xx indica éxito. Un 400 suele señalar que el servidor considera inválido el request; 401 apunta a autenticación, 404 a recurso ausente y 429 a exceso de solicitudes. Un 503 indica indisponibilidad temporal. Por eso no uses la regla 'todo 4xx es permanente / todo 5xx se reintenta': define una tabla status→acción y respeta el contrato del proveedor.","rationale":"Removes category-level falsehood while preserving the beginner status-to-action model."},
+    {"locator":"opening.p3","current_content_excerpt":"Cada pedido lleva un timeout... se guarda junto con su procedencia...","status":"RETAIN_WITH_LATER_REPAIR","findings":["S12-F19"],"improved_paragraph":"Cada pedido lleva un timeout: un límite impuesto por el cliente para no esperar indefinidamente. Cuando existe una respuesta utilizable, registra procedencia del evento real: URL o identificador de fuente, instante observado mediante un reloj controlable, status y si el valor vino de caché. Esos metadatos describen cómo obtuviste el dato; no sustituyen validación del contenido.","rationale":"Keeps causal purpose but prevents a fake timestamp from satisfying provenance."},
+    {"locator":"opening.p4","current_content_excerpt":"Una consulta SQL se arma con marcadores de posición... nunca pegando texto del usuario...","status":"SIN_CAMBIO","findings":[],"improved_paragraph":"SIN_CAMBIO","rationale":"Correct, causal explanation of value binding and injection prevention."},
+    {"locator":"opening.p5","current_content_excerpt":"Calcular la distancia entre dos puntos es una señal más... la ciudad sí, la dirección exacta...","status":"RETAIN_WITH_IMPLEMENTATION_GAP","findings":["S12-F18"],"improved_paragraph":"Calcular distancia aporta una señal, no una conclusión. Antes de construir cualquier request externo, el programa aplica una allowlist de campos autorizados y bloquea cualquier clave sensible no permitida. La política debe existir como código ejecutable antes de llamar al proveedor, no solo como comentario.","rationale":"Preserves ethical boundary while making the mechanism testable."},
+    {"locator":"opening.p6","current_content_excerpt":"¿de dónde salió este dato, y qué hace mi programa cuando el servicio no responde?","status":"SIN_CAMBIO","findings":[],"improved_paragraph":"SIN_CAMBIO","rationale":"Strong orienting question and bounded scope."},
+    {"locator":"reference.p1","current_content_excerpt":"Bloque de referencia. Orden de los subtemas...","status":"SIN_CAMBIO","findings":[],"improved_paragraph":"SIN_CAMBIO","rationale":"Reference orientation is clear."},
+    {"locator":"reference.p2","current_content_excerpt":"T1 cubre HTTP... T4 cierra con geodatos responsables...","status":"SIN_CAMBIO","findings":[],"improved_paragraph":"SIN_CAMBIO","rationale":"Accurately maps the intended section graph; later code fails some promises, but the roadmap paragraph itself is coherent."},
+    {"locator":"reference.p3","current_content_excerpt":"Reintento con espera creciente... Procedencia... Salida de datos...","status":"CHANGE_REQUIRED","findings":["S12-F01","S12-F04","S12-F05"],"improved_paragraph":"Vocabulario. Reintento con espera creciente: repetir una operación segura solo cuando el error se clasifica como transitorio, con un número máximo de intentos. Procedencia: metadatos que identifican la adquisición observada, sin secretos. Salida de datos o egress: campos que abandonan el sistema hacia un tercero. Geocodificador simulado: sustituto local del proveedor. Falla cerrada: ante contrato inválido no se inventan datos ni se continúa como si fueran válidos.","rationale":"Adds the missing safety condition that retries depend on operation semantics."},
+    {"locator":"reference.p4","current_content_excerpt":"Un adaptador con reintento selectivo... una unión local... una señal geográfica...","status":"CHANGE_REQUIRED","findings":["S12-F03","S12-F04","S12-F11"],"improved_paragraph":"Criterio de cierre: un adaptador HTTP síncrono cuyo request/response sea observable y cuyo retry sea acotado; un boundary mapper que convierta payload externo validado al modelo canónico; persistencia SQLite con integridad comprobable; y una geoseñal documentada sin veredicto automático.","rationale":"Makes the gate include the missing boundary from external data to S11 domain."},
+    {"locator":"reference.p5","current_content_excerpt":"Solo datos sintéticos latinoamericanos... Nunca tokens...","status":"SIN_CAMBIO","findings":[],"improved_paragraph":"SIN_CAMBIO","rationale":"Clear safety boundary; implementation gaps are tracked elsewhere."},
+    {"locator":"S12-T1-A.p1","current_content_excerpt":"Un cliente HTTP síncrono... GET/POST... cliente mock o urllib con fixtures... status primero...","status":"CHANGE_REQUIRED","findings":["S12-F03","S12-F05","S12-F23"],"improved_paragraph":"Un cliente HTTP síncrono construye un request, lo envía con timeout, recibe status/headers/body y solo después decide si el body debe parsearse como JSON. El mock conserva exactamente esa interfaz para que puedas probarla sin red. En esta sección el retry canónico se demostrará con GET; POST se menciona para reconocer el verbo, pero no se reintenta automáticamente sin una garantía explícita de idempotencia.","rationale":"Reveals the missing HTTP lifecycle and prevents unsafe retry transfer to POST."},
+    {"locator":"S12-T1-A.p2","current_content_excerpt":"2xx = éxito; 4xx = error del cliente... retry selectivo 429 y 503...","status":"CHANGE_REQUIRED","findings":["S12-F02"],"improved_paragraph":"Usa la clase del status como orientación, no como decisión final. En la política N1: 200–299 permite continuar; 400 se clasifica como request inválido; 404 como ausente; 429 como rate limit y puede reintentarse con espera; 503 como indisponibilidad temporal; 500 se registra como fail_server sin retry automático en este laboratorio. JSON inválido nunca se reemplaza por un dict inventado.","rationale":"One stable decision table eliminates the 4xx/429 contradiction."},
+    {"locator":"S12-T1-A.p3","current_content_excerpt":"Timeout es obligatorio... Headers Accept/User-Agent... CASO-LIM-012...","status":"CHANGE_REQUIRED","findings":["S12-F01","S12-F03"],"improved_paragraph":"En el adaptador real pasa un timeout explícito y headers que formen parte del contrato. CASO-LIM-012 es el caso sintético de adquisición de esta sección. El demo debe mostrar dónde se construyen request, headers y timeout, aunque el transporte sea un fake determinista.","rationale":"Expands case ID and demands observable mechanism instead of prose-only urllib."},
+    {"locator":"S12-T1-B.p1","current_content_excerpt":"Timeout... urlopen(req, timeout=5)... aquí lo modelamos como cost_s... Paginación... heap...","status":"RETAIN_WITH_BRIDGE","findings":["S12-F03"],"improved_paragraph":"Timeout limita cuánto espera una operación de red. En tests deterministas puedes simular el paso del tiempo, pero conserva la misma interfaz que el cliente real: request + timeout → response o timeout. Paginación solicita una porción cada vez y sigue el cursor/next del proveedor; no depende de saber de antemano cuántas páginas existen.","rationale":"Removes an unexplained heap detour and keeps the simulation structurally faithful to the real adapter."},
+    {"locator":"S12-T1-B.p2","current_content_excerpt":"Retry/backoff... 429, 503 y timeouts... Retry-After... max_retries... should_retry...","status":"CHANGE_REQUIRED","findings":["S12-F04","S12-F05"],"improved_paragraph":"El retry canónico de S12 se aplica a una lectura GET. Reintenta 429, 503 y timeouts clasificados como transitorios, con max_retries. Si existe Retry-After, interpreta el formato soportado por tu adapter; de lo contrario usa una espera creciente. No reutilices esta política sobre POST/escrituras hasta tener una garantía de idempotencia o una forma de saber que el primer intento no produjo efecto.","rationale":"Adds the operation-safety condition absent since S09."},
+    {"locator":"S12-T1-B.p3","current_content_excerpt":"Rate limit... contador de delays... next is None...","status":"SIN_CAMBIO","findings":[],"improved_paragraph":"SIN_CAMBIO","rationale":"The pagination termination model is clear and the deterministic no-sleep choice is defensible."},
+    {"locator":"S12-T2-A.p1","current_content_excerpt":"Bearer... token de variable de entorno... nunca hardcodeado... ni uses un token de demo pegado...","status":"CHANGE_REQUIRED","findings":["S12-F07"],"improved_paragraph":"El secreto real llega al proceso desde una fuente externa al código. Para el demo no escribas ni siquiera un token ficticio en os.environ desde el mismo archivo: pasa un mapping sintético a la función o configura la variable fuera del script. Así la demostración practica el mecanismo correcto, no solo la advertencia correcta.","rationale":"Aligns the demo mechanism with its own security rule."},
+    {"locator":"S12-T2-A.p2","current_content_excerpt":"Caché de GET por hash de URL... no caches respuestas de escritura ni PII sin política...","status":"CHANGE_REQUIRED","findings":["S12-F08","S12-F22"],"improved_paragraph":"Cachea solo GET cuya política lo permita. Si la representación depende de autenticación, el key debe separar al menos el scope/tenant no secreto que pueda cambiar el contenido; una URL sola no basta. Para geocoding, el key y TTL también deben respetar la política del proveedor y la normalización autorizada de la consulta.","rationale":"Prevents cross-principal reuse and connects generic cache to provider-specific policy."},
+    {"locator":"S12-T2-A.p3","current_content_excerpt":"Provenance... fetched_at... Nunca loguees token... segundo cached_get...","status":"CHANGE_REQUIRED","findings":["S12-F19"],"improved_paragraph":"Cada adquisición registra el instante del evento usando un reloj inyectable, source_url, status y cache_hit. En tests puedes fijar ese reloj para obtener una salida determinista. El token y Authorization nunca entran al registro; si necesitas trazabilidad de autorización, registra solo un identificador de esquema/scope no secreto.","rationale":"Makes fetched_at evidence rather than decorative constant text."},
+    {"locator":"S12-T2-B.p1","current_content_excerpt":"Un contract test fija las claves... Si el schema cambia... el test falla antes de producción...","status":"CHANGE_REQUIRED","findings":["S12-F09"],"improved_paragraph":"Un fixture contract test protege al adapter contra cambios de tu propio código usando un contrato conocido. No puede descubrir por sí solo que el proveedor remoto cambió ayer. Para detectar drift del proveedor necesitas además una fuente actualizada del contrato —por ejemplo su schema/version o un sandbox controlado— y comparar esa evidencia con lo que espera el adapter.","rationale":"Separates regression evidence from provider-drift evidence."},
+    {"locator":"S12-T2-B.p2","current_content_excerpt":"Fallback degradado: si 5xx o red caída, lee coordenadas precomputadas... mode=offline...","status":"CHANGE_REQUIRED","findings":["S12-F10","S12-F20"],"improved_paragraph":"El fallback nace de un fallo observado: el adapter online devuelve/lanza un error clasificado como recuperable, el boundary selecciona una fuente local versionada y registra mode=offline_fallback, fallback_reason y source_id. No cambies manualmente una bandera para fingir el fallo que la lección intenta enseñar.","rationale":"Restores causal fallback and audit evidence."},
+    {"locator":"S12-T2-B.p3","current_content_excerpt":"feature flag offline... assert_contract... online=True... online=False...","status":"CHANGE_REQUIRED","findings":["S12-F09","S12-F10"],"improved_paragraph":"Un flag offline puede forzar una demo sin red; eso es distinto del fallback automático ante fallo. Prueba ambos caminos por separado: offline_forced por configuración, y online_attempt_failed → offline_fallback con la razón registrada. El contract test del fixture verifica la forma esperada localmente, no el estado actual del proveedor.","rationale":"Separates two mechanisms currently collapsed into one boolean."},
+    {"locator":"S12-T3-A.p1","current_content_excerpt":"tablas clients, transactions, evidence (nombres alineados al dominio de S11)...","status":"CHANGE_REQUIRED","findings":["S12-F11","S12-F12","S12-F13"],"improved_paragraph":"Define primero qué objeto de S11 representa cada tabla y qué clave conserva su identidad. Si ClientRecord y ResolvedEntity son conceptos distintos, no llames entity_id a una columna que realmente contiene client_id. El schema mínimo de theory debe incluir solo las tablas que luego crea y usar adapters explícitos entre filas SQL y objetos de dominio.","rationale":"Repairs false claim of domain alignment."},
+    {"locator":"S12-T3-A.p2","current_content_excerpt":"CRUD = CREATE/INSERT/SELECT/UPDATE... JOIN une evidencias a entidades por entity_id...","status":"CHANGE_REQUIRED","findings":["S12-F12","S12-F13","S12-F14"],"improved_paragraph":"CRUD significa crear, leer, actualizar y borrar registros; si S12 lo declara como outcome, demuestra al menos una operación de cada familia o reduce el outcome. Un JOIN solo combina filas que tienen claves compatibles; no comprueba por sí mismo que toda evidencia tenga padre. Esa integridad debe declararse/enforzarse o reconciliarse explícitamente.","rationale":"Prevents JOIN from masquerading as referential integrity and closes CRUD gap."},
+    {"locator":"S12-T3-A.p3","current_content_excerpt":"Empieza transacciones explícitas... join falla en silencio solo si olvidaste entity_id correcto...","status":"CHANGE_REQUIRED","findings":["S12-F14"],"improved_paragraph":"Cuando varias escrituras forman una unidad, usa una transacción. Para joins, un resultado vacío puede significar ausencia legítima o una referencia huérfana; no lo llames simplemente 'entity_id olvidado'. Añade una comprobación de integridad/reconciliación que pueda distinguir ambos casos.","rationale":"Explains observable empty-join ambiguity."},
+    {"locator":"S12-T3-B.p1","current_content_excerpt":"Usa placeholders ?... Prohibido armar SQL con f-strings...","status":"SIN_CAMBIO","findings":[],"improved_paragraph":"SIN_CAMBIO","rationale":"Parameter-binding security model is correct and concrete."},
+    {"locator":"S12-T3-B.p2","current_content_excerpt":"executemany + BEGIN/COMMIT hacen batch atómico... UNIQUE roto → ROLLBACK...","status":"SIN_CAMBIO","findings":[],"improved_paragraph":"SIN_CAMBIO","rationale":"Execution confirmed the demonstrated rollback contract."},
+    {"locator":"S12-T3-B.p3","current_content_excerpt":"UNIQUE/NOT NULL e índices en document_id / entity_id aceleran lookups...","status":"CHANGE_REQUIRED","findings":["S12-F15","S12-F21"],"improved_paragraph":"UNIQUE y NOT NULL expresan restricciones distintas; declara ambas cuando una identidad no puede faltar. No agregues un índice solo porque una columna 'parece importante': UNIQUE ya necesita un índice para document_id en este esquema. Indexa el join key si la consulta/volumen lo justifica y muestra qué consulta se beneficia.","rationale":"Turns indexing from ritual into query-backed design and surfaces SQLite PK quirk."},
+    {"locator":"S12-T4-A.p1","current_content_excerpt":"Normaliza direcciones sintéticas... no inventes distrito/ubigeo...","status":"SIN_CAMBIO","findings":[],"improved_paragraph":"SIN_CAMBIO","rationale":"Scoped normalization and anti-invention rule are clear."},
+    {"locator":"S12-T4-A.p2","current_content_excerpt":"egress... ALLOWED={address,city,country}... allowed_for_public_geocoder devuelve False...","status":"CHANGE_REQUIRED","findings":["S12-F18"],"improved_paragraph":"Antes de llamar al geocoder, construye el payload desde una allowlist ejecutable. Por ejemplo, conserva únicamente address/city/country y rechaza el request completo si aparecen document_id, account_id u otras claves prohibidas. Prueba un caso permitido y uno bloqueado; el proveedor nunca debe recibir primero el payload para que después decidas si era seguro.","rationale":"Makes the privacy gate executable before egress."},
+    {"locator":"S12-T4-A.p3","current_content_excerpt":"MockGeocoder devuelve lat/lon fijos... desconocida → None...","status":"SIN_CAMBIO","findings":[],"improved_paragraph":"SIN_CAMBIO","rationale":"Deterministic mock and unknown-city fail-closed behavior are appropriate."},
+    {"locator":"S12-T4-B.p1","current_content_excerpt":"valida lat [-90,90] y lon [-180,180]. Coordenadas inválidas (91°, NaN, strings)...","status":"CHANGE_REQUIRED","findings":["S12-F16"],"improved_paragraph":"Antes de comparar rangos, comprueba que lat y lon sean números finitos. Si no lo son, devuelve/reporta una coordenada inválida mediante el mismo contrato que usarás para 91° o 181°. Solo después aplica los rangos; nunca conviertas un error a (0,0).","rationale":"Ensures strings follow the documented invalid-data path instead of incidental TypeError."},
+    {"locator":"S12-T4-B.p2","current_content_excerpt":"Haversine estima km entre dos puntos WGS84 con radio R=6371 km...","status":"CHANGE_REQUIRED","findings":["S12-F17"],"improved_paragraph":"Para coordenadas lat/lon expresadas en WGS84, esta sección usa una aproximación esférica Haversine con radio medio R=6371 km. El resultado es distancia aproximada sobre una esfera: no es una ruta vial ni una geodésica elipsoidal WGS84 exacta. Registra km, método y radio junto con la señal.","rationale":"Preserves useful beginner method without mislabeling the geometric model."},
+    {"locator":"S12-T4-B.p3","current_content_excerpt":"Cachea geocodes bajo TTL o política del proveedor... Lima–Callao ≈8.95 km...","status":"CHANGE_REQUIRED","findings":["S12-F22"],"improved_paragraph":"Si la política del proveedor permite cachear, define qué consulta normalizada forma la key, qué TTL/version invalida el valor y qué datos sensibles no deben persistirse. La distancia Lima–Callao del fixture es aproximadamente 8.95 km con el Haversine esférico de esta sección; se registra como señal, nunca como parentesco o fraude.","rationale":"Connects correct numeric fixture to the missing provider-specific cache contract."}
+  ],
+  "artifact_reviews": [
+    {"artifact":"metadata/tagline/jobRelevance/outcomes","status":"REPAIR_REQUIRED","findings":["S12-F01","S12-F02","S12-F03","S12-F04","S12-F11","S12-F18"]},
+    {"artifact":"figure:S12-request-lifecycle","status":"RETAIN_WITH_CODE_BRIDGE","findings":["S12-F03","S12-F23"],"note":"Lifecycle figure is useful, but the code must make response body decoding part of that same lifecycle."},
+    {"artifact":"code:mock_http_status.py","status":"REPAIR_REQUIRED","findings":["S12-F03","S12-F23"]},
+    {"artifact":"figure:S12-retry-or-not","status":"REPAIR_REQUIRED","findings":["S12-F06"]},
+    {"artifact":"code:paginate_rate.py","status":"REPAIR_REQUIRED","findings":["S12-F04","S12-F05"]},
+    {"artifact":"code:auth_cache_prov.py","status":"REPAIR_REQUIRED","findings":["S12-F07","S12-F08","S12-F19"]},
+    {"artifact":"code:contract_fallback.py","status":"REPAIR_REQUIRED","findings":["S12-F09","S12-F10","S12-F20"]},
+    {"artifact":"code:sqlite_join.py","status":"REPAIR_REQUIRED","findings":["S12-F11","S12-F12","S12-F13","S12-F14","S12-F21"]},
+    {"artifact":"code:params_tx.py","status":"REPAIR_REQUIRED","findings":["S12-F15"],"note":"Rollback behavior itself survived execution red-team."},
+    {"artifact":"code:mock_geocode.py","status":"RETAIN_WITH_EGRESS_GATE","findings":["S12-F18"]},
+    {"artifact":"code:haversine_signal.py","status":"REPAIR_REQUIRED","findings":["S12-F16","S12-F17"],"note":"8.95 km output survived numeric verification."}
+  ],
+  "concept_ledger_delta": [
+    {"concept":"SQL parameter substitution with ? placeholders","state":"USABLE","reason":"Mechanism and rationale are explained consistently and match sqlite3 behavior."},
+    {"concept":"explicit SQLite rollback for atomic batch","state":"USABLE","reason":"Canonical negative example executes the promised rollback and count=0."},
+    {"concept":"pagination with provider next sentinel","state":"USABLE","reason":"Loop terminates by next is None rather than fixed page count."},
+    {"concept":"mock geocoder unknown -> no coordinate","state":"USABLE","reason":"Deterministic mock has an explicit None path and does not invent coordinates."},
+    {"concept":"HTTP status/action model","state":"MISCONCEPTION_RISK","reason":"4xx/429 framing conflicts and action table is not stable."},
+    {"concept":"real synchronous HTTP adapter","state":"MENTION_ONLY","reason":"urllib is named but no request/response adapter is demonstrated."},
+    {"concept":"timeout","state":"PARTIAL","reason":"Required concept is explained, but only simulated in theory."},
+    {"concept":"retry/backoff/Retry-After","state":"MISCONCEPTION_RISK","reason":"No executable retry loop and no idempotency boundary."},
+    {"concept":"rate limiting","state":"PARTIAL","reason":"Delay count models pacing but not provider timing semantics."},
+    {"concept":"Bearer secret handling","state":"MISCONCEPTION_RISK","reason":"Security prose is contradicted by source-populated demo token."},
+    {"concept":"authenticated HTTP cache","state":"MISCONCEPTION_RISK","reason":"Cache key is URL-only and ignores auth scope."},
+    {"concept":"API provenance","state":"PARTIAL","reason":"Core fields are named but fetched_at is decorative/hard-coded in canonical demo."},
+    {"concept":"contract test","state":"MISCONCEPTION_RISK","reason":"Static fixture is overclaimed as provider-drift detection."},
+    {"concept":"offline fallback","state":"MISCONCEPTION_RISK","reason":"Boolean mode switch substitutes for observed failure->fallback control flow."},
+    {"concept":"SQLite schema/joins","state":"PARTIAL","reason":"Basic syntax works but S11 identity model and referential integrity are not preserved."},
+    {"concept":"referential integrity","state":"MISCONCEPTION_RISK","reason":"Logical naming is presented without an enforced FK."},
+    {"concept":"SQLite indexing","state":"MISCONCEPTION_RISK","reason":"Only explicit index is redundant with UNIQUE while join-key index is absent."},
+    {"concept":"authorized geocoder egress","state":"PARTIAL","reason":"Policy is well stated but executable allowlist guard is missing."},
+    {"concept":"coordinate validation","state":"PARTIAL","reason":"Ranges work for numeric values; malformed strings take an incidental exception path."},
+    {"concept":"Haversine distance","state":"PARTIAL","reason":"Formula/output are correct but WGS84 wording conflates spherical approximation with ellipsoidal geodesic."},
+    {"concept":"domain DTO -> S11 object mapping","state":"MISSING","reason":"No canonical S11 domain type is reused anywhere in S12 theory."}
+  ],
+  "next_section_watchlist": [
+    "S13 must not assume HTTP retry/backoff mastery; S12 does not implement retry/backoff and omits idempotency safety.",
+    "S13 entity resolution and relationship evidence must preserve the distinction between ClientRecord/client_id and ResolvedEntity/entity_id; S12 collapses them in SQL.",
+    "S13 must not treat S12 static fixture contract tests as evidence that providers have not drifted.",
+    "S13 must not reuse the authenticated URL-only cache design for case data or geocodes.",
+    "S13 must implement/verify egress allowlists before any external geocoding path; S12 only states the guard in prose.",
+    "S13 should treat Haversine as an approximate geosignal, not exact WGS84 geodesic and never a kinship/fraud verdict.",
+    "S13 must reconcile/orphan-check SQL evidence rather than assuming a JOIN proves referential integrity.",
+    "The S11 canonical domain model remains unstable; S13 should define one canonical client/entity/evidence model rather than inheriting weakened variants from S11/S12.",
+    "S07 personal-name parsing remains MISCONCEPTION_RISK; S13 entity resolution must not treat token splitting as universal identity truth.",
+    "CP-N1-C and case identifiers remain a persistent widow-term family unless globally expanded."
+  ]
+}
