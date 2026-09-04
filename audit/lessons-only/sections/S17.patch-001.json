@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S17",
+  "patch_id": "S17.patch-001",
+  "applies_after": [
+    "audit/lessons-only/sections/S17.json",
+    "audit/lessons-only/sections/S17.paragraphs-01.json",
+    "audit/lessons-only/sections/S17.paragraphs-02.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "reason": "Independent second adversarial pass confirmed the existing S17 audit and found two additional P1 defects plus stronger evidence for the disconnected reconciliation finding. Preserve the complete concurrent shard and append rather than overwrite it.",
+  "operations": [
+    {
+      "op": "amend_existing_finding",
+      "finding_id": "S17-F17",
+      "add_evidence": "T4-A prose says the portfolio prints `diff` and `reconciled`, but `reconcile.py` prints only `sum_parts`, `ok`, `tasa` and `denominador`. The promised reconciliation evidence is absent even inside the isolated hard-coded example.",
+      "add_minimal_fix": "Derive `reference_total`, `parts_total`, `diff`, `reconciled` and exclusion/residual evidence from the same upstream fixture and actually print/store those named outputs."
+    },
+    {
+      "op": "add_confirmed_finding",
+      "finding": {
+        "finding_id": "S17-F20",
+        "severity": "P1",
+        "category": "BITSHIFT_NOTATION_MASQUERADES_AS_COMPARISON",
+        "location": "T1-A p2 + T1-A callout",
+        "evidence": "The learner-facing contract writes `len(out) >> len(left)` in code formatting to mean 'much greater than'. In Python `>>` is the bitwise right-shift operator, not a comparison. Spot-check: `3 >> 2 == 0` and `10 >> 2 == 2`.",
+        "expected_prior_knowledge": "The learner knows ordinary comparison syntax from earlier sections; bitwise shifting is neither needed nor taught here.",
+        "actual_problem": "A prose approximation is formatted as executable Python inside the core fan-out gate, creating false syntax/semantics.",
+        "learner_failure_mode": "Debido a este problema, un alumno razonable puede copiar `len(out) >> len(left)` as a fan-out condition and get an integer bit-shift result—often zero—instead of a boolean comparison, or learn that `>>` means 'much greater than' in Python.",
+        "why_it_matters": "The expression appears in the operational contract and warning for the section's primary join-control habit.",
+        "minimal_fix": "Do not put `>>` in code formatting. Write 'si `len(out)` es mucho mayor que `len(left)`' in prose, or better define an explicit expected row count/cardinality invariant and compare with `!=`, `>`, or a documented threshold.",
+        "rewrite_needed": true,
+        "confidence": 1.0,
+        "cross_section_dependency": "S17"
+      }
+    },
+    {
+      "op": "add_confirmed_finding",
+      "finding": {
+        "finding_id": "S17-F21",
+        "severity": "P1",
+        "category": "ROLLING_PROSE_CODE_OUTPUT_CONTRADICTION",
+        "location": "T3-B p3 + windows_cohorts.py",
+        "evidence": "The paragraph says the case contains transactions from January through March 2024 and uses a moving average with `window=2`. The code contains only 2024-01-01 through 2024-01-04 and executes `rolling(3)`. Its output `[nan, nan, 2.0, 3.0]` matches a three-observation window; a two-observation window on [1,2,3,4] would yield `[nan, 1.5, 2.5, 3.5]`.",
+        "expected_prior_knowledge": "This subtopic is the first place S17 is responsible for making rolling-window semantics predictable.",
+        "actual_problem": "The prose, executable code and expected output describe different examples and different window sizes.",
+        "learner_failure_mode": "Debido a este problema, un alumno razonable puede predict the output from the written `window=2` explanation, obtain a different canonical output, and conclude that rolling-window behavior is opaque or memorize the wrong window semantics.",
+        "why_it_matters": "Rolling semantics are already cognitively demanding and feed the later as-of/leakage control; a direct worked-example contradiction destroys the model the section is supposed to establish.",
+        "minimal_fix": "Choose one example and keep all three surfaces identical: either change prose to January 1–4 with `window=3`, or change code/output to a two-observation or Jan–Mar example. Then explicitly say whether the window is observation-count or time-based.",
+        "rewrite_needed": true,
+        "confidence": 1.0,
+        "cross_section_dependency": "S17 -> S18/later temporal features"
+      }
+    },
+    {
+      "op": "amend_paragraph_audit",
+      "locator": "T1-A.p2",
+      "add_finding_ids": ["S17-F20"],
+      "replace_improved_version": "Antes del merge: (1) aplica la política de missing a la clave; una clave nula no participa salvo contrato excepcional; (2) normaliza representación y verifica dtype compatible; (3) comprueba unicidad del lado 1; (4) ejecuta el merge con `validate` correcto; (5) compara las filas observadas con el conteo que tu cardinalidad permite. No uses `>>` como si significara «mucho mayor»: en Python es desplazamiento binario, no comparación."
+    },
+    {
+      "op": "amend_callout",
+      "locator": "T1-A.callout",
+      "add_finding_ids": ["S17-F07", "S17-F20"],
+      "replace_content": "Si un join que debía ser 1:1 produce más filas que el lado izquierdo, el contrato ya falló. Si era 1:m, calcula el crecimiento permitido desde las parejas esperadas en vez de usar una noción vaga de «mucho mayor». Exporta las claves duplicadas y, por separado, los anti-joins de filas sin pareja antes de sumar montos."
+    },
+    {
+      "op": "amend_paragraph_audit",
+      "locator": "T3-B.p3",
+      "add_finding_ids": ["S17-F21"],
+      "replace_improved_version": "Haz coincidir prosa, datos y código. Si conservas el fixture actual (1, 2, 3 y 4 de enero), di explícitamente que `rolling(3)` usa tres observaciones y produce `[NaN, NaN, 2.0, 3.0]`. Después contrástalo con una ventana temporal o prior-only si la necesitas para un cálculo as-of. No describas `window=2` mientras el ejemplo ejecuta 3."
+    },
+    {
+      "op": "amend_paragraph_audit",
+      "locator": "T4-A.p3",
+      "add_finding_ids": ["S17-F17"],
+      "replace_improved_version": "Reutiliza el fixture de T1: calcula `reference_total` desde las transacciones fuente; ejecuta el join validado; agrega únicamente las filas admitidas; separa huérfanas/excluidas; reconstruye `parts_total + residual`; y finalmente imprime `diff = reconstructed - reference_total` y `reconciled`. Así el control depende del pipeline real y los nombres prometidos por la prosa existen de verdad."
+    }
+  ],
+  "technical_spot_checks_added": [
+    {
+      "check": "Python >> semantics",
+      "result": "`3 >> 2` returns 0 and `10 >> 2` returns 2; `>>` is bitwise right shift, not 'much greater than'."
+    },
+    {
+      "check": "rolling window contradiction",
+      "result": "For values [1,2,3,4], rolling(3).mean() -> [NaN, NaN, 2.0, 3.0], while rolling(2).mean() -> [NaN, 1.5, 2.5, 3.5]. The canonical output therefore proves the code is window=3, contradicting the paragraph's window=2."
+    }
+  ],
+  "effective_section_state_after_patch": {
+    "verdict": "REPAIR_REQUIRED",
+    "severity_counts": {"P0":0,"P1":13,"P2":8,"P3":0},
+    "material_findings": 21,
+    "total_findings": 21,
+    "theory_blocks_reviewed": 11,
+    "paragraphs_reviewed": 38,
+    "paragraph_coverage_complete": true,
+    "note": "Existing S17-F01..F19 remain in force. S17-F20 and S17-F21 are appended; S17-F17 receives stronger evidence."
+  },
+  "status": "S17_AUDIT_EXTENDED"
+}
