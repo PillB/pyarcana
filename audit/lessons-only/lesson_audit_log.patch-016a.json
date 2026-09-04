@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "patch_id": "patch-016a",
+  "applies_after": [
+    "audit/lessons-only/lesson_audit_log.patch-016.json",
+    "audit/lessons-only/sections/S16.patch-001.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "operations": [
+    {
+      "op": "extend_section_shard",
+      "section": "S16",
+      "base_path": "audit/lessons-only/sections/S16.json",
+      "extension_path": "audit/lessons-only/sections/S16.patch-001.json",
+      "effective_verdict": "REPAIR_REQUIRED",
+      "effective_severity_counts": {"P0":0,"P1":15,"P2":7,"P3":1},
+      "effective_material_findings": 22,
+      "effective_total_findings": 23,
+      "paragraphs_reviewed": 32
+    },
+    {
+      "op": "replace_running_counts_after_extended_S16",
+      "from": {"P0":0,"P1":177,"P2":153,"P3":0,"total":330},
+      "to": {"P0":0,"P1":179,"P2":156,"P3":1,"total":336}
+    },
+    {
+      "op": "keep_next_round",
+      "section": "S17",
+      "note": "patch-016 already advanced the cursor; this reconciliation does not audit or advance S17."
+    }
+  ],
+  "effective_campaign_state": {
+    "sections_inspected": 16,
+    "canonical_sections": 52,
+    "coverage_percent": 30.769,
+    "section_status": {"S01-S16":"AUDITED_REPAIR_REQUIRED","S17-S52":"PENDING"},
+    "known_findings_before_global_deduplication": {"P0":0,"P1":179,"P2":156,"P3":1,"total":336},
+    "material_findings_before_global_deduplication": 335,
+    "note_on_counts": "S16 effective counts include the append-only S16.patch-001 adversarial extension. Global passes may still merge root causes, reject false positives or change severity."
+  },
+  "S17_entry_watchlist_additions": [
+    "Do not inherit PEN normalization as validated: S16 silently switched from the S02 Decimal contract to float and must be repaired before monetary aggregation.",
+    "Treat missing-versus-observed values explicitly when checking duplicate-key conflicts; default nunique drops missing values.",
+    "Unknown categories cannot be trusted merely because S16 title-cased them; require allowlist/unmapped handling.",
+    "Do not remove stat-only plausible outliers from S17 EDA by default; S16's prose contained a disposition contradiction.",
+    "Audit events remain incomplete without run/source/contract provenance."
+  ],
+  "next_round": "S17",
+  "status": "EFFECTIVE_RUNNING_LOG_RECONCILED_AFTER_S16_EXTENSION"
+}
