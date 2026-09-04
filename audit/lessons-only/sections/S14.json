@@ -1,0 +1,529 @@
+{
+  "schema_version": "1.3.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S14",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s14-security.ts",
+  "canonical_blob_sha": "54b3e5ed48c327d275f28003d91ba58152c76261",
+  "title": "NumPy y cómputo vectorizado",
+  "short_title": "NumPy vectorizado",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "learner_entry_state": {
+    "baseline": "ZERO_TECH_CAPABLE",
+    "prior_sections": ["S01","S02","S03","S04","S05","S06","S07","S08","S09","S10","S11","S12","S13"],
+    "credit_rule": "Only concepts marked USABLE in the effective prior ledger count as learned.",
+    "critical_dependency_warning": "Roadmap says S14 requires Nivel 1, but S13 is AUDITED_REPAIR_REQUIRED and did not establish executable CF-1/regression closure. S14 may teach NumPy, but must not inherit 'Nivel 1 closed' as proven evidence.",
+    "not_creditable": [
+      "Level-1 closure merely because S13 says it closes the level",
+      "NumPy ndarray/dtype/shape/axis/mask/ufunc/broadcast/view/copy/NaN policy/allclose",
+      "matrix-vector product semantics",
+      "a numerical tolerance/error budget",
+      "a universal rule that mixed Python values become object dtype",
+      "a universal rule that valid broadcasting implies semantic alignment"
+    ]
+  },
+  "roadmap_expectation": {
+    "prerequisite": "Nivel 1",
+    "environment": "local/browser compatible",
+    "project": "inicio CP-N2-A",
+    "T1": "ndarray, dtype and shape; creation, indexing and masks",
+    "T2": "ufuncs and reductions; broadcasting and shape compatibility",
+    "T3": "views/copies and mutability; NaN, inf and numerical stability",
+    "T4": "vectorization versus loops; memory, measurement and tests with tolerance",
+    "gate": "vectorized quality metrics and pairwise signals, honest benchmark, results equivalent to baseline"
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/",
+    "status": "PARTIAL_STATIC_SNAPSHOT_ONLY",
+    "confirmed_surface": "Published static snapshot exposes S14 short title and tagline.",
+    "unresolved_parity": "Retrievable published snapshot says 18h while current canonical source says estimatedHours=9. The web snapshot is crawl-cached, so this is recorded as UNRESOLVED_LIVE_SOURCE_PARITY rather than a confirmed finding until a current hydrated render is checked.",
+    "hydrated_theory_status": "NEEDS_E4_RENDER"
+  },
+  "audit_metadata": {
+    "theory_blocks_reviewed": 10,
+    "paragraphs_reviewed": 33,
+    "paragraphs_expected": 33,
+    "paragraph_coverage_complete": true,
+    "theory_code_blocks_reviewed": 8,
+    "theory_figures_reviewed": 2,
+    "theory_callouts_reviewed": 9,
+    "learning_outcomes_reviewed": 8
+  },
+  "severity_counts": {"P0":0,"P1":10,"P2":11,"P3":0},
+  "material_findings": 21,
+  "verdict": "REPAIR_REQUIRED",
+  "adversarial_review": {
+    "most_likely_beginner_failure": "Confundir 'las shapes son compatibles' con 'la operación está alineada con el eje y el significado correctos', porque la apertura promete detección inmediata y el único contraejemplo de T2-B es una incompatibilidad que sí lanza error.",
+    "suspected_hidden_prerequisite": "Modelo de error numérico/tolerancias y producto matriz-vector; además el roadmap presupone Nivel 1 cerrado, cierre que S13 no demostró.",
+    "most_likely_misconception": "Creer que NumPy detectará los errores de shape relevantes y que eps cerca de 1 basta para escoger una tolerancia de allclose. La lección no previene suficientemente ninguna de las dos generalizaciones."
+  },
+  "confirmed_findings": [
+    {
+      "finding_id":"S14-F01","severity":"P2","category":"AUDITABILITY_CAUSAL_OVERCLAIM","location":"jobRelevance",
+      "evidence":"La relevancia laboral cierra con 'Es la base para cualquier métrica de calidad de datos que un comité pueda auditar', atribuyendo auditabilidad al cómputo vectorizado. Vectorizar acelera/estructura cálculo numérico; la auditabilidad depende además de contrato, procedencia, versión, pruebas y explicación.",
+      "learner_failure_mode":"Debido a este problema, un alumno razonable puede creer que convertir una métrica a NumPy la vuelve auditable aunque no conserve definición, fuente, política de faltantes ni evidencia de validación.",
+      "minimal_fix":"Reemplazar la causalidad por: NumPy hace eficientes las métricas; contratos, provenance y tests hacen auditable su significado."
+    },
+    {
+      "finding_id":"S14-F02","severity":"P1","category":"FALSE_MENTAL_MODEL_MIXED_DTYPE","location":"opening p2",
+      "evidence":"La analogía dice que si mezclas textos y números 'se pierde la ventaja y vuelves a contar monedas'. NumPy intenta encontrar un dtype común: por ejemplo int+float puede convertirse a float y seguir operando vectorizadamente; int+texto puede convertirse a Unicode; mezclas con None pueden terminar en object y perder muchas ventajas numéricas.",
+      "learner_failure_mode":"Debido a este problema, un alumno razonable puede formar la regla falsa 'mezclar tipos hace que ndarray deje de ser homogéneo o NumPy vuelva automáticamente a un loop Python'.",
+      "minimal_fix":"Explicar coerción a dtype común y distinguir dtype numérico común de string/object, donde operaciones numéricas pueden cambiar o dejar de estar disponibles."
+    },
+    {
+      "finding_id":"S14-F03","severity":"P1","category":"FALSE_MENTAL_MODEL_SHAPE_ERRORS","location":"opening p3 + S14-T2-B",
+      "evidence":"La apertura afirma que 'casi todo error de NumPy es un desacuerdo entre formas' y que 'ese desacuerdo se detecta al instante'. T2-B reconoce después que shapes compatibles pueden broadcastar de forma semánticamente equivocada. NumPy solo valida compatibilidad sintáctica de broadcasting, no la intención del eje.",
+      "learner_failure_mode":"Debido a este problema, un alumno razonable puede confiar en que una operación sin ValueError tiene la alineación de negocio correcta y publicar una métrica calculada contra el eje equivocado.",
+      "minimal_fix":"Reformular: muchos errores son de forma; incompatibilidad puede fallar ruidosamente, pero una compatibilidad válida también puede ser semánticamente incorrecta, por lo que hay que validar significado y shape esperado."
+    },
+    {
+      "finding_id":"S14-F04","severity":"P2","category":"COGNITIVE_LOAD_FIRST_EXPOSURE","location":"S14-T1-A p1",
+      "evidence":"El primer párrafo técnico introduce en una sola unidad ndarray, contiguous/strided, homogeneous, compiled ufunc, dtype, shape, ndim, itemsize y CP-N2-A antes de un worked representation de una dimensión y dos dimensiones.",
+      "learner_failure_mode":"Debido a este problema, un principiante puede memorizar una lista de atributos sin poder dibujar qué representa shape=(4,), distinguir dimensión de tamaño o explicar para qué sirve cada atributo.",
+      "minimal_fix":"Dividir el párrafo en representación concreta array→dtype→shape y relegar strided/itemsize/CP-N2-A a una segunda oración o referencia."
+    },
+    {
+      "finding_id":"S14-F05","severity":"P1","category":"ASSERT_POLICY_CONTRADICTION","location":"S14-T1-A p2 + T1-A callout + S14-T2-B p3",
+      "evidence":"T1-A dice explícitamente 'No uses assert para esto' al validar input externo porque -O elimina asserts. El callout inmediatamente permite documentar dtype/shape '(o asertarlos)' y T2-B vuelve a ordenar 'aserta la compatibilidad' si el batch cambia.",
+      "learner_failure_mode":"Debido a este problema, un alumno razonable puede implementar validación de inputs con assert después de que la misma lección explicó por qué esa validación desaparece con python -O.",
+      "minimal_fix":"Reservar assert para invariantes internas; usar if + ValueError/TypeError para contratos de entrada en callout y T2-B."
+    },
+    {
+      "finding_id":"S14-F06","severity":"P2","category":"DTYPE_PRECISION_OVERGENERALIZATION","location":"S14-T1-A p2",
+      "evidence":"El texto dice que dtype explícito evita sorpresas 'int vs float en divisiones' y presenta object como 'lento y no vectorizable'. La división verdadera de arrays enteros puede producir float, y object arrays pueden ejecutar algunas ufuncs/operaciones aunque frecuentemente deleguen en objetos Python y pierdan eficiencia/garantías numéricas.",
+      "learner_failure_mode":"Debido a este problema, un alumno puede creer que dtype=int garantiza resultados enteros al dividir o que object significa literalmente 'NumPy no puede vectorizar ninguna operación'.",
+      "minimal_fix":"Decir que dtype hace visible el contrato de almacenamiento y coerción, pero cada operación tiene reglas de promoción; object suele perder ventajas y seguridad numérica, no es una prohibición absoluta."
+    },
+    {
+      "finding_id":"S14-F07","severity":"P1","category":"PROSE_CALLOUT_TECHNICAL_CONTRADICTION","location":"S14-T1-B p2 + callout",
+      "evidence":"El párrafo dice correctamente que una máscara desalineada lanza IndexError; el callout dice 'de lo contrario ValueError'. NumPy documenta IndexError para shape booleano que no coincide con las dimensiones indexadas.",
+      "learner_failure_mode":"Debido a este problema, un alumno razonable puede escribir el manejo/test para la excepción equivocada y no entender por qué el caso real no entra en except ValueError.",
+      "minimal_fix":"Cambiar ValueError por IndexError en el callout y conservar un ejemplo mínimo que lo demuestre."
+    },
+    {
+      "finding_id":"S14-F08","severity":"P2","category":"DETERMINISTIC_RULE_UNDERTAUGHT","location":"S14-T1-B p1/p3 + S14-T3-A p1",
+      "evidence":"La lección dice que fancy indexing y máscaras 'suelen' copiar. La regla pedagógica útil y documentada por NumPy es más fuerte: advanced indexing (entero o booleano) devuelve copia; basic slicing devuelve view.",
+      "learner_failure_mode":"Debido a este problema, un alumno puede tratar copy/view como comportamiento incierto y añadir copias defensivas innecesarias o, al revés, asumir sharing donde advanced indexing ya aisló los datos.",
+      "minimal_fix":"Enseñar primero la regla determinista basic slicing→view / advanced indexing→copy; dejar excepciones/operaciones que producen views por otras vías fuera del modelo inicial."
+    },
+    {
+      "finding_id":"S14-F09","severity":"P2","category":"SEMANTIC_INVARIANT_UNCHECKED","location":"S14-T2-A p3 + ufuncs_reduce.py",
+      "evidence":"Completitud se calcula con mean(flags) y el texto define flags como presencia 1/0, pero no enseña a validar el dominio binario. Un array [1,2] produce una 'completitud' 1.5 sin error de dtype/shape.",
+      "learner_failure_mode":"Debido a este problema, un alumno puede validar dtype y shape, recibir valores semánticamente inválidos y publicar una tasa imposible >1 creyendo que el contrato del ndarray bastaba.",
+      "minimal_fix":"Añadir un invariante simple antes de la reducción: valores permitidos {0,1} o bool; entrada fuera del dominio → ValueError."
+    },
+    {
+      "finding_id":"S14-F10","severity":"P2","category":"EMPTY_BATCH_POLICY_MISSING","location":"S14-T2-A p3",
+      "evidence":"La fórmula de unicidad np.unique(ids).size / ids.size no define el caso ids.size==0; el cálculo divide por cero. Una métrica de data quality necesita distinguir lote vacío de unicidad 0 o 1.",
+      "learner_failure_mode":"Debido a este problema, un alumno puede sufrir ZeroDivisionError en un lote vacío o inventar un valor que altera el significado de la métrica.",
+      "minimal_fix":"Definir política explícita para lote vacío (por ejemplo, devolver None/estado empty_batch o rechazarlo antes de calcular)."
+    },
+    {
+      "finding_id":"S14-F11","severity":"P2","category":"DANGEROUS_CASE_NOT_DEMONSTRATED","location":"S14-T2-B p1-p3 + broadcast.py",
+      "evidence":"El texto advierte que una alineación silenciosa puede ser peor que ValueError, pero el único worked code muestra un broadcast correcto y otro incompatible que falla. No muestra dos shapes técnicamente compatibles que correspondan a ejes distintos y produzcan un resultado válido pero equivocado.",
+      "learner_failure_mode":"Debido a este problema, un alumno puede reconocer un ValueError de broadcasting pero no detectar el caso más peligroso señalado por la propia lección: el cálculo que corre y está mal alineado.",
+      "minimal_fix":"Añadir un microejemplo (2,3)+(3,) frente a (2,3)+(2,1), ambos válidos pero con semántica columna vs fila distinta, y exigir shape esperado por contrato."
+    },
+    {
+      "finding_id":"S14-F12","severity":"P2","category":"MECHANISM_MISLABEL","location":"broadcast.py",
+      "evidence":"El código usa np.array([0.5])[:, None] y comenta '(1,1) vía reshape'. `None`/newaxis inserta un eje mediante indexación; no se llamó reshape. El mismo subtema está enseñando newaxis como mecanismo nuevo.",
+      "learner_failure_mode":"Debido a este problema, un alumno puede confundir dos mecanismos diferentes y buscar una llamada reshape inexistente para explicar una transformación hecha por newaxis.",
+      "minimal_fix":"Cambiar el comentario a '(1,1) insertando un eje con None/newaxis'."
+    },
+    {
+      "finding_id":"S14-F13","severity":"P1","category":"NAN_SEMANTICS_OVERGENERALIZATION","location":"S14-T3-B p3",
+      "evidence":"La oración absoluta 'un NaN no es cero: es ausencia de medición' convierte una convención del fixture en semántica universal. NaN también puede surgir de operaciones inválidas o emplearse como sentinel; su significado depende del contrato de datos.",
+      "learner_failure_mode":"Debido a este problema, un alumno puede clasificar automáticamente cualquier NaN como dato ausente y ocultar un error de cálculo que debía investigarse.",
+      "minimal_fix":"Decir: 'En este fixture usamos NaN para representar ausencia de medición; en otro pipeline debes verificar por qué apareció antes de decidir si omitirlo, rechazarlo o tratarlo como error.'"
+    },
+    {
+      "finding_id":"S14-F14","severity":"P1","category":"NUMERICAL_TOLERANCE_MISCONCEPTION","location":"S14-T3-B p2",
+      "evidence":"El texto define correctamente finfo(float).eps como separación alrededor de 1.0, pero añade que esa escala 'es lo que necesitas para elegir la tolerancia de un allclose'. eps no determina por sí solo el error aceptable de un algoritmo ni la tolerancia de negocio; el espaciado cambia con la magnitud y el error acumulado depende de operaciones/condicionamiento.",
+      "learner_failure_mode":"Debido a este problema, un alumno puede escoger rtol/atol como múltiplos arbitrarios de eps y declarar equivalentes resultados que incumplen la precisión requerida o rechazar resultados correctos a otra escala.",
+      "minimal_fix":"Separar machine epsilon de error budget: eps ilustra resolución cerca de 1; rtol/atol se justifican con escala, algoritmo y tolerancia del dominio."
+    },
+    {
+      "finding_id":"S14-F15","severity":"P2","category":"ALL_INVALID_REDUCTION_POLICY_MISSING","location":"S14-T3-B p3 + nan_inf.py",
+      "evidence":"La receta finite=x[np.isfinite(x)]; mean(finite) no define qué ocurre si no queda ningún valor finito. NumPy devuelve nan con warning para una media vacía en vez de producir el rechazo explícito que la prosa fail-closed sugiere.",
+      "learner_failure_mode":"Debido a este problema, un lote completamente inválido puede convertirse silenciosamente en una métrica nan y continuar por el pipeline sin un estado de error distinguible.",
+      "minimal_fix":"Antes de mean, si finite.size==0 devolver/rechazar con estado no_valid_measurements y reportar tasa no-finita=1.0."
+    },
+    {
+      "finding_id":"S14-F16","severity":"P1","category":"NONDETERMINISTIC_BENCHMARK_EXPECTED_OUTPUT","location":"S14-T4-A p1-p3 + vec_vs_loop.py",
+      "evidence":"La lección llama 'benchmark honesto' a una sola medición loop y una sola np.dot y fija output ratio_gt_1 True. Spot-check del mismo patrón mostró una primera corrida ~0.97 y corridas posteriores muy superiores a 1 por warm-up/ruido. La documentación de timeit recomienda repetir mediciones porque otros procesos y overhead afectan tiempos cortos.",
+      "learner_failure_mode":"Debido a este problema, un alumno puede ejecutar código correcto, obtener False y creer que falló; o puede publicar un único ratio favorable como evidencia estable de rendimiento.",
+      "minimal_fix":"Hacer warm-up y varias repeticiones con timeit/perf_counter, reportar vector/resumen de tiempos y no convertir speedup>1 en output determinista ni criterio de corrección."
+    },
+    {
+      "finding_id":"S14-F17","severity":"P1","category":"MEMORY_GUARD_AFTER_ALLOCATION","location":"S14-T4-B p1",
+      "evidence":"El presupuesto se expresa como pair.nbytes <= max_bytes, que solo puede consultarse después de materializar la matriz n×n. Con n grande, la asignación puede agotar RAM antes de que exista pair para comprobar nbytes.",
+      "learner_failure_mode":"Debido a este problema, un alumno puede creer que ha implementado un guard de memoria cuando en realidad comprueba el presupuesto después del posible OOM.",
+      "minimal_fix":"Calcular required_bytes = n*n*np.dtype(dtype).itemsize antes de construir pair; solo materializar si required_bytes <= max_bytes."
+    },
+    {
+      "finding_id":"S14-F18","severity":"P1","category":"ALLCLOSE_SHAPE_CONTRACT_LOSS","location":"S14-T4-B p2-p3 + allclose_mem.py",
+      "evidence":"La sección trata shape como parte del contrato pero propone allclose como oráculo de equivalencia sin exigir shape igual. NumPy allclose aplica broadcasting, por lo que arrays de shapes diferentes pueden devolver True si sus valores broadcastados son cercanos.",
+      "learner_failure_mode":"Debido a este problema, una implementación vectorizada puede devolver una forma equivocada y aun pasar el test de equivalencia numérica.",
+      "minimal_fix":"Primero exigir a.shape == b.shape (y shape esperado); después aplicar assert_allclose a los valores."
+    },
+    {
+      "finding_id":"S14-F19","severity":"P1","category":"ALLCLOSE_NONFINITE_POLICY_MISSING","location":"S14-T3-B -> S14-T4-B",
+      "evidence":"T3-B admite NaN/inf como edge cases, pero T4-B no define cómo entran al contrato de equivalencia. allclose considera NaN distinto por defecto salvo equal_nan=True y trata inf por posición/signo. Usar equal_nan=True sin política también puede ocultar errores.",
+      "learner_failure_mode":"Debido a este problema, dos implementaciones semánticamente equivalentes respecto a faltantes pueden fallar, o un alumno puede activar equal_nan=True indiscriminadamente y declarar equivalentes NaNs que nacieron de causas distintas.",
+      "minimal_fix":"Comparar primero máscaras de no-finitos según política; luego comparar valores finitos. Usar equal_nan=True solo si el contrato declara que NaN en la misma posición representa el mismo estado."
+    },
+    {
+      "finding_id":"S14-F20","severity":"P2","category":"TOLERANCE_CARGO_CULT_RISK","location":"S14-T4-B p2-p3 + allclose_mem.py",
+      "evidence":"La teoría dice elegir rtol/atol según la métrica, pero los ejemplos usan 1e-7/1e-9/1e-6 sin explicar de dónde salen. NumPy advierte que atol por defecto/elección puede ser inapropiado para valores pequeños y define la comparación respecto a una referencia.",
+      "learner_failure_mode":"Debido a este problema, un alumno puede copiar 1e-8 o 1e-6 como constantes rituales sin relacionarlas con escala, algoritmo o error permitido por el negocio.",
+      "minimal_fix":"Añadir un ejemplo causal: definir primero el máximo error aceptable de la métrica y derivar/justificar atol/rtol para ese rango; mostrar un caso que pasa y uno que falla por ese umbral."
+    },
+    {
+      "finding_id":"S14-F21","severity":"P2","category":"DELAYED_DEFINITION_WIDOW_TERM_CLUSTER","location":"tagline + T1-A + T2-A/T2-B",
+      "evidence":"`baseline` aparece en el tagline antes de definirse al final de T4-B; `CP-N2-A` se usa como si el learner supiera qué artefacto nombra; `strided` aparece en la primera definición de ndarray sin microdefinición; `rebroadcast` aparece antes de una explicación causal completa.",
+      "learner_failure_mode":"Debido a este problema, un alumno razonable puede seguir sintaxis local pero no saber qué compara el baseline, qué entrega CP-N2-A o qué significa que un array sea strided, obligándolo a aportar conocimiento externo.",
+      "minimal_fix":"Definir baseline en primera aparición como versión de referencia; expandir CP-N2-A una vez; omitir strided del primer modelo o definirlo brevemente; usar 'volver a aplicar broadcasting' antes de rebroadcast."
+    }
+  ],
+  "rejected_findings": [
+    {
+      "candidate":"'ndarray homogéneo' es falso porque Python puede mezclar tipos",
+      "verdict":"REJECTED_FINDING",
+      "defense":"NumPy define ndarray por elementos homogéneos/fixed-size bajo un dtype. El defecto real está en cómo explica la coerción de inputs mezclados, no en llamar homogéneo al ndarray."
+    },
+    {
+      "candidate":"La regla de broadcasting derecha-a-izquierda es incorrecta",
+      "verdict":"REJECTED_FINDING",
+      "defense":"La regla enseñada coincide con la documentación oficial: dimensiones compatibles si son iguales o una es 1, comparadas desde las dimensiones finales."
+    },
+    {
+      "candidate":"axis=0 columna y axis=1 fila son definiciones universales falsas",
+      "verdict":"REJECTED_FINDING",
+      "defense":"La lección fija explícitamente filas=clientes y columnas=campos en su matriz; dentro de ese contrato la interpretación es correcta."
+    },
+    {
+      "candidate":"El ejemplo de view/copy imprime resultados erróneos",
+      "verdict":"REJECTED_FINDING",
+      "defense":"El slice simple comparte memoria en el ejemplo y la salida raw_tras_view/raw_tras_copy coincide con NumPy."
+    },
+    {
+      "candidate":"n=500 float64 no son ~2 MB",
+      "verdict":"REJECTED_FINDING",
+      "defense":"500*500*8 = 2,000,000 bytes; la aproximación es correcta."
+    },
+    {
+      "candidate":"La sección afirma que vectorizar siempre es más rápido",
+      "verdict":"REJECTED_FINDING",
+      "defense":"T4-A reconoce explícitamente que loops claros pueden ganar para N pequeño o lógica irregular. El finding confirmado es más estrecho: el output determinista de un benchmark one-shot."
+    },
+    {
+      "candidate":"perf_counter es el timer equivocado",
+      "verdict":"REJECTED_FINDING",
+      "defense":"Python documenta perf_counter como reloj de alta resolución apropiado para medir duraciones cortas."
+    },
+    {
+      "candidate":"allclose es inadecuado para comparar baseline y vectorizado",
+      "verdict":"REJECTED_FINDING",
+      "defense":"Es adecuado para floats cuando el contrato define shape, no-finitos y tolerancia; los findings F18-F20 reparan esas precondiciones."
+    },
+    {
+      "candidate":"La definición de finfo.eps es incorrecta",
+      "verdict":"REJECTED_FINDING",
+      "defense":"La definición de distancia entre 1.0 y el siguiente representable es correcta; el defecto está en convertir eps en criterio suficiente de tolerancia."
+    },
+    {
+      "candidate":"np.nanmean ya corrige también ±inf",
+      "verdict":"REJECTED_FINDING",
+      "defense":"La propia lección no hace esa afirmación: usa isfinite y convierte inf a nan antes de nanmean/nansum en los ejemplos pertinentes."
+    }
+  ],
+  "unresolved_questions": [
+    {
+      "id":"S14-U01","status":"UNRESOLVED_LIVE_SOURCE_PARITY",
+      "question":"¿La web actualmente desplegada sigue mostrando 18h para S14 mientras main declara estimatedHours=9?",
+      "evidence":"El snapshot público recuperable muestra 18h; main actual muestra 9. El snapshot web está cacheado/crawled, por lo que hace falta un render actual para convertirlo en finding."
+    },
+    {
+      "id":"S14-U02","status":"UPSTREAM_GATE_RISK",
+      "question":"¿Debe la plataforma bloquear S14 hasta reparar el gate N1 de S13?",
+      "evidence":"Roadmap declara prerequisite Nivel 1; S13 quedó REPAIR_REQUIRED. Esta auditoría lesson-only no infiere comportamiento de gating fuera de la lección."
+    }
+  ],
+  "surface_audit": {
+    "title":{"verdict":"NO_CHANGE","current_text":"NumPy y cómputo vectorizado","improved_version":"NumPy y cómputo vectorizado","rationale":"Coincide con el roadmap y la theory real."},
+    "shortTitle":{"verdict":"NO_CHANGE","current_text":"NumPy vectorizado","improved_version":"NumPy vectorizado","rationale":"Etiqueta breve coherente."},
+    "tagline":{"verdict":"MODIFY","finding_ids":["S14-F21"],"current_text":"cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline","improved_version":"cálculo vectorizado de métricas de calidad y señales por pares, con medición reproducible y resultados equivalentes a una versión de referencia (baseline)","rationale":"Define baseline en primera aparición y no llama honesto a un benchmark antes de explicar el contrato de medición."},
+    "jobRelevance":{"verdict":"MODIFY","finding_ids":["S14-F01"],"current_text":"En data quality y analytics de banca, fintech y retail en Perú, el cómputo vectorizado con NumPy sostiene las métricas de completitud, unicidad y señales por pares. Aquí aprendes a operar arrays de miles de filas sin un bucle explícito, con benchmarks honestos y tests de tolerancia numérica (esto es, comparaciones que aceptan una diferencia mínima en vez de exigir igualdad exacta). Es la base para cualquier métrica de calidad de datos que un comité pueda auditar.","improved_version":"En calidad de datos y analítica de banca, fintech y retail, NumPy permite calcular en bloque métricas como completitud, unicidad y señales por pares. Aquí aprenderás a obtener el mismo resultado que una versión de referencia mediante operaciones vectorizadas, medir su rendimiento sin depender de una sola corrida y comprobar equivalencia con una tolerancia justificada. La velocidad viene de la vectorización; la auditabilidad exige además definir la métrica, validar sus entradas y conservar pruebas del cálculo.","rationale":"Separa rendimiento de auditabilidad y hace causal el resultado profesional."},
+    "learningOutcomes":{"verdict":"TARGETED_REPAIR","finding_ids":["S14-F05","S14-F18","S14-F19","S14-F20"],"note":"Los ocho outcomes cubren el roadmap, pero 'validar', 'benchmark honesto' y 'equivalencia con tolerancia' requieren los contratos reparados descritos en findings. No se propone cambiar el número de outcomes."}
+  },
+  "paragraph_audit": [
+    {
+      "node_id":"S14-OPEN-P01","block":"Dejar de contar uno por uno","paragraph_index":1,"finding_ids":[],"verdict":"NO_CHANGE",
+      "current_text":"Hasta S13 tratabas cada caso por separado: un bucle recorre la lista, evalúa una regla y acumula. Funciona, se lee bien y con mil filas es instantáneo. Con dos millones deja de serlo, y el problema no es que Python sea lento — es que le estás pidiendo dos millones de decisiones pequeñas en vez de una grande.",
+      "improved_version":"Hasta S13 tratabas cada caso por separado: un bucle recorre la lista, evalúa una regla y acumula. Funciona, se lee bien y con mil filas es instantáneo. Con dos millones deja de serlo, y el problema no es que Python sea lento — es que le estás pidiendo dos millones de decisiones pequeñas en vez de una grande.",
+      "rationale":"La defensa gana: es una motivación cualitativa comprensible; no se usa como benchmark ni como umbral contractual."
+    },
+    {
+      "node_id":"S14-OPEN-P02","block":"Dejar de contar uno por uno","paragraph_index":2,"finding_ids":["S14-F02"],"verdict":"MODIFY",
+      "current_text":"La diferencia es la de contar monedas de una en una frente a pesarlas todas juntas. Un **ndarray** de NumPy es un bloque de memoria donde todos los elementos tienen el mismo tipo y el mismo tamaño, y eso permite que la operación se aplique al bloque entero de una vez. Por eso importa el **dtype**, el tipo de cada elemento: es lo que hace posible ese tratamiento uniforme. Si mezclas textos y números, se pierde la ventaja y vuelves a contar monedas.",
+      "improved_version":"La diferencia se parece a contar monedas una por una frente a pesar un lote uniforme. Un **ndarray** guarda sus elementos bajo un único **dtype**, es decir, una regla común de representación. Cuando construyes un array con valores de tipos distintos, NumPy intenta convertirlos a un dtype común: por ejemplo, enteros y decimales pueden convertirse a `float`; texto mezclado con números puede convertir todo a texto; y algunos objetos heterogéneos terminan en `object`. La ventaja numérica depende del dtype resultante y de la operación, no de que NumPy abandone automáticamente el trabajo por bloques.",
+      "rationale":"Conserva la analogía pero muestra el mecanismo real de coerción y evita la regla falsa sobre mezcla de tipos."
+    },
+    {
+      "node_id":"S14-OPEN-P03","block":"Dejar de contar uno por uno","paragraph_index":3,"finding_ids":["S14-F03"],"verdict":"MODIFY",
+      "current_text":"El segundo concepto es la **forma**. Un array conoce sus dimensiones, y casi todo error de NumPy es un desacuerdo entre formas: sumar algo de diez elementos con algo de doce. La ventaja es que ese desacuerdo se detecta al instante en lugar de propagarse; la desventaja es que hay que aprender a leer el mensaje.",
+      "improved_version":"El segundo concepto es la **forma** (`shape`): los tamaños que tiene el array en cada dimensión. Algunas formas son incompatibles y NumPy falla de inmediato; otras son compatibles mediante broadcasting y la operación sí corre. Por eso `no hubo error` no basta: también debes comprobar que cada dimensión representa el eje de negocio que esperabas —por ejemplo, clientes frente a campos—.",
+      "rationale":"Reemplaza un absoluto falso por el modelo que T2-B realmente necesita."
+    },
+    {
+      "node_id":"S14-OPEN-P04","block":"Dejar de contar uno por uno","paragraph_index":4,"finding_ids":[],"verdict":"NO_CHANGE",
+      "current_text":"De ahí sale la herramienta que reemplaza al `if` dentro del bucle. En vez de preguntar caso por caso, construyes una **máscara**: un array de verdaderos y falsos que dice qué posiciones cumplen la condición. Filtrar es entonces aplicar la máscara, y contar es sumar los verdaderos. La condición se expresa una vez, sobre todo el conjunto.",
+      "improved_version":"De ahí sale la herramienta que reemplaza al `if` dentro del bucle. En vez de preguntar caso por caso, construyes una **máscara**: un array de verdaderos y falsos que dice qué posiciones cumplen la condición. Filtrar es entonces aplicar la máscara, y contar es sumar los verdaderos. La condición se expresa una vez, sobre todo el conjunto.",
+      "rationale":"Modelo causal suficiente para primera exposición; T1-B añade sintaxis y bordes."
+    },
+    {
+      "node_id":"S14-OPEN-P05","block":"Dejar de contar uno por uno","paragraph_index":5,"finding_ids":[],"verdict":"NO_CHANGE",
+      "current_text":"La pregunta que atraviesa la sección es un hábito nuevo: **¿estoy pidiendo una operación sobre todo el bloque, o lo estoy recorriendo a mano sin darme cuenta?** El hilo es un tablero de calidad —completitud, unicidad, rangos— sobre datos sintéticos. Aquí no entra pandas todavía: eso es S15.",
+      "improved_version":"La pregunta que atraviesa la sección es un hábito nuevo: **¿estoy pidiendo una operación sobre todo el bloque, o lo estoy recorriendo a mano sin darme cuenta?** El hilo es un tablero de calidad —completitud, unicidad, rangos— sobre datos sintéticos. Aquí no entra pandas todavía: eso es S15.",
+      "rationale":"Puente y límite curricular claros."
+    },
+    {
+      "node_id":"S14-REF-P01","block":"Contrato de la sección (referencia)","paragraph_index":1,"finding_ids":[],"verdict":"NO_CHANGE",
+      "current_text":"Bloque de referencia. Orden de los subtemas, ritmo y límites.",
+      "improved_version":"Bloque de referencia. Orden de los subtemas, ritmo y límites.",
+      "rationale":"Orientación funcional del bloque opcional."
+    },
+    {
+      "node_id":"S14-REF-P02","block":"Contrato de la sección (referencia)","paragraph_index":2,"finding_ids":[],"verdict":"NO_CHANGE",
+      "current_text":"**Orden de los subtemas.** T1 cubre arrays: dtype, forma y máscaras. T2 pasa a operaciones: funciones universales, reducciones y broadcast. T3 trata la semántica que más sorprende: vistas frente a copias, y NaN e infinito. T4 cierra con rendimiento, memoria y comparación aproximada.",
+      "improved_version":"**Orden de los subtemas.** T1 cubre arrays: dtype, forma y máscaras. T2 pasa a operaciones: funciones universales, reducciones y broadcast. T3 trata la semántica que más sorprende: vistas frente a copias, y NaN e infinito. T4 cierra con rendimiento, memoria y comparación aproximada.",
+      "rationale":"Coincide con roadmap y secuencia efectiva."
+    },
+    {
+      "node_id":"S14-REF-P03","block":"Contrato de la sección (referencia)","paragraph_index":3,"finding_ids":[],"verdict":"NO_CHANGE",
+      "current_text":"**Ritmo orientativo (unas 9 horas).** De esas, tres para el núcleo: al terminarlo ya entiendes cuándo NumPy te da una vista y cuándo una copia. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
+      "improved_version":"**Ritmo orientativo (unas 9 horas).** De esas, tres para el núcleo: al terminarlo ya entiendes cuándo NumPy te da una vista y cuándo una copia. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
+      "rationale":"El texto fuente es internamente coherente con estimatedHours=9; la discrepancia 18h del snapshot público queda como unresolved parity, no se reescribe sin render actual."
+    },
+    {
+      "node_id":"S14-REF-P04","block":"Contrato de la sección (referencia)","paragraph_index":4,"finding_ids":[],"verdict":"NO_CHANGE",
+      "current_text":"**Límites.** Solo NumPy sobre datos sintéticos: nada de pandas, sklearn ni datos personales reales. Si el contrato de tipo o forma falla, se reporta el error en lugar de ocultarlo. El foco es el tablero de calidad vectorizado, no el aprendizaje profundo.",
+      "improved_version":"**Límites.** Solo NumPy sobre datos sintéticos: nada de pandas, sklearn ni datos personales reales. Si el contrato de tipo o forma falla, se reporta el error en lugar de ocultarlo. El foco es el tablero de calidad vectorizado, no el aprendizaje profundo.",
+      "rationale":"Límite claro; findings posteriores corrigen cómo se implementa ese fail-closed."
+    },
+    {
+      "node_id":"S14-T1-A-P01","block":"ndarray, dtype y shape","subtopic":"S14-T1-A","paragraph_index":1,"finding_ids":["S14-F04","S14-F21"],"verdict":"MODIFY",
+      "current_text":"Tras S01–S13 trabajaste con listas y dicts de Python. Un **ndarray** es distinto: un bloque contiguo (o strided) de datos **homogéneos** — un solo tipo — que permite ufuncs en código compilado. **dtype** fija ese tipo (`float64`, `int32`, `uint8`); **shape** es la tupla de dimensiones; **ndim** = `len(shape)`; **itemsize** es bytes por elemento. Documentar este cuádruple es el contrato de entrada de toda métrica de CP-N2-A.",
+      "improved_version":"Tras S01–S13 trabajaste con listas y diccionarios. Un **ndarray** agrupa valores bajo un solo `dtype`, la regla que describe cómo se representa cada elemento. Su **shape** dice cuántos elementos hay en cada dimensión: `[10, 20, 30, 40]` tiene shape `(4,)`; una tabla de 3 clientes por 2 campos tiene shape `(3, 2)`. `ndim` cuenta esas dimensiones. `itemsize` indica cuántos bytes ocupa cada elemento. Más adelante verás cómo la memoria puede recorrerse con distintos saltos; no necesitas `strided` para construir este primer modelo. Estos atributos forman el contrato del inicio del capstone de Nivel 2 (CP-N2-A).",
+      "rationale":"Introduce representación antes de vocabulario periférico y expande el ID interno."
+    },
+    {
+      "node_id":"S14-T1-A-P02","block":"ndarray, dtype y shape","subtopic":"S14-T1-A","paragraph_index":2,"finding_ids":["S14-F05","S14-F06"],"verdict":"MODIFY",
+      "current_text":"Crear con dtype **explícito** evita sorpresas (`int` vs `float` en divisiones, o `object` lento y no vectorizable). Valida `arr.dtype`, `arr.shape` y `arr.ndim` al recibir un array de un pipeline; si no cuadra, lanza `ValueError` temprano (falla de forma segura). **No uses `assert` para esto**: Python borra los asserts cuando se ejecuta con `-O`, así que la validación desaparece exactamente en el entorno donde más te importaba. `assert` es para invariantes que crees imposibles; una entrada que llega de fuera no es una de ellas. No “castées” en silencio a lo que el llamador no pidió.",
+      "improved_version":"Elegir un `dtype` explícito hace visible el contrato de almacenamiento, pero no impide que una operación cambie el tipo de su resultado: por ejemplo, la división verdadera puede producir floats aunque el array de entrada sea entero. Los arrays `object` pueden ejecutar algunas operaciones, pero suelen delegar trabajo a objetos Python y pierden muchas ventajas numéricas. Al recibir un array externo, valida `dtype`, `shape` y `ndim` con condiciones normales y lanza `TypeError` o `ValueError` si el contrato no se cumple. No uses `assert` para validar datos externos: Python puede eliminar esos asserts con `-O`. Reserva `assert` para invariantes internas que representan un bug si fallan.",
+      "rationale":"Conserva la buena regla sobre assert y corrige las dos generalizaciones de dtype."
+    },
+    {
+      "node_id":"S14-T1-A-P03","block":"ndarray, dtype y shape","subtopic":"S14-T1-A","paragraph_index":3,"finding_ids":[],"verdict":"NO_CHANGE",
+      "current_text":"En calidad de datos, flags de completitud suelen ser `bool`/`uint8` (1 = presente); scores en [0, 1] son `float64`. Documenta también `nbytes` cuando el batch crece. Caso sintético: `flags` (4,) `uint8` y `scores` (4,) `float64` con meta impreso en el demo — es el contrato que reutilizarás en CP-N2-A.",
+      "improved_version":"En calidad de datos, flags de completitud suelen ser `bool`/`uint8` (1 = presente); scores en [0, 1] son `float64`. Documenta también `nbytes` cuando el batch crece. Caso sintético: `flags` (4,) `uint8` y `scores` (4,) `float64` con meta impreso en el demo — es el contrato que reutilizarás en CP-N2-A.",
+      "rationale":"Ejemplo concreto de dtype/shape; el invariante 0/1 se repara donde realmente se calcula completitud en T2-A."
+    },
+    {
+      "node_id":"S14-T1-B-P01","block":"Creación, indexación y máscaras","subtopic":"S14-T1-B","paragraph_index":1,"finding_ids":["S14-F08"],"verdict":"MODIFY",
+      "current_text":"`np.array`, `arange`, `linspace` y `zeros`/`ones`/`full` crean arrays. **Indexación** clásica (`a[i]`, `a[i:j]`) y **fancy index** (indexación avanzada con lista de enteros, p. ej. `a[[0,2]]`) seleccionan elementos sin un loop Python por cliente. Esa diferencia importa: en un tablero de calidad con miles de filas sintéticas, el índice vectorizado evita el coste del intérprete en cada fila.",
+      "improved_version":"`np.array`, `arange`, `linspace` y `zeros`/`ones`/`full` crean arrays. La **indexación básica** usa índices y slices como `a[i]` o `a[i:j]`; un slice básico normalmente devuelve una vista. La **indexación avanzada** usa arrays/listas de índices enteros o booleanos, por ejemplo `a[[0,2]]`, y devuelve un array nuevo con los valores seleccionados. Ambas expresan la selección sin escribir un loop Python por cliente.",
+      "rationale":"Enseña desde el principio la regla copy/view que luego será crítica."
+    },
+    {
+      "node_id":"S14-T1-B-P02","block":"Creación, indexación y máscaras","subtopic":"S14-T1-B","paragraph_index":2,"finding_ids":["S14-F07"],"verdict":"MODIFY",
+      "current_text":"Una **máscara booleana** `a > umbral` produce un array `bool` del mismo shape; `a[mask]` filtra. Es la forma idiomática de calidad: “clientes sintéticos con score bajo 0.5” o “región Lima y score bajo 0.6”. Combina condiciones con `&` / `|` (y paréntesis); no uses `and`/`or` de Python entre arrays. La máscara debe alinear el eje indexado — si no, `IndexError` (falla de forma segura, y el mensaje nombra el eje que no cuadra).",
+      "improved_version":"Una **máscara booleana** `a > umbral` produce un array `bool`; si la usas para indexar `a`, sus dimensiones deben corresponder con las dimensiones indexadas. `a[mask]` conserva solo las posiciones `True`. Combina condiciones elemento a elemento con `&` / `|` y paréntesis; no uses `and`/`or` entre arrays. Si la forma de la máscara no coincide con las dimensiones indexadas, NumPy lanza `IndexError`.",
+      "rationale":"Conserva la excepción correcta y evita prometer que toda máscara siempre tiene exactamente la shape completa del array en usos más generales."
+    },
+    {
+      "node_id":"S14-T1-B-P03","block":"Creación, indexación y máscaras","subtopic":"S14-T1-B","paragraph_index":3,"finding_ids":["S14-F08"],"verdict":"MODIFY",
+      "current_text":"Filtrar con máscara suele devolver **copia** (o un 1D nuevo); no asumas que es un view ni mutes el padre por accidente. Caso sintético Lima/Arequipa/Cusco: `ids[score < 0.5]` → `C002`, `C004`; fancy index `score[[0, 2]]` recupera scores de dos clientes sin recorrer la lista a mano.",
+      "improved_version":"Filtrar con una máscara booleana es **indexación avanzada** y devuelve una copia; `score[[0, 2]]` también es indexación avanzada y devuelve una copia. En cambio, un slice básico como `score[:2]` suele ser una vista que comparte memoria. Caso sintético: `ids[score < 0.5]` selecciona `C002` y `C004`; `score[[0, 2]]` obtiene dos scores sin escribir un loop.",
+      "rationale":"Sustituye 'suele' por la regla que el learner puede usar para predecir comportamiento."
+    },
+    {
+      "node_id":"S14-T2-A-P01","block":"Ufuncs y reducciones","subtopic":"S14-T2-A","paragraph_index":1,"finding_ids":[],"verdict":"NO_CHANGE",
+      "current_text":"Las **ufuncs** (`np.add`, `np.sqrt`, operadores `+`, `*`) aplican elemento a elemento en código compilado, sin un `for` Python por celda. Las **reducciones** (`sum`, `mean`, `std`, `min`, `max`) colapsan uno o más ejes. Son el corazón de las métricas del tablero: convierten una matriz de flags en un vector de completitud por campo.",
+      "improved_version":"Las **ufuncs** (`np.add`, `np.sqrt`, operadores `+`, `*`) aplican elemento a elemento en código compilado, sin un `for` Python por celda. Las **reducciones** (`sum`, `mean`, `std`, `min`, `max`) colapsan uno o más ejes. Son el corazón de las métricas del tablero: convierten una matriz de flags en un vector de completitud por campo.",
+      "rationale":"Define función universal y reducción con mecanismo y uso concreto."
+    },
+    {
+      "node_id":"S14-T2-A-P02","block":"Ufuncs y reducciones","subtopic":"S14-T2-A","paragraph_index":2,"finding_ids":["S14-F21"],"verdict":"MODIFY",
+      "current_text":"`axis=0` agrega por columna (campo); `axis=1` por fila (cliente). `keepdims=True` preserva dimensiones para rebroadcast (restar la media por fila sin pelear shapes). Elige el eje por el significado de negocio — “¿agrego clientes o campos?” — no por costumbre de copiar un notebook.",
+      "improved_version":"En la matriz de este curso, las filas son clientes y las columnas son campos. Por eso `axis=0` elimina el eje de clientes y produce un resultado por columna/campo; `axis=1` elimina el eje de campos y produce un resultado por cliente. `keepdims=True` conserva ese eje con tamaño 1 para que después puedas **volver a aplicar broadcasting** contra la matriz original. Elige el eje por el significado que quieres conservar, no por memorizar 0 o 1.",
+      "rationale":"Hace causal axis y reemplaza el widow term rebroadcast por el mecanismo."
+    },
+    {
+      "node_id":"S14-T2-A-P03","block":"Ufuncs y reducciones","subtopic":"S14-T2-A","paragraph_index":3,"finding_ids":["S14-F09","S14-F10"],"verdict":"MODIFY",
+      "current_text":"Métricas del tablero: `mean(flags, axis=0)` = completitud por campo; `mean` por fila = completitud del cliente; `std(scores)` = dispersión. **Unicidad** de ids sintéticos: `n_unique / n = np.unique(ids).size / ids.size` (un duplicado en `C00x` baja la tasa; no uses `len(ids)/len(ids)`). Caso sintético: matriz 3×3 de presencia → completitud por campo ~[1.0, 0.67, 0.67] y global ~0.78; unicidad de `['C001','C002','C001']` → 2/3.",
+      "improved_version":"Para que `mean(flags, axis=0)` signifique completitud, primero verifica que cada flag sea `0/1` (o booleano); un valor 2 debe ser un error, no una completitud mayor a 100%. Entonces la media por columna es completitud por campo y la media por fila es completitud del cliente. Para unicidad, usa `np.unique(ids).size / ids.size` **solo si `ids.size > 0`**; define aparte qué significa un lote vacío. En el fixture 3×3 válido, la completitud por campo es aproximadamente `[1.0, 0.67, 0.67]`, la global ~0.78 y la unicidad de `['C001','C002','C001']` es 2/3.",
+      "rationale":"Une la métrica a sus precondiciones semánticas y define el borde vacío."
+    },
+    {
+      "node_id":"S14-T2-B-P01","block":"Broadcasting y compatibilidad de shapes","subtopic":"S14-T2-B","paragraph_index":1,"finding_ids":["S14-F03","S14-F11"],"verdict":"MODIFY",
+      "current_text":"El **broadcasting** alinea shapes de **derecha a izquierda**: en cada dimensión, los tamaños son iguales, o uno es 1, o la dimensión está ausente en el array de menor rango. Si no hay compatibilidad, NumPy lanza `ValueError` — mejor un error ruidoso que un producto silencioso mal alineado (por ejemplo, restar un umbral a la dimensión equivocada del tablero).",
+      "improved_version":"El **broadcasting** compara las dimensiones desde la derecha: cada par es compatible si los tamaños son iguales o uno de ellos es 1; si al array más corto le faltan dimensiones, se comporta como si tuviera 1 a la izquierda. Una incompatibilidad lanza `ValueError`. Pero compatibilidad no significa intención correcta: `(2,3)+(3,)` aplica tres valores por columna, mientras `(2,3)+(2,1)` aplica dos valores por fila. Ambos corren; solo tu contrato puede decir cuál es correcto.",
+      "rationale":"Mantiene la regla oficial y agrega el caso silencioso que da sentido al warning."
+    },
+    {
+      "node_id":"S14-T2-B-P02","block":"Broadcasting y compatibilidad de shapes","subtopic":"S14-T2-B","paragraph_index":2,"finding_ids":[],"verdict":"NO_CHANGE",
+      "current_text":"`newaxis` / `None` inserta un eje de tamaño 1 para alinear vectores de filas o columnas (pesos por variable, umbral por cliente, o matriz de diferencias `score_i - score_j`). Es el mecanismo de las **señales por pares**: `agg[:, None] - agg[None, :]` produce una matriz (n, n) sin un doble loop Python.",
+      "improved_version":"`newaxis` / `None` inserta un eje de tamaño 1 para alinear vectores de filas o columnas (pesos por variable, umbral por cliente, o matriz de diferencias `score_i - score_j`). Es el mecanismo de las **señales por pares**: `agg[:, None] - agg[None, :]` produce una matriz (n, n) sin un doble loop Python.",
+      "rationale":"El mecanismo y la shape resultante son suficientemente concretos; la memoria n² se enseña en T4-B."
+    },
+    {
+      "node_id":"S14-T2-B-P03","block":"Broadcasting y compatibilidad de shapes","subtopic":"S14-T2-B","paragraph_index":3,"finding_ids":["S14-F05","S14-F11"],"verdict":"MODIFY",
+      "current_text":"Documenta el shape esperado en el docstring y, si el batch puede cambiar de tamaño, aserta la compatibilidad antes de operar. Caso sintético: scores (3, 2) × pesos (2,) pondera bien; un intento (3, 2) + (3, 3) debe fallar con mensaje de broadcast y no “arreglarse” en silencio.",
+      "improved_version":"Documenta la shape esperada y valida con `if` antes de operar cuando el array llega desde fuera; no uses `assert` como control de entrada. Comprueba tanto compatibilidad como significado: por ejemplo, si `scores.shape == (n, 2)`, exige explícitamente `pesos.shape == (2,)`. Mantén además un caso incompatible que deba lanzar `ValueError` y un caso compatible pero semánticamente equivocado para aprender a distinguirlos.",
+      "rationale":"Elimina la contradicción de assert y enseña la diferencia entre validación semántica y error automático."
+    },
+    {
+      "node_id":"S14-T3-A-P01","block":"Views/copies y mutabilidad","subtopic":"S14-T3-A","paragraph_index":1,"finding_ids":["S14-F08"],"verdict":"MODIFY",
+      "current_text":"Un **view** comparte memoria con el array base (`arr.base is not None` a menudo); un **copy** es un bloque independiente. Los slices simples (`raw[:2]`, `raw[:]`) suelen ser views; fancy index y máscaras booleanas suelen copiar. Confundirlos es el bug más caro en un pipeline de calidad: normalizas un slice “temporal” y corrompes el raw que alimenta la auditoría.",
+      "improved_version":"Un **view** comparte datos con otra vista/base; una **copy** posee datos independientes. La regla inicial útil es: el slicing básico, como `raw[:2]`, devuelve una vista; la indexación avanzada con arrays de enteros o booleanos devuelve una copia. Para comprobar si dos arrays realmente comparten memoria en un caso dudoso puedes usar `np.shares_memory(a, b)`; no conviertas `arr.base is raw` en una prueba general porque puede haber cadenas de vistas.",
+      "rationale":"Da una regla predictiva y evita usar identidad del atributo base como detector universal."
+    },
+    {
+      "node_id":"S14-T3-A-P02","block":"Views/copies y mutabilidad","subtopic":"S14-T3-A","paragraph_index":2,"finding_ids":[],"verdict":"NO_CHANGE",
+      "current_text":"`arr.flags.writeable` (esto es, el flag que controla si el array admite escritura) decide si se puede mutar. Mutar un view muta el original — clásico cuando una función “solo normaliza un slice” y el llamador pierde los scores crudos. Para entradas de solo lectura, marca `writeable=False` o trabaja siempre sobre `.copy()` cuando la transformación escribe.",
+      "improved_version":"`arr.flags.writeable` (esto es, el flag que controla si el array admite escritura) decide si se puede mutar. Mutar un view muta el original — clásico cuando una función “solo normaliza un slice” y el llamador pierde los scores crudos. Para entradas de solo lectura, marca `writeable=False` o trabaja siempre sobre `.copy()` cuando la transformación escribe.",
+      "rationale":"Explica actor, riesgo y dos respuestas operativas distintas."
+    },
+    {
+      "node_id":"S14-T3-A-P03","block":"Views/copies y mutabilidad","subtopic":"S14-T3-A","paragraph_index":3,"finding_ids":[],"verdict":"NO_CHANGE",
+      "current_text":"Regla operativa del tablero CP-N2-A: **copia antes de mutar** si el array crudo se reutiliza (reprocess, logs, tests). Caso sintético: `vista = raw[:2]; vista[0] = 99` altera `raw`; la misma asignación sobre `raw[:2].copy()` deja el original intacto.",
+      "improved_version":"Regla operativa del tablero CP-N2-A: **copia antes de mutar** si el array crudo se reutiliza (reprocess, logs, tests). Caso sintético: `vista = raw[:2]; vista[0] = 99` altera `raw`; la misma asignación sobre `raw[:2].copy()` deja el original intacto.",
+      "rationale":"Worked contrast suficiente y técnicamente correcto."
+    },
+    {
+      "node_id":"S14-T3-B-P01","block":"NaN, inf y estabilidad numérica","subtopic":"S14-T3-B","paragraph_index":1,"finding_ids":[],"verdict":"NO_CHANGE",
+      "current_text":"`np.nan` y `±inf` rompen `mean`/`sum` clásicos: NaN **contagia** (el resultado de la media es nan) e inf **domina** (una suma con inf es inf). Antes de publicar una métrica de negocio usa `np.isnan` / `isinf` / `isfinite`, o reducciones `nansum` / `nanmean` con la política documentada del tablero.",
+      "improved_version":"`np.nan` y `±inf` rompen `mean`/`sum` clásicos: NaN **contagia** (el resultado de la media es nan) e inf **domina** (una suma con inf es inf). Antes de publicar una métrica de negocio usa `np.isnan` / `isinf` / `isfinite`, o reducciones `nansum` / `nanmean` con la política documentada del tablero.",
+      "rationale":"La frase se entiende dentro del caso mostrado y exige política explícita; no afirma que nanmean elimine inf."
+    },
+    {
+      "node_id":"S14-T3-B-P02","block":"NaN, inf y estabilidad numérica","subtopic":"S14-T3-B","paragraph_index":2,"finding_ids":["S14-F14"],"verdict":"MODIFY",
+      "current_text":"`np.finfo(float).eps` es la distancia entre 1.0 y el siguiente número representable: te da la escala del error de **un** redondeo cerca de 1, que es lo que necesitas para elegir la tolerancia de un `allclose`. No acota el error **acumulado** de una cadena de operaciones, que puede ser mucho mayor y crece con el número de pasos. Un overflow en float produce `inf`; no lo trates como un score válido de calidad. **Falla de forma segura** (fail-closed): si el batch trae inf donde no es semántico, rechaza el lote o filtra con traza — no sustituyas por 0 en silencio.",
+      "improved_version":"`np.finfo(float).eps` es la distancia entre 1.0 y el siguiente `float` representable mayor que 1.0. Sirve para entender la resolución de `float64` **cerca de 1**, pero no decide tu tolerancia de `allclose`: el espaciado cambia con la magnitud y el error acumulado depende de las operaciones. Elige `rtol`/`atol` según el error que el algoritmo y la métrica permiten. Un overflow puede producir `inf`; si `inf` no tiene significado válido en tu contrato, rechaza el lote o exclúyelo dejando traza, nunca lo conviertas silenciosamente en 0.",
+      "rationale":"Conserva la definición correcta de eps pero elimina la inferencia causal incorrecta hacia tolerancias."
+    },
+    {
+      "node_id":"S14-T3-B-P03","block":"NaN, inf y estabilidad numérica","subtopic":"S14-T3-B","paragraph_index":3,"finding_ids":["S14-F13","S14-F15"],"verdict":"MODIFY",
+      "current_text":"En calidad de datos, un NaN **no es cero**: es **ausencia de medición**. Reporta la tasa de no-finitos aparte de la media de los finitos; mezclarlos distorsiona completitud y rangos. Caso sintético: `[1, nan, 3, inf]` → media solo sobre `isfinite` (= 2.0); convierte inf a nan antes de `nansum` si inf no es un valor de negocio.",
+      "improved_version":"En **este fixture** usamos `NaN` para representar una medición ausente; en otro pipeline un NaN también puede señalar una operación inválida, así que primero debes conocer su procedencia. Reporta por separado la tasa de no-finitos y la media de los finitos. Si `isfinite` no deja ningún valor, no llames `mean` como si hubiera una muestra: devuelve un estado explícito de `no_valid_measurements` o rechaza la métrica. En `[1, nan, 3, inf]`, la media de los finitos es 2.0.",
+      "rationale":"Convierte una semántica global falsa en política del fixture y cierra el borde de conjunto finito vacío."
+    },
+    {
+      "node_id":"S14-T4-A-P01","block":"Vectorización frente a loops","subtopic":"S14-T4-A","paragraph_index":1,"finding_ids":["S14-F16"],"verdict":"MODIFY",
+      "current_text":"Un loop Python elemento a elemento paga el intérprete en cada iteración. NumPy mueve el trabajo a código C vectorizado (`dot`, ufuncs, `@` — el operador de producto matriz-vector). Para N grande (decenas de miles de clientes sintéticos del tablero), el ratio suele ser de órdenes de magnitud. El número exacto **depende de tu máquina**; por eso el demo reporta `ratio_gt_1` y no un SLA (acuerdo de nivel de servicio) fijo.",
+      "improved_version":"Un loop Python elemento a elemento ejecuta lógica del intérprete en cada iteración; muchas operaciones NumPy trasladan el bucle interno a código compilado. Para arrays grandes eso puede ser mucho más rápido, pero no existe un speedup garantizado para una corrida concreta. El objetivo del benchmark es estimar la distribución de tiempos bajo el mismo input y entorno, no demostrar por contrato que `ratio > 1`.",
+      "rationale":"Elimina el expected boolean no reproducible y mantiene la razón real de vectorizar."
+    },
+    {
+      "node_id":"S14-T4-A-P02","block":"Vectorización frente a loops","subtopic":"S14-T4-A","paragraph_index":2,"finding_ids":["S14-F16"],"verdict":"MODIFY",
+      "current_text":"Benchmark **honesto**: mismo input, mismo dtype, el contador monotónico `time.perf_counter` (no la función civil de reloj), reporta `ratio_loop_over_vec` y verifica **equivalencia numérica** (`allclose` o `abs(s_loop - s_vec) < 1e-6`). No midas N=10, no imprimas dentro del loop y no omitas el check de igualdad: un ratio sin equivalencia no demuestra que la versión vectorizada sea correcta. En producción conviene repetir mediciones y reportar la mediana; aquí un solo par de tiempos basta para enseñar el contrato.",
+      "improved_version":"Benchmark **honesto**: mismo input y dtype, primero verifica que ambas implementaciones producen el mismo contrato de salida; después haz una corrida de calentamiento y varias mediciones con `timeit` o `perf_counter`, sin `print` dentro de la región medida. Conserva los tiempos crudos y resume la comparación sin convertir una única corrida en verdad. El timer puede verse afectado por el sistema y por inicialización; por eso un solo par de tiempos **no** basta para afirmar un speedup reproducible.",
+      "rationale":"Alinea la práctica con la documentación de timing y con el nombre 'honesto'."
+    },
+    {
+      "node_id":"S14-T4-A-P03","block":"Vectorización frente a loops","subtopic":"S14-T4-A","paragraph_index":3,"finding_ids":["S14-F16","S14-F21"],"verdict":"MODIFY",
+      "current_text":"A veces un loop claro gana en N pequeño o con lógica irregular (early-exit, ramas por cliente). Documenta el umbral de N en la **nota del portfolio**. Caso sintético: `n=50_000` producto punto loop vs. `np.dot` con `equal True` y `ratio_gt_1 True` en una laptop típica — en el portfolio CP-N2-A repites el patrón con `X @ w`.",
+      "improved_version":"A veces un loop claro gana con N pequeño o lógica irregular. En vez de fijar de antemano un 'umbral de N', mide varios tamaños con el mismo método y documenta dónde observaste el cruce en **tu** entorno. Usa la versión en loop como **baseline**, es decir, la implementación de referencia que ya sabes interpretar; la versión NumPy debe conservar su resultado antes de comparar tiempos. Si luego usas `X @ w`, presenta primero qué representan las filas de `X`, los pesos `w` y la salida, no solo el operador.",
+      "rationale":"Elimina una promesa de ratio fijo, define baseline y evita introducir @ como ritual sin significado."
+    },
+    {
+      "node_id":"S14-T4-B-P01","block":"Memoria, medición y tests con tolerancia","subtopic":"S14-T4-B","paragraph_index":1,"finding_ids":["S14-F17"],"verdict":"MODIFY",
+      "current_text":"`nbytes` y `itemsize * size` estiman la memoria del array en bytes (p. ej. 1000 float64 → 8000). En el tablero de calidad, una matriz de señales por pares es O(n²) — esto es, crece con el cuadrado del número de clientes —: con n=500 y float64 ya son ~2 MB; con n=50_000 sin cuidado agotas RAM. Evita `.copy()` innecesarios y documenta un **presupuesto** (`pair.nbytes <= max_bytes`) en la nota del portfolio.",
+      "improved_version":"`nbytes` informa cuánto ocupa un array que **ya existe**. Si planeas materializar una matriz `n×n`, calcula el presupuesto **antes**: `required_bytes = n * n * np.dtype(np.float64).itemsize`. Con n=500 son 2,000,000 bytes; con n=50_000 serían unos 20,000,000,000 bytes (~20 GB) solo para una matriz float64. Si `required_bytes > max_bytes`, no construyas `pair`: procesa por bloques o cambia la representación. Después de crear un array permitido, `pair.nbytes` sirve para verificar lo realmente asignado.",
+      "rationale":"Convierte un check post-OOM en un guard preventivo y hace tangible la escala n²."
+    },
+    {
+      "node_id":"S14-T4-B-P02","block":"Memoria, medición y tests con tolerancia","subtopic":"S14-T4-B","paragraph_index":2,"finding_ids":["S14-F18","S14-F19","S14-F20"],"verdict":"MODIFY",
+      "current_text":"`np.allclose(a, b, rtol=, atol=)` compara floats con tolerancia relativa y absoluta. `np.testing.assert_allclose` lanza `AssertionError` con un mensaje útil — es el oráculo de tests del incremento CP-N2-A. `rtol` escala con la magnitud del valor; `atol` cubre diferencias cercanas a cero (scores en [0, 1] suelen priorizar un `atol` razonable).",
+      "improved_version":"`np.allclose(a, b, rtol=..., atol=...)` comprueba si cada diferencia cae dentro de una tolerancia relativa y absoluta, **pero aplica broadcasting**. Por eso, para probar equivalencia de dos implementaciones del mismo contrato, primero exige `a.shape == b.shape` y la shape esperada. Después comprueba la política de `NaN`/`inf`: por defecto NaN no es igual a NaN; `equal_nan=True` solo es correcto si tu contrato dice que NaN en la misma posición representa el mismo estado. Finalmente aplica `assert_allclose` con `rtol`/`atol` justificados por la precisión que tu métrica permite.",
+      "rationale":"Añade las precondiciones que allclose por sí solo no verifica."
+    },
+    {
+      "node_id":"S14-T4-B-P03","block":"Memoria, medición y tests con tolerancia","subtopic":"S14-T4-B","paragraph_index":3,"finding_ids":["S14-F18","S14-F19","S14-F20"],"verdict":"MODIFY",
+      "current_text":"El baseline (la versión en loop que usas como referencia) y la versión vectorizada deben ser **equivalentes dentro de rtol/atol**; sin ese check, un ratio de tiempo no demuestra corrección. Caso sintético: `base` vs `base + 1e-9` pasa `allclose` con `atol=1e-8`; `base + 0.1` debe disparar `AssertionError` en el assert estricto y reportarse como fallo controlado.",
+      "improved_version":"La versión de referencia (baseline) y la vectorizada deben cumplir **el mismo contrato completo**: misma shape, misma política de no-finitos y valores suficientemente cercanos. Antes del ejemplo fija la regla: para estos scores sintéticos aceptaremos como máximo `1e-8` de diferencia absoluta porque ese margen es menor que la precisión con la que el tablero publica la métrica. Entonces `base + 1e-9` pasa y `base + 0.1` falla. La constante deja de ser magia: el learner sabe qué error permite y por qué.",
+      "rationale":"Transforma allclose de ritual numérico en un test de contrato con tolerancia explicada."
+    }
+  ],
+  "code_audit": [
+    {"block":"ndarray_basics.py","status":"NOMINAL_OUTPUT_VERIFIED","issues":["S14-F04","S14-F05","S14-F06"],"note":"Output nominal coincide; el defecto está en el modelo/validación enseñado alrededor."},
+    {"block":"masks_index.py","status":"NOMINAL_OUTPUT_VERIFIED","issues":["S14-F07","S14-F08"],"note":"Selección nominal correcta. Counterexample de máscara desalineada lanza IndexError."},
+    {"block":"ufuncs_reduce.py","status":"NOMINAL_OUTPUT_VERIFIED","issues":["S14-F09","S14-F10"],"note":"Fixture 0/1 correcto; valores semánticamente inválidos o batch vacío no están contratados."},
+    {"block":"broadcast.py","status":"NOMINAL_OUTPUT_VERIFIED_WITH_PEDAGOGICAL_GAP","issues":["S14-F05","S14-F11","S14-F12"],"note":"Correct broadcast e incompatible ValueError funcionan; falta compatible-but-wrong y el comentario llama reshape a newaxis."},
+    {"block":"views_copies.py","status":"NOMINAL_OUTPUT_VERIFIED","issues":["S14-F08"],"note":"Mutación/copia correctas; texto debe enseñar regla avanzada determinista."},
+    {"block":"nan_inf.py","status":"NOMINAL_OUTPUT_VERIFIED_WITH_POLICY_GAPS","issues":["S14-F13","S14-F14","S14-F15"],"note":"Fixture mixto da finite_mean=2.0; no define semántica universal de NaN ni lote sin finitos."},
+    {"block":"vec_vs_loop.py","status":"NONDETERMINISTIC_EXPECTED_OUTPUT","issues":["S14-F16"],"note":"Mismo patrón ejecutado repetidamente produjo al menos una corrida ratio<1 antes de warm-up y otras muy superiores; equal siguió true."},
+    {"block":"allclose_mem.py","status":"NOMINAL_OUTPUT_VERIFIED_WITH_CONTRACT_GAPS","issues":["S14-F17","S14-F18","S14-F19","S14-F20"],"note":"Caso nominal pasa; allclose puede broadcastar shapes distintos y NaN requiere política explícita; memoria debe presupuestarse pre-allocation."}
+  ],
+  "external_benchmark_notes": [
+    "Official NumPy beginner material stages ndarray attributes with concrete shape/dimension examples; S14 compresses more terminology into first exposure than necessary.",
+    "Official indexing guide gives a deterministic novice rule: advanced indexing always copies; basic slicing views.",
+    "Official broadcasting guide explains compatibility but also warns that broadcasting can increase memory use and become difficult to interpret.",
+    "Official allclose docs state that standard broadcasting applies, NaN equality is policy-controlled, and atol must be chosen for the use case, especially near zero.",
+    "Python timeit repeats timings by design and warns measurements can be disturbed by other processes; one-shot timing is not stable evidence.",
+    "Cognitive-load guidance favors explicit worked examples and gradually increasing independent problem solving for new material."
+  ],
+  "concept_ledger_delta": [
+    {"concept_id":"numpy_ndarray","term":"ndarray","first_use":"S14 opening","required_depth":"CORE_MENTAL_MODEL","state":"USABLE","notes":"Homogeneous dtype + shape model is usable after repairs to mixed-input explanation."},
+    {"concept_id":"numpy_dtype","term":"dtype","first_use":"S14 opening","required_depth":"CORE_MENTAL_MODEL","state":"PARTIAL","notes":"Core storage-type model exists; promotion/coercion claims require repair."},
+    {"concept_id":"numpy_shape","term":"shape/ndim","first_use":"S14 opening","required_depth":"CORE_MENTAL_MODEL","state":"MISCONCEPTION_RISK","notes":"Opening overpromises automatic detection; broadcasting creates silent semantic risk."},
+    {"concept_id":"numpy_boolean_mask","term":"boolean mask","first_use":"S14 opening","required_depth":"CORE_MENTAL_MODEL","state":"PARTIAL","notes":"Mechanism usable; exception-type callout contradiction and advanced-index copy rule need repair."},
+    {"concept_id":"numpy_ufunc","term":"ufunc","first_use":"S14-T1-A","required_depth":"CORE_MENTAL_MODEL","state":"USABLE","notes":"Elementwise compiled operation model adequate for this level."},
+    {"concept_id":"numpy_reduction_axis","term":"reduction/axis/keepdims","first_use":"S14-T2-A","required_depth":"CORE_MENTAL_MODEL","state":"PARTIAL","notes":"Business orientation is clear; rebroadcast terminology and input semantic invariants need repair."},
+    {"concept_id":"numpy_broadcasting","term":"broadcasting","first_use":"S14 reference/T2-B","required_depth":"CORE_MENTAL_MODEL","state":"MISCONCEPTION_RISK","notes":"Formal rule correct, but compatible-wrong case is not demonstrated and opening implies errors are caught automatically."},
+    {"concept_id":"numpy_view_copy","term":"view/copy","first_use":"S14 reference/T3-A","required_depth":"CORE_MENTAL_MODEL","state":"USABLE","notes":"Mutation model is strong; wording should make advanced-index copy rule deterministic."},
+    {"concept_id":"numpy_nonfinite_policy","term":"NaN/inf/isfinite","first_use":"S14 reference/T3-B","required_depth":"CORE_MENTAL_MODEL","state":"MISCONCEPTION_RISK","notes":"Operations are shown, but NaN is overdefined as missing and all-invalid case is not closed."},
+    {"concept_id":"machine_epsilon","term":"finfo.eps","first_use":"S14-T3-B","required_depth":"MICRO_DEFINITION","state":"MISCONCEPTION_RISK","notes":"Definition correct; relation to allclose tolerance is overstated."},
+    {"concept_id":"numpy_vectorization_benchmark","term":"vectorization benchmark","first_use":"S14-T4-A","required_depth":"CORE_MENTAL_MODEL","state":"MISCONCEPTION_RISK","notes":"Equivalence-first framing good, one-shot expected speedup invalidates measurement model."},
+    {"concept_id":"numpy_allclose","term":"allclose/assert_allclose","first_use":"S14-T4-A/T4-B","required_depth":"CORE_MENTAL_MODEL","state":"MISCONCEPTION_RISK","notes":"Missing shape and nonfinite contract; tolerance values underjustified."},
+    {"concept_id":"pairwise_n2_memory","term":"O(n²) pairwise memory budget","first_use":"S14-T4-B","required_depth":"CORE_MENTAL_MODEL","state":"PARTIAL","notes":"Growth model correct; budget check is taught after allocation instead of before."}
+  ],
+  "meta_leak_report": {
+    "rendered_developer_ai_comments": [],
+    "status":"NO_CONFIRMED_RENDERED_META_LEAK",
+    "internal_curriculum_widow_terms":["CP-N2-A"],
+    "note":"Historical TypeScript comments about the security slug are source-only; no evidence they render. CP-N2-A is learner-facing shorthand and is handled as S14-F21, not as AI/developer leakage."
+  },
+  "three_most_likely_failure_causes": [
+    "Shape/broadcast mental model: compatibility is conflated with correctness and the dangerous valid-but-wrong case is not worked.",
+    "Numerical evidence contract: eps, allclose, NaN and tolerances are individually named but not assembled into a safe equivalence policy.",
+    "Measurement-as-evidence: a one-shot benchmark and post-allocation memory check teach assertions about performance/resources after the point where evidence was needed."
+  ],
+  "priority_repairs": [
+    "P1: repair broadcasting mental model and add compatible-but-wrong worked example",
+    "P1: unify assert policy for external inputs",
+    "P1: repair NaN semantics + eps/tolerance model",
+    "P1: replace one-shot deterministic speedup with repeated benchmark",
+    "P1: preflight pairwise memory before allocation",
+    "P1: require shape/nonfinite policy before allclose",
+    "P1: fix mask exception contradiction",
+    "P1: repair mixed-dtype/coercion mental model",
+    "P2: make advanced-index copy rule deterministic and close empty/flag invariants",
+    "P2: define baseline/CP-N2-A and justify tolerance constants"
+  ],
+  "S15_entry_watchlist": [
+    "Do not inherit S14 broadcasting as safe automatic knowledge until compatible-but-wrong axis semantics are repaired.",
+    "Do not assume allclose establishes a full output contract; shape and NaN/inf policy remain misconception risks.",
+    "Do not inherit 'NaN means missing' universally into pandas; S15 must distinguish missing-value representation from invalid computation/domain policy.",
+    "Do not inherit object dtype as simply 'non-vectorizable'; pandas object/string/nullable dtypes need careful bridge.",
+    "S14 Level-2 entry does not prove S13/N1 gate closure; keep that cross-section dependency open.",
+    "Pandas copy/view and chained assignment semantics must not be taught as if NumPy slice rules transfer unchanged."
+  ],
+  "next_round":"S15",
+  "status":"AUDITED_REPAIR_REQUIRED"
+}
