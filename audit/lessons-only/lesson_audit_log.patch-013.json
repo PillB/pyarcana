@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "patch_id": "patch-013",
+  "applies_after": [
+    "audit/lessons-only/lesson_audit_log.json",
+    "audit/lessons-only/lesson_audit_log.patch-001.json",
+    "audit/lessons-only/lesson_audit_log.patch-002.json",
+    "audit/lessons-only/lesson_audit_log.patch-003.json",
+    "audit/lessons-only/lesson_audit_log.patch-004.json",
+    "audit/lessons-only/lesson_audit_log.patch-005.json",
+    "audit/lessons-only/lesson_audit_log.patch-006.json",
+    "audit/lessons-only/lesson_audit_log.patch-007.json",
+    "audit/lessons-only/lesson_audit_log.patch-008.json",
+    "audit/lessons-only/lesson_audit_log.patch-009.json",
+    "audit/lessons-only/lesson_audit_log.patch-010.json",
+    "audit/lessons-only/lesson_audit_log.patch-011.json",
+    "audit/lessons-only/lesson_audit_log.patch-012.json",
+    "audit/lessons-only/sections/S13.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "operations": [
+    {"op":"replace","path":"/coverage/S13/status","from":"PENDING","to":"AUDITED_REPAIR_REQUIRED"},
+    {"op":"add_section_shard","section":"S13","path":"audit/lessons-only/sections/S13.json","canonical_file":"src/lib/course/sections/s13-rpa-automation.ts","canonical_blob_sha":"16ae66aaf0f1771d2c8223d312d639a7b88bf3a8","audit_blob_sha":"40d8de9efc45575221c9db76305a4b81f2ad6c6d","verdict":"REPAIR_REQUIRED","severity_counts":{"P0":0,"P1":20,"P2":7,"P3":0},"material_findings":27,"theory_blocks_reviewed":10,"paragraphs_reviewed":56},
+    {"op":"advance_next_round","from":"S13","to":"S14"},
+    {"op":"extend_concept_ledger","source":"audit/lessons-only/sections/S13.json#/concept_ledger_delta","credit_rule_for_next_section":"Only concepts with state USABLE may be assumed in S14. PARTIAL, MENTION_ONLY, MISCONCEPTION_RISK and MISSING receive no automatic prerequisite credit."}
+  ],
+  "effective_campaign_state": {
+    "sections_inspected": 13,
+    "canonical_sections": 52,
+    "coverage_percent": 25.0,
+    "section_status": {
+      "S01":"AUDITED_REPAIR_REQUIRED",
+      "S02":"AUDITED_REPAIR_REQUIRED",
+      "S03":"AUDITED_REPAIR_REQUIRED",
+      "S04":"AUDITED_REPAIR_REQUIRED",
+      "S05":"AUDITED_REPAIR_REQUIRED",
+      "S06":"AUDITED_REPAIR_REQUIRED",
+      "S07":"AUDITED_REPAIR_REQUIRED",
+      "S08":"AUDITED_REPAIR_REQUIRED",
+      "S09":"AUDITED_REPAIR_REQUIRED",
+      "S10":"AUDITED_REPAIR_REQUIRED",
+      "S11":"AUDITED_REPAIR_REQUIRED",
+      "S12":"AUDITED_REPAIR_REQUIRED",
+      "S13":"AUDITED_REPAIR_REQUIRED",
+      "S14-S52":"PENDING"
+    },
+    "known_material_findings_before_global_deduplication": {"P0":0,"P1":144,"P2":130,"P3":0,"total":274},
+    "note_on_counts":"Running local counts only. Mandatory global passes may merge recurring root causes, reject false positives or change severity when later dependency evidence is available."
+  },
+  "S14_entry_watchlist": [
+    "Do not treat 'Level 1 closed' as established prerequisite evidence: S13 is REPAIR_REQUIRED and its CF-1/regression gate is materially incomplete versus the authoritative roadmap.",
+    "Only USABLE concepts from S01-S13 may be inherited; S13 blocking, relationship scoring, CF-1 and regression semantics are not safe automatic prerequisites.",
+    "Bridge ndarray explicitly from usable Python collection concepts; do not assume dtype, shape, axis, mask, ufunc, reduction or broadcasting knowledge.",
+    "Audit views/copies/mutation carefully because prior alias/copy concepts have carried misconception risk.",
+    "Validate NumPy numeric precision, NaN and dtype coercion examples and do not inherit earlier float/Decimal simplifications as a numerical model.",
+    "Keep the Level-1-to-Level-2 transition explicit: S14 may proceed pedagogically, but the curriculum must not imply that S13's printed checklist proves N1 operational readiness."
+  ],
+  "next_round": "S14",
+  "must_re_read_review_contract": true,
+  "must_re_read_comprehension_contract": true,
+  "status": "EFFECTIVE_RUNNING_LOG_ADVANCED_TO_S13"
+}
