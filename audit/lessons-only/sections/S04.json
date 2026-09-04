@@ -1,0 +1,436 @@
+{
+  "schema_version": "1.1.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S04",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s04-functions-modules.ts",
+  "canonical_blob_sha": "c56f5ca93419013108d7733584ceba2181c9f889",
+  "title": "Iteración y resúmenes transaccionales",
+  "short_title": "Iteración & Resúmenes",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "learner_entry_state": {
+    "baseline": "ZERO_TECH_CAPABLE",
+    "prior_sections": ["S01", "S02", "S03"],
+    "credit_rule": "Only concepts marked USABLE in the effective prior ledger count as learned.",
+    "usable_from_s03": ["comparisons and numeric boundaries", "truthiness", "if/elif/else exclusive-branch model", "dead/unreachable branch intuition", "actionable error-message idea", "bounded literal match/case recognition"],
+    "not_creditable_from_prior_sections": ["for", "while", "function definition", "return", "type hints", "lists/tuples/dicts as usable structures", "indexing/unpacking", "exceptions/try-except", "correct invariant mental model", "stable allowlist tri-state policy", "systematic branch testing"]
+  },
+  "roadmap_expectation": {
+    "prerequisite": "S3",
+    "T1": "for, range, sequences, enumerate and zip",
+    "T2": "while, sentinels, termination, break, continue and infinite-loop prevention",
+    "T3": "counters, accumulators, search and readable comprehensions",
+    "T4": "state tracing, initial linear/quadratic cost and off-by-one debugging",
+    "later_boundaries": {
+      "S05": "functions, return, parameters and type hints",
+      "S06": "lists, tuples, dictionaries, sets, slicing, unpacking and structure choice",
+      "S07": "string methods and Unicode mental model",
+      "S09": "exceptions and recovery boundaries",
+      "S10": "modules, CLI and stdin/stdout as explicit interface concepts"
+    }
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/",
+    "status": "NEEDS_E4_RENDER",
+    "note": "Public fetch remained blocked in this environment. No claim of exact hydrated-render parity is made."
+  },
+  "adversarial_review": {
+    "most_likely_beginner_failure": "The learner is trying to build a first mental model of iteration while examples require nested lists/dicts, indexing, append, slicing, tuple unpacking, functions, return, raise and try/except that the roadmap has not yet taught.",
+    "suspected_hidden_prerequisite": "S05 functions, S06 collections/unpacking and S09 exceptions.",
+    "most_likely_misconception": "That O(n) means exactly one pass is allowed, that a while loop must terminate only because its condition becomes false, and that range(len(xs)+1) itself raises IndexError."
+  },
+  "severity_counts": {"P0": 0, "P1": 9, "P2": 9, "P3": 0},
+  "verdict": "REPAIR_REQUIRED",
+  "confirmed_findings": [
+    {
+      "finding_id": "S04-F01",
+      "severity": "P2",
+      "category": "WIDOW_TERM_PROMISE_AMBIGUITY",
+      "subtopic_or_location": "title + tagline",
+      "evidence": "The title uses 'resúmenes transaccionales' without defining transaccional, while examples span intake rows, sensors, enrollments and transactions. The tagline uses 'comprehensions' and 'Client Intake CP-N1-A' before plain-language expansion.",
+      "expected_prior_knowledge": "No transaction-processing or internal curriculum-ID vocabulary.",
+      "actual_problem": "The learner-facing identity uses an ambiguous domain adjective and internal/English labels instead of stating the actual skill: iterating over batches and producing reliable summaries.",
+      "learner_failure_mode": "A learner can expect database transaction semantics or a finance-only lesson and cannot infer what CP-N1-A denotes.",
+      "minimal_fix": "Prefer 'Iteración y resúmenes por lote' and expand CP-N1-A once in plain language; translate or microdefine comprehension at first meaningful use.",
+      "rewrite_needed": true,
+      "confidence": 0.95
+    },
+    {
+      "finding_id": "S04-F02",
+      "severity": "P2",
+      "category": "MECHANISM_INACCURACY",
+      "subtopic_or_location": "jobRelevance",
+      "evidence": "A batch processor is defined as a program that 'recorre muchos registros en un solo pase, no uno por uno'. A normal for loop over a batch still handles successive records one by one inside one execution/pass.",
+      "expected_prior_knowledge": "No batch-processing model.",
+      "actual_problem": "The contrast conflates 'one program execution for many records' with 'not processing records one at a time'.",
+      "learner_failure_mode": "The learner can infer that batch processing implies simultaneous processing and later misclassify a sequential loop as not being batch processing.",
+      "minimal_fix": "Say that batch processing handles many records in one execution, usually visiting them successively inside a loop.",
+      "rewrite_needed": true,
+      "confidence": 0.98
+    },
+    {
+      "finding_id": "S04-F03",
+      "severity": "P1",
+      "category": "TECHNICAL_OVERCLAIM_COMPLEXITY_MODEL",
+      "subtopic_or_location": "opening theory paragraph 4",
+      "evidence": "The lesson says one pass is enough and that needing two passes probably means information was stored incorrectly. Two sequential passes over n items perform about 2n work and remain O(n); multiple passes can be clearer or intentionally separate concerns.",
+      "expected_prior_knowledge": "The learner is learning Big-O for the first time.",
+      "actual_problem": "The prose confuses asymptotic linear complexity with a one-pass-only design rule.",
+      "learner_failure_mode": "A learner can reject a clear two-pass O(n) solution as algorithmically wrong or contort code into one pass merely to satisfy a false performance rule.",
+      "minimal_fix": "State that one pass is often sufficient for these counters, but a small fixed number of passes is still O(n); avoid repeated nested rescans when they are unnecessary.",
+      "rewrite_needed": true,
+      "confidence": 0.99
+    },
+    {
+      "finding_id": "S04-F04",
+      "severity": "P1",
+      "category": "FUTURE_KNOWLEDGE_LEAK_COLLECTIONS",
+      "subtopic_or_location": "T1-A, T1-B, T2-A, T3-A, T3-B, T4-A and T4-B code",
+      "evidence": "Core examples use list literals, lists of dictionaries, dictionary indexing, append, slicing, lists of tuples, set/dict literals, nested structures and indexing even though V3 teaches lists/tuples/dicts/sets/slicing/unpacking formally in S06.",
+      "expected_prior_knowledge": "Only a narrow non-creditable aliasing preview from S02; no usable collection model.",
+      "actual_problem": "S04 must iterate over something, but the lesson goes far beyond a bounded iterable preview and makes S06 structures necessary to understand the loop examples.",
+      "learner_failure_mode": "The learner spends attention decoding brackets, keys, append, slicing and nested records instead of predicting how for/while changes state.",
+      "minimal_fix": "Introduce one simple list as an ordered group of values for the sole purpose of iteration, use flat strings/integers in core examples, and defer nested dict/list operations, slicing and structure choice to S06.",
+      "rewrite_needed": true,
+      "confidence": 0.99,
+      "cross_section_dependency": "S06"
+    },
+    {
+      "finding_id": "S04-F05",
+      "severity": "P1",
+      "category": "FUTURE_KNOWLEDGE_LEAK_FUNCTIONS_EXCEPTIONS",
+      "subtopic_or_location": "T1-B zip_strict; T2-B clean_lines; T4-B try/except",
+      "evidence": "The lesson defines helper functions with parameters/return, raises ValueError and catches ValueError/IndexError using try/except before S05 teaches functions/return and S09 teaches exceptions.",
+      "expected_prior_knowledge": "Functions/return and exceptions remain MENTION_ONLY from earlier leakage and receive no credit.",
+      "actual_problem": "Unearned syntax is used to explain core S04 outcomes even where Python 3.12 already provides zip(..., strict=True) and where an exception handler is not required to teach an invalid index.",
+      "learner_failure_mode": "The learner can understand the loop idea yet be unable to trace why a helper returns, why raise transfers control, or why except runs.",
+      "minimal_fix": "Use top-level loop examples; use zip(..., strict=True) directly; describe the mismatch ValueError without teaching a custom function/handler; move formal reusable helpers to S05 and exception recovery to S09.",
+      "rewrite_needed": true,
+      "confidence": 0.99,
+      "cross_section_dependency": "S05,S09"
+    },
+    {
+      "finding_id": "S04-F06",
+      "severity": "P2",
+      "category": "RUNTIME_CONTRACT_DRIFT_UNNECESSARY_FALLBACK",
+      "subtopic_or_location": "T1-B prose/code/callout",
+      "evidence": "S04 repeatedly frames strict zip as Python 3.10+ and supplies a manual compatibility helper although the course runtime is intended to be Python 3.12.",
+      "expected_prior_knowledge": "The course should inherit one canonical runtime contract from S01.",
+      "actual_problem": "A fallback for unsupported course runtimes creates extra functions/exceptions and reopens version ambiguity.",
+      "learner_failure_mode": "The learner can infer that the course expects multiple unsupported Python versions and cannot tell whether to use the built-in strict option or the helper.",
+      "minimal_fix": "Assume the canonical Python 3.12 runtime and teach zip(..., strict=True) directly; remove the compatibility helper from core theory.",
+      "rewrite_needed": true,
+      "confidence": 0.97,
+      "cross_section_dependency": "S01 runtime contract"
+    },
+    {
+      "finding_id": "S04-F07",
+      "severity": "P1",
+      "category": "INTERNAL_TECHNICAL_CONTRADICTION",
+      "subtopic_or_location": "T2-A paragraph 2 vs T2-B paragraph 3",
+      "evidence": "T2-A says a while loop must update state each turn and becomes infinite if the condition never becomes false. T2-B later says while True is legitimate when a reachable break terminates it.",
+      "expected_prior_knowledge": "First formal while-loop model.",
+      "actual_problem": "The first rule incorrectly makes 'condition becomes false' the only valid termination mechanism, then the next subtopic contradicts it with break.",
+      "learner_failure_mode": "The learner cannot form one stable rule for proving termination and may incorrectly treat every while True as invalid or believe break somehow changes the truth value of True.",
+      "minimal_fix": "Teach one model: a loop needs a reachable exit path—normally the condition eventually becomes false, or a break/return/exception exits it. In S04 core, emphasize condition progress first and introduce break explicitly afterward.",
+      "rewrite_needed": true,
+      "confidence": 0.99
+    },
+    {
+      "finding_id": "S04-F08",
+      "severity": "P1",
+      "category": "EXAMPLE_DOES_NOT_TEACH_OUTCOME",
+      "subtopic_or_location": "T2-B break_continue.py",
+      "evidence": "The section promises safeguards against infinite loops and recommends MAX iterations, but its code uses a finite for loop. max_n limits len(kept), not iteration count; if every line is SKIP/blank, the loop can execute every input item regardless of max_n. Execution with 1000 SKIP rows and max_n=2 performs 1000 iterations.",
+      "expected_prior_knowledge": "for from T1 and while from T2-A.",
+      "actual_problem": "The worked example does not demonstrate the safeguard it claims to teach.",
+      "learner_failure_mode": "The learner can copy max_n believing it is an iteration safety cap when it only caps accepted items.",
+      "minimal_fix": "Demonstrate a while loop with an explicit iters counter and condition such as while i < len(lines) and iters < MAX_ITERS, then separately demonstrate break/continue on a finite for.",
+      "rewrite_needed": true,
+      "confidence": 0.99
+    },
+    {
+      "finding_id": "S04-F09",
+      "severity": "P2",
+      "category": "TECHNICAL_OVERCLAIM",
+      "subtopic_or_location": "T2-B callout",
+      "evidence": "The callout states that an infinite loop in production 'agota CPU y bloquea el lote'. Infinite loops can block progress and consume resources, but a loop that sleeps or waits for I/O does not necessarily exhaust CPU.",
+      "expected_prior_knowledge": "No operating-systems performance model.",
+      "actual_problem": "A common risk is turned into an absolute hardware claim.",
+      "learner_failure_mode": "The learner can use CPU saturation as a diagnostic criterion for infinite loops and miss loops that are stuck while waiting or sleeping.",
+      "minimal_fix": "Say an unintended infinite loop can prevent progress and may consume CPU or other resources depending on what its body does.",
+      "rewrite_needed": true,
+      "confidence": 0.96
+    },
+    {
+      "finding_id": "S04-F10",
+      "severity": "P1",
+      "category": "TECHNICAL_CONTRADICTION_DENOMINATOR",
+      "subtopic_or_location": "opening paragraphs + T3-A paragraph/callout",
+      "evidence": "The opening makes attempted rows the denominator and explains why processed rows can bias the rate. T3-A prose repeats attempted rows, but its callout says 'Tasa de error = errores / procesados'.",
+      "expected_prior_knowledge": "Basic arithmetic; denominator semantics are the section's main business concept.",
+      "actual_problem": "The callout contradicts the central contract of the entire lesson.",
+      "learner_failure_mode": "The learner receives two formulas for the same metric and cannot know which denominator to implement when early failures exist.",
+      "minimal_fix": "Change the callout to 'errores / registros intentados' and define attempted/processed once if the course needs both terms.",
+      "rewrite_needed": true,
+      "confidence": 1.0
+    },
+    {
+      "finding_id": "S04-F11",
+      "severity": "P2",
+      "category": "ORPHAN_SYNTAX",
+      "subtopic_or_location": "T3-A contadores_tasa.py",
+      "evidence": "The expression 'n_reject / n_total if n_total else None' introduces Python's conditional-expression syntax without explaining it; S03 taught if statements, not this expression form.",
+      "expected_prior_knowledge": "if/elif/else statements are USABLE; conditional expressions are not.",
+      "actual_problem": "A new decision syntax is embedded in the line whose denominator behavior is supposed to be the learning focus.",
+      "learner_failure_mode": "The learner can memorize the one-line pattern without knowing which branch is selected or why None appears for an empty batch.",
+      "minimal_fix": "Use an explicit if/else block already learned in S03, or add a microdefinition only if conditional expressions are intentionally introduced here.",
+      "rewrite_needed": true,
+      "confidence": 0.96
+    },
+    {
+      "finding_id": "S04-F12",
+      "severity": "P1",
+      "category": "EXAMPLE_OVERLOADED_FUTURE_COLLECTIONS",
+      "subtopic_or_location": "T3-B comprehensions_resumen.py",
+      "evidence": "The first comprehension example simultaneously uses a list of dictionaries, dictionary indexing, a list comprehension, set comprehension, dict comprehension, sorted(), and later dict lookup. S06 has not yet taught those structures.",
+      "expected_prior_knowledge": "for/if from S03-S04; no usable dict/set model.",
+      "actual_problem": "The roadmap asks for readable comprehensions, but the example makes three different container kinds and nested record access prerequisites to reading the syntax.",
+      "learner_failure_mode": "A learner cannot tell which parts constitute the comprehension versus which parts are dictionary/set syntax, so the intended compact loop/filter transformation remains opaque.",
+      "minimal_fix": "Teach one list comprehension over a simple flat list first, e.g. positivos = [m for m in montos if m > 0]. Defer dict/set comprehensions and nested records to S06.",
+      "rewrite_needed": true,
+      "confidence": 0.99,
+      "cross_section_dependency": "S06"
+    },
+    {
+      "finding_id": "S04-F13",
+      "severity": "P1",
+      "category": "FORGOTTEN_PREREQUISITE_DEFINITION_DRIFT",
+      "subtopic_or_location": "T4-A paragraph 1",
+      "evidence": "The trace paragraph tells the learner to locate the first frame that 'rompe el invariante'. The effective S03 ledger marks invariant MISCONCEPTION_RISK because S03 defined it as something the program cannot break. S04 does not repair the term before depending on it.",
+      "expected_prior_knowledge": "Only USABLE prior concepts may be assumed; invariant is not one of them.",
+      "actual_problem": "A known-bad prior mental model is imported into debugging as though mastered.",
+      "learner_failure_mode": "The learner can wonder how a trace can ever show an invariant being broken if an invariant was defined as something the program cannot break.",
+      "minimal_fix": "At first reuse say 'la condición que esperabas conservar (el invariante)' and explicitly note that a bug can violate it; the trace helps find the first violation.",
+      "rewrite_needed": true,
+      "confidence": 0.99,
+      "cross_section_dependency": "S03-F08"
+    },
+    {
+      "finding_id": "S04-F14",
+      "severity": "P2",
+      "category": "DEBUGGING_CAUSAL_OVERCLAIM",
+      "subtopic_or_location": "T4-A paragraphs 2-3",
+      "evidence": "The prose says that if a trace does not match the print, the bug is in state update, and if it does not match the summary the bug is in the counter, not the S03 validator.",
+      "expected_prior_knowledge": "Basic tracing only.",
+      "actual_problem": "A trace mismatch can originate in the branch condition, validator output, test data, state update, display code or counter. The evidence given does not isolate one cause.",
+      "learner_failure_mode": "The learner can stop investigating the validator or condition because the lesson told them the counter must be at fault.",
+      "minimal_fix": "Use the trace to locate the first divergent state, then inspect the condition/update that produced that divergence; do not predeclare which component is innocent.",
+      "rewrite_needed": true,
+      "confidence": 0.98
+    },
+    {
+      "finding_id": "S04-F15",
+      "severity": "P1",
+      "category": "TECHNICAL_FALSEHOOD",
+      "subtopic_or_location": "T4-B paragraph 2",
+      "evidence": "The lesson says 'range(len(xs)+1) explota con IndexError'. range(len(xs)+1) is valid and yields 0 through len(xs); IndexError occurs only when that last index is used to access xs[len(xs)].",
+      "expected_prior_knowledge": "First off-by-one debugging model.",
+      "actual_problem": "The wrong operation is blamed for the exception.",
+      "learner_failure_mode": "The learner can expect constructing/iterating the range itself to fail and cannot localize an IndexError to sequence access.",
+      "minimal_fix": "Say 'si usas for i in range(len(xs)+1) para acceder xs[i], la última vuelta intenta xs[len(xs)] y ese acceso lanza IndexError'.",
+      "rewrite_needed": true,
+      "confidence": 1.0
+    },
+    {
+      "finding_id": "S04-F16",
+      "severity": "P2",
+      "category": "TERMINOLOGY_DRIFT",
+      "subtopic_or_location": "T4-B paragraph 2",
+      "evidence": "The lesson labels >= versus > in business thresholds as 'off-by-one de negocio'. This is a boundary/inclusivity error; it is only literally off-by-one for discrete integer boundaries where the threshold differs by one accepted value.",
+      "expected_prior_knowledge": "The learner is forming the term off-by-one for the first time.",
+      "actual_problem": "The term is stretched from index/count mistakes to every inclusive/exclusive policy error.",
+      "learner_failure_mode": "The learner can call any boundary-policy mistake off-by-one and lose the useful distinction between indexing errors and business-rule boundary errors.",
+      "minimal_fix": "Call >= versus > a 'boundary/inclusivity error'; then note that for integer counts it can resemble an off-by-one error.",
+      "rewrite_needed": true,
+      "confidence": 0.95
+    },
+    {
+      "finding_id": "S04-F17",
+      "severity": "P2",
+      "category": "PERSISTENT_WIDOW_TERM_INTERNAL_ID",
+      "subtopic_or_location": "tagline, opening callout and optional contract",
+      "evidence": "CP-N1-A and CASO-LIM-004 continue to appear as learner-facing identifiers without a stable plain-language expansion at first use.",
+      "expected_prior_knowledge": "Earlier occurrences were explicitly not credited as understood.",
+      "actual_problem": "The curriculum's internal identifiers remain part of explanatory prose rather than labels attached to an already-understood artifact.",
+      "learner_failure_mode": "The learner can still treat CP-N1-A/CASO-LIM-004 as tools, files or commands instead of course artifacts.",
+      "minimal_fix": "Expand once: 'CP-N1-A, el proyecto acumulativo de captura y calidad de datos del Nivel 1' and 'CASO-LIM-004, el caso sintético de procesamiento por lotes'.",
+      "rewrite_needed": true,
+      "confidence": 0.97,
+      "cross_section_dependency": "S01-S03 recurring widow-term family"
+    },
+    {
+      "finding_id": "S04-F18",
+      "severity": "P2",
+      "category": "WIDOW_TERM_MISSING_PROCESS_EXPLANATION",
+      "subtopic_or_location": "T2-A paragraph 3",
+      "evidence": "The lesson says browser demos simulate a 'buffer de líneas' without explaining buffer; pipeline/tests/CSV are also used as process labels before their dedicated sections.",
+      "expected_prior_knowledge": "No buffering or data-pipeline architecture.",
+      "actual_problem": "Buffer is central to the while example but is presented as implementation vocabulary rather than a simple temporary collection of pending lines.",
+      "learner_failure_mode": "The learner may search for a special Python buffer type or fail to understand where the lines came from and why an index advances through them.",
+      "minimal_fix": "Say 'una lista que simula las líneas pendientes de leer' and keep pipeline/CSV references context-only or replace them with 'proceso de datos' until their real sections.",
+      "rewrite_needed": true,
+      "confidence": 0.94
+    }
+  ],
+  "execution_checks": [
+    {
+      "check": "range(len(xs)+1)",
+      "result": "For xs of length 3, list(range(len(xs)+1)) is [0,1,2,3]; no exception occurs until xs[3] is accessed.",
+      "supports": "S04-F15"
+    },
+    {
+      "check": "two sequential passes",
+      "result": "Operation count scales as 2n (20, 200, 2000 for n=10,100,1000), therefore remains linear O(n).",
+      "supports": "S04-F03"
+    },
+    {
+      "check": "clean_lines max_n",
+      "result": "With 1000 SKIP inputs and max_n=2, the function executes all 1000 for-iterations because max_n limits kept items, not iterations.",
+      "supports": "S04-F08"
+    }
+  ],
+  "paragraph_reviews": [
+    {"element_id":"S04-meta-title","component_type":"title","current_content":"Iteración y resúmenes transaccionales","status":"major_revision","attack":"'transaccionales' is undefined and narrower/more ambiguous than the actual cross-domain batch-summary lesson.","defense":"Transactions are one later example domain.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F01"],"improved_content":"Iteración y resúmenes por lote","justification":"Names the actual mechanism without implying database/financial transaction semantics."},
+    {"element_id":"S04-meta-tagline","component_type":"tagline","current_content":"for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A","status":"major_revision","attack":"Uses English/internal widow terms before scope is understood.","defense":"for/while are the actual syntax targets.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F01","S04-F17"],"improved_content":"Recorridos con for y while, contadores, comprensiones y cierre del proyecto acumulativo de captura y calidad de datos del Nivel 1.","justification":"Preserves scope while expanding the internal project label."},
+    {"element_id":"S04-meta-job","component_type":"jobRelevance","current_content":"Una regla aplicada a una sola fila es una demostración; aplicada con cuidado a miles de filas es un sistema... procesador por lotes ... en un solo pase, no uno por uno.","status":"major_revision","attack":"Defines batch as not one-by-one, which is false for ordinary sequential loops.","defense":"Likely intended to contrast one manual run per record with one batch run.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F02"],"improved_content":"Una regla aplicada a una sola fila es una demostración; aplicada con cuidado a miles de filas puede convertirse en un proceso por lotes. En un proceso por lotes, una sola ejecución recibe muchos registros y normalmente los recorre uno tras otro dentro de un bucle. Aquí aprenderás cuándo continuar, cuándo detener el recorrido, qué contar y cómo comprobar que el resumen no perdió ni duplicó registros.","justification":"Makes actor, unit of execution and per-record mechanism explicit."},
+
+    {"element_id":"S04-T0-P1","component_type":"paragraph","current_content":"Imagina una cinta transportadora: cada registro entra una vez, recibe una decisión y deja una marca en el resumen...","status":"minor_revision","attack":"Introduces loop, sentinel and rate simultaneously before loop mechanics.","defense":"The conveyor analogy makes the three roles inferable and connects to denominator motivation.","verdict":"REJECTED_FINDING","finding_ids":[],"improved_content":null,"justification":"The local explanation is concrete enough; do not rewrite merely because several named concepts appear."},
+    {"element_id":"S04-T0-P2","component_type":"paragraph","current_content":"Desde S03 ya validas un registro... tres promesas que no pueden romperse...","status":"minor_revision","attack":"'no pueden romperse' inherits the misleading invariant language from S03 and 'cada fila exactamente una vez' needs scope around sentinel/attempted rows.","defense":"The paragraph is expressing desired correctness properties, not Python guarantees.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F13"],"improved_content":"Desde S03 ya clasificas un registro como accept, reject o review. Ahora debes conservar esa política al recorrer muchas filas. Trabajarás con tres condiciones que el proceso debe mantener: cada fila que pertenece al lote intentado se cuenta una sola vez, los contadores cuadran con ese total y el texto original se conserva para poder auditar la decisión. Un bug puede violar estas condiciones; por eso las comprobarás durante el recorrido.","justification":"Repairs the prior invariant misconception and defines the denominator population."},
+    {"element_id":"S04-T0-P3","component_type":"paragraph","current_content":"La segunda promesa ... si divides los aceptados entre los procesados en vez de entre los intentados...","status":"pass","attack":"Could be too domain-specific or rhetorically dramatic.","defense":"It gives a concrete denominator failure mechanism and the opening figure makes the consequence observable.","verdict":"REJECTED_FINDING","finding_ids":[],"improved_content":null,"justification":"Strong causal explanation; preserve it and make later callouts consistent with it."},
+    {"element_id":"S04-T0-P4","component_type":"paragraph","current_content":"Un solo recorrido de la lista basta para todo... si necesitas recorrer dos veces, probablemente estás guardando mal la información...","status":"major_revision","attack":"Confuses O(n) with one-pass-only design.","defense":"One-pass is desirable for the specific counters shown.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F03"],"improved_content":"Para los contadores y acumuladores de este ejemplo, un solo recorrido suele bastar. Ese recorrido es O(n): si duplicas el número de filas, el trabajo crece aproximadamente en la misma proporción. Dos recorridos consecutivos también siguen siendo O(n); el problema aparece cuando repites recorridos innecesarios dentro de otros recorridos y el trabajo crece mucho más rápido.","justification":"Preserves the performance intuition without teaching a false one-pass rule."},
+    {"element_id":"S04-T0-P5","component_type":"paragraph","current_content":"El hilo conductor es un script de intake por lotes... Cuando veas def ... tómalo como una receta con nombre...","status":"major_revision","attack":"Explicitly asks a novice to ignore unearned function syntax rather than removing it.","defense":"The analogy gives a minimal reading aid and signals S05.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F05"],"improved_content":"El hilo conductor es un script de captura por lotes: recibe varias líneas sintéticas, aplica a cada una la decisión aprendida en S03, actualiza el resumen y conserva el texto original. Los ejemplos centrales de S04 pueden escribirse directamente con bucles; las funciones reutilizables y return se estudiarán en S05.","justification":"Removes the hidden prerequisite instead of asking the learner to tolerate it."},
+
+    {"element_id":"S04-OPT-P1","component_type":"paragraph","current_content":"Bloque de referencia. Orden de los subtemas, ritmo y criterio de cierre.","status":"pass","attack":"Meta-like wording could be internal.","defense":"It clearly labels an optional learner-facing map.","verdict":"REJECTED_FINDING","finding_ids":[],"improved_content":null,"justification":"No material learner failure."},
+    {"element_id":"S04-OPT-P2","component_type":"paragraph","current_content":"Orden de los subtemas... for/range ... enumerate/zip ... while ... comprensiones ...","status":"pass","attack":"Lists terms before detailed explanations.","defense":"This is explicitly an optional roadmap; previewing upcoming labels is its function.","verdict":"REJECTED_FINDING","finding_ids":[],"improved_content":null,"justification":"Preview does not claim mastery."},
+    {"element_id":"S04-OPT-P3","component_type":"paragraph","current_content":"Ritmo orientativo (unas 9 horas)...","status":"pass","attack":"Could be motivational filler.","defense":"Defines core versus remaining practice time and reduces pacing uncertainty.","verdict":"REJECTED_FINDING","finding_ids":[],"improved_content":null,"justification":"Functional orientation."},
+    {"element_id":"S04-OPT-P4","component_type":"paragraph","current_content":"Criterio de cierre (CP-N1-A)...","status":"minor_revision","attack":"Internal ID remains unexplained.","defense":"Artifact description follows immediately.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F17"],"improved_content":"Criterio de cierre (CP-N1-A, el proyecto acumulativo de captura y calidad de datos del Nivel 1): procesar el lote, contar con el denominador correcto y conservar el original.","justification":"Makes the ID decipherable at the point of use."},
+    {"element_id":"S04-OPT-P5","component_type":"paragraph","current_content":"Límites. Caso CASO-LIM-004 ... decorators ... módulos, CLI y objetos de dominio...","status":"minor_revision","attack":"Mixes unexplained internal ID with a list of future technical names not needed to understand current scope.","defense":"The purpose is to declare what is out of scope.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F17"],"improved_content":"Límites. CASO-LIM-004 es el caso sintético de procesamiento por lotes de esta sección. Aquí trabajarás solo con datos ficticios. La organización del programa en módulos, su interfaz de línea de comandos y otros temas de arquitectura llegarán después.","justification":"Preserves the boundary while avoiding a future-jargon list."},
+
+    {"element_id":"S04-T1A-P1","component_type":"paragraph","current_content":"Cuando la pregunta es ¿qué hago con cada elemento de una colección conocida?, piensa primero en for...","status":"minor_revision","attack":"Uses collection/sequence before S06.","defense":"A loop requires an iterable; a bounded preview is unavoidable and the sentence conveys 'each element'.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F04"],"improved_content":"Cuando ya tienes varios valores que quieres visitar uno por uno, piensa primero en for. En estos primeros ejemplos usaremos una lista sencilla: una secuencia ordenada escrita entre corchetes. for x in valores toma el siguiente elemento, ejecuta el bloque y repite hasta terminar la secuencia; las listas se estudiarán a fondo en S06.","justification":"Supplies the minimum iterable model needed for S04 without teaching S06 wholesale."},
+    {"element_id":"S04-T1A-P2","component_type":"paragraph","current_content":"range(stop), range(start, stop), range(start, stop, step) producen enteros... stop exclusivo...","status":"pass","attack":"Could overload the first range exposure with three signatures.","defense":"All three share one mental model and the paragraph immediately explains the key exclusive-stop rule.","verdict":"REJECTED_FINDING","finding_ids":[],"improved_content":null,"justification":"Technically sound and locally explained."},
+    {"element_id":"S04-T1A-P3","component_type":"paragraph","current_content":"En lotes ... for registro in filas ... validate_record ... no mutes la lista ... acumula en otra lista ... range(len(...))...","status":"major_revision","attack":"Requires list mutation, append-style accumulation, a future function name and index mechanics before the learner has a usable list model.","defense":"Advice is technically sensible for experienced learners.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F04"],"improved_content":"Para aprender el recorrido, empieza con for valor in valores y observa cada valor directamente. Usa range solo cuando realmente necesites una posición numérica. En S06 aprenderás cómo modificar y construir listas de forma segura; por ahora evita cambiar la secuencia que estás recorriendo.","justification":"Keeps the for-vs-index decision while deferring list operations."},
+
+    {"element_id":"S04-T1B-P1","component_type":"paragraph","current_content":"Dos problemas parecen iguales ... enumerate ... zip...","status":"minor_revision","attack":"'secuencia' and paired return shape are still abstract.","defense":"The paragraph cleanly contrasts numbering vs pairing and says what each tool solves.","verdict":"REJECTED_FINDING","finding_ids":[],"improved_content":null,"justification":"The distinction is pedagogically useful; pair representation can be clarified in the example instead."},
+    {"element_id":"S04-T1B-P2","component_type":"paragraph","current_content":"zip(a,b) empareja ... se detiene en la secuencia más corta ... helper zip_strict...","status":"major_revision","attack":"The default behavior is accurately explained, but the compatibility helper introduces functions/exceptions and an unsupported-runtime path.","defense":"The helper tries to make the failure visible.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F05","S04-F06"],"improved_content":"zip(a, b) recorre dos secuencias en paralelo y produce un par por posición. Por defecto se detiene cuando termina la secuencia más corta, así que puede ocultar una desalineación. Como el curso usa Python 3.12, cuando ambas entradas deben tener la misma longitud usa zip(a, b, strict=True): Python detendrá el recorrido con ValueError si una termina antes.","justification":"Uses the built-in contract and removes future helper syntax."},
+    {"element_id":"S04-T1B-P3","component_type":"paragraph","current_content":"Nunca asumas que dos columnas CSV ... tests de pipeline...","status":"minor_revision","attack":"CSV/pipeline/tests are later concepts and add context the learner cannot yet operationalize.","defense":"They illustrate why silent truncation matters.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F18"],"improved_content":"No asumas que dos grupos de datos tienen la misma longitud solo porque deberían corresponder fila por fila. Cuando esa igualdad sea parte del contrato, usa strict=True para que una diferencia sea visible en vez de perder datos silenciosamente. En S08 aplicarás esta idea a columnas de archivos CSV.","justification":"Preserves future relevance but makes the current mechanism self-contained."},
+
+    {"element_id":"S04-T2A-P1","component_type":"paragraph","current_content":"Elige while cuando conoces la condición de salida, pero no el número de vueltas...","status":"pass","attack":"Examples such as retries/streams are advanced contexts.","defense":"They are ordinary illustrations and the key question—what must change to terminate—is explicit.","verdict":"REJECTED_FINDING","finding_ids":[],"improved_content":null,"justification":"Strong first mental model."},
+    {"element_id":"S04-T2A-P2","component_type":"paragraph","current_content":"Un centinela es un valor especial ... el bucle debe actualizar el estado ... si la condición nunca se vuelve falsa...","status":"major_revision","attack":"Treats condition-false as the only valid loop termination mechanism.","defense":"For the simple conditional while shown next, progress toward false is the intended safe pattern.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F07"],"improved_content":"Un centinela es un valor especial que anuncia el fin, como END. En un while basado en condición, alguna variable debe avanzar de modo que esa condición pueda volverse False; también aprenderás que break puede terminar el bucle de forma explícita. Si no existe ninguna ruta alcanzable de salida, el bucle es infinito.","justification":"One termination model covers both condition-based exits and break."},
+    {"element_id":"S04-T2A-P3","component_type":"paragraph","current_content":"En demos de browser ... simulamos un buffer de líneas ...","status":"major_revision","attack":"Buffer is a widow term and example depends on list indexing/slicing.","defense":"The following sentence explains the read/check/process/update chain.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F04","S04-F18"],"improved_content":"Para que el ejemplo funcione igual en el navegador, usaremos una lista que simula varias líneas pendientes de leer. En cada vuelta tomas la siguiente línea, compruebas si es el centinela y, si no lo es, la procesas. Después avanzas hacia la siguiente. La mecánica de listas se estudiará en S06; aquí importa observar cómo cambia la condición del while.","justification":"Explains source and role of the simulated data without requiring a buffering model."},
+
+    {"element_id":"S04-T2B-P1","component_type":"paragraph","current_content":"Antes de escribir break o continue... continue descarta una vuelta ... break termina el bucle actual...","status":"pass","attack":"'descarta una vuelta' could sound like data deletion.","defense":"The following consequence explains that it skips processing in the current iteration while preserving the loop.","verdict":"REJECTED_FINDING","finding_ids":[],"improved_content":null,"justification":"Core distinction is understandable and correct."},
+    {"element_id":"S04-T2B-P2","component_type":"paragraph","current_content":"Prevención de infinito: actualiza variable, máximo de iteraciones, evita while True...","status":"minor_revision","attack":"The list of safeguards is plausible but the subsequent example does not actually demonstrate MAX iterations.","defense":"As prose, the safeguards themselves are sensible.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F08"],"improved_content":"Para prevenir un while no intencionalmente infinito, identifica una ruta de salida y, cuando el riesgo lo justifique, añade un contador separado de iteraciones. Ese contador debe incrementarse en cada vuelta, incluso cuando la vuelta no conserva ningún dato. El ejemplo siguiente debe mostrar esa protección directamente.","justification":"Defines what an iteration cap actually counts."},
+    {"element_id":"S04-T2B-P3","component_type":"paragraph","current_content":"Un while True con break ... legítimo...","status":"minor_revision","attack":"Contradicts the previous T2-A absolute rule.","defense":"This statement itself is correct.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F07"],"improved_content":"while True puede ser legítimo cuando una condición de salida visible ejecuta break de forma alcanzable. No confíes en que 'algún día' ocurrirá: explica qué evento produce el break y prueba tanto la salida normal como el límite de seguridad cuando corresponda.","justification":"Keeps the valid construct while integrating it with one termination model."},
+
+    {"element_id":"S04-T3A-P1","component_type":"paragraph","current_content":"Un resumen fiable responde tres preguntas... contador, acumulador, búsqueda...","status":"pass","attack":"Three patterns at once could overload.","defense":"They are contrasted by one concrete question each and form a coherent family.","verdict":"REJECTED_FINDING","finding_ids":[],"improved_content":null,"justification":"Clear conceptual differentiation."},
+    {"element_id":"S04-T3A-P2","component_type":"paragraph","current_content":"Para tasas ... errores / n_total solo si n_total > 0 ... intentados...","status":"pass","attack":"Could define empty-batch policy too early.","defense":"Empty batch is necessary to avoid zero division and reinforces denominator semantics.","verdict":"REJECTED_FINDING","finding_ids":[],"improved_content":null,"justification":"Correct and directly aligned."},
+    {"element_id":"S04-T3A-P3","component_type":"paragraph","current_content":"Buscar el primer reject es O(n); contar todos también es O(n)...","status":"minor_revision","attack":"Search for first match is O(n) in worst case, but can finish earlier.","defense":"Introductory Big-O normally states worst-case linear scan behavior.","verdict":"REJECTED_FINDING","finding_ids":[],"improved_content":null,"justification":"Acceptable simplification at this stage; no material repair needed."},
+
+    {"element_id":"S04-T3B-P1","component_type":"paragraph","current_content":"Una comprehension es una frase compacta ...","status":"pass","attack":"Metaphor could be vague.","defense":"It immediately states selection/transformation purpose and when explicit for is clearer.","verdict":"REJECTED_FINDING","finding_ids":[],"improved_content":null,"justification":"Useful mental model."},
+    {"element_id":"S04-T3B-P2","component_type":"paragraph","current_content":"También existen dict y set comprehensions...","status":"major_revision","attack":"Introduces two future container models at the exact first exposure to comprehensions.","defense":"It warns against complexity and is technically correct.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F12"],"improved_content":"En S04 basta con dominar una comprensión de lista sencilla: una expresión, un for y, si hace falta, una condición. Cuando S06 introduzca diccionarios y conjuntos, reutilizarás el mismo patrón para esas estructuras.","justification":"Progressive disclosure: learn one syntax shape before new container types."},
+    {"element_id":"S04-T3B-P3","component_type":"paragraph","current_content":"En el resumen de intake ... rejects = [r for r in results if r['status']=='reject']...","status":"major_revision","attack":"Requires nested dict records and indexing before S06.","defense":"Domain example is authentic.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F12"],"improved_content":"Primero practica con valores planos: montos = [10, -5, 0, 20] y positivos = [m for m in montos if m > 0]. Aquí puedes ver la misma lógica que un for: toma cada m y conserva solo los que cumplen m > 0. En S06 aplicarás la misma idea a registros estructurados.","justification":"Makes the comprehension itself visible without future structure syntax."},
+
+    {"element_id":"S04-T4A-P1","component_type":"paragraph","current_content":"Una traza de estado ... el primer fotograma que rompe el invariante...","status":"major_revision","attack":"Depends on S03 invariant concept known to be misconception-risk.","defense":"Movie-frame analogy for tracing is strong.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F13"],"improved_content":"Una traza de estado convierte el bucle en una película: en cada iteración anotas el dato, las variables antes y después y la decisión. Busca el primer paso donde deja de cumplirse una condición que esperabas conservar; a esa condición la llamaremos invariante. Un bug sí puede violarla, y la traza ayuda a localizar la primera violación.","justification":"Repairs prerequisite while preserving the useful analogy."},
+    {"element_id":"S04-T4A-P2","component_type":"paragraph","current_content":"Antes de pedir ayuda ... si la traza no cuadra con el print, el bug está en actualización del estado...","status":"major_revision","attack":"Preassigns one cause without sufficient evidence.","defense":"Encourages concrete tracing rather than vague blame on Python.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F14"],"improved_content":"Antes de pedir ayuda, traza 3–5 iteraciones con datos concretos. Compara la primera fila donde tu predicción y la ejecución divergen y revisa la condición o actualización que produjo esa diferencia. La traza reduce el espacio de búsqueda; no demuestra por sí sola cuál componente es culpable.","justification":"Retains diagnostic discipline without false causal certainty."},
+    {"element_id":"S04-T4A-P3","component_type":"paragraph","current_content":"TRACE ... logging después ... si traza no cuadra con resumen, bug está en contador, no validador S03...","status":"major_revision","attack":"Again excludes validator without evidence and adds future logging jargon.","defense":"Logging is clearly deferred and the point is to reason before blind fixes.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F14"],"improved_content":"En estas demos puedes imprimir una línea TRACE por iteración para ver cómo cambian los valores. Más adelante aprenderás herramientas de registro más sistemáticas. Si la traza y el resumen divergen, localiza primero la iteración donde aparecen valores distintos y revisa la condición, la decisión y la actualización correspondiente.","justification":"Keeps tracing method and removes unsupported innocence claim."},
+
+    {"element_id":"S04-T4B-P1","component_type":"paragraph","current_content":"Dos programas ... un pase O(n); comparar cada fila con todas las demás O(n²)...","status":"pass","attack":"Could overstate performance importance early.","defense":"Directly matches roadmap T4 and provides a concrete growth contrast.","verdict":"REJECTED_FINDING","finding_ids":[],"improved_content":null,"justification":"Appropriate introductory complexity model after repair of one-pass overclaim."},
+    {"element_id":"S04-T4B-P2","component_type":"paragraph","current_content":"Off-by-one: range(len(xs)) ... range(len(xs)+1) explota con IndexError ... >= vs > también off-by-one de negocio.","status":"major_revision","attack":"Blames range rather than xs access for IndexError and stretches off-by-one terminology into general business-boundary errors.","defense":"The intended examples do show the two common boundary families.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F15","S04-F16"],"improved_content":"Si xs tiene n elementos, sus índices válidos van de 0 a n-1. range(len(xs)) produce justamente esos índices. En cambio, si recorres range(len(xs)+1) y después intentas xs[i], la última vuelta usa i == len(xs) y ese acceso lanza IndexError. En reglas de negocio, confundir >= con > es un error de frontera o inclusividad; en datos enteros puede cambiar un caso justo en el límite.","justification":"Attributes the exception to the real operation and preserves the boundary lesson with correct terminology."},
+    {"element_id":"S04-T4B-P3","component_type":"paragraph","current_content":"Para CP-N1-A ... no recalcules tasa dentro de doble bucle ... si n_total 0 reporta None, no ZeroDivisionError silencioso.","status":"minor_revision","attack":"'ZeroDivisionError silencioso' is contradictory wording; exceptions are not silent, and CP ID is unexplained.","defense":"Core one-pass/empty-batch guidance is correct.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F17"],"improved_content":"Para el proyecto acumulativo CP-N1-A, actualiza los contadores durante el recorrido y calcula la tasa con n_reject / n_total solo cuando n_total > 0. Si el lote está vacío, reporta None según el contrato de esta sección; no intentes dividir entre cero.","justification":"Preserves the rule without unexplained exception rhetoric."}
+  ],
+  "artifact_reviews": [
+    {"element_id":"S04-FIG-OPEN","component_type":"figure","current_content":"3/6=50% versus 3/5=60% denominator figure","status":"pass","attack":"Could introduce processed/attempted terminology without definition.","defense":"The adjacent paragraph explains exactly why the denominator changes and what each population means.","verdict":"REJECTED_FINDING","finding_ids":[],"improved_content":null},
+    {"element_id":"S04-CODE-T1A","component_type":"code","current_content":"for_registros.py uses list-of-dicts, dict indexing, append and range(len)","status":"major_revision","attack":"Example syntax load exceeds the loop concept.","defense":"Outputs are internally consistent.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F04"],"improved_content":"regiones = [\"Lima\", \"Cusco\", \"Arequipa\"]\nfor region in regiones:\n    print(region)\n\nfor i in range(3):\n    print(i)"},
+    {"element_id":"S04-CODE-T1B","component_type":"code","current_content":"enumerate_zip.py defines zip_strict and catches ValueError","status":"major_revision","attack":"Function and exception scaffolding are future knowledge and unnecessary on Python 3.12.","defense":"The mismatch is observable.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F05","S04-F06"],"improved_content":"ids = [\"C001\", \"C002\", \"C003\"]\nregiones = [\"Lima\", \"Cusco\", \"Arequipa\"]\nfor fila, par in enumerate(zip(ids, regiones, strict=True), start=1):\n    print(fila, par)"},
+    {"element_id":"S04-CODE-T2A","component_type":"code","current_content":"while_centinela.py uses list indexing, append and slicing","status":"major_revision","attack":"Collection mechanics dominate first while example.","defense":"Termination state is visible through i.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F04"],"improved_content":"i = 0\nwhile i < 3:\n    print(\"vuelta\", i)\n    i += 1\nprint(\"fin\")"},
+    {"element_id":"S04-CODE-T2B","component_type":"code","current_content":"clean_lines(raw_lines,max_n=100) uses finite for and len(kept)>=max_n","status":"major_revision","attack":"Does not cap iterations or demonstrate infinite-loop prevention.","defense":"It demonstrates break and continue.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F08"],"improved_content":"i = 0\nMAX_ITERS = 5\nwhile i < MAX_ITERS:\n    print(\"vuelta\", i)\n    i += 1\nprint(\"límite alcanzado\")"},
+    {"element_id":"S04-CALLOUT-T3A","component_type":"callout","current_content":"Tasa de error = errores / procesados.","status":"major_revision","attack":"Directly contradicts attempted-row denominator taught in opening and T3-A prose.","defense":"Could mean every attempted row is considered processed, but the opening explicitly distinguishes those groups.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F10"],"improved_content":"Tasa de error = errores / registros intentados. Define una sola vez qué entra en 'intentados' y usa ese mismo denominador en todo el resumen."},
+    {"element_id":"S04-CODE-T3A","component_type":"code","current_content":"tasa = n_reject / n_total if n_total else None","status":"minor_revision","attack":"Conditional expression is unearned syntax.","defense":"It is compact and readable to an experienced Python user.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F11"],"improved_content":"if n_total > 0:\n    tasa = n_reject / n_total\nelse:\n    tasa = None"},
+    {"element_id":"S04-CODE-T3B","component_type":"code","current_content":"comprehensions_resumen.py uses list/set/dict comprehensions over list-of-dicts","status":"major_revision","attack":"Three comprehension kinds plus future data structures obscure first comprehension model.","defense":"All outputs are correct.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F12"],"improved_content":"montos = [10, -5, 0, 20]\npositivos = [m for m in montos if m > 0]\nprint(positivos)"},
+    {"element_id":"S04-CODE-T4A","component_type":"code","current_content":"traza_estado.py uses simple flat list, enumerate and counters","status":"minor_revision","attack":"List/enumerate remain supporting structures but are now locally introduced in S04.","defense":"The code directly visualizes state change and output matches prose.","verdict":"REJECTED_FINDING","finding_ids":[],"improved_content":null},
+    {"element_id":"S04-CODE-T4B","component_type":"code","current_content":"costo_off_by_one.py catches IndexError with try/except","status":"major_revision","attack":"Exception handler is future S09 syntax and the prose already misattributes the cause to range.","defense":"Catching the exception allows the example to continue printing.","verdict":"CONFIRMED_FINDING","finding_ids":["S04-F05","S04-F15"],"improved_content":"xs = [\"a\", \"b\", \"c\"]\nprint(\"cantidad\", len(xs))\nprint(\"último índice válido\", len(xs) - 1)\nprint(\"último valor\", xs[len(xs) - 1])\n# xs[len(xs)] intentaría usar el índice 3 y está fuera de 0..2."}
+  ],
+  "learning_outcome_review": [
+    {"outcome":"Recorrer secuencias con for y range sin off-by-one en el stop exclusivo","status":"PARTIAL","reason":"for/range are explained, but first examples are overloaded by future collection syntax and T4-B misattributes IndexError to range."},
+    {"outcome":"Usar enumerate y zip (incl. strict) sin desalinear columnas de intake","status":"PARTIAL","reason":"Core zip rule is accurate, but teaching is entangled with functions/exceptions and runtime fallback; tuple/pair mechanics are not bounded for the learner."},
+    {"outcome":"Escribir while con centinelas y condición de terminación explícita","status":"PARTIAL","reason":"while purpose is strong, but termination model contradicts later break semantics and example depends on future collection operations."},
+    {"outcome":"Aplicar break/continue y salvaguardas contra bucles infinitos","status":"PARTIAL","reason":"break/continue distinction is usable; the promised iteration safeguard is not actually demonstrated."},
+    {"outcome":"Implementar contadores, acumuladores y búsquedas en un pase O(n)","status":"PARTIAL","reason":"patterns are explained, but opening falsely teaches that two passes imply bad storage and denominator callout contradicts the metric contract."},
+    {"outcome":"Escribir comprehensions legibles para filtros simples de resumen","status":"PARTIAL","reason":"mental model is useful but example jumps immediately to list/set/dict comprehensions over nested dictionaries."},
+    {"outcome":"Trazar el estado de un bucle para depurar contadores","status":"PARTIAL","reason":"trace artifact is good, but invariant prerequisite is not repaired and diagnostic prose overclaims which component must be wrong."},
+    {"outcome":"Distinguir costo lineal vs. cuadrático y corregir off-by-one en índices","status":"PARTIAL","reason":"linear/quadratic contrast is good; off-by-one prose contains a concrete falsehood about range(len(xs)+1)."}
+  ],
+  "concept_ledger_delta": [
+    {"concept":"for loop","state":"USABLE","depth":"CORE_MENTAL_MODEL","credit_in_S05":true,"note":"Core iteration model is locally explainable after removing collection overload."},
+    {"concept":"range","state":"PARTIAL","depth":"CORE_MENTAL_MODEL","credit_in_S05":false,"note":"Exclusive-stop model is good but off-by-one explanation later contains a false attribution."},
+    {"concept":"enumerate","state":"PARTIAL","depth":"MICRO_DEFINITION","credit_in_S05":false,"note":"Purpose is clear; pair/unpacking mechanics rely on future structures."},
+    {"concept":"zip","state":"PARTIAL","depth":"CORE_MENTAL_MODEL","credit_in_S05":false,"note":"Shortest-input truncation is well explained; implementation is overloaded."},
+    {"concept":"while loop","state":"MISCONCEPTION_RISK","depth":"CORE_MENTAL_MODEL","credit_in_S05":false,"note":"Termination rule contradicts break-based termination."},
+    {"concept":"sentinel","state":"USABLE","depth":"MICRO_DEFINITION","credit_in_S05":true,"note":"Special end marker is concretely explained."},
+    {"concept":"break","state":"USABLE","depth":"CORE_MENTAL_MODEL","credit_in_S05":true,"note":"Stops nearest current loop; policy distinction is clear."},
+    {"concept":"continue","state":"USABLE","depth":"CORE_MENTAL_MODEL","credit_in_S05":true,"note":"Skips remaining work in current iteration and continues loop."},
+    {"concept":"iteration safety cap","state":"MISCONCEPTION_RISK","depth":"CORE_MENTAL_MODEL","credit_in_S05":false,"note":"max_n example caps kept items, not iterations."},
+    {"concept":"counter","state":"USABLE","depth":"CORE_MENTAL_MODEL","credit_in_S05":true},
+    {"concept":"accumulator","state":"USABLE","depth":"CORE_MENTAL_MODEL","credit_in_S05":true},
+    {"concept":"linear complexity O(n)","state":"MISCONCEPTION_RISK","depth":"CORE_MENTAL_MODEL","credit_in_S05":false,"note":"One-pass-only overclaim must be repaired."},
+    {"concept":"quadratic complexity O(n^2)","state":"PARTIAL","depth":"MICRO_DEFINITION","credit_in_S05":false},
+    {"concept":"list comprehension","state":"PARTIAL","depth":"CORE_MENTAL_MODEL","credit_in_S05":false,"note":"Definition is useful; worked example is overloaded by future containers."},
+    {"concept":"state trace","state":"PARTIAL","depth":"CORE_MENTAL_MODEL","credit_in_S05":false,"note":"Technique is useful; invariant and diagnosis claims need repair."},
+    {"concept":"off-by-one","state":"MISCONCEPTION_RISK","depth":"CORE_MENTAL_MODEL","credit_in_S05":false,"note":"Range versus indexing cause is taught incorrectly and term is stretched to generic business boundaries."},
+    {"concept":"functions/return","state":"MENTION_ONLY","depth":"CONTEXT_ONLY","credit_in_S05":false,"note":"S05 must still teach from first principles."},
+    {"concept":"lists/dicts/sets/tuples/indexing/unpacking","state":"MENTION_ONLY","depth":"CONTEXT_ONLY","credit_in_S05":false,"note":"S06 must still teach from first principles."},
+    {"concept":"exceptions/try-except/raise","state":"MENTION_ONLY","depth":"CONTEXT_ONLY","credit_in_S05":false,"note":"S09 remains the formal exception section."}
+  ],
+  "rejected_findings": [
+    {"hypothesis":"range materializes a giant list","verdict":"REJECTED_FINDING","reason":"The lesson correctly states that range represents the arithmetic sequence without materializing a giant list."},
+    {"hypothesis":"zip silently truncating is inaccurate","verdict":"REJECTED_FINDING","reason":"Python's default zip stops at the shortest iterable; strict=True raises on unequal lengths."},
+    {"hypothesis":"break/continue semantics are wrong","verdict":"REJECTED_FINDING","reason":"The prose correctly distinguishes skipping the current iteration from terminating the loop."},
+    {"hypothesis":"while True is inherently bad","verdict":"REJECTED_FINDING","reason":"The lesson correctly notes it can be legitimate with an obvious reachable break; the defect is the earlier contradictory termination rule."},
+    {"hypothesis":"the denominator story is pedagogically unnecessary","verdict":"REJECTED_FINDING","reason":"The attempted-versus-processed denominator example is a concrete, relevant reason to learn counters; only the later callout is wrong."},
+    {"hypothesis":"the historical deep-research S04 report is current evidence","verdict":"REJECTED_FINDING","reason":"That report says the exact title/content were unavailable and speculates about I Do/We Do/You Do. Current canonical source proves S04 is 'Iteración y resúmenes transaccionales' and Phase 1 excludes practice."}
+  ],
+  "unresolved_questions": [
+    {
+      "classification":"AMBIGUOUS_CURRICULUM_ARCHITECTURE",
+      "question":"Roadmap S04 gate says the final script processes records via stdin/stdout, while roadmap S10 explicitly teaches stdin/stdout/CLI. Theory S04 simulates a browser buffer and does not teach stdin/stdout. Decide whether S04 needs only batch-loop semantics or a bounded stdin/stdout micro-model.",
+      "requires_source_validation":true
+    },
+    {
+      "classification":"NEEDS_E4_RENDER",
+      "question":"Exact live rendered order/visual relationship of figures, callouts and code could not be verified because the public page fetch is blocked in the current environment.",
+      "requires_source_validation":true
+    }
+  ],
+  "three_primary_failure_causes": [
+    "Future structures/functions/exceptions are used as scaffolding for first-time iteration concepts.",
+    "Several core technical rules are internally false or contradictory: one-pass O(n), while termination, denominator vocabulary and range/IndexError causality.",
+    "Worked examples frequently demonstrate a more complex implementation surface than the specific loop concept they are supposed to isolate."
+  ],
+  "summary": {
+    "overall_comprehension_grade_before": "D",
+    "overall_comprehension_grade_after_if_minimal_repairs_applied": "B",
+    "elements_reviewed": 54,
+    "material_findings": 18,
+    "P0": 0,
+    "P1": 9,
+    "P2": 9,
+    "P3": 0,
+    "release_recommendation": "fail",
+    "next_section": "S05"
+  }
+}
