@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "patch_id": "patch-009",
+  "applies_after": [
+    "audit/lessons-only/lesson_audit_log.json",
+    "audit/lessons-only/lesson_audit_log.patch-001.json",
+    "audit/lessons-only/lesson_audit_log.patch-002.json",
+    "audit/lessons-only/lesson_audit_log.patch-003.json",
+    "audit/lessons-only/lesson_audit_log.patch-004.json",
+    "audit/lessons-only/lesson_audit_log.patch-005.json",
+    "audit/lessons-only/lesson_audit_log.patch-006.json",
+    "audit/lessons-only/lesson_audit_log.patch-007.json",
+    "audit/lessons-only/lesson_audit_log.patch-008.json",
+    "audit/lessons-only/sections/S09.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "operations": [
+    {"op":"replace","path":"/coverage/S09/status","from":"PENDING","to":"AUDITED_REPAIR_REQUIRED"},
+    {"op":"add_section_shard","section":"S09","path":"audit/lessons-only/sections/S09.json","canonical_file":"src/lib/course/sections/s09-visualization.ts","canonical_blob_sha":"fa09d05db11edc94238253353605e297f23b8c56","verdict":"REPAIR_REQUIRED","severity_counts":{"P0":0,"P1":12,"P2":10,"P3":0},"material_findings":22,"elements_reviewed":79,"paragraphs_reviewed":36},
+    {"op":"advance_next_round","from":"S09","to":"S10"},
+    {"op":"extend_concept_ledger","source":"audit/lessons-only/sections/S09.json#/concept_ledger_delta","credit_rule_for_next_section":"Only concepts with state USABLE may be assumed in S10. PARTIAL, MENTION_ONLY, MISCONCEPTION_RISK and MISSING receive no automatic prerequisite credit."}
+  ],
+  "effective_campaign_state": {
+    "sections_inspected": 9,
+    "canonical_sections": 52,
+    "coverage_percent": 17.3076923077,
+    "section_status": {
+      "S01":"AUDITED_REPAIR_REQUIRED",
+      "S02":"AUDITED_REPAIR_REQUIRED",
+      "S03":"AUDITED_REPAIR_REQUIRED",
+      "S04":"AUDITED_REPAIR_REQUIRED",
+      "S05":"AUDITED_REPAIR_REQUIRED",
+      "S06":"AUDITED_REPAIR_REQUIRED",
+      "S07":"AUDITED_REPAIR_REQUIRED",
+      "S08":"AUDITED_REPAIR_REQUIRED",
+      "S09":"AUDITED_REPAIR_REQUIRED",
+      "S10-S52":"PENDING"
+    },
+    "known_material_findings_before_global_deduplication": {"P0":0,"P1":86,"P2":94,"P3":0,"total":180},
+    "note_on_counts":"Running local counts only. Mandatory global passes may merge recurring root causes, reject false positives or change severity when later dependency evidence is available."
+  },
+  "S10_entry_watchlist": [
+    "S10 is the canonical module/import/packaging/CLI section. Imports used repeatedly in S01-S09 remain MENTION_ONLY and cannot be treated as mastered.",
+    "S10 must explicitly repair process exit semantics. S08 and S09 both caught fatal exceptions, printed labels such as exit != 0/fatal/abort, and nevertheless terminated with actual process status 0.",
+    "The S10 CLI boundary must separate library exceptions, top-level exception handling, stderr/stdout and observable non-zero exit status. Logging an error is not equivalent to failing the process.",
+    "if __name__ == '__main__' appeared in S01 but remains MENTION_ONLY; S10 must teach it from first principles.",
+    "Traceback reading, fail-fast and log.exception remain MISCONCEPTION_RISK from S09 and cannot be silently assumed in CLI error-handler examples.",
+    "Logging levels are USABLE, but structured LogRecord fields, correlation propagation and PII-safe exception logging are not.",
+    "Custom exception classes remain MENTION_ONLY because class/inheritance semantics are canonically S11. S10 should not use OO scaffolding as a hidden prerequisite.",
+    "JSON, provenance and deterministic manifest semantics remain PARTIAL/MISCONCEPTION_RISK from S08; configuration examples need local bridges.",
+    "Idempotency and retry remain MISCONCEPTION_RISK; S10 commands must not assume retry safety merely because S09 displayed a retry helper.",
+    "CP-N1-C/CASO identifiers remain a persistent widow-term family unless expanded globally."
+  ],
+  "next_round": "S10",
+  "must_re_read_review_contract": true,
+  "must_re_read_comprehension_contract": true,
+  "status": "EFFECTIVE_RUNNING_LOG_ADVANCED_TO_S09"
+}
