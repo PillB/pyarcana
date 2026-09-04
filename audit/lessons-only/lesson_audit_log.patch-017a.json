@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "patch_id": "patch-017a",
+  "applies_after": [
+    "audit/lessons-only/lesson_audit_log.patch-017.json",
+    "audit/lessons-only/sections/S17.patch-001.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "operations": [
+    {
+      "op": "extend_section_shard",
+      "section": "S17",
+      "base_path": "audit/lessons-only/sections/S17.json",
+      "paragraph_audit_paths": [
+        "audit/lessons-only/sections/S17.paragraphs-01.json",
+        "audit/lessons-only/sections/S17.paragraphs-02.json"
+      ],
+      "extension_path": "audit/lessons-only/sections/S17.patch-001.json",
+      "effective_verdict": "REPAIR_REQUIRED",
+      "effective_severity_counts": {"P0":0,"P1":13,"P2":8,"P3":0},
+      "effective_material_findings": 21,
+      "paragraphs_reviewed": 38
+    },
+    {
+      "op": "replace_running_counts_after_extended_S17",
+      "from": {"P0":0,"P1":190,"P2":164,"P3":1,"total":355},
+      "to": {"P0":0,"P1":192,"P2":164,"P3":1,"total":357}
+    },
+    {
+      "op": "keep_next_round",
+      "section": "S18",
+      "note": "patch-017 already advanced the cursor; this reconciliation does not audit or advance S18."
+    }
+  ],
+  "effective_campaign_state": {
+    "sections_inspected": 17,
+    "canonical_sections": 52,
+    "coverage_percent": 32.692,
+    "section_status": {"S01-S17":"AUDITED_REPAIR_REQUIRED","S18-S52":"PENDING"},
+    "known_findings_before_global_deduplication": {"P0":0,"P1":192,"P2":164,"P3":1,"total":357},
+    "material_findings_before_global_deduplication": 356,
+    "note_on_counts": "S17 effective counts include the append-only S17.patch-001 adversarial extension. Mandatory global passes may still merge recurring root causes, reject false positives or change severity."
+  },
+  "S18_entry_watchlist_additions": [
+    "Do not inherit `>>` as any comparison notation: S17 used Python's bit-shift operator as prose shorthand inside an operational gate.",
+    "Do not treat rolling-window semantics as fully learned: S17's T3-B prose says window=2 while its code/output use rolling(3).",
+    "Do not trust S17 reconciliation evidence merely because prose promises `diff`/`reconciled`; the canonical code does not emit those fields and is disconnected from the upstream fixture."
+  ],
+  "next_round": "S18",
+  "status": "EFFECTIVE_RUNNING_LOG_RECONCILED_AFTER_S17_EXTENSION"
+}
