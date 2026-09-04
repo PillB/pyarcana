@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "patch_id": "patch-015",
+  "applies_after": [
+    "audit/lessons-only/lesson_audit_log.json",
+    "audit/lessons-only/lesson_audit_log.patch-001.json",
+    "audit/lessons-only/lesson_audit_log.patch-002.json",
+    "audit/lessons-only/lesson_audit_log.patch-003.json",
+    "audit/lessons-only/lesson_audit_log.patch-004.json",
+    "audit/lessons-only/lesson_audit_log.patch-005.json",
+    "audit/lessons-only/lesson_audit_log.patch-006.json",
+    "audit/lessons-only/lesson_audit_log.patch-007.json",
+    "audit/lessons-only/lesson_audit_log.patch-008.json",
+    "audit/lessons-only/lesson_audit_log.patch-009.json",
+    "audit/lessons-only/lesson_audit_log.patch-010.json",
+    "audit/lessons-only/lesson_audit_log.patch-011.json",
+    "audit/lessons-only/lesson_audit_log.patch-012.json",
+    "audit/lessons-only/lesson_audit_log.patch-013.json",
+    "audit/lessons-only/lesson_audit_log.patch-014.json",
+    "audit/lessons-only/sections/S15.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "operations": [
+    {"op":"replace","path":"/coverage/S15/status","from":"PENDING","to":"AUDITED_REPAIR_REQUIRED"},
+    {"op":"add_section_shard","section":"S15","path":"audit/lessons-only/sections/S15.json","canonical_file":"src/lib/course/sections/s15-stdlib-deep.ts","canonical_blob_sha":"8893619b6ffc639ad0bdb6764675147c2d63e284","audit_blob_sha":"b02dd5f410e2aba96041614fa01f413fa8354d2a","verdict":"REPAIR_REQUIRED","severity_counts":{"P0":0,"P1":10,"P2":8,"P3":0},"material_findings":18,"theory_blocks_reviewed":11,"paragraphs_reviewed":38},
+    {"op":"advance_next_round","from":"S15","to":"S16"},
+    {"op":"extend_concept_ledger","source":"audit/lessons-only/sections/S15.json#/concept_ledger_delta","credit_rule_for_next_section":"Only concepts with state USABLE may be assumed in S16. PARTIAL, MENTION_ONLY, MISCONCEPTION_RISK and MISSING receive no automatic prerequisite credit."}
+  ],
+  "effective_campaign_state": {
+    "sections_inspected": 15,
+    "canonical_sections": 52,
+    "coverage_percent": 28.846,
+    "section_status": {
+      "S01-S15":"AUDITED_REPAIR_REQUIRED",
+      "S16-S52":"PENDING"
+    },
+    "known_material_findings_before_global_deduplication": {"P0":0,"P1":164,"P2":149,"P3":0,"total":313},
+    "note_on_counts":"Running local counts only. Mandatory global passes may merge recurring root causes, reject false positives or change severity when later dependency evidence is available."
+  },
+  "S16_entry_watchlist": [
+    "Do not inherit schema-driven ingestion as USABLE: S15's schema dict is not applied generically.",
+    "Do not assume row/column reconciliation is an executable gate; it is only stated in S15 theory.",
+    "Do not infer source mixed types merely from object dtype.",
+    "Use pandas-3 CoW/ChainedAssignmentError semantics, not SettingWithCopyWarning.",
+    "Do not assume a Parquet round-trip was completed.",
+    "Do not treat S15 manifest as sufficient lineage; input hash/parser/schema provenance remain open.",
+    "Keep client identity separate from transaction-row identity when S16 adds quality contracts.",
+    "Do not treat projection/filter pushdown as automatic merely because storage is Parquet.",
+    "Level-1 closure remains unproven despite being in Level 2."
+  ],
+  "next_round": "S16",
+  "must_re_read_review_contract": true,
+  "must_re_read_comprehension_contract": true,
+  "status": "EFFECTIVE_RUNNING_LOG_ADVANCED_TO_S15"
+}
