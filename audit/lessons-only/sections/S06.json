@@ -1,0 +1,737 @@
+{
+  "schema_version": "1.2.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S06",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s06-numpy.ts",
+  "canonical_blob_sha": "1bfc15554a36d343ceefed9d9a1a004dabf12b55",
+  "title": "Colecciones y estructuras de datos",
+  "short_title": "Colecciones",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "learner_entry_state": {
+    "baseline": "ZERO_TECH_CAPABLE",
+    "prior_sections": ["S01", "S02", "S03", "S04", "S05"],
+    "credit_rule": "Only concepts marked USABLE in the effective prior ledger count as learned.",
+    "usable": ["for", "sentinel", "break", "continue", "counter", "accumulator", "return", "docstring", "pure-function mental model", "LEGB", "comparisons", "truthiness", "if/elif/else"],
+    "not_creditable": ["lists/tuples/dicts/sets", "slicing", "unpacking", "aliasing/copy", "exceptions/try-except/raise", "lambda", "generator expressions", "nested comprehensions", "JSON", "module/import mental model", "correct invariant mental model", "fully correct complexity model"]
+  },
+  "roadmap_expectation": {
+    "prerequisite": "S5",
+    "T1": "lists and tuples; slicing, unpacking, aliasing and copy",
+    "T2": "dictionaries; sets, membership and deduplication",
+    "T3": "nested structures, traversal, safe access and missing values",
+    "T4": "sorting/key, structure choice, intuitive complexity and determinism",
+    "later_boundaries": {
+      "S07": "strings and Unicode",
+      "S08": "files, CSV, JSON and ingestion contracts",
+      "S09": "exceptions and error recovery",
+      "S10": "modules/imports and CLI"
+    }
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/",
+    "status": "NEEDS_E4_RENDER",
+    "note": "Public fetch was blocked with DisabledError; no exact hydrated-render parity claim is made."
+  },
+  "adversarial_review": {
+    "most_likely_beginner_failure": "The learner leaves S06 believing that a slice or shallow merge creates an independently editable copy of nested records, even though the row dictionaries are still shared.",
+    "suspected_hidden_prerequisite": "Exception syntax, lambda, generator expressions, variadic *args, modules/imports and JSON are used as explanatory machinery before their canonical teaching points.",
+    "most_likely_misconception": "That container copying, tuple immutability and deterministic serialization provide deeper guarantees than Python actually gives."
+  },
+  "severity_counts": {"P0": 0, "P1": 10, "P2": 10, "P3": 0},
+  "verdict": "REPAIR_REQUIRED",
+  "confirmed_findings": [
+    {
+      "finding_id": "S06-F01",
+      "severity": "P2",
+      "category": "PERSISTENT_WIDOW_TERM",
+      "subtopic_or_location": "tagline + opening + callouts",
+      "evidence": "CP-N1-B/gate continue to appear as internal curriculum identifiers without a stable learner-facing expansion.",
+      "expected_prior_knowledge": "No internal project-code vocabulary.",
+      "actual_problem": "The learner can understand the surrounding collection concept but not what deliverable CP-N1-B denotes.",
+      "learner_failure_mode": "The learner cannot tell whether CP-N1-B is a file, exercise, project phase, tool or assessment gate.",
+      "minimal_fix": "Expand once as 'CP-N1-B, el segundo incremento del proyecto acumulativo del Nivel 1' and use the short code afterwards.",
+      "rewrite_needed": true,
+      "confidence": 0.99
+    },
+    {
+      "finding_id": "S06-F02",
+      "severity": "P2",
+      "category": "TECHNICAL_TERMINOLOGY_CONFLATION",
+      "subtopic_or_location": "opening callout + T4-B callout",
+      "evidence": "The lesson groups list, tuple, dict and set together with copy/json as items 'de la biblioteca estándar'. The first four are built-in types; copy and json are standard-library modules that require import.",
+      "expected_prior_knowledge": "No module/import model; imports are formally later.",
+      "actual_problem": "The text blurs language built-ins with importable library modules.",
+      "learner_failure_mode": "A beginner can infer that list/dict/set are library modules analogous to copy/json or expect a similar import step.",
+      "minimal_fix": "Say 'tipos incorporados list/tuple/dict/set y los módulos copy/json de la biblioteca estándar'.",
+      "rewrite_needed": true,
+      "confidence": 0.98
+    },
+    {
+      "finding_id": "S06-F03",
+      "severity": "P1",
+      "category": "MISCONCEPTION_RISK_SHALLOW_COPY",
+      "subtopic_or_location": "T1-A slicing + T1-B shallow copy + T2-A dict merge",
+      "evidence": "T1-A says a slice creates a new list; T1-B narrows shallow-copy risk to tags/contacts/'campos anidados'; T2-A says {**base, **override} preserves the original. In all three cases nested row/config objects can remain shared.",
+      "expected_prior_knowledge": "This section itself is responsible for the first usable copy/reference model.",
+      "actual_problem": "The outer container versus inner-object boundary is not kept explicit across slicing, list.copy and dict unpacking.",
+      "learner_failure_mode": "A learner can mutate ventana[0]['region'] or merged['opts']['retry'] and expect the source structure to remain independent, but the source changes because the inner dict is shared.",
+      "minimal_fix": "State that slicing/list.copy/dict-unpacking create a new outer container but normally reuse references to nested objects; show one top-level row-field mutation through the copy.",
+      "rewrite_needed": true,
+      "confidence": 1.0,
+      "execution_evidence": "A rows[:] copy of a list containing a dict shared that dict; changing window[0]['region'] changed rows[0]['region']. A {**base} merge shared a nested opts dict; changing merged['opts'] changed base['opts']."
+    },
+    {
+      "finding_id": "S06-F04",
+      "severity": "P1",
+      "category": "FUTURE_KNOWLEDGE_LEAK",
+      "subtopic_or_location": "T1-A last_n code",
+      "evidence": "The first slicing example actively uses 'raise ValueError' even though exceptions/raise remain MENTION_ONLY and the roadmap reserves exception mechanics for S09.",
+      "expected_prior_knowledge": "Functions are only partially consolidated; exception control flow is not usable.",
+      "actual_problem": "The canonical first slicing worked example depends on an error-signalling mechanism the learner cannot yet explain.",
+      "learner_failure_mode": "The learner can copy 'raise ValueError' as a ritual but cannot predict where control goes, why the function stops or how a caller sees that failure.",
+      "minimal_fix": "Keep T1-A focused on valid n values; describe n>=0 as a precondition, or add an explicit bounded micro-definition of raise before using it and defer catching to S09.",
+      "rewrite_needed": true,
+      "confidence": 0.98,
+      "cross_section_dependency": "S06 -> S09"
+    },
+    {
+      "finding_id": "S06-F05",
+      "severity": "P2",
+      "category": "EXAMPLE_OVERLOADED",
+      "subtopic_or_location": "T1-A slicing_txs.py",
+      "evidence": "The first slicing example also introduces list-of-dicts, a list comprehension and any(generator expression), although generator expressions were never taught and S04 comprehensions remained PARTIAL.",
+      "expected_prior_knowledge": "for is usable; comprehensions are only partial; generator expressions are new.",
+      "actual_problem": "The learner must decode unrelated compact iteration syntax to verify the slice result.",
+      "learner_failure_mode": "The learner may understand rows[-3:] but fail to predict the output because '[r[...] for ...]' and 'any(... for ...)' become additional unknown mechanisms.",
+      "minimal_fix": "Print the three ids with an explicit for loop; remove any(generator) from the first slice example.",
+      "rewrite_needed": true,
+      "confidence": 0.97
+    },
+    {
+      "finding_id": "S06-F06",
+      "severity": "P1",
+      "category": "TECHNICAL_CONTRADICTION",
+      "subtopic_or_location": "T1-B paragraph 1",
+      "evidence": "The paragraph first correctly says Python only checks the number of unpacked elements and that swapped region/monto values unpack without error, then says the ValueError for wrong arity 'impide que una región termine silenciosamente en la variable del monto'.",
+      "expected_prior_knowledge": "Basic variable binding and tuple/list sequence concepts introduced here.",
+      "actual_problem": "Arity validation is presented as if it also validates semantic column meaning.",
+      "learner_failure_mode": "A learner can believe successful unpacking proves that each position contains the intended kind of field, even though ('C001', 10, 'Lima') binds 10 to region and 'Lima' to monto without error.",
+      "minimal_fix": "Replace the final claim: ValueError detects wrong element count, not swapped semantics; semantic validation needs a separate contract/check.",
+      "rewrite_needed": true,
+      "confidence": 1.0,
+      "execution_evidence": "('C001', 10, 'Lima') unpacked successfully as cid='C001', region=10, monto='Lima'."
+    },
+    {
+      "finding_id": "S06-F07",
+      "severity": "P2",
+      "category": "TECHNICAL_OVERCLAIM",
+      "subtopic_or_location": "T1-B paragraph 3",
+      "evidence": "The text says 'deepcopy separa todo el grafo'. Python deepcopy recursively copies compound data but deliberately memoizes shared references and returns some immutable/special objects unchanged; it can also copy more than desired.",
+      "expected_prior_knowledge": "First deep-copy mental model.",
+      "actual_problem": "The absolute wording implies universal total object independence.",
+      "learner_failure_mode": "A learner can infer that deepcopy guarantees every reachable object is a distinct new object and that all sharing relationships disappear.",
+      "minimal_fix": "Scope the claim to the course data model: deepcopy recursively copies nested mutable containers so edits to those copied containers do not reach the original; it is broader and more expensive than a shallow copy and is not a universal isolation guarantee.",
+      "rewrite_needed": true,
+      "confidence": 0.96
+    },
+    {
+      "finding_id": "S06-F08",
+      "severity": "P2",
+      "category": "MISCONCEPTION_RISK",
+      "subtopic_or_location": "T1-A paragraph 1 tuple model",
+      "evidence": "A tuple is described as a fixed route/container that helpers read without modifying, but no boundary states that tuple immutability prevents replacing its slots, not mutation of a mutable object stored inside a slot.",
+      "expected_prior_knowledge": "This is the first canonical tuple lesson.",
+      "actual_problem": "The learner is likely to generalize tuple immutability deeply.",
+      "learner_failure_mode": "A learner can expect t=([1], 'x') to prevent t[0].append(2), but the inner list changes normally.",
+      "minimal_fix": "Add one sentence: the tuple's positions are fixed, but a mutable object stored inside can still change.",
+      "rewrite_needed": true,
+      "confidence": 0.94,
+      "execution_evidence": "A tuple containing a list remained the same tuple while append modified the inner list."
+    },
+    {
+      "finding_id": "S06-F09",
+      "severity": "P2",
+      "category": "DEFINITION_DRIFT_INVARIANT",
+      "subtopic_or_location": "T2-A paragraph 2",
+      "evidence": "'d[k] expresa un invariante: la clave debe existir, y KeyError denuncia que el programa rompió esa promesa' reuses the still-broken invariant concept from S03 and makes syntax itself appear to express a domain guarantee.",
+      "expected_prior_knowledge": "Invariant remains MISCONCEPTION_RISK from S03.",
+      "actual_problem": "Bracket lookup means 'raise KeyError if absent'; whether absence is a bug depends on the surrounding contract, not the brackets themselves.",
+      "learner_failure_mode": "A learner can classify every missing bracket lookup as a violated program invariant rather than ask whether missing was expected input and whether get/explicit validation was appropriate.",
+      "minimal_fix": "Say: use d[k] when the surrounding contract guarantees that key; use get or an explicit check when absence is a legitimate case.",
+      "rewrite_needed": true,
+      "confidence": 0.95,
+      "cross_section_dependency": "S03 invariant -> S06 dict access"
+    },
+    {
+      "finding_id": "S06-F10",
+      "severity": "P2",
+      "category": "POOR_INFORMATION_ORDER",
+      "subtopic_or_location": "T2-A paragraph 1",
+      "evidence": "The first detailed dictionary explanation introduces '{c['id']: c for c in filas}' before showing the learner the basic key:value construction model; comprehension syntax was only PARTIAL in S04.",
+      "expected_prior_knowledge": "Dictionary is new; comprehension is not usable.",
+      "actual_problem": "The first representation of a mapping is simultaneously a new collection type and a not-yet-mastered transformation syntax.",
+      "learner_failure_mode": "The learner can understand the library-catalog analogy yet still be unable to parse where a key ends, where its value comes from and why later duplicates overwrite earlier ones.",
+      "minimal_fix": "Show one literal {'C001': fila1, 'C002': fila2} first, then derive the comprehension after key/value semantics are stable.",
+      "rewrite_needed": true,
+      "confidence": 0.97
+    },
+    {
+      "finding_id": "S06-F11",
+      "severity": "P1",
+      "category": "TECHNICAL_OVERCLAIM_INFORMATION_LOSS",
+      "subtopic_or_location": "T3-A paragraph 2 + flatten_txs",
+      "evidence": "The prose says 'Aplanar cambia la vista, no la verdad'. The one-row-per-transaction flattening drops a client entirely when that client has zero transactions unless another representation preserves that parent row.",
+      "expected_prior_knowledge": "Nested list/dict model taught in the same subtopic.",
+      "actual_problem": "Flattening is described as representation-only even though it can change what information is recoverable.",
+      "learner_failure_mode": "A learner can export only the flattened transaction table and later assume it still proves that a zero-transaction client existed; that client has disappeared from the rows.",
+      "minimal_fix": "Say flattening changes representation and can lose parent-level facts unless they are repeated or retained separately; explicitly mention clients with zero transactions.",
+      "rewrite_needed": true,
+      "confidence": 1.0,
+      "execution_evidence": "A client C002 with txs=[] produced no flattened row, so C002 was absent from the flattened client_id set."
+    },
+    {
+      "finding_id": "S06-F12",
+      "severity": "P1",
+      "category": "TECHNICAL_CONTRADICTION_MISSING_SENTINEL",
+      "subtopic_or_location": "T3-B prose + get_nested code",
+      "evidence": "The subtopic's purpose is to distinguish missing from present-empty/present-None, but get_nested defaults to None and the example uses the ordinary string 'MISSING' as sentinel. A present value None is indistinguishable from missing when default is omitted, and a real value 'MISSING' is indistinguishable from missing when that string is used as default.",
+      "expected_prior_knowledge": "Identity/None distinction was introduced earlier; this is the canonical nested-missing lesson.",
+      "actual_problem": "The helper's default interface does not preserve the exact distinction the prose says it centralizes.",
+      "learner_failure_mode": "The learner can report a present value as absent or fail to tell a missing key from a legitimate string equal to the chosen sentinel.",
+      "minimal_fix": "Use a unique private sentinel object (e.g. MISSING = object()) and explain identity checking, or return a separate found/value pair; do not make None the default when None is a legitimate present value.",
+      "rewrite_needed": true,
+      "confidence": 1.0,
+      "execution_evidence": "Present phone='MISSING' and absent phone both returned 'MISSING'; present phone=None and absent phone both returned None when the default argument was not supplied."
+    },
+    {
+      "finding_id": "S06-F13",
+      "severity": "P1",
+      "category": "FUTURE_KNOWLEDGE_LEAK",
+      "subtopic_or_location": "T3-B get_nested signature",
+      "evidence": "def get_nested(d, *keys, default=None) uses variadic positional parameter collection (*keys). S05 introduced '*' only as the keyword-only separator, not *args collection semantics.",
+      "expected_prior_knowledge": "Parameter binding remains PARTIAL; variadic parameters are not taught.",
+      "actual_problem": "The canonical safe-access example depends on a new function-signature mechanism with a different meaning for * from the one just shown in S05.",
+      "learner_failure_mode": "The learner can misread *keys as the S05 keyword-only separator or be unable to explain why multiple key arguments become one iterable inside the function.",
+      "minimal_fix": "Accept a single path sequence: get_nested(d, keys, default=...) and call it with ('profile','phone'); teach *args later.",
+      "rewrite_needed": true,
+      "confidence": 0.99
+    },
+    {
+      "finding_id": "S06-F14",
+      "severity": "P2",
+      "category": "BROKEN_BACK_REFERENCE",
+      "subtopic_or_location": "T4-A paragraph 3",
+      "evidence": "The lesson says 'Normaliza el monto en S05 y ordena después'. S05's canonical policies are nombre, email, telefono and direccion; it does not teach amount normalization.",
+      "expected_prior_knowledge": "Learner trusts explicit section references.",
+      "actual_problem": "The learner is sent backward to a lesson that does not contain the claimed teaching.",
+      "learner_failure_mode": "The learner cannot locate the promised amount-normalization rule and may infer an unstated earlier requirement.",
+      "minimal_fix": "Remove the false section number: 'convierte y valida el monto como número antes de ordenarlo'.",
+      "rewrite_needed": true,
+      "confidence": 1.0,
+      "cross_section_dependency": "S06 -> false reference to S05"
+    },
+    {
+      "finding_id": "S06-F15",
+      "severity": "P1",
+      "category": "PREREQUISITE_LEAK_LAMBDA",
+      "subtopic_or_location": "T4-A sorted_key.py",
+      "evidence": "Both canonical sorting helpers use lambda as the key function. Lambda was only mentioned incidentally in S05 and never gained a usable model.",
+      "expected_prior_knowledge": "Named function definition is partial; lambda is MENTION_ONLY.",
+      "actual_problem": "The outcome 'sorted(..., key=)' is taught through a different function-definition syntax that the learner cannot yet explain.",
+      "learner_failure_mode": "The learner can memorize 'key=lambda r:' without understanding that key receives one record and must return the comparison value.",
+      "minimal_fix": "Use named key functions first: def region_name(r): return (r['region'], r['nombre']); pass key=region_name. Lambda can be an optional compact form later.",
+      "rewrite_needed": true,
+      "confidence": 0.99
+    },
+    {
+      "finding_id": "S06-F16",
+      "severity": "P2",
+      "category": "MISCONCEPTION_BOUNDARY_MISSING",
+      "subtopic_or_location": "T2-A/T4-B dictionary order and determinism",
+      "evidence": "The section correctly warns that sets do not promise report order and later says not to pretend dictionaries are random, but never positively states that modern Python dictionaries preserve insertion order.",
+      "expected_prior_knowledge": "This is the first canonical dict lesson.",
+      "actual_problem": "The learner lacks a stable contrast: set has no sequence order contract; dict preserves insertion order, yet canonical business order may still require sorting.",
+      "learner_failure_mode": "The learner can either treat dictionaries as random like sets or wrongly infer that insertion order itself is the desired business/canonical order.",
+      "minimal_fix": "Add one sentence in T2-A: dict preserves insertion order in the supported Python version, but sort explicitly when the output contract requires a different canonical order.",
+      "rewrite_needed": true,
+      "confidence": 0.96
+    },
+    {
+      "finding_id": "S06-F17",
+      "severity": "P1",
+      "category": "EXAMPLE_OVERLOADED_NESTED_COMPREHENSION",
+      "subtopic_or_location": "T3-A flatten_txs",
+      "evidence": "The first nested-structure flatten example uses a list comprehension with two for clauses and dict construction in the output expression. S04 comprehensions remained PARTIAL and nested comprehensions were not taught.",
+      "expected_prior_knowledge": "for is USABLE; nested collection concepts are new.",
+      "actual_problem": "The example compresses the relationship traversal precisely when the learner needs to see parent->child traversal step by step.",
+      "learner_failure_mode": "The learner may reproduce the flat output while being unable to trace which client owns each transaction or why zero-child parents disappear.",
+      "minimal_fix": "Use explicit nested for loops and append first; only show the comprehension after the traversal model is stable.",
+      "rewrite_needed": true,
+      "confidence": 0.99
+    },
+    {
+      "finding_id": "S06-F18",
+      "severity": "P1",
+      "category": "FUTURE_KNOWLEDGE_LEAK_ROADMAP_SCOPE_DRIFT",
+      "subtopic_or_location": "learning outcome + opening + T4-B",
+      "evidence": "S06 promises 'producir JSON determinista' and imports/serializes JSON, while roadmap V3 places files/CSV/JSON in S08 and ZERO_TECH does not know JSON. S06 itself says S08 will connect the model to CSV and JSON.",
+      "expected_prior_knowledge": "No JSON mental model.",
+      "actual_problem": "A future data format becomes a core S06 outcome without defining what JSON represents, which Python values map to it or what serialization means.",
+      "learner_failure_mode": "The learner can copy json.dumps options without understanding what is being serialized or why JSON key order differs from list order.",
+      "minimal_fix": "Keep S06's outcome as deterministic Python structures/order and defer JSON serialization to S08; alternatively, explicitly revise the roadmap and provide a minimal JSON model before code.",
+      "rewrite_needed": true,
+      "confidence": 1.0,
+      "cross_section_dependency": "S06 -> S08"
+    },
+    {
+      "finding_id": "S06-F19",
+      "severity": "P1",
+      "category": "EXAMPLE_CONTRADICTS_PROSE",
+      "subtopic_or_location": "T4-B deterministic output",
+      "evidence": "The prose says to sort clients by ID and then serialize with sort_keys=True. dump_deterministic only sorts body['ids']; it does not sort a 'clients' list or arbitrary order-sensitive nested lists.",
+      "expected_prior_knowledge": "Determinism is a core S06 outcome.",
+      "actual_problem": "The helper name and explanation imply a general canonicalizer that the code does not implement.",
+      "learner_failure_mode": "Two logically equivalent payloads whose clients arrive in different orders produce different strings, even though the learner was told the function yields canonical deterministic output.",
+      "minimal_fix": "Either narrow the helper/name to the shown payload contract ('sort_ids_then_dump') or explicitly sort every order-sensitive collection required by the declared schema before serialization.",
+      "rewrite_needed": true,
+      "confidence": 1.0,
+      "execution_evidence": "Payloads differing only in clients list order produced different json.dumps strings because the helper sorts only the 'ids' field."
+    },
+    {
+      "finding_id": "S06-F20",
+      "severity": "P2",
+      "category": "MICRO_DEFINITION_MISSING_IMPORT",
+      "subtopic_or_location": "T1-B import copy; T4-B import json",
+      "evidence": "The theory uses 'import copy' and 'import json' although the module/import mental model remains MENTION_ONLY and formal module teaching is S10.",
+      "expected_prior_knowledge": "No usable module/import model.",
+      "actual_problem": "The code relies on names introduced by import without explaining where copy.deepcopy/json.dumps come from.",
+      "learner_failure_mode": "The learner can think copy or json are special syntax rather than modules whose functions become reachable after import.",
+      "minimal_fix": "For copy, add a one-sentence micro-definition: 'copy es un módulo incluido con Python; import copy hace disponibles funciones como copy.deepcopy'. If JSON is deferred per F18, remove the second case from S06.",
+      "rewrite_needed": true,
+      "confidence": 0.96,
+      "cross_section_dependency": "S06 -> S10"
+    }
+  ],
+  "rejected_findings": [
+    {
+      "hypothesis": "range/list complexity claims in S06 are inherently wrong",
+      "verdict": "REJECTED_FINDING",
+      "reason": "The list-membership O(n), dict/set average O(1) and n-by-n repeated-list-search explanations are appropriately qualified for this level."
+    },
+    {
+      "hypothesis": "sets have stable insertion order like dictionaries",
+      "verdict": "REJECTED_FINDING",
+      "reason": "The lesson is correct to refuse a report-order guarantee for set; Python documents set as unordered."
+    },
+    {
+      "hypothesis": "dictionary duplicate keys in a comprehension are detected as conflicts automatically",
+      "verdict": "REJECTED_FINDING",
+      "reason": "The lesson correctly warns that later values replace earlier ones; Python specifies last value wins."
+    },
+    {
+      "hypothesis": "list.sort returning None is an error in the lesson",
+      "verdict": "REJECTED_FINDING",
+      "reason": "The lesson correctly distinguishes sorted() returning a new list from list.sort() mutating in place and returning None."
+    },
+    {
+      "hypothesis": "sorted stability claim is wrong",
+      "verdict": "REJECTED_FINDING",
+      "reason": "Python guarantees stable sorting; equal-key items preserve relative order."
+    },
+    {
+      "hypothesis": "the old deep-research-report-6 accurately describes current S06 as pandas/DataFrames",
+      "verdict": "REJECTED_FINDING",
+      "reason": "Historical report inferred a pandas topic without canonical source access. Current canonical S06 is collections/data structures; historical inference is non-canonical evidence."
+    },
+    {
+      "hypothesis": "the developer comment about historical filename is a learner-facing meta leak",
+      "verdict": "REJECTED_FINDING",
+      "reason": "It is a TypeScript source comment outside the exported learner-facing fields; no evidence shows it renders."
+    }
+  ],
+  "unresolved_questions": [
+    {
+      "status": "NEEDS_E4_RENDER",
+      "question": "Does the hydrated public page render the same theory ordering and all figure/callout text as main?",
+      "reason": "Public site fetch is blocked in this environment."
+    },
+    {
+      "status": "AMBIGUOUS_CURRICULUM_ARCHITECTURE",
+      "question": "Should S06 intentionally introduce a minimal exception signal/import model, or should raise/import-heavy demonstrations be moved to their canonical later lessons?",
+      "reason": "S06 legitimately needs deepcopy and missing-key behavior, but exception/modules are later roadmap topics."
+    }
+  ],
+  "minimal_repairs": [
+    "Make outer-container versus nested-object sharing explicit for slices, list.copy and dict merges.",
+    "Remove raise/exception machinery from the first slicing example or add a bounded micro-model explicitly approved by the curriculum.",
+    "Correct unpacking prose: wrong arity is detected; wrong semantic positions are not.",
+    "Scope tuple immutability and deepcopy claims precisely.",
+    "Introduce dictionary literals/key:value mapping before dict comprehensions.",
+    "Rewrite flattening with explicit nested loops and state what information zero-child parents lose.",
+    "Use an unambiguous sentinel protocol for nested missing values and remove unintroduced *args syntax.",
+    "Remove the false S05 amount-normalization reference.",
+    "Teach sorted(key=...) with a named key function before lambda.",
+    "State dict insertion-order semantics and distinguish them from canonical business ordering.",
+    "Defer JSON to S08 or provide an explicit roadmap-approved JSON mental model.",
+    "Make deterministic-output code implement exactly the order guarantees the prose claims.",
+    "Expand CP-N1-B and distinguish built-ins from imported standard-library modules."
+  ],
+  "concept_ledger_delta": [
+    {"concept_id":"collections_list","term":"list","first_use_section":"S06","depth":"CORE_MENTAL_MODEL","state":"USABLE","notes":"Ordered mutable outer-container model is taught, but sharing/copy boundaries need repair."},
+    {"concept_id":"collections_tuple","term":"tuple","first_use_section":"S06","depth":"CORE_MENTAL_MODEL","state":"PARTIAL","notes":"Fixed-slot intuition works; deep immutability boundary is missing."},
+    {"concept_id":"slicing","term":"slicing","first_use_section":"S06","depth":"CORE_MENTAL_MODEL","state":"MISCONCEPTION_RISK","notes":"New outer list is taught without consistently stating shared nested references."},
+    {"concept_id":"unpacking","term":"unpacking","first_use_section":"S06","depth":"CORE_MENTAL_MODEL","state":"MISCONCEPTION_RISK","notes":"Arity check is incorrectly described as preventing semantic field swaps."},
+    {"concept_id":"aliasing","term":"aliasing","first_use_section":"S06","depth":"CORE_MENTAL_MODEL","state":"USABLE","notes":"Assignment-as-shared-object analogy is strong and executable."},
+    {"concept_id":"shallow_copy","term":"shallow copy","first_use_section":"S06","depth":"CORE_MENTAL_MODEL","state":"MISCONCEPTION_RISK","notes":"Outer/inner sharing boundary is inconsistently stated."},
+    {"concept_id":"deepcopy","term":"deepcopy","first_use_section":"S06","depth":"MICRO_DEFINITION","state":"PARTIAL","notes":"Recursive isolation is introduced with an overly absolute claim."},
+    {"concept_id":"dict","term":"dict","first_use_section":"S06","depth":"CORE_MENTAL_MODEL","state":"USABLE","notes":"Key->value lookup and duplicate overwrite are explained; first syntax should be simplified."},
+    {"concept_id":"dict_get","term":"dict.get","first_use_section":"S06","depth":"CORE_MENTAL_MODEL","state":"PARTIAL","notes":"Expected absence idea works; nested sentinel protocol is flawed."},
+    {"concept_id":"set","term":"set","first_use_section":"S06","depth":"CORE_MENTAL_MODEL","state":"USABLE","notes":"Membership/dedup/set operations and no-order contract are taught coherently."},
+    {"concept_id":"hashable","term":"hashable","first_use_section":"S06","depth":"MICRO_DEFINITION","state":"USABLE","notes":"Practical key/member explanation is sufficient for current use."},
+    {"concept_id":"nested_structures","term":"nested structures","first_use_section":"S06","depth":"CORE_MENTAL_MODEL","state":"PARTIAL","notes":"Tree relation model is useful; flattening example compresses traversal and overclaims information preservation."},
+    {"concept_id":"missing_vs_empty","term":"missing vs present-empty/None","first_use_section":"S06","depth":"CORE_MENTAL_MODEL","state":"MISCONCEPTION_RISK","notes":"Prose distinction is strong but canonical helper can collapse states through default/sentinel collisions."},
+    {"concept_id":"sorted_key","term":"sorted(key=)","first_use_section":"S06","depth":"CORE_MENTAL_MODEL","state":"PARTIAL","notes":"Stable/key-function semantics are correct; lambda is an unearned prerequisite."},
+    {"concept_id":"dict_insertion_order","term":"dict insertion order","first_use_section":"S06","depth":"MICRO_DEFINITION","state":"MISSING","notes":"Needed to contrast set ordering and canonical sort order."},
+    {"concept_id":"determinism_output","term":"deterministic output","first_use_section":"S06","depth":"CORE_MENTAL_MODEL","state":"MISCONCEPTION_RISK","notes":"Canonical helper does not sort all collections the prose claims."},
+    {"concept_id":"json","term":"JSON","first_use_section":"S06","depth":"CORE_MENTAL_MODEL","state":"MENTION_ONLY","notes":"Used as an outcome before canonical S08 teaching; no JSON model supplied."},
+    {"concept_id":"lambda","term":"lambda","first_use_section":"S05","depth":"CONTEXT_ONLY","state":"MENTION_ONLY","notes":"S06 relies on it as key-function syntax without prior teaching."},
+    {"concept_id":"varargs","term":"*args / variadic positional parameters","first_use_section":"S06","depth":"CONTEXT_ONLY","state":"MENTION_ONLY","notes":"Appears as *keys in the canonical safe-access helper without explanation."},
+    {"concept_id":"import_module","term":"import/module","first_use_section":"S01","depth":"MICRO_DEFINITION","state":"MENTION_ONLY","notes":"S06 still uses import copy/json without a usable module model; formal teaching remains S10."}
+  ],
+  "paragraph_reviews": [
+    {
+      "location":"opening.p1",
+      "current_content":"Imagina un centro internacional de ayuda que recibe fichas sintéticas de envíos. Tres preguntas aparecen antes de abrir un archivo: «¿en qué orden llegaron?», «¿dónde está la ficha C002?» y «¿ya vimos este ID?». Una secuencia conserva el orden; un dict actúa como índice; un set responde pertenencia. Esas estructuras no compiten: cada una resuelve una pregunta distinta.",
+      "attack":"Could the three new container names be widow terms?",
+      "defense":"The same paragraph gives each a concrete question/function and the following subsections deepen them.",
+      "verdict":"SIN_CAMBIO",
+      "improved_content":"Imagina un centro internacional de ayuda que recibe fichas sintéticas de envíos. Tres preguntas aparecen antes de abrir un archivo: «¿en qué orden llegaron?», «¿dónde está la ficha C002?» y «¿ya vimos este ID?». Una secuencia conserva el orden; un dict actúa como índice; un set responde pertenencia. Esas estructuras no compiten: cada una resuelve una pregunta distinta."
+    },
+    {
+      "location":"opening.p2",
+      "current_content":"En S04 aprendiste a recorrer datos y en S05 a encerrar reglas en funciones. Ahora compones ambas destrezas en un modelo tabular en memoria: clientes con contactos y transacciones, una tabla de acceso por ID y un registro separado de conflictos. Piensa en él como una mesa de clasificación temporal, no como una base de datos diminuta ni como una colección de trucos aislados.",
+      "attack":"Does it falsely assume lists were mastered?",
+      "defense":"It references traversal/functions, which are previous topics, and immediately supplies a concrete mental model for the new in-memory structure.",
+      "verdict":"SIN_CAMBIO",
+      "improved_content":"En S04 aprendiste a recorrer datos y en S05 a encerrar reglas en funciones. Ahora compones ambas destrezas en un modelo tabular en memoria: clientes con contactos y transacciones, una tabla de acceso por ID y un registro separado de conflictos. Piensa en él como una mesa de clasificación temporal, no como una base de datos diminuta ni como una colección de trucos aislados."
+    },
+    {
+      "location":"opening.p3",
+      "current_content":"La sección sigue la vida de una fila y en cada tramo hay una propiedad que no se puede perder. Primero el orden: recortar una parte de la secuencia no debe alterar el original por accidente. Después la identidad: buscar un cliente por su ID y detectar repetidos sin borrar la evidencia de que hubo un choque. Luego la relación entre entidades, donde aparece la distinción que más confunde al principio, la de un campo ausente frente a un campo presente pero vacío. Y al final la reproducibilidad: ordenar y guardar de forma que dos corridas den byte por byte el mismo archivo. Antes de cada ejemplo, pregúntate cuál de esas cuatro cosas está en juego.",
+      "attack":"The phrase about slicing could imply deep isolation and byte-for-byte files foreshadows future JSON/files.",
+      "defense":"As a roadmap paragraph the properties are useful, but the slice and serialization guarantees need tighter boundaries in the relevant subtopics.",
+      "verdict":"MINOR_REVISION",
+      "finding_ids":["S06-F03","S06-F18"],
+      "improved_content":"La sección sigue la vida de una fila y protege cuatro propiedades. Primero el orden: obtener otra lista con una parte de la secuencia no debe reordenar ni acortar la lista original, aunque los objetos contenidos puedan seguir compartidos hasta que estudies la copia en T1-B. Después la identidad: buscar un cliente por su ID y detectar repetidos sin borrar la evidencia del choque. Luego la relación entre entidades: distinguir un campo ausente de uno presente pero vacío. Al final trabajarás la reproducibilidad del orden dentro de Python; la serialización a archivos JSON se estudiará en S08."
+    },
+    {
+      "location":"opening.p4",
+      "current_content":"Trabajarás solo con la biblioteca estándar y datos sintéticos (`example.com`, IDs `C00x`). El objetivo de CP-N1-B es poder explicar por qué elegiste cada estructura y demostrar sus límites con una salida observable. En S08 conectarás este modelo a CSV y JSON. Por ahora, una buena decisión en memoria vale más que una biblioteca potente usada sin criterio.",
+      "attack":"CP-N1-B is unexplained and 'biblioteca estándar' blurs built-ins/modules.",
+      "defense":"The privacy constraint and future S08 boundary are otherwise clear.",
+      "verdict":"MAJOR_REVISION",
+      "finding_ids":["S06-F01","S06-F02","S06-F18"],
+      "improved_content":"Trabajarás con los tipos incorporados `list`, `tuple`, `dict` y `set`, además del módulo `copy` incluido con Python, siempre con datos sintéticos (`example.com`, IDs `C00x`). El objetivo de **CP-N1-B, el segundo incremento del proyecto acumulativo del Nivel 1**, es que puedas explicar por qué elegiste cada estructura y demostrar sus límites con una salida observable. En S08 conectarás este modelo a archivos CSV y JSON."
+    },
+    {
+      "location":"T1-A.p1",
+      "current_content":"Una secuencia se parece a una fila de vagones: la posición forma parte del significado. Una list permite añadir o retirar vagones, por eso sirve para una cola de registros que crece. Una tuple conserva un trayecto fijo; úsala para headers o claves que varios helpers deben leer sin modificarlas. La pregunta práctica no es «¿cuál es mejor?», sino «¿debe cambiar este contenedor?».",
+      "attack":"Tuple wording may imply deep immutability.",
+      "defense":"The fixed-position analogy is useful, but a one-sentence boundary is needed in a mutability lesson.",
+      "verdict":"MINOR_REVISION",
+      "finding_ids":["S06-F08"],
+      "improved_content":"Una secuencia se parece a una fila de vagones: la posición forma parte del significado. Una `list` permite añadir, quitar o reemplazar posiciones. Una `tuple` fija sus posiciones: no puedes reasignar `t[0]`. Sin embargo, si una posición contiene un objeto mutable —por ejemplo, una lista— ese objeto interior sí puede cambiar. Elige preguntando qué parte de la estructura necesita cambiar."
+    },
+    {
+      "location":"T1-A.p2",
+      "current_content":"Un slice es una ventana sobre esa fila, no una operación sobre cada elemento. txs[-3:] crea una lista nueva con las tres últimas transacciones y deja intacta la original. Predice los bordes antes de ejecutar: una lista vacía produce []; n == 0 necesita tratamiento explícito porque rows[-0:] equivale a copiar todo; y n < 0 contradice el contrato de «últimas N».",
+      "attack":"'Lista nueva' can be read as independently editable nested data.",
+      "defense":"The operation truly does not mutate the original outer list, but the shared inner-object boundary is essential here.",
+      "verdict":"MAJOR_REVISION",
+      "finding_ids":["S06-F03"],
+      "improved_content":"Un slice selecciona posiciones de una secuencia. `txs[-3:]` crea **otra lista exterior** con referencias a las tres últimas transacciones y no cambia la longitud ni el orden de `txs`. Si esas transacciones son diccionarios mutables, ambas listas todavía apuntan a los mismos diccionarios; modificar uno de ellos se verá desde las dos. Para `n == 0`, evita `rows[-0:]`, porque equivale a copiar toda la lista; `n < 0` contradice el contrato de «últimas N»."
+    },
+    {
+      "location":"T1-A.p3",
+      "current_content":"Buscar con x in una_lista obliga a avanzar hasta encontrar el valor o llegar al final: costo O(n). Para una comprobación ocasional es una decisión sencilla y legible. Repetirla miles de veces dentro de otro bucle transforma esa sencillez en trabajo cuadrático; T2 mostrará cómo un set o un dict cambia la pregunta de «recorrer» a «consultar un índice».",
+      "attack":"Could O(n) be too advanced or false?",
+      "defense":"S04 introduced complexity and the mechanism is concrete; average/worst boundaries are adequate for current pedagogy.",
+      "verdict":"SIN_CAMBIO",
+      "improved_content":"Buscar con `x in una_lista` obliga a avanzar hasta encontrar el valor o llegar al final: costo O(n). Para una comprobación ocasional es una decisión sencilla y legible. Repetirla miles de veces dentro de otro bucle transforma esa sencillez en trabajo cuadrático; T2 mostrará cómo un `set` o un `dict` cambia la pregunta de «recorrer» a «consultar un índice»."
+    },
+    {
+      "location":"T1-B.p1",
+      "current_content":"El desempaquetado convierte la posición en nombres: id_cliente, region, monto = fila documenta el shape —con un límite que conviene saber: Python solo comprueba cuántos elementos hay, no qué significan, así que una fila con la región y el monto intercambiados se desempaqueta sin error y con los nombres cruzados— (la forma de la fila: qué tipo de dato va en cada posición) mejor que tres índices sueltos. Si sobran o faltan valores, Python detiene la operación con ValueError. Ese fallo temprano es una alarma útil: impide que una región termine silenciosamente en la variable del monto. head, *rest = fila sirve cuando solo la primera columna es fija y el resto puede variar.",
+      "attack":"The paragraph contradicts itself and is grammatically tangled.",
+      "defense":"The intended arity-versus-semantics distinction is recoverable but the final claim reverses it.",
+      "verdict":"MAJOR_REVISION",
+      "finding_ids":["S06-F06"],
+      "improved_content":"El **desempaquetado** asigna posiciones a nombres: `id_cliente, region, monto = fila`. Python sí comprueba la **cantidad** de elementos: si sobran o faltan, la operación termina con `ValueError`. Pero no sabe qué significa cada posición. Una fila `('C001', 10, 'Lima')` se desempaqueta sin error y deja `region = 10` y `monto = 'Lima'`. Por eso el desempaquetado documenta la forma esperada, pero la validación semántica sigue siendo una responsabilidad aparte. `head, *rest = fila` sirve cuando solo la primera posición es fija y quieres reunir las restantes."
+    },
+    {
+      "location":"T1-B.p2",
+      "current_content":"Una asignación no fotocopia el objeto; solo añade otra etiqueta. Si dos etiquetas de equipaje apuntan a la misma maleta, abrirla mediante cualquiera revela el mismo contenido. Así funciona b = a: a y b son nombres del mismo contenedor. El error del principiante es interpretar dos variables como dos historias independientes y descubrir la mutación mucho después.",
+      "attack":"Could the luggage analogy misrepresent binding?",
+      "defense":"It correctly conveys aliasing for the mutable-container use at hand and aligns with Python's assignment semantics.",
+      "verdict":"SIN_CAMBIO",
+      "improved_content":"Una asignación no fotocopia el objeto; solo añade otra etiqueta. Si dos etiquetas de equipaje apuntan a la misma maleta, abrirla mediante cualquiera revela el mismo contenido. Así funciona `b = a`: `a` y `b` son nombres del mismo contenedor. El error del principiante es interpretar dos variables como dos historias independientes y descubrir la mutación mucho después."
+    },
+    {
+      "location":"T1-B.p3",
+      "current_content":"La copia superficial crea un contenedor exterior nuevo, pero conserva referencias a los objetos interiores. Basta si solo reordenas filas; no basta si modificarás tags, contactos u otros campos anidados. deepcopy separa todo el grafo, aunque consume más memoria y puede ocultar una arquitectura demasiado mutable. Decide el nivel de aislamiento antes de mutar y prueba la identidad que esperas conservar.",
+      "attack":"Risk is too narrowly described and deepcopy is absolute.",
+      "defense":"Opening sentence is correct; the repair is localized rather than a full rewrite.",
+      "verdict":"MAJOR_REVISION",
+      "finding_ids":["S06-F03","S06-F07"],
+      "improved_content":"La copia superficial crea un contenedor exterior nuevo, pero mantiene referencias a los objetos que contiene. Si copias una lista de diccionarios, puedes reordenar la lista copiada sin reordenar la original, pero **cualquier cambio dentro de uno de esos diccionarios compartidos** también aparecerá desde la original. `copy.deepcopy` copia recursivamente las estructuras mutables de este modelo de datos y ofrece más aislamiento, a cambio de más trabajo y memoria; úsalo cuando ese aislamiento sea realmente el contrato."
+    },
+    {
+      "location":"T2-A.p1",
+      "current_content":"Una lista responde «¿qué llegó primero?»; un diccionario responde «¿qué registro corresponde a esta clave?». Piensa en el catálogo de una biblioteca: nadie recorre todos los estantes para localizar un código conocido. {c['id']: c for c in filas} construye ese catálogo con acceso O(1) promedio. Pero hay una frontera peligrosa: si el ID se repite, la última fila reemplaza a la anterior sin ceremonia. Detecta el conflicto antes de indexar.",
+      "attack":"The first dict syntax is a dict comprehension, not a basic mapping literal.",
+      "defense":"The catalog model and duplicate-overwrite rule are correct; syntax order is the defect.",
+      "verdict":"MINOR_REVISION",
+      "finding_ids":["S06-F10"],
+      "improved_content":"Una lista responde «¿qué llegó primero?»; un diccionario responde «¿qué registro corresponde a esta clave?». Un `dict` guarda pares **clave → valor**, por ejemplo `{'C001': fila_1, 'C002': fila_2}`. Así puedes localizar directamente el valor asociado con una clave. Cuando ese modelo esté claro, una comprensión como `{c['id']: c for c in filas}` puede construir el índice automáticamente. Si una clave se repite, el valor posterior reemplaza al anterior, por lo que debes detectar conflictos antes de convertir IDs repetidos en un índice único."
+    },
+    {
+      "location":"T2-A.p2",
+      "current_content":"d[k] expresa un invariante: la clave debe existir, y un KeyError denuncia que el programa rompió esa promesa. d.get(k, default) expresa una ausencia esperada. No los uses como sinónimos. Además, k in d pregunta por claves, no por calidad: 'email' in cliente confirma que el casillero existe; no confirma que contenga una dirección válida.",
+      "attack":"Syntax is treated as if it creates an invariant; prior invariant model is already unsafe.",
+      "defense":"The bracket-versus-get contrast is pedagogically useful and should be preserved with corrected causality.",
+      "verdict":"MINOR_REVISION",
+      "finding_ids":["S06-F09"],
+      "improved_content":"Usa `d[k]` cuando el **contrato que rodea ese dato** garantiza que la clave debe existir; si no existe, Python produce `KeyError`, una señal de que el dato no cumplió esa expectativa. Usa `d.get(k, default)` cuando la ausencia sea un caso previsto que quieras representar con un valor alternativo. Además, `k in d` solo confirma que la clave existe: no demuestra que su valor sea válido."
+    },
+    {
+      "location":"T2-A.p3",
+      "current_content":"Al fusionar configuraciones, la precedencia es una regla de negocio disfrazada de sintaxis. {**base, **override} dice que el override gana y conserva intacto el original. base.update(override) puede ser correcto si la mutación es deliberada y local; sobre un diccionario compartido produce fallos distantes. Antes del merge, formula la pregunta que un test debe responder: ¿qué valor gana y qué objeto debe permanecer sin cambios?",
+      "attack":"'Conserva intacto' overstates independence for nested values.",
+      "defense":"The outer dictionaries are not mutated by the display itself; a shallow-copy boundary fixes the overclaim.",
+      "verdict":"MAJOR_REVISION",
+      "finding_ids":["S06-F03"],
+      "improved_content":"Al fusionar configuraciones, la precedencia es una regla de negocio. `{**base, **override}` crea un **diccionario exterior nuevo** y, para claves repetidas, el valor de `override` gana. No modifica directamente `base`, pero los valores anidados mutables pueden seguir compartidos con los diccionarios de origen. `base.update(override)` sí modifica `base` en el sitio. Antes de elegir, decide qué objeto debe permanecer sin cambios y hasta qué profundidad necesitas aislamiento."
+    },
+    {
+      "location":"T2-B.p1",
+      "current_content":"Un set se parece a una lista de invitados que solo responde pertenencia: un nombre está o no está, sin posición ni payload asociado (el payload es el dato que acompañaría a la clave, como el valor en un dict). Por eso resuelve unión, intersección y diferencia de cohortes con claridad. Sus elementos deben ser hashables (que pueden usarse como claves de un dict o miembros de un set, como strings o enteros); las listas y diccionarios mutables no pueden convertirse directamente en miembros.",
+      "attack":"Hashable could be widow jargon.",
+      "defense":"The sentence provides the exact practical capability needed now and concrete examples; deeper hashing internals are not required.",
+      "verdict":"SIN_CAMBIO",
+      "improved_content":"Un `set` se parece a una lista de invitados que solo responde pertenencia: un nombre está o no está, sin posición ni payload asociado (el *payload* es el dato que acompañaría a la clave, como el valor en un `dict`). Por eso resuelve unión, intersección y diferencia de cohortes con claridad. Sus elementos deben ser **hashables**: valores que Python puede usar de forma estable como claves de un `dict` o miembros de un `set`, como strings o enteros. Las listas y diccionarios mutables no pueden ser miembros de un `set`."
+    },
+    {
+      "location":"T2-B.p2",
+      "current_content":"La deduplicación de negocio exige una segunda pregunta: «¿la fila repetida cuenta la misma historia?». Dos copias idénticas pueden tratarse como ruido; el mismo ID con otra región o email es un conflicto. Un set de IDs detecta la repetición, pero no conserva suficiente evidencia para compararla. El patrón unique + conflicts guarda la primera vista y registra cualquier desacuerdo en vez de decretar en silencio que «la última gana».",
+      "attack":"Could identical duplicates always be safely discarded?",
+      "defense":"The wording says 'pueden tratarse' rather than making a universal policy, and explicitly preserves conflicting evidence.",
+      "verdict":"SIN_CAMBIO",
+      "improved_content":"La deduplicación de negocio exige una segunda pregunta: «¿la fila repetida cuenta la misma historia?». Dos copias idénticas pueden tratarse como ruido; el mismo ID con otra región o email es un conflicto. Un `set` de IDs detecta la repetición, pero no conserva suficiente evidencia para compararla. El patrón `unique + conflicts` guarda la primera vista y registra cualquier desacuerdo en vez de decretar en silencio que «la última gana»."
+    },
+    {
+      "location":"T2-B.p3",
+      "current_content":"Los sets tampoco prometen un orden apto para un informe. Ordena sus elementos al mostrar o serializar: el propósito no es embellecer la salida, sino hacerla reproducible. Si el mismo lote genera distinto texto en dos corridas, un diff no puede distinguir un cambio real de una casualidad de orden. Predice qué información perderías si redujeras todo el registro a set(ids).",
+      "attack":"Is unordered-set claim technically correct?",
+      "defense":"Yes; the reporting/canonicalization motivation is appropriate and diff is already a usable S01 concept.",
+      "verdict":"SIN_CAMBIO",
+      "improved_content":"Los `set` tampoco prometen un orden apto para un informe. Ordena sus elementos al mostrarlos. El propósito no es embellecer la salida, sino hacerla reproducible: un `diff` debería reflejar cambios del negocio, no variaciones de presentación. Predice qué información perderías si redujeras todo el registro a `set(ids)`. La serialización a JSON llegará en S08."
+    },
+    {
+      "location":"T3-A.p1",
+      "current_content":"Un cliente no es una fila aislada: posee contactos y transacciones. Una estructura anidada representa esa relación como un árbol pequeño: el diccionario del cliente es el tronco y sus listas son ramas. El doble for no es complejidad accidental; sigue una arista real, cliente → transacción. Mientras el shape esté documentado, list[dict] basta para razonar sin introducir clases antes de necesitarlas.",
+      "attack":"Prior S04 complexity misconception could make any nested loop look O(n²); shape/list[dict] are terse.",
+      "defense":"The tree analogy is useful and the loop follows real child collections; a small complexity clarification improves continuity.",
+      "verdict":"MINOR_REVISION",
+      "improved_content":"Un cliente puede contener contactos y transacciones. Una estructura anidada representa esa relación como un árbol pequeño: el diccionario del cliente es el tronco y sus listas son ramas. Recorrer clientes y, dentro de cada cliente, **sus propias transacciones** no implica automáticamente O(n²): el trabajo depende del total de clientes y de transacciones visitadas. Mientras la forma esperada esté documentada, una lista de diccionarios basta para razonar sin introducir clases todavía."
+    },
+    {
+      "location":"T3-A.p2",
+      "current_content":"Aplanar cambia la vista, no la verdad. Para producir una fila por transacción repites client_id junto a tx_id y monto; esa repetición deliberada conserva el vínculo cuando desaparece el árbol. Si omites client_id, obtienes montos huérfanos. Antes de exportar, cuenta contactos y transacciones: los totales son una prueba sencilla de que el recorrido no perdió ramas.",
+      "attack":"Flattening can lose parent facts, notably parents with zero children.",
+      "defense":"Repeating client_id protects the parent link for rows that exist, but does not preserve zero-child parents.",
+      "verdict":"MAJOR_REVISION",
+      "finding_ids":["S06-F11"],
+      "improved_content":"Aplanar **cambia la representación y puede perder información si no decides qué conservar**. Si produces una fila por transacción, repite `client_id` junto a `tx_id` y `monto` para conservar el vínculo de cada transacción con su cliente. Aun así, un cliente con cero transacciones no produce ninguna fila y desaparecería de esa tabla; conserva la tabla de clientes por separado si necesitas demostrar que ese cliente existe."
+    },
+    {
+      "location":"T3-A.p3",
+      "current_content":"Forma y contenido son problemas diferentes. txs: [] tiene la forma correcta y expresa cero transacciones; una clave ausente o txs: 'oops' rompe el contrato. bool(txs) mezcla ambos problemas porque una lista vacía es falsy. isinstance(txs, list) pregunta por el shape que realmente necesitas y permite enviar solo las filas estructuralmente inválidas a revisión.",
+      "attack":"Could bool/isinstance explanation be technically wrong?",
+      "defense":"The distinction is correct and directly repairs earlier truthiness risks.",
+      "verdict":"SIN_CAMBIO",
+      "improved_content":"Forma y contenido son problemas diferentes. `txs: []` tiene la forma correcta y expresa cero transacciones; una clave ausente o `txs: 'oops'` rompe el contrato. `bool(txs)` mezcla ambos problemas porque una lista vacía es falsy. `isinstance(txs, list)` pregunta por la forma que realmente necesitas y permite enviar solo las filas estructuralmente inválidas a revisión."
+    },
+    {
+      "location":"T3-B.p1",
+      "current_content":"En un formulario internacional, «la página no llegó» y «la casilla llegó vacía» exigen respuestas distintas. Lo mismo ocurre en un diccionario anidado: puede faltar profile, faltar phone dentro del perfil o existir phone con valor vacío. Acceder con corchetes a cada nivel presupone que toda la ruta existe; un helper dig convierte esa suposición en una política visible.",
+      "attack":"Is dig unexplained jargon?",
+      "defense":"It is named as a helper whose next paragraph/code explains its traversal; the concrete form example provides sufficient context.",
+      "verdict":"SIN_CAMBIO",
+      "improved_content":"En un formulario internacional, «la página no llegó» y «la casilla llegó vacía» exigen respuestas distintas. Lo mismo ocurre en un diccionario anidado: puede faltar `profile`, faltar `phone` dentro del perfil o existir `phone` con valor vacío. Acceder con corchetes a cada nivel presupone que toda la ruta existe; un helper de acceso anidado convierte esa suposición en una política visible."
+    },
+    {
+      "location":"T3-B.p2",
+      "current_content":"Los valores falsy no significan automáticamente ausencia. 0 puede ser un monto legítimo; '' puede ser un campo presente pero inválido; [] puede representar una colección válida sin elementos. Si usas if not valor para todo, borras esas distinciones y distorsionas el reporte. Decide primero qué significa missing en el dominio y después escribe la condición.",
+      "attack":"Could an empty string/list always be valid?",
+      "defense":"The wording says 'puede' and explicitly delegates meaning to the domain contract.",
+      "verdict":"SIN_CAMBIO",
+      "improved_content":"Los valores falsy no significan automáticamente ausencia. `0` puede ser un monto legítimo; `''` puede ser un campo presente pero inválido; `[]` puede representar una colección válida sin elementos. Si usas `if not valor` para todo, borras esas distinciones. Decide primero qué significa *missing* en el dominio y después escribe la condición."
+    },
+    {
+      "location":"T3-B.p3",
+      "current_content":"get_nested recorre la ruta nivel por nivel. Si falta una clave o aparece un objeto que ya no es diccionario, devuelve el sentinel acordado; si la clave existe con None, conserva None. Esa diferencia permite que la capa siguiente decida si rechaza, completa o acepta. Centralizarla evita veinte variantes de try/except y concentra los tests de borde en un solo contrato.",
+      "attack":"The advertised distinction is not guaranteed by the helper's default/sentinel design and try/except is future knowledge.",
+      "defense":"The intended causal chain is good, but the implementation contract must change.",
+      "verdict":"MAJOR_REVISION",
+      "finding_ids":["S06-F12","S06-F13"],
+      "improved_content":"El helper recorre una ruta de claves nivel por nivel. Para distinguir de verdad **clave ausente** de **clave presente con `None`**, necesita una señal que ningún dato real pueda confundir con ausencia. Por ejemplo, puede devolver por separado `encontrado` y `valor`, o usar un objeto centinela único. La capa siguiente decide qué hacer con cada estado; no uses `None` como señal de ausencia si `None` también es un valor permitido."
+    },
+    {
+      "location":"T4-A.p1",
+      "current_content":"Un tablero de salidas ordena vuelos sin alterar los registros que recibió. sorted(seq, key=fn) hace esa vista nueva; list.sort(key=fn) reorganiza la lista compartida y devuelve None. Ambos pueden ser correctos, pero responden a contratos distintos. El bug aparece al escribir ordenadas = filas.sort(...): el original cambia y ordenadas queda sin lista.",
+      "attack":"Could sorted/list.sort semantics be wrong?",
+      "defense":"They are technically correct and the mutation/return distinction is exactly useful after aliasing.",
+      "verdict":"SIN_CAMBIO",
+      "improved_content":"Un tablero de salidas ordena vuelos sin alterar los registros que recibió. `sorted(seq, key=fn)` crea una lista ordenada nueva; `list.sort(key=fn)` reorganiza esa lista en el sitio y devuelve `None`. Ambos pueden ser correctos, pero responden a contratos distintos. El bug aparece al escribir `ordenadas = filas.sort(...)`: `filas` cambia y `ordenadas` recibe `None`."
+    },
+    {
+      "location":"T4-A.p2",
+      "current_content":"La función key traduce una fila a su criterio de comparación. Una tupla como (region, nombre) se compara de izquierda a derecha: primero región y, solo en empate, nombre. El orden es estable, de modo que dos filas con la misma clave conservan su orden relativo previo. Esa propiedad permite encadenar decisiones sin inventar comparadores manuales.",
+      "attack":"Could stability/key explanation be incorrect?",
+      "defense":"Python guarantees sort stability and the tuple-key comparison model is appropriate for homogeneous comparable fields.",
+      "verdict":"SIN_CAMBIO",
+      "improved_content":"La función `key` recibe una fila y devuelve el valor que se usará para compararla. Una tupla como `(region, nombre)` se compara de izquierda a derecha: primero región y, solo en empate, nombre. El orden es **estable**: dos filas con la misma clave conservan su orden relativo previo."
+    },
+    {
+      "location":"T4-A.p3",
+      "current_content":"Ordenar no corrige tipos. Los strings '100' y '20' se comparan carácter por carácter, por lo que '100' aparece antes que '20'. Normaliza el monto en S05 y ordena después; hacerlo al revés produce un ranking sintácticamente válido y semánticamente falso. Antes de confiar en un top, prueba un valor que revele la diferencia entre orden numérico y lexicográfico.",
+      "attack":"S05 reference is false.",
+      "defense":"Numeric-vs-lexicographic warning is correct and should be retained without the false pointer.",
+      "verdict":"MINOR_REVISION",
+      "finding_ids":["S06-F14"],
+      "improved_content":"Ordenar no corrige tipos. Los strings `'100'` y `'20'` se comparan carácter por carácter, por lo que `'100'` aparece antes que `'20'`. **Convierte y valida el monto como número antes de ordenarlo**; hacerlo al revés produce un ranking sintácticamente válido y semánticamente falso. Antes de confiar en un top, prueba un valor que revele la diferencia entre orden numérico y lexicográfico."
+    },
+    {
+      "location":"T4-B.p1",
+      "current_content":"Elegir una colección es elegir qué pregunta será barata y clara. Una list favorece secuencia y append; un dict, búsqueda por clave; un set, pertenencia y operaciones de cohorte; una tuple, un contrato posicional fijo. Ninguna es «la estructura profesional» en abstracto. Defiende la elección nombrando la operación dominante y la propiedad que no puedes perder.",
+      "attack":"Could the summary oversimplify tradeoffs?",
+      "defense":"It is an accurate beginner-level selection heuristic and explicitly rejects a universal best structure.",
+      "verdict":"SIN_CAMBIO",
+      "improved_content":"Elegir una colección es elegir qué pregunta será barata y clara. Una `list` favorece secuencia y `append`; un `dict`, búsqueda por clave; un `set`, pertenencia y operaciones de cohorte; una `tuple`, posiciones que no se reasignan. Ninguna es «la estructura profesional» en abstracto. Defiende la elección nombrando la operación dominante y la propiedad que no puedes perder."
+    },
+    {
+      "location":"T4-B.p2",
+      "current_content":"Esa elección intercambia tiempo, memoria y legibilidad. Buscar n elementos dentro de una lista de n puede exigir n×n comparaciones; construir un set cuesta memoria adicional, pero reduce las consultas posteriores a O(1) promedio. Preindexar no siempre conviene para cinco filas y una sola búsqueda. Conviene cuando el número de consultas justifica el costo y cuando no necesitas conservar duplicados en ese índice.",
+      "attack":"Could set O(1) be an absolute claim?",
+      "defense":"The paragraph explicitly says average and describes construction/memory tradeoff.",
+      "verdict":"SIN_CAMBIO",
+      "improved_content":"Esa elección intercambia tiempo, memoria y legibilidad. Buscar `n` elementos dentro de una lista de `n` puede exigir aproximadamente `n × n` comparaciones; construir un `set` cuesta memoria adicional, pero reduce las consultas posteriores a O(1) **en promedio**. Preindexar no siempre conviene para cinco filas y una sola búsqueda; cobra sentido cuando harás suficientes consultas y no necesitas conservar duplicados en ese índice."
+    },
+    {
+      "location":"T4-B.p3",
+      "current_content":"El cierre del modelo es una salida determinista: ordenas clientes por ID y serializas con sort_keys=True. El objetivo no es fingir que los diccionarios son aleatorios, sino fijar un contrato canónico para tests, hashes y revisiones. Ejecuta dos veces con la misma entrada y exige igualdad exacta; después cambia una fila y comprueba que el diff señale el cambio de negocio, no ruido de presentación.",
+      "attack":"JSON is future knowledge, dictionary ordering is not positively taught and code does not sort clients as claimed.",
+      "defense":"Canonical ordering is a valid S06 idea, but the JSON surface and implementation should be deferred/narrowed.",
+      "verdict":"MAJOR_REVISION",
+      "finding_ids":["S06-F16","S06-F18","S06-F19"],
+      "improved_content":"El cierre del modelo es un **orden canónico dentro de Python**: si el contrato dice que los clientes se comparan por ID, crea una nueva lista ordenada por ID antes de comparar resultados. Los diccionarios modernos conservan el orden de inserción, pero ese orden de llegada no tiene por qué ser el orden canónico del negocio. En S08 aprenderás a serializar estas estructuras a JSON y a fijar allí también el orden de sus claves."
+    }
+  ],
+  "artifact_reviews": [
+    {
+      "location":"figure.S06-three-structures",
+      "status":"SIN_CAMBIO",
+      "reason":"Caption/alt support the three-question mental model and do not introduce unsupported behavior."
+    },
+    {
+      "location":"code.slicing_txs.py",
+      "status":"MAJOR_REVISION",
+      "finding_ids":["S06-F03","S06-F04","S06-F05"],
+      "improved_strategy":"Use a flat list of transaction IDs or simple scalar rows, a direct valid-n slice and explicit for printing; add one later line demonstrating that inner dicts remain shared if retaining list[dict]."
+    },
+    {
+      "location":"code.alias_vs_copy.py",
+      "status":"MAJOR_REVISION",
+      "finding_ids":["S06-F03","S06-F07","S06-F20"],
+      "improved_strategy":"Keep alias/shallow/deep side-by-side, but mutate a top-level field of the shared row dict as well as nested tags; microdefine import copy before deepcopy."
+    },
+    {
+      "location":"figure.S06-list-vs-dict",
+      "status":"MINOR_REVISION",
+      "reason":"The caption says with 100k structure decides whether lookup costs 'one step or a traversal'; use 'expected constant-time lookup versus linear scan' to avoid literal one-step absolutism."
+    },
+    {
+      "location":"code.dict_index.py",
+      "status":"MINOR_REVISION",
+      "finding_ids":["S06-F03","S06-F10"],
+      "improved_strategy":"Show a basic dict literal and bracket/get first; then build index with a loop before compact comprehension. If merge remains, state that nested values remain shared."
+    },
+    {
+      "location":"code.sets_y_conflictos.py",
+      "status":"SIN_CAMBIO_MATERIAL",
+      "reason":"The set operations, conflict retention and sorted presentation match the prose and outputs."
+    },
+    {
+      "location":"code.nested_clients.py",
+      "status":"MAJOR_REVISION",
+      "finding_ids":["S06-F11","S06-F17"],
+      "improved_strategy":"Use explicit nested for loops and append to expose parent-child traversal; add a client with txs=[] and state that the transaction table cannot represent that parent alone."
+    },
+    {
+      "location":"code.safe_access.py",
+      "status":"MAJOR_REVISION",
+      "finding_ids":["S06-F12","S06-F13"],
+      "improved_strategy":"Replace *keys with a path tuple/list and use a unique sentinel or (found,value) result so absent and present None/strings cannot collapse."
+    },
+    {
+      "location":"code.sorted_key.py",
+      "status":"MAJOR_REVISION",
+      "finding_ids":["S06-F14","S06-F15"],
+      "improved_strategy":"Define named key functions before using key=; remove the false S05 amount-normalization reference."
+    },
+    {
+      "location":"code.determinism.py",
+      "status":"MAJOR_REVISION",
+      "finding_ids":["S06-F18","S06-F19","S06-F20"],
+      "improved_strategy":"For S06, demonstrate deterministic Python ordering without JSON. If JSON is retained after roadmap revision, explicitly sort all schema-defined order-sensitive lists such as clients, not only an ids field."
+    }
+  ],
+  "validation": {
+    "five_passes_complete_for_S06": true,
+    "pass1_map_and_coverage": true,
+    "pass2_first_use_dependencies": true,
+    "pass3_pedagogy": true,
+    "pass4_technical_red_team": true,
+    "pass5_auditor_red_team": true,
+    "execution_checks": [
+      "semantic unpacking swap succeeds without ValueError",
+      "slice/list shallow copies share inner row dicts",
+      "dict unpack merge shares nested dict values",
+      "tuple can contain a mutable list that changes",
+      "string/default sentinels collapse present and missing states",
+      "current deterministic helper does not canonicalize clients list ordering"
+    ],
+    "elements_reviewed": 78,
+    "paragraphs_reviewed": 25,
+    "confirmed_findings": 20,
+    "rejected_findings": 7,
+    "release_recommendation": "fail"
+  },
+  "summary": {
+    "overall_comprehension_grade_before": "4/10",
+    "overall_comprehension_grade_after_if_minimal_repairs_applied": "8/10 estimated; not applied in this phase",
+    "elements_reviewed": 78,
+    "elements_changed": 0,
+    "high_severity_problems_identified": 10,
+    "unresolved_high_severity_problems": ["S06-F03","S06-F04","S06-F06","S06-F11","S06-F12","S06-F13","S06-F15","S06-F17","S06-F18","S06-F19"],
+    "most_common_original_problem": "The lesson teaches correct collection topics through semantics from later lessons or through compact syntax that hides the reference/structure mechanism a novice most needs to see.",
+    "most_important_global_improvement": "Make object sharing and information preservation explicit: outer-container copies, nested references, flattening loss and missing-value identity must all use one consistent model.",
+    "remaining_source_validation_questions": ["Hydrated live-render parity", "Whether roadmap will deliberately permit early raise/import micro-models"],
+    "release_recommendation": "fail"
+  }
+}
