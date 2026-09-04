@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "patch_id": "patch-002",
+  "applies_after": [
+    "audit/lessons-only/lesson_audit_log.json",
+    "audit/lessons-only/lesson_audit_log.patch-001.json",
+    "audit/lessons-only/sections/S02.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "reason": "Integrate the completed S02 lesson-only adversarial audit into the append-only campaign state without rewriting the large S01 base log.",
+  "operations": [
+    {
+      "op": "replace",
+      "path": "/coverage/S02/status",
+      "from": "PENDING",
+      "to": "AUDITED_REPAIR_REQUIRED"
+    },
+    {
+      "op": "add_section_shard",
+      "section": "S02",
+      "path": "audit/lessons-only/sections/S02.json",
+      "canonical_file": "src/lib/course/sections/s02-basics.ts",
+      "canonical_blob_sha": "b695b1c560d01e1bc8836ad9a252c3007d013f10",
+      "verdict": "REPAIR_REQUIRED",
+      "severity_counts": {"P0":0,"P1":8,"P2":13,"P3":0},
+      "material_findings": 21
+    },
+    {
+      "op": "advance_next_round",
+      "from": "S02",
+      "to": "S03"
+    },
+    {
+      "op": "extend_concept_ledger",
+      "source": "audit/lessons-only/sections/S02.json#/concept_ledger_delta",
+      "credit_rule_for_next_section": "Only concepts with state USABLE may be assumed in S03. PARTIAL, MENTION_ONLY, MISCONCEPTION_RISK and MISSING receive no automatic prerequisite credit."
+    }
+  ],
+  "effective_campaign_state": {
+    "sections_inspected": 2,
+    "canonical_sections": 52,
+    "coverage_percent": 3.8461538462,
+    "section_status": {
+      "S01": "AUDITED_REPAIR_REQUIRED",
+      "S02": "AUDITED_REPAIR_REQUIRED",
+      "S03-S52": "PENDING"
+    },
+    "known_material_findings_before_global_deduplication": {
+      "P0": 0,
+      "P1": 15,
+      "P2": 25,
+      "P3": 0,
+      "total": 40
+    },
+    "note_on_counts": "These are running local findings, not final global counts. Later cross-section passes may merge common root causes, reject false positives, or change severity with new dependency evidence."
+  },
+  "S03_entry_watchlist": [
+    "S02 displayed if/else/truthiness but did not teach them self-sufficiently; S03 must teach them from first principles.",
+    "S02 displayed for but iteration remains unearned until S04.",
+    "Function definition, returns, parameters and type hints remain unearned until S05.",
+    "Lists, tuples, slicing and unpacking remain unearned until S06 except the narrow aliasing intuition that survives repair.",
+    "Exceptions remain unearned despite safe_int/try-except appearing in S02; S09 is the roadmap's real exception section unless sequence is deliberately revised.",
+    "Decimal/operator semantics are not fully creditable because S02 contains a / and // scope contradiction plus rounding/reproducibility drift."
+  ],
+  "next_round": "S03",
+  "must_re_read_review_contract": true,
+  "status": "EFFECTIVE_RUNNING_LOG_ADVANCED_TO_S02"
+}
