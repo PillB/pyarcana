@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "applies_to": "audit/lessons-only/lesson_audit_log.json",
+  "base_blob_sha": "6b0a66210cd6c270183c7a7ac848310f4b7f72a9",
+  "reason": "Post-write consistency check found that S01-F19 had been classified P2 while the section severity summary counted it as P1. The canonical classification is P1 because the Bash-only heredoc blocks a core T4 security artifact for the explicitly supported Windows/PowerShell learner path; the missing CI microdefinition remains a subsidiary P2 symptom inside the same logical group.",
+  "operations": [
+    {
+      "op": "replace",
+      "path": "/sections/S01/confirmed_findings/S01-F19/severity",
+      "from": "P2",
+      "to": "P1"
+    }
+  ],
+  "effective_severity_counts": {"P0":0,"P1":7,"P2":12,"P3":0},
+  "status": "PATCH_REQUIRED_WHEN_LOG_IS_NEXT_REWRITTEN"
+}
