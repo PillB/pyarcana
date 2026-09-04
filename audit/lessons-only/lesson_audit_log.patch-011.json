@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "patch_id": "patch-011",
+  "applies_after": [
+    "audit/lessons-only/lesson_audit_log.json",
+    "audit/lessons-only/lesson_audit_log.patch-001.json",
+    "audit/lessons-only/lesson_audit_log.patch-002.json",
+    "audit/lessons-only/lesson_audit_log.patch-003.json",
+    "audit/lessons-only/lesson_audit_log.patch-004.json",
+    "audit/lessons-only/lesson_audit_log.patch-005.json",
+    "audit/lessons-only/lesson_audit_log.patch-006.json",
+    "audit/lessons-only/lesson_audit_log.patch-007.json",
+    "audit/lessons-only/lesson_audit_log.patch-008.json",
+    "audit/lessons-only/lesson_audit_log.patch-009.json",
+    "audit/lessons-only/lesson_audit_log.patch-010.json",
+    "audit/lessons-only/sections/S11.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "operations": [
+    {"op":"replace","path":"/coverage/S11/status","from":"PENDING","to":"AUDITED_REPAIR_REQUIRED"},
+    {"op":"add_section_shard","section":"S11","path":"audit/lessons-only/sections/S11.json","canonical_file":"src/lib/course/sections/s11-testing.ts","canonical_blob_sha":"e37d53e8d9274cc76fa7c59b75ef4d5be905aeab","verdict":"REPAIR_REQUIRED","severity_counts":{"P0":0,"P1":13,"P2":9,"P3":0},"material_findings":22,"elements_reviewed":89,"paragraphs_reviewed":38},
+    {"op":"advance_next_round","from":"S11","to":"S12"},
+    {"op":"extend_concept_ledger","source":"audit/lessons-only/sections/S11.json#/concept_ledger_delta","credit_rule_for_next_section":"Only concepts with state USABLE may be assumed in S12. PARTIAL, MENTION_ONLY, MISCONCEPTION_RISK and MISSING receive no automatic prerequisite credit."}
+  ],
+  "effective_campaign_state": {
+    "sections_inspected": 11,
+    "canonical_sections": 52,
+    "coverage_percent": 21.1538461538,
+    "section_status": {
+      "S01":"AUDITED_REPAIR_REQUIRED",
+      "S02":"AUDITED_REPAIR_REQUIRED",
+      "S03":"AUDITED_REPAIR_REQUIRED",
+      "S04":"AUDITED_REPAIR_REQUIRED",
+      "S05":"AUDITED_REPAIR_REQUIRED",
+      "S06":"AUDITED_REPAIR_REQUIRED",
+      "S07":"AUDITED_REPAIR_REQUIRED",
+      "S08":"AUDITED_REPAIR_REQUIRED",
+      "S09":"AUDITED_REPAIR_REQUIRED",
+      "S10":"AUDITED_REPAIR_REQUIRED",
+      "S11":"AUDITED_REPAIR_REQUIRED",
+      "S12-S52":"PENDING"
+    },
+    "known_material_findings_before_global_deduplication": {"P0":0,"P1":111,"P2":113,"P3":0,"total":224},
+    "note_on_counts":"Running local counts only. Mandatory global passes may merge recurring root causes, reject false positives or change severity when later dependency evidence is available."
+  },
+  "S12_entry_watchlist": [
+    "S12 must not assume invariant mastery; S11 still conflates construction validation with lifecycle preservation and mutable ClientRecord can violate validated rules after creation.",
+    "S12 must not assume dataclass/type hints enforce runtime types. API/SQL adapters need explicit parsing/validation at the boundary.",
+    "S12 repositories/adapters must not treat @runtime_checkable Protocol isinstance as signature/type validation; Python only performs a shallow presence check.",
+    "S12 must reuse one canonical domain model. S11 repeatedly redefined ClientRecord and RelationshipEvidence with weaker or absent invariants.",
+    "S12 serialization/database mapping must explicitly choose DTO/mapper boundaries because S11 prose says mapping lives at the boundary while code puts to_dict on the entity.",
+    "Transaction amount/currency contract remains non-creditable: opening says non-negative, T1-B says positive, and no canonical Transaction class exists in theory.",
+    "Properties/frozen do not provide authorization or deep immutability; do not expose raw sensitive fields under that assumption.",
+    "Composition is PARTIAL, while basic class-vs-instance and dataclass default_factory are the only new S11 concepts safe to credit as USABLE.",
+    "CP-N1-C/CASO internal identifiers remain a persistent widow-term family unless expanded globally."
+  ],
+  "next_round": "S12",
+  "must_re_read_review_contract": true,
+  "must_re_read_comprehension_contract": true,
+  "status": "EFFECTIVE_RUNNING_LOG_ADVANCED_TO_S11"
+}
