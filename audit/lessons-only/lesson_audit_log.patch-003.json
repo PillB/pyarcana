@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "patch_id": "patch-003",
+  "applies_after": [
+    "audit/lessons-only/lesson_audit_log.json",
+    "audit/lessons-only/lesson_audit_log.patch-001.json",
+    "audit/lessons-only/lesson_audit_log.patch-002.json",
+    "audit/lessons-only/sections/S03.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "reason": "Integrate the completed S03 lesson-only adversarial audit into the append-only campaign state without rewriting earlier section shards.",
+  "operations": [
+    {
+      "op": "replace",
+      "path": "/coverage/S03/status",
+      "from": "PENDING",
+      "to": "AUDITED_REPAIR_REQUIRED"
+    },
+    {
+      "op": "add_section_shard",
+      "section": "S03",
+      "path": "audit/lessons-only/sections/S03.json",
+      "canonical_file": "src/lib/course/sections/s03-data-structures.ts",
+      "canonical_blob_sha": "a2a7b1a036f35acb00a013c7c3365c133013d5e1",
+      "verdict": "REPAIR_REQUIRED",
+      "severity_counts": {"P0":0,"P1":8,"P2":9,"P3":0},
+      "material_findings": 17
+    },
+    {
+      "op": "advance_next_round",
+      "from": "S03",
+      "to": "S04"
+    },
+    {
+      "op": "extend_concept_ledger",
+      "source": "audit/lessons-only/sections/S03.json#/concept_ledger_delta",
+      "credit_rule_for_next_section": "Only concepts with state USABLE may be assumed in S04. PARTIAL, MENTION_ONLY, MISCONCEPTION_RISK and MISSING receive no automatic prerequisite credit."
+    }
+  ],
+  "effective_campaign_state": {
+    "sections_inspected": 3,
+    "canonical_sections": 52,
+    "coverage_percent": 5.7692307692,
+    "section_status": {
+      "S01": "AUDITED_REPAIR_REQUIRED",
+      "S02": "AUDITED_REPAIR_REQUIRED",
+      "S03": "AUDITED_REPAIR_REQUIRED",
+      "S04-S52": "PENDING"
+    },
+    "known_material_findings_before_global_deduplication": {
+      "P0": 0,
+      "P1": 23,
+      "P2": 34,
+      "P3": 0,
+      "total": 57
+    },
+    "note_on_counts": "Running local counts only. The mandatory global S01-S52 passes may merge common root causes, reject false positives or change severities when later dependency evidence is available."
+  },
+  "S04_entry_watchlist": [
+    "S04 is the first roadmap section that legitimately teaches for/while. Prior appearances of for remain MENTION_ONLY and cannot be assumed mastered.",
+    "Functions/return/type hints remain unearned until S05 despite heavy S03 leakage.",
+    "Lists/tuples/dicts/indexing/unpacking remain unearned until S06 except explicitly bounded previews; S04 must not build iteration pedagogy on unexplained collection mechanics.",
+    "S03's invariant concept remains MISCONCEPTION_RISK until repaired and cannot be used as mastered testing vocabulary.",
+    "S03's tri-state policy is only PARTIAL because NOT_IN_ALLOWLIST drifted review -> reject.",
+    "Branch testing is PARTIAL because S03 gave conflicting per-status versus per-branch minimums.",
+    "CP-N1-A/CASO identifiers remain a persistent learner-facing widow-term family unless expanded in plain language."
+  ],
+  "next_round": "S04",
+  "must_re_read_review_contract": true,
+  "status": "EFFECTIVE_RUNNING_LOG_ADVANCED_TO_S03"
+}
