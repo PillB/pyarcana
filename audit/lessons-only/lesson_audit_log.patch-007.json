@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "patch_id": "patch-007",
+  "applies_after": [
+    "audit/lessons-only/lesson_audit_log.json",
+    "audit/lessons-only/lesson_audit_log.patch-001.json",
+    "audit/lessons-only/lesson_audit_log.patch-002.json",
+    "audit/lessons-only/lesson_audit_log.patch-003.json",
+    "audit/lessons-only/lesson_audit_log.patch-004.json",
+    "audit/lessons-only/lesson_audit_log.patch-005.json",
+    "audit/lessons-only/lesson_audit_log.patch-006.json",
+    "audit/lessons-only/sections/S07.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "operations": [
+    {
+      "op": "replace",
+      "path": "/coverage/S07/status",
+      "from": "PENDING",
+      "to": "AUDITED_REPAIR_REQUIRED"
+    },
+    {
+      "op": "add_section_shard",
+      "section": "S07",
+      "path": "audit/lessons-only/sections/S07.json",
+      "canonical_file": "src/lib/course/sections/s07-data-acquisition.ts",
+      "canonical_blob_sha": "674110b15a5daf7ce5c917571bd80f1a07f105fe",
+      "verdict": "REPAIR_REQUIRED",
+      "severity_counts": {"P0":0,"P1":11,"P2":8,"P3":0},
+      "material_findings": 19,
+      "elements_reviewed": 78,
+      "paragraphs_reviewed": 46
+    },
+    {
+      "op": "advance_next_round",
+      "from": "S07",
+      "to": "S08"
+    },
+    {
+      "op": "extend_concept_ledger",
+      "source": "audit/lessons-only/sections/S07.json#/concept_ledger_delta",
+      "credit_rule_for_next_section": "Only concepts with state USABLE may be assumed in S08. PARTIAL, MENTION_ONLY, MISCONCEPTION_RISK and MISSING receive no automatic prerequisite credit."
+    }
+  ],
+  "effective_campaign_state": {
+    "sections_inspected": 7,
+    "canonical_sections": 52,
+    "coverage_percent": 13.4615384615,
+    "section_status": {
+      "S01": "AUDITED_REPAIR_REQUIRED",
+      "S02": "AUDITED_REPAIR_REQUIRED",
+      "S03": "AUDITED_REPAIR_REQUIRED",
+      "S04": "AUDITED_REPAIR_REQUIRED",
+      "S05": "AUDITED_REPAIR_REQUIRED",
+      "S06": "AUDITED_REPAIR_REQUIRED",
+      "S07": "AUDITED_REPAIR_REQUIRED",
+      "S08-S52": "PENDING"
+    },
+    "known_material_findings_before_global_deduplication": {
+      "P0": 0,
+      "P1": 64,
+      "P2": 72,
+      "P3": 0,
+      "total": 136
+    },
+    "note_on_counts": "Running local counts only. Mandatory global passes may merge recurring root causes, reject false positives or change severity when later dependency evidence is available."
+  },
+  "S08_entry_watchlist": [
+    "S08 is the first roadmap section for files, pathlib, CSV, JSON, encodings and ingestion contracts. S07's mojibake/bytes discussion is only a preview and cannot count as a learned decoding model.",
+    "NFC/NFD are USABLE from S07. Code-point-versus-visible-character remains PARTIAL and casefold remains PARTIAL because full-email folding was unsafe.",
+    "split/join/replace may support S08 parsing examples, but find/search semantics remain unsafe until repaired; do not rely on truthiness of find results.",
+    "Regex fullmatch-vs-search and named groups are USABLE. Raw-string notation and ^/$ anchors remain PARTIAL and should not be assumed without a bridge.",
+    "Jaccard token similarity is MISCONCEPTION_RISK: empty evidence receives wrong scores and set semantics discard order/repetition. Do not build S08 deduplication or ER behavior on it.",
+    "FP/FN remain PARTIAL because S07 omitted an independent ground-truth/reference-label model.",
+    "Personal-name component parsing remains MISCONCEPTION_RISK; S08 must preserve original fields and not treat last-two-token segmentation as canonical truth.",
+    "raw/normalized/transforms remains PARTIAL because S07 defined the contract but failed to demonstrate it as one integrated theory artifact. S08 should not claim provenance is already mastered.",
+    "Exceptions/raise/try-except remain MENTION_ONLY until S09 unless a deliberate curriculum repair establishes a bounded earlier model.",
+    "Module/import mechanics remain MENTION_ONLY until S10. S08 will necessarily use pathlib/csv/json and must microdefine imports rather than assume them.",
+    "Email normalization remains MISCONCEPTION_RISK: preserve local-part semantics and do not propagate whole-address casefold into ingestion.",
+    "Unicode numeric classes are broader than ASCII digits; any S08 schema or parsing rule that intends 0-9 must say so explicitly.",
+    "CP-N1-B/CASO identifiers remain a persistent widow-term family unless expanded globally."
+  ],
+  "next_round": "S08",
+  "must_re_read_review_contract": true,
+  "must_re_read_comprehension_contract": true,
+  "status": "EFFECTIVE_RUNNING_LOG_ADVANCED_TO_S07"
+}
