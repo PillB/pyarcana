@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "patch_id": "patch-008",
+  "applies_after": [
+    "audit/lessons-only/lesson_audit_log.json",
+    "audit/lessons-only/lesson_audit_log.patch-001.json",
+    "audit/lessons-only/lesson_audit_log.patch-002.json",
+    "audit/lessons-only/lesson_audit_log.patch-003.json",
+    "audit/lessons-only/lesson_audit_log.patch-004.json",
+    "audit/lessons-only/lesson_audit_log.patch-005.json",
+    "audit/lessons-only/lesson_audit_log.patch-006.json",
+    "audit/lessons-only/lesson_audit_log.patch-007.json",
+    "audit/lessons-only/sections/S08.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "operations": [
+    {"op":"replace","path":"/coverage/S08/status","from":"PENDING","to":"AUDITED_REPAIR_REQUIRED"},
+    {"op":"add_section_shard","section":"S08","path":"audit/lessons-only/sections/S08.json","canonical_file":"src/lib/course/sections/s08-pandas.ts","canonical_blob_sha":"9ab7a30a2f055c2a726e7414d6bb0fa139d91f18","verdict":"REPAIR_REQUIRED","severity_counts":{"P0":0,"P1":10,"P2":12,"P3":0},"material_findings":22,"elements_reviewed":93,"paragraphs_reviewed":40},
+    {"op":"advance_next_round","from":"S08","to":"S09"},
+    {"op":"extend_concept_ledger","source":"audit/lessons-only/sections/S08.json#/concept_ledger_delta","credit_rule_for_next_section":"Only concepts with state USABLE may be assumed in S09. PARTIAL, MENTION_ONLY, MISCONCEPTION_RISK and MISSING receive no automatic prerequisite credit."}
+  ],
+  "effective_campaign_state": {
+    "sections_inspected": 8,
+    "canonical_sections": 52,
+    "coverage_percent": 15.3846153846,
+    "section_status": {
+      "S01":"AUDITED_REPAIR_REQUIRED",
+      "S02":"AUDITED_REPAIR_REQUIRED",
+      "S03":"AUDITED_REPAIR_REQUIRED",
+      "S04":"AUDITED_REPAIR_REQUIRED",
+      "S05":"AUDITED_REPAIR_REQUIRED",
+      "S06":"AUDITED_REPAIR_REQUIRED",
+      "S07":"AUDITED_REPAIR_REQUIRED",
+      "S08":"AUDITED_REPAIR_REQUIRED",
+      "S09-S52":"PENDING"
+    },
+    "known_material_findings_before_global_deduplication": {"P0":0,"P1":74,"P2":84,"P3":0,"total":158},
+    "note_on_counts":"Running local counts only. Mandatory global passes may merge recurring root causes, reject false positives or change severity when later dependency evidence is available."
+  },
+  "S09_entry_watchlist": [
+    "S09 is the formal roadmap section for exceptions and logging. Exception names and try/except/raise have appeared repeatedly since S02 but remain MENTION_ONLY; S09 must teach propagation, catch boundaries and process exit from first principles rather than saying 'as you already know'.",
+    "The strongest prior misconception to repair is S08-F19: catching ValueError and printing 'exit != 0' still produced actual process exit code 0. S09 must explicitly separate exception occurrence, exception handling and process exit status.",
+    "CSV dialect may be treated as USABLE from S08, but CSV logical-record accounting is MISCONCEPTION_RISK because S08 split physical lines before parsing quoted multiline fields.",
+    "Quarantine/reconciliation are only PARTIAL: S09 logging must not assume raw evidence format or n_in counting is settled.",
+    "JSON and JSONL remain PARTIAL because S08 theory did not demonstrate deserialization/JSONL round trips. Logging examples should not require JSON fluency without a bridge.",
+    "Path/encoding are PARTIAL and with remains MENTION_ONLY. S09 file/log examples should not hide exception pedagogy behind unmastered context-manager syntax unless it is microexplained.",
+    "SHA-256/provenance remain MISCONCEPTION_RISK: a digest identifies content, not source authenticity; backup/hash order in S08 can race.",
+    "sort_keys determinism remains unsafe: source-list order is not canonicalized by JSON key sorting.",
+    "Module/import mechanics remain MENTION_ONLY; S09 will necessarily import logging/traceback and must provide a bounded microdefinition.",
+    "Function definition/parameter binding remain PARTIAL from S05; avoid wrapping every first exception example in large helper functions.",
+    "CP-N1-B/CASO identifiers remain a persistent widow-term family unless expanded globally."
+  ],
+  "next_round": "S09",
+  "must_re_read_review_contract": true,
+  "must_re_read_comprehension_contract": true,
+  "status": "EFFECTIVE_RUNNING_LOG_ADVANCED_TO_S08"
+}
