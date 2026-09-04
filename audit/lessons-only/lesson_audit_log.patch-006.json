@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "patch_id": "patch-006",
+  "applies_after": [
+    "audit/lessons-only/lesson_audit_log.json",
+    "audit/lessons-only/lesson_audit_log.patch-001.json",
+    "audit/lessons-only/lesson_audit_log.patch-002.json",
+    "audit/lessons-only/lesson_audit_log.patch-003.json",
+    "audit/lessons-only/lesson_audit_log.patch-004.json",
+    "audit/lessons-only/lesson_audit_log.patch-005.json",
+    "audit/lessons-only/sections/S06.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "operations": [
+    {
+      "op": "replace",
+      "path": "/coverage/S06/status",
+      "from": "PENDING",
+      "to": "AUDITED_REPAIR_REQUIRED"
+    },
+    {
+      "op": "add_section_shard",
+      "section": "S06",
+      "path": "audit/lessons-only/sections/S06.json",
+      "canonical_file": "src/lib/course/sections/s06-numpy.ts",
+      "canonical_blob_sha": "1bfc15554a36d343ceefed9d9a1a004dabf12b55",
+      "verdict": "REPAIR_REQUIRED",
+      "severity_counts": {"P0":0,"P1":10,"P2":10,"P3":0},
+      "material_findings": 20,
+      "elements_reviewed": 78,
+      "paragraphs_reviewed": 25
+    },
+    {
+      "op": "advance_next_round",
+      "from": "S06",
+      "to": "S07"
+    },
+    {
+      "op": "extend_concept_ledger",
+      "source": "audit/lessons-only/sections/S06.json#/concept_ledger_delta",
+      "credit_rule_for_next_section": "Only concepts with state USABLE may be assumed in S07. PARTIAL, MENTION_ONLY, MISCONCEPTION_RISK and MISSING receive no automatic prerequisite credit."
+    }
+  ],
+  "effective_campaign_state": {
+    "sections_inspected": 6,
+    "canonical_sections": 52,
+    "coverage_percent": 11.5384615385,
+    "section_status": {
+      "S01": "AUDITED_REPAIR_REQUIRED",
+      "S02": "AUDITED_REPAIR_REQUIRED",
+      "S03": "AUDITED_REPAIR_REQUIRED",
+      "S04": "AUDITED_REPAIR_REQUIRED",
+      "S05": "AUDITED_REPAIR_REQUIRED",
+      "S06": "AUDITED_REPAIR_REQUIRED",
+      "S07-S52": "PENDING"
+    },
+    "known_material_findings_before_global_deduplication": {
+      "P0": 0,
+      "P1": 53,
+      "P2": 64,
+      "P3": 0,
+      "total": 117
+    },
+    "note_on_counts": "Running local counts only. Mandatory global passes may merge recurring root causes, reject false positives or change severity when later dependency evidence is available."
+  },
+  "S07_entry_watchlist": [
+    "S07 is the first roadmap section allowed to teach the string-method toolkit, Unicode, normalization, casefold and regular expressions. Heavy .strip/.split/.join/.title/.lower/.isdigit use in S05-S06 remains MENTION_ONLY and must not be treated as mastered.",
+    "list, dict, set and aliasing may be treated as USABLE from S06. Tuple, slicing, unpacking, shallow/deep copy, nested-structure traversal, sorted(key=), deterministic-output reasoning and missing-value protocols are not fully creditable due S06 defects.",
+    "The S06 copy model is unsafe: S07 must not assume that a slice or shallow copy gives independently editable nested data.",
+    "The S06 unpacking model is unsafe: successful unpacking proves arity, not semantic field meaning.",
+    "Missing vs empty/None remains MISCONCEPTION_RISK because the canonical sentinel helper can collapse states.",
+    "Function definition and parameter binding remain PARTIAL from S05; return/docstrings/pure-function idea are USABLE. Do not hide new text concepts inside sophisticated function signatures.",
+    "Exceptions/try-except/raise remain MENTION_ONLY until S09 unless curriculum repair explicitly introduces a bounded earlier model.",
+    "Lambda, generator expressions, nested comprehensions and variadic *args remain MENTION_ONLY.",
+    "JSON remains MENTION_ONLY and is canonically an S08 topic despite S06 scope drift.",
+    "Module/import mental model remains MENTION_ONLY until S10; S07 should microdefine any required stdlib imports rather than assume them.",
+    "Invariant and O(n) mental models remain risky from earlier sections and cannot be silently assumed.",
+    "CP-N1-B/CASO identifiers remain a persistent widow-term family unless expanded globally."
+  ],
+  "next_round": "S07",
+  "must_re_read_review_contract": true,
+  "must_re_read_comprehension_contract": true,
+  "status": "EFFECTIVE_RUNNING_LOG_ADVANCED_TO_S06"
+}
