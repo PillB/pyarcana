@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "patch_id": "patch-016",
+  "applies_after": [
+    "audit/lessons-only/lesson_audit_log.json",
+    "audit/lessons-only/lesson_audit_log.patch-001.json",
+    "audit/lessons-only/lesson_audit_log.patch-002.json",
+    "audit/lessons-only/lesson_audit_log.patch-003.json",
+    "audit/lessons-only/lesson_audit_log.patch-004.json",
+    "audit/lessons-only/lesson_audit_log.patch-005.json",
+    "audit/lessons-only/lesson_audit_log.patch-006.json",
+    "audit/lessons-only/lesson_audit_log.patch-007.json",
+    "audit/lessons-only/lesson_audit_log.patch-008.json",
+    "audit/lessons-only/lesson_audit_log.patch-009.json",
+    "audit/lessons-only/lesson_audit_log.patch-010.json",
+    "audit/lessons-only/lesson_audit_log.patch-011.json",
+    "audit/lessons-only/lesson_audit_log.patch-012.json",
+    "audit/lessons-only/lesson_audit_log.patch-013.json",
+    "audit/lessons-only/lesson_audit_log.patch-014.json",
+    "audit/lessons-only/lesson_audit_log.patch-015.json",
+    "audit/lessons-only/sections/S16.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "operations": [
+    {
+      "op": "replace",
+      "path": "/coverage/S16/status",
+      "from": "PENDING",
+      "to": "AUDITED_REPAIR_REQUIRED"
+    },
+    {
+      "op": "add_section_shard",
+      "section": "S16",
+      "path": "audit/lessons-only/sections/S16.json",
+      "canonical_file": "src/lib/course/sections/s16-wxpython-gui.ts",
+      "canonical_blob_sha": "d037692ef8d36cdee14609b2678dd2a47c302488",
+      "audit_blob_sha": "e911dd4e1b49d07f7d130024d9cee55f3532672e",
+      "verdict": "REPAIR_REQUIRED",
+      "severity_counts": {"P0":0,"P1":13,"P2":4,"P3":0},
+      "material_findings": 17,
+      "theory_blocks_reviewed": 10,
+      "paragraphs_reviewed": 32
+    },
+    {
+      "op": "advance_next_round",
+      "from": "S16",
+      "to": "S17"
+    },
+    {
+      "op": "extend_concept_ledger",
+      "source": "audit/lessons-only/sections/S16.json#/concept_ledger_delta",
+      "credit_rule_for_next_section": "Only concepts with state USABLE may be assumed in S17. PARTIAL, MENTION_ONLY, MISCONCEPTION_RISK and MISSING receive no automatic prerequisite credit."
+    }
+  ],
+  "effective_campaign_state": {
+    "sections_inspected": 16,
+    "canonical_sections": 52,
+    "coverage_percent": 30.769,
+    "section_status": {
+      "S01-S16": "AUDITED_REPAIR_REQUIRED",
+      "S17-S52": "PENDING"
+    },
+    "known_material_findings_before_global_deduplication": {
+      "P0": 0,
+      "P1": 177,
+      "P2": 153,
+      "P3": 0,
+      "total": 330
+    },
+    "note_on_counts": "Running local counts only. Mandatory global passes may merge recurring root causes, reject false positives or change severity when later dependency evidence is available."
+  },
+  "S17_entry_watchlist": [
+    "Do not inherit groupby/transform/nunique from S16; they were used before teaching and remain MENTION_ONLY.",
+    "Do not trust S16 clean/quarantine outputs as disjoint or reconciled; S17 joins must start from an explicitly validated partition.",
+    "Do not promote conflicting duplicate-key rows by keep='first' before join cardinality work.",
+    "S15 Index/concat/join misconceptions remain active when S17 teaches joins; repair from first principles.",
+    "Schema dtype/nullability enforcement remains MISCONCEPTION_RISK and cannot be assumed.",
+    "Normalization failures for invalid money/date/nullable region remain unsafe; S17 must not treat normalized columns as validated merely because they exist.",
+    "Process exit status remains MISCONCEPTION_RISK.",
+    "Median/quantile/IQR/z-score remain MENTION_ONLY; S18 owns their full mental model.",
+    "Do not assume one-row-per-client cardinality applies to transaction tables.",
+    "S17 reconciliation must explicitly prove row counts/denominators before and after joins."
+  ],
+  "next_round": "S17",
+  "must_re_read_review_contract": true,
+  "must_re_read_comprehension_contract": true,
+  "status": "EFFECTIVE_RUNNING_LOG_ADVANCED_TO_S16"
+}
