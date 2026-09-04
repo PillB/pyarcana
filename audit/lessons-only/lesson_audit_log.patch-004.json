@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "patch_id": "patch-004",
+  "applies_after": [
+    "audit/lessons-only/lesson_audit_log.json",
+    "audit/lessons-only/lesson_audit_log.patch-001.json",
+    "audit/lessons-only/lesson_audit_log.patch-002.json",
+    "audit/lessons-only/lesson_audit_log.patch-003.json",
+    "audit/lessons-only/sections/S04.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "operations": [
+    {
+      "op": "replace",
+      "path": "/coverage/S04/status",
+      "from": "PENDING",
+      "to": "AUDITED_REPAIR_REQUIRED"
+    },
+    {
+      "op": "add_section_shard",
+      "section": "S04",
+      "path": "audit/lessons-only/sections/S04.json",
+      "canonical_file": "src/lib/course/sections/s04-functions-modules.ts",
+      "canonical_blob_sha": "c56f5ca93419013108d7733584ceba2181c9f889",
+      "verdict": "REPAIR_REQUIRED",
+      "severity_counts": {"P0":0,"P1":9,"P2":9,"P3":0},
+      "material_findings": 18
+    },
+    {
+      "op": "advance_next_round",
+      "from": "S04",
+      "to": "S05"
+    },
+    {
+      "op": "extend_concept_ledger",
+      "source": "audit/lessons-only/sections/S04.json#/concept_ledger_delta",
+      "credit_rule_for_next_section": "Only concepts with state USABLE may be assumed in S05. PARTIAL, MENTION_ONLY, MISCONCEPTION_RISK and MISSING receive no automatic prerequisite credit."
+    }
+  ],
+  "effective_campaign_state": {
+    "sections_inspected": 4,
+    "canonical_sections": 52,
+    "coverage_percent": 7.6923076923,
+    "section_status": {
+      "S01": "AUDITED_REPAIR_REQUIRED",
+      "S02": "AUDITED_REPAIR_REQUIRED",
+      "S03": "AUDITED_REPAIR_REQUIRED",
+      "S04": "AUDITED_REPAIR_REQUIRED",
+      "S05-S52": "PENDING"
+    },
+    "known_material_findings_before_global_deduplication": {
+      "P0": 0,
+      "P1": 32,
+      "P2": 43,
+      "P3": 0,
+      "total": 75
+    },
+    "note_on_counts": "Running local counts only. Mandatory global passes may merge recurring root causes, reject false positives or change severity when later dependency evidence is available."
+  },
+  "S05_entry_watchlist": [
+    "S05 is the first roadmap section allowed to assume and teach functions, return, parameters and gradual type hints. Prior def/return appearances remain MENTION_ONLY and S05 must teach them from first principles.",
+    "S04's for loop and sentinel concepts are USABLE, but range/enumerate/zip/while/comprehension/state trace/off-by-one are not fully creditable due local defects.",
+    "Lists/tuples/dicts/sets/indexing/unpacking remain MENTION_ONLY until S06. S05 examples must not treat those structures as mastered inputs merely because S02-S04 used them.",
+    "Exceptions/try-except/raise remain MENTION_ONLY until S09.",
+    "Invariant remains MISCONCEPTION_RISK until repaired; S05 contracts/preconditions/postconditions must not silently inherit the false 'cannot be broken' model.",
+    "O(n) remains MISCONCEPTION_RISK because S04 equated linear design with one pass; S05 should not assume a correct complexity model.",
+    "CP-N1-A/CASO identifiers remain a persistent widow-term family unless first-use expansion is repaired globally."
+  ],
+  "next_round": "S05",
+  "must_re_read_review_contract": true,
+  "must_re_read_comprehension_contract": true,
+  "status": "EFFECTIVE_RUNNING_LOG_ADVANCED_TO_S04"
+}
