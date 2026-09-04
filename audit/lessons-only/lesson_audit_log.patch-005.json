@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "patch_id": "patch-005",
+  "applies_after": [
+    "audit/lessons-only/lesson_audit_log.json",
+    "audit/lessons-only/lesson_audit_log.patch-001.json",
+    "audit/lessons-only/lesson_audit_log.patch-002.json",
+    "audit/lessons-only/lesson_audit_log.patch-003.json",
+    "audit/lessons-only/lesson_audit_log.patch-004.json",
+    "audit/lessons-only/sections/S05.json"
+  ],
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "operations": [
+    {
+      "op": "replace",
+      "path": "/coverage/S05/status",
+      "from": "PENDING",
+      "to": "AUDITED_REPAIR_REQUIRED"
+    },
+    {
+      "op": "add_section_shard",
+      "section": "S05",
+      "path": "audit/lessons-only/sections/S05.json",
+      "canonical_file": "src/lib/course/sections/s05-oop.ts",
+      "canonical_blob_sha": "95519e66e1206331a6fe969b38006f55902791a7",
+      "verdict": "REPAIR_REQUIRED",
+      "severity_counts": {"P0":0,"P1":11,"P2":11,"P3":0},
+      "material_findings": 22,
+      "elements_reviewed": 67
+    },
+    {
+      "op": "advance_next_round",
+      "from": "S05",
+      "to": "S06"
+    },
+    {
+      "op": "extend_concept_ledger",
+      "source": "audit/lessons-only/sections/S05.json#/concept_ledger_delta",
+      "credit_rule_for_next_section": "Only concepts with state USABLE may be assumed in S06. PARTIAL, MENTION_ONLY, MISCONCEPTION_RISK and MISSING receive no automatic prerequisite credit."
+    }
+  ],
+  "effective_campaign_state": {
+    "sections_inspected": 5,
+    "canonical_sections": 52,
+    "coverage_percent": 9.6153846154,
+    "section_status": {
+      "S01": "AUDITED_REPAIR_REQUIRED",
+      "S02": "AUDITED_REPAIR_REQUIRED",
+      "S03": "AUDITED_REPAIR_REQUIRED",
+      "S04": "AUDITED_REPAIR_REQUIRED",
+      "S05": "AUDITED_REPAIR_REQUIRED",
+      "S06-S52": "PENDING"
+    },
+    "known_material_findings_before_global_deduplication": {
+      "P0": 0,
+      "P1": 43,
+      "P2": 54,
+      "P3": 0,
+      "total": 97
+    },
+    "note_on_counts": "Running local counts only. Mandatory global passes may merge recurring root causes, reject false positives or change severities when later dependency evidence is available."
+  },
+  "S06_entry_watchlist": [
+    "S06 is the first roadmap section allowed to teach lists, tuples, dictionaries, sets, slicing, unpacking, nested structures and structure choice. Prior uses in S02-S05 remain MENTION_ONLY and cannot be treated as learned.",
+    "for is USABLE from S04 and may support collection traversal, but range/enumerate/zip/while/comprehensions are not fully creditable due S04 defects.",
+    "return, docstrings, pure-function concept and LEGB are USABLE from S05; function_definition and parameter/argument binding remain PARTIAL because S05 did not cleanly isolate the definition-call-binding-return trace.",
+    "Mutable defaults remain MISCONCEPTION_RISK; S06 should explicitly connect mutability/aliasing/copy to the default-object behavior shown in S05 rather than assuming the rule was understood.",
+    "Preconditions remain MISCONCEPTION_RISK because S05 conflated caller obligations with runtime checks.",
+    "Type hints and domain errors remain PARTIAL; S06 should not build collection pedagogy on nested typing constructs merely because S05 displayed Tuple/Optional.",
+    "Exceptions/try-except/raise remain MENTION_ONLY until S09 unless a deliberate curriculum repair establishes an earlier micro-model.",
+    "String-method mechanics remain MENTION_ONLY until S07 despite heavy S05 normalizer examples.",
+    "I/O injection remains MISCONCEPTION_RISK because S05 demonstrated transformation-function injection rather than I/O dependency injection.",
+    "Behavior-preserving refactor remains MISCONCEPTION_RISK because S05's canonical example never executed the pre-refactor implementation.",
+    "CP-N1-B/CASO identifiers remain a persistent widow-term family unless expanded globally."
+  ],
+  "next_round": "S06",
+  "must_re_read_review_contract": true,
+  "must_re_read_comprehension_contract": true,
+  "status": "EFFECTIVE_RUNNING_LOG_ADVANCED_TO_S05"
+}
