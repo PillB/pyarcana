@@ -1,0 +1,500 @@
+{
+  "schema_version": "1.6.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S20",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s20-rag.ts",
+  "canonical_blob_sha": "c3bda4aa77a38430992c763b4149484d328c183e",
+  "title": "Automatización robusta de Excel",
+  "short_title": "Excel factory",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "canonical_mapping": {
+    "index_file": "src/lib/course/index.ts",
+    "import": "section20 from ./sections/s20-rag",
+    "status": "VERIFIED"
+  },
+  "prior_audit": {
+    "status": "NONE_FOUND_ON_AUDIT_BRANCH",
+    "method": "Direct fetch of audit/lessons-only/sections/S20.json returned 404 before this audit was created."
+  },
+  "learner_entry_state": {
+    "baseline": "ZERO_TECH_CAPABLE",
+    "prerequisites": ["S17", "S18", "S19"],
+    "credit_rule": "Only prior concepts adjudicated USABLE count as learned.",
+    "critical_dependency_warning": "S17-S19 all remain REPAIR_REQUIRED. S20 must not inherit their reconciliation, denominator, provenance, accessible-parity or PEN numeric-boundary claims as trusted artifacts.",
+    "usable": [
+      "basic pandas aggregation syntax, subject to missing-key policy",
+      "mean-vs-median distinction",
+      "hallazgo is not decision",
+      "question-first chart choice",
+      "bar-length baseline zero",
+      "non-color redundancy as an accessibility principle"
+    ],
+    "not_creditable": [
+      "S19 chart-table parity is proven",
+      "S19 PNG metadata proves a real image exists",
+      "S18 data-note provenance is trustworthy",
+      "S17/S18 PEN floats have an explicit Decimal-to-analytical-float contract",
+      "groupby denominators and missing-key policy are safe by default"
+    ]
+  },
+  "roadmap_expectation": {
+    "source": "learning_roadmap_52_V3.md",
+    "environment": "local",
+    "project": "reporting factory",
+    "T1": "Workbooks: sheets, celdas, tablas y named ranges; fórmulas vs valores cacheados",
+    "T2": "Formato: estilos, charts y plantillas; fechas, locales, celdas combinadas y protección",
+    "T3": "Análisis: conciliación y pivots; reglas de validación y preservación de estructura",
+    "T4": "Operación: batch, archivos corruptos y locks; backups, idempotencia y pruebas visuales/estructurales",
+    "gate": "adaptador que lee formatos sintéticos del VP, produce workbook sin dañar plantilla y deja manifest de cambios"
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/",
+    "status": "PUBLIC_CARD_VERIFIED_BODY_NOT_HYDRATED_IN_TEXT_FETCH",
+    "evidence": "Public page exposes Section 20 card 'Excel factory' and the canonical tagline, but the fetched HTML does not expose the S20 theory body; rendered-only defects remain UNRESOLVED rather than invented."
+  },
+  "audit_metadata": {
+    "theory_blocks_reviewed": 10,
+    "paragraphs_reviewed": 32,
+    "paragraphs_expected": 32,
+    "paragraph_coverage_complete": true,
+    "learning_outcomes_reviewed": 8,
+    "theory_code_blocks_reviewed": 8,
+    "theory_outputs_reviewed": 8,
+    "theory_callouts_reviewed": 9,
+    "theory_figures_reviewed": 1,
+    "runtime_validation": {
+      "environment": "Python local audit runtime",
+      "openpyxl_version": "3.1.5",
+      "pandas_version": "2.2.3",
+      "result": "All eight published theory snippets reproduced their displayed outputs as written. Semantic-contract defects remain and are not syntax/runtime failures.",
+      "additional_probes": [
+        "A Python date written to a default Workbook serialized as Excel numeric date 45473; setting wb.iso_dates=True serialized 2024-06-30 as ISO.",
+        "A formula written by openpyxl reopened with data_only=True had no cached result and returned None.",
+        "pandas groupby with default dropna omitted a missing-region amount: source total 22.0, grouped visible total 17.0; dropna=False restored 22.0."
+      ]
+    }
+  },
+  "external_validation": [
+    {
+      "source": "openpyxl 3.1.x documentation — Tutorial / load_workbook",
+      "supports": ["data_only reads the value stored the last time Excel calculated/read the sheet", "openpyxl does not preserve every Excel object; shapes can be lost on open/save"]
+    },
+    {
+      "source": "openpyxl 3.1.x documentation — Dates and Times",
+      "supports": ["XLSX dates may be stored as serial numbers or ISO 8601", "wb.iso_dates=True is required to force ISO storage"]
+    },
+    {
+      "source": "openpyxl 3.1.x documentation — Worksheet Tables",
+      "supports": ["openpyxl directly supports worksheet tables; fixed headers are not a substitute for teaching the roadmap's table construct"]
+    },
+    {
+      "source": "openpyxl / Microsoft Excel protection documentation",
+      "supports": ["workbook/worksheet protection is a distinct feature", "worksheet/workbook protection is not file encryption or strong security"]
+    },
+    {
+      "source": "S02 canonical lesson",
+      "supports": ["PyArcana explicitly establishes Decimal-from-string rather than float for PEN amounts"]
+    }
+  ],
+  "executive": {
+    "score_10": 3.5,
+    "verdict": "REPAIR_REQUIRED",
+    "material_findings": 24,
+    "severity_counts": {"P0": 0, "P1": 17, "P2": 7, "P3": 0},
+    "key_verdict": "S20's examples execute, but the lesson fails its own robustness contract: roadmap-owned Excel features are omitted, template fidelity is overclaimed despite documented openpyxl lossiness, reconciliation and structure gates are only partially checked, batch safeguards are simulated rather than implemented, and the final manifest hardcodes success instead of recording observed evidence."
+  },
+  "findings": [
+    {
+      "id": "S20-F01",
+      "severity": "P1",
+      "category": "UNTRUSTED_PREREQUISITE_ARTIFACTS",
+      "locations": ["T1-A.p3", "T2-B.p3", "T3-A.p1"],
+      "evidence": "S20 says its row counts reconcile with S19 and its data note is aligned to S18, even though the running ledger marks S18 and S19 REPAIR_REQUIRED for denominator, parity and provenance defects.",
+      "attack": "S20 can turn unresolved upstream evidence into a polished workbook and thereby launder uncertainty into an apparently audited deliverable.",
+      "defense": "Cross-section continuity is intended, and later sections should reuse prior artifacts rather than rebuild everything.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "Learner is taught to trust lineage labels rather than verify artifact identity and denominator semantics.",
+      "minimal_repair": "Require payload/data-note identity checks before consumption and state explicitly which S18/S19 fields must be revalidated."
+    },
+    {
+      "id": "S20-F02",
+      "severity": "P1",
+      "category": "ROADMAP_TABLES_NAMED_RANGES_OMITTED",
+      "locations": ["reference.p2", "T1-A.p1", "learningOutcomes[0]"],
+      "evidence": "Roadmap T1 explicitly owns 'tablas y named ranges'; the lesson says fixed headers + sheetnames are the practical equivalent and never teaches openpyxl Table or defined-name behavior.",
+      "attack": "A binding learning target is explicitly replaced rather than taught.",
+      "defense": "Fixed headers and stable sheet names are simpler and sufficient for a minimal reporting factory.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "Learner exits S20 without two promised workbook-addressing constructs and may wrongly believe they are interchangeable with headers.",
+      "minimal_repair": "Add a minimal real Table and defined-name example, including uniqueness/range validation and when each is preferable."
+    },
+    {
+      "id": "S20-F03",
+      "severity": "P1",
+      "category": "ROADMAP_CHARTS_AND_PROTECTION_OMITTED",
+      "locations": ["reference.p2", "T2-A.p1", "learningOutcomes"],
+      "evidence": "Roadmap T2 requires styles, charts, templates, dates, merged cells and protection. S20 declares embedded Excel charts optional and contains no workbook/worksheet protection lesson or outcome.",
+      "attack": "Two roadmap-owned capabilities disappear from the authored theory.",
+      "defense": "S19 already creates PNG charts, and protection might be unnecessary for synthetic workbooks.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "The learner cannot satisfy S20's own roadmap contract or distinguish worksheet/workbook protection from file security.",
+      "minimal_repair": "Teach one minimal embedded chart path and one protection example, explicitly warning that worksheet/workbook protection prevents accidental editing but is not encryption."
+    },
+    {
+      "id": "S20-F04",
+      "severity": "P1",
+      "category": "ROADMAP_VISUAL_TESTS_OMITTED",
+      "locations": ["reference.p2", "T4-B", "learningOutcomes[7]"],
+      "evidence": "Roadmap T4 requires visual and structural tests. S20 teaches structural checks but no visual/render/open-in-Excel verification path.",
+      "attack": "A workbook can be structurally valid while visually broken, especially after template edits, merged cells, styles or unsupported object loss.",
+      "defense": "Headless CI cannot conveniently run Excel GUI, so structural tests are easier and more portable.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "The course labels the artifact robust without testing the human-visible deliverable.",
+      "minimal_repair": "Add a visual QA contract: render/screenshot through an available office engine or at minimum open/reload plus human review checklist with evidence path; keep structural tests separate."
+    },
+    {
+      "id": "S20-F05",
+      "severity": "P1",
+      "category": "TEMPLATE_PRESERVATION_OVERCLAIM",
+      "locations": ["opening.p3", "T2-A.p1", "T2-A.p2", "T2-A.p3", "jobRelevance"],
+      "evidence": "The lesson treats copy→load_workbook→save as sufficient to keep the VP template intact. Current openpyxl documentation warns that it does not read all Excel objects and that shapes can be lost when existing files are opened and saved.",
+      "attack": "The central gate 'sin dañar la plantilla' is not guaranteed by the chosen library workflow for arbitrary complex templates.",
+      "defense": "The synthetic course template is simple and the master bytes are hashed before/after, so the original file remains untouched.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "Learner can preserve the master while silently damaging the generated copy, then report success because only the master hash was checked.",
+      "minimal_repair": "Define a supported-template feature contract, reject unsupported objects, reopen and inventory the output, and visual-check the generated copy. Clarify that master immutability is not output fidelity."
+    },
+    {
+      "id": "S20-F06",
+      "severity": "P2",
+      "category": "FORMULA_CACHE_AND_RECALCULATION_MODEL_INCOMPLETE",
+      "locations": ["opening.p2", "T1-B.p1", "T1-B.code"],
+      "evidence": "The opening implies the displayed number is calculated when Excel opens the file. Later prose correctly says data_only reads a stored cache, but the demo never shows the key failure: a newly written formula can reopen with data_only=True as None/stale because openpyxl does not calculate it; workbook calculation mode is not introduced.",
+      "attack": "The novice may infer that opening/reopening is equivalent to calculation.",
+      "defense": "T1-B explicitly warns that openpyxl has no Excel calculation engine and that caches are uncontrolled.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "The conceptual warning is stronger than the executable demonstration, leaving a predictable formula-cache misconception.",
+      "minimal_repair": "Demonstrate formula-view versus data_only view after save, explain possible None/stale cache, and mention Excel calculation mode/recalculation as an external dependency."
+    },
+    {
+      "id": "S20-F07",
+      "severity": "P1",
+      "category": "CANONICAL_SHEET_CONTRACT_CONTRADICTS_ITSELF",
+      "locations": ["opening.callout", "reference.p3", "T1-A.callout", "T1-A.code", "T4-B.code"],
+      "evidence": "Opening/reference declare Entrada, Datos, Salida canonical; T1 callout says Entrada + Salida is the minimum and Datos is optional; code and final manifest contain only Entrada/Salida.",
+      "attack": "There is no single workbook schema for the learner to validate.",
+      "defense": "Datos may reasonably be optional staging depending on the report.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "Structural checks can disagree while each claims to implement the same contract.",
+      "minimal_repair": "Choose one schema: either make Datos required everywhere or define required versus optional sheets explicitly in one machine-readable contract."
+    },
+    {
+      "id": "S20-F08",
+      "severity": "P2",
+      "category": "SHEET_ORDER_CONTRADICTION",
+      "locations": ["T1-A.figure", "T1-A.p3"],
+      "evidence": "Figure says reading by name survives tab reordering; paragraph says order and names are part of the contract without defining why order must be stable.",
+      "attack": "The learner may reintroduce positional brittleness even after being told to avoid it.",
+      "defense": "Visual tab order can itself be a presentation requirement even when programmatic lookup uses names.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "Two different contracts—machine lookup and human presentation order—are collapsed into one rule.",
+      "minimal_repair": "State that code resolves sheets by name; validate order only if the VP template explicitly defines a visual-order requirement."
+    },
+    {
+      "id": "S20-F09",
+      "severity": "P1",
+      "category": "IDEMPOTENCE_PROMISED_NOT_TESTED",
+      "locations": ["opening.p4", "T4-B.p1", "T4-B.p2", "T4-B.p3", "learningOutcomes[7]"],
+      "evidence": "The lesson says idempotence is checked by running twice and comparing. No theory example executes the factory twice; the final manifest simply sets 'idempotent': true.",
+      "attack": "The strongest operational property in the section is asserted rather than measured.",
+      "defense": "The final code is a manifest-schema illustration, not necessarily the complete factory implementation.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "Learner can confuse a boolean label with evidence that rerun behavior was tested.",
+      "minimal_repair": "Run the same fixture twice into clean/versioned outputs, compare canonical data/state fingerprints, assert no duplicate rows/styles, then derive the manifest field from that check."
+    },
+    {
+      "id": "S20-F10",
+      "severity": "P1",
+      "category": "MANIFEST_HARDCODES_AUDIT_TRUTH",
+      "locations": ["T3-A.p2", "T3-B.p2", "T4-A.p2", "T4-B.code"],
+      "evidence": "Prose says reconcile/structural/batch outcomes live in the manifest; the final manifest hardcodes reconcile_ok=true, backup path, sheets and idempotent=true without consuming the prior checks.",
+      "attack": "The audit artifact can claim success even when the actual workbook failed.",
+      "defense": "The snippet may be intended only to demonstrate JSON shape.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "Teaches decorative observability instead of evidence-derived observability.",
+      "minimal_repair": "Build one run-result object from executed checks and serialize that exact object; never type success booleans manually."
+    },
+    {
+      "id": "S20-F11",
+      "severity": "P1",
+      "category": "RUN_PROVENANCE_NOT_BOUND_TO_OUTPUT",
+      "locations": ["T4-B.p1", "T4-B.p2", "T4-B.code"],
+      "evidence": "Manifest identifies only a short input digest and string backup path. It lacks output workbook hash, template hash/version, script/git version, dependency versions and upstream S18/S19 payload identity.",
+      "attack": "A reviewer cannot prove which template/code/payload produced a particular workbook or whether the manifest belongs to that output.",
+      "defense": "For a small synthetic lab, a compact manifest may be enough to teach the concept.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "The claimed audit trail is not actually traceable end-to-end.",
+      "minimal_repair": "Record full input/output/template SHA-256, git/script version, dependency versions, run id, upstream payload/data-note id and observed checks."
+    },
+    {
+      "id": "S20-F12",
+      "severity": "P2",
+      "category": "TRUNCATED_SHA1_IS_WEAK_ARTIFACT_IDENTITY",
+      "locations": ["T4-B.p2", "T4-B.code"],
+      "evidence": "input_sha1_8 keeps only eight hexadecimal characters (32 bits) of SHA-1.",
+      "attack": "Collision probability becomes material across many artifacts and the name implies stronger identity than the field provides.",
+      "defense": "The field is not used for cryptographic security and the course fixture is tiny.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "Normalizes weak/truncated identifiers in an audit manifest.",
+      "minimal_repair": "Use full SHA-256 for artifact identity; if a short display id is useful, store it separately from the authoritative digest."
+    },
+    {
+      "id": "S20-F13",
+      "severity": "P1",
+      "category": "ISO_DATE_CONTRACT_CODE_CONTRADICTION",
+      "locations": ["T2-B.p1", "T2-B.code", "learningOutcomes[3]"],
+      "evidence": "Text says dates are serialized ISO YYYY-MM-DD. Code assigns a Python date to a default Workbook. Audit execution with openpyxl 3.1.5 stored the cell as numeric Excel serial 45473; ISO storage required wb.iso_dates=True.",
+      "attack": "The code demonstrates a different file representation than the stated contract.",
+      "defense": "When reloaded through openpyxl, the value becomes a Python date and prints isoformat(), so user-visible semantics remain date-like.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "Learner cannot predict what is actually serialized in the XLSX and may confuse Python display with workbook storage format.",
+      "minimal_repair": "Either set wb.iso_dates=True and verify the saved/reopened file, or change the prose to say date/datetime values are written with an explicitly documented Excel date representation."
+    },
+    {
+      "id": "S20-F14",
+      "severity": "P1",
+      "category": "PEN_RECONCILIATION_REGRESSES_DECIMAL_CONTRACT",
+      "locations": ["T3-A.p2", "T3-A.code"],
+      "evidence": "S20 reconciles PEN with float and abs(diff)<0.01. S02 explicitly states not to use float for soles and teaches Decimal constructed from strings.",
+      "attack": "A later reporting/finance lesson silently reverses an earlier money-representation contract at the exact point where cent-level reconciliation matters.",
+      "defense": "Pandas often uses float analytics and a cent tolerance can be pragmatic for reporting data.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "Cross-section semantic drift leaves the learner unable to know which numeric rule is authoritative for money.",
+      "minimal_repair": "Use Decimal/integer cents for the reconciliation boundary, or explicitly teach and test a controlled Decimal↔analytical numeric conversion policy before using float."
+    },
+    {
+      "id": "S20-F15",
+      "severity": "P1",
+      "category": "RECONCILIATION_GATE_ONLY_PARTIALLY_IMPLEMENTED",
+      "locations": ["T3-A.p2", "T3-A.p3", "T3-A.code"],
+      "evidence": "Contract requires sum_xlsx versus sum_df and n_xlsx==n_df, with reconcile_ok in manifest. Code compares a DataFrame total to hardcoded tot_portada=22.0, never reads an XLSX output, never checks n, and only prints ok.",
+      "attack": "The executable example does not test the artifact it claims to reconcile.",
+      "defense": "The hardcoded portada value is a minimal stand-in for a workbook cell.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "Learner can pass the gate without validating the generated workbook.",
+      "minimal_repair": "Generate/reopen the output workbook, read the exact total and data-row count from it, compare both to the validated source payload, and derive reconcile_ok."
+    },
+    {
+      "id": "S20-F16",
+      "severity": "P1",
+      "category": "PIVOT_SILENTLY_DROPS_MISSING_KEYS",
+      "locations": ["T3-A.p1", "T3-A.p3", "T3-A.code"],
+      "evidence": "The materialized pivot uses pandas groupby('region') with default dropna=True. Audit probe with one missing region retained source total 22.0 but visible grouped total fell to 17.0; dropna=False restored 22.0.",
+      "attack": "A reporting pivot can silently omit money while a separate source-total reconciliation still passes.",
+      "defense": "Earlier quality gates may forbid missing regions before S20.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "Reintroduces an unresolved S17 missing-group defect into the executive reporting layer.",
+      "minimal_repair": "Validate region non-null as a precondition or use dropna=False and surface the missing-key group; reconcile the pivot total itself to source."
+    },
+    {
+      "id": "S20-F17",
+      "severity": "P1",
+      "category": "STRUCTURAL_VALIDATION_EXAMPLE_DOES_NOT_VALIDATE_STRUCTURE",
+      "locations": ["T3-B.p2", "T3-B.p3", "T3-B.code"],
+      "evidence": "Prose requires required-sheet subset, exact headers, domain rules and manifest status. Code names its print structure_ok but only evaluates headers==expected and one synthetic allowlist row; it does not inspect sheetnames or serialize failure evidence.",
+      "attack": "The label 'structure_ok' is broader than the predicate actually tested.",
+      "defense": "Each sub-check could be composed later in the complete project.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "Creates a false-green structural gate and teaches misleading test naming.",
+      "minimal_repair": "Implement separate sheets_ok, headers_ok, domains_ok, aggregate structural_ok=all(...), and store violators plus the policy decision in the manifest."
+    },
+    {
+      "id": "S20-F18",
+      "severity": "P2",
+      "category": "GEOGRAPHY_AND_DOMAIN_FIXTURES_INCOHERENT",
+      "locations": ["T1-A.p3", "T2-B.code", "T3-A.p3", "T3-B.p3", "T3-B.code", "T4-A.p3"],
+      "evidence": "A Peru-positioned reporting factory repeatedly mixes Lima, Madrid, Bogota, Barcelona and 'Lima-Madrid' without defining a multinational market dimension or coherent region domain.",
+      "attack": "Domain-validation examples become self-contradictory: whether a city is valid depends on an unstated geography model.",
+      "defense": "The data are synthetic and international examples can demonstrate generality.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "The novice cannot infer whether an allowlist failure is a real domain rule or arbitrary fixture choice.",
+      "minimal_repair": "Use coherent Peru regions/cities throughout, or explicitly rename the field market and define a multinational allowlist."
+    },
+    {
+      "id": "S20-F19",
+      "severity": "P1",
+      "category": "LOCK_HANDLING_IS_SIMULATED_NOT_VALIDATED",
+      "locations": ["T2-B.p1", "T4-A.p1", "T4-A.p3", "T4-A.code", "learningOutcomes[6]"],
+      "evidence": "The batch example classifies locks only because fake_open raises PermissionError when a filename contains 'lock'. Real Excel/shared-file lock behavior varies by platform and operation; Microsoft documents files can be locked for editing while still openable/readable.",
+      "attack": "The demo proves a fake exception branch, not robust handling of an actual locked workbook or save conflict.",
+      "defense": "A deterministic fake is appropriate for a portable unit-level lesson and avoids OS-specific flakiness.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "Learner may believe PermissionError-on-open is the universal Excel-lock contract.",
+      "minimal_repair": "Teach lock handling as an adapter boundary: detect known owner/temp files where relevant, catch write/open permission failures, record operation+exception, and test the policy through injected filesystem behaviors without claiming one universal lock mechanism."
+    },
+    {
+      "id": "S20-F20",
+      "severity": "P1",
+      "category": "CORRUPT_WORKBOOK_FAILURE_SURFACE_TOO_NARROW",
+      "locations": ["T4-A.p1", "T4-A.code", "learningOutcomes[6]"],
+      "evidence": "Code treats BadZipFile as the corrupt-workbook path. openpyxl can also reject unsupported extensions with InvalidFileException, invalid XML with ValueError, or packages without a workbook part with I/O errors.",
+      "attack": "Some corrupt/invalid workbook inputs can escape the classifier and crash the whole batch, contradicting the promised isolation behavior.",
+      "defense": "BadZipFile is a useful first minimal example because XLSX is a ZIP container.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "The student learns one corruption symptom as if it were the corruption category.",
+      "minimal_repair": "Classify a deliberately bounded set of openpyxl/ZIP parsing failures and leave unexpected exceptions fatal; record exception type and stage."
+    },
+    {
+      "id": "S20-F21",
+      "severity": "P1",
+      "category": "BATCH_SAFEGUARDS_PROMISED_BUT_ABSENT",
+      "locations": ["T4-A.p2", "T4-A.p3", "T4-A.code", "T4-A.callout"],
+      "evidence": "Prose promises per-file timeout, maximum size, ok/corrupt/locked counters, summary JSON, quarantine move and quarantine hash. Code implements none of timeout/size/quarantine/hash/JSON and prints only ok_count.",
+      "attack": "The operational controls exist only as prose, so the learner cannot reproduce the stated robust batch behavior.",
+      "defense": "The code intentionally focuses on classification while prose previews the full project.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "A beginner cannot bridge from a three-line fake opener to the promised resilient file-processing harness without unstated design work.",
+      "minimal_repair": "Implement size precheck, bounded processing strategy, all counters, quarantine move/copy policy, full SHA-256 and JSON summary in the theory example or explicitly defer each item."
+    },
+    {
+      "id": "S20-F22",
+      "severity": "P2",
+      "category": "OUTPUT_SAVE_IS_NOT_ATOMIC",
+      "locations": ["T2-A.p2", "T2-A.code", "T4-B.p1"],
+      "evidence": "The factory saves directly to the final output path. A process/filesystem failure during save can leave a partial output even though the master remains safe.",
+      "attack": "A lesson named robust reporting factory should not equate master safety with output durability.",
+      "defense": "Atomic replacement is a more advanced filesystem concern and the synthetic lab uses a temporary directory.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "Learner may overwrite a previously valid report with a half-written file.",
+      "minimal_repair": "Save to a temporary sibling file, reopen/validate it, then replace the destination atomically when the platform/filesystem supports it."
+    },
+    {
+      "id": "S20-F23",
+      "severity": "P2",
+      "category": "WIDOW_TERMS_AND_SPANGLISH_DENSITY",
+      "locations": ["jobRelevance", "learningOutcomes", "T1-A", "T1-B", "T2-A", "T2-B", "T3-A", "T3-B", "T4-A", "T4-B"],
+      "evidence": "factory, master, workbook, sheet, header, named range, schema, endpoint, KPI, headless, fills, borders, path, diff, layout, merge, pivot, fail-closed, allowlist, batch, lock, summary, digest and hash appear at high density; several are not introduced Spanish-first.",
+      "attack": "The ZERO_TECH reader must decode vocabulary while simultaneously learning file integrity, Excel internals and auditability.",
+      "defense": "Many are real library/API terms and some are explained parenthetically.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "Unnecessary lexical switching increases extraneous cognitive load and weakens self-sufficiency.",
+      "minimal_repair": "Keep literal API identifiers but introduce concepts Spanish-first: libro/hoja/encabezado, plantilla maestra, procesamiento por lotes, lista permitida, manifiesto de corrida, huella SHA-256, cierre ante fallo."
+    },
+    {
+      "id": "S20-F24",
+      "severity": "P2",
+      "category": "UNDEFINED_GRAPH_METAPHOR_FOR_WORKBOOK",
+      "locations": ["T1-A.p1"],
+      "evidence": "The lesson calls an Excel workbook a 'grafo de hojas + celdas + encabezados' without defining nodes, edges or what prediction the graph model enables.",
+      "attack": "The metaphor imports a later technical concept while adding no operational guidance and may suggest relationships that Excel does not represent as a graph here.",
+      "defense": "It is informal language meant to convey nested structure rather than graph theory.",
+      "verdict": "CONFIRMED_FINDING",
+      "pedagogical_impact": "A novice gets abstraction without explanatory payoff.",
+      "minimal_repair": "Replace with a concrete hierarchy: workbook contains sheets; sheets contain cells/ranges; tables and named ranges provide stable addressable regions."
+    }
+  ],
+  "rejected_or_unresolved_hypotheses": [
+    {
+      "hypothesis": "Any use of openpyxl for an existing template is invalid.",
+      "verdict": "REJECTED_FINDING",
+      "reason": "openpyxl is appropriate for supported OOXML features; the defect is claiming generic template fidelity without a supported-feature contract or output validation."
+    },
+    {
+      "hypothesis": "data_only=True evaluates Excel formulas.",
+      "verdict": "REJECTED_FINDING",
+      "reason": "The lesson correctly says it does not; the remaining defect is incomplete cache/recalculation demonstration."
+    },
+    {
+      "hypothesis": "Merged cells are always a defect.",
+      "verdict": "REJECTED_FINDING",
+      "reason": "Presentation merges can be legitimate; the lesson correctly warns against merges in machine-read data regions."
+    },
+    {
+      "hypothesis": "Worksheet/workbook protection should be treated as security encryption.",
+      "verdict": "REJECTED_FINDING",
+      "reason": "Official Excel/openpyxl guidance distinguishes accidental-edit protection from file security; the repair must teach that distinction."
+    },
+    {
+      "hypothesis": "The published theory code is broken because outputs are wrong.",
+      "verdict": "REJECTED_FINDING",
+      "reason": "All eight snippets reproduced their displayed outputs. Most defects are semantic coverage or false-green validation."
+    },
+    {
+      "hypothesis": "The source header comment is a confirmed learner-facing meta leak.",
+      "verdict": "UNRESOLVED",
+      "reason": "It is a TypeScript source comment and the fetched live page does not expose the hydrated lesson body; no evidence proves it renders."
+    }
+  ],
+  "meta_leak": {
+    "confirmed": [],
+    "source_only_unresolved": [
+      {
+        "location": "file header",
+        "text_summary": "Explains legacy filename/id and warns agents not to match content to slug.",
+        "status": "NOT_CONFIRMED_LEARNER_FACING"
+      }
+    ]
+  },
+  "priority_order": [
+    "1. F05/F07/F13: define a real supported workbook/template contract before claiming the generated workbook is intact.",
+    "2. F09/F10/F11/F12: replace hardcoded manifest truth with evidence-derived idempotence and full provenance.",
+    "3. F14/F15/F16/F17: make reconciliation and structural validation read the actual output and preserve denominator/missing-key semantics.",
+    "4. F19/F20/F21/F22: turn simulated batch robustness into bounded, observable file-operation behavior.",
+    "5. F02/F03/F04: restore roadmap-owned tables/named ranges, charts/protection, and visual tests.",
+    "6. F01: block inheritance of unresolved S18/S19 artifacts until identity and semantics are revalidated.",
+    "7. F06/F08/F18/F23/F24: repair mental-model, geography and Spanish-first clarity defects."
+  ],
+  "graph_memory_update": {
+    "USABLE": [
+      "openpyxl does not calculate formulas",
+      "data_only reads cached/stored formula values rather than executing formulas",
+      "master should not be modified in place",
+      "merged-cell value belongs to the anchor cell",
+      "machine-read data regions should avoid merged cells",
+      "named sheet lookup is more robust than positional sheet indexing",
+      "a reporting artifact needs explicit reconciliation and an audit manifest in principle"
+    ],
+    "PARTIAL": [
+      "template copy/load/save fidelity",
+      "Excel date serialization",
+      "formula cache semantics",
+      "reconciliation",
+      "structural validation",
+      "batch corruption/lock handling",
+      "backup/idempotence",
+      "run manifest/provenance"
+    ],
+    "MISCONCEPTION_RISK": [
+      "fixed headers are equivalent to Excel tables/named ranges",
+      "copying the master guarantees the output template is intact",
+      "printing isoformat proves ISO was stored in XLSX",
+      "float +/- 0.01 is the established PyArcana PEN contract",
+      "groupby pivot preserves missing region money by default",
+      "structure_ok based only on headers means workbook structure is valid",
+      "PermissionError-on-open is the universal Excel lock signal",
+      "BadZipFile covers all corrupt workbook failures",
+      "a manifest boolean proves reconciliation/idempotence occurred"
+    ],
+    "MISSING_ROADMAP_OWNERSHIP": [
+      "worksheet tables",
+      "defined/named ranges",
+      "Excel chart handling in S20",
+      "worksheet/workbook protection",
+      "visual workbook tests"
+    ],
+    "S21_WATCHLIST": [
+      "Do not consume S20 reconcile_ok/idempotent flags until they are derived from executed checks.",
+      "Do not treat the existence of results.xlsx as proof the template was preserved.",
+      "Bind DOCX/PDF/report outputs to the same upstream payload, workbook SHA-256 and run id.",
+      "Do not inherit short SHA1_8 as authoritative provenance.",
+      "Do not inherit float PEN totals or missing-key groupby pivots as trusted reconciled values.",
+      "Require S20 visual QA evidence before embedding workbook-derived charts/tables into S21 reports."
+    ]
+  },
+  "status": "COMPLETE_REPAIR_REQUIRED"
+}
