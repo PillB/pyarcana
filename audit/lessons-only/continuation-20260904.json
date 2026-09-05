@@ -1,12 +1,12 @@
 {
-  "schema_version": "1.4.0",
+  "schema_version": "1.5.0",
   "campaign_id": "lessons-only-adversarial-20260903",
   "continuation_date": "2026-09-04",
   "branch": "audit/lessons-only-adversarial-20260903",
-  "last_completed_section": "S21",
-  "last_completed_round": "S21-base-solarized-adversarial-audit-20260904",
+  "last_completed_section": "S22",
+  "last_completed_round": "S22-base-solarized-adversarial-audit-20260904",
   "last_completed_verdict": "REPAIR_REQUIRED",
-  "last_completed_material_findings": 25,
+  "last_completed_material_findings": 28,
   "section_artifacts": {
     "S17": {
       "base_audit": "audit/lessons-only/sections/S17.json",
@@ -14,7 +14,6 @@
       "round2": "audit/lessons-only/sections/S17.round2.json",
       "round2_paragraph_delta": "audit/lessons-only/sections/S17.round2.paragraph-delta.json",
       "source_blob_sha": "948e1c6d3b937313beee683974e4363c3c90c059",
-      "coverage": "38/38 theory paragraphs plus outcomes/code/figures/callouts; six paragraph adjudications changed in R2",
       "material_findings": 21,
       "status": "AUDITED_REPAIR_REQUIRED"
     },
@@ -24,9 +23,8 @@
       "source_file": "src/lib/course/sections/s18-data-engineering.ts",
       "source_blob_sha": "0e22a0e9024568478de1ee421b59a968747cf03c",
       "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
-      "coverage": "40/40 theory paragraphs plus 8 outcomes, 10 theory code blocks, 2 figures and 11 callouts",
       "material_findings": 24,
-      "severity_counts": {"P0": 0, "P1": 10, "P2": 14, "P3": 0},
+      "severity_counts": {"P0":0,"P1":10,"P2":14,"P3":0},
       "status": "AUDITED_REPAIR_REQUIRED"
     },
     "S19": {
@@ -36,9 +34,8 @@
       "source_file": "src/lib/course/sections/s19-databases-orm.ts",
       "source_blob_sha": "4babf21d54af98ad228f5bbc3e08e9dffe00456a",
       "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
-      "coverage": "38/38 theory paragraphs + title/tagline/job relevance + 8 outcomes + 9 theory code/output blocks + 9 callouts + 1 figure",
       "material_findings": 24,
-      "severity_counts": {"P0": 0, "P1": 13, "P2": 11, "P3": 0},
+      "severity_counts": {"P0":0,"P1":13,"P2":11,"P3":0},
       "status": "AUDITED_REPAIR_REQUIRED"
     },
     "S20": {
@@ -48,9 +45,8 @@
       "source_file": "src/lib/course/sections/s20-rag.ts",
       "source_blob_sha": "c3bda4aa77a38430992c763b4149484d328c183e",
       "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
-      "coverage": "32/32 theory paragraphs + title/tagline/job relevance + 8 outcomes + 8 theory code/output blocks + 9 callouts + 1 figure",
       "material_findings": 24,
-      "severity_counts": {"P0": 0, "P1": 17, "P2": 7, "P3": 0},
+      "severity_counts": {"P0":0,"P1":17,"P2":7,"P3":0},
       "status": "AUDITED_REPAIR_REQUIRED"
     },
     "S21": {
@@ -60,40 +56,51 @@
       "source_file": "src/lib/course/sections/s21-fastapi.ts",
       "source_blob_sha": "f2da335a5bc20a72ab98726f5ffd3af4df7d3fce",
       "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
-      "coverage": "32/32 theory paragraphs + title/tagline/job relevance + 8 outcomes + 8 theory code/output blocks + 9 callouts + 1 figure",
       "material_findings": 25,
-      "severity_counts": {"P0": 0, "P1": 18, "P2": 7, "P3": 0},
+      "severity_counts": {"P0":0,"P1":18,"P2":7,"P3":0},
+      "status": "AUDITED_REPAIR_REQUIRED"
+    },
+    "S22": {
+      "base_audit": "audit/lessons-only/sections/S22.json",
+      "paragraph_shards": ["audit/lessons-only/sections/S22.paragraphs-01.json", "audit/lessons-only/sections/S22.paragraphs-02.json"],
+      "component_ledger": "audit/lessons-only/sections/S22.components.json",
+      "source_file": "src/lib/course/sections/s22-rapidfuzz-entity.ts",
+      "source_blob_sha": "1203b539e4a6d7c84e036d1665b3d69008232347",
+      "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+      "coverage": "33/33 theory paragraphs + title/tagline/job relevance + 8 outcomes + 9 theory code/output blocks + 9 callouts + 3 figures",
+      "material_findings": 28,
+      "severity_counts": {"P0":0,"P1":17,"P2":11,"P3":0},
       "highest_risk_findings": [
-        "S21-F02 gate says one run reconciles dashboard/XLSX/DOCX/PDF but theory never executes an integrated run",
-        "S21-F08 promised missing->em-dash path crashes on None in canonical Jinja table code",
-        "S21-F12 nonempty PNG is mislabeled as proof of visual legibility",
-        "S21-F14 searchable/rendered ReportLab PDF is not shown to be accessible/tagged",
-        "S21-F16 T3-B parity code opens none of the actual artifacts and only checks an in-memory dict/string",
-        "S21-F17 display rounding makes 28.04, 28.0 and 28 falsely pass as consistent",
-        "S21-F21 provenance hardcodes artifact ok states and hashes literal synthetic bytes rather than files",
-        "S21-F22 ready/checklist/persisted pending_review manifest contract is not implemented"
+        "S22-F02 lab email addresses use non-reserved @example.pe despite no-real-email gate",
+        "S22-F10 least_privilege_ok returns True when mail.send is granted",
+        "S22-F16 dedupe can replace a first BCC role with a later To/CC role",
+        "S22-F19 same analyst actor can submit and approve because roles are not authorized",
+        "S22-F21 approval is not bound to draft_id/message hash/recipient set/attachments",
+        "S22-F22 no per-recipient confirmation exists despite tagline gate",
+        "S22-F23/F24 idempotency key omits message fields and uses non-atomic 64-bit prefix",
+        "S22-F26 no integrated persisted workflow demonstrates the section gate"
       ],
       "status": "AUDITED_REPAIR_REQUIRED"
     }
   },
   "audit_protocol_delta": {
     "rule": "SIN_CAMBIO_DEFENDIDO/NO_MATERIAL_CHANGE => improved_content=null",
-    "reason": "Legacy S17 paragraph shards violated the campaign's unchanged rewrite-null rule; S18-S21 follow the corrected protocol."
+    "reason": "S18-S22 follow the corrected paragraph protocol; defended content is not rewritten for cosmetic churn."
   },
-  "next_section": "S22",
+  "next_section": "S23",
   "carry_forward_constraints": [
-    "S22 must consume a persisted S21 pending_review manifest derived from actual files, not a printed in-memory dict.",
-    "Do not trust S21 dashboard/xlsx/doc='ok' states or data_sha1_8; S21 currently hardcodes statuses and hashes literal synthetic bytes.",
-    "Do not treat S21 rounded display equality as source metric parity; compare canonical metric id/value/unit/denominator/filter/run_id before formatting.",
-    "Preserve S02 Decimal or integer-cent semantics for PEN; S21 round(float(...)) is not creditable.",
-    "S21 DOCX heading/accessibility competence is PARTIAL: code reopens text but does not validate semantic style hierarchy, alt attachment or table-header semantics.",
-    "S21 PDF accessibility is NOT ESTABLISHED by text extraction or nonempty PNG rendering; tagged structure/reading order/alt/language remain unresolved.",
-    "S21 needs_ocr workflow is PARTIAL until an image-only negative fixture actually sets the flag and blocks factual extraction.",
-    "S21 StrictUndefined/fail-closed template behavior is PARTIAL; canonical theory environments still use default Undefined.",
-    "Missing, zero and redacted must remain distinct states; do not inherit the S21 opening's shared em-dash semantics.",
-    "S22 human approval must record actor/timestamp/comments and cannot be inferred from factory completion or artifact existence.",
-    "Do not send or draft recipient-facing content from S18-S21 artifacts until the final reporting payload has been revalidated and cross-artifact reconciliation succeeds.",
-    "Keep accessibility constraints active in recipient-facing email attachments and summaries; packaging does not erase unresolved document accessibility defects."
+    "S23 must not automate any send/submit action from S22 state='approved' alone; verify authorized reviewer, timestamp, per-recipient confirmation, unexpired draft and exact draft/message hash.",
+    "Use RFC/IANA-reserved lab domains (.test/.invalid/.example or reserved example.com/net/org); do not reuse @example.pe as a supposedly safe non-routable recipient.",
+    "Do not inherit S22 least_privilege_ok as valid: mail.send must fail the draft-only lab policy and requested/granted scopes must be observed, not hardcoded.",
+    "Do not treat moving an external recipient to BCC as sufficient to hide internal To/Cc addresses; use individual drafts when required by minimum disclosure.",
+    "Do not reuse S22 OrderedDict dedupe or @other.test-only external detection; recipient policy must never increase visibility and must use the actual allowlist.",
+    "Approval must be invalidated if the draft expires, recipients/content/subject/attachments change, or the upstream S21 payload changes.",
+    "Idempotency must identify the complete canonical message and be enforced atomically; sha256(run|to|body_ver)[:16] is not creditable as a guarantee.",
+    "S23 must preserve one persisted audit trail linking S21 payload -> S22 draft -> recipient set -> approval -> browser action; isolated print statements are not provenance.",
+    "S21 remains REPAIR_REQUIRED; S23 must not assume the report package or pending_review manifest is reconciled merely because S22 references it.",
+    "Do not navigate a real mail provider or real recipient target in course tests; use a controlled test site/sandbox and synthetic reserved addresses.",
+    "S22 HTML/link sanitization is PARTIAL until allowed_hosts is the sole policy source and relative-link behavior matches the documented contract.",
+    "Keep recipient-facing accessibility active: generic link text such as 'enlace' is not a sufficient descriptive link label."
   ],
-  "status": "READY_TO_CONTINUE_WITH_S22"
+  "status": "READY_TO_CONTINUE_WITH_S23"
 }
