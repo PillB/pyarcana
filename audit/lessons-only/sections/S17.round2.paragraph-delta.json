@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S17",
+  "review_round": "R2",
+  "coverage_mode": "FULL_PRIOR_COVERAGE_PLUS_APPEND_ONLY_DELTA",
+  "coverage_reference": {
+    "paragraphs_expected": 38,
+    "paragraphs_previously_logged": 38,
+    "prior_shards": [
+      "audit/lessons-only/sections/S17.paragraphs-01.json",
+      "audit/lessons-only/sections/S17.paragraphs-02.json"
+    ],
+    "round2_changed_adjudications": 6,
+    "unchanged_round2_adjudications": 32,
+    "rule": "For unchanged material, the historical current_content/evidence remains authoritative and no duplicate rewrite is emitted. From R2 onward NO_MATERIAL_CHANGE implies improved_content=null."
+  },
+  "paragraph_delta": [
+    {
+      "locator": "opening.p1",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S17-R2-F20"],
+      "current_content": "No es un error del código: es lo que ocurre cuando la clave por la que unes no es única en uno de los lados. Cada coincidencia múltiple multiplica filas, los totales se inflan y el resultado sigue pareciendo perfectamente normal. Contar las filas antes y después de una unión es el hábito más barato de esta sección y el que más disgustos evita.",
+      "issues": [
+        {
+          "issue_type": "excessive_abstraction",
+          "severity": "medium",
+          "problem": "La apertura crea una falsa dicotomía: presenta el crecimiento como una propiedad de los datos y no deja visible que una clave, how o contrato mal elegidos también son defectos de la lógica del análisis.",
+          "reader_question_created": "¿Si el número de filas crece, debo asumir que el código está bien y que el problema siempre está en los datos?",
+          "recommended_fix": "Calificar la afirmación desde la primera oración y ligar el conteo al grano, la cardinalidad y el tipo de join declarados."
+        }
+      ],
+      "why_this_is_a_problem": ["Un principiante puede dejar de investigar una especificación de join equivocada porque la lección ya le dijo que no era un error del código."],
+      "improved_content": "Que una unión produzca más filas no es, por sí solo, un error: puede ser el crecimiento esperado de una relación 1:m o una señal de que la clave, el tipo de join o la cardinalidad declarada no corresponden a los datos. Por eso primero declaras qué representa una fila y cuántas parejas por clave esperas; después cuentas filas antes y después.",
+      "validation": {"self_contained": true, "widow_terms_remaining": [], "technical_accuracy_preserved": true, "unverified_claims_added": false, "reader_effort": "low"}
+    },
+    {
+      "locator": "T1-A.p3",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S17-R2-F20", "S17-F05", "S17-F06"],
+      "current_content": "Caso sintético Perú: cli (C001 Lima, C002 Cusco) left-merge con tx (dos filas C001 y una C003 huérfana de maestro). Salida esperada: C001 se duplica por monto; C002 queda con NaN en columnas de tx; C003 no entra al left-merge. Documenta rows_cli → rows_merge en el portfolio.",
+      "issues": [
+        {
+          "issue_type": "insufficient_example",
+          "severity": "medium",
+          "problem": "El fixture imprime 2 filas cli, 3 filas tx y 3 filas merge. La igualdad tx=merge ocurre solo porque una tx huérfana excluida queda compensada por el cliente sin tx que el left join conserva.",
+          "reader_question_created": "¿Un left join desde clientes termina normalmente con tantas filas como la tabla de transacciones?",
+          "recommended_fix": "Usar conteos discriminativos y hacer visible por separado la cobertura de ambos lados."
+        }
+      ],
+      "why_this_is_a_problem": ["Una regla mental incorrecta predice exactamente el output del primer ejemplo y por eso no puede ser falsada por el estudiante."],
+      "improved_content": "Usa un fixture donde los conteos no coincidan por casualidad. Conserva dos clientes en el maestro y usa cuatro transacciones: dos para C001 y dos huérfanas C003. Ejecuta merge(..., how='left', validate='one_to_many'): obtienes tres filas, no cuatro. C001 produce dos filas, C002 una fila sin transacción y las C003 quedan fuera; T1-B las recupera explícitamente con evidencia del lado derecho.",
+      "validation": {"self_contained": true, "widow_terms_remaining": [], "actor_clear": true, "input_clear": true, "action_clear": true, "outcome_clear": true, "technical_accuracy_preserved": true, "unverified_claims_added": false, "reader_effort": "low"}
+    },
+    {
+      "locator": "T3-B.p1",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S17-F14", "S17-F15", "S17-R2-F21"],
+      "current_content": "rolling construye ventanas móviles sobre series ordenadas; resample requiere DatetimeIndex. Una cohorte etiqueta a cada cliente por el periodo de su primera observación válida (p. ej. mes de primera compra), no por la fecha del batch de hoy.",
+      "issues": [
+        {
+          "issue_type": "missing_input_source",
+          "severity": "medium",
+          "problem": "min(fecha) identifica la primera fecha que existe en el histórico cargado; el texto la equipara con primera compra sin declarar desde cuándo la fuente tiene historia completa.",
+          "reader_question_created": "¿Esta fecha es realmente la primera compra del cliente o solo la primera que aparece en mi dataset?",
+          "recommended_fix": "Separar cohorte observada de cohorte de adquisición y declarar la cobertura histórica requerida."
+        }
+      ],
+      "why_this_is_a_problem": ["Un cliente antiguo puede quedar etiquetado como nuevo si el dataset comienza tarde, contaminando análisis de retención."],
+      "improved_content": "`rolling` calcula ventanas móviles: un entero como `rolling(3)` cubre tres observaciones y un offset como `rolling('7D')` cubre tiempo. `resample` necesita una referencia temporal: índice, nivel o una columna datetime indicada con `on=`. Una **cohorte observada** usa la primera fecha disponible dentro del histórico analizado; solo equivale a «primera compra» si la fuente garantiza que ese histórico contiene el verdadero inicio del cliente.",
+      "validation": {"self_contained": true, "widow_terms_remaining": [], "input_source_clear": true, "action_clear": true, "purpose_clear": true, "technical_accuracy_preserved": true, "unverified_claims_added": false, "reader_effort": "low"}
+    },
+    {
+      "locator": "T3-B.p3",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S17-F15", "S17-F19", "S17-R2-F21"],
+      "current_content": "Caso: tx en ene–mar 2024; C001 cohorte 2024-01; media móvil de montos diarios con window=2. Estas series alimentan preguntas de retención del portfolio ejecutivo sin afirmar causalidad...",
+      "issues": [
+        {
+          "issue_type": "missing_input_source",
+          "severity": "medium",
+          "problem": "El caso pasa de primera observación disponible a lectura de retención sin registrar el inicio de cobertura de la fuente.",
+          "reader_question_created": "¿Puedo interpretar 2024-01 como adquisición real si mi archivo solo empieza en enero de 2024?",
+          "recommended_fix": "Declarar ventana de observación y limitar la etiqueta al evento que los datos realmente soportan."
+        }
+      ],
+      "why_this_is_a_problem": ["La interpretación de retención puede ser falsa aun cuando el cálculo de min(fecha) sea correcto."],
+      "improved_content": "Declara primero la ventana de cobertura del histórico. Etiqueta a C001 como cohorte observada 2024-01 porque esa es su primera fecha disponible; no la llames cohorte de adquisición salvo que la fuente garantice ausencia de actividad previa. Después muestra por separado una media móvil descriptiva y una media previa as-of.",
+      "validation": {"self_contained": true, "input_source_clear": true, "purpose_clear": true, "outcome_clear": true, "technical_accuracy_preserved": true, "unverified_claims_added": false, "reader_effort": "low"}
+    },
+    {
+      "locator": "T4-B.p2",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S17-F18"],
+      "current_content": "Controles: cutoff estricto (fecha <= t), agregados solo sobre el subconjunto pre-cutoff, y comparación explícita sum_total - sum_pre como delta de leakage en el memo. As-of = solo lo conocido a la fecha t.",
+      "issues": [
+        {
+          "issue_type": "terminology_inconsistency",
+          "severity": "medium",
+          "problem": "sum_total - sum_pre mide cantidad posterior al corte; no demuestra por sí sola que esa cantidad haya contaminado un cálculo histórico.",
+          "reader_question_created": "¿Todo dato posterior al cutoff es leakage aunque nunca se use en la métrica as-of?",
+          "recommended_fix": "Nombrar primero la masa post-cutoff y reservar leakage para una operación que usa futuro indebidamente."
+        }
+      ],
+      "why_this_is_a_problem": ["El alumno puede aprender una definición causalmente incorrecta de leakage y no transferir el cutoff a las features que sí lo necesitan."],
+      "improved_content": "Aplica el cutoff antes de cada agregado o feature que pretenda ser as-of. Conserva `post_cutoff_amount = total_all - total_pre` como cantidad posterior al corte; llámala leakage solo cuando una versión incorrecta del cálculo la haya usado. Repite el control con al menos un `transform` o rolling de T3.",
+      "validation": {"self_contained": true, "widow_terms_remaining": [], "action_clear": true, "purpose_clear": true, "outcome_clear": true, "technical_accuracy_preserved": true, "unverified_claims_added": false, "reader_effort": "low"}
+    },
+    {
+      "locator": "T4-B.p3",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S17-F18"],
+      "current_content": "Caso (mismo fixture del código): C001 con montos 10 y 5 en enero y 100 en febrero; cutoff 2024-01-31 → total con leakage 115, pre-cutoff 15, delta de leakage 100. El cierre del portfolio debe demostrar al menos un control as-of de este tipo en el script reproducible.",
+      "issues": [
+        {
+          "issue_type": "missing_process_explanation",
+          "severity": "medium",
+          "problem": "El ejemplo etiqueta 115 como total con leakage sin mostrar primero la métrica histórica que se construyó incorrectamente usando febrero.",
+          "reader_question_created": "¿Qué operación concreta filtró mal o incorporó futuro?",
+          "recommended_fix": "Mostrar explícitamente el cálculo incorrecto, el cálculo as-of correcto y transferir la frontera a una ventana/feature."
+        }
+      ],
+      "why_this_is_a_problem": ["La explicación nombra el fallo pero no hace visible el mecanismo que lo causa."],
+      "improved_content": "Con cutoff 2024-01-31, el total as-of válido es 15 y el monto posterior al corte es 100. Muestra una versión deliberadamente incorrecta que suma 115 y explica que allí esos 100 contaminan el cálculo histórico. Después repite la frontera con una ventana previa para demostrar que el control también gobierna features.",
+      "validation": {"self_contained": true, "actor_clear": true, "input_clear": true, "action_clear": true, "purpose_clear": true, "outcome_clear": true, "technical_accuracy_preserved": true, "unverified_claims_added": false, "reader_effort": "low"}
+    }
+  ]
+}
