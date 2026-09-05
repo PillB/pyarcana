@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S28",
+  "patch_id": "S28-patch-001",
+  "reason": "Finding discovered during paragraph-level adversarial pass after base audit creation; preserved append-only rather than rewriting history.",
+  "adds": [
+    {
+      "id": "S28-F35",
+      "severity": "P2",
+      "title": "IDEMPOTENCE_CONFLATED_WITH_DETERMINISM",
+      "evidence": "T1-B says that if f(f(x)) != f(x), matching becomes no determinista entre corridas.",
+      "impact": "Learner may conflate two different guarantees: determinism means same input gives same output; idempotence means reapplying the transformation does not change the result.",
+      "attack": "A function such as f(x)=x+1 is deterministic and not idempotent. The S28 risk is repeated transformation/drift across stages, not randomness.",
+      "defense": "The paragraph is trying to explain an operational symptom of repeated normalization rather than formally define determinism.",
+      "verdict": "CONFIRMED_FINDING"
+    }
+  ],
+  "revised_totals": {
+    "material_findings": 35,
+    "severity_counts": {"P0":0,"P1":17,"P2":18,"P3":0},
+    "quality_score": 2.5,
+    "verdict": "REPAIR_REQUIRED"
+  }
+}
