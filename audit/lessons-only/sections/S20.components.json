@@ -1,0 +1,249 @@
+{
+  "schema_version": "1.1.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S20",
+  "coverage": "title + tagline + job relevance + 8 outcomes + 8 theory code/output blocks + 9 callouts + 1 figure",
+  "protocol": "NO_MATERIAL_CHANGE => improved_content=null",
+  "top_level": [
+    {
+      "locator": "title",
+      "current_content": "Automatización robusta de Excel",
+      "status": "SIN_CAMBIO_DEFENDIDO",
+      "finding_ids": [],
+      "improved_content": null,
+      "justification": "Matches roadmap ownership. The defect is that current content does not yet earn 'robusta', not that the target title is wrong."
+    },
+    {
+      "locator": "tagline",
+      "current_content": "adaptador que lee los formatos sintéticos del VP, produce un workbook de resultados sin dañar la plantilla y deja manifest de cambios",
+      "status": "SIN_CAMBIO_DEFENDIDO",
+      "finding_ids": [],
+      "improved_content": null,
+      "justification": "This is the roadmap gate. Audit findings target the implementation's failure to satisfy it, not the gate itself."
+    },
+    {
+      "locator": "jobRelevance",
+      "current_content": "En finanzas, operaciones y reporting en Perú, Excel sigue siendo el contrato de entrega: el VP (vicepresidencia o área de negocio) abre un .xlsx, no un notebook. Un analista o data engineer que automatiza plantillas con openpyxl — sin dañar el master, con totales que cuadran y un manifest (JSON de auditoría de la corrida) — es quien cierra el mes a tiempo en bancos, cajas y retailers. Aquí aprendes a leer plantillas, escribir el workbook de resultados, conciliar y dejar rastro auditable, sin PII real.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S20-F05", "S20-F23"],
+      "improved_content": "En finanzas y operaciones del Perú, Excel sigue siendo un formato habitual de entrega: el área de negocio recibe un archivo `.xlsx` que puede abrir y revisar. Automatizarlo bien no significa solo escribir celdas: significa conservar una plantilla dentro de los límites que la herramienta realmente soporta, reconciliar los números con su fuente y producir un manifiesto de la corrida que permita rastrear qué insumo, plantilla, código y archivo de salida participaron. En esta sección trabajarás únicamente con datos sintéticos.",
+      "justification": "Removes unjustified generic template-fidelity claim and reduces Spanglish."
+    }
+  ],
+  "learning_outcomes": [
+    {
+      "locator": "learningOutcomes[0]",
+      "current_content": "Manipular sheets, celdas y encabezados estables con openpyxl",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S20-F02", "S20-F23"],
+      "improved_content": "Manipular hojas, celdas, tablas de Excel, encabezados y rangos con nombre estables con openpyxl",
+      "justification": "Restores roadmap-owned tables and named ranges."
+    },
+    {
+      "locator": "learningOutcomes[1]",
+      "current_content": "Distinguir fórmulas de valores cacheados y materializar KPIs en Python",
+      "status": "TIGHTEN_REQUIRED",
+      "finding_ids": ["S20-F06", "S20-F23"],
+      "improved_content": "Distinguir una fórmula de su resultado cacheado, reconocer cuándo el cache puede faltar o estar obsoleto y escribir KPIs materializados calculados en Python",
+      "justification": "Adds the failure state the current demo omits."
+    },
+    {
+      "locator": "learningOutcomes[2]",
+      "current_content": "Aplicar estilos de encabezado y copiar plantillas a un path de salida",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S20-F05", "S20-F22", "S20-F23"],
+      "improved_content": "Aplicar estilos, copiar una plantilla maestra a una ruta de trabajo, guardar de forma segura y validar que la salida conserve los elementos contractuales permitidos",
+      "justification": "Copying alone does not prove template fidelity or safe publication."
+    },
+    {
+      "locator": "learningOutcomes[3]",
+      "current_content": "Manejar fechas ISO y celdas combinadas (celda ancla) sin romper layouts",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S20-F13", "S20-F23"],
+      "improved_content": "Manejar fechas con una representación XLSX explícita —incluido ISO mediante `wb.iso_dates=True` cuando corresponda— y leer celdas combinadas desde su celda ancla sin romper el diseño",
+      "justification": "Aligns outcome with actual openpyxl serialization behavior."
+    },
+    {
+      "locator": "learningOutcomes[4]",
+      "current_content": "Conciliar totales y materializar pivots lógicos desde pandas",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S20-F14", "S20-F15", "S20-F16", "S20-F23"],
+      "improved_content": "Conciliar totales y conteos del workbook reabierto contra el payload validado, conservar la política monetaria de Decimal/céntimos y materializar tablas resumen sin perder claves ausentes silenciosamente",
+      "justification": "Makes reconciliation an output check and closes money/missing-key gaps."
+    },
+    {
+      "locator": "learningOutcomes[5]",
+      "current_content": "Preservar estructura, validar headers y filtrar dominios permitidos",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S20-F03", "S20-F05", "S20-F17", "S20-F23"],
+      "improved_content": "Validar hojas, tablas, rangos con nombre, encabezados y dominios; preservar la estructura admitida de la plantilla y aplicar protección contra cambios accidentales donde el contrato lo requiera",
+      "justification": "Broadens the structural outcome to the actual roadmap and supported-template contract."
+    },
+    {
+      "locator": "learningOutcomes[6]",
+      "current_content": "Operar batch aislando corruptos y locks con contadores auditables",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S20-F19", "S20-F20", "S20-F21", "S20-F23"],
+      "improved_content": "Procesar lotes aislando archivos inválidos y conflictos conocidos de permisos/edición, aplicando límites de tamaño y registrando por archivo el estado, la excepción y los contadores auditables",
+      "justification": "Avoids universal lock semantics and includes promised safeguards."
+    },
+    {
+      "locator": "learningOutcomes[7]",
+      "current_content": "Garantizar backups, idempotencia, tests estructurales y manifest",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S20-F04", "S20-F09", "S20-F10", "S20-F11", "S20-F12", "S20-F23"],
+      "improved_content": "Producir respaldos/versiones seguras, demostrar idempotencia con dos corridas, ejecutar pruebas estructurales y visuales y generar un manifiesto derivado de la evidencia con hashes SHA-256 completos",
+      "justification": "Replaces unproved 'garantizar' with observable evidence and restores visual tests."
+    }
+  ],
+  "code_outputs": [
+    {
+      "locator": "T1-A.code:sheets_cells.py",
+      "published_output": "['Entrada', 'Salida']\nLima 28.0",
+      "runtime_status": "PASS_AS_WRITTEN",
+      "finding_ids": ["S20-F02", "S20-F07", "S20-F17"],
+      "analysis": "Output is correct, but the example creates only two sheets despite the reference declaring Entrada/Datos/Salida canonical, and it does not demonstrate tables, named ranges or the later structural validation it claims to anchor.",
+      "improved_strategy": "Create all required sheets from one contract, add one real Table and one defined name, then validate their presence."
+    },
+    {
+      "locator": "T1-B.code:formulas.py",
+      "published_output": "formula =A1+A2\npython_sum 15",
+      "runtime_status": "PASS_AS_WRITTEN",
+      "finding_ids": ["S20-F06"],
+      "analysis": "Correctly shows formula text and a Python calculation, but never saves/reopens with data_only=True and never writes the materialized KPI into an output cell.",
+      "improved_strategy": "Save, reopen twice (formula view and data_only view), show missing/stale cache behavior, and write Python-computed KPI to Salida."
+    },
+    {
+      "locator": "T2-A.code:template_copy_save.py",
+      "published_output": "saved results.xlsx\nmaster_intact True\nheader_bold True",
+      "runtime_status": "PASS_AS_WRITTEN",
+      "finding_ids": ["S20-F05", "S20-F04", "S20-F22"],
+      "analysis": "Master hash and in-memory style check pass. They prove the original was untouched, not that the saved copy retained every contractual feature. header_bold is checked on the in-memory workbook rather than on a reopened artifact.",
+      "improved_strategy": "Reopen output, inventory allowed features, compare against expected structure, save to temp, validate, then publish atomically and attach visual-review evidence."
+    },
+    {
+      "locator": "T2-B.code:dates_merge.py",
+      "published_output": "2024-06-30\nmerge {<MergedCellRange B1:C1>}\nC1_is_none None",
+      "runtime_status": "PASS_AS_WRITTEN",
+      "finding_ids": ["S20-F13", "S20-F18"],
+      "analysis": "Printed Python date and merged-cell behavior are correct. Audit inspection of the saved default Workbook showed the date would be numeric serial 45473, not ISO storage; the merged label 'Lima-Madrid' also continues incoherent geography.",
+      "improved_strategy": "Set wb.iso_dates=True when ISO storage is the contract, save/reopen, and use a coherent synthetic domain."
+    },
+    {
+      "locator": "T3-A.code:reconcile.py",
+      "published_output": "{'region': ['Bogota', 'Lima'], 'monto': [7.0, 15.0]}\nok True",
+      "runtime_status": "PASS_AS_WRITTEN",
+      "finding_ids": ["S20-F14", "S20-F15", "S20-F16", "S20-F18"],
+      "analysis": "Arithmetic is correct for the fixture, but there is no workbook readback or row-count check, money uses float, and groupby default drops missing keys. Audit probe showed a missing-region amount can vanish from the pivot while source total remains unchanged.",
+      "improved_strategy": "Use Decimal/integer cents at reconciliation, explicit missing-key policy, write/reopen workbook, and reconcile both totals and row/group counts."
+    },
+    {
+      "locator": "T3-B.code:structure.py",
+      "published_output": "structure_ok True\ndomain_ok False",
+      "runtime_status": "PASS_AS_WRITTEN_FALSE_GREEN_SCOPE",
+      "finding_ids": ["S20-F17", "S20-F07", "S20-F18"],
+      "analysis": "The label structure_ok is misleading: the predicate only compares headers. Required sheets are not checked and no manifest/violator list is produced.",
+      "improved_strategy": "Compute sheets_ok, headers_ok, domains_ok independently and define structural_ok from all of them."
+    },
+    {
+      "locator": "T4-A.code:batch.py",
+      "published_output": "{'a.xlsx': 'ok', 'b.xlsx': 'corrupt', 'c_lock.xlsx': 'locked'}\nok_count 1",
+      "runtime_status": "PASS_AS_WRITTEN_SIMULATED_ONLY",
+      "finding_ids": ["S20-F19", "S20-F20", "S20-F21"],
+      "analysis": "The branches work because fake_open manufactures BadZipFile and PermissionError from filenames. No actual workbook parsing lock condition, size limit, timeout, quarantine, full counters, hash or JSON summary is exercised.",
+      "improved_strategy": "Use controlled valid/invalid file fixtures and injected filesystem failures; implement all promised counters and quarantine evidence."
+    },
+    {
+      "locator": "T4-B.code:manifest.py",
+      "published_output": "{\"input_sha1_8\": \"651f3b6b\", \"sheets\": [\"Entrada\", \"Salida\"], \"reconcile_ok\": true, \"backup\": \"out/prev_results.xlsx.bak\", \"idempotent\": true}",
+      "runtime_status": "PASS_AS_WRITTEN_HARDCODED_EVIDENCE",
+      "finding_ids": ["S20-F07", "S20-F09", "S20-F10", "S20-F11", "S20-F12"],
+      "analysis": "Digest value reproduces, but every substantive success field is manually typed. No backup exists, no reconciliation result is consumed, no second run proves idempotence, output/template/code hashes are absent, and only two canonical sheets are listed.",
+      "improved_strategy": "Build manifest from a RunResult created by actual checks and use full SHA-256 for input, output and template plus run/code/version identifiers."
+    }
+  ],
+  "callouts": [
+    {
+      "locator": "opening.callout",
+      "title": "Contrato de la sección",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S20-F07", "S20-F10"],
+      "analysis": "Correctly declares three canonical sheets and a manifest, but downstream examples contradict the sheet set and do not derive manifest states.",
+      "improved_content": "Salida esperada: workbook de resultados + manifiesto derivado de la corrida. Hojas requeridas: Entrada, Datos y Salida. La plantilla maestra nunca se modifica. El manifiesto enlaza input, plantilla y output y registra conciliación, estructura, respaldo e idempotencia observados."
+    },
+    {
+      "locator": "T1-A.callout",
+      "title": "Nombres estables",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S20-F02", "S20-F07"],
+      "analysis": "Calls Datos optional and reduces roadmap-owned tables/named ranges to headers/sheet names.",
+      "improved_content": "Usa nombres de hoja estables y el contrato único de hojas requeridas. Para rangos de datos reutilizables, practica también una Table real y un rango con nombre; no dependas de posiciones como 'la segunda columna de la primera hoja'."
+    },
+    {
+      "locator": "T1-B.callout",
+      "title": "Sin motor Excel",
+      "status": "TIGHTEN_REQUIRED",
+      "finding_ids": ["S20-F06"],
+      "analysis": "Core warning is correct but should mention cache may be absent/stale.",
+      "improved_content": "openpyxl no calcula fórmulas. `data_only=True` lee únicamente el resultado cacheado que exista; puede ser `None` o estar obsoleto. Para KPIs auditables, calcula y materializa el valor en Python o controla explícitamente un motor de recálculo."
+    },
+    {
+      "locator": "T2-A.callout",
+      "title": "Plantilla intocable",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S20-F05", "S20-F22"],
+      "analysis": "Master immutability is correct, but the callout implies copy/save is enough to protect template integrity.",
+      "improved_content": "Nunca escribas sobre la plantilla maestra. Trabaja sobre una copia temporal y valida la copia guardada antes de publicarla; proteger el master no demuestra que todos los elementos de la salida hayan sobrevivido."
+    },
+    {
+      "locator": "T2-B.callout",
+      "title": "Trampas de merge",
+      "status": "SIN_CAMBIO_DEFENDIDO",
+      "finding_ids": [],
+      "analysis": "Correctly explains anchor-cell behavior and the risk of merged data regions.",
+      "improved_content": null
+    },
+    {
+      "locator": "T3-A.callout",
+      "title": "Gate de conciliación",
+      "status": "TIGHTEN_REQUIRED",
+      "finding_ids": ["S20-F14", "S20-F15"],
+      "analysis": "Fail-closed rule is right, but the code does not reconcile the workbook artifact and money semantics are unsafe.",
+      "improved_content": "Si falla cualquier reconciliación del workbook reabierto —total monetario, filas o grupos esperados— no publiques el archivo. El resultado se calcula con la política monetaria definida y se registra en el manifiesto."
+    },
+    {
+      "locator": "T3-B.callout",
+      "title": "Fail-fast en headers y dominios",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S20-F17", "S20-F23"],
+      "analysis": "Correct instinct, but structural contract also requires sheet/table/named-range checks and an explicit row handling policy.",
+      "improved_content": "Detén el archivo cuando falle una condición estructural crítica. Evalúa por separado hojas, tablas/rangos, encabezados y dominios; registra cuál falló y aplica la política de cuarentena solo a los errores declarados como recuperables."
+    },
+    {
+      "locator": "T4-A.callout",
+      "title": "Cuarentena",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S20-F21", "S20-F12"],
+      "analysis": "Promises move plus hash/name log but the code implements neither; hash should be full SHA-256.",
+      "improved_content": "Si la política clasifica un archivo como corrupto conocido, muévelo o cópialo a una cuarentena controlada y registra nombre, excepción, etapa y SHA-256 completo. Verifica que el resto del lote continúe."
+    },
+    {
+      "locator": "T4-B.callout",
+      "title": "Manifest obligatorio",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S20-F09", "S20-F10", "S20-F11", "S20-F12"],
+      "analysis": "Manifest requirement is correct but current example makes it untrustworthy by hardcoding successful states.",
+      "improved_content": "Sin un manifiesto derivado de comprobaciones ejecutadas, S20 no cierra. El JSON enlaza entrada, plantilla y salida mediante SHA-256 y registra versiones y resultados observados de estructura, conciliación, respaldo, lote e idempotencia."
+    }
+  ],
+  "figures": [
+    {
+      "locator": "T1-A.figure:S20-sheet-structure",
+      "caption": "Leer por índice de hoja rompe cuando alguien reordena las pestañas; leer por nombre no.",
+      "alt": "Tres capas apiladas: libro, hoja y fila o celda.",
+      "status": "SIN_CAMBIO_DEFENDIDO_WITH_DOWNSTREAM_CONTRADICTION",
+      "finding_ids": ["S20-F08"],
+      "analysis": "The figure's core message is technically defensible: named lookup survives reordering. The defect is the later paragraph saying order itself is part of the same contract. No rendered-only visual claim is made because the hydrated figure was unavailable."
+    }
+  ]
+}
