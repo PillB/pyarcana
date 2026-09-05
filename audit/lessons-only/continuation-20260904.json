@@ -1,11 +1,11 @@
 {
-  "schema_version": "1.7.0",
+  "schema_version": "1.8.0",
   "campaign_id": "lessons-only-adversarial-20260903",
   "continuation_date": "2026-09-04",
   "last_updated_date": "2026-09-05",
   "branch": "audit/lessons-only-adversarial-20260903",
-  "last_completed_section": "S24",
-  "last_completed_round": "S24-base-solarized-adversarial-audit-20260905",
+  "last_completed_section": "S25",
+  "last_completed_round": "S25-base-solarized-adversarial-audit-20260905",
   "last_completed_verdict": "REPAIR_REQUIRED",
   "last_completed_material_findings": 33,
   "section_artifacts": {
@@ -80,7 +80,6 @@
       "source_file": "src/lib/course/sections/s23-computer-vision.ts",
       "source_blob_sha": "4975702222a2f5ef3654312481d706cf2877380f",
       "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
-      "coverage": "33/33 theory paragraphs + title/tagline/job relevance + 8 outcomes + 9 theory code/output blocks + 9 callouts + 1 figure",
       "material_findings": 27,
       "severity_counts": {"P0":0,"P1":18,"P2":9,"P3":0},
       "status": "AUDITED_REPAIR_REQUIRED"
@@ -95,41 +94,51 @@
       "coverage": "41/41 theory paragraphs + title/tagline/job relevance + 8 outcomes + 8 theory code/output blocks + 9 callouts + 2 figures",
       "material_findings": 33,
       "severity_counts": {"P0":0,"P1":23,"P2":10,"P3":0},
+      "status": "AUDITED_REPAIR_REQUIRED"
+    },
+    "S25": {
+      "base_audit": "audit/lessons-only/sections/S25.json",
+      "paragraph_shards": ["audit/lessons-only/sections/S25.paragraphs-01.json", "audit/lessons-only/sections/S25.paragraphs-02.json"],
+      "component_ledger": "audit/lessons-only/sections/S25.components.json",
+      "source_file": "src/lib/course/sections/s25-streamlit-dashboards.ts",
+      "source_blob_sha": "425a29772e0269aff009dba7294c8c95d698f615",
+      "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+      "coverage": "33/33 theory paragraphs + title/tagline/job relevance + 8 outcomes + 8 theory code/output blocks + 9 callouts + 2 figures",
+      "material_findings": 33,
+      "severity_counts": {"P0":0,"P1":22,"P2":11,"P3":0},
       "highest_risk_findings": [
-        "S24-F04 preprocess_meta upgrades source dpi=96 to reported dpi=200 without changing raster detail",
-        "S24-F06 deskew_applied/skew=0/crop/contrast are emitted as if transformations occurred although theory only changes metadata",
-        "S24-F11 course confidence uses 0-1 while real Tesseract ResultIterator confidence is 0-100 unless normalized",
-        "S24-F13 bbox evidence is not bound to page/coordinate space/transform, so crop/deskew/rotation can make overlays wrong",
-        "S24-F15 KV parser discards bbox/confidence and silently overwrites duplicate fields",
-        "S24-F17 norm_total misparses explicitly out-of-policy '1,150.00' as 1.15",
-        "S24-F18 norm_ruc strips unexpected Unicode such as Ñ/emoji and can fabricate a plausible 11-digit value",
-        "S24-F20 missing total raises KeyError instead of entering reasons/review",
-        "S24-F24 field_acc counts None==None as correct and has no n=0 policy",
-        "S24-F25/F26 coverage denominator excludes reject/fail states and is disconnected from the golden/threshold",
-        "S24-F31 privacy callout can delete the only rendition needed to interpret bbox evidence"
+        "S25-F02/F03 canonical theory never executes a real HF/HTTP/LLM path and does not demonstrate a specialized extractor or model-generated narrative",
+        "S25-F16 narrative example violates the reference schema by omitting evidence_ids/model",
+        "S25-F17 canonical no-invention prompt hallucinates PEN despite PEN being absent from context",
+        "S25-F19/F20 key-only schema validation allows wrong types and does not ground numbers/evidence ids",
+        "S25-F25 field_match_rate counts a missing prediction as correct when gold contains null",
+        "S25-F27 no executable candidate-vs-baseline promotion gate exists",
+        "S25-F29 injection is detected in the canonical malicious fixture but the request is still constructed",
+        "S25-F23/F24 allowlisted tools are marked ok without argument authorization, execution or result validation",
+        "S25-F14 circuit breaker is global and permanently open after threshold with no recovery/alert implementation"
       ],
       "status": "AUDITED_REPAIR_REQUIRED"
     }
   },
   "audit_protocol_delta": {
     "rule": "SIN_CAMBIO_DEFENDIDO/NO_MATERIAL_CHANGE => improved_content=null",
-    "reason": "S18-S24 follow the corrected paragraph protocol; defended content is not rewritten for cosmetic churn."
+    "reason": "S18-S25 follow the corrected paragraph protocol; defended content is not rewritten for cosmetic churn."
   },
-  "next_section": "S25",
+  "next_section": "S26",
   "carry_forward_constraints": [
-    "S25 must not consume an S24 field unless source artifact provenance is bound to full SHA-256, page/rendition and an evidence reference; source_doc_id alone is insufficient.",
-    "Treat every OCR/raw/source text string as untrusted_document_content. S25 may summarize/classify it as data, but must never concatenate it into system/developer/tool instructions or trust document-embedded directives.",
-    "Do not inherit S24 status='auto' or confidence>=0.85 as proof of correctness. Preserve confidence scale origin, normalized value, threshold_version and human-review state.",
-    "If Tesseract is used, normalize its 0-100 ResultIterator confidence before applying the S24 0-1 contract; preserve raw and normalized confidence.",
-    "Do not consume S24 monetary floats. Restore S02 Decimal/integer-cent semantics before any S25 inference, prompt or generated report uses PEN values.",
-    "Preserve both raw and normalized RUC/money/date. Do not let an LLM silently repair unexpected characters, unsupported money grammar or missing identifiers.",
-    "S24 bbox is PARTIAL until page, dimensions, coordinate_space, processed/source hashes and transform lineage are present. If S25 surfaces evidence, it must point to the correct controlled rendition.",
-    "Do not delete the only source/processed rendition needed for review merely because fields+bbox exist; retention/deletion must preserve auditability until the review/retention boundary expires.",
-    "S24 review queue is not implemented by status='needs_review'. S25 must not assume a human actually saw/corrected the field unless a review record/decision exists.",
-    "S24 coverage_auto=auto/(auto+review) is not end-to-end intake coverage; include reject, ocr_fail and human_rescan states when reporting operational automation rate.",
-    "S24 golden/coverage examples do not calibrate the 0.85 threshold because they are disconnected. S25 evaluation should use the same labeled examples, model/output version and threshold when comparing quality vs coverage.",
-    "S23 remains REPAIR_REQUIRED; S24 processing does not repair an unverified/duplicated/stale browser download. Preserve S23 browser_run_id and source artifact identity through S25.",
-    "File admission remains layer-1 only. Do not treat S24 MIME+size pass as proof a document is safe to upload to a cloud/model provider; apply approved data/security policy before any S25 external endpoint."
+    "S26 must not treat any S25 classifier/narrative output as validated unless it is bound to immutable model revision/config/schema, trusted evidence ids and the exact upstream source/run lineage.",
+    "Do not inherit S25 narrative example 'Mediana Lima 28 PEN': PEN was not present in its prompt context and the example is a confirmed hallucination. Restore canonical unit/evidence before orchestration.",
+    "Do not consume S25 monetary float values. Preserve S02 Decimal/integer-cent semantics through any AI narrative/report/email path.",
+    "S25 key-presence schema_ok is not sufficient. S26 must require typed schema plus semantic grounding: evidence ids exist, numeric claims reconcile, labels/ranges are allowed and extra fields follow policy.",
+    "S25 human_review/requires_human_approval are labels/booleans, not proof of review. S26 must persist reviewer identity, timestamp, decision/correction and bind it to exact model output/action.",
+    "S25 prompt injection regex is telemetry only and the current fixture still builds the request after detection. S26 must enforce untrusted-content routing and output/action authorization independently of regex detection.",
+    "Tools require authorization of name, typed args, resource/tenant and side-effect class; do not inherit S25 name-only allowlist or synthetic ok=True as proof of tool execution.",
+    "Do not log or require hidden chain-of-thought. Persist plan/rationale summaries, tool calls/results, policy decisions and checkpoints that are externally verifiable.",
+    "S25 candidate models have not beaten a baseline. Before S26 promotes/uses an AI path, compare candidate and baseline on the same versioned golden with explicit n, model revision, cost/latency/safety and fail-closed promotion criteria.",
+    "Do not reuse S25 field_match_rate as written: missing prediction versus gold null currently scores as correct. Presence and value equality must be scored separately.",
+    "S25 cache identity sha256(model|text)[:12] is not creditable for orchestration. Use full canonical identity including immutable model revision and relevant prompt/schema/config versions.",
+    "S25 circuit breaker/fallback is PARTIAL: global breaker never recovers and fallback is only a label. S26 must not interpret circuit=open or rules_or_human as completed work.",
+    "S21-S24 remain REPAIR_REQUIRED. S26 must preserve one lineage from source artifact -> extracted evidence -> AI input -> model output -> human review -> report/draft/action, rather than laundering prior false-green labels through orchestration."
   ],
-  "status": "READY_TO_CONTINUE_WITH_S25"
+  "status": "READY_TO_CONTINUE_WITH_S26"
 }
