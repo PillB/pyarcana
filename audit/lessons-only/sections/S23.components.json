@@ -1,0 +1,253 @@
+{
+  "schema_version": "1.1.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S23",
+  "coverage": "title + tagline + job relevance + 8 outcomes + 9 theory code/output blocks + 9 callouts + 1 figure",
+  "protocol": "NO_MATERIAL_CHANGE => improved_content=null",
+  "components": [
+    {
+      "locator": "title",
+      "current_content": "Browser RPA con Playwright",
+      "status": "SIN_CAMBIO_DEFENDIDO",
+      "finding_ids": [],
+      "improved_content": null,
+      "justification": "Matches roadmap ownership."
+    },
+    {
+      "locator": "tagline",
+      "current_content": "robot contra sitio de prueba controlado, con trace de éxito/falla, download verificado y retries selectivos con handoff",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F03", "S23-F04", "S23-F05", "S23-F15", "S23-F21", "S23-F24"],
+      "improved_content": "Robot Playwright ejecutado contra un sitio local controlado: descarga persistida y verificada, trace real de evidencia, retries seguros según el tipo de operación, checkpoint probado y handoff humano accionable.",
+      "justification": "The current theory does not earn several nouns in the tagline."
+    },
+    {
+      "locator": "jobRelevance",
+      "current_content": "Automatizar un sitio web controlado con Playwright significa elegir locators estables, dejar traces, reintentar con criterio y preferir la API pública antes que el clic cuando exista; sin evadir CAPTCHA ni ToS.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F07", "S23-F22", "S23-F23", "S23-F26"],
+      "improved_content": "Automatizar un sitio controlado con Playwright significa localizar controles mediante contratos resilientes, verificar postcondiciones y artefactos, conservar evidencia diagnóstica real y detenerse ante límites de política. Antes de usar RPA, evalúa si una API o exportación autorizada entrega el mismo dato con mejor trazabilidad. Si aparece CAPTCHA o el flujo deja de estar permitido, el sistema transfiere el caso a una persona.",
+      "justification": "Removes universal API-exists⇒use-it language and reduces jargon."
+    },
+
+    {
+      "locator": "learningOutcomes[0]",
+      "current_content": "Usar locators orientados a usuario",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F06", "S23-F07", "S23-F08"],
+      "improved_content": "Elegir locators user-facing o contratos testid según el requisito, y fallar ante cero o múltiples matches.",
+      "justification": "Adds strictness and removes a one-size-fits-all ranking."
+    },
+    {
+      "locator": "learningOutcomes[1]",
+      "current_content": "Aplicar auto-waiting y assertions fiables",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F09", "S23-F10"],
+      "improved_content": "Distinguir actionability automática, web-first assertions y readiness de negocio, incluyendo timeout negativo con evidencia real.",
+      "justification": "The current fake wait does not model Playwright's guarantees correctly."
+    },
+    {
+      "locator": "learningOutcomes[2]",
+      "current_content": "Automatizar formularios, uploads y downloads",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F04", "S23-F05", "S23-F11", "S23-F12"],
+      "improved_content": "Automatizar formulario/upload y persistir un download independiente con `save_as`, error check y validación de contenido/SHA-256 completo.",
+      "justification": "The current fixture echoes the uploaded bytes and the real sketch loses the temporary download."
+    },
+    {
+      "locator": "learningOutcomes[3]",
+      "current_content": "Modelar auth y Page Objects",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F13", "S23-F14"],
+      "improved_content": "Reutilizar auth state como artefacto sensible y construir un Page Object real que envuelva `Page`, locators y acciones de alto nivel.",
+      "justification": "The dict-only PO does not demonstrate Playwright POM or auth-state security."
+    },
+    {
+      "locator": "learningOutcomes[4]",
+      "current_content": "Diagnosticar con trace, screenshot y logs",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F15", "S23-F16", "S23-F17"],
+      "improved_content": "Generar traces/screenshots reales, registrar logs estructurados y manejar retención/redacción de evidencia sensible.",
+      "justification": "Path strings are not diagnostic artifacts."
+    },
+    {
+      "locator": "learningOutcomes[5]",
+      "current_content": "Diseñar retries, recovery y reanudación por checkpoint",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F18", "S23-F19", "S23-F20", "S23-F21"],
+      "improved_content": "Ejecutar retries solo cuando error y operación lo permitan, usar Locators en lugar de stale handles y demostrar checkpoint + idempotencia con un crash window.",
+      "justification": "Current retry harness never invokes the operation and checkpoint exists only in prose."
+    },
+    {
+      "locator": "learningOutcomes[6]",
+      "current_content": "Priorizar API/export sobre RPA",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F22", "S23-F23"],
+      "improved_content": "Elegir API/export antes de RPA cuando sean equivalentes, autorizados, frescos y auditables, registrando la razón de integración.",
+      "justification": "Availability alone is not a sufficient integration contract."
+    },
+    {
+      "locator": "learningOutcomes[7]",
+      "current_content": "Respetar ToS/CAPTCHA y handoff humano",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F24", "S23-F25"],
+      "improved_content": "Abortar cuando la automatización no esté permitida y generar un handoff persistido con run, step, checkpoint y evidencia suficiente para que una persona continúe.",
+      "justification": "The blocker priority is good; the current handoff payload is incomplete."
+    },
+
+    {
+      "locator": "theory.reference.code:playwright_sketch.py",
+      "current_content": "Real Playwright sketch: launch Chromium, goto(base_url), click Exportar, expect_download on Descargar reporte, call download.path(), close browser, return path; then only prints sketch_ready/maps_to.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F03", "S23-F04", "S23-F05"],
+      "improved_content": "Execute against a local fixture, start tracing, wait for download, call `download.failure()`, persist with `save_as`, validate the saved file, stop trace to a real ZIP, then close the context.",
+      "justification": "The only real Playwright sample currently contains the section's most serious download bug and is not run."
+    },
+    {
+      "locator": "theory.T1-A.code:locators.py",
+      "current_content": "Custom DOM lookup filters role/name and returns hits[0]; output b1 Descargar reporte / prefer_role_over_css True.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F06", "S23-F08"],
+      "improved_content": "Require exactly one match; add no-match and duplicate-match fixtures and a separate explicit testid path.",
+      "justification": "First-match behavior is a dangerous mismatch with Playwright strict locator actions."
+    },
+    {
+      "locator": "theory.T1-B.code:autowait.py",
+      "current_content": "FakeClock + wait_until predicate loop; ready_at=250ms outputs ready True t 300.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F09", "S23-F10"],
+      "improved_content": "Use a deadline-bounded fake for custom readiness, include a timeout fixture, and keep real Playwright actionability/assertions as a separate browser test.",
+      "justification": "Never-ready path exceeds the declared timeout and produces no promised trace."
+    },
+    {
+      "locator": "theory.T2-A.code:form_download.py",
+      "current_content": "Stores uploaded `synthetic-xlsx` bytes and the download function returns those same bytes' /tmp path, 12-hex SHA prefix and length.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F11", "S23-F12"],
+      "improved_content": "Model independent portal output and compare full SHA-256 plus parseable structure/content to an independently derived expected result.",
+      "justification": "Current verification is tautological."
+    },
+    {
+      "locator": "theory.T2-B.code:page_objects.py",
+      "current_content": "LoginPage/ReportPage wrap a dict ctx and authentication transitions; no Playwright Page or locator appears.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F13", "S23-F14"],
+      "improved_content": "Keep the state fake, then add a tiny real `LoginPage(page)` with locators and a gitignored sandbox storage-state fixture.",
+      "justification": "The code models auth state but not the advertised Page Object pattern."
+    },
+    {
+      "locator": "theory.T3-A.code:trace_fail.py",
+      "current_content": "on_failure returns deterministic trace/screenshot path strings and console[-3:] without creating files; output reports .zip path and .png suffix.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F15", "S23-F16", "S23-F17", "S23-F25"],
+      "improved_content": "Create the trace/screenshot in the real controlled run, verify artifact existence/hash, filter structured logs, attach run_id and apply retention/privacy policy.",
+      "justification": "The output is metadata fiction rather than evidence."
+    },
+    {
+      "locator": "theory.T3-B.code:retry_policy.py",
+      "current_content": "should_retry accepts timeout/network/429; run_with_retry takes fn but never calls it and walks a scripted error list.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F18", "S23-F19", "S23-F20", "S23-F21"],
+      "improved_content": "Invoke a deterministic operation fake per attempt, classify error+operation, honor backoff, check postconditions/idempotency and persist checkpoint/crash-window tests.",
+      "justification": "A retry harness that never runs the function cannot validate retry behavior."
+    },
+    {
+      "locator": "theory.T4-A.code:api_first.py",
+      "current_content": "choose_integration returns api/export/rpa/human from availability booleans; output is api, export, human.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F22", "S23-F23"],
+      "improved_content": "Return a decision record only after equivalence, authorization, freshness and policy checks, including method/reason/evidence.",
+      "justification": "Current code does not implement the reason/runbook contract described by prose."
+    },
+    {
+      "locator": "theory.T4-B.code:handoff.py",
+      "current_content": "handle_blockers prioritizes ToS abort, CAPTCHA human_handoff, ui_changed human_handoff; returns only action/reason/queue.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F24", "S23-F25"],
+      "improved_content": "Keep blocker priority but attach safe URL, step, run_id, last checkpoint, actual screenshot/trace refs and allowed next actions.",
+      "justification": "The policy is good but the handoff is not actionable."
+    },
+
+    {
+      "locator": "callout.opening:Dos modos de práctica",
+      "current_content": "Graded exercises use dicts; local Playwright uses get_by_role, downloads and real traces; sketch is API form and not run in grader.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F03"],
+      "improved_content": "Usa dicts para lógica pura, pero exige además un smoke test Playwright real contra el sitio local para locator strictness, download y trace.",
+      "justification": "Dict-only evidence does not satisfy the roadmap gate."
+    },
+    {
+      "locator": "callout.T1-A:Accesibilidad = estabilidad",
+      "current_content": "Si no hay rol, el producto también es menos usable para personas; fíjalo con el equipo de UI.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F07", "S23-F08"],
+      "improved_content": "Roles/labels suelen producir locators cercanos a la experiencia del usuario, pero un locator semántico no certifica accesibilidad y un testid explícito también puede ser el contrato correcto.",
+      "justification": "Removes false equivalence."
+    },
+    {
+      "locator": "callout.T1-B:Sleep fijo es flaky",
+      "current_content": "Un sleep de 5 s falla en CI lento y desperdicia tiempo en CI rápido. Prefiere condiciones.",
+      "status": "SIN_CAMBIO_DEFENDIDO",
+      "finding_ids": [],
+      "improved_content": null,
+      "justification": "Correct and well scoped."
+    },
+    {
+      "locator": "callout.T2-A:Verifica el binario",
+      "current_content": "No basta con que el clic no falle: chequea tamaño, extensión o hash del download.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F05", "S23-F11", "S23-F12"],
+      "improved_content": "Persistir el download y validar un contrato independiente: error de descarga, tipo/nombre esperado, parseo, tamaño razonable y SHA-256 completo; no basta un hash calculado sobre el mismo input.",
+      "justification": "Current wording permits weak or tautological checks."
+    },
+    {
+      "locator": "callout.T2-B:PO reduce acoplamiento",
+      "current_content": "Si cambia el label del botón, tocas un solo método, no 40 tests.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F14"],
+      "improved_content": "Un Page Object real centraliza los locators y acciones de una pantalla; el beneficio aparece solo si esos locators viven efectivamente dentro del objeto.",
+      "justification": "The associated code does not demonstrate this property."
+    },
+    {
+      "locator": "callout.T3-A:Evidencia reproducible",
+      "current_content": "El adaptador web de CP-N2-C exige trace de éxito y de falla que otro analista pueda abrir y reproducir.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F15", "S23-F17"],
+      "improved_content": "El portfolio conserva al menos un trace de éxito y traces de fallos relevantes, generados realmente y bajo una política de datos/retención; otro analista debe poder abrirlos.",
+      "justification": "Avoids implying tracing every successful production run while preserving the curriculum evidence requirement."
+    },
+    {
+      "locator": "callout.T3-B:No reintentes CAPTCHA",
+      "current_content": "CAPTCHA y ToS son stop conditions → handoff humano, no loop.",
+      "status": "SIN_CAMBIO_DEFENDIDO",
+      "finding_ids": [],
+      "improved_content": null,
+      "justification": "Responsible boundary; retain."
+    },
+    {
+      "locator": "callout.T4-A:RPA es plan B",
+      "current_content": "Cada flujo RPA debe tener ticket de reemplazar por API cuando exista.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S23-F23"],
+      "improved_content": "Cuando aparezca una API/exportación equivalente y autorizada, abre un ticket para evaluar migración desde RPA.",
+      "justification": "API existence alone is insufficient."
+    },
+    {
+      "locator": "callout.T4-B:Ética del robot",
+      "current_content": "Automatizar login en contra de ToS o resolver CAPTCHA con granjas no es aceptable en este curso ni en producción responsable.",
+      "status": "SIN_CAMBIO_DEFENDIDO",
+      "finding_ids": [],
+      "improved_content": null,
+      "justification": "Clear responsible-use boundary."
+    },
+
+    {
+      "locator": "figure:S23-rpa-recovery",
+      "current_content": "Under T1-B Auto-waiting y assertions. Caption: CAPTCHA is not transient; human handoff. Alt: login→form→export→verify with a boundary after export where the effect already exists in the portal.",
+      "status": "RELOCATE_OR_REPLACE",
+      "finding_ids": ["S23-F27"],
+      "improved_content": "Move this recovery/idempotency figure to T3-B or T4-B. For T1-B use a diagram of locator→actionability checks→action→web-first assertion→timeout evidence.",
+      "justification": "The only diagram dual-codes a later recovery topic instead of the current auto-wait/assertions concept."
+    }
+  ]
+}
