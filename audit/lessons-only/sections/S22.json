@@ -1,0 +1,196 @@
+{
+  "schema_version": "1.8.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S22",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s22-rapidfuzz-entity.ts",
+  "canonical_blob_sha": "1203b539e4a6d7c84e036d1665b3d69008232347",
+  "title": "Email, identidad y aprobación humana",
+  "short_title": "Email y aprobación",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "canonical_mapping": {
+    "index_file": "src/lib/course/index.ts",
+    "import": "section22 from ./sections/s22-rapidfuzz-entity",
+    "status": "VERIFIED"
+  },
+  "prior_audit": {
+    "status": "NONE_FOUND_ON_AUDIT_BRANCH",
+    "method": "Direct fetch of audit/lessons-only/sections/S22.json returned 404 before creation."
+  },
+  "learner_entry_state": {
+    "baseline": "ZERO_TECH_CAPABLE",
+    "prerequisite": "S21",
+    "credit_rule": "Only prior concepts adjudicated USABLE count as learned.",
+    "critical_dependency_warning": "S21 remains REPAIR_REQUIRED. Its reconciled package, artifact hashes, pending_review manifest, PDF accessibility and cross-artifact parity cannot be inherited as trustworthy.",
+    "usable": [
+      "missing is not zero",
+      "hallazgo is not decision",
+      "separation of data and presentation",
+      "human approval should remain separate from automated generation",
+      "semantic headings and non-color redundancy as accessibility principles"
+    ],
+    "not_creditable": [
+      "S21 package is reconciled",
+      "S21 manifest is persisted and derived from actual artifacts",
+      "S21 pending_review state is bound to exact files",
+      "S21 PDF/DOCX accessibility is established",
+      "S21 monetary values have preserved the S02 Decimal boundary"
+    ]
+  },
+  "roadmap_expectation": {
+    "source": "learning_roadmap_52_V3.md",
+    "prerequisite": "S21",
+    "environment": "local/sandbox proveedor",
+    "project": "inicio CP-N2-C",
+    "T1": "Mensaje: MIME, encoding, HTML/text y attachments; templates y sanitización",
+    "T2": "Proveedor: OAuth/service account y scopes; drafts, expiración y adaptadores",
+    "T3": "Destinatario: resolución y verificación; listas, CC/BCC, privacidad y mínima divulgación",
+    "T4": "Workflow: approval queue y state machine; idempotencia, audit log y reintento sin duplicar",
+    "gate": "crea borradores en sandbox o .eml; ningún correo real se envía automáticamente y todo destinatario requiere confirmación"
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/",
+    "status": "PUBLIC_CARD_VERIFIED_BODY_NOT_HYDRATED_IN_TEXT_FETCH",
+    "evidence": "Public page exposes Section 22 'Email y aprobación' with the canonical draft-only tagline. Hydrated theory body is not present in the text surface, so render-only defects remain unresolved."
+  },
+  "audit_metadata": {
+    "theory_blocks_reviewed": 10,
+    "paragraphs_reviewed": 33,
+    "paragraphs_expected": 33,
+    "paragraph_coverage_complete": true,
+    "learning_outcomes_reviewed": 8,
+    "theory_code_blocks_reviewed": 9,
+    "theory_outputs_reviewed": 9,
+    "theory_callouts_reviewed": 9,
+    "theory_figures_reviewed": 3,
+    "runtime_validation": {
+      "checks": [
+        "sanitize_html with allowed_hosts={'corp.pe'} still permits https://sub.example.pe/r because .example.pe is hardcoded",
+        "sanitize_html blocks a documented relative route such as /review/r1",
+        "least_privilege_ok evaluates True for ['mail.draft','mail.send']",
+        "OrderedDict dedupe keeps first position but replaces the first recipient record/role with the last duplicate",
+        "approval state machine allows actor='analyst' to submit and then approve the same draft",
+        "recipient regex accepts whitespace and newline-containing local parts",
+        "idempotency key is unchanged when subject/attachments change unless body_ver is manually changed"
+      ]
+    },
+    "material_findings": 28,
+    "severity_counts": {
+      "P0": 0,
+      "P1": 17,
+      "P2": 11,
+      "P3": 0
+    },
+    "verdict": "REPAIR_REQUIRED",
+    "score_10": 3.2
+  },
+  "external_research": [
+    {
+      "source": "Google OAuth 2.0 Scopes",
+      "url": "https://developers.google.com/identity/protocols/oauth2/scopes",
+      "finding": "gmail.compose manages drafts and sends emails; draft-only must therefore be enforced by application policy."
+    },
+    {
+      "source": "Google OAuth 2.0 Policies",
+      "url": "https://developers.google.com/identity/protocols/oauth2/policies",
+      "finding": "Apps should request only the smallest scopes needed and handle granted scopes explicitly."
+    },
+    {
+      "source": "RFC 5322",
+      "url": "https://www.rfc-editor.org/rfc/rfc5322",
+      "finding": "Bcc hides Bcc addresses from other recipients; To/Cc remain destination headers and Bcc handling is implementation-dependent."
+    },
+    {
+      "source": "IANA Special-Use Domain Names / RFC 2606",
+      "url": "https://www.iana.org/assignments/special-use-domain-names",
+      "finding": ".test, .example, .invalid and reserved example.com/net/org are special-use; example.pe is not reserved."
+    },
+    {
+      "source": "Python email package",
+      "url": "https://docs.python.org/3/library/email.html",
+      "finding": "Email messages should be treated as structured MIME trees; high-level EmailMessage APIs can inspect multipart structure semantically."
+    }
+  ],
+  "findings": [
+    {"id":"S22-F01","severity":"P1","title":"UNTRUSTED_S21_PACKAGE_ASSUMED_RECONCILED","evidence":"S22 repeatedly says the S21 report package is already reconciled and uses its run data as input.","impact":"S21 remains REPAIR_REQUIRED; its parity/provenance/pending_review evidence is not creditable. S22 can therefore package or route an unverified report."},
+    {"id":"S22-F02","severity":"P1","title":"ROUTABLE_EXAMPLE_PE_USED_AS_LAB_EMAIL_DOMAIN","evidence":"The lab allowlists and addresses use @example.pe and explicitly say it is not an impossible-to-route domain.","impact":"RFC/IANA reserve .test/.example/.invalid and example.com/net/org, not example.pe. A future provider adapter could accidentally address a real domain, contradicting the no-real-email gate."},
+    {"id":"S22-F03","severity":"P2","title":"EMAIL_IRREVERSIBILITY_OVERCLAIM","evidence":"Opening says an email 'no se puede deshacer'.","impact":"Recall/retraction mechanisms exist in limited systems; the transferable rule is that delivery cannot be reliably revoked once a recipient/provider has received the message."},
+    {"id":"S22-F04","severity":"P1","title":"BCC_PRIVACY_MODEL_INCOMPLETE_FOR_EXTERNAL_RECIPIENTS","evidence":"The section treats moving externals to BCC as a privacy protection for the recipient list.","impact":"BCC hides BCC addresses from other recipients, but BCC recipients normally still receive visible To/Cc headers. Individual sends are required when an external must not learn internal recipient addresses."},
+    {"id":"S22-F05","severity":"P2","title":"ATTACHMENT_DESCRIBED_AS_CONTROLLED_DISCLOSURE_SURFACE","evidence":"T3-B suggests sensitive detail can live in a 'controlled attachment' instead of the body.","impact":"An email attachment is copied to the recipient and can be forwarded; it is not equivalent to an access-controlled portal. Disclosure minimization must cover attachments too."},
+    {"id":"S22-F06","severity":"P2","title":"MIME_HEADER_COUNT_FALSE_GREEN","evidence":"T1-A says counting Content-Type headers validates that the multipart tree is correctly nested.","impact":"The number of Content-Type headers does not prove multipart/alternative placement, attachment disposition, or part semantics; different trees can have the same count."},
+    {"id":"S22-F07","severity":"P2","title":"PLAIN_TEXT_PRESENTED_AS_PROTOCOL_MANDATORY","evidence":"Figure/callout say the plain-text part is 'not optional' and many clients/filters require it.","impact":"multipart/alternative text+HTML is strong compatibility practice, but an HTML-only MIME message is not categorically invalid. Teach it as a robustness/accessibility requirement of the course, not a universal protocol law."},
+    {"id":"S22-F08","severity":"P1","title":"SANITIZER_ALLOWED_HOSTS_PARAMETER_BYPASSED_BY_HARDCODED_SUFFIX","evidence":"sanitize_html accepts allowed_hosts but also always permits host.endswith('.example.pe').","impact":"Passing allowed_hosts={'corp.pe'} still permits sub.example.pe. The security parameter does not actually define the policy."},
+    {"id":"S22-F09","severity":"P2","title":"RELATIVE_LINK_POLICY_CONTRADICTS_IMPLEMENTATION","evidence":"T1-B says relative routes are allowed, but sanitize_html only permits URLs matching ^https?://.","impact":"A documented allowed class is always blocked, making the contract and code disagree."},
+    {"id":"S22-F10","severity":"P1","title":"DRAFT_ONLY_LEAST_PRIVILEGE_CHECK_ACCEPTS_SEND","evidence":"least_privilege_ok treats mail.send as part of the allowed capability set and only excludes mail.full.","impact":"A granted ['mail.draft','mail.send'] evaluates True even though the callout says deny mail.send for a draft-only lab."},
+    {"id":"S22-F11","severity":"P1","title":"SCOPE_POLICY_IS_HARDCODED_NOT_OBSERVED","evidence":"Prose says requested∩allowed and granted scopes are audited, but the example hardcodes requested_scopes/granted_scopes and never validates a provider response or fail-closes on missing/unexpected grants.","impact":"Learners can print least_privilege_ok without demonstrating that authorization actually matches policy."},
+    {"id":"S22-F12","severity":"P1","title":"DRAFT_EXPIRY_NOT_INTEGRATED_WITH_APPROVAL_STATE","evidence":"T2-B says expired drafts cannot be promoted without regeneration/reapproval; T4 approval state machine never checks draft expiry or draft usability.","impact":"An approval can remain 'approved' after the underlying draft expires or changes."},
+    {"id":"S22-F13","severity":"P2","title":"FILE_DRAFT_ADAPTER_IS_MEMORY_ONLY_AND_MISSING_IDS_CRASH","evidence":"FileDraftAdapter stores drafts only in a dict and is_usable directly indexes self.store[draft_id].","impact":"The name suggests file persistence that does not exist, and an unknown ID raises KeyError instead of an explicit not-found/unusable result."},
+    {"id":"S22-F14","severity":"P2","title":"RECIPIENT_FORMAT_CHECK_ACCEPTS_WHITESPACE_AND_CONTROL_SHAPES","evidence":"verify uses ^[^@]+@[^@]+\\.[^@]+$ as a 'bad_format' gate.","impact":"It accepts strings such as 'a b@example.pe' and even newline-containing local parts. A basic gate should at least reject whitespace/control characters or use a standard parser."},
+    {"id":"S22-F15","severity":"P2","title":"DECLARED_CANDIDATE_RECIPIENT_STATE_NEVER_EXISTS","evidence":"Prose defines unresolved → candidate → verified|rejected.","impact":"The implementation jumps directly from directory lookup to verified/rejected; candidate is not represented or audited."},
+    {"id":"S22-F16","severity":"P1","title":"DEDUPE_OVERWRITES_FIRST_RECIPIENT_ROLE","evidence":"T3-B promises dedupe preserving first appearance, but OrderedDict assignment replaces the value for a duplicate email.","impact":"A later duplicate can change a first BCC entry into To/CC and increase disclosure while preserving the original position."},
+    {"id":"S22-F17","severity":"P1","title":"EXTERNAL_RECIPIENT_POLICY_HARDCODED_TO_OTHER_TEST","evidence":"T3-B says every external domain is forced to BCC, but code only checks email.endswith('@other.test').","impact":"Any other external domain remains visible, so the policy does not generalize beyond the fixture."},
+    {"id":"S22-F18","severity":"P2","title":"LIST_SIZE_AND_OPTOUT_CONTRACT_NOT_IMPLEMENTED","evidence":"T3-B says the lab models a list-size cap and synthetic opt-out flag.","impact":"Neither appears in the canonical theory code, so two announced privacy controls are prose-only."},
+    {"id":"S22-F19","severity":"P1","title":"APPROVER_ROLE_NOT_AUTHORIZED","evidence":"approval_sm.py accepts any actor string for approve.","impact":"The same analyst who submitted can call approve and reach approved. 'Human approval' is not equivalent to an authorized independent reviewer."},
+    {"id":"S22-F20","severity":"P1","title":"APPROVAL_AUDIT_MISSING_TIMESTAMP_AND_COMMENTS","evidence":"The transition log stores from/to/action/actor only.","impact":"S21 carry-forward and S22 prose require actor, timestamp and review comments/notes; these are necessary to reconstruct who approved what and when."},
+    {"id":"S22-F21","severity":"P1","title":"APPROVAL_NOT_BOUND_TO_EXACT_DRAFT_CONTENT","evidence":"Approval transitions contain no draft_id, message hash, recipient set, subject, attachment hashes or body version.","impact":"A message can be edited after approval without invalidating the approval record. Human review must bind to the exact bytes/payload reviewed."},
+    {"id":"S22-F22","severity":"P1","title":"EVERY_RECIPIENT_CONFIRMATION_GATE_NOT_IMPLEMENTED","evidence":"Tagline says every recipient requires confirmation, but the state machine approves one draft state with no per-recipient confirmation evidence.","impact":"A multi-recipient draft can be approved without showing that each To/Cc/Bcc address was reviewed."},
+    {"id":"S22-F23","severity":"P1","title":"IDEMPOTENCY_KEY_OMITS_MESSAGE_PAYLOAD_FIELDS","evidence":"Key is sha256(run_id|to|body_ver)[:16].","impact":"Subject, body content hash, Cc/Bcc, attachments, sender and recipient-set version are absent; changed content can reuse an old draft if body_ver is not manually bumped."},
+    {"id":"S22-F24","severity":"P1","title":"TRUNCATED_NONATOMIC_KEY_CANNOT_GUARANTEE_IDEMPOTENCY","evidence":"Outcome says 'Garantizar idempotencia' using sha256[:16] and a normal dict check-then-insert.","impact":"Sixteen hex characters are a 64-bit prefix and there is no collision check or atomic uniqueness. Concurrent workers can also race through the membership check."},
+    {"id":"S22-F25","severity":"P1","title":"IDEMPOTENCY_AUDIT_LOG_LACKS_ACTOR_TIMESTAMP_AND_STATE","evidence":"T4-B says audit log records create/submit/approve/retry_hit with actor and timestamps in production; example only logs create/retry_hit with key/draft_id.","impact":"The final idempotency example does not satisfy its own audit-log outcome or connect to the approval log."},
+    {"id":"S22-F26","severity":"P1","title":"NO_INTEGRATED_PERSISTED_DRAFT_APPROVAL_WORKFLOW","evidence":"Theory examples separately demonstrate MIME, sanitizer, scopes, draft store, recipients, list hygiene, approval and key.","impact":"No executable flow consumes a validated S21 manifest, creates a persisted .eml/sandbox draft, binds verified recipients, submits it, records approval, checks expiry/idempotency and persists one audit trail. The section gate is therefore not demonstrated end-to-end."},
+    {"id":"S22-F27","severity":"P2","title":"SPANGLISH_AND_WIDOW_TERM_DENSITY","evidence":"Learner-facing prose rapidly stacks draft, sandbox, fail-closed, scope, key, store, workflow, allowlist, BCC, HITL and audit log.","impact":"Several are glossed, but density remains high for ZERO_TECH and Spanish-first guidance can be more consistent."},
+    {"id":"S22-F28","severity":"P2","title":"GENERIC_LINK_TEXT_WEAKENS_EMAIL_ACCESSIBILITY","evidence":"Sanitizer emits <a ...>enlace</a> for every permitted review URL.","impact":"Generic repeated link text gives little destination/purpose context to screen-reader and skim users; the reviewed action should have meaningful link text such as 'Revisar borrador del run …'."}
+  ],
+  "rejected_false_positives": [
+    "Gmail gmail.compose was claimed to allow send as well as drafts. REJECTED as a finding: current Google scope documentation confirms this.",
+    "Using email.mime classes is automatically obsolete/invalid. REJECTED: the compatibility API remains supported; the issue is weak validation, not mere API age.",
+    "BCC provides no privacy benefit. REJECTED: RFC 5322 explicitly defines Bcc to hide Bcc addresses; the defect is treating it as sufficient to hide visible To/Cc from an external Bcc recipient.",
+    "Any similarity score in recipient resolution is unethical. REJECTED: S22 explicitly says matching is not fraud/identity proof and limits it to delivery review.",
+    "S22 secretly sends real email. REJECTED: no canonical theory path invokes SMTP/send; the risk is the use of a non-reserved domain if a future provider adapter is attached.",
+    "Service-account domain-wide delegation is inherently wrong. REJECTED: it is a valid Workspace pattern; the concern is least privilege and explicit impersonation."
+  ],
+  "priority_order": [
+    "P1 safety gate: F02, F10-F12, F19-F26",
+    "Recipient/privacy correctness: F04, F16-F18, F22",
+    "HTML/MIME and address validation: F06-F09, F14",
+    "Upstream integrity: F01 and exact S21 manifest validation",
+    "Redaction/accessibility: F03, F05, F07, F27-F28"
+  ],
+  "concept_ledger": {
+    "USABLE": [
+      "draft-only boundary as design goal",
+      "gmail.compose can send, so draft-only requires app policy",
+      "adapter/workflow separation",
+      "draft expiration as a freshness concept",
+      "matching != fraud/relationship conclusion",
+      "invalid state transitions should fail closed"
+    ],
+    "PARTIAL": [
+      "MIME structural validation",
+      "HTML link sanitization",
+      "least-privilege scope enforcement",
+      "recipient verification",
+      "list privacy",
+      "approval audit",
+      "idempotent retries"
+    ],
+    "MISCONCEPTION_RISK": [
+      "example.pe is a safe non-routable lab domain",
+      "BCC hides visible To/Cc from external Bcc recipients",
+      "least_privilege_ok excludes send permissions",
+      "dedupe preserves the first recipient policy",
+      "human actor string proves authorized approval",
+      "approval remains valid if draft changes/expires",
+      "sha256[:16] over run|to|body_ver guarantees idempotency"
+    ]
+  },
+  "meta_leak": {
+    "status": "SOURCE_ONLY_NOTE_NOT_CONFIRMED_LEARNER_FACING",
+    "text": "Read `title` below, never the slug. Matching content to the slug is how three agent diagrams ended up attached to a data-testing lesson.",
+    "reason": "Present in TypeScript comment; not observed in public rendered text surface."
+  }
+}
