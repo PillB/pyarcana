@@ -1,12 +1,13 @@
 {
-  "schema_version": "1.5.0",
+  "schema_version": "1.6.0",
   "campaign_id": "lessons-only-adversarial-20260903",
   "continuation_date": "2026-09-04",
+  "last_updated_date": "2026-09-05",
   "branch": "audit/lessons-only-adversarial-20260903",
-  "last_completed_section": "S22",
-  "last_completed_round": "S22-base-solarized-adversarial-audit-20260904",
+  "last_completed_section": "S23",
+  "last_completed_round": "S23-base-solarized-adversarial-audit-20260905",
   "last_completed_verdict": "REPAIR_REQUIRED",
-  "last_completed_material_findings": 28,
+  "last_completed_material_findings": 27,
   "section_artifacts": {
     "S17": {
       "base_audit": "audit/lessons-only/sections/S17.json",
@@ -67,40 +68,53 @@
       "source_file": "src/lib/course/sections/s22-rapidfuzz-entity.ts",
       "source_blob_sha": "1203b539e4a6d7c84e036d1665b3d69008232347",
       "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
-      "coverage": "33/33 theory paragraphs + title/tagline/job relevance + 8 outcomes + 9 theory code/output blocks + 9 callouts + 3 figures",
       "material_findings": 28,
       "severity_counts": {"P0":0,"P1":17,"P2":11,"P3":0},
+      "status": "AUDITED_REPAIR_REQUIRED"
+    },
+    "S23": {
+      "base_audit": "audit/lessons-only/sections/S23.json",
+      "append_only_patches": ["audit/lessons-only/sections/S23.patch-001.json"],
+      "paragraph_shards": ["audit/lessons-only/sections/S23.paragraphs-01.json", "audit/lessons-only/sections/S23.paragraphs-02.json"],
+      "component_ledger": "audit/lessons-only/sections/S23.components.json",
+      "source_file": "src/lib/course/sections/s23-computer-vision.ts",
+      "source_blob_sha": "4975702222a2f5ef3654312481d706cf2877380f",
+      "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+      "coverage": "33/33 theory paragraphs + title/tagline/job relevance + 8 outcomes + 9 theory code/output blocks + 9 callouts + 1 figure",
+      "material_findings": 27,
+      "severity_counts": {"P0":0,"P1":18,"P2":9,"P3":0},
       "highest_risk_findings": [
-        "S22-F02 lab email addresses use non-reserved @example.pe despite no-real-email gate",
-        "S22-F10 least_privilege_ok returns True when mail.send is granted",
-        "S22-F16 dedupe can replace a first BCC role with a later To/CC role",
-        "S22-F19 same analyst actor can submit and approve because roles are not authorized",
-        "S22-F21 approval is not bound to draft_id/message hash/recipient set/attachments",
-        "S22-F22 no per-recipient confirmation exists despite tagline gate",
-        "S22-F23/F24 idempotency key omits message fields and uses non-atomic 64-bit prefix",
-        "S22-F26 no integrated persisted workflow demonstrates the section gate"
+        "S23-F03 roadmap gate promises a controlled real Playwright robot but canonical theory executes only dict simulations and a non-run sketch",
+        "S23-F04 real sketch returns download.path after closing the browser even though context-owned downloads are deleted on close",
+        "S23-F06 dict locator silently selects the first ambiguous role/name match instead of failing strict",
+        "S23-F11 download fixture merely echoes the uploaded bytes and never verifies an independent export",
+        "S23-F15 trace/screenshot evidence consists of nonexistent path strings",
+        "S23-F19 run_with_retry accepts fn but never calls it",
+        "S23-F20 retry policy retries side-effecting timeouts without checking idempotency/postcondition",
+        "S23-F21 checkpoint/crash-window recovery is explained but not implemented",
+        "S23-F25 no persisted lineage connects S21 payload/S22 approval to S23 browser action"
       ],
       "status": "AUDITED_REPAIR_REQUIRED"
     }
   },
   "audit_protocol_delta": {
     "rule": "SIN_CAMBIO_DEFENDIDO/NO_MATERIAL_CHANGE => improved_content=null",
-    "reason": "S18-S22 follow the corrected paragraph protocol; defended content is not rewritten for cosmetic churn."
+    "reason": "S18-S23 follow the corrected paragraph protocol; defended content is not rewritten for cosmetic churn. S23 also uses an append-only patch for a component finding discovered after base persistence."
   },
-  "next_section": "S23",
+  "next_section": "S24",
   "carry_forward_constraints": [
-    "S23 must not automate any send/submit action from S22 state='approved' alone; verify authorized reviewer, timestamp, per-recipient confirmation, unexpired draft and exact draft/message hash.",
-    "Use RFC/IANA-reserved lab domains (.test/.invalid/.example or reserved example.com/net/org); do not reuse @example.pe as a supposedly safe non-routable recipient.",
-    "Do not inherit S22 least_privilege_ok as valid: mail.send must fail the draft-only lab policy and requested/granted scopes must be observed, not hardcoded.",
-    "Do not treat moving an external recipient to BCC as sufficient to hide internal To/Cc addresses; use individual drafts when required by minimum disclosure.",
-    "Do not reuse S22 OrderedDict dedupe or @other.test-only external detection; recipient policy must never increase visibility and must use the actual allowlist.",
-    "Approval must be invalidated if the draft expires, recipients/content/subject/attachments change, or the upstream S21 payload changes.",
-    "Idempotency must identify the complete canonical message and be enforced atomically; sha256(run|to|body_ver)[:16] is not creditable as a guarantee.",
-    "S23 must preserve one persisted audit trail linking S21 payload -> S22 draft -> recipient set -> approval -> browser action; isolated print statements are not provenance.",
-    "S21 remains REPAIR_REQUIRED; S23 must not assume the report package or pending_review manifest is reconciled merely because S22 references it.",
-    "Do not navigate a real mail provider or real recipient target in course tests; use a controlled test site/sandbox and synthetic reserved addresses.",
-    "S22 HTML/link sanitization is PARTIAL until allowed_hosts is the sole policy source and relative-link behavior matches the documented contract.",
-    "Keep recipient-facing accessibility active: generic link text such as 'enlace' is not a sufficient descriptive link label."
+    "S24 must not consume an S23 download path unless the file was persisted before browser-context close and independently validated; download.path() from the current sketch is not creditable.",
+    "Carry full SHA-256 and parsed-content validation into S24; S23 short digest prefixes are display identifiers, not authoritative provenance.",
+    "Do not treat S23 trace/screenshot path strings as evidence; only actual files with hashes and a run_id lineage are creditable.",
+    "S23 checkpoint/retry/idempotence remains PARTIAL; S24 must not infer that a resumed browser run produced exactly one source document.",
+    "Preserve one lineage from S21 payload -> S22 draft/approval -> S23 browser run -> S23 downloaded artifact -> S24 document/OCR extraction.",
+    "S21 and S22 remain REPAIR_REQUIRED; a browser download does not repair upstream reconciliation, recipient confirmation or approval binding.",
+    "Treat Playwright storage_state and traces as sensitive artifacts; do not put authenticated state, production cookies, PII screenshots or sensitive DOM/network traces into S24 fixtures.",
+    "S24 must distinguish the verified downloaded source document from screenshots/trace images; do not OCR diagnostic screenshots as if they were the report artifact.",
+    "Do not inherit S23 first-match locator or stale-ElementHandle mental models into S24 browser/document acquisition helpers.",
+    "If S24 ingestion follows a retried side-effecting browser step, verify server state/idempotency before assuming the downloaded document is unique/current.",
+    "S23 API/export selection is PARTIAL until equivalence, authorization, freshness and policy are checked and persisted.",
+    "If S24 receives a human-handoff artifact, require run_id, source URL/step, actual evidence refs and last verified checkpoint rather than action/reason labels alone."
   ],
-  "status": "READY_TO_CONTINUE_WITH_S23"
+  "status": "READY_TO_CONTINUE_WITH_S24"
 }
