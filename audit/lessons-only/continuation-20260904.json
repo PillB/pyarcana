@@ -1,12 +1,12 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "campaign_id": "lessons-only-adversarial-20260903",
   "continuation_date": "2026-09-04",
   "branch": "audit/lessons-only-adversarial-20260903",
-  "last_completed_section": "S17",
-  "last_completed_round": "S17-R2-solarized-adversarial-revalidation-20260904",
+  "last_completed_section": "S18",
+  "last_completed_round": "S18-base-solarized-adversarial-audit-20260904",
   "last_completed_verdict": "REPAIR_REQUIRED",
-  "last_completed_material_findings": 21,
+  "last_completed_material_findings": 24,
   "section_artifacts": {
     "S17": {
       "base_audit": "audit/lessons-only/sections/S17.json",
@@ -17,30 +17,49 @@
       "round2": "audit/lessons-only/sections/S17.round2.json",
       "round2_paragraph_delta": "audit/lessons-only/sections/S17.round2.paragraph-delta.json",
       "source_blob_sha": "948e1c6d3b937313beee683974e4363c3c90c059",
-      "source_unchanged": true,
       "coverage": "38/38 theory paragraphs plus outcomes/code/figures/callouts from base audit; six paragraph adjudications changed in R2",
-      "new_round2_findings": [
-        "S17-R2-F20 ROW_GROWTH_FALSE_DICHOTOMY_AND_AMBIGUOUS_FIXTURE",
-        "S17-R2-F21 OBSERVED_COHORT_CONFLATED_WITH_TRUE_FIRST_EVENT"
+      "material_findings": 21,
+      "status": "AUDITED_REPAIR_REQUIRED"
+    },
+    "S18": {
+      "base_audit": "audit/lessons-only/sections/S18.json",
+      "paragraph_shards": [
+        "audit/lessons-only/sections/S18.paragraphs-01.json",
+        "audit/lessons-only/sections/S18.paragraphs-02.json"
       ],
-      "tightened_round2_findings": [
-        "S17-F02 failure surface for key-representation mismatch",
-        "S17-F18 future mass is not intrinsically leakage and cutoff must govern features"
-      ]
+      "source_file": "src/lib/course/sections/s18-data-engineering.ts",
+      "source_blob_sha": "0e22a0e9024568478de1ee421b59a968747cf03c",
+      "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+      "coverage": "40/40 theory paragraphs plus 8 outcomes, 10 theory code blocks, 2 figures and 11 callouts",
+      "material_findings": 24,
+      "severity_counts": {"P0": 0, "P1": 10, "P2": 14, "P3": 0},
+      "highest_risk_findings": [
+        "S18-F19 T4-A question/metric region contradiction",
+        "S18-F20 hardcoded evidence presented as calculated bootstrap trace",
+        "S18-F21 documented filter never executed",
+        "S18-F22 final data-note example fails its own reproducibility contract",
+        "S18-F07 composition imbalance mislabeled as selection-bias magnitude",
+        "S18-F16 tiny segment anomaly rates omit n/uncertainty in output"
+      ],
+      "status": "AUDITED_REPAIR_REQUIRED"
     }
   },
   "audit_protocol_delta": {
     "rule": "SIN_CAMBIO_DEFENDIDO/NO_MATERIAL_CHANGE => improved_content=null",
-    "reason": "Legacy S17 paragraph shards violated the campaign's own unchanged_paragraphs_keep_rewrite_null rule; future audits must separate material repair from style-only alternatives."
+    "reason": "Legacy S17 paragraph shards violated the campaign's own unchanged_paragraphs_keep_rewrite_null rule; S18 follows the corrected rule for all 40 paragraphs."
   },
-  "next_section": "S18",
+  "next_section": "S19",
   "carry_forward_constraints": [
-    "Do not inherit S17 reconciliation as proof of pipeline conservation until the close is derived from the same upstream fixture.",
-    "Do not inherit groupby/agg/transform as fully USABLE: missing-key policy and row-vs-unique-entity denominators remain partial.",
-    "Do not interpret min(fecha) as true acquisition without historical-coverage evidence.",
-    "Do not call post-cutoff observations leakage unless an as-of calculation actually consumes them.",
-    "Do not inherit monetary totals as trustworthy until the Decimal/analytical-numeric boundary is explicit.",
-    "S18 owns the deeper EDA/statistics mental model; S17's EDA label is only a partial introduction."
+    "Do not inherit S18 confidence intervals as fully USABLE until the fixed-parameter interpretation and t-vs-z baseline are repaired.",
+    "Do not interpret region share differences as quantified selection bias or proof of representativeness.",
+    "Do not inherit bootstrap endpoints as stable without adequate replication count and recorded B/seed.",
+    "Do not reuse the manual double-argsort Spearman implementation on tied data.",
+    "Do not treat a preregistered repeated p<0.05 stopping rule as valid sequential inference.",
+    "Do not chart or rank S18 anomaly rates without numerator, denominator and low-n uncertainty warnings.",
+    "Do not trust T4-A insight traceability until question, filter, metric and interval are computed from one shared fixture rather than hand-authored.",
+    "Do not trust the S18 data note until declared filters execute and versions/schema/n_pre/n_post/limits/hash are derived from the actual analytical payload.",
+    "Preserve the unresolved S02->S17->S18 Decimal-to-analytical-float boundary for PEN in S19 charts and KPIs.",
+    "Correlation-not-causation and hallazgo-not-decision are USABLE; instrumental-variable design is MENTION_ONLY."
   ],
-  "status": "READY_TO_CONTINUE_WITH_S18"
+  "status": "READY_TO_CONTINUE_WITH_S19"
 }
