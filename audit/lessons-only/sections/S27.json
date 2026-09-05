@@ -1,0 +1,185 @@
+{
+  "schema_version": "2.3.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S27",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s27-async-concurrency.ts",
+  "canonical_blob_sha": "5525517f635d2d30d1c599436f6fdadfec6bced8",
+  "title": "Estrategia de pruebas con pytest",
+  "short_title": "Pytest y contratos",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "canonical_mapping": {
+    "index_file": "src/lib/course/index.ts",
+    "import": "section27 from ./sections/s27-async-concurrency",
+    "status": "VERIFIED"
+  },
+  "prior_audit": {
+    "status": "NONE_FOUND_ON_AUDIT_BRANCH",
+    "method": "Direct fetch of audit/lessons-only/sections/S27.json returned 404 before creation."
+  },
+  "learner_entry_state": {
+    "baseline": "LEVEL_2_DECLARED_PREREQUISITE_BUT_NOT_CREDITABLE_AS_PROMOTED",
+    "prerequisite": "Nivel 2",
+    "critical_dependency_warning": "S26 remains REPAIR_REQUIRED and its N2/CF-2 evidence was partly hardcoded. S27 must not treat Level-2 promotion or prior success/approved labels as facts merely because the roadmap names Nivel 2 as prerequisite.",
+    "carry_forward_test_targets": [
+      "partial/cyclic DAG must fail explicitly",
+      "rejected/error/missing human review must block",
+      "final approval must bind exact draft hash and recipient set",
+      "idempotency must survive same/different payload and concurrent/restart cases",
+      "checkpoint must survive process restart",
+      "compensation must preserve audit history",
+      "E2E promotion must be derived from observed manifests rather than hardcoded success"
+    ]
+  },
+  "roadmap_expectation": {
+    "source": "learning_roadmap_52_V3.md",
+    "prerequisite": "Nivel 2",
+    "environment": "local",
+    "project": "inicio CP-N3-A",
+    "T1": "Diseño: riesgos y pirámide; Arrange–Act–Assert y oráculos confiables",
+    "T2": "Pytest: discovery/assertions y parametrización; fixtures, scopes y aislamiento",
+    "T3": "Bordes: excepciones, floats, fechas y archivos temporales; casos negativos y mensajes",
+    "T4": "Cobertura: branch/risk coverage; mutación conceptual, fallas útiles y mantenimiento",
+    "gate": "convertir supuestos de normalización y matching en contratos ejecutables; cada bug reproducido obtiene test de regresión"
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/",
+    "status": "PUBLIC_CARD_VERIFIED_BODY_NOT_HYDRATED_IN_TEXT_FETCH",
+    "evidence": "Public page exposes Section 27 'Pytest y contratos' with the same executable-contract/regression-test tagline. Full hydrated theory is not exposed by the public text surface, so render-only defects were not invented."
+  },
+  "audit_metadata": {
+    "theory_blocks_reviewed": 10,
+    "paragraphs_reviewed": 32,
+    "paragraphs_expected": 32,
+    "paragraph_coverage_complete": true,
+    "learning_outcomes_reviewed": 8,
+    "theory_code_blocks_reviewed": 8,
+    "theory_outputs_reviewed": 8,
+    "theory_callouts_reviewed": 9,
+    "theory_figures_reviewed": 2,
+    "runtime_validation": {
+      "python": "3.13.5",
+      "pytest_available": "9.0.2 in audit runtime",
+      "checks": [
+        "A real pytest run based on T2-A returned exit code 0 and '2 passed' while a deliberately wrong plain-loop parameter row produced param_ok=False, proving that the pseudo-parametrized table is not a pytest contract.",
+        "parse_score accepts nan, inf, -0.1 and 1.5 instead of rejecting non-finite/out-of-range matching scores.",
+        "NamedTemporaryFile(delete=False) remains on disk after the canonical demo unless manually unlinked; the demo does not clean it.",
+        "The T4-A manual business-branch counter reports 3/3 both for the canonical >=0.9 threshold and for a behavior-changing mutant >0.9.",
+        "classify_pair(float('nan')) silently returns non_match because both comparisons are false."
+      ]
+    }
+  },
+  "external_research": [
+    {
+      "source": "pytest current documentation — discovery/good practices",
+      "url": "https://docs.pytest.org/en/stable/explanation/goodpractices.html",
+      "finding": "Default discovery includes test_*.py/*_test.py, test-prefixed functions, and methods in Test-prefixed classes without __init__; names can be configured."
+    },
+    {
+      "source": "pytest current fixtures documentation",
+      "url": "https://docs.pytest.org/en/stable/how-to/fixtures.html",
+      "finding": "Fixture scopes are function, class, module, package and session; function is default. Fixtures support teardown and factories."
+    },
+    {
+      "source": "pytest current API",
+      "url": "https://docs.pytest.org/en/latest/reference/reference.html",
+      "finding": "pytest.raises(match=...) uses re.search; parametrize creates separate invocations/ids; tmp_path is unique per test invocation."
+    },
+    {
+      "source": "Coverage.py branch coverage",
+      "url": "https://coverage.readthedocs.io/en/latest/branch.html",
+      "finding": "Branch coverage is measured from source-to-destination execution opportunities and enabled with branch measurement; manual output-category counters are not branch coverage."
+    },
+    {
+      "source": "mutmut documentation",
+      "url": "https://mutmut.readthedocs.io/en/latest/",
+      "finding": "Mutation testing changes production code and runs the test suite to determine whether tests fail; directly comparing a mutant output to an oracle does not show that the suite killed the mutant."
+    },
+    {
+      "source": "IANA Special-Use Domain Names",
+      "url": "https://www.iana.org/assignments/special-use-domain-names",
+      "finding": ".test, .example, .invalid and example.com/net/org are special-use; example.pe is not on the registry."
+    }
+  ],
+  "score": 2.8,
+  "verdict": "REPAIR_REQUIRED",
+  "material_findings": 30,
+  "severity_counts": {"P0": 0, "P1": 16, "P2": 14, "P3": 0},
+  "findings": [
+    {"id":"S27-F01","severity":"P1","category":"PREREQUISITE_INTEGRITY","evidence":"S27 declares Nivel 2 as prerequisite and opens as if the S26 pipeline and its prior contracts can simply be assumed.","attack":"S26 is REPAIR_REQUIRED and its promotion evidence includes hardcoded success/pass values.","defense":"A new level needs a narrative bridge from earlier work.","verdict":"CONFIRMED_FINDING","impact":"Known false-green states can be treated as trusted test fixtures and laundered into N3.","repair":"State that Level-2 artifacts are untrusted until regression manifests pass; make known S26 defects first-class regression targets."},
+    {"id":"S27-F02","severity":"P1","category":"SYNTHETIC_DATA_SAFETY","evidence":"Opening/callouts/code repeatedly use @example.pe and call those contacts safe synthetic data.","attack":"IANA reserves .test/.example/.invalid and example.com/net/org, not example.pe.","defense":"The theory examples do not send mail.","verdict":"CONFIRMED_FINDING","impact":"Fixtures copied into later integration tests can target a routable namespace while being described as safe synthetic.","repair":"Use ana@equipo.test, example.com, or another reserved documentation/test domain consistently."},
+    {"id":"S27-F03","severity":"P1","category":"PYTEST_GATE_FIDELITY","evidence":"Core theory repeatedly substitutes plain Python for pytest: simulated fixture helper, custom assert_raises, manual table loops, manual branch counters; no canonical theory output shows a real pytest collection/failure/pass cycle.","attack":"The section is explicitly 'Estrategia de pruebas con pytest' and the roadmap says pytest becomes systematic from S27.","defense":"Plain-Python analogies keep browser/runtime examples portable.","verdict":"CONFIRMED_FINDING","impact":"Learner can complete theory without learning pytest's actual collection, parametrization, fixtures, failure reporting or lifecycle.","repair":"Require pytest in the local venv and execute at least one real test module per T2/T3/T4 contract, keeping simulations only as explanatory precursors."},
+    {"id":"S27-F04","severity":"P2","category":"OVERCLAIM","evidence":"Opening says a test that never failed has not proved that it knows how to detect anything.","attack":"That is defensible for a regression reproducer but overbroad for newly specified behavior or straightforward invariant tests.","defense":"The sentence strongly encourages red-green discipline and mutation sensitivity.","verdict":"CONFIRMED_FINDING","impact":"Learner may think every valid new test must historically fail before it has evidentiary value.","repair":"Scope the rule to bug regression and explain mutation/fault injection as one way to validate sensitivity for other tests."},
+    {"id":"S27-F05","severity":"P2","category":"REFERENCE_ALIGNMENT","evidence":"Reference says T4 closes with branch coverage but omits the roadmap's second T4 half: conceptual mutation, useful failures and maintenance.","attack":"The reference block is supposed to define section order/scope.","defense":"The omitted material appears later in theory.","verdict":"CONFIRMED_FINDING","impact":"The learner's advance organizer understates a major closing competence.","repair":"Name both branch/risk coverage and mutation/failure/maintenance in the T4 reference sentence."},
+    {"id":"S27-F06","severity":"P2","category":"TEST_STRATEGY_MODEL","evidence":"Theory says risk changes time allocation 'not the form of the pyramid' and prescribes the pyramid as fixed.","attack":"Best-practice material describes the pyramid as a rule of thumb and explicitly notes its simplifications; high-level tests are appropriate when they provide confidence unavailable below.","defense":"Many small tests and fewer high-level tests is a useful default heuristic.","verdict":"CONFIRMED_FINDING","impact":"A heuristic becomes doctrine and can discourage integration/E2E tests that cover unique failure surfaces.","repair":"Present the pyramid as a default cost/confidence heuristic; add tests at the lowest layer that can prove the behavior, moving upward where lower layers cannot."},
+    {"id":"S27-F07","severity":"P2","category":"FALSE_PRECISION","evidence":"Risk score impact×likelihood is mapped to exact quotas: >=15 means >=5 tests; 8–14 means 2–3; <8 means smoke+negative.","attack":"No calibration, evidence or project-specific rationale supports those numeric cutoffs or counts.","defense":"The paragraph calls the score a practical, non-scientific prioritization device.","verdict":"CONFIRMED_FINDING","impact":"Learners may optimize test counts to an invented formula rather than reason about failure modes and confidence.","repair":"Keep qualitative risk ranking; derive concrete cases from failure modes/branches and record rationale instead of fixed quotas."},
+    {"id":"S27-F08","severity":"P2","category":"REDACTION_WIDOW_TERMS","evidence":"Theory densely mixes clerical queue, merge, drift, smoke, retro, flake, node id, factory, scope, raw, mock, CI and contract without always introducing Spanish-first meanings.","attack":"The reader model is competent but not the author; several terms carry process meaning beyond literal translation.","defense":"S27 begins the advanced integration phase and some terms were seen earlier.","verdict":"CONFIRMED_FINDING","impact":"Language switching competes with the testing concepts being learned.","repair":"Introduce Spanish-first meanings once (cola de revisión manual, prueba mínima/smoke, identificador de caso/node id, etc.) and then retain API literals."},
+    {"id":"S27-F09","severity":"P1","category":"ORACLE_QUALITY","evidence":"T1-B offers 'longitud >= 0 tras normalizar' as an invariant oracle.","attack":"For any returned string, length>=0 is tautologically true and cannot detect meaningful normalization regressions.","defense":"The paragraph also gives useful fixed-value and idempotence oracle examples.","verdict":"CONFIRMED_FINDING","impact":"The section teaching reliable oracles includes a property that provides effectively zero fault-detection power.","repair":"Replace with nontrivial invariants such as idempotence, no leading/trailing whitespace, single internal whitespace policy, and explicit empty-input behavior."},
+    {"id":"S27-F10","severity":"P2","category":"NONDETERMINISM_OVERGENERALIZATION","evidence":"T1-B lists 'red o disco no mockeados' as examples of fragile/flaky oracles.","attack":"Real filesystem behavior through tmp_path can be deterministic and is often exactly what an integration test should exercise; mocking disk is not intrinsically safer.","defense":"Uncontrolled external I/O can make tests environment-dependent.","verdict":"CONFIRMED_FINDING","impact":"Learners can over-mock and remove the boundary they intended to test.","repair":"Distinguish uncontrolled external dependencies from controlled local temp filesystem/integration boundaries."},
+    {"id":"S27-F11","severity":"P2","category":"PYTEST_DISCOVERY_INCOMPLETE","evidence":"T2-A says pytest discovers Test* classes but omits the no-__init__ condition and configurability of discovery patterns.","attack":"Current pytest docs explicitly require Test-prefixed classes without __init__ under default discovery.","defense":"The lesson focuses mainly on function tests and default conventions.","verdict":"CONFIRMED_FINDING","impact":"Learner can create a Test* class that pytest silently refuses to collect and not understand why.","repair":"State the default conditions precisely and note that configuration can change patterns."},
+    {"id":"S27-F12","severity":"P1","category":"PARAMETRIZATION_FALSE_GREEN","evidence":"T2-A's table uses all(...) and prints param_ok; rows are called 'conceptual node ids' but are not pytest invocations and no assert consumes param_ok.","attack":"An audit run constructed from the same pattern returned pytest exit code 0/'2 passed' while param_ok=False for a deliberately wrong table row.","defense":"The comments show a correct @pytest.mark.parametrize form for local use.","verdict":"CONFIRMED_FINDING","impact":"The canonical executable can display a failed contract while the test runner stays green.","repair":"Execute the real @pytest.mark.parametrize test with ids and remove the print-only pseudo-parametrization."},
+    {"id":"S27-F13","severity":"P1","category":"OUTCOME_ALIGNMENT","evidence":"Learning outcome promises deterministic tests for normalize_name and exact_match; canonical code defines no exact_match function and only compares two normalize_name calls inline.","attack":"Testing an expression is not a regression contract for a public exact_match implementation/API.","defense":"The equality expression models the intended exact-match semantics.","verdict":"CONFIRMED_FINDING","impact":"The named production behavior can change independently without the advertised test existing.","repair":"Define/import exact_match and test its public behavior, including positive, negative, missing and Unicode cases."},
+    {"id":"S27-F14","severity":"P1","category":"FIXTURE_GATE_FIDELITY","evidence":"T2-B says fixtures inject dependencies without globals, but executable theory uses a normal fixture_contacts function backed by global _base_contacts; no @pytest.fixture or factory fixture actually runs.","attack":"The lesson's fixture-specific lifecycle/isolation behavior is never demonstrated by pytest.","defense":"Comments contain a syntactically correct pytest.fixture example and deepcopy illustrates isolation.","verdict":"CONFIRMED_FINDING","impact":"Learner may understand copying data but not how fixture request, scope, teardown or factory lifecycle actually works.","repair":"Run real function-scope and session/package fixture tests, including a factory and an intentionally contaminated wide-scope negative fixture."},
+    {"id":"S27-F15","severity":"P2","category":"FIXTURE_SCOPE_ACCURACY","evidence":"Theory lists function/class/module/session scopes and says session should only be used for expensive read-only resources.","attack":"Current pytest also supports package scope; wider scopes can safely manage mutable resources when lifecycle/reset semantics are explicit.","defense":"Read-only is a conservative novice-safe heuristic.","verdict":"CONFIRMED_FINDING","impact":"Reference is technically incomplete and turns a safety heuristic into an absolute API rule.","repair":"Include package scope and phrase read-only as a default risk-reduction rule rather than a prohibition."},
+    {"id":"S27-F16","severity":"P2","category":"SELF_CONTRADICTION","evidence":"T2-B says 'si ves un fallo que solo aparece con -x...' and later correctly says -x neither reorders tests nor causes new failures.","attack":"The same paragraph presents an impossible diagnostic cue under normal pytest semantics.","defense":"It is trying to distinguish first-failure visibility from order randomization.","verdict":"CONFIRMED_FINDING","impact":"Learner can blame -x for order coupling it does not create.","repair":"Say -x only truncates observation after the first failure; use explicit random-order runs/seeds to diagnose order dependence."},
+    {"id":"S27-F17","severity":"P1","category":"RESOURCE_CLEANUP","evidence":"T3-A explains that NamedTemporaryFile(delete=False) must be cleaned in finally or replaced by tmp_path, but the canonical code never unlinks the created path.","attack":"Runtime validation confirmed the file still existed after the demo.","defense":"TemporaryDirectory is cleaned correctly in the previous example.","verdict":"CONFIRMED_FINDING","impact":"The example violates the resource-lifecycle contract it just taught.","repair":"Use tmp_path in real pytest or unlink the named temporary file in finally."},
+    {"id":"S27-F18","severity":"P1","category":"SCORE_VALIDATION_GAP","evidence":"T3-B says negative cases include score out of range, but parse_score only rejects blank strings and classify_pair accepts arbitrary floats.","attack":"Runtime checks show nan, inf, -0.1 and 1.5 are accepted; NaN silently becomes non_match.","defense":"parse_score is introduced only to demonstrate exception testing, not as a complete business validator.","verdict":"CONFIRMED_FINDING","impact":"The section explicitly names a high-risk negative class without providing the regression contract, and invalid scores can reach threshold logic.","repair":"Validate finite score and allowed range before classification; parameterize blank, malformed, NaN, infinity, negative and >1 inputs."},
+    {"id":"S27-F19","severity":"P2","category":"FLOAT_TEST_MODEL","evidence":"Theory broadly says matching probabilities should use isclose rather than equality and places this next to threshold decisions.","attack":"Approximate equality is appropriate for computed numeric expectations, but threshold branch semantics themselves require exact boundary tests (at, just below, just above).","defense":"The code uses explicit tolerances and does not directly apply isclose inside classify_pair.","verdict":"CONFIRMED_FINDING","impact":"Learner may blur numerical tolerance with the business definition of a threshold boundary.","repair":"Separate value-approximation tests from threshold classification tests and show both patterns."},
+    {"id":"S27-F20","severity":"P1","category":"NEGATIVE_COVERAGE_ALIGNMENT","evidence":"T3-B promises None, empty, wrong type, broken encoding and score-out-of-range coverage, but canonical executable tests only four require_email cases.","attack":"Several named failure classes have no executable contract in the section where they are introduced.","defense":"The paragraph says design a table and examples are illustrative rather than exhaustive.","verdict":"CONFIRMED_FINDING","impact":"Learner can believe edge coverage exists because the prose enumerates it even though the suite does not.","repair":"Add parameterized negative tables for each public function, especially score finite/range, Unicode/encoding boundary and None/wrong type."},
+    {"id":"S27-F21","severity":"P1","category":"NEGATIVE_TEST_FALSE_GREEN","evidence":"negative_messages.py accumulates booleans and only prints neg_ok; it never asserts all(results).","attack":"A wrong row can produce neg_ok False without failing the process/test runner.","defense":"The canonical fixed rows currently evaluate True.","verdict":"CONFIRMED_FINDING","impact":"The anti-pattern is identical to the print-only contract the section warns against.","repair":"Convert rows to pytest.parametrize and assert the expected exception/value per invocation."},
+    {"id":"S27-F22","severity":"P2","category":"FALSE_PRECISION","evidence":"Theory mandates at least one happy and three negative cases per public function.","attack":"The number of meaningful negative cases depends on the contract/failure modes; three can be insufficient or wasteful.","defense":"A minimum helps novices remember to test failures.","verdict":"CONFIRMED_FINDING","impact":"Learners may count cases rather than enumerate contract partitions and risks.","repair":"Require coverage of identified input partitions/failure modes, with a small minimum only as a scaffold if explicitly labeled heuristic."},
+    {"id":"S27-F23","severity":"P1","category":"BRANCH_COVERAGE_FALSE_MODEL","evidence":"T4-A calls the topic branch coverage but executable code manually increments auto/review/non counters; it never enables Coverage.py branch measurement or consumes a report.","attack":"Coverage.py defines branch coverage as observed source-to-destination execution opportunities; output categories are not equivalent.","defense":"The manual counters visualize business branch coverage without adding a dependency.","verdict":"CONFIRMED_FINDING","impact":"Learner can report 'branch coverage' without measuring code branches at all.","repair":"Use coverage.py/pytest-cov with branch measurement, then separately track business-risk scenario coverage."},
+    {"id":"S27-F24","severity":"P1","category":"BOUNDARY_TEST_WEAKNESS","evidence":"T4-A uses [0.95,0.7,0.2,0.9] and reports 3/3 outcomes; it omits the 0.6 boundary, just-below/above boundaries and invalid/nonfinite scores.","attack":"A mutation from score>=0.9 to score>0.9 changed the 0.9 result but the manual counter still reported 3/3.","defense":"0.9 at least includes one exact boundary case.","verdict":"CONFIRMED_FINDING","impact":"The metric stays green while a high-risk threshold contract changes.","repair":"Parameterize each boundary at/just below/just above and invalid values; assert exact labels independently of branch-count metrics."},
+    {"id":"S27-F25","severity":"P2","category":"CAUSAL_OVERCLAIM","evidence":"Coverage callout says if review branch is never tested, the review queue 'se romperá en producción'.","attack":"Untested code is higher risk but failure is not logically guaranteed.","defense":"The warning is intended to motivate risk-based testing.","verdict":"CONFIRMED_FINDING","impact":"Overclaim weakens epistemic discipline in a section about evidence.","repair":"Use 'puede romperse sin que CI lo detecte' and keep the causal claim bounded."},
+    {"id":"S27-F26","severity":"P1","category":"MUTATION_GATE_FIDELITY","evidence":"mutation_useful.py sets mutation_killed = normalize_name_mutated(raw) != oracle; it never runs the test suite against the mutant.","attack":"Mutation testing defines a killed mutant by a test failing when mutated production code runs.","defense":"The section explicitly says conceptual/manual mutation is acceptable initially.","verdict":"CONFIRMED_FINDING","impact":"A direct output comparison is labeled as evidence that the suite protects the contract, which it does not demonstrate.","repair":"Inject/swap the implementation under test and show an actual pytest failure; optionally use mutmut later."},
+    {"id":"S27-F27","severity":"P1","category":"REGRESSION_CYCLE_MISSING","evidence":"Opening/gate repeatedly require bug_repro -> failing regression -> fix -> passing regression, but no canonical theory example shows a known bug failing before the repair and passing afterward.","attack":"The defining section behavior is asserted, not demonstrated.","defense":"Mutation example is intended to show a failure-sensitive contract conceptually.","verdict":"CONFIRMED_FINDING","impact":"Learner never sees the evidence sequence that distinguishes a regression test from a post-hoc green test.","repair":"Include one real red-green bug reproduction with captured pytest failure output, repair, rerun and permanent regression test."},
+    {"id":"S27-F28","severity":"P1","category":"RISK_PRIORITIZATION_CONTRADICTION","evidence":"S27 teaches risk-first testing but ignores the known high-severity S26 failures carried into the continuation ledger and spends theory on toy normalize/email examples instead.","attack":"The campaign already knows concrete partial-cycle, HITL-gate, idempotency, persistence and hardcoded-E2E defects—exactly the highest-value regression targets.","defense":"Roadmap defines S27 as start CP-N3-A focused on normalización/matching rather than retrofitting S26.","verdict":"CONFIRMED_FINDING","impact":"The course's own risk-first rule is not applied at the level transition, and N2 defects can remain green while N3 starts.","repair":"Add a small inherited-regression pack for Level-2 gates before CP-N3-A tests; then proceed to normalize/matching."},
+    {"id":"S27-F29","severity":"P2","category":"TERMINOLOGY_AMBIGUITY","evidence":"Job relevance lists unit/contract/integration as layers while the section uses 'contrato' mainly to mean behavioral promise and the roadmap pyramid is unit/integration/E2E.","attack":"'Contract test' is also a distinct testing category in common practice, so the term changes meaning without clarification.","defense":"In Spanish prose 'contrato ejecutable' is a useful metaphor for assertions.","verdict":"CONFIRMED_FINDING","impact":"Learner may confuse behavioral contract tests with consumer/provider interface contract testing.","repair":"Define 'contrato de comportamiento' for this section and reserve 'contract test' for interface/provider-consumer testing when introduced."},
+    {"id":"S27-F30","severity":"P2","category":"FIGURE_MODEL","evidence":"S27-aaa-oracle alt says the oracle 'enters' after Act and also omits accents in 'despues/oraculo'.","attack":"Expected behavior should be chosen independently before observing the Act result; placing the oracle after Act risks encouraging derivation from current output, the exact anti-pattern the section warns against.","defense":"Visually, Assert occurs after Act and consumes the oracle there.","verdict":"CONFIRMED_FINDING","impact":"The only AAA diagram can encode the wrong temporal model of when expected truth is established.","repair":"Show expected/oracle defined in Arrange, Act producing actual, and Assert comparing actual to expected; fix Spanish accents in alt text."}
+  ],
+  "rejected_findings": [
+    "pytest.raises(match=...) using regex was not a defect; current pytest documentation confirms re.search semantics and re.escape for literal metacharacters.",
+    "math.isclose was not rejected as a float-testing tool; the defect is failing to distinguish approximate numeric equality from exact business threshold boundaries.",
+    "Manual mutation itself was not rejected; the defect is calling a direct mutant-output comparison evidence that the test suite killed the mutant.",
+    "Using tmp_path/tempfile was not rejected; the defect is the delete=False example violating its own cleanup rule."
+  ],
+  "graph_memory": {
+    "usable": [
+      "AAA as a readability structure",
+      "fixed independent oracles instead of copying current output",
+      "function-scope isolation as a safe default",
+      "pytest.raises match uses regex",
+      "clock injection for deterministic date logic",
+      "approximate comparison for computed floating values with explicit tolerances",
+      "branch coverage is not the same as line coverage",
+      "mutation testing asks whether tests detect behavior-changing mutations",
+      "bug reproduction should become a permanent regression contract"
+    ],
+    "partial": [
+      "pytest discovery",
+      "parametrization and node ids",
+      "fixtures/scopes/factories",
+      "negative cases",
+      "branch/risk coverage",
+      "mutation killing",
+      "red-green regression workflow",
+      "Level-2 inherited regression"
+    ],
+    "misconception_risk": [
+      "@example.pe is a safely reserved synthetic email domain",
+      "a plain loop row is a pytest node id",
+      "printing param_ok/neg_ok is an executable test contract",
+      "length>=0 is a useful normalization invariant",
+      "branch outcome counters equal Coverage.py branch coverage",
+      "3/3 business outcomes proves threshold boundaries are protected",
+      "mutant_output != oracle means the test suite killed the mutant",
+      "session fixtures are an API-level read-only-only feature",
+      "-x can itself reveal/create order-dependent failures",
+      "any matching float comparison should use tolerance, including business threshold semantics"
+    ]
+  }
+}
