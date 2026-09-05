@@ -1,0 +1,401 @@
+{
+  "schema_version": "1.5.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S18",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s18-data-engineering.ts",
+  "canonical_blob_sha": "0e22a0e9024568478de1ee421b59a968747cf03c",
+  "title": "EDA, estadística descriptiva e incertidumbre",
+  "short_title": "EDA e incertidumbre",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "learner_entry_state": {
+    "baseline": "ZERO_TECH_CAPABLE",
+    "prerequisite": "S17",
+    "credit_rule": "Only prior concepts marked USABLE count as learned.",
+    "critical_dependency_warning": "S17 remains REPAIR_REQUIRED. Clean/join provenance, reconciliation, row-vs-client denominators, PEN numerical representation, rolling-as-of semantics and observed-vs-true cohort semantics are not safe prerequisites.",
+    "not_creditable": [
+      "S17 output is clean merely because it is called clean",
+      "S17 reconciliation proves pipeline conservation",
+      "groupby denominators are unique-client counts",
+      "PEN float is an explicitly authorized analytical representation",
+      "min(fecha) proves true acquisition date",
+      "all post-cutoff data constitute leakage"
+    ]
+  },
+  "roadmap_expectation": {
+    "source": "learning_roadmap_52_V3.md",
+    "environment": "local",
+    "project": "inicio CP-N2-B",
+    "T1": "Distribuciones: centro, dispersión y cuantiles; métricas robustas y escalas",
+    "T2": "Muestreo: población/muestra y sesgo; intervalos básicos y tamaño de efecto",
+    "T3": "Relaciones: correlación y confusión; segmentación, anomalías y causalidad no demostrada",
+    "T4": "Flujo: preguntas, hipótesis y evidencia; notebook reproducible y data notes",
+    "gate": "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre"
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/#data-engineering",
+    "status": "HYDRATED_RENDER_NOT_VERIFIABLE_IN_CURRENT_TOOLING",
+    "note": "Direct live fetch returned DisabledError. No source/render paragraph-parity claim is made; rendered-only defects remain unresolved rather than invented."
+  },
+  "audit_metadata": {
+    "theory_blocks_reviewed": 12,
+    "paragraphs_reviewed": 40,
+    "paragraphs_expected": 40,
+    "paragraph_coverage_complete": true,
+    "theory_code_blocks_reviewed": 10,
+    "theory_figures_reviewed": 2,
+    "theory_callouts_reviewed": 11,
+    "learning_outcomes_reviewed": 8
+  },
+  "severity_counts": {"P0": 0, "P1": 10, "P2": 14, "P3": 0},
+  "material_findings": 24,
+  "verdict": "REPAIR_REQUIRED",
+  "adversarial_review": {
+    "most_likely_beginner_failure": "Treat a numerically reproducible statistic as inferentially trustworthy even when the sampling frame, denominator, interval method, segment size or provenance chain does not support the conclusion.",
+    "suspected_hidden_prerequisite": "A trustworthy S17 analytical universe plus statistical conventions that S18 itself is supposed to teach: frequentist interval interpretation, t versus z, quantile conventions, bootstrap Monte Carlo uncertainty and tie-safe rank correlation.",
+    "most_likely_misconception": "If a metric has n, an interval and a reproducible print statement, then its population interpretation and business action are justified.",
+    "three_adversarial_questions": [
+      "Can the learner distinguish descriptive precision from sampling validity and external/generalization validity?",
+      "Can every reported insight be regenerated from the exact rows, filters and method claimed in its data note?",
+      "Can the learner state which uncertainty an interval covers and which biases or design failures it cannot repair?"
+    ]
+  },
+  "confirmed_findings": [
+    {
+      "finding_id": "S18-F01",
+      "severity": "P1",
+      "category": "UNTRUSTED_PREREQUISITE_CLEAN_JOINED_DATA",
+      "location": "opening.p1 + iDo intro dependency",
+      "evidence": "The lesson opens with 'El dataset ya está limpio y unido', but S17 remains REPAIR_REQUIRED: its clean inheritance, bilateral orphan evidence, missing-key policy and reconciliation are not safe.",
+      "learner_failure_mode": "A learner can perform careful statistics on a contaminated or incorrectly joined universe and mistake downstream precision for upstream validity.",
+      "minimal_fix": "Replace the inherited assertion with an entry preflight: verify S17 row universe, join coverage, exclusions and reconciliation evidence before EDA.",
+      "cross_section_dependency": "S17 -> S18"
+    },
+    {
+      "finding_id": "S18-F02",
+      "severity": "P1",
+      "category": "CONFIDENCE_INTERVAL_PARAMETER_MOVES_MISCONCEPTION",
+      "location": "opening.p3",
+      "evidence": "The opening says a confidence interval tells 'en qué rango se mueve razonablemente el valor real'. Under the frequentist model taught later, the population parameter is fixed; repeated samples make the interval vary. T2-B later gives the more defensible parameter-under-sampling-model interpretation.",
+      "learner_failure_mode": "A learner can think the true mean itself randomly moves inside the realized interval or that the realized interval assigns 95% probability to the fixed parameter.",
+      "minimal_fix": "At first use, define the confidence level through repeated-sampling coverage and then translate to cautious language about parameter values compatible with the data/model."
+    },
+    {
+      "finding_id": "S18-F03",
+      "severity": "P2",
+      "category": "MEAN_MEDIAN_SEPARATION_OVERCLAIMS_TAIL",
+      "location": "opening.p2",
+      "evidence": "The paragraph states that a large mean-median separation is itself a finding that 'la distribución tiene cola' and says the median 'no se inmuta' before one extreme. Separation can suggest skew/outliers/mixtures but does not uniquely diagnose a tail, and a changed observation can affect the median if it crosses ranks near the center.",
+      "learner_failure_mode": "A learner can use mean-minus-median as a tail detector without inspecting the distribution and can overstate median invariance.",
+      "minimal_fix": "Say the separation is a signal to inspect skewness, outliers or mixtures; describe median as resistant, not immovable."
+    },
+    {
+      "finding_id": "S18-F04",
+      "severity": "P1",
+      "category": "PEN_FLOAT_CONTRACT_REGRESSION_CONTINUES",
+      "location": "T1/T2/T3 code using NumPy/Pandas floats for PEN",
+      "evidence": "S02 established Decimal for soles and S17 was already flagged for silently returning to float. S18 continues with float arrays and arithmetic on amounts in PEN without declaring a Decimal-to-analytical-float boundary or precision policy.",
+      "learner_failure_mode": "A learner can infer that exact-money rules disappear as soon as analysis starts, without knowing when conversion is acceptable or how reconciliation precision is protected.",
+      "minimal_fix": "State the analytical boundary explicitly: canonical money remains Decimal; if NumPy float copies are used for descriptive analysis, document conversion, non-ledger purpose and comparison/reconciliation policy.",
+      "cross_section_dependency": "S02 -> S17 -> S18"
+    },
+    {
+      "finding_id": "S18-F05",
+      "severity": "P2",
+      "category": "SMALL_SAMPLE_QUANTILE_METHOD_UNDECLARED",
+      "location": "T1-A.p2-p3 + center_spread.py",
+      "evidence": "The n=7 fixture reports p90=75 as though p90 were uniquely defined. NumPy supports multiple quantile estimation methods and defaults to method='linear'; methods can differ materially in small samples.",
+      "learner_failure_mode": "A learner can compare p90 values across tools or reports and treat method-driven differences as data changes.",
+      "minimal_fix": "For small samples, name the quantile convention (`method='linear'`) and note that tail quantiles are unstable/interpolation-sensitive at n=7."
+    },
+    {
+      "finding_id": "S18-F06",
+      "severity": "P2",
+      "category": "LOG1P_INPUT_DOMAIN_AND_BUSINESS_POLICY_MISSING",
+      "location": "T1-B.p2 + robust_scale.py",
+      "evidence": "The lesson recommends `log1p` for monetary amounts without declaring the admissible domain or what happens to zero/negative adjustments. NumPy computes log(1+x) and returns NaN for real inputs outside the real-valued domain; later text explicitly lists `monto>0` as a possible filter, proving sign policy is relevant.",
+      "learner_failure_mode": "A learner can transform refunds/negative corrections into NaN or silently filter them only to make the transform work.",
+      "minimal_fix": "Declare the business/sign policy before log transform; preserve excluded/refund rows as a separate population and never let the mathematical domain choose the business universe silently."
+    },
+    {
+      "finding_id": "S18-F07",
+      "severity": "P1",
+      "category": "COMPOSITION_DIFFERENCE_MISLABELED_SELECTION_BIAS",
+      "location": "T2-A.p2-p3 + sample_bias.py",
+      "evidence": "The lesson calls region share differences `bias_pp` and treats max absolute share difference as a risk measure for generalization. Marginal composition mismatch is a representativeness diagnostic, not the bias of a KPI estimator: matching region shares cannot rule out selection within regions, and differing shares need not bias an outcome if outcome distributions do not differ by region.",
+      "learner_failure_mode": "A learner can declare a sample unbiased after matching regional quotas, or quantify KPI bias using only share differences without any outcome relationship.",
+      "minimal_fix": "Rename to `share_diff_pp` or composition imbalance; explain that it diagnoses one observed dimension of coverage but does not estimate selection bias in the target metric."
+    },
+    {
+      "finding_id": "S18-F08",
+      "severity": "P2",
+      "category": "PERCENTAGE_POINT_UNIT_ERROR",
+      "location": "T2-A.p2-p3 + sample_bias.py",
+      "evidence": "`0.80 - 0.55 = 0.25` is printed/labeled as `bias_pp`. If `pp` means percentage points, the value is +25 pp, not +0.25 pp; +0.25 is a proportion difference.",
+      "learner_failure_mode": "A learner can report unit-inconsistent differences and confuse proportions, percentage points and percent change.",
+      "minimal_fix": "Either output `share_diff=0.25` or multiply by 100 and output `share_diff_pp=25.0`."
+    },
+    {
+      "finding_id": "S18-F09",
+      "severity": "P2",
+      "category": "Z_INTERVAL_TAUGHT_WITH_ESTIMATED_SIGMA_AS_BASELINE",
+      "location": "T2-B.p1 + interval_effect.py",
+      "evidence": "The basic mean interval is taught as mean ± 1.96·s/√n. With unknown population standard deviation and sample s, the standard finite-sample interval uses a t critical value; z is an approximation as n grows. The code labels itself z_approx, but the prose makes it the primary formula.",
+      "learner_failure_mode": "A learner can memorize 1.96 with sample standard deviation as the universal 95% mean interval and apply it to smaller samples where the distinction matters.",
+      "minimal_fix": "Teach t·s/√n as the baseline when sigma is unknown; present z=1.96 explicitly as a large-n approximation or known-sigma case."
+    },
+    {
+      "finding_id": "S18-F10",
+      "severity": "P2",
+      "category": "BOOTSTRAP_MONTE_CARLO_RESOLUTION_UNDERSTATED",
+      "location": "interval_effect.py bootstrap B=200",
+      "evidence": "The lesson prints a percentile 95% bootstrap interval from only 200 replicates as a stable expected output. Authoritative introductory guidance commonly uses at least hundreds more (e.g. 500-1000) because tail percentiles themselves have Monte Carlo variability.",
+      "learner_failure_mode": "A learner can treat a low-replication bootstrap endpoint as precise and mistake simulation noise for inferential information.",
+      "minimal_fix": "Use at least 1000-2000 replicates for the teaching output and mention Monte Carlo error; keep the seed for reproducibility."
+    },
+    {
+      "finding_id": "S18-F11",
+      "severity": "P2",
+      "category": "COHEN_D_POOLED_SD_EQUAL_N_SHORTCUT_GENERALIZED",
+      "location": "T2-B.p3 + interval_effect.py",
+      "evidence": "The code names `sp` as pooled standard deviation but computes sqrt((sa²+sb²)/2), which equals the usual sample-size-weighted pooled SD only when the two group sizes are equal. The fixture hides this by using 40/40.",
+      "learner_failure_mode": "A learner can reuse the formula on unequal groups and report the wrong standardized effect size.",
+      "minimal_fix": "Either state that the shown shortcut is equal-n only or implement the weighted pooled-variance formula using n_a and n_b."
+    },
+    {
+      "finding_id": "S18-F12",
+      "severity": "P2",
+      "category": "INTERVAL_PRECISION_CONFLATED_WITH_ACTIONABILITY",
+      "location": "figure S18-interval caption",
+      "evidence": "The figure says two studies have the same headline and 'Solo uno de ellos permite actuar' because one interval is narrower. T4-A correctly says a business decision also requires cost, risk and coverage. Precision alone does not authorize action.",
+      "learner_failure_mode": "A learner can treat a narrow interval as a decision gate even when the sample is biased, the effect is practically irrelevant or the action has unmodeled costs/risks.",
+      "minimal_fix": "Caption it as 'solo uno estima con suficiente precisión para considerar la siguiente decisión, sujeto a cobertura, magnitud, costo y riesgo'."
+    },
+    {
+      "finding_id": "S18-F13",
+      "severity": "P2",
+      "category": "WIDOW_TERM_INSTRUMENT_CAUSAL_DESIGN",
+      "location": "T3-A.p2",
+      "evidence": "The prose says to list designs that would break causes, '(experimento, instrumento)', but 'instrumento' is not introduced or explained and instrumental-variable identification is materially more advanced than the surrounding EDA contract.",
+      "learner_failure_mode": "A learner can think an 'instrument' is any extra variable/control or seek an advanced causal method without its assumptions.",
+      "minimal_fix": "Remove the term here or add only a bounded forward reference: instrumental variables are a later causal design requiring specific relevance/exclusion assumptions."
+    },
+    {
+      "finding_id": "S18-F14",
+      "severity": "P2",
+      "category": "SPEARMAN_MANUAL_RANKING_FAILS_TIES",
+      "location": "corr_confound.py",
+      "evidence": "The demo implements ranks with `np.argsort(np.argsort(x))`, which assigns distinct ordinal positions to tied values. Standard Spearman ranking handles ties by assigning shared/average ranks. The unique-valued fixture prevents the defect from appearing.",
+      "learner_failure_mode": "A learner can cargo-cult the manual rank code onto real data with ties and calculate a non-Spearman coefficient.",
+      "minimal_fix": "Use a tie-safe rank implementation (`scipy.stats.rankdata`/`spearmanr`) or explicitly state the toy implementation assumes no ties and add a tied counterexample."
+    },
+    {
+      "finding_id": "S18-F15",
+      "severity": "P1",
+      "category": "OPTIONAL_STOPPING_REPAIR_INCOMPLETE",
+      "location": "p-value block p4",
+      "evidence": "The lesson correctly demonstrates that ten unadjusted interim looks inflate false positives, then says to fix metric, duration and stopping criterion before starting. Predeclaring an invalid 'stop at first p<0.05' rule does not restore a 5% type-I error; a valid sequential design/alpha-spending rule or a single fixed final look is required.",
+      "learner_failure_mode": "A learner can preregister repeated p<0.05 peeking and believe the preregistration alone makes the inference valid.",
+      "minimal_fix": "State the safe beginner rule as one fixed final analysis; if interim stopping is needed, require an explicitly sequentially valid procedure rather than ordinary repeated p-values."
+    },
+    {
+      "finding_id": "S18-F16",
+      "severity": "P1",
+      "category": "SMALL_SEGMENT_ANOMALY_RATES_VIOLATE_OWN_N_UNCERTAINTY_CONTRACT",
+      "location": "T3-B.p2-p3 + segments_anom.py",
+      "evidence": "The paragraph says anomaly rates must report n by segment, while the code prints only {'Madrid': 0.2, 'Lima': 0.0}; each segment has n=5. This directly violates the section's promise that numbers carry n/coverage/uncertainty and invites comparison of 1/5 versus 0/5 as if stable.",
+      "learner_failure_mode": "A learner can rank regions by tiny-sample anomaly rates and infer meaningful differences from one flagged observation.",
+      "minimal_fix": "Print count, n and rate together per segment and attach an uncertainty/low-n warning or suppress comparative ranking below a declared minimum."
+    },
+    {
+      "finding_id": "S18-F17",
+      "severity": "P2",
+      "category": "GLOBAL_VS_WITHIN_SEGMENT_ANOMALY_RULE_UNDECLARED",
+      "location": "T3-B.p1-p3 + segments_anom.py",
+      "evidence": "Tukey fences are computed globally and then anomaly rates are compared by region. A global rule can be legitimate, but if segment baselines differ it measures distance from the pooled distribution, not unusualness within each segment. The lesson never states which question is intended.",
+      "learner_failure_mode": "A learner can interpret a higher segment rate as more internally anomalous when it may simply have a different legitimate level/scale.",
+      "minimal_fix": "Declare whether thresholds are global business rules or within-segment descriptive fences; do not compare the resulting rates as though those meanings were interchangeable."
+    },
+    {
+      "finding_id": "S18-F18",
+      "severity": "P2",
+      "category": "DATAFRAME_INDEX_MASQUERADES_AS_STABLE_ANOMALY_ID",
+      "location": "T3-B.p3 + segments_anom.py",
+      "evidence": "The prose promises an anomaly 'en ese id' and the portfolio lists `ids_anom`, but the DataFrame has no entity/ticket id. The code outputs the transient row index `[7]`, which changes after filtering, sorting or reindexing.",
+      "learner_failure_mode": "A learner can put a positional index in an evidence memo and be unable to locate the same record after a harmless transformation.",
+      "minimal_fix": "Add a stable synthetic `ticket_id` and emit that key; never call a transient DataFrame index an id unless index identity is itself a declared contract."
+    },
+    {
+      "finding_id": "S18-F19",
+      "severity": "P1",
+      "category": "T4A_QUESTION_METRIC_REGION_CONTRADICTION",
+      "location": "T4-A.p3 + qhe_template.py + output",
+      "evidence": "The paragraph asks about Lima. The code prints the question 'Madrid', while `metrica` is `median(monto | region==Lima)`. The output therefore contains a question and calculation referring to different populations.",
+      "learner_failure_mode": "A learner can cite a perfectly reproducible number as evidence for the wrong business question—the exact traceability failure T4-A claims to prevent.",
+      "minimal_fix": "Use one region consistently in question, filter, result and output and add an assertion tying the declared segment to the actual filter."
+    },
+    {
+      "finding_id": "S18-F20",
+      "severity": "P1",
+      "category": "T4A_EVIDENCE_AND_BOOTSTRAP_INTERVAL_HARDCODED",
+      "location": "qhe_template.py",
+      "evidence": "The example contains no dataset or statistic calculation. `n=40`, `median=27.5` and `(24,31)` are hand-authored, while the prose claims a documented bootstrap interval. The field name `ic95_z_or_boot` further refuses to say which method generated it.",
+      "learner_failure_mode": "A learner can satisfy the traceability template by typing plausible evidence into a dict rather than deriving it from data, while claiming a bootstrap that never ran.",
+      "minimal_fix": "Build the T4-A result from a shared fixture, execute a median bootstrap, store `method='bootstrap_percentile'`, B, seed, n and calculated endpoints, then print the trace."
+    },
+    {
+      "finding_id": "S18-F21",
+      "severity": "P1",
+      "category": "DATA_NOTE_DOCUMENTS_FILTER_NEVER_EXECUTED",
+      "location": "T4-B.p3 + data_notes.py",
+      "evidence": "The note records `filtros: ['monto > 0']`, but the code never applies that filter. It hashes and summarizes the unfiltered DataFrame. The current all-positive fixture hides the lie because applying the filter would happen to keep all rows.",
+      "learner_failure_mode": "A learner can document a filter that was never executed and later use the note as false provenance evidence.",
+      "minimal_fix": "Execute the declared filter from code, record n_pre/n_post and hash the exact analysis payload after the transformation (plus source hash separately if needed)."
+    },
+    {
+      "finding_id": "S18-F22",
+      "severity": "P1",
+      "category": "REPRODUCIBILITY_CONTRACT_NOT_IMPLEMENTED",
+      "location": "T4-B.p1-p3 + data_notes.py",
+      "evidence": "The paragraph contract requires pandas/numpy versions, relative paths, outputs, seed, schema, n pre/post, payload hash and generalization limits. The note code stores only origin, cutoff, one n, filter text, unused seed and a hash; it omits versions, schema, pre/post counts, actual cutoff enforcement and limits.",
+      "learner_failure_mode": "A learner can pass the final lesson example while failing most of the reproducibility requirements stated immediately above it.",
+      "minimal_fix": "Make the code instantiate every required field from executed operations; the final theory example must be the executable version of the contract, not a partial sketch."
+    },
+    {
+      "finding_id": "S18-F23",
+      "severity": "P2",
+      "category": "PAYLOAD_HASH_MISLABELED_AND_OVERTRUNCATED",
+      "location": "T4-B.p3 + data_notes.py",
+      "evidence": "`row_sha1_8` is not a row hash; it is the first eight hex characters of SHA-1 over the entire CSV serialization. Eight hex characters provide only 32 bits of fingerprint space and the serialization itself can vary with formatting/version choices.",
+      "learner_failure_mode": "A learner can think each row is fingerprinted or treat a short display token as strong provenance identity.",
+      "minimal_fix": "Rename to `analysis_payload_sha256`, use a canonical serialization plus full SHA-256 (optionally display a longer prefix), and separately define row hashes only if row-level identity is required."
+    },
+    {
+      "finding_id": "S18-F24",
+      "severity": "P2",
+      "category": "DECISION_BEARING_WIDOW_TERMS",
+      "location": "T1-A/T2-A/T2-B/T3-A/T4-B callouts and prose",
+      "evidence": "Terms carrying operational meaning appear without sufficient local introduction, notably `ddof`, sampling `marco`, `s_pooled`, causal `instrumento`, and provenance `hash`. Several are not mere API spelling: they determine denominator, inference or evidence semantics.",
+      "learner_failure_mode": "A learner can execute the syntax while being unable to explain why n-1 appears, what population is reachable by the frame, what pooled SD means, what an instrument is, or what exactly the hash attests to.",
+      "minimal_fix": "Add Spanish-first microdefinitions at first meaningful use and remove advanced terms whose assumptions are not taught in S18."
+    }
+  ],
+  "paragraph_audit_files": [
+    "audit/lessons-only/sections/S18.paragraphs-01.json",
+    "audit/lessons-only/sections/S18.paragraphs-02.json"
+  ],
+  "code_audit": [
+    {"locator": "T1-A.center_spread.py", "status": "REPAIR", "finding_ids": ["S18-F04", "S18-F05"], "observed": "Published numeric output reproduces; method and PEN boundary are the defects, not execution."},
+    {"locator": "T1-B.robust_scale.py", "status": "REPAIR", "finding_ids": ["S18-F04", "S18-F06"], "observed": "Output reproduces on positive fixture; input-domain/business-sign policy is absent."},
+    {"locator": "T2-A.sample_bias.py", "status": "FAIL_SEMANTICS", "finding_ids": ["S18-F07", "S18-F08"], "observed": "Arithmetic reproduces, but composition difference is labeled bias and pp units are wrong."},
+    {"locator": "T2-B.interval_effect.py", "status": "REPAIR", "finding_ids": ["S18-F09", "S18-F10", "S18-F11"], "observed": "Expected outputs reproduce exactly; inferential convention and generalization of formulas need repair."},
+    {"locator": "T2-B.diseno_experimento.py", "status": "PASS_WITH_SCOPE_NOTE", "finding_ids": [], "observed": "Published outputs reproduce; randomization paragraph explicitly says groups need not be identical and the causal caution survives attack."},
+    {"locator": "T3-A.corr_confound.py", "status": "REPAIR", "finding_ids": ["S18-F13", "S18-F14"], "observed": "Fixture output reproduces; manual rank implementation is valid only because fixture has no ties."},
+    {"locator": "T3-A.leer_valor_p.py", "status": "REPAIR", "finding_ids": ["S18-F15"], "observed": "2/20, p_min=0.0283, false-positive 0.045 vs 0.191 reproduce; remediation text is incomplete."},
+    {"locator": "T3-B.segments_anom.py", "status": "FAIL_EVIDENCE_CONTRACT", "finding_ids": ["S18-F16", "S18-F17", "S18-F18"], "observed": "Rates reproduce but omit n/uncertainty and emit transient index as id."},
+    {"locator": "T4-A.qhe_template.py", "status": "FAIL_TRACEABILITY", "finding_ids": ["S18-F19", "S18-F20"], "observed": "Code runs but question and metric disagree and every statistic is manually authored."},
+    {"locator": "T4-B.data_notes.py", "status": "FAIL_REPRODUCIBILITY_CONTRACT", "finding_ids": ["S18-F21", "S18-F22", "S18-F23"], "observed": "Published hash/output reproduce, but declared filter is never executed and note omits required evidence."
+    }
+  ],
+  "meta_leak_report": {
+    "confirmed_learner_facing_leaks": [],
+    "source_only_meta_text": [
+      {"location": "file header comment", "text": "Matching content to the slug is how three agent diagrams ended up attached to a data-testing lesson.", "verdict": "SOURCE_ONLY_NOT_CONFIRMED_RENDERED"}
+    ],
+    "widow_terms": ["ddof", "marco muestral", "s_pooled", "instrumento", "hash"]
+  },
+  "external_validation": [
+    {"source": "ASA GAISE College Report", "url": "https://www.amstat.org/asa/files/pdfs/gaise/gaisecollege_full.pdf", "use": "Statistical thinking, conceptual understanding, context/purpose, active learning and technology should support concepts rather than procedural cargo-culting."},
+    {"source": "NIST confidence limits for mean", "url": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda352.htm", "use": "When population sigma is unknown, standard mean CI uses t critical value with sample s."},
+    {"source": "NIST bootstrap plot", "url": "https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm", "use": "Bootstrap uses sampling with replacement; typical guidance discusses hundreds to 500-1000+ replications and uncertainty of the statistic."},
+    {"source": "ASA p-value statement", "url": "https://www.amstat.org/asa/files/pdfs/p-valuestatement.pdf", "use": "p-values do not give probability that the hypothesis is true and should not alone drive scientific/business decisions."},
+    {"source": "NumPy quantile documentation", "url": "https://numpy.org/doc/stable/reference/generated/numpy.quantile.html", "use": "Multiple quantile estimation methods exist; default is linear."},
+    {"source": "SciPy rankdata documentation", "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.rankdata.html", "use": "Tied values require an explicit rank policy; default standard rankdata uses average ranks."},
+    {"source": "Stanford e-values/sequential inference notes", "url": "https://web.stanford.edu/~aramdas/ebook-final.pdf", "use": "Repeated peeking requires sequentially valid inference; ordinary fixed-horizon p-values are not made valid merely by looking repeatedly."}
+  ],
+  "rejected_hypotheses": [
+    {"hypothesis": "Every use of z=1.96 with estimated s is numerically invalid.", "verdict": "REJECTED_FINDING", "reason": "For large samples it can be a reasonable approximation; the defect is teaching it as the baseline without the t/known-sigma distinction."},
+    {"hypothesis": "A 200-replicate bootstrap is mathematically invalid.", "verdict": "REJECTED_FINDING", "reason": "It is a valid Monte Carlo approximation, but too coarse to present percentile endpoints as stable instructional evidence without caveat."},
+    {"hypothesis": "Random assignment makes treatment and control identical.", "verdict": "REJECTED_FINDING", "reason": "The lesson explicitly says groups are balanced in expectation and may be imbalanced by chance at small n."},
+    {"hypothesis": "The p-value paragraph says p is the probability that the null hypothesis is true.", "verdict": "REJECTED_FINDING", "reason": "It explicitly rejects that misconception and frames p conditionally under a null/no-effect model."},
+    {"hypothesis": "Any global Tukey threshold is wrong.", "verdict": "REJECTED_FINDING", "reason": "A global rule can be a legitimate business/evidence contract; the defect is failing to declare global-vs-within-segment meaning before comparing rates."},
+    {"hypothesis": "SHA-1 use here is automatically a security vulnerability.", "verdict": "REJECTED_FINDING", "reason": "The lesson uses it as a provenance fingerprint, not authentication. The evidenced defects are mislabeling, truncation and ambiguous canonicalization, not an asserted exploit."},
+    {"hypothesis": "The source header comment is a learner-facing meta leak.", "verdict": "REJECTED_FINDING", "reason": "It is a TypeScript comment and hydrated render could not be verified."}
+  ],
+  "technical_spot_checks": [
+    {"check": "T1-A center/spread", "result": "mean=39.0, median=25.5, std=37.176..., q=[20,25.5,37.5,75], IQR=17.5; published output correct."},
+    {"check": "T2-B interval/effect", "result": "Published means, z interval, Cohen d and B=200 bootstrap endpoints reproduce with seed 7."},
+    {"check": "randomized experiment", "result": "Autoselection 41.35, randomized 5.50, CI (1.18,9.82) and baseline means reproduce with seed 18."},
+    {"check": "correlation confounder", "result": "Pearson 0.828 and residual 0.075 reproduce."},
+    {"check": "p-value/peeking simulation", "result": "2/20 significant, p_min 0.0283, one-look 0.045, ten-look 0.191 reproduce with seed 2018."},
+    {"check": "segment anomaly", "result": "Tukey limits 15.875/26.875 and Madrid rate 0.2 vs Lima 0.0 reproduce; both n=5."},
+    {"check": "data-note fingerprint", "result": "Current unfiltered CSV serializes to SHA1 prefix 6b78e80d exactly as published."}
+  ],
+  "concept_ledger_delta": {
+    "USABLE": [
+      "mean vs median basic distinction",
+      "IQR and MAD as robust descriptive summaries",
+      "population vs observed sample basic distinction",
+      "correlation does not imply causation",
+      "random assignment reduces confounding in expectation",
+      "p-value is not probability the null is true",
+      "hallazgo is not business decision"
+    ],
+    "PARTIAL": [
+      "confidence intervals",
+      "quantiles/tail summaries",
+      "bootstrap",
+      "effect size",
+      "sample representativeness diagnostics",
+      "Spearman correlation",
+      "sequential/optional-stopping inference",
+      "segment anomaly rates",
+      "data notes/provenance"
+    ],
+    "MISCONCEPTION_RISK": [
+      "frequentist CI interpretation",
+      "share imbalance as selection-bias magnitude",
+      "percentage points",
+      "z versus t with unknown sigma",
+      "Cohen d with unequal n",
+      "predeclared peeking as valid stopping rule",
+      "small-n segment rate comparison",
+      "question-to-metric traceability",
+      "documented-but-unexecuted filters",
+      "PEN analytical numeric boundary"
+    ],
+    "MENTION_ONLY": ["instrumental-variable design"]
+  },
+  "dependency_edges": [
+    "S17 untrusted universe -> S18-F01",
+    "S02/S17 Decimal contract -> S18-F04",
+    "S18 interval semantics -> later experimentation/ML evaluation",
+    "S18 sampling/generalization -> S19 dashboard claims",
+    "S18 data notes -> S19-S21 reporting traceability"
+  ],
+  "priority_repairs": [
+    {"priority": 1, "finding_ids": ["S18-F19", "S18-F20", "S18-F21", "S18-F22"], "action": "Repair the final evidence/reproducibility chain so conclusions are actually derived from executed calculations."},
+    {"priority": 2, "finding_ids": ["S18-F01", "S18-F07", "S18-F16"], "action": "Repair the declared analytical universe and sample/segment denominators before interpreting precision."},
+    {"priority": 3, "finding_ids": ["S18-F02", "S18-F09", "S18-F10", "S18-F11", "S18-F15"], "action": "Repair inferential mental models: CI, t/z, bootstrap, effect size and optional stopping."},
+    {"priority": 4, "finding_ids": ["S18-F04", "S18-F05", "S18-F06", "S18-F08"], "action": "Repair numerical/data representation contracts and units."},
+    {"priority": 5, "finding_ids": ["S18-F13", "S18-F14", "S18-F17", "S18-F18", "S18-F23", "S18-F24"], "action": "Repair technical edge semantics and widow terms."},
+    {"priority": 6, "finding_ids": ["S18-F03", "S18-F12"], "action": "Remove overclaims that turn descriptive signals or precision into stronger conclusions than the evidence supports."}
+  ],
+  "next_round_watchlist": {
+    "next_section": "S19",
+    "rules": [
+      "Do not inherit S18 confidence intervals as fully USABLE until t/z and fixed-parameter interpretation are repaired.",
+      "Do not use region share mismatch as a quantified bias correction or proof of representativeness.",
+      "Do not inherit anomaly rates without n and uncertainty, especially for small segments.",
+      "Do not trust CP-N2-B insight traceability until T4-A calculates rather than hand-authors its evidence.",
+      "Do not trust S18 data notes as provenance until filters, pre/post counts, schema, versions and hashes are derived from executed transformations.",
+      "Carry correlation-not-causation and hallazgo-not-decision as USABLE, but instrumental-variable design remains MENTION_ONLY.",
+      "Preserve the unresolved Decimal-to-analytical-float boundary for PEN in any S19 chart or KPI."
+    ]
+  },
+  "status": "AUDITED_REPAIR_REQUIRED"
+}
