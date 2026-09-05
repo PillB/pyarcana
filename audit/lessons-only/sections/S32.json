@@ -1,0 +1,185 @@
+{
+  "schema_version": "2.6.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S32",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s32-microservices.ts",
+  "canonical_blob_sha": "aa5f70c1981ad29f66519312627489a63990ca9b",
+  "title": "Feature engineering y pipelines sin leakage",
+  "short_title": "Features sin leakage",
+  "scope": "LESSONS_ONLY: title/tagline/job relevance, learning outcomes, theory/reference paragraphs, theory code/output, callouts and figures. I Do / We Do / You Do / self-check / exams remain outside this campaign.",
+  "live_status": {
+    "public_card": "Features sin leakage",
+    "public_card_crawl": "2026-08 approximate; web index reports crawl age about four weeks",
+    "public_card_tagline_seen": "Tabla de features versionada con train≡serve, sin futuro ni labels de decisión. Ritmo sugerido: ~10–12 h de núcleo ... 18 h si profundizas...",
+    "canonical_source_tagline": "Tabla de features versionada con train≡serve, sin futuro ni labels de decisión. Ritmo sugerido: unas 9 h para la ruta completa de esta sección según la calibración actual.",
+    "verdict": "PUBLIC_CARD_VERIFIED_BUT_CRAWL_STALE_FOR_HOURS_TEXT; do not elevate source/live timing drift without a fresh rendered fetch."
+  },
+  "roadmap_contract": {
+    "prerequisite": "S31",
+    "environment": "local",
+    "project": "features de caso",
+    "T1": "numéricas/categóricas/texto; missing indicators, escalamiento y encoding",
+    "T2": "shared contact/address, distance y graph features; ventanas y frecuencia",
+    "T3": "ColumnTransformer y custom transformers; fit/transform y persistencia",
+    "T4": "split por entidad/grupo/tiempo; leakage, train–serve skew y versionado",
+    "gate": "tabla de features versionada cuya construcción en train e inferencia es idéntica y no usa información futura o de decisión"
+  },
+  "verdict": "REPAIR_REQUIRED",
+  "score_10": 1.9,
+  "material_findings": 37,
+  "severity_counts": {"P0": 0, "P1": 29, "P2": 8, "P3": 0},
+  "coverage": "11 theory/reference blocks; 35/35 theory paragraphs; title/tagline/job relevance; 8 outcomes; 8 theory code/output blocks; 10 callouts; 2 figures",
+  "external_research": [
+    {
+      "source": "scikit-learn Common pitfalls and recommended practices",
+      "url": "https://scikit-learn.org/1.9/common_pitfalls.html",
+      "finding": "split before preprocessing; fit/fit_transform only on train; Pipeline is a recommended way to prevent preprocessing leakage."
+    },
+    {
+      "source": "scikit-learn Pipelines and composite estimators",
+      "url": "https://scikit-learn.org/1.8/modules/compose.html",
+      "finding": "ColumnTransformer applies different preprocessing by column inside a Pipeline and avoids test-statistic leakage when used correctly."
+    },
+    {
+      "source": "scikit-learn GroupKFold",
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GroupKFold.html",
+      "finding": "group-aware evaluation uses non-overlapping groups; a post-hoc overlap counter is not itself a group splitter."
+    },
+    {
+      "source": "scikit-learn TimeSeriesSplit",
+      "url": "https://scikit-learn.org/dev/modules/generated/sklearn.model_selection.TimeSeriesSplit.html",
+      "finding": "time-ordered validation must preserve ordering; gap/test-size are explicit parts of the split contract."
+    },
+    {
+      "source": "Feast historical feature retrieval / point-in-time joins",
+      "url": "https://docs.feast.dev/master/how-to-guides/feast-snowflake-gcp-aws/build-a-training-dataset",
+      "finding": "historical retrieval joins features to an entity dataframe at an event timestamp to enforce point-in-time correctness and avoid future feature values."
+    },
+    {
+      "source": "Google Rules of Machine Learning / training-serving skew",
+      "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+      "finding": "same examples at train and serving should produce the same features/results; monitoring only aggregate means is insufficient to prove parity."
+    },
+    {
+      "source": "scikit-learn model persistence",
+      "url": "https://scikit-learn.org/1.4/model_persistence.html",
+      "finding": "pickle/joblib must not load untrusted artifacts and cross-version loading is unsupported/advised against without matching environment metadata."
+    }
+  ],
+  "runtime_counterexamples": [
+    "catalog_check accepts the same feature name in numeric and categorical simultaneously and still returns catalog_ok=True.",
+    "catalog_check treats an absent note as note_len=0 and catalog_ok=True, collapsing missing into empty text.",
+    "missing_and_scale(..., sd=0) raises ZeroDivisionError.",
+    "float('nan') is not marked missing by v is None and propagates NaN through z-score.",
+    "graph_feats({}, {}, {}, {}) returns shared_address=1 because None == None.",
+    "neighbors={'E1':['E2','E2']} returns degree=2 even though there is one unique neighbor and no declared multiedge semantics.",
+    "paths={'E9-E1':1} queried as E1-E9 returns default 99 due directional string key.",
+    "window_count(..., w=-1) silently returns 0 instead of rejecting an invalid window.",
+    "ModeImputer.fit([None,None,'app']) sets mode=None; transform then raises RuntimeError('not fitted').",
+    "ModeImputer.fit([]) raises ValueError from max() rather than a typed fit-state/data-contract error.",
+    "ModeImputer tie between ['app','web'] changes winner across PYTHONHASHSEED values because set iteration decides the tie.",
+    "time_group_split can return n_test=0, overlap=0 and therefore appear clean despite having no evaluation partition.",
+    "Lexicographic timestamp split misclassifies 2026-02-01T00:30:00+01:00 as after 2026-02-01T00:00:00+00:00 although the first instant is chronologically earlier.",
+    "leak_scan detects label_decision but misses target, outcome, fraud_result, LabelDecision and post_review.",
+    "skew_alert cannot detect distribution changes with equal means, e.g. train [-1,1] vs serve [0,0]."
+  ],
+  "findings": [
+    {"id":"S32-F01","severity":"P1","family":"PREREQUISITE_INTEGRITY","evidence":"Roadmap requires S31; continuation marks S31 REPAIR_REQUIRED with broken edge provenance, temporal traversal and graph invariants.","attack":"S32 treats S31 graph outputs as usable feature inputs.","defense":"S32 uses a tiny synthetic graph fixture rather than claiming it is production truth.","verdict":"CONFIRMED_FINDING","impact":"A wrong ER merge or graph edge becomes a learned feature and can contaminate every downstream baseline.","fix":"Gate S31 lineage/invariants before graph features; synthetic fixtures must reproduce the repaired contract."},
+    {"id":"S32-F02","severity":"P1","family":"GRAPH_FEATURE_LINEAGE","evidence":"T2-A graph_feats accepts attrs/neighbors/paths only; no edge_id, graph_version, as_of, etype filter, direction, source or record references.","attack":"The resulting degree/path/shared values cannot be reconstructed from evidence.","defense":"The prose says features are only topology observed in t.","verdict":"CONFIRMED_FINDING","impact":"Feature evidence is unauditable and can inherit future or malformed graph state.","fix":"Pass a versioned as-of graph view and persist derivation metadata with each relational feature."},
+    {"id":"S32-F03","severity":"P1","family":"PYTEST_SYSTEMATIC","evidence":"All eight theory demos end in prints or literal flags; no pytest gate is shown although the roadmap requires systematic pytest from S27.","attack":"A broken feature definition can still exit zero.","defense":"The snippets are explanatory mini-demos.","verdict":"CONFIRMED_FINDING","impact":"The section calls promotion failures gates without executable failure semantics.","fix":"Convert each contract to pytest assertions/raises and keep prints only as diagnostics."},
+    {"id":"S32-F04","severity":"P2","family":"TERMINOLOGY_CONSISTENCY","evidence":"Dictionary carefully calls entity overlap 'contaminación del split' rather than leakage; T4-A later calls the same condition 'leakage de identidad'.","attack":"One failure mode receives two meanings inside the same lesson.","defense":"Both phrases are commonly used informally.","verdict":"CONFIRMED_FINDING","impact":"Learners lose the useful distinction the dictionary itself introduced.","fix":"Use 'contaminación por identidad/grupo' consistently; reserve leakage for information unavailable at prediction time/target leakage."},
+    {"id":"S32-F05","severity":"P1","family":"CATALOG_CONTRACT","evidence":"Prose/outcome promise dtype and missing policy; catalog_check validates only key membership.","attack":"A string in a numeric feature can pass catalog_ok=True.","defense":"The snippet is labeled minimal.","verdict":"CONFIRMED_FINDING","impact":"The catalog is not an executable schema and train/serve type drift can pass the gate.","fix":"Represent per-feature dtype, role, missing policy, availability time and validate values before fit/serve."},
+    {"id":"S32-F06","severity":"P1","family":"CATALOG_AMBIGUITY","evidence":"set(schema[numeric]+categorical+text) hides duplicate membership; note_len is produced but schema registers raw note instead of the derived feature named in prose.","attack":"One feature can belong to two transformation routes and a derived output can exist outside the catalog.","defense":"The fixed example has no duplicate keys.","verdict":"CONFIRMED_FINDING","impact":"Routing and feature ordering become ambiguous and versioning cannot describe the actual model inputs.","fix":"Require disjoint feature groups and register derived feature definitions explicitly."},
+    {"id":"S32-F07","severity":"P1","family":"MISSINGNESS_SEMANTICS","evidence":"catalog_check returns note_len=0 when note is absent.","attack":"Missing text and an observed empty string become identical before the missing policy is applied.","defense":"Zero length can be a useful feature.","verdict":"CONFIRMED_FINDING","impact":"The lesson silently erases a missingness signal it later says must be preserved.","fix":"Emit note_missing plus note_len only for observed text, or apply the catalog's explicit missing policy."},
+    {"id":"S32-F08","severity":"P1","family":"MISSING_NAN","evidence":"missing_and_scale uses v is None; NaN is treated as observed and propagates into filled/z.","attack":"A common tabular missing representation bypasses the gate.","defense":"The toy input uses Python None only.","verdict":"CONFIRMED_FINDING","impact":"Pandas/NumPy-derived data can carry NaN into model features while silent_fill still prints False.","fix":"Use a documented missing predicate covering None/NaN for the supported data types."},
+    {"id":"S32-F09","severity":"P1","family":"SCALING_DOMAIN","evidence":"z=(x-mu)/sd has no finite/nonzero sd validation; sd=0 raises ZeroDivisionError.","attack":"Constant training features break transform instead of producing a controlled contract result.","defense":"The example supplies sd=2.","verdict":"CONFIRMED_FINDING","impact":"A routine edge case becomes an untyped runtime failure in serve.","fix":"Validate fitted statistics; define constant-feature handling and reject non-finite/invalid state."},
+    {"id":"S32-F10","severity":"P1","family":"FALSE_GATE_EVIDENCE","evidence":"T1-B prints silent_fill=False literally; fill, mu and sd are caller-supplied constants with no fit provenance.","attack":"The output claims a property that was not computed.","defense":"The comment explains the values are meant to come from train fit.","verdict":"CONFIRMED_FINDING","impact":"A learner can mistake a hard-coded assertion for proof that train-only state was used.","fix":"Fit the state from an explicit train fixture, persist its provenance and compute the missing-indicator gate from outputs."},
+    {"id":"S32-F11","severity":"P1","family":"MISSING_RELATION_AS_MATCH","evidence":"graph_feats computes int(a.get('addr') == b.get('addr')); two absent addresses yield 1.","attack":"Missing + missing is converted to a positive shared-address relationship.","defense":"The demo passes two observed Av1 values.","verdict":"CONFIRMED_FINDING","impact":"The exact false-evidence pattern rejected in S30/S31 reappears as a model feature.","fix":"Require both normalized addresses to be observed before shared_address can be 1; otherwise emit missing/unknown."},
+    {"id":"S32-F12","severity":"P1","family":"POINT_IN_TIME_GRAPH","evidence":"graph_feats consumes current neighbors/path tables without feature cutoff or temporal edge filtering.","attack":"Edges created after the prediction time can affect degree/path features.","defense":"Prose says only topology observed in t should be used.","verdict":"CONFIRMED_FINDING","impact":"Graph features can leak future relationships even if transaction windows elsewhere are half-open.","fix":"Build graph features from an explicit as_of view with edge event/availability times and frozen graph version."},
+    {"id":"S32-F13","severity":"P1","family":"DEGREE_SEMANTICS","evidence":"degree=len(neighbors[e]); S31 distinguished multigraph incident-edge degree from unique-neighbor count, but T2-A stores only a neighbor list.","attack":"Duplicate neighbors can inflate the value, while collapsed multiedges can undercount it.","defense":"The paragraph describes degree as two neighbors in this tiny fixture.","verdict":"CONFIRMED_FINDING","impact":"The same feature name can change meaning between S31 and S32.","fix":"Expose separate incident_edge_count and unique_neighbor_count with graph-view metadata."},
+    {"id":"S32-F14","severity":"P1","family":"PATH_MISSING_SENTINEL","evidence":"Missing path becomes numeric 99 with no indicator; T1-B says missingness should remain explicit.","attack":"Unreachable/unknown is encoded as an extreme observed distance and collides with a legitimate long path.","defense":"The prose labels 99 as a default rather than inventing an edge.","verdict":"CONFIRMED_FINDING","impact":"The model can interpret absence as ordered numeric evidence.","fix":"Return path_exists/path_missing plus path_length when observed, with a bounded/capped representation documented in the catalog."},
+    {"id":"S32-F15","severity":"P1","family":"ROADMAP_DISTANCE_OMISSION","evidence":"Roadmap T2 explicitly requires distance; T2-A heading says 'distancia' but its prose/code implement shared_address, degree and path only.","attack":"A named subtopic is not taught or executed.","defense":"Graph path length is a type of distance in graph theory.","verdict":"CONFIRMED_FINDING","impact":"The learner cannot tell whether roadmap 'distance' means geographic/entity distance or path distance and receives no distance contract.","fix":"Name path_length explicitly as graph distance or add the intended geographic/distance feature with units, cutoff and provenance."},
+    {"id":"S32-F16","severity":"P1","family":"OUTCOME_FREQUENCY_OMISSION","evidence":"T2-B promises count and frequency by channel; window.py implements only window_count and never computes frequency.","attack":"One half of the subtopic/output is absent.","defense":"The paragraph explains frequency conceptually.","verdict":"CONFIRMED_FINDING","impact":"Outcome 'conteos y frecuencias' is not demonstrated and cannot be regression-tested.","fix":"Compute per-channel numerator/denominator from the same half-open eligible events and test support=0."},
+    {"id":"S32-F17","severity":"P1","family":"REPLAY_INFLATION","evidence":"window_count counts list entries, not immutable event ids; duplicated/replayed source events count twice.","attack":"S31 already found replay inflation in aggregates and S32 inherits it.","defense":"The fixture has unique numeric timestamps.","verdict":"CONFIRMED_FINDING","impact":"Retry/backfill can inflate transaction counts/frequencies and change model features without new evidence.","fix":"Deduplicate by immutable source event identity before window aggregation and retain detail refs."},
+    {"id":"S32-F18","severity":"P1","family":"KNOWLEDGE_TIME_LEAKAGE","evidence":"Eligibility uses only event ts. It has no recorded_at/ingested_at/available_at field to establish whether the system actually knew the event at decision time.","attack":"A late-arriving record with old event_ts can retroactively enter historical training features despite not being available then.","defense":"Half-open event-time filtering is already better than using future timestamps.","verdict":"CONFIRMED_FINDING","impact":"The key question 'would this value exist at t?' is not satisfied by occurrence time alone.","fix":"Define event_time and availability/knowledge_time; historical retrieval must be point-in-time correct on both semantics for the chosen source."},
+    {"id":"S32-F19","severity":"P2","family":"WINDOW_PARAMETER_VALIDATION","evidence":"window_count accepts w<=0; w=-1 silently returns 0.","attack":"Invalid configuration looks like a legitimate zero-event feature.","defense":"Exercises use positive w.","verdict":"CONFIRMED_FINDING","impact":"Configuration errors become data values.","fix":"Require finite positive window width and typed/ordered timestamps before counting."},
+    {"id":"S32-F20","severity":"P1","family":"IMPUTER_MISSING_MODE","evidence":"ModeImputer.fit includes None in max(set(xs), key=xs.count); if None is most frequent, self.mode=None and transform raises 'not fitted'.","attack":"A successfully fitted training batch is indistinguishable from an unfitted transformer.","defense":"The demonstration train values contain no None.","verdict":"CONFIRMED_FINDING","impact":"Exactly the missing-data case this section teaches can break its categorical pipeline.","fix":"Exclude missing from mode estimation, store a separate fitted flag and define all-missing behavior."},
+    {"id":"S32-F21","severity":"P2","family":"IMPUTER_NONDETERMINISM","evidence":"Mode ties are broken by set iteration; running ['app','web'] under different PYTHONHASHSEED values selected different modes.","attack":"Fitted state can differ between processes for identical data.","defense":"The provided fixture has a unique mode.","verdict":"CONFIRMED_FINDING","impact":"Violates the deterministic train≡serve/versioning story and makes artifacts irreproducible.","fix":"Use a deterministic tie policy (e.g. sorted value or explicit category order) and test it."},
+    {"id":"S32-F22","severity":"P2","family":"EMPTY_FIT","evidence":"ModeImputer.fit([]) raises ValueError from max().","attack":"Empty training slice produces an implementation exception instead of a typed data-contract failure.","defense":"A real training split should normally contain rows.","verdict":"CONFIRMED_FINDING","impact":"Combined with F31, an empty split can reach fit and fail far from the split gate.","fix":"Reject empty/no-observed training input before estimating state."},
+    {"id":"S32-F23","severity":"P1","family":"PIPELINE_CONTRACT_BYPASS","evidence":"column_router takes num_state directly and silently fills numeric None with 0; it has no fitted flag or missing indicator and is outside MiniPipeline state.","attack":"The same block that teaches one fitted pipeline introduces a second mutable preprocessing path.","defense":"It is presented as a simple ColumnTransformer analogue.","verdict":"CONFIRMED_FINDING","impact":"Train and serve can call the router with different arbitrary state and violate the section's core equivalence contract.","fix":"Make numeric/categorical/text routes fitted transformers inside one pipeline and carry indicators/state/version through the same object/artifact."},
+    {"id":"S32-F24","severity":"P1","family":"COLUMNTRANSFORMER_ALIGNMENT","evidence":"Roadmap explicitly requires ColumnTransformer and custom transformers; theory executes only a Python analogue and no text route despite T1 text features.","attack":"The learner never sees the actual sklearn composition contract required by the roadmap.","defense":"The prose intentionally exposes the mechanics without library magic.","verdict":"CONFIRMED_FINDING","impact":"The conceptual bridge to S33 sklearn pipelines remains incomplete and text columns are dropped from the routing demonstration.","fix":"Keep the pure-Python model, then add a minimal executable Pipeline+ColumnTransformer mapping numeric/categorical/text routes fit only on train."},
+    {"id":"S32-F25","severity":"P1","family":"PERSISTENCE_FALSE_CLAIM","evidence":"load_state is json.loads(json.dumps(state)); no file/artifact is written or read.","attack":"An in-memory round-trip is described as persistence and reuse in serve.","defense":"The goal is to inspect serialization visibly.","verdict":"CONFIRMED_FINDING","impact":"The learner does not demonstrate cross-process/cross-run reuse, the defining property of persisted fit state.","fix":"Write/read an actual JSON artifact (or equivalent) with immutable identity/hash and reopen it in a separate serve step/test."},
+    {"id":"S32-F26","severity":"P1","family":"FIT_STATE_INCOMPLETE","evidence":"Prose says state includes mediana, vocab, mu/sigma and schema; demo persists only median and version.","attack":"The artifact cannot reproduce the transformations taught in T1/T3.","defense":"It is a minimal example focused on the median.","verdict":"CONFIRMED_FINDING","impact":"Two runs carrying the same fs-v1 string can implement different vocab/scaling/catalog logic.","fix":"Persist complete fitted transformer state plus catalog/schema, missing policy, dependency/code version and derivation metadata."},
+    {"id":"S32-F27","severity":"P1","family":"VERSION_BINDING","evidence":"version is a caller-provided string; load/apply never validate fs-vN format or bind it to catalog/model/state hash.","attack":"A model can be served with incompatible feature state while still printing a plausible version.","defense":"The prose tells learners to bump version on change.","verdict":"CONFIRMED_FINDING","impact":"Versioning is ceremonial rather than an enforceable compatibility boundary.","fix":"Use a manifest with feature_set_id, schema/catalog hash, state hash, transformer/code/dependency versions and expected model binding."},
+    {"id":"S32-F28","severity":"P2","family":"UNSAFE_SERIALIZATION_GUIDANCE","evidence":"T3-B says joblib or pickle serve the same production role without warning that loading untrusted pickle/joblib can execute code and cross-version loading is unsupported.","attack":"Advanced learners are pointed toward unsafe persistence without the minimum trust boundary.","defense":"The course demo itself uses JSON, not pickle.","verdict":"CONFIRMED_FINDING","impact":"A later production implementation may deserialize an untrusted or incompatible artifact.","fix":"Add a concise trusted-source/version compatibility warning and immutable artifact metadata; retain JSON for inspectable state where possible."},
+    {"id":"S32-F29","severity":"P1","family":"GROUP_SPLIT_NOT_IMPLEMENTED","evidence":"time_group_split first splits solely by timestamp and only reports entity overlap; it does not create non-overlapping groups.","attack":"Calling it a time+group split overstates the algorithm.","defense":"Failing when overlap exists is a valid strict gate for a fixed cutoff.","verdict":"CONFIRMED_FINDING","impact":"Real data with entities on both sides cannot be split by the taught function; the learner has no method to produce a valid group-aware holdout.","fix":"Define the evaluation estimand, then implement group-disjoint holdout/GroupKFold or a custom chronological group split and report exclusions."},
+    {"id":"S32-F30","severity":"P1","family":"TIMESTAMP_STRING_ORDER","evidence":"Rows compare r['ts'] < cut as strings. With timezone offsets, lexicographic order can disagree with chronological order.","attack":"A chronologically pre-cutoff event can enter test or vice versa.","defense":"The toy fixture uses zero-padded YYYY-MM-DD strings.","verdict":"CONFIRMED_FINDING","impact":"Temporal leakage gate is only correct for a narrow undocumented timestamp representation.","fix":"Parse/validate timezone-aware datetimes and compare normalized instants; reject malformed/naive values per contract."},
+    {"id":"S32-F31","severity":"P1","family":"EMPTY_SPLIT_FALSE_GREEN","evidence":"Function can return n_train>0, n_test=0, overlap=0; current demo's ok tests only overlap.","attack":"A split with no holdout can look valid.","defense":"The provided fixture has one row each side.","verdict":"CONFIRMED_FINDING","impact":"S33 could train without an evaluable test set while the S32 gate reports zero overlap.","fix":"Require minimum support for train/test/groups and report support before promotion."},
+    {"id":"S32-F32","severity":"P1","family":"LEAK_SCAN_HEURISTIC","evidence":"leak_scan only tests case-sensitive substrings 'label'/'decision'; counterexamples target, outcome, fraud_result, LabelDecision and post_review pass.","attack":"Feature names are not a reliable oracle for target/post-outcome availability.","defense":"The prose calls them red flags, not a complete semantic proof.","verdict":"CONFIRMED_FINDING","impact":"The later gate promotes based on an incomplete scanner and can miss obvious response-derived features.","fix":"Give every feature catalog metadata for role, source, availability/knowledge time and derivation; name scanning remains a secondary heuristic."},
+    {"id":"S32-F33","severity":"P1","family":"TRAIN_SERVE_PARITY_FALSE_NEGATIVE","evidence":"skew_alert compares only aggregate means. Different distributions or per-row feature mismatches can have identical means.","attack":"Mean equality can coexist with broken train/serve feature logic.","defense":"The paragraph presents mean difference as an example simple alert.","verdict":"CONFIRMED_FINDING","impact":"The core train≡serve gate is not tested; errors can cancel in aggregate.","fix":"Replay the same raw examples through train/serve transformation and compare feature vectors/schema exactly, then add distribution monitoring separately."},
+    {"id":"S32-F34","severity":"P2","family":"SKEW_THRESHOLD_SEMANTICS","evidence":"One absolute tol=0.5 is used on means without feature units/scale/support.","attack":"0.5 can be huge for one feature and negligible for another.","defense":"The value is an illustrative toy threshold.","verdict":"CONFIRMED_FINDING","impact":"Learners may copy an unscaled threshold as a generic monitoring rule.","fix":"Label it explicitly illustrative and define feature-specific normalized/statistical tolerances with support/window metadata."},
+    {"id":"S32-F35","severity":"P1","family":"PROMOTION_GATE_NOT_EXECUTABLE","evidence":"leakage.py prints leaky=['label_decision'], skew=True and feature_set='fs-v2' but never computes/rejects promotion.","attack":"The output shows a versioned feature set in the same run that should be blocked.","defense":"The prose says promotion is allowed only when checks are clean.","verdict":"CONFIRMED_FINDING","impact":"A learner sees diagnostics rather than an actual blocking gate, repeating the false-green pattern from S27-S31.","fix":"Implement promote_status/exception requiring semantic leakage checks, parity checks and valid manifest before returning a promoted id."},
+    {"id":"S32-F36","severity":"P2","family":"GATE_TAXONOMY_COLLAPSE","evidence":"T4-B callout maps both leaky features and skew to REJECT_LEAKAGE although the dictionary teaches them as different failure classes.","attack":"Root cause is lost in gate status.","defense":"Both conditions should block promotion.","verdict":"CONFIRMED_FINDING","impact":"Operators cannot distinguish response/future leakage from train-serving mismatch and choose the correct repair.","fix":"Use distinct REJECT_LEAKAGE and REJECT_TRAIN_SERVE_SKEW while both block promotion."},
+    {"id":"S32-F37","severity":"P2","family":"REDACTION_WIDOW_TERMS","evidence":"Dense code-switching includes feature catalog, dtype, row, keys, fill, z-score, vocab, one-hot, Pipeline, ColumnTransformer, custom transformer, joblib, pickle, group split, tol and CI; several are used before a concrete Spanish-first definition.","attack":"A ZERO_TECH learner must supply tooling vocabulary not always earned in the immediate paragraph.","defense":"S32 is advanced and the dictionary explains leakage/train/serve/half-open/skew/fs-vN.","verdict":"CONFIRMED_FINDING","impact":"The conceptual difficulty of leakage is compounded by avoidable terminology decoding.","fix":"Introduce Spanish concept first and API/English token second, especially dtype, one-hot, router/ColumnTransformer, serialization and group split."}
+  ],
+  "rejected_findings": [
+    {"claim":"Every imputation without a missing indicator is universally invalid.","verdict":"REJECTED_FINDING","reason":"Adding an indicator can be useful and is a deliberate PyArcana policy here, but it is not a universal statistical law. The defect is in the code's silent/miscomputed missingness, not the mere existence of an imputer."},
+    {"claim":"A half-open [t-w,t) window is inherently wrong because an event at exactly t might be known.","verdict":"REJECTED_FINDING","reason":"The lesson explicitly defines t as its decision cutoff and chooses a conservative half-open contract. That convention is defensible when applied consistently; availability-time provenance remains the real gap."},
+    {"claim":"Using a pure-Python pipeline analogue is pedagogically invalid.","verdict":"REJECTED_FINDING","reason":"The analogue is useful for mechanism visibility. The confirmed issue is roadmap incompleteness: S32 never follows it with the actual ColumnTransformer/Pipeline contract it promises."},
+    {"claim":"Mean shift is never useful for monitoring.","verdict":"REJECTED_FINDING","reason":"Mean difference is a valid lightweight signal. It is insufficient as the sole proof of train≡serve parity and can miss shape/per-row mismatches."},
+    {"claim":"pickle/joblib must never be used.","verdict":"REJECTED_FINDING","reason":"They are legitimate for trusted, version-controlled Python artifacts. The defect is omitting the trust and compatibility warning."},
+    {"claim":"Current live card definitely contradicts the source's 9-hour estimate.","verdict":"UNRESOLVED","reason":"The public text index is about four weeks old; it shows the previous 10–18h tagline while canonical main now says about 9h. A fresh rendered fetch is required before treating deployment drift as material."}
+  ],
+  "priority_order": [
+    "1. Prevent false relational evidence/future leakage: F01,F02,F11,F12,F13,F14,F17,F18.",
+    "2. Make fit/transform contracts executable: F03,F08,F09,F10,F20,F23,F24.",
+    "3. Make feature catalog/version artifacts real: F05,F06,F07,F25,F26,F27.",
+    "4. Repair validation/splits: F29,F30,F31,F32,F33,F35.",
+    "5. Complete roadmap coverage: F15,F16.",
+    "6. Harden edge cases/security/operations: F19,F21,F22,F28,F34,F36.",
+    "7. Redaction and terminology: F04,F37."
+  ],
+  "graph_memory": {
+    "USABLE": [
+      "Split before fitting preprocessing state.",
+      "Fit statistics/vocabulary on train and transform train/test/serve with frozen state.",
+      "Half-open feature windows are a defensible explicit decision-time policy.",
+      "Target/post-outcome columns must not become model inputs.",
+      "Train-serving skew is distinct from offline preprocessing leakage.",
+      "Missingness should remain explicit under the course's feature policy.",
+      "Relational/graph features are structural signals, not fraud/kinship verdicts.",
+      "Feature-set versioning is the correct abstraction boundary toward S33."
+    ],
+    "PARTIAL": [
+      "Executable feature catalog with dtype/missing/role/availability metadata.",
+      "None/NaN-safe imputation/scaling.",
+      "As-of graph feature retrieval with provenance.",
+      "Replay-safe temporal aggregation.",
+      "Frequency features.",
+      "Actual ColumnTransformer/Pipeline composition.",
+      "Persistent complete fit-state artifact.",
+      "Time+group split construction.",
+      "Semantic leakage scanning.",
+      "Exact train-serve parity testing and promotion gate."
+    ],
+    "MISCONCEPTION_RISK": [
+      "catalog_ok means dtype/missing policy are valid",
+      "absent text is equivalent to empty text",
+      "None is the only missing representation",
+      "shared missing address means shared_address=1",
+      "current graph topology is safe for historical features",
+      "degree always means len(neighbor list)",
+      "path missing can safely be encoded as observed value 99 without indicator",
+      "event_time alone proves the record was known at decision time",
+      "a post-hoc overlap counter is a group split",
+      "lexicographic timestamp order is chronological order",
+      "feature names containing label/decision are a complete leakage detector",
+      "equal train/serve means prove parity",
+      "an fs-vN string proves state/model compatibility",
+      "JSON in-memory roundtrip is persistence",
+      "joblib/pickle are safe regardless of artifact provenance"
+    ]
+  },
+  "next_section": "S33"
+}
