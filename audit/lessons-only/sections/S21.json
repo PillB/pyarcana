@@ -1,0 +1,379 @@
+{
+  "schema_version": "1.7.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S21",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s21-fastapi.ts",
+  "canonical_blob_sha": "f2da335a5bc20a72ab98726f5ffd3af4df7d3fce",
+  "title": "Documentos, plantillas y reportes trazables",
+  "short_title": "Reportes trazables",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "canonical_mapping": {
+    "index_file": "src/lib/course/index.ts",
+    "import": "section21 from ./sections/s21-fastapi",
+    "status": "VERIFIED"
+  },
+  "prior_audit": {
+    "status": "NONE_FOUND_ON_AUDIT_BRANCH",
+    "method": "Direct fetch of audit/lessons-only/sections/S21.json returned 404 before this audit was created."
+  },
+  "learner_entry_state": {
+    "baseline": "ZERO_TECH_CAPABLE",
+    "prerequisite": "S20",
+    "credit_rule": "Only prior concepts adjudicated USABLE count as learned.",
+    "critical_dependency_warning": "S18-S20 remain REPAIR_REQUIRED. S21 must not treat upstream n, metrics, workbook reconciliation, provenance, visual accessibility or PEN representation as trusted simply because they exist in prior artifacts.",
+    "usable": [
+      "missing is not zero",
+      "hallazgo is not decision",
+      "Jinja-style separation of data from presentation as a design goal",
+      "openpyxl does not evaluate Excel formulas",
+      "non-color redundancy and semantic headings as accessibility principles"
+    ],
+    "not_creditable": [
+      "S20 reconcile_ok/idempotent/backup flags are observed evidence",
+      "S20 workbook is proven template-faithful",
+      "S19 chart-table accessibility parity is proven",
+      "S18/S20 PEN floats have an authorized money-boundary contract",
+      "upstream run_id and data-note provenance are trustworthy"
+    ]
+  },
+  "roadmap_expectation": {
+    "source": "learning_roadmap_52_V3.md",
+    "environment": "local",
+    "project": "cierre CP-N2-B",
+    "T1": "Templates: Jinja y separación datos/presentación; condiciones, tablas y formato seguro",
+    "T2": "DOCX/PDF: estilos y secciones; extracción de PDF digital y detección de imagen/OCR",
+    "T3": "Informe: resumen ejecutivo, método y hallazgos; gráficos, tablas, fuentes y limitaciones",
+    "T4": "QA: redacción, accesibilidad y consistencia; render visual, provenance y aprobación",
+    "gate": "Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números reconciliados y revisión visual"
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/",
+    "status": "PUBLIC_CARD_VERIFIED_BODY_NOT_HYDRATED_IN_TEXT_FETCH",
+    "evidence": "Public page exposes Section 21 'Reportes trazables' and the canonical tagline. The text fetch does not expose the hydrated S21 lesson body, so rendered-only defects remain unresolved rather than invented."
+  },
+  "audit_metadata": {
+    "theory_blocks_reviewed": 10,
+    "paragraphs_reviewed": 32,
+    "paragraphs_expected": 32,
+    "paragraph_coverage_complete": true,
+    "learning_outcomes_reviewed": 8,
+    "theory_code_blocks_reviewed": 8,
+    "theory_outputs_reviewed": 8,
+    "theory_callouts_reviewed": 9,
+    "theory_figures_reviewed": 1,
+    "runtime_validation": {
+      "environment": "Python runtime with jinja2, python-docx, reportlab, pypdf and PyMuPDF available",
+      "checks": [
+        "Jinja HTML autoescape example reproduces &lt;b&gt;28&lt;/b&gt;",
+        "T1-B current formatter raises TypeError when median=None, contradicting the promised em-dash missing path",
+        "default Jinja Undefined renders a missing variable as an empty string while StrictUndefined raises UndefinedError",
+        "DOCX current example reopens; actual styles are Title, Heading 1 and Normal, but the published theory check never inspects style names",
+        "A white-on-white PDF can have extractable n=40 text and a non-empty rendered PNG, proving non-empty render bytes do not establish visual legibility",
+        "ReportLab default Helvetica successfully round-trips 'sintético' through pypdf in the current runtime, so stripping the accent is not required for this demo",
+        "rounding [28.04, 28.0, 28] to one decimal yields [28.0, 28.0, 28.0], reproducing the published false-green consistency check"
+      ]
+    }
+  },
+  "score_10": 3.4,
+  "verdict": "REPAIR_REQUIRED",
+  "severity_counts": {"P0": 0, "P1": 18, "P2": 7, "P3": 0},
+  "material_findings": 25,
+  "findings": [
+    {
+      "id": "S21-F01",
+      "severity": "P1",
+      "category": "FORGOTTEN_PREREQUISITE_UNTRUSTED_REPORT_INPUTS",
+      "evidence": "Opening and T3-B require DOCX/PDF to share totals and n with S18-S20, but the campaign ledger marks S18-S20 REPAIR_REQUIRED and specifically rejects S20 reconciliation/provenance flags as trusted.",
+      "impact": "A polished report can launder an upstream false-green metric into an apparently audited executive artifact.",
+      "repair": "Require one validated upstream payload identity and re-run the critical reconciliation at the S21 boundary before rendering any document."
+    },
+    {
+      "id": "S21-F02",
+      "severity": "P1",
+      "category": "NO_SINGLE_RUN_END_TO_END_FACTORY_EVIDENCE",
+      "evidence": "The gate says one run generates dashboard, workbook, DOCX/PDF with reconciled numbers, but the eight theory snippets are isolated fixtures with separately hardcoded values and no orchestrating run.",
+      "impact": "The central CP-N2-B integration claim is never demonstrated; all local examples can pass while cross-artifact drift remains possible.",
+      "repair": "Add one closure harness that loads the validated payload once, renders all artifacts, reopens them, reconciles canonical records, hashes outputs and leaves pending_review."
+    },
+    {
+      "id": "S21-F03",
+      "severity": "P2",
+      "category": "SINGLE_SOURCE_MAKES_DISAGREEMENT_IMPOSSIBLE_OVERCLAIM",
+      "evidence": "Opening says one source makes disagreement 'imposible en vez de improbable'.",
+      "impact": "A shared source reduces drift but renderers, formatting, stale artifacts, manual edits and code defects can still produce disagreement.",
+      "repair": "Say a single canonical payload plus post-render reconciliation makes disagreement detectable and blocks publication."
+    },
+    {
+      "id": "S21-F04",
+      "severity": "P1",
+      "category": "VERSIONED_CONTEXT_OUTCOME_NOT_DEMONSTRATED",
+      "evidence": "T1-A promises a versioned context with run_id/metrics/limits reused across artifacts; s21_th_1 passes three ad-hoc keyword arguments and contains no run_id, version or reusable context object.",
+      "impact": "The learner sees presentation separation but not the provenance contract the outcome actually requires.",
+      "repair": "Build and validate a context object with schema_version, run_id, payload_id, canonical metric records and limits, then reuse it in at least two renderers."
+    },
+    {
+      "id": "S21-F05",
+      "severity": "P1",
+      "category": "STRICTUNDEFINED_PROMISED_NOT_IMPLEMENTED",
+      "evidence": "T1-A tells a serious factory to configure StrictUndefined, but both theory Jinja environments use the default Undefined behavior. Current Jinja renders a missing variable as an empty string by default.",
+      "impact": "A missing n/source/limit can disappear silently from an executive document instead of failing closed.",
+      "repair": "Use Environment(undefined=StrictUndefined, ...) in the canonical factory environment and demonstrate a missing required key raising before publication."
+    },
+    {
+      "id": "S21-F06",
+      "severity": "P2",
+      "category": "ESCAPING_SCOPE_OVERGENERALIZED",
+      "evidence": "Opening frames escaping as if direct field insertion generically breaks 'the document', while Jinja autoescape is specifically an HTML/XML escaping policy and the course also creates DOCX via python-docx and plain text/Markdown.",
+      "impact": "Learners may equate HTML escaping with universal sanitization or document safety.",
+      "repair": "Teach sink-specific encoding: HTML autoescape for HTML, library-managed OOXML text for python-docx, and explicit plain-text/Markdown character policy; never call one escape mechanism universal sanitization."
+    },
+    {
+      "id": "S21-F07",
+      "severity": "P1",
+      "category": "MISSING_AND_REDACTED_CONFLATED",
+      "evidence": "Opening says the same em dash represents both a missing value and a value that exists but must not be shown.",
+      "impact": "Missingness and redaction have different semantics, audit implications and denominator treatment; one glyph makes them indistinguishable to the reader.",
+      "repair": "Keep status metadata and visibly distinguish '— (sin dato)' from 'REDACTADO' or another explicit policy-approved marker."
+    },
+    {
+      "id": "S21-F08",
+      "severity": "P1",
+      "category": "MISSING_TABLE_EXAMPLE_CRASHES_INSTEAD_OF_RENDERING_DASH",
+      "evidence": "T1-B promises None -> —, but s21_th_2 always executes '%.2f'|format(r.median). In the current runtime median=None raises TypeError: must be real number, not NoneType.",
+      "impact": "The canonical example does not implement one of the subtopic's main safety rules.",
+      "repair": "Branch before formatting or centralize format_metric(value, status, precision) so None returns an explicit missing token and numeric values follow the canonical display policy."
+    },
+    {
+      "id": "S21-F09",
+      "severity": "P2",
+      "category": "ROUNDING_POLICY_SELF_CONTRADICTION",
+      "evidence": "T1-A says KPIs arrive already rounded from Python, while T1-B explicitly formats 28.456 to 28.46 in Jinja and T4-A allows one decimal in summaries versus two in detail.",
+      "impact": "The learner cannot tell whether the canonical payload stores full-precision values, rounded publication values or display strings.",
+      "repair": "Define three layers: canonical numeric value, publication/quantization rule if business-required, and channel display precision. Formatting may change the string but must not be used to prove source-value equality."
+    },
+    {
+      "id": "S21-F10",
+      "severity": "P1",
+      "category": "DOCX_STYLE_CONTRACT_NOT_VERIFIED",
+      "evidence": "Learning outcome and prose require extraction of real Heading styles, yet s21_th_3 only checks text substrings and PK signature. It never inspects p.style.name or heading order after reopening.",
+      "impact": "A document with bold Normal paragraphs can satisfy the published theory check while failing the semantic outline contract.",
+      "repair": "After reopening, assert the expected Title/Heading levels and logical order, and test table headers/alt properties where the report contains those elements."
+    },
+    {
+      "id": "S21-F11",
+      "severity": "P2",
+      "category": "PYMUPDF_LEGACY_FITZ_IMPORT",
+      "evidence": "PDF examples import fitz. Current PyMuPDF documentation recommends import pymupdf; the legacy fitz name can collide with an unrelated PyPI package named fitz.",
+      "impact": "A fresh learner environment can fail for a dependency-name collision despite installing the documented pymupdf package.",
+      "repair": "Use import pymupdf and pymupdf.open(...); if fitz is mentioned, label it as legacy compatibility only."
+    },
+    {
+      "id": "S21-F12",
+      "severity": "P1",
+      "category": "NONEMPTY_PNG_MISLABELED_AS_VISUAL_LEGIBILITY",
+      "evidence": "T2-B says PNG render proves visual legibility; code only checks png.exists() and size > 0. A white-on-white text PDF reproduced both extractable n=40 and a non-empty PNG while the text was visually invisible.",
+      "impact": "The visual QA gate can be green on an unreadable page.",
+      "repair": "Call rendering a surface for review, not proof. Record actual human/visual-harness review of clipping, contrast, font rendering, pagination and figure/table placement."
+    },
+    {
+      "id": "S21-F13",
+      "severity": "P1",
+      "category": "IMAGE_ONLY_NEEDS_OCR_CASE_NOT_IMPLEMENTED",
+      "evidence": "T2-B prose promises an image-only PDF negative case and needs_ocr, but s21_th_4 generates only a digital text PDF and never computes or prints needs_ocr.",
+      "impact": "The learner never practices the abstention branch that is the core distinction of the subtopic.",
+      "repair": "Create a synthetic image-only PDF fixture, show extract_text empty/insufficient, set needs_ocr=true and prohibit downstream factual extraction until OCR is explicitly performed and reviewed."
+    },
+    {
+      "id": "S21-F14",
+      "severity": "P1",
+      "category": "PDF_ACCESSIBILITY_NOT_ESTABLISHED",
+      "evidence": "S21 claims accessible reporting, but the ReportLab canvas example only draws text and tests extraction/render. It does not establish tagged headings, reading order, document language, table structure or image alternatives for the PDF.",
+      "impact": "A searchable PDF can still be inaccessible to assistive technology.",
+      "repair": "Either generate/test a tagged accessible PDF path or explicitly state that the simple ReportLab canvas PDF is a visual/digital artifact whose accessibility is not established; require PDF accessibility checks before the CP-N2-B gate."
+    },
+    {
+      "id": "S21-F15",
+      "severity": "P1",
+      "category": "REPORT_STRUCTURE_VALIDATION_CONTRACT_NOT_IMPLEMENTED",
+      "evidence": "T3-A describes pack_report validation requiring n, unit and H->evidence and says decision=None, but s21_th_5 is only a hardcoded dict with no validator and no decision field.",
+      "impact": "An eloquent but untraceable finding can pass the example because the promised acceptance rules are not executable.",
+      "repair": "Implement validate_report(report) that checks required sections, canonical metric references, n/unit, evidence IDs, limits and explicit decision=None/pending-human-decision state."
+    },
+    {
+      "id": "S21-F16",
+      "severity": "P1",
+      "category": "CROSS_ARTIFACT_PARITY_CHECK_NOT_COMPUTED",
+      "evidence": "T3-B claims checksum/parity across PNG, XLSX and DOCX and shared run_id, but s21_th_6 opens none of those artifacts. It asserts only that the character string '40' appears in a caption and prints an in-memory metrics dict.",
+      "impact": "The central closure control can never detect an Excel/DOCX/dashboard disagreement.",
+      "repair": "Extract canonical records from each generated artifact and compare key, metric, numeric value, denominator, filter/universe, display precision and run_id; fail closed on any mismatch."
+    },
+    {
+      "id": "S21-F17",
+      "severity": "P1",
+      "category": "DISPLAY_ROUNDING_CREATES_FALSE_GREEN_CONSISTENCY",
+      "evidence": "s21_th_7 rounds [28.04, 28.0, 28] to one decimal, obtains [28.0, 28.0, 28.0], and declares consistente=True.",
+      "impact": "Different underlying channel values can be hidden by display rounding, exactly the discrepancy S21 claims to prevent.",
+      "repair": "First compare canonical numeric values/metric IDs before formatting; separately test that equal canonical values produce the same display string under the declared presentation profile."
+    },
+    {
+      "id": "S21-F18",
+      "severity": "P1",
+      "category": "PEN_FLOAT_ROUNDING_REGRESSES_S02_CONTRACT",
+      "evidence": "T4-A normalizes monetary values with round(float(v), precision), while S02 explicitly established Decimal for soles and warned against converting money back to float.",
+      "impact": "The report boundary reintroduces the numerical representation defect the early curriculum told the learner to avoid.",
+      "repair": "Carry Decimal or integer cents into the publication context; use explicit quantization/formatting policy without round(float(...)) for PEN."
+    },
+    {
+      "id": "S21-F19",
+      "severity": "P1",
+      "category": "ALT_EXAMPLE_FAILS_OWN_CONTENT_REQUIREMENT",
+      "evidence": "T4-A says alt text must mention n and unit, but its example is 'Barras mediana por región, n por barra en tooltip': it contains neither an actual n nor PEN and delegates information to a tooltip unavailable in a static document.",
+      "impact": "The learner can copy an alt string that fails the exact accessibility rule being taught.",
+      "repair": "Use a concrete equivalent such as 'Ticket mediano por región en la muestra web: Lima 28.0 PEN (n=40), ...' or point to an adjacent accessible table containing all values."
+    },
+    {
+      "id": "S21-F20",
+      "severity": "P1",
+      "category": "ACCESSIBILITY_CHECKLIST_TOO_WEAK_AND_NOT_EXECUTED",
+      "evidence": "T4-A reduces the minimum to has_h1 plus at least one alt longer than 10 characters; theory code implements neither. It omits logical heading order, actual alt attachment, simple table/header semantics and document accessibility inspection.",
+      "impact": "A document can satisfy length/heading-presence heuristics while remaining inaccessible.",
+      "repair": "Define observable DOCX/PDF accessibility checks aligned to the artifact: logical heading hierarchy, actual alternative text on visuals, simple header-marked tables, language/reading order where supported, and a documented accessibility review."
+    },
+    {
+      "id": "S21-F21",
+      "severity": "P1",
+      "category": "PROVENANCE_ARTIFACT_STATUS_AND_HASHES_ARE_FABRICATED",
+      "evidence": "s21_th_8 hardcodes {'dashboard':'ok','xlsx':'ok','doc':'ok'}, hashes the literal bytes b'synthetic', and computes no artifact hash despite prose requiring hashes of artifacts and visual checklist evidence.",
+      "impact": "The manifest can assert a healthy package without observing any package file.",
+      "repair": "Derive status from executed checks and compute SHA-256 for the validated input payload, template/source artifacts and each actual output file."
+    },
+    {
+      "id": "S21-F22",
+      "severity": "P1",
+      "category": "READY_REVIEW_CONTRACT_AND_MANIFEST_PERSISTENCE_NOT_IMPLEMENTED",
+      "evidence": "T4-B specifies ready(checklist)=all(dashboard,xlsx,doc), a pending_review manifest on disk and human actor/timestamp workflow; s21_th_8 has no checklist function, no visual review fields and only prints JSON to stdout.",
+      "impact": "The package can appear complete without a persisted reviewable state transition or evidence of human inspection.",
+      "repair": "Persist manifest.json atomically with checklist results, artifact identities and pending_review; only a later human review action may add reviewer/timestamp and transition to approved/rejected."
+    },
+    {
+      "id": "S21-F23",
+      "severity": "P2",
+      "category": "UNNECESSARY_ACCENT_STRIPPING_IN_SPANISH_PDF_DEMO",
+      "evidence": "Opening callout says ReportLab/Helvetica demos intentionally write 'sintetico' ASCII. In the current runtime, ReportLab default Helvetica and pypdf round-trip 'sintético' correctly.",
+      "impact": "The course lowers Spanish redaction quality for a workaround not demonstrated to be necessary in the supported stack.",
+      "repair": "Write correct es-PE text with accents; if a font limitation is ever real, teach font embedding/Unicode support explicitly instead of normalizing Spanish to ASCII."
+    },
+    {
+      "id": "S21-F24",
+      "severity": "P2",
+      "category": "CASO_LIM_GEOGRAPHY_MIXES_UNDEFINED_MARKETS",
+      "evidence": "CASO-LIM-021 repeatedly compares Lima and Madrid as region peers without defining a multinational universe, continuing the geography ambiguity already flagged in S19-S20.",
+      "impact": "Population/coverage language becomes incoherent and weakens the course's Peru-grounded business scenario.",
+      "repair": "Use a coherent Peru fixture (for example Lima/Arequipa/Trujillo) or explicitly rename the dimension to market/city and define the multinational universe."
+    },
+    {
+      "id": "S21-F25",
+      "severity": "P2",
+      "category": "SPANGLISH_AND_WIDOW_TERMS_IN_ZERO_TECH_REPORTING_TEXT",
+      "evidence": "Dense use of context, factory, provenance, missing, caption, bundle, outline, a11y, pending_review and other English terms appears faster than stable Spanish-first definitions.",
+      "impact": "Unnecessary lexical switching increases extraneous cognitive load in a course whose stated language is Peruvian Spanish.",
+      "repair": "Introduce Spanish concept first and preserve API/status literals only where they are actual code contracts, e.g. contexto, factoría/generador de reportes, trazabilidad/procedencia, dato faltante, pie de figura, paquete, esquema, accesibilidad."
+    }
+  ],
+  "rejected_hypotheses": [
+    {
+      "hypothesis": "Using Template(...) is always a security defect.",
+      "verdict": "REJECTED",
+      "reason": "The first theory template is plain text. The real defect is sink-specific policy plus failure to use StrictUndefined; the separate HTML example correctly demonstrates explicit autoescape."
+    },
+    {
+      "hypothesis": "An empty pypdf extraction proves the PDF was scanned.",
+      "verdict": "REJECTED",
+      "reason": "PDF text extraction can fail for digitally-born content too. needs_ocr is acceptable as a workflow flag for unavailable/insufficient text, but should not be presented as perfect document-origin classification."
+    },
+    {
+      "hypothesis": "PK signature alone is the only DOCX validation.",
+      "verdict": "REJECTED",
+      "reason": "The example also reopens the file with python-docx, which is materially stronger. The confirmed defect is that the promised semantic style checks are absent."
+    },
+    {
+      "hypothesis": "round(28.04, 1) is numerically wrong Python behavior.",
+      "verdict": "REJECTED",
+      "reason": "The result is expected. The defect is using display-normalized equality as evidence that upstream canonical values agree."
+    },
+    {
+      "hypothesis": "Legacy import fitz is universally broken.",
+      "verdict": "REJECTED",
+      "reason": "It remains a compatibility alias and works in many environments. It is P2 because current PyMuPDF recommends pymupdf and documents a real collision risk with the unrelated fitz package."
+    }
+  ],
+  "external_validation": [
+    {
+      "topic": "Jinja",
+      "result": "Current official Jinja docs recommend explicit Environment configuration, document that autoescape is not a universal default, and expose the undefined policy hook used for StrictUndefined."
+    },
+    {
+      "topic": "PDF extraction",
+      "result": "pypdf documentation distinguishes digitally-born, scanned and OCRed PDFs and states pypdf is not OCR; extractability alone is not a complete document-origin/accessibility test."
+    },
+    {
+      "topic": "PyMuPDF import",
+      "result": "Current PyMuPDF docs recommend import pymupdf and warn that legacy import fitz can collide with an unrelated PyPI package."
+    },
+    {
+      "topic": "Word/PDF accessibility",
+      "result": "Microsoft accessibility guidance requires logical built-in headings, alt text and simple tables with header information; W3C PDF techniques include tagged headings, reading order, table markup, alt text and document language."
+    }
+  ],
+  "priority_order": [
+    "P1-1: repair F02/F16/F17/F21/F22 so a single run actually derives and reconciles artifact evidence rather than fabricating green states",
+    "P1-2: repair F05/F08/F10/F12/F13/F15 so each subtopic's executable example proves the contract its prose states",
+    "P1-3: repair F14/F19/F20 to prevent searchable/visible documents from being mislabeled accessible",
+    "P1-4: repair F01/F18 so uncertain upstream metrics and PEN float do not become polished report facts",
+    "P1-5: repair F04/F07 context provenance and missing/redaction semantics",
+    "P2: then repair F03/F06/F09/F11/F23/F24/F25 redaction, scope, import and terminology issues"
+  ],
+  "graph_memory_update": {
+    "USABLE": [
+      "data/presentation separation as a design objective",
+      "HTML autoescape must be explicit and |safe/Markup disable escaping",
+      "missing is not zero",
+      "DOCX should use semantic heading styles rather than visual bold alone",
+      "PDF text extraction and rendering answer different questions",
+      "hallazgo is not decision",
+      "publication requires human review rather than script auto-approval"
+    ],
+    "PARTIAL": [
+      "versioned shared context",
+      "StrictUndefined/fail-closed templating",
+      "DOCX semantic validation",
+      "PDF digital-vs-OCR workflow",
+      "cross-artifact metric parity",
+      "accessible DOCX/PDF generation",
+      "visual review evidence",
+      "provenance manifest and approval state"
+    ],
+    "MISCONCEPTION_RISK": [
+      "one source makes divergence impossible",
+      "em dash can mean both missing and redacted",
+      "nonempty PNG proves legibility",
+      "extractable PDF is accessible PDF",
+      "rounding different numbers to one display value proves parity",
+      "float rounding is acceptable for PEN",
+      "alt length >10 plus any H1 proves document accessibility",
+      "hardcoded artifact='ok' proves artifact health"
+    ],
+    "S22_watchlist": [
+      "S22 must consume a persisted pending_review manifest derived from actual S21 files, not a printed dict.",
+      "No email draft may treat S21 artifact statuses or hashes as trustworthy until S21 derives them from executed checks.",
+      "Recipient-facing numbers must bind to canonical metric IDs/denominators before display formatting.",
+      "Human approval must have actor/timestamp and may not be inferred from factory completion.",
+      "Accessibility/provenance defects remain open and must not be erased by email packaging."
+    ]
+  }
+}
