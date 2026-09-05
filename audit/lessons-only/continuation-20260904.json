@@ -1,13 +1,13 @@
 {
-  "schema_version": "1.6.0",
+  "schema_version": "1.7.0",
   "campaign_id": "lessons-only-adversarial-20260903",
   "continuation_date": "2026-09-04",
   "last_updated_date": "2026-09-05",
   "branch": "audit/lessons-only-adversarial-20260903",
-  "last_completed_section": "S23",
-  "last_completed_round": "S23-base-solarized-adversarial-audit-20260905",
+  "last_completed_section": "S24",
+  "last_completed_round": "S24-base-solarized-adversarial-audit-20260905",
   "last_completed_verdict": "REPAIR_REQUIRED",
-  "last_completed_material_findings": 27,
+  "last_completed_material_findings": 33,
   "section_artifacts": {
     "S17": {
       "base_audit": "audit/lessons-only/sections/S17.json",
@@ -83,38 +83,53 @@
       "coverage": "33/33 theory paragraphs + title/tagline/job relevance + 8 outcomes + 9 theory code/output blocks + 9 callouts + 1 figure",
       "material_findings": 27,
       "severity_counts": {"P0":0,"P1":18,"P2":9,"P3":0},
+      "status": "AUDITED_REPAIR_REQUIRED"
+    },
+    "S24": {
+      "base_audit": "audit/lessons-only/sections/S24.json",
+      "paragraph_shards": ["audit/lessons-only/sections/S24.paragraphs-01.json", "audit/lessons-only/sections/S24.paragraphs-02.json"],
+      "component_ledger": "audit/lessons-only/sections/S24.components.json",
+      "source_file": "src/lib/course/sections/s24-rpa-advanced.ts",
+      "source_blob_sha": "9678ffaa81e1aa3b4b27745d7a81b1f79b8a6587",
+      "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+      "coverage": "41/41 theory paragraphs + title/tagline/job relevance + 8 outcomes + 8 theory code/output blocks + 9 callouts + 2 figures",
+      "material_findings": 33,
+      "severity_counts": {"P0":0,"P1":23,"P2":10,"P3":0},
       "highest_risk_findings": [
-        "S23-F03 roadmap gate promises a controlled real Playwright robot but canonical theory executes only dict simulations and a non-run sketch",
-        "S23-F04 real sketch returns download.path after closing the browser even though context-owned downloads are deleted on close",
-        "S23-F06 dict locator silently selects the first ambiguous role/name match instead of failing strict",
-        "S23-F11 download fixture merely echoes the uploaded bytes and never verifies an independent export",
-        "S23-F15 trace/screenshot evidence consists of nonexistent path strings",
-        "S23-F19 run_with_retry accepts fn but never calls it",
-        "S23-F20 retry policy retries side-effecting timeouts without checking idempotency/postcondition",
-        "S23-F21 checkpoint/crash-window recovery is explained but not implemented",
-        "S23-F25 no persisted lineage connects S21 payload/S22 approval to S23 browser action"
+        "S24-F04 preprocess_meta upgrades source dpi=96 to reported dpi=200 without changing raster detail",
+        "S24-F06 deskew_applied/skew=0/crop/contrast are emitted as if transformations occurred although theory only changes metadata",
+        "S24-F11 course confidence uses 0-1 while real Tesseract ResultIterator confidence is 0-100 unless normalized",
+        "S24-F13 bbox evidence is not bound to page/coordinate space/transform, so crop/deskew/rotation can make overlays wrong",
+        "S24-F15 KV parser discards bbox/confidence and silently overwrites duplicate fields",
+        "S24-F17 norm_total misparses explicitly out-of-policy '1,150.00' as 1.15",
+        "S24-F18 norm_ruc strips unexpected Unicode such as Ñ/emoji and can fabricate a plausible 11-digit value",
+        "S24-F20 missing total raises KeyError instead of entering reasons/review",
+        "S24-F24 field_acc counts None==None as correct and has no n=0 policy",
+        "S24-F25/F26 coverage denominator excludes reject/fail states and is disconnected from the golden/threshold",
+        "S24-F31 privacy callout can delete the only rendition needed to interpret bbox evidence"
       ],
       "status": "AUDITED_REPAIR_REQUIRED"
     }
   },
   "audit_protocol_delta": {
     "rule": "SIN_CAMBIO_DEFENDIDO/NO_MATERIAL_CHANGE => improved_content=null",
-    "reason": "S18-S23 follow the corrected paragraph protocol; defended content is not rewritten for cosmetic churn. S23 also uses an append-only patch for a component finding discovered after base persistence."
+    "reason": "S18-S24 follow the corrected paragraph protocol; defended content is not rewritten for cosmetic churn."
   },
-  "next_section": "S24",
+  "next_section": "S25",
   "carry_forward_constraints": [
-    "S24 must not consume an S23 download path unless the file was persisted before browser-context close and independently validated; download.path() from the current sketch is not creditable.",
-    "Carry full SHA-256 and parsed-content validation into S24; S23 short digest prefixes are display identifiers, not authoritative provenance.",
-    "Do not treat S23 trace/screenshot path strings as evidence; only actual files with hashes and a run_id lineage are creditable.",
-    "S23 checkpoint/retry/idempotence remains PARTIAL; S24 must not infer that a resumed browser run produced exactly one source document.",
-    "Preserve one lineage from S21 payload -> S22 draft/approval -> S23 browser run -> S23 downloaded artifact -> S24 document/OCR extraction.",
-    "S21 and S22 remain REPAIR_REQUIRED; a browser download does not repair upstream reconciliation, recipient confirmation or approval binding.",
-    "Treat Playwright storage_state and traces as sensitive artifacts; do not put authenticated state, production cookies, PII screenshots or sensitive DOM/network traces into S24 fixtures.",
-    "S24 must distinguish the verified downloaded source document from screenshots/trace images; do not OCR diagnostic screenshots as if they were the report artifact.",
-    "Do not inherit S23 first-match locator or stale-ElementHandle mental models into S24 browser/document acquisition helpers.",
-    "If S24 ingestion follows a retried side-effecting browser step, verify server state/idempotency before assuming the downloaded document is unique/current.",
-    "S23 API/export selection is PARTIAL until equivalence, authorization, freshness and policy are checked and persisted.",
-    "If S24 receives a human-handoff artifact, require run_id, source URL/step, actual evidence refs and last verified checkpoint rather than action/reason labels alone."
+    "S25 must not consume an S24 field unless source artifact provenance is bound to full SHA-256, page/rendition and an evidence reference; source_doc_id alone is insufficient.",
+    "Treat every OCR/raw/source text string as untrusted_document_content. S25 may summarize/classify it as data, but must never concatenate it into system/developer/tool instructions or trust document-embedded directives.",
+    "Do not inherit S24 status='auto' or confidence>=0.85 as proof of correctness. Preserve confidence scale origin, normalized value, threshold_version and human-review state.",
+    "If Tesseract is used, normalize its 0-100 ResultIterator confidence before applying the S24 0-1 contract; preserve raw and normalized confidence.",
+    "Do not consume S24 monetary floats. Restore S02 Decimal/integer-cent semantics before any S25 inference, prompt or generated report uses PEN values.",
+    "Preserve both raw and normalized RUC/money/date. Do not let an LLM silently repair unexpected characters, unsupported money grammar or missing identifiers.",
+    "S24 bbox is PARTIAL until page, dimensions, coordinate_space, processed/source hashes and transform lineage are present. If S25 surfaces evidence, it must point to the correct controlled rendition.",
+    "Do not delete the only source/processed rendition needed for review merely because fields+bbox exist; retention/deletion must preserve auditability until the review/retention boundary expires.",
+    "S24 review queue is not implemented by status='needs_review'. S25 must not assume a human actually saw/corrected the field unless a review record/decision exists.",
+    "S24 coverage_auto=auto/(auto+review) is not end-to-end intake coverage; include reject, ocr_fail and human_rescan states when reporting operational automation rate.",
+    "S24 golden/coverage examples do not calibrate the 0.85 threshold because they are disconnected. S25 evaluation should use the same labeled examples, model/output version and threshold when comparing quality vs coverage.",
+    "S23 remains REPAIR_REQUIRED; S24 processing does not repair an unverified/duplicated/stale browser download. Preserve S23 browser_run_id and source artifact identity through S25.",
+    "File admission remains layer-1 only. Do not treat S24 MIME+size pass as proof a document is safe to upload to a cloud/model provider; apply approved data/security policy before any S25 external endpoint."
   ],
-  "status": "READY_TO_CONTINUE_WITH_S24"
+  "status": "READY_TO_CONTINUE_WITH_S25"
 }
