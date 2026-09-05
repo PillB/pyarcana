@@ -1,0 +1,202 @@
+{
+  "schema_version": "2.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S24",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s24-rpa-advanced.ts",
+  "canonical_blob_sha": "9678ffaa81e1aa3b4b27745d7a81b1f79b8a6587",
+  "title": "OCR y Document AI",
+  "short_title": "OCR Document AI",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "canonical_mapping": {
+    "index_file": "src/lib/course/index.ts",
+    "import": "section24 from ./sections/s24-rpa-advanced",
+    "status": "VERIFIED"
+  },
+  "prior_audit": {
+    "status": "NONE_FOUND_ON_AUDIT_BRANCH",
+    "method": "Direct fetch of audit/lessons-only/sections/S24.json returned 404 before creation."
+  },
+  "learner_entry_state": {
+    "baseline": "ZERO_TECH_CAPABLE",
+    "prerequisite": "S23",
+    "credit_rule": "Only prior concepts adjudicated USABLE count as learned.",
+    "critical_dependency_warning": "S21-S23 remain REPAIR_REQUIRED. S24 cannot treat an S23 download path, short digest, trace label or resumed run as trustworthy provenance without a persisted independently validated artifact.",
+    "usable": [
+      "digital PDF and scanned-image PDF are different acquisition modes",
+      "missing is not zero",
+      "human review/abstention are valid outputs",
+      "a mismatch is not a fraud conclusion",
+      "full evidence should remain separable from automated decisions"
+    ],
+    "not_creditable": [
+      "S23 download.path persisted the source document after browser close",
+      "S23 short SHA prefix is authoritative artifact identity",
+      "S23 retry/checkpoint guarantees one unique current document",
+      "S22 approval is bound to exact downstream content",
+      "S21 reporting payload and provenance are fully reconciled"
+    ]
+  },
+  "roadmap_expectation": {
+    "source": "learning_roadmap_52_V3.md",
+    "prerequisite": "S23",
+    "environment": "local",
+    "project": "intake de documentos",
+    "T1": "Imagen: DPI, deskew, crop y contraste; ruido y orientación",
+    "T2": "OCR: idiomas, layout y confidence; texto, tablas y pares clave–valor",
+    "T3": "Extracción: schema y normalización; validación cross-field y cola de revisión",
+    "T4": "Evaluación: golden set sintético, exactitud por campo y cobertura; privacidad, archivos hostiles y fallback",
+    "gate": "extrae campos de documentos sintéticos, conserva bounding boxes/evidencia, abstiene bajo confidence y mide cada campo crítico"
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/",
+    "status": "PUBLIC_CARD_VERIFIED_BODY_NOT_HYDRATED_IN_TEXT_FETCH",
+    "evidence": "Public page exposes Section 24 'OCR Document AI' with the canonical gate text. Hydrated theory body is not exposed by the public text surface, so render-only defects were not invented."
+  },
+  "audit_metadata": {
+    "theory_blocks_reviewed": 10,
+    "paragraphs_reviewed": 41,
+    "paragraphs_expected": 41,
+    "paragraph_coverage_complete": true,
+    "learning_outcomes_reviewed": 8,
+    "theory_code_blocks_reviewed": 8,
+    "theory_outputs_reviewed": 8,
+    "theory_callouts_reviewed": 9,
+    "theory_figures_reviewed": 2,
+    "runtime_validation": {
+      "checks": [
+        "preprocess_meta reports dpi=200 while source_dpi remains 96 and no raster pixels were changed",
+        "fix_orientation returns an automatic-looking orientation even when best score is 0.4 and silently selects the first key on a tie",
+        "a raw Tesseract confidence of 55 passes the lesson's 0.85 threshold unless explicitly normalized to 0.55",
+        "kv_from_lines silently overwrites the first RUC when the same key appears twice",
+        "norm_total('1,150.00') returns 1.15 although the prose says that EN-thousands format must be rejected/out-of-policy",
+        "norm_total('1e3') returns 1000.0 despite scientific notation not being part of the documented money grammar",
+        "norm_ruc('20Ñ123456789') and norm_ruc('20💥123456789') silently strip the unexpected character and return 20123456789",
+        "validate() raises KeyError when total is missing instead of accumulating a review reason",
+        "field_acc([{ruc_pred:None,ruc_true:None}], 'ruc') returns 1.0 and field_acc([], field) raises ZeroDivisionError",
+        "coverage_auto=7/(7+3)=0.7 becomes 0.35 when five rejects and five OCR failures from the same intake are included",
+        "gate_file raises KeyError when mime or n_bytes metadata is missing",
+        "a spoofed payload declared application/pdf passes the implemented layer-1 gate because bytes/signature are never inspected"
+      ]
+    }
+  },
+  "external_research": [
+    {
+      "source": "Tesseract ImproveQuality",
+      "finding": "Tesseract documents image preprocessing, deskew/noise/borders and says it generally works best around at least 300 dpi; changing metadata alone is not image resampling or restoration."
+    },
+    {
+      "source": "Tesseract ResultIterator API",
+      "finding": "ResultIterator::Confidence is documented as percent probability on 0.0-100.0, so any 0-1 course contract needs an explicit normalization boundary."
+    },
+    {
+      "source": "Google Cloud Document AI",
+      "finding": "Document entities/layouts carry confidence plus page/bounding references; evaluation exposes precision/recall/F1 at specific confidence levels, supporting threshold evaluation rather than an isolated magic cutoff."
+    },
+    {
+      "source": "pypdf OCR vs text extraction",
+      "finding": "Digitally-born PDFs should generally use native text extraction rather than rasterizing everything to OCR; scanned and OCRed PDFs are distinct modes."
+    },
+    {
+      "source": "OWASP File Upload Cheat Sheet",
+      "finding": "Content-Type is spoofable; secure file admission is defense-in-depth including signatures/content validation, safe storage, resource limits and sandboxing."
+    },
+    {
+      "source": "Python decimal documentation",
+      "finding": "Decimal is designed for exact decimal/accounting arithmetic; binary float is inappropriate where strict monetary equality/rounding invariants matter."
+    }
+  ],
+  "score": 2.9,
+  "verdict": "REPAIR_REQUIRED",
+  "material_findings": 33,
+  "severity_counts": {"P0": 0, "P1": 23, "P2": 10, "P3": 0},
+  "findings": [
+    {"id":"S24-F01","severity":"P1","category":"PREREQUISITE_INTEGRITY","evidence":"Reference says the input is 'Una descarga verificada del adaptador web de S23'.","attack":"S23's real sketch returns a temporary download path after context close and its verification/hash contract remains unearned.","defense":"Curricular continuity needs a source artifact from S23.","verdict":"CONFIRMED","impact":"OCR can begin from a stale, missing, duplicated or wrong source document.","repair":"Require a persisted source file with full SHA-256, size/type/content validation, browser_run_id and uniqueness/currentness evidence before S24 intake."},
+    {"id":"S24-F02","severity":"P2","category":"DIGITAL_PDF_ROUTING","evidence":"Theory begins from a scanned-image model and provides no native-text bypass for digitally-born PDFs.","attack":"S21 already distinguishes digital PDFs from image/OCR cases; OCRing a native text PDF needlessly discards stronger information.","defense":"The opening explicitly talks about an 'factura escaneada' and S24 is the OCR-focused section.","verdict":"CONFIRMED","impact":"Learner can generalize OCR as the default path for every PDF.","repair":"Add a routing gate: native digital text -> text extraction; raster/image or unusable text layer -> OCR; preserve the chosen mode in provenance."},
+    {"id":"S24-F03","severity":"P1","category":"GATE_FIDELITY","evidence":"Canonical theory operates on metadata dicts and pre-supplied OCR tokens; no theory block sends a synthetic image/PDF through an OCR engine.","attack":"Roadmap gate says extract fields from synthetic documents, not merely parse observations invented before the function is called.","defense":"Fake adapters are appropriate for deterministic unit tests and are honestly labeled.","verdict":"CONFIRMED","impact":"Learner can satisfy the apparent OCR gate without demonstrating OCR acquisition, page rendering or engine output at all.","repair":"Retain fake unit tests but add at least one tiny synthetic image/PDF fixture executed through a real/local OCR adapter or controlled deterministic OCR fixture that starts from pixels."},
+    {"id":"S24-F04","severity":"P1","category":"FALSE_RESOLUTION_STATE","evidence":"preprocess_meta sets out['dpi']=max(source_dpi,200), so a 96-dpi source becomes dpi=200 without any raster operation.","attack":"The prose correctly says upscaling does not recover detail; changing the metadata field creates an even stronger false claim because no pixels changed at all.","defense":"Comments call this a planned metadata decision rather than OpenCV processing.","verdict":"CONFIRMED","impact":"Downstream gates can treat a 96-PPI source as if it met the 200 threshold.","repair":"Keep source_ppi immutable; record target_ppi/resample_planned separately. Never use a synthetic 'dpi' overwrite as evidence that capture quality improved."},
+    {"id":"S24-F05","severity":"P2","category":"THRESHOLD_CONSISTENCY","evidence":"Prose recommends capture at >=300 PPI effective, while code/callout make >=200 the passing lab floor.","attack":"The learner is given two different minima with no rationale for when 200 is sufficient.","defense":"Tesseract documentation says ~300 is generally beneficial, not a universal hard failure threshold; a 200 lab floor can be a deliberate simplification.","verdict":"CONFIRMED","impact":"Quality gates become arbitrary rather than evidence-based.","repair":"State explicitly: 200 is a didactic warning floor only; 300 is the preferred capture target; calibrate by font size/corpus and actual OCR evaluation."},
+    {"id":"S24-F06","severity":"P1","category":"FABRICATED_PREPROCESS_EVIDENCE","evidence":"deskew_applied=True, skew_deg=0.0, crop_box and contrast are emitted although no raster is deskewed/cropped/contrasted.","attack":"Names such as '*_applied' assert completed transformations, not plans.","defense":"Comments disclose the simulation.","verdict":"CONFIRMED","impact":"Audit flags can say the image was transformed when nothing happened to it.","repair":"Rename to *_required/*_planned in metadata-only exercises; only write *_applied after a real transform and bind it to a processed-image hash."},
+    {"id":"S24-F07","severity":"P1","category":"CROP_EVIDENCE_LOSS","evidence":"Every image gets a fixed 2% crop while the callout requires that crop not cut a seal/total.","attack":"No content-preservation check proves the 2% border is safe for a particular page.","defense":"The fixture is synthetic and the crop is explicitly didactic.","verdict":"CONFIRMED","impact":"A real adaptation of the example can delete edge evidence while reporting a successful preprocess.","repair":"Make crop candidate-driven, verify content/bounds against the source, preserve pre/post previews or transform metadata, and fail to manual crop when uncertain."},
+    {"id":"S24-F08","severity":"P1","category":"ORIENTATION_FAIL_CLOSED_NOT_IMPLEMENTED","evidence":"fix_orientation returns max score unconditionally; the <0.5 manual_orient rule appears only in prose/callout, and ties are not handled.","attack":"Runtime returns (0,0.4) for a low-confidence case and silently chooses the first orientation on an equal-score tie.","defense":"The function returns the score so a caller could decide.","verdict":"CONFIRMED","impact":"The executable contract does not implement the quality gate it teaches.","repair":"Return status auto/manual; require minimum score plus ambiguity margin; ties/near-ties -> manual_orient."},
+    {"id":"S24-F09","severity":"P2","category":"DENOISE_OUTCOME_OVERCLAIM","evidence":"Learning outcome says correct noise before OCR; denoise_binary merely flips synthetic 1 flags to 0 and never modifies image data.","attack":"The student does not learn or demonstrate a denoise operation.","defense":"The function explicitly says it is a contract simulation.","verdict":"CONFIRMED","impact":"Outcome wording exceeds demonstrated competence.","repair":"Either narrow the outcome to choosing/logging a denoise policy or add one real image-processing example and compare before/after OCR quality."},
+    {"id":"S24-F10","severity":"P2","category":"READING_ORDER_MODEL","evidence":"T2-A sorts tokens by (y0,x0) while warning not to concatenate columns blindly.","attack":"Global y/x sorting is exactly the kind of heuristic that can interleave multi-column content.","defense":"Advanced multi-column layout is declared out of scope.","verdict":"CONFIRMED","impact":"The limitation is stated but the simple algorithm is presented as 'orden de lectura'.","repair":"Name it single-column-only; add a two-column counterexample that must abstain or route to a layout-aware adapter."},
+    {"id":"S24-F11","severity":"P1","category":"CONFIDENCE_SCALE_CONTRACT","evidence":"Course contract and threshold use confidence 0-1; opening callout allows TesseractAdapter when installed.","attack":"Tesseract ResultIterator::Confidence is documented on 0-100. A raw 55 would pass conf>=0.85 unless explicitly divided by 100.","defense":"A well-written adapter could normalize the engine value.","verdict":"CONFIRMED","impact":"Without an explicit adapter boundary, low-confidence real OCR can be autoaccepted by two orders of magnitude.","repair":"Define adapter_confidence_01 = clamp(raw_conf/100) for Tesseract and test 55 -> 0.55; log engine/raw scale/normalized value."},
+    {"id":"S24-F12","severity":"P2","category":"CONFIDENCE_SEMANTICS","evidence":"Token confidences are treated as field confidences with one universal 0.85 threshold.","attack":"Fields may span multiple tokens and confidence meaning differs by engine/entity level; threshold quality should be evaluated per field/corpus.","defense":"0.85 is explicitly labeled a didactic lab threshold.","verdict":"CONFIRMED","impact":"Learner may mistake a convenient cutoff for a calibrated probability of correctness.","repair":"Define token->field aggregation and evaluate threshold curves on the same golden set; keep 0.85 visibly didactic."},
+    {"id":"S24-F13","severity":"P1","category":"BBOX_COORDINATE_PROVENANCE","evidence":"The course promises bbox lets a reviewer highlight the value on the original, while preprocessing includes crop, deskew and rotation.","attack":"Those transforms change coordinates. bbox on the processed page cannot be overlaid on the original without transform lineage or the exact processed rendition.","defense":"T4-B later mentions page dimensions and a revisable rendition conceptually.","verdict":"CONFIRMED","impact":"The central evidence rectangle can point to the wrong region.","repair":"Persist page index, coordinate space, processed dimensions, source/processed hashes and transform matrix; review against the exact rendition that produced the bbox or invert the transform."},
+    {"id":"S24-F14","severity":"P1","category":"OCR_PROVENANCE_INCOMPLETE","evidence":"Canonical field output names source_doc_id/schema_version but code never binds fields to full source hash, processed page hash, engine/version, language/config or preprocessing version.","attack":"The job relevance promises auditable evidence and reproducibility.","defense":"The section is contract-first and some metadata is described in prose.","verdict":"CONFIRMED","impact":"A reviewer cannot reproduce which bytes/config produced a field.","repair":"Emit source_sha256, page, processed_sha256, preprocess_config/version, OCR engine/model/version/lang, schema_version and field bbox/confidence with each run."},
+    {"id":"S24-F15","severity":"P1","category":"KV_EVIDENCE_LOSS","evidence":"kv_from_lines returns only {key:value}; it drops bbox/confidence and duplicate keys overwrite silently.","attack":"The adjacent paragraph/callout says evidence is value+bbox+conf; runtime duplicate RUC keeps only the last value.","defense":"The code is a minimal string parsing exercise.","verdict":"CONFIRMED","impact":"Ambiguous OCR evidence can be silently collapsed into one authoritative-looking field.","repair":"Return a list/candidates per key with value, conf, bbox, page/source; duplicate competing values -> ambiguity reason/review."},
+    {"id":"S24-F16","severity":"P1","category":"MONEY_TYPE_REGRESSION","evidence":"Schema declares total float; line sums and 0.01 reconciliation use binary floats.","attack":"S02 established Decimal/integer-cent semantics for PEN, and Python Decimal docs specifically recommend exact decimal arithmetic for accounting invariants.","defense":"The lab values shown happen to be exactly simple enough to print cleanly.","verdict":"CONFIRMED","impact":"S24 regresses the curriculum's own monetary contract at the document-intake boundary.","repair":"Normalize monetary strings directly into Decimal from string (or integer cents), quantize explicitly and reconcile using the same type."},
+    {"id":"S24-F17","severity":"P1","category":"MONEY_GRAMMAR_BUG","evidence":"Prose says EN-thousands '1,150.00' must be rejected/out-of-policy, but norm_total treats any comma+dot as PE and returns 1.15.","attack":"Runtime confirms the exact prohibited format is silently transformed into the wrong amount; scientific notation '1e3' is also accepted despite not being documented.","defense":"The fixture examples are limited to PE notation.","verdict":"CONFIRMED","impact":"A syntactically plausible but wrong monetary value can autoenter cross-field validation.","repair":"Validate an explicit regex/grammar before conversion; reject unsupported mixed separators/scientific notation instead of guessing."},
+    {"id":"S24-F18","severity":"P1","category":"RUC_NORMALIZATION_CORRUPTION","evidence":"norm_ruc rejects only [A-Za-z] then removes every remaining non-digit with \\D.","attack":"Runtime shows Ñ, emoji and unsupported separators can be silently deleted, producing a plausible 11-digit RUC despite the prose 'una letra -> None'.","defense":"Common ASCII OCR confusions are caught.","verdict":"CONFIRMED","impact":"Unexpected OCR corruption can be converted into an invented identity-like identifier.","repair":"Allowlist only documented benign separators; any other Unicode letter/symbol/control character -> None/review. Preserve raw value alongside normalized."},
+    {"id":"S24-F19","severity":"P1","category":"SCHEMA_NOT_EXECUTABLE","evidence":"SCHEMA is {'ruc':'str11','total':'float','fecha':'date'} but is never used to drive validation and does not encode requiredness despite prose saying schema defines required fields.","attack":"schema_version is manually printed while behavior is hardcoded elsewhere.","defense":"Pure normalization functions make concepts easy to learn.","verdict":"CONFIRMED","impact":"Changing the schema does not change the validator; the advertised versioned contract is decorative.","repair":"Represent required/type/normalizer/rules in one schema object and have extraction/validation consume that exact version."},
+    {"id":"S24-F20","severity":"P1","category":"MISSING_FIELD_FAIL_STOP","evidence":"validate accesses doc['total']; a missing total raises KeyError.","attack":"Theory says missing/low-quality docs accumulate reasons and one bad doc must not stop the batch.","defense":"The happy-path fixture always includes total.","verdict":"CONFIRMED","impact":"A common OCR omission can crash processing instead of entering human review.","repair":"Validate presence/types before arithmetic; missing total -> total_missing reason and needs_review; never perform subtraction on absent/invalid values."},
+    {"id":"S24-F21","severity":"P1","category":"CRITICAL_FIELD_CONFIDENCE_INCOMPLETE","evidence":"T2 identifies RUC and total as critical, but validate checks only conf_ruc and ignores total/fecha confidence and fecha validity.","attack":"A low-confidence total can auto-pass if the arithmetic happens to match the same OCR-derived lines.","defense":"RUC is used as the focused didactic example.","verdict":"CONFIRMED","impact":"The field-by-field abstention policy is not actually field-by-field.","repair":"Drive confidence/required checks from schema for every critical field and distinguish missing confidence from low confidence."},
+    {"id":"S24-F22","severity":"P1","category":"REVIEW_QUEUE_NOT_IMPLEMENTED","evidence":"validate returns ('needs_review', reasons) but no queue item contains source, page, bbox, raw/normalized values or review state.","attack":"Roadmap T3 and job relevance explicitly promise a human review queue as the product.","defense":"A status tuple can illustrate routing logic.","verdict":"CONFIRMED","impact":"The reviewer cannot perform the evidence check the narrative describes.","repair":"Create a persisted/synthetic queue record with run/doc/page/field/raw/value/conf/bbox/reasons/status and reviewer decision fields."},
+    {"id":"S24-F23","severity":"P2","category":"BATCH_BEHAVIOR_UNEARNED","evidence":"Theory says one needs_review document should not stop the nightly batch, but no theory code iterates documents or isolates per-document failures.","attack":"The code even has KeyError paths that could terminate a batch.","defense":"Batch orchestration may be deferred to S26.","verdict":"CONFIRMED","impact":"Learner sees a throughput guarantee not demonstrated at this layer.","repair":"Add a tiny three-document fixture: ok/review/parser-error; prove all records yield terminal intake states without losing later documents."},
+    {"id":"S24-F24","severity":"P1","category":"GOLDEN_MISSINGNESS_METRIC","evidence":"field_acc uses raw equality pred==true and divides by len(rows).","attack":"None==None is counted correct; an empty golden raises ZeroDivisionError. Missing ground truth/prediction need explicit scoring policy.","defense":"Current fixture contains complete labels.","verdict":"CONFIRMED","impact":"Accuracy can be inflated by jointly missing fields and the evaluation crashes on an empty slice.","repair":"Define eligible labeled denominator, extraction/missing rates and conditional exact-match separately; return NA/not_evaluable for n=0."},
+    {"id":"S24-F25","severity":"P1","category":"COVERAGE_DENOMINATOR","evidence":"coverage_auto = auto/(auto+review), while T4-B introduces reject and OCR-failure/fallback outcomes.","attack":"Rejects/ocr_fail disappear from the denominator, making end-to-end automation coverage look better than intake reality.","defense":"The formula may mean coverage among admitted/extracted documents only.","verdict":"CONFIRMED","impact":"Dashboard can report 0.7 when end-to-end intake auto coverage is 0.35 for the same 7 auto,3 review,5 reject,5 fail population.","repair":"Name denominators explicitly: admitted_selective_coverage and end_to_end_auto_rate; report reject/fail/rescan separately."},
+    {"id":"S24-F26","severity":"P1","category":"SELECTIVE_EVAL_DISCONNECTED","evidence":"field accuracy is computed on a 2-doc golden while coverage_auto uses unrelated hardcoded 7/3 counts.","attack":"You cannot judge whether a confidence threshold improves safe automation when accuracy and coverage are not computed from the same predictions/threshold.","defense":"The paragraph says they are different metrics and the tiny numbers are pedagogical.","verdict":"CONFIRMED","impact":"The central abstention trade-off is described but not measured.","repair":"On one golden set, apply threshold t, compute coverage(t), error/accuracy on autoaccepted critical fields, review rate and threshold curves/slices."},
+    {"id":"S24-F27","severity":"P2","category":"SLO_SAMPLE_SIZE","evidence":"A 2-document golden is discussed next to per-field SLOs without uncertainty/sample counts beyond n implicit in code.","attack":"Two examples cannot support a reliability commitment.","defense":"It is explicitly a tiny synthetic teaching set, not a production benchmark.","verdict":"CONFIRMED","impact":"A novice may confuse formula demonstration with evidence sufficient to set an SLO.","repair":"Separate 'toy calculation' from 'gate dataset'; always report n and uncertainty/error slices before promoting an SLO claim."},
+    {"id":"S24-F28","severity":"P2","category":"HOSTILE_FILE_SCOPE","evidence":"Heading says hostile files, but implemented gate is only caller-provided MIME + compressed byte size; prose acknowledges this as layer 1.","attack":"Small malicious PDFs/images or spoofed MIME can still reach vulnerable parsers; file size alone does not bound page/content-stream/decompression work.","defense":"The section explicitly says signatures/isolated parsing/sandbox are production layer 2, so it does not fully claim security.","verdict":"CONFIRMED","impact":"The heading/outcome can still be read as stronger protection than the executable code provides.","repair":"Call it 'layer-1 admission screen'; add at least a magic-signature negative fixture and resource/page/time budget concept, with deeper parsing explicitly deferred."},
+    {"id":"S24-F29","severity":"P1","category":"ADMISSION_METADATA_FAIL_STOP","evidence":"gate_file directly indexes meta['mime'] and meta['n_bytes'].","attack":"Missing/malformed metadata raises KeyError rather than a controlled reject/review reason.","defense":"Fixtures always provide both fields.","verdict":"CONFIRMED","impact":"Malformed intake metadata can stop the worker before the advertised fallback/review routing.","repair":"Validate metadata schema first; absent/invalid fields -> reject/review with explicit reason and continue batch."},
+    {"id":"S24-F30","severity":"P1","category":"FALLBACK_NOT_IMPLEMENTED","evidence":"Learning outcome and T4-B prose promise ocr_fail -> human_rescan, but hostile_gate.py has no OCR failure path or rescan record.","attack":"The fallback is a major T4 ownership item, not a footnote.","defense":"gate_file runs before OCR, so failure may occur later.","verdict":"CONFIRMED","impact":"The learner never demonstrates the terminal state that is supposed to prevent retry loops on corrupt documents.","repair":"Add an OCR result/error router with bounded retry for transient engine faults and human_rescan for deterministic/corrupt input, preserving reason/evidence."},
+    {"id":"S24-F31","severity":"P1","category":"PRIVACY_VS_AUDIT_CONTRADICTION","evidence":"T4-B paragraph says bbox needs a controlled revisable rendition; callout says 'Borra imágenes crudas cuando el expediente solo necesita campos + bbox'.","attack":"If that raw/processed image is the only review rendition, deleting it makes bbox evidence unusable.","defense":"The paragraph itself asks for a controlled review copy and expiry.","verdict":"CONFIRMED","impact":"A privacy instruction can destroy the evidence required for HITL/audit.","repair":"Define retention classes explicitly: keep the exact review rendition under access control until decision/retention expiry; delete redundant raw copies only after evidence lineage remains usable."},
+    {"id":"S24-F32","severity":"P2","category":"UNTRUSTED_DOCUMENT_TEXT_HANDOFF","evidence":"Extracted OCR text is normalized as data but never marked untrusted before the next S25 LLM/prompting section.","attack":"Hostile documents can contain instructions/markup that should remain data, not control text for downstream models.","defense":"Prompt injection is explicitly owned by S25.","verdict":"CONFIRMED","impact":"The S24->S25 handoff lacks a simple trust-boundary label.","repair":"Mark source/OCR text as untrusted_document_content and require downstream prompt/template separation; leave detailed prompt-injection defenses to S25."},
+    {"id":"S24-F33","severity":"P2","category":"REDACTION_WIDOW_TERMS","evidence":"Dense terms include intake, bbox, confidence, schema, cross-field, golden, coverage_auto, HITL, fallback, deskew, crop, layout, adapter and runbook.","attack":"Many are introduced in English before a stable Spanish mental model, despite ZERO_TECH entry assumptions.","defense":"Literal API/data-contract names must remain recognizable to practitioners.","verdict":"CONFIRMED","impact":"Language switching adds extraneous cognitive load to an already high-load document pipeline.","repair":"Introduce Spanish first plus literal term once: admisión (intake), caja delimitadora (bbox), confianza, esquema, validación entre campos, conjunto de referencia (golden), cobertura automática, revisión humana, alternativa/fallback."}
+  ],
+  "rejected_or_bounded_hypotheses": [
+    {"hypothesis":"Any use of FakeOcrAdapter makes the section invalid.","verdict":"REJECTED","reason":"Deterministic fake OCR is appropriate for parsing/abstention unit tests when clearly labeled; the defect is relying on it alone for the document-extraction gate."},
+    {"hypothesis":"Any page below 300 dpi must be rejected.","verdict":"REJECTED","reason":"300 dpi is a useful Tesseract quality recommendation, not a universal hard boundary; the defect is the unexplained 300-vs-200 policy and fake metadata promotion."},
+    {"hypothesis":"An 11-digit RUC must be validated against SUNAT or a checksum in S24.","verdict":"REJECTED","reason":"The section explicitly limits itself to syntactic normalization and avoids claiming legal identity; no external legal-identity validation is required here."},
+    {"hypothesis":"A fixed 0.85 confidence threshold is inherently wrong.","verdict":"REJECTED_AS_ABSOLUTE","reason":"It is clearly labeled didactic; the required fixes are confidence-scale normalization and later empirical threshold evaluation on the same golden set."},
+    {"hypothesis":"MIME+size must constitute a complete hostile-file security boundary in this lab.","verdict":"REJECTED_AS_ABSOLUTE","reason":"The prose explicitly calls it layer 1 and names stronger production layers; findings target the residual overstatement, missing metadata handling and unimplemented fallback rather than demanding a full malware sandbox in S24."}
+  ],
+  "graph_memory": {
+    "usable": [
+      "abstention is a valid quality outcome",
+      "confidence does not prove business/legal correctness",
+      "bbox/evidence should accompany extracted values",
+      "orientation/preprocessing should occur before OCR when needed",
+      "matching or accounting mismatch is not a fraud label",
+      "golden evaluation should be field-specific rather than one aggregate score"
+    ],
+    "partial": [
+      "source artifact provenance from S23",
+      "capture-resolution gate",
+      "actual deskew/crop/contrast/noise correction",
+      "orientation fail-closed policy",
+      "OCR confidence normalization/calibration",
+      "bbox coordinate provenance",
+      "versioned schema enforcement",
+      "human review queue",
+      "selective accuracy/coverage evaluation",
+      "hostile-file admission and human_rescan fallback"
+    ],
+    "misconception_risk": [
+      "changing dpi metadata improves captured detail",
+      "deskew_applied=true proves deskew happened",
+      "raw Tesseract confidence is on a 0-1 scale",
+      "global y/x sorting is a general reading-order algorithm",
+      "key-value parsing can discard bbox/confidence safely",
+      "float is the canonical type for PEN",
+      "unsupported separators can be guessed safely",
+      "None==None should count as OCR field accuracy",
+      "auto/(auto+review) is always end-to-end automation coverage",
+      "bbox alone remains meaningful after geometric transforms or source-image deletion"
+    ],
+    "carry_forward_to_S25": [
+      "S25 must consume OCR fields only from a source_doc/page lineage with full hashes and evidence refs; S24 source_doc_id alone is not creditable.",
+      "Treat OCR/source text as untrusted_document_content; never concatenate it into instruction/system control text.",
+      "Do not treat S24 confidence 0.85 or status=auto as proof of correctness; preserve field confidence, review state and threshold version.",
+      "Preserve raw value plus normalized value; do not let an LLM repair RUC/money/date silently.",
+      "PEN values must use Decimal/integer cents rather than S24 float outputs.",
+      "If bbox evidence is required for review, retain the exact controlled rendition/coordinate mapping until review/retention expiry.",
+      "Rejected/ocr_fail/human_rescan records belong in S25 denominator/provenance; do not train/evaluate only on successful auto extracts."
+    ]
+  }
+}
