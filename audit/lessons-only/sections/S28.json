@@ -1,0 +1,170 @@
+{
+  "schema_version": "2.4.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S28",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s28-llm-agents.ts",
+  "canonical_blob_sha": "0e118a78c9737ade3fbeaba7f6a8d683898a6aa0",
+  "title": "Pruebas de datos, propiedades e integración",
+  "short_title": "Propiedades e integración",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "canonical_mapping": {
+    "index_file": "src/lib/course/index.ts",
+    "import": "section28 from ./sections/s28-llm-agents",
+    "status": "VERIFIED"
+  },
+  "prior_audit": {
+    "status": "NONE_FOUND_ON_AUDIT_BRANCH",
+    "method": "Direct fetch of audit/lessons-only/sections/S28.json returned 404 before creation."
+  },
+  "learner_entry_state": {
+    "baseline": "COMPETENT_ENTRY_BUT_PRIOR_GATES_NOT_CREDITABLE",
+    "prerequisites": ["Level 2", "S27"],
+    "credit_rule": "Only prior concepts adjudicated USABLE count as learned.",
+    "critical_dependency_warning": "S26 and S27 remain REPAIR_REQUIRED. S28 must not assume N2/CF-2 passed or that print-only pseudo-tests from S27 are executable evidence.",
+    "required_regression_carry_forward": [
+      "partial-cycle DAG must fail explicitly",
+      "rejected/error/missing HITL states must block",
+      "final approval must bind exact draft hash and recipients",
+      "idempotency must survive duplicate/concurrent/restart cases",
+      "compensation must preserve history",
+      "retry must distinguish transient/permanent/outcome-unknown",
+      "checkpoint must survive process restart",
+      "E2E promotion must derive from observed manifests"
+    ]
+  },
+  "roadmap_expectation": {
+    "source": "learning_roadmap_52_V3.md",
+    "prerequisite": "S27 / Level 2",
+    "environment": "local/CI",
+    "project": "QA del motor ER",
+    "T1": "properties/invariants/case generation plus idempotence, symmetry and metamorphic tests",
+    "T2": "schema/data-quality contracts plus golden datasets, drift and reconciliation",
+    "T3": "HTTP/DB/clock doubles plus contract tests without over-mocking",
+    "T4": "integration/E2E/testcontainers plus flakes, determinism and CI",
+    "gate": "suite finds encoding, cardinality, ordering, timeout and resumption errors with minimal synthetic fixtures"
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/",
+    "status": "PUBLIC_CARD_VERIFIED_BODY_NOT_HYDRATED_IN_TEXT_FETCH",
+    "evidence": "Public card exposes Section 28 'Propiedades e integración' with the same tagline about encoding/cardinality/order/timeout/resumption. Render-only defects were not invented."
+  },
+  "external_research": [
+    "Hypothesis 6.167.1: property-based testing generates examples from strategies, shrinks failures, persists/reuses failing examples; property-based testing is an addition to unit tests, not always a replacement.",
+    "Hypothesis reproduction: falsifying examples/example database/reproduce_failure are primary mechanisms; a seed is not normally the sole exact failure artifact.",
+    "pytest current docs: real fixtures are dependency-injected and support function/class/module/package/session scopes plus yield teardown; monkeypatch is a scoped supported fixture.",
+    "Python unittest.mock docs: autospec/spec can detect fake/mock API drift and wrong signatures.",
+    "Testcontainers: containers provide throwaway real service types and avoid semantic gaps of in-memory substitutes; same type/version/config still has to be chosen explicitly.",
+    "Python str.casefold is more aggressive than lower; it removes case distinctions such as ß→ss but does not perform Unicode normalization.",
+    "Python random docs recommend independent Random instances when state isolation matters.",
+    "IANA reserved example domains do not include example.pe."
+  ],
+  "audit_metadata": {
+    "theory_blocks_reviewed": 10,
+    "paragraphs_reviewed": 33,
+    "paragraphs_expected": 33,
+    "paragraph_coverage_complete": true,
+    "learning_outcomes_reviewed": 8,
+    "theory_code_blocks_reviewed": 8,
+    "theory_outputs_reviewed": 8,
+    "theory_callouts_reviewed": 9,
+    "theory_figures_reviewed": 2,
+    "runtime_validation": {
+      "checks": [
+        "validate_record accepts id='   ', email='@', score=True with zero errors despite claimed type/domain contracts.",
+        "sim_token('', '') returns 1.0, treating two missing names as perfect similarity.",
+        "casefold+split normalize does not unify NFC 'José' and NFD 'José', contradicting the later integration requirement to unify NFC/NFD.",
+        "T1-A/T1-B/T2/T3/T4 theory snippets predominantly print booleans/results; several can report false/wrong values without failing pytest because they are not pytest tests.",
+        "golden reconcile(old,new,approved=True) only returns the string 'updated'; it neither persists a new golden nor records reviewer/timestamp/note/hash.",
+        "FakeHTTP only returns status/body; no retry/timeout behavior is executed despite prose claiming 503 retry evidence.",
+        "integration_sqlite returns entities/pairs/encoding but has no assertions and does not test ordering, timeout, checkpoint or restart.",
+        "flaky_bad is effectively always true: datetime.now().microsecond >= 0 is tautological and random.random()>0 fails only at the exact zero value."
+      ]
+    }
+  },
+  "quality_score": 2.5,
+  "verdict": "REPAIR_REQUIRED",
+  "severity_counts": {"P0": 0, "P1": 17, "P2": 17, "P3": 0},
+  "findings": [
+    {"id":"S28-F01","severity":"P1","title":"KNOWN_S26_REGRESSIONS_IGNORED_AT_LEVEL3_ENTRY","evidence":"S27 carry-forward requires a minimal inherited regression pack for cycle/HITL/idempotency/restart/compensation/E2E; S28 theory starts new ER properties without those tests.","impact":"The course teaches risk-first testing while ignoring the highest-known regression risks at the level boundary.","attack":"A new suite can go green while the known S26 critical controls remain broken.","defense":"S28 is scoped to QA of CP-N3-A rather than retrofitting all Level-2 defects.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F02","severity":"P1","title":"NON_RESERVED_EXAMPLE_PE_REINTRODUCED","evidence":"Fixtures and FakeHTTP use @example.pe / https://example.pe/er.","impact":"A supposedly synthetic namespace can become routable when tests later cross real HTTP/email boundaries.","attack":"IANA reserves example.com/example.org and special-use test domains, not example.pe.","defense":"No canonical snippet performs a real request to that URL today.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F03","severity":"P1","title":"SYSTEMATIC_PYTEST_PROMISE_STILL_REPLACED_BY_PRINTS","evidence":"Theory snippets compute idempotent_ok/symmetric/meta/dirty/drift/contract/encoding/stable and print them; they are not collected pytest assertions.","impact":"A broken contract can print False and the process can still exit successfully.","attack":"Roadmap says from S27 pytest is systematic and S28 gate is an executable suite.","defense":"I Do later contains some test_* functions and the theory code is illustrative.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F04","severity":"P2","title":"PROPERTY_FIGURE_FALSELY_NESTS_EXAMPLE_TESTS_INSIDE_PROPERTY_TESTS","evidence":"Figure alt describes property-based as a containing region around example-based tests.","impact":"Learner may infer property tests subsume example tests instead of complementing them.","attack":"Current Hypothesis docs explicitly say property-based testing is a powerful addition and not always a replacement.","defense":"The figure likely intends to convey broader input exploration, not formal set inclusion.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F05","severity":"P2","title":"PROPERTY_QUANTIFIER_OMITS_INPUT_DOMAIN","evidence":"Opening says a property must hold siempre / sin importar la entrada.","impact":"Learner may apply invariants to invalid inputs outside the declared strategy/preconditions.","attack":"Properties quantify over a defined domain/strategy, not arbitrary Python values.","defense":"Subsequent text mentions strategies and generated input spaces.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F06","severity":"P2","title":"HYPOTHESIS_REPRODUCTION_MISSTATED_AS_EXACT_SEED","evidence":"Opening claims that on a counterexample the tool returns the exact seed to reproduce it.","impact":"Creates the wrong failure-reproduction model for Hypothesis.","attack":"Hypothesis primarily reports falsifying examples, uses its example database and can emit reproduce_failure; seed is not normally the sole artifact.","defense":"Hypothesis does expose seed controls and can print seeds in some situations.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F07","severity":"P2","title":"HUNDREDS_OF_INPUTS_FALSE_PRECISION","evidence":"Opening says the machine generates hundreds of inputs.","impact":"Turns configurable test effort into a pseudo-guaranteed quantity.","attack":"Current Hypothesis default max_examples is 100 and actual execution can differ due to phases/filtering/settings.","defense":"The word is illustrative rather than a formal guarantee.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F08","severity":"P1","title":"T1A_INVARIANT_FAILURE_DOES_NOT_FAIL_THE_SUITE","evidence":"invariants_gen.py accumulates bad cases and prints idempotent_ok instead of asserting len(bad)==0.","impact":"A discovered counterexample can leave the script exit code green.","attack":"This defeats the section's executable-contract gate.","defense":"The boolean makes the result visible to a reader.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F09","severity":"P2","title":"GLOBAL_FIXED_RANDOM_SEED_BOTH_NARROWS_EXPLORATION_AND_MUTATES_SHARED_STATE","evidence":"random.seed(42) is called at module level and stable() reseeds the module RNG.","impact":"Tests repeatedly explore the same small sample and can couple other tests through global RNG state.","attack":"Use random.Random(seed) for isolation and property tooling/example database for broader exploration.","defense":"Fixed seeds provide deterministic CI and reproducibility for a beginner lab.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F10","severity":"P2","title":"RANDOM_WITHOUT_SEED_EQ_FLAKE_OVERGENERALIZATION","evidence":"Callout says Random sin seed en CI es flake.","impact":"Conflates nondeterministic input generation with intermittent test failure.","attack":"A randomized test can remain correct if failures are reproducible/captured; a flake is intermittent pass/fail without code change.","defense":"Uncontrolled randomness is a common cause of flaky behavior.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F11","severity":"P1","title":"EMPTY_EMPTY_NAMES_SCORE_AS_PERFECT_MATCH","evidence":"sim_token returns 1.0 when both token sets are empty and the canonical pairs include ('','').","impact":"Missing data becomes strong positive identity evidence.","attack":"Two unknown names should not create perfect evidence unless the contract explicitly defines a special non-evidentiary sentinel.","defense":"Mathematically some Jaccard conventions define empty-empty similarity as 1.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F12","severity":"P2","title":"DIRECTED_EDIT_DISTANCE_EXAMPLE_MISLEADS","evidence":"Callout contrasts test_jaccard_is_symmetric with test_edit_distance_directed.","impact":"Learner may believe standard edit/Levenshtein distance is inherently directed.","attack":"Standard Levenshtein with symmetric costs is symmetric; direction requires a deliberately asymmetric cost/algorithm contract.","defense":"The text says algunas distancias dirigidas rather than all edit distances.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F13","severity":"P2","title":"CASEFOLD_ONLY_CASING_ABSOLUTE_IS_TECHNICALLY_FALSE","evidence":"Text says casefold normaliza mayúsculas y minúsculas, y solo eso.","impact":"Creates an inaccurate Unicode model.","attack":"Python documents casefold as more aggressive than lower, e.g. ß→ss; the correct limit is that it is not Unicode normalization.","defense":"The intended warning—casefold does not normalize NFC/NFD—is correct.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F14","severity":"P1","title":"METAMORPHIC_TEST_TESTS_DUPLICATED_INLINE_EXPRESSION_NOT_PRODUCTION_NORMALIZER","evidence":"meta_ok repeats join/split/casefold expressions on both sides instead of calling the normalize API used by the ER pipeline.","impact":"Production normalize can be broken while this property remains green.","attack":"Properties must target the actual public behavior under test.","defense":"The expression demonstrates the mathematical relation in minimal code.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F15","severity":"P1","title":"SCHEMA_VALIDATOR_DOES_NOT_ENFORCE_ITS_DECLARED_TYPES_AND_DOMAINS","evidence":"validate_record accepts id='   ', email='@', score=True and accepts numeric strings through float coercion.","impact":"Rows can satisfy the regression contract while violating the stated schema.","attack":"A schema contract should distinguish type validation from intentional coercion and reject whitespace-only identifiers/degenerate addresses.","defense":"The validator is explicitly didactic and minimal.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F16","severity":"P1","title":"BATCH_QUALITY_CLAIMS_ARE_NOT_TESTABLE_BY_ROW_VALIDATOR","evidence":"Prose names unique ids, pair cardinality and UTF-8 legibility; validate_record only sees one decoded dict.","impact":"Core quality invariants can never fail in the demonstrated contract.","attack":"Uniqueness/cardinality require batch context and encoding requires byte/decode boundary evidence.","defense":"Later integration code covers pair count and Unicode normalization partially.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F17","severity":"P1","title":"FAIL_CLOSED_BATCH_STOP_EXISTS_ONLY_IN_PROSE","evidence":"Theory says a broken batch stops with report; code only builds report and prints dirty_n.","impact":"The learner sees detection but not enforcement.","attack":"A regression gate must raise/fail or return an explicit blocking result consumed by the caller.","defense":"The snippet focuses on the validator rather than orchestration.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F18","severity":"P1","title":"GOLDEN_IS_NOT_A_VERSIONED_PERSISTED_ARTIFACT","evidence":"golden_drift.py constructs two in-memory dicts and compares them.","impact":"The section does not demonstrate the file/version/change-review properties that define a golden snapshot.","attack":"No JSON/CSV file is loaded, hashed, committed or diffed.","defense":"In-memory dicts isolate the drift/reconcile concept from file I/O.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F19","severity":"P1","title":"GOLDEN_APPROVAL_IS_AN_UNAUTHENTICATED_BOOLEAN_AND_RECONCILE_DOES_NOT_RECONCILE","evidence":"reconcile(old,new,approved=True) returns 'updated' but records no reviewer/timestamp/note/hash and persists nothing.","impact":"A caller can self-approve a regression and no auditable golden changes.","attack":"This contradicts the paragraph requiring human review plus change note.","defense":"approved is a didactic placeholder for a later workflow.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F20","severity":"P2","title":"RAW_GOLDEN_EQUALITY_CONFUSES_ORDER_NOISE_WITH_SEMANTIC_DRIFT","evidence":"golden != current compares list order directly while prose identifies ordering as possible noise.","impact":"Harmless ordering changes can block CI or be misclassified as matcher drift.","attack":"Canonicalize unordered pair sets and controlled numeric tolerances before semantic diff.","defense":"The supplied minimal fixture preserves order so the immediate example is deterministic.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F21","severity":"P2","title":"DRIFT_TERM_OVERLOADED_WITH_SNAPSHOT_DIFFERENCE","evidence":"Any golden diff is called drift.","impact":"Prepares confusion with later data/model drift where the measured phenomenon is distribution/performance change over time.","attack":"Use golden_diff/snapshot_diff here and reserve drift or qualify it explicitly.","defense":"The paragraph defines its local meaning before use.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F22","severity":"P1","title":"503_RETRY_AND_TIMEOUT_CLAIM_NOT_EXECUTED","evidence":"T3-A says the pattern demonstrates retries on 503; FakeHTTP only returns a dict containing status and no service/retry function is called.","impact":"A learner may mistake controllable fake response data for tested retry behavior.","attack":"Inject a sequence of 503/200 or timeout exception and assert attempts/backoff/result.","defense":"The subtopic's primary construct is doubles, not retry policy itself.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F23","severity":"P2","title":"FAKE_HTTP_CAN_DRIFT_FROM_REAL_CLIENT_CONTRACT","evidence":"FakeHTTP invents get_json(url) and arbitrary response shape without interface/spec checking.","impact":"Production client signature/shape can change while fake-based tests remain green.","attack":"Use a Protocol/interface, contract test, or autospec for mocks where appropriate.","defense":"A hand-written fake can intentionally implement a stable application-owned adapter interface.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F24","severity":"P2","title":"MOCKS_DEFINED_BUT_NO_ACTUAL_MOCK_INTERACTION_TEST_IS_SHOWN","evidence":"T3-A defines Mock/Fake/Stub, but canonical executable demonstrates only hand-written fakes/dicts.","impact":"The learner cannot practice when interaction assertions are useful or risky.","attack":"Show one autospecced interaction boundary and contrast it with fake state-based testing.","defense":"Learning outcome emphasizes controlled doubles broadly, not unittest.mock specifically.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F25","severity":"P2","title":"GLOBAL_PATCHING_DISMISSED_TOO_BROADLY","evidence":"Callout says no parches globales salvo legado.","impact":"Learner may avoid safe scoped environment/module patches even when dependency injection is impractical.","attack":"pytest monkeypatch is a supported fixture that restores changes automatically after the test.","defense":"Dependency injection is generally the more explicit design for application-owned dependencies.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F26","severity":"P1","title":"TEXT_NORMALIZATION_CONTRACT_CONTRADICTS_ITS_OWN_NFC_NFD_REQUIREMENT","evidence":"T3-B normalize uses casefold+split only; T4-A says NFC/NFD must be unified with unicodedata.normalize.","impact":"Visually equivalent names can fail match in one canonical layer and pass in another.","attack":"Runtime check: 'José' NFC and its NFD form remain unequal after casefold+split.","defense":"T4-A introduces the additional normalization specifically at integration time.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F27","severity":"P2","title":"FAKE_NETWORK_OR_DISK_HEURISTIC_TOO_BROAD","evidence":"T3-B says if code talks to network or disk, fake the boundary.","impact":"Learner may mock away the filesystem/database integration behavior the test is supposed to verify.","attack":"Choose doubles based on test scope; tmp_path/SQLite/Testcontainers should remain real when that boundary is the construct.","defense":"The surrounding paragraph is explicitly warning against over-mocking and later demonstrates real SQLite.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F28","severity":"P1","title":"INTEGRATION_DEMO_HAS_NO_ASSERTIONS_OR_PYTEST_GATE","evidence":"integration_sqlite.py returns n/pairs/encoding_ok and prints them.","impact":"A wrong row count or pair result can still produce exit code 0.","attack":"The integration block should be a real test with exact assertions and cleanup fixture.","defense":"The query itself is real SQLite integration rather than a fake DB.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F29","severity":"P1","title":"TAGLINE_PROMISE_TIMEOUT_ORDER_AND_RESUMPTION_UNEARNED","evidence":"Public/source tagline promises encoding, cardinality, order, timeout and resumption; theory executes only basic Unicode normalization and a pair query plus deterministic sorting.","impact":"Learner can complete theory without ever proving timeout or checkpoint resumption.","attack":"Add explicit failure-injection tests for timeout and persistent checkpoint restart.","defense":"Some of these dimensions may be exercised in later I Do/practice content outside LESSONS_ONLY scope.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F30","severity":"P1","title":"NO_REAL_E2E_INGEST_TO_PAIRS_TO_REVIEW","evidence":"T4-A defines E2E as ingest→pairs→review, but canonical theory only creates a SQLite table and query.","impact":"The distinction between integration and E2E is described but not demonstrated.","attack":"Run a synthetic record through validation, persistence, candidate generation and review artifact creation.","defense":"Roadmap increment emphasizes a suite, and a minimal integration example need not also be full E2E.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F31","severity":"P1","title":"FLAKY_BAD_IS_EFFECTIVELY_A_TAUTOLOGY_NOT_A_FLAKE","evidence":"random.random()>0.0 almost always true and datetime.now().microsecond>=0 is always true.","impact":"The canonical anti-pattern almost never exhibits the intermittent failure it claims to model.","attack":"Use an actually intermittent predicate or better, an order/time-dependent deterministic reproducer.","defense":"It visually contains two uncontrolled dependencies and is labeled anti-pattern.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F32","severity":"P2","title":"FLAKE_RATE_GATE_HAS_NO_MEASUREMENT_CONTRACT","evidence":"Prose says job fails if flake_rate>0 but defines no repeated-run population, window, denominator or quarantine treatment.","impact":"A metric can be reported or gamed without a reproducible definition.","attack":"Define attempts/runs/test set/window and distinguish first-run failure from retry recovery.","defense":"Zero flakes is an aspirational gate and details could live in CI tooling.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F33","severity":"P2","title":"STABLE_HELPER_RESEEDS_GLOBAL_RNG_AND_CAN_COUPLE_TESTS","evidence":"stable(seed) calls random.seed(seed) on the module generator every invocation.","impact":"Tests executed after it may observe a reset random sequence.","attack":"Use rng=random.Random(seed) local to the helper/fixture.","defense":"The example is single-process and intentionally demonstrates deterministic output.","verdict":"CONFIRMED_FINDING"},
+    {"id":"S28-F34","severity":"P2","title":"CONTRACT_TEST_TERMINOLOGY_REMAINS_AMBIGUOUS","evidence":"Outcome says contract tests of borders while prose mostly means behavioral input/output tests; provider-consumer compatibility is not distinguished.","impact":"Learner can carry an overloaded meaning into service/API testing.","attack":"Name behavioral contracts/spec tests separately from interface/provider-consumer contract tests.","defense":"The local section context consistently uses contract as executable behavior, so readers can infer the intended sense.","verdict":"CONFIRMED_FINDING"}
+  ],
+  "rejected_findings": [
+    {"claim":"Hypothesis shrinking is invalid or outdated","verdict":"REJECTED_FINDING","reason":"Current Hypothesis 6.167.1 explicitly includes shrinking as a normal phase."},
+    {"claim":"Using SQLite in-memory is inherently invalid for integration testing","verdict":"REJECTED_FINDING","reason":"The section honestly limits SQLite to local schema/query logic and says a real container/dialect is needed later."},
+    {"claim":"Hand-written fakes are always inferior to mocks","verdict":"REJECTED_FINDING","reason":"Stateful fakes are often appropriate; the issue is interface parity and test scope, not the existence of fakes."},
+    {"claim":"Fixed seeds are always wrong","verdict":"REJECTED_FINDING","reason":"Fixed seeds are useful for determinism/reproduction; the defect is relying on one global fixed sample as the whole exploration strategy."},
+    {"claim":"Golden snapshots are inherently bad tests","verdict":"REJECTED_FINDING","reason":"Goldens can be valuable when versioned, canonicalized and review-gated; S28's problem is that those controls are only narrated."}
+  ],
+  "graph_memory": {
+    "usable": [
+      "property-based tests complement examples",
+      "idempotence and symmetry are useful when explicitly part of the API contract",
+      "metamorphic relations can serve as oracles when exact outputs are unknown",
+      "golden changes should not auto-accept silently",
+      "dependency injection improves test control",
+      "over-mocking pure logic is usually counterproductive",
+      "SQLite can be a limited local integration layer when its limits are stated",
+      "flake retries are not a substitute for root-cause repair"
+    ],
+    "partial": [
+      "Hypothesis mental model and failure reproduction",
+      "generated property tests under real pytest",
+      "batch schema/quality contracts",
+      "golden persistence/review provenance",
+      "HTTP/DB fake contract parity",
+      "timeout/retry tests",
+      "integration assertions",
+      "E2E ingest-to-review",
+      "flake-rate measurement"
+    ],
+    "misconception_risk": [
+      "property-based tests contain/replace example tests",
+      "a property holds for literally every possible input rather than the declared domain",
+      "Hypothesis failures are reproduced primarily by an exact seed",
+      "empty-empty similarity=1 is safe identity evidence",
+      "casefold performs only lowercasing-like changes",
+      "a row validator can prove batch uniqueness/cardinality/encoding",
+      "approved=True constitutes human-approved golden reconciliation",
+      "a fake response with status=503 proves retry behavior",
+      "print(encoding_ok) is an integration test gate",
+      "a nearly-always-true function demonstrates flakiness"
+    ]
+  }
+}
