@@ -1,32 +1,26 @@
 {
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "campaign_id": "lessons-only-adversarial-20260903",
   "continuation_date": "2026-09-04",
   "branch": "audit/lessons-only-adversarial-20260903",
-  "last_completed_section": "S19",
-  "last_completed_round": "S19-base-solarized-adversarial-audit-20260904",
+  "last_completed_section": "S20",
+  "last_completed_round": "S20-base-solarized-adversarial-audit-20260904",
   "last_completed_verdict": "REPAIR_REQUIRED",
   "last_completed_material_findings": 24,
   "section_artifacts": {
     "S17": {
       "base_audit": "audit/lessons-only/sections/S17.json",
-      "paragraph_shards": [
-        "audit/lessons-only/sections/S17.paragraphs-01.json",
-        "audit/lessons-only/sections/S17.paragraphs-02.json"
-      ],
+      "paragraph_shards": ["audit/lessons-only/sections/S17.paragraphs-01.json", "audit/lessons-only/sections/S17.paragraphs-02.json"],
       "round2": "audit/lessons-only/sections/S17.round2.json",
       "round2_paragraph_delta": "audit/lessons-only/sections/S17.round2.paragraph-delta.json",
       "source_blob_sha": "948e1c6d3b937313beee683974e4363c3c90c059",
-      "coverage": "38/38 theory paragraphs plus outcomes/code/figures/callouts from base audit; six paragraph adjudications changed in R2",
+      "coverage": "38/38 theory paragraphs plus outcomes/code/figures/callouts; six paragraph adjudications changed in R2",
       "material_findings": 21,
       "status": "AUDITED_REPAIR_REQUIRED"
     },
     "S18": {
       "base_audit": "audit/lessons-only/sections/S18.json",
-      "paragraph_shards": [
-        "audit/lessons-only/sections/S18.paragraphs-01.json",
-        "audit/lessons-only/sections/S18.paragraphs-02.json"
-      ],
+      "paragraph_shards": ["audit/lessons-only/sections/S18.paragraphs-01.json", "audit/lessons-only/sections/S18.paragraphs-02.json"],
       "source_file": "src/lib/course/sections/s18-data-engineering.ts",
       "source_blob_sha": "0e22a0e9024568478de1ee421b59a968747cf03c",
       "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
@@ -37,10 +31,7 @@
     },
     "S19": {
       "base_audit": "audit/lessons-only/sections/S19.json",
-      "paragraph_shards": [
-        "audit/lessons-only/sections/S19.paragraphs-01.json",
-        "audit/lessons-only/sections/S19.paragraphs-02.json"
-      ],
+      "paragraph_shards": ["audit/lessons-only/sections/S19.paragraphs-01.json", "audit/lessons-only/sections/S19.paragraphs-02.json"],
       "component_ledger": "audit/lessons-only/sections/S19.components.json",
       "source_file": "src/lib/course/sections/s19-databases-orm.ts",
       "source_blob_sha": "4babf21d54af98ad228f5bbc3e08e9dffe00456a",
@@ -48,36 +39,50 @@
       "coverage": "38/38 theory paragraphs + title/tagline/job relevance + 8 outcomes + 9 theory code/output blocks + 9 callouts + 1 figure",
       "material_findings": 24,
       "severity_counts": {"P0": 0, "P1": 13, "P2": 11, "P3": 0},
+      "status": "AUDITED_REPAIR_REQUIRED"
+    },
+    "S20": {
+      "base_audit": "audit/lessons-only/sections/S20.json",
+      "paragraph_shards": ["audit/lessons-only/sections/S20.paragraphs-01.json", "audit/lessons-only/sections/S20.paragraphs-02.json"],
+      "component_ledger": "audit/lessons-only/sections/S20.components.json",
+      "source_file": "src/lib/course/sections/s20-rag.ts",
+      "source_blob_sha": "c3bda4aa77a38430992c763b4149484d328c183e",
+      "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+      "coverage": "32/32 theory paragraphs + title/tagline/job relevance + 8 outcomes + 8 theory code/output blocks + 9 callouts + 1 figure",
+      "material_findings": 24,
+      "severity_counts": {"P0": 0, "P1": 17, "P2": 7, "P3": 0},
       "highest_risk_findings": [
-        "S19-F11 active filter Lima while accessible row/chart describe Madrid",
-        "S19-F12 one-scalar parity check returns a false green",
-        "S19-F17 final permitted claim contradicts the final alt data",
-        "S19-F07 export contract claims savefig while code creates no image",
-        "S19-F09 interactive accessibility omits keyboard/focus/tooltip behavior",
-        "S19-F19 SQL/ML leakage detour violates T4-B roadmap scope",
-        "S19-F20 false prerequisite says S09 taught ML leakage controls",
-        "S19-F21 unsafe 'describe con todo' rule can contaminate held-out test evaluation"
+        "S20-F05 copy/load/save protects the master but cannot generically prove output template fidelity; openpyxl documents unsupported shapes may be lost",
+        "S20-F10 final manifest hardcodes reconcile_ok/backup/idempotent instead of deriving observed evidence",
+        "S20-F15 reconciliation never reads the generated workbook or checks n_xlsx",
+        "S20-F17 structure_ok only checks headers and can be a false green",
+        "S20-F13 ISO date claim contradicts default openpyxl date serialization",
+        "S20-F14 PEN reconciliation regresses S02 Decimal contract",
+        "S20-F19/S20-F20/S20-F21 batch lock/corrupt/timeout/quarantine behavior is simulated or promised but not implemented",
+        "S20-F02/S20-F03/S20-F04 roadmap-owned tables/named ranges, charts/protection and visual tests are omitted"
       ],
       "status": "AUDITED_REPAIR_REQUIRED"
     }
   },
   "audit_protocol_delta": {
     "rule": "SIN_CAMBIO_DEFENDIDO/NO_MATERIAL_CHANGE => improved_content=null",
-    "reason": "Legacy S17 paragraph shards violated the campaign's own unchanged_paragraphs_keep_rewrite_null rule; S18 and S19 follow the corrected rule."
+    "reason": "Legacy S17 paragraph shards violated the campaign's unchanged rewrite-null rule; S18-S20 follow the corrected protocol."
   },
-  "next_section": "S20",
+  "next_section": "S21",
   "carry_forward_constraints": [
-    "Do not consume S19 figure metadata as evidence that a PNG/SVG artifact exists; verify actual saved bytes/file and manifest fields.",
-    "Do not inherit S19 chart-table parity as USABLE until parity compares category/key, metric, value, denominator, filter state and display precision, not one scalar.",
-    "Do not reuse the S19 T3-B fixture: it filters Lima but presents Madrid in the accessible equivalent.",
-    "Do not reuse the S19 final claim fixture: the alt data make Lima highest while the permitted claim says Madrid leads.",
-    "Carry separate denominator semantics into S20: rendered-point sample, analytical observations and eligible universe are not interchangeable n values.",
-    "Do not treat presence of source/cutoff strings as provenance; bind S20 workbook outputs to the validated analytical payload/data-note identity.",
-    "Do not inherit Madrid/Bogota/Berlin as peer 'Peru regions'; use a coherent geography or explicitly define a multinational market dimension.",
-    "Do not inherit the statement that S09 taught ML leakage; current S09 is Excepciones, debugging y logging seguro.",
-    "Do not use 'describe con todo' for held-out ML test data; keep final test data sealed during model-development EDA.",
-    "Accessibility remains PARTIAL: non-color redundancy is usable, but keyboard/focus/tooltip behavior, accessible table semantics and measurable contrast require repair before downstream dashboards/reports claim accessibility.",
-    "Preserve the unresolved S18 confidence-interval/provenance issues and the S02→S17→S18 Decimal-to-analytical-float boundary for PEN values consumed by S20."
+    "Do not trust S20 reconcile_ok, idempotent, backup or structural flags until they are derived from executed checks rather than hardcoded JSON.",
+    "Do not treat master_intact=True as proof the generated workbook preserved the template; S20 must define supported Excel features and validate/review the output copy.",
+    "Do not consume S20 workbook totals until the generated workbook is reopened and totals plus row counts are reconciled to the same validated upstream payload.",
+    "Preserve S02 Decimal/integer-cent money semantics at the reporting boundary; S20 float +/-0.01 is not creditable as the PEN contract.",
+    "Do not consume pandas groupby pivots without explicit missing-key policy; default dropna can silently remove money from visible summaries.",
+    "Do not use S20 input_sha1_8 as authoritative provenance; use full SHA-256 and bind input, template, output, code version, dependency versions and run id.",
+    "S20 ISO date handling is PARTIAL until wb.iso_dates or an explicitly documented Excel serial-date contract is tested on the saved file.",
+    "S20 batch lock handling is PARTIAL; PermissionError from a fake opener is not a universal Excel lock model.",
+    "S20 corrupt handling is PARTIAL; BadZipFile is only one invalid-workbook failure surface.",
+    "Do not claim S20 batch robustness until size limit, bounded processing/timeout strategy, quarantine action, all counters and summary JSON are actually implemented.",
+    "S20 is missing roadmap-owned worksheet tables, defined names, Excel chart handling, workbook/worksheet protection and visual workbook tests; S21 must not assume those competencies are learned.",
+    "Keep S19 accessibility constraints active in S21: parity must include key/metric/value/denominator/filter/precision, and keyboard/focus/table semantics remain unresolved.",
+    "Keep S18 statistical/provenance constraints active: do not turn an uncertain or hand-authored analytical value into a polished report merely because S20 placed it in Excel."
   ],
-  "status": "READY_TO_CONTINUE_WITH_S20"
+  "status": "READY_TO_CONTINUE_WITH_S21"
 }
