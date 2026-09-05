@@ -1,10 +1,10 @@
 {
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "campaign_id": "lessons-only-adversarial-20260903",
   "continuation_date": "2026-09-04",
   "branch": "audit/lessons-only-adversarial-20260903",
-  "last_completed_section": "S18",
-  "last_completed_round": "S18-base-solarized-adversarial-audit-20260904",
+  "last_completed_section": "S19",
+  "last_completed_round": "S19-base-solarized-adversarial-audit-20260904",
   "last_completed_verdict": "REPAIR_REQUIRED",
   "last_completed_material_findings": 24,
   "section_artifacts": {
@@ -33,33 +33,51 @@
       "coverage": "40/40 theory paragraphs plus 8 outcomes, 10 theory code blocks, 2 figures and 11 callouts",
       "material_findings": 24,
       "severity_counts": {"P0": 0, "P1": 10, "P2": 14, "P3": 0},
+      "status": "AUDITED_REPAIR_REQUIRED"
+    },
+    "S19": {
+      "base_audit": "audit/lessons-only/sections/S19.json",
+      "paragraph_shards": [
+        "audit/lessons-only/sections/S19.paragraphs-01.json",
+        "audit/lessons-only/sections/S19.paragraphs-02.json"
+      ],
+      "component_ledger": "audit/lessons-only/sections/S19.components.json",
+      "source_file": "src/lib/course/sections/s19-databases-orm.ts",
+      "source_blob_sha": "4babf21d54af98ad228f5bbc3e08e9dffe00456a",
+      "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+      "coverage": "38/38 theory paragraphs + title/tagline/job relevance + 8 outcomes + 9 theory code/output blocks + 9 callouts + 1 figure",
+      "material_findings": 24,
+      "severity_counts": {"P0": 0, "P1": 13, "P2": 11, "P3": 0},
       "highest_risk_findings": [
-        "S18-F19 T4-A question/metric region contradiction",
-        "S18-F20 hardcoded evidence presented as calculated bootstrap trace",
-        "S18-F21 documented filter never executed",
-        "S18-F22 final data-note example fails its own reproducibility contract",
-        "S18-F07 composition imbalance mislabeled as selection-bias magnitude",
-        "S18-F16 tiny segment anomaly rates omit n/uncertainty in output"
+        "S19-F11 active filter Lima while accessible row/chart describe Madrid",
+        "S19-F12 one-scalar parity check returns a false green",
+        "S19-F17 final permitted claim contradicts the final alt data",
+        "S19-F07 export contract claims savefig while code creates no image",
+        "S19-F09 interactive accessibility omits keyboard/focus/tooltip behavior",
+        "S19-F19 SQL/ML leakage detour violates T4-B roadmap scope",
+        "S19-F20 false prerequisite says S09 taught ML leakage controls",
+        "S19-F21 unsafe 'describe con todo' rule can contaminate held-out test evaluation"
       ],
       "status": "AUDITED_REPAIR_REQUIRED"
     }
   },
   "audit_protocol_delta": {
     "rule": "SIN_CAMBIO_DEFENDIDO/NO_MATERIAL_CHANGE => improved_content=null",
-    "reason": "Legacy S17 paragraph shards violated the campaign's own unchanged_paragraphs_keep_rewrite_null rule; S18 follows the corrected rule for all 40 paragraphs."
+    "reason": "Legacy S17 paragraph shards violated the campaign's own unchanged_paragraphs_keep_rewrite_null rule; S18 and S19 follow the corrected rule."
   },
-  "next_section": "S19",
+  "next_section": "S20",
   "carry_forward_constraints": [
-    "Do not inherit S18 confidence intervals as fully USABLE until the fixed-parameter interpretation and t-vs-z baseline are repaired.",
-    "Do not interpret region share differences as quantified selection bias or proof of representativeness.",
-    "Do not inherit bootstrap endpoints as stable without adequate replication count and recorded B/seed.",
-    "Do not reuse the manual double-argsort Spearman implementation on tied data.",
-    "Do not treat a preregistered repeated p<0.05 stopping rule as valid sequential inference.",
-    "Do not chart or rank S18 anomaly rates without numerator, denominator and low-n uncertainty warnings.",
-    "Do not trust T4-A insight traceability until question, filter, metric and interval are computed from one shared fixture rather than hand-authored.",
-    "Do not trust the S18 data note until declared filters execute and versions/schema/n_pre/n_post/limits/hash are derived from the actual analytical payload.",
-    "Preserve the unresolved S02->S17->S18 Decimal-to-analytical-float boundary for PEN in S19 charts and KPIs.",
-    "Correlation-not-causation and hallazgo-not-decision are USABLE; instrumental-variable design is MENTION_ONLY."
+    "Do not consume S19 figure metadata as evidence that a PNG/SVG artifact exists; verify actual saved bytes/file and manifest fields.",
+    "Do not inherit S19 chart-table parity as USABLE until parity compares category/key, metric, value, denominator, filter state and display precision, not one scalar.",
+    "Do not reuse the S19 T3-B fixture: it filters Lima but presents Madrid in the accessible equivalent.",
+    "Do not reuse the S19 final claim fixture: the alt data make Lima highest while the permitted claim says Madrid leads.",
+    "Carry separate denominator semantics into S20: rendered-point sample, analytical observations and eligible universe are not interchangeable n values.",
+    "Do not treat presence of source/cutoff strings as provenance; bind S20 workbook outputs to the validated analytical payload/data-note identity.",
+    "Do not inherit Madrid/Bogota/Berlin as peer 'Peru regions'; use a coherent geography or explicitly define a multinational market dimension.",
+    "Do not inherit the statement that S09 taught ML leakage; current S09 is Excepciones, debugging y logging seguro.",
+    "Do not use 'describe con todo' for held-out ML test data; keep final test data sealed during model-development EDA.",
+    "Accessibility remains PARTIAL: non-color redundancy is usable, but keyboard/focus/tooltip behavior, accessible table semantics and measurable contrast require repair before downstream dashboards/reports claim accessibility.",
+    "Preserve the unresolved S18 confidence-interval/provenance issues and the S02→S17→S18 Decimal-to-analytical-float boundary for PEN values consumed by S20."
   ],
-  "status": "READY_TO_CONTINUE_WITH_S19"
+  "status": "READY_TO_CONTINUE_WITH_S20"
 }
