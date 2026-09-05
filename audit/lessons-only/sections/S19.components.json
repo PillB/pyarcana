@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S19",
+  "coverage": "title + tagline + job relevance + 8 outcomes + 9 theory code/output blocks + 9 callouts + 1 figure",
+  "top_level": [
+    {
+      "locator": "title",
+      "current_content": "Visualización y comunicación accesible",
+      "status": "SIN_CAMBIO_DEFENDIDO",
+      "finding_ids": [],
+      "improved_content": null,
+      "justification": "Matches roadmap ownership and clearly names the section."
+    },
+    {
+      "locator": "tagline",
+      "current_content": "Cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a la evidencia y versión no visual equivalente.",
+      "status": "SIN_CAMBIO_DEFENDIDO",
+      "finding_ids": [],
+      "improved_content": null,
+      "justification": "Clear, measurable deliverable; defects are in implementation, not the tagline."
+    },
+    {
+      "locator": "jobRelevance",
+      "current_content": "En equipos de analítica y reportes en Perú (banca, retail, e-commerce, gobierno), una visualización accesible y honesta es el puente entre el EDA y las decisiones de un comité. Un dashboard que infla diferencias con el eje recortado, omite unidades o generaliza «Madrid lidera el Perú» desde una muestra web no es «bonito»: es un riesgo de reporte. Aquí aprendes a hacer charts con ejes honestos, tooltips y filtros modelados como especificación de datos, y alternativas no visuales con los mismos números para quien usa lector de pantalla.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S19-F18", "S19-F24"],
+      "improved_content": "En equipos de analítica y reportes en el Perú, una visualización accesible y honesta conecta el análisis con una decisión sin exagerar lo que los datos permiten afirmar. Un tablero que recorta una escala para agrandar diferencias, omite unidades o generaliza desde una muestra web a toda la población crea riesgo de reporte. Aquí aprenderás a elegir gráficos, modelar filtros y ayudas emergentes, exportar figuras reproducibles y ofrecer un equivalente no visual con la misma evidencia.",
+      "justification": "Removes impossible Madrid→Peru framing and unnecessary English while preserving relevance."
+    }
+  ],
+  "learning_outcomes": [
+    {"locator":"learningOutcomes[0]","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"note":"Question/audience/chart-choice outcome is aligned; audience model needs refinement in prose, not outcome rewrite."},
+    {"locator":"learningOutcomes[1]","status":"TIGHTEN_REQUIRED","finding_ids":["S19-F03"],"note":"Honest-axis goal is sound, but encoding hierarchy must be taught accurately."},
+    {"locator":"learningOutcomes[2]","status":"REPAIR_REQUIRED","finding_ids":["S19-F05"],"note":"Outcome explicitly includes bar count, but canonical code does not verify it."},
+    {"locator":"learningOutcomes[3]","status":"REPAIR_REQUIRED","finding_ids":["S19-F07"],"note":"Outcome requires export; canonical T2-B only simulates metadata."},
+    {"locator":"learningOutcomes[4]","status":"REPAIR_REQUIRED","finding_ids":["S19-F09","S19-F10"],"note":"Data-model interaction spec omits keyboard/focus behavior and does not demonstrate conclusion recalculation/state serialization."},
+    {"locator":"learningOutcomes[5]","status":"REPAIR_REQUIRED","finding_ids":["S19-F11","S19-F12","S19-F13","S19-F14"],"note":"Accessible-equivalent example contradicts active filter and parity test is too weak."},
+    {"locator":"learningOutcomes[6]","status":"TIGHTEN_REQUIRED","finding_ids":["S19-F15"],"note":"Caption fields exist but provenance is not bound to the analytical payload."},
+    {"locator":"learningOutcomes[7]","status":"TIGHTEN_REQUIRED","finding_ids":["S19-F16","S19-F17","S19-F18"],"note":"Non-color rule is good; contrast is unmeasurable and final claim contradicts final alt data."}
+  ],
+  "code_blocks": [
+    {
+      "locator": "reference.code.s19_map_contract.py",
+      "execution_status": "PASS",
+      "published_output_status": "MATCHES_EXECUTION",
+      "current_contract_gates": ["chart_by_question","baseline_0_absolute_bars","caption_unidad_fuente_limitacion","chart_table_parity","no_overclaim","alt_with_n"],
+      "finding_ids": ["S19-F09","S19-F14"],
+      "observation": "The reference gate list itself omits keyboard/focus/tooltip behavior and accessible-table semantics, so the incompleteness is structural, not isolated to one example.",
+      "improved_version": "Add interactive_keyboard_focus and accessible_table_semantics gates; make parity compare record identity/value/n/filter/precision."
+    },
+    {
+      "locator": "T1-A.code.chart_choice.py",
+      "execution_status": "PASS",
+      "published_output_status": "MATCHES_EXECUTION",
+      "finding_ids": ["S19-F24"],
+      "observation": "Runs, but only prints a pre-authored spec; the prose mentions an `elige_chart(pregunta)` gate that this canonical theory code does not implement.",
+      "improved_version": "Implement a small readable `elige_grafico(pregunta)` function and test at least comparison vs trend."
+    },
+    {
+      "locator": "T1-B.code.honest_axes.py",
+      "execution_status": "PASS",
+      "published_output_status": "MATCHES_EXECUTION",
+      "finding_ids": ["S19-F04"],
+      "observation": "Outputs 0.67 and 0.10 but never prints the named inflation factor; ratio is 6.67.",
+      "improved_version": "Compute and print `factor_inflacion = ratio_visual_truco / ratio_visual_honesto` and explain the denominator."
+    },
+    {
+      "locator": "T2-A.code.mpl_bar.py",
+      "execution_status": "PASS",
+      "published_output_status": "MATCHES_EXECUTION",
+      "finding_ids": ["S19-F05"],
+      "observation": "Axes/ylabel/ylim checks run, but bar count is absent despite the outcome and prose naming it.",
+      "improved_version": "Capture bars and include/assert `bar_count == 2`."
+    },
+    {
+      "locator": "T2-B.code.compose_export.py",
+      "execution_status": "PASS_AS_WRITTEN",
+      "published_output_status": "MATCHES_EXECUTION",
+      "finding_ids": ["S19-F06","S19-F07"],
+      "observation": "No PNG is created. The code explicitly simulates export metadata and applies bottom=0 to both a bar panel and a line panel.",
+      "improved_version": "Use BytesIO or a temp file with `fig.savefig`; validate bytes; apply zero baseline to the bar panel only unless line-chart context justifies zero."
+    },
+    {
+      "locator": "T3-A.code.interactive_spec.py",
+      "execution_status": "PASS_AS_WRITTEN",
+      "published_output_status": "MATCHES_EXECUTION",
+      "finding_ids": ["S19-F09","S19-F10","S19-F18"],
+      "observation": "Filters Madrid and prints a tooltip; it does not calculate a conclusion, serialize state, or represent keyboard/focus behavior.",
+      "improved_version": "Create state JSON, derive conclusion from filtered rows, test another filter, and add keyboard/focus interaction requirements to the spec."
+    },
+    {
+      "locator": "T3-B.code.a11y_alt.py",
+      "execution_status": "PASS_AS_WRITTEN",
+      "published_output_status": "MATCHES_EXECUTION",
+      "finding_ids": ["S19-F11","S19-F12","S19-F13","S19-F18"],
+      "observation": "The active filter is Lima while table/alt/chart scalar are Madrid; `match` still prints True because it compares only 28.0 == 28.0.",
+      "improved_version": "Derive all artifacts from the active filter and compare normalized full records including region, metric, value, n and precision."
+    },
+    {
+      "locator": "T4-A.code.caption.py",
+      "execution_status": "PASS",
+      "published_output_status": "MATCHES_EXECUTION",
+      "finding_ids": ["S19-F15"],
+      "observation": "Formatting is deterministic but all provenance fields are manually authored and no payload/data-note identity is checked.",
+      "improved_version": "Build caption from validated data-note metadata and include a stable payload/note identifier."
+    },
+    {
+      "locator": "T4-B.code.alt_claim.py",
+      "execution_status": "PASS_AS_WRITTEN",
+      "published_output_status": "MATCHES_EXECUTION",
+      "finding_ids": ["S19-F17","S19-F18"],
+      "observation": "The alt data say Lima=28, Madrid=24, Bogota=22.5, but `claim_ok` says Madrid has the highest median. The code never validates this contradiction.",
+      "improved_version": "Derive the claim from the same rows as alt/table; for the shown values, say Lima leads the observed sample."
+    }
+  ],
+  "callouts": [
+    {"locator":"opening.callout","title":"Fuera de alcance en S19","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"note":"Correctly excludes DOCX/PDF depth and mandatory interactive libraries; later SQL/ML detour violates this scope."},
+    {"locator":"T1-A.callout","title":"Una pregunta → un chart","status":"TIGHTEN_REQUIRED","finding_ids":["S19-F24"],"note":"Principle is useful; Spanish-first wording preferred."},
+    {"locator":"T1-B.callout","title":"Eje recortado","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"note":"Correct bar-baseline warning."},
+    {"locator":"T2-A.callout","title":"Backend Agg","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"note":"Current Matplotlib docs confirm Agg remains a non-interactive backend suitable for file output."},
+    {"locator":"T2-B.callout","title":"Función pura de figura","status":"TIGHTEN_REQUIRED","finding_ids":["S19-F07"],"note":"Good advice, but canonical code does not actually implement `build_figure(df) -> fig` or real export."},
+    {"locator":"T3-A.callout","title":"Spec antes de librería","status":"REWRITE_REQUIRED","finding_ids":["S19-F08","S19-F09"],"note":"Spec-first is defensible; 'migration is mechanical' and missing interaction accessibility are not."},
+    {"locator":"T3-B.callout","title":"Paridad numérica","status":"REPAIR_REQUIRED","finding_ids":["S19-F12"],"note":"Necessary principle, but one-scalar equality is insufficient and demonstrably false-green in the paired code."},
+    {"locator":"T4-A.callout","title":"Unidad omitida","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"note":"Correctly treats unit omission as a reporting defect."},
+    {"locator":"T4-B.callout","title":"Sobreclaim","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"note":"Correct principle; canonical final claim fails it due to F17."}
+  ],
+  "figures": [
+    {
+      "locator": "T1-B.figure.S19-chart-choice",
+      "caption": "El gráfico no es estético: codifica la comparación que quieres que el lector haga.",
+      "alt": "Cuatro guardas que van de la pregunta al tipo de gráfico apropiado.",
+      "status": "RENDER_DEPENDENCY_UNVERIFIED",
+      "finding_ids": [],
+      "observation": "The alt may be too vague if the figure contains essential information not repeated in nearby text, but the hydrated figure was not available in current tooling, so this is not promoted to a confirmed finding."
+    }
+  ],
+  "execution_summary": {
+    "all_nine_theory_snippets_execute_or_are_semantically_runnable": true,
+    "published_outputs_checked": true,
+    "important_note": "Passing execution does not imply pedagogical correctness. T2-B, T3-B and T4-B are intentionally recorded as PASS_AS_WRITTEN because their defects are semantic/contract contradictions, not runtime failures."
+  }
+}
