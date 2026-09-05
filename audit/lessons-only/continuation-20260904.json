@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "continuation_date": "2026-09-04",
+  "branch": "audit/lessons-only-adversarial-20260903",
+  "last_completed_section": "S17",
+  "last_completed_round": "S17-R2-solarized-adversarial-revalidation-20260904",
+  "last_completed_verdict": "REPAIR_REQUIRED",
+  "last_completed_material_findings": 21,
+  "section_artifacts": {
+    "S17": {
+      "base_audit": "audit/lessons-only/sections/S17.json",
+      "paragraph_shards": [
+        "audit/lessons-only/sections/S17.paragraphs-01.json",
+        "audit/lessons-only/sections/S17.paragraphs-02.json"
+      ],
+      "round2": "audit/lessons-only/sections/S17.round2.json",
+      "round2_paragraph_delta": "audit/lessons-only/sections/S17.round2.paragraph-delta.json",
+      "source_blob_sha": "948e1c6d3b937313beee683974e4363c3c90c059",
+      "source_unchanged": true,
+      "coverage": "38/38 theory paragraphs plus outcomes/code/figures/callouts from base audit; six paragraph adjudications changed in R2",
+      "new_round2_findings": [
+        "S17-R2-F20 ROW_GROWTH_FALSE_DICHOTOMY_AND_AMBIGUOUS_FIXTURE",
+        "S17-R2-F21 OBSERVED_COHORT_CONFLATED_WITH_TRUE_FIRST_EVENT"
+      ],
+      "tightened_round2_findings": [
+        "S17-F02 failure surface for key-representation mismatch",
+        "S17-F18 future mass is not intrinsically leakage and cutoff must govern features"
+      ]
+    }
+  },
+  "audit_protocol_delta": {
+    "rule": "SIN_CAMBIO_DEFENDIDO/NO_MATERIAL_CHANGE => improved_content=null",
+    "reason": "Legacy S17 paragraph shards violated the campaign's own unchanged_paragraphs_keep_rewrite_null rule; future audits must separate material repair from style-only alternatives."
+  },
+  "next_section": "S18",
+  "carry_forward_constraints": [
+    "Do not inherit S17 reconciliation as proof of pipeline conservation until the close is derived from the same upstream fixture.",
+    "Do not inherit groupby/agg/transform as fully USABLE: missing-key policy and row-vs-unique-entity denominators remain partial.",
+    "Do not interpret min(fecha) as true acquisition without historical-coverage evidence.",
+    "Do not call post-cutoff observations leakage unless an as-of calculation actually consumes them.",
+    "Do not inherit monetary totals as trustworthy until the Decimal/analytical-numeric boundary is explicit.",
+    "S18 owns the deeper EDA/statistics mental model; S17's EDA label is only a partial introduction."
+  ],
+  "status": "READY_TO_CONTINUE_WITH_S18"
+}
