@@ -1,0 +1,406 @@
+{
+  "schema_version": "1.9.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S23",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s23-computer-vision.ts",
+  "canonical_blob_sha": "4975702222a2f5ef3654312481d706cf2877380f",
+  "title": "Browser RPA con Playwright",
+  "short_title": "Playwright RPA",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "canonical_mapping": {
+    "index_file": "src/lib/course/index.ts",
+    "import": "section23 from ./sections/s23-computer-vision",
+    "status": "VERIFIED"
+  },
+  "prior_audit": {
+    "status": "NONE_FOUND_ON_AUDIT_BRANCH",
+    "method": "Direct fetch of audit/lessons-only/sections/S23.json returned 404 before creation."
+  },
+  "learner_entry_state": {
+    "baseline": "ZERO_TECH_CAPABLE",
+    "prerequisite": "S22",
+    "credit_rule": "Only prior concepts adjudicated USABLE count as learned.",
+    "critical_dependency_warning": "S21 and S22 remain REPAIR_REQUIRED. S23 cannot assume the report package is reconciled, the email draft is safely approved, or the approval is bound to exact content/recipients merely because prior sections emitted labels or in-memory states.",
+    "usable": [
+      "draft-only and human-handoff as product boundaries",
+      "matching is not fraud",
+      "API/export should be considered before UI automation",
+      "human approval must remain separate from automated generation"
+    ],
+    "not_creditable": [
+      "S22 state=approved is sufficient authorization",
+      "S22 recipient set was individually confirmed",
+      "S22 draft hash/idempotency guarantee is trustworthy",
+      "S21 package metrics and artifact hashes are reconciled",
+      "S22 sandbox addresses are safely non-routable"
+    ]
+  },
+  "roadmap_expectation": {
+    "source": "learning_roadmap_52_V3.md",
+    "prerequisite": "S22",
+    "environment": "local",
+    "project": "adaptador web del VP",
+    "T1": "Navegación: DOM y locators orientados a usuario; auto-waiting y assertions",
+    "T2": "Flujos: formularios, uploads/downloads y sesiones; auth, estados y Page Objects",
+    "T3": "Diagnóstico: trace, screenshot y logs; selectores robustos, retries y recovery",
+    "T4": "Límites: API/export primero; términos, CAPTCHA, desktop fallback y handoff humano",
+    "gate": "robot contra sitio de prueba controlado, con trace de éxito/falla, download verificado y reanudación idempotente"
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/",
+    "status": "PUBLIC_CARD_VERIFIED_BODY_NOT_HYDRATED_IN_TEXT_FETCH",
+    "evidence": "Public text surface exposes Section 23 'Playwright RPA' and the canonical tagline. The hydrated theory body is not exposed by the text fetch, so render-only defects were not invented."
+  },
+  "audit_metadata": {
+    "theory_blocks_reviewed": 10,
+    "paragraphs_reviewed": 33,
+    "paragraphs_expected": 33,
+    "paragraph_coverage_complete": true,
+    "learning_outcomes_reviewed": 8,
+    "theory_code_blocks_reviewed": 9,
+    "theory_outputs_reviewed": 9,
+    "theory_callouts_reviewed": 9,
+    "theory_figures_reviewed": 1,
+    "runtime_validation": {
+      "checks": [
+        "The custom get_by_role model silently returns the first of two identical role/name matches instead of enforcing Playwright-style uniqueness.",
+        "The fake timeout loop advances a 500ms timeout clock to 600ms on the never-ready path.",
+        "The T2-A download fixture simply returns the same bytes placed into the in-memory upload store and never compares against an expected artifact digest.",
+        "The T3-A evidence helper returns trace/screenshot path strings but creates neither file.",
+        "run_with_retry accepts fn but never calls it; a scripted [timeout, None] sequence reports success while fn_called remains empty."
+      ]
+    }
+  },
+  "external_research": [
+    {
+      "source": "Playwright Python Locators/Actionability",
+      "finding": "User-facing locators are recommended; click actionability requires a locator to resolve to exactly one element; role locators do not substitute for accessibility audits."
+    },
+    {
+      "source": "Playwright Python Downloads",
+      "finding": "Downloads live in a temporary context-owned directory and are deleted when the browser context closes; save_as persists them. download.failure and suggested_filename support stronger verification."
+    },
+    {
+      "source": "Playwright Authentication",
+      "finding": "storage_state may contain sensitive cookies/headers capable of impersonation and should be kept out of repositories."
+    },
+    {
+      "source": "Playwright Tracing",
+      "finding": "Real traces require tracing start/stop and can include screenshots, DOM snapshots and network activity; path strings are not evidence."
+    },
+    {
+      "source": "Playwright ElementHandle/Locators",
+      "finding": "ElementHandle use is discouraged; Locators re-resolve up-to-date DOM elements for each action."
+    },
+    {
+      "source": "Playwright API Testing",
+      "finding": "APIRequestContext can validate server-side postconditions after browser actions, useful for side-effect-safe recovery."
+    }
+  ],
+  "score": 3.1,
+  "verdict": "REPAIR_REQUIRED",
+  "material_findings": 26,
+  "severity_counts": {"P0": 0, "P1": 18, "P2": 8, "P3": 0},
+  "findings": [
+    {
+      "id": "S23-F01", "severity": "P1", "category": "PREREQUISITE_INTEGRITY",
+      "evidence": "Opening/reference treat the S21 report and S22 human-approved draft as established inputs.",
+      "attack": "S21/S22 remain REPAIR_REQUIRED; those artifacts and approval bindings are not creditable.",
+      "defense": "The curriculum needs continuity across sections.",
+      "verdict": "CONFIRMED",
+      "impact": "Browser automation can operationalize a stale or unverified payload.",
+      "repair": "Require a validated persisted S21/S22 handoff object and recheck its hashes/state before any downstream browser action."
+    },
+    {
+      "id": "S23-F02", "severity": "P1", "category": "NARRATIVE_CAUSALITY",
+      "evidence": "Reference says S22 already left an approved email draft, then S23 obtains the report from the practice site.",
+      "attack": "If S23 obtains new report data after approval, the S22 draft approval is stale unless the new report is explicitly unrelated.",
+      "defense": "S23 may be intended as a separate adapter exercise.",
+      "verdict": "CONFIRMED",
+      "impact": "Learner is taught an unsafe ordering of evidence acquisition and human approval.",
+      "repair": "State whether S23 is an independent new run; otherwise fetch/verify first, regenerate the draft, then require fresh approval."
+    },
+    {
+      "id": "S23-F03", "severity": "P1", "category": "GATE_FIDELITY",
+      "evidence": "The only real Playwright block is explicitly a non-executed sketch; graded/theory examples primarily use dict models.",
+      "attack": "The roadmap gate promises a robot against a controlled test site with real trace/download evidence.",
+      "defense": "Dict models improve portability and conceptual isolation.",
+      "verdict": "CONFIRMED",
+      "impact": "A learner can pass the theory without demonstrating Playwright behavior at all.",
+      "repair": "Include one minimal controlled local web fixture and execute the end-to-end Playwright contract in theory/lab evidence."
+    },
+    {
+      "id": "S23-F04", "severity": "P1", "category": "DOWNLOAD_LIFETIME",
+      "evidence": "playwright_sketch.py calls download.path(), closes browser, then returns that path.",
+      "attack": "Playwright deletes context-owned temporary downloads when the context closes; remote connections may not support path().",
+      "defense": "The sketch only illustrates API shape.",
+      "verdict": "CONFIRMED",
+      "impact": "Canonical example can return a path to a file that no longer exists.",
+      "repair": "Persist with download.save_as() before closing the context and return the persisted path."
+    },
+    {
+      "id": "S23-F05", "severity": "P1", "category": "DOWNLOAD_VERIFICATION",
+      "evidence": "The real sketch never checks download.failure(), suggested filename, size, expected hash or saved bytes.",
+      "attack": "The gate says download verificado, not merely download observed.",
+      "defense": "T2-A later discusses hashes conceptually.",
+      "verdict": "CONFIRMED",
+      "impact": "The real Playwright path fails the section's own definition of success.",
+      "repair": "save_as, inspect failure/filename, compute full SHA-256, parse/validate expected content and record provenance."
+    },
+    {
+      "id": "S23-F06", "severity": "P1", "category": "LOCATOR_STRICTNESS",
+      "evidence": "Custom get_by_role returns hits[0] when multiple role/name matches exist.",
+      "attack": "Playwright locator actions require a unique target; ambiguity should fail rather than select the first node.",
+      "defense": "The fixture contains one matching button in the happy path.",
+      "verdict": "CONFIRMED",
+      "impact": "The model teaches a silent wrong-click failure mode Playwright is designed to reject.",
+      "repair": "Require len(hits)==1 and add zero-match and multi-match negative fixtures."
+    },
+    {
+      "id": "S23-F07", "severity": "P2", "category": "ACCESSIBILITY_OVERCLAIM",
+      "evidence": "Theory/callout use the equation 'accesibilidad = estabilidad'.",
+      "attack": "Role locators often improve resilience but do not prove accessibility; accessible names can also change.",
+      "defense": "The mnemonic encourages user-facing selectors.",
+      "verdict": "CONFIRMED",
+      "impact": "Conflates test resilience with accessibility conformance.",
+      "repair": "Say user-facing locators often improve resilience and provide accessibility feedback, but do not replace accessibility testing."
+    },
+    {
+      "id": "S23-F08", "severity": "P2", "category": "LOCATOR_PRIORITY",
+      "evidence": "A universal role→label→testid→text→CSS order is prescribed.",
+      "attack": "Playwright recommends user-facing attributes and explicit contracts; test IDs may be the most resilient even though they are not user-facing.",
+      "defense": "A default heuristic reduces novice choice overload.",
+      "verdict": "CONFIRMED",
+      "impact": "Learner may reject a better explicit test contract because it appears lower in a rigid ranking.",
+      "repair": "Teach two goals: user-visible semantics when behavior matters; explicit test ID when stable product contract is the goal; CSS/XPath last."
+    },
+    {
+      "id": "S23-F09", "severity": "P2", "category": "AUTOWAIT_MODEL",
+      "evidence": "wait_until uses while waited <= timeout and advances before exit; 500ms timeout reaches fake clock 600ms on never-ready path.",
+      "attack": "The simulation misrepresents timeout boundaries and models only one predicate, not Playwright actionability/auto-retrying assertions.",
+      "defense": "It is intended as a simplified polling analogy.",
+      "verdict": "CONFIRMED",
+      "impact": "The simplified model becomes technically incorrect at the boundary learners are meant to reason about.",
+      "repair": "Use deadline-based polling and explicitly distinguish custom business readiness from built-in actionability and web-first assertions."
+    },
+    {
+      "id": "S23-F10", "severity": "P1", "category": "TIMEOUT_EVIDENCE_CONTRACT",
+      "evidence": "T1-B says timeout should attach trace, but its code has no timeout evidence path and no negative fixture.",
+      "attack": "The diagnostic behavior is asserted rather than demonstrated.",
+      "defense": "Tracing is covered later in T3-A.",
+      "verdict": "CONFIRMED",
+      "impact": "Learner sees a success-only waiting example while the text claims robust failure evidence.",
+      "repair": "Add a timeout fixture that produces a real trace/evidence record consumed by T3-A."
+    },
+    {
+      "id": "S23-F11", "severity": "P1", "category": "DOWNLOAD_FIXTURE_TAUTOLOGY",
+      "evidence": "T2-A upload stores bytes under plantilla.xlsx; download reads those exact same bytes back under the same name.",
+      "attack": "This models an echo, not a portal-generated export, and never compares the digest against an independent expected value.",
+      "defense": "It demonstrates byte hashing mechanics.",
+      "verdict": "CONFIRMED",
+      "impact": "The example can never catch the central failure: exporting the wrong report.",
+      "repair": "Separate upload input from generated output bytes and compare the persisted output against an independently defined expected contract."
+    },
+    {
+      "id": "S23-F12", "severity": "P2", "category": "DIGEST_STRENGTH",
+      "evidence": "Theory truncates SHA-256 to 12 hex characters for a verification artifact.",
+      "attack": "A display prefix can be convenient, but a verification/provenance identity should retain the full digest.",
+      "defense": "The fixture is synthetic and small.",
+      "verdict": "CONFIRMED",
+      "impact": "Teaches a display identifier as though it were the integrity value.",
+      "repair": "Store full SHA-256; optionally display a short prefix separately."
+    },
+    {
+      "id": "S23-F13", "severity": "P1", "category": "AUTH_STATE_SECURITY",
+      "evidence": "storage_state reuse is taught without warning that the state itself may contain impersonation-capable cookies/headers.",
+      "attack": "Playwright explicitly warns not to commit auth state and recommends a gitignored auth directory.",
+      "defense": "The lab uses demo credentials.",
+      "verdict": "CONFIRMED",
+      "impact": "Learners can transfer the pattern to real portals and accidentally leak session credentials.",
+      "repair": "Teach storage_state as a secret-bearing artifact: gitignore, least-privilege test account, expiry, restricted retention and no logging."
+    },
+    {
+      "id": "S23-F14", "severity": "P2", "category": "PAGE_OBJECT_MODEL_GAP",
+      "evidence": "The Page Object example wraps a dict auth state but contains no Playwright Page or locator to centralize.",
+      "attack": "It does not demonstrate the maintenance benefit described in the paragraph.",
+      "defense": "The lab intentionally models behavior without Chromium.",
+      "verdict": "CONFIRMED",
+      "impact": "A novice can leave without seeing what a Playwright Page Object actually encapsulates.",
+      "repair": "Add a minimal real PO wrapping Page and locators while retaining the dict model as a conceptual precursor."
+    },
+    {
+      "id": "S23-F15", "severity": "P1", "category": "TRACE_EVIDENCE_FABRICATED",
+      "evidence": "on_failure returns traces/{step}.zip and shots/{step}.png strings but creates neither artifact.",
+      "attack": "The callout/gate require openable trace evidence; a path string is not a trace.",
+      "defense": "The lab models package keys.",
+      "verdict": "CONFIRMED",
+      "impact": "Another analyst cannot reproduce the failure despite the lesson claiming they can.",
+      "repair": "Generate trace and screenshot in the controlled Playwright run, then assert existence/nonzero size and attach hashes."
+    },
+    {
+      "id": "S23-F16", "severity": "P2", "category": "LOG_FILTER_CONTRACT",
+      "evidence": "Prose says filter console logs by ERR; code stores console[-3:] unfiltered.",
+      "attack": "The claimed signal-to-noise policy is not implemented.",
+      "defense": "The sample list is only three messages.",
+      "verdict": "CONFIRMED",
+      "impact": "Learner receives conflicting instructions about diagnostic packaging.",
+      "repair": "Implement structured severity filtering while preserving a bounded context window around the error."
+    },
+    {
+      "id": "S23-F17", "severity": "P1", "category": "TRACE_PRIVACY",
+      "evidence": "Theory says never PII in screenshots/logs, but tracing can capture DOM snapshots and network activity and no redaction/retention mechanism is shown.",
+      "attack": "A trace may expose more sensitive material than a screenshot; a prose prohibition does not sanitize it.",
+      "defense": "The lab is synthetic.",
+      "verdict": "CONFIRMED",
+      "impact": "Operational transfer can turn diagnostic evidence into a data-leak artifact.",
+      "repair": "Use synthetic/test accounts, define trace retention/access, block or redact sensitive fields/routes, and forbid production PII in training fixtures."
+    },
+    {
+      "id": "S23-F18", "severity": "P1", "category": "PLAYWRIGHT_MENTAL_MODEL",
+      "evidence": "Recovery teaches err=='stale' and reobtaining a locator after re-render as a classic failure mode.",
+      "attack": "Playwright Locators already resolve an up-to-date element on each action; ElementHandle use is discouraged and is the stale-object mental model.",
+      "defense": "Renavigation can still be necessary when business state is invalid.",
+      "verdict": "CONFIRMED",
+      "impact": "Imports a Selenium/ElementHandle recovery model into a locator-first Playwright lesson.",
+      "repair": "Teach locator re-resolution as the default; reserve explicit recovery for page/business-state invalidation, not ordinary DOM replacement."
+    },
+    {
+      "id": "S23-F19", "severity": "P1", "category": "RETRY_HARNESS_MISMATCH",
+      "evidence": "run_with_retry(fn, errors, ...) never calls fn; it consumes a pre-scripted error list.",
+      "attack": "The function name and prose claim action retry/recovery, but no action is executed.",
+      "defense": "The list is a deterministic teaching fixture.",
+      "verdict": "CONFIRMED",
+      "impact": "Success can be reported even when the supplied operation was never invoked.",
+      "repair": "Call the operation per attempt via a deterministic fake that raises typed errors, then record attempts and postconditions."
+    },
+    {
+      "id": "S23-F20", "severity": "P1", "category": "RETRY_SIDE_EFFECT_SAFETY",
+      "evidence": "should_retry marks all timeout/network/429 kinds retryable without knowing the operation or whether a side effect already occurred.",
+      "attack": "A timeout after a successful server-side action can duplicate an export/submit; 429 should obey Retry-After/backoff where applicable.",
+      "defense": "The prose later acknowledges idempotence windows and business keys.",
+      "verdict": "CONFIRMED",
+      "impact": "The executable policy contradicts the strongest safety insight in the paragraph.",
+      "repair": "Classify retryability by error plus operation semantics; check server-side postcondition/idempotency key before repeating and honor provider backoff."
+    },
+    {
+      "id": "S23-F21", "severity": "P1", "category": "CHECKPOINT_OUTCOME_ALIGNMENT",
+      "evidence": "Learning outcome and prose require checkpoint reanudación; the theory code implements no checkpoint or persisted last_ok_step.",
+      "attack": "A central T3 competency exists only as prose.",
+      "defense": "The paragraph explains the conceptual hazard unusually well.",
+      "verdict": "CONFIRMED",
+      "impact": "Learner cannot test the crash window the section explicitly identifies.",
+      "repair": "Add a persisted checkpoint fixture with a crash-after-effect-before-checkpoint negative test and an idempotent server-side key."
+    },
+    {
+      "id": "S23-F22", "severity": "P1", "category": "INTEGRATION_SELECTION",
+      "evidence": "choose_integration selects API/export/RPA from booleans only and does not emit the reason/runbook evidence promised in prose.",
+      "attack": "Availability alone does not prove the API/export is authorized, fresh, equivalent to the required report or contractually allowed.",
+      "defense": "The hierarchy is a useful default bias away from brittle UI automation.",
+      "verdict": "CONFIRMED",
+      "impact": "The robot can choose the wrong integration while claiming API-first correctness.",
+      "repair": "Evaluate equivalence, authorization, freshness, provider policy and auditability, then persist method+reason+evidence."
+    },
+    {
+      "id": "S23-F23", "severity": "P2", "category": "API_REPLACEMENT_OVERCLAIM",
+      "evidence": "Callout says every RPA flow should have a ticket to replace it with API when an API exists.",
+      "attack": "An API may exist but not expose equivalent or authorized functionality.",
+      "defense": "It pushes teams toward lower-fragility integrations.",
+      "verdict": "CONFIRMED",
+      "impact": "Turns a preference into a universal architectural mandate.",
+      "repair": "Create a replacement ticket only when an API/export path is demonstrably equivalent and allowed."
+    },
+    {
+      "id": "S23-F24", "severity": "P1", "category": "HANDOFF_CONTRACT",
+      "evidence": "T4-B prose requires minimal url/step/screenshot payload; handle_blockers returns only action/reason/queue.",
+      "attack": "The human cannot resume from the promised context.",
+      "defense": "The code demonstrates blocker priority correctly: ToS before CAPTCHA.",
+      "verdict": "CONFIRMED",
+      "impact": "Handoff is a label, not an actionable continuation packet.",
+      "repair": "Return run_id, safe URL, step, screenshot/trace references, last verified checkpoint and allowed next actions."
+    },
+    {
+      "id": "S23-F25", "severity": "P1", "category": "PROVENANCE_CONTINUITY",
+      "evidence": "Theory examples emit isolated dicts/prints without one persisted audit chain linking S21 payload, S22 draft/approval and S23 browser action.",
+      "attack": "The campaign handoff explicitly requires a persisted lineage; browser automation is the highest-risk place to break it.",
+      "defense": "Individual subtopics intentionally isolate concepts.",
+      "verdict": "CONFIRMED",
+      "impact": "A later reviewer cannot prove which approved payload drove which browser run/download.",
+      "repair": "Carry run_id and immutable hashes through every event and write an append-only browser-action manifest."
+    },
+    {
+      "id": "S23-F26", "severity": "P2", "category": "REDACTION_WIDOW_TERMS",
+      "evidence": "Dense unexplained or weakly glossed terms include locator, testid, layout, readiness, step, storage_state, Page Object, trace, on-call, flake, runner, stale, checkpoint, runbook, fallback, ToS and handoff.",
+      "attack": "ZERO_TECH learners must infer many operational concepts from English jargon rather than content.",
+      "defense": "API identifiers such as get_by_role and storage_state must remain literal.",
+      "verdict": "CONFIRMED",
+      "impact": "Extraneous cognitive load obscures the actual control logic.",
+      "repair": "Introduce Spanish concept first with the API term in parentheses, then use a consistent vocabulary."
+    }
+  ],
+  "rejected_hypotheses": [
+    "REJECTED: all CSS selectors are invalid; Playwright supports CSS/XPath but recommends them only as a last resort when more resilient contracts are unavailable.",
+    "REJECTED: test IDs are inherently worse than role locators; Playwright documents test IDs as highly resilient explicit contracts, though they are not user-facing.",
+    "REJECTED: storage_state reuse is inherently unsafe; Playwright explicitly supports it, but the saved state must be treated as sensitive.",
+    "REJECTED: all retries are bad; selective transient retries are valid when the operation is safe/idempotent and retry policy respects provider semantics.",
+    "REJECTED: Page Objects are an anti-pattern; Playwright documents POM as a valid structuring approach for larger suites.",
+    "REJECTED: CAPTCHA human handoff and ToS abort are defects; those are responsible boundaries and should be retained.",
+    "REJECTED: traces should always be enabled for every success; Playwright warns full tracing is performance-heavy and commonly recommends targeted/first-retry tracing."
+  ],
+  "meta_leak": {
+    "status": "NO_CONFIRMED_LEARNER_FACING_META_LEAK",
+    "source_only_text": "Filename/id pre-V3 warning and the comment about agent diagrams.",
+    "reason": "Confirmed only as TypeScript comments; the public text surface did not expose the hydrated lesson body."
+  },
+  "priority_order": [
+    "F03/F04/F05/F11/F15: make the gate real—controlled Playwright run, persistent verified download and actual traces.",
+    "F19/F20/F21: rebuild retry/recovery around executed operations, side-effect safety and persisted checkpoints.",
+    "F01/F02/F25: restore cross-section causal order and provenance from S21/S22 into browser actions.",
+    "F06/F09/F10/F18: correct Playwright locator/auto-wait/re-render mental models.",
+    "F13/F17: treat auth state and traces as sensitive artifacts.",
+    "F22/F24: make integration choice and handoff evidence actionable and persisted.",
+    "F07/F08/F12/F14/F16/F23/F26: repair precision, pedagogy and redaction."
+  ],
+  "graph_memory": {
+    "USABLE": [
+      "Prefer user-facing locators and explicit test contracts over brittle DOM chains.",
+      "Playwright actionability and web-first assertions reduce fixed-sleep races.",
+      "CAPTCHA is a stop/human-handoff condition, not a retry target.",
+      "ToS prohibition is an abort condition.",
+      "API/export-first is a useful bias when the alternative is equivalent and authorized.",
+      "Checkpoint alone is not idempotency; crash windows around side effects matter."
+    ],
+    "PARTIAL": [
+      "controlled-site Playwright execution",
+      "download verification",
+      "storage_state reuse",
+      "Page Objects",
+      "trace/screenshot/log diagnostics",
+      "retry/recovery",
+      "checkpoint resume",
+      "API/export decision record",
+      "human handoff packet"
+    ],
+    "MISCONCEPTION_RISK": [
+      "accessibility equals locator stability",
+      "first matching node is a safe locator result",
+      "download.path survives browser/context close",
+      "a returned trace path means a trace exists",
+      "all timeouts/network errors are retry-safe",
+      "stale handles are a normal locator-first Playwright recovery model",
+      "API availability alone means API should be selected",
+      "S22 approved draft can remain valid after S23 obtains new report data"
+    ],
+    "MENTION_ONLY": [
+      "real controlled local site fixture",
+      "server-side idempotency validation via APIRequestContext",
+      "trace retention/redaction policy",
+      "atomic persisted browser-action ledger"
+    ]
+  },
+  "status": "AUDITED_REPAIR_REQUIRED"
+}
