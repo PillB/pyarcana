@@ -1,0 +1,96 @@
+{
+  "schema_version":"1.7.0",
+  "campaign_id":"lessons-only-adversarial-20260903",
+  "section":"S32",
+  "coverage":"title + tagline + job relevance + 8 outcomes + 8 theory code/output blocks + 10 callouts + 2 figures",
+  "protocol":"NO_MATERIAL_CHANGE => improved_content=null",
+  "top_level":[
+    {"locator":"title","current_content":"Feature engineering y pipelines sin leakage","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"improved_content":null,"justification":"Matches authoritative S32 roadmap construct."},
+    {"locator":"tagline","current_content":"Tabla de features versionada con train≡serve, sin futuro ni labels de decisión. Ritmo sugerido: unas 9 h para la ruta completa de esta sección según la calibración actual.","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"improved_content":null,"justification":"Source tagline is internally consistent with estimatedHours=9. The indexed public card still shows an older 10–18h phrasing, but its crawl is stale so deployment drift remains unresolved rather than a confirmed source defect."},
+    {"locator":"jobRelevance","current_content":"Las features mal hechas filtran el futuro (usan datos que solo existirán después de la decisión) y producen modelos que fallan en producción. Aquí aprendes a construir una tabla de features versionada con la misma lógica en entrenamiento e inferencia, sin timestamps futuros ni labels de decisión. Las features de grafo o contacto compartido son señales para el modelo o la cola humana, no etiquetas de fraude ni de parentesco.","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"improved_content":null,"justification":"Correctly motivates leakage and preserves the ethical boundary; executable defects are handled in theory/code findings."}
+  ],
+  "learning_outcomes":[
+    {"locator":"outcome.1","current_content":"Diseñar un feature catalog (numéricas, categóricas y de texto) y validar que las keys del row ⊆ catálogo antes del fit; evidencia: catalog_ok y lista unknown_keys.","status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F05","S32-F06","S32-F07"],"improved_content":"Diseñar un catálogo versionado que declare por feature nombre, ruta/tipo, dtype, rol, política de ausencia, fuente y disponibilidad; validar rutas disjuntas, columnas requeridas/desconocidas, tipos y derivadas antes del fit.","justification":"Key-subset validation alone is not the catalog contract taught in prose."},
+    {"locator":"outcome.2","current_content":"Aplicar missing indicators, fill con mediana de train y z-score con μ/σ congelados; demostrar silent_fill=False.","status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F08","S32-F09","S32-F10"],"improved_content":"Ajustar imputación/indicadores/μ/σ solo con train, reconocer las representaciones de missing soportadas, manejar features constantes y demostrar mediante tests que transform reutiliza el estado congelado sin relleno silencioso.","justification":"A literal `silent_fill=False` is not evidence and current code fails on NaN/sd=0."},
+    {"locator":"outcome.3","current_content":"Construir features relacionales (shared_address, degree, min path) sin usar label de decisión como input.","status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F01","S32-F02","S32-F11","S32-F12","S32-F13","S32-F14","S32-F15"],"improved_content":"Construir features relacionales desde una vista de grafo versionada y `as_of`, sin labels de decisión; distinguir ausencia de acuerdo, degree de multiarista de vecinos únicos y path ausente de distancia observada, conservando derivación/provenance.","justification":"Current graph feature helper is static, unauditable and converts missing address into positive evidence."},
+    {"locator":"outcome.4","current_content":"Calcular conteos y frecuencias en ventanas half-open [t−w, t) documentadas en el catálogo.","status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F16","S32-F17","S32-F18","S32-F19"],"improved_content":"Calcular conteos y frecuencias sobre eventos deduplicados y conocidos al `feature_cutoff`, con ventana positiva half-open documentada, event time/availability time y tests de borde, replay y late arrival.","justification":"Current demo omits frequency, replay protection and knowledge-time semantics."},
+    {"locator":"outcome.5","current_content":"Componer transformers custom con fit→transform y cadena por tipo de columna (ruta numérica vs. categórica).","status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F20","S32-F21","S32-F22","S32-F23","S32-F24"],"improved_content":"Componer transformadores custom deterministas y un `Pipeline`/`ColumnTransformer` mínimo para rutas numérica, categórica y de texto; fit solo en train, transform con estado congelado y fallos tipificados para input/estado inválido.","justification":"The current custom router bypasses fitted state and the roadmap's real ColumnTransformer/text route is absent."},
+    {"locator":"outcome.6","current_content":"Persistir estado fit (mediana, vocab, version) como JSON fs-vN y reutilizarlo en el batch de serve.","status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F25","S32-F26","S32-F27","S32-F28"],"improved_content":"Persistir y reabrir un manifest de feature set con catálogo/schema, estado completo de transformadores, hashes/versiones y compatibilidad esperada por el modelo; reutilizarlo en serve desde una fuente confiable.","justification":"In-memory JSON roundtrip plus a caller-provided string is not persistent/version-bound state."},
+    {"locator":"outcome.7","current_content":"Partir por tiempo y entidad con informe de split: n_train, n_test y overlap de entidades = 0.","status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F04","S32-F29","S32-F30","S32-F31"],"improved_content":"Construir una evaluación temporal y/o group-aware según el estimand, con timestamps timezone-aware, grupos no solapados cuando corresponda, soporte mínimo en train/test y reporte reproducible de tamaños, grupos y exclusiones.","justification":"Current helper only time-splits then diagnoses overlap and can false-green an empty holdout."},
+    {"locator":"outcome.8","current_content":"Ejecutar scan de nombres leaky + alerta de skew train–serve y promover solo con feature_set id válido.","status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F32","S32-F33","S32-F34","S32-F35","S32-F36"],"improved_content":"Bloquear promoción mediante metadatos semánticos de leakage, prueba exacta de paridad train–serve sobre los mismos inputs, monitoreo de distribución con tolerancias por feature y manifest compatible; conservar causas de rechazo separadas.","justification":"Name substrings, mean-only skew and an `fs-vN` prefix cannot prove the final gate."}
+  ],
+  "theory_code_output":[
+    {
+      "locator":"T1-A.code","title":"catalog.py",
+      "current_content":"`known = set(schema[\"numeric\"] + schema[\"categorical\"] + schema[\"text\"])`; unknown keys only; `note_len = len(row[\"note\"]) if \"note\" in row else 0`; output `catalog_ok True unknown []`.",
+      "status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F05","S32-F06","S32-F07"],
+      "improved_content":"Use a catalog mapping each model feature to route/dtype/role/missing/source/availability/derivation; assert route sets are disjoint; validate required/unknown keys and values; derive `note_len` plus `note_missing` as registered outputs; return typed diagnostics instead of a key-only boolean.",
+      "justification":"Current output proves only no extra key in the happy fixture."
+    },
+    {
+      "locator":"T1-B.code","title":"missing_scale.py",
+      "current_content":"`ind = [v is None for v in vals]`; fill caller literals; `z = [(x-mu)/sd ...]`; final line prints `silent_fill False` literally.",
+      "status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F08","S32-F09","S32-F10"],
+      "improved_content":"Create `fit_numeric(train)` that learns validated fill/mu/sd and an explicit fitted state; `transform_numeric` recognizes None/NaN, emits indicator, handles constant features by declared policy and derives `silent_fill` from observed missing positions. Add pytest for NaN, sd=0 and transform-before-fit.",
+      "justification":"Removes three false guarantees from a demo presented as evidence."
+    },
+    {
+      "locator":"T2-A.code","title":"graph_feat.py",
+      "current_content":"`shared = int(a.get(\"addr\") == b.get(\"addr\"))`; `degree = len(neighbors.get(e, []))`; `path = paths.get(e+\"-\"+other, 99)`; output shared=1 degree=2 path=99.",
+      "status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F01","S32-F02","S32-F11","S32-F12","S32-F13","S32-F14","S32-F15"],
+      "improved_content":"Require `GraphFeatureView(graph_version, as_of, etypes, directions, node_kinds)`; shared=1 only when both normalized attrs are observed; compute and name incident-edge count vs unique-neighbor count separately; canonicalize pair/path lookup; return `path_missing` rather than bare 99; persist edge/evidence derivation refs.",
+      "justification":"Current helper can fabricate shared evidence and has no point-in-time or audit contract."
+    },
+    {
+      "locator":"T2-B.code","title":"window.py",
+      "current_content":"`window_count(events,t,w,closed=False)` counts scalar timestamps; no event ids, availability times or frequency; accepts invalid w; output count=2 closed_bad=3.",
+      "status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F16","S32-F17","S32-F18","S32-F19"],
+      "improved_content":"Represent events with `record_id`, `event_ts`, `available_at`, channel; validate `w>0`; deduplicate immutable identities; select events satisfying event and knowledge-time policy; compute count plus channel frequencies/support from that one eligible set; pytest exact-t/future/replay/late-arrival.",
+      "justification":"The half-open boundary is correct but incomplete as a historical-feature engine."
+    },
+    {
+      "locator":"T3-A.code","title":"transformer.py",
+      "current_content":"`ModeImputer.fit` uses `max(set(xs), key=xs.count)` including None; MiniPipeline only contains the imputer; `column_router` accepts external numeric fill/scale and silently fills None with 0; no text route.",
+      "status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F20","S32-F21","S32-F22","S32-F23","S32-F24"],
+      "improved_content":"Use a separate fitted flag, exclude missing from mode, define all-missing behavior and deterministic tie-break; model numeric/categorical/text as fitted transformers; compose them first in a pure-Python pipeline then show the equivalent sklearn `ColumnTransformer` inside `Pipeline`; reject arbitrary serve state.",
+      "justification":"Current code is neither deterministic nor a single train=serve preprocessing path."
+    },
+    {
+      "locator":"T3-B.code","title":"persist.py",
+      "current_content":"`load_state` performs `json.loads(json.dumps(state))`; state is only `{median:2, version:'fs-v1'}`; `apply_median` ignores version; no filesystem/artifact read/write.",
+      "status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F25","S32-F26","S32-F27","S32-F28"],
+      "improved_content":"Write a JSON manifest to an artifact path, compute content hashes, close/reopen it in a separate serve step, validate complete transformer/catalog state and expected feature_set id/hash before transform. If mentioning joblib/pickle, state trusted-source and dependency-version constraints.",
+      "justification":"Demonstrates actual persistence and machine-enforced compatibility."
+    },
+    {
+      "locator":"T4-A.code","title":"split.py",
+      "current_content":"`train=[r for r in rows if r['ts'] < cut]`; `test=...>=cut`; overlap counted after split; string timestamp comparison; `ok` is only `ov==0`.",
+      "status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F04","S32-F29","S32-F30","S32-F31"],
+      "improved_content":"Parse timezone-aware timestamps; define chronological holdout plus group policy explicitly; construct or filter to non-overlapping groups when required; assert minimum train/test/group support; report exclusions and zero overlap. Use pytest counterexample with timezone offsets and empty holdout.",
+      "justification":"Current function diagnoses one overlap case but is not the split method its name/prose promise."
+    },
+    {
+      "locator":"T4-B.code","title":"leakage.py",
+      "current_content":"`leak_scan` checks case-sensitive substrings label/decision; `skew_alert` only absolute mean diff; code prints `leaky ['label_decision']`, `skew True`, and `feature_set fs-v2` but never rejects promotion.",
+      "status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F32","S32-F33","S32-F34","S32-F35","S32-F36"],
+      "improved_content":"Validate feature role/source/availability metadata against target/decision time; run exact same-input train-vs-serve vector parity; monitor distributions separately with feature-specific thresholds/support; validate manifest compatibility; return `PROMOTED` only when all gates pass and separate `REJECT_LEAKAGE` from `REJECT_TRAIN_SERVE_SKEW`.",
+      "justification":"The current terminal demo is diagnostic-only while the prose calls it a blocking promotion gate."
+    }
+  ],
+  "callouts":[
+    {"locator":"opening.callout","current_content":"Gate features — Train≡serve, sin leakage temporal ni de label. Solo PII sintético (caso Red Andina / workbench CP-N3-B, sin PII real). Si hay timestamps futuros en features, la sección no se considera superada.","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":["S32-F03","S32-F18"],"improved_content":null,"justification":"Correct top-level policy; implementation must add availability time and executable failures."},
+    {"locator":"dictionary.callout","current_content":"Cómo leer este diccionario — Vuelve aquí cuando veas train≡serve, half-open, fs-vN o skew. Cada subtema reutiliza estas definiciones con un mini-demo computable.","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"improved_content":null,"justification":"Useful navigation aid."},
+    {"locator":"T1-A.callout","current_content":"Contrato local — catálogo y keys. Si el catálogo existe y el row lo viola: `REJECT_UNKNOWN_FEATURE`. Si falta el catálogo: `REQUEST_CATALOG`.","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":["S32-F05","S32-F06"],"improved_content":null,"justification":"Policy is sound; checker must expand beyond keys."},
+    {"locator":"T1-B.callout","current_content":"Contrato local — indicator y stats de train. Si rellenas sin marcar la ausencia: `REJECT_SILENT_FILL`. Si falta la mediana de train: `REQUEST_MEDIAN`.","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":["S32-F08","S32-F09","S32-F10"],"improved_content":null,"justification":"Good fail-closed wording; code must compute it."},
+    {"locator":"T2-A.callout","current_content":"Contrato local — features de grafo. Si usas label de decisión como input: `REJECT_LABEL_AS_FEATURE`. Si falta el grafo: `REQUEST_GRAPH_FEAT`.","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":["S32-F01","S32-F02","S32-F12"],"improved_content":null,"justification":"Correct boundary, but a graph must also satisfy version/as-of/provenance before it counts as present."},
+    {"locator":"T2-B.callout","current_content":"Contrato local — ventana half-open. Si incluyes el instante t o el futuro: `REJECT_FUTURE_TS`. Si falta el ancho w: `REQUEST_WINDOW`.","status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F18","S32-F19"],"improved_content":"Contrato local — ventana point-in-time. Si `w` o la política temporal faltan: `REQUEST_WINDOW_POLICY`. Si un evento viola el cutoff de evento o de disponibilidad: `REJECT_FUTURE_KNOWLEDGE`. Replays con la misma identidad se deduplican o se rechazan según el contrato.","justification":"Event timestamp is not enough when source availability can lag."},
+    {"locator":"T3-A.callout","current_content":"Contrato local — fit→transform y router por columnas. Si transformas sin fit: `REJECT_TRANSFORM_BEFORE_FIT`. Si falta el state de fit: `REQUEST_FIT_STATE`.","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":["S32-F20","S32-F23","S32-F24"],"improved_content":null,"justification":"Desired contract is correct; current router must be brought under it."},
+    {"locator":"T3-B.callout","current_content":"Contrato local — state versionado. Si sirves sin version: `REJECT_UNVERSIONED`. Si falta el JSON de state: `REQUEST_STATE_JSON`.","status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F25","S32-F26","S32-F27"],"improved_content":"Contrato local — artefacto de estado versionado. Si falta el manifest: `REQUEST_STATE_ARTIFACT`. Si id, schema/hash o versión esperada por el modelo no coincide: `REJECT_INCOMPATIBLE_FEATURE_SET`. Solo un artefacto completo y reabierto puede usarse en serve.","justification":"A version field alone does not make state compatible or persistent."},
+    {"locator":"T4-A.callout","current_content":"Contrato local — split temporal o por grupo. Si hay overlap de entidades: `REJECT_ENTITY_OVERLAP`. Si faltan filas o keys de split: `REQUEST_SPLIT_KEYS`.","status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F29","S32-F30","S32-F31"],"improved_content":"Contrato local — split temporal y política de grupos declarados. Rechaza timestamps inválidos, particiones sin soporte o grupos solapados cuando la evaluación exige entidades no vistas; reporta tamaños y exclusiones antes del fit.","justification":"The current helper does not construct a group split and overlap=0 alone is insufficient."},
+    {"locator":"T4-B.callout","current_content":"Contrato local — scan de leakage, skew y fs-vN. Si hay leaky o skew: `REJECT_LEAKAGE`. Si falta el id del feature set: `REQUEST_FEATURE_SET_ID`.","status":"MATERIAL_CHANGE_REQUIRED","finding_ids":["S32-F32","S32-F33","S32-F35","S32-F36"],"improved_content":"Contrato local — leakage semántico, paridad/skew y manifest. Información futura/target: `REJECT_LEAKAGE`. Transformación train–serve incompatible: `REJECT_TRAIN_SERVE_SKEW`. Manifest ausente: `REQUEST_FEATURE_SET_ID`. Solo todos los gates verdes permiten `PROMOTED`.","justification":"Keeps blocking behavior while preserving the root-cause distinction taught in the dictionary."}
+  ],
+  "figures":[
+    {"locator":"T1-A.figure","id":"S32-feature-pipeline","current_content":"Caption: Un fit_transform sobre todo el dataset invierte las dos primeras etapas y regala métricas que producción no repetirá. Alt: Cuatro etapas —split, fit, transform, evaluar— con la frontera dibujada tras el split.","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"improved_content":null,"justification":"Accurately reinforces split-before-fit and aligns with scikit-learn leakage guidance."},
+    {"locator":"T1-B.figure","id":"S32-leakage","current_content":"Caption: El mismo feature, la misma fórmula. La única diferencia es dónde termina la ventana — y esa diferencia es toda la fuga. Alt: dos barras sobre corte temporal; la incorrecta cruza test y la correcta se detiene en el corte.","status":"SIN_CAMBIO_DEFENDIDO","finding_ids":["S32-F18"],"improved_content":null,"justification":"The temporal boundary model is useful; add availability-time nuance in prose/code rather than overcrowding the figure."}
+  ]
+}
