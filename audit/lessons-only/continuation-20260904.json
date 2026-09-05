@@ -1,12 +1,12 @@
 {
-  "schema_version": "1.3.0",
+  "schema_version": "1.4.0",
   "campaign_id": "lessons-only-adversarial-20260903",
   "continuation_date": "2026-09-04",
   "branch": "audit/lessons-only-adversarial-20260903",
-  "last_completed_section": "S20",
-  "last_completed_round": "S20-base-solarized-adversarial-audit-20260904",
+  "last_completed_section": "S21",
+  "last_completed_round": "S21-base-solarized-adversarial-audit-20260904",
   "last_completed_verdict": "REPAIR_REQUIRED",
-  "last_completed_material_findings": 24,
+  "last_completed_material_findings": 25,
   "section_artifacts": {
     "S17": {
       "base_audit": "audit/lessons-only/sections/S17.json",
@@ -51,38 +51,49 @@
       "coverage": "32/32 theory paragraphs + title/tagline/job relevance + 8 outcomes + 8 theory code/output blocks + 9 callouts + 1 figure",
       "material_findings": 24,
       "severity_counts": {"P0": 0, "P1": 17, "P2": 7, "P3": 0},
+      "status": "AUDITED_REPAIR_REQUIRED"
+    },
+    "S21": {
+      "base_audit": "audit/lessons-only/sections/S21.json",
+      "paragraph_shards": ["audit/lessons-only/sections/S21.paragraphs-01.json", "audit/lessons-only/sections/S21.paragraphs-02.json"],
+      "component_ledger": "audit/lessons-only/sections/S21.components.json",
+      "source_file": "src/lib/course/sections/s21-fastapi.ts",
+      "source_blob_sha": "f2da335a5bc20a72ab98726f5ffd3af4df7d3fce",
+      "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+      "coverage": "32/32 theory paragraphs + title/tagline/job relevance + 8 outcomes + 8 theory code/output blocks + 9 callouts + 1 figure",
+      "material_findings": 25,
+      "severity_counts": {"P0": 0, "P1": 18, "P2": 7, "P3": 0},
       "highest_risk_findings": [
-        "S20-F05 copy/load/save protects the master but cannot generically prove output template fidelity; openpyxl documents unsupported shapes may be lost",
-        "S20-F10 final manifest hardcodes reconcile_ok/backup/idempotent instead of deriving observed evidence",
-        "S20-F15 reconciliation never reads the generated workbook or checks n_xlsx",
-        "S20-F17 structure_ok only checks headers and can be a false green",
-        "S20-F13 ISO date claim contradicts default openpyxl date serialization",
-        "S20-F14 PEN reconciliation regresses S02 Decimal contract",
-        "S20-F19/S20-F20/S20-F21 batch lock/corrupt/timeout/quarantine behavior is simulated or promised but not implemented",
-        "S20-F02/S20-F03/S20-F04 roadmap-owned tables/named ranges, charts/protection and visual tests are omitted"
+        "S21-F02 gate says one run reconciles dashboard/XLSX/DOCX/PDF but theory never executes an integrated run",
+        "S21-F08 promised missing->em-dash path crashes on None in canonical Jinja table code",
+        "S21-F12 nonempty PNG is mislabeled as proof of visual legibility",
+        "S21-F14 searchable/rendered ReportLab PDF is not shown to be accessible/tagged",
+        "S21-F16 T3-B parity code opens none of the actual artifacts and only checks an in-memory dict/string",
+        "S21-F17 display rounding makes 28.04, 28.0 and 28 falsely pass as consistent",
+        "S21-F21 provenance hardcodes artifact ok states and hashes literal synthetic bytes rather than files",
+        "S21-F22 ready/checklist/persisted pending_review manifest contract is not implemented"
       ],
       "status": "AUDITED_REPAIR_REQUIRED"
     }
   },
   "audit_protocol_delta": {
     "rule": "SIN_CAMBIO_DEFENDIDO/NO_MATERIAL_CHANGE => improved_content=null",
-    "reason": "Legacy S17 paragraph shards violated the campaign's unchanged rewrite-null rule; S18-S20 follow the corrected protocol."
+    "reason": "Legacy S17 paragraph shards violated the campaign's unchanged rewrite-null rule; S18-S21 follow the corrected protocol."
   },
-  "next_section": "S21",
+  "next_section": "S22",
   "carry_forward_constraints": [
-    "Do not trust S20 reconcile_ok, idempotent, backup or structural flags until they are derived from executed checks rather than hardcoded JSON.",
-    "Do not treat master_intact=True as proof the generated workbook preserved the template; S20 must define supported Excel features and validate/review the output copy.",
-    "Do not consume S20 workbook totals until the generated workbook is reopened and totals plus row counts are reconciled to the same validated upstream payload.",
-    "Preserve S02 Decimal/integer-cent money semantics at the reporting boundary; S20 float +/-0.01 is not creditable as the PEN contract.",
-    "Do not consume pandas groupby pivots without explicit missing-key policy; default dropna can silently remove money from visible summaries.",
-    "Do not use S20 input_sha1_8 as authoritative provenance; use full SHA-256 and bind input, template, output, code version, dependency versions and run id.",
-    "S20 ISO date handling is PARTIAL until wb.iso_dates or an explicitly documented Excel serial-date contract is tested on the saved file.",
-    "S20 batch lock handling is PARTIAL; PermissionError from a fake opener is not a universal Excel lock model.",
-    "S20 corrupt handling is PARTIAL; BadZipFile is only one invalid-workbook failure surface.",
-    "Do not claim S20 batch robustness until size limit, bounded processing/timeout strategy, quarantine action, all counters and summary JSON are actually implemented.",
-    "S20 is missing roadmap-owned worksheet tables, defined names, Excel chart handling, workbook/worksheet protection and visual workbook tests; S21 must not assume those competencies are learned.",
-    "Keep S19 accessibility constraints active in S21: parity must include key/metric/value/denominator/filter/precision, and keyboard/focus/table semantics remain unresolved.",
-    "Keep S18 statistical/provenance constraints active: do not turn an uncertain or hand-authored analytical value into a polished report merely because S20 placed it in Excel."
+    "S22 must consume a persisted S21 pending_review manifest derived from actual files, not a printed in-memory dict.",
+    "Do not trust S21 dashboard/xlsx/doc='ok' states or data_sha1_8; S21 currently hardcodes statuses and hashes literal synthetic bytes.",
+    "Do not treat S21 rounded display equality as source metric parity; compare canonical metric id/value/unit/denominator/filter/run_id before formatting.",
+    "Preserve S02 Decimal or integer-cent semantics for PEN; S21 round(float(...)) is not creditable.",
+    "S21 DOCX heading/accessibility competence is PARTIAL: code reopens text but does not validate semantic style hierarchy, alt attachment or table-header semantics.",
+    "S21 PDF accessibility is NOT ESTABLISHED by text extraction or nonempty PNG rendering; tagged structure/reading order/alt/language remain unresolved.",
+    "S21 needs_ocr workflow is PARTIAL until an image-only negative fixture actually sets the flag and blocks factual extraction.",
+    "S21 StrictUndefined/fail-closed template behavior is PARTIAL; canonical theory environments still use default Undefined.",
+    "Missing, zero and redacted must remain distinct states; do not inherit the S21 opening's shared em-dash semantics.",
+    "S22 human approval must record actor/timestamp/comments and cannot be inferred from factory completion or artifact existence.",
+    "Do not send or draft recipient-facing content from S18-S21 artifacts until the final reporting payload has been revalidated and cross-artifact reconciliation succeeds.",
+    "Keep accessibility constraints active in recipient-facing email attachments and summaries; packaging does not erase unresolved document accessibility defects."
   ],
-  "status": "READY_TO_CONTINUE_WITH_S21"
+  "status": "READY_TO_CONTINUE_WITH_S22"
 }
