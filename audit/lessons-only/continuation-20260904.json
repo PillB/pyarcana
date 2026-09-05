@@ -1,13 +1,13 @@
 {
-  "schema_version": "1.8.0",
+  "schema_version": "1.9.0",
   "campaign_id": "lessons-only-adversarial-20260903",
   "continuation_date": "2026-09-04",
   "last_updated_date": "2026-09-05",
   "branch": "audit/lessons-only-adversarial-20260903",
-  "last_completed_section": "S25",
-  "last_completed_round": "S25-base-solarized-adversarial-audit-20260905",
+  "last_completed_section": "S26",
+  "last_completed_round": "S26-base-solarized-adversarial-audit-20260905",
   "last_completed_verdict": "REPAIR_REQUIRED",
-  "last_completed_material_findings": 33,
+  "last_completed_material_findings": 35,
   "section_artifacts": {
     "S17": {
       "base_audit": "audit/lessons-only/sections/S17.json",
@@ -118,27 +118,50 @@
         "S25-F14 circuit breaker is global and permanently open after threshold with no recovery/alert implementation"
       ],
       "status": "AUDITED_REPAIR_REQUIRED"
+    },
+    "S26": {
+      "base_audit": "audit/lessons-only/sections/S26.json",
+      "paragraph_shards": ["audit/lessons-only/sections/S26.paragraphs-01.json", "audit/lessons-only/sections/S26.paragraphs-02.json"],
+      "component_ledger": "audit/lessons-only/sections/S26.components.json",
+      "source_file": "src/lib/course/sections/s26-integrator-phase1.ts",
+      "source_blob_sha": "4dd5caa012a9a333b428a71162fb157c6c279dcb",
+      "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+      "coverage": "34/34 theory paragraphs + title/tagline/job relevance + 8 outcomes + 8 theory code/output blocks + 9 callouts + 2 figures",
+      "material_findings": 35,
+      "severity_counts": {"P0":0,"P1":27,"P2":8,"P3":0},
+      "highest_risk_findings": [
+        "S26-F02 canonical approve→draft_email order cannot satisfy S22 final approval bound to the exact draft/recipient set",
+        "S26-F04 topo can silently return a partial order for a graph containing a cyclic component",
+        "S26-F14 write_report/write_draft overwrite prior payload instead of create-once idempotency",
+        "S26-F17/F18 compensation destroys report body and draft audit evidence",
+        "S26-F19 pending-count HITL gate opens for rejected/error states",
+        "S26-F23 reject without reason is accepted despite the stated API contract",
+        "S26-F30 e2e_vp fabricates success for all nodes without executing them",
+        "S26-F31 n2_regression='pass' is hardcoded rather than produced by regression suites",
+        "S26-F35 no immutable lineage binds source/evidence/AI/review/report/draft"
+      ],
+      "status": "AUDITED_REPAIR_REQUIRED"
     }
   },
   "audit_protocol_delta": {
     "rule": "SIN_CAMBIO_DEFENDIDO/NO_MATERIAL_CHANGE => improved_content=null",
-    "reason": "S18-S25 follow the corrected paragraph protocol; defended content is not rewritten for cosmetic churn."
+    "reason": "S18-S26 follow the corrected paragraph protocol; defended content is not rewritten for cosmetic churn."
   },
-  "next_section": "S26",
+  "next_section": "S27",
   "carry_forward_constraints": [
-    "S26 must not treat any S25 classifier/narrative output as validated unless it is bound to immutable model revision/config/schema, trusted evidence ids and the exact upstream source/run lineage.",
-    "Do not inherit S25 narrative example 'Mediana Lima 28 PEN': PEN was not present in its prompt context and the example is a confirmed hallucination. Restore canonical unit/evidence before orchestration.",
-    "Do not consume S25 monetary float values. Preserve S02 Decimal/integer-cent semantics through any AI narrative/report/email path.",
-    "S25 key-presence schema_ok is not sufficient. S26 must require typed schema plus semantic grounding: evidence ids exist, numeric claims reconcile, labels/ranges are allowed and extra fields follow policy.",
-    "S25 human_review/requires_human_approval are labels/booleans, not proof of review. S26 must persist reviewer identity, timestamp, decision/correction and bind it to exact model output/action.",
-    "S25 prompt injection regex is telemetry only and the current fixture still builds the request after detection. S26 must enforce untrusted-content routing and output/action authorization independently of regex detection.",
-    "Tools require authorization of name, typed args, resource/tenant and side-effect class; do not inherit S25 name-only allowlist or synthetic ok=True as proof of tool execution.",
-    "Do not log or require hidden chain-of-thought. Persist plan/rationale summaries, tool calls/results, policy decisions and checkpoints that are externally verifiable.",
-    "S25 candidate models have not beaten a baseline. Before S26 promotes/uses an AI path, compare candidate and baseline on the same versioned golden with explicit n, model revision, cost/latency/safety and fail-closed promotion criteria.",
-    "Do not reuse S25 field_match_rate as written: missing prediction versus gold null currently scores as correct. Presence and value equality must be scored separately.",
-    "S25 cache identity sha256(model|text)[:12] is not creditable for orchestration. Use full canonical identity including immutable model revision and relevant prompt/schema/config versions.",
-    "S25 circuit breaker/fallback is PARTIAL: global breaker never recovers and fallback is only a label. S26 must not interpret circuit=open or rules_or_human as completed work.",
-    "S21-S24 remain REPAIR_REQUIRED. S26 must preserve one lineage from source artifact -> extracted evidence -> AI input -> model output -> human review -> report/draft/action, rather than laundering prior false-green labels through orchestration."
+    "S27 must treat S26 hardcoded success/n2_regression='pass'/fraud_labels=0/cost/value fields as test targets for failure, not as evidence that N2 passed.",
+    "Add regression tests proving a cyclic or partially cyclic DAG raises explicitly; a partial topological order is not a valid success result.",
+    "Test positive state semantics: rejected/error/needs_revision/missing review artifacts must block; pending_count==0 alone must never mean approved.",
+    "Restore S22 approval semantics in contracts: pre-draft analysis/report/recipient review may authorize draft creation, but final approval must bind the exact draft hash and recipient set.",
+    "Idempotency tests must cover same key+same payload, same key+different payload, concurrent INPROGRESS and restart persistence; a dict overwrite is not creditable.",
+    "Compensation tests must prove report/draft history remains reconstructable after supersede/cancel; do not accept pop/record replacement that destroys evidence.",
+    "Retry tests must distinguish side-effect-free/transient errors from outcome-unknown or permanent data/config errors, and verify capped backoff+jitter is actually applied.",
+    "Checkpoint tests must kill/restart the process or reopen a persistent store; an in-memory set cannot prove crash recovery.",
+    "DLQ tests should verify lineage, attempts, timestamps, owner, SLA and controlled redrive/reject state rather than presence in a Python list only.",
+    "Audit/HITL tests must require authorized actor, timezone-aware timestamp, allowed action, mandatory reject reason and exact artifact version/hash binding; edits create new immutable versions.",
+    "SLO tests must use one declared measurement window and explicit eligible-run denominator; skipped must not silently count as success.",
+    "E2E tests must inject transient failure, permanent failure/DLQ, human reject and restart recovery; promotion is derived only from observed manifests from CP-N2-A/B/C + S14-S26 + CF-2.",
+    "Preserve the unresolved S21-S25 lineage constraints: S27 must not make a green integration test by stubbing every upstream status to success without verifying source hashes/model/schema/review provenance."
   ],
-  "status": "READY_TO_CONTINUE_WITH_S26"
+  "status": "READY_TO_CONTINUE_WITH_S27"
 }
