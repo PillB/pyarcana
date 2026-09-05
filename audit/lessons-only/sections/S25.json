@@ -1,0 +1,212 @@
+{
+  "schema_version": "2.1.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S25",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s25-streamlit-dashboards.ts",
+  "canonical_blob_sha": "425a29772e0269aff009dba7294c8c95d698f615",
+  "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+  "short_title": "IA endpoints y prompts",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "canonical_mapping": {
+    "index_file": "src/lib/course/index.ts",
+    "import": "section25 from ./sections/s25-streamlit-dashboards",
+    "status": "VERIFIED"
+  },
+  "prior_audit": {
+    "status": "NONE_FOUND_ON_AUDIT_BRANCH",
+    "method": "Direct fetch of audit/lessons-only/sections/S25.json returned 404 before creation."
+  },
+  "learner_entry_state": {
+    "baseline": "ZERO_TECH_CAPABLE",
+    "prerequisites": ["S21", "S22", "S23", "S24"],
+    "credit_rule": "Only prior concepts adjudicated USABLE count as learned.",
+    "critical_dependency_warning": "S21-S24 remain REPAIR_REQUIRED. S25 cannot treat OCR status=auto, S24 confidence>=0.85, S23 downloads, S22 approvals or S21 report values as trustworthy merely because earlier snippets emitted those labels.",
+    "usable": [
+      "human review is distinct from model generation",
+      "score is not a legal/fraud verdict",
+      "untrusted external text must not become instructions",
+      "evidence should remain bound to source artifacts",
+      "abstention/review is a valid outcome"
+    ],
+    "not_creditable": [
+      "S24 fields are fully provenance-bound or human-reviewed",
+      "S24 monetary floats are safe",
+      "S24 confidence is calibrated or even normalized consistently",
+      "S23 browser artifact is uniquely/currently verified",
+      "S22 approved state is bound to exact content and recipients"
+    ]
+  },
+  "roadmap_expectation": {
+    "source": "learning_roadmap_52_V3.md",
+    "prerequisites": "S21-S24",
+    "environment": "local/cloud aprobado",
+    "project": "análisis asistido, no autónomo",
+    "T1": "Selección: regla vs modelo especializado vs LLM; model cards, licencias y local/cloud",
+    "T2": "Inferencia: Hugging Face pipelines/endpoints; batching, timeout, cache, costo y fallback",
+    "T3": "Prompting: objetivo, contexto, restricciones, ejemplos y salida estructurada; GLM-5.2 thinking/tools/checkpoints",
+    "T4": "Evals/seguridad: golden set, schema y revisión humana; prompt injection, exfiltración, sesgo y minimización",
+    "gate": "clasificador/extractor especializado y generador de narrativa con JSON validado; no se acepta una salida sin evidencia ni eval contra baseline"
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/",
+    "status": "PUBLIC_CARD_VERIFIED_BODY_NOT_HYDRATED_IN_TEXT_FETCH",
+    "evidence": "Public page exposes Section 25 'IA endpoints y prompts' and the same baseline/evidence tagline. Hydrated theory body is not exposed by the public text surface, so render-only defects were not invented."
+  },
+  "audit_metadata": {
+    "theory_blocks_reviewed": 10,
+    "paragraphs_reviewed": 33,
+    "paragraphs_expected": 33,
+    "paragraph_coverage_complete": true,
+    "learning_outcomes_reviewed": 8,
+    "theory_code_blocks_reviewed": 8,
+    "theory_outputs_reviewed": 8,
+    "theory_callouts_reviewed": 9,
+    "theory_figures_reviewed": 2,
+    "runtime_validation": {
+      "checks": [
+        "deploy_choice returns cloud_or_local for the supplied card even though the same card lists fraud adjudication in not_for; the function itself never enforces intended/not_for.",
+        "T3-A canonical prompt does not contain PEN, yet the published output says 'Mediana Lima 28 PEN'.",
+        "T3-A output keys are hallazgo/n/mediana/limite, while the reference narrative contract requires hallazgo/n/mediana/evidence_ids/model.",
+        "schema_ok returns True for {'h':123,'n':'one'} because it validates key presence only.",
+        "field_match_rate({}, {'x': None}) returns 1.0; missing prediction is counted as correct when the gold value is null.",
+        "eval_rows([]) raises ZeroDivisionError.",
+        "After three failures the simple circuit returns circuit=open even for a subsequent healthy-looking call; there is no half-open/recovery path.",
+        "injection_signal returns True for the canonical malicious document but build_request still constructs a model request carrying that same untrusted_document.",
+        "run_checkpointed marks an allowlisted tool ok=True without executing the tool or validating arguments/results."
+      ]
+    }
+  },
+  "external_research": [
+    {
+      "source": "Hugging Face Transformers current pipeline documentation",
+      "url": "https://huggingface.co/docs/transformers/main_classes/pipelines",
+      "finding": "TextClassificationPipeline returns label/score shapes and supports list inputs, but the model score is produced from model outputs; application adapters still need their own versioning/contract validation."
+    },
+    {
+      "source": "Hugging Face Model Cards",
+      "url": "https://huggingface.co/docs/hub/en/model-cards",
+      "finding": "Cards should document model, intended uses, limitations/biases, training/datasets and evaluation; license is metadata, while out-of-scope uses are documented content rather than a universal structured not_for API field."
+    },
+    {
+      "source": "Hugging Face Inference Endpoints",
+      "url": "https://huggingface.co/docs/inference-endpoints/guides/configuration",
+      "finding": "Endpoints have concrete auth/network/autoscaling/cost controls; current S25 deployment and ops mocks do not model endpoint identity, auth policy, revision, timeout client behavior or recovery state."
+    },
+    {
+      "source": "OWASP LLM Prompt Injection Prevention Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+      "finding": "Untrusted content, output/action validation, least privilege and human approval are defense-in-depth controls; regex detection and textual delimiters are not sufficient."
+    },
+    {
+      "source": "zai-org/GLM-5.2 model card",
+      "url": "https://huggingface.co/zai-org/GLM-5.2",
+      "finding": "GLM-5.2 is a current model with thinking/tool-relevant capabilities, so its complete omission from S25 theory is roadmap drift rather than an obsolete roadmap reference."
+    }
+  ],
+  "score": 2.8,
+  "verdict": "REPAIR_REQUIRED",
+  "material_findings": 33,
+  "severity_counts": {"P0":0,"P1":22,"P2":11,"P3":0},
+  "findings": [
+    {"id":"S25-F01","severity":"P1","category":"PREREQUISITE_INTEGRITY","evidence":"Opening treats S24 extracted fields as available inputs for model judgment.","attack":"S24 remains REPAIR_REQUIRED: provenance, bbox lineage, monetary semantics, confidence normalization and review completion are not creditable.","defense":"Curriculum continuity requires consuming prior artifacts.","verdict":"CONFIRMED","impact":"A model can amplify an upstream false-green field into a persuasive narrative/classification.","repair":"Require a validated S24 handoff record with source hash, raw+normalized values, confidence scale/version and review state; otherwise route human."},
+    {"id":"S25-F02","severity":"P1","category":"GATE_FIDELITY","evidence":"All executable theory inference is a keyword mock or deterministic dict builder; real transformers/HTTP calls are comments/reference only.","attack":"Roadmap/title promise Hugging Face pipelines/endpoints and a classifier/extractor plus narrative generator.","defense":"Mocks make the lesson reproducible without downloading weights or requiring network access.","verdict":"CONFIRMED","impact":"A learner can satisfy theory without demonstrating endpoint invocation, serialization, HTTP errors, provider auth or actual model output normalization.","repair":"Keep mocks, but add one controlled real/local transformers adapter or approved HTTP test double that exercises the same contract end-to-end."},
+    {"id":"S25-F03","severity":"P1","category":"GATE_FIDELITY","evidence":"hf_mock is a keyword rule classifier and prompt_struct.build_output is a normal Python dict constructor; there is no specialized extractor and no model-generated narrative.","attack":"Tagline/gate claim specialized classifier/extractor and narrative generator.","defense":"The lesson intentionally focuses on contracts rather than weights.","verdict":"CONFIRMED","impact":"The most important nouns in the gate are simulated away, so model-specific failure modes never appear.","repair":"Demonstrate at least one actual specialized model output and one model-generated structured narrative on synthetic data, both behind deterministic contract tests."},
+    {"id":"S25-F04","severity":"P2","category":"MODEL_SELECTION_HEURISTIC","evidence":"choose_stack hardcodes specialized_model when n_train >= 500.","attack":"No universal 500-example threshold determines whether a specialized model is appropriate; task difficulty, class balance, label quality, baseline and model family matter.","defense":"A simple threshold reduces novice decision complexity.","verdict":"CONFIRMED","impact":"Learner can treat sample count as scientific selection criterion instead of a toy lab heuristic.","repair":"Label 500 explicitly as a fixture value and make measured validation vs baseline the actual selection gate."},
+    {"id":"S25-F05","severity":"P1","category":"MODEL_SELECTION_EVIDENCE","evidence":"choose_stack selects rules/specialized/LLM from task flags before any quality, latency, privacy, cost or baseline measurement.","attack":"The section's own promotion contract requires eval vs baseline, yet stack selection is rule-of-thumb only.","defense":"T4 evaluates later.","verdict":"CONFIRMED","impact":"Architecture can be locked in before evidence shows it adds value.","repair":"Use the tree only to generate candidates; final choice must compare candidates on the same fixed eval set plus operational/governance constraints."},
+    {"id":"S25-F06","severity":"P2","category":"MODEL_CARD_SEMANTICS","evidence":"Prose/code treat card['not_for'] as though it were a universal structured model-card field.","attack":"Hugging Face model cards are Markdown+metadata; out-of-scope/misuse information is documented content and not guaranteed as a normalized not_for key.","defense":"The lab can normalize documentation into a local governance record.","verdict":"CONFIRMED","impact":"Learner may expect machine-readable fields that many real cards do not provide.","repair":"State that not_for is the course's normalized governance field extracted from Out-of-Scope Use/limitations, and preserve source evidence."},
+    {"id":"S25-F07","severity":"P1","category":"DEPLOYMENT_POLICY","evidence":"deploy_choice only checks has_pii_live and a two-license allowlist; intended/not_for is explicitly delegated to the caller.","attack":"The same prohibited-use card can return cloud_or_local; policy safety depends on another caller remembering an unstated composition order.","defense":"The comment says the caller applies blocked_use separately.","verdict":"CONFIRMED","impact":"A governance check can be skipped while deployment still returns a positive choice.","repair":"Create one fail-closed deployment policy that combines intended/out-of-scope use, license/legal review, data class, provider approval, residency/retention and network/auth controls."},
+    {"id":"S25-F08","severity":"P1","category":"MODEL_PROVENANCE","evidence":"Prose promises model/card version metadata; executable adapters emit only model='demo-cls' or model='demo' and no revision/card hash/config.","attack":"A mutable model id cannot reproduce a past classification or cache entry.","defense":"Synthetic fixture ids are stable within one code sample.","verdict":"CONFIRMED","impact":"Golden results and cached outputs cannot be bound to exact model artifacts/configuration.","repair":"Persist model repository/id + immutable revision/hash, task/config, tokenizer/prompt/schema versions and card source hash."},
+    {"id":"S25-F09","severity":"P2","category":"ADAPTER_CONTRACT","evidence":"Classifier contract checks are described as keys/types, but hf_mock simply returns dicts; no validator enforces label enum, score numeric/range, cardinality or model revision.","attack":"Same shape does not guarantee semantically compatible adapters.","defense":"The mock illustrates the base label/score shape documented by HF.","verdict":"CONFIRMED","impact":"An endpoint with malformed score/unknown label can pass downstream until later logic breaks.","repair":"Implement an explicit adapter validator for list cardinality, types, label domain, finite score range and immutable model metadata."},
+    {"id":"S25-F10","severity":"P1","category":"UNTRUSTED_INPUT_ROUTING","evidence":"T2-A says injection indications go human_review, but classifier adapter accepts arbitrary texts without a trust marker or injection/risk route.","attack":"S24 OCR is explicitly untrusted_document_content from the carry-forward contract.","defense":"Detailed injection controls appear in T4-B.","verdict":"CONFIRMED","impact":"The primary inference path can consume document directives before the promised security gate is demonstrated.","repair":"Carry trust/source metadata through every adapter and centralize the policy route before any model/tool-capable path."},
+    {"id":"S25-F11","severity":"P2","category":"INFERENCE_OPERATIONS","evidence":"Outcome promises batching and timeout operation; code loops a list in a mock and simulates timeout with fail=True rather than configuring a client/request timeout or batch policy.","attack":"Operational behavior is asserted but not exercised.","defense":"Network-independent simulation is deliberate.","verdict":"CONFIRMED","impact":"Learner does not practice batch sizing, provider response cardinality, timeout configuration or client-specific timeout exceptions.","repair":"Add controlled batch and HTTP-client test-double cases for partial/malformed batch responses and configured timeout exceptions."},
+    {"id":"S25-F12","severity":"P1","category":"CACHE_CORRECTNESS","evidence":"cache key is sha256(model|text)[:12].","attack":"It omits immutable model revision, task/config, prompt/schema/tokenizer version and policy; truncation also weakens collision margin.","defense":"For a tiny synthetic pure classifier, model+text often determines output.","verdict":"CONFIRMED","impact":"A model/config update can reuse stale output as if current.","repair":"Hash the complete canonical inference identity with full SHA-256; use a short prefix only for display."},
+    {"id":"S25-F13","severity":"P2","category":"COST_MODEL","evidence":"cost=COST_PER_1K*len(text)/1000 while prose says tokens or requests; no currency/provider/pricing version is recorded.","attack":"Characters are not tokens and per-request pricing is a different unit.","defense":"It is a toy estimate.","verdict":"CONFIRMED","impact":"Learner may treat an arbitrary character formula as a cloud cost estimate.","repair":"Declare the unit explicitly; for token pricing use the actual tokenizer/usage response, and version provider/model/currency/pricing date."},
+    {"id":"S25-F14","severity":"P1","category":"CIRCUIT_BREAKER","evidence":"One global failures counter opens after 3 and never transitions half-open/closed; no timer, endpoint key or alert is implemented.","attack":"Runtime probe shows even a later healthy-looking call returns circuit=open forever.","defense":"The heading explicitly says circuit breaker simple.","verdict":"CONFIRMED","impact":"One endpoint/model can permanently disable all inference in-process and there is no recovery probe or observable alert.","repair":"Scope breaker by dependency, add closed/open/half_open state with cooldown/recovery probe and emit an alert/event when state changes."},
+    {"id":"S25-F15","severity":"P1","category":"FALLBACK_EXECUTION","evidence":"Open circuit returns {'fallback':'rules_or_human'} but executes neither a rule nor a human-review enqueue.","attack":"A label is not a fallback path.","defense":"The example is intended to teach routing semantics.","verdict":"CONFIRMED","impact":"Downstream code can mistake a routing hint for handled work.","repair":"Return a typed routing decision consumed by an actual deterministic fallback or persisted review item; never present it as completed inference."},
+    {"id":"S25-F16","severity":"P1","category":"NARRATIVE_CONTRACT_DRIFT","evidence":"Reference contract requires hallazgo,n,mediana,evidence_ids,model; T3-A outputs hallazgo,n,mediana,limite.","attack":"The canonical prompting example omits both evidence linkage and model identity.","defense":"limite demonstrates a useful limitation field.","verdict":"CONFIRMED","impact":"An output can satisfy the displayed prompt while violating the section's authoritative narrative contract and tagline evidence requirement.","repair":"Use one versioned narrative schema everywhere; include evidence_ids/model and optional limitations as an additional validated field."},
+    {"id":"S25-F17","severity":"P1","category":"HALLUCINATION_IN_CANONICAL_EXAMPLE","evidence":"PROMPT context contains 'mediana Lima=28 n=40' but generated example says 'Mediana Lima 28 PEN'.","attack":"PEN is absent from the supplied context, directly violating 'no inventes'.","defense":"Earlier reporting sections often use PEN.","verdict":"CONFIRMED","impact":"The canonical example normalizes exactly the unsupported factual addition the section says to reject.","repair":"Include unit=PEN in the trusted context/evidence or remove PEN from hallazgo; add a grounding validator against supplied fields."},
+    {"id":"S25-F18","severity":"P1","category":"MONEY_REGRESSION","evidence":"Narrative fixture uses mediana=28.0 and hallazgo='28 PEN'.","attack":"S02 established Decimal/integer-cent semantics for money; S24 monetary float was explicitly not creditable.","defense":"This is display-only synthetic data.","verdict":"CONFIRMED","impact":"The AI layer reintroduces floating-point monetary semantics into evidence/reporting.","repair":"Pass canonical monetary values as Decimal/string minor-unit representations and format for display separately."},
+    {"id":"S25-F19","severity":"P1","category":"SCHEMA_VALIDATION","evidence":"schema_ok and T3-A validation require key presence only; runtime accepts {'h':123,'n':'one'}.","attack":"The gate says JSON validado and the contracts specify typed semantic fields.","defense":"The prose explicitly calls this a minimum gate rather than full JSON Schema.","verdict":"CONFIRMED","impact":"Type-invalid, out-of-domain or unexpected-property output can be called schema-valid.","repair":"Keep the key-presence exercise as first layer, then validate types, enums/ranges, required evidence ids and additional-properties policy with a real schema validator or equivalent code."},
+    {"id":"S25-F20","severity":"P1","category":"GROUNDING_VALIDATION","evidence":"No code verifies hallazgo/n/mediana against trusted S24/S21 values or checks that evidence_ids exist.","attack":"S25 repeatedly promises no output without evidence, but structural JSON alone does not prove grounding.","defense":"T4 prose says evidence_ids should exist in the OCR fixture.","verdict":"CONFIRMED","impact":"A fluent but fabricated value/reference can pass schema validation and golden plumbing.","repair":"Validate every evidence id against the run's evidence registry and compare derived numeric claims to canonical values/units before human review."},
+    {"id":"S25-F21","severity":"P2","category":"ROADMAP_DRIFT","evidence":"Roadmap T3 explicitly names GLM-5.2 thinking/tools/checkpoints; canonical S25 deliberately removes product-specific treatment and never mentions GLM-5.2.","attack":"GLM-5.2 is current, so the omission is not justified by obsolescence.","defense":"Generic patterns transfer better across providers.","verdict":"CONFIRMED","impact":"Roadmap promises a concrete model-specific capability that learners never see, while source silently changes scope.","repair":"Either revise roadmap to generic provider-neutral reasoning/tools or add a clearly optional GLM-5.2 mapping that remains subordinate to generic safety contracts."},
+    {"id":"S25-F22","severity":"P2","category":"REASONING_LOGGING_MODEL","evidence":"run_checkpointed logs {'think': note} as an auditable checkpoint.","attack":"Hidden chain-of-thought is not a portable API contract and logging private reasoning is unnecessary; auditable systems should log plans, decisions, tool intents/results and policy reasons.","defense":"The fixture uses an explicit synthetic note, not an actual provider chain-of-thought.","verdict":"CONFIRMED","impact":"Learner may build observability around unavailable/sensitive reasoning text instead of externally verifiable actions.","repair":"Rename to plan/rationale summary and never require or persist hidden chain-of-thought."},
+    {"id":"S25-F23","severity":"P1","category":"TOOL_AUTHORIZATION","evidence":"Tool policy checks only step['name']; arguments, resource scope, side-effect class and original user intent are absent, and allowed tools are logged ok=True without execution.","attack":"Allowlisted function names can still perform unsafe actions with malicious arguments.","defense":"The lab focuses on the first allowlist concept.","verdict":"CONFIRMED","impact":"The learner can mistake name allowlisting for least privilege/action authorization.","repair":"Validate tool name + typed args + resource/tenant + side-effect policy + approval requirement, execute through a sandboxed adapter, then validate result."},
+    {"id":"S25-F24","severity":"P1","category":"CHECKPOINT_CONTRACT","evidence":"Prose promises plan→tool→validar→narrar; code implements think/tool/deny only and hardcodes ok=True.","attack":"No validation or narration checkpoint exists.","defense":"It demonstrates stop-on-denial.","verdict":"CONFIRMED","impact":"Successful tool status is fabricated and the highest-risk boundary—validating tool output before narration—is absent.","repair":"Model explicit plan, authorization, execution, result validation and narrative stages with typed statuses/evidence."},
+    {"id":"S25-F25","severity":"P1","category":"EVAL_FALSE_POSITIVE","evidence":"field_match_rate uses pred.get(k)==gold.get(k) across union keys.","attack":"Runtime: field_match_rate({}, {'x':None}) == 1.0, so a missing prediction is counted correct when gold is null.","defense":"Using union avoids KeyError for missing keys.","verdict":"CONFIRMED","impact":"Field accuracy can be inflated by absence rather than correct prediction.","repair":"Compare key presence separately from value equality; a missing key must be a miss unless the schema explicitly defines omission as the gold representation."},
+    {"id":"S25-F26","severity":"P2","category":"EVAL_DENOMINATOR","evidence":"eval_rows divides by len(rows) with no empty-set contract.","attack":"eval_rows([]) raises ZeroDivisionError.","defense":"The shown fixture is nonempty.","verdict":"CONFIRMED","impact":"A filtered/no-eligible slice crashes instead of reporting not_evaluable and n=0.","repair":"Return a typed not_evaluable result with n, denominators and exclusion reasons."},
+    {"id":"S25-F27","severity":"P1","category":"BASELINE_PROMOTION_GATE","evidence":"T4-A code evaluates only model predictions; no baseline rows, model revision, fixed eval-set id or promotion rule are present.","attack":"Tagline/callout explicitly say no acceptance without eval vs baseline, and the figure says cases must not change between rounds.","defense":"The prose names rules/model anterior as baseline.","verdict":"CONFIRMED","impact":"There is no executable evidence that the AI improves over a simpler alternative or that prompt iterations use the same test set.","repair":"Evaluate candidate and baseline on the identical versioned golden set, persist metrics/cost/latency/safety, and define a fail-closed promotion rule."},
+    {"id":"S25-F28","severity":"P1","category":"HUMAN_REVIEW_IMPLEMENTATION","evidence":"human_review/HITL appears as strings/booleans; no persisted review item, reviewer, timestamp, decision or corrected output exists.","attack":"A routing label does not demonstrate human review.","defense":"S26 later orchestrates HITL more fully.","verdict":"CONFIRMED","impact":"S25 can claim outputs are reviewed without evidence a human ever saw them.","repair":"At minimum emit a review record schema and require an explicit reviewed decision before downstream report/email use."},
+    {"id":"S25-F29","severity":"P1","category":"PROMPT_INJECTION_CONTROL","evidence":"injection_signal(doc) is True for the canonical malicious document, but build_request(doc) is still called and contains the same untrusted document.","attack":"The section rule says injection indications derive to human_review.","defense":"The text correctly says regex is telemetry, not the real control.","verdict":"CONFIRMED","impact":"The executable example demonstrates detection without enforcement and can normalize 'flagged but still sent' behavior.","repair":"Make policy routing explicit: signal may raise review/deny, while defense-in-depth still treats undetected content as untrusted and constrains outputs/actions."},
+    {"id":"S25-F30","severity":"P1","category":"APPROVAL_ENFORCEMENT","evidence":"build_request sets requires_human_approval=True but no controller consumes it; system/untrusted_document are custom dict fields rather than a demonstrated provider role/action boundary.","attack":"A boolean declaration does not block an external action.","defense":"The request object is a policy contract rather than a send action.","verdict":"CONFIRMED","impact":"Learner can confuse metadata with enforcement.","repair":"Separate generation from action execution and enforce approval in the action gateway using a persisted reviewer decision bound to exact output/action."},
+    {"id":"S25-F31","severity":"P2","category":"AUTO_FRAUD_POLICY_EVIDENCE","evidence":"T4-B says route policy auto_fraud_label=False, but no theory code actually carries or asserts that field.","attack":"A stated policy has no executable regression guard.","defense":"Other prose repeatedly says score is not fraud.","verdict":"CONFIRMED","impact":"Future adapters can regress to an autonomous sensitive label without failing the shown tests.","repair":"Make prohibited downstream decisions an explicit contract/test and verify no adapter maps model score to fraud adjudication."},
+    {"id":"S25-F32","severity":"P2","category":"ZERO_TECH_REDACTION","evidence":"Dense terms include stack, fine-tuned, label set, golden, baseline, adapter, batch, cache, fallback, circuit breaker, schema rate, prompt injection, tools/checkpoints/HITL.","attack":"Many are introduced in clusters rather than Spanish-first causal explanations.","defense":"Several terms receive parenthetical translations.","verdict":"CONFIRMED","impact":"High code-switching load competes with already difficult model-risk concepts.","repair":"Introduce Spanish concept first, keep API literals in code, and repeat one stable term thereafter."},
+    {"id":"S25-F33","severity":"P2","category":"FIGURE_SCOPE_ALIGNMENT","evidence":"S25-eval-loop sits under T2-A Pipelines/endpoints, but caption/alt describe prompt→output→evaluate→adjust and fixed evaluation cases.","attack":"The figure visually teaches T3/T4 prompt evaluation while learner is studying adapter normalization.","defense":"Evaluation continuity is relevant to any adapter.","verdict":"CONFIRMED","impact":"The scarce diagram creates split attention instead of dual-coding the current endpoint contract.","repair":"Move eval-loop to T4-A; give T2-A a diagram raw HF/HTTP response→adapter normalization→contract validation→typed result/human_review."
+  ],
+  "rejected_hypotheses": [
+    {"hypothesis":"HF text-classification pipeline does not return label/score.","verdict":"REJECTED","reason":"Current Transformers documentation shows [{'label':..., 'score':...}] for text classification; the defect is the missing application adapter validation/versioning, not the base HF shape."},
+    {"hypothesis":"Regex injection detection is presented as sufficient security.","verdict":"REJECTED","reason":"The prose explicitly calls regex telemetry rather than a real control. The confirmed defect is that the executable policy detects the malicious fixture yet still constructs the model request."},
+    {"hypothesis":"Using mock models is inherently pedagogically wrong.","verdict":"REJECTED","reason":"Mocks are appropriate for deterministic contract tests; the defect is that the section gate/title claims real endpoint/model capabilities without any executed bridge to one real adapter."},
+    {"hypothesis":"Cloud endpoints can never process personal data.","verdict":"REJECTED","reason":"That is not a universal technical fact. S25's no-real-PII-to-public-endpoints rule is a conservative course policy; the problem is incomplete executable deployment governance, not the conservative boundary itself."},
+    {"hypothesis":"A model score is always a calibrated probability.","verdict":"REJECTED_AS_SECTION_CLAIM","reason":"S25 does not call score a legal probability and repeatedly says score is only a signal. No false claim was charged here."}
+  ],
+  "meta_leak": {
+    "learner_facing_confirmed": [],
+    "source_only": [
+      {
+        "location":"file header",
+        "text":"Read `title` below, never the slug. Matching content to the slug is how three agent diagrams ended up attached to a data-testing lesson.",
+        "verdict":"SOURCE_ONLY_NOTE_NOT_CONFIRMED_LEARNER_FACING"
+      }
+    ]
+  },
+  "graph_memory": {
+    "usable": [
+      "untrusted document text is data, not authority",
+      "score is not a fraud/legal verdict",
+      "schema-invalid output should fail closed",
+      "model cards/intended use/limitations matter",
+      "tools are privileges and denial should stop execution",
+      "golden evaluation should precede promotion",
+      "human review is required for uncertain/high-risk outputs"
+    ],
+    "partial": [
+      "candidate stack selection",
+      "real HF/HTTP adapter equivalence",
+      "model/card provenance",
+      "batch/timeout/cache/cost operations",
+      "circuit breaker/fallback",
+      "structured narrative schema",
+      "tool authorization/checkpoints",
+      "baseline promotion gate",
+      "prompt injection action enforcement",
+      "human review persistence"
+    ],
+    "misconception_risk": [
+      "500 examples is a universal specialized-model threshold",
+      "not_for is a universal machine-readable model-card key",
+      "model id without revision is enough provenance",
+      "model+text short hash is sufficient cache identity",
+      "character count is token cost",
+      "open circuit without recovery is a complete breaker",
+      "key presence means JSON contract valid",
+      "missing prediction equals gold null",
+      "injection detected but still sent is acceptable",
+      "requires_human_approval=True enforces approval",
+      "allowlisted tool name alone authorizes a tool call"
+    ]
+  },
+  "priority_order": [
+    "F16/F17/F19/F20: make the canonical narrative contract grounded, typed and evidence-bound; remove the published hallucination.",
+    "F27/F25/F26: implement honest fixed-set baseline evaluation and correct field/denominator semantics.",
+    "F29/F30/F23/F24: turn security/tool/approval declarations into enforced policy boundaries.",
+    "F02/F03: add a real controlled adapter/model bridge so the gate measures AI endpoints rather than mocks alone.",
+    "F12/F14/F15/F11/F13: repair operational inference identity, cache, circuit, fallback, timeout/batch and cost semantics.",
+    "F01/F08/F18: preserve upstream provenance and monetary/model revision semantics.",
+    "F04/F05/F06/F07/F09/F10/F21/F22/F31/F32/F33: tighten selection/governance, roadmap alignment, terminology and visual pedagogy."
+  ]
+}
