@@ -1,0 +1,148 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "review_round": "S17-R2-solarized-adversarial-revalidation-20260904",
+  "section": "S17",
+  "title": "Joins, reshape, groupby y cierre analítico",
+  "scope": "LESSONS_ONLY",
+  "generated_at": "2026-09-04T20:36:00-05:00",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "source_state": {
+    "repository": "PillB/pyarcana",
+    "branch": "main",
+    "main_commit": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+    "canonical_index": "src/lib/course/index.ts",
+    "canonical_file": "src/lib/course/sections/s17-packaging.ts",
+    "canonical_blob_sha": "948e1c6d3b937313beee683974e4363c3c90c059",
+    "source_unchanged_since_extant_s17_audit": true,
+    "extant_audit_path": "audit/lessons-only/sections/S17.json",
+    "extant_audit_blob_sha": "e7288c8fcfebc1102b06e2eb30bb61f3d09207d8",
+    "extant_paragraph_shards": [
+      "audit/lessons-only/sections/S17.paragraphs-01.json",
+      "audit/lessons-only/sections/S17.paragraphs-02.json"
+    ]
+  },
+  "live_site_validation": {
+    "url": "https://pillb.github.io/pyarcana/#packaging",
+    "status": "HYDRATED_RENDER_NOT_VERIFIABLE_IN_CURRENT_TOOLING",
+    "evidence": "Current direct fetch returned DisabledError and site-specific search returned no indexed S17 body. No source/render paragraph-parity claim is made.",
+    "policy": "Rendered-only defects remain unresolved rather than invented."
+  },
+  "comparison_to_extant": {
+    "prior_material_findings_reviewed": 19,
+    "prior_findings_upheld": 19,
+    "prior_findings_rejected": 0,
+    "prior_findings_tightened": ["S17-F02", "S17-F18"],
+    "new_confirmed_findings": ["S17-R2-F20", "S17-R2-F21"],
+    "resulting_material_findings": 21,
+    "severity_counts_after_round2": {"P0": 0, "P1": 11, "P2": 10, "P3": 0},
+    "verdict": "REPAIR_REQUIRED"
+  },
+  "audit_artifact_correction": {
+    "type": "LEDGER_PROTOCOL_DEFECT",
+    "evidence": "The campaign log requires unchanged_paragraphs_keep_rewrite_null=true, but several legacy S17 entries marked SIN_CAMBIO_DEFENDIDO contain a changed non-null improved_version.",
+    "impact": "This blurs material repair with optional editorial refinement and inflates apparent change volume.",
+    "new_rule": "From R2 onward, SIN_CAMBIO_DEFENDIDO/NO_MATERIAL_CHANGE must set improved_content=null. Optional stylistic alternatives belong in style_only_note and are never counted as repairs.",
+    "legacy_handling": "Keep historical shards immutable; record the correction append-only."
+  },
+  "upheld_findings": [
+    "S17-F01", "S17-F02", "S17-F03", "S17-F04", "S17-F05", "S17-F06", "S17-F07", "S17-F08", "S17-F09", "S17-F10", "S17-F11", "S17-F12", "S17-F13", "S17-F14", "S17-F15", "S17-F16", "S17-F17", "S17-F18", "S17-F19"
+  ],
+  "tightened_findings": [
+    {
+      "finding_id": "S17-F02",
+      "status": "UPHELD_WITH_EVIDENCE_TIGHTENED",
+      "attack": "The callout categorically says a str↔int join produces false orphans.",
+      "defense": "The exact failure surface depends on pandas version and concrete dtypes: a mismatch may raise before merge or may yield non-matches when representations are comparable/object-like.",
+      "verdict": "CONFIRMED_FINDING",
+      "learner_failure_mode": "A learner can diagnose the wrong symptom or treat a merge that did not raise as proof of semantic key alignment.",
+      "minimal_fix": "Teach that representation mismatch can fail early or fail to match correctly; normalize representation, apply null policy, and validate values/cardinality before trusting the result."
+    },
+    {
+      "finding_id": "S17-F18",
+      "status": "UPHELD_AND_SCOPE_EXPANDED",
+      "revised_category": "LEAKAGE_CONTROL_DISCONNECTED_AND_POST_CUTOFF_MASS_MISLABELED",
+      "attack": "T4-B applies cutoff only to a separate sum and calls sum_total - sum_pre a delta de leakage.",
+      "defense": "The arithmetic correctly separates all-period from pre-cutoff totals.",
+      "verdict": "CONFIRMED_FINDING",
+      "learner_failure_mode": "A learner can label all future observations as leakage yet still compute a genuinely leaky historical rolling/transform feature because the cutoff is not applied to the feature.",
+      "minimal_fix": "Call the raw difference post_cutoff_amount, show one deliberately leaky metric and its corrected as-of form, then apply the same boundary to transform or rolling."
+    }
+  ],
+  "new_confirmed_findings": [
+    {
+      "finding_id": "S17-R2-F20",
+      "severity": "P2",
+      "category": "ROW_GROWTH_FALSE_DICHOTOMY_AND_AMBIGUOUS_FIXTURE",
+      "location": "opening.p1 + opening.p2 + T1-A.p3 + join_card.py",
+      "attack": "The opening begins No es un error del código, while the first fixture prints cli=2, tx=3, merge=3. The left result equals tx length only by coincidence: one right orphan is excluded while one zero-match left client contributes a null row.",
+      "defense": "opening.p2 later explains that expected counts depend on join type and that right-side orphans do not enter a left join.",
+      "verdict": "CONFIRMED_FINDING",
+      "learner_failure_mode": "A learner can infer that a left-join row count tracks transaction rows and that unexpected growth indicates only bad data, not an incorrect key/how/cardinality assumption.",
+      "why_it_matters": "T1 is supposed to teach prediction of row counts from grain, cardinality and join semantics. The first worked numbers let a wrong mental model predict the correct output.",
+      "minimal_fix": "Qualify the opening and use a discriminative fixture where len(cli), len(tx) and len(left_merge) are visibly different; print bilateral orphan counts separately.",
+      "confidence": 1.0
+    },
+    {
+      "finding_id": "S17-R2-F21",
+      "severity": "P2",
+      "category": "OBSERVED_COHORT_CONFLATED_WITH_TRUE_FIRST_EVENT",
+      "location": "dictionary.p3 + T3-B.p1-p3 + windows_cohorts.py",
+      "attack": "The lesson computes cohort as min(fecha) and then gives mes de primera compra as its practical meaning, later connecting it to retention.",
+      "defense": "The prose also says primera observación válida, which is correct for the rows visible in the dataset.",
+      "verdict": "CONFIRMED_FINDING",
+      "learner_failure_mode": "A learner can classify an existing customer as newly acquired merely because the dataset starts after that customer's true first purchase, then interpret retention using the false cohort.",
+      "why_it_matters": "Cohort analysis depends on what the cohort event actually represents; left-truncated history changes the business meaning even when min(fecha) is computed correctly.",
+      "minimal_fix": "Call the default result cohorte observada. Only call it first purchase/acquisition when the source contract guarantees complete history back to the true first event, and state the observation-window start.",
+      "confidence": 1.0
+    }
+  ],
+  "round2_rejected_hypotheses": [
+    {
+      "hypothesis": "The lesson must replace indicator=True with native left_anti/right_anti.",
+      "verdict": "REJECTED_FINDING",
+      "reason": "Native anti-join support is version-dependent and indicator=True remains valid and pedagogically transparent; the real defect is that the current left merge cannot emit right_only."
+    },
+    {
+      "hypothesis": "Every cohort based on min(fecha) is wrong.",
+      "verdict": "REJECTED_FINDING",
+      "reason": "min(fecha) correctly identifies the first event in the available history; the defect appears only when that observed minimum is labeled true first purchase without a coverage guarantee."
+    },
+    {
+      "hypothesis": "A left join should preserve the left row count.",
+      "verdict": "REJECTED_FINDING",
+      "reason": "A legitimate 1:m left join can grow. Output count depends on match multiplicity plus zero-match left rows."
+    },
+    {
+      "hypothesis": "Post-cutoff rows are themselves leakage.",
+      "verdict": "REJECTED_FINDING",
+      "reason": "Future rows may exist legitimately. Leakage occurs when an as-of calculation consumes information unavailable at its cutoff."
+    }
+  ],
+  "adversarial_review": {
+    "most_likely_beginner_failure": "Accept a plausible analytical table because row counts or totals look reasonable while the controls do not prove the intended universe and grain.",
+    "suspected_hidden_prerequisite": "A trustworthy S16 clean/quarantine gate plus safe pandas join/concat semantics; the effective prior ledger grants neither as fully usable.",
+    "most_likely_misconception": "If merge/validate runs and totals still reconcile, grain and time boundary must be correct; additionally, min(fecha) is assumed to be the customer's true first purchase."
+  },
+  "three_most_likely_failure_causes": [
+    "Controls are taught as isolated checks instead of one end-to-end conservation chain over one shared fixture.",
+    "Important pandas defaults/semantics remain omitted or overgeneralized: null-key matching, missing-group exclusion, pivot_table aggregation, rolling boundaries and join/index behavior.",
+    "Business labels outrun the evidence: n means rows while prose says clients, observed minimum becomes first purchase, and post-cutoff mass becomes leakage."
+  ],
+  "graph_memory_update": {
+    "USABLE": ["cardinality 1:1/1:m mental model", "fan-out concept", "left join basic retention", "melt wide-to-long", "cutoff/as-of basic principle"],
+    "PARTIAL": ["validate", "bilateral anti-join", "concat", "pivot/pivot_table grain semantics", "stable schema", "groupby/agg/transform", "rolling", "reconciliation", "temporal leakage control", "cohort as first observed event"],
+    "MISCONCEPTION_RISK": ["DataFrame.join index semantics", "null join keys", "row count vs unique-client denominator", "PEN numerical representation", "S16 clean inheritance", "observed cohort vs true acquisition cohort"],
+    "MENTION_ONLY": ["resample", "EDA full model"],
+    "next_section_watchlist": [
+      "S18 must not inherit S17 reconciliation as proof of conservation until it is derived from the same pipeline.",
+      "S18 cohort/retention examples must state historical coverage before interpreting min(fecha) as acquisition.",
+      "S18 rates/averages must distinguish row counts from unique-entity denominators and state missing-group policy.",
+      "S18 time-dependent metrics must apply as-of boundaries to the actual feature/aggregation, not merely compute a separate pre-cutoff sum."
+    ]
+  },
+  "status": "AUDITED_REPAIR_REQUIRED"
+}
