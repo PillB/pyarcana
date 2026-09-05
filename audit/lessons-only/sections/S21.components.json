@@ -1,0 +1,241 @@
+{
+  "schema_version": "1.1.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S21",
+  "coverage": "title + tagline + job relevance + 8 outcomes + 8 theory code/output blocks + 9 callouts + 1 figure",
+  "protocol": "NO_MATERIAL_CHANGE => improved_content=null",
+  "top_level": [
+    {
+      "locator": "title",
+      "current_content": "Documentos, plantillas y reportes trazables",
+      "status": "SIN_CAMBIO_DEFENDIDO",
+      "finding_ids": [],
+      "improved_content": null,
+      "justification": "Matches roadmap ownership."
+    },
+    {
+      "locator": "tagline",
+      "current_content": "Una corrida genera dashboard, DOCX/PDF y workbook con números reconciliados, provenance y revisión visual",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S21-F02", "S21-F16", "S21-F21", "S21-F25"],
+      "improved_content": "Una corrida genera dashboard, Excel y DOCX/PDF desde un payload validado; después reabre, reconcilia y registra los artefactos antes de enviarlos a revisión visual.",
+      "justification": "The current tagline states a gate the examples do not earn and uses avoidable English."
+    },
+    {
+      "locator": "jobRelevance",
+      "current_content": "En analytics y operaciones en Perú, el comité no acepta un Excel «bonito» si el DOCX dice otro número. Aquí aprendes a construir un factory de reportes que une dashboard, Excel y documentos reales con métricas reconciliadas, provenance (trazabilidad de origen) y aprobación humana. Es lo que separa un informe que pasa auditoría de uno que se desmorona en la primera pregunta.",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S21-F02", "S21-F25"],
+      "improved_content": "En analítica y operaciones del Perú, un comité no puede confiar en un Excel y un DOCX que muestran cifras distintas. Aquí aprenderás a construir una factoría de reportes que genera los artefactos desde un payload común, vuelve a extraer sus métricas, las reconcilia, registra su trazabilidad y deja la aprobación final a una persona revisora.",
+      "justification": "Spanish-first wording and an evidence-derived workflow rather than assumed reconciliation."
+    }
+  ],
+  "learning_outcomes": [
+    {
+      "locator": "learningOutcomes[0]",
+      "current_content": "Separar un context versionado de la presentación Jinja y reutilizar el mismo dict en varios artefactos",
+      "status": "OUTCOME_UNDERDEMONSTRATED",
+      "finding_ids": ["S21-F02", "S21-F04", "S21-F25"],
+      "improved_content": "Separar un contexto versionado de la presentación Jinja y reutilizar el mismo payload validado en varios artefactos",
+      "justification": "Theory code does not construct/version/reuse the promised context."
+    },
+    {
+      "locator": "learningOutcomes[1]",
+      "current_content": "Renderizar condiciones y tablas con missing como — (nunca 0 inventado) y formato decimal explícito",
+      "status": "OUTCOME_BROKEN_BY_CANONICAL_CODE",
+      "finding_ids": ["S21-F07", "S21-F08", "S21-F09", "S21-F25"],
+      "improved_content": "Renderizar condiciones y tablas distinguiendo cero, dato faltante y dato redactado, con una política decimal explícita",
+      "justification": "The current code raises on None and the same dash is overloaded for redaction."
+    },
+    {
+      "locator": "learningOutcomes[2]",
+      "current_content": "Generar DOCX con estilos Heading reales, guardar, reabrir y extraer texto/estilos auditables",
+      "status": "OUTCOME_PARTIAL",
+      "finding_ids": ["S21-F10"],
+      "improved_content": null,
+      "justification": "Outcome is correct; theory code reopens and extracts text but fails to verify styles."
+    },
+    {
+      "locator": "learningOutcomes[3]",
+      "current_content": "Generar PDF digital, extraer capa de texto, renderizar PNG y marcar needs_ocr sin inventar lectura",
+      "status": "OUTCOME_PARTIAL",
+      "finding_ids": ["S21-F11", "S21-F12", "S21-F13", "S21-F14"],
+      "improved_content": "Generar PDF, extraer texto cuando exista, renderizar páginas para revisión visual y marcar `needs_ocr` cuando la evidencia textual sea insuficiente, sin confundir esos checks con accesibilidad PDF",
+      "justification": "The negative needs_ocr branch and accessibility distinction are absent from canonical code."
+    },
+    {
+      "locator": "learningOutcomes[4]",
+      "current_content": "Empaquetar resumen, método y hallazgos H→evidencia (hallazgo ≠ decisión de negocio)",
+      "status": "OUTCOME_UNDERDEMONSTRATED",
+      "finding_ids": ["S21-F15"],
+      "improved_content": null,
+      "justification": "Correct outcome; code hardcodes a dict and does not enforce the stated validation/decision state."
+    },
+    {
+      "locator": "learningOutcomes[5]",
+      "current_content": "Alinear captions, fuentes y limitaciones con paridad de métricas entre dashboard, Excel y documento",
+      "status": "OUTCOME_NOT_DEMONSTRATED",
+      "finding_ids": ["S21-F01", "S21-F16"],
+      "improved_content": "Alinear pies de figura, fuentes y limitaciones y comprobar, después del render, la paridad de métricas entre dashboard, Excel y documento",
+      "justification": "Current code never reads the three artifacts."
+    },
+    {
+      "locator": "learningOutcomes[6]",
+      "current_content": "Centralizar fmt_pen / precisión decimal y checklist mínima de a11y (H1 + alts útiles)",
+      "status": "OUTCOME_BROKEN_BY_CANONICAL_CODE",
+      "finding_ids": ["S21-F17", "S21-F18", "S21-F19", "S21-F20", "S21-F25"],
+      "improved_content": "Centralizar el formato monetario sin convertir PEN a float y ejecutar una checklist de accesibilidad que verifique estructura, alternativas y tablas del artefacto final",
+      "justification": "The current equality check hides source divergence and the accessibility heuristic is neither sufficient nor executed."
+    },
+    {
+      "locator": "learningOutcomes[7]",
+      "current_content": "Emitir manifiesto de provenance (run_id, huellas, checklist visual) en estado pending_review",
+      "status": "OUTCOME_NOT_DEMONSTRATED",
+      "finding_ids": ["S21-F21", "S21-F22", "S21-F25"],
+      "improved_content": "Persistir un manifiesto de trazabilidad con `run_id`, SHA-256 de entradas/salidas, resultados de QA y estado `pending_review` derivado de checks ejecutados",
+      "justification": "Current code only prints an in-memory object with hardcoded ok statuses."
+    }
+  ],
+  "theory_code_outputs": [
+    {
+      "locator": "S21-T1-A.code jinja_basic.py",
+      "runtime_status": "PASS_AS_WRITTEN",
+      "semantic_status": "REPAIR_REQUIRED",
+      "finding_ids": ["S21-F04", "S21-F05"],
+      "evidence": "Output reproduces exactly, including HTML escaping. The code still has no versioned ctx and uses default Undefined.",
+      "proposed_patch": "Use Environment(undefined=StrictUndefined, autoescape=select_autoescape(...)); create ctx={schema_version,run_id,payload_id,metrics,limits}; demonstrate a missing required key raising."
+    },
+    {
+      "locator": "S21-T1-B.code jinja_table.py",
+      "runtime_status": "PASS_FOR_PUBLISHED_NONMISSING_FIXTURE",
+      "semantic_status": "REPAIR_REQUIRED",
+      "finding_ids": ["S21-F08", "S21-F09"],
+      "evidence": "Published rows both contain numbers. Adding the promised median=None case raises TypeError before an em dash can be rendered.",
+      "proposed_patch": "Branch on None/status before numeric formatting; use one format_metric function with explicit missing/redacted states."
+    },
+    {
+      "locator": "S21-T2-A.code docx_real.py",
+      "runtime_status": "PASS_AS_WRITTEN",
+      "semantic_status": "REPAIR_REQUIRED",
+      "finding_ids": ["S21-F10"],
+      "evidence": "DOCX reopens and text checks pass. Actual reopened styles are Title, Heading 1, Normal, but the code never asserts them.",
+      "proposed_patch": "Inspect reopened.paragraphs styles, expected hierarchy, table header semantics and actual visual alternative properties where present."
+    },
+    {
+      "locator": "S21-T2-B.code pdf_real.py",
+      "runtime_status": "PASS_AS_WRITTEN",
+      "semantic_status": "REPAIR_REQUIRED",
+      "finding_ids": ["S21-F11", "S21-F12", "S21-F13", "S21-F14"],
+      "evidence": "Digital PDF extraction and PNG creation succeed, but there is no image-only negative fixture, no needs_ocr field, no visual review and no PDF accessibility evidence.",
+      "proposed_patch": "Import pymupdf; add image-only fixture and needs_ocr; record manual/render QA; either validate tagged-accessible PDF or state accessibility is not established by this renderer."
+    },
+    {
+      "locator": "S21-T3-A.code exec_struct.py",
+      "runtime_status": "PASS_AS_WRITTEN",
+      "semantic_status": "REPAIR_REQUIRED",
+      "finding_ids": ["S21-F15", "S21-F24"],
+      "evidence": "Hardcoded dict prints expected strings but no pack_report/validator exists and decision=None is absent.",
+      "proposed_patch": "Implement validate_report requiring resumen/metodo/hallazgos, n/unit, evidence ids, limits and explicit pending human decision. Use coherent Peru geography."
+    },
+    {
+      "locator": "S21-T3-B.code embed_limits.py",
+      "runtime_status": "PASS_AS_WRITTEN",
+      "semantic_status": "REPAIR_REQUIRED",
+      "finding_ids": ["S21-F01", "S21-F02", "S21-F16"],
+      "evidence": "assert '40' in caption is a substring check; code opens no PNG/XLSX/DOCX and contains no run_id comparison.",
+      "proposed_patch": "Extract canonical metric records from actual artifacts and compare key/metric/value/unit/n/filter/precision/run_id."
+    },
+    {
+      "locator": "S21-T4-A.code consistency.py",
+      "runtime_status": "PASS_AS_WRITTEN",
+      "semantic_status": "FALSE_GREEN_REPAIR_REQUIRED",
+      "finding_ids": ["S21-F17", "S21-F18", "S21-F19", "S21-F20"],
+      "evidence": "[28.04,28.0,28] all become 28.0 after one-decimal float rounding, so different source values are declared consistent. No a11y check is executed.",
+      "proposed_patch": "Compare canonical Decimal/integer-cent values before display formatting; separately compare formatted strings; execute structured DOCX/PDF accessibility checks."
+    },
+    {
+      "locator": "S21-T4-B.code provenance.py",
+      "runtime_status": "PASS_AS_WRITTEN",
+      "semantic_status": "FALSE_GREEN_REPAIR_REQUIRED",
+      "finding_ids": ["S21-F21", "S21-F22"],
+      "evidence": "dashboard/xlsx/doc='ok' are constants; only b'synthetic' is hashed; no output files/checklist are inspected and no manifest is saved.",
+      "proposed_patch": "Derive checks from files, compute SHA-256, implement ready(all required checks), atomically persist/reopen manifest.json with pending_review."
+    }
+  ],
+  "callouts": [
+    {
+      "locator": "opening.callout Dependencias del lab",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S21-F23"],
+      "current_issue": "Says ASCII 'sintetico' is intentional under ReportLab Helvetica; current supported runtime round-trips 'sintético' correctly.",
+      "improved_content": "Usa español correcto con tildes en todos los artefactos. Si una fuente concreta no cubre los caracteres necesarios, registra y corrige la configuración de fuente; no elimines diacríticos como solución silenciosa."
+    },
+    {
+      "locator": "T1-A.callout Context dict único y autoescape",
+      "status": "TIGHTEN_REQUIRED",
+      "finding_ids": ["S21-F05"],
+      "current_issue": "Good autoescape advice but omits the StrictUndefined policy required by the prose.",
+      "improved_content": "Usa un `Environment` central con autoescape para HTML y `StrictUndefined` para campos obligatorios; un dato requerido ausente bloquea el render."
+    },
+    {
+      "locator": "T1-B.callout Cero vs. missing",
+      "status": "SIN_CAMBIO_DEFENDIDO",
+      "finding_ids": [],
+      "improved_content": null,
+      "justification": "Correct conceptual warning; implementation must be fixed."
+    },
+    {
+      "locator": "T2-A.callout Outline primero",
+      "status": "SIN_CAMBIO_DEFENDIDO",
+      "finding_ids": [],
+      "improved_content": null,
+      "justification": "Semantic headings before prose expansion is good practice."
+    },
+    {
+      "locator": "T2-B.callout OCR no es verdad absoluta",
+      "status": "REWRITE_REQUIRED",
+      "finding_ids": ["S21-F12", "S21-F14"],
+      "current_issue": "Says render confirms legibility; a nonempty image does not prove readability/accessibility.",
+      "improved_content": "El render permite revisar la apariencia; la extracción prueba si la biblioteca recupera una capa textual. Ninguna prueba por sí sola demuestra legibilidad, accesibilidad ni reconciliación con la fuente."
+    },
+    {
+      "locator": "T3-A.callout Trazabilidad H→evidencia",
+      "status": "SIN_CAMBIO_DEFENDIDO",
+      "finding_ids": [],
+      "improved_content": null,
+      "justification": "Correct gate; code must implement it."
+    },
+    {
+      "locator": "T3-B.callout Números divergentes",
+      "status": "SIN_CAMBIO_DEFENDIDO",
+      "finding_ids": [],
+      "improved_content": null,
+      "justification": "Correct failure rule; code must actually compare artifacts."
+    },
+    {
+      "locator": "T4-A.callout Una función format_metric",
+      "status": "TIGHTEN_REQUIRED",
+      "finding_ids": ["S21-F17", "S21-F18"],
+      "current_issue": "Central formatting is useful, but equality must be checked before formatting and PEN must not be converted to float.",
+      "improved_content": "Centraliza la presentación en `format_metric`, pero compara primero los valores canónicos y conserva PEN como Decimal o céntimos enteros."
+    },
+    {
+      "locator": "T4-B.callout Criterio de cierre del paquete",
+      "status": "SIN_CAMBIO_DEFENDIDO",
+      "finding_ids": ["S21-F21", "S21-F22"],
+      "improved_content": null,
+      "justification": "The gate is correct; the canonical code violates it and must be repaired."
+    }
+  ],
+  "figures": [
+    {
+      "locator": "S21-render-pipeline",
+      "caption": "El filtro de formato decide cuántos decimales se ven; no altera el valor que viaja al Excel.",
+      "alt": "Cuatro capas apiladas: datos, cálculo en Python, plantilla Jinja y documento final.",
+      "status": "SIN_CAMBIO_DEFENDIDO",
+      "finding_ids": [],
+      "improved_content": null,
+      "justification": "The conceptual separation is useful; the precision contradiction is in surrounding text/code rather than the figure description itself."
+    }
+  ]
+}
