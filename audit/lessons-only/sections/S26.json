@@ -1,0 +1,174 @@
+{
+  "schema_version": "2.2.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S26",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s26-integrator-phase1.ts",
+  "canonical_blob_sha": "4dd5caa012a9a333b428a71162fb157c6c279dcb",
+  "title": "Orquestación y VP RPA + AI Analyst",
+  "short_title": "VP RPA + AI Analyst",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "prior_audit": {
+    "status": "NONE_FOUND_ON_AUDIT_BRANCH",
+    "method": "Direct fetch of audit/lessons-only/sections/S26.json returned 404 before creation."
+  },
+  "learner_entry_state": {
+    "baseline": "ZERO_TECH_CAPABLE",
+    "prerequisites": ["S14-S25", "CP-N2-A", "CP-N2-B", "CP-N2-C components"],
+    "credit_rule": "Only prior concepts adjudicated USABLE count as learned.",
+    "critical_dependency_warning": "S21-S25 remain REPAIR_REQUIRED. S26 must not launder prior labels such as approved, auto, success, validated or human_review into evidence merely by placing them in a DAG.",
+    "not_creditable": [
+      "S22 approval is bound to the exact final draft and recipient set",
+      "S23 browser artifact is uniquely persisted and verified",
+      "S24 OCR fields are fully provenance-bound and human-reviewed",
+      "S25 AI output is baseline-beating, typed, grounded or actually human-approved"
+    ]
+  },
+  "roadmap_expectation": {
+    "environment": "local/cloud controlado",
+    "project": "cierre CP-N2-C y regresión N2",
+    "T1": "orquestación con tasks/flows/DAG, estados, límites, metadata y schedules",
+    "T2": "checkpoints, retry/backoff, dead-letter, idempotencia, concurrencia y rollback",
+    "T3": "revisión humana de análisis/reporte/destinatario con aprobación, rechazo, edición y auditoría",
+    "T4": "SLO/alerts/runbook y validación E2E, seguridad, costo y métricas de valor",
+    "gate": "VP RPA + AI Analyst integrado con evidencia reproducible, recuperación de fallas y promoción N2 solo si CP-N2-A/B/C, regresión S14-S26 y CF-2 pasan"
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/",
+    "status": "PUBLIC_CARD_VERIFIED_BODY_NOT_HYDRATED_IN_TEXT_FETCH",
+    "evidence": "Public page exposes Section 26 'VP RPA + AI Analyst' and the same tagline promising evidence per state and failure recovery. Render-only defects were not invented."
+  },
+  "audit_metadata": {
+    "theory_blocks_reviewed": 10,
+    "paragraphs_reviewed": 34,
+    "paragraphs_expected": 34,
+    "paragraph_coverage_complete": true,
+    "learning_outcomes_reviewed": 8,
+    "theory_code_blocks_reviewed": 8,
+    "theory_outputs_reviewed": 8,
+    "theory_callouts_reviewed": 9,
+    "theory_figures_reviewed": 2,
+    "runtime_validation": {
+      "checks": [
+        "topo([('a','b'),('b','a')]) returns [] instead of an explicit cycle failure; adding a disconnected root returns a partial order ['root','x'] while silently dropping the cyclic component.",
+        "build_run_meta('r',100) returns api_rpm=100 even though prose says >60 blocks schedule; no preflight is implemented.",
+        "write_report('r1','v1'); write_report('r1','v2') leaves v2, disproving the create-once/idempotency claim.",
+        "rollback('r1') replaces the report record with {'status':'superseded'}, deleting the original report body it claims to preserve.",
+        "A review queue containing status='rejected' has pending_count 0 and therefore all_clear=True.",
+        "act(...,'reject',...,reason=None) succeeds and audit records omit ts, contradicting the stated audit contract and reject gate.",
+        "e2e_vp() manufactures success for all seven steps plus n2_regression='pass', cost_tokens=1200, fraud_labels=0 and value_minutes_saved_est=45 without running any step or test."
+      ]
+    }
+  },
+  "external_research": [
+    {
+      "source": "AWS Well-Architected REL05-BP03 / AWS Architecture Blog",
+      "finding": "Retries should be bounded and use exponential backoff with jitter; retries add load and should be used where operations are safe/idempotent and errors are transient."
+    },
+    {
+      "source": "AWS Lambda Powertools Idempotency",
+      "finding": "Robust idempotency uses persistent records, payload-derived keys, INPROGRESS/COMPLETE states and concurrency locking; an in-memory dict assignment is not an idempotency guarantee."
+    },
+    {
+      "source": "Amazon SQS DLQ documentation",
+      "finding": "A DLQ is operational state with retry/redrive policy, retention, monitoring and explicit redrive behavior, not merely a list containing owner/reason."
+    },
+    {
+      "source": "Google SRE Service Level Objectives",
+      "finding": "SLOs require a defined user-relevant SLI, target, measurement window and reaction/error-budget policy; a threshold name alone is incomplete."
+    }
+  ],
+  "score": 2.3,
+  "verdict": "REPAIR_REQUIRED",
+  "material_findings": 35,
+  "severity_counts": {"P0": 0, "P1": 27, "P2": 8, "P3": 0},
+  "findings": [
+    {"id":"S26-F01","severity":"P1","category":"UPSTREAM_INTEGRITY","evidence":"Opening/reference and E2E treat prior ingest/report/OCR/AI pieces as working inputs although S21-S25 remain REPAIR_REQUIRED.","attack":"Orchestration can launder false-green labels from earlier sections into a final success artifact.","defense":"An integrator must compose prior modules.","verdict":"CONFIRMED_FINDING","impact":"The capstone can promote a run whose source, approval, OCR or AI evidence was never trustworthy.","repair":"Require a versioned handoff manifest and revalidate every upstream artifact/hash/review state before the DAG can mark a node ready."},
+    {"id":"S26-F02","severity":"P1","category":"APPROVAL_ORDER","evidence":"Canonical path is report → approve → draft_email; S22 requires approval bound to exact draft/message/recipients.","attack":"A human cannot approve the exact email draft before that draft exists.","defense":"The S26 approve node may intend approval of analysis/report/recipient rather than the final email.","verdict":"CONFIRMED_FINDING","impact":"The graph conflates pre-draft business review with final draft approval and loses the safety contract inherited from S22.","repair":"Model distinct gates: analysis/report/recipient approvals → create draft → final draft/recipient approval bound to draft hash; never treat the first gate as final email approval."},
+    {"id":"S26-F03","severity":"P1","category":"RETRY_SAFETY","evidence":"Opening says an exhausted timeout usually heals itself and deserves retry.","attack":"A timeout can occur after a side effect committed; blind retry can duplicate exports/drafts/writes.","defense":"The paragraph later says steps should be idempotent.","verdict":"CONFIRMED_FINDING","impact":"Learner receives an unsafe default retry heuristic before idempotency is actually established.","repair":"Classify timeout as outcome-unknown; retry only after idempotency/postcondition verification or for explicitly side-effect-free operations."},
+    {"id":"S26-F04","severity":"P1","category":"DAG_VALIDATION","evidence":"topo() returns order without checking len(order)==len(nodes).","attack":"A cyclic component is silently omitted; a partially cyclic graph returns a plausible partial order.","defense":"A fully cyclic graph returns an empty list and therefore might not start.","verdict":"CONFIRMED_FINDING","impact":"The learner can mistake incomplete scheduling for successful DAG validation.","repair":"After Kahn traversal, raise a typed CycleError unless every node was emitted; add full-cycle and partial-cycle negative fixtures."},
+    {"id":"S26-F05","severity":"P1","category":"STATE_MODEL","evidence":"Theory promises pending/running/success/failed/skipped, global flow state, timestamp and run_id per node; code only returns node names.","attack":"No state transition, timestamp, skip rule, dependency failure or global flow status is executable.","defense":"The example focuses narrowly on topological order.","verdict":"CONFIRMED_FINDING","impact":"Outcome 'tasks/flows/DAG con estados' is not demonstrated by theory code.","repair":"Add a node-state record with allowed transitions, timestamps, run_id, dependency outcome and explicit skipped semantics."},
+    {"id":"S26-F06","severity":"P2","category":"DETERMINISM","evidence":"topo() seeds deque from a set of zero-indegree nodes.","attack":"With multiple roots, order can vary with hash iteration rather than a documented tie-break, weakening reproducibility.","defense":"The canonical seven-step chain has one root.","verdict":"CONFIRMED_FINDING","impact":"The generic helper is less deterministic than the surrounding reproducibility claims.","repair":"Use a stable ordered node registry or heap/sorted tie-break and state that multiple valid topological orders may exist."},
+    {"id":"S26-F07","severity":"P1","category":"RUN_METADATA","evidence":"Prose calls run_id, trigger, git_sha and data_cutoff immutable; build_run_meta omits git_sha, hardcodes trigger/manual and returns a mutable dict.","attack":"The object cannot prove code version or immutable start snapshot and can be modified after creation.","defense":"It is a didactic metadata sketch.","verdict":"CONFIRMED_FINDING","impact":"run_id cannot reliably join evidence across versions/reprocessing.","repair":"Include git_sha/config/schema/source hashes/trigger/data_cutoff and freeze or hash the canonical run manifest; create a new run on any change."},
+    {"id":"S26-F08","severity":"P1","category":"LIMIT_ENFORCEMENT","evidence":"api_rpm and max_parallel_tasks are dictionary values; prose says api_rpm>60 blocks schedule, but no preflight/limiter exists.","attack":"build_run_meta('r',100) succeeds and nothing enforces rate/concurrency.","defense":"The section may intend configuration before a later runner.","verdict":"CONFIRMED_FINDING","impact":"Learner can confuse declaring a limit with enforcing one.","repair":"Implement validation plus an actual semaphore/token-bucket/adaptor limit and a negative fixture proving >60 cannot enable the schedule."},
+    {"id":"S26-F09","severity":"P2","category":"SCHEDULING","evidence":"Cron and timezone are printed strings; disable_schedule/drain are prose only.","attack":"No scheduler state, timezone binding, enable/disable action or drain behavior is demonstrated.","defense":"A conceptual cron example is legitimate at this level.","verdict":"CONFIRMED_FINDING","impact":"Outcome 'configurar schedules' is overclaimed as operational capability.","repair":"Label the string as schedule specification and add a small state machine or real approved scheduler adapter demonstrating enable/disable/drain."},
+    {"id":"S26-F10","severity":"P1","category":"CHECKPOINT_PERSISTENCE","evidence":"T2-A acknowledges its set dies with the process; the integrated E2E never uses the promised JSON/persistent checkpoint.","attack":"The section's failure-recovery promise is not demonstrated across process restart.","defense":"The paragraph correctly explains the limitation.","verdict":"CONFIRMED_FINDING","impact":"A correct warning is not evidence that the gate was met.","repair":"Persist checkpoints atomically outside process, kill/restart the runner, and prove already-completed work is not repeated."},
+    {"id":"S26-F11","severity":"P1","category":"BACKOFF","evidence":"backoff_sleep_ms computes delays, but process_with_dlq never sleeps/uses them and has no jitter.","attack":"The retry loop is immediate despite claiming retry with backoff; synchronized retries can amplify load.","defense":"The numeric formula is taught separately.","verdict":"CONFIRMED_FINDING","impact":"The executable behavior contradicts the resiliency mechanism being taught.","repair":"Inject a sleeper, use capped exponential backoff plus jitter, persist attempt timing and test with deterministic seeded jitter."},
+    {"id":"S26-F12","severity":"P1","category":"ERROR_CLASSIFICATION","evidence":"process_with_dlq receives flaky_ids rather than typed provider/data/configuration failures.","attack":"No code demonstrates 'retry transient, do not retry invalid schema'.","defense":"flaky_ids simplifies deterministic labs.","verdict":"CONFIRMED_FINDING","impact":"The central decision boundary of retry policy is absent.","repair":"Classify errors explicitly and route transient/provider errors to bounded retry, permanent data/config errors to review/DLQ without retry."},
+    {"id":"S26-F13","severity":"P2","category":"DLQ_OPERATION","evidence":"DLQ item stores id/reason/owner only; prose/callout promise owner and SLA and the section discusses operation.","attack":"No SLA, run_id, payload hash, first/last failure, retry history, retention, alert or redrive path is modeled.","defense":"A minimal list is sufficient to introduce the concept.","verdict":"CONFIRMED_FINDING","impact":"DLQ can still become the silent graveyard the text warns against.","repair":"Define a DLQ record contract with lineage, attempts, timestamps, owner, SLA, status and controlled redrive/reject workflow."},
+    {"id":"S26-F14","severity":"P1","category":"IDEMPOTENCY","evidence":"write_report and write_draft assign directly into store[run_id].","attack":"A second call with the same key overwrites the first body; runtime check v1→v2 leaves v2.","defense":"A dictionary prevents duplicate keys.","verdict":"CONFIRMED_FINDING","impact":"Duplicate keys are not idempotency when payload changes silently replace prior state.","repair":"Use an atomic create-once record with payload hash/status; same key+same payload returns stored result, same key+different payload fails."},
+    {"id":"S26-F15","severity":"P1","category":"IDEMPOTENCY_IDENTITY","evidence":"Code keys report/draft only by run_id while prose names (run_id, entity_id).","attack":"Different entities or artifact versions inside one run collide and payload/config version is not checked.","defense":"The lab creates one report per run.","verdict":"CONFIRMED_FINDING","impact":"The abstraction will not safely generalize to the concurrent/entity-level system it claims to teach.","repair":"Canonical key must include operation + run + entity/artifact + immutable payload/config/schema hash, persisted atomically."},
+    {"id":"S26-F16","severity":"P1","category":"CONCURRENCY","evidence":"Prose describes locked flag/lease TTL; theory code contains no lock or concurrent execution.","attack":"Nothing prevents two workers from passing a check and writing simultaneously.","defense":"Concurrency implementation is deferred conceptually to production.","verdict":"CONFIRMED_FINDING","impact":"Learning outcome 'garantizar concurrencia' is unsupported.","repair":"Demonstrate atomic acquire/lease/expiry and simultaneous-worker negative test; avoid check-then-set races."},
+    {"id":"S26-F17","severity":"P1","category":"COMPENSATION_HISTORY","evidence":"rollback replaces {'body':body,'status':'active'} with {'status':'superseded'}.","attack":"The original report body disappears although prose explicitly says not to delete it from defense history.","defense":"The record key remains.","verdict":"CONFIRMED_FINDING","impact":"The compensation destroys evidence needed for audit/review.","repair":"Preserve immutable artifact/version/body/hash and append a superseded status/event rather than replacing the record."},
+    {"id":"S26-F18","severity":"P1","category":"DRAFT_AUDIT","evidence":"rollback pop() deletes the draft entirely.","attack":"A compensated draft vanishes, preventing reconstruction of what was generated and why it was withdrawn.","defense":"Removing an unsent draft can be a valid compensation.","verdict":"CONFIRMED_FINDING","impact":"Operational cleanup is confused with audit deletion.","repair":"Delete provider-side mutable draft if needed but retain an immutable hashed snapshot/status=canceled in the audit store."},
+    {"id":"S26-F19","severity":"P1","category":"HITL_GATE","evidence":"all_clear is true whenever no item has status='pending'.","attack":"A rejected/error/needs_revision artifact yields pending=0 and can open the gate.","defense":"Current fixture contains only pending items.","verdict":"CONFIRMED_FINDING","impact":"The core human gate can fail open under non-happy statuses.","repair":"Require exact approved state for the exact required artifact/version in all three queues; every other terminal/intermediate state blocks."},
+    {"id":"S26-F20","severity":"P2","category":"EXAMPLE_PARITY","evidence":"Paragraph says analysis=1, report=1, recipient=0; code/output use recipient=1.","attack":"The explanatory case and executable case are different while presented as the same case.","defense":"Both correctly result in blocked/all_clear False.","verdict":"CONFIRMED_FINDING","impact":"Learner cannot reliably trace prose to output.","repair":"Use one fixture consistently and include the zero-recipient case if that is the intended teaching point."},
+    {"id":"S26-F21","severity":"P1","category":"AI_HANDOFF","evidence":"ai_assist is treated as a pipeline node whose output feeds report; S25 audit found ungrounded/schema-invalid outputs and no baseline promotion gate.","attack":"S26 does not revalidate model revision, typed schema, evidence ids or candidate-vs-baseline status before consuming it.","defense":"S26 says AI only proposes and human review follows.","verdict":"CONFIRMED_FINDING","impact":"Human review is used as a blanket substitute for machine-contract validation.","repair":"Before report state can be ready, validate S25 output against immutable model/config/schema/evidence lineage and fail closed on invalid/ungrounded output."},
+    {"id":"S26-F22","severity":"P1","category":"AUDIT_TIMESTAMP","evidence":"Prose requires {action,actor,ts,reason?}; act() omits ts.","attack":"Decision ordering and timing cannot be reconstructed reliably.","defense":"List order preserves local call order.","verdict":"CONFIRMED_FINDING","impact":"The audit contract is materially incomplete.","repair":"Generate timezone-aware immutable timestamp plus run_id/artifact_version and persist it append-only."},
+    {"id":"S26-F23","severity":"P1","category":"REJECT_VALIDATION","evidence":"Callout says reject without reason is rejected at API; act(...,'reject',reason=None) succeeds.","attack":"The code contradicts the stated mandatory rejection reason.","defense":"No reject call appears in the happy-path example.","verdict":"CONFIRMED_FINDING","impact":"Runbook routing cannot rely on reasons being present.","repair":"Validate allowed actions and require nonblank reason/reason_code for reject/edit where policy requires it."},
+    {"id":"S26-F24","severity":"P1","category":"EDIT_VERSIONING","evidence":"Prose says edit versions 1→2 without deleting history; act() stores only an action record and no content/version/hash.","attack":"There is no edited artifact version to review or bind approval to.","defense":"The audit event records that an edit happened.","verdict":"CONFIRMED_FINDING","impact":"Approval can refer ambiguously to pre- or post-edit content.","repair":"Store immutable artifact versions; edit creates v+1 with parent hash, and approval names the exact version/hash."},
+    {"id":"S26-F25","severity":"P1","category":"APPROVAL_AUTHORIZATION","evidence":"act() accepts arbitrary action/actor and artifact id; no role authorization or artifact hash/version binding exists.","attack":"Any synthetic actor can approve any id and the same actor could create/edit/approve without policy checks.","defense":"Actors are synthetic because the lab avoids PII.","verdict":"CONFIRMED_FINDING","impact":"'Human approval' is merely a label, not an authorized, attributable control.","repair":"Resolve authorized reviewer roles, enforce separation where required and bind decision to exact run/artifact/version/recipient set."},
+    {"id":"S26-F26","severity":"P2","category":"APPEND_ONLY","evidence":"audit is a normal mutable in-memory Python list.","attack":"Entries can be edited/deleted and disappear on process exit; append-only is asserted rather than enforced.","defense":"The example itself only calls append.","verdict":"CONFIRMED_FINDING","impact":"The learner can mistake usage convention for storage invariant.","repair":"Teach append-only as an invariant backed by persistent event records/hashes or clearly label the list as a non-enforcing simulation."},
+    {"id":"S26-F27","severity":"P2","category":"SLO_WINDOW","evidence":"Prose says success_rate≥0.95 diario; code names success_rate_7d.","attack":"Daily and rolling-seven-day objectives are different operational contracts.","defense":"Both use the same illustrative threshold.","verdict":"CONFIRMED_FINDING","impact":"Alert behavior cannot be reproduced from the stated SLO.","repair":"Choose one window and encode numerator, denominator, window and evaluation cadence consistently."},
+    {"id":"S26-F28","severity":"P2","category":"SLI_DEFINITION","evidence":"success_rate_7d and p95_duration_min have no event population/eligibility definition or error-budget/reaction policy.","attack":"A numeric target without SLI semantics can be gamed by skipped/rejected runs or changing denominators.","defense":"The section calls the SLO synthetic.","verdict":"CONFIRMED_FINDING","impact":"Learner sees alert arithmetic rather than a defendable service objective.","repair":"Define eligible runs, success predicate, window, measurement point, target, error budget and response before calculating alerts."},
+    {"id":"S26-F29","severity":"P2","category":"INCIDENT_RUNBOOK","evidence":"Runbook orders disable_schedule → drain → page oncall and defines drain as emptying workers before notification.","attack":"A drain can stall; delaying notification until after completion can hide a P0 and mixes mitigation with escalation.","defense":"For a small synthetic batch the sequence may finish quickly.","verdict":"CONFIRMED_FINDING","impact":"The learner gets an unsafe universal incident sequence.","repair":"Detect/page immediately according to severity, quiesce new work, drain/cancel with timeout and explicit side-effect policy, then diagnose/recover."},
+    {"id":"S26-F30","severity":"P1","category":"E2E_FALSE_EVIDENCE","evidence":"e2e_vp assigns 'success' to every step without executing any step.","attack":"It manufactures exactly the evidence the promotion gate is supposed to prove.","defense":"It can be read as the shape of an evidence package.","verdict":"CONFIRMED_FINDING","impact":"A learner can emit green E2E while nothing ran.","repair":"Run actual section adapters/stubs with assertions, collect their returned artifact hashes/states and derive success from observed results only."},
+    {"id":"S26-F31","severity":"P1","category":"PROMOTION_FALSE_GREEN","evidence":"n2_regression is hardcoded to 'pass'; CP-N2-A/B/C and CF-2 are not executed or referenced by artifact.","attack":"Promotion evidence is a literal string, despite text saying real, not planned.","defense":"The snippet demonstrates package fields.","verdict":"CONFIRMED_FINDING","impact":"The strongest gate in the section is self-certified.","repair":"Load signed/tested regression result manifests with test counts/commit/source hashes and refuse promotion if any required suite is missing or failed."},
+    {"id":"S26-F32","severity":"P1","category":"SECURITY_FALSE_GREEN","evidence":"fraud_labels=0 is assigned; secrets-outside-repo and least scopes are prose only.","attack":"No scan/query proves absence of forbidden labels/secrets or scope violations.","defense":"The lab uses synthetic data and no real providers.","verdict":"CONFIRMED_FINDING","impact":"Security/control compliance is represented by literals instead of checks.","repair":"Derive fraud-label count from emitted artifacts, scan fixtures/logs for forbidden data/secrets and validate effective provider/tool permissions where relevant."},
+    {"id":"S26-F33","severity":"P1","category":"COST_VALUE_EVIDENCE","evidence":"cost_tokens=1200 and value_minutes_saved_est=45 are hardcoded; no model price, RPA duration, budget or manual baseline measurement is used.","attack":"The tagline/job relevance promise bounded cost and value evidence, but the package contains invented numbers.","defense":"The paragraph labels minutes saved as an estimate, not financial promise.","verdict":"CONFIRMED_FINDING","impact":"Learner is taught to populate KPI fields rather than measure/derive them.","repair":"Calculate tokens from observed calls with model/version pricing snapshot; measure RPA/manual baseline on declared fixtures and label uncertainty/sample size."},
+    {"id":"S26-F34","severity":"P1","category":"FAILURE_E2E","evidence":"Paragraph says any failed step makes E2E false; e2e_vp has no failure input/path and always returns success.","attack":"The gate never demonstrates recovery, blocking or fail-closed behavior under failure.","defense":"Failure handling is discussed in T2.","verdict":"CONFIRMED_FINDING","impact":"Section closes with only a manufactured happy path despite claiming recovery evidence.","repair":"Add injected failures before/after side effects, process restart, retry exhaustion, human reject and verify final E2E/promotion is false or recovered with evidence."},
+    {"id":"S26-F35","severity":"P1","category":"LINEAGE","evidence":"No integrated record links S21 report/S22 approvals/S23 download/S24 OCR/S25 model output to S26 review/draft by hashes and versions.","attack":"run_id alone cannot prove which exact artifact/model/reviewer decision produced the final draft.","defense":"The narrative repeatedly names a common VP pipeline.","verdict":"CONFIRMED_FINDING","impact":"The integrator loses the provenance needed to defend the final outcome.","repair":"Persist one lineage graph/manifest carrying immutable artifact hashes, schema/model revisions, reviewer decisions and parent-child edges through every node."}
+  ],
+  "false_positives_rejected": [
+    "Using a DAG without Prefect/Airflow is not itself a defect; a correct standard-library model can teach the contract.",
+    "A dead-letter queue is not inherently bad for FIFO or ordered work; the defect here is incomplete operational semantics, not DLQ existence.",
+    "The statement matching/score is not fraud was retained; no evidence supports treating it as a defect.",
+    "A synthetic SLO target is acceptable for a lab if its SLI/window/reaction are explicit; the problem is the inconsistent/undefined contract, not the value 0.95 alone.",
+    "The section does not send real email in theory; the safety defect is approval/draft ordering and false evidence, not actual unauthorized sending."
+  ],
+  "graph_memory_update": {
+    "USABLE": [
+      "DAG dependencies are a useful orchestration model",
+      "checkpoint and idempotency are distinct concepts",
+      "permanent data/config errors should not be retried like transient provider failures",
+      "DLQ requires human ownership rather than silent deletion",
+      "AI proposes while humans decide",
+      "matching/OCR evidence is not a fraud verdict",
+      "compensation is not identical to an ACID rollback"
+    ],
+    "PARTIAL": [
+      "DAG validation/state model",
+      "rate/concurrency enforcement",
+      "persistent checkpoint/restart",
+      "retry/backoff/DLQ",
+      "idempotency/concurrency",
+      "artifact compensation",
+      "HITL triple gate",
+      "append-only audit",
+      "SLO/runbook",
+      "E2E evidence and promotion"
+    ],
+    "MISCONCEPTION_RISK": [
+      "timeout generally means safe retry",
+      "returning a partial topological order means the DAG is valid",
+      "dictionary keys provide create-once idempotency",
+      "an in-memory locked flag guarantees concurrency safety",
+      "pending_count==0 means human review approved",
+      "a list is append-only because code only calls append",
+      "hardcoded pass/success/fraud_labels=0 values are evidence",
+      "approval before creating the email draft satisfies final draft approval"
+    ]
+  },
+  "priority_order": [
+    "P1 safety/integrity: F01,F02,F19,F21,F22-F25,F35",
+    "P1 resilience correctness: F03,F04,F10-F18",
+    "P1 false promotion/evidence: F30-F34",
+    "P1 run/limits/state: F05,F07,F08",
+    "P2 operational precision: F06,F09,F13,F20,F26-F29"
+  ],
+  "status": "AUDITED_REPAIR_REQUIRED"
+}
