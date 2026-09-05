@@ -1,0 +1,127 @@
+{
+  "schema_version": "2.5.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S29",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s29-mlops.ts",
+  "canonical_blob_sha": "81f0f72166802645bcfa230878220963f6b9e094",
+  "title": "SQL avanzado y modelado relacional",
+  "short_title": "SQL almacén ER",
+  "scope": "LESSONS_ONLY",
+  "prior_audit": {"status":"NONE_FOUND_ON_AUDIT_BRANCH","method":"Direct fetch of S29.json returned 404 before creation."},
+  "learner_entry_state": {
+    "baseline": "LEVEL3_IN_PROGRESS_PRIOR_GATES_NOT_CREDITABLE",
+    "prerequisites": ["S12", "S28"],
+    "critical_dependency_warning": "S26-S28 remain REPAIR_REQUIRED. S29 must not treat print-only tests, hardcoded promotion states, or unverified history/provenance as trusted inputs.",
+    "required_regression_carry_forward": [
+      "partial-cycle DAG rejection",
+      "positive HITL approval semantics",
+      "exact-draft approval binding",
+      "idempotency and restart persistence",
+      "compensation history",
+      "retry classification",
+      "persistent checkpoint/resume"
+    ]
+  },
+  "roadmap_expectation": {
+    "T1":"keys/constraints/normalization; temporality/provenance",
+    "T2":"CTEs/windows/anti-joins; cardinality/NULL/plans",
+    "T3":"ACID/isolation; upserts/concurrency/recovery",
+    "T4":"indexes/migrations; repository/pooling/tests",
+    "gate":"Preserve source records, entities, candidate pairs, decisions and evidence without overwriting history."
+  },
+  "live_surface": {
+    "status":"PUBLIC_CARD_VERIFIED_BODY_NOT_HYDRATED_IN_TEXT_FETCH",
+    "card_title":"SQL almacén ER",
+    "card_tagline":"Almacén relacional del ER: fuentes, entidades, pares, decisiones append-only y evidencia — con constraints, consultas de cola y transacciones atómicas en SQLite de laboratorio"
+  },
+  "runtime_counterexamples": [
+    {"case":"duplicate candidate pair","observed":"A second row with the same (e1,e2) and a different id is accepted because canonical DDL omits UNIQUE(entity_a,entity_b)."},
+    {"case":"dynamic score typing","observed":"True is accepted and stored as REAL 1.0; string '0.5' is accepted and stored as REAL 0.5."},
+    {"case":"append-only enforcement","observed":"UPDATE decisions SET label='match' succeeds and DELETE FROM decisions succeeds; append-only is a convention, not an invariant."},
+    {"case":"orphan evidence","observed":"The ACID demo schema accepts evidence(pair_id='missing-pair') because no FK binds evidence to a decision or candidate pair."},
+    {"case":"rank before anti-join","observed":"With p1-p3 top scores already decided and p4-p5 undecided, canonical query returns [] while filter-then-rank returns p4,p5."},
+    {"case":"stale upsert","observed":"Existing ('Newest',updated=2) is overwritten by replay ('Stale',updated=1)."},
+    {"case":"repository constraints","observed":"Repo schema accepts same-entity pair, reversed pair, and score=9.0."},
+    {"case":"review state disappears from queue","observed":"A pair with decision label='review' is excluded by NOT EXISTS(any decision), although 'review' denotes unresolved human handling elsewhere in the same section."}
+  ],
+  "external_research_basis": [
+    "SQLite foreign keys are per-connection and currently default OFF; applications should set the required state explicitly.",
+    "SQLite ordinary tables use type affinity rather than rigid typing; STRICT tables are available when rigid table typing is desired.",
+    "SQLite CHECK fails on numeric zero; NULL is not itself a CHECK violation, so NOT NULL and domain checks are separate contracts.",
+    "SQLite EXPLAIN QUERY PLAN output is for interactive debugging and its output format may change; SCAN/SEARCH details should be interpreted rather than matched as a stable application API.",
+    "SQLite UPSERT is triggered by uniqueness constraints and can condition DO UPDATE with a WHERE clause, including freshness/version checks.",
+    "SQLite serializes writes across connections and BEGIN IMMEDIATE has specific concurrency semantics; one :memory: connection does not demonstrate those behaviors.",
+    "Python sqlite3 maps Python None to SQL NULL and currently recommends explicit autocommit-based transaction control.",
+    "Testcontainers can run tests against the same type of service used in production instead of relying only on in-memory substitutes.",
+    "Alembic models migrations as revision artifacts/graphs with upgrade/downgrade/current-state semantics; a row in schema_migrations alone is not equivalent to an executable migration system."
+  ],
+  "findings": [
+    {"id":"S29-F01","severity":"P1","title":"PREREQUISITE_REGRESSION_DEBT_LAUNDERED","evidence":"S29 begins a truth-store layer without preserving the known critical S26 regression pack required by S28 continuation.","attack":"A relational store can make bad upstream success/approval labels look more authoritative simply by persisting them.","defense":"S29's nominal prerequisites are S12 and S28, not every prior implementation detail.","verdict":"CONFIRMED_FINDING","impact":"Risk-first testing learned in S27 is abandoned at the exact point where persistence would fossilize defects."},
+    {"id":"S29-F02","severity":"P1","title":"PYTEST_GATE_STILL_ABSENT","evidence":"All eight canonical theory code blocks use prints/manual booleans; none is a collected pytest test despite S27-S28 carry-forward requiring executable repository/transaction/migration tests.","attack":"Wrong SQL can still exit 0 if a learner only observes printed output.","defense":"The mini-labs are explanatory snippets, not explicitly named tests.","verdict":"CONFIRMED_FINDING","impact":"The section cannot claim tested constraints/repository behavior from its canonical theory evidence."},
+    {"id":"S29-F03","severity":"P1","title":"CANDIDATE_MEMBERSHIP_AND_RESOLVED_MEMBERSHIP_CONFLATED","evidence":"Reference says a source record may link to multiple candidate entities through entity_source_links while resolution remains open.","attack":"Candidate hypotheses and resolved source→entity membership are different domain states; putting both into an undifferentiated membership table obscures whether a link is proposed, accepted, rejected, or superseded.","defense":"An N-N link table is structurally flexible and can later receive status/temporal columns.","verdict":"CONFIRMED_FINDING","impact":"S30 may consume ambiguous memberships as resolved truth."},
+    {"id":"S29-F04","severity":"P2","title":"FOREIGN_KEY_CAUSALITY_OVERCLAIM","evidence":"Reference says that 'with a FK, each change of opinion would erase the previous one.'","attack":"A foreign key does not imply overwrite; history loss comes from storing only current membership in one mutable row rather than from FK semantics.","defense":"The sentence is contrasting a direct FK column with a link table in simplified language.","verdict":"CONFIRMED_FINDING","impact":"Learner may attribute temporal-model defects to the wrong relational mechanism."},
+    {"id":"S29-F05","severity":"P1","title":"ROADMAP_TRUTH_STORE_MODEL_NOT_MATERIALIZED","evidence":"Theory promises source_records, entity_source_links, entities, candidate_pairs, decisions and evidence, but canonical executable model never creates the complete graph.","attack":"The authoritative gate requires all five artifact families to remain reconstructable.","defense":"Each mini-lab isolates one concept to reduce cognitive load.","verdict":"CONFIRMED_FINDING","impact":"No canonical integration proves referential integrity or history across the actual store graph."},
+    {"id":"S29-F06","severity":"P1","title":"PAIR_UNIQUENESS_PROMISED_BUT_MISSING","evidence":"T1-A prose requires CHECK(entity_a<entity_b) plus UNIQUE(entity_a,entity_b), but keys_constraints.py omits UNIQUE.","attack":"Runtime accepted a second (e1,e2) row with another id.","defense":"Mirror pairs are blocked by A<B and primary-key ids are unique.","verdict":"CONFIRMED_FINDING","impact":"The same canonical candidate can exist more than once and receive divergent decisions."},
+    {"id":"S29-F07","severity":"P1","title":"SQLITE_DYNAMIC_TYPING_BREAKS_SCORE_TYPE_CONTRACT","evidence":"score REAL + CHECK range accepts Python True as 1.0 and text '0.5' as 0.5 under SQLite affinity.","attack":"S28 required explicit type/coercion policy; S29 silently treats coercion as valid.","defense":"SQLite affinity and numeric coercion are legitimate engine behavior and the range remains protected.","verdict":"CONFIRMED_FINDING","impact":"A truth store can normalize wrong input types into plausible scores without recording the coercion."},
+    {"id":"S29-F08","severity":"P1","title":"APPEND_ONLY_IS_NOT_ENFORCED","evidence":"decisions has no trigger/authorization layer preventing UPDATE or DELETE; runtime update and delete both succeed.","attack":"Calling a table append-only while ordinary write paths can rewrite/delete it is a policy claim, not a database invariant.","defense":"Application repository code could enforce append-only even if SQLite itself does not.","verdict":"CONFIRMED_FINDING","impact":"The core audit-history guarantee can be bypassed accidentally or by future repository methods."},
+    {"id":"S29-F09","severity":"P1","title":"PROVENANCE_REFERENCES_ARE_UNVERIFIED_STRINGS","evidence":"temporality demo stores evidence_ref TEXT with no evidence table/FK and no FK from decisions.pair_id to candidate_pairs.","attack":"Runtime allows evidence refs/pairs that do not exist.","defense":"The block is scoped to event history rather than full schema integration.","verdict":"CONFIRMED_FINDING","impact":"A decision can claim evidence that cannot be resolved or reproduced."},
+    {"id":"S29-F10","severity":"P1","title":"DECLARED_RUN_SOURCE_PROVENANCE_NOT_STORED","evidence":"Prose names source_system, source_record_id, ingested_at, transform_version and run_id, but temporality_prov.py stores none except a free-form evidence_ref.","attack":"Printing 'provenance ev_02' does not prove lineage.","defense":"The fields are described conceptually and could live in other tables.","verdict":"CONFIRMED_FINDING","impact":"The learner cannot reconstruct which source bytes/transformation produced the decision."},
+    {"id":"S29-F11","severity":"P2","title":"TEMPORAL_ORDER_IS_UNDERSPECIFIED","evidence":"Both sample decisions receive the identical timestamp and history is ordered by surrogate id.","attack":"Insertion order is not the same contract as event/valid time; delayed events or imports can reorder history.","defense":"For this lab the rows are inserted synchronously and id ordering is deterministic.","verdict":"CONFIRMED_FINDING","impact":"The phrase 'what the reviewer saw Tuesday' is stronger than the schema can establish."},
+    {"id":"S29-F12","severity":"P1","title":"ANY_DECISION_FALSELY_MEANS_NOT_PENDING","evidence":"Pending queue uses NOT EXISTS(any decisions row), while the same section inserts label='review' as a decision state.","attack":"A pair routed to review disappears from the review queue merely because the routing decision exists.","defense":"The authors may intend decisions to mean completed human decisions and 'review' as a pedagogical placeholder.","verdict":"CONFIRMED_FINDING","impact":"Queue semantics can silently hide unresolved cases."},
+    {"id":"S29-F13","severity":"P1","title":"RANK_BEFORE_ANTIJOIN_DROPS_VALID_PENDING_CASES","evidence":"CTE assigns ROW_NUMBER to all pairs, applies rn<=3, then removes decided rows.","attack":"If top three are decided, lower-scoring pending pairs are never considered; runtime returned [] although p4,p5 were pending.","defense":"The three-row toy fixture does not expose the failure.","verdict":"CONFIRMED_FINDING","impact":"Top-N review capacity can be underfilled and cases starved."},
+    {"id":"S29-F14","severity":"P2","title":"ROW_NUMBER_TIES_HAVE_NO_STABLE_TIEBREAKER","evidence":"ROW_NUMBER windows order only by score DESC.","attack":"Equal-score peers have no declared business ordering; S28 required deterministic ordering contracts.","defense":"Toy fixture scores are unique.","verdict":"CONFIRMED_FINDING","impact":"Queue order can change across plans/data and make tests/audits unstable."},
+    {"id":"S29-F15","severity":"P2","title":"QUERY_PLAN_FIGURE_TEACHES_WRONG_READING_RULE","evidence":"Figure caption says 'El plan es un árbol y se lee de abajo hacia arriba.'","attack":"SQLite documentation says entry order indicates nesting: first scan is outer loop, last inner; a universal bottom-up reading rule is misleading.","defense":"Trees are often visually inspected from leaves toward root when reasoning about data flow.","verdict":"CONFIRMED_FINDING","impact":"Learner may misread actual EXPLAIN QUERY PLAN nesting."},
+    {"id":"S29-F16","severity":"P1","title":"PLAN_DEMO_DOES_NOT_INSPECT_SCAN_VS_SEARCH","evidence":"card_null_plan.py prints only len(plan), despite prose/outcome requiring reasoning about SCAN vs SEARCH/index use.","attack":"A one-row plan can be a SCAN or SEARCH; row count of plan does not answer the question.","defense":"T4-A later demonstrates index-related plan text.","verdict":"CONFIRMED_FINDING","impact":"The T2-B observable outcome is not demonstrated where taught."},
+    {"id":"S29-F17","severity":"P2","title":"PYTHON_NONE_SQL_NULL_WORDING_IS_MISLEADING","evidence":"Paragraph says 'NULL en SQL no es Python None.'","attack":"Python sqlite3 maps None↔NULL directly; the important difference is SQL three-valued comparison semantics, not representation mapping.","defense":"The intended warning is semantic, not adapter-level.","verdict":"CONFIRMED_FINDING","impact":"Learner may avoid or misunderstand correct parameter binding with None."},
+    {"id":"S29-F18","severity":"P1","title":"DECISION_EVIDENCE_RELATIONSHIP_CONTRADICTS_MODEL","evidence":"T1-A says evidence is child of decision (FK decisions.id); ACID demo creates evidence(pair_id) with no decision_id or FK.","attack":"Atomic insertion does not prove evidence belongs to the exact decision version.","defense":"pair_id can group both rows in the toy lab.","verdict":"CONFIRMED_FINDING","impact":"Later decisions for the same pair can become indistinguishable from evidence intended for earlier versions."},
+    {"id":"S29-F19","severity":"P1","title":"UPSERT_KEY_DOES_NOT_MATCH_REINGEST_CONTRACT","evidence":"Prose says same source_system/external_id drives reingest; upsert demo conflicts only on entities.id and stores neither source_system nor external_id.","attack":"The example cannot prove idempotency for the natural source identity it names.","defense":"Stable entity id can serve as a simplified key in the isolated example.","verdict":"CONFIRMED_FINDING","impact":"Learner may conflate source-record identity with resolved-entity identity."},
+    {"id":"S29-F20","severity":"P1","title":"STALE_REPLAY_OVERWRITES_NEWER_ENTITY_STATE","evidence":"DO UPDATE always copies excluded name/updated with no freshness predicate.","attack":"Runtime showed updated=2/'Newest' overwritten by replay updated=1/'Stale'. SQLite supports a WHERE predicate on DO UPDATE for this purpose.","defense":"The toy example assumes arrivals are ordered.","verdict":"CONFIRMED_FINDING","impact":"Recovery/retry can regress canonical entity state."},
+    {"id":"S29-F21","severity":"P1","title":"ENTITY_UPSERT_CONFLICTS_WITH_ROADMAP_HISTORY_GATE","evidence":"Roadmap gate says source records, entities, candidate pairs, decisions and evidence remain preserved without overwriting history; T3-B overwrites entity attributes in place.","attack":"Only decision history is protected; entity state history is destroyed.","defense":"Roadmap can be read as preserving decision/evidence history while allowing mutable canonical attributes.","verdict":"CONFIRMED_FINDING","impact":"The truth store cannot reconstruct which canonical entity attributes were visible when a decision was made."},
+    {"id":"S29-F22","severity":"P1","title":"INTEGRITYERROR_IS_MISCLASSIFIED_AS_RETRYABLE","evidence":"T3-B recommends retry if IntegrityError occurs from conflict.","attack":"IntegrityError covers UNIQUE/FK/CHECK/NOT NULL; many are deterministic data/invariant failures, and duplicate pair conflicts need idempotent resolution rather than blind retry.","defense":"The sentence specifically mentions pair conflict under concurrent workers.","verdict":"CONFIRMED_FINDING","impact":"Retries can loop or hide malformed data instead of resolving concurrency safely."},
+    {"id":"S29-F23","severity":"P1","title":"RESTART_AND_IDEMPOTENCY_ARE_CLAIMED_NOT_TESTED","evidence":"Prose says crash jobs return to pending and reapply idempotently, but all demos use :memory: and no reopen/checkpoint path exists.","attack":"An in-memory DB vanishes on process restart.","defense":"True multi-connection contention is explicitly deferred to S38.","verdict":"CONFIRMED_FINDING","impact":"S28's unfinished restart requirement remains unverified at the persistence layer where it belongs."},
+    {"id":"S29-F24","severity":"P2","title":"SCHEMA_MIGRATIONS_ROW_IS_NOT_EXECUTABLE_MIGRATION_HISTORY","evidence":"Mini-lab creates final schema/index and inserts (1,'init_pairs') manually.","attack":"No migration artifact, dependency/order check, idempotent runner, upgrade/downgrade, applied_at or checksum exists.","defense":"The section only introduces migration versioning, not Alembic tooling.","verdict":"CONFIRMED_FINDING","impact":"A learner can mark a migration applied without proving the schema transition occurred."},
+    {"id":"S29-F25","severity":"P1","title":"NO_DROP_WITHOUT_BACKUP_IS_ONLY_A_SLOGAN","evidence":"T4-A states no_drop_without_backup but canonical code neither creates/verifies a backup nor blocks DROP.","attack":"The safety gate has no executable enforcement or test.","defense":"It is framed as policy for lab/production rather than SQLite feature.","verdict":"CONFIRMED_FINDING","impact":"Destructive migration safety is asserted without evidence."},
+    {"id":"S29-F26","severity":"P2","title":"EXPLAIN_OUTPUT_STRING_MATCH_IS_BRITTLE","evidence":"indexes_migrate.py declares uses_index if plan contains idx name, USING INDEX, or generic INDEX.","attack":"SQLite explicitly warns EXPLAIN QUERY PLAN output format can change and applications should not depend on it.","defense":"The prose itself notes plan text may vary and this is a teaching assertion, not production parser.","verdict":"CONFIRMED_FINDING","impact":"Learner sees a brittle text heuristic presented as a migration/index gate."},
+    {"id":"S29-F27","severity":"P1","title":"REPOSITORY_SCHEMA_DROPS_CORE_CONSTRAINTS","evidence":"repo_pool_tests.py pairs table has only id PK; no FK, score CHECK, A<B or pair UNIQUE.","attack":"Runtime accepts same-entity, reversed and score=9 pairs.","defense":"The block's focus is repository shape and pending anti-join.","verdict":"CONFIRMED_FINDING","impact":"The abstraction layer silently weakens the truth-store invariants taught earlier."},
+    {"id":"S29-F28","severity":"P1","title":"REPOSITORY_IS_NOT_TESTED","evidence":"T4-B says 'Prueba el repository' and callout says assert, but canonical code only prints pending/pattern/test_db.","attack":"There is no pytest constraint or pending test to block regression.","defense":"The You Do may ask the learner to add tests later.","verdict":"CONFIRMED_FINDING","impact":"The final theory block ends without satisfying its own testability outcome."},
+    {"id":"S29-F29","severity":"P2","title":"REPOSITORY_API_IS_OVERCLAIMED","evidence":"Prose names get_entity, insert_decision, pending; PairRepo implements only add_pair and pending.","attack":"The example does not demonstrate decision transaction/history methods or entity retrieval boundaries.","defense":"Not every method needs to appear in one minimal repository example.","verdict":"CONFIRMED_FINDING","impact":"Learner cannot see where transaction/provenance invariants belong in the repository abstraction."},
+    {"id":"S29-F30","severity":"P1","title":"IN_MEMORY_REPOSITORY_CANNOT_PROVE_PERSISTENCE_OR_REOPEN","evidence":"All repository/storage demos use sqlite :memory: on a single connection.","attack":"Restart, migration state, durability and connection initialization (including foreign_keys) disappear when connection closes.","defense":"SQLite :memory: is explicitly presented as local test substitute, not production proof.","verdict":"CONFIRMED_FINDING","impact":"Critical persistence semantics are never exercised despite being carry-forward requirements."},
+    {"id":"S29-F31","severity":"P1","title":"DECISION_LABEL_DOMAIN_IS_UNCONSTRAINED","evidence":"decisions.label is TEXT NOT NULL with no CHECK/reference table for allowed states.","attack":"Typos such as 'mach' or ambiguous 'review' enter the truth store and directly affect queue semantics.","defense":"Allowed labels may be enforced in application code later.","verdict":"CONFIRMED_FINDING","impact":"State-machine correctness is not protected at the persistence boundary."},
+    {"id":"S29-F32","severity":"P1","title":"SOURCE_LINK_DELETE_DESTROYS_HISTORY","evidence":"Reference says undoing a source/entity link should remove a row from entity_source_links.","attack":"DELETE erases exactly the membership history the roadmap requires preserving unless the link itself is versioned/evented.","defense":"The paragraph may mean remove current membership rather than delete audit history.","verdict":"CONFIRMED_FINDING","impact":"Entity provenance can no longer reconstruct previous linkage decisions."},
+    {"id":"S29-F33","severity":"P2","title":"THIRD_NORMAL_FORM_IS_OVERCLAIMED","evidence":"T1-A equates a few anti-duplication choices with 'Normaliza a 3NF'.","attack":"3NF is a dependency-based property of the complete relation design; the section neither states functional dependencies nor proves the whole model satisfies it.","defense":"The phrase is used as a practical design heuristic rather than a normalization proof.","verdict":"CONFIRMED_FINDING","impact":"Learner may think 'do not copy canonical_name' is a sufficient definition of 3NF."},
+    {"id":"S29-F34","severity":"P2","title":"REDACTION_WIDOW_TERMS_AND_LANGUAGE_MIX","evidence":"High density of append-only, provenance, fan-out, blocking, CTE, window, anti-join, pending, upsert, pooling, acquire and repository appears with uneven Spanish anchoring.","attack":"The learner is at Level 3 but the section still introduces multiple new systems terms per paragraph without a stable Spanish-first glossary.","defense":"Many are unavoidable API/industry terms and several are glossed locally.","verdict":"CONFIRMED_FINDING","impact":"Cognitive load is spent decoding vocabulary instead of relational invariants."}
+  ],
+  "rejected_false_positives": [
+    "Rejected: SQLite is not a real database. It is a real relational SQL engine; the issue is claim scope, not legitimacy.",
+    "Rejected: NOT EXISTS is always faster than LEFT JOIN. The section correctly frames it primarily as safer/clearer around NULL, not as universal performance law.",
+    "Rejected: using :memory: is inherently wrong. It is useful for fast local relational tests when the claim is bounded.",
+    "Rejected: UPSERT is inherently incompatible with auditability. It is valid for mutable current-state projections if history is separately retained and stale updates are guarded.",
+    "Rejected: FOREIGN KEY behavior claim is false. SQLite currently requires explicit per-connection enablement in typical builds; the finding is about relying on the default or not materializing full FKs, not the basic PRAGMA claim.",
+    "Rejected: NULL comparisons are described incorrectly in general. The SQL three-valued-logic warning is substantially correct; only the Python None phrasing is misleading.",
+    "Rejected: the atomic rollback demo is invalid. It correctly demonstrates one-connection atomic rollback; it simply cannot prove broader isolation/durability/concurrency claims."
+  ],
+  "summary": {
+    "quality_score": 2.2,
+    "verdict":"REPAIR_REQUIRED",
+    "material_findings":34,
+    "severity_counts":{"P0":0,"P1":24,"P2":10,"P3":0},
+    "highest_risk_findings":[
+      "S29-F06 duplicate canonical candidate pair accepted despite prose promising UNIQUE",
+      "S29-F08 decisions are mutable/deletable despite append-only truth-store claim",
+      "S29-F09/F10/F18 evidence/provenance references are not enforced or linked to exact decision versions",
+      "S29-F12/F13 review queue semantics hide review states and rank before filtering pending cases",
+      "S29-F20 stale replay overwrites newer entity state",
+      "S29-F21 entity upsert contradicts roadmap requirement to preserve entity history",
+      "S29-F22 IntegrityError is treated as retryable conflict without classifying permanent invariant failures",
+      "S29-F27 repository abstraction drops the constraints taught earlier",
+      "S29-F30 persistence/reopen behavior is never tested",
+      "S29-F32 deleting source/entity links would erase membership history"
+    ]
+  },
+  "meta_leak": {
+    "learner_facing_confirmed":0,
+    "source_only":["Header comment about legacy filename/id and agent diagrams; not confirmed rendered."]
+  },
+  "status":"AUDITED_REPAIR_REQUIRED"
+}
