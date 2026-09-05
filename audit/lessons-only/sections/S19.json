@@ -1,0 +1,408 @@
+{
+  "schema_version": "1.5.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S19",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s19-databases-orm.ts",
+  "canonical_blob_sha": "4babf21d54af98ad228f5bbc3e08e9dffe00456a",
+  "title": "Visualización y comunicación accesible",
+  "short_title": "Viz accesible",
+  "scope": "LESSONS_ONLY",
+  "review_contracts": [
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter"
+  ],
+  "canonical_mapping": {
+    "index_file": "src/lib/course/index.ts",
+    "import": "section19 from ./sections/s19-databases-orm",
+    "status": "VERIFIED"
+  },
+  "prior_audit": {
+    "status": "NONE_FOUND_ON_AUDIT_BRANCH",
+    "method": "Direct fetch of audit/lessons-only/sections/S19.json returned 404 before this audit was created."
+  },
+  "learner_entry_state": {
+    "baseline": "ZERO_TECH_CAPABLE",
+    "prerequisite": "S18",
+    "credit_rule": "Only prior concepts marked USABLE count as learned.",
+    "critical_dependency_warning": "S18 remains REPAIR_REQUIRED with 24 material findings. Its confidence-interval baseline, share-as-bias language, bootstrap stability, anomaly-rate denominators, traceability example and data-note provenance cannot be inherited as trustworthy inputs.",
+    "usable_from_s18": [
+      "mean vs median basic distinction",
+      "IQR/MAD as robust summaries",
+      "correlation is not causation",
+      "hallazgo is not decision"
+    ]
+  },
+  "roadmap_expectation": {
+    "prerequisite": "S18",
+    "environment": "local",
+    "project": "continuación CP-N2-B",
+    "T1": "Visualización: pregunta/audiencia/selección; ejes y encodings honestos",
+    "T2": "Figuras estáticas: Matplotlib; composición/anotaciones/export",
+    "T3": "Interactividad/accesibilidad: filtros/tooltips; estado/performance/alternativas accesibles",
+    "T4": "Comunicación: unidades/fuente/límites; color/contraste/alt text/no sobreclaim",
+    "gate": "Cuatro gráficos estáticos y una vista interactiva con conclusión limitada a evidencia y equivalente no visual"
+  },
+  "live_site": {
+    "url": "https://pillb.github.io/pyarcana/#databases-orm",
+    "status": "SECTION_CARD_VERIFIED__FULL_HYDRATED_LESSON_NOT_EXPOSED_BY_TEXT_FETCH",
+    "verified_card": "S19 · Viz accesible · Cuatro gráficos estáticos y una vista interactiva...",
+    "constraint": "The current web fetch exposed the landing-page curriculum card but not the hydrated S19 lesson body. No rendered-only defect is asserted without evidence."
+  },
+  "audit_metadata": {
+    "theory_blocks_reviewed": 10,
+    "paragraphs_reviewed": 38,
+    "paragraphs_expected": 38,
+    "paragraph_coverage_complete": true,
+    "theory_code_blocks_reviewed": 9,
+    "theory_figures_reviewed": 1,
+    "theory_callouts_reviewed": 9,
+    "learning_outcomes_reviewed": 8,
+    "material_findings": 24,
+    "severity_counts": {"P0": 0, "P1": 13, "P2": 11, "P3": 0},
+    "verdict": "REPAIR_REQUIRED",
+    "quality_score_10": 4.0
+  },
+  "external_benchmarks": [
+    {
+      "source": "W3C WAI Complex Images",
+      "principle": "Charts/graphs may require a short description plus a longer textual equivalent or structured data representation."
+    },
+    {
+      "source": "WCAG 2.2 1.4.1 Use of Color",
+      "principle": "Color cannot be the only visual means of conveying information."
+    },
+    {
+      "source": "WCAG 2.2 1.4.13 Content on Hover or Focus + 2.1.1 Keyboard",
+      "principle": "Custom tooltip-like content must work with keyboard focus and, when applicable, be dismissible, hoverable and persistent."
+    },
+    {
+      "source": "ONS Data Visualisation Service Manual",
+      "principle": "Chart type follows the relationship/question; bar charts use a zero baseline; line-chart baselines depend on the analytical purpose."
+    },
+    {
+      "source": "Matplotlib 3.11 documentation",
+      "principle": "Agg is non-interactive and file output is produced with savefig; metadata alone is not an exported figure."
+    },
+    {
+      "source": "Cleveland & McGill graphical perception literature",
+      "principle": "A quantitative encoding hierarchy is more nuanced than position > length > color > shape; position/common scale and length are strong quantitative channels while hue/shape serve different tasks."
+    }
+  ],
+  "findings": [
+    {
+      "id": "S19-F01",
+      "severity": "P1",
+      "category": "PREREQUISITE_INTEGRITY",
+      "title": "S19 opens by treating S18 outputs as already trustworthy",
+      "evidence": "Opening: 'El EDA de S18 dejó medianas, tamaños de muestra e incertidumbre.'",
+      "impact": "Learner can chart S18 artifacts whose denominators, intervals, provenance and traceability are still unresolved, laundering upstream uncertainty into polished figures.",
+      "repair": "Make the handoff conditional: first verify S18 data note, denominator, uncertainty method and exact analytical payload before visualization."
+    },
+    {
+      "id": "S19-F02",
+      "severity": "P2",
+      "category": "PEDAGOGY_AUDIENCE_MODEL",
+      "title": "Audience guidance is framed as role stereotype rather than task and decision need",
+      "evidence": "Opening: 'Una gerencia necesita una idea y pocas categorías; un equipo de análisis aguanta más detalle.'",
+      "impact": "Teaches learners to simplify by job title instead of matching density to decision, time, expertise and consequence.",
+      "repair": "Define audience by decision, time budget, prior knowledge and required drill-down; role can be an example, not the rule."
+    },
+    {
+      "id": "S19-F03",
+      "severity": "P2",
+      "category": "VISUAL_PERCEPTION",
+      "title": "Encoding hierarchy is materially oversimplified",
+      "evidence": "T1-B: 'Jerarquía de encodings: posición > longitud > color > forma.'",
+      "impact": "Conflates quantitative accuracy with categorical channels and omits angle/area distinctions; learner may treat hue or shape as ordered quantitative encodings.",
+      "repair": "Teach position on common scale and length as strong quantitative channels; distinguish angle/area and explain that hue/shape are primarily categorical, not a universal numeric ranking."
+    },
+    {
+      "id": "S19-F04",
+      "severity": "P1",
+      "category": "CODE_CONTRACT_MISMATCH",
+      "title": "The claimed visual-inflation factor is never calculated",
+      "evidence": "T1-B says calculate '(altura_truco / altura_honesta)'; code prints 0.67 and 0.10 separately. Their ratio, the actual inflation factor under that definition, is 6.67.",
+      "impact": "A central integrity gate appears executable but does not produce the metric named by the prose.",
+      "repair": "Define the metric precisely and print `factor_inflacion = ratio_truco / ratio_honesto` (=6.67 for the fixture), while explaining what the ratio represents and its limits."
+    },
+    {
+      "id": "S19-F05",
+      "severity": "P1",
+      "category": "OUTCOME_ALIGNMENT",
+      "title": "Matplotlib outcome promises bar-count verification but the canonical theory example omits it",
+      "evidence": "Outcome and T2-A prose name 'n de barras' / 'conteo de barras'; `mpl_bar.py` records axes/ylabel/ylim only.",
+      "impact": "The learner sees a stated executable contract that the worked example does not actually demonstrate.",
+      "repair": "Capture the returned BarContainer or inspect `ax.patches` and assert/print the expected number of bars."
+    },
+    {
+      "id": "S19-F06",
+      "severity": "P2",
+      "category": "AXIS_SEMANTICS",
+      "title": "The multi-panel example silently applies the bar zero-baseline rule to a line chart",
+      "evidence": "T2-B loops over both axes and runs `ax.set_ylim(bottom=0)`, including the panel titled 'Tendencia'.",
+      "impact": "Learner may generalize 'all Y axes start at zero', although the section correctly scopes the strict zero rule to bar-length magnitude encodings.",
+      "repair": "Apply zero baseline to the bar panel only; teach line-axis choice from analytical purpose and provide sufficient contextual scale."
+    },
+    {
+      "id": "S19-F07",
+      "severity": "P1",
+      "category": "REPRODUCIBILITY",
+      "title": "Export contract says savefig is required while the code only simulates metadata",
+      "evidence": "T2-B: 'Exporta de verdad con fig.savefig'; code comment says '# simular export metadata' and never calls savefig.",
+      "impact": "The exact skill named in the learning outcome—producing a versioned PNG—is not demonstrated, and a metadata dict can pass while no artifact exists.",
+      "repair": "Write to BytesIO or a temporary/versioned file with `fig.savefig(..., dpi=120, bbox_inches='tight')`; validate non-zero bytes/format and derive metadata from the created artifact."
+    },
+    {
+      "id": "S19-F08",
+      "severity": "P2",
+      "category": "TECHNICAL_OVERCLAIM",
+      "title": "Migration from a data spec to Plotly/Streamlit is called 'mechanical'",
+      "evidence": "T3-A and callout: 'si el modelo es claro, migrar a una librería interactiva es mecánico.'",
+      "impact": "Hides real work in event/state semantics, accessibility, keyboard behavior, responsiveness and library-specific rendering.",
+      "repair": "Say the spec reduces migration ambiguity but implementation still requires library-specific interaction and accessibility validation."
+    },
+    {
+      "id": "S19-F09",
+      "severity": "P1",
+      "category": "ACCESSIBILITY",
+      "title": "Interactive accessibility contract omits keyboard/focus and tooltip behavior",
+      "evidence": "T3-A minimal spec is `{filtro, tooltip_template, unidad, campos_visibles}` and discusses hover/tooltips but not keyboard focus, focus order, dismissibility, hoverability or persistence.",
+      "impact": "A dashboard can satisfy the lesson's spec while remaining unusable to keyboard and screen-reader users; this conflicts with the section's central accessibility claim.",
+      "repair": "Extend the spec with keyboard-reachable controls, focus-visible behavior, accessible names/state, tooltip trigger by focus as well as pointer, and WCAG 1.4.13 behavior when custom hover/focus content is used."
+    },
+    {
+      "id": "S19-F10",
+      "severity": "P1",
+      "category": "CODE_CONTRACT_MISMATCH",
+      "title": "Filter-driven conclusion recalculation and JSON state serialization are promised but not demonstrated",
+      "evidence": "T3-A contract requires recalculating conclusion and serializing state; `interactive_spec.py` only filters one row and prints a tooltip dict.",
+      "impact": "The example does not test the product defect the paragraph warns about, so a stale global conclusion would still pass.",
+      "repair": "Build a serializable state object, derive the filtered summary/conclusion from `vista`, serialize it with JSON, and test a second filter where the leader/conclusion changes."
+    },
+    {
+      "id": "S19-F11",
+      "severity": "P1",
+      "category": "ACCESSIBLE_EQUIVALENT_CONTRADICTION",
+      "title": "Active filter says Lima while accessible table and chart value describe Madrid",
+      "evidence": "T3-B code: `state['filtro_region']='Lima'`, while `alt_table[0]['region']='Madrid'` and `chart_value=28.0` matches the Madrid row.",
+      "impact": "The canonical accessibility example violates its own filtered-state parity contract.",
+      "repair": "Generate chart value, table row, alt text and sample metadata from the same filtered payload/state."
+    },
+    {
+      "id": "S19-F12",
+      "severity": "P1",
+      "category": "FALSE_POSITIVE_TEST",
+      "title": "The parity check is a one-scalar false positive",
+      "evidence": "`match = chart_value == alt_table[0]['ticket_mediano_pen']` prints True despite the Lima/Madrid state contradiction.",
+      "impact": "Learner is explicitly shown a green integrity gate that misses row identity, active filter, categories, n and precision—the failure modes the section claims to prevent.",
+      "repair": "Compare normalized chart-data and table-data records including key/category, metric, value, n, filter state and display precision; fail on missing/extra rows."
+    },
+    {
+      "id": "S19-F13",
+      "severity": "P2",
+      "category": "DENOMINATOR_SEMANTICS",
+      "title": "Viewport sampling n and metric n are presented without distinct definitions",
+      "evidence": "T3-B state contains sample_n=5000/universe_n=50000 while the accessible row independently says n=40.",
+      "impact": "Learner cannot tell whether n means rendered points, analytical observations behind a statistic, or population coverage.",
+      "repair": "Name each denominator explicitly, e.g. `rendered_points_n`, `eligible_universe_n`, `metric_observations_n`, and state their relationship."
+    },
+    {
+      "id": "S19-F14",
+      "severity": "P2",
+      "category": "ACCESSIBLE_TABLE_SEMANTICS",
+      "title": "The 'accessible table' contract stops at numeric parity and omits table semantics",
+      "evidence": "T3-B defines 'alternativa accesible = tabla ordenable + resumen textual' but never states headers/caption/row-column associations or keyboard-operable sorting.",
+      "impact": "A visually tabular or mouse-only sortable component could satisfy the prose yet remain inaccessible to assistive technology.",
+      "repair": "Add programmatic headers/caption and keyboard-operable sort-state requirements to the contract; numeric parity is necessary but not sufficient."
+    },
+    {
+      "id": "S19-F15",
+      "severity": "P2",
+      "category": "PROVENANCE",
+      "title": "Caption provenance is manually authored rather than bound to the analytical payload",
+      "evidence": "T4-A hardcodes source, cutoff, n and limitation in a dict; no dataset/data-note identifier, hash or derivation is checked.",
+      "impact": "A polished caption can drift away from the data it describes, especially because S18's data-note example is itself unresolved.",
+      "repair": "Build caption metadata from the validated S18 note/payload identity and carry a stable data-note or payload identifier into the figure manifest."
+    },
+    {
+      "id": "S19-F16",
+      "severity": "P2",
+      "category": "ACCESSIBILITY_CONTRAST",
+      "title": "'Contraste suficiente' is not operationalized",
+      "evidence": "T4-B says 'Contraste suficiente texto/fondo' but gives no measurable threshold and does not distinguish text from graphical-object contrast.",
+      "impact": "Learner cannot test the requirement; subjective 'se ve bien' can pass despite WCAG failures.",
+      "repair": "Teach the relevant WCAG targets for normal/large text and required non-text graphical information, while preserving the non-color channel rule."
+    },
+    {
+      "id": "S19-F17",
+      "severity": "P1",
+      "category": "CLAIM_DATA_CONTRADICTION",
+      "title": "Final alt text and the supposedly acceptable claim disagree about which region leads",
+      "evidence": "`alt` says Lima 28, Madrid 24, Bogota 22.5; `claim_ok` says Madrid has the highest median.",
+      "impact": "The section closes its no-overclaim lesson with a claim contradicted by its own evidence.",
+      "repair": "Derive the claim from the same rows used to build the alt/table; with the shown values the permitted claim must say Lima leads the sample."
+    },
+    {
+      "id": "S19-F18",
+      "severity": "P1",
+      "category": "DOMAIN_CONTEXT_COHERENCE",
+      "title": "The nominal Peru case mixes Lima with Madrid, Bogota and Berlin as if they were peer Peruvian regions",
+      "evidence": "Job relevance warns against 'Madrid lidera el Perú'; examples repeatedly label a Peru case while using Madrid/Bogota/Berlin alongside Lima.",
+      "impact": "Breaks the localized mental model and makes population/generalization statements geographically incoherent.",
+      "repair": "Either use Peruvian peer geographies consistently (e.g. Lima/Arequipa/Trujillo) or explicitly define a multinational market dimension and stop saying 'del Perú'."
+    },
+    {
+      "id": "S19-F19",
+      "severity": "P1",
+      "category": "ROADMAP_SCOPE_DRIFT",
+      "title": "T4-B contains an unscaffolded SQL/ML-leakage mini-lesson outside S19's roadmap",
+      "evidence": "After three accessibility/claims paragraphs, four additional paragraphs introduce Codd/SEQUEL, SQL fundamentals, sqlite3 and ML leakage. S19 roadmap assigns T4-B to color/contrast/alt/no-overclaim; SQL was already S12 and leakage has a later dedicated progression.",
+      "impact": "Adds cognitive load at the exact closure point, weakens narrative coherence and displaces practice on the section's actual accessibility gate.",
+      "repair": "Remove this detour from S19 theory or reduce it to a one-sentence provenance bridge; keep SQL teaching in its owning section and leakage in its dedicated ML progression."
+    },
+    {
+      "id": "S19-F20",
+      "severity": "P1",
+      "category": "FALSE_PREREQUISITE",
+      "title": "The leakage paragraph falsely says the learner saw ML Pipeline behavior in S09",
+      "evidence": "T4-B: 'En ML (como viste en S09)...'; current S09 canonical title is 'Excepciones, debugging y logging seguro'.",
+      "impact": "Creates a nonexistent prerequisite and leaves a zero-tech learner without the background the paragraph assumes.",
+      "repair": "Delete the S09 reference; if the material remains, introduce it self-sufficiently or point only to the actual later ML/leakage owner."
+    },
+    {
+      "id": "S19-F21",
+      "severity": "P1",
+      "category": "ML_LEAKAGE_MISINSTRUCTION",
+      "title": "'Describe con todo' is unsafe guidance for a held-out test set",
+      "evidence": "T4-B rule: 'describe con todo, decide solo con lo que verías en producción.'",
+      "impact": "Inspecting a held-out test set during exploratory analysis can influence feature/model/threshold decisions and leak test information even without fit_transform.",
+      "repair": "Keep the final test set sealed from model-development EDA; explore train/development data, make decisions there, then use the test set only for the predeclared final evaluation."
+    },
+    {
+      "id": "S19-F22",
+      "severity": "P2",
+      "category": "SQL_CONCEPT_ACCURACY",
+      "title": "SQL detour presents an overly categorical 'four fundamental operations' model",
+      "evidence": "T4-B: 'Las cuatro operaciones fundamentales de SQL son SELECT, WHERE, GROUP BY y JOIN.'",
+      "impact": "Conflates clauses/operations and presents a narrow dashboard-query subset as the fundamentals of SQL.",
+      "repair": "If retained, call them four common clauses/operations for analytical SELECT queries, not the four fundamentals of SQL."
+    },
+    {
+      "id": "S19-F23",
+      "severity": "P2",
+      "category": "PRIOR_CONCEPT_REGRESSION",
+      "title": "SQL example defaults to AVG(ticket) without reconnecting to S18's robust-metric decision",
+      "evidence": "The detour's example uses `AVG(ticket)` immediately after S18 taught that skewed ticket values can make mean a poor 'typical' metric.",
+      "impact": "Learner can infer that the SQL layer licenses a different metric simply because AVG is convenient.",
+      "repair": "Tie the aggregation to the stated business question; if mean is used, say why. Otherwise show that robust metrics may require a different query/processing path."
+    },
+    {
+      "id": "S19-F24",
+      "severity": "P2",
+      "category": "REDACTION_WIDOW_TERMS",
+      "title": "Spanish-first redaction is weakened by a dense cluster of unexplained or inconsistently translated terms",
+      "evidence": "Examples include chart, brief, encoding, dual-axis, faceting, state, sample, aggregate, claim, loop, gate, metadata and portfolio; T4-B also contains 'cambiaria' without the required accent 'cambiaría'.",
+      "impact": "Raises unnecessary lexical load for a zero-tech learner and breaks the course's self-sufficient Peruvian-Spanish contract.",
+      "repair": "Introduce Spanish first with the English term only where useful, reuse one stable translation, and correct grammar/accents."
+    }
+  ],
+  "rejected_hypotheses": [
+    {
+      "hypothesis": "All non-zero chart axes are deceptive.",
+      "verdict": "REJECTED",
+      "reason": "The strict zero-baseline requirement is appropriate for bar-length magnitude encodings; line charts require contextual scale choices rather than a universal zero rule."
+    },
+    {
+      "hypothesis": "Using the Agg backend is obsolete or incorrect.",
+      "verdict": "REJECTED",
+      "reason": "Current Matplotlib documentation still identifies Agg as a non-interactive raster backend suitable for file generation."
+    },
+    {
+      "hypothesis": "A separate data table makes alt text unnecessary in every case.",
+      "verdict": "REJECTED",
+      "reason": "Complex-image guidance supports a short identification/summary plus a longer textual/data equivalent; responsibilities depend on context."
+    },
+    {
+      "hypothesis": "Any use of color in a chart is inaccessible.",
+      "verdict": "REJECTED",
+      "reason": "WCAG prohibits color as the only information channel; color may be used with redundant text/pattern/position and adequate contrast."
+    },
+    {
+      "hypothesis": "The source header comment is a learner-facing meta leak.",
+      "verdict": "NOT_CONFIRMED",
+      "reason": "It is source-only TypeScript commentary; current text fetch did not establish that it is rendered to learners."
+    },
+    {
+      "hypothesis": "The figure alt 'Cuatro guardas...' is definitely insufficient.",
+      "verdict": "NOT_CONFIRMED",
+      "reason": "The current tooling did not expose the hydrated figure, so its informational dependence on the image versus surrounding text cannot be proven."
+    }
+  ],
+  "meta_leak_report": {
+    "learner_facing_confirmed": [],
+    "source_only_notes": [
+      "File header explains legacy filename/id and warns agents not to match content to slug. This is developer-facing source commentary and is not counted as a learner-facing leak without render evidence."
+    ],
+    "verdict": "NO_CONFIRMED_LEARNER_FACING_META_LEAK"
+  },
+  "pedagogical_deep_dive": {
+    "strengths_defended": [
+      "Question-before-chart sequencing is pedagogically sound.",
+      "Zero-baseline discipline for bars is correct.",
+      "Chart/table numerical parity is the right concept even though the canonical test is inadequate.",
+      "No-color-only guidance aligns with WCAG.",
+      "No-overclaim language correctly inherits S18's association/decision caution in principle."
+    ],
+    "dominant_failure_pattern": "The prose states strong executable contracts, but several canonical examples do not execute the contract they name. This creates false-green pedagogy: the learner sees a passing example that would miss the very defect the text warns about.",
+    "cognitive_load": "The late SQL/ML-leakage detour is the largest sequencing violation. It introduces a second domain just as the learner should consolidate accessibility, provenance and evidence-limited communication.",
+    "accessibility_gap": "The section emphasizes non-visual equivalents but under-specifies interactive operability: keyboard/focus, tooltip persistence/dismissal and programmatic table semantics remain outside the executable contract."
+  },
+  "priority_order": [
+    "P1 first: F11/F12/F17 — repair false-green parity and claim/data contradictions.",
+    "P1: F07/F05/F04/F10 — make export, bar-count, inflation and filter/conclusion contracts actually executable.",
+    "P1: F09 — extend accessibility from visual redundancy to keyboard/focus/tooltip behavior.",
+    "P1: F01/F15 — bind S19 figures to a validated S18 analytical payload and provenance note.",
+    "P1: F18/F19/F20/F21 — remove geography incoherence and the SQL/ML scope/prerequisite/leakage defects.",
+    "P2: F03/F06/F08/F13/F14/F16/F22/F23/F24 — refine perception, axis, terminology, denominator and WCAG details."
+  ],
+  "graph_memory_update": {
+    "USABLE": [
+      "chart choice follows analytical question/relationship",
+      "bar length magnitude comparisons use a zero baseline",
+      "color must not be the sole information channel",
+      "figure claims must not exceed evidence",
+      "Agg can support headless static rendering"
+    ],
+    "PARTIAL": [
+      "chart-table parity",
+      "accessible non-visual equivalent",
+      "interactive filter/tooltip model",
+      "caption provenance",
+      "export reproducibility",
+      "graphical encoding hierarchy"
+    ],
+    "MISCONCEPTION_RISK": [
+      "single-scalar parity checks",
+      "all chart axes should start at zero",
+      "interactive-library migration is mechanical",
+      "sample_n and metric n are interchangeable",
+      "Madrid/Bogota/Berlin are peer regions in a Peru population claim",
+      "S09 taught ML Pipeline leakage controls",
+      "held-out test data are safe for unrestricted descriptive EDA during model development"
+    ],
+    "MENTION_ONLY": [
+      "SQL history/clauses inside S19",
+      "ML leakage controls",
+      "full interactive dashboard implementation"
+    ],
+    "S20_watchlist": [
+      "Do not consume S19 figure metadata as proof a PNG exists unless artifact bytes/file are verified.",
+      "Do not trust S19 chart-table parity unless key/category/value/n/filter/precision are reconciled, not one scalar.",
+      "Carry explicit denominator names into Excel outputs.",
+      "Do not inherit the Lima/Madrid geography fixtures.",
+      "Keep S18/S19 provenance unresolved until captions bind to the validated analytical payload."
+    ]
+  },
+  "status": "AUDITED_REPAIR_REQUIRED"
+}
