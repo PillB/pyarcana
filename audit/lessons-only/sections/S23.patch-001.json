@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S23",
+  "patch_type": "APPEND_ONLY_FINDING",
+  "supersedes_summary_only": {
+    "material_findings": 27,
+    "severity_counts": {"P0": 0, "P1": 18, "P2": 9, "P3": 0}
+  },
+  "finding": {
+    "id": "S23-F27",
+    "severity": "P2",
+    "category": "FIGURE_SCOPE_ALIGNMENT",
+    "evidence": "The only theory figure sits under T1-B Auto-waiting y assertions, but its caption centers CAPTCHA/handoff and its alt describes login→form→export→verify with a post-export side-effect boundary.",
+    "attack": "The visual teaches T3/T4 recovery/idempotence/blocker concepts at the point where the learner is supposed to consolidate actionability and assertions.",
+    "defense": "The figure does contain a general workflow and can preview later risk boundaries.",
+    "verdict": "CONFIRMED",
+    "impact": "The only diagram in the theory increases split attention instead of dual-coding the current subtopic.",
+    "repair": "Move the current recovery diagram to T3-B/T4-B and give T1-B a small actionability/assertion timeline: locator→actionability checks→action→web-first postcondition→timeout evidence."
+  },
+  "reason_for_patch": "Detected during component-level pass after base issue registry was persisted; append-only protocol preserves the original audit artifact rather than rewriting history."
+}
