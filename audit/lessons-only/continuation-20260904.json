@@ -1,13 +1,13 @@
 {
-  "schema_version": "1.9.0",
+  "schema_version": "2.0.0",
   "campaign_id": "lessons-only-adversarial-20260903",
   "continuation_date": "2026-09-04",
   "last_updated_date": "2026-09-05",
   "branch": "audit/lessons-only-adversarial-20260903",
-  "last_completed_section": "S26",
-  "last_completed_round": "S26-base-solarized-adversarial-audit-20260905",
+  "last_completed_section": "S27",
+  "last_completed_round": "S27-base-solarized-adversarial-audit-20260905",
   "last_completed_verdict": "REPAIR_REQUIRED",
-  "last_completed_material_findings": 35,
+  "last_completed_material_findings": 30,
   "section_artifacts": {
     "S17": {
       "base_audit": "audit/lessons-only/sections/S17.json",
@@ -113,7 +113,7 @@
         "S25-F19/F20 key-only schema validation allows wrong types and does not ground numbers/evidence ids",
         "S25-F25 field_match_rate counts a missing prediction as correct when gold contains null",
         "S25-F27 no executable candidate-vs-baseline promotion gate exists",
-        "S25-F29 injection is detected in the canonical malicious fixture but the request is still constructed",
+        "S25-F29 injection is detected in the canonical malicious fixture but build_request still constructs the request",
         "S25-F23/F24 allowlisted tools are marked ok without argument authorization, execution or result validation",
         "S25-F14 circuit breaker is global and permanently open after threshold with no recovery/alert implementation"
       ],
@@ -141,27 +141,51 @@
         "S26-F35 no immutable lineage binds source/evidence/AI/review/report/draft"
       ],
       "status": "AUDITED_REPAIR_REQUIRED"
+    },
+    "S27": {
+      "base_audit": "audit/lessons-only/sections/S27.json",
+      "paragraph_shards": ["audit/lessons-only/sections/S27.paragraphs-01.json", "audit/lessons-only/sections/S27.paragraphs-02.json"],
+      "component_ledger": "audit/lessons-only/sections/S27.components.json",
+      "source_file": "src/lib/course/sections/s27-async-concurrency.ts",
+      "source_blob_sha": "5525517f635d2d30d1c599436f6fdadfec6bced8",
+      "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+      "coverage": "32/32 theory paragraphs + title/tagline/job relevance + 8 outcomes + 8 theory code/output blocks + 9 callouts + 2 figures",
+      "material_findings": 30,
+      "severity_counts": {"P0":0,"P1":16,"P2":14,"P3":0},
+      "highest_risk_findings": [
+        "S27-F03 canonical theory repeatedly substitutes plain-Python simulations/prints for actual pytest execution despite pytest being the section construct",
+        "S27-F12 a pseudo-parametrized table can print param_ok=False while a real pytest run still exits 0 with the two manually defined tests passing",
+        "S27-F13 no actual exact_match function is tested despite a learning outcome promising that contract",
+        "S27-F14 fixture behavior is simulated with a global-backed function rather than an executed pytest fixture/factory lifecycle",
+        "S27-F18 matching scores accept NaN/infinity/out-of-range values and NaN silently classifies as non_match",
+        "S27-F21 negative table prints neg_ok rather than asserting it",
+        "S27-F23/F24 manual outcome counters are not Coverage.py branch coverage and remain 3/3 under a behavior-changing threshold mutant",
+        "S27-F26 mutation_killed is direct mutant-output inequality rather than the unchanged suite failing against the mutant",
+        "S27-F27 no canonical red→green bug reproduction demonstrates the section's defining regression workflow",
+        "S27-F28 risk-first testing ignores known Level-2/S26 defects at the level transition"
+      ],
+      "status": "AUDITED_REPAIR_REQUIRED"
     }
   },
   "audit_protocol_delta": {
     "rule": "SIN_CAMBIO_DEFENDIDO/NO_MATERIAL_CHANGE => improved_content=null",
-    "reason": "S18-S26 follow the corrected paragraph protocol; defended content is not rewritten for cosmetic churn."
+    "reason": "S18-S27 follow the corrected paragraph protocol; defended content is not rewritten for cosmetic churn."
   },
-  "next_section": "S27",
+  "next_section": "S28",
   "carry_forward_constraints": [
-    "S27 must treat S26 hardcoded success/n2_regression='pass'/fraud_labels=0/cost/value fields as test targets for failure, not as evidence that N2 passed.",
-    "Add regression tests proving a cyclic or partially cyclic DAG raises explicitly; a partial topological order is not a valid success result.",
-    "Test positive state semantics: rejected/error/needs_revision/missing review artifacts must block; pending_count==0 alone must never mean approved.",
-    "Restore S22 approval semantics in contracts: pre-draft analysis/report/recipient review may authorize draft creation, but final approval must bind the exact draft hash and recipient set.",
-    "Idempotency tests must cover same key+same payload, same key+different payload, concurrent INPROGRESS and restart persistence; a dict overwrite is not creditable.",
-    "Compensation tests must prove report/draft history remains reconstructable after supersede/cancel; do not accept pop/record replacement that destroys evidence.",
-    "Retry tests must distinguish side-effect-free/transient errors from outcome-unknown or permanent data/config errors, and verify capped backoff+jitter is actually applied.",
-    "Checkpoint tests must kill/restart the process or reopen a persistent store; an in-memory set cannot prove crash recovery.",
-    "DLQ tests should verify lineage, attempts, timestamps, owner, SLA and controlled redrive/reject state rather than presence in a Python list only.",
-    "Audit/HITL tests must require authorized actor, timezone-aware timestamp, allowed action, mandatory reject reason and exact artifact version/hash binding; edits create new immutable versions.",
-    "SLO tests must use one declared measurement window and explicit eligible-run denominator; skipped must not silently count as success.",
-    "E2E tests must inject transient failure, permanent failure/DLQ, human reject and restart recovery; promotion is derived only from observed manifests from CP-N2-A/B/C + S14-S26 + CF-2.",
-    "Preserve the unresolved S21-S25 lineage constraints: S27 must not make a green integration test by stubbing every upstream status to success without verifying source hashes/model/schema/review provenance."
+    "S28 must use actual pytest collection/execution for properties, doubles and integration tests; print-only booleans such as param_ok/neg_ok are not evidence.",
+    "Use IANA/RFC-reserved synthetic domains such as .test or example.com; do not reuse @example.pe as a supposedly safe non-routable fixture namespace.",
+    "Do not treat N2/CF-2 as passed. Preserve a small inherited regression pack for S26 critical controls: cycle detection, positive HITL approval, exact-draft approval binding, idempotency/restart, compensation history, retry classification and observed E2E promotion manifests.",
+    "S28 properties must target actual public APIs such as normalize_name/exact_match rather than testing inline expressions; define missing/Unicode/input contracts before generating cases.",
+    "Validate matching scores as finite and within the declared range before any property or threshold test; NaN/infinity/out-of-range must fail closed rather than silently classify.",
+    "Use real pytest fixtures/factories/scopes and teardown. Remember pytest also has package scope; wider mutable fixtures require explicit reset/lifecycle, not a blanket read-only API rule.",
+    "Keep filesystem integration real when that is the boundary under test by using tmp_path; do not over-mock controlled local I/O merely to make tests 'unit'. Clean every delete=False resource on success and failure.",
+    "Separate Coverage.py/pytest-cov branch measurement from a business-risk scenario matrix. Both are useful; manual output-category counts are not branch coverage.",
+    "Threshold tests must assert exact labels just below/at/just above every decision boundary and include missing/invalid/nonfinite scores; approximate equality belongs to computed numeric values, not threshold semantics.",
+    "Mutation evidence requires executing the unchanged test suite against mutated production code. Directly comparing mutant output to the oracle is not a killed mutant.",
+    "Every bug-regression example carried into S28 should preserve red-before-fix and green-after-fix evidence with the permanent test/node id.",
+    "Distinguish a behavioral contract/specification in tests from provider-consumer interface contract testing; S28 should introduce the latter explicitly when discussing module/service contracts.",
+    "Preserve unresolved S21-S26 provenance: integration fakes/mocks must not turn unverified upstream success/approved/model/review labels into green tests without validating the contract fields they stand for."
   ],
-  "status": "READY_TO_CONTINUE_WITH_S27"
+  "status": "READY_TO_CONTINUE_WITH_S28"
 }
