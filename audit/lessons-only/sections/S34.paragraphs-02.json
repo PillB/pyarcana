@@ -1,0 +1,176 @@
+{
+  "schema_version":"1.8.0",
+  "campaign_id":"lessons-only-adversarial-20260903",
+  "section":"S34",
+  "part":"paragraphs-02-of-02",
+  "coverage":"T2-A p3-p4 + T2-B + T3-A + T3-B + T4-A + T4-B = 17 paragraphs",
+  "protocol":"SIN_CAMBIO_DEFENDIDO/NO_MATERIAL_CHANGE => improved_content=null",
+  "paragraphs":[
+    {
+      "paragraph_id":"S34-P18","location":"S34-T2-A.p3",
+      "current_content":"Con `n0=9` y `n1=1` el weight ratio es 9.0 (división float en Python 3). Política del workbench: sin resample global y test sin tocar. Si alguien resamplea el dataset entero → `REJECT_LEAKY_RESAMPLE`. Si falta el conteo de minoría `n1` → `REQUEST_WEIGHTS` (no inventes un ratio).",
+      "attack":"El ratio es válido en este fixture, pero la política no contempla n1=0, n0=0, counts negativos/no enteros ni folds sin soporte de una clase.",
+      "defense":"Para n0=9,n1=1 la aritmética y la intención CV-safe son correctas.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F16"],
+      "pedagogical_impact":"Un fold con cero positivos rompe el helper en vez de producir un estado explícito de soporte insuficiente.",
+      "improved_content":"Con `n0=9` y `n1=1`, el peso relativo de la clase positiva puede expresarse como `n0/n1 = 9.0`. Antes de calcularlo, valida que ambos conteos sean enteros no negativos y que `n1 > 0`; un fold con cero positivos no tiene un ratio estimable y debe reportarse como **soporte insuficiente**, no resolverse con un peso inventado. Mantén el rebalance exclusivamente dentro de train y deja validación/test intactos. Resampling global → `REJECT_LEAKY_RESAMPLE`; falta o soporte inválido → `REQUEST_WEIGHTS` / `REJECT_INSUFFICIENT_CLASS_SUPPORT`.",
+      "justification":"Preserva el ejemplo simple y añade el contrato mínimo que evita división por cero y falsas métricas."
+    },
+    {
+      "paragraph_id":"S34-P19","location":"S34-T2-A.p4",
+      "current_content":"Hay un paso previo que el desbalance vuelve obligatorio: **cómo se reparten las clases entre folds**. Con un positivo por cada nueve negativos, un corte aleatorio puede dejar un fold con dos positivos y otro con ninguno, y una métrica calculada sobre cero positivos no significa nada. Un **split estratificado** (*stratified split*, y su versión por folds **StratifiedKFold**) reparte manteniendo en cada fold la misma proporción de clases que en el conjunto completo. Es el complemento natural de todo lo anterior: la estratificación decide qué entra en cada caja, los weights y el resampling actúan después y solo dentro de la caja de train. Con clases muy raras, revisa además el conteo absoluto — mantener la proporción no garantiza que haya suficientes positivos para estimar nada con precisión.",
+      "attack":"`StratifiedKFold` no protege la disyunción de entidades heredada de S33 y la proporción por fold solo puede preservarse aproximadamente con conteos discretos.",
+      "defense":"La necesidad de preservar representación de la clase rara y revisar soporte absoluto es correcta.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F17","S34-F18","S34-F19"],
+      "pedagogical_impact":"El learner puede corregir desbalance y simultáneamente reintroducir leakage de identidad, obteniendo folds aparentemente mejores pero inválidos.",
+      "improved_content":"Antes de weights o resampling, diseña folds que respeten **todas** las dependencias del problema. La estratificación intenta conservar **aproximadamente** la proporción de clases, pero no reemplaza la separación por entidad. Si la unidad es un `entity_pair`, ningún endpoint que deba permanecer unseen puede aparecer a ambos lados del fold; usa una estrategia group-aware —por ejemplo, `StratifiedGroupKFold` cuando un group id representa correctamente la dependencia, o una asignación custom por componentes de entidades— y verifica después los endpoints reales. Luego reporta conteos absolutos de positivos/negativos por fold: una proporción parecida no garantiza soporte suficiente.",
+      "justification":"Integra el desbalance con la restricción de leakage heredada de S33, en lugar de enseñar soluciones incompatibles."
+    },
+    {
+      "paragraph_id":"S34-P20","location":"S34-T2-B.p1",
+      "current_content":"La **prevalencia** (base rate) es la fracción de positivos en la población que miras. Si cae de un trimestre a otro, la misma especificidad del modelo produce peor precision: aparecen más falsos positivos relativos a los verdaderos positivos. Un clasificador **all-negative** (siempre «no revisar») luce genial en accuracy cuando la clase positiva es rara — y no prioriza ninguna cola. Es el truco más barato del dashboard y el más caro en operación.",
+      "attack":"Usa `especificidad` como pieza causal sin definirla, creando un widow term justo al explicar por qué cambia precision con prevalencia.",
+      "defense":"La relación base-rate→precision bajo sensibilidad/especificidad constantes es correcta.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F40"],
+      "pedagogical_impact":"El lector puede memorizar que la precision cae sin entender qué tasa se mantiene fija ni de dónde vienen los falsos positivos.",
+      "improved_content":"La **prevalencia** o tasa base es la fracción de positivos en la población evaluada. Si baja mientras el comportamiento del clasificador se mantiene, la precision puede caer aunque el modelo no haya cambiado: habrá menos positivos verdaderos disponibles frente a los falsos positivos. Una forma de expresar ese comportamiento es la **especificidad**, `TN/(TN+FP)`, que mide qué fracción de negativos reales se rechaza correctamente. Con prevalencia muy baja, incluso una especificidad alta puede dejar suficientes FP como para degradar la precision. Por eso un clasificador all-negative puede mostrar gran accuracy y, aun así, no priorizar ningún caso útil.",
+      "justification":"Introduce el término exactamente donde se necesita para explicar la causalidad de base rate."
+    },
+    {
+      "paragraph_id":"S34-P21","location":"S34-T2-B.p2",
+      "current_content":"Por eso el workbench exige reportar prevalencia **junto** a P/R. Comparar precision entre Q1 y Q2 sin base rate es comparar manzanas con naranjas: un modelo «peor» puede parecer ganador si la prevalencia cambió. Marcar `accuracy_enough=True` con prevalencia baja es ceguera de producto; la política responde `REJECT_PREVALENCE_BLIND`. Si falta la base rate en el reporte → `REQUEST_BASE_RATE`.",
+      "attack":"El código posterior no ejecuta la policy; sin embargo el principio de reportar prevalencia junto a P/R es correcto.",
+      "defense":"El párrafo no confunde prevalencia con rendimiento y presenta una regla de reporte útil.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO","finding_ids":["S34-F21"],
+      "pedagogical_impact":"El defecto está en la implementación hard-coded del gate, no en esta explicación.",
+      "improved_content":null,
+      "justification":"No reescribir contenido conceptualmente correcto para compensar un bug del snippet."
+    },
+    {
+      "paragraph_id":"S34-P22","location":"S34-T2-B.p3",
+      "current_content":"Ejemplo sintético del tablero: 25 positivos de 1000 → prevalencia 0.025; accuracy all-neg ≈ 0.975 engaña al panel ejecutivo. Preferimos la familia PR, precision@k bajo capacidad y la carga real de cola. Cuando presentes resultados a compliance o a producto, di en voz alta la prevalencia antes de la precision: es el ancla de interpretación.",
+      "attack":"Se comprobó si el ejemplo numérico o el framing PR eran incorrectos.",
+      "defense":"25/1000=0.025 y un all-negative obtiene 0.975 accuracy; usar prevalencia como contexto de precision es correcto.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"pedagogical_impact":"No material.","improved_content":null,
+      "justification":"Ejemplo breve, causal y matemáticamente correcto."
+    },
+    {
+      "paragraph_id":"S34-P23","location":"S34-T3-A.p1",
+      "current_content":"Un score de 0.8 no «es» 80 % de culpa ni de parentesco: es una señal de **priorización** para la cola. Si quieres leerlo como probabilidad útil («de cada 10 casos con ~0.8, ¿cuántos resultaron positivos?»), necesitas calibración. **Brier** promedia `(p − y)²` sobre el conjunto: más bajo es mejor entre modelos comparables. **Reliability** agrupa scores en bins y contrasta la media de `p` con la frecuencia observada de y=1. Si mean_p=0.8 y freq=0.5, el bin miente: el modelo se sobreconfía.",
+      "attack":"Presenta Brier demasiado cerca de una medida de calibración pura; un Brier menor también refleja resolución/discriminación y prevalencia/uncertainty.",
+      "defense":"La fórmula de Brier y la interpretación del reliability bin sí son correctas y útiles.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F25"],
+      "pedagogical_impact":"Puede llevar al learner a atribuir una mejora del Brier exclusivamente a calibración.",
+      "improved_content":"Un score de 0.8 no «es» 80 % de culpa ni de parentesco. Si el producto pretende leerlo como probabilidad —«entre casos con p≈0.8, cerca de 80 % termina positivo»— necesita evaluar calibración. El **Brier score** promedia `(p−y)²` y es un score probabilístico global: mejora o empeora por una combinación de calibración/reliability, capacidad de separar casos y la incertidumbre de la población; por eso no lo uses como prueba aislada de calibración. Para ver la forma de la calibración, una **reliability curve** agrupa probabilidades y compara `mean_p` con la frecuencia observada. Si un bin tiene `mean_p=0.8` y `freq=0.5`, ese bin está sobreconfiado.",
+      "justification":"Distingue un proper scoring rule global del diagnóstico específico de calibration shape."
+    },
+    {
+      "paragraph_id":"S34-P24","location":"S34-T3-A.p2",
+      "current_content":"No basta un punto perfecto (`p=1, y=1` → Brier 0 en un solo caso). Calculas Brier **medio** sobre el set y al menos un bin. Un Brier bajo con bins desalineados, o bins perfectos con Brier alto, cuentan historias distintas (calibración vs. discriminación). Evaluar reliability «a ojo» sobre el mismo set con el que ajustaste un calibrador es autoengaño: la medición va sobre datos no usados para el fit (T3-B).",
+      "attack":"`al menos un bin` es insuficiente para un verdict global y `bins perfectos con Brier alto` simplifica la descomposición sin reportar support.",
+      "defense":"La separación fit/evaluation y la advertencia contra un solo punto son correctas.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F24","S34-F25"],
+      "pedagogical_impact":"Un bin pequeño alineado por azar puede convertirse en certificado de modelo calibrado.",
+      "improved_content":"Un punto perfecto no demuestra calibración y un solo bin tampoco. Calcula el Brier medio sobre todas las filas válidas y construye varios bins de reliability con su `support`; interpreta su patrón, no únicamente un boolean de tolerancia. Un Brier bajo no implica por sí solo buena calibración, porque mezcla más de una propiedad del pronóstico. Finalmente, mide la reliability en predicciones **no usadas para ajustar el calibrador**; si el mismo set sirve para fit y evaluación, el diagnóstico es optimista por construcción.",
+      "justification":"Evita el false green de un bin y hace visible el denominador de cada estimación."
+    },
+    {
+      "paragraph_id":"S34-P25","location":"S34-T3-A.p3",
+      "current_content":"`CASO-LIM-034` (mini-set de calibración): scores `[0.1,0.2,0.8,0.9]` y labels `[0,0,0,1]` → Brier medio 0.175; bin `[0.7,1.0)` da mean_p=0.85 y freq=0.5 → no calibrado. Breach → `REJECT_UNCALIBRATED`. Sin scores/Brier en el reporte → `REQUEST_BRIER`.",
+      "attack":"El bin final excluye p=1.0; el ejemplo de un solo bin solo demuestra misalignment local; REJECT_UNCALIBRATED es demasiado absoluto si el score se usa solo como ranking.",
+      "defense":"Los números del fixture son correctos para esos cuatro puntos y sí muestran sobreconfianza en ese bin.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F23","S34-F24","S34-F42"],
+      "pedagogical_impact":"Confunde diagnóstico local con gate global y puede omitir probabilidades exactamente 1.0 producidas por el propio calibrador.",
+      "improved_content":"En `CASO-LIM-034`, los cuatro scores producen Brier 0.175. En el bin alto, `mean_p=0.85` frente a `freq=0.5` muestra **desalineación de ese bin**, no certifica por sí solo todo el modelo. Define bins sin solapamientos y haz el último intervalo inclusivo a la derecha para que `p=1.0` no desaparezca. Si el producto va a interpretar el score como probabilidad o CP-N3-B exige probabilidades calibradas, una reliability curve suficientemente soportada puede bloquear promoción; si el score se usa solo para ranking, reporta la mala calibración sin fingir que invalida automáticamente su ordenamiento.",
+      "justification":"Corrige frontera de bins y scope del calibration gate."
+    },
+    {
+      "paragraph_id":"S34-P26","location":"S34-T3-B.p1",
+      "current_content":"**Platt scaling** (regresión logística del score crudo hacia probabilidad) e **isotonic regression** (mapa monótono no paramétrico) se ajustan en un set de calibración **distinto** del train del modelo base. En producción verás `CalibratedClassifierCV` en sklearn. Aquí usamos un **mapa afín recortado**, `clip(a·raw + b)`, y conviene no llamarlo Platt aunque cumpla un papel parecido en el lab: Platt ajusta una **sigmoide**, `p = 1/(1+exp(A·s+B))`, que es curva, monótona y nunca toca 0 ni 1; el mapa afín es una recta que se aplasta contra los bordes en cuanto los cruza. Producen formas distintas y no debes confundirlas al leer un paper o una librería. Lo que sí compartimos con Platt es la disciplina que de verdad importa aquí: los coeficientes `a, b` se ajustan solo con el holdout versionado (`holdout_v1`), nunca con el test final del reporte.",
+      "attack":"Se probó si la distinción affine vs Platt era falsa.",
+      "defense":"La distinción es técnicamente correcta: Platt usa una sigmoide; el mapa affine+clip puede ser una simplificación didáctica si se nombra honestamente. El finding F26 recae en el docstring que luego lo contradice.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO","finding_ids":["S34-F26"],"pedagogical_impact":"No material en el párrafo; corregir el componente de código.","improved_content":null,
+      "justification":"No castigar una explicación que explícitamente evita el error terminológico."
+    },
+    {
+      "paragraph_id":"S34-P27","location":"S34-T3-B.p2",
+      "current_content":"Clip a `[0,1]` es un pre-paso de rango, **no** es calibración por sí solo: no aprende la relación entre score y frecuencia observada. El contrato del workbench exige: (1) set nombrado que empiece por `holdout`, (2) misma longitud raw/cal, (3) evaluación de Brier/reliability en un split no usado para fit. `calibrator_set=train_in_sample` activa `REJECT_IN_SAMPLE_CAL`; sin set → `REQUEST_CAL_SET`.",
+      "attack":"Un nombre que empieza por `holdout` y una longitud igual no demuestran disyunción ni que a,b se ajustaron con ese set; el code tampoco evalúa fuera de muestra.",
+      "defense":"La prosa reconoce correctamente que clip no calibra y que evaluación debe ser separada del fit.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F27","S34-F29"],
+      "pedagogical_impact":"Convierte naming convention en prueba de data provenance y puede permitir una calibración in-sample disfrazada de holdout.",
+      "improved_content":"Clip a `[0,1]` solo restringe rango; no aprende calibración. El contrato debe identificar **qué filas** ajustaron el calibrador y demostrar que son disjuntas de las usadas para entrenar el modelo base cuando así lo requiera el método, además de mantener separado el conjunto donde medirás Brier/reliability. Un string como `holdout_v1` no basta: persiste `calibration_split_id`, sample IDs/hash, base-model run y parámetros aprendidos. Después evalúa el calibrador en predicciones que no participaron en su fit y conserva un test final intacto para el reporte final.",
+      "justification":"Reemplaza un proxy nominal por lineage y disyunción comprobables."
+    },
+    {
+      "paragraph_id":"S34-P28","location":"S34-T3-B.p3",
+      "current_content":"`CASO-LIM-034`: raw `[1.5, -0.2, 0.4]` con `a=0.8`, `b=0.1` (coeficientes ilustrativos de `holdout_v1`) → `[1.0, 0.0, 0.42]`. En el portafolio documenta: *dónde se ajustó el calibrador* y *dónde se midió Brier*. Esa frase evita el training-serving skew de las probabilidades cuando el thr de T4 se elige sobre scores «calibrados».",
+      "attack":"a,b no se ajustan; el code redondea probabilidades antes de decisión; y separar fit/eval evita leakage/in-sample optimism, no train-serving skew.",
+      "defense":"El ejemplo muestra claramente la geometría de affine+clip y pide documentar fit/evaluation.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F27","S34-F28","S34-F41"],
+      "pedagogical_impact":"El learner puede creer que anotar `holdout_v1` equivale a fit real y que redondear p no cambia decisiones; además aprende un término de leakage incorrecto.",
+      "improved_content":"Como demostración geométrica, `a=0.8` y `b=0.1` permiten ver cómo `clip(a·raw+b)` transforma scores. **No los presentes como coeficientes ajustados** hasta que exista un procedimiento de fit sobre el split de calibración. Conserva la probabilidad a precisión completa para Brier y decisiones; redondea solo al mostrarla, porque 0.595 puede visualizarse como 0.60 y cruzar indebidamente un threshold 0.60. Documenta por separado el set de fit y el set de evaluación del calibrador: esa separación evita evaluación in-sample optimista. Train-serving skew es otro problema y exige comprobar que serving aplica el mismo transform congelado.",
+      "justification":"Corrige fit ficticio, numerical policy y terminología de leakage."
+    },
+    {
+      "paragraph_id":"S34-P29","location":"S34-T4-A.p1",
+      "current_content":"Con scores ya calibrados en holdout (T3-B), el **umbral** no es el default 0.5 de la librería ni un número «mágico» del modelo: es una **decisión de producto**. Se elige por **costo** (`fp·c_fp + fn·c_fn`) y por **capacidad** de la cola (cuántos casos puede revisar el equipo hoy). Se **versiona** (`thr-v1`, `thr-v2`) para auditoría y rollback cuando cambian costos, *headcount* o prevalencia. Un thr fijo sin matriz de costos es `REJECT_FIXED_THR`; sin costos documentados → `REQUEST_COST_MATRIX`.",
+      "attack":"No separa explícitamente tuning y test final, y `thr-vN` en code es solo un literal sin dependencia de model/calibrator/cost/capacity/prevalence.",
+      "defense":"La idea de threshold como policy y su dependencia de costos/capacidad es correcta.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F30","S34-F34"],
+      "pedagogical_impact":"Puede producir un threshold optimizado y evaluado sobre las mismas labels y luego llamarlo versionado/auditable.",
+      "improved_content":"Con probabilidades producidas por un calibrador ya congelado, el umbral es una **policy de producto**. Se selecciona en un conjunto de tuning/validación —nunca mirando el test final— a partir de costo, capacidad y las restricciones operativas vigentes. La versión no es solo `thr-v1`: un `ThresholdManifest` debe ligar el valor a `model_run_id`, calibrador, datos de tuning, matriz `c_fp/c_fn`, capacidad, prevalencia y regla de desempate. Después congelas esa policy y la evalúas una sola vez en test intacto.",
+      "justification":"Convierte versioning y final-test discipline en partes de la misma decisión."
+    },
+    {
+      "paragraph_id":"S34-P30","location":"S34-T4-A.p2",
+      "current_content":"Procedimiento honesto: para cada thr candidato (p. ej. valores únicos de score), predices `s >= thr`, descartas candidatos con `n_review > capacity` o `n_review == 0`, calculas costo y te quedas con el de menor costo. Documentas thr_id, n_review y la matriz de costos. Si c_fn sube (un *miss* es más caro), el thr óptimo suele bajar: mandas más casos a cola. Si la capacidad cae, el thr suele subir: priorizas menos volumen y más precisión operativa.",
+      "attack":"Excluye siempre n_review=0 aunque pueda minimizar costo, carece de validación de inputs/no-feasible outcome y no define tie-break entre thresholds de igual costo.",
+      "defense":"El barrido por costo bajo restricción de capacidad es un enfoque válido para el lab.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F31","S34-F32","S34-F33"],
+      "pedagogical_impact":"El optimizador puede elegir una policy estrictamente peor o retornar None/inf y fallar después, mientras sigue siendo presentado como selección honesta.",
+      "improved_content":"En el **conjunto de tuning**, valida primero scores, labels, costos y capacidad. Evalúa cada policy candidata, incluida la opción de **no enviar casos** mediante un threshold por encima del máximo, salvo que negocio haya declarado y versionado `min_reviews > 0`. Descarta solo policies que violen restricciones reales. Para cada candidata calcula `n_review`, FP, FN y costo y, si dos empatan, aplica un desempate explícito —por ejemplo, menor carga; si negocio prioriza recall, documenta otra regla—. Si ninguna policy es factible, devuelve `NO_FEASIBLE_POLICY`; nunca `None` silencioso seguido de comparaciones inválidas.",
+      "justification":"Añade el missing policy, tie policy y no-review candidate necesarios para optimización coherente."
+    },
+    {
+      "paragraph_id":"S34-P31","location":"S34-T4-A.p3",
+      "current_content":"Demo de cuatro puntos `CASO-LIM-034`: scores `[0.1,0.4,0.6,0.9]`, labels `[0,0,1,1]`, `c_fp=2`, `c_fn=10`, capacidad 2 → thr óptimo 0.6, n_review=2, costo 0, thr_id `thr-v1`. En el You Do de cinco puntos con capacity 2 el óptimo puede ser **otro** thr: no copies 0.6 de memoria; corre la búsqueda.",
+      "attack":"La aritmética es correcta para el mini-set, pero `thr-v1` no se deriva de un manifest y el mismo mini-set funciona como tuning y evidencia de éxito.",
+      "defense":"Como demostración manual de búsqueda, el valor 0.6 es correcto y el párrafo advierte que no debe copiarse a otro dataset.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F30","S34-F34"],
+      "pedagogical_impact":"Puede enseñar que encontrar un optimum sobre labels ya constituye performance final y versionado.",
+      "improved_content":"En este **mini-set de tuning**, el barrido produce thr=0.6, `n_review=2` y costo 0 bajo `c_fp=2`, `c_fn=10`, capacidad 2. Ese resultado demuestra el mecanismo de selección; **no es todavía una estimación final de performance**. Al guardarlo, genera un manifest que incluya la policy, costos, capacidad y referencia del conjunto usado para elegirla. Luego congela la policy y mide sus resultados sobre un conjunto intacto. Otro dataset o una nueva capacidad puede producir otro threshold y, por tanto, otra versión.",
+      "justification":"Separa demostración de tuning de evidencia final y da significado verificable a la versión."
+    },
+    {
+      "paragraph_id":"S34-P32","location":"S34-T4-B.p1",
+      "current_content":"Entre «claramente no revisar» y «claramente revisar» hay una **banda gris**. Forzar 0/1 ahí fabrica confianza falsa: el sistema parece decisivo y en realidad está adivinando. La política `decide(score)` devuelve `skip` (bajo low), `review` (sobre high) o `abstain` (en banda). Abstener es salida de **primera clase**, no un error del pipeline: protege al sujeto investigado y al analista de un thr frágil.",
+      "attack":"low/high=.3/.7 aparecen desconectados del threshold optimizado; inputs inválidos pueden convertirse en abstain/skip; no se define adónde va abstain.",
+      "defense":"Una selective/abstention policy es legítima y evita decisiones binarias forzadas.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F35","S34-F36","S34-F37"],
+      "pedagogical_impact":"La policy final puede no tener relación con costos/capacidad y puede tratar NaN como incertidumbre legítima.",
+      "improved_content":"Una banda de abstención puede ser una buena policy, pero `low` y `high` deben formar parte del **mismo artefacto versionado** que representa costos, capacidad y datos de tuning; no pueden aparecer como defaults independientes después de optimizar otro threshold. Antes de decidir, valida `score` finito y `0 ≤ low < high ≤ 1`. Luego define destinos explícitos: `skip` cierra sin revisión bajo la policy, `review` entra a la cola prioritaria y `abstain` entra a una ruta humana de incertidumbre o solicita evidencia adicional. Esa ruta también consume la capacidad que corresponda.",
+      "justification":"Hace de abstention una policy operacional y no un tercer string sin destino."
+    },
+    {
+      "paragraph_id":"S34-P33","location":"S34-T4-B.p2",
+      "current_content":"Además, antes de promover el thr conviene mirar **sensibilidad** (cuántos casos cambian de decisión al mover low/high o el thr 0.5→0.6). También conviene mirar métricas **por slice** (cohorte, región sintética, tipo de edge del grafo de S31). Un thr que luce bien en global y se rompe en un slice es una deuda de equidad y de producto. Nunca conviertas el score en autofraude ni en prueba de parentesco.",
+      "attack":"El code solo compara dos thresholds binarios y nunca calcula low/high sensitivity ni ninguna slice metric; tampoco reporta cobertura/abstain rate.",
+      "defense":"La recomendación de analizar sensibilidad y slices con support es metodológicamente adecuada.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F38","S34-F39"],
+      "pedagogical_impact":"Se acredita una competencia de análisis de error/equidad que no existe en el executable path.",
+      "improved_content":"Antes de promover la **policy completa**, mide sensibilidad variando `low/high`, costos y capacidad dentro de un rango predefinido; no basta contar flips entre dos thresholds binarios. Después construye una tabla por slice con `support`, prevalencia, precision, recall, costo, `n_review`, `n_abstain` y cobertura. Un slice pequeño o sin positivos debe reportarse como soporte insuficiente, no como buen/mal rendimiento. Si una policy global oculta una degradación material en una cohorte relevante, el hallazgo entra en el gate de producto; nunca se traduce automáticamente a fraude, parentesco o culpabilidad.",
+      "justification":"Convierte slogans de sensibilidad/equidad en observables con denominador."
+    },
+    {
+      "paragraph_id":"S34-P34","location":"S34-T4-B.p3",
+      "current_content":"`CASO-LIM-034`: score 0.5 (o 0.55 en el You Do) con low=0.3 y high=0.7 → `abstain`. `decision=force_1` en banda activa `REJECT_FORCE_LABEL`. Sin low/high documentados → `REQUEST_ABSTAIN_BAND`. Así cierras el arco: ranking para humanos, no veredicto automático.",
+      "attack":"La salida manual es correcta para los defaults, pero esos bands no son la policy optimizada/versionada y `force_label=False` en code es literal; invalid scores/bands no se rechazan.",
+      "defense":"El ejemplo comunica bien que un score intermedio no debe forzarse a 0/1.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F35","S34-F36","S34-F37","S34-F38"],
+      "pedagogical_impact":"El cierre puede parecer fail-closed aunque la banda sea arbitraria y el gate de force-label no inspeccione ninguna decisión real.",
+      "improved_content":"Con una **policy versionada** cuyo manifest establezca, por ejemplo, `low=0.3` y `high=0.7`, un score válido de 0.50 cae en `abstain`. Antes de aplicar esos límites, valida score y bands; después registra el destino operacional del caso. El gate `REJECT_FORCE_LABEL` debe inspeccionar decisiones reales y fallar si una fila dentro de la banda fue forzada a 0/1. Si faltan límites, provenance o destino de abstención, solicita la policy en vez de usar defaults silenciosos. Así el cierre sigue siendo ranking para humanos y no un veredicto automático.",
+      "justification":"Conserva la intuición del ejemplo y repara su falsa condición de policy completa."
+    }
+  ]
+}
