@@ -1,0 +1,137 @@
+{
+  "schema_version":"1.8.0",
+  "campaign_id":"lessons-only-adversarial-20260903",
+  "section":"S34",
+  "coverage":"title + tagline + job relevance + 8 outcomes + 8 theory code/output blocks + 9 callouts + 2 figures",
+  "protocol":"NO_MATERIAL_CHANGE => improved_content=null",
+  "top_level":[
+    {
+      "component_id":"S34-C-TITLE","kind":"title","current_content":"Métricas, desbalance, calibración y umbrales",
+      "attack":"Se contrastó con roadmap y contenido real.","defense":"Describe exactamente las cuatro familias principales de la sección.","verdict":"NO_MATERIAL_CHANGE","finding_ids":[],"improved_content":null,"justification":"Título canónico y preciso."
+    },
+    {
+      "component_id":"S34-C-TAGLINE","kind":"tagline","current_content":"De scores del baseline a una cola humana calibrada: métricas honestas, thr versionado y abstención — nunca autofraude",
+      "attack":"Promete cola calibrada y thr versionado aunque canonical theory no ajusta/evalúa realmente el calibrador ni liga thr-v1 a un manifest.",
+      "defense":"La aspiración curricular —scores→cola humana, no autoetiqueta— es correcta.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F29","S34-F34","S34-F43"],
+      "improved_content":"De predicciones fuera de muestra a una cola humana gobernada: métricas alineadas, calibración evaluada fuera de muestra, policy de umbral/abstención versionada y test final intacto — nunca autofraude.",
+      "justification":"La promesa debe nombrar las fronteras metodológicas que hacen verificables «calibrada» y «versionada»."
+    },
+    {
+      "component_id":"S34-C-JOB","kind":"job_relevance","current_content":"En un equipo de investigación de relaciones (fintech, compliance o riesgo de crédito en LatAm), cuando tu baseline ya produce scores de priorización, el paso que separa un notebook de un producto operable es convertir esos scores en una cola de revisión humana. Aquí aprendes a medir con honestidad bajo desbalance (esto es, cuando una clase es muy minoritaria), a calibrar fuera de muestra y a versionar umbrales por costo y capacidad del equipo. Entregas precision y recall de la cola, no autoetiquetas de fraude: entity resolution o matching de identidad nunca equivale a parentesco ni a fraude.",
+      "attack":"Asume baseline S33 apto y usa «fuera de muestra/versionar» como logros que el code no demuestra.",
+      "defense":"La relevancia operacional de costo, capacity, calibration y human review es alta y bien encuadrada.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F01","S34-F02","S34-F29","S34-F34"],
+      "improved_content":"En fintech, compliance o riesgo de crédito, convertir scores en una cola humana exige más que escoger un número: necesitas predicciones fuera de muestra trazables a un run, métricas adecuadas al desbalance, un calibrador ajustado y evaluado en datos separados y una policy de umbral/abstención ligada a costos y capacidad. S34 enseña esa cadena sin convertir una prioridad de revisión en etiqueta de fraude: matching de identidad o estructura relacional nunca prueba parentesco ni culpabilidad.",
+      "justification":"Introduce provenance y separación fit/tuning/test desde la motivación laboral."
+    }
+  ],
+  "learning_outcomes":[
+    {
+      "component_id":"S34-O1","current_content":"Calcular matriz de confusión completa (TP/FP/FN/TN), precision, recall, F1 y average precision de ranking cuando la clase positiva es rara",
+      "attack":"Canonical helpers no validan alineación/dominio y AP es incorrecta bajo ties.","defense":"El conjunto de métricas es pertinente.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F04","S34-F05","S34-F06","S34-F07","S34-F08"],
+      "improved_content":"Calcular TP/FP/FN/TN, precision, recall, F1 y average precision desde predicciones alineadas por `sample_id`, con dominio binario validado, support explícito y tratamiento correcto de scores empatados.","justification":"Convierte el outcome en una competencia verificable y tie-safe."
+    },
+    {
+      "component_id":"S34-O2","current_content":"Medir precision@k y recall@k de una cola ordenada y detectar overload frente a la capacidad diaria de analistas",
+      "attack":"El helper recibe labels preordenados, no valida k/n_pos/ties y capacity se calcula sobre otra carga.","defense":"Outcome operacionalmente valioso.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F10","S34-F11","S34-F12","S34-F13"],
+      "improved_content":"Construir una cola top-k desde scores + labels keyed, aplicar tie policy estable, derivar `n_pos` y `n_review` del mismo universo y comparar esa carga con capacidad antes de reportar precision@k/recall@k.","justification":"Incluye los denominadores y la cola que hacen significativa la métrica."
+    },
+    {
+      "component_id":"S34-O3","current_content":"Aplicar class weights o resampling solo dentro del fold de train y documentar la política CV-safe (test intacto)",
+      "attack":"El code no aplica rebalance y no reconcilia estratificación con groups/entity-pair.","defense":"El principio train-only es correcto.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F15","S34-F16","S34-F17","S34-F18","S34-F19"],
+      "improved_content":"Aplicar class weights o resampling únicamente al train de cada fold, preservar valid/test intactos, verificar soporte de clases y combinar la estratificación con las restricciones de grupos/entidades del estimand.","justification":"Evita que una solución al desbalance reabra leakage de identidad."
+    },
+    {
+      "component_id":"S34-O4","current_content":"Reportar prevalencia (base rate) junto a P/R y rechazar accuracy como única métrica bajo desbalance",
+      "attack":"prevalence acepta valores imposibles y `accuracy_enough=False` es literal.","defense":"El resultado conceptual es correcto.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F20","S34-F21"],
+      "improved_content":"Validar y reportar prevalencia y support junto a precision/recall; ejecutar un gate que rechace reportes de clase rara sustentados solo en accuracy.","justification":"Separa una política ejecutable de un flag escrito a mano."
+    },
+    {
+      "component_id":"S34-O5","current_content":"Calcular Brier medio sobre un conjunto y un bin de reliability (mean_p vs. frecuencia observada)",
+      "attack":"Brier trunca/misdenomina inputs; un bin no basta; final bin omite p=1; Brier no es calibración pura.","defense":"Brier + reliability es una combinación pedagógicamente útil.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F22","S34-F23","S34-F24","S34-F25"],
+      "improved_content":"Calcular Brier sobre probabilidades y labels alineados/validados y construir una reliability curve de varios bins con support, incluyendo p=1 en el último bin; distinguir el Brier global del diagnóstico específico de calibración.","justification":"Evita false-perfect y false-calibrated."
+    },
+    {
+      "component_id":"S34-O6","current_content":"Aplicar un calibrador afín (una recta recortada: no es Platt, que ajusta una sigmoide, pero basta para ver el mecanismo sin dependencias) solo sobre holdout versionado, nunca sobre el test final",
+      "attack":"El affine no se ajusta, el docstring lo llama Platt, redondea outputs y no existe evaluación independiente/final test.","defense":"La simplificación affine es defendible si se etiqueta honestamente.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F26","S34-F27","S34-F28","S34-F29"],
+      "improved_content":"Ajustar un calibrador afín didáctico sobre un split de calibración identificado, conservar probabilidades a precisión completa, evaluarlo fuera de esa muestra y reservar un test final intacto; distinguirlo explícitamente de Platt scaling.","justification":"Hace real el fit/evaluation contract."
+    },
+    {
+      "component_id":"S34-O7","current_content":"Elegir umbral thr-vN buscando candidatos por costo (c_fp, c_fn) sujeto a capacidad de revisión",
+      "attack":"Tuning y test no se separan; no-review excluido; no-feasible/ties no tratados; thr-vN es literal.","defense":"Costo+capacidad es una política razonable.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F30","S34-F31","S34-F32","S34-F33","S34-F34"],
+      "improved_content":"Seleccionar una policy de umbral en datos de tuning por costo y capacidad, incluyendo no-review cuando sea factible, definir tie/no-feasible behavior y persistir un manifest ligado a model/calibrator/cost/capacity/tuning data antes del test final.","justification":"Añade selección limpia y versioning real."
+    },
+    {
+      "component_id":"S34-O8","current_content":"Implementar banda de abstención (skip / abstain / review) y no forzar etiqueta 0/1 en zona gris",
+      "attack":"Bands no ligadas al thr optimizado; NaN/inversión pasan; routing, slices y coverage no implementados.","defense":"Abstention como salida de primera clase es apropiada.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F35","S34-F36","S34-F37","S34-F38","S34-F39"],
+      "improved_content":"Implementar una policy versionada skip/abstain/review con inputs y bands validados, destino operacional y consumo de capacidad definidos, y reportar coverage/abstain-rate/slices antes de promoción.","justification":"Transforma una tercera etiqueta en workflow medible."
+    }
+  ],
+  "code_blocks":[
+    {
+      "component_id":"S34-CODE-1","title":"confusion.py","current_behavior":"Cuenta TP/FP/FN/TN con cuatro `zip(y,pred)`, calcula P/R/F1, AP ordenando `zip(scores,labels)` y finalmente imprime `accuracy_only False`.","current_output":"tp_fp_fn_tn (1, 1, 0, 0); p_r_f1 (0.5,1.0,0.667); ap 0.833; accuracy_only False",
+      "attack":"zip trunca; no valida labels; AP falla con ties; policy flag hard-coded.","defense":"Fixture nominal aritméticamente correcto.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F04","S34-F05","S34-F06","S34-F09"],
+      "improved_content":"Crear `validate_prediction_rows(rows)` keyed por sample_id; derivar confusión y AP tie-safe desde las mismas filas; hacer que `validate_metric_report()` inspeccione campos reales en vez de imprimir `False`.","justification":"Elimina tres rutas de false green de la métrica base."
+    },
+    {
+      "component_id":"S34-CODE-2","title":"topk.py","current_behavior":"Calcula `sum(labels[:k])/k`, `sum(labels[:k])/n_pos`, overload(load,cap) y `fraud_label False`.","current_output":"precision_at_k 0.667; recall_at_k 1.0; overload True; fraud_label False",
+      "attack":"No scores/order/ties; k/n_pos inválidos; carga separada; fraud flag literal.","defense":"Nominal top-3 correcto.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F10","S34-F11","S34-F12","S34-F13"],
+      "improved_content":"`topk_metrics(rows,k,capacity,tie_policy)` ordena por score+secondary_key, valida k, deriva n_pos/load y devuelve p@k/r@k/overload/support.","justification":"Métrica y capacidad salen de un único universo."
+    },
+    {
+      "component_id":"S34-CODE-3","title":"weights.py","current_behavior":"`weight_ratio=n0/n1`; `fold_plan` devuelve booleans; `apply_rebalance_in_fold` simplemente copia train/test sin rebalance.","current_output":"weight_ratio 9.0; resample_train_only True; test_untouched True; cv_safe True",
+      "attack":"La salida `cv_safe=True` se fabrica sin ejecutar resampling ni verificar grupos/classes.","defense":"Comunica la intención train-only.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F15","S34-F16","S34-F17","S34-F18"],
+      "improved_content":"Construir folds group-aware/stratified según el estimand; ejecutar weight/resampling en train; registrar sample IDs y afirmar disyunción + class support en valid.","justification":"Hace observable la propiedad CV-safe."
+    },
+    {
+      "component_id":"S34-CODE-4","title":"prevalence.py","current_behavior":"`pos/n`, `1-prev`, imprime `accuracy_enough False`.","current_output":"prevalence 0.025; all_neg_acc 0.975; accuracy_enough False",
+      "attack":"Acepta pos>n/negativos/n=0 y el gate es literal.","defense":"Fixture nominal correcto.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F20","S34-F21"],
+      "improved_content":"Validar `n>0` y `0<=pos<=n`; `validate_imbalance_report()` exige prevalence/support/P/R o queue metrics y rechaza accuracy-only.","justification":"El denominador y el policy gate deben ser datos, no supuestos."
+    },
+    {
+      "component_id":"S34-CODE-5","title":"brier.py","current_behavior":"Brier con `zip(ps,ys)/len(ps)`, un reliability bin half-open y `calibrated = abs(mean_p-freq)<=.1`.","current_output":"brier 0.175; mean_p 0.85 freq 0.5; calibrated False",
+      "attack":"Mismatch puede dar Brier perfecto; p=1 puede caer fuera; un bin sin support no certifica calibración.","defense":"Nominal Brier/bin arithmetic correcta.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F22","S34-F23","S34-F24","S34-F25"],
+      "improved_content":"Validar aligned finite probabilities/labels; generar bins con último right-inclusive y support; reportar `bin_gap`/curve en vez de `calibrated` global desde un bin.","justification":"Evita false-perfect y false-calibrated."
+    },
+    {
+      "component_id":"S34-CODE-6","title":"calibrator.py","current_behavior":"Aplica `round(clip(a*x+b),2)` con a=.8,b=.1 hard-coded, docstring 'implementación simplificada de Platt', imprime `calibrator_set holdout_v1` y `same_len True`.","current_output":"[1.0,0.0,0.42]; calibrator_set holdout_v1; same_len True",
+      "attack":"Contradice la prosa, no ajusta, naming no prueba split, redondea decisiones y no evalúa out-of-sample.","defense":"Muestra la geometría affine+clip.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F26","S34-F27","S34-F28","S34-F29"],
+      "improved_content":"Renombrar `AffineCalibrator`; implementar fit/calibration split manifest; conservar floats sin round internamente; evaluar Brier/reliability en split separado y final test intacto.","justification":"Separa demo matemática de calibración acreditable."
+    },
+    {
+      "component_id":"S34-CODE-7","title":"threshold.py","current_behavior":"Busca thresholds en `sorted(set(scores))`, descarta n_review==0/>capacity, minimiza cost y luego imprime literal `thr-v1`.","current_output":"thr 0.6 n_review 2; cost 0; thr_id thr-v1",
+      "attack":"No tuning/test separation, no input validation, no-review excluido, no-feasible None/inf, tie-break implícito, version id ceremonial.","defense":"Fixture nominal encuentra correctamente 0.6.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F30","S34-F31","S34-F32","S34-F33","S34-F34"],
+      "improved_content":"`tune_policy(rows,costs,capacity,min_reviews=0,tie_policy=...)` valida inputs, incluye no-review, devuelve explicit no-feasible, persiste manifest y jamás ve final-test labels.","justification":"Convierte el threshold sweep en selección de policy reproducible."
+    },
+    {
+      "component_id":"S34-CODE-8","title":"abstain.py","current_behavior":"`decide(score,low=.3,high=.7)` devuelve skip/review/abstain; sensitivity compara dos thresholds binarios; imprime `force_label False`.","current_output":"abstain; skip; review; n_flip_0.5_to_0.6 1; force_label False",
+      "attack":"NaN/inverted bands pasan, bands desconectadas de thr-v1, abstain routing/capacity/slices no existen, force flag hard-coded.","defense":"La clasificación nominal del score .5 es correcta.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F35","S34-F36","S34-F37","S34-F38","S34-F39"],
+      "improved_content":"`apply_policy(score,manifest)` valida score/bands y devuelve destino operativo; `evaluate_selective_policy()` reporta coverage/review/abstain/load/slices y prueba que ninguna banda fue force-labeled.","justification":"La abstención pasa de string ilustrativo a policy evaluable."
+    }
+  ],
+  "callouts":[
+    {"component_id":"S34-CALL-0","current_content":"Ranking calibrado para humanos. Matching ≠ parentesco ni fraude. Sin PII real. `REJECT_*` / `REQUEST_*` son políticas de cola del workbench. Al final del You Do tendrás un reporte con confusión, precision@k, Brier, thr-v* y abstain.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F29","S34-F34","S34-F43"],"improved_content":"Meta del gate: una tabla out-of-sample trazable pasa por métricas, calibración evaluada, policy versionada y test final; `REJECT_*`/`REQUEST_*` deben ser resultados ejecutables, no slogans.","justification":"Evita prometer artefactos que la theory no construye end-to-end."},
+    {"component_id":"S34-CALL-1","current_content":"Implementa confusión completa + P/R/F1 (y AP de ranking) antes de publicar accuracy. Breach → REJECT_ACCURACY_ONLY; sin counts → REQUEST_CONFUSION.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F03","S34-F04","S34-F06","S34-F09"],"improved_content":"Calcula P/R/F1/AP desde filas alineadas y tie-safe; `validate_metric_report()` ejecuta REJECT/REQUEST según evidencia real.","justification":"Hace ejecutable el callout."},
+    {"component_id":"S34-CALL-2","current_content":"Reporta precision@k y recall@k junto a capacidad. Si load > capacity → REJECT_QUEUE_OVERLOAD; sin capacidad → REQUEST_CAPACITY.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F10","S34-F11","S34-F12","S34-F13"],"improved_content":"Deriva ranking, k, n_pos y load del mismo conjunto keyed; aplica tie policy y luego compara la cola resultante con capacity.","justification":"Cierra la fuente de datos del gate."},
+    {"component_id":"S34-CALL-3","current_content":"Weights o resample solo en el train del fold; dibuja train/test antes de rebalancear. Resample global → REJECT_LEAKY_RESAMPLE; sin n1 → REQUEST_WEIGHTS.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F15","S34-F16","S34-F17","S34-F18"],"improved_content":"Ejecuta rebalance solo sobre train después de construir folds group-aware/estratificados; verifica sample disjointness y class support antes de declarar CV-safe.","justification":"Reemplaza el dibujo por evidencia ejecutable."},
+    {"component_id":"S34-CALL-4","current_content":"Publica la prevalencia junto a P/R. Si accuracy_enough=True bajo prev baja → REJECT_PREVALENCE_BLIND; sin prev → REQUEST_BASE_RATE.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F20","S34-F21"],"improved_content":"Valida prevalence/support y rechaza programáticamente los reportes que usan accuracy como única métrica bajo rare positives.","justification":"Quita el boolean hard-coded."},
+    {"component_id":"S34-CALL-5","current_content":"S34-T3-A: calcula Brier medio y al menos un bin (mean_p vs. freq). Breach → REJECT_UNCALIBRATED; falta scores → REQUEST_BRIER.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F22","S34-F23","S34-F24","S34-F25","S34-F42"],"improved_content":"Calcula Brier con inputs válidos y una reliability curve con support; no conviertas un solo bin en verdict global y aplica el calibration gate solo si la policy requiere interpretación probabilística.","justification":"Hace proporcional el gate a la evidencia."},
+    {"component_id":"S34-CALL-6","current_content":"S34-T3-B: ajusta el mapa afín solo en holdout versionado; mide Brier fuera de ese set. Breach → REJECT_IN_SAMPLE_CAL; falta set → REQUEST_CAL_SET. Clip ≠ calibración completa.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F26","S34-F27","S34-F28","S34-F29"],"improved_content":"Ajusta `AffineCalibrator` sobre sample IDs identificados, conserva precisión completa y mide en un split disjunto; un nombre `holdout_*` no demuestra nada por sí solo.","justification":"Cambia naming convention por data provenance."},
+    {"component_id":"S34-CALL-7","current_content":"Busca thr por costo bajo capacidad y versiona thr-vN. Thr fijo o sin costos → REJECT_FIXED_THR / REQUEST_COST_MATRIX.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F30","S34-F31","S34-F32","S34-F33","S34-F34"],"improved_content":"Tune policy en validation/CV con no-review y tie/no-feasible definidos; persiste un manifest ligado a model/calibrator/cost/capacity y evalúalo después en test final.","justification":"Da contenido real a «versiona»."},
+    {"component_id":"S34-CALL-8","current_content":"En banda gris devuelve abstain (no force 0/1). Mide sensibilidad al mover thr. Forzar label → REJECT_FORCE_LABEL; sin low/high → REQUEST_ABSTAIN_BAND.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F35","S34-F36","S34-F37","S34-F38","S34-F39"],"improved_content":"Aplica bands desde el manifest validado, define el destino/capacidad de abstain y mide coverage/slices/sensibilidad de la policy completa; inspecciona decisiones reales para detectar force-label.","justification":"Cierra workflow, carga y medición."
+    }
+  ],
+  "figures":[
+    {
+      "component_id":"S34-FIG-1","figure_id":"S34-confusion-cost","current_caption":"Bajar el umbral atrapa más positivos y llena la cola; subirlo la vacía y deja pasar casos. No hay opción sin coste.","current_alt":"Dos matrices de confusión, una con umbral bajo y otra con umbral alto.",
+      "attack":"Se buscó contradicción con T1-A.","defense":"La figura conecta thresholds con FP/FN y capacity de forma coherente con el texto.","verdict":"NO_MATERIAL_CHANGE","finding_ids":[],"improved_content":null,"justification":"Visual alineado con la narrativa."
+    },
+    {
+      "component_id":"S34-FIG-2","figure_id":"S34-threshold-bands","current_caption":"La incertidumbre entra antes que el score: 0.95 con incertidumbre alta sigue yendo a revisión.","current_alt":"Cinco guardas evaluadas en orden, de invalid_input a accept.",
+      "attack":"T1-B enseña top-k/capacidad y no define incertidumbre, cinco guards, invalid_input ni accept; la figura pertenece a otro decision pipeline.","defense":"Un guard diagram podría ser útil en una sección de policies, pero no en este nodo ni con conceptos no explicados.","verdict":"CONFIRMED_FINDING","finding_ids":["S34-F14"],
+      "improved_content":{"caption":"El top-k se obtiene ordenando los scores con una regla de desempate estable; la línea de capacidad muestra cuántos casos puede revisar el equipo sin sobrecargar la cola.","alt":"Ranking de candidatos ordenados por score con un corte top-k y una marca de capacidad diaria; se muestran positivos y negativos dentro y fuera del recorte."},
+      "justification":"El visual vuelve a enseñar exactamente el constructo de T1-B en vez de introducir un sistema de guards huérfano."
+    }
+  ]
+}
