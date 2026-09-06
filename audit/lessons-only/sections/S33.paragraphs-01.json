@@ -1,0 +1,240 @@
+{
+  "schema_version":"1.7.0",
+  "campaign_id":"lessons-only-adversarial-20260903",
+  "section":"S33",
+  "part":"paragraphs-01-of-02",
+  "coverage":"opening + reference + T1-A + T1-B + T2-A + T2-B + optional NN p1-p2 = 23 paragraphs",
+  "protocol":"SIN_CAMBIO_DEFENDIDO/NO_MATERIAL_CHANGE => improved_content=null",
+  "paragraphs":[
+    {
+      "locator":"opening.p1",
+      "current_content":"Hay equipos que pasaron meses construyendo un modelo que nunca superó a «responder siempre lo más frecuente». No es una anécdota rara: pasa cada vez que se mide el acierto sin compararlo con nada. Con 90% de casos negativos, un sistema que dice «no» a todo acierta el 90% y no sirve para nada.",
+      "attack":"The final 'no sirve para nada' is absolute: a majority baseline can still be operationally useful as a diagnostic, though useless for finding positives.",
+      "defense":"The immediate triage context is positive-case prioritization and the paragraph's purpose is to expose misleading accuracy under imbalance.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO",
+      "finding_ids":[],
+      "improved_content":null,
+      "justification":"The intended model mental is valid and concrete; later findings address the fact that S33 itself then reverts to accuracy-only beats flags."
+    },
+    {
+      "locator":"opening.p2",
+      "current_content":"Por eso lo primero que se construye no es el modelo sino su rival. Un **baseline** es la respuesta más tonta que sea razonable: siempre la clase mayoritaria, o una regla de una línea del tipo «si el monto supera este umbral, revisar». Es deliberadamente pobre, y esa es su virtud — si lo sofisticado no le gana, lo sofisticado no se ha ganado su costo de mantenimiento.",
+      "attack":"Calling the baseline deliberately poor could encourage a strawman benchmark rather than the strongest credible simple alternative.",
+      "defense":"The phrase qualifies it as the simplest answer that is still reasonable, and T1-B explicitly adds a stronger rule baseline that can beat the dummy.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO",
+      "finding_ids":[],
+      "improved_content":null,
+      "justification":"Google's Rules of ML supports simple-heuristic-first practice; the actual defect is that the executable gate later compares mainly against dummy accuracy."
+    },
+    {
+      "locator":"opening.p3",
+      "current_content":"Antes hace falta cerrar qué se predice, y con qué honestidad se nombra. El **target** de esta sección es `needs_review_7d`: si un caso debería entrar a la cola de revisión humana en los próximos siete días. No es una etiqueta de fraude, y la diferencia no es de vocabulario — un modelo que prioriza una cola y un modelo que acusa a alguien son productos distintos con responsabilidades distintas.",
+      "attack":"The paragraph calls the target a target but defines it normatively ('debería entrar') rather than as an observable event or adjudicated label with policy/version provenance.",
+      "defense":"It correctly separates triage from fraud accusation and fixes a seven-day horizon.",
+      "verdict":"CONFIRMED_FINDING",
+      "finding_ids":["S33-F04","S33-F06"],
+      "improved_content":"Antes de entrenar, define exactamente qué evento produce la etiqueta. En esta sección `needs_review_7d=1` debe significar un hecho reproducible —por ejemplo, que un caso fue adjudicado como `needs_review` por el protocolo de revisión `policy-vN` dentro de los siete días posteriores al instante de scoring— y no simplemente que alguien cree que «debería» revisarse. Conserva el `decision_id`, la versión de la política y la fecha de la adjudicación; además, usa para entrenamiento solo ejemplos cuyo horizonte completo de siete días ya terminó. Este target sigue siendo una prioridad de cola, no una etiqueta de fraude ni parentesco.",
+      "justification":"Makes 'observable' operational, adds label provenance, and closes right-censoring without weakening the responsible-product boundary."
+    },
+    {
+      "locator":"opening.p4",
+      "current_content":"Ese `7d` es el **horizonte**, y no se puede inventar. Sin un horizonte explícito, «va a necesitar revisión» no tiene significado comprobable: ¿mañana? ¿alguna vez? Cuando falta, el flujo pide el dato en lugar de asumir un valor por defecto.",
+      "attack":"Could still omit label maturity and the difference between prediction origin and outcome availability.",
+      "defense":"As a definition of horizon itself, it is clear and correctly fail-closed; label maturity belongs in the executable contract and neighboring paragraph.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO",
+      "finding_ids":[],
+      "improved_content":null,
+      "justification":"The core temporal definition is useful and self-contained."
+    },
+    {
+      "locator":"opening.p5",
+      "current_content":"La pregunta que atraviesa la sección es incómoda a propósito: **¿esto es mejor que lo más tonto que se me ocurre, y cuánto mejor?** Se trabaja con Python estándar —una sigmoide, un stump, una semilla fija— antes de tocar librerías pesadas, porque el objetivo es entender la comparación y no invocar una API.",
+      "attack":"The paragraph promises an understandable pre-library comparison, but the core source never actually fits the logistic/stump candidates that must be compared.",
+      "defense":"Using simple mechanics before APIs is pedagogically valid.",
+      "verdict":"CONFIRMED_FINDING",
+      "finding_ids":["S33-F14","S33-F15","S33-F24"],
+      "improved_content":"La pregunta que atraviesa la sección es: **¿este candidato mejora al mejor baseline simple bajo exactamente el mismo split, las mismas filas y la misma métrica o función de costo?** Primero puedes construir las piezas en Python sencillo para entenderlas, pero el cierre exige algo más que calcular una sigmoide o aplicar un umbral: debes ajustar el candidato solo con train, congelarlo y producir predicciones sobre el mismo conjunto de validación donde evaluaste el dummy y la regla. Solo entonces la comparación responde cuánto valor agregó el ML.",
+      "justification":"Preserves progressive disclosure while making apples-to-apples fitted evaluation the visible destination."
+    },
+    {
+      "locator":"reference.p1",
+      "current_content":"Bloque de referencia. Orden de los subtemas y criterios de promoción.",
+      "attack":"None material; this is a signpost.",
+      "defense":"Short and functionally clear.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO",
+      "finding_ids":[],
+      "improved_content":null,
+      "justification":"No repair needed."
+    },
+    {
+      "locator":"reference.p2",
+      "current_content":"**Orden de los subtemas.** T1 fija el encuadre y el baseline. T2 pasa a modelos lineales regularizados. T3 introduce stumps y el control del sobreajuste. T4 cierra con el registro de experimentos y la validación cruzada por grupo.",
+      "attack":"The map no longer matches the source: current S33 also contains a five-paragraph NN block, four framework-market paragraphs inside T4-A, and a second temporal T4-B block.",
+      "defense":"Those additions can be treated as optional/extensions.",
+      "verdict":"CONFIRMED_FINDING",
+      "finding_ids":["S33-F45"],
+      "improved_content":"**Ruta central de S33.** T1 fija el encuadre y congela los baselines. T2 ajusta y evalúa un modelo lineal regularizado. T3 compara un candidato de árboles/ensamble y controla sobreajuste. T4 integra preprocessing + modelo en un pipeline reproducible, registra cada run y valida con el split apropiado —por grupos, por tiempo o por ambos según la dependencia. Cualquier introducción a redes neuronales o frameworks debe aparecer como **extensión opcional separada** y no como parte del gate central.",
+      "justification":"Restores a truthful map of what is core versus optional and aligns it with the authoritative roadmap."
+    },
+    {
+      "locator":"reference.p3",
+      "current_content":"**Criterios de promoción.** Sin baseline documentado no se promociona un modelo. El target debe ser del tipo `needs_review_*` con horizonte explícito, nunca `fraud`. Un run que no le gana al baseline se registra igual — ocultarlo es lo que convierte un experimento en propaganda. La prevalencia se anota antes de ajustar nada.",
+      "attack":"'El baseline' is underspecified because S33 requires both dummy and rule, and promotion later uses beats_dummy even when the rule is stronger; it also lacks cost/split/upstream gates.",
+      "defense":"The principle of logging losses and requiring a baseline is correct.",
+      "verdict":"CONFIRMED_FINDING",
+      "finding_ids":["S33-F12","S33-F13","S33-F43"],
+      "improved_content":"**Criterios de promoción.** Congela antes del candidato al menos dos anclas: el dummy ajustado **solo con train** y la regla simple versionada. Evalúa dummy, regla y candidato sobre las mismas filas de validación con la misma métrica principal y, cuando FP/FN tienen costos distintos, con la misma función de costo. Un run que pierde se registra igual; simplemente no se promociona. Tampoco se promociona si falla el feature-set de S32, el split, la madurez del target o la trazabilidad del run.",
+      "justification":"Turns a correct baseline principle into the stronger promotion contract actually needed by the section."
+    },
+    {
+      "locator":"reference.p4",
+      "current_content":"**Referencia.** Las *Rules of ML* de Google resumen el mismo criterio: lanza primero con una heurística o un baseline, mide el valor, y solo después sube la complejidad.",
+      "attack":"Could be a loose paraphrase.",
+      "defense":"Current Google Rules of ML explicitly recommends simple heuristics/models and robust pipeline infrastructure before complexity.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO",
+      "finding_ids":[],
+      "improved_content":null,
+      "justification":"Externally supported and pedagogically relevant."
+    },
+    {
+      "locator":"T1-A.p1",
+      "current_content":"Antes de entrenar, cierra el **problema de scoring**: la **unidad** (par de entidades, caso o cuenta en el instante `t`), el **target observable** y el **horizonte** temporal (p. ej. 7 días). En el workbench de Red Andina, un target llamado `fraud` o `is_fraud` es un **breach de producto**: el ML solo prioriza la cola de revisión humana, no etiqueta delito ni parentesco.",
+      "attack":"Calling the target observable is not justified by the actual definition, and restricting only fraud-like names does not define the valid label-generation event.",
+      "defense":"The unit/target/horizon decomposition is the right framing and the ethical boundary is explicit.",
+      "verdict":"CONFIRMED_FINDING",
+      "finding_ids":["S33-F04"],
+      "improved_content":"Antes de entrenar, cierra el **problema de scoring**: la unidad exacta (por ejemplo, un `entity_pair` en el instante `t`), el evento que genera el target y el horizonte temporal. Llama `observable` al target solo si puedes señalar cómo se construye cada etiqueta: qué decisión o evento la produjo, qué versión de política se usó y cuándo quedó disponible. En Red Andina el ML prioriza una cola humana; no debe producir ni aprender como target una acusación de fraude, delito o parentesco.",
+      "justification":"Keeps the framing while making 'observable' evidence-based rather than rhetorical."
+    },
+    {
+      "locator":"T1-A.p2",
+      "current_content":"En la práctica trabajas con `unit`, el nombre del target y `horizon_days`. Si el nombre contiene `fraud`, rechazas el framing; si falta el horizonte, **no** inventes 7 en silencio — pides evidencia. Solo aceptas targets `needs_review_*` con horizonte **explícito**, y anotas la **prevalencia** de la clase positiva **antes** de cualquier fit: sin esa foto del desbalance, el dummy majority ya engaña.",
+      "attack":"The prose promises an allowlist and horizon validation that frame_task never implements; prevalence is also undefined for invalid/nonbinary/empty labels.",
+      "defense":"The intended checks are well stated.",
+      "verdict":"CONFIRMED_FINDING",
+      "finding_ids":["S33-F05","S33-F07"],
+      "improved_content":"Representa el framing con un contrato que **valide**, no solo que imprima: `unit` debe pertenecer al conjunto permitido; el target debe seguir el patrón `needs_review_<N>d`; `horizon_days` debe ser un entero positivo y coincidir con `<N>`; y `y` debe ser una colección no vacía con etiquetas binarias `{0,1}`. Solo después calcula y registra `positive_support`, `n_examples` y prevalencia antes del fit. Cualquier target fuera de la familia aprobada o cualquier horizonte inconsistente bloquea el experimento.",
+      "justification":"Makes the textual fail-closed policy executable and closes label-domain errors."
+    },
+    {
+      "locator":"T1-A.p3",
+      "current_content":"En `CASO-LIM-033`: `unit=entity_pair`, `target=needs_review_7d`, `horizon=7`. Con `y=[0,1,0,0]` la prevalencia es 0.25 y se anota en el log; `fraud_name=False`. Si falta el horizonte, el flujo pide evidencia (`REQUEST_HORIZON`) en lugar de inventar el valor por defecto.",
+      "attack":"The canonical function shown immediately below does not request anything or reject a missing/zero horizon; fraud_name=False is treated as sufficient evidence of valid target framing.",
+      "defense":"The fixture values themselves are internally consistent.",
+      "verdict":"CONFIRMED_FINDING",
+      "finding_ids":["S33-F05"],
+      "improved_content":"En `CASO-LIM-033`, el ejemplo válido es `unit=entity_pair`, `target=needs_review_7d`, `horizon_days=7`, con etiquetas binarias y una ventana de outcomes ya madura. La prueba debe incluir también casos adversos: `needs_review_30d` con horizonte 7, horizonte 0, target fuera del allowlist y target sin horizonte. Esos casos no devuelven simplemente un booleano; producen un rechazo o una solicitud explícita de la evidencia que falta.",
+      "justification":"Adds negative cases that prove the gate rather than merely showing one compliant fixture."
+    },
+    {
+      "locator":"T1-B.p1",
+      "current_content":"El **dummy majority** (predecir siempre la clase más frecuente) y una **regla simple** (p. ej. `x >= thr` sobre un score de S32) anclan el valor mínimo del workbench. El costo `fp * c_fp + fn * c_fn` traduce errores a **impacto de cola**, no a moral de fraude: un FN caro significa un caso que debió revisarse y no se priorizó a tiempo.",
+      "attack":"No material conceptual defect; the problem lies in how these baselines are fit/evaluated below.",
+      "defense":"Clearly distinguishes operational error cost from moral/fraud claims and correctly motivates dual baselines.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO",
+      "finding_ids":[],
+      "improved_content":null,
+      "justification":"This paragraph is one of the section's stronger conceptual anchors."
+    },
+    {
+      "locator":"T1-B.p2",
+      "current_content":"Necesitas `y`, las predicciones (dummy o regla) y los costos unitarios. De ahí salen accuracy del dummy, accuracy de la regla, costo total y `has_baseline`. El error grave es **entrenar sin baseline documentado**. Calcula `beats_dummy` **después** de fijar dummy, regla y costo; si el modelo pierde, el run **sigue siendo válido** — solo no se promociona.",
+      "attack":"The paragraph does not say baseline parameters must be fit/frozen using train only, and 'costo total' later exists only for the dummy; promotion focuses on beats_dummy rather than best baseline/cost.",
+      "defense":"It correctly states that losing runs remain valid evidence.",
+      "verdict":"CONFIRMED_FINDING",
+      "finding_ids":["S33-F09","S33-F11","S33-F12","S33-F13"],
+      "improved_content":"Primero ajusta o congela cada baseline **sin mirar el holdout**: la clase mayoritaria se aprende de `y_train` y la regla conserva una versión/umbral definidos con train o por una política previa. Después genera predicciones para las mismas filas de validación y calcula, para dummy y regla, la misma accuracy y la misma función de costo que usarás con el candidato. El run del candidato se registra aunque pierda; promoción exige superar al **mejor baseline simple** según el objetivo primario predeclarado, no únicamente marcar `beats_dummy=True`.",
+      "justification":"Closes the baseline leakage and makes business-cost comparison symmetric."
+    },
+    {
+      "locator":"T1-B.p3",
+      "current_content":"En `CASO-LIM-033`: con `y=[1,1,0]` el dummy predice 1 y acierta 2/3 (acc≈0.667); su costo se deriva de y vs. predicciones (1 FP con c_fp=1 → costo 1). La regla `x >= 1` sobre `x=[1,1,0]` produce pred `[1,1,0]` y accuracy **1.0**: a veces la heurística ya gana al dummy. Documenta **ambos** anclajes en el log **antes** del modelo lineal o del stump. Empate de clases: con conteos iguales usa la clase **menor** (política fija del lab; no inventes otra en silencio).",
+      "attack":"The same y is used to learn majority and evaluate it, and the claimed tie policy is not implemented by max(set(...), key=count); threshold provenance is also absent.",
+      "defense":"The fixture demonstrates dual baselines and asymmetric dummy cost transparently.",
+      "verdict":"CONFIRMED_FINDING",
+      "finding_ids":["S33-F09","S33-F10","S33-F11"],
+      "improved_content":"Separa fit y evaluación incluso en el mini-fixture. Ejemplo: `y_train` determina la clase mayoritaria y una política explícita resuelve empates (`min` entre las clases con frecuencia máxima); esas decisiones quedan congeladas. El holdout `y_valid` solo se usa para medir el dummy. La regla `x>=thr` debe llegar al holdout con `rule_id`, `thr` y origen del umbral ya registrados. Si la regla alcanza 1.0 en validación, ese resultado se conserva como el baseline que cualquier candidato debe superar o justificar por otro objetivo predeclarado, como menor costo.",
+      "justification":"Removes label leakage and replaces an implementation-dependent tie claim with an explicit policy."
+    },
+    {
+      "locator":"T2-A.p1",
+      "current_content":"La **regresión logística** modela P(y=1|x) con la **sigmoid** σ(z)=1/(1+e^{-z}), donde z = w·x + b. Es el primer modelo **interpretable** del workbench: cada feature de S32 aporta un peso legible, no una caja negra. La regularización **L2** es una **configuración de entrenamiento** (`penalty=\"l2\"` y una intensidad): al optimizar, el objetivo penaliza coeficientes grandes. Ojo con el nombre del parámetro, porque los dos que vas a leer van en sentidos opuestos: la **λ** de la formulación clásica va donde esperas —λ más grande, más regularización—, pero scikit-learn expone **`C`**, que es su **inverso**: `C` más grande regulariza **menos**. Si subes `C` creyendo que aprietas, estás soltando. Eso **no** se demuestra midiendo solo Σw² de un vector ya ajustado.",
+      "attack":"Concept is mostly correct, but the future-facing sklearn parameter example is currently version-sensitive: modern sklearn deprecates penalty in favor of l1_ratio, and no actual fit follows.",
+      "defense":"C as inverse regularization strength and the distinction between penalty configuration and weight magnitude are correct.",
+      "verdict":"CONFIRMED_FINDING",
+      "finding_ids":["S33-F15","S33-F16"],
+      "improved_content":"La **regresión logística** es un clasificador lineal que ajusta `w` y `b` para modelar `P(y=1|x)` mediante la sigmoide. La regularización L2 debe formar parte del **fit**, no de una etiqueta escrita después. Si conectas el concepto con scikit-learn, fija la versión del curso: `C` sigue siendo la inversa de la fuerza de regularización, pero la API moderna expresa la elección de L2 mediante la configuración vigente de esa versión (en sklearn 1.8+ el argumento `penalty` está deprecado y L2 se representa con `l1_ratio=0`). El gate debe registrar la configuración real del estimador que produjo los coeficientes.",
+      "justification":"Preserves the mathematics and prevents a current-library bridge from becoming stale or ceremonial."
+    },
+    {
+      "locator":"T2-A.p2",
+      "current_content":"Si el número de features es grande frente al de ejemplos, un modelo sin penalización en el *fit* memoriza ruido. En el log del experimento declara `penalty` y la fuerza; reporta también `l2_sq=Σw²` solo como **diagnóstico de magnitud**. Un vector con pesos no nulos puede provenir de un *fit* sin regularizar: por eso el gate del lab exige la **declaración** `penalty=\"l2\"`, no un umbral mágico sobre Σw². El **umbral** thr convierte probabilidad en **prioridad de cola** (revisar sí/no), nunca en veredicto de fraude. Compara accuracy y **costo** contra el dummy **y** la regla de T1-B antes de celebrar el modelo.",
+      "attack":"A declared params string still does not prove a penalized fit, and candidate cost is not implemented; the paragraph overstates declaration as gate evidence.",
+      "defense":"It correctly warns that l2_sq is not proof of regularization and keeps the triage boundary.",
+      "verdict":"CONFIRMED_FINDING",
+      "finding_ids":["S33-F12","S33-F15"],
+      "improved_content":"Si necesitas regularización, la evidencia debe venir del **estimador que fue ajustado**: conserva su configuración, su versión y los coeficientes resultantes, y vuelve a entrenarlo dentro del fold correspondiente. `Σw²` puede quedar como diagnóstico de magnitud, pero no prueba L2 por sí solo. Después congela el umbral de decisión según la política definida y evalúa las mismas predicciones del candidato con la misma accuracy y función de costo que aplicaste al dummy y a la regla. El umbral prioriza revisión; no convierte la probabilidad en una acusación.",
+      "justification":"Replaces 'declare the parameter' with fitted-estimator evidence and restores cost parity."
+    },
+    {
+      "locator":"T2-A.p3",
+      "current_content":"En `CASO-LIM-033`: σ(0)=0.5 y σ(0.2)≈0.55. Con w=1, b=0, x=0.2 y thr=0.6 la pred es **0** (0.55 no alcanza el umbral). Si thr fuera 0.5, la misma p daría pred 1: el umbral es una decisión de producto, no magia del modelo. `l2_sq` de w=[1,2] como Σw² es 5 (diagnóstico; no confundir con √Σw² ni con “prueba de L2”). Si `penalty` no es `\"l2\"`, el gate marca `REJECT_UNREGULARIZED`.",
+      "attack":"This example calculates a sigmoid for invented weights instead of fitting a supervised model; the REJECT_UNREGULARIZED gate is absent and nonfinite/extreme inputs are not controlled.",
+      "defense":"The arithmetic examples correctly explain threshold sensitivity and l2_sq semantics.",
+      "verdict":"CONFIRMED_FINDING",
+      "finding_ids":["S33-F15","S33-F17"],
+      "improved_content":"Conserva σ(0)=0.5 y el ejemplo de umbral como **microprueba de la función**, pero no lo presentes como evidencia de un modelo entrenado. El bloque debe continuar con un fit real sobre train, registrar la regularización del estimador y producir probabilidades sobre validación. Añade un contrato numérico: entradas y logits deben ser finitos y la sigmoide debe calcularse de forma estable para magnitudes grandes; `NaN` o infinito son errores de datos/modelo, no una predicción negativa válida.",
+      "justification":"Separates function mechanics from model-training evidence and prevents invalid numerics from turning into decisions."
+    },
+    {
+      "locator":"T2-B.p1",
+      "current_content":"Comparar magnitudes `|coef|` solo tiene sentido si las features están **escaladas** (z-score de S32: p. ej. `amount_z`). El **signo** indica dirección de asociación *en el modelo*, **no** causalidad social ni fraude probado: un `shared_phone` alto no “prueba” colusión entre entidades.",
+      "attack":"Could overstate scaled coefficient magnitude as comparable importance under collinearity.",
+      "defense":"The paragraph limits itself to magnitude comparison after scaling and explicitly rejects causal interpretation; the next paragraph notes collinearity/stability limits.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO",
+      "finding_ids":[],
+      "improved_content":null,
+      "justification":"The causal boundary is correct and the broader importance caveat appears in the same block."
+    },
+    {
+      "locator":"T2-B.p2",
+      "current_content":"Trabajas con un diccionario de coeficientes y un `scale_flag`. Ordenas por `|w|` y reportas el signo del top. Si las features **no** están escaladas, no compares magnitudes como si fueran importancia relativa. Antes de rankear para el informe: `scale_flag=True` y `causal=False`.",
+      "attack":"The required flags are asserted by the caller/example rather than bound to the preprocessing/model artifact; sign is returned only for whichever feature is top.",
+      "defense":"As a prose rule, it correctly requires scaling and noncausal interpretation.",
+      "verdict":"CONFIRMED_FINDING",
+      "finding_ids":["S33-F18"],
+      "improved_content":"No aceptes `scaled=True` como un booleano escrito a mano. Recupera del feature-set de S32 qué transformación produjo cada columna y vincula esa metadata al run del modelo. Reporta una fila por feature con `feature_name`, `coef`, `sign`, `scale_state` y `model_run_id`; si una feature no tiene escala comparable, no entra al ranking por magnitud. Mantén explícitamente `causal_claim=False` como regla de interpretación, no como sustituto de la provenance.",
+      "justification":"Moves the safeguard from presentation flags to verifiable model/feature metadata."
+    },
+    {
+      "locator":"T2-B.p3",
+      "current_content":"Puente desde S32: reutiliza columnas como `shared_phone` y `amount_z` ya limpias de leakage (sin target futuro ni ID crudos en el feature set). Si en S32 exportaste una tabla con esas columnas z-score, aquí solo las **rankeas por |coef|** cuando `scaled=True`. En `CASO-LIM-033`, `shared_phone=0.8` (positivo) ordena arriba; se imprime el ranking con `causal=False` para no sobre-interpretar el score de cola como parentesco o fraude. El ranking por |coef| es un atajo de lab: no sustituye estabilidad entre folds ni un diagnóstico de colinealidad.",
+      "attack":"S32 is not actually closed/promoted, shared_phone specifically has a confirmed missing=agreement defect, and no feature-set manifest is validated here.",
+      "defense":"The paragraph correctly warns against causal claims and collinearity overinterpretation.",
+      "verdict":"CONFIRMED_FINDING",
+      "finding_ids":["S33-F01","S33-F02","S33-F18"],
+      "improved_content":"El puente desde S32 solo se abre si recibes un feature-set **promovido y verificable**: `feature_set_id`, hashes de catálogo/estado y la versión de cada derivación deben coincidir con lo que el modelo espera. No asumas que `shared_phone` está limpio solo por su nombre; S32 debe haber probado, por ejemplo, que dos valores ausentes no generan `shared_phone=1`. Con ese contrato validado, puedes interpretar coeficientes escalados como asociaciones del modelo y estudiar su estabilidad entre folds, sin convertirlos en causalidad, parentesco o fraude.",
+      "justification":"Prevents unresolved upstream defects from being laundered into model explanations."
+    },
+    {
+      "locator":"NN-optional.p1",
+      "current_content":"Este bloque es **opcional para el resto del curso**: ninguna sección posterior a S33 depende de él. Dentro de S33 sí conviene leerlo, porque el bloque de PyTorch y TensorFlow que cierra la sección da por sentado el ciclo —forward, pérdida, gradiente, actualizar— que aquí construyes a mano. Está aquí porque la regresión logística que acabas de ajustar ya contiene, en miniatura, todo lo que hace una red neuronal, y verlo una vez desmitifica la palabra para siempre.",
+      "attack":"The section says the learner 'just adjusted' logistic regression although canonical T2 never fits it. It also creates an optional prerequisite only because another off-roadmap framework tangent later assumes it, while core RF/boosting/Pipeline/CV are missing.",
+      "defense":"The block is explicitly optional for later sections and can demystify neural networks.",
+      "verdict":"CONFIRMED_FINDING",
+      "finding_ids":["S33-F15","S33-F19","S33-F32"],
+      "improved_content":"**Extensión opcional, fuera del gate de S33.** Lee este bloque solo después de completar la comparación ejecutable de los modelos requeridos por la sección. La regresión logística comparte con una red neuronal varias piezas —parámetros, forward, pérdida y gradiente—, por lo que una mini-red puede servir para conectar ideas. Sin embargo, ninguna sección posterior depende de esta extensión y no debe desplazar el fit real de logística, árboles/ensambles, Pipeline, CV y análisis de errores que sí forman parte del contrato central.",
+      "justification":"Preserves the useful conceptual bridge while restoring curriculum priority and removing the false claim that logistic was already fitted."
+    },
+    {
+      "locator":"NN-optional.p2",
+      "current_content":"Repasa lo que hace la logística: multiplica cada feature por un peso, suma un sesgo y pasa el resultado por una sigmoide para obtener algo que se lee como probabilidad. Una red neuronal repite ese mismo gesto **por capas**. Los valores intermedios se llaman **activaciones**: representaciones que el modelo calcula por su cuenta, en vez de columnas que tú nombraste en el catálogo de features. Lo importante no es la palabra “neuronal”. Lo importante es que definiste cuatro cosas: parámetros, un cálculo hacia adelante, una **pérdida** que mide qué tan mal va, y un procedimiento para mover los parámetros de modo que esa pérdida baje.",
+      "attack":"Could oversimplify neural nets as merely repeated logistic units, but it explicitly presents a conceptual bridge rather than a full definition.",
+      "defense":"As optional intuition, it accurately introduces parameters, forward pass, activations and loss without claiming causal or production competence.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO",
+      "finding_ids":[],
+      "improved_content":null,
+      "justification":"Conceptually useful if retained only as an optional extension after the core S33 gate."
+    }
+  ]
+}
