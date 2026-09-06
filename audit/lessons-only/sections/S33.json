@@ -1,0 +1,279 @@
+{
+  "schema_version": "2.6.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S33",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s33-advanced-models.ts",
+  "canonical_blob_sha": "31ab2af0686c89e58ea16adeff8b7e1c8e00d149",
+  "title": "ML supervisado y baselines responsables",
+  "short_title": "Baselines ML responsables",
+  "scope": "LESSONS_ONLY: title/tagline/job relevance, learning outcomes, theory/reference paragraphs, theory code/output, callouts and figures. I Do / We Do / You Do / self-check / exams remain outside this campaign.",
+  "live_status": {
+    "public_card_verified": true,
+    "public_short_title": "Baselines ML responsables",
+    "public_tagline": "comparación honesta que conserva el baseline determinista y demuestra cuándo el ML agrega —o no agrega— valor",
+    "source_public_identity_match": true
+  },
+  "roadmap_contract": {
+    "prerequisite": "S32",
+    "environment": "local",
+    "project": "baseline del workbench CP-N3-B",
+    "T1": "unidad, target, horizonte, costos, baseline de regla y dummy",
+    "T2": "regresión/logística y regularización; coeficientes, supuestos y scaling",
+    "T3": "árboles/ensambles, Random Forest/boosting, overfit, profundidad y reproducibilidad",
+    "T4": "pipeline, tracking, validación cruzada apropiada y error analysis",
+    "gate": "comparación honesta que conserva el baseline determinista y demuestra cuándo el ML agrega —o no agrega— valor"
+  },
+  "coverage": {
+    "theory_reference_blocks": "12/12",
+    "theory_paragraphs": "46/46",
+    "learning_outcomes": "8/8",
+    "theory_code_output_blocks": "10/10",
+    "callouts": "11/11",
+    "figures": "3/3"
+  },
+  "score": 1.6,
+  "verdict": "REPAIR_REQUIRED",
+  "material_findings": 45,
+  "severity_counts": {"P0": 0, "P1": 34, "P2": 11, "P3": 0},
+  "prior_audit_comparison": {
+    "file": "expert_audit/S33_report.md",
+    "prior_score": 8.5,
+    "prior_theory_paragraph_count": 28,
+    "current_theory_paragraph_count": 46,
+    "verdict": "STALE_AND_INSUFFICIENT_AS_AUTHORITY",
+    "reason": "Current canonical source has substantial added neural-network, framework and temporal-validation material, and runtime counterexamples contradict the old report's strong-quality conclusion."
+  },
+  "external_research": [
+    {
+      "source": "Google Rules of Machine Learning",
+      "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+      "relevance": "Start simple, choose observable objectives, measure baselines before complexity."
+    },
+    {
+      "source": "scikit-learn Common pitfalls",
+      "url": "https://scikit-learn.org/1.5/common_pitfalls.html",
+      "relevance": "Never fit preprocessing on test; Pipeline helps avoid leakage."
+    },
+    {
+      "source": "scikit-learn DummyClassifier",
+      "url": "https://scikit-learn.org/1.6/modules/generated/sklearn.dummy.DummyClassifier.html",
+      "relevance": "Most-frequent baseline is fit on training y then used for predictions; it is not re-fit on validation labels."
+    },
+    {
+      "source": "scikit-learn Logistic Regression",
+      "url": "https://scikit-learn.org/stable/modules/linear_model.html",
+      "relevance": "Logistic regression is a fitted classifier; C is inverse regularization strength."
+    },
+    {
+      "source": "scikit-learn LogisticRegression 1.8+ API",
+      "url": "https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.LogisticRegression.html",
+      "relevance": "penalty argument is deprecated from 1.8; current future-facing material needs a version pin or updated l1_ratio formulation."
+    },
+    {
+      "source": "scikit-learn GroupKFold and CV guide",
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GroupKFold.html",
+      "relevance": "Non-overlapping groups must be enforced for every fold; one group id per sample is insufficient when one pair sample contains two independently reusable entity endpoints."
+    },
+    {
+      "source": "scikit-learn TimeSeriesSplit",
+      "url": "https://scikit-learn.org/stable/modules/cross_validation",
+      "relevance": "Time-ordered validation must not train on future observations."
+    },
+    {
+      "source": "PyTorch Foundation history",
+      "url": "https://pytorch.org/blog/PyTorchfoundation/",
+      "relevance": "PyTorch development began in 2016 and the project launched in 2017; source wording says it was published in 2016."
+    },
+    {
+      "source": "TensorFlow tf.function/eager guide",
+      "url": "https://www.tensorflow.org/guide/function",
+      "relevance": "TensorFlow 2 enables eager execution by default and can compile graph functions; the source's TF1-vs-PyTorch historical caveat is broadly defensible."
+    }
+  ],
+  "runtime_counterexamples": [
+    {
+      "id": "RT01_DUMMY_VALIDATION_LEAK",
+      "input": "y_train=[0,0,0], y_valid=[1,1]",
+      "proper_train_fit_dummy": "majority=0, valid_accuracy=0.0",
+      "canonical_helper_on_valid_y": "majority=1, valid_accuracy=1.0",
+      "finding_ids": ["S33-F09"]
+    },
+    {
+      "id": "RT02_FRAMING_FAIL_OPEN",
+      "observations": [
+        "frame_task('entity_pair','crime_confirmed_7d',7) accepts the target because fraud_name=False",
+        "frame_task('entity_pair','needs_review_30d',7) accepts a target/horizon mismatch",
+        "frame_task('entity_pair','needs_review_7d',0) accepts horizon=0"
+      ],
+      "finding_ids": ["S33-F05"]
+    },
+    {
+      "id": "RT03_LABEL_DOMAIN",
+      "observations": [
+        "dummy_and_cost([]) raises ValueError",
+        "dummy_and_cost([0,1,2]) treats a multiclass label list as if it were the binary target contract",
+        "prevalence=sum(y)/len(y) is meaningless for non-binary labels"
+      ],
+      "finding_ids": ["S33-F07"]
+    },
+    {
+      "id": "RT04_TIE_POLICY_NOT_STABLE",
+      "input": "y=['a','b'] with equal counts, max(set(y), key=y.count)",
+      "observed_across_PYTHONHASHSEED_1_to_10": ["a","b","b","b","a","a","b","a","b","a"],
+      "finding_ids": ["S33-F10"]
+    },
+    {
+      "id": "RT05_SIGMOID_AND_NAN",
+      "observations": [
+        "sigmoid(-1000) raises OverflowError",
+        "pred_at(..., x=NaN) returns 0 because NaN >= threshold is False"
+      ],
+      "finding_ids": ["S33-F17"]
+    },
+    {
+      "id": "RT06_COEF_LABEL_MISMATCH",
+      "input": "rank_coefs({'shared_phone':0.1,'amount_z':-0.8})",
+      "output": "ranked=['amount_z','shared_phone'], sign='neg'; a caller printing this as sign_shared_phone would mislabel the sign",
+      "finding_ids": ["S33-F18"]
+    },
+    {
+      "id": "RT07_EMPTY_ENSEMBLE",
+      "input": "majority_vote([])",
+      "output": 1,
+      "finding_ids": ["S33-F25"]
+    },
+    {
+      "id": "RT08_RUN_FALSE_VALID",
+      "input": "log_valid({'accuracy':0.5}, 'run', False)",
+      "output": true,
+      "note": "No params, feature_set, split, data/model identity or cost are required.",
+      "finding_ids": ["S33-F30"]
+    },
+    {
+      "id": "RT09_BEATS_DUMMY_BUT_LOSES_RULE",
+      "input": "candidate_accuracy=0.70, dummy_accuracy=0.667, rule_accuracy=1.0",
+      "output": "beats_dummy=True while candidate is strictly worse than the documented rule baseline",
+      "finding_ids": ["S33-F13","S33-F43"]
+    },
+    {
+      "id": "RT10_GROUP_MEAN_EMPTY",
+      "input": "mean_fold([])",
+      "output": "ZeroDivisionError",
+      "finding_ids": ["S33-F37"]
+    },
+    {
+      "id": "RT11_NN_ABLATION_NOT_CONTROLLED",
+      "observation": "The shared RNG is advanced by entrena(True) before entrena(False); the two variants start from different W1/W2 matrices.",
+      "finding_ids": ["S33-F20"]
+    },
+    {
+      "id": "RT12_YESTERDAY_BASELINE_USES_VALIDATION_ACTUALS",
+      "fixed_origin": 7,
+      "horizon": 7,
+      "validation_indices": [7,8,9,10,11,12,13],
+      "prediction_sources_for_ayer": [6,7,8,9,10,11,12],
+      "future_within_holdout_sources": [7,8,9,10,11,12],
+      "finding_ids": ["S33-F40"]
+    }
+  ],
+  "findings": [
+    {"id":"S33-F01","severity":"P1","category":"UPSTREAM_GATE","evidence":"S33 states it reuses S32 features already clean of leakage, while S32 is REPAIR_REQUIRED with 37 findings.","attack":"A downstream model can legitimize broken relational and temporal features merely by fitting on them.","defense":"S33 could use its own synthetic independent fixture.","verdict":"CONFIRMED_FINDING","impact":"The S32→S33 contract is not machine-valid and the prerequisite gate is bypassed.","proposed_change":"Require an actually promoted S32 feature-set manifest before any S33 fit/evaluation."},
+    {"id":"S33-F02","severity":"P1","category":"FEATURE_SET_LINEAGE","evidence":"Theory references shared_phone and amount_z as clean, but no catalog/schema hash, fitted-state hash, feature_set manifest or as-of provenance is consumed.","attack":"A column name is treated as evidence of feature correctness.","defense":"The source verbally references fs-vN from S32.","verdict":"CONFIRMED_FINDING","impact":"Train runs cannot prove which S32 transformation produced their features.","proposed_change":"Bind every run to feature_set_id + catalog hash + fitted-state hash + source snapshot/cutoff."},
+    {"id":"S33-F03","severity":"P1","category":"EXECUTABLE_GATE","evidence":"Core theory blocks end in print outputs or hard-coded flags; there is no pytest gate despite systematic pytest being required since S27.","attack":"Broken comparisons can return exit code 0.","defense":"The snippets are didactic demonstrations.","verdict":"CONFIRMED_FINDING","impact":"The section called 'responsible baselines' does not mechanically reject irresponsible runs.","proposed_change":"Turn framing, baseline, pipeline, split, CV and promotion invariants into real pytest tests."},
+    {"id":"S33-F04","severity":"P1","category":"TARGET_OBSERVABILITY","evidence":"needs_review_7d is defined as whether a case 'debería entrar' into review, while the outcome calls it observable.","attack":"'Should review' is a normative policy judgment, not an observed event unless an explicit labeling protocol defines it.","defense":"It intentionally avoids a fraud label.","verdict":"CONFIRMED_FINDING","impact":"The learner can train on an ambiguous policy label and mistake it for ground truth.","proposed_change":"Define the exact observable event/labeler/policy version and distinguish observed queue entry from adjudicated review need."},
+    {"id":"S33-F05","severity":"P1","category":"FRAMING_VALIDATION","evidence":"frame_task only checks substring 'fraud'. It does not enforce needs_review_*, horizon>0, or agreement between target suffix and horizon.","attack":"Invalid framing passes the canonical helper.","defense":"The callout states the intended restrictions.","verdict":"CONFIRMED_FINDING","impact":"Prose fail-closed policy is not implemented.","proposed_change":"Parse and validate an allowlisted TaskSpec with unit, target family, horizon and target/horizon consistency."},
+    {"id":"S33-F06","severity":"P1","category":"LABEL_MATURITY","evidence":"A 7-day future target is introduced without requiring the full 7-day outcome window to have elapsed for each training label.","attack":"Recent examples can be falsely labeled negative merely because their horizon has not matured.","defense":"All examples are synthetic and tiny.","verdict":"CONFIRMED_FINDING","impact":"Right-censoring can contaminate training/evaluation labels.","proposed_change":"Require label_cutoff >= origin+horizon and record label maturity/censoring status."},
+    {"id":"S33-F07","severity":"P1","category":"LABEL_CONTRACT","evidence":"prevalence=sum(y)/len(y) and dummy_and_cost assume non-empty binary numeric labels without checking them.","attack":"Empty or multiclass/invalid labels crash or produce meaningless prevalence/cost.","defense":"Fixtures use 0/1.","verdict":"CONFIRMED_FINDING","impact":"The executable contract is narrower than the prose without fail-closed validation.","proposed_change":"Validate support>0 and label domain exactly {0,1}; report positive support and prevalence."},
+    {"id":"S33-F08","severity":"P2","category":"FIGURE_SEQUENCE","evidence":"S33-overfit-gap is attached to T1-A unit/target/horizon and its alt says train/test/baseline although overfit is taught later using train-valid.","attack":"A future concept and inconsistent split name are injected before their explanation.","defense":"It previews the section's later problem.","verdict":"CONFIRMED_FINDING","impact":"Unnecessary cognitive load and test/validation terminology drift.","proposed_change":"Move the figure to T3-B and use train/valid consistently."},
+    {"id":"S33-F09","severity":"P1","category":"BASELINE_LEAKAGE","evidence":"dummy_and_cost(y) derives majority from the same y on which accuracy/cost are measured.","attack":"On a holdout whose prevalence changes, the baseline sees validation labels before predicting them; runtime counterexample turns a proper 0% into 100%.","defense":"The tiny fixture is not explicitly labeled train or valid.","verdict":"CONFIRMED_FINDING","impact":"The baseline itself is leaked, invalidating the central comparison.","proposed_change":"Fit majority on y_train, freeze it, then evaluate predictions on y_valid/test."},
+    {"id":"S33-F10","severity":"P1","category":"BASELINE_DETERMINISM","evidence":"Comment says max(set(y), key=y.count) chooses the smaller class on ties. Python max returns the first maximal element encountered, while set is unordered.","attack":"Equal-count general labels change with hash seed; runtime reproduced both 'a' and 'b'.","defense":"The canonical binary int fixture commonly yields 0.","verdict":"CONFIRMED_FINDING","impact":"A documented deterministic policy is not actually guaranteed by the implementation.","proposed_change":"Count labels and explicitly select min(label) among tied maxima."},
+    {"id":"S33-F11","severity":"P1","category":"RULE_BASELINE_PROVENANCE","evidence":"Rule x>=thr is evaluated, but no training-only selection/freeze provenance exists for thr.","attack":"Choosing thr after inspecting validation/test makes the simple baseline itself tuned to the answer.","defense":"thr=1.0 can be interpreted as a predeclared domain rule.","verdict":"CONFIRMED_FINDING","impact":"The code cannot distinguish a prior heuristic from a post-hoc optimized rule.","proposed_change":"Record rule_id/version, threshold source and train-only selection or pre-model domain provenance before holdout evaluation."},
+    {"id":"S33-F12","severity":"P1","category":"COST_PARITY","evidence":"Canonical code computes FP/FN cost only for the dummy; rule and candidate costs are absent.","attack":"A model can improve accuracy while making the expensive error type worse.","defense":"The prose repeatedly says cost matters.","verdict":"CONFIRMED_FINDING","impact":"The declared business objective is not comparable across alternatives.","proposed_change":"Evaluate identical cost function on dummy, rule and candidate predictions on the same examples."},
+    {"id":"S33-F13","severity":"P1","category":"PROMOTION_METRIC","evidence":"beats_dummy is acc > dummy_acc even though opening warns accuracy is misleading under imbalance and costs are asymmetric.","attack":"Runtime shows candidate accuracy .70 beats dummy .667 while rule is 1.0; worse-cost candidates can also pass.","defense":"Text says winning dummy alone is not enough when rule is stronger.","verdict":"CONFIRMED_FINDING","impact":"The executable flag contradicts the lesson's own responsible-baseline doctrine.","proposed_change":"Define promotion against the best frozen baseline on predeclared primary metric/cost, with secondary metrics recorded separately."},
+    {"id":"S33-F14","severity":"P1","category":"APPLES_TO_APPLES_EVALUATION","evidence":"Dummy/rule, logistic, stump and tracking examples use disconnected handcrafted inputs/metrics rather than one held-out dataset/split.","attack":"No number demonstrates incremental value because candidates are not evaluated on the same examples under the same metric contract.","defense":"Each subtopic isolates one concept pedagogically.","verdict":"CONFIRMED_FINDING","impact":"The section's headline gate is never actually executed end to end.","proposed_change":"Create one frozen synthetic train/valid/test fixture and evaluate every baseline/candidate on the same valid/test rows."},
+    {"id":"S33-F15","severity":"P1","category":"LOGISTIC_NOT_TRAINED","evidence":"logistic.py hard-codes w=1,b=0 and a params dict; it never optimizes logistic loss or fits a regularized classifier.","attack":"The section promises supervised ML and regularization but demonstrates only the sigmoid function.","defense":"The goal may be to understand mechanics before APIs.","verdict":"CONFIRMED_FINDING","impact":"The required T2 competence—fit a regularized logistic baseline—is not demonstrated.","proposed_change":"Fit a real train-only logistic model (or implement a tiny optimizer) and evaluate frozen predictions against baselines."},
+    {"id":"S33-F16","severity":"P2","category":"CURRENT_API_DRIFT","evidence":"Future-facing text teaches sklearn penalty='l2' + C. Current scikit-learn 1.8+ deprecates penalty and current docs express penalty choice via l1_ratio, while C remains inverse strength.","attack":"A learner following current API guidance receives stale parameter advice unless the course pins an older sklearn contract.","defense":"The snippet does not import sklearn and the L2 concept remains correct.","verdict":"CONFIRMED_FINDING","impact":"Concept-to-library bridge is time-sensitive and presently underspecified.","proposed_change":"Pin the sklearn version for the lesson or teach the current l1_ratio/C API with a version note."},
+    {"id":"S33-F17","severity":"P2","category":"NUMERICAL_ROBUSTNESS","evidence":"sigmoid(-1000) overflows and pred_at with NaN silently returns 0.","attack":"Non-finite/big-magnitude inputs turn numerical invalidity into a negative class or exception.","defense":"Toy inputs are small and finite.","verdict":"CONFIRMED_FINDING","impact":"An advanced model gate should distinguish invalid score from valid non-priority prediction.","proposed_change":"Validate finite z/x and use a numerically stable expit implementation."},
+    {"id":"S33-F18","severity":"P1","category":"COEFFICIENT_GATE","evidence":"scaled=True and causal=False are hard-coded prints; rank_coefs does not receive scale metadata. It also returns the sign of the top feature, then the example labels it sign_shared_phone.","attack":"Changing coefficients can make amount_z top while the printed variable still claims the sign belongs to shared_phone.","defense":"Current fixture keeps shared_phone top.","verdict":"CONFIRMED_FINDING","impact":"The interpretability guardrails are presentation flags rather than validated model metadata.","proposed_change":"Bind coefficient rows to feature names, scale state and fold/model version; report sign per feature."},
+    {"id":"S33-F19","severity":"P1","category":"CURRICULUM_ALLOCATION","evidence":"A five-paragraph neural-network/XOR block is added although the authoritative S33 roadmap does not require neural networks and explicitly requires RF/boosting/pipeline/CV competencies that remain unimplemented.","attack":"High cognitive-cost optional material displaces required gate work.","defense":"The block is labeled optional for later sections.","verdict":"CONFIRMED_FINDING","impact":"Progressive disclosure is weakened exactly where core supervised-evaluation skills are incomplete.","proposed_change":"Move the NN block to an optional appendix/appropriate later section until required S33 gates are executable."},
+    {"id":"S33-F20","severity":"P1","category":"EXPERIMENT_CONTROL","evidence":"red_diminuta.py shares one RNG; entrena(True) consumes random weights before entrena(False), so activation/no-activation variants start from different parameters.","attack":"The text calls it the same network without activation, but two factors change at once.","defense":"Without a nonlinearity the architecture cannot solve XOR regardless of initialization.","verdict":"CONFIRMED_FINDING","impact":"The ablation is methodologically uncontrolled and exact loss comparison is not attributable solely to tanh.","proposed_change":"Clone identical initial weights for both variants or reset independent RNGs to the same seed before each fit."},
+    {"id":"S33-F21","severity":"P2","category":"OVERGENERALIZATION","evidence":"Text says a small neural network 'casi nunca gana' a well-made logistic regression on tabular data.","attack":"Nonlinear tabular problems can strongly favor nonlinear models; the claim lacks scope/evidence.","defense":"It is intended to discourage unjustified complexity.","verdict":"CONFIRMED_FINDING","impact":"A good complexity-control lesson becomes a false empirical rule.","proposed_change":"Say the network must beat a strong logistic baseline on this dataset; do not predict the winner generically."},
+    {"id":"S33-F22","severity":"P2","category":"TECH_HISTORY","evidence":"T4-A says Meta's lab 'publicó PyTorch' in 2016. PyTorch Foundation history says development began in 2016 and PyTorch launched in 2017.","attack":"Historical date is wrong.","defense":"2016 is genuinely the development-start year.","verdict":"CONFIRMED_FINDING","impact":"Avoidable factual error in a nonessential tangent.","proposed_change":"Use 'el desarrollo comenzó en 2016 y el lanzamiento público llegó en 2017'."},
+    {"id":"S33-F23","severity":"P2","category":"TIME_SENSITIVE_FRAMEWORK_CLAIM","evidence":"T4-A asserts 2026 PyTorch dominance in research/production and names Meta/OpenAI/Tesla without a learner-visible current source.","attack":"Labor/usage share is time-sensitive and source-dependent; official PyTorch material supports broad research/production adoption, not this precise comparative labor-market claim.","defense":"PyTorch is undeniably a primary research/production platform and TensorFlow remains widely used.","verdict":"CONFIRMED_FINDING","impact":"A transient market assertion distracts from S33 and can age rapidly.","proposed_change":"Remove the ranking claim or cite a dated methodology and label it as a snapshot, not a durable curriculum fact."},
+    {"id":"S33-F24","severity":"P1","category":"TREE_MODEL_NOT_TRAINED","evidence":"stump.py applies a hand-provided threshold and a hand-provided list of votes; no split criterion or stump is learned from labeled training data.","attack":"A supervised tree lesson is reduced to thresholding and voting mechanics.","defense":"The source explicitly calls it a controlled stump illustration.","verdict":"CONFIRMED_FINDING","impact":"The learner never demonstrates that a tree candidate learned from data or beat the baselines.","proposed_change":"Fit/select a stump using train-only labels and score it on the frozen validation data."},
+    {"id":"S33-F25","severity":"P1","category":"TREE_CONTROL_FALSE_GREEN","evidence":"majority_vote([]) returns 1; depth_unlimited=False is printed as a literal rather than derived from a model/configuration.","attack":"Empty ensemble and model-depth policy both false-green.","defense":"Fixtures provide three votes and no real tree object.","verdict":"CONFIRMED_FINDING","impact":"The 'controlled ensemble' safeguards are not safeguards.","proposed_change":"Reject empty votes and read/validate max_depth from the fitted candidate configuration."},
+    {"id":"S33-F26","severity":"P1","category":"ROADMAP_COVERAGE","evidence":"Authoritative roadmap names Random Forest/boosting; theory explicitly says it will not practice either and only shows stump+vote.","attack":"A required topic is deliberately omitted while unrelated neural-network/framework material is added.","defense":"Stumps can introduce ensemble intuition with lower cognitive load.","verdict":"CONFIRMED_FINDING","impact":"The section does not satisfy its authoritative T3 contract.","proposed_change":"Add minimal fitted RF/boosting comparisons or formally revise the roadmap; do not silently substitute a different competency."},
+    {"id":"S33-F27","severity":"P2","category":"REPRODUCIBILITY","evidence":"seeded_ints calls global random.seed; prose equates a seed with auditable reproducibility.","attack":"Global reseeding changes unrelated consumers, and reproducibility also depends on data/split/code/library/model versions.","defense":"The snippet only demonstrates seeded pseudo-random numbers.","verdict":"CONFIRMED_FINDING","impact":"Seed is taught as a stronger guarantee than it is.","proposed_change":"Use a local RNG and log seed together with data, split, feature-set, code and library versions."},
+    {"id":"S33-F28","severity":"P1","category":"DEPTH_SELECTION_MISSING","evidence":"Prose says best depth is selected by validation/cost, but code only evaluates an already supplied train_acc/valid_acc gap.","attack":"No candidate depths are fit, compared or frozen.","defense":"The outcome emphasizes detecting overfit rather than hyperparameter search.","verdict":"CONFIRMED_FINDING","impact":"The claimed control of depth is not demonstrated.","proposed_change":"Evaluate a small predeclared depth grid on train/valid (inside correct CV) and freeze the selected depth before test."},
+    {"id":"S33-F29","severity":"P1","category":"PIPELINE_MISSING","evidence":"T4-A is titled 'Pipeline y tracking mínimo', but tracking.py has no preprocessing/model Pipeline and no S32 feature-set binding.","attack":"The required S33 pipeline construct is absent.","defense":"S32 introduced a conceptual pipeline.","verdict":"CONFIRMED_FINDING","impact":"Preprocessing can be fit outside folds and model runs cannot be reproduced end to end.","proposed_change":"Use a real Pipeline/ColumnTransformer + estimator bound to the S32 manifest and split contract."},
+    {"id":"S33-F30","severity":"P1","category":"RUN_LOG_CONTRACT","evidence":"run_fields lists params but log_valid never receives/checks them; beats_rule/cost are absent; feature_set/data/split/model versions and finite metrics are unvalidated.","attack":"Runtime accepts {'accuracy':0.5}, run_id='run', beats=False as a valid logged run without params.","defense":"This is labeled 'tracking mínimo'.","verdict":"CONFIRMED_FINDING","impact":"The minimum log is too weak to reproduce or compare the experiment it claims to document.","proposed_change":"Require immutable run manifest with params, feature_set, data/split refs, seed, model/code version, baseline metrics/cost and all evaluation metrics."},
+    {"id":"S33-F31","severity":"P2","category":"PREMATURE_TERM","evidence":"tracking example introduces f1 as a metric, while the roadmap teaches F-score in S34 and S33 never defines F1.","attack":"A next-section metric appears as if already learned.","defense":"F1 is common ML vocabulary and not manipulated here.","verdict":"CONFIRMED_FINDING","impact":"Widow term breaks progressive disclosure for the ZERO_TECH learner model.","proposed_change":"Either define F1 briefly or keep S33 tracking to metrics already taught and introduce F1 in S34."},
+    {"id":"S33-F32","severity":"P1","category":"NARRATIVE_FLOW","evidence":"Four long PyTorch/TensorFlow/history/job-market paragraphs are embedded inside 'Pipeline y tracking mínimo', while the code remains tracking.py and contains no frameworks.","attack":"The section interrupts the causal sequence experiment→pipeline→CV with an unrelated framework survey.","defense":"It gives career context after the optional NN block.","verdict":"CONFIRMED_FINDING","impact":"High extraneous cognitive load and weak connective tissue around the most important experiment-governance block.","proposed_change":"Move the framework survey to an optional later resource/appendix; keep T4-A focused on reproducible experiment pipelines."},
+    {"id":"S33-F33","severity":"P1","category":"GROUP_CV_NOT_EXECUTED","evidence":"group_cv.py receives precomputed fold scores and prints one disjoint train/valid pair; it never constructs folds, fits a model or evaluates predictions per fold.","attack":"The section claims group CV without executing cross-validation.","defense":"The helper demonstrates the disjointness invariant.","verdict":"CONFIRMED_FINDING","impact":"Core T4 validation competency is missing.","proposed_change":"Use actual grouped split indices and fit the full pipeline separately inside every training fold."},
+    {"id":"S33-F34","severity":"P1","category":"GROUP_GATE_FALSE_GREEN","evidence":"Only train_fold0/valid_fold0 are checked; random_leak_ok=False is a hard-coded print.","attack":"Another fold can contain overlap while the canonical output remains green.","defense":"The fixture has only one illustrated fold.","verdict":"CONFIRMED_FINDING","impact":"A partial check is presented as group-CV evidence.","proposed_change":"Validate every fold and derive the random/group policy result from the actual splitter."},
+    {"id":"S33-F35","severity":"P1","category":"PAIRWISE_GROUP_LEAKAGE","evidence":"The declared scoring unit is entity_pair, but group CV models each sample with one entity id. A pair has two reusable endpoints.","attack":"Train pair (e1,e2) and valid pair (e2,e3) can share e2 even if a single chosen group label differs, leaking identity across folds.","defense":"Some datasets may define one canonical case owner/group per sample.","verdict":"CONFIRMED_FINDING","impact":"The proposed grouping representation cannot guarantee the invariant the prose claims for pair samples.","proposed_change":"For pairwise data, construct folds so neither endpoint appears across train/valid—e.g. assign connected components of entity-overlap or another explicit multi-entity grouping policy."},
+    {"id":"S33-F36","severity":"P1","category":"CV_PREPROCESSING_LEAKAGE","evidence":"No S32 imputer/scaler/vocabulary Pipeline is fit inside each training fold.","attack":"Even with disjoint IDs, preprocessing fit globally before CV would leak validation information.","defense":"S32 already explained train-only fit.","verdict":"CONFIRMED_FINDING","impact":"The transition S32→S33 fails to apply the very leakage rule S32 exists to teach.","proposed_change":"Wrap preprocessing+estimator in one pipeline and fit it independently in each fold."},
+    {"id":"S33-F37","severity":"P2","category":"CV_SUPPORT","evidence":"mean_fold([]) divides by zero; fold support/validity is not stored with the mean.","attack":"Missing folds can crash or a mean can be reported without sample/group support.","defense":"Canonical fixture always has three folds.","verdict":"CONFIRMED_FINDING","impact":"The experiment summary lacks basic denominator evidence.","proposed_change":"Reject empty folds and log per-fold support/groups/metric before aggregate mean/std."},
+    {"id":"S33-F38","severity":"P1","category":"ERROR_ANALYSIS_MISSING","evidence":"T4-B says error analysis inspects the slice with most FN, but no code constructs pair-level errors or any slice table.","attack":"A required roadmap competency is pure narration.","defense":"S34 deepens metrics and imbalance later.","verdict":"CONFIRMED_FINDING","impact":"S33 cannot explain where its candidate fails before handoff to S34.","proposed_change":"Persist pair_id, gold, pred, score and slice attributes; compute at least one FN/FP slice with support."},
+    {"id":"S33-F39","severity":"P1","category":"TASK_SWITCH","evidence":"The final T4-B block switches from binary needs_review_7d classification to univariate daily review-load forecasting evaluated by MAE.","attack":"Unit, target, estimator family and metric all change inside the same gate without an explicit new task contract.","defense":"The intent is to teach time-aware validation generally.","verdict":"CONFIRMED_FINDING","impact":"Learner cannot connect the temporal-validation evidence back to the workbench classifier being promoted.","proposed_change":"Demonstrate rolling-origin/temporal splitting on the same classification task or label this as a separate optional forecasting example."},
+    {"id":"S33-F40","severity":"P1","category":"TEMPORAL_BASELINE_LEAKAGE","evidence":"At origin 7 with horizon 7, the 'ayer' predictor for validation indices 8..13 reads serie[7..12], which are actual values inside the validation horizon.","attack":"It is a rolling one-step baseline compared against a fixed-origin 7-day seasonal baseline while text says all 7 next days are predicted from the origin.","defense":"If production observes each previous day before predicting the next, yesterday is a legitimate rolling baseline.","verdict":"CONFIRMED_FINDING","impact":"The two baselines do not share the same information set, invalidating the reported 1.10 vs 3.86 comparison for the stated fixed-origin task.","proposed_change":"Either recursively predict the full horizon using only origin-available data or explicitly change the evaluation to daily rolling one-step updates for every candidate."},
+    {"id":"S33-F41","severity":"P1","category":"TEMPORAL_VALIDATION_SCOPE","evidence":"frontera_respetada checks integer index order only; the source acknowledges some systems need both group and time constraints but implements no combined policy or feature/label availability gap.","attack":"Temporal ordering alone can still leak the same entity or not-yet-mature labels/features.","defense":"The block isolates the time dependency concept.","verdict":"CONFIRMED_FINDING","impact":"'appropriate CV' remains unresolved for the actual pairwise, horizon-based workbench.","proposed_change":"Implement a domain splitter that enforces time origin/horizon plus pair/entity non-overlap and label/feature availability where required."},
+    {"id":"S33-F42","severity":"P1","category":"TEMPORAL_CANDIDATE_MISSING","evidence":"origen_movil.py compares two naive baselines only; no S33 candidate model is evaluated on those folds.","attack":"The block cannot demonstrate whether ML adds value under temporal validation.","defense":"Its purpose is baseline discipline.","verdict":"CONFIRMED_FINDING","impact":"The closing temporal lesson remains disconnected from the headline S33 gate.","proposed_change":"Evaluate the frozen candidate and all baselines on exactly the same temporal folds/information set."},
+    {"id":"S33-F43","severity":"P1","category":"PROMOTION_GATE","evidence":"No canonical function blocks promotion based on best baseline, cost, split validity, S32 manifest, or CV results. Job relevance mentions dummy; theory later admits rule may be stronger.","attack":"A model can be labeled beats_dummy=True and still lose to the rule, cost objective or invalid split.","defense":"The prose repeatedly states such a model should not be promoted.","verdict":"CONFIRMED_FINDING","impact":"The section's headline gate is advisory text rather than an executable decision.","proposed_change":"Create a promotion function that requires valid upstream manifest/splits and candidate improvement over the best frozen baseline on the predeclared primary objective."},
+    {"id":"S33-F44","severity":"P2","category":"FIGURE_MODEL","evidence":"S33-baseline-gap visual compares majority/logistic/complex model but omits the simple rule that the section calls the second mandatory baseline.","attack":"The visual model makes 'baseline' look singular when the lesson later requires dual anchors.","defense":"A figure can simplify the comparison.","verdict":"CONFIRMED_FINDING","impact":"It weakens the core idea that ML must beat the strongest simple alternative, not merely majority.","proposed_change":"Include both dummy and rule baselines or label the chart explicitly as one illustrative baseline only."},
+    {"id":"S33-F45","severity":"P2","category":"REFERENCE_MAP_DRIFT","evidence":"The reference block says T4 closes with experiment logging + group CV and lists the roadmap sequence, but current theory also contains a five-paragraph NN block, a four-paragraph framework survey and a second temporal T4-B block.","attack":"The learner-facing map no longer describes the actual section they must navigate.","defense":"Some additions are optional/extension material.","verdict":"CONFIRMED_FINDING","impact":"Connective tissue is stale after source expansion from the older 28-paragraph version to the current 46-paragraph theory.","proposed_change":"Either move extensions out or update the map with explicit optional/extension branches without pretending they are part of the core gate."}
+  ],
+  "rejected_findings": [
+    {"suspicion":"Using simple baselines before complex ML is simplistic.","verdict":"REJECTED_FINDING","reason":"Google's Rules of ML and current experiment guidance explicitly support simple baselines and tracking losing experiments."},
+    {"suspicion":"C being inverse regularization strength is wrong.","verdict":"REJECTED_FINDING","reason":"Current scikit-learn documentation confirms smaller C means stronger regularization."},
+    {"suspicion":"Group-aware validation is unnecessary if time split exists.","verdict":"REJECTED_FINDING","reason":"Group and time dependencies answer different generalization problems; current sklearn guidance explicitly treats grouped and time-series CV separately."},
+    {"suspicion":"TensorFlow today is purely static-graph while PyTorch is purely eager/dynamic.","verdict":"REJECTED_FINDING_AS_SOURCE_CLAIM","reason":"The source correctly qualifies the static-graph contrast as TensorFlow 1.x and notes TensorFlow 2 eager execution; current TensorFlow docs confirm eager is default while tf.function can create graphs."},
+    {"suspicion":"Coefficient signs prove causality.","verdict":"REJECTED_FINDING","reason":"The source explicitly says association in the model is not causality/fraud proof."},
+    {"suspicion":"A run that loses the baseline should be discarded.","verdict":"REJECTED_FINDING","reason":"The source correctly teaches that a losing but reproducible run remains valuable experiment evidence; Google experiment guidance agrees."}
+  ],
+  "highest_risk_findings": [
+    "S33-F09 dummy baseline is fit on the evaluation labels and can turn a proper 0% holdout baseline into 100%",
+    "S33-F04/F05/F06 target is not operationally observable/validated/mature despite being called observable",
+    "S33-F12/F13/F14 candidate comparison ignores consistent cost/best-baseline/same-holdout evaluation",
+    "S33-F15 logistic regression is never fit; L2 is a params label rather than training evidence",
+    "S33-F29/F33/F36 required Pipeline/CV does not fit preprocessing+model within folds",
+    "S33-F35 pairwise unit can leak an entity across folds because one group id cannot represent two endpoints",
+    "S33-F40 yesterday temporal baseline consumes validation-horizon actuals and is incomparable to the fixed-origin seasonal baseline",
+    "S33-F43 no executable promotion gate exists"
+  ],
+  "graph_memory_update": {
+    "USABLE": [
+      "Simple baseline-first thinking is valid and strongly supported externally.",
+      "A losing experiment should still be logged.",
+      "C is inverse regularization strength in sklearn logistic regression.",
+      "Scaled coefficient sign is an association within the model, not causal proof.",
+      "Group and temporal dependencies require different validation designs.",
+      "Rolling/expanding temporal validation is conceptually useful when the information set is kept honest."
+    ],
+    "PARTIAL": [
+      "needs_review target framing",
+      "dual baseline and asymmetric cost",
+      "regularized logistic model",
+      "coefficient interpretation",
+      "tree/ensemble baseline",
+      "reproducible run tracking",
+      "group CV",
+      "time-aware CV",
+      "error analysis",
+      "promotion gate"
+    ],
+    "MISCONCEPTION_RISK": [
+      "majority computed from evaluation y = valid dummy baseline",
+      "max(set(y), key=y.count) = guaranteed smallest tie class",
+      "penalty label in params = evidence a regularized fit occurred",
+      "accuracy beats dummy = candidate deserves promotion",
+      "same single entity group id is enough for entity_pair leakage control",
+      "precomputed fold scores + one disjoint check = group CV",
+      "seed alone = reproducible experiment",
+      "hard-coded depth_unlimited=False = depth control",
+      "yesterday baseline inside a seven-day fixed-origin holdout uses only origin-known information",
+      "fs-vN/column names alone = clean S32 feature provenance"
+    ]
+  }
+}
