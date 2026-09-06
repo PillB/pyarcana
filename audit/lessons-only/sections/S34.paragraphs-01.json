@@ -1,0 +1,160 @@
+{
+  "schema_version":"1.8.0",
+  "campaign_id":"lessons-only-adversarial-20260903",
+  "section":"S34",
+  "part":"paragraphs-01-of-02",
+  "coverage":"opening + reference + T1-A + T1-B + T2-A p1-p2 = 17 paragraphs",
+  "protocol":"SIN_CAMBIO_DEFENDIDO/NO_MATERIAL_CHANGE => improved_content=null",
+  "paragraphs":[
+    {
+      "paragraph_id":"S34-P01","location":"opening.p1",
+      "current_content":"Al final de S33 cada caso tiene un número. Ese número no dice a quién revisar: para eso hace falta un corte, y elegir dónde cortar es una decisión de negocio con consecuencias que no son simétricas. Esta sección convierte el número en una cola que un equipo humano puede realmente atender.",
+      "attack":"Da por confiable cualquier score procedente de S33 aunque S33 no acreditó baseline, CV ni promotion gate; tampoco exige identidad del run.",
+      "defense":"El puente conceptual score→decision es correcto si el score es un artefacto out-of-sample validado.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F01","S34-F02"],
+      "pedagogical_impact":"Normaliza el consumo de un score contaminado y borra la frontera entre resultado experimental y artefacto promocionable.",
+      "improved_content":"Al llegar a S34, no des por válido cualquier número producido en S33. Esta sección parte únicamente de predicciones **fuera de muestra** identificadas por un `run_id`, ligadas al conjunto de features, al target y horizonte, al split y a cada `sample_id`. Ese score todavía no decide a quién revisar: aquí aprenderás a medirlo, calibrarlo cuando vaya a interpretarse como probabilidad y convertir una política versionada en una cola que el equipo humano pueda atender.",
+      "justification":"Hace explícito el prerequisito machine-valid y conserva el puente conceptual sin lavar la deuda upstream."
+    },
+    {
+      "paragraph_id":"S34-P02","location":"opening.p2",
+      "current_content":"El primer paso es dejar de mirar el acierto global. Con cinco casos y dos que importan, la exactitud es un promedio que esconde justo lo que necesitas saber: cuántos de los que marcaste valían la pena —**precisión**— y cuántos de los que valían la pena marcaste —**recall**. Subir una casi siempre baja la otra, y cuál priorizas depende de qué error duele más.",
+      "attack":"La relación precision/recall no es estrictamente monotónica para todos los rankings/thresholds; la frase podría sobre-generalizar.",
+      "defense":"«Casi siempre» se usa como heurística operacional y el párrafo define correctamente precision y recall para el lector.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"pedagogical_impact":"No material.","improved_content":null,
+      "justification":"La explicación cumple su rol introductorio y no necesita churn estilístico."
+    },
+    {
+      "paragraph_id":"S34-P03","location":"opening.p3",
+      "current_content":"Hay una propiedad distinta del score que suele confundirse con acierto. Un modelo está **calibrado** cuando, de los casos a los que asignó 0.7, aproximadamente el 70% resulta positivo. Un modelo puede ordenar perfectamente y estar pésimamente calibrado — sirve para priorizar, no sirve para decir «hay un 70% de probabilidad». Y en cuanto alguien lea ese número como probabilidad, la diferencia importa.",
+      "attack":"Podría confundirse calibración local alrededor de 0.7 con una garantía global.",
+      "defense":"El párrafo presenta una definición intuitiva estándar y diferencia ranking de calibración; no afirma que un único bin baste para certificar el modelo.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"pedagogical_impact":"No material.","improved_content":null,
+      "justification":"Es una introducción causal clara; los defects aparecen después cuando el código sí convierte un bin en boolean global."
+    },
+    {
+      "paragraph_id":"S34-P04","location":"opening.p4",
+      "current_content":"Recién entonces se elige el umbral, y se elige con dos restricciones reales: cuánto cuesta cada tipo de error, y cuántos casos por día puede revisar el equipo. Un corte que produce el doble de casos de los que caben en la jornada no es más seguro; es una cola que crece hasta que alguien empieza a cerrar casos sin mirarlos.",
+      "attack":"Podría requerir explicar que el threshold se elige en datos de tuning y no en test final.",
+      "defense":"Como hook, el párrafo solo establece las dos restricciones de producto; la separación de splits puede introducirse en T4.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"pedagogical_impact":"No material.","improved_content":null,
+      "justification":"El problema no está en la motivación sino en la implementación posterior del search/tuning."
+    },
+    {
+      "paragraph_id":"S34-P05","location":"opening.p5",
+      "current_content":"La pregunta que gobierna la sección tiene dos partes: **¿dónde corto, y quién paga el error de cada lado?** Y el límite de siempre sigue en pie — priorizar una cola de revisión no es determinar fraude ni parentesco, y la banda intermedia existe justamente para que un humano decida.",
+      "attack":"Más tarde `decide()` reserva `review` para scores altos y llama `abstain` a la banda; no se define cómo ese abstain llega al humano ni cómo consume capacidad.",
+      "defense":"La intención de no forzar 0/1 es correcta y la abstención es una salida válida.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F37"],
+      "pedagogical_impact":"El learner puede creer que `abstain` implica automáticamente revisión humana aunque el workflow no lo establece.",
+      "improved_content":"La pregunta que gobierna la sección tiene dos partes: **¿dónde corto y quién paga el error de cada lado?** El límite de siempre sigue en pie: priorizar una cola no determina fraude ni parentesco. La banda intermedia no fuerza una etiqueta; debe tener una ruta explícita —por ejemplo, `abstain` significa enviar el caso a una cola humana de incertidumbre o pedir evidencia adicional— y esa ruta también cuenta para la capacidad operativa.",
+      "justification":"Conecta la idea ética con un destino operacional verificable."
+    },
+    {
+      "paragraph_id":"S34-P06","location":"reference.p1",
+      "current_content":"Bloque de referencia. Orden de los subtemas, hilo del caso y códigos de política.",
+      "attack":"Es meta-descriptivo y aporta poco contenido conceptual.",
+      "defense":"En un bloque opcional de referencia funciona como señal de navegación y no introduce un modelo falso.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"pedagogical_impact":"No material.","improved_content":null,
+      "justification":"No se reescribe solo por preferencia estilística."
+    },
+    {
+      "paragraph_id":"S34-P07","location":"reference.p2",
+      "current_content":"**Orden de los subtemas.** T1 mide confusión y calidad del ranking. T2 enfrenta el desbalance y la prevalencia. T3 introduce Brier y la calibración sobre un holdout. T4 cierra con el umbral por costo y capacidad, y la banda de abstención.",
+      "attack":"El mapa termina en threshold/abstention pero omite la etapa crítica posterior: congelar la policy y evaluarla en test final intacto.",
+      "defense":"Resume fielmente los encabezados actuales.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F29","S34-F30","S34-F43"],
+      "pedagogical_impact":"El mapa curricular puede enseñar que calibrar/tunear ya equivale a evaluar, mezclando selection con final evidence.",
+      "improved_content":"**Orden de los subtemas.** T1 mide confusión y calidad del ranking. T2 enfrenta desbalance y prevalencia sin contaminar los folds. T3 ajusta el calibrador con datos separados del fit del modelo y lo evalúa fuera de esa muestra. T4 selecciona y versiona la política de umbral/abstención con costo y capacidad. **Después de congelarla, el gate final la mide una sola vez sobre un test intacto**, sin volver a ajustar calibrador ni thresholds.",
+      "justification":"Añade la frontera selección→evaluación final que actualmente falta."
+    },
+    {
+      "paragraph_id":"S34-P08","location":"reference.p3",
+      "current_content":"**Hilo del caso.** El escenario es uno solo —`CASO-LIM-034`— y el You Do cierra sobre su tablero de cinco scores con sus etiquetas. Los demos de cada subtema, en cambio, usan conjuntos deliberadamente diminutos y hechos a medida de la métrica que enseñan: dos casos para la matriz de confusión, cuatro puntos para el barrido de umbral, cuatro para calibración. Es a propósito, y conviene saberlo antes de comparar cifras entre subtemas: cada juego está dimensionado para que puedas calcular la métrica **a mano**, que es la única forma de saber si la entendiste. Por eso el umbral del You Do se descubre con los cinco puntos y no se copia del demo de cuatro.",
+      "attack":"Los mini-sets son defendibles, pero la teoría nunca recompone las etapas sobre una misma tabla versionada, así que no demuestra compatibilidad end-to-end.",
+      "defense":"Separar fixtures reduce carga cognitiva y facilita cálculo manual.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F43"],
+      "pedagogical_impact":"El learner puede aprobar cada helper aislado sin detectar que usa rows, splits o policies diferentes entre etapas.",
+      "improved_content":"**Hilo del caso.** `CASO-LIM-034` conserva un solo contexto. Los primeros demos usan mini-conjuntos distintos para que puedas calcular cada métrica a mano; **no compares sus cifras entre sí**. Después de aprender cada pieza, la teoría debe reunirlas sobre una única tabla versionada de predicciones —con `sample_id`, gold, score, split y provenance— y hacerla pasar por confusión, ranking, calibración, selección de policy y evaluación final. Así conservas la ventaja pedagógica de los mini-ejemplos sin confundir corrección local con un gate end-to-end.",
+      "justification":"Defiende el scaffolding manual pero añade integración verificable."
+    },
+    {
+      "paragraph_id":"S34-P09","location":"reference.p4",
+      "current_content":"**Códigos de política del workbench** (no son de Python). `REJECT_*` significa que la evidencia está completa pero rompe la política — usar exactitud sola, remuestrear globalmente, un umbral sin versionar, forzar una etiqueta dentro de la banda de abstención. `REQUEST_*` significa que falta un campo necesario para decidir.",
+      "attack":"Los códigos podrían parecer ejecutables aunque muchos solo aparecen impresos o narrados.",
+      "defense":"El párrafo aclara expresamente que son códigos de política, no Python; el defecto está en que el harness posterior no los implementa.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"pedagogical_impact":"No material.","improved_content":null,
+      "justification":"La semántica REJECT vs REQUEST es útil y consistente."
+    },
+    {
+      "paragraph_id":"S34-P10","location":"S34-T1-A.p1",
+      "current_content":"Con **desbalance**, un solo porcentaje de aciertos (accuracy) engaña: si casi nadie necesita revisión, predecir siempre «no revisar» luce genial en el dashboard y no prioriza a nadie. Piensa en la cola como un filtro de calidad, no como un concurso de aciertos globales. **Precision** responde: de lo que mandas a cola, ¿cuánto era realmente positivo? **Recall** responde: de los positivos reales, ¿cuántos atrapaste? **F1** es la media armónica de ambos: castiga cuando uno de los dos se desploma. Cuando el costo de un FN pesa más que el de un FP (perder un caso que sí merecía revisión), la familia se generaliza a **Fβ** con β>1. En el workbench anclamos en F1 y dejamos el desbalance de costos al umbral versionado de T4.",
+      "attack":"Podría confundirse Fβ con sustituto del costo explícito.",
+      "defense":"El propio párrafo separa Fβ de la política de costos T4; las definiciones centrales son correctas.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"pedagogical_impact":"No material.","improved_content":null,
+      "justification":"No hay motivo para reescribir una explicación conceptualmente correcta."
+    },
+    {
+      "paragraph_id":"S34-P11","location":"S34-T1-A.p2",
+      "current_content":"Operación concreta: a partir de `y` (verdad) y `pred` (decisión binaria) cuentas la matriz completa **TP, FP, FN y TN**. Luego `P = TP/(TP+FP)`, `R = TP/(TP+FN)`, `F1 = 2·P·R/(P+R)` (con cuidado de ceros: si no hay predicciones positivas, P=0; si no hay positivos reales, R=0). **Average precision (AP)** resume el ranking sin fijar un thr: ordenas por score descendente y promedias la precision en cada positivo recuperado. Es el espíritu de la curva precision-recall (PR) y una aproximación a PR-AUC. Es la brújula natural cuando la clase positiva es rara, a diferencia de ROC, que se infla con muchos verdaderos negativos.",
+      "attack":"Concede valores cero sin support, confunde AP con aproximación de PR-AUC y enseña una descripción que el helper implementa mal para ties; tampoco exige sample alignment.",
+      "defense":"Las fórmulas P/R/F1 son correctas bajo inputs binarios alineados y AP es apropiada para rare positives.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F04","S34-F05","S34-F06","S34-F07","S34-F08"],
+      "pedagogical_impact":"Construye una métrica aparentemente rigurosa que puede cambiar por el orden de empates o ignorar filas, y mezcla dos definiciones distintas de área/average precision.",
+      "improved_content":"Operación concreta: parte de filas alineadas por `sample_id`, con una etiqueta binaria válida y una predicción por caso; **nunca** confíes en `zip()` para ocultar una diferencia de cardinalidad. De esas filas cuentas TP, FP, FN y TN y calculas precision, recall y F1, reportando también el `support`; si un denominador es cero, conserva esa condición en el reporte. Para el ranking usa **average precision (AP)** como la suma de la precision en cada threshold ponderada por el incremento de recall. AP **no es lo mismo que** el área trapezoidal bajo la curva PR y los scores empatados deben tratarse como un mismo threshold. En clases raras, PR/AP suele describir mejor la utilidad de recuperación que ROC-AUC, cuya tasa de falsos positivos puede parecer favorable cuando los negativos dominan.",
+      "justification":"Corrige el modelo matemático, el tie behavior y la alineación de datos sin aumentar innecesariamente la complejidad."
+    },
+    {
+      "paragraph_id":"S34-P12","location":"S34-T1-A.p3",
+      "current_content":"Mini-caso `CASO-LIM-034`: con `y=[1,0]` y `pred=[1,1]` obtienes TP=1, FP=1, FN=0, TN=0 → P=0.5, R=1.0, F1≈0.667. Atrapaste el positivo, pero la mitad de la cola era ruido. El workbench trata costos de FP (cola ruidosa, horas de analista) y FN (miss operativo) por separado en T4. Si solo publicas accuracy, la política responde `REJECT_ACCURACY_ONLY`; si faltan counts, `REQUEST_CONFUSION`.",
+      "attack":"El código no deriva `accuracy_only` del reporte, pero la aritmética del mini-caso sí es correcta.",
+      "defense":"El párrafo describe la policy, no afirma que el literal sea su implementación.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO","finding_ids":["S34-F09"],"pedagogical_impact":"El finding recae en el harness, no en este cálculo narrado.","improved_content":null,
+      "justification":"Mantener el mini-caso; reparar el gate en el componente de código."
+    },
+    {
+      "paragraph_id":"S34-P13","location":"S34-T1-B.p1",
+      "current_content":"En un workbench de investigación de relaciones no revisas todo el universo: miras los **k primeros** del ranking, porque el equipo de analistas tiene un tope diario. **precision@k** es la fracción de positivos en ese top-k (calidad del recorte). **recall@k** es la fracción de *todos* los positivos reales capturados en ese top-k (cobertura). Una cola con precision@k alta, pero que genera más alertas que personas, puede «ganar» el notebook y perder el turno: la métrica de ranking y la **capacidad** viajan juntas.",
+      "attack":"Conceptualmente correcto; falta solo convertir capacidad en un artefacto derivado del mismo ranking.",
+      "defense":"Las definiciones de precision@k, recall@k y el vínculo con capacity son claras.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"pedagogical_impact":"No material.","improved_content":null,
+      "justification":"No reescribir una definición que ya cumple su función."
+    },
+    {
+      "paragraph_id":"S34-P14","location":"S34-T1-B.p2",
+      "current_content":"Para medirlos necesitas labels ya ordenados por score descendente, un entero `k` alineado a la capacidad del día y el total de positivos `n_pos` (sin él, recall@k no tiene denominador). El flag `overload = load > capacity` te dice cuándo el thr es inviable para el personal de revisión: no es un detalle de UX, es un breach operativo (`REJECT_QUEUE_OVERLOAD`). Si falta capacity en el reporte, el workbench pide `REQUEST_CAPACITY` en vez de inventar un default generoso.",
+      "attack":"El helper no puede comprobar el orden porque no recibe scores, no valida k, confía en n_pos externo, carece de tie policy y overload usa un load ajeno al top-k.",
+      "defense":"La prosa sí identifica los inputs conceptuales correctos.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F10","S34-F11","S34-F12","S34-F13"],
+      "pedagogical_impact":"El learner puede producir precision/recall imposibles o una cola distinta solo por el orden original de empates y seguir viendo un reporte válido.",
+      "improved_content":"Para medir top-k no recibas una lista de labels «ya ordenada» como acto de fe: recibe filas con `candidate_id`, `score` y `label`, valida que `1 ≤ k ≤ N`, ordénalas por score y aplica un desempate estable y versionado cuando haya ties. Deriva `n_pos` del **mismo conjunto elegible** y verifica que recall quede entre 0 y 1. La carga `n_review` también sale de esa misma cola; recién entonces comparas `n_review` con `capacity`. Si falta capacidad, el workbench pide evidencia; si el ranking, el denominador o k son inválidos, falla cerrado.",
+      "justification":"Convierte cuatro precondiciones invisibles en contratos explícitos de la cola."
+    },
+    {
+      "paragraph_id":"S34-P15","location":"S34-T1-B.p3",
+      "current_content":"Con el top-3 sintético `[1,0,1]` obtienes precision@3 ≈ 0.667 y, si `n_pos=2`, recall@3 = 1.0: atrapaste todos los positivos del set, pero un tercio del top era ruido. Cincuenta alertas frente a capacidad 10 es overload: reevalúas thr o k. El score solo prioriza humanos; entity resolution o matching de identidad no prueba parentesco ni fraude.",
+      "attack":"Los 50 casos de overload no se derivan del top-3 y pueden parecer parte del mismo fixture.",
+      "defense":"Son dos mini-ejemplos transparentes y la aritmética top-3 es correcta.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO","finding_ids":["S34-F13"],"pedagogical_impact":"El finding se resuelve mejor unificando el componente ejecutable, no reescribiendo este resultado manual.","improved_content":null,
+      "justification":"Mantener el cálculo manual; conectar datasets en el código/integrated gate."
+    },
+    {
+      "paragraph_id":"S34-P16","location":"S34-T2-A.p1",
+      "current_content":"Cuando hay nueve negativos por cada positivo, el optimizador puede «aprender» a ignorar la minoría: el loss se minimiza prediciendo siempre la clase mayoritaria. **Class weights** (ratio simple `n0/n1` o mapa `{0: 1, 1: n0/n1}`) y **resampling** (oversample: repetir ejemplos de la minoría; undersample: descartar ejemplos de la mayoría) reequilibran la señal, pero solo si viven **dentro del fold de train**. Resamplear todo el dataset *antes* del cross-validation contamina la validación: el test «ve» copias sintéticas o un balance artificial y las métricas se inflan respecto a producción.",
+      "attack":"Podría objetarse el ratio n0/n1 frente a fórmulas sklearn y la simplificación del oversampling.",
+      "defense":"Como peso relativo binario {0:1,1:n0/n1} es proporcional a balanced class weights; la advertencia de leakage por resampling global coincide con imbalanced-learn.",
+      "verdict":"SIN_CAMBIO_DEFENDIDO","finding_ids":[],"pedagogical_impact":"No material.","improved_content":null,
+      "justification":"La idea central está técnicamente bien y no se penaliza por ser una simplificación explícita."
+    },
+    {
+      "paragraph_id":"S34-P17","location":"S34-T2-A.p2",
+      "current_content":"Piensa cada fold como dos cajas: train y test. El plan honesto deja la caja de test intacta y aplica oversample o weights solo a train. En código, una plantilla es `fold_plan(..., resample_global=False)` → `resample_train_only=True`, `test_untouched=True`. El flag `resample_global=True` es una fuga de pipeline: no es un detalle de estilo, es un error de evaluación. El ejemplo de abajo simula un fold con índices de train y test: el rebalance solo toca train.",
+      "attack":"El código no aplica ningún rebalance y puede afirmar test_untouched=True incluso cuando resample_global=True.",
+      "defense":"El párrafo lo llama plantilla, no producción completa.",
+      "verdict":"CONFIRMED_FINDING","finding_ids":["S34-F15"],
+      "pedagogical_impact":"Una representación declarativa falsa enseña que marcar dos booleans equivale a demostrar ausencia de leakage.",
+      "improved_content":"Piensa cada fold como dos cajas: **train** y **validación**. Primero construyes el split; después ajustas weights o ejecutas el resampling **solo con los índices de train**, y la caja de validación conserva su distribución original. El gate no debe confiar en `test_untouched=True` escrito a mano: debe comprobar que ningún sample de validación fue usado para crear, duplicar o seleccionar muestras del train rebalanceado. Si alguien rebalancea antes del split o toca la validación, la corrida falla.",
+      "justification":"Sustituye flags ceremoniales por una relación causal comprobable entre split y rebalance."
+    }
+  ]
+}
