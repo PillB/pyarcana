@@ -1,0 +1,117 @@
+{
+  "schema_version": "3.3.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S39",
+  "title": "Responsible ML Case Triage y cierre de nivel",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_blob_sha": "2fa1874f882cf0e0b092117a84132316faf2a327",
+  "scope": "FULL_SECTION_EXTENSION: existing theory audit + I Do + 24 We Do + You Do + rubric + self-check + resources + shared rendering semantics",
+  "files": {
+    "base_findings": "audit/lessons-only/sections/S39.json",
+    "theory_paragraphs_01": "audit/lessons-only/sections/S39.paragraphs-01.json",
+    "theory_paragraphs_02": "audit/lessons-only/sections/S39.paragraphs-02.json",
+    "theory_components": "audit/lessons-only/sections/S39.components.json",
+    "practice_i_do_we_do": "audit/lessons-only/sections/S39.practice-audit-01.json",
+    "practice_you_do_quiz_resources": "audit/lessons-only/sections/S39.practice-audit-02.json"
+  },
+  "coverage": {
+    "theory_reference_paragraphs": "33/33",
+    "theory_code_output": "9/9",
+    "theory_callouts": "9/9",
+    "figures": "1/1",
+    "theory_playground": "1/1",
+    "i_do_demos": "8/8",
+    "we_do_exercises": "24/24",
+    "you_do_project": "1/1",
+    "you_do_rubric": "1/1",
+    "self_check_questions": "5/5",
+    "resources": "16/16"
+  },
+  "quality_score_1_10": 2.5,
+  "verdict": "REPAIR_REQUIRED",
+  "material_findings": 68,
+  "severity_counts": {"P0": 3, "P1": 56, "P2": 9, "P3": 0},
+  "new_full_scope_findings": [
+    "S39-F53", "S39-F54", "S39-F55", "S39-F56", "S39-F57", "S39-F58", "S39-F59", "S39-F60",
+    "S39-F61", "S39-F62", "S39-F63", "S39-F64", "S39-F65", "S39-F66", "S39-F67", "S39-F68"
+  ],
+  "executive_verdict": "S39 no está lista para funcionar como cierre de N3. La teoría ya tenía 52 defectos materiales; al abrir las superficies prácticas aparecen tres P0 adicionales. El problema dominante es que la sección enseña y evalúa demasiado a menudo por presencia de nombres, flags, strings y documentos, mientras el capstone canónico exige evidencia ejecutada. You Do puede producir un bundle con apariencia de trazabilidad sin haber medido baseline, calibración, threshold por costo o desempeño por subgrupo; la rúbrica visible además contradice la rúbrica canónica. I Do/We Do refuerzan el mismo patrón mediante micro-validadores que en varios casos dan falsos PASS a inputs que el texto dice bloquear.",
+  "three_most_likely_failure_causes": [
+    {
+      "rank": 1,
+      "cause": "Evidencia declarada en lugar de evidencia ejecutada",
+      "mechanism": "Strings como `regression_scope`, booleans de checklist, nombres de cards y métricas hardcodeadas pueden verse como gates aunque no prueban el comportamiento."
+    },
+    {
+      "rank": 2,
+      "cause": "Gradual Release de baja fidelidad",
+      "mechanism": "I Do modela estructuras nominales y We Do repite reparación de predicados/tokens; el alumno llega a You Do sin practicar la integración real de los artefactos canónicos."
+    },
+    {
+      "rank": 3,
+      "cause": "Contratos de evaluación incompatibles",
+      "mechanism": "La rúbrica visible del proyecto no coincide con CP-N3-C/RUBRIC.json y el autocheck de 5 ítems de reconocimiento no cubre los outcomes ni el gate."
+    }
+  ],
+  "meta_leak_report": {
+    "learner_facing_developer_leaks_confirmed": 0,
+    "source_only_meta_text": "El comentario sobre el legacy id `integrator-phase2` y diagramas de agentes está en comentario TypeScript y no se renderiza; no se marca como leak learner-facing.",
+    "topic_drift": "CONFIRMED en el Theory playground ya registrado como S39-F47; no se duplica como nuevo finding."
+  },
+  "live_repository_consistency": {
+    "public_crawl_card": "Case Triage N3; tagline incluye baseline, calibración, abstención, monitoreo, promoción N3/CF-3.",
+    "public_crawl_hours": "19h",
+    "source_hours": "9h",
+    "verdict": "UNRESOLVED",
+    "reason": "El crawler público reporta snapshot de un mes anterior; no se convierte en defecto de deployment sin una captura fresca del runtime actual."
+  },
+  "external_research_alignment": [
+    {
+      "source": "NIST AI RMF Core/Playbook",
+      "finding_support": "Oversight, testing, monitoring, appeals, go/no-go y recovery deben ser procesos medidos/documentados; no simples checkboxes autodeclarados."
+    },
+    {
+      "source": "scikit-learn Probability Calibration",
+      "finding_support": "Calibración requiere comparar probabilidades con outcomes y usar datos independientes; escribir 'calibration' en una card no la demuestra."
+    },
+    {
+      "source": "scikit-learn Decision Threshold Tuning",
+      "finding_support": "El problema estadístico de score/probabilidad es distinto del problema de decisión; el threshold puede optimizarse por métrica/costo y no debe hardcodearse sin evidencia."
+    },
+    {
+      "source": "Model Cards for Model Reporting",
+      "finding_support": "Cards deben documentar intended use, limitaciones y performance evaluada bajo condiciones relevantes; no son solo nombres de archivo."
+    },
+    {
+      "source": "OWASP Logging Cheat Sheet",
+      "finding_support": "Audit/security logging requiere atribución, tiempo, acción/objeto, integridad, controles de acceso y verificación; `audit=True` o Python logging por sí solos no bastan."
+    }
+  ],
+  "priority_order": [
+    {"priority": 1, "finding_ids": ["S39-F53", "S39-F54"], "action": "Reconstruir You Do desde el contrato canónico CP-N3-C y eliminar métricas hardcodeadas."},
+    {"priority": 2, "finding_ids": ["S39-F60"], "action": "Unificar rúbrica visible con RUBRIC.json y separar checklist formativa de pesos/gates."},
+    {"priority": 3, "finding_ids": ["S39-F55", "S39-F56", "S39-F57", "S39-F58", "S39-F59"], "action": "Hacer audit/appeal, packet lineage, registry, risk evidence y ops/rollback ejecutables."},
+    {"priority": 4, "finding_ids": ["S39-F63", "S39-F64", "S39-F65"], "action": "Corregir falsos PASS concretos de We Do antes de usar esos ejercicios como scaffolding."},
+    {"priority": 5, "finding_ids": ["S39-F61", "S39-F62"], "action": "Rearquitectar I Do/We Do para que E1→E2→E3 aumente fidelidad y produzca artefactos reutilizables."},
+    {"priority": 6, "finding_ids": ["S39-F66", "S39-F67", "S39-F68"], "action": "Rehacer autocheck y recursos para medir/remediar los conceptos críticos."
+    }
+  ],
+  "graph_memory_update": {
+    "section_node": "S39",
+    "new_edges": [
+      "S39 -> CP-N3-C canonical rubric : CONTRADICTS_VISIBLE_RUBRIC",
+      "S39 YouDo -> baseline/calibration/cost-threshold/subgroup evidence : MISSING_IMPLEMENTATION",
+      "S39 cards -> evaluation evidence : HARDCODED_NOT_DERIVED",
+      "S39 WeDo T1-B-E3 -> registry completeness : FALSE_POSITIVE_PATH",
+      "S39 WeDo T2-B-E2 -> appeal independence : NOT_ENFORCED",
+      "S39 WeDo T3-A-E3 -> fairness metric missingness : FALSE_GREEN",
+      "S39 IDo/WeDo -> YouDo : LOW_FIDELITY_TRANSFER"
+    ],
+    "do_not_forget": [
+      "Do not treat strings/booleans as gate evidence.",
+      "Do not call CP-N3-C closed until baseline, calibration, cost-derived threshold, abstention and subgroup evaluation are executed.",
+      "Keep CF-3 external review separate from local section completion.",
+      "Use the canonical CP-N3-C rubric as the sole formal scoring contract."
+    ]
+  }
+}
