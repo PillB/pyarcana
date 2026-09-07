@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.4.0",
+  "campaign_id": "full-content-solarized-20260907",
+  "section": "S39",
+  "mode": "PRACTICE_EXTENSION_APPEND_ONLY",
+  "source": {
+    "canonical_file": "src/lib/course/sections/s39-integrator-phase2.ts",
+    "blob_sha": "2fa1874f882cf0e0b092117a84132316faf2a327",
+    "source_drift_since_prior_s39": false
+  },
+  "inherits": {
+    "base": "audit/lessons-only/sections/S39.json",
+    "paragraphs": [
+      "audit/lessons-only/sections/S39.paragraphs-01.json",
+      "audit/lessons-only/sections/S39.paragraphs-02.json"
+    ],
+    "components": "audit/lessons-only/sections/S39.components.json",
+    "theory_paragraph_coverage": "33/33",
+    "material_findings": 52
+  },
+  "coverage": {
+    "practice_elements": 63,
+    "practice_requiring_change": 40,
+    "practice_acceptable": 23,
+    "full_elements_accounted": 128,
+    "full_requiring_change": 97,
+    "full_acceptable": 31
+  },
+  "new_findings": [
+    {
+      "id": "S39-F53",
+      "severity": "high",
+      "type": "misleading_error_classification",
+      "locations": ["WeDo S39-T1-A-E2", "WeDo S39-T1-A-E3"],
+      "evidence": "assess/decide return REJECT_STAGE_ORDER not only for an actual stage-order error but also when label_space != needs_review or auto_fraud violates policy.",
+      "learner_failure": "A reasonable learner can learn that auto_fraud=True is a pipeline-order defect instead of a prohibited decision-policy defect, producing the wrong remediation and audit trail.",
+      "repair": "Return separate tokens such as REJECT_LABEL_SPACE and REJECT_AUTO_FRAUD_POLICY; reserve REJECT_STAGE_ORDER for stages != CANON."
+    },
+    {
+      "id": "S39-F54",
+      "severity": "critical",
+      "type": "fail_open_packet_validation",
+      "locations": ["WeDo S39-T2-A-E3"],
+      "evidence": "decide(packet) checks score-only, uncertainty, evidence and graph_path, then returns CONTINUE, 4; it never requires case_id or score in the accepted path.",
+      "learner_failure": "A learner can pass an anonymous/unscored packet as ready for review and conclude that adding uncertainty compensates for missing identity/score.",
+      "repair": "Compose E3 with one canonical packet_ok validator that requires non-empty case_id, finite score in domain, non-empty source-backed evidence, graph path and uncertainty before counting explanation layers."
+    },
+    {
+      "id": "S39-F55",
+      "severity": "critical",
+      "type": "human_review_control_not_enforced",
+      "locations": ["WeDo S39-T2-B-E2"],
+      "evidence": "The title/feedback require an appeal to reopen with another reviewer, but assess merely checks that second_reviewer is truthy; there is no original reviewer field or inequality test.",
+      "learner_failure": "A learner can set second_reviewer=ana when the original reviewer was also Ana and receive reopen, falsely believing an independent appeal occurred.",
+      "repair": "Include original_reviewer and require a distinct authorized second_reviewer; append an appeal audit event with actor, timestamp and reason."
+    },
+    {
+      "id": "S39-F56",
+      "severity": "high",
+      "type": "fairness_metric_missing_treated_as_zero",
+      "locations": ["WeDo S39-T3-A-E3"],
+      "evidence": "s.get('fp_rate', 0) > thr treats a missing per-slice fp_rate as zero, so a slice with no metric silently passes. It also does not validate rate/threshold domains or support counts.",
+      "learner_failure": "A learner can omit fp_rate for the most problematic subgroup and accidentally make the release look safer.",
+      "repair": "Require name, fp_rate and sample/support count for every slice; validate finite rates in [0,1] and a finite threshold in [0,1]; return REQUEST_SLICE_METRICS for any missing metric."
+    },
+    {
+      "id": "S39-F57",
+      "severity": "critical",
+      "type": "canonical_gate_not_demonstrated",
+      "locations": ["YouDo title/context", "YouDo objectives", "YouDo starterCode", "CP-N3-C RUBRIC.json", "CP-N3-C BRIEF.md"],
+      "evidence": "The lesson calls the project cierre CP-N3-C, but the canonical CP-N3-C rubric requires baseline, reported calibration, cost-based threshold/human review, abstention, subgroup performance and model card. The starter uses a hand-built score, fixed thr=0.70, no baseline/calibration calculation and hard-coded subgroup/value metrics in Markdown cards.",
+      "learner_failure": "A learner can believe they completed CP-N3-C by packaging a toy score and static cards while never showing calibration, baseline or cost-threshold evidence.",
+      "repair": "Require versioned upstream baseline/calibration/threshold/subgroup artifacts with hashes/run IDs or compute them from a canonical fixture; gate ready_for_human_acceptance on those artifacts and their tests."
+    },
+    {
+      "id": "S39-F58",
+      "severity": "critical",
+      "type": "rubric_conflict",
+      "locations": ["YouDo rubric", "SectionView YouDo rubric renderer", "course-state/capstones/CP-N3-C/RUBRIC.json", "course-state/capstones/CP-N3-C/gate.json"],
+      "evidence": "S39 displays six percentage criteria totaling 100% plus rows whose weight values are literal bonus checklist, gate process, and gate privacy. The canonical CP-N3-C rubric instead uses four 0–3 criteria with weights .35/.20/.25/.20 and a gate rule >=2.4/3, no critical criterion <2, zero P0. SectionView renders every string under a column labeled Peso without reconciling the two contracts.",
+      "learner_failure": "A learner can optimize for the 25/20/20/15/10/10 table and still fail canonical calibration/abstention gates, or assume gate privacy is merely another weight row.",
+      "repair": "Use the canonical rubric as the S39 project rubric or explicitly label the local table checklist de preparación and link the canonical 0–3 rubric/hard gates. Render gate rows separately from numeric weights."
+    },
+    {
+      "id": "S39-F59",
+      "severity": "critical",
+      "type": "unsupported_evidence_in_generated_cards",
+      "locations": ["YouDo starterCode: model-card.md", "YouDo starterCode: system-card.md"],
+      "evidence": "The starter writes precision_at_k≈0.55, false_queue=0.08/0.11, override rates and median review time as literal text; says apelación con segundo revisor although no appeal workflow exists in the starter; and says rollback targets a versioned previous model although no model registry/rollback operation is implemented.",
+      "learner_failure": "A learner can learn to satisfy governance by writing plausible metrics/control statements into Markdown rather than attaching evidence that those controls ran.",
+      "repair": "Generate cards from validated run artifacts; include provenance for each metric/control, mark unavailable claims not_evaluated, and remove appeal/rollback claims until corresponding tests/events exist."
+    },
+    {
+      "id": "S39-F60",
+      "severity": "high",
+      "type": "audit_trail_contract_not_met",
+      "locations": ["I Do S39-T2-B-DEMO", "WeDo S39-T2-B-E1/E3", "YouDo append_audit"],
+      "evidence": "Theory states that an override audit event needs actor, reason and timestamp. The I Do reduces evidence to audit: True; the You Do JSONL records run_id/case/path/action/score/override/human_only but no actor, reason, timestamp, model/threshold/policy version or appeal linkage.",
+      "learner_failure": "A learner can produce audit.jsonl that cannot answer who overrode what policy, why, or under which model/threshold version.",
+      "repair": "Add stable pseudonymous actor/reviewer ID, reason code, timestamp, original auto action, final action, model_id, threshold/policy version, appeal linkage and append-only integrity checks."
+    },
+    {
+      "id": "S39-F61",
+      "severity": "critical",
+      "type": "canonical_dataset_contract_mismatch",
+      "locations": ["course-state/capstones/CP-N3-C/BRIEF.md", "course-state/capstones/CP-N3-C/data/generate.py"],
+      "evidence": "BRIEF says the dataset contains case_id, features, label, subgrupo, timestamp, cost_fp and cost_fn. data/generate.py instead emits generic records with id, name, email, amount and status and no ML labels/cost/subgroup/timestamp fields.",
+      "learner_failure": "A learner following the canonical dataset path cannot implement cost-based thresholds, temporal/subgroup checks or labeled calibration because the required fields do not exist.",
+      "repair": "Replace the generic generator with deterministic CP-N3-C cases matching BRIEF fields, including train/dev/test or evaluation partition metadata and reserved synthetic identifiers."
+    },
+    {
+      "id": "S39-F62",
+      "severity": "critical",
+      "type": "canonical_gate_self_contradiction",
+      "locations": ["CP-N3-C RUBRIC.json", "CP-N3-C gate.json", "CP-N3-C demo.py"],
+      "evidence": "RUBRIC lists Sin calibración as a critical failure and requires calibración reportada. demo.py emits status=pass, but its model card explicitly states Toy linear score; not production calibrated; it reports accuracy/abstention, not a calibration curve/error/proxy tied to probability reliability.",
+      "learner_failure": "A learner can infer that an abstention band or accuracy metric substitutes for calibration, contradicting the course's own S34/S39 distinction.",
+      "repair": "Align RUBRIC, gate.json and demo: either compute/report an explicit calibration assessment on held-out synthetic data or rename/document a separate confidence-proxy requirement without calling the result calibrated."
+    },
+    {
+      "id": "S39-F63",
+      "severity": "high",
+      "type": "internal_jargon_widow_term",
+      "locations": ["tagline", "theory opening callout/reference", "I Do T4-A", "YouDo", "SelfCheck Q2"],
+      "evidence": "CF-3 is repeatedly presented as an expediente/review gate, but S39 never gives a plain-language expansion or tells the learner what CF-3 is, what artifact defines it, who performs the review, or where its acceptance contract lives.",
+      "learner_failure": "A learner can know they must leave CF-3 ready but not know what to submit, how it differs from CP-N3-C, or what an external reviewer checks.",
+      "repair": "At first use, define CF-3 in one sentence and link/reference its canonical checklist or evaluation artifact; distinguish it explicitly from CP-N3-C."
+    }
+  ],
+  "practice_status": {
+    "i_do": "8 major + 1 minor",
+    "we_do": "5 pass + 16 major + 2 blocked + 2 minor",
+    "you_do": "6 major + 2 blocked",
+    "self_check": "3 pass + 1 minor + 1 major",
+    "resources": "15 pass + 1 minor"
+  },
+  "rejected_findings": ["S39-R09", "S39-R10", "S39-R11", "S39-R12", "S39-R13", "S39-R14"],
+  "unresolved_questions": [
+    {"id": "S39-U01", "severity": "medium", "question": "Does the current hydrated GitHub Pages S39 body exactly match main?"},
+    {"id": "S39-U02", "severity": "high", "question": "Where is the canonical CF-3 artifact/checklist and what formal mechanism records its external review?"},
+    {"id": "S39-U03", "severity": "medium", "question": "Is canonical CP-N3-C RUBRIC.json gate_rule consumed by an evaluator elsewhere, or is it currently documentary only?"}
+  ],
+  "verdict": "REPAIR_REQUIRED",
+  "score": "1/10",
+  "release_recommendation": "fail",
+  "priority_order": [
+    {"priority": "P0", "findings": ["S39-F57", "S39-F58", "S39-F59", "S39-F61", "S39-F62"], "action": "Unify and make executable the CP-N3-C contract: canonical dataset, canonical rubric, calibration/baseline/threshold evidence and provenance-derived cards."},
+    {"priority": "P0", "findings": ["S39-F54", "S39-F55"], "action": "Close practice fail-open paths for packet identity/score and genuinely independent appeal review."},
+    {"priority": "P1", "findings": ["S39-F60", "S39-F56", "S39-F53"], "action": "Make audit/fairness/diagnostic tokens truthful and reconstructible."},
+    {"priority": "P1", "findings": ["S39-F63"], "action": "Define and link CF-3 before using it as a level-closure requirement/quiz target."}
+  ],
+  "graph_memory_update_notes": {
+    "section": "S39",
+    "status": "AUDITED_REPAIR_REQUIRED",
+    "source_blob_sha": "2fa1874f882cf0e0b092117a84132316faf2a327",
+    "inherited_material_findings": 52,
+    "new_material_findings": 11,
+    "total_material_findings": 63,
+    "knowledge_edges": [
+      "S33 baseline -> S39 gate evidence must be referenced/versioned, not retyped",
+      "S34 calibration + threshold -> S39 must preserve distinction and provenance",
+      "S35 evidence/uncertainty -> S39 packet must carry source-backed evidence",
+      "S38 resiliency/audit debt -> S39 cannot claim external-ready bundle while upstream gates are red",
+      "CP-N3-C canonical rubric/dataset -> S39 YouDo must be aligned one-to-one"
+    ],
+    "next_section": "S40 only after S39 Explorer artifact is recorded; do not carry S39 gates as usable until repaired."
+  },
+  "full_local_artifact": "S39_round2_full_content_audit.json (element-level, valid JSON)"
+}
