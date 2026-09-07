@@ -1,0 +1,110 @@
+{
+  "schema_version":"3.3.0",
+  "audit_metadata":{
+    "campaign_id":"lessons-only-adversarial-20260903",
+    "section":"S43",
+    "title":"Contenedores y reproducibilidad operativa",
+    "mode":"FULL_SCOPE_EXPLORER_APPEND_ONLY",
+    "source_commit":"535bd4d7b603283af9a39a813a79f05afbc47b48",
+    "source_path":"src/lib/course/sections/s43-llmops.ts",
+    "source_blob":"77ac056ea519b82bbba5307acd845f819be4b46b",
+    "audit_branch":"audit/lessons-only-adversarial-20260903",
+    "quality_score":1.0,
+    "verdict":"REPAIR_REQUIRED",
+    "material_findings":44,
+    "severity_counts":{"P0":5,"P1":30,"P2":9,"P3":0}
+  },
+  "scope":{
+    "live_card":"verified; crawl last-month/stale",
+    "live_body":"not exposed reliably by public crawler",
+    "theory_paragraphs":"32/32",
+    "learning_outcomes":"8/8",
+    "theory_code_output":"9/9",
+    "callouts":"9/9",
+    "figures":"3/3",
+    "theory_playground":"1/1",
+    "i_do":"8/8",
+    "we_do":"24/24",
+    "you_do":"complete",
+    "self_check":"5/5",
+    "authenticated_exam":"24 S43 bank questions; 8 concepts ×3",
+    "capstone_public_artifacts":"CP-N4-A brief + rubric",
+    "resources":"17/17"
+  },
+  "ledger_files":[
+    {"path":"audit/lessons-only/sections/S43.json","role":"base issue registry; findings F01-F43","commit":"54788bb2a4896771f5ab372b7c68a6c114b07744"},
+    {"path":"audit/lessons-only/sections/S43.supplement-01.json","role":"append-only finding F44 figure sequencing","commit":"dcb5342742288ea339c04af69dd95a90ccaab7ce"},
+    {"path":"audit/lessons-only/sections/S43.paragraphs-01.json","role":"paragraphs 1-5","commit":"cb90ee57956f8f1dff657ca4382760b09db5eb3c"},
+    {"path":"audit/lessons-only/sections/S43.paragraphs-02.json","role":"paragraphs 6-10","commit":"cb1917cba5f19bc2ed7de7cc8a478731fe891fba"},
+    {"path":"audit/lessons-only/sections/S43.paragraphs-03.json","role":"paragraphs 11-15","commit":"0f607221c11c53e2fecdffd889bc2c64450df792"},
+    {"path":"audit/lessons-only/sections/S43.paragraphs-04.json","role":"paragraphs 16-20","commit":"d5dae40e06431ecce6b13d4958802742f6593f2d"},
+    {"path":"audit/lessons-only/sections/S43.paragraphs-05.json","role":"paragraphs 21-25","commit":"e6fe1d98a3d5cedb6724e21ff899bb9b76391d92"},
+    {"path":"audit/lessons-only/sections/S43.paragraphs-06.json","role":"paragraphs 26-29","commit":"8a020a729438697294c5641229a5ffb46379506e"},
+    {"path":"audit/lessons-only/sections/S43.paragraphs-07.json","role":"paragraphs 30-32","commit":"4fb8980fd3c2ad94b7cf131d599aa7c24d892a41"},
+    {"path":"audit/lessons-only/sections/S43.components.json","role":"top-level/outcomes/code/callouts/figures/playground","commit":"3c325a2a0aa3b9c04a964b1805c3f18b9c41de9f"},
+    {"path":"audit/lessons-only/sections/S43.practice-audit-01a.json","role":"I Do + We Do T1/T2","commit":"7690e863b4d495c8b936d48750fb1e3512b92963"},
+    {"path":"audit/lessons-only/sections/S43.practice-audit-01b.json","role":"I Do + We Do T3/T4","commit":"56580341ff72e5e4de6cdeea5986950a25f8088f"},
+    {"path":"audit/lessons-only/sections/S43.practice-audit-02.json","role":"You Do + rubric + self-check + exam + public capstone + resources","commit":"961163de21cde765f1774330f23cd43749394ff3"}
+  ],
+  "global_findings":{
+    "central_failure":"S43 is the real CP-N4-A gate, but its gradual-release chain and final starter substitute Python predicates, strings and booleans for the container/service operations that the canonical gate requires.",
+    "release_blockers":[
+      "F02: CP-N4-A closes without canonical 200/429/401/token-redaction/migration integration tests",
+      "F03: learner-visible rubric contradicts canonical CP-N4-A rubric/gate",
+      "F04: final READY and breach routes are self-attested/hardcoded",
+      "F05: roadmap environment is containers but I Do/We Do never operate containers",
+      "F28: theory requires exact digest while I Do/We Do accept sha256:abc"
+    ],
+    "meta_leak":"CONFIRMED: S43 Theory playground uses obsolete LLMOps/RAG/RAGAS tracing content under stable id llmops. Stable id itself is not the leak and must not be renamed without migration.",
+    "live_drift":"UNRESOLVED: public last-month crawl shows 20h while main says 9h; crawler is stale and also shows old course total."
+  },
+  "terminology_registry":[
+    {"term":"build cache","status":"DEFINED_BUT_CONFLATED","issue":"cache efficiency is repeatedly treated as reproducibility evidence"},
+    {"term":"digest","status":"HIGH_RISK","issue":"theory defines exact 64-hex digest correctly; practice accepts prefix-only fake digests"},
+    {"term":"non-root","status":"PARTIAL","issue":"UID 0 vs lab policy UID>=1000 must be separated"},
+    {"term":"capabilities","status":"WIDOW_RISK","issue":"extra/default/effective Linux capabilities are not distinguished or inspected"},
+    {"term":"distroless/slim","status":"OVERGENERALIZED","issue":"slim does not necessarily remove shell like distroless"},
+    {"term":"secret","status":"PARTIAL","issue":"container env vs Compose secret mount risk is not differentiated strongly enough"},
+    {"term":"readiness/liveness","status":"USABLE","issue":"conceptual distinction is good; execution evidence missing"},
+    {"term":"expand/contract","status":"DEFINED_BUT_IMPLEMENTATION_CONTRADICTS","issue":"practice rejects all contract phases"},
+    {"term":"restore drill","status":"WIDOW_TO_PROXY","issue":"boolean backup_restored substitutes for the operation"},
+    {"term":"CVE exception","status":"MISSING_IMPLEMENTATION","issue":"signed exception is named but never represented in policy"},
+    {"term":"resource budget","status":"FALSE_PRECISION_RISK","issue":"512Mi/1CPU must be lab-specific, not universal"}
+  ],
+  "cross_element_issues":[
+    {"edge":"roadmap S43 environment -> I Do/We Do","relation":"CONTRADICTS","detail":"local with containers vs local-Python predicate simulations"},
+    {"edge":"T1-A theory -> self-check Q1","relation":"MISLEADING_REINFORCEMENT","detail":"cache logical digest presented as reproducibility evidence"},
+    {"edge":"T1-B theory exact digest -> You Do","relation":"CONTRADICTS","detail":"final accepts mutable non-latest tag"},
+    {"edge":"T4-A theory exact digest -> I Do/We Do","relation":"DIRECT_CONTRADICTION","detail":"sha256:abc passes prefix check"},
+    {"edge":"T2-B theory executed SIGTERM criterion -> I Do/We Do","relation":"SELF_ATTESTED_PROXY","detail":"drains boolean + grace integer"},
+    {"edge":"T3-A prose healthchecks -> MINI_COMPOSE","relation":"MISSING_IMPLEMENTATION","detail":"no healthcheck stanza"},
+    {"edge":"T3-B expand/contract prose -> migration_gate","relation":"CONTRADICTS","detail":"all contract phases fail"},
+    {"edge":"CP-N4-A canonical rubric -> S43 visible rubric","relation":"CONTRADICTS","detail":"different criteria/weights/gate"},
+    {"edge":"CP-N4-A canonical tests -> S43 You Do","relation":"MISSING_INTEGRATION","detail":"200/429/401/token log tests omitted"},
+    {"edge":"CP-N4-A public brief -> current roadmap","relation":"STALE_PREREQUISITE_LABELS","detail":"S41 LLM finetuning/S42 Graph RAG/S43 LLMOps"},
+    {"edge":"CP-N4-A public brief -> S43 gate","relation":"CONTRADICTS_EXECUTION","detail":"brief says container not built"},
+    {"edge":"legacy id llmops -> Theory playground","relation":"CONTENT_LEAK","detail":"RAG/RAGAS/tracing obsolete topic"},
+    {"edge":"figure S43-multistage -> T1-A","relation":"PREMATURE_WRONG_NODE","detail":"T4-A concept attached to cache topic"},
+    {"edge":"figure S43-image-layers -> T1-B","relation":"LAGGING_WRONG_NODE","detail":"T1-A cache concept attached to non-root topic"}
+  ],
+  "validation":{
+    "adversarial_process":"Suspect -> Attack -> Defense -> Verdict applied; defended nodes retained as SIN_CAMBIO_DEFENDIDO rather than rewritten for stylistic preference.",
+    "external_benchmark":"Docker official best practices/labs, Compose startup/secrets/resource docs, OWASP Docker Security and worked-example fading guidance.",
+    "notable_rejections":["legacy id rename","Docker cache ordering itself","need to replace Compose with Kubernetes","claim NIST SP800-190 obsolete","claim service_healthy removes need for app retries"],
+    "source_of_truth":"Canonical main source for section body; canonical/public capstone rubric+brief for gate; public website only for card/stale crawl evidence."
+  },
+  "summary":{
+    "quality_score":1.0,
+    "verdict":"REPAIR_REQUIRED",
+    "material_findings":44,
+    "severity_counts":{"P0":5,"P1":30,"P2":9,"P3":0},
+    "priority_order":[
+      "P0 F02/F03/F04/F05/F28",
+      "CP-N4-A public brief contradictions F06/F07",
+      "real Docker/Compose evidence F08-F34",
+      "playground leak F36 and figure swap F44",
+      "assessment F37-F40",
+      "exercise architecture/resources/terminology F41-F43"
+    ]
+  }
+}
