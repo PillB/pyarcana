@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "full-content-solarized-20260907",
+  "continuation_date": "2026-09-07",
+  "branch": "audit/lessons-only-adversarial-20260903",
+  "last_completed_section": "S39",
+  "last_completed_round": "S39-full-content-extension-20260907",
+  "last_completed_verdict": "REPAIR_REQUIRED",
+  "last_completed_material_findings": 63,
+  "last_completed_new_findings": 11,
+  "last_completed_score": "1/10",
+  "section_artifacts": {
+    "S38": "audit/full-content/S38.practice-extension-20260906.json",
+    "S39": "audit/full-content/S39.practice-extension-20260907.json"
+  },
+  "source_blob_sha": "2fa1874f882cf0e0b092117a84132316faf2a327",
+  "next_section": "S40",
+  "carry_forward_constraints": [
+    "S40 must not assume N3/CF-3 promotion occurred; S39 remains REPAIR_REQUIRED and external review is not proven.",
+    "Do not inherit S39 static stage/registry/checklist/card strings as executable evidence.",
+    "Do not treat audit=True, cf3_review=external, self_declared_promotion=false, or a manifest field as proof of the named control.",
+    "Carry S33/S34 baseline/calibration/threshold artifacts only via versioned/hash-verified provenance.",
+    "Evidence packets entering S40 must retain source-backed evidence IDs, graph/version/as_of, model_run, uncertainty and attributable human decision events.",
+    "Appeal requires a distinct authorized reviewer and a durable event linked to the original decision.",
+    "Fairness metrics must fail closed on missing per-slice data and include denominators/support/uncertainty.",
+    "CP-N3-C canonical dataset/rubric/demo inconsistencies must not be laundered into later architecture as approved contracts.",
+    "CF-3 remains an unresolved internal contract until its canonical checklist/reviewer mechanism is identified.",
+    "Live body parity with main remains unresolved because the crawler exposes the S39 card but not hydrated lesson content."
+  ],
+  "status": "READY_TO_CONTINUE_WITH_S40_AFTER_EXPLORER_LOGGED"
+}
