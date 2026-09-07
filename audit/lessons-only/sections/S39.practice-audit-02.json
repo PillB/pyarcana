@@ -1,0 +1,424 @@
+{
+  "schema_version": "3.3.0",
+  "section": "S39",
+  "scope": "You Do + rubric + self-check + resources + shared rendering semantics",
+  "audit_mode": "adversarial_anti_complacency",
+  "source": {
+    "repository": "PillB/pyarcana",
+    "main_commit": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+    "section_path": "src/lib/course/sections/s39-integrator-phase2.ts",
+    "canonical_capstone_rubric": "course-state/capstones/CP-N3-C/RUBRIC.json",
+    "canonical_capstone_brief": "course-state/capstones/CP-N3-C/BRIEF.md",
+    "existing_s39_findings": "S39-F01..S39-F52"
+  },
+  "adversarial_review": {
+    "most_likely_beginner_failure": "El alumno puede producir un bundle que parece gobernado porque contiene manifest, cards y audit.jsonl, aunque nunca haya demostrado baseline, calibración, umbral por costo, desempeño por subgrupo, regresión real ni rollback verificable.",
+    "suspected_hidden_prerequisite": "Se presupone que el alumno sabrá transformar requisitos de gobernanza en evidencia ejecutada y trazable, aun cuando el scaffold de You Do modela varias de esas obligaciones como strings o texto escrito a mano.",
+    "most_likely_misconception": "Que documentar una métrica, declarar un gate o escribir un nombre de artefacto equivale a medirlo, ejecutarlo o verificarlo."
+  },
+  "confirmed_findings": [
+    {
+      "id": "S39-F53",
+      "severity": "P0",
+      "surface": "youDo.starterCode + CP-N3-C canonical contract",
+      "title": "You Do se presenta como cierre CP-N3-C pero no implementa el contrato canónico del capstone",
+      "evidence": {
+        "current": "El proyecto se titula 'Responsible ML Case Triage (cierre CP-N3-C)' y el manifest termina con status='ready_for_human_acceptance'.",
+        "canonical_requires": [
+          "baseline determinista",
+          "calibración reportada",
+          "umbral por costos declarados",
+          "abstención",
+          "desempeño por subgrupo",
+          "tarjeta de modelo",
+          "no fuga de datos",
+          "no decisión adversa sin revisión"
+        ],
+        "scaffold_missing": [
+          "cálculo o comparación contra baseline",
+          "evaluación/calibración con labels",
+          "derivación del threshold desde cost_fp/cost_fn o una utilidad declarada",
+          "cálculo reproducible de métricas por subgrupo",
+          "prueba explícita de separación temporal/no leakage"
+        ]
+      },
+      "attack": "Un cierre de capstone solo es defendible si el scaffold obliga a producir las evidencias que el rubric y el brief declaran críticas.",
+      "defense": "S35-S38 enseñan varias piezas y el texto de S39 las menciona.",
+      "verdict": "CONFIRMED_FINDING",
+      "why_it_matters": "La sección puede enseñar a aprobar por presencia documental en lugar de por evidencia. El learner-facing claim de cierre queda por encima de lo que el proyecto realmente demuestra.",
+      "minimal_repair": "Cambiar el You Do para consumir fixtures etiquetadas con timestamp, subgroup y costos; ejecutar baseline + candidato; producir calibration report; derivar threshold desde una función de costo; generar subgroup report; y bloquear readiness si cualquier evidencia falta o falla.",
+      "improved_content": "Entrega CP-N3-C solo cuando el bundle pueda reconstruir cinco pruebas: (1) baseline determinista y modelo candidato evaluados sobre el mismo holdout; (2) calibración medida con labels fuera de entrenamiento; (3) umbral seleccionado desde costos/utility declarados, no escrito a mano; (4) abstención y revisión humana demostradas sobre fixtures; y (5) desempeño por subgrupo con denominadores y soporte. El manifest referencia los artefactos y resultados; no puede declararse listo por mera presencia de archivos."
+    },
+    {
+      "id": "S39-F54",
+      "severity": "P0",
+      "surface": "youDo.starterCode:model-card.md/data-card.md/system-card.md",
+      "title": "El scaffold escribe métricas y conclusiones a mano, creando pseudo-evidencia",
+      "evidence": [
+        "'precision_at_k≈0.55; median_review_s≈90' se escribe como texto fijo.",
+        "'canal_app false_queue=0.08 override=0.10; canal_web false_queue=0.11 override=0.14' se escribe como texto fijo.",
+        "'alertas de drift de score y calibración' se declara sin que exista un monitor o cálculo de drift/calibración en el proyecto."
+      ],
+      "attack": "Una card debe resumir resultados derivados de artefactos verificables; hardcodear números permite que una entrega falsa parezca evaluada.",
+      "defense": "Los números están marcados como sintéticos/didácticos.",
+      "verdict": "CONFIRMED_FINDING",
+      "why_it_matters": "En una sección de trazabilidad y responsabilidad, enseñar a escribir la respuesta esperada dentro de la documentación es exactamente el hábito contrario al objetivo curricular.",
+      "minimal_repair": "Calcular las métricas desde fixtures y guardar un JSON/CSV de resultados; renderizar cards desde ese resultado o referenciarlo por hash.",
+      "improved_content": "La model card no contiene números escritos a mano. `evaluation.json` calcula precision@k, calibration bins, override_rate y métricas por slice desde fixtures versionadas; la card muestra esos valores y referencia `evaluation_sha256`. Si la evaluación no existe, la card declara `NOT_EVALUATED` y el gate queda bloqueado."
+    },
+    {
+      "id": "S39-F55",
+      "severity": "P1",
+      "surface": "youDo.objectives + append_audit + model-card text",
+      "title": "El proyecto promete override y apelación auditables, pero el audit no contiene los campos necesarios y la apelación no existe",
+      "evidence": {
+        "objective": "Overrides y apelaciones con audit log y cuidado de leakage en feedback",
+        "audit_fields_present": ["run_id", "case_id", "demo_path", "action", "score", "override", "human_only"],
+        "missing_for_reconstruction": ["event_id", "actor/reviewer_id", "reason", "timestamp", "automatic_action", "policy/model version", "threshold version", "appeal_of", "second_reviewer"],
+        "appeal_implementation": "No hay función ni evento de apelación; solo una frase en model-card.md."
+      },
+      "attack": "Un booleano `override` sin actor, razón, tiempo y versión no demuestra quién cambió qué ni bajo qué política; una frase de card no implementa contestabilidad.",
+      "defense": "El run_id y case_id permiten cierta correlación didáctica.",
+      "verdict": "CONFIRMED_FINDING",
+      "minimal_repair": "Definir schema de AuditEvent append-only y AppealEvent; exigir reviewer distinto en apelación y referenciar decisión original.",
+      "improved_content": "Cada override persiste `event_id`, `case_id`, `auto_action`, `final_action`, `actor_id`, `reason`, `decided_at`, `model_run_id` y `policy_version`. Una apelación crea un nuevo evento `appeal_opened` que referencia `decision_event_id` y solo puede cerrarse con `reviewer_id` distinto del revisor original."
+    },
+    {
+      "id": "S39-F56",
+      "severity": "P1",
+      "surface": "youDo.starterCode:EvidencePacket",
+      "title": "El evidence packet final pierde incertidumbre, lineage y proveniencia que la teoría dice necesitar",
+      "evidence": {
+        "packet_fields": ["case_id", "score", "graph_path", "evidence", "label_space", "auto_fraud"],
+        "missing": ["uncertainty", "model_run_id", "model_version", "graph_version", "as_of/decision_time", "evidence_id/source references", "explanation provenance"]
+      },
+      "attack": "El proyecto independiente debería ser más estricto que los ejemplos, no menos. Sin lineage el revisor no puede reconstruir el score o el path.",
+      "defense": "El packet es deliberadamente pequeño y sintético.",
+      "verdict": "CONFIRMED_FINDING",
+      "minimal_repair": "Expandir el packet con referencias, no dumps: ids/versiones/tiempo y un bloque de uncertainty versionado.",
+      "improved_content": "El packet final separa hechos observados (`evidence_refs`), path (`graph_version`, `edges`), modelo (`model_run_id`, `model_version`, `score`) e incertidumbre (`method`, `value`, `reference_version`). Ninguna capa se puede inferir de texto libre."
+    },
+    {
+      "id": "S39-F57",
+      "severity": "P1",
+      "surface": "youDo.objectives + starterCode",
+      "title": "Registry, SemVer y ownership desaparecen del proyecto independiente",
+      "evidence": "El objetivo exige 'Registry de versiones/owners con semver y bump major en breaking', pero el starter solo tiene STAGES y texto de owners en system-card.md; no existe registry.json, parser SemVer, public API contract, compatibility check ni gate de owner resoluble.",
+      "attack": "Un objetivo que no deja artefacto ni prueba en You Do no es evaluable.",
+      "defense": "El tema fue practicado en I Do/We Do.",
+      "verdict": "CONFIRMED_FINDING",
+      "minimal_repair": "Agregar registry.json versionado y tests que validen conjunto obligatorio, SemVer y compatibility policy por artefacto.",
+      "improved_content": "Incluye `registry.json` con ER, graph schema, feature set, ranker, calibrator/threshold policy y packet schema. Cada entrada tiene `artifact_id`, versión SemVer, owner resoluble, public contract y compatibility policy; el gate falla si falta una entrada o un breaking change no incrementa MAJOR."
+    },
+    {
+      "id": "S39-F58",
+      "severity": "P1",
+      "surface": "youDo.objectives + starterCode",
+      "title": "El checklist de privacidad/fairness/seguridad se reduce a declaraciones en cards",
+      "evidence": "El objetivo exige checklist firmable; el scaffold no ejecuta RBAC, secrets scan, input limits/URL policy, minimización de schema ni cálculo de fairness. Solo escribe frases como 'sin PII real' y métricas por slice hardcodeadas.",
+      "attack": "Los controles de release deben derivarse de tests o evidencia; texto libre no distingue un sistema protegido de uno no probado.",
+      "defense": "Los fixtures son locales y sintéticos, reduciendo riesgo real.",
+      "verdict": "CONFIRMED_FINDING",
+      "minimal_repair": "Crear risk_evidence.json derivado de tests de schema, autorización, secretos, input policy y fairness; gate fail-closed.",
+      "improved_content": "`risk_evidence.json` referencia cada prueba ejecutada: minimización de campos, autorización por rol, scanner de secretos, límites/tipos de adjuntos y URL policy, además de métricas por slice con denominador y soporte. `release_ok` se calcula desde esos resultados; ningún booleano escrito manualmente cuenta como evidencia."
+    },
+    {
+      "id": "S39-F59",
+      "severity": "P1",
+      "surface": "youDo.starterCode:force_failure",
+      "title": "`force_failure` no demuestra drift, human_only ni rollback verificable",
+      "evidence": "El camino de incidente pone `human_only=True`, procesa los fixtures y después lanza RuntimeError. El except añade un evento con action='rollback', pero no carga ni verifica un bundle previo; tampoco existe métrica/ventana de drift ni test que una ruta automática quede bloqueada por policy.",
+      "attack": "Imprimir 'rollback' no revierte estado; activar un booleano no prueba que las acciones prohibidas sean imposibles.",
+      "defense": "Como laboratorio local, el ejemplo pretende ilustrar el flujo, no desplegar infraestructura real.",
+      "verdict": "CONFIRMED_FINDING",
+      "minimal_repair": "Modelar bundles versionados y policy mode; verificar hash del rollback target y tests negativos en human_only; separar drift event de incident event.",
+      "improved_content": "El incidente produce un `OpsEvent` tipado. La policy entra en `human_only` y un test prueba que ninguna ruta `auto_skip` o acción adversa puede ejecutarse. Si corresponde rollback, `rollback_bundle_id` debe existir en registry y sus hashes se verifican antes de cambiar el estado. Drift se calcula en una ruta distinta y nunca se deduce de `force_failure`."
+    },
+    {
+      "id": "S39-F60",
+      "severity": "P0",
+      "surface": "youDo.rubric vs course-state/capstones/CP-N3-C/RUBRIC.json",
+      "title": "La rúbrica visible de S39 contradice la rúbrica canónica del capstone",
+      "evidence": {
+        "visible_rubric": [
+          "25% alineación",
+          "20% correctitud",
+          "20% privacidad",
+          "15% casos de borde",
+          "10% código legible",
+          "10% documentación",
+          "bonus checklist",
+          "gate process",
+          "gate privacy"
+        ],
+        "canonical_rubric": {
+          "scale": "0-3",
+          "weights": {"correctness": 0.35, "robustness": 0.20, "maintainability": 0.25, "responsible_use": 0.20},
+          "gate_rule": "Promedio ponderado >= 2.4/3 y ningún criterio crítico < 2; cero P0."
+        }
+      },
+      "attack": "Dos rúbricas distintas para el mismo CP-N3-C hacen imposible saber qué evidencia decide el gate. Además, 'gate process/privacy' se renderiza bajo una columna titulada Peso aunque no es un peso.",
+      "defense": "La visible puede funcionar como guía formativa y la canónica como evaluación formal.",
+      "verdict": "CONFIRMED_FINDING",
+      "why_it_matters": "Esa distinción no está escrita; el alumno ve una sola 'Rúbrica de evaluación'.",
+      "minimal_repair": "Renderizar la rúbrica canónica o etiquetar explícitamente una checklist formativa separada del gate; nunca mezclar porcentajes y tokens de gate en la misma columna.",
+      "improved_content": "Rúbrica CP-N3-C (canónica, escala 0–3): Correctitud 35%, Robustez 20%, Mantenibilidad 25%, Uso responsable 20%. Gate: promedio ponderado ≥2.4/3, ningún criterio crítico <2 y cero P0. Debajo, en una tabla distinta, muestra la checklist formativa (e2e, override, OOD, regresión, privacidad) como evidencia requerida, sin llamarla peso."
+    },
+    {
+      "id": "S39-F66",
+      "severity": "P1",
+      "surface": "selfCheck",
+      "title": "El autocheck de cinco preguntas de reconocimiento no mide los outcomes ni el gate de una sección integradora",
+      "evidence": "Los cinco ítems preguntan label_space, CF-3, packet, incident y SemVer. No evalúan baseline, calibración vs threshold, costo/utility, fairness con soporte, audit fields/appeal, drift vs performance degradation, provenance, cards derivadas ni lectura de evidencia ejecutada.",
+      "attack": "Un alumno puede aprobar 70% reconociendo vocabulario y seguir sin poder defender el capstone que la sección dice cerrar.",
+      "defense": "El proyecto You Do debería ser la evaluación auténtica principal.",
+      "verdict": "CONFIRMED_FINDING",
+      "minimal_repair": "Convertir autocheck en diagnóstico de 8-10 ítems con microcasos y separar claramente 'quiz de recuerdo' de 'gate CP-N3-C'.",
+      "improved_content": "El autocheck se etiqueta como diagnóstico, no como gate. Incluye microcasos donde el alumno debe: distinguir calibración de threshold; detectar leakage; escoger la acción ante incident vs drift; identificar campos faltantes de audit/packet; interpretar una métrica por slice con denominador; y rechazar un manifest que declara resultados sin evidence refs."
+    },
+    {
+      "id": "S39-F67",
+      "severity": "P2",
+      "surface": "selfCheck.question[3]",
+      "title": "La pregunta de incidente fusiona `human_only` y rollback como si fueran una sola respuesta obligatoria",
+      "evidence": "La opción correcta es 'human_only / rollback a artefacto previo'.",
+      "attack": "Human-only es un modo de seguridad inmediato; rollback es un tratamiento separado que requiere un target compatible y puede no ser la primera o única acción.",
+      "defense": "En muchos incidentes ambos ocurren juntos y la explicación intenta enfatizar fail-closed.",
+      "verdict": "CONFIRMED_FINDING",
+      "minimal_repair": "Preguntar primero por el modo seguro inmediato y tratar rollback en otro ítem condicionado a bundle verificado.",
+      "improved_content": "Ante un incidente de política o seguridad, ¿qué cambio de modo debe ocurrir de inmediato? Respuesta: `human_only`, porque bloquea automatismos mientras investigas. El rollback es una decisión posterior y solo procede si existe un bundle anterior compatible y verificado."
+    },
+    {
+      "id": "S39-F68",
+      "severity": "P2",
+      "surface": "resources",
+      "title": "Parte de los recursos no enseña lo que la nota afirma o es demasiado genérica para S39",
+      "evidence": [
+        "El enlace 'Google Model Cards' ahora redirige al catálogo de model cards de Google DeepMind, no a una guía sobre cómo construir una card.",
+        "Python logging documenta una librería de logging general; no cubre por sí sola integridad/tamper resistance, actor attribution y separación de audit trail.",
+        "Twelve-Factor App es una guía de aplicaciones SaaS y no una referencia específica de control plane de Responsible ML.",
+        "CS50P y Py4E son recursos generales de Python; en una sección N3 avanzada añaden ruido y no remedian los conceptos críticos de triage responsable."
+      ],
+      "attack": "Los recursos deberían permitir al alumno cerrar exactamente las brechas del proyecto, no solo navegar a material prestigioso o general.",
+      "defense": "Algunos sirven como contexto amplio o pedagogía adicional.",
+      "verdict": "CONFIRMED_FINDING",
+      "minimal_repair": "Priorizar referencias directas: Model Cards paper/framework, NIST AI RMF Core/Playbook, scikit-learn calibration + threshold tuning, OWASP Logging Cheat Sheet; mover CS50P/Py4E a recursos generales del curso.",
+      "improved_content": "Recursos esenciales de S39: (1) NIST AI RMF Core/Playbook para human oversight, appeals, monitoring y go/no-go; (2) scikit-learn Probability Calibration para medir calibración; (3) scikit-learn Decision Threshold Tuning para separar probabilidad de decisión y seleccionar cortes por utilidad/costo; (4) Model Cards for Model Reporting para intended use, límites y desempeño por condiciones/subgrupos; (5) OWASP Logging Cheat Sheet para campos, integridad y protección de audit/security logs."
+    }
+  ],
+  "linked_existing_findings_reobserved": [
+    "S39-F04", "S39-F08", "S39-F10", "S39-F11", "S39-F13", "S39-F14", "S39-F15", "S39-F16", "S39-F20", "S39-F21", "S39-F22", "S39-F23", "S39-F25", "S39-F26", "S39-F28", "S39-F30", "S39-F31", "S39-F32", "S39-F33", "S39-F34", "S39-F35", "S39-F37", "S39-F38", "S39-F39", "S39-F40", "S39-F41", "S39-F42", "S39-F43", "S39-F47", "S39-F48", "S39-F50", "S39-F51", "S39-F52"
+  ],
+  "elements": [
+    {
+      "element_id": "S39-YD-context",
+      "component_type": "youdo_context_paragraph",
+      "current_content": "Entrega el sistema e2e sintético de triage para CASO-LIM-039. El bundle incluye contratos versionados, evidence packet, decisiones/overrides auditados, checklist de riesgo, modos human_only, demo de aceptación, cards y post mórtem. Incluye checklist de regresión S27–S39 y referencia a CF-3. Sin autofraude ni parentesco automático. Deja evidencia para revisión externa; no autodeclares la promoción de nivel.",
+      "issues": ["Promete artefactos y gates que el starter no produce o solo declara como texto."],
+      "comprehension_status": "major_revision",
+      "improved_content": "Entrega un bundle de CP-N3-C cuyo manifest enlace resultados ejecutados, no declaraciones. Debe incluir baseline y candidato evaluados sobre holdout; calibración medida; threshold derivado de costos/utility; evidence packets con lineage; audit y apelaciones reconstruibles; controles de privacidad/seguridad/fairness derivados de tests; demo happy/override/OOD; policy human_only y rollback verificado; cards generadas desde esos resultados; y regresión S27–S39 con comandos, hashes y estado. El expediente queda `pending_external_review`; tú no autodeclaras promoción.",
+      "justification": "Alinea el contexto con el contrato canónico y evita que el alumno confunda presencia de archivos con evidencia."
+    },
+    {
+      "element_id": "S39-YD-objectives",
+      "component_type": "youdo_objective_list",
+      "current_content": [
+        "Pipeline intake→queue con label_space needs_review y auto_fraud False",
+        "Registry de versiones/owners con semver y bump major en breaking",
+        "Evidence packet mínimo + explicación usable por revisor",
+        "Overrides y apelaciones con audit log y cuidado de leakage en feedback",
+        "Checklist de privacidad/fairness/seguridad firmable",
+        "Modos drift/incident + rollback versionado",
+        "Aceptación, tres demo paths, cards, métricas de valor y post mórtem blameless",
+        "Notas de regresión N3 y CF-3 sin autodeclarar promoción"
+      ],
+      "issues": ["Varios objetivos no tienen implementación/artefacto evaluable en starterCode.", "Falta explicitar baseline, calibración y threshold por costo aunque son requisitos canónicos CP-N3-C."],
+      "comprehension_status": "major_revision",
+      "improved_content": [
+        "Ejecutar un caso a través de intake→ER→grafo→features→score→queue conservando case_id, versiones y decision_time.",
+        "Evaluar baseline y modelo candidato sobre el mismo holdout y registrar resultados versionados.",
+        "Medir calibración en datos independientes y derivar el threshold desde costos/utility declarados.",
+        "Construir evidence packets con provenance, path, model_run e incertidumbre.",
+        "Persistir override y apelación como eventos reconstruibles con actor, razón, timestamp y segundo revisor.",
+        "Derivar privacidad/RBAC/secrets/input policy/fairness desde tests y reportes por slice.",
+        "Demostrar normal/drift/incident, human_only y rollback de bundle verificado.",
+        "Ejecutar aceptación/regresión S27–S39 y dejar CF-3 en pending_external_review."
+      ],
+      "justification": "Convierte outcomes nominales en resultados observables y cubre los requisitos que el brief/rubric sí exige."
+    },
+    {
+      "element_id": "S39-YD-requirements",
+      "component_type": "youdo_requirements",
+      "current_content": [
+        "E2e sintético reproducible en local-python",
+        "Cero auto-label de fraude o parentesco",
+        "Audit log de decisiones y overrides (incluyendo queue frente a skip por umbral)",
+        "Checklist regresión S27–S39 documentado",
+        "es-PE en prosa; sin secretos ni PII real",
+        "manifest declara self_declared_promotion=false hasta revisión externa"
+      ],
+      "issues": ["Los requisitos son demasiado débiles frente al capstone canónico y permiten cumplir con metadata estática."],
+      "comprehension_status": "major_revision",
+      "improved_content": [
+        "Fixture etiquetada/versionada con timestamp, subgroup, cost_fp y cost_fn.",
+        "Baseline + candidato + calibration report + threshold report ejecutados y enlazados por hash.",
+        "Cero acción adversa automática; human_only bloqueado por test negativo.",
+        "Audit/appeal event schema completo y append-only.",
+        "Risk evidence: minimización, RBAC, secret scan, input policy y fairness con soporte.",
+        "Regression manifest S27–S39 con comandos/resultados; CF-3 permanece pending_external_review."
+      ],
+      "justification": "Hace que el alumno no pueda satisfacer el gate con strings."
+    },
+    {
+      "element_id": "S39-YD-starter-EvidencePacket",
+      "component_type": "starter_code_contract",
+      "current_content": "EvidencePacket(case_id, score, graph_path, evidence, label_space='needs_review', auto_fraud=False)",
+      "issues": ["Falta uncertainty y lineage/provenance."],
+      "comprehension_status": "major_revision",
+      "improved_content": "EvidencePacket(case_id, decision_time, evidence_refs, graph_path, graph_version, model_run_id, model_version, score, uncertainty, label_space='needs_review', auto_fraud=False)",
+      "justification": "El packet debe permitir reconstrucción, no solo visualización."
+    },
+    {
+      "element_id": "S39-YD-starter-threshold",
+      "component_type": "starter_code_policy",
+      "current_content": "thr = 0.70",
+      "issues": ["Threshold hardcodeado; no existe evidencia de costo/utility ni selección en validation."],
+      "comprehension_status": "blocked",
+      "improved_content": "threshold = load_threshold('threshold-report.json'); assert threshold_report['derived_from'] in {'cost_matrix','declared_utility'}",
+      "justification": "Separa score/calibración de decisión y obliga a justificar el corte."
+    },
+    {
+      "element_id": "S39-YD-starter-audit",
+      "component_type": "starter_code_audit",
+      "current_content": "append_audit(... run_id, case_id, demo_path, action, score, override, human_only)",
+      "issues": ["No actor, reason, timestamp, auto_action, versions ni appeal reference."],
+      "comprehension_status": "blocked",
+      "improved_content": "append AuditEvent(event_id, run_id, case_id, auto_action, final_action, actor_id, reason, decided_at, model_run_id, policy_version, override, appeal_of)",
+      "justification": "Hace reconstruible el control humano."
+    },
+    {
+      "element_id": "S39-YD-starter-cards",
+      "component_type": "starter_code_documentation",
+      "current_content": "Cards con false_queue, override_rate, precision_at_k y median_review_s escritos como strings constantes.",
+      "issues": ["Pseudo-evidencia hardcodeada."],
+      "comprehension_status": "blocked",
+      "improved_content": "Generar cards desde evaluation.json/risk_evidence.json y referenciar sus hashes; si falta evaluación, mostrar NOT_EVALUATED y bloquear readiness.",
+      "justification": "Evita enseñar documentación performativa."
+    },
+    {
+      "element_id": "S39-YD-starter-regression",
+      "component_type": "starter_code_manifest",
+      "current_content": "regression_scope='S27-S39'; cf3_review='external'; self_declared_promotion=False",
+      "issues": ["Scope/reviewer son metadata estática; no hay run manifest ni resultados."],
+      "comprehension_status": "blocked",
+      "improved_content": "regression: {scope:'S27-S39', run_manifest:'regression.json', status: derived_from_results}; cf3: {status:'pending_external_review', reviewer_id:null, decision:null}",
+      "justification": "Un gate externo necesita evidencia y estado, no una etiqueta."
+    },
+    {
+      "element_id": "S39-YD-portfolio-note",
+      "component_type": "portfolio_note",
+      "current_content": "Cierre CP-N3-C + artefactos para regresión N3/CF-3. El expediente queda listo para revisión externa; no autodeclares promoción.",
+      "issues": ["Dice 'cierre CP-N3-C' aunque el scaffold no satisface el contrato canónico."],
+      "comprehension_status": "major_revision",
+      "improved_content": "Proyecto de evidencia para CP-N3-C. El bundle solo puede marcarse `ready_for_external_review` cuando los tests canónicos de baseline, calibración, threshold, abstención, subgrupos, seguridad y revisión humana estén verdes; la promoción sigue siendo externa.",
+      "justification": "Retira una declaración de cierre que hoy es más fuerte que la evidencia."
+    },
+    {
+      "element_id": "S39-YD-retrospective",
+      "component_type": "retrospective_paragraph",
+      "current_content": "Pregunta por audit, digest, auto_fraud=False, self_declared_promotion=false e impacto medible.",
+      "issues": ["No obliga a defender de dónde salieron calibration, threshold, subgroup metrics o cards."],
+      "comprehension_status": "major_revision",
+      "improved_content": "Antes de entregar, señala el archivo y hash que demuestra cada claim: baseline, calibración, threshold por costo, abstención, métricas por slice, override/apelación, human_only y rollback. Para cada número de una card, responde qué dataset/ventana/comando lo produjo. Si una respuesta es 'lo escribí en el markdown', el gate queda bloqueado.",
+      "justification": "La defensa oral debe girar alrededor de evidencia reconstruible."
+    },
+    {
+      "element_id": "S39-YD-rubric",
+      "component_type": "rubric_table",
+      "current_content": "Seis porcentajes (25/20/20/15/10/10) más 'bonus checklist', 'gate process' y 'gate privacy' bajo la columna Peso.",
+      "issues": ["Contradice RUBRIC.json canónico.", "Mezcla pesos y gates en la misma columna."],
+      "comprehension_status": "blocked",
+      "improved_content": "Usar la rúbrica canónica 0–3: correctness 35%, robustness 20%, maintainability 25%, responsible_use 20%; mostrar gate rule y P0 aparte. Checklist formativa separada sin columna Peso.",
+      "justification": "Un solo contrato de evaluación evita dos definiciones incompatibles de 'aprobar CP-N3-C'."
+    }
+  ],
+  "self_check_audit": [
+    {
+      "index": 1,
+      "current_question": "El label_space del triage N3 es preferentemente:",
+      "verdict": "MINOR_REPAIR",
+      "issue": "La opción correcta 'needs_review / prioridad de cola' mezcla el espacio de estados permitidos con el mecanismo de prioridad.",
+      "improved_question": "¿Qué debe representar `label_space` en el triage N3?",
+      "improved_options": ["Un veredicto de fraude", "Una relación de parentesco", "Estados de apoyo/revisión humana definidos por contrato, por ejemplo needs_review", "La posición numérica del caso en la cola"],
+      "improved_explanation": "`label_space` define qué decisiones/estados puede producir el sistema. La prioridad o bucket de cola es otra política que usa el score/threshold; no es el label_space."
+    },
+    {
+      "index": 2,
+      "current_question": "Sobre regresión S27–S39 y CF-3 en tu entrega de S39:",
+      "verdict": "REPAIR_REQUIRED",
+      "issue": "Es reconocimiento de una frase y no comprueba si el alumno sabe distinguir metadata de evidence.",
+      "improved_question": "¿Cuál de estos manifests deja CF-3 realmente listo para revisión externa?",
+      "improved_options": ["Uno que solo dice regression_scope=S27-S39", "Uno que enlaza comandos, commit, resultados, hashes e issues abiertos y mantiene status=pending_external_review", "Uno que pone promotion=True después del happy path", "Uno que borra fallos antes de exportar"],
+      "improved_explanation": "La regresión debe ser reproducible y el estado de CF-3 permanece pendiente hasta una revisión externa identificada."
+    },
+    {
+      "index": 3,
+      "current_question": "Evidence packet debe incluir:",
+      "verdict": "REPAIR_REQUIRED",
+      "issue": "La respuesta 'evidencia y path además del score' sigue siendo insuficiente para la reconstrucción que S39 dice exigir.",
+      "improved_question": "Si un revisor necesita reconstruir por qué un caso llegó a cola, ¿qué packet es defendible?",
+      "improved_options": ["Solo score", "Score + nombres de features", "Evidence refs + path/version del grafo + model_run/score + uncertainty + case/decision time", "API keys"],
+      "improved_explanation": "El packet necesita lineage suficiente para reconstruir hechos, camino y ejecución del modelo."
+    },
+    {
+      "index": 4,
+      "current_question": "Ante incidente grave el modo seguro es:",
+      "verdict": "REPAIR_REQUIRED",
+      "issue": "Fusiona human_only y rollback como una sola acción obligatoria.",
+      "improved_question": "Ante un incidente de política o seguridad, ¿qué cambio de modo debe ocurrir de inmediato?",
+      "improved_options": ["Mantener normal para no perder throughput", "human_only para bloquear automatismos mientras se investiga", "Recalibrar sin evidencia", "Etiquetar todos los casos"],
+      "improved_explanation": "Human-only es el control inmediato. Rollback es separado y solo procede hacia un bundle previo compatible y verificado."
+    },
+    {
+      "index": 5,
+      "current_question": "Un breaking change en graph_schema del triage exige:",
+      "verdict": "MINOR_REPAIR",
+      "issue": "La regla SemVer necesita que la parte afectada haya sido declarada parte del contrato/API pública.",
+      "improved_question": "Si `graph_schema` forma parte del contrato público versionado y un cambio elimina un tipo de nodo usado por packets existentes, ¿qué corresponde?",
+      "improved_options": ["Patch silencioso", "Major + owner + revalidación de compatibilidad/paths", "Borrar audit", "Cambiar solo el nombre del archivo"],
+      "improved_explanation": "SemVer solo tiene significado si se define la API/contrato público; un cambio incompatible allí exige MAJOR."
+    }
+  ],
+  "recommended_additional_self_check_items": [
+    "Microcaso calibración vs threshold: el modelo está calibrado pero la capacidad de cola cambió; decidir qué se recalibra y qué se retunea.",
+    "Microcaso de leakage temporal: identificar una feature disponible después de decision_time.",
+    "Microcaso de fairness: interpretar fp_rate por slice con n pequeño y exigir soporte/incertidumbre.",
+    "Microcaso de audit: escoger el evento que permite reconstruir un override/apelación.",
+    "Microcaso de drift: distinguir score/data drift de degradación de calibración con labels."
+  ],
+  "resource_audit": [
+    {"label": "Google Model Cards", "verdict": "REPLACE_OR_REFRAME", "reason": "La URL redirige a un catálogo de model cards de DeepMind; sirve como ejemplo de cards publicadas, no como guía suficiente de construcción.", "recommended": "Model Cards for Model Reporting + un ejemplo actual de model card."},
+    {"label": "NIST AI RMF", "verdict": "KEEP_AND_TARGET", "reason": "Muy alineado, pero la nota debe apuntar a Map 3.5, Measure 2/3 y Manage 4 para oversight, testing, appeals y monitoring."},
+    {"label": "SRE / embracing risk", "verdict": "KEEP_OPTIONAL", "reason": "Útil para trade-offs operativos, pero no reemplaza evaluación de riesgo AI ni threshold por costo del modelo."},
+    {"label": "SRE postmortem culture", "verdict": "KEEP", "reason": "Alineado con post mórtem blameless."},
+    {"label": "sklearn model evaluation", "verdict": "KEEP", "reason": "Útil para métricas, aunque la sección debe señalar las métricas concretas que necesita."},
+    {"label": "sklearn calibration", "verdict": "KEEP", "reason": "Directamente alineado con calibración."},
+    {"label": "Python logging (audit trail)", "verdict": "REPLACE_OR_SUPPLEMENT", "reason": "La librería logging no define por sí sola un audit trail robusto; agregar OWASP Logging Cheat Sheet y tratar logging.py como implementación básica."},
+    {"label": "Twelve-Factor App", "verdict": "MOVE_TO_OPTIONAL", "reason": "Demasiado general para los gates específicos de Responsible ML de S39."},
+    {"label": "Building ML Powered Applications", "verdict": "KEEP_OPTIONAL", "reason": "Contexto e2e útil, pero no sustituye fuentes normativas/técnicas del gate."},
+    {"label": "Incident management handbooks", "verdict": "REPAIR", "reason": "Etiqueta genérica sin autor/edición/enlace; no es localizable ni verificable."},
+    {"label": "TensorFlow Responsible AI", "verdict": "KEEP_OPTIONAL", "reason": "Toolkit amplio; debe indicarse qué módulo concreta fairness/oversight."},
+    {"label": "Coursera Machine Learning (Andrew Ng)", "verdict": "MOVE_TO_GENERAL_RESOURCES", "reason": "Demasiado general para una sección integradora avanzada."},
+    {"label": "deeplearning.ai — AI For Everyone", "verdict": "MOVE_TO_GENERAL_RESOURCES", "reason": "Framing general de producto, no remedia gates técnicos de S39."},
+    {"label": "MIT 6.036 Intro ML", "verdict": "MOVE_TO_GENERAL_RESOURCES", "reason": "Fundamentos ML valiosos, pero no el recurso más directo para la tarea de triage/gobernanza."},
+    {"label": "Harvard CS50P", "verdict": "MOVE_TO_GENERAL_RESOURCES", "reason": "Python introductorio, carga de navegación innecesaria en S39."},
+    {"label": "Py4E", "verdict": "MOVE_TO_GENERAL_RESOURCES", "reason": "Python introductorio, no responde a los problemas de S39."}
+  ],
+  "proposed_diff_groups": [
+    {"group": "CP-N3-C alignment", "targets": ["youDo.context", "youDo.objectives", "youDo.requirements", "youDo.starterCode"], "finding_ids": ["S39-F53", "S39-F54", "S39-F55", "S39-F56", "S39-F57", "S39-F58", "S39-F59"]},
+    {"group": "Canonical rubric", "targets": ["youDo.rubric"], "finding_ids": ["S39-F60"]},
+    {"group": "Assessment alignment", "targets": ["selfCheck"], "finding_ids": ["S39-F66", "S39-F67"]},
+    {"group": "Resource relevance", "targets": ["resources"], "finding_ids": ["S39-F68"]}
+  ],
+  "verdict": "REPAIR_REQUIRED"
+}
