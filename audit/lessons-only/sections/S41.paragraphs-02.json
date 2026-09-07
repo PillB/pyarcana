@@ -1,0 +1,185 @@
+{
+  "schema_version": "3.1.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S41",
+  "shard": "02/02",
+  "coverage": "16 of 33 theory/reference paragraphs",
+  "entries": [
+    {
+      "id": "S41-P018",
+      "location": "T2-A.p3",
+      "current_content": "`CASO-ARE-041-2A`: `POST /v1/jobs` usa `get_store` inyectado; el dominio no conoce FastAPI. Evidencia: montar el handler con dos stores fake y ver un side effect en cada uno. Sin PII ni secretos en el body de ejemplo. El subtema siguiente añade la validación 422 *antes* de llamar a ese dominio.",
+      "problems": ["S41-F03", "S41-F14", "S41-F18"],
+      "attack": "El texto llama evidencia a montar funciones stdlib y no demuestra que una ruta FastAPI real use la dependency ni que el 422 ocurra antes del side effect.",
+      "defense": "Dos stores fake sí muestran sustitución y el puente a validación es narrativamente correcto.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "`CASO-ARE-041-2A` usa el mismo caso sintético para comprobar una frontera real: una ruta `POST /v1/jobs` recibe un `JobStore` por `Depends`, y un dependency override sustituye el store de producción por dos fakes distintos sin tocar el handler ni el dominio. El test verifica que cada fake recibe exactamente el efecto esperado y que el módulo de dominio no importa FastAPI. El payload no contiene PII ni secretos. En T2-B se añade la validación Pydantic delante de esa misma ruta y un test comprueba que una petición inválida devuelve 422 **sin llamar al dominio ni modificar el store**.",
+      "justification": "Conecta DI y validation-order mediante observables reales en vez de dos demos desconectadas."
+    },
+    {
+      "id": "S41-P019",
+      "location": "T2-B.p1",
+      "current_content": "El handler delgado asume un body ya confiable: hay que **validar el esquema** antes del dominio (Pydantic en FastAPI). Campos requeridos, tipos y rangos. Un body incompleto devuelve **422** con detalle de campos — no 200 con defaults silenciosos. Después, **serializa una vista pública** (allow-list): nunca expongas `internal_key`, `db_pk` o secretos. OpenAPI debe **coincidir** con status y shape reales; si el código devuelve 422 y el doc dice 400, regenera el contrato.",
+      "problems": ["S41-F16", "S41-F17", "S41-F39"],
+      "attack": "El párrafo promete Pydantic, tipos/rangos y OpenAPI real, pero el executable posterior solo comprueba presencia de keys y filtra un dict.",
+      "defense": "La secuencia validar -> dominio -> vista pública -> documentación es conceptualmente excelente y la minimización de respuesta es correcta.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "El handler delgado debe recibir una entrada que el borde ya validó. En FastAPI, un modelo Pydantic declara **campos requeridos, tipos, rangos y política de campos extra**; una petición que no cumple ese contrato se rechaza antes de tocar el dominio. La salida también tiene contrato: un `response_model` o modelo equivalente expone solo campos públicos, de modo que `internal_key`, claves de base de datos y secretos no puedan aparecer por accidente. FastAPI usa esos modelos y los status declarados para construir OpenAPI, por lo que el test debe comparar tres cosas: respuesta real, modelo público y esquema generado. Si una diverge, no se 'regenera el doc' para ocultarlo: se decide cuál es el contrato correcto y se corrige la discrepancia.",
+      "justification": "Reemplaza una promesa de framework por el flujo causal concreto de validación/serialización/documentación."
+    },
+    {
+      "id": "S41-P020",
+      "location": "T2-B.p2",
+      "current_content": "Rutas que debes poder ejecutar en lab: body crudo + allow-set → `(422, error tipado)` si faltan campos; si es válido → vista sin campos internos. `internal_key` no aparece en la respuesta y el caso inválido no llama a `create_job`. Anti-patrón: 200 con leak u OpenAPI desalineado del comportamiento.",
+      "problems": ["S41-F16", "S41-F17", "S41-F18", "S41-F38"],
+      "attack": "La lista describe cuatro invariantes que el código no prueba: tipos/rangos, no side effect, OpenAPI y no-leak transversal.",
+      "defense": "Como acceptance criteria los cuatro son adecuados.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "En el laboratorio ejecuta esas invariantes sobre la **misma ruta FastAPI**. Caso inválido: `TestClient` envía un body ausente, de tipo incorrecto y fuera de rango; cada petición obtiene 422 y el fake de dominio conserva cero llamadas. Caso válido: la respuesta coincide con el modelo público y no contiene `internal_key`, ni siquiera anidado. Finalmente, inspecciona `app.openapi()` para confirmar que request, response y status documentados describen lo que los tests observaron. Un 200 con leak, un 422 después de crear el job o un OpenAPI que narra otra respuesta bloquean el subtema.",
+      "justification": "Hace observables todos los acceptance criteria del párrafo."
+    },
+    {
+      "id": "S41-P021",
+      "location": "T2-B.p3",
+      "current_content": "`CASO-ARE-041-2B`: job sintético `er-run` con `priority`; sin `priority` ⇒ 422; `public_view` elimina `internal_key`. Evidencia: dos rutas (válida/inválida) y `internal_key_leaked == False`. Con el contrato de request/response cerrado, T3 decide *cuándo* el trabajo sale del request (async/background).",
+      "problems": ["S41-F16", "S41-F18", "S41-F38"],
+      "attack": "Un booleano sobre una vista construida a mano no demuestra Pydantic, side-effect ordering ni ausencia de secretos en el resto de superficies.",
+      "defense": "El caso válido/inválido y el puente a execution boundary son correctos.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "`CASO-ARE-041-2B` conserva dos caminos mínimos, pero la evidencia sale del endpoint: un job sintético con `name` y `priority` válidos produce la respuesta pública; un body sin `priority`, con tipo incorrecto o fuera de rango produce 422 y cero llamadas al dominio. El test valida el objeto completo contra el modelo público, no solo la ausencia de una key concreta, y añade casos con secretos anidados para evitar un false green. Con request y response ya comprobados, T3 cambia de pregunta: cuánto trabajo puede permanecer dentro de la vida del request y qué parte necesita otra garantía de ejecución.",
+      "justification": "Cierra el salto entre una allow-list aislada y un contrato HTTP verificable."
+    },
+    {
+      "id": "S41-P022",
+      "location": "T3-A.p1",
+      "current_content": "El contrato HTTP puede ser correcto y aun así **bloquear el event loop**. **Async** brilla cuando el handler **espera I/O** (red, disco, DB): `await` libera el loop. El trabajo **CPU-bound** (parse pesado, crypto, score) o **durable** (job que debe sobrevivir al request) no debe esconderse en una coroutine del request. Y «worker/background» no es una sola cosa: son dos garantías distintas y necesitas nombrar cuál te falta. Una tarea *background* del propio framework corre en el mismo proceso, así que si es CPU-bound bloquea el loop igual que antes, y si el proceso se reinicia el trabajo se pierde sin dejar rastro. Para aislar CPU hace falta **otro proceso** (un pool o un worker aparte); para sobrevivir al reinicio hace falta que el trabajo esté **encolado de forma durable** antes de responder. Un trabajo que necesita las dos cosas necesita las dos piezas.",
+      "problems": [],
+      "attack": "Se buscó la simplificación habitual 'CPU=background' o 'BackgroundTasks=durable'.",
+      "defense": "El párrafo hace precisamente la distinción correcta entre I/O async, aislamiento CPU y durabilidad; además limita el alcance de tareas process-local.",
+      "verdict": "SIN_CAMBIO_DEFENDIDO",
+      "improved_content": null,
+      "justification": "Es uno de los párrafos técnicamente más fuertes de S41 y no debe degradarse para parecerse al código defectuoso."
+    },
+    {
+      "id": "S41-P023",
+      "location": "T3-A.p2",
+      "current_content": "Clasifica el trabajo (`io_wait` | `cpu_heavy` | `durable` | `sync_simple`) y documenta la boundary (`async` | `background` | `sync`). Si es durable o CPU, encola con `status=queued` y sal del request. Criterio: I/O usa await; CPU/durable no se “await” como si fuera red. Anti-patrón: score CPU en el path del POST o job durable solo en una lista de proceso.",
+      "problems": ["S41-F19", "S41-F20", "S41-F21", "S41-F39"],
+      "attack": "Después de separar garantías en p1, las colapsa de nuevo en una sola dimensión boundary y dice encolar CPU/durable como si fueran la misma necesidad.",
+      "defense": "La advertencia contra durable-list y CPU inline es correcta.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "Clasifica dos propiedades por separado. Primero, **cómo se ejecuta**: I/O puede esperar con `async`; CPU pesado puede requerir otro proceso si bloquearía el event loop; trabajo pequeño puede ser síncrono. Segundo, **qué durabilidad necesita**: si el resultado debe sobrevivir al request o al reinicio, el comando se escribe en un store/cola durable antes de responder, independientemente de que después lo ejecute un proceso CPU o un worker de I/O. Documenta ambas decisiones (`execution_boundary` y `durability`) en vez de usar una sola etiqueta `background`. Un job durable guardado solo en una lista de proceso bloquea el gate aunque la respuesta diga `status=queued`.",
+      "justification": "Convierte la distinción conceptual de p1 en un esquema que el código puede implementar sin ambigüedad."
+    },
+    {
+      "id": "S41-P024",
+      "location": "T3-A.p3",
+      "current_content": "`CASO-ARE-041-3A`: GET ligero → async/sync de I/O; score CPU → `background` + item en cola. Evidencia: tabla kind→boundary y `qlen`. Sin PII en ids de job. El siguiente subtema cubre qué pasa cuando el trabajo **excede el presupuesto de tiempo** y hay que cerrar recursos.",
+      "problems": ["S41-F19", "S41-F20", "S41-F21"],
+      "attack": "Presenta qlen de una lista como evidencia de durable/background y vuelve a llamar background al aislamiento CPU.",
+      "defense": "El escenario conecta el request con timeout/lifecycle del siguiente subtema.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "`CASO-ARE-041-3A` compara tres observables. Un GET que espera I/O puede usar `async`; un cálculo CPU pesado se ejecuta fuera del event loop y se comprueba que otro request siga progresando; un job durable se inserta en un store local persistente y reaparece después de cerrar y reabrir el proceso de prueba. Si el mismo job necesita CPU y durabilidad, el registro durable precede al despacho al worker. La evidencia ya no es `qlen` de una lista: son resultados de concurrencia y reapertura ligados al mismo `job_id` sintético. T3-B añade el presupuesto de tiempo y el cierre del recurso sobre esos boundaries reales.",
+      "justification": "Reemplaza la señal cosmética qlen por las dos propiedades que el learner debe poder demostrar."
+    },
+    {
+      "id": "S41-P025",
+      "location": "T3-B.p1",
+      "current_content": "Cuando el worker o el upstream tarda de más, el cliente no debe recibir un stack ni un email. Un error de API es **estable y seguro**: código de máquina, título sin PII y `trace_id` para correlacionar (**RFC 9457 Problem Details**: `type`, `title`, `status`, `trace_id`). Los **timeouts** van en cascada: `client > service > db/upstream`, para que el más interno cancele primero. El **lifecycle** (startup/shutdown o lifespan de FastAPI) abre pools una vez y los cierra en `finally`/shutdown.",
+      "problems": ["S41-F22", "S41-F23"],
+      "attack": "Atribuye trace_id al set estándar de RFC 9457 y no menciona media type; mezcla estándar y extensión del servicio.",
+      "defense": "Stable safe errors, timeout nesting y lifecycle single-open/single-close son buenos principios.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "Cuando un worker o upstream tarda demasiado, el cliente necesita un error estable, no un stack ni datos personales. **RFC 9457 Problem Details** define miembros estándar como `type`, `title`, `status`, `detail` e `instance`, servidos como `application/problem+json`; tu API puede añadir extensiones propias, por ejemplo `trace_id`, siempre que las documente y no exponga PII. Los timeouts se presupuestan de dentro hacia fuera para que una dependencia tenga oportunidad de fallar antes del deadline del caller, pero esa desigualdad solo es configuración: el test debe provocar un timeout real y observar cancelación. El `lifespan` de FastAPI abre recursos compartidos una vez y garantiza su cierre al terminar la aplicación.",
+      "justification": "Corrige el estándar y conecta configuración de timeout/lifecycle con observables."
+    },
+    {
+      "id": "S41-P026",
+      "location": "T3-B.p2",
+      "current_content": "Presupuesto válido: `client_timeout_ms > service_budget_ms > db_budget_ms`. Ante timeout: cancela, cierra el recurso (`resource_closed=True`) y emite payload tipado sin PII. Anti-patrón: budgets invertidos, 500 genérico con stack, o shutdown que deja sockets abiertos. El lab prueba ambos caminos (ok y timeout) y exige `finally`.",
+      "problems": ["S41-F24", "S41-F25", "S41-F26"],
+      "attack": "La teoría promete cancel/close pero el helper solo compara floats y el lifecycle se imprime; además orden negativo puede pasar.",
+      "defense": "El orden de presupuesto es un buen invariance check si se valida el dominio.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "Antes de comparar la cascada, valida que cada timeout sea finito y positivo y documenta el margen que el servicio reserva para serializar el error y liberar recursos. El test de éxito ejecuta una dependencia rápida; el test de fallo usa una dependencia local deliberadamente lenta y verifica que el deadline corta la espera, que la tarea recibe cancelación y que el recurso queda cerrado **después** de salir del contexto. El error público valida contra el modelo Problem Details y una prueba de privacidad comprueba que el stack, email y secretos del error interno no aparecen en el response. Una desigualdad de tres números, por sí sola, no satisface ninguno de esos gates.",
+      "justification": "Distingue config validity de ejecución de timeout/cleanup."
+    },
+    {
+      "id": "S41-P027",
+      "location": "T3-B.p3",
+      "current_content": "`CASO-ARE-041-3B`: el job sintético supera el budget de servicio → `UPSTREAM_TIMEOUT` + `trace_id` sintético; pool cerrado en ambos caminos. Evidencia: dict Problem-Details-like y `cascade_ok`. Con errores tipados, T4 pregunta *en qué capa de test* se detecta un fallo sembrado.",
+      "problems": ["S41-F24", "S41-F25", "S41-F37"],
+      "attack": "Afirma pool cerrado sin pool y trata dict+trace_id como suficiente evidence de timeout/trace.",
+      "defense": "El error sintético y el puente a seeded failures son narrativamente útiles.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "`CASO-ARE-041-3B` provoca un upstream lento dentro de un test local. La llamada termina por el timeout configurado y devuelve un `application/problem+json` seguro con `type`, `title`, `status` y una extensión `trace_id`; el recurso fake registra `closed=True` únicamente cuando su método `close()` fue ejecutado. El test también conserva un `span_id` o registro de span para que el trace sea más que un identificador suelto. Esa evidencia —respuesta, elapsed/cancel y estado real del recurso— alimenta T4, donde se sembrarán fallos que cada capa de tests debe detectar.",
+      "justification": "Exige los tres observables prometidos: wire error, cancellation y lifecycle."
+    },
+    {
+      "id": "S41-P028",
+      "location": "T4-A.p1",
+      "current_content": "Ya tienes contratos, DI, 422 y timeouts: falta **demostrar** que un fallo se atrapa en el nivel correcto. La **pirámide** responde tres preguntas. **Unit**: ¿la regla de dominio (idempotencia, redaction) se cumple con fakes? **Contract**: ¿status, schema OpenAPI y headers se mantienen ante el handler? **Integration**: ¿el adapter controlado (DB en memoria, temp) cablea sin red externa? Un solo “e2e” no localiza el diseño roto.",
+      "problems": ["S41-F01", "S41-F30", "S41-F39"],
+      "attack": "Empieza 'ya tienes' pese a que los subtemas previos no demostraron DI/422/timeouts en el executable actual; además los términos se acumulan.",
+      "defense": "La taxonomía de tres preguntas por test layer es muy buena y un E2E único sí dificulta diagnóstico.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "T4 solo puede empezar cuando los contratos anteriores tienen tests verdes; en el contenido actual esos gates deben considerarse abiertos, no asumidos. La **capa unitaria** pregunta si una regla de dominio se cumple sin framework. La **capa de contrato HTTP** usa el handler/FastAPI para verificar status, headers y schemas públicos. La **capa de integración** conecta un adaptador real controlado —por ejemplo SQLite temporal— y comprueba transacciones, persistencia o wiring que un fake no puede demostrar. Un E2E final puede recorrer todo el camino, pero no sustituye esas capas porque localiza peor la causa del fallo.",
+      "justification": "Conserva el excelente modelo de test layers y elimina la falsa presuposición de gates ya ganados."
+    },
+    {
+      "id": "S41-P029",
+      "location": "T4-A.p2",
+      "current_content": "Siembra un bug (`domain` o `http`) y exige que el nivel correcto lo detecte: domain→unit, http→contract. Forma de pirámide: `unit >= contract >= integration` en conteo. Anti-patrón: solo unit sin contract, o integration que enmascara un 200 en create. El lab imprime la tabla seed→level y `shape_ok`.",
+      "problems": ["S41-F27", "S41-F28", "S41-F29"],
+      "attack": "La pirámide se convierte en un gate de cantidades y 'sembrar bug' se reduce a comparar nombres de strings; integration ni tiene bug propio.",
+      "defense": "Seeded defects y una base amplia de pruebas rápidas son ideas pedagógicas defendibles.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "Siembra **cambios reales** y observa qué suite falla. Cambia una regla pura de idempotencia: debe romper una prueba unitaria. Cambia `POST /v1/jobs` de 201 a 200 o desalinear su schema: debe romper el test de contrato con `TestClient`. Rompe una constraint/transacción del adaptador SQLite: debe fallar integración. La idea de una pirámide recuerda que las pruebas rápidas y aisladas suelen ser más numerosas, pero no conviertas `unit >= contract >= integration` en requisito numérico: el gate es que cada riesgo crítico tenga la prueba más barata que pueda detectarlo y que ninguna capa obligatoria falte.",
+      "justification": "Sustituye un count heuristic gamificable por seeded behavior con localización causal."
+    },
+    {
+      "id": "S41-P030",
+      "location": "T4-A.p3",
+      "current_content": "`CASO-ARE-041-4A`: seed de regla de dominio falla en unit; seed de status 200 en create falla en contract. Sin red externa obligatoria. El cierre de sección (T4-B) añade lo que el test de contrato no cubre solo: **429**, consumidor v1 y traza sin PII.",
+      "problems": ["S41-F27", "S41-F29", "S41-F30"],
+      "attack": "La prose describe actual seeded failures pero canonical code no los ejecuta y no hay integration seed.",
+      "defense": "Los dos seeds elegidos mapean bien a unit y contract.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "`CASO-ARE-041-4A` guarda tres mutaciones reproducibles en fixtures o tests: una rompe una regla de dominio y falla solo unit; otra cambia el status de creación y falla el contrato HTTP; la tercera rompe una garantía del adaptador temporal y falla integración. `pytest` ejecuta las suites sobre el código real, no sobre una función que recibe el nombre del bug. Sin red externa obligatoria. T4-B añade compatibilidad con un consumidor v1 congelado, limitación temporal de requests y telemetría segura; esas propiedades tampoco pueden aprobarse con flags impresos.",
+      "justification": "Cierra el hueco integration y vuelve literal la idea de seeded bug."
+    },
+    {
+      "id": "S41-P031",
+      "location": "T4-B.p1",
+      "current_content": "El gate CP-N4-A no solo pide create idempotente: pide que un **cliente v1** siga leyendo y que el abuso no tire el servicio. **Compatibilidad de lectura**: campos estables (`job_id`, `status`) no se renombran ni se quitan sin versión. **Rate limiting** (idea de token bucket) responde **429** con `retry_after_s` cuando `used > limit` — no 500 opaco. **Observabilidad**: `trace_id` correlaciona request→job→resultado; logs **sin PII** (ni DNI, ni email, ni secretos).",
+      "problems": ["S41-F02", "S41-F31", "S41-F32", "S41-F33", "S41-F35", "S41-F37"],
+      "attack": "Llama CP-N4-A a un gate prematuro, reduce compatibilidad a nombres de campos, rate limiting a un contador sin tiempo y trace a un ID suelto.",
+      "defense": "Los tres ejes elegidos —compatibilidad, protección contra abuso y observabilidad— son apropiados para cerrar S41.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "El **gate local de S41**, como incremento hacia CP-N4-A/S43, añade tres pruebas. Primero, un consumidor v1 congelado debe seguir funcionando con la respuesta candidata; eso cubre no solo nombres de campos, sino tipos, requiredness, enums, errores, orden/paginación y demás semántica que el consumidor observa. Segundo, el limitador opera sobre una identidad y una ventana temporal reales; al exceder la política responde **429** y, cuando conoce el momento seguro para reintentar, comunica `Retry-After`. Tercero, la observabilidad propaga `trace_id` y `span_id` desde request hacia job y resultado, mientras una allow-list de telemetría impide registrar PII o claves internas. Aprobar S41 no equivale todavía a aprobar CP-N4-A.",
+      "justification": "Corrige simultáneamente capstone scope, compatibility, rate semantics y trace semantics."
+    },
+    {
+      "id": "S41-P032",
+      "location": "T4-B.p2",
+      "current_content": "Tabla de decisión: `used=73, limit=100` ⇒ allow y `remaining=27`; `used=110` ⇒ **429**. Consumidor v1 debe seguir parseando `job_id`/`status`. Traza segura: ban-list `email|dni|secret`. Anti-patrón: silenciar el 429, romper campos v1 o loguear PII “para depurar”.",
+      "problems": ["S41-F31", "S41-F32", "S41-F33", "S41-F34", "S41-F35", "S41-F36"],
+      "attack": "Todos los tests descritos son nominales y false-greenean sin tiempo, inputs válidos, consumer execution ni content-aware privacy.",
+      "defense": "La tabla 73/100 vs 110/100 es un buen primer ejemplo de allow/throttle.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "La tabla nominal se conserva, pero cada fila incluye `client_id`, inicio/fin de ventana y contador válido: 73 de 100 dentro de la ventana ⇒ allow con 27 restantes; el siguiente request que supera el límite ⇒ 429 y un `Retry-After` coherente con el reset. Valores negativos, no finitos o policy inválida se rechazan como configuración/telemetría corrupta, no se convierten en allow. El consumidor v1 ejecuta código real contra la respuesta y una batería de cambios incompatibles. Para logs y spans usa **allow-list de campos y validación de valores/nesting**; una ban-list que solo busca keys llamadas `email`, `dni` o `secret` no detecta PII escondida en `message`, aliases o mayúsculas distintas.",
+      "justification": "Amplía el ejemplo nominal a los edge cases que actualmente producen false greens reproducibles."
+    },
+    {
+      "id": "S41-P033",
+      "location": "T4-B.p3",
+      "current_content": "`CASO-ARE-041-4B` (oficina Arequipa): cuota sintética 100; traza `tr-are-041` sin email. Evidencia: dos decisiones de rate + `trace_ok`. Con T1–T4 cerrados, el You Do ensambla create/replay/conflict + 422 + GET en un solo lab de portafolio.",
+      "problems": ["S41-F30", "S41-F33", "S41-F36", "S41-F37", "S41-F38"],
+      "attack": "Dos dicts y trace_ok no prueban tasa, trace ni ausencia de PII; además afirma T1-T4 cerrados aunque múltiples gates siguen sin evidencia.",
+      "defense": "El párrafo intenta sintetizar el caso y conectar con el artefacto posterior, que es pedagógicamente apropiado.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "`CASO-ARE-041-4B` cierra **solo cuando** los tests integrados producen evidencia reproducible: un limitador con reloj simulado demuestra allow, throttle y reset de ventana; el consumidor v1 procesa la respuesta candidata; el request y el job comparten trace context con spans distintos; y los esquemas de response/error/log/trace rechazan PII y claves internas mediante casos adversos. Esos tests se añaden al create/replay/conflict, 422 y GET de los subtemas anteriores. Si cualquiera falla, T1–T4 siguen abiertos y el artefacto de portafolio se presenta como incompleto, no como CP-N4-A aprobado.",
+      "justification": "Convierte el cierre narrado en un verdadero gate compuesto y evita la promoción prematura."
+    }
+  ]
+}
