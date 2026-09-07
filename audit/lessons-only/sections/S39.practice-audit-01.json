@@ -1,0 +1,256 @@
+{
+  "schema_version": "3.3.0",
+  "section": "S39",
+  "scope": "I Do + We Do",
+  "audit_mode": "adversarial_anti_complacency",
+  "source": {
+    "repository": "PillB/pyarcana",
+    "main_commit": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+    "section_path": "src/lib/course/sections/s39-integrator-phase2.ts",
+    "existing_s39_findings": "S39-F01..S39-F52"
+  },
+  "confirmed_findings": [
+    {
+      "id": "S39-F61",
+      "severity": "P1",
+      "surface": "iDo",
+      "title": "I Do modela nombres, flags y listas en vez de modelar la ejecución que el alumno deberá defender",
+      "evidence": [
+        "Pipeline demo imprime una lista de stages; no ejecuta fronteras ni demuestra fail-closed.",
+        "Registry demo valida owner con truthiness y elige una política global por `any(breaking)`; no valida SemVer ni conjunto obligatorio.",
+        "Evidence demo cuenta claves y compara `keys == ['score']`; no valida provenance, uncertainty o valores.",
+        "Override demo usa `audit=True` en lugar de un evento reconstruible.",
+        "Risk demo deriva release de booleans escritos en el fixture.",
+        "Acceptance demo cuenta strings; no ejecuta criterios."
+      ],
+      "attack": "En Gradual Release, I Do debería mostrar el trabajo cognitivo y técnico de calidad que luego se pide en You Do. Aquí muestra versiones reducidas de los mismos anti-patrones que la teoría declara insuficientes.",
+      "defense": "Las demos son pequeñas para no sobrecargar y se complementan con We Do.",
+      "verdict": "CONFIRMED_FINDING",
+      "why_it_matters": "El alumno observa que 'demostrar' gobernanza consiste en imprimir nombres/booleans. Esa representación se transfiere directamente al scaffold final, donde varios gates siguen siendo metadata.",
+      "minimal_repair": "Cada I Do debe ejecutar un artefacto real mínimo: contract test, registry obligatorio, packet con refs/lineage, audit event, risk evidence, ops policy, acceptance manifest y cards derivadas de resultados.",
+      "improved_content": "En cada demo, el profesor no solo obtiene un PASS: muestra de qué evidencia sale. Antes de ejecutar, identifica el contrato; durante la demo, provoca un fallo real; después, sigue el `run_id` hasta el artefacto que prueba el resultado. Un nombre de stage, un booleano o una lista de criterios nunca cuentan como prueba por sí solos."
+    },
+    {
+      "id": "S39-F62",
+      "severity": "P1",
+      "surface": "weDo (24 ejercicios)",
+      "title": "We Do sobreentrena reparación de predicados y tokens exactos, no integración de Responsible ML",
+      "evidence": "Los 24 retos repiten el mismo molde E1/E2/E3: corregir una expresión booleana, separar `PASS/REJECT/MISSING` y producir una línea exacta. La mayor parte del trabajo es membership, truthiness, set/list comparison o ramas `if`, mientras los objetivos de S39 exigen lineage, calibración, threshold por costo, audit durable, fairness, rollback y regresión reproducible.",
+      "attack": "La práctica guiada debe retirar apoyo de forma progresiva y acercarse a la tarea final; aquí la complejidad de dominio queda reemplazada por una gramática de tokens.",
+      "defense": "El patrón repetido hace visibles los estados de error y refuerza fail-closed.",
+      "verdict": "CONFIRMED_FINDING",
+      "why_it_matters": "Se puede dominar la plantilla `MISSING/REJECT/CONTINUE` sin saber producir o auditar el sistema. Es práctica de superficie con baja transferencia.",
+      "minimal_repair": "Conservar E1 como micro-repair, convertir E2 en diagnóstico sobre artefactos reales y E3 en integración entre dos o más contratos con evidence refs.",
+      "improved_content": "E1 corrige un bug local. E2 recibe artefactos reales y debe diagnosticar por qué fallan. E3 integra la salida de un subtema con el siguiente y obliga a persistir evidencia. El éxito deja un archivo o evento que el You Do reutiliza; no solo una línea de texto."
+    },
+    {
+      "id": "S39-F63",
+      "severity": "P1",
+      "surface": "weDo.solutionCode",
+      "title": "Varias soluciones de We Do producen falsos PASS frente a los edge cases que el propio ejercicio afirma cubrir",
+      "evidence": [
+        "S39-T1-B-E3: `decide(reg)` recorre las entradas presentes pero nunca compara contra el conjunto obligatorio; un registry sin `ranker` puede devolver CONTINUE aunque el texto dice 'Registry completo o escala'.",
+        "S39-T4-A-E1: la solución exige solo `no_auto_fraud_label`, `e2e_synthetic_run` y `audit_log`; puede PASS sin baseline, abstention_path o regression_smoke_s27_s39 aunque la lista tenga seis criterios.",
+        "S39-T4-B-E2: `assess` solo exige `override_rate`; puede PASS sin `precision_at_k` ni `median_review_s`, contradiciendo el bloque teórico de métricas de valor.",
+        "S39-T1-A-E2: auto_fraud=True y stage order incorrecto comparten `REJECT_STAGE_ORDER`; el retrospective promete tickets distintos pero el código no los distingue."
+      ],
+      "attack": "Un ejercicio de validación que acepta el adverso enseña exactamente el contrato incorrecto.",
+      "defense": "Los fixtures felices/invalid/incomplete usados en la salida prevista sí pasan los asserts visibles.",
+      "verdict": "CONFIRMED_FINDING",
+      "why_it_matters": "El problema está oculto porque los tests del ejercicio prueban solo los ejemplos escritos; el alumno aprende a satisfacer casos nominales, no la especificación.",
+      "minimal_repair": "Añadir tests adversos derivados de cada edgeCases y hacer que el predicado valide la especificación completa, no el fixture mínimo."
+    },
+    {
+      "id": "S39-F64",
+      "severity": "P1",
+      "surface": "S39-T2-B-E2",
+      "title": "La apelación no comprueba que el segundo revisor sea distinto del primero",
+      "evidence": "El texto exige 'otro revisor' y 'segundo par de ojos', pero `assess` solo verifica `record.get('second_reviewer')`; ni siquiera existe `first_reviewer`/`reviewer_id` en el fixture.",
+      "attack": "Un mismo revisor puede llenar `second_reviewer` con su propio id y obtener reopen.",
+      "defense": "El ejercicio busca introducir primero la presencia del campo.",
+      "verdict": "CONFIRMED_FINDING",
+      "minimal_repair": "Incluir original_reviewer y second_reviewer, exigir identidad diferente y referenciar decision_event_id.",
+      "improved_content": "Una apelación es válida solo si referencia la decisión original y `second_reviewer_id != original_reviewer_id`. Si falta cualquiera, devuelve un error específico; no basta que el campo tenga texto."
+    },
+    {
+      "id": "S39-F65",
+      "severity": "P1",
+      "surface": "S39-T3-A-E3",
+      "title": "El ejercicio de fairness trata `fp_rate` ausente como 0 y puede aprobar una métrica que nunca se midió",
+      "evidence": "La solución usa `s.get('fp_rate', 0) > thr`. Si el slice existe pero no trae `fp_rate`, el valor por defecto 0 permite CONTINUE.",
+      "attack": "Missing de una métrica de fairness no es evidencia de ausencia de daño; debe fallar cerrado.",
+      "defense": "Los fixtures incluidos siempre traen `fp_rate`.",
+      "verdict": "CONFIRMED_FINDING",
+      "minimal_repair": "Validar schema de cada slice, soporte/denominador y uncertainty antes de comparar threshold.",
+      "improved_content": "Cada slice debe incluir `n`, `false_queue_count`, `false_queue_rate` y una medida de incertidumbre o, como mínimo, soporte suficiente. Si falta una métrica requerida, devuelve `REQUEST_SLICE_METRICS`; nunca uses 0 como valor por defecto."
+    }
+  ],
+  "i_do": {
+    "intro": {
+      "current_content": "Te muestro el cierre del nivel N3 en ocho demos: pipeline canónico, registry con owners, evidence packet, decisiones con override, checklist de riesgo, modos ops, aceptación/regresión y cards de valor. Todo con fixtures sintéticos; sin autodeclarar promoción ni CF-3.",
+      "attack": "Promete 'cierre' y ocho demos de sistema, pero las demos modelan principalmente estructuras nominales/flags.",
+      "defense": "La enumeración es clara y delimita los ocho subtemas.",
+      "verdict": "CONFIRMED_FINDING",
+      "finding_ids": ["S39-F61"],
+      "improved_content": "Te muestro ocho pruebas que luego tendrás que conectar en CP-N3-C. En cada una verás tres cosas: el contrato que debe cumplirse, un fallo que demuestra que el control realmente bloquea, y el artefacto que conserva la evidencia. El objetivo no es imprimir `PASS`, sino poder reconstruir por qué pasó o falló con el mismo `run_id`."
+    },
+    "demos": [
+      {
+        "demo_id": "S39-T1-A-DEMO",
+        "subtopic": "S39-T1-A",
+        "current_anchor": "`build_run` devuelve stages + label_space + auto_fraud; imprime la lista canónica.",
+        "attack": "No ejecuta stages, no valida input/output ni muestra que downstream se detiene al fallar ER.",
+        "defense": "Es una primera visualización del orden.",
+        "verdict": "CONFIRMED_FINDING",
+        "linked_findings": ["S39-F04", "S39-F06", "S39-F61"],
+        "paragraphs": {
+          "preamble": {"improved_content": "Antes de ejecutar, sigue `case_id` y `decision_time` por seis funciones mínimas. Predice qué archivo/evento deja cada frontera y qué etapas NO deben ejecutarse si ER falla. Luego provocaremos ese fallo para comprobarlo."},
+          "why": {"improved_content": "El orden no se demuestra con una lista: se demuestra cuando cada stage recibe la salida versionada del anterior y un contract test bloquea el siguiente si el contrato falla. `needs_review` describe el estado permitido; `auto_fraud=False` es una policy que debe probarse con un caso adverso."},
+          "retrospective": {"improved_content": "Señala en el trace qué stage consumió cada artefacto y qué evidencia confirma que no hubo ejecución downstream tras un fallo. Si solo puedes recitar el orden, todavía no demostraste el pipeline."}
+        }
+      },
+      {
+        "demo_id": "S39-T1-B-DEMO",
+        "subtopic": "S39-T1-B",
+        "current_anchor": "`registry_ok` exige owner truthy y `len(reg)>=2`; `semver_policy` depende de `any(breaking)`.",
+        "attack": "Puede aprobar un registry incompleto, no parsea SemVer y aplica política global en lugar de por artefacto/contrato público.",
+        "defense": "Introduce owner y breaking con poca carga.",
+        "verdict": "CONFIRMED_FINDING",
+        "linked_findings": ["S39-F08", "S39-F09", "S39-F10", "S39-F61"],
+        "paragraphs": {
+          "preamble": {"improved_content": "Construimos el registry obligatorio completo y comparamos `old_version` con `new_version` para un artefacto cuyo contrato público cambió. Predice qué entrada bloqueará release si falta owner o el bump no refleja compatibilidad."},
+          "why": {"improved_content": "SemVer solo informa compatibilidad cuando declaras qué interfaz es pública. Por eso el test valida conjunto obligatorio, owner resoluble, versión parseable y relación old→new por artefacto; no basta contar owners ni mirar un flag global."},
+          "retrospective": {"improved_content": "Elige una entrada del registry y explica: contrato público, cambio, versión anterior/nueva, owner y test que demuestra compatibilidad. Si falta uno, el release no está defendido."}
+        }
+      },
+      {
+        "demo_id": "S39-T2-A-DEMO",
+        "subtopic": "S39-T2-A",
+        "current_anchor": "Cuenta cuatro keys del packet, calcula bucket y compara n_queue_now con capacity.",
+        "attack": "Presencia de keys no prueba valores válidos; omite uncertainty/provenance y simplifica capacidad a nuevos casos <= cupos.",
+        "defense": "Ilustra el mínimo visual y separa threshold de score.",
+        "verdict": "CONFIRMED_FINDING",
+        "linked_findings": ["S39-F11", "S39-F13", "S39-F14", "S39-F15", "S39-F18", "S39-F19", "S39-F61"],
+        "paragraphs": {
+          "preamble": {"improved_content": "Arma un packet con `evidence_refs`, `graph_version/path`, `model_run_id/score` y `uncertainty`. Antes de mirar el bucket, predice cuál de esos campos permite a un revisor reconstruir la fuente y cuál permite saber si el caso está fuera de la referencia de validación."},
+          "why": {"improved_content": "Un packet no es válido porque tenga cuatro claves. Cada capa referencia un artefacto verificable. El threshold viene de un reporte de decisión; la carga de cola usa backlog y tasa de servicio además de arrivals."},
+          "retrospective": {"improved_content": "Toma un número o path del packet y sigue su lineage hasta el artefacto fuente. Si no puedes hacerlo, el packet todavía es decorativo."}
+        }
+      },
+      {
+        "demo_id": "S39-T2-B-DEMO",
+        "subtopic": "S39-T2-B",
+        "current_anchor": "Log con case_id/final/override/audit=True.",
+        "attack": "`audit=True` no es un audit event; no hay actor, razón, timestamp, acción automática ni versión.",
+        "defense": "Muestra precedencia humana con código corto.",
+        "verdict": "CONFIRMED_FINDING",
+        "linked_findings": ["S39-F20", "S39-F21", "S39-F22", "S39-F23", "S39-F61"],
+        "paragraphs": {
+          "preamble": {"improved_content": "Ejecuta primero la sugerencia automática y después un override humano. Antes de correr, predice qué campos debe contener el evento para demostrar quién cambió qué, por qué y bajo qué versión."},
+          "why": {"improved_content": "La precedencia humana solo es verificable si el cambio deja un evento durable con `auto_action`, `final_action`, `actor_id`, `reason`, `decided_at` y versiones. Un booleano `audit=True` afirma la propiedad sin demostrarla."},
+          "retrospective": {"improved_content": "Reconstruye la decisión solo a partir del evento persistido. Si necesitas mirar variables del proceso en memoria, el audit es insuficiente."}
+        }
+      },
+      {
+        "demo_id": "S39-T3-A-DEMO",
+        "subtopic": "S39-T3-A",
+        "current_anchor": "`risk_release_ok` combina cuatro booleans del fixture.",
+        "attack": "El gate se auto-certifica; no referencia tests de RBAC, minimización, secrets, inputs o fairness.",
+        "defense": "Hace visibles hard blockers en un ejemplo pequeño.",
+        "verdict": "CONFIRMED_FINDING",
+        "linked_findings": ["S39-F25", "S39-F26", "S39-F28", "S39-F48", "S39-F51", "S39-F61"],
+        "paragraphs": {
+          "preamble": {"improved_content": "En lugar de escribir flags, carga resultados de cinco pruebas: schema minimizado, autorización, scanner de secretos, input/URL policy y fairness report. Predice cuál falla cuando insertamos una API key sintética o quitamos el permiso reviewer."},
+          "why": {"improved_content": "Un gate responsable deriva de evidencia. Los booleans solo sirven como salida resumida del test, nunca como entrada autodeclarada."},
+          "retrospective": {"improved_content": "Para cada estado verde, nombra el test y artefacto que lo produjo. Si no existe esa cadena, el gate no está firmado: está escrito."
+          }
+        }
+      },
+      {
+        "demo_id": "S39-T3-B-DEMO",
+        "subtopic": "S39-T3-B",
+        "current_anchor": "`ops_mode` sobre incident/drift booleans y rollback string `prev_model`.",
+        "attack": "No muestra señal medida, policy enforcement ni bundle compatible de rollback.",
+        "defense": "La tabla incident>drift>normal es conceptualmente clara.",
+        "verdict": "CONFIRMED_FINDING",
+        "linked_findings": ["S39-F30", "S39-F31", "S39-F32", "S39-F33", "S39-F34", "S39-F61"],
+        "paragraphs": {
+          "preamble": {"improved_content": "Recibe un `OpsEvent` con métrica, ventana, threshold y runbook. Predice el modo resultante y qué acciones debe bloquear la policy. Después verifica un rollback target por id/hash."},
+          "why": {"improved_content": "Incident y drift no son booleans mágicos: son conclusiones de evidencia distinta. Human-only debe hacer imposibles acciones automáticas prohibidas; rollback debe apuntar a un bundle existente y compatible."},
+          "retrospective": {"improved_content": "Explica por qué un cambio de score distribution no prueba mala calibración y por qué human_only puede activarse aun sin rollback. Luego identifica el artefacto exacto al que revertirías."}
+        }
+      },
+      {
+        "demo_id": "S39-T4-A-DEMO",
+        "subtopic": "S39-T4-A",
+        "current_anchor": "Lista seis criterios y metadata regression/cf3/self_declared_promotion.",
+        "attack": "Cuenta nombres, no resultados ejecutados; faltan criterios canónicos de seguridad/fairness/leakage/resiliencia.",
+        "defense": "Aclara que promoción no se autodeclara.",
+        "verdict": "CONFIRMED_FINDING",
+        "linked_findings": ["S39-F35", "S39-F37", "S39-F38", "S39-F40", "S39-F52", "S39-F61"],
+        "paragraphs": {
+          "preamble": {"improved_content": "Abrimos un acceptance manifest donde cada criterio enlaza comando, fixture, commit, resultado y artefacto. Antes de ejecutar, predice qué status debe quedar si una sola prueba crítica falla."},
+          "why": {"improved_content": "Un criterio existe solo si fue ejecutado y su evidencia se conserva. El manifest resume resultados; no los sustituye. CF-3 queda pendiente aun con todos los tests verdes."},
+          "retrospective": {"improved_content": "Elige un criterio y repítelo desde cero usando solo el manifest. Si no puedes reconstruir el comando y resultado, la aceptación no es reproducible."}
+        }
+      },
+      {
+        "demo_id": "S39-T4-B-DEMO",
+        "subtopic": "S39-T4-B",
+        "current_anchor": "Lista names de cards, tres value keys hardcodeadas y valida postmortem por truthiness.",
+        "attack": "No crea cards ni deriva métricas; root_cause/actions son strings/listas no ligadas a evidencia.",
+        "defense": "Introduce estructura de cierre con baja carga.",
+        "verdict": "CONFIRMED_FINDING",
+        "linked_findings": ["S39-F41", "S39-F42", "S39-F43", "S39-F44", "S39-F45", "S39-F61"],
+        "paragraphs": {
+          "preamble": {"improved_content": "Genera una model/data/system card desde evaluation/risk/ops manifests y un post mórtem desde eventos del incidente. Predice qué claim debe desaparecer si no hay evidencia para sostenerlo."},
+          "why": {"improved_content": "Cards y post mórtem son vistas de artefactos, no sustitutos de medición. Cada métrica y acción debe tener fuente, ventana, owner y estado."},
+          "retrospective": {"improved_content": "Escoge una cifra de la card y una action del post mórtem; señala el archivo/evento que las origina. Si fueron escritas manualmente, no son evidencia de cierre."}
+        }
+      }
+    ]
+  },
+  "we_do": {
+    "intro": {
+      "current_content": "S39 · Laboratorio Responsible ML Case Triage: 24 retos locales. E1 repara un predicado de dominio; E2 separa válido, adverso y missing; E3 demuestra fail-closed con tokens de error exactos.",
+      "verdict": "CONFIRMED_FINDING",
+      "finding_ids": ["S39-F62"],
+      "improved_content": "S39 · Laboratorio CP-N3-C: 24 retos que aumentan fidelidad. E1 repara un bug local con test. E2 diagnostica artefactos reales y conserva evidence refs. E3 integra dos o más contratos y deja un archivo/evento reutilizable por You Do. Los tokens de error sirven para diagnóstico, pero el producto del ejercicio es evidencia ejecutada."
+    },
+    "steps": [
+      {"id":"S39-T1-A-E1","kind":"guided","title":"Orden canónico del pipeline N3","current_anchor":"Reemplazar `reversed(CANON)` por `CANON` y exigir flags.","issue_ids":["S39-F62"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"La meta actual es corregir una comparación de lista.","instruction":"Se concentra en igualdad de lista y dos flags.","feedback":"Afirma que el orden es el contrato del run.","retrospective":"Pregunta qué miente si ER va después del grafo."},"improved_content":"Implementa seis funciones mínimas de stage que devuelvan `StageResult`. Corrige el orden y agrega un test que hace fallar ER; demuestra que `relation_graph/features/model_score/queue` no se ejecutan después del fallo. Imprime el trace con `run_id` y el stage que bloqueó."},
+      {"id":"S39-T1-A-E2","kind":"independent","title":"Schema incompleto vs. orden adverso","current_anchor":"PASS / REJECT_STAGE_ORDER / MISSING:label_space.","issue_ids":["S39-F62","S39-F63"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Promete separar schema, orden y política.","instruction":"Valida missing y luego agrupa orden+policy.","feedback":"Dice que señales distintas producen tickets distintos.","retrospective":"Habla de tres tokens para tres fallos."},"improved_content":"Valida schema primero; después devuelve tokens distintos: `REJECT_STAGE_ORDER`, `REJECT_LABEL_SPACE`, `REJECT_AUTO_FRAUD`. Añade fixtures para cada fallo y un assert que garantiza que ningún problema de policy se diagnostica como orden de stages."},
+      {"id":"S39-T1-A-E3","kind":"transfer","title":"ER sin parentesco: fail-closed del pipeline","current_anchor":"REQUEST_STAGE_LIST / REJECT_ER_SCOPE / REJECT_STAGE_ORDER / CONTINUE.","issue_ids":["S39-F62"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Introduce alcance de ER.","instruction":"Decide por campos/flags.","feedback":"Rechaza parentesco inventado.","retrospective":"Vuelve a distinguir missing de breach."},"improved_content":"Haz que `er.resolve()` devuelva `EntityMatchEvidence` y que el stage rechace cualquier output cuyo `claim_type` no sea `same_entity`. Persiste el error con `run_id`; comprueba que el grafo no recibe el output rechazado. El objetivo es demostrar aislamiento de frontera, no solo devolver un token."},
+      {"id":"S39-T1-B-E1","kind":"guided","title":"Breaking change exige bump major","current_anchor":"Cambiar bump minor→major en un fixture con breaking=True.","issue_ids":["S39-F62"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Asume breaking ya calculado.","instruction":"Compara un string bump.","feedback":"SemVer major comunica breaking.","retrospective":"Pregunta quién recibe semver."},"improved_content":"Dado `old_schema` y `new_schema`, identifica el cambio incompatible en el contrato público, parsea `old_version/new_version` y comprueba que MAJOR aumentó. No recibas un flag `breaking` ya resuelto: demuestra por qué el cambio es breaking."},
+      {"id":"S39-T1-B-E2","kind":"independent","title":"Owner faltante vs. política de bump","current_anchor":"MISSING:owner vs REJECT_BUMP_POLICY.","issue_ids":["S39-F62"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Separa staffing y semver.","instruction":"Owner vacío se trata como missing.","feedback":"Checks independientes.","retrospective":"Pregunta qué token gana."},"improved_content":"Carga dos entradas de registry y valida `owner_id` contra un mapa de owners/contactos, además de la compatibilidad old→new. Un string arbitrario ya no basta como owner. Devuelve evidence refs del owner y del diff de contrato."},
+      {"id":"S39-T1-B-E3","kind":"transfer","title":"Registry completo o escala","current_anchor":"`decide(reg)` solo recorre `reg.values()` y luego CONTINUE.","issue_ids":["S39-F63"],"verdict":"BLOCKED","paragraph_level":{"preamble":"Afirma que el registry se libera entero.","instruction":"Dice 'registry completo'.","feedback":"Dice que un hueco bloquea release.","retrospective":"Dice que falta de owner no se compensa."},"improved_content":"Define `REQUIRED_ARTIFACTS = {er_engine, graph_schema, feature_set, ranker, calibrator_threshold_policy, packet_schema}`. Rechaza `MISSING_ARTIFACT:<name>` antes de revisar metadata. Luego valida owner, SemVer y compatibility policy por entrada. Añade un fixture que elimina `ranker` y exige rechazo."},
+      {"id":"S39-T2-A-E1","kind":"guided","title":"Packet mínimo con path y evidencia","current_anchor":"Bool de case_id + score key + listas no vacías.","issue_ids":["S39-F62","S39-F11","S39-F13"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Define packet mínimo como cuatro campos.","instruction":"Valida listas no vacías.","feedback":"Score huérfano no sirve.","retrospective":"Pregunta por score=0.99."},"improved_content":"Construye `evidence_refs` con ids y source hashes, `graph_path` con edge ids/version y `model_run_id`. El test guiado elimina una source ref y debe devolver `REQUEST_EVIDENCE_SOURCE`; no basta que la lista sea no vacía."},
+      {"id":"S39-T2-A-E2","kind":"independent","title":"Evidence vacía vs. path ausente","current_anchor":"MISSING:graph_path vs REJECT_PACKET_INCOMPLETE.","issue_ids":["S39-F62"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Distingue missing de vacío.","instruction":"Valida keys y listas.","feedback":"Tokens aceleran remediación.","retrospective":"Pregunta si es mismo ticket."},"improved_content":"Añade validación de score finito/rango, schema de cada evidence ref y path edge. Distingue `MISSING_FIELD`, `INVALID_FIELD` y `MISSING_PROVENANCE`. Usa al menos un fixture con `score=float('nan')` y uno con evidence id sin source."},
+      {"id":"S39-T2-A-E3","kind":"transfer","title":"Capas de explicación o rechazo","current_anchor":"`decide` devuelve CONTINUE 4 si hay evidence/path/uncertainty.","issue_ids":["S39-F62","S39-F13","S39-F15"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Relaciona packet con cuatro capas S35.","instruction":"Score-only / no uncertainty / OK.","feedback":"Capas sin hechos son teatro.","retrospective":"Pregunta si se puede inventar uncertainty."},"improved_content":"Carga uncertainty desde un artefacto versionado y model contributions desde el mismo `model_run_id` del score. Rechaza si las capas vienen de runs/versiones distintas. El output debe incluir `packet_lineage_ok` y refs de cada capa, no el número mágico 4."},
+      {"id":"S39-T2-B-E1","kind":"guided","title":"Override humano gana al auto","current_anchor":"human_action sustituye auto; override=True.","issue_ids":["S39-F62","S39-F20","S39-F21"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Precedencia humana.","instruction":"Calcula final/override.","feedback":"HITL cosmético si humano no gana.","retrospective":"Pregunta por audit engañoso."},"improved_content":"Valida `human_action` contra un action space cerrado y genera `AuditEvent` con actor, reason, timestamp, auto/final action y versions. El PASS exige que el evento persistido pueda reconstruir el override, no solo que `final == skip`."},
+      {"id":"S39-T2-B-E2","kind":"independent","title":"Apelación con segundo revisor","current_anchor":"Solo exige `second_reviewer` truthy.","issue_ids":["S39-F64"],"verdict":"BLOCKED","paragraph_level":{"preamble":"Dice 'otro revisor'.","instruction":"Pide second_reviewer.","feedback":"Habla de segundo par de ojos.","retrospective":"Pregunta por qué el mismo revisor no basta."},"improved_content":"El fixture incluye `original_decision_event_id`, `original_reviewer_id` y `second_reviewer_id`. La apelación solo reabre si referencia la decisión original y `second_reviewer_id != original_reviewer_id`; persiste `appeal_opened` y `appeal_reviewed` como eventos separados."},
+      {"id":"S39-T2-B-E3","kind":"transfer","title":"Feedback solo con audit completo","current_anchor":"audit_entry/feedback_id/leakage_care son booleans/ids.","issue_ids":["S39-F62","S39-F24"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Promete cadena de custodia y no leakage.","instruction":"Fail closed por booleans.","feedback":"Dice que feedback reutilizable requiere audit.","retrospective":"Audit.jsonl como prueba HITL."},"improved_content":"Persiste un `FeedbackEvent` con `label_source`, `decided_at`, `eligible_for_training_after`, `source_decision_event_id` y `feedback_id`. El test de leakage compara `decided_at` contra `decision_time`; un booleano `leakage_care=True` no puede satisfacer el contrato."},
+      {"id":"S39-T3-A-E1","kind":"guided","title":"Secretos bloquean el release","current_anchor":"Corrige `secrets_in_repo` dentro de `all`.","issue_ids":["S39-F62","S39-F25"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Hard blocker de secret.","instruction":"Niega un boolean.","feedback":"No se compensa con AUC.","retrospective":"Pregunta si buen AUC limpia secreto."},"improved_content":"Ejecuta un scanner sobre una fixture de repo con token sintético y carga el resultado en `risk_evidence`. El ejercicio corrige la lógica del gate y conserva el reporte del scanner; no recibe `secrets_in_repo` escrito a mano."},
+      {"id":"S39-T3-A-E2","kind":"independent","title":"Missing de control vs. secrets activos","current_anchor":"Required keys + REJECT_SECRETS.","issue_ids":["S39-F62","S39-F51"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Distingue ausencia de control y violación.","instruction":"Flags del checklist.","feedback":"Tickets distintos.","retrospective":"Compara RBAC ausente vs API key."},"improved_content":"Recibe refs de pruebas de RBAC, minimización, secrets, input policy y `no_auto_fraud`. Si falta una evidencia, `MISSING_CONTROL_EVIDENCE`; si una prueba falla, error específico. Añade un caso con `auto_fraud=True` para que el gate no pueda aprobarlo."},
+      {"id":"S39-T3-A-E3","kind":"transfer","title":"Fairness de cola por slice, no culpa","current_anchor":"`s.get('fp_rate',0)` y threshold fijo.","issue_ids":["S39-F65","S39-F50"],"verdict":"BLOCKED","paragraph_level":{"preamble":"Habla de daño de revisión por slice.","instruction":"Compara fp_rate a threshold.","feedback":"AUC global no limpia canal.","retrospective":"Documentar slices."},"improved_content":"Calcula false-queue desde conteos (`fp`, `n`) por slice y conserva soporte. Si falta count/rate o el soporte es insuficiente, devuelve `REQUEST_SLICE_METRICS`; reporta intervalo/incertidumbre. No uses 0 como default. El resultado es señal de investigación, no etiqueta grupal."},
+      {"id":"S39-T3-B-E1","kind":"guided","title":"Incidente manda sobre drift","current_anchor":"Reordenar dos `if`.","issue_ids":["S39-F62","S39-F30"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Prioridad incident>drift.","instruction":"Orden de ifs.","feedback":"Throughput espera.","retrospective":"Pregunta por human_only."},"improved_content":"Dado un `IncidentEvent` y un `DriftEvent` tipados, aplica la policy y prueba que incident produce human_only incluso si también hay drift. Añade un test negativo que intenta `auto_skip` en human_only y debe fallar."},
+      {"id":"S39-T3-B-E2","kind":"independent","title":"Tabla de modos ops del triage","current_anchor":"Tabla booleana normal/drift/incident.","issue_ids":["S39-F62","S39-F31"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Runbook completo.","instruction":"Tres combinaciones.","feedback":"Drift reduce automatización; incident la corta.","retrospective":"Pregunta ambos True."},"improved_content":"Construye una tabla que además conserve `trigger_evidence_ref`, `entered_at`, `policy_version` y `allowed_actions` por modo. Verifica que cada transición tenga una razón observable; no aceptes flags sin evidencia."},
+      {"id":"S39-T3-B-E3","kind":"transfer","title":"Rollback versionado o monitor de drift","current_anchor":"prev_model_id string / MONITOR abstain_more.","issue_ids":["S39-F62","S39-F33","S39-F34"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Rollback no es reiniciar laptop.","instruction":"Incident con/sin prev; drift only.","feedback":"Controles distintos.","retrospective":"Pide prev id."},"improved_content":"El rollback target es un `bundle_id` con model, calibrator/threshold, feature/reference y policy hashes. Verifica existencia y compatibilidad antes de `ROLLBACK`; si no, permanece human_only y devuelve `REQUEST_VERIFIED_ROLLBACK_BUNDLE`. Drift-only no dispara rollback automático."},
+      {"id":"S39-T4-A-E1","kind":"guided","title":"Aceptación sin auto-label de fraude","current_anchor":"Membership de 3 de 6 criterios.","issue_ids":["S39-F63","S39-F35"],"verdict":"BLOCKED","paragraph_level":{"preamble":"Dice checklist completo.","instruction":"Exige no_auto_fraud + e2e + audit.","feedback":"String exacto como contrato.","retrospective":"E2e verde no debe declarar fraude."},"improved_content":"Valida el conjunto completo de criterios obligatorios y, para cada uno, un `TestResult` con status y evidence ref. Añade un fixture donde falta `abstention_path` y otro sin `regression_smoke_s27_s39`; ambos deben bloquear acceptance."},
+      {"id":"S39-T4-A-E2","kind":"independent","title":"CF-3 externo, sin auto-promoción","current_anchor":"Valida tres strings/booleans de gate_notes.","issue_ids":["S39-F62","S39-F37","S39-F38","S39-F40"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Promoción externa.","instruction":"Metadata gate_notes.","feedback":"Auto-PASS no cierra nivel.","retrospective":"Manifest self_declared false."},"improved_content":"Carga `regression.json` con commit, commands, results y hashes. Construye `cf3.json` en `pending_external_review` con reviewer_id/decision nulos. Rechaza si la regresión no está verde o si alguien intenta escribir decision/promotion sin evento de review externo."},
+      {"id":"S39-T4-A-E3","kind":"transfer","title":"Demo e2e: happy, override y abstención","current_anchor":"Compara set de nombres de paths.","issue_ids":["S39-F62","S39-F36"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Tres caminos de demo.","instruction":"Set canónico.","feedback":"No marketing happy-only.","retrospective":"Paths como contrato."},"improved_content":"Ejecuta tres fixtures versionadas y guarda `DemoResult` por path con packet/audit refs y assertions específicas. El gate exige resultados verdes para happy, override y ood_abstain; una lista de nombres sin ejecuciones devuelve `REQUEST_DEMO_RESULTS`."},
+      {"id":"S39-T4-B-E1","kind":"guided","title":"Tres cards: model, data, system","current_anchor":"Igualdad de set de nombres.","issue_ids":["S39-F62","S39-F41"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Cards mínimas.","instruction":"Set model/data/system.","feedback":"Card inventada no sustituye system.","retrospective":"Pregunta sobre card extra."},"improved_content":"Crea tres documentos desde plantillas que exigen campos y evidence refs mínimos. El test abre cada card y valida intended use/limits/evaluation refs, data provenance/gaps y ops modes/owners/rollback. Los nombres de archivo por sí solos no satisfacen el ejercicio."},
+      {"id":"S39-T4-B-E2","kind":"independent","title":"Valor operativo, no solo AUC","current_anchor":"Solo exige override_rate dentro de value.","issue_ids":["S39-F63","S39-F42","S39-F43"],"verdict":"BLOCKED","paragraph_level":{"preamble":"Dice que overrides y review time importan.","instruction":"Exige override_rate únicamente.","feedback":"Valor = operación de cola.","retrospective":"Pregunta por auc solo."},"improved_content":"Calcula `precision_at_k`, `override_rate` y `median_review_s` desde outcomes/audit timestamps con una ventana declarada. El contrato exige las tres métricas, denominadores y evidence refs. Un payload con solo una de ellas no puede PASS."},
+      {"id":"S39-T4-B-E3","kind":"transfer","title":"Post mórtem blameless con acciones","current_anchor":"Truthiness de blameless/root_cause/actions.","issue_ids":["S39-F62","S39-F44","S39-F45"],"verdict":"REPAIR_REQUIRED","paragraph_level":{"preamble":"Aprendizaje de sistemas, no culpa.","instruction":"Tres campos no vacíos.","feedback":"Causa + acciones + sin culpa.","retrospective":"Documentar postmortem sintético."},"improved_content":"Construye timeline desde eventos del incidente; root cause debe referenciar un fallo de proceso/sistema observado; cada action tiene owner, due date y estado. El test exige que las acciones referencien evidencia del incidente y que no haya identificadores personales usados como causa."
+      }
+    ]
+  },
+  "priority_order": [
+    "S39-F63 falsos PASS en soluciones We Do",
+    "S39-F64 apelación sin independencia de revisor",
+    "S39-F65 fairness missing→0",
+    "S39-F61 rehacer I Do hacia evidencia ejecutada",
+    "S39-F62 convertir We Do de token treadmill a transferencia"
+  ],
+  "verdict": "REPAIR_REQUIRED"
+}
