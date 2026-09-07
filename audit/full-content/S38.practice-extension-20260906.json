@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "full-content-solarized-20260906",
+  "section": "S38",
+  "mode": "PRACTICE_EXTENSION_APPEND_ONLY",
+  "source": {
+    "git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+    "canonical_file": "src/lib/course/sections/s38-performance-extreme.ts",
+    "blob_sha": "3fc0f52b6e24070de31a8417b329f57b11b3ee75",
+    "drift_since_prior_s38": false
+  },
+  "inherits": {
+    "base": "audit/lessons-only/sections/S38.json",
+    "paragraphs": [
+      "audit/lessons-only/sections/S38.paragraphs-01.json",
+      "audit/lessons-only/sections/S38.paragraphs-02.json"
+    ],
+    "components": "audit/lessons-only/sections/S38.components.json",
+    "theory_elements": 67,
+    "material_findings": 42
+  },
+  "coverage": {
+    "practice_elements": 69,
+    "requiring_change": 42,
+    "acceptable": 27,
+    "full_accounted": 136
+  },
+  "new_confirmed_findings": [
+    {
+      "finding_id": "S38-F43",
+      "status": "CONFIRMED_FINDING",
+      "severity": "critical",
+      "issue_type": "terminology_inconsistency",
+      "evidence": "I Do T4-A preamble: «c1:features:v1 identifica el intento»; theory T4-A: «identifica la operación, no el intento».",
+      "problem": "The practical demonstration reverses the section's correct definition of idempotency identity.",
+      "reader_failure": "A learner can generate a new key for each retry attempt, which makes deduplication impossible.",
+      "minimal_repair": "Replace «identifica el intento» with «identifica la operación lógica y se reutiliza en todos sus reintentos»."
+    },
+    {
+      "finding_id": "S38-F44",
+      "status": "CONFIRMED_FINDING",
+      "severity": "high",
+      "issue_type": "missing_process_explanation",
+      "evidence": "I Do T4-A why: «La key case:step:ver es estable entre deploys de lógica»; We Do T4-A-E2 says v3 is needed after a deploy to avoid collision with v2.",
+      "problem": "The text does not distinguish the version of the original operation/intent from the version of the currently deployed code. Regenerating an idempotency key from the new deploy version can make a delayed retry look like a new operation.",
+      "reader_failure": "A learner may break deduplication during deployment by changing the key for an old request.",
+      "minimal_repair": "State that the intent/version stored with the original logical operation is reused on retries. A new key is created only for a genuinely new logical operation, not merely because code was redeployed."
+    },
+    {
+      "finding_id": "S38-F45",
+      "status": "CONFIRMED_FINDING",
+      "severity": "critical",
+      "issue_type": "missing_outcome",
+      "evidence": "You Do requirements require a reusable durable checkpoint; starter uses CKPT/APPLIED in RAM; portfolioNote says «si puedes, reinicia el proceso leyendo CKPT desde disco».",
+      "problem": "The defining promotion gate (restart from durable state without duplicate effects) is downgraded to optional enrichment.",
+      "reader_failure": "A learner can finish the project with in-memory state, see the same-process retry pass, and believe they demonstrated crash recovery.",
+      "minimal_repair": "Make persistence + fresh-process reopen mandatory, provide a SQLite/atomic-file scaffold, and fail the project gate if restart/resume evidence is absent."
+    },
+    {
+      "finding_id": "S38-F46",
+      "status": "CONFIRMED_FINDING",
+      "severity": "high",
+      "issue_type": "other",
+      "evidence": "Self-check Q1 scores «Procesos» as the generic CPU-bound answer; Q2 scores «Colas infinitas y OOM» and explains «maxsize acota memoria».",
+      "problem": "The assessment converts known conditional/incorrect simplifications into authoritative 'correct' answers.",
+      "reader_failure": "Even a learner who noticed the caveats is rewarded for reproducing the oversimplified rule, reinforcing the misconception.",
+      "minimal_repair": "Rewrite Q1 around the default GIL-enabled pure-Python case and runtime measurement; rewrite Q2 to say maxsize bounds item count/backlog and requires separate memory measurement."
+    }
+  ],
+  "practice_status_groups": {
+    "iDo": {
+      "pass": ["iDo.intro"],
+      "major_revision": ["S38-T1-A-DEMO","S38-T1-B-DEMO","S38-T2-A-DEMO","S38-T2-B-DEMO","S38-T3-A-DEMO","S38-T3-B-DEMO","S38-T4-A-DEMO","S38-T4-B-DEMO"]
+    },
+    "weDo": {
+      "pass": ["weDo.intro","S38-T4-A-E1"],
+      "minor_revision": ["S38-T3-B-E1","S38-T4-B-E1"],
+      "major_revision": ["S38-T1-A-E1","S38-T1-A-E2","S38-T1-A-E3","S38-T1-B-E1","S38-T1-B-E2","S38-T1-B-E3","S38-T2-A-E1","S38-T2-A-E2","S38-T2-A-E3","S38-T2-B-E1","S38-T2-B-E2","S38-T2-B-E3","S38-T3-A-E1","S38-T3-A-E2","S38-T3-A-E3","S38-T3-B-E2","S38-T3-B-E3","S38-T4-A-E2","S38-T4-A-E3","S38-T4-B-E2","S38-T4-B-E3"]
+    },
+    "youDo": {
+      "pass": ["title","context"],
+      "minor_revision": ["requirements"],
+      "major_revision": ["objectives","starterCode","portfolioNote","retrospective"],
+      "blocked": ["rubric — verify hard-gate semantics"]
+    },
+    "selfCheck": {
+      "pass": ["Q4","Q6","Q7","Q9"],
+      "minor_revision": ["Q3","Q5","Q8"],
+      "major_revision": ["Q1","Q2"]
+    },
+    "resources": {
+      "pass_count": 18,
+      "core_urls_verified_2026_09_06": 10
+    }
+  },
+  "cross_element_issues": [
+    {"id":"S38-X01","status":"confirmed","problem":"Theory says idempotency key identifies the operation, not the attempt; I Do says the opposite.","finding_ids":["S38-F43"]},
+    {"id":"S38-X02","status":"confirmed","problem":"The section asks learners to reason about ProcessPool IPC but practice measures JSON text length and calls it the actual IPC blob.","finding_ids":["S38-F07"]},
+    {"id":"S38-X03","status":"confirmed","problem":"Theory admits the token bucket is static/no-refill, yet practical titles and feedback continue to call it a rate limit and claim ban protection.","finding_ids":["S38-F10","S38-F11"]},
+    {"id":"S38-X04","status":"confirmed","problem":"The learning outcome promises cancellation/timeouts/resource cleanup, but all practical evidence is numeric classification or boolean flags.","finding_ids":["S38-F13","S38-F14","S38-F16"]},
+    {"id":"S38-X05","status":"confirmed","problem":"The section names observability, trace and privacy gates but repeatedly validates them with a single dict and self-declared flags.","finding_ids":["S38-F17","S38-F18","S38-F19"]},
+    {"id":"S38-X06","status":"confirmed","problem":"Durable crash/restart is simultaneously mandatory, absent from the scaffold, and explicitly optional ('si puedes').","finding_ids":["S38-F45"]},
+    {"id":"S38-X07","status":"confirmed","problem":"The scored self-check promotes known conditional/incorrect simplifications to authoritative answers.","finding_ids":["S38-F46"]},
+    {"id":"S38-X08","status":"unresolved","problem":"A criterion called obligatory is worth 15%, while the public badge copy states a 70% threshold; a hard-gate implementation was not located in this pass.","finding_ids":["S38-U01"]},
+    {"id":"S38-X09","status":"unresolved","problem":"Crawler snapshot shows 19h/1040h while main encodes 9h/491h.","finding_ids":["S38-U02"]}
+  ],
+  "unresolved_questions": [
+    {
+      "id":"S38-U01",
+      "severity":"high",
+      "status":"UNRESOLVED",
+      "question":"Does the grading runtime enforce «Idempotencia verificable + runbook (obligatorio)» as a hard gate independent of the 70% badge threshold?",
+      "evidence":"S38 rubric assigns that criterion 15%; the public course copy says badges use a 70% rubric threshold.",
+      "risk":"If there is no separate hard gate, a learner could score up to 85% while failing the criterion labelled obligatory.",
+      "requires_source_validation":true
+    },
+    {
+      "id":"S38-U02",
+      "severity":"medium",
+      "status":"UNRESOLVED",
+      "question":"Is the GitHub Pages deployment currently behind main or is the web crawler snapshot stale?",
+      "evidence":"Crawler snapshot (last month) shows S38 as 19h and course total 1040h; main currently encodes S38 estimatedHours=9 and COURSE_META.totalHours=491.",
+      "risk":"Live learners may see outdated workload estimates and potentially older content.",
+      "requires_source_validation":true
+    }
+  ],
+  "verdict":"REPAIR_REQUIRED",
+  "release_recommendation":"fail",
+  "priority_order":[
+    "P0: Repair idempotency operation-vs-attempt contradiction and durable fresh-process You Do gate.",
+    "P0: Stop teaching JSON length as ProcessPool IPC and static quota as rate limit.",
+    "P1: Replace fake timeout/resource cleanup and self-attested observability/privacy with executable local evidence.",
+    "P1: Correct GIL/runtime and Queue(maxsize)-memory claims in I/We/Self-check.",
+    "P1: Compute SLO/error budget over an explicit window.",
+    "P2: Validate rubric hard-gate semantics and live/main deployment drift."
+  ],
+  "full_local_artifact":"S38_round2_full_content_audit.json (232761 bytes; valid JSON; generated in current execution)",
+  "next_step":"Fixer must repair source, not audit artifacts; then rerun hydrated live render and executable acceptance tests."
+}
