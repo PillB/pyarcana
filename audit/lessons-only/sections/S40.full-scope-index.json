@@ -1,0 +1,121 @@
+{
+  "schema_version": "3.3.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S40",
+  "title": "Arquitectura, DDD y decisiones técnicas",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_blob_sha": "9675cf41438cc5f70456a649fcf4ea35c91c246b",
+  "scope": "FULL_SECTION_EXTENSION: existing theory/reference audit + I Do + 24 We Do + You Do + rubric + self-check + resources + canonical CP-N4-A alignment",
+  "files": {
+    "base_findings": "audit/lessons-only/sections/S40.json",
+    "theory_paragraphs_01": "audit/lessons-only/sections/S40.paragraphs-01.json",
+    "theory_paragraphs_02": "audit/lessons-only/sections/S40.paragraphs-02.json",
+    "theory_components": "audit/lessons-only/sections/S40.components.json",
+    "practice_i_do_we_do": "audit/lessons-only/sections/S40.practice-audit-01.json",
+    "practice_you_do_quiz_resources": "audit/lessons-only/sections/S40.practice-audit-02.json"
+  },
+  "coverage": {
+    "theory_reference_paragraphs": "34/34",
+    "theory_components": "33/33",
+    "i_do_demos": "8/8",
+    "we_do_exercises": "24/24",
+    "you_do_project_surfaces": "12/12",
+    "self_check_questions": "8/8",
+    "resources": "16/16",
+    "meaningful_elements_accounted": 137
+  },
+  "quality_score_1_10": 1.2,
+  "verdict": "REPAIR_REQUIRED",
+  "release_recommendation": "fail",
+  "material_findings": 58,
+  "severity_counts": {"P0": 1, "P1": 48, "P2": 9, "P3": 0},
+  "new_full_scope_findings": [
+    "S40-F42","S40-F43","S40-F44","S40-F45","S40-F46","S40-F47","S40-F48","S40-F49","S40-F50",
+    "S40-F51","S40-F52","S40-F53","S40-F54","S40-F55","S40-F56","S40-F57","S40-F58"
+  ],
+  "executive_verdict": "S40 no está lista para ser la primera sección de Producción Gobernada. La auditoría de teoría ya documentaba 41 defectos materiales; las superficies prácticas añaden 17, incluido un P0: el You Do puede declarar READY mediante cuatro flags manuales sin validar el dossier. La secuencia I Do→We Do→You Do reproduce el problema de evidencia nominal: flags, counts, field names y strings sustituyen mediciones, relaciones, aprobaciones y contract tests. Además, S40 denomina su dossier gate/evidencia CP-N4-A aunque el contrato canónico del repositorio cierra CP-N4-A en S43 como una Plataforma de Servicio Python Gobernada. El resultado pedagógico más peligroso es que el alumno puede aprender a hacer que un checklist parezca verde sin demostrar la arquitectura que ese verde pretende certificar.",
+  "live_status": {
+    "public_card_verified": true,
+    "public_card_title": "Arquitectura y DDD",
+    "public_card_tagline_matches_source": true,
+    "public_crawl_hours": "20h",
+    "source_hours": "9h",
+    "hours_verdict": "UNRESOLVED_LIVE_SOURCE_DRIFT",
+    "reason": "El crawl público disponible es de hace aproximadamente un mes y también muestra 1040h totales frente a 491h en main. No se atribuye el mismatch a un deployment actual sin evidencia hidratada más fresca."
+  },
+  "external_comparison": {
+    "SEI_quality_attribute_scenario": "La referencia SEI define seis partes: stimulus source, stimulus, environment, artifact, response y response measure. S40 omite artifact de su forma enseñada y añade owner como gobernanza local.",
+    "C4": "Un container diagram necesita elementos con responsabilidades/tecnologías y relaciones dirigidas/etiquetadas; listas o sets de nombres no constituyen el diagrama.",
+    "Hexagonal": "Ports/adapters busca aislar la aplicación de UI/database y habilitar prueba/sustitución por adapters; un flag implements_port o conteo declarado no lo demuestra.",
+    "DDD": "Bounded contexts pueden compartir conceptos con modelos locales diferentes; mappings explícitos importan. Disjoint token sets no son una invariante DDD.",
+    "CP_N4_A_repo_contract": "Canonical gate=S43; S40 es contributing section. CP-N4-A acceptance incluye servicio/API/auth/rate limit/health/non-root/log redaction/migrations, no solo dossier de arquitectura."
+  },
+  "highest_risk_findings": [
+    {"id":"S40-F43","severity":"P0","why":"READY es derivable de cuatro booleans editables, no de evidencia."},
+    {"id":"S40-F47","severity":"P1","why":"El alumno recibe una definición incorrecta del momento y alcance del gate CP-N4-A."},
+    {"id":"S40-F45","severity":"P1","why":"ADRs pueden pasar un helper más débil que la rúbrica declarada."},
+    {"id":"S40-F49","severity":"P1","why":"La solución de referencia aprueba ausencia de grafo como arquitectura limpia."},
+    {"id":"S40-F42","severity":"P1","why":"El scenario QA incompleto se enseña, practica, proyecta y evalúa de forma consistente pero incorrecta."}
+  ],
+  "cross_element_issues": [
+    {"id":"S40-X01","finding_ids":["S40-F42"],"edge":"theory→I Do→We Do→You Do→self-check","problem":"artifact falta en toda la cadena de quality-attribute scenarios."},
+    {"id":"S40-X02","finding_ids":["S40-F43","S40-F45"],"edge":"You Do prose→checker","problem":"la explicación exige evidencia; el checker consume autoatestiguación."},
+    {"id":"S40-X03","finding_ids":["S40-F44"],"edge":"requirements→starter→retrospective","problem":"se exigen 6 contextos, starter trae 4 y retrospective revela los 2 faltantes."},
+    {"id":"S40-X04","finding_ids":["S40-F47","S40-F48"],"edge":"S40→CP-N4-A canonical contract","problem":"artefacto incremental se presenta como gate final con rúbrica distinta."},
+    {"id":"S40-X05","finding_ids":["S40-F49"],"edge":"We Do feedback→solution","problem":"texto dice que grafo vacío no demuestra nada; solución le da PASS/CONTINUE."},
+    {"id":"S40-X06","finding_ids":["S40-F50"],"edge":"outcome owner acceptance→solution","problem":"owner que acepta residual se reduce a key presence y puede estar vacío."},
+    {"id":"S40-X07","finding_ids":["S40-F52"],"edge":"DDD caveat→graded exercises","problem":"se reconoce que vocabulario disjunto no es DDD general, pero se califica como regla en tres ejercicios."},
+    {"id":"S40-X08","finding_ids":["S40-F55"],"edge":"theory DIP→self-check wording","problem":"'inversión de dependencias' se usa para principio correcto y para breach."},
+    {"id":"S40-X09","finding_ids":["S40-F56","S40-F57"],"edge":"local rubric/policy→retrieval assessment","problem":"autocheck consolida versiones más débiles de ADR y API compatibility."}
+  ],
+  "rejected_findings": [
+    {"claim":"S40 debe cerrar CP-N4-A porque abre el Nivel 4.","verdict":"REJECTED_FINDING","reason":"El catálogo y RUBRIC.json fijan gate S43; S40 contribuye, no cierra."},
+    {"claim":"C4 context+container son niveles insuficientes por definición.","verdict":"REJECTED_FINDING","reason":"C4 los recomienda como vistas núcleo de alto valor; el defecto es validar solo sus nombres, no usar solo esos dos niveles."},
+    {"claim":"Un mismo término nunca puede aparecer en dos bounded contexts.","verdict":"REJECTED_FINDING","reason":"DDD admite conceptos compartidos con modelos locales y mapping explícito."},
+    {"claim":"Toda adición de campo rompe una API.","verdict":"REJECTED_FINDING","reason":"Depende de la política/consumidores; S40 falla por declarar compatibilidad sin esa política, no porque toda adición sea breaking."},
+    {"claim":"El legacy id architecture-ddd-decisions debe renombrarse.","verdict":"REJECTED_FINDING","reason":"Es save/URL key estable y describe razonablemente el tema; no hay razón curricular para romper progreso."},
+    {"claim":"Los recursos externos son el principal problema de S40.","verdict":"REJECTED_FINDING","reason":"La lista contiene varias fuentes primarias útiles; los fallos materiales están en cómo el curso representa y evalúa la evidencia."}
+  ],
+  "priority_order": [
+    "P0: eliminar evidence flags editables y derivar READY del dossier real (S40-F43).",
+    "P0-equivalent curricular: corregir la identidad del gate; S40 produce evidencia para CP-N4-A, S43 lo cierra (S40-F47).",
+    "P1: hacer ejecutables el ADR rubric, C4 relationships, context-map completeness y tres rutas de acceptance (S40-F44/F45/F46).",
+    "P1: corregir quality-attribute scenario completo incluyendo artifact y measurement provenance (S40-F42 + F08-F11).",
+    "P1: corregir false-greens de reference solutions: empty graph, empty owner, VO amount/adversarial fixtures (S40-F49/F50/F51).",
+    "P1: retirar disjoint-vocabulary como regla evaluada y estabilizar terminology de DIP/ADR/API compat (S40-F52/F55/F56/F57/F58).",
+    "P1: reconstruir I Do con evidencia mínima real y We Do con mayor variación de transferencia (S40-F53/F54).",
+    "P2: reparar debt/figures/playground/resources y todos los findings teóricos heredados restantes antes de release."
+  ],
+  "graph_memory": {
+    "USABLE": [
+      "S40 es una contribución arquitectónica incremental al CP-N4-A; CP-N4-A cierra en S43.",
+      "Ports/adapters: adapters externos implementan/interactúan con puertos y permiten probar el núcleo aislado.",
+      "C4 context y container son vistas núcleo válidas; container significa aplicación o data store, no Docker.",
+      "DDD permite significados locales y conceptos compartidos entre bounded contexts; las relaciones/mappings explícitos son la clave.",
+      "La rúbrica local puede exigir más que el ADR núcleo si lo declara como política del curso."
+    ],
+    "PARTIAL": [
+      "Quality-attribute scenarios: falta artifact y provenance de medición.",
+      "Trade-offs: faltan criterios/pesos y acceptance record del residual.",
+      "Dependency graphs: faltan completeness/vocabulary/cycle checks.",
+      "Ports/adapters: faltan contract tests ejecutados y segundo adapter.",
+      "Context map: faltan relation/IA, typed relationships y lineage.",
+      "Value objects: falta inmutabilidad ejecutable y claridad del amount domain.",
+      "C4/ADR: faltan relationships/responsibilities/approval/rollback evidence.",
+      "API compatibility: falta extensibility policy y contract suite."
+    ],
+    "MISCONCEPTION_RISK": [
+      "Cuatro booleans True equivalen a dossier validado.",
+      "Un quality-attribute scenario no necesita artifact.",
+      "Un grafo vacío demuestra arquitectura limpia.",
+      "risk_owner vacío satisface accountability.",
+      "Bounded contexts deben usar vocabularios de tokens disjuntos.",
+      "status='accepted' demuestra aceptación arquitectónica.",
+      "Una lista de nombres es un C4 suficiente.",
+      "v1_fields subset vNext prueba compatibilidad general.",
+      "S40 por sí sola demuestra CP-N4-A.",
+      "Inversión de dependencias puede significar dominio→framework."
+    ]
+  },
+  "next_step": "Fixer debe modificar source y shared render/test surfaces solo después de usar este full-scope ledger; luego ejecutar tests adversariales y browser hydration. No cambiar course content durante Explorer."
+}
