@@ -1,0 +1,57 @@
+{
+  "schema_version":"3.3.0",
+  "section":"S43",
+  "source_git_sha":"535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_blob_sha":"77ac056ea519b82bbba5307acd845f819be4b46b",
+  "coverage":"title/tagline/job relevance, 8 outcomes, 9 theory code/output blocks, 9 callouts, 3 figures, 1 Theory playground",
+  "top_level":[
+    {"id":"S43-C-TITLE","type":"title_shortTitle","current_content":"Contenedores y reproducibilidad operativa / Contenedores","verdict":"SIN_CAMBIO_DEFENDIDO","attack":"Checked legacy llmops drift and roadmap title.","defense":"Learner-facing title matches authoritative S43; stable technical id does not need renaming.","improved_content":null},
+    {"id":"S43-C-TAGLINE","type":"tagline","current_content":"Governed Python Service Platform: un comando, tests/health, non-root, configuración y recuperación documentadas.","verdict":"REPAIR_REQUIRED","problems":["S43-F02","S43-F04","S43-F05","S43-F34"],"reason":"The promise is appropriate but the final project does not run the one-command/service tests it claims.","improved_content":"Governed Python Service Platform: un comando construye y levanta el servicio; el gate ejecuta tests canónicos, health/readiness, non-root, migración y recovery y guarda evidencia del artefacto exacto."},
+    {"id":"S43-C-JOB","type":"jobRelevance","current_content":"Contenedores y reproducibilidad operativa: imagen mínima, non-root, health/readiness, shutdown, build repetible, no secretos horneados, límites y no CVE crítico abierto.","verdict":"REPAIR_REQUIRED","problems":["S43-F05","S43-F12","S43-F19","S43-F31","S43-F32"],"reason":"Professional framing overclaims operational proof; UID>=1000 and zero-CVE semantics need scope/exception nuance.","improved_content":"En S43 conviertes el servicio S40-S42 en un artefacto local verificable: build desde entorno limpio, identidad de runtime non-root, secrets concedidos en runtime, probes/señales ejecutadas, migración/restore y scan ligado al digest. Los límites numéricos y excepciones se documentan como policy del caso, no universales."}
+  ],
+  "learning_outcomes":[
+    {"id":"S43-LO1","status":"REPAIR_REQUIRED","problems":["S43-F08","S43-F09","S43-F10"],"current":"Ordenar layers ... y explicar cuándo se invalida el caché.","reason":"Cache order is taught, but evidence uses invalid digest fixture/fake logical digest and is conflated with reproducibility."},
+    {"id":"S43-LO2","status":"REPAIR_REQUIRED","problems":["S43-F11","S43-F12","S43-F13","S43-F14","S43-F15","S43-F16"],"current":"Elegir base parchable con digest, ejecutar como UID ≥1000 sin capabilities extras y acotar tamaño runtime.","reason":"Final accepts mutable non-latest tags; parser cannot verify named users; capabilities/size are not robustly gated."},
+    {"id":"S43-LO3","status":"REPAIR_REQUIRED","problems":["S43-F17","S43-F18","S43-F19","S43-F20"],"current":"Inyectar secretos solo en runtime, declarar configuración no secreta y clasificar volumes durable vs. efímero.","reason":"Substring scans and booleans stand in for secret injection; `.dockerignore` and Compose secret grants are absent."},
+    {"id":"S43-LO4","status":"REPAIR_REQUIRED","problems":["S43-F21","S43-F22"],"current":"Diseñar readiness/liveness y drenar trabajo en SIGTERM con grace period medible.","reason":"Good prose, but no probe/signal is actually exercised."},
+    {"id":"S43-LO5","status":"REPAIR_REQUIRED","problems":["S43-F23","S43-F24","S43-F25"],"current":"Componer API/worker/DB/caché con redes, health y retries de aplicación.","reason":"Sample Compose has no healthcheck; health/retry are self-attested and topology names are overprescribed."},
+    {"id":"S43-LO6","status":"REPAIR_REQUIRED","problems":["S43-F26","S43-F27"],"current":"Aplicar migraciones expand/contract, recrear datos efímeros y ensayar restore de durable.","reason":"Code prohibits safe contract and does not run migration/restore."},
+    {"id":"S43-LO7","status":"REPAIR_REQUIRED","problems":["S43-F28","S43-F29","S43-F30"],"current":"Fijar locks con hash y multi-stage (toolchain solo en builder; runtime mínimo).","reason":"Theory is strong but I Do/We Do regress to prefix-only fake digests and string toolchain checks."},
+    {"id":"S43-LO8","status":"REPAIR_REQUIRED","problems":["S43-F31","S43-F32","S43-F33"],"current":"Escanear CVE, definir límites CPU/memoria >0 y depurar sin shell root permanente.","reason":"Scan count is detached from image/scanner DB and exception/budget semantics are incomplete."}
+  ],
+  "theory_code_output":[
+    {"id":"S43-CODE-REF","title":"s43_map_contract.py","verdict":"REPAIR_REQUIRED","problems":["S43-F02","S43-F04"],"reason":"Declares gate flags but neither executes CP-N4-A service nor container evidence."},
+    {"id":"S43-CODE-T1A","title":"dockerfile_layers_cache.py","verdict":"REPAIR_REQUIRED","problems":["S43-F08","S43-F09","S43-F10"],"reason":"Invalid digest placeholder and tautological logical digest."},
+    {"id":"S43-CODE-T1B","title":"bases_nonroot_size.py","verdict":"REPAIR_REQUIRED","problems":["S43-F12","S43-F14","S43-F16"],"reason":"Exact digest check is good; size domain/nonroot/capability evidence is still proxy data."},
+    {"id":"S43-CODE-T2A","title":"config_secrets_volumes.py","verdict":"REPAIR_REQUIRED","problems":["S43-F17","S43-F18","S43-F20"],"reason":"Two-substring layer scan and `runtime_only=not baked` create false evidence."},
+    {"id":"S43-CODE-T2B","title":"net_health_signals.py","verdict":"REPAIR_REQUIRED","problems":["S43-F21","S43-F22"],"reason":"No endpoint, dependency failure, signal or in-flight work is actually exercised."},
+    {"id":"S43-CODE-T3A","title":"api_worker_db_cache.py","verdict":"REPAIR_REQUIRED","problems":["S43-F23","S43-F24","S43-F25"],"reason":"MINI_COMPOSE lacks healthchecks; healthy/retries/networks are supplied to a Python function."},
+    {"id":"S43-CODE-T3B","title":"deps_migraciones_efimeros.py","verdict":"REPAIR_REQUIRED","problems":["S43-F26","S43-F27"],"reason":"Every contract phase fails and migration/restore are booleans."},
+    {"id":"S43-CODE-T4A","title":"locks_multistage.py","verdict":"PARTIAL_DEFENDED","problems":["S43-F29","S43-F30"],"reason":"This theory block correctly uses exact 64-hex digest and distinguishes lock/base pins; retain it, then repair practice to match it."},
+    {"id":"S43-CODE-T4B","title":"scan_limits_debug.py","verdict":"REPAIR_REQUIRED","problems":["S43-F31","S43-F32","S43-F33"],"reason":"CVE count and resource/log flags are unbound to real image/runtime evidence."}
+  ],
+  "callouts":[
+    {"id":"S43-CALL-OPEN","title":"Gate de promoción","verdict":"REPAIR_REQUIRED","problems":["S43-F02","S43-F03"],"reason":"Defines only container subset of CP-N4-A and competes with canonical rubric."},
+    {"id":"S43-CALL-T1A","verdict":"REPAIR_REQUIRED","problems":["S43-F08","S43-F09"],"reason":"Calls fake logical digest 'minimum evidence'."},
+    {"id":"S43-CALL-T1B","verdict":"REPAIR_REQUIRED","problems":["S43-F11","S43-F12","S43-F13"],"reason":"Needs exact digest/runtime identity evidence rather than text UID policy."},
+    {"id":"S43-CALL-T2A","verdict":"REPAIR_REQUIRED","problems":["S43-F17","S43-F18","S43-F20"],"reason":"Must require actual secret grant/history/context evidence."},
+    {"id":"S43-CALL-T2B","verdict":"REPAIR_REQUIRED","problems":["S43-F21","S43-F22"],"reason":"Says 'ensayados' while examples are booleans."},
+    {"id":"S43-CALL-T3A","verdict":"REPAIR_REQUIRED","problems":["S43-F23","S43-F24"],"reason":"Must be tied to real Compose health/restart evidence."},
+    {"id":"S43-CALL-T3B","verdict":"REPAIR_REQUIRED","problems":["S43-F26","S43-F27"],"reason":"Must allow valid contract phase and prove restore."},
+    {"id":"S43-CALL-T4A","verdict":"REPAIR_REQUIRED","problems":["S43-F28","S43-F29"],"reason":"Practice must use exact digest/file evidence."},
+    {"id":"S43-CALL-T4B","verdict":"REPAIR_REQUIRED","problems":["S43-F31","S43-F32","S43-F33"],"reason":"Quarantine policy must bind scanner report to image and govern exceptions."}
+  ],
+  "figures":[
+    {"id":"S43-container-vs-image","location":"opening","verdict":"SIN_CAMBIO_DEFENDIDO","attack":"Checked whether recipe/image/container analogy creates a category error.","defense":"It usefully separates build instructions, artifact and running instance; paragraph needs reproducibility nuance, not a different figure."},
+    {"id":"S43-multistage","location":"T1-A","verdict":"REPAIR_REQUIRED","problems":["S43-F44"],"reason":"Builder→runtime/gcc belongs to T4-A multi-stage, not current cache-order concept."},
+    {"id":"S43-image-layers","location":"T1-B","verdict":"REPAIR_REQUIRED","problems":["S43-F44"],"reason":"Caption about source-before-deps cache invalidation belongs to T1-A, not base/non-root/size."}
+  ],
+  "theory_playground":{
+    "id":"llmops",
+    "current_content":"Practica tracing y eval (simulado): LangSmith-like tracing, retriever/generator RAG pipeline, RAGAS metrics, token-cost tracking.",
+    "verdict":"CONFIRMED_FINDING",
+    "problems":["S43-F36"],
+    "reason":"Legacy id is stable, but the rendered playground still contains the obsolete pre-V3 topic.",
+    "improved_content":"Keep key `llmops`; map it to an S43 container exercise such as Dockerfile cache order + exact digest + non-root inspection, or remove the playground if it cannot run Docker."
+  }
+}
