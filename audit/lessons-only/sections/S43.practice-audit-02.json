@@ -1,0 +1,63 @@
+{
+  "schema_version":"3.3.0",
+  "section":"S43",
+  "scope":"You Do + visible rubric + self-check + authenticated exam + learner-facing CP-N4-A brief/rubric + resources",
+  "source":{"main_commit":"535bd4d7b603283af9a39a813a79f05afbc47b48","path":"src/lib/course/sections/s43-llmops.ts","blob":"77ac056ea519b82bbba5307acd845f819be4b46b"},
+  "canonical_capstone":{
+    "gate":"S43",
+    "rubric":"public/capstones/CP-N4-A_RUBRIC.json",
+    "brief":"public/capstones/CP-N4-A_BRIEF.md",
+    "required_tests":["200 valid request","429 rate limit","401 no auth","health ok","non-root","token-redacted logs","migrations present"],
+    "critical_failures":["root","no health checks","embedded secrets","no migrations"],
+    "interface":"service.serve(request) -> ApiResponse"
+  },
+  "you_do":[
+    {"element":"title","current_content":"[FINAL] Contenedores y reproducibilidad operativa · CP-N4-A (cierre)","status":"BLOCKED","problems":["S43-F02"],"attack":"A true closure label requires all canonical CP-N4-A acceptance tests, not only container artifacts.","defense":"S43 really is the canonical gate section, so `[FINAL]` is not itself wrong.","verdict":"CONFIRMED_FINDING","improved_content":"Keep `[FINAL]` only after the task integrates S40-S43 and executes the canonical seven acceptance tests plus S43 container/recovery checks."},
+    {"element":"context","current_content":"Own the Trujillo platform container gate; block mutable image, root, lying health or non-reversible migration.","status":"BLOCKED","problems":["S43-F02","S43-F11","S43-F26"],"verdict":"CONFIRMED_FINDING","improved_content":"Context begins with the S40-S42 governed service and then packages it. A single `verify_cp_n4_a` flow must prove API 200/429/401, schema/authz, redacted logs, image digest, non-root, health/readiness, migration, resources, secrets and recovery."},
+    {"element":"objectives","current_content":"Build/inspect Dockerfile/Compose/runbook and demonstrate CP-N4-A container behavior.","status":"BLOCKED","problems":["S43-F02","S43-F05","S43-F34"],"verdict":"CONFIRMED_FINDING","improved_content":"Objective 1: build and start from a clean environment. Objective 2: run canonical service tests. Objective 3: inspect runtime/security properties. Objective 4: exercise dependency failure, SIGTERM, migration/restore and scanner evidence. Objective 5: emit immutable evidence manifest."},
+    {"element":"requirements.base","current_content":"Dockerfile multi-stage with fixed base; allows `digest o tag no latest`.","status":"BLOCKED","problems":["S43-F11","S43-F28","S43-F29"],"verdict":"CONFIRMED_FINDING","improved_content":"Require exact base digest for graded reproducibility and actual lock file hash/use. A tag may accompany the digest for readability but cannot replace it."},
+    {"element":"requirements.compose","current_content":"Compose API/worker/DB/cache with health/network/retries.","status":"MAJOR","problems":["S43-F23","S43-F24","S43-F25"],"verdict":"CONFIRMED_FINDING","improved_content":"Require healthcheck definitions and executed `compose up --build --wait`; verify DB/cache not exposed and restart DB to observe application backoff. Network names are not graded; exposure/policy is."},
+    {"element":"requirements.secrets","current_content":"Config, secrets and volumes documented; no hardcoded real secrets.","status":"MAJOR","problems":["S43-F17","S43-F18","S43-F19","S43-F20"],"verdict":"CONFIRMED_FINDING","improved_content":"Require `.dockerignore`, Compose secret grant with synthetic token, image/history scan, per-service access and rotation without rebuild, plus durable/ephemeral persistence test."},
+    {"element":"requirements.runbook","current_content":"Runbook covers expand/contract, SIGTERM, CPU/memory, recovery and rollback.","status":"MAJOR","problems":["S43-F21","S43-F22","S43-F26","S43-F27"],"verdict":"CONFIRMED_FINDING","improved_content":"The runbook links to command evidence: migration schema before/after, compatibility test, backup+restore query, SIGTERM timeline and resource inspection. Documented claims without executed evidence stay BLOCKED."},
+    {"element":"REQUIRED/readiness","current_content":"Four evidence booleans; READY iff all are True.","status":"BLOCKED","problems":["S43-F04"],"verdict":"CONFIRMED_FINDING","improved_content":"`readiness(manifest)` loads actual artifact paths/results, verifies hashes, command exit codes and required CP-N4-A tests. Summary booleans are generated from those checks, never learner input."},
+    {"element":"gate_case","current_content":"`normal -> CONTINUE`, `breach -> QUARANTINE_IMAGE`, else TRIAGE_SCAN_FINDING.","status":"BLOCKED","problems":["S43-F04"],"verdict":"CONFIRMED_FINDING","improved_content":"Remove label-driven gate. The route comes from concrete failed check IDs (`AUTH_401_MISSING`, `ROOT_RUNTIME`, `MIGRATION_MISSING`, `SCAN_CRITICAL`, etc.) and unresolved evidence is `TRIAGE_EVIDENCE`."},
+    {"element":"ARTIFACTS","current_content":"Names Dockerfile, compose.yaml and runbook.md but does not open or execute them.","status":"BLOCKED","problems":["S43-F04","S43-F34"],"verdict":"CONFIRMED_FINDING","improved_content":"Artifact registry includes paths + SHA-256 + command used + result. Verification fails if files are absent, unparseable or commands fail."},
+    {"element":"portfolioNote","current_content":"Warns not to flip magic booleans; asks for real files.","status":"CONTRADICTED_BY_STARTER","problems":["S43-F04"],"verdict":"CONFIRMED_FINDING","improved_content":"Preserve the warning, but make the starter enforce it structurally so the learner cannot produce READY from manual flags."},
+    {"element":"visible_rubric","current_content":"25% correction, 20% routes/recovery, 15% security/privacy, 15% reproducibility/lineage, 15% SLO/observability/rollback, 10% communication.","status":"BLOCKED","problems":["S43-F03","S43-F35"],"verdict":"CONFIRMED_FINDING","improved_content":"Render canonical CP-N4-A rubric: correctness .35, robustness .20, maintainability .25, responsible_use .20; weighted >=2.4/3, no critical criterion <2, zero P0 and all required tests."},
+    {"element":"retrospective","current_content":"Asks whether build repeatable/nonroot/limits/shutdown, secrets synthetic, README impact; says no Kubernetes.","status":"PARTIAL","problems":["S43-F02","S43-F34"],"verdict":"CONFIRMED_FINDING","improved_content":"Add explicit questions: where are 200/429/401 results, token-redaction result, migration/restore output, exact image digest, scan report and clean-environment command? Preserve 'no Kubernetes required'."}
+  ],
+  "capstone_public_artifacts":[
+    {"element":"CP-N4-A_BRIEF prerequisites","current_content":"S40 architecture/DDD, S41 LLM finetuning, S42 graph RAG, S43 LLMOps","status":"BLOCKED_STALE_CONTENT","problems":["S43-F06"],"verdict":"CONFIRMED_FINDING","improved_content":"S40 Arquitectura y DDD; S41 API FastAPI; S42 Schemas, seguridad y privacidad; S43 Contenedores y reproducibilidad operativa. Stable technical IDs may remain internal."},
+    {"element":"CP-N4-A_BRIEF limitation","current_content":"El 'contenedor' se especifica via Dockerfile (no se construye en el demo).","status":"BLOCKED_CONTRACT_CONTRADICTION","problems":["S43-F07"],"verdict":"CONFIRMED_FINDING","improved_content":"Demo local acotado: el contenedor se construye y ejecuta localmente; no requiere registry/cloud. El gate conserva build/run/health/cleanup evidence."},
+    {"element":"CP-N4-A_RUBRIC","current_content":"0-3 canonical .35/.20/.25/.20; gate 2.4/3; critical failures; seven tests.","status":"CANONICAL_KEEP","problems":[],"verdict":"SIN_CAMBIO_DEFENDIDO","improved_content":null}
+  ],
+  "self_check":[
+    {"id":"Q1","current_content":"Two builds with same lock produce same logical deps digest as reproducibility evidence.","status":"BLOCKED","problems":["S43-F08","S43-F09","S43-F37"],"improved_content":"Ask learner to distinguish: source-only second build reuses deps cache vs two clean builds. Evidence for cache is CACHED layer; reproducibility needs fixed inputs and real artifact/digest comparison."},
+    {"id":"Q2","current_content":"If health fails or process is root, what response preserves auditability?","status":"PASS_WITH_SCOPE","problems":[],"attack":"Checked whether quarantine/deny logic invents behavior.","defense":"Critical operational failure should block promotion; recognition item is valid as one retrieval check.","improved_content":null},
+    {"id":"Q3","current_content":"Which result demonstrates CP-N4-A? build repeatible + non-root + limits + clean shutdown.","status":"BLOCKED","problems":["S43-F02","S43-F37"],"improved_content":"Correct answer must include canonical service behavior (200/429/401, token-redacted logs, migrations) plus the S43 container evidence; no subset may compensate another."},
+    {"id":"Q4","current_content":"Where should a DB password live? injected at runtime, never image/layers.","status":"PARTIAL","problems":["S43-F19"],"improved_content":"Prefer Compose secret/secret manager grant; explicitly explain why passing sensitive values as container env is weaker and not the default in this lab."},
+    {"id":"Q5","current_content":"Which Dockerfile order favors cache? base->deps/lock->app->USER/CMD.","status":"SIN_CAMBIO_DEFENDIDO","problems":[],"attack":"Checked cache-order rule against current Docker docs.","defense":"The concept is correct as a cache-efficiency question, provided it is not called reproducibility evidence.","improved_content":null}
+  ],
+  "self_check_global":{"status":"REPAIR_REQUIRED","problems":["S43-F38"],"reason":"5 recognition questions under-sample 8 outcomes and the integrated capstone; no applied migration/lock/scan/recovery interpretation."},
+  "authenticated_exam":{
+    "bank_source":"prisma/seed.ts",
+    "section_key":"llmops",
+    "inventory":"8 concepts × 3 variants = 24 questions",
+    "concepts":["dockerfile-layers-cache","bases-nonroot-size","config-secrets-volumes","net-health-signals","api-worker-db-cache","deps-migrations-ephemeral","locks-multistage","scan-limits-debug"],
+    "status":"REPAIR_REQUIRED",
+    "problems":["S43-F39","S43-F40"],
+    "examples":"Questions ask cache-order benefit, non-root purpose, secret location, liveness meaning, API/worker separation, migration discipline, multi-stage definition, CVE scanning/signing.",
+    "assessment":"Breadth is good, but most items are declarative recall. The global scorer has no critical metadata and passes solely at >=70%.",
+    "improved_content":"Use Dockerfile/Compose/scan/migration artifacts in variants and mark root, embedded secret, no health, no migration and canonical API security failures critical. Enforce 100% critical + >=70% total."
+  },
+  "resources":{
+    "count":17,
+    "status":"REPAIR_REQUIRED",
+    "problems":["S43-F43"],
+    "keep_primary":["Docker Dockerfile reference","Docker multi-stage builds","Docker build best practices","Docker Compose specification","OCI image spec","OWASP Docker Security Cheat Sheet","NIST SP 800-190","Twelve-Factor App","Trivy","Python signal","Container Security (Liz Rice)","Site Reliability Engineering"],
+    "demote_or_replace":["generic Coursera Docker search","MIT 6.100L","Harvard CS50P","Py4E"],
+    "add_direct":["Docker Compose secrets","Docker Compose startup order/service_healthy","Docker resource constraints","Docker build cache invalidation","Docker reproducible builds","Docker `.dockerignore`/build context","Docker USER/image inspection guidance"],
+    "validation_note":"NIST SP 800-190 was checked against current NIST CSRC and remains Final; no stale-resource finding is reported."
+  },
+  "validation":{"inventory":"13 You Do surfaces + 3 public capstone artifact surfaces + 5/5 self-check + 24 authenticated questions + 17 resources","release":"FAIL"}
+}
