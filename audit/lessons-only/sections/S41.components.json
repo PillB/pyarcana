@@ -1,0 +1,80 @@
+{
+  "schema_version": "3.1.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S41",
+  "coverage": "3 top-level + 8 outcomes + 9 theory code/output blocks + 9 callouts + 2 figures + 1 Theory playground",
+  "top_level": [
+    {
+      "id": "S41-C-TITLE",
+      "type": "title_shortTitle",
+      "current_content": "APIs con FastAPI y contratos HTTP / API FastAPI",
+      "attack": "Se buscó identity drift con el legacy id llm-finetuning.",
+      "defense": "El learner-facing title/shortTitle actual sí describen correctamente el contenido. El legacy ID es una key técnica estable.",
+      "verdict": "SIN_CAMBIO_DEFENDIDO",
+      "improved_content": null
+    },
+    {
+      "id": "S41-C-TAGLINE",
+      "type": "tagline",
+      "current_content": "API versionada que crea jobs y consulta resultados/evidencia, sin exponer PII ni claves internas",
+      "problems": ["S41-F03", "S41-F07", "S41-F31", "S41-F38"],
+      "attack": "Promete una API versionada y no-leak como resultado demostrado, pero Theory no monta FastAPI, no ejecuta idempotencia durable ni consumer compatibility y solo tiene filtros parciales de PII.",
+      "defense": "Es una buena especificación del producto que S41 debería construir.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "Incremento de API v1 que crea jobs y consulta resultados/evidencia; sus tests locales deben demostrar idempotencia durable, compatibilidad de lectura y ausencia de PII o claves internas en respuestas, errores y telemetría."
+    },
+    {
+      "id": "S41-C-JOB",
+      "type": "jobRelevance",
+      "current_content": "En equipos de plataforma y producto, las API con FastAPI y contratos HTTP convierten decisiones de arquitectura en endpoints versionados con evidencia operativa: respuestas OpenAPI sin PII, status y errores tipados. Aquí aprendes a garantizar que la misma Idempotency-Key no duplique side effects y que la lectura conserve compatibilidad con versiones anteriores. Es la base sobre la que luego se monta autorización, schemas estrictos y privacidad por servicio.",
+      "problems": ["S41-F01", "S41-F03", "S41-F07", "S41-F31", "S41-F38"],
+      "attack": "Los verbos garantizar/evidencia operativa superan lo que la lección ejecuta y pueden lavar deuda S40/CF-3.",
+      "defense": "La relevancia profesional y la progresión hacia S42 son correctas.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "En equipos de plataforma y producto, una API convierte decisiones de arquitectura en un contrato que otros equipos pueden ejecutar sin conocer tu implementación. En S41 usarás FastAPI para exponer un incremento v1 del servicio gobernado y aprenderás qué evidencia hace defendibles sus promesas: status y schemas comprobados con TestClient/OpenAPI, idempotencia que sobrevive concurrencia y reinicio, compatibilidad ejecutada contra un consumidor anterior y respuestas/errores/telemetría sin PII. S42 añadirá autorización, schemas más estrictos y privacidad por servicio; por eso S41 no puede declarar resuelta ninguna deuda de S39/S40 que todavía no tenga lineage y tests verdes."
+    }
+  ],
+  "learning_outcomes": [
+    {"id":"S41-LO1","current_content":"Diseñar recursos versionados (`/v1/jobs`) con métodos y status semánticos (201/200/4xx/5xx)","verdict":"PARTIAL_REPAIR_REQUIRED","problems":["S41-F05","S41-F06","S41-F40"],"reason":"Nominal matrix exists, but unknown paths false-green 405 and there is no real endpoint/Allow/Location test."},
+    {"id":"S41-LO2","current_content":"Implementar Idempotency-Key, paginación con cursor estable y compatibilidad de lectura","verdict":"REPAIR_REQUIRED","problems":["S41-F07","S41-F08","S41-F09","S41-F10","S41-F11","S41-F12","S41-F13"],"reason":"All three promises are materially incomplete or false-green in code."},
+    {"id":"S41-LO3","current_content":"Separar routing, dependency injection y reglas de dominio en handlers delgados","verdict":"PARTIAL_REPAIR_REQUIRED","problems":["S41-F03","S41-F14","S41-F15"],"reason":"Function injection is shown but no actual FastAPI Depends/import boundary proof; ID generation is unsafe."},
+    {"id":"S41-LO4","current_content":"Validar entrada (422), redactar respuestas y alinear el comportamiento con OpenAPI","verdict":"REPAIR_REQUIRED","problems":["S41-F16","S41-F17","S41-F18","S41-F38"],"reason":"Presence-only validator, no Pydantic/OpenAPI, disconnected domain call, incomplete leak gate."},
+    {"id":"S41-LO5","current_content":"Elegir boundary sync/async/background sin bloquear el event loop ni perder durabilidad","verdict":"REPAIR_REQUIRED","problems":["S41-F19","S41-F20","S41-F21"],"reason":"Durable maps to sync and the only queue is process-local list."},
+    {"id":"S41-LO6","current_content":"Presupuestar timeouts en cascada, errores tipados sin PII y lifecycle de recursos","verdict":"REPAIR_REQUIRED","problems":["S41-F22","S41-F23","S41-F24","S41-F25","S41-F26","S41-F38"],"reason":"No actual timeout/cancellation/resource lifecycle; Problem Details and privacy contracts incomplete."},
+    {"id":"S41-LO7","current_content":"Construir pirámide unit/contract/integration que detecte un fallo sembrado en el nivel correcto","verdict":"REPAIR_REQUIRED","problems":["S41-F27","S41-F28","S41-F29","S41-F30"],"reason":"No seeded bug or collected tests; integration absent; count inequality substitutes for behavioral coverage."},
+    {"id":"S41-LO8","current_content":"Probar compatibilidad de consumidores, rate limit (429) y trazas sin PII","verdict":"REPAIR_REQUIRED","problems":["S41-F31","S41-F32","S41-F33","S41-F34","S41-F35","S41-F36","S41-F37","S41-F38"],"reason":"All three gates are represented by hand-written values/booleans rather than consumer/window/trace/privacy evidence."}
+  ],
+  "theory_code_output": [
+    {"id":"S41-CODE-REF","title":"s41_map_contract.py","current_content":"Returns case/gate names and prints duplicate_side_effect_ok=False and pii_in_errors_ok=False.","verdict":"PARTIAL_NOT_EVIDENCE","problems":["S41-F02"],"reason":"Useful map, but gate names do not prove anything and must not be labeled CP-N4-A promotion at S41."},
+    {"id":"S41-CODE-T1A","title":"resources_methods_status.py","current_content":"status_for() maps POST /jobs=201, GET health=200, GET /jobs/{id}=200/404, GET /jobs=200, else 405.","verdict":"REPAIR_REQUIRED","problems":["S41-F05","S41-F06"],"reason":"Unknown paths become 405; no Allow/Location or real FastAPI response."},
+    {"id":"S41-CODE-T1B","title":"idempotency_pagination_versioning.py","current_content":"page_keyset() uses list.index/raw ids; replay_label() uses process-local dict key->body.","verdict":"REPAIR_REQUIRED","problems":["S41-F07","S41-F08","S41-F09","S41-F10","S41-F11","S41-F12","S41-F13"],"reason":"Sequential toy contradicts durable/atomic/scoped claims and pagination contract lacks validated unique ordering."},
+    {"id":"S41-CODE-T2A","title":"routing_deps_models.py","current_content":"create_job(list,body) generates job-{len+1}; thin_handler injects get_store; prints domain_imports_http False.","verdict":"REPAIR_REQUIRED","problems":["S41-F03","S41-F14","S41-F15"],"reason":"No FastAPI Depends/Pydantic; boundary is self-attested; ID can collide."},
+    {"id":"S41-CODE-T2B","title":"validation_serialize_docs.py","current_content":"Checks required name/priority only, returns 422 for missing fields, allow-lists output fields.","verdict":"REPAIR_REQUIRED","problems":["S41-F16","S41-F17","S41-F18","S41-F38"],"reason":"Wrong types/ranges return 200; no OpenAPI/response_model or no-side-effect assertion."},
+    {"id":"S41-CODE-T3A","title":"sync_async_background.py","current_content":"work_boundary(cpu_heavy)=background; io_wait=async; else sync; enqueue appends to list.","verdict":"REPAIR_REQUIRED","problems":["S41-F19","S41-F20","S41-F21"],"reason":"Durable falls through sync and list cannot survive restart; execution and durability are conflated."},
+    {"id":"S41-CODE-T3B","title":"errors_timeouts_lifecycle.py","current_content":"within_budget compares numbers; problem_details returns type/title/status/trace_id; cascade_ok compares inequalities; lifecycle prints startup/shutdown.","verdict":"REPAIR_REQUIRED","problems":["S41-F22","S41-F23","S41-F24","S41-F25","S41-F26","S41-F37"],"reason":"No real timeout, cancellation, resource or trace; invalid durations can pass."},
+    {"id":"S41-CODE-T4A","title":"unit_contract_integration.py","current_content":"level_detects maps bug-name strings to unit/contract; pyramid_counts checks unit>=contract>=integration.","verdict":"REPAIR_REQUIRED","problems":["S41-F27","S41-F28","S41-F29","S41-F30"],"reason":"No tests/seeded bug; integration unmapped; negative counts can green shape."},
+    {"id":"S41-CODE-T4B","title":"compat_ratelimit_observability.py","current_content":"rate_decision pure used>limit comparison; prints X-API-Version; trace_safe checks exact top-level banned keys.","verdict":"REPAIR_REQUIRED","problems":["S41-F31","S41-F32","S41-F33","S41-F34","S41-F35","S41-F36","S41-F37","S41-F38"],"reason":"No time-window limiter, consumer compatibility, Retry-After header, span context or robust privacy gate."}
+  ],
+  "callouts": [
+    {"id":"S41-CALL-OPEN","title":"Gate de promoción","current_content":"CP-N4-A se demuestra con evidencia local: create idempotente, errores sin PII y lectura compatible v1. Si un assert falla, el gate queda bloqueado.","verdict":"REPAIR_REQUIRED","problems":["S41-F02","S41-F07","S41-F31","S41-F38"],"improved_content":"Gate local de S41 hacia CP-N4-A: tests de create idempotente durable, errores/telemetría sin PII y consumidor v1 compatible deben pasar. CP-N4-A no se promociona hasta S43."},
+    {"id":"S41-CALL-T1A","title":"Contrato local","current_content":"POST /v1/jobs=>201; GET collection=>200; absent item=>404.","verdict":"PARTIAL_REPAIR_REQUIRED","problems":["S41-F05","S41-F06"],"reason":"Add unknown-path 404, known-path 405+Allow and 201 Location behavior."},
+    {"id":"S41-CALL-T1B","title":"Contrato local","current_content":"Replay same request once; conflict on changed body; keyset pagination/version v1.","verdict":"REPAIR_REQUIRED","problems":["S41-F07","S41-F08","S41-F09","S41-F10","S41-F11","S41-F13"],"reason":"Must require concurrency+restart and cursor/compatibility contracts."},
+    {"id":"S41-CALL-T2A","title":"Contrato local","current_content":"Handler orchestrates; domain does not import HTTP; fake store substitution.","verdict":"PARTIAL_REPAIR_REQUIRED","problems":["S41-F14","S41-F15"],"reason":"Principle is sound but must be structurally tested and use stable IDs."},
+    {"id":"S41-CALL-T2B","title":"Contrato local","current_content":"Incomplete body=>422; valid=>allow-list view; OpenAPI matches.","verdict":"REPAIR_REQUIRED","problems":["S41-F16","S41-F17","S41-F18"],"reason":"Current code does not enforce types/ranges, OpenAPI or zero domain calls."},
+    {"id":"S41-CALL-T3A","title":"Contrato local","current_content":"I/O async/sync; CPU or durable enqueues and leaves event loop.","verdict":"REPAIR_REQUIRED","problems":["S41-F19","S41-F20","S41-F21"],"reason":"CPU isolation and durability are distinct; in-memory list is not durable."},
+    {"id":"S41-CALL-T3B","title":"Contrato local","current_content":"client>service>db; timeout cancels/closes; Problem Details includes trace_id.","verdict":"REPAIR_REQUIRED","problems":["S41-F22","S41-F23","S41-F24","S41-F25","S41-F26"],"reason":"Standard-member wording and execution evidence are wrong/incomplete."},
+    {"id":"S41-CALL-T4A","title":"Contrato local","current_content":"domain bug caught in unit; HTTP status in contract; unit>=contract>=integration.","verdict":"REPAIR_REQUIRED","problems":["S41-F27","S41-F28","S41-F29","S41-F30"],"reason":"Actual tests and integration seed required; count inequality is not a quality gate."},
+    {"id":"S41-CALL-T4B","title":"Contrato local","current_content":"Quota exceeded=>recoverable 429; v1 reads stable fields; trace has no PII.","verdict":"REPAIR_REQUIRED","problems":["S41-F31","S41-F32","S41-F33","S41-F35","S41-F36","S41-F37","S41-F38"],"reason":"Current evidence is not time-windowed, consumer-executed, trace-complete or privacy-safe."}
+  ],
+  "figures": [
+    {"id":"S41-status-codes","current_content":"Decision figure: invalid schema=>422 and other status branches.","attack":"Checked for missing registration or status-semantic contradiction.","defense":"Figure is registered and reinforces status as contract; no material defect established in the figure itself.","verdict":"SIN_CAMBIO_DEFENDIDO","improved_content":null},
+    {"id":"S41-request-path","current_content":"Graph: client -> validation -> handler/domain, with rejection at validation.","attack":"Checked whether diagram wrongly allows malformed input into the domain.","defense":"It visually reinforces fail-at-boundary before domain and is registered/renderable.","verdict":"SIN_CAMBIO_DEFENDIDO","improved_content":null}
+  ],
+  "theory_playground": {
+    "id": "llm-finetuning",
+    "current_content": "Practica QLoRA concepts (simulado): quantization 4-bit / LoRA / VRAM mathematics.",
+    "verdict": "REPAIR_REQUIRED",
+    "problems": ["S41-F04"],
+    "improved_content": "Practica contratos HTTP S41: usa una FastAPI/TestClient local o un simulador fiel para comprobar 201/404/405+Allow/422, replay/conflict de Idempotency-Key, cursor inválido, response allow-list y compatibilidad v1. Mantener la key técnica 'llm-finetuning' hasta una migración explícita de progreso."
+  }
+}
