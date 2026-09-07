@@ -1,0 +1,196 @@
+{
+  "schema_version": "3.1.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S41",
+  "shard": "01/02",
+  "coverage": "17 of 33 theory/reference paragraphs",
+  "entries": [
+    {
+      "id": "S41-P001",
+      "location": "opening.p1",
+      "current_content": "Una frontera dibujada en un plano no obliga a nadie. En S40 decidiste qué pertenece a cada contexto y quién responde por él; en cuanto ese sistema atiende a otro equipo, la frontera tiene que viajar por un cable y sostenerse sola, sin que tú estés al lado para explicarla.",
+      "problems": [],
+      "attack": "Se buscó una promesa vaga o una dependencia falsa respecto de S40.",
+      "defense": "El párrafo funciona como puente causal correcto: frontera arquitectónica -> interfaz ejecutable; no acredita que S40 esté aprobado.",
+      "verdict": "SIN_CAMBIO_DEFENDIDO",
+      "improved_content": null,
+      "justification": "La metáfora es concreta, breve y no sobreafirma comportamiento técnico."
+    },
+    {
+      "id": "S41-P002",
+      "location": "opening.p2",
+      "current_content": "Una API es una ventanilla con el reglamento pegado en el vidrio. Quien llega no te conoce: lee qué puede pedir, en qué forma, y qué significa cada respuesta que recibe. El **recurso** es el sustantivo que atiendes —`/v1/jobs`, no `/crearTrabajo`—, y el número que devuelves no es decoración: **201** dice «lo creé», **404** dice «eso no existe», **422** dice «entendí tu formato pero tus datos no cumplen». Devolver 400 para todo es cerrar la ventanilla y gritar «hay un problema» sin decir cuál.",
+      "problems": ["S41-F40", "S41-F03"],
+      "attack": "Presenta la preferencia por recursos nominales como si fuera requisito de HTTP y simplifica 422 antes de que el learner vea una validación real de FastAPI/Pydantic.",
+      "defense": "La metáfora ventanilla/reglamento y el principio de status semánticos son pedagógicamente fuertes; noun-oriented URLs son una excelente convención local.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "Una API es una ventanilla con el reglamento pegado en el vidrio. Quien llega no te conoce: necesita saber qué puede pedir, con qué forma y qué significa cada respuesta. En este servicio usaremos un estilo **orientado a recursos**, por eso preferimos rutas como `/v1/jobs` frente a nombres de acción como `/crearTrabajo`; esa es una convención de diseño de esta API, no una regla del protocolo HTTP. El código de estado sí forma parte del contrato: **201** indica que se creó un recurso, **404** que el recurso solicitado no existe y **422** que la petición llegó con una representación que el servicio no acepta por sus reglas de validación. Más adelante comprobarás esos estados con una aplicación FastAPI y un cliente de prueba, en vez de limitarte a imprimir números.",
+      "justification": "Separa house style de protocolo y prepara una prueba real del framework sin perder la metáfora útil."
+    },
+    {
+      "id": "S41-P003",
+      "location": "opening.p3",
+      "current_content": "Hay una promesa más difícil que el formato: la de no hacer dos veces lo mismo. Si la red se corta después de que tu servidor creó el trabajo pero antes de que el cliente reciba la respuesta, ese cliente reintentará. Una **Idempotency-Key** es el recibo que permite reconocer el reintento y devolver el resultado original en lugar de crear un segundo trabajo. Sin ella, un timeout se convierte en dos cobros.",
+      "problems": ["S41-F12", "S41-F07"],
+      "attack": "Puede hacer creer que poseer el header basta para idempotencia y que Idempotency-Key es una pieza estandarizada de HTTP comparable a status codes.",
+      "defense": "La ventana response-lost-after-effect está bien escogida y la metáfora de recibo explica el propósito con muy baja carga cognitiva.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "Hay una promesa más difícil que el formato: no ejecutar dos veces la misma operación cuando el cliente reintenta. Si la red se corta después de crear el job pero antes de que llegue la respuesta, el cliente puede volver a enviar la petición sin saber que el primer efecto ya ocurrió. Muchas API usan una cabecera llamada **Idempotency-Key** —una convención extendida y descrita por un borrador de IETF, no un status estándar de HTTP— para identificar esa misma intención. La clave solo ayuda si el servidor conserva de forma durable y atómica qué operación representa, qué petición aceptó y qué respuesta debe repetir; de lo contrario, un timeout todavía puede terminar en dos efectos o en un efecto perdido.",
+      "justification": "Conserva el modelo mental y añade la condición causal que evita el false green central de S38/S41."
+    },
+    {
+      "id": "S41-P004",
+      "location": "opening.p4",
+      "current_content": "La pregunta que gobierna la sección es la que se hace quien consume: **¿qué me promete esta respuesta, y qué pasa si la pido otra vez?** Cada decisión —el status, la forma del body, qué campos internos no salen— es una respuesta a eso.",
+      "problems": [],
+      "attack": "Se buscó una reducción excesiva del contrato HTTP a status/body.",
+      "defense": "Como pregunta guía es deliberadamente compacta y conecta semántica de respuesta, reintento y minimización sin decir que sean las únicas dimensiones del contrato.",
+      "verdict": "SIN_CAMBIO_DEFENDIDO",
+      "improved_content": null,
+      "justification": "Pregunta generativa fuerte que organiza el resto de la sección."
+    },
+    {
+      "id": "S41-P005",
+      "location": "opening.p5",
+      "current_content": "Trabajas primero con la biblioteca estándar: diccionarios y funciones que modelan el contrato sin levantar servidor. Los recursos enlazan el equivalente en FastAPI, pero no necesitas un cluster, credenciales ni red para aprender qué promete un 201. El caso es sintético (`CASO-ARE-041`, una oficina ficticia en Arequipa) y no hay PII real.",
+      "problems": ["S41-F03"],
+      "attack": "El párrafo justifica comenzar con modelos stdlib, pero en Theory nunca ejecuta después el equivalente FastAPI que title/outcomes prometen.",
+      "defense": "Progressive disclosure stdlib -> framework es defendible y evita que sintaxis/infraestructura oculten el contrato.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "Primero representarás cada regla con funciones pequeñas de biblioteca estándar para aislar la semántica del contrato. Después de ese modelo mínimo, el mismo subtema debe cruzar la frontera real: una aplicación FastAPI local, un modelo Pydantic y un `TestClient` comprobarán el status, la forma de la respuesta y el OpenAPI generado. No necesitas un clúster, credenciales ni red externa: todo corre en local con `CASO-ARE-041`, una oficina ficticia en Arequipa, y con datos completamente sintéticos.",
+      "justification": "Mantiene progressive disclosure pero convierte el nombre FastAPI en una competencia ejecutada, no en un enlace implícito."
+    },
+    {
+      "id": "S41-P006",
+      "location": "reference.p1",
+      "current_content": "Bloque de referencia. No hace falta leerlo para seguir la sección: reúne el entregable, el orden de los subtemas y los criterios con que se evalúa.",
+      "problems": [],
+      "attack": "Se evaluó si la etiqueta opcional ocultaba prerrequisitos esenciales.",
+      "defense": "Solo describe la función del bloque y no introduce conocimiento necesario fuera de la teoría principal.",
+      "verdict": "SIN_CAMBIO_DEFENDIDO",
+      "improved_content": null,
+      "justification": "Meta-orientación válida para progressive disclosure."
+    },
+    {
+      "id": "S41-P007",
+      "location": "reference.p2",
+      "current_content": "**Producto incremental.** `POST` y `GET` sobre `/v1/jobs` con identidad sintética e Idempotency-Key. Entregas status semánticos, un body sin campos internos y errores tipados. La promoción falla si un replay duplica efectos, si un error filtra PII o si se rompe la compatibilidad de lectura.",
+      "problems": ["S41-F02", "S41-F38"],
+      "attack": "Usa lenguaje de promoción sin aclarar que S41 es solo incremento hacia CP-N4-A/S43 y promete no-PII/compatibilidad con gates aún incompletos.",
+      "defense": "Los tres criterios son apropiados como gates locales de S41.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "**Incremento de S41 hacia CP-N4-A.** Implementas `POST` y `GET` sobre `/v1/jobs` con identidad sintética y una política de idempotencia. Para cerrar **esta sección**, los tests locales deben demostrar status semánticos, respuestas públicas sin campos internos, errores y telemetría sin PII, y compatibilidad de lectura con un consumidor v1 congelado. Superar esos checks no promociona todavía CP-N4-A: el gate del capstone llega en S43, después de sumar los controles de S42 y la evidencia restante de plataforma.",
+      "justification": "Corrige la ubicación del capstone y exige evidencia transversal en vez de autoatestación."
+    },
+    {
+      "id": "S41-P008",
+      "location": "reference.p3",
+      "current_content": "**Orden de los subtemas.** T1 fija recursos, status e idempotencia, porque son el vocabulario. T2 pasa a routing, dependencias y validación. T3 separa lo síncrono de lo asíncrono y tipa los errores. T4 cierra con pruebas, límite de tasa y observabilidad.",
+      "problems": [],
+      "attack": "Se buscó una secuencia pedagógica circular o prematura.",
+      "defense": "La progresión contrato -> framework boundary -> ejecución -> verificación es coherente y reduce carga intrínseca.",
+      "verdict": "SIN_CAMBIO_DEFENDIDO",
+      "improved_content": null,
+      "justification": "Buen connective tissue entre cuatro temas."
+    },
+    {
+      "id": "S41-P009",
+      "location": "reference.p4",
+      "current_content": "**Tokens de laboratorio.** Los códigos `RETURN_*` y `THIN_THE_HANDLER` que verás en los ejercicios son marcas del laboratorio para fallar de forma explícita, no enums de producción.",
+      "problems": [],
+      "attack": "Se evaluó si exponía developer meta-text impropio.",
+      "defense": "Es instrucción learner-facing sobre convenciones del laboratorio y evita que el alumno confunda tokens didácticos con API real.",
+      "verdict": "SIN_CAMBIO_DEFENDIDO",
+      "improved_content": null,
+      "justification": "Previene una confusión concreta; no es meta-leak."
+    },
+    {
+      "id": "S41-P010",
+      "location": "T1-A.p1",
+      "current_content": "Desde S40 ya tienes fronteras de dominio; aquí la frontera se vuelve **HTTP**. Modela recursos con **sustantivos** versionados (`/v1/jobs`, `/v1/health`), no verbos en la URL. El método comunica intención: **GET** es lectura segura e idempotente; **POST** crea o encola. El **status** es parte del contrato: **201** crea un recurso (cuerpo del job nuevo; opcionalmente header `Location`), **200** lectura OK de colección o ítem, **422** body inválido (validación de esquema; FastAPI/Pydantic lo usa por defecto), **404** ítem ausente (`/v1/jobs/{id}`), **409** conflicto de negocio/idempotencia, **500** fallo interno. Elegir 200 en un create exitoso confunde a clientes y a OpenAPI.",
+      "problems": ["S41-F01", "S41-F06", "S41-F40"],
+      "attack": "Da por adquiridas fronteras S40 pese a su gate abierto, presenta noun URLs como regla y subenseña Location en 201.",
+      "defense": "GET/POST y los códigos elegidos son un conjunto razonable de partida para esta API; 201 en create es correcto.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "S40 propuso fronteras de dominio, pero en este laboratorio solo las usarás cuando su mapper y su contrato estén identificados y testeados; una API no debe convertir una frontera todavía ambigua en verdad pública. Para este servicio elegiremos un estilo orientado a recursos con rutas nominales como `/v1/jobs` y `/v1/health`. **GET** se usa para lectura segura e idempotente; **POST** para crear o encolar según el contrato. Si `POST /v1/jobs` crea un recurso, responde **201** y, cuando el nuevo recurso tiene una URI, devuelve también un `Location` coherente. Las lecturas válidas usan **200**; una petición que falla la validación declarada puede producir **422** en FastAPI; un ítem inexistente usa **404**; un conflicto de idempotencia puede usar **409**; un fallo interno inesperado usa un error 5xx seguro. Estos códigos se comprobarán contra rutas reales, no solo como una tabla memorizada.",
+      "justification": "Corrige protocolo vs estilo, upstream gate y create semantics sin aumentar complejidad innecesaria."
+    },
+    {
+      "id": "S41-P011",
+      "location": "T1-A.p2",
+      "current_content": "Qué debe quedar medible en este subtema: una matriz (método, path, status) donde `POST /v1/jobs` + create ⇒ **201**, `GET /v1/jobs` (colección, incluso vacía) ⇒ **200**, y `GET /v1/jobs/{id}` ⇒ **200** o **404**. Fallos de diseño típicos: status genérico, verbo en path (`/createJob`), 200 en create, o 404 sobre una colección vacía. Un test de contrato lista pares `(method, path, status esperado)` y falla si el handler inventa códigos. **405** es “método no permitido en un path existente”; no lo uses para enmascarar un **422** de body ni un path desconocido (**404**).",
+      "problems": ["S41-F05", "S41-F40"],
+      "attack": "El párrafo define correctamente 404/405, pero el ejecutable inmediatamente posterior viola esa distinción; además mezcla una preferencia de path con fallos de protocolo.",
+      "defense": "La distinción colección vacía vs ítem ausente y 404 vs 405 es pedagógicamente precisa.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "Qué debe quedar medible en este subtema: una matriz (método, path, status) donde `POST /v1/jobs` + create ⇒ **201**, `GET /v1/jobs` —aunque la colección esté vacía— ⇒ **200**, y `GET /v1/jobs/{id}` ⇒ **200** o **404**. El test debe resolver primero si el recurso objetivo existe; solo después pregunta si ese recurso admite el método. Por eso un path desconocido devuelve **404**, mientras un método no permitido sobre un path conocido devuelve **405** y comunica los métodos permitidos mediante `Allow`. Mantén aparte las convenciones de diseño —por ejemplo preferir `/jobs` a `/createJob`— de los errores de semántica HTTP, para que el learner sepa qué rompe el protocolo y qué rompe el estilo acordado de la API.",
+      "justification": "Hace imposible que el helper posterior justifique 405 genérico y enseña el contrato Allow."
+    },
+    {
+      "id": "S41-P012",
+      "location": "T1-A.p3",
+      "current_content": "En `CASO-ARE-041-1A` (oficina ficticia en Arequipa) la matriz del lab fija `POST /v1/jobs → 201`, `GET /v1/health → 200` y `GET /v1/jobs/job-404 → 404`. Evidencia: pares imprimibles y asertables. Sin PII ni secretos en paths ni en cuerpos de ejemplo. El siguiente subtema añade Idempotency-Key sobre este mismo recurso.",
+      "problems": ["S41-F03", "S41-F30"],
+      "attack": "Llama evidencia a pares imprimibles sin un endpoint/TestClient/pytest recogido.",
+      "defense": "Los casos sintéticos y la continuidad hacia idempotencia son buenos; los pares son útiles como oráculo.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "En `CASO-ARE-041-1A` la tabla de casos sigue siendo el oráculo: create de `/v1/jobs` espera **201**, health espera **200** e ítem ausente espera **404**. La evidencia, sin embargo, no es imprimir esos pares: un `TestClient` llama a una aplicación FastAPI mínima y `pytest` compara cada respuesta con el oráculo, incluido el caso 405/`Allow`. Los paths y payloads son sintéticos y no contienen PII ni secretos. T1-B reutiliza exactamente el mismo endpoint para comprobar qué ocurre cuando el cliente repite el POST.",
+      "justification": "Transforma el mismo fixture en evidencia ejecutable del framework y prepara transferencia a idempotencia."
+    },
+    {
+      "id": "S41-P013",
+      "location": "T1-B.p1",
+      "current_content": "Con el recurso y el 201 claros, el riesgo operativo es el **reintento del cliente**. La **Idempotency-Key** (header de industria, p. ej. Stripe) liga una clave al **hash canónico del body** y a la respuesta guardada. La identidad completa necesita algo más que esos dos: la misma clave enviada a otro endpoint, o por otro cliente, no es la misma petición. El registro se indexa por (cliente o tenant, operación, clave), porque si no, un cliente que reutiliza un UUID puede leer la respuesta guardada de otro — o bloquear su propia creación legítima contra un recurso distinto. La misma clave + el mismo body ⇒ **replay** sin segundo side effect. La misma clave + un body distinto ⇒ **conflicto** (no silenciar ni crear otro job). El **versionado** (`/v1/...`) congela campos públicos; la **paginación por cursor** (keyset: `next=job-020`) es más estable que offset puro cuando el set cambia entre requests.",
+      "problems": ["S41-F12", "S41-F13"],
+      "attack": "La primera mitad es fuerte, pero la frase de versionado reduce compatibilidad a 'congelar campos' y el status normativo de Idempotency-Key queda ambiguo.",
+      "defense": "Scope tenant+operation+key, canonical body y conflict-on-mismatch son conceptos correctos y avanzados.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "Con el recurso y el 201 claros, el riesgo operativo es el **reintento del cliente**. Una `Idempotency-Key` —cabecera usada por varias API y descrita en un borrador de IETF— identifica una intención dentro de un **scope** definido por el servicio, por ejemplo `(tenant, operación, clave)`. El servidor conserva una huella canónica e inmutable de la petición y la respuesta asociada: mismo scope + misma clave + misma huella ⇒ replay sin segundo efecto; misma clave con otra huella ⇒ conflicto. La versión `/v1` nombra un contrato, pero no lo vuelve compatible por magia: además de campos, debes preservar o evolucionar de forma documentada tipos, requiredness, enums, errores, semántica, orden/paginación y límites operativos que un consumidor pueda observar. Para listas cambiantes, un cursor keyset puede ser más estable que offset cuando está ligado a un orden único y explícito.",
+      "justification": "Conserva la parte técnicamente sólida y corrige las dos simplificaciones que generan falsa seguridad."
+    },
+    {
+      "id": "S41-P014",
+      "location": "T1-B.p2",
+      "current_content": "Artefacto de este subtema: un store durable de claves donde la primera llamada es `created`, la segunda idéntica es `replay` y `len(store)==1`. Ese assert prueba menos de lo que parece, y conviene saber qué: demuestra el comportamiento ante un reintento **secuencial**, que es el caso del lab. No demuestra idempotencia bajo concurrencia — dos peticiones simultáneas pueden consultar la clave, ambas encontrarla ausente y crear dos jobs. Lo que cierra esa ventana es que reservar la clave y crear el job sean una sola operación atómica: un `INSERT` con restricción de unicidad que falle en la segunda, no un `if key not in store` seguido de una escritura. Hash mismatch con la misma key no es replay: es conflicto. Criterio: dos POST idénticos no duplican el job; un POST con body distinto bajo la misma key no “repara” en silencio. En listados, preferir **keyset** (`after_id` → `next`) frente a `offset`, que reordena si llegan filas nuevas al inicio.",
+      "problems": ["S41-F07"],
+      "attack": "El párrafo explica exactamente por qué el propio código canónico no satisface el contrato y llama 'store durable' a un artifact que después es un dict.",
+      "defense": "Conceptualmente es uno de los mejores párrafos de la sección: diferencia evidencia secuencial de concurrencia y exige atomicidad.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "Artefacto de este subtema: un **store realmente durable** de idempotencia donde la primera petición crea el job y guarda de forma atómica la huella de la intención y su respuesta; la segunda petición idéntica obtiene replay sin ejecutar un segundo efecto. Un test secuencial con `len(jobs)==1` es solo el primer caso. El gate añade dos peticiones concurrentes con la misma identidad y un reinicio del proceso: exactamente una puede reservar la operación y el estado debe seguir disponible después de reabrir el store. Una petición con la misma clave y huella distinta produce conflicto. Para paginación, el test debe además demostrar que el cursor se apoya en un orden único y que un cursor inválido no se confunde con el final de la colección.",
+      "justification": "El párrafo original diagnostica bien el problema; la mejora alinea el entregable descrito con la evidencia que debe existir."
+    },
+    {
+      "id": "S41-P015",
+      "location": "T1-B.p3",
+      "current_content": "`CASO-ARE-041-1B`: dos POST con `idem-are-1` y el mismo body dejan un solo job sintético. El lab imprime cursor keyset (`job-001`…`job-004`). En producción el cursor suele ser opaco firmado; aquí usamos ids legibles para ver el mecanismo. Sin PII en headers de log. Luego, en T2, el mismo create se separa en handler delgado + dominio.",
+      "problems": ["S41-F10", "S41-F11", "S41-F38"],
+      "attack": "El resultado nominal oculta cursor inválido/duplicado y declara privacidad de headers sin test de telemetry schema.",
+      "defense": "Ids legibles son adecuados para revelar el mecanismo antes de introducir encoding/signing del cursor.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "`CASO-ARE-041-1B` conserva un caso legible: dos POST con la misma intención dejan un solo job y una lista ordenada produce dos páginas sucesivas. Para que el ejemplo sea evidencia y no una ilusión del fixture, el orden debe declarar una clave única; `size` inválido y cursor desconocido deben producir un error tipado, y un test con inserciones entre páginas debe demostrar qué estabilidad promete el cursor. En producción el cursor puede codificar y firmar el tuple de orden y el contexto de filtros/as-of; aquí primero lo mostramos de forma legible. Los logs usan una allow-list de campos y tests adversos verifican que ni la clave de idempotencia completa ni PII entren en telemetría. T2 reutiliza el mismo create al separar handler, dominio y adaptador.",
+      "justification": "Añade las precondiciones que hacen que keyset y privacidad sean verificables."
+    },
+    {
+      "id": "S41-P016",
+      "location": "T2-A.p1",
+      "current_content": "Ya sabes *qué* devolver (201, replay, conflicto); ahora *dónde* vive cada regla. En FastAPI (y en nuestro modelo stdlib) el **path operation** solo orquesta: recibe el request ya validado, llama dependencias y devuelve una vista. La **dependency** (`Depends` en FastAPI) inyecta capacidades sustituibles — p. ej. un `JobStore` en memoria en lab y un adaptador SQL en prod — sin que el dominio importe HTTP. El **modelo** (`JobCreate`) declara el contrato de entrada; el dominio recibe tipos ya validados, no `Request` crudo.",
+      "problems": ["S41-F03", "S41-F39"],
+      "attack": "Describe objetos concretos de FastAPI/Pydantic que nunca aparecen en el executable y acumula términos ingleses en una sola introducción.",
+      "defense": "La separación orquestación/dependency/model/domain es conceptualmente correcta y continúa S40 de forma útil.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "Ya sabes *qué* debe devolver el servicio; ahora ubica *dónde* vive cada regla. En FastAPI, una **operación de ruta** (*path operation*) recibe una entrada que Pydantic ya validó, obtiene capacidades mediante `Depends` y orquesta una llamada al dominio. La **dependencia** es la pieza sustituible —por ejemplo un `JobStore` de prueba o un adaptador SQL—; el dominio depende de la interfaz que necesita, no de `Request`, status HTTP ni FastAPI. Un modelo `JobCreate` define y documenta el contrato de entrada. Después de modelar esa separación con funciones simples, el lab debe montar la ruta FastAPI real y reemplazar el store mediante dependency override para demostrar que la frontera existe de verdad.",
+      "justification": "Spanish-first y un puente executable eliminan widow terms y self-attestation."
+    },
+    {
+      "id": "S41-P017",
+      "location": "T2-A.p2",
+      "current_content": "Demostración mínima: un `thin_handler(get_store, body)` de pocas líneas y un `create_job(store, body)` sin status codes. Si sustituyes `get_store` por un fake, el mismo handler crea el job sin reescribir la ruta. Anti-patrón: handler con I/O + SQL + reglas mezclados, o dominio que importa `Request`/códigos HTTP. Flag de evidencia: `domain_imports_http == False`.",
+      "problems": ["S41-F14", "S41-F15"],
+      "attack": "El flag de evidencia es autoescrito y el ejemplo de dominio crea IDs desde len(store), un esquema que deja de ser seguro con deletes/concurrencia.",
+      "defense": "Sustituir get_store por un fake sí demuestra una forma inicial de dependency injection.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_content": "Demostración mínima: `thin_handler(get_store, body)` solo orquesta y `create_job(store, command)` no conoce códigos HTTP. Sustituir `get_store` por un fake debe ejecutar exactamente la misma regla de dominio, pero la evidencia no es imprimir `domain_imports_http=False`: un test de arquitectura/imports y tests de contrato del port deben fallar si el dominio empieza a importar `Request` o FastAPI. La identidad del job tampoco se deriva de `len(store)`; se inyecta un generador estable para que borrar un registro o ejecutar dos requests a la vez no fabrique el mismo ID. Así la sustitución del store prueba la dependencia y no depende de casualidades del fixture.",
+      "justification": "Convierte dos banderas aparentes en propiedades comprobables sin hacer el ejemplo excesivamente framework-heavy."
+    }
+  ]
+}
