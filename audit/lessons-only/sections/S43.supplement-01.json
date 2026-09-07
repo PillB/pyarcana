@@ -1,0 +1,20 @@
+{
+  "schema_version":"3.3.0",
+  "section":"S43",
+  "type":"APPEND_ONLY_SUPPLEMENT",
+  "reason":"Component pass found a new material issue after the base registry was committed; base S43.json is not overwritten.",
+  "additional_findings":1,
+  "severity_delta":{"P0":0,"P1":1,"P2":0,"P3":0},
+  "finding":{
+    "id":"S43-F44",
+    "severity":"P1",
+    "category":"FIGURE_SUBTOPIC_SWAP_AND_PREMATURE_DISCLOSURE",
+    "summary":"The two T1 figures are effectively attached to the wrong conceptual moment: T1-A shows builder→runtime/toolchain (the T4-A multi-stage concept), while T1-B shows cache invalidation/source-before-deps (the T1-A concept).",
+    "evidence":"T1-A figure id `S43-multistage`, caption 'Un gcc en la imagen final...' and alt builder→runtime; T1-B figure id `S43-image-layers`, caption 'Copiar el código antes que las dependencias...' and alt image layers/cache.",
+    "pedagogical_impact":"The visual channel introduces a future concept before it is explained and then repeats the previous concept when the learner needs a privilege/base mental model; dual coding reinforces the wrong node-to-concept edge.",
+    "attack":"Checked whether captions were intentionally anticipatory. They are not referenced as previews, and each caption describes the neighboring subtopic more naturally than the one where it is rendered.",
+    "defense":"Both figures are relevant somewhere in S43, so the assets themselves are not wrong.",
+    "verdict":"CONFIRMED_FINDING",
+    "fix":"Move the cache/layer figure to T1-A. Move the multi-stage builder/runtime figure to T4-A, or replace T1-B with a base/non-root/capabilities/runtime-size visual. Do not renumber section IDs."
+  }
+}
