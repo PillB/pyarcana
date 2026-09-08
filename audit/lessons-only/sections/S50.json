@@ -1,0 +1,29 @@
+{
+  "schema_version": "pyarcana.section-continuity.v1",
+  "section": 50,
+  "title": "Evals, red teaming y fiabilidad de IA",
+  "status": "REPAIR_REQUIRED",
+  "score": 1.2,
+  "severity_counts": {
+    "P0": 8,
+    "P1": 43,
+    "P2": 9
+  },
+  "full_granular_json_sha256": "44b3f0f247a0e8c798d09246fc798f494ee92e92a83eaa8e67afb0ea15a66e1e",
+  "full_granular_json_elements": 161,
+  "source_blob_sha": "74c1df698c2fa60f306279d8facc113ad7306e70",
+  "report_path": "audit/lessons-only/S50-full-scope-explorer.md",
+  "wiki_path": "audit/lessons-only/wiki/S50-20260908.md",
+  "critical_findings": [
+    "F04",
+    "F05",
+    "F10",
+    "F28",
+    "F30",
+    "F45",
+    "F46",
+    "F50"
+  ],
+  "continuity_note": "S01 running log; S02-S49 prior JSON/evidence verified. S50 was the first missing section JSON.",
+  "production_changes_applied": false
+}
