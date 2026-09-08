@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S44",
+  "artifact_type": "SOLARIZE_PREEXECUTION_AND_VERIFICATION_LOG",
+  "method_sources": [
+    "PillB/solarize_skill/SKILL.md (TDD Solarize v2.2; adapted for audit-only work)",
+    ".agents/skills/pyarcana-curriculum-audit/SKILL.md",
+    "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+    "Solarized Website Content Comprehension Auditor & Rewriter",
+    "2026-09-04 auditoría S01 conversation ZIP: ZERO_TECH reader, prerequisite ledger, minimum sufficient repair and source-first evidence"
+  ],
+  "audit_only_adaptation": {
+    "RED": "Construct counterexamples that should be blocked and verify whether published learner code/gates accept them.",
+    "GREEN": "Do not patch curriculum. State the minimal repair as proposed diff/improved text.",
+    "VALIDATE": "Use an independent verifier pass across shared UI, roadmap, capstone, exam, figures and live surface.",
+    "MEMORY": "Persist append-only section shards, a full-scope index and a quick-reference wiki.",
+    "convergence": "After the last new material finding, require two independent rescans with no additional P0/P1 before closing. P2 findings still recorded."
+  },
+  "reader_model": "Capable learner entering S44 with only prior PyArcana knowledge; no hidden DevOps background. Technical terms must be introduced causally and real evidence must not be replaced by author/learner assertions.",
+  "critical_evidence_rule": "A learner-editable boolean/string may summarize evidence but is never itself sufficient proof that a CI, supply-chain, approval, attestation, canary or rollback control occurred.",
+  "pre_round_research": [
+    {
+      "source": "GitHub Secure use reference",
+      "finding_basis": "Full-length action commit SHA is the immutable pinning form; verify the SHA belongs to the intended action repository."
+    },
+    {
+      "source": "GitHub artifact attestations",
+      "finding_basis": "Generation needs `attestations: write`, `id-token: write`, `contents: read`; verification is a cryptographic/identity operation, not a boolean flag."
+    },
+    {
+      "source": "GitHub environments",
+      "finding_basis": "Required reviewers, prevent self-review, deployment branch restrictions and optional no-bypass protection are enforceable controls."
+    },
+    {
+      "source": "GitHub dependency review",
+      "finding_basis": "Dependency review is computed from PR dependency changes and can be required to block vulnerable additions; a local `dependency_review=True` is not equivalent evidence."
+    },
+    {
+      "source": "SLSA Provenance v1.2",
+      "finding_basis": "Provenance is verifiable information tracking an artifact to where/when/how it was produced."
+    }
+  ],
+  "rounds": [
+    {
+      "round": 0,
+      "name": "source_and_scope_lock",
+      "actions": [
+        "Resolved S44 through course index/main rather than trusting legacy filename.",
+        "Confirmed canonical title CI/CD y seguridad de la cadena de suministro; stable id/file remain `multimodal`.",
+        "Loaded existing S44 theory paragraph and practice audit shards on the audit branch.",
+        "Loaded V3 roadmap and S43 prerequisite status."
+      ],
+      "result": "Existing 46-finding S44 audit was current to main source blob; no source rewrite performed."
+    },
+    {
+      "round": 1,
+      "name": "red_counterexample_pass",
+      "runtime_counterexamples": [
+        {
+          "id": "S44-CE01",
+          "target": "T1-B publish_if",
+          "case": "success=True, digest='sha256:x', retention_days=7",
+          "observed": "publishable=True / artifact published",
+          "expected": "Reject malformed SHA-256 digest; prefix alone is not proof."
+        },
+        {
+          "id": "S44-CE02",
+          "target": "T2-A pin audit",
+          "case": "workflow has an unpinned third-party action followed by a 40-hex pinned action",
+          "observed": "final `pin_ok=True` because the variable is overwritten per step",
+          "expected": "Any unpinned action must fail the gate; all `uses:` entries must pass."
+        },
+        {
+          "id": "S44-CE03",
+          "target": "T2-B provenance",
+          "case": "artifact, SBOM and provenance strings are all `sha256:aaa`",
+          "observed": "provenance_ok=True",
+          "expected": "Validate digest syntax, subject relationship and attestation identity/cryptography; SBOM document hash is not artifact subject hash."
+        },
+        {
+          "id": "S44-CE04",
+          "target": "T3-B canary",
+          "case": "error_rate=-1, threshold=.01, rollback_seconds=-999, rto_seconds=120",
+          "observed": "canary_ok=True",
+          "expected": "Reject negative/out-of-domain metrics before comparing thresholds."
+        },
+        {
+          "id": "S44-CE05",
+          "target": "T4-A release notes",
+          "case": "all required keys exist but every value is empty",
+          "observed": "notes_operable=True",
+          "expected": "Require non-empty actionable content and validate required semantics."
+        },
+        {
+          "id": "S44-CE06",
+          "target": "T4-B failure state machine",
+          "case": "healthy run with no critical failure",
+          "observed": "STOP_SILENT_FAILURE",
+          "expected": "Healthy path should continue/pass; incident handling should only activate on an actual critical failure or missing critical evidence."
+        },
+        {
+          "id": "S44-CE07",
+          "target": "You Do portfolio_ready",
+          "case": "set all four learner-editable evidence flags True without inspecting artifacts",
+          "observed": "READY",
+          "expected": "Derive readiness from workflow/artifact/SBOM/provenance/canary/rollback evidence, not flags."
+        }
+      ],
+      "result": "Confirmed exploitable false-greens and one false-red/invalid healthy state."
+    },
+    {
+      "round": 2,
+      "name": "shared_surface_verifier",
+      "actions": [
+        "Fetched SectionView instead of trusting code-search index.",
+        "Confirmed `demos[sectionId]` maps legacy `multimodal` to learner-facing CLIP/Whisper simulation.",
+        "Fetched canonical/public CP-N4-B brief and canonical rubric.",
+        "Fetched authenticated exam route and S44 question-bank seed.",
+        "Fetched figure registry, FIGURE_DATA union and S44 figure data."
+      ],
+      "new_material_finding": "S44-F47: `S44-permission-scope` is referenced but absent from both figure registries; FigureFrame returns null, so the intended visual does not render.",
+      "result": "Finding count increased from 46 to 47; convergence counter reset."
+    },
+    {
+      "round": 3,
+      "name": "quiet_rescan_1_prereq_capstone_exam",
+      "surfaces": ["S43 audit ledger", "V3 roadmap", "CP-N4-B brief/rubric", "ExamView/start route/question bank"],
+      "new_P0_P1": 0,
+      "notes": "Confirmed existing F01/F38/F39/F40/F41/F42; no additional material defect added."
+    },
+    {
+      "round": 4,
+      "name": "quiet_rescan_2_ui_figures_public_live",
+      "surfaces": ["SectionView demo selector", "FigureFrame/FIGURES/FIGURE_DATA", "public CP-N4-B brief", "S44 self-check", "public S44 live card"],
+      "new_P0_P1": 0,
+      "notes": "No new material P0/P1. Public 20h vs main 9h remains UNRESOLVED_LIVE_SOURCE_DRIFT because crawl is stale."
+    }
+  ],
+  "convergence": {
+    "achieved": true,
+    "criterion": "Two independent rescans after S44-F47 with zero additional P0/P1.",
+    "confirmed_findings": 47,
+    "severity_counts": {"P0": 1, "P1": 34, "P2": 12},
+    "unresolved": ["Public card 20h vs canonical main 9h; fresh hydrated browser capture required."],
+    "release_verdict": "FAIL / REPAIR_REQUIRED"
+  },
+  "no_curriculum_writes": true
+}
