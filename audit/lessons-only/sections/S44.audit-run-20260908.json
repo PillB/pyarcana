@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S44",
+  "artifact_type": "APPEND_ONLY_EXPLORER_CONTINUATION_CHECKPOINT",
+  "generated_at": "2026-09-08T07:19:00-05:00",
+  "scope_lock": {
+    "section_only": "S44",
+    "title": "CI/CD y seguridad de la cadena de suministro",
+    "canonical_path": "src/lib/course/sections/s44-multimodal.ts",
+    "stable_legacy_id": "multimodal",
+    "legacy_id_policy": "PRESERVE_STABLE_URL_PROGRESS_KEY; do not use it as current semantic content selector",
+    "curriculum_source_modified": false
+  },
+  "source_revalidation": {
+    "main_commit": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+    "source_blob": "eec61acc20c6a06558b4a13193522066152cbffb",
+    "source_drift_since_full_scope_audit": false,
+    "audit_branch_before_this_checkpoint": "aa70fb503502e595401c8e7ed82bad6a7ecae964",
+    "live_surface": {
+      "crawler_observed_title": "CI/CD supply chain",
+      "crawler_observed_hours": 20,
+      "canonical_source_hours": 9,
+      "crawler_freshness": "last month",
+      "verdict": "UNRESOLVED_LIVE_SOURCE_DRIFT",
+      "reason": "Stale public crawl cannot prove a current deployed-hours defect; fresh hydrated browser evidence is still required."
+    }
+  },
+  "method_refresh": {
+    "solarize": {
+      "source": "PillB/solarize_skill/SKILL.md v2.2",
+      "audit_adaptation": [
+        "Research and graph-memory query before judging.",
+        "RED = construct and execute adversarial counterexamples against learner-visible contracts.",
+        "GREEN-equivalent = propose the minimum coherent repair/diff without mutating curriculum source.",
+        "Refactor critique = attack the proposed repair for new prerequisites, jargon, scope creep or weakened alignment.",
+        "Validate with an independent verifier across shared UI, figures, roadmap, capstone, exam and live surface.",
+        "Require convergence/quiet rescans before closure and persist memory."
+      ]
+    },
+    "conversation_zip_refresh": [
+      {
+        "name": "2026-09-04-2026-09-04-auditoría-s01-lección.zip",
+        "recovered_contracts": [
+          "Resolve section identity from current canonical source rather than legacy filenames/slugs.",
+          "Use ZERO_TECH or explicit prerequisite evidence; roadmap declarations do not prove learner readiness.",
+          "Maintain prerequisite/concept evidence and source-first verification."
+        ]
+      },
+      {
+        "name": "2026-09-05-2026-09-07-s17-audit-summary.zip",
+        "recovered_contracts": [
+          "Assume real defects are plausible and actively try to expose them.",
+          "Do not appease the author; every suspicion still receives Attack -> Defense -> Verdict.",
+          "Maintain hierarchical JSON to paragraph/learner-element level with current content, observations, improved version and justification."
+        ]
+      }
+    ],
+    "wiki_memory": {
+      "campaign": "audit/lessons-only/wiki/README.md",
+      "section": "audit/lessons-only/wiki/S44.md",
+      "status": "ALREADY_PRESENT_AND_REVALIDATED"
+    }
+  },
+  "fresh_external_reference_check": [
+    {
+      "authority": "GitHub Secure use reference",
+      "confirmed_rule": "A full-length commit SHA is the immutable action pinning form; the selected SHA should be verified as belonging to the intended action repository rather than a fork.",
+      "supports_findings": ["S44-F12", "S44-F13"]
+    },
+    {
+      "authority": "GitHub Artifact Attestations documentation",
+      "confirmed_rule": "Attestations are cryptographically signed provenance claims and only provide security value when verified; build provenance generation uses scoped permissions including contents:read, id-token:write and attestations:write.",
+      "supports_findings": ["S44-F16", "S44-F17", "S44-F46"]
+    },
+    {
+      "authority": "GitHub Deployments and Environments documentation",
+      "confirmed_rule": "Protected environments can require reviewers and can prevent self-review; approval is an enforced deployment control, not a truthy name field.",
+      "supports_findings": ["S44-F19", "S44-F20"]
+    },
+    {
+      "authority": "GitHub Dependency Review documentation",
+      "confirmed_rule": "Dependency review is computed from dependency changes in pull requests and its check can enforce policy/block merging; a learner-supplied boolean is not equivalent evidence.",
+      "supports_findings": ["S44-F14"]
+    },
+    {
+      "authority": "SLSA Provenance v1.2",
+      "confirmed_rule": "Provenance is verifiable information describing where, when and how an artifact was produced.",
+      "supports_findings": ["S44-F15", "S44-F17", "S44-F18"]
+    }
+  ],
+  "adversarial_regression_set_revalidated": [
+    "Malformed prefix-only digests such as sha256:x must not count as artifact identity.",
+    "One unpinned action anywhere must fail an all-actions pin gate even if a later action is pinned.",
+    "Equal garbage strings for artifact/SBOM/provenance must not prove provenance.",
+    "Negative canary rates/times must be rejected as invalid input.",
+    "Release-note headings with empty bodies must not be considered operable.",
+    "A healthy pipeline run must not be classified as a silent critical failure.",
+    "Learner-editable booleans must never be sufficient to produce You Do READY.",
+    "Every declared S44 figure id must resolve through the figure registry.",
+    "S44 Theory must not render CLIP/Whisper content through the legacy multimodal id."
+  ],
+  "audit_qa": {
+    "known_error": "audit/lessons-only/S44-full-scope-explorer.md says 'eight self-check questions' in its scope sentence, while canonical source and ledgers contain five.",
+    "authoritative_correction": "audit/lessons-only/sections/S44.audit-corrections-20260907.json",
+    "curriculum_finding_count_delta": 0,
+    "note": "This is an audit-artifact QA error, not a new curriculum defect."
+  },
+  "convergence": {
+    "previous_full_scope_result": {
+      "score": 1.5,
+      "verdict": "REPAIR_REQUIRED",
+      "release": "FAIL",
+      "confirmed_findings": 47,
+      "severity_counts": {"P0": 1, "P1": 34, "P2": 12},
+      "unresolved_live": 1
+    },
+    "new_material_P0_P1_this_continuation": 0,
+    "new_material_P2_this_continuation": 0,
+    "result": "NO_FINDING_COUNT_CHANGE; prior 47-finding registry remains authoritative",
+    "quiet_rounds_preserved": true
+  },
+  "ledger_index": [
+    "audit/lessons-only/sections/S44.json",
+    "audit/lessons-only/sections/S44.paragraphs-01.json",
+    "audit/lessons-only/sections/S44.paragraphs-02.json",
+    "audit/lessons-only/sections/S44.paragraphs-03.json",
+    "audit/lessons-only/sections/S44.paragraphs-04.json",
+    "audit/lessons-only/sections/S44.practice-audit-01.json",
+    "audit/lessons-only/sections/S44.practice-audit-02.json",
+    "audit/lessons-only/sections/S44.components.json",
+    "audit/lessons-only/sections/S44.solarize-cycle.json",
+    "audit/lessons-only/sections/S44.full-scope-index.json",
+    "audit/lessons-only/sections/S44.audit-corrections-20260907.json",
+    "audit/lessons-only/sections/S44.audit-run-20260908.json",
+    "audit/lessons-only/wiki/S44.md",
+    "audit/lessons-only/wiki/README.md",
+    "audit/lessons-only/S44-full-scope-explorer.md"
+  ],
+  "final_rule": "Explorer does not apply curriculum fixes. S44 remains REPAIR_REQUIRED until the accepted P0/P1 defects are repaired by a Fixer and re-verified."
+}
