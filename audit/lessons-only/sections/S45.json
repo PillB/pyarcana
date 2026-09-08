@@ -1,30 +1,26 @@
 {
   "section": "S45",
-  "schema_version": "split-full-v1",
-  "full_local_sha256": "405a3eb42035d8411cce51ec99d2b0700d5d470a58823c1bb0843295ad3b111e",
-  "full_local_size": 198226,
-  "status": "fail",
+  "schema_version": "conversation-full-plus-github-manifest-v1",
+  "status": "REPAIR_REQUIRED",
   "score": 2.0,
-  "severity_counts": {"P1": 26, "P2": 11, "P0": 1},
-  "parts": [
-    {"path":"audit/lessons-only/sections/S45.parts/00-meta.json","bytes":9806,"sha256":"e714545b8d38eed1d35960522428003c93825e257b6465027c392d74a0280160"},
-    {"path":"audit/lessons-only/sections/S45.parts/10-findings.json","bytes":7278,"sha256":"733709b1d84e7b53c4181f2004bb44b6deb8a0d0216d33cabbe04aacd12275b0"},
-    {"path":"audit/lessons-only/sections/S45.parts/11-findings.json","bytes":6733,"sha256":"a30bb5564c811391fffe2f34560f2696d161eca8deb728e6b7da45c31d906b3d"},
-    {"path":"audit/lessons-only/sections/S45.parts/12-findings.json","bytes":6893,"sha256":"3c96afde8514f0ac222438ceb9b127f0c172a76b6d39ca20e456100cdae245ee"},
-    {"path":"audit/lessons-only/sections/S45.parts/13-findings.json","bytes":6942,"sha256":"570fa41418e5041654c1b8614e850e5fccb9de037b2e0d3fd7f814632c045bf1"},
-    {"path":"audit/lessons-only/sections/S45.parts/14-findings.json","bytes":5636,"sha256":"7b075a58472bfc4758f3444ac6e1c2216e9b40afd588fc101391c065578dd16c"},
-    {"path":"audit/lessons-only/sections/S45.parts/30-elements.json","bytes":13410,"sha256":"1208d628ab6a786ba740aa3a2ba371c0979f88a11d13ee227141960499c7db89"},
-    {"path":"audit/lessons-only/sections/S45.parts/31-elements.json","bytes":13050,"sha256":"9796450f07d060b31deca2512595d98d44da809a01561e94a4f161984dfd1532"},
-    {"path":"audit/lessons-only/sections/S45.parts/32-elements.json","bytes":12741,"sha256":"2e6b6b983c4c68f3a44e975a14ec4575ac8b947f20eac97574684bff85b50b8b"},
-    {"path":"audit/lessons-only/sections/S45.parts/33-elements.json","bytes":12890,"sha256":"33e591f40aab4174342dd689e337e4adf4ff7298e6cf002cf9634a674e8fae9d"},
-    {"path":"audit/lessons-only/sections/S45.parts/34-elements.json","bytes":14792,"sha256":"4f7c5c7d2712b3cef73e483fde51e98c37a3856043f4296a91455f47463bd2d8"},
-    {"path":"audit/lessons-only/sections/S45.parts/35-elements.json","bytes":17187,"sha256":"db72e0faaba29b5b017d41ad15afa6fb958819692d37dd2cfcc188e89d06ceb1"},
-    {"path":"audit/lessons-only/sections/S45.parts/36-elements.json","bytes":16108,"sha256":"54dfcdf1c565e0436e1514bb1e84bc218833c86082813bd441e147da7db41ffd"},
-    {"path":"audit/lessons-only/sections/S45.parts/37-elements.json","bytes":18005,"sha256":"ef9ed60527f20d65953af18c2bdff62effaad24a4398023d81aaf5d20ee6d299"},
-    {"path":"audit/lessons-only/sections/S45.parts/38-elements.json","bytes":17949,"sha256":"92a707a38cb255538c25f68ccf91ac1bc779f7a798ceba481aef7347bb46c5af"},
-    {"path":"audit/lessons-only/sections/S45.parts/39-elements.json","bytes":11321,"sha256":"9b2a3239a8c6e8249d92200e8806f47bd8d3a70e590d74854509eb83fb4fe526"},
-    {"path":"audit/lessons-only/sections/S45.parts/90-validation.json","bytes":4171,"sha256":"8262c85d6f0f614d8cc7bd619e041c8fbfd6838882b7c09664801877ccea3d08"},
-    {"path":"audit/lessons-only/sections/S45.parts/91-summary-graph.json","bytes":3640,"sha256":"02f702abaa07d435abf41ec08ffd6d1545248b7afcb67780f3e2c2f4924e5f7d"}
+  "severity_counts": {"P0": 1, "P1": 26, "P2": 11},
+  "elements_reviewed": 77,
+  "full_conversation_artifact": {
+    "filename": "S45.json",
+    "bytes": 198226,
+    "sha256": "405a3eb42035d8411cce51ec99d2b0700d5d470a58823c1bb0843295ad3b111e",
+    "coverage": "paragraph/subtopic/I Do/24 We Do/You Do/self-check/resources/cross-surface, with current content, issues, proposed improvement, justification, validation and graph memory"
+  },
+  "github_materialized": [
+    "audit/lessons-only/sections/S45.parts/00-meta.json",
+    "audit/lessons-only/wiki/S45-20260908.md"
   ],
-  "note": "Full paragraph/exercise-level audit is losslessly persisted across these JSON parts; concatenate logically by top-level keys."
+  "highest_priority_findings": [
+    "S45-F28 P0 — final supposedly durable dict/set/list state disappears on restart",
+    "S45-F29 P1 — IAM/egress constants do not participate in final gate",
+    "S45-F30 P1 — final gate omits major T1–T4 evidence",
+    "S45-F08 P1 — missing-first routing can mask known breaches",
+    "S45-F36 P1 — legacy id iac leaks obsolete Terraform playground"
+  ],
+  "continuity_note": "The complete granular JSON is an artifact in the current project conversation, which satisfies the user's continuity rule; this GitHub manifest and metadata/wiki make the audit branch aware of that completed S45 state without pretending a truncated payload is complete."
 }
