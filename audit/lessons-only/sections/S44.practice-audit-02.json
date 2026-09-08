@@ -1,0 +1,193 @@
+{
+  "schema_version": "3.3.0",
+  "section": "S44",
+  "title": "CI/CD y seguridad de la cadena de suministro",
+  "mode": "FULL_SCOPE_EXPLORER_APPEND_ONLY",
+  "source": {
+    "path": "src/lib/course/sections/s44-multimodal.ts",
+    "blob": "eec61acc20c6a06558b4a13193522066152cbffb"
+  },
+  "scope": "We Do T3/T4 (12 exercises) + You Do + self-check + 17 resources",
+  "we_do": [
+    {
+      "element_id": "S44-T3-A-E1",
+      "current_content": "Repara promoción: tested==promoted, approved_by truthy y prefijo sha256.",
+      "findings": ["F19","F20","F21","F34"],
+      "attack": "Un nombre arbitrario aprueba y un digest malformado pasa.",
+      "defense": "El invariante de promover exactamente lo probado es correcto.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Verificar sha256:<64hex> del artifact real y un approval record cuyo reviewer pertenezca al conjunto autorizado y difiera del initiator.",
+      "justification": "La promoción debe estar ligada a identidad del artifact y aprobación independiente, no a strings plausibles."
+    },
+    {
+      "element_id": "S44-T3-A-E2",
+      "current_content": "Tres rutas de promoción sobre dicts válido/adverso/missing.",
+      "findings": ["F19","F20","F21","F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Entregar tres deployment records/environment histories y pedir localizar digest/reviewer/policy que autoriza o bloquea cada promoción.",
+      "justification": "Evalúa lectura de evidencia de deployment en vez de repetir un assessor."
+    },
+    {
+      "element_id": "S44-T3-A-E3",
+      "current_content": "Fail-closed decision para promoción, misma representación que E2.",
+      "findings": ["F19","F20","F21","F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Transferir a un hotfix: staging digest válido, production policy con self-review deshabilitado y branch no permitida; learner decide REVIEW_APPROVAL/BLOCK_PROMOTION con justificación.",
+      "justification": "Cambia estructura y obliga a razonar sobre enforcement del environment."
+    },
+    {
+      "element_id": "S44-T3-B-E1",
+      "current_content": "Canary/rollback predicate compara error_rate<=max y rollback_s<=rto con flags migration_compatible/rollback_tested.",
+      "findings": ["F23","F25","F26","F27","F34"],
+      "attack": "No hay dominios, muestra/ventana ni evidencia del last-known-good.",
+      "defense": "La combinación de umbral+RTO introduce una decisión operativa útil.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Validar 0<=rates<=1, tiempos no negativos, ventana/muestra mínima y un segundo SLO; ejecutar rollback fixture y comparar restored_digest con last_known_good.",
+      "justification": "Evita que telemetría imposible o rollback nominal autoricen expansión."
+    },
+    {
+      "element_id": "S44-T3-B-E2",
+      "current_content": "Clasifica canary válido/adverso/missing con el mismo schema.",
+      "findings": ["F23","F25","F26","F27","F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Usar tres telemetry windows + deployment history; learner distingue degradación real, señal insuficiente y rollback no probado, citando métricas y digest.",
+      "justification": "Sube de clasificación sintáctica a diagnóstico operacional."
+    },
+    {
+      "element_id": "S44-T3-B-E3",
+      "current_content": "Fail-closed decision sobre canary/rollback, misma fixture de T3-B.",
+      "findings": ["F23","F25","F26","F27","F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Cambiar a canary con error-rate dentro de umbral pero p95 degradado y rollback probado; learner decide HOLD/ROLLBACK según política explícita.",
+      "justification": "Comprueba que 'un umbral verde' no equivale a salud suficiente."
+    },
+    {
+      "element_id": "S44-T4-A-E1",
+      "current_content": "Branch protegida, reviews>=1, required_checks y set release_notes con change/risk/migration/rollback.",
+      "findings": ["F28","F29","F30","F34"],
+      "attack": "Los controles son campos suministrados y el set de headings puede estar semánticamente vacío.",
+      "defense": "La lista de contenidos mínimos de release notes es operativamente razonable.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Inspeccionar export/snapshot de ruleset y release-note YAML/Markdown con valores no vacíos, comandos de verificación/migración y target rollback probado.",
+      "justification": "Distingue control aplicado de su descripción y contenido accionable de presencia de etiquetas."
+    },
+    {
+      "element_id": "S44-T4-A-E2",
+      "current_content": "Tres rutas PASS/BLOCK/MISSING para branch protection y release notes.",
+      "findings": ["F28","F30","F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Comparar policy snapshot y tres release notes; citar qué check/review/bypass/rollback target falta o contradice política.",
+      "justification": "Reduce dependencia del patrón de dicts y prueba evidencia de gobernanza."
+    },
+    {
+      "element_id": "S44-T4-A-E3",
+      "current_content": "Decide CONTINUE/BLOCK_UNREVIEWED_RELEASE/COMPLETE_RELEASE_NOTES.",
+      "findings": ["F28","F30","F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Transferir a release ya aprobada pero notes sin rollback target; learner debe bloquear completando evidencia operable, no rellenar un set.",
+      "justification": "Mantiene fail-closed pero exige razonar sobre uso real por on-call."
+    },
+    {
+      "element_id": "S44-T4-B-E1",
+      "current_content": "Fallo crítico bloquea con logs_redacted, owner truthy y evidence_retained.",
+      "findings": ["F31","F33","F34"],
+      "attack": "Auditabilidad se afirma mediante flags; la lógica de éxito queda centrada en critical_failure=True.",
+      "defense": "Retener evidencia y dueño explícito son buenos objetivos.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Separar healthy_run e incident_run; para incidente inspeccionar log redacted, evidence manifest y ownership record, y probar que el pipeline quedó bloqueado.",
+      "justification": "Un campo logs_redacted=True no prueba que el log esté redactado."
+    },
+    {
+      "element_id": "S44-T4-B-E2",
+      "current_content": "Clasifica PASS/STOP_SILENT_FAILURE/MISSING:evidence_retained.",
+      "findings": ["F31","F33","F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Dar logs/run summaries/manifests de un run sano, un fallo crítico silenciosamente continuado y un incidente sin manifest; learner diagnostica control faltante.",
+      "justification": "Añade la ruta normal que la máquina actual modela mal y exige inspección de evidence."
+    },
+    {
+      "element_id": "S44-T4-B-E3",
+      "current_content": "Fail-closed decision; missing evidence_retained puede dirigir a ASSIGN_INCIDENT_OWNER aunque owner exista.",
+      "findings": ["F31","F32","F33","F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Usar remediation específica: falta owner -> ASSIGN_INCIDENT_OWNER; falta evidence -> RETAIN_INCIDENT_EVIDENCE; log no redactado -> REDACT_AND_RETAIN; fallo crítico no bloqueado -> STOP_SILENT_FAILURE.",
+      "justification": "La remediación debe corresponder al control realmente ausente."
+    }
+  ],
+  "you_do": {
+    "element_id": "S44-YOU-DO",
+    "title": "Proyecto final: pipeline verificable y release candidate promovible",
+    "current_content": "Solicita evidence/matrix.json, ci.yml real, reports/artifacts, image digest, SBOM, provenance/attestation, environment, canary, rollback, backup/restore y cinco políticas de fallo; sin embargo starterCode calcula readiness desde cuatro booleans editables y gate_case devuelve rutas hard-coded por kind.",
+    "findings": ["F02","F04","F15","F16","F17","F19","F20","F21","F23","F24","F25","F26","F31","F33","F39"],
+    "attack": "La tarea textual pide evidencia auténtica, pero el gate ejecutable no abre un solo archivo ARTIFACTS. Cuatro True fabrican READY; gate_case('normal') devuelve CONTINUE aunque no exista workflow, SBOM, attestation, canary o rollback.",
+    "defense": "El portfolioNote dice correctamente que no se deben forzar flags y enumera artefactos profesionales.",
+    "verdict": "CONFIRMED_FINDING",
+    "severity": "P0",
+    "counterexample": "portfolio_ready({cada una de las cuatro claves: True}) -> ('READY', []) sin filesystem/evidence verification.",
+    "improved_version": "El starter debe descubrir ARTIFACTS, parsear ci.yml, leer reports, verificar sha256 completo contra artifact, inspeccionar SBOM subject, verificar attestation contra subject+issuer/builder+repo/workflow+revision, comprobar approval independiente, validar canary window/metrics y demostrar rollback al last-known-good. readiness se deriva únicamente de esos verificadores; ninguna clave de entrada puede afirmar que un control pasó.",
+    "justification": "Es el gate central de mastery. Mientras el alumno pueda autodeclarar evidencia, el badge/portfolio puede certificar una competencia no demostrada."
+  },
+  "self_check": [
+    {
+      "element_id": "S44-SC-Q1",
+      "current_content": "Pregunta cuál es el pin profesional de una GitHub Action; respuesta: SHA completo de 40 hex.",
+      "findings": ["F41","F42"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Mostrar tres uses: refs y pedir identificar cada riesgo, incluyendo action de primera parte y tercera parte, con explicación de mutabilidad y procedencia.",
+      "justification": "Conserva concepto correcto, sube de recuerdo a interpretación."
+    },
+    {
+      "element_id": "S44-SC-Q2",
+      "current_content": "Pregunta qué hacer si falla test crítico o falta attestation; respuesta bloquea y conserva evidencia.",
+      "findings": ["F41","F42"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Entregar run summary con test crítico rojo y attestation ausente; learner selecciona gate, evidence a retener y próxima acción.",
+      "justification": "Evalúa decisión sobre evidencia concreta."
+    },
+    {
+      "element_id": "S44-SC-Q3",
+      "current_content": "Pregunta qué demuestra 'el gate CP-N4-B' dentro de S44.",
+      "findings": ["F40","F41","F42"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Preguntar qué evidencia demuestra el incremento S44 hacia CP-N4-B; añadir que CP-N4-B se cierra en S47.",
+      "justification": "Evita enseñar que S44 es el gate final cuando la fuente canónica fija S47."
+    },
+    {
+      "element_id": "S44-SC-Q4",
+      "current_content": "Pregunta qué tratamiento sintético de CASO-PIU-044 respeta alcance y supply chain.",
+      "findings": ["F41","F42"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Presentar repo fixture con token sintético marcado y output de secret scanner; learner decide cómo demostrar control sin introducir secreto real.",
+      "justification": "Mantiene la salvaguarda y añade ejecución/interpretación."
+    },
+    {
+      "element_id": "S44-SC-Q5",
+      "current_content": "Pregunta que digest testeado y promovido deben coincidir; explicación dice mismo subject de provenance/SBOM.",
+      "findings": ["F15","F41","F42"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Mostrar artifact digest, SBOM document digest, SBOM subject digest y provenance subject digest; pedir cuáles deben coincidir y cuáles no.",
+      "justification": "Corrige la conflación técnica entre hash del SBOM como documento y subject del artifact descrito."
+    }
+  ],
+  "resources": {
+    "count": 17,
+    "inventory": {
+      "docs": ["GitHub Actions security hardening","GitHub Environments for deployment","Branch protection rules","SLSA","CycloneDX","SPDX","Sigstore / cosign","in-toto","NIST SSDF","pip secure installs"],
+      "books": ["Accelerate (Forsgren et al.)","Site Reliability Engineering"],
+      "courses": ["Coursera DevOps / CI-CD","MIT 6.100L","Harvard CS50P","Py4E","SRE release engineering"]
+    },
+    "current_content": "Lista fuerte de fuentes primarias/estándares mezclada con cursos genéricos.",
+    "findings": ["F43"],
+    "attack": "Faltan enlaces directos a artifact attestations, verification, dependency review y secret scanning/push protection, justamente donde la práctica tiene huecos.",
+    "defense": "GitHub hardening, environments, SLSA, SPDX/CycloneDX, Sigstore, in-toto, NIST y pip son referencias pertinentes.",
+    "verdict": "CONFIRMED_FINDING",
+    "improved_version": "Priorizar documentación first-party exacta de attestations+verification, dependency review y secret scanning; mantener SLSA/SBOM/Sigstore; mover recursos genéricos a 'ampliación'.",
+    "justification": "Los recursos deben reducir la distancia entre teoría y la operación exacta que falta en los ejercicios."
+  },
+  "redaction_cross_cutting": {
+    "finding_refs": ["F18","F22","F44","F45"],
+    "current_problem": "Jargon operativo en inglés y etiquetas de máquina aparecen mezclados con español; provenance se describe de forma demasiado física ('en qué máquina'); package dependencies y action refs se mezclan bajo la idea de SHA inmutable.",
+    "improved_version": "Definir una vez artefacto, procedencia/provenance, attestation/atestación, owner/responsable, hold/retención; mantener códigos como identifiers. Separar action pinning (full commit SHA) de Python dependency locking/hash checking.",
+    "justification": "Reduce widow terms y previene transferencia técnica errónea."
+  }
+}
