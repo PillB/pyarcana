@@ -1,0 +1,189 @@
+{
+  "schema_version": "3.3.1",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S44",
+  "title": "CI/CD y seguridad de la cadena de suministro",
+  "artifact_type": "APPEND_ONLY_FINDING_AND_ELEMENT_DELTA",
+  "generated_at": "2026-09-08T11:54:00-05:00",
+  "scope_lock": {
+    "section_only": "S44",
+    "curriculum_source_modified": false,
+    "audit_branch_only": true
+  },
+  "source": {
+    "main_commit": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+    "path": "src/lib/course/sections/s44-multimodal.ts",
+    "blob": "eec61acc20c6a06558b4a13193522066152cbffb",
+    "stable_legacy_id": "multimodal",
+    "legacy_id_policy": "PRESERVE_STABLE_URL_PROGRESS_KEY; do not use it as current semantic selector"
+  },
+  "applies_after": [
+    "audit/lessons-only/sections/S44.json",
+    "audit/lessons-only/sections/S44.components.json",
+    "audit/lessons-only/sections/S44.full-scope-index.json",
+    "audit/lessons-only/sections/S44.audit-corrections-20260907.json",
+    "audit/lessons-only/sections/S44.audit-run-20260908.json"
+  ],
+  "method_refresh": {
+    "solarize": "Research -> RED counterexample -> minimum repair proposal -> refactor attack -> independent validation -> memory/report",
+    "anti_complacency": "Every suspicion receives Attack -> Defense -> Verdict; SIN_CAMBIO requires falsification attempts; historical ids are stability contracts unless a migration is designed.",
+    "conversation_zip_rules_reused": [
+      "Resolve current semantic identity from canonical source, not legacy slug/filename.",
+      "Roadmap declarations and learner-editable claims are not evidence by themselves.",
+      "Maintain hierarchical learner-element JSON with current content, observations, improved version and justification.",
+      "Do not convert skeptical posture into automatic findings; preserve rejected false positives."
+    ]
+  },
+  "registry_reconciliation": {
+    "base_registry": {
+      "path": "audit/lessons-only/sections/S44.json",
+      "confirmed_findings": 46,
+      "severity_counts": {"P0": 1, "P1": 34, "P2": 11}
+    },
+    "cross_surface_registry": {
+      "path": "audit/lessons-only/sections/S44.components.json",
+      "adds": ["S44-F47"]
+    },
+    "full_scope_index_before_this_patch": {
+      "path": "audit/lessons-only/sections/S44.full-scope-index.json",
+      "confirmed_findings": 47,
+      "severity_counts": {"P0": 1, "P1": 34, "P2": 12}
+    },
+    "continuation_checkpoint_before_this_patch": {
+      "path": "audit/lessons-only/sections/S44.audit-run-20260908.json",
+      "claimed_convergence_at": 47,
+      "superseded_only_for_count_and_new_F48": true
+    },
+    "effective_after_this_patch": {
+      "confirmed_findings": 48,
+      "severity_counts": {"P0": 1, "P1": 35, "P2": 12},
+      "score": 1.5,
+      "verdict": "REPAIR_REQUIRED",
+      "release": "FAIL",
+      "unresolved_live": 1
+    }
+  },
+  "hierarchical_element_delta": [
+    {
+      "element_id": "S44-T2-A-THEORY-CODE-secret-scan-gate",
+      "hierarchy": {
+        "section": "S44",
+        "lesson_surface": "theory",
+        "topic": "T2",
+        "subtopic": "S44-T2-A",
+        "heading": "permisos mínimos, pinning y secret scanning",
+        "element_type": "code_block_and_validator"
+      },
+      "current_content": {
+        "workflow_step": "- name: secret-scan\n  run: echo gitleaks-stub-ok",
+        "validator": "secret_scan = \"secret-scan\" in yaml_text or \"gitleaks\" in yaml_text",
+        "canonical_output": "secret_scan True"
+      },
+      "learner_function_intended": "Modelar un workflow endurecido donde un scanner real de secretos ejecuta y su resultado puede bloquear el pipeline.",
+      "observations": [
+        "The canonical workflow does not execute Gitleaks or another scanner; it echoes a success-looking stub string.",
+        "The validator checks only whether the raw YAML text contains the token `secret-scan` or `gitleaks`.",
+        "Therefore the verifier proves naming/text presence, not scanner invocation, exit status, findings, configuration or retained scan evidence.",
+        "This directly conflicts with S44's own evidence-first security narrative and with the Solarize verifier rule that placeholders/stubs cannot satisfy a gate."
+      ],
+      "attack": {
+        "question": "Can a workflow with no secret scanner still satisfy S44's `secret_scan` gate?",
+        "executed_counterexamples": [
+          {
+            "case": "canonical_stub",
+            "scanner_execution": false,
+            "result": {"min_perms": true, "pinned": true, "secret_scan": true}
+          },
+          {
+            "case": "label_only_no_scanner",
+            "mutation": "keep `name: secret-scan`, replace command with `echo nothing`",
+            "scanner_execution": false,
+            "result": {"min_perms": true, "pinned": true, "secret_scan": true}
+          },
+          {
+            "case": "comment_only_no_scanner",
+            "mutation": "ordinary step + comment `# secret-scan` + `echo nothing`",
+            "scanner_execution": false,
+            "result": {"min_perms": true, "pinned": true, "secret_scan": true}
+          },
+          {
+            "case": "gitleaks_word_only",
+            "mutation": "ordinary step whose command only echoes the word `gitleaks`",
+            "scanner_execution": false,
+            "result": {"min_perms": true, "pinned": true, "secret_scan": true}
+          }
+        ]
+      },
+      "defense": "A dependency-free stub can be a legitimate early pedagogical scaffold when explicitly labeled as non-security simulation and when it is not used as evidence that the scanner ran.",
+      "verdict": "CONFIRMED_FINDING",
+      "severity": "P1",
+      "finding_ids": ["S44-F48"],
+      "learner_failure_mode": "A diligent learner can infer that naming a step `secret-scan` or containing the word `gitleaks` is sufficient evidence of secret scanning. The same false gate can pass a workflow that never examines repository content.",
+      "improved_version": "Replace the canonical success-looking stub with an explicit executable scanner fixture (for example, a pinned approved scanner action/CLI in controlled CI) and retain its exit code/report. For a fully local teaching fixture, parse a structured scan-result artifact generated by a deterministic scanner fixture. The validator must verify that the configured scanner step exists structurally and that its recorded execution result is green; raw substring presence must never satisfy the gate. Include one synthetic non-secret clean case and one clearly synthetic/test-secret case that must block, without using any real credential.",
+      "justification": "GitHub secret scanning/push protection and Gitleaks are detection mechanisms that actually inspect content and produce detection/blocking outcomes. A label, comment or echoed word cannot substitute for execution evidence. The minimal repair preserves a simple worked example while reconnecting the lesson to the authentic security procedure.",
+      "external_reference_notes": [
+        "GitHub Secret Scanning documentation: secret scanning detects exposed credentials in repository history/content; push protection can block supported secrets before they reach the repository.",
+        "Gitleaks official documentation: Gitleaks scans git repositories/directories/stdin and can be integrated as a GitHub Action; an actual invocation/action is required to perform the scan."
+      ]
+    }
+  ],
+  "finding_delta": [
+    {
+      "id": "S44-F47",
+      "status": "CONFIRMED_FINDING",
+      "severity": "P2",
+      "delta_type": "REGISTRY_RECONCILIATION_EXISTING_FINDING",
+      "location": "S44-T1-A figure reference + shared FigureFrame registries",
+      "issue": "Declared `S44-permission-scope` is absent from FIGURES/FIGURE_DATA; FigureFrame therefore returns null and the intended visual never renders.",
+      "source_of_prior_evidence": "audit/lessons-only/sections/S44.components.json",
+      "reason_for_patch": "The complete report/full-scope index already counted F47, but compact base `S44.json` ended at F46. This patch reconciles the append-only JSON chain without rewriting historical evidence.",
+      "improved_version": "Register and test the figure and move it to T2-A if retained, or remove/replace the dead reference with a valid aligned visual.",
+      "justification": "Referenced learner-facing figures must resolve; otherwise intended dual-coded support silently disappears."
+    },
+    {
+      "id": "S44-F48",
+      "status": "CONFIRMED_FINDING",
+      "severity": "P1",
+      "delta_type": "NEW_MATERIAL_FINDING",
+      "location": "Theory > S44-T2-A > MINI_WORKFLOW + workflow_security",
+      "issue": "Secret scanning is represented by `run: echo gitleaks-stub-ok`, and `workflow_security` accepts any raw occurrence of `secret-scan` or `gitleaks` as proof that scanning exists.",
+      "impact": "A workflow that never runs any scanner can pass the taught supply-chain security gate, turning decorative text into security evidence.",
+      "counterexample": "A comment `# secret-scan` plus `echo nothing`, with no scanner invocation, returns `secret_scan=True`.",
+      "attack": "Remove all scanner execution but preserve only a label/comment/token and rerun the canonical verifier.",
+      "defense": "A stub can reduce tool/setup burden in an early explanation.",
+      "verdict": "The defense fails because the stub is not clearly quarantined as non-evidence and the same substring detector is presented as the gate. This is a verifier defect, not merely simplified prose.",
+      "improved_version": "Use an actual controlled scan or deterministic scan fixture and verify structured execution evidence/exit status; require the real scanner step structurally, not token presence.",
+      "justification": "Supply-chain security instruction must distinguish 'the workflow says it scans' from 'the scan executed and produced evidence'."
+    }
+  ],
+  "graph_memory_delta": {
+    "nodes_added": [
+      "S44-T2-A.secret_scan_stub",
+      "S44-T2-A.workflow_security.secret_scan_substring_gate",
+      "S44-F48"
+    ],
+    "edges_added": [
+      {"from": "S44-T2-A.secret_scan_stub", "to": "S44-F48", "type": "PROVES"},
+      {"from": "S44-T2-A.workflow_security.secret_scan_substring_gate", "to": "S44-F48", "type": "PROVES"},
+      {"from": "S44-F48", "to": "S44-F03", "type": "REINFORCES_AUTHENTIC_ENVIRONMENT_GAP"},
+      {"from": "S44-F48", "to": "S44-F36", "type": "REINFORCES_WORKED_EXAMPLE_AUTHENTICITY_GAP"}
+    ],
+    "fixer_invariant": "A security control's label/comment/string is not evidence that the control executed; retain scanner execution result as verifiable evidence."
+  },
+  "audit_qa": {
+    "known_prior_correction": "The base Markdown report scope sentence says eight self-check questions; canonical count is five. See S44.audit-corrections-20260907.json.",
+    "new_audit_artifact_reconciliation": "Base S44.json had 46 findings while components/full-scope index/report had 47 because F47 was only in the cross-surface ledger. F47 is now explicitly part of the append-only JSON chain.",
+    "curriculum_finding_count_delta_from_prior_full_scope": 1
+  },
+  "convergence": {
+    "prior_quiet_round_claim": "SUPERSEDED_BY_NEW_COUNTEREXAMPLE",
+    "reason": "F48 was found after explicitly mutating the secret-scanner verifier rather than only rescanning previously recorded regression cases.",
+    "post_F48_rescan_focus": [
+      "search learner-visible S44 source for additional stub/placeholder success markers",
+      "recheck self-attestation and raw-substring validators for duplicates already represented by F03/F11-F17/F28/F33/F36",
+      "preserve rejected false positives and do not split one root cause into artificial duplicate findings"
+    ],
+    "result": "F48 is the only new material curriculum finding in this continuation after deduplication."
+  },
+  "final_status": "S44_REPAIR_REQUIRED_48_FINDINGS"
+}
