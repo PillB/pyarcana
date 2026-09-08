@@ -1,0 +1,97 @@
+{
+  "section": "S46",
+  "schema_version": "conversation-full-plus-github-manifest-v1",
+  "status": "REPAIR_REQUIRED",
+  "score": 2.5,
+  "severity_counts": {"P0": 1, "P1": 25, "P2": 9},
+  "elements_reviewed": 81,
+  "canonical_source": {
+    "path": "src/lib/course/sections/s46-gpu-computing.ts",
+    "blob": "0e7a2010c6c001768f7d3486a090fd1c2a43c994",
+    "stable_id": "gpu-computing"
+  },
+  "continuity_gate": {
+    "S01": "covered in audit/lessons-only/lesson_audit_log.json",
+    "S02-S44": "dedicated JSON evidence present",
+    "S45": "complete current-conversation JSON plus valid GitHub continuity manifest/meta/wiki",
+    "S46_before_run": "no JSON existed",
+    "decision": "S46 selected as first missing JSON lesson and sole audit scope"
+  },
+  "full_conversation_artifact": {
+    "filename": "S46.json",
+    "bytes": 151583,
+    "sha256": "eeb171f72fe7dcbc7c7672804110487d0870c7455182653fc900c21762aa150b",
+    "coverage": "81 paragraph/subtopic/I Do/24 We Do/You Do/self-check/figure/resource elements with current content, linked issues, improved version, justification, RED validation and graph memory"
+  },
+  "findings": [
+    ["S46-F01","P1","S46 prerequisite S45 remains REPAIR_REQUIRED with P0 durability failure"],
+    ["S46-F02","P1","estimatedHours 9 conflicts with roadmap provisional 16–24h without pilot evidence"],
+    ["S46-F03","P2","opening `Nada falló` wrongly implies a 44-minute delay cannot be an operational/SLO failure"],
+    ["S46-F04","P2","processing-time aggregates are called meaningless instead of scoped to a different question"],
+    ["S46-F05","P1","`La cuarentena de S45` is a false cross-section reference and conflates DLQ with side output"],
+    ["S46-F06","P0","allowed lateness is incorrectly modeled as watermark-minus-event grace and propagates across theory/figure/I Do/We Do/self-check/You Do"],
+    ["S46-F07","P1","stateless max(event_time)-lag watermark can regress across successive batches"],
+    ["S46-F08","P1","exactly-once demo uses process-local set and claims checkpoint without persistent recovery evidence"],
+    ["S46-F09","P1","checkpoint==2 is magic-value self-attestation rather than recoverable state evidence"],
+    ["S46-F10","P1","DAG/asset outcome promises typed IO, ownership and invalidation but executable contract only checks topology plus a boolean"],
+    ["S46-F11","P2","DAG `única regla dura` / `nada arranca nunca` wording overcompresses definition and orchestrator behavior"],
+    ["S46-F12","P1","backfill validator accepts empty, inverted, zero-length and negative intervals"],
+    ["S46-F13","P1","backfill code cannot verify the live-run overlap/concurrency the prose promises"],
+    ["S46-F14","P2","no-overlap is presented as universal backfill rule instead of conservative lab concurrency policy"],
+    ["S46-F15","P1","checkpoint/resume string equality does not prove checkpoint existence, ownership or consistent state"],
+    ["S46-F16","P2","exact schema equality is presented without stating the lab's strict no-unversioned-change policy"],
+    ["S46-F17","P1","missing-first E3 routing masks already-known breaches in all eight practice families"],
+    ["S46-F18","P1","lineage validity is incorrectly conflated with data-quality null-rate threshold"],
+    ["S46-F19","P1","lineage prose promises code/version but executable record omits transformation/code revision"],
+    ["S46-F20","P2","arbitrary run- prefix rejects valid UUID run IDs and local dict is ambiguously called OpenLineage-like facet"],
+    ["S46-F21","P1","You Do first-wins duplicate event_id can silently discard a conflicting payload"],
+    ["S46-F22","P2","small-files evidence is learner-supplied counts rather than derived from output layout"],
+    ["S46-F23","P1","SLI/SLO/RTO validator can PASS ratios outside [0,1] and negative time values"],
+    ["S46-F24","P1","all 24 We Do exercises repeat the same predicate/tri-state/router grammar"],
+    ["S46-F25","P1","E3 is labeled transfer but reuses the same case, fields, representation and gate names"],
+    ["S46-F26","P1","multiple solutions print hard-coded tautological `meets_contract True` markers unrelated to domain evidence"],
+    ["S46-F27","P1","You Do filters LATE/OUT_OF_WINDOW from accepted but creates no required side-output/quarantine artifact"],
+    ["S46-F28","P1","You Do proves incremental retry only in one process; no restart/checkpoint recovery is exercised"],
+    ["S46-F29","P1","You Do ops_status drops the RTO/postmortem contract taught and required by objectives"],
+    ["S46-F30","P1","You Do ends in print-only evidence with no integrated executable acceptance for normal/breach/uncertainty/restart"],
+    ["S46-F31","P1","roadmap-mandated four authentic topic evaluations are absent from canonical section surface"],
+    ["S46-F32","P1","fallback self-check covers only five of eight subtopics; exam route does not enforce exactly eight concepts"],
+    ["S46-F33","P1","S46 learner copy blurs increment toward CP-N4-B with closure gate, which roadmap assigns to S47"],
+    ["S46-F34","P2","dense SLA/SLI/SLO/RTO/sink/checkpoint/backfill/lineage terminology violates first-use no-widow-term rule"],
+    ["S46-F35","P2","resources are broad where direct primary pages are needed for the section's high-risk constructs"]
+  ],
+  "executed_red_tests": {
+    "watermark_successive_batches": "110 then 90 -> regression reproduced",
+    "dedup_restart": "first e1 true; same-process retry false; after restart retry true",
+    "backfill_invalid_domains": {"empty": true, "inverted": true, "zero_length": true, "negative": true},
+    "lineage_high_null_traceable_run": "rejected as lineage-invalid",
+    "lineage_uuid": "valid UUID rejected by run- prefix",
+    "ops_negative_domains": "PASS reproduced",
+    "ops_ratios_over_one": "PASS reproduced",
+    "mixed_breach_plus_missing": "uncertainty route wins in T1A/T1B/T2A/T2B/T3A/T3B/T4A/T4B"
+  },
+  "rejected_findings": [
+    "Do not rename stable id gpu-computing without migration",
+    "S46 does not require a real cloud provider; roadmap permits local/cloud",
+    "S46-event-time figure exists",
+    "S46-exactly-once figure exists",
+    "No stale GPU playground leak was demonstrated",
+    "Intentional reprocessing of a logical interval is not universally invalid"
+  ],
+  "fixer_invariants": [
+    "Allowed lateness is tied to event-time window lifecycle, not a generic watermark-minus-event band",
+    "Watermarks never regress",
+    "Exactly-once/recovery evidence survives restart or is explicitly labeled non-durable toy state",
+    "Checkpoint evidence binds source progress to recoverable state",
+    "Known breach cannot be hidden by a missing unrelated field",
+    "Lineage completeness and data quality remain separate axes",
+    "Conflicting duplicate payloads are not silently discarded",
+    "Every input event reconciles to accepted/side-output/explicit-drop evidence",
+    "S46 contributes to CP-N4-B; S47 closes it",
+    "gpu-computing remains a compatibility key, not a semantic topic name"
+  ],
+  "supporting_artifacts": [
+    "audit/lessons-only/S46-full-scope-explorer.md",
+    "audit/lessons-only/wiki/S46-20260908.md"
+  ]
+}
