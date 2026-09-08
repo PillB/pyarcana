@@ -1,0 +1,289 @@
+{
+  "audit_metadata": {
+    "page_or_scope": "PyArcana S44 — CI/CD y seguridad de la cadena de suministro — append-only continuation after S44.patch-01.json",
+    "audit_version": "3.3.2 / S44.patch-02",
+    "audience_assumption": "Learner has completed PyArcana through S43 but must not supply undocumented CI/CD or supply-chain knowledge.",
+    "elements_reviewed": 4,
+    "elements_requiring_change": 4,
+    "elements_acceptable": 0,
+    "generated_at": "2026-09-08T12:58:47-05:00",
+    "canonical_source": "src/lib/course/sections/s44-multimodal.ts",
+    "main_commit": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+    "source_blob": "eec61acc20c6a06558b4a13193522066152cbffb",
+    "stable_legacy_id": "multimodal",
+    "coverage_mode": "CONTINUATION_DELTA_OVER_PRIOR_FULL_SCOPE",
+    "prior_effective_registry": {"findings":48,"P0":1,"P1":35,"P2":12},
+    "effective_registry_after_delta": {"findings":52,"P0":1,"P1":37,"P2":14},
+    "curriculum_source_modified": false,
+    "audit_branch_only": true
+  },
+  "global_findings": {
+    "major_comprehension_problems": [
+      "The section repeatedly collapses policy scope into boolean/string predicates, causing the learner model to diverge from the real CI/CD control.",
+      "Uncertainty is routed before already observable breaches in multiple E3 classifiers, so a missing field can downgrade a known failure into a review state.",
+      "The section still contains learner-visible decorative or unexplained green signals that are not derived from evidence.",
+      "The opening SBOM explanation overstates scope and blurs SBOM component inventory with broader build inputs/provenance."
+    ],
+    "recurring_widow_terms": ["conventional"],
+    "recurring_missing_context": [
+      "permission scope: workflow-level default vs job-level exception",
+      "precedence when a record contains both missing evidence and an independently observable breach",
+      "SBOM scope vs provenance/build metadata"
+    ],
+    "terminology_inconsistencies": [
+      "`write` is correctly presented in theory as sometimes necessary at job scope, but exercises treat every write value as a breach.",
+      "`conventional` appears as a boolean/status without a defined concept or relationship to the release gate."
+    ],
+    "recommended_global_rules": [
+      "Model GitHub Actions permissions with explicit scope and required capability; never reduce least privilege to 'no write anywhere'.",
+      "Classify known breaches independently from missing evidence; a missing field must not erase a failure already proven by present fields.",
+      "Every printed green status must be computed from taught inputs or removed.",
+      "Define SBOM as an inventory of software components/dependencies and their relationships, with explicit scope/known unknowns; use provenance for build origin/process evidence."
+    ]
+  },
+  "terminology_registry": [
+    {
+      "term": "packages: write",
+      "type": "technical_term",
+      "currently_explained": false,
+      "plain_language_meaning": "GitHub Actions permission that allows the job's GITHUB_TOKEN to upload/publish packages; it can be legitimate when narrowly scoped to the job that needs it.",
+      "recommended_first_introduction": "En el workflow mantenemos permisos de solo lectura por defecto. El job que publica un paquete puede recibir `packages: write` solo durante ese job, porque necesita escribir en GitHub Packages; los demás permisos siguen en `none` o `read`.",
+      "recommended_short_form_after_introduction": "`packages: write` del job de publicación",
+      "source_validation_required": false
+    },
+    {
+      "term": "conventional",
+      "type": "other",
+      "currently_explained": false,
+      "plain_language_meaning": "Unknown in current S44. It may intend Conventional Commits, but the source never says so.",
+      "recommended_first_introduction": "Remove the signal unless the lesson explicitly intends to teach Conventional Commits; if retained, name and define the convention and derive the result from a commit message check.",
+      "recommended_short_form_after_introduction": "Only after source intent is confirmed.",
+      "source_validation_required": true
+    },
+    {
+      "term": "SBOM",
+      "type": "acronym",
+      "currently_explained": true,
+      "plain_language_meaning": "Software Bill of Materials: a machine-readable inventory of software components/dependencies, information about them and their relationships.",
+      "recommended_first_introduction": "Una Software Bill of Materials (SBOM) es un inventario legible por máquinas de los componentes y dependencias de software incluidos en un producto, junto con información y relaciones entre esos componentes.",
+      "recommended_short_form_after_introduction": "SBOM",
+      "source_validation_required": false
+    }
+  ],
+  "elements": [
+    {
+      "element_id": "S44-T2-A-WEDO-E2-PERMISSION-SCOPE",
+      "page": "S44",
+      "section": "We Do > S44-T2-A-E2",
+      "component_type": "guided exercise + solution predicate",
+      "locator": "preamble/token_permissions/assess()",
+      "current_content": "The preamble calls a release job with `packages: write` a breach, and the solution requires every permission value to be in {read, none}.",
+      "intended_function": "Teach least privilege, immutable action pinning, secret scanning and dependency review.",
+      "intended_audience": "Advanced PyArcana learner practicing GitHub Actions hardening.",
+      "comprehension_status": "major_revision",
+      "issues": [{
+        "issue_type": "terminology_inconsistency",
+        "text": "`packages: write` / any `write` value",
+        "severity": "high",
+        "problem": "Theory correctly allows narrowly scoped job-level write permission when a release operation needs it, while E2/E3 rejects any `write` regardless of scope or capability.",
+        "reader_question_created": "Is every write permission insecure, or is a narrowly scoped release-job permission valid?",
+        "recommended_fix": "Represent workflow permissions and job permissions separately, and validate the minimum capability required by each job."
+      }],
+      "widow_terms": [],
+      "missing_context": ["Whether token_permissions represents workflow-level defaults or a specific job.","Which write capability the release job actually needs."],
+      "ambiguities": ["The word `write` is treated as a single risk category although GitHub permissions are capability-specific and scope-specific."],
+      "assumed_background_knowledge": ["GitHub Actions workflow-level vs job-level `permissions` resolution."],
+      "why_this_is_a_problem": ["A learner can form the false rule 'least privilege means no write permissions anywhere'.","That rule conflicts with publishing packages or creating attestations, where a narrowly scoped job legitimately needs write capability."],
+      "recommended_strategy": ["Keep top-level/default permissions read/none.","Add an explicit scope/job field.","Allow only the exact write capability needed by the release/attestation job.","Use a broad unrelated write permission as the adversarial fixture instead."],
+      "improved_content": "En el workflow, los permisos por defecto se mantienen en `read`/`none`. Un job de publicación puede usar `packages: write` únicamente si ese job publica en GitHub Packages; ese permiso no debe heredarse por jobs que no lo necesitan. El ejercicio debe comprobar el alcance y la capacidad concreta, no rechazar cualquier valor `write`.",
+      "terms_introduced": ["workflow-level permissions","job-level permissions","packages: write"],
+      "facts_preserved": ["least privilege","full SHA pinning","zero confirmed secret exposure","dependency review"],
+      "requires_source_validation": false,
+      "source_validation_questions": [],
+      "attack_defense_verdict": {
+        "attack": "Executed the canonical assessor against a release-job fixture with contents:read, packages:write, a full 40-hex SHA, zero secret hits and dependency_review=True.",
+        "counterexample_result": "REVOKE_AND_ROTATE",
+        "defense": "The exercise could have intended token_permissions to mean workflow-level defaults.",
+        "verdict": "CONFIRMED_FINDING",
+        "why_defense_fails": "The learner-facing preamble explicitly says 'un job de release' and the data model contains no scope field, while S44 theory separately says a release job may receive narrowly scoped write permission."
+      },
+      "finding_id": "S44-F49",
+      "validation": {"self_contained":true,"widow_terms_remaining":[],"actor_clear":true,"input_clear":true,"input_source_clear":true,"action_clear":true,"destination_clear":true,"purpose_clear":true,"outcome_clear":true,"next_step_clear_if_relevant":true,"failure_behavior_clear_if_relevant":true,"technical_accuracy_preserved":true,"unverified_claims_added":false,"reader_effort":"low","notes":["Proposed repair aligns the exercise with GitHub's workflow/job permission model."]}
+    },
+    {
+      "element_id": "S44-T4-A-IDO-CONVENTIONAL-SIGNAL",
+      "page": "S44",
+      "section": "I Do > S44-T4-A-DEMO",
+      "component_type": "worked example output",
+      "locator": "preamble + print('conventional', True)",
+      "current_content": "The learner is asked to predict `conventional True`; the code prints the value as a hard-coded constant and the surrounding explanation never defines `conventional` or uses it in release_ready().",
+      "intended_function": "Model branch/review policy and actionable release notes.",
+      "intended_audience": "Advanced PyArcana learner.",
+      "comprehension_status": "minor_revision",
+      "issues": [{
+        "issue_type": "widow_term",
+        "text": "conventional",
+        "severity": "medium",
+        "problem": "The term/status is undefined, not derived from any input and not part of the stated release contract.",
+        "reader_question_created": "What is conventional here—Conventional Commits, a release-note format, or something else—and why is it automatically true?",
+        "recommended_fix": "Remove the signal; or, if Conventional Commits is intended, define it and compute the result from a real commit-message fixture."
+      }],
+      "widow_terms": ["conventional"],
+      "missing_context": ["Meaning of `conventional`","Input used to determine it","Why it matters to the gate"],
+      "ambiguities": ["Could refer to Conventional Commits, but that is not stated."],
+      "assumed_background_knowledge": ["An unstated commit-message convention."],
+      "why_this_is_a_problem": ["The preamble explicitly asks the learner to attend to and predict a green status that contains no taught mechanism.","A hard-coded True makes the demonstration look like evidence even though no check occurred."],
+      "recommended_strategy": ["Remove the line as the minimum repair unless source intent confirms a real Conventional Commits objective."],
+      "improved_content": "Remove `conventional True` from this demo. Keep the observable outputs `reviews 2` and `release_notes True`, both of which are derived from the taught contract.",
+      "terms_introduced": [],
+      "facts_preserved": ["reviews","release-note fields","branch/review lesson scope"],
+      "requires_source_validation": true,
+      "source_validation_questions": ["Did the author intend `conventional` to mean Conventional Commits? If yes, where is that concept supposed to be introduced and assessed?"],
+      "attack_defense_verdict": {"attack":"Searched current S44 for `conventional`; the only learner-facing occurrence is this hard-coded prediction/output pair.","defense":"It may be a harmless mnemonic for a commit convention.","verdict":"CONFIRMED_FINDING","why_defense_fails":"A harmless mnemonic should not be presented as a predicted green result without definition or input. Removing it costs nothing and reduces an unexplained signal."},
+      "finding_id": "S44-F50",
+      "validation": {"self_contained":true,"widow_terms_remaining":[],"actor_clear":true,"input_clear":true,"input_source_clear":true,"action_clear":true,"destination_clear":true,"purpose_clear":true,"outcome_clear":true,"next_step_clear_if_relevant":true,"failure_behavior_clear_if_relevant":true,"technical_accuracy_preserved":true,"unverified_claims_added":false,"reader_effort":"low","notes":["If the term is intentionally retained, source intent must be verified first."]}
+    },
+    {
+      "element_id": "S44-INTRO-SBOM-SCOPE",
+      "page": "S44",
+      "section": "Theory opening",
+      "component_type": "introductory paragraph",
+      "locator": "first SBOM paragraph",
+      "current_content": "The SBOM is described as 'el inventario de todo lo que entró en tu artefacto'.",
+      "intended_function": "Give a beginner-accessible mental model of an SBOM before supply-chain controls.",
+      "intended_audience": "Learner encountering SBOM in S44.",
+      "comprehension_status": "minor_revision",
+      "issues": [{
+        "issue_type": "excessive_abstraction",
+        "text": "todo lo que entró en tu artefacto",
+        "severity": "medium",
+        "problem": "The food-label analogy is useful, but 'everything' overstates SBOM scope. An SBOM inventories software components/dependencies and related information; broader build inputs and builder/workflow evidence belong to provenance or other evidence.",
+        "reader_question_created": "Should the SBOM contain every build script, compiler setting, workflow input and runner detail?",
+        "recommended_fix": "Keep the ingredients analogy but say 'componentes y dependencias de software' and state that provenance records how/by whom the artifact was built."
+      }],
+      "widow_terms": [],
+      "missing_context": ["SBOM scope","Boundary between SBOM and provenance"],
+      "ambiguities": ["'Todo' can be read literally as every build input."],
+      "assumed_background_knowledge": [],
+      "why_this_is_a_problem": ["The learner can build a false mental model in which SBOM and provenance overlap completely.","Later evidence tasks depend on distinguishing component inventory from build provenance."],
+      "recommended_strategy": ["Preserve the nutrition-label analogy, narrow the noun phrase, immediately contrast it with provenance."],
+      "improved_content": "Piensa en la **Software Bill of Materials (SBOM)** como una etiqueta de ingredientes del software: enumera los componentes y dependencias de software incluidos en el artefacto, junto con información y relaciones entre ellos. Su alcance debe quedar claro; no sustituye la **provenance**, que registra evidencia sobre cómo y desde qué proceso se construyó el artefacto.",
+      "terms_introduced": ["SBOM","provenance"],
+      "facts_preserved": ["ingredient-label analogy","supply-chain transparency"],
+      "requires_source_validation": false,
+      "source_validation_questions": [],
+      "attack_defense_verdict": {"attack":"Compared the literal 'todo' claim with CISA/NTIA definitions of SBOM as an inventory of software components/dependencies and their relationships.","defense":"The ingredients-list analogy is common and pedagogically useful.","verdict":"CONFIRMED_FINDING","why_defense_fails":"The analogy can be retained; only the absolute word 'todo' needs repair. The defect is overclaim, not the analogy."},
+      "finding_id": "S44-F51",
+      "validation": {"self_contained":true,"widow_terms_remaining":[],"actor_clear":true,"input_clear":true,"input_source_clear":true,"action_clear":true,"destination_clear":true,"purpose_clear":true,"outcome_clear":true,"next_step_clear_if_relevant":true,"failure_behavior_clear_if_relevant":true,"technical_accuracy_preserved":true,"unverified_claims_added":false,"reader_effort":"low","notes":["Definition matches current CISA/NTIA framing and keeps the original analogy."]}
+    },
+    {
+      "element_id": "S44-WEDO-E3-MISSING-BREACH-PRECEDENCE",
+      "page": "S44",
+      "section": "We Do > E3 classifier family",
+      "component_type": "cross-exercise decision logic",
+      "locator": "T1-A-E3 and T2-A-E3 representative counterexamples; same missing-first pattern recurs across E3 tasks",
+      "current_content": "E3 functions return a review/inspection state immediately when any required field is missing, before checking other present fields for an independently observable breach.",
+      "intended_function": "Teach fail-closed handling of valid, breached and uncertain cases.",
+      "intended_audience": "Learner practicing decision routing.",
+      "comprehension_status": "major_revision",
+      "issues": [{
+        "issue_type": "poor_information_order",
+        "text": "if missing: return REVIEW_* before breach evaluation",
+        "severity": "high",
+        "problem": "Missing evidence is allowed to mask a known breach in another field. The classifier collapses two simultaneous facts into a weaker uncertainty state.",
+        "reader_question_created": "If a record is both incomplete and already demonstrably unsafe, should the pipeline merely request review or block for the known failure?",
+        "recommended_fix": "Evaluate independently observable breaches first (or collect both breach and missing reasons), then route pure uncertainty only when no known breach exists."
+      }],
+      "widow_terms": [],
+      "missing_context": ["Decision precedence for simultaneous breach + missing evidence"],
+      "ambiguities": ["The prose defines breach and uncertainty separately but never explains mixed-state precedence."],
+      "assumed_background_knowledge": ["Fail-closed state-machine design."],
+      "why_this_is_a_problem": ["T1-A counterexample: lint=False with supported missing returns REVIEW_MATRIX instead of FAIL_CI_GATE.","T2-A counterexample: write permission + @v4 + secret_hits=1 with dependency_review missing returns SECURITY_APPROVAL instead of the breach path.","A learner can infer that deleting a field weakens a known failure into an uncertainty/review state."],
+      "recommended_strategy": ["Compute all violations that can be decided from present fields.","If any known breach exists, block with the breach decision and retain missing-field metadata.","Only use REVIEW/INSPECT/APPROVAL when the record is incomplete and no known breach is already observable."],
+      "improved_content": "Clasifica dos dimensiones por separado: **breaches observables** y **evidencia faltante**. Si ya existe un breach comprobable, el pipeline bloquea aunque también falten campos; la ausencia se conserva como información adicional. Solo usa `REVIEW_*` cuando no hay un breach demostrado y la falta de evidencia impide decidir.",
+      "terms_introduced": ["known breach","pure uncertainty"],
+      "facts_preserved": ["fail-closed","human review for uncertainty","missing-field validation"],
+      "requires_source_validation": false,
+      "source_validation_questions": [],
+      "attack_defense_verdict": {
+        "attack": "Executed mixed-state mutations against canonical T1-A-E3 and T2-A-E3 classifiers.",
+        "counterexamples": [
+          {"case":"T1-A","inputs":"lint=False + supported missing","canonical_result":"REVIEW_MATRIX","known_breach":"failed lint gate"},
+          {"case":"T2-A","inputs":"contents:write + checkout@v4 + secret_hits=1 + dependency_review missing","canonical_result":"SECURITY_APPROVAL","known_breach":"multiple present security breaches"}
+        ],
+        "defense": "Schema validation first avoids KeyError and makes missing data explicit.",
+        "verdict": "CONFIRMED_FINDING",
+        "why_defense_fails": "Safe access does not require suppressing known breaches. The evaluator can inspect present fields first/independently and still report missing schema."
+      },
+      "finding_id": "S44-F52",
+      "validation": {"self_contained":true,"widow_terms_remaining":[],"actor_clear":true,"input_clear":true,"input_source_clear":true,"action_clear":true,"destination_clear":true,"purpose_clear":true,"outcome_clear":true,"next_step_clear_if_relevant":true,"failure_behavior_clear_if_relevant":true,"technical_accuracy_preserved":true,"unverified_claims_added":false,"reader_effort":"low","notes":["Repair preserves human review for genuine uncertainty while making mixed states fail closed."]}
+    }
+  ],
+  "cross_element_issues": [
+    {"id":"S44-X49","severity":"high","issue":"T2-A theory and T2-A We Do encode incompatible least-privilege rules.","affected_elements":["theory S44-T2-A","We Do S44-T2-A-E2","We Do S44-T2-A-E3"],"recommended_fix":"Use scope-aware workflow/job permission fixtures across all three surfaces."},
+    {"id":"S44-X52","severity":"high","issue":"The E3 exercise family confuses pure uncertainty with mixed uncertainty+breach.","affected_elements":["T1-A-E3","T1-B-E3","T2-A-E3","T2-B-E3","T3-A-E3","T3-B-E3","T4-A-E3","T4-B-E3"],"recommended_fix":"Adopt one explicit precedence rule and retain multiple reasons instead of single mutually exclusive labels."},
+    {"id":"S44-X-LIVE-HOURS","severity":"unresolved","issue":"Current canonical source has estimatedHours=9 while the public rendered snapshot observed during the audit reports 20h.","affected_elements":["source metadata","public S44 header"],"recommended_fix":"Resolve the deployed SHA/build source before changing either value; do not guess which number is authoritative."}
+  ],
+  "validation": {
+    "solarize_rounds": {
+      "round_1_inventory_truth": "Re-read prior S44 full-scope report/addendum/patch chain, canonical source, shared SectionView mapping and public header.",
+      "round_2_comprehension_truth": "Re-tested explanations from the perspective of a learner who only has prior PyArcana knowledge; attacked permission scope, hard-coded statuses, SBOM scope and mixed-state routing.",
+      "round_3_adversarial_release_review": "Executed counterexamples for permission scope and missing+breach precedence; attempted defenses; rejected duplicate splitting against F11/F34/F35/F44 and retained only independently falsifiable deltas."
+    },
+    "skeptical_verifier": {
+      "F49": "PASS as a finding: source contradiction + executed counterexample + current GitHub permission model.",
+      "F50": "PASS as a finding: only S44 occurrence is a hard-coded prediction/output; meaning remains source-validation question.",
+      "F51": "PASS as a finding: official SBOM definitions support narrowing 'todo' while preserving the analogy.",
+      "F52": "PASS as a finding: two executed counterexamples establish a systemic precedence defect."
+    },
+    "rejected_or_not_new": [
+      "Do not rename legacy id `multimodal`; preserve URL/progress stability.",
+      "Do not require paid/public cloud; authentic controlled CI evidence is sufficient.",
+      "Do not create eight separate findings for missing-first masking; F52 is the root cause.",
+      "Do not re-count the CLIP/Whisper playground leak, dead figure, fake digest, self-attested gates or secret-scan stub; they remain prior F37/F47/F04/F02/F48."
+    ],
+    "source_state": "Canonical S44 source blob is unchanged from the prior addendum.",
+    "live_state": "Public 20h vs canonical 9h remains unresolved; no curriculum finding assigned."
+  },
+  "summary": {
+    "overall_comprehension_grade_before": "F / 1.5 of 10 (prior effective state)",
+    "overall_comprehension_grade_after": "Not upgraded: Explorer proposed repairs but did not modify curriculum source.",
+    "elements_reviewed": 4,
+    "elements_changed": 0,
+    "high_severity_problems_fixed": 0,
+    "unresolved_high_severity_problems": ["Existing P0 F02: You Do can manufacture READY from learner-editable booleans.","Existing authentic-evidence cluster remains unresolved.","New F49 and F52 remain unresolved until Fixer applies and validates repairs."],
+    "most_common_original_problem": "Claims/booleans/string labels substitute for scoped, observable CI/CD evidence.",
+    "most_important_global_improvement": "Make decisions depend on authentic evidence with explicit scope and preserve all simultaneously known failure reasons.",
+    "remaining_source_validation_questions": ["What did the author intend `conventional` to mean in T4-A I Do?","Why does public S44 currently show 20h while canonical source says 9h?"],
+    "release_recommendation": "fail",
+    "effective_finding_count": 52,
+    "effective_severity_counts": {"P0":1,"P1":37,"P2":14},
+    "verdict": "REPAIR_REQUIRED"
+  },
+  "append_only": {
+    "applies_after": ["audit/lessons-only/sections/S44.json","audit/lessons-only/sections/S44.patch-01.json","audit/lessons-only/S44-full-scope-explorer-addendum-01.md"],
+    "finding_delta": [
+      {"id":"S44-F49","severity":"P1","status":"CONFIRMED_FINDING","title":"Least-privilege exercise rejects legitimate scoped job-level write permissions."},
+      {"id":"S44-F50","severity":"P2","status":"CONFIRMED_FINDING","title":"`conventional True` is an unexplained, hard-coded green signal."},
+      {"id":"S44-F51","severity":"P2","status":"CONFIRMED_FINDING","title":"Opening SBOM mental model overstates scope as everything that entered the artifact."},
+      {"id":"S44-F52","severity":"P1","status":"CONFIRMED_FINDING","title":"Missing-first E3 routing masks independently observable breaches."}
+    ],
+    "graph_memory_delta": {
+      "nodes_added": ["S44-F49","S44-F50","S44-F51","S44-F52","S44.permission_scope","S44.mixed_state_precedence"],
+      "edges_added": [
+        {"from":"S44-F49","to":"S44-F11","type":"SHARPENS_PERMISSION_MODEL_DEFECT"},
+        {"from":"S44-F49","to":"S44-F46","type":"CONNECTS_JOB_SCOPED_WRITE_TO_ATTESTATION_PERMISSIONS"},
+        {"from":"S44-F50","to":"S44-F29","type":"SAME_DECORATIVE_SIGNAL_FAMILY"},
+        {"from":"S44-F51","to":"S44-F15","type":"SHARPENS_SBOM_PROVENANCE_BOUNDARY"},
+        {"from":"S44-F52","to":"S44-F34","type":"ROOT_CAUSE_WITHIN_REPEATED_E3_GRAMMAR"},
+        {"from":"S44-F52","to":"S44-F32","type":"GENERALIZES_ROUTING_PRECEDENCE_DEFECT"}
+      ],
+      "fixer_invariants": [
+        "Least privilege is scoped minimum authority, not a blanket ban on every write permission.",
+        "A missing field cannot erase a breach already proven by fields that are present.",
+        "A printed green status must be derived from taught evidence, not a literal True.",
+        "SBOM inventories software components/dependencies; provenance covers build origin/process evidence."
+      ]
+    }
+  }
+}
