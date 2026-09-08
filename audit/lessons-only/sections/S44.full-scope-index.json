@@ -1,0 +1,161 @@
+{
+  "schema_version": "3.3.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S44",
+  "title": "CI/CD y seguridad de la cadena de suministro",
+  "mode": "FULL_SCOPE_EXPLORER_APPEND_ONLY",
+  "source": {
+    "path": "src/lib/course/sections/s44-multimodal.ts",
+    "main_commit": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+    "blob": "eec61acc20c6a06558b4a13193522066152cbffb",
+    "legacy_id": "multimodal",
+    "legacy_id_policy": "PRESERVE_STABLE_KEY; repair semantic selectors, not saved-progress identity"
+  },
+  "roadmap_contract": {
+    "prerequisite": "S43",
+    "environment": "CI/cloud controlado",
+    "project": "inicio CP-N4-B",
+    "capstone_gate": "S47",
+    "topics": 4,
+    "subtopics": 8,
+    "i_do": 8,
+    "exercises": 24,
+    "topic_assessments_required": 4,
+    "section_exam_items_per_attempt": 8
+  },
+  "status": {
+    "score": 1.5,
+    "verdict": "REPAIR_REQUIRED",
+    "release": "FAIL",
+    "confirmed_findings": 47,
+    "severity_counts": {"P0": 1, "P1": 34, "P2": 12},
+    "unresolved_live": 1,
+    "curriculum_source_modified": false
+  },
+  "hierarchical_coverage": {
+    "section_metadata": {
+      "covered": ["title", "shortTitle", "tagline", "estimatedHours", "level", "jobRelevance", "8 learningOutcomes"],
+      "primary_ledger": "S44.json"
+    },
+    "theory": {
+      "paragraphs": 32,
+      "paragraph_shards": [
+        {"path": "audit/lessons-only/sections/S44.paragraphs-01.json", "range": "P001-P008"},
+        {"path": "audit/lessons-only/sections/S44.paragraphs-02.json", "range": "P009-P016"},
+        {"path": "audit/lessons-only/sections/S44.paragraphs-03.json", "range": "P017-P024"},
+        {"path": "audit/lessons-only/sections/S44.paragraphs-04.json", "range": "P025-P032"}
+      ],
+      "other_elements": ["headings", "reference block", "9 code/output demonstrations", "callouts", "2 declared figures"],
+      "component_note": "One declared figure (`S44-permission-scope`) is missing from the registry and therefore does not render; see S44.components.json."
+    },
+    "practice": {
+      "i_do": {"count": 8, "ledger": "S44.practice-audit-01.json"},
+      "we_do": {
+        "count": 24,
+        "T1_T2_12": "S44.practice-audit-01.json",
+        "T3_T4_12": "S44.practice-audit-02.json"
+      },
+      "you_do": {"count": 1, "ledger": "S44.practice-audit-02.json"},
+      "visible_rubric": {"count": 1, "ledger": "S44.practice-audit-02.json"}
+    },
+    "assessment": {
+      "self_check_questions": {"count": 8, "ledger": "S44.practice-audit-02.json"},
+      "authenticated_exam": {"covered": true, "ledger": "S44.components.json"},
+      "topic_assessments": {"required": 4, "observed": 0, "finding": "S44-F42"}
+    },
+    "resources": {
+      "count": 17,
+      "ledger": "S44.practice-audit-02.json"
+    },
+    "shared_and_cross_section_surfaces": {
+      "ledger": "S44.components.json",
+      "covered": [
+        "Theory playground mapping in SectionView",
+        "FigureFrame and both figure registries",
+        "canonical/public CP-N4-B brief",
+        "canonical CP-N4-B rubric",
+        "authenticated ExamView/start route/question bank",
+        "S43 prerequisite audit state",
+        "public live S44 card"
+      ]
+    }
+  },
+  "finding_registry": [
+    {"id":"S44-F01","severity":"P1","summary":"Prerequisite S43 remains REPAIR_REQUIRED with 5 P0; S44 cannot treat upstream artifact as trusted evidence."},
+    {"id":"S44-F02","severity":"P0","summary":"You Do readiness and gate_case are self-attested/hard-coded; READY can be manufactured without artifacts."},
+    {"id":"S44-F03","severity":"P1","summary":"Roadmap targets controlled CI/cloud but practice is overwhelmingly local Python predicates/parsers."},
+    {"id":"S44-F04","severity":"P1","summary":"Prefix-only sha256 validation accepts malformed digests."},
+    {"id":"S44-F05","severity":"P1","summary":"Artifact digest is supplied rather than measured and reverified from an artifact."},
+    {"id":"S44-F06","severity":"P2","summary":"Seven-day retention is presented as a general rule instead of lab policy."},
+    {"id":"S44-F07","severity":"P1","summary":"Cache key truncates a supplied lock hash and never proves it came from the lockfile."},
+    {"id":"S44-F08","severity":"P1","summary":"Workflow condition coverage is self-reported, not inspected across triggers/branches/tags/forks/manual paths."},
+    {"id":"S44-F09","severity":"P2","summary":"Permission/pinning figure is placed under T1-A rather than T2-A."},
+    {"id":"S44-F10","severity":"P1","summary":"Any secret-scan hit is routed directly to revoke/rotate without classification or false-positive/test-secret handling."},
+    {"id":"S44-F11","severity":"P1","summary":"Permission validation does not compute effective workflow/job permissions."},
+    {"id":"S44-F12","severity":"P1","summary":"pin_ok is overwritten per action, so a later pinned action can hide an earlier unpinned action."},
+    {"id":"S44-F13","severity":"P1","summary":"40-hex format is accepted without verifying commit identity belongs to intended action repository."},
+    {"id":"S44-F14","severity":"P1","summary":"Dependency review is a learner-supplied boolean instead of check/report evidence."},
+    {"id":"S44-F15","severity":"P1","summary":"Lesson incorrectly requires artifact digest == SBOM document digest == provenance subject."},
+    {"id":"S44-F16","severity":"P1","summary":"Attestation validity is a boolean rather than cryptographic/policy verification."},
+    {"id":"S44-F17","severity":"P1","summary":"Provenance gate omits builder/issuer, repo/workflow and source revision identity."},
+    {"id":"S44-F18","severity":"P2","summary":"Provenance prose overstates generic guarantee as exact machine identity."},
+    {"id":"S44-F19","severity":"P1","summary":"Truthy approved_by is treated as independent deployment approval."},
+    {"id":"S44-F20","severity":"P1","summary":"Environment protection is represented by names/approvers, not enforceable protection rules."},
+    {"id":"S44-F21","severity":"P1","summary":"Promotion again accepts malformed prefix-only sha256 values."},
+    {"id":"S44-F22","severity":"P2","summary":"prod/production identifier terminology is inconsistent."},
+    {"id":"S44-F23","severity":"P1","summary":"Canary validator accepts negative error rates and negative rollback/RTO values."},
+    {"id":"S44-F24","severity":"P1","summary":"You Do canary drops migration_compatible and rollback_tested from the guided contract."},
+    {"id":"S44-F25","severity":"P1","summary":"Rollback is timed but not bound to last-known-good digest/config/data."},
+    {"id":"S44-F26","severity":"P1","summary":"Migration compatibility and rollback testing are self-attested booleans."},
+    {"id":"S44-F27","severity":"P2","summary":"Canary relies on one error-rate threshold without minimum sample/window or second health signal."},
+    {"id":"S44-F28","severity":"P1","summary":"Branch protection/check/review requirements are values/sets, not repository ruleset evidence."},
+    {"id":"S44-F29","severity":"P2","summary":"signed_commits appears decoratively/inconsistently in the taught contract."},
+    {"id":"S44-F30","severity":"P2","summary":"Release notes can pass with required labels but empty/non-actionable values."},
+    {"id":"S44-F31","severity":"P1","summary":"T4-B PASS requires critical_failure=True; a healthy run is misclassified STOP_SILENT_FAILURE."},
+    {"id":"S44-F32","severity":"P1","summary":"Missing retained evidence routes to ASSIGN_INCIDENT_OWNER even when owner already exists."},
+    {"id":"S44-F33","severity":"P1","summary":"Log redaction, owner and evidence retention remain self-attested fields."},
+    {"id":"S44-F34","severity":"P1","summary":"All 24 We Do exercises repeat a predicate-repair/classify/fail-closed grammar."},
+    {"id":"S44-F35","severity":"P1","summary":"E3 transfer is weak because representation/context barely changes."},
+    {"id":"S44-F36","severity":"P1","summary":"All eight I Do demos are local Python simulations instead of target CI procedures."},
+    {"id":"S44-F37","severity":"P1","summary":"Theory playground leaks obsolete `Practica CLIP y Whisper (simulado)` through legacy id mapping."},
+    {"id":"S44-F38","severity":"P1","summary":"Canonical/public CP-N4-B brief exposes stale pre-V3 section labels for S44-S47."},
+    {"id":"S44-F39","severity":"P2","summary":"Visible S44 rubric differs from canonical CP-N4-B rubric without labeling/mapping itself as interim."},
+    {"id":"S44-F40","severity":"P1","summary":"Self-check calls an S44 result the CP-N4-B gate although canonical gate is S47."},
+    {"id":"S44-F41","severity":"P2","summary":"Authenticated S44 exam is topically current but mostly short conceptual recognition, weak for Level-4 artifact inspection."},
+    {"id":"S44-F42","severity":"P1","summary":"Four roadmap-required authentic topic assessments are absent."},
+    {"id":"S44-F43","severity":"P2","summary":"Resource list omits direct first-party docs for key attestation/dependency-review/secret-protection operations."},
+    {"id":"S44-F44","severity":"P2","summary":"Dense unexplained English/ops vocabulary raises avoidable language load in Peruvian Spanish."},
+    {"id":"S44-F45","severity":"P1","summary":"Intro conflates GitHub Action SHA pinning with Python/package dependency locking/hashing."},
+    {"id":"S44-F46","severity":"P1","summary":"Attestation teaching omits the explicit least-privilege permissions required to generate GitHub attestations."},
+    {"id":"S44-F47","severity":"P2","summary":"Declared `S44-permission-scope` figure is absent from FIGURES/FIGURE_DATA; FigureFrame returns null so it never renders."}
+  ],
+  "runtime_counterexamples": [
+    "publish_if(True,'sha256:x',7) -> publishable True",
+    "unpinned action followed by pinned 40-hex action -> final pin_ok True",
+    "artifact/SBOM/provenance='sha256:aaa' -> provenance_ok True",
+    "canary_ok(-1,.01,-999,120) -> True",
+    "release note keys with empty values -> True",
+    "healthy T4-B run -> STOP_SILENT_FAILURE",
+    "four You Do evidence flags True with no artifacts -> READY"
+  ],
+  "rejected_findings": [
+    "Rename legacy `multimodal` id/file: REJECTED; stable URL/progress key needs migration, not casual rename.",
+    "Require S44 to close CP-N4-B: REJECTED; canonical gate is S47.",
+    "Require a real public-cloud deployment: REJECTED; a controlled local/CI fixture can be authentic if it produces real evidence.",
+    "Caches are inherently incompatible with reproducibility: REJECTED; they are valid optimization when not treated as authority.",
+    "Full 40-hex action pinning is unnecessary: REJECTED; current GitHub secure-use guidance supports it.",
+    "Developer comments atop the TS file are learner-facing meta-leak: REJECTED; they are not rendered. The SectionView CLIP/Whisper demo is the actual leak."
+  ],
+  "unresolved": [
+    {
+      "id": "S44-U01",
+      "status": "UNRESOLVED_LIVE_SOURCE_DRIFT",
+      "evidence": "Public crawler last-month: S44 20h; current main source: estimatedHours 9.",
+      "next_validation": "Fresh Playwright/browser capture of deployed S44 after the next content deployment."
+    }
+  ],
+  "solarize_cycle": "audit/lessons-only/sections/S44.solarize-cycle.json",
+  "components_ledger": "audit/lessons-only/sections/S44.components.json",
+  "report": "audit/lessons-only/S44-full-scope-explorer.md",
+  "wiki": "audit/lessons-only/wiki/S44.md"
+}
