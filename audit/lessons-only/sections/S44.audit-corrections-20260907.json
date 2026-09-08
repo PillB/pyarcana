@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S44",
+  "artifact_type": "AUDIT_ARTIFACT_CORRECTION_AND_CONTEXT_REFRESH",
+  "generated_at": "2026-09-07T23:33:00-05:00",
+  "source": {
+    "main_commit": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+    "path": "src/lib/course/sections/s44-multimodal.ts",
+    "blob": "eec61acc20c6a06558b4a13193522066152cbffb"
+  },
+  "context_refresh": {
+    "sources": [
+      {
+        "kind": "conversation_zip",
+        "name": "2026-09-04-2026-09-04-auditoría-s01-lección.zip",
+        "recovered_rules": [
+          "Resolve canonical section identity from current course source/index before trusting legacy filename/slug.",
+          "Use ZERO_TECH or explicit prerequisite evidence; roadmap declarations do not prove learner readiness.",
+          "Maintain cumulative prerequisite/concept evidence and prefer source-first verification."
+        ]
+      },
+      {
+        "kind": "conversation_zip",
+        "name": "2026-09-05-2026-09-07-s17-audit-summary.zip",
+        "recovered_rules": [
+          "Assume the current website may contain real defects and actively attempt to expose them.",
+          "Do not appease the author; preserve Attack -> Defense -> Verdict so skepticism does not become invented defects.",
+          "Maintain a running JSON hierarchy down to subsection/topic/paragraph or learner-facing element with current content, observations, improved version and justification."
+        ]
+      },
+      {
+        "kind": "method",
+        "name": "PillB/solarize_skill/SKILL.md v2.2",
+        "recovered_rules": [
+          "Research -> Red -> Green -> Refactor -> Validate -> Memory -> Report.",
+          "Evidence and independent verifier are mandatory; comments/self-attestation are not proof.",
+          "Use converging validation with quiet rounds and persistent graph memory."
+        ]
+      },
+      {
+        "kind": "method",
+        "name": ".agents/skills/pyarcana-curriculum-audit/SKILL.md v3.0",
+        "recovered_rules": [
+          "Current checked repository content is authoritative over historical audit memory.",
+          "ZERO_TECH learner evidence and prerequisite lineage are explicit campaign controls.",
+          "Learner success requires evidence appropriate to the skill; seeing or asserting a fact is not mastery."
+        ]
+      },
+      {
+        "kind": "method",
+        "name": "PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA",
+        "recovered_rules": [
+          "Every suspicion is attacked and defended before verdict.",
+          "SIN_CAMBIO has a high burden of proof.",
+          "Reject false positives rather than converting adversarial posture into automatic defects."
+        ]
+      },
+      {
+        "kind": "method",
+        "name": "Solarized Website Content Comprehension Auditor & Rewriter",
+        "recovered_rules": [
+          "Audit every meaningful learner-facing element for self-sufficient comprehension.",
+          "Track widow terms, missing actors/inputs/sources/actions/destinations/purpose/consequence.",
+          "Preserve current content plus substantially improved content and reasoning at element level."
+        ]
+      }
+    ],
+    "effect_on_S44_curriculum_findings": "No new material P0/P1 after two quiet rescans; existing registry remains authoritative at 47 confirmed findings.",
+    "curriculum_source_modified": false
+  },
+  "audit_artifact_corrections": [
+    {
+      "id": "S44-AUDIT-QA-01",
+      "severity": "AUDIT_QA",
+      "status": "CONFIRMED_AUDIT_ARTIFACT_ERROR",
+      "artifact": "audit/lessons-only/S44-full-scope-explorer.md",
+      "location": "Section 1, scope paragraph",
+      "incorrect_text": "eight self-check questions",
+      "correct_text": "five self-check questions",
+      "evidence": [
+        "Canonical `src/lib/course/sections/s44-multimodal.ts` contains exactly five objects in `selfCheck.questions`.",
+        "`audit/lessons-only/sections/S44.practice-audit-02.json` inventories five self-check elements (S44-SC-Q1 ... S44-SC-Q5).",
+        "`audit/lessons-only/sections/S44.full-scope-index.json` records `self_check_questions.count = 5`."
+      ],
+      "impact": "The report overstates assessment inventory by three items and contradicts its own canonical coverage index.",
+      "disposition": "This append-only correction is authoritative for the count until the prose report is patched in an audit-QA pass. It does not create a new curriculum finding.",
+      "curriculum_finding_count_delta": 0
+    }
+  ],
+  "current_S44_status": {
+    "score": 1.5,
+    "verdict": "REPAIR_REQUIRED",
+    "release": "FAIL",
+    "confirmed_curriculum_findings": 47,
+    "severity_counts": {
+      "P0": 1,
+      "P1": 34,
+      "P2": 12
+    },
+    "unresolved_live": 1
+  },
+  "wiki": {
+    "campaign_index": "audit/lessons-only/wiki/README.md",
+    "section_page": "audit/lessons-only/wiki/S44.md"
+  }
+}
