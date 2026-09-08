@@ -1,0 +1,122 @@
+{
+  "schema_version": "3.3.0",
+  "campaign_id": "lessons-only-adversarial-20260903",
+  "section": "S44",
+  "artifact_type": "COMPONENT_AND_CROSS_SURFACE_LEDGER",
+  "source_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "canonical_file": "src/lib/course/sections/s44-multimodal.ts",
+  "canonical_blob_sha": "eec61acc20c6a06558b4a13193522066152cbffb",
+  "scope_note": "Append-only S44 supplement. It does not edit curriculum source. Stable legacy id `multimodal` is preserved; defects arise where shared learner-facing surfaces incorrectly use that id as current semantic content.",
+  "components": [
+    {
+      "id": "S44-COMP-01",
+      "surface": "src/components/course/SectionView.tsx -> Theory demo map",
+      "finding_ids": ["S44-F37"],
+      "severity": "P1",
+      "status": "CONFIRMED_FINDING",
+      "current_content": "The shared Theory playground indexes `demos[sectionId]`. For stable section id `multimodal`, the mapped learner-facing title is `Practica CLIP y Whisper (simulado)` and the code simulates multimodal concepts.",
+      "attack": "Open S44 Theory using section id `multimodal`; the shared component resolves the obsolete pre-V3 demo even though S44 now teaches CI/CD and supply-chain security.",
+      "defense": "The legacy id itself is a stable URL/progress key and should not be renamed casually.",
+      "verdict": "The id is valid; using it as a semantic selector without a V3 override is not. Obsolete multimodal material leaks into the CI/CD lesson.",
+      "pedagogical_impact": "The learner receives a topic switch inside Theory, breaks the mental model of the section, and may infer that CLIP/Whisper is part of the CI/CD objective.",
+      "improved_version": "Keep `id: multimodal` for compatibility, but map the S44 Theory playground by a current semantic demo key or `section.index`. The S44 demo should inspect a small CI workflow/supply-chain manifest and derive pass/block from evidence.",
+      "justification": "Separating stable identity from display semantics preserves progress while eliminating pre-V3 content leakage."
+    },
+    {
+      "id": "S44-COMP-02",
+      "surface": "src/components/course/Figure.tsx + figures registry/data",
+      "finding_ids": ["S44-F47", "S44-F09"],
+      "severity": "P2",
+      "status": "CONFIRMED_FINDING",
+      "current_content": "S44-T1-A references figure id `S44-permission-scope`. `FigureFrame` resolves only `FIGURES[figure.id]` or `FIGURE_DATA[figure.id]` and returns null when neither exists. `FIGURES` has no S44 permission figure; FIGURE_DATA is the union of flow/graph/misc data and none contains `S44-permission-scope`. The figure's caption is about tag-vs-SHA pinning and permissions although it is attached to T1-A matrices.",
+      "attack": "Resolve `S44-permission-scope` through both registries. It is absent, so the intended learner visual never renders.",
+      "defense": "S44-T1-A prose remains readable without the figure, and another S44 figure (`S44-supply-chain`) does exist.",
+      "verdict": "The missing figure is a real render-path defect, not merely a caption preference. Its placement is also conceptually closer to T2-A than T1-A.",
+      "pedagogical_impact": "A visual meant to clarify permission scope/pinning disappears entirely, removing a planned dual-coded explanation and leaving a silent gap in the rendered lesson.",
+      "improved_version": "Either register a real `S44-permission-scope` figure and place it with T2-A, or remove the dead reference and use the existing supply-chain figure where it actually supports T1. Keep alt/caption aligned to the rendered visual.",
+      "justification": "A referenced instructional figure must exist in the render registry; otherwise caption/alt never reaches the learner."
+    },
+    {
+      "id": "S44-COMP-03",
+      "surface": "course-state/capstones/CP-N4-B/BRIEF.md",
+      "finding_ids": ["S44-F38", "S44-F40"],
+      "severity": "P1",
+      "status": "CONFIRMED_FINDING",
+      "current_content": "The canonical brief correctly says Gate S47, but its prerequisite line still names `S44 (multimodal), S45 (IaC), S46 (GPU computing), S47 (opensource)` while the V3 roadmap/current site titles are S44 CI/CD supply chain, S45 Cloud y colas, S46 Data eng producción, S47 MLOps serving.",
+      "attack": "Compare the brief's human-readable prerequisite labels to learning_roadmap_52_V3.md and the current public section cards.",
+      "defense": "The stable section identities can remain legacy internally, and the brief's gate number S47 is correct.",
+      "verdict": "Learner-facing prerequisite names are stale and contradict the course they are taking. S44 self-check wording that calls an S44 check `el gate CP-N4-B` compounds the mismatch because the actual gate is S47.",
+      "pedagogical_impact": "The learner cannot reliably understand what S44 contributes versus what is evaluated at S47, and may believe the current curriculum has missing/renamed sections.",
+      "improved_version": "Update human-readable prerequisite labels to current V3 titles and say explicitly: `S44 inicia CP-N4-B; S47 ejecuta el gate canónico`.",
+      "justification": "Stable identifiers and current labels are different concerns; learner-facing contracts must use current labels while preserving internal IDs separately."
+    },
+    {
+      "id": "S44-COMP-04",
+      "surface": "course-state/capstones/CP-N4-B/RUBRIC.json + S44 visible You Do rubric",
+      "finding_ids": ["S44-F39"],
+      "severity": "P2",
+      "status": "CONFIRMED_FINDING",
+      "current_content": "Canonical CP-N4-B rubric uses 0-3 and weights correctness .35, robustness .20, maintainability .25, responsible_use .20 with weighted >=2.4, no critical criterion <2 and zero P0. S44 shows a different 25/20/15/15/15/10 percentage rubric without labeling it as an incremental S44 checkpoint.",
+      "attack": "Score the same artifact under both schemes; pass/fail can differ.",
+      "defense": "S44 is the start, not the closure, of CP-N4-B, so an interim rubric may legitimately differ.",
+      "verdict": "The interim rubric is defensible only if explicitly labeled and mapped to the canonical S47 rubric. That bridge is absent.",
+      "pedagogical_impact": "Learners cannot tell whether the visible score is formative S44 evidence or the actual capstone gate.",
+      "improved_version": "Label the S44 rubric `checkpoint formativo S44` and map each criterion to the canonical CP-N4-B dimensions; link/quote the S47 gate rule separately.",
+      "justification": "Formative and summative scoring can differ, but the relationship must be explicit to avoid contradictory assessment signals."
+    },
+    {
+      "id": "S44-COMP-05",
+      "surface": "src/components/course/ExamView.tsx + src/app/api/exam/start/route.ts + prisma/seed.ts",
+      "finding_ids": ["S44-F41", "S44-F42"],
+      "severity": "P1",
+      "status": "CONFIRMED_FINDING",
+      "current_content": "Authenticated exams sample one stored variant per concept. The S44 bank is updated to current CI/CD concepts, but examples such as `Una matrix de CI con Python 3.11 y 3.12 valida:` and `Fallar el pipeline si mypy/ruff fallan implementa:` are short recognition questions. The V3 roadmap separately requires four authentic topic assessments (two tasks per topic), which are not represented by the self-check or section MC exam.",
+      "attack": "Compare assessment surfaces with the roadmap's required authentic per-topic tasks and Level-4 artifact-inspection demand.",
+      "defense": "The section exam is allowed to use MC items, and the server correctly varies concepts/variants over attempts.",
+      "verdict": "The bank is topically current but under-samples authentic artifact reasoning; more importantly, the four mandated topic assessments are absent.",
+      "pedagogical_impact": "Recall can pass without demonstrating workflow inspection, artifact verification, environment protection or rollback evidence.",
+      "improved_version": "Keep the section exam for retrieval practice, but add four roadmap-compliant authentic topic evaluations that require inspecting/building CI evidence. Upgrade some exam variants to short workflow/diff/log vignettes rather than definition recognition.",
+      "justification": "Assessment alignment requires observable performance at the construct level, not only vocabulary recognition."
+    },
+    {
+      "id": "S44-COMP-06",
+      "surface": "learning_roadmap_52_V3.md prerequisite edge S43 -> S44",
+      "finding_ids": ["S44-F01"],
+      "severity": "P1",
+      "status": "CONFIRMED_FINDING",
+      "current_content": "Roadmap declares S43 as prerequisite. Current audit ledger for S43 is `REPAIR_REQUIRED`, score 1.0/10, with 5 P0 findings including self-attested final gates and missing canonical CP-N4-A closure tests.",
+      "attack": "Assume an S44 learner enters with a nominally completed but evidentially untrustworthy S43 artifact.",
+      "defense": "S44 can teach CI/CD concepts independently with a synthetic repository.",
+      "verdict": "Conceptual study can continue, but S44 must not treat the upstream service/artifact as trusted capstone evidence until S43 critical gates are repaired.",
+      "pedagogical_impact": "CI/CD can institutionalize and promote an artifact that never demonstrated its own S43 security/operability contract.",
+      "improved_version": "At S44 entry, state which S43 evidence is assumed and provide a known-good synthetic fixture if prerequisite evidence is unavailable; never let downstream CI checks compensate for upstream P0 failures.",
+      "justification": "Prerequisite integrity is part of the curriculum graph: downstream evidence is only meaningful when required upstream evidence is valid."
+    },
+    {
+      "id": "S44-COMP-07",
+      "surface": "public live card vs canonical main source",
+      "finding_ids": [],
+      "severity": "UNRESOLVED",
+      "status": "UNRESOLVED_LIVE_SOURCE_DRIFT",
+      "current_content": "The public crawler shows S44 title/tagline aligned with current V3 but displays `20h · Producción gobernada`; canonical main source declares `estimatedHours: 9`. The public crawl is last-month and also exposes a provisional 1040h course total.",
+      "attack": "Treat the mismatch as a possible deployment/content drift.",
+      "defense": "The crawler is stale enough that 20h may be an older compiled shell rather than today's deployed hydrated section.",
+      "verdict": "Do not invent a current live defect. Record unresolved drift and re-check with a fresh browser/runtime capture during Fixer/QA.",
+      "pedagogical_impact": "If current, learners receive conflicting time expectations; if stale, no current learner impact is established.",
+      "improved_version": "Choose one authoritative hours policy and make source/live card derive from it; validate with fresh Playwright after deployment.",
+      "justification": "Temporal uncertainty must stay explicit rather than being promoted to a confirmed finding."
+    }
+  ],
+  "rejected_findings": [
+    {
+      "claim": "Rename `multimodal` id/file because it is stale.",
+      "status": "REJECTED_FINDING",
+      "reason": "Source documents it as a stable URL/progress key. The repair is to decouple semantic content selectors, not break saved progress."
+    },
+    {
+      "claim": "S44 must itself close CP-N4-B.",
+      "status": "REJECTED_FINDING",
+      "reason": "V3 roadmap and canonical CP-N4-B contract place the gate at S47; S44 only starts the capstone."
+    }
+  ]
+}
