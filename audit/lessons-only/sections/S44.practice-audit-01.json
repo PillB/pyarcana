@@ -1,0 +1,198 @@
+{
+  "schema_version": "3.3.0",
+  "section": "S44",
+  "title": "CI/CD y seguridad de la cadena de suministro",
+  "mode": "FULL_SCOPE_EXPLORER_APPEND_ONLY",
+  "source": {
+    "path": "src/lib/course/sections/s44-multimodal.ts",
+    "blob": "eec61acc20c6a06558b4a13193522066152cbffb"
+  },
+  "scope": "I Do (8 demos) + We Do T1/T2 (12 exercises)",
+  "audit_rule": "Cada nodo conserva current_content, attack, defense, verdict, improved_version y justification. Las mejoras son propuestas: no se aplican a curriculum source.",
+  "i_do": [
+    {
+      "element_id": "S44-T1-A-DEMO",
+      "current_content": "Demo local-python de lint/types/tests y matriz soportada; gates_green opera sobre valores ya calculados.",
+      "findings": ["F03","F36"],
+      "attack": "El objetivo S44 es CI controlado, pero el alumno observa un dict/función Python, no un workflow ni sus logs.",
+      "defense": "Como primer modelo mental, una función pequeña puede aislar el AND del gate.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Mantener el predicado como pre-demo de 5 minutos y, en el mismo I Do, mostrar un ci.yml mínimo ejecutado: matriz 3.11/3.12, lint/types/tests, un run verde y otro rojo, y dónde queda la evidencia descargable.",
+      "justification": "La representación simbólica debe conectarse inmediatamente con el procedimiento auténtico que el learner tendrá que ejecutar en You Do."
+    },
+    {
+      "element_id": "S44-T1-B-DEMO",
+      "current_content": "Demo local-python de cache, artifact, digest, retención y condiciones de publicación.",
+      "findings": ["F04","F05","F06","F07","F08","F36"],
+      "attack": "Trata un digest suministrado como evidencia y no produce/re-descarga/hash-ea un artifact; además la política de 7 días aparece como regla general.",
+      "defense": "El texto sí distingue cache de artifact y dice que cache no es fuente de verdad.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Construir un wheel fixture, calcular sha256 real, subirlo como artifact, descargarlo en un job posterior y verificar el mismo hash. Derivar retention-days de una política CASO-PIU-044 explícita y probar tag/PR/manual paths en YAML.",
+      "justification": "Convierte presencia de strings en evidencia verificable y evita falsa precisión."
+    },
+    {
+      "element_id": "S44-T2-A-DEMO",
+      "current_content": "Demo local-python de permissions, action pinning, secret scanning y dependency review.",
+      "findings": ["F11","F12","F13","F14","F36","F46"],
+      "attack": "El demo valida texto/booleans; pin_ok puede ser sobrescrito por la última action y no demuestra identidad repositorio+commit ni permisos efectivos por job.",
+      "defense": "La teoría correctamente favorece least privilege y SHA completo.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Auditar un workflow YAML con dos actions (una deliberadamente no fijada), calcular permisos efectivos workflow/job, verificar cada action externa y mostrar un job separado de attestation con solo contents:read, id-token:write y attestations:write cuando corresponda.",
+      "justification": "El alumno debe ver enforcement real y el motivo de elevar permisos únicamente en el job que genera provenance."
+    },
+    {
+      "element_id": "S44-T2-B-DEMO",
+      "current_content": "Demo local-python de SBOM, subject digest, provenance y un booleano attestation_valid.",
+      "findings": ["F15","F16","F17","F18","F36"],
+      "attack": "Confunde hash del documento SBOM con digest del artifact y sustituye verificación criptográfica/política por attestation_valid=True.",
+      "defense": "La intención de ligar SBOM/provenance al artifact es correcta.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Separar artifact_digest, sbom_document_digest, sbom_subject_digest y provenance_subject_digest. Verificar que los subjects apuntan al artifact y que issuer/builder/repo/workflow/revision satisfacen política esperada.",
+      "justification": "Preserva el modelo mental correcto: el documento SBOM tiene su propio contenido, mientras su subject identifica el artifact descrito."
+    },
+    {
+      "element_id": "S44-T3-A-DEMO",
+      "current_content": "Demo local-python de staging/production, aprobación y promoción del mismo digest.",
+      "findings": ["F19","F20","F21","F22","F36"],
+      "attack": "bool(approved_by) permite autoaprobación o nombre inventado y el digest solo necesita prefijo sha256:.",
+      "defense": "El invariante tested digest == promoted digest es pedagógicamente relevante.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Mostrar un environment protegido con initiator, reviewer autorizado, prevent-self-review y branch policy; verificar sha256:<64hex> contra el artifact de staging antes de promover exactamente ese digest.",
+      "justification": "Transforma aprobación descriptiva en control independiente y el string digest en identidad medida."
+    },
+    {
+      "element_id": "S44-T3-B-DEMO",
+      "current_content": "Demo local-python de canary, umbral, rollback y RTO.",
+      "findings": ["F23","F24","F25","F26","F27","F36"],
+      "attack": "Métricas negativas pasan; rollback no se liga al last-known-good; migration_compatible/rollback_tested son booleans.",
+      "defense": "El demo introduce fail-closed y tiempo de rollback con un caso sintético seguro.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Validar dominios de métricas, exigir ventana+muestra, p95/error-rate, registrar before/failed/restored digest y ejecutar un rollback fixture que pruebe restored_digest == last_known_good y compatibilidad de migración.",
+      "justification": "Un canary es evidencia observada; no una colección de flags plausibles."
+    },
+    {
+      "element_id": "S44-T4-A-DEMO",
+      "current_content": "Demo local-python de branch protection, required reviews/checks y release notes.",
+      "findings": ["F28","F29","F30","F36"],
+      "attack": "Gobernanza se representa como set/booleans y release notes pasan por nombres de campos aunque estén vacíos.",
+      "defense": "El contrato identifica controles útiles para una release operable.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Inspeccionar un snapshot de ruleset/branch policy y un release-note fixture con valores no vacíos: cambio, riesgo, comando de migración/verificación y rollback al digest probado.",
+      "justification": "Distingue documentación de enforcement y encabezados de instrucciones realmente operables."
+    },
+    {
+      "element_id": "S44-T4-B-DEMO",
+      "current_content": "Demo local-python de fallo crítico, bloqueo, logs redactados, owner y evidence_retained.",
+      "findings": ["F31","F32","F33","F36"],
+      "attack": "El estado PASS está acoplado a critical_failure=True y evidencia/owner/redaction se autoatestan.",
+      "defense": "La intención de retener evidencia y fallar cerrado frente a incidentes es correcta.",
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Separar estado normal de incidente. En incidente, inspeccionar log redactado, manifest de artifacts y ownership record; missing evidence -> RETAIN_INCIDENT_EVIDENCE, missing owner -> ASSIGN_INCIDENT_OWNER.",
+      "justification": "Corrige la máquina de estados y evita afirmar auditabilidad mediante campos que simplemente dicen que existe auditabilidad."
+    }
+  ],
+  "we_do": [
+    {
+      "element_id": "S44-T1-A-E1",
+      "current_content": "Repara OR débil a AND de lint/types/tests + matrix==supported.",
+      "findings": ["F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Reparar directamente un fragmento de strategy.matrix y needs/resultados en ci.yml; verificar con dos run fixtures.",
+      "justification": "Mantiene el concepto pero cambia de predicado local a representación CI auténtica."
+    },
+    {
+      "element_id": "S44-T1-A-E2",
+      "current_content": "Clasifica PASS / FAIL_CI_GATE / MISSING:supported sobre dicts válido, adverso y missing.",
+      "findings": ["F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Dar tres summaries/logs reales de runs (matriz soportada, typecheck rojo+3.10, config sin supported) y pedir diagnóstico con evidencia de línea/job.",
+      "justification": "Evalúa interpretación de outputs CI, no memoria del mismo assessor."
+    },
+    {
+      "element_id": "S44-T1-A-E3",
+      "current_content": "Decide CONTINUE / FAIL_CI_GATE / REVIEW_MATRIX; misma fixture/gramática que E2.",
+      "findings": ["F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Cambiar la representación: pull request con compatibilidad declarada y un run parcial; learner decide y justifica qué gate bloquear/revisar.",
+      "justification": "Introduce transferencia estructural en vez de tercera variación del mismo dict."
+    },
+    {
+      "element_id": "S44-T1-B-E1",
+      "current_content": "Artifact verificable, no solo cache; acepta startswith('sha256:') y retention>=7.",
+      "findings": ["F04","F05","F06","F07","F34"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Generar artifact real, calcular digest sha256 de 64 hex, probar cache miss y verificar artifact descargado; política de retención explicitada como caso local.",
+      "justification": "El ejercicio actual enseña forma de string, no integridad del artifact."
+    },
+    {
+      "element_id": "S44-T1-B-E2",
+      "current_content": "Tres rutas de cache/artifact/conditions sobre dicts valid/invalid/missing.",
+      "findings": ["F04","F05","F08","F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Entregar artifact metadata + hash report + workflow trigger snippets; clasificar fallo de integridad, fallo de trigger y missing metadata por evidencia observable.",
+      "justification": "Evita que el alumno solo replique el patrón MISSING/BLOCK del E2 anterior."
+    },
+    {
+      "element_id": "S44-T1-B-E3",
+      "current_content": "Fail-closed classifier del mismo contrato de T1-B.",
+      "findings": ["F04","F05","F08","F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Transferir a tag release vs PR: decidir si publicar, retener, o pedir evidencia usando un workflow distinto y artifact descargado.",
+      "justification": "La decisión debe depender de evidence lineage real, no del mismo set de claves."
+    },
+    {
+      "element_id": "S44-T2-A-E1",
+      "current_content": "Repara predicado de hardening: permissions/pin/secret scan/dependency review.",
+      "findings": ["F10","F11","F12","F13","F14","F34","F46"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Reparar un YAML con dos actions, una no fijada; calcular permisos efectivos y distinguir secret hit no validado de credencial confirmada.",
+      "justification": "Hace visible el bug de pin sobrescrito y separa detección de incidente confirmado."
+    },
+    {
+      "element_id": "S44-T2-A-E2",
+      "current_content": "Clasifica workflow seguro/adverso/missing con valores ya preparados.",
+      "findings": ["F10","F11","F12","F13","F14","F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Analizar tres workflow fixtures y un dependency-review report; citar action/ref/job/permission que causa el veredicto.",
+      "justification": "Fuerza lectura de configuración y evidencia en lugar de truthy fields."
+    },
+    {
+      "element_id": "S44-T2-A-E3",
+      "current_content": "Decisión fail-closed sobre el mismo schema T2-A.",
+      "findings": ["F10","F11","F12","F13","F14","F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Cambiar contexto a PR de dependencia: learner selecciona BLOCK_DEPENDENCY, REVIEW_SECRET_HIT o CONTINUE y debe adjuntar evidencia de check y política.",
+      "justification": "Aumenta transferencia y evita el aprendizaje por plantilla."
+    },
+    {
+      "element_id": "S44-T2-B-E1",
+      "current_content": "Predicado SBOM/provenance exige igualdad de strings y attestation_valid booleano.",
+      "findings": ["F15","F16","F17","F34"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Separar digest del documento SBOM de su subject; verificar artifact subject, issuer/builder, repository/workflow y revision desde fixtures firmados/verificables.",
+      "justification": "Corrige un error técnico central del modelo de provenance."
+    },
+    {
+      "element_id": "S44-T2-B-E2",
+      "current_content": "Tres rutas valid/invalid/missing para SBOM/provenance sobre dicts.",
+      "findings": ["F15","F16","F17","F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Comparar tres attestations/SBOM fixtures: subject correcto+issuer trusted, subject incorrecto, evidencia incompleta; learner señala exactamente qué claim/policy falla.",
+      "justification": "Enseña verificación de policy, no presencia de campos."
+    },
+    {
+      "element_id": "S44-T2-B-E3",
+      "current_content": "Fail-closed classifier reutiliza el mismo contrato de T2-B.",
+      "findings": ["F15","F16","F17","F34","F35"],
+      "verdict": "CONFIRMED_FINDING",
+      "improved_version": "Transferir a un artifact distinto con provenance válida pero builder/repo no autorizado; decidir REJECT_ATTESTATION y explicar por qué digest coincidente no basta.",
+      "justification": "Prueba el modelo mental de confianza: integridad del subject y confianza del productor son dimensiones distintas."
+    }
+  ],
+  "cross_cutting": {
+    "dominant_pattern": "24 ejercicios usan E1=reparar predicado, E2=valid/adversarial/missing, E3=classifier fail-closed.",
+    "finding_refs": ["F03","F34","F35","F36"],
+    "pedagogical_impact": "La repetición reduce variabilidad superficial, pero aquí invade casi toda la práctica y permite dominar la gramática del ejercicio sin operar CI/CD.",
+    "recommended_progression": "modelo local breve -> workflow/config fixture -> run/log/artifact evidence -> diagnóstico cruzado -> construcción parcial -> You Do auténtico"
+  }
+}
