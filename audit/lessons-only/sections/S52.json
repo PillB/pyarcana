@@ -1,0 +1,20 @@
+{
+  "schema_version": "pyarcana.section-continuity.v1",
+  "section": 52,
+  "title": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
+  "status": "REPAIR_REQUIRED",
+  "score": 0.8,
+  "severity_counts": {
+    "P1": 72,
+    "P0": 7,
+    "P2": 11
+  },
+  "full_granular_json_sha256": "72242ecea255b4f5b60c7865c0aead24d23851a6f1de13f29efd408ddb5b737d",
+  "full_granular_json_elements": 179,
+  "source_blob_sha": "5cf4d0018beb214bb14679bd87d6f381cf6ffb49",
+  "report_path": "audit/lessons-only/S52-full-scope-explorer.md",
+  "wiki_path": "audit/lessons-only/wiki/S52-20260908.md",
+  "critical_findings": ["F04","F08","F09","F10","F34","F45","F60"],
+  "continuity_note": "S01 running log; S02-S51 prior JSON/evidence verified. S52 was the first missing section JSON.",
+  "production_changes_applied": false
+}
