@@ -1,0 +1,20 @@
+{
+  "schema_version": "pyarcana.section-continuity.v1",
+  "section": 51,
+  "title": "Observabilidad, gobernanza y UX del copiloto",
+  "status": "REPAIR_REQUIRED",
+  "score": 1.0,
+  "severity_counts": {
+    "P1": 64,
+    "P2": 13,
+    "P0": 7
+  },
+  "full_granular_json_sha256": "d70279567bef99244ac2272059a24282909184d8f1b382ffd69b1ee888ebb414",
+  "full_granular_json_elements": 178,
+  "source_blob_sha": "461be0be91b1629fc28a3dc5375aa65bd865e3a3",
+  "report_path": "audit/lessons-only/S51-full-scope-explorer.md",
+  "wiki_path": "audit/lessons-only/wiki/S51-20260908.md",
+  "critical_findings": ["F03","F04","F11","F19","F31","F53","F70"],
+  "continuity_note": "S01 running log; S02-S50 prior JSON/evidence verified. S51 was the first missing section JSON.",
+  "production_changes_applied": false
+}
