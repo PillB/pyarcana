@@ -59,7 +59,7 @@
       "visible_rubric": {"count": 1, "ledger": "S44.practice-audit-02.json"}
     },
     "assessment": {
-      "self_check_questions": {"count": 8, "ledger": "S44.practice-audit-02.json"},
+      "self_check_questions": {"count": 5, "ledger": "S44.practice-audit-02.json"},
       "authenticated_exam": {"covered": true, "ledger": "S44.components.json"},
       "topic_assessments": {"required": 4, "observed": 0, "finding": "S44-F42"}
     },
