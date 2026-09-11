@@ -38,47 +38,46 @@
     {
       "badge": "progress_phase0_walked",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 22,
+      "count": 19,
       "terms": [
         "abc",
         "apply",
         "args-y-kwargs",
-        "commit",
         "conventional-commits",
         "counter",
         "decorador",
         "dependencias",
         "dict-comprehension",
-        "dotenv",
         "entity-resolution",
-        "list-comprehension"
+        "list-comprehension",
+        "merge",
+        "missing-values"
       ]
     },
     {
       "badge": "progress_phase1_walked",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 17,
+      "count": 14,
       "terms": [
-        "autoseleccion",
         "boolean-masking",
         "broadcasting",
         "correlaci-n",
         "coverage",
-        "dtype",
         "estimando",
         "f1-score",
         "generator",
         "groupby",
         "guardrail",
-        "iloc-vs-loc"
+        "iloc-vs-loc",
+        "iqr",
+        "notebook"
       ]
     },
     {
       "badge": "progress_phase2_walked",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 13,
+      "count": 9,
       "terms": [
-        "columntransformer",
         "context-manager",
         "cross-validation",
         "defaultdict",
@@ -87,9 +86,7 @@
         "onehotencoder",
         "resample",
         "roc-auc",
-        "shap",
-        "standardscaler",
-        "stratifiedkfold"
+        "standardscaler"
       ]
     },
     {
@@ -104,47 +101,46 @@
     {
       "badge": "progress_journey_completed",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 54,
+      "count": 44,
       "terms": [
         "abc",
         "apply",
         "args-y-kwargs",
-        "autoseleccion",
         "boolean-masking",
         "broadcasting",
-        "columntransformer",
-        "commit",
         "context-manager",
         "conventional-commits",
         "correlaci-n",
-        "counter"
+        "counter",
+        "coverage",
+        "cross-validation",
+        "decorador"
       ]
     },
     {
       "badge": "python_data_foundations",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 16,
+      "count": 13,
       "terms": [
         "abc",
         "apply",
         "args-y-kwargs",
-        "commit",
         "conventional-commits",
         "decorador",
         "dict-comprehension",
-        "dotenv",
         "list-comprehension",
         "merge",
         "pyodide",
-        "pytest"
+        "pytest",
+        "set",
+        "truthiness"
       ]
     },
     {
       "badge": "independent_data_preparation",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 10,
+      "count": 9,
       "terms": [
-        "autoseleccion",
         "correlaci-n",
         "counter",
         "coverage",
@@ -177,10 +173,9 @@
     {
       "badge": "production_python_delivery_foundations",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 3,
+      "count": 2,
       "terms": [
         "iloc-vs-loc",
-        "projection-pushdown",
         "row-group"
       ]
     },
@@ -203,25 +198,21 @@
     {
       "badge": "production_python_hardening_practice",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 6,
+      "count": 4,
       "terms": [
-        "columntransformer",
         "context-manager",
         "cross-validation",
         "joblib",
-        "onehotencoder",
-        "train-test-split"
+        "onehotencoder"
       ]
     },
     {
       "badge": "applied_deep_learning_practice",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 4,
+      "count": 2,
       "terms": [
         "resample",
-        "roc-auc",
-        "shap",
-        "stratifiedkfold"
+        "roc-auc"
       ]
     },
     {
@@ -283,63 +274,59 @@
     {
       "badge": "integrated_production_python_practice",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 9,
+      "count": 6,
       "terms": [
-        "columntransformer",
         "context-manager",
         "cross-validation",
         "iloc-vs-loc",
         "joblib",
         "onehotencoder",
-        "projection-pushdown",
-        "row-group",
-        "train-test-split"
+        "row-group"
       ]
     },
     {
       "badge": "integrated_python_ai_capstone_foundations",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 22,
+      "count": 19,
       "terms": [
         "abc",
         "apply",
         "args-y-kwargs",
-        "commit",
         "conventional-commits",
         "counter",
         "decorador",
         "dependencias",
         "dict-comprehension",
-        "dotenv",
         "entity-resolution",
-        "list-comprehension"
+        "list-comprehension",
+        "merge",
+        "missing-values"
       ]
     },
     {
       "badge": "integrated_python_ai_capstone_independent",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 17,
+      "count": 14,
       "terms": [
-        "autoseleccion",
         "boolean-masking",
         "broadcasting",
         "correlaci-n",
         "coverage",
-        "dtype",
         "estimando",
         "f1-score",
         "generator",
         "groupby",
         "guardrail",
-        "iloc-vs-loc"
+        "iloc-vs-loc",
+        "iqr",
+        "notebook"
       ]
     },
     {
       "badge": "integrated_python_ai_capstone_advanced_applied",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 13,
+      "count": 9,
       "terms": [
-        "columntransformer",
         "context-manager",
         "cross-validation",
         "defaultdict",
@@ -348,9 +335,7 @@
         "onehotencoder",
         "resample",
         "roc-auc",
-        "shap",
-        "standardscaler",
-        "stratifiedkfold"
+        "standardscaler"
       ]
     },
     {
@@ -365,11 +350,12 @@
     {
       "badge": "CP-N1-A",
       "code": "CAPSTONE_GATE_VOCABULARY_GAP",
-      "count": 4,
+      "count": 5,
       "terms": [
         "decorador",
         "dict-comprehension",
         "list-comprehension",
+        "set",
         "variable"
       ]
     },
@@ -393,11 +379,10 @@
     {
       "badge": "CP-N3-B",
       "code": "CAPSTONE_GATE_VOCABULARY_GAP",
-      "count": 3,
+      "count": 2,
       "terms": [
         "resample",
-        "roc-auc",
-        "stratifiedkfold"
+        "roc-auc"
       ]
     }
   ],
@@ -420,7 +405,7 @@
         "S12",
         "S13"
       ],
-      "blocking_term_gaps": 22
+      "blocking_term_gaps": 19
     },
     {
       "badge": "progress_phase1_walked",
@@ -440,7 +425,7 @@
         "S25",
         "S26"
       ],
-      "blocking_term_gaps": 17
+      "blocking_term_gaps": 14
     },
     {
       "badge": "progress_phase2_walked",
@@ -460,7 +445,7 @@
         "S38",
         "S39"
       ],
-      "blocking_term_gaps": 13
+      "blocking_term_gaps": 9
     },
     {
       "badge": "progress_phase3_walked",
@@ -539,7 +524,7 @@
         "S51",
         "S52"
       ],
-      "blocking_term_gaps": 54
+      "blocking_term_gaps": 44
     },
     {
       "badge": "python_data_foundations",
@@ -551,7 +536,7 @@
         "S04",
         "S05"
       ],
-      "blocking_term_gaps": 16
+      "blocking_term_gaps": 13
     },
     {
       "badge": "independent_data_preparation",
@@ -562,7 +547,7 @@
         "S08",
         "S18"
       ],
-      "blocking_term_gaps": 10
+      "blocking_term_gaps": 9
     },
     {
       "badge": "applied_analytical_reasoning",
@@ -599,7 +584,7 @@
         "S17",
         "S21"
       ],
-      "blocking_term_gaps": 3
+      "blocking_term_gaps": 2
     },
     {
       "badge": "responsible_machine_learning_evaluation",
@@ -646,7 +631,7 @@
         "S32",
         "S38"
       ],
-      "blocking_term_gaps": 6
+      "blocking_term_gaps": 4
     },
     {
       "badge": "applied_deep_learning_practice",
@@ -655,7 +640,7 @@
         "S33",
         "S34"
       ],
-      "blocking_term_gaps": 4
+      "blocking_term_gaps": 2
     },
     {
       "badge": "architecture_decision_practice",
@@ -762,7 +747,7 @@
         "S32",
         "S38"
       ],
-      "blocking_term_gaps": 9
+      "blocking_term_gaps": 6
     },
     {
       "badge": "integrated_python_ai_capstone_foundations",
@@ -782,7 +767,7 @@
         "S12",
         "S13"
       ],
-      "blocking_term_gaps": 22
+      "blocking_term_gaps": 19
     },
     {
       "badge": "integrated_python_ai_capstone_independent",
@@ -802,7 +787,7 @@
         "S25",
         "S26"
       ],
-      "blocking_term_gaps": 17
+      "blocking_term_gaps": 14
     },
     {
       "badge": "integrated_python_ai_capstone_advanced_applied",
@@ -822,7 +807,7 @@
         "S38",
         "S39"
       ],
-      "blocking_term_gaps": 13
+      "blocking_term_gaps": 9
     },
     {
       "badge": "integrated_python_ai_capstone_integrated_mastery",
@@ -856,7 +841,7 @@
     {
       "id": "CP-N1-A",
       "gate_section": "functions-modules",
-      "blocking_term_gaps": 4
+      "blocking_term_gaps": 5
     },
     {
       "id": "CP-N1-B",
@@ -891,7 +876,7 @@
     {
       "id": "CP-N3-B",
       "gate_section": "cv-ai-integration",
-      "blocking_term_gaps": 3
+      "blocking_term_gaps": 2
     },
     {
       "id": "CP-N3-C",

@@ -4,19 +4,15 @@
   "terms_audited": 95,
   "events_audited": 22581,
   "issue_counts": {
-    "DEFINITION_AFTER_REQUIREMENT": 18,
-    "NO_VISIBLE_DEFINITION": 36,
-    "USE_BEFORE_DEFINITION": 47
+    "DEFINITION_AFTER_REQUIREMENT": 16,
+    "NO_VISIBLE_DEFINITION": 28,
+    "USE_BEFORE_DEFINITION": 44
   },
   "never_defined_but_mentioned": [
     "args-y-kwargs",
-    "autoseleccion",
     "boolean-masking",
     "broadcasting",
-    "columntransformer",
-    "commit",
     "context-manager",
-    "conventional-commits",
     "correlaci-n",
     "counter",
     "cross-validation",
@@ -34,15 +30,11 @@
     "notebook",
     "onehotencoder",
     "p-value",
-    "projection-pushdown",
     "pyodide",
     "resample",
     "roc-auc",
     "row-group",
-    "shap",
     "standardscaler",
-    "stratifiedkfold",
-    "train-test-split",
     "truthiness",
     "variable"
   ],
@@ -76,14 +68,14 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "f-string",
       "severity": "P1",
-      "location": "setup.S01-T1-A.p3",
+      "location": "basics.S02-T4-A-DEMO.preamble",
       "definition_location": "basics.S02-T4-A-E1.preamble"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "slicing",
       "severity": "P1",
-      "location": "setup.S01-T1-B.p3",
+      "location": "basics.S02-T2-B-DEMO.why",
       "definition_location": "numpy.S06-T1-A.p1"
     },
     {
@@ -139,51 +131,10 @@
     },
     {
       "code": "USE_BEFORE_DEFINITION",
-      "term_id": "virtual-environment-venv",
-      "severity": "P1",
-      "location": "setup.tagline",
-      "definition_location": "setup.jobRelevance"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "repositorio-repo",
-      "severity": "P1",
-      "location": "setup.outcome[5]",
-      "definition_location": "mlops.S29-T4-B-E1.preamble"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "repositorio-repo",
-      "severity": "P1",
-      "location": "setup.S01-T3-A-E1.instruction",
-      "definition_location": "mlops.S29-T4-B-E1.preamble"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "git",
-      "severity": "P1",
-      "location": "setup.tagline",
-      "definition_location": "setup.outcome[5]"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "github",
-      "severity": "P1",
-      "location": "setup.tagline",
-      "definition_location": "setup.S01-T2-A.p1"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "commit",
-      "severity": "P1",
-      "location": "setup.S01-T3-A-E1.instruction"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
       "term_id": "interprete",
       "severity": "P1",
-      "location": "setup.outcome[0]",
-      "definition_location": "setup.theory[0].p2"
+      "location": "setup.jobRelevance",
+      "definition_location": "setup.outcome[0]"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
@@ -214,37 +165,31 @@
       "definition_location": "stdlib-deep.youDo.requirement[7]"
     },
     {
-      "code": "NO_VISIBLE_DEFINITION",
+      "code": "USE_BEFORE_DEFINITION",
       "term_id": "conventional-commits",
       "severity": "P1",
-      "location": "setup.S01-T3-A-E1.instruction"
+      "location": "setup.S01-T3-A.p1",
+      "definition_location": "setup.selfCheck[2].explanation"
+    },
+    {
+      "code": "DEFINITION_AFTER_REQUIREMENT",
+      "term_id": "conventional-commits",
+      "severity": "P1",
+      "location": "setup.S01-T3-A-E1.instruction",
+      "definition_location": "setup.selfCheck[2].explanation"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "terminal-shell",
       "severity": "P1",
       "location": "setup.jobRelevance",
-      "definition_location": "setup.outcome[2]"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "dotenv",
-      "severity": "P1",
-      "location": "setup.S01-T2-A.callout",
-      "definition_location": "setup.S01-T4-B-E1.preamble"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "dotenv",
-      "severity": "P1",
-      "location": "setup.S01-T3-B-E2.tests",
-      "definition_location": "setup.S01-T4-B-E1.preamble"
+      "definition_location": "setup.theory[0].p2"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "ruff",
       "severity": "P1",
-      "location": "setup.tagline",
+      "location": "setup.outcome[4]",
       "definition_location": "setup.theory[7].code"
     },
     {
@@ -265,14 +210,14 @@
       "term_id": "pytest",
       "severity": "P1",
       "location": "basics.S02-T4-B.p2",
-      "definition_location": "async-concurrency.youDo.context"
+      "definition_location": "async-concurrency.S27-T2-A.code"
     },
     {
       "code": "DEFINITION_AFTER_REQUIREMENT",
       "term_id": "pytest",
       "severity": "P1",
       "location": "basics.youDo.requirement[5]",
-      "definition_location": "async-concurrency.youDo.context"
+      "definition_location": "async-concurrency.S27-T2-A.code"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
@@ -306,15 +251,15 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "set",
       "severity": "P1",
-      "location": "setup.S01-T4-A-E3.preamble",
-      "definition_location": "fastapi.S21-T4-A-DEMO.code"
+      "location": "setup.S01-T4-A-E3.starter",
+      "definition_location": "testing.S11-T1-B.p0"
     },
     {
       "code": "DEFINITION_AFTER_REQUIREMENT",
       "term_id": "set",
       "severity": "P1",
-      "location": "setup.S01-T4-A-E3.hint",
-      "definition_location": "fastapi.S21-T4-A-DEMO.code"
+      "location": "functions-modules.S04-T3-B-E2.hint",
+      "definition_location": "testing.S11-T1-B.p0"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
@@ -365,21 +310,7 @@
       "term_id": "dtype",
       "severity": "P1",
       "location": "security.outcome[0]",
-      "definition_location": "stdlib-deep.theory[0].p2"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "dtype",
-      "severity": "P1",
-      "location": "security.S14-T1-A-E1.instruction",
-      "definition_location": "stdlib-deep.theory[0].p2"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "reshape",
-      "severity": "P1",
-      "location": "security.S14-T2-B.code",
-      "definition_location": "security.S14-T2-B-E2.starter"
+      "definition_location": "security.S14-T1-A.p0"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
@@ -414,14 +345,14 @@
       "term_id": "merge",
       "severity": "P1",
       "location": "setup.youDo.objective[3]",
-      "definition_location": "packaging.S17-T1-A.code"
+      "definition_location": "packaging.S17-T1-A.p2"
     },
     {
       "code": "DEFINITION_AFTER_REQUIREMENT",
       "term_id": "merge",
       "severity": "P1",
       "location": "setup.youDo.objective[3]",
-      "definition_location": "packaging.S17-T1-A.code"
+      "definition_location": "packaging.S17-T1-A.p2"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
@@ -481,14 +412,8 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "pipeline",
       "severity": "P1",
-      "location": "setup.S01-T1-A.p2",
+      "location": "setup.S01-T1-B.p2",
       "definition_location": "basics.S02-T1-B-E3.instruction"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "columntransformer",
-      "severity": "P1",
-      "location": "microservices.S32-T3-A.p0"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
@@ -528,34 +453,35 @@
       "term_id": "recall",
       "severity": "P1",
       "location": "rpa-automation.outcome[1]",
-      "definition_location": "cv-ai-integration.S34-T1-B.p0"
+      "definition_location": "security-infra.jobRelevance"
     },
     {
       "code": "DEFINITION_AFTER_REQUIREMENT",
       "term_id": "recall",
       "severity": "P1",
       "location": "rpa-automation.S13-T1-B-E1.instruction",
-      "definition_location": "cv-ai-integration.S34-T1-B.p0"
+      "definition_location": "security-infra.jobRelevance"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "f1-score",
       "severity": "P1",
       "location": "rpa-advanced.S24-T4-A.p1",
-      "definition_location": "cv-ai-integration.S34-T1-A.p0"
+      "definition_location": "security-infra.S30-T4-B-E2.instruction"
     },
     {
       "code": "DEFINITION_AFTER_REQUIREMENT",
       "term_id": "f1-score",
       "severity": "P1",
       "location": "streamlit-dashboards.S25-T4-A-E2.hint",
-      "definition_location": "cv-ai-integration.S34-T1-A.p0"
+      "definition_location": "security-infra.S30-T4-B-E2.instruction"
     },
     {
-      "code": "NO_VISIBLE_DEFINITION",
+      "code": "USE_BEFORE_DEFINITION",
       "term_id": "shap",
       "severity": "P1",
-      "location": "advanced-models.selfCheck[2].opt[1]"
+      "location": "advanced-models.selfCheck[2].opt[1]",
+      "definition_location": "system-design.S35-T1-B.p0"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
@@ -574,12 +500,6 @@
       "term_id": "onehotencoder",
       "severity": "P1",
       "location": "microservices.S32-T1-B.p1"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "stratifiedkfold",
-      "severity": "P1",
-      "location": "cv-ai-integration.S34-T2-A.p3"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
@@ -621,10 +541,11 @@
       "location": "data-engineering.S18-T3-A.p0"
     },
     {
-      "code": "NO_VISIBLE_DEFINITION",
+      "code": "USE_BEFORE_DEFINITION",
       "term_id": "train-test-split",
       "severity": "P1",
-      "location": "microservices.S32-T4-A-E1.instruction"
+      "location": "security-infra.outcome[6]",
+      "definition_location": "microservices.S32-T4-A.p1"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
@@ -679,7 +600,7 @@
       "term_id": "llm",
       "severity": "P1",
       "location": "streamlit-dashboards.outcome[0]",
-      "definition_location": "streamlit-dashboards.S25-T1-A-DEMO.retrospective"
+      "definition_location": "streamlit-dashboards.S25-T1-A.p0"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
@@ -696,12 +617,6 @@
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "autoseleccion",
-      "severity": "P1",
-      "location": "data-engineering.youDo.requirement[7]"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
       "term_id": "guardrail",
       "severity": "P1",
       "location": "data-engineering.S18-T3-A.p2"
@@ -711,12 +626,6 @@
       "term_id": "row-group",
       "severity": "P1",
       "location": "stdlib-deep.S15-T4-B.p2"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "projection-pushdown",
-      "severity": "P1",
-      "location": "stdlib-deep.S15-T4-B.p1"
     }
   ]
 }

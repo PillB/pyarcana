@@ -52,13 +52,20 @@ const DICT_KIND = /^(theory\.callout|theory\.paragraph)$/
  * Treat a substantive parenthetical immediately after the term as a definition,
  * but not a bare acronym expansion or a cross-reference like "(ver S03)".
  */
-const PAREN_GLOSS = /^\s*\(([^)]{18,})\)/
+const PAREN_GLOSS = /^[`*_"'\u00bb\s]{0,4}(?:[\p{L}\s`]{0,18})?\(([^)]{18,})\)/u
+/**
+ * Spanish sets an appositive definition off with em dashes as readily as parentheses:
+ *   dependencias -componentes de codigo que el proyecto necesita-, los numeros salen...
+ */
+const DASH_GLOSS = /^[`*_"'\s]{0,4}[\u2014\u2013]([^\u2014\u2013]{18,})[\u2014\u2013]/u
 const PAREN_NOT_DEF = /^(?:ver|v\u00e9ase|cap\u00edtulo|secci\u00f3n|S\d|p\.?\s*\d|\d)/i
 
 function definesTerm(text: string, at: number, len: number, kind: string): boolean {
   const after = text.slice(at + len, at + len + 120)
   const paren = PAREN_GLOSS.exec(after)
   if (paren && !PAREN_NOT_DEF.test(paren[1].trim())) return true
+  const dash = DASH_GLOSS.exec(after)
+  if (dash && !PAREN_NOT_DEF.test(dash[1].trim())) return true
   const before = text.slice(Math.max(0, at - 80), at)
   const head = after.slice(0, 50)
   // "... que es un ..." attaches the cue to a relative clause, not to the term

@@ -17,6 +17,20 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def resolve_slug(name: str) -> str:
+    """Accept either the slug ('setup') or the curriculum tag ('S01')."""
+    m = re.fullmatch(r"[Ss](\d{1,2})", name.strip())
+    if not m:
+        return name
+    events = ROOT / ".fixer/events.json"
+    if events.exists():
+        ids = json.loads(events.read_text(encoding="utf-8"))["active_section_ids"]
+        n = int(m.group(1))
+        if 1 <= n <= len(ids):
+            return ids[n - 1]
+    return name
+
+
 def section_file(slug: str) -> Path:
     index = (ROOT / "src/lib/course/index.ts").read_text(encoding="utf-8")
     for m in re.finditer(r"from '\./sections/([^']+)'", index):
@@ -44,7 +58,7 @@ def main() -> int:
     result_path = Path(sys.argv[1])
     apply = "--apply" in sys.argv
     data = json.loads(result_path.read_text(encoding="utf-8"))
-    slug = data["section_id"]
+    slug = resolve_slug(data["section_id"])
     path = section_file(slug)
     original = path.read_text(encoding="utf-8")
 
