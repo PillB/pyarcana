@@ -37,3 +37,24 @@ This changes what a credential means, so the campaign will not touch
 The canonical source cannot show that the deployed, hydrated page matches it. This
 needs evidence from the live product — a SHA or content manifest tied to the
 deployment — which nothing in the repository can supply.
+
+## Q3 — S02's practice layer depends on S05–S09
+*Raised 2026-09-11 by codex during the S02 round, closing S02-F01..F04, F09 in theory only.*
+
+The S02 theory no longer leaks future syntax. The practice layer still does: `iDo`,
+`weDo` and `youDo` require functions, parameters, `return`, `if`/`for`, dictionaries,
+tuples, unpacking, annotations and exceptions — all taught in S05–S09. Deleting the
+word `tuple` from prose does not remove the dependency, so the P1 findings cannot be
+fully closed at section level without deciding what the practice layer is for.
+
+Codex offered three routes and declined to pick:
+
+1. **Rewrite the practice layer** as S02-level work — concrete values and top-level
+   statements only.
+2. **Move the parser project to S05–S09**, after its prerequisites are taught.
+3. **Teach the prerequisites in S02** — which contradicts the findings that prompted
+   the repair, and would make S02 enormous.
+
+This is a curriculum-architecture decision, not a content fix. Every section from S02
+onward whose practice outruns its theory will hit the same question, so the answer
+should be a policy, not a one-off.
