@@ -100,3 +100,4 @@ course-state/curriculum-agent/qa/**/*.png
 # manifest; the manifest records every file and digest, so the stage itself is
 # not committed (matches existing repository practice).
 course-state/curriculum-agent/staging/
+.fixer/
