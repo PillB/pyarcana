@@ -1,0 +1,922 @@
+{
+  "ok": false,
+  "badges_audited": 31,
+  "capstones_audited": 13,
+  "failures": [
+    {
+      "badge": "applied_analytical_reasoning",
+      "code": "PREREQUISITE_TAUGHT_LATER",
+      "detail": "independent_data_preparation needs S18, after this badge's S10"
+    },
+    {
+      "badge": "integrated_python_ai_capstone_foundations",
+      "code": "PREREQUISITE_TAUGHT_LATER",
+      "detail": "independent_data_preparation needs S18, after this badge's S13"
+    },
+    {
+      "badge": "integrated_python_ai_capstone_foundations",
+      "code": "PREREQUISITE_TAUGHT_LATER",
+      "detail": "reliable_automation_development needs S24, after this badge's S13"
+    },
+    {
+      "badge": "integrated_python_ai_capstone_independent",
+      "code": "PREREQUISITE_TAUGHT_LATER",
+      "detail": "applied_sql_query_development needs S37, after this badge's S26"
+    },
+    {
+      "badge": "integrated_python_ai_capstone_advanced_applied",
+      "code": "PREREQUISITE_TAUGHT_LATER",
+      "detail": "applied_mlops_pipeline_delivery needs S43, after this badge's S39"
+    },
+    {
+      "badge": "integrated_python_ai_capstone_integrated_mastery",
+      "code": "PREREQUISITE_TAUGHT_LATER",
+      "detail": "progress_phase3_walked needs S52, after this badge's S51"
+    }
+  ],
+  "warnings": [
+    {
+      "badge": "progress_phase0_walked",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 22,
+      "terms": [
+        "abc",
+        "apply",
+        "args-y-kwargs",
+        "commit",
+        "conventional-commits",
+        "counter",
+        "decorador",
+        "dependencias",
+        "dict-comprehension",
+        "dotenv",
+        "entity-resolution",
+        "list-comprehension"
+      ]
+    },
+    {
+      "badge": "progress_phase1_walked",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 17,
+      "terms": [
+        "autoseleccion",
+        "boolean-masking",
+        "broadcasting",
+        "correlaci-n",
+        "coverage",
+        "dtype",
+        "estimando",
+        "f1-score",
+        "generator",
+        "groupby",
+        "guardrail",
+        "iloc-vs-loc"
+      ]
+    },
+    {
+      "badge": "progress_phase2_walked",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 13,
+      "terms": [
+        "columntransformer",
+        "context-manager",
+        "cross-validation",
+        "defaultdict",
+        "hyperparameter-tuning",
+        "joblib",
+        "onehotencoder",
+        "resample",
+        "roc-auc",
+        "shap",
+        "standardscaler",
+        "stratifiedkfold"
+      ]
+    },
+    {
+      "badge": "progress_phase3_walked",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 2,
+      "terms": [
+        "namedtuple",
+        "rag"
+      ]
+    },
+    {
+      "badge": "progress_journey_completed",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 54,
+      "terms": [
+        "abc",
+        "apply",
+        "args-y-kwargs",
+        "autoseleccion",
+        "boolean-masking",
+        "broadcasting",
+        "columntransformer",
+        "commit",
+        "context-manager",
+        "conventional-commits",
+        "correlaci-n",
+        "counter"
+      ]
+    },
+    {
+      "badge": "python_data_foundations",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 16,
+      "terms": [
+        "abc",
+        "apply",
+        "args-y-kwargs",
+        "commit",
+        "conventional-commits",
+        "decorador",
+        "dict-comprehension",
+        "dotenv",
+        "list-comprehension",
+        "merge",
+        "pyodide",
+        "pytest"
+      ]
+    },
+    {
+      "badge": "independent_data_preparation",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 10,
+      "terms": [
+        "autoseleccion",
+        "correlaci-n",
+        "counter",
+        "coverage",
+        "entity-resolution",
+        "estimando",
+        "generator",
+        "guardrail",
+        "notebook",
+        "p-value"
+      ]
+    },
+    {
+      "badge": "applied_analytical_reasoning",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 2,
+      "terms": [
+        "dependencias",
+        "missing-values"
+      ]
+    },
+    {
+      "badge": "reliable_automation_development",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 2,
+      "terms": [
+        "precision",
+        "recall"
+      ]
+    },
+    {
+      "badge": "production_python_delivery_foundations",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 3,
+      "terms": [
+        "iloc-vs-loc",
+        "projection-pushdown",
+        "row-group"
+      ]
+    },
+    {
+      "badge": "responsible_machine_learning_evaluation",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 1,
+      "terms": [
+        "dependencias"
+      ]
+    },
+    {
+      "badge": "reliable_async_python_development",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 1,
+      "terms": [
+        "defaultdict"
+      ]
+    },
+    {
+      "badge": "production_python_hardening_practice",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 6,
+      "terms": [
+        "columntransformer",
+        "context-manager",
+        "cross-validation",
+        "joblib",
+        "onehotencoder",
+        "train-test-split"
+      ]
+    },
+    {
+      "badge": "applied_deep_learning_practice",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 4,
+      "terms": [
+        "resample",
+        "roc-auc",
+        "shap",
+        "stratifiedkfold"
+      ]
+    },
+    {
+      "badge": "architecture_decision_practice",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 1,
+      "terms": [
+        "namedtuple"
+      ]
+    },
+    {
+      "badge": "ai_governance_code_review_practice",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 1,
+      "terms": [
+        "rag"
+      ]
+    },
+    {
+      "badge": "integrated_data_analyst_practice",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 4,
+      "terms": [
+        "counter",
+        "dependencias",
+        "entity-resolution",
+        "missing-values"
+      ]
+    },
+    {
+      "badge": "integrated_data_science_practice",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 4,
+      "terms": [
+        "counter",
+        "dependencias",
+        "entity-resolution",
+        "missing-values"
+      ]
+    },
+    {
+      "badge": "integrated_ml_engineering_practice",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 2,
+      "terms": [
+        "dependencias",
+        "missing-values"
+      ]
+    },
+    {
+      "badge": "integrated_automation_engineering_practice",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 2,
+      "terms": [
+        "precision",
+        "recall"
+      ]
+    },
+    {
+      "badge": "integrated_production_python_practice",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 9,
+      "terms": [
+        "columntransformer",
+        "context-manager",
+        "cross-validation",
+        "iloc-vs-loc",
+        "joblib",
+        "onehotencoder",
+        "projection-pushdown",
+        "row-group",
+        "train-test-split"
+      ]
+    },
+    {
+      "badge": "integrated_python_ai_capstone_foundations",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 22,
+      "terms": [
+        "abc",
+        "apply",
+        "args-y-kwargs",
+        "commit",
+        "conventional-commits",
+        "counter",
+        "decorador",
+        "dependencias",
+        "dict-comprehension",
+        "dotenv",
+        "entity-resolution",
+        "list-comprehension"
+      ]
+    },
+    {
+      "badge": "integrated_python_ai_capstone_independent",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 17,
+      "terms": [
+        "autoseleccion",
+        "boolean-masking",
+        "broadcasting",
+        "correlaci-n",
+        "coverage",
+        "dtype",
+        "estimando",
+        "f1-score",
+        "generator",
+        "groupby",
+        "guardrail",
+        "iloc-vs-loc"
+      ]
+    },
+    {
+      "badge": "integrated_python_ai_capstone_advanced_applied",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 13,
+      "terms": [
+        "columntransformer",
+        "context-manager",
+        "cross-validation",
+        "defaultdict",
+        "hyperparameter-tuning",
+        "joblib",
+        "onehotencoder",
+        "resample",
+        "roc-auc",
+        "shap",
+        "standardscaler",
+        "stratifiedkfold"
+      ]
+    },
+    {
+      "badge": "integrated_python_ai_capstone_integrated_mastery",
+      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+      "count": 2,
+      "terms": [
+        "namedtuple",
+        "rag"
+      ]
+    },
+    {
+      "badge": "CP-N1-A",
+      "code": "CAPSTONE_GATE_VOCABULARY_GAP",
+      "count": 4,
+      "terms": [
+        "decorador",
+        "dict-comprehension",
+        "list-comprehension",
+        "variable"
+      ]
+    },
+    {
+      "badge": "CP-N1-B",
+      "code": "CAPSTONE_GATE_VOCABULARY_GAP",
+      "count": 1,
+      "terms": [
+        "counter"
+      ]
+    },
+    {
+      "badge": "CP-N1-C",
+      "code": "CAPSTONE_GATE_VOCABULARY_GAP",
+      "count": 2,
+      "terms": [
+        "precision",
+        "recall"
+      ]
+    },
+    {
+      "badge": "CP-N3-B",
+      "code": "CAPSTONE_GATE_VOCABULARY_GAP",
+      "count": 3,
+      "terms": [
+        "resample",
+        "roc-auc",
+        "stratifiedkfold"
+      ]
+    }
+  ],
+  "badges": [
+    {
+      "badge": "progress_phase0_walked",
+      "credential_type": "local_achievement",
+      "sections": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13"
+      ],
+      "blocking_term_gaps": 22
+    },
+    {
+      "badge": "progress_phase1_walked",
+      "credential_type": "local_achievement",
+      "sections": [
+        "S14",
+        "S15",
+        "S16",
+        "S17",
+        "S18",
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26"
+      ],
+      "blocking_term_gaps": 17
+    },
+    {
+      "badge": "progress_phase2_walked",
+      "credential_type": "local_achievement",
+      "sections": [
+        "S27",
+        "S28",
+        "S29",
+        "S30",
+        "S31",
+        "S32",
+        "S33",
+        "S34",
+        "S35",
+        "S36",
+        "S37",
+        "S38",
+        "S39"
+      ],
+      "blocking_term_gaps": 13
+    },
+    {
+      "badge": "progress_phase3_walked",
+      "credential_type": "local_achievement",
+      "sections": [
+        "S40",
+        "S41",
+        "S42",
+        "S43",
+        "S44",
+        "S45",
+        "S46",
+        "S47",
+        "S48",
+        "S49",
+        "S50",
+        "S51",
+        "S52"
+      ],
+      "blocking_term_gaps": 2
+    },
+    {
+      "badge": "progress_journey_completed",
+      "credential_type": "local_achievement",
+      "sections": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14",
+        "S15",
+        "S16",
+        "S17",
+        "S18",
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27",
+        "S28",
+        "S29",
+        "S30",
+        "S31",
+        "S32",
+        "S33",
+        "S34",
+        "S35",
+        "S36",
+        "S37",
+        "S38",
+        "S39",
+        "S40",
+        "S41",
+        "S42",
+        "S43",
+        "S44",
+        "S45",
+        "S46",
+        "S47",
+        "S48",
+        "S49",
+        "S50",
+        "S51",
+        "S52"
+      ],
+      "blocking_term_gaps": 54
+    },
+    {
+      "badge": "python_data_foundations",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05"
+      ],
+      "blocking_term_gaps": 16
+    },
+    {
+      "badge": "independent_data_preparation",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S06",
+        "S07",
+        "S08",
+        "S18"
+      ],
+      "blocking_term_gaps": 10
+    },
+    {
+      "badge": "applied_analytical_reasoning",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S09",
+        "S10"
+      ],
+      "blocking_term_gaps": 2
+    },
+    {
+      "badge": "reliable_automation_development",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S13",
+        "S24"
+      ],
+      "blocking_term_gaps": 2
+    },
+    {
+      "badge": "applied_sql_query_development",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S19",
+        "S37"
+      ],
+      "blocking_term_gaps": 0
+    },
+    {
+      "badge": "production_python_delivery_foundations",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S15",
+        "S17",
+        "S21"
+      ],
+      "blocking_term_gaps": 3
+    },
+    {
+      "badge": "responsible_machine_learning_evaluation",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S10",
+        "S23"
+      ],
+      "blocking_term_gaps": 1
+    },
+    {
+      "badge": "applied_rag_llm_service_development",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S20",
+        "S21"
+      ],
+      "blocking_term_gaps": 0
+    },
+    {
+      "badge": "reliable_async_python_development",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S27",
+        "S28",
+        "S31"
+      ],
+      "blocking_term_gaps": 1
+    },
+    {
+      "badge": "applied_mlops_pipeline_delivery",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S29",
+        "S43"
+      ],
+      "blocking_term_gaps": 0
+    },
+    {
+      "badge": "production_python_hardening_practice",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S30",
+        "S32",
+        "S38"
+      ],
+      "blocking_term_gaps": 6
+    },
+    {
+      "badge": "applied_deep_learning_practice",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S33",
+        "S34"
+      ],
+      "blocking_term_gaps": 4
+    },
+    {
+      "badge": "architecture_decision_practice",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S35",
+        "S40"
+      ],
+      "blocking_term_gaps": 1
+    },
+    {
+      "badge": "llmops_production_delivery",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S41",
+        "S42",
+        "S43"
+      ],
+      "blocking_term_gaps": 0
+    },
+    {
+      "badge": "container_platform_engineering_practice",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S45",
+        "S46"
+      ],
+      "blocking_term_gaps": 0
+    },
+    {
+      "badge": "ai_governance_code_review_practice",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S47",
+        "S48",
+        "S49"
+      ],
+      "blocking_term_gaps": 1
+    },
+    {
+      "badge": "integrated_data_analyst_practice",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S19",
+        "S37"
+      ],
+      "blocking_term_gaps": 4
+    },
+    {
+      "badge": "integrated_data_science_practice",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S19",
+        "S23",
+        "S37"
+      ],
+      "blocking_term_gaps": 4
+    },
+    {
+      "badge": "integrated_ml_engineering_practice",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S09",
+        "S10",
+        "S20",
+        "S21",
+        "S23",
+        "S29",
+        "S43"
+      ],
+      "blocking_term_gaps": 2
+    },
+    {
+      "badge": "integrated_automation_engineering_practice",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S13",
+        "S20",
+        "S21",
+        "S24"
+      ],
+      "blocking_term_gaps": 2
+    },
+    {
+      "badge": "integrated_production_python_practice",
+      "credential_type": "competency_badge",
+      "sections": [
+        "S15",
+        "S17",
+        "S21",
+        "S27",
+        "S28",
+        "S30",
+        "S32",
+        "S38"
+      ],
+      "blocking_term_gaps": 9
+    },
+    {
+      "badge": "integrated_python_ai_capstone_foundations",
+      "credential_type": "verified_credential",
+      "sections": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13"
+      ],
+      "blocking_term_gaps": 22
+    },
+    {
+      "badge": "integrated_python_ai_capstone_independent",
+      "credential_type": "verified_credential",
+      "sections": [
+        "S14",
+        "S15",
+        "S16",
+        "S17",
+        "S18",
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26"
+      ],
+      "blocking_term_gaps": 17
+    },
+    {
+      "badge": "integrated_python_ai_capstone_advanced_applied",
+      "credential_type": "verified_credential",
+      "sections": [
+        "S27",
+        "S28",
+        "S29",
+        "S30",
+        "S31",
+        "S32",
+        "S33",
+        "S34",
+        "S35",
+        "S36",
+        "S37",
+        "S38",
+        "S39"
+      ],
+      "blocking_term_gaps": 13
+    },
+    {
+      "badge": "integrated_python_ai_capstone_integrated_mastery",
+      "credential_type": "verified_credential",
+      "sections": [
+        "S40",
+        "S41",
+        "S42",
+        "S43",
+        "S44",
+        "S45",
+        "S46",
+        "S47",
+        "S48",
+        "S49",
+        "S50",
+        "S51"
+      ],
+      "blocking_term_gaps": 2
+    },
+    {
+      "badge": "evidence_grounded_ai_systems_capstone",
+      "credential_type": "verified_credential",
+      "sections": [
+        "S52"
+      ],
+      "blocking_term_gaps": 0
+    }
+  ],
+  "capstones": [
+    {
+      "id": "CP-N1-A",
+      "gate_section": "functions-modules",
+      "blocking_term_gaps": 4
+    },
+    {
+      "id": "CP-N1-B",
+      "gate_section": "pandas",
+      "blocking_term_gaps": 1
+    },
+    {
+      "id": "CP-N1-C",
+      "gate_section": "rpa-automation",
+      "blocking_term_gaps": 2
+    },
+    {
+      "id": "CP-N2-A",
+      "gate_section": "packaging",
+      "blocking_term_gaps": 0
+    },
+    {
+      "id": "CP-N2-B",
+      "gate_section": "fastapi",
+      "blocking_term_gaps": 0
+    },
+    {
+      "id": "CP-N2-C",
+      "gate_section": "integrator-phase1",
+      "blocking_term_gaps": 0
+    },
+    {
+      "id": "CP-N3-A",
+      "gate_section": "security-infra",
+      "blocking_term_gaps": 0
+    },
+    {
+      "id": "CP-N3-B",
+      "gate_section": "cv-ai-integration",
+      "blocking_term_gaps": 3
+    },
+    {
+      "id": "CP-N3-C",
+      "gate_section": "integrator-phase2",
+      "blocking_term_gaps": 0
+    },
+    {
+      "id": "CP-N4-A",
+      "gate_section": "llmops",
+      "blocking_term_gaps": 0
+    },
+    {
+      "id": "CP-N4-B",
+      "gate_section": "opensource",
+      "blocking_term_gaps": 0
+    },
+    {
+      "id": "CP-N4-C",
+      "gate_section": "integrator-final",
+      "blocking_term_gaps": 0
+    },
+    {
+      "id": "CP-FINAL",
+      "gate_section": "career-strategy",
+      "blocking_term_gaps": 0
+    }
+  ]
+}
