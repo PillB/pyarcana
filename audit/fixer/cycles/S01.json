@@ -1,0 +1,63 @@
+{
+ "section": "S01",
+ "recorded_at": "2026-09-11T14:34:10+00:00",
+ "commit": "703666e87f303a5e0fd5b3bf3c42ced424217b8c",
+ "file": "src/lib/course/sections/s01-setup.ts",
+ "findings_total": 21,
+ "findings_closed": [
+  "S01-F01",
+  "S01-F02",
+  "S01-F03",
+  "S01-F04",
+  "S01-F05",
+  "S01-F06",
+  "S01-F07",
+  "S01-F08",
+  "S01-F09",
+  "S01-F10",
+  "S01-F11",
+  "S01-F12",
+  "S01-F13",
+  "S01-F14",
+  "S01-F15",
+  "S01-F16",
+  "S01-F17",
+  "S01-F18",
+  "S01-F19"
+ ],
+ "findings_open": [
+  "S01-U01",
+  "S01-U02"
+ ],
+ "patches_offered": 44,
+ "patches_applied": 44,
+ "patches_rejected": 0,
+ "rejections": [],
+ "unresolved_questions": [
+  {
+   "finding_ids": [
+    "S01-U01"
+   ],
+   "question": "¿Cuál es la URL desplegada y qué SHA o manifiesto de contenido identifica la versión actualmente publicada de S01?",
+   "why_it_blocks": "El archivo canónico no demuestra que la página hidratada y desplegada muestre exactamente el mismo contenido; se necesita evidencia del producto en vivo vinculada al SHA.",
+   "options": [
+    "Comparar la página desplegada con el manifiesto del SHA revisado",
+    "Proporcionar una captura o exportación hidratada vinculada al despliegue"
+   ]
+  },
+  {
+   "finding_ids": [
+    "S01-U02"
+   ],
+   "question": "¿Qué convención revisada debe garantizar que los DNI sintéticos no coincidan con identificadores peruanos reales?",
+   "why_it_blocks": "El archivo solo exige «DNI ficticios» y no aporta un patrón reservado, generador validado ni regla para omitir el campo; inventar uno podría crear precisamente el riesgo que se intenta evitar.",
+   "options": [
+    "Adoptar un generador validado con una regla formalmente revisada",
+    "Omitir el campo DNI de los datos sintéticos",
+    "Proporcionar un conjunto reservado aprobado para formación"
+   ]
+  }
+ ],
+ "typecheck_ok": true,
+ "rolled_back": false
+}

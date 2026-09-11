@@ -34,4 +34,7 @@ if [ "$APPLY" = "--apply" ]; then
 
   npm run test:first-use-all || echo "    first-use still reports gaps (expected until all sections done)"
   python3 scripts/badge_readiness_audit.py || true
+
+  echo "==> [$TAG] recording cycle ledger"
+  python3 tools/fixer/record_cycle.py "$TAG"
 fi
