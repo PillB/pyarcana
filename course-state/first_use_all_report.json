@@ -4,9 +4,9 @@
   "terms_audited": 95,
   "events_audited": 22579,
   "issue_counts": {
-    "DEFINITION_AFTER_REQUIREMENT": 16,
-    "NO_VISIBLE_DEFINITION": 27,
-    "USE_BEFORE_DEFINITION": 43
+    "DEFINITION_AFTER_REQUIREMENT": 15,
+    "NO_VISIBLE_DEFINITION": 26,
+    "USE_BEFORE_DEFINITION": 44
   },
   "never_defined_but_mentioned": [
     "boolean-masking",
@@ -34,7 +34,6 @@
     "roc-auc",
     "row-group",
     "standardscaler",
-    "truthiness",
     "variable"
   ],
   "issues": [
@@ -78,10 +77,11 @@
       "definition_location": "numpy.S06-T1-A.p1"
     },
     {
-      "code": "NO_VISIBLE_DEFINITION",
+      "code": "USE_BEFORE_DEFINITION",
       "term_id": "truthiness",
       "severity": "P1",
-      "location": "data-structures.S03-T1-B-E1.instruction"
+      "location": "basics.S02-T2-A-E2.preamble",
+      "definition_location": "data-structures.S03-T1-B-E1.instruction"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
@@ -216,7 +216,7 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "coverage",
       "severity": "P1",
-      "location": "packaging.S17-T1-B-DEMO.preamble",
+      "location": "data-structures.S03-T4-A.p2",
       "definition_location": "rpa-advanced.S24-T4-A-E3.preamble"
     },
     {
@@ -357,14 +357,14 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "apply",
       "severity": "P1",
-      "location": "data-structures.S03-T3-B-E1.instruction",
+      "location": "sklearn.S10-T4-A-E1.preamble",
       "definition_location": "rapidfuzz-entity.S22-T4-A.code"
     },
     {
       "code": "DEFINITION_AFTER_REQUIREMENT",
       "term_id": "apply",
       "severity": "P1",
-      "location": "data-structures.S03-T3-B-E1.instruction",
+      "location": "sklearn.S10-T4-A-E1.instruction",
       "definition_location": "rapidfuzz-entity.S22-T4-A.code"
     },
     {
@@ -564,15 +564,8 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "entity-resolution",
       "severity": "P1",
-      "location": "data-structures.resources.doc[3]",
-      "definition_location": "testing.S11-T2-A.p1"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "entity-resolution",
-      "severity": "P1",
-      "location": "data-acquisition.youDo.requirement[8]",
-      "definition_location": "testing.S11-T2-A.p1"
+      "location": "performance.selfCheck[4].opt[2]",
+      "definition_location": "rpa-automation.S13-T1-A.p0"
     },
     {
       "code": "USE_BEFORE_DEFINITION",

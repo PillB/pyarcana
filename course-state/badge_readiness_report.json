@@ -38,7 +38,7 @@
     {
       "badge": "progress_phase0_walked",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 18,
+      "count": 17,
       "terms": [
         "abc",
         "apply",
@@ -101,7 +101,7 @@
     {
       "badge": "progress_journey_completed",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 43,
+      "count": 42,
       "terms": [
         "abc",
         "apply",
@@ -120,10 +120,9 @@
     {
       "badge": "python_data_foundations",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 11,
+      "count": 9,
       "terms": [
         "abc",
-        "apply",
         "conventional-commits",
         "decorador",
         "dict-comprehension",
@@ -131,7 +130,6 @@
         "merge",
         "pyodide",
         "set",
-        "truthiness",
         "variable"
       ]
     },
@@ -154,8 +152,9 @@
     {
       "badge": "applied_analytical_reasoning",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 3,
+      "count": 4,
       "terms": [
+        "apply",
         "dependencias",
         "missing-values",
         "pytest"
@@ -182,8 +181,9 @@
     {
       "badge": "responsible_machine_learning_evaluation",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 2,
+      "count": 3,
       "terms": [
+        "apply",
         "dependencias",
         "pytest"
       ]
@@ -235,8 +235,9 @@
     {
       "badge": "integrated_data_analyst_practice",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 5,
+      "count": 6,
       "terms": [
+        "apply",
         "counter",
         "dependencias",
         "entity-resolution",
@@ -247,8 +248,9 @@
     {
       "badge": "integrated_data_science_practice",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 5,
+      "count": 6,
       "terms": [
+        "apply",
         "counter",
         "dependencias",
         "entity-resolution",
@@ -259,8 +261,9 @@
     {
       "badge": "integrated_ml_engineering_practice",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 3,
+      "count": 4,
       "terms": [
+        "apply",
         "dependencias",
         "missing-values",
         "pytest"
@@ -291,7 +294,7 @@
     {
       "badge": "integrated_python_ai_capstone_foundations",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 18,
+      "count": 17,
       "terms": [
         "abc",
         "apply",
@@ -409,7 +412,7 @@
         "S12",
         "S13"
       ],
-      "blocking_term_gaps": 18
+      "blocking_term_gaps": 17
     },
     {
       "badge": "progress_phase1_walked",
@@ -528,7 +531,7 @@
         "S51",
         "S52"
       ],
-      "blocking_term_gaps": 43
+      "blocking_term_gaps": 42
     },
     {
       "badge": "python_data_foundations",
@@ -540,7 +543,7 @@
         "S04",
         "S05"
       ],
-      "blocking_term_gaps": 11
+      "blocking_term_gaps": 9
     },
     {
       "badge": "independent_data_preparation",
@@ -560,7 +563,7 @@
         "S09",
         "S10"
       ],
-      "blocking_term_gaps": 3
+      "blocking_term_gaps": 4
     },
     {
       "badge": "reliable_automation_development",
@@ -597,7 +600,7 @@
         "S10",
         "S23"
       ],
-      "blocking_term_gaps": 2
+      "blocking_term_gaps": 3
     },
     {
       "badge": "applied_rag_llm_service_development",
@@ -696,7 +699,7 @@
         "S19",
         "S37"
       ],
-      "blocking_term_gaps": 5
+      "blocking_term_gaps": 6
     },
     {
       "badge": "integrated_data_science_practice",
@@ -711,7 +714,7 @@
         "S23",
         "S37"
       ],
-      "blocking_term_gaps": 5
+      "blocking_term_gaps": 6
     },
     {
       "badge": "integrated_ml_engineering_practice",
@@ -725,7 +728,7 @@
         "S29",
         "S43"
       ],
-      "blocking_term_gaps": 3
+      "blocking_term_gaps": 4
     },
     {
       "badge": "integrated_automation_engineering_practice",
@@ -771,7 +774,7 @@
         "S12",
         "S13"
       ],
-      "blocking_term_gaps": 18
+      "blocking_term_gaps": 17
     },
     {
       "badge": "integrated_python_ai_capstone_independent",

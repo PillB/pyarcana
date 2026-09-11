@@ -731,7 +731,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'entity-resolution',
     term: 'Entity resolution',
-    aliases: ["entity resolution", "ER", "matching"],
+    aliases: ["entity resolution", "ER"],
     category: 'Data Science',
     definition: 'Proceso de decidir si dos registros se refieren a la misma entidad del mundo real (sin asumir fraude o parentesco).',
     firstSectionId: 'rpa-automation',

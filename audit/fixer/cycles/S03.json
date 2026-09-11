@@ -1,0 +1,62 @@
+{
+ "section": "S03",
+ "recorded_at": "2026-09-11T21:20:20+00:00",
+ "commit": "0d7c8fae51b5c6c75ea4f70f5ca1ce04bd7f00ca",
+ "file": "src/lib/course/sections/s03-data-structures.ts",
+ "findings_total": 17,
+ "findings_closed": [
+  "S03-F05",
+  "S03-F06",
+  "S03-F07",
+  "S03-F08",
+  "S03-F09",
+  "S03-F10",
+  "S03-F11",
+  "S03-F12",
+  "S03-F13",
+  "S03-F15",
+  "S03-F16",
+  "S03-F17"
+ ],
+ "findings_open": [
+  "S03-F01",
+  "S03-F02",
+  "S03-F03",
+  "S03-F04",
+  "S03-F14"
+ ],
+ "patches_offered": 22,
+ "patches_applied": 22,
+ "patches_rejected": 0,
+ "rejections": [],
+ "unresolved_questions": [
+  {
+   "finding_ids": [
+    "S03-F01",
+    "S03-F02",
+    "S03-F03",
+    "S03-F04",
+    "S03-F14"
+   ],
+   "question": "¿Debe preservarse la secuencia V3 y rediseñarse toda S03 para usar únicamente código de nivel superior, impresiones explícitas y resultados escalares, trasladando funciones, `return`, bucles, guard clauses y contenedores estructurados a S04–S06; o se revisará formalmente el roadmap para enseñar esos prerrequisitos en S03?",
+   "why_it_blocks": "Las filtraciones no están confinadas a los bloques de teoría: reaparecen en las ocho demostraciones, los 24 ejercicios y el You Do. Reparar solo los ejemplos citados dejaría los P1 abiertos; escoger una de las dos rutas cambia outcomes, evaluaciones y el incremento CP-N1-A, y esa decisión curricular no puede inferirse sin autorización.",
+   "options": [
+    "Preservar V3 y rediseñar S03 completa",
+    "Revisar el roadmap y enseñar los prerrequisitos en S03"
+   ]
+  },
+  {
+   "finding_ids": [
+    "VOCAB-entity-resolution"
+   ],
+   "question": "¿Cuál es el texto exacto que el gate clasificó como `data-structures.resources.doc[3]` para `entity-resolution`?",
+   "why_it_blocks": "El archivo actual no contiene `entity-resolution` ni una variante de `entity`; `resources.docs[3]` es PEP 636. Sin una aparición real no existe un anchor byte-exacto que pueda repararse.",
+   "options": [
+    "El finding está obsoleto y debe cerrarse",
+    "Proporcionar el snapshot o locator correcto"
+   ]
+  }
+ ],
+ "typecheck_ok": true,
+ "rolled_back": false
+}

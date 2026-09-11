@@ -40,8 +40,8 @@ export const section03: CourseSection = {
         "En un formulario internacional de ayuda de emergencia, dos registros contienen `monto = 0`: uno declara correctamente que no hubo ingresos; el otro dejó el campo sin responder y debería contener `None`. Para Python, ambos valores son falsy; para la operación, cuentan historias distintas. Esta sección empieza precisamente en esa grieta entre la mecánica del lenguaje y el significado del dato.",
         "**Puente desde S02.** Ya sabes convertir texto a `int`, `float` o `str`, conservar el valor original y representar una conversión fallida. Ahora añadirás una segunda capa: decidir si el valor convertido se **acepta**, se **rechaza** o pasa a **revisión**. La conversión prepara el dato; la regla interpreta su estado sin inventar información.",
         "Esa grieta tiene nombre. Python decide por su cuenta si un objeto «cuenta como verdadero» —el cero, la cadena vacía, la lista vacía y `None` cuentan como falsos—, y a esa comodidad se le llama *truthiness*. Es útil para escribir rápido y es exactamente lo que no debes usar cuando el valor significa algo. `if monto:` mezcla el cero con la ausencia; `if monto is None:` los separa. La sección entera vive de esa distinción.",
-        "Sobre ella se construyen tres herramientas que verás una tras otra. Una **lista de permitidos** es la colección explícita de los valores que aceptas, escrita de antemano; es más segura que una lista de prohibidos porque lo que olvidaste queda fuera en vez de quedar dentro. Una **salida temprana** es un `if` al principio de la función que rechaza lo imposible y devuelve de inmediato, para que el cuerpo trabaje solo con datos que ya cumplen sus condiciones. Y una **tabla de decisión** es la lista completa de combinaciones de condiciones con la acción que corresponde a cada una: se escribe antes que el código, y si una combinación queda sin fila, es un caso que olvidaste.",
-        "Todo eso apunta a una sola cosa: un invariante es una promesa que el programa no puede romper, y una regla sin invariante declarado es una opinión. «El monto nunca es negativo» es un invariante. «El cero significa cero y la ausencia significa revisión» también. Escríbelos primero; las ramas del código salen casi solas después.",
+        "Sobre ella se construyen tres herramientas que verás una tras otra. Una **lista de permitidos** enumera de antemano los valores conocidos que una regla puede aceptar. En un catálogo cerrado, esta lista **falla cerrado**: un valor no enumerado no se acepta automáticamente; según la política, puede pasar a `review` o a `reject`. Si el catálogo puede quedar desactualizado, enviar lo desconocido a revisión evita confundir una omisión del catálogo con un valor definitivamente inválido. Una **salida temprana** es un `if` al principio de la función que rechaza lo imposible y devuelve de inmediato, para que el cuerpo trabaje solo con datos que ya cumplen sus condiciones. Y una **tabla de decisión** es la lista completa de combinaciones de condiciones con la acción que corresponde a cada una: se escribe antes que el código, y si una combinación queda sin fila, es un caso que olvidaste.",
+        "Todo eso apunta a una sola cosa: un **invariante** es una condición que declaras que debe cumplirse en una etapa concreta. Por ejemplo, después de validar un monto puedes exigir que el dato aceptado nunca sea negativo; una entrada original negativa todavía puede llegar al validador y debe ser rechazada. El código y las pruebas permiten detectar cuándo la condición no se cumple. «El cero aceptado conserva el valor cero y la ausencia pasa a revisión» también puede formar parte de la especificación. Escribe estas condiciones primero; después tradúcelas a ramas.",
         "El hilo conductor es un **validador de campos** (`validate_field` / `validate_record`). La forma del resultado evoluciona deliberadamente: primero usamos strings cortos (`\"accept\"` / `\"review\"`) para observar una decisión; después aparecen dicts `{status, code}` para distinguir causas; en el **You Do** estandarizas `{status, code, message}` para que otra persona pueda actuar. No memorices las tres formas a la vez: sigue la razón de cada ampliación.",
         "**Antes de continuar, predice:** si un campo contiene `0`, ¿debería ir a accept, reject o review? La respuesta correcta es “depende del invariante”. Al terminar S03 deberás poder nombrar ese invariante, implementar la rama y exhibir una prueba que impida cambiarla por accidente.",
       ],
@@ -49,7 +49,7 @@ export const section03: CourseSection = {
         type: 'info',
         title: 'Una capa por vez',
         content:
-          'Aquí no construirás lectores CSV/JSON ni procesos de archivos. Trabajarás con registros sintéticos ya convertidos. La pregunta es una sola: **¿qué decisión permite la evidencia disponible?** Esa capa produce el motor de reglas de **CP-N1-A**. Las colecciones y los archivos llegarán después.',
+          'Aquí no construirás lectores CSV/JSON ni procesos de archivos. Trabajarás con registros sintéticos ya convertidos. La pregunta es una sola: **¿qué decisión permite la evidencia disponible?** Esa capa produce el motor de reglas de **CP-N1-A, el proyecto acumulativo de captura y calidad de datos del Nivel 1**. Las colecciones y los archivos llegarán después.',
       },
      },
      {
@@ -60,7 +60,7 @@ export const section03: CourseSection = {
         "**Orden de los subtemas.** T1 trata los booleanos: comparaciones y truthiness. T2 pasa al control de flujo: `if`/`elif`/`else` y salidas tempranas. T3 construye las reglas: rangos, listas de permitidos, tablas de decisión y `match`. T4 cierra con la verificación: invariantes, mensajes accionables y pruebas por rama.",
         "**Ritmo orientativo.** En las primeras sesiones trabaja solo T1: predice booleanos y separa `None` de `0`. Después convierte esas predicciones en una rama dominante. Reserva T3 para combinar políticas y T4 para demostrar que cada rama funciona. El orden importa: primero una pregunta que produce `True` o `False`; luego una decisión; al final, una decisión explicable y verificable.",
         "**Criterio de cierre (CP-N1-A).** Cada rama del motor debe ser comprobable con un caso de aceptación, uno de rechazo y uno de revisión, y cada mensaje debe decirle a alguien qué hacer a continuación.",
-        "**Límites.** Caso `CASO-LIM-003`. Aquí no se construyen lectores de CSV ni de JSON: trabajas con registros sintéticos ya convertidos. Las colecciones y los archivos llegan después. Nunca datos personales reales.",
+        "**Límites.** `CASO-LIM-003` es el caso sintético de reglas usado en esta sección. Aquí no se construyen lectores de CSV ni de JSON: trabajas con registros sintéticos ya convertidos. Las colecciones y los archivos llegan después. Nunca datos personales reales.",
       ],
       code: {
         language: 'python',
@@ -103,7 +103,7 @@ capstone_increment CP-N1-A`,
       subtopicId: 'S03-T1-A',
       paragraphs: [
         'En una plataforma de alquiler de bicicletas de Ámsterdam, una regla puede preguntar si la edad declarada supera un mínimo y si la estación pertenece al catálogo activo. Antes de escribir una sola rama, el sistema necesita respuestas elementales: `True` o `False`. Piensa en cada comparación como una pregunta cerrada que el código puede contestar sin ambigüedad.',
-        'Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, comparas edades, montos, códigos y regiones. Python también permite **encadenar**: `18 <= edad <= 65` equivale a `(18 <= edad) and (edad <= 65)` y se evalúa de forma segura (la expresión del medio se calcula una sola vez en la cadena).',
+        'Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, comparas edades, montos, códigos y regiones. Python también permite **encadenar**: `18 <= edad <= 65` equivale a exigir que se cumplan las dos comparaciones; Python calcula `edad` una sola vez en la cadena. En T1-B conocerás `and`, el operador que permite escribir esa exigencia con dos comparaciones separadas.',
         '**Pertenencia**: `x in coleccion` / `x not in coleccion` funciona con str, list, set, dict (busca **claves**). Para allowlists de códigos fijos, un **`set` de literales** es ideal (un `set` es una colección sin duplicados; lo verás a fondo en colecciones): lectura clara y chequeo rápido. Atención a **mayúsculas**: `"dni" in {"DNI"}` es `False` — normaliza antes o documenta el contrato.',
         '**`is` vs. `==`**: usa **`is None` / `is not None`** para ausencia. No uses `is` para comparar números o strings de negocio (`True is 1` es `False` aunque `True == 1` sea `True`). `==` pregunta “¿mismo valor?”; `is` pregunta “¿mismo objeto?”.',
         '**Modelo mental.** `==` y los operadores de rango miran el **valor**; `in` pregunta si ese valor pertenece a un catálogo; `is None` comprueba la señal especial de ausencia. Son preguntas distintas. Si las fundes en una expresión larga antes de poder predecirlas por separado, el error queda escondido dentro de un `if` aparentemente razonable.',
@@ -142,9 +142,9 @@ region in ALLOWED → True
       subtopicId: 'S03-T1-B',
       paragraphs: [
         'En un portal de donaciones de Berlín, una contribución de cero puede representar una inscripción sin aporte inmediato; un campo ausente, en cambio, exige seguimiento. Un `if` ingenuo coloca ambos casos en la misma cesta porque Python no conoce la política del portal. El lenguaje decide la *truthiness*; tú debes decidir el significado.',
-        'Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son **falsy** (por defecto): `None`, `False`, `0`, `0.0`, `0j`, `""`, `()`, `[]`, `{}`, `set()`, `range(0)`. Casi todo lo demás es **truthy**, incluso `[0]` o `"False"` — por eso **no** uses truthiness como “¿existe el campo?”.',
+        'Python evalúa la **truthiness**, es decir, si trata un valor como verdadero o falso al decidir un `if` o al combinar condiciones con `and` y `or`. `None`, `False`, los ceros numéricos y la cadena vacía `""` son **falsy**: Python los trata como falsos. Casi todo lo demás es **truthy**, es decir, se trata como verdadero. Las colecciones vacías también son falsy, pero estudiarás sus distintas formas en S06. Por eso **no** uses truthiness como sinónimo de “¿existe el campo?”.',
         'El error canónico del intake: **`if monto:` trata `0` como “no hay monto”**. En negocio, **cero puede ser válido** y **`None` significa ausente**. Separa políticas: presencia con `is None`, rango con comparaciones numéricas, vacío de texto con `== ""` o `not s.strip()` según el contrato. **Nunca** conviertas ausencia en reject automático sin documentarlo.',
-        '`and` / `or` hacen **short-circuit** (cortocircuito, que es detener la evaluación en cuanto saben la respuesta) y **devuelven un operando** (no siempre `True`/`False`). `"" or "default"` → `"default"`; `0 and 99` → `0`. `not` sí devuelve booleano. Prioridad: `not` se une más fuerte que `and`, y `and` más que `or`.',
+        '`and` / `or` hacen **short-circuit** (cortocircuito, que es detener la evaluación en cuanto ya conocen la respuesta) y **devuelven un operando** (no siempre `True`/`False`). Por ejemplo, si `edad = None`, la expresión `edad is not None and edad >= 18` se detiene después de obtener `False` en la parte izquierda: Python no evalúa `edad >= 18`, que produciría un error al comparar `None` con `18`. Además, `"" or "default"` produce `"default"` y `0 and 99` produce `0`. `not` sí devuelve un booleano. Prioridad: `not` se une más fuerte que `and`, y `and` más que `or`.',
         '**Dos capas, dos preguntas.** `bool(valor)` responde “¿Python lo considera verdadero?”. `valor is None` responde “¿el productor declaró ausencia?”. Ninguna de las dos decide por sí sola si el negocio acepta el dato. La política aparece cuando escribes algo como: ausencia → review; cero → accept; negativo → reject.',
         '**Predice y repara.** Antes de ejecutar `truthiness_monto.py`, anota la salida de `bool(None)`, `bool(0)` y `bool(-5)`. Luego compárala con `decide_monto`. Si te sorprende que `-5` sea truthy y termine en reject, has encontrado la lección: truthiness describe al objeto, no su validez. En T2 convertirás esa política en ramas exclusivas.',
       ],
@@ -241,7 +241,7 @@ for s in [95, 60, 30, 80, 50]:
         code: `def validate_edad(edad):
     if edad is None:
         return {"status": "review", "code": "MISSING"}
-    if not isinstance(edad, int):
+    if not isinstance(edad, int) or isinstance(edad, bool):
         return {"status": "reject", "code": "BAD_TYPE"}
     if edad < 0 or edad > 120:
         return {"status": "reject", "code": "OUT_OF_RANGE"}
@@ -249,10 +249,12 @@ for s in [95, 60, 30, 80, 50]:
         return {"status": "review", "code": "NEEDS_REVIEW"}
     return {"status": "accept", "code": "OK"}
 
-for e in [None, "25", -1, 15, 30]:
+for e in [None, "25", True, False, -1, 15, 30]:
     print(repr(e), "→", validate_edad(e))`,
         output: `None → {'status': 'review', 'code': 'MISSING'}
 '25' → {'status': 'reject', 'code': 'BAD_TYPE'}
+True → {'status': 'reject', 'code': 'BAD_TYPE'}
+False → {'status': 'reject', 'code': 'BAD_TYPE'}
 -1 → {'status': 'reject', 'code': 'OUT_OF_RANGE'}
 15 → {'status': 'review', 'code': 'NEEDS_REVIEW'}
 30 → {'status': 'accept', 'code': 'OK'}`,
@@ -308,7 +310,7 @@ None 40 → review`,
       subtopicId: 'S03-T3-B',
       paragraphs: [
         'Cuando una mesa de ayuda global añade un estado nuevo, el peligro no es solo olvidar una línea de Python: es que dos equipos interpreten el código de manera distinta. Una tabla de decisión obliga a discutir primero el significado —condición y acción— y solo después la sintaxis que lo implementa.',
-        'En T3-A combinaste allowlist y rango con `if`. Aquí el motor escala a **muchas ramas con el mismo sujeto** (un código de estado). Una **decision table** es una tabla de negocio: filas de condiciones → acción. Primero la escribes en español (o en un dict de ejemplos); después la implementas. Evita inventar ramas en el código que no estén en la tabla.',
+        'En T3-A combinaste una lista permitida y un rango con `if`. Aquí el motor escala a **muchas ramas con el mismo sujeto**, un código de estado. Una **tabla de decisión** organiza una política en filas: cada fila muestra una condición y la acción correspondiente. Lee esta tabla de izquierda a derecha:\n\n| código recibido | significado | status |\n|---|---|---|\n| `OK` | el dato cumple la regla | `accept` |\n| `MISSING` o `NEEDS_REVIEW` | falta información o se requiere revisión | `review` |\n| `NOT_IN_ALLOWLIST` | el catálogo no reconoce el valor | `review` |\n| `OUT_OF_RANGE` o `BAD_TYPE` | el valor viola una regla estricta | `reject` |\n| cualquier otro código | la causa todavía es desconocida | `review` |\n\nLa primera columna contiene la condición; la última contiene la acción. Comprueba que todo código previsto tenga una fila y que la última fila cubra los desconocidos. Después traduce cada fila a una rama de `if`/`elif` o a un `case`, sin cambiar su status.',
         '**`match` / `case`** (Python 3.10+), que es una sintaxis para comparar un valor contra varios patrones, brilla cuando el sujeto es un **literal o estado finito** (`"OK"`, `"MISSING"`, códigos de error). Soporta **OR patterns** (`case "A" | "B":`) y el comodín **`case _:`** para el valor por defecto. El primer `case` que coincide gana. Es la misma semántica de negocio que un `if/elif` bien ordenado; cambia la forma, no la política.',
         '**Cuándo preferir `if`**: rangos numéricos, combinaciones de varios campos, o condiciones que no son patrones de estructura. `match` no depreca `if`; elige por **claridad**. En el You Do usarás dicts `{status, code, message}`: la tabla decide el `code`; el mensaje lo redactas en T4.',
         '**Modelo mental: tabla primero, código después.** Si puedes escribir `OK → accept`, `MISSING → review` y `OUT_OF_RANGE → reject`, puedes implementar la misma política con un dict, `if/elif` o `match`. Cambiar de sintaxis no autoriza cambiar una fila. El comodín tampoco significa “aceptar todo”: aquí conserva lo desconocido en review.',
@@ -321,17 +323,18 @@ None 40 → review`,
     match code:
         case "OK":
             return "accept"
-        case "MISSING" | "NEEDS_REVIEW":
+        case "MISSING" | "NEEDS_REVIEW" | "NOT_IN_ALLOWLIST":
             return "review"
-        case "OUT_OF_RANGE" | "NOT_IN_ALLOWLIST" | "BAD_TYPE":
+        case "OUT_OF_RANGE" | "BAD_TYPE":
             return "reject"
         case _:
             return "review"
 
-for c in ["OK", "MISSING", "OUT_OF_RANGE", "FOO"]:
+for c in ["OK", "MISSING", "NOT_IN_ALLOWLIST", "OUT_OF_RANGE", "FOO"]:
     print(c, "→", status_match(c))`,
         output: `OK → accept
 MISSING → review
+NOT_IN_ALLOWLIST → review
 OUT_OF_RANGE → reject
 FOO → review`,
       },
@@ -339,7 +342,7 @@ FOO → review`,
         type: 'warning',
         title: 'Python 3.10+',
         content:
-          'El curso usa Python 3.12. Si trabajas con una versión anterior a 3.10, implementa la misma tabla con `if/elif`. Tu evidencia de aprendizaje es que las filas producen los mismos estados, no que uses la sintaxis más nueva.',
+          'El curso usa Python 3.12, el entorno preparado en S01 y necesario para ejecutar `match`/`case` en esta lección. Si ese código no ejecuta, corrige primero tu entorno para que use la versión del curso. Tu evidencia de aprendizaje es que las filas producen los estados especificados, no que uses una sintaxis por ser nueva.',
       },
     },
     {
@@ -347,8 +350,8 @@ FOO → review`,
       subtopicId: 'S03-T4-A',
       paragraphs: [
         'Un equipo de logística de Copenhague puede escribir cien líneas impecables y aun discutir qué significa “dirección válida”. El problema no es de sintaxis: falta una promesa compartida. Un invariante convierte esa expectativa borrosa en una frase que admite ejemplos y contraejemplos.',
-        'Ya armaste booleanos, control de flujo y tablas de decisión; ahora cierras el motor: **documentar promesas** y **probar cada rama**. Un **invariante** de campo es una promesa en español: “`contacto` es un str de 9 dígitos, o `None` si aún no se capturó”. No es código todavía: es **especificación**. Los **ejemplos canónicos** (accept/reject/review/missing) son la forma más barata de validar que el invariante es usable.',
-        'Mínimo profesional: **al menos un ejemplo por estado de decisión** que tu regla produce. Si solo pruebas el camino feliz, el validador miente en producción.',
+        'Ya armaste booleanos, control de flujo y tablas de decisión; ahora cierras el motor: **documentar promesas** y **probar cada rama**. Un **invariante** de campo es una condición que declaras para una etapa concreta: “después de validar, una edad aceptada es un `int` entre 0 y 120”. La entrada original todavía puede ser `None`, tener otro tipo o quedar fuera del rango; esas posibilidades son casos que el validador debe clasificar. La frase aún no es código: es una **especificación**, es decir, una descripción precisa del comportamiento requerido. Los ejemplos de cada rama permiten comprobar si esa condición puede aplicarse sin ambigüedad.',
+        'Mínimo de cobertura para esta lección: **al menos un ejemplo por rama distinta** que tu regla puede ejecutar. Si varias ramas terminan con el mismo status, cada una todavía necesita su propio caso; por ejemplo, tipo incorrecto y valor fuera de rango pueden producir `reject` por causas diferentes. Después confirma también que la suite contiene todos los estados esperados: `accept`, `reject` y `review`.',
         '`assert` sirve en desarrollo y tests, pero **no** como única validación de intake en producción (`python -O` desactiva asserts). Usa returns con `status`/`code`/`message` para reglas de negocio.',
         '**Especificar no es describir el código.** “La función usa un `if`” no es un invariante; “`contacto` contiene nueve dígitos o está ausente” sí puede discutirse con una persona de negocio. Los ejemplos convierten la frase en una frontera observable: uno que cumple, uno que viola y uno que requiere review.',
         '**Busca el contraejemplo.** Antes de ejecutar, pregunta qué debería ocurrir con `"  "`, `"12345"`, `None` y un entero de nueve dígitos. Si la frase no permite decidir uno de ellos, no agregues otra rama todavía: reescribe el invariante. En T4-B cada caso se convertirá en un mensaje accionable y una prueba de regresión.',
@@ -396,7 +399,7 @@ None → review ok= True
       subtopicId: 'S03-T4-B',
       paragraphs: [
         'En un servicio de salud de Toronto, “Error” no ayuda a corregir una fecha, un tipo ni un rango. Un buen motor no solo decide; deja una explicación que otra persona puede convertir en acción y una prueba que impide que esa explicación se vuelva falsa tras un cambio.',
-        'Con invariantes y ejemplos canónicos (T4-A), el motor ya decide bien; falta **comunicar** el fallo y **probar** cada rama. Un mensaje accionable nombra el **campo**, el **problema** y la **acción esperada**: `Campo \'edad\'=-5 fuera de rango; usa 0–120.` Evita mensajes vagos como Error o inválido. Códigos estables (`MISSING`, `OUT_OF_RANGE`, `NOT_IN_ALLOWLIST`, `NEEDS_REVIEW`, `OK`) permiten métricas y i18n después.',
+        'Con invariantes y ejemplos canónicos (T4-A), el motor ya decide bien; falta **comunicar** el fallo y **probar** cada rama. Un mensaje accionable nombra el **campo**, el **problema** y la **acción esperada**: `Campo \'edad\'=-5 fuera de rango; usa 0–120.` Evita mensajes vagos como Error o inválido. Códigos estables (`MISSING`, `OUT_OF_RANGE`, `NOT_IN_ALLOWLIST`, `NEEDS_REVIEW`, `OK`) permiten contar las causas y preparar traducciones de mensajes más adelante.',
         '**Un test por rama** del validador: si tienes 4 caminos (None, tipo mal, rango, OK), necesitas ≥4 casos. El else/default también cuenta. Esta es la misma disciplina que usarás en el You Do (`_run_tests` del motor de reglas).',
         'No registres secretos ni información personal real; en el curso solo usamos datos sintéticos. El ciclo **prueba roja → ajustar regla → verde** permite depurar errores de uno en fronteras (`>= 18` frente a `> 18`). Cuando el mensaje y la prueba expresan el mismo contrato, la persona responsable de datos puede integrar el cambio con confianza.',
         '**Tres capas, una misma verdad.** El `status` guía el flujo; el `code` permite contar causas de manera estable; el `message` orienta a una persona. La prueba debe verificar al menos la parte que no puede cambiar sin decisión de negocio. Si el código dice `OUT_OF_RANGE` y el mensaje recomienda un rango diferente, el sistema se contradice aunque el test de “camino feliz” pase.',
@@ -412,7 +415,7 @@ None → review ok= True
             "code": "MISSING",
             "message": "Campo 'edad' ausente: envía un entero 0–120 o marca como desconocido.",
         }
-    if not isinstance(edad, int):
+    if not isinstance(edad, int) or isinstance(edad, bool):
         return {
             "status": "reject",
             "code": "BAD_TYPE",
@@ -426,13 +429,15 @@ None → review ok= True
         }
     return {"status": "accept", "code": "OK", "message": "edad OK"}
 
-tests = [(None, "MISSING"), ("x", "BAD_TYPE"), (-5, "OUT_OF_RANGE"), (35, "OK")]
+tests = [(None, "MISSING"), ("x", "BAD_TYPE"), (True, "BAD_TYPE"), (False, "BAD_TYPE"), (-5, "OUT_OF_RANGE"), (35, "OK")]
 for val, code in tests:
     r = validate_edad_msg(val)
     assert r["code"] == code
     print("PASS", val, r["code"])`,
         output: `PASS None MISSING
 PASS x BAD_TYPE
+PASS True BAD_TYPE
+PASS False BAD_TYPE
 PASS -5 OUT_OF_RANGE
 PASS 35 OK`,
       },
@@ -637,7 +642,9 @@ None 40 → review`,
         return "accept"
     elif code in ("MISSING", "NEEDS_REVIEW"):
         return "review"
-    elif code in ("OUT_OF_RANGE", "NOT_IN_ALLOWLIST", "BAD_TYPE"):
+    elif code == "NOT_IN_ALLOWLIST":
+        return "review"
+    elif code in ("OUT_OF_RANGE", "BAD_TYPE"):
         return "reject"
     else:
         return "review"
@@ -646,9 +653,9 @@ def status_match(code: str) -> str:
     match code:
         case "OK":
             return "accept"
-        case "MISSING" | "NEEDS_REVIEW":
+        case "MISSING" | "NEEDS_REVIEW" | "NOT_IN_ALLOWLIST":
             return "review"
-        case "OUT_OF_RANGE" | "NOT_IN_ALLOWLIST" | "BAD_TYPE":
+        case "OUT_OF_RANGE" | "BAD_TYPE":
             return "reject"
         case _:
             return "review"
@@ -919,7 +926,7 @@ Nota: usa is solo para None; == para valores de negocio`,
           '- **Contexto:** el `if` de Python usa truthiness; en intake eso choca con ceros y strings vacíos válidos.\n- **Meta:** imprimir `repr(v) → bool(v)` para una lista canónica de valores.\n- **Éxito:** nueve `False` y tres `True` (`"x"`, `1`, `[0]`) en el orden del starter.\n- **Límites:** no reemplaces `bool(v)` por `v is not None`; no reordenes la lista.',
         id: 'S03-T1-B-E1',
         instruction:
-          '1. Revisa el DEFECT: el starter imprime `v is not None`, que no es truthiness.\n2. Recorre la lista `vals` dada.\n3. Imprime `repr(v)` y `bool(v)` en cada paso.\n4. Confirma que `range(0)` es falsy y `[0]` es truthy.',
+          '1. Revisa el DEFECT: el código inicial imprime `v is not None`, que comprueba ausencia, no **truthiness** (si Python trata el valor como verdadero o falso).\n2. Recorre la lista `vals` dada.\n3. Imprime `repr(v)` y `bool(v)` en cada paso.\n4. Confirma que `range(0)` es falsy y `[0]` es truthy.',
         hint: 'for v in lista: print(repr(v), "→", bool(v))',
         hints: [
           'for v in lista: print(repr(v), "→", bool(v))',
@@ -1638,7 +1645,7 @@ None 1 → {'status': 'review', 'code': 'MISSING'}`,
           '- **Contexto:** primero se escribe la tabla de negocio; después el código. Así se evitan ramas inventadas.\n- **Meta:** corregir el dict `TABLE` y aplicar `get` con default review.\n- **Éxito:** OK→accept; MISSING→review; OUT_OF_RANGE→reject; FOO→review.\n- **Límites:** no añadas códigos de negocio que no estén en la tabla; el default cubre desconocidos.',
         id: 'S03-T3-B-E1',
         instruction:
-          '1. Corrige MISSING (review) y OUT_OF_RANGE (reject).\n2. Implementa `apply(code)` con `TABLE.get(code, "review")`.\n3. Imprime el status de OK, MISSING, OUT_OF_RANGE y FOO.',
+          '1. Corrige MISSING (review) y OUT_OF_RANGE (reject).\n2. Implementa `status_for(code)` con `TABLE.get(code, "review")`; `status_for` significa “status correspondiente a este código”.\n3. Imprime el status de OK, MISSING, OUT_OF_RANGE y FOO.',
         hint: 'table.get(code, table["_default"]) o case _ equivalente con dict.',
         hints: [
           'table.get(code, "review") si no incluyes _default como clave de negocio.',
@@ -1660,11 +1667,11 @@ TABLE = {
     "OUT_OF_RANGE": "review",  # DEFECT: debería reject
 }
 
-def apply(code):
+def status_for(code):
     return TABLE.get(code, "review")
 
 for c in ["OK", "MISSING", "OUT_OF_RANGE", "FOO"]:
-    print(c, apply(c))
+    print(c, status_for(c))
 `,
         },
         solutionCode: {
@@ -1676,11 +1683,11 @@ for c in ["OK", "MISSING", "OUT_OF_RANGE", "FOO"]:
     "OUT_OF_RANGE": "reject",
 }
 
-def apply(code):
+def status_for(code):
     return TABLE.get(code, "review")
 
 for c in ["OK", "MISSING", "OUT_OF_RANGE", "FOO"]:
-    print(c, "→", apply(c))`,
+    print(c, "→", status_for(c))`,
           output: `OK → accept
 MISSING → review
 OUT_OF_RANGE → reject
