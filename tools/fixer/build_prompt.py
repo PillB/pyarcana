@@ -92,6 +92,9 @@ Rules that are not negotiable:
         block("TERMS ALREADY DEFINED IN EARLIER SECTIONS (safe to use)",
               ", ".join(seen_before) or "(none - this is the first section)"),
 
+        block("STANDING DECISIONS (binding, override anything below)",
+              (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")),
+
         block("WRITING CONTRACTS (binding)",
               "\n\n".join(f"--- {c.name} ---\n{c.read_text(encoding='utf-8')}"
                           for c in CONTRACTS if c.exists())),
