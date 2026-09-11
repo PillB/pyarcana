@@ -38,11 +38,10 @@
     {
       "badge": "progress_phase0_walked",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 19,
+      "count": 18,
       "terms": [
         "abc",
         "apply",
-        "args-y-kwargs",
         "conventional-commits",
         "counter",
         "decorador",
@@ -51,7 +50,8 @@
         "entity-resolution",
         "list-comprehension",
         "merge",
-        "missing-values"
+        "missing-values",
+        "precision"
       ]
     },
     {
@@ -101,11 +101,10 @@
     {
       "badge": "progress_journey_completed",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 44,
+      "count": 43,
       "terms": [
         "abc",
         "apply",
-        "args-y-kwargs",
         "boolean-masking",
         "broadcasting",
         "context-manager",
@@ -114,26 +113,26 @@
         "counter",
         "coverage",
         "cross-validation",
-        "decorador"
+        "decorador",
+        "defaultdict"
       ]
     },
     {
       "badge": "python_data_foundations",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 13,
+      "count": 11,
       "terms": [
         "abc",
         "apply",
-        "args-y-kwargs",
         "conventional-commits",
         "decorador",
         "dict-comprehension",
         "list-comprehension",
         "merge",
         "pyodide",
-        "pytest",
         "set",
-        "truthiness"
+        "truthiness",
+        "variable"
       ]
     },
     {
@@ -155,10 +154,11 @@
     {
       "badge": "applied_analytical_reasoning",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 2,
+      "count": 3,
       "terms": [
         "dependencias",
-        "missing-values"
+        "missing-values",
+        "pytest"
       ]
     },
     {
@@ -182,9 +182,10 @@
     {
       "badge": "responsible_machine_learning_evaluation",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 1,
+      "count": 2,
       "terms": [
-        "dependencias"
+        "dependencias",
+        "pytest"
       ]
     },
     {
@@ -234,32 +235,35 @@
     {
       "badge": "integrated_data_analyst_practice",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 4,
+      "count": 5,
       "terms": [
         "counter",
         "dependencias",
         "entity-resolution",
-        "missing-values"
+        "missing-values",
+        "pytest"
       ]
     },
     {
       "badge": "integrated_data_science_practice",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 4,
+      "count": 5,
       "terms": [
         "counter",
         "dependencias",
         "entity-resolution",
-        "missing-values"
+        "missing-values",
+        "pytest"
       ]
     },
     {
       "badge": "integrated_ml_engineering_practice",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 2,
+      "count": 3,
       "terms": [
         "dependencias",
-        "missing-values"
+        "missing-values",
+        "pytest"
       ]
     },
     {
@@ -287,11 +291,10 @@
     {
       "badge": "integrated_python_ai_capstone_foundations",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 19,
+      "count": 18,
       "terms": [
         "abc",
         "apply",
-        "args-y-kwargs",
         "conventional-commits",
         "counter",
         "decorador",
@@ -300,7 +303,8 @@
         "entity-resolution",
         "list-comprehension",
         "merge",
-        "missing-values"
+        "missing-values",
+        "precision"
       ]
     },
     {
@@ -405,7 +409,7 @@
         "S12",
         "S13"
       ],
-      "blocking_term_gaps": 19
+      "blocking_term_gaps": 18
     },
     {
       "badge": "progress_phase1_walked",
@@ -524,7 +528,7 @@
         "S51",
         "S52"
       ],
-      "blocking_term_gaps": 44
+      "blocking_term_gaps": 43
     },
     {
       "badge": "python_data_foundations",
@@ -536,7 +540,7 @@
         "S04",
         "S05"
       ],
-      "blocking_term_gaps": 13
+      "blocking_term_gaps": 11
     },
     {
       "badge": "independent_data_preparation",
@@ -556,7 +560,7 @@
         "S09",
         "S10"
       ],
-      "blocking_term_gaps": 2
+      "blocking_term_gaps": 3
     },
     {
       "badge": "reliable_automation_development",
@@ -593,7 +597,7 @@
         "S10",
         "S23"
       ],
-      "blocking_term_gaps": 1
+      "blocking_term_gaps": 2
     },
     {
       "badge": "applied_rag_llm_service_development",
@@ -692,7 +696,7 @@
         "S19",
         "S37"
       ],
-      "blocking_term_gaps": 4
+      "blocking_term_gaps": 5
     },
     {
       "badge": "integrated_data_science_practice",
@@ -707,7 +711,7 @@
         "S23",
         "S37"
       ],
-      "blocking_term_gaps": 4
+      "blocking_term_gaps": 5
     },
     {
       "badge": "integrated_ml_engineering_practice",
@@ -721,7 +725,7 @@
         "S29",
         "S43"
       ],
-      "blocking_term_gaps": 2
+      "blocking_term_gaps": 3
     },
     {
       "badge": "integrated_automation_engineering_practice",
@@ -767,7 +771,7 @@
         "S12",
         "S13"
       ],
-      "blocking_term_gaps": 19
+      "blocking_term_gaps": 18
     },
     {
       "badge": "integrated_python_ai_capstone_independent",

@@ -2,14 +2,13 @@
   "ok": false,
   "sections_audited": 52,
   "terms_audited": 95,
-  "events_audited": 22581,
+  "events_audited": 22579,
   "issue_counts": {
     "DEFINITION_AFTER_REQUIREMENT": 16,
-    "NO_VISIBLE_DEFINITION": 28,
-    "USE_BEFORE_DEFINITION": 44
+    "NO_VISIBLE_DEFINITION": 27,
+    "USE_BEFORE_DEFINITION": 43
   },
   "never_defined_but_mentioned": [
-    "args-y-kwargs",
     "boolean-masking",
     "broadcasting",
     "context-manager",
@@ -75,7 +74,7 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "slicing",
       "severity": "P1",
-      "location": "basics.S02-T2-B-DEMO.why",
+      "location": "numpy.outcome[0]",
       "definition_location": "numpy.S06-T1-A.p1"
     },
     {
@@ -122,12 +121,6 @@
       "severity": "P1",
       "location": "basics.S02-T3-B-E3.tests",
       "definition_location": "basics.S02-T3-B-E3.retrospective"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "args-y-kwargs",
-      "severity": "P1",
-      "location": "basics.theory[0].callout"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
@@ -209,14 +202,14 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "pytest",
       "severity": "P1",
-      "location": "basics.S02-T4-B.p2",
+      "location": "sklearn.S10-T2-B-E1.retrospective",
       "definition_location": "async-concurrency.S27-T2-A.code"
     },
     {
       "code": "DEFINITION_AFTER_REQUIREMENT",
       "term_id": "pytest",
       "severity": "P1",
-      "location": "basics.youDo.requirement[5]",
+      "location": "sklearn.S10-T2-B-E2.hint[0]",
       "definition_location": "async-concurrency.S27-T2-A.code"
     },
     {
@@ -232,13 +225,6 @@
       "severity": "P1",
       "location": "data-engineering.youDo.objective[1]",
       "definition_location": "rpa-advanced.S24-T4-A-E3.preamble"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "dict",
-      "severity": "P1",
-      "location": "basics.S02-T2-B.p3",
-      "definition_location": "basics.S02-T2-B.callout"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
@@ -551,7 +537,7 @@
       "code": "NO_VISIBLE_DEFINITION",
       "term_id": "pyodide",
       "severity": "P1",
-      "location": "basics.S02-T4-A.p1"
+      "location": "basics.S02-T4-A-DEMO.code"
     },
     {
       "code": "USE_BEFORE_DEFINITION",

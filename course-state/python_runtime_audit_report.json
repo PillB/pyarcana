@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-11T14:30:34.299895+00:00",
+  "generated_at": "2026-09-11T14:48:41.560595+00:00",
   "sections": 52,
   "dependency_visibility": {
     "status": "ok",
@@ -49,10 +49,10 @@
     "note": "The interpreter running the snippets does NOT match requirements-content.txt. Declared outputs are only true in the declared environment, so output_mismatch findings below are most likely this drift rather than broken content. Re-run inside an environment built from requirements-content.txt before treating any of them as real."
   },
   "totals": {
-    "pass": 3284,
+    "pass": 3283,
     "fail": 4,
     "skip": 70,
-    "artifacts": 3358
+    "artifacts": 3357
   },
   "fail_count": 4,
   "p0_count": 0,
@@ -73,11 +73,11 @@
       "file": "src/lib/course/sections/s02-basics.ts",
       "section_id": "basics",
       "counts": {
-        "pass": 65,
+        "pass": 64,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 65
+      "artifact_count": 64
     },
     {
       "file": "src/lib/course/sections/s03-data-structures.ts",

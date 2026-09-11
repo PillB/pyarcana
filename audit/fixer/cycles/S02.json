@@ -1,0 +1,55 @@
+{
+ "section": "S02",
+ "recorded_at": "2026-09-11T14:48:47+00:00",
+ "commit": "b2403c866934d20d71ae11b92eba16e3125fc9d4",
+ "file": "src/lib/course/sections/s02-basics.ts",
+ "findings_total": 21,
+ "findings_closed": [
+  "S02-F01",
+  "S02-F02",
+  "S02-F03",
+  "S02-F04",
+  "S02-F05",
+  "S02-F06",
+  "S02-F07",
+  "S02-F08",
+  "S02-F09",
+  "S02-F10",
+  "S02-F11",
+  "S02-F12",
+  "S02-F13",
+  "S02-F14",
+  "S02-F15",
+  "S02-F16",
+  "S02-F17",
+  "S02-F18",
+  "S02-F19",
+  "S02-F20",
+  "S02-F21"
+ ],
+ "findings_open": [],
+ "patches_offered": 53,
+ "patches_applied": 53,
+ "patches_rejected": 0,
+ "rejections": [],
+ "unresolved_questions": [
+  {
+   "finding_ids": [
+    "S02-F01",
+    "S02-F02",
+    "S02-F03",
+    "S02-F04",
+    "S02-F09"
+   ],
+   "question": "¿Debe reestructurarse también toda la práctica y evaluación de S02 para usar únicamente sentencias de nivel superior, o deben trasladarse sus actividades de parser a S05–S09?",
+   "why_it_blocks": "Aunque estas reparaciones eliminan los prerrequisitos futuros de la teoría señalada, iDo, weDo y youDo todavía exigen funciones, parámetros, return, if/for, diccionarios, tuplas, desempaquetado, anotaciones y excepciones. Retirar solo palabras como `tuple` no repararía la dependencia pedagógica ni permitiría cerrar plenamente los P1 a nivel de sección.",
+   "options": [
+    "Reestructurar iDo, weDo y youDo como prácticas de S02 con valores concretos y sentencias de nivel superior.",
+    "Trasladar el proyecto de parser y sus pruebas a S05–S09, después de enseñar sus prerrequisitos.",
+    "Cambiar el roadmap y enseñar aquí todos esos prerrequisitos; esta opción contradice la corrección indicada por los hallazgos."
+   ]
+  }
+ ],
+ "typecheck_ok": true,
+ "rolled_back": false
+}
