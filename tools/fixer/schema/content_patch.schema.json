@@ -1,0 +1,38 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["section_id", "patches", "unresolved_questions"],
+  "properties": {
+    "section_id": { "type": "string" },
+    "patches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["finding_ids", "field_path", "anchor", "replacement", "rationale", "terms_introduced"],
+        "properties": {
+          "finding_ids": { "type": "array", "items": { "type": "string" } },
+          "field_path": { "type": "string" },
+          "anchor": { "type": "string" },
+          "replacement": { "type": "string" },
+          "rationale": { "type": "string" },
+          "terms_introduced": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "unresolved_questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["finding_ids", "question", "why_it_blocks", "options"],
+        "properties": {
+          "finding_ids": { "type": "array", "items": { "type": "string" } },
+          "question": { "type": "string" },
+          "why_it_blocks": { "type": "string" },
+          "options": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}
