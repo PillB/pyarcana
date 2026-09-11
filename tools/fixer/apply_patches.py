@@ -35,7 +35,7 @@ def section_file(slug: str) -> Path:
     index = (ROOT / "src/lib/course/index.ts").read_text(encoding="utf-8")
     for m in re.finditer(r"from '\./sections/([^']+)'", index):
         p = ROOT / f"src/lib/course/sections/{m.group(1)}.ts"
-        if p.exists() and re.search(rf"\bid:\s*'{re.escape(slug)}'", p.read_text(encoding="utf-8")):
+        if p.exists() and re.search(rf"""\bid:\s*['"]{re.escape(slug)}['"]""", p.read_text(encoding="utf-8")):
             return p
     raise SystemExit(f"no section file for slug {slug!r}")
 

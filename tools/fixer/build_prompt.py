@@ -27,7 +27,7 @@ def section_file(slug: str) -> Path:
     index = (ROOT / "src/lib/course/index.ts").read_text(encoding="utf-8")
     for m in re.finditer(r"from '\./sections/([^']+)'", index):
         p = ROOT / f"src/lib/course/sections/{m.group(1)}.ts"
-        if p.exists() and re.search(rf"\bid:\s*'{re.escape(slug)}'", p.read_text(encoding="utf-8")):
+        if p.exists() and re.search(rf"""\bid:\s*['"]{re.escape(slug)}['"]""", p.read_text(encoding="utf-8")):
             return p
     raise SystemExit(f"no section file for slug {slug!r}")
 
@@ -52,6 +52,14 @@ def main() -> None:
     })
     gaps = [i for i in json.loads(FIRST_USE.read_text(encoding="utf-8"))["issues"]
             if (i.get("location") or "").split(".", 1)[0] == slug]
+
+    # D2 violations in this section, as concrete work items rather than a policy line
+    d2_path = ROOT / "course-state/synthetic_identifier_report.json"
+    d2 = []
+    if d2_path.exists():
+        rel = str(path.relative_to(ROOT))
+        d2 = [f for f in json.loads(d2_path.read_text(encoding="utf-8"))["findings"]
+              if f["file"] == rel]
 
     def block(title: str, body: str) -> str:
         return f"\n\n===== {title} =====\n{body}"
@@ -86,6 +94,10 @@ Rules that are not negotiable:
              ("finding_id", "severity", "category", "title", "location",
               "evidence", "impact", "fix", "attack", "defense")}
             for f in findings], ensure_ascii=False, indent=1)),
+
+        block("D2 VIOLATIONS IN THIS SECTION (must all be removed)",
+              json.dumps(d2, ensure_ascii=False, indent=1) if d2
+              else "(none - this section stores no identifier-shaped value)"),
 
         block("VOCABULARY GAPS THE GATE FOUND IN THIS SECTION", json.dumps(gaps, ensure_ascii=False, indent=1)),
 
