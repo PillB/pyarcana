@@ -15,11 +15,9 @@ echo "==> [$TAG] building prompt"
 python3 tools/fixer/build_prompt.py "$TAG" > ".fixer/$TAG.prompt.txt"
 
 echo "==> [$TAG] codex ($MODEL, $EFFORT) authoring content (read-only)"
-codex exec -m "$MODEL" -c model_reasoning_effort="$EFFORT" \
-  -C "$ROOT" -s read-only \
-  --output-schema tools/fixer/schema/content_patch.schema.json \
-  -o ".fixer/$TAG.result.json" \
-  - < ".fixer/$TAG.prompt.txt" > ".fixer/$TAG.codex.log" 2>&1
+# Deadline + retry live in run_codex.py: S06 spent 5.5h reconnecting after a
+# transport error before failing, and took the chain down with it.
+python3 tools/fixer/run_codex.py "$TAG" "$MODEL" "$EFFORT" || exit 1
 
 echo "==> [$TAG] applying patches ${APPLY:-(dry run)}"
 python3 tools/fixer/apply_patches.py ".fixer/$TAG.result.json" $APPLY \
