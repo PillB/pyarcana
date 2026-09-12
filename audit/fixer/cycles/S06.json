@@ -1,0 +1,56 @@
+{
+ "section": "S06",
+ "recorded_at": "2026-09-12T16:19:26+00:00",
+ "commit": "3c68b47f314ce72a32ba6128f68593b8788374e5",
+ "file": "src/lib/course/sections/s06-numpy.ts",
+ "findings_total": 20,
+ "findings_closed": [
+  "S06-F01",
+  "S06-F02",
+  "S06-F03",
+  "S06-F04",
+  "S06-F05",
+  "S06-F06",
+  "S06-F07",
+  "S06-F08",
+  "S06-F09",
+  "S06-F10",
+  "S06-F11",
+  "S06-F12",
+  "S06-F13",
+  "S06-F14",
+  "S06-F15",
+  "S06-F16",
+  "S06-F17",
+  "S06-F18",
+  "S06-F19",
+  "S06-F20"
+ ],
+ "findings_open": [],
+ "patches_offered": 26,
+ "patches_applied": 26,
+ "patches_rejected": 0,
+ "rejections": [],
+ "unresolved_questions": [
+  {
+   "finding_ids": [],
+   "question": "¿Qué URL y SHA desplegado deben compararse para verificar que la página pública hidratada conserva el orden de la teoría y todo el texto de figuras y callouts de esta revisión?",
+   "why_it_blocks": "El archivo fuente permite proponer reparaciones, pero no demuestra qué contenido renderiza actualmente el sitio público ni si coincide con `main`.",
+   "options": [
+    "Proporcionar la URL y el SHA desplegado para una comprobación exacta.",
+    "Tratar la verificación pública como una auditoría posterior separada."
+   ]
+  },
+  {
+   "finding_ids": [],
+   "question": "Fuera de los bloques de teoría señalados, S06 aún contiene demostraciones y prácticas con `raise` y JSON: ¿deben trasladarse a S09/S08 o debe aprobarse una introducción mínima de esos mecanismos dentro de S06?",
+   "why_it_blocks": "La decisión afecta demostraciones, prácticas y el proyecto, y no puede inferirse de los hallazgos localizados sin cambiar un alcance curricular mayor.",
+   "options": [
+    "Trasladar `raise` a S09 y JSON a S08, conservando en S06 solo el modelo en memoria.",
+    "Añadir a S06 modelos mínimos completos de excepciones, importación y serialización, con la correspondiente revisión del roadmap."
+   ]
+  }
+ ],
+ "typecheck_ok": true,
+ "rolled_back": false
+}

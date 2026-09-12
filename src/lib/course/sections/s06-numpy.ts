@@ -22,16 +22,16 @@ export const section06: CourseSection = {
   icon: "Layers",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "Antes de guardar un lote en CSV o enviarlo a una base de datos, tu programa necesita una mesa de clasificación en memoria: conservar el orden de llegada, localizar clientes por ID, detectar repeticiones y dejar constancia de los desacuerdos. Aquí conviertes tus listas y funciones en ese pequeño almacén confiable. Es una habilidad cotidiana en onboarding (el alta y verificación de un nuevo cliente), logística, comercio y control de calidad: elegir la colección correcta evita datos perdidos, búsquedas lentas y resultados que cambian sin explicación.",
+    "Antes de guardar un lote fuera del programa, este necesita una mesa de clasificación en memoria: conservar el orden de llegada, localizar clientes por ID, detectar repeticiones y dejar constancia de los desacuerdos. Aquí conviertes tus listas y funciones en ese pequeño almacén confiable. Es una habilidad cotidiana en onboarding (el alta y verificación de un nuevo cliente), logística, comercio y control de calidad: elegir la colección correcta evita datos perdidos, búsquedas lentas y resultados que cambian sin explicación.",
   learningOutcomes: [
-    { text: "Usar list/tuple y slicing para ventanas de registros sin copiar de más" },
+    { text: "Usar `list`/`tuple` y recortes por posiciones (`slicing`) para crear ventanas de registros" },
     { text: "Desempaquetar secuencias y distinguir alias vs. copia superficial/profunda" },
     { text: "Modelar registros con dict, get e índices id→fila" },
     { text: "Deduplicar con set y reportar conflictos sin borrarlos" },
     { text: "Navegar list[dict] anidados cliente→contactos→txs" },
-    { text: "Acceder campos opcionales sin KeyError; missing vs. vacío" },
+    { text: "Distinguir campos ausentes (`missing`: la clave no existe) de campos presentes pero vacíos" },
     { text: "Ordenar con sorted(..., key=) de forma estable" },
-    { text: "Elegir list/dict/set y producir JSON determinista" },
+    { text: "Elegir `list`/`dict`/`set` y producir estructuras con orden determinista —la misma entrada produce el mismo orden—" },
   ],
   theory: [
     {
@@ -47,30 +47,28 @@ export const section06: CourseSection = {
         "Imagina un centro internacional de ayuda que recibe fichas sintéticas de envíos. Tres preguntas aparecen antes de abrir un archivo: «¿en qué orden llegaron?», «¿dónde está la ficha C002?» y «¿ya vimos este ID?». Una secuencia conserva el orden; un `dict` actúa como índice; un `set` responde pertenencia. Esas estructuras no compiten: cada una resuelve una pregunta distinta.",
         "En S04 aprendiste a recorrer datos y en S05 a encerrar reglas en funciones. Ahora compones ambas destrezas en un modelo tabular en memoria: clientes con contactos y transacciones, una tabla de acceso por ID y un registro separado de conflictos. Piensa en él como una mesa de clasificación temporal, no como una base de datos diminuta ni como una colección de trucos aislados.",
         "La sección sigue la vida de una fila y en cada tramo hay una propiedad que no se puede perder. Primero el orden: recortar una parte de la secuencia no debe alterar el original por accidente. Después la identidad: buscar un cliente por su ID y detectar repetidos sin borrar la evidencia de que hubo un choque. Luego la relación entre entidades, donde aparece la distinción que más confunde al principio, la de un campo ausente frente a un campo presente pero vacío. Y al final la reproducibilidad: ordenar y guardar de forma que dos corridas den byte por byte el mismo archivo. Antes de cada ejemplo, pregúntate cuál de esas cuatro cosas está en juego.",
-        "Trabajarás solo con la biblioteca estándar y datos sintéticos (`example.com`, IDs `C00x`). El objetivo de CP-N1-B es poder explicar por qué elegiste cada estructura y demostrar sus límites con una salida observable. En S08 conectarás este modelo a CSV y JSON. Por ahora, una buena decisión en memoria vale más que una biblioteca potente usada sin criterio.",
+        "Trabajarás con los tipos incorporados de Python y datos sintéticos (`example.com`, IDs `C00x`). El objetivo de CP-N1-B, el segundo incremento del proyecto acumulativo del Nivel 1, es poder explicar por qué elegiste cada estructura y demostrar sus límites con una salida observable. En S08 conectarás este modelo con CSV y JSON, dos formatos para guardar e intercambiar datos. Por ahora, una buena decisión en memoria vale más que una biblioteca potente usada sin criterio.",
       ],
       callout: {
         type: "info",
         title: "Alcance de S06",
         content:
-          "Trabajas con list, tuple, dict, set, copy y json de la biblioteca estándar. El objetivo es construir y justificar un modelo tabular en memoria con datos sintéticos; nunca uses información personal real.",
+          "Trabajas con los tipos incorporados `list`, `tuple`, `dict` y `set`; más adelante usarás el módulo `copy`, incluido con Python. El objetivo es construir y justificar un modelo tabular en memoria con datos sintéticos; nunca uses información personal real.",
       },
     },
     {
       heading: "Listas, tuplas y slicing",
       subtopicId: "S06-T1-A",
       paragraphs: [
-        "Una secuencia se parece a una fila de vagones: la posición forma parte del significado. Una `list` permite añadir o retirar vagones, por eso sirve para una cola de registros que crece. Una `tuple` conserva un trayecto fijo; úsala para headers o claves que varios helpers deben leer sin modificarlas. La pregunta práctica no es «¿cuál es mejor?», sino «¿debe cambiar este contenedor?».",
-        "Un slice es una ventana sobre esa fila, no una operación sobre cada elemento. `txs[-3:]` crea una lista nueva con las tres últimas transacciones y deja intacta la original. Predice los bordes antes de ejecutar: una lista vacía produce `[]`; `n == 0` necesita tratamiento explícito porque `rows[-0:]` equivale a copiar todo; y `n < 0` contradice el contrato de «últimas N».",
+        "Una secuencia se parece a una fila de vagones: la posición forma parte del significado. Una `list` permite añadir o retirar vagones, por eso sirve para una cola de registros que crece. Una `tuple` conserva posiciones fijas; úsala para encabezados o claves que varias funciones auxiliares deban leer sin reemplazarlas. Esa regla afecta a las posiciones, no necesariamente a su contenido: si una posición guarda una lista, esa lista interior todavía puede cambiar. La pregunta práctica no es «¿cuál es mejor?», sino «¿debe cambiar este contenedor?».",
+        "Un recorte (`slice`) es una ventana sobre esa fila, no una operación sobre cada elemento. `txs[-3:]` crea una lista exterior nueva con las tres últimas transacciones y no cambia la lista original por sí solo. Sin embargo, ambas listas apuntan a los mismos diccionarios interiores: cambiar `ventana[0][\"monto\"]` también cambia ese campo en la fila correspondiente de `txs`. Predice los bordes antes de ejecutar: una lista vacía produce `[]`; `n == 0` necesita tratamiento explícito porque `rows[-0:]` equivale a copiar todo; y la función acepta como precondición —un requisito que debe cumplirse antes de llamarla— que `n >= 0`.",
         "Buscar con `x in una_lista` obliga a avanzar hasta encontrar el valor o llegar al final: costo O(n). Para una comprobación ocasional es una decisión sencilla y legible. Repetirla miles de veces dentro de otro bucle transforma esa sencillez en trabajo cuadrático; T2 mostrará cómo un `set` o un `dict` cambia la pregunta de «recorrer» a «consultar un índice».",
       ],
       code: {
         language: 'python',
         title: "slicing_txs.py",
         code: `def last_n(rows, n=3):
-    """Ventana de las últimas n filas (slicing, sin mutar)."""
-    if n < 0:
-        raise ValueError("n debe ser mayor o igual que 0")
+    """Ventana de las últimas n filas. Precondición: n >= 0."""
     return rows[-n:] if n else []
 
 txs = [
@@ -81,12 +79,18 @@ txs = [
 ]
 ventana = last_n(txs, 3)
 keys = ("id", "monto")  # contrato estable
-print("ventana ids:", [r["id"] for r in ventana])
-print("keys:", keys)
-print("T2 in slice?", any(r["id"] == "T2" for r in ventana))`,
-        output: `ventana ids: ['T2', 'T3', 'T4']
-keys: ('id', 'monto')
-T2 in slice? True`,
+print("ventana ids:")
+for row in ventana:
+    print(row["id"])
+ventana[0]["monto"] = 99
+print("monto compartido en txs:", txs[1]["monto"])
+print("keys:", keys)`,
+        output: `ventana ids:
+T2
+T3
+T4
+monto compartido en txs: 99
+keys: ('id', 'monto')`,
       },
       callout: {
         type: "tip",
@@ -99,9 +103,9 @@ T2 in slice? True`,
       heading: "Unpacking, aliasing y copia",
       subtopicId: "S06-T1-B",
       paragraphs: [
-        "El desempaquetado convierte la posición en nombres: `id_cliente, region, monto = fila` documenta el shape —con un límite que conviene saber: Python solo comprueba **cuántos** elementos hay, no qué significan, así que una fila con la región y el monto intercambiados se desempaqueta sin error y con los nombres cruzados— (la forma de la fila: qué tipo de dato va en cada posición) mejor que tres índices sueltos. Si sobran o faltan valores, Python detiene la operación con `ValueError`. Ese fallo temprano es una alarma útil: impide que una región termine silenciosamente en la variable del monto. `head, *rest = fila` sirve cuando solo la primera columna es fija y el resto puede variar.",
+        "El desempaquetado convierte posiciones en nombres: `id_cliente, region, monto = fila` documenta la forma de la fila (`shape`), es decir, cuántos valores contiene, en qué orden y qué tipo de dato —la clase de valor, como texto o número— ocupa cada posición. Python solo comprueba cuántos elementos hay, no qué significan: una fila con la región y el monto intercambiados se desempaqueta sin error y deja los nombres cruzados. Si sobran o faltan valores, Python detiene la operación con `ValueError`; ese error detecta una cantidad incorrecta, pero no valida el significado de cada posición. Esa validación necesita una comprobación separada. `head, *rest = fila` reúne en una lista todos los valores posteriores al primero cuando solo la primera posición es fija.",
         "Una asignación no fotocopia el objeto; solo añade otra etiqueta. Si dos etiquetas de equipaje apuntan a la misma maleta, abrirla mediante cualquiera revela el mismo contenido. Así funciona `b = a`: `a` y `b` son nombres del mismo contenedor. El error del principiante es interpretar dos variables como dos historias independientes y descubrir la mutación mucho después.",
-        "La copia superficial crea un contenedor exterior nuevo, pero conserva referencias a los objetos interiores. Basta si solo reordenas filas; no basta si modificarás `tags`, contactos u otros campos anidados. `deepcopy` separa todo el grafo, aunque consume más memoria y puede ocultar una arquitectura demasiado mutable. Decide el nivel de aislamiento antes de mutar y prueba la identidad que esperas conservar.",
+        "La copia superficial crea un contenedor exterior nuevo, pero conserva referencias a los objetos interiores: `rows.copy()` todavía comparte cada diccionario de fila con `rows`. Basta si solo reordenas filas; no basta si cambiarás un campo de una fila, sus `tags`, sus contactos u otros valores anidados. El módulo `copy` viene incluido con Python; `import copy` permite usar funciones como `copy.deepcopy`. Para el modelo de este curso, `deepcopy` copia de manera recursiva los contenedores mutables anidados, de modo que editar esos contenedores copiados no alcanza al original. Es una operación más amplia y costosa que una copia superficial, no una garantía universal de aislamiento. Decide el nivel de aislamiento antes de mutar y prueba qué objetos esperas compartir o separar.",
       ],
       code: {
         language: 'python',
@@ -157,9 +161,9 @@ original final: [{'id': 'C001', 'tags': ['vip', 'alias', 'shallow']}]`,
       },
       subtopicId: "S06-T2-A",
       paragraphs: [
-        "Una lista responde «¿qué llegó primero?»; un diccionario responde «¿qué registro corresponde a esta clave?». Piensa en el catálogo de una biblioteca: nadie recorre todos los estantes para localizar un código conocido. `{c['id']: c for c in filas}` construye ese catálogo con acceso O(1) promedio. Pero hay una frontera peligrosa: si el ID se repite, la última fila reemplaza a la anterior sin ceremonia. Detecta el conflicto antes de indexar.",
-        "`d[k]` expresa un invariante: la clave debe existir, y un `KeyError` denuncia que el programa rompió esa promesa. `d.get(k, default)` expresa una ausencia esperada. No los uses como sinónimos. Además, `k in d` pregunta por claves, no por calidad: `\"email\" in cliente` confirma que el casillero existe; no confirma que contenga una dirección válida.",
-        "Al fusionar configuraciones, la precedencia es una regla de negocio disfrazada de sintaxis. `{**base, **override}` dice que el override gana y conserva intacto el original. `base.update(override)` puede ser correcto si la mutación es deliberada y local; sobre un diccionario compartido produce fallos distantes. Antes del merge, formula la pregunta que un test debe responder: ¿qué valor gana y qué objeto debe permanecer sin cambios?",
+        "Una lista responde «¿qué llegó primero?»; un diccionario responde «¿qué registro corresponde a esta clave?». Piensa en el catálogo de una biblioteca: nadie recorre todos los estantes para localizar un código conocido. Si `fila1` y `fila2` ya contienen dos registros, el literal `{'C001': fila1, 'C002': fila2}` muestra primero la relación básica `clave: valor`: cada ID apunta a su fila. Después, `{c['id']: c for c in filas}` construye la misma relación para todas las filas con acceso O(1) promedio. Pero hay una frontera peligrosa: si el ID se repite, la última fila reemplaza a la anterior sin ceremonia. Detecta el conflicto antes de indexar.",
+        "Usa `d[k]` cuando el contrato que rodea esa operación garantiza que la clave existe; si falta, Python produce `KeyError`. Usa `d.get(k, default)` o una comprobación explícita cuando la ausencia sea un caso legítimo. Además, `k in d` pregunta por claves, no por calidad: `\"email\" in cliente` confirma que el casillero existe; no confirma que contenga una dirección válida. Un `dict` conserva el orden en que se insertan sus claves, pero ese orden no siempre coincide con el orden de negocio: ordénalo explícitamente cuando el contrato de salida exija otro orden estable.",
+        "Al fusionar configuraciones, la precedencia es una regla de negocio disfrazada de sintaxis. `{**base, **override}` crea un diccionario exterior nuevo y hace que `override` gane cuando ambas entradas tienen la misma clave; no modifica los diccionarios exteriores originales. Sin embargo, reutiliza las referencias a valores interiores: si `merged['opts']` y `base['opts']` apuntan al mismo diccionario, cambiar `merged['opts']['retry']` también cambia `base`. `base.update(override)` puede ser correcto si la mutación es deliberada y local; sobre un diccionario compartido produce fallos distantes. Antes de fusionar, formula la pregunta que una prueba debe responder: ¿qué valor gana y qué objetos deben permanecer separados?",
       ],
       code: {
         language: 'python',
@@ -251,23 +255,28 @@ n_conflicts: 1`,
       subtopicId: "S06-T3-A",
       paragraphs: [
         "Un cliente no es una fila aislada: posee contactos y transacciones. Una estructura anidada representa esa relación como un árbol pequeño: el diccionario del cliente es el tronco y sus listas son ramas. El doble `for` no es complejidad accidental; sigue una arista real, cliente → transacción. Mientras el shape esté documentado, `list[dict]` basta para razonar sin introducir clases antes de necesitarlas.",
-        "Aplanar cambia la vista, no la verdad. Para producir una fila por transacción repites `client_id` junto a `tx_id` y `monto`; esa repetición deliberada conserva el vínculo cuando desaparece el árbol. Si omites `client_id`, obtienes montos huérfanos. Antes de exportar, cuenta contactos y transacciones: los totales son una prueba sencilla de que el recorrido no perdió ramas.",
+        "Aplanar cambia la representación y puede dejar información fuera. Para producir una fila por transacción repites `client_id` junto a `tx_id` y `monto`; esa repetición deliberada conserva el vínculo de las transacciones que sí existen cuando desaparece el árbol. Sin embargo, un cliente con cero transacciones no produce ninguna fila y deja de ser recuperable desde esa tabla plana si no conservas los clientes por separado. Si omites `client_id`, además obtienes montos huérfanos. Antes de exportar, cuenta clientes y transacciones y decide qué información debe repetirse o mantenerse en otra estructura.",
         "Forma y contenido son problemas diferentes. `txs: []` tiene la forma correcta y expresa cero transacciones; una clave ausente o `txs: 'oops'` rompe el contrato. `bool(txs)` mezcla ambos problemas porque una lista vacía es falsy. `isinstance(txs, list)` pregunta por el shape que realmente necesitas y permite enviar solo las filas estructuralmente inválidas a revisión.",
       ],
       code: {
         language: 'python',
         title: "nested_clients.py",
         code: `def flatten_txs(clients):
-    """Aplana txs anidadas a filas densas con client_id."""
-    return [
-        {"client_id": c["id"], "tx_id": t["id"], "monto": t["monto"]}
-        for c in clients
-        for t in c["txs"]
-    ]
+    """Aplana txs anidadas a filas con client_id."""
+    flat = []
+    for client in clients:
+        for tx in client["txs"]:
+            row = {
+                "client_id": client["id"],
+                "tx_id": tx["id"],
+                "monto": tx["monto"],
+            }
+            flat.append(row)
+    return flat
 
 def count_nested(clients):
-    for c in clients:
-        print(c["id"], "n_contacts=", len(c["contacts"]), "n_txs=", len(c["txs"]))
+    for client in clients:
+        print(client["id"], "n_contacts=", len(client["contacts"]), "n_txs=", len(client["txs"]))
 
 clients = [
     {
@@ -280,12 +289,18 @@ clients = [
         "contacts": [],
         "txs": [{"id": "T3", "monto": 20}],
     },
+    {
+        "id": "C003",
+        "contacts": [],
+        "txs": [],
+    },
 ]
 count_nested(clients)
 flat = flatten_txs(clients)
 print("flat rows:", flat)`,
         output: `C001 n_contacts= 1 n_txs= 2
 C002 n_contacts= 0 n_txs= 1
+C003 n_contacts= 0 n_txs= 0
 flat rows: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 10}, {'client_id': 'C001', 'tx_id': 'T2', 'monto': 5}, {'client_id': 'C002', 'tx_id': 'T3', 'monto': 20}]`,
       },
       callout: {
@@ -296,36 +311,45 @@ flat rows: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 10}, {'client_id': 'C0
       },
     },
     {
-      heading: "Acceso seguro y valores faltantes",
+      heading: "Acceso seguro: campos ausentes y campos vacíos",
       subtopicId: "S06-T3-B",
       paragraphs: [
         "En un formulario internacional, «la página no llegó» y «la casilla llegó vacía» exigen respuestas distintas. Lo mismo ocurre en un diccionario anidado: puede faltar `profile`, faltar `phone` dentro del perfil o existir `phone` con valor vacío. Acceder con corchetes a cada nivel presupone que toda la ruta existe; un helper `dig` convierte esa suposición en una política visible.",
-        "Los valores falsy no significan automáticamente ausencia. `0` puede ser un monto legítimo; `''` puede ser un campo presente pero inválido; `[]` puede representar una colección válida sin elementos. Si usas `if not valor` para todo, borras esas distinciones y distorsionas el reporte. Decide primero qué significa missing en el dominio y después escribe la condición.",
-        "`get_nested` recorre la ruta nivel por nivel. Si falta una clave o aparece un objeto que ya no es diccionario, devuelve el sentinel acordado; si la clave existe con `None`, conserva `None`. Esa diferencia permite que la capa siguiente decida si rechaza, completa o acepta. Centralizarla evita veinte variantes de `try/except` y concentra los tests de borde en un solo contrato.",
+        "Los valores que se evalúan como falsos (`falsy`) no significan automáticamente ausencia. `0` puede ser un monto legítimo; `''` puede ser un campo presente pero inválido; `[]` puede representar una colección válida sin elementos. Si usas `if not valor` para todo, borras esas distinciones y distorsionas el reporte. Decide primero qué significa que un valor esté ausente (`missing`) en el dominio y después escribe la condición.",
+        "`get_nested` recorre la ruta nivel por nivel. Si falta una clave o aparece un valor que ya no es diccionario, devuelve un objeto marcador (`sentinel`); si la clave existe con `None`, conserva `None`. En el ejemplo, `MISSING = object()` crea un objeto único que ningún valor ordinario comparte. La comparación `valor is MISSING` comprueba identidad, es decir, si ambos nombres apuntan exactamente al mismo objeto; por eso no confunde una ausencia con el texto legítimo `\"MISSING\"`. Centralizar esta regla permite que la capa siguiente decida si rechaza, completa o acepta y concentra las pruebas de borde en un solo contrato.",
       ],
       code: {
         language: 'python',
         title: "safe_access.py",
-        code: `def get_nested(d, *keys, default=None):
-    """Recorre claves; si falta un nivel, devuelve default (no KeyError)."""
+        code: `MISSING = object()
+
+def get_nested(d, keys, default=MISSING):
+    """Recorre una ruta de claves; si falta un nivel, devuelve default."""
     cur = d
-    for k in keys:
-        if not isinstance(cur, dict) or k not in cur:
+    for key in keys:
+        if not isinstance(cur, dict) or key not in cur:
             return default
-        cur = cur[k]
+        cur = cur[key]
     return cur
 
 c1 = {"id": "C001", "profile": {"phone": "999111222"}, "email": ""}
 c2 = {"id": "C002", "profile": {"phone": None}}
 c3 = {"id": "C003", "profile": {}}
-print("ok phone:", get_nested(c1, "profile", "phone", default="MISSING"))
+c4 = {"id": "C004", "profile": {"phone": "MISSING"}}
+print("ok phone:", get_nested(c1, ("profile", "phone")))
 print("email empty:", repr(c1.get("email")))  # clave presente, valor ''
-print("phone None:", get_nested(c2, "profile", "phone", default="MISSING"))  # clave presente → None, no default
-print("phone missing:", get_nested(c3, "profile", "phone", default="MISSING"))  # clave ausente → default`,
+print("phone None:", get_nested(c2, ("profile", "phone")))
+text_missing = get_nested(c4, ("profile", "phone"))
+phone_missing = get_nested(c3, ("profile", "phone"))
+print("text MISSING:", text_missing)
+print("text is sentinel:", text_missing is MISSING)
+print("missing is sentinel:", phone_missing is MISSING)`,
         output: `ok phone: 999111222
 email empty: ''
 phone None: None
-phone missing: MISSING`,
+text MISSING: MISSING
+text is sentinel: False
+missing is sentinel: True`,
       },
       callout: {
         type: "warning",
@@ -340,17 +364,25 @@ phone missing: MISSING`,
       paragraphs: [
         "Un tablero de salidas ordena vuelos sin alterar los registros que recibió. `sorted(seq, key=fn)` hace esa vista nueva; `list.sort(key=fn)` reorganiza la lista compartida y devuelve `None`. Ambos pueden ser correctos, pero responden a contratos distintos. El bug aparece al escribir `ordenadas = filas.sort(...)`: el original cambia y `ordenadas` queda sin lista.",
         "La función `key` traduce una fila a su criterio de comparación. Una tupla como `(region, nombre)` se compara de izquierda a derecha: primero región y, solo en empate, nombre. El orden es estable, de modo que dos filas con la misma clave conservan su orden relativo previo. Esa propiedad permite encadenar decisiones sin inventar comparadores manuales.",
-        "Ordenar no corrige tipos. Los strings `'100'` y `'20'` se comparan carácter por carácter, por lo que `'100'` aparece antes que `'20'`. Normaliza el monto en S05 y ordena después; hacerlo al revés produce un ranking sintácticamente válido y semánticamente falso. Antes de confiar en un top, prueba un valor que revele la diferencia entre orden numérico y lexicográfico.",
+        "Ordenar no corrige tipos. Los strings `'100'` y `'20'` se comparan carácter por carácter, por lo que `'100'` aparece antes que `'20'`. Convierte y valida el monto como número antes de ordenarlo; hacerlo al revés produce un ranking sintácticamente válido y semánticamente falso. Antes de confiar en un top, prueba un valor que revele la diferencia entre orden numérico y lexicográfico.",
       ],
       code: {
         language: 'python',
         title: "sorted_key.py",
-        code: `def sort_region_name(rows):
+        code: `def region_name(row):
+    """Recibe una fila y devuelve región y nombre para compararlos."""
+    return (row["region"], row["nombre"])
+
+def monto_value(row):
+    """Recibe una fila y devuelve el monto que se comparará."""
+    return row["monto"]
+
+def sort_region_name(rows):
     """Orden estable región → nombre (nueva lista)."""
-    return sorted(rows, key=lambda r: (r["region"], r["nombre"]))
+    return sorted(rows, key=region_name)
 
 def top_by_monto(rows):
-    return sorted(rows, key=lambda r: r["monto"], reverse=True)
+    return sorted(rows, key=monto_value, reverse=True)
 
 clients = [
     {"nombre": "Zara", "region": "Lima", "monto": 30},
@@ -366,9 +398,9 @@ top monto: Ana 50`,
       },
       callout: {
         type: "tip",
-        title: "Export determinista",
+        title: "Orden determinista",
         content:
-          "Ordena filas por una clave de negocio y las claves del JSON al serializar. Así, la misma entrada produce una salida comparable.",
+          "Ordena las filas por una clave de negocio antes de mostrarlas. Así, la misma entrada produce el mismo orden y una salida comparable.",
       },
     },
     {
@@ -377,31 +409,30 @@ top monto: Ana 50`,
       paragraphs: [
         "Elegir una colección es elegir qué pregunta será barata y clara. Una `list` favorece secuencia y append; un `dict`, búsqueda por clave; un `set`, pertenencia y operaciones de cohorte; una `tuple`, un contrato posicional fijo. Ninguna es «la estructura profesional» en abstracto. Defiende la elección nombrando la operación dominante y la propiedad que no puedes perder.",
         "Esa elección intercambia tiempo, memoria y legibilidad. Buscar n elementos dentro de una lista de n puede exigir n×n comparaciones; construir un set cuesta memoria adicional, pero reduce las consultas posteriores a O(1) promedio. Preindexar no siempre conviene para cinco filas y una sola búsqueda. Conviene cuando el número de consultas justifica el costo y cuando no necesitas conservar duplicados en ese índice.",
-        "El cierre del modelo es una salida determinista: ordenas clientes por ID y serializas con `sort_keys=True`. El objetivo no es fingir que los diccionarios son aleatorios, sino fijar un contrato canónico para tests, hashes y revisiones. Ejecuta dos veces con la misma entrada y exige igualdad exacta; después cambia una fila y comprueba que el diff señale el cambio de negocio, no ruido de presentación.",
+        "El cierre del modelo es un orden determinista para la colección que vas a mostrar: si el contrato pide IDs ascendentes, ordenas esa lista antes de producir el reporte. El objetivo no es fingir que los diccionarios son aleatorios, sino distinguir su orden de inserción del orden de negocio que exige la salida. Ejecuta dos veces con la misma entrada y exige la misma secuencia; después cambia una fila y comprueba que la comparación señale el cambio de negocio, no una variación accidental del orden.",
       ],
       code: {
         language: 'python',
         title: "determinism.py",
-        code: `import json
+        code: `def ids_in_report_order(ids):
+    """Devuelve una lista nueva de IDs en orden ascendente."""
+    return sorted(ids)
 
-def dump_deterministic(payload):
-    """JSON estable: sort ids + sort_keys."""
-    body = dict(payload)
-    if "ids" in body:
-        body["ids"] = sorted(body["ids"])
-    return json.dumps(body, sort_keys=True, ensure_ascii=False)
-
-payload = {"b": 2, "a": 1, "ids": ["C002", "C001"]}
-print(dump_deterministic(payload))
-print(dump_deterministic(payload))`,
-        output: `{"a": 1, "b": 2, "ids": ["C001", "C002"]}
-{"a": 1, "b": 2, "ids": ["C001", "C002"]}`,
+ids = ["C002", "C001"]
+first_report = ids_in_report_order(ids)
+second_report = ids_in_report_order(ids)
+print(first_report)
+print(second_report)
+print("same order:", first_report == second_report)`,
+        output: `['C001', 'C002']
+['C001', 'C002']
+same order: True`,
       },
       callout: {
         type: "info",
         title: "Solo biblioteca estándar",
         content:
-          "Resuelve esta entrega con list, dict, set, copy y json. Las bibliotecas tabulares llegan después de que puedas justificar el modelo básico.",
+          "Resuelve esta entrega con los tipos incorporados `list`, `dict` y `set`, y usa el módulo `copy` solo cuando necesites controlar una copia. Los formatos de archivo y las bibliotecas tabulares llegan después de que puedas justificar el modelo básico.",
       },
     },
   ],

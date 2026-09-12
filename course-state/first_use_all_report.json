@@ -6,7 +6,7 @@
   "issue_counts": {
     "DEFINITION_AFTER_REQUIREMENT": 14,
     "NO_VISIBLE_DEFINITION": 25,
-    "USE_BEFORE_DEFINITION": 45
+    "USE_BEFORE_DEFINITION": 44
   },
   "never_defined_but_mentioned": [
     "boolean-masking",
@@ -42,13 +42,6 @@
       "severity": "P1",
       "location": "data-structures.S03-T3-A.p0",
       "definition_location": "functions-modules.S04-T2-A-E2.hint"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "tipo-de-dato",
-      "severity": "P1",
-      "location": "numpy.S06-T1-B.p0",
-      "definition_location": "iac.S45-T1-A.p1"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
@@ -371,7 +364,7 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "missing-values",
       "severity": "P1",
-      "location": "numpy.S06-T3-B.heading",
+      "location": "visualization.S09-T1-A-E2.preamble",
       "definition_location": "security.S14-T3-B-E3.instruction"
     },
     {
