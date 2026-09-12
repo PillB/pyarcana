@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "url": "https://pillb.github.io/pyarcana/deployment.json",
+  "live_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "compared_against": "origin/main",
+  "expected_git_sha": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "live_commit_known_locally": true,
+  "commits_live_is_behind": 0,
+  "commits_live_is_ahead": 0,
+  "live_section_count": 52,
+  "verdict": "live site is serving the expected commit"
+}
