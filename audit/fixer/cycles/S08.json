@@ -1,0 +1,81 @@
+{
+ "section": "S08",
+ "recorded_at": "2026-09-12T23:27:09+00:00",
+ "commit": "ef790e48b427291b60b52859ceaedb7e30e5e562",
+ "file": "src/lib/course/sections/s08-pandas.ts",
+ "findings_total": 27,
+ "findings_closed": [
+  "S08-F01",
+  "S08-F02",
+  "S08-F03",
+  "S08-F04",
+  "S08-F05",
+  "S08-F06",
+  "S08-F07",
+  "S08-F08",
+  "S08-F09",
+  "S08-F10",
+  "S08-F11",
+  "S08-F12",
+  "S08-F13",
+  "S08-F14",
+  "S08-F15",
+  "S08-F16",
+  "S08-F17",
+  "S08-F18",
+  "S08-F19",
+  "S08-F20",
+  "S08-F22",
+  "S08-X01",
+  "S08-X02",
+  "S08-X03",
+  "S08-X04",
+  "S08-X05"
+ ],
+ "findings_open": [
+  "S08-F21"
+ ],
+ "patches_offered": 24,
+ "patches_applied": 23,
+ "patches_rejected": 1,
+ "rejections": [
+  {
+   "finding_ids": [
+    "S08-F09",
+    "S08-F10",
+    "S08-F11",
+    "S08-X01"
+   ],
+   "field_path": "theory[S08-T2-A].code.output",
+   "reason": "anchor not found",
+   "anchor_head": "        output: `([{'id': 'C001', 'nombre': 'Ana', 'monto': '10.50'}, {'id': 'C002', 'nombre': 'Luis', 'monto': '20.00'}"
+  }
+ ],
+ "unresolved_questions": [
+  {
+   "finding_ids": [
+    ""
+   ],
+   "question": "¿Qué evidencia renderizada E4 debe producirse para cerrar `NEEDS_E4_RENDER` y qué defecto visual concreto se espera comprobar?",
+   "why_it_blocks": "El hallazgo no incluye ubicación, evidencia, impacto ni reparación. El archivo fuente por sí solo no permite inferir qué estado renderizado debe cambiar, y una comprobación E4 requiere el producto desplegado en el SHA correspondiente.",
+   "options": [
+    "Definir la ruta, el estado de interfaz y los tamaños de pantalla que deben verificarse.",
+    "Proporcionar la evidencia E4 existente que falló y el criterio observable de aceptación."
+   ]
+  },
+  {
+   "finding_ids": [
+    "S08-F21"
+   ],
+   "question": "¿Qué política obligatoria debe generar `run_id` una vez por corrida y compartirlo entre respaldos y manifiesto?",
+   "why_it_blocks": "La evidencia exige que `run_id` deje de ser opcional, pero el repositorio no decide si su identidad proviene de UUID, de una autoridad externa u otro esquema resistente a colisiones. Elegir uno cambiaría el contrato sin autorización.",
+   "options": [
+    "Usar `uuid.uuid4().hex`, descrito como identificador aleatorio diseñado para no repetirse, y guardar el tiempo por separado.",
+    "Recibir un identificador único obligatorio del sistema que inicia la corrida y rechazar valores ausentes o reutilizados.",
+    "Definir otro esquema institucional de identidad y su validación."
+   ]
+  }
+ ],
+ "typecheck_ok": true,
+ "rolled_back": false
+}
