@@ -2,7 +2,7 @@
   "ok": false,
   "decision": "D2 - synthetic records carry no DNI",
   "files_scanned": 52,
-  "violations": 22,
+  "violations": 8,
   "findings": [
     {
       "file": "src/lib/course/sections/s03-data-structures.ts",
@@ -27,90 +27,6 @@
       "line": 1633,
       "value": "12345678",
       "excerpt": "(\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]: print(t, n, \"→\", tipo_doc_len(t, n))`, output: `DNI 12345678 → {'status': 'accept', 'code': 'OK'} DNI 123 → {'status': 'reject"
-    },
-    {
-      "file": "src/lib/course/sections/s07-data-acquisition.ts",
-      "line": 229,
-      "value": "12345678",
-      "excerpt": "ra un *substring* en medio. Confundirlos produce **falsos positivos** en validación: un DNI embebido en texto tipo «DNI 12345678 PE» “pasa” con `search`. Regla: validar un código c"
-    },
-    {
-      "file": "src/lib/course/sections/s07-data-acquisition.ts",
-      "line": 239,
-      "value": "12345678",
-      "excerpt": "ups.py\", code: `def s07_th_5(): import re pat = re.compile(r\"^(?P<dni>\\\\d{8})$\") m = pat.fullmatch(\"12345678\") print(m.group(\"dni\") if m else None) print(\"search mid:\", bool(re.sea"
-    },
-    {
-      "file": "src/lib/course/sections/s07-data-acquisition.ts",
-      "line": 241,
-      "value": "12345678",
-      "excerpt": ".fullmatch(\"12345678\") print(m.group(\"dni\") if m else None) print(\"search mid:\", bool(re.search(r\"\\\\d{8}\", \"DNI 12345678 PE\"))) print(\"full mid:\", bool(re.fullmatch(r\"\\\\d{8}\", \"DNI"
-    },
-    {
-      "file": "src/lib/course/sections/s07-data-acquisition.ts",
-      "line": 242,
-      "value": "12345678",
-      "excerpt": "(\"search mid:\", bool(re.search(r\"\\\\d{8}\", \"DNI 12345678 PE\"))) print(\"full mid:\", bool(re.fullmatch(r\"\\\\d{8}\", \"DNI 12345678 PE\"))) s07_th_5()`, output: `12345678 search mid: True "
-    },
-    {
-      "file": "src/lib/course/sections/s07-data-acquisition.ts",
-      "line": 245,
-      "value": "12345678",
-      "excerpt": "12345678 PE\"))) print(\"full mid:\", bool(re.fullmatch(r\"\\\\d{8}\", \"DNI 12345678 PE\"))) s07_th_5()`, output: `12345678 search mid: True full mid: False`, }, callout: { type: \"tip\", ti"
-    },
-    {
-      "file": "src/lib/course/sections/s07-data-acquisition.ts",
-      "line": 518,
-      "value": "12345678",
-      "excerpt": " code: `def s07_ido_5(): import re pat = re.compile(r\"DNI\\\\s+(?P<dni>\\\\d{8})\\\\b\") text = \"Cliente demo DNI 12345678 activo\" m = pat.search(text) print(m.group(\"dni\") if m else None"
-    },
-    {
-      "file": "src/lib/course/sections/s07-data-acquisition.ts",
-      "line": 521,
-      "value": "12345678",
-      "excerpt": "earch(text) print(m.group(\"dni\") if m else None) print(\"fullmatch solo dígitos:\", bool(re.fullmatch(r\"\\\\d{8}\", \"12345678\"))) print(\"fullmatch con prefijo:\", bool(re.fullmatch(r\"\\\\d"
-    },
-    {
-      "file": "src/lib/course/sections/s07-data-acquisition.ts",
-      "line": 522,
-      "value": "12345678",
-      "excerpt": "tos:\", bool(re.fullmatch(r\"\\\\d{8}\", \"12345678\"))) print(\"fullmatch con prefijo:\", bool(re.fullmatch(r\"\\\\d{8}\", \"DNI 12345678\"))) s07_ido_5()`, output: `12345678 fullmatch solo dígi"
-    },
-    {
-      "file": "src/lib/course/sections/s07-data-acquisition.ts",
-      "line": 525,
-      "value": "12345678",
-      "excerpt": ")) print(\"fullmatch con prefijo:\", bool(re.fullmatch(r\"\\\\d{8}\", \"DNI 12345678\"))) s07_ido_5()`, output: `12345678 fullmatch solo dígitos: True fullmatch con prefijo: False`, }, why"
-    },
-    {
-      "file": "src/lib/course/sections/s07-data-acquisition.ts",
-      "line": 1257,
-      "value": "12345678",
-      "excerpt": "ullmatch en DNI embebido\", preamble: \"- **Contexto:** un DNI sintético aparece dentro de un log (`DNI 12345678`); confusión search/fullmatch cambia los falsos positivos de validaci"
-    },
-    {
-      "file": "src/lib/course/sections/s07-data-acquisition.ts",
-      "line": 1260,
-      "value": "12345678",
-      "excerpt": "l; no afirmes identidad legal por un match.\", id: \"S07-T3-A-E3\", instruction: \"1. Sobre `'DNI 12345678'`, evalúa `search` y `fullmatch` del patrón `\\\\d{8}`.\\n2. Imprime ambos boole"
-    },
-    {
-      "file": "src/lib/course/sections/s07-data-acquisition.ts",
-      "line": 1278,
-      "value": "12345678",
-      "excerpt": "_full.py\", code: `# TAREA: contrasta search vs fullmatch en DNI # DEFECT: confunde usos import re text = 'DNI 12345678' print('search', bool(re.fullmatch(r'\\d{8}', text))) print('f"
-    },
-    {
-      "file": "src/lib/course/sections/s07-data-acquisition.ts",
-      "line": 1287,
-      "value": "12345678",
-      "excerpt": "utionCode: { language: 'python', title: \"search_vs_full.py\", code: `import re text = 'DNI 12345678' print('search', bool(re.search(r'\\\\d{8}', text))) print('fullmatch', bool(re.ful"
-    },
-    {
-      "file": "src/lib/course/sections/s07-data-acquisition.ts",
-      "line": 1829,
-      "value": "12345678",
-      "excerpt": "xto que el texto por sí solo no contiene.\", }, { question: \"¿Qué hace `re.fullmatch(r'\\\\d{8}', 'DNI 12345678')` frente a `search`?\", options: [\"fullmatch no coincide; search sí enc"
     },
     {
       "file": "src/lib/course/sections/s09-visualization.ts",

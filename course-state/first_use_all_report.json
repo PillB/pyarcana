@@ -6,7 +6,7 @@
   "issue_counts": {
     "DEFINITION_AFTER_REQUIREMENT": 14,
     "NO_VISIBLE_DEFINITION": 25,
-    "USE_BEFORE_DEFINITION": 44
+    "USE_BEFORE_DEFINITION": 43
   },
   "never_defined_but_mentioned": [
     "boolean-masking",
@@ -392,13 +392,6 @@
       "term_id": "cross-validation",
       "severity": "P1",
       "location": "microservices.resources.doc[5]"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "overfitting",
-      "severity": "P1",
-      "location": "data-acquisition.S07-T2-B-DEMO.code",
-      "definition_location": "data-acquisition.S07-T2-B-DEMO.why"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
