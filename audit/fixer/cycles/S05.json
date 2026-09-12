@@ -1,0 +1,49 @@
+{
+ "section": "S05",
+ "recorded_at": "2026-09-12T04:06:06+00:00",
+ "commit": "b9738bba5145c4416400ee19b4237738630e3b39",
+ "file": "src/lib/course/sections/s05-oop.ts",
+ "findings_total": 22,
+ "findings_closed": [
+  "S05-F01",
+  "S05-F02",
+  "S05-F03",
+  "S05-F04",
+  "S05-F05",
+  "S05-F06",
+  "S05-F07",
+  "S05-F08",
+  "S05-F09",
+  "S05-F10",
+  "S05-F11",
+  "S05-F12",
+  "S05-F13",
+  "S05-F14",
+  "S05-F15",
+  "S05-F16",
+  "S05-F17",
+  "S05-F18",
+  "S05-F19",
+  "S05-F20",
+  "S05-F21",
+  "S05-F22"
+ ],
+ "findings_open": [],
+ "patches_offered": 36,
+ "patches_applied": 36,
+ "patches_rejected": 0,
+ "rejections": [],
+ "unresolved_questions": [
+  {
+   "finding_ids": [],
+   "question": "¿La página publicada e hidratada muestra el mismo orden de teoría, figuras y avisos que esta fuente de la rama actual?",
+   "why_it_blocks": "La fuente local permite proponer estas reparaciones, pero no contiene evidencia renderizada ni evidencia de despliegue E4; por ello no se puede afirmar equivalencia con la página activa.",
+   "options": [
+    "Verificar la página publicada y comparar contenido y orden con el SHA exacto antes de cerrar el hallazgo.",
+    "Limitar esta ronda explícitamente a la fuente y mantener pendiente la verificación del producto publicado."
+   ]
+  }
+ ],
+ "typecheck_ok": true,
+ "rolled_back": false
+}

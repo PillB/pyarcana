@@ -15,7 +15,7 @@ export const section05: CourseSection = {
   index: 5,
   title: "Funciones, contratos y descomposición",
   shortTitle: "Funciones & Contratos",
-  tagline: "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+  tagline: "Funciones con valores por defecto seguros, documentación, resultados estables e inicio de CP-N1-B, el segundo incremento del proyecto acumulativo de Nivel 1",
   estimatedHours: 9,
   level: "Principiante",
   phase: 0,
@@ -29,7 +29,7 @@ export const section05: CourseSection = {
     { text: "Documentar pre/postcondiciones con docstrings alineados al código" },
     { text: "Anotar type hints graduales y modelar errores de dominio" },
     { text: "Descomponer lógica en funciones pequeñas y orquestadores delgados" },
-    { text: "Distinguir pureza de efectos e inyectar I/O en el borde" },
+    { text: "Distinguir funciones puras de efectos externos e inyectar entrada/salida —entregar como argumento la función que lee o escribe— en el borde" },
     { text: "Explicar LEGB y escribir closures/factories simples" },
     { text: "Fijar ejemplos/asserts y refactorizar sin cambiar conducta" },
   ],
@@ -47,9 +47,9 @@ export const section05: CourseSection = {
       ],
       callout: {
         type: "tip",
-        title: "Qué entregas al cerrar S05",
+        title: "Qué modela la teoría y qué completas al cerrar S05",
         content:
-          "Cuatro normalizadores puros + orquestador con docstring, hints graduales e idempotencia demostrada (inicio CP-N1-B). Sin clases todavía y sin leer CSV: eso llega cuando el core ya es confiable.",
+          "La teoría construye por etapas las funciones puras, la composición, la documentación y la idempotencia. Al cerrar la práctica, reúnes esos patrones en cuatro normalizadores y un orquestador para iniciar CP-N1-B. Todavía no usas clases ni lees archivos CSV: eso llega cuando el núcleo ya es confiable.",
       },
      },
      {
@@ -57,11 +57,11 @@ export const section05: CourseSection = {
       optional: true,
       paragraphs: [
         "Bloque de referencia. Vocabulario, políticas del gate y orden de los subtemas.",
-        "**Vocabulario.** *Función* (`def`): bloque reutilizable con nombre de verbo. *`return`*: entrega un valor a quien llama; sin `return`, la función devuelve `None`. *Valor por defecto seguro*: nunca una lista o un diccionario como valor por defecto de un parámetro. *Orquestador delgado*: combina normalizadores sin reimplementar reglas. *LEGB*: el orden en que Python busca un nombre — local, envolvente, global, incorporado. *Solo por palabra clave*: los parámetros que van después de un `*` y obligan a escribir `nombre=` al llamar.",
+        "**Vocabulario.** *Función* (`def`): bloque reutilizable con nombre de verbo. *`return`*: entrega un valor a quien llama; sin `return`, la función devuelve `None`. *Valor por defecto seguro*: evita objetos mutables —objetos cuyo contenido puede cambiar—, como listas o diccionarios, cuando la función pueda modificarlos; usa `None` y crea un objeto nuevo dentro. *Orquestador delgado*: combina normalizadores sin reimplementar reglas. *LEGB*: el orden en que Python busca un nombre — local, envolvente, global, incorporado. *Solo por palabra clave*: los parámetros que van después de un `*` y obligan a escribir `nombre=` al llamar.",
         "**Políticas canónicas del gate** (no cambian a mitad de sección). `normalize_nombre`: colapsa espacios y pone mayúscula inicial por palabra. `normalize_email`: recorta espacios, pasa a minúsculas y lanza `ValueError` si falta la arroba. `normalize_telefono`: deja solo dígitos, como demostración. `normalize_direccion`: colapsa espacios y pasa a mayúsculas. Cada una debe ser idempotente en el caso feliz.",
         "**Orden de los subtemas.** T1 cubre las funciones: `def`, `return`, parámetros y valores por defecto. T2 trata los contratos: precondiciones, postcondiciones, docstrings, anotaciones de tipo y errores de dominio. T3 pasa al diseño: funciones pequeñas, pureza y entrada/salida en el borde. T4 cierra con el alcance de los nombres, los closures, las pruebas y el refactor.",
         "**Criterio de cierre (inicio CP-N1-B).** Los cuatro normalizadores puros más el orquestador, con docstring, anotaciones graduales e idempotencia demostrada. Todavía sin clases y sin leer CSV: eso llega cuando el núcleo ya es confiable.",
-        "**Límites.** Caso `CASO-LIM-005` con datos ficticios (`example.com`). Nunca datos personales reales.",
+        "**Límites.** `CASO-LIM-005` es el caso sintético de normalización de esta sección y usa datos ficticios del dominio reservado `example.com`. Nunca usa datos personales reales.",
       ],
       code: {
         language: "python",
@@ -97,33 +97,41 @@ email_policy strip+lower+require_@`,
       figure: {
         id: "S05-contract",
         caption:
-          "Lo que está fuera de la caja es el contrato; lo de dentro es implementación. Cambiar el cuerpo sin tocar los bordes es libre, y cambiar los bordes nunca lo es.",
+          "El contrato abarca lo que la función exige y todo lo que permite observar: valores devueltos, errores y efectos. La implementación puede cambiar solo si preserva esas precondiciones y garantías.",
         alt:
           "Una caja central con el nombre de la función. A la izquierda, lo que exige de quien la llama; a la derecha, lo que garantiza a cambio. Flechas entran y salen de la caja.",
       },
       subtopicId: "S05-T1-A",
       paragraphs: [
         "Piensa en una función como una ventanilla: recibe algo, realiza una tarea acotada y entrega un comprobante que el siguiente paso puede usar. **Puente desde el mapa:** la primera promesa que harás es sencilla —si entra texto de nombre, debe salir texto normalizado, no una impresión fugaz en la consola.",
-        "Una función se define con **`def nombre(params):`** y devuelve con **`return`**. Sin `return` explícito, Python devuelve **`None`** (bug silencioso en pipelines: el caller imprime `None` o encadena basura). Llamar es `nombre(args)`. El nombre debe ser un **verbo** o acción clara: `normalize_email`, no `email2` ni `datos`.",
-        "Las funciones son **valores de primera clase**: puedes pasarlas, guardarlas en listas y devolverlas. En S05 nos basta con **definir, llamar y retornar** resultados de normalización; no abuses de callbacks todavía. El primer normalizador del hilo, `normalize_nombre`, ya usa la política del gate: colapsar espacios y **title-case** por palabra — la misma que exige el bloque **Tú haces**.",
+        "Una función se define con **`def nombre(parametro):`**. El parámetro es el nombre declarado en `def`; el argumento es el valor que entregas al llamar, y la llamada vincula ese argumento con el parámetro local. El cuerpo no se ejecuta al definir la función: se ejecuta cuando la llamas. **`return`** entrega el resultado a quien llamó; sin `return` explícito, Python devuelve **`None`**. El nombre debe ser un verbo o una acción clara: `sumar_uno`, no `dato2`.",
+        "Empieza con `sumar_uno`: recibe un número, calcula una sola suma y retorna el resultado. Cuando esa ruta ya esté clara, `normalize_nombre` aplica la política del proyecto: recibe texto, colapsa los espacios repetidos y deja una mayúscula inicial por palabra. Los métodos de texto aparecen aquí dentro de una regla ya descrita; S07 explicará sus mecanismos con detalle.",
         "Un solo `return` temprano por caso de error de dominio es legible; evita funciones de 100 líneas con muchos returns confusos — **descompón** (T3). Los normalizadores **retornan** el valor canónico; `print` es solo demo o reporte al borde, nunca un efecto oculto dentro de la función pura del core.",
         "**Detente y predice:** si `noop(1)` calcula `x + 1` pero no ejecuta `return`, ¿qué recibe quien llama? Explica por qué ver un número impreso dentro de una función no responde esa pregunta. En T1-B ampliarás la promesa: no solo qué retorna, sino qué configuración acepta cada llamada.",
       ],
       code: {
         language: 'python',
         title: "def_return.py",
-        code: `def normalize_nombre(raw: str) -> str:
-    """Post: colapsa espacios y title-case por palabra (política CP-N1-B)."""
+        code: `def sumar_uno(numero):
+    return numero + 1
+
+resultado = sumar_uno(4)
+print(resultado)
+
+# El modelo anterior ya está estable; ahora aplicamos la política de nombres.
+def normalize_nombre(raw: str) -> str:
+    """Post: colapsa espacios y deja mayúscula inicial por palabra."""
     return " ".join(raw.strip().split()).title()
 
 print(normalize_nombre("  María   José  "))
-print(normalize_nombre("QUISPE"))
-# sin return → None
+
+# Sin return explícito, Python devuelve None.
 def noop(x):
     x + 1
+
 print(noop(1))`,
-        output: `María José
-Quispe
+        output: `5
+María José
 None`,
       },
       callout: {
@@ -138,7 +146,7 @@ None`,
       subtopicId: "S05-T1-B",
       paragraphs: [
         "Una función reutilizable necesita opciones, pero una opción mal diseñada puede recordar datos de una llamada anterior como si llevara una libreta secreta. **Puente desde T1-A:** ya sabes entregar un resultado; ahora aprenderás a recibir parámetros sin crear estado compartido accidental.",
-        "Argumentos **posicionales** se atan por orden; **keyword** por nombre (`fn(x=1)`). Los **defaults** se evalúan **una vez** en la definición: **nunca uses lista/dict mutable como default** (`def f(xs=[])` es un bug clásico P1 en pipelines). Usa `None` y crea la lista **dentro** de la función en cada llamada.",
+        "Los argumentos **posicionales** se vinculan por orden; los argumentos **por nombre** (`keyword`), mediante el nombre escrito en la llamada (`fn(x=1)`). Una lista es un contenedor mutable: su contenido puede cambiar. Un objeto usado como valor por defecto se crea una sola vez, al ejecutar la definición, y `append` cambia esa misma lista; por eso llamadas posteriores pueden encontrar elementos anteriores. Evita objetos mutables como listas o diccionarios cuando la función pueda modificarlos: usa `None` y crea un objeto nuevo dentro de cada llamada.",
         "Orden recomendado: obligatorios posicionales, luego opcionales con default. En llamadas, los **keyword arguments** tras los posicionales mejoran la lectura en sitios de llamada largos (orquestadores, tests) y evitan invertir argumentos silenciosamente — un swap `nombre, email` es un incidente de calidad de datos.",
         "Para normalizadores, imagina una variante regional —`def normalize_telefono_intl(raw, *, country=\"PE\")`— con **keyword-only**: documenta la política de país sin confundir posiciones. El `*` fuerza `country=` en la llamada; no puedes pasar el país como segundo posicional por error. Es un ejemplo de firma, no un cambio de contrato: el `normalize_telefono` de esta sección sigue siendo el del bloque de políticas canónicas, que solo deja los dígitos y no mira el país. En un ETL de fintech en Perú, ese flag explícito evita que un junior invierta `raw` y `country` y “normalice” un teléfono con el código de país equivocado.",
         "**Dibuja la memoria:** representa `bucket=[]` como una sola caja pegada a la definición y dos llamadas apuntando a ella. Luego representa `bucket=None` con una caja nueva dentro de cada llamada. Si puedes explicar por qué las salidas difieren sin decir «Python es raro», estás listo para documentar esa decisión como contrato en T2.",
@@ -176,7 +184,7 @@ SR./SRA. QUISPE
         type: "danger",
         title: "Default mutable",
         content:
-          "Si ves `def f(x, acc=[])` en un PR de normalización, es P1. Usa None + creación local.",
+          "Si una función puede modificar un objeto mutable usado como valor por defecto, varias llamadas pueden compartirlo. Usa `None` y crea un objeto nuevo dentro de la función.",
       },
     },
     {
@@ -184,16 +192,16 @@ SR./SRA. QUISPE
       figure: {
         id: "S05-contract-order",
         caption:
-          "La precondición se comprueba antes de tocar nada. Si no, el error aparece a mitad del cuerpo y con estado ya modificado.",
+          "La precondición declara qué debe proporcionar quien llama. En código interno de confianza puede asumirse; en una frontera de entrada no confiable se valida antes de modificar estado.",
         alt:
           "Tres etapas —precondición, cuerpo, postcondición— con la frontera dibujada tras la primera.",
       },
       subtopicId: "S05-T2-A",
       paragraphs: [
         "Un contrato útil no es una frase solemne; es la respuesta anticipada a dos preguntas del siguiente programador: «¿qué puedo entregar?» y «¿qué puedo esperar a cambio?». **Puente desde T1-B:** parámetros y defaults describen la puerta de entrada; precondiciones, postcondiciones y errores explican cómo cruzarla correctamente.",
-        "Una **precondición** es lo que debe cumplirse **antes** de llamar (p. ej. `raw` es str). Una **postcondición** es lo que garantiza el return (p. ej. sin espacios extremos, minúsculas en email, title-case en nombre). Juntas son el **contrato** del normalizador.",
+        "Una **precondición** declara lo que quien llama debe proporcionar, por ejemplo, que `raw` sea un texto. No se comprueba sola: el núcleo interno de confianza puede asumirla, mientras una **frontera de entrada** —el punto donde llegan datos no confiables— puede validarla explícitamente. Una **postcondición** declara lo que la función garantiza al terminar, por ejemplo, texto sin espacios extremos y en minúsculas. Juntas forman el **contrato** del normalizador.",
         "El **docstring** (PEP 257) documenta contrato en español o inglés consistente del proyecto: qué hace, parámetros, retorno, errores. **No** copies la firma; explica la **política de negocio** (p. ej. colapsar espacios + title-case, o exigir `@` en email).",
-        "En el intake sintético: pre = tipo `str`; post = forma canónica o `ValueError` de dominio. La política mínima de email del laboratorio es **strip+lower y raise si falta `@`** — la misma en demos, **Hacemos juntos** y **Tú haces**. Esta regla detecta un fallo básico, pero no demuestra que la dirección exista ni que sea válida según todos los estándares. Si docstring y código discrepan, el revisor devuelve el PR.",
+        "En la entrada sintética, la precondición exige texto y la postcondición promete una forma canónica o un `ValueError`, un error que representa un valor inaceptable para la regla del dominio. Ejecutar `raise ValueError(...)` interrumpe el camino normal: no se alcanza el `return` posterior y, si nadie captura —es decir, intercepta— el error, esa ejecución termina mostrando el error. En S05 basta con reconocer ese comportamiento como parte del contrato; S09 enseñará la recuperación con `try/except`. La política mínima de correo del laboratorio recorta espacios, pasa a minúsculas y ejecuta `raise` si falta `@`. Detecta un fallo básico, pero no demuestra que la dirección exista ni que cumpla todos los estándares.",
         "**Audita la promesa:** tapa el cuerpo de `normalize_email` y predice, solo con el docstring, qué ocurrirá con `  A@B.COM ` y `sin-arroba`. Después abre el cuerpo y busca una línea que respalde cada promesa. Lo que no puedas enlazar es documentación huérfana o conducta indocumentada.",
       ],
       code: {
@@ -212,18 +220,15 @@ SR./SRA. QUISPE
     return s
 
 print(normalize_email("  Ana.Perez@Example.COM "))
-try:
-    normalize_email("sin-arroba")
-except ValueError as e:
-    print("err:", e)`,
-        output: `ana.perez@example.com
-err: email sin @ (gate mínimo)`,
+# Esta llamada ejecutaría raise y no llegaría a un return:
+# normalize_email("sin-arroba")`,
+        output: `ana.perez@example.com`,
       },
       callout: {
         type: "tip",
         title: "Contrato legible",
         content:
-          "Si el docstring y el código discrepan, gana el código — pero el revisor te devuelve el PR. Manténlos alineados.",
+          "Si el docstring y el código discrepan, hay un defecto. Ejecuta los ejemplos y consulta la especificación acordada para decidir cuál artefacto está equivocado; después corrígelo y vuelve a comprobar la alineación.",
       },
     },
     {
@@ -232,35 +237,27 @@ err: email sin @ (gate mínimo)`,
       paragraphs: [
         "En un lote de miles de filas, «algo salió mal» no basta: quien opera el proceso necesita saber si el texto no pudo convertirse o si el valor convertido viola una regla. **Puente desde T2-A:** el docstring narra el contrato; los hints hacen visible su forma y el resultado de dominio conserva información sobre cada camino.",
         "Los **type hints** (`def f(x: str) -> str`) **no** convierten ni comprueban nada en tiempo de ejecución. Un checker como **mypy** tampoco: revisa el código *antes* de ejecutarlo y no interviene mientras corre. Si quieres que un tipo se valide de verdad al recibir el dato, hace falta una librería que lo haga explícitamente (Pydantic, por ejemplo) o una comprobación escrita a mano. Son documentación verificable y contrato para humanos. En S05 usamos hints **graduales**: anota lo público de los normalizadores; no atasques con genéricos avanzados ni Protocol todavía.",
-        "Un **error de dominio** no es un bug de Python: es un valor de negocio inválido (email sin `@`, edad 200). Opciones: `raise ValueError`, devolver `(ok, value, error)`, o un dict de resultado. **Sé consistente** en el módulo: no mezcles raise y tuplas en el mismo archivo sin documentar por qué.",
-        "`Optional[str]` / `str | None` documenta ausencia legítima (campo opcional del intake, no un bug). **No** uses hints falsos (`-> str` si puedes devolver `None` por olvido de return). Un hint que miente es peor que no anotar: el revisor y el typechecker confían en él, y un junior copiará la mentira en el siguiente normalizador del pipeline.",
-        "**Separa las causas:** para `abc` y `200`, predice qué parte de `parse_edad` decide el resultado y qué mensaje recibe el lote. Si ambos casos terminan en el mismo cajón mental de «error», aún falta distinguir forma de entrada y regla de dominio. T3 usará esa distinción en funciones pequeñas.",
+        "Un **error de dominio** no es un fallo interno de Python: aparece cuando un valor no cumple una regla acordada, como un correo sin `@`. En esta sección, `normalize_email` lo comunica con `raise ValueError`; S06 presentará contenedores estructurados para representar varios datos de resultado y S09 enseñará cómo recuperarse de una excepción.",
+        "Por ahora basta con anotaciones públicas simples, como `raw: str -> str`: indican que el normalizador recibe y devuelve texto. No escribas `-> str` si una ruta puede terminar sin `return` y producir `None`; la anotación debe describir todas las rutas reales. Las formas que combinan varios tipos o varios valores de resultado se estudiarán después de presentar sus contenedores.",
+        "**Separa forma y conducta:** en `normalize_email`, la anotación describe la forma esperada de entrada y salida; el cuerpo impone la regla de que exista `@`. Señala qué parte documenta y qué parte actúa al ejecutar. T3 usará esa distinción para separar funciones pequeñas.",
       ],
       code: {
         language: 'python',
         title: "hints_dominio.py",
-        code: `from typing import Optional, Tuple
+        code: `def normalize_email(raw: str) -> str:
+    s = raw.strip().lower()
+    if "@" not in s:
+        raise ValueError("email sin @")
+    return s
 
-def parse_edad(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:
-    try:
-        n = int(raw.strip())
-    except ValueError:
-        return False, None, "no es entero"
-    if n < 0 or n > 120:
-        return False, None, "fuera de rango de dominio"
-    return True, n, None
-
-for v in ["34", "abc", "200"]:
-    print(v, "→", parse_edad(v))`,
-        output: `34 → (True, 34, None)
-abc → (False, None, 'no es entero')
-200 → (False, None, 'fuera de rango de dominio')`,
+print(normalize_email("  X@Y.COM "))`,
+        output: `x@y.com`,
       },
       callout: {
         type: "tip",
         title: "ValueError vs. return",
         content:
-          "Usa `raise` para API internas puras; devuelve tupla u objeto de resultado cuando el lote no debe abortar en la primera fila mala.",
+          "Una excepción y un valor de resultado pueden servir tanto en funciones puras como en otros diseños. Elige un contrato según cómo deba recuperarse quien llama y úsalo de manera consistente; S06 presentará resultados estructurados y S09, recuperación de excepciones.",
       },
     },
     {
@@ -269,7 +266,7 @@ abc → (False, None, 'no es entero')
       paragraphs: [
         "Cuando una función sabe normalizar cuatro campos, abrir un archivo y escribir un log, no es versátil: es una reunión sin agenda. **Puente desde T2:** cada contrato que ya nombraste merece una pieza que pueda probarse y cambiarse sin convocar a todas las demás.",
         "Una función debe hacer **una cosa** en el nivel de abstracción correcto. Si normalizas nombre y además escribes archivo y logueas, **sepáralas**. **Componer** es llamar funciones pequeñas desde una orquestadora delgada que no reimplementa reglas de negocio.",
-        "Beneficio: tests unitarios fáciles, reuso en CLI (S10) y en ETL (S08). El orquestador `normalize_record` llama a cuatro normalizadores y arma el dict **sin** I/O en el núcleo. En un banco o fintech en Perú, ese dict limpio alimenta el pipeline: si el orquestador reimplementa strip, cada fix se multiplica por cuatro y el code review se vuelve un laberinto.",
+        "El beneficio es poder comprobar y reutilizar cada regla por separado. Primero, `normalize_linea` compone nombre y correo en un texto simple sin leer ni escribir fuera del programa; la práctica ampliará el mismo patrón a los cuatro normalizadores. Si el orquestador repite la regla de recortar espacios, cada corrección debe hacerse en varios lugares.",
         "Regla práctica: si necesitas un comentario de sección en medio de la función, **probablemente es otra función**. Extrae y nombra el verbo (`strip_collapse`, `title_case_name`). El monstruo de 40 líneas con tres políticas de campo es el antipatrón que descompondrás en el We Do E3 — y el que un revisor junior aprende a rechazar.",
         "**Prueba de sustitución:** imagina que mañana cambia solo la política de email. Señala el único helper que debería modificarse y explica por qué `normalize_record` no necesita aprender la nueva regla. Si debes editar el orquestador y varios callers, encontraste duplicación, no composición.",
       ],
@@ -291,20 +288,19 @@ def normalize_email(raw: str) -> str:
         raise ValueError("email sin @")
     return s
 
-def normalize_record(nombres: str, email: str) -> dict:
-    return {
-        "nombres": normalize_nombre(nombres),
-        "email": normalize_email(email),
-    }
+def normalize_linea(nombres: str, email: str) -> str:
+    nombre_limpio = normalize_nombre(nombres)
+    email_limpio = normalize_email(email)
+    return f"{nombre_limpio} | {email_limpio}"
 
-print(normalize_record("  maría  josé ", "  X@Y.COM "))`,
-        output: `{'nombres': 'María José', 'email': 'x@y.com'}`,
+print(normalize_linea("  maría  josé ", "  X@Y.COM "))`,
+        output: `María José | x@y.com`,
       },
       callout: {
         type: "tip",
         title: "Orquestador delgado",
         content:
-          "normalize_record no reimplementa strip: delega. Así un fix en strip_collapse beneficia a todos.",
+          "`normalize_linea` no reimplementa la limpieza: delega cada regla y solo combina los resultados. Así una corrección queda localizada en la función responsable.",
       },
     },
     {
@@ -313,81 +309,75 @@ print(normalize_record("  maría  josé ", "  X@Y.COM "))`,
       paragraphs: [
         "Una función pura se parece a una regla en una hoja transparente: puedes aplicarla hoy, mañana o en un test y ver la misma transformación. **Puente desde T3-A:** separar responsabilidades permite dejar la transformación en el centro y mover consola, archivos y red hacia el borde.",
         "Una función **pura** devuelve el mismo resultado para los mismos argumentos y **no tiene efectos** (no imprime, no lee disco, no muta globales ni los argumentos mutables del caller sin documentarlo). Los normalizadores del gate CP-N1-B deben ser puros: así los pruebas sin capturar stdout ni montar archivos temporales.",
-        "Los normalizadores deben ser **idempotentes**: `f(f(x)) == f(x)` para entradas válidas — doble normalizar no debe “romper” el valor canónico (p. ej. un title-case ya aplicado no se deforma). Demuéstralo con dos llamadas encadenadas antes de confiar en el ETL o en un assert de gate.",
-        "La **I/O** —leer y escribir fuera del programa: lo que teclea el usuario, archivos, red— se queda en el **borde**: `main`, CLI, o funciones `load_*` / `save_*`. El core no conoce el filesystem. Cuando necesites un normalizador alternativo en un test, **inyéctalo** como argumento (ver tip). No hardcodees `open(...)` dentro del pure core ni uses un `lambda` gigante como sustituto de un `def` con nombre.",
+        "Los normalizadores deben ser **idempotentes**: `f(f(x)) == f(x)` para entradas válidas. Primero lo verás con una regla transparente: convertir cualquier número negativo en cero. Una segunda aplicación ya no cambia el resultado. Después podrás comprobar la misma propiedad en normalizadores de texto más complejos.",
+        "La **entrada/salida** (`I/O`) es la lectura o escritura que conecta el programa con la consola, archivos o red. Se queda en el **borde**, la parte que conversa con el exterior; el núcleo solo transforma valores. **Inyectar entrada/salida** significa recibir como argumento la función que lee o escribe. Así el borde decide cómo mostrar el resultado y el normalizador puro no contiene `print(...)` ni `open(...)`.",
         "**Dos preguntas, no una:** comprueba primero si `f(f(x)) == f(x)` y después si `f(x)` cumple la política. Una función que deja guiones puede ser perfectamente idempotente y perfectamente incorrecta. La estabilidad protege el reproceso; los ejemplos del contrato protegen el significado.",
       ],
       code: {
         language: 'python',
         title: "pureza_idem.py",
-        code: `def normalize_telefono(raw: str) -> str:
-    digits = "".join(ch for ch in raw if ch.isdigit())
-    return digits
+        code: `def normalize_no_negativo(numero: int) -> int:
+    if numero < 0:
+        return 0
+    return numero
 
-# Idempotencia: f(f(x)) == f(x)
-x = "999-000-111"
-y = normalize_telefono(x)
-z = normalize_telefono(y)
-print(y, z, "idempotent=", y == z)
+primero = normalize_no_negativo(-3)
+segundo = normalize_no_negativo(primero)
+print(primero, segundo, "idempotente=", primero == segundo)
 
-# Un segundo sample: dígitos ya canónicos
-print(normalize_telefono(" (01) 234-5678 "))`,
-        output: `999000111 999000111 idempotent= True
-012345678`,
+# El borde recibe la función encargada de escribir.
+def enviar_al_borde(numero, escribir):
+    resultado = normalize_no_negativo(numero)
+    escribir(resultado)
+    return resultado
+
+def mostrar_en_consola(valor):
+    print("resultado:", valor)
+
+enviar_al_borde(-3, mostrar_en_consola)`,
+        output: `0 0 idempotente= True
+resultado: 0`,
       },
       callout: {
         type: "tip",
-        title: "Siguiente beat: inyección y lambda",
+        title: "Entrada/salida inyectada en el borde",
         content:
-          "Tras dominar pureza e idempotencia, inyecta el normalizador: `def process_line(texto, norm=normalize_telefono): return norm(texto)`. Un `lambda s: s.strip().lower()` sirve de sustituto puntual en tests; si la lógica crece, prefiere un `def` con nombre. Practícalo en el ejercicio E3 de **Hacemos juntos** de este subtema.",
+          "`enviar_al_borde` recibe `escribir`, la función responsable de la salida. El normalizador permanece puro y la consola queda fuera de él. Usa un `def` con nombre para que esa responsabilidad sea visible.",
       },
     },
     {
       heading: "LEGB y closures básicos",
       subtopicId: "S05-T4-A",
       paragraphs: [
-        "Configurar un normalizador por país sin llenar el módulo de variables globales exige entender de dónde toma cada nombre. **Puente desde T3-B:** la pureza evita estado oculto; LEGB te permite localizarlo y un closure encierra configuración explícita sin convertirla en estado compartido.",
+        "Crear una función que recuerde un prefijo sin depender de una variable global exige entender de dónde toma cada nombre. **Puente desde T3-B:** la pureza evita estado oculto; el orden LEGB permite localizar cada nombre y un cierre conserva configuración explícita sin convertirla en estado compartido.",
         "**LEGB**: orden de búsqueda de nombres — **L**ocal, **E**nclosing (funciones anidadas), **G**lobal, **B**uiltin. Si Python no halla el nombre, `NameError`. Saber LEGB evita el clásico “¿por qué usa el `PREF` del módulo y no el mío?” cuando fabricas normalizadores con prefijo de país.",
-        "Un **closure** es una función interna que recuerda variables del enclosing scope. Útil para fabricar normalizadores configurados (`make_phone_normalizer(prefix)`), **sin** clases todavía: el factory —una función que fabrica otras funciones ya configuradas— cierra la política regional y devuelve una función pura lista para componer.",
-        "`global` y `nonlocal` existen, pero en S05 **casi no** los necesitas: prefiere **return** de valores nuevos y factories con closure. Mutar globales complica tests, rompe pureza y hace que dos normalizadores compartan estado invisible entre llamadas — un antipatrón en ETL junior.",
-        "**Traza la búsqueda:** dentro de `norm`, busca mentalmente `raw`, luego `prefix`, luego `PREF`. Nombra en qué peldaño de LEGB aparece cada uno. Después crea dos factories con prefijos distintos: si una llamada puede alterar la otra, no has construido configuración encerrada, sino estado compartido.",
+        "Un **cierre** (`closure`) es una función interna que recuerda un valor del ámbito envolvente, es decir, de la función que la creó. `make_prefixer(prefix)` es una **fábrica** (`factory`): recibe un prefijo y devuelve otra función que lo antepone al texto recibido. Su conducta depende solo de ese prefijo capturado y del argumento de cada llamada.",
+        "En Python, una función también puede tratarse como un valor: puedes entregarla como argumento o retornarla. Una función entregada para que otra la llame después se denomina **función de retorno** (`callback`). La fábrica usa esa capacidad al devolver la función interna. `global` y `nonlocal` existen, pero en S05 casi no los necesitas: prefiere retornar valores nuevos y usar fábricas con cierres.",
+        "**Traza la búsqueda:** dentro de `add_prefix`, `raw` es local y `prefix` pertenece al ámbito envolvente. `PREF` es global cuando se usa para crear la primera función, pero la función devuelta recuerda el valor que recibió como `prefix`. Crea dos fábricas con prefijos distintos y comprueba que una no altera a la otra.",
       ],
       code: {
         language: 'python',
         title: "legb_closure.py",
-        code: `PREF = "+51"  # global del módulo (demo)
+        code: `PREF = "Cliente: "  # nombre global del módulo
 
-def make_phone_normalizer(prefix: str):
-    def norm(raw: str) -> str:
-        # 1) dígitos del texto original (el '+' no sobrevive al filtro)
-        d = "".join(c for c in raw if c.isdigit())
-        # 2) si ya trae código país 51 y hay dígitos de más, quítalo
-        if d.startswith("51") and len(d) > 9:
-            d = d[2:]
-        # 3) siempre antepone el prefix del factory (closure)
-        return prefix + d
-    return norm
+def make_prefixer(prefix: str):
+    def add_prefix(raw: str) -> str:
+        return prefix + raw
+    return add_prefix
 
-pe = make_phone_normalizer(PREF)
-print(pe("999000111"))
-print(pe("+51999000111"))
+cliente = make_prefixer(PREF)
+alerta = make_prefixer("Atención: ")
 
-x = 10
-def outer():
-    x = 20
-    def inner():
-        return x  # enclosing
-    return inner()
-print("LEGB enclosing x →", outer())`,
-        output: `+51999000111
-+51999000111
-LEGB enclosing x → 20`,
+print(cliente("Ana"))
+print(alerta("Revisar correo"))`,
+        output: `Cliente: Ana
+Atención: Revisar correo`,
       },
       callout: {
         type: "tip",
         title: "Sin global",
         content:
-          "Pasa la config como argumento o closure factory. Evita `global PREF` en normalizadores.",
+          "Pasa la configuración como argumento o usa una fábrica con cierre. Así cada función recuerda su propio prefijo sin modificar un nombre global.",
       },
     },
     {
@@ -395,7 +385,7 @@ LEGB enclosing x → 20`,
       subtopicId: "S05-T4-B",
       paragraphs: [
         "Refactorizar sin ejemplos es cambiar el motor de un avión guiándose por el sonido. **Puente desde T4-A:** ya sabes dónde vive cada nombre; ahora fijarás qué conducta debe sobrevivir cuando reorganices el interior.",
-        "Antes de refactorizar, fija **ejemplos ejecutables**: `assert normalize_email('A@B.COM') == 'a@b.com'`. Luego cambia la forma interna; si los asserts siguen verdes, la **conducta se preservó**. Sin ejemplos, un “refactor” es un cambio de producto disfrazado — y el gate CP-N1-B lo detecta en la suite de idempotencia.",
+        "Antes de refactorizar, fija **ejemplos ejecutables**: `assert normalize_email('A@B.COM') == 'a@b.com'`. Luego cambia la forma interna; si esas comprobaciones siguen verdes, preservaste la conducta que esos ejemplos cubren. Un `assert` es una comprobación para desarrollo y ejemplos: Python puede omitirlo al ejecutar con `-O`, por lo que no debe ser la única validación de datos externos en producción. Sin ejemplos previos, no tienes una comparación que demuestre qué sobrevivió al cambio.",
         "El refactor típico de S05: extraer `strip_collapse`, unificar defaults, renombrar verbos. **No** cambies la política de negocio “de paso” (p. ej. quitar validación de `@` o el title-case) sin actualizar tests y docstring: eso es un cambio de producto, no un refactor.",
         "Idempotencia se prueba con doble llamada. Fronteras útiles: vacío, solo espacios, Unicode (`Ñ`, tildes), y `None` solo si el contrato lo admite. Cada frontera es un caso de prueba permanente: no la borres cuando “ya pasó una vez” en tu máquina local.",
         "**Cierra el ciclo:** escribe qué conducta protege cada assert antes de tocar la implementación. Tras el refactor, una luz verde solo demuestra lo que esos ejemplos cubren; enumera también la frontera que aún no probaste. Esa modestia convierte una suite en evidencia y no en ceremonia.",
@@ -413,9 +403,12 @@ LEGB enclosing x → 20`,
 def _examples() -> None:
     assert normalize_email("  A@B.COM ") == "a@b.com"
     assert normalize_email(normalize_email("A@B.COM")) == "a@b.com"
-    print("examples OK")
 
-# refactor interno: misma conducta (misma política de '@')
+# Línea base: los ejemplos se ejecutan contra la primera implementación.
+_examples()
+print("antes: OK")
+
+# Refactor interno: misma política de '@'.
 def normalize_email(raw: str) -> str:
     s = raw.strip()
     s = s.lower()
@@ -423,9 +416,12 @@ def normalize_email(raw: str) -> str:
         raise ValueError("email sin @")
     return s
 
+# Los mismos ejemplos se ejecutan ahora contra la implementación refactorizada.
 _examples()
+print("después: OK")
 print(normalize_email("Ana@Example.COM"))`,
-        output: `examples OK
+        output: `antes: OK
+después: OK
 ana@example.com`,
       },
       callout: {

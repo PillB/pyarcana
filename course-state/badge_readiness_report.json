@@ -38,7 +38,7 @@
     {
       "badge": "progress_phase0_walked",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 17,
+      "count": 14,
       "terms": [
         "abc",
         "apply",
@@ -47,11 +47,11 @@
         "decorador",
         "dependencias",
         "dict-comprehension",
-        "entity-resolution",
         "list-comprehension",
         "merge",
         "missing-values",
-        "precision"
+        "precision",
+        "pyodide"
       ]
     },
     {
@@ -101,7 +101,7 @@
     {
       "badge": "progress_journey_completed",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 42,
+      "count": 39,
       "terms": [
         "abc",
         "apply",
@@ -120,28 +120,24 @@
     {
       "badge": "python_data_foundations",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 9,
+      "count": 6,
       "terms": [
         "abc",
         "conventional-commits",
-        "decorador",
         "dict-comprehension",
         "list-comprehension",
         "merge",
-        "pyodide",
-        "set",
-        "variable"
+        "pyodide"
       ]
     },
     {
       "badge": "independent_data_preparation",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 9,
+      "count": 8,
       "terms": [
         "correlaci-n",
         "counter",
         "coverage",
-        "entity-resolution",
         "estimando",
         "generator",
         "guardrail",
@@ -235,12 +231,11 @@
     {
       "badge": "integrated_data_analyst_practice",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 6,
+      "count": 5,
       "terms": [
         "apply",
         "counter",
         "dependencias",
-        "entity-resolution",
         "missing-values",
         "pytest"
       ]
@@ -248,12 +243,11 @@
     {
       "badge": "integrated_data_science_practice",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 6,
+      "count": 5,
       "terms": [
         "apply",
         "counter",
         "dependencias",
-        "entity-resolution",
         "missing-values",
         "pytest"
       ]
@@ -294,7 +288,7 @@
     {
       "badge": "integrated_python_ai_capstone_foundations",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 17,
+      "count": 14,
       "terms": [
         "abc",
         "apply",
@@ -303,11 +297,11 @@
         "decorador",
         "dependencias",
         "dict-comprehension",
-        "entity-resolution",
         "list-comprehension",
         "merge",
         "missing-values",
-        "precision"
+        "precision",
+        "pyodide"
       ]
     },
     {
@@ -357,13 +351,10 @@
     {
       "badge": "CP-N1-A",
       "code": "CAPSTONE_GATE_VOCABULARY_GAP",
-      "count": 5,
+      "count": 2,
       "terms": [
-        "decorador",
         "dict-comprehension",
-        "list-comprehension",
-        "set",
-        "variable"
+        "list-comprehension"
       ]
     },
     {
@@ -412,7 +403,7 @@
         "S12",
         "S13"
       ],
-      "blocking_term_gaps": 17
+      "blocking_term_gaps": 14
     },
     {
       "badge": "progress_phase1_walked",
@@ -531,7 +522,7 @@
         "S51",
         "S52"
       ],
-      "blocking_term_gaps": 42
+      "blocking_term_gaps": 39
     },
     {
       "badge": "python_data_foundations",
@@ -543,7 +534,7 @@
         "S04",
         "S05"
       ],
-      "blocking_term_gaps": 9
+      "blocking_term_gaps": 6
     },
     {
       "badge": "independent_data_preparation",
@@ -554,7 +545,7 @@
         "S08",
         "S18"
       ],
-      "blocking_term_gaps": 9
+      "blocking_term_gaps": 8
     },
     {
       "badge": "applied_analytical_reasoning",
@@ -699,7 +690,7 @@
         "S19",
         "S37"
       ],
-      "blocking_term_gaps": 6
+      "blocking_term_gaps": 5
     },
     {
       "badge": "integrated_data_science_practice",
@@ -714,7 +705,7 @@
         "S23",
         "S37"
       ],
-      "blocking_term_gaps": 6
+      "blocking_term_gaps": 5
     },
     {
       "badge": "integrated_ml_engineering_practice",
@@ -774,7 +765,7 @@
         "S12",
         "S13"
       ],
-      "blocking_term_gaps": 17
+      "blocking_term_gaps": 14
     },
     {
       "badge": "integrated_python_ai_capstone_independent",
@@ -848,7 +839,7 @@
     {
       "id": "CP-N1-A",
       "gate_section": "functions-modules",
-      "blocking_term_gaps": 5
+      "blocking_term_gaps": 2
     },
     {
       "id": "CP-N1-B",
