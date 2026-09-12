@@ -829,9 +829,16 @@ def main() -> int:
         "p1_count": len(p1),
         # A degraded run is NOT ok: it means the snippets that matter most were
         # skipped rather than verified, so a clean result would be unearned.
+        #
+        # A drifted run is not ok either, and for the mirror reason: under the wrong
+        # interpreter this audit reports 3.12 syntax as broken and pinned outputs as
+        # mismatched. Four such phantom failures were once baselined as real, and a
+        # valid `zip(..., strict=True)` was recorded as a P0 regression. Neither a
+        # pass nor a fail means anything until the interpreter matches the pins.
         "ok": len(p0) == 0
         and len(p1) == 0
-        and dependency_visibility["status"] == "ok",
+        and dependency_visibility["status"] == "ok"
+        and version_drift["status"] == "ok",
         "sections_detail": [
             {
                 "file": s["file"],
