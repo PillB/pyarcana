@@ -4,9 +4,9 @@
   "terms_audited": 95,
   "events_audited": 22579,
   "issue_counts": {
-    "DEFINITION_AFTER_REQUIREMENT": 15,
-    "NO_VISIBLE_DEFINITION": 26,
-    "USE_BEFORE_DEFINITION": 44
+    "DEFINITION_AFTER_REQUIREMENT": 14,
+    "NO_VISIBLE_DEFINITION": 25,
+    "USE_BEFORE_DEFINITION": 45
   },
   "never_defined_but_mentioned": [
     "boolean-masking",
@@ -33,15 +33,15 @@
     "resample",
     "roc-auc",
     "row-group",
-    "standardscaler",
-    "variable"
+    "standardscaler"
   ],
   "issues": [
     {
-      "code": "NO_VISIBLE_DEFINITION",
+      "code": "USE_BEFORE_DEFINITION",
       "term_id": "variable",
       "severity": "P1",
-      "location": "functions-modules.S04-T2-A-E2.hint"
+      "location": "data-structures.S03-T3-A.p0",
+      "definition_location": "functions-modules.S04-T2-A-E2.hint"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
@@ -94,7 +94,7 @@
       "code": "NO_VISIBLE_DEFINITION",
       "term_id": "decorador",
       "severity": "P1",
-      "location": "functions-modules.theory[0].callout"
+      "location": "testing.S11-T1-A.p0"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
@@ -238,14 +238,7 @@
       "term_id": "set",
       "severity": "P1",
       "location": "setup.S01-T4-A-E3.starter",
-      "definition_location": "testing.S11-T1-B.p0"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "set",
-      "severity": "P1",
-      "location": "functions-modules.S04-T3-B-E2.hint",
-      "definition_location": "testing.S11-T1-B.p0"
+      "definition_location": "functions-modules.S04-T3-B-E2.title"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",

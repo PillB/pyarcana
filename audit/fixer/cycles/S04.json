@@ -1,0 +1,56 @@
+{
+ "section": "S04",
+ "recorded_at": "2026-09-12T03:53:29+00:00",
+ "commit": "458aeb109db5b8c3c89777fb1eddd9af95318370",
+ "file": "src/lib/course/sections/s04-functions-modules.ts",
+ "findings_total": 18,
+ "findings_closed": [
+  "S04-F01",
+  "S04-F02",
+  "S04-F03",
+  "S04-F04",
+  "S04-F05",
+  "S04-F06",
+  "S04-F07",
+  "S04-F08",
+  "S04-F09",
+  "S04-F10",
+  "S04-F11",
+  "S04-F12",
+  "S04-F13",
+  "S04-F14",
+  "S04-F15",
+  "S04-F16",
+  "S04-F17",
+  "S04-F18"
+ ],
+ "findings_open": [],
+ "patches_offered": 30,
+ "patches_applied": 30,
+ "patches_rejected": 0,
+ "rejections": [],
+ "unresolved_questions": [
+  {
+   "finding_ids": [],
+   "question": "¿Debe el cierre de S04 exigir entrada y salida estándar (`stdin`/`stdout`), o solo la semántica de procesamiento por lotes que la lección actual simula en el navegador?",
+   "why_it_blocks": "El roadmap de S04 exige procesar registros mediante `stdin`/`stdout`, pero S10 reserva esos mecanismos y la interfaz de línea de comandos para una enseñanza posterior. Elegir una opción cambia el alcance y los prerrequisitos del proyecto final, y la evidencia entregada no autoriza resolver esa contradicción.",
+   "options": [
+    "Limitar S04 a bucles por lote y corregir el gate del roadmap",
+    "Añadir en S04 un micromodelo acotado de `stdin`/`stdout`",
+    "Mantener el gate, pero trasladar su evaluación a S10"
+   ]
+  },
+  {
+   "finding_ids": [],
+   "question": "¿Cuál es el orden y la relación visual reales entre figuras, párrafos, callouts y código en la página publicada de S04?",
+   "why_it_blocks": "La revisión de la fuente permite reparar el contenido, pero no demuestra que el renderizado preserve el orden pedagógico, la asociación de las figuras ni la accesibilidad visual. La página pública no pudo verificarse en el entorno indicado.",
+   "options": [
+    "Verificar la página publicada cuando esté accesible",
+    "Validar una compilación local renderizada",
+    "Aceptar provisionalmente solo la evidencia de fuente"
+   ]
+  }
+ ],
+ "typecheck_ok": true,
+ "rolled_back": false
+}

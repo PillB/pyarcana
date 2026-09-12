@@ -29,7 +29,11 @@ if [ "$APPLY" = "--apply" ]; then
   echo "==> [$TAG] gates"
   npm run test:v3 >/dev/null && echo "    test:v3 ok"
   # Runtime regression guard: lesson code must not stop running.
-  python3 scripts/python_content_runtime_audit.py --workers 4 >/dev/null 2>&1 || true
+  # The teaching environment, not system python. Snippets target 3.12 with pinned
+  # packages; running them under anything else reports drift as if it were broken content.
+  CONTENT_PY="$ROOT/.venv-content/bin/python"
+  [ -x "$CONTENT_PY" ] || { echo "    MISSING .venv-content - cannot verify lesson code"; exit 1; }
+  "$CONTENT_PY" scripts/python_content_runtime_audit.py --workers 4 >/dev/null 2>&1 || true
   python3 tools/fixer/check_runtime_regression.py
 
   npm run test:first-use-all || echo "    first-use still reports gaps (expected until all sections done)"

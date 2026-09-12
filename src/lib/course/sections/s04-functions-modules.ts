@@ -13,25 +13,25 @@ import type { CourseSection } from '../../types'
 export const section04: CourseSection = {
   id: "functions-modules",
   index: 4,
-  title: "Iteración y resúmenes transaccionales",
-  shortTitle: "Iteración & Resúmenes",
-  tagline: "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+  title: "Iteración y resúmenes por lote",
+  shortTitle: "Iteración y resúmenes",
+  tagline: "`for`, `while`, contadores y comprensiones —formas compactas de crear listas— para cerrar CP-N1-A, el proyecto acumulativo de captura y calidad de datos del Nivel 1",
   estimatedHours: 9,
   level: "Principiante",
   phase: 0,
   icon: "Repeat",
   accentColor: "bg-gradient-to-br from-amber-500 to-orange-600",
   jobRelevance:
-    "Una regla aplicada a una sola fila es una demostración; aplicada con cuidado a miles de filas es un sistema. Aquí conviertes un validador registro por registro en un procesador por lotes (un programa que recorre muchos registros en un solo pase, no uno por uno). Aprendes cuándo seguir, cuándo detenerte, qué contar y cómo demostrar que el resumen no perdió ni duplicó registros — criterio que sirve igual para pedidos, sensores, matrículas o transacciones.",
+    "Una regla aplicada a una sola fila es una demostración; aplicada con cuidado a miles de filas es un sistema. Aquí conviertes un validador registro por registro en un procesador por lotes: un programa que maneja muchos registros en una misma ejecución y, normalmente, los visita de manera sucesiva dentro de un bucle. Aprendes cuándo seguir, cuándo detenerte, qué contar y cómo demostrar que el resumen no perdió ni duplicó registros — criterio que sirve igual para pedidos, sensores, matrículas o transacciones.",
   learningOutcomes: [
-    { text: "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo" },
-    { text: "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake" },
-    { text: "Escribir while con centinelas y condición de terminación explícita" },
-    { text: "Aplicar break/continue y salvaguardas contra bucles infinitos" },
-    { text: "Implementar contadores, acumuladores y búsquedas en un pase O(n)" },
-    { text: "Escribir comprehensions legibles para filtros simples de resumen" },
-    { text: "Trazar el estado de un bucle para depurar contadores" },
-    { text: "Distinguir costo lineal vs. cuadrático y corregir off-by-one en índices" },
+    { text: "Recorrer grupos ordenados de valores con `for` y producir números consecutivos con `range`, cuyo límite final no se incluye" },
+    { text: "Numerar valores con `enumerate` y emparejar dos grupos con `zip(..., strict=True)` sin ocultar diferencias de longitud" },
+    { text: "Escribir `while` con una salida alcanzable y usar un centinela, un valor especial que marca el final" },
+    { text: "Usar `continue` para saltar una vuelta, `break` para terminar el bucle y límites para evitar repeticiones infinitas" },
+    { text: "Implementar contadores, sumas acumuladas y búsquedas con costo O(n), es decir, proporcional al número de elementos" },
+    { text: "Escribir comprensiones de lista, formas compactas de crear listas, para filtros simples" },
+    { text: "Registrar el estado de un bucle paso a paso para localizar errores en los contadores" },
+    { text: "Distinguir el costo lineal O(n) del cuadrático O(n²) y corregir accesos que se desvían una posición" },
   ],
   theory: [
     {
@@ -47,14 +47,14 @@ export const section04: CourseSection = {
         "Imagina una cinta transportadora: cada registro entra una vez, recibe una decisión y deja una marca en el resumen. El **bucle** mueve la cinta; el **centinela** (`\"\"`, `\"END\"`) indica que no llegan más cajas; la **tasa** compara un contador con todas las cajas intentadas. Si no llegó ninguna, la respuesta honesta es `None`, no una división inventada.",
         "Desde **S03** ya validas un registro: aceptar, rechazar o revisar. Un registro. Lo nuevo aquí es sostener esa decisión a lo largo de muchas filas sin que se degrade en el camino, y eso se apoya en tres promesas que no pueden romperse ni una sola vez. Cada fila se procesa exactamente una vez: ni dos, ni ninguna. Los contadores suman exactamente el total de filas intentadas. Y el texto original de cada fila sobrevive intacto, porque es lo único que permite auditar la decisión después.",
         "La segunda promesa —que los contadores sumen exactamente el total de filas intentadas— es la que más se rompe sin querer, y casi siempre por el denominador. Si divides los aceptados entre los procesados en vez de entre los intentados, la tasa mejora sola cada vez que una fila falla antes de tiempo. El número sube, el trabajo empeora, y el informe se ve mejor. Por eso la pregunta que atraviesa la sección es de aritmética elemental: **¿sobre cuántas cosas estoy calculando esto, exactamente?**",
-        "Un solo recorrido de la lista basta para todo. Eso se llama **O(n)** —el trabajo crece en proporción al número de filas, no más rápido— y aquí no es una optimización sino una consecuencia: si necesitas recorrer dos veces, probablemente estás guardando mal la información en el primer paso.",
-        "El hilo conductor es un **script de intake por lotes**: lee líneas sintéticas, valida cada registro, imprime un resumen y conserva el original de cada fila. Cuando veas `def ...` en un ejemplo, tómalo como una receta con nombre para poder reutilizarla; el diseño formal de funciones, con sus contratos, llega en la sección siguiente.",
+        "Para estos contadores suele bastar un solo recorrido. Eso se llama **O(n)** —el trabajo crece en proporción al número de filas—, pero dos o tres recorridos sucesivos también siguen siendo O(n) y pueden separar responsabilidades con claridad. Evita, cuando no sean necesarios, los recorridos anidados que vuelven a examinar todo el lote por cada fila.",
+        "El hilo conductor es un **script de intake por lotes**: lee líneas sintéticas, valida cada registro, imprime un resumen y conserva el original de cada fila. Los ejemplos centrales de esta sección ejecutan los bucles directamente. En S05 convertirás esos pasos en funciones reutilizables y estudiarás sus parámetros, resultados y contratos.",
       ],
       callout: {
         type: "info",
         title: "Alcance de esta sección",
         content:
-          "El target de entrega es el **Client Intake & Data Quality Script** (gate CP-N1-A): lotes, contadores, tasas con denominador correcto y raw intacto. No cubrimos decorators ni packaging aquí; cuando llegues a módulos/CLI y OOP de dominio, reutilizarás estos bucles sobre el mismo hilo de intake.",
+          "La entrega es **CP-N1-A, el proyecto acumulativo de captura y calidad de datos del Nivel 1**: procesa lotes, calcula contadores y tasas con el denominador correcto y conserva intacto el texto original de cada fila. Aquí no se estudian los decoradores —marcas que modifican el comportamiento de una función o clase— ni el empaquetado del programa. Cuando llegues a módulos, a la interfaz de línea de comandos y a los objetos de dominio, reutilizarás estos bucles en el mismo proceso de captura.",
       },
      },
      {
@@ -64,8 +64,8 @@ export const section04: CourseSection = {
         "Bloque de referencia. Orden de los subtemas, ritmo y criterio de cierre.",
         "**Orden de los subtemas.** T1 trata el recorrido: `for` y `range`, después `enumerate` y `zip`. T2 pasa a la repetición: `while`, centinelas, `break` y `continue`. T3 cubre los patrones: contadores, acumuladores y comprensiones. T4 cierra con el razonamiento: trazar el estado paso a paso, el costo y los errores de uno en uno.",
         "**Ritmo orientativo (unas 9 horas).** De esas, tres para el núcleo: al terminarlo ya tienes un bucle que cuenta bien y sabe sobre cuántas cosas está calculando. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
-        "**Criterio de cierre (CP-N1-A).** El script de intake y calidad de datos: lotes, contadores, tasas con el denominador correcto y el original intacto.",
-        "**Límites.** Caso `CASO-LIM-004` con datos ficticios (`example.com`, teléfonos inventados). Aquí no se cubren decorators ni empaquetado: cuando llegues a módulos, CLI y objetos de dominio reutilizarás estos bucles sobre el mismo hilo de intake.",
+        "**Criterio de cierre.** CP-N1-A, el proyecto acumulativo de captura y calidad de datos del Nivel 1: lotes, contadores, tasas con el denominador correcto y el original intacto.",
+        "**Límites.** `CASO-LIM-004` es el caso sintético de procesamiento por lotes; utiliza datos ficticios, como direcciones de `example.com` y teléfonos inventados. Aquí no se estudian los decoradores —marcas que modifican una función o clase— ni el empaquetado. Más adelante reutilizarás estos bucles al estudiar módulos, la interfaz de línea de comandos y los objetos de dominio.",
       ],
      },
      {
@@ -79,32 +79,26 @@ export const section04: CourseSection = {
       },
       subtopicId: "S04-T1-A",
       paragraphs: [
-        "Cuando la pregunta es «¿qué hago con cada elemento de una colección conocida?», piensa primero en **`for`**. `for x in secuencia` entrega cada valor una vez y en orden; el índice es equipaje innecesario hasta que una necesidad concreta —posición, reporte o acceso paralelo— lo justifique.",
+        "Una **lista** es un grupo ordenado de valores, como `[\"Lima\", \"Cusco\"]`. Cuando la pregunta es «¿qué hago con cada valor de este grupo?», piensa primero en **`for`**. `for x in lista` entrega cada valor una vez y en orden; el índice es innecesario hasta que una necesidad concreta, como mostrar la posición, lo justifique.",
         "**`range(stop)`**, **`range(start, stop)`**, **`range(start, stop, step)`** producen enteros sin materializar una lista gigante. El **stop es exclusivo**: `range(3)` → 0,1,2. Eso evita el off-by-one clásico al numerar N filas.",
         "En lotes de clientes sintéticos, el patrón base es `for registro in filas:` y, más adelante en el You Do, llamar a `validate_record` dentro del bucle. No mutes la lista mientras la recorres salvo que sepas lo que haces; acumula resultados en otra lista. Prefiere el for por valor; `range(len(...))` solo cuando el índice es imprescindible.",
       ],
       code: {
         language: 'python',
         title: "for_registros.py",
-        code: `filas = [
-    {"id": "C001", "region": "Lima"},
-    {"id": "C002", "region": "Cusco"},
-    {"id": "C003", "region": "Arequipa"},
-]
-for reg in filas:
-    print(f"{reg['id']} → {reg['region']}")
+        code: `regiones = ["Lima", "Cusco", "Arequipa"]
+for region in regiones:
+    print(region)
 
-ids = []
-for i in range(len(filas)):
-    ids.append(filas[i]["id"])
-print("ids con range:", ids)
-print("range(1, 4):", list(range(1, 4)))
+for i in range(3):
+    print("posición", i)
 `,
-        output: `C001 → Lima
-C002 → Cusco
-C003 → Arequipa
-ids con range: ['C001', 'C002', 'C003']
-range(1, 4): [1, 2, 3]`,
+        output: `Lima
+Cusco
+Arequipa
+posición 0
+posición 1
+posición 2`,
       },
       callout: {
         type: "tip",
@@ -118,41 +112,33 @@ range(1, 4): [1, 2, 3]`,
       subtopicId: "S04-T1-B",
       paragraphs: [
         "Dos problemas parecen iguales y no lo son: **numerar** una sola secuencia y **alinear** dos secuencias. `enumerate(seq, start=1)` resuelve lo primero sin llevar un contador manual; `zip(a, b)` resuelve lo segundo, pero solo si puedes defender que ambas columnas tienen la misma longitud.",
-        "**`zip(a, b)`** empareja elementos en paralelo. Se detiene en la **secuencia más corta**. Si `nombres` tiene 3 y `edades` tiene 2, el tercer nombre **desaparece en silencio** — un bug de calidad de datos. En Python 3.10+ existe `zip(..., strict=True)`; en cualquier versión puedes validar `len(a)==len(b)` antes de zipear (helper `zip_strict` en el demo).",
+        "**`zip(a, b)`** empareja valores que ocupan la misma posición. Sin `strict=True`, se detiene en el grupo más corto: si `nombres` tiene 3 valores y `edades` tiene 2, el tercer nombre desaparece en silencio. En el entorno Python 3.12 del curso, usa `zip(a, b, strict=True)` cuando las longitudes deban coincidir; si no coinciden, Python produce un `ValueError`, un error que señala que los valores recibidos no cumplen ese requisito.",
         "**Nunca** asumas que dos columnas CSV llegaron alineadas solo porque “deberían”. Cuenta longitudes en tests de pipeline (`len(a)==len(b)` o `zip(..., strict=True)`). Un zip corto silencioso infla o deflacta tasas de reject en el resumen de intake.",
       ],
       code: {
         language: 'python',
         title: "enumerate_zip.py",
         code: `ids = ["C001", "C002", "C003"]
-regiones = ["Lima", "Cusco"]  # ¡falta un valor!
+regiones = ["Lima", "Cusco", "Arequipa"]
 
-for i, rid in enumerate(ids, start=1):
-    print(f"fila {i}: {rid}")
+for fila, rid in enumerate(ids, start=1):
+    print(f"fila {fila}: {rid}")
 
-print("zip corto (silencioso):", list(zip(ids, regiones)))
-
-# Equivalente pedagógico a zip(..., strict=True) — Py 3.10+
-def zip_strict(a, b):
-    if len(a) != len(b):
-        raise ValueError(f"desalineado: {len(a)} vs {len(b)}")
-    return list(zip(a, b))
-
-try:
-    zip_strict(ids, regiones)
-except ValueError as e:
-    print("zip strict →", type(e).__name__ + ":", e)`,
+for rid, region in zip(ids, regiones, strict=True):
+    print(rid, "→", region)
+`,
         output: `fila 1: C001
 fila 2: C002
 fila 3: C003
-zip corto (silencioso): [('C001', 'Lima'), ('C002', 'Cusco')]
-zip strict → ValueError: desalineado: 3 vs 2`,
+C001 → Lima
+C002 → Cusco
+C003 → Arequipa`,
       },
       callout: {
         type: "warning",
         title: "Gate de alineación",
         content:
-          "Desalineación en zip produce resúmenes incorrectos y tasas infladas/deflactadas. Valida len(cols) antes de zip o usa zip(..., strict=True) en Python 3.10+.",
+          "Desalineación en zip produce resúmenes incorrectos y tasas infladas/deflactadas. En el entorno Python 3.12 del curso, usa `zip(..., strict=True)` cuando ambas columnas deban tener la misma longitud.",
       },
     },
     {
@@ -160,26 +146,25 @@ zip strict → ValueError: desalineado: 3 vs 2`,
       subtopicId: "S04-T2-A",
       paragraphs: [
         "Elige **`while`** cuando conoces la condición de salida, pero no el número de vueltas: leer hasta `END`, reintentar hasta éxito o consumir un flujo mientras haya trabajo. Su pregunta central no es «¿cuántos elementos hay?», sino «¿qué debe cambiar para que esto termine?».",
-        "Un **centinela** es un valor especial que marca el fin (p. ej. `\"\"`, `None`, `\"END\"`). El bucle debe **actualizar el estado** en cada vuelta; si la condición nunca se vuelve falsa, tienes un **bucle infinito**.",
-        "En demos de browser no usamos `input()` interactivo real; simulamos un **buffer de líneas**. El patrón es el mismo: leer siguiente → chequear centinela (`\"END\"` / `\"\"`) → procesar → actualizar estado. Si olvidas avanzar el índice, el while es **infinito**.",
+        "Un **centinela** es un valor especial que marca el fin (p. ej. `\"\"`, `None`, `\"END\"`). Todo bucle necesita una salida alcanzable. En este primer patrón, el estado cambia en cada vuelta hasta que la condición se vuelve falsa; en el subtema siguiente verás que `break` también puede terminar el bucle antes.",
+        "En las demostraciones del navegador no usamos `input()` de forma interactiva; empleamos una **lista que simula las líneas pendientes de leer**. El patrón es el mismo: leer siguiente → chequear centinela (`\"END\"` / `\"\"`) → procesar → actualizar estado. Si olvidas avanzar el índice, el while es **infinito**.",
       ],
       code: {
         language: 'python',
         title: "while_centinela.py",
         code: `lineas = ["C001|Lima", "C002|Cusco", "", "C003|Piura"]
 i = 0
-procesadas = []
 while i < len(lineas):
-    ln = lineas[i]
+    linea = lineas[i]
     i += 1
-    if ln == "":
+    if linea == "":
         break
-    procesadas.append(ln)
-print("procesadas:", procesadas)
-print("restante no leída:", lineas[i:])
+    print("procesada:", linea)
+print("siguiente posición:", i)
 `,
-        output: `procesadas: ['C001|Lima', 'C002|Cusco']
-restante no leída: ['C003|Piura']`,
+        output: `procesada: C001|Lima
+procesada: C002|Cusco
+siguiente posición: 3`,
       },
       callout: {
         type: "tip",
@@ -193,39 +178,42 @@ restante no leída: ['C003|Piura']`,
       subtopicId: "S04-T2-B",
       paragraphs: [
         "Antes de escribir `break` o `continue`, clasifica el hecho: ¿esta fila es ruido o anuncia que el lote ya no es confiable? **`continue`** descarta una vuelta y conserva el proceso; **`break`** termina el bucle actual. Confundirlos cambia qué datos llegan al resumen, no solo el estilo del código.",
-        "Prevención de infinito: (1) actualiza la variable de control, (2) pon un **máximo de iteraciones** en prototipos (`MAX = 10_000`), (3) evita `while True` sin break garantizado, (4) no hagas `i = i` por error tipográfico.",
-        "Un `while True` con break en el centinela es legítimo si el break es **obvio y testeado**. Documenta la condición de salida.",
+        "Para prevenir una repetición infinita, identifica una salida alcanzable: la condición puede volverse falsa o un `break` puede terminar el bucle. Además, usa un contador de vueltas con un máximo explícito cuando necesites una red de seguridad.",
+        "Un `while True` puede ser correcto si tiene un `break` alcanzable y comprobado, pero primero practica condiciones que progresan hacia `False`: hacen visible por qué el bucle termina.",
       ],
       code: {
         language: 'python',
         title: "break_continue.py",
-        code: `def clean_lines(raw_lines, max_n=100):
-    kept = []
-    iters = 0
-    for ln in raw_lines:
-        iters += 1
-        if not ln.strip() or ln == "SKIP":
-            continue
-        if ln == "END":
-            break
-        kept.append(ln)
-        if len(kept) >= max_n:
-            break
-    return kept, iters
+        code: `lineas = ["SKIP", "C001|Lima", "SKIP", "C002|Cusco", "END"]
+i = 0
+vueltas = 0
+MAX_VUELTAS = 3
+while i < len(lineas) and vueltas < MAX_VUELTAS:
+    linea = lineas[i]
+    i += 1
+    vueltas += 1
+    print("vuelta", vueltas, linea)
+print("límite alcanzado:", vueltas == MAX_VUELTAS)
 
-raw_lines = ["  ", "C001|Lima", "SKIP", "C002|Cusco", "END"]
-kept, iters = clean_lines(raw_lines)
-print(kept)
-print("iteraciones efectivas del for:", iters)
+for linea in ["", "Lima", "SKIP", "Cusco", "END"]:
+    if linea == "" or linea == "SKIP":
+        continue
+    if linea == "END":
+        break
+    print("conservada:", linea)
 `,
-        output: `['C001|Lima', 'C002|Cusco']
-iteraciones efectivas del for: 5`,
+        output: `vuelta 1 SKIP
+vuelta 2 C001|Lima
+vuelta 3 SKIP
+límite alcanzado: True
+conservada: Lima
+conservada: Cusco`,
       },
       callout: {
         type: "warning",
         title: "while True sin salida",
         content:
-          "En producción un bucle infinito agota CPU y bloquea el lote. Siempre define centinela, excepción o MAX_ITERS en ejercicios de while.",
+          "Un bucle infinito no deseado impide que el proceso avance y, según lo que haga su cuerpo, puede consumir CPU u otros recursos. En los ejercicios de `while`, define una salida alcanzable y, cuando corresponda, un límite como `MAX_VUELTAS`.",
       },
     },
     {
@@ -248,7 +236,10 @@ for i, s in enumerate(statuses):
         n_reject += 1
         if first_reject_idx is None:
             first_reject_idx = i
-tasa = n_reject / n_total if n_total else None
+if n_total > 0:
+    tasa = n_reject / n_total
+else:
+    tasa = None
 print("total", n_total, "reject", n_reject, "tasa", round(tasa, 4))
 print("first_reject_idx", first_reject_idx)
 `,
@@ -259,51 +250,40 @@ first_reject_idx 1`,
         type: "tip",
         title: "Denominador correcto",
         content:
-          "Tasa de error = errores / procesados. No uses solo aceptados en el denominador: eso infla la tasa y engaña el dashboard de calidad.",
+          "Tasa de error = errores / registros intentados. Un registro intentado es uno que entró al lote, aunque falle antes de completar todo el proceso. No uses solo los aceptados en el denominador: cambiarías la población que mide la tasa.",
       },
     },
     {
       heading: "Comprehensions legibles",
       subtopicId: "S04-T3-B",
       paragraphs: [
-        "Una **comprehension** es una frase compacta para una idea compacta: «de estos elementos, conserva o transforma aquellos que cumplen una condición». Si al leerla necesitas respirar dos veces, explicar tres ramas o rastrear efectos secundarios, el `for` explícito comunica mejor.",
-        "También existen **dict** y **set** comprehensions: `{k: v for ...}`, `{x for ...}`. No anides comprehensions de tres niveles “porque cabe”: la legibilidad del revisor manda.",
-        "En el resumen de intake, es útil: `rejects = [r for r in results if r['status']=='reject']`. El conteo sigue siendo `len(rejects)` con denominador `len(results)`.",
+        "Una **comprensión de lista** es una forma compacta de crear una lista a partir de otra: puede transformar cada valor o conservar solo los que cumplen una condición. Por ejemplo, `[m for m in montos if m > 0]` conserva los montos positivos.",
+        "Lee la expresión en este orden: qué valor conservar, de qué lista viene y qué condición debe cumplir. Si necesitas varias ramas, mensajes o cambios de estado, el `for` explícito comunica mejor.",
+        "En S06 estudiarás otras estructuras y sus comprensiones. Aquí basta una lista plana para distinguir la transformación, el recorrido y el filtro.",
       ],
       code: {
         language: 'python',
         title: "comprehensions_resumen.py",
-        code: `results = [
-    {"id": "C001", "status": "accept"},
-    {"id": "C002", "status": "reject"},
-    {"id": "C003", "status": "review"},
-    {"id": "C004", "status": "reject"},
-]
-rejects = [r["id"] for r in results if r["status"] == "reject"]
-codes = sorted({r["status"] for r in results})
-by_id = {r["id"]: r["status"] for r in results}
-print("rejects", rejects)
-print("codes", codes)
-print("by_id", "C002", by_id["C002"])
+        code: `montos = [10, 0, -5, 20]
+positivos = [m for m in montos if m > 0]
+print("positivos", positivos)
 `,
-        output: `rejects ['C002', 'C004']
-codes ['accept', 'reject', 'review']
-by_id C002 reject`,
+        output: `positivos [10, 20]`,
       },
       callout: {
         type: "tip",
         title: "Cuándo no usar comprehension",
         content:
-          "Si necesitas contadores múltiples, try/except por fila o mensajes, el for clásico es más claro. Comprehension ≠ siempre mejor.",
+          "Si necesitas varios contadores, distintas ramas o mensajes, el `for` clásico es más claro. Una comprensión no siempre es la mejor opción.",
       },
     },
     {
       heading: "Trazado de estado",
       subtopicId: "S04-T4-A",
       paragraphs: [
-        "Cuando el resultado final sorprende, deja de mirar solo el final. Una **traza de estado** convierte el bucle en una película: iteración, dato de entrada, variables antes y después, decisión. El primer fotograma que rompe el invariante suele señalar el defecto exacto.",
-        "Antes de pedir ayuda, dibuja 3–5 filas de la traza con valores concretos del lote sintético. Si la traza no cuadra con el print, el bug está en la actualización del estado, no en “Python raro”.",
-        "En demos usamos `print` de depuración con prefijo `TRACE`. En producción preferirás **logging** (secciones posteriores); aquí el objetivo es **razonar el bucle** antes de “arreglar a ciegas”. Si la traza no cuadra con el resumen, el bug está en el contador, no en el validador de S03.",
+        "Cuando el resultado final sorprende, deja de mirar solo el final. Una **traza de estado** muestra cada vuelta: dato de entrada, valores antes y después y decisión tomada. Busca la primera vuelta que viola la condición que esperabas conservar, llamada **invariante**; un error del programa sí puede romper esa condición esperada.",
+        "Dibuja entre tres y cinco filas de la traza con valores concretos. Cuando el estado real se separe del esperado, inspecciona la condición y la actualización que produjeron esa primera diferencia.",
+        "En las demostraciones usamos `print` con el prefijo `TRACE` para ver el estado. Más adelante estudiarás herramientas de registro; aquí el objetivo es razonar paso a paso y comprobar, sin declarar culpable de antemano al validador, al contador o al texto mostrado.",
       ],
       code: {
         language: 'python',
@@ -338,30 +318,29 @@ final total= 30 n_pos= 2`,
       subtopicId: "S04-T4-B",
       paragraphs: [
         "Dos programas pueden imprimir el mismo resumen y, sin embargo, no ser equivalentes. Un pase sobre n filas crece de forma **O(n)**; comparar cada fila con todas las demás crece **O(n²)**. La diferencia parece pequeña en un juguete y domina cuando el lote crece.",
-        "**Off-by-one**: `range(len(xs))` es correcto para índices 0..n-1; `range(1, len(xs))` se salta el primero; `range(len(xs)+1)` explota con IndexError. Fronteras inclusivas/exclusivas en filtros (`>=` vs. `>`) también son off-by-one de negocio.",
+        "Un error **off-by-one** ocurre cuando un índice o conteo se desvía una posición. `range(len(xs))` produce los índices válidos de 0 a n−1; si usas `for i in range(len(xs)+1)` para acceder a `xs[i]`, la última vuelta intenta acceder a `xs[len(xs)]`, que no existe y produce `IndexError`. Elegir `>=` en vez de `>` es un **error de frontera o inclusividad**; con cantidades enteras puede parecerse a un off-by-one, pero describe una regla distinta.",
         "Para el gate CP-N1-A: cuenta registros con un contador **O(n)**; **no** recalcules la tasa dentro de un doble bucle. Debuggea índices imprimiendo `i` y `len`. `tasa_reject = n_reject / n_total` solo si `n_total > 0`; si no, reporta `None` (lote vacío), no `ZeroDivisionError` silencioso.",
       ],
       code: {
         language: 'python',
         title: "costo_off_by_one.py",
-        code: `xs = ["a", "b", "c"]
-linear = 0
-for _ in xs:
-    linear += 1
-quad = 0
-for _ in xs:
-    for __ in xs:
-        quad += 1
-print("linear", linear, "quadratic", quad)
-print("last ok", xs[len(xs) - 1])
-try:
-    print(xs[len(xs)])  # off-by-one: índice n no existe
-except IndexError as e:
-    print("IndexError en len(xs):", e)
+        code: `valores = [10, 20, 30]
+lineal = 0
+for valor in valores:
+    lineal += 1
+
+cuadratico = 0
+for valor in valores:
+    for otro in valores:
+        cuadratico += 1
+
+print("lineal", lineal, "cuadrático", cuadratico)
+print("último índice válido", len(valores) - 1)
+print("primer índice inválido", len(valores))
 `,
-        output: `linear 3 quadratic 9
-last ok c
-IndexError en len(xs): list index out of range`,
+        output: `lineal 3 cuadrático 9
+último índice válido 2
+primer índice inválido 3`,
       },
       callout: {
         type: "warning",
@@ -948,7 +927,7 @@ print(out)`,
         id: "S04-T2-A-E2",
         instruction:
           "1. El starter ya incrementa y imprime `done`, pero no reporta cada intento (DEFECT).\n2. Dentro del while, tras `intentos += 1`, imprime `f\"intento {intentos}\"`.\n3. Mantén `print(\"done\", intentos)` al salir.",
-        hint: "intentos += 1 dentro del while es la variable de control que evita el infinito.",
+        hint: "Una variable es un nombre que conserva un valor; aquí `intentos` es la variable de control porque cambia en cada vuelta y acerca la condición a su salida.",
         hints: [
           "intentos += 1 dentro del while es la variable de control que evita el infinito.",
           "Tras cada incremento, imprime el número de intento con f-string; al salir, done.",
@@ -1388,7 +1367,7 @@ print([x for x in nums if x % 2 == 0])`,
       {
         subtopicId: "S04-T3-B",
         kind: "independent",
-        title: "Categorías únicas con set comprehension",
+        title: "Categorías únicas con una comprensión de set —forma compacta de crear un grupo sin duplicados—",
         preamble:
           "- **Contexto:** el reporte de calidad lista qué statuses *aparecieron*, sin duplicar.\n- **Meta:** set comprehension + `sorted` para un catálogo estable.\n- **Éxito:** `['accept', 'reject', 'review']`.\n- **Límites:** no dejes la lista sucia con duplicados; no hardcodees las tres cadenas.",
         id: "S04-T3-B-E2",
@@ -1426,7 +1405,7 @@ print(sorted({r["status"] for r in rows}))`,
       {
         subtopicId: "S04-T3-B",
         kind: "transfer",
-        title: "Dict id→status y tasa de reject",
+        title: "Resumen con una comprensión de diccionario —forma compacta de crear pares clave-valor—",
         preamble:
           "- **Contexto:** el resumen del gate combina un mapa por id y una tasa sobre el lote completo.\n- **Meta:** dict comprehension + lista de rejects + `len(rejects)/len(rows)`.\n- **Éxito:** imprime `reject ['C2', 'C4'] 0.5` (status de C2, lista, tasa).\n- **Límites:** denominador = `len(rows)`; no mutes `rows`; datos sintéticos del starter con 4 filas.",
         id: "S04-T3-B-E3",

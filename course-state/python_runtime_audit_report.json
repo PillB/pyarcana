@@ -1,63 +1,58 @@
 {
-  "generated_at": "2026-09-11T21:20:16.649393+00:00",
+  "generated_at": "2026-09-12T03:52:32.150826+00:00",
   "sections": 52,
   "dependency_visibility": {
     "status": "ok",
     "core_modules_missing": [],
-    "visible_count": 13,
+    "visible_count": 7,
     "missing": [
       "anthropic",
       "boto3",
+      "bs4",
       "chromadb",
       "cv2",
       "dbt",
+      "dotenv",
+      "fastapi",
       "google",
+      "httpx",
       "kafka",
       "langchain",
       "neo4j",
       "openai",
+      "pydantic",
+      "pytest",
       "redis",
+      "requests",
       "seaborn",
       "sqlalchemy",
       "streamlit",
       "tensorflow",
-      "torch",
-      "yaml"
+      "torch"
     ],
     "note": "Core teaching modules are importable; numpy/pandas/sklearn snippets are genuinely executed."
   },
   "environment_matches_pins": {
-    "status": "drifted",
+    "status": "ok",
     "declared": {
       "numpy": "2.2.6",
       "pandas": "3.0.5",
       "scikit-learn": "1.6.1",
       "scipy": "1.13.1"
     },
-    "drift": [
-      {
-        "package": "numpy",
-        "declared": "2.2.6",
-        "installed": "2.0.2"
-      },
-      {
-        "package": "pandas",
-        "declared": "3.0.5",
-        "installed": "2.3.3"
-      }
-    ],
-    "note": "The interpreter running the snippets does NOT match requirements-content.txt. Declared outputs are only true in the declared environment, so output_mismatch findings below are most likely this drift rather than broken content. Re-run inside an environment built from requirements-content.txt before treating any of them as real."
+    "drift": [],
+    "note": "The snippet interpreter matches the declared teaching environment."
   },
   "totals": {
-    "pass": 3283,
-    "fail": 4,
-    "skip": 70,
+    "pass": 3288,
+    "fail": 0,
+    "skip": 69,
     "artifacts": 3357
   },
-  "fail_count": 4,
+  "fail_count": 0,
   "p0_count": 0,
-  "p1_count": 4,
-  "ok": false,
+  "p1_count": 0,
+  "ok": true,
   "sections_detail": [
     {
       "file": "src/lib/course/sections/s01-setup.ts",
@@ -83,9 +78,9 @@
       "file": "src/lib/course/sections/s03-data-structures.ts",
       "section_id": "data-structures",
       "counts": {
-        "pass": 61,
+        "pass": 65,
         "fail": 0,
-        "skip": 4
+        "skip": 0
       },
       "artifact_count": 65
     },
@@ -203,8 +198,8 @@
       "file": "src/lib/course/sections/s15-stdlib-deep.ts",
       "section_id": "stdlib-deep",
       "counts": {
-        "pass": 61,
-        "fail": 4,
+        "pass": 65,
+        "fail": 0,
         "skip": 0
       },
       "artifact_count": 65
@@ -263,9 +258,9 @@
       "file": "src/lib/course/sections/s21-fastapi.ts",
       "section_id": "fastapi",
       "counts": {
-        "pass": 64,
+        "pass": 59,
         "fail": 0,
-        "skip": 0
+        "skip": 5
       },
       "artifact_count": 64
     },
@@ -543,9 +538,9 @@
       "file": "src/lib/course/sections/s49-data-contracts.ts",
       "section_id": "data-contracts",
       "counts": {
-        "pass": 62,
+        "pass": 64,
         "fail": 0,
-        "skip": 2
+        "skip": 0
       },
       "artifact_count": 64
     },
@@ -580,42 +575,5 @@
       "artifact_count": 65
     }
   ],
-  "failures": [
-    {
-      "section_id": "stdlib-deep",
-      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
-      "kind": "solution",
-      "artifact_id": "solutionCode-20",
-      "reason": "output_mismatch",
-      "severity": "P1",
-      "stderr": ""
-    },
-    {
-      "section_id": "stdlib-deep",
-      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
-      "kind": "demo",
-      "artifact_id": "code-block-1",
-      "reason": "output_mismatch",
-      "severity": "P1",
-      "stderr": ""
-    },
-    {
-      "section_id": "stdlib-deep",
-      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
-      "kind": "demo",
-      "artifact_id": "code-block-4",
-      "reason": "output_mismatch",
-      "severity": "P1",
-      "stderr": ""
-    },
-    {
-      "section_id": "stdlib-deep",
-      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
-      "kind": "demo",
-      "artifact_id": "code-block-14",
-      "reason": "output_mismatch",
-      "severity": "P1",
-      "stderr": ""
-    }
-  ]
+  "failures": []
 }
