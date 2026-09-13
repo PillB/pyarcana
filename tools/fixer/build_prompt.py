@@ -88,7 +88,27 @@ Rules that are not negotiable:
 - Do not add claims the section cannot support (no invented benchmarks, versions or
   guarantees).
 - If a fix would need a decision you cannot make from the evidence, do NOT guess:
-  leave that finding unpatched and raise it in `unresolved_questions`.""",
+  leave that finding unpatched and raise it in `unresolved_questions`.
+
+CRITIQUE EVERY PASSAGE YOU WRITE, BEFORE YOU RETURN IT.
+
+For each replacement, read it as a learner who knows only what earlier sections
+taught, and answer two questions honestly:
+
+  1. What could confuse them here? Which sentence could be misread, and into what?
+  2. What is missing that they need to act on this?
+
+Then REVISE the replacement so the answers no longer apply, and return the revised
+text. Only after revising, fill `self_critique`:
+
+  - `what_could_confuse` and `what_is_missing`: what you found on that read.
+  - `addressed_in_this_replacement`: true only if the text you are returning fixes
+    both. If you could not fix one, say false.
+  - `residual_concern`: what is still wrong, or an empty string. Do not invent a
+    concern to look thorough, and do not write "none" as prose - use "".
+
+A patch whose critique says "nothing could confuse anyone" for a paragraph you
+substantially rewrote will be read as a skipped step, not as a clean result.""",
 
         block(f"FINDINGS TO FIX ({len(findings)})", json.dumps([
             {k: f.get(k) for k in

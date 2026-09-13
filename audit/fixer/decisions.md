@@ -86,3 +86,41 @@ light/dark variants and exemption from the geometry and contrast gates every oth
 visual passes — then rot the moment the UI moves. Where one feels necessary, use an
 archetype figure plus a real code block: that block executes in the runtime audit, and
 a screenshot cannot.
+
+## D5 — 5–10 diagrams or animations per concept, load-bearing first
+*Decided 2026-09-13 by the repo owner. The sequencing and the caveat are mine, stated not absorbed.*
+
+**The target:** every concept carries 5–10 visuals — diagrams, animated reveals, or
+interactive graphs — not one figure per section.
+
+**Where the course stands:** 105 figures total; 81 of 95 concepts have none associated.
+Reaching 5–10 across all 95 means 475–950 figures.
+
+**The caveat, stated because it changes what "done" means.** `src/lib/types.ts` says a
+figure "earns its place only by removing work the prose was doing badly — Mayer's
+coherence principle — so decorative diagrams are out of scope." That is not repo
+opinion: Mayer's coherence principle is the finding that *extraneous* visuals reduce
+learning, measurably, rather than leaving it unchanged. Nine diagrams where the concept
+supports three does not teach 3× better; it costs attention the learner needed for the
+other six.
+
+So the number is a target, and each figure still has to pass the same question: **what
+work was the prose doing badly that this removes?** A figure that cannot answer it is
+not built, and the shortfall is reported rather than padded.
+
+**Sequencing** — by where a visual buys the most:
+
+1. The 37 load-bearing concepts (taught with a worked example, used in three or more
+   sections): `git`, `commit`, `venv`, `dependencias`, `dataframe`, `groupby`, `dtype`,
+   `dict`, `list`, `coverage`, `llm` and the rest. 5–10 each.
+2. Concepts at L2 with no figure at all — the largest single gap.
+3. Everything else, one figure minimum where a visual has work to do.
+
+**Form** follows D4: archetype figures (flow, decision, stack, timeline, set, bars,
+table-shape, graph) are data entries and cheap; `framer-motion` reveals for sequences
+where the order is the lesson; `@xyflow/react` where the structure is a real graph.
+Reduced motion is honoured and the code-fidelity gate still applies.
+
+**Authorship** follows the campaign rule: codex writes every headline, label, caption
+and `alt` from the plan and instructions given to it. This repository's tooling places
+them, validates the anchors, and runs the gates.

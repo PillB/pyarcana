@@ -23,6 +23,35 @@ echo "==> [$TAG] applying patches ${APPLY:-(dry run)}"
 python3 tools/fixer/apply_patches.py ".fixer/$TAG.result.json" $APPLY \
   | tee ".fixer/$TAG.apply.json"
 
+# Converging critique loop. Runs AFTER the first apply, so codex reviews the text as
+# it now stands in the file and its anchors resolve. Anything it marked unresolved
+# comes back to it, bounded at two laps - a concern surviving both needs a human.
+if [ "$APPLY" = "--apply" ]; then
+  for ROUND in 1 2; do
+    if python3 tools/fixer/build_critique_followup.py "$TAG" > ".fixer/${TAG}c$ROUND.prompt.txt" 2>/dev/null; then
+      echo "==> [$TAG] critique follow-up $ROUND"
+      if python3 tools/fixer/run_codex.py "${TAG}c$ROUND" "$MODEL" "$EFFORT"; then
+        python3 - <<PYEOF
+import json, pathlib
+res = pathlib.Path(".fixer/${TAG}c$ROUND.result.json")
+if res.exists():
+    d = json.loads(res.read_text(encoding="utf-8"))
+    d["section_id"] = "$TAG"
+    res.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+PYEOF
+        python3 tools/fixer/apply_patches.py ".fixer/${TAG}c$ROUND.result.json" --apply           | tee ".fixer/${TAG}c$ROUND.apply.json" | python3 -c "
+import json,sys
+r=json.load(sys.stdin)
+print(f\"    follow-up applied {r['applied']}, rejected {r['rejected']}\")"
+      else
+        break
+      fi
+    else
+      break
+    fi
+  done
+fi
+
 if [ "$APPLY" = "--apply" ]; then
   echo "==> [$TAG] gates"
   npm run test:v3 >/dev/null && echo "    test:v3 ok"

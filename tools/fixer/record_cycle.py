@@ -47,6 +47,14 @@ def main() -> int:
         "patches_rejected": app.get("rejected"),
         "rejections": app.get("rejections", []),
         "unresolved_questions": res.get("unresolved_questions", []),
+        "self_critiques": [
+            {"field_path": p.get("field_path"),
+             "what_could_confuse": (p.get("self_critique") or {}).get("what_could_confuse", ""),
+             "what_is_missing": (p.get("self_critique") or {}).get("what_is_missing", ""),
+             "residual_concern": (p.get("self_critique") or {}).get("residual_concern", "")}
+            for p in res.get("patches", [])
+            if (p.get("self_critique") or {}).get("residual_concern", "").strip()
+        ],
         "typecheck_ok": app.get("typecheck_ok"),
         "rolled_back": app.get("rolled_back", False),
     }

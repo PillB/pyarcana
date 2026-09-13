@@ -22,7 +22,8 @@
           "replacement",
           "rationale",
           "terms_introduced",
-          "file"
+          "file",
+          "self_critique"
         ],
         "properties": {
           "finding_ids": {
@@ -52,6 +53,34 @@
           "file": {
             "type": "string",
             "description": "Repo-relative file this patch applies to. Omit for the section file."
+          },
+          "self_critique": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "what_could_confuse",
+              "what_is_missing",
+              "addressed_in_this_replacement",
+              "residual_concern"
+            ],
+            "properties": {
+              "what_could_confuse": {
+                "type": "string",
+                "description": "Read this replacement as a learner who knows only what earlier sections taught. What could they misread, and how?"
+              },
+              "what_is_missing": {
+                "type": "string",
+                "description": "What a learner needs here that the replacement still does not give them."
+              },
+              "addressed_in_this_replacement": {
+                "type": "boolean",
+                "description": "True only if the replacement already fixes the two answers above. Revise before answering true."
+              },
+              "residual_concern": {
+                "type": "string",
+                "description": "What remains wrong if addressed is false, or an empty string. Never invent a concern to fill this."
+              }
+            }
           }
         }
       }
