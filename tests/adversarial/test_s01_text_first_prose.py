@@ -29,7 +29,7 @@ class Section01TextFirstProseTests(unittest.TestCase):
         theory = _between(source, "  theory: [", "\n  iDo: {")
 
         for phrase in (
-            "una colega en Nairobi, otra en Berlín",
+            "una colega en Nairobi y otra en Berlín",
             "una partitura no produce música sin intérprete",
             "¿en qué habitación estoy?",
             "Una receta puede ser la misma",

@@ -34,7 +34,7 @@ class Section03TextFirstContractTests(unittest.TestCase):
             # anchor now pins the sentence that carries the section's core idea,
             # so the requirement is still enforced — just against teaching prose
             # instead of a dictionary block.
-            "un invariante es una promesa que el programa no puede romper",
+            "**invariante** es una condición que declaras que debe cumplirse en una etapa concreta",
             "**Antes de continuar, predice:**",
             "plataforma de alquiler de bicicletas de Ámsterdam",
             "**Modelo mental.**",

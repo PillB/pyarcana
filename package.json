@@ -33,7 +33,7 @@
     "test:i18n-parity": "node scripts/i18n_parity_check.mjs",
     "test:a11y-contrast": "node scripts/a11y_contrast_check.mjs",
     "test:code-syntax-contrast": "node scripts/code_syntax_contrast_check.mjs",
-    "test:python-content": ".venv-content/bin/python scripts/python_content_runtime_audit.py --workers 4",
+    "test:python-content": "PY=$(test -x .venv-content/bin/python && echo .venv-content/bin/python || echo python3); \"$PY\" scripts/python_content_runtime_audit.py --workers 4",
     "test:exam-pedagogy": "python3 scripts/exam_selfcheck_pedagogy_audit.py",
     "test:readability-contrast": "npm run test:code-syntax-contrast && BASE_URL=http://localhost:3000 npx playwright test -c scripts/e2e_max/playwright.max.config.ts scripts/e2e_max/12_readability_exhaustive.shard.spec.ts --reporter=line",
     "test:readability-contrast:full": "READABILITY_FULL=1 npm run test:readability-contrast",

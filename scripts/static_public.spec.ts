@@ -83,11 +83,21 @@ test.describe('PyArcana public GitHub Pages edition', () => {
     // Wait for page to hydrate — the heading may take time on CI
     await page.waitForLoadState('domcontentloaded')
     // Dismiss the interactive tour if it appears (first-visit overlay)
-    const tourSkip = page.getByRole('button', { name: /Saltar|Skip|Omitir|Cerrar/i }).first()
+    const tourSkip = page
+      .locator('[role="dialog"][data-state="open"]')
+      .getByRole('button', { name: /Saltar|Skip|Omitir|Cerrar/i })
+      .first()
     if (await tourSkip.isVisible({ timeout: 3000 }).catch(() => false)) {
       await tourSkip.click()
       await expect(tourSkip).toBeHidden({ timeout: 5000 }).catch(() => undefined)
     }
+    // The dismissal must not have navigated us off the landing page. An earlier
+    // version of this locator searched the whole document, so once a section card
+    // happened to contain the word "cerrar" it matched that card instead of the
+    // tour, clicked it, and every assertion below failed against the wrong route -
+    // reported as a missing <h1> rather than as a stray click.
+    await expect(page).toHaveURL(/\/pyarcana\/?(\?.*)?(#.*)?$/)
+
     // Wait for the main heading with generous timeout for CI
     await expect(page.getByRole('heading', { name: 'PyArcana', level: 1 })).toBeVisible({
       timeout: 15000,

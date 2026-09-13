@@ -44,7 +44,10 @@ const SUB_STEPS = ['theory', 'ido', 'wedo', 'youdo', 'quiz']
 async function dismissTour(page: Page) {
   // Try clicking the skip button if the tour appeared
   try {
-    const skip = page.getByRole('button', { name: /Saltar|Skip|Omitir|Cerrar/i }).first()
+    const skip = page
+      .locator('[role="dialog"][data-state="open"]')
+      .getByRole('button', { name: /Saltar|Skip|Omitir|Cerrar/i })
+      .first()
     await skip.waitFor({ state: 'visible', timeout: 2000 })
     await skip.click()
     await page.waitForTimeout(500)

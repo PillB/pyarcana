@@ -42,7 +42,7 @@ class TestS07TextFirstQuality(unittest.TestCase):
         self.assertIn("S06 te dejó colecciones", self.theory)
         anchors = (
             "**Predice los code points:**",
-            "**Prueba la heurística:**",
+            "**Prueba el límite:**",
             "**Elige la herramienta:**",
             "**Separa normalizar de verificar:**",
             "**Predice el alcance del patrón:**",

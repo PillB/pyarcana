@@ -34,13 +34,13 @@ class Section04TextFirstProseTests(unittest.TestCase):
 
         for anchor in (
             "Imagina una cinta transportadora",
-            "el índice es equipaje innecesario",
+            "el índice es innecesario hasta que una necesidad concreta",
             "Dos problemas parecen iguales y no lo son",
             "¿qué debe cambiar para que esto termine?",
             "clasifica el hecho",
             "Un resumen fiable responde tres preguntas distintas",
-            "una frase compacta para una idea compacta",
-            "convierte el bucle en una película",
+            "es una forma compacta de crear una lista a partir de otra",
+            "muestra cada vuelta: dato de entrada, valores antes y después y decisión tomada",
             "Dos programas pueden imprimir el mismo resumen",
         ):
             with self.subTest(anchor=anchor):

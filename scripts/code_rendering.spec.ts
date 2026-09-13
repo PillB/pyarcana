@@ -106,7 +106,10 @@ test.describe('Code rendering fidelity', () => {
     await page.goto('/#setup', { waitUntil: 'domcontentloaded' })
     // Dismiss interactive tour if present
     try {
-      const skip = page.getByRole('button', { name: /Saltar|Skip|Omitir|Cerrar/i }).first()
+      const skip = page
+      .locator('[role="dialog"][data-state="open"]')
+      .getByRole('button', { name: /Saltar|Skip|Omitir|Cerrar/i })
+      .first()
       await skip.waitFor({ state: 'visible', timeout: 2000 })
       await skip.click()
       await page.waitForTimeout(500)
