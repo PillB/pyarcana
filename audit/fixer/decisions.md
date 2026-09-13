@@ -52,24 +52,37 @@ This costs length. The trade-off is accepted deliberately: a section that takes 
 to read and leaves the learner able to do the work beats a shorter one that leaves them
 recognising vocabulary.
 
-## D4 — Figures are inline SVG; screenshots are out of scope
-*Recorded 2026-09-13 from the existing schema, not newly decided.*
+## D4 — Diagrams and animation are first-class; screenshots are not
+*Recorded 2026-09-13. Corrects an earlier version of this entry that understated what
+the platform already does.*
 
-`src/lib/types.ts` states it directly: "Figures are inline SVG components, not images:
-they follow the theme tokens, scale without loss, and are checked by the same geometry
-gates as the rest of the page."
+Available today, and already used in course figures:
 
-So diagrams and light animation are available; **screenshots are not**, and adding them
-would mean a new asset pipeline, theme-aware light/dark variants, and exemption from the
-geometry and contrast gates every other visual passes. A screenshot also rots the moment
-the UI moves, which is the failure mode the SVG decision was made to avoid.
+- **Inline SVG figures**, bespoke or built from eight data-driven archetypes in
+  `src/components/course/figures/archetypes/` — flow, decision, stack, timeline, set,
+  bars, table-shape, graph. Adding one is a data entry in
+  `src/components/course/figures/data/` (`kind`, `headline`, stages, `outcome`),
+  referenced by `figure.id` from a TheoryBlock. 94 exist.
+- **Animation** via `framer-motion` (^12.23.2). `SteppedCode` reveals an I Do demo line
+  by line so the "predice la salida" instruction is honest instead of asking the learner
+  to predict something already on screen. `S14ViewVsCopy` animates a figure.
+- **Interactive graphs** via `@xyflow/react` (^12.11.3) — `GraphFigure` and
+  `S31EvidenceGraph`, loaded dynamically because pulling xyflow into every section cost
+  ~5s of hydration on S01.
 
-Where a screenshot feels necessary — terminal output, an editor state — the substitute
-is a figure built from the archetypes in `src/components/course/figures/archetypes/`
-(flow, decision, stack, timeline, set, bars, table-shape, graph) plus a real code block
-showing the exact command and its output. Those execute in the runtime audit; a
-screenshot cannot.
+Two constraints that come with them, both load-bearing:
 
-Adding a figure is cheap and data-driven: an entry in
-`src/components/course/figures/data/` with `kind`, `headline`, stages and an `outcome`,
-referenced by `figure.id` from the TheoryBlock. 94 exist today.
+1. **Reduced motion is honoured.** `SteppedCode` reads `useReducedMotion`. Any new
+   animation does the same; motion is never the only carrier of meaning.
+2. **The code-fidelity gate still applies.** `scripts/code_rendering.spec.ts` asserts the
+   rendered text of every code block is byte-identical to `data-code-source`. So an
+   animated reveal hides lines with `visibility`, never by truncating them, and output
+   stays in the DOM with its full text. An animation that withholds text from the
+   accessibility tree fails.
+
+**Screenshots remain out of scope.** There is no image pipeline, `src/lib/types.ts`
+states figures are inline SVG "not images", and a raster screenshot would need
+light/dark variants and exemption from the geometry and contrast gates every other
+visual passes — then rot the moment the UI moves. Where one feels necessary, use an
+archetype figure plus a real code block: that block executes in the runtime audit, and
+a screenshot cannot.
