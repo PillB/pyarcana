@@ -20,6 +20,7 @@ CONTRACTS = [
     ROOT / "ReviewerFixer/Solarized Website Content Comprehension Auditor & Rewriter.md",
     ROOT / "ReviewerFixer/PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA.md",
     ROOT / "ReviewerFixer/_GRAMMAR_SUBPLAN.md",
+    ROOT / "Handcrafted Writing and Editorial Quality Protocol.docx",
 ]
 
 
@@ -107,9 +108,11 @@ Rules that are not negotiable:
         block("STANDING DECISIONS (binding, override anything below)",
               (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")),
 
-        block("WRITING CONTRACTS (binding)",
-              "\n\n".join(f"--- {c.name} ---\n{c.read_text(encoding='utf-8')}"
-                          for c in CONTRACTS if c.exists())),
+        block("WRITING RULES (binding, distilled)",
+              (ROOT / "audit/fixer/writing_rules.md").read_text(encoding="utf-8")
+              + "\n\nThe full sources are in the repository and are the authority where the\n"
+                "distilled rule above is ambiguous. Read them if a rule's intent is unclear:\n"
+              + "\n".join(f"  - {c.relative_to(ROOT)}" for c in CONTRACTS if c.exists())),
     ]
     sys.stdout.write("".join(prompt))
 

@@ -1,0 +1,57 @@
+{
+ "ceiling": 15,
+ "over_ceiling": 34,
+ "worst": 90,
+ "worst_offenders": [
+  {
+   "score": 90,
+   "file": "src/components/course/Dashboard.tsx",
+   "line": 65
+  },
+  {
+   "score": 43,
+   "file": "src/lib/eligibility/engine.ts",
+   "line": 112
+  },
+  {
+   "score": 42,
+   "file": "src/lib/familiarity.ts",
+   "line": 169
+  },
+  {
+   "score": 37,
+   "file": "src/app/page.tsx",
+   "line": 42
+  },
+  {
+   "score": 33,
+   "file": "src/components/course/RichText.tsx",
+   "line": 149
+  },
+  {
+   "score": 29,
+   "file": "src/lib/admin-analytics.ts",
+   "line": 100
+  },
+  {
+   "score": 26,
+   "file": "src/lib/admin-analytics.ts",
+   "line": 193
+  },
+  {
+   "score": 24,
+   "file": "src/app/api/feedback/route.ts",
+   "line": 27
+  },
+  {
+   "score": 24,
+   "file": "src/components/course/AuthModal.tsx",
+   "line": 573
+  },
+  {
+   "score": 24,
+   "file": "src/components/course/ExamView.tsx",
+   "line": 53
+  }
+ ]
+}

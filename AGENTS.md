@@ -329,3 +329,34 @@ Do **not** report READY if any of:
 
 Changes to this policy require independent human or verifier review
 (CODEOWNERS).
+
+---
+
+## chore(lint): cyclomatic complexity ceiling
+
+**Ceiling: 15.** Enforced by `node scripts/complexity_gate.mjs`.
+
+McCabe's original guidance puts 10 at the edge of what one reader holds in mind at
+once; most TypeScript/React codebases settle at 15. This repository's worst function
+scores 90, so a hard ceiling applied today would block every change and be switched
+off within a week — which is how complexity limits usually die.
+
+So the ceiling is real and the enforcement is directional. The number of functions
+above 15, and the worst score, may fall and may not rise:
+
+```bash
+node scripts/complexity_gate.mjs            # fails if complexity grew
+node scripts/complexity_gate.mjs --update   # re-baseline after reducing debt
+```
+
+Baseline lives in `audit/fixer/complexity_baseline.json`. At the time of writing: 34
+functions above the ceiling, worst 90 (`components/course/Dashboard.tsx`).
+
+**New code meets 15.** A function that would exceed it gets split before it lands —
+not silenced with a disable comment. When a change pushes the count up, the fix is to
+split the new function or reduce debt elsewhere first, and the gate says which
+functions are worst so the choice is informed.
+
+**The trade-off, stated:** a ratchet tolerates existing debt indefinitely if nobody
+touches it. It buys enforceability at the cost of never forcing the 90 down. Reducing
+`Dashboard.tsx` is real work that this gate schedules but does not do.
