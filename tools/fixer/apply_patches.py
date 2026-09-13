@@ -62,10 +62,33 @@ def main() -> int:
     path = section_file(slug)
     original = path.read_text(encoding="utf-8")
 
-    text = original
+    # A patch may name its own file (adding a figure touches the section and the
+    # figure-data module). Everything is still applied or rolled back as one unit.
+    buffers: dict[Path, str] = {path: original}
+    originals: dict[Path, str] = {path: original}
+
+    def buf(rel: str | None) -> Path:
+        if not rel:
+            return path
+        target = (ROOT / rel).resolve()
+        if not str(target).startswith(str(ROOT)):
+            raise SystemExit(f"refusing to patch outside the repo: {rel}")
+        if target not in buffers:
+            if not target.exists():
+                raise SystemExit(f"patch names a file that does not exist: {rel}")
+            buffers[target] = originals[target] = target.read_text(encoding="utf-8")
+        return target
+
     applied, rejected = [], []
     for i, p in enumerate(data.get("patches", [])):
         anchor, repl = p["anchor"], p["replacement"]
+        try:
+            target = buf(p.get("file"))
+        except SystemExit as e:
+            rejected.append({"finding_ids": p.get("finding_ids", []),
+                             "field_path": p.get("field_path", ""), "reason": str(e)})
+            continue
+        text = buffers[target]
         n = text.count(anchor)
         if n == 0:
             rejected.append({**{k: p[k] for k in ("finding_ids", "field_path")},
@@ -79,8 +102,9 @@ def main() -> int:
             rejected.append({**{k: p[k] for k in ("finding_ids", "field_path")},
                              "reason": "replacement identical to anchor"})
             continue
-        text = text.replace(anchor, repl, 1)
+        buffers[target] = text.replace(anchor, repl, 1)
         applied.append({"finding_ids": p["finding_ids"], "field_path": p["field_path"],
+                        "file": str(target.relative_to(ROOT)),
                         "delta_chars": len(repl) - len(anchor)})
 
     report = {
@@ -96,12 +120,16 @@ def main() -> int:
         "dry_run": not apply,
     }
 
+    report["files_touched"] = sorted({a["file"] for a in applied})
     if apply and applied:
-        path.write_text(text, encoding="utf-8")
+        for target, content in buffers.items():
+            if content != originals[target]:
+                target.write_text(content, encoding="utf-8")
         ok, err = typechecks()
         report["typecheck_ok"] = ok
         if not ok:
-            path.write_text(original, encoding="utf-8")
+            for target, content in originals.items():
+                target.write_text(content, encoding="utf-8")
             report["rolled_back"] = True
             report["typecheck_error"] = err
             print(json.dumps(report, indent=2, ensure_ascii=False))

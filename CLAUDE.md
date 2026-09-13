@@ -19,6 +19,14 @@ Read it before doing anything here. It is binding, and it outranks habit. In par
   how others solved the same error before trying a second guess.
 - **A blocked or rate-limited dependency is a stop, not a retry.** Surface it.
 
+## The reviewer-fixer round
+
+The unit of work is one section, and the checklist is **[`audit/fixer/LEDGER.md`](./audit/fixer/LEDGER.md)** —
+every box computed from an artifact, never hand-ticked. Regenerate with
+`python3 tools/fixer/ledger.py`. The seven steps, the STORM research loop and the graph
+roles are in `AGENTS.md`; the short version is that grammar and redaction are a gate of
+their own, because a round can close every finding and still leave the writing worse.
+
 ## Writing course content
 
 Learner-facing Spanish follows **[`audit/fixer/writing_rules.md`](./audit/fixer/writing_rules.md)** —

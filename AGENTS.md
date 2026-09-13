@@ -13,6 +13,112 @@ Priority order when instructions conflict:
 
 ---
 
+## Commands
+
+```bash
+tools/fixer/run_round.sh SXX --apply        # one reviewer-fixer round
+tools/fixer/build_redaction_prompt.py SXX   # grammar + redaction pass
+python3 tools/fixer/ledger.py               # regenerate the ledger
+python3 tools/fixer/preflight.py            # refuse to start on bad preconditions
+
+npm run test:v3                 # structure, counts, invariants
+npm run test:ux-gates           # glossary, first-use, identifiers, a11y, contrast
+npm run test:python-content     # executes every snippet under .venv-content
+npm run test:prose-quality      # Fernández-Huerta, sentence length, nominalisation
+npm run test:course-complete
+node scripts/complexity_gate.mjs
+```
+
+Lesson code runs under `.venv-content` (Python 3.12, pinned). The runtime audit
+refuses to report a verdict under any other interpreter.
+
+---
+
+## The reviewer-fixer round
+
+The unit of work is one section. Ledger: **`audit/fixer/LEDGER.md`** — every box is
+computed from an artifact, never hand-ticked, so it cannot claim a step is done when
+it is not. Regenerate it after every round.
+
+Steps, in order. A step that cannot be finished goes to
+`audit/fixer/OPEN_QUESTIONS.md`; it is never skipped silently.
+
+1. **findings** — close the registry findings for the section.
+2. **redaction** — grammar and prose pass. *Not optional, and not last-in-practice:*
+   a round that fixes facts and flattens the writing has traded one defect for another.
+3. **concepts** — a load-bearing concept gets its own subtopic (D3), not a gloss.
+4. **figures** — at least two figures carrying real teaching (D4).
+5. **vocab** — no term used before it is defined.
+6. **ids** — no identifier-shaped synthetic value (D2).
+7. **runtime** — every snippet executes clean.
+
+### Grammar and redaction are a first-class gate
+
+Content correctness and prose quality fail independently, and only one of them used to
+be measured. S01 gained an accurate account of the Mars Climate Orbiter units failure
+and lost the sentence that was the lesson — *"Nadie mintió y nadie se equivocó al
+calcular; simplemente, cada lado dio por supuesto algo que el otro no compartía"* —
+replaced by "fallas contribuyentes de verificación, comunicación e ingeniería de
+sistemas". True, and it teaches nothing.
+
+Rules: **`audit/fixer/writing_rules.md`**, distilled and citing the four guides.
+Measurement: `scripts/prose_quality_audit.py`. A round that raises run-ons or
+nominalisation density has regressed even when every finding closed.
+
+### Research: STORM before deciding
+
+For anything not settled by the registry, use multi-perspective question asking
+(Stanford OVAL, NAACL 2024) rather than one pass of one opinion: adopt several expert
+perspectives — pedagogue, domain practitioner, accessibility specialist, Spanish
+editor, skeptical learner — ask each what is missing, synthesise into an outline,
+critique that outline for what no perspective raised, then refine. Stop when a round
+raises nothing new, or at three critique rounds.
+
+Write what you learn to graph memory so the next section starts from it instead of
+re-deriving it: `audit/fixer/cycles/SXX.json` and the `graph_memory` blocks the audits
+already carry.
+
+### Graph engineering
+
+Treat the round as a graph of nodes with typed edges, not a single prompt:
+
+- **Nodes have one job.** Researcher, test designer, content author (codex), applier,
+  verifier. The verifier never authors; the author never edits the repository.
+- **Edges carry typed payloads.** Codex returns anchor/replacement pairs against a
+  JSON schema, and `apply_patches.py` rejects an anchor that is missing or matches
+  twice rather than guessing.
+- **Fan out only where independent.** Sections are independent; subsections inside one
+  section are not, because a definition added in T1 changes what T3 may assume.
+- **Tier the model to the job.** `gpt-5.6-sol` at medium for single-turn authoring;
+  `gpt-6-astra` at low only for agentic multi-file work, where it leads by 20 points on
+  Terminal-Bench rather than the 1.4 it leads by on single-turn generation.
+- **Converge, do not iterate forever.** Validation stops after two consecutive quiet
+  rounds, or five rounds, whichever comes first.
+
+---
+
+## Boundaries
+
+**Always**
+- Run preflight before a chain, and the gates after every round.
+- State every trade-off in the report. Work left undone is named.
+- Record a decision that binds later rounds in `audit/fixer/decisions.md`.
+
+**Ask first**
+- Changing what a credential claims (`badge_catalog.json`), deleting a test, or
+  relaxing a gate's threshold.
+- Restructuring a section's practice layer, or moving a project to another section.
+- Anything that deploys: merging to `main` publishes to GitHub Pages.
+
+**Never**
+- Re-pin a prose-snapshot test without verifying the teaching move survived.
+- Commit a file that was already modified before the round started.
+- Report a gate result whose preconditions failed — refuse instead.
+- Edit `run_round.sh` or `run_chain.sh` while a chain is running; bash reads a script
+  incrementally and will run half of each.
+
+---
+
 ## MUST
 
 1. **Preserve by default.** Existing source, curriculum, tests, fixtures,
