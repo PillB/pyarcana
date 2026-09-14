@@ -8,7 +8,7 @@ Every box is computed from an artifact, never hand-ticked. Regenerate with
 | `findings` | codex round applied, registry findings closed | 5/52 |
 | `redaction` | grammar and redaction pass applied | 8/52 |
 | `concepts` | load-bearing concepts have their own subtopic (D3) | 0/52 |
-| `figures` | at least two figures carrying real teaching (D4) | 43/52 |
+| `figures` | at least two figures carrying real teaching (D4) | 44/52 |
 | `vocab` | no term used before it is defined | 25/52 |
 | `ids` | no identifier-shaped synthetic value (D2) | 50/52 |
 | `runtime` | every snippet executes under .venv-content | 52/52 |
@@ -18,7 +18,7 @@ Every box is computed from an artifact, never hand-ticked. Regenerate with
 | sec | findings | figs | run-ons | findings | redaction | concepts | figures | vocab | ids | runtime |
 |---|---|---:|---:|---|---|---|---|---|---|---|
 | **S01** setup | 19/21 | 2 | 10 | [ ] | [x] | [ ] | [x] | [ ] | [x] | [x] |
-| **S02** basics | 21/21 | 0 | 4 | [x] | [x] | [ ] | [ ] | [ ] | [x] | [x] |
+| **S02** basics | 21/21 | 2 | 4 | [x] | [x] | [ ] | [x] | [ ] | [x] | [x] |
 | **S03** data-structures | 12/17 | 2 | 2 | [ ] | [x] | [ ] | [x] | [ ] | [ ] | [x] |
 | **S04** functions-modules | 18/18 | 2 | 2 | [x] | [x] | [ ] | [x] | [ ] | [x] | [x] |
 | **S05** oop | 22/22 | 2 | 0 | [x] | [x] | [ ] | [x] | [x] | [x] | [x] |

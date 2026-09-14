@@ -1,9 +1,9 @@
 {
   "ok": true,
   "url": "https://pillb.github.io/pyarcana/deployment.json",
-  "live_git_sha": "b5a4d7ed0df3c6e1b4daa4d463a3c4d70fc5db42",
+  "live_git_sha": "7720c2d9f02b789d5804ec64632e2c4ca7dab3e5",
   "compared_against": "origin/main",
-  "expected_git_sha": "b5a4d7ed0df3c6e1b4daa4d463a3c4d70fc5db42",
+  "expected_git_sha": "7720c2d9f02b789d5804ec64632e2c4ca7dab3e5",
   "live_commit_known_locally": true,
   "commits_live_is_behind": 0,
   "commits_live_is_ahead": 0,

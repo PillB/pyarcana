@@ -207,6 +207,13 @@ False`,
     },
     {
       heading: 'Identidad, mutabilidad y copias superficiales',
+      figure: {
+        id: "S02-truthiness",
+        caption:
+          "Un if desnudo funde ausente, cero y vacío en la misma rama. Por eso la ausencia se pregunta con `is None`.",
+        alt:
+          "Cuatro guardas evaluadas en orden: is None da ausente; == 0 y == vacío dan presente; el resto, presente.",
+      },
 
       subtopicId: 'S02-T2-B',
       paragraphs: [
@@ -292,6 +299,13 @@ a + b * c = 16
     },
     {
       heading: 'Decimal para dinero y redondeo',
+      figure: {
+        id: "S02-decimal-rounding",
+        caption:
+          "Redondear una sola vez, al final. Hacerlo en cada paso acumula el error y con float ni siquiera es reproducible.",
+        alt:
+          "Un eje de cuatro pasos con una línea vertical en el tercero marcada como la única vez que se redondea.",
+      },
 
       subtopicId: 'S02-T3-B',
       paragraphs: [

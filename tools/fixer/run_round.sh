@@ -63,6 +63,13 @@ if [ "$APPLY" = "--apply" ]; then
   "$CONTENT_PY" scripts/python_content_runtime_audit.py --workers 4 >/dev/null 2>&1 || true
   python3 tools/fixer/check_runtime_regression.py
 
+  # Both halves. The Python half alone missed S02 losing two figure references:
+  # figure-data-schema.test.mjs is a Node test, and CI runs it even when I do not.
+  npm run test:adversarial:node >/dev/null 2>&1 && echo "    adversarial (node) ok" \
+    || { echo "    ADVERSARIAL (node) FAILED"; npm run test:adversarial:node 2>&1 | tail -20; }
+  npm run test:adversarial:py >/dev/null 2>&1 && echo "    adversarial (py) ok" \
+    || { echo "    ADVERSARIAL (py) FAILED"; npm run test:adversarial:py 2>&1 | grep -E "^(FAIL|ERROR):" | head -10; }
+
   npm run test:first-use-all || echo "    first-use still reports gaps (expected until all sections done)"
   python3 scripts/badge_readiness_audit.py || true
   python3 scripts/synthetic_identifier_audit.py || echo "    D2 violations remain (see report)"
