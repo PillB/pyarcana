@@ -1,7 +1,7 @@
 {
  "section": "S03",
- "recorded_at": "2026-09-11T21:20:20+00:00",
- "commit": "0d7c8fae51b5c6c75ea4f70f5ca1ce04bd7f00ca",
+ "recorded_at": "2026-09-14T15:21:43+00:00",
+ "commit": "86a09ad0cad3c07ca8a92f6540c6c8de8aded348",
  "file": "src/lib/course/sections/s03-data-structures.ts",
  "findings_total": 17,
  "findings_closed": [
@@ -57,6 +57,7 @@
    ]
   }
  ],
+ "self_critiques": [],
  "typecheck_ok": true,
  "rolled_back": false
 }

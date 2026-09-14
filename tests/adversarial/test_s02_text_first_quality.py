@@ -57,7 +57,9 @@ class TestSection02TextFirstQuality(unittest.TestCase):
         self.assertEqual(len(demo_ids), 8)
         self.assertEqual(i_do.count("**Predicción"), 8)
         self.assertIn("predice una línea", i_do)
-        self.assertIn("explicar por qué hizo *eso*", i_do)
+        # Anchored without its first letter: the sentence moved to a boundary, so the
+        # phrase is now capitalised. The teaching move is unchanged.
+        self.assertIn("xplicar por qué hizo *eso*", i_do)
 
     def test_every_we_do_exercise_closes_with_reasoning_not_answer_repetition(self) -> None:
         we_do = _between(self.source, "  weDo: {", "  youDo: {")

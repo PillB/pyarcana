@@ -1,7 +1,7 @@
 {
  "section": "S05",
- "recorded_at": "2026-09-12T04:06:06+00:00",
- "commit": "b9738bba5145c4416400ee19b4237738630e3b39",
+ "recorded_at": "2026-09-14T15:21:43+00:00",
+ "commit": "86a09ad0cad3c07ca8a92f6540c6c8de8aded348",
  "file": "src/lib/course/sections/s05-oop.ts",
  "findings_total": 22,
  "findings_closed": [
@@ -44,6 +44,7 @@
    ]
   }
  ],
+ "self_critiques": [],
  "typecheck_ok": true,
  "rolled_back": false
 }

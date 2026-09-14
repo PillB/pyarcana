@@ -78,7 +78,7 @@ class Section04TextFirstProseTests(unittest.TestCase):
         )
         self.assertTrue(all(len(_words(text)) >= 30 for text in retrospectives))
         self.assertEqual(len(set(retrospectives)), 8)
-        self.assertIn("cada `output` es un oráculo ejecutable", i_do)
+        self.assertIn("El `output` te permite comprobar qué debe imprimir el código", i_do)
 
     def test_all_24_we_do_exercises_end_with_explanation_and_transfer(self) -> None:
         we_do = _between(self.source, "  weDo: {", "  youDo: {")
@@ -131,7 +131,7 @@ class Section04TextFirstProseTests(unittest.TestCase):
             "una promesa verificable",
             "escribe los invariantes",
             "cuenta la historia de un lote pequeño",
-            "Haz una defensa de cierre",
+            "Defiende tu solución sin mirar el código",
             "100,000 filas",
         ):
             self.assertIn(anchor, you_do)

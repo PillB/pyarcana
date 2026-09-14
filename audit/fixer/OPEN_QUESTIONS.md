@@ -58,3 +58,27 @@ Codex offered three routes and declined to pick:
 This is a curriculum-architecture decision, not a content fix. Every section from S02
 onward whose practice outruns its theory will hit the same question, so the answer
 should be a policy, not a one-off.
+
+## Q4 — A test pins a demo that an audit finding deliberately removed
+*Raised 2026-09-14 during the S01–S08 redaction pass. Skipped, not deleted.*
+
+`tests/adversarial/test_s01_independent_recovery.py::test_rendered_check_arg_demo_preserves_the_typed_entrypoint`
+asserts S01 contains a `check_arg.py — argv, len y exit codes` demo with
+`def main() -> None:` and `print("executable:", sys.executable)`.
+
+Finding **S01-F06** removed that demo, and the reasoning holds: it introduced `import`,
+`def`, indentation, variables, method calls, indexing, f-strings and `if __name__` in
+order to demonstrate exit codes — every one of them before the section that teaches it.
+S01 now demonstrates exit codes with two shell commands.
+
+So the test and the finding disagree, and both have a point. The demo was a
+future-knowledge leak; the *typed entrypoint* convention it guarded is still worth
+enforcing — just not in S01, where a learner cannot yet read `def main() -> None:`.
+
+The campaign will not delete a test on its own judgement. Skipped with this reasoning
+attached, pending a decision:
+
+1. **Delete it** — the requirement moves to S05, which teaches functions, and a new test
+   guards it there.
+2. **Restore a typed entrypoint to S01** — reopens S01-F06.
+3. **Keep it skipped** — honest, but a skipped test guards nothing.

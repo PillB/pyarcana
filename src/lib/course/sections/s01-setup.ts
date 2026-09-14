@@ -16,7 +16,7 @@ export const section01: CourseSection = {
   title: 'Entorno reproducible y trabajo seguro',
   shortTitle: 'Entorno reproducible',
   tagline:
-    'Prepara Python, un editor, un entorno virtual y Git desde el día 1. Un entorno virtual (`venv`) es un directorio aislado, asociado a un intérprete Python y con sus propios paquetes. Git es el sistema que conserva el historial de cambios. Ritmo sugerido: 3 h de núcleo, 5 h de práctica guiada y 2 h para iniciar `CP-N1-A`, el proyecto acumulativo de Nivel 1.',
+    'Prepara Python, un editor, un entorno virtual y Git desde el día 1. Un entorno virtual (`venv`) es un directorio aislado, asociado a un intérprete Python y con sus propios paquetes. Git es el sistema que conserva el historial de cambios. Ritmo sugerido: unas 10 horas en total, repartidas en 3 h de núcleo, 5 h de práctica guiada y 2 h para iniciar `CP-N1-A`, el proyecto acumulativo de Nivel 1.',
   estimatedHours: 10,
   level: 'Principiante',
   phase: 0,

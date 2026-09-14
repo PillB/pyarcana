@@ -35,7 +35,7 @@ class TestSection05TextFirstQuality(unittest.TestCase):
             "**Detente y predice:**",
             "**Dibuja la memoria:**",
             "**Audita la promesa:**",
-            "**Separa las causas:**",
+            "**Separa forma y conducta:**",
             "**Prueba de sustitución:**",
             "**Dos preguntas, no una:**",
             "**Traza la búsqueda:**",

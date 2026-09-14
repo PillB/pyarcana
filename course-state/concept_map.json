@@ -41,6 +41,12 @@
    },
    {
     "section": "S05",
+    "location": "oop.S05-T4-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S05",
     "location": "oop.S05-T1-A-E1.retrospective",
     "kind": "wedo.retrospective",
     "visible": true
@@ -400,12 +406,6 @@
   ],
   "definitions": [
    {
-    "section": "S06",
-    "location": "numpy.S06-T1-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
     "section": "S45",
     "location": "iac.S45-T1-A.p1",
     "kind": "theory.paragraph",
@@ -431,13 +431,32 @@
    "visible": true
   },
   "first_definition": {
-   "section": "S06",
-   "location": "numpy.S06-T1-B.p0",
+   "section": "S45",
+   "location": "iac.S45-T1-A.p1",
    "kind": "theory.paragraph",
    "visible": true
   },
   "depth": "L1",
-  "surprising_uses": [],
+  "surprising_uses": [
+   {
+    "section": "S06",
+    "location": "numpy.S06-T1-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S19",
+    "location": "databases-orm.resources.doc[5]",
+    "kind": "resource",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.S25-T1-B.figure",
+    "kind": "theory.figure",
+    "visible": true
+   }
+  ],
   "sections_used": [
    "S06",
    "S19",
@@ -912,6 +931,12 @@
   "uses": [
    {
     "section": "S02",
+    "location": "basics.S02-T4-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S02",
     "location": "basics.S02-T4-A-DEMO.preamble",
     "kind": "ido.preamble",
     "visible": true
@@ -1318,8 +1343,8 @@
   "figures": [],
   "first_use": {
    "section": "S02",
-   "location": "basics.S02-T4-A-DEMO.preamble",
-   "kind": "ido.preamble",
+   "location": "basics.S02-T4-B.p0",
+   "kind": "theory.paragraph",
    "visible": true
   },
   "first_definition": {
@@ -1330,6 +1355,12 @@
   },
   "depth": "L1",
   "surprising_uses": [
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
    {
     "section": "S02",
     "location": "basics.S02-T4-A-DEMO.preamble",
@@ -3466,6 +3497,12 @@
   "declared_first_section": "functions-modules",
   "uses": [
    {
+    "section": "S04",
+    "location": "functions-modules.theory[0].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
     "section": "S11",
     "location": "testing.S11-T1-A.p0",
     "kind": "theory.paragraph",
@@ -3484,41 +3521,35 @@
     "visible": true
    }
   ],
-  "definitions": [],
+  "definitions": [
+   {
+    "section": "S04",
+    "location": "functions-modules.theory[0].callout",
+    "kind": "theory.callout",
+    "visible": true
+   }
+  ],
   "examples": [],
   "exercises": [],
   "self_checks": [],
   "headings": [],
   "figures": [],
   "first_use": {
-   "section": "S11",
-   "location": "testing.S11-T1-A.p0",
-   "kind": "theory.paragraph",
+   "section": "S04",
+   "location": "functions-modules.theory[0].callout",
+   "kind": "theory.callout",
    "visible": true
   },
-  "first_definition": null,
-  "depth": "L0",
-  "surprising_uses": [
-   {
-    "section": "S11",
-    "location": "testing.S11-T1-A.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "testing.S11-T2-A.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "testing.S11-T3-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "first_definition": {
+   "section": "S04",
+   "location": "functions-modules.theory[0].callout",
+   "kind": "theory.callout",
+   "visible": true
+  },
+  "depth": "L1",
+  "surprising_uses": [],
   "sections_used": [
+   "S04",
    "S11"
   ],
   "load_bearing": false,
@@ -3865,7 +3896,7 @@
    },
    {
     "section": "S02",
-    "location": "basics.S02-T4-B.p4",
+    "location": "basics.S02-T4-B.p5",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -4646,7 +4677,7 @@
    },
    {
     "section": "S02",
-    "location": "basics.S02-T4-B.p4",
+    "location": "basics.S02-T4-B.p5",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -20969,12 +21000,6 @@
   "declared_first_section": "packaging",
   "uses": [
    {
-    "section": "S03",
-    "location": "data-structures.S03-T4-A.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
     "section": "S07",
     "location": "data-acquisition.S07-T3-A.p2",
     "kind": "theory.paragraph",
@@ -21815,8 +21840,8 @@
   ],
   "figures": [],
   "first_use": {
-   "section": "S03",
-   "location": "data-structures.S03-T4-A.p2",
+   "section": "S07",
+   "location": "data-acquisition.S07-T3-A.p2",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -21828,12 +21853,6 @@
   },
   "depth": "L2",
   "surprising_uses": [
-   {
-    "section": "S03",
-    "location": "data-structures.S03-T4-A.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
    {
     "section": "S07",
     "location": "data-acquisition.S07-T3-A.p2",
@@ -22118,7 +22137,6 @@
    }
   ],
   "sections_used": [
-   "S03",
    "S07",
    "S17",
    "S18",
@@ -53250,12 +53268,6 @@
    },
    {
     "section": "S08",
-    "location": "pandas.jobRelevance",
-    "kind": "jobRelevance",
-    "visible": true
-   },
-   {
-    "section": "S08",
     "location": "pandas.S08-T1-B.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -54934,12 +54946,6 @@
   "uses": [
    {
     "section": "S07",
-    "location": "data-acquisition.S07-T2-B-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S07",
     "location": "data-acquisition.S07-T2-B-DEMO.retrospective",
     "kind": "ido.retrospective",
     "visible": true
@@ -55103,12 +55109,6 @@
   ],
   "definitions": [
    {
-    "section": "S07",
-    "location": "data-acquisition.S07-T2-B-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
     "section": "S33",
     "location": "advanced-models.S33-T3-B.code",
     "kind": "theory.code",
@@ -55167,18 +55167,79 @@
   "figures": [],
   "first_use": {
    "section": "S07",
-   "location": "data-acquisition.S07-T2-B-DEMO.why",
-   "kind": "ido.why",
+   "location": "data-acquisition.S07-T2-B-DEMO.retrospective",
+   "kind": "ido.retrospective",
    "visible": true
   },
   "first_definition": {
-   "section": "S07",
-   "location": "data-acquisition.S07-T2-B-DEMO.why",
-   "kind": "ido.why",
+   "section": "S33",
+   "location": "advanced-models.S33-T3-B.code",
+   "kind": "theory.code",
    "visible": true
   },
   "depth": "L2",
-  "surprising_uses": [],
+  "surprising_uses": [
+   {
+    "section": "S07",
+    "location": "data-acquisition.S07-T2-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S07",
+    "location": "data-acquisition.S07-T2-B-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S07",
+    "location": "data-acquisition.selfCheck[2].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
+    "section": "S30",
+    "location": "security-infra.selfCheck[5].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.outcome[5]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.theory[1].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T3-B.heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T3-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T3-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T3-B.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   }
+  ],
   "sections_used": [
    "S07",
    "S30",

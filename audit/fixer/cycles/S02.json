@@ -1,7 +1,7 @@
 {
  "section": "S02",
- "recorded_at": "2026-09-11T14:48:47+00:00",
- "commit": "b2403c866934d20d71ae11b92eba16e3125fc9d4",
+ "recorded_at": "2026-09-14T15:21:43+00:00",
+ "commit": "86a09ad0cad3c07ca8a92f6540c6c8de8aded348",
  "file": "src/lib/course/sections/s02-basics.ts",
  "findings_total": 21,
  "findings_closed": [
@@ -50,6 +50,7 @@
    ]
   }
  ],
+ "self_critiques": [],
  "typecheck_ok": true,
  "rolled_back": false
 }

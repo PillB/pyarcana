@@ -1,7 +1,7 @@
 {
  "section": "S04",
- "recorded_at": "2026-09-12T03:53:29+00:00",
- "commit": "458aeb109db5b8c3c89777fb1eddd9af95318370",
+ "recorded_at": "2026-09-14T15:21:43+00:00",
+ "commit": "86a09ad0cad3c07ca8a92f6540c6c8de8aded348",
  "file": "src/lib/course/sections/s04-functions-modules.ts",
  "findings_total": 18,
  "findings_closed": [
@@ -51,6 +51,7 @@
    ]
   }
  ],
+ "self_critiques": [],
  "typecheck_ok": true,
  "rolled_back": false
 }

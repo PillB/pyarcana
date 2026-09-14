@@ -1,7 +1,7 @@
 {
  "section": "S07",
- "recorded_at": "2026-09-12T16:26:53+00:00",
- "commit": "b1444e4656af6b8095cf983f75a7e448b8872c0c",
+ "recorded_at": "2026-09-14T15:21:43+00:00",
+ "commit": "86a09ad0cad3c07ca8a92f6540c6c8de8aded348",
  "file": "src/lib/course/sections/s07-data-acquisition.ts",
  "findings_total": 19,
  "findings_closed": [
@@ -31,6 +31,7 @@
  "patches_rejected": 0,
  "rejections": [],
  "unresolved_questions": [],
+ "self_critiques": [],
  "typecheck_ok": true,
  "rolled_back": false
 }

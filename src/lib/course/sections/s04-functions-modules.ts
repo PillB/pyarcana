@@ -13,7 +13,7 @@ import type { CourseSection } from '../../types'
 export const section04: CourseSection = {
   id: "functions-modules",
   index: 4,
-  title: "Iteración y resúmenes por lote",
+  title: "Iteración y resúmenes transaccionales",
   shortTitle: "Iteración y resúmenes",
   tagline: "`for`, `while`, contadores y comprensiones —formas compactas de crear listas— para cerrar CP-N1-A, el proyecto acumulativo de captura y calidad de datos del Nivel 1",
   estimatedHours: 9,
@@ -22,7 +22,7 @@ export const section04: CourseSection = {
   icon: "Repeat",
   accentColor: "bg-gradient-to-br from-amber-500 to-orange-600",
   jobRelevance:
-    "Una regla aplicada a una sola fila es una demostración; aplicada con cuidado a miles de filas es un sistema. Aquí conviertes un validador registro por registro en un procesador por lotes: un programa que maneja muchos registros en una misma ejecución y, normalmente, los visita de manera sucesiva dentro de un bucle. Aprendes cuándo seguir, cuándo detenerte, qué contar y cómo demostrar que el resumen no perdió ni duplicó registros — criterio que sirve igual para pedidos, sensores, matrículas o transacciones.",
+    "Una regla aplicada a una sola fila es una demostración; aplicada con cuidado a miles de filas es un sistema. Aquí conviertes un validador registro por registro en un procesador por lotes. Este programa maneja muchos registros en una misma ejecución y, por lo común, un bucle los visita uno tras otro. Aprendes cuándo seguir, cuándo detenerte y qué contar. También aprendes a demostrar que el resumen no perdió ni duplicó registros. El mismo criterio sirve para pedidos, sensores, matrículas o transacciones.",
   learningOutcomes: [
     { text: "Recorrer grupos ordenados de valores con `for` y producir números consecutivos con `range`, cuyo límite final no se incluye" },
     { text: "Numerar valores con `enumerate` y emparejar dos grupos con `zip(..., strict=True)` sin ocultar diferencias de longitud" },
@@ -45,16 +45,16 @@ export const section04: CourseSection = {
             },
       paragraphs: [
         "Imagina una cinta transportadora: cada registro entra una vez, recibe una decisión y deja una marca en el resumen. El **bucle** mueve la cinta; el **centinela** (`\"\"`, `\"END\"`) indica que no llegan más cajas; la **tasa** compara un contador con todas las cajas intentadas. Si no llegó ninguna, la respuesta honesta es `None`, no una división inventada.",
-        "Desde **S03** ya validas un registro: aceptar, rechazar o revisar. Un registro. Lo nuevo aquí es sostener esa decisión a lo largo de muchas filas sin que se degrade en el camino, y eso se apoya en tres promesas que no pueden romperse ni una sola vez. Cada fila se procesa exactamente una vez: ni dos, ni ninguna. Los contadores suman exactamente el total de filas intentadas. Y el texto original de cada fila sobrevive intacto, porque es lo único que permite auditar la decisión después.",
+        "Desde **S03** ya validas un registro: aceptar, rechazar o revisar. Un registro. Lo nuevo aquí es sostener esa decisión a lo largo de muchas filas sin degradarla. Para lograrlo, mantienes tres promesas. Ninguna puede romperse ni una sola vez. Cada fila se procesa exactamente una vez: ni dos, ni ninguna. Los contadores suman exactamente el total de filas intentadas. Y el texto original de cada fila sobrevive intacto, porque es lo único que permite auditar la decisión después.",
         "La segunda promesa —que los contadores sumen exactamente el total de filas intentadas— es la que más se rompe sin querer, y casi siempre por el denominador. Si divides los aceptados entre los procesados en vez de entre los intentados, la tasa mejora sola cada vez que una fila falla antes de tiempo. El número sube, el trabajo empeora, y el informe se ve mejor. Por eso la pregunta que atraviesa la sección es de aritmética elemental: **¿sobre cuántas cosas estoy calculando esto, exactamente?**",
-        "Para estos contadores suele bastar un solo recorrido. Eso se llama **O(n)** —el trabajo crece en proporción al número de filas—, pero dos o tres recorridos sucesivos también siguen siendo O(n) y pueden separar responsabilidades con claridad. Evita, cuando no sean necesarios, los recorridos anidados que vuelven a examinar todo el lote por cada fila.",
+        "Para estos contadores suele bastar un solo recorrido. Ese costo se llama **O(n)**: el trabajo crece en proporción al número de filas. Dos o tres recorridos sucesivos también son O(n), y a veces permiten separar mejor las responsabilidades. Evita anidar recorridos que vuelvan a examinar todo el lote por cada fila sin necesidad.",
         "El hilo conductor es un **script de intake por lotes**: lee líneas sintéticas, valida cada registro, imprime un resumen y conserva el original de cada fila. Los ejemplos centrales de esta sección ejecutan los bucles directamente. En S05 convertirás esos pasos en funciones reutilizables y estudiarás sus parámetros, resultados y contratos.",
       ],
       callout: {
         type: "info",
         title: "Alcance de esta sección",
         content:
-          "La entrega es **CP-N1-A, el proyecto acumulativo de captura y calidad de datos del Nivel 1**: procesa lotes, calcula contadores y tasas con el denominador correcto y conserva intacto el texto original de cada fila. Aquí no se estudian los decoradores —marcas que modifican el comportamiento de una función o clase— ni el empaquetado del programa. Cuando llegues a módulos, a la interfaz de línea de comandos y a los objetos de dominio, reutilizarás estos bucles en el mismo proceso de captura.",
+          "La entrega es **CP-N1-A, el proyecto acumulativo de captura y calidad de datos del Nivel 1**. Debe procesar lotes, calcular contadores y tasas con el denominador correcto y conservar intacto el texto original de cada fila. Aquí no se estudian el empaquetado ni los decoradores. Un decorador es una marca que modifica el comportamiento de una función o clase. Cuando llegues a módulos, a la interfaz de línea de comandos y a los objetos de dominio, reutilizarás estos bucles en el mismo proceso de captura.",
       },
      },
      {
@@ -65,7 +65,7 @@ export const section04: CourseSection = {
         "**Orden de los subtemas.** T1 trata el recorrido: `for` y `range`, después `enumerate` y `zip`. T2 pasa a la repetición: `while`, centinelas, `break` y `continue`. T3 cubre los patrones: contadores, acumuladores y comprensiones. T4 cierra con el razonamiento: trazar el estado paso a paso, el costo y los errores de uno en uno.",
         "**Ritmo orientativo (unas 9 horas).** De esas, tres para el núcleo: al terminarlo ya tienes un bucle que cuenta bien y sabe sobre cuántas cosas está calculando. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
         "**Criterio de cierre.** CP-N1-A, el proyecto acumulativo de captura y calidad de datos del Nivel 1: lotes, contadores, tasas con el denominador correcto y el original intacto.",
-        "**Límites.** `CASO-LIM-004` es el caso sintético de procesamiento por lotes; utiliza datos ficticios, como direcciones de `example.com` y teléfonos inventados. Aquí no se estudian los decoradores —marcas que modifican una función o clase— ni el empaquetado. Más adelante reutilizarás estos bucles al estudiar módulos, la interfaz de línea de comandos y los objetos de dominio.",
+        "**Límites.** `CASO-LIM-004` es el caso sintético de procesamiento por lotes. Utiliza datos ficticios, como direcciones de `example.com` y teléfonos inventados. Aquí no se estudian el empaquetado ni los decoradores. Los decoradores son marcas que modifican una función o clase. Más adelante reutilizarás estos bucles al estudiar módulos, la interfaz de línea de comandos y los objetos de dominio.",
       ],
      },
      {
@@ -112,7 +112,7 @@ posición 2`,
       subtopicId: "S04-T1-B",
       paragraphs: [
         "Dos problemas parecen iguales y no lo son: **numerar** una sola secuencia y **alinear** dos secuencias. `enumerate(seq, start=1)` resuelve lo primero sin llevar un contador manual; `zip(a, b)` resuelve lo segundo, pero solo si puedes defender que ambas columnas tienen la misma longitud.",
-        "**`zip(a, b)`** empareja valores que ocupan la misma posición. Sin `strict=True`, se detiene en el grupo más corto: si `nombres` tiene 3 valores y `edades` tiene 2, el tercer nombre desaparece en silencio. En el entorno Python 3.12 del curso, usa `zip(a, b, strict=True)` cuando las longitudes deban coincidir; si no coinciden, Python produce un `ValueError`, un error que señala que los valores recibidos no cumplen ese requisito.",
+        "**`zip(a, b)`** empareja valores que ocupan la misma posición. Sin `strict=True`, se detiene en el grupo más corto. Si `nombres` tiene 3 valores y `edades` tiene 2, el tercer nombre desaparece en silencio. En el entorno Python 3.12 del curso, usa `zip(a, b, strict=True)` cuando las longitudes deban coincidir. Si no coinciden, Python lanza un `ValueError`. Este error indica que los valores recibidos no cumplen ese requisito.",
         "**Nunca** asumas que dos columnas CSV llegaron alineadas solo porque “deberían”. Cuenta longitudes en tests de pipeline (`len(a)==len(b)` o `zip(..., strict=True)`). Un zip corto silencioso infla o deflacta tasas de reject en el resumen de intake.",
       ],
       code: {
@@ -146,7 +146,7 @@ C003 → Arequipa`,
       subtopicId: "S04-T2-A",
       paragraphs: [
         "Elige **`while`** cuando conoces la condición de salida, pero no el número de vueltas: leer hasta `END`, reintentar hasta éxito o consumir un flujo mientras haya trabajo. Su pregunta central no es «¿cuántos elementos hay?», sino «¿qué debe cambiar para que esto termine?».",
-        "Un **centinela** es un valor especial que marca el fin (p. ej. `\"\"`, `None`, `\"END\"`). Todo bucle necesita una salida alcanzable. En este primer patrón, el estado cambia en cada vuelta hasta que la condición se vuelve falsa; en el subtema siguiente verás que `break` también puede terminar el bucle antes.",
+        "Un **centinela** es un valor especial que marca el fin (p. ej. `\"\"`, `None`, `\"END\"`). Todo bucle necesita una salida alcanzable. En este primer patrón, el estado cambia en cada vuelta hasta que la condición se vuelve falsa. En el subtema siguiente verás otra salida: `break` puede terminar el bucle antes.",
         "En las demostraciones del navegador no usamos `input()` de forma interactiva; empleamos una **lista que simula las líneas pendientes de leer**. El patrón es el mismo: leer siguiente → chequear centinela (`\"END\"` / `\"\"`) → procesar → actualizar estado. Si olvidas avanzar el índice, el while es **infinito**.",
       ],
       code: {
@@ -281,7 +281,7 @@ print("positivos", positivos)
       heading: "Trazado de estado",
       subtopicId: "S04-T4-A",
       paragraphs: [
-        "Cuando el resultado final sorprende, deja de mirar solo el final. Una **traza de estado** muestra cada vuelta: dato de entrada, valores antes y después y decisión tomada. Busca la primera vuelta que viola la condición que esperabas conservar, llamada **invariante**; un error del programa sí puede romper esa condición esperada.",
+        "Cuando el resultado final sorprende, deja de mirar solo el final. Una **traza de estado** muestra cada vuelta: dato de entrada, valores antes y después y decisión tomada. Busca la primera vuelta que rompe el **invariante**, la condición que esperabas conservar. Allí suele empezar el defecto.",
         "Dibuja entre tres y cinco filas de la traza con valores concretos. Cuando el estado real se separe del esperado, inspecciona la condición y la actualización que produjeron esa primera diferencia.",
         "En las demostraciones usamos `print` con el prefijo `TRACE` para ver el estado. Más adelante estudiarás herramientas de registro; aquí el objetivo es razonar paso a paso y comprobar, sin declarar culpable de antemano al validador, al contador o al texto mostrado.",
       ],
@@ -318,7 +318,7 @@ final total= 30 n_pos= 2`,
       subtopicId: "S04-T4-B",
       paragraphs: [
         "Dos programas pueden imprimir el mismo resumen y, sin embargo, no ser equivalentes. Un pase sobre n filas crece de forma **O(n)**; comparar cada fila con todas las demás crece **O(n²)**. La diferencia parece pequeña en un juguete y domina cuando el lote crece.",
-        "Un error **off-by-one** ocurre cuando un índice o conteo se desvía una posición. `range(len(xs))` produce los índices válidos de 0 a n−1; si usas `for i in range(len(xs)+1)` para acceder a `xs[i]`, la última vuelta intenta acceder a `xs[len(xs)]`, que no existe y produce `IndexError`. Elegir `>=` en vez de `>` es un **error de frontera o inclusividad**; con cantidades enteras puede parecerse a un off-by-one, pero describe una regla distinta.",
+        "Un error **off-by-one** ocurre cuando un índice o conteo se desvía una posición. `range(len(xs))` produce los índices válidos de 0 a n−1. Si usas `for i in range(len(xs)+1)` para acceder a `xs[i]`, añades una vuelta de más. Esa vuelta intenta acceder a `xs[len(xs)]`, que no existe, y produce `IndexError`. Elegir `>=` en vez de `>` es un **error de frontera o inclusividad**. Con cantidades enteras puede parecerse a un off-by-one, pero describe una regla distinta.",
         "Para el gate CP-N1-A: cuenta registros con un contador **O(n)**; **no** recalcules la tasa dentro de un doble bucle. Debuggea índices imprimiendo `i` y `len`. `tasa_reject = n_reject / n_total` solo si `n_total > 0`; si no, reporta `None` (lote vacío), no `ZeroDivisionError` silencioso.",
       ],
       code: {
@@ -351,7 +351,7 @@ primer índice inválido 3`,
     },
   ],
   iDo: {
-    intro: "Ocho demos **I Do**, una por subtema. Antes de pulsar Run, predice una línea de salida y nombra el invariante que esperas conservar; después compara tu explicación, no solo los caracteres impresos. Cada demo aporta una decisión al procesador por lotes de CP-N1-A. Si aparece `def nombre(...)`, léelo por ahora como una receta nombrada. Todos los datos son sintéticos y cada `output` es un oráculo ejecutable.",
+    intro: "Hay ocho demostraciones **I Do**, una por subtema. Antes de pulsar Run, predice una línea de salida y nombra el invariante que esperas conservar. Después comprueba tu explicación, no solo los caracteres impresos. Cada demostración aporta una decisión al procesador por lotes de CP-N1-A. Si aparece `def nombre(...)`, léelo por ahora como una receta con nombre. Todos los datos son sintéticos. El `output` te permite comprobar qué debe imprimir el código.",
     steps: [
       {
         demoId: "S04-T1-A-DEMO",
@@ -378,7 +378,7 @@ C002 edad= 17
 C003 edad= 45
 n= 3 range → [0, 1, 2]`,
         },
-        why: "Prefiere `for reg in lote` cuando solo te importa el valor: menos índices, menos off-by-one. Usa `range(n)` solo si el índice es imprescindible (reportes, posiciones). El stop de `range` es exclusivo — `range(3)` produce 0,1,2 — y así evitas numerar de más al recorrer N filas del batch.",
+        why: "Prefiere `for reg in lote` cuando solo te importa el valor: menos índices, menos errores off-by-one. Usa `range(n)` solo si el índice es imprescindible, por ejemplo, para reportes o posiciones. `range` no incluye su límite final: `range(3)` produce 0,1,2. Así evitas numerar de más al recorrer N filas del lote.",
         retrospective:
           "Prueba de comprensión: explica por qué hay tres iteraciones aunque el mayor índice sea 2. Esa separación entre cantidad e índice evita el off-by-one. Transfiérela a cualquier colección —eventos, pedidos o lecturas— antes de practicar contadores en We Do.",
       },
@@ -585,7 +585,7 @@ skipped_first [20, 30]`,
     ],
   },
   weDo: {
-    intro: "En cada subtema avanzas de **E1 guiado → E2 independiente → E3 transferencia**. Antes de editar, escribe una predicción del fallo; después de corregir, explica qué invariante recuperaste y prueba un caso límite. Son 24 ejercicios, no una carrera: trabaja un trío por vez y usa las pistas de menor a mayor ayuda. El `output` es evidencia, no decoración, y todos los datos son sintéticos.",
+    intro: "En cada subtema resuelves tres ejercicios: primero uno guiado, luego uno independiente y al final uno de transferencia. Antes de editar, predice el fallo. Después de corregirlo, explica qué invariante recuperaste y prueba un caso límite. Son 24 ejercicios, no una carrera. Trabaja un trío por vez y usa las pistas de menor a mayor ayuda. El `output` sirve para comprobar el resultado y todos los datos son sintéticos.",
     steps: [
       {
         subtopicId: "S04-T1-A",
@@ -1825,7 +1825,7 @@ if __name__ == "__main__":
       { criterion: "Documentación en español del resumen", weight: "5%" },
     ],
     retrospective:
-      "Haz una defensa de cierre sin mirar el código: ¿por qué la suma de estados debe explicar `n_total`?, ¿por qué `None` distingue vacío de cero rejects?, ¿cómo demuestras que el raw no cambió?, ¿qué línea garantiza un solo pase? Luego altera un caso —lote vacío, primer registro inválido o 100,000 filas— y predice el comportamiento. Si tu explicación y tus tests cuentan la misma historia, el gate está listo.",
+      "Defiende tu solución sin mirar el código. ¿Por qué la suma de estados debe explicar `n_total`? ¿Por qué `None` distingue un lote vacío de uno con cero rejects? ¿Cómo demuestras que el raw no cambió? ¿Qué línea garantiza un solo pase? Luego altera un caso: usa un lote vacío, un primer registro inválido o 100,000 filas. Predice el comportamiento. Si tu explicación y tus tests cuentan la misma historia, el proyecto está listo.",
   },
   selfCheck: {
     questions: [
