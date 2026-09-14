@@ -85,6 +85,9 @@ WHAT TO FIX, in order:
 MEASURED NOW FOR THIS SECTION (targets in the rules below):
 {json.dumps(m, ensure_ascii=False, indent=1)}
 
+===== LEDGER: OBSERVATIONS FROM EARLIER ROUNDS (binding; they apply to this section) =====
+{(ROOT / "audit/fixer/LEDGER_NOTES.md").read_text(encoding="utf-8") if (ROOT / "audit/fixer/LEDGER_NOTES.md").exists() else ""}
+
 ===== DISTILLED WRITING RULES (binding) =====
 {rules}
 
