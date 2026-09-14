@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T19:49:26.578594+00:00",
+  "generated_at": "2026-09-14T20:17:50.577248+00:00",
   "sections": 52,
   "dependency_visibility": {
     "status": "ok",
@@ -44,10 +44,10 @@
     "note": "The snippet interpreter matches the declared teaching environment."
   },
   "totals": {
-    "pass": 3289,
+    "pass": 3293,
     "fail": 0,
     "skip": 69,
-    "artifacts": 3358
+    "artifacts": 3362
   },
   "fail_count": 0,
   "p0_count": 0,
@@ -68,11 +68,11 @@
       "file": "src/lib/course/sections/s02-basics.ts",
       "section_id": "basics",
       "counts": {
-        "pass": 65,
+        "pass": 67,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 65
+      "artifact_count": 67
     },
     {
       "file": "src/lib/course/sections/s03-data-structures.ts",
@@ -88,11 +88,11 @@
       "file": "src/lib/course/sections/s04-functions-modules.ts",
       "section_id": "functions-modules",
       "counts": {
-        "pass": 64,
+        "pass": 65,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 64
+      "artifact_count": 65
     },
     {
       "file": "src/lib/course/sections/s05-oop.ts",
@@ -128,11 +128,11 @@
       "file": "src/lib/course/sections/s08-pandas.ts",
       "section_id": "pandas",
       "counts": {
-        "pass": 65,
+        "pass": 66,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 65
+      "artifact_count": 66
     },
     {
       "file": "src/lib/course/sections/s09-visualization.ts",
