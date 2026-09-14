@@ -67,6 +67,24 @@ def main() -> int:
     rules = (ROOT / "audit/fixer/writing_rules.md").read_text(encoding="utf-8")
     decisions = (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")
 
+    # The auditors' wiki: the operating contract and the Attack -> Defense -> Verdict rule.
+    wiki = (ROOT / "audit/fixer/wiki/README.md").read_text(encoding="utf-8")
+    w0 = wiki.find("## Campaign operating contract")
+    w1 = wiki.find("## Solarize adaptation")
+    wiki_contract = wiki[w0:w1 if w1 > w0 else None].strip() if w0 >= 0 else ""
+
+    # ReviewerFixer-derived findings for this section that bear on vocabulary and
+    # prerequisites - the audits already named many of these gaps in their own words.
+    VOCAB = ("WIDOW", "TERM", "PREREQUISITE", "FUTURE_KNOWLEDGE", "JARGON", "UNDEFINED",
+             "UNEXPLAINED", "ACRONYM", "OUTCOME_NOT_TAUGHT", "VOCAB", "GLOSS", "DEFIN")
+    registry = json.loads((ROOT / "audit/consolidated/registry.json").read_text(encoding="utf-8"))["findings"]
+    audit_findings = [
+        {k: f.get(k) for k in ("finding_id", "severity", "category", "title", "evidence", "fix")}
+        for f in registry
+        if f["section"] == tag and any(v in (f.get("category") or "").upper() + (f.get("title") or "").upper()
+                                       for v in VOCAB)
+    ][:25]
+
     print(f"""You are teaching the concepts that PyArcana section {tag} ("{slug}") currently uses
 without explaining them.
 
@@ -145,6 +163,13 @@ answer `self_critique` about the revised text.
 
 ===== GLOSSARY DEFINITIONS (the meaning to preserve, not the wording to copy) =====
 {json.dumps({t["concept"]: glossary.get(t["concept"], {}) for t in todo}, ensure_ascii=False, indent=1)}
+
+===== WHAT THE AUDITORS ALREADY FOUND ABOUT VOCABULARY IN THIS SECTION =====
+(from the ReviewerFixer audit registry; their evidence and proposed fixes are input, not orders)
+{json.dumps(audit_findings, ensure_ascii=False, indent=1) if audit_findings else "(none recorded)"}
+
+===== AUDIT WIKI: OPERATING CONTRACT (binding) =====
+{wiki_contract}
 
 ===== STANDING DECISIONS (binding) =====
 {decisions}
