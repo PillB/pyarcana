@@ -143,6 +143,12 @@ nineteen tests to fix one, which is what AGENTS.md MUST NOT #4 forbids.
 
 That one is now `>= 41`, proven in both directions: it passes at 41 and still fails at 40.
 
+**Correction.** "Exactly one" was wrong: the probe only exercised S02's tests. The S01
+concept round then tripped `theory.count("      heading:") == 15`, pinned with the comment
+"the count is still pinned exactly". A targeted search found one more of the same shape,
+S06 at 9. Both are floors now; S01's was proven to pass at 26 headings and fail at 14. A
+probe of one section's tests does not speak for fifty-two.
+
 **How to add depth without breaking the spine.** The eight numbered subtopics are what demos
 and exercises hang from, and `active_manifest` requires the eight theory tags to equal the
 eight demo subtopic tags, in order. `parse_section_learner` deliberately ignores theory blocks

@@ -46,7 +46,10 @@ class Section01TextFirstProseTests(unittest.TestCase):
         # criteria, the section_contract() listing) moved into a folded
         # `optional: true` reference block, which adds one heading. The count is
         # still pinned exactly; only the expected structure changed.
-        self.assertEqual(theory.count("      heading:"), 15)
+        # A floor since D6 ("complete content outranks a fixed count"). The pin
+        # existed to catch a lost block; exact equality also forbade adding a
+        # supporting block that teaches a vital concept, which D6 requires.
+        self.assertGreaterEqual(theory.count("      heading:"), 15)
         self.assertNotIn("En el 90% de los casos", theory)
         self.assertNotIn("3-5 GB", theory)
         self.assertNotIn("bancos y fintech en Perú", theory)

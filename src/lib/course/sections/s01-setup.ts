@@ -16,7 +16,7 @@ export const section01: CourseSection = {
   title: 'Entorno reproducible y trabajo seguro',
   shortTitle: 'Entorno reproducible',
   tagline:
-    'Prepara Python, un editor, un entorno virtual y Git desde el día 1. Un entorno virtual (`venv`) es un directorio aislado, asociado a un intérprete Python y con sus propios paquetes. Git es el sistema que conserva el historial de cambios. Ritmo sugerido: unas 10 horas en total, repartidas en 3 h de núcleo, 5 h de práctica guiada y 2 h para iniciar `CP-N1-A`, el proyecto acumulativo de Nivel 1.',
+    'Prepara Python, un editor, un entorno virtual y Git desde el día 1. Un entorno virtual (`venv`) es un directorio aislado, asociado a un intérprete Python —el programa que lee tus instrucciones y las convierte en acciones— y con sus propios paquetes. Git es el sistema que conserva el historial de cambios. Ritmo sugerido: unas 10 horas en total, repartidas en 3 h de núcleo, 5 h de práctica guiada y 2 h para iniciar `CP-N1-A`, el proyecto acumulativo de Nivel 1.',
   estimatedHours: 10,
   level: 'Principiante',
   phase: 0,
@@ -26,7 +26,7 @@ export const section01: CourseSection = {
     'Imagina tu primer día en un equipo distribuido: dos colegas en ciudades distintas deben correr el mismo proyecto y obtener el mismo resultado. Aquí aprendes a crear un entorno virtual asociado a un intérprete Python, usar Git y comprobar cada paso desde la terminal. Ese entorno es un directorio aislado que guarda los paquetes instalados para el proyecto. La terminal es la aplicación o ventana de texto donde escribes órdenes. Dentro funciona una shell: el programa que interpreta esas órdenes, como PowerShell, bash o zsh. El objetivo no es instalar cosas: es construir una cadena de evidencia que otra persona pueda repetir sin adivinar.',
   learningOutcomes: [
     {
-      text: 'Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida',
+      text: 'Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (nombre formado por las iniciales inglesas de un ciclo que recibe una instrucción, la ejecuta y muestra el resultado) para una comprobación rápida',
     },
     {
       text: 'Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo',
@@ -35,7 +35,7 @@ export const section01: CourseSection = {
     {
       text: 'Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)',
     },
-    { text: 'Instalar Visual Studio Code (VS Code), un editor de código, y añadir las extensiones Python y Ruff; Ruff revisa el estilo y ciertos errores del código sin ejecutarlo' },
+    { text: 'Instalar Visual Studio Code (VS Code), una aplicación para escribir y revisar archivos de código, y añadir dos complementos: Python y Ruff; Ruff es un programa que señala algunos errores y problemas de estilo sin ejecutar el código' },
     {
       text: 'Inicializar un repositorio Git, una carpeta con historial, y crear un `commit`, un punto guardado de ese historial. Publicar el commit con `push` y abrir un Pull Request, una propuesta de cambios, en GitHub, el sitio web que aloja y permite compartir el repositorio',
     },
@@ -92,6 +92,15 @@ secrets_in_repo_ok False`,
       },
      },
      {
+      heading: 'Terminal y shell: dónde escribes y quién obedece',
+      paragraphs: [
+        'La **terminal** es una aplicación con una ventana de texto. Allí escribes una **orden**, una línea que indica una acción. Dentro de la terminal funciona la **shell**: el programa que recibe esa orden, busca el programa indicado y lo pone en marcha.',
+        'Por ejemplo, Ana abre Terminal en macOS y ve `$`, la señal de que la shell espera una orden. Escribe `python3 --version`; la shell inicia Python y Python responde `Python 3.12.3`. La terminal muestra el intercambio, pero la shell es quien inicia el programa.',
+        'Ahora abre la terminal de tu computadora. En Windows prueba `python --version` o `py --version`; en macOS o Linux prueba `python3 --version`. El resultado correcto muestra `Python` y un número de versión. Si una forma no existe, prueba la otra indicada para tu sistema.',
+        'Comprueba la relación con `python -c "print(2 + 2)"`, usando el nombre de Python que te respondió. La opción `-c` le pide a Python ejecutar la instrucción entre comillas. Si aparece `4`, la shell encontró Python, lo inició y la terminal mostró su respuesta.',
+      ],
+    },
+    {
       heading: 'El intérprete Python y el REPL',
       figure: {
         id: "S01-repl-vs-script",
@@ -242,7 +251,7 @@ no aparece
       paragraphs: [
         'Piensa en **cwd** y **PATH** como dos respuestas a preguntas distintas: «¿en qué habitación estoy?» y «¿en qué directorios busca herramientas el sistema?». Ya viste `sys.exit` dentro de Python; ahora comprobarás desde la shell que cambiar de habitación no instala una herramienta y que encontrar la herramienta no garantiza encontrar tu archivo. El código de salida confirma el resultado sin depender del color o del texto de la consola.',
         'El **PATH** es la lista de carpetas donde el sistema busca ejecutables (`python`, `git`, `code`). No es la carpeta de tu proyecto: puedes estar en `~/proyectos/python-ds-journey` y aun así fallar `python` si ese binario no está en el PATH. Al revés: Python en el PATH y un `FileNotFoundError` al abrir un script casi siempre es **cwd incorrecto** o ruta mal escrita. Diagnostica en este orden: (1) ¿el ejecutable responde (`python3 --version`)? (2) ¿`pwd` / `Get-Location` es la carpeta del repo? (3) ¿el proceso salió con 0?',
-        'Los bloques de abajo son la misma lección en **comandos reales**: `pwd` ancla el cwd; un one-liner con `sys.exit(0)` y otro con `sys.exit(1)` te dejan ver el contrato 0/no-cero; un comando inexistente suele devolver **127** en bash/zsh (en PowerShell el número puede diferir — anota el de tu shell). Cuando un pipeline o un colega diga “el job falló”, el primer dato útil es ese entero, no solo el color del mensaje en pantalla.',
+        'Los bloques de abajo son la misma lección en **comandos reales**: `pwd` ancla el cwd; un one-liner con `sys.exit(0)` y otro con `sys.exit(1)` te dejan ver el contrato 0/no-cero; un comando inexistente suele devolver **127** en bash/zsh (en PowerShell el número puede diferir — anota el de tu shell). Cuando una secuencia automática de órdenes o un colega indiquen que la tarea falló, el primer dato útil es ese entero, no solo el color del mensaje en pantalla.',
       ],
       code: {
         language: 'bash',
@@ -288,6 +297,7 @@ ok
         '**Antes de instalar nada, abre la terminal**, porque es donde comprobarás cada pieza. En **Windows** pulsa la tecla Windows, escribe `PowerShell` y ábrelo. En **macOS** pulsa Command + Espacio, escribe `Terminal` y pulsa Enter. En **Linux** (Ubuntu y derivados) usa Ctrl + Alt + T, o busca «Terminal» en el menú de aplicaciones. Se abrirá una ventana con una línea de texto esperando: eso es el **prompt**, el punto donde escribes un comando y pulsas Enter. No necesitas configurarla; solo tenerla abierta a un lado mientras avanzas.',
         '**Instalar Git y GitHub CLI.** Git no viene preinstalado en Windows y en macOS puede pedirte las herramientas de desarrollo. Descarga el instalador desde `https://git-scm.com/downloads`, acepta las opciones por defecto y **cierra y vuelve a abrir la terminal** para que reconozca el comando nuevo. En macOS con Homebrew basta `brew install git`; en Ubuntu, `sudo apt install git`. **GitHub CLI** (el comando `gh`) es una herramienta aparte que sirve para iniciar sesión en GitHub desde la terminal: instálala desde `https://cli.github.com/` (o con `brew install gh` / `sudo apt install gh`). Necesitarás además una **cuenta gratuita** en `https://github.com/signup`. Verifica ambas con `git --version` y `gh --version` antes de continuar: si el sistema responde «comando no encontrado», la instalación no terminó o la terminal sigue siendo la anterior.',
         'Después de instalar, **verifica en la terminal**: no des por hecho que el instalador terminó bien. El bloque siguiente es la lista de comprobación del día 1. Python debe responder con 3.12.x o una versión superior. Git debe mostrar su versión y el editor debe abrir desde `code` o desde el menú de VS Code. Solo entonces crea `.venv` y usa `python -m pip`. Si un comando falla, repara esa pieza antes de seguir. No encadenes instalaciones a ciegas.',
+        'Un **notebook** es un archivo que alterna explicaciones con espacios de código que puedes ejecutar uno por uno y cuyo resultado aparece junto a cada espacio. Jupyter es el complemento que permite trabajar con esos archivos en VS Code. No tendrás que crear un notebook en S01; solo reconocer el nombre cuando aparezca en una opción o en una regla de Ruff.',
       ],
       code: {
         language: 'bash',
@@ -341,6 +351,15 @@ gh version 2.40.0
       },
     },
     {
+      heading: 'Antes de crear .venv: qué problema resuelve',
+      paragraphs: [
+        'Un proyecto puede necesitar una versión de un paquete —un conjunto de archivos que añade una capacidad a Python— y otro proyecto puede necesitar una versión distinta. Si ambos instalan todo en el mismo lugar, arreglar uno puede romper el otro. Un **entorno virtual**, creado por el módulo **venv** de Python, da a cada proyecto su propia carpeta para Python y esos paquetes.',
+        'Imagina dos carpetas: `ventas` usa `requests==2.31.0` e `inventario` usa `requests==2.32.3`. Cada una contiene su propia carpeta `.venv`; por eso las dos versiones pueden convivir en la misma computadora. `.venv` no reemplaza la carpeta del proyecto: guarda el Python y los paquetes reservados para ese proyecto.',
+        'En la carpeta de práctica, ejecuta `python -m venv .venv` y actívala con el comando de tu sistema. Después ejecuta `python -c "import sys; print(sys.prefix)"`. La respuesta correcta termina en la carpeta `.venv` que acabas de crear.',
+        'Comprueba además `python -m pip --version`. La ruta que muestra debe estar dentro de `.venv`. Si apunta fuera, el entorno no está activo y una instalación podría llegar al Python compartido por otros proyectos.',
+      ],
+    },
+    {
       heading: 'Entornos virtuales con venv',
       subtopicId: 'S01-T2-A',
       paragraphs: [
@@ -374,6 +393,24 @@ which python
       },
     },
     {
+      heading: 'Dependencias: las piezas que el proyecto necesita',
+      paragraphs: [
+        'Un **paquete** es un conjunto de código preparado para añadir una capacidad a Python. Una **dependencia** es un paquete que tu proyecto necesita para funcionar. Existe fuera de tus archivos, por eso otra persona debe saber cuál instalar y qué versión usar.',
+        'Supón que `hello_env.py` necesita `requests` 2.32.3. En tu computadora esa pieza ya existe y el archivo funciona; en una computadora nueva no existe y Python responde que no puede encontrarla. La línea `requests==2.32.3` conserva tanto el nombre como la versión que el proyecto espera.',
+        'Compara `requests==2.31.0` con `requests==2.32.3`. La segunda línea corresponde al ejemplo: el nombre coincide y la versión es exactamente 2.32.3. Una diferencia pequeña en el número sigue siendo una dependencia distinta de la declarada.',
+        'La prueba final no consiste en reconocer la línea, sino en reconstruir el proyecto desde ella. Después de instalarla en el entorno aislado, Python debe informar la misma versión. El bloque siguiente enseña la herramienta que realiza y comprueba esa instalación.',
+      ],
+    },
+    {
+      heading: 'pip: instalar en el Python correcto',
+      paragraphs: [
+        '**pip** es la herramienta que instala paquetes de Python. Resuelve un problema concreto: una computadora puede tener varios Python, y el paquete debe llegar al mismo Python que ejecutará el proyecto. Por eso usamos `python -m pip` en lugar de confiar en un `pip` separado.',
+        'Con `.venv` activo, `python -m pip install requests==2.32.3` pide a ese Python que instale `requests` en la versión 2.32.3. Después, `python -m pip freeze > requirements.txt` guarda la lista instalada. La línea esperada incluye `requests==2.32.3`.',
+        'Activa `.venv` y ejecuta `python -m pip --version`. La respuesta correcta contiene una ruta dentro de `.venv`; eso muestra que el instalador pertenece al entorno del proyecto. Si la ruta queda fuera, detente y vuelve a activar el entorno.',
+        'Instala la versión del ejemplo y ejecuta `python -c "import requests; print(requests.__version__)"`. La comprobación termina cuando aparece `2.32.3`: el archivo declaró una versión, pip la instaló y el mismo Python pudo usarla.',
+      ],
+    },
+    {
       heading: 'pip, freeze y requirements.txt',
       subtopicId: 'S01-T2-B',
       paragraphs: [
@@ -401,6 +438,42 @@ python -c "import requests; print(requests.__version__)"
         content:
           '`freeze` ≠ `poetry.lock` / `uv.lock`: no aporta hashes ni una resolución diseñada para varios sistemas operativos. En esta sección, `requirements.txt` pinneado es el contrato mínimo que aprenderás a producir y comprobar. Si un proyecto usa Poetry, PDM o uv, su README debe describir ese flujo; el principio sigue siendo reconstruir desde archivos versionados.',
       },
+    },
+    {
+      heading: 'Antes de usar Git: qué es un repositorio',
+      paragraphs: [
+        'Un **repositorio** es la carpeta de un proyecto junto con un historial que permite saber qué cambió. Existe para conservar los archivos actuales sin perder los estados anteriores. Ejecutar `git init -b main` prepara ese historial dentro de la carpeta; no publica nada en internet.',
+        'Imagina la carpeta `python-ds-journey` con un archivo de instrucciones llamado `README.md` y un archivo de Python llamado `hello.py`. Después de iniciar el repositorio, Git puede distinguir esos archivos y los cambios posteriores. Antes de guardar el primer punto del historial, ambos siguen siendo archivos sin registrar.',
+        'Crea una carpeta de práctica, entra en ella, ejecuta `git init -b main` y crea `README.md`. Luego ejecuta `git status`. La respuesta correcta indica que estás en `main`, que todavía no existen commits y que `README.md` aún no está registrado.',
+        'Repite `git status` antes de avanzar. Si el nombre del archivo no aparece, comprueba que lo creaste dentro de la misma carpeta donde ejecutaste `git init`.',
+      ],
+    },
+    {
+      heading: 'Git conserva cambios elegidos, no cualquier borrador',
+      paragraphs: [
+        '**Git** es el programa que compara los archivos de un repositorio y conserva los cambios que tú eliges. Resuelve un problema concreto: una carpeta común muestra cómo está el proyecto hoy, pero no explica cómo llegó hasta allí.',
+        'Supón que `README.md` decía «Instalación pendiente» y ahora dice «Usa Python 3.12». `git status` nombra el archivo modificado; `git diff` muestra la línea anterior y la nueva; `git add README.md` elige ese cambio para el próximo punto guardado.',
+        'Haz un cambio pequeño en tu README. Ejecuta `git status`, lee `git diff` y después ejecuta `git add README.md`. Vuelve a consultar `git status`: el resultado correcto coloca el archivo entre los cambios elegidos para guardar.',
+        'Ejecuta `git diff --staged`; `--staged` significa «ya elegido para el próximo punto guardado». La comprobación está completa si solo aparece la línea que querías cambiar y no aparece una contraseña ni otro dato privado.',
+      ],
+    },
+    {
+      heading: 'Un commit es un punto guardado que puedes comprobar',
+      paragraphs: [
+        'Un **commit** es un punto guardado del historial. Contiene los cambios elegidos y un mensaje que explica su propósito; no guarda automáticamente cada archivo de la carpeta.',
+        'Después de elegir el cambio del README, `git commit -m "docs: indicar Python 3.12"` crea un commit con esa línea y ese mensaje. Más tarde, otra persona puede ver tanto la explicación como el cambio exacto.',
+        'Haz otra modificación pequeña, revísala, elígela con `git add` y crea un commit. El resultado correcto informa que se creó un nuevo punto del historial y nombra el archivo modificado.',
+        'Ejecuta `git show --stat --oneline HEAD` y luego `git status`. **HEAD** es el nombre que Git usa para el commit actual. Debes ver el mensaje y el archivo guardado; `git status` no debe mostrar cambios pendientes si guardaste todo lo previsto.',
+      ],
+    },
+    {
+      heading: 'Mensajes de commit que explican el cambio',
+      paragraphs: [
+        'Un historial lleno de mensajes como «cambios» o «wip» obliga a abrir cada commit para descubrir qué ocurrió. **Conventional Commits** es una regla para evitarlo: el mensaje empieza con una palabra breve que indica el tipo de cambio, seguida de dos puntos y una descripción concreta.',
+        'Supón que añadiste al README las instrucciones para crear `.venv`. `docs: explicar cómo crear el entorno virtual` permite reconocer que cambió la documentación y qué se explicó. En cambio, `cambios` no permite anticipar ninguna de las dos cosas.',
+        'Completa `____: agregar script hello_env`. Si añadiste una capacidad, escribe `feat`; si corregiste un fallo, escribe `fix`; si solo cambiaste una explicación, escribe `docs`. Una respuesta correcta tiene un tipo, dos puntos, un espacio y una descripción específica.',
+        'Después de guardar el cambio, ejecuta `git log -1 --oneline`. La comprobación está completa si la primera línea contiene el mensaje elegido y otra persona puede anticipar el cambio sin abrir los archivos.',
+      ],
     },
     {
       heading: 'Git: commits y lectura de diffs',
@@ -442,6 +515,24 @@ docs: agregar README inicial
       },
     },
     {
+      heading: 'GitHub comparte una copia del repositorio',
+      paragraphs: [
+        '**GitHub** es un sitio web que guarda una copia de un repositorio para compartirla. Git conserva el historial en tu computadora; GitHub recibe una copia cuando tú la envías. Por eso crear un commit no lo publica por sí solo.',
+        'Supón que `python-ds-journey` ya tiene un commit local. Creas en GitHub un repositorio vacío con el mismo nombre, copias su dirección web y ejecutas `git remote add origin DIRECCION`. **origin** es el nombre corto que Git usará para esa dirección.',
+        'Crea el repositorio vacío, copia su dirección y añade `origin`. Luego ejecuta `git remote -v`. El resultado correcto muestra dos líneas de `origin` con la dirección exacta que copiaste.',
+        'Después de publicar `main`, abre el repositorio en GitHub. La comprobación está completa si ves el README y el mensaje del último commit. Si no aparecen, revisa la dirección y la rama antes de intentar otro envío.',
+      ],
+    },
+    {
+      heading: 'Pull Request: pedir revisión antes de integrar',
+      paragraphs: [
+        'Una **rama** es una línea de trabajo separada dentro del historial. Un **Pull Request (PR)** es una solicitud visible en GitHub para comparar esa rama con `main`, conversar sobre el cambio y decidir si debe integrarse. Existe para que otra persona revise el trabajo antes de alterar la línea estable.',
+        'Imagina la rama `feat/hello-env`. Contiene `scripts/hello_env.py` y una mejora del README; `main` todavía no contiene esos cambios. El PR muestra la comparación, explica el propósito y ofrece los comandos con los que la persona comprobó el trabajo.',
+        'Publica la rama y abre **Compare & pull request** en GitHub. Elige `main` como destino y `feat/hello-env` como origen. Escribe `feat: agregar smoke hello_env`, resume los dos archivos y añade el comando de prueba. Correcto significa que la comparación solo muestra los cambios esperados y que aún no has integrado nada.',
+        'Antes de crear el PR, abre **Files changed**, la vista de archivos cambiados. Comprueba que no aparecen `.env`, `.venv/` ni datos reales y que el destino sigue siendo `main`. Si aparece un archivo inesperado, corrige la rama y publica la corrección antes de pedir revisión.',
+      ],
+    },
+    {
       heading: 'Ramas, Pull Requests y recuperación segura',
       subtopicId: 'S01-T3-B',
       paragraphs: [
@@ -449,7 +540,7 @@ docs: agregar README inicial
         'Hasta aquí Git ha trabajado dentro de tu laptop. Para que otra persona pueda ver tu rama y revisar un PR necesitas además un **remoto**: una copia del repositorio alojada en GitHub. Si todavía no tienes una cuenta de GitHub, créala en el navegador. Luego usa el menú **+ → New repository**, llámalo `python-ds-journey` y, como tu proyecto local ya contiene archivos, déjalo sin README, `.gitignore` ni licencia iniciales. Así evitas dos historias que Git tendría que reconciliar.',
         'Antes del primer `push`, autentica GitHub CLI con `gh auth login --web`: el comando abre un flujo seguro en el navegador, por lo que no debes pegar contraseñas ni tokens en archivos del proyecto. Después conecta la carpeta local con `git remote add origin URL`; **origin** es solo el apodo convencional de esa dirección. `git remote -v` permite comprobarla antes de publicar. Si ya existe un `origin`, no lo agregues de nuevo: verifica que apunta al repositorio correcto.',
         'Publica primero `main` y después tu rama. Al abrir el repositorio en GitHub aparecerá **Compare & pull request** para la rama recién publicada: revisa el diff, explica qué cambiaste y crea el PR. El PR no es otro archivo ni otro commit; es la conversación de revisión alrededor de una comparación entre ramas.',
-        'Un **conflicto** aparece cuando dos ramas editaron las mismas líneas. Git marca el archivo; tú eliges el contenido final, `git add` y un commit de fusión o de resolución. En S01 no necesitas ser experto en merges complejos: sí necesitas no entrar en pánico y no “arreglar” con historial destructivo. La regla de oro de este curso: **no hagas `git push --force` a `main`**. Reescribe historial solo en ramas tuyas no compartidas y con permiso del equipo; en inducción, ni eso.',
+        'Un **conflicto** aparece cuando dos ramas editaron las mismas líneas. Git marca el archivo; tú eliges el contenido final, lo seleccionas con `git add` y guardas la resolución en un commit. En S01 no necesitas resolver conflictos complejos: sí necesitas no entrar en pánico ni “arreglarlos” con historial destructivo. La regla de oro de este curso es **no hacer `git push --force` a `main`**. Reescribe historial solo en ramas tuyas no compartidas y con permiso del equipo; en inducción, ni eso.',
         'Recuperación **no destructiva** del día a día: `git restore archivo` descarta cambios *sin commit* en el working tree (vuelve a la última versión confirmada o staged, según el caso). `git stash` guarda por omisión las modificaciones de archivos que Git ya sigue; los archivos nuevos no rastreados permanecen. Usa `git stash -u` solo cuando decidas incluir también esos archivos y comprueba el resultado con `git status`; `git stash pop` recupera lo guardado. Prefiere restore/stash a `reset --hard` como primer reflejo: hard borra trabajo sin commit de forma fácil de lamentar. Aprende primero a no perder trabajo; después, a reescribir con cuidado.',
       ],
       code: {
@@ -487,6 +578,15 @@ git push -u origin feat/hello-env
         content:
           'Errores típicos a evitar: (1) subir `.venv/`/`venv/` a GitHub, (2) subir `.env` con secretos, (3) commits "cambios"/"wip", (4) trabajar solo en `main`. Si ya versionaste un secreto: rotar + `git rm --cached .env` (`.gitignore` solo no limpia historial). **Prohibido:** `git push --force` a `main` — puede borrar commits ajenos. Recuperación segura: restore, stash, PR. Force-push nunca es la respuesta a “push rechazado” en main.',
       },
+    },
+    {
+      heading: 'Ruff: una comprobación que todos pueden repetir',
+      paragraphs: [
+        'Una persona puede pasar por alto una línea innecesaria y otra puede juzgar el mismo archivo de manera distinta. **Ruff** resuelve ese desacuerdo con un programa que lee archivos de Python, busca problemas descritos por reglas compartidas y muestra dónde están. No ejecuta el archivo ni decide si el resultado del análisis es verdadero.',
+        'Imagina un archivo con `import os`, una instrucción que pide cargar `os`, aunque ninguna línea lo usa. Al ejecutar `python -m ruff check hello_lint.py`, Ruff señala esa línea con `F401`, el nombre de la regla incumplida. Si eliminas solo ese `import` y repites el comando, Ruff responde `All checks passed!`.',
+        'En la práctica guiada, localiza primero la línea que Ruff nombra y comprueba si el programa la usa. Corrige la causa y vuelve a ejecutar el mismo comando. El resultado correcto conserva la salida del programa y termina la comprobación con código de salida 0.',
+        'La prueba final tiene dos pasos: ejecuta el archivo con Python y luego ejecuta `python -m ruff check` sobre él. Has entendido el ciclo si el archivo todavía produce su resultado y Ruff ya no informa el problema.',
+      ],
     },
     {
       heading: 'VS Code y Ruff como calidad mínima',
@@ -1001,7 +1101,7 @@ Python 3.12.3`,
         feedback:
           'Si leíste el código de salida dos veces seguidas, ya tienes el hábito que CI usa en cada job. El malentendido: “imprimió ok, entonces exit 0”. Siguiente: un script que elija 0 o 1 según argumentos.',
         retrospective:
-          'Compara tus dos ejecuciones: el texto explica a una persona; el entero gobierna la automatización. En PowerShell, confirma que lees `$LASTEXITCODE`, no el booleano `$?`. Si un job «se ve bien» pero el pipeline se detiene, consulta primero ese contrato. A continuación harás que el propio script decida entre 0 y 1.',
+          'Compara tus dos ejecuciones: el texto explica a una persona; el entero gobierna la automatización. En PowerShell, confirma que lees `$LASTEXITCODE`, no el booleano `$?`. Si una tarea «se ve bien» pero la secuencia automática se detiene, consulta primero ese contrato. A continuación harás que el propio script decida entre 0 y 1.',
         starterCode: {
           language: 'bash',
           title: 'exit_codes_lab.sh (o .ps1 equivalente)',
@@ -2269,7 +2369,7 @@ LOG_LEVEL=INFO
       'Publicar un repo clonable con `.gitignore` (`.venv/` y `venv/`), `.env.example`, `requirements.txt` y `pyproject.toml` (Ruff)',
       'Documentar en README install/run y la frase “esqueleto de CP-N1-A”',
       'Incluir `data/clients_synthetic.csv` (sintético) + `data/data_dictionary.md`',
-      'Prueba mínima de `scripts/hello_env.py` con código de salida 0; mínimo 3 commits Conventional Commits y 1 rama de trabajo, con una fusión (`merge`: integración de sus cambios en otra rama) o un PR abierto',
+      'Prueba mínima de `scripts/hello_env.py` con código de salida 0; mínimo 3 commits Conventional Commits y 1 rama de trabajo con un PR abierto',
     ],
     requirements: [
       'Repo público accesible (GitHub u otro remoto del curso)',
@@ -2280,7 +2380,7 @@ LOG_LEVEL=INFO
       'README: título, descripción, install (venv + pip -r), uso, mención esqueleto CP-N1-A, nota de seguridad',
       'data/clients_synthetic.csv con las columnas client_id, full_name, country, signup_date, monthly_amount y 5–10 filas inventadas (ninguna persona real); data/data_dictionary.md describe cada una de esas columnas — ver la plantilla del starter',
       'scripts/hello_env.py con if __name__ == "__main__" y exit 0',
-      '≥3 commits Conventional Commits; 1 rama feat/* con PR o merge documentado',
+      '≥3 commits Conventional Commits; 1 rama feat/* con un PR abierto y documentado',
     ],
     starterCode: `# Estructura esperada (esqueleto CP-N1-A):
 # python-ds-journey/
@@ -2339,7 +2439,7 @@ if __name__ == "__main__":
       { criterion: 'Robustness — README sirve en Windows y Unix (comandos de activate)', weight: '15%' },
       { criterion: 'Maintainability — commits Conventional Commits, estructura clara, Ruff config', weight: '25%' },
       { criterion: 'Uso responsable — .env ignorado, .env.example sin secretos, datos sintéticos + diccionario', weight: '20%' },
-      { criterion: 'Git flow — rama feature y PR o merge documentado', weight: '10%' },
+      { criterion: 'Git flow — rama feature y PR abierto y documentado', weight: '10%' },
     ],
   },
   selfCheck: {

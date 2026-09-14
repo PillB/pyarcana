@@ -45,9 +45,11 @@ r=json.load(sys.stdin)
 print(f\"    applied {r['applied']}, rejected {r['rejected']}, rolled_back {r.get('rolled_back', False)}\")"
 
   if ! gate; then
-    echo "!! $TAG failed its gates - restoring the section and stopping the chain"
+    echo "!! $TAG failed its gates - capturing failures, then restoring and stopping"
+    # capture BEFORE restoring: after the restore the tests pass and say nothing
+    npm run test:adversarial:py 2>&1 | grep -E "^(FAIL|ERROR):|^AssertionError" | head -20 \
+      | tee ".fixer/${TAG}k.failures.txt"
     cp ".fixer/${TAG}.pre-concepts.ts" "$FILE"
-    npm run test:adversarial:py 2>&1 | grep -E "^(FAIL|ERROR):" | head -8
     exit 1
   fi
   echo "    $TAG concepts PASSED all gates"
