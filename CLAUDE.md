@@ -35,7 +35,7 @@ distilled, checkable rules citing the full guides they came from:
 - `ReviewerFixer/Solarized Website Content Comprehension Auditor & Rewriter.md`
 - `ReviewerFixer/PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA.md`
 - `ReviewerFixer/_GRAMMAR_SUBPLAN.md`
-- `Handcrafted Writing and Editorial Quality Protocol.docx`
+- `docs/policies/HANDCRAFTED_WRITING_PROTOCOL.md` (canonical; the `.docx` is a generated copy)
 
 Measured by `python3 scripts/prose_quality_audit.py`.
 

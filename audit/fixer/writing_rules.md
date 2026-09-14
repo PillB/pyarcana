@@ -6,7 +6,7 @@ full sources are in the repository and are the authority when this file is ambig
 - `ReviewerFixer/Solarized Website Content Comprehension Auditor & Rewriter.md` — *(S)*
 - `ReviewerFixer/PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA.md` — *(E)*
 - `ReviewerFixer/_GRAMMAR_SUBPLAN.md` — *(G)*
-- `Handcrafted Writing and Editorial Quality Protocol.docx` — *(H)*
+- `docs/policies/HANDCRAFTED_WRITING_PROTOCOL.md` — *(H)* — canonical; the `.docx` at the repo root is a distribution copy generated from it
 
 This file is distilled on purpose. 49 KB of contract pasted into a prompt gets
 skimmed; a numbered rule you can hold a sentence against does not.
