@@ -170,7 +170,7 @@ siguiente posición: 3`,
         type: "tip",
         title: "Terminación",
         content:
-          "Antes de escribir while, responde: ¿qué variable cambia? ¿cuándo es falsa la condición? Si no puedes contestar, reescribe con for o añade un contador de seguridad.",
+          "Antes de escribir while, responde: ¿qué valor cambia en cada vuelta? ¿Cuándo se vuelve falsa la condición? Si no puedes contestar, reescribe con for o añade un contador de seguridad.",
       },
     },
     {
@@ -251,6 +251,24 @@ first_reject_idx 1`,
         title: "Denominador correcto",
         content:
           "Tasa de error = errores / registros intentados. Un registro intentado es uno que entró al lote, aunque falle antes de completar todo el proceso. No uses solo los aceptados en el denominador: cambiarías la población que mide la tasa.",
+      },
+    },
+    {
+      heading: "Cómo leer una comprensión de lista",
+      paragraphs: [
+        "Con un `for`, crear una lista nueva exige iniciar esa lista, recorrer la anterior y agregar los resultados. Una **comprensión de lista** reúne esos pasos entre `[` y `]`. Existe para crear una lista con una regla breve; si necesitas varias decisiones o mensajes, conserva el `for` explícito.",
+        "Yo hago: `montos = [10, 0, -5, 20]` y `[m for m in montos if m > 0]`. Python toma cada monto por turno, comprueba `m > 0` y agrega `m` solo cuando la comparación es verdadera. El resultado exacto es `[10, 20]`; la lista `montos` no cambia.",
+        "La parte inicial también puede calcular otro valor. Con `numeros = [1, 2, 3]`, `[n * n for n in numeros]` produce `[1, 4, 9]`. Como no hay un `if`, cada número aporta un resultado.",
+        "Hacemos juntos: para `valores = [3, -1, 5, 0]`, completa `[v for v in valores if ___]` para conservar solo los positivos. Escribe `v > 0`; lo correcto es `[3, 5]`. Después ejecuta el bloque y comprueba que la salida coincida exactamente.",
+      ],
+      code: {
+        language: 'python',
+        title: "comprobar_comprension_lista.py",
+        code: `valores = [3, -1, 5, 0]
+positivos = [v for v in valores if v > 0]
+print(positivos)
+`,
+        output: `[3, 5]`,
       },
     },
     {
@@ -634,9 +652,9 @@ Madrid
       {
         subtopicId: "S04-T1-A",
         kind: "independent",
-        title: "Contar adultos con for (sin comprehension)",
+        title: "Contar adultos con un recorrido explícito",
         preamble:
-          "- **Contexto:** en el resumen de un lote necesitas tasas por condición, no solo listar filas.\n- **Meta:** practicar un contador manual en un `for` (base del gate de resúmenes).\n- **Éxito:** imprimes un solo entero; con `edades = [30, 17, 45, 22]` el valor es `3`.\n- **Límites:** no uses list comprehension; no mutes la lista; frontera `>= 18` inclusiva.",
+          "- **Contexto:** en el resumen de un lote necesitas tasas por condición, no solo listar filas.\n- **Meta:** practicar un contador manual en un `for` (base del gate de resúmenes).\n- **Éxito:** imprimes un solo entero; con `edades = [30, 17, 45, 22]` el valor es `3`.\n- **Límites:** resuélvelo con el `for` mostrado; conserva la lista; la frontera `>= 18` es inclusiva.",
         id: "S04-T1-A-E2",
         instruction:
           "1. El starter cuenta *todas* las edades (DEFECT).\n2. Dentro del for, incrementa solo si `e >= 18`.\n3. Imprime únicamente el contador (sin `ok True`).",
@@ -923,7 +941,7 @@ print(out)`,
         kind: "independent",
         title: "Reintentos con tope MAX",
         preamble:
-          "- **Contexto:** un reintento de red o de parseo no puede colgarse: siempre hay cota superior.\n- **Meta:** `while intentos < MAX` con variable de control que sube cada vuelta.\n- **Éxito:** `intento 1`, `intento 2`, `intento 3`, luego `done 3`.\n- **Límites:** incrementa *dentro* del while; no pongas `while True` aquí; no omitas los prints por intento.",
+          "- **Contexto:** un reintento de red o de parseo no puede colgarse: siempre hay cota superior.\n- **Meta:** usar `while intentos < MAX`; `intentos` sube en cada vuelta y acerca el bucle a su salida.\n- **Éxito:** `intento 1`, `intento 2`, `intento 3`, luego `done 3`.\n- **Límites:** incrementa *dentro* del while; no pongas `while True` aquí; no omitas los prints por intento.",
         id: "S04-T2-A-E2",
         instruction:
           "1. El starter ya incrementa y imprime `done`, pero no reporta cada intento (DEFECT).\n2. Dentro del while, tras `intentos += 1`, imprime `f\"intento {intentos}\"`.\n3. Mantén `print(\"done\", intentos)` al salir.",

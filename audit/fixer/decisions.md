@@ -124,3 +124,55 @@ Reduced motion is honoured and the code-fidelity gate still applies.
 **Authorship** follows the campaign rule: codex writes every headline, label, caption
 and `alt` from the plan and instructions given to it. This repository's tooling places
 them, validates the anchors, and runs the gates.
+
+## D6 — Complete content outranks a fixed count; counts are floors, not ceilings
+*Decided 2026-09-14 by the repo owner: "having complete content is more important than
+fixing the number of subtopics to a maximum number."*
+
+A structural count exists to stop canonical content from being **lost**. It must never stop
+content from being **added**. When a count blocks teaching, the count is wrong.
+
+**Verified before changing anything, because the obvious reading was wrong.** A grep for
+exact-count assertions found about nineteen, and converting all of them looked necessary.
+It was not. Adding a supporting theory block with a worked example and an exercise with a
+non-canonical id, then running both adversarial halves and `test:v3`, tripped exactly
+**one**: S02's `len(pairs) == 41`, whose regex matches any code/output pair. The rest match
+only canonical id patterns — `S02-T[1-4]-[AB]-E[1-3]` cannot exceed 24 — so `== 24` already
+means "all canonical items present" and tolerates extras. Converting them would have weakened
+nineteen tests to fix one, which is what AGENTS.md MUST NOT #4 forbids.
+
+That one is now `>= 41`, proven in both directions: it passes at 41 and still fails at 40.
+
+**Correction.** "Exactly one" was wrong: the probe only exercised S02's tests. The S01
+concept round then tripped `theory.count("      heading:") == 15`, pinned with the comment
+"the count is still pinned exactly". A targeted search found one more of the same shape,
+S06 at 9. Both are floors now; S01's was proven to pass at 26 headings and fail at 14. A
+probe of one section's tests does not speak for fifty-two.
+
+**How to add depth without breaking the spine.** The eight numbered subtopics are what demos
+and exercises hang from, and `active_manifest` requires the eight theory tags to equal the
+eight demo subtopic tags, in order. `parse_section_learner` deliberately ignores theory blocks
+that carry no `subtopicId` — S02's source has ten theory blocks and the contract sees eight.
+So:
+
+- A supporting block that explains a concept in depth **carries no `subtopicId`.** It can be
+  as long as the concept needs, hold its own example and figure, and sit next to the subtopic
+  it serves.
+- Giving it a `subtopicId` — new or duplicated — breaks the eight-to-eight alignment. That is
+  exactly what the first concept rounds did, reverted in full.
+
+**The two questions every surprising use must answer first**, also from the repo owner:
+
+1. **Is this use necessary, or throwaway?** A term mentioned in passing that the lesson does
+   not need is removed or replaced with plain words. That adds no cognitive load, where a
+   definition adds some.
+2. **Is this the right place to teach it?** If the concept is needed here, teach it here. If
+   it cannot be taught properly at this point, move the use later, or teach it in an earlier
+   section — do not bolt a definition onto a sentence that was never the place for it.
+
+**A vital working concept gets instruction, not a gloss.** When the learner must use the
+concept to do the section's work, the treatment follows the explicit-instruction sequence
+the intervention literature converges on: say what it is and why it exists, model it on a
+worked example with real values, guide the learner through a practice step with feedback,
+have them do it independently, and check understanding. A parenthesis is the floor for a term
+used once; it is not teaching for a concept the learning path depends on.

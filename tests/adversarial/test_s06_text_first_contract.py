@@ -54,7 +54,10 @@ class TestS06TextFirstContract(unittest.TestCase):
         ]
 
     def test_theory_has_nine_distinct_mental_model_surfaces(self) -> None:
-        self.assertEqual(self.source.count("      heading:"), 9)
+        # A floor since D6 ("complete content outranks a fixed count"). The pin
+        # existed to catch a lost block; exact equality also forbade adding a
+        # supporting block that teaches a vital concept, which D6 requires.
+        self.assertGreaterEqual(self.source.count("      heading:"), 9)
         for anchor in (
             "centro internacional de ayuda",
             "fila de vagones",

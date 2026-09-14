@@ -122,6 +122,15 @@ def main() -> int:
         c["figure_target"] = 5 if c["load_bearing"] else 1
         c["figure_count"] = len(c["figures"])
         c["figure_gap"] = max(0, c["figure_target"] - c["figure_count"])
+        # How far a learner carries a guess before the course corrects it. A term
+        # explained one section late is a slip; tipo-de-dato first used in S06 and
+        # explained in S45 means 39 sections of reading built on a guess.
+        fu, fd = c["first_use"], c["first_definition"]
+        if fu and fd:
+            c["explanation_lag_sections"] = max(
+                0, int(fd["section"][1:]) - int(fu["section"][1:]))
+        else:
+            c["explanation_lag_sections"] = None
 
     OUT_JSON.write_text(json.dumps(concepts, indent=1, ensure_ascii=False), encoding="utf-8")
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -134,18 +143,21 @@ def main() -> int:
                 f"{fd['section'] + ' · ' + fd['location'].split('.', 1)[-1] if fd else '**never**'} | "
                 f"{len(c['surprising_uses'])} | {len(c['examples'])} | "
                 f"{len(c['exercises'])} | {len(c['self_checks'])} | "
+                f"{('+' + str(c['explanation_lag_sections'])) if c.get('explanation_lag_sections') else '·'} | "
                 f"{c['figure_count']}/{c['figure_target']}"
                 f"{' ⚠' if c['figure_gap'] else ''} | "
                 f"{len(c['sections_used'])} |")
 
     header = ("| concept | depth | first use | first explained | surprising | examples "
-              "| exercised | self-check | figures | sections |"
-              "\n|---|---|---|---|---:|---:|---:|---:|---:|---:|")
+              "| exercised | self-check | lag | figures | sections |"
+              "\n|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|")
     ordered = sorted(concepts.values(),
                      key=lambda c: (c["depth"] != "L0", -len(c["surprising_uses"]), c["id"]))
 
     gaps = [c for c in ordered if c["depth"] == "L0"]
-    surprising = [c for c in ordered if c["depth"] != "L0" and c["surprising_uses"]]
+    surprising = sorted(
+        (c for c in ordered if c["depth"] != "L0" and c["surprising_uses"]),
+        key=lambda c: -(c.get("explanation_lag_sections") or 0))
 
     idx = [
         "# Concept map", "",
@@ -200,6 +212,10 @@ def main() -> int:
         "load_bearing": sum(1 for c in concepts.values() if c["load_bearing"]),
         "figures_present": sum(c["figure_count"] for c in concepts.values()),
         "figures_missing_to_target": sum(c["figure_gap"] for c in concepts.values()),
+        "explained_a_section_or_more_late": sum(
+            1 for c in concepts.values() if (c.get("explanation_lag_sections") or 0) > 0),
+        "worst_explanation_lag": max(
+            [(c.get("explanation_lag_sections") or 0, k) for k, c in concepts.items()]),
         "pages": str(OUT_DIR.relative_to(ROOT)),
     }, indent=2))
 

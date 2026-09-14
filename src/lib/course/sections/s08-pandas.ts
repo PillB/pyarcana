@@ -304,6 +304,28 @@ print(quarantine_irregular(text))`,
       },
     },
     {
+      heading: "Crear una lista a partir de otra",
+      paragraphs: [
+        "Una **comprensión de lista** es una forma breve de crear una lista nueva mientras Python recorre otra lista. Existe para reunir tres pasos en una expresión: revisar cada valor, decidir si debe conservarse y añadir el resultado a la lista nueva.",
+        "En `[nombre for nombre in nombres if len(nombre) > 3]`, la parte `for nombre in nombres` recorre `nombres`. La condición `if len(nombre) > 3` conserva solo los nombres con más de tres caracteres. La expresión situada antes de `for` indica qué valor entra en la lista nueva.",
+        "Prueba guiada: cambia `nombres` a `['Ana', 'Luis', 'Rosa']` y crea `cortos` con los nombres de tres caracteres o menos. Ejecuta `print(cortos)`: si obtienes `['Ana']`, recorriste, comprobaste y conservaste los valores correctos.",
+      ],
+      code: {
+        language: 'python',
+        title: "comprension_lista.py",
+        code: `nombres = ['Ana', 'Luis', 'Sol']
+largos = [nombre for nombre in nombres if len(nombre) > 3]
+print(largos)`,
+        output: `['Luis']`,
+      },
+      callout: {
+        type: "tip",
+        title: "Lee la expresión desde `for`",
+        content:
+          "Primero identifica qué lista se recorre y qué condición decide. Después mira a la izquierda de `for` para saber qué valor se añade a la lista nueva.",
+      },
+    },
+    {
       heading: "Objetos/arrays y serialización JSON",
       subtopicId: "S08-T3-A",
       paragraphs: [
@@ -561,7 +583,7 @@ print(write_utf8_demo())`,
         },
         why: "Path unifica rutas entre sistemas. `encoding='utf-8'` es el contrato portable del gate: sin él, mojibake y `UnicodeDecodeError` contaminan clean y cuarentena. El resto del ETL (CSV, hash, manifest) hereda este ladrillo — es el primer hábito de ingesta confiable.",
         retrospective:
-          "Si puedes explicar por qué `encoding='utf-8'` no es “detalle de estilo” sino contrato de ingesta, ya tienes el hábito del gate. El error clásico es confiar en el default del SO. En We Do T1-A practicarás exists, `with open` y el diagnóstico de `UnicodeDecodeError`.",
+          "Si puedes explicar por qué `encoding='utf-8'` no es “detalle de estilo” sino contrato de ingesta, ya tienes el hábito del gate. El error clásico es confiar en el default del SO. En We Do T1-A practicarás `exists`, abrirás con `with` y confirmarás que el archivo se cierra al salir de las líneas indentadas, incluso si una operación falla con `UnicodeDecodeError`.",
       },
       {
         demoId: "S08-T1-B-DEMO",
@@ -1306,7 +1328,7 @@ print(rows[0]['reason'])`,
         preamble:
           "- **Contexto:** el manifest y el README de calidad reportan **cuántos** rejects por `reason` estable.\n- **Meta:** contar y listar motivos en orden.\n- **Éxito:** tres líneas `cast_monto 1`, `col_count 2`, `schema 1`.\n- **Límites:** vocabulario corto de reasons; no inventes frases largas distintas por script.",
         instruction:
-          "1. El starter importa `Counter`, una herramienta que cuenta cuántas veces aparece cada valor, pero no imprime (solo `pass`).\n2. Cuenta cada `reason` y recórrelos en orden lexicográfico.\n3. Imprime `motivo conteo` por línea.\n4. No inventes un orden manual con listas fijas.",
+          "1. El starter importa `Counter`. Al ejecutar `Counter(reasons)`, Python cuenta las apariciones de cada valor: para `['col_count', 'schema', 'col_count']`, registra `col_count` dos veces y `schema` una vez. El starter todavía no imprime porque contiene `pass`.\n2. Cuenta cada `reason` y recórrelos en orden lexicográfico.\n3. Imprime `motivo conteo` por línea.\n4. No inventes un orden manual con listas fijas.",
         hint: "collections.Counter o dict de conteos",
         hints: [
           "collections.Counter(reasons) o un dict de conteos",

@@ -58,7 +58,12 @@ class TestSection02IndependentContract(unittest.TestCase):
             source,
             re.MULTILINE,
         )
-        self.assertEqual(len(pairs), 41)
+        # A floor, not an exact count. The number guards against losing a worked
+        # example - which happened once, when a rewrite dropped s02_map_contract.py and
+        # this caught it at 40. As an exact count it also forbade *adding* one, which
+        # contradicts D3/D6: a load-bearing concept needs more examples, not a quota.
+        # (Matching each output to its code is the runtime audit's job, not this test's.)
+        self.assertGreaterEqual(len(pairs), 41)
 
         for index, (code, expected_output) in enumerate(pairs):
             with self.subTest(example=index):

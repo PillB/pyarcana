@@ -11,18 +11,6 @@
    },
    {
     "section": "S04",
-    "location": "functions-modules.S04-T2-A.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "functions-modules.S04-T2-A-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S04",
     "location": "functions-modules.S04-T2-A-E2.hint",
     "kind": "wedo.hint",
     "visible": true
@@ -338,18 +326,6 @@
     "location": "data-structures.S03-T3-A.p0",
     "kind": "theory.paragraph",
     "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "functions-modules.S04-T2-A.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "functions-modules.S04-T2-A-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
    }
   ],
   "sections_used": [
@@ -373,7 +349,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 1
  },
  "tipo-de-dato": {
   "id": "tipo-de-dato",
@@ -466,18 +443,13 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 1,
-  "figure_gap": 0
+  "figure_gap": 0,
+  "explanation_lag_sections": 39
  },
  "list-comprehension": {
   "id": "list-comprehension",
   "declared_first_section": "functions-modules",
   "uses": [
-   {
-    "section": "S04",
-    "location": "functions-modules.S04-T1-A-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
    {
     "section": "S04",
     "location": "functions-modules.S04-T3-B-E1.title",
@@ -644,19 +616,13 @@
   "figures": [],
   "first_use": {
    "section": "S04",
-   "location": "functions-modules.S04-T1-A-E2.preamble",
-   "kind": "wedo.preamble",
+   "location": "functions-modules.S04-T3-B-E1.title",
+   "kind": "wedo.title",
    "visible": true
   },
   "first_definition": null,
   "depth": "L0",
   "surprising_uses": [
-   {
-    "section": "S04",
-    "location": "functions-modules.S04-T1-A-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
    {
     "section": "S04",
     "location": "functions-modules.S04-T3-B-E1.title",
@@ -801,7 +767,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "dict-comprehension": {
   "id": "dict-comprehension",
@@ -923,12 +890,31 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "f-string": {
   "id": "f-string",
   "declared_first_section": "setup",
   "uses": [
+   {
+    "section": "S02",
+    "location": "basics.theory[10].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.theory[10].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.theory[10].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
    {
     "section": "S02",
     "location": "basics.S02-T4-B.p0",
@@ -1233,6 +1219,12 @@
   "definitions": [
    {
     "section": "S02",
+    "location": "basics.theory[10].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S02",
     "location": "basics.S02-T4-A-E1.preamble",
     "kind": "wedo.preamble",
     "visible": true
@@ -1343,43 +1335,18 @@
   "figures": [],
   "first_use": {
    "section": "S02",
-   "location": "basics.S02-T4-B.p0",
+   "location": "basics.theory[10].p0",
    "kind": "theory.paragraph",
    "visible": true
   },
   "first_definition": {
    "section": "S02",
-   "location": "basics.S02-T4-A-E1.preamble",
-   "kind": "wedo.preamble",
+   "location": "basics.theory[10].p0",
+   "kind": "theory.paragraph",
    "visible": true
   },
   "depth": "L1",
-  "surprising_uses": [
-   {
-    "section": "S02",
-    "location": "basics.S02-T4-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S02",
-    "location": "basics.S02-T4-A-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S02",
-    "location": "basics.S02-T4-A-DEMO.description",
-    "kind": "ido.description",
-    "visible": true
-   },
-   {
-    "section": "S02",
-    "location": "basics.S02-T4-A-E1.title",
-    "kind": "wedo.title",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S02",
    "S04",
@@ -1395,7 +1362,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "slicing": {
   "id": "slicing",
@@ -2147,18 +2115,13 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "truthiness": {
   "id": "truthiness",
   "declared_first_section": "basics",
   "uses": [
-   {
-    "section": "S02",
-    "location": "basics.S02-T2-A-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
    {
     "section": "S03",
     "location": "data-structures.tagline",
@@ -2770,9 +2733,9 @@
   "headings": [],
   "figures": [],
   "first_use": {
-   "section": "S02",
-   "location": "basics.S02-T2-A-E2.preamble",
-   "kind": "wedo.preamble",
+   "section": "S03",
+   "location": "data-structures.tagline",
+   "kind": "tagline",
    "visible": true
   },
   "first_definition": {
@@ -2783,12 +2746,6 @@
   },
   "depth": "L1",
   "surprising_uses": [
-   {
-    "section": "S02",
-    "location": "basics.S02-T2-A-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
    {
     "section": "S03",
     "location": "data-structures.tagline",
@@ -2875,7 +2832,6 @@
    }
   ],
   "sections_used": [
-   "S02",
    "S03",
    "S06",
    "S08",
@@ -2892,7 +2848,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "dunder-method": {
   "id": "dunder-method",
@@ -3490,7 +3447,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 2
  },
  "decorador": {
   "id": "decorador",
@@ -3555,18 +3513,13 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "generator": {
   "id": "generator",
   "declared_first_section": "oop",
   "uses": [
-   {
-    "section": "S05",
-    "location": "oop.selfCheck[3].opt[0]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
    {
     "section": "S18",
     "location": "data-engineering.S18-T4-B-DEMO.why",
@@ -3652,12 +3605,6 @@
   "exercises": [],
   "self_checks": [
    {
-    "section": "S05",
-    "location": "oop.selfCheck[3].opt[0]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
     "section": "S25",
     "location": "streamlit-dashboards.selfCheck[1].q",
     "kind": "selfcheck.question",
@@ -3667,20 +3614,14 @@
   "headings": [],
   "figures": [],
   "first_use": {
-   "section": "S05",
-   "location": "oop.selfCheck[3].opt[0]",
-   "kind": "selfcheck.option",
+   "section": "S18",
+   "location": "data-engineering.S18-T4-B-DEMO.why",
+   "kind": "ido.why",
    "visible": true
   },
   "first_definition": null,
   "depth": "L0",
   "surprising_uses": [
-   {
-    "section": "S05",
-    "location": "oop.selfCheck[3].opt[0]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
    {
     "section": "S18",
     "location": "data-engineering.S18-T4-B-DEMO.why",
@@ -3755,7 +3696,6 @@
    }
   ],
   "sections_used": [
-   "S05",
    "S18",
    "S24",
    "S25",
@@ -3767,18 +3707,13 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "context-manager": {
   "id": "context-manager",
   "declared_first_section": "pandas",
   "uses": [
-   {
-    "section": "S08",
-    "location": "pandas.S08-T1-A-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
    {
     "section": "S09",
     "location": "visualization.resources.doc[4]",
@@ -3817,20 +3752,14 @@
   "headings": [],
   "figures": [],
   "first_use": {
-   "section": "S08",
-   "location": "pandas.S08-T1-A-DEMO.retrospective",
-   "kind": "ido.retrospective",
+   "section": "S09",
+   "location": "visualization.resources.doc[4]",
+   "kind": "resource",
    "visible": true
   },
   "first_definition": null,
   "depth": "L0",
   "surprising_uses": [
-   {
-    "section": "S08",
-    "location": "pandas.S08-T1-A-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
    {
     "section": "S09",
     "location": "visualization.resources.doc[4]",
@@ -3863,14 +3792,14 @@
    }
   ],
   "sections_used": [
-   "S08",
    "S09",
    "S38"
   ],
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "abc": {
   "id": "abc",
@@ -3878,13 +3807,13 @@
   "uses": [
    {
     "section": "S02",
-    "location": "basics.S02-T1-B.p2",
+    "location": "basics.S02-T1-B.p3",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S02",
-    "location": "basics.S02-T1-B.p3",
+    "location": "basics.S02-T1-B.p4",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -4645,7 +4574,7 @@
   "figures": [],
   "first_use": {
    "section": "S02",
-   "location": "basics.S02-T1-B.p2",
+   "location": "basics.S02-T1-B.p3",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -4659,13 +4588,13 @@
   "surprising_uses": [
    {
     "section": "S02",
-    "location": "basics.S02-T1-B.p2",
+    "location": "basics.S02-T1-B.p3",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S02",
-    "location": "basics.S02-T1-B.p3",
+    "location": "basics.S02-T1-B.p4",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -4765,7 +4694,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 0
  },
  "args-y-kwargs": {
   "id": "args-y-kwargs",
@@ -4785,7 +4715,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "virtual-environment-venv": {
   "id": "virtual-environment-venv",
@@ -4853,32 +4784,62 @@
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.theory[7].p5",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S01",
     "location": "setup.theory[8].p1",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[8].p2",
+    "location": "setup.theory[8].p5",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[8].callout",
+    "location": "setup.theory[9].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[9].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[9].callout",
     "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[10].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[10].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[10].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[10].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[10].p3",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -4919,6 +4880,18 @@
    },
    {
     "section": "S01",
+    "location": "setup.theory[13].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[13].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.S01-T2-B.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -4943,6 +4916,12 @@
    },
    {
     "section": "S01",
+    "location": "setup.theory[18].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.S01-T3-A.p1",
     "kind": "theory.paragraph",
     "visible": true
@@ -4951,6 +4930,12 @@
     "section": "S01",
     "location": "setup.S01-T3-A.code",
     "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[21].p3",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -5739,6 +5724,12 @@
   "headings": [
    {
     "section": "S01",
+    "location": "setup.theory[10].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.S01-T2-A.heading",
     "kind": "theory.heading",
     "visible": true
@@ -5789,7 +5780,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 1,
-  "figure_gap": 4
+  "figure_gap": 4,
+  "explanation_lag_sections": 0
  },
  "repositorio-repo": {
   "id": "repositorio-repo",
@@ -5857,6 +5849,30 @@
    },
    {
     "section": "S01",
+    "location": "setup.theory[15].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[15].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[15].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[16].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.S01-T3-A.p2",
     "kind": "theory.paragraph",
     "visible": true
@@ -5865,6 +5881,36 @@
     "section": "S01",
     "location": "setup.S01-T3-A.code",
     "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].p3",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -6843,6 +6889,12 @@
   "definitions": [
    {
     "section": "S01",
+    "location": "setup.theory[15].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.youDo.requirement[0]",
     "kind": "youdo.requirement",
     "visible": true
@@ -7084,6 +7136,18 @@
   ],
   "headings": [
    {
+    "section": "S01",
+    "location": "setup.theory[15].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
     "section": "S29",
     "location": "mlops.S29-T4-B.heading",
     "kind": "theory.heading",
@@ -7099,8 +7163,8 @@
   },
   "first_definition": {
    "section": "S01",
-   "location": "setup.youDo.requirement[0]",
-   "kind": "youdo.requirement",
+   "location": "setup.theory[15].p0",
+   "kind": "theory.paragraph",
    "visible": true
   },
   "depth": "L2",
@@ -7167,146 +7231,8 @@
    },
    {
     "section": "S01",
-    "location": "setup.S01-T3-A.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-B.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-B.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-B.p3",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-B.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-B.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T2-A-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T2-A-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-A-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-A-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-A-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.weDo.intro",
-    "kind": "wedo.intro",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-A-E1.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-A-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-A-E1.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-A-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-B-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-B-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.youDo.objective[0]",
-    "kind": "youdo.objective",
+    "location": "setup.theory[15].heading",
+    "kind": "theory.heading",
     "visible": true
    }
   ],
@@ -7341,7 +7267,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 0
  },
  "git": {
   "id": "git",
@@ -7409,26 +7336,110 @@
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p0",
+    "location": "setup.theory[8].p0",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p4",
+    "location": "setup.theory[8].p4",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p5",
+    "location": "setup.theory[8].p5",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[15].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[15].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[15].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[15].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[15].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[16].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[16].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[16].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[16].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[16].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[17].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[17].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[17].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[18].p3",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -7465,6 +7476,24 @@
     "section": "S01",
     "location": "setup.S01-T3-A.callout",
     "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].p2",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -7933,8 +7962,20 @@
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[15].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[16].p0",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -7959,7 +8000,7 @@
   "examples": [
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -8097,6 +8138,18 @@
   "headings": [
    {
     "section": "S01",
+    "location": "setup.theory[15].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[16].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.S01-T3-A.heading",
     "kind": "theory.heading",
     "visible": true
@@ -8151,7 +8204,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 0
  },
  "github": {
   "id": "github",
@@ -8171,19 +8225,19 @@
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p0",
+    "location": "setup.theory[8].p0",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p4",
+    "location": "setup.theory[8].p4",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -8209,6 +8263,42 @@
     "section": "S01",
     "location": "setup.S01-T3-A.code",
     "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[21].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[21].p2",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -8350,12 +8440,18 @@
     "location": "setup.S01-T2-A.p1",
     "kind": "theory.paragraph",
     "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].p0",
+    "kind": "theory.paragraph",
+    "visible": true
    }
   ],
   "examples": [
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -8418,7 +8514,14 @@
     "visible": true
    }
   ],
-  "headings": [],
+  "headings": [
+   {
+    "section": "S01",
+    "location": "setup.theory[20].heading",
+    "kind": "theory.heading",
+    "visible": true
+   }
+  ],
   "figures": [],
   "first_use": {
    "section": "S01",
@@ -8448,19 +8551,19 @@
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p0",
+    "location": "setup.theory[8].p0",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p4",
+    "location": "setup.theory[8].p4",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
     "visible": true
    }
@@ -8476,7 +8579,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 0
  },
  "clonar": {
   "id": "clonar",
@@ -8583,7 +8687,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "commit": {
   "id": "commit",
@@ -8610,6 +8715,54 @@
    {
     "section": "S01",
     "location": "setup.S01-T2-B.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[15].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[17].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[17].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[17].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[17].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[17].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[18].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[18].p0",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -8653,6 +8806,24 @@
     "section": "S01",
     "location": "setup.S01-T3-A.callout",
     "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[20].p3",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -9289,6 +9460,18 @@
    },
    {
     "section": "S01",
+    "location": "setup.theory[17].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[17].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.selfCheck[2].explanation",
     "kind": "selfcheck.explanation",
     "visible": true
@@ -9471,6 +9654,18 @@
   "headings": [
    {
     "section": "S01",
+    "location": "setup.theory[17].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[18].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.S01-T3-A.heading",
     "kind": "theory.heading",
     "visible": true
@@ -9529,7 +9724,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 1,
-  "figure_gap": 4
+  "figure_gap": 4,
+  "explanation_lag_sections": 0
  },
  "pull-request": {
   "id": "pull-request",
@@ -9550,6 +9746,36 @@
    {
     "section": "S01",
     "location": "setup.S01-T3-A.p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[21].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[21].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[21].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[21].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[21].p3",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -10085,6 +10311,12 @@
   "definitions": [
    {
     "section": "S01",
+    "location": "setup.theory[21].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.S01-T3-B-DEMO.description",
     "kind": "ido.description",
     "visible": true
@@ -10216,7 +10448,14 @@
     "visible": true
    }
   ],
-  "headings": [],
+  "headings": [
+   {
+    "section": "S01",
+    "location": "setup.theory[21].heading",
+    "kind": "theory.heading",
+    "visible": true
+   }
+  ],
   "figures": [],
   "first_use": {
    "section": "S01",
@@ -10226,8 +10465,8 @@
   },
   "first_definition": {
    "section": "S01",
-   "location": "setup.S01-T3-B-DEMO.description",
-   "kind": "ido.description",
+   "location": "setup.theory[21].p0",
+   "kind": "theory.paragraph",
    "visible": true
   },
   "depth": "L2",
@@ -10252,44 +10491,8 @@
    },
    {
     "section": "S01",
-    "location": "setup.S01-T3-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-B.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-B.p3",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-B.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-A-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-B-DEMO.preamble",
-    "kind": "ido.preamble",
+    "location": "setup.theory[21].heading",
+    "kind": "theory.heading",
     "visible": true
    }
   ],
@@ -10311,7 +10514,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 0
  },
  "path": {
   "id": "path",
@@ -10373,7 +10577,7 @@
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -10511,7 +10715,7 @@
    },
    {
     "section": "S08",
-    "location": "pandas.theory[10].p0",
+    "location": "pandas.theory[11].p0",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -13377,7 +13581,7 @@
   "examples": [
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -13978,7 +14182,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 0
  },
  "interprete": {
   "id": "interprete",
@@ -14076,19 +14281,19 @@
    },
    {
     "section": "S01",
-    "location": "setup.theory[8].p0",
+    "location": "setup.theory[9].p0",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[8].p1",
+    "location": "setup.theory[9].p1",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[8].p2",
+    "location": "setup.theory[9].p2",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -14432,7 +14637,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "repl": {
   "id": "repl",
@@ -14574,6 +14780,12 @@
   "definitions": [
    {
     "section": "S01",
+    "location": "setup.outcome[0]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.S01-T1-A.p1",
     "kind": "theory.paragraph",
     "visible": true
@@ -14626,25 +14838,12 @@
   },
   "first_definition": {
    "section": "S01",
-   "location": "setup.S01-T1-A.p1",
-   "kind": "theory.paragraph",
+   "location": "setup.outcome[0]",
+   "kind": "outcome",
    "visible": true
   },
   "depth": "L3",
-  "surprising_uses": [
-   {
-    "section": "S01",
-    "location": "setup.outcome[0]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-A.heading",
-    "kind": "theory.heading",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S01",
    "S22"
@@ -14652,7 +14851,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 1,
-  "figure_gap": 0
+  "figure_gap": 0,
+  "explanation_lag_sections": 0
  },
  "pip": {
   "id": "pip",
@@ -14708,31 +14908,13 @@
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.theory[7].p5",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.theory[7].callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.theory[8].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S01",
     "location": "setup.theory[8].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[8].p5",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -14740,6 +14922,60 @@
     "section": "S01",
     "location": "setup.theory[8].callout",
     "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[9].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[9].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[9].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[10].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[13].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[13].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[13].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[13].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[13].p3",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -15313,6 +15549,12 @@
     "location": "setup.S01-T1-B.p2",
     "kind": "theory.paragraph",
     "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[13].p0",
+    "kind": "theory.paragraph",
+    "visible": true
    }
   ],
   "examples": [
@@ -15462,6 +15704,12 @@
   "headings": [
    {
     "section": "S01",
+    "location": "setup.theory[13].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.S01-T2-B.heading",
     "kind": "theory.heading",
     "visible": true
@@ -15539,7 +15787,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 0
  },
  "requirements-txt": {
   "id": "requirements-txt",
@@ -15572,6 +15821,12 @@
    {
     "section": "S01",
     "location": "setup.S01-T1-B.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[13].p1",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -16068,7 +16323,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 0
  },
  "dependencias": {
   "id": "dependencias",
@@ -16094,8 +16350,14 @@
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p1",
+    "location": "setup.theory[8].p1",
     "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[12].heading",
+    "kind": "theory.heading",
     "visible": true
    },
    {
@@ -16161,12 +16423,6 @@
    {
     "section": "S01",
     "location": "setup.selfCheck[3].explanation",
-    "kind": "selfcheck.explanation",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "oop.selfCheck[2].explanation",
     "kind": "selfcheck.explanation",
     "visible": true
    },
@@ -16965,12 +17221,6 @@
     "visible": true
    },
    {
-    "section": "S05",
-    "location": "oop.selfCheck[2].explanation",
-    "kind": "selfcheck.explanation",
-    "visible": true
-   },
-   {
     "section": "S10",
     "location": "sklearn.selfCheck[0].opt[3]",
     "kind": "selfcheck.option",
@@ -17002,6 +17252,12 @@
    }
   ],
   "headings": [
+   {
+    "section": "S01",
+    "location": "setup.theory[12].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
    {
     "section": "S10",
     "location": "sklearn.S10-T1-B.heading",
@@ -17081,8 +17337,14 @@
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p1",
+    "location": "setup.theory[8].p1",
     "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[12].heading",
+    "kind": "theory.heading",
     "visible": true
    },
    {
@@ -17148,12 +17410,6 @@
    {
     "section": "S01",
     "location": "setup.selfCheck[3].explanation",
-    "kind": "selfcheck.explanation",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "oop.selfCheck[2].explanation",
     "kind": "selfcheck.explanation",
     "visible": true
    },
@@ -17256,7 +17512,6 @@
   ],
   "sections_used": [
    "S01",
-   "S05",
    "S10",
    "S11",
    "S15",
@@ -17282,12 +17537,19 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 1,
-  "figure_gap": 4
+  "figure_gap": 4,
+  "explanation_lag_sections": 14
  },
  "conventional-commits": {
   "id": "conventional-commits",
   "declared_first_section": "setup",
   "uses": [
+   {
+    "section": "S01",
+    "location": "setup.theory[18].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
    {
     "section": "S01",
     "location": "setup.S01-T3-A.p1",
@@ -17382,6 +17644,12 @@
   "definitions": [
    {
     "section": "S01",
+    "location": "setup.theory[18].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.selfCheck[2].explanation",
     "kind": "selfcheck.explanation",
     "visible": true
@@ -17432,98 +17700,26 @@
   "figures": [],
   "first_use": {
    "section": "S01",
-   "location": "setup.S01-T3-A.p1",
+   "location": "setup.theory[18].p0",
    "kind": "theory.paragraph",
    "visible": true
   },
   "first_definition": {
    "section": "S01",
-   "location": "setup.selfCheck[2].explanation",
-   "kind": "selfcheck.explanation",
+   "location": "setup.theory[18].p0",
+   "kind": "theory.paragraph",
    "visible": true
   },
   "depth": "L1",
-  "surprising_uses": [
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-A.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-A-DEMO.description",
-    "kind": "ido.description",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-A-E1.title",
-    "kind": "wedo.title",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-A-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-A-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-B-E2.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T3-B-E2.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.youDo.objective[3]",
-    "kind": "youdo.objective",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.youDo.requirement[8]",
-    "kind": "youdo.requirement",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.youDo.rubric[2]",
-    "kind": "youdo.rubric",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.selfCheck[2].q",
-    "kind": "selfcheck.question",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S01"
   ],
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "terminal-shell": {
   "id": "terminal-shell",
@@ -17544,6 +17740,36 @@
    {
     "section": "S01",
     "location": "setup.theory[0].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[2].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[2].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[2].p3",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -17633,25 +17859,25 @@
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p3",
+    "location": "setup.theory[8].p3",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p4",
+    "location": "setup.theory[8].p4",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p5",
+    "location": "setup.theory[8].p5",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -18271,6 +18497,12 @@
    },
    {
     "section": "S01",
+    "location": "setup.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.S01-T1-A.heading",
     "kind": "theory.heading",
     "visible": true
@@ -18303,7 +18535,7 @@
   "examples": [
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -18411,6 +18643,12 @@
   "headings": [
    {
     "section": "S01",
+    "location": "setup.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.S01-T1-A.heading",
     "kind": "theory.heading",
     "visible": true
@@ -18480,7 +18718,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 0
  },
  "dotenv": {
   "id": "dotenv",
@@ -18490,6 +18729,12 @@
     "section": "S01",
     "location": "setup.S01-T2-A.callout",
     "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[21].p3",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -18965,7 +19210,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 0
  },
  "gitignore": {
   "id": "gitignore",
@@ -19207,7 +19453,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "ruff": {
   "id": "ruff",
@@ -19221,8 +19468,44 @@
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].p6",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[23].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[23].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[23].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[23].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[23].p3",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -19421,7 +19704,7 @@
   "definitions": [
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -19435,7 +19718,7 @@
   "examples": [
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -19513,6 +19796,12 @@
   "headings": [
    {
     "section": "S01",
+    "location": "setup.theory[23].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.S01-T4-A.heading",
     "kind": "theory.heading",
     "visible": true
@@ -19527,7 +19816,7 @@
   },
   "first_definition": {
    "section": "S01",
-   "location": "setup.theory[7].code",
+   "location": "setup.theory[8].code",
    "kind": "theory.code",
    "visible": true
   },
@@ -19538,6 +19827,12 @@
     "location": "setup.outcome[4]",
     "kind": "outcome",
     "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[8].p6",
+    "kind": "theory.paragraph",
+    "visible": true
    }
   ],
   "sections_used": [
@@ -19546,7 +19841,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "vs-code": {
   "id": "vs-code",
@@ -19566,19 +19862,25 @@
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p0",
+    "location": "setup.theory[8].p0",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p5",
+    "location": "setup.theory[8].p5",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].p6",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -19616,7 +19918,7 @@
   "definitions": [
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
     "visible": true
    }
@@ -19624,7 +19926,7 @@
   "examples": [
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -19654,7 +19956,7 @@
   },
   "first_definition": {
    "section": "S01",
-   "location": "setup.theory[7].code",
+   "location": "setup.theory[8].code",
    "kind": "theory.code",
    "visible": true
   },
@@ -19674,13 +19976,19 @@
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p0",
+    "location": "setup.theory[8].p0",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S01",
-    "location": "setup.theory[7].p5",
+    "location": "setup.theory[8].p5",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[8].p6",
     "kind": "theory.paragraph",
     "visible": true
    }
@@ -19691,7 +19999,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "notebook": {
   "id": "notebook",
@@ -19699,7 +20008,13 @@
   "uses": [
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].p6",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -20022,11 +20337,18 @@
     "visible": true
    }
   ],
-  "definitions": [],
+  "definitions": [
+   {
+    "section": "S01",
+    "location": "setup.theory[8].p6",
+    "kind": "theory.paragraph",
+    "visible": true
+   }
+  ],
   "examples": [
    {
     "section": "S01",
-    "location": "setup.theory[7].code",
+    "location": "setup.theory[8].code",
     "kind": "theory.code",
     "visible": true
    }
@@ -20064,332 +20386,18 @@
   "figures": [],
   "first_use": {
    "section": "S01",
-   "location": "setup.theory[7].code",
-   "kind": "theory.code",
+   "location": "setup.theory[8].p6",
+   "kind": "theory.paragraph",
    "visible": true
   },
-  "first_definition": null,
-  "depth": "L0",
-  "surprising_uses": [
-   {
-    "section": "S01",
-    "location": "setup.theory[7].code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-B-E1.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "sklearn.jobRelevance",
-    "kind": "jobRelevance",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "sklearn.theory[0].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "sklearn.theory[0].p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S12",
-    "location": "performance.S12-T2-A.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S14",
-    "location": "security.S14-T2-A.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S14",
-    "location": "security.S14-T2-A-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S14",
-    "location": "security.S14-T2-A-E1.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T4-B.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T2-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T2-B-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T2-B-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T2-B-E3.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.outcome[7]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.S18-T3-A.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.S18-T4-B.heading",
-    "kind": "theory.heading",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.S18-T4-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.S18-T4-B.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.S18-T4-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.S18-T1-A-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.S18-T2-B-E3.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.S18-T4-B-E3.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.youDo.objective[5]",
-    "kind": "youdo.objective",
-    "visible": true
-   },
-   {
-    "section": "S19",
-    "location": "databases-orm.S19-T2-A-E2.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S20",
-    "location": "rag.jobRelevance",
-    "kind": "jobRelevance",
-    "visible": true
-   },
-   {
-    "section": "S24",
-    "location": "rpa-advanced.youDo.context",
-    "kind": "youdo.context",
-    "visible": true
-   },
-   {
-    "section": "S30",
-    "location": "security-infra.S30-T4-A.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S30",
-    "location": "security-infra.S30-T4-A-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S30",
-    "location": "security-infra.S30-T4-B-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.theory[0].heading",
-    "kind": "theory.heading",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.theory[0].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.theory[2].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T1-A.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T4-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T1-A-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-A-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T4-B-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T1-B-E1.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T1-B-E2.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-A-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-A-E2.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-B-E2.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.selfCheck[7].opt[2]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B-E1.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.jobRelevance",
-    "kind": "jobRelevance",
-    "visible": true
-   },
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.S34-T1-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.S34-T1-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.S34-T1-B-E3.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S36",
-    "location": "ai-apis-advanced.S36-T1-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S36",
-    "location": "ai-apis-advanced.S36-T1-B-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   }
-  ],
+  "first_definition": {
+   "section": "S01",
+   "location": "setup.theory[8].p6",
+   "kind": "theory.paragraph",
+   "visible": true
+  },
+  "depth": "L2",
+  "surprising_uses": [],
   "sections_used": [
    "S01",
    "S10",
@@ -20406,10 +20414,11 @@
    "S34",
    "S36"
   ],
-  "load_bearing": false,
-  "figure_target": 1,
+  "load_bearing": true,
+  "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 5,
+  "explanation_lag_sections": 0
  },
  "pytest": {
   "id": "pytest",
@@ -20993,7 +21002,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 17
  },
  "coverage": {
   "id": "coverage",
@@ -22157,7 +22167,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 17
  },
  "list": {
   "id": "list",
@@ -22267,12 +22278,6 @@
    },
    {
     "section": "S04",
-    "location": "functions-modules.S04-T1-A-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S04",
     "location": "functions-modules.S04-T1-B-E2.instruction",
     "kind": "wedo.instruction",
     "visible": true
@@ -22335,12 +22340,6 @@
     "section": "S04",
     "location": "functions-modules.resources.doc[3]",
     "kind": "resource",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "oop.selfCheck[3].opt[0]",
-    "kind": "selfcheck.option",
     "visible": true
    },
    {
@@ -25298,12 +25297,6 @@
     "visible": true
    },
    {
-    "section": "S05",
-    "location": "oop.selfCheck[3].opt[0]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
     "section": "S06",
     "location": "numpy.selfCheck[5].q",
     "kind": "selfcheck.question",
@@ -25362,7 +25355,6 @@
    "S02",
    "S03",
    "S04",
-   "S05",
    "S06",
    "S07",
    "S08",
@@ -25407,7 +25399,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 1,
-  "figure_gap": 4
+  "figure_gap": 4,
+  "explanation_lag_sections": 0
  },
  "dict": {
   "id": "dict",
@@ -35641,7 +35634,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 2,
-  "figure_gap": 3
+  "figure_gap": 3,
+  "explanation_lag_sections": 0
  },
  "tuple": {
   "id": "tuple",
@@ -35651,6 +35645,12 @@
     "section": "S02",
     "location": "basics.youDo.starter",
     "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "oop.theory[5].p2",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -36274,6 +36274,12 @@
    },
    {
     "section": "S05",
+    "location": "oop.theory[5].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S05",
     "location": "oop.S05-T2-B-DEMO.code",
     "kind": "ido.code",
     "visible": true
@@ -36359,7 +36365,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 4
  },
  "set": {
   "id": "set",
@@ -41694,7 +41701,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 2,
-  "figure_gap": 3
+  "figure_gap": 3,
+  "explanation_lag_sections": 3
  },
  "defaultdict": {
   "id": "defaultdict",
@@ -42274,7 +42282,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "counter": {
   "id": "counter",
@@ -42657,7 +42666,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "namedtuple": {
   "id": "namedtuple",
@@ -42759,7 +42769,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "ndarray": {
   "id": "ndarray",
@@ -42887,7 +42898,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "vectorizaci-n": {
   "id": "vectorizaci-n",
@@ -43179,7 +43191,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "broadcasting": {
   "id": "broadcasting",
@@ -43319,7 +43332,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "boolean-masking": {
   "id": "boolean-masking",
@@ -43423,7 +43437,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "shape": {
   "id": "shape",
@@ -44017,7 +44032,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 8
  },
  "dtype": {
   "id": "dtype",
@@ -45215,7 +45231,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 2,
-  "figure_gap": 3
+  "figure_gap": 3,
+  "explanation_lag_sections": 0
  },
  "reshape": {
   "id": "reshape",
@@ -45336,7 +45353,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "dataframe": {
   "id": "dataframe",
@@ -47452,7 +47470,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 1,
-  "figure_gap": 4
+  "figure_gap": 4,
+  "explanation_lag_sections": 0
  },
  "series": {
   "id": "series",
@@ -48031,7 +48050,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 0
  },
  "groupby": {
   "id": "groupby",
@@ -48737,30 +48757,13 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 2,
-  "figure_gap": 3
+  "figure_gap": 3,
+  "explanation_lag_sections": 2
  },
  "merge": {
   "id": "merge",
   "declared_first_section": "setup",
   "uses": [
-   {
-    "section": "S01",
-    "location": "setup.youDo.objective[3]",
-    "kind": "youdo.objective",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.youDo.requirement[8]",
-    "kind": "youdo.requirement",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.youDo.rubric[4]",
-    "kind": "youdo.rubric",
-    "visible": true
-   },
    {
     "section": "S06",
     "location": "numpy.S06-T2-A-E3.preamble",
@@ -49794,18 +49797,6 @@
   ],
   "exercises": [
    {
-    "section": "S01",
-    "location": "setup.youDo.objective[3]",
-    "kind": "youdo.objective",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.youDo.requirement[8]",
-    "kind": "youdo.requirement",
-    "visible": true
-   },
-   {
     "section": "S10",
     "location": "sklearn.S10-T4-A-E2.instruction",
     "kind": "wedo.instruction",
@@ -49907,9 +49898,9 @@
   "headings": [],
   "figures": [],
   "first_use": {
-   "section": "S01",
-   "location": "setup.youDo.objective[3]",
-   "kind": "youdo.objective",
+   "section": "S06",
+   "location": "numpy.S06-T2-A-E3.preamble",
+   "kind": "wedo.preamble",
    "visible": true
   },
   "first_definition": {
@@ -49920,24 +49911,6 @@
   },
   "depth": "L2",
   "surprising_uses": [
-   {
-    "section": "S01",
-    "location": "setup.youDo.objective[3]",
-    "kind": "youdo.objective",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.youDo.requirement[8]",
-    "kind": "youdo.requirement",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.youDo.rubric[4]",
-    "kind": "youdo.rubric",
-    "visible": true
-   },
    {
     "section": "S06",
     "location": "numpy.S06-T2-A-E3.preamble",
@@ -50048,7 +50021,6 @@
    }
   ],
   "sections_used": [
-   "S01",
    "S06",
    "S07",
    "S10",
@@ -50067,7 +50039,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 11
  },
  "pivot-table": {
   "id": "pivot-table",
@@ -50432,7 +50405,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 1,
-  "figure_gap": 0
+  "figure_gap": 0,
+  "explanation_lag_sections": 0
  },
  "iloc-vs-loc": {
   "id": "iloc-vs-loc",
@@ -50881,7 +50855,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "apply": {
   "id": "apply",
@@ -51331,7 +51306,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 12
  },
  "eda": {
   "id": "eda",
@@ -51690,7 +51666,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 1
  },
  "missing-values": {
   "id": "missing-values",
@@ -52876,7 +52853,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 5
  },
  "resample": {
   "id": "resample",
@@ -53014,7 +52992,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "pipeline": {
   "id": "pipeline",
@@ -53022,21 +53001,27 @@
   "uses": [
    {
     "section": "S01",
-    "location": "setup.S01-T1-B.p2",
+    "location": "setup.S01-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S02",
+    "location": "basics.theory[2].p0",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
-    "section": "S01",
-    "location": "setup.S01-T1-B-E1.retrospective",
-    "kind": "wedo.retrospective",
+    "section": "S02",
+    "location": "basics.theory[2].p3",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
-    "section": "S01",
-    "location": "setup.S01-T2-A-E3.solution",
-    "kind": "solution",
-    "visible": false
+    "section": "S02",
+    "location": "basics.theory[2].callout",
+    "kind": "theory.callout",
+    "visible": true
    },
    {
     "section": "S02",
@@ -54647,8 +54632,8 @@
   ],
   "figures": [],
   "first_use": {
-   "section": "S01",
-   "location": "setup.S01-T1-B.p2",
+   "section": "S02",
+   "location": "basics.theory[2].p0",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -54661,15 +54646,21 @@
   "depth": "L2",
   "surprising_uses": [
    {
-    "section": "S01",
-    "location": "setup.S01-T1-B.p2",
+    "section": "S02",
+    "location": "basics.theory[2].p0",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
-    "section": "S01",
-    "location": "setup.S01-T1-B-E1.retrospective",
-    "kind": "wedo.retrospective",
+    "section": "S02",
+    "location": "basics.theory[2].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.theory[2].callout",
+    "kind": "theory.callout",
     "visible": true
    },
    {
@@ -54710,7 +54701,6 @@
    }
   ],
   "sections_used": [
-   "S01",
    "S02",
    "S03",
    "S04",
@@ -54758,7 +54748,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 0
  },
  "columntransformer": {
   "id": "columntransformer",
@@ -54840,7 +54831,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "cross-validation": {
   "id": "cross-validation",
@@ -54938,7 +54930,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "overfitting": {
   "id": "overfitting",
@@ -55248,7 +55241,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 26
  },
  "roc-auc": {
   "id": "roc-auc",
@@ -55332,7 +55326,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "precision": {
   "id": "precision",
@@ -56576,7 +56571,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 21
  },
  "recall": {
   "id": "recall",
@@ -58200,7 +58196,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 17
  },
  "f1-score": {
   "id": "f1-score",
@@ -58910,7 +58907,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 6
  },
  "shap": {
   "id": "shap",
@@ -59026,7 +59024,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 2
  },
  "hyperparameter-tuning": {
   "id": "hyperparameter-tuning",
@@ -59079,7 +59078,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "standardscaler": {
   "id": "standardscaler",
@@ -59120,7 +59120,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "onehotencoder": {
   "id": "onehotencoder",
@@ -59161,7 +59162,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "stratifiedkfold": {
   "id": "stratifiedkfold",
@@ -59207,7 +59209,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "joblib": {
   "id": "joblib",
@@ -59248,7 +59251,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "outlier": {
   "id": "outlier",
@@ -59588,7 +59592,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 20
  },
  "iqr": {
   "id": "iqr",
@@ -60288,7 +60293,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 0
  },
  "correlaci-n": {
   "id": "correlaci-n",
@@ -60680,7 +60686,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "distribuci-n-normal": {
   "id": "distribuci-n-normal",
@@ -60740,7 +60747,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "p-value": {
   "id": "p-value",
@@ -60781,7 +60789,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "feature-engineering": {
   "id": "feature-engineering",
@@ -60801,7 +60810,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "train-test-split": {
   "id": "train-test-split",
@@ -60912,7 +60922,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 2
  },
  "data-leakage": {
   "id": "data-leakage",
@@ -60998,12 +61009,19 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "pyodide": {
   "id": "pyodide",
   "declared_first_section": "basics",
   "uses": [
+   {
+    "section": "S02",
+    "location": "basics.iDo.intro",
+    "kind": "ido.intro",
+    "visible": true
+   },
    {
     "section": "S02",
     "location": "basics.S02-T4-A-DEMO.code",
@@ -61025,12 +61043,6 @@
    {
     "section": "S03",
     "location": "data-structures.iDo.intro",
-    "kind": "ido.intro",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "oop.iDo.intro",
     "kind": "ido.intro",
     "visible": true
    },
@@ -61056,13 +61068,19 @@
   "figures": [],
   "first_use": {
    "section": "S02",
-   "location": "basics.S02-T4-A-DEMO.code",
-   "kind": "ido.code",
+   "location": "basics.iDo.intro",
+   "kind": "ido.intro",
    "visible": true
   },
   "first_definition": null,
   "depth": "L0",
   "surprising_uses": [
+   {
+    "section": "S02",
+    "location": "basics.iDo.intro",
+    "kind": "ido.intro",
+    "visible": true
+   },
    {
     "section": "S02",
     "location": "basics.S02-T4-A-DEMO.code",
@@ -61088,12 +61106,6 @@
     "visible": true
    },
    {
-    "section": "S05",
-    "location": "oop.iDo.intro",
-    "kind": "ido.intro",
-    "visible": true
-   },
-   {
     "section": "S07",
     "location": "data-acquisition.iDo.intro",
     "kind": "ido.intro",
@@ -61103,13 +61115,13 @@
   "sections_used": [
    "S02",
    "S03",
-   "S05",
    "S07"
   ],
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "rag": {
   "id": "rag",
@@ -61648,7 +61660,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 0
  },
  "mlops": {
   "id": "mlops",
@@ -61720,7 +61733,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 15
  },
  "entity-resolution": {
   "id": "entity-resolution",
@@ -63792,7 +63806,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 2,
-  "figure_gap": 3
+  "figure_gap": 3,
+  "explanation_lag_sections": 1
  },
  "fastapi": {
   "id": "fastapi",
@@ -64168,7 +64183,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 1,
-  "figure_gap": 0
+  "figure_gap": 0,
+  "explanation_lag_sections": 1
  },
  "streamlit": {
   "id": "streamlit",
@@ -64245,7 +64261,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "llm": {
   "id": "llm",
@@ -64822,7 +64839,8 @@
   "load_bearing": true,
   "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 5
+  "figure_gap": 5,
+  "explanation_lag_sections": 0
  },
  "embedding": {
   "id": "embedding",
@@ -65029,7 +65047,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 35
  },
  "asignacion-aleatoria": {
   "id": "asignacion-aleatoria",
@@ -65107,7 +65126,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "estimando": {
   "id": "estimando",
@@ -65148,7 +65168,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "autoseleccion": {
   "id": "autoseleccion",
@@ -65239,7 +65260,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  },
  "guardrail": {
   "id": "guardrail",
@@ -65280,7 +65302,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "row-group": {
   "id": "row-group",
@@ -65340,7 +65363,8 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": null
  },
  "projection-pushdown": {
   "id": "projection-pushdown",
@@ -65412,6 +65436,7 @@
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
-  "figure_gap": 1
+  "figure_gap": 1,
+  "explanation_lag_sections": 0
  }
 }

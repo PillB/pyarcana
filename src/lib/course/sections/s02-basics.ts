@@ -93,6 +93,21 @@ real_pii_ok False`,
       },
      },
      {
+      heading: 'Una secuencia que permite encontrar el cambio',
+      paragraphs: [
+        'Un dato rara vez pasa del formulario al resultado en un solo salto. Primero llega como texto, después se limpia y luego se interpreta. Una **pipeline** es esa secuencia ordenada: la salida de un paso se convierte en la entrada del siguiente.',
+        'La secuencia existe para que puedas señalar dónde cambió el dato. Con una edad escrita como `" 19 "`, el primer paso conserva el texto original. El segundo obtiene `"19"` sin los espacios de los bordes y el tercero obtiene el número `19`. Si aparece un problema, sabes en qué paso buscarlo.',
+        'Practica con `" 28 "`. Escribe tres resultados antes de continuar: original, texto sin espacios y número interpretado. Lo correcto es `" 28 "`, `"28"` y `28`; el primero debe permanecer intacto.',
+        'Cuando llegues a T1-B, ejecuta la conversión y comprueba esos tres resultados. Después explica la pipeline sin usar su nombre: “conservo, limpio e interpreto”. Si puedes señalar qué recibe y qué entrega cada paso, entendiste la relación y no solo la palabra.',
+      ],
+      callout: {
+        type: 'info',
+        title: 'No es una caja misteriosa',
+        content:
+          'Una pipeline no garantiza que el dato sea correcto. Solo ordena los pasos y permite observar qué recibió y qué produjo cada uno.',
+      },
+     },
+     {
       heading: 'Literales y tipos básicos',
       subtopicId: 'S02-T1-A',
       paragraphs: [
@@ -135,12 +150,41 @@ False`,
       },
     },
     {
+      heading: 'Tres resultados que viajan juntos',
+      paragraphs: [
+        'Una conversión puede necesitar comunicar tres hechos: si funcionó, qué valor produjo y qué problema encontró. Una **tupla** reúne varios valores en un orden fijo. Se escribe entre paréntesis, como `(True, 19, None)`, y sirve para trasladar esos hechos juntos sin confundir sus posiciones.',
+        'En `(True, 19, None)`, la primera posición indica que la conversión funcionó. La segunda guarda la edad `19` y la tercera contiene `None` porque no hubo error. La línea `ok, edad, error = resultado` reparte las tres posiciones, de izquierda a derecha, entre tres nombres. Esta acción se llama **desempaquetar una tupla**.',
+        'Haz una prueba guiada: cambia el resultado por `(False, None, "edad vacía")`. Antes de ejecutar, escribe qué recibirá cada nombre. La respuesta correcta es `ok = False`, `edad = None` y `error = "edad vacía"`.',
+        'Ejecuta ambos casos y compara las tres líneas impresas con tu predicción. La comprobación es sencilla: debe haber tantos nombres a la izquierda como valores en la tupla. Si falta o sobra uno, Python muestra un error en vez de adivinar dónde colocarlo.',
+      ],
+      code: {
+        language: 'python',
+        title: 'tupla_resultado.py',
+        code: `resultado = (True, 19, None)
+ok, edad, error = resultado
+print(ok)
+print(edad)
+print(error)
+`,
+        output: `True
+19
+None`,
+      },
+      callout: {
+        type: 'tip',
+        title: 'El orden forma parte del significado',
+        content:
+          '`(True, 19, None)` significa éxito, valor y ausencia de error en ese orden. Cambiar las posiciones también cambia lo que recibe cada nombre.',
+      },
+    },
+    {
       heading: 'Inspección, conversión y validación',
       subtopicId: 'S02-T1-B',
       paragraphs: [
         'En una hoja de inscripción, `" 19 "` no es todavía una edad: es una secuencia de caracteres que *podría* representar una edad. **Puente desde T1-A:** reconocer el tipo describe el presente; convertir y validar decide si ese dato puede cruzar la puerta del sistema.',
         '**`type(x)`** responde “¿qué es esto ahora?”. **`isinstance(x, int)`** comprueba si `x` pertenece al tipo `int` o a uno de sus subtipos. Por eso `isinstance(True, int)` produce `True`: en Python, `bool` es subtipo de `int`. Conserva ese dato como una advertencia; los ejemplos de conversión que siguen trabajan con texto y no usan `isinstance` para aceptar edades.',
-        'La conversión explícita usa **`int()`**, **`float()`** y **`str()`** para intentar producir un valor del tipo indicado. El texto de formularios puede traer espacios en los bordes: **`valor.strip()`** produce el texto sin esos espacios. La forma `x.metodo()` pide al valor `x` ejecutar una operación propia. `int(" 19 ")` funciona. En cambio, `int("19.5")` e `int("abc")` terminan con **`ValueError`**. `"19.5"` representa un número, pero no un entero; `"abc"` contiene letras. `ValueError` indica que el contenido no puede convertirse al tipo solicitado. Nunca uses `eval()` con texto recibido de una persona: podría ejecutar código incluido en esa entrada.',
+        'La conversión explícita usa **`int()`**, **`float()`** y **`str()`** para intentar producir un valor del tipo indicado. El texto de formularios puede traer espacios en los bordes: **`valor.strip()`** produce el texto sin esos espacios. La forma `x.metodo()` pide al valor `x` ejecutar una operación propia. `int(" 19 ")` funciona.',
+        'En cambio, `int("19.5")` e `int("abc")` terminan con **`ValueError`**. `"19.5"` representa un número, pero no un entero. `"abc"` no es una orden ni un nombre especial de Python: es solo un texto de prueba formado por tres letras. `ValueError` indica que el contenido no puede convertirse al tipo solicitado. Nunca uses `eval()` con texto recibido de una persona: podría ejecutar código incluido en esa entrada.',
         'Avanza con ejemplos separados. Primero convierte `" 19 "`: `strip` produce `"19"` e `int` produce `19`. Después ejecuta `int("abc")` por separado y observa el `ValueError`: la ejecución se detiene en esa línea. En S09 aprenderás a capturar ese error y continuar; S02 se limita a distinguir una conversión válida de una inválida sin ocultar el fallo.',
         '**Modelo mental:** `strip` limpia los extremos; `int` intenta interpretar el contenido como entero. Predice el resultado de `int("19")` y el error de `int("diecinueve")` antes de probarlos. En T2 aprenderás a dar nombres claros a los valores.',
       ],
@@ -342,6 +386,33 @@ subtotal 100.00 IGV 18.00 total 118.00`,
       },
     },
     {
+      heading: 'Construir un mensaje con valores',
+      paragraphs: [
+        'Un mensaje suele mezclar texto fijo con valores que cambian. Escribir cada parte por separado vuelve difícil ver el resultado completo. Una **f-string** es un texto que comienza con `f` y contiene espacios entre llaves donde Python coloca valores.',
+        'En `f"Cliente: {nombre} | Monto: S/ {monto:.2f}"`, `Cliente:` y `Monto:` permanecen iguales. Python sustituye `{nombre}` por `José` y muestra `{monto:.2f}` con dos posiciones decimales. La f-string resuelve un problema de presentación: no cambia el valor guardado en `nombre` ni en `monto`.',
+        'Haz una modificación guiada: cambia `nombre` por `"Ana"` y `monto` por `Decimal("7")`. Antes de ejecutar, escribe el mensaje completo. Lo correcto es `Cliente: Ana | Monto: S/ 7.00`.',
+        'Comprueba también el papel de la letra `f`: ejecuta `print("Cliente: {nombre}")`. Si aparecen las llaves y la palabra `nombre`, Python trató el contenido como texto ordinario. Añade la `f`, ejecuta otra vez y confirma que aparece el valor.',
+      ],
+      code: {
+        language: 'python',
+        title: 'mensaje_con_valores.py',
+        code: `from decimal import Decimal
+
+nombre = "José"
+monto = Decimal("99.5")
+mensaje = f"Cliente: {nombre} | Monto: S/ {monto:.2f}"
+print(mensaje)
+`,
+        output: `Cliente: José | Monto: S/ 99.50`,
+      },
+      callout: {
+        type: 'tip',
+        title: 'Las llaves señalan qué cambia',
+        content:
+          'Dentro de una f-string, el texto exterior permanece fijo y cada par de llaves señala el valor que Python debe mostrar.',
+      },
+    },
+    {
       heading: 'Entrada/salida: input, print y f-strings',
       subtopicId: 'S02-T4-A',
       paragraphs: [
@@ -416,7 +487,7 @@ apellido_clean: Ñahui`,
   ],
   iDo: {
     intro:
-      'Partimos del taller que preparaste en S01. Puedes usar tu `.venv` activo o el entorno aislado del navegador, que ejecuta Python dentro de la página sin instalar nada. Seguiremos un registro sintético desde su apariencia en pantalla hasta un resultado que puedas explicar. En cada demostración aplica el mismo ritual: **predice una línea**, **sigue el código**, **comprueba la salida** y **explica la diferencia**. Recorrerás literales, conversión, nombres, identidad, operadores, `Decimal`, f-strings y el parser final. Copiar y ejecutar confirma que Python hizo algo. Explicar por qué hizo *eso* confirma que aprendiste. Usa solo datos ficticios, nunca datos personales reales.',
+      'Partimos del taller que preparaste en S01. Puedes usar tu `.venv` activo o el entorno aislado del navegador, que ejecuta Python dentro de la página sin instalar nada. Ese entorno usa **Pyodide**, la herramienta que permite ejecutar Python dentro de una página web. Seguiremos un registro sintético desde su apariencia en pantalla hasta un resultado que puedas explicar. En cada demostración aplica el mismo ritual: **predice una línea**, **sigue el código**, **comprueba la salida** y **explica la diferencia**. Recorrerás literales, conversión, nombres, identidad, operadores, `Decimal`, f-strings y el parser final. Copiar y ejecutar confirma que Python hizo algo. Explicar por qué hizo *eso* confirma que aprendiste. Usa solo datos ficticios, nunca datos personales reales.',
     steps: [
       {
         demoId: 'S02-T1-A-DEMO',
@@ -1164,7 +1235,7 @@ print(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)`,
         kind: 'independent',
         title: 'Corregir `=` por `==` en tres `if`',
         preamble:
-          '- **Contexto:** `if x = 1` es `SyntaxError` y el bug de novato más citado en review.\n- **Meta:** distinguir asignación de comparación en condicionales.\n- **Éxito:** el archivo corre e imprime exactamente tres líneas: `ok estado`, `ok codigo`, `ok flag`.\n- **Límites:** no uses `:=` (morsa); en S02 compara con `==` (o truthiness de `flag`).',
+          '- **Contexto:** `if x = 1` es `SyntaxError` y el bug de novato más citado en review.\n- **Meta:** distinguir asignación de comparación en condicionales.\n- **Éxito:** el archivo corre e imprime exactamente tres líneas: `ok estado`, `ok codigo`, `ok flag`.\n- **Límites:** no uses `:=` (morsa); en S02 basta con cambiar los tres usos de `=` por `==`.',
         id: 'S02-T2-A-E2',
         instruction:
           '1. Localiza las tres comparaciones rotas con `=`.\n2. Corrígelas para que sean comparaciones válidas.\n3. Ejecuta y confirma las tres líneas `ok`.',

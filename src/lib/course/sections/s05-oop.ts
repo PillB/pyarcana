@@ -237,6 +237,21 @@ print(normalize_email("  Ana.Perez@Example.COM "))
       },
     },
     {
+      heading: "Tuplas para devolver varios datos juntos",
+      paragraphs: [
+        "Una función entrega un resultado con `return`, pero a veces varios datos deben viajar juntos y conservar un orden conocido. Una **tupla** es un grupo ordenado de valores que Python trata como un solo resultado. Después de crearla, no puedes reemplazar, agregar ni quitar sus valores; por eso sirve para comunicar una forma fija.",
+        "Las comas forman la tupla y los paréntesis muestran sus límites. Con la entrada `\"999000111\"`, `norm_tel` devuelve `(True, \"999000111\", None)`: el primer valor indica éxito, el segundo contiene el teléfono limpio y el tercero indica que no hay mensaje de error. Con `\"123\"`, devuelve `(False, None, \"se esperan 9 dígitos\")`, de modo que quien llama puede distinguir el fallo y conservar su explicación.",
+        "La asignación `ok, valor, error = norm_tel(raw)` reparte los tres valores, en orden, entre tres variables. En la anotación siguiente, `Tuple[bool, Optional[str], Optional[str]]` describe esa misma forma: primero `True` o `False`; después, texto o `None`; por último, texto o `None`. Aquí `Optional[str]` significa exactamente «texto o `None`»; la anotación lo documenta, pero no lo comprueba al ejecutar.",
+        "**Práctica guiada:** antes de ejecutar la demostración T2-B, escribe los tres valores que esperas para `\"999000111\"`, `\"123\"` y `\"999-000-111\"`. Lo correcto mantiene siempre el orden `(éxito, valor, error)` y usa `None` cuando uno de los dos últimos datos no corresponde. Como comprobación, ejecuta la demostración y compara cada lugar de las tres tuplas con tu predicción; después explica por qué intercambiar el valor y el error rompería el contrato aunque el programa todavía pudiera imprimir algo.",
+      ],
+      callout: {
+        type: "tip",
+        title: "La tupla reúne datos; quien llama decide",
+        content:
+          "Devolver una tupla no hace que el lote continúe por sí solo. La tupla reúne el estado, el valor y el mensaje; el código que la recibe decide qué hacer con ellos.",
+      },
+    },
+    {
       heading: "Type hints graduales y errores de dominio",
       subtopicId: "S05-T2-B",
       paragraphs: [
@@ -440,7 +455,7 @@ ana@example.com`,
     },
   ],
   iDo: {
-    intro: "En estas ocho demostraciones no mirarás código como quien contempla una pecera. Antes de cada ejecución, **predice una salida o una relación**; durante la lectura, sigue quién recibe cada valor; al final, explica qué línea hace verdadera la promesa. El hilo avanza desde `def` hasta refactor seguro con los normalizadores de CP-N1-B. Todo corre con datos sintéticos en browser-pyodide.",
+    intro: "En estas ocho demostraciones no mirarás código como quien contempla una pecera. Antes de cada ejecución, **predice una salida o una relación**; durante la lectura, sigue quién recibe cada valor; al final, explica qué línea hace verdadera la promesa. El hilo avanza desde `def` hasta refactor seguro con los normalizadores de CP-N1-B. Todo usa datos sintéticos y puedes ejecutar cada ejemplo en esta página.",
     steps: [
       {
         demoId: "S05-T1-A-DEMO",
@@ -1931,11 +1946,11 @@ if __name__ == "__main__":
         options: ["Siempre imprime el resultado", "Lee un archivo de config global", "Solo puede usarse en clases", "Mismo input → mismo output, sin efectos colaterales"],
         correctIndex: 3,
         explanation:
-          "Pureza combina resultado determinista y ausencia de efectos observables como I/O o mutación global. Imprimir y leer configuración global son justamente efectos o dependencias ocultas; una función pura tampoco necesita vivir en una clase. Esa separación facilita asserts directos.",
+          "Pureza combina resultado determinista y ausencia de efectos observables como I/O o mutación global. Imprimir es un efecto; leer configuración global permite que un valor no recibido como argumento cambie el resultado. Una función pura tampoco necesita vivir en una clase. Esa separación facilita asserts directos.",
       },
       {
         question: "LEGB significa…",
-        options: ["List, Else, Generator, Break", "Local, Enclosing, Global, Builtin", "Loop, Eval, Global, Binary", "Lambda, Except, Goto, Block"],
+        options: ["Lista, Entrada, Grupo, Base", "Local, Enclosing, Global, Builtin", "Loop, Eval, Global, Binary", "Lambda, Except, Goto, Block"],
         correctIndex: 1,
         explanation:
           "Python busca un nombre en Local, Enclosing, Global y Builtin, en ese orden. Las otras opciones mezclan palabras de sintaxis sin describir ámbitos. Un closure funciona porque la función interna puede resolver configuración en el ámbito envolvente.",

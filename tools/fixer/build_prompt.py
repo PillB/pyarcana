@@ -20,7 +20,9 @@ CONTRACTS = [
     ROOT / "ReviewerFixer/Solarized Website Content Comprehension Auditor & Rewriter.md",
     ROOT / "ReviewerFixer/PYARCANA — MODO REVISOR ESCÉPTICO Y ANTI-COMPLACENCIA.md",
     ROOT / "ReviewerFixer/_GRAMMAR_SUBPLAN.md",
-    ROOT / "Handcrafted Writing and Editorial Quality Protocol.docx",
+    # AGENTS.md MUST #10 names the Markdown as canonical, and codex can read it;
+    # it cannot read the .docx that an earlier version of this list pointed at.
+    ROOT / "docs/policies/HANDCRAFTED_WRITING_PROTOCOL.md",
 ]
 
 
