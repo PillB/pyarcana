@@ -41,6 +41,9 @@ FATAL = (
 
 def main() -> int:
     tag, model, effort = sys.argv[1], sys.argv[2], sys.argv[3]
+    schema = "tools/fixer/schema/content_patch.schema.json"
+    if len(sys.argv) > 4 and sys.argv[4].startswith("--schema="):
+        schema = sys.argv[4].split("=", 1)[1]
     prompt = ROOT / f".fixer/{tag}.prompt.txt"
     out = ROOT / f".fixer/{tag}.result.json"
     log = ROOT / f".fixer/{tag}.codex.log"
@@ -48,7 +51,7 @@ def main() -> int:
     cmd = [
         "codex", "exec", "-m", model, "-c", f"model_reasoning_effort={effort}",
         "-C", str(ROOT), "-s", "read-only",
-        "--output-schema", "tools/fixer/schema/content_patch.schema.json",
+        "--output-schema", schema,
         "-o", str(out), "-",
     ]
 

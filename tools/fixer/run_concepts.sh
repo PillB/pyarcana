@@ -2,27 +2,19 @@
 # Teach, rephrase or remove the concepts a section uses without explaining them (D6).
 # Usage: tools/fixer/run_concepts.sh S01 S02 ...
 #
-# A section whose gates fail is restored from its pre-round copy and the chain stops.
-# An earlier version printed FAILED and carried on, so four rounds landed on top of a
-# broken curriculum contract before anyone read the log.
+# Verification is tools/fixer/gate.py, shared by every runner, so "passed" means the
+# same thing everywhere. A failed gate restores the section and stops the chain; a
+# rejected patch is recorded and the round is never announced clean while one exists.
 set -uo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 MODEL="${FIXER_MODEL:-gpt-5.6-sol}"
 EFFORT="${FIXER_EFFORT:-medium}"
 
-gate() {  # prints PASS/FAIL per suite; returns non-zero if any failed
-  local ok=0
-  if npm run test:adversarial:node >/dev/null 2>&1; then echo "    adversarial(node) PASS"; else echo "    adversarial(node) FAIL"; ok=1; fi
-  if npm run test:adversarial:py   >/dev/null 2>&1; then echo "    adversarial(py) PASS";   else echo "    adversarial(py) FAIL"; ok=1; fi
-  if npm run test:v3               >/dev/null 2>&1; then echo "    v3 PASS";                else echo "    v3 FAIL"; ok=1; fi
-  return $ok
-}
-
 for TAG in "$@"; do
   echo "################ $TAG concepts $(date -u +%H:%M:%SZ)"
-  npx tsx scripts/course_event_extractor.mts > .fixer/events.json 2>/dev/null
-  python3 scripts/concept_map.py >/dev/null 2>&1
+  rm -f .fixer/${TAG}k.* ".fixer/$TAG.gate-before.json" ".fixer/$TAG.gate-after.json"
+  python3 tools/fixer/gate.py snapshot "$TAG" || { echo "!! $TAG snapshot failed"; exit 1; }
 
   if ! python3 tools/fixer/build_concept_prompt.py "$TAG" > ".fixer/${TAG}k.prompt.txt" 2>/dev/null; then
     echo "    nothing unexplained in $TAG"; continue
@@ -30,28 +22,28 @@ for TAG in "$@"; do
   python3 tools/fixer/run_codex.py "${TAG}k" "$MODEL" "$EFFORT" || { echo "!! $TAG codex failed - stopping"; exit 1; }
 
   read -r SLUG FILE < <(python3 tools/fixer/section_path.py "$TAG")
-  cp "$FILE" ".fixer/${TAG}.pre-concepts.ts"   # restore point for this round only
+  cp "$FILE" ".fixer/${TAG}.pre-concepts.ts"
 
-  python3 - <<PY
+  python3 -c "
 import json, pathlib
-p = pathlib.Path(".fixer/${TAG}k.result.json")
-d = json.loads(p.read_text(encoding="utf-8")); d["section_id"] = "${SLUG}"
-p.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
-PY
-  python3 tools/fixer/apply_patches.py ".fixer/${TAG}k.result.json" --apply \
-    | tee ".fixer/${TAG}k.apply.json" | python3 -c "
-import json,sys
-r=json.load(sys.stdin)
+p = pathlib.Path('.fixer/${TAG}k.result.json'); d = json.loads(p.read_text(encoding='utf-8'))
+d['section_id'] = '${SLUG}'; p.write_text(json.dumps(d, ensure_ascii=False), encoding='utf-8')"
+  python3 tools/fixer/apply_patches.py ".fixer/${TAG}k.result.json" --apply > ".fixer/${TAG}k.apply.json"
+  python3 -c "
+import json
+r = json.load(open('.fixer/${TAG}k.apply.json'))
 print(f\"    applied {r['applied']}, rejected {r['rejected']}, rolled_back {r.get('rolled_back', False)}\")"
 
-  if ! gate; then
-    echo "!! $TAG failed its gates - capturing failures, then restoring and stopping"
-    # capture BEFORE restoring: after the restore the tests pass and say nothing
-    npm run test:adversarial:py 2>&1 | grep -E "^(FAIL|ERROR):|^AssertionError" | head -20 \
-      | tee ".fixer/${TAG}k.failures.txt"
+  if ! python3 tools/fixer/gate.py check "$TAG"; then
+    echo "!! $TAG failed its gates - restoring the section and stopping the chain"
     cp ".fixer/${TAG}.pre-concepts.ts" "$FILE"
     exit 1
   fi
-  echo "    $TAG concepts PASSED all gates"
+
+  N=$(python3 tools/fixer/record_rejections.py "$TAG" ".fixer/${TAG}k.apply.json" concepts)
+  if [ "$N" -gt 0 ]; then
+    echo "    $TAG passed its gates, but $N patch(es) were not applied - recorded in OPEN_QUESTIONS.md"
+  else
+    echo "    $TAG passed every gate, with no unapplied patches"
+  fi
 done
-python3 scripts/concept_map.py | tail -10

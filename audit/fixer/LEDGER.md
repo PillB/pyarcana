@@ -10,7 +10,7 @@ Every box is computed from an artifact, never hand-ticked. Regenerate with
 | `concepts` | load-bearing concepts have their own subtopic (D3) | 0/52 |
 | `figures` | at least two figures carrying real teaching (D4) | 44/52 |
 | `vocab` | no term used before it is defined | 25/52 |
-| `ids` | no identifier-shaped synthetic value (D2) | 50/52 |
+| `ids` | no identifier-shaped synthetic value (D2) | 49/52 |
 | `runtime` | every snippet executes under .venv-content | 52/52 |
 
 ## Sections
@@ -18,16 +18,16 @@ Every box is computed from an artifact, never hand-ticked. Regenerate with
 | sec | findings | figs | run-ons | findings | redaction | concepts | figures | vocab | ids | runtime |
 |---|---|---:|---:|---|---|---|---|---|---|---|
 | **S01** setup | 19/21 | 2 | 10 | [ ] | [x] | [ ] | [x] | [ ] | [x] | [x] |
-| **S02** basics | 21/21 | 2 | 4 | [x] | [x] | [ ] | [x] | [ ] | [x] | [x] |
+| **S02** basics | 21/21 | 2 | 4 | [x] | [x] | [ ] | [x] | [ ] | [ ] | [x] |
 | **S03** data-structures | 12/17 | 2 | 2 | [ ] | [x] | [ ] | [x] | [ ] | [ ] | [x] |
 | **S04** functions-modules | 18/18 | 2 | 2 | [x] | [x] | [ ] | [x] | [ ] | [x] | [x] |
 | **S05** oop | 22/22 | 2 | 0 | [x] | [x] | [ ] | [x] | [x] | [x] | [x] |
 | **S06** numpy | 20/20 | 2 | 1 | [x] | [x] | [ ] | [x] | [ ] | [x] | [x] |
-| **S07** data-acquisition | 19/19 | 2 | 4 | [x] | [x] | [ ] | [x] | [x] | [x] | [x] |
+| **S07** data-acquisition | 19/19 | 2 | 4 | [x] | [x] | [ ] | [x] | [ ] | [x] | [x] |
 | **S08** pandas | 26/27 | 2 | 2 | [ ] | [x] | [ ] | [x] | [ ] | [x] | [x] |
 | **S09** visualization | 0/22 | 2 | 3 | [ ] | [ ] | [ ] | [x] | [ ] | [ ] | [x] |
 | **S10** sklearn | 0/22 | 2 | 5 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
-| **S11** testing | 0/22 | 1 | 11 | [ ] | [ ] | [ ] | [ ] | [ ] | [x] | [x] |
+| **S11** testing | 0/22 | 1 | 11 | [ ] | [ ] | [ ] | [ ] | [x] | [x] | [x] |
 | **S12** performance | 0/23 | 2 | 4 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
 | **S13** rpa-automation | 0/27 | 2 | 9 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
 | **S14** security | 0/23 | 2 | 2 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
@@ -156,3 +156,22 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   section now corrects.
 - **Capture failures before restoring a section.** Printed afterwards, against the restored
   file, they pass and say nothing.
+
+### Runtime audit limits
+
+- **The runtime audit cannot detect a wrong number in lesson output.** *(2026-09-14, S02
+  probe)* `scripts/python_content_runtime_audit.py` compares only the **first line** of
+  output, and when that differs it scrubs every integer and decimal before deciding the
+  outputs are "structurally similar". A probe changing `3 tests OK` to `4 tests OK` passed as
+  `output_nondeterministic_ok`. Lines after the first are never compared. So "N artifacts,
+  0 failures" proves snippets run and the first line has the right shape — not that printed
+  values are right. The Python adversarial suite caught that probe; the runtime audit did
+  not. The tolerance exists for genuinely nondeterministic output (paths, timestamps,
+  timings, and string-set order, since no `PYTHONHASHSEED` is set), so the fix must keep it.
+  Until a strict mode exists, do not cite the runtime audit as evidence an output is correct.
+- **A probe must prove it injected before its verdict means anything.** *(2026-09-14, S02)*
+  Twice a probe's injection failed its assert, the gate ran anyway against the clean file,
+  and reported what a clean file should. Chain the gate to a non-empty `git diff`.
+- **Course-wide absolute gates are useless on a course that is not clean yet.** *(2026-09-14)*
+  The identifier gate stayed red on every round because S03, S07 and S09 carry D2 debt. Scope
+  gates to the section being changed and measure them as regressions.

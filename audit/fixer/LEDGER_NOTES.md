@@ -62,3 +62,22 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   section now corrects.
 - **Capture failures before restoring a section.** Printed afterwards, against the restored
   file, they pass and say nothing.
+
+### Runtime audit limits
+
+- **The runtime audit cannot detect a wrong number in lesson output.** *(2026-09-14, S02
+  probe)* `scripts/python_content_runtime_audit.py` compares only the **first line** of
+  output, and when that differs it scrubs every integer and decimal before deciding the
+  outputs are "structurally similar". A probe changing `3 tests OK` to `4 tests OK` passed as
+  `output_nondeterministic_ok`. Lines after the first are never compared. So "N artifacts,
+  0 failures" proves snippets run and the first line has the right shape — not that printed
+  values are right. The Python adversarial suite caught that probe; the runtime audit did
+  not. The tolerance exists for genuinely nondeterministic output (paths, timestamps,
+  timings, and string-set order, since no `PYTHONHASHSEED` is set), so the fix must keep it.
+  Until a strict mode exists, do not cite the runtime audit as evidence an output is correct.
+- **A probe must prove it injected before its verdict means anything.** *(2026-09-14, S02)*
+  Twice a probe's injection failed its assert, the gate ran anyway against the clean file,
+  and reported what a clean file should. Chain the gate to a non-empty `git diff`.
+- **Course-wide absolute gates are useless on a course that is not clean yet.** *(2026-09-14)*
+  The identifier gate stayed red on every round because S03, S07 and S09 carry D2 debt. Scope
+  gates to the section being changed and measure them as regressions.
