@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["proposals"],
+  "properties": {
+    "proposals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["term_id", "aliases", "rejected"],
+        "properties": {
+          "term_id": { "type": "string" },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["alias", "seen_in", "why_unambiguous"],
+              "properties": {
+                "alias": { "type": "string" },
+                "seen_in": { "type": "string" },
+                "why_unambiguous": { "type": "string" }
+              }
+            }
+          },
+          "rejected": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["candidate", "why_rejected"],
+              "properties": {
+                "candidate": { "type": "string" },
+                "why_rejected": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

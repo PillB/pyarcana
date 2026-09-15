@@ -81,3 +81,16 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
 - **Course-wide absolute gates are useless on a course that is not clean yet.** *(2026-09-14)*
   The identifier gate stayed red on every round because S03, S07 and S09 carry D2 debt. Scope
   gates to the section being changed and measure them as regressions.
+
+- **Don't build a classifier for a small semantic judgment.** *(2026-09-14, glossary aliases)*
+  Two regex rules for "is this Spanish alias a name or a gloss" failed in opposite directions:
+  word count rejected EDA's own expansion, and bracket position accepted "sistema de control
+  de versiones" for Git because the course writes "Git es el sistema…". For 29 items the right
+  tool is an explicit decision with a reason each (`audit/fixer/glossary_aliases_es.json`).
+  And gloss-ness was never the harm — over-breadth is: a phrase that also names other things.
+- **A better instrument can make a count look worse.** *(2026-09-14, glossary aliases)* Adding
+  19 Spanish aliases left `never_explained` flat and nudged `used_before_explained` up, because
+  two effects cancel: explanations the map could not see became visible (tuple surprising uses
+  11 → 4, list-comprehension 21 → 3) and so did gaps it could not see (`outlier` is written
+  "valor atípico" from S03, thirteen sections before "outlier" first appears). Compare per
+  concept before concluding a change did nothing.

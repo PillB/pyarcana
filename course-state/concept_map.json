@@ -452,6 +452,30 @@
   "uses": [
    {
     "section": "S04",
+    "location": "functions-modules.outcome[5]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S04",
+    "location": "functions-modules.theory[7].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S04",
+    "location": "functions-modules.theory[7].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S04",
+    "location": "functions-modules.S04-T3-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S04",
     "location": "functions-modules.S04-T3-B-E1.title",
     "kind": "wedo.title",
     "visible": true
@@ -466,6 +490,12 @@
     "section": "S07",
     "location": "data-acquisition.S07-T2-A-E1.instruction",
     "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S08",
+    "location": "pandas.theory[6].p0",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -577,7 +607,20 @@
     "visible": true
    }
   ],
-  "definitions": [],
+  "definitions": [
+   {
+    "section": "S04",
+    "location": "functions-modules.S04-T3-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S08",
+    "location": "pandas.theory[6].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   }
+  ],
   "examples": [],
   "exercises": [
    {
@@ -612,141 +655,45 @@
    }
   ],
   "self_checks": [],
-  "headings": [],
+  "headings": [
+   {
+    "section": "S04",
+    "location": "functions-modules.theory[7].heading",
+    "kind": "theory.heading",
+    "visible": true
+   }
+  ],
   "figures": [],
   "first_use": {
    "section": "S04",
-   "location": "functions-modules.S04-T3-B-E1.title",
-   "kind": "wedo.title",
+   "location": "functions-modules.outcome[5]",
+   "kind": "outcome",
    "visible": true
   },
-  "first_definition": null,
-  "depth": "L0",
+  "first_definition": {
+   "section": "S04",
+   "location": "functions-modules.S04-T3-B.p0",
+   "kind": "theory.paragraph",
+   "visible": true
+  },
+  "depth": "L1",
   "surprising_uses": [
    {
     "section": "S04",
-    "location": "functions-modules.S04-T3-B-E1.title",
-    "kind": "wedo.title",
+    "location": "functions-modules.outcome[5]",
+    "kind": "outcome",
     "visible": true
    },
    {
     "section": "S04",
-    "location": "functions-modules.S04-T3-B-E2.instruction",
-    "kind": "wedo.instruction",
+    "location": "functions-modules.theory[7].heading",
+    "kind": "theory.heading",
     "visible": true
    },
    {
-    "section": "S07",
-    "location": "data-acquisition.S07-T2-A-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S08",
-    "location": "pandas.S08-T3-B-E1.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S08",
-    "location": "pandas.S08-T3-B-E1.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "rpa-automation.S13-T1-B-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "rpa-automation.S13-T1-B-E2.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S16",
-    "location": "wxpython-gui.S16-T4-A-E1.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S19",
-    "location": "databases-orm.S19-T3-A-E1.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S21",
-    "location": "fastapi.S21-T4-A-E1.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S21",
-    "location": "fastapi.S21-T4-A-E1.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.S22-T2-A-E1.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.S22-T2-A-E1.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S24",
-    "location": "rpa-advanced.S24-T2-A-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S24",
-    "location": "rpa-advanced.S24-T2-A-E1.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S27",
-    "location": "async-concurrency.S27-T1-A-E2.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S27",
-    "location": "async-concurrency.S27-T2-A-E1.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S27",
-    "location": "async-concurrency.S27-T2-A-E3.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S27",
-    "location": "async-concurrency.S27-T2-A-E3.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S30",
-    "location": "security-infra.S30-T3-B-E3.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S31",
-    "location": "streaming-data.S31-T2-A-E1.hint",
-    "kind": "wedo.hint",
+    "section": "S04",
+    "location": "functions-modules.theory[7].p0",
+    "kind": "theory.paragraph",
     "visible": true
    }
   ],
@@ -768,12 +715,18 @@
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": null
+  "explanation_lag_sections": 0
  },
  "dict-comprehension": {
   "id": "dict-comprehension",
   "declared_first_section": "functions-modules",
   "uses": [
+   {
+    "section": "S04",
+    "location": "functions-modules.S04-T3-B-E3.title",
+    "kind": "wedo.title",
+    "visible": true
+   },
    {
     "section": "S04",
     "location": "functions-modules.S04-T3-B-E3.preamble",
@@ -817,7 +770,14 @@
     "visible": true
    }
   ],
-  "definitions": [],
+  "definitions": [
+   {
+    "section": "S04",
+    "location": "functions-modules.S04-T3-B-E3.title",
+    "kind": "wedo.title",
+    "visible": true
+   }
+  ],
   "examples": [],
   "exercises": [
    {
@@ -832,56 +792,18 @@
   "figures": [],
   "first_use": {
    "section": "S04",
-   "location": "functions-modules.S04-T3-B-E3.preamble",
-   "kind": "wedo.preamble",
+   "location": "functions-modules.S04-T3-B-E3.title",
+   "kind": "wedo.title",
    "visible": true
   },
-  "first_definition": null,
-  "depth": "L0",
-  "surprising_uses": [
-   {
-    "section": "S04",
-    "location": "functions-modules.S04-T3-B-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "functions-modules.S04-T3-B-E3.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "functions-modules.S04-T3-B-E3.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "rpa-automation.S13-T3-B-E3.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "rpa-automation.S13-T3-B-E3.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S37",
-    "location": "dbt-bigquery.S37-T3-A-E2.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S37",
-    "location": "dbt-bigquery.S37-T3-A-E2.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   }
-  ],
+  "first_definition": {
+   "section": "S04",
+   "location": "functions-modules.S04-T3-B-E3.title",
+   "kind": "wedo.title",
+   "visible": true
+  },
+  "depth": "L1",
+  "surprising_uses": [],
   "sections_used": [
    "S04",
    "S13",
@@ -891,7 +813,7 @@
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": null
+  "explanation_lag_sections": 0
  },
  "f-string": {
   "id": "f-string",
@@ -3461,6 +3383,12 @@
     "visible": true
    },
    {
+    "section": "S04",
+    "location": "functions-modules.theory[1].p4",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
     "section": "S11",
     "location": "testing.S11-T1-A.p0",
     "kind": "theory.paragraph",
@@ -3479,14 +3407,7 @@
     "visible": true
    }
   ],
-  "definitions": [
-   {
-    "section": "S04",
-    "location": "functions-modules.theory[0].callout",
-    "kind": "theory.callout",
-    "visible": true
-   }
-  ],
+  "definitions": [],
   "examples": [],
   "exercises": [],
   "self_checks": [],
@@ -3498,14 +3419,40 @@
    "kind": "theory.callout",
    "visible": true
   },
-  "first_definition": {
-   "section": "S04",
-   "location": "functions-modules.theory[0].callout",
-   "kind": "theory.callout",
-   "visible": true
-  },
-  "depth": "L1",
-  "surprising_uses": [],
+  "first_definition": null,
+  "depth": "L0",
+  "surprising_uses": [
+   {
+    "section": "S04",
+    "location": "functions-modules.theory[0].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S04",
+    "location": "functions-modules.theory[1].p4",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "testing.S11-T1-A.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "testing.S11-T2-A.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "testing.S11-T3-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   }
+  ],
   "sections_used": [
    "S04",
    "S11"
@@ -3514,7 +3461,7 @@
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": 0
+  "explanation_lag_sections": null
  },
  "generator": {
   "id": "generator",
@@ -8606,6 +8553,12 @@
    },
    {
     "section": "S01",
+    "location": "setup.S01-T2-B.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.S01-T4-B-E3.preamble",
     "kind": "wedo.preamble",
     "visible": true
@@ -8641,14 +8594,7 @@
     "visible": true
    }
   ],
-  "definitions": [
-   {
-    "section": "S01",
-    "location": "setup.theory[0].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "definitions": [],
   "examples": [],
   "exercises": [],
   "self_checks": [
@@ -8673,14 +8619,64 @@
    "kind": "theory.paragraph",
    "visible": true
   },
-  "first_definition": {
-   "section": "S01",
-   "location": "setup.theory[0].p1",
-   "kind": "theory.paragraph",
-   "visible": true
-  },
-  "depth": "L1",
-  "surprising_uses": [],
+  "first_definition": null,
+  "depth": "L0",
+  "surprising_uses": [
+   {
+    "section": "S01",
+    "location": "setup.theory[0].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.theory[0].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.S01-T2-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.S01-T2-B.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.S01-T4-B-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.youDo.context",
+    "kind": "youdo.context",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.youDo.rubric[0]",
+    "kind": "youdo.rubric",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.selfCheck[3].opt[3]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.selfCheck[3].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   }
+  ],
   "sections_used": [
    "S01"
   ],
@@ -8688,7 +8684,7 @@
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": 0
+  "explanation_lag_sections": null
  },
  "commit": {
   "id": "commit",
@@ -35643,14 +35639,80 @@
   "uses": [
    {
     "section": "S02",
+    "location": "basics.theory[4].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.theory[4].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.theory[4].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-A-E3.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S02",
     "location": "basics.youDo.starter",
     "kind": "youdo.starter",
     "visible": true
    },
    {
     "section": "S05",
+    "location": "oop.theory[5].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "oop.theory[5].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "oop.theory[5].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S05",
     "location": "oop.theory[5].p2",
     "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "oop.theory[5].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "oop.theory[5].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "oop.S05-T2-B-DEMO.preamble",
+    "kind": "ido.preamble",
     "visible": true
    },
    {
@@ -35667,6 +35729,30 @@
    },
    {
     "section": "S05",
+    "location": "oop.S05-T2-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "oop.S05-T2-B-E2.title",
+    "kind": "wedo.title",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "oop.S05-T2-B-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "oop.S05-T2-B-E2.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S05",
     "location": "oop.S05-T2-B-E2.starter",
     "kind": "wedo.starter",
     "visible": true
@@ -35676,6 +35762,12 @@
     "location": "oop.S05-T2-B-E2.solution",
     "kind": "solution",
     "visible": false
+   },
+   {
+    "section": "S05",
+    "location": "oop.selfCheck[1].opt[3]",
+    "kind": "selfcheck.option",
+    "visible": true
    },
    {
     "section": "S05",
@@ -35697,7 +35789,19 @@
    },
    {
     "section": "S06",
+    "location": "numpy.S06-T1-A.heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S06",
     "location": "numpy.S06-T1-A.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "numpy.S06-T4-A.p1",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -35705,6 +35809,12 @@
     "section": "S06",
     "location": "numpy.S06-T4-B.p0",
     "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "numpy.S06-T1-A-DEMO.preamble",
+    "kind": "ido.preamble",
     "visible": true
    },
    {
@@ -35717,6 +35827,18 @@
     "section": "S06",
     "location": "numpy.S06-T1-A-DEMO.code",
     "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "numpy.S06-T1-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "numpy.S06-T4-A-DEMO.why",
+    "kind": "ido.why",
     "visible": true
    },
    {
@@ -35745,6 +35867,12 @@
    },
    {
     "section": "S06",
+    "location": "numpy.S06-T1-A-E2.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S06",
     "location": "numpy.S06-T1-A-E2.starter",
     "kind": "wedo.starter",
     "visible": true
@@ -35754,6 +35882,12 @@
     "location": "numpy.S06-T1-A-E2.solution",
     "kind": "solution",
     "visible": false
+   },
+   {
+    "section": "S06",
+    "location": "numpy.S06-T1-A-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
    },
    {
     "section": "S06",
@@ -35789,6 +35923,36 @@
     "section": "S06",
     "location": "numpy.S06-T1-A-E3.starter",
     "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "numpy.S06-T1-A-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "numpy.S06-T1-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "numpy.S06-T4-A-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "numpy.S06-T4-A-E2.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "numpy.S06-T4-A-E2.retrospective",
+    "kind": "wedo.retrospective",
     "visible": true
    },
    {
@@ -35829,6 +35993,24 @@
    },
    {
     "section": "S08",
+    "location": "pandas.S08-T2-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S08",
+    "location": "pandas.S08-T3-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S08",
+    "location": "pandas.S08-T4-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S08",
     "location": "pandas.youDo.starter",
     "kind": "youdo.starter",
     "visible": true
@@ -35837,6 +36019,12 @@
     "section": "S09",
     "location": "visualization.S09-T2-B.code",
     "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "visualization.S09-T4-B-DEMO.preamble",
+    "kind": "ido.preamble",
     "visible": true
    },
    {
@@ -35877,6 +36065,12 @@
    },
    {
     "section": "S11",
+    "location": "testing.S11-T2-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S11",
     "location": "testing.S11-T3-B-E1.starter",
     "kind": "wedo.starter",
     "visible": true
@@ -35889,8 +36083,98 @@
    },
    {
     "section": "S12",
+    "location": "performance.S12-T1-A.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "performance.S12-T3-A.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "performance.S12-T3-B.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "performance.S12-T3-B.callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "performance.S12-T3-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "performance.S12-T3-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "performance.S12-T1-A-E1.hint",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "performance.S12-T1-A-E1.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "performance.S12-T2-B-E2.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "performance.S12-T3-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "performance.S12-T3-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "performance.S12-T3-B-E1.hint",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S12",
     "location": "performance.youDo.starter",
     "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T1-A.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T1-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.S15-T3-B.p2",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -35915,6 +36199,90 @@
     "section": "S21",
     "location": "fastapi.S21-T2-A-E2.instruction",
     "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S24",
+    "location": "rpa-advanced.S24-T2-B-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S26",
+    "location": "integrator-phase1.S26-T3-B-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S26",
+    "location": "integrator-phase1.S26-T1-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S26",
+    "location": "integrator-phase1.S26-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S26",
+    "location": "integrator-phase1.S26-T2-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S26",
+    "location": "integrator-phase1.S26-T2-B-E3.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S26",
+    "location": "integrator-phase1.S26-T3-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S26",
+    "location": "integrator-phase1.S26-T3-B-E1.hint[2]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S26",
+    "location": "integrator-phase1.S26-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S26",
+    "location": "integrator-phase1.S26-T3-B-E3.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-A.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-A-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-A-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-A-E3.retrospective",
+    "kind": "wedo.retrospective",
     "visible": true
    },
    {
@@ -35963,6 +36331,24 @@
     "section": "S32",
     "location": "microservices.S32-T2-A.code",
     "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.S37-T3-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T1-A-E1.hint",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T1-A-E1.hint[0]",
+    "kind": "wedo.hint",
     "visible": true
    },
    {
@@ -36023,6 +36409,12 @@
     "section": "S40",
     "location": "architecture-ddd-decisions.youDo.starter",
     "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T3-A-DEMO.preamble",
+    "kind": "ido.preamble",
     "visible": true
    },
    {
@@ -36106,9 +36498,39 @@
   ],
   "definitions": [
    {
+    "section": "S02",
+    "location": "basics.S02-T1-A-E3.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "oop.theory[5].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
     "section": "S06",
     "location": "numpy.S06-T1-A-DEMO.code",
     "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "performance.S12-T1-A.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "performance.S12-T3-B.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S26",
+    "location": "integrator-phase1.S26-T1-B-E1.tests",
+    "kind": "wedo.tests",
     "visible": true
    }
   ],
@@ -36206,8 +36628,26 @@
     "visible": true
    },
    {
+    "section": "S06",
+    "location": "numpy.S06-T4-A-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S08",
+    "location": "pandas.S08-T4-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
     "section": "S10",
     "location": "sklearn.S10-T1-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "performance.S12-T3-A-E3.instruction",
     "kind": "wedo.instruction",
     "visible": true
    },
@@ -36216,9 +36656,63 @@
     "location": "fastapi.S21-T2-A-E2.instruction",
     "kind": "wedo.instruction",
     "visible": true
+   },
+   {
+    "section": "S26",
+    "location": "integrator-phase1.S26-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S26",
+    "location": "integrator-phase1.S26-T2-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S26",
+    "location": "integrator-phase1.S26-T2-B-E3.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S26",
+    "location": "integrator-phase1.S26-T3-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S26",
+    "location": "integrator-phase1.S26-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S26",
+    "location": "integrator-phase1.S26-T3-B-E3.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-A-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.S37-T3-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
    }
   ],
   "self_checks": [
+   {
+    "section": "S05",
+    "location": "oop.selfCheck[1].opt[3]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
    {
     "section": "S06",
     "location": "numpy.selfCheck[1].opt[2]",
@@ -36250,86 +36744,57 @@
     "visible": true
    }
   ],
-  "headings": [],
+  "headings": [
+   {
+    "section": "S05",
+    "location": "oop.theory[5].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "numpy.S06-T1-A.heading",
+    "kind": "theory.heading",
+    "visible": true
+   }
+  ],
   "figures": [],
   "first_use": {
    "section": "S02",
-   "location": "basics.youDo.starter",
-   "kind": "youdo.starter",
+   "location": "basics.theory[4].p0",
+   "kind": "theory.paragraph",
    "visible": true
   },
   "first_definition": {
-   "section": "S06",
-   "location": "numpy.S06-T1-A-DEMO.code",
-   "kind": "ido.code",
+   "section": "S02",
+   "location": "basics.S02-T1-A-E3.hint[1]",
+   "kind": "wedo.hint",
    "visible": true
   },
   "depth": "L2",
   "surprising_uses": [
    {
     "section": "S02",
-    "location": "basics.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "oop.theory[5].p2",
+    "location": "basics.theory[4].p0",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
-    "section": "S05",
-    "location": "oop.S05-T2-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "oop.S05-T2-B-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "oop.S05-T2-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "oop.resources.doc[2]",
-    "kind": "resource",
-    "visible": true
-   },
-   {
-    "section": "S06",
-    "location": "numpy.outcome[0]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S06",
-    "location": "numpy.theory[0].callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S06",
-    "location": "numpy.S06-T1-A.p0",
+    "section": "S02",
+    "location": "basics.theory[4].p1",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
-    "section": "S06",
-    "location": "numpy.S06-T4-B.p0",
+    "section": "S02",
+    "location": "basics.theory[4].p3",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
-    "section": "S06",
-    "location": "numpy.S06-T1-A-DEMO.description",
-    "kind": "ido.description",
+    "section": "S02",
+    "location": "basics.S02-T1-B-DEMO.preamble",
+    "kind": "ido.preamble",
     "visible": true
    }
   ],
@@ -36343,13 +36808,18 @@
    "S10",
    "S11",
    "S12",
+   "S14",
    "S15",
    "S19",
    "S21",
+   "S24",
+   "S26",
+   "S27",
    "S28",
    "S30",
    "S31",
    "S32",
+   "S37",
    "S39",
    "S40",
    "S41",
@@ -36366,7 +36836,7 @@
   "figure_target": 5,
   "figure_count": 0,
   "figure_gap": 5,
-  "explanation_lag_sections": 4
+  "explanation_lag_sections": 0
  },
  "set": {
   "id": "set",
@@ -42997,6 +43467,18 @@
    },
    {
     "section": "S14",
+    "location": "security.S14-T4-A-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T4-A-E3.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S14",
     "location": "security.S14-T4-B-E2.preamble",
     "kind": "wedo.preamble",
     "visible": true
@@ -43341,7 +43823,19 @@
   "uses": [
    {
     "section": "S14",
+    "location": "security.outcome[1]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S14",
     "location": "security.S14-T1-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T3-A.p0",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -43353,8 +43847,26 @@
    },
    {
     "section": "S14",
+    "location": "security.S14-T3-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S14",
     "location": "security.selfCheck[1].q",
     "kind": "selfcheck.question",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.selfCheck[1].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.S15-T2-A-DEMO.retrospective",
+    "kind": "ido.retrospective",
     "visible": true
    },
    {
@@ -43381,6 +43893,12 @@
     "visible": true
    },
    {
+    "section": "S14",
+    "location": "security.selfCheck[1].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
     "section": "S15",
     "location": "stdlib-deep.selfCheck[1].opt[3]",
     "kind": "selfcheck.option",
@@ -43391,8 +43909,8 @@
   "figures": [],
   "first_use": {
    "section": "S14",
-   "location": "security.S14-T1-B.p1",
-   "kind": "theory.paragraph",
+   "location": "security.outcome[1]",
+   "kind": "outcome",
    "visible": true
   },
   "first_definition": null,
@@ -43400,7 +43918,19 @@
   "surprising_uses": [
    {
     "section": "S14",
+    "location": "security.outcome[1]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S14",
     "location": "security.S14-T1-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T3-A.p0",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -43412,8 +43942,26 @@
    },
    {
     "section": "S14",
+    "location": "security.S14-T3-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S14",
     "location": "security.selfCheck[1].q",
     "kind": "selfcheck.question",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.selfCheck[1].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.S15-T2-A-DEMO.retrospective",
+    "kind": "ido.retrospective",
     "visible": true
    },
    {
@@ -59259,6 +59807,54 @@
   "declared_first_section": "wxpython-gui",
   "uses": [
    {
+    "section": "S03",
+    "location": "data-structures.S03-T3-A.p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "data-structures.S03-T3-A-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "data-structures.S03-T3-A-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "data-structures.S03-T3-A-E2.title",
+    "kind": "wedo.title",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "data-structures.S03-T3-A-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "data-structures.S03-T3-A-E2.hint",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "data-structures.S03-T3-A-E2.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "data-structures.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
     "section": "S16",
     "location": "wxpython-gui.S16-T3-B.p0",
     "kind": "theory.paragraph",
@@ -59448,8 +60044,8 @@
   ],
   "figures": [],
   "first_use": {
-   "section": "S16",
-   "location": "wxpython-gui.S16-T3-B.p0",
+   "section": "S03",
+   "location": "data-structures.S03-T3-A.p3",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -59461,6 +60057,54 @@
   },
   "depth": "L1",
   "surprising_uses": [
+   {
+    "section": "S03",
+    "location": "data-structures.S03-T3-A.p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "data-structures.S03-T3-A-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "data-structures.S03-T3-A-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "data-structures.S03-T3-A-E2.title",
+    "kind": "wedo.title",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "data-structures.S03-T3-A-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "data-structures.S03-T3-A-E2.hint",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "data-structures.S03-T3-A-E2.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "data-structures.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
    {
     "section": "S16",
     "location": "wxpython-gui.S16-T3-B.p0",
@@ -59583,6 +60227,7 @@
    }
   ],
   "sections_used": [
+   "S03",
    "S16",
    "S18",
    "S19",
@@ -59593,7 +60238,7 @@
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": 20
+  "explanation_lag_sections": 33
  },
  "iqr": {
   "id": "iqr",
@@ -60756,21 +61401,71 @@
   "uses": [
    {
     "section": "S18",
+    "location": "data-engineering.S18-T3-A.heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S18",
     "location": "data-engineering.S18-T3-A.p0",
     "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S18",
+    "location": "data-engineering.S18-T3-A.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S18",
+    "location": "data-engineering.S18-T3-A.callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S18",
+    "location": "data-engineering.selfCheck[9].q",
+    "kind": "selfcheck.question",
+    "visible": true
+   },
+   {
+    "section": "S18",
+    "location": "data-engineering.selfCheck[9].explanation",
+    "kind": "selfcheck.explanation",
     "visible": true
    }
   ],
   "definitions": [],
   "examples": [],
   "exercises": [],
-  "self_checks": [],
-  "headings": [],
+  "self_checks": [
+   {
+    "section": "S18",
+    "location": "data-engineering.selfCheck[9].q",
+    "kind": "selfcheck.question",
+    "visible": true
+   },
+   {
+    "section": "S18",
+    "location": "data-engineering.selfCheck[9].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   }
+  ],
+  "headings": [
+   {
+    "section": "S18",
+    "location": "data-engineering.S18-T3-A.heading",
+    "kind": "theory.heading",
+    "visible": true
+   }
+  ],
   "figures": [],
   "first_use": {
    "section": "S18",
-   "location": "data-engineering.S18-T3-A.p0",
-   "kind": "theory.paragraph",
+   "location": "data-engineering.S18-T3-A.heading",
+   "kind": "theory.heading",
    "visible": true
   },
   "first_definition": null,
@@ -60778,8 +61473,38 @@
   "surprising_uses": [
    {
     "section": "S18",
+    "location": "data-engineering.S18-T3-A.heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S18",
     "location": "data-engineering.S18-T3-A.p0",
     "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S18",
+    "location": "data-engineering.S18-T3-A.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S18",
+    "location": "data-engineering.S18-T3-A.callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S18",
+    "location": "data-engineering.selfCheck[9].q",
+    "kind": "selfcheck.question",
+    "visible": true
+   },
+   {
+    "section": "S18",
+    "location": "data-engineering.selfCheck[9].explanation",
+    "kind": "selfcheck.explanation",
     "visible": true
    }
   ],
@@ -61740,6 +62465,12 @@
   "id": "entity-resolution",
   "declared_first_section": "rpa-automation",
   "uses": [
+   {
+    "section": "S11",
+    "location": "testing.S11-T2-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
    {
     "section": "S12",
     "location": "performance.selfCheck[4].opt[2]",
@@ -62774,6 +63505,12 @@
    },
    {
     "section": "S39",
+    "location": "integrator-phase2.theory[0].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S39",
     "location": "integrator-phase2.S39-T1-A.heading",
     "kind": "theory.heading",
     "visible": true
@@ -63208,6 +63945,12 @@
     "section": "S52",
     "location": "career-strategy.outcome[2]",
     "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.theory[0].p1",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -63728,9 +64471,9 @@
    }
   ],
   "first_use": {
-   "section": "S12",
-   "location": "performance.selfCheck[4].opt[2]",
-   "kind": "selfcheck.option",
+   "section": "S11",
+   "location": "testing.S11-T2-B-DEMO.preamble",
+   "kind": "ido.preamble",
    "visible": true
   },
   "first_definition": {
@@ -63741,6 +64484,12 @@
   },
   "depth": "L3",
   "surprising_uses": [
+   {
+    "section": "S11",
+    "location": "testing.S11-T2-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
    {
     "section": "S12",
     "location": "performance.selfCheck[4].opt[2]",
@@ -63785,6 +64534,7 @@
    }
   ],
   "sections_used": [
+   "S11",
    "S12",
    "S13",
    "S27",
@@ -63807,7 +64557,7 @@
   "figure_target": 5,
   "figure_count": 2,
   "figure_gap": 3,
-  "explanation_lag_sections": 1
+  "explanation_lag_sections": 2
  },
  "fastapi": {
   "id": "fastapi",

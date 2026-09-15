@@ -40,7 +40,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'list-comprehension',
     term: 'List comprehension',
-    aliases: ["List comprehension"],
+    aliases: ["List comprehension", "comprensión de lista", "comprensiones de lista"],
     category: 'Python',
     definition: 'Sintaxis compacta para crear listas a partir de otras. Más rápido y pythónico que un loop for.',
     example: '[x**2 for x in range(5) if x > 0]  # [1, 4, 9, 16]',
@@ -49,7 +49,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'dict-comprehension',
     term: 'Dict comprehension',
-    aliases: ["Dict comprehension"],
+    aliases: ["Dict comprehension", "comprensión de diccionario"],
     category: 'Python',
     definition: 'Similar a list comprehension pero crea diccionarios.',
     example: '{k: v**2 for k, v in {"a": 1, "b": 2}.items()}',
@@ -92,7 +92,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'decorador',
     term: 'Decorador',
-    aliases: ['Decorador', 'decorator', 'decorators'],
+    aliases: ["Decorador", "decorator", "decorators", "decoradores"],
     category: 'Python',
     definition: 'Función que recibe otra función y devuelve una nueva con comportamiento extendido. Se aplica con @.',
     example: '@timing\\ndef mi_func(): ...',
@@ -119,7 +119,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'abc',
     term: 'ABC',
-    aliases: ["ABC"],
+    aliases: ["ABC", "clase base abstracta", "clases base abstractas"],
     category: 'Python',
     definition: 'Abstract Base Class. Define interfaces: métodos que las subclases DEBEN implementar. No se puede instanciar directamente.',
     firstSectionId: 'basics',
@@ -179,7 +179,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'clonar',
     term: 'Clonar',
-    aliases: ['Clonar', 'clonar', 'clone', 'clonación'],
+    aliases: ["Clonar", "clonar", "clone", "clonación", "clona", "clonan"],
     category: 'Tooling',
     definition:
       'Copiar un repositorio desde un remoto (p. ej. GitHub) a tu laptop con `git clone`, incluyendo el historial.',
@@ -233,7 +233,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'pip',
     term: 'pip',
-    aliases: ['pip', 'Pip'],
+    aliases: ["pip", "Pip", "instalador de paquetes de Python"],
     category: 'Tooling',
     definition:
       'Instalador de paquetes de terceros desde PyPI. Úsalo como `python -m pip` para atarlo al mismo intérprete del entorno virtual.',
@@ -355,7 +355,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'tuple',
     term: 'Tuple',
-    aliases: ["Tuple"],
+    aliases: ["Tuple", "tupla", "tuplas"],
     category: 'Python',
     definition: 'Secuencia ordenada que no se modifica después de crearla. Se escribe, por ejemplo, como (1, 2, 3).',
     firstSectionId: 'basics',
@@ -403,7 +403,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'vectorizaci-n',
     term: 'Vectorización',
-    aliases: ['Vectorización', 'vectorizado', 'vectorized'],
+    aliases: ["Vectorización", "vectorizado", "vectorized", "operación vectorizada"],
     category: 'NumPy',
     definition: 'Operaciones aplicadas elemento a elemento sin loops de Python. 50-100x más rápido.',
     firstSectionId: 'security',
@@ -419,7 +419,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'boolean-masking',
     term: 'Boolean masking',
-    aliases: ["Boolean masking", 'máscara booleana'],
+    aliases: ["Boolean masking", "máscara booleana", "máscaras booleanas"],
     category: 'NumPy',
     definition: 'Usar un array booleano como índice para filtrar. arr[arr > 5] devuelve elementos que cumplen.',
     firstSectionId: 'security',
@@ -507,7 +507,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'eda',
     term: 'EDA',
-    aliases: ["EDA"],
+    aliases: ["EDA", "análisis exploratorio de datos"],
     category: 'Data Science',
     definition: 'Exploratory Data Analysis. Inspeccionar datos antes de modelar: .info(), .describe(), .value_counts(), visualizaciones.',
     firstSectionId: 'security',
@@ -643,7 +643,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'outlier',
     term: 'Outlier',
-    aliases: ["Outlier"],
+    aliases: ["Outlier", "valor atípico", "valores atípicos"],
     category: 'Data Science',
     definition: 'Valor atípico. Detectar con IQR: Q1 - 1.5*IQR a Q3 + 1.5*IQR. Los outliers afectan media y modelos.',
     firstSectionId: 'wxpython-gui',
@@ -675,7 +675,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'p-value',
     term: 'p-value',
-    aliases: ["p-value"],
+    aliases: ["p-value", "valor p"],
     category: 'Data Science',
     definition: 'Probabilidad de observar el resultado si la hipótesis nula es cierta. <0.05 típicamente "significativo".',
     firstSectionId: 'data-engineering',
@@ -731,7 +731,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'entity-resolution',
     term: 'Entity resolution',
-    aliases: ["entity resolution", "ER"],
+    aliases: ["entity resolution", "ER", "resolución de entidades"],
     category: 'Data Science',
     definition: 'Proceso de decidir si dos registros se refieren a la misma entidad del mundo real (sin asumir fraude o parentesco).',
     firstSectionId: 'rpa-automation',
@@ -755,7 +755,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'llm',
     term: 'LLM',
-    aliases: ["llm", "LLMs"],
+    aliases: ["llm", "LLMs", "modelo de lenguaje grande"],
     category: 'ML',
     definition: 'Large Language Model: modelo de lenguaje de gran escala entrenado para generar y comprender texto.',
     firstSectionId: 'data-engineering',
