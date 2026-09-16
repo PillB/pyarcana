@@ -1,7 +1,57 @@
 # Open questions the fixer campaign cannot decide on its own
 
 ## Q1 — Six badges require prerequisites taught after the badge's own sections
-*Raised 2026-09-11 by `scripts/badge_readiness_audit.py`. Unresolved.*
+*Raised 2026-09-11 by `scripts/badge_readiness_audit.py`. Row 6 RESOLVED 2026-09-16.
+Rows 1–5 still open, and the reason they cannot be closed the obvious way is below.*
+
+**Reading 2 is settled: it is a bug, not a design.** `src/lib/eligibility/engine.ts` Gate 2
+returns `STATE_LOCKED` when any `prerequisite_badges` entry is not already `STATE_AWARDED`,
+before the capstone's own work is looked at, and no retroactive or out-of-order award path
+exists anywhere in the engine (`awardIdempotent` just calls `evaluate`). A capstone in this
+state is not "awarded late" - it is permanently unreachable, including after the learner
+finishes the whole course. So `required_sections` is a hard gate, and the audit's assumption
+was right.
+
+**Row 6 is fixed.** `progress_phase3_walked` required S40–S52, one past the capstone it gates.
+Its three sibling progress badges each stop exactly at their phase's capstone (S01–S13,
+S14–S26, S27–S39); `src/lib/capstones/catalog.ts` gives level 4 the gates S43/S47/S51 and marks
+CP-FINAL `isFinal` with gate S52; `course-state/capstones/INDEX.json` agrees; and
+`evidence_grounded_ai_systems_capstone` (CP-FINAL's credential, `required_sections: ["S52"]`)
+already lists this badge as *its own* prerequisite, which is the correct direction. S52 and its
+two activities are gone from the badge. Badge failures went 6 → 5, and nothing was un-assessed:
+the badge's `required_projects` was already `CP-N4-A/B/C`, never CP-FINAL.
+
+**Rows 1–5 need a bigger fix than narrowing a range, and here is why.** The four competency
+badges involved do not merely reach past the capstone that gates them - several of their
+`required_sections` do not name the sections that teach the claimed skill at all, in the
+current curriculum:
+
+| Badge | Requires | What is actually taught there | Where the skill really lives |
+|---|---|---|---|
+| `applied_sql_query_development` | S19, S37 | Visualization; profiling and performance | S12 (intro SQL) and S29 (advanced SQL) |
+| `applied_mlops_pipeline_delivery` | S29, S43 | Advanced SQL; containers | S47 |
+| `reliable_automation_development` | S13, S24 | Phase-0 capstone; OCR | S23 (Playwright) |
+| `independent_data_preparation` | S06, S07, S08, S18 | Collections; text/regex; files; EDA | S14–S17 for real pandas/NumPy cleaning |
+| `applied_analytical_reasoning` | S09, S10 | Exceptions; modules and packaging | its own description is charts/BI/ML |
+
+This is the same drift that renamed the section files: `required_sections` was authored against
+the abandoned pre-V3 section-to-topic mapping, and it never looked wrong because it stores bare
+numbers rather than slugs. Deleting whichever tag is numerically too high would silence
+`badge_readiness_audit.py` while leaving the remaining tag pointing at a section that does not
+teach the skill either - a cosmetic fix, and a worse state than an honest failure.
+
+Repointing each badge at the section that does teach the skill is also not a local fix: for SQL
+and MLOps the real content (S29, S47) is *later* than the capstone needing it, so an accurate
+`required_sections` would make the forward reference worse, not better. That is a curriculum
+question - whether these capstones need the full skill or an earlier primer of it, per the
+standing policy - not a catalog edit.
+
+**Proposed next step, not taken here:** audit `required_sections` across all 31 badges against
+what each section currently teaches, the same way the 52 section ids were audited. Only then can
+each of rows 1–5 get a real answer (drop the prerequisite, repoint it, or move the capstone).
+Doing them one at a time against data known to be unreliable would be guessing.
+
+*Original text below for the record.*
 
 Each phase capstone credential requires a competency badge whose section range
 extends past the capstone's own range, so the capstone is not earnable when its
@@ -39,7 +89,45 @@ needs evidence from the live product — a SHA or content manifest tied to the
 deployment — which nothing in the repository can supply.
 
 ## Q3 — S02's practice layer depends on S05–S09
-*Raised 2026-09-11 by codex during the S02 round, closing S02-F01..F04, F09 in theory only.*
+*Raised 2026-09-11 by codex during the S02 round, closing S02-F01..F04, F09 in theory only.
+Investigated 2026-09-16: the tooling half is fixed, the curriculum decision is still open and
+is re-raised below with what the investigation found.*
+
+**The gate could not see seven of the eight concepts, which is why the theory pass closed
+clean.** `src/lib/glossary/terms.ts` had no entry for `function`, `parameter`, `return`,
+`exception`, `annotation`, `if`, `for` or `unpacking`. The glossary was an index of tooling and
+libraries — git, pip, venv, groupby, StandardScaler — not of the Python language, so the
+define-before-use gate was structurally blind to every construct a beginner is actually
+surprised by, and would have kept reporting green whichever route was chosen. **Fixed**: the
+eight terms are in, and the concept-map detector that reads them was repaired at the same time
+(it credited weDo hints and quiz distractors as definitions and could not see a verb-first
+Spanish definition). This does not decide Q3; it makes Q3 measurable.
+
+**Corrections to the original text.** `tuple` is no longer a leak — S02 teaches it in place
+("Una **tupla** reúne varios valores en un orden fijo"), and the reason it looked untaught was
+the detector, not the section. The concept order is also more precise than "S05–S09": `if` is
+S03 and `for` is S04, *before* functions at S05; dicts/tuples/unpacking are S06; exceptions are
+S09. So parts of S02's practice layer outrun theory by one section and parts by seven.
+
+**What the practice layer actually requires.** All eight iDo demos and the whole youDo use
+`def`; 11 of 24 weDo exercises do. The youDo starter also uses `int | None` and
+`from __future__ import annotations` — newer typing than S05 itself teaches, which uses
+`Optional[str]`. So the capstone starter is not merely ahead of S02, it is ahead of S05.
+
+**It cannot be fixed in S02 alone.** S02→S03→S04's youDos are one cumulative project
+(CP-N1-A), and S03's weDo contains 44 `def` uses against a theory section that never teaches
+`def`, while S04's youDo starter uses `dict[str, Any]` two sections before dicts are taught.
+Whatever is decided for S02 applies to S03 and S04's slices of the same project.
+
+**Recommendation, for a human to accept or reject:** route 2, move the parser/intake project to
+where its prerequisites exist, because the code already assumes S05/S06/S09 knowledge — moving
+it is re-sequencing, whereas route 1 is a rewrite that would have to drop the multi-field record
+the project is built around (no dict), and route 3 was correctly rejected as tripling S02.
+The cost route 2 hides: S02–S04 then need a genuinely new, concept-clean practice layer, which
+is new content, not moved content. That is the trade-off to weigh, and it is why this is
+re-raised rather than closed.
+
+*Original text below for the record.*
 
 The S02 theory no longer leaks future syntax. The practice layer still does: `iDo`,
 `weDo` and `youDo` require functions, parameters, `return`, `if`/`for`, dictionaries,

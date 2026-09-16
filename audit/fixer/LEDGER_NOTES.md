@@ -208,3 +208,15 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   `concept_map.json`. Nothing got worse; the course had been measured with an instrument that
   could not see the language it teaches. Expect the same each time the vocabulary grows, and
   re-snapshot before reading a round's gate delta.
+
+### Locking (2026-09-16)
+
+- **The per-section lock does not make two rounds safe to run at once.** *(found while planning
+  the S39/S27/S03 residuals)* `run_spanish.sh` now takes a lock on the section it edits, which
+  stops two runners fighting over one file - the S44 failure. But four of `gate.py`'s regression
+  measures are **course-wide**, not per-section: `never_explained`, `used_before_explained` and
+  `first_use_issues` are computed from the whole concept map, and the strict-output and
+  identifier audits scan every section. A second runner editing a *different* section still
+  moves those numbers underneath the first runner's snapshot-to-check window, and the first
+  round gets blamed for a delta it did not cause. Run one section at a time until the
+  course-wide measures are scoped per-section or a global lock exists.
