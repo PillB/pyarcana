@@ -132,6 +132,19 @@ def main() -> int:
                 target.write_text(content, encoding="utf-8")
             report["rolled_back"] = True
             report["typecheck_error"] = err
+            # A rolled-back patch reached the file and was taken away again, so its finding is
+            # still open. Reporting it as applied is how S39 lost 32 patches with no record:
+            # the runner printed "applied 32", the gate compared an unchanged file to itself
+            # and passed, and record_rejections.py only ever reads `rejections`.
+            report["rolled_back_patches"] = [
+                {**a, "reason": "typecheck failed after apply; whole batch rolled back"}
+                for a in applied
+            ]
+            report["applied"] = 0
+            report["findings_closed"] = []
+            report["findings_still_open"] = sorted(
+                {f for p in (applied + rejected) for f in p.get("finding_ids", [])}
+            )
             print(json.dumps(report, indent=2, ensure_ascii=False))
             return 1
 

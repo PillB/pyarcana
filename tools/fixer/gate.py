@@ -29,6 +29,23 @@ def sh(cmd: list[str], timeout: int = 1800) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=timeout)
 
 
+#: Measures reported for context but never failed on. Prefix marks them in the snapshot.
+INFORMATIONAL = "info:"
+
+
+def strict_mismatches(tag: str) -> int | None:
+    """Declared outputs in this section that differ from what the code prints, every line.
+
+    The runtime audit below cannot see a wrong value; this can. None = could not run.
+    """
+    out = ROOT / f".fixer/{tag}.strict-output.json"
+    r = sh([str(CONTENT_PY), "scripts/python_content_strict_output_audit.py",
+            "--only", f"s{int(tag[1:]):02d}-", "--json", str(out)], 1200)
+    if r.returncode != 0 or not out.exists():
+        return None
+    return json.loads(out.read_text(encoding="utf-8"))["counts"].get("mismatch", 0)
+
+
 def measure(tag: str) -> dict:
     """What a round may not make worse, for this section and the course."""
     ev = sh(["npx", "tsx", "scripts/course_event_extractor.mts"])
@@ -64,34 +81,31 @@ def measure(tag: str) -> dict:
         "used_before_explained": surprising,
         "surprising_uses_in_section": here,
         "run_on_sentences": prose.get("run_on_sentences"),
-        "nominalisations_per_100w": prose.get("nominalisations_per_100w"),
+        # Writing rule B5 as it is written: a noun doing a verb's job. The raw -ción/-miento
+        # count stays visible below but does not gate - it rejected correct translations.
+        "b5_nominal_constructions_per_100_sentences": prose.get("b5_per_100_sentences"),
+        # The gated measure is a ratio over the whole section, so a sentence-count shift can
+        # move it without a word changing. The raw count says which happened.
+        INFORMATIONAL + "b5_nominal_constructions": prose.get("b5_nominal_constructions"),
+        "strict_output_mismatches_in_section": strict_mismatches(tag),
         "avoidable_english_per_1000": cs.get("avoidable_english_per_1000"),
         "first_use_issues": sum(fu.get("issue_counts", {}).values()),
+        INFORMATIONAL + "nominalisations_per_100w": prose.get("nominalisations_per_100w"),
     }
 
 
-def check(tag: str) -> int:
-    before_path = ROOT / f".fixer/{tag}.gate-before.json"
-    if not before_path.exists():
-        print(f"  FAIL no snapshot for {tag}; run `gate.py snapshot {tag}` before the round")
-        return 1
-    before = json.loads(before_path.read_text(encoding="utf-8"))
-    failed = []
+def absolute_gate(name: str, cmd: list[str], failed: list[str], timeout: int = 1800) -> None:
+    r = sh(cmd, timeout)
+    ok = r.returncode == 0
+    print(f"  {'PASS' if ok else 'FAIL'} {name}")
+    if not ok:
+        failed.append(name)
+        tail = (r.stdout + r.stderr).strip().splitlines()[-12:]
+        print("       " + "\n       ".join(tail))
 
-    def absolute(name: str, cmd: list[str], timeout: int = 1800) -> None:
-        r = sh(cmd, timeout)
-        ok = r.returncode == 0
-        print(f"  {'PASS' if ok else 'FAIL'} {name}")
-        if not ok:
-            failed.append(name)
-            tail = (r.stdout + r.stderr).strip().splitlines()[-12:]
-            print("       " + "\n       ".join(tail))
 
-    absolute("test:v3", ["npm", "run", "test:v3"])
-    absolute("adversarial (node)", ["npm", "run", "test:adversarial:node"])
-    absolute("adversarial (py)", ["npm", "run", "test:adversarial:py"])
-
-    rt = sh([str(CONTENT_PY), "scripts/python_content_runtime_audit.py", "--workers", "4"], 2400)
+def snippets_gate(failed: list[str]) -> None:
+    sh([str(CONTENT_PY), "scripts/python_content_runtime_audit.py", "--workers", "4"], 2400)
     try:
         rep = json.loads((ROOT / "course-state/python_runtime_audit_report.json").read_text(encoding="utf-8"))
         env = rep.get("environment_matches_pins")
@@ -100,9 +114,9 @@ def check(tag: str) -> int:
         # Honest label. The runtime audit compares only the FIRST output line, then
         # scrubs every integer before calling outputs "structurally similar" - so a
         # wrong number passes. This proves snippets run and their first line has the
-        # right shape; it does not prove printed values are correct.
+        # right shape; values are checked by strict_output_mismatches_in_section.
         print(f"  {'PASS' if ok else 'FAIL'} snippets run; first output line shape matches "
-              f"(fail={rep['totals']['fail']}, pins={env}) [values NOT verified]")
+              f"(fail={rep['totals']['fail']}, pins={env}) [values checked by the strict measure]")
         if not ok:
             failed.append("python-content")
             for f in rep.get("failures", [])[:8]:
@@ -111,18 +125,78 @@ def check(tag: str) -> int:
         print(f"  FAIL lesson snippets: report unreadable ({e})")
         failed.append("python-content")
 
-    after = measure(tag)
-    # lower is better for every measure; None means the metric had nothing to read
+
+def regression_verdict(key: str, b, a) -> str:
+    """'info', 'broken', 'unmeasurable', 'worse' or 'ok'. Lower is better for every measure."""
+    if key.startswith(INFORMATIONAL):
+        return "info"
+    if a is None and b is not None:
+        return "broken"  # measurable before the round, not after: the instrument broke
+    if b is None or a is None:
+        return "unmeasurable"
+    return "worse" if a > b + (0.05 if isinstance(b, float) else 0) else "ok"
+
+
+def applied_ratio(tag: str) -> str:
+    """How much of the round actually reached the file, for printing next to a failure.
+
+    S28's b5 measure moved while 23 of its 34 patches were refused for stale anchors, and the
+    patches that would explain the move were among the refused. Without this line a reader
+    cannot tell "codex wrote worse Spanish" from "almost nothing was applied and the number
+    drifted", and the two need opposite responses.
+    """
+    for suffix in ("s", "r", "k", ""):
+        p = ROOT / f".fixer/{tag}{suffix}.apply.json"
+        if not p.exists():
+            continue
+        try:
+            r = json.loads(p.read_text(encoding="utf-8"))
+        except Exception:
+            return ""
+        offered = r.get("patches_offered") or 0
+        if not offered:
+            return ""
+        back = len(r.get("rolled_back_patches") or [])
+        note = f", {back} rolled back" if back else ""
+        return (f"       of {offered} patches offered: {r.get('applied', 0)} applied, "
+                f"{r.get('rejected', 0)} refused{note} ({p.name})")
+    return ""
+
+
+def regression_gate(before: dict, after: dict, failed: list[str], tag: str = "") -> None:
+    ratio_note = applied_ratio(tag) if tag else ""
+    shown = False
     for key in before:
         b, a = before.get(key), after.get(key)
-        if b is None or a is None:
+        verdict = regression_verdict(key, b, a)
+        if verdict == "info":
+            print(f"  info {key[len(INFORMATIONAL):]}: {b} -> {a} (reported, not gated)")
+        elif verdict == "broken":
+            print(f"  FAIL {key}: measurable before ({b}), not after")
+        elif verdict == "unmeasurable":
             print(f"  ---- {key}: not measurable ({b} -> {a})")
-            continue
-        worse = a > b + (0.05 if isinstance(b, float) else 0)
-        print(f"  {'FAIL' if worse else 'PASS'} no regression in {key}: {b} -> {a}")
-        if worse:
+        else:
+            print(f"  {'FAIL' if verdict == 'worse' else 'PASS'} no regression in {key}: {b} -> {a}")
+        if verdict in ("broken", "worse"):
             failed.append(key)
+            if ratio_note and not shown:
+                print(ratio_note)
+                shown = True
 
+
+def check(tag: str) -> int:
+    before_path = ROOT / f".fixer/{tag}.gate-before.json"
+    if not before_path.exists():
+        print(f"  FAIL no snapshot for {tag}; run `gate.py snapshot {tag}` before the round")
+        return 1
+    before = json.loads(before_path.read_text(encoding="utf-8"))
+    failed: list[str] = []
+    absolute_gate("test:v3", ["npm", "run", "test:v3"], failed)
+    absolute_gate("adversarial (node)", ["npm", "run", "test:adversarial:node"], failed)
+    absolute_gate("adversarial (py)", ["npm", "run", "test:adversarial:py"], failed)
+    snippets_gate(failed)
+    after = measure(tag)
+    regression_gate(before, after, failed, tag)
     (ROOT / f".fixer/{tag}.gate-after.json").write_text(
         json.dumps({"before": before, "after": after, "failed": failed}, indent=1), encoding="utf-8")
     if failed:

@@ -63,6 +63,35 @@ DECIDE EACH ENGLISH WORD. Do not translate on sight. In this order:
 Do not backtick an ordinary word to hide it from the measurement. Backticks mean "this is
 exactly what you type or read in the code", and a learner will treat it that way.
 
+A translation must not make the sentence heavier. An English noun ("the check", "a review")
+tempts a Spanish noun chain ("la realización de la comprobación de la revisión"): use the
+verb instead ("comprueba", "revisa"). If your Spanish is longer than the sentence it
+replaces and that sentence was already long, split it in two. Run-on sentences and
+nominalisations are measured, and a pass that raises either is rejected whole.
+
+EXCEPTION - NAMED PRACTICES. Some English nouns name a standing practice or artifact rather
+than an action: `code review`, `capacity review`, `request validation`. Their correct Spanish
+is itself a noun phrase - *revisión de código*, *revisión de capacidad*, *validación de la
+solicitud* - and there is no verb to use instead, because the phrase is a label, not an event
+("En la revisión de capacidad:" is a heading, not something someone does to something). These
+are the same shape as the names already accepted in `audit/fixer/b5_established_terms.json`
+(*aseguramiento de la calidad*, *gestión de la configuración*, *control de versiones*). Write
+the noun phrase, do NOT contort it into a verb, and list the Spanish name you used in that
+patch's `terms_introduced` so it can be added to the accepted list. S41's pass was rejected
+whole for exactly these three phrases; the writing was right and the measure had not been
+told about them.
+
+A longer, flatter translation is a regression even when the English count improves. "audit
+append-only" became "un registro de auditoría al que solo se añade información" and
+"Drift visible y bloqueado > golden actualizado en silencio." became a nominalised subject
+clause; both lowered `avoidable_english_per_1000` and both made the course worse. If your
+replacement is longer, flatter and less quotable than what it replaced, say so in
+`self_critique` rather than shipping it because a number improved.
+
+When you turn a terse instruction into code-shaped text (`record["owner"]`, a print call,
+a variable name), use only names that already appear in this section's code or starter.
+Never invent a key, variable or call: the learner will search the starter for it.
+
 HARD CONSTRAINTS:
 - Never change code, declared output, identifiers inside code, headings, exercise ids or
   subtopicIds.
@@ -70,6 +99,10 @@ HARD CONSTRAINTS:
 - Keep Peruvian Spanish register: *computadora*, *celular*, usted/tú consistent with the
   surrounding text.
 - Repair the English; do not rewrite paragraphs that are already fine.
+- Leave words that are already Spanish alone, even where you would have chosen another:
+  "El dueño de S44-T4-A" is Spanish; do not turn it into "La persona responsable de". Keep
+  the opening words of every callout and theory gate exactly — tests identify those blocks
+  by how they begin, and changing a correct opener breaks the section for no gain.
 
 Critique each replacement before returning it: would a learner who reads no English
 understand it, and does every backticked word really appear in the code? Revise, then fill
