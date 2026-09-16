@@ -37,7 +37,9 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     definition: 'Agrupa pasos bajo un nombre para ejecutarlos cada vez que la llamas. Puede recibir datos y entregar un resultado.',
     example: 'def doble(numero):\\n    return numero * 2\\n\\nresultado = doble(4)  # 8',
     related: ['Parámetro', 'return', 'Anotación de tipo'],
-    firstSectionId: 'functions-contracts',
+    // S02 already calls `input()` "la función que lee lo que escribe una persona", so the hint
+    // has to be available there. Writing one is taught in S05.
+    firstSectionId: 'basics',
   },
   {
     id: 'tipo-de-dato',
@@ -176,7 +178,9 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     definition: 'Interrumpe el recorrido normal cuando Python no puede completar una operación. Puedes capturarla con `try` y `except` para decidir cómo responder sin ocultar el fallo.',
     example: 'try:\\n    edad = int(texto)\\nexcept ValueError:\\n    edad = None',
     related: ['Context manager', 'return'],
-    firstSectionId: 'exceptions-logging',
+    // S03 needs the word to explain why guard clauses exist and glosses it there. Responding
+    // to one with try/except is taught in S09.
+    firstSectionId: 'decisions-rules',
   },
   {
     id: 'abc',

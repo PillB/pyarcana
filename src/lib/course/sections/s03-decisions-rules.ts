@@ -228,7 +228,7 @@ for s in [95, 60, 30, 80, 50]:
       heading: 'Salidas tempranas y ramas que nunca se tocan',
       subtopicId: 'S03-T2-B',
       paragraphs: [
-        'En un sistema de admisiones de Nairobi, comparar una edad antes de comprobar si fue proporcionada no produce una decisión: produce una excepción. Las guardas funcionan como el control de acceso de un edificio. Resuelven primero quién no puede continuar; el pasillo principal queda libre para el caso válido.',
+        'En un sistema de admisiones de Nairobi, comparar una edad antes de comprobar si fue proporcionada no produce una decisión: produce una **excepción**, un error que interrumpe la ejecución del programa. En S09 aprenderás a responder a ese error; aquí basta con prevenirlo al comprobar primero si la edad fue proporcionada. Las guardas funcionan como el control de acceso de un edificio. Resuelven primero quién no puede continuar; el pasillo principal queda libre para el caso válido.',
         'Una **guard clause** (salida temprana) valida precondiciones y **retorna de inmediato** con `reject`/`review`, dejando el camino feliz al final sin pirámide de `if` anidados. Mejora legibilidad y reduce bugs de indentación.',
         'Orden típico en validadores: **1) ausencia (`is None`)** → **2) tipo** → **3) rango/allowlist** → **4) accept**. Si comparas `edad < 18` antes de chequear `None`, obtienes `TypeError`.',
         'Una **rama muerta** es código que nunca se ejecuta porque una condición anterior ya la cubre (p. ej. `if x >= 0: ... elif x > 5:` — el `elif` solo vería negativos, nunca `x > 5`). Aprende a leer el orden como un revisor de PRs.',

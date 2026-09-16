@@ -180,3 +180,31 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
 - **Aggregates hide paragraph-level damage.** The Orbiter regression measured FH −24.7 and b5
   0 → 33.3 per 100 sentences *at paragraph scale*, and moved the gated section measure 0.6 → 0.6.
   A green gate is not evidence that a passage survived; read the passage.
+
+### The concept map's instrument (2026-09-16)
+
+- **A hint is not a lesson, and a quiz option is not a lesson.** *(S02, course-wide)* Any event
+  kind could carry a concept's *first definition*, so 18 of 77 defined concepts were credited to
+  a surface the learner reaches only after they needed the term — `dict-comprehension` to a weDo
+  title, `reshape` to a starter, and `distribución normal` to a selfcheck **distractor**: the
+  quiz that tests a concept recorded as the place that taught it. `concept_map.py` now accepts a
+  first definition only from a teaching surface (theory, callout, heading, iDo prose, jobRelevance,
+  tagline); everything else is kept as `reinforcements`. Eleven concepts moved to L0 on the first
+  run, `variable` among them — the most basic term in the course, previously "defined" by a hint.
+- **Spanish teaches with a verb far more often than with a copula.** *(S02)* `definesTerm` knew
+  only "es un/es una", so "Una **tupla** reúne varios valores en un orden fijo" did not count and
+  the four paragraphs that teach tuples were filed as *surprising uses* of the term. An indefinite
+  article plus a describing verb now counts. Before assuming a concept is untaught, read the
+  paragraph: the instrument was wrong about this one for the whole campaign.
+- **A parenthetical full of code is not a gloss.** *(S02)* `(valor, tipo_esperado)` in a hint was
+  read as the definition of `tuple`. A gloss is prose and contains function words; an argument
+  list does not.
+- **L3 could skip the worked example.** The ladder tested heading+figure before examples, so a
+  concept with orientation and a diagram but no worked example scored highest. D3 makes L3 mean
+  L2 *plus* orientation and a figure.
+- **Adding a term to the glossary is a measurement change, and it will look like a regression.**
+  *(2026-09-16)* Eight core-language terms (`function`, `parameter`, `return`, `annotation`, `if`,
+  `for`, `unpacking`, `exception`) took surprising uses from 761 to 2,348 and doubled
+  `concept_map.json`. Nothing got worse; the course had been measured with an instrument that
+  could not see the language it teaches. Expect the same each time the vocabulary grows, and
+  re-snapshot before reading a round's gate delta.

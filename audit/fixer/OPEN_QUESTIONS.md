@@ -187,3 +187,24 @@ still open. Re-run the stage for this section, or fix by hand.
      `
 - **data-structures.S03-T3-A-E2.instruction** at `weDo[S03-T3-A-E2].instruction` — anchor not found
   - anchor began: `          '1. Corrige `m <= 0` (rechaza el cero).\n2. Orden: None→review; `<0`→reject; `>5`
+
+## Early uses the repaired concept map made visible — queued for the section rounds
+*Recorded 2026-09-16 after adding the eight core-language glossary terms and fixing the
+definition detector. Not blocking: `glossary_intro_audit.py` is not one of gate.py's absolute
+gates. Two of the original four were fixed on the spot; these are the ones that need a section
+round because they live in code or in another section's prose.*
+
+- **`return` and `def` in S01's `section_contract()` demo.** `s01-setup.ts` contains a code
+  block defining a function and returning a dict, in the section that teaches environment
+  setup. Functions are S05. The same demo shape was already removed once from S01 by finding
+  S01-F06 for exactly this reason, and this one survived because no gate could see `return`
+  until the glossary gained the term. Decide with the two questions: the contract it prints may
+  be expressible without `def`, or the demo may belong later.
+- **`Excepción` in S02 prose.** Declared at S03 now (S03 glosses it to explain guard clauses),
+  but `basics` mentions it earlier. Either gloss it at S02 as S03 does, or remove the mention.
+- **`Distribución normal` declared S18, used in S16.** Pre-existing, unrelated to this round.
+
+Fixed already, for the record: S01's "No necesitas una función ni una plantilla adicional" was a
+throwaway reassurance about a concept the learner had never met and is gone; S03's "produce una
+excepción" is load-bearing (it is why guard clauses exist) and now carries an in-place gloss plus
+an explicit deferral to S09.

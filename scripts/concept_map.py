@@ -40,6 +40,20 @@ TEST_KINDS = {"selfcheck.question", "selfcheck.option", "selfcheck.explanation"}
 HEADING_KINDS = {"theory.heading"}
 FIGURE_KINDS = {"theory.figure"}
 
+#: Surfaces where the course is teaching, and a definition can honestly count as the first one.
+#
+# Everything else may reinforce a concept but cannot introduce it: a learner reaches a weDo
+# hint only after trying the exercise, an outcome is a promise made before the lesson, and a
+# selfcheck option is a quiz answer. 18 of 77 defined concepts were credited to one of those,
+# `distribución normal` to a *distractor* — the quiz that tests a concept was recorded as the
+# place that taught it. That is exactly the surprise this map exists to detect, scored as if
+# it were fine.
+TEACHING_KINDS = {
+    "theory.paragraph", "theory.callout", "theory.heading", "theory.code.explanation",
+    "ido.why", "ido.preamble", "ido.description", "ido.intro", "ido.retrospective",
+    "wedo.intro", "youdo.context", "jobRelevance", "tagline",
+}
+
 
 def load_events() -> dict:
     if EVENTS.exists():
@@ -98,10 +112,16 @@ def main() -> int:
     for c in concepts.values():
         vis = [u for u in c["uses"] if u["visible"]]
         c["first_use"] = vis[0] if vis else None
-        c["first_definition"] = c["definitions"][0] if c["definitions"] else None
+        teaching = [d for d in c["definitions"] if d["kind"] in TEACHING_KINDS]
+        c["first_definition"] = teaching[0] if teaching else None
+        # Kept so a reviewer can see the course does say something about the term somewhere,
+        # without that standing in for having taught it.
+        c["reinforcements"] = [d for d in c["definitions"] if d["kind"] not in TEACHING_KINDS]
         if not c["first_definition"]:
             c["depth"] = "L0"
-        elif c["headings"] and c["figures"]:
+        elif c["headings"] and c["figures"] and c["examples"]:
+            # L3 is L2 plus orientation and a figure (D3), so it cannot skip the worked
+            # example; checking it before L2 let a heading and a figure alone score highest.
             c["depth"] = "L3"
         elif c["examples"]:
             c["depth"] = "L2"

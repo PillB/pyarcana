@@ -60,17 +60,46 @@ const PAREN_GLOSS = /^[`*_"'\u00bb\s]{0,4}(?:[\p{L}\s`]{0,18})?\(([^)]{18,})\)/u
 const DASH_GLOSS = /^[`*_"'\s]{0,4}[\u2014\u2013]([^\u2014\u2013]{18,})[\u2014\u2013]/u
 const PAREN_NOT_DEF = /^(?:ver|v\u00e9ase|cap\u00edtulo|secci\u00f3n|S\d|p\.?\s*\d|\d)/i
 
+/**
+ * A gloss is prose; an argument list is not.
+ *
+ * PAREN_GLOSS counted `(valor, tipo_esperado)` in a weDo hint as the definition of `tuple`,
+ * which is how the theory paragraph that actually teaches tuples ended up filed as a
+ * *surprising use* of a term the course had supposedly defined in a hint. Spanish prose that
+ * explains something always contains function words; a tuple literal or a signature does not.
+ */
+const GLOSS_FUNCTION_WORD =
+  /(?:^|\s)(?:el|la|los|las|un|una|unos|unas|de|del|que|para|con|por|se|su|sus|lo|al|y|o|en)(?:\s|$)/i
+function looksLikeProse(inner: string): boolean {
+  if (/[_=\[\]{}]|->|::/.test(inner)) return false          // snake_case, subscripts, signatures
+  return GLOSS_FUNCTION_WORD.test(inner)
+}
+
+/**
+ * Spanish teaches far more often with a descriptive verb than with a copula:
+ *   "Una **tupla** re\u00fane varios valores en un orden fijo."
+ * POST_CUE only knows "es un/es una", so every definition written this way was invisible and
+ * the concept scored L0 or was credited to whatever hint happened to mention it first. The
+ * indefinite article is what generalises ("a tuple gathers\u2026", not "the tuple we just made"),
+ * so require it before the term and a describing verb just after.
+ */
+const INDEFINITE_BEFORE = /\b(?:un|una|unos|unas)\s+(?:\*\*|`|_)?$/i
+const DESCRIBING_VERB =
+  /^[^.!?;]{0,12}?\b(?:re[u\u00fa]ne|agrupa|agrupan|guarda|guardan|contiene|contienen|almacena|almacenan|representa|representan|describe|describen|indica|indican|se\u00f1ala|se\u00f1alan|permite|permiten|sirve|sirven|convierte|convierten|devuelve|devuelven|entrega|entregan|ejecuta|ejecutan|asocia|asocian|re[u\u00fa]nen|junta|juntan|marca|marcan|define|definen|expresa|expresan|re[gj]istra|re[gj]istran|combina|combinan|ordena|ordenan|recorre|recorren|reparte|reparten)\b/i
+
 function definesTerm(text: string, at: number, len: number, kind: string): boolean {
   const after = text.slice(at + len, at + len + 120)
   const paren = PAREN_GLOSS.exec(after)
-  if (paren && !PAREN_NOT_DEF.test(paren[1].trim())) return true
+  if (paren && !PAREN_NOT_DEF.test(paren[1].trim()) && looksLikeProse(paren[1])) return true
   const dash = DASH_GLOSS.exec(after)
-  if (dash && !PAREN_NOT_DEF.test(dash[1].trim())) return true
+  if (dash && !PAREN_NOT_DEF.test(dash[1].trim()) && looksLikeProse(dash[1])) return true
   const before = text.slice(Math.max(0, at - 80), at)
   const head = after.slice(0, 50)
   // "... que es un ..." attaches the cue to a relative clause, not to the term
   if (POST_CUE.test(after) && !NEGATED.test(head) && !/\bque\s+(?:es|son)\b/i.test(head)) return true
   if (PRE_CUE.test(before)) return true
+  // "Una tupla reúne varios valores…" — a definition without a copula.
+  if (INDEFINITE_BEFORE.test(before) && DESCRIBING_VERB.test(after) && !NEGATED.test(head)) return true
   // "Diccionario del dia" blocks teach every term they list
   if (DICT_KIND.test(kind) && /Diccionario del d[i\u00ed]a/i.test(text)) return true
   return false
