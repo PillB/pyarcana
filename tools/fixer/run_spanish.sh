@@ -32,6 +32,13 @@ for TAG in "$@"; do
   python3 tools/fixer/gate.py snapshot "$TAG" || { echo "!! $TAG snapshot failed"; exit 1; }
 
   python3 tools/fixer/build_spanish_prompt.py "$TAG" > ".fixer/${TAG}s.prompt.txt" || exit 1
+  # Record what the file looked like when the anchors were derived, so the applier can tell
+  # "codex quoted badly" from "someone else edited the section while codex was thinking".
+  read -r _SLUG _FILE < <(python3 tools/fixer/section_path.py "$TAG")
+  python3 -c "
+import hashlib, pathlib, sys
+pathlib.Path('.fixer/${TAG}s.prompt.sha256').write_text(
+    hashlib.sha256(pathlib.Path(sys.argv[1]).read_bytes()).hexdigest(), encoding='utf-8')" "$_FILE"
   python3 tools/fixer/run_codex.py "${TAG}s" "$MODEL" "$EFFORT" || { echo "!! $TAG codex failed"; exit 1; }
 
   read -r SLUG FILE < <(python3 tools/fixer/section_path.py "$TAG")

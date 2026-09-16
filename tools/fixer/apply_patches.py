@@ -8,6 +8,7 @@ After patching, the file must still import cleanly or the whole batch is rolled 
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import subprocess
@@ -61,6 +62,27 @@ def main() -> int:
     slug = resolve_slug(data["section_id"])
     path = section_file(slug)
     original = path.read_text(encoding="utf-8")
+
+    # Did the file move under us while codex was thinking? S44 spent fifteen minutes in a
+    # codex call, something else wrote to the section meanwhile, and all fifteen anchors came
+    # back "not found" - indistinguishable from codex having quoted badly. The prompt records
+    # the digest it was built from, so say which of the two actually happened.
+    stamp = result_path.parent / f"{result_path.name.split('.')[0]}.prompt.sha256"
+    if stamp.exists():
+        was = stamp.read_text(encoding="utf-8").strip()
+        now = hashlib.sha256(original.encode("utf-8")).hexdigest()
+        if was and was != now:
+            print(json.dumps({
+                "section": slug,
+                "file": str(path.relative_to(ROOT)),
+                "patches_offered": len(data.get("patches", [])),
+                "applied": 0,
+                "rejected": 0,
+                "error": "file changed after the prompt was built; every anchor would be stale",
+                "expected_sha256": was,
+                "actual_sha256": now,
+            }, indent=2, ensure_ascii=False))
+            return 2
 
     # A patch may name its own file (adding a figure touches the section and the
     # figure-data module). Everything is still applied or rolled back as one unit.
