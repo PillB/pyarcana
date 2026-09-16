@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SECTION = ROOT / "src/lib/course/sections/s06-numpy.ts"
+SECTION = ROOT / "src/lib/course/sections/s06-collections.ts"
 SEED = ROOT / "prisma/seed.ts"
 SECTION_VIEW = ROOT / "src/components/course/SectionView.tsx"
 PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
@@ -17,7 +17,7 @@ PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
 
 def s06_seed_block() -> str:
     text = SEED.read_text(encoding="utf-8")
-    start = text.index("  numpy: [")
+    start = text.index("  collections: [")
     end = text.index("\n  // S08 V3", start)
     return text[start:end]
 
@@ -25,7 +25,7 @@ def s06_seed_block() -> str:
 class TestS06CollectionsContract(unittest.TestCase):
     def test_canonical_identity_and_assessment_shape(self) -> None:
         source = SECTION.read_text(encoding="utf-8")
-        self.assertRegex(source, r'id:\s*"numpy"')
+        self.assertRegex(source, r'id:\s*"collections"')
         self.assertRegex(source, r'index:\s*6')
         self.assertIn('title: "Colecciones y estructuras de datos"', source)
         self.assertEqual(len(re.findall(r'subtopicId:\s*"S06-T[1-4]-[AB]"', source)), 40)
@@ -78,8 +78,8 @@ class TestS06CollectionsContract(unittest.TestCase):
 
     def test_s06_runtime_and_pdf_mappings_match_collections(self) -> None:
         section_view = SECTION_VIEW.read_text(encoding="utf-8")
-        start = section_view.index("    'numpy': {")
-        end = section_view.index("\n    'pandas': {", start)
+        start = section_view.index("    'collections': {")
+        end = section_view.index("\n    'files-ingestion': {", start)
         mapping = section_view[start:end]
         self.assertIn("Practica colecciones y conflictos", mapping)
         self.assertIn("def dedup_report", mapping)
@@ -87,8 +87,8 @@ class TestS06CollectionsContract(unittest.TestCase):
         self.assertNotIn("np.array", mapping)
 
         pdf = PDF_REPORT.read_text(encoding="utf-8")
-        self.assertIn("numpy: '6. Colecciones'", pdf)
-        self.assertNotIn("numpy: '6. NumPy'", pdf)
+        self.assertIn("collections: '6. Colecciones'", pdf)
+        self.assertNotIn("collections: '6. NumPy'", pdf)
 
 
 if __name__ == "__main__":

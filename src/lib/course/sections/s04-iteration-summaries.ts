@@ -1,9 +1,9 @@
 /**
  * S04 — Iteración y resúmenes transaccionales
  *
- * The filename and the exported id ("functions-modules") both come from a pre-V3 ordering
- * and no longer describe what this section teaches. The id is the URL hash and
- * a learner save key, so it cannot be changed without losing progress.
+ * Renamed from the pre-V3 id "functions-modules" to match what this section actually teaches.
+ * The id is the URL hash and a learner save key; saved progress is carried across
+ * by migrateSectionIds in src/lib/section-id-migrations.ts.
  *
  * Read `title` below, never the slug. Matching content to the slug is how three
  * agent diagrams ended up attached to a data-testing lesson.
@@ -11,7 +11,7 @@
 import type { CourseSection } from '../../types'
 
 export const section04: CourseSection = {
-  id: "functions-modules",
+  id: "iteration-summaries",
   index: 4,
   title: "Iteración y resúmenes transaccionales",
   shortTitle: "Iteración y resúmenes",

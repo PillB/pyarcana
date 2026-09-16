@@ -32,6 +32,29 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   `return change == "add_optional" and old_ok` as plain text. Wrap code in backticks or a
   code block; a learner cannot tell prose from syntax otherwise, and neither can the
   detectors.
+- **Most English in lab prose is field names written bare — backtick them, don't translate.**
+  *(2026-09-15, S46)* `inputs`, `outputs`, `owner`, `run_id`, `null_rate` were bare words in
+  contracts and steps. The Spanish pass backticked them and translated the connective prose
+  around them ("marca de tiempo", "conjuntos", "recuperación"): 18.7 → 14.8 per 1,000 with no
+  other measure moving. It also expanded terse steps into code-shaped text
+  (`record["metrics"]["null_rate"] <= 0.02`). Every such name must already exist in the
+  section's code — verify with a grep against the pre-pass copy; S46's all did. What remains
+  is kept or borderline vocabulary (`allowed lateness`, `bound`, `completeness`, `lab`), which
+  per-word decisions deliberately left — do not chase the count to zero.
+- **Translating nouns makes Spanish heavier, and the gate rejects it.** *(2026-09-15, S51)*
+  The pass took S51 from 17.8 to 11.1 avoidable English per 1,000 but raised run-on sentences
+  3 → 4 and nominalisations 3.0 → 3.4 per 100 words, so the whole section was restored.
+  Spanish renders an English noun as a longer noun phrase; prefer the verb, and split a
+  sentence the translation lengthened. Rule added to `build_spanish_prompt.py`; re-run S51.
+  *Correction (same day):* the nominalisation half was the instrument — see D7 and "Measures"
+  below. The run-on sentence (3 → 4) was real.
+- **The Spanish pass must not rewrite Spanish.** *(2026-09-15, S44)* Codex turned "El dueño de
+  S44-T4-A" into "La persona responsable de" — the owner → responsable rule applied to a word
+  that was never English. `test_master_curriculum_specificity` finds a section's eight callouts
+  by their openers ("El dueño de", "Evidencia mínima de", …), so the adversarial suite failed and
+  the section was restored. Rule added: leave Spanish words alone and keep callout openers
+  verbatim. The same pass also raised B5 constructions 0.9 → 1.3, so re-run S44 rather than
+  hand-merge the good patches.
 - **Measure English leakage with `scripts/code_switching_audit.py`.** It separates avoidable
   English from policy-kept terms and acronyms. Use it to prioritise sections and confirm a
   pass reduced leakage — not as a list of words to delete.
@@ -75,6 +98,8 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   not. The tolerance exists for genuinely nondeterministic output (paths, timestamps,
   timings, and string-set order, since no `PYTHONHASHSEED` is set), so the fix must keep it.
   Until a strict mode exists, do not cite the runtime audit as evidence an output is correct.
+  *Update 2026-09-15:* it exists — `scripts/python_content_strict_output_audit.py` (D8), gated
+  per section. Cite that for values; the runtime audit only for "it runs".
 - **A probe must prove it injected before its verdict means anything.** *(2026-09-14, S02)*
   Twice a probe's injection failed its assert, the gate ran anyway against the clean file,
   and reported what a clean file should. Chain the gate to a non-empty `git diff`.
@@ -94,3 +119,64 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   11 → 4, list-comprehension 21 → 3) and so did gaps it could not see (`outlier` is written
   "valor atípico" from S03, thirteen sections before "outlier" first appears). Compare per
   concept before concluding a change did nothing.
+
+### Measures (2026-09-15)
+
+- **Before trusting a rejection, list what the rejected patch actually added.** *(S28, S44,
+  S51)* Three Spanish passes failed only on nominalisation density. Word-by-word, the "new
+  nominalisations" were translations of English nouns. The instrument was wrong, not the text
+  (D7). Conversely S28's list showed one real defect the proxy had hidden among the noise.
+- **Declared outputs drift silently when code is repaired.** *(S08, S18)* A fix round changed
+  S08's function to return `(clean, quarantine, error)` with `parsed_row`/`record_number`; the
+  declared output still shows the old list with `raw`. After any change to code in a block,
+  regenerate its output with `tools/fixer/sync_declared_output.py`, never by hand.
+
+### Live site (2026-09-15, Chrome crawl of all 52 sections)
+
+- **Check the rendered page, not only the source.** *(all sections)* Every gate read the `.ts`
+  files and passed, while learners read literal backticks and `**` 721 times on the live site:
+  taglines, callouts, self-check questions and options, You Do objectives, requirements and
+  rubrics, We Do titles, I Do descriptions, code-block titles, formative-evaluation tasks,
+  figure notes. Those fields rendered raw strings. Fixed with `InlineText` (same inline
+  renderer as `RichText`) and guarded by `scripts/raw_markdown_rendering.spec.ts`, which
+  failed against the live site and passes on the rebuilt one. Consequence for the Spanish
+  pass: backticking identifiers is now correct everywhere; before the fix it added visible
+  noise in exactly the fields it touched most.
+- **Code in a non-backticked field becomes formatting once the field renders markdown.**
+  *(S02)* "-3**2 vs (-3)**2" rendered raw before, and would render "2 vs (-3)" in bold after.
+  Any exponent, glob or `*args` in prose needs backticks.
+- **Never edit a file a running gate reads.** *(S41)* I edited `SectionView.tsx` while S41's
+  gate ran; a source-pinned adversarial test failed and S41's valid Spanish pass (10.9 → 0.7,
+  every new backtick a real literal or variable) was restored. Re-run S41. Components, tests,
+  audits and the gate itself are all read by the gate.
+- **A sentence splitter must respect block boundaries.** *(S27)* See D7 follow-up: outcomes
+  and bullets end without a period and were fused into false run-ons.
+- **The Timeline figure archetype computes `noteLines` and never draws them.** Notes given to
+  timeline figures have never been visible. Not fixed in this pass — recorded.
+
+### Narration voice (2026-09-16)
+
+- **Write like a teacher narrating, not like an assistant reporting.** *(S01, generalised from
+  the Orbiter regression)* The Orbiter paragraph is the worked example of the failure: the round
+  replaced "Nadie mintió y nadie se equivocó al calcular; simplemente, cada lado dio por supuesto
+  algo que el otro no compartía" — the only sentence stating the transferable rule — with "La
+  investigación de NASA también señaló fallas contribuyentes de verificación, comunicación e
+  ingeniería de sistemas". Accurate, and it teaches nothing. `3f0cebe9` restored the beat. The
+  general rule: a concrete sentence that carries the teaching point outranks an accurate sentence
+  that carries none. Prose that reads as competent and teaches nothing has failed, whatever the
+  gates say.
+- **The register to avoid has a shape, so it can be checked by eye.** Hedging and
+  over-qualification; scaffolding phrases ("cabe señalar", "es importante recordar"); an abstract
+  noun where a verb would do; bullet-fragmenting an explanation that should flow; even-handed
+  neutrality that never commits to what matters; closing sentences that restate instead of
+  advancing. Before returning a passage, read it once for this shape alone.
+- **Verbosity inflation is the same failure wearing a translation costume, and the gates reward
+  it.** *(S51, S28)* "audit append-only" (3 words) became "un registro de auditoría al que solo se
+  añade información" (10) at every occurrence; "Drift visible y bloqueado > golden actualizado en
+  silencio." became "Una desviación visible y bloqueada protege más que una salida de referencia
+  actualizada en silencio." Both lower `avoidable_english_per_1000`, so every gate scores them as
+  improvements. A translation that is longer, flatter and less quotable than what it replaced is a
+  regression — say so in the critique rather than shipping it because the number improved.
+- **Aggregates hide paragraph-level damage.** The Orbiter regression measured FH −24.7 and b5
+  0 → 33.3 per 100 sentences *at paragraph scale*, and moved the gated section measure 0.6 → 0.6.
+  A green gate is not evidence that a passage survived; read the passage.

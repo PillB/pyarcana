@@ -27,7 +27,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     definition: 'Una etiqueta que apunta a un valor en memoria. En Python no declaras el tipo — se infiere.',
     example: 'x = 42\\nnombre = "Ana"',
     related: ["Tipo de dato", "Asignación"],
-    firstSectionId: 'data-structures',
+    firstSectionId: 'decisions-rules',
   },
   {
     id: 'tipo-de-dato',
@@ -35,7 +35,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Tipo de dato', 'tipos de datos'],
     category: 'Python',
     definition: 'La naturaleza del valor: int (entero), float (decimal), str (texto), bool (True/False), list, dict, tuple, set.',
-    firstSectionId: 'numpy',
+    firstSectionId: 'collections',
   },
   {
     id: 'list-comprehension',
@@ -44,7 +44,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: 'Python',
     definition: 'Sintaxis compacta para crear listas a partir de otras. Más rápido y pythónico que un loop for.',
     example: '[x**2 for x in range(5) if x > 0]  # [1, 4, 9, 16]',
-    firstSectionId: 'functions-modules',
+    firstSectionId: 'iteration-summaries',
   },
   {
     id: 'dict-comprehension',
@@ -53,7 +53,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: 'Python',
     definition: 'Similar a list comprehension pero crea diccionarios.',
     example: '{k: v**2 for k, v in {"a": 1, "b": 2}.items()}',
-    firstSectionId: 'functions-modules',
+    firstSectionId: 'iteration-summaries',
   },
   {
     id: 'f-string',
@@ -87,7 +87,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Dunder method', 'dunder', '__init__'],
     category: 'Python',
     definition: 'Métodos especiales con __ al inicio y fin (double underscore). Ej: __init__, __str__, __repr__, __len__.',
-    firstSectionId: 'sklearn',
+    firstSectionId: 'modules-packaging-cli',
   },
   {
     id: 'decorador',
@@ -96,7 +96,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: 'Python',
     definition: 'Función que recibe otra función y devuelve una nueva con comportamiento extendido. Se aplica con @.',
     example: '@timing\\ndef mi_func(): ...',
-    firstSectionId: 'functions-modules',
+    firstSectionId: 'iteration-summaries',
   },
   {
     id: 'generator',
@@ -105,7 +105,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: 'Python',
     definition: 'Función que usa yield para producir valores uno a uno, sin cargar todo en memoria.',
     example: 'def cuenta():\\n    for i in range(10):\\n        yield i',
-    firstSectionId: 'oop',
+    firstSectionId: 'functions-contracts',
   },
   {
     id: 'context-manager',
@@ -114,7 +114,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: 'Python',
     definition: 'Objeto que define setup (__enter__) y cleanup (__exit__). Se usa con el statement with.',
     example: 'with open("f.csv") as f:\\n    data = f.read()',
-    firstSectionId: 'pandas',
+    firstSectionId: 'files-ingestion',
   },
   {
     id: 'abc',
@@ -382,7 +382,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Counter"],
     category: 'Python',
     definition: 'Dict especializado para contar. Counter("hola") → {"h":1, "o":1, "l":1, "a":1}.',
-    firstSectionId: 'pandas',
+    firstSectionId: 'files-ingestion',
   },
   {
     id: 'namedtuple',
@@ -430,7 +430,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Shape"],
     category: 'NumPy',
     definition: 'Forma o estructura de los datos: qué campos, niveles o dimensiones tiene un registro o colección.',
-    firstSectionId: 'numpy',
+    firstSectionId: 'collections',
   },
   {
     id: 'dtype',
@@ -502,7 +502,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["apply"],
     category: 'Pandas',
     definition: 'Aplica una función a cada elemento/fila/columna. df["col"].apply(mi_func).',
-    firstSectionId: 'data-structures',
+    firstSectionId: 'decisions-rules',
   },
   {
     id: 'eda',
@@ -518,7 +518,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Missing values', 'valores faltantes', 'NaN'],
     category: 'Pandas',
     definition: 'Valores nulos (NaN). isnull().sum() para contar. fillna() para imputar, dropna() para eliminar.',
-    firstSectionId: 'numpy',
+    firstSectionId: 'collections',
   },
   {
     id: 'resample',
@@ -558,7 +558,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Overfitting', 'sobreajuste', 'overfit'],
     category: 'ML',
     definition: 'Modelo memoriza training data, generaliza mal. Síntomas: train score >> test score. Fix: más datos, regularización, simpler model.',
-    firstSectionId: 'data-acquisition',
+    firstSectionId: 'text-unicode-regex',
   },
   {
     id: 'roc-auc',
@@ -574,7 +574,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Precision"],
     category: 'ML',
     definition: 'De los positivos predichos, cuántos son reales. TP / (TP + FP). Alto = pocos falsos positivos.',
-    firstSectionId: 'rpa-automation',
+    firstSectionId: 'evidence-dashboard',
   },
   {
     id: 'recall',
@@ -582,7 +582,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Recall"],
     category: 'ML',
     definition: 'De los positivos reales, cuántos detectas. TP / (TP + FN). Alto = pocos falsos negativos.',
-    firstSectionId: 'rpa-automation',
+    firstSectionId: 'evidence-dashboard',
   },
   {
     id: 'f1-score',
@@ -662,7 +662,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Correlación"],
     category: 'Data Science',
     definition: 'Relación entre dos variables. -1 a 1. np.corrcoef, df.corr(). Cuidado: correlación no implica causalidad.',
-    firstSectionId: 'visualization',
+    firstSectionId: 'exceptions-logging',
   },
   {
     id: 'distribuci-n-normal',
@@ -734,7 +734,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["entity resolution", "ER", "resolución de entidades"],
     category: 'Data Science',
     definition: 'Proceso de decidir si dos registros se refieren a la misma entidad del mundo real (sin asumir fraude o parentesco).',
-    firstSectionId: 'rpa-automation',
+    firstSectionId: 'evidence-dashboard',
   },
   {
     id: 'fastapi',
@@ -750,7 +750,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["streamlit"],
     category: 'Tooling',
     definition: 'Framework de Python para dashboards interactivos con poco código, útil para demos internas.',
-    firstSectionId: 'rpa-automation',
+    firstSectionId: 'evidence-dashboard',
   },
   {
     id: 'llm',
@@ -766,7 +766,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["embeddings", "embedding"],
     category: 'ML',
     definition: 'Vector denso que representa significado de texto (o imagen) para búsqueda semántica y clustering.',
-    firstSectionId: 'rpa-automation',
+    firstSectionId: 'evidence-dashboard',
   },
   {
     id: 'asignacion-aleatoria',

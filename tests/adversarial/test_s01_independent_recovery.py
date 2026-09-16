@@ -126,26 +126,6 @@ class Section01IndependentRecoveryTests(unittest.TestCase):
         self.assertIn("if __name__ == \"__main__\":", match.group("code"))
         self.assertNotIn("edad_meses", block)
 
-    @unittest.skip(
-        "The check_arg.py demo this pins was removed by finding S01-F06: it taught "
-        "import, def, indentation, variables, indexing, f-strings and __name__ to "
-        "demonstrate exit codes, before any of those are taught. S01 now demonstrates "
-        "exit codes with two shell commands. The typed-entrypoint requirement is still "
-        "worth enforcing somewhere it is honest - S05 teaches functions - so this is "
-        "skipped rather than deleted, and recorded in audit/fixer/OPEN_QUESTIONS.md."
-    )
-    def test_rendered_check_arg_demo_preserves_the_typed_entrypoint(self) -> None:
-        lesson = SECTION.read_text(encoding="utf-8")
-        block = _between(
-            lesson,
-            "title: 'check_arg.py — argv, len y exit codes'",
-            "output: `OK:hola",
-        )
-
-        self.assertIn("def main() -> None:", block)
-        self.assertNotIn("def main():", block)
-        self.assertIn('print("executable:", sys.executable)', block)
-
     def test_authenticated_bank_is_balanced_across_attempts_and_concepts(self) -> None:
         seed = SEED.read_text(encoding="utf-8")
         bank = _between(seed, "  setup: [", "  basics: [")

@@ -15,7 +15,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from newbie_packet_builder import active_manifest, parse_section_learner  # noqa: E402
 
 
-SECTION = ROOT / "src/lib/course/sections/s07-data-acquisition.ts"
+SECTION = ROOT / "src/lib/course/sections/s07-text-unicode-regex.ts"
 SEED = ROOT / "prisma/seed.ts"
 SECTION_VIEW = ROOT / "src/components/course/SectionView.tsx"
 PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
@@ -23,7 +23,7 @@ PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
 
 def s07_seed_block() -> str:
     text = SEED.read_text(encoding="utf-8")
-    start = text.index("  'data-acquisition': [")
+    start = text.index("  'text-unicode-regex': [")
     end = text.index("\n  // === S14:", start)
     return text[start:end]
 
@@ -31,7 +31,7 @@ def s07_seed_block() -> str:
 class TestS07TextContract(unittest.TestCase):
     def test_canonical_identity_and_instructional_shape(self) -> None:
         source = SECTION.read_text(encoding="utf-8")
-        self.assertRegex(source, r'id:\s*"data-acquisition"')
+        self.assertRegex(source, r'id:\s*"text-unicode-regex"')
         self.assertRegex(source, r"index:\s*7")
         self.assertIn('title: "Texto, Unicode y expresiones regulares"', source)
         self.assertEqual(len(re.findall(r'subtopicId:\s*"S07-T[1-4]-[AB]"', source)), 40)
@@ -107,8 +107,8 @@ class TestS07TextContract(unittest.TestCase):
 
     def test_runtime_and_pdf_mappings_match_text_curriculum(self) -> None:
         section_view = SECTION_VIEW.read_text(encoding="utf-8")
-        start = section_view.index("    'data-acquisition': {")
-        end = section_view.index("\n    'performance': {", start)
+        start = section_view.index("    'text-unicode-regex': {")
+        end = section_view.index("\n    'apis-sql-geo': {", start)
         mapping = section_view[start:end]
         self.assertIn("Practica Unicode, regex y evidencia", mapping)
         self.assertIn("def normalize_email", mapping)
@@ -118,8 +118,8 @@ class TestS07TextContract(unittest.TestCase):
         self.assertNotIn("Counter", mapping)
 
         pdf = PDF_REPORT.read_text(encoding="utf-8")
-        self.assertIn("\"data-acquisition\": '7. Texto & Unicode'", pdf)
-        self.assertNotIn("\"data-acquisition\": '7. Data Acq'", pdf)
+        self.assertIn("\"text-unicode-regex\": '7. Texto & Unicode'", pdf)
+        self.assertNotIn("\"text-unicode-regex\": '7. Data Acq'", pdf)
 
 
 if __name__ == "__main__":

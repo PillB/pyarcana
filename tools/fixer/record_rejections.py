@@ -30,6 +30,12 @@ def main() -> int:
         print(0)
         return 0
 
+    oq_path = ROOT / "audit/fixer/OPEN_QUESTIONS.md"
+    header = f"## {tag} {stage} — "
+    if header in oq_path.read_text(encoding="utf-8"):
+        print(len(rejections))
+        return 0
+
     lines = [
         "",
         f"## {tag} {stage} — {len(rejections)} patch(es) not applied",

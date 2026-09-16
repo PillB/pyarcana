@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from newbie_packet_builder import active_manifest, parse_section_learner  # noqa: E402
 
 
-SECTION = ROOT / "src/lib/course/sections/s09-visualization.ts"
+SECTION = ROOT / "src/lib/course/sections/s09-exceptions-logging.ts"
 SECTION_VIEW = ROOT / "src/components/course/SectionView.tsx"
 PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
 SEED = ROOT / "prisma/seed.ts"
@@ -43,7 +43,7 @@ class TestS09ObservabilityContract(unittest.TestCase):
     def test_canonical_surface_retains_complete_gradual_release(self) -> None:
         source = SECTION.read_text(encoding="utf-8")
 
-        self.assertIn('id: "visualization"', source)
+        self.assertIn('id: "exceptions-logging"', source)
         self.assertIn("index: 9", source)
         self.assertIn(
             'title: "Excepciones, debugging y logging seguro"',
@@ -72,7 +72,7 @@ class TestS09ObservabilityContract(unittest.TestCase):
 
     def test_playground_is_observability_owned_and_executable(self) -> None:
         source = SECTION_VIEW.read_text(encoding="utf-8")
-        block = _between(source, "    'visualization': {", "    'sklearn': {")
+        block = _between(source, "    'exceptions-logging': {", "    'modules-packaging-cli': {")
 
         self.assertIn("Practica un lote observable y sin PII", block)
         self.assertIn("def process_batch", block)
@@ -101,12 +101,12 @@ class TestS09ObservabilityContract(unittest.TestCase):
 
     def test_pdf_label_matches_exceptions_scope(self) -> None:
         pdf = PDF_REPORT.read_text(encoding="utf-8")
-        self.assertIn("visualization: '9. Excepciones'", pdf)
-        self.assertNotIn("visualization: '9. Viz'", pdf)
+        self.assertIn('"exceptions-logging": \'9. Excepciones\'', pdf)
+        self.assertNotIn('"exceptions-logging": \'9. Viz\'', pdf)
 
     def test_authenticated_bank_balances_positions_and_attempts(self) -> None:
         seed = SEED.read_text(encoding="utf-8")
-        bank = _between(seed, "  visualization: [", "\n  sklearn: [")
+        bank = _between(seed, '  "exceptions-logging": [', '\n  "modules-packaging-cli": [')
         entries = re.findall(
             r"concept: '([^']+)'.*?correctIndex: ([0-3]),",
             bank,

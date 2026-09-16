@@ -1,9 +1,9 @@
 /**
  * S13 — Familiarity Evidence Dashboard y cierre de nivel
  *
- * The filename and the exported id ("rpa-automation") both come from a pre-V3 ordering
- * and no longer describe what this section teaches. The id is the URL hash and
- * a learner save key, so it cannot be changed without losing progress.
+ * Renamed from the pre-V3 id "rpa-automation" to match what this section actually teaches.
+ * The id is the URL hash and a learner save key; saved progress is carried across
+ * by migrateSectionIds in src/lib/section-id-migrations.ts.
  *
  * Read `title` below, never the slug. Matching content to the slug is how three
  * agent diagrams ended up attached to a data-testing lesson.
@@ -11,7 +11,7 @@
 import type { CourseSection } from '../../types'
 
 export const section13: CourseSection = {
-  id: "rpa-automation",
+  id: "evidence-dashboard",
   index: 13,
   title: "Familiarity Evidence Dashboard y cierre de nivel",
   shortTitle: "Evidence Dashboard",

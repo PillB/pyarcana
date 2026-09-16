@@ -1,9 +1,9 @@
 /**
  * S10 — Módulos, packaging y CLI profesional
  *
- * The filename and the exported id ("sklearn") both come from a pre-V3 ordering
- * and no longer describe what this section teaches. The id is the URL hash and
- * a learner save key, so it cannot be changed without losing progress.
+ * Renamed from the pre-V3 id "sklearn" to match what this section actually teaches.
+ * The id is the URL hash and a learner save key; saved progress is carried across
+ * by migrateSectionIds in src/lib/section-id-migrations.ts.
  *
  * Read `title` below, never the slug. Matching content to the slug is how three
  * agent diagrams ended up attached to a data-testing lesson.
@@ -12,7 +12,7 @@ import type { CourseSection } from '../../types'
 
 export const section10: CourseSection = {
   // Routing id intentionally stable for deep-link/progress compatibility; do not rename without a coordinated platform migration.
-  id: "sklearn",
+  id: "modules-packaging-cli",
   index: 10,
   title: "Módulos, packaging y CLI profesional",
   shortTitle: "Módulos & CLI",

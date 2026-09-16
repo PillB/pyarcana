@@ -1,9 +1,9 @@
 /**
  * S03 — Decisiones y reglas de validación
  *
- * The filename and the exported id ("data-structures") both come from a pre-V3 ordering
- * and no longer describe what this section teaches. The id is the URL hash and
- * a learner save key, so it cannot be changed without losing progress.
+ * Renamed from the pre-V3 id "data-structures" to match what this section actually teaches.
+ * The id is the URL hash and a learner save key; saved progress is carried across
+ * by migrateSectionIds in src/lib/section-id-migrations.ts.
  *
  * Read `title` below, never the slug. Matching content to the slug is how three
  * agent diagrams ended up attached to a data-testing lesson.
@@ -11,7 +11,7 @@
 import type { CourseSection } from '../../types'
 
 export const section03: CourseSection = {
-  id: 'data-structures',
+  id: "decisions-rules",
   index: 3,
   title: 'Decisiones y reglas de validación',
   shortTitle: 'Decisiones & Reglas',
@@ -43,7 +43,7 @@ export const section03: CourseSection = {
         "Sobre ella se construyen tres herramientas que verás una tras otra. Una **lista de permitidos** enumera de antemano los valores conocidos que una regla puede aceptar. En un catálogo cerrado, esta lista **falla cerrado**: un valor no enumerado no se acepta automáticamente; según la política, puede pasar a `review` o a `reject`. Si el catálogo puede quedar desactualizado, enviar lo desconocido a revisión evita confundir una omisión del catálogo con un valor definitivamente inválido. Una **salida temprana** es un `if` al principio de la función que rechaza lo imposible y devuelve de inmediato, para que el cuerpo trabaje solo con datos que ya cumplen sus condiciones. Una **tabla de decisión** reúne todas las combinaciones de condiciones y la acción que corresponde a cada una. Se escribe antes que el código. Si falta una fila, olvidaste un caso.",
         "Todo eso apunta a una sola cosa. Un **invariante** es una condición que declaras para una etapa concreta. No impide que llegue un dato que la incumple; dice qué debe ser verdad cuando esa etapa termina. Después de validar un monto, por ejemplo, puedes exigir que ningún dato aceptado sea negativo. Una entrada negativa todavía puede llegar al validador, pero este debe rechazarla. Las pruebas revelan si el código rompe esa condición. «El cero aceptado conserva el valor cero y la ausencia pasa a revisión» también puede formar parte de la especificación. Escribe primero estas condiciones. Después tradúcelas a ramas.",
         "El hilo conductor es un **validador de campos** (`validate_field` / `validate_record`). La forma del resultado evoluciona deliberadamente. Primero usamos strings cortos (`\"accept\"` / `\"review\"`) para observar una decisión. Después aparecen dicts `{status, code}` para distinguir causas. En el **You Do** estandarizas `{status, code, message}` para que otra persona pueda actuar. No memorices las tres formas a la vez: sigue la razón de cada ampliación.",
-        "**Antes de continuar, predice:** si un campo contiene `0`, ¿debería ir a accept, reject o review? La respuesta correcta es “depende del invariante”. Al terminar S03 deberás poder nombrar ese invariante, implementar la rama y exhibir una prueba que impida cambiarla por accidente.",
+        "**Antes de continuar, predice:** si un campo contiene `0`, ¿debería ir a `accept`, `reject` o `review`? La respuesta correcta es “depende del invariante”. Al terminar S03 deberás poder nombrar ese invariante, implementar la rama y exhibir una prueba que impida cambiarla por accidente.",
       ],
       callout: {
         type: 'info',
@@ -145,7 +145,7 @@ region in ALLOWED → True
         'Python evalúa la **truthiness**, es decir, si trata un valor como verdadero o falso al decidir un `if` o al combinar condiciones con `and` y `or`. `None`, `False`, los ceros numéricos y la cadena vacía `""` son **falsy**: Python los trata como falsos. Casi todo lo demás es **truthy**, es decir, se trata como verdadero. Las colecciones vacías también son falsy, pero estudiarás sus distintas formas en S06. Por eso **no** uses truthiness como sinónimo de “¿existe el campo?”.',
         'El error canónico del intake: **`if monto:` trata `0` como “no hay monto”**. En negocio, **cero puede ser válido** y **`None` significa ausente**. Separa políticas: presencia con `is None`, rango con comparaciones numéricas, vacío de texto con `== ""` o `not s.strip()` según el contrato. **Nunca** conviertas ausencia en reject automático sin documentarlo.',
         '`and` y `or` hacen **short-circuit** o cortocircuito: dejan de evaluar en cuanto ya conocen la respuesta. También **devuelven uno de sus operandos**, no siempre `True` o `False`. Si `edad = None`, `edad is not None and edad >= 18` obtiene `False` en la parte izquierda y se detiene. Python no intenta comparar `None` con `18`, lo que produciría un error. Además, `"" or "default"` produce `"default"` y `0 and 99` produce `0`. `not` sí devuelve un booleano. En cuanto a la prioridad, `not` se une más fuerte que `and`, y `and` más que `or`.',
-        '**Dos capas, dos preguntas.** `bool(valor)` responde “¿Python lo considera verdadero?”. `valor is None` responde “¿el productor declaró ausencia?”. Ninguna de las dos decide por sí sola si el negocio acepta el dato. La política aparece cuando escribes algo como: ausencia → review; cero → accept; negativo → reject.',
+        '**Dos capas, dos preguntas.** `bool(valor)` responde “¿Python lo considera verdadero?”. `valor is None` responde “¿el productor declaró ausencia?”. Ninguna de las dos decide por sí sola si el negocio acepta el dato. La política aparece cuando escribes algo como: ausencia → `review`; cero → `accept`; negativo → `reject`.',
         '**Predice y repara.** Antes de ejecutar `truthiness_monto.py`, anota la salida de `bool(None)`, `bool(0)` y `bool(-5)`. Luego compárala con `decide_monto`. Si te sorprende que `-5` sea truthy y termine en reject, has encontrado la lección: truthiness describe al objeto, no su validez. En T2 convertirás esa política en ramas exclusivas.',
       ],
       code: {
@@ -187,7 +187,7 @@ print("5 and 99 →", 5 and 99)`,
         caption:
           "Cada puerta es una pregunta, y la salida que abre ya es la decisión. Por eso una sola rama puede dominar: el registro nunca llega a la siguiente pregunta.",
         alt:
-          "Un registro entra por la izquierda y atraviesa tres puertas en fila. Cada puerta lleva una pregunta y tiene debajo una salida propia: review, reject y accept. El registro sale por la primera puerta que se abre.",
+          "Un registro entra por la izquierda y atraviesa tres puertas en fila. Cada puerta lleva una pregunta y tiene debajo una salida propia: `review`, `reject` y `accept`. El registro sale por la primera puerta que se abre.",
       },
       subtopicId: 'S03-T2-A',
       paragraphs: [
@@ -196,7 +196,7 @@ print("5 and 99 →", 5 and 99)`,
         '**Indentación** define el bloque: 4 espacios es el estilo del curso. Un `if` seguido de otro `if` (sin `elif`) **no es excluyente**: ambos pueden dispararse y **sobrescribir** el status. Eso es un bug clásico al clasificar scores.',
         'Para el motor de reglas, un patrón limpio es devolver un **solo status** por campo: `accept`, `review` o `reject`. Fronteras (`score >= 80`) deben estar documentadas en la tabla de ejemplos.',
         '**Lee la cadena como una fila de puertas.** Python prueba la primera; si se abre, deja de mirar las demás. Por eso las condiciones más específicas o más exigentes suelen ir arriba. Tres `if` independientes son tres puertas que pueden abrirse: la última asignación puede borrar una decisión anterior sin producir ningún error de sintaxis.',
-        '**Predice las fronteras.** Antes de ejecutar, clasifica 80, 79, 50 y 49. Si 80 te parece review, estás leyendo `>` donde el contrato dice `>=`. Si 95 termina en review al usar dos `if`, no falló el umbral: falló la exclusión. T2-B convertirá estas cadenas en validadores lineales protegidos por guardas.',
+        '**Predice las fronteras.** Antes de ejecutar, clasifica 80, 79, 50 y 49. Si 80 te parece `review`, estás leyendo `>` donde el contrato dice `>=`. Si 95 termina en `review` al usar dos `if`, no falló el umbral: falló la exclusión. T2-B convertirá estas cadenas en validadores lineales protegidos por guardas.',
       ],
       code: {
         language: 'python',
@@ -270,12 +270,12 @@ False → {'status': 'reject', 'code': 'BAD_TYPE'}
       heading: 'Reglas de dominio: rangos y listas permitidas',
       subtopicId: 'S03-T3-A',
       paragraphs: [
-        'Una aseguradora digital de Singapur puede conocer perfectamente el rango permitido de una variable y, al mismo tiempo, recibir un código regional nuevo que su catálogo todavía no contiene. Ambos casos “fallan una condición”, pero no significan lo mismo. El rango imposible suele justificar reject; el catálogo incompleto puede pedir review.',
+        'Una aseguradora digital de Singapur puede conocer perfectamente el rango permitido de una variable y, al mismo tiempo, recibir un código regional nuevo que su catálogo todavía no contiene. Ambos casos “fallan una condición”, pero no significan lo mismo. El rango imposible suele justificar `reject`; el catálogo incompleto puede pedir `review`.',
         'Con exclusividad de ramas y guards, el motor ya puede combinar **reglas de dominio**: rangos numéricos y listas permitidas. Una **allowlist** es el conjunto de valores admitidos (`ALLOWED_REGIONES = {"R-NORTE", "R-SUR", ...}`). Si el valor no está, suele ir a **`review`** (dato desconocido) o **`reject`** (política estricta). Nombra constantes en **`UPPER_CASE`**.',
         'Un **rango** usa comparaciones o encadenamiento: `MIN_EDAD <= edad <= MAX_EDAD`. Combina reglas con **`and`/`or`** de forma explícita; documenta si el fallo de allowlist es distinto del fallo de rango (códigos `NOT_IN_ALLOWLIST` vs. `OUT_OF_RANGE`).',
-        'Tri-estado en dominio: **accept** (cumple), **reject** (viola una regla estricta) y **review** (ausente, desconocido o valor atípico que requiere revisión). El cero en montos suele ser accept si el invariante lo permite.',
+        'Tri-estado en dominio: **`accept`** (cumple), **`reject`** (viola una regla estricta) y **`review`** (ausente, desconocido o valor atípico que requiere revisión). El cero en montos suele ser `accept` si el invariante lo permite.',
         '**No confundas desconocido con inválido.** `NOT_IN_ALLOWLIST` describe la relación entre un valor y un catálogo; `OUT_OF_RANGE` describe una violación numérica. El status final depende de la política, pero conservar códigos distintos permite revisar el catálogo sin ocultar un error de rango.',
-        '**Predice la pareja, no una condición aislada.** En el ejemplo, explica por qué `("R-FUERA", 30)` va a review y `("R-COSTA", 15)` a reject. Después cambia solo una pieza de cada pareja y vuelve a predecir. Si ambos casos terminan en el mismo status “porque algo falló”, has borrado información que operaciones necesita. T3-B formalizará estas decisiones en una tabla.',
+        '**Predice la pareja, no una condición aislada.** En el ejemplo, explica por qué `("R-FUERA", 30)` va a `review` y `("R-COSTA", 15)` a `reject`. Después cambia solo una pieza de cada pareja y vuelve a predecir. Si ambos casos terminan en el mismo status “porque algo falló”, has borrado información que operaciones necesita. T3-B formalizará estas decisiones en una tabla.',
       ],
       code: {
         language: 'python',
@@ -313,7 +313,7 @@ None 40 → review`,
         'En T3-A combinaste una lista permitida y un rango con `if`. Aquí el motor escala a **muchas ramas con el mismo sujeto**, un código de estado. Una **tabla de decisión** organiza una política en filas: cada fila muestra una condición y la acción correspondiente. Lee esta tabla de izquierda a derecha:\n\n| código recibido | significado | status |\n|---|---|---|\n| `OK` | el dato cumple la regla | `accept` |\n| `MISSING` o `NEEDS_REVIEW` | falta información o se requiere revisión | `review` |\n| `NOT_IN_ALLOWLIST` | el catálogo no reconoce el valor | `review` |\n| `OUT_OF_RANGE` o `BAD_TYPE` | el valor viola una regla estricta | `reject` |\n| cualquier otro código | la causa todavía es desconocida | `review` |\n\nLa primera columna contiene la condición; la última contiene la acción. Comprueba que todo código previsto tenga una fila y que la última fila cubra los desconocidos. Después traduce cada fila a una rama de `if`/`elif` o a un `case`, sin cambiar su status.',
         '**`match` / `case`** (Python 3.10+), que es una sintaxis para comparar un valor contra varios patrones, brilla cuando el sujeto es un **literal o estado finito** (`"OK"`, `"MISSING"`, códigos de error). Soporta **OR patterns** (`case "A" | "B":`) y el comodín **`case _:`** para el valor por defecto. El primer `case` que coincide gana. Es la misma semántica de negocio que un `if/elif` bien ordenado; cambia la forma, no la política.',
         '**Cuándo preferir `if`**: rangos numéricos, combinaciones de varios campos, o condiciones que no son patrones de estructura. `match` no depreca `if`; elige por **claridad**. En el You Do usarás dicts `{status, code, message}`: la tabla decide el `code`; el mensaje lo redactas en T4.',
-        '**Modelo mental: tabla primero, código después.** Si puedes escribir `OK → accept`, `MISSING → review` y `OUT_OF_RANGE → reject`, puedes implementar la misma política con un dict, `if/elif` o `match`. Cambiar de sintaxis no autoriza cambiar una fila. El comodín tampoco significa “aceptar todo”: aquí conserva lo desconocido en review.',
+        '**Modelo mental: tabla primero, código después.** Si puedes escribir `OK → accept`, `MISSING → review` y `OUT_OF_RANGE → reject`, puedes implementar la misma política con un dict, `if/elif` o `match`. Cambiar de sintaxis no autoriza cambiar una fila. El comodín tampoco significa “aceptar todo”: aquí conserva lo desconocido en `review`.',
         '**Predice la equivalencia.** Antes de ejecutar, completa en papel las filas para `OK`, `MISSING`, `OUT_OF_RANGE` y `FOO`. Luego pregunta: ¿qué implementación hace más visible esta tabla? Para códigos finitos, `match` suele leer como la especificación; para `18 <= edad <= 65`, `if` expresa mejor el rango. En T4 convertirás la tabla en promesas y contraejemplos.',
       ],
       code: {
@@ -353,7 +353,7 @@ FOO → review`,
         'Ya armaste booleanos, control de flujo y tablas de decisión. Ahora debes decir qué promete el motor y probar cada rama. Un **invariante** de campo declara una condición para una etapa concreta: “después de validar, una edad aceptada es un `int` entre 0 y 120”. La entrada original todavía puede ser `None`, tener otro tipo o quedar fuera del rango. El validador debe clasificar cada posibilidad. Una **especificación** describe con precisión el comportamiento requerido; todavía no es código. Los ejemplos de cada rama muestran si la condición puede aplicarse sin ambigüedad.',
         'Para esta lección, prueba **al menos una vez cada rama distinta**. Varias ramas pueden terminar con el mismo status y aun así necesitar casos propios. Por ejemplo, un tipo incorrecto y un valor fuera de rango producen `reject` por causas diferentes. Después confirma que la suite contiene todos los estados esperados: `accept`, `reject` y `review`.',
         '`assert` sirve en desarrollo y tests, pero **no** como única validación de intake en producción (`python -O` desactiva asserts). Usa returns con `status`/`code`/`message` para reglas de negocio.',
-        '**Especificar no es describir el código.** “La función usa un `if`” no es un invariante; “`contacto` contiene nueve dígitos o está ausente” sí puede discutirse con una persona de negocio. Los ejemplos convierten la frase en una frontera observable: uno que cumple, uno que viola y uno que requiere review.',
+        '**Especificar no es describir el código.** “La función usa un `if`” no es un invariante; “`contacto` contiene nueve dígitos o está ausente” sí puede discutirse con una persona de negocio. Los ejemplos convierten la frase en una frontera observable: uno que cumple, uno que viola y uno que requiere `review`.',
         '**Busca el contraejemplo.** Antes de ejecutar, pregunta qué debería ocurrir con `"  "`, `"12345"`, `None` y un entero de nueve dígitos. Si la frase no permite decidir uno de ellos, no agregues otra rama todavía: reescribe el invariante. En T4-B cada caso se convertirá en un mensaje accionable y una prueba de regresión.',
       ],
       code: {
@@ -880,17 +880,17 @@ RUC → False`,
         id: 'S03-T1-A-E3',
         instruction:
           '1. Con `valor = None`, imprime el resultado de `valor is None` (corrige el DEFECT que usa `==`).\n2. Imprime `True == 1` y `True is 1` (corrige el cruce del starter).\n3. Añade un `print` de nota: cuándo usar `is` y cuándo `==` en intake.',
-        hint: 'is None para ausencia; == para valores de negocio. No uses is con enteros.',
+        hint: '`is None` para ausencia; `==` para valores de negocio. No uses `is` con enteros.',
         hints: [
-          'is None para ausencia; == para valores de negocio. No uses is con enteros.',
-          'True == 1 es True (bool subtipo int) pero True is 1 es False: identidad ≠ igualdad.',
+          '`is None` para ausencia; `==` para valores de negocio. No uses `is` con enteros.',
+          '`True == 1` es `True` (`bool` es subtipo de `int`), pero `True is 1` es `False`: identidad ≠ igualdad.',
         ],
         edgeCases: ['True == 1', 'is None idiom'],
         tests: 'rubric + fixed snippet: True, True, False + nota',
         feedback:
           'Si `True is 1` te sale True, aún cruzaste los operadores del starter. Corrige a `is None` / `==` / `is` en ese orden de líneas; la nota debe decir *cuándo* usar cada uno, no solo repetir “identidad”.',
         retrospective:
-          '`is` pregunta identidad; `==` compara valores. Escribe un ejemplo adicional con una cadena de negocio y explica por qué `is` sería la pregunta equivocada. Después completa la frase: “uso `is None` cuando necesito saber ___; uso `==` cuando necesito saber ___”. Esa distinción decidirá la rama review del motor.',
+          '`is` pregunta identidad; `==` compara valores. Escribe un ejemplo adicional con una cadena de negocio y explica por qué `is` sería la pregunta equivocada. Después completa la frase: “uso `is None` cuando necesito saber ___; uso `==` cuando necesito saber ___”. Esa distinción decidirá la rama `review` del motor.',
         starterCode: {
           language: 'python',
           title: 'is_vs_eq.py',
@@ -977,10 +977,10 @@ range(0, 0) → False
         id: 'S03-T1-B-E2',
         instruction:
           '1. El starter tiene operadores invertidos (`and` donde va `or` y viceversa).\n2. Corrige las cinco líneas: `"" or "default"`, `"dato" or "default"`, `0 and 99`, `5 and 99`, `None or 0`.\n3. Ejecuta y verifica el contrato de cinco valores.',
-        hint: 'and/or devuelven operando, no necesariamente bool. Short-circuit: or se detiene en el primero truthy.',
+        hint: '`and`/`or` devuelven un operando, no necesariamente un `bool`. Por cortocircuito, `or` se detiene en el primer operando truthy.',
         hints: [
-          'and/or devuelven operando, no necesariamente bool. Short-circuit: or se detiene en el primero truthy.',
-          "'' or 'default' → 'default'; 0 and 99 → 0; None or 0 → 0.",
+          '`and`/`or` devuelven un operando, no necesariamente un `bool`. Por cortocircuito, `or` se detiene en el primer operando truthy.',
+          "`'' or 'default'` → `'default'`; `0 and 99` → `0`; `None or 0` → `0`.",
         ],
         edgeCases: ["'' or 'default'"],
         tests: 'assert results: default, dato, 0, 99, 0',
@@ -1019,14 +1019,14 @@ None or 0 → 0`,
         kind: 'transfer',
         title: 'Arreglar validador de monto (None ≠ 0)',
         preamble:
-          '- **Contexto:** un validador de monto con `if not monto` rechaza ceros válidos y confunde ausencia con error — falso positivo caro en fintech/retail.\n- **Meta:** reescribir `validate_monto` con política tri-estado correcta.\n- **Éxito:** para `None`, `0`, `-1`, `100` imprimes review, accept, reject, accept.\n- **Límites:** no uses truthiness para presencia; primero `m is None`; cero debe ser accept.',
+          '- **Contexto:** un validador de monto con `if not monto` rechaza ceros válidos y confunde ausencia con error — falso positivo caro en fintech/retail.\n- **Meta:** reescribir `validate_monto` con política tri-estado correcta.\n- **Éxito:** para `None`, `0`, `-1`, `100` imprimes `review`, `accept`, `reject`, `accept`.\n- **Límites:** no uses truthiness para presencia; primero `m is None`; cero debe ser `accept`.',
         id: 'S03-T1-B-E3',
         instruction:
           '1. Sustituye `if not m: return "reject"`.\n2. Si `m is None` → `"review"`.\n3. Si `m < 0` → `"reject"`.\n4. En cualquier otro caso (incluye 0) → `"accept"`.\n5. Prueba el bucle dado y compara la salida.',
-        hint: 'Nunca uses truthiness para montos. Primero: if m is None.',
+        hint: 'Nunca uses truthiness para montos. Primero: `if m is None`.',
         hints: [
-          'Nunca uses truthiness para montos. Primero: if m is None.',
-          '0 debe devolver accept; None → review; negativo → reject.',
+          'Nunca uses truthiness para montos. Primero: `if m is None`.',
+          '`0` debe devolver `accept`; `None` → `review`; negativo → `reject`.',
         ],
         edgeCases: ['0 válido; None review'],
         tests: 'cases accept/review: None review, 0 accept, -1 reject, 100 accept',
@@ -1314,7 +1314,7 @@ for e in [None, "25", 15, 30]:
           '- **Contexto:** `validate_monto_nested` ya tiene la política correcta, pero la pirámide es frágil durante la revisión de cambios.\n- **Meta:** escribir `validate_monto_guards` con salidas tempranas **sin** cambiar semántica.\n- **Éxito:** en `[None, "x", -1, 0, 500, 20000]` la versión anidada y la versión con guardas coinciden (`ok= True`).\n- **Límites:** no reescribas la política; 0 sigue accept; `>10000` sigue review.',
         id: 'S03-T2-B-E2',
         instruction:
-          '1. Deja nested intacta.\n2. Implementa guards: None→review; no int→reject; `<0`→reject; `<=10000`→accept; else review.\n3. Compara ambas funciones en el bucle de seis casos.',
+          '1. Deja `validate_monto_nested` intacta.\n2. Implementa salidas tempranas: `None` → `review`; un valor que no sea `int` → `reject`; `< 0` → `reject`; `<= 10000` → `accept`; en los demás casos → `review`.\n3. Compara ambas funciones en el bucle de seis casos.',
         hint: 'Invierte el anidamiento: un if + return por precondición. No reescribas la política: solo el estilo.',
         hints: [
           'Invierte el anidamiento: un if + return por precondición. No reescribas la política: solo el estilo.',
@@ -1471,10 +1471,10 @@ ok 0 → cero`,
           '- **Contexto:** catálogos incompletos en intake suelen mandar desconocidos a **review**, no a reject duro.\n- **Meta:** implementar `check_region` con allowlist sintética de Perú.\n- **Éxito:** Lima→accept; Tacna→review; None→review.\n- **Límites:** no uses reject para desconocidos en esta política; chequea `None` antes de `not in`.',
         id: 'S03-T3-A-E1',
         instruction:
-          '1. Corrige el DEFECT que manda todo lo no-allowlisted a reject (incluido None).\n2. Si `r is None` o `r not in ALLOWED` → review; else accept.\n3. Prueba Lima, Tacna, None.',
-        hint: 'if r is None / if r not in ALLOWED / return accept',
+          '1. Corrige el DEFECT que rechaza todo valor no incluido en `ALLOWED`, incluso `None`.\n2. Si `r is None` o `r not in ALLOWED`, devuelve `review`; en caso contrario, devuelve `accept`.\n3. Prueba `Lima`, `Tacna` y `None`.',
+        hint: '`if r is None` / `if r not in ALLOWED` / `return "accept"`',
         hints: [
-          'if r is None / if r not in ALLOWED / return accept',
+          '`if r is None` / `if r not in ALLOWED` / `return "accept"`',
           'Región desconocida → review (no reject) en esta política sintética.',
         ],
         edgeCases: ['región desconocida → review'],
@@ -1526,7 +1526,7 @@ None → review`,
           '- **Contexto:** la calidad de datos distingue una falla estricta (monto negativo) de un valor atípico que requiere revisión (monto muy alto).\n- **Meta:** implementar `monto_ingreso` con tri-estado y cero válido.\n- **Éxito:** None, -1, 0, 1200, 60000 → review, reject, accept, accept, review.\n- **Límites:** 0 no es reject; superar el umbral 50000 produce review, no reject.',
         id: 'S03-T3-A-E2',
         instruction:
-          '1. Corrige `m <= 0` (rechaza el cero).\n2. Orden: None→review; `<0`→reject; `>50000`→review; else accept.\n3. Prueba la lista de cinco montos en orden.',
+          '1. Corrige `m <= 0` (rechaza el cero).\n2. Orden: `None` → `review`; `< 0` → `reject`; `> 50000` → `review`; en los demás casos → `accept`.\n3. Prueba la lista de cinco montos en orden.',
         hint: 'Orden: ausencia, rechazo estricto, valor atípico a revisión, accept.',
         hints: [
           'Orden: ausencia, rechazo estricto, valor atípico a revisión, accept.',
@@ -1586,9 +1586,9 @@ for m in [None, -1, 0, 1200, 60000]:
         id: 'S03-T3-A-E3',
         instruction:
           '1. Completa `tipo_doc_len(tipo, numero)` con dicts de resultado.\n2. Usa `DOC_LEN` para la longitud esperada.\n3. Prueba: `("DNI","12345678")`, `("DNI","123")`, `("RUC","20123456789")`, `(None,"1")`.',
-        hint: 'Primero None, luego not in allowlist, luego len != esperado.',
+        hint: 'Primero `None`, luego `tipo not in ALLOWED_DOC` y después `len(numero) != DOC_LEN[tipo]`.',
         hints: [
-          'Primero None, luego not in allowlist, luego len != esperado.',
+          'Primero `None`, luego `tipo not in ALLOWED_DOC` y después `len(numero) != DOC_LEN[tipo]`.',
           'DOC_LEN = {"DNI": 8, "CE": 9, "PAS": 9}; usa len(str(numero)).',
         ],
         edgeCases: ['tipo ok longitud mal'],
@@ -2210,7 +2210,7 @@ PASS 30 accept`,
       'Ahora integrarás la sección sin saltar directamente al archivo completo. Parte del parser de S02 y construye el motor en cuatro pasadas. **(1)** Escribe el invariante de cada campo en español. **(2)** Implementa un validador pequeño con guardas y resultado `{status, code, message}`. **(3)** Compón `validate_record`. **(4)** Ejecuta una matriz que cubra ausencia, tipo, frontera, valor válido y desconocido. El starter contiene defectos deliberados, no casillas vacías: predice qué asserts fallarán antes de corregirlos y cambia una causa por vez. Debes validar al menos tres campos, distinguir `None` de valores falsy válidos como `0` y usar solo datos ficticios. El resultado es el incremento **CP-N1-A**, listo para que otra persona revise la política sin adivinarla desde el código.',
     objectives: [
       'Definir ≥3 reglas de campo sobre registro sintético de cliente',
-      'Devolver status accept|reject|review + code + message por campo',
+      'Devolver `status` (`accept` | `reject` | `review`), `code` y `message` por campo',
       'Distinguir ausencia (None/missing) de valores falsy válidos (0, y políticas de "")',
       'Incluir tabla de ejemplos/pruebas con ≥1 caso por rama crítica',
       'Documentar invariantes en español en README o docstrings',
@@ -2367,7 +2367,7 @@ if __name__ == "__main__":
     main()
 `,
     portfolioNote:
-      'En el README cuenta la historia de una decisión, no una lista de funciones. Empieza con los invariantes en español; muestra después la tabla condición → status/code y explica por qué `if monto:` confundiría presencia con validez. Incluye una matriz con ausencia, tipo incorrecto, cero válido, fronteras, negativo y valor desconocido, y enlaza cada fila con la rama que protege. Si usas 50000 como umbral suave, decláralo como política revisable y explica por qué produce review en vez de reject. Cierra con una evidencia antes/después —por ejemplo, “el caso cero válido ya no cae en reject”— respaldada por el test correspondiente. Así la revisión de CP-N1-A puede discutir decisiones, no reconstruirlas.',
+      'En el README cuenta la historia de una decisión, no una lista de funciones. Empieza con los invariantes en español; muestra después la tabla condición → `status`/`code` y explica por qué `if monto:` confundiría presencia con validez. Incluye una matriz con ausencia, tipo incorrecto, cero válido, fronteras, negativo y valor desconocido, y enlaza cada fila con la rama que protege. Si usas 50000 como umbral suave, decláralo como política revisable y explica por qué produce `review` en vez de `reject`. Cierra con una evidencia antes/después —por ejemplo, “el caso cero válido ya no cae en `reject`”— respaldada por la prueba correspondiente. Así la revisión de CP-N1-A puede discutir decisiones, no reconstruirlas.',
     rubric: [
       { criterion: 'Tri-estado correcto en todos los campos definidos', weight: '25%' },
       { criterion: 'Ausencia no se confunde con falsy válido', weight: '25%' },
@@ -2382,8 +2382,8 @@ if __name__ == "__main__":
   selfCheck: {
     questions: [
       {
-        question: '¿Cuál es la forma correcta de chequear ausencia de un campo opcional en un validador?',
-        options: ['if not campo:', 'if campo == False:', 'if campo is None:', 'if campo is 0:'],
+        question: '¿Cuál es la forma correcta de comprobar la ausencia de un campo opcional en un validador?',
+        options: ['`if not campo:`', '`if campo == False:`', '`if campo is None:`', '`if campo is 0:`'],
         correctIndex: 2,
         explanation:
           '`is None` responde la pregunta de presencia sin colapsar valores válidos como `0` o `""`. El distractor `if not campo` parece cómodo, pero mezcla ausencia y truthiness; `is 0` confunde identidad con valor.',
@@ -2391,10 +2391,10 @@ if __name__ == "__main__":
       {
         question:
           'En un validador de monto de intake, ¿qué debe ocurrir con los valores None y 0 bajo la política del curso?',
-        options: ['None → review (ausente); 0 → accept si el invariante lo permite', 'Ambos reject porque son falsy', 'Ambos accept siempre', '0 → review; None → accept'],
+        options: ['`None` → `review` (ausente); `0` → `accept` si el invariante lo permite', 'Ambos `reject` porque son falsy', 'Ambos `accept` siempre', '`0` → `review`; `None` → `accept`'],
         correctIndex: 0,
         explanation:
-          '`None` modela ausencia y requiere review; `0` es un valor presente que el invariante puede aceptar. “Ambos reject porque son falsy” describe el comportamiento de `bool`, no la política del dato.',
+          '`None` modela ausencia y requiere `review`; `0` es un valor presente que el invariante puede aceptar. “Ambos `reject` porque son falsy” describe el comportamiento de `bool`, no la política del dato.',
       },
       {
         question: 'En una cadena if/elif/else, ¿qué ocurre cuando la primera condición es verdadera?',

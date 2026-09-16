@@ -11,7 +11,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SECTION = ROOT / "src/lib/course/sections/s03-data-structures.ts"
+SECTION = ROOT / "src/lib/course/sections/s03-decisions-rules.ts"
 SEED = ROOT / "prisma/seed.ts"
 SECTION_VIEW = ROOT / "src/components/course/SectionView.tsx"
 PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
@@ -30,7 +30,7 @@ class Section03IndependentContractTests(unittest.TestCase):
     def test_complete_gradual_release_surface_is_preserved(self) -> None:
         source = SECTION.read_text(encoding="utf-8")
 
-        self.assertIn("id: 'data-structures'", source)
+        self.assertIn('id: "decisions-rules"', source)
         self.assertIn("index: 3", source)
         self.assertIn("title: 'Decisiones y reglas de validación'", source)
         self.assertEqual(
@@ -110,8 +110,8 @@ class Section03IndependentContractTests(unittest.TestCase):
         section_view = SECTION_VIEW.read_text(encoding="utf-8")
         playground = _between(
             section_view,
-            "    'data-structures': {",
-            "    'functions-modules': {",
+            "    'decisions-rules': {",
+            "    'iteration-summaries': {",
         )
         self.assertIn("Practica decisiones y reglas", playground)
         self.assertIn("def validate_monto", playground)
@@ -136,8 +136,8 @@ class Section03IndependentContractTests(unittest.TestCase):
         self.assertEqual(run.stdout.rstrip(), match.group("output").rstrip())
 
         pdf = PDF_REPORT.read_text(encoding="utf-8")
-        self.assertIn('"data-structures": \'3. Reglas\'', pdf)
-        self.assertNotIn('"data-structures": \'3. Data Struct\'', pdf)
+        self.assertIn('"decisions-rules": \'3. Reglas\'', pdf)
+        self.assertNotIn('"decisions-rules": \'3. Data Struct\'', pdf)
 
     def test_authenticated_bank_is_balanced_by_concept_and_attempt(self) -> None:
         seed = SEED.read_text(encoding="utf-8")

@@ -8,7 +8,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SECTION = ROOT / "src/lib/course/sections/s03-data-structures.ts"
+SECTION = ROOT / "src/lib/course/sections/s03-decisions-rules.ts"
 SEED = ROOT / "prisma/seed.ts"
 
 
