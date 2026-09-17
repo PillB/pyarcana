@@ -22,15 +22,15 @@ export const section44: CourseSection = {
   icon: "GitBranch",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto en Perú y LatAm, CI/CD y seguridad de la cadena de suministro es lo que separa un deploy «que funcionó anoche» de un release defendible ante auditoría. Aquí aprendes a entregar un artefacto verificable (digest o hash del binario, SBOM o inventario de componentes, provenance o trazabilidad de quién construyó qué), con aprobación independiente y rollback demostrado en staging dentro del RTO (objetivo de tiempo de recuperación). Cuando un lead de ops en Piura pregunta «¿podemos promover?», tu respuesta es «mismo digest testeado, attestation válida, canary bajo umbral o rollback ensayado», no «el README dice OK».",
+    "En equipos de plataforma y producto en Perú y LatAm, CI/CD y seguridad de la cadena de suministro es lo que separa un deploy «que funcionó anoche» de una versión defendible ante auditoría. Aquí aprendes a entregar un artefacto verificable (digest o hash del binario, SBOM o inventario de componentes, provenance o trazabilidad de quién construyó qué), con aprobación independiente y rollback demostrado en staging dentro del RTO (objetivo de tiempo de recuperación). Cuando un lead de ops en Piura pregunta «¿podemos promover?», tu respuesta es «mismo digest testeado, attestation válida, canary bajo umbral o rollback ensayado», no «el README dice OK».",
   learningOutcomes: [
-    { text: "Diseñar una matriz CI (lint → types → tests) sobre runtimes soportados y fallar cerrado si un check crítico queda rojo." },
+    { text: "Diseñar una matriz CI (lint → types → tests) sobre runtimes soportados y fallar cerrado si una comprobación crítica queda roja." },
     { text: "Tratar caches como optimización y artifacts (con digest/retención) como evidencia verificable del build." },
     { text: "Aplicar least privilege, pin de actions por SHA completo y secret scanning antes de publicar." },
     { text: "Producir SBOM + provenance enlazados al mismo digest y rechazar attestation divergente." },
     { text: "Promover entre environments solo con aprobación independiente y sin rebuild del artefacto testeado." },
     { text: "Ejecutar canary con umbral de error y demostrar rollback al digest previo dentro del RTO." },
-    { text: "Exigir branch protection, reviews/checks y release notes operables (cambio, riesgo, migración, rollback)." },
+    { text: "Exigir protección de ramas, revisiones y comprobaciones, y notas de versión operables (cambio, riesgo, migración, rollback)." },
     { text: "Clasificar fallos críticos con bloqueo, logs redactados, dueño y evidencia retenida (no continue-on-error silencioso)." },
   ],
   theory: [
@@ -46,7 +46,7 @@ export const section44: CourseSection = {
       callout: {
         type: "info",
         title: "Gate de promoción",
-        content: "Promociona solo con asserts locales en verde, digest verificable y evidencia retenida. Si falta evidencia o un check crítico falla, el gate se queda en bloqueo.",
+        content: "Promociona solo con asserts locales en verde, digest verificable y evidencia retenida. Si falta evidencia o una comprobación crítica falla, el gate se queda en bloqueo.",
       },
     },
     {
@@ -89,9 +89,9 @@ unpinned_vuln_dep_ok False`,
       },
       subtopicId: "S44-T1-A",
       paragraphs: [
-        "Un pipeline de supply chain no empieza publicando: empieza **certificando el código**. CI ejecuta checks **rápidos antes de costosos** (lint → types → tests) para fallar barato. La **matriz** solo cubre runtimes/OS que el equipo realmente soporta (p. ej. Python 3.11 y 3.12), no una combinatoria infinita que gasta minutos y oculta la señal. Un test verde sin logs ni artifact no es gate: es un semáforo sin evidencia. El dict del lab mapea claves de un workflow real (`on`, `permissions`, `matrix`, `steps`).",
-        "Contrato de CI rápido. Entrada: commit con lockfile y lista de runtimes soportados. Salida: `lint`, `types` y `tests` en **AND** sobre exactamente la matriz soportada. Error de gate: un check rojo o una versión fuera de matriz → `FAIL_CI_GATE`. Incertidumbre: falta el campo `supported` → `REVIEW_MATRIX`. Este subtema no publica artefactos; solo certifica que el código es apto para los pasos costosos de supply chain.",
-        "En `CASO-PIU-044-1A` el repo de ops de Piura declara la matriz `{'3.11','3.12'}` y los pasos `lint/typecheck/test`. El PR solo avanza si los tres checks pasan y la matriz ejecutada coincide con la soportada. Si falta `supported`, no se asume “todo OK”: se deriva a revisión de matriz. Sin secretos reales ni PII; la evidencia son los logs retenidos del job.",
+        "Un pipeline de supply chain no empieza publicando: empieza **certificando el código**. CI ejecuta comprobaciones **rápidas antes de las costosas** (lint → types → tests) para fallar barato. La **matriz** solo cubre runtimes/OS que el equipo realmente soporta (p. ej. Python 3.11 y 3.12), no una combinatoria infinita que gasta minutos y oculta la señal. Un test verde sin logs ni artifact no es gate: es un semáforo sin evidencia. El dict del lab mapea claves de un workflow real (`on`, `permissions`, `matrix`, `steps`).",
+        "Contrato de CI rápido. Entrada: commit con lockfile y lista de runtimes soportados. Salida: `lint`, `types` y `tests` en **AND** sobre exactamente la matriz soportada. Error de gate: una comprobación roja o una versión fuera de matriz → `FAIL_CI_GATE`. Incertidumbre: falta el campo `supported` → `REVIEW_MATRIX`. Este subtema no publica artefactos; solo certifica que el código es apto para los pasos costosos de supply chain.",
+        "En `CASO-PIU-044-1A` el repo de ops de Piura declara la matriz `{'3.11','3.12'}` y los pasos `lint/typecheck/test`. El PR solo avanza si las tres comprobaciones pasan y la matriz ejecutada coincide con la soportada. Si falta `supported`, no se asume “todo OK”: se deriva a revisión de matriz. Sin secretos reales ni PII; la evidencia son los logs retenidos del job.",
       ],
       code: {
         language: 'python',
@@ -228,7 +228,7 @@ secret_scan True`,
       heading: "SBOM, provenance y attestations",
       subtopicId: "S44-T2-B",
       paragraphs: [
-        "El **SBOM** (SPDX/CycloneDX) enumera componentes y versiones del artefacto. La **provenance** (estilo SLSA) enlaza fuente → build → subject digest: quién construyó qué y con qué inputs. Una **attestation** firmada permite verificar esa cadena; no “garantiza calidad” por sí sola, pero sí impide promover un binario huérfano de evidencia. Publicar sin attestation o con SBOM de otro build rompe la cadena de suministro.",
+        "El **SBOM** (SPDX/CycloneDX) enumera componentes y versiones del artefacto. La **provenance** (estilo SLSA) enlaza fuente → build → subject digest: quién construyó qué y con qué entradas. Una **attestation** firmada permite verificar esa cadena; no “garantiza calidad” por sí sola, pero sí impide promover un binario huérfano de evidencia. Publicar sin attestation o con SBOM de otro build rompe la cadena de suministro.",
         "Contrato de integridad. Entrada: digest del artefacto y digests referenciados por SBOM/provenance, más flag de attestation válida. Salida: `provenance_ok` solo si artifact, SBOM y subject de provenance son el **mismo** digest y la attestation es válida. Error: digests divergentes o attestation inválida → `REJECT_ATTESTATION`. Incertidumbre: falta `attestation_valid` → `REBUILD_PROVENANCE`.",
         "En `CASO-PIU-044-2B` el build de Piura genera un SBOM con 3 paquetes sintéticos y provenance GHA apuntando a `sha256:aaa`. Si el wheel promovido lleva otro digest, el gate rechaza aunque el README diga “OK”. Anti-patrón frecuente: copiar el SBOM del build anterior “porque casi es el mismo” — rompe la cadena. Evidencia SLSA-style: digests iguales y medibles, no confianza por narrativa.",
       ],
@@ -297,7 +297,7 @@ same_digest True`,
       paragraphs: [
         "Antes de enviar tráfico, las **migraciones** deben ser compatibles (expand-first / no breaking). El **canary** envía un porcentaje de tráfico (p. ej. 10%) y mide la tasa de error contra un umbral. Si el canary está sano, se puede ampliar; si supera el umbral, se hace **rollback** al digest previo. El rollback no es “intentar de nuevo”: es restaurar código/config (y datos si aplica) **dentro del RTO** y dejar evidencia del tiempo de reversión.",
         "Contrato dual de canary. Camino sano (PASS en lab): migración compatible, `canary_error_rate ≤ max_error_rate`, rollback previamente probado y `rollback_seconds ≤ rto_seconds`. Camino de incidente (demo de teoría): error_rate sobre umbral → fase `prev_version` y decisión `rollback`. Breach en weDo (canary roto o rollback no listo) → `ROLLBACK_RELEASE`. Incertidumbre: falta `rto_seconds` → `PAUSE_CANARY`.",
-        "En `CASO-PIU-044-3B` el servicio de Piura canariza al 10%. Si la tasa de error se mantiene bajo 1%, el release continúa y se documenta que el rollback de ensayo tomó ≤ RTO. Si en el lab simulamos 8% de error (sobre umbral 5%), el demo devuelve `prev_version` + `rollback` — no se inventa un “hold” saludable.",
+        "En `CASO-PIU-044-3B` el servicio de Piura canariza al 10%. Si la tasa de error se mantiene bajo 1%, el lanzamiento continúa y se documenta que el rollback de ensayo tomó ≤ RTO. Si en el lab simulamos 8% de error (sobre umbral 5%), el demo devuelve `prev_version` + `rollback` — no se inventa un “hold” saludable.",
       ],
       code: {
         language: 'python',
@@ -326,9 +326,9 @@ rollback`,
       heading: "branch/review policy y release notes",
       subtopicId: "S44-T4-A",
       paragraphs: [
-        "La **branch protection** de `main` exige reviews y checks verdes antes del merge: es el primer control humano y automatizado de la cadena de suministro (antes incluso del publish). Las **release notes** no son marketing; son un contrato operativo para quien despliega de madrugada: qué cambió, riesgo residual, pasos de migración y cómo revertir. Un tag de release sin notes completas deja al on-call sin mapa y convierte el rollback en improvisación.",
-        "Contrato de release trazable. Entrada: branch protegida, número de reviews requeridas, checks obligatorios y conjunto de campos en release notes. Salida: `protected_branch`, `required_reviews ≥ 1`, checks activos y notes ⊇ {change, risk, migration, rollback}. Breach (merge sin protección o notes incompletas) → `BLOCK_UNREVIEWED_RELEASE`. Incertidumbre: falta el mapa `release_notes` → `COMPLETE_RELEASE_NOTES`.",
-        "En `CASO-PIU-044-4A` el equipo de Piura protege `main` con 2 reviews y checks de CI. Las notes del release del API de jobs listan cambio, riesgo, migración y rollback con lenguaje operable (“revertir al digest previo en ≤120 s”). Merge directo a `main` sin protección, o notes solo con el campo `change`, se bloquean: no hay release “rápido” sin trazabilidad.",
+        "La **protección de la rama** `main` exige revisiones y comprobaciones aprobadas antes de integrar cambios: es el primer control humano y automatizado de la cadena de suministro, incluso antes de publicar. Las **notas de versión** no son marketing; son un contrato operativo para quien despliega de madrugada: indican qué cambió, el riesgo residual, los pasos de migración y cómo revertir. Una etiqueta de versión sin notas completas deja a la persona de guardia sin mapa y convierte el rollback en improvisación.",
+        "Contrato de versión trazable. Entrada: rama protegida, número de revisiones requeridas, comprobaciones obligatorias y campos de las notas de versión. Salida: `protected_branch`, `required_reviews ≥ 1`, `required_checks` activo y `{change, risk, migration, rollback} ⊆ release_notes`. Incumplimiento (integración sin protección o notas incompletas) → `BLOCK_UNREVIEWED_RELEASE`. Incertidumbre: falta el mapa `release_notes` → `COMPLETE_RELEASE_NOTES`.",
+        "En `CASO-PIU-044-4A` el equipo de Piura protege `main` con 2 revisiones y comprobaciones de CI. Las notas de la versión del API de tareas enumeran cambio, riesgo, migración y rollback con lenguaje operable (“revertir al digest previo en ≤120 s”). La integración directa en `main` sin protección, o las notas que solo contienen el campo `change`, se bloquean: no hay una versión “rápida” sin trazabilidad.",
       ],
       code: {
         language: 'python',
@@ -350,16 +350,16 @@ branch main_protected`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content: "El dueño de S44-T4-A acepta que Branch protection + reviews + notes operables (cambio, riesgo, migración, rollback). Merge sin protección o notes incompletas → `BLOCK_UNREVIEWED_RELEASE`.",
+        content: "El dueño de S44-T4-A acepta la protección de ramas, las revisiones y las notas operables (cambio, riesgo, migración, rollback). Una integración sin protección o con notas incompletas → `BLOCK_UNREVIEWED_RELEASE`.",
       },
     },
     {
       heading: "failure handling y evidencia auditable",
       subtopicId: "S44-T4-B",
       paragraphs: [
-        "Cuando un check crítico falla, el pipeline **bloquea** el release: no usa `continue-on-error` como aprobación silenciosa ni “amarillo que se ignora”. La evidencia se conserva: logs **redactados** (sin secretos ni tokens), artifact del job, clasificación del fallo, **dueño** del incidente y decisión registrada. Un fallo sin dueño ni evidencia es un incidente que se olvida hasta el siguiente outage — y rompe la promesa de CP-N4-B.",
-        "Contrato de fallo cerrado. Entrada: flag de fallo crítico, si el pipeline quedó bloqueado, logs redactados, owner y retención de evidencia. Salida: ante crítico, `pipeline_blocked` y evidencia auditable completa. Breach (crítico sin bloqueo, logs sin redactar o sin owner/evidencia) → `STOP_SILENT_FAILURE`. Incertidumbre: falta `evidence_retained` → `ASSIGN_INCIDENT_OWNER` (no reintentar a ciegas).",
-        "En `CASO-PIU-044-4B` un test de integración crítico del servicio de jobs de Piura falla a las 02:10: el workflow marca `block_release`, retiene log+artifact, asigna owner `release` y no reabre el tag de release. Inventar evidencia, borrar el trace “para reducir ruido” o re-lanzar con `continue-on-error: true` viola el contrato de auditabilidad.",
+        "Cuando una comprobación crítica falla, el pipeline **bloquea** el lanzamiento: no usa `continue-on-error` como aprobación silenciosa ni “amarillo que se ignora”. La evidencia se conserva: logs **redactados** (sin secretos ni tokens), artifact del job, clasificación del fallo, **dueño** del incidente y decisión registrada. Un fallo sin dueño ni evidencia es un incidente que se olvida hasta el siguiente outage — y rompe la promesa de CP-N4-B.",
+        "Contrato de fallo cerrado. Entrada: indicador de fallo crítico, si el pipeline quedó bloqueado, registros redactados, `owner` y retención de evidencia. Salida: ante un fallo crítico, `pipeline_blocked` y evidencia auditable completa. Incumplimiento (fallo crítico sin bloqueo, registros sin redactar o sin `owner` o evidencia) → `STOP_SILENT_FAILURE`. Incertidumbre: falta `evidence_retained` → `ASSIGN_INCIDENT_OWNER` (no reintentar a ciegas).",
+        "En `CASO-PIU-044-4B` un test de integración crítico del servicio de jobs de Piura falla a las 02:10: el workflow marca `block_release`, retiene log+artifact, asigna el valor `release` al campo `owner` y no reabre la etiqueta de la versión. Inventar evidencia, borrar el trace “para reducir ruido” o re-lanzar con `continue-on-error: true` viola el contrato de auditabilidad.",
       ],
       code: {
         language: 'python',
@@ -569,9 +569,9 @@ failed rollback`,
         demoId: "S44-T4-A-DEMO",
         subtopicId: "S44-T4-A",
         environment: "local-python",
-        description: "Demo: branch/review policy y release notes.",
+        description: "Demo: política de ramas y revisiones, y notas de versión.",
         preamble:
-          "Las release notes de Piura no son marketing: son el mapa del on-call a las 02:00. En esta demo 2 reviews y el set {change, risk, migration, rollback} dejan el release listo. No escribas: predice `reviews 2`, `release_notes True` y `conventional True`. Observa por qué un set solo con `change` fallaría.",
+          "Las notas de versión de Piura no son marketing: son el mapa de la persona de guardia a las 02:00. En esta demostración, 2 revisiones y el conjunto `{change, risk, migration, rollback}` dejan lista la versión. No escribas: predice `reviews 2`, `release_notes True` y `conventional True`. Observa por qué un conjunto que solo contiene `change` fallaría.",
         code: {
           language: 'python',
           title: "demo_branch_review_release_notes.py",
@@ -586,7 +586,7 @@ print("conventional", True)`,
 release_notes True
 conventional True`,
         },
-        why: "Branch protection + ≥1 review + checks + notes ⊇ {change, risk, migration, rollback} son el contrato medible del release. Merge sin protección o notes solo con `change` → `BLOCK_UNREVIEWED_RELEASE`. En We Do el starter marca PASS sin protección o con reviews==0.",
+        why: "La protección de la rama, al menos una revisión, las comprobaciones y las notas que incluyan `{change, risk, migration, rollback}` forman el contrato medible de la versión. Una integración sin protección o con notas que solo contienen `change` → `BLOCK_UNREVIEWED_RELEASE`. En la práctica guiada, el código inicial marca `PASS` sin protección o cuando `reviews == 0`.",
         retrospective:
           "Review humano + notes operables = primer control de supply chain antes del publish. El error clásico es un tag con un párrafo de «mejoras» sin riesgo ni rollback. Pregunta: ¿qué falta si el set solo tiene `change`? We Do: `BLOCK_UNREVIEWED_RELEASE` y `COMPLETE_RELEASE_NOTES`.",
       },
@@ -1704,11 +1704,11 @@ assert results == ["CONTINUE", "ROLLBACK_RELEASE", "PAUSE_CANARY"]` ,
         preamble:
           "- **Contexto:** en CASO-PIU-044-4A main de Piura exige 2 reviews, checks de CI y notes con cambio, riesgo, migración y rollback.\n- **Meta:** protected_branch + reviews ≥1 + required_checks + set de notes completo.\n- **Éxito:** `S44-T4-A PASS`.\n- **Límites:** no mutes el set de notes; no aceptes notes solo con `change`; DEFECT en el pred.",
         instruction:
-          "S44-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS sin protección o reviews==0 (DEFECT).\n2. Exige protected True, reviews ≥1, checks True, notes ⊇ {change, risk, migration, rollback}.\n3. Conserva print.\n4. `S44-T4-A PASS`.",
-        hint: "Branch protegida, ≥1 review, checks activos y notes con change/risk/migration/rollback.",
+          "S44-T4-A-E1 · Salida: debe devolver el `PASS` del contrato. 1. El código inicial devuelve `PASS` si `not protected_branch or required_reviews == 0` (DEFECT).\n2. Exige `protected_branch`, al menos una revisión en `required_reviews`, `required_checks` y que `release_notes` contenga `{change, risk, migration, rollback}`.\n3. Conserva `print`.\n4. `S44-T4-A PASS`.",
+        hint: "Rama protegida, al menos una revisión, comprobaciones activas y notas con `change`, `risk`, `migration` y `rollback`.",
         hints: [
           "Relaciona los campos `protected_branch`, `required_reviews`, `required_checks`, `release_notes` con la regla explicada en S44-T4-A.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva release trazable a review y changelog; revisa dirección de comparación, conjuntos y negaciones.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva una versión trazable a una revisión y a un registro de cambios; revisa la dirección de la comparación, los conjuntos y las negaciones.",
         ],
         edgeCases: ["falta release_notes", "fixture adverso: branch protegida, review/checks y notas operables", "CASO-PIU-044-4A es sintético"],
         tests: "El fixture `CASO-PIU-044-4A` satisface un predicado de dominio real; imprime `S44-T4-A PASS` y el assert booleano pasa.",
@@ -1751,7 +1751,7 @@ assert meets_contract is True` ,
         hint: "Primero se calcula `missing`; ningún acceso a release_notes debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a release_notes debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S44-T4-A: branch protegida, review/checks y notas operables. El fixture adverso debe fallar por contenido, no por schema.",
+          "Después aplica la regla de S44-T4-A: rama protegida, revisiones, comprobaciones y notas operables. El caso adverso debe fallar por su contenido, no por su estructura.",
         ],
         edgeCases: ["falta release_notes", "fixture adverso: branch protegida, review/checks y notas operables", "CASO-PIU-044-4A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `release_notes` ausente y produce exactamente `PASS BLOCK_UNREVIEWED_RELEASE MISSING:release_notes`.",
@@ -1811,7 +1811,7 @@ print(*results)
         hint: "Missing ≠ breach: enruta la ausencia de `release_notes` a `COMPLETE_RELEASE_NOTES` primero.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `COMPLETE_RELEASE_NOTES` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró branch protegida, review/checks y notas operables; solo ese caso devuelve `CONTINUE`.",
+          "Para datos completos, reutiliza la regla que demostró una rama protegida, revisiones, comprobaciones y notas operables; solo ese caso devuelve `CONTINUE`.",
         ],
         edgeCases: ["falta release_notes", "fixture adverso: branch protegida, review/checks y notas operables", "CASO-PIU-044-4A es sintético"],
         tests: "Fixtures `CASO-PIU-044-4A`, adverso y sin `release_notes` prueban continue/breach/uncertainty en ese orden.",
@@ -1867,8 +1867,8 @@ assert results == ["CONTINUE", "BLOCK_UNREVIEWED_RELEASE", "COMPLETE_RELEASE_NOT
         preamble:
           "- **Contexto:** en CASO-PIU-044-4B un test de integración crítico falla: el workflow marca block, retiene log+artifact, owner `release` y logs redactados.\n- **Meta:** critical + blocked + redacted + owner truthy + evidence_retained.\n- **Éxito:** `S44-T4-B PASS`.\n- **Límites:** no mutes el fixture; no borres el trace; DEFECT en el pred.",
         instruction:
-          "S44-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si critical y not pipeline_blocked (DEFECT).\n2. Exige AND de blocked, redacted, owner, evidence.\n3. Conserva print.\n4. `S44-T4-B PASS`.",
-        hint: "Crítico + pipeline bloqueado + logs redactados + owner + evidencia retenida.",
+          "S44-T4-B-E1 · Salida: debe devolver el `PASS` del contrato. 1. El código inicial devuelve `PASS` si `critical_failure and not pipeline_blocked` (DEFECT).\n2. Exige la conjunción de `critical_failure`, `pipeline_blocked`, `logs_redacted`, `owner` con valor y `evidence_retained`.\n3. Conserva `print`.\n4. `S44-T4-B PASS`.",
+        hint: "Fallo crítico, pipeline bloqueado, registros redactados, `owner` con valor y evidencia retenida.",
         hints: [
           "Relaciona los campos `critical_failure`, `pipeline_blocked`, `logs_redacted`, `owner`, `evidence_retained` con la regla explicada en S44-T4-B.",
           "El predicado correcto debe ser verdadero porque el fixture conserva esto: un fallo crítico bloquea el pipeline y deja evidencia auditable. Revisa dirección de comparación, conjuntos y negaciones.",
@@ -1921,7 +1921,7 @@ assert meets_contract is True` ,
         feedback:
           "Breach silencioso (sin bloqueo/redaction/owner) ≠ falta del flag de evidencia (schema). No inventes owner para «cerrar el ticket» del incidente.",
         retrospective:
-          "Breach silencioso (sin bloqueo/redaction/owner) no es lo mismo que falta del flag `evidence_retained`. El error clásico es inventar owner para «cerrar el ticket» del incidente. Pregunta: en el adverso con `pipeline_blocked=False` y owner vacío, ¿qué código devuelves y por qué no es MISSING? Luego: ASSIGN_INCIDENT_OWNER.",
+          "Un incumplimiento silencioso (sin bloqueo, redacción ni `owner`) no es lo mismo que la ausencia del campo `evidence_retained`. El error clásico es inventar `owner` para «cerrar la incidencia». Pregunta: en el caso adverso con `pipeline_blocked=False` y `owner` vacío, ¿qué código devuelves y por qué no es `MISSING`? Luego: `ASSIGN_INCIDENT_OWNER`.",
         starterCode: {
           language: 'python',
           title: "s44-t4-b-e2.py",

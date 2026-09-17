@@ -23,7 +23,7 @@ export const section28: CourseSection = {
   icon: "ShieldCheck",
   accentColor: "bg-gradient-to-br from-emerald-500 to-teal-700",
   jobRelevance:
-    "El QA del motor de entity resolution (ER), el proceso de decidir si dos registros refieren a la misma entidad, exige más que tests unitarios felices: necesita propiedades que generen bordes, contratos de schema, goldens con revisión humana, dobles de HTTP/DB/reloj e integración determinista en CI. En un desk de datos en Lima (banca, fintech o retail), un flake o un golden actualizado en silencio puede dejar pasar un matching roto hasta producción. Aquí aprendes a montar la capa de propiedades, datos, dobles e integración que protege el pipeline antes de que alguien lo note en la mesa de revisión.",
+    "El QA del motor de entity resolution (ER), el proceso de decidir si dos registros refieren a la misma entidad, exige más que pruebas unitarias felices: necesita propiedades que generen bordes, contratos de schema, salidas de referencia con revisión humana, dobles de HTTP/DB/reloj e integración determinista en CI. En un equipo de datos en Lima (banca, fintech o retail), una prueba intermitente o una referencia actualizada en silencio puede dejar pasar un emparejamiento roto hasta producción. Aquí aprendes a montar la capa de propiedades, datos, dobles e integración que protege el pipeline antes de que alguien lo note en la mesa de revisión.",
   learningOutcomes: [
     { text: "Generar casos desde invariantes con seed o tabla exhaustiva" },
     { text: "Aplicar pruebas metamórficas, de simetría e idempotencia" },
@@ -48,7 +48,7 @@ export const section28: CourseSection = {
         "Escribiste pruebas para el nombre con tilde, el nombre en mayúsculas, el nombre con espacios de más. Funcionan, y aun así el módulo falla en producción con un nombre que no se te ocurrió. El problema no es que hayas escrito pocas pruebas: es que estabas enumerando casos cuando podías estar declarando una regla.",
         "Ese cambio de enfoque es el corazón de la sección. En vez de decir «para esta entrada espero esta salida», declaras algo que debe ser cierto **siempre** — normalizar dos veces da lo mismo que normalizar una vez; el score siempre cae entre cero y uno — y dejas que la máquina genere cientos de entradas buscando el contraejemplo. Eso es una **prueba de propiedades**, y cuando encuentra uno te devuelve la semilla exacta para reproducirlo.",
         "Hay una variante especialmente útil cuando no sabes cuál es la salida correcta pero sí sabes cómo debe cambiar. Si agregas espacios al principio de un nombre, el resultado normalizado no debería moverse. No hace falta conocer el valor esperado para comprobar esa relación: basta comparar dos ejecuciones. Se llaman **pruebas metamórficas** y sirven justo donde el oráculo es caro o imposible.",
-        "Los datos necesitan su propio tipo de prueba. Un **golden** es una salida aprobada que se guarda versionada; la prueba compara contra ella y cualquier diferencia obliga a una revisión humana consciente — actualizar el golden porque «ahora sale distinto» es exactamente cómo se aprueba una regresión sin darse cuenta.",
+        "Los datos necesitan su propio tipo de prueba. Una **salida de referencia** es una salida aprobada que se guarda versionada; la prueba compara contra ella y cualquier diferencia obliga a una revisión humana consciente. Actualizar la referencia porque «ahora sale distinto» es exactamente cómo se aprueba una regresión sin darse cuenta.",
         "La pregunta que gobierna la sección es más ambiciosa que la de S27: **¿qué debe ser verdad siempre, sin importar la entrada?** Y el mismo límite ético sigue vigente: estas pruebas verifican identidad de registros y calidad técnica, no autorizan conclusiones sobre riesgo ni relaciones entre personas.",
       ],
       callout: {
@@ -73,8 +73,8 @@ export const section28: CourseSection = {
       subtopicId: "S28-T1-A",
       paragraphs: [
         "Una **invariante** es una propiedad que **siempre** debe cumplirse en el dominio ER: `normalize` es **idempotente** (`f(f(x)) == f(x)`); scores en **[0, 1]**; ids no vacíos; pares canónicos `entity_a < entity_b`. Si se rompe, el matching deja de ser un contrato y se vuelve intuición.",
-        "Genera casos **desde la invariante**, no desde un ejemplo feliz. Tres estrategias en este curso:\n\n1. **Tabla exhaustiva** pequeña: todos los bordes conocidos (vacío, solo espacios, tildes, scores 0/1/1.2).\n2. **Random acotado con seed fija:** reproducible en CI; imprime seed+input al fallar.\n3. **Hypothesis:** herramienta industrial — defines la propiedad, una *strategy* (estrategia de generación de inputs) produce casos, y al fallar hace *shrink* (reducción automática del contraejemplo) hasta el input mínimo que rompe la invariante.\n\nAquí practicas el pensamiento de (1)+(2) con `test_*` de pytest; Hypothesis es el siguiente paso industrial (recursos). Un solo caso “Ana López” no caza encoding, espacios dobles ni scores fuera de rango.",
-        "Mapa mental Hypothesis (sin instalarlo aún): **propiedad** → **strategy** (qué generas) → **muchos ejemplos** → **shrink** (reducción del fallo mínimo). Tu análogo local: `assert` en un bucle con `random.seed` + imprimir el `s` que rompió. Documenta la invariante en **español** junto al test (`# invariante: normalize es idempotente`). Cuando falla un caso generado, imprime **seed + input + expected/actual** para que el bug sea reproducible al primer intento.",
+        "Genera casos **desde la invariante**, no desde un ejemplo feliz. Tres estrategias en este curso:\n\n1. **Tabla exhaustiva** pequeña: todos los bordes conocidos (vacío, solo espacios, tildes, scores 0/1/1.2).\n2. **Generación aleatoria acotada con semilla fija:** reproducible en CI; imprime la semilla y la entrada al fallar.\n3. **Hypothesis:** herramienta industrial — defines la propiedad, una *strategy* (estrategia para generar entradas) produce casos y, al fallar, hace *shrink* (reducción automática del contraejemplo) hasta hallar la entrada mínima que rompe la invariante.\n\nAquí practicas el pensamiento de (1)+(2) con pruebas `test_*` de pytest; Hypothesis es el siguiente paso industrial (recursos). Un solo caso “Ana López” no caza encoding, espacios dobles ni scores fuera de rango.",
+        "Mapa mental Hypothesis (sin instalarlo aún): **propiedad** → **strategy** (qué generas) → **muchos ejemplos** → **shrink** (reducción del fallo mínimo). Tu análogo local: `assert` en un bucle con `random.seed` + imprimir el `s` que rompió. Documenta la invariante en **español** junto a la prueba (`# invariante: normalize es idempotente`). Cuando falla un caso generado, imprime **semilla + entrada + resultado esperado/obtenido** para reproducir el fallo al primer intento.",
       ],
       code: {
         language: "python",
@@ -212,9 +212,9 @@ contract schema+quality`,
       },
       subtopicId: "S28-T2-B",
       paragraphs: [
-        "Un **golden** es un snapshot versionado de salida esperada (JSON/CSV sintético en el repo). Sirve de regresión del pipeline: mismos inputs sintéticos → misma estructura de pares (o de reporte de calidad). No es “la verdad del mundo real”; es el contrato de no-regresión del lab.",
-        "**Drift**: la salida actual difiere del golden. Clasifica antes de actuar: (a) bug real del matcher, (b) cambio intencional de política, (c) ruido de orden/float. Un diff de golden debe mostrar expected vs. actual de forma legible — nunca un “pass” silencioso.",
-        "**Reconciliación**: actualizar el golden solo con **revisión humana y nota de cambio** (`approved=True` + mensaje). Actualizar el golden sin aprobación en CI esconde regresiones de matching. Política: `blocked_drift` hasta que alguien firme el cambio de contrato.",
+        "Una **salida de referencia** es un resultado esperado versionado (JSON/CSV sintético en el repositorio). Sirve como prueba de regresión del pipeline: mismas entradas sintéticas → misma estructura de pares (o del reporte de calidad). No es “la verdad del mundo real”; es el contrato de no regresión del laboratorio.",
+        "**Desviación**: la salida actual difiere de la referencia. Clasifica antes de actuar: (a) fallo real del comparador, (b) cambio intencional de política, (c) ruido por el orden o los decimales. La diferencia debe mostrar de forma legible lo esperado frente a lo obtenido, nunca una aprobación silenciosa.",
+        "**Reconciliación**: actualizar la referencia solo con **revisión humana y nota de cambio** (`approved=True` + mensaje). Actualizarla sin aprobación en CI esconde fallas nuevas en el emparejamiento. Política: `blocked_drift` hasta que alguien firme el cambio de contrato.",
       ],
       code: {
         language: "python",
@@ -244,7 +244,7 @@ reconcile blocked_drift`,
         type: "danger",
         title: "No aceptar drift automáticamente",
         content:
-          "Actualizar el golden sin revisión esconde regresiones de matching. En desk PE: el PR que toca un golden debe explicar *por qué* cambió el contrato.",
+          "Actualizar el golden sin revisión esconde fallas nuevas en el emparejamiento. En un equipo peruano de datos, el PR que toca la referencia debe explicar *por qué* cambió el contrato.",
       },
     },
     {
@@ -252,7 +252,7 @@ reconcile blocked_drift`,
       subtopicId: "S28-T3-A",
       paragraphs: [
         "**Mock**: verifica interacciones (qué se llamó, con qué argumentos). **Fake**: implementación liviana en memoria con estado real. **Stub**: respuestas fijas sin lógica. En QA del ER usas fakes de HTTP/DB y un reloj inyectable para que la suite no dependa de red ni de `datetime.now()`.",
-        "HTTP: fake de status/JSON. DB: `dict` o sqlite en memoria. Reloj: inyecta `now` callable en el constructor — no parches globales salvo código legado. Objetivo: tests **rápidos y deterministas** del pipeline sin red real ni timestamps que cambian entre corridas.",
+        "HTTP: doble con estado y JSON controlados. DB: `dict` o sqlite en memoria. Reloj: inyecta la función `now` en el constructor; no apliques parches globales salvo en código legado. Objetivo: pruebas **rápidas y deterministas** del pipeline, sin red real ni marcas de tiempo que cambien entre corridas.",
         "Patrón de diseño: el servicio de matching recibe `clock` y `http` como dependencias. En producción son el reloj del sistema y un cliente real; en test son `FakeClock` y `FakeHTTP`. Así demuestras encoding de fechas ISO, reintentos ante 503 y lectura de entidades sin abrir sockets.",
       ],
       code: {
@@ -293,7 +293,7 @@ db_fake Ana`,
       subtopicId: "S28-T3-B",
       paragraphs: [
         "El **sobre-mocking** acopla el test a detalles internos (orden exacto de calls, nombres privados) y se rompe en refactors inocuos. Peor: si mockeas el comparador y solo asertas que “se llamó”, no pruebas matching — ocultas bugs con un `lambda: True`.",
-        "Prefiere **contratos de borde**: dado input, observa output y efectos visibles (filas escritas, status HTTP, schema del payload). Mockea solo I/O externo; deja la lógica de normalización/matching real bajo prueba cuando es pura y barata.",
+        "Prefiere **contratos de borde**: dada una entrada, observa la salida y los efectos visibles (filas escritas, estado HTTP, schema del payload). Usa mocks solo para la I/O externa; deja bajo prueba la lógica real de normalización y emparejamiento cuando sea pura y barata.",
         "Heurística al estilo *GOOS*: si la función es pura (`normalize`, Jaccard de tokens), **no la mockees**. Si habla con red o disco, fakea el borde y aserta el efecto. `casefold` (no solo `lower` en un lado) es el contrato de igualdad de texto del ER para Unicode.",
       ],
       code: {
@@ -524,7 +524,7 @@ ok_first True`,
         description:
           "Detecta drift de golden de pares y bloquea reconcile sin aprobación.",
         preamble:
-          "Un golden es el snapshot versionado de salida esperada del pipeline de pares. Si actualizas el golden sin mirar el diff, escondes regresiones de matching. Esta demo compara golden vs. current y devuelve `blocked` ante drift. Observa: no hay “pass” silencioso cuando `n` cambia de 2 a 3.",
+          "Una salida de referencia guarda versionado el resultado esperado del pipeline de pares. Si la actualizas sin mirar la diferencia, escondes fallas nuevas en el emparejamiento. Esta demostración compara `golden` con `current` y devuelve `blocked` cuando detecta una desviación. Observa: no hay una aprobación silenciosa cuando `n` cambia de 2 a 3.",
         code: {
           language: "python",
           title: "drift_demo.py",
@@ -540,7 +540,7 @@ print("ok", True)`,
 action blocked
 ok True`,
         },
-        why: "Drift visible y bloqueado > golden actualizado en silencio. El PR del desk PE debe explicar *por qué* cambió el contrato de pares; un job verde sin diff legible esconde matching roto. We Do: etiqueta `drift`, `blocked` sin approved y par versión+acción como evidencia de revisión.",
+        why: "Desviación visible y bloqueada > referencia actualizada en silencio. El PR del equipo peruano debe explicar *por qué* cambió el contrato de pares; una tarea verde sin una diferencia legible esconde un emparejamiento roto. En la práctica guiada usarás la etiqueta `drift`, `blocked` sin `approved` y el par versión+acción como evidencia de revisión.",
         retrospective:
           "Si el golden se reescribe solo, la suite deja de proteger el matching: el contrato se mueve con el bug. El error clásico es “actualizar snapshot para poner CI en verde”. Pregunta: ¿quién debe firmar un cambio de golden? We Do: `drift`, `blocked` sin aprobación y versión+acción.",
       },
@@ -711,7 +711,7 @@ print(a == b)`,
         kind: "independent",
         title: "Invariante de scores en [0, 1]",
         preamble:
-          "- **Contexto:** un score 1.2 en el batch de matching no es “casi 1”: rompe el dominio del contrato y puede contaminar el ranking.\n- **Meta:** con `scores = [0, 0.5, 1.2]`, calcular si **todos** están en [0, 1].\n- **Éxito:** imprime exactamente `False` (el 1.2 falla).\n- **Límites:** usa `all(...)`; no hardcodees `True`; 0 y 1 sí son válidos.",
+          "- **Contexto:** un score 1.2 en el lote de emparejamiento no es “casi 1”: rompe el dominio del contrato y puede contaminar la clasificación.\n- **Meta:** con `scores = [0, 0.5, 1.2]`, calcula si **todos** están en [0, 1].\n- **Éxito:** imprime exactamente `False` (el 1.2 falla).\n- **Límites:** usa `all(...)`; no escribas `True` a mano; 0 y 1 sí son válidos.",
         instruction:
           "1. Revisa el starter: imprime `True` sin mirar los datos.\n2. Escribe `all(0 <= s <= 1 for s in scores)`.\n3. Imprime solo el booleano.\n4. No mutes la lista.",
         hint: "Usa all(...) sobre el rango inclusivo; 1.2 está fuera",
@@ -1102,7 +1102,7 @@ print("drift" if golden != current else "ok")`,
         preamble:
           "- **Contexto:** en el desk PE, actualizar el golden sin nota de cambio esconde un matching roto hasta producción de revisión.\n- **Meta:** si hay diff y `approved=False` → `blocked`; solo con aprobación o sin diff → `ok`.\n- **Éxito:** una línea `blocked`.\n- **Límites:** no digas `ok` con drift sin firma; no inventes `approved=True`.",
         instruction:
-          "1. Revisa el starter: siempre `ok`.\n2. `blocked` si `diff and not approved`.\n3. Imprime solo la acción.\n4. No cambies los booleanos del fixture.",
+          "1. Revisa el código inicial: siempre devuelve `ok`.\n2. Usa `blocked` si `diff` es verdadero y `approved` es falso.\n3. Imprime solo la acción.\n4. No cambies los booleanos de los datos de prueba.",
         hint: "blocked si diff and not approved",
         hints: [
           "blocked si diff and not approved",
@@ -1802,7 +1802,7 @@ if __name__ == "__main__":
     questions: [
       {
         question: "Un test metamórfico verifica:",
-        options: ["Que la salida sea siempre un número mágico fijo sin mirar el input", "Que dos ejecuciones con reloj real coincidan siempre en el timestamp", "Que el score de matching autorice una etiqueta de fraude", "Relaciones predecibles entre entradas transformadas y salidas"],
+        options: ["Que la salida sea siempre un número mágico fijo sin mirar la entrada", "Que dos ejecuciones con reloj real coincidan siempre en la marca de tiempo", "Que el score del emparejamiento autorice una etiqueta de fraude", "Relaciones predecibles entre entradas transformadas y salidas"],
         correctIndex: 3,
         explanation:
           "Una prueba metamórfica relaciona salidas bajo transformaciones conocidas (p. ej. padding no cambia normalize; upper no debe romper igualdad casefold) cuando no hay un oráculo absoluto del score “correcto”.",

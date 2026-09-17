@@ -220,3 +220,21 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   moves those numbers underneath the first runner's snapshot-to-check window, and the first
   round gets blamed for a delta it did not cause. Run one section at a time until the
   course-wide measures are scoped per-section or a global lock exists.
+
+- **"regresiones de matching" has now cost three rounds; translate it with a verb.** *(S28)*
+  Every pass renders it "regresiones del emparejamiento", which is a real B5 chain — two
+  nominalisations joined by *del* — and `decisions.md` names it as the one genuine defect the
+  old suffix proxy had hidden among its noise. Write what actually happens instead: *"esconde
+  que el emparejamiento empeore sin avisar"*, or *"esconde fallas nuevas en el emparejamiento"*.
+  Do **not** reach for "regresiones en el emparejamiento": it slips past the regex because the
+  measure looks for *de/del*, while leaving the same noun-heavy sentence a reader has to unpack.
+  That is gaming the instrument, which is the one move this campaign never makes.
+
+- **A translated term must not leave the section calling one thing two names.** *(S44)* The
+  Spanish pass turned three of twenty-nine "workflow"s into "flujo de trabajo", so one concept
+  had two names in one section — while the learner types `.github/workflows/ci-supply-chain.yml`
+  and reads "workflow" in the GitHub Actions UI. Every gate passed it; nothing measures naming
+  consistency (writing rule A5 has no instrument). Reverted to the practitioner term. Before
+  translating a word, count how many times the section already uses it and whether the learner
+  meets it in a tool. Still owed: `workflow` is kept vocabulary and rule 2 wants it glossed once
+  at first use in S44 — queued for that section's round, not done here.

@@ -296,3 +296,17 @@ Fixed already, for the record: S01's "No necesitas una función ni una plantilla
 throwaway reassurance about a concept the learner had never met and is gone; S03's "produce una
 excepción" is load-bearing (it is why guard clauses exist) and now carries an in-place gloss plus
 an explicit deferral to S09.
+
+## S28 spanish — 3 patch(es) not applied
+*Recorded 2026-09-16 by `record_rejections.py` from `S28s.apply.json`.*
+<!-- S28 spanish d51b4c2e505e -->
+
+Codex proposed these and the applier refused them, so the defects they targeted are
+still open. Re-run the stage for this section, or fix by hand.
+
+- **S28-ES-014** at `weDo.steps[S28-T2-B-E2].hint+hints` — anchor not found
+  - anchor began: `hint: "blocked si diff and not approved",\n        hints: [\n          "blocked si diff an`
+- **S28-ES-016** at `weDo.steps[S28-T4-B-E2].hints+edgeCases` — anchor not found
+  - anchor began: `hints: [\n          "fail_job si flake_rate > 0",\n          "Cuarentena documentada con t`
+- **S28-ES-018** at `selfCheck.questions[1]` — anchor not found
+  - anchor began: `question: "Actualizar un golden con drift sin revisión es:",\n        options: ["Buena prá`

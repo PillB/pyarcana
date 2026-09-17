@@ -40,7 +40,7 @@ export const section41: CourseSection = {
         "Una frontera dibujada en un plano no obliga a nadie. En S40 decidiste qué pertenece a cada contexto y quién responde por él; en cuanto ese sistema atiende a otro equipo, la frontera tiene que viajar por un cable y sostenerse sola, sin que tú estés al lado para explicarla.",
         "Una API es una ventanilla con el reglamento pegado en el vidrio. Quien llega no te conoce: lee qué puede pedir, en qué forma, y qué significa cada respuesta que recibe. El **recurso** es el sustantivo que atiendes —`/v1/jobs`, no `/crearTrabajo`—, y el número que devuelves no es decoración: **201** dice «lo creé», **404** dice «eso no existe», **422** dice «entendí tu formato pero tus datos no cumplen». Devolver 400 para todo es cerrar la ventanilla y gritar «hay un problema» sin decir cuál.",
         "Hay una promesa más difícil que el formato: la de no hacer dos veces lo mismo. Si la red se corta después de que tu servidor creó el trabajo pero antes de que el cliente reciba la respuesta, ese cliente reintentará. Una **Idempotency-Key** es el recibo que permite reconocer el reintento y devolver el resultado original en lugar de crear un segundo trabajo. Sin ella, un timeout se convierte en dos cobros.",
-        "La pregunta que gobierna la sección es la que se hace quien consume: **¿qué me promete esta respuesta, y qué pasa si la pido otra vez?** Cada decisión —el status, la forma del body, qué campos internos no salen— es una respuesta a eso.",
+        "La pregunta que gobierna la sección es la que se hace quien consume: **¿qué me promete esta respuesta, y qué pasa si la pido otra vez?** Cada decisión —el status, la forma del cuerpo, qué campos internos no salen— es una respuesta a eso.",
         "Trabajas primero con la biblioteca estándar: diccionarios y funciones que modelan el contrato sin levantar servidor. Los recursos enlazan el equivalente en FastAPI, pero no necesitas un cluster, credenciales ni red para aprender qué promete un 201. El caso es sintético (`CASO-ARE-041`, una oficina ficticia en Arequipa) y no hay PII real.",
       ],
       callout: {
@@ -176,7 +176,7 @@ version v1`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content: "Antes de promover S41-T1-B, dos POST con la misma Idempotency-Key y el mismo body dejan un solo job (`replay`); body distinto bajo la misma key es conflicto. Paginación keyset con `next` estable.",
+        content: "Antes de promover S41-T1-B, dos POST con la misma Idempotency-Key y el mismo cuerpo dejan un solo job (`replay`); un cuerpo distinto bajo la misma clave es conflicto. Paginación keyset con `next` estable.",
       },
     },
     {
@@ -224,9 +224,9 @@ jobs 2 domain_imports_http False`,
       },
       subtopicId: "S41-T2-B",
       paragraphs: [
-        "El handler delgado asume un body ya confiable: hay que **validar el esquema** antes del dominio (Pydantic en FastAPI). Campos requeridos, tipos y rangos. Un body incompleto devuelve **422** con detalle de campos — no 200 con defaults silenciosos. Después, **serializa una vista pública** (allow-list): nunca expongas `internal_key`, `db_pk` o secretos. OpenAPI debe **coincidir** con status y shape reales; si el código devuelve 422 y el doc dice 400, regenera el contrato.",
+        "El handler delgado asume un cuerpo ya confiable: hay que **validar el esquema** antes del dominio (Pydantic en FastAPI). Campos requeridos, tipos y rangos. Un cuerpo incompleto devuelve **422** con detalle de campos — no 200 con defaults silenciosos. Después, **serializa una vista pública** (allow-list): nunca expongas `internal_key`, `db_pk` o secretos. OpenAPI debe **coincidir** con status y shape reales; si el código devuelve 422 y el doc dice 400, regenera el contrato.",
         "Rutas que debes poder ejecutar en lab: body crudo + allow-set → `(422, error tipado)` si faltan campos; si es válido → vista sin campos internos. `internal_key` no aparece en la respuesta y el caso inválido no llama a `create_job`. Anti-patrón: 200 con leak u OpenAPI desalineado del comportamiento.",
-        "`CASO-ARE-041-2B`: job sintético `er-run` con `priority`; sin `priority` ⇒ 422; `public_view` elimina `internal_key`. Evidencia: dos rutas (válida/inválida) y `internal_key_leaked == False`. Con el contrato de request/response cerrado, T3 decide *cuándo* el trabajo sale del request (async/background).",
+        "`CASO-ARE-041-2B`: job sintético `er-run` con `priority`; sin `priority` ⇒ 422; `public_view` elimina `internal_key`. Evidencia: dos rutas (válida/inválida) y `internal_key_leaked == False`. Con el contrato de solicitud y respuesta cerrado, T3 decide *cuándo* el trabajo sale de la solicitud (async/background).",
       ],
       code: {
         language: 'python',
@@ -254,7 +254,7 @@ internal_key_leaked False`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content: "Contrato S41-T2-B: body incompleto ⇒ 422 tipado; body válido ⇒ vista allow-list sin `internal_key`. OpenAPI debe coincidir con status y shape reales.",
+        content: "Contrato S41-T2-B: cuerpo incompleto ⇒ 422 tipado; cuerpo válido ⇒ vista allow-list sin `internal_key`. OpenAPI debe coincidir con status y shape reales.",
       },
     },
     {
@@ -1136,7 +1136,7 @@ meets_contract = "status_code" not in mem_a[0] and len(mem_a) == 1
         kind: "independent",
         title: "Medir si el handler se engordó",
         preamble:
-          "- **Contexto:** en code review del control plane mides si el path operation sigue delgado o se mezcló con HTTP/dominio.\n- **Meta:** `assess` → PASS si handler corto, DI, dominio sin HTTP y `domain_called`; si no, `THIN_THE_HANDLER`; missing ⇒ `MISSING:domain_called`.\n- **Éxito:** `PASS THIN_THE_HANDLER MISSING:domain_called`.\n- **Límites:** no apruebes handlers gordos ni `domain_imports_http`; no inventes domain_called.",
+          "- **Contexto:** en la revisión de código del control plane mides si el path operation sigue delgado o se mezcló con HTTP/dominio.\n- **Meta:** `assess` → PASS si handler corto, DI, dominio sin HTTP y `domain_called`; si no, `THIN_THE_HANDLER`; missing ⇒ `MISSING:domain_called`.\n- **Éxito:** `PASS THIN_THE_HANDLER MISSING:domain_called`.\n- **Límites:** no apruebes handlers gordos ni `domain_imports_http`; no inventes domain_called.",
         instruction:
           "S41-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Invierte el predicado: PASS no es “líneas >20 y domain_imports_http”.\n2. Criterio: `handler_lines <= 5` y flags sanos.\n3. Missing-first.\n4. Print de tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a domain_called debe ocurrir antes de esa rama.",
@@ -1209,9 +1209,9 @@ print(*results)
         edgeCases: ["Falta domain_called", "Fixture adverso: handler gordo o domain_imports_http (boundary rota)", "CASO-ARE-041-2A es sintético"],
         tests: "Fixtures `CASO-ARE-041-2A`, adverso y sin `domain_called` prueban continue/breach/uncertainty en ese orden.",
         feedback:
-          "En code review: `THIN_THE_HANDLER` si el path engorda o el dominio toca HTTP (rompe tests con fakes). Sin `domain_called` no se asume orquestación — `REVIEW_DEPENDENCY_BOUNDARY`.",
+          "En la revisión de código: `THIN_THE_HANDLER` si el path engorda o el dominio toca HTTP (rompe tests con fakes). Sin `domain_called` no se asume orquestación — `REVIEW_DEPENDENCY_BOUNDARY`.",
         retrospective:
-          "Code review fail-closed: falta de evidencia de dominio no es CONTINUE. El error clásico es “compila, ya está”. Pregunta: ¿por qué el dominio no debe importar `Request`?",
+          "La revisión de código falla de forma segura: la falta de evidencia de dominio no es `CONTINUE`. El error clásico es “compila, ya está”. Pregunta: ¿por qué el dominio no debe importar `Request`?",
         starterCode: {
           language: 'python',
           title: "s41-t2-a-e3.py",
@@ -1329,7 +1329,7 @@ meets_contract = st_bad == 422 and body_bad.get("error") == "validation_error"
         kind: "independent",
         title: "Auditar 422, leak y OpenAPI",
         preamble:
-          "- **Contexto:** revisas tres snapshots: rechazo 422 bien formado (PASS), 200 con secret en response (breach), y un record sin flag `openapi_matches`.\n- **Meta:** `assess` — PASS si input inválido fue rechazado con 422, sin intersección con campos internos y OpenAPI alineado.\n- **Éxito:** `PASS REJECT_AND_REDACT MISSING:openapi_matches`.\n- **Límites:** no apruebes 200 con secret; no inventes openapi_matches; el PASS de este lab es un **rechazo correcto**, no un create feliz.",
+          "- **Contexto:** revisas tres snapshots: rechazo 422 bien formado (PASS), 200 con `secret` en la respuesta (breach), y un registro sin el indicador `openapi_matches`.\n- **Meta:** `assess` — PASS si una entrada inválida fue rechazada con 422, sin intersección con campos internos y OpenAPI alineado.\n- **Éxito:** `PASS REJECT_AND_REDACT MISSING:openapi_matches`.\n- **Límites:** no apruebes 200 con secret; no inventes openapi_matches; el PASS de este lab es un **rechazo correcto**, no un create feliz.",
         instruction:
           "S41-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige el predicado invertido (hoy PASS con 200 y leak).\n2. PASS: `not input_valid` y status 422 y sets disjuntos y openapi_matches.\n3. Missing-first.\n4. Print de tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a openapi_matches debe ocurrir antes de esa rama.",
@@ -1394,9 +1394,9 @@ print(*results)
           "- **Contexto:** en revisión de PR del control plane, tres snapshots deciden si el contrato sigue, se redacta/rechaza o se regenera la doc.\n- **Meta:** `decide` con tokens fail-closed.\n- **Éxito:** `CONTINUE REJECT_AND_REDACT REGENERATE_OPENAPI`.\n- **Límites:** sin `openapi_matches` no evalúes el body como confiable; no inventes el flag.",
         instruction:
           "S41-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing ⇒ `REGENERATE_OPENAPI`.\n2. CONTINUE con el predicado sano de E2.\n3. Resto ⇒ `REJECT_AND_REDACT`.\n4. Conserva el assert.",
-        hint: "Si falta openapi_matches, no evalúes el body: REGENERATE_OPENAPI. Si hay secret en response o status 200 con body inválido: REJECT_AND_REDACT.",
+        hint: "Si falta `openapi_matches`, no evalúes el cuerpo: `REGENERATE_OPENAPI`. Si hay `secret` en la respuesta o status 200 con un cuerpo inválido: `REJECT_AND_REDACT`.",
         hints: [
-          "Si falta openapi_matches, no evalúes el body: REGENERATE_OPENAPI. Si hay secret en response o status 200 con body inválido: REJECT_AND_REDACT.",
+          "Si falta `openapi_matches`, no evalúes el cuerpo: `REGENERATE_OPENAPI`. Si hay `secret` en la respuesta o status 200 con un cuerpo inválido: `REJECT_AND_REDACT`.",
           "CONTINUE solo si validación rechazó inválidos, no hay leak y openapi_matches es True.",
         ],
         edgeCases: ["Falta openapi_matches", "Fixture adverso: 200 con leak de secret u OpenAPI desalineado", "CASO-ARE-041-2B es sintético"],
@@ -1524,7 +1524,7 @@ meets_contract = b1 == "async" and b2 == "background" and len(q) == 1
         kind: "independent",
         title: "Auditar offload del event loop",
         preamble:
-          "- **Contexto:** capacity review del path: ¿el I/O usa await y los flags de offload/durable están documentados?\n- **Meta:** `assess` — PASS si work_kind io, uses_await, cpu_offloaded y durable_job; adverso CPU sin offload ⇒ `MOVE_WORK_OFF_EVENT_LOOP`; sin flag durable ⇒ `MISSING:durable_job`.\n- **Éxito:** `PASS MOVE_WORK_OFF_EVENT_LOOP MISSING:durable_job`.\n- **Límites:** no apruebes CPU en el request; no inventes durable_job; en este lab PASS exige **flags de capacidad presentes**, no solo el kind.",
+          "- **Contexto:** revisión de capacidad del path: ¿el I/O usa await y los flags de offload/durable están documentados?\n- **Meta:** `assess` — PASS si work_kind io, uses_await, cpu_offloaded y durable_job; adverso CPU sin offload ⇒ `MOVE_WORK_OFF_EVENT_LOOP`; sin flag durable ⇒ `MISSING:durable_job`.\n- **Éxito:** `PASS MOVE_WORK_OFF_EVENT_LOOP MISSING:durable_job`.\n- **Límites:** no apruebes CPU en el request; no inventes durable_job; en este lab PASS exige **flags de capacidad presentes**, no solo el kind.",
         instruction:
           "S41-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Invierte el predicado (hoy PASS con cpu + await sin offload).\n2. PASS con el conjunto de flags del fixture válido.\n3. Missing-first.\n4. Print de tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a durable_job debe ocurrir antes de esa rama.",
@@ -1597,7 +1597,7 @@ print(*results)
         edgeCases: ["Falta durable_job", "Fixture adverso: CPU en event loop sin offload (boundary rota)", "CASO-ARE-041-3A es sintético"],
         tests: "Fixtures `CASO-ARE-041-3A`, adverso y sin `durable_job` prueban continue/breach/uncertainty en ese orden.",
         feedback:
-          "En capacity review: `MOVE_WORK_OFF_EVENT_LOOP` si CPU/durable bloquea el request (el loop no aguanta). Sin `durable_job` no se asume offload — `CHOOSE_BACKGROUND_BOUNDARY`. Incertidumbre de durable no es luz verde para CONTINUE.",
+          "En la revisión de capacidad: `MOVE_WORK_OFF_EVENT_LOOP` si CPU/durable bloquea la solicitud (el loop no aguanta). Sin `durable_job` no se asume offload — `CHOOSE_BACKGROUND_BOUNDARY`. Incertidumbre de durable no es luz verde para CONTINUE.",
         retrospective:
           "Incertidumbre de durable no es luz verde. El error clásico es dejar CPU en el path “por ahora”. Pregunta: ¿qué status de job devolverías al encolar? (`queued`.)",
         starterCode: {
@@ -2342,11 +2342,11 @@ assert status in {"READY", "BLOCKED"}
         question: "Si reenvías la misma Idempotency-Key con un body distinto al original, el servicio debe…",
         options: ["crear un segundo job en silencio", "ignorar el body y siempre hacer replay", "devolver conflicto / error de idempotencia sin segundo side effect", "responder 200 vacío"],
         correctIndex: 2,
-        explanation: "La clave liga un hash canónico del request; body distinto es conflicto, no replay ni segundo create.",
+        explanation: "La clave liga un hash canónico de la solicitud; un cuerpo distinto es conflicto, no `replay` ni una segunda creación.",
       },
       {
         question: "La vista pública de un job y el OpenAPI deben…",
-        options: ["incluir `internal_key` y `db_pk` para depurar en producción", "devolver el body crudo del request para maximizar fidelidad", "omitir el status HTTP; el cliente lo infiere del body", "exponer solo campos del contrato (p. ej. name, priority, job_id, status) y coincidir con status/shape reales"],
+        options: ["incluir `internal_key` y `db_pk` para depurar en producción", "devolver el cuerpo crudo de la solicitud para maximizar fidelidad", "omitir el status HTTP; el cliente lo infiere del cuerpo", "exponer solo campos del contrato (p. ej. name, priority, job_id, status) y coincidir con status/shape reales"],
         correctIndex: 3,
         explanation: "Redaction por allow-list evita leaks; OpenAPI es el contrato: si el código devuelve 422 o un shape distinto, el doc debe regenerarse.",
       },
@@ -2354,7 +2354,7 @@ assert status in {"READY", "BLOCKED"}
         question: "FastAPI/Pydantic, ante un body que no cumple el modelo de entrada, suele responder…",
         options: ["200 con defaults inventados", "422 Unprocessable Entity con detalle de campos", "204 sin cuerpo", "301 a /docs"],
         correctIndex: 1,
-        explanation: "La validación de request en FastAPI devuelve 422; no debe llegar un body inválido al dominio ni masquerarse como 200. Eso no es lo mismo que 405 (método no permitido).",
+        explanation: "La validación de la solicitud en FastAPI devuelve 422; un cuerpo inválido no debe llegar al dominio ni disfrazarse de 200. Eso no es lo mismo que 405 (método no permitido).",
       },
       {
         question: "Dos `POST /v1/jobs` con la misma Idempotency-Key y el mismo body canónico deben…",
