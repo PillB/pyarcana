@@ -58,10 +58,10 @@ export const FLOW_FIGURES: Record<string, FigureData> = {
     kind: 'flow',
     headline: 'La llamada entrega un valor; `return` devuelve la decisión y cierra el cuerpo',
     stages: [
-      { label: 'llamada', sub: 'decidir_region("R-NORTE")', tint: 3 },
-      { label: 'cuerpo', sub: 'region = "R-NORTE"', tint: 1 },
-      { label: 'return', sub: 'entrega "accept"', tint: 2 },
-      { label: 'quien llamó', sub: 'resultado_3 = "accept"', tint: 4 },
+      { label: 'llamada', sub: 'con «R-NORTE»', tint: 3 },
+      { label: 'cuerpo', sub: 'region = R-NORTE', tint: 1 },
+      { label: 'return', sub: 'entrega accept', tint: 2 },
+      { label: 'quien llamó', sub: 'recibe accept', tint: 4 },
     ],
     boundaryAfter: 2,
     boundaryLabel: 'lo que queda en el cuerpo ya no se ejecuta',
@@ -167,10 +167,13 @@ export const FLOW_FIGURES: Record<string, FigureData> = {
     stages: [
       { label: 'construir', sub: 'url + params', tint: 1 },
       { label: 'enviar', sub: 'timeout explícito', tint: 3 },
-      { label: 'status', sub: 'raise_for_status', tint: 4 },
+      // `raise_for_status` is one unbreakable 16-character word and the four-stage box fits 14,
+      // so it drew over the stage beside it. The name belongs in the outcome, where the line is
+      // as wide as the canvas.
+      { label: 'status', sub: 'revisar el código', tint: 4 },
       { label: 'parsear', sub: 'json()', tint: 2 },
     ],
-    outcome: 'Cada etapa tiene su excepción: confundirlas hace que un JSON roto se reintente como si fuera la red.',
+    outcome: 'Cada etapa tiene su excepción: confundirlas hace que un JSON roto se reintente como si fuera la red. El código de estado se revisa con `raise_for_status`.',
   },
 
   'S07-encoding-chain': {

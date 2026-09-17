@@ -387,3 +387,13 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
     programs are removed) — the same D6 conversion S01 and S02 already needed. And a new figure's
     `id`, `caption` and `alt` must be double-quoted: `figure-data-schema.test.mjs` reads them with
     a double-quote regex, so single quotes read as a missing caption.
+- **SVG text does not clip; it spills over the next box, and no gate saw it.** *(S03, S07, S12,
+  2026-09-17)* The new `S03-call-return` figure was written with `decidir_region("R-NORTE")` under
+  a four-stage box and rendered as `ecidir_region("R-NOR`, cut at both ends, with every suite
+  green. Measuring the live page found seven more: S07's "con una codificación" drew 133px inside
+  a 116px box, in production. `FlowFigure` now wraps a stage's `sub` to a second line and grows the
+  box for it, so no existing wording had to be trimmed, and `figure-data-schema.test.mjs` fails on
+  a label that still cannot fit — an unbreakable identifier, or text needing a third line. Only
+  `raise_for_status` was unfixable by wrapping; its name moved into the outcome line, which is as
+  wide as the canvas. When adding a figure, read it in the browser: the archetypes' text is
+  centred, single-line by default, and silently wider than its container.
