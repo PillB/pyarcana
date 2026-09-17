@@ -1011,23 +1011,19 @@ function MarkDoneButton({ onDone, done, label }: { onDone: () => void; done: boo
 function InteractivePlaygroundDemo({ sectionId, sectionTitle }: { sectionId: string; sectionTitle: string }) {
   const demos: Record<string, { code: string; expectedOutput?: string; hint?: string; title: string }> = {
     'setup': {
-      title: 'Practica el intérprete y el entrypoint',
+      title: 'Practica el intérprete y tu primer script',
       code: `# Primer script reproducible (usa un nombre sintético)
 import sys
 
 nombre = "Estudiante"
 
-def main():
-    print(f"Hola {nombre}, bienvenido a PyArcana!")
-    print(f"Python mayor: {sys.version_info.major}")
-    print("Entrypoint ejecutado")
-
-if __name__ == "__main__":
-    main()`,
+print(f"Hola {nombre}, bienvenido a PyArcana!")
+print(f"Python mayor: {sys.version_info.major}")
+print("Script ejecutado de arriba abajo")`,
       expectedOutput: `Hola Estudiante, bienvenido a PyArcana!
 Python mayor: 3
-Entrypoint ejecutado`,
-      hint: 'Mantén un nombre sintético. Observa que el guardián llama a main() y que sys confirma el intérprete.',
+Script ejecutado de arriba abajo`,
+      hint: 'Mantén un nombre sintético. Cambia el nombre y vuelve a ejecutar: Python lee las instrucciones en orden, de arriba abajo.',
     },
     'basics': {
       title: 'Practica el contrato raw/clean',

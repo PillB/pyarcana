@@ -363,16 +363,20 @@ def exercise_form_issues(eid: str, instruction: str, code: str) -> list[str]:
     eid_l = (eid or "").lower()
     code_l = (code or "").lower()
 
-    # Script exercises that ask for hello_sys / main / __name__ (always enforce)
+    # The hello_sys exercise: a saved script, not a REPL transcript (always enforce).
+    # It used to require `def main()` and the `__name__` guard. D9 removed both from the early
+    # sections — the idiom needs `def` (S05), `if` (S03) and imports (S10), and S01's own
+    # callout said a script needs neither — so what is enforced now is what the exercise
+    # actually contracts: a file with top-level statements that reads the interpreter version.
     if "hello_sys" in instr or "hello_sys" in eid_l:
-        if "def main" not in code_l and "def main(" not in code_l:
-            issues.append("missing_main_for_hello_sys")
-        if "__name__" not in code and "__main__" not in code:
-            issues.append("missing_dunder_name")
         if "sys.version" not in code_l:
             issues.append("missing_sys_version")
-        if (body.count(">>>") >= 1 or ">>>" in code) and "def " not in body:
+        if "print" not in code_l:
+            issues.append("missing_print_for_hello_sys")
+        if body.count(">>>") >= 1 or ">>>" in code:
             issues.append("repl_transcript_for_script_exercise")
+        if "def main" in code_l or "__main__" in code:
+            issues.append("entrypoint_idiom_before_it_is_taught")
         return issues
 
     if not body.strip():
