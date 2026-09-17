@@ -57,7 +57,18 @@ class TestPacketIsolation(unittest.TestCase):
             for exercise in packet["active"]["weDo"]["exercises"]
         }
         exercise = exercises["S03-T4-A-E2"]
-        self.assertIn("ambos vacíos → reject", exercise["preamble"])
+        # What this guards is fidelity: the preamble survives the packet build with its bullets
+        # and real newlines, not literal "\n". It used to pin the sentence "ambos vacíos →
+        # reject" word for word, so the Spanish pass broke it by backticking `reject` - correct
+        # on its own terms, since this file backticks accept/reject/review 27 other times and
+        # they are decision values the learner types. Assert the structure and the decision
+        # words, and let the prose be rewritten.
+        preamble = exercise["preamble"]
+        self.assertIn("\n- **Meta:**", preamble, "preamble lost its bullets or its newlines")
+        self.assertNotIn("\\n", preamble, "newlines arrived escaped instead of real")
+        for decision in ("accept", "review", "reject"):
+            self.assertIn(decision, preamble, f"the {decision} branch vanished from the preamble")
+        self.assertIn("vacíos", preamble, "the empty-field invariant vanished from the preamble")
         self.assertEqual(exercise["edgeCases"], ["uno vacío"])
         self.assertIn("\n2. Escribe", exercise["instruction"])
         self.assertNotIn("falta).n2.", exercise["instruction"])

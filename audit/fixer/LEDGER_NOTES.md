@@ -238,3 +238,11 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   translating a word, count how many times the section already uses it and whether the learner
   meets it in a tool. Still owed: `workflow` is kept vocabulary and rule 2 wants it glossed once
   at first use in S44 — queued for that section's round, not done here.
+
+- **`ticket` stays English where the learner meets it in a tool.** *(S39)* The pass turned "el
+  ticket de remediación" into "la incidencia de remediación", which both created a B5 chain and
+  traded away the word the learner will read in Jira or GitHub Issues. Rule 3 already says
+  *ticket* survives where the tool shows it; incident and remediation workflows are exactly that
+  case. The sentence was already Spanish — see the S44 note, the Spanish pass must not rewrite
+  Spanish. Accepted separately: **lista de comprobación** is the standard rendering of
+  *checklist*, a named artifact, and is now in `b5_established_terms.json`.
