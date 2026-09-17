@@ -309,3 +309,26 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   while its own `what_could_confuse` said the sentence could make a learner look for an
   `np.reshape` call that is not there. The self-critique found the defect; the summary field did
   not carry it. Review the prose field, not the boolean.
+
+- **Measure every detector rule in both directions before keeping it.** *(course-wide, 2026-09-17)*
+  Seven rule changes went in and three of them over-fired on their first draft, each caught only by
+  reading the credit delta: "hace" credited "Devolver una tupla **no** hace que el lote continúe" as
+  the definition of tuple; the definite-article appositive credited "`if`, el print posterior usa la
+  última `i` del `for`"; "a" in the gloss word list turned `(neighbors(txs, a) & neighbors(txs, c))`
+  into prose; and a naming participle with a 45-character window credited every `return` near the
+  ordinary noun "llamada". The working method: dump `defines` at HEAD, apply the rule, dump again,
+  and read every added and removed credit with its sentence. Sixteen additions and twenty-five
+  removals is a reviewable diff; a count is not.
+- **A location has to name exactly one paragraph.** *(S15, course-wide)* Several sections give two
+  or three supporting blocks the same `subtopicId`, which D6 allows, and the extractor keyed on it
+  alone: 43 collisions, so `S15-T4-B.p2` addressed two different paragraphs. A test written against
+  that string tested whichever block came second. Repeats now carry the block index
+  (`S15-T4-B#10.p2`). Any patch anchored on a bare theory location from an older artifact should be
+  re-derived before it is applied.
+- **`.fixer/events.json` was a cache with no expiry.** *(2026-09-17)* `concept_map.py` read it
+  whenever it existed, so the map could describe a course that no longer existed — this round built
+  its dossiers from an events file eight hours older than the sections it was diagnosing, and two of
+  the sixty-three concepts it diagnosed had already been fixed. It now re-extracts when any section,
+  the glossary, the course index or the extractor is newer than the cache. Redirecting the
+  extractor's stdout to `/dev/null` does **not** refresh it; only `gate.py`, `concept_map.py` and an
+  explicit redirect into the file do.

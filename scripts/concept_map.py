@@ -64,8 +64,26 @@ TEACHING_KINDS = {
 }
 
 
+def sources_newer_than_cache() -> bool:
+    """Has anything the extractor reads changed since the cache was written?
+
+    The cache used to be trusted whenever it existed, so a map could describe a course
+    that no longer existed: the 2026-09-17 gap round built its dossiers from an
+    events.json eight hours older than the sections it was diagnosing, and two of the
+    entries it diagnosed had already been fixed. `gate.py` refreshes the file on every
+    run; nothing else did.
+    """
+    if not EVENTS.exists():
+        return True
+    cached = EVENTS.stat().st_mtime
+    watched = list((ROOT / "src/lib/course/sections").glob("*.ts"))
+    watched += [ROOT / "src/lib/glossary/terms.ts", ROOT / "src/lib/course/index.ts",
+                ROOT / "scripts/course_event_extractor.mts"]
+    return any(p.exists() and p.stat().st_mtime > cached for p in watched)
+
+
 def load_events() -> dict:
-    if EVENTS.exists():
+    if not sources_newer_than_cache():
         return json.loads(EVENTS.read_text(encoding="utf-8"))
     proc = subprocess.run(["npx", "tsx", "scripts/course_event_extractor.mts"],
                           cwd=ROOT, capture_output=True, text=True)
@@ -140,7 +158,17 @@ def main() -> int:
         if c["first_definition"]:
             di = next(i for i, u in enumerate(vis) if u is c["first_definition"]) \
                 if c["first_definition"] in vis else 0
-            c["surprising_uses"] = vis[:di]
+            # A subsection title naming what its own first paragraph defines is the
+            # orientation D3 asks for: the learner reads "Broadcasting y compatibilidad de
+            # shapes" and the definition two lines below, with nothing in between. Counting
+            # the heading as a surprise made ten concepts look unteaching, and for p-value it
+            # was the only entry.
+            block = c["first_definition"]["location"].rsplit(".", 1)[0]
+            c["surprising_uses"] = [
+                u for u in vis[:di]
+                if not (u["kind"] == "theory.heading"
+                        and u["location"].rsplit(".", 1)[0] == block)
+            ]
         else:
             c["surprising_uses"] = vis
         c["sections_used"] = sorted({u["section"] for u in vis})

@@ -38,8 +38,16 @@ import type { Resources } from '@/lib/types'
 import { LegalDisclaimer } from './LegalDisclaimer'
 import { cn } from '@/lib/utils'
 
+/** The part of a course section the catalogue needs to filter and label resources. */
+export interface ResourceSection {
+  id: string
+  index: number
+  title: string
+  shortTitle: string
+}
+
 interface ResourcesPageProps {
-  sections: { id: string; title: string; shortTitle: string; resources: Resources }[]
+  sections: (ResourceSection & { resources: Resources })[]
 }
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -98,7 +106,7 @@ export interface Resource {
 // ────────────────────────────────────────────────────────────────────────────
 const NOW = '2025-07-29'
 
-const RESOURCES: Resource[] = [
+export const RESOURCES: Resource[] = [
   // ── Python core ─────────────────────────────────────────────────────────
   {
     id: 'python-downloads',
@@ -1575,6 +1583,71 @@ const RESOURCES: Resource[] = [
 ]
 
 // ────────────────────────────────────────────────────────────────────────────
+// Filtering
+// ────────────────────────────────────────────────────────────────────────────
+export interface ResourceFilterCriteria {
+  search: string
+  types: ReadonlySet<ResourceType>
+  levels: ReadonlySet<ResourceLevel>
+  /** A section `id`, as offered by the section select; '' means every section. */
+  sectionId: string
+  topic: string
+}
+
+/**
+ * The section number a catalogue tag names: 14 for 's14-security'.
+ *
+ * Only the number is read. The slug after it came from file names that are being renamed batch
+ * by batch (see src/lib/section-id-migrations.ts), while a section's `index` stays put, so
+ * matching on the slug or on the section `id` breaks at every rename.
+ */
+export function sectionIndexOfTag(tag: string): number | null {
+  const match = /^s(\d{2})-/.exec(tag)
+  return match ? Number(match[1]) : null
+}
+
+/** 'S01' for index 1: how the course names a section to a learner. */
+export function sectionNumberLabel(index: number): string {
+  return `S${String(index).padStart(2, '0')}`
+}
+
+function isTaggedFor(resource: Resource, sectionIndex: number | undefined): boolean {
+  return resource.sectionIds.some((tag) => sectionIndexOfTag(tag) === sectionIndex)
+}
+
+export function filterResources(
+  resources: readonly Resource[],
+  criteria: ResourceFilterCriteria,
+  sections: readonly ResourceSection[],
+): Resource[] {
+  const q = criteria.search.trim().toLowerCase()
+  // An id no section carries resolves to undefined, which no tag matches: the list empties
+  // rather than silently ignoring the filter.
+  const sectionIndex = sections.find((s) => s.id === criteria.sectionId)?.index
+  return resources.filter((r) => {
+    // Search across title, provider, whyUseful, topics
+    if (q) {
+      const haystack = `${r.title} ${r.provider} ${r.whyUseful} ${r.topics.join(' ')}`.toLowerCase()
+      if (!haystack.includes(q)) return false
+    }
+    if (criteria.types.size > 0 && !criteria.types.has(r.resourceType)) return false
+    if (criteria.levels.size > 0 && !criteria.levels.has(r.level)) return false
+    if (criteria.sectionId && !isTaggedFor(r, sectionIndex)) return false
+    if (criteria.topic && !r.topics.includes(criteria.topic)) return false
+    return true
+  })
+}
+
+/** The short title of the section a resource's first tag names, if that section is active. */
+export function resourceSectionLabel(
+  resource: Resource,
+  sections: readonly ResourceSection[],
+): string | undefined {
+  const index = sectionIndexOfTag(resource.sectionIds[0] ?? '')
+  return sections.find((s) => s.index === index)?.shortTitle
+}
+
+// ────────────────────────────────────────────────────────────────────────────
 // Filter metadata
 // ────────────────────────────────────────────────────────────────────────────
 const RESOURCE_TYPE_LABELS: Record<ResourceType, { label: string; icon: React.ElementType }> = {
@@ -1635,21 +1708,21 @@ export function ResourcesPage({ sections }: ResourcesPageProps) {
   }, [])
 
   // ── Filtered resources (search + filters) ───────────────────────────────
-  const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase()
-    return RESOURCES.filter((r) => {
-      // Search across title, provider, whyUseful, topics
-      if (q) {
-        const haystack = `${r.title} ${r.provider} ${r.whyUseful} ${r.topics.join(' ')}`.toLowerCase()
-        if (!haystack.includes(q)) return false
-      }
-      if (typeFilter.size > 0 && !typeFilter.has(r.resourceType)) return false
-      if (levelFilter.size > 0 && !levelFilter.has(r.level)) return false
-      if (sectionFilter && !r.sectionIds.includes(sectionFilter)) return false
-      if (topicFilter && !r.topics.includes(topicFilter)) return false
-      return true
-    })
-  }, [search, typeFilter, levelFilter, sectionFilter, topicFilter])
+  const filtered = useMemo(
+    () =>
+      filterResources(
+        RESOURCES,
+        {
+          search,
+          types: typeFilter,
+          levels: levelFilter,
+          sectionId: sectionFilter,
+          topic: topicFilter,
+        },
+        sections,
+      ),
+    [search, typeFilter, levelFilter, sectionFilter, topicFilter, sections],
+  )
 
   const visible = filtered.slice(0, visibleCount)
   const hasMore = filtered.length > visibleCount
@@ -1888,7 +1961,7 @@ export function ResourcesPage({ sections }: ResourcesPageProps) {
                   <option value="">Todas las secciones</option>
                   {sections.map((s) => (
                     <option key={s.id} value={s.id}>
-                      {s.id} · {s.shortTitle}
+                      {sectionNumberLabel(s.index)} · {s.shortTitle}
                     </option>
                   ))}
                 </select>
@@ -1938,7 +2011,7 @@ export function ResourcesPage({ sections }: ResourcesPageProps) {
             key={r.id}
             resource={r}
             isKeyboardActive={idx === activeKeyboardIndex}
-            sectionLabel={sections.find((s) => s.id === r.sectionIds[0])?.shortTitle}
+            sectionLabel={resourceSectionLabel(r, sections)}
           />
         ))}
       </div>
