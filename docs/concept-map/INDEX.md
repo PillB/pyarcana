@@ -7,7 +7,7 @@ surprised by it?* 🔴 never explained · 🟠 used before it is explained · �
 
 Depth: **L0** never defined · **L1** defined inline at first use · **L2** plus a worked example · **L3** plus its own subtopic and a figure.
 
-**103 concepts.** 37 never explained, 51 used before they are explained, 15 clean.
+**103 concepts.** 36 never explained, 51 used before they are explained, 16 clean.
 
 Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) · [S05](S05.md) · [S06](S06.md) · [S07](S07.md) · [S08](S08.md) · [S09](S09.md) · [S10](S10.md) · [S11](S11.md) · [S12](S12.md) · [S13](S13.md) · [S14](S14.md) · [S15](S15.md) · [S16](S16.md) · [S17](S17.md) · [S18](S18.md) · [S19](S19.md) · [S20](S20.md) · [S21](S21.md) · [S22](S22.md) · [S23](S23.md) · [S24](S24.md) · [S25](S25.md) · [S26](S26.md) · [S27](S27.md) · [S28](S28.md) · [S29](S29.md) · [S30](S30.md) · [S31](S31.md) · [S32](S32.md) · [S33](S33.md) · [S34](S34.md) · [S35](S35.md) · [S36](S36.md) · [S37](S37.md) · [S38](S38.md) · [S39](S39.md) · [S40](S40.md) · [S41](S41.md) · [S42](S42.md) · [S43](S43.md) · [S44](S44.md) · [S45](S45.md) · [S46](S46.md) · [S47](S47.md) · [S48](S48.md) · [S49](S49.md) · [S50](S50.md) · [S51](S51.md) · [S52](S52.md)
 
@@ -19,7 +19,6 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🔴 `truthiness` | L0 | S03 · tagline | **never** | 75 | 0 | 19 | 4 | · | 0/1 ⚠ | 12 |
 | 🔴 `rag` | L0 | S48 · jobRelevance | **never** | 44 | 3 | 4 | 2 | · | 0/1 ⚠ | 3 |
 | 🔴 `dunder-method` | L0 | S10 · S10-T1-B.p0 | **never** | 40 | 20 | 0 | 1 | · | 0/1 ⚠ | 10 |
-| 🔴 `variable` | L0 | S03 · S03-T3-A.p0 | **never** | 40 | 0 | 3 | 3 | · | 0/1 ⚠ | 16 |
 | 🔴 `ruff` | L0 | S01 · outcome[4] | **never** | 39 | 3 | 5 | 4 | · | 0/1 ⚠ | 1 |
 | 🔴 `outlier` | L0 | S03 · S03-T3-A.p3 | **never** | 35 | 0 | 0 | 0 | · | 0/1 ⚠ | 6 |
 | 🔴 `defaultdict` | L0 | S30 · S30-T2-A.code | **never** | 32 | 13 | 1 | 0 | · | 0/1 ⚠ | 4 |
@@ -67,7 +66,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `recall` | L2 | S13 · outcome[1] | S30 · jobRelevance | 34 | 9 | 9 | 30 | +17 | 0/5 ⚠ | 8 |
 | 🟠 `mlops` | L1 | S32 · theory[2].p2 | S47 · jobRelevance | 1 | 0 | 0 | 0 | +15 | 0/1 ⚠ | 2 |
 | 🟠 `merge` | L2 | S06 · S06-T2-A-E3.preamble | S17 · S17-T1-A.p2 | 18 | 5 | 11 | 5 | +11 | 0/5 ⚠ | 14 |
-| 🟠 `return` | L3 | S01 · theory[1].code | S11 · S11-T4-A-DEMO.why | 368 | 640 | 136 | 20 | +10 | 1/5 ⚠ | 52 |
+| 🟠 `return` | L3 | S01 · theory[1].code | S11 · S11-T4-A-DEMO.why | 368 | 640 | 139 | 20 | +10 | 1/5 ⚠ | 52 |
 | 🟠 `set` | L3 | S01 · S01-T4-A-E3.starter | S11 · S11-T1-B.p0 | 70 | 119 | 50 | 17 | +10 | 2/5 ⚠ | 46 |
 | 🟠 `f1-score` | L2 | S24 · S24-T4-A.p1 | S34 · S34-T1-A.p0 | 28 | 8 | 5 | 4 | +10 | 0/5 ⚠ | 6 |
 | 🟠 `annotation` | L1 | S01 · S01-T1-A.p4 | S11 · S11-T1-A.p1 | 10 | 0 | 1 | 1 | +10 | 0/1 ⚠ | 3 |
@@ -128,3 +127,4 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `stratifiedkfold` | L1 | S34 · S34-T2-A.p3 | S34 · S34-T2-A.p3 | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🟢 `streamlit` | L1 | S13 · S13-T4-A.p0 | S13 · S13-T4-A.p0 | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 2 |
 | 🟢 `tuple` | L2 | S02 · theory[4].p0 | S02 · theory[4].p0 | 0 | 14 | 14 | 6 | · | 0/5 ⚠ | 32 |
+| 🟢 `variable` | L1 | S02 · S02-T2-A.p1 | S02 · S02-T2-A.p1 | 0 | 0 | 3 | 3 | · | 0/1 ⚠ | 17 |
