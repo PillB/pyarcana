@@ -27,7 +27,9 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     definition: 'Una etiqueta que apunta a un valor en memoria. En Python no declaras el tipo — se infiere.',
     example: 'x = 42\\nnombre = "Ana"',
     related: ["Tipo de dato", "Asignación"],
-    firstSectionId: 'decisions-rules',
+    // Taught in S02 under "Asignación y convenciones de nombres"; the hint must be available
+    // there, not one section later where the word was already in use.
+    firstSectionId: 'basics',
   },
   {
     id: 'function',
