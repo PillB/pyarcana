@@ -185,7 +185,7 @@ unicidad 0.6667`,
     scores = np.array([[0.9, 0.8], [0.4, 0.5], [0.7, 0.6]])  # (3,2)
     pesos = np.array([0.6, 0.4])  # (2,)
     ponderado = scores * pesos  # broadcast (3,2)*(2,)
-    umbral = np.array([0.5])[:, None]  # (1,1) vía reshape
+    umbral = np.array([0.5])[:, None]  # (1,1): None inserta un eje
     print("ponderado", ponderado.round(3).tolist())
     print("sobre_umbral", (scores.mean(axis=1, keepdims=True) > umbral).ravel().tolist())
     try:
@@ -1085,7 +1085,7 @@ print((M + w).tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · outer product broadcast
-# Bug a corregir: a * b sin reshape (falla o resultado incorrecto)
+# Bug a corregir: a * b sin insertar un eje (falla o resultado incorrecto)
 import numpy as np
 a = np.arange(4)
 b = np.arange(3)

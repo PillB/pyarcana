@@ -70,26 +70,6 @@ export const section01: CourseSection = {
         "**Criterio de cierre.** `CASO-LIM-001` es el caso de práctica de esta sección. Cada afirmación deja evidencia: versión del intérprete, ruta del entorno, dependencias declaradas con versión, historial de Git y ausencia de secretos en el repositorio. Ese esqueleto inicia `CP-N1-A`, el proyecto acumulativo que cerrarás en S04.",
         "**Límites.** Sin datos personales reales y sin credenciales en el repositorio. Si una comprobación no se puede demostrar en una máquina recién instalada, todavía no cuenta como cerrada.",
       ],
-      code: {
-        language: 'python',
-        title: 'contrato_seccion.py — gates del día 1',
-        code: `def section_contract():
-    return {
-        "case": "CASO-LIM-001",
-        "gates": ["venv_per_project", "requirements_pinned", "secrets_out_of_repo", "git_smoke"],
-        "zero_prior_baseline": True,
-        "secrets_in_repo_ok": False,
-    }
-
-c = section_contract()
-print("case", c["case"])
-print("zero_prior_baseline", c["zero_prior_baseline"])
-print("secrets_in_repo_ok", c["secrets_in_repo_ok"])
-`,
-        output: `case CASO-LIM-001
-zero_prior_baseline True
-secrets_in_repo_ok False`,
-      },
      },
      {
       heading: 'Terminal y shell: dónde escribes y quién obedece',
@@ -115,7 +95,6 @@ secrets_in_repo_ok False`,
         'El **REPL** (Read–Eval–Print Loop) es el modo interactivo del intérprete. Lo abres escribiendo solo `python` (o `python3`) y Enter. Verás el prompt `>>>` (el *prompt* es el indicador que muestra que el intérprete está esperando una instrucción tuya). Ahí puedes escribir una expresión, presionar Enter, y Python la evalúa al instante: `2 + 2` devuelve `4`, `type("hola")` devuelve `<class \'str\'>`. Es ideal para probar una idea en 10 segundos sin crear un archivo. Para salir: `quit()` o `exit()`, o el carácter de fin de archivo (Ctrl-D en macOS/Linux, Ctrl-Z y Enter en Windows). Salir del REPL **no cierra** tu terminal: vuelves al prompt de la shell (`$` o `PS>`).',
         'Hay una diferencia crítica entre **sesión REPL** y **script `.py`**. En el REPL escribes una entrada y Python la ejecuta al presionar Enter. En un script guardas una o más instrucciones en un archivo y lo lanzas con `python hello.py`. El mismo script puede ejecutarse en tu laptop o en otra máquina. El REPL sirve para una comprobación rápida; el archivo conserva el programa para volver a ejecutarlo y compartirlo.',
         'Tu primer script puede tener una sola instrucción: **`print(...)`** muestra en la terminal el texto escrito entre paréntesis. Guarda `print("Hola desde mi primer script")` en `hello.py` y ejecútalo con `python hello.py`. Con eso basta: un archivo `.py` con esa instrucción ya es un script.',
-        'Las **anotaciones de tipo**, pistas escritas sobre la clase de valor esperada, no son necesarias para este primer script. Se enseñarán desde S05; por ahora no necesitas copiarlas ni interpretarlas.',
       ],
       code: {
         language: 'python',
@@ -2420,7 +2399,7 @@ LOG_LEVEL=INFO
 # | monthly_amount  | numero | 150.50       | Monto mensual en soles              |
 # ---------------------------------------------------------------------------
 #
-# scripts/hello_env.py — smoke del entorno (sin type hints; S01 no los exige)
+# scripts/hello_env.py — smoke del entorno
 import sys
 
 def main():

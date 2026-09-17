@@ -16,6 +16,17 @@ from pathlib import Path
 
 from glossary_first_use import audit_concept_events  # re-export for existing callers
 
+
+def alias_is_acronym(alias: str) -> bool:
+    """Mirror of aliasIsAcronym in src/lib/glossary/terms.ts.
+
+    An all-caps alias matches exactly; everything else ignores case. Without this, `ABC`
+    matches the placeholder string in `int("abc")` and the three matchers disagree about
+    where a term was introduced — which is how `abc` was recorded as taught in S02.
+    """
+    return bool(re.fullmatch(r"[A-Z][A-Z0-9./_-]+", alias) and re.search(r"[A-Z]{2,}", alias))
+
+
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = (ROOT / "src/lib/course/index.ts").read_text(encoding="utf-8")
 TERMS_TS = (ROOT / "src/lib/glossary/terms.ts").read_text(encoding="utf-8")
@@ -64,7 +75,8 @@ for t in terms:
         # NOTE: these were `\\w` inside a raw string, i.e. a literal backslash
         # followed by `w` — not a word class. The look-around therefore almost
         # never fired, so "Valor p" matched inside "valor por defecto".
-        if re.search(r"(?i)(?<![\w/-])" + re.escape(t["term"]) + r"(?![\w/-])", section_text[sid]):
+        flags = "" if alias_is_acronym(t["term"]) else "(?i)"
+        if re.search(flags + r"(?<![\w/-])" + re.escape(t["term"]) + r"(?![\w/-])", section_text[sid]):
             if earliest is None or i < earliest[0]:
                 earliest = (i, sid)
     if earliest and earliest[0] < fi:

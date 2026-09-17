@@ -6,7 +6,7 @@ import { Callout } from './Callout'
 import { CodePlayground } from './CodePlayground'
 import { InlineAnnotated } from './InlineAnnotated'
 import type { TheoryBlock as TheoryBlockType, Callout as CalloutType, CodeExample } from '@/lib/types'
-import { GLOSSARY_TERMS, termsAvailableAt, type GlossaryTerm } from '@/lib/glossary'
+import { GLOSSARY_TERMS, termsAvailableAt, aliasIsAcronym, type GlossaryTerm } from '@/lib/glossary'
 import { SITE_BASE_PATH } from '@/lib/runtime-mode'
 import {
   REGIONAL_TERMS,
@@ -29,6 +29,24 @@ interface RichTextProps {
  * - Párrafos / listas / code fences / bold / italic
  * - Auto-anotación de jerga del glosario (hover/focus definition)
  */
+/**
+ * Inline markdown for one-line fields — titles, options, requirements, taglines, captions.
+ *
+ * These fields were rendered as raw strings, so a crawl of the live site found learners
+ * reading literal backticks and asterisks 721 times across all 52 sections: "(`venv`)",
+ * "¿Por qué está prohibido hacer `git push --force` a `main`?". Same renderer as RichText's
+ * inline pass (code, bold, italic, safe links), without block parsing or glossary hints.
+ */
+export function InlineText({ text }: { text: string }) {
+  // Same inline-code styling as the prose sites above, break-words included: a long
+  // identifier in a title or an option must wrap at 320px, not widen the page.
+  return (
+    <span className="[&_code]:rounded [&_code]:bg-muted [&_code]:px-1 [&_code]:py-0.5 [&_code]:text-[0.92em] [&_code]:font-mono [&_code]:break-words">
+      <InlineAnnotated html={renderInline(text)} />
+    </span>
+  )
+}
+
 export function RichText({ content, sectionId }: RichTextProps) {
   const blocks = parseBlocks(content)
   const available = useMemo(() => {
@@ -87,7 +105,7 @@ export function RichText({ content, sectionId }: RichTextProps) {
         }
         if (block.type === 'callout') {
           return (
-            <Callout key={i} type={block.calloutType} title={block.title}>
+            <Callout key={i} type={block.calloutType} title={block.title && <InlineText text={block.title} />}>
               <InlineAnnotated html={annotate(block.content)} />
             </Callout>
           )
@@ -376,10 +394,12 @@ function annotateGlossaryTermsPlain(
     for (const alias of [...term.aliases].sort((a, b) => b.length - a.length)) {
       if (alias.length < 3) continue
       const escaped = alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-      // No lookbehind (more portable): capture a non-word boundary char and put it back
+      // No lookbehind (more portable): capture a non-word boundary char and put it back.
+      // An acronym matches exactly, so `int("abc")` stops offering an "Abstract Base Class"
+      // tooltip; see aliasIsAcronym, which the extractor and the Python audits share.
       const re = new RegExp(
         `(^|[^A-Za-z0-9À-ÿ_./-])(${escaped})(?=[^A-Za-z0-9À-ÿ_./-]|$)`,
-        'i'
+        aliasIsAcronym(alias) ? '' : 'i'
       )
       if (!re.test(text)) continue
       text = text.replace(re, (_full, before: string, match: string) => {
@@ -404,7 +424,7 @@ export function TheoryBlockView({
 }) {
   return (
     <section className="space-y-3">
-      <h3 className="text-lg font-semibold tracking-tight text-foreground">{block.heading}</h3>
+      <h3 className="text-lg font-semibold tracking-tight text-foreground"><InlineText text={block.heading} /></h3>
       {block.paragraphs.map((p, i) => (
         <RichText key={i} content={p} sectionId={sectionId} />
       ))}
@@ -417,11 +437,11 @@ export function TheoryBlockView({
         />
       )}
       {block.code?.explanation && (
-        <p className="text-sm text-muted-foreground italic">{block.code.explanation}</p>
+        <p className="text-sm text-muted-foreground italic"><InlineText text={block.code.explanation} /></p>
       )}
       {block.callout && (
-        <Callout type={block.callout.type} title={block.callout.title}>
-          {block.callout.content}
+        <Callout type={block.callout.type} title={block.callout.title && <InlineText text={block.callout.title} />}>
+          <InlineText text={block.callout.content} />
         </Callout>
       )}
     </section>

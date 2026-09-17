@@ -14,7 +14,7 @@
  * refuse to let a hidden answer count as having taught anything.
  */
 import { COURSE_SECTIONS } from '../src/lib/course/index'
-import { GLOSSARY_TERMS } from '../src/lib/glossary/terms'
+import { GLOSSARY_TERMS, aliasIsAcronym } from '../src/lib/glossary/terms'
 
 type Ev = {
   section_id: string
@@ -225,7 +225,19 @@ const terms = GLOSSARY_TERMS.map((t) => {
     // `.py` is excluded too: S10 teaches packaging and writes `__init__.py` constantly, which
     // is a package marker file, not the `__init__` dunder method. That alone accounted for 40
     // of dunder-method's 50 "mentions" and scored it never-explained.
-    re: new RegExp(`(?<![\\p{L}\\d_])(?:${alts.join('|')})(?![\\p{L}\\d_]|\\.py)`, 'giu'),
+    // An acronym matches exactly (aliasIsAcronym); everything else ignores case. Two regexes
+    // rather than one, because a flag is per-pattern: `ABC` must not match `int("abc")` while
+    // `tupla` still matches `Tupla` at the start of a sentence.
+    re: alts.filter((a) => !aliasIsAcronym(a)).length
+      ? new RegExp(
+        `(?<![\\p{L}\\d_])(?:${alts.filter((a) => !aliasIsAcronym(a)).join('|')})(?![\\p{L}\\d_]|\\.py)`,
+        'giu')
+      : null,
+    reExact: alts.filter((a) => aliasIsAcronym(a)).length
+      ? new RegExp(
+        `(?<![\\p{L}\\d_])(?:${alts.filter((a) => aliasIsAcronym(a)).join('|')})(?![\\p{L}\\d_]|\\.py)`,
+        'gu')
+      : null,
   }
 })
 
@@ -251,7 +263,10 @@ function push(
     // later - "añade Python y Ruff; Ruff es un programa que señala errores". Testing only the
     // first hit missed that entirely, because the `;` blocks the definition cue, and `ruff`
     // scored "never explained" across 39 uses while its definition sat in the same sentence.
-    const hits = [...t.matchAll(term.re)]
+    const hits = [
+      ...(term.re ? t.matchAll(term.re) : []),
+      ...(term.reExact ? t.matchAll(term.reExact) : []),
+    ]
     if (hits.length === 0) continue
     mentions.push(term.id)
     if (hits.some((m) => definesTerm(t, m.index!, m[0].length, kind, term.aliases))) defines.push(term.id)

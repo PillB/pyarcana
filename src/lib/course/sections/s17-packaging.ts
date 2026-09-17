@@ -22,7 +22,7 @@ export const section17: CourseSection = {
  icon: "GitMerge",
  accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
  jobRelevance:
- "En un equipo de analytics de banca, fintech o retail en Perú, el analista que solo «hace merge y groupby» sin documentar cardinalidad (cuántas filas del lado derecho tocan cada clave del izquierdo) entrega números inflados al comité. Aquí aprendes a unir tablas con claves limpias, reshape long/wide con schema estable, agregaciones con contrato (suma vs. media) y reconciliación de totales que un stakeholder no técnico pueda auditar. Entregas un script reproducible, evidencias numéricas y un memo de límites, sin PII real ni claims causales sin evidencia.",
+ "En un equipo de analytics de banca, fintech o retail en Perú, el analista que solo «hace `merge` y `groupby`» resume así su trabajo: `merge` une tablas por sus claves y `groupby` reduce a un resumen las filas que comparten una clave. Si no documenta la cardinalidad (cuántas filas del lado derecho tocan cada clave del izquierdo), entrega números inflados al comité. Aquí aprendes a unir tablas con claves limpias, reshape long/wide con schema estable, agregaciones con contrato (suma vs. media) y reconciliación de totales que un stakeholder no técnico pueda auditar. Entregas un script reproducible, evidencias numéricas y un memo de límites, sin PII real ni claims causales sin evidencia.",
  learningOutcomes: [
  { text: "Diseñar joins (merge) con claves alineadas y cardinalidad 1:1 / 1:m documentada (filas pre/post)" },
  { text: "Usar validate y anti-join (indicator) para detectar fan-out y filas huérfanas" },
@@ -71,9 +71,9 @@ export const section17: CourseSection = {
  ],
  callout: {
  type: "tip",
- title: "Antes de merge, alinea dtypes (puente S16)",
+ title: "Antes de unir, alinea dtypes (puente S16)",
  content:
- "Tras S16, normaliza `cliente_id` a str en ambos lados y verifica unicidad en el lado 1. Un join str↔int produce huérfanos falsos; un maestro con ids duplicados invalida el supuesto 1:1 antes del merge.",
+ "Tras S16, normaliza `cliente_id` a `str` en ambos lados y verifica unicidad en el lado 1. Una unión entre una clave `str` y otra `int` produce huérfanos falsos; un maestro con ids duplicados invalida el supuesto 1:1 antes de unir.",
  },
  },
  {
@@ -269,7 +269,7 @@ s17_th_5()`,
  heading: "Ventanas, fechas y cohortes",
  subtopicId: "S17-T3-B",
  paragraphs: [
- "`rolling` construye **ventanas móviles** sobre series ordenadas; `resample` requiere DatetimeIndex. Una **cohorte** etiqueta a cada cliente por el periodo de su primera observación válida (p. ej. mes de primera compra), no por la fecha del batch de hoy.",
+ "`rolling` construye **ventanas móviles** sobre series ordenadas. Una **cohorte** etiqueta a cada cliente por el periodo de su primera observación válida (p. ej. mes de primera compra), no por la fecha del batch de hoy.",
  "Contrato: **ordena por fecha** antes de rolling; documenta tamaño de ventana (2 periodos, 7d) y el tratamiento de NaN iniciales. Cohorte = `groupby(cliente_id)[fecha].transform('min').dt.to_period('M')` (o equivalente estable).",
  "Caso: tx en ene–mar 2024; C001 cohorte 2024-01; media móvil de montos diarios con window=2. Estas series alimentan preguntas de retención del portfolio ejecutivo sin afirmar causalidad — el memo declara no-claims explícitos. En S18 profundizarás la lectura de incertidumbre; aquí el contrato es series ordenadas y cohortes bien definidas.",
  ],

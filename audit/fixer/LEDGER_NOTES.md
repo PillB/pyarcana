@@ -332,3 +332,37 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   the glossary, the course index or the extractor is newer than the cache. Redirecting the
   extractor's stdout to `/dev/null` does **not** refresh it; only `gate.py`, `concept_map.py` and an
   explicit redirect into the file do.
+
+### The glossary was written for sections that no longer exist (2026-09-17)
+
+- **Seventeen `firstSectionId` values named a section where the term never appears.** A
+  course-wide diagnosis of 63 concepts (see `audit/fixer/CONCEPT_QUEUE.md`) traced them to two
+  causes: the pre-V3 slugs (`fastapi` for S21, `rag` for S20 — sections whose content is now
+  something else), and three retired section files that `index.ts` does not import
+  (`s09-sklearn.ts`, `s10-testing.ts`, `s11-advanced-topics.ts`), which are still the source of
+  the definitions for pytest, coverage, joblib, cross-validation, onehotencoder and others.
+  Twenty-six entries now point at the section the concept map says teaches them.
+- **A green glossary gate can be bought with wrong data.** `glossary_intro_audit.py` compares
+  "where the string first appears" against `firstSectionId`, so pointing a term at an early
+  section where nothing teaches it scores zero forward references. The honest values took it from
+  4 to 18. Fourteen of those are real — the word appears before the section that teaches it — and
+  each is a row in the concept queue. **The committed report claiming 0 was stale**; regenerate a
+  report before comparing against it.
+- **That audit reads source, not learner prose**, so its 18 are not 18 defects: it matches
+  `id: 'fastapi'` in the section source, `# merge precedence` in a code comment and the book title
+  "Practical MLOps" in a resources list. `tests/adversarial/glossary-first-use.test.mjs` scans
+  only `paragraphs:` and is the better instrument; the audit should be moved onto the extractor's
+  learner-visible events. Until it is, read its rows before believing them.
+- **An acronym has to match case-sensitively, in every matcher at once.** `ABC` matched the
+  placeholder string in `int("abc")` 94 times out of 97, and a beginner hovering S02's second hint
+  was offered "Abstract Base Class". `aliasIsAcronym` in `src/lib/glossary/terms.ts` is now shared
+  by the hover, the extractor, both Python audits and the first-use test. Change them together:
+  when only one of them moved, `abc` was recorded as introduced in S02 to satisfy the one that
+  had not.
+- **Three sections named a library or an operation the course never uses.** S40 made the
+  ports-and-adapters point with FastAPI and SQLAlchemy (S41 and S19 territory; S40 never has the
+  learner write either), S15 forbade `merge` eleven sections before S17 teaches it, and S06 wrote
+  the English `shape` for the *form of a row* — a different idea from the NumPy `shape` S14
+  teaches, under the same word, thirteen sections earlier. In all three the section already had
+  the Spanish for what it meant. Before glossing a term, check whether the section is merely
+  borrowing a name for something it already says plainly.

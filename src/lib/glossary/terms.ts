@@ -98,7 +98,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: 'Python',
     definition: 'String formatting con f prefijo. Permite insertar variables directamente con {}.',
     example: 'f"Hola {nombre}, tienes {edad} años"',
-    firstSectionId: 'setup',
+    firstSectionId: 'basics',
   },
   {
     id: 'slicing',
@@ -107,7 +107,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: 'Python',
     definition: 'Extraer una porción de una secuencia. Sintaxis: secuencia[inicio:fin:paso].',
     example: 'lista[1:4]  # elementos del índice 1 al 3\\nlista[::-1]  # reverso',
-    firstSectionId: 'setup',
+    firstSectionId: 'collections',
   },
   {
     id: 'truthiness',
@@ -115,7 +115,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Truthiness', 'truthy', 'falsy'],
     category: 'Python',
     definition: 'Valores que se evalúan como False: 0, 0.0, "", [], {}, None. Todo lo demás es True.',
-    firstSectionId: 'basics',
+    firstSectionId: 'decisions-rules',
   },
   {
     id: 'if',
@@ -133,10 +133,10 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     // Not `__init__`: S10 teaches packaging, where it means the package marker file, and that
     // collision alone produced 40 false "never explained" uses of a method this course barely
     // touches. `__str__`/`__repr__` are unambiguous.
-    aliases: ['Dunder method', 'dunder', '__str__', '__repr__'],
+    aliases: ['Dunder method', 'dunder', '__str__', '__repr__', '__eq__', '__hash__', '__post_init__'],
     category: 'Python',
     definition: 'Métodos especiales con __ al inicio y fin (double underscore). Ej: __init__, __str__, __repr__, __len__.',
-    firstSectionId: 'modules-packaging-cli',
+    firstSectionId: 'oop-domain',
   },
   {
     id: 'decorador',
@@ -150,16 +150,18 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'generator',
     term: 'Generator',
-    aliases: ['Generator', 'generador', 'yield'],
+    aliases: ['yield', 'función generadora', 'expresión generadora', 'expresiones generadoras'],
     category: 'Python',
     definition: 'Función que usa yield para producir valores uno a uno, sin cargar todo en memoria.',
     example: 'def cuenta():\\n    for i in range(10):\\n        yield i',
-    firstSectionId: 'functions-contracts',
+    firstSectionId: 'dbt-bigquery',
   },
   {
     id: 'return',
     term: 'return',
-    aliases: ['valores de retorno', 'valor de retorno', 'retornan', 'retornar', 'retorna', 'retorno', 'devuelve', 'return'],
+    // Not bare 'devuelve': it is ordinary Spanish ('la shell devuelve el control',
+    // 'la función devuelve un dict'), and it made S01 the first use of `return`.
+    aliases: ['valores de retorno', 'valor de retorno', 'retornan', 'retornar', 'retorna', 'retorno', 'return'],
     category: 'Python',
     definition: 'Termina la ejecución de una función y entrega un valor a quien la llamó. Si falta, Python entrega `None`.',
     example: 'def doble(numero):\\n    return numero * 2\\n\\ndoble(4)  # 8',
@@ -169,16 +171,16 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'context-manager',
     term: 'Context manager',
-    aliases: ['Context manager', 'contextlib', 'with open'],
+    aliases: ['Context manager', 'contextlib', 'context managers'],
     category: 'Python',
     definition: 'Objeto que define setup (__enter__) y cleanup (__exit__). Se usa con el statement with.',
     example: 'with open("f.csv") as f:\\n    data = f.read()',
-    firstSectionId: 'files-ingestion',
+    firstSectionId: 'exceptions-logging',
   },
   {
     id: 'exception',
     term: 'Excepción',
-    aliases: ['excepciones', 'excepción', 'exceptions', 'exception'],
+    aliases: ['excepciones', 'excepción', 'exceptions', 'exception', 'except', 'try/except'],
     category: 'Python',
     definition: 'Interrumpe el recorrido normal cuando Python no puede completar una operación. Puedes capturarla con `try` y `except` para decidir cómo responder sin ocultar el fallo.',
     example: 'try:\\n    edad = int(texto)\\nexcept ValueError:\\n    edad = None',
@@ -193,7 +195,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["ABC", "clase base abstracta", "clases base abstractas"],
     category: 'Python',
     definition: 'Abstract Base Class. Define interfaces: métodos que las subclases DEBEN implementar. No se puede instanciar directamente.',
-    firstSectionId: 'basics',
+    firstSectionId: 'oop-domain',
   },
   {
     id: 'args-y-kwargs',
@@ -407,15 +409,15 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["pytest"],
     category: 'Tooling',
     definition: 'Framework de testing para Python. Más simple que unittest. Descubre automáticamente test_*.py.',
-    firstSectionId: 'basics',
+    firstSectionId: 'async-concurrency',
   },
   {
     id: 'coverage',
     term: 'Coverage',
-    aliases: ['Coverage', 'cobertura'],
+    aliases: ['cobertura de código', 'cobertura de ramas', 'cobertura de líneas', 'branch coverage', 'line coverage', 'coverage.py'],
     category: 'Tooling',
     definition: 'Porcentaje de líneas de código cubiertas por tests. pytest --cov=mi_modulo.',
-    firstSectionId: 'packaging',
+    firstSectionId: 'async-concurrency',
   },
   {
     id: 'list',
@@ -457,7 +459,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Set"],
     category: 'Python',
     definition: 'Conjunto sin duplicados. {1, 2, 3}. Operaciones: | unión, & intersección, - diferencia.',
-    firstSectionId: 'setup',
+    firstSectionId: 'decisions-rules',
   },
   {
     id: 'defaultdict',
@@ -494,7 +496,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'vectorizaci-n',
     term: 'Vectorización',
-    aliases: ["Vectorización", "vectorizado", "vectorized", "operación vectorizada"],
+    aliases: ['Vectorización', 'vectorizado', 'vectorized', 'operación vectorizada', 'vectorizada', 'vectorizadas', 'vectorizados', 'vectorizar'],
     category: 'NumPy',
     definition: 'Operaciones aplicadas elemento a elemento sin loops de Python. 50-100x más rápido.',
     firstSectionId: 'security',
@@ -502,7 +504,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'broadcasting',
     term: 'Broadcasting',
-    aliases: ["Broadcasting"],
+    aliases: ['Broadcasting', 'broadcast'],
     category: 'NumPy',
     definition: 'Permite operar arrays de shapes distintas. NumPy "estira" el más pequeño sin copiar datos.',
     firstSectionId: 'security',
@@ -521,12 +523,12 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Shape"],
     category: 'NumPy',
     definition: 'Forma o estructura de los datos: qué campos, niveles o dimensiones tiene un registro o colección.',
-    firstSectionId: 'collections',
+    firstSectionId: 'security',
   },
   {
     id: 'dtype',
     term: 'dtype',
-    aliases: ["dtype"],
+    aliases: ['dtype', 'dtypes'],
     category: 'NumPy',
     definition: 'Tipo de datos del array. int64, float32, bool, etc. arr.dtype.',
     firstSectionId: 'security',
@@ -534,15 +536,15 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'reshape',
     term: 'Reshape',
-    aliases: ["Reshape"],
+    aliases: ['Reshape', 'Reshapear', 'reshaping'],
     category: 'NumPy',
     definition: 'Cambiar la shape sin cambiar los datos. arr.reshape(3, 4). -1 = wildcard.',
-    firstSectionId: 'security',
+    firstSectionId: 'packaging',
   },
   {
     id: 'dataframe',
     term: 'DataFrame',
-    aliases: ['DataFrame', 'pd.DataFrame'],
+    aliases: ['DataFrame', 'pd.DataFrame', 'DataFrames'],
     category: 'Pandas',
     definition: 'Tabla 2D con columnas de tipos distintos. Equivalente a una hoja de Excel. pd.read_csv() lo crea.',
     firstSectionId: 'stdlib-deep',
@@ -569,12 +571,12 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["Merge"],
     category: 'Pandas',
     definition: 'Combinar dos colecciones o registros siguiendo una clave o regla común.',
-    firstSectionId: 'setup',
+    firstSectionId: 'packaging',
   },
   {
     id: 'pivot-table',
     term: 'Pivot table',
-    aliases: ["Pivot table", 'pivot'],
+    aliases: ['Pivot table', 'pivot', 'pivot_table'],
     category: 'Pandas',
     definition: 'Reestructura datos largos a anchos. df.pivot_table(index, columns, values, aggfunc).',
     firstSectionId: 'packaging',
@@ -601,31 +603,31 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["EDA", "análisis exploratorio de datos"],
     category: 'Data Science',
     definition: 'Exploratory Data Analysis. Inspeccionar datos antes de modelar: .info(), .describe(), .value_counts(), visualizaciones.',
-    firstSectionId: 'security',
+    firstSectionId: 'wxpython-gui',
   },
   {
     id: 'missing-values',
     term: 'Missing values',
-    aliases: ['Missing values', 'valores faltantes', 'NaN'],
+    aliases: ['Missing values', 'valores faltantes', 'NaN', 'valores nulos', 'valor faltante'],
     category: 'Pandas',
     definition: 'Valores nulos (NaN). isnull().sum() para contar. fillna() para imputar, dropna() para eliminar.',
-    firstSectionId: 'collections',
+    firstSectionId: 'security',
   },
   {
     id: 'resample',
     term: 'Resample',
-    aliases: ["Resample"],
+    aliases: ['Resample', 'resampling', 'resamplear'],
     category: 'Pandas',
     definition: 'Cambiar frecuencia de serie temporal. df.resample("M").sum() agrupa por mes.',
-    firstSectionId: 'packaging',
+    firstSectionId: 'cv-ai-integration',
   },
   {
     id: 'pipeline',
     term: 'Pipeline',
-    aliases: ["Pipeline"],
-    category: 'ML',
+    aliases: ['Pipeline', 'pipelines'],
+    category: 'Data Science',
     definition: 'Serie ordenada de pasos: la salida de un paso pasa al siguiente hasta producir el resultado.',
-    firstSectionId: 'setup',
+    firstSectionId: 'basics',
   },
   {
     id: 'columntransformer',
@@ -641,20 +643,20 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Cross-validation', 'validación cruzada', 'cross_val'],
     category: 'ML',
     definition: 'Divide datos en K folds, entrena en K-1 y evalúa en 1, rotando. cross_val_score. Estratificado para desbalance.',
-    firstSectionId: 'microservices',
+    firstSectionId: 'advanced-models',
   },
   {
     id: 'overfitting',
     term: 'Overfitting',
-    aliases: ['Overfitting', 'sobreajuste', 'overfit'],
+    aliases: ['Overfitting', 'sobreajuste', 'overfit', 'sobreajusta', 'sobreajustada', 'sobreajustado'],
     category: 'ML',
     definition: 'Modelo memoriza training data, generaliza mal. Síntomas: train score >> test score. Fix: más datos, regularización, simpler model.',
-    firstSectionId: 'text-unicode-regex',
+    firstSectionId: 'advanced-models',
   },
   {
     id: 'roc-auc',
     term: 'ROC-AUC',
-    aliases: ["ROC-AUC"],
+    aliases: ['ROC-AUC', 'ROC', 'curva ROC'],
     category: 'ML',
     definition: 'Área bajo curva ROC. Métrica para clasificación binaria. 0.5 = azar, 1.0 = perfecto. Robusta a desbalance.',
     firstSectionId: 'cv-ai-integration',
@@ -662,7 +664,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'precision',
     term: 'Precision',
-    aliases: ["Precision"],
+    aliases: ['Precision', 'precisión/recall', 'precisión y recall'],
     category: 'ML',
     definition: 'De los positivos predichos, cuántos son reales. TP / (TP + FP). Alto = pocos falsos positivos.',
     firstSectionId: 'evidence-dashboard',
@@ -681,7 +683,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["F1-score", 'F1'],
     category: 'ML',
     definition: 'Media armónica de precision y recall. Útil cuando hay desbalance. 2 * (P * R) / (P + R).',
-    firstSectionId: 'streamlit-dashboards',
+    firstSectionId: 'cv-ai-integration',
   },
   {
     id: 'shap',
@@ -734,7 +736,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'outlier',
     term: 'Outlier',
-    aliases: ["Outlier", "valor atípico", "valores atípicos"],
+    aliases: ['Outlier', 'valor atípico', 'valores atípicos', 'outliers'],
     category: 'Data Science',
     definition: 'Valor atípico. Detectar con IQR: Q1 - 1.5*IQR a Q3 + 1.5*IQR. Los outliers afectan media y modelos.',
     firstSectionId: 'wxpython-gui',
@@ -742,7 +744,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'iqr',
     term: 'IQR',
-    aliases: ["IQR"],
+    aliases: ['IQR', 'rango intercuartílico'],
     category: 'Data Science',
     definition: 'Rango intercuartílico. Q3 - Q1. Medida robusta de dispersión.',
     firstSectionId: 'wxpython-gui',
@@ -782,7 +784,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'train-test-split',
     term: 'Train/test split',
-    aliases: ["Train/test split", 'train/test'],
+    aliases: ['Train/test split', 'train/test', 'conjunto de entrenamiento', 'conjunto de prueba', 'train y test'],
     category: 'ML',
     definition: 'Dividir datos en entrenamiento (80%) y prueba (20%). El modelo nunca "ve" el test durante training.',
     firstSectionId: 'security-infra',
@@ -809,7 +811,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["retrieval-augmented"],
     category: 'ML',
     definition: 'Retrieval-Augmented Generation: recupera documentos relevantes y los pasa al LLM como contexto para responder con fuentes.',
-    firstSectionId: 'rag',
+    firstSectionId: 'ai-governance',
   },
   {
     id: 'mlops',
@@ -817,7 +819,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["mlops"],
     category: 'ML',
     definition: 'Prácticas de ingeniería para llevar modelos de ML a producción: versionado, CI/CD, monitoreo y reentrenamiento.',
-    firstSectionId: 'rpa-advanced',
+    firstSectionId: 'opensource',
   },
   {
     id: 'entity-resolution',
@@ -833,7 +835,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["fastapi"],
     category: 'Tooling',
     definition: 'Framework web moderno de Python para APIs HTTP con validación Pydantic y OpenAPI automático.',
-    firstSectionId: 'fastapi',
+    firstSectionId: 'llm-finetuning',
   },
   {
     id: 'streamlit',
@@ -846,10 +848,10 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'llm',
     term: 'LLM',
-    aliases: ["llm", "LLMs", "modelo de lenguaje grande"],
+    aliases: ['llm', 'LLMs', 'modelo de lenguaje grande', 'modelo de lenguaje', 'modelos de lenguaje'],
     category: 'ML',
     definition: 'Large Language Model: modelo de lenguaje de gran escala entrenado para generar y comprender texto.',
-    firstSectionId: 'data-engineering',
+    firstSectionId: 'streamlit-dashboards',
   },
   {
     id: 'embedding',
@@ -918,6 +920,22 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     firstSectionId: 'stdlib-deep',
   },
 ]
+
+/**
+ * An acronym is matched exactly; every other alias ignores case.
+ *
+ * `ABC` is the abstract-base-class term, and `int("abc")` is the string S02 uses to show a
+ * `ValueError`. Matched case-insensitively they are the same word: 94 of the 97 recorded uses
+ * of the concept were that placeholder, and a beginner reading S02's second hint was offered
+ * an "Abstract Base Class" tooltip. The same collision waits in EDA, IQR, CV, ER and ROC.
+ *
+ * Every matcher — the hover, the event extractor and the Python glossary audits — has to agree
+ * on this, or one of them credits a term the others cannot see, which is how `abc` was filed
+ * as introduced in S02 in the first place.
+ */
+export function aliasIsAcronym(alias: string): boolean {
+  return /^[A-Z][A-Z0-9./_-]{1,}$/.test(alias) && /[A-Z]{2,}/.test(alias)
+}
 
 /** Longest-first for safe replace */
 export const GLOSSARY_BY_ALIAS: { alias: string; term: GlossaryTerm }[] = GLOSSARY_TERMS

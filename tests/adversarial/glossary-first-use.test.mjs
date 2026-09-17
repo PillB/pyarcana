@@ -68,10 +68,17 @@ test('no term is introduced later than the section that first uses it', () => {
   for (const { term, firstSectionId } of glossaryEntries()) {
     const declared = order.get(firstSectionId)
     if (declared === undefined) continue
-    // Word-boundary, case-insensitive, and not inside an identifier: "set"
-    // must not match "settings", and Distribución/distribución are the same
-    // word to a reader.
-    const pattern = new RegExp(`(?<![\\w\`])${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\w])`, 'i')
+    // Word-boundary, and not inside an identifier: "set" must not match
+    // "settings", and Distribución/distribución are the same word to a reader.
+    // An acronym is the exception and matches exactly, the same rule the hover,
+    // the extractor and the Python audits use (aliasIsAcronym): `ABC` is a term,
+    // `int("abc")` is S02's example of a string that fails to convert, and read
+    // case-insensitively this gate moved ABC's hint to S02 to satisfy it.
+    const isAcronym = /^[A-Z][A-Z0-9./_-]+$/.test(term) && /[A-Z]{2,}/.test(term)
+    const pattern = new RegExp(
+      `(?<![\\w\`])${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\w])`,
+      isAcronym ? '' : 'i',
+    )
     const firstUse = sections.find((n) => pattern.test(prose.get(n)))
     if (firstUse !== undefined && firstUse < declared) {
       late.push(`${term}: declared S${String(declared).padStart(2, '0')} but first used S${String(firstUse).padStart(2, '0')}`)
