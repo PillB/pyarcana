@@ -5,6 +5,8 @@
  * Fails when a PR/push candidate:
  * - deletes tracked files not on the deletion allowlist
  * - removes protected active curriculum section IDs / exercise IDs
+ *   (a section id renamed through SECTION_ID_RENAMES to an id still active is preserved:
+ *   `migrateSectionIds` carries learner progress across it; see scripts/section_id_renames.mjs)
  * - removes tests, migrations, or progress fields from the progress sanitizer contract
  *
  * Baseline: merge-base with origin/main when available, else HEAD~1, else
@@ -17,6 +19,11 @@
 import { execSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
+import {
+  SECTION_ID_RENAMES_PATH,
+  classifyMissingSectionIds,
+  parseSectionIdRenames,
+} from './section_id_renames.mjs'
 
 const ROOT = process.cwd()
 const ALLOWLIST_PATH = join(ROOT, 'audit/safe-agent/deletion-allowlist.json')
@@ -107,6 +114,72 @@ function extractActiveCurriculum(treeish) {
   }
 }
 
+/**
+ * SECTION_ID_RENAMES as committed at `treeish`, the same tree the section ids come from.
+ * A commit from before the map existed has no renames. A map that exists but cannot be
+ * parsed also yields no renames, and an error the caller must report as a failure.
+ */
+function readSectionIdRenames(treeish) {
+  const source = tryGit(`git show ${treeish}:${SECTION_ID_RENAMES_PATH}`)
+  if (source === null) return { renames: new Map(), error: null }
+  try {
+    return { renames: parseSectionIdRenames(source), error: null }
+  } catch (e) {
+    return { renames: new Map(), error: e.message }
+  }
+}
+
+function compareCurriculum(base, head, failures) {
+  const before = extractActiveCurriculum(base)
+  const after = extractActiveCurriculum(head)
+  const { renames, error } = readSectionIdRenames(head)
+  if (error) {
+    failures.push({
+      code: 'SECTION_ID_RENAMES_UNREADABLE',
+      path: SECTION_ID_RENAMES_PATH,
+      message: `Cannot read SECTION_ID_RENAMES, so no section id counts as renamed: ${error}`,
+    })
+  }
+  const sectionIds = classifyMissingSectionIds(before.sectionIds, after.sectionIds, renames)
+  const curriculum = {
+    before_count: before.activeCount,
+    after_count: after.activeCount,
+    removed_section_ids: sectionIds.removed.map(({ id }) => id),
+    renamed_section_ids: sectionIds.renamed,
+    removed_exercise_ids: [...before.exerciseIds].filter((id) => !after.exerciseIds.has(id)),
+  }
+  if (after.activeCount < before.activeCount) {
+    failures.push({
+      code: 'ACTIVE_SECTION_COUNT_DECREASED',
+      message: `Active sections decreased ${before.activeCount} → ${after.activeCount}`,
+    })
+  }
+  if (after.activeCount !== 52) {
+    failures.push({
+      code: 'ACTIVE_SECTION_COUNT_NOT_52',
+      message: `Active imported sections must be 52, found ${after.activeCount}`,
+    })
+  }
+  for (const { id, reason } of sectionIds.removed) {
+    failures.push({
+      code: 'SECTION_ID_REMOVED',
+      id,
+      reason,
+      message: `Protected section id removed: ${id} (${reason})`,
+    })
+  }
+  // Cap exercise removals reporting (noise control) but still fail
+  if (curriculum.removed_exercise_ids.length > 0) {
+    failures.push({
+      code: 'EXERCISE_IDS_REMOVED',
+      count: curriculum.removed_exercise_ids.length,
+      sample: curriculum.removed_exercise_ids.slice(0, 20),
+      message: `${curriculum.removed_exercise_ids.length} exercise id(s) removed from active curriculum`,
+    })
+  }
+  return curriculum
+}
+
 function progressFieldsPresent(treeish) {
   // Prefer pure sanitizer module; fall back to progress-store for older commits.
   let text = null
@@ -174,42 +247,7 @@ function main() {
   let curriculum = null
   if (base) {
     try {
-      const before = extractActiveCurriculum(base)
-      const after = extractActiveCurriculum(head)
-      curriculum = {
-        before_count: before.activeCount,
-        after_count: after.activeCount,
-        removed_section_ids: [...before.sectionIds].filter((id) => !after.sectionIds.has(id)),
-        removed_exercise_ids: [...before.exerciseIds].filter((id) => !after.exerciseIds.has(id)),
-      }
-      if (after.activeCount < before.activeCount) {
-        failures.push({
-          code: 'ACTIVE_SECTION_COUNT_DECREASED',
-          message: `Active sections decreased ${before.activeCount} → ${after.activeCount}`,
-        })
-      }
-      if (after.activeCount !== 52) {
-        failures.push({
-          code: 'ACTIVE_SECTION_COUNT_NOT_52',
-          message: `Active imported sections must be 52, found ${after.activeCount}`,
-        })
-      }
-      for (const id of curriculum.removed_section_ids) {
-        failures.push({
-          code: 'SECTION_ID_REMOVED',
-          id,
-          message: `Protected section id removed: ${id}`,
-        })
-      }
-      // Cap exercise removals reporting (noise control) but still fail
-      if (curriculum.removed_exercise_ids.length > 0) {
-        failures.push({
-          code: 'EXERCISE_IDS_REMOVED',
-          count: curriculum.removed_exercise_ids.length,
-          sample: curriculum.removed_exercise_ids.slice(0, 20),
-          message: `${curriculum.removed_exercise_ids.length} exercise id(s) removed from active curriculum`,
-        })
-      }
+      curriculum = compareCurriculum(base, head, failures)
     } catch (e) {
       warnings.push({ code: 'CURRICULUM_COMPARE_SKIPPED', message: String(e) })
     }
