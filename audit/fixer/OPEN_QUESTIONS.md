@@ -454,3 +454,75 @@ Confirmed instances so far, all found by checking before acting on a high score:
 Until it is decided, treat a high surprising-use score as a question, not a finding, and read the
 uses before writing a definition. Two of the first five concepts queued for a fix this way did
 not need one.
+
+---
+
+## The homonym section, corrected by measurement (2026-09-17)
+
+The course-wide diagnosis counted what the section above guessed at. Two of its three examples
+were wrong in detail, and the list is longer than three:
+
+- **`Correlación`** — not "nearly all". Seven logging uses (S09 ×4, S38, S51 ×2) against eighteen
+  statistical ones (S18 ×14, S19, S35 ×3). With `firstSectionId` at S09 the hover showed the
+  statistics definition on *identificador de correlación*; it now points at S18.
+- **`función`** — not a homonym at all. There is no second technical concept: "cumple funciones
+  distintas" is ordinary Spanish, and it is the only instance in the active course. Option 1
+  (disambiguate by section range) could never have caught it. The real homonym cluster around
+  this word is elsewhere: pytest's fixture scope `function` (S27, 34 occurrences), SQL window
+  functions (S29) and LLM function calling (S25, S49).
+- **`generator`** — confirmed, with the count corrected to ten of twelve: five PRNG, four
+  LLM/RAG, one ordinary Spanish. Option 2 was taken: the `Generator`/`generador` aliases are gone
+  and the entry keeps `yield`, `función generadora`, `expresión generadora`.
+
+Others measured, with the treatment taken:
+`ABC` (the placeholder string `"abc"`, 94 of 97 uses — fixed by case-sensitive acronym matching),
+`coverage` (eight senses: regex full-match, master-table match, sample coverage, automation
+coverage, field completeness, recall, conformal coverage, slice coverage — bare `cobertura`
+dropped, qualified aliases only), `merge` (six: dict overlay, entity fusion, pandas join, Excel
+merged cells, git merge, incremental upsert), `set` (the loanword in "feature set", "golden set",
+"training set"), `reshape` (NumPy vs pandas long/wide — NumPy's is never called in the course),
+`resample` (pandas frequency vs class rebalancing — the pandas one is never called either),
+`apply` (five senses, none of them pandas `.apply(`), `NaN` (an invalid float in S09–S13 versus an
+absent measurement in S14+), `parámetro` (Python parameter vs statistical parameter vs
+hyperparameter), `path` (the `PATH` environment variable vs `pathlib.Path`), `precisión` (metric
+vs everyday word vs `round(ndigits)`), `repositorio` (Git repository vs the Repository pattern).
+
+**Still undecided, and now blocking option 2 in general:** splitting an entry does not stop the
+shorter alias matching inside the longer one, because the extractor, the hover and
+`glossary-first-use.test.mjs` each match every term independently with no claimed-span check. A
+`identificador de correlación` term would still have `Correlación` matching inside it. Span
+claiming has to land in all three before any further split is worth writing.
+
+## Two decisions that are yours, not the campaign's (2026-09-17)
+
+### 1. S01 asks a beginner to rebuild an entrypoint the section says is unnecessary
+
+S01's own callout says "Un script no necesita `main()` ni un guardián `__name__` para existir",
+and its theory says a file with one `print` is already a script. Yet `S01-T1-A-E2` gives the
+learner `if ____ == "____":` / `____()` to fill in, the You Do starter wraps `hello_env.py` the
+same way, and `S01-T1-B-E2` asks for `def main():` with `sys.argv[1:]`, `len` and an `if` — in a
+subtopic whose own prose defers argv to S10 ("requiere listas, decisiones e índices que todavía
+no necesitas"). `def` is taught in S05, `if` in S03, `__name__` in S10.
+
+The repository currently *requires* the pattern: `test_s01_independent_recovery.py:172` pins the
+exact `def main():` solution text, and `newbie_agentic_validator.py:369` fails `hello_sys.py` when
+`def main` or `__main__` is missing. So this is a curriculum decision, not a content fix.
+
+Per your standing policy the primer route is being taken first: S01 will present the two lines as
+a fixed template, say in plain words what they do, point at S05 and S10, and stop asking the
+learner to reconstruct the guard from blanks. **Re-raised for you:** whether to go further and
+move the argv contract (`check_arg.py`) to S10, which would also mean repointing
+`scripts/code_rendering.spec.ts:189`, the validator gates and their tests.
+
+### 2. Q3's route decision still gates 12 findings
+
+Every `Q3_ROUTE_PENDING` row in `audit/fixer/CONCEPT_QUEUE.md` — the S02–S04 practice layer, which
+is one cumulative capstone (CP-N1-A) — waits on the same decision. Where a route-independent fix
+exists it is named in the queue (unwrapping the six `def s02_ido_N():` demo wrappers, which take
+no parameter, return nothing and are called once, changes no output under either route). Where it
+does not (`safe_int`, `parse_client`, the You Do `_run_tests` asserts), the finding stops there.
+
+One measurement changed since Q3 was written: adding `except` and `try/except` as aliases of
+`Excepción` made the dependency visible for the first time — 11 occurrences in S02, 7 in S04, 14
+in S05, 9 in S06, 3 in S07 and 10 in S08, all before S09 teaches exception handling. Q3's original
+text understated this because no alias covered the keyword.
