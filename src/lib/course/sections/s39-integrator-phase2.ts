@@ -28,7 +28,7 @@ export const section39: CourseSection = {
     { text: "Registrar ownership, semver y política de compatibilidad por artefacto del triage" },
     { text: "Armar cola, evidence packet y explicación en capas sin exponer solo un número" },
     { text: "Operar decisión automática, override humano, feedback y apelación con audit log" },
-    { text: "Aplicar checklist de privacidad, fairness por slices y seguridad de inputs del packet" },
+    { text: "Aplicar la lista de comprobación de privacidad, equidad por grupos y seguridad de las entradas del paquete" },
     { text: "Monitorear drift, activar human_only, rollback de modelo/umbral y abstención" },
     { text: "Definir criterios de aceptación, demo e2e sintético y smoke de regresión S27–S39" },
     { text: "Publicar model/data/system cards, métricas de valor operativo y post mórtem blameless" },
@@ -130,8 +130,8 @@ auto_fraud False`,
       },
       subtopicId: "S39-T1-B",
       paragraphs: [
-        "Cada artefacto del triage — motor de ER, `graph_schema`, `feature_set`, ranker, umbral y plantilla de packet — debe tener **owner**, **versión semver** y **política de compatibilidad**. Sin owner no hay on-call; sin versión no hay regresión; sin política de breaking change el revisor recibe un packet que el modelo ya no entiende.",
-        "Semver no es adorno: un breaking change en el schema del grafo invalida paths ya guardados en packets de cola. Entrada: registry con `ver`, `owner` y flag de breaking. Salida: inventario, owners distintos y bump major/minor. Error: publicar breaking como patch o artefacto sin owner. Éxito: cada artefacto en producción tiene dueño contactable y major documentado cuando el contrato se rompe.",
+        "Cada artefacto del triage —motor de ER, `graph_schema`, `feature_set`, ranker, umbral y plantilla de packet— debe tener **`owner`**, **versión semver** y **política de compatibilidad**. Sin una persona responsable no hay guardia; sin versión no hay regresión. Sin una política para cambios incompatibles, el revisor recibe un packet que el modelo ya no entiende.",
+        "Semver no es adorno: un cambio incompatible en el schema del grafo invalida paths ya guardados en packets de cola. Entrada: registry con `ver`, `owner` y el indicador `breaking`. Salida: inventario, responsables distintos e incremento de versión principal o secundaria. Error: publicar un cambio incompatible como `patch` o dejar un artefacto sin responsable. Éxito: cada artefacto en producción tiene un responsable contactable y una versión principal documentada cuando el contrato se rompe.",
         "En `CASO-LIM-039-T1B`, el equipo de plataforma en Lima versiona `er_engine 1.2.0` (data-quality), `graph_schema 3.0.0` (investigations), `feature_set 3.0.0` (ml-platform) y `ranker 2.1.0` (ml-risk). Si el schema del grafo elimina un tipo de nodo, el bump es major y la regresión S27–S39 debe revalidar paths antes de reabrir la cola automática.",
       ],
       code: {
@@ -158,7 +158,7 @@ compat semver`,
         type: "warning",
         title: "Sin owner",
         content:
-          "Artefacto sin owner bloquea release del triage: no hay escalamiento de incidentes ni firmante del checklist de riesgo.",
+          "Artefacto sin owner bloquea el lanzamiento del triage: no hay escalamiento de incidentes ni quien firme la lista de comprobación de riesgos.",
       },
     },
     {
@@ -227,9 +227,9 @@ load {'n_queue_now': 2, 'within_capacity': True}`,
       heading: "Decisión, override, feedback y apelación",
       subtopicId: "S39-T2-B",
       paragraphs: [
-        "Las acciones de cola típicas son **queue** (priorizar revisión), **skip** (baja prioridad o sin señal accionable) y **escalate**. La política automática sugiere; el **override humano gana** y debe quedar en audit log con actor, razón y timestamp. Sin audit, el override es un riesgo de gobernanza, no un control.",
-        "El audit no es un log de debug: es la prueba de que un humano mandó sobre el auto. Entrada: case_id, score, umbral, opcional decisión humana y canal de apelación. Salida: acción final, flag de override y evento con actor/razón/timestamp. Error: override sin registro, o feedback reinyectado al training con leakage temporal. Éxito: cada cambio es reconstruible y la apelación reabre con otro revisor.",
-        "En `CASO-LIM-039-T2B`, el auto sugiere queue por score 0.9; un revisor en Lima hace skip por evidencia insuficiente y se loguea override. Si el cliente apela, el caso reabre con reviewer distinto. El feedback mejora reglas o datasets con cuidado de ventana temporal: nunca uses el label de cola como feature del mismo score que la generó.",
+        "Las acciones de cola típicas son **`queue`** (priorizar la revisión), **`skip`** (baja prioridad o ausencia de una señal que permita actuar) y **escalar**. La política automática sugiere; la **decisión humana prevalece** y debe quedar en el registro de auditoría con la persona que actuó, la razón y la marca de tiempo. Sin ese registro, la intervención humana es un riesgo de gobernanza, no un control.",
+        "El registro de auditoría no sirve para depurar: prueba que una persona prevaleció sobre la decisión automática. Entrada: `case_id`, score, umbral, decisión humana opcional y canal de apelación. Salida: acción final, indicador `override` y evento con persona, razón y marca de tiempo. Error: intervención humana sin registro o retroalimentación reinyectada al entrenamiento con leakage temporal. Éxito: cada cambio se puede reconstruir y la apelación reabre el caso con otro revisor.",
+        "En `CASO-LIM-039-T2B`, la decisión automática sugiere `queue` por un score de 0.9; un revisor en Lima elige `skip` por evidencia insuficiente y el registro marca `override`. Si el cliente apela, el caso reabre con otro revisor. La retroalimentación mejora reglas o conjuntos de datos si se respeta la ventana temporal: nunca uses la etiqueta de cola como feature del mismo score que la generó.",
       ],
       code: {
         language: 'python',
@@ -263,9 +263,9 @@ overrides 1`,
       heading: "Privacidad, fairness y seguridad",
       subtopicId: "S39-T3-A",
       paragraphs: [
-        "Antes de abrir el triage a revisores, aplica minimización de PII (solo campos necesarios del packet), **RBAC** por rol (reviewer frente a admin) y prohíbe secretos o tokens en el repo. Fairness operativa: mide tasas de envío a cola y de override por slices sintéticos de producto o canal, no para afirmar culpa de un grupo real.",
-        "Un AUC alto no «compensa» un secreto en el repo ni la falta de RBAC: son blockers duros de release. Entrada: checklist con pii_minimized, rbac, secrets_in_repo, slice_metrics e input_limits. Salida: `release_ok` y blockers nominados. Error: secrets_in_repo True, packet sin control de rol o sin métricas por slice. Éxito: el owner de riesgo firma el checklist antes de la demo de aceptación.",
-        "Para `CASO-LIM-039-T3A`, el release de la cola en un entorno de laboratorio limeño exige tres controles. Primero, límites de tamaño en los adjuntos sintéticos del packet. Segundo, validación de URL (sin **SSRF**: el servidor no debe abrir URL arbitrarias de evidence remota). Tercero, slice metrics de false-queue rate. El checklist no declara «sistema justo para siempre»: solo evidencia mínima de release responsable.",
+        "Antes de abrir el triage a revisores, aplica minimización de PII (solo los campos necesarios del packet), **RBAC** por rol (revisor frente a administrador) y prohíbe secretos o tokens en el repositorio. Equidad operativa: mide las tasas de envío a cola y de intervención humana por grupos sintéticos de producto o canal, no para afirmar la culpa de un grupo real.",
+        "Un AUC alto no «compensa» un secreto en el repositorio ni la falta de RBAC: ambos impiden el lanzamiento. Entrada: lista de comprobación con `pii_minimized`, `rbac`, `secrets_in_repo`, `slice_metrics` e `input_limits`. Salida: `release_ok` e impedimentos identificados. Error: `secrets_in_repo` con valor `True`, packet sin control de rol o sin métricas por grupo. Éxito: el responsable de riesgos firma la lista antes de la demostración de aceptación.",
+        "Para `CASO-LIM-039-T3A`, el lanzamiento de la cola en un entorno de laboratorio limeño exige tres controles. Primero, límites de tamaño en los adjuntos sintéticos del packet. Segundo, validación de URL (sin **SSRF**: el servidor no debe abrir URL arbitrarias de evidencia remota). Tercero, métricas por grupo de la tasa de envíos erróneos a cola. La lista de comprobación no declara «sistema justo para siempre»: solo aporta evidencia mínima para un lanzamiento responsable.",
       ],
       code: {
         language: 'python',
@@ -298,14 +298,14 @@ fraud_auto False`,
         type: "tip",
         title: "Release gate",
         content:
-          "El checklist queda firmado por el owner: secrets_in_repo o falta de RBAC son blockers duros; no se «compensa» con un AUC alto.",
+          "El checklist queda firmado por el responsable: `secrets_in_repo` o la falta de RBAC son impedimentos absolutos; no se «compensan» con un AUC alto.",
       },
     },
     {
       heading: "Drift, incidentes, rollback y control humano",
       subtopicId: "S39-T3-B",
       paragraphs: [
-        "En producción del triage monitoreas distribución de scores, prevalencia proxy de cola, calibración, latencia del packet y tasa de overrides. **Drift** no es un veredicto moral: es una señal de que el ranking puede estar desalineado y hay que abstener más o recalibrar. El control humano no se optimiza fuera del sistema para «subir throughput».",
+        "En producción del triage monitoreas la distribución de scores, la prevalencia aproximada de la cola, la calibración, la latencia del packet y la tasa de intervenciones humanas. **Drift** no es un veredicto moral: es una señal de que el ordenamiento puede estar desalineado y hay que abstenerse más o recalibrar. El control humano no se optimiza fuera del sistema para «aumentar la capacidad de procesamiento».",
         "Prioridad de modos: incident > drift > normal. Si hay incidente de política o seguridad, el throughput se sacrifica. Entrada: flags drift_high/incident, versión de modelo/umbral y runbook. Salida: `normal` | `abstain_more` | `human_only` + target de rollback versionado. Error: seguir en auto durante incidente. Éxito: interruptor human_only documentado y alertas accionables.",
         "En `CASO-LIM-039-T3B`, un pico de score medio sin cambio de intake dispara alerta de calibración: el modo pasa a abstain_more. Si hay incidente T0 de exposición de campos, se fuerza human_only y rollback al ranker anterior. El score nunca se convierte en etiqueta masiva de fraude mientras se investiga.",
       ],
@@ -342,7 +342,7 @@ rollback model_previous`,
       paragraphs: [
         "La aceptación de CP-N3-C no es un screenshot: es una lista de criterios ejecutables sobre fixtures sintéticos. Mínimo: corrida e2e, baseline visible en métricas, camino de abstención, audit log de decisiones, prohibición de auto-label de fraude y smoke de regresión S27–S39 documentado.",
         "Una demo creíble cubre tres caminos, no solo el feliz: happy, override y ood_abstain. Entrada: checklist de aceptación + rutas de demo. Salida: criterios en verde y expediente CF-3 listo para revisor externo. Error: demo solo happy o autodeclarar promoción. Éxito: un evaluador externo repite la demo sin secretos ni datos reales.",
-        "Para `CASO-LIM-039-T4A`, la demo en laboratorio muestra (1) caso con packet completo y queue, (2) override humano a skip con audit, (3) entrada **OOD** (out-of-distribution: el caso cae fuera de la distribución de validación) que abstiene. La regresión N3 es una lista de checks de contratos, no un reentrenamiento completo. Dejas el expediente listo; no autodeclaras el cierre del nivel ni el PASS de CF-3.",
+        "Para `CASO-LIM-039-T4A`, la demostración en laboratorio muestra: (1) un caso con packet completo y `queue`; (2) una decisión humana `skip` registrada en la auditoría; y (3) una entrada **OOD** (fuera de la distribución de validación) ante la cual el sistema se abstiene. La regresión N3 es una lista de comprobaciones de contratos, no un reentrenamiento completo. Dejas el expediente listo; no autodeclaras el cierre del nivel ni el resultado `PASS` de CF-3.",
       ],
       code: {
         language: 'python',
@@ -384,8 +384,8 @@ self_declared_promotion False`,
       heading: "Model/data/system cards, métricas de valor y post mórtem",
       subtopicId: "S39-T4-B",
       paragraphs: [
-        "El cierre de nivel exige **cards** legibles. **Model card:** intended use, `label_space`, límites, no autofraude, oversight y métricas por slice. **Data card:** fuentes sintéticas, ventanas, minimización de PII y gaps conocidos. **System card:** modos ops, owners, rollback y demo paths. Las métricas de valor del triage son operativas: precisión@k de la cola, tasa de overrides y tiempo mediano de review — no solo AUC offline.",
-        "Cards y post mórtem cierran el aprendizaje del sistema, no la cacería de culpables. Una card útil nombra al owner de monitoreo y lo que no mide el score. Un post mórtem blameless separa timeline, root_cause de proceso y actions (p. ej. rollback frente a recalibrar). Entrada: métricas de valor + plantillas. Salida: tres cards publicables + post mórtem con acciones. Error: card de una línea, solo AUC offline, o root_cause con nombres de personas. Éxito: un stakeholder no-ML entiende el score y cuándo interviene un humano.",
+        "El cierre de nivel exige **cards** legibles. **Model card:** intended use, `label_space`, límites, no autofraude, oversight y métricas por slice. **Data card:** fuentes sintéticas, ventanas, minimización de PII y gaps conocidos. **System card:** modos ops, responsables, rollback y demo paths. Las métricas de valor del triage son operativas: precisión@k de la cola, tasa de overrides y tiempo mediano de revisión — no solo AUC offline.",
+        "Cards y post mórtem cierran el aprendizaje del sistema, no la cacería de culpables. Una card útil nombra al responsable del monitoreo y lo que no mide el score. Un post mórtem blameless separa timeline, root_cause de proceso y actions (p. ej. rollback frente a recalibrar). Entrada: métricas de valor + plantillas. Salida: tres cards publicables + post mórtem con acciones. Error: card de una línea, solo AUC offline, o root_cause con nombres de personas. Éxito: un stakeholder no-ML entiende el score y cuándo interviene un humano.",
         "En `CASO-LIM-039-T4B`, precision_at_k=0.55, override_rate=0.12 y median_review_s=90 cuentan la historia de la cola limeña de laboratorio; por slice sintético, canal_app muestra false_queue≈0.08 y canal_web≈0.11. Tras un incidente de calibración, el post mórtem blameless lista rollback y recalibración — sin culpar al on-call. Con cards, métricas de valor y notas de regresión, el expediente queda listo para revisión CF-3; tú no autodeclaras la promoción.",
       ],
       code: {
@@ -425,12 +425,12 @@ cards ['data', 'model', 'system']`,
         type: "tip",
         title: "Valor",
         content:
-          "Negocio entiende overrides y tiempo de review, no solo AUC. Cards sin límites del label_space son incompletas.",
+          "Negocio entiende overrides y tiempo de revisión, no solo AUC. Cards sin límites del label_space son incompletas.",
       },
     },
   ],
   iDo: {
-    intro: "Te muestro el cierre del nivel N3 en ocho demos: pipeline canónico, registry con owners, evidence packet, decisiones con override, checklist de riesgo, modos ops, aceptación/regresión y cards de valor. Todo con fixtures sintéticos; sin autodeclarar promoción ni CF-3.",
+    intro: "Te muestro el cierre del nivel N3 en ocho demos: pipeline canónico, registry con responsables, evidence packet, decisiones con override, checklist de riesgo, modos ops, aceptación/regresión y cards de valor. Todo con fixtures sintéticos; sin autodeclarar promoción ni CF-3.",
     steps: [
       {
         demoId: "S39-T1-A-DEMO",
@@ -460,7 +460,7 @@ print("auto_fraud", run["auto_fraud"])`,
 label_space needs_review
 auto_fraud False`,
         },
-        why: "Cada stage es una frontera de contrato: intake normaliza, ER resuelve identidad, el grafo expone paths, features materializan señales y el score solo ordena trabajo humano en cola. Los flags `label_space=needs_review` y `auto_fraud=False` evitan mapear el ranking a veredicto legal o de parentesco. Si saltas una frontera, los features o el packet mienten al revisor. En We Do repararás el predicado de orden y el alcance de ER.",
+        why: "Cada stage es una frontera de contrato: intake normaliza, ER resuelve identidad, el grafo expone paths, features materializan señales y el score solo ordena trabajo humano en cola. Los flags `label_space=needs_review` y `auto_fraud=False` evitan convertir el ordenamiento en un veredicto legal o de parentesco. Si saltas una frontera, los features o el packet mienten al revisor. En We Do repararás el predicado de orden y el alcance de ER.",
         retrospective:
           "Si puedes explicar por qué el pipeline termina en cola y no en «fraude detectado», ya tienes el hábito de fronteras. El error clásico es saltar ER o tratar el score como sanción. En We Do practicarás el predicado de orden y el rechazo de parentesco inventado.",
       },
@@ -468,9 +468,9 @@ auto_fraud False`,
         demoId: "S39-T1-B-DEMO",
         subtopicId: "S39-T1-B",
         environment: "local-python",
-        description: "Registry mínimo: conteo de owners y política semver derivados de metadatos de artefactos.",
+        description: "Registry mínimo: conteo de responsables y política semver derivados de los metadatos de los artefactos.",
         preamble:
-          "Sin dueño contactable no hay on-call del triage; sin semver no hay regresión confiable. Esta demo arma un registry mínimo (`er_engine`, `ranker`) con owners distintos y un flag `breaking` que fuerza política major. Observa el conteo de owners, el print de `semver_policy` y `owner_required`. No escribas: predice si un artefacto sin owner pasaría `registry_ok`.",
+          "Sin un responsable contactable no hay guardia del triage; sin semver no hay regresión confiable. Esta demostración arma un registry mínimo (`er_engine`, `ranker`) con responsables distintos y el indicador `breaking`, que exige incrementar la versión principal. Observa el conteo de responsables, la salida de `semver_policy` y `owner_required`. No escribas: predice si un artefacto sin `owner` pasaría `registry_ok`.",
         code: {
           language: 'python',
           title: "reg_demo.py",
@@ -491,9 +491,9 @@ print("owner_required", registry_ok(reg))`,
 semver_policy major_on_breaking
 owner_required True`,
         },
-        why: "Ownership y bump major en breaking evitan packets de cola con paths de grafo obsoletos o rankers huérfanos. Un patch silencioso ante cambio de schema rompe la regresión S27–S39: el revisor sigue citando paths que ya no existen. Cada artefacto del triage necesita dueño y política de versión antes de liberar. En We Do practicarás major ante breaking y escalamiento si falta owner.",
+        why: "Asignar responsables y usar un bump major ante breaking evita packets de cola con paths de grafo obsoletos o rankers huérfanos. Un patch silencioso ante cambio de schema rompe la regresión S27–S39: el revisor sigue citando paths que ya no existen. Cada artefacto del triage necesita dueño y política de versión antes de liberar. En We Do practicarás major ante breaking y escalamiento si falta `owner`.",
         retrospective:
-          "Owner + semver = contrato de evolución del triage. Confundir patch con major deja packets de cola con paths de grafo muertos. Pregunta: si `graph_schema` elimina un tipo de nodo, ¿qué bump firmas ante investigations? We Do: predicado major, tres rutas y registry de cuatro artefactos.",
+          "`owner` + semver = contrato de evolución del triage. Confundir patch con major deja packets de cola con paths de grafo muertos. Pregunta: si `graph_schema` elimina un tipo de nodo, ¿qué bump firmas ante investigations? We Do: predicado major, tres rutas y registry de cuatro artefactos.",
       },
       {
         demoId: "S39-T2-A-DEMO",
@@ -594,9 +594,9 @@ print("auto_fraud", checklist["auto_fraud"])`,
 secrets_in_repo False
 auto_fraud False`,
         },
-        why: "Blockers duros (secretos en repo, autofraude) no se compensan con un buen AUC. Controles positivos (RBAC, minimización de PII) deben estar en verde antes del release. El checklist es el contrato de seguridad del triage hacia CF-3. En We Do practicarás negar secrets, separar missing de reject y fairness por slice.",
+        why: "Los impedimentos absolutos (secretos en el repositorio, autofraude) no se compensan con un buen AUC. Los controles positivos (RBAC, minimización de PII) deben estar en verde antes del lanzamiento. La lista de comprobación es el contrato de seguridad del triage hacia CF-3. En We Do practicarás cómo negar secretos, separar `MISSING` de `REJECT` y medir la equidad por grupo.",
         retrospective:
-          "Release del triage es política firmable, no solo métrica de modelo. El error clásico es tratar secrets como «detalle de DevOps» compensable con AUC. Pregunta: si `secrets_in_repo=True` y todo lo demás verde, ¿`risk_release_ok`? We Do: predicado, missing vs. reject y fairness por slice.",
+          "Lanzar el triage exige una política firmable, no solo una métrica del modelo. El error clásico es tratar los secretos como un «detalle de DevOps» compensable con AUC. Pregunta: si `secrets_in_repo=True` y todo lo demás está verde, ¿`risk_release_ok`? We Do: predicado, `MISSING` frente a `REJECT` y equidad por grupo.",
       },
       {
         demoId: "S39-T3-B-DEMO",
@@ -634,7 +634,7 @@ priority incident_over_drift`,
         demoId: "S39-T4-A-DEMO",
         subtopicId: "S39-T4-A",
         environment: "local-python",
-        description: "Seis criterios de aceptación contados, scope de regresión S27–S39 y CF-3 con revisión externa.",
+        description: "Seis criterios de aceptación contados, alcance de la regresión S27–S39 y CF-3 con revisión externa.",
         preamble:
           "Cerrar el nivel no es imprimir OK en un script. Esta demo cuenta seis criterios de aceptación, fija regresión `S27-S39`, revisión CF-3 externa y prohíbe autodeclarar promoción. Observa las cuatro líneas de salida. No escribas: predice qué diría un revisor si `self_declared_promotion` fuera True.",
         code: {
@@ -672,7 +672,7 @@ self_declared_promotion False`,
         environment: "local-python",
         description: "Métricas de valor operativo, tres cards y post mórtem blameless derivados de estructuras.",
         preamble:
-          "El negocio no lee solo AUC: lee overrides, tiempo de review y si el post mórtem es blameless. Esta demo lista claves de valor, ordena cards model/data/system y valida un post mórtem con root_cause y actions. Observa las tres líneas. No escribas: predice si un post mórtem con blameless=False pasaría.",
+          "El negocio no lee solo AUC: lee overrides, tiempo de revisión y si el post mórtem es blameless. Esta demo lista claves de valor, ordena cards model/data/system y valida un post mórtem con root_cause y actions. Observa las tres líneas. No escribas: predice si un post mórtem con blameless=False pasaría.",
         code: {
           language: 'python',
           title: "val_demo.py",
@@ -701,7 +701,7 @@ print("postmortem", postmortem_ready(postmortem))`,
 ['data', 'model', 'system']
 postmortem True`,
         },
-        why: "Cierre de nivel con valor operativo (override_rate, tiempo de review), cards de límites y aprendizaje sin cacería de brujas. El revisor externo de CF-3 mira ese paquete, no solo un AUC offline. En We Do codificarás el set de cards, las métricas de valor y los tokens del post mórtem.",
+        why: "Cierre de nivel con valor operativo (override_rate, tiempo de revisión), cards de límites y aprendizaje sin cacería de brujas. El revisor externo de CF-3 mira ese paquete, no solo un AUC offline. En We Do codificarás el set de cards, las métricas de valor y los tokens del post mórtem.",
         retrospective:
           "Cards y valor operativo cierran el producto; el post mórtem cierra el incidente sin cacería de brujas. El error clásico es publicar solo AUC. Pregunta: ¿un post mórtem con `blameless=False` pasa `postmortem_ready`? We Do: set de cards, métricas de valor y tokens del post mórtem.",
       },
@@ -785,7 +785,7 @@ assert meets is True
         edgeCases: ["stages invertidos", "falta label_space", "auto_fraud True es adverso de política"],
         tests: "Salida exacta: PASS REJECT_STAGE_ORDER MISSING:label_space",
         feedback:
-          "Missing y contenido adverso bloquean la cola con señales distintas: el revisor de onboarding arregla schema o corrige orden, no el mismo ticket genérico.",
+          "Los campos ausentes y el contenido adverso bloquean la cola con señales distintas: el revisor de incorporación corrige el schema o el orden, no la misma incidencia genérica.",
         retrospective:
           "Tres tokens distintos protegen tres tickets distintos: schema incompleto, orden adverso y política de score. El error clásico es un solo `REJECT` genérico. Pregunta: si falta `label_space`, ¿por qué no inventar `fraud_certainty`? Luego (E3): alcance de ER sin parentesco.",
         starterCode: {
@@ -935,9 +935,9 @@ assert results == [
           "- **Contexto:** en `CASO-LIM-039-T1B` el `graph_schema` rompe paths ya guardados en packets; el bump debe ser major.\n- **Meta:** corregir el predicado que hoy exige `minor` ante `breaking=True`.\n- **Éxito:** `S39-T1-B PASS` con owner presente y bump major.\n- **Límites:** no borres el fixture; no aceptes owner vacío.",
         instruction:
           "1. Localiza el DEFECTO: `bump == \"minor\"`.\n2. Cambia a `bump == \"major\"` cuando `breaking` es True.\n3. Mantén `bool(record[\"owner\"])`.\n4. Imprime `S39-T1-B` + status.",
-        hint: "Breaking change → major. Owner vacío o None falla el contrato aunque el bump sea correcto.",
+        hint: "Cambio incompatible → major. `owner` vacío o `None` hace fallar el contrato aunque el bump sea correcto.",
         hints: [
-          "Breaking change → major. Owner vacío o None falla el contrato aunque el bump sea correcto.",
+          "Cambio incompatible → major. `owner` vacío o `None` hace fallar el contrato aunque el bump sea correcto.",
           "No alteres el fixture; corrige solo la expresión booleana del predicado.",
         ],
         edgeCases: ["breaking con bump minor", "owner vacío", "CASO-LIM-039-T1B sintético"],
@@ -945,7 +945,7 @@ assert results == [
         feedback:
           "Semver major comunica breaking al equipo de investigations y a la regresión S27–S39. Un minor silencioso deja packets huérfanos en cola.",
         retrospective:
-          "Breaking → major + owner contactable. El error clásico es «es solo un campo del grafo» y publicar patch. Pregunta: ¿quién recibe el semver en el on-call de la cola? Siguiente (E2): tres rutas (política vs. missing de owner).",
+          "Cambio incompatible → major + responsable contactable. El error clásico es «es solo un campo del grafo» y publicar patch. Pregunta: ¿quién recibe el semver durante la guardia de la cola? Siguiente (E2): tres rutas (política frente a ausencia de `owner`).",
         starterCode: {
           language: 'python',
           title: "s39-t1-b-e1.py",
@@ -991,17 +991,17 @@ assert meets is True
           "- **Contexto:** el ranker de `ml-risk` no puede ir a producción sin owner ni con bump incorrecto ante breaking.\n- **Meta:** `assess` con missing-antes-de-contenido y rechazo de política.\n- **Éxito:** `PASS REJECT_BUMP_POLICY MISSING:owner`.\n- **Límites:** no mires bump si falta owner; no inventes owner por defecto.",
         instruction:
           "1. Calcula missing de claves requeridas.\n2. Si owner vacío o ausente → `MISSING:owner`.\n3. Si `breaking` y `bump != \"major\"` → `REJECT_BUMP_POLICY`.\n4. Imprime las tres rutas.",
-        hint: "Si falta owner, devuelve MISSING:owner sin mirar bump.",
+        hint: "Si falta `owner`, devuelve `MISSING:owner` sin mirar `bump`.",
         hints: [
-          "Si falta owner, devuelve MISSING:owner sin mirar bump.",
-          "Si breaking y bump != major → REJECT_BUMP_POLICY aunque haya owner.",
+          "Si falta `owner`, devuelve `MISSING:owner` sin mirar `bump`.",
+          "Si `breaking` es verdadero y `bump != \"major\"`, devuelve `REJECT_BUMP_POLICY` aunque haya `owner`.",
         ],
         edgeCases: ["owner ausente", "breaking con patch", "registry de 4 artefactos conceptuales"],
         tests: "Salida: PASS REJECT_BUMP_POLICY MISSING:owner",
         feedback:
-          "Owner y major bump son chequeos independientes: uno es gente de on-call, el otro es contrato de evolución. Confundirlos retrasa el release del triage.",
+          "La persona responsable indicada por `owner` y el incremento principal indicado por `bump` son comprobaciones independientes: una permite contactar a la guardia y la otra controla la evolución del contrato. Confundirlas retrasa el lanzamiento del triage.",
         retrospective:
-          "Gente (owner) y contrato (bump) se fallan por caminos distintos: un ticket de staffing no es un ticket de semver. El error clásico es inventar owner por defecto para «pasar» el release. Pregunta: si el owner está vacío pero el bump es major, ¿qué token gana? Luego: registry de cuatro artefactos como conjunto.",
+          "La persona responsable (`owner`) y el contrato (`bump`) fallan por caminos distintos: una incidencia de dotación de personal no es una incidencia de semver. El error clásico es inventar `owner` por defecto para «pasar» el lanzamiento. Pregunta: si `owner` está vacío pero `bump` es `major`, ¿qué resultado gana? Luego: registry de cuatro artefactos como conjunto.",
         starterCode: {
           language: 'python',
           title: "s39-t1-b-e2.py",
@@ -1068,14 +1068,14 @@ print(assess(valid), assess(invalid), assess(incomplete))
         hint: "Recorre todos los artefactos antes de CONTINUE; un solo fallo de política bloquea el registry entero.",
         hints: [
           "Recorre todos los artefactos antes de CONTINUE; un solo fallo de política bloquea el registry entero.",
-          "n_art es len(registry) (=4). Corrige el off-by-one del starter y valida owner + bump major ante breaking.",
+          "n_art es len(registry) (=4). Corrige el off-by-one del starter y valida `owner` + bump major ante breaking.",
         ],
         edgeCases: ["owner vacío en un artefacto", "breaking sin major", "registry incompleto"],
         tests: "Salida: CONTINUE 4 ESCALATE_NO_OWNER REJECT_BUMP_POLICY",
         feedback:
-          "El registry es un conjunto: un hueco bloquea el release del triage. El off-by-one miente sobre cobertura ante el revisor de CF-3.",
+          "El registry es un conjunto: un hueco bloquea el lanzamiento del triage. El off-by-one miente sobre cobertura ante el revisor de CF-3.",
         retrospective:
-          "El registry se libera entero o se escala: un hueco de owner no se «compensa» con tres artefactos verdes. El off-by-one miente sobre cobertura ante auditoría. Pregunta: ¿qué miraría primero un revisor de CF-3 — happy path o owners vacíos? En el You Do el mismo conjunto vive en system-card y manifest.",
+          "El registry se libera entero o se escala: un hueco de `owner` no se «compensa» con tres artefactos verdes. El off-by-one miente sobre cobertura ante auditoría. Pregunta: ¿qué miraría primero un revisor de CF-3: la ruta válida o los valores `owner` vacíos? En el You Do el mismo conjunto vive en system-card y manifest.",
         starterCode: {
           language: 'python',
           title: "s39-t1-b-e3.py",
@@ -1265,9 +1265,9 @@ print(assess(valid), assess(invalid), assess(incomplete))
           "- **Contexto:** la explicación usable (S35) solo tiene sentido con packet completo e incertidumbre declarada.\n- **Meta:** devolver status + layers (4 solo si OK).\n- **Éxito:** `CONTINUE 4 REJECT_SCORE_ALONE REQUEST_UNCERTAINTY`.\n- **Límites:** no inventes `in_distribution` ni path en el adverso score-only.",
         instruction:
           "1. Score-only (solo case_id+score) → REJECT_SCORE_ALONE.\n2. Sin `uncertainty` → REQUEST_UNCERTAINTY.\n3. Packet OK → CONTINUE, layers 4.\n4. Imprime unpack del happy y los status de adversarios.",
-        hint: "Las 4 capas de explicación (S35) se asumen cuando el packet está completo; score-only no las habilita.",
+        hint: "Las 4 capas de explicación (S35) se asumen cuando el packet está completo; tener solo el score no las habilita.",
         hints: [
-          "Las 4 capas de explicación (S35) se asumen cuando el packet está completo; score-only no las habilita.",
+          "Las 4 capas de explicación (S35) se asumen cuando el packet está completo; tener solo el score no las habilita.",
           "uncertainty ausente es incertidumbre de contrato → REQUEST_UNCERTAINTY, no inventes in_distribution.",
         ],
         edgeCases: ["solo score", "sin uncertainty", "evidence vacía"],
@@ -1531,9 +1531,9 @@ print(*decide(happy), decide(no_audit)[0], decide(no_fb_id)[0])
           "- **Contexto:** en el release de `CASO-LIM-039-T3A`, un secreto en el repo es blocker duro aunque el resto del checklist esté verde.\n- **Meta:** `release_ok` con `not secrets_in_repo` y demás flags True.\n- **Éxito:** `S39-T3-A PASS` en el fixture limpio.\n- **Límites:** no borres campos; no trates True de secrets como «OK».",
         instruction:
           "1. Abre el DEFECTO: incluye `checklist[\"secrets_in_repo\"]` en el `all` sin negar.\n2. Usa `not checklist[\"secrets_in_repo\"]`.\n3. Mantén pii, rbac, slice_metrics, input_limits.\n4. Imprime status del subtema.",
-        hint: "not secrets_in_repo es obligatorio; un True bloquea aunque el resto esté verde.",
+        hint: "`not secrets_in_repo` es obligatorio; un `True` bloquea aunque el resto esté verde.",
         hints: [
-          "not secrets_in_repo es obligatorio; un True bloquea aunque el resto esté verde.",
+          "`not secrets_in_repo` es obligatorio; un `True` bloquea aunque el resto esté verde.",
           "No borres campos del checklist; corrige solo el predicado all(...).",
         ],
         edgeCases: ["secrets_in_repo True", "rbac False", "sin slice_metrics"],
@@ -1541,7 +1541,7 @@ print(*decide(happy), decide(no_audit)[0], decide(no_fb_id)[0])
         feedback:
           "Secretos en repo invalidan el expediente de seguridad del triage. No se «compensan» con un buen AUC ni con RBAC verde.",
         retrospective:
-          "`not secrets_in_repo` es hábito de release: un True bloquea aunque RBAC y PII estén verdes. El error clásico es leer el flag «en positivo» dentro del `all`. Pregunta: ¿un buen AUC limpia un secreto en el repo? Siguiente: secrets activos vs. controles ausentes.",
+          "`not secrets_in_repo` es un requisito para lanzar: un `True` bloquea aunque RBAC y PII estén verdes. El error clásico es leer el indicador «en positivo» dentro de `all`. Pregunta: ¿un buen AUC limpia un secreto en el repositorio? Siguiente: secretos activos frente a controles ausentes.",
         starterCode: {
           language: 'python',
           title: "s39-t3-a-e1.py",
@@ -1607,7 +1607,7 @@ assert meets is True
         edgeCases: ["secrets en repo", "rbac ausente", "pii no minimizada"],
         tests: "Salida: PASS REJECT_SECRETS MISSING:rbac",
         feedback:
-          "Separa ausencia de control (missing) de violación activa (secrets): el ticket de remediación y el bloqueo de release no son el mismo.",
+          "Separa la ausencia de control (`MISSING`) de una violación activa (`REJECT_SECRETS`): el ticket de remediación y el bloqueo del lanzamiento no son lo mismo.",
         retrospective:
           "Tokens distintos aceleran remediación: missing pide el control; secrets rechaza la violación. El error clásico es un `REJECT_RELEASE` genérico para ambos. Pregunta: ¿falta de RBAC se arregla igual que una API key en el repo? Luego: fairness de cola por slice, no culpa grupal.",
         starterCode: {
@@ -1677,9 +1677,9 @@ print(assess(valid), assess(invalid), assess(incomplete))
           "- **Contexto:** en el batch sintético, un `fp_rate` alto en `canal_app` significa **demasiado daño de revisión** en ese canal, no «ese canal es culpable».\n- **Meta:** CONTINUE con métrica `fp_rate`, o REQUEST/REJECT según slices.\n- **Éxito:** `CONTINUE fp_rate REQUEST_SLICE_METRICS REJECT_SLICE_FP`.\n- **Límites:** no uses el score para afirmar fraude en un slice; no inventes slices.",
         instruction:
           "1. Slices vacíos o ausentes → REQUEST_SLICE_METRICS.\n2. Si algún fp_rate > umbral → REJECT_SLICE_FP.\n3. Si no → CONTINUE, métrica `fp_rate` (no auc).\n4. Imprime las tres rutas.",
-        hint: "Los slices son sintéticos de canal/producto; fp_rate alto reabre el release, no etiqueta personas.",
+        hint: "Los slices son sintéticos de canal/producto; un fp_rate alto reabre el lanzamiento, no etiqueta personas.",
         hints: [
-          "Los slices son sintéticos de canal/producto; fp_rate alto reabre el release, no etiqueta personas.",
+          "Los slices son sintéticos de canal/producto; un fp_rate alto reabre el lanzamiento, no etiqueta personas.",
           "REQUEST_SLICE_METRICS cuando la clave slices no existe o está vacía.",
         ],
         edgeCases: ["sin slices", "fp_rate sobre umbral", "metric nombre fp_rate"],
@@ -1863,7 +1863,7 @@ print(mode(False, False), mode(True, False), mode(False, True))
         feedback:
           "Rollback y abstención son controles distintos: no te quedes en current_model en pleno incidente ni reviertas el modelo por un drift leve.",
         retrospective:
-          "Rollback apunta a `prev_model_id` versionado; drift sin incidente no revierte a ciegas. El error clásico es STAY en current_model con incidente. Pregunta: sin prev, ¿inventas un id o pides REQUEST? En el You Do `force_failure` empuja a human_only con audit.",
+          "Rollback apunta a `prev_model_id` versionado; drift sin incidente no revierte a ciegas. El error clásico es `STAY` en `current_model` durante un incidente. Pregunta: sin modelo previo, ¿inventas un id o devuelves `REQUEST_PREV_MODEL`? En el You Do `force_failure` empuja a `human_only` con audit.",
         starterCode: {
           language: 'python',
           title: "s39-t3-b-e3.py",
@@ -2171,9 +2171,9 @@ assert meets is True
         edgeCases: ["solo auc", "value ausente", "override_rate 0.12 válido"],
         tests: "Salida: PASS REJECT_VALUE_METRICS MISSING:value",
         feedback:
-          "Negocio lee overrides y tiempo de review; AUC no basta para el cierre del triage. Valor = cómo opera la cola, no solo ranking offline.",
+          "Negocio lee overrides y tiempo de revisión; AUC no basta para el cierre del triage. Valor = cómo opera la cola, no solo cómo ordena casos fuera de producción.",
         retrospective:
-          "Valor operativo del triage = cómo opera la cola (override_rate, tiempo de review), no un AUC offline suelto. El error clásico es enorgullecerse del ranking y omitir overrides. Pregunta: con solo `auc=0.91`, ¿qué token devuelves? Luego: post mórtem blameless con root_cause y actions.",
+          "Valor operativo del triage = cómo opera la cola (override_rate, tiempo de revisión), no un AUC offline suelto. El error clásico es enorgullecerse de cómo ordena casos y omitir overrides. Pregunta: con solo `auc=0.91`, ¿qué token devuelves? Luego: post mórtem blameless con root_cause y actions.",
         starterCode: {
           language: 'python',
           title: "s39-t4-b-e2.py",
@@ -2289,7 +2289,7 @@ print(*decide(happy), decide(blameful)[0], decide(no_rc)[0], decide(no_actions)[
       "Entrega el sistema e2e sintético de triage para `CASO-LIM-039`. El bundle incluye: contratos versionados, evidence packet, decisiones/overrides auditados, checklist de riesgo, modos `human_only`, demo de aceptación, cards y post mórtem. Incluye **checklist de regresión S27–S39** y referencia a **CF-3**. Sin autofraude ni parentesco automático. Deja evidencia para revisión externa; no autodeclares la promoción de nivel.",
     objectives: [
       "Pipeline intake→queue con label_space needs_review y auto_fraud False",
-      "Registry de versiones/owners con semver y bump major en breaking",
+      "Registry de versiones con `owner`, semver y bump major en breaking",
       "Evidence packet mínimo + explicación usable por revisor",
       "Overrides y apelaciones con audit log y cuidado de leakage en feedback",
       "Checklist de privacidad/fairness/seguridad firmable",
@@ -2528,7 +2528,7 @@ def build_bundle(out: Path, *, force_failure: bool = False, run_id: str = "run-0
         options: ["fraud_certainty", "parentesco", "needs_review / prioridad de cola", "culpable"],
         correctIndex: 2,
         explanation:
-          "El score ordena trabajo humano en la cola; needs_review (o prioridad de cola) es el espacio de etiquetas correcto. No declares fraude, parentesco ni culpabilidad automática a partir del ranking.",
+          "El score ordena trabajo humano en la cola; needs_review (o prioridad de cola) es el espacio de etiquetas correcto. No declares fraude, parentesco ni culpabilidad automática a partir de ese ordenamiento.",
       },
       {
         question: "Sobre regresión S27–S39 y CF-3 en tu entrega de S39:",
@@ -2539,7 +2539,7 @@ def build_bundle(out: Path, *, force_failure: bool = False, run_id: str = "run-0
       },
       {
         question: "Evidence packet debe incluir:",
-        options: ["Solo el score del modelo", "Evidencia y path además del score", "Solo el owner del repo de ML", "Claves de API de producción"],
+        options: ["Solo el score del modelo", "Evidencia y path además del score", "Solo la persona responsable del repositorio de ML", "Claves de API de producción"],
         correctIndex: 1,
         explanation:
           "Sin evidence y graph_path el revisor no tiene workbench. El score solo es insuficiente y las claves de API no pertenecen al packet.",
@@ -2553,10 +2553,10 @@ def build_bundle(out: Path, *, force_failure: bool = False, run_id: str = "run-0
       },
       {
         question: "Un breaking change en graph_schema del triage exige:",
-        options: ["Bump patch silencioso", "Borrar el registry", "Bump major, owner contactable y revalidación de paths", "Desactivar el audit log"],
+        options: ["Bump patch silencioso", "Borrar el registry", "Bump major, responsable contactable y revalidación de paths", "Desactivar el audit log"],
         correctIndex: 2,
         explanation:
-          "Semver major + owner + regresión de contratos (incluyendo paths del grafo) evitan packets incompatibles en cola humana.",
+          "Semver major + responsable + regresión de contratos (incluyendo paths del grafo) evitan packets incompatibles en cola humana.",
       },
     ],
   },

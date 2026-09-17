@@ -265,3 +265,11 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   an unescaped quote broke the file and rolled back 48 good patches, twice. `apply_patches.py`
   now bisects on a typecheck failure (~log2(n) checks, only after a failure), rejects just the
   culprits with `this patch stopped the file parsing`, and keeps the rest.
+
+- **When the English subject is a noun, make the Spanish subject an infinitive.** *(S39)*
+  "Release del triage es política firmable" became "**El lanzamiento del** triage exige una
+  política firmable", which is B5's actor shape exactly: a nominalisation doing the sentence's
+  work. Spanish has a better move than either the noun or a clause — the plain infinitive:
+  *"Lanzar el triage exige una política firmable"*. It is shorter than the nominalised version,
+  reads as speech rather than documentation, and the measure does not fire. Reach for it whenever
+  a translation is about to open a sentence with "El/La <algo>ción/miento de…".

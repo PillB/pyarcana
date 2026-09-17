@@ -380,3 +380,42 @@ still open. Re-run the stage for this section, or fix by hand.
   - anchor began: `casefold + split/join`
 - **S27-ES-NOT-02** at `weDo.steps[S27-T4-A-E2].hint` — anchor matches 3 places
   - anchor began: `'non' not in hit`
+
+## S39 spanish — 12 patch(es) not applied
+*Recorded 2026-09-16 by `record_rejections.py` from `S39s.apply.json`.*
+<!-- S39 spanish 6bed5d161c32 -->
+
+Codex proposed these and the applier refused them, so the defects they targeted are
+still open. Re-run the stage for this section, or fix by hand.
+
+- **S39-ES-owner-05** at `weDo.exercises[S39-T1-B-E1].preamble` — anchor not found
+  - anchor began: `- **Contexto:** en `CASO-LIM-039-T1B` el `graph_schema` rompe paths ya guardados en packet`
+- **S39-ES-owner-06** at `weDo.exercises[S39-T1-B-E1].instruction` — anchor not found
+  - anchor began: `1. Localiza el DEFECTO: `bump == "minor"`.
+2. Cambia a `bump == "major"` cuando `breaking``
+- **S39-ES-owner-09** at `weDo.exercises[S39-T1-B-E2].preamble` — anchor not found
+  - anchor began: `- **Contexto:** el ranker de `ml-risk` no puede ir a producción sin owner ni con bump inco`
+- **S39-ES-owner-10** at `weDo.exercises[S39-T1-B-E2].instruction` — anchor not found
+  - anchor began: `1. Calcula missing de claves requeridas.
+2. Si owner vacío o ausente → `MISSING:owner`.
+3.`
+- **S39-ES-owner-11, S39-ES-owners-03** at `weDo.exercises[S39-T1-B-E3].preamble` — anchor not found
+  - anchor began: `- **Contexto:** el triage de Lima no se libera «por partes»: basta un artefacto sin owner `
+- **S39-ES-owner-12** at `weDo.exercises[S39-T1-B-E3].instruction` — anchor not found
+  - anchor began: `1. Recorre todos los artefactos en `decide`.
+2. Sin owner → `ESCALATE_NO_OWNER`; breaking `
+- **S39-ES-only-01** at `weDo.exercises[S39-T2-A-E3].preamble` — anchor not found
+  - anchor began: `- **Contexto:** la explicación usable (S35) solo tiene sentido con packet completo e incer`
+- **S39-ES-only-02** at `weDo.exercises[S39-T2-A-E3].instruction` — anchor not found
+  - anchor began: `1. Score-only (solo case_id+score) → REJECT_SCORE_ALONE.
+2. Sin `uncertainty` → REQUEST_UN`
+- **S39-ES-release-04, S39-ES-not-01** at `weDo.exercises[S39-T3-A-E1].preamble` — anchor not found
+  - anchor began: `- **Contexto:** en el release de `CASO-LIM-039-T3A`, un secreto en el repo es blocker duro`
+- **S39-ES-scope-01** at `weDo.exercises[S39-T4-A-E2].preamble` — anchor not found
+  - anchor began: `- **Contexto:** documentas smoke S27–S39 y CF-3; un revisor externo confirma. Autodeclarar`
+- **S39-ES-scope-02** at `weDo.exercises[S39-T4-A-E2].instruction` — anchor not found
+  - anchor began: `1. Missing de claves primero.
+2. Si self_declared_promotion True → REJECT_AUTO_PASS.
+3. Va`
+- **S39-ES-review-05** at `weDo.exercises[S39-T4-B-E2].preamble` — anchor not found
+  - anchor began: `- **Contexto:** en la cola de onboarding, override_rate y tiempo de review cuentan más par`
