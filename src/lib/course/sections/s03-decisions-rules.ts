@@ -15,7 +15,7 @@ export const section03: CourseSection = {
   index: 3,
   title: 'Decisiones y reglas de validación',
   shortTitle: 'Decisiones & Reglas',
-  tagline: 'Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy',
+  tagline: 'Booleanos, control de flujo y reglas `accept`/`reject`/`review` sin confundir ausencia con falsy',
   estimatedHours: 9,
   level: 'Principiante',
   phase: 0,
@@ -25,12 +25,12 @@ export const section03: CourseSection = {
     'Un parser (el programa que lee texto y lo convierte en datos con tipo) puede transformar "0" en 0 y aun así tomar una decisión equivocada. En sistemas de incorporación de clientes, pedidos o pacientes, esa diferencia decide si una fila se aprueba, se rechaza o se revisa a mano. Aquí aprendes a escribir reglas con if/elif/else, listas permitidas y tablas de decisión, probando cada rama con mensajes accionables para que nadie tenga que adivinar por qué algo falló.',
   learningOutcomes: [
     { text: 'Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible' },
-    { text: 'Distinguir truthiness de presencia semántica y predecir short-circuit de and/or' },
+    { text: 'Distinguir truthiness de presencia semántica y predecir short-circuit de `and`/`or`' },
     { text: 'Escribir if/elif/else que clasifiquen un campo en una sola rama dominante' },
     { text: 'Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones' },
     { text: 'Implementar rangos y allowlists combinados para reglas de dominio sintéticas' },
     { text: 'Leer una decision table y expresar reglas claras con if o match según el caso' },
-    { text: 'Enunciar invariantes de campo con ejemplos accept/reject/review' },
+    { text: 'Enunciar invariantes de campo con ejemplos `accept`/`reject`/`review`' },
     { text: 'Redactar mensajes accionables y cubrir cada rama con un caso de prueba' },
   ],
   theory: [
@@ -494,7 +494,7 @@ region in ALLOWED → True
         environment: 'browser-pyodide',
         description: 'Tres campos: None, 0 y vacío bajo reglas distintas',
         preamble:
-          'En intake, `None`, `0` y `""` son todos *falsy*, pero la política de monto **no** los trata igual. Esta demo muestra `bool(v)` al lado de una política real: ausencia → review, cero válido → accept, negativo → reject. Observa la fila de `monto_cero`: si crees que “falsy = rechazar”, el pipeline miente. No edites aún; predice cada línea de `policy` y compara con la salida.',
+          'En intake, `None`, `0` y `""` son todos *falsy*, pero la política de monto **no** los trata igual. Esta demo muestra `bool(v)` al lado de una política real: ausencia → `review`, cero válido → `accept`, negativo → `reject`. Observa la fila de `monto_cero`: si crees que “falsy = rechazar”, el pipeline miente. No edites aún; predice cada línea de `policy` y compara con la salida.',
         code: {
           language: 'python',
           title: 'S03-T1-B-DEMO — none_cero_vacio',
@@ -525,15 +525,15 @@ policy 150 → accept: positivo`,
         why:
           'La columna `bool=` describe el comportamiento del lenguaje; la columna `policy` describe la decisión del dominio. Verlas juntas impide una inferencia peligrosa: que dos objetos falsy merecen el mismo status. El contraste entre `None` y `0` es el núcleo causal de la demo.',
         retrospective:
-          'Formula la política en voz alta: “si está ausente, review; si está presente, evalúo su valor”. ¿Qué cambiaría para un campo donde la cadena vacía sí significa ausencia? La sintaxis puede variar, pero el hábito permanece: presencia con un chequeo explícito y validez con otra regla. En We Do repararás un validador que hoy rechaza el cero.',
+          'Formula la política en voz alta: “si está ausente, `review`; si está presente, evalúo su valor”. ¿Qué cambiaría para un campo donde la cadena vacía sí significa ausencia? La sintaxis puede variar, pero el hábito permanece: presencia con un chequeo explícito y validez con otra regla. En We Do repararás un validador que hoy rechaza el cero.',
       },
       {
         demoId: 'S03-T2-A-DEMO',
         subtopicId: 'S03-T2-A',
         environment: 'browser-pyodide',
-        description: 'Clasificar score de calidad en accept/review/reject (incluye fronteras)',
+        description: 'Clasificar el puntaje de calidad en `accept`/`review`/`reject` (incluye fronteras)',
         preamble:
-          'Un score de calidad de intake debe caer en **una sola** etiqueta: accept, review o reject. Aquí `classify_score` usa `if` / `elif` / `else` con umbrales documentados. Corre el bucle y fíjate en las fronteras: **80** debe ser accept (no review) y **50** review (no reject). No escribas; traza mentalmente cada valor antes de mirar la salida embebida.',
+          'Un puntaje de calidad de intake debe caer en **una sola** etiqueta: `accept`, `review` o `reject`. Aquí `classify_score` usa `if` / `elif` / `else` con umbrales documentados. Corre el bucle y fíjate en las fronteras: **80** debe ser `accept` (no `review`) y **50**, `review` (no `reject`). No escribas; traza mentalmente cada valor antes de mirar la salida embebida.',
         code: {
           language: 'python',
           title: 'S03-T2-A-DEMO — classify_score',
@@ -557,7 +557,7 @@ for s in [95, 60, 30, 80, 50]:
         why:
           'Los valores interiores muestran las tres categorías; 80 y 50 revelan la política exacta de las fronteras. La cadena no “elige la mejor” rama: se detiene en la primera verdadera. Por eso el orden forma parte del contrato, no es un detalle estético.',
         retrospective:
-          'Antes de seguir, intercambia mentalmente las dos condiciones: ¿qué ocurriría con 95? Si respondes review, has demostrado por qué el umbral más alto va primero. El error clásico es usar dos `if` y sobrescribir el status; en We Do verás el fallo de forma deliberada y construirás la versión exclusiva.',
+          'Antes de seguir, intercambia mentalmente las dos condiciones: ¿qué ocurriría con 95? Si respondes `review`, has demostrado por qué el umbral más alto va primero. El error clásico es usar dos `if` y sobrescribir `status`; en We Do verás el fallo de forma deliberada y construirás la versión exclusiva.',
       },
       {
         demoId: 'S03-T2-B-DEMO',
@@ -592,7 +592,7 @@ for e in [None, "25", -1, 15, 30, 200]:
         why:
           'Cada guarda elimina una clase de entrada antes de que una operación incompatible pueda tocarla. `None` no llega a la comparación numérica. `"25"` no se disfraza de 25 gracias a `repr`. El camino accept queda reservado a quien superó todas las precondiciones.',
         retrospective:
-          'Dibuja el embudo de casos y señala dónde sale `None`, dónde sale `"25"` y qué evidencia queda al llegar a accept. Después pregunta qué prueba detectaría que un refactor cambió review por reject. En We Do completarás guardas y convertirás una pirámide en salidas tempranas sin alterar su semántica.',
+          'Dibuja el embudo de casos y señala dónde sale `None`, dónde sale `"25"` y qué evidencia queda al llegar a `accept`. Después pregunta qué prueba detectaría que un refactor cambió `review` por `reject`. En We Do completarás guardas y convertirás una pirámide en salidas tempranas sin alterar su semántica.',
       },
       {
         demoId: 'S03-T3-A-DEMO',
@@ -600,7 +600,7 @@ for e in [None, "25", -1, 15, 30, 200]:
         environment: 'browser-pyodide',
         description: 'Regla combinada región + edad',
         preamble:
-          'El motor de reglas combina dos políticas de dominio: **allowlist** de región y **rango** de edad. En `CASO-LIM-003`, región desconocida o ausente va a **review** (catálogo incompleto), no a reject duro; edad fuera de 18–65 va a **reject**. Ejecuta los cuatro pares y predice el string de salida antes de leerlo. Solo regiones sintéticas de Perú; no es padrón oficial.',
+          'El motor de reglas combina dos políticas de dominio: **allowlist** de región y **rango** de edad. En `CASO-LIM-003`, región desconocida o ausente va a **`review`** (catálogo incompleto), no a `reject`; una edad fuera de 18–65 va a **`reject`**. Ejecuta los cuatro pares y predice el string de salida antes de leerlo. Solo regiones sintéticas de Perú; no es padrón oficial.',
         code: {
           language: 'python',
           title: 'S03-T3-A-DEMO — region_edad',
@@ -623,7 +623,7 @@ Piura 15 → reject
 None 40 → review`,
         },
         why:
-          'La función no agrupa todos los fallos bajo una etiqueta. Una región desconocida conserva la posibilidad de corregir el catálogo y va a review; una edad fuera de la banda viola una regla explícita y va a reject. El orden preserva la causa antes de devolver el status.',
+          'La función no agrupa todos los fallos bajo una etiqueta. Una región desconocida conserva la posibilidad de corregir el catálogo y va a `review`; una edad fuera de la banda viola una regla explícita y va a `reject`. El orden preserva la causa antes de devolver `status`.',
         retrospective:
           'Compara `("R-FUERA", 30)` con `("R-COSTA", 15)`: ambos fallan una condición, pero solo uno viola un rango. ¿Qué código estable darías a cada causa? Si solo puedes responder “falló”, aún falta información. En We Do separarás desconocidos, valores atípicos y rechazos duros.',
       },
@@ -681,7 +681,7 @@ NEEDS_REVIEW review review same= True`,
         environment: 'browser-pyodide',
         description: 'Invariante de campo contacto + 4 ejemplos',
         preamble:
-          'Un invariante no es solo código: es una **promesa en español** más ejemplos accept/reject/review. Aquí `contacto` debe ser str de 9 dígitos o `None` (review). Corre la lista `examples` y verifica `ok= True` en cada fila; `repr` hace legible el caso de solo espacios. Si un colega no puede inventar un contraejemplo en 30 segundos, el invariante está vago.',
+          'Un invariante no es solo código: es una **promesa en español** más ejemplos `accept`/`reject`/`review`. Aquí `contacto` debe ser `str` de 9 dígitos o `None` (`review`). Corre la lista `examples` y verifica `ok= True` en cada fila; `repr` hace legible el caso de solo espacios. Si un colega no puede inventar un contraejemplo en 30 segundos, el invariante está vago.',
         code: {
           language: 'python',
           title: 'S03-T4-A-DEMO — invariante_contacto',
@@ -1073,21 +1073,21 @@ for m in [None, 0, -1, 100]:
         kind: 'guided',
         title: 'Bandas de score con if/elif/else',
         preamble:
-          '- **Contexto:** el clasificador de calidad del intake etiqueta un score en una sola rama dominante.\n- **Meta:** corregir umbrales invertidos en `classify_score`.\n- **Éxito:** para 80, 50, 49, 100 → accept, review, reject, accept.\n- **Límites:** una sola cadena `if/elif/else`; no uses ifs independientes.',
+          '- **Contexto:** el clasificador de calidad del intake etiqueta un score en una sola rama dominante.\n- **Meta:** corregir umbrales invertidos en `classify_score`.\n- **Éxito:** para 80, 50, 49, 100 → `accept`, `review`, `reject`, `accept`.\n- **Límites:** una sola cadena `if/elif/else`; no uses ifs independientes.',
         id: 'S03-T2-A-E1',
         instruction:
-          '1. El DEFECT devuelve accept en scores bajos.\n2. Escribe: `score >= 80` → accept; `elif score >= 50` → review; `else` → reject.\n3. Imprime `s → status` para 80, 50, 49, 100.',
+          '1. El DEFECT devuelve accept en scores bajos.\n2. Escribe: `score >= 80` → `accept`; `elif score >= 50` → `review`; `else` → `reject`.\n3. Imprime `s → status` para 80, 50, 49, 100.',
         hint: 'if score >= 80: ... elif score >= 50: ... else: ...',
         hints: [
           'if score >= 80: ... elif score >= 50: ... else: ...',
-          'Fronteras: 80 es accept; 50 es review; 49 es reject.',
+          'Fronteras: 80 es `accept`; 50 es `review`; 49 es `reject`.',
         ],
         edgeCases: ['frontera exacta 80 y 50'],
         tests: 'assert status: accept, review, reject, accept',
         feedback:
           'Documentar fronteras evita errores de uno durante la revisión de cambios. 80 cae en la rama superior porque se evalúa primero; 49 debe ser reject.',
         retrospective:
-          'Justifica las cuatro salidas con desigualdades, no con etiquetas memorizadas. Después prueba en papel 79 y 51: ¿qué condición es la primera verdadera? Si 80 “baja” a review en tu explicación, olvidaste que Python se detiene. E2 hará visible el sobrescrito que aparece cuando no usas una cadena exclusiva.',
+          'Justifica las cuatro salidas con desigualdades, no con etiquetas memorizadas. Después prueba en papel 79 y 51: ¿qué condición es la primera verdadera? Si 80 “baja” a `review` en tu explicación, olvidaste que Python se detiene. E2 hará visible el sobrescrito que aparece cuando no usas una cadena exclusiva.',
         starterCode: {
           language: 'python',
           title: 'bandas_score.py',
@@ -1129,14 +1129,14 @@ for s in [80, 50, 49, 100]:
         kind: 'independent',
         title: 'Bloques if secuenciales frente a cadena exclusiva',
         preamble:
-          '- **Contexto:** un error clásico durante la revisión de cambios es sobrescribir `status` con un segundo `if` no excluyente.\n- **Meta:** dejar `bad` como está, implementar `good` con `if/elif/else` y comparar.\n- **Éxito:** para 95, 60, 30 → `good` da accept, review, reject (y `bad(95)` sigue en review).\n- **Límites:** no “arregles” `bad`; el contraste es la lección.',
+          '- **Contexto:** un error clásico durante la revisión de cambios es sobrescribir `status` con un segundo `if` no excluyente.\n- **Meta:** dejar `bad` como está, implementar `good` con `if/elif/else` y comparar.\n- **Éxito:** para 95, 60, 30 → `good` da `accept`, `review`, `reject` (y `bad(95)` sigue en `review`).\n- **Límites:** no “arregles” `bad`; el contraste es la lección.',
         id: 'S03-T2-A-E2',
         instruction:
           '1. Lee `bad`: el segundo `if score >= 50` pisa accept.\n2. Implementa `good(score)` con `if/elif/else` y la misma política de umbrales.\n3. Cambia el bucle a 95, 60, 30 e imprime `bad=` y `good=` en cada valor.',
         hint: 'El segundo if score >= 50 pisa el accept. Usa elif para exclusión mutua.',
         hints: [
           'El segundo if score >= 50 pisa el accept. Usa elif para exclusión mutua.',
-          'good(95) debe ser accept; bad(95) es review.',
+          '`good(95)` debe ser `accept`; `bad(95)` es `review`.',
         ],
         edgeCases: ['doble asignación de status'],
         tests: 'single status key; good: accept/review/reject',
@@ -1256,13 +1256,13 @@ for n in [150, 75, 10, 0, -3]:
         kind: 'guided',
         title: 'Guards de `validate_edad` (MISSING a OK)',
         preamble:
-          '- **Contexto:** el validador de edad del motor usa early returns con códigos estables, no un solo `"BAD"`.\n- **Meta:** completar guards de ausencia, tipo, rango y menores.\n- **Éxito:** `None`→review/MISSING; `"25"`→reject/BAD_TYPE; `15`→review/NEEDS_REVIEW; `30`→accept/OK.\n- **Límites:** `is None` antes de comparar; devuelve dicts `{status, code}`; sin `if not edad`.',
+          '- **Contexto:** el validador de edad del motor usa early returns con códigos estables, no un solo `"BAD"`.\n- **Meta:** completar guards de ausencia, tipo, rango y menores.\n- **Éxito:** `None` → `review`/`MISSING`; `"25"` → `reject`/`BAD_TYPE`; `15` → `review`/`NEEDS_REVIEW`; `30` → `accept`/`OK`.\n- **Límites:** `is None` antes de comparar; devuelve dicts `{status, code}`; sin `if not edad`.',
         id: 'S03-T2-B-E1',
         instruction:
           '1. Quita `if not edad` (truthiness).\n2. Escribe guards en orden: `is None` → no `int` → fuera 0–120 → `< 18` → OK.\n3. Devuelve dicts `{status, code}` (no un solo `"BAD"`).\n4. Prueba con `repr(e)` los cuatro valores del bucle.',
-        hint: 'if edad is None primero; luego isinstance; no compares None con <.',
+        hint: '`if edad is None` primero; luego `isinstance`; no compares `None` con `<`.',
         hints: [
-          'if edad is None primero; luego isinstance; no compares None con <.',
+          '`if edad is None` primero; luego `isinstance`; no compares `None` con `<`.',
           'return dicts con status y code; el camino feliz es el último return.',
         ],
         edgeCases: ['None antes de comparación'],
@@ -1468,21 +1468,21 @@ ok 0 → cero`,
         kind: 'guided',
         title: 'Allowlist de regiones (desconocido → review)',
         preamble:
-          '- **Contexto:** catálogos incompletos en intake suelen mandar desconocidos a **review**, no a reject duro.\n- **Meta:** implementar `check_region` con allowlist sintética de Perú.\n- **Éxito:** Lima→accept; Tacna→review; None→review.\n- **Límites:** no uses reject para desconocidos en esta política; chequea `None` antes de `not in`.',
+          '- **Contexto:** catálogos incompletos en intake suelen mandar desconocidos a **`review`**, no a `reject`.\n- **Meta:** implementar `check_region` con una allowlist sintética de Perú.\n- **Éxito:** `Lima` → `accept`; `Tacna` → `review`; `None` → `review`.\n- **Límites:** no uses `reject` para desconocidos en esta política; comprueba `None` antes de `not in`.',
         id: 'S03-T3-A-E1',
         instruction:
           '1. Corrige el DEFECT que rechaza todo valor no incluido en `ALLOWED`, incluso `None`.\n2. Si `r is None` o `r not in ALLOWED`, devuelve `review`; en caso contrario, devuelve `accept`.\n3. Prueba `Lima`, `Tacna` y `None`.',
         hint: '`if r is None` / `if r not in ALLOWED` / `return "accept"`',
         hints: [
           '`if r is None` / `if r not in ALLOWED` / `return "accept"`',
-          'Región desconocida → review (no reject) en esta política sintética.',
+          'Región desconocida → `review` (no `reject`) en esta política sintética.',
         ],
         edgeCases: ['región desconocida → review'],
         tests: 'assert Lima accept, Tacna review, None review',
         feedback:
           'Si `None` o `Tacna` salen `reject`, aún aplicas un rechazo definitivo. En esta política, la ausencia y el valor desconocido pasan a **review**; solo la lista permitida produce accept.',
         retrospective:
-          'Explica la diferencia entre “el catálogo no reconoce el valor” y “el valor viola una regla”. ¿Qué dato adicional permitiría resolver `Tacna` desde review? Si no existe una acción posible, reconsidera la política; si sí existe, reject sería prematuro. En E2 combinarás esta idea con un valor atípico numérico.',
+          'Explica la diferencia entre “el catálogo no reconoce el valor” y “el valor viola una regla”. ¿Qué dato adicional permitiría resolver `Tacna` desde `review`? Si no existe una acción posible, reconsidera la política; si sí existe, `reject` sería prematuro. En E2 combinarás esta idea con un valor atípico numérico.',
         starterCode: {
           language: 'python',
           title: 'allowlist_regiones.py',
@@ -1523,14 +1523,14 @@ None → review`,
         kind: 'independent',
         title: 'Rango de monto con valor atípico revisable',
         preamble:
-          '- **Contexto:** la calidad de datos distingue una falla estricta (monto negativo) de un valor atípico que requiere revisión (monto muy alto).\n- **Meta:** implementar `monto_ingreso` con tri-estado y cero válido.\n- **Éxito:** None, -1, 0, 1200, 60000 → review, reject, accept, accept, review.\n- **Límites:** 0 no es reject; superar el umbral 50000 produce review, no reject.',
+          '- **Contexto:** la calidad de datos distingue una falla estricta (monto negativo) de un valor atípico que requiere revisión (monto muy alto).\n- **Meta:** implementar `monto_ingreso` con tri-estado y cero válido.\n- **Éxito:** `None`, `-1`, `0`, `1200`, `60000` → `review`, `reject`, `accept`, `accept`, `review`.\n- **Límites:** `0` no es `reject`; superar el umbral `50000` produce `review`, no `reject`.',
         id: 'S03-T3-A-E2',
         instruction:
           '1. Corrige `m <= 0` (rechaza el cero).\n2. Orden: `None` → `review`; `< 0` → `reject`; `> 50000` → `review`; en los demás casos → `accept`.\n3. Prueba la lista de cinco montos en orden.',
         hint: 'Orden: ausencia, rechazo estricto, valor atípico a revisión, accept.',
         hints: [
           'Orden: ausencia, rechazo estricto, valor atípico a revisión, accept.',
-          '0 es accept; 60000 es review, no reject.',
+          '`0` es `accept`; `60000` es `review`, no `reject`.',
         ],
         edgeCases: ['0 válido; negativo reject'],
         tests: 'table: review, reject, accept, accept, review',
@@ -1642,13 +1642,13 @@ None 1 → {'status': 'review', 'code': 'MISSING'}`,
         kind: 'guided',
         title: 'Decision table código → status',
         preamble:
-          '- **Contexto:** primero se escribe la tabla de negocio; después el código. Así se evitan ramas inventadas.\n- **Meta:** corregir el dict `TABLE` y aplicar `get` con default review.\n- **Éxito:** OK→accept; MISSING→review; OUT_OF_RANGE→reject; FOO→review.\n- **Límites:** no añadas códigos de negocio que no estén en la tabla; el default cubre desconocidos.',
+          '- **Contexto:** primero se escribe la tabla de negocio; después el código. Así se evitan ramas inventadas.\n- **Meta:** corregir el diccionario `TABLE` y aplicar `get` con `review` como valor predeterminado.\n- **Éxito:** `OK` → `accept`; `MISSING` → `review`; `OUT_OF_RANGE` → `reject`; `FOO` → `review`.\n- **Límites:** no añadas códigos de negocio que no estén en la tabla; el valor predeterminado cubre los desconocidos.',
         id: 'S03-T3-B-E1',
         instruction:
-          '1. Corrige MISSING (review) y OUT_OF_RANGE (reject).\n2. Implementa `status_for(code)` con `TABLE.get(code, "review")`; `status_for` significa “status correspondiente a este código”.\n3. Imprime el status de OK, MISSING, OUT_OF_RANGE y FOO.',
+          '1. Corrige `MISSING` (`review`) y `OUT_OF_RANGE` (`reject`).\n2. Implementa `status_for(code)` con `TABLE.get(code, "review")`; `status_for` significa “`status` correspondiente a este código”.\n3. Imprime el `status` de `OK`, `MISSING`, `OUT_OF_RANGE` y `FOO`.',
         hint: 'table.get(code, table["_default"]) o case _ equivalente con dict.',
         hints: [
-          'table.get(code, "review") si no incluyes _default como clave de negocio.',
+          '`table.get(code, "review")` si no incluyes `_default` como clave de negocio.',
           'Fila default cubre códigos desconocidos (FOO).',
         ],
         edgeCases: ['fila default'],
@@ -1699,10 +1699,10 @@ FOO → review`,
         kind: 'independent',
         title: 'Misma tabla con match/case y OR patterns',
         preamble:
-          '- **Contexto:** con sujetos de estado finito, `match` hace legible la misma decision table.\n- **Meta:** completar cases con OR patterns y `case _`.\n- **Éxito:** OK accept; MISSING/NEEDS_REVIEW review; OUT_OF_RANGE reject; FOO review.\n- **Límites:** Python 3.10+; si no hay match, if/elif equivalente (anótalo). No dejes que MISSING caiga en accept.',
+          '- **Contexto:** con sujetos de estado finito, `match` hace legible la misma tabla de decisión.\n- **Meta:** completar las ramas `case` con alternativas (`|`) y `case _`.\n- **Éxito:** `OK` → `accept`; `MISSING`/`NEEDS_REVIEW` → `review`; `OUT_OF_RANGE` → `reject`; `FOO` → `review`.\n- **Límites:** Python 3.10+; si no hay `match`, usa un `if`/`elif` equivalente y anótalo. No dejes que `MISSING` caiga en `accept`.',
         id: 'S03-T3-B-E2',
         instruction:
-          '1. El DEFECT manda el default a accept.\n2. Añade cases: `OK`; `MISSING | NEEDS_REVIEW`; `OUT_OF_RANGE | NOT_IN_ALLOWLIST | BAD_TYPE`; `case _` → review.\n3. Recorre el bucle con: `OK`, `MISSING`, `OUT_OF_RANGE`, `FOO`, `NEEDS_REVIEW` e imprime `código → status`.',
+          '1. El DEFECT manda el caso predeterminado a `accept`.\n2. Añade estas ramas: `OK`; `MISSING | NEEDS_REVIEW`; `OUT_OF_RANGE | NOT_IN_ALLOWLIST | BAD_TYPE`; `case _` → `review`.\n3. Recorre el bucle con `OK`, `MISSING`, `OUT_OF_RANGE`, `FOO` y `NEEDS_REVIEW`, e imprime `código → status`.',
         hint: 'Usa `case "A" | "B":` en una sola rama y `case _:` al final.',
         hints: [
           'Usa `case "A" | "B":` en una sola rama y `case _:` al final.',
@@ -1758,10 +1758,10 @@ NEEDS_REVIEW → review`,
         kind: 'transfer',
         title: 'Elegir if o match según el sujeto',
         preamble:
-          '- **Contexto:** claridad de diseño > moda de sintaxis en el motor de reglas.\n- **Meta:** mapear códigos finitos con match y rango de edad con if; justificar en un print.\n- **Éxito:** `map_code` distingue OK/MISSING/OUT_OF_RANGE; `map_edad` da review/accept/reject en None/30/10; print de justificación.\n- **Límites:** no fuerces match sobre rangos numéricos; no dejes None→accept.',
+          '- **Contexto:** claridad de diseño > moda de sintaxis en el motor de reglas.\n- **Meta:** asignar estados a códigos finitos con `match` y evaluar el rango de edad con `if`; imprimir una justificación.\n- **Éxito:** `map_code` distingue `OK`/`MISSING`/`OUT_OF_RANGE`; `map_edad` da `review`/`accept`/`reject` para `None`/`30`/`10`; imprime una justificación.\n- **Límites:** no fuerces `match` sobre rangos numéricos; no dejes que `None` produzca `accept`.',
         id: 'S03-T3-B-E3',
         instruction:
-          '1. Implementa `map_code` con match (o if/elif) según la tabla OK/MISSING/OUT_OF_RANGE/_ → review.\n2. Implementa `map_edad`: None→review; 18–65→accept; else reject.\n3. Imprime resultados de prueba y una línea “por qué match no es ideal para el rango”.',
+          '1. Implementa `map_code` con `match` (o `if`/`elif`) según la tabla `OK`/`MISSING`/`OUT_OF_RANGE`/`_` → `review`.\n2. Implementa `map_edad`: `None` → `review`; 18–65 → `accept`; `else` → `reject`.\n3. Imprime resultados de prueba y una línea que explique por qué `match` no es ideal para el rango.',
         hint: 'match brilla en literales; rangos numéricos son más claros con if y comparaciones.',
         hints: [
           'match brilla en literales; rangos numéricos son más claros con if y comparaciones.',
@@ -1825,13 +1825,13 @@ Justificación: match para códigos finitos; if para rangos numéricos`,
         kind: 'guided',
         title: 'Ejemplos canónicos del campo edad',
         preamble:
-          '- **Contexto:** un invariante usable trae al menos un ejemplo por estado de decisión.\n- **Meta:** completar `validate_edad` (con type check) y una lista `examples` ejecutable.\n- **Éxito:** cuatro filas con `ok`/True: 30 accept, -1 reject, None review, `"x"` reject.\n- **Límites:** no uses solo el camino feliz; incluye missing y tipo mal.',
+          '- **Contexto:** un invariante usable trae al menos un ejemplo por estado de decisión.\n- **Meta:** completar `validate_edad` (que compruebe el tipo) y una lista ejecutable `examples`.\n- **Éxito:** cuatro filas con `ok`/`True`: `30` → `accept`, `-1` → `reject`, `None` → `review`, `"x"` → `reject`.\n- **Límites:** no uses solo el camino feliz; incluye ausencia y tipo incorrecto.',
         id: 'S03-T4-A-E1',
         instruction:
           '1. Añade guard de tipo (`isinstance`) al DEFECT.\n2. Define `examples` como lista de dicts `{value, expected}`.\n3. Recorre examples, imprime valor, got y comparación booleana.',
-        hint: 'Cuatro dicts {value, expected}. None → review; -1 reject; 30 accept; "x" reject.',
+        hint: 'Cuatro diccionarios `{value, expected}`: `None` → `review`; `-1` → `reject`; `30` → `accept`; `"x"` → `reject`.',
         hints: [
-          'Cuatro dicts {value, expected}. None → review; -1 reject; 30 accept; "x" reject.',
+          'Cuatro diccionarios `{value, expected}`: `None` → `review`; `-1` → `reject`; `30` → `accept`; `"x"` → `reject`.',
           'missing key en el record se modela aquí como value None.',
         ],
         edgeCases: ['missing key'],
@@ -1891,13 +1891,13 @@ x reject True`,
         kind: 'independent',
         title: 'Invariante multi-campo de apellidos',
         preamble:
-          '- **Contexto:** `validate_record` del You Do combina campos; aquí practicas un invariante de dos apellidos.\n- **Meta:** accept solo si ambos no vacíos; un faltante → review; ambos vacíos → reject.\n- **Éxito:** texto de invariante en español + 3 examples ejecutables con expected correcto.\n- **Límites:** aplica `strip`; trata `None` y `""` como vacío; sin PII real.',
+          '- **Contexto:** `validate_record` del You Do combina campos; aquí practicas un invariante de dos apellidos.\n- **Meta:** `accept` solo si ambos no están vacíos; uno faltante → `review`; ambos vacíos → `reject`.\n- **Éxito:** texto del invariante en español y tres elementos ejecutables en `examples` con el `expected` correcto.\n- **Límites:** aplica `strip`; trata `None` y `""` como vacío; sin PII real.',
         id: 'S03-T4-A-E2',
         instruction:
-          '1. Reescribe `validate_apellidos` (el DEFECT rechaza cualquier falta).\n2. Escribe `invariant_text` en español.\n3. Arma 3 examples (accept / review / reject) y verifícalos en un loop.',
-        hint: 'strip y trata "" como vacío. None en uno → review.',
+          '1. Reescribe `validate_apellidos` (el DEFECT rechaza cualquier falta).\n2. Escribe `invariant_text` en español.\n3. Arma tres ejemplos (`accept` / `review` / `reject`) y compruébalos en un bucle.',
+        hint: 'Aplica `strip` y trata `""` como vacío. `None` en uno → `review`.',
         hints: [
-          'strip y trata "" como vacío. None en uno → review.',
+          'Aplica `strip` y trata `""` como vacío. `None` en uno → `review`.',
           'invariant_text en español; examples con expected.',
         ],
         edgeCases: ['uno vacío'],
@@ -1957,14 +1957,14 @@ Quispe None → review True
         kind: 'transfer',
         title: 'Contraejemplo a un invariante demasiado estricto',
         preamble:
-          '- **Contexto:** “edad siempre 18–65 o reject” choca con la política real del curso (menores → review).\n- **Meta:** mostrar el contraejemplo (15, None) y proponer `validate_edad_fixed` + nuevo texto de invariante.\n- **Éxito:** strict muestra reject en 15/None; fixed da review en 15/None y accept en 30; print del invariante corregido.\n- **Límites:** no dejes menores como reject duro; fuera de 0–120 sí reject.',
+          '- **Contexto:** “edad siempre 18–65 o `reject`” choca con la política real del curso (menores → `review`).\n- **Meta:** mostrar el contraejemplo (`15`, `None`) y proponer `validate_edad_fixed` más un nuevo texto de invariante.\n- **Éxito:** `strict` muestra `reject` para `15`/`None`; `fixed` da `review` para `15`/`None` y `accept` para `30`; imprime el invariante corregido.\n- **Límites:** no dejes menores en `reject`; fuera de 0–120 sí corresponde `reject`.',
         id: 'S03-T4-A-E3',
         instruction:
           '1. Ejecuta la versión strict y nombra qué casos rompen la política de negocio.\n2. Implementa fixed con guards (None, tipo, rango, menores, banda 18–65).\n3. Imprime el nuevo invariante en español.',
-        hint: 'edad 15 no debería ser reject duro si la política es review para menores.',
+        hint: 'La edad `15` no debería producir `reject` si la política asigna `review` a los menores.',
         hints: [
-          'edad 15 no debería ser reject duro si la política es review para menores.',
-          'None sigue siendo review; >120 o <0 sí reject.',
+          'La edad `15` no debería producir `reject` si la política asigna `review` a los menores.',
+          '`None` sigue siendo `review`; `> 120` o `< 0` sí produce `reject`.',
         ],
         edgeCases: ['regla demasiado estricta'],
         tests: 'identify broken claim; 15 → review tras fix',
@@ -2077,7 +2077,7 @@ Campo 'edad'=-3 fuera de rango; usa un entero entre 0 y 120.`,
         kind: 'independent',
         title: 'Un caso de prueba por cada rama',
         preamble:
-          '- **Contexto:** si solo pruebas el camino feliz, el clasificador miente en fronteras.\n- **Meta:** armar `cases` con expected y un loop assert/print PASS sobre `classify_score`.\n- **Éxito:** al menos un caso por rama (accept/review/reject) e idealmente fronteras 80 y 50; todos PASS.\n- **Límites:** no borres la función; no uses prints sin assert (o sin comparación explícita).',
+          '- **Contexto:** si solo pruebas el camino feliz, el clasificador miente en fronteras.\n- **Meta:** armar `cases` con `expected` y un bucle que use `assert` e imprima `PASS` sobre `classify_score`.\n- **Éxito:** al menos un caso por rama (`accept`/`review`/`reject`) e, idealmente, las fronteras 80 y 50; todos deben imprimir `PASS`.\n- **Límites:** no borres la función; no uses prints sin assert (o sin comparación explícita).',
         id: 'S03-T4-B-E2',
         instruction:
           '1. Define `cases` como lista de `(score, expected)`.\n2. Incluye al menos 90, 55, 10 y las fronteras 80 y 50.\n3. Por cada caso: calcula, assert igualdad, imprime `PASS`.',
@@ -2143,7 +2143,7 @@ PASS 50 review`,
         kind: 'transfer',
         title: 'Test rojo: frontera inclusiva en edad 18',
         preamble:
-          '- **Contexto:** off-by-one en fronteras es el bug más caro de reglas de edad/monto.\n- **Meta:** hacer pasar la suite donde 18 debe ser accept.\n- **Éxito:** PASS en 18 accept, 17 review, None review, 30 accept (asserts en verde).\n- **Límites:** corrige `>` por rango inclusivo; mantén guard de None; no borres los cases.',
+          '- **Contexto:** un error de una unidad en las fronteras es el defecto más caro de las reglas de edad o monto.\n- **Meta:** hacer pasar la suite donde `18` debe ser `accept`.\n- **Éxito:** `PASS` para `18` → `accept`, `17` → `review`, `None` → `review` y `30` → `accept` (`assert` en verde).\n- **Límites:** corrige `>` por un rango inclusivo; mantén la guarda de `None`; no borres `cases`.',
         id: 'S03-T4-B-E3',
         instruction:
           '1. Observa el test rojo: 18 falla con la condición `e > 18`.\n2. Cambia a `18 <= e <= 65` (o equivalente).\n3. Descomenta/usa assert y confirma los cuatro PASS.',

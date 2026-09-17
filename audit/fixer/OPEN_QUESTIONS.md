@@ -310,3 +310,73 @@ still open. Re-run the stage for this section, or fix by hand.
   - anchor began: `hints: [\n          "fail_job si flake_rate > 0",\n          "Cuarentena documentada con t`
 - **S28-ES-018** at `selfCheck.questions[1]` — anchor not found
   - anchor began: `question: "Actualizar un golden con drift sin revisión es:",\n        options: ["Buena prá`
+
+## S39 spanish — 48 patch(es) not applied
+*Recorded 2026-09-16 by `record_rejections.py` from `S39s.apply.json`.*
+<!-- S39 spanish 5a3493d6c758 -->
+
+Codex proposed these; 48 applied cleanly but the whole batch was rolled back when the file stopped typechecking, so the defects they targeted are
+still open. Re-run the stage for this section, or fix by hand.
+
+Typecheck error: `node:internal/modules/run_main:107`
+
+- **integrator-phase2.outcome[4]** at `learningOutcomes[4].text` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T1-B.callout** at `theory[S39-T1-B].callout.content` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T3-A.callout** at `theory[S39-T3-A].callout.content` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T4-B.p0** at `theory[S39-T4-B].paragraphs[0]` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T4-B.p0** at `theory[S39-T4-B].paragraphs[0]` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T4-B.p1** at `theory[S39-T4-B].paragraphs[1]` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T4-B.callout** at `theory[S39-T4-B].callout.content` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T1-A-DEMO.why** at `iDo.steps[S39-T1-A-DEMO].why` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T1-B-DEMO.why** at `iDo.steps[S39-T1-B-DEMO].why` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T1-B-DEMO.why** at `iDo.steps[S39-T1-B-DEMO].why` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T1-B-DEMO.retrospective** at `iDo.steps[S39-T1-B-DEMO].retrospective` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T3-A-DEMO.why** at `iDo.steps[S39-T3-A-DEMO].why` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T3-A-DEMO.retrospective** at `iDo.steps[S39-T3-A-DEMO].retrospective` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T4-B-DEMO.preamble** at `iDo.steps[S39-T4-B-DEMO].preamble` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T4-B-DEMO.why** at `iDo.steps[S39-T4-B-DEMO].why` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T1-B-E1.preamble** at `weDo.steps[S39-T1-B-E1].preamble` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T1-B-E1.hint, integrator-phase2.S39-T1-B-E1.hint[0]** at `weDo.steps[S39-T1-B-E1].hint` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T1-B-E1.hint[0]** at `weDo.steps[S39-T1-B-E1].hints[0]` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T1-B-E1.retrospective** at `weDo.steps[S39-T1-B-E1].retrospective` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T1-B-E2.preamble** at `weDo.steps[S39-T1-B-E2].preamble` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T1-B-E2.instruction** at `weDo.steps[S39-T1-B-E2].instruction` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T1-B-E3.preamble** at `weDo.steps[S39-T1-B-E3].preamble` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T1-B-E3.instruction** at `weDo.steps[S39-T1-B-E3].instruction` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T1-B-E3.hint[1]** at `weDo.steps[S39-T1-B-E3].hints[1]` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T1-B-E3.retrospective** at `weDo.steps[S39-T1-B-E3].retrospective` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T2-A-E3.preamble** at `weDo.steps[S39-T2-A-E3].preamble` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T2-A-E3.instruction** at `weDo.steps[S39-T2-A-E3].instruction` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T2-A-E3.hint, integrator-phase2.S39-T2-A-E3.hint[0]** at `weDo.steps[S39-T2-A-E3].hint` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T2-A-E3.hint[0]** at `weDo.steps[S39-T2-A-E3].hints[0]` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T3-A-E1.preamble** at `weDo.steps[S39-T3-A-E1].preamble` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T3-A-E1.hint, integrator-phase2.S39-T3-A-E1.hint[0]** at `weDo.steps[S39-T3-A-E1].hint` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T3-A-E1.hint[0]** at `weDo.steps[S39-T3-A-E1].hints[0]` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T3-A-E1.retrospective** at `weDo.steps[S39-T3-A-E1].retrospective` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T3-A-E2.hint[1]** at `weDo.steps[S39-T3-A-E2].hints[1]` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T3-A-E3.preamble** at `weDo.steps[S39-T3-A-E3].preamble` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T3-A-E3.hint, integrator-phase2.S39-T3-A-E3.hint[0]** at `weDo.steps[S39-T3-A-E3].hint` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T3-A-E3.hint[0]** at `weDo.steps[S39-T3-A-E3].hints[0]` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T3-B-E3.retrospective** at `weDo.steps[S39-T3-B-E3].retrospective` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T4-A-E2.preamble** at `weDo.steps[S39-T4-A-E2].preamble` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T4-A-E2.instruction** at `weDo.steps[S39-T4-A-E2].instruction` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T4-B-E2.preamble** at `weDo.steps[S39-T4-B-E2].preamble` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T4-B-E2.feedback** at `weDo.steps[S39-T4-B-E2].feedback` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.S39-T4-B-E2.retrospective** at `weDo.steps[S39-T4-B-E2].retrospective` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.youDo.objective[1]** at `youDo.objectives[1]` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.selfCheck[0].explanation** at `selfCheck.questions[0].explanation` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.selfCheck[2].opt[2]** at `selfCheck.questions[2].options[2]` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.selfCheck[4].opt[2]** at `selfCheck.questions[4].options[2]` — typecheck failed after apply; whole batch rolled back
+- **integrator-phase2.selfCheck[4].explanation** at `selfCheck.questions[4].explanation` — typecheck failed after apply; whole batch rolled back
+
+## S27 spanish — 2 patch(es) not applied
+*Recorded 2026-09-16 by `record_rejections.py` from `S27s.apply.json`.*
+<!-- S27 spanish 8f52e77f4088 -->
+
+Codex proposed these and the applier refused them, so the defects they targeted are
+still open. Re-run the stage for this section, or fix by hand.
+
+- **S27-ES-SPLIT-03** at `weDo.steps[S27-T1-B-E1].hint` — anchor matches 2 places
+  - anchor began: `casefold + split/join`
+- **S27-ES-NOT-02** at `weDo.steps[S27-T4-A-E2].hint` — anchor matches 3 places
+  - anchor began: `'non' not in hit`
