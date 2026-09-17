@@ -246,3 +246,22 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   case. The sentence was already Spanish — see the S44 note, the Spanish pass must not rewrite
   Spanish. Accepted separately: **lista de comprobación** is the standard rendering of
   *checklist*, a named artifact, and is now in `b5_established_terms.json`.
+
+### No-ops are failures (2026-09-16)
+
+- **A round that changed nothing did not pass; it failed quietly.** *(S39, and the runner itself)*
+  Every regression gate compares the section against a snapshot of itself, so when no patch lands
+  they all go green and the run reports success having improved nothing. S39 printed "passed
+  every gate" and exited 0 with 48 patches rolled back. `run_spanish.sh` now treats zero applied
+  patches as a failure and says the PASS lines mean nothing in that case. Read any green round
+  with `applied 0` as a red one.
+- **The same rule applies to anything else that reports nothing.** Three scripted edits in one
+  session silently did nothing and looked like success: a `git grep -lE "\b<name>\.ts\b"` loop
+  that matched no files because `\b` does not behave against hyphenated names, and two `perl`
+  invocations lost to shell escaping. A tool that edits nothing must say so; if it cannot, count
+  the matches before and after and fail when the count is zero. Prefer the Edit tool, which
+  errors instead of shrugging.
+- **One bad patch should cost one patch, not the round.** *(S39)* A single replacement embedding
+  an unescaped quote broke the file and rolled back 48 good patches, twice. `apply_patches.py`
+  now bisects on a typecheck failure (~log2(n) checks, only after a failure), rejects just the
+  culprits with `this patch stopped the file parsing`, and keeps the rest.

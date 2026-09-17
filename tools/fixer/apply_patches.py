@@ -55,6 +55,37 @@ def typechecks() -> tuple[bool, str]:
     return r.returncode == 0, (r.stderr or r.stdout)[-1500:]
 
 
+def write_subset(landed: list[tuple[dict, Path]], originals: dict[Path, str]) -> None:
+    """Put the files on disk with exactly this subset of patches applied."""
+    bufs = dict(originals)
+    for p, target in landed:
+        bufs[target] = bufs[target].replace(p["anchor"], p["replacement"], 1)
+    for target, content in bufs.items():
+        target.write_text(content, encoding="utf-8")
+
+
+def find_bad_patches(landed: list[tuple[dict, Path]],
+                     originals: dict[Path, str]) -> list[tuple[dict, Path]]:
+    """Which patches stop the file parsing, found by bisection.
+
+    One bad patch used to cost the whole round: S39 lost 48 good patches twice to a single
+    replacement that embedded an unescaped quote. Anchors are independent and each matches once,
+    so a subset can be tested on its own. Costs ~log2(n) typechecks, and only after a failure.
+    """
+    if not landed:
+        return []
+    if len(landed) == 1:
+        write_subset(landed, originals)
+        return [] if typechecks()[0] else landed
+    mid = len(landed) // 2
+    bad: list[tuple[dict, Path]] = []
+    for half in (landed[:mid], landed[mid:]):
+        write_subset(half, originals)
+        if not typechecks()[0]:
+            bad += find_bad_patches(half, originals)
+    return bad
+
+
 def main() -> int:
     result_path = Path(sys.argv[1])
     apply = "--apply" in sys.argv
@@ -102,6 +133,7 @@ def main() -> int:
         return target
 
     applied, rejected = [], []
+    landed: list[tuple[dict, Path]] = []   # the source patch for each applied entry, for bisection
     for i, p in enumerate(data.get("patches", [])):
         anchor, repl = p["anchor"], p["replacement"]
         try:
@@ -125,6 +157,7 @@ def main() -> int:
                              "reason": "replacement identical to anchor"})
             continue
         buffers[target] = text.replace(anchor, repl, 1)
+        landed.append((p, target))
         applied.append({"finding_ids": p["finding_ids"], "field_path": p["field_path"],
                         "file": str(target.relative_to(ROOT)),
                         "delta_chars": len(repl) - len(anchor)})
@@ -149,6 +182,37 @@ def main() -> int:
                 target.write_text(content, encoding="utf-8")
         ok, err = typechecks()
         report["typecheck_ok"] = ok
+
+        if not ok and len(landed) > 1:
+            culprits = find_bad_patches(landed, originals)
+            if culprits and len(culprits) < len(landed):
+                keep = [x for x in landed if not any(x[0] is c[0] for c in culprits)]
+                write_subset(keep, originals)
+                ok, err = typechecks()
+                if ok:
+                    for c, _ in culprits:
+                        rejected.append({
+                            "finding_ids": c.get("finding_ids", []),
+                            "field_path": c.get("field_path", ""),
+                            "reason": "this patch stopped the file parsing; the rest of the "
+                                      "batch was kept",
+                        })
+                    applied = [a for a, (p, _) in zip(applied, landed)
+                               if not any(p is c[0] for c in culprits)]
+                    report.update({
+                        "applied": len(applied),
+                        "rejected": len(rejected),
+                        "rejections": rejected,
+                        "typecheck_ok": True,
+                        "findings_closed": sorted({f for a in applied for f in a["finding_ids"]}),
+                        "findings_still_open": sorted(
+                            {f for r in rejected for f in r.get("finding_ids", [])}),
+                        "salvaged": [c.get("field_path") for c, _ in culprits],
+                    })
+                    report["files_touched"] = sorted({a["file"] for a in applied})
+                    print(json.dumps(report, indent=2, ensure_ascii=False))
+                    return 0
+
         if not ok:
             for target, content in originals.items():
                 target.write_text(content, encoding="utf-8")

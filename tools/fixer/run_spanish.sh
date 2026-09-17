@@ -68,10 +68,24 @@ print(f\"    applied {r['applied']}, rejected {r['rejected']}{extra}\")"
   fi
 
   N=$(python3 tools/fixer/record_rejections.py "$TAG" ".fixer/${TAG}s.apply.json" spanish)
+
+  # A round that changed nothing did not pass; it failed quietly. Every regression gate compares
+  # the section against itself when no patch lands, so all of them go green and the run reports
+  # success having improved nothing. S39 did exactly this: 48 patches rolled back, "passed every
+  # gate", exit 0. Treat a no-op as a failure and say why.
+  APPLIED=$(python3 -c "
+import json; print(json.load(open('.fixer/${TAG}s.apply.json'))['applied'])")
+  if [ "$APPLIED" -eq 0 ]; then
+    echo "!! $TAG changed nothing - $N patch(es) offered and none landed."
+    echo "   The gates compared the section against itself, so their PASS means nothing here."
+    rm -rf "$LOCK"; trap - EXIT INT TERM
+    exit 1
+  fi
+
   if [ "$N" -gt 0 ]; then
-    echo "    $TAG passed its gates, but $N patch(es) were not applied - recorded in OPEN_QUESTIONS.md"
+    echo "    $TAG passed its gates with $APPLIED patch(es) applied, but $N were not - recorded in OPEN_QUESTIONS.md"
   else
-    echo "    $TAG passed every gate, with no unapplied patches"
+    echo "    $TAG passed every gate with $APPLIED patch(es) applied, none unapplied"
   fi
 
   rm -rf "$LOCK"
