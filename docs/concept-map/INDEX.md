@@ -48,10 +48,8 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `shape` | L2 | S06 · S06-T3-A.callout | S14 · S14-T1-A.p0 | 7 | 4 | 5 | 3 | +8 | 0/5 ⚠ | 4 |
 | 🟠 `annotation` | L1 | S05 · outcome[3] | S11 · S11-T1-A.p1 | 8 | 0 | 1 | 1 | +6 | 0/1 ⚠ | 2 |
 | 🟠 `missing-values` | L2 | S09 · S09-T1-A-E2.preamble | S14 · S14-T3-B-E3.instruction | 46 | 5 | 15 | 7 | +5 | 0/5 ⚠ | 9 |
-| 🟠 `return` | L2 | S02 · theory[1].code | S05 · S05-T4-A.p3 | 76 | 639 | 41 | 5 | +3 | 0/5 ⚠ | 50 |
 | 🟠 `pipeline` | L2 | S02 · theory[2].p0 | S05 · S05-T1-A.callout | 18 | 8 | 9 | 10 | +3 | 0/5 ⚠ | 43 |
 | 🟠 `eda` | L1 | S15 · youDo.context | S18 · jobRelevance | 14 | 0 | 0 | 3 | +3 | 0/1 ⚠ | 6 |
-| 🟠 `parameter` | L2 | S02 · S02-T4-A-E3.hint | S05 · S05-T1-A.p1 | 7 | 1 | 4 | 1 | +3 | 0/5 ⚠ | 17 |
 | 🟠 `for` | L2 | S02 · S02-T1-A-DEMO.code | S04 · S04-T1-A-E2.preamble | 105 | 350 | 34 | 4 | +2 | 0/5 ⚠ | 51 |
 | 🟠 `dict` | L2 | S02 · S02-T2-B.callout | S04 · S04-T4-A-E3.preamble | 33 | 155 | 111 | 7 | +2 | 2/5 ⚠ | 51 |
 | 🟠 `iqr` | L2 | S16 · outcome[5] | S18 · S18-T3-B-DEMO.why | 32 | 2 | 1 | 3 | +2 | 0/5 ⚠ | 3 |
@@ -59,9 +57,11 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `entity-resolution` | L3 | S11 · S11-T2-B-DEMO.preamble | S13 · S13-T1-A.p0 | 7 | 8 | 6 | 15 | +2 | 2/5 ⚠ | 16 |
 | 🟠 `shap` | L2 | S33 · selfCheck[2].opt[1] | S35 · S35-T1-B.p0 | 2 | 1 | 0 | 2 | +2 | 0/1 ⚠ | 2 |
 | 🟠 `set` | L3 | S01 · S01-T4-A-E3.starter | S03 · S03-T1-A.p2 | 1 | 119 | 50 | 17 | +2 | 2/5 ⚠ | 46 |
-| 🟠 `if` | L3 | S01 · S01-T1-B#6.code | S02 · S02-T2-A-DEMO.why | 15 | 437 | 56 | 19 | +1 | 1/5 ⚠ | 52 |
+| 🟠 `if` | L3 | S01 · S01-T1-B#6.code | S02 · S02-T2-A-DEMO.why | 15 | 438 | 56 | 19 | +1 | 1/5 ⚠ | 52 |
 | 🟠 `exception` | L3 | S02 · theory[1].p3 | S03 · S03-T2-B.p0 | 14 | 57 | 33 | 11 | +1 | 3/5 ⚠ | 33 |
-| 🟠 `function` | L3 | S01 · S01-T4-A-DEMO.code | S02 · theory[0].callout | 9 | 802 | 34 | 17 | +1 | 1/5 ⚠ | 52 |
+| 🟠 `function` | L3 | S01 · S01-T4-A-DEMO.code | S02 · theory[0].callout | 9 | 803 | 34 | 17 | +1 | 1/5 ⚠ | 52 |
+| 🟠 `return` | L3 | S02 · theory[1].code | S03 · theory[3].p3 | 6 | 640 | 41 | 5 | +1 | 1/5 ⚠ | 50 |
+| 🟠 `parameter` | L3 | S02 · S02-T4-A-E3.hint | S03 · theory[3].p1 | 3 | 1 | 4 | 1 | +1 | 1/5 ⚠ | 18 |
 | 🟠 `pivot-table` | L3 | S17 · outcome[2] | S17 · iDo.intro | 11 | 6 | 2 | 2 | · | 1/1 | 2 |
 | 🟠 `vectorizaci-n` | L1 | S14 · tagline | S14 · S14-T4-A.p0 | 6 | 0 | 3 | 5 | · | 0/1 ⚠ | 4 |
 | 🟠 `dataframe` | L3 | S15 · outcome[0] | S15 · S15-T1-A.p0 | 4 | 49 | 7 | 7 | · | 1/5 ⚠ | 7 |

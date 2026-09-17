@@ -213,7 +213,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     definition: 'Es el nombre que una función declara para recibir un dato. Al llamar la función, el argumento entregado queda vinculado a ese nombre.',
     example: 'def saludar(nombre):\\n    return f"Hola, {nombre}"\\n\\nsaludar("Ana")  # "Ana" es el argumento',
     related: ['Función', 'args y kwargs', 'Anotación de tipo'],
-    firstSectionId: 'functions-contracts',
+    firstSectionId: 'decisions-rules',
   },
   {
     id: 'virtual-environment-venv',

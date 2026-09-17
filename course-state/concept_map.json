@@ -691,6 +691,42 @@
    },
    {
     "section": "S03",
+    "location": "decisions-rules.theory[3].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].p4",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
     "location": "decisions-rules.S03-T1-B.code",
     "kind": "theory.code",
     "visible": true
@@ -14807,6 +14843,12 @@
    },
    {
     "section": "S03",
+    "location": "decisions-rules.theory[3].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
     "location": "decisions-rules.S03-T1-B.code",
     "kind": "theory.code",
     "visible": true
@@ -19863,6 +19905,12 @@
    }
   ],
   "headings": [
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
    {
     "section": "S05",
     "location": "functions-contracts.S05-T3-A.heading",
@@ -34406,6 +34454,12 @@
    },
    {
     "section": "S03",
+    "location": "decisions-rules.theory[3].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
     "location": "decisions-rules.S03-T1-B.heading",
     "kind": "theory.heading",
     "visible": true
@@ -46716,6 +46770,12 @@
    },
    {
     "section": "S03",
+    "location": "decisions-rules.theory[3].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
     "location": "decisions-rules.S03-T1-B.code",
     "kind": "theory.code",
     "visible": true
@@ -50531,6 +50591,42 @@
     "section": "S03",
     "location": "decisions-rules.theory[1].code",
     "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].p4",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].figure",
+    "kind": "theory.figure",
     "visible": true
    },
    {
@@ -62416,6 +62512,18 @@
   ],
   "definitions": [
    {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].figure",
+    "kind": "theory.figure",
+    "visible": true
+   },
+   {
     "section": "S05",
     "location": "functions-contracts.S05-T4-A.p3",
     "kind": "theory.paragraph",
@@ -62456,6 +62564,12 @@
    {
     "section": "S03",
     "location": "decisions-rules.theory[1].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -66552,13 +66666,26 @@
   ],
   "headings": [
    {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
     "section": "S05",
     "location": "functions-contracts.S05-T1-A.heading",
     "kind": "theory.heading",
     "visible": true
    }
   ],
-  "figures": [],
+  "figures": [
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].figure",
+    "kind": "theory.figure",
+    "visible": true
+   }
+  ],
   "first_use": {
    "section": "S02",
    "location": "basics.theory[1].code",
@@ -66566,12 +66693,18 @@
    "visible": true
   },
   "first_definition": {
-   "section": "S05",
-   "location": "functions-contracts.S05-T4-A.p3",
+   "section": "S03",
+   "location": "decisions-rules.theory[3].p3",
    "kind": "theory.paragraph",
    "visible": true
   },
   "reinforcements": [
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].figure",
+    "kind": "theory.figure",
+    "visible": true
+   },
    {
     "section": "S48",
     "location": "ai-governance.S48-T1-A-DEMO.code",
@@ -66579,7 +66712,7 @@
     "visible": true
    }
   ],
-  "depth": "L2",
+  "depth": "L3",
   "surprising_uses": [
    {
     "section": "S02",
@@ -66614,426 +66747,6 @@
    {
     "section": "S03",
     "location": "decisions-rules.theory[1].code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.p4",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T1-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T1-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T3-A-E2.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T3-A-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T3-A-E2.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T3-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.outcome[0]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.theory[1].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.theory[1].p5",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.theory[1].code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.S05-T1-A.heading",
-    "kind": "theory.heading",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.S05-T1-A.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.S05-T1-A.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.S05-T1-A.p3",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.S05-T1-A.p4",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.S05-T1-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.S05-T1-A.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.S05-T1-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.S05-T2-A.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.S05-T2-A.p4",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.S05-T2-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.theory[5].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.S05-T2-B.p4",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.S05-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.S05-T2-B.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.S05-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.S05-T3-B.code",
     "kind": "theory.code",
     "visible": true
    }
@@ -67092,9 +66805,9 @@
   ],
   "load_bearing": true,
   "figure_target": 5,
-  "figure_count": 0,
-  "figure_gap": 5,
-  "explanation_lag_sections": 3
+  "figure_count": 1,
+  "figure_gap": 4,
+  "explanation_lag_sections": 1
  },
  "context-manager": {
   "id": "context-manager",
@@ -70307,7 +70020,7 @@
  },
  "parameter": {
   "id": "parameter",
-  "declared_first_section": "functions-contracts",
+  "declared_first_section": "decisions-rules",
   "uses": [
    {
     "section": "S02",
@@ -70325,6 +70038,18 @@
     "section": "S02",
     "location": "basics.S02-T4-A-E3.tests",
     "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].figure",
+    "kind": "theory.figure",
     "visible": true
    },
    {
@@ -70648,6 +70373,12 @@
   ],
   "definitions": [
    {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
     "section": "S05",
     "location": "functions-contracts.S05-T1-A.p1",
     "kind": "theory.paragraph",
@@ -70752,7 +70483,14 @@
     "visible": true
    }
   ],
-  "figures": [],
+  "figures": [
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].figure",
+    "kind": "theory.figure",
+    "visible": true
+   }
+  ],
   "first_use": {
    "section": "S02",
    "location": "basics.S02-T4-A-E3.hint",
@@ -70760,8 +70498,8 @@
    "visible": true
   },
   "first_definition": {
-   "section": "S05",
-   "location": "functions-contracts.S05-T1-A.p1",
+   "section": "S03",
+   "location": "decisions-rules.theory[3].p1",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -70791,7 +70529,7 @@
     "visible": true
    }
   ],
-  "depth": "L2",
+  "depth": "L3",
   "surprising_uses": [
    {
     "section": "S02",
@@ -70810,34 +70548,11 @@
     "location": "basics.S02-T4-A-E3.tests",
     "kind": "wedo.tests",
     "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.theory[0].p4",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.outcome[1]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.theory[1].p3",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S05",
-    "location": "functions-contracts.theory[1].p5",
-    "kind": "theory.paragraph",
-    "visible": true
    }
   ],
   "sections_used": [
    "S02",
+   "S03",
    "S04",
    "S05",
    "S06",
@@ -70857,9 +70572,9 @@
   ],
   "load_bearing": true,
   "figure_target": 5,
-  "figure_count": 0,
-  "figure_gap": 5,
-  "explanation_lag_sections": 3
+  "figure_count": 1,
+  "figure_gap": 4,
+  "explanation_lag_sections": 1
  },
  "virtual-environment-venv": {
   "id": "virtual-environment-venv",

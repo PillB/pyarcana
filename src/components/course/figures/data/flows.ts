@@ -50,6 +50,24 @@ export const FLOW_FIGURES: Record<string, FigureData> = {
     outcome: 'Por eso «a mí me funciona» suele significar «lo probé en el REPL, con estado que el script no tendrá».',
   },
 
+  // S03 illustrates seven of its nine theory blocks with a function, and its T2-B subtopic is
+  // built on the early return, two sections before S05 teaches `def`. The block that closes that
+  // gap needs the one thing prose states badly here: that `return` both hands the value back and
+  // ends the body, so the stages after it never run.
+  'S03-call-return': {
+    kind: 'flow',
+    headline: 'La llamada entrega un valor; `return` devuelve la decisión y cierra el cuerpo',
+    stages: [
+      { label: 'llamada', sub: 'decidir_region("R-NORTE")', tint: 3 },
+      { label: 'cuerpo', sub: 'region = "R-NORTE"', tint: 1 },
+      { label: 'return', sub: 'entrega "accept"', tint: 2 },
+      { label: 'quien llamó', sub: 'resultado_3 = "accept"', tint: 4 },
+    ],
+    boundaryAfter: 2,
+    boundaryLabel: 'lo que queda en el cuerpo ya no se ejecuta',
+    outcome: 'Por eso una guarda puede devolver `review` en la primera línea: el resto del cuerpo no llega a correr.',
+  },
+
   'S05-contract-order': {
     kind: 'flow',
     headline: 'Una función revisa lo que recibe antes de prometer nada',

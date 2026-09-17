@@ -366,3 +366,24 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   teaches, under the same word, thirteen sections earlier. In all three the section already had
   the Spanish for what it meant. Before glossing a term, check whether the section is merely
   borrowing a name for something it already says plainly.
+
+- **The first D3 block of the campaign: S03 teaches `def`, the call and `return`.** *(2026-09-17)*
+  Seven of S03's nine theory blocks illustrate decisions with a function, and S03-T2-B's subject is
+  the early return, while `def` was not taught until S05. The new supporting block — no
+  `subtopicId`, per D6 — sits between S03-T1-A and S03-T1-B with a worked example, a four-stage
+  figure (`S03-call-return`) whose boundary is drawn after `return`, and a predict-the-output
+  check. `return` went from 76 surprising uses to 6 and from first-defined-in-S05 to S03;
+  `parameter` from 7 to 3. Course-wide surprising uses 898 → 658 across the day.
+  Three things the round had to carry, none of them in the brief the first time:
+  - **The example collided with the block after it.** Codex named the function `decidir_monto`,
+    one letter from S03-T1-B's `decide_monto`, deciding almost the same thing. Moved to the region
+    rule S03-T1-A had just taught, which also reinforces the block it follows.
+  - **An inserting patch has to re-emit its anchor.** The returned `replacement` held only the new
+    block, so applying it deleted S03-T1-A's callout and broke the file. The rollback caught it.
+    When a patch inserts rather than replaces, check `replacement.startswith(anchor)` before
+    applying, or assemble the insertion yourself.
+  - **Adding teaching trips the count pins, by design.** `test_s03_independent_contract`'s
+    `len(blocks) == 41` is now `>= 41`, proven in both directions (passes at 42, still fails when
+    programs are removed) — the same D6 conversion S01 and S02 already needed. And a new figure's
+    `id`, `caption` and `alt` must be double-quoted: `figure-data-schema.test.mjs` reads them with
+    a double-quote regex, so single quotes read as a missing caption.
