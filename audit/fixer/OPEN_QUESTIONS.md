@@ -419,3 +419,29 @@ still open. Re-run the stage for this section, or fix by hand.
 3. Va`
 - **S39-ES-review-05** at `weDo.exercises[S39-T4-B-E2].preamble` — anchor not found
   - anchor began: `- **Contexto:** en la cola de onboarding, override_rate y tiempo de review cuentan más par`
+
+## A glossary keyed on surface strings cannot separate homonyms
+*Recorded 2026-09-16 while working the concept-map queue. Not blocking; one known instance.*
+
+`Correlación` is a Data Science entry — *"Relación entre dos variables. -1 a 1. np.corrcoef,
+df.corr()"* — and its 25 "surprising uses" are almost all S09's **identificador de correlación**,
+a logging correlation ID, which has nothing to do with statistical correlation beyond the word.
+Its `firstSectionId` is even `exceptions-logging`, so a previous round appears to have resolved
+the forward reference by pointing the statistics concept at the logging section, which cannot be
+right either.
+
+Nothing in the concept map can distinguish these: terms are matched as surface strings, and two
+unrelated ideas share one Spanish word. The same shape will recur (`cobertura` as test coverage
+versus ordinary coverage; `función` as a Python function versus a purpose, which already cost a
+false positive in S01).
+
+Options, none taken here because each changes what the map means:
+1. **Disambiguate by section range** — let a term declare where its meaning applies, so
+   `Correlación` is only matched from the statistics sections onward.
+2. **Split the entry** — add `identificador de correlación` as its own term, so the logging use
+   is explained on its own terms and stops matching the statistics one.
+3. **Accept and annotate** — leave the count wrong and note it, which is what is happening today
+   by default and is the reason this is written down.
+
+Until it is decided, treat any `Correlación` count in the concept map as unreliable, and check a
+homonym before acting on a high surprising-use score.

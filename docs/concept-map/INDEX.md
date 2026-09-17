@@ -16,7 +16,6 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | concept | depth | first use | first explained | surprising | examples | exercised | self-check | lag | figures | sections |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
 | 🔴 `rag` | L0 | S48 · jobRelevance | **never** | 44 | 3 | 4 | 2 | · | 0/1 ⚠ | 3 |
-| 🔴 `dunder-method` | L0 | S10 · S10-T1-B.p0 | **never** | 40 | 20 | 0 | 1 | · | 0/1 ⚠ | 10 |
 | 🔴 `outlier` | L0 | S03 · S03-T3-A.p3 | **never** | 35 | 0 | 0 | 0 | · | 0/1 ⚠ | 6 |
 | 🔴 `defaultdict` | L0 | S30 · S30-T2-A.code | **never** | 32 | 13 | 1 | 0 | · | 0/1 ⚠ | 4 |
 | 🔴 `iloc-vs-loc` | L0 | S15 · outcome[2] | **never** | 29 | 1 | 4 | 2 | · | 0/1 ⚠ | 3 |
@@ -37,6 +36,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🔴 `namedtuple` | L0 | S40 · S40-T3-B.p1 | **never** | 5 | 2 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `roc-auc` | L0 | S34 · selfCheck[0].opt[2] | **never** | 3 | 0 | 0 | 3 | · | 0/1 ⚠ | 1 |
 | 🔴 `distribuci-n-normal` | L0 | S16 · selfCheck[3].opt[3] | **never** | 2 | 0 | 0 | 1 | · | 0/1 ⚠ | 2 |
+| 🔴 `dunder-method` | L0 | S11 · S11-T1-A.p0 | **never** | 2 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `hyperparameter-tuning` | L0 | S36 · S36-T1-B-DEMO.why | **never** | 2 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `row-group` | L0 | S15 · S15-T4-B.p2 | **never** | 2 | 1 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `joblib` | L0 | S32 · S32-T3-B.p0 | **never** | 1 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
@@ -60,7 +60,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `annotation` | L1 | S01 · S01-T1-A.p4 | S11 · S11-T1-A.p1 | 10 | 0 | 1 | 1 | +10 | 0/1 ⚠ | 3 |
 | 🟠 `abc` | L2 | S02 · S02-T1-B.p3 | S11 · S11-T3-B.p1 | 35 | 14 | 6 | 4 | +9 | 0/5 ⚠ | 12 |
 | 🟠 `gitignore` | L2 | S01 · outcome[6] | S10 · S10-T4-B.p0 | 17 | 2 | 4 | 1 | +9 | 0/1 ⚠ | 2 |
-| 🟠 `pipeline` | L2 | S02 · theory[2].p0 | S10 · S10-T3-A-E1.preamble | 65 | 8 | 9 | 10 | +8 | 0/5 ⚠ | 43 |
+| 🟠 `pipeline` | L2 | S02 · theory[2].p0 | S10 · S10-T3-A-E1.preamble | 64 | 8 | 9 | 10 | +8 | 0/5 ⚠ | 43 |
 | 🟠 `shape` | L2 | S06 · S06-T1-B.p0 | S14 · S14-T1-A.p0 | 12 | 4 | 5 | 3 | +8 | 0/5 ⚠ | 4 |
 | 🟠 `return` | L3 | S01 · theory[1].code | S08 · S08-T4-B-E2.instruction | 260 | 640 | 139 | 20 | +7 | 1/5 ⚠ | 52 |
 | 🟠 `exception` | L3 | S02 · theory[1].p3 | S09 · S09-T1-B.p1 | 38 | 6 | 7 | 7 | +7 | 3/5 ⚠ | 28 |
@@ -80,7 +80,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `function` | L3 | S01 · theory[1].code | S02 · theory[0].callout | 10 | 803 | 34 | 17 | +1 | 1/5 ⚠ | 52 |
 | 🟠 `eda` | L1 | S15 · youDo.context | S16 · S16-T1-A.p0 | 1 | 0 | 0 | 3 | +1 | 0/1 ⚠ | 6 |
 | 🟠 `truthiness` | L1 | S03 · tagline | S03 · S03-T1-B-E1.instruction | 14 | 0 | 19 | 4 | · | 0/1 ⚠ | 12 |
-| 🟠 `repositorio-repo` | L2 | S01 · outcome[5] | S01 · theory[15].p0 | 11 | 8 | 12 | 13 | · | 0/5 ⚠ | 26 |
+| 🟠 `repositorio-repo` | L2 | S01 · outcome[5] | S01 · theory[15].p0 | 11 | 8 | 11 | 13 | · | 0/5 ⚠ | 26 |
 | 🟠 `pip` | L2 | S01 · theory[0].p1 | S01 · S01-T1-B.p2 | 7 | 11 | 9 | 3 | · | 0/5 ⚠ | 9 |
 | 🟠 `pivot-table` | L3 | S17 · S17-T2-A.heading | S17 · iDo.intro | 6 | 4 | 1 | 1 | · | 1/1 | 2 |
 | 🟠 `vectorizaci-n` | L1 | S14 · tagline | S14 · S14-T4-A.p0 | 6 | 0 | 2 | 3 | · | 0/1 ⚠ | 3 |

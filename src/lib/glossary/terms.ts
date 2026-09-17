@@ -130,7 +130,10 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'dunder-method',
     term: 'Dunder method',
-    aliases: ['Dunder method', 'dunder', '__init__'],
+    // Not `__init__`: S10 teaches packaging, where it means the package marker file, and that
+    // collision alone produced 40 false "never explained" uses of a method this course barely
+    // touches. `__str__`/`__repr__` are unambiguous.
+    aliases: ['Dunder method', 'dunder', '__str__', '__repr__'],
     category: 'Python',
     definition: 'Métodos especiales con __ al inicio y fin (double underscore). Ej: __init__, __str__, __repr__, __len__.',
     firstSectionId: 'modules-packaging-cli',

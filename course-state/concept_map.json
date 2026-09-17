@@ -49890,60 +49890,6 @@
   "declared_first_section": "modules-packaging-cli",
   "uses": [
    {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T1-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T2-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T1-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T2-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T1-B-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T2-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T2-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.selfCheck[5].opt[2]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
     "section": "S11",
     "location": "oop-domain.S11-T1-A.p0",
     "kind": "theory.paragraph",
@@ -49951,382 +49897,20 @@
    },
    {
     "section": "S11",
-    "location": "oop-domain.S11-T3-B.code",
-    "kind": "theory.code",
+    "location": "oop-domain.S11-T1-A-DEMO.preamble",
+    "kind": "ido.preamble",
     "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T4-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T3-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T4-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T2-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T2-A-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T2-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T2-B-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T4-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T4-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T4-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T4-B-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S12",
-    "location": "apis-sql-geo.S12-T1-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S12",
-    "location": "apis-sql-geo.S12-T1-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S12",
-    "location": "apis-sql-geo.S12-T2-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S12",
-    "location": "apis-sql-geo.S12-T2-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.S22-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.S22-T2-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S23",
-    "location": "computer-vision.S23-T1-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S23",
-    "location": "computer-vision.S23-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S28",
-    "location": "llm-agents.S28-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S28",
-    "location": "llm-agents.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S29",
-    "location": "mlops.S29-T4-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S29",
-    "location": "mlops.S29-T4-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S29",
-    "location": "mlops.S29-T4-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S29",
-    "location": "mlops.S29-T4-B-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S29",
-    "location": "mlops.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S30",
-    "location": "security-infra.S30-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S30",
-    "location": "security-infra.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-A-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S38",
-    "location": "performance-extreme.S38-T2-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S38",
-    "location": "performance-extreme.S38-T2-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S38",
-    "location": "performance-extreme.S38-T2-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S38",
-    "location": "performance-extreme.S38-T2-A-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S38",
-    "location": "performance-extreme.S38-T2-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S38",
-    "location": "performance-extreme.S38-T2-A-E3.solution",
-    "kind": "solution",
-    "visible": false
    }
   ],
   "definitions": [],
-  "examples": [
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T2-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T2-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T4-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T3-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T4-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S12",
-    "location": "apis-sql-geo.S12-T1-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S12",
-    "location": "apis-sql-geo.S12-T1-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.S22-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.S22-T2-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S23",
-    "location": "computer-vision.S23-T1-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S23",
-    "location": "computer-vision.S23-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S28",
-    "location": "llm-agents.S28-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S29",
-    "location": "mlops.S29-T4-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S29",
-    "location": "mlops.S29-T4-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S30",
-    "location": "security-infra.S30-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S38",
-    "location": "performance-extreme.S38-T2-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S38",
-    "location": "performance-extreme.S38-T2-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   }
-  ],
+  "examples": [],
   "exercises": [],
-  "self_checks": [
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.selfCheck[5].opt[2]",
-    "kind": "selfcheck.option",
-    "visible": true
-   }
-  ],
+  "self_checks": [],
   "headings": [],
   "figures": [],
   "first_use": {
-   "section": "S10",
-   "location": "modules-packaging-cli.S10-T1-B.p0",
+   "section": "S11",
+   "location": "oop-domain.S11-T1-A.p0",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -50335,54 +49919,6 @@
   "depth": "L0",
   "surprising_uses": [
    {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T1-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T2-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T1-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T2-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T1-B-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T2-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.selfCheck[5].opt[2]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
     "section": "S11",
     "location": "oop-domain.S11-T1-A.p0",
     "kind": "theory.paragraph",
@@ -50390,202 +49926,13 @@
    },
    {
     "section": "S11",
-    "location": "oop-domain.S11-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T4-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T3-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T4-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T2-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T2-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T4-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T4-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S12",
-    "location": "apis-sql-geo.S12-T1-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S12",
-    "location": "apis-sql-geo.S12-T1-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S12",
-    "location": "apis-sql-geo.S12-T2-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.S22-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.S22-T2-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S23",
-    "location": "computer-vision.S23-T1-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S23",
-    "location": "computer-vision.S23-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S28",
-    "location": "llm-agents.S28-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S28",
-    "location": "llm-agents.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S29",
-    "location": "mlops.S29-T4-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S29",
-    "location": "mlops.S29-T4-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S29",
-    "location": "mlops.S29-T4-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S29",
-    "location": "mlops.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S30",
-    "location": "security-infra.S30-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S30",
-    "location": "security-infra.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S38",
-    "location": "performance-extreme.S38-T2-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S38",
-    "location": "performance-extreme.S38-T2-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S38",
-    "location": "performance-extreme.S38-T2-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S38",
-    "location": "performance-extreme.S38-T2-A-E3.starter",
-    "kind": "wedo.starter",
+    "location": "oop-domain.S11-T1-A-DEMO.preamble",
+    "kind": "ido.preamble",
     "visible": true
    }
   ],
   "sections_used": [
-   "S10",
-   "S11",
-   "S12",
-   "S22",
-   "S23",
-   "S28",
-   "S29",
-   "S30",
-   "S32",
-   "S38"
+   "S11"
   ],
   "load_bearing": false,
   "figure_target": 1,
@@ -76530,12 +75877,6 @@
    },
    {
     "section": "S29",
-    "location": "mlops.youDo.requirement[7]",
-    "kind": "youdo.requirement",
-    "visible": true
-   },
-   {
-    "section": "S29",
     "location": "mlops.youDo.rubric[4]",
     "kind": "youdo.rubric",
     "visible": true
@@ -76970,12 +76311,6 @@
     "section": "S29",
     "location": "mlops.youDo.objective[3]",
     "kind": "youdo.objective",
-    "visible": true
-   },
-   {
-    "section": "S29",
-    "location": "mlops.youDo.requirement[7]",
-    "kind": "youdo.requirement",
     "visible": true
    },
    {
@@ -123393,18 +122728,6 @@
    },
    {
     "section": "S09",
-    "location": "exceptions-logging.S09-T2-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S09",
-    "location": "exceptions-logging.S09-T2-A-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S09",
     "location": "exceptions-logging.youDo.context",
     "kind": "youdo.context",
     "visible": true
@@ -125013,12 +124336,6 @@
     "section": "S09",
     "location": "exceptions-logging.S09-T1-A-E2.retrospective",
     "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S09",
-    "location": "exceptions-logging.S09-T2-A-E1.starter",
-    "kind": "wedo.starter",
     "visible": true
    },
    {

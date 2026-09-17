@@ -120,8 +120,11 @@ const terms = GLOSSARY_TERMS.map((t) => {
   return {
     id: t.id,
     firstSectionId: t.firstSectionId,
-    // \b is wrong for accented Spanish; use lookarounds on letter chars instead
-    re: new RegExp(`(?<![\\p{L}\\d_])(?:${alts.join('|')})(?![\\p{L}\\d_])`, 'giu'),
+    // \b is wrong for accented Spanish; use lookarounds on letter chars instead.
+    // `.py` is excluded too: S10 teaches packaging and writes `__init__.py` constantly, which
+    // is a package marker file, not the `__init__` dunder method. That alone accounted for 40
+    // of dunder-method's 50 "mentions" and scored it never-explained.
+    re: new RegExp(`(?<![\\p{L}\\d_])(?:${alts.join('|')})(?![\\p{L}\\d_]|\\.py)`, 'giu'),
   }
 })
 
