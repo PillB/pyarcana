@@ -7,7 +7,7 @@ surprised by it?* 🔴 never explained · 🟠 used before it is explained · �
 
 Depth: **L0** never defined · **L1** defined inline at first use · **L2** plus a worked example · **L3** plus its own subtopic and a figure.
 
-**103 concepts.** 22 never explained, 45 used before they are explained, 36 clean.
+**103 concepts.** 20 never explained, 45 used before they are explained, 38 clean.
 
 Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) · [S05](S05.md) · [S06](S06.md) · [S07](S07.md) · [S08](S08.md) · [S09](S09.md) · [S10](S10.md) · [S11](S11.md) · [S12](S12.md) · [S13](S13.md) · [S14](S14.md) · [S15](S15.md) · [S16](S16.md) · [S17](S17.md) · [S18](S18.md) · [S19](S19.md) · [S20](S20.md) · [S21](S21.md) · [S22](S22.md) · [S23](S23.md) · [S24](S24.md) · [S25](S25.md) · [S26](S26.md) · [S27](S27.md) · [S28](S28.md) · [S29](S29.md) · [S30](S30.md) · [S31](S31.md) · [S32](S32.md) · [S33](S33.md) · [S34](S34.md) · [S35](S35.md) · [S36](S36.md) · [S37](S37.md) · [S38](S38.md) · [S39](S39.md) · [S40](S40.md) · [S41](S41.md) · [S42](S42.md) · [S43](S43.md) · [S44](S44.md) · [S45](S45.md) · [S46](S46.md) · [S47](S47.md) · [S48](S48.md) · [S49](S49.md) · [S50](S50.md) · [S51](S51.md) · [S52](S52.md)
 
@@ -18,12 +18,10 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🔴 `overfitting` | L0 | S07 · S07-T2-B-E3.preamble | **never** | 26 | 2 | 0 | 2 | · | 0/1 ⚠ | 3 |
 | 🔴 `correlaci-n` | L0 | S09 · theory[0].p3 | **never** | 25 | 1 | 1 | 5 | · | 0/1 ⚠ | 6 |
 | 🔴 `generator` | L0 | S18 · S18-T4-B-DEMO.why | **never** | 12 | 1 | 0 | 1 | · | 0/1 ⚠ | 7 |
-| 🔴 `vs-code` | L0 | S01 · outcome[4] | **never** | 11 | 2 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `boolean-masking` | L0 | S14 · outcome[1] | **never** | 10 | 0 | 0 | 3 | · | 0/1 ⚠ | 3 |
 | 🔴 `resample` | L0 | S17 · S17-T3-B.p0 | **never** | 9 | 0 | 0 | 0 | · | 0/1 ⚠ | 2 |
 | 🔴 `reshape` | L0 | S14 · S14-T2-B.code | **never** | 9 | 1 | 2 | 0 | · | 0/1 ⚠ | 2 |
 | 🔴 `dict-comprehension` | L0 | S04 · S04-T3-B-E3.title | **never** | 8 | 0 | 1 | 0 | · | 0/1 ⚠ | 3 |
-| 🔴 `unpacking` | L0 | S02 · theory[4].p1 | **never** | 8 | 1 | 1 | 0 | · | 0/1 ⚠ | 3 |
 | 🔴 `broadcasting` | L0 | S14 · outcome[3] | **never** | 7 | 0 | 1 | 2 | · | 0/1 ⚠ | 1 |
 | 🔴 `context-manager` | L0 | S09 · resources.doc[4] | **never** | 5 | 0 | 0 | 0 | · | 0/1 ⚠ | 2 |
 | 🔴 `cross-validation` | L0 | S32 · resources.doc[5] | **never** | 5 | 0 | 0 | 0 | · | 0/1 ⚠ | 3 |
@@ -56,10 +54,10 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `gitignore` | L2 | S01 · outcome[6] | S10 · S10-T4-B.p0 | 17 | 2 | 4 | 1 | +9 | 0/1 ⚠ | 2 |
 | 🟠 `pipeline` | L2 | S02 · theory[2].p0 | S10 · S10-T3-A-E1.preamble | 64 | 8 | 9 | 10 | +8 | 0/5 ⚠ | 43 |
 | 🟠 `shape` | L2 | S06 · S06-T1-B.p0 | S14 · S14-T1-A.p0 | 12 | 4 | 5 | 3 | +8 | 0/5 ⚠ | 4 |
-| 🟠 `return` | L3 | S01 · theory[1].code | S08 · S08-T4-B-E2.instruction | 260 | 640 | 139 | 20 | +7 | 1/5 ⚠ | 52 |
 | 🟠 `f1-score` | L2 | S24 · S24-T4-A.p1 | S30 · S30-T4-B-E2.instruction | 17 | 8 | 5 | 4 | +6 | 0/5 ⚠ | 6 |
 | 🟠 `missing-values` | L2 | S09 · S09-T1-A-E2.preamble | S14 · S14-T3-B-E3.instruction | 46 | 5 | 15 | 7 | +5 | 0/5 ⚠ | 8 |
 | 🟠 `pyodide` | L2 | S02 · iDo.intro | S07 · iDo.intro | 5 | 1 | 0 | 0 | +5 | 0/5 ⚠ | 3 |
+| 🟠 `return` | L3 | S01 · theory[1].code | S05 · S05-T4-A.p3 | 113 | 640 | 139 | 20 | +4 | 1/5 ⚠ | 52 |
 | 🟠 `parameter` | L2 | S02 · S02-T4-A-E3.hint | S05 · S05-T1-A.p1 | 7 | 1 | 4 | 1 | +3 | 0/5 ⚠ | 17 |
 | 🟠 `for` | L2 | S02 · S02-T1-A-DEMO.code | S04 · S04-T1-A.callout | 68 | 350 | 34 | 4 | +2 | 0/5 ⚠ | 51 |
 | 🟠 `iqr` | L2 | S16 · outcome[5] | S18 · S18-T3-B-DEMO.why | 42 | 6 | 4 | 3 | +2 | 0/5 ⚠ | 3 |
@@ -74,7 +72,6 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `exception` | L3 | S02 · theory[1].p3 | S03 · S03-T2-B.p0 | 2 | 6 | 7 | 7 | +1 | 3/5 ⚠ | 28 |
 | 🟠 `eda` | L1 | S15 · youDo.context | S16 · S16-T1-A.p0 | 1 | 0 | 0 | 3 | +1 | 0/1 ⚠ | 6 |
 | 🟠 `truthiness` | L1 | S03 · tagline | S03 · S03-T1-B-E1.instruction | 14 | 0 | 19 | 4 | · | 0/1 ⚠ | 12 |
-| 🟠 `repositorio-repo` | L2 | S01 · outcome[5] | S01 · theory[15].p0 | 11 | 8 | 11 | 13 | · | 0/5 ⚠ | 26 |
 | 🟠 `dtype` | L3 | S14 · outcome[0] | S14 · S14-T1-A.callout | 8 | 11 | 12 | 8 | · | 2/5 ⚠ | 7 |
 | 🟠 `pip` | L2 | S01 · theory[0].p1 | S01 · S01-T1-B.p2 | 7 | 11 | 9 | 3 | · | 0/5 ⚠ | 9 |
 | 🟠 `pivot-table` | L3 | S17 · S17-T2-A.heading | S17 · iDo.intro | 6 | 4 | 1 | 1 | · | 1/1 | 2 |
@@ -85,6 +82,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `interprete` | L1 | S01 · tagline | S01 · outcome[0] | 2 | 0 | 1 | 2 | · | 0/1 ⚠ | 9 |
 | 🟠 `list-comprehension` | L1 | S04 · outcome[5] | S04 · theory[7].p0 | 2 | 0 | 5 | 0 | · | 0/1 ⚠ | 12 |
 | 🟠 `llm` | L2 | S25 · outcome[0] | S25 · S25-T1-A.p0 | 2 | 2 | 3 | 5 | · | 0/5 ⚠ | 5 |
+| 🟠 `repositorio-repo` | L2 | S01 · outcome[5] | S01 · theory[0].p3 | 2 | 8 | 11 | 13 | · | 0/5 ⚠ | 26 |
 | 🟠 `slicing` | L1 | S06 · outcome[0] | S06 · S06-T1-A.p1 | 2 | 0 | 7 | 4 | · | 0/1 ⚠ | 13 |
 | 🟠 `p-value` | L1 | S18 · S18-T3-A.heading | S18 · S18-T3-A.p0 | 1 | 0 | 0 | 2 | · | 0/1 ⚠ | 1 |
 
@@ -126,5 +124,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `terminal-shell` | L2 | S01 · jobRelevance | S01 · jobRelevance | 0 | 4 | 10 | 3 | · | 0/5 ⚠ | 13 |
 | 🟢 `tipo-de-dato` | L1 | S06 · S06-T1-B.p0 | S06 · S06-T1-B.p0 | 0 | 0 | 0 | 0 | · | 1/1 | 4 |
 | 🟢 `tuple` | L2 | S02 · theory[4].p0 | S02 · theory[4].p0 | 0 | 14 | 14 | 6 | · | 0/5 ⚠ | 32 |
+| 🟢 `unpacking` | L2 | S02 · theory[4].p1 | S02 · theory[4].p1 | 0 | 1 | 1 | 0 | · | 0/5 ⚠ | 3 |
 | 🟢 `variable` | L1 | S02 · S02-T2-A.p1 | S02 · S02-T2-A.p1 | 0 | 0 | 3 | 3 | · | 0/1 ⚠ | 18 |
 | 🟢 `virtual-environment-venv` | L3 | S01 · tagline | S01 · tagline | 0 | 9 | 13 | 6 | · | 1/5 ⚠ | 5 |
+| 🟢 `vs-code` | L2 | S01 · outcome[4] | S01 · outcome[4] | 0 | 2 | 0 | 0 | · | 0/1 ⚠ | 1 |

@@ -39,8 +39,10 @@ type Ev = {
  */
 const POST_CUE =
   /^[^.!?;]{0,45}?(?:es un|es una|son unos|son unas|significa|consiste en|se refiere a|sirve para|quiere decir|no es mas que|no es m\u00e1s que|se define como|es el|es la|son los|son las|es aquel|es aquella)/i
+// "se llama" is the plainest way Spanish names a thing, and it was missing: S02 teaches
+// unpacking with "Esta acci\u00f3n se llama **desempaquetar una tupla**" and scored never-explained.
 const PRE_CUE =
-  /(?:llamamos|definimos|se conoce como|entendemos por|el termino|el t\u00e9rmino|la palabra|conocido como|conocida como)[^.!?;]{0,45}$/i
+  /(?:llamamos|definimos|se conoce como|se llama|se llaman|se denomina|se denominan|entendemos por|el termino|el t\u00e9rmino|la palabra|conocido como|conocida como)[^.!?;]{0,45}$/i
 /** "no es un examen" is not a definition. */
 const NEGATED = /\b(?:no|nunca|jam\u00e1s|tampoco)\s+(?:es|son|significa)/i
 /** A callout or dictionary entry that names the term is a definition by construction. */
@@ -92,7 +94,9 @@ const INDEFINITE_BEFORE = /\b(?:un|una|unos|unas)\s+(?:\*\*|`|_)?$/i
  * The head noun has to be followed by something that describes it (que/de/para), which is what
  * separates a definition from an ordinary aside like "El registro, una vez completo, se envía".
  */
-const APPOSITIVE = /^[`*_'"]{0,2},\s+(?:un|una|unos|unas)\s+[^,.;]{4,70}?\s+(?:que|de|del|para|con)\b/i
+// The closing paren is allowed because an abbreviation often sits between the term and its
+// apposition: "Visual Studio Code (VS Code), una aplicación para escribir y revisar archivos".
+const APPOSITIVE = /^[`*_'")]{0,3},\s+(?:un|una|unos|unas)\s+[^,.;]{4,70}?\s+(?:que|de|del|para|con)\b/i
 
 /** A contrast can define: "X se diferencia de Y en que hace Z". */
 const CONTRAST_CUE = /^[^.!?;]{0,45}?(?:se diferencia de|se distingue de|a diferencia de)/i

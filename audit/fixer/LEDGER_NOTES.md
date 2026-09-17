@@ -296,3 +296,16 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   floor). All three are ordinary Spanish. They are recognised now, and the four terms went from
   128 surprising uses to zero without another word being written. When a fix does not move the
   number, suspect the instrument before rewriting the prose.
+
+- **Ask D6's first question before writing the brief, not after reading the draft.** *(S14, S17,
+  2026-09-17)* The brief said "explain `reshape`" and "say what `resample` does", and codex did
+  both, well. Both were wrong: S14 never calls `reshape` (the code inserts an axis with
+  `[:, None]`, and two comments call that "reshape"), and S17 mentions `resample` once and never
+  uses it; S34's "resample" is class rebalancing, a different operation. The mistake was in the
+  brief, so no draft could have fixed it. For each term, find a use the learner must *act on*
+  before asking for a definition; if there is none, the treatment is to remove the mention.
+- **Read `what_could_confuse`; do not trust `residual_concern: ""`.** *(S14)* Codex returned the
+  `reshape` paragraph with `addressed_in_this_replacement: true` and an empty residual concern,
+  while its own `what_could_confuse` said the sentence could make a learner look for an
+  `np.reshape` call that is not there. The self-critique found the defect; the summary field did
+  not carry it. Review the prose field, not the boolean.
