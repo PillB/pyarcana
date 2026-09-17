@@ -52,6 +52,15 @@ TEACHING_KINDS = {
     "theory.paragraph", "theory.callout", "theory.heading", "theory.code.explanation",
     "ido.why", "ido.preamble", "ido.description", "ido.intro", "ido.retrospective",
     "wedo.intro", "youdo.context", "jobRelevance", "tagline",
+    # D1 names tagline, learningOutcomes and jobRelevance in one breath - a preview surface is
+    # not exempt from define-before-use, so a gloss written there counts. Leaving `outcome` out
+    # while keeping the other two was inconsistent, and it scored `ruff` as never explained
+    # across 39 uses while S01's outcome said "Ruff es un programa que señala algunos errores".
+    "outcome",
+    # We Do is a teaching phase in gradual release - the learner works *with guidance*, and the
+    # preamble and instruction are that guidance. A hint is different: it is revealed after the
+    # learner is already stuck, so it still cannot count as where a term was introduced.
+    "wedo.preamble", "wedo.instruction",
 }
 
 

@@ -121,7 +121,7 @@ const terms = GLOSSARY_TERMS.map((t) => {
     id: t.id,
     firstSectionId: t.firstSectionId,
     // \b is wrong for accented Spanish; use lookarounds on letter chars instead
-    re: new RegExp(`(?<![\\p{L}\\d_])(?:${alts.join('|')})(?![\\p{L}\\d_])`, 'iu'),
+    re: new RegExp(`(?<![\\p{L}\\d_])(?:${alts.join('|')})(?![\\p{L}\\d_])`, 'giu'),
   }
 })
 
@@ -143,10 +143,14 @@ function push(
   const requires: string[] = []
 
   for (const term of terms) {
-    const m = term.re.exec(t)
-    if (!m) continue
+    // Every occurrence, not just the first: a text often names a term and defines it a clause
+    // later - "añade Python y Ruff; Ruff es un programa que señala errores". Testing only the
+    // first hit missed that entirely, because the `;` blocks the definition cue, and `ruff`
+    // scored "never explained" across 39 uses while its definition sat in the same sentence.
+    const hits = [...t.matchAll(term.re)]
+    if (hits.length === 0) continue
     mentions.push(term.id)
-    if (definesTerm(t, m.index, m[0].length, kind)) defines.push(term.id)
+    if (hits.some((m) => definesTerm(t, m.index!, m[0].length, kind))) defines.push(term.id)
     if (REQUIRING.has(kind)) requires.push(term.id)
   }
 

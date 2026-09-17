@@ -22,11 +22,38 @@ import fs from 'node:fs'
 const events = JSON.parse(fs.readFileSync('.fixer/events.json', 'utf8'))
 const conceptMap = JSON.parse(fs.readFileSync('course-state/concept_map.json', 'utf8'))
 
+// Kept in step with TEACHING_KINDS in scripts/concept_map.py. `outcome` is here because D1 puts
+// taglines, learning outcomes and jobRelevance on the same footing, and weDo preamble and
+// instruction because We Do is a teaching phase - the learner works with guidance, and that is
+// the guidance. A weDo *hint* is not: it appears after the learner is already stuck.
 const TEACHING = new Set([
   'theory.paragraph', 'theory.callout', 'theory.heading', 'theory.code.explanation',
   'ido.why', 'ido.preamble', 'ido.description', 'ido.intro', 'ido.retrospective',
-  'wedo.intro', 'youdo.context', 'jobRelevance', 'tagline',
+  'wedo.intro', 'wedo.preamble', 'wedo.instruction', 'youdo.context', 'jobRelevance',
+  'tagline', 'outcome',
 ])
+
+const NEVER_TEACHING = ['wedo.hint', 'wedo.title', 'wedo.starter', 'wedo.tests',
+  'selfcheck.question', 'selfcheck.option', 'selfcheck.explanation', 'solution',
+  'youdo.requirement', 'youdo.objective', 'youdo.rubric', 'resource']
+
+test('a surface the learner only reaches after being stuck cannot introduce a term', () => {
+  // The reductio that motivated all of this: `distribución normal` was "taught" by a quiz
+  // distractor, and `dict-comprehension` by a weDo title.
+  const offenders = Object.entries(conceptMap)
+    .filter(([, c]) => c.first_definition && NEVER_TEACHING.includes(c.first_definition.kind))
+    .map(([id, c]) => `${id} <- ${c.first_definition.kind}`)
+  assert.deepEqual(offenders, [])
+})
+
+test('a term defined at a later occurrence in the same text still counts', () => {
+  // "añade Python y Ruff; Ruff es un programa que señala errores" - testing only the first
+  // occurrence missed this, because the `;` blocks the cue, and ruff scored never-explained
+  // across 39 uses with its definition in the same sentence.
+  const ev = events.events.find((e) => e.location === 'setup.outcome[4]')
+  assert.ok(ev, 'the S01 outcome that exposed this must still exist to guard')
+  assert.ok(ev.defines.includes('ruff'), 'the definition is in the second occurrence, not the first')
+})
 
 test('a verb-first Spanish definition counts as teaching the term', () => {
   const para = events.events.find(

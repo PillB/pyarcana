@@ -273,3 +273,16 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   *"Lanzar el triage exige una política firmable"*. It is shorter than the nominalised version,
   reads as speech rather than documentation, and the measure does not fire. Reach for it whenever
   a translation is about to open a sentence with "El/La <algo>ción/miento de…".
+
+- **Check every occurrence of a term, not the first one.** *(S01, course-wide)* The extractor
+  tested the definition cue only at the first match, so "añade Python y Ruff; Ruff es un programa
+  que señala algunos errores" never registered — the `;` blocks `POST_CUE`, and the definition in
+  the very next clause was never looked at. `ruff` scored never-explained across 39 uses with its
+  definition sitting in the same sentence. Now every occurrence is tested.
+- **A preview surface can teach, and We Do is a teaching phase.** D1 puts taglines, learning
+  outcomes and jobRelevance on the same footing, so excluding `outcome` while keeping the other
+  two was arbitrary; and in gradual release the We Do preamble and instruction *are* the
+  guidance, so a term explained there has been taught with support. A weDo **hint** still cannot
+  count: the learner only sees it after being stuck. These two corrections together took
+  surprising uses from 2,307 to 1,359 without letting a single one of the absurd cases back in -
+  `distribución normal` is still not taught by a quiz distractor.
