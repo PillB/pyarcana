@@ -286,3 +286,13 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   count: the learner only sees it after being stuck. These two corrections together took
   surprising uses from 2,307 to 1,359 without letting a single one of the absurd cases back in -
   `distribución normal` is still not taught by a quiz distractor.
+
+- **Write the gloss the way Spanish writes it; then check the instrument can see it.** *(S08,
+  S15, S30, S48)* Four well-written glosses landed and the map still called all four terms never
+  explained, because the detector only knew copulas, verb-first sentences and long parentheticals.
+  It could not see an **appositive** ("`Counter`, un contador de elementos de una secuencia"), a
+  **contrast** ("`defaultdict` se diferencia de un `dict` común en que…"), or a **short
+  parenthetical** ("`loc` (por etiquetas)" — thirteen characters, under an eighteen-character
+  floor). All three are ordinary Spanish. They are recognised now, and the four terms went from
+  128 surprising uses to zero without another word being written. When a fix does not move the
+  number, suspect the instrument before rewriting the prose.

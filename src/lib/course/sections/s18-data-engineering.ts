@@ -430,7 +430,7 @@ falso_positivo_diez_miradas 0.191`,
 
 s18_th_6()`,
  output: `limites 15.88 26.88
-{'Madrid': 0.2, 'Lima': 0.0}
+{'Lima': 0.0, 'Madrid': 0.2}
 ids_anom [7]`,
  },
  callout: {
@@ -742,7 +742,7 @@ claim asociacion_observada_no_causal`,
 
 s18_ido_6()`,
  output: `lo_hi 13.5 27.5
-{'sum': {'Madrid': 1, 'Bogota': 1, 'Lima': 0}, 'mean': {'Madrid': 0.167, 'Bogota': 0.167, 'Lima': 0.0}}
+{'sum': {'Bogota': 1, 'Lima': 0, 'Madrid': 1}, 'mean': {'Bogota': 0.167, 'Lima': 0.0, 'Madrid': 0.167}}
 sin_claim_causal True`,
  },
  why:
@@ -817,7 +817,7 @@ decision_es_none True`,
     print("median_final", float(df2["monto"].median()))
 
 s18_ido_8()`,
- output: `{"origen": "sintetico", "n_raw": 5, "n_final": 4, "filtros": ["monto > 0"], "seed": 18, "sha1_8": "07e9d521"}
+ output: `{"origen": "sintetico", "n_raw": 5, "n_final": 4, "filtros": ["monto > 0"], "seed": 18, "sha1_8": "5dfa401a"}
 median_final 11.5`,
  },
  why:

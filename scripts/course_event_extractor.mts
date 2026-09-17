@@ -52,7 +52,7 @@ const DICT_KIND = /^(theory\.callout|theory\.paragraph)$/
  * Treat a substantive parenthetical immediately after the term as a definition,
  * but not a bare acronym expansion or a cross-reference like "(ver S03)".
  */
-const PAREN_GLOSS = /^[`*_"'\u00bb\s]{0,4}(?:[\p{L}\s`]{0,18})?\(([^)]{18,})\)/u
+const PAREN_GLOSS = /^[`*_"'\u00bb\s]{0,4}(?:[\p{L}\s`]{0,18})?\(([^)]{10,})\)/u
 /**
  * Spanish sets an appositive definition off with em dashes as readily as parentheses:
  *   dependencias -componentes de codigo que el proyecto necesita-, los numeros salen...
@@ -84,6 +84,18 @@ function looksLikeProse(inner: string): boolean {
  * so require it before the term and a describing verb just after.
  */
 const INDEFINITE_BEFORE = /\b(?:un|una|unos|unas)\s+(?:\*\*|`|_)?$/i
+
+/**
+ * Spanish defines by apposition as readily as by copula:
+ *   "`Counter`, un contador de elementos de una secuencia, cuenta…"
+ *   "Ruff, una herramienta que señala errores, se ejecuta…"
+ * The head noun has to be followed by something that describes it (que/de/para), which is what
+ * separates a definition from an ordinary aside like "El registro, una vez completo, se envía".
+ */
+const APPOSITIVE = /^[`*_'"]{0,2},\s+(?:un|una|unos|unas)\s+[^,.;]{4,70}?\s+(?:que|de|del|para|con)\b/i
+
+/** A contrast can define: "X se diferencia de Y en que hace Z". */
+const CONTRAST_CUE = /^[^.!?;]{0,45}?(?:se diferencia de|se distingue de|a diferencia de)/i
 const DESCRIBING_VERB =
   /^[^.!?;]{0,12}?\b(?:re[u\u00fa]ne|agrupa|agrupan|guarda|guardan|contiene|contienen|almacena|almacenan|representa|representan|describe|describen|indica|indican|se\u00f1ala|se\u00f1alan|permite|permiten|sirve|sirven|convierte|convierten|devuelve|devuelven|entrega|entregan|ejecuta|ejecutan|asocia|asocian|re[u\u00fa]nen|junta|juntan|marca|marcan|define|definen|expresa|expresan|re[gj]istra|re[gj]istran|combina|combinan|ordena|ordenan|recorre|recorren|reparte|reparten)\b/i
 
@@ -100,6 +112,10 @@ function definesTerm(text: string, at: number, len: number, kind: string): boole
   if (PRE_CUE.test(before)) return true
   // "Una tupla reúne varios valores…" — a definition without a copula.
   if (INDEFINITE_BEFORE.test(before) && DESCRIBING_VERB.test(after) && !NEGATED.test(head)) return true
+  // "`Counter`, un contador de elementos de una secuencia…"
+  if (APPOSITIVE.test(after) && !NEGATED.test(head)) return true
+  // "`defaultdict` se diferencia de un `dict` común en que crea un valor predeterminado…"
+  if (CONTRAST_CUE.test(after) && !NEGATED.test(head)) return true
   // "Diccionario del dia" blocks teach every term they list
   if (DICT_KIND.test(kind) && /Diccionario del d[i\u00ed]a/i.test(text)) return true
   return false

@@ -443,5 +443,14 @@ Options, none taken here because each changes what the map means:
 3. **Accept and annotate** — leave the count wrong and note it, which is what is happening today
    by default and is the reason this is written down.
 
-Until it is decided, treat any `Correlación` count in the concept map as unreliable, and check a
-homonym before acting on a high surprising-use score.
+Confirmed instances so far, all found by checking before acting on a high score:
+- **`Correlación`** — statistics entry; nearly all uses are S09's logging *identificador de
+  correlación*.
+- **`generator`** — the Python `yield` construct; eleven of its twelve uses are NumPy's
+  `Generator`/`default_rng`, a PRNG, or an LLM *generador de narrativa*. One is real.
+- **`función`** — the Python concept; "el trío cumple funciones distintas" means *purposes*.
+  This one already produced a false positive in S01.
+
+Until it is decided, treat a high surprising-use score as a question, not a finding, and read the
+uses before writing a definition. Two of the first five concepts queued for a fix this way did
+not need one.

@@ -531,7 +531,7 @@ regla rígida rechaza plus? True`,
         },
         why: "La regla modesta acepta *plus addressing* y los dominios del ejemplo. La regex rígida, en cambio, rechaza direcciones válidas. Es mejor enviar un caso dudoso a `review` que perder un correo legítimo sin avisar.",
         retrospective:
-          "Validación modesta + cola de review supera a la regex hiper-estricta. El misconception es «cuanto más estricta, mejor calidad»: en realidad rechazas válidos (plus tags). We Do: implementar el contrato de email, dígitos de teléfono, y demostrar el rechazo del overfit.",
+          "Validación modesta + cola de review supera a la regex hiper-estricta. El misconception es «cuanto más estricta, mejor calidad»: en realidad rechazas válidos (plus tags). We Do: implementar el contrato de email, dígitos de teléfono, y demostrar que la regex hiper-estricta rechaza un correo válido con `+tag`.",
       },
       {
         demoId: "S07-T3-A-DEMO",

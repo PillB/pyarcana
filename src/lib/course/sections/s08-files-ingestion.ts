@@ -1328,7 +1328,7 @@ print(rows[0]['reason'])`,
         preamble:
           "- **Contexto:** el manifest y el README de calidad reportan **cuántos** rejects por `reason` estable.\n- **Meta:** contar y listar motivos en orden.\n- **Éxito:** tres líneas `cast_monto 1`, `col_count 2`, `schema 1`.\n- **Límites:** vocabulario corto de reasons; no inventes frases largas distintas por script.",
         instruction:
-          "1. El starter importa `Counter`. Al ejecutar `Counter(reasons)`, Python cuenta las apariciones de cada valor: para `['col_count', 'schema', 'col_count']`, registra `col_count` dos veces y `schema` una vez. El starter todavía no imprime porque contiene `pass`.\n2. Cuenta cada `reason` y recórrelos en orden lexicográfico.\n3. Imprime `motivo conteo` por línea.\n4. No inventes un orden manual con listas fijas.",
+          "1. El starter importa `Counter`, un contador de elementos de una secuencia que pertenece a `collections`. Al ejecutar `Counter(reasons)`, Python cuenta las apariciones de cada valor: para `['col_count', 'schema', 'col_count']`, registra `col_count` dos veces y `schema` una vez. El starter todavía no imprime porque contiene `pass`.\n2. Cuenta cada `reason` y recórrelos en orden lexicográfico.\n3. Imprime `motivo conteo` por línea.\n4. No inventes un orden manual con listas fijas.",
         hint: "collections.Counter o dict de conteos",
         hints: [
           "collections.Counter(reasons) o un dict de conteos",

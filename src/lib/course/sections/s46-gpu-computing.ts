@@ -29,7 +29,7 @@ export const section46: CourseSection = {
     { text: "Validar un DAG/asset graph acíclico con nodos declarados, edges tipados y sin self-loops ni ciclos A→B→A" },
     { text: "Planificar backfills por intervalo sin solape y reanudar desde checkpoint consistente" },
     { text: "Evaluar data contracts (schema + owner + freshness SLO) y fallar cerrado ante drift o retraso" },
-    { text: "Registrar lineage run→inputs→outputs con owner y métricas de calidad para reconstruir incidentes" },
+    { text: "Registrar lineage `run_id`→`inputs`→`outputs` con `owner` y métricas de calidad para reconstruir incidentes" },
     { text: "Implementar carga incremental por partición con merge de claves y segunda corrida con cero cambios" },
     { text: "Operar data SLOs (SLI vs. objetivo), RTO de recuperación y post mórtem con acciones concretas" },
   ],
@@ -89,13 +89,13 @@ silent_late_data_ok False`,
       figure: {
         id: "S46-event-time",
         caption:
-          "El watermark corta sobre el eje de event time, pero lo que decide la etiqueta es cuándo llega cada hecho. Por eso un evento puede ser tardío aunque su timestamp sea anterior al de otro que sí entró a tiempo.",
+          "El watermark corta sobre el eje de event time, pero lo que decide la etiqueta es cuándo llega cada hecho. Por eso un evento puede ser tardío aunque su marca de tiempo sea anterior a la de otro que sí entró a tiempo.",
         alt:
           "Un eje horizontal de event time con una línea vertical en 110 marcada como watermark y una banda de gracia de 5 unidades a su izquierda. Tres puntos —112, 105 y 100— con flechas punteadas hacia la derecha que representan su llegada, etiquetados ON_TIME, ALLOWED_LATE y LATE respectivamente.",
       },
       subtopicId: "S46-T1-A",
       paragraphs: [
-        "**Event time** es cuándo ocurrió el hecho en el mundo. **Processing time** es el reloj del worker. Las **ventanas** agrupan por rangos de *event time*. El **watermark** no es solo un “atraso aceptado”: es una aserción de progreso. Un watermark `t` afirma que no se esperan más eventos con timestamp ≤ `t`. Un evento es **late** si se evalúa cuando el watermark ya superó su timestamp. **Allowed lateness**, en este lab, es una banda de gracia relativa al watermark que modela el *trade-off completeness* vs. *latencia*. La condición tiene dos lados y ambos importan: `0 < wm − et ≤ gracia`. El lado derecho dice «no llegó demasiado tarde»; el izquierdo dice «llegó tarde**, para empezar**». Sin él, un evento puntual (wm 110, et 112 → −2) también cumpliría `≤ gracia` y quedaría clasificado como tardío admitido en vez de a tiempo. En motores como Beam/Flink la gracia se amarra también al cierre de ventana; aquí la simplificamos para razonar etiquetas sin cluster.",
+        "**Event time** es cuándo ocurrió el hecho en el mundo. **Processing time** es el reloj del worker. Las **ventanas** agrupan por rangos de *event time*. El **watermark** no es solo un “atraso aceptado”: es una aserción de progreso. Un watermark `t` afirma que no se esperan más eventos con una marca de tiempo ≤ `t`. Un evento es **late** si se evalúa cuando el watermark ya superó su timestamp. **Allowed lateness**, en este lab, es una banda de gracia relativa al watermark que modela el *trade-off completeness* vs. *latencia*. La condición tiene dos lados y ambos importan: `0 < wm − et ≤ gracia`. El lado derecho dice «no llegó demasiado tarde»; el izquierdo dice «llegó tarde**, para empezar**». Sin él, un evento puntual (wm 110, et 112 → −2) también cumpliría `≤ gracia` y quedaría clasificado como tardío admitido en vez de a tiempo. En motores como Beam/Flink la gracia se amarra también al cierre de ventana; aquí la simplificamos para razonar etiquetas sin cluster.",
         "Contrato operativo de tiempo. Entrada: lista de `event_time`, `window_end`, *lag* del watermark y `allowed_lateness`. Salida: `watermark = max(event_time) − lag`, y etiqueta por evento ∈ {ON_TIME, ALLOWED_LATE, LATE, OUT_OF_WINDOW}. Error: materializar una ventana sin política de *late data* o aceptar eventos fuera de ventana. Criterio de éxito: *fixtures* en orden, desorden y tardío producen las mismas etiquetas al **reejecutar**. La política (side-output / drop / update) queda documentada.",
         "**Timeline trabajado.** El stream `[100, 108, 115]` con lag 5 **fija** el watermark: `max(event_time) − lag = 115 − 5 = 110`. Los eventos que llegan **después** se etiquetan contra ese 110, con ventana 120 y gracia 5 — y conviene tener presentes los dos papeles, porque un mismo número puede aparecer en ambos. Un evento de `event_time` 112 es ON_TIME (por encima del watermark); uno de 105 es ALLOWED_LATE (queda por debajo, pero `wm − et = 5` cabe en la gracia); uno de 100 es LATE (`wm − et = 10 > 5`, side-output o drop según política), aunque un 100 sí formara parte del stream que estableció el watermark: lo que se juzga es el instante en que llega, no si el valor apareció antes. Misma regla en código, iDo y weDo: no inventes un bound inferior arbitrario.",
         "Aplicación a `CASO-HYO-046` (Huancayo sintético): una clínica ficticia emite eventos de atención con retraso de red. Un parte de las 09:00 puede llegar a las 09:40 de *processing time*. El pipeline debe decidir con *event time*, no con el reloj del worker. Riesgos de ingeniería de datos (no de ER): doble conteo si se reabre la ventana en silencio, o dashboards incompletos si se **descarta** *late data* sin *side-output*.",
@@ -310,7 +310,7 @@ QUARANTINE_DATASET`,
       subtopicId: "S46-T3-B",
       paragraphs: [
         "**Lineage** conecta dataset de salida con inputs, código y run_id. **Observabilidad de datos** combina volumen, calidad (`null_rate`) y tiempo. Sin owner, el incidente no tiene dueño de página: el on-call de plataforma no debería adivinar quién rompió el schema de `clean-v3`.",
-        "Contrato operativo de trazabilidad. Entrada: run_id, sets de inputs/outputs, métricas (rows, null_rate) y owner. Salida: registro reconstruible run→datasets; incidente solo si calidad/owner fallan. Error: inputs vacíos, null_rate sobre umbral o run_id no trazable. Criterio: un **post mórtem** puede responder “qué corrida produjo esta fila”.",
+        "Contrato operativo de trazabilidad. Entrada: `run_id`, conjuntos de `inputs` y `outputs`, métricas (`rows`, `null_rate`) y `owner`. Salida: registro reconstruible de la corrida a los conjuntos de datos; se abre un incidente solo si falla la calidad o `owner` está vacío. Error: `inputs` vacío, `null_rate` sobre el umbral o `run_id` no trazable. Criterio: un **post mórtem** puede responder “qué corrida produjo esta fila”.",
         "Aplicación a `CASO-HYO-046`: el *run* `run-hyo-46` materializa `clean-v3` desde `raw-v2` con `null_rate` 0.01 y *owner* `analytics`. Si `null_rate` sube a 0.3, se abre `OPEN_QUALITY_INCIDENT` con el `run_id` en el ticket. Riesgo de ingeniería de datos: “arreglar a ciegas” sin saber qué *upstream* cambió.",
       ],
       code: {
@@ -1676,7 +1676,7 @@ assert meets_contract is True` ,
           "- **Contexto:** el gate de calidad separa dataset roto de record de control incompleto.\n- **Meta:** `assess` → PASS / QUARANTINE_DATASET / MISSING:owner.\n- **Éxito:** `PASS QUARANTINE_DATASET MISSING:owner`.\n- **Límites:** en E2 no uses PAGE_DATA_OWNER; missing primero; no inventes owner.",
         instruction:
           "S46-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Conserva missing.\n2. ok = schema exacto ∧ lag ≤ slo ∧ owner.\n3. Si no ok → QUARANTINE_DATASET.\n4. Imprime las tres rutas.",
-        hint: "Missing de owner antes de leer schema; no uses PAGE_DATA_OWNER aquí (E2 usa MISSING:owner).",
+        hint: "Comprueba si falta `owner` antes de leer `schema`; no uses `PAGE_DATA_OWNER` aquí (E2 usa `MISSING:owner`).",
         hints: [
           "Adverso típico: case_id tipado como int y lag 80 con slo 15 → QUARANTINE_DATASET.",
           "QUARANTINE_DATASET si drift o lag>slo o owner vacío en el adverso.",
@@ -1823,10 +1823,10 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en `CASO-HYO-046-3B`, un run de clean solo es trazable si el facet está completo y la calidad bajo umbral.\n- **Meta:** `meets_contract` con run- + inputs + outputs + null_rate≤0.02 + owner.\n- **Éxito:** `S46-T3-B PASS`.\n- **Límites:** null_rate bajo no basta sin IO y run_id; no mutes el fixture.",
         instruction:
-          "S46-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: predicado invertido.\n2. startswith(\"run-\") y bool(inputs) y bool(outputs).\n3. null_rate ≤ 0.02 y bool(owner).\n4. PASS o OPEN_QUALITY_INCIDENT; print `S46-T3-B`.",
-        hint: "startswith(\"run-\") + bool(inputs) + bool(outputs) + umbral de null_rate + owner.",
+          "S46-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: predicado invertido.\n2. Usa `record[\"run_id\"].startswith(\"run-\")`, `bool(record[\"inputs\"])` y `bool(record[\"outputs\"])`.\n3. Exige `record[\"metrics\"][\"null_rate\"] <= 0.02` y `bool(record[\"owner\"])`.\n4. Devuelve `PASS` u `OPEN_QUALITY_INCIDENT`; conserva `print(\"S46-T3-B\", status)`.",
+        hint: "Combina el prefijo `run-`, `bool(record[\"inputs\"])`, `bool(record[\"outputs\"])`, el umbral de `null_rate` y `bool(record[\"owner\"])`.",
         hints: [
-          "null_rate ≤ 0.02 no basta sin inputs, outputs y run_id trazable (prefijo run-).",
+          "`null_rate` ≤ 0.02 no basta sin `inputs`, `outputs` y un `run_id` trazable (prefijo `run-`).",
           "Un run_id vacío o inputs=set() es breach aunque null_rate sea bajo.",
         ],
         edgeCases: [
@@ -2251,7 +2251,7 @@ meets_contract True` ,
         kind: "guided",
         title: "SLI, RTO, post mórtem y owner",
         preamble:
-          "- **Contexto:** en `CASO-HYO-046-4B`, el simulacro de ops de atenciones solo pasa si frescura, RTO, acciones y owner cierran.\n- **Meta:** sli ≥ slo ∧ rto ≤ target ∧ actions ≥ 1 ∧ owner.\n- **Éxito:** `S46-T4-B PASS`.\n- **Límites:** no apruebes con postmortem_actions=0; no ignores owner.",
+          "- **Contexto:** en `CASO-HYO-046-4B`, el simulacro de operaciones de atenciones solo pasa si cumplen la frescura, el RTO, las acciones y `owner`.\n- **Meta:** `freshness_sli ≥ freshness_slo ∧ rto_minutes ≤ target_rto_minutes ∧ postmortem_actions ≥ 1 ∧ owner`.\n- **Éxito:** `S46-T4-B PASS`.\n- **Límites:** no apruebes con `postmortem_actions = 0`; no ignores `owner`.",
         instruction:
           "S46-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: predicado invertido e incompleto.\n2. Compara sli con slo (≥) y rto con target (≤).\n3. Exige postmortem_actions ≥ 1 y bool(owner).\n4. PASS o DECLARE_DATA_INCIDENT; print `S46-T4-B`.",
         hint: "SLI es la medida (≥ objetivo); RTO es tiempo de recuperación (≤ target).",
@@ -2471,7 +2471,7 @@ meets_contract True` ,
       "Upsertar partición por event_id demostrando second_run_changes == 0 en reintento del mismo batch.",
       "Validar un DAG acíclico de assets y un plan de backfill sin solape.",
       "Emitir PASS / QUARANTINE_DATASET / OPEN_QUALITY_INCIDENT según contrato, freshness y owner.",
-      "Registrar lineage run→inputs→outputs y un runbook de recovery con RTO medido.",
+      "Registrar lineage `run_id`→`inputs`→`outputs` y un runbook de recuperación con RTO medido.",
       "Dejar una nota de layout: qué clave de partición elegiste, qué consultas se benefician de saltarse particiones y qué reproceso limita el blast radius.",
     ],
     requirements: [
@@ -2589,7 +2589,7 @@ print("ops_uncertain", ops_status(True, 8, 15, ""))
         question: "Watermark t = 110 y allowed_lateness = 5. Un evento con event_time = 100 se evalúa como…",
         options: ["siempre ON_TIME porque 100 < window_end típico", "OUT_OF_WINDOW porque es menor que el watermark", "LATE (o side-output) si 110 − 100 > 5; ALLOWED_LATE si la gracia alcanza", "processing-time error: hay que ignorar event_time"],
         correctIndex: 2,
-        explanation: "Late = el watermark ya superó el timestamp del evento. Allowed lateness, en este lab, es gracia post-watermark (*completeness* vs. *latencia*), no un bound inferior arbitrario.",
+        explanation: "Late significa que el watermark ya superó la marca de tiempo del evento. Allowed lateness, en este lab, es gracia post-watermark (*completeness* vs. *latencia*), no un bound inferior arbitrario.",
       },
       {
         question: "Un grafo raw→clean→raw con typed_io=True debe…",

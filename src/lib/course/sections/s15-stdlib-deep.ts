@@ -26,7 +26,7 @@ export const section15: CourseSection = {
   learningOutcomes: [
     { text: "Modelar Series y DataFrame con Index de negocio estable (ids de cliente) y dtypes explícitos" },
     { text: "Leer CSV/Excel con parser controlado (dtype, parse_dates, na_values, sep, decimal) y reconciliar filas" },
-    { text: "Seleccionar filas/columnas con loc/iloc y crear columnas derivadas con assign de forma idiomática" },
+    { text: "Seleccionar filas/columnas con `loc` (por etiquetas) o `iloc` (por posiciones) y crear columnas derivadas con `assign` de forma idiomática" },
     { text: "Evitar chained assignment (SettingWithCopy) usando loc sobre el original o .copy() explícito" },
     { text: "Tipar strings, tipos nullable, fechas y categorías; contar NaN/NaT tras conversión" },
     { text: "Aplicar schema de columnas con coerción explícita y emitir reporte {columna: n_fallos}" },
