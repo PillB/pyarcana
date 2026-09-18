@@ -7,7 +7,7 @@
  * - Merge never decreases completed work when combining local + server.
  * - Additive unknown fields on the wire are ignored, not fatal.
  */
-import { migrateSectionIds } from './section-id-migrations'
+import { migrateSectionIds, renameSectionId } from './section-id-migrations'
 
 export const PROGRESS_STORAGE_KEY = 'python-ds-progress'
 
@@ -165,8 +165,14 @@ export function mergeServerProgress(
   SanitizedProgressState,
   'completedSubSteps' | 'bookmarks' | 'completedSections' | 'quizScores' | 'isHydratedFromServer'
 > {
-  const serverSteps = isStringRecord(server.progress) ? server.progress : {}
-  const serverBookmarks = isStringArray(server.bookmarks) ? server.bookmarks : []
+  // A server that predates the slug rename still keys rows by the old ids. Canonicalise them
+  // before merging, or completed steps land under keys nothing reads and look lost.
+  const serverSteps: Record<string, string[]> = {}
+  for (const [id, steps] of Object.entries(isStringRecord(server.progress) ? server.progress : {})) {
+    const key = renameSectionId(id)
+    serverSteps[key] = uniqueStrings([...(serverSteps[key] || []), ...steps])
+  }
+  const serverBookmarks = (isStringArray(server.bookmarks) ? server.bookmarks : []).map(renameSectionId)
 
   return {
     completedSubSteps: mergeStepMaps(local.completedSubSteps || {}, serverSteps),
@@ -191,11 +197,11 @@ export function migrateProgressState(
   let current = { ...state }
   let version = fromVersion
   while (version < toVersion) {
-    // v0 → v1: section slugs were renamed to match what each section teaches. Progress is keyed
-    // by those slugs, so without this remap every completed section would read as incomplete.
-    if (version === 0) {
-      current = migrateSectionIds(current)
-    }
+    // Section slugs were renamed to match what each section teaches (v0 → v1 is batch A), and
+    // progress is keyed by them. The remap runs on every step, not only from v0: later batches
+    // append to the same map and bump the version, and a v1 blob must still receive them. It is
+    // idempotent over the whole map, so re-running an earlier batch changes nothing.
+    current = migrateSectionIds(current)
     version += 1
   }
   return { state: current, version }
