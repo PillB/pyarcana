@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
 
-const section = readFileSync('src/lib/course/sections/s05-oop.ts', 'utf8')
+const section = readFileSync('src/lib/course/sections/s05-functions-contracts.ts', 'utf8')
 const seed = readFileSync('prisma/seed.ts', 'utf8')
 const sectionView = readFileSync('src/components/course/SectionView.tsx', 'utf8')
 const pdfReport = readFileSync('src/components/course/PdfReport.tsx', 'utf8')
@@ -40,15 +40,15 @@ test('S05 You Do executes every promised boundary oracle', () => {
 })
 
 test('stable S05 id no longer leaks an OOP playground or PDF label', () => {
-  const playground = between(sectionView, "    'oop': {", "    'numpy': {")
+  const playground = between(sectionView, "    'functions-contracts': {", "    'collections': {")
 
   assert.match(playground, /Practica funciones con contrato/)
   assert.match(playground, /normalize_nombre/)
   assert.match(playground, /normalize_email/)
   assert.match(playground, /idempotente True/)
   assert.doesNotMatch(playground, /class Animal|class Perro|herencia/)
-  assert.match(pdfReport, /oop: '5\. Funciones'/)
-  assert.doesNotMatch(pdfReport, /oop: '5\. OOP'/)
+  assert.match(pdfReport, /"functions-contracts": '5\. Funciones'/)
+  assert.doesNotMatch(pdfReport, /"functions-contracts": '5\. OOP'/)
 })
 
 test('authenticated S05 bank has 24 variants and balanced answer positions', () => {

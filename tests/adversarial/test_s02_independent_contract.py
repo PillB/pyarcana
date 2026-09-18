@@ -80,7 +80,7 @@ class TestSection02IndependentContract(unittest.TestCase):
 
     def test_playground_executes_the_s02_raw_clean_contract(self) -> None:
         source = SECTION_VIEW.read_text(encoding="utf-8")
-        block = _between(source, "    'basics': {", "    'data-structures': {")
+        block = _between(source, "    'basics': {", "    'decisions-rules': {")
 
         self.assertIn("Practica el contrato raw/clean", block)
         self.assertIn('def safe_int(campo, valor):', block)

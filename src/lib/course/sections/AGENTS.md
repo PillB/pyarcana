@@ -23,7 +23,8 @@ python3 scripts/prose_quality_audit.py SXX   # no rise in run-ons or nominalisat
 - Only the 52 files imported by `../index.ts` are active. Legacy duplicates stay; never
   edit or delete them.
 - A code block's `output:` is what the code prints under `.venv-content`. Run it; do not
-  write it by hand.
+  write it by hand. After changing code, regenerate with `tools/fixer/sync_declared_output.py`;
+  `npm run test:python-strict` compares every line. The runtime audit reads only the first.
 - Tag shell as `language: 'bash'`. The runtime audit executes `python` blocks.
 - Titles match `learning_roadmap_52_V3.md`, a protected path. Changing one needs the
   roadmap changed first, by a human.

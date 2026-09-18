@@ -614,8 +614,7 @@
         "S48",
         "S49",
         "S50",
-        "S51",
-        "S52"
+        "S51"
       ],
       "required_activities": [
         "S40-YOUDO",
@@ -630,7 +629,6 @@
         "S49-YOUDO",
         "S50-YOUDO",
         "S51-YOUDO",
-        "S52-YOUDO",
         "S40-EXAM",
         "S41-EXAM",
         "S42-EXAM",
@@ -642,8 +640,7 @@
         "S48-EXAM",
         "S49-EXAM",
         "S50-EXAM",
-        "S51-EXAM",
-        "S52-EXAM"
+        "S51-EXAM"
       ],
       "required_projects": [
         "CP-N4-A",

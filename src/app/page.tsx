@@ -23,6 +23,7 @@ import { InteractiveTour, PYARCANA_TOUR_STORAGE_KEY } from '@/components/course/
 import { useServerProgressSync, SUB_STEPS, type SubStep } from '@/lib/progress-store'
 import { COURSE_META, COURSE_SECTIONS } from '@/lib/course'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
+import { renameSectionId } from '@/lib/section-id-migrations'
 import { t, useI18n } from '@/lib/i18n'
 
 type View = 'home' | 'section' | 'resources' | 'admin' | 'familiarity' | 'pricing' | 'capstones'
@@ -33,7 +34,11 @@ function isSubStep(value: unknown): value is SubStep {
 
 function resolveCourseSectionId(id: string): string {
   const sMatch = /^S(\d{2})$/i.exec(id)
-  if (!sMatch) return id
+  if (!sMatch) {
+    // The section id is also the URL hash, so a link someone bookmarked before the slugs were
+    // renamed must still land on the right section instead of silently falling back to home.
+    return renameSectionId(id)
+  }
   const idx = parseInt(sMatch[1], 10)
   const found = COURSE_SECTIONS.find((s) => s.index === idx)
   return found ? found.id : id
@@ -478,6 +483,7 @@ export default function Home() {
                 <ResourcesPage
                   sections={COURSE_SECTIONS.map((s) => ({
                     id: s.id,
+                    index: s.index,
                     title: s.title,
                     shortTitle: s.shortTitle,
                     resources: s.resources,

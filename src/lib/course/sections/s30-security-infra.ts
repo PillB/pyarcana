@@ -186,6 +186,7 @@ w_rare 0.5`,
         "Con T1 listo, el cuello de botella es la escala. **Blocking** (bloqueo de candidatos) reduce el espacio de pares: solo comparas registros que comparten una clave (apellido normalizado + prefijo de ciudad, local-part de email, últimos dígitos de teléfono, etc.). Sin blocking, all-pairs es O(n²) e inviable a escala.",
         "**Candidate recall** (recall de candidatos): de los pares verdaderamente match en el **gold** sintético (conjunto etiquetado de referencia), ¿qué fracción pasó el blocking? Si ese recall es bajo, el scorer nunca ve el match — y ninguna métrica posterior lo salva. Mide con etiquetas sintéticas **antes** de “optimizar” CPU.",
         "Reglas en **unión (OR)** suben candidate recall; **intersección (AND)** reduce candidatos, pero puede matar recall de gold matches. En el demo de abajo el recall es **0.0 a propósito**: `López` y `lopez` generan claves distintas sin plegado de acentos. Primero normaliza (`casefold` + fold de tildes); luego mide. T2-B completa el cuadro con costo y pares imposibles.",
+        "`defaultdict`, de `collections`, se diferencia de un `dict` común en que crea un valor predeterminado cuando el código accede a una clave ausente. Aquí crea una lista vacía, así que puedes agrupar cada `id` sin comprobar antes si la clave ya existe.",
       ],
       code: {
         language: 'python',

@@ -7,6 +7,7 @@
  * - Merge never decreases completed work when combining local + server.
  * - Additive unknown fields on the wire are ignored, not fatal.
  */
+import { migrateSectionIds } from './section-id-migrations'
 
 export const PROGRESS_STORAGE_KEY = 'python-ds-progress'
 
@@ -190,15 +191,10 @@ export function migrateProgressState(
   let current = { ...state }
   let version = fromVersion
   while (version < toVersion) {
-    // v0 → v1: no structural change; ensure arrays/objects stay present when known.
+    // v0 → v1: section slugs were renamed to match what each section teaches. Progress is keyed
+    // by those slugs, so without this remap every completed section would read as incomplete.
     if (version === 0) {
-      current = {
-        ...current,
-        completedSections: isStringArray(current.completedSections)
-          ? current.completedSections
-          : current.completedSections,
-        bookmarks: isStringArray(current.bookmarks) ? current.bookmarks : current.bookmarks,
-      }
+      current = migrateSectionIds(current)
     }
     version += 1
   }

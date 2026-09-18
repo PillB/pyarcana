@@ -5,9 +5,9 @@ import path from 'node:path'
 import { expect, test, type Locator, type Page } from '@playwright/test'
 
 const SECTION_IDS = [
-  'setup', 'basics', 'data-structures', 'functions-modules', 'oop',
-  'numpy', 'data-acquisition', 'pandas', 'visualization', 'sklearn',
-  'testing', 'performance', 'rpa-automation', 'security', 'stdlib-deep',
+  'setup', 'basics', 'decisions-rules', 'iteration-summaries', 'functions-contracts',
+  'collections', 'text-unicode-regex', 'files-ingestion', 'exceptions-logging', 'modules-packaging-cli',
+  'oop-domain', 'apis-sql-geo', 'evidence-dashboard', 'security', 'stdlib-deep',
   'wxpython-gui', 'packaging', 'data-engineering', 'databases-orm', 'rag',
   'fastapi', 'rapidfuzz-entity', 'computer-vision', 'rpa-advanced',
   'streamlit-dashboards', 'integrator-phase1', 'async-concurrency', 'llm-agents',

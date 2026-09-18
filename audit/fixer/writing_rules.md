@@ -85,3 +85,24 @@ passages, never as proof that prose is good.
   each understood and reviewed on its own, not a bulk production problem. *(H §1)*
 - **F2 — Preserve what works.** Existing correct material, examples and voice are
   valuable until shown otherwise. *(E §13, AGENTS.md MUST 1)*
+
+## G. Narration voice *(S01 Orbiter regression, LEDGER_NOTES 2026-09-16)*
+
+No instrument measures these. They are the rules a gate cannot enforce, so they are the
+ones to read a passage against by eye before returning it.
+
+- **G1 — A teacher narrating, not an assistant reporting.** The sentence that carries the
+  teaching point outranks the sentence that is merely accurate. The Orbiter paragraph lost
+  "cada lado dio por supuesto algo que el otro no compartía" and gained "fallas contribuyentes
+  de verificación, comunicación e ingeniería de sistemas": true, and it teaches nothing.
+- **G2 — Avoid the assistant register.** Hedging and over-qualification; scaffolding
+  ("cabe señalar", "es importante recordar"); an abstract noun where a verb would do;
+  bullet-fragmenting an explanation that should flow; neutrality that never commits;
+  closing sentences that restate instead of advancing.
+- **G3 — A longer translation is not a better one.** If the Spanish is longer, flatter and
+  less quotable than what it replaced, it is a regression — even when
+  `avoidable_english_per_1000` improves, which is exactly when the gates will approve it.
+  *(S51 "audit append-only" → ten words; S28's comparative → a nominalised subject clause.)*
+- **G4 — A green gate is not evidence a passage survived.** Every gated measure is a section
+  aggregate; the Orbiter damage was FH −24.7 at paragraph scale and 0.6 → 0.6 at section
+  scale. Read the passage.

@@ -1,9 +1,9 @@
 /**
  * S07 — Texto, Unicode y expresiones regulares
  *
- * The filename and the exported id ("data-acquisition") both come from a pre-V3 ordering
- * and no longer describe what this section teaches. The id is the URL hash and
- * a learner save key, so it cannot be changed without losing progress.
+ * Renamed from the pre-V3 id "data-acquisition" to match what this section actually teaches.
+ * The id is the URL hash and a learner save key; saved progress is carried across
+ * by migrateSectionIds in src/lib/section-id-migrations.ts.
  *
  * Read `title` below, never the slug. Matching content to the slug is how three
  * agent diagrams ended up attached to a data-testing lesson.
@@ -11,7 +11,7 @@
 import type { CourseSection } from '../../types'
 
 export const section07: CourseSection = {
-  id: "data-acquisition",
+  id: "text-unicode-regex",
   index: 7,
   title: "Texto, Unicode y expresiones regulares",
   shortTitle: "Texto & Unicode",
@@ -531,7 +531,7 @@ regla rígida rechaza plus? True`,
         },
         why: "La regla modesta acepta *plus addressing* y los dominios del ejemplo. La regex rígida, en cambio, rechaza direcciones válidas. Es mejor enviar un caso dudoso a `review` que perder un correo legítimo sin avisar.",
         retrospective:
-          "Validación modesta + cola de review supera a la regex hiper-estricta. El misconception es «cuanto más estricta, mejor calidad»: en realidad rechazas válidos (plus tags). We Do: implementar el contrato de email, dígitos de teléfono, y demostrar el rechazo del overfit.",
+          "Validación modesta + cola de review supera a la regex hiper-estricta. El misconception es «cuanto más estricta, mejor calidad»: en realidad rechazas válidos (plus tags). We Do: implementar el contrato de email, dígitos de teléfono, y demostrar que la regex hiper-estricta rechaza un correo válido con `+tag`.",
       },
       {
         demoId: "S07-T3-A-DEMO",
@@ -1157,7 +1157,7 @@ print(digits)`,
         kind: "transfer",
         title: "Overvalidation que rechaza plus-addressing",
         preamble:
-          "- **Contexto:** una regex «elegante» de email es un bug de producto: rechaza direcciones válidas (plus tags, dominios nuevos).\n- **Meta:** demostrar el rechazo del patrón overfit y enunciar la política modesta del curso.\n- **Éxito:** `rejected_by_overfit True` y una línea de política (un `@`, local/dominio, cero espacios; sin entregabilidad).\n- **Límites:** no propongas la regex overfit como solución; no verifiques buzones reales.",
+          "- **Contexto:** una regex «elegante» de email es un bug de producto: rechaza direcciones válidas (plus tags, dominios nuevos).\n- **Meta:** demostrar que un patrón demasiado estricto rechaza una dirección válida y enunciar la política modesta del curso.\n- **Éxito:** `rejected_by_overfit True` y una línea de política (un `@`, local/dominio, cero espacios; sin entregabilidad).\n- **Límites:** no propongas la regex overfit como solución; no verifiques buzones reales.",
         id: "S07-T2-B-E3",
         instruction:
           "1. Evalúa `fullmatch` del patrón estricto sobre `user+tag@example.com`.\n2. Imprime si fue rechazado (`True` esperado).\n3. Imprime la política modesta en **una** línea (alineada al panel de solución: un @, local/dominio, cero espacios; sin entregabilidad).\n4. Superficie: razonamiento de producto, no solo código de normalización.",

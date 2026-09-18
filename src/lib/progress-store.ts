@@ -4,8 +4,10 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { useSession } from 'next-auth/react'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
+import { SECTION_ID_SCHEMA_VERSION } from '@/lib/section-id-migrations'
 import {
   mergeServerProgress,
+  migrateProgressState,
   parsePersistedEnvelope,
   sanitizePersisted,
 } from '@/lib/progress-sanitize'
@@ -122,6 +124,15 @@ export const useProgressStore = create<ProgressState>()(
     }),
     {
       name: 'python-ds-progress',
+      version: SECTION_ID_SCHEMA_VERSION,
+      // Section slugs were renamed to match what each section actually teaches. Progress is
+      // keyed by those slugs, so without this every completed section would read as incomplete.
+      migrate: (persisted, version) =>
+        migrateProgressState(
+          sanitizePersisted(persisted),
+          version,
+          SECTION_ID_SCHEMA_VERSION
+        ).state,
       storage: {
         getItem: (name) => {
           // Direct localStorage access (not via safeStorage) so TS infers

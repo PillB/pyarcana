@@ -18,9 +18,9 @@ const BASE_URL = process.env.BASE_URL || 'http://localhost:3000'
 // All 52 section IDs — if any is removed, tests fail
 const ALL_SECTION_IDS = [
   // Phase 0 (S1-S13)
-  'setup', 'basics', 'data-structures', 'functions-modules', 'oop',
-  'numpy', 'data-acquisition', 'pandas', 'visualization', 'sklearn',
-  'testing', 'performance', 'rpa-automation',
+  'setup', 'basics', 'decisions-rules', 'iteration-summaries', 'functions-contracts',
+  'collections', 'text-unicode-regex', 'files-ingestion', 'exceptions-logging', 'modules-packaging-cli',
+  'oop-domain', 'apis-sql-geo', 'evidence-dashboard',
   // Phase 1 (S14-S26)
   'security', 'stdlib-deep', 'wxpython-gui', 'packaging', 'data-engineering',
   'databases-orm', 'rag', 'fastapi', 'rapidfuzz-entity', 'computer-vision',
@@ -36,7 +36,7 @@ const ALL_SECTION_IDS = [
 ]
 
 // Capstone sections that MUST exist
-const CAPSTONE_IDS = ['rpa-automation', 'integrator-phase1', 'integrator-phase2', 'integrator-final']
+const CAPSTONE_IDS = ['evidence-dashboard', 'integrator-phase1', 'integrator-phase2', 'integrator-final']
 
 // 5 sub-steps that MUST be present in every section
 const SUB_STEPS = ['theory', 'ido', 'wedo', 'youdo', 'quiz']
@@ -160,7 +160,7 @@ test.describe('Section loading (browser)', () => {
 // TEST 3: Each sub-step tab is clickable and shows content
 // ═══════════════════════════════════════════════════════════
 test.describe('Sub-step tabs functional', () => {
-  for (const sectionId of ['setup', 'numpy', 'sklearn', 'rag', 'llm-agents']) {
+  for (const sectionId of ['setup', 'collections', 'modules-packaging-cli', 'rag', 'llm-agents']) {
     test(`${sectionId}: all 5 sub-step tabs switch content`, async ({ page }) => {
       await openSection(page, sectionId)
 
@@ -296,7 +296,7 @@ test.describe('HUD overlay integrity', () => {
   })
 
   test('compact top bar has section badge, title, progress ring', async ({ page }) => {
-    await openSection(page, 'numpy')
+    await openSection(page, 'collections')
 
     // Section badge
     await expect(page.locator('[data-testid="section-badge"]').first()).toBeVisible()
@@ -309,7 +309,7 @@ test.describe('HUD overlay integrity', () => {
   })
 
   test('job relevance popover and outcomes sheet triggers exist', async ({ page }) => {
-    await openSection(page, 'sklearn')
+    await openSection(page, 'modules-packaging-cli')
 
     // Briefcase icon (job relevance trigger)
     await expect(
@@ -325,7 +325,7 @@ test.describe('HUD overlay integrity', () => {
 // TEST 8: No geometric overlaps in critical sections
 // ═══════════════════════════════════════════════════════════
 test.describe('Geometric integrity (no overlaps)', () => {
-  for (const sectionId of ['setup', 'numpy', 'sklearn', 'rag', 'llm-agents']) {
+  for (const sectionId of ['setup', 'collections', 'modules-packaging-cli', 'rag', 'llm-agents']) {
     test(`${sectionId}: no text element overlaps another`, async ({ page }) => {
       await openSection(page, sectionId)
       await page.waitForTimeout(250)

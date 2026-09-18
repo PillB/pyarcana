@@ -52,7 +52,7 @@ import { useProgressStore, SUB_STEPS, type SubStep } from '@/lib/progress-store'
 import type { CourseSection } from '@/lib/types'
 import { CodeBlock } from './CodeBlock'
 import { Callout } from './Callout'
-import { RichText } from './RichText'
+import { InlineText, RichText } from './RichText'
 import { FigureFrame } from './Figure'
 import { SteppedCode } from './SteppedCode'
 import { ProgressRing } from './ProgressRing'
@@ -240,7 +240,7 @@ export function SectionView({
         </div>
 
         {/* Tagline as muted secondary line (was its own <p>) */}
-        <p className="mt-0.5 text-xs text-muted-foreground line-clamp-1">{section.tagline}</p>
+        <p className="mt-0.5 text-xs text-muted-foreground line-clamp-1"><InlineText text={section.tagline} /></p>
 
         {/* Inline meta badges */}
         <div className="mt-1 flex items-center gap-2 text-[10px] text-muted-foreground">
@@ -424,8 +424,8 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
               />
             )}
             {block.callout && (
-              <Callout type={block.callout.type} title={block.callout.title}>
-                {block.callout.content}
+              <Callout type={block.callout.type} title={block.callout.title && <InlineText text={block.callout.title} />}>
+                <InlineText text={block.callout.content} />
               </Callout>
             )}
           </>
@@ -441,7 +441,7 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
                 {/* min-w-0: a flex-1 item defaults to min-width:auto and refuses to
                     shrink below its text, pushing the badge past a 320px viewport.
                     Same defect the Callout already carries a regression test for. */}
-                <span className="min-w-0 flex-1 font-semibold">{block.heading}</span>
+                <span className="min-w-0 flex-1 font-semibold"><InlineText text={block.heading} /></span>
                 <Badge variant="outline" className="shrink-0 text-xs font-normal">
                   Profundización opcional
                 </Badge>
@@ -489,7 +489,7 @@ function IDoTab({ section, onDone, done }: { section: CourseSection; onDone: () 
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-500 text-xs font-bold text-white">
                 {i + 1}
               </span>
-              <span className="text-sm font-semibold">{step.description}</span>
+              <span className="text-sm font-semibold"><InlineText text={step.description} /></span>
             </div>
           </div>
           <div className="space-y-3 p-5">
@@ -561,7 +561,7 @@ function WeDoTab({ section, onDone, done }: { section: CourseSection; onDone: ()
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-white">
                   {i + 1}
                 </span>
-                <span className="text-sm font-semibold">{headerTitle}</span>
+                <span className="text-sm font-semibold"><InlineText text={headerTitle} /></span>
               </div>
             </div>
             <div className="space-y-3 p-5">
@@ -711,7 +711,7 @@ function YouDoTab({ section, onDone, done }: { section: CourseSection; onDone: (
               {project.objectives.map((o, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-foreground/90">
                   <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                  <span>{o}</span>
+                  <span><InlineText text={o} /></span>
                 </li>
               ))}
             </ul>
@@ -723,7 +723,7 @@ function YouDoTab({ section, onDone, done }: { section: CourseSection; onDone: (
               {project.requirements.map((r, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-foreground/80">
                   <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" />
-                  <span className="font-mono text-[13px]">{r}</span>
+                  <span className="font-mono text-[13px]"><InlineText text={r} /></span>
                 </li>
               ))}
             </ul>
@@ -759,7 +759,7 @@ function YouDoTab({ section, onDone, done }: { section: CourseSection; onDone: (
                 <tbody>
                   {project.rubric.map((r, i) => (
                     <tr key={i} className="border-t border-border/60">
-                      <td className="px-3 py-2 text-foreground/80">{r.criterion}</td>
+                      <td className="px-3 py-2 text-foreground/80"><InlineText text={r.criterion} /></td>
                       <td className="px-3 py-2 text-right font-mono text-xs text-muted-foreground">{r.weight}</td>
                     </tr>
                   ))}
@@ -786,22 +786,22 @@ function YouDoTab({ section, onDone, done }: { section: CourseSection; onDone: (
                   <Badge variant="outline" className="mb-1 text-[10px] font-mono">
                     {te.id}
                   </Badge>
-                  <h4 className="text-sm font-semibold">{te.title}</h4>
+                  <h4 className="text-sm font-semibold"><InlineText text={te.title} /></h4>
                 </div>
               </div>
               <ul className="space-y-2">
                 {te.tasks.map((task) => (
                   <li key={task.id} className="rounded-md border border-border/60 bg-muted/30 p-2.5">
-                    <div className="text-xs font-medium text-foreground">{task.title}</div>
-                    <p className="mt-1 text-xs text-foreground/75">{task.deliverable}</p>
+                    <div className="text-xs font-medium text-foreground"><InlineText text={task.title} /></div>
+                    <p className="mt-1 text-xs text-foreground/75"><InlineText text={task.deliverable} /></p>
                   </li>
                 ))}
               </ul>
               <div className="grid gap-1.5 sm:grid-cols-2 text-[11px] text-muted-foreground">
-                <div><span className="font-medium text-foreground/80">Corrección: </span>{te.rubric_0_3.correctness}</div>
-                <div><span className="font-medium text-foreground/80">Robustez: </span>{te.rubric_0_3.robustness}</div>
-                <div><span className="font-medium text-foreground/80">Mantenibilidad: </span>{te.rubric_0_3.maintainability}</div>
-                <div><span className="font-medium text-foreground/80">Uso responsable: </span>{te.rubric_0_3.responsible_use}</div>
+                <div><span className="font-medium text-foreground/80">Corrección: </span><InlineText text={te.rubric_0_3.correctness} /></div>
+                <div><span className="font-medium text-foreground/80">Robustez: </span><InlineText text={te.rubric_0_3.robustness} /></div>
+                <div><span className="font-medium text-foreground/80">Mantenibilidad: </span><InlineText text={te.rubric_0_3.maintainability} /></div>
+                <div><span className="font-medium text-foreground/80">Uso responsable: </span><InlineText text={te.rubric_0_3.responsible_use} /></div>
               </div>
             </Card>
           ))}
@@ -881,7 +881,7 @@ function QuizTab({
                 <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-rose-500/10 text-xs font-bold text-rose-600">
                   {qIdx + 1}
                 </span>
-                <p className="text-sm font-medium text-foreground">{q.question}</p>
+                <p className="text-sm font-medium text-foreground"><InlineText text={q.question} /></p>
               </div>
               <div className="space-y-2">
                 {q.options.map((opt, oIdx) => {
@@ -926,7 +926,7 @@ function QuizTab({
                           String.fromCharCode(65 + oIdx)
                         )}
                       </span>
-                      <span className="flex-1">{opt}</span>
+                      <span className="flex-1"><InlineText text={opt} /></span>
                     </button>
                   )
                 })}
@@ -1011,23 +1011,19 @@ function MarkDoneButton({ onDone, done, label }: { onDone: () => void; done: boo
 function InteractivePlaygroundDemo({ sectionId, sectionTitle }: { sectionId: string; sectionTitle: string }) {
   const demos: Record<string, { code: string; expectedOutput?: string; hint?: string; title: string }> = {
     'setup': {
-      title: 'Practica el intérprete y el entrypoint',
+      title: 'Practica el intérprete y tu primer script',
       code: `# Primer script reproducible (usa un nombre sintético)
 import sys
 
 nombre = "Estudiante"
 
-def main():
-    print(f"Hola {nombre}, bienvenido a PyArcana!")
-    print(f"Python mayor: {sys.version_info.major}")
-    print("Entrypoint ejecutado")
-
-if __name__ == "__main__":
-    main()`,
+print(f"Hola {nombre}, bienvenido a PyArcana!")
+print(f"Python mayor: {sys.version_info.major}")
+print("Script ejecutado de arriba abajo")`,
       expectedOutput: `Hola Estudiante, bienvenido a PyArcana!
 Python mayor: 3
-Entrypoint ejecutado`,
-      hint: 'Mantén un nombre sintético. Observa que el guardián llama a main() y que sys confirma el intérprete.',
+Script ejecutado de arriba abajo`,
+      hint: 'Mantén un nombre sintético. Cambia el nombre y vuelve a ejecutar: Python lee las instrucciones en orden, de arriba abajo.',
     },
     'basics': {
       title: 'Practica el contrato raw/clean',
@@ -1055,7 +1051,7 @@ for edad_raw in [" 28 ", "  ", "abc"]:
 'abc' -> None entero inválido`,
       hint: 'Cambia los tres valores de prueba y comprueba que raw se conserve incluso cuando clean sea None',
     },
-    'data-structures': {
+    'decisions-rules': {
       title: 'Practica decisiones y reglas',
       code: `# Valida campos sintéticos sin confundir ausencia con cero
 ALLOWED_REGIONS = {"Lima", "Arequipa", "Cusco", "Piura"}
@@ -1088,7 +1084,7 @@ B {'status': 'review', 'code': 'MISSING'} {'status': 'review', 'code': 'NOT_IN_A
 C {'status': 'reject', 'code': 'OUT_OF_RANGE'} {'status': 'accept', 'code': 'OK'}`,
       hint: 'Cambia un monto a 0, None, negativo o texto y predice status y code antes de ejecutar.',
     },
-    'functions-modules': {
+    'iteration-summaries': {
       title: 'Practica un resumen por lotes',
       code: `# Resume un lote sintético en un solo pase O(n)
 statuses = ["accept", "reject", "review", "accept", "reject"]
@@ -1115,7 +1111,7 @@ tasa_lote_vacio None`,
       hint: 'Cambia un status y observa cómo se actualizan el contador y la tasa; luego prueba una lista vacía.',
     },
     // `oop` is the stable S05 compatibility id; its learner content is Functions.
-    'oop': {
+    'functions-contracts': {
       title: 'Practica funciones con contrato',
       code: `# Datos sintéticos: practica el núcleo puro de CP-N1-B
 def normalize_nombre(raw: str) -> str:
@@ -1148,7 +1144,7 @@ email sin @
 idempotente True`,
       hint: 'Añade normalize_direccion: colapsa espacios, aplica upper y demuestra f(f(x)) == f(x)',
     },
-    'numpy': {
+    'collections': {
       title: 'Practica colecciones y conflictos',
       code: `# Modelo tabular en memoria: solo biblioteca estándar
 import json
@@ -1188,7 +1184,7 @@ conflictos: 1
 [{"id": "C001", "region": "Lima"}, {"id": "C002", "region": "Cusco"}]`,
       hint: 'Agrega un duplicado idéntico y comprueba que no aumenta el número de conflictos.',
     },
-    'pandas': {
+    'files-ingestion': {
       title: 'Practica ingesta con cuarentena y manifest',
       code: `import csv, hashlib, io, json
 from decimal import Decimal, InvalidOperation
@@ -1224,7 +1220,7 @@ quarantine [{"raw": {"id": "C002", "monto": "x"}, "reason": "cast_monto"}]
 manifest {"n_clean": 2, "n_in": 3, "n_quarantine": 1, "reconcile_ok": true, "sha256_12": "0181876342b5"}`,
       hint: 'Cambia el monto de C002 por 7.25 y comprueba cómo cambian clean, quarantine y el manifest.',
     },
-    'visualization': {
+    'exceptions-logging': {
       title: 'Practica un lote observable y sin PII',
       code: `# Excepciones, cuarentena y logging seguro — solo datos sintéticos
 import io
@@ -1292,7 +1288,7 @@ in=2 ok=1 quarantined=1
 fatal: required_fields vacío`,
       hint: 'Agrega una fila sin id y comprueba que el reconcile siga cuadrando sin imprimir el email completo',
     },
-    'sklearn': {
+    'modules-packaging-cli': {
       title: 'Practica scikit-learn',
       code: `# Practica scikit-learn (se carga automaticamente)
 from sklearn.linear_model import LogisticRegression
@@ -1327,7 +1323,7 @@ Intercept: -0.206
 CV Accuracy: 96.00% ± 3.74%`,
       hint: 'Cambia la semilla (seed) y observa cómo varían los resultados',
     },
-    'testing': {
+    'oop-domain': {
       title: 'Practica testing con asserts',
       code: `# Practica testing con asserts (simulando pytest)
 import numpy as np
@@ -1380,7 +1376,7 @@ print("\\n✅ Todos los tests pasaron!")`,
 ✅ Todos los tests pasaron!`,
       hint: 'Agrega un test para verificar que funciona con notas negativas',
     },
-    'data-acquisition': {
+    'text-unicode-regex': {
       title: 'Practica Unicode, regex y evidencia',
       code: `# Laboratorio de texto latinoamericano con datos sintéticos
 import re
@@ -1434,7 +1430,7 @@ Jaccard: 0.667
 Decisión: review`,
       hint: 'Prueba un nombre vacío, un email sin parte local y dos nombres sin tokens compartidos',
     },
-    'performance': {
+    'apis-sql-geo': {
       title: 'Practica multiprocessing y logging',
       code: `# Practica performance y logging (simulado en Pyodide)
 import time
@@ -1482,7 +1478,7 @@ assert r1 == r2, "Los resultados no coinciden!"
 logger.info("✓ Ambos enfoques producen el mismo resultado")`,
       hint: 'Cambia n a 1000000 y observa como cambia el speedup',
     },
-    'rpa-automation': {
+    'evidence-dashboard': {
       title: 'Practica automatización con tenacity y argparse',
       code: `# Practica RPA: retry logic y CLI (simulado en Pyodide)
 import time

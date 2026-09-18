@@ -139,3 +139,31 @@ test('no figure hangs on an optional theory block', () => {
   assert.deepEqual(offenders, [], 'figures on collapsed blocks are never rendered or measured')
 })
 
+
+test('a flow stage label fits the box, in at most the two lines the archetype draws', () => {
+  // FlowFigure wraps `sub` to two lines and grows the box for the second, but it cannot wrap a
+  // single long word and it draws no third line. `S03-call-return` shipped with
+  // `decidir_region("R-NORTE")` under a four-stage box and rendered as `ecidir_region("R-NOR`,
+  // cut at both ends, with nothing failing; measuring the live page then found seven more
+  // figures already spilling. The arithmetic is FlowFigure's own: a 560 canvas, 24px margins,
+  // a 16px gap (10 above four stages), split evenly, at the 7.4px per character the browser
+  // actually measured for this size.
+  const src = readFileSync(`${DATA}/flows.ts`, 'utf8')
+  const bad = []
+  for (const m of src.matchAll(/'([A-Za-z0-9-]+)':\s*\{\s*kind: 'flow',[\s\S]*?\n  \},/g)) {
+    const [block, id] = [m[0], m[1]]
+    const stages = [...block.matchAll(/\{ label: '([^']*)'(?:, sub: '([^']*)')?/g)]
+    const n = stages.length
+    const gap = n > 4 ? 10 : 16
+    const boxW = Math.floor((560 - 48 - gap * (n - 1)) / n)
+    const budget = Math.floor((boxW - 8) / 7.4)
+    for (const [, label, sub] of stages) {
+      if (label.length > budget) bad.push(`${id}: label "${label}" needs ${label.length} of ${budget} chars`)
+      if (!sub) continue
+      const longest = Math.max(...sub.split(/\s+/).map((w) => w.length))
+      if (longest > budget) bad.push(`${id}: "${sub}" has an unbreakable ${longest}-char word, ${budget} fit`)
+      if (sub.length > budget * 2) bad.push(`${id}: "${sub}" needs more than the two lines drawn`)
+    }
+  }
+  assert.deepEqual(bad, [], 'flow stage text spills out of its box')
+})

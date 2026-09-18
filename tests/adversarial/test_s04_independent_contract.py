@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SEED = ROOT / "prisma" / "seed.ts"
 SECTION_VIEW = ROOT / "src" / "components" / "course" / "SectionView.tsx"
 PDF_REPORT = ROOT / "src" / "components" / "course" / "PdfReport.tsx"
-SECTION = ROOT / "src" / "lib" / "course" / "sections" / "s04-functions-modules.ts"
+SECTION = ROOT / "src" / "lib" / "course" / "sections" / "s04-iteration-summaries.ts"
 
 
 def _between(text: str, start: str, end: str) -> str:
@@ -26,15 +26,15 @@ class Section04IndependentContractTests(unittest.TestCase):
         lesson = SECTION.read_text(encoding="utf-8")
         pdf = PDF_REPORT.read_text(encoding="utf-8")
 
-        self.assertIn('id: "functions-modules"', lesson)
+        self.assertIn('id: "iteration-summaries"', lesson)
         self.assertIn('index: 4', lesson)
         self.assertIn('title: "Iteración y resúmenes transaccionales"', lesson)
-        self.assertIn('"functions-modules": \'4. Iteración\'', pdf)
-        self.assertNotIn('"functions-modules": \'4. Functions\'', pdf)
+        self.assertIn('"iteration-summaries": \'4. Iteración\'', pdf)
+        self.assertNotIn('"iteration-summaries": \'4. Functions\'', pdf)
 
     def test_playground_is_section_owned_and_output_is_executable(self) -> None:
         source = SECTION_VIEW.read_text(encoding="utf-8")
-        block = _between(source, "    'functions-modules': {", "    'oop': {")
+        block = _between(source, "    'iteration-summaries': {", "    'functions-contracts': {")
 
         self.assertIn("Practica un resumen por lotes", block)
         self.assertIn("tasa_lote_vacio", block)
@@ -98,6 +98,27 @@ class Section04IndependentContractTests(unittest.TestCase):
         ]
 
         self.assertEqual(Counter(positions), Counter({0: 6, 1: 6, 2: 6, 3: 6}))
+
+    def test_capstone_starter_preserves_the_typed_entrypoint(self) -> None:
+        """Guards the typed-entrypoint convention audit/fixer/OPEN_QUESTIONS.md Q4 moved here.
+
+        S01-F06 removed a check_arg.py demo that taught `def main() -> None:` before
+        indentation, `def` or type annotations were introduced - S04 is the first section
+        where a learner can actually read this. The convention still lives here in the
+        Client Intake & Data Quality Script capstone; this pins it in place of the test
+        that used to pin the removed S01 demo.
+        """
+        lesson = SECTION.read_text(encoding="utf-8")
+        block = _between(
+            lesson,
+            "title: \"Client Intake & Data Quality Script (cierre CP-N1-A)\",",
+            "portfolioNote:",
+        )
+
+        self.assertIn("def main() -> None:", block)
+        self.assertNotIn("def main():", block)
+        self.assertIn('if __name__ == "__main__":', block)
+        self.assertIn("Demo reproducible con if __name__ == '__main__'", block)
 
     def test_public_self_check_retains_eight_valid_questions(self) -> None:
         lesson = SECTION.read_text(encoding="utf-8")

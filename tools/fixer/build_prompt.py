@@ -127,6 +127,10 @@ substantially rewrote will be read as a skipped step, not as a clean result.""",
         block("TERMS ALREADY DEFINED IN EARLIER SECTIONS (safe to use)",
               ", ".join(seen_before) or "(none - this is the first section)"),
 
+        block("LEDGER: OBSERVATIONS FROM EARLIER ROUNDS (binding)",
+              (ROOT / "audit/fixer/LEDGER_NOTES.md").read_text(encoding="utf-8")
+              if (ROOT / "audit/fixer/LEDGER_NOTES.md").exists() else ""),
+
         block("STANDING DECISIONS (binding, override anything below)",
               (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")),
 

@@ -176,3 +176,107 @@ the intervention literature converges on: say what it is and why it exists, mode
 worked example with real values, guide the learner through a practice step with feedback,
 have them do it independently, and check understanding. A parenthesis is the floor for a term
 used once; it is not teaching for a concept the learning path depends on.
+
+## D7 — Gate on what writing rule B5 forbids, not on a suffix count (2026-09-15)
+
+**Decision.** The shared gate no longer fails a round on `nominalisations_per_100w`, the density
+of words ending in *-ción, -miento, -idad, -anza, -encia*. It fails on
+`b5_nominal_constructions_per_100_sentences`: a nominalisation as a sentence's actor ("La
+validación del registro produce…"), a light verb carrying the action ("realizar la
+comprobación"), or nominalisations stacked with *de* ("la ejecución de la validación"). Names
+are excluded — glossary terms and aliases, and terms a section introduces in bold. The suffix
+density is still measured and printed as `info:`.
+
+**Why.** The Spanish-language pass was rejected in S28, S44 and S51 with every other gate green.
+Listing the added words showed English nouns translated to Spanish nouns — *release* →
+*lanzamiento*, *checks* → *comprobaciones*, *production* → *producción*. Replacing a noun with
+a noun is not what B5 ("La validación del registro produce el rechazo" → "el validador rechaza
+el registro") forbids. The proxy was penalising the fix the pass exists to make. Checked on ten
+hand-written cases in both directions, and against the three rejected passes: S44 added no
+B5 constructions; S28 added "regresiones del emparejamiento" four times, which the new measure
+still fails, correctly.
+
+**Trade-off, stated.** The new measure is blind to abstraction that takes none of the three
+shapes — a lone abstract noun as object, heavy prose built from *-dad* words without *de*. It is
+a regex over Spanish, so it has false positives ("la versión del lanzamiento" counts as a chain)
+and will miss unusual light verbs. It is kept as a *regression* measure, so a false positive
+present before and after costs nothing. Suffix density remains visible, so a sharp rise is
+still seen by whoever reads the gate output. Rejected alternative: raising the tolerance on
+the old metric — that would have hidden the S28 chain while still rejecting correct translations
+in a longer pass.
+
+## D8 — Declared outputs are compared line by line (2026-09-15)
+
+**Decision.** `scripts/python_content_strict_output_audit.py` compares every line of every
+declared `output:` against what the code prints under `.venv-content`, and the shared gate fails
+a round that raises a section's mismatch count. The soft runtime audit still gates that snippets
+run.
+
+**Why.** The runtime audit reads only the first line and scrubs numbers when it differs; it
+passed a planted `second_changes 1` where the code prints 0. The strict audit caught it. Run
+course-wide it found six real stale outputs the soft audit had passed: S08 (an older return
+shape), S09 ×2 (tracebacks without the source lines Python prints), S18 ×3 (a wrong hash,
+dict keys in hand-written order where `groupby` sorts).
+
+**How it keeps honest tolerance.** Each snippet runs under `PYTHONHASHSEED=0` and `=1`; only a
+line that differs between the two runs is compared after scrubbing numbers. The patch release of
+the pinned 3.12 and the file a traceback names are host-specific and neutralised. An ellipsis in
+a declared output elides. Trade-off: a line nondeterministic in a way two seeds do not expose
+(wall-clock timing that happens to match twice) reports as a mismatch — a false alarm, visible,
+rather than a silent pass.
+
+## D9 — `main()` and `__name__` stay out of the early sections (2026-09-17)
+*Decided by the repo owner, closing the S01 entrypoint question in OPEN_QUESTIONS.*
+
+Do not use or mention `def main()` or `if __name__ == "__main__":` in the first lessons. They are
+taught only where they become *strictly necessary* — the point at which a learner stops treating
+a file as a script and starts importing it as a module, which is far later in the course. Until
+then, every example is top-level statements.
+
+This reverses what the repository currently enforces. `S01-T1-A-E2` asks a beginner to rebuild the
+guard from blanks, `S01-T1-B-E2` wraps an argv exercise in `def main():`, S02's You Do requires
+both — and `scripts/newbie_agentic_validator.py` *fails* `hello_sys.py` when they are missing,
+with `tests/adversarial/test_s01_independent_recovery.py:172` pinning the exact solution text.
+Those gates were written against the old convention and must be repointed, not weakened: they
+should assert the pattern's **absence** in the early sections and its presence where it is taught.
+
+The analysis owed with this decision: *when* does the course first need it? The answer has to be
+the section where the learner runs their own module both ways — S10 (`modules-packaging-cli`)
+teaches `__name__` today — and the sections between S01 and there must be checked for the same
+pattern rather than assumed clean.
+
+## D10 — No `try`/`except` before the error-handling lesson (2026-09-17)
+*Decided by the repo owner, same round.*
+
+A learner does not need `try`/`except` anywhere before the lesson that teaches errors and testing.
+S09 (`exceptions-logging`) is that lesson. Every earlier use is a forward dependency and comes out,
+by rewriting the exercise so the failure is observed rather than caught, or by moving the piece
+that needs catching to S09 or later.
+
+This was invisible until 2026-09-17, because no glossary alias covered the keyword: adding
+`except` and `try/except` to the `Excepción` entry surfaced 11 occurrences in S02, 7 in S04, 14 in
+S05, 9 in S06, 3 in S07 and 10 in S08, all before S09's own 50. Several sit inside the S02–S04
+cumulative capstone, so this decision and Q3's route interact and are resolved together.
+
+## D11 — A capstone gets a primer or moves; it is never awarded retroactively (2026-09-17)
+*Restated by the repo owner as binding, from the standing policy.*
+
+When a capstone, project, exercise or self-check depends on a topic taught later, ask first
+whether it needs the **full** topic or a *fundamentals* version of it. Most of the time it needs
+the second, and the right treatment is a pill of knowledge — an explicit "trust me for now"
+primer that says what the learner is about to run, in plain words, and names the later lesson
+where it is explained properly. The worked shape, from the owner:
+
+> "to work with the required data you will need to get the information from an online repository
+> and load it into our Python session; we will use `read_excel` from the pandas library… For now
+> you will just execute those rows so the processes after do not show errors, but in lesson A,
+> lesson X and lesson D we will cover in detail why we are doing the cleaning and drill down into
+> a more complete process."
+
+If the dependency is genuinely integral and needs a maturity a primer cannot give, then rewrite
+the capstone so its dependencies are relevant and appropriate; and if that is not possible, move
+the capstone, project, exercise or self-check to after the knowledge is acquired. Record the
+change in detail and raise it again for human review.
+
+**Never award a capstone or a badge retroactively**, and never mark one as earned because the
+evidence for it appears somewhere else in the course.

@@ -17,7 +17,7 @@ from newbie_packet_builder import active_manifest, parse_section_learner  # noqa
 from test_over_localized_language import BANNED_SLANG, PE_CITIES  # noqa: E402
 
 
-SECTION = ROOT / "src/lib/course/sections/s07-data-acquisition.ts"
+SECTION = ROOT / "src/lib/course/sections/s07-text-unicode-regex.ts"
 
 
 def quoted_values(block: str, field: str) -> list[str]:

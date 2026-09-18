@@ -40,9 +40,50 @@ TEST_KINDS = {"selfcheck.question", "selfcheck.option", "selfcheck.explanation"}
 HEADING_KINDS = {"theory.heading"}
 FIGURE_KINDS = {"theory.figure"}
 
+#: Surfaces where the course is teaching, and a definition can honestly count as the first one.
+#
+# Everything else may reinforce a concept but cannot introduce it: a learner reaches a weDo
+# hint only after trying the exercise, an outcome is a promise made before the lesson, and a
+# selfcheck option is a quiz answer. 18 of 77 defined concepts were credited to one of those,
+# `distribución normal` to a *distractor* — the quiz that tests a concept was recorded as the
+# place that taught it. That is exactly the surprise this map exists to detect, scored as if
+# it were fine.
+TEACHING_KINDS = {
+    "theory.paragraph", "theory.callout", "theory.heading", "theory.code.explanation",
+    "ido.why", "ido.preamble", "ido.description", "ido.intro", "ido.retrospective",
+    "wedo.intro", "youdo.context", "jobRelevance", "tagline",
+    # D1 names tagline, learningOutcomes and jobRelevance in one breath - a preview surface is
+    # not exempt from define-before-use, so a gloss written there counts. Leaving `outcome` out
+    # while keeping the other two was inconsistent, and it scored `ruff` as never explained
+    # across 39 uses while S01's outcome said "Ruff es un programa que señala algunos errores".
+    "outcome",
+    # We Do is a teaching phase in gradual release - the learner works *with guidance*, and the
+    # preamble and instruction are that guidance. A hint is different: it is revealed after the
+    # learner is already stuck, so it still cannot count as where a term was introduced.
+    "wedo.preamble", "wedo.instruction",
+}
+
+
+def sources_newer_than_cache() -> bool:
+    """Has anything the extractor reads changed since the cache was written?
+
+    The cache used to be trusted whenever it existed, so a map could describe a course
+    that no longer existed: the 2026-09-17 gap round built its dossiers from an
+    events.json eight hours older than the sections it was diagnosing, and two of the
+    entries it diagnosed had already been fixed. `gate.py` refreshes the file on every
+    run; nothing else did.
+    """
+    if not EVENTS.exists():
+        return True
+    cached = EVENTS.stat().st_mtime
+    watched = list((ROOT / "src/lib/course/sections").glob("*.ts"))
+    watched += [ROOT / "src/lib/glossary/terms.ts", ROOT / "src/lib/course/index.ts",
+                ROOT / "scripts/course_event_extractor.mts"]
+    return any(p.exists() and p.stat().st_mtime > cached for p in watched)
+
 
 def load_events() -> dict:
-    if EVENTS.exists():
+    if not sources_newer_than_cache():
         return json.loads(EVENTS.read_text(encoding="utf-8"))
     proc = subprocess.run(["npx", "tsx", "scripts/course_event_extractor.mts"],
                           cwd=ROOT, capture_output=True, text=True)
@@ -98,10 +139,16 @@ def main() -> int:
     for c in concepts.values():
         vis = [u for u in c["uses"] if u["visible"]]
         c["first_use"] = vis[0] if vis else None
-        c["first_definition"] = c["definitions"][0] if c["definitions"] else None
+        teaching = [d for d in c["definitions"] if d["kind"] in TEACHING_KINDS]
+        c["first_definition"] = teaching[0] if teaching else None
+        # Kept so a reviewer can see the course does say something about the term somewhere,
+        # without that standing in for having taught it.
+        c["reinforcements"] = [d for d in c["definitions"] if d["kind"] not in TEACHING_KINDS]
         if not c["first_definition"]:
             c["depth"] = "L0"
-        elif c["headings"] and c["figures"]:
+        elif c["headings"] and c["figures"] and c["examples"]:
+            # L3 is L2 plus orientation and a figure (D3), so it cannot skip the worked
+            # example; checking it before L2 let a heading and a figure alone score highest.
             c["depth"] = "L3"
         elif c["examples"]:
             c["depth"] = "L2"
@@ -111,7 +158,17 @@ def main() -> int:
         if c["first_definition"]:
             di = next(i for i, u in enumerate(vis) if u is c["first_definition"]) \
                 if c["first_definition"] in vis else 0
-            c["surprising_uses"] = vis[:di]
+            # A subsection title naming what its own first paragraph defines is the
+            # orientation D3 asks for: the learner reads "Broadcasting y compatibilidad de
+            # shapes" and the definition two lines below, with nothing in between. Counting
+            # the heading as a surprise made ten concepts look unteaching, and for p-value it
+            # was the only entry.
+            block = c["first_definition"]["location"].rsplit(".", 1)[0]
+            c["surprising_uses"] = [
+                u for u in vis[:di]
+                if not (u["kind"] == "theory.heading"
+                        and u["location"].rsplit(".", 1)[0] == block)
+            ]
         else:
             c["surprising_uses"] = vis
         c["sections_used"] = sorted({u["section"] for u in vis})

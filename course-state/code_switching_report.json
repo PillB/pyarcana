@@ -1,0 +1,2620 @@
+{
+ "S01": {
+  "section": "S01",
+  "prose_words": 11262,
+  "english_function_words": 2,
+  "ordinary_english_words": 16,
+  "kept_technical_terms": 65,
+  "avoidable_english_per_1000": 1.6,
+  "top_terms": [
+   [
+    "request",
+    5
+   ],
+   [
+    "check",
+    5
+   ],
+   [
+    "requests",
+    3
+   ],
+   [
+    "review",
+    2
+   ],
+   [
+    "ticket",
+    1
+   ],
+   [
+    "which",
+    1
+   ],
+   [
+    "where",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "setup.S01-T2-A-E1.hint[1]",
+    "avoidable_english": 2,
+    "words": 16,
+    "text": "Verifica con: python -c \"import sys; print(sys.prefix)\" — debe terminar en .venv. which/where python también ayuda."
+   }
+  ]
+ },
+ "S02": {
+  "section": "S02",
+  "prose_words": 6870,
+  "english_function_words": 6,
+  "ordinary_english_words": 10,
+  "kept_technical_terms": 33,
+  "avoidable_english_per_1000": 2.3,
+  "top_terms": [
+   [
+    "is",
+    6
+   ],
+   [
+    "review",
+    5
+   ],
+   [
+    "ticket",
+    3
+   ],
+   [
+    "input",
+    1
+   ],
+   [
+    "scoring",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "basics.S02-T2-B-E1.hint",
+    "avoidable_english": 2,
+    "words": 14,
+    "text": "Listas nuevas no son el mismo objeto: [] is [] es False. Usa is para None."
+   },
+   {
+    "location": "basics.S02-T2-B-E1.hint[0]",
+    "avoidable_english": 2,
+    "words": 14,
+    "text": "Listas nuevas no son el mismo objeto: [] is [] es False. Usa is para None."
+   }
+  ]
+ },
+ "S03": {
+  "section": "S03",
+  "prose_words": 8088,
+  "english_function_words": 12,
+  "ordinary_english_words": 79,
+  "kept_technical_terms": 16,
+  "avoidable_english_per_1000": 11.3,
+  "top_terms": [
+   [
+    "review",
+    78
+   ],
+   [
+    "is",
+    6
+   ],
+   [
+    "and",
+    4
+   ],
+   [
+    "not",
+    2
+   ],
+   [
+    "check",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "data-structures.S03-T3-A-E1.hint",
+    "avoidable_english": 2,
+    "words": 11,
+    "text": "if r is None / if r not in ALLOWED / return accept"
+   },
+   {
+    "location": "data-structures.S03-T3-A-E1.hint[0]",
+    "avoidable_english": 2,
+    "words": 11,
+    "text": "if r is None / if r not in ALLOWED / return accept"
+   },
+   {
+    "location": "data-structures.S03-T3-A-E2.instruction",
+    "avoidable_english": 2,
+    "words": 19,
+    "text": "1. Corrige `m <= 0` (rechaza el cero).\n2. Orden: None→review; `<0`→reject; `>50000`→review; else accept.\n3. Prueba la lista de cinco montos en orden."
+   },
+   {
+    "location": "data-structures.S03-T2-B-E2.instruction",
+    "avoidable_english": 2,
+    "words": 23,
+    "text": "1. Deja nested intacta.\n2. Implementa guards: None→review; no int→reject; `<0`→reject; `<=10000`→accept; else review.\n3. Compara ambas funciones en el bucle de seis casos."
+   }
+  ]
+ },
+ "S04": {
+  "section": "S04",
+  "prose_words": 6579,
+  "english_function_words": 15,
+  "ordinary_english_words": 9,
+  "kept_technical_terms": 17,
+  "avoidable_english_per_1000": 3.6,
+  "top_terms": [
+   [
+    "while",
+    15
+   ],
+   [
+    "review",
+    8
+   ],
+   [
+    "input",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S05": {
+  "section": "S05",
+  "prose_words": 7945,
+  "english_function_words": 2,
+  "ordinary_english_words": 9,
+  "kept_technical_terms": 27,
+  "avoidable_english_per_1000": 1.4,
+  "top_terms": [
+   [
+    "scope",
+    3
+   ],
+   [
+    "output",
+    2
+   ],
+   [
+    "input",
+    2
+   ],
+   [
+    "inputs",
+    2
+   ],
+   [
+    "only",
+    2
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "oop.selfCheck[2].opt[3]",
+    "avoidable_english": 2,
+    "words": 7,
+    "text": "Mismo input → mismo output, sin efectos colaterales"
+   }
+  ]
+ },
+ "S06": {
+  "section": "S06",
+  "prose_words": 6412,
+  "english_function_words": 7,
+  "ordinary_english_words": 4,
+  "kept_technical_terms": 23,
+  "avoidable_english_per_1000": 1.7,
+  "top_terms": [
+   [
+    "is",
+    5
+   ],
+   [
+    "ranking",
+    2
+   ],
+   [
+    "not",
+    2
+   ],
+   [
+    "input",
+    1
+   ],
+   [
+    "review",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "numpy.S06-T3-B-E2.hint",
+    "avoidable_english": 2,
+    "words": 10,
+    "text": "'email' not in c or c['email'] is None → missing"
+   },
+   {
+    "location": "numpy.S06-T3-B-E2.hint[0]",
+    "avoidable_english": 2,
+    "words": 10,
+    "text": "'email' not in c or c['email'] is None → missing"
+   }
+  ]
+ },
+ "S07": {
+  "section": "S07",
+  "prose_words": 7376,
+  "english_function_words": 0,
+  "ordinary_english_words": 38,
+  "kept_technical_terms": 38,
+  "avoidable_english_per_1000": 5.2,
+  "top_terms": [
+   [
+    "review",
+    20
+   ],
+   [
+    "split",
+    9
+   ],
+   [
+    "matching",
+    8
+   ],
+   [
+    "input",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "data-acquisition.S07-T4-A-E3.preamble",
+    "avoidable_english": 3,
+    "words": 32,
+    "text": "- **Contexto:** el pipeline de matching emite una decisión de **proceso**, no un veredicto legal.\n- **Meta:** aplicar umbrales: 1.0 → exact; [0.4, 1.0) → review; <0.4 → no_match.\n- **Éxito:** `review "
+   }
+  ]
+ },
+ "S08": {
+  "section": "S08",
+  "prose_words": 6159,
+  "english_function_words": 2,
+  "ordinary_english_words": 16,
+  "kept_technical_terms": 60,
+  "avoidable_english_per_1000": 2.9,
+  "top_terms": [
+   [
+    "input",
+    10
+   ],
+   [
+    "split",
+    2
+   ],
+   [
+    "review",
+    1
+   ],
+   [
+    "inputs",
+    1
+   ],
+   [
+    "check",
+    1
+   ],
+   [
+    "timestamp",
+    1
+   ],
+   [
+    "is",
+    1
+   ],
+   [
+    "not",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "pandas.S08-T3-B-E2.hint[1]",
+    "avoidable_english": 2,
+    "words": 5,
+    "text": "None is not missing key"
+   }
+  ]
+ },
+ "S09": {
+  "section": "S09",
+  "prose_words": 6447,
+  "english_function_words": 5,
+  "ordinary_english_words": 2,
+  "kept_technical_terms": 49,
+  "avoidable_english_per_1000": 1.1,
+  "top_terms": [
+   [
+    "from",
+    4
+   ],
+   [
+    "with",
+    1
+   ],
+   [
+    "review",
+    1
+   ],
+   [
+    "split",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S10": {
+  "section": "S10",
+  "prose_words": 5881,
+  "english_function_words": 1,
+  "ordinary_english_words": 6,
+  "kept_technical_terms": 37,
+  "avoidable_english_per_1000": 1.2,
+  "top_terms": [
+   [
+    "input",
+    2
+   ],
+   [
+    "tickets",
+    1
+   ],
+   [
+    "output",
+    1
+   ],
+   [
+    "check",
+    1
+   ],
+   [
+    "is",
+    1
+   ],
+   [
+    "checks",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S11": {
+  "section": "S11",
+  "prose_words": 6115,
+  "english_function_words": 5,
+  "ordinary_english_words": 21,
+  "kept_technical_terms": 23,
+  "avoidable_english_per_1000": 4.3,
+  "top_terms": [
+   [
+    "matching",
+    17
+   ],
+   [
+    "is",
+    3
+   ],
+   [
+    "relabel",
+    2
+   ],
+   [
+    "not",
+    2
+   ],
+   [
+    "relabels",
+    1
+   ],
+   [
+    "scoring",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S12": {
+  "section": "S12",
+  "prose_words": 6085,
+  "english_function_words": 1,
+  "ordinary_english_words": 34,
+  "kept_technical_terms": 123,
+  "avoidable_english_per_1000": 5.8,
+  "top_terms": [
+   [
+    "body",
+    18
+   ],
+   [
+    "input",
+    6
+   ],
+   [
+    "request",
+    5
+   ],
+   [
+    "timestamp",
+    3
+   ],
+   [
+    "matching",
+    1
+   ],
+   [
+    "while",
+    1
+   ],
+   [
+    "requests",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S13": {
+  "section": "S13",
+  "prose_words": 6605,
+  "english_function_words": 5,
+  "ordinary_english_words": 21,
+  "kept_technical_terms": 131,
+  "avoidable_english_per_1000": 3.9,
+  "top_terms": [
+   [
+    "matching",
+    6
+   ],
+   [
+    "review",
+    5
+   ],
+   [
+    "inputs",
+    4
+   ],
+   [
+    "the",
+    4
+   ],
+   [
+    "input",
+    2
+   ],
+   [
+    "reviewer",
+    2
+   ],
+   [
+    "checks",
+    1
+   ],
+   [
+    "is",
+    1
+   ],
+   [
+    "split",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S14": {
+  "section": "S14",
+  "prose_words": 5869,
+  "english_function_words": 0,
+  "ordinary_english_words": 8,
+  "kept_technical_terms": 45,
+  "avoidable_english_per_1000": 1.4,
+  "top_terms": [
+   [
+    "input",
+    3
+   ],
+   [
+    "check",
+    3
+   ],
+   [
+    "ranking",
+    2
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S15": {
+  "section": "S15",
+  "prose_words": 6654,
+  "english_function_words": 0,
+  "ordinary_english_words": 2,
+  "kept_technical_terms": 108,
+  "avoidable_english_per_1000": 0.3,
+  "top_terms": [
+   [
+    "ticket",
+    1
+   ],
+   [
+    "review",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S16": {
+  "section": "S16",
+  "prose_words": 6182,
+  "english_function_words": 13,
+  "ordinary_english_words": 14,
+  "kept_technical_terms": 108,
+  "avoidable_english_per_1000": 4.4,
+  "top_terms": [
+   [
+    "only",
+    10
+   ],
+   [
+    "ticket",
+    8
+   ],
+   [
+    "not",
+    3
+   ],
+   [
+    "checks",
+    3
+   ],
+   [
+    "split",
+    2
+   ],
+   [
+    "input",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "wxpython-gui.youDo.objective[3]",
+    "avoidable_english": 2,
+    "words": 10,
+    "text": "Cuarentena y audit trail sintético append-only (ingest → checks → quarantine)"
+   }
+  ]
+ },
+ "S17": {
+  "section": "S17",
+  "prose_words": 6275,
+  "english_function_words": 15,
+  "ordinary_english_words": 2,
+  "kept_technical_terms": 119,
+  "avoidable_english_per_1000": 2.7,
+  "top_terms": [
+   [
+    "before",
+    4
+   ],
+   [
+    "after",
+    4
+   ],
+   [
+    "how",
+    4
+   ],
+   [
+    "ticket",
+    2
+   ],
+   [
+    "both",
+    2
+   ],
+   [
+    "only",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "packaging.selfCheck[4].explanation",
+    "avoidable_english": 2,
+    "words": 24,
+    "text": "Cualquier agregado o feature con fecha > cutoff contamina el análisis before/after; filtra as-of (`fecha <= cutoff`) y reporta el delta de leakage en el memo."
+   }
+  ]
+ },
+ "S18": {
+  "section": "S18",
+  "prose_words": 6950,
+  "english_function_words": 0,
+  "ordinary_english_words": 32,
+  "kept_technical_terms": 52,
+  "avoidable_english_per_1000": 4.6,
+  "top_terms": [
+   [
+    "tickets",
+    15
+   ],
+   [
+    "ticket",
+    15
+   ],
+   [
+    "outputs",
+    1
+   ],
+   [
+    "input",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S19": {
+  "section": "S19",
+  "prose_words": 6986,
+  "english_function_words": 2,
+  "ordinary_english_words": 16,
+  "kept_technical_terms": 44,
+  "avoidable_english_per_1000": 2.6,
+  "top_terms": [
+   [
+    "ticket",
+    6
+   ],
+   [
+    "check",
+    4
+   ],
+   [
+    "tickets",
+    3
+   ],
+   [
+    "ranking",
+    2
+   ],
+   [
+    "checks",
+    1
+   ],
+   [
+    "is",
+    1
+   ],
+   [
+    "not",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "databases-orm.S19-T4-B-E2.hint[1]",
+    "avoidable_english": 2,
+    "words": 13,
+    "text": "Luego define hatch='//' (u otro patrón Matplotlib) y verifica hatch is not None."
+   }
+  ]
+ },
+ "S20": {
+  "section": "S20",
+  "prose_words": 6517,
+  "english_function_words": 2,
+  "ordinary_english_words": 5,
+  "kept_technical_terms": 112,
+  "avoidable_english_per_1000": 1.1,
+  "top_terms": [
+   [
+    "output",
+    3
+   ],
+   [
+    "from",
+    2
+   ],
+   [
+    "input",
+    1
+   ],
+   [
+    "check",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S21": {
+  "section": "S21",
+  "prose_words": 6741,
+  "english_function_words": 10,
+  "ordinary_english_words": 12,
+  "kept_technical_terms": 70,
+  "avoidable_english_per_1000": 3.3,
+  "top_terms": [
+   [
+    "only",
+    7
+   ],
+   [
+    "input",
+    4
+   ],
+   [
+    "ticket",
+    4
+   ],
+   [
+    "is",
+    2
+   ],
+   [
+    "timestamp",
+    1
+   ],
+   [
+    "checks",
+    1
+   ],
+   [
+    "check",
+    1
+   ],
+   [
+    "and",
+    1
+   ],
+   [
+    "reviewer",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S22": {
+  "section": "S22",
+  "prose_words": 6226,
+  "english_function_words": 13,
+  "ordinary_english_words": 26,
+  "kept_technical_terms": 46,
+  "avoidable_english_per_1000": 6.3,
+  "top_terms": [
+   [
+    "matching",
+    7
+   ],
+   [
+    "workflow",
+    6
+   ],
+   [
+    "from",
+    6
+   ],
+   [
+    "tickets",
+    4
+   ],
+   [
+    "only",
+    4
+   ],
+   [
+    "scope",
+    4
+   ],
+   [
+    "the",
+    3
+   ],
+   [
+    "timestamp",
+    2
+   ],
+   [
+    "split",
+    2
+   ],
+   [
+    "check",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S23": {
+  "section": "S23",
+  "prose_words": 7249,
+  "english_function_words": 2,
+  "ordinary_english_words": 17,
+  "kept_technical_terms": 86,
+  "avoidable_english_per_1000": 2.6,
+  "top_terms": [
+   [
+    "ticket",
+    15
+   ],
+   [
+    "matching",
+    1
+   ],
+   [
+    "while",
+    1
+   ],
+   [
+    "output",
+    1
+   ],
+   [
+    "not",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S24": {
+  "section": "S24",
+  "prose_words": 6589,
+  "english_function_words": 3,
+  "ordinary_english_words": 33,
+  "kept_technical_terms": 100,
+  "avoidable_english_per_1000": 5.5,
+  "top_terms": [
+   [
+    "golden",
+    19
+   ],
+   [
+    "review",
+    9
+   ],
+   [
+    "split",
+    4
+   ],
+   [
+    "not",
+    2
+   ],
+   [
+    "output",
+    1
+   ],
+   [
+    "the",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S25": {
+  "section": "S25",
+  "prose_words": 6305,
+  "english_function_words": 8,
+  "ordinary_english_words": 48,
+  "kept_technical_terms": 174,
+  "avoidable_english_per_1000": 8.9,
+  "top_terms": [
+   [
+    "ticket",
+    15
+   ],
+   [
+    "golden",
+    13
+   ],
+   [
+    "request",
+    8
+   ],
+   [
+    "not",
+    6
+   ],
+   [
+    "tickets",
+    3
+   ],
+   [
+    "matching",
+    3
+   ],
+   [
+    "input",
+    2
+   ],
+   [
+    "requests",
+    1
+   ],
+   [
+    "the",
+    1
+   ],
+   [
+    "scoring",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S26": {
+  "section": "S26",
+  "prose_words": 6148,
+  "english_function_words": 13,
+  "ordinary_english_words": 25,
+  "kept_technical_terms": 100,
+  "avoidable_english_per_1000": 6.2,
+  "top_terms": [
+   [
+    "matching",
+    12
+   ],
+   [
+    "owner",
+    11
+   ],
+   [
+    "only",
+    7
+   ],
+   [
+    "not",
+    4
+   ],
+   [
+    "timestamp",
+    2
+   ],
+   [
+    "and",
+    1
+   ],
+   [
+    "from",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "integrator-phase1.S26-T3-B-E2.hint",
+    "avoidable_english": 2,
+    "words": 4,
+    "text": "reject and not reason"
+   }
+  ]
+ },
+ "S27": {
+  "section": "S27",
+  "prose_words": 5948,
+  "english_function_words": 2,
+  "ordinary_english_words": 75,
+  "kept_technical_terms": 74,
+  "avoidable_english_per_1000": 12.9,
+  "top_terms": [
+   [
+    "matching",
+    20
+   ],
+   [
+    "scope",
+    19
+   ],
+   [
+    "review",
+    12
+   ],
+   [
+    "input",
+    12
+   ],
+   [
+    "ranking",
+    5
+   ],
+   [
+    "ticket",
+    3
+   ],
+   [
+    "split",
+    2
+   ],
+   [
+    "not",
+    2
+   ],
+   [
+    "request",
+    1
+   ],
+   [
+    "inputs",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "async-concurrency.S27-T2-B.callout",
+    "avoidable_english": 2,
+    "words": 25,
+    "text": "Mutar fixture session. Si mutas un fixture session-scope, el siguiente test ve basura. Prefiere function + factory. En pytest: scope=\"function\" (default) o factory fixture."
+   },
+   {
+    "location": "async-concurrency.S27-T2-B-E2.instruction",
+    "avoidable_english": 2,
+    "words": 25,
+    "text": "1. El starter hardcodea `chosen = 'session'`.\n2. Busca el scope con valor True (p. ej. `next(... if ok)`).\n3. Imprime ese scope.\n4. No reescribas el dict de política a mano con todos True."
+   }
+  ]
+ },
+ "S28": {
+  "section": "S28",
+  "prose_words": 5596,
+  "english_function_words": 7,
+  "ordinary_english_words": 82,
+  "kept_technical_terms": 138,
+  "avoidable_english_per_1000": 15.9,
+  "top_terms": [
+   [
+    "golden",
+    36
+   ],
+   [
+    "matching",
+    21
+   ],
+   [
+    "input",
+    10
+   ],
+   [
+    "not",
+    5
+   ],
+   [
+    "ticket",
+    3
+   ],
+   [
+    "ranking",
+    3
+   ],
+   [
+    "inputs",
+    2
+   ],
+   [
+    "output",
+    2
+   ],
+   [
+    "timestamp",
+    2
+   ],
+   [
+    "and",
+    2
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "llm-agents.S28-T2-B-E2.hint",
+    "avoidable_english": 2,
+    "words": 6,
+    "text": "blocked si diff and not approved"
+   },
+   {
+    "location": "llm-agents.S28-T2-B-E2.hint[0]",
+    "avoidable_english": 2,
+    "words": 6,
+    "text": "blocked si diff and not approved"
+   },
+   {
+    "location": "llm-agents.S28-T2-B-E2.hint[1]",
+    "avoidable_english": 2,
+    "words": 10,
+    "text": "Review humana antes de actualizar el golden en el repo"
+   },
+   {
+    "location": "llm-agents.S28-T2-B.callout",
+    "avoidable_english": 3,
+    "words": 27,
+    "text": "No aceptar drift automáticamente. Actualizar el golden sin revisión esconde regresiones de matching. En desk PE: el PR que toca un golden debe explicar *por qué* cambió el contrato."
+   },
+   {
+    "location": "llm-agents.S28-T2-B.p2",
+    "avoidable_english": 3,
+    "words": 32,
+    "text": "**Reconciliación**: actualizar el golden solo con **revisión humana y nota de cambio** (`approved=True` + mensaje). Actualizar el golden sin aprobación en CI esconde regresiones de matching. Política:"
+   },
+   {
+    "location": "llm-agents.S28-T2-B-DEMO.preamble",
+    "avoidable_english": 4,
+    "words": 44,
+    "text": "Un golden es el snapshot versionado de salida esperada del pipeline de pares. Si actualizas el golden sin mirar el diff, escondes regresiones de matching. Esta demo compara golden vs. current y devuel"
+   },
+   {
+    "location": "llm-agents.S28-T3-B.p1",
+    "avoidable_english": 3,
+    "words": 36,
+    "text": "Prefiere **contratos de borde**: dado input, observa output y efectos visibles (filas escritas, status HTTP, schema del payload). Mockea solo I/O externo; deja la lógica de normalización/matching real"
+   }
+  ]
+ },
+ "S29": {
+  "section": "S29",
+  "prose_words": 5833,
+  "english_function_words": 24,
+  "ordinary_english_words": 19,
+  "kept_technical_terms": 61,
+  "avoidable_english_per_1000": 7.4,
+  "top_terms": [
+   [
+    "only",
+    13
+   ],
+   [
+    "review",
+    13
+   ],
+   [
+    "where",
+    7
+   ],
+   [
+    "ranking",
+    4
+   ],
+   [
+    "is",
+    2
+   ],
+   [
+    "from",
+    2
+   ],
+   [
+    "request",
+    1
+   ],
+   [
+    "timestamp",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "mlops.S29-T1-B-E3.hint[1]",
+    "avoidable_english": 2,
+    "words": 5,
+    "text": "select count(*) where valid_to is null"
+   },
+   {
+    "location": "mlops.S29-T2-B-E2.hint[1]",
+    "avoidable_english": 2,
+    "words": 5,
+    "text": "isn = ... where x is null → 1"
+   },
+   {
+    "location": "mlops.S29-T4-A-E2.hint[1]",
+    "avoidable_english": 2,
+    "words": 6,
+    "text": "select name from sqlite_master where type='index'"
+   }
+  ]
+ },
+ "S30": {
+  "section": "S30",
+  "prose_words": 6646,
+  "english_function_words": 4,
+  "ordinary_english_words": 29,
+  "kept_technical_terms": 121,
+  "avoidable_english_per_1000": 5.0,
+  "top_terms": [
+   [
+    "review",
+    13
+   ],
+   [
+    "split",
+    10
+   ],
+   [
+    "matching",
+    4
+   ],
+   [
+    "not",
+    4
+   ],
+   [
+    "timestamp",
+    1
+   ],
+   [
+    "backlog",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "security-infra.S30-T1-B-E1.hint[0]",
+    "avoidable_english": 2,
+    "words": 8,
+    "text": "Vacío se detecta con not a / not b"
+   },
+   {
+    "location": "security-infra.S30-T1-B-E1.hint",
+    "avoidable_english": 2,
+    "words": 10,
+    "text": "not a or not b → missing; si no, agree/disagree"
+   }
+  ]
+ },
+ "S31": {
+  "section": "S31",
+  "prose_words": 6611,
+  "english_function_words": 2,
+  "ordinary_english_words": 8,
+  "kept_technical_terms": 64,
+  "avoidable_english_per_1000": 1.5,
+  "top_terms": [
+   [
+    "owner",
+    3
+   ],
+   [
+    "matching",
+    2
+   ],
+   [
+    "ranking",
+    2
+   ],
+   [
+    "and",
+    1
+   ],
+   [
+    "not",
+    1
+   ],
+   [
+    "owners",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S32": {
+  "section": "S32",
+  "prose_words": 7030,
+  "english_function_words": 22,
+  "ordinary_english_words": 37,
+  "kept_technical_terms": 218,
+  "avoidable_english_per_1000": 8.4,
+  "top_terms": [
+   [
+    "split",
+    19
+   ],
+   [
+    "not",
+    10
+   ],
+   [
+    "request",
+    8
+   ],
+   [
+    "and",
+    6
+   ],
+   [
+    "is",
+    5
+   ],
+   [
+    "input",
+    4
+   ],
+   [
+    "matching",
+    2
+   ],
+   [
+    "timestamp",
+    1
+   ],
+   [
+    "inputs",
+    1
+   ],
+   [
+    "before",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "microservices.S32-T4-B-E1.hint[1]",
+    "avoidable_english": 4,
+    "words": 10,
+    "text": "meets = not leaky and not skew and feature_set.startswith('fs-v')."
+   },
+   {
+    "location": "microservices.S32-T4-B-E2.hint[1]",
+    "avoidable_english": 4,
+    "words": 10,
+    "text": "PASS si not leaky and not skew and feature_set.startswith('fs-v')."
+   },
+   {
+    "location": "microservices.S32-T4-B-E1.instruction",
+    "avoidable_english": 4,
+    "words": 16,
+    "text": "1. DEFECT: `meets = bool(leaky) or skew`.\n2. Cambia a not leaky and not skew and startswith('fs-v').\n3. Status PASS/REJECT_LEAKAGE.\n4. Imprime `S32-T4-B` y el status."
+   },
+   {
+    "location": "microservices.S32-T3-A-E1.hint",
+    "avoidable_english": 2,
+    "words": 9,
+    "text": "En transform, si self.mode is None: raise RuntimeError('not fitted')."
+   },
+   {
+    "location": "microservices.S32-T3-A-E1.hint[0]",
+    "avoidable_english": 2,
+    "words": 9,
+    "text": "En transform, si self.mode is None: raise RuntimeError('not fitted')."
+   },
+   {
+    "location": "microservices.youDo.objective[3]",
+    "avoidable_english": 2,
+    "words": 14,
+    "text": "fs-vN versionado, leakage scan, skew check y split con overlap 0 + informe n_train/n_test/overlap para S33."
+   },
+   {
+    "location": "microservices.S32-T4-B-E2.instruction",
+    "avoidable_english": 2,
+    "words": 19,
+    "text": "1. DEFECT: PASS si leaky o skew.\n2. Missing feature_set → MISSING:feature_set.\n3. PASS solo si not leaky, not skew y fs-v*.\n4. Imprime las tres rutas."
+   },
+   {
+    "location": "microservices.S32-T4-A.callout",
+    "avoidable_english": 2,
+    "words": 21,
+    "text": "Contrato local. Contrato local — split temporal o por grupo. Si hay overlap de entidades: `REJECT_ENTITY_OVERLAP`. Si faltan filas o keys de split: `REQUEST_SPLIT_KEYS`."
+   }
+  ]
+ },
+ "S33": {
+  "section": "S33",
+  "prose_words": 7877,
+  "english_function_words": 24,
+  "ordinary_english_words": 37,
+  "kept_technical_terms": 186,
+  "avoidable_english_per_1000": 7.7,
+  "top_terms": [
+   [
+    "split",
+    14
+   ],
+   [
+    "is",
+    11
+   ],
+   [
+    "not",
+    10
+   ],
+   [
+    "ranking",
+    7
+   ],
+   [
+    "framing",
+    5
+   ],
+   [
+    "tracking",
+    4
+   ],
+   [
+    "scoring",
+    3
+   ],
+   [
+    "and",
+    3
+   ],
+   [
+    "check",
+    2
+   ],
+   [
+    "request",
+    2
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "advanced-models.S33-T3-B-E1.instruction",
+    "avoidable_english": 4,
+    "words": 13,
+    "text": "1. Abre el starter: thr=0.15 y meets_contract = is_overfit (DEFECT).\n2. Fija gap_thr=0.2.\n3. meets_contract = (not is_overfit) and seed is not None.\n4. Imprime `S33-T3-B PASS`."
+   },
+   {
+    "location": "advanced-models.S33-T4-A-E1.hint",
+    "avoidable_english": 4,
+    "words": 15,
+    "text": "beats = acc > dummy_acc; meets_contract = bool(metrics) and beats is not None and bool(run_id) — no exijas beats True."
+   },
+   {
+    "location": "advanced-models.S33-T3-B-E1.hint",
+    "avoidable_english": 3,
+    "words": 12,
+    "text": "gap = train_acc - valid_acc; overfit si gap > 0.2; PASS si not overfit y seed is not None."
+   },
+   {
+    "location": "advanced-models.S33-T3-B-E1.hint[0]",
+    "avoidable_english": 3,
+    "words": 12,
+    "text": "gap = train_acc - valid_acc; overfit si gap > 0.2; PASS si not overfit y seed is not None."
+   },
+   {
+    "location": "advanced-models.S33-T1-B-E2.hint",
+    "avoidable_english": 2,
+    "words": 14,
+    "text": "Primero missing; luego has_baseline True, cost is not None y dummy_acc >= 0. Deriva dummy_acc/cost como en E1."
+   },
+   {
+    "location": "advanced-models.S33-T2-B-E1.instruction",
+    "avoidable_english": 2,
+    "words": 25,
+    "text": "1. Abre el starter: sorted sin reverse y causal is True en el contrato (DEFECT).\n2. Añade reverse=True.\n3. Exige causal is False (y scaled True, top shared_phone).\n4. Imprime `S33-T2-B PASS`."
+   }
+  ]
+ },
+ "S34": {
+  "section": "S34",
+  "prose_words": 6552,
+  "english_function_words": 14,
+  "ordinary_english_words": 31,
+  "kept_technical_terms": 173,
+  "avoidable_english_per_1000": 6.9,
+  "top_terms": [
+   [
+    "ranking",
+    14
+   ],
+   [
+    "review",
+    8
+   ],
+   [
+    "is",
+    7
+   ],
+   [
+    "not",
+    6
+   ],
+   [
+    "matching",
+    4
+   ],
+   [
+    "split",
+    4
+   ],
+   [
+    "request",
+    1
+   ],
+   [
+    "only",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "cv-ai-integration.S34-T4-A-E2.hint",
+    "avoidable_english": 2,
+    "words": 10,
+    "text": "Missing primero; startswith('thr-v') y cost is not None."
+   },
+   {
+    "location": "cv-ai-integration.S34-T4-A-E2.hint[0]",
+    "avoidable_english": 2,
+    "words": 10,
+    "text": "Missing primero; startswith('thr-v') y cost is not None."
+   },
+   {
+    "location": "cv-ai-integration.S34-T4-A-E2.instruction",
+    "avoidable_english": 2,
+    "words": 16,
+    "text": "1. Revisa el starter: PASS si thr_id == default (DEFECT).\n2. Exige startswith('thr-v'), cost is not None y n_review ≥ 1.\n3. Mantén MISSING:cost.\n4. Imprime las tres rutas."
+   }
+  ]
+ },
+ "S35": {
+  "section": "S35",
+  "prose_words": 6431,
+  "english_function_words": 5,
+  "ordinary_english_words": 52,
+  "kept_technical_terms": 105,
+  "avoidable_english_per_1000": 8.9,
+  "top_terms": [
+   [
+    "ranking",
+    15
+   ],
+   [
+    "review",
+    11
+   ],
+   [
+    "scope",
+    10
+   ],
+   [
+    "request",
+    8
+   ],
+   [
+    "owner",
+    5
+   ],
+   [
+    "is",
+    2
+   ],
+   [
+    "threshold",
+    2
+   ],
+   [
+    "and",
+    2
+   ],
+   [
+    "ticket",
+    1
+   ],
+   [
+    "not",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "system-design.S35-T4-A-E3.instruction",
+    "avoidable_english": 2,
+    "words": 16,
+    "text": "1. Sin prohibited → REQUEST_CARD_KEYS.\n2. out_of_scope = list(prohibited); copia use/owner/contestability.\n3. Gate: queue_rank + fraud_label en scope + contestability.\n4. Imprime las tres decisiones."
+   }
+  ]
+ },
+ "S36": {
+  "section": "S36",
+  "prose_words": 6790,
+  "english_function_words": 6,
+  "ordinary_english_words": 16,
+  "kept_technical_terms": 114,
+  "avoidable_english_per_1000": 3.2,
+  "top_terms": [
+   [
+    "ranking",
+    8
+   ],
+   [
+    "split",
+    6
+   ],
+   [
+    "not",
+    3
+   ],
+   [
+    "review",
+    2
+   ],
+   [
+    "from",
+    1
+   ],
+   [
+    "is",
+    1
+   ],
+   [
+    "and",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "ai-apis-advanced.S36-T2-B-E2.hint[0]",
+    "avoidable_english": 2,
+    "words": 10,
+    "text": "missing_ok = all(x is not None for x in features); scale_ok = statistics.pstdev(features) > 0."
+   }
+  ]
+ },
+ "S37": {
+  "section": "S37",
+  "prose_words": 6313,
+  "english_function_words": 32,
+  "ordinary_english_words": 20,
+  "kept_technical_terms": 160,
+  "avoidable_english_per_1000": 8.2,
+  "top_terms": [
+   [
+    "before",
+    16
+   ],
+   [
+    "after",
+    16
+   ],
+   [
+    "matching",
+    15
+   ],
+   [
+    "review",
+    3
+   ],
+   [
+    "input",
+    2
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "dbt-bigquery.youDo.objective[1]",
+    "avoidable_english": 3,
+    "words": 14,
+    "text": "Medir blocking reduction (pares before/after) sin abandonar el recall como gate de matching."
+   },
+   {
+    "location": "dbt-bigquery.youDo.objective[3]",
+    "avoidable_english": 2,
+    "words": 12,
+    "text": "Publicar budget que puede fallar + reporte before/after con dataset y hardware."
+   },
+   {
+    "location": "dbt-bigquery.youDo.requirement[0]",
+    "avoidable_english": 2,
+    "words": 12,
+    "text": "El mismo resultado funcional (salidas de before/after, no un campo inventado)"
+   },
+   {
+    "location": "dbt-bigquery.S37-T4-B.callout",
+    "avoidable_english": 2,
+    "words": 16,
+    "text": "Entregable. El mismo resultado, dataset, hardware y límites. Before/after legible para el revisor humano del PR."
+   },
+   {
+    "location": "dbt-bigquery.S37-T4-B-DEMO.retrospective",
+    "avoidable_english": 4,
+    "words": 41,
+    "text": "Before/after con ratio, pares y `same_result` es el lenguaje del PR de escala. El error clásico es publicar after/before o un 2 % opaco sin dataset. Pregunta: ¿por qué `pair_factor` no es lo mismo que"
+   },
+   {
+    "location": "dbt-bigquery.S37-T4-B-E1.retrospective",
+    "avoidable_english": 4,
+    "words": 41,
+    "text": "after/before (0.25) confunde al revisor: no es «cuántas veces más rápido». El error clásico es marcar `micro_only True` cuando ganó blocking/algoritmo. Pregunta: con before 80 y after 20, ¿qué ratio d"
+   },
+   {
+    "location": "dbt-bigquery.S37-T4-B-E1.preamble",
+    "avoidable_english": 4,
+    "words": 43,
+    "text": "- **Contexto:** el revisor del PR de escala lee un ratio «cuántas veces más rápido», no el inverso ni una resta de ms.\n- **Meta:** con before 80 y after 20, calcular speedup 4.0 y marcar `micro_only F"
+   }
+  ]
+ },
+ "S38": {
+  "section": "S38",
+  "prose_words": 6456,
+  "english_function_words": 1,
+  "ordinary_english_words": 28,
+  "kept_technical_terms": 215,
+  "avoidable_english_per_1000": 4.5,
+  "top_terms": [
+   [
+    "scoring",
+    8
+   ],
+   [
+    "workflow",
+    7
+   ],
+   [
+    "checks",
+    4
+   ],
+   [
+    "tickets",
+    3
+   ],
+   [
+    "review",
+    3
+   ],
+   [
+    "requests",
+    2
+   ],
+   [
+    "workflows",
+    1
+   ],
+   [
+    "with",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S39": {
+  "section": "S39",
+  "prose_words": 6669,
+  "english_function_words": 7,
+  "ordinary_english_words": 80,
+  "kept_technical_terms": 139,
+  "avoidable_english_per_1000": 13.0,
+  "top_terms": [
+   [
+    "owner",
+    36
+   ],
+   [
+    "release",
+    11
+   ],
+   [
+    "owners",
+    8
+   ],
+   [
+    "only",
+    5
+   ],
+   [
+    "review",
+    5
+   ],
+   [
+    "ranking",
+    4
+   ],
+   [
+    "reviewer",
+    3
+   ],
+   [
+    "scope",
+    3
+   ],
+   [
+    "ticket",
+    3
+   ],
+   [
+    "timestamp",
+    2
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "integrator-phase2.S39-T1-B-E2.hint",
+    "avoidable_english": 2,
+    "words": 9,
+    "text": "Si falta owner, devuelve MISSING:owner sin mirar bump."
+   },
+   {
+    "location": "integrator-phase2.S39-T1-B-E2.hint[0]",
+    "avoidable_english": 2,
+    "words": 9,
+    "text": "Si falta owner, devuelve MISSING:owner sin mirar bump."
+   },
+   {
+    "location": "integrator-phase2.S39-T1-B.callout",
+    "avoidable_english": 3,
+    "words": 20,
+    "text": "Sin owner. Artefacto sin owner bloquea release del triage: no hay escalamiento de incidentes ni firmante del checklist de riesgo."
+   },
+   {
+    "location": "integrator-phase2.S39-T1-B-E2.retrospective",
+    "avoidable_english": 6,
+    "words": 53,
+    "text": "Gente (owner) y contrato (bump) se fallan por caminos distintos: un ticket de staffing no es un ticket de semver. El error clásico es inventar owner por defecto para «pasar» el release. Pregunta: si e"
+   },
+   {
+    "location": "integrator-phase2.S39-T3-A.callout",
+    "avoidable_english": 2,
+    "words": 21,
+    "text": "Release gate. El checklist queda firmado por el owner: secrets_in_repo o falta de RBAC son blockers duros; no se «compensa» con un AUC alto."
+   }
+  ]
+ },
+ "S40": {
+  "section": "S40",
+  "prose_words": 6920,
+  "english_function_words": 16,
+  "ordinary_english_words": 30,
+  "kept_technical_terms": 83,
+  "avoidable_english_per_1000": 6.6,
+  "top_terms": [
+   [
+    "owner",
+    18
+   ],
+   [
+    "and",
+    8
+   ],
+   [
+    "release",
+    4
+   ],
+   [
+    "is",
+    4
+   ],
+   [
+    "not",
+    4
+   ],
+   [
+    "ticket",
+    3
+   ],
+   [
+    "request",
+    2
+   ],
+   [
+    "scoring",
+    1
+   ],
+   [
+    "ranking",
+    1
+   ],
+   [
+    "tickets",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "architecture-ddd-decisions.S40-T2-B-E1.hint[0]",
+    "avoidable_english": 4,
+    "words": 6,
+    "text": "Predicado: implements_port is True and not domain_imports and contract_tests >= 3."
+   },
+   {
+    "location": "architecture-ddd-decisions.S40-T2-B-E3.hint[1]",
+    "avoidable_english": 4,
+    "words": 9,
+    "text": "Para datos completos: implements_port is True and not domain_imports and contract_tests >= 3 → CONTINUE."
+   },
+   {
+    "location": "architecture-ddd-decisions.S40-T2-B-E1.instruction",
+    "avoidable_english": 4,
+    "words": 12,
+    "text": "S40-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT: adapter==port y bool(domain_imports).\n2. Predicado: implements_port is True and not domain_imports and contract_tests >= 3.\n3. Impr"
+   },
+   {
+    "location": "architecture-ddd-decisions.S40-T2-B-E2.hint[1]",
+    "avoidable_english": 4,
+    "words": 13,
+    "text": "Después: implements_port is True and not domain_imports and contract_tests >= 3. El adverso falla por contenido (sqlalchemy / implements_port False)."
+   }
+  ]
+ },
+ "S41": {
+  "section": "S41",
+  "prose_words": 6680,
+  "english_function_words": 0,
+  "ordinary_english_words": 73,
+  "kept_technical_terms": 99,
+  "avoidable_english_per_1000": 10.9,
+  "top_terms": [
+   [
+    "body",
+    46
+   ],
+   [
+    "request",
+    18
+   ],
+   [
+    "review",
+    5
+   ],
+   [
+    "response",
+    3
+   ],
+   [
+    "input",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "llm-finetuning.selfCheck[2].opt[1]",
+    "avoidable_english": 2,
+    "words": 9,
+    "text": "devolver el body crudo del request para maximizar fidelidad"
+   },
+   {
+    "location": "llm-finetuning.S41-T2-B-E3.hint",
+    "avoidable_english": 3,
+    "words": 16,
+    "text": "Si falta openapi_matches, no evalúes el body: REGENERATE_OPENAPI. Si hay secret en response o status 200 con body inválido: REJECT_AND_REDACT."
+   },
+   {
+    "location": "llm-finetuning.S41-T2-B-E3.hint[0]",
+    "avoidable_english": 3,
+    "words": 16,
+    "text": "Si falta openapi_matches, no evalúes el body: REGENERATE_OPENAPI. Si hay secret en response o status 200 con body inválido: REJECT_AND_REDACT."
+   },
+   {
+    "location": "llm-finetuning.selfCheck[1].explanation",
+    "avoidable_english": 2,
+    "words": 17,
+    "text": "La clave liga un hash canónico del request; body distinto es conflicto, no replay ni segundo create."
+   },
+   {
+    "location": "llm-finetuning.S41-T2-B.callout",
+    "avoidable_english": 2,
+    "words": 20,
+    "text": "Contrato local. Contrato S41-T2-B: body incompleto ⇒ 422 tipado; body válido ⇒ vista allow-list sin `internal_key`. OpenAPI debe coincidir con status y shape reales."
+   }
+  ]
+ },
+ "S42": {
+  "section": "S42",
+  "prose_words": 6024,
+  "english_function_words": 1,
+  "ordinary_english_words": 44,
+  "kept_technical_terms": 81,
+  "avoidable_english_per_1000": 7.5,
+  "top_terms": [
+   [
+    "scope",
+    17
+   ],
+   [
+    "ticket",
+    16
+   ],
+   [
+    "owner",
+    4
+   ],
+   [
+    "body",
+    3
+   ],
+   [
+    "request",
+    2
+   ],
+   [
+    "input",
+    1
+   ],
+   [
+    "not",
+    1
+   ],
+   [
+    "release",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "graph-rag.S42-T2-A-E1.instruction",
+    "avoidable_english": 2,
+    "words": 21,
+    "text": "S42-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. El starter permite actor ≠ owner (bug).\n2. Devuelve True solo con binding y scope.\n3. Conserva print PASS/DENY_CROSS_TENANT."
+   },
+   {
+    "location": "graph-rag.S42-T2-B-E3.retrospective",
+    "avoidable_english": 2,
+    "words": 24,
+    "text": "REQUEST es la rama humana de grant estrecho pendiente. El error clásico es «falta la ruta, igual desplegamos». Pregunta: ¿por qué REQUEST no es DENY?"
+   }
+  ]
+ },
+ "S43": {
+  "section": "S43",
+  "prose_words": 6614,
+  "english_function_words": 6,
+  "ordinary_english_words": 16,
+  "kept_technical_terms": 83,
+  "avoidable_english_per_1000": 3.3,
+  "top_terms": [
+   [
+    "checks",
+    5
+   ],
+   [
+    "release",
+    5
+   ],
+   [
+    "from",
+    4
+   ],
+   [
+    "check",
+    4
+   ],
+   [
+    "requests",
+    2
+   ],
+   [
+    "and",
+    1
+   ],
+   [
+    "not",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S44": {
+  "section": "S44",
+  "prose_words": 6689,
+  "english_function_words": 2,
+  "ordinary_english_words": 113,
+  "kept_technical_terms": 228,
+  "avoidable_english_per_1000": 17.2,
+  "top_terms": [
+   [
+    "release",
+    36
+   ],
+   [
+    "workflow",
+    17
+   ],
+   [
+    "checks",
+    16
+   ],
+   [
+    "owner",
+    14
+   ],
+   [
+    "reviews",
+    11
+   ],
+   [
+    "check",
+    8
+   ],
+   [
+    "review",
+    8
+   ],
+   [
+    "ticket",
+    2
+   ],
+   [
+    "not",
+    2
+   ],
+   [
+    "inputs",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "multimodal.S44-T4-A-DEMO.description",
+    "avoidable_english": 2,
+    "words": 7,
+    "text": "Demo: branch/review policy y release notes."
+   },
+   {
+    "location": "multimodal.outcome[6]",
+    "avoidable_english": 3,
+    "words": 13,
+    "text": "Exigir branch protection, reviews/checks y release notes operables (cambio, riesgo, migración, rollback)."
+   },
+   {
+    "location": "multimodal.S44-T4-A-E1.hint",
+    "avoidable_english": 2,
+    "words": 12,
+    "text": "Branch protegida, ≥1 review, checks activos y notes con change/risk/migration/rollback."
+   },
+   {
+    "location": "multimodal.S44-T4-A-E1.instruction",
+    "avoidable_english": 2,
+    "words": 13,
+    "text": "S44-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS sin protección o reviews==0 (DEFECT).\n2. Exige protected True, reviews ≥1, checks True, notes ⊇ {change, risk, migration, rol"
+   },
+   {
+    "location": "multimodal.S44-T4-A.p1",
+    "avoidable_english": 5,
+    "words": 40,
+    "text": "Contrato de release trazable. Entrada: branch protegida, número de reviews requeridas, checks obligatorios y conjunto de campos en release notes. Salida: `protected_branch`, `required_reviews ≥ 1`, ch"
+   },
+   {
+    "location": "multimodal.S44-T4-A-E3.hint[1]",
+    "avoidable_english": 2,
+    "words": 19,
+    "text": "Para datos completos reutiliza la regla que demostró branch protegida, review/checks y notas operables; solo ese caso devuelve `CONTINUE`."
+   },
+   {
+    "location": "multimodal.S44-T4-B-E1.instruction",
+    "avoidable_english": 2,
+    "words": 19,
+    "text": "S44-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si critical y not pipeline_blocked (DEFECT).\n2. Exige AND de blocked, redacted, owner, evidence.\n3. Conserva print.\n4. `S44-T"
+   },
+   {
+    "location": "multimodal.S44-T4-A-E2.hint[1]",
+    "avoidable_english": 2,
+    "words": 22,
+    "text": "Después aplica la regla de S44-T4-A: branch protegida, review/checks y notas operables. El fixture adverso debe fallar por contenido, no por schema."
+   }
+  ]
+ },
+ "S45": {
+  "section": "S45",
+  "prose_words": 6809,
+  "english_function_words": 7,
+  "ordinary_english_words": 14,
+  "kept_technical_terms": 110,
+  "avoidable_english_per_1000": 3.1,
+  "top_terms": [
+   [
+    "backlog",
+    14
+   ],
+   [
+    "after",
+    7
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S46": {
+  "section": "S46",
+  "prose_words": 6316,
+  "english_function_words": 2,
+  "ordinary_english_words": 116,
+  "kept_technical_terms": 232,
+  "avoidable_english_per_1000": 18.7,
+  "top_terms": [
+   [
+    "owner",
+    77
+   ],
+   [
+    "inputs",
+    14
+   ],
+   [
+    "outputs",
+    8
+   ],
+   [
+    "output",
+    6
+   ],
+   [
+    "ticket",
+    6
+   ],
+   [
+    "timestamp",
+    3
+   ],
+   [
+    "check",
+    1
+   ],
+   [
+    "and",
+    1
+   ],
+   [
+    "tickets",
+    1
+   ],
+   [
+    "only",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "gpu-computing.S46-T3-B-E1.hint",
+    "avoidable_english": 3,
+    "words": 9,
+    "text": "startswith(\"run-\") + bool(inputs) + bool(outputs) + umbral de null_rate + owner."
+   },
+   {
+    "location": "gpu-computing.S46-T3-B-E1.hint[0]",
+    "avoidable_english": 2,
+    "words": 9,
+    "text": "null_rate ≤ 0.02 no basta sin inputs, outputs y run_id trazable (prefijo run-)."
+   },
+   {
+    "location": "gpu-computing.outcome[5]",
+    "avoidable_english": 3,
+    "words": 14,
+    "text": "Registrar lineage run→inputs→outputs con owner y métricas de calidad para reconstruir incidentes"
+   },
+   {
+    "location": "gpu-computing.youDo.objective[4]",
+    "avoidable_english": 2,
+    "words": 12,
+    "text": "Registrar lineage run→inputs→outputs y un runbook de recovery con RTO medido."
+   },
+   {
+    "location": "gpu-computing.S46-T3-A-E2.hint",
+    "avoidable_english": 2,
+    "words": 14,
+    "text": "Missing de owner antes de leer schema; no uses PAGE_DATA_OWNER aquí (E2 usa MISSING:owner)."
+   },
+   {
+    "location": "gpu-computing.S46-T3-B-E1.instruction",
+    "avoidable_english": 3,
+    "words": 24,
+    "text": "S46-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: predicado invertido.\n2. startswith(\"run-\") y bool(inputs) y bool(outputs).\n3. null_rate ≤ 0.02 y bool(owner).\n4. PASS o OP"
+   },
+   {
+    "location": "gpu-computing.S46-T3-B.p1",
+    "avoidable_english": 5,
+    "words": 43,
+    "text": "Contrato operativo de trazabilidad. Entrada: run_id, sets de inputs/outputs, métricas (rows, null_rate) y owner. Salida: registro reconstruible run→datasets; incidente solo si calidad/owner fallan. Er"
+   },
+   {
+    "location": "gpu-computing.S46-T4-B-E1.preamble",
+    "avoidable_english": 3,
+    "words": 31,
+    "text": "- **Contexto:** en `CASO-HYO-046-4B`, el simulacro de ops de atenciones solo pasa si frescura, RTO, acciones y owner cierran.\n- **Meta:** sli ≥ slo ∧ rto ≤ target ∧ actions ≥ 1 ∧ owner.\n- **Éxito:** `"
+   }
+  ]
+ },
+ "S47": {
+  "section": "S47",
+  "prose_words": 6910,
+  "english_function_words": 3,
+  "ordinary_english_words": 19,
+  "kept_technical_terms": 317,
+  "avoidable_english_per_1000": 3.2,
+  "top_terms": [
+   [
+    "split",
+    11
+   ],
+   [
+    "tracking",
+    5
+   ],
+   [
+    "not",
+    3
+   ],
+   [
+    "request",
+    2
+   ],
+   [
+    "ticket",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "opensource.S47-T4-B-E1.instruction",
+    "avoidable_english": 2,
+    "words": 20,
+    "text": "S47-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si not compatible o not tested (bug).\n2. Exige current ≠ last_good.\n3. Añade compatible, rollback_tested, `\"1.0.0\" in retired"
+   }
+  ]
+ },
+ "S48": {
+  "section": "S48",
+  "prose_words": 5854,
+  "english_function_words": 14,
+  "ordinary_english_words": 25,
+  "kept_technical_terms": 196,
+  "avoidable_english_per_1000": 6.7,
+  "top_terms": [
+   [
+    "ranking",
+    21
+   ],
+   [
+    "and",
+    9
+   ],
+   [
+    "not",
+    4
+   ],
+   [
+    "request",
+    3
+   ],
+   [
+    "output",
+    1
+   ],
+   [
+    "is",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "ai-governance.S48-T2-B-E1.hint[0]",
+    "avoidable_english": 3,
+    "words": 6,
+    "text": "bool(user_acl & chunk_acl) and not deleted and provenance.startswith(\"doc-\")."
+   },
+   {
+    "location": "ai-governance.S48-T3-B-E2.hint[0]",
+    "avoidable_english": 2,
+    "words": 5,
+    "text": "claims <= cited_claims and citation_acl and tokens <= max."
+   },
+   {
+    "location": "ai-governance.S48-T4-B-E1.hint[1]",
+    "avoidable_english": 2,
+    "words": 7,
+    "text": "cost_pen <= cost_cap_pen and support is True (si no → abstención)."
+   }
+  ]
+ },
+ "S49": {
+  "section": "S49",
+  "prose_words": 6263,
+  "english_function_words": 2,
+  "ordinary_english_words": 34,
+  "kept_technical_terms": 165,
+  "avoidable_english_per_1000": 5.7,
+  "top_terms": [
+   [
+    "workflow",
+    15
+   ],
+   [
+    "scope",
+    12
+   ],
+   [
+    "outputs",
+    5
+   ],
+   [
+    "while",
+    2
+   ],
+   [
+    "split",
+    1
+   ],
+   [
+    "review",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S50": {
+  "section": "S50",
+  "prose_words": 6870,
+  "english_function_words": 10,
+  "ordinary_english_words": 8,
+  "kept_technical_terms": 273,
+  "avoidable_english_per_1000": 2.6,
+  "top_terms": [
+   [
+    "not",
+    5
+   ],
+   [
+    "only",
+    4
+   ],
+   [
+    "issues",
+    4
+   ],
+   [
+    "scope",
+    2
+   ],
+   [
+    "and",
+    1
+   ],
+   [
+    "response",
+    1
+   ],
+   [
+    "release",
+    1
+   ]
+  ],
+  "worst_passages": []
+ },
+ "S51": {
+  "section": "S51",
+  "prose_words": 6789,
+  "english_function_words": 22,
+  "ordinary_english_words": 99,
+  "kept_technical_terms": 175,
+  "avoidable_english_per_1000": 17.8,
+  "top_terms": [
+   [
+    "owner",
+    35
+   ],
+   [
+    "release",
+    27
+   ],
+   [
+    "only",
+    16
+   ],
+   [
+    "scope",
+    14
+   ],
+   [
+    "owners",
+    12
+   ],
+   [
+    "ticket",
+    9
+   ],
+   [
+    "not",
+    5
+   ],
+   [
+    "releases",
+    2
+   ],
+   [
+    "is",
+    1
+   ]
+  ],
+  "worst_passages": [
+   {
+    "location": "integrator-final.S51-T2-B-E1.hint",
+    "avoidable_english": 2,
+    "words": 8,
+    "text": "author ≠ approver, scope `*-read`, retención ≤ 30 y audit append-only."
+   },
+   {
+    "location": "integrator-final.S51-T2-B-DEMO.description",
+    "avoidable_english": 2,
+    "words": 9,
+    "text": "Demo: dual-control, scope read y audit append-only"
+   },
+   {
+    "location": "integrator-final.S51-T2-B-E3.hint[1]",
+    "avoidable_english": 2,
+    "words": 10,
+    "text": "sod_ok separa funciones; access_policy_ok une scope least-privilege, TTL y audit append-only."
+   },
+   {
+    "location": "integrator-final.outcome[3]",
+    "avoidable_english": 2,
+    "words": 12,
+    "text": "Aplicar dual-control, scope least-privilege, retención acotada y audit append-only"
+   },
+   {
+    "location": "integrator-final.S51-T3-A-E3.hint",
+    "avoidable_english": 2,
+    "words": 14,
+    "text": "Missing de owner → TRIAGE_DRIFT_SLICE; owner vacío o SLI roto → OPEN_COPILOT_INCIDENT. Burn = errors/allowed con allowed=(1-slo)*window."
+   },
+   {
+    "location": "integrator-final.S51-T2-B-DEMO.retrospective",
+    "avoidable_english": 4,
+    "words": 40,
+    "text": "Dual-control = dos personas + scope `-read` + retención acotada + audit append-only. El error clásico es autoaprobar «porque el owner está de vacaciones». Pregunta: ¿un wiki editable de aprobaciones e"
+   },
+   {
+    "location": "integrator-final.S51-T4-A-E3.instruction",
+    "avoidable_english": 2,
+    "words": 22,
+    "text": "S51-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. `evidence_visible`: incertidumbre + citas + effect_summary.\n2. `effect_confirmed`: not required or confirmed is True.\n3. Missing → ASK_USER"
+   },
+   {
+    "location": "integrator-final.S51-T4-B-E1.instruction",
+    "avoidable_english": 2,
+    "words": 22,
+    "text": "S51-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si not keyboard o contraste < min o not appeal (bug).\n2. Exige keyboard_complete y screen_reader_labels.\n3. `contrast_ratio >"
+   }
+  ]
+ },
+ "S52": {
+  "section": "S52",
+  "prose_words": 6617,
+  "english_function_words": 8,
+  "ordinary_english_words": 24,
+  "kept_technical_terms": 166,
+  "avoidable_english_per_1000": 4.8,
+  "top_terms": [
+   [
+    "workflow",
+    5
+   ],
+   [
+    "release",
+    5
+   ],
+   [
+    "owner",
+    5
+   ],
+   [
+    "matching",
+    4
+   ],
+   [
+    "only",
+    4
+   ],
+   [
+    "review",
+    4
+   ],
+   [
+    "not",
+    4
+   ],
+   [
+    "ticket",
+    1
+   ]
+  ],
+  "worst_passages": []
+ }
+}

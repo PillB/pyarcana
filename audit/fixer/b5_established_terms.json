@@ -1,0 +1,46 @@
+{
+  "decided": "2026-09-15",
+  "purpose": "Established Spanish names that contain a nominalisation joined by 'de'. Writing rule B5 is about a noun doing a verb's job; these name a practice, a control or a data category, and the verb rewrite would lose the name a practitioner searches for. scripts/prose_quality_audit.py excludes them, alongside glossary terms and terms a section sets in bold. Each entry is decided with a reason; add only terms seen in a real gate result.",
+  "terms": [
+    {
+      "term": "aseguramiento de la calidad",
+      "why": "standard Spanish for quality assurance (QA); flagged in S28's Spanish pass"
+    },
+    {
+      "term": "información de identificación personal",
+      "why": "the expansion of PII used in Spanish data-protection writing; flagged in S27"
+    },
+    {
+      "term": "emparejamiento de entidades",
+      "why": "entity matching, a named step of entity resolution; flagged in S27"
+    },
+    {
+      "term": "segregación de funciones",
+      "why": "the name of the separation-of-duties control; S51 introduces it in bold"
+    },
+    {
+      "term": "gestión de la configuración",
+      "why": "the name of the configuration-management discipline"
+    },
+    {
+      "term": "control de versiones",
+      "why": "names the practice; 'versión' matches the suffix but nothing is nominalised"
+    },
+    {
+      "term": "revisión de código",
+      "why": "names the code-review ritual, not an act of reviewing; no verb replaces it in 'En la revisión de código:'; rejected S41's pass whole"
+    },
+    {
+      "term": "revisión de capacidad",
+      "why": "same shape as revisión de código - a scheduled capacity review is a named meeting; rejected S41's pass whole"
+    },
+    {
+      "term": "validación de la solicitud",
+      "why": "request validation as the named stage of an HTTP pipeline, alongside routing and serialisation; rejected S41's pass whole"
+    },
+    {
+      "term": "lista de comprobación",
+      "why": "the standard Spanish for a checklist; the unit is the named artifact, and 'comprobación de X' only looks like a chain because the qualifier follows it; flagged in S39"
+    }
+  ]
+}

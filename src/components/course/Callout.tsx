@@ -7,7 +7,7 @@ type CalloutType = 'info' | 'warning' | 'success' | 'tip' | 'danger'
 
 interface CalloutProps {
   type?: CalloutType
-  title?: string
+  title?: React.ReactNode
   children: React.ReactNode
   className?: string
 }
