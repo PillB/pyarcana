@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { withCanonicalSectionIds } from '@/lib/section-id-migrations'
 import { buildStudentDetailExtras } from '@/lib/admin-analytics'
 import { COURSE_SECTIONS } from '@/lib/course'
 
@@ -21,15 +22,15 @@ export async function GET(
       where: { id: userId },
       select: { id: true, email: true, name: true, role: true, createdAt: true },
     }),
-    db.progress.findMany({ where: { userId } }),
+    db.progress.findMany({ where: { userId } }).then(withCanonicalSectionIds),
     db.examAttempt.findMany({
       where: { userId },
       orderBy: { startedAt: 'asc' },
-    }),
+    }).then(withCanonicalSectionIds),
     db.exerciseAttempt.findMany({
       where: { userId },
       orderBy: { attemptedAt: 'desc' },
-    }),
+    }).then(withCanonicalSectionIds),
   ])
 
   if (!user) {

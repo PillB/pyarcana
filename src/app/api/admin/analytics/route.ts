@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { withCanonicalSectionIds } from '@/lib/section-id-migrations'
 import { buildAnalyticsPayload, buildStudentMetrics } from '@/lib/admin-analytics'
 
 export async function GET() {
@@ -26,7 +27,7 @@ export async function GET() {
           completedAt: true,
           bookmarked: true,
         },
-      }),
+      }).then(withCanonicalSectionIds),
       db.examAttempt.findMany({
         select: {
           userId: true,
@@ -36,7 +37,7 @@ export async function GET() {
           startedAt: true,
           timeSpentSec: true,
         },
-      }),
+      }).then(withCanonicalSectionIds),
       db.exerciseAttempt.groupBy({
         by: ['userId'],
         _count: { id: true },

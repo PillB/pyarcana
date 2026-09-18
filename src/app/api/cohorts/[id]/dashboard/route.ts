@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+// A row under a pre-rename slug is the same section; count it once.
+import { renameSectionId } from '@/lib/section-id-migrations'
 import { getAuthContext, requireAuth, requireCohortRole } from '@/lib/permissions'
 
 export async function GET(
@@ -43,11 +45,11 @@ export async function GET(
     const learnerSummaries = memberships.map((m) => {
       const progress = m.user.progress
       const sectionsCompleted = new Set(
-        progress.filter((p) => p.subStep === 'youdo' && p.completed).map((p) => p.sectionId),
+        progress.filter((p) => p.subStep === 'youdo' && p.completed).map((p) => renameSectionId(p.sectionId)),
       ).size
       const examsPassed = m.user.examAttempts.filter((e) => e.score >= 70).length
       const lastExamDate = m.user.examAttempts[0]?.completedAt
-      const sectionsStarted = new Set(progress.filter((p) => p.completed).map((p) => p.sectionId)).size
+      const sectionsStarted = new Set(progress.filter((p) => p.completed).map((p) => renameSectionId(p.sectionId))).size
 
       return {
         userId: m.user.id,
