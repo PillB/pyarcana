@@ -79,13 +79,14 @@ async function skipTours(page: Page) {
 
 // Two of the five steps of the first section done, and it was the last visited:
 // the landing then shows a "continue" card and a 40% bar on that section.
-async function seedReturningLearner(page: Page) {
-  await page.addInitScript(() => {
+// `completedSections` are finished outright, which is what the sidebar counts.
+async function seedReturningLearner(page: Page, completedSections: string[] = []) {
+  await page.addInitScript((completedSections) => {
     localStorage.setItem(
       'python-ds-progress',
       JSON.stringify({
         state: {
-          completedSections: [],
+          completedSections,
           completedSubSteps: { setup: ['theory', 'ido'] },
           quizScores: {},
           lastVisited: 'setup',
@@ -96,7 +97,7 @@ async function seedReturningLearner(page: Page) {
         version: 0,
       }),
     )
-  })
+  }, completedSections)
 }
 
 // A background tab, a hidden preview pane or an embedded webview can run no
@@ -218,6 +219,24 @@ test.describe('PyArcana public edition: first paint', () => {
       (el) => el.getBoundingClientRect().width / el.parentElement!.getBoundingClientRect().width,
     )
     expect(filled).toBeCloseTo(0.4, 2)
+  })
+
+  test("a returning learner's sidebar bar shows their progress when no frames run", async ({ page }) => {
+    // The desktop sidebar is prerendered with no progress and reads the stored
+    // progress after hydration. Its bar grew to that value from 0, so without a
+    // frame it stayed at 0 beside a label reading 8%.
+    await skipTours(page)
+    await seedReturningLearner(page, ['iteration-summaries', 'functions-contracts', 'collections', 'pandas'])
+    await stopAnimationFrames(page)
+    await page.goto('/pyarcana/')
+    await waitForViewChangesToAnimate(page)
+    const progress = page.getByTestId('sidebar-progress')
+    // 4 of the 52 sections, rounded as the label rounds it.
+    await expect(progress.getByText('8%', { exact: true })).toBeVisible()
+    const filled = await progress
+      .locator('.gradient-primary')
+      .evaluate((el) => el.getBoundingClientRect().width / el.parentElement!.getBoundingClientRect().width)
+    expect(filled).toBeCloseTo(0.08, 2)
   })
 
   test('the page does not fade in a view restored from the URL, even when no frames run', async ({ page }) => {
