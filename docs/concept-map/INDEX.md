@@ -57,10 +57,10 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `entity-resolution` | L3 | S11 · S11-T2-B-DEMO.preamble | S13 · S13-T1-A.p0 | 7 | 8 | 6 | 15 | +2 | 2/5 ⚠ | 16 |
 | 🟠 `shap` | L2 | S33 · selfCheck[2].opt[1] | S35 · S35-T1-B.p0 | 2 | 1 | 0 | 2 | +2 | 0/1 ⚠ | 2 |
 | 🟠 `set` | L3 | S01 · S01-T4-A-E3.starter | S03 · S03-T1-A.p2 | 1 | 119 | 50 | 17 | +2 | 2/5 ⚠ | 46 |
-| 🟠 `if` | L3 | S01 · S01-T1-B#6.code | S02 · S02-T2-A-DEMO.why | 15 | 438 | 56 | 19 | +1 | 1/5 ⚠ | 52 |
 | 🟠 `exception` | L3 | S02 · theory[1].p3 | S03 · S03-T2-B.p0 | 14 | 57 | 33 | 11 | +1 | 3/5 ⚠ | 33 |
-| 🟠 `function` | L3 | S01 · S01-T4-A-DEMO.code | S02 · theory[0].callout | 9 | 803 | 34 | 17 | +1 | 1/5 ⚠ | 52 |
+| 🟠 `if` | L3 | S01 · S01-T1-B#6.code | S02 · S02-T2-A-DEMO.why | 6 | 437 | 54 | 19 | +1 | 1/5 ⚠ | 52 |
 | 🟠 `return` | L3 | S02 · theory[1].code | S03 · theory[3].p3 | 6 | 640 | 41 | 5 | +1 | 1/5 ⚠ | 50 |
+| 🟠 `function` | L3 | S01 · S01-T4-B-DEMO.retrospective | S02 · theory[0].callout | 3 | 802 | 34 | 17 | +1 | 1/5 ⚠ | 52 |
 | 🟠 `parameter` | L3 | S02 · S02-T4-A-E3.hint | S03 · theory[3].p1 | 3 | 1 | 4 | 1 | +1 | 1/5 ⚠ | 18 |
 | 🟠 `pivot-table` | L3 | S17 · outcome[2] | S17 · iDo.intro | 11 | 6 | 2 | 2 | · | 1/1 | 2 |
 | 🟠 `vectorizaci-n` | L1 | S14 · tagline | S14 · S14-T4-A.p0 | 6 | 0 | 3 | 5 | · | 0/1 ⚠ | 4 |

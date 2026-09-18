@@ -379,62 +379,8 @@
   "uses": [
    {
     "section": "S01",
-    "location": "setup.S01-T4-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S01",
     "location": "setup.S01-T4-B-DEMO.retrospective",
     "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-A-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-B-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S01",
-    "location": "setup.youDo.starter",
-    "kind": "youdo.starter",
     "visible": true
    },
    {
@@ -14776,12 +14722,6 @@
   ],
   "examples": [
    {
-    "section": "S01",
-    "location": "setup.S01-T4-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
     "section": "S02",
     "location": "basics.theory[1].code",
     "kind": "theory.code",
@@ -19934,8 +19874,8 @@
   ],
   "first_use": {
    "section": "S01",
-   "location": "setup.S01-T4-A-DEMO.code",
-   "kind": "ido.code",
+   "location": "setup.S01-T4-B-DEMO.retrospective",
+   "kind": "ido.retrospective",
    "visible": true
   },
   "first_definition": {
@@ -19974,44 +19914,8 @@
   "surprising_uses": [
    {
     "section": "S01",
-    "location": "setup.S01-T4-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S01",
     "location": "setup.S01-T4-B-DEMO.retrospective",
     "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-A-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.youDo.starter",
-    "kind": "youdo.starter",
     "visible": true
    },
    {
@@ -34165,78 +34069,6 @@
     "visible": true
    },
    {
-    "section": "S01",
-    "location": "setup.S01-T4-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-A-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-A-E2.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-A-E2.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-B-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S01",
-    "location": "setup.youDo.requirement[7]",
-    "kind": "youdo.requirement",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
     "section": "S02",
     "location": "basics.theory[0].p5",
     "kind": "theory.paragraph",
@@ -46745,12 +46577,6 @@
     "visible": true
    },
    {
-    "section": "S01",
-    "location": "setup.S01-T4-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
     "section": "S02",
     "location": "basics.S02-T1-B-DEMO.code",
     "kind": "ido.code",
@@ -49369,18 +49195,6 @@
   ],
   "exercises": [
    {
-    "section": "S01",
-    "location": "setup.S01-T1-A-E2.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.youDo.requirement[7]",
-    "kind": "youdo.requirement",
-    "visible": true
-   },
-   {
     "section": "S02",
     "location": "basics.youDo.requirement[7]",
     "kind": "youdo.requirement",
@@ -49869,60 +49683,6 @@
     "section": "S01",
     "location": "setup.S01-T1-B#6.code",
     "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-A-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-A-E2.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-A-E2.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T1-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.S01-T4-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.youDo.requirement[7]",
-    "kind": "youdo.requirement",
-    "visible": true
-   },
-   {
-    "section": "S01",
-    "location": "setup.youDo.starter",
-    "kind": "youdo.starter",
     "visible": true
    },
    {
@@ -83531,6 +83291,12 @@
    },
    {
     "section": "S01",
+    "location": "setup.S01-T1-A-E2.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S01",
     "location": "setup.S01-T1-A-E3.hint[1]",
     "kind": "wedo.hint",
     "visible": true
@@ -83575,6 +83341,12 @@
     "section": "S01",
     "location": "setup.S01-T1-B-E1.tests",
     "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S01",
+    "location": "setup.S01-T1-B-E2.hint[1]",
+    "kind": "wedo.hint",
     "visible": true
    },
    {

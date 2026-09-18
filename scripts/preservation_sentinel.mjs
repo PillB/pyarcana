@@ -17,6 +17,7 @@
 import { execSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { pathToFileURL } from 'node:url'
 
 const ROOT = process.cwd()
 const ALLOWLIST_PATH = join(ROOT, 'audit/safe-agent/deletion-allowlist.json')
@@ -78,6 +79,47 @@ function deletedPaths(base) {
       const parts = line.split('\t')
       return parts[parts.length - 1]
     })
+}
+
+/**
+ * Split removed section ids into renames the migration carries and losses it does not.
+ * Pure, so the rule can be tested without building two git commits.
+ */
+export function classifyRemovedSectionIds(removed, renames, liveIds) {
+  const renamed = []
+  const lost = []
+  for (const id of removed) {
+    const target = renames.get(id)
+    if (target && liveIds.has(target)) {
+      renamed.push({ code: 'AUTHORIZED_RENAME', id, to: target })
+    } else {
+      lost.push({
+        code: 'SECTION_ID_REMOVED',
+        id,
+        message: target
+          ? `Protected section id ${id} migrates to ${target}, which is not an active section`
+          : `Protected section id removed: ${id}`,
+      })
+    }
+  }
+  return { renamed, lost }
+}
+
+/**
+ * The committed old-id -> new-id map in src/lib/section-id-migrations.ts, read at `treeish`.
+ * Read from git rather than imported so the check describes the commit, not the working tree.
+ */
+export function sectionIdRenames(treeish) {
+  let text
+  try {
+    text = git(`git show ${treeish}:src/lib/section-id-migrations.ts`)
+  } catch {
+    return new Map()
+  }
+  const body = text.match(/SECTION_ID_RENAMES[^=]*=\s*\{([\s\S]*?)\n\}/)
+  if (!body) return new Map()
+  const pairs = [...body[1].matchAll(/['"]?([\w-]+)['"]?\s*:\s*['"]([\w-]+)['"]/g)]
+  return new Map(pairs.map(([, from, to]) => [from, to]))
 }
 
 function extractActiveCurriculum(treeish) {
@@ -194,13 +236,14 @@ function main() {
           message: `Active imported sections must be 52, found ${after.activeCount}`,
         })
       }
-      for (const id of curriculum.removed_section_ids) {
-        failures.push({
-          code: 'SECTION_ID_REMOVED',
-          id,
-          message: `Protected section id removed: ${id}`,
-        })
-      }
+      // A removed id is a rename, not a loss, only when the committed migration carries it to a
+      // section that exists: learners' progress is keyed by these slugs in localStorage, and
+      // `migrateSectionIds` is what moves it. An id that disappears with no migration, or whose
+      // migration points at nothing, still fails - that is the loss this check exists to catch.
+      const verdict = classifyRemovedSectionIds(
+        curriculum.removed_section_ids, sectionIdRenames(head), after.sectionIds)
+      warnings.push(...verdict.renamed)
+      failures.push(...verdict.lost)
       // Cap exercise removals reporting (noise control) but still fail
       if (curriculum.removed_exercise_ids.length > 0) {
         failures.push({
@@ -277,4 +320,5 @@ function main() {
   console.log(JSON.stringify({ head, base, unauthorized_deletes: 0, failures: 0 }, null, 2))
 }
 
-main()
+// Only when run as a script: the test imports classifyRemovedSectionIds from this module.
+if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) main()

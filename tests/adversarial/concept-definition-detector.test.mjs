@@ -18,8 +18,16 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import fs from 'node:fs'
+import { execFileSync } from 'node:child_process'
 
-const events = JSON.parse(fs.readFileSync('.fixer/events.json', 'utf8'))
+// `.fixer/` is gitignored, so on a fresh checkout — CI — the events cache does not exist, and
+// reading it crashed this whole file before a single assertion ran. Extract from the sections
+// themselves instead: the test then checks the course being committed, not whatever a previous
+// local run left behind.
+const events = JSON.parse(execFileSync(
+  'npx', ['tsx', 'scripts/course_event_extractor.mts'],
+  { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 },
+))
 const conceptMap = JSON.parse(fs.readFileSync('course-state/concept_map.json', 'utf8'))
 
 // Kept in step with TEACHING_KINDS in scripts/concept_map.py. `outcome` is here because D1 puts

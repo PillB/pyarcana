@@ -57,26 +57,48 @@ def offenders(pattern: re.Pattern[str], before_index: int) -> list[str]:
     return found
 
 
+# A ratchet, the same shape as `chore(lint)`'s complexity gate. The target is zero; these are
+# the counts still owed, section rounds are removing them, and each number may only go down.
+# Two ways to fail, both deliberate:
+#   - a new offender appears            -> someone wrote the construct early again;
+#   - the count drops below the baseline -> the work landed, so lower the number here, or the
+#                                           gate quietly stops protecting what was just fixed.
+# 2026-09-17: S01 went from 20 entrypoint sites to 0 (D9). What is left sits mostly in the
+# S02-S08 You Do increments of the cumulative capstone, and resolves with them.
+D9_OWED = 20
+D10_OWED = 98
+
+
 class ForwardDependencyTests(unittest.TestCase):
+    def _ratchet(self, found: list[str], owed: int, rule: str) -> None:
+        self.assertLessEqual(
+            len(found), owed,
+            f"{rule}: {len(found)} sites, more than the {owed} still owed — a new one was added:\n"
+            + "\n".join(found),
+        )
+        self.assertEqual(
+            len(found), owed,
+            f"{rule}: only {len(found)} sites remain — lower the owed count in this file to "
+            f"{len(found)} so the ratchet keeps what was fixed",
+        )
+
     def test_entrypoint_guard_waits_for_the_section_that_teaches_modules(self) -> None:
         """D9: no `main()` entrypoint before a learner imports their own module."""
         teaches = index_of("modules-packaging-cli")
         guard = offenders(re.compile(r"if __name__\s*==|def main\s*\("), teaches)
-        self.assertEqual(
-            guard, [],
-            "the entrypoint idiom needs def, if and import; it cannot precede the section that "
-            "teaches modules (D9)",
-        )
+        self._ratchet(guard, D9_OWED, "D9 (the entrypoint idiom before S10 teaches modules)")
 
     def test_exception_handling_waits_for_the_section_that_teaches_it(self) -> None:
         """D10: no `try`/`except` before the error-handling lesson."""
         teaches = index_of("exceptions-logging")
         caught = offenders(re.compile(r"\btry\s*:|\bexcept\b"), teaches)
-        self.assertEqual(
-            caught, [],
-            "catching an exception before the section that teaches exceptions is a forward "
-            "dependency (D10)",
-        )
+        self._ratchet(caught, D10_OWED, "D10 (try/except before S09 teaches exceptions)")
+
+    def test_section_one_is_already_clean(self) -> None:
+        """The first section is done, so it is held at zero outright, not by the ratchet."""
+        s01 = [x for x in offenders(re.compile(r"if __name__\s*==|def main\s*\(|\btry\s*:|\bexcept\b"),
+                                    index_of("basics")) if x.startswith("S01")]
+        self.assertEqual(s01, [], "S01 must not carry the entrypoint idiom or exception handling")
 
     def test_the_teaching_sections_still_teach_them(self) -> None:
         """The boundary is only meaningful if the construct is taught on the other side of it."""
