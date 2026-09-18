@@ -7,6 +7,42 @@ Standing decisions that govern every row: D9 (no `main()`/`__name__` early), D10
 before S09), D11 (primer, rewrite, or move — never a retroactive award), D1, D3, D6 in
 `decisions.md`; the heuristics in `LEDGER_NOTES.md`.
 
+## Found by the skills-and-badges cycle (2026-09-17), before its synthesis ran
+
+Two of its requirement agents finished before a session limit stopped the rest; these are
+their verified findings, recorded here so a second interruption cannot lose them.
+
+- **P0 — the authority hierarchy is inverted.** `course-state/course_requirements.json:7` names
+  `learning_roadmap.md` primary. 0 of 52 sections teach that document's topic; 52 of 52 carry
+  `learning_roadmap_52_V3.md`'s title byte for byte, and README, `industry_alignment/README.md`,
+  AGENTS.md and `test_active_v3_curriculum_contract.py` all treat V3 as the contract. The file
+  that ranked them was written a day after both and put the superseded one first.
+- **P0 — sixteen badges are gated on sections that teach something else.** Their
+  `required_sections` were authored against `learning_roadmap.md`'s numbering, and
+  `engine.ts:596-669` scores them live. Q1 names five; the other eleven are
+  `applied_rag_llm_service_development` (S20/S21 are Excel and documents; RAG is S48),
+  `reliable_async_python_development` (S27/S28/S31 are pytest, data testing, graphs; async is
+  S38), `responsible_machine_learning_evaluation` (S10/S23 are modules/CLI and Playwright),
+  `production_python_delivery_foundations`, `llmops_production_delivery`,
+  `container_platform_engineering_practice`, `ai_governance_code_review_practice`, and the four
+  `integrated_*_practice` badges, which read as coherent syllabi only under the old roadmap.
+- **P0 — `llmops_production_delivery` claims skills the course never teaches.** Its public claim
+  names fine-tuning and graph-RAG. `GraphRAG` has zero matches in the 52 active files; the only
+  `fine-tun` matches are the stale header and `id:` of `s41-llm-finetuning.ts` and one passing
+  mention in S25. This is an award for content that does not exist, which D11 forbids.
+- **P0 — `applied_deep_learning_practice` rests on an optional block.** S33's only neural-network
+  content says of itself "Este bloque es opcional para el resto del curso"; S34 has none.
+- **P1 — four incompatible 52-section curricula** (`learning_roadmap.md`, V3,
+  `el_arte_de_python_roadmap_maestro_52_secciones.md`, and a "Master Roadmap v2.0" in the source
+  registry), and README links two side by side as if both were current.
+- **P1 — three course lengths.** The code says 491 h (and sums to it); `learning_roadmap.md` says
+  600 h; V3 and README say 1,040 h.
+- **Live site, from a browser pass** — the roadmap cards on https://pillb.github.io/pyarcana/
+  render taglines as raw strings, so learners read literal backticks ("un entorno virtual
+  (\`venv\`) …", "\`CP-N1-A\`"). A fix exists — `Sidebar.tsx` and `Dashboard.tsx` render them
+  through `InlineText` — but only as uncommitted work that was already in the tree when this
+  session began. It is not this campaign's to commit; its author, or the owner, should.
+
 ## In flight
 
 1. **Skills-and-badges map (solarize cycle).** Mine the project documentation for the required
