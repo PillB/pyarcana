@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { z } from 'zod'
+import { renameSectionId } from '@/lib/section-id-migrations'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { syncFeedbackReport } from '@/lib/firebase/sync'
@@ -16,7 +17,8 @@ const createSchema = z.object({
   type: z.enum(FEEDBACK_TYPES),
   title: z.string().trim().min(3).max(120),
   body: z.string().trim().min(10).max(5000),
-  sectionId: z.string().trim().max(80).optional().nullable(),
+  sectionId: z.string().trim().max(80).optional().nullable()
+    .transform((v) => (v ? renameSectionId(v) : v)),
   pagePath: z.string().trim().max(300).optional().nullable(),
   email: z.string().email().optional().nullable(),
 })

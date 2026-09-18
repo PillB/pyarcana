@@ -355,5 +355,10 @@ firebase deploy --only firestore:indexes
 
 **Credential issuance fails:**
 - Set CREDENTIAL_SIGNING_KEY in .env.local
-- Verify the user has passed all 13 gate sections
+- A 403 today is expected: the server records exam attempts only, and a capstone credential
+  also needs self-checks, You Do rubrics, the integrator project, the defense and prerequisite
+  badges (`unverifiedRequirements` in the response). Exam scores alone never issue one.
+- `passedSections` / `requiredSections` count the exams of the badge's own `required_sections`
+  (`src/lib/eligibility/badge_catalog.json`) with a best score of at least 85
+  (`provisional_floors.section_exam_pct`, not the exam pass mark of 70)
 - Check server logs: `journalctl -u pyarcana -f`

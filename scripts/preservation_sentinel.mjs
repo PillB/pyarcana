@@ -5,6 +5,8 @@
  * Fails when a PR/push candidate:
  * - deletes tracked files not on the deletion allowlist
  * - removes protected active curriculum section IDs / exercise IDs
+ *   (a section id renamed through SECTION_ID_RENAMES to an id still active is preserved:
+ *   `migrateSectionIds` carries learner progress across it; see scripts/section_id_renames.mjs)
  * - removes tests, migrations, or progress fields from the progress sanitizer contract
  *
  * Baseline: merge-base with origin/main when available, else HEAD~1, else
@@ -17,7 +19,11 @@
 import { execSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { pathToFileURL } from 'node:url'
+import {
+  SECTION_ID_RENAMES_PATH,
+  classifyMissingSectionIds,
+  parseSectionIdRenames,
+} from './section_id_renames.mjs'
 
 const ROOT = process.cwd()
 const ALLOWLIST_PATH = join(ROOT, 'audit/safe-agent/deletion-allowlist.json')
@@ -81,51 +87,10 @@ function deletedPaths(base) {
     })
 }
 
-/**
- * Split removed section ids into renames the migration carries and losses it does not.
- * Pure, so the rule can be tested without building two git commits.
- */
-export function classifyRemovedSectionIds(removed, renames, liveIds) {
-  const renamed = []
-  const lost = []
-  for (const id of removed) {
-    const target = renames.get(id)
-    if (target && liveIds.has(target)) {
-      renamed.push({ code: 'AUTHORIZED_RENAME', id, to: target })
-    } else {
-      lost.push({
-        code: 'SECTION_ID_REMOVED',
-        id,
-        message: target
-          ? `Protected section id ${id} migrates to ${target}, which is not an active section`
-          : `Protected section id removed: ${id}`,
-      })
-    }
-  }
-  return { renamed, lost }
-}
-
-/**
- * The committed old-id -> new-id map in src/lib/section-id-migrations.ts, read at `treeish`.
- * Read from git rather than imported so the check describes the commit, not the working tree.
- */
-export function sectionIdRenames(treeish) {
-  let text
-  try {
-    text = git(`git show ${treeish}:src/lib/section-id-migrations.ts`)
-  } catch {
-    return new Map()
-  }
-  const body = text.match(/SECTION_ID_RENAMES[^=]*=\s*\{([\s\S]*?)\n\}/)
-  if (!body) return new Map()
-  const pairs = [...body[1].matchAll(/['"]?([\w-]+)['"]?\s*:\s*['"]([\w-]+)['"]/g)]
-  return new Map(pairs.map(([, from, to]) => [from, to]))
-}
-
 function extractActiveCurriculum(treeish) {
   const index = git(`git show ${treeish}:src/lib/course/index.ts`)
   const imports = [...index.matchAll(/import\s+\{\s*section(\d{2})\s*\}\s+from\s+['"]\.\/sections\/([^'"]+)['"]/g)]
-  const sectionIds = []
+  const sections = new Map() // section id -> its two-digit number in src/lib/course/index.ts
   const exerciseIds = []
   for (const [, num, stem] of imports) {
     const path = `src/lib/course/sections/${stem}.ts`
@@ -136,17 +101,83 @@ function extractActiveCurriculum(treeish) {
       continue
     }
     const idMatch = text.match(/\bid:\s*['"]([^'"]+)['"]/)
-    if (idMatch) sectionIds.push(idMatch[1])
+    if (idMatch) sections.set(idMatch[1], num)
     for (const m of text.matchAll(/\bid:\s*['"](S\d{2}-T\d-[AB]-E[1-3])['"]/g)) {
       exerciseIds.push(m[1])
     }
   }
   return {
     activeCount: imports.length,
-    sectionIds: new Set(sectionIds),
+    sections,
     exerciseIds: new Set(exerciseIds),
     importStems: imports.map(([, , stem]) => stem),
   }
+}
+
+/**
+ * SECTION_ID_RENAMES as committed at `treeish`, the same tree the section ids come from.
+ * A commit from before the map existed has no renames. A map that exists but cannot be
+ * parsed also yields no renames, and an error the caller must report as a failure.
+ */
+function readSectionIdRenames(treeish) {
+  const source = tryGit(`git show ${treeish}:${SECTION_ID_RENAMES_PATH}`)
+  if (source === null) return { renames: new Map(), error: null }
+  try {
+    return { renames: parseSectionIdRenames(source), error: null }
+  } catch (e) {
+    return { renames: new Map(), error: e.message }
+  }
+}
+
+function compareCurriculum(base, head, failures) {
+  const before = extractActiveCurriculum(base)
+  const after = extractActiveCurriculum(head)
+  const { renames, error } = readSectionIdRenames(head)
+  if (error) {
+    failures.push({
+      code: 'SECTION_ID_RENAMES_UNREADABLE',
+      path: SECTION_ID_RENAMES_PATH,
+      message: `Cannot read SECTION_ID_RENAMES, so no section id counts as renamed: ${error}`,
+    })
+  }
+  const sectionIds = classifyMissingSectionIds(before.sections, after.sections, renames)
+  const curriculum = {
+    before_count: before.activeCount,
+    after_count: after.activeCount,
+    removed_section_ids: sectionIds.removed.map(({ id }) => id),
+    renamed_section_ids: sectionIds.renamed,
+    removed_exercise_ids: [...before.exerciseIds].filter((id) => !after.exerciseIds.has(id)),
+  }
+  if (after.activeCount < before.activeCount) {
+    failures.push({
+      code: 'ACTIVE_SECTION_COUNT_DECREASED',
+      message: `Active sections decreased ${before.activeCount} → ${after.activeCount}`,
+    })
+  }
+  if (after.activeCount !== 52) {
+    failures.push({
+      code: 'ACTIVE_SECTION_COUNT_NOT_52',
+      message: `Active imported sections must be 52, found ${after.activeCount}`,
+    })
+  }
+  for (const { id, reason } of sectionIds.removed) {
+    failures.push({
+      code: 'SECTION_ID_REMOVED',
+      id,
+      reason,
+      message: `Protected section id removed: ${id} (${reason})`,
+    })
+  }
+  // Cap exercise removals reporting (noise control) but still fail
+  if (curriculum.removed_exercise_ids.length > 0) {
+    failures.push({
+      code: 'EXERCISE_IDS_REMOVED',
+      count: curriculum.removed_exercise_ids.length,
+      sample: curriculum.removed_exercise_ids.slice(0, 20),
+      message: `${curriculum.removed_exercise_ids.length} exercise id(s) removed from active curriculum`,
+    })
+  }
+  return curriculum
 }
 
 function progressFieldsPresent(treeish) {
@@ -216,43 +247,7 @@ function main() {
   let curriculum = null
   if (base) {
     try {
-      const before = extractActiveCurriculum(base)
-      const after = extractActiveCurriculum(head)
-      curriculum = {
-        before_count: before.activeCount,
-        after_count: after.activeCount,
-        removed_section_ids: [...before.sectionIds].filter((id) => !after.sectionIds.has(id)),
-        removed_exercise_ids: [...before.exerciseIds].filter((id) => !after.exerciseIds.has(id)),
-      }
-      if (after.activeCount < before.activeCount) {
-        failures.push({
-          code: 'ACTIVE_SECTION_COUNT_DECREASED',
-          message: `Active sections decreased ${before.activeCount} → ${after.activeCount}`,
-        })
-      }
-      if (after.activeCount !== 52) {
-        failures.push({
-          code: 'ACTIVE_SECTION_COUNT_NOT_52',
-          message: `Active imported sections must be 52, found ${after.activeCount}`,
-        })
-      }
-      // A removed id is a rename, not a loss, only when the committed migration carries it to a
-      // section that exists: learners' progress is keyed by these slugs in localStorage, and
-      // `migrateSectionIds` is what moves it. An id that disappears with no migration, or whose
-      // migration points at nothing, still fails - that is the loss this check exists to catch.
-      const verdict = classifyRemovedSectionIds(
-        curriculum.removed_section_ids, sectionIdRenames(head), after.sectionIds)
-      warnings.push(...verdict.renamed)
-      failures.push(...verdict.lost)
-      // Cap exercise removals reporting (noise control) but still fail
-      if (curriculum.removed_exercise_ids.length > 0) {
-        failures.push({
-          code: 'EXERCISE_IDS_REMOVED',
-          count: curriculum.removed_exercise_ids.length,
-          sample: curriculum.removed_exercise_ids.slice(0, 20),
-          message: `${curriculum.removed_exercise_ids.length} exercise id(s) removed from active curriculum`,
-        })
-      }
+      curriculum = compareCurriculum(base, head, failures)
     } catch (e) {
       warnings.push({ code: 'CURRICULUM_COMPARE_SKIPPED', message: String(e) })
     }
@@ -320,5 +315,4 @@ function main() {
   console.log(JSON.stringify({ head, base, unauthorized_deletes: 0, failures: 0 }, null, 2))
 }
 
-// Only when run as a script: the test imports classifyRemovedSectionIds from this module.
-if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) main()
+main()

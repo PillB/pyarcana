@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { withCanonicalSectionIds } from '@/lib/section-id-migrations'
 import { COURSE_META } from '@/lib/course'
 
 export async function GET(request: Request) {
@@ -30,10 +31,10 @@ export async function GET(request: Request) {
         const [progressItems, examAttempts] = await Promise.all([
           db.progress.findMany({
             where: { userId: s.id, completed: true },
-          }),
+          }).then(withCanonicalSectionIds),
           db.examAttempt.findMany({
             where: { userId: s.id, completedAt: { not: null } },
-          }),
+          }).then(withCanonicalSectionIds),
         ])
 
         const sectionsCompleted = new Set(
@@ -92,7 +93,7 @@ export async function GET(request: Request) {
       where: { completedAt: { not: null } },
       include: { user: true },
       orderBy: { completedAt: 'desc' },
-    })
+    }).then(withCanonicalSectionIds)
 
     const headers = [
       'Attempt ID', 'User Email', 'Section', 'Attempt #', 'Score',

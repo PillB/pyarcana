@@ -4,9 +4,10 @@ import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { syncExerciseAttempt } from '@/lib/firebase/sync'
 import { z } from 'zod'
+import { renameSectionId } from '@/lib/section-id-migrations'
 
 const attemptSchema = z.object({
-  sectionId: z.string(),
+  sectionId: z.string().transform(renameSectionId),
   exerciseId: z.string(),
   usedHint: z.boolean().default(false),
   correct: z.boolean(),
