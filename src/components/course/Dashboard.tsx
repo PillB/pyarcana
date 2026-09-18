@@ -38,8 +38,14 @@ import * as Icons from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { IS_STATIC_SITE, siteAsset } from '@/lib/runtime-mode'
 import { t, useI18n } from '@/lib/i18n'
+import { riseIn } from '@/lib/entrance'
 
 interface DashboardProps {
+  /**
+   * False while the Dashboard is the first view: it is prerendered, so it must
+   * mount at rest instead of fading in from opacity 0 (see riseIn).
+   */
+  animateEntrance: boolean
   meta: CourseMeta
   sections: CourseSection[]
   onSelectSection: (id: string) => void
@@ -62,7 +68,7 @@ interface DashboardProps {
  *     keeps the create-account CTA visible only when the dynamic edition is
  *     available OR when Firebase client is configured.
  */
-export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: DashboardProps) {
+export function Dashboard({ animateEntrance, meta, sections, onSelectSection, onOpenAuth }: DashboardProps) {
   const { completedSections, completedSubSteps, quizScores, lastVisited, startDate, setStartDate } = useProgressStore()
   const { data: session } = useSession()
   const [mounted, setMounted] = useState(false)
@@ -97,7 +103,7 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Hero */}
       <motion.section
-        initial={{ opacity: 0, y: 12 }}
+        initial={riseIn(animateEntrance, 12)}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="relative overflow-hidden rounded-3xl gradient-mesh border border-border/60 p-6 sm:p-10"
@@ -310,6 +316,7 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
       {/* Stats row — what should I do next? */}
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
+          animateEntrance={animateEntrance}
           icon={TrendingUp}
           label={english ? 'Overall progress' : 'Progreso total'}
           value={`${overallProgress}%`}
@@ -318,6 +325,7 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
           delay={0.05}
         />
         <StatCard
+          animateEntrance={animateEntrance}
           icon={Trophy}
           label={english ? 'Sections completed' : 'Secciones completadas'}
           value={`${completedCount}/${sections.length}`}
@@ -330,6 +338,7 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
           delay={0.1}
         />
         <StatCard
+          animateEntrance={animateEntrance}
           icon={Flame}
           label={english ? 'Quiz average' : 'Quiz promedio'}
           value={`${Math.round(
@@ -345,6 +354,7 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
           delay={0.15}
         />
         <StatCard
+          animateEntrance={animateEntrance}
           icon={Target}
           label={english ? 'Your learning path' : 'Tu ruta de aprendizaje'}
           value={english ? 'Step by step' : 'Avanza a tu ritmo'}
@@ -411,7 +421,7 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
               <motion.button
                 key={section.id}
                 onClick={() => onSelectSection(section.id)}
-                initial={{ opacity: 0, y: 8 }}
+                initial={riseIn(animateEntrance, 8)}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.05 * idx }}
                 whileHover={{ y: -2 }}
@@ -861,6 +871,7 @@ function LearnCard({
 }
 
 function StatCard({
+  animateEntrance,
   icon: Icon,
   label,
   value,
@@ -868,6 +879,7 @@ function StatCard({
   color,
   delay,
 }: {
+  animateEntrance: boolean
   icon: React.ElementType
   label: string
   value: string
@@ -883,7 +895,7 @@ function StatCard({
   }
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
+      initial={riseIn(animateEntrance, 8)}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay }}
     >

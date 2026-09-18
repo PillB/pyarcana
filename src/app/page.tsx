@@ -24,6 +24,7 @@ import { useServerProgressSync, SUB_STEPS, type SubStep } from '@/lib/progress-s
 import { COURSE_META, COURSE_SECTIONS } from '@/lib/course'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
 import { t, useI18n } from '@/lib/i18n'
+import { riseIn } from '@/lib/entrance'
 
 type View = 'home' | 'section' | 'resources' | 'admin' | 'familiarity' | 'pricing' | 'capstones'
 
@@ -52,6 +53,8 @@ export default function Home() {
   const { theme, setTheme } = useTheme()
   const { data: session } = useSession()
   const [mounted, setMounted] = useState(false)
+  // False until the page has settled on its first view. See the <main> below.
+  const [animateViewChanges, setAnimateViewChanges] = useState(false)
   const lang = useI18n((state) => state.lang)
   const tr = (key: string) => t(key, lang)
 
@@ -113,6 +116,13 @@ export default function Home() {
       window.removeEventListener('hashchange', syncFromHash)
     }
   }, [])
+
+  // Armed one commit after the effect above, so the view it restores from the
+  // hash (#capstones, #S05) is shown as it loads instead of fading in from 0.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (mounted) setAnimateViewChanges(true)
+  }, [mounted])
 
   const updateUrl = (id: string | null, newView: View) => {
     if (typeof window === 'undefined') return
@@ -465,16 +475,26 @@ export default function Home() {
           tab, a hidden preview pane or an embedded webview runs no frames, so
           there "Proyectos" set #capstones and the landing stayed for good.
           The animation is decoration; which view is on screen is state.
+
+          The first view does not animate in. framer-motion writes `initial`
+          into the server HTML, so the prerendered landing used to ship at
+          opacity 0: blank without JavaScript, blank until hydration plus a
+          frame, and not counted for LCP until then (Chrome ignores opacity-0
+          paints). Until the page has settled, riseIn() gives initial={false},
+          which mounts at the `animate` values; the Dashboard's own entrances
+          follow the same flag. The other views' inner entrances do not yet,
+          so a hash-restored view's cards still wait for a frame.
         */}
-        <main className="flex-1">
+        <main className="flex-1" data-animate-view-changes={animateViewChanges}>
           <motion.div
             key={view + (activeSectionId || '')}
-            initial={{ opacity: 0, y: 8 }}
+            initial={riseIn(animateViewChanges, 8)}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.25 }}
           >
             {view === 'home' && (
               <Dashboard
+                animateEntrance={animateViewChanges}
                 meta={COURSE_META}
                 sections={COURSE_SECTIONS}
                 onSelectSection={handleSelectSection}
