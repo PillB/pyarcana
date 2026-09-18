@@ -117,6 +117,31 @@ async function waitForViewChangesToAnimate(page: Page) {
   })
 }
 
+// The legal routes have no flag like the landing's. React tags each element it
+// hydrates with a __reactFiber$ property, so waiting for one on the heading
+// means the check that follows sees the hydrated page, not the server HTML.
+async function waitForHydration(el: Locator) {
+  await expect
+    .poll(() => el.evaluate((node) => Object.keys(node).some((key) => key.startsWith('__reactFiber$'))), {
+      timeout: 15000,
+    })
+    .toBe(true)
+}
+
+// Standalone routes, always prerendered. Both use LegalPage, as seven other
+// legal routes do. `floor` is about half of the elements with text each held
+// on 2026-09-18 (24, 26).
+const LEGAL_ROUTES = [
+  { path: 'cookies', title: 'Aviso de cookies y almacenamiento local', floor: 12 },
+  { path: 'disclaimer', title: 'Aviso educativo y profesional', floor: 12 },
+]
+
+async function expectLegalPageFullyPainted(page: Page, route: (typeof LEGAL_ROUTES)[number]) {
+  const { total, faint } = await textNotFullyPainted(page.locator('body'))
+  expect(total).toBeGreaterThanOrEqual(route.floor)
+  expect(faint).toEqual([])
+}
+
 // The views a shared link can open. `shows` is text each one always has, so a
 // view that failed to open cannot pass by being fully painted. `floor` is a
 // floor on elements with text, not a ceiling (D6): about half of what each
@@ -143,7 +168,26 @@ test.describe('PyArcana public edition: first paint', () => {
       await expect(page.getByRole('heading', { name: 'PyArcana', level: 1, exact: true })).toHaveCount(1)
       await expectMainFullyPainted(page)
     })
+
+    for (const route of LEGAL_ROUTES) {
+      test(`/${route.path} is painted, not left at the start of an animation`, async ({ page }) => {
+        await page.goto(`/pyarcana/${route.path}`)
+        await expect(page.getByRole('heading', { name: route.title, level: 1 })).toHaveCount(1)
+        await expectLegalPageFullyPainted(page, route)
+      })
+    }
   })
+
+  for (const route of LEGAL_ROUTES) {
+    test(`/${route.path} stays painted through hydration when no frames run`, async ({ page }) => {
+      await stopAnimationFrames(page)
+      await page.goto(`/pyarcana/${route.path}`)
+      const heading = page.getByRole('heading', { name: route.title, level: 1 })
+      await expect(heading).toHaveCount(1)
+      await waitForHydration(heading)
+      await expectLegalPageFullyPainted(page, route)
+    })
+  }
 
   test('the landing stays painted through hydration when no frames run', async ({ page }) => {
     await skipTours(page)
