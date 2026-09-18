@@ -90,7 +90,7 @@ function deletedPaths(base) {
 function extractActiveCurriculum(treeish) {
   const index = git(`git show ${treeish}:src/lib/course/index.ts`)
   const imports = [...index.matchAll(/import\s+\{\s*section(\d{2})\s*\}\s+from\s+['"]\.\/sections\/([^'"]+)['"]/g)]
-  const sectionIds = []
+  const sections = new Map() // section id -> its two-digit number in src/lib/course/index.ts
   const exerciseIds = []
   for (const [, num, stem] of imports) {
     const path = `src/lib/course/sections/${stem}.ts`
@@ -101,14 +101,14 @@ function extractActiveCurriculum(treeish) {
       continue
     }
     const idMatch = text.match(/\bid:\s*['"]([^'"]+)['"]/)
-    if (idMatch) sectionIds.push(idMatch[1])
+    if (idMatch) sections.set(idMatch[1], num)
     for (const m of text.matchAll(/\bid:\s*['"](S\d{2}-T\d-[AB]-E[1-3])['"]/g)) {
       exerciseIds.push(m[1])
     }
   }
   return {
     activeCount: imports.length,
-    sectionIds: new Set(sectionIds),
+    sections,
     exerciseIds: new Set(exerciseIds),
     importStems: imports.map(([, , stem]) => stem),
   }
@@ -140,7 +140,7 @@ function compareCurriculum(base, head, failures) {
       message: `Cannot read SECTION_ID_RENAMES, so no section id counts as renamed: ${error}`,
     })
   }
-  const sectionIds = classifyMissingSectionIds(before.sectionIds, after.sectionIds, renames)
+  const sectionIds = classifyMissingSectionIds(before.sections, after.sections, renames)
   const curriculum = {
     before_count: before.activeCount,
     after_count: after.activeCount,

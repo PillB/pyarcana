@@ -41,17 +41,23 @@ export function parseSectionIdRenames(source) {
 /**
  * Why an id that left the active curriculum is not a rename, or null when it is one.
  *
- * A rename is one to one: the map carries the id to a target that is active now, was not
- * active before, and no other old id maps to. A target that already existed, or that two
- * ids share, collides inside `migrateSectionIds`, which keeps one entry and drops the other
- * learner's data. That is a deletion, whatever the map says.
+ * A rename is one to one and stays in place: the map carries the id to a target that is
+ * active now, was not active before, belongs to the same numbered section, and no other old
+ * id maps to. A target that already existed, or that two ids share, collides inside
+ * `migrateSectionIds`, which keeps one entry and drops the other learner's data. A target in
+ * another section hands one lesson's completions and quiz scores to a different lesson.
+ * Either is a deletion, whatever the map says.
  */
-function renameRejection(id, beforeIds, afterIds, renames) {
+function renameRejection(id, before, after, renames) {
   if (!renames.has(id)) return 'no SECTION_ID_RENAMES entry'
   const target = renames.get(id)
   const via = `SECTION_ID_RENAMES maps it to ${target}`
-  if (!afterIds.has(target)) return `${via}, which is not an active section id`
-  if (beforeIds.has(target)) return `${via}, which was already an active section id`
+  if (!after.has(target)) return `${via}, which is not an active section id`
+  if (before.has(target)) return `${via}, which was already an active section id`
+  // An unknown section number fails too: equal `undefined`s must not pass as the same section.
+  if (before.get(id) === undefined || after.get(target) !== before.get(id)) {
+    return `${via}, which is section ${after.get(target)}, not section ${before.get(id)}`
+  }
   const sharers = [...renames].filter(([from, to]) => to === target && from !== id)
   if (sharers.length > 0) return `${via}, which ${sharers.map(([from]) => from).join(', ')} also maps to`
   return null
@@ -60,17 +66,17 @@ function renameRejection(id, beforeIds, afterIds, renames) {
 /**
  * Split the section ids active before a change, and missing after it, into renames and removals.
  *
- * @param {Set<string>} beforeIds
- * @param {Set<string>} afterIds
+ * @param {Map<string, string>} before section id -> section number, before the change
+ * @param {Map<string, string>} after section id -> section number, after the change
  * @param {Map<string, string>} renames
  * @returns {{ renamed: { from: string, to: string }[], removed: { id: string, reason: string }[] }}
  */
-export function classifyMissingSectionIds(beforeIds, afterIds, renames) {
+export function classifyMissingSectionIds(before, after, renames) {
   const renamed = []
   const removed = []
-  for (const id of beforeIds) {
-    if (afterIds.has(id)) continue
-    const reason = renameRejection(id, beforeIds, afterIds, renames)
+  for (const id of before.keys()) {
+    if (after.has(id)) continue
+    const reason = renameRejection(id, before, after, renames)
     if (reason === null) renamed.push({ from: id, to: renames.get(id) })
     else removed.push({ id, reason })
   }

@@ -75,41 +75,56 @@ describe('parseSectionIdRenames', () => {
 
 describe('classifyMissingSectionIds', () => {
   const renames = new Map([['old-a', 'new-a'], ['old-b', 'new-b']])
+  // Each tree is { id: section number }, as the sentinel reads it from src/lib/course/index.ts.
   const classify = (before, after, map = renames) =>
-    classifyMissingSectionIds(new Set(before), new Set(after), map)
+    classifyMissingSectionIds(new Map(Object.entries(before)), new Map(Object.entries(after)), map)
 
   it('counts an id whose target is active and new as renamed, and ignores ids still present', () => {
-    assert.deepEqual(classify(['keep', 'old-a'], ['keep', 'new-a']), {
+    assert.deepEqual(classify({ keep: '01', 'old-a': '02' }, { keep: '01', 'new-a': '02' }), {
       renamed: [{ from: 'old-a', to: 'new-a' }],
       removed: [],
     })
   })
 
   it('removes an id with no map entry', () => {
-    const { renamed, removed } = classify(['keep', 'gone'], ['keep', 'other'])
+    const { renamed, removed } = classify({ keep: '01', gone: '02' }, { keep: '01', other: '02' })
     assert.deepEqual(renamed, [])
     assert.deepEqual(removed, [{ id: 'gone', reason: 'no SECTION_ID_RENAMES entry' }])
   })
 
   it('removes a mapped id whose target is not active', () => {
-    const { renamed, removed } = classify(['old-a'], ['new-a-typo'])
+    const { renamed, removed } = classify({ 'old-a': '01' }, { 'new-a-typo': '01' })
     assert.deepEqual(renamed, [])
     assert.deepEqual(removed.map(({ id }) => id), ['old-a'])
     assert.match(removed[0].reason, /new-a, which is not an active section id/)
   })
 
   it('removes a mapped id whose target already existed: that is a merge, not a rename', () => {
-    const { removed } = classify(['old-a', 'new-a'], ['new-a'])
+    const { removed } = classify({ 'old-a': '01', 'new-a': '02' }, { 'new-a': '02' })
     assert.deepEqual(removed.map(({ id }) => id), ['old-a'])
     assert.match(removed[0].reason, /already an active section id/)
   })
 
   it('removes both ids when two map to the same target', () => {
     const shared = new Map([['old-a', 'new-a'], ['old-b', 'new-a']])
-    const { renamed, removed } = classify(['old-a', 'old-b'], ['new-a', 'other'], shared)
+    const { renamed, removed } = classify({ 'old-a': '01', 'old-b': '02' }, { 'new-a': '01', other: '02' }, shared)
     assert.deepEqual(renamed, [])
     assert.deepEqual(removed.map(({ id }) => id), ['old-a', 'old-b'])
     assert.match(removed[0].reason, /old-b also maps to/)
+  })
+
+  it('removes both ids when a map swaps two sections: progress would cross lessons', () => {
+    // Every target is active, new and unique, yet `migrateSectionIds` would hand S03's
+    // completions and quiz scores to S04 and the other way round.
+    const swapped = new Map([['old-03', 'new-04'], ['old-04', 'new-03']])
+    const { renamed, removed } = classify(
+      { 'old-03': '03', 'old-04': '04' },
+      { 'new-03': '03', 'new-04': '04' },
+      swapped
+    )
+    assert.deepEqual(renamed, [])
+    assert.deepEqual(removed.map(({ id }) => id), ['old-03', 'old-04'])
+    assert.match(removed[0].reason, /new-04, which is section 04, not section 03/)
   })
 })
 
