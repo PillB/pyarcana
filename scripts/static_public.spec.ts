@@ -1,5 +1,49 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Locator, type Page } from '@playwright/test'
 import { readFile } from 'node:fs/promises'
+import { CAPSTONES } from '../src/lib/capstones/catalog'
+
+// Nivel 2 to 4, read from the catalog the page renders, so a renamed project moves
+// the test with it. Nivel 1 and the final are left out on purpose: their ids are
+// already on the landing page, in the section taglines, so finding them proves
+// nothing about which view is showing.
+const UPPER_LEVEL_CAPSTONES = CAPSTONES.filter((cap) => cap.level >= 2 && !cap.isFinal)
+
+type FrameControl = Window & { __resumeFrames?: () => void }
+
+function upperLevelTitle(page: Page, name: string): Locator {
+  return page.getByText(name, { exact: true }).first()
+}
+
+async function openProjects(page: Page) {
+  // Before hydration the button has no handler and the click is silently lost.
+  // The QA trigger is rendered only once the client has taken over.
+  await expect(page.getByTestId('qa-harness-open')).toBeAttached({ timeout: 15000 })
+  await page.getByRole('button', { name: 'Proyectos', exact: true }).click()
+  await expect(page).toHaveURL(/#capstones$/)
+  await expect(page.getByTestId('capstones-page')).toBeVisible({ timeout: 15000 })
+  // The landing must be gone, not sitting on top with the new view queued behind it.
+  await expect(page.getByRole('heading', { name: 'PyArcana', level: 1, exact: true })).toHaveCount(0)
+  for (const cap of UPPER_LEVEL_CAPSTONES) {
+    await expect(upperLevelTitle(page, cap.name), cap.id).toBeVisible()
+  }
+}
+
+// toBeVisible ignores opacity, so a view that mounted but never faded in would
+// pass it. The product up the ancestor chain is what reaches the screen. Each
+// level fades in only once it is scrolled into view, hence the scroll.
+async function expectEveryUpperLevelOpaque(page: Page) {
+  for (const cap of UPPER_LEVEL_CAPSTONES) {
+    const title = upperLevelTitle(page, cap.name)
+    await title.scrollIntoViewIfNeeded()
+    await expect.poll(() => title.evaluate((node) => {
+      let opacity = 1
+      for (let el: Element | null = node; el; el = el.parentElement) {
+        opacity *= Number(getComputedStyle(el).opacity)
+      }
+      return opacity
+    }), { message: `${cap.id} is on the page but transparent`, timeout: 5000 }).toBe(1)
+  }
+}
 
 const PIXEL_GIF = Buffer.from(
   'R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==',
@@ -146,6 +190,45 @@ test.describe('PyArcana public GitHub Pages edition', () => {
     // Learning tabs (theory / I Do / …) should appear for an open section.
     await expect(page.getByRole('tab').first()).toBeVisible({ timeout: 15000 })
     await expect(page.locator('body')).not.toContainText('Application error')
+  })
+
+  test('Proyectos opens the projects of every level', async ({ page }) => {
+    // A floor, not a ceiling (D6): it catches a catalog that lost a level.
+    expect(UPPER_LEVEL_CAPSTONES.length).toBeGreaterThanOrEqual(9)
+    await openProjects(page)
+    await expectEveryUpperLevelOpaque(page)
+  })
+
+  test('Proyectos switches the view even when the browser runs no animation frames', async ({ page }) => {
+    // A background tab, a hidden preview pane or an embedded webview can stop
+    // requestAnimationFrame entirely. The view used to be swapped only once the
+    // old one had finished animating out, so in a hidden pane on 2026-09-17 the
+    // live site set #capstones and kept the landing. Headless Chromium always
+    // runs frames: without this stub the test passes on the broken build too.
+    //
+    // Frames are held, not dropped, and released afterwards: that is the tab
+    // coming back into view. While they are held the page is not on screen, so
+    // what must already be true is which view is mounted. Once they run, the
+    // view has to become opaque, not stay mounted and see-through.
+    await page.addInitScript(() => {
+      const native = window.requestAnimationFrame.bind(window)
+      const held: FrameRequestCallback[] = []
+      let paused = true
+      window.requestAnimationFrame = (callback) => {
+        if (!paused) return native(callback)
+        held.push(callback)
+        return 0
+      }
+      ;(window as FrameControl).__resumeFrames = () => {
+        paused = false
+        for (const callback of held.splice(0)) native(callback)
+      }
+    })
+    await page.reload()
+    await page.waitForLoadState('domcontentloaded')
+    await openProjects(page)
+    await page.evaluate(() => (window as FrameControl).__resumeFrames?.())
+    await expectEveryUpperLevelOpaque(page)
   })
 
   test('serves base-path assets without 404s', async ({ request }) => {
