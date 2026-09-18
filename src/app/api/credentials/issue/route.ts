@@ -4,9 +4,11 @@ import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
 import {
   CREDENTIAL_EXAM_FLOOR,
-  countPassedGates,
-  gateSectionAliases,
-  gateSectionIds,
+  countPassedSections,
+  credentialSpec,
+  requiredSectionAliases,
+  requiredSectionIds,
+  unverifiedRequirements,
 } from '@/lib/credential-gates'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
 import { createHmac, randomUUID } from 'crypto'
@@ -95,16 +97,9 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const capstoneMap: Record<string, string> = {
-      'integrated_python_ai_capstone_foundations': 'CP-N1-C',
-      'integrated_python_ai_capstone_independent': 'CP-N2-C',
-      'integrated_python_ai_capstone_advanced_applied': 'CP-N3-C',
-      'integrated_python_ai_capstone_integrated_mastery': 'CP-N4-C',
-      'evidence_grounded_ai_systems_capstone': 'CP-FINAL',
-    }
-
-    const capstoneId = capstoneMap[badgeId]
-    if (!capstoneId) {
+    // The badge's own catalog entry says what it requires; only capstone credentials qualify.
+    const spec = credentialSpec(badgeId)
+    if (!spec) {
       return NextResponse.json(
         { error: `Badge ${badgeId} is not a verifiable credential.` },
         { status: 400 }
@@ -112,25 +107,32 @@ export async function POST(req: NextRequest) {
     }
 
     // Recompute eligibility from server-side evidence (exam attempts). Attempts are keyed by
-    // section slug, so the gate sections are asked for under every slug they were stored under.
+    // section slug, so the badge's sections are asked for under every slug they were stored under.
     const examAttempts = await db.examAttempt.findMany({
       where: {
         userId,
-        sectionId: { in: gateSectionAliases() },
+        sectionId: { in: requiredSectionAliases(spec) },
         completedAt: { not: null },
       },
     })
 
-    // Every gate section needs a completed attempt whose best score meets the credential floor;
-    // a section counts once, however many attempts it has.
-    const requiredGates = gateSectionIds().length
-    const passedGates = countPassedGates(examAttempts)
-    if (passedGates < requiredGates) {
+    // Each required section needs a completed attempt whose best score meets the credential
+    // floor, and counts once however many attempts it has. Requirements this server does not
+    // record (self-checks, You Do, integrator, defense, prerequisites) keep issuance closed:
+    // exam scores alone never earn a credential.
+    const requiredSections = requiredSectionIds(spec).length
+    const passedSections = countPassedSections(spec, examAttempts)
+    const unverified = unverifiedRequirements(spec)
+    if (passedSections < requiredSections || unverified.length > 0) {
       return NextResponse.json(
         {
-          error: `Eligibility not met. All ${requiredGates} gate sections must be passed with a score of at least ${CREDENTIAL_EXAM_FLOOR}.`,
-          passedGates,
-          requiredGates,
+          error:
+            `Eligibility not met. ${passedSections} of ${requiredSections} required exams passed ` +
+            `with a score of at least ${CREDENTIAL_EXAM_FLOOR}; not yet verifiable on this server: ` +
+            `${unverified.join(', ') || 'none'}.`,
+          passedSections,
+          requiredSections,
+          unverifiedRequirements: unverified,
         },
         { status: 403 }
       )
