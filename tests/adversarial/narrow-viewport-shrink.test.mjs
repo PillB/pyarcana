@@ -23,7 +23,11 @@ const read = (p) => readFileSync(fileURLToPath(new URL(p, import.meta.url)), 'ut
 
 test('the folded-block heading can shrink beside its badge', () => {
   const src = read('../../src/components/course/SectionView.tsx')
-  const heading = src.match(/<span className="([^"]*flex-1[^"]*)">\{block\.heading\}<\/span>/)
+  // The heading renders through InlineText since 2026-09-15 (raw backticks were visible in
+  // headings); the guarded property - min-w-0 on the flex-1 span - is unchanged.
+  const heading = src.match(
+    /<span className="([^"]*flex-1[^"]*)">(?:\{block\.heading\}|<InlineText text=\{block\.heading\} \/>)<\/span>/,
+  )
   assert.ok(heading, 'expected the collapsible trigger heading span')
   assert.match(
     heading[1],
