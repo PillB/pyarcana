@@ -483,6 +483,7 @@ export default function Home() {
                 <ResourcesPage
                   sections={COURSE_SECTIONS.map((s) => ({
                     id: s.id,
+                    index: s.index,
                     title: s.title,
                     shortTitle: s.shortTitle,
                     resources: s.resources,

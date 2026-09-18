@@ -138,6 +138,59 @@ region in ALLOWED → True
       },
     },
     {
+      heading: 'Una regla con nombre: `def`, llamada y `return`',
+      figure: {
+        id: "S03-call-return",
+        caption:
+          "La llamada pone un valor en el parámetro; `return` devuelve la decisión al código que llamó y cierra el cuerpo: nada de lo que queda dentro se ejecuta.",
+        alt:
+          "Flujo de cuatro etapas: la llamada `decidir_region` con la región «R-NORTE» entrega ese valor real; el cuerpo ejecuta la regla con ese valor en `region`; `return` entrega `accept`; y el código que llamó recibe `accept`. Una frontera después de `return` marca que ninguna instrucción posterior del cuerpo se ejecuta.",
+      },
+      paragraphs: [
+        'En intake, la misma decisión sobre una región aparece una y otra vez. Darle un nombre permite aplicarla a muchos valores sin reescribir sus comparaciones y sus ramas.',
+        'A esa regla con nombre Python la llama **función**. `def decidir_region(region):` crea la función `decidir_region`; `region` es el **parámetro**, el nombre que la regla da al valor que recibe. Las líneas indentadas forman el cuerpo, donde se escribe la decisión.',
+        'Definir la función no ejecuta el cuerpo. `decidir_region("R-NORTE")` es una **llamada**: entrega `"R-NORTE"`, el cuerpo se ejecuta una vez con ese valor en `region` y produce una respuesta. Cada nueva llamada vuelve a ejecutar el cuerpo con el valor que se le pase.',
+        '`return` entrega un valor al código que hizo la llamada y termina la función justo en esa línea. Ninguna instrucción posterior del cuerpo se ejecuta en esa llamada; por eso una guarda puede devolver `review` o `reject` de inmediato. Si el cuerpo llega al final sin ejecutar un `return`, la función entrega `None`, la marca de ausencia que conociste en S02.',
+        '`print` y `return` tienen destinos distintos: `print` muestra un valor a una persona, mientras que `return` lo entrega al código que llamó. En el ejemplo, la función retorna `accept`, `review` o `reject`; después, el código que llamó guarda cada respuesta, la imprime y puede compararla. Las reglas de S03 retornan sus decisiones porque otras partes del programa necesitan usarlas.',
+      ],
+      code: {
+        language: 'python',
+        title: 'decidir_region.py',
+        code: `ALLOWED = {"R-NORTE", "R-SUR", "R-CENTRO"}
+
+
+def decidir_region(region):
+    if region is None:
+        return "review"
+    if region not in ALLOWED:
+        return "reject"
+    return "accept"
+
+
+resultado_1 = decidir_region(None)
+resultado_2 = decidir_region("R-OESTE")
+resultado_3 = decidir_region("R-NORTE")
+resultado_4 = decidir_region("R-SUR")
+
+print("None →", resultado_1)
+print("R-OESTE →", resultado_2)
+print("R-NORTE →", resultado_3)
+print("R-SUR →", resultado_4)
+print("R-NORTE es accept →", resultado_3 == "accept")`,
+        output: `None → review
+R-OESTE → reject
+R-NORTE → accept
+R-SUR → accept
+R-NORTE es accept → True`,
+      },
+      callout: {
+        type: 'tip',
+        title: 'Regla para elegir',
+        content:
+          'Una decisión que el código usará después se retorna; un mensaje que solo debe ver una persona se imprime.',
+      },
+    },
+    {
       heading: 'Qué es verdadero en un if (y qué no es “ausente”)',
       subtopicId: 'S03-T1-B',
       paragraphs: [

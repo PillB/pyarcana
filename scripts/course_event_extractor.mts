@@ -14,7 +14,7 @@
  * refuse to let a hidden answer count as having taught anything.
  */
 import { COURSE_SECTIONS } from '../src/lib/course/index'
-import { GLOSSARY_TERMS } from '../src/lib/glossary/terms'
+import { GLOSSARY_TERMS, aliasIsAcronym } from '../src/lib/glossary/terms'
 
 type Ev = {
   section_id: string
@@ -37,12 +37,23 @@ type Ev = {
  * either "TERM es un ..." just after, or "llamamos ... TERM" just before,
  * and never under a negation.
  */
+// The cue needs a letter boundary in front of it. Without one, "es el"/"es la" match inside
+// "tien-es el", "corromp-es el", "pierd-es la": 18 credited definitions at HEAD, every one of
+// them a cue glued to the end of the preceding verb.
 const POST_CUE =
-  /^[^.!?;]{0,45}?(?:es un|es una|son unos|son unas|significa|consiste en|se refiere a|sirve para|quiere decir|no es mas que|no es m\u00e1s que|se define como|es el|es la|son los|son las|es aquel|es aquella)/i
+  /^[^.!?;]{0,45}?(?<!\p{L})(?:es un|es una|son unos|son unas|significa|consiste en|se refiere a|sirve para|quiere decir|no es mas que|no es m\u00e1s que|se define como|es el|es la|son los|son las|es aquel|es aquella)/iu
 // "se llama" is the plainest way Spanish names a thing, and it was missing: S02 teaches
 // unpacking with "Esta acci\u00f3n se llama **desempaquetar una tupla**" and scored never-explained.
 const PRE_CUE =
-  /(?:llamamos|definimos|se conoce como|se llama|se llaman|se denomina|se denominan|entendemos por|el termino|el t\u00e9rmino|la palabra|conocido como|conocida como)[^.!?;]{0,45}$/i
+  /(?:llamamos|definimos|se conoce como|se (?:le |les )?llama|se (?:le |les )?llaman|se denomina|se denominan|entendemos por|el termino|el t\u00e9rmino|la palabra|conocido como|conocida como)[^.!?;]{0,45}$/i
+/**
+ * "\u2026bloques de filas llamados **row groups**" names the thing it has just described.
+ *
+ * It has to sit directly against the term: given a 45-character window like PRE_CUE's, the
+ * ordinary noun "llamada" ("cada llamada a `run`", "una sola llamada deja media funci\u00f3n sin
+ * contrato") credits every `return` and `function` near it.
+ */
+const NAMING_PARTICIPLE = /\bllamad[oa]s?\s+(?:\*\*|`|_|\u00ab|")$/i
 /** "no es un examen" is not a definition. */
 const NEGATED = /\b(?:no|nunca|jam\u00e1s|tampoco)\s+(?:es|son|significa)/i
 /** A callout or dictionary entry that names the term is a definition by construction. */
@@ -70,8 +81,12 @@ const PAREN_NOT_DEF = /^(?:ver|v\u00e9ase|cap\u00edtulo|secci\u00f3n|S\d|p\.?\s*
  * *surprising use* of a term the course had supposedly defined in a hint. Spanish prose that
  * explains something always contains function words; a tuple literal or a signature does not.
  */
+// "qué" is here because the course writes short glosses on it — "(qué no subir a Git)" has no
+// other function word and was read as code. Bare "a" and "no" are deliberately absent: "a"
+// turns argument lists into prose ("(neighbors(txs, a) & neighbors(txs, c))" was read as a
+// gloss of `return`), and "no" starts accepting negative asides as definitions.
 const GLOSS_FUNCTION_WORD =
-  /(?:^|\s)(?:el|la|los|las|un|una|unos|unas|de|del|que|para|con|por|se|su|sus|lo|al|y|o|en)(?:\s|$)/i
+  /(?:^|\s)(?:el|la|los|las|un|una|unos|unas|de|del|que|qué|para|con|por|se|su|sus|lo|al|y|o|en)(?:\s|$)/i
 function looksLikeProse(inner: string): boolean {
   if (/[_=\[\]{}]|->|::/.test(inner)) return false          // snake_case, subscripts, signatures
   return GLOSS_FUNCTION_WORD.test(inner)
@@ -88,6 +103,27 @@ function looksLikeProse(inner: string): boolean {
 const INDEFINITE_BEFORE = /\b(?:un|una|unos|unas)\s+(?:\*\*|`|_)?$/i
 
 /**
+ * A keyword never takes an article, so the article test above can never credit one.
+ *
+ * "`return` entrega el valor…", "**pip** instala…", "El **broadcasting** alinea shapes…" are
+ * the course's ordinary way of introducing a term: the typographic mark is the introduction.
+ * The definition-extraction literature for Spanish treats a typographical marker as a signal
+ * that a definitional context is near, not as the definition itself (Sierra et al.), so the
+ * mark alone is not enough — a describing verb still has to follow. Requiring the sentence to
+ * start there is what keeps "y `git remote -v` permite…" mid-sentence out.
+ */
+const FORMATTED_SUBJECT = /(?:^|[.;:!?]\s+)(?:[EeLl][laos]{1,2}\s+)?(\*\*|`|_)$/u
+/**
+ * The mark has to close right after the term, so the formatted span is the term and nothing
+ * else. Without this, "`git restore archivo` descarta cambios" and "`git remote -v` permite
+ * comprobarla" read as definitions of `git`: the subject is a command line, not the term.
+ */
+function isMarkedSubject(before: string, after: string): boolean {
+  const m = FORMATTED_SUBJECT.exec(before)
+  return !!m && after.startsWith(m[1])
+}
+
+/**
  * Spanish defines by apposition as readily as by copula:
  *   "`Counter`, un contador de elementos de una secuencia, cuenta…"
  *   "Ruff, una herramienta que señala errores, se ejecuta…"
@@ -97,27 +133,71 @@ const INDEFINITE_BEFORE = /\b(?:un|una|unos|unas)\s+(?:\*\*|`|_)?$/i
 // The closing paren is allowed because an abbreviation often sits between the term and its
 // apposition: "Visual Studio Code (VS Code), una aplicación para escribir y revisar archivos".
 const APPOSITIVE = /^[`*_'")]{0,3},\s+(?:un|una|unos|unas)\s+[^,.;]{4,70}?\s+(?:que|de|del|para|con)\b/i
+/**
+ * The same shape with the definite article — "GitHub, **el sitio web** que aloja…" — is the
+ * course's commonest gloss, but "El registro, la parte que ya viste, se envía" has it too.
+ * The formatting mark is what separates them: it is only accepted when the term itself was
+ * written as a term. Without that guard this rule credits ordinary enumerations.
+ */
+// The head noun has to sit next to the term: "`pip`, el instalador de paquetes" keeps its
+// connector 14 characters in, while "`if`, el print posterior usa la última `i` del `for`" —
+// an ordinary sentence — only reaches one 35 characters later.
+const APPOSITIVE_DEFINITE =
+  /^(?:\*\*|`|_)['")]{0,2},\s+(?:el|la|los|las)\s+[^,.;]{4,24}?\s+(?:que|de|del|para|con)\b/i
 
 /** A contrast can define: "X se diferencia de Y en que hace Z". */
 const CONTRAST_CUE = /^[^.!?;]{0,45}?(?:se diferencia de|se distingue de|a diferencia de)/i
 const DESCRIBING_VERB =
   /^[^.!?;]{0,12}?\b(?:re[u\u00fa]ne|agrupa|agrupan|guarda|guardan|contiene|contienen|almacena|almacenan|representa|representan|describe|describen|indica|indican|se\u00f1ala|se\u00f1alan|permite|permiten|sirve|sirven|convierte|convierten|devuelve|devuelven|entrega|entregan|ejecuta|ejecutan|asocia|asocian|re[u\u00fa]nen|junta|juntan|marca|marcan|define|definen|expresa|expresan|re[gj]istra|re[gj]istran|combina|combinan|ordena|ordenan|recorre|recorren|reparte|reparten)\b/i
+/**
+ * Verbs that only describe when the term is written as a term.
+ *
+ * "**Precision** responde: de lo que mandas a cola, \u00bfcu\u00e1nto era positivo?" introduces a term;
+ * "ver un n\u00famero dentro de una funci\u00f3n no responde esa pregunta" does not, and the same verb
+ * carries both. Keeping these off the bare-article path is what separates them \u2014 with the
+ * marked-subject requirement they fire on an introduction, not on an ordinary sentence.
+ */
+const MARKED_SUBJECT_VERB =
+  /^[^.!?;]{0,14}?\b(?:mide|miden|aloja|alojan|excluye|excluyen|instala|instalan|alinea|alinean|produce|producen|colapsa|colapsan|hace|hacen|responde|responden|captura|capturan|resume|resumen|descubre|descubren|memoriza|memorizan|fija|fijan|apila|apilan|inserta|insertan|act[u\u00fa]a|act[u\u00fa]an)\b/i
+/** "una tupla **no** hace que el lote contin\u00fae" describes what the thing is not. */
+const NEGATED_VERB = /^[^.!?;]{0,12}?\b(?:no|nunca|jam[a\u00e1]s|tampoco)\s/i
 
-function definesTerm(text: string, at: number, len: number, kind: string): boolean {
+/** "`venv` (entorno virtual)" names the term in Spanish; it does not say what one is. */
+function isAliasExpansion(inner: string, aliases: string[]): boolean {
+  const bare = inner.trim().toLowerCase()
+    .replace(/^[`*_"'«\s]+|[`*_"'»\s.]+$/g, '')
+    .replace(/^(?:el|la|los|las|un|una|unos|unas)\s+/, '')
+  return aliases.some((a) => a.toLowerCase() === bare)
+}
+/** "no uses un `set` (una colección sin orden)" is an instruction, not a definition. */
+const NEGATED_IMPERATIVE = /\b(?:no|nunca|jamás|tampoco)\s+\p{L}+\s*$/iu
+
+function definesTerm(
+  text: string, at: number, len: number, kind: string, aliases: string[] = [],
+): boolean {
   const after = text.slice(at + len, at + len + 120)
-  const paren = PAREN_GLOSS.exec(after)
-  if (paren && !PAREN_NOT_DEF.test(paren[1].trim()) && looksLikeProse(paren[1])) return true
-  const dash = DASH_GLOSS.exec(after)
-  if (dash && !PAREN_NOT_DEF.test(dash[1].trim()) && looksLikeProse(dash[1])) return true
   const before = text.slice(Math.max(0, at - 80), at)
   const head = after.slice(0, 50)
+  const paren = PAREN_GLOSS.exec(after)
+  if (paren && !PAREN_NOT_DEF.test(paren[1].trim()) && looksLikeProse(paren[1])
+    && !isAliasExpansion(paren[1], aliases)
+    && !NEGATED_IMPERATIVE.test(text.slice(Math.max(0, at - 60), at))) return true
+  const dash = DASH_GLOSS.exec(after)
+  if (dash && !PAREN_NOT_DEF.test(dash[1].trim()) && looksLikeProse(dash[1])) return true
   // "... que es un ..." attaches the cue to a relative clause, not to the term
   if (POST_CUE.test(after) && !NEGATED.test(head) && !/\bque\s+(?:es|son)\b/i.test(head)) return true
-  if (PRE_CUE.test(before)) return true
+  if (PRE_CUE.test(before) || NAMING_PARTICIPLE.test(before)) return true
   // "Una tupla reúne varios valores…" — a definition without a copula.
-  if (INDEFINITE_BEFORE.test(before) && DESCRIBING_VERB.test(after) && !NEGATED.test(head)) return true
+  // "`return` entrega…", "El **broadcasting** alinea…" — the same, with a keyword or a term
+  // the course marks typographically, which no article can precede.
+  const marked = isMarkedSubject(before, after)
+  if ((INDEFINITE_BEFORE.test(before) || marked)
+    && DESCRIBING_VERB.test(after) && !NEGATED.test(head) && !NEGATED_VERB.test(after)) return true
+  if (marked && MARKED_SUBJECT_VERB.test(after) && !NEGATED.test(head) && !NEGATED_VERB.test(after)) return true
   // "`Counter`, un contador de elementos de una secuencia…"
   if (APPOSITIVE.test(after) && !NEGATED.test(head)) return true
+  // "**GitHub**, el sitio web que aloja repositorios…"
+  if (APPOSITIVE_DEFINITE.test(after) && !NEGATED.test(head)) return true
   // "`defaultdict` se diferencia de un `dict` común en que crea un valor predeterminado…"
   if (CONTRAST_CUE.test(after) && !NEGATED.test(head)) return true
   // "Diccionario del dia" blocks teach every term they list
@@ -140,11 +220,24 @@ const terms = GLOSSARY_TERMS.map((t) => {
   return {
     id: t.id,
     firstSectionId: t.firstSectionId,
+    aliases: raw,
     // \b is wrong for accented Spanish; use lookarounds on letter chars instead.
     // `.py` is excluded too: S10 teaches packaging and writes `__init__.py` constantly, which
     // is a package marker file, not the `__init__` dunder method. That alone accounted for 40
     // of dunder-method's 50 "mentions" and scored it never-explained.
-    re: new RegExp(`(?<![\\p{L}\\d_])(?:${alts.join('|')})(?![\\p{L}\\d_]|\\.py)`, 'giu'),
+    // An acronym matches exactly (aliasIsAcronym); everything else ignores case. Two regexes
+    // rather than one, because a flag is per-pattern: `ABC` must not match `int("abc")` while
+    // `tupla` still matches `Tupla` at the start of a sentence.
+    re: alts.filter((a) => !aliasIsAcronym(a)).length
+      ? new RegExp(
+        `(?<![\\p{L}\\d_])(?:${alts.filter((a) => !aliasIsAcronym(a)).join('|')})(?![\\p{L}\\d_]|\\.py)`,
+        'giu')
+      : null,
+    reExact: alts.filter((a) => aliasIsAcronym(a)).length
+      ? new RegExp(
+        `(?<![\\p{L}\\d_])(?:${alts.filter((a) => aliasIsAcronym(a)).join('|')})(?![\\p{L}\\d_]|\\.py)`,
+        'gu')
+      : null,
   }
 })
 
@@ -170,10 +263,13 @@ function push(
     // later - "añade Python y Ruff; Ruff es un programa que señala errores". Testing only the
     // first hit missed that entirely, because the `;` blocks the definition cue, and `ruff`
     // scored "never explained" across 39 uses while its definition sat in the same sentence.
-    const hits = [...t.matchAll(term.re)]
+    const hits = [
+      ...(term.re ? t.matchAll(term.re) : []),
+      ...(term.reExact ? t.matchAll(term.reExact) : []),
+    ]
     if (hits.length === 0) continue
     mentions.push(term.id)
-    if (hits.some((m) => definesTerm(t, m.index!, m[0].length, kind))) defines.push(term.id)
+    if (hits.some((m) => definesTerm(t, m.index!, m[0].length, kind, term.aliases))) defines.push(term.id)
     if (REQUIRING.has(kind)) requires.push(term.id)
   }
 
@@ -196,8 +292,17 @@ for (const s of COURSE_SECTIONS) {
   push(sid, 'jobRelevance', `${sid}.jobRelevance`, s.jobRelevance)
   s.learningOutcomes.forEach((o, i) => push(sid, 'outcome', `${sid}.outcome[${i}]`, o.text))
 
+  // A location has to name exactly one paragraph. Several sections give two or three
+  // supporting blocks the same subtopicId - which D6 allows, since depth goes in unnumbered
+  // blocks - and keying on it alone produced 43 collisions: `S15-T4-B.p2` addressed two
+  // different paragraphs, so a reader (or an applier) could act on the wrong one. Repeats
+  // carry the block index; the first block of each id keeps the plain name.
+  const seenSubtopic = new Map<string, number>()
   s.theory.forEach((b, i) => {
-    const at = b.subtopicId ?? `theory[${i}]`
+    let at = b.subtopicId ?? `theory[${i}]`
+    const nth = (seenSubtopic.get(at) ?? 0) + 1
+    seenSubtopic.set(at, nth)
+    if (nth > 1) at = `${at}#${i}`
     push(sid, 'theory.heading', `${sid}.${at}.heading`, b.heading)
     b.paragraphs.forEach((p, j) => push(sid, 'theory.paragraph', `${sid}.${at}.p${j}`, p))
     if (b.code) {

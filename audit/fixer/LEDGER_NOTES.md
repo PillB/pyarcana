@@ -309,3 +309,91 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   while its own `what_could_confuse` said the sentence could make a learner look for an
   `np.reshape` call that is not there. The self-critique found the defect; the summary field did
   not carry it. Review the prose field, not the boolean.
+
+- **Measure every detector rule in both directions before keeping it.** *(course-wide, 2026-09-17)*
+  Seven rule changes went in and three of them over-fired on their first draft, each caught only by
+  reading the credit delta: "hace" credited "Devolver una tupla **no** hace que el lote continúe" as
+  the definition of tuple; the definite-article appositive credited "`if`, el print posterior usa la
+  última `i` del `for`"; "a" in the gloss word list turned `(neighbors(txs, a) & neighbors(txs, c))`
+  into prose; and a naming participle with a 45-character window credited every `return` near the
+  ordinary noun "llamada". The working method: dump `defines` at HEAD, apply the rule, dump again,
+  and read every added and removed credit with its sentence. Sixteen additions and twenty-five
+  removals is a reviewable diff; a count is not.
+- **A location has to name exactly one paragraph.** *(S15, course-wide)* Several sections give two
+  or three supporting blocks the same `subtopicId`, which D6 allows, and the extractor keyed on it
+  alone: 43 collisions, so `S15-T4-B.p2` addressed two different paragraphs. A test written against
+  that string tested whichever block came second. Repeats now carry the block index
+  (`S15-T4-B#10.p2`). Any patch anchored on a bare theory location from an older artifact should be
+  re-derived before it is applied.
+- **`.fixer/events.json` was a cache with no expiry.** *(2026-09-17)* `concept_map.py` read it
+  whenever it existed, so the map could describe a course that no longer existed — this round built
+  its dossiers from an events file eight hours older than the sections it was diagnosing, and two of
+  the sixty-three concepts it diagnosed had already been fixed. It now re-extracts when any section,
+  the glossary, the course index or the extractor is newer than the cache. Redirecting the
+  extractor's stdout to `/dev/null` does **not** refresh it; only `gate.py`, `concept_map.py` and an
+  explicit redirect into the file do.
+
+### The glossary was written for sections that no longer exist (2026-09-17)
+
+- **Seventeen `firstSectionId` values named a section where the term never appears.** A
+  course-wide diagnosis of 63 concepts (see `audit/fixer/CONCEPT_QUEUE.md`) traced them to two
+  causes: the pre-V3 slugs (`fastapi` for S21, `rag` for S20 — sections whose content is now
+  something else), and three retired section files that `index.ts` does not import
+  (`s09-sklearn.ts`, `s10-testing.ts`, `s11-advanced-topics.ts`), which are still the source of
+  the definitions for pytest, coverage, joblib, cross-validation, onehotencoder and others.
+  Twenty-six entries now point at the section the concept map says teaches them.
+- **A green glossary gate can be bought with wrong data.** `glossary_intro_audit.py` compares
+  "where the string first appears" against `firstSectionId`, so pointing a term at an early
+  section where nothing teaches it scores zero forward references. The honest values took it from
+  4 to 18. Fourteen of those are real — the word appears before the section that teaches it — and
+  each is a row in the concept queue. **The committed report claiming 0 was stale**; regenerate a
+  report before comparing against it.
+- **That audit reads source, not learner prose**, so its 18 are not 18 defects: it matches
+  `id: 'fastapi'` in the section source, `# merge precedence` in a code comment and the book title
+  "Practical MLOps" in a resources list. `tests/adversarial/glossary-first-use.test.mjs` scans
+  only `paragraphs:` and is the better instrument; the audit should be moved onto the extractor's
+  learner-visible events. Until it is, read its rows before believing them.
+- **An acronym has to match case-sensitively, in every matcher at once.** `ABC` matched the
+  placeholder string in `int("abc")` 94 times out of 97, and a beginner hovering S02's second hint
+  was offered "Abstract Base Class". `aliasIsAcronym` in `src/lib/glossary/terms.ts` is now shared
+  by the hover, the extractor, both Python audits and the first-use test. Change them together:
+  when only one of them moved, `abc` was recorded as introduced in S02 to satisfy the one that
+  had not.
+- **Three sections named a library or an operation the course never uses.** S40 made the
+  ports-and-adapters point with FastAPI and SQLAlchemy (S41 and S19 territory; S40 never has the
+  learner write either), S15 forbade `merge` eleven sections before S17 teaches it, and S06 wrote
+  the English `shape` for the *form of a row* — a different idea from the NumPy `shape` S14
+  teaches, under the same word, thirteen sections earlier. In all three the section already had
+  the Spanish for what it meant. Before glossing a term, check whether the section is merely
+  borrowing a name for something it already says plainly.
+
+- **The first D3 block of the campaign: S03 teaches `def`, the call and `return`.** *(2026-09-17)*
+  Seven of S03's nine theory blocks illustrate decisions with a function, and S03-T2-B's subject is
+  the early return, while `def` was not taught until S05. The new supporting block — no
+  `subtopicId`, per D6 — sits between S03-T1-A and S03-T1-B with a worked example, a four-stage
+  figure (`S03-call-return`) whose boundary is drawn after `return`, and a predict-the-output
+  check. `return` went from 76 surprising uses to 6 and from first-defined-in-S05 to S03;
+  `parameter` from 7 to 3. Course-wide surprising uses 898 → 658 across the day.
+  Three things the round had to carry, none of them in the brief the first time:
+  - **The example collided with the block after it.** Codex named the function `decidir_monto`,
+    one letter from S03-T1-B's `decide_monto`, deciding almost the same thing. Moved to the region
+    rule S03-T1-A had just taught, which also reinforces the block it follows.
+  - **An inserting patch has to re-emit its anchor.** The returned `replacement` held only the new
+    block, so applying it deleted S03-T1-A's callout and broke the file. The rollback caught it.
+    When a patch inserts rather than replaces, check `replacement.startswith(anchor)` before
+    applying, or assemble the insertion yourself.
+  - **Adding teaching trips the count pins, by design.** `test_s03_independent_contract`'s
+    `len(blocks) == 41` is now `>= 41`, proven in both directions (passes at 42, still fails when
+    programs are removed) — the same D6 conversion S01 and S02 already needed. And a new figure's
+    `id`, `caption` and `alt` must be double-quoted: `figure-data-schema.test.mjs` reads them with
+    a double-quote regex, so single quotes read as a missing caption.
+- **SVG text does not clip; it spills over the next box, and no gate saw it.** *(S03, S07, S12,
+  2026-09-17)* The new `S03-call-return` figure was written with `decidir_region("R-NORTE")` under
+  a four-stage box and rendered as `ecidir_region("R-NOR`, cut at both ends, with every suite
+  green. Measuring the live page found seven more: S07's "con una codificación" drew 133px inside
+  a 116px box, in production. `FlowFigure` now wraps a stage's `sub` to a second line and grows the
+  box for it, so no existing wording had to be trimmed, and `figure-data-schema.test.mjs` fails on
+  a label that still cannot fit — an unbreakable identifier, or text needing a third line. Only
+  `raise_for_status` was unfixable by wrapping; its name moved into the outcome line, which is as
+  wide as the canvas. When adding a figure, read it in the browser: the archetypes' text is
+  centred, single-line by default, and silently wider than its container.

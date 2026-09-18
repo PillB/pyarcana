@@ -15,6 +15,17 @@ import json
 import re
 from pathlib import Path
 
+
+def alias_is_acronym(alias: str) -> bool:
+    """Mirror of aliasIsAcronym in src/lib/glossary/terms.ts.
+
+    An all-caps alias matches exactly; everything else ignores case. Without this, `ABC`
+    matches the placeholder string in `int("abc")` and the three matchers disagree about
+    where a term was introduced — which is how `abc` was recorded as taught in S02.
+    """
+    return bool(re.fullmatch(r"[A-Z][A-Z0-9./_-]+", alias) and re.search(r"[A-Z]{2,}", alias))
+
+
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = (ROOT / "src/lib/course/index.ts").read_text(encoding="utf-8")
 TERMS_TS = (ROOT / "src/lib/glossary/terms.ts").read_text(encoding="utf-8")
@@ -81,7 +92,8 @@ for sid in section_ids:
                 continue
             # `\\w` was a literal backslash + w, not a word class — the
             # boundaries did not actually bound. See glossary_intro_audit.py.
-            if re.search(r"(?i)(?<![\w/-])" + re.escape(al) + r"(?![\w/-])", prose):
+            flags = "" if alias_is_acronym(al) else "(?i)"
+            if re.search(flags + r"(?<![\w/-])" + re.escape(al) + r"(?![\w/-])", prose):
                 hit = True
                 break
         if hit:

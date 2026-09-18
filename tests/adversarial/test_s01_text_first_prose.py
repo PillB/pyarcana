@@ -85,7 +85,12 @@ class Section01TextFirstProseTests(unittest.TestCase):
         self.assertEqual(len(set(retrospectives)), 24)
         for phrase in (
             "Reconstruye la secuencia",
-            "Prueba mentalmente tres entradas",
+            # Was "Prueba mentalmente tres entradas", the retrospective of the argv exercise
+            # S01-T1-B-E2 used to be. D9 took `def main()` and `sys.argv` out of S01, and the
+            # replacement compares four prepared commands instead of three inputs. The anchor
+            # moves with the exercise and keeps testing the same thing: a retrospective that
+            # makes the learner contrast two runs rather than restate the instruction.
+            "Compara el archivo ausente con la salida 3",
             "Explica el diagnóstico como un árbol",
             "Lee tu PR desde la silla del revisor",
             "No declares «está ignorado»",

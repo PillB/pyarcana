@@ -18,8 +18,16 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import fs from 'node:fs'
+import { execFileSync } from 'node:child_process'
 
-const events = JSON.parse(fs.readFileSync('.fixer/events.json', 'utf8'))
+// `.fixer/` is gitignored, so on a fresh checkout — CI — the events cache does not exist, and
+// reading it crashed this whole file before a single assertion ran. Extract from the sections
+// themselves instead: the test then checks the course being committed, not whatever a previous
+// local run left behind.
+const events = JSON.parse(execFileSync(
+  'npx', ['tsx', 'scripts/course_event_extractor.mts'],
+  { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 },
+))
 const conceptMap = JSON.parse(fs.readFileSync('course-state/concept_map.json', 'utf8'))
 
 // Kept in step with TEACHING_KINDS in scripts/concept_map.py. `outcome` is here because D1 puts
@@ -97,6 +105,72 @@ test('no concept is credited to a non-teaching surface', () => {
   assert.deepEqual(
     offenders, [],
     'a hint, quiz option or starter cannot be where a learner first learns a term',
+  )
+})
+
+/**
+ * The 2026-09-17 round added five definition shapes and two guards. Each one is pinned here in
+ * both directions, because every rule in this detector that was added without its negative case
+ * later credited something absurd.
+ */
+const defines = (location, term) => {
+  const ev = events.events.find((e) => e.location === location)
+  assert.ok(ev, `${location} must still exist to guard this rule`)
+  return ev.defines.includes(term)
+}
+
+test('a cue glued to the end of a verb is not a definition', () => {
+  // "si haces `clean = raw` … y luego mutas `clean`, corrompes el original" credited `dict`
+  // and `list`, because "corromp-ES EL" contains "es el". Eighteen credits had this shape.
+  assert.equal(defines('basics.S02-T2-B.callout', 'dict'), false)
+  assert.equal(defines('basics.S02-T2-B.callout', 'list'), false)
+})
+
+test('a term the course marks as a term, plus a verb, teaches it', () => {
+  // A keyword or a bolded noun never takes the indefinite article the older rule required,
+  // so "El **broadcasting** alinea shapes…" scored as a surprising use of broadcasting.
+  assert.ok(defines('security.S14-T2-B.p0', 'broadcasting'))
+  assert.ok(defines('data-engineering.S18-T3-A.p0', 'correlaci-n'))
+  assert.ok(defines('security.S14-T1-A.p0', 'dtype'))
+})
+
+test('a command line that starts a sentence is not a definition of its command', () => {
+  // "`git restore archivo` descarta cambios sin commit" is an instruction about a command,
+  // not an explanation of Git. The formatted span has to be the term and nothing else.
+  assert.equal(defines('setup.S01-T3-B.p5', 'git'), false)
+  assert.equal(defines('setup.S01-T3-B.p2', 'git'), false)
+})
+
+test('an appositive with the definite article teaches, an ordinary sentence does not', () => {
+  // "`pip`, el instalador de paquetes de Python" is the course's commonest gloss shape.
+  assert.ok(defines('setup.theory[0].p1', 'pip'))
+  // "Si solo haces `pass` dentro del `if`, el print posterior usa la última `i` del `for`"
+  // has the same opening and defines nothing: its connector is 35 characters away.
+  assert.equal(defines('computer-vision.S23-T1-B-E1.hint[1]', 'if'), false)
+})
+
+test('naming a term in Spanish is not defining it', () => {
+  // "un outlier (un valor atípico) de 120" translates the word and says nothing about it.
+  assert.equal(defines('data-engineering.S18-T1-A.p2', 'outlier'), false)
+  // But "bloques de filas llamados **row groups**" does teach: the description precedes it.
+  assert.ok(defines('stdlib-deep.S15-T4-B#10.p2', 'row-group'))
+})
+
+test('a negated verb describes what a thing is not', () => {
+  // "Devolver una tupla no hace que el lote continúe por sí solo" matched the article and a
+  // describing verb, and was credited as the definition of tuple.
+  assert.equal(defines('functions-contracts.theory[5].callout', 'tuple'), false)
+})
+
+test('a subsection title is not a surprise when its own first paragraph defines the term', () => {
+  const t = conceptMap['p-value']
+  assert.ok(t.first_definition, 'p-value must still be defined in theory')
+  assert.deepEqual(
+    t.surprising_uses.filter((u) => u.kind === 'theory.heading'
+      && u.location.split('.').slice(0, -1).join('.')
+         === t.first_definition.location.split('.').slice(0, -1).join('.')),
+    [],
+    'the heading of the block that defines the term cannot be a surprising use of it',
   )
 })
 

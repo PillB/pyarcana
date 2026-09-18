@@ -70,26 +70,6 @@ export const section01: CourseSection = {
         "**Criterio de cierre.** `CASO-LIM-001` es el caso de práctica de esta sección. Cada afirmación deja evidencia: versión del intérprete, ruta del entorno, dependencias declaradas con versión, historial de Git y ausencia de secretos en el repositorio. Ese esqueleto inicia `CP-N1-A`, el proyecto acumulativo que cerrarás en S04.",
         "**Límites.** Sin datos personales reales y sin credenciales en el repositorio. Si una comprobación no se puede demostrar en una máquina recién instalada, todavía no cuenta como cerrada.",
       ],
-      code: {
-        language: 'python',
-        title: 'contrato_seccion.py — gates del día 1',
-        code: `def section_contract():
-    return {
-        "case": "CASO-LIM-001",
-        "gates": ["venv_per_project", "requirements_pinned", "secrets_out_of_repo", "git_smoke"],
-        "zero_prior_baseline": True,
-        "secrets_in_repo_ok": False,
-    }
-
-c = section_contract()
-print("case", c["case"])
-print("zero_prior_baseline", c["zero_prior_baseline"])
-print("secrets_in_repo_ok", c["secrets_in_repo_ok"])
-`,
-        output: `case CASO-LIM-001
-zero_prior_baseline True
-secrets_in_repo_ok False`,
-      },
      },
      {
       heading: 'Terminal y shell: dónde escribes y quién obedece',
@@ -115,7 +95,6 @@ secrets_in_repo_ok False`,
         'El **REPL** (Read–Eval–Print Loop) es el modo interactivo del intérprete. Lo abres escribiendo solo `python` (o `python3`) y Enter. Verás el prompt `>>>` (el *prompt* es el indicador que muestra que el intérprete está esperando una instrucción tuya). Ahí puedes escribir una expresión, presionar Enter, y Python la evalúa al instante: `2 + 2` devuelve `4`, `type("hola")` devuelve `<class \'str\'>`. Es ideal para probar una idea en 10 segundos sin crear un archivo. Para salir: `quit()` o `exit()`, o el carácter de fin de archivo (Ctrl-D en macOS/Linux, Ctrl-Z y Enter en Windows). Salir del REPL **no cierra** tu terminal: vuelves al prompt de la shell (`$` o `PS>`).',
         'Hay una diferencia crítica entre **sesión REPL** y **script `.py`**. En el REPL escribes una entrada y Python la ejecuta al presionar Enter. En un script guardas una o más instrucciones en un archivo y lo lanzas con `python hello.py`. El mismo script puede ejecutarse en tu laptop o en otra máquina. El REPL sirve para una comprobación rápida; el archivo conserva el programa para volver a ejecutarlo y compartirlo.',
         'Tu primer script puede tener una sola instrucción: **`print(...)`** muestra en la terminal el texto escrito entre paréntesis. Guarda `print("Hola desde mi primer script")` en `hello.py` y ejecútalo con `python hello.py`. Con eso basta: un archivo `.py` con esa instrucción ya es un script.',
-        'Las **anotaciones de tipo**, pistas escritas sobre la clase de valor esperada, no son necesarias para este primer script. Se enseñarán desde S05; por ahora no necesitas copiarlas ni interpretarlas.',
       ],
       code: {
         language: 'python',
@@ -128,7 +107,7 @@ secrets_in_repo_ok False`,
         type: 'tip',
         title: 'REPL vs script en un minuto',
         content:
-          'En el REPL pruebas `2 + 2` y ves la respuesta inmediata. En un archivo `.py` puedes guardar `print("Hola")` y lanzarlo con `python archivo.py`. Un script no necesita `main()` ni un guardián `__name__` para existir.',
+          'En el REPL pruebas `2 + 2` y ves la respuesta inmediata. En un archivo `.py` puedes guardar `print("Hola")` y lanzarlo con `python archivo.py`.',
       },
     },
     {
@@ -839,10 +818,7 @@ python -m pip install ruff
 
 # Contenido inicial de hello_lint.py (import sin usar a propósito):
 # import sys
-# def main():
-#     print("hola")
-# if __name__ == "__main__":
-#     main()
+# print("hola")
 
 python -m ruff check hello_lint.py
 # hello_lint.py:1:8: F401 [*] \`sys\` imported but unused
@@ -951,58 +927,49 @@ A  README.md
       {
         subtopicId: 'S01-T1-A',
         kind: 'independent',
-        title: 'Script `hello_sys.py` con entrypoint',
+        title: 'Script `hello_sys.py`: nombre y versión',
         preamble:
-          '- **Contexto:** el smoke del entorno en equipos se entrega como archivo, no como chat del REPL.\n- **Meta:** escribir un script que imprima nombre sintético y versión de Python con `sys`.\n- **Éxito:** `python hello_sys.py` → exit 0; stdout con nombre y `Python 3.x…`; usa `if __name__ == "__main__":`.\n- **Límites:** no PII real; no `pip install`; no entregar solo líneas pegadas en el REPL.',
+          '- **Contexto:** el smoke del entorno en equipos se entrega como archivo, no como chat del REPL.\n- **Meta:** escribir un script que imprima un nombre sintético y la versión de Python con `sys`.\n- **Éxito:** `python hello_sys.py` → exit 0; stdout muestra `Hola, soy Maria Quispe` y una línea `Python 3.x…`.\n- **Límites:** no PII real; no `pip install`; no entregar solo líneas pegadas en el REPL.',
         id: 'S01-T1-A-E2',
         instruction:
-          '1. Completa los `____` en `main` (nombre sintético, `sys.version`).\n2. Completa el guardián `if __name__ == "__main__":` llamando a `main()`.\n3. Ejecuta `python hello_sys.py` (o `python3`) y confirma exit 0.',
-        hint: 'Empieza importando `sys` y envolviendo la lógica en una función `main`; el guardián la llamará.',
+          '1. Completa el nombre sintético y la expresión de versión en `hello_sys.py`.\n2. Guarda el archivo y ejecútalo con `python hello_sys.py` (o `python3 hello_sys.py`).\n3. Comprueba las dos líneas de stdout y confirma que el código de salida es 0.',
+        hint: 'Importa `sys`; la versión corta se obtiene con `sys.version.split()[0]`.',
         hints: [
-          'Importa sys. La versión corta es sys.version.split()[0]. Envuelve la lógica en main().',
-          'El bloque if __name__ == "__main__": llama a main(). Así el archivo es un entrypoint claro cuando haces: python hello_sys.py',
+          'Sustituye el primer espacio por `Maria Quispe`, un nombre sintético.',
+          'En `sys.____.split()[0]`, completa el espacio con `version`. Después ejecuta el archivo y lee el código de salida en tu shell.',
         ],
         edgeCases: [
-          'Ejecutar pedazos en el REPL sin guardar el archivo',
-          'Olvidar if __name__ == "__main__" (el script igual puede correr, pero pierdes el patrón profesional)',
+          'Ejecutar las instrucciones por separado en el REPL sin guardar `hello_sys.py`',
+          'Usar un nombre o dato de una persona real en vez del nombre sintético indicado',
         ],
         tests:
-          'python hello_sys.py → exit 0; stdout contiene una versión 3.x y un nombre; no requiere pip install.',
+          'python hello_sys.py → exit 0; stdout contiene exactamente dos líneas: el nombre sintético y una versión 3.x; no requiere pip install.',
         feedback:
-          'Si el script corre con un solo comando y no dependiste del REPL para la entrega, ya diste el salto script vs interactivo. El malentendido: “si imprime en el REPL, ya entregué”.',
+          'Si el archivo corre con un solo comando, imprime las dos líneas y termina con código 0, ya diste el salto del experimento interactivo al script. El malentendido: “si imprime en el REPL, ya entregué”.',
         retrospective:
-          'Predice dos escenas: `python hello_sys.py` y `import hello_sys`. En la primera debe correr `main`; en la segunda, no debe imprimir nada por accidente. El guardián explica la diferencia y transforma un experimento en un módulo reutilizable. Llevarás exactamente ese contrato a `scripts/hello_env.py` en el You Do.',
+          'Antes de ejecutar, predice las dos líneas que aparecerán. Luego cambia solo el nombre sintético, guarda el archivo y vuelve a ejecutarlo: el resultado cambia porque Python lee de nuevo las instrucciones guardadas. Ese ciclo —editar, guardar y ejecutar el archivo— es el que reutilizarás con `scripts/hello_env.py` en el You Do.',
         starterCode: {
           language: 'python',
           title: 'hello_sys.py',
           code: `# CASO-LIM-001 · hello_sys.py nombre+versión
-# TAREA: completa los ____ (nombre, sys.version, entrypoint)
+# TAREA: completa los ____ (nombre y expresión de versión)
 # Éxito: python hello_sys.py → exit 0 con nombre y versión 3.x
 import sys
 
-def main():
-    nombre = "____"  # usa un nombre sintético, no datos reales de terceros
-    version = sys.____.split()[0]
-    print(f"Hola, soy {nombre}")
-    print(f"Python {version}")
-
-# Completa el entrypoint profesional (no dejes el script sin if __name__)
-if ____ == "____":
-    ____()`
+nombre = "____"  # usa el nombre sintético indicado, no datos reales
+version = sys.____.split()[0]
+print(f"Hola, soy {nombre}")
+print(f"Python {version}")`
         },
         solutionCode: {
           language: 'python',
           title: 'hello_sys.py',
           code: `import sys
 
-def main():
-    nombre = "Maria Quispe"
-    version = sys.version.split()[0]
-    print(f"Hola, soy {nombre}")
-    print(f"Python {version}")
-
-if __name__ == "__main__":
-    main()`,
+nombre = "Maria Quispe"
+version = sys.version.split()[0]
+print(f"Hola, soy {nombre}")
+print(f"Python {version}")`,
           output: `Hola, soy Maria Quispe
 Python 3.12.3`,
         },
@@ -1099,9 +1066,9 @@ Python 3.12.3`,
         tests:
           'Checklist: (1) exit 0 documentado; (2) exit 1 documentado; (3) shell nombrada (bash/zsh/PowerShell); (4) sin PII en rutas.',
         feedback:
-          'Si leíste el código de salida dos veces seguidas, ya tienes el hábito que CI usa en cada job. El malentendido: “imprimió ok, entonces exit 0”. Siguiente: un script que elija 0 o 1 según argumentos.',
+          'Si leíste el código de salida dos veces seguidas, ya tienes el hábito que CI usa en cada job. El malentendido: “imprimió ok, entonces exit 0”. Siguiente: compararás más comandos preparados y separarás stdout de stderr.',
         retrospective:
-          'Compara tus dos ejecuciones: el texto explica a una persona; el entero gobierna la automatización. En PowerShell, confirma que lees `$LASTEXITCODE`, no el booleano `$?`. Si una tarea «se ve bien» pero la secuencia automática se detiene, consulta primero ese contrato. A continuación harás que el propio script decida entre 0 y 1.',
+          'Compara tus dos ejecuciones: el texto explica a una persona; el entero gobierna la automatización. En PowerShell, confirma que lees `$LASTEXITCODE`, no el booleano `$?`. Si una tarea «se ve bien» pero la secuencia automática se detiene, consulta primero ese contrato. A continuación observarás qué canal usa cada mensaje y qué código deja cada comando.',
         starterCode: {
           language: 'bash',
           title: 'exit_codes_lab.sh (o .ps1 equivalente)',
@@ -1145,70 +1112,82 @@ codigo_fail=1`,
       {
         subtopicId: 'S01-T1-B',
         kind: 'independent',
-        title: '`check_arg.py`: un arg → 0; si no → 1',
+        title: 'Leer códigos de salida y distinguir stdout de stderr',
         preamble:
-          '- **Contexto:** los jobs de admisión fallan con código no cero cuando faltan argumentos.\n- **Meta:** implementar el contrato argc con `sys.argv` y `sys.exit`.\n- **Éxito:** `python check_arg.py hola` → exit 0 y `OK:hola`; sin args o con dos → exit 1 y uso en **stderr**.\n- **Límites:** no ignores args extra; no imprimas el uso solo en stdout.',
+          '- **Contexto:** una secuencia automática necesita saber si un comando terminó bien y dónde escribió cada mensaje.\n- **Meta:** ejecutar cuatro comandos preparados, leer sus códigos de salida y registrar si cada mensaje llegó por stdout o stderr.\n- **Éxito:** reconoces exit 0 en el éxito y exit distinto de 0 en los tres fallos; distingues stdout, stderr y ausencia de mensaje.\n- **Límites:** no escribas un programa con argumentos; usa el nombre de Python que ya verificaste y lee el código inmediatamente después de cada comando.',
         id: 'S01-T1-B-E2',
         instruction:
-          '1. Completa `len(args)`, `sys.stderr` y los `sys.exit`.\n2. Prueba: un arg, cero args, dos args.\n3. Confirma códigos con `echo $?` / `$LASTEXITCODE`.',
-        hint: 'Cuenta los argumentos con `len(sys.argv)`; solo uno debe pasar, los demás van al uso en stderr.',
+          '1. Ejecuta el comando exitoso y luego los tres fallos preparados: archivo ausente, comando inexistente y salida 3.\n2. Después de cada uno, lee `echo $?` en bash/zsh o `echo $LASTEXITCODE` en PowerShell.\n3. Completa el registro con el código y el canal del mensaje: stdout, stderr o ninguno.',
+        hint: 'No deduzcas el resultado por el texto: lee el código justo después de cada comando y registra por separado el canal.',
         hints: [
-          'sys.argv[0] es el nombre del script; los argumentos del usuario empiezan en sys.argv[1].',
-          'print(..., file=sys.stderr) para el mensaje de error. sys.exit(0) vs sys.exit(1). Prueba: python check_arg.py ok  y  python check_arg.py',
+          'El comando que imprime `ok` usa stdout y termina con exit 0. Python informa el archivo ausente por stderr y termina con exit distinto de 0.',
+          'La shell informa el comando inexistente por stderr. `python -c "import sys; sys.exit(3)"` no imprime nada, pero deja el código 3.',
         ],
         edgeCases: [
-          'Más de un argumento debe fallar (código 1), no tomar solo el primero en silencio',
-          'Argumento vacío "" cuenta como un argumento presente — documenta el comportamiento que elijas',
+          'Ejecutar otro comando antes de leer el código de salida y terminar registrando el código equivocado',
+          'Confundir ausencia de mensaje con éxito: el comando que termina con código 3 no escribe en stdout ni stderr',
         ],
         tests:
-          'python check_arg.py hola → exit 0 y stdout contiene OK:hola; python check_arg.py → exit 1; python check_arg.py a b → exit 1.',
+          'Registra cuatro ejecuciones: éxito con exit 0 y stdout; archivo ausente con exit distinto de 0 y stderr; comando inexistente con exit distinto de 0 y stderr; salida 3 sin mensaje.',
         feedback:
-          'Un entrypoint con códigos de salida predecibles es la base de scripts de admisión y de jobs en cron/CI. El malentendido: tomar solo el primer arg y silenciar el resto. En S02–S04 reutilizarás este patrón al validar registros.',
+          'El texto y el código responden preguntas distintas: stdout entrega el resultado normal, stderr explica un fallo y el código decide si el siguiente paso puede darse por seguro. El malentendido: “no imprimió nada, entonces funcionó”.',
         retrospective:
-          'Prueba mentalmente tres entradas: ningún argumento, uno y dos. Solo una satisface el contrato; las demás deben explicar el uso por stderr y devolver 1. Esa tabla de casos vale más que «probé una vez». S02–S04 reutilizarán el mismo patrón cuando un validador de datos reciba entradas incompletas.',
+          'Compara el archivo ausente con la salida 3: ambos terminan con exit distinto de 0, pero solo uno muestra un mensaje. Por eso una automatización lee el código y una persona inspecciona el canal adecuado; ninguna de las dos señales sustituye a la otra.',
         starterCode: {
-          language: 'python',
-          title: 'check_arg.py',
-          code: `# CASO-LIM-001 · check_arg.py argc
-# TAREA: completa los ____ (len, stderr, exit 0/1)
-# Éxito: un arg → OK:… exit 0; sin arg o >1 → uso en stderr exit 1
-import sys
+          language: 'bash',
+          title: 'transcripción de códigos y canales',
+          code: `# CASO-LIM-001 · cuatro comandos preparados
+# TAREA: ejecuta cada comando y completa código y canal
+# Bash/zsh: lee $? · PowerShell: usa $LASTEXITCODE
 
-def main():
-    # sys.argv: [script, arg1, arg2, ...]
-    args = sys.argv[1:]
-    if ____(args) != ____:
-        print("Uso: python check_arg.py <un_valor>", file=sys.____)
-        sys.exit(____)
-    print(f"OK:{args[0]}")
-    sys.exit(____)
+# 1) Éxito
+python3 -c "print('ok')"
+echo $?
+# código: ____ · mensaje: ok · canal: ____
 
-if __name__ == "__main__":
-    main()`,
+# 2) Archivo ausente
+python3 archivo_que_no_existe.py
+echo $?
+# código: ____ · mensaje: archivo no encontrado · canal: ____
+
+# 3) Comando inexistente
+comando_que_no_existe_pyarcana
+echo $?
+# código: ____ · mensaje: comando no encontrado · canal: ____
+
+# 4) Salida 3 sin mensaje
+python3 -c "import sys; sys.exit(3)"
+echo $?
+# código: ____ · mensaje: ____ · canal: ____`,
         },
         solutionCode: {
-          language: 'python',
-          title: 'check_arg.py',
-          code: `import sys
+          language: 'bash',
+          title: 'registro de códigos y canales',
+          code: `# Usa python en lugar de python3 si ese es el nombre que verificaste.
+# En PowerShell, lee $LASTEXITCODE en lugar de $?.
 
-def main():
-    args = sys.argv[1:]
-    if len(args) != 1:
-        print("Uso: python check_arg.py <un_valor>", file=sys.stderr)
-        sys.exit(1)
-    print(f"OK:{args[0]}")
-    sys.exit(0)
+python3 -c "print('ok')"
+echo $?
+# código: 0 · mensaje: ok · canal: stdout
 
-if __name__ == "__main__":
-    main()`,
-          output: `$ python check_arg.py hola
-OK:hola
-$ echo $?
+python3 archivo_que_no_existe.py
+echo $?
+# código: distinto de 0 · mensaje: archivo no encontrado · canal: stderr
+
+comando_que_no_existe_pyarcana
+echo $?
+# código: distinto de 0 · mensaje: comando no encontrado · canal: stderr
+
+python3 -c "import sys; sys.exit(3)"
+echo $?
+# código: 3 · mensaje: ninguno · canal: ninguno`,
+          output: `ok
 0
-$ python check_arg.py
-Uso: python check_arg.py <un_valor>
-$ echo $?
-1`,
+<mensaje de archivo no encontrado>
+<un número distinto de 0>
+<mensaje de comando no encontrado>
+<un número distinto de 0>
+3`,
         },
       },
       {
@@ -2095,13 +2074,8 @@ import os
 from datetime import datetime
 
 
-def main():
-    print("hola")
-    print(datetime.now().date())
-
-
-if __name__ == "__main__":
-    main()
+print("hola")
+print(datetime.now().date())
 `,
         },
         solutionCode: {
@@ -2110,13 +2084,8 @@ if __name__ == "__main__":
           code: `from datetime import datetime
 
 
-def main():
-    print("hola")
-    print(datetime.now().date())
-
-
-if __name__ == "__main__":
-    main()`,
+print("hola")
+print(datetime.now().date())`,
           output: `hola
 ...`,
         },
@@ -2379,7 +2348,7 @@ LOG_LEVEL=INFO
       'pyproject.toml con [tool.ruff] mínimo; ruff check limpio en scripts/hello_env.py',
       'README: título, descripción, install (venv + pip -r), uso, mención esqueleto CP-N1-A, nota de seguridad',
       'data/clients_synthetic.csv con las columnas client_id, full_name, country, signup_date, monthly_amount y 5–10 filas inventadas (ninguna persona real); data/data_dictionary.md describe cada una de esas columnas — ver la plantilla del starter',
-      'scripts/hello_env.py con if __name__ == "__main__" y exit 0',
+      'scripts/hello_env.py imprime la versión de Python y `CP-N1-A skeleton OK`; al ejecutarlo termina con código de salida 0',
       '≥3 commits Conventional Commits; 1 rama feat/* con un PR abierto y documentado',
     ],
     starterCode: `# Estructura esperada (esqueleto CP-N1-A):
@@ -2420,15 +2389,11 @@ LOG_LEVEL=INFO
 # | monthly_amount  | numero | 150.50       | Monto mensual en soles              |
 # ---------------------------------------------------------------------------
 #
-# scripts/hello_env.py — smoke del entorno (sin type hints; S01 no los exige)
+# scripts/hello_env.py — smoke del entorno
 import sys
 
-def main():
-    print(f"Python {sys.version.split()[0]}")
-    print("CP-N1-A skeleton OK")
-
-if __name__ == "__main__":
-    main()
+print(f"Python {sys.version.split()[0]}")
+print("CP-N1-A skeleton OK")
 `,
     portfolioNote:
       'Este repositorio es la base de tu portafolio de Nivel 1. Cuando llegues al gate de S04 (CP-N1-A completo), el revisor valorará que el esqueleto de S01 ya era clonable, sin secretos y con datos sintéticos. Cada sección suma evidencia; no reinicies el repo desde cero sin necesidad. En S01 basta el smoke y la higiene del repo — el validador de admisión llega después.',
