@@ -43,6 +43,16 @@ their verified findings, recorded here so a second interruption cannot lose them
   through `InlineText` — but only as uncommitted work that was already in the tree when this
   session began. It is not this campaign's to commit; its author, or the owner, should.
 
+## Spun off as separate tasks (2026-09-18)
+
+- **Proyectos never renders on the static site** — 9 of 13 capstones invisible on GitHub Pages;
+  works on the dev server; pre-existing on `main`. Started in its own session.
+- **Credential issuance always returns 403** — the route counts ExamAttempt rows keyed `S04…S52`,
+  but attempts are stored under section slugs. Pre-existing; found by the adversarial check of the
+  PR #63 fixes.
+- **The gate lens of that check did not run** (session limit). `fresh_report()` is covered by six
+  tests and an end-to-end `gate.py snapshot S03`, but the independent skeptic pass is still owed.
+
 ## In flight
 
 1. **Skills-and-badges map (solarize cycle).** Mine the project documentation for the required
