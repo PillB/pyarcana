@@ -59,8 +59,15 @@ import { ProgressRing } from './ProgressRing'
 import { ExamView } from './ExamView'
 import { CodePlayground } from './CodePlayground'
 import { t, useI18n } from '@/lib/i18n'
+import { popIn, riseIn } from '@/lib/entrance'
 
 interface SectionViewProps {
+  /**
+   * False while this is the view the page restored from the URL hash as it
+   * loaded: the tab panel and the prev/next buttons then mount at rest
+   * instead of waiting for an animation frame to leave opacity 0 (see riseIn).
+   */
+  animateEntrance: boolean
   section: CourseSection
   onPrev: () => void
   onNext: () => void
@@ -80,6 +87,7 @@ const TAB_META: Record<SubStep, { icon: React.ElementType; labelKey: string; col
 }
 
 export function SectionView({
+  animateEntrance,
   section,
   onPrev,
   onNext,
@@ -286,7 +294,7 @@ export function SectionView({
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
-            initial={{ opacity: 0, y: 4 }}
+            initial={riseIn(animateEntrance, 4)}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.15 }}
@@ -335,7 +343,7 @@ export function SectionView({
       {/* HUD FABs — game-style overlay navigation (replaces bottom nav) */}
       {/* Bottom-left: Prev section */}
       <motion.button
-        initial={{ opacity: 0, scale: 0.8 }}
+        initial={popIn(animateEntrance, 0.8)}
         animate={{ opacity: 1, scale: 1 }}
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.94 }}
@@ -355,7 +363,7 @@ export function SectionView({
 
       {/* Bottom-right: Next section */}
       <motion.button
-        initial={{ opacity: 0, scale: 0.8 }}
+        initial={popIn(animateEntrance, 0.8)}
         animate={{ opacity: 1, scale: 1 }}
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.94 }}

@@ -13,8 +13,15 @@ import { expect, test, type Locator, type Page } from '@playwright/test'
 // Every element under `root` that holds text of its own and is painted below
 // full opacity, as "opacity text". An empty list is the pass. `total` keeps an
 // empty page from passing by having nothing to check.
-async function textNotFullyPainted(root: Locator) {
-  return root.evaluate((rootEl) => {
+//
+// With `designDims`, text counts only when an inline style is what dims it,
+// on the element or an ancestor. framer-motion writes an entrance's opacity
+// there (style="opacity: 0; transform: ..."), while a view that dims text on
+// purpose does it with a class or an SVG attribute: a filter count at 70%,
+// code output at 90%, a disabled button at 50%, a figure's steps not yet
+// reached at 22% or 0. The opacity reported is still what the reader sees.
+async function textNotFullyPainted(root: Locator, designDims = false) {
+  return root.evaluate((rootEl, designDims) => {
     const faint: string[] = []
     let total = 0
     for (const el of rootEl.querySelectorAll('*')) {
@@ -26,13 +33,16 @@ async function textNotFullyPainted(root: Locator) {
       if (!own) continue
       total += 1
       let opacity = 1
+      let dimmedInline = false
       for (let node: Element | null = el; node; node = node.parentElement) {
         opacity *= Number(getComputedStyle(node).opacity)
+        const inline = (node as HTMLElement | SVGElement).style?.opacity
+        if (inline && Number(inline) < 1) dimmedInline = true
       }
-      if (opacity < 1) faint.push(`${opacity.toFixed(2)} ${own.slice(0, 50)}`)
+      if (opacity < 1 && (dimmedInline || !designDims)) faint.push(`${opacity.toFixed(2)} ${own.slice(0, 50)}`)
     }
     return { total, faint }
-  })
+  }, designDims)
 }
 
 async function expectMainFullyPainted(page: Page) {
@@ -40,6 +50,24 @@ async function expectMainFullyPainted(page: Page) {
   // A floor, not a ceiling (D6): the hero, the stats and 52 section cards.
   expect(total).toBeGreaterThanOrEqual(150)
   expect(faint).toEqual([])
+}
+
+// The same, for views that dim some of their text on purpose.
+async function expectMainPaintedAsDesigned(page: Page, floor: number) {
+  const { total, faint } = await textNotFullyPainted(page.locator('main'), true)
+  expect(total).toBeGreaterThanOrEqual(floor)
+  expect(faint).toEqual([])
+}
+
+// The same product for one element, for controls that hold no text of their own.
+async function effectiveOpacity(el: Locator) {
+  return el.evaluate((start) => {
+    let opacity = 1
+    for (let node: Element | null = start; node; node = node.parentElement) {
+      opacity *= Number(getComputedStyle(node).opacity)
+    }
+    return opacity
+  })
 }
 
 async function skipTours(page: Page) {
@@ -89,6 +117,23 @@ async function waitForViewChangesToAnimate(page: Page) {
   })
 }
 
+// The views a shared link can open. `shows` is text each one always has, so a
+// view that failed to open cannot pass by being fully painted. `floor` is a
+// floor on elements with text, not a ceiling (D6): about half of what each
+// view held on 2026-09-18 (291, 593, 1087, 39). `controls` hold no text but
+// must be painted too: the section's previous and next buttons.
+const LINKABLE_VIEWS = [
+  { hash: 'capstones', shows: 'Ver brief', floor: 150, controls: [] },
+  {
+    hash: 'S05',
+    shows: 'Funciones, contratos y descomposición',
+    floor: 300,
+    controls: ['section-prev', 'section-next'],
+  },
+  { hash: 'resources', shows: 'Recursos del curso', floor: 500, controls: [] },
+  { hash: 'familiarity', shows: 'Familiarity Score Dashboard', floor: 20, controls: [] },
+]
+
 test.describe('PyArcana public edition: first paint', () => {
   test.describe('without JavaScript', () => {
     test.use({ javaScriptEnabled: false })
@@ -134,8 +179,8 @@ test.describe('PyArcana public edition: first paint', () => {
   test('the page does not fade in a view restored from the URL, even when no frames run', async ({ page }) => {
     // #capstones replaces the prerendered landing during the first effect after
     // hydration. That is still loading, not a view change the reader asked for.
-    // Only the page's own wrapper is checked: the capstone cards have entrance
-    // animations of their own, which still wait for a frame.
+    // Only the page's own wrapper is checked here; the view's contents are
+    // checked by the tests below.
     await skipTours(page)
     await stopAnimationFrames(page)
     await page.goto('/pyarcana/#capstones')
@@ -144,9 +189,62 @@ test.describe('PyArcana public edition: first paint', () => {
     await expect(page.locator('main > div')).toHaveCSS('opacity', '1')
   })
 
+  for (const view of LINKABLE_VIEWS) {
+    test(`a view restored from #${view.hash} is painted with its contents, even when no frames run`, async ({
+      page,
+    }) => {
+      // Each of these views has entrance animations of its own inside the
+      // page's wrapper. Restored from the hash they are still the page loading,
+      // so they mount at rest like the wrapper does.
+      await skipTours(page)
+      await stopAnimationFrames(page)
+      await page.goto(`/pyarcana/#${view.hash}`)
+      await waitForViewChangesToAnimate(page)
+      await expect(page.locator('main').getByText(view.shows, { exact: true }).first()).toBeAttached()
+      await expectMainPaintedAsDesigned(page, view.floor)
+      for (const testId of view.controls) {
+        expect(await effectiveOpacity(page.getByTestId(testId)), testId).toBe(1)
+      }
+    })
+  }
+
+  for (const view of LINKABLE_VIEWS) {
+    test(`#${view.hash} opened later still plays its own entrance`, async ({ page }) => {
+      // The other half: mounting the views' contents at rest for good would
+      // pass the tests above. Count the elements inside the new view that
+      // start at opacity 0 at the moment it is inserted, before any frame.
+      await skipTours(page)
+      await page.goto('/pyarcana/')
+      await waitForViewChangesToAnimate(page)
+      await page.locator('main').evaluate((main) => {
+        const w = window as unknown as { __innerEntrances?: number }
+        new MutationObserver((records) => {
+          for (const record of records) {
+            for (const node of record.addedNodes) {
+              if (!(node instanceof HTMLElement)) continue
+              w.__innerEntrances = [...node.querySelectorAll<HTMLElement>('[style]')].filter(
+                (el) => el.style.opacity === '0',
+              ).length
+            }
+          }
+        }).observe(main, { childList: true })
+      })
+      await page.evaluate((hash) => {
+        window.location.hash = hash
+      }, view.hash)
+      await expect(page.locator('main').getByText(view.shows, { exact: true }).first()).toBeAttached({
+        timeout: 15000,
+      })
+      const innerEntrances = await page.evaluate(
+        () => (window as unknown as { __innerEntrances?: number }).__innerEntrances,
+      )
+      expect(innerEntrances).toBeGreaterThanOrEqual(1)
+    })
+  }
+
   test('a view opened later still fades in, and finishes', async ({ page }) => {
     // Guards the other half of the fix: mounting everything at rest would pass
-    // the three tests above and silently drop the transition between views.
+    // the first-paint tests above and silently drop the transition between views.
     await skipTours(page)
     await page.goto('/pyarcana/')
     await waitForViewChangesToAnimate(page)

@@ -486,9 +486,9 @@ export default function Home() {
           opacity 0: blank without JavaScript, blank until hydration plus a
           frame, and not counted for LCP until then (Chrome ignores opacity-0
           paints). Until the page has settled, riseIn() gives initial={false},
-          which mounts at the `animate` values; the Dashboard's own entrances
-          follow the same flag. The other views' inner entrances do not yet,
-          so a hash-restored view's cards still wait for a frame.
+          which mounts at the `animate` values. Every view's own entrances
+          follow the same flag, so a view restored from the hash (#capstones,
+          #S05) mounts at rest with its contents, not only its wrapper.
         */}
         <main className="flex-1" data-animate-view-changes={animateViewChanges}>
           <motion.div
@@ -508,6 +508,7 @@ export default function Home() {
             )}
             {view === 'resources' && (
               <ResourcesPage
+                animateEntrance={animateViewChanges}
                 sections={COURSE_SECTIONS.map((s) => ({
                   id: s.id,
                   index: s.index,
@@ -518,9 +519,9 @@ export default function Home() {
               />
             )}
             {!IS_STATIC_SITE && view === 'admin' && <AdminDashboard />}
-            {view === 'familiarity' && <FamiliarityDashboard />}
+            {view === 'familiarity' && <FamiliarityDashboard animateEntrance={animateViewChanges} />}
             {view === 'capstones' && (
-              <CapstonesPage onOpenSection={handleSelectSection} />
+              <CapstonesPage animateEntrance={animateViewChanges} onOpenSection={handleSelectSection} />
             )}
             {!IS_STATIC_SITE && view === 'pricing' && (
               <PricingPage
@@ -546,6 +547,7 @@ export default function Home() {
             )}
             {view === 'section' && activeSection && (
               <SectionView
+                animateEntrance={animateViewChanges}
                 section={activeSection}
                 activeSubStep={activeSubStep}
                 onActiveSubStepChange={setActiveSubStep}
