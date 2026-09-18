@@ -42,8 +42,10 @@ import { riseIn } from '@/lib/entrance'
 
 interface DashboardProps {
   /**
-   * False while the Dashboard is the first view: it is prerendered, so it must
-   * mount at rest instead of fading in from opacity 0 (see riseIn).
+   * False while the Dashboard is the first view. It is prerendered, and what it
+   * shows from stored progress right after hydration (the continue card, the
+   * section bars) is still the page loading, so all of it mounts at rest
+   * instead of fading or growing in from 0 (see riseIn).
    */
   animateEntrance: boolean
   meta: CourseMeta
@@ -371,7 +373,7 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
       {/* Continue learning — what should I do next? */}
       {isReturning && (
         <motion.div
-          initial={{ opacity: 0, y: 8 }}
+          initial={riseIn(animateEntrance, 8)}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
           className="mt-8"
@@ -475,7 +477,7 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
                   <div className="mt-2 h-1 overflow-hidden rounded-full bg-muted">
                     <motion.div
                       className="h-full rounded-full gradient-primary"
-                      initial={{ width: 0 }}
+                      initial={animateEntrance ? { width: 0 } : false}
                       animate={{ width: `${sectionProgress}%` }}
                       transition={{ duration: 0.4 }}
                     />

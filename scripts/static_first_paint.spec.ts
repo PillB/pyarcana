@@ -49,6 +49,28 @@ async function skipTours(page: Page) {
   })
 }
 
+// Two of the five steps of the first section done, and it was the last visited:
+// the landing then shows a "continue" card and a 40% bar on that section.
+async function seedReturningLearner(page: Page) {
+  await page.addInitScript(() => {
+    localStorage.setItem(
+      'python-ds-progress',
+      JSON.stringify({
+        state: {
+          completedSections: [],
+          completedSubSteps: { setup: ['theory', 'ido'] },
+          quizScores: {},
+          lastVisited: 'setup',
+          bookmarks: [],
+          startDate: '2026-09-01T00:00:00.000Z',
+          isHydratedFromServer: false,
+        },
+        version: 0,
+      }),
+    )
+  })
+}
+
 // A background tab, a hidden preview pane or an embedded webview can run no
 // animation frames at all. Headless Chromium always runs them, so without this
 // stub nothing here would notice an animation that never gets to play.
@@ -85,6 +107,28 @@ test.describe('PyArcana public edition: first paint', () => {
     await waitForViewChangesToAnimate(page)
     await expect(page.getByRole('heading', { name: 'PyArcana', level: 1, exact: true })).toHaveCount(1)
     await expectMainFullyPainted(page)
+  })
+
+  test("a returning learner's landing stays painted through hydration when no frames run", async ({ page }) => {
+    // Progress is read from storage after hydration, so the continue card and
+    // the section bars are not in the prerendered HTML. They appear while the
+    // page is still loading, and must not wait for a frame either.
+    await skipTours(page)
+    await seedReturningLearner(page)
+    await stopAnimationFrames(page)
+    await page.goto('/pyarcana/')
+    await waitForViewChangesToAnimate(page)
+    await expect(page.getByText('CONTINÚA DONDE LO DEJASTE')).toBeAttached()
+    await expectMainFullyPainted(page)
+    // The bar for 2 of 5 steps shows 40%, not the 0 it would grow from.
+    const bar = page
+      .locator('main button')
+      .filter({ hasText: 'Entorno reproducible' })
+      .locator('.gradient-primary')
+    const filled = await bar.evaluate(
+      (el) => el.getBoundingClientRect().width / el.parentElement!.getBoundingClientRect().width,
+    )
+    expect(filled).toBeCloseTo(0.4, 2)
   })
 
   test('the page does not fade in a view restored from the URL, even when no frames run', async ({ page }) => {
