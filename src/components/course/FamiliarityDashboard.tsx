@@ -13,6 +13,7 @@ import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
+import { riseIn } from '@/lib/entrance'
 import {
   parseExcelData,
   computeFamiliarity,
@@ -23,7 +24,16 @@ import {
 } from '@/lib/familiarity'
 import { DividerVine, CornerOrnament } from '@/components/ornaments/Ornaments'
 
-export function FamiliarityDashboard() {
+interface FamiliarityDashboardProps {
+  /**
+   * False while this is the view the page restored from the URL hash as it
+   * loaded: the header then mounts at rest instead of waiting for an
+   * animation frame (see riseIn).
+   */
+  animateEntrance: boolean
+}
+
+export function FamiliarityDashboard({ animateEntrance }: FamiliarityDashboardProps) {
   const { toast } = useToast()
   const [records, setRecords] = useState<ClientRecord[]>([])
   const [result, setResult] = useState<FamiliarityResult | null>(null)
@@ -111,7 +121,7 @@ export function FamiliarityDashboard() {
     return (
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 8 }}
+          initial={riseIn(animateEntrance, 8)}
           animate={{ opacity: 1, y: 0 }}
         >
           <Badge variant="outline" className="mb-3 gap-1.5 border-gold text-gold">

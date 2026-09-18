@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { ScrollText, ShieldCheck, Lock, FileWarning, Copyright } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
+import { riseIn } from '@/lib/entrance'
 
 /**
  * Reusable legal & security disclaimer block.
@@ -20,6 +21,12 @@ import { cn } from '@/lib/utils'
  */
 
 export interface LegalDisclaimerProps {
+  /**
+   * False while the view around it is the one the page restored from the URL
+   * hash, or is prerendered: the four cards then mount at rest instead of
+   * waiting for an animation frame to leave opacity 0 (see riseIn).
+   */
+  animateEntrance: boolean
   /** Show the section heading. Defaults to true. */
   showHeading?: boolean
   /** Compact mode: tighter spacing, no outer Card wrap. */
@@ -76,7 +83,12 @@ const items: DisclaimerItem[] = [
   },
 ]
 
-export function LegalDisclaimer({ showHeading = true, compact = false, className }: LegalDisclaimerProps) {
+export function LegalDisclaimer({
+  animateEntrance,
+  showHeading = true,
+  compact = false,
+  className,
+}: LegalDisclaimerProps) {
   const inner = (
     <>
       {showHeading && (
@@ -92,7 +104,7 @@ export function LegalDisclaimer({ showHeading = true, compact = false, className
           return (
             <motion.div
               key={it.title}
-              initial={{ opacity: 0, y: 8 }}
+              initial={riseIn(animateEntrance, 8)}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
             >
