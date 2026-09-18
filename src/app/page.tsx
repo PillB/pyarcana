@@ -462,78 +462,84 @@ export default function Home() {
         </header>
 
         {/* Content area */}
+        {/*
+          The view is swapped the moment it changes; only the entrance is
+          animated. This used to sit in <AnimatePresence mode="wait">, which
+          mounts the next view only after the old one has finished animating
+          out -- and that animation needs requestAnimationFrame. A background
+          tab, a hidden preview pane or an embedded webview runs no frames, so
+          there "Proyectos" set #capstones and the landing stayed for good.
+          The animation is decoration; which view is on screen is state.
+        */}
         <main className="flex-1">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={view + (activeSectionId || '')}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.25 }}
-            >
-              {view === 'home' && (
-                <Dashboard
-                  meta={COURSE_META}
-                  sections={COURSE_SECTIONS}
-                  onSelectSection={handleSelectSection}
-                  onOpenAuth={handleOpenAuth}
-                />
-              )}
-              {view === 'resources' && (
-                <ResourcesPage
-                  sections={COURSE_SECTIONS.map((s) => ({
-                    id: s.id,
-                    index: s.index,
-                    title: s.title,
-                    shortTitle: s.shortTitle,
-                    resources: s.resources,
-                  }))}
-                />
-              )}
-              {!IS_STATIC_SITE && view === 'admin' && <AdminDashboard />}
-              {view === 'familiarity' && <FamiliarityDashboard />}
-              {view === 'capstones' && (
-                <CapstonesPage onOpenSection={handleSelectSection} />
-              )}
-              {!IS_STATIC_SITE && view === 'pricing' && (
-                <PricingPage
-                  isAuthenticated={!!session?.user}
-                  onOpenAuth={() => handleOpenAuth('login')}
-                  onSelectPlan={async (planCode, cycle, country) => {
-                    try {
-                      const res = await fetch('/api/subscription/checkout', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ planCode, billingCycle: cycle, country }),
-                      })
-                      const data = await res.json()
-                      if (data.redirectUrl) {
-                        window.location.hash = data.redirectUrl.replace('/#', '')
-                        setView('section')
-                      }
-                    } catch {
-                      // silent fail in test mode
+          <motion.div
+            key={view + (activeSectionId || '')}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            {view === 'home' && (
+              <Dashboard
+                meta={COURSE_META}
+                sections={COURSE_SECTIONS}
+                onSelectSection={handleSelectSection}
+                onOpenAuth={handleOpenAuth}
+              />
+            )}
+            {view === 'resources' && (
+              <ResourcesPage
+                sections={COURSE_SECTIONS.map((s) => ({
+                  id: s.id,
+                  index: s.index,
+                  title: s.title,
+                  shortTitle: s.shortTitle,
+                  resources: s.resources,
+                }))}
+              />
+            )}
+            {!IS_STATIC_SITE && view === 'admin' && <AdminDashboard />}
+            {view === 'familiarity' && <FamiliarityDashboard />}
+            {view === 'capstones' && (
+              <CapstonesPage onOpenSection={handleSelectSection} />
+            )}
+            {!IS_STATIC_SITE && view === 'pricing' && (
+              <PricingPage
+                isAuthenticated={!!session?.user}
+                onOpenAuth={() => handleOpenAuth('login')}
+                onSelectPlan={async (planCode, cycle, country) => {
+                  try {
+                    const res = await fetch('/api/subscription/checkout', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ planCode, billingCycle: cycle, country }),
+                    })
+                    const data = await res.json()
+                    if (data.redirectUrl) {
+                      window.location.hash = data.redirectUrl.replace('/#', '')
+                      setView('section')
                     }
-                  }}
-                />
-              )}
-              {view === 'section' && activeSection && (
-                <SectionView
-                  section={activeSection}
-                  activeSubStep={activeSubStep}
-                  onActiveSubStepChange={setActiveSubStep}
-                  hasPrev={activeIndex > 0}
-                  hasNext={activeIndex < COURSE_SECTIONS.length - 1}
-                  onPrev={() => activeIndex > 0 && handleSelectSection(COURSE_SECTIONS[activeIndex - 1].id)}
-                  onNext={() =>
-                    activeIndex < COURSE_SECTIONS.length - 1 &&
-                    handleSelectSection(COURSE_SECTIONS[activeIndex + 1].id)
+                  } catch {
+                    // silent fail in test mode
                   }
-                  onOpenAuth={() => handleOpenAuth('login')}
-                />
-              )}
-            </motion.div>
-          </AnimatePresence>
+                }}
+              />
+            )}
+            {view === 'section' && activeSection && (
+              <SectionView
+                section={activeSection}
+                activeSubStep={activeSubStep}
+                onActiveSubStepChange={setActiveSubStep}
+                hasPrev={activeIndex > 0}
+                hasNext={activeIndex < COURSE_SECTIONS.length - 1}
+                onPrev={() => activeIndex > 0 && handleSelectSection(COURSE_SECTIONS[activeIndex - 1].id)}
+                onNext={() =>
+                  activeIndex < COURSE_SECTIONS.length - 1 &&
+                  handleSelectSection(COURSE_SECTIONS[activeIndex + 1].id)
+                }
+                onOpenAuth={() => handleOpenAuth('login')}
+              />
+            )}
+          </motion.div>
         </main>
 
         {/* Footer */}
