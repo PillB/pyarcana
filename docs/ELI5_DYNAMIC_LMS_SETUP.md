@@ -355,5 +355,6 @@ firebase deploy --only firestore:indexes
 
 **Credential issuance fails:**
 - Set CREDENTIAL_SIGNING_KEY in .env.local
-- Verify the user has passed all 13 gate sections
+- Verify the user has passed the exam of all 13 gate sections with a best score of at least 85
+  (`provisional_floors.section_exam_pct` in `src/lib/eligibility/badge_catalog.json`, not the exam pass mark of 70)
 - Check server logs: `journalctl -u pyarcana -f`

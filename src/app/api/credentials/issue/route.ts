@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import {
+  CREDENTIAL_EXAM_FLOOR,
+  countPassedGates,
+  gateSectionAliases,
+  gateSectionIds,
+} from '@/lib/credential-gates'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
 import { createHmac, randomUUID } from 'crypto'
 
@@ -105,23 +111,26 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Recompute eligibility from server-side evidence (exam attempts)
+    // Recompute eligibility from server-side evidence (exam attempts). Attempts are keyed by
+    // section slug, so the gate sections are asked for under every slug they were stored under.
     const examAttempts = await db.examAttempt.findMany({
       where: {
         userId,
-        sectionId: { in: ['S04', 'S08', 'S13', 'S17', 'S21', 'S26', 'S30', 'S34', 'S39', 'S43', 'S47', 'S51', 'S52'] },
+        sectionId: { in: gateSectionAliases() },
         completedAt: { not: null },
       },
     })
 
-    // Check that at least 13 gate sections have a completed attempt with score >= 70
-    const passedGates = examAttempts.filter((a) => a.score >= 70).length
-    if (passedGates < 13) {
+    // Every gate section needs a completed attempt whose best score meets the credential floor;
+    // a section counts once, however many attempts it has.
+    const requiredGates = gateSectionIds().length
+    const passedGates = countPassedGates(examAttempts)
+    if (passedGates < requiredGates) {
       return NextResponse.json(
         {
-          error: 'Eligibility not met. All 13 gate sections must be passed.',
+          error: `Eligibility not met. All ${requiredGates} gate sections must be passed with a score of at least ${CREDENTIAL_EXAM_FLOOR}.`,
           passedGates,
-          requiredGates: 13,
+          requiredGates,
         },
         { status: 403 }
       )
