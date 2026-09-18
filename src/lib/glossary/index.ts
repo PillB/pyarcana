@@ -2,6 +2,7 @@ export {
   GLOSSARY_TERMS,
   GLOSSARY_BY_ALIAS,
   findGlossaryTerm,
+  aliasIsAcronym,
   type GlossaryTerm,
   type GlossaryCategory,
 } from './terms'

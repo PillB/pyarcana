@@ -1,9 +1,9 @@
 /**
  * S06 — Colecciones y estructuras de datos
  *
- * The filename and the exported id ("numpy") both come from a pre-V3 ordering
- * and no longer describe what this section teaches. The id is the URL hash and
- * a learner save key, so it cannot be changed without losing progress.
+ * Renamed from the pre-V3 id "numpy" to match what this section actually teaches.
+ * The id is the URL hash and a learner save key; saved progress is carried across
+ * by migrateSectionIds in src/lib/section-id-migrations.ts.
  *
  * Read `title` below, never the slug. Matching content to the slug is how three
  * agent diagrams ended up attached to a data-testing lesson.
@@ -11,7 +11,7 @@
 import type { CourseSection } from '../../types'
 
 export const section06: CourseSection = {
-  id: "numpy",
+  id: "collections",
   index: 6,
   title: "Colecciones y estructuras de datos",
   shortTitle: "Colecciones",
@@ -103,7 +103,7 @@ keys: ('id', 'monto')`,
       heading: "Unpacking, aliasing y copia",
       subtopicId: "S06-T1-B",
       paragraphs: [
-        "El desempaquetado convierte posiciones en nombres. La expresión `id_cliente, region, monto = fila` documenta la forma de la fila (`shape`): cuántos valores contiene, en qué orden aparecen y qué tipo de dato ocupa cada posición. Un tipo de dato es la clase de valor, como texto o número. Python solo comprueba cuántos elementos hay, no qué significan: una fila con la región y el monto intercambiados se desempaqueta sin error y deja los nombres cruzados. Si sobran o faltan valores, Python detiene la operación con `ValueError`; ese error detecta una cantidad incorrecta, pero no valida el significado de cada posición. Esa validación necesita una comprobación separada. `head, *rest = fila` reúne en una lista todos los valores posteriores al primero cuando solo la primera posición es fija.",
+        "El desempaquetado convierte posiciones en nombres. La expresión `id_cliente, region, monto = fila` documenta la forma de la fila: cuántos valores contiene, en qué orden aparecen y qué tipo de dato ocupa cada posición. Un tipo de dato es la clase de valor, como texto o número. Python solo comprueba cuántos elementos hay, no qué significan: una fila con la región y el monto intercambiados se desempaqueta sin error y deja los nombres cruzados. Si sobran o faltan valores, Python detiene la operación con `ValueError`; ese error detecta una cantidad incorrecta, pero no valida el significado de cada posición. Esa validación necesita una comprobación separada. `head, *rest = fila` reúne en una lista todos los valores posteriores al primero cuando solo la primera posición es fija.",
         "Una asignación no fotocopia el objeto; solo añade otra etiqueta. Si dos etiquetas de equipaje apuntan a la misma maleta, abrirla mediante cualquiera revela el mismo contenido. Así funciona `b = a`: `a` y `b` son nombres del mismo contenedor. El error del principiante es interpretar dos variables como dos historias independientes y descubrir la mutación mucho después.",
         "La copia superficial crea un contenedor exterior nuevo, pero conserva referencias a los objetos interiores: `rows.copy()` todavía comparte cada diccionario de fila con `rows`. Basta si solo reordenas filas; no basta si cambiarás un campo de una fila, sus `tags`, sus contactos u otros valores anidados. El módulo `copy` viene incluido con Python; `import copy` permite usar funciones como `copy.deepcopy`. Para el modelo de este curso, `deepcopy` copia de manera recursiva los contenedores mutables anidados, de modo que editar esos contenedores copiados no alcanza al original. Es una operación más amplia y costosa que una copia superficial, no una garantía universal de aislamiento. Decide el nivel de aislamiento antes de mutar y prueba qué objetos esperas compartir o separar.",
       ],
@@ -254,9 +254,9 @@ n_conflicts: 1`,
       heading: "Estructuras anidadas y recorridos",
       subtopicId: "S06-T3-A",
       paragraphs: [
-        "Un cliente no es una fila aislada: posee contactos y transacciones. Una estructura anidada representa esa relación como un árbol pequeño: el diccionario del cliente es el tronco y sus listas son ramas. El doble `for` no es complejidad accidental; sigue una arista real, cliente → transacción. Mientras el shape esté documentado, `list[dict]` basta para razonar sin introducir clases antes de necesitarlas.",
+        "Un cliente no es una fila aislada: posee contactos y transacciones. Una estructura anidada representa esa relación como un árbol pequeño: el diccionario del cliente es el tronco y sus listas son ramas. El doble `for` no es complejidad accidental; sigue una arista real, cliente → transacción. Mientras la forma esté documentada, `list[dict]` basta para razonar sin introducir clases antes de necesitarlas.",
         "Aplanar no solo cambia la vista. Un cliente sin transacciones desaparece de una tabla que crea una fila por transacción. Para cada transacción que sí existe, repites `client_id` junto a `tx_id` y `monto`; así conservas el vínculo cuando desaparece el árbol. Por eso debes conservar los clientes por separado si necesitas recuperarlos a todos. Si omites `client_id`, además obtienes montos huérfanos. Antes de exportar, cuenta clientes y transacciones y decide qué información debe repetirse o mantenerse en otra estructura.",
-        "Forma y contenido son problemas diferentes. `txs: []` tiene la forma correcta y expresa cero transacciones; una clave ausente o `txs: 'oops'` rompe el contrato. `bool(txs)` mezcla ambos problemas porque una lista vacía es falsy. `isinstance(txs, list)` pregunta por el shape que realmente necesitas y permite enviar solo las filas estructuralmente inválidas a revisión.",
+        "Forma y contenido son problemas diferentes. `txs: []` tiene la forma correcta y expresa cero transacciones; una clave ausente o `txs: 'oops'` rompe el contrato. `bool(txs)` mezcla ambos problemas porque una lista vacía es falsy. `isinstance(txs, list)` pregunta por la forma que realmente necesitas y permite enviar solo las filas estructuralmente inválidas a revisión.",
       ],
       code: {
         language: 'python',
@@ -641,7 +641,7 @@ flat: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 50}, {'client_id': 'C001', 
         },
         why: "`summarize_client` reduce las ramas a métricas del cliente; `flatten_store` produce una fila por transacción. Son vistas del mismo almacén, no copias equivalentes: el resumen pierde detalle a propósito y la vista plana repite `client_id` para conservar la relación. El doble `for` refleja exactamente las dos aristas que recorre.",
         retrospective:
-          "Comprueba una conservación: la suma de montos del árbol debe coincidir con la suma de la lista plana. ¿Qué assert detectaría que olvidaste la segunda transacción? Luego imagina que una fila plana no incluye `client_id`: el monto existe, pero su dueño se perdió. En T3-A usarás conteos y shapes para demostrar que el recorrido conserva relaciones.",
+          "Comprueba una conservación: la suma de montos del árbol debe coincidir con la suma de la lista plana. ¿Qué assert detectaría que olvidaste la segunda transacción? Luego imagina que una fila plana no incluye `client_id`: el monto existe, pero su dueño se perdió. En T3-A usarás conteos y formas para demostrar que el recorrido conserva relaciones.",
       },
       {
         demoId: "S06-T3-B-DEMO",
@@ -910,7 +910,7 @@ except AttributeError as e:
         kind: "guided",
         title: "Desempaquetar fila en cid, región y monto",
         preamble:
-          "- **Contexto:** filas sintéticas de intake llegan como tuplas posicionales; el unpack documenta el shape.\n- **Meta:** asignar `cid, region, monto` sin índices sueltos.\n- **Éxito:** una línea `C001 Lima 10` (en ese orden).\n- **Límites:** no uses índices `fila[i]` en la solución final; no fuerces el caso de largo incorrecto aquí.",
+          "- **Contexto:** filas sintéticas de intake llegan como tuplas posicionales; el unpack documenta la forma.\n- **Meta:** asignar `cid, region, monto` sin índices sueltos.\n- **Éxito:** una línea `C001 Lima 10` (en ese orden).\n- **Límites:** no uses índices `fila[i]` en la solución final; no fuerces el caso de largo incorrecto aquí.",
         id: "S06-T1-B-E1",
         instruction:
           "1. Revisa el starter: `region` y `monto` están cruzados.\n2. Sustituye por unpack `cid, region, monto = fila`.\n3. Imprime los tres en un solo `print`.\n4. Confirma mentalmente que el largo de `fila` es 3.",
@@ -922,7 +922,7 @@ except AttributeError as e:
         edgeCases: ["largo exacto"],
         tests: "C001 Lima 10",
         feedback:
-          "Unpack documenta el shape esperado de la fila. Si el largo no calza, Python falla de inmediato — y eso es bueno para detectar filas rotas antes del almacén.",
+          "Unpack documenta la forma esperada de la fila. Si el largo no calza, Python falla de inmediato — y eso es bueno para detectar filas rotas antes del almacén.",
         retrospective:
           "El unpack no solo ahorra índices: convierte el largo de la fila en una afirmación ejecutable. Predice el error si llega `('C001', 'Lima')` y explica por qué no conviene rellenar `monto` en silencio. Después decide cuándo usarías `cid, *rest`: flexibiliza el shape, pero también traslada a tu código la responsabilidad de validar cuánto contiene `rest`.",
         starterCode: {
@@ -1334,7 +1334,7 @@ print(dedup_report(rows))`,
         edgeCases: ["lista vacía de contactos"],
         tests: "C001 → 2 ; C002 → 0",
         feedback:
-          "Conteo con `len` valida el grafo anidado. Imprimir la lista cruda no resume; lista vacía es shape OK con conteo 0, no un «cliente roto».",
+          "Conteo con `len` valida el grafo anidado. Imprimir la lista cruda no resume; una lista vacía tiene la forma correcta y conteo 0; no representa un «cliente roto».",
         retrospective:
           "C002 produce cero, no error ni «missing», porque la lista existe y simplemente no contiene contactos. Explica la diferencia entre `contacts: []` y una fila sin clave `contacts`. ¿Qué debería hacer un resumen y qué debería hacer un validador de shape? Mantener esas responsabilidades separadas evita convertir ausencia de actividad en corrupción estructural.",
         starterCode: {
@@ -1424,7 +1424,7 @@ print(flat)`,
           "isinstance(c.get('txs'), list)",
           "No asumas claves siempre presentes.",
         ],
-        edgeCases: ["shape roto"],
+        edgeCases: ["forma incorrecta"],
         tests: "ok / review / review",
         feedback:
           "Validar shape en memoria evita basura silenciosa al exportar. `bool(txs)` manda a review la lista vacía legítima; `isinstance(..., list)` separa shape de contenido.",

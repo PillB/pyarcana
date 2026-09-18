@@ -171,6 +171,9 @@ answer `self_critique` about the revised text.
 ===== AUDIT WIKI: OPERATING CONTRACT (binding) =====
 {wiki_contract}
 
+===== LEDGER: OBSERVATIONS FROM EARLIER ROUNDS (binding; they apply to this section) =====
+{(ROOT / "audit/fixer/LEDGER_NOTES.md").read_text(encoding="utf-8") if (ROOT / "audit/fixer/LEDGER_NOTES.md").exists() else ""}
+
 ===== STANDING DECISIONS (binding) =====
 {decisions}
 

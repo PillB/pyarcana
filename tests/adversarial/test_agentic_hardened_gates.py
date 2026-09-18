@@ -15,16 +15,27 @@ from newbie_agentic_validator import (  # noqa: E402
 
 
 def test_hello_sys_form_gate_rejects_repl_only():
-    instr = (
-        "E2 — Crea `hello_sys.py` con sys.version y if __name__ == \"__main__\"."
-    )
+    instr = "E2 — Crea `hello_sys.py` que imprima un nombre sintetico y sys.version."
     repl = "# >>> 2+2\n# 4\n"
     issues = exercise_form_issues("S01-T1-A-E2", instr, repl)
-    assert "missing_main_for_hello_sys" in issues or "repl_transcript_for_script_exercise" in issues
+    assert "repl_transcript_for_script_exercise" in issues
 
 
-def test_hello_sys_form_gate_accepts_script():
-    instr = "Crea hello_sys.py con sys.version y if __name__ == '__main__'"
+def test_hello_sys_form_gate_accepts_a_top_level_script():
+    instr = "Crea hello_sys.py que imprima un nombre sintetico y sys.version"
+    code = (
+        "import sys\n\n"
+        "nombre = \"Maria Quispe\"\n"
+        "version = sys.version.split()[0]\n"
+        "print(f\"Hola, soy {nombre}\")\n"
+        "print(f\"Python {version}\")\n"
+    )
+    assert not exercise_form_issues("S01-T1-A-E2", instr, code)
+
+
+def test_hello_sys_form_gate_rejects_the_entrypoint_idiom_before_it_is_taught():
+    """D9: the guard needs def, if and __name__, none of them taught in S01."""
+    instr = "Crea hello_sys.py que imprima un nombre sintetico y sys.version"
     code = (
         "import sys\n\n"
         "def main() -> None:\n"
@@ -32,7 +43,7 @@ def test_hello_sys_form_gate_accepts_script():
         "if __name__ == '__main__':\n"
         "    main()\n"
     )
-    assert not exercise_form_issues("S01-T1-A-E2", instr, code)
+    assert "entrypoint_idiom_before_it_is_taught" in exercise_form_issues("S01-T1-A-E2", instr, code)
 
 
 def test_incomplete_todo_still_caught():

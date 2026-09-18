@@ -11,7 +11,7 @@ from tests.adversarial.test_over_localized_language import PE_CITIES
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SECTION = ROOT / "src/lib/course/sections/s04-functions-modules.ts"
+SECTION = ROOT / "src/lib/course/sections/s04-iteration-summaries.ts"
 
 
 def _between(text: str, start: str, end: str) -> str:

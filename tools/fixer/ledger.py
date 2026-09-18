@@ -129,6 +129,11 @@ def main() -> int:
           "subtopic (D3) is a judgement, so that column is ticked by a human reading the",
           "section, not by this script."]
 
+    # Hand-maintained observations live in their own file so the computed table above
+    # stays machine-true, but they are part of the ledger every round reads.
+    notes = ROOT / "audit/fixer/LEDGER_NOTES.md"
+    if notes.exists():
+        L += ["", "---", "", notes.read_text(encoding="utf-8").rstrip()]
     text = "\n".join(L) + "\n"
     if "--check" in sys.argv:
         current = OUT.read_text(encoding="utf-8") if OUT.exists() else ""

@@ -9,7 +9,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SECTION = ROOT / "src" / "lib" / "course" / "sections" / "s05-oop.ts"
+SECTION = ROOT / "src" / "lib" / "course" / "sections" / "s05-functions-contracts.ts"
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from newbie_packet_builder import parse_section_learner  # noqa: E402

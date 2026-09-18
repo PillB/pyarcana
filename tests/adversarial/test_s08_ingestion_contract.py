@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from newbie_packet_builder import active_manifest, parse_section_learner  # noqa: E402
 
 
-SECTION = ROOT / "src" / "lib" / "course" / "sections" / "s08-pandas.ts"
+SECTION = ROOT / "src" / "lib" / "course" / "sections" / "s08-files-ingestion.ts"
 SEED = ROOT / "prisma" / "seed.ts"
 SECTION_VIEW = ROOT / "src" / "components" / "course" / "SectionView.tsx"
 PDF_REPORT = ROOT / "src" / "components" / "course" / "PdfReport.tsx"
@@ -44,7 +44,7 @@ class TestS08IngestionContract(unittest.TestCase):
     def test_canonical_identity_and_gradual_release_surface(self) -> None:
         source = SECTION.read_text(encoding="utf-8")
 
-        self.assertIn('id: "pandas"', source)
+        self.assertIn('id: "files-ingestion"', source)
         self.assertIn('index: 8', source)
         self.assertIn(
             'title: "Archivos, CSV, JSON y contratos de ingesta"',
@@ -88,7 +88,7 @@ class TestS08IngestionContract(unittest.TestCase):
 
     def test_authenticated_bank_is_equivalent_and_position_balanced(self) -> None:
         seed = SEED.read_text(encoding="utf-8")
-        block = _between(seed, "  // S08 V3", "\n  visualization: [")
+        block = _between(seed, "  // S08 V3", '\n  "exceptions-logging": [')
         entries = re.findall(
             r"\{\s+concept: '([^']+)'.*?correctIndex:\s*([0-3]),",
             block,
@@ -119,7 +119,7 @@ class TestS08IngestionContract(unittest.TestCase):
                 Counter({0: 2, 1: 2, 2: 2, 3: 2}),
             )
 
-        learner_bank = block[block.index("  pandas: [") :].lower()
+        learner_bank = block[block.index('  "files-ingestion": [') :].lower()
         self.assertNotIn("id plataforma pandas", learner_bank)
         self.assertNotIn("s08 v3", learner_bank)
         self.assertNotIn("bad_column_count", learner_bank)
@@ -127,7 +127,7 @@ class TestS08IngestionContract(unittest.TestCase):
 
     def test_runtime_playground_is_on_topic_and_executable(self) -> None:
         section_view = SECTION_VIEW.read_text(encoding="utf-8")
-        block = _between(section_view, "    'pandas': {", "    'visualization': {")
+        block = _between(section_view, "    'files-ingestion': {", "    'exceptions-logging': {")
 
         self.assertIn("Practica ingesta con cuarentena y manifest", block)
         self.assertIn('reason": "cast_monto"', block)
@@ -155,8 +155,8 @@ class TestS08IngestionContract(unittest.TestCase):
 
     def test_pdf_label_matches_files_and_etl_scope(self) -> None:
         pdf = PDF_REPORT.read_text(encoding="utf-8")
-        self.assertIn("pandas: '8. Archivos & ETL'", pdf)
-        self.assertNotIn("pandas: '8. Pandas'", pdf)
+        self.assertIn('"files-ingestion": \'8. Archivos & ETL\'', pdf)
+        self.assertNotIn('"files-ingestion": \'8. Pandas\'', pdf)
 
 
 if __name__ == "__main__":

@@ -218,7 +218,7 @@ edad: 19
       subtopicId: 'S02-T2-A',
       paragraphs: [
         'Un programa pequeño puede sobrevivir a `x`, `dato2` y `AP`; un equipo distribuido no debería tener que adivinarlos. **Puente desde T1:** una vez que el valor tiene un tipo, necesita un nombre estable que conserve su significado durante la lectura, la prueba y la revisión.',
-        '**`=` asigna** un nombre a un valor: `edad = 25` guarda el valor `25` bajo el nombre `edad`. **`==` compara** dos valores y produce un `bool`: `edad == 25` produce `True`. No son intercambiables. En esta sección asignas con `=` y comparas con `==`.',
+        'Una **variable** es un nombre ligado a un valor; sirve para volver a usar ese valor y cambiarlo sin reescribirlo en cada lugar. El nombre no es el valor, y Python no exige declarar de antemano un tipo para ese nombre: **`=` asigna** `25` a `edad` en `edad = 25`, y `edad = 26` asigna otro valor al mismo nombre. **`==` compara** dos valores y produce un `bool`: `edad == 25` produce `True`. No son intercambiables: en esta sección asignas con `=` y comparas con `==`.',
         'PEP 8 (guía de estilo): **`snake_case`** para variables y funciones (`apellido_paterno`, `parse_client`); **`UPPER_CASE`** para constantes (`EDAD_MINIMA`, `IGV_TASA`); **`CapWords`** para clases (más adelante). `UPPER_CASE` es una convención de lectura: Python sí permite reasignar ese nombre. Evita nombres de una sola letra confusos: **`l`, `O`, `I`** se confunden con `1` y `0`. Prefiere `longitud`, `indice`, `columna`.',
         'Para los campos de la captura inicial usa nombres estables y en español técnico claro: `nombres`, `apellido_paterno`, `apellido_materno`, `contacto`, `direccion`. No inventes parentesco real a partir de apellidos: son **campos de texto**, no una afirmación genealógica. Si Python encuentra un nombre que aún no has asignado, muestra **`NameError`**, un error que suele señalar un nombre mal escrito o usado demasiado pronto.',
         '**Prueba de lectura:** tapa el valor y observa solo el nombre. ¿Podrías explicar qué guarda `apellido_paterno` y por qué `EDAD_MINIMA` parece una regla estable? Si el nombre necesita un comentario para revelar lo esencial, aún puede mejorar. En T2-B verás que dos nombres también pueden señalar el mismo objeto.',
@@ -2485,7 +2485,7 @@ if __name__ == "__main__":
       tasks: [
         {
           id: 'S02-T3-TE-1',
-          title: 'Precedencia: -3**2 vs (-3)**2 e IGV con paréntesis',
+          title: 'Precedencia: `-3**2` vs `(-3)**2` e IGV con paréntesis',
           authentic: true,
           deliverable: 'Prints de potencia + total = subtotal * (1 + 0.18) documentando el error de float',
         },

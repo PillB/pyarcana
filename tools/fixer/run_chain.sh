@@ -17,9 +17,12 @@ for TAG in "$@"; do
     exit 1
   fi
 
-  if grep -q "RUNTIME REGRESSION" ".fixer/$TAG.round.log"; then
-    echo "!! $TAG regressed lesson runtime - stopping chain, nothing committed"
-    grep -A8 "RUNTIME REGRESSION" ".fixer/$TAG.round.log"
+  # run_round.sh now exits non-zero on ANY failed gate (and restores the section), so the
+  # exit status above is the whole verdict. This used to grep only for a runtime regression,
+  # which let a section with a failing adversarial suite through to a commit.
+  if grep -q "FAILED" ".fixer/$TAG.round.log"; then
+    echo "!! $TAG log reports a failed gate - stopping chain, nothing committed"
+    grep -E "FAIL" ".fixer/$TAG.round.log" | head -12
     exit 1
   fi
   if python3 -c "

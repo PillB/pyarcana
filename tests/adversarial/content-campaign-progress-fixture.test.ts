@@ -63,11 +63,30 @@ test('an empty server response cannot wipe the touched sections', () => {
 })
 
 test('every section id referenced by the fixture still exists in the course', () => {
+  // This fixture is a real legacy learner's saved progress, captured before the section slugs
+  // were renamed to match what each section teaches. It still names `data-structures`, `numpy`
+  // and `pandas`, so it only resolves once the v0→v1 migration has run — which is the whole
+  // point of that migration, and the strongest available test of it: if the rename ever drops
+  // a mapping, a real learner's completed work stops resolving and this fails.
   const ids = new Set(COURSE_SECTIONS.map(s => s.id))
-  for (const id of fixture.state.completedSections) assert.ok(ids.has(id), `${id} still active`)
-  for (const id of fixture.state.bookmarks) assert.ok(ids.has(id), `${id} bookmark target still active`)
-  assert.ok(ids.has(fixture.state.lastVisited))
+  const { state } = migrateProgressState({ ...EMPTY_PROGRESS, ...fixture.state }, 0, 1)
+
+  for (const id of state.completedSections ?? []) assert.ok(ids.has(id), `${id} still active`)
+  for (const id of state.bookmarks ?? []) assert.ok(ids.has(id), `${id} bookmark target still active`)
+  for (const id of Object.keys(state.completedSubSteps ?? {})) {
+    assert.ok(ids.has(id), `${id} sub-step target still active`)
+  }
+  for (const id of Object.keys(state.quizScores ?? {})) {
+    assert.ok(ids.has(id), `${id} quiz-score target still active`)
+  }
+  assert.ok(ids.has(state.lastVisited as string))
   assert.equal(COURSE_SECTIONS.length, 52)
+
+  // No work is lost in the process.
+  assert.equal(
+    (state.completedSections ?? []).length,
+    fixture.state.completedSections.length
+  )
 })
 
 test('touched sections keep their identity and grew only additively', () => {

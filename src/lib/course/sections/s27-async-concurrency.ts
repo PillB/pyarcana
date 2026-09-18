@@ -16,22 +16,22 @@ export const section27: CourseSection = {
   title: "Estrategia de pruebas con pytest",
   shortTitle: "Pytest y contratos",
   tagline:
-    "Convertir supuestos de normalización y matching en contratos ejecutables con pytest; cada bug reproducido deja un test de regresión",
+    "Convertir supuestos de normalización y emparejamiento en contratos ejecutables con pytest; cada bug reproducido deja una prueba de regresión",
   estimatedHours: 9,
   level: "Integración avanzada",
   phase: 2,
   icon: "FlaskConical",
   accentColor: "bg-gradient-to-br from-violet-500 to-purple-700",
   jobRelevance:
-    "En equipos de data engineering y compliance en Perú (bancos, fintech, retail con padrones de clientes), un motor de entity resolution (resolución de entidades: decidir si dos registros son la misma persona o empresa) solo es confiable si normalización y matching son contratos ejecutables con pytest, no scripts que «pasaron una vez en mi laptop». Aquí aprendes a priorizar pruebas por riesgo y capa (unit/contract/integration), a escribir tests AAA con oráculos fijos y a aislar datos con fixtures. Cubres bordes (excepciones, floats, fechas) y demuestras con mutación conceptual que la suite protege de verdad el contrato.",
+    "En equipos de data engineering y compliance en Perú (bancos, fintech, retail con padrones de clientes), un motor de entity resolution (resolución de entidades: decidir si dos registros son la misma persona o empresa) solo es confiable si la normalización y el emparejamiento se expresan como contratos ejecutables con pytest, no como programas que «pasaron una vez en mi laptop». Aquí aprendes a priorizar pruebas por riesgo y capa (unit/contract/integration), a escribir tests AAA con oráculos fijos y a aislar datos con fixtures. Cubres bordes (excepciones, floats, fechas) y demuestras con mutación conceptual que la suite protege de verdad el contrato.",
   learningOutcomes: [
     { text: "Priorizar suites con score de riesgo (impacto × probabilidad) y la pirámide unit → integration → E2E" },
     { text: "Escribir tests AAA con oráculos deterministas para normalize_name y exact_match" },
     { text: "Nombrar y descubrir casos con test_* / node ids y assertions con mensaje útil (pytest o assert equivalente)" },
-    { text: "Aislar estado mutable con fixtures function-scope, factories y deepcopy" },
+    { text: "Aislar estado mutable con fixtures de alcance `function`, fábricas y `deepcopy`" },
     { text: "Cubrir excepciones con match de mensaje, floats con isclose, fechas con reloj inyectado y archivos tmp" },
     { text: "Diseñar tablas de casos negativos con mensajes que nombran campo y valor ofensivo sintético" },
-    { text: "Reportar cobertura por rama de negocio (umbrales auto/review/non) priorizando riesgo, no vanity %" },
+    { text: "Reportar cobertura por rama de negocio (umbrales `auto`/`review`/`non`) priorizando el riesgo, no un porcentaje de vanidad" },
     { text: "Aplicar mutación conceptual (matar mutantes) y el ciclo bug_repro → regression_test" },
   ],
   theory: [
@@ -71,7 +71,7 @@ export const section27: CourseSection = {
       },
       subtopicId: "S27-T1-A",
       paragraphs: [
-        "La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena el tiempo (no la forma de la pirámide). Un bug en matching de entidades justifica más tests que un typo de log o un cambio de color en la UI de revisión. Si solo mides “número de tests”, puedes hinchar la base con asserts triviales y dejar sin contrato la rama que mueve el clerical queue.",
+        "La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena el tiempo (no la forma de la pirámide). Un bug en el emparejamiento de entidades justifica más pruebas que un error tipográfico en el registro o un cambio de color en la interfaz de revisión. Si solo mides el número de pruebas, puedes hinchar la base con comprobaciones triviales y dejar sin contrato la rama que mueve la cola de revisión manual.",
         "Clasifica riesgo por **impacto** y **probabilidad**. Impacto: datos incorrectos, regresión silenciosa en el clerical queue, merge de entidades sintéticas mal hecho. Probabilidad: código tocado a menudo, reglas frágiles, historial de bugs. En entity resolution, normalización y comparadores son capa de alto riesgo. Si fallan, el resto del pipeline hereda basura con confianza falsa y nadie nota el drift hasta que un humano revisa a ciegas.",
         "No inviertas la pirámide: una batería de E2E lentas no sustituye contratos unitarios de `strip`/`casefold`. Heurística práctica: **score = impacto × probabilidad**; ordena áreas y reparte más casos a las de mayor score. Ejemplo sintético de este caso: `normalize_name` (5×4=20) > `exact_match` (5×3=15) > repo SQL > cola UI. Regla de bolsillo para el equipo: score ≥ 15 → ≥ 5 tests de contrato; 8–14 → 2–3; < 8 → smoke + un negativo. El score no es ciencia exacta: es una cola de prioridad honestable en la retro del sprint.",
       ],
@@ -103,7 +103,7 @@ ok True`,
         type: "tip",
         title: "Riesgo primero",
         content:
-          "Si el tiempo es finito, cubre primero normalize/match; luego DB; al final UI. Escribe el ranking en el README del paquete de tests: el equipo debe poder discutir la cola de prioridad, no adivinarla.",
+          "Si el tiempo es finito, cubre primero normalización y emparejamiento; luego la base de datos; al final la interfaz. Escribe el orden de prioridad en el README del paquete de pruebas: el equipo debe poder discutir la cola, no adivinarla.",
       },
     },
     {
@@ -117,8 +117,8 @@ ok True`,
       },
       subtopicId: "S27-T1-B",
       paragraphs: [
-        "**AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Si mezclas el setup con el assert, un fallo no te dice si se rompió el dato de entrada, la función bajo prueba o el comparador. Pierdes tiempo en CI y en code review. Un test AAA legible se lee en 10 segundos: “dado este raw sintético, al normalizar, espero este oráculo”.",
-        "Un **oráculo** es la fuente de verdad del assert. Tres tipos sirven en entity resolution: (1) valor fijo conocido (`\"juan pérez\"`); (2) propiedad invariante (longitud ≥ 0 tras normalizar; idempotencia de `normalize_name`); (3) resultado de un algoritmo de referencia simple que confías más que el código bajo prueba. En matching, el oráculo **no** es un veredicto de fraude ni de parentesco: solo responde si dos cadenas normalizadas son la misma entidad sintética bajo el contrato de igualdad.",
+        "**AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Si mezclas la preparación con el `assert`, un fallo no te dice si se rompió el dato de entrada, la función bajo prueba o el comparador. Pierdes tiempo en CI y durante la revisión de código. Un test AAA legible se lee en 10 segundos: “dado este raw sintético, al normalizar, espero este oráculo”.",
+        "Un **oráculo** es la fuente de verdad del assert. Tres tipos sirven en entity resolution: (1) valor fijo conocido (`\"juan pérez\"`); (2) propiedad invariante (longitud ≥ 0 tras normalizar; idempotencia de `normalize_name`); (3) resultado de un algoritmo de referencia simple que confías más que el código bajo prueba. En el emparejamiento, el oráculo **no** es un veredicto de fraude ni de parentesco: solo responde si dos cadenas normalizadas son la misma entidad sintética bajo el contrato de igualdad.",
         "Oráculos frágiles generan *flakes* (tests que fallan al azar): reloj real (`datetime.now()`), orden de un `set`, JSON sin `sort_keys`, red o disco no mockeados. Usa contactos sintéticos deterministas (`ana@example.pe`) y fechas literales (`date(2026, 7, 20)`). Si el assert depende del azar, del entorno o del orden de inserción, no es contrato: es suerte empaquetada.",
       ],
       code: {
@@ -143,7 +143,7 @@ phases arrange-act-assert`,
         type: "warning",
         title: "Oráculo ≠ impresión",
         content:
-          "`print` no es assert. El contrato debe fallar ruidosamente si se rompe; un print amable en verde no protege el merge ni el merge request del colega.",
+          "`print` no es una comprobación. El contrato debe fallar de forma visible si se rompe; una impresión amable en verde no protege la fusión ni la solicitud de fusión del colega.",
       },
     },
     {
@@ -201,9 +201,9 @@ assert_ok True`,
       heading: "Fixtures, scopes y aislamiento",
       subtopicId: "S27-T2-B",
       paragraphs: [
-        "Las **fixtures** inyectan dependencias (datos sintéticos, `tmp_path`, relojes fijos) **sin globals** ni setup copiado en cada test. En pytest real escribes `@pytest.fixture` y el nombre del parámetro de la función de test recibe el valor. El **scope por defecto es function**: cada test recibe setup fresco; eso es lo que hace que la suite sea orden-independiente.",
-        "Scopes: `function` (default), `class`, `module`, `session`. Un fixture session mutado contamina toda la suite y produce *flakes* de orden (“pasa solo si corre después de X”). Session-scope solo para recursos caros de **solo lectura** (catálogo estático, configuración inmutable, conexión de lectura a un dataset de fixtures). Si necesitas mutar, vuelve a function o usa una factory.",
-        "Las **factory fixtures** devuelven callables para crear N entidades sintéticas por caso (`make_contact(i)`). Mecanismo clave de aislamiento: **copia profunda** de estructuras mutables; un `list.copy()` superficial comparte dicts internos y un test ensucia al siguiente. Si ves un fallo que solo aparece con `-x` o al reordenar, sospecha fixture mutable con scope ancho. Precisión sobre `-x`: no reordena nada ni provoca fallos nuevos — solo detiene la corrida en el primero. Un `-x` en verde sí significa suite verde, porque si nada se detuvo es que nada falló. Lo que oculta es el **tamaño** del destrozo cuando sale en rojo: ves el primer fallo y los siguientes ni se ejecutan, así que no sabes si rompiste un test o veinte. Para eso, corre sin `-x`. Para el acoplamiento por orden, la herramienta es `pytest-randomly` o `-p no:randomly` según lo que quieras fijar.",
+        "Las **fixtures** inyectan dependencias (datos sintéticos, `tmp_path`, relojes fijos) **sin variables globales** ni preparación copiada en cada prueba. En pytest real escribes `@pytest.fixture` y el parámetro de la función de prueba recibe el valor. El **alcance predeterminado es `function`**: cada prueba recibe una preparación nueva; eso permite ejecutar la suite en cualquier orden.",
+        "Alcances: `function` (predeterminado), `class`, `module`, `session`. Una fixture con alcance `session` que se modifica contamina toda la suite y produce fallos que dependen del orden («pasa solo si corre después de X»). Usa `session` solo para recursos costosos de **solo lectura**: un catálogo estático, una configuración inmutable o una conexión de lectura a un conjunto de datos de prueba. Si necesitas modificar los datos, vuelve a `function` o usa una fábrica.",
+        "Las **fixtures de fábrica** devuelven funciones que crean N entidades sintéticas por caso (`make_contact(i)`). El mecanismo clave de aislamiento es la **copia profunda** de estructuras mutables: un `list.copy()` superficial comparte diccionarios internos y una prueba ensucia la siguiente. Si ves un fallo que solo aparece con `-x` o al cambiar el orden, sospecha de una fixture mutable con alcance amplio. Precisión sobre `-x`: no reordena nada ni provoca fallos nuevos — solo detiene la corrida en el primero. Un `-x` en verde sí significa suite verde, porque si nada se detuvo es que nada falló. Lo que oculta es el **tamaño** del destrozo cuando sale en rojo: ves el primer fallo y los siguientes ni se ejecutan, así que no sabes si rompiste un test o veinte. Para eso, corre sin `-x`. Para el acoplamiento por orden, la herramienta es `pytest-randomly` o `-p no:randomly` según lo que quieras fijar.",
       ],
       code: {
         language: 'python',
@@ -243,14 +243,14 @@ scope_default function`,
         type: "danger",
         title: "Mutar fixture session",
         content:
-          "Si mutas un fixture session-scope, el siguiente test ve basura. Prefiere function + factory. En pytest: scope=\"function\" (default) o factory fixture.",
+          "Si modificas una fixture con alcance `session`, la siguiente prueba ve basura. Prefiere el alcance `function` y una fábrica. En pytest: `scope=\"function\"` (predeterminado) o una fixture de fábrica.",
       },
     },
     {
       heading: "Excepciones, floats, fechas y archivos temporales",
       subtopicId: "S27-T3-A",
       paragraphs: [
-        "Prueba **excepciones** con el tipo y, si aplica, el **mensaje**. En pytest real: `pytest.raises(ValueError, match=\"vacío\")` — y recuerda que `match=` es regex (`re.search`), no solo `in`. Aquí, sin CLI: try/except + `\"vacío\" in str(e)` para el mismo criterio sobre un fragmento literal. Un `raises` que solo mira el tipo acepta un mensaje basura; el mensaje forma parte del contrato. Para **floats** y scores de matching usa tolerancia (`math.isclose`) o decimal cuantizado: `==` exacto en `0.1 + 0.2` es trampa pedagógica y de producción en umbrales de matching.",
+        "Prueba **excepciones** con el tipo y, si aplica, el **mensaje**. En pytest real: `pytest.raises(ValueError, match=\"vacío\")` — y recuerda que `match=` es regex (`re.search`), no solo `in`. Aquí, sin CLI: try/except + `\"vacío\" in str(e)` para el mismo criterio sobre un fragmento literal. Un `raises` que solo mira el tipo acepta un mensaje basura; el mensaje forma parte del contrato. Para **flotantes** y puntajes de emparejamiento usa tolerancia (`math.isclose`) o decimal cuantizado: `==` exacto en `0.1 + 0.2` es trampa pedagógica y de producción en umbrales de emparejamiento.",
         "**Fechas**: no compares `datetime.now()` con literales frágiles. **Inyecta el reloj**: la función recibe `today: date` (o un callable de reloj) y el test pasa un literal fijo (`date(2026, 7, 20)`). Así el contrato no cambia de un día al otro ni entre zonas horarias de Lima y un runner en UTC. Librerías como freezegun son opcionales; la inyección de parámetro basta, es más explícita y no añade dependencia al CI del motor ER.",
         "**tmp_path** (pytest) / `tempfile` (stdlib) evita escribir en el repo o en el home del desarrollador. Dos APIs: (1) `TemporaryDirectory()` borra al salir del `with`; (2) `NamedTemporaryFile(..., delete=False)` deja un path reabrable para reabrir y assert — y, como el nombre dice, deja de borrarlo por ti: la prueba tiene que limpiarlo en un `finally`, o usar `tmp_path`, que ya lo hace. Usa siempre `encoding='utf-8'` en texto y documenta si el contrato incluye el salto de línea final.",
       ],
@@ -310,16 +310,16 @@ named ok`,
         type: "tip",
         title: "isclose > ==",
         content:
-          "Nunca compares floats de probabilidad con igualdad bit a bit en tests de matching. Define abs_tol/rel_tol y documéntalos en el contrato.",
+          "Nunca compares probabilidades de punto flotante con igualdad bit a bit en pruebas de emparejamiento. Define `abs_tol` y `rel_tol`, y documéntalos en el contrato.",
       },
     },
     {
       heading: "Casos negativos y mensajes útiles",
       subtopicId: "S27-T3-B",
       paragraphs: [
-        "Los **casos negativos** prueban inputs inválidos: `None`, vacío, tipo incorrecto, encoding roto, score fuera de rango. Deben fallar de forma **controlada** (excepción tipada con mensaje), no con un `AttributeError` críptico en la línea 87 de una librería interna ajena a tu contrato. Si el motor traga basura en silencio, el matching “funciona” con datos que no debían entrar.",
-        "Mensajes de error **útiles** nombran el campo y el valor ofensivo (sintético, sin PII real ni tokens). Eso acelera el fix en CI: `email: se esperaba str, recibió None` gana a un genérico `invalid input` que no dice dónde mirar. En un equipo que opera el clerical queue, el mensaje es documentación viva del contrato de entrada.",
-        "Diseña una tabla: input → excepción esperada → fragmento de mensaje. Cubre al menos un happy path y tres negativos por función pública del motor (`require_email`, `parse_score`, validadores de RUC sintético). Es la misma idea que `@pytest.mark.parametrize`, aplicada a bordes de validación en vez de a oráculos felices.",
+        "Los **casos negativos** prueban entradas inválidas: `None`, vacío, tipo incorrecto, codificación dañada o puntaje fuera de rango. Deben fallar de forma **controlada** —con una excepción tipada y un mensaje—, no con un `AttributeError` críptico en la línea 87 de una librería interna ajena a tu contrato. Si el motor acepta basura en silencio, el emparejamiento «funciona» con datos que nunca debieron entrar.",
+        "Mensajes de error **útiles** nombran el campo y el valor ofensivo (sintético, sin PII real ni tokens). Eso acelera la corrección en CI: `email: se esperaba str, recibió None` es más útil que un genérico «entrada inválida», que no dice dónde mirar. En un equipo que opera el clerical queue, el mensaje es documentación viva del contrato de entrada.",
+        "Diseña una tabla: entrada → excepción esperada → fragmento de mensaje. Cubre al menos un caso válido y tres negativos por cada función pública del motor (`require_email`, `parse_score`, validadores de RUC sintético). Es la misma idea que `@pytest.mark.parametrize`, aplicada a bordes de validación en vez de a casos válidos.",
       ],
       code: {
         language: 'python',
@@ -363,8 +363,8 @@ n_cases 4`,
       heading: "Cobertura por rama y por riesgo",
       subtopicId: "S27-T4-A",
       paragraphs: [
-        "**Branch coverage** mide si cada rama (if/else) se ejecutó. 100 % de **líneas** no implica 100 % de riesgo cubierto. Puedes cubrir logs, pretty-print y helpers de formato y dejar sin test la rama de umbral `review` que mueve el clerical queue. El reporte de coverage es un mapa; tú decides dónde poner la lupa.",
-        "**Risk coverage**: prioriza ramas de negocio (auto-match / review / non-match, campos faltantes, empates de score en el borde del umbral) sobre decoración. En un clasificador de pares sintéticos, las tres bandas de umbral son el núcleo del contrato. No el color del badge en la UI ni el orden de las columnas del CSV de evidencia.",
+        "La **cobertura de ramas** mide si cada rama (`if`/`else`) se ejecutó. Un 100 % de **líneas** no implica que hayas cubierto el 100 % del riesgo. Puedes cubrir registros, formato de salida y funciones auxiliares, y dejar sin prueba la rama de umbral `review` que mueve la cola de revisión manual. El informe de cobertura es un mapa; tú decides dónde poner la lupa.",
+        "**Cobertura de riesgo**: prioriza ramas de negocio (`auto_match` / `review` / `non_match`, campos faltantes, empates de puntaje en el borde del umbral) sobre decoración. En un clasificador de pares sintéticos, las tres bandas de umbral son el núcleo del contrato. No el color del badge en la UI ni el orden de las columnas del CSV de evidencia.",
         "Reporta cobertura como **evidencia** para el equipo, no como meta vacía del 100 %. Una rama de umbral sin caso es deuda: en producción el clerical queue verá estados que CI nunca ejercitó y confiará en basura. En la retro del sprint, pregunta “¿qué rama de negocio no tiene caso?” antes de “¿llegamos al 90 % de líneas?”.",
       ],
       code: {
@@ -398,7 +398,7 @@ risk_focus thresholds`,
         type: "info",
         title: "Cobertura con sentido",
         content:
-          "Si una rama de 'review' nunca se prueba, la cola de revisión se romperá en producción sin que CI se entere.",
+          "Si una rama de `review` nunca se prueba, la cola de revisión se romperá en producción sin que CI se entere.",
       },
     },
     {
@@ -406,8 +406,8 @@ risk_focus thresholds`,
       subtopicId: "S27-T4-B",
       paragraphs: [
         "**Mutación conceptual**: cambia deliberadamente el código (quita un `strip`, invierte un umbral, elimina `casefold`) y verifica que **algún test falle**. Si la suite sigue verde, el test es teatro de cobertura, no un contrato. No necesitas un framework de mutación el primer día: un mutante a mano en un branch local ya expone oráculos débiles.",
-        "Fallas **útiles** muestran input sintético, esperado vs. actual y el contrato violado. Evita `assert False` o un bare `assert got` sin contexto. Un dict `{\"input\": …, \"expected\": …, \"actual\": …}` (o el rewrite de pytest) acelera el fix en CI y en code review: el colega no tiene que adivinar qué raw entró.",
-        "Mantenimiento: borra tests que solo copian la implementación; renombra con intención (`test_normalize_collapses_spaces`); parametriza tablas; no dupliques el mismo oráculo en tres sitios. Política del ciclo: **bug_repro → regression_test** antes de cerrar el ticket. En S28 ampliarás estos contratos con dobles (`unittest.mock`) y pruebas de integración entre módulos del motor ER.",
+        "Las fallas **útiles** muestran la entrada sintética, el valor esperado frente al actual y el contrato violado. Evita `assert False` o un `assert got` sin contexto. Un diccionario con las claves `input`, `expected` y `actual` —o la explicación que genera pytest— acelera la corrección en CI y durante la revisión de código: el colega no tiene que adivinar qué valor original entró.",
+        "Mantenimiento: borra pruebas que solo copian la implementación; renombra con intención (`test_normalize_collapses_spaces`); parametriza tablas; no dupliques el mismo oráculo en tres sitios. Política del ciclo: **`bug_repro` → `regression_test`** antes de cerrar la incidencia. En S28 ampliarás estos contratos con dobles (`unittest.mock`) y pruebas de integración entre módulos del motor ER.",
       ],
       code: {
         language: 'python',
@@ -440,7 +440,7 @@ maintain one_oracle`,
   ],
   iDo: {
     intro:
-      "Te muestro cómo priorizar riesgos, escribir AAA con oráculos, descubrir tests estilo pytest, aislar fixtures y matar mutantes sobre normalización/matching sintético — inicio de CP-N3-A. Observa el contrato (entrada → assert → salida) y el *porqué* de cada demo antes de tocar los ejercicios guiados.",
+      "Te muestro cómo priorizar riesgos, escribir pruebas AAA con oráculos, descubrir pruebas al estilo de pytest, aislar fixtures y matar mutantes sobre normalización y emparejamiento sintético — inicio de CP-N3-A. Observa el contrato (entrada → `assert` → salida) y el *porqué* de cada demostración antes de tocar los ejercicios guiados.",
     steps: [
       {
         demoId: "S27-T1-A-DEMO",
@@ -470,9 +470,9 @@ top_layer unit
 ok True`,
         },
         why:
-          "El score no sustituye unit/integration/e2e: solo reordena el tiempo finito del sprint. Normalización y blocking tocan cada par sintético; un bug ahí multiplica basura en matching. La pirámide se mantiene ancha en unit; el ranking pone normalize antes que la UI de revisión. En We Do practicarás producto, orden descendente y la capa del área de mayor score.",
+          "El score no sustituye unit/integration/e2e: solo reordena el tiempo finito del sprint. Normalización y blocking tocan cada par sintético; un error ahí multiplica basura en el emparejamiento. La pirámide se mantiene ancha en pruebas unitarias; el orden de prioridad pone `normalize` antes que la interfaz de revisión. En We Do practicarás producto, orden descendente y la capa del área de mayor score.",
         retrospective:
-          "Si puedes explicar por qué normalize gana a la UI en la cola de prioridad *sin mirar el código*, ya tienes el hábito de riesgo primero. El error clásico es medir “número de tests” y dejar sin contrato la rama que mueve el merge. En We Do practicarás score, ranking y elegir la capa unit.",
+          "Si puedes explicar por qué normalize gana a la UI en la cola de prioridad *sin mirar el código*, ya tienes el hábito de riesgo primero. El error clásico es medir “número de tests” y dejar sin contrato la rama que mueve el merge. En Hacemos juntos practicarás el puntaje, el orden de prioridad y la elección de la capa unitaria.",
       },
       {
         demoId: "S27-T1-B-DEMO",
@@ -480,7 +480,7 @@ ok True`,
         environment: "local-python",
         description: "Test AAA con oráculo fijo para normalize_name sobre dato sintético peruano.",
         preamble:
-          "Un test legible se lee en diez segundos: dado este raw sintético, al normalizar, espero este oráculo. En esta demo el Arrange fija `\"  María  Ríos \"` y el oráculo `\"maría ríos\"`; el Act llama `normalize_name`; el Assert compara. No escribas: sigue las fases y comprueba el print. Si confundes un `print` amable con un `assert`, el merge del colega no protege el matching.",
+          "Una prueba legible se lee en diez segundos: dado este `raw` sintético, al normalizar, espero este oráculo. En esta demostración, la preparación fija `\"  María  Ríos \"` y el oráculo `\"maría ríos\"`; la ejecución llama `normalize_name`; la comprobación compara. No escribas: sigue las fases y comprueba lo que imprime. Si confundes un `print` amable con un `assert`, la fusión del colega no protege el emparejamiento.",
         code: {
           language: 'python',
           title: "aaa_demo.py",
@@ -507,7 +507,7 @@ aaa pass`,
         demoId: "S27-T2-A-DEMO",
         subtopicId: "S27-T2-A",
         environment: "local-python",
-        description: "Suite mínima estilo pytest: dos test_* con asserts de normalización y matching.",
+        description: "Suite mínima estilo pytest: dos funciones `test_*` con aserciones de normalización y emparejamiento.",
         preamble:
           "pytest descubre funciones `test_*` (y clases `Test*`) en archivos `test_*.py`. En esta demo hay dos contratos ejecutados a mano con la misma forma que el runner real: normalización y dominio sintético `@example.pe`. Observa los `node_ids` impresos: son los nombres con los que volverías a correr solo el fallido. No escribas; predice qué pasa si renombras a `helper_exact` sin el prefijo.",
         code: {
@@ -542,7 +542,7 @@ n_tests 2`,
         demoId: "S27-T2-B-DEMO",
         subtopicId: "S27-T2-B",
         environment: "local-python",
-        description: "Fixture factory con scope function: dos tests no se contaminan al mutar contactos.",
+        description: "Fixture de fábrica con alcance `function`: dos pruebas no se contaminan al modificar contactos.",
         preamble:
           "Si un test muta un fixture compartido, el siguiente puede fallar solo cuando el orden de la suite cambia. En esta demo un factory-like `contacts_fx` devuelve `deepcopy` de una lista de contactos sintéticos: el test A renombra a `\"X\"` y el B sigue viendo `\"Luis\"`. No escribas: predice `isolated` y por qué un `list.copy()` superficial no bastaría si el dict es anidado.",
         code: {
@@ -565,9 +565,9 @@ a_mut X
 scope function`,
         },
         why:
-          "function-scope es el default de pytest; session solo para recursos caros de solo lectura. `deepcopy` aísla dicts internos; un copy superficial comparte mutables y produce flakes de orden. En We Do demostrarás orig intacto, elegirás el scope seguro y medirás la factory `make(n)`.",
+          "El alcance `function` es el predeterminado de pytest; `session` se reserva para recursos costosos de solo lectura. `deepcopy` aísla diccionarios internos; una copia superficial comparte datos mutables y produce fallos que dependen del orden. En Hacemos juntos demostrarás que `orig` queda intacto, elegirás el alcance seguro y medirás la fábrica `make(n)`.",
         retrospective:
-          "Aislamiento function + copia profunda evita flakes de orden. El error clásico es mutar un fixture session o devolver la lista base sin copiar. Pregunta: ¿qué vería el test B si `contacts_fx` devolviera `BASE` sin `deepcopy`? We Do: demostrar orig intacto, elegir el scope seguro y medir la factory.",
+          "El alcance `function` y la copia profunda evitan fallos que dependen del orden. El error clásico es modificar una fixture con alcance `session` o devolver la lista base sin copiar. Pregunta: ¿qué vería la prueba B si `contacts_fx` devolviera `BASE` sin `deepcopy`? Hacemos juntos: demostrar que `orig` queda intacto, elegir el alcance seguro y medir la fábrica.",
       },
       {
         demoId: "S27-T3-A-DEMO",
@@ -575,7 +575,7 @@ scope function`,
         environment: "local-python",
         description: "Excepción ValueError, isclose de score, reloj inyectado y escritura en directorio temporal.",
         preamble:
-          "Los tests de matching se rompen en producción por bordes, no por el happy path. Esta demo empaqueta cuatro: excepción tipada con mensaje, `isclose` para scores IEEE, edad con reloj *inyectado* (no `date.today()`), y lectura en directorio temporal. No escribas: anota mentalmente qué fallaría si usaras `==` en floats o el reloj real del sistema en Lima vs. UTC del runner.",
+          "Las pruebas de emparejamiento se rompen en producción por casos límite, no por el camino esperado. Esta demo empaqueta cuatro: excepción tipada con mensaje, `isclose` para scores IEEE, edad con reloj *inyectado* (no `date.today()`), y lectura en directorio temporal. No escribas: anota mentalmente qué fallaría si usaras `==` en floats o el reloj real del sistema en Lima vs. UTC del runner.",
         code: {
           language: 'python',
           title: "borders_demo.py",
@@ -619,7 +619,7 @@ tmp 0.85`,
         environment: "local-python",
         description: "Tabla de casos negativos para validador de RUC sintético (formato, no consulta SUNAT real).",
         preamble:
-          "Si el motor traga un RUC basura en silencio, el matching “funciona” con datos que no debían entrar. Esta demo valida formato sintético (11 dígitos) con una tabla happy + tres negativos y exige el fragmento `\"inválido\"` en el mensaje. No escribas: predice por qué un `ValueError` con valor ofensivo en el mensaje gana a un genérico `invalid input` a las 2 a. m. en CI. No hay consulta SUNAT real.",
+          "Si el motor traga un RUC basura en silencio, el emparejamiento “funciona” con datos que no debían entrar. Esta demostración valida el formato sintético (11 dígitos) con un caso válido y tres negativos y exige el fragmento `\"inválido\"` en el mensaje. No escribas: predice por qué un `ValueError` con valor ofensivo en el mensaje gana a un genérico «entrada inválida» a las 2 a. m. en CI. No hay consulta SUNAT real.",
         code: {
           language: 'python',
           title: "negative_demo.py",
@@ -641,7 +641,7 @@ print("n", len(ok))`,
 n 4`,
         },
         why:
-          "Mensajes con valor sintético aceleran el fix; sin PII real ni tokens. La tabla input→excepción→fragmento es el diseño del contrato de entrada. En We Do imprimirás el mensaje (no solo el tipo), validarás la arroba y armarás f-strings con campo y valor ofensivo.",
+          "Mensajes con valor sintético aceleran el fix; sin PII real ni tokens. La tabla entrada → excepción → fragmento define el contrato de entrada. En We Do imprimirás el mensaje (no solo el tipo), validarás la arroba y armarás f-strings con campo y valor ofensivo.",
         retrospective:
           "Negativos controlados son parte del contrato público del validador. El error clásico es confiar en el happy path o filtrar PII real en el assert. We Do: mensaje vs. tipo, gate de `@`, mensaje con campo nombrado.",
       },
@@ -649,9 +649,9 @@ n 4`,
         demoId: "S27-T4-A-DEMO",
         subtopicId: "S27-T4-A",
         environment: "local-python",
-        description: "Cubre las tres ramas de umbral auto/review/non_match y reporta cobertura de ramas.",
+        description: "Cubre las tres ramas de umbral `auto`/`review`/`non_match` y reporta cobertura de ramas.",
         preamble:
-          "Puedes cubrir helpers de log y dejar sin caso la rama `review` que mueve el clerical queue. Esta demo ejercita las tres bandas del clasificador de pares sintéticos (0.95 auto, 0.75 review, 0.1 non) y reporta cobertura de ramas. No escribas: predice si un set con solo auto y review dejaría deuda de riesgo. Matching aquí no etiqueta fraude.",
+          "Puedes cubrir helpers de log y dejar sin caso la rama `review` que mueve el clerical queue. Esta demostración ejercita las tres bandas del clasificador de pares sintéticos (0.95 `auto`, 0.75 `review`, 0.1 `non`) e informa la cobertura de ramas. No escribas: predice si un conjunto con solo `auto` y `review` dejaría deuda de riesgo. El emparejamiento aquí no etiqueta fraude.",
         code: {
           language: 'python',
           title: "coverage_demo.py",
@@ -671,9 +671,9 @@ full True
 risk threshold_branches`,
         },
         why:
-          "Risk coverage prioriza umbrales de negocio (auto/review/non), no vanidad del 100 % de líneas. El reporte de ramas es evidencia accionable para el equipo. En We Do ejercerás ambas ramas hi/lo, detectarás la falta de `non` y reportarás el porcentaje 2/3 → 66.",
+          "La cobertura de riesgo prioriza umbrales de negocio (`auto`/`review`/`non`), no la vanidad de alcanzar el 100 % de líneas. El reporte de ramas es evidencia accionable para el equipo. En We Do ejercerás ambas ramas hi/lo, detectarás la falta de `non` y reportarás el porcentaje 2/3 → 66.",
         retrospective:
-          "Tres bandas de umbral son el núcleo del contrato de `classify_pair`: auto, review y non mueven colas distintas. El error clásico es vanidad de % de líneas mientras `review` o `non` no tienen caso. Pregunta: si `hits` solo tiene auto y review, ¿qué deuda reportas? We Do: ejercer ambas ramas, detectar falta de `non` y reportar porcentaje legible.",
+          "Tres bandas de umbral son el núcleo del contrato de `classify_pair`: `auto`, `review` y `non` mueven colas distintas. El error clásico es presumir el porcentaje de líneas mientras `review` o `non` no tienen un caso. Pregunta: si `hits` solo contiene `auto` y `review`, ¿qué deuda reportas? Hacemos juntos: ejercer ambas ramas, detectar la falta de `non` y reportar un porcentaje legible.",
       },
       {
         demoId: "S27-T4-B-DEMO",
@@ -699,7 +699,7 @@ kills_mutant True
 policy regression_on_bug`,
         },
         why:
-          "Mutación conceptual no requiere framework el día 1: si el mutante vive, el oráculo no protege. Añade regresión con el caso que lo mate. En We Do distinguirás good/mutant, armarás fallas útiles (input/expected/actual) y cerrarás el ciclo bug_repro → regression_test.",
+          "La mutación conceptual no requiere una herramienta especializada el primer día: si el mutante vive, el oráculo no protege. Añade una prueba de regresión con el caso que lo mate. En Hacemos juntos distinguirás `good` de `mutant`, armarás fallas útiles con las claves `input`, `expected` y `actual`, y cerrarás el ciclo reproducción del error → prueba de regresión.",
         retrospective:
           "Matar mutantes demuestra que el oráculo protege el contrato: si la suite sigue verde tras quitar `casefold`, no hay red. El error clásico es cobertura de líneas con asserts débiles. Pregunta: si el oráculo fuera un print del raw, ¿`kills_mutant` seguiría siendo True? We Do: distinguir good/mutant, fallas útiles y fijar la regresión normalizada.",
       },
@@ -707,7 +707,7 @@ policy regression_on_bug`,
   },
   weDo: {
     intro:
-      "24 ejercicios en tres capas por subtema: **E1 guiado** (micro-bug), **E2 independiente**, **E3 transferencia**. Cubren: pirámide de riesgo; AAA y oráculos; discovery y parametrize; fixtures y scopes; bordes (isclose, raises+match, tempfile); negativos; cobertura de ramas; mutación conceptual. Cada starter trae un comentario `# DEFECT:` que marca el bug a corregir (patrón de caza de fallas del curso). Imprime **solo** las líneas del oráculo de la solución — sin prints extra de depuración. Datos sintéticos `@example.pe` (Caso 27); matching no etiqueta fraude ni parentesco.",
+      "24 ejercicios en tres capas por subtema: **E1 guiado** (microerror), **E2 independiente**, **E3 transferencia**. Cubren: pirámide de riesgo; AAA y oráculos; descubrimiento y `parametrize`; fixtures y alcances; bordes (`isclose`, `raises` + `match`, `tempfile`); negativos; cobertura de ramas; mutación conceptual. Cada código inicial trae un comentario `# DEFECT:` que marca el error por corregir (patrón de caza de fallas del curso). Imprime **solo** las líneas del oráculo de la solución, sin impresiones extra de depuración. Datos sintéticos `@example.pe` (Caso 27); el emparejamiento no etiqueta fraude ni parentesco.",
     steps: [
       {
         id: "S27-T1-A-E1",
@@ -728,7 +728,7 @@ policy regression_on_bug`,
         feedback:
           "El score de priorización es producto (5×4=20), no suma. Si sumas, un área “media” se disfraza de alta prioridad y la cola del sprint miente.",
         retrospective:
-          "Producto impacto×probabilidad es la heurística de bolsillo del ranking. El error clásico es sumar o inventar un ponderado opaco. Siguiente (E2): ordenar áreas por ese score de mayor a menor.",
+          "Producto impacto×probabilidad es la heurística de bolsillo para ordenar prioridades. El error clásico es sumar o inventar un ponderado opaco. Siguiente (E2): ordenar áreas por ese score de mayor a menor.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -764,7 +764,7 @@ print(impact * likelihood)`,
         tests: "lista de nombres unit antes que e2e",
         feedback: "Orden descendente por impacto×probabilidad: unit (25) antes que e2e (2). Ordenar al revés es invertir la pirámide en la práctica.",
         retrospective:
-          "El ranking descendente es la cola de conversación del sprint: primero lo que más duele si falla. El error clásico no es solo “orden al revés”, sino tratar el sort como adorno del README sin usarlo para repartir casos. Pregunta: si solo tienes una hora, ¿qué fila de `rows` cubres primero? Luego (E3) eliges la *capa* del área de mayor score.",
+          "El orden descendente guía la conversación del sprint: primero lo que más duele si falla. El error clásico no es solo “orden al revés”, sino tratar el sort como adorno del README sin usarlo para repartir casos. Pregunta: si solo tienes una hora, ¿qué fila de `rows` cubres primero? Luego (E3) eliges la *capa* del área de mayor score.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -826,7 +826,7 @@ print(top[2])`,
         kind: "guided",
         title: "Normalizar con casefold y colapsar espacios",
         preamble:
-          "- **Contexto:** en entity resolution, dos contactos sintéticos solo se comparan tras un contrato de normalización estable.\n- **Meta:** aplicar `casefold` y colapsar espacios internos con `split`/`join` (no solo `strip`).\n- **Éxito:** una línea `a b` a partir de `' A  B '`.\n- **Límites:** no dejes solo strip; no imprimas etiquetas; no uses PII real.",
+          "- **Contexto:** en resolución de entidades, dos contactos sintéticos solo se comparan tras un contrato de normalización estable.\n- **Meta:** aplicar `casefold` y colapsar espacios internos con `split`/`join` (no solo `strip`).\n- **Éxito:** una línea `a b` a partir de `' A  B '`.\n- **Límites:** no dejes solo `strip`; no imprimas etiquetas; no uses PII real.",
         instruction:
           "1. Abre el starter: `print(s.strip())` (bug).\n2. Usa `' '.join(s.casefold().split())`.\n3. Imprime solo el resultado.\n4. Comprueba mentalmente: dobles espacios y mayúsculas desaparecen.",
         hint: "casefold + split/join",
@@ -836,9 +836,9 @@ print(top[2])`,
         ],
         edgeCases: ["tabs y NBSP en prod"],
         tests: "salida coincide con solution output",
-        feedback: "casefold + split/join colapsa espacios y unifica mayúsculas: ' A  B ' → 'a b'. strip solo no basta.",
+        feedback: "`casefold` + `split`/`join` colapsa espacios y unifica mayúsculas: `' A  B '` → `'a b'`. `strip` solo no basta.",
         retrospective:
-          "`strip` limpia bordes; no colapsa dobles espacios ni unifica case. El contrato real del motor es casefold + split/join. Siguiente (E2): assert con oráculo y señal `pass` honesta.",
+          "`strip` limpia los bordes; no colapsa espacios dobles ni unifica mayúsculas y minúsculas. El contrato real del motor combina `casefold`, `split` y `join`. Siguiente (E2): `assert` con oráculo y una señal `pass` honesta.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -874,7 +874,7 @@ print(' '.join(s.casefold().split()))`,
         tests: "salida coincide con solution output",
         feedback: "Tras el assert, imprime 'pass' solo si el oráculo se cumplió. Un 'fail' después de un assert verde confunde al humano y al log de CI.",
         retrospective:
-          "La señal post-assert es un contrato de lectura humana y de log: o el proceso murió en el assert, o reportas `pass`. Inventar `fail` a mano es un falso negativo de confianza. Pregunta: si CI imprime `fail` pero el exit code es 0, ¿confías en el merge? Luego (E3): matching exacto normalizando *ambos* lados.",
+          "La señal posterior al `assert` es un contrato de lectura humana y del registro: o el proceso se detuvo en el `assert`, o reportas `pass`. Inventar `fail` a mano es un falso negativo de confianza. Pregunta: si CI imprime `fail` pero el código de salida es 0, ¿confías en la fusión? Luego (E3): emparejamiento exacto tras normalizar *ambos* lados.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -906,13 +906,13 @@ print('pass')`,
         hint: "normaliza ambos y compara",
         hints: [
           "' '.join(s.casefold().split()) en a y b",
-          "matching ≠ fraude: solo igualdad normalizada",
+          "emparejamiento ≠ fraude: solo igualdad normalizada",
         ],
         edgeCases: ["acentos: casefold ayuda en muchas locales"],
         tests: "salida coincide con solution output",
-        feedback: "Matching exacto compara entidades normalizadas, no cadenas crudas: casefold + colapsar espacios en ambos lados. No infiere fraude ni parentesco.",
+        feedback: "El emparejamiento exacto compara entidades normalizadas, no cadenas sin procesar: aplica `casefold` y colapsa espacios en ambos lados. No infiere fraude ni parentesco.",
         retrospective:
-          "Matching exacto compara entidades normalizadas, no basura de espacios/case. El error clásico es igualdad cruda o, peor, inferir riesgo/parentesco del score. Pregunta: ¿qué reutilizas de aquí en `exact_match` del You Do?",
+          "El emparejamiento exacto compara entidades normalizadas, no basura de espacios o diferencias entre mayúsculas y minúsculas. El error clásico es comparar cadenas sin procesar o, peor, inferir riesgo o parentesco a partir del puntaje. Pregunta: ¿qué reutilizas de aquí en `exact_match` de Tú haces?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1046,7 +1046,7 @@ print([raw.strip() == exp for raw, exp in cases])`,
         kind: "guided",
         title: "deepcopy: no contamines el original",
         preamble:
-          "- **Contexto:** un fixture de contactos sintéticos se muta en un test de matching; el siguiente test no debe ver basura.\n- **Meta:** copiar con `deepcopy`, mutar la copia y demostrar que `orig[0]['n']` sigue en 1.\n- **Éxito:** el entero `1`.\n- **Límites:** no uses `copy` superficial; no mutes `orig` a propósito; una sola línea de salida.",
+          "- **Contexto:** una fixture de contactos sintéticos se modifica en una prueba de emparejamiento; el siguiente test no debe ver basura.\n- **Meta:** copiar con `deepcopy`, mutar la copia y demostrar que `orig[0]['n']` sigue en 1.\n- **Éxito:** el entero `1`.\n- **Límites:** no uses `copy` superficial; no mutes `orig` a propósito; una sola línea de salida.",
         instruction:
           "1. El starter usa `from copy import copy` (shallow).\n2. Cambia a `deepcopy`.\n3. Deja la mutación en `c[0]['n']=9`.\n4. Imprime `orig[0]['n']`.",
         hint: "from copy import deepcopy",
@@ -1089,17 +1089,17 @@ print(orig[0]['n'])`,
         kind: "independent",
         title: "Scope seguro para datos mutables",
         preamble:
-          "- **Contexto:** pytest permite function/class/module/session; solo algunos son seguros si el fixture es una lista mutable.\n- **Meta:** del mapa `safe_for_mutable`, elegir el scope marcado True (el default).\n- **Éxito:** imprimir `function`.\n- **Límites:** no elijas `session`; session solo para recursos caros de solo lectura.",
+          "- **Contexto:** pytest permite los alcances `function`, `class`, `module` y `session`; solo algunos son seguros si la fixture es una lista mutable.\n- **Meta:** del mapa `safe_for_mutable`, elegir el alcance cuyo valor sea `True` (el predeterminado).\n- **Éxito:** imprimir `function`.\n- **Límites:** no elijas `session`; úsalo solo para recursos costosos de solo lectura.",
         instruction:
-          "1. El starter hardcodea `chosen = 'session'`.\n2. Busca el scope con valor True (p. ej. `next(... if ok)`).\n3. Imprime ese scope.\n4. No reescribas el dict de política a mano con todos True.",
-        hint: "busca el scope con True",
+          "1. El código inicial fija `chosen = 'session'`.\n2. Busca el alcance cuyo valor sea `True` (p. ej., `next(... if ok)`).\n3. Imprime ese alcance.\n4. No reescribas a mano el diccionario de política con todos sus valores en `True`.",
+        hint: "busca el alcance asociado a `True`",
         hints: [
           "safe_for_mutable['function'] es True",
           "session reutiliza estado y no es seguro para listas mutables",
         ],
         edgeCases: ["session solo para recursos caros de solo lectura"],
         tests: "imprime function",
-        feedback: "function-scope es el default seguro de pytest: cada test recibe setup fresco. Session-scope sobre listas mutables produce flakes de orden.",
+        feedback: "El alcance `function` es el predeterminado seguro de pytest: cada prueba recibe una preparación nueva. El alcance `session` sobre listas mutables produce fallos que dependen del orden.",
         retrospective:
           "El mapa `safe_for_mutable` es una política de equipo, no un truco de API: si el fixture es lista de dicts, el default `function` es la respuesta segura. Session solo gana cuando el recurso es caro y **de solo lectura**. Pregunta: ¿pondrías un catálogo inmutable de umbrales en session? ¿Y la lista de contactos del caso? Luego (E3): factory que crea N entidades por caso.",
         starterCode: {
@@ -1127,7 +1127,7 @@ print(chosen)`,
         kind: "transfer",
         title: "Factory: longitud de make(3)",
         preamble:
-          "- **Contexto:** en tests de matching necesitas N contactos sintéticos distintos por caso, no un global compartido.\n- **Meta:** usar la factory `make` e imprimir `len(make(3))`.\n- **Éxito:** el entero `3`.\n- **Límites:** no hardcodees 0 ni 3 sin llamar a `make`; ids sintéticos `c0..` (sin PII).",
+          "- **Contexto:** en las pruebas de emparejamiento necesitas N contactos sintéticos distintos por caso, no una variable global compartida.\n- **Meta:** usar la fábrica `make` e imprimir `len(make(3))`.\n- **Éxito:** el entero `3`.\n- **Límites:** no fijes 0 ni 3 directamente sin llamar a `make`; identificadores sintéticos `c0..` (sin PII).",
         instruction:
           "1. El starter define `make` pero imprime `0`.\n2. Llama `make(3)`.\n3. Imprime su longitud.\n4. No reescribas la factory.",
         hint: "print(len(make(3)))",
@@ -1173,11 +1173,11 @@ print(len(make(3)))`,
           "math.isclose(0.1 + 0.2, 0.3)",
           "no uses == en floats de probabilidad ni en thr_auto/thr_review",
         ],
-        edgeCases: ["abs_tol en scores de matching; documenta tolerancia en el contrato"],
+        edgeCases: ["`abs_tol` en puntajes de emparejamiento; documenta la tolerancia en el contrato"],
         tests: "salida coincide con solution output",
-        feedback: "math.isclose evita la trampa IEEE-754 de 0.1+0.2 en scores de matching. Documenta abs_tol/rel_tol en el contrato del umbral.",
+        feedback: "`math.isclose` evita la trampa de IEEE-754 con `0.1 + 0.2` en puntajes de emparejamiento. Documenta `abs_tol` y `rel_tol` en el contrato del umbral.",
         retrospective:
-          "isclose (con abs_tol/rel_tol documentados) es el hábito de scores de matching. El error clásico es igualdad exacta o redondeos opacos. Siguiente (E2): el mensaje del ValueError también es contrato.",
+          "Usar `isclose` con `abs_tol` y `rel_tol` documentados es el hábito correcto para los puntajes de emparejamiento. El error clásico es exigir igualdad exacta o aplicar redondeos opacos. Siguiente (E2): el mensaje de `ValueError` también forma parte del contrato.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1203,7 +1203,7 @@ print(math.isclose(0.1 + 0.2, 0.3))`,
         preamble:
           "- **Contexto:** un `raises` que solo mira el tipo acepta un mensaje basura; en CI el fragmento acelera el fix.\n- **Meta:** capturar el `ValueError` de `int('x')` e imprimir `True` solo si el mensaje contiene `'invalid'`.\n- **Éxito:** `True` (en CPython suele decir *invalid literal*).\n- **Límites:** en pytest real `match=` es regex (`re.search`); aquí contención literal sin metacaracteres; no imprimas False a ciegas.",
         instruction:
-          "1. El starter pone `matched = False` en el except.\n2. Inspecciona `str(e)` (casefold opcional) buscando `'invalid'`.\n3. Imprime el booleano.\n4. No cambies el input `'x'`.",
+          "1. El starter pone `matched = False` en el except.\n2. Inspecciona `str(e)` (casefold opcional) buscando `'invalid'`.\n3. Imprime el booleano.\n4. No cambies la entrada `'x'`.",
         hint: "except ValueError as e; 'invalid' in str(e).casefold()",
         hints: [
           "with pytest.raises(ValueError, match='invalid') en pytest real (match= es regex)",
@@ -1347,7 +1347,7 @@ except ValueError as e:
         tests: "salida coincide con solution output",
         feedback: "Un email sintético sin '@' es inválido. El caso negativo debe fallar de forma controlada, no imprimir siempre 'ok'.",
         retrospective:
-          "El negativo debe fallar de forma controlada. Teatro de verde en validación de entrada es basura en matching. Luego (E3): mensajes que nombran campo y valor ofensivo sintético.",
+          "El negativo debe fallar de forma controlada. Fingir que todo está verde durante la validación deja entrar basura al emparejamiento. Luego (E3): mensajes que nombran campo y valor ofensivo sintético.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1409,7 +1409,7 @@ print(f'campo score inválido: {v!r}')`,
         kind: "guided",
         title: "Cubrir ambas ramas hi y lo",
         preamble:
-          "- **Contexto:** una sola llamada deja media función sin contrato; en umbrales eso es deuda de matching.\n- **Meta:** ejercitar `f(1)` y `f(-1)` e imprimir ambas salidas.\n- **Éxito:** `hi lo` en una línea.\n- **Límites:** no imprimas solo una rama; no mutes la función.",
+          "- **Contexto:** una sola llamada deja media función sin contrato; con umbrales, eso deja parte del emparejamiento sin probar.\n- **Meta:** ejercitar `f(1)` y `f(-1)` e imprimir ambas salidas.\n- **Éxito:** `hi lo` en una línea.\n- **Límites:** no imprimas solo una rama; no mutes la función.",
         instruction:
           "1. El starter solo hace `print(f(1))`.\n2. Añade la llamada a `f(-1)`.\n3. Imprime ambas en un solo print.\n4. No cambies la definición de `f`.",
         hint: "print(f(1), f(-1))",
@@ -1447,17 +1447,17 @@ print(f(1), f(-1))`,
         kind: "independent",
         title: "¿Falta la rama non?",
         preamble:
-          "- **Contexto:** si CI nunca vio `non_match`, el clerical queue puede romperse en producción sin alarma.\n- **Meta:** dado `hit={'auto','review'}`, imprimir True si falta `'non'`.\n- **Éxito:** `True`.\n- **Límites:** no uses `'non' in hit` (respuesta invertida); risk coverage ≠ solo line coverage.",
+          "- **Contexto:** si CI nunca vio `non_match`, la cola de revisión manual puede romperse en producción sin alarma.\n- **Meta:** dado `hit={'auto','review'}`, imprimir `True` si falta `'non'`.\n- **Éxito:** `True`.\n- **Límites:** no uses `'non' in hit` (respuesta invertida); cobertura de riesgo ≠ solo cobertura de líneas.",
         instruction:
-          "1. El starter imprime `'non' in hit` → False.\n2. Cambia a `'non' not in hit`.\n3. Imprime el booleano.\n4. No alteres el set.",
+          "1. El código inicial imprime `'non' in hit` → `False`.\n2. Cambia la expresión a `'non' not in hit`.\n3. Imprime el valor booleano.\n4. No alteres el conjunto.",
         hint: "'non' not in hit",
         hints: [
-          "membership con not in",
-          "tres bandas de umbral: auto/review/non",
+          "pertenencia con `not in`",
+          "tres bandas de umbral: `auto`/`review`/`non`",
         ],
         edgeCases: ["risk coverage ≠ solo line coverage"],
         tests: "salida coincide con solution output",
-        feedback: "Si falta la banda 'non' en la evidencia, hay deuda de risk coverage en umbrales de matching — CI no vio non_match.",
+        feedback: "Si falta la banda `'non'` en la evidencia, la cobertura de riesgo está incompleta en los umbrales de emparejamiento: CI no vio `non_match`.",
         retrospective:
           "Preguntar “¿qué rama de negocio no tiene caso?” gana a “¿llegamos al 90 % de líneas?”. Luego (E3): convertir 2 de 3 en un porcentaje entero legible para el equipo.",
         starterCode: {
@@ -1527,11 +1527,11 @@ print(int(100 * k / n))`,
           "el test debe matar al mutante",
           "si ambos pasan, el contrato es teatro",
         ],
-        edgeCases: ["mutación de umbral en matching"],
+        edgeCases: ["mutación de un umbral de emparejamiento"],
         tests: "salida coincide con solution output",
         feedback: "El camino bueno debe pasar y el mutante debe fallar. Si ambos pasan el oráculo, no hay contrato: hay teatro de cobertura.",
         retrospective:
-          "Buen camino verde + mutante rojo = contrato; ambos verdes = teatro de cobertura. El oráculo debe ser lo bastante estricto para que quitar `strip` (o `casefold`) duela. Pregunta: si cambias el oráculo a `raw` crudo, ¿quién “gana” el mutante? Siguiente (E2): cuando falla, el mensaje debe traer input/expected/actual.",
+          "Camino correcto en verde + mutante en rojo = contrato; ambos en verde = teatro de cobertura. El oráculo debe ser lo bastante estricto para que quitar `strip` o `casefold` duela. Pregunta: si cambias el oráculo por el `raw` sin procesar, ¿quién «gana»: el código correcto o el mutante? Siguiente (E2): cuando falla, el mensaje debe incluir `input`, `expected` y `actual`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1559,19 +1559,19 @@ print(good == 'a' and mutant != 'a')`,
         kind: "independent",
         title: "Falla útil: input, expected, actual",
         preamble:
-          "- **Contexto:** a las 2 a. m. el colega necesita el raw sintético y ambos lados del oráculo, no un assert ciego.\n- **Meta:** con inp/expected/actual dados, imprimir un dict con keys `input`, `expected`, `actual`.\n- **Éxito:** `{'input': 'ANA', 'expected': 'ana', 'actual': 'Ana'}`.\n- **Límites:** no omitas input; no inviertas roles; sin PII real en mensajes de CI.",
+          "- **Contexto:** a las 2 a. m. el colega necesita el dato sintético sin procesar y ambos lados del oráculo, no un `assert` ciego.\n- **Meta:** con `inp`, `expected` y `actual` dados, imprimir un diccionario con las claves `input`, `expected` y `actual`.\n- **Éxito:** `{'input': 'ANA', 'expected': 'ana', 'actual': 'Ana'}`.\n- **Límites:** no omitas `input`; no inviertas las funciones de cada valor; no incluyas PII real en mensajes de CI.",
         instruction:
-          "1. El starter imprime `{'expected': actual, 'actual': expected}` sin input.\n2. Arma el dict con los tres campos en roles correctos.\n3. Imprime el dict.\n4. No cambies los literales de prueba.",
-        hint: "dict con input + expected + actual",
+          "1. El starter imprime `{'expected': actual, 'actual': expected}` sin la clave `input`.\n2. Arma el dict con los tres campos en roles correctos.\n3. Imprime el dict.\n4. No cambies los literales de prueba.",
+        hint: "diccionario con `input` + `expected` + `actual`",
         hints: [
           "{'input': inp, 'expected': expected, 'actual': actual}",
-          "Sin input en el mensaje, el fix en CI es más lento.",
+          "Sin `input` en el mensaje, corregir el problema en CI toma más tiempo.",
         ],
         edgeCases: ["no incluyas PII real en mensajes de CI"],
-        tests: "dict con input/expected/actual sintéticos",
-        feedback: "Una falla útil nombra input sintético, esperado y actual; no solo un assert ciego. Roles invertidos retrasan el fix.",
+        tests: "diccionario con `input`/`expected`/`actual` sintéticos",
+        feedback: "Una falla útil nombra la entrada sintética, el valor esperado y el actual; no solo un assert ciego. Roles invertidos retrasan el fix.",
         retrospective:
-          "Input + expected + actual es el mínimo para un fix a las 2 a. m.: el colega reproduce el raw sintético sin adivinar. Roles invertidos mandan a “arreglar” el lado equivocado. Pregunta: ¿por qué no loguear un email real en ese dict? Luego (E3): cierra el ciclo bug_repro → regression_test con normalización.",
+          "Entrada + valor esperado + valor actual es lo mínimo para corregir el problema a las 2 a. m.: el colega reproduce el raw sintético sin adivinar. Roles invertidos mandan a “arreglar” el lado equivocado. Pregunta: ¿por qué no loguear un email real en ese dict? Luego (E3): cierra el ciclo bug_repro → regression_test con normalización.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1595,7 +1595,7 @@ print({'input': inp, 'expected': expected, 'actual': actual})`,
         kind: "transfer",
         title: "De bug_repro a regression_test",
         preamble:
-          "- **Contexto:** el bug era comparar `' ANA '` con el oráculo `'ana'` sin normalizar; al cerrar el ticket debe quedar un test verde que mate mutantes sin strip/casefold.\n- **Meta:** aplicar `casefold` + `strip` y reportar el booleano del contrato.\n- **Éxito:** `True`.\n- **Límites:** no te quedes en bug_repro (print False); no uses PII real; después parametriza varios raw con el mismo oráculo.",
+          "- **Contexto:** el bug era comparar `' ANA '` con el oráculo `'ana'` sin normalizar; al cerrar la incidencia debe quedar una prueba verde que mate mutantes sin strip/casefold.\n- **Meta:** aplicar `casefold` + `strip` y reportar el booleano del contrato.\n- **Éxito:** `True`.\n- **Límites:** no te quedes en bug_repro (print False); no uses PII real; después parametriza varios raw con el mismo oráculo.",
         instruction:
           "1. El starter hace `raw == oracle` (False).\n2. Normaliza: `got = raw.casefold().strip()`.\n3. Imprime `got == oracle`.\n4. No cambies el oráculo.",
         hint: "normaliza antes del ==",
@@ -1607,7 +1607,7 @@ print({'input': inp, 'expected': expected, 'actual': actual})`,
         tests: "regresión verde: True",
         feedback: "bug_repro muestra el fallo crudo; regression_test fija el oráculo normalizado para que un mutante sin strip/casefold no sobreviva en CI.",
         retrospective:
-          "Cerrar el ticket sin el caso que mata al mutante deja la puerta abierta al mismo typo de `strip`/`casefold`. El repro muestra el dolor; la regresión lo convierte en contrato de CI. Pregunta de defensa: si mañana alguien borra `casefold` en `normalize_name`, ¿qué test del You Do debe fallar primero? Política: no merge sin ese rojo esperado.",
+          "Cerrar la incidencia sin el caso que mata al mutante deja la puerta abierta al mismo typo de `strip`/`casefold`. El repro muestra el dolor; la regresión lo convierte en contrato de CI. Pregunta de defensa: si mañana alguien borra `casefold` en `normalize_name`, ¿qué test del You Do debe fallar primero? Política: no merge sin ese rojo esperado.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1631,18 +1631,18 @@ print(got == oracle)`,
   youDo: {
     title: "Contratos pytest de normalización y matching — inicio CP-N3-A",
     context:
-      "Construye una mini suite pytest (o, si aún no instalas pytest, un módulo de asserts equivalentes) sobre normalización y exact match con contactos sintéticos `@example.pe` (Caso 27, run_id `cpn3a-01`). Cada supuesto del ER debe ser un test ejecutable. El entregable cubre: mapa de riesgo por capa; tests AAA con oráculos fijos; fixtures con aislamiento function-scope; casos negativos con mensajes útiles; cobertura de ramas de umbral; al menos un mutante conceptual eliminado. Matching no implica fraude ni parentesco.",
+      "Construye un pequeño conjunto de pruebas con pytest (o, si aún no instalas pytest, un módulo con `assert` equivalentes) sobre normalización y emparejamiento exacto de contactos sintéticos `@example.pe` (Caso 27, `run_id` `cpn3a-01`). Cada supuesto del ER debe convertirse en una prueba ejecutable. El entregable cubre: mapa de riesgo por capa; pruebas AAA con oráculos fijos; fixtures aisladas mediante el alcance `function`; casos negativos con mensajes útiles; cobertura de ramas de umbral; al menos un mutante conceptual eliminado. El emparejamiento no implica fraude ni parentesco.",
     objectives: [
       "Mapa de riesgos con score y capas unit/integration/e2e para normalize, match y umbrales.",
       "Tests AAA con oráculos fijos para normalize_name y exact_match (al menos 4 casos).",
-      "Fixture function-scope (o factory) y al menos 3 casos negativos con mensajes que nombran el campo.",
+      "Fixture con alcance `function` (o de fábrica) y al menos 3 casos negativos con mensajes que nombran el campo.",
       "Cobertura de las tres ramas de umbral y un mutante conceptual eliminado por regresión.",
       "README en español profesional: límites del fixture, evidencia de corrida y ética no-fraude.",
     ],
     requirements: [
       "Datos sintéticos únicamente (`@example.pe`); sin PII real ni secretos en asserts ni logs",
       "Cada bug documentado en el README o en un test de regresión con oráculo fijo",
-      "Matching solo responde igualdad de entidad sintética: no implica fraude ni parentesco",
+      "El emparejamiento solo responde si dos registros sintéticos representan la misma entidad: no implica fraude ni parentesco",
       "Demo reproducible: `python -m pytest tests/ -q` o el módulo de asserts del starter",
       "Inicio de CP-N3-A: contratos del motor ER listos para ampliar con dobles en S28",
     ],
@@ -1703,7 +1703,7 @@ if __name__ == "__main__":
     print("starter_ok")
 `,
     portfolioNote:
-      "Entrega de inicio CP-N3-A para tu portafolio. Carpeta con código de normalización/matching sintético, tests (pytest preferido) y README en español profesional con límites y evidencia de corrida.",
+      "Entrega de inicio CP-N3-A para tu portafolio. Incluye una carpeta con código de normalización y emparejamiento sintético, pruebas —de preferencia con pytest— y un README en español profesional con límites y evidencia de ejecución.",
     rubric: [
       { criterion: "Cubre los objetivos de contratos pytest de esta sección (riesgo, AAA, fixtures, bordes, mutación)", weight: "25%" },
       { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
@@ -1713,7 +1713,7 @@ if __name__ == "__main__":
       { criterion: "Documentación en español profesional", weight: "10%" },
     ],
     retrospective:
-      "Antes de marcar listo: (1) ¿qué invariante de `normalize_name` o de umbral demuestras con un test que fallaría si quitas `casefold` o inviertes un thr? (2) ¿tus mensajes de negativos nombran campo y valor *sintético* sin PII real? (3) En el README, una frase de impacto medible (p. ej. “tres bandas de umbral + un mutante muerto”) que puedas defender en 30 segundos ante un lead de data eng. Matching no es fraude: di en voz alta qué *no* afirma tu suite.",
+      "Antes de marcar listo: (1) ¿qué invariante de `normalize_name` o de umbral demuestras con una prueba que fallaría si quitas `casefold` o inviertes `thr`? (2) ¿tus mensajes de casos negativos nombran el campo y un valor *sintético* sin PII real? (3) En el README, ¿incluyes una frase de impacto medible —por ejemplo, «tres bandas de umbral + un mutante muerto»— que puedas defender en 30 segundos ante un líder de ingeniería de datos? El emparejamiento no es fraude: di en voz alta qué *no* afirma tu conjunto de pruebas.",
   },
   selfCheck: {
     questions: [
@@ -1739,18 +1739,18 @@ if __name__ == "__main__":
           "Mutación conceptual detecta tests inútiles: si el mutante vive, hay que añadir regresión (bug_repro → regression_test) que lo mate.",
       },
       {
-        question: "Las pruebas de matching en CP-N3-A demuestran:",
+        question: "Las pruebas de emparejamiento en CP-N3-A demuestran:",
         options: ["Fraude automático", "Parentescos", "Envío de correos", "Contratos de misma entidad / normalización — no riesgo ni relación"],
         correctIndex: 3,
         explanation:
           "Entity resolution decide si dos registros sintéticos son la misma entidad tras normalizar; no prueba fraude, parentesco ni envío de correos.",
       },
       {
-        question: "¿Cuál es el scope por defecto de un fixture de pytest y por qué importa en datos mutables?",
-        options: ["session: reutiliza estado entre todos los tests (ideal para mutar listas)", "package: es el default de pytest y aísla mutables sin necesidad de deepcopy", "function: se recrea por test y reduce contaminación entre casos", "module: es el único scope que aísla copias profundas automáticamente"],
+        question: "¿Cuál es el alcance predeterminado de un fixture de pytest y por qué importa con datos mutables?",
+        options: ["`session`: reutiliza estado entre todas las pruebas (ideal para modificar listas)", "`package`: es el alcance predeterminado de pytest y aísla datos mutables sin necesidad de `deepcopy`", "`function`: se recrea por prueba y reduce la contaminación entre casos", "`module`: es el único alcance que aísla copias profundas automáticamente"],
         correctIndex: 2,
         explanation:
-          "El default es function-scope: cada test recibe un setup fresco. Mutar un fixture session/module/package sin cuidado produce flakes de orden; deepcopy no es mágico del scope.",
+          "El alcance predeterminado es `function`: cada prueba recibe una preparación nueva. Modificar sin cuidado una fixture con alcance `session`, `module` o `package` produce fallos que dependen del orden; `deepcopy` no cambia por arte de magia el alcance.",
       },
     ],
   },

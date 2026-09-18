@@ -25,9 +25,9 @@ export const section14: CourseSection = {
     "En data quality y analytics de banca, fintech y retail en Perú, el cómputo vectorizado con NumPy sostiene las métricas de completitud, unicidad y señales por pares. Aquí aprendes a operar arrays de miles de filas sin un bucle explícito, con benchmarks honestos y tests de tolerancia numérica (esto es, comparaciones que aceptan una diferencia mínima en vez de exigir igualdad exacta). Es la base para cualquier métrica de calidad de datos que un comité pueda auditar.",
   learningOutcomes: [
     { text: "Construir y validar ndarrays con dtype y shape correctos" },
-    { text: "Indexar y filtrar con máscaras booleanas de forma segura" },
+    { text: "Indexar y filtrar con máscaras booleanas (arrays de `True` y `False` que seleccionan datos) de forma segura" },
     { text: "Aplicar ufuncs y reducciones por eje (completitud, unicidad con np.unique)" },
-    { text: "Resolver broadcasting y documentar compatibilidad de shapes" },
+    { text: "Resolver broadcasting (alineación automática de shapes compatibles) y documentar esa compatibilidad" },
     { text: "Distinguir views de copies y controlar mutabilidad" },
     { text: "Manejar NaN/inf y evaluar estabilidad numérica" },
     { text: "Vectorizar frente a loops con benchmark honesto" },
@@ -185,7 +185,7 @@ unicidad 0.6667`,
     scores = np.array([[0.9, 0.8], [0.4, 0.5], [0.7, 0.6]])  # (3,2)
     pesos = np.array([0.6, 0.4])  # (2,)
     ponderado = scores * pesos  # broadcast (3,2)*(2,)
-    umbral = np.array([0.5])[:, None]  # (1,1) vía reshape
+    umbral = np.array([0.5])[:, None]  # (1,1): None inserta un eje
     print("ponderado", ponderado.round(3).tolist())
     print("sobre_umbral", (scores.mean(axis=1, keepdims=True) > umbral).ravel().tolist())
     try:
@@ -1085,7 +1085,7 @@ print((M + w).tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · outer product broadcast
-# Bug a corregir: a * b sin reshape (falla o resultado incorrecto)
+# Bug a corregir: a * b sin insertar un eje (falla o resultado incorrecto)
 import numpy as np
 a = np.arange(4)
 b = np.arange(3)

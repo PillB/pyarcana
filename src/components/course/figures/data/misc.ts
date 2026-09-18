@@ -569,7 +569,7 @@ export const MISC_FIGURES: Record<string, FigureData> = {
       { label: 'infraestructura', sub: 'HTTP, SQL, colas', tint: 4 },
     ],
     volatileFrom: 2,
-    note: 'Si el dominio importa FastAPI, cambiar de framework se convierte en reescribir las reglas de negocio.',
+    note: 'Si el dominio importa un framework web, cambiarlo obliga a reescribir las reglas de negocio.',
   },
   'S41-status-codes': {
     kind: 'decision',

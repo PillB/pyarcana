@@ -25,7 +25,13 @@ export function FlowFigure({ title, data, idPrefix }: { title: string; data: Flo
   const gap = n > 4 ? 10 : 16
   const usable = FIG.width - marginX * 2
   const boxW = Math.floor((usable - gap * (n - 1)) / n)
-  const boxH = 62
+  // A stage's second line has to wrap, not spill. SVG text does not clip: "con una codificación"
+  // measured 133px inside a 116px box in S07 and simply overflowed into the stage beside it,
+  // with nothing failing. Wrapping keeps the words the section chose; the box grows only when
+  // some stage actually needs the second line.
+  const subLines = data.stages.map((s) => (s.sub ? wrapLines(s.sub, boxW - 8, 7.4).slice(0, 2) : []))
+  const subRows = Math.max(1, ...subLines.map((l) => l.length))
+  const boxH = 62 + (subRows - 1) * 14
   const topY = 92 + headBlock
   const xOf = (i: number) => marginX + i * (boxW + gap)
 
@@ -68,16 +74,17 @@ export function FlowFigure({ title, data, idPrefix }: { title: string; data: Flo
               >
                 {s.label}
               </FigText>
-              {s.sub ? (
+              {subLines[i].map((line, li) => (
                 <FigText
+                  key={line}
                   x={xOf(i) + boxW / 2}
-                  y={topY + 44}
+                  y={topY + 44 + li * 14}
                   size={FIG.microSize}
                   fill="var(--muted-foreground)"
                 >
-                  {s.sub}
+                  {line}
                 </FigText>
-              ) : null}
+              ))}
               {i < n - 1 ? (
                 <FigArrow
                   x1={xOf(i) + boxW + 1}

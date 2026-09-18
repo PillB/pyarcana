@@ -1,9 +1,9 @@
 /**
  * S09 — Excepciones, debugging y logging seguro
  *
- * The filename and the exported id ("visualization") both come from a pre-V3 ordering
- * and no longer describe what this section teaches. The id is the URL hash and
- * a learner save key, so it cannot be changed without losing progress.
+ * Renamed from the pre-V3 id "visualization" to match what this section actually teaches.
+ * The id is the URL hash and a learner save key; saved progress is carried across
+ * by migrateSectionIds in src/lib/section-id-migrations.ts.
  *
  * Read `title` below, never the slug. Matching content to the slug is how three
  * agent diagrams ended up attached to a data-testing lesson.
@@ -11,7 +11,7 @@
 import type { CourseSection } from '../../types'
 
 export const section09: CourseSection = {
-  id: "visualization",
+  id: "exceptions-logging",
   index: 9,
   title: "Excepciones, debugging y logging seguro",
   shortTitle: "Excepciones & logs",
@@ -204,8 +204,10 @@ except KeyError:
     for line in tb.splitlines():
         if "normalize" in line or "KeyError" in line or "process" in line:
             print(line.strip())`,
-        output: `File "<string>", line 8, in process
-File "<string>", line 4, in normalize
+        output: `process([{"id": "C001"}, {"id": "C002", "email": "a@ejemplo.pe"}])
+File "demo.py", line 8, in process
+normalize(r)
+File "demo.py", line 4, in normalize
 KeyError: 'email'`,
       },
       callout: {
@@ -584,8 +586,10 @@ except KeyError:
         if "normalize_email" in line or "run_batch" in line or "KeyError" in line:
             print(line.strip())`,
           output: `error: KeyError 'email'
-File "<string>", line 7, in run_batch
-File "<string>", line 4, in normalize_email
+run_batch(rows)
+File "demo.py", line 7, in run_batch
+return [normalize_email(r) for r in rows]
+File "demo.py", line 4, in normalize_email
 KeyError: 'email'`,
         },
         why: "El frame útil es el de tu módulo (`normalize_email`), no el interior de la stdlib. `format_exc` da texto filtrable: buscas la función donde se indexa la clave y reduces el riesgo de volcar locals con PII al canal de ops.",

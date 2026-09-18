@@ -1,9 +1,9 @@
 /**
  * S08 — Archivos, CSV, JSON y contratos de ingesta
  *
- * The filename and the exported id ("pandas") both come from a pre-V3 ordering
- * and no longer describe what this section teaches. The id is the URL hash and
- * a learner save key, so it cannot be changed without losing progress.
+ * Renamed from the pre-V3 id "pandas" to match what this section actually teaches.
+ * The id is the URL hash and a learner save key; saved progress is carried across
+ * by migrateSectionIds in src/lib/section-id-migrations.ts.
  *
  * Read `title` below, never the slug. Matching content to the slug is how three
  * agent diagrams ended up attached to a data-testing lesson.
@@ -11,7 +11,7 @@
 import type { CourseSection } from '../../types'
 
 export const section08: CourseSection = {
-  id: "pandas",
+  id: "files-ingestion",
   index: 8,
   title: "Archivos, CSV, JSON y contratos de ingesta",
   shortTitle: "Archivos e ingesta",
@@ -230,9 +230,9 @@ print(parse_monto_rows(raw_semi, delimiter=";"))
 print(parse_monto_rows(raw_irregular))
 # Excel "CSV UTF-8" a menudo trae BOM; en disco: open(..., encoding="utf-8-sig")
 print("utf-8-sig quita BOM:", "\\ufeffid".encode().decode("utf-8-sig"))`,
-        output: `[{'id': 'C001', 'nombre': 'Ana', 'monto': '10.50'}, {'id': 'C002', 'nombre': 'Luis', 'monto': '20.00'}]
-[{'id': 'C001', 'nombre': 'Ana', 'monto': '10.50'}]
-[{'raw': {'id': 'C003', 'nombre': 'Rosa', 'monto': None}, 'reason': 'col_count'}, {'raw': {'id': 'C004', 'nombre': 'Jose', 'monto': '7.5', None: ['extra']}, 'reason': 'col_count'}]
+        output: `([{'id': 'C001', 'nombre': 'Ana', 'monto': '10.50'}, {'id': 'C002', 'nombre': 'Luis', 'monto': '20.00'}], [], None)
+([{'id': 'C001', 'nombre': 'Ana', 'monto': '10.50'}], [], None)
+([], [{'parsed_row': {'id': 'C003', 'nombre': 'Rosa', 'monto': None}, 'record_number': 1, 'reason': 'col_count'}, {'parsed_row': {'id': 'C004', 'nombre': 'Jose', 'monto': '7.5', None: ['extra']}, 'record_number': 2, 'reason': 'col_count'}], None)
 utf-8-sig quita BOM: id`,
       },
       callout: {
@@ -1328,7 +1328,7 @@ print(rows[0]['reason'])`,
         preamble:
           "- **Contexto:** el manifest y el README de calidad reportan **cuántos** rejects por `reason` estable.\n- **Meta:** contar y listar motivos en orden.\n- **Éxito:** tres líneas `cast_monto 1`, `col_count 2`, `schema 1`.\n- **Límites:** vocabulario corto de reasons; no inventes frases largas distintas por script.",
         instruction:
-          "1. El starter importa `Counter`. Al ejecutar `Counter(reasons)`, Python cuenta las apariciones de cada valor: para `['col_count', 'schema', 'col_count']`, registra `col_count` dos veces y `schema` una vez. El starter todavía no imprime porque contiene `pass`.\n2. Cuenta cada `reason` y recórrelos en orden lexicográfico.\n3. Imprime `motivo conteo` por línea.\n4. No inventes un orden manual con listas fijas.",
+          "1. El starter importa `Counter`, un contador de elementos de una secuencia que pertenece a `collections`. Al ejecutar `Counter(reasons)`, Python cuenta las apariciones de cada valor: para `['col_count', 'schema', 'col_count']`, registra `col_count` dos veces y `schema` una vez. El starter todavía no imprime porque contiene `pass`.\n2. Cuenta cada `reason` y recórrelos en orden lexicográfico.\n3. Imprime `motivo conteo` por línea.\n4. No inventes un orden manual con listas fijas.",
         hint: "collections.Counter o dict de conteos",
         hints: [
           "collections.Counter(reasons) o un dict de conteos",

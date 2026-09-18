@@ -123,28 +123,13 @@ class Section01IndependentRecoveryTests(unittest.TestCase):
             text=True,
         )
         self.assertEqual(run.stdout.rstrip(), match.group("output").rstrip())
-        self.assertIn("if __name__ == \"__main__\":", match.group("code"))
+        # D9: the S01 playground is the learner's first editable script, so it runs top to
+        # bottom. It used to demonstrate the entrypoint guard, which needs `def`, `if` and
+        # `__name__` — none of them taught in S01, and the section's own callout said a script
+        # needs neither.
+        for forbidden in ("def main(", "__main__"):
+            self.assertNotIn(forbidden, match.group("code"))
         self.assertNotIn("edad_meses", block)
-
-    @unittest.skip(
-        "The check_arg.py demo this pins was removed by finding S01-F06: it taught "
-        "import, def, indentation, variables, indexing, f-strings and __name__ to "
-        "demonstrate exit codes, before any of those are taught. S01 now demonstrates "
-        "exit codes with two shell commands. The typed-entrypoint requirement is still "
-        "worth enforcing somewhere it is honest - S05 teaches functions - so this is "
-        "skipped rather than deleted, and recorded in audit/fixer/OPEN_QUESTIONS.md."
-    )
-    def test_rendered_check_arg_demo_preserves_the_typed_entrypoint(self) -> None:
-        lesson = SECTION.read_text(encoding="utf-8")
-        block = _between(
-            lesson,
-            "title: 'check_arg.py — argv, len y exit codes'",
-            "output: `OK:hola",
-        )
-
-        self.assertIn("def main() -> None:", block)
-        self.assertNotIn("def main():", block)
-        self.assertIn('print("executable:", sys.executable)', block)
 
     def test_authenticated_bank_is_balanced_across_attempts_and_concepts(self) -> None:
         seed = SEED.read_text(encoding="utf-8")
@@ -184,13 +169,32 @@ class Section01IndependentRecoveryTests(unittest.TestCase):
         for term in ("entorno virtual", "código de salida", "commit", "Ruff"):
             self.assertIn(term, block)
 
-    def test_ruff_solution_has_module_level_spacing_for_e_rules(self) -> None:
+    def test_ruff_exercise_starts_dirty_and_ends_clean(self) -> None:
+        """The F401 contract, which is what this exercise is actually for.
+
+        This used to pin the blank lines around `def main():`, demonstrating ruff's E-rules.
+        D9 removed the entrypoint from S01 entirely — a beginner cannot read `def`, `if` and
+        `import __name__` in the first section — so there is no function left to space. What
+        the exercise has always been about survives and is now pinned directly: the starter
+        carries imports it never uses, ruff reports them, and the fix leaves a script that
+        still prints both lines.
+        """
         lesson = SECTION.read_text(encoding="utf-8")
         block = _between(lesson, "id: 'S01-T4-A-E2'", "id: 'S01-T4-A-E3'")
+        starter = _between(block, "starterCode: {", "solutionCode: {")
         solution = _between(block, "solutionCode: {", "output: `hola")
 
-        self.assertIn("from datetime import datetime\n\n\ndef main():", solution)
-        self.assertIn('print(datetime.now().date())\n\n\nif __name__ == "__main__":', solution)
+        self.assertIn("import sys", starter, "the starter must carry the unused import F401 reports")
+        self.assertIn("import os", starter)
+        self.assertNotIn("import sys", solution, "the fix removes the unused imports")
+        self.assertNotIn("import os", solution)
+        self.assertIn("from datetime import datetime", solution, "the used import stays")
+        for line in ('print("hola")', "print(datetime.now().date())"):
+            self.assertIn(line, starter)
+            self.assertIn(line, solution)
+        for forbidden in ("def main(", "__main__"):
+            self.assertNotIn(forbidden, starter, "D9: no entrypoint idiom in S01")
+            self.assertNotIn(forbidden, solution, "D9: no entrypoint idiom in S01")
 
 
 if __name__ == "__main__":

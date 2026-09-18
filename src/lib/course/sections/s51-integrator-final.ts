@@ -22,13 +22,13 @@ export const section51: CourseSection = {
   icon: "Crown",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto (bancos, fintechs y ops digitales en Perú y LatAm), el rol de AI/Platform Engineer no termina al desplegar el copiloto: te piden demostrar qué versión respondió, qué citó, qué tool llamó, quién aprobó el release y cómo hacer rollback. Aquí aprendes a montar un dashboard redactado, SLO con owner, audit trail append-only (que solo se puede agregar, no borrar) y flujos de corrección y apelación. Es lo que convierte un demo en un producto defendible.",
+    "En equipos de plataforma y producto —bancos, empresas de tecnología financiera y operaciones digitales en Perú y Latinoamérica—, el trabajo de ingeniería de IA y plataforma no termina al desplegar el copiloto. Te piden demostrar qué versión respondió, qué citó, qué `tool` llamó, quién aprobó la versión y cómo revertirla. Aquí aprendes a montar un tablero redactado, un SLO con responsable, un registro de auditoría al que solo se añade información y flujos de corrección y apelación. Eso convierte una demostración en un producto defendible.",
   learningOutcomes: [
     { text: "Construir una traza reconstruible (prompt/retrieval/tool/answer) con `trace_id` y sin PII exportable" },
     { text: "Reconciliar tokens por etapa, validar p95 ≤ SLO y demostrar redacción de atributos sensibles" },
-    { text: "Pinear un release inmutable (modelo/prompt/dataset/índice) y rechazar `latest` en producción" },
-    { text: "Aplicar dual-control, scope least-privilege, retención acotada y audit append-only" },
-    { text: "Evaluar multi-SLI (availability, faithfulness, drift) con owner y error budget antes de reentrenar" },
+    { text: "Fijar una versión inmutable —modelo, prompt, conjunto de datos e índice— y rechazar `latest` en producción" },
+    { text: "Aplicar control dual, acceso con el mínimo privilegio, retención acotada y un registro de auditoría al que solo se añade información" },
+    { text: "Evaluar varios SLI —`availability`, `faithfulness` y `drift`— con una persona responsable y un presupuesto de errores antes de reentrenar" },
     { text: "Ejecutar contención → rollback dentro de RTO → post mortem blameless con acciones y dueños" },
     { text: "Diseñar UX con incertidumbre visible, citas resolubles y confirmación antes de side-effects" },
     { text: "Cerrar CF-5 con WCAG AA (teclado, contraste, labels) más corrección y apelación humana" },
@@ -55,7 +55,7 @@ export const section51: CourseSection = {
       optional: true,
       paragraphs: [
         "Bloque de referencia. Reúne el entregable, el orden de los subtemas y los criterios de promoción.",
-        "**Producto incremental.** El copiloto de operaciones auditable y el congelamiento CF-5. Recibes identificadores de traza, versiones de prompt, modelo y dataset, evidencia, retroalimentación y política. Entregas un tablero redactado, objetivos de servicio con dueño, un rastro de auditoría al que solo se añade, y un mecanismo de corrección y apelación. Falla si aparecen datos personales en un sink o si un release no es trazable.",
+        "**Producto incremental.** El copiloto de operaciones auditable y el congelamiento CF-5. Recibes identificadores de traza, versiones de prompt, modelo y conjunto de datos, evidencia, retroalimentación y política. Entregas un tablero redactado, objetivos de servicio con responsable, un rastro de auditoría al que solo se añade información y un mecanismo de corrección y apelación. Falla si aparecen datos personales en un destino de exportación o si una versión no es trazable.",
         "**Orden de los subtemas.** T1 traces y redacción. T2 registro y auditoría. T3 objetivos de servicio e incidentes. T4 interfaz contestable y accesibilidad.",
       ],
       code: {
@@ -557,7 +557,7 @@ FREEZE_RELEASE_BUNDLE`,
         demoId: "S51-T2-B-DEMO",
         subtopicId: "S51-T2-B",
         environment: "local-python",
-        description: "Demo: dual-control, scope read y audit append-only",
+        description: "Demostración: control dual, alcance de lectura y registro de auditoría al que solo se añade información",
         preamble:
           "El bundle `copilot-7` no se promueve solo: hace falta **quién escribió** y **quién aprobó**. En esta demo `dev-a` propone y `owner-b` aprueba con scope `ops-read`, 30 días de retención y audit append-only; self-approve + `global-admin` se rechaza. No escribas: predice PASS y REJECT. Si confundes «yo mismo lo apruebo» con gobernanza, el auditor de Moquegua no puede reconstruir el change.",
         code: {
@@ -581,7 +581,7 @@ REJECT_UNGOVERNED_CHANGE`,
         },
         why: "Dual-control exige author ≠ approver: autoaprobar es el anti-patrón de segregación de funciones. Scope least-privilege termina en `-read`; retención acotada (≤30 días); el audit es append-only, no un wiki editable. En We Do: predicado, assess REJECT/MISSING y decide REQUEST_INDEPENDENT_APPROVAL.",
         retrospective:
-          "Dual-control = dos personas + scope `-read` + retención acotada + audit append-only. El error clásico es autoaprobar «porque el owner está de vacaciones». Pregunta: ¿un wiki editable de aprobaciones es audit append-only? We Do: predicado, tres rutas y helpers SoD/policy.",
+          "El control dual exige dos personas, un alcance terminado en `-read`, retención acotada y un registro de auditoría al que solo se añade información. El error clásico es autoaprobar porque la persona responsable está de vacaciones. Pregunta: ¿una página editable de aprobaciones cumple ese requisito? En la práctica guiada trabajarás el predicado, las tres rutas y las funciones auxiliares de segregación de funciones y política.",
       },
       {
         demoId: "S51-T3-A-DEMO",
@@ -1293,7 +1293,7 @@ assert results == ["CONTINUE", "FREEZE_RELEASE_BUNDLE", "REGISTER_MISSING_VERSIO
           "- **Contexto:** en `CASO-MOQ-051-2B`, el change ticket de Moquegua exige autor ≠ aprobador, risk válido, scope de lectura, retención ≤30 y audit append-only.\n- **Meta:** corregir `meets_contract` con esas cinco anclas.\n- **Éxito:** `S51-T2-B PASS`.\n- **Límites:** no cambies author/approver del fixture; no «arregles» self-approve en silencio; no borres el assert.",
         instruction:
           "S51-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si author==approver o scope admin (bug).\n2. Exige author ≠ approver y risk ∈ {low, medium, high}.\n3. Scope `endswith(\"-read\")`, retención ≤ 30, audit_append_only True.\n4. Conserva print PASS/REJECT_UNGOVERNED_CHANGE.",
-        hint: "author ≠ approver, scope `*-read`, retención ≤ 30 y audit append-only.",
+        hint: "`author` ≠ `approver`, `access_scope` termina en `-read`, la retención es ≤ 30 y `audit_append_only` es `True`.",
         hints: [
           "Segregación de funciones: `author` y `approver` son personas distintas; risk ∈ {low, medium, high}.",
           "Self-approve o `global-admin` deben fallar el contrato; el starter hoy los trata como éxito.",
@@ -1400,7 +1400,7 @@ print(*results)
         hint: "Missing → REQUEST_INDEPENDENT_APPROVAL; sod_ok y access_policy_ok en falso → REJECT_UNGOVERNED_CHANGE; solo ambos True → CONTINUE.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_INDEPENDENT_APPROVAL` antes de evaluar el contenido.",
-          "sod_ok separa funciones; access_policy_ok une scope least-privilege, TTL y audit append-only.",
+          "`sod_ok` separa funciones; `access_policy_ok` exige que `access_scope` aplique el mínimo privilegio, que la retención no supere 30 días y que `audit_append_only` sea `True`.",
         ],
         edgeCases: ["falta audit_append_only", "fixture adverso: author==approver, scope admin, retención excesiva o audit no append-only", "CASO-MOQ-051-2B es sintético"],
         tests: "Fixtures `CASO-MOQ-051-2B`, adverso y sin `audit_append_only` prueban continue/breach/uncertainty en ese orden.",
@@ -1579,7 +1579,7 @@ print(*results)
           "- **Contexto:** en ops del copiloto, un slice sin dueño no se «optimiza en silencio»: se triajea o se abre incidente.\n- **Meta:** `sli_ok` + burn + `decide` → CONTINUE, OPEN_COPILOT_INCIDENT, TRIAGE_DRIFT_SLICE.\n- **Éxito:** `CONTINUE OPEN_COPILOT_INCIDENT TRIAGE_DRIFT_SLICE` (burn válido 0.2).\n- **Límites:** no inventes owner; no ignores faithfulness; no conviertas missing en CONTINUE.",
         instruction:
           "S51-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Implementa `error_budget_burn` (errors/allowed en ventana 100).\n2. `sli_ok`: availability, faithfulness y drift vs. umbrales.\n3. Missing de owner → TRIAGE_DRIFT_SLICE; sli_ok + owner + burn finito → CONTINUE.\n4. Imprime los tres códigos.",
-        hint: "Missing de owner → TRIAGE_DRIFT_SLICE; owner vacío o SLI roto → OPEN_COPILOT_INCIDENT. Burn = errors/allowed con allowed=(1-slo)*window.",
+        hint: "Si falta `owner`, devuelve `TRIAGE_DRIFT_SLICE`; si `owner` está vacío o un SLI incumple su umbral, devuelve `OPEN_COPILOT_INCIDENT`. La tasa de consumo se calcula como `errors / allowed`, con `allowed = (1.0 - slo) * window`.",
         hints: [
           "Una ausencia de clave no equivale a breach: enrútala a `TRIAGE_DRIFT_SLICE` antes de evaluar el contenido.",
           "error_budget_burn(0.999, 0.995) debe ser 0.2 en ventana 100. sli_ok no basta solo: también bool(owner).",
@@ -1949,7 +1949,7 @@ print(*results)
         preamble:
           "- **Contexto:** en CF-5, un side-effect sin evidencia visible no se «manda con warning»: se pide confirmación o se bloquea.\n- **Meta:** helpers + `decide` → CONTINUE, BLOCK_UNCONFIRMED_ACTION, ASK_USER_TO_CONFIRM.\n- **Éxito:** `CONTINUE BLOCK_UNCONFIRMED_ACTION ASK_USER_TO_CONFIRM`.\n- **Límites:** no inventes `confirmed`; no conviertas missing en CONTINUE.",
         instruction:
-          "S51-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. `evidence_visible`: incertidumbre + citas + effect_summary.\n2. `effect_confirmed`: not required or confirmed is True.\n3. Missing → ASK_USER_TO_CONFIRM; ambos True → CONTINUE.\n4. Imprime los tres códigos.",
+          "S51-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. `evidence_visible`: incertidumbre, citas y `effect_summary`.\n2. `effect_confirmed` devuelve `True` cuando no se requiere confirmación o cuando `confirmed` es `True`.\n3. Si falta un campo, devuelve `ASK_USER_TO_CONFIRM`; si ambas funciones devuelven `True`, devuelve `CONTINUE`.\n4. Imprime los tres códigos.",
         hint: "Missing → ASK_USER_TO_CONFIRM; evidence_visible o effect_confirmed en falso → BLOCK_UNCONFIRMED_ACTION; solo ambos True → CONTINUE.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `ASK_USER_TO_CONFIRM` antes de evaluar el contenido.",
@@ -2027,7 +2027,7 @@ assert results == ["CONTINUE", "BLOCK_UNCONFIRMED_ACTION", "ASK_USER_TO_CONFIRM"
         preamble:
           "- **Contexto:** en `CASO-MOQ-051-4B`, el panel del copiloto de Moquegua solo cierra CF-5 si es operable por teclado, legible (contraste AA), con corrección y apelación a humano.\n- **Meta:** corregir `meets_contract` (teclado + labels + contraste ≥ min + corrección + appeal).\n- **Éxito:** `S51-T4-B PASS`.\n- **Límites:** no uses igualdad exacta de contraste; no borres appeal del fixture; no borres el assert.",
         instruction:
-          "S51-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si not keyboard o contraste < min o not appeal (bug).\n2. Exige keyboard_complete y screen_reader_labels.\n3. `contrast_ratio >= min_contrast`, correction_available y appeal_to_human.\n4. Conserva print PASS/FAIL_ACCESSIBILITY_GATE.",
+          "S51-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. El código inicial da `PASS` si el teclado no funciona, el contraste es menor que el mínimo o no hay apelación; ese es el error.\n2. Exige `keyboard_complete` y `screen_reader_labels`.\n3. Exige `contrast_ratio >= min_contrast`, `correction_available` y `appeal_to_human`.\n4. Conserva la impresión de `PASS` o `FAIL_ACCESSIBILITY_GATE`.",
         hint: "Teclado + labels + contraste ≥ min AA + corrección + apelación humana.",
         hints: [
           "Compara `contrast_ratio >= min_contrast` (4.5 en AA); no uses igualdad exacta ni el sentido invertido.",

@@ -26,7 +26,7 @@ export const section15: CourseSection = {
   learningOutcomes: [
     { text: "Modelar Series y DataFrame con Index de negocio estable (ids de cliente) y dtypes explícitos" },
     { text: "Leer CSV/Excel con parser controlado (dtype, parse_dates, na_values, sep, decimal) y reconciliar filas" },
-    { text: "Seleccionar filas/columnas con loc/iloc y crear columnas derivadas con assign de forma idiomática" },
+    { text: "Seleccionar filas/columnas con `loc` (por etiquetas) o `iloc` (por posiciones) y crear columnas derivadas con `assign` de forma idiomática" },
     { text: "Evitar chained assignment (SettingWithCopy) usando loc sobre el original o .copy() explícito" },
     { text: "Tipar strings, tipos nullable, fechas y categorías; contar NaN/NaT tras conversión" },
     { text: "Aplicar schema de columnas con coerción explícita y emitir reporte {columna: n_fallos}" },
@@ -38,7 +38,7 @@ export const section15: CourseSection = {
             heading: "Cuando cada columna habla un idioma distinto",
       paragraphs: [
         "NumPy te dio velocidad a cambio de una condición: que todo el bloque fuera del mismo tipo. Los archivos que llegan de verdad no cumplen eso. Un CSV de transacciones trae identificadores de texto, montos decimales, fechas y categorías, todo en la misma tabla — y cada columna necesita su propio tratamiento.",
-        "Esa tabla es un **DataFrame**, y conviene verlo como lo que es: un conjunto de columnas alineadas por una misma fila de referencia. Cada columna, por separado, es una **Series** — un vector con etiquetas. Y esas etiquetas son el **Index**, que puede ser el aburrido 0, 1, 2 o algo que signifique algo para el negocio, como el identificador del cliente. La diferencia importa más de lo que parece: cuando dos Series se suman o se concatenan por filas, pandas las alinea por el Index y no por el orden en que están escritas. Conviene acotarlo, porque no vale para todo: `merge` y `join(on=…)` combinan por las **columnas** que les indiques, y ahí el Index no interviene. La pregunta útil es siempre qué está haciendo de llave — el Index en la aritmética y en `concat`, la columna que nombras en un `merge`.",
+        "Esa tabla es un **DataFrame**, y conviene verlo como lo que es: un conjunto de columnas alineadas por una misma fila de referencia. Cada columna, por separado, es una **Series** — un vector con etiquetas. Y esas etiquetas son el **Index**, que puede ser el aburrido 0, 1, 2 o algo que signifique algo para el negocio, como el identificador del cliente. Dos Series se pueden sumar, y pandas las alinea por el Index, no por el orden en que están escritas. La pregunta útil es siempre qué está haciendo de llave: aquí es el Index, por eso una etiqueta presente en un lado y ausente en el otro no tiene con qué emparejarse.",
         "El tipo de cada columna se llama **dtype**, y el conjunto de todos ellos es el **schema**: el contrato que el archivo promete cumplir. Aquí está la trampa central de la sección — leer un CSV sin declarar ese contrato casi siempre funciona. Pandas adivina, y adivina razonablemente bien. El problema es el día en que un monto viene con coma decimal y la columna entera se vuelve texto: no falla nada, los gráficos salen, y los totales están mal.",
         "Por eso la conversión se pide de forma explícita y se cuenta lo que no se pudo convertir. Un valor ilegible se transforma en «faltante» y queda registrado en un reporte, en vez de desaparecer. La regla que gobierna la sección es esa: **nunca arreglar en silencio**. Si tres montos no se pudieron leer, el número tres aparece en algún lado.",
         "La pregunta que te acompaña de principio a fin es la del contrato: **¿qué promete cada columna, y qué pasa exactamente cuando el archivo no cumple?** El hilo es clientes y transacciones sintéticas, sin datos personales reales. Exporta con `index=False` salvo que el index sea una clave de negocio documentada. Las uniones entre tablas y las verificaciones de calidad profundas llegan después; aquí el trabajo es la ingesta honesta — leer, tipar, reportar y exportar de forma que otra persona pueda repetirlo.",
@@ -808,9 +808,9 @@ print(float(s["C002"]))`,
         kind: "transfer",
         title: "Alinear Series con add y fill_value",
         preamble:
-          "- **Contexto:** dos extractos parciales de score se suman por **etiqueta** de cliente; no es un join de DataFrames (eso llega después).\n- **Meta:** sumar alineando índices y rellenar huecos con 0.\n- **Éxito:** tras `sort_index()`, el dict redondeado es `{'C001': 1.0, 'C002': 2.5}`.\n- **Límites:** no uses merge/join de tablas; no inventes filas a mano.",
+          "- **Contexto:** dos extractos parciales de score se suman por **etiqueta** de cliente.\n- **Meta:** sumar alineando índices y rellenar huecos con 0.\n- **Éxito:** tras `sort_index()`, el dict redondeado es `{'C001': 1.0, 'C002': 2.5}`.\n- **Límites:** no inventes filas a mano.",
         instruction:
-          "1. Lee el DEFECT: `s1 + s2` deja NaN en `C001`.\n2. Suma alineando por Index y rellenando huecos con 0 (método de Series, no `merge`).\n3. Ordena con `sort_index()` y redondea a 2 decimales.\n4. Imprime el dict (sin texto extra); verifica `{'C001': 1.0, 'C002': 2.5}`.",
+          "1. Lee el DEFECT: `s1 + s2` deja NaN en `C001`.\n2. Suma alineando por Index y rellenando huecos con 0.\n3. Ordena con `sort_index()` y redondea a 2 decimales.\n4. Imprime el dict (sin texto extra); verifica `{'C001': 1.0, 'C002': 2.5}`.",
         hint: "Suma alineando índices; rellena huecos.",
         hints: [
           "Preferí `.add` con relleno de huecos sobre el operador +.",

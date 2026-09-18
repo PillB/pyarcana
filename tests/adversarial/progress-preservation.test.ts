@@ -134,6 +134,57 @@ describe('migration preserves completed work and is idempotent', () => {
     assert.equal(twice.version, 1)
   })
 
+  it('migrate v0→v1 carries progress across the section-id rename', () => {
+    // A learner who finished the old `oop` and `pandas` sections must still see them complete
+    // after those slugs became `functions-contracts` and `files-ingestion`. Getting this wrong
+    // silently marks finished work unfinished, and badge evidence reads these same keys.
+    const before = {
+      completedSections: ['setup', 'oop', 'pandas'],
+      completedSubSteps: { oop: ['theory', 'ido'], numpy: ['quiz'] },
+      quizScores: { pandas: 80, testing: 95 },
+      bookmarks: ['visualization'],
+      lastVisited: 'rpa-automation',
+    }
+    const { state, version } = migrateProgressState(before, 0, 1)
+
+    assert.equal(version, 1)
+    assert.deepEqual(state.completedSections, ['setup', 'functions-contracts', 'files-ingestion'])
+    assert.deepEqual(state.completedSubSteps, {
+      'functions-contracts': ['theory', 'ido'],
+      collections: ['quiz'],
+    })
+    assert.deepEqual(state.quizScores, { 'files-ingestion': 80, 'oop-domain': 95 })
+    assert.deepEqual(state.bookmarks, ['exceptions-logging'])
+    assert.equal(state.lastVisited, 'evidence-dashboard')
+
+    // No work is lost or duplicated by the remap.
+    assert.equal(state.completedSections?.length, before.completedSections.length)
+    assert.equal(
+      Object.keys(state.quizScores ?? {}).length,
+      Object.keys(before.quizScores).length
+    )
+  })
+
+  it('section-id migration is idempotent and leaves unknown ids alone', () => {
+    // Re-running must not rename a second time; `setup` was never renamed and a section id
+    // invented by a future release must survive untouched rather than being dropped.
+    const migrated = {
+      completedSections: ['setup', 'functions-contracts', 'some-future-section'],
+      quizScores: { 'files-ingestion': 80 },
+      completedSubSteps: {},
+      bookmarks: [],
+      lastVisited: 'functions-contracts',
+    }
+    const again = migrateProgressState(migrated, 0, 1)
+    assert.deepEqual(again.state.completedSections, [
+      'setup',
+      'functions-contracts',
+      'some-future-section',
+    ])
+    assert.deepEqual(again.state.quizScores, { 'files-ingestion': 80 })
+    assert.equal(again.state.lastVisited, 'functions-contracts')
+  })
+
   it('additive media flags in partial state do not alter completion', () => {
     const base = {
       completedSections: ['setup'],

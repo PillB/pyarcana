@@ -50,6 +50,24 @@ export const FLOW_FIGURES: Record<string, FigureData> = {
     outcome: 'Por eso «a mí me funciona» suele significar «lo probé en el REPL, con estado que el script no tendrá».',
   },
 
+  // S03 illustrates seven of its nine theory blocks with a function, and its T2-B subtopic is
+  // built on the early return, two sections before S05 teaches `def`. The block that closes that
+  // gap needs the one thing prose states badly here: that `return` both hands the value back and
+  // ends the body, so the stages after it never run.
+  'S03-call-return': {
+    kind: 'flow',
+    headline: 'La llamada entrega un valor; `return` devuelve la decisión y cierra el cuerpo',
+    stages: [
+      { label: 'llamada', sub: 'con «R-NORTE»', tint: 3 },
+      { label: 'cuerpo', sub: 'region = R-NORTE', tint: 1 },
+      { label: 'return', sub: 'entrega accept', tint: 2 },
+      { label: 'quien llamó', sub: 'recibe accept', tint: 4 },
+    ],
+    boundaryAfter: 2,
+    boundaryLabel: 'lo que queda en el cuerpo ya no se ejecuta',
+    outcome: 'Por eso una guarda puede devolver `review` en la primera línea: el resto del cuerpo no llega a correr.',
+  },
+
   'S05-contract-order': {
     kind: 'flow',
     headline: 'Una función revisa lo que recibe antes de prometer nada',
@@ -149,10 +167,13 @@ export const FLOW_FIGURES: Record<string, FigureData> = {
     stages: [
       { label: 'construir', sub: 'url + params', tint: 1 },
       { label: 'enviar', sub: 'timeout explícito', tint: 3 },
-      { label: 'status', sub: 'raise_for_status', tint: 4 },
+      // `raise_for_status` is one unbreakable 16-character word and the four-stage box fits 14,
+      // so it drew over the stage beside it. The name belongs in the outcome, where the line is
+      // as wide as the canvas.
+      { label: 'status', sub: 'revisar el código', tint: 4 },
       { label: 'parsear', sub: 'json()', tint: 2 },
     ],
-    outcome: 'Cada etapa tiene su excepción: confundirlas hace que un JSON roto se reintente como si fuera la red.',
+    outcome: 'Cada etapa tiene su excepción: confundirlas hace que un JSON roto se reintente como si fuera la red. El código de estado se revisa con `raise_for_status`.',
   },
 
   'S07-encoding-chain': {

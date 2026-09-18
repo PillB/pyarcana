@@ -642,7 +642,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
   ],
   // S03 V3 — Decisiones y reglas (platform id: data-structures)
-  'data-structures': [
+  'decisions-rules': [
     // --- comparisons-membership (3) ---
     {
       concept: 'comparisons-membership',
@@ -989,7 +989,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
   ],
 
   // S04 V3 — Iteración y resúmenes (platform id: functions-modules)
-  'functions-modules': [
+  'iteration-summaries': [
     // --- for-range-sequences (3) ---
     {
       concept: 'for-range-sequences',
@@ -1336,7 +1336,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
   ],
   // S05 V3 — Funciones, contratos y descomposición (platform id: oop)
-  oop: [
+  "functions-contracts": [
     // --- def-call-return (3) ---
     {
       concept: 'def-call-return',
@@ -1683,7 +1683,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
   ],
   // S06 V3 — Colecciones y estructuras de datos (platform id: numpy)
-  numpy: [
+  collections: [
     {
       concept: 'list-tuple-slicing',
       question:
@@ -2022,7 +2022,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
   ],
   // S08 V3 — Archivos, CSV, JSON y contratos de ingesta (platform id: pandas)
-  pandas: [
+  "files-ingestion": [
     {
       concept: 'pathlib-with-modes',
       question:
@@ -2360,7 +2360,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'El gate se demuestra con archivos sintéticos, contratos de ingesta, provenance y reconciliación fail-closed.',
     },
   ],
-  visualization: [
+  "exceptions-logging": [
     {
       concept: 'exception-types-raise-chaining',
       question: 'En un parser de montos de intake, el valor llega como texto no numérico. ¿Qué excepción es la más específica y correcta a lanzar?',
@@ -2650,7 +2650,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       explanation: 'Irrecuperable → cuarentena + señal clara; no datos inventados.',
     },
   ],
-  sklearn: [
+  "modules-packaging-cli": [
     {
       concept: 'imports-namespaces-main',
       question: '¿Por qué el guard if __name__ == "__main__" es importante en un módulo CLI?',
@@ -2940,7 +2940,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       explanation: 'Defaults seguros > conveniencia peligrosa.',
     },
   ],
-  testing: [
+  "oop-domain": [
     {
       concept: 'classes-instances-dataclass',
       question: '¿Por qué usar @dataclass para ClientRecord en el modelo de dominio N1?',
@@ -3232,7 +3232,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
   ],
 
   // S07 — Texto, Unicode y expresiones regulares
-  'data-acquisition': [
+  'text-unicode-regex': [
     {
       concept: 'unicode-normalization-casefold',
       question:
@@ -3573,7 +3573,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
 
   // === S14: NumPy y cómputo vectorizado (security) — V3 8×3 LANE-S14-S17-CLOSE ===
   // === S12 performance V3 recovered ===
-  'performance': [
+  'apis-sql-geo': [
     {
       concept: "requests-status-json",
       question: "[S12/A] Sobre «requests-status-json», ¿cuál es la práctica correcta en un flujo profesional de datos?",
@@ -3865,7 +3865,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
   ],
 
   // === S13 rpa-automation V3 recovered ===
-  'rpa-automation': [
+  'evidence-dashboard': [
     {
       concept: "normalize-blocking-er",
       question: "[S13/A] Sobre «normalize-blocking-er», ¿cuál es la práctica correcta en un flujo profesional de datos?",

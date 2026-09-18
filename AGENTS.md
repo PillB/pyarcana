@@ -30,7 +30,9 @@ four rounds. A gate that could not run did not pass.
 The reviewer-fixer round. Goal and definition of done: [`audit/fixer/GOAL.md`](audit/fixer/GOAL.md).
 Ledger: [`audit/fixer/LEDGER.md`](audit/fixer/LEDGER.md), every box computed, never hand-ticked;
 per-section state in `audit/fixer/cycles/SXX.json`.
-Re-read GOAL, decisions and LEDGER before each stage.
+Re-read GOAL, decisions and LEDGER before each stage. When a round teaches something that
+should change how **every** section is handled, append it to `audit/fixer/LEDGER_NOTES.md`,
+dated and attributed to the section that taught it — every prompt reads that file.
 
 ```bash
 python3 tools/fixer/preflight.py            # refuses to start on bad preconditions

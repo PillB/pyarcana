@@ -38,8 +38,16 @@ import type { Resources } from '@/lib/types'
 import { LegalDisclaimer } from './LegalDisclaimer'
 import { cn } from '@/lib/utils'
 
+/** The part of a course section the catalogue needs to filter and label resources. */
+export interface ResourceSection {
+  id: string
+  index: number
+  title: string
+  shortTitle: string
+}
+
 interface ResourcesPageProps {
-  sections: { id: string; title: string; shortTitle: string; resources: Resources }[]
+  sections: (ResourceSection & { resources: Resources })[]
 }
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -98,7 +106,7 @@ export interface Resource {
 // ────────────────────────────────────────────────────────────────────────────
 const NOW = '2025-07-29'
 
-const RESOURCES: Resource[] = [
+export const RESOURCES: Resource[] = [
   // ── Python core ─────────────────────────────────────────────────────────
   {
     id: 'python-downloads',
@@ -123,7 +131,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://docs.python.org/3/tutorial/',
     resourceType: 'official_documentation',
     topics: ['python', 'syntax', 'control-flow', 'functions'],
-    sectionIds: ['s01-setup', 's02-basics', 's03-data-structures', 's04-functions-modules'],
+    sectionIds: ['s01-setup', 's02-basics', 's03-decisions-rules', 's04-iteration-summaries'],
     level: 'foundation',
     language: ['en'],
     access: 'free',
@@ -139,7 +147,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://docs.python.org/3/library/index.html',
     resourceType: 'official_documentation',
     topics: ['python', 'stdlib', 'modules'],
-    sectionIds: ['s04-functions-modules', 's15-stdlib-deep'],
+    sectionIds: ['s04-iteration-summaries', 's15-stdlib-deep'],
     level: 'reference',
     language: ['en'],
     access: 'free',
@@ -203,7 +211,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://peps.python.org/pep-0257/',
     resourceType: 'standard',
     topics: ['python', 'docstrings', 'documentation'],
-    sectionIds: ['s04-functions-modules', 's11-testing'],
+    sectionIds: ['s04-iteration-summaries', 's11-oop-domain'],
     level: 'reference',
     language: ['en'],
     access: 'free',
@@ -235,7 +243,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://docs.astral.sh/ruff/',
     resourceType: 'tool',
     topics: ['python', 'linter', 'formatter', 'ruff'],
-    sectionIds: ['s01-setup', 's11-testing'],
+    sectionIds: ['s01-setup', 's11-oop-domain'],
     level: 'foundation',
     language: ['en'],
     access: 'free',
@@ -317,7 +325,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://numpy.org/doc/stable/user/',
     resourceType: 'official_documentation',
     topics: ['numpy', 'arrays', 'broadcasting'],
-    sectionIds: ['s06-numpy'],
+    sectionIds: ['s06-collections'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -333,7 +341,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://numpy.org/doc/stable/user/absolute_beginners.html',
     resourceType: 'official_documentation',
     topics: ['numpy', 'arrays', 'beginners'],
-    sectionIds: ['s06-numpy'],
+    sectionIds: ['s06-collections'],
     level: 'foundation',
     language: ['en'],
     access: 'free',
@@ -349,7 +357,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://pandas.pydata.org/docs/',
     resourceType: 'official_documentation',
     topics: ['pandas', 'dataframes', 'data-analysis'],
-    sectionIds: ['s07-pandas', 's08-pandas'],
+    sectionIds: ['s07-pandas', 's08-files-ingestion'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -365,7 +373,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://pandas.pydata.org/docs/user_guide/merging.html',
     resourceType: 'official_documentation',
     topics: ['pandas', 'merge', 'join'],
-    sectionIds: ['s08-pandas'],
+    sectionIds: ['s08-files-ingestion'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -381,7 +389,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://matplotlib.org/stable/tutorials/index.html',
     resourceType: 'official_documentation',
     topics: ['matplotlib', 'visualization', 'plotting'],
-    sectionIds: ['s08-visualization', 's09-visualization'],
+    sectionIds: ['s08-visualization', 's09-exceptions-logging'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -413,7 +421,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://seaborn.pydata.org/tutorial.html',
     resourceType: 'official_documentation',
     topics: ['seaborn', 'visualization', 'statistical'],
-    sectionIds: ['s09-visualization'],
+    sectionIds: ['s09-exceptions-logging'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -445,7 +453,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://www.data-to-viz.com/',
     resourceType: 'reference',
     topics: ['visualization', 'decision-tree'],
-    sectionIds: ['s09-visualization'],
+    sectionIds: ['s09-exceptions-logging'],
     level: 'reference',
     language: ['en'],
     access: 'free',
@@ -463,7 +471,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://scikit-learn.org/stable/user_guide.html',
     resourceType: 'official_documentation',
     topics: ['scikit-learn', 'machine-learning', 'pipeline'],
-    sectionIds: ['s10-sklearn'],
+    sectionIds: ['s10-modules-packaging-cli'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -479,7 +487,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://developers.google.com/machine-learning/crash-course',
     resourceType: 'course',
     topics: ['machine-learning', 'supervised', 'introduction'],
-    sectionIds: ['s10-sklearn'],
+    sectionIds: ['s10-modules-packaging-cli'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -609,7 +617,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://docs.pytest.org/',
     resourceType: 'official_documentation',
     topics: ['pytest', 'testing', 'fixtures'],
-    sectionIds: ['s11-testing'],
+    sectionIds: ['s11-oop-domain'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -625,7 +633,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://coverage.readthedocs.io/',
     resourceType: 'tool',
     topics: ['coverage', 'testing', 'metrics'],
-    sectionIds: ['s11-testing'],
+    sectionIds: ['s11-oop-domain'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -641,7 +649,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://hypothesis.readthedocs.io/',
     resourceType: 'tool',
     topics: ['property-testing', 'testing', 'hypothesis'],
-    sectionIds: ['s11-testing'],
+    sectionIds: ['s11-oop-domain'],
     level: 'advanced',
     language: ['en'],
     access: 'free',
@@ -947,7 +955,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://csrc.nist.gov/Projects/ssdf',
     resourceType: 'standard',
     topics: ['security', 'sdLC', 'nist'],
-    sectionIds: ['s11-testing', 's30-security-infra'],
+    sectionIds: ['s11-oop-domain', 's30-security-infra'],
     level: 'advanced',
     language: ['en'],
     access: 'free',
@@ -1109,7 +1117,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://grow.google/certificates/it-automation-python/',
     resourceType: 'course',
     topics: ['python', 'automation', 'git', 'it'],
-    sectionIds: ['s13-rpa-automation'],
+    sectionIds: ['s13-evidence-dashboard'],
     level: 'foundation',
     language: ['en'],
     access: 'paid',
@@ -1125,7 +1133,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://www.kaggle.com/learn',
     resourceType: 'course',
     topics: ['python', 'pandas', 'ml', 'sql'],
-    sectionIds: ['s06-numpy', 's07-pandas', 's08-pandas', 's10-sklearn'],
+    sectionIds: ['s06-collections', 's07-pandas', 's08-files-ingestion', 's10-modules-packaging-cli'],
     level: 'foundation',
     language: ['en'],
     access: 'free',
@@ -1173,7 +1181,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://leetcode.com/',
     resourceType: 'practice',
     topics: ['algorithms', 'data-structures', 'interview-practice'],
-    sectionIds: ['s03-data-structures', 's04-functions-modules'],
+    sectionIds: ['s03-decisions-rules', 's04-iteration-summaries'],
     level: 'independent',
     language: ['en'],
     access: 'free_with_optional_paid_certificate',
@@ -1189,7 +1197,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://www.hackerrank.com/domains/python',
     resourceType: 'practice',
     topics: ['python', 'exercises', 'interview-practice'],
-    sectionIds: ['s02-basics', 's03-data-structures'],
+    sectionIds: ['s02-basics', 's03-decisions-rules'],
     level: 'foundation',
     language: ['en'],
     access: 'free',
@@ -1205,7 +1213,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://exercism.org/tracks/python',
     resourceType: 'practice',
     topics: ['python', 'exercises', 'mentoring'],
-    sectionIds: ['s02-basics', 's04-functions-modules'],
+    sectionIds: ['s02-basics', 's04-iteration-summaries'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -1221,7 +1229,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://adventofcode.com/',
     resourceType: 'practice',
     topics: ['algorithms', 'puzzles', 'python'],
-    sectionIds: ['s03-data-structures', 's12-performance'],
+    sectionIds: ['s03-decisions-rules', 's12-apis-sql-geo'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -1321,7 +1329,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://github.com/mwaskom/seaborn-data',
     resourceType: 'dataset',
     topics: ['dataset', 'practice', 'visualization'],
-    sectionIds: ['s08-visualization', 's09-visualization'],
+    sectionIds: ['s08-visualization', 's09-exceptions-logging'],
     level: 'foundation',
     language: ['en'],
     access: 'free',
@@ -1337,7 +1345,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://www.kaggle.com/datasets',
     resourceType: 'dataset',
     topics: ['dataset', 'practice', 'ml'],
-    sectionIds: ['s10-sklearn', 's23-computer-vision'],
+    sectionIds: ['s10-modules-packaging-cli', 's23-computer-vision'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -1353,7 +1361,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://archive.ics.uci.edu/',
     resourceType: 'dataset',
     topics: ['dataset', 'ml', 'classic'],
-    sectionIds: ['s10-sklearn'],
+    sectionIds: ['s10-modules-packaging-cli'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -1369,7 +1377,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://faker.readthedocs.io/',
     resourceType: 'tool',
     topics: ['dataset', 'synthetic-data', 'testing'],
-    sectionIds: ['s11-testing', 's19-databases-orm'],
+    sectionIds: ['s11-oop-domain', 's19-databases-orm'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -1483,7 +1491,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://playwright.dev/',
     resourceType: 'tool',
     topics: ['testing', 'e2e', 'automation', 'browser'],
-    sectionIds: ['s13-rpa-automation', 's24-rpa-advanced'],
+    sectionIds: ['s13-evidence-dashboard', 's24-rpa-advanced'],
     level: 'advanced',
     language: ['en'],
     access: 'free',
@@ -1531,7 +1539,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://docs.python.org/3/library/typing.html',
     resourceType: 'official_documentation',
     topics: ['python', 'types', 'mypy'],
-    sectionIds: ['s04-functions-modules'],
+    sectionIds: ['s04-iteration-summaries'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -1547,7 +1555,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://mypy.readthedocs.io/',
     resourceType: 'tool',
     topics: ['python', 'types', 'static-analysis'],
-    sectionIds: ['s11-testing'],
+    sectionIds: ['s11-oop-domain'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -1563,7 +1571,7 @@ const RESOURCES: Resource[] = [
     canonicalUrl: 'https://docs.github.com/en/actions',
     resourceType: 'official_documentation',
     topics: ['ci', 'cd', 'automation', 'github'],
-    sectionIds: ['s11-testing', 's17-packaging'],
+    sectionIds: ['s11-oop-domain', 's17-packaging'],
     level: 'independent',
     language: ['en'],
     access: 'free',
@@ -1573,6 +1581,71 @@ const RESOURCES: Resource[] = [
     status: 'active',
   },
 ]
+
+// ────────────────────────────────────────────────────────────────────────────
+// Filtering
+// ────────────────────────────────────────────────────────────────────────────
+export interface ResourceFilterCriteria {
+  search: string
+  types: ReadonlySet<ResourceType>
+  levels: ReadonlySet<ResourceLevel>
+  /** A section `id`, as offered by the section select; '' means every section. */
+  sectionId: string
+  topic: string
+}
+
+/**
+ * The section number a catalogue tag names: 14 for 's14-security'.
+ *
+ * Only the number is read. The slug after it came from file names that are being renamed batch
+ * by batch (see src/lib/section-id-migrations.ts), while a section's `index` stays put, so
+ * matching on the slug or on the section `id` breaks at every rename.
+ */
+export function sectionIndexOfTag(tag: string): number | null {
+  const match = /^s(\d{2})-/.exec(tag)
+  return match ? Number(match[1]) : null
+}
+
+/** 'S01' for index 1: how the course names a section to a learner. */
+export function sectionNumberLabel(index: number): string {
+  return `S${String(index).padStart(2, '0')}`
+}
+
+function isTaggedFor(resource: Resource, sectionIndex: number | undefined): boolean {
+  return resource.sectionIds.some((tag) => sectionIndexOfTag(tag) === sectionIndex)
+}
+
+export function filterResources(
+  resources: readonly Resource[],
+  criteria: ResourceFilterCriteria,
+  sections: readonly ResourceSection[],
+): Resource[] {
+  const q = criteria.search.trim().toLowerCase()
+  // An id no section carries resolves to undefined, which no tag matches: the list empties
+  // rather than silently ignoring the filter.
+  const sectionIndex = sections.find((s) => s.id === criteria.sectionId)?.index
+  return resources.filter((r) => {
+    // Search across title, provider, whyUseful, topics
+    if (q) {
+      const haystack = `${r.title} ${r.provider} ${r.whyUseful} ${r.topics.join(' ')}`.toLowerCase()
+      if (!haystack.includes(q)) return false
+    }
+    if (criteria.types.size > 0 && !criteria.types.has(r.resourceType)) return false
+    if (criteria.levels.size > 0 && !criteria.levels.has(r.level)) return false
+    if (criteria.sectionId && !isTaggedFor(r, sectionIndex)) return false
+    if (criteria.topic && !r.topics.includes(criteria.topic)) return false
+    return true
+  })
+}
+
+/** The short title of the section a resource's first tag names, if that section is active. */
+export function resourceSectionLabel(
+  resource: Resource,
+  sections: readonly ResourceSection[],
+): string | undefined {
+  const index = sectionIndexOfTag(resource.sectionIds[0] ?? '')
+  return sections.find((s) => s.index === index)?.shortTitle
+}
 
 // ────────────────────────────────────────────────────────────────────────────
 // Filter metadata
@@ -1635,21 +1708,21 @@ export function ResourcesPage({ sections }: ResourcesPageProps) {
   }, [])
 
   // ── Filtered resources (search + filters) ───────────────────────────────
-  const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase()
-    return RESOURCES.filter((r) => {
-      // Search across title, provider, whyUseful, topics
-      if (q) {
-        const haystack = `${r.title} ${r.provider} ${r.whyUseful} ${r.topics.join(' ')}`.toLowerCase()
-        if (!haystack.includes(q)) return false
-      }
-      if (typeFilter.size > 0 && !typeFilter.has(r.resourceType)) return false
-      if (levelFilter.size > 0 && !levelFilter.has(r.level)) return false
-      if (sectionFilter && !r.sectionIds.includes(sectionFilter)) return false
-      if (topicFilter && !r.topics.includes(topicFilter)) return false
-      return true
-    })
-  }, [search, typeFilter, levelFilter, sectionFilter, topicFilter])
+  const filtered = useMemo(
+    () =>
+      filterResources(
+        RESOURCES,
+        {
+          search,
+          types: typeFilter,
+          levels: levelFilter,
+          sectionId: sectionFilter,
+          topic: topicFilter,
+        },
+        sections,
+      ),
+    [search, typeFilter, levelFilter, sectionFilter, topicFilter, sections],
+  )
 
   const visible = filtered.slice(0, visibleCount)
   const hasMore = filtered.length > visibleCount
@@ -1888,7 +1961,7 @@ export function ResourcesPage({ sections }: ResourcesPageProps) {
                   <option value="">Todas las secciones</option>
                   {sections.map((s) => (
                     <option key={s.id} value={s.id}>
-                      {s.id} · {s.shortTitle}
+                      {sectionNumberLabel(s.index)} · {s.shortTitle}
                     </option>
                   ))}
                 </select>
@@ -1938,7 +2011,7 @@ export function ResourcesPage({ sections }: ResourcesPageProps) {
             key={r.id}
             resource={r}
             isKeyboardActive={idx === activeKeyboardIndex}
-            sectionLabel={sections.find((s) => s.id === r.sectionIds[0])?.shortTitle}
+            sectionLabel={resourceSectionLabel(r, sections)}
           />
         ))}
       </div>

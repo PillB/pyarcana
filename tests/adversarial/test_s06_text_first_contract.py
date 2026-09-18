@@ -10,7 +10,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SECTION = ROOT / "src/lib/course/sections/s06-numpy.ts"
+SECTION = ROOT / "src/lib/course/sections/s06-collections.ts"
 SEED = ROOT / "prisma/seed.ts"
 sys.path.insert(0, str(ROOT / "scripts"))
 
@@ -31,7 +31,7 @@ def word_count(value: str) -> int:
 
 def s06_seed_block() -> str:
     source = SEED.read_text(encoding="utf-8")
-    start = source.index("  numpy: [")
+    start = source.index("  collections: [")
     end = source.index("\n  // S08 V3", start)
     return source[start:end]
 

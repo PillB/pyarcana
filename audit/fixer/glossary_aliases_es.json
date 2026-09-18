@@ -1,0 +1,37 @@
+{
+  "decided": "2026-09-14",
+  "method": "Codex proposed 29 Spanish aliases grounded in course usage and rejected 146 candidates. Each proposal below was then decided explicitly. Two regex classifiers for 'name vs gloss' failed in opposite directions before this, so the call is made per item with a reason. The only harm that matters is over-breadth: a phrase that also names other things makes the concept map count false mentions and shows the wrong hover hint (the 'matching' incident). Being a gloss is not harmful in itself.",
+  "accept": [
+    {"term_id": "list-comprehension", "alias": "comprensión de lista", "why": "the Spanish technical name; names nothing else"},
+    {"term_id": "list-comprehension", "alias": "comprensiones de lista", "why": "plural, used in S04"},
+    {"term_id": "dict-comprehension", "alias": "comprensión de diccionario", "why": "the Spanish technical name"},
+    {"term_id": "decorador", "alias": "decoradores", "why": "plural of the term itself"},
+    {"term_id": "abc", "alias": "clase base abstracta", "why": "what ABC stands for; specific"},
+    {"term_id": "abc", "alias": "clases base abstractas", "why": "plural of the same"},
+    {"term_id": "clonar", "alias": "clona", "why": "inflection of the term's own verb"},
+    {"term_id": "clonar", "alias": "clonan", "why": "inflection of the term's own verb"},
+    {"term_id": "pip", "alias": "instalador de paquetes de Python", "why": "specific enough to name only pip in this course"},
+    {"term_id": "tuple", "alias": "tupla", "why": "the Spanish name, used 55 times"},
+    {"term_id": "tuple", "alias": "tuplas", "why": "plural, used 16 times"},
+    {"term_id": "vectorizaci-n", "alias": "operación vectorizada", "why": "specific technical phrase"},
+    {"term_id": "boolean-masking", "alias": "máscaras booleanas", "why": "the Spanish technical name"},
+    {"term_id": "eda", "alias": "análisis exploratorio de datos", "why": "what EDA stands for"},
+    {"term_id": "llm", "alias": "modelo de lenguaje grande", "why": "what LLM stands for; conventionally shown in brackets, which does not make it less of a name"},
+    {"term_id": "outlier", "alias": "valor atípico", "why": "the standard Spanish statistical term"},
+    {"term_id": "outlier", "alias": "valores atípicos", "why": "plural"},
+    {"term_id": "p-value", "alias": "valor p", "why": "the standard Spanish statistical term"},
+    {"term_id": "entity-resolution", "alias": "resolución de entidades", "why": "the Spanish technical name"}
+  ],
+  "reject": [
+    {"term_id": "git", "alias": "sistema de control de versiones", "why": "names the category, not Git; it describes Mercurial and SVN as well"},
+    {"term_id": "pull-request", "alias": "propuesta de cambios", "why": "a generic phrase for any change proposal"},
+    {"term_id": "requirements-txt", "alias": "archivo de dependencias", "why": "generic; pyproject.toml and environment.yml are dependency files too"},
+    {"term_id": "slicing", "alias": "recortes por posiciones", "why": "a one-off paraphrase, not a name the course uses"},
+    {"term_id": "entity-resolution", "alias": "resolución de identidad", "why": "used once, and closer to identity verification than to deciding whether two records are the same entity"},
+    {"term_id": "f-string", "alias": "textos que incrustan valores entre llaves", "why": "a description, not a name"},
+    {"term_id": "f-string", "alias": "cadenas con valores incrustados", "why": "a description, not a name"},
+    {"term_id": "truthiness", "alias": "cuenta como verdadero", "why": "an ordinary verb phrase that appears about anything counted"},
+    {"term_id": "truthiness", "alias": "cuentan como falsos", "why": "an ordinary verb phrase"},
+    {"term_id": "commit", "alias": "punto guardado del historial", "why": "a paraphrase written as a gloss, not a name"}
+  ]
+}

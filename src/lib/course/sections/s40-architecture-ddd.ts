@@ -92,7 +92,7 @@ pii_allowed False`,
       figure: {
         id: "S40-layer-imports",
         caption:
-          "Si el dominio importa FastAPI, cambiar de framework se convierte en reescribir las reglas de negocio.",
+          "Si el dominio importa un framework web, cambiarlo obliga a reescribir las reglas de negocio.",
         alt:
           "Tres capas apiladas: dominio, aplicación e infraestructura.",
       },
@@ -210,9 +210,9 @@ domain_pure True`,
       heading: "Ports/adapters y dependencia hacia el dominio",
       subtopicId: "S40-T2-B",
       paragraphs: [
-        "Un **port** es el contrato que el dominio necesita (p. ej. «dame el caso por id»). Un **adapter** traduce HTTP, SQL o colas a ese contrato. Las flechas de importación apuntan hacia políticas estables: el dominio no importa FastAPI ni SQLAlchemy; el adapter implementa el port y vive en infraestructura. Este principio se conoce como **DIP** (Dependency Inversion Principle, inversión de dependencias): las dependencias apuntan hacia el dominio, no hacia los frameworks.",
+        "Un **port** es el contrato que el dominio necesita (p. ej. «dame el caso por id»). Un **adapter** traduce HTTP, SQL o colas a ese contrato. Las flechas de importación apuntan hacia políticas estables: el dominio no importa frameworks web ni bibliotecas de acceso a bases de datos; el adapter implementa el port y vive en infraestructura. Este principio se conoce como **DIP** (Dependency Inversion Principle, inversión de dependencias): las dependencias apuntan hacia el dominio, no hacia los frameworks.",
         "Contrato hexagonal S40-T2-B. Entrada: nombre de port, adapter que lo implementa, lista de imports del dominio y conteo de contract tests. Salida: dominio testeable con adapter en memoria (`implements_port=True`, `domain_imports=[]`, `contract_tests ≥ 3`). Error: imports de infra en dominio → `INVERT_DEPENDENCY`. Sin tests de contrato → `DEFINE_PORT_CONTRACT`. El flag `implements_port` es un **checklist de lab**; en producción la evidencia real es sustituir el adapter (memoria ↔ SQL) sin reescribir la regla de negocio.",
-        "En `CASO-LIM-040`, `MemoryCaseRepository` implementa `CaseRepository` sin red ni SQL. Puedes sustituir el adapter por uno SQL en producción sin reescribir la regla de negocio de triage. Si el dominio importa `sqlalchemy` o FastAPI, invierte la dependencia (`INVERT_DEPENDENCY`) antes de promover.",
+        "En `CASO-LIM-040`, `MemoryCaseRepository` implementa `CaseRepository` sin red ni SQL. Puedes sustituir el adapter por uno SQL en producción sin reescribir la regla de negocio de triage. Si el dominio importa una biblioteca de acceso a bases de datos o un framework web, invierte la dependencia (`INVERT_DEPENDENCY`) antes de promover.",
       ],
       code: {
         language: 'python',
@@ -240,7 +240,7 @@ port_ok True`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content: "Contrato S40-T2-B: el dominio depende del port (Protocol), no de SQLAlchemy ni FastAPI. Evidencia de lab: `implements_port`, imports de dominio vacíos y ≥3 contract tests; no uses el sufijo del nombre del adapter como regla.",
+        content: "Contrato S40-T2-B: el dominio depende del port (Protocol), no de bibliotecas de acceso a bases de datos ni de frameworks web. Evidencia de lab: `implements_port`, imports de dominio vacíos y ≥3 contract tests; no uses el sufijo del nombre del adapter como regla.",
       },
     },
     {
@@ -486,7 +486,7 @@ domain_pure True`,
         environment: "local-python",
         description: "Demo: dominio depende de Protocol CaseRepo; MemoryCaseRepo es el adapter",
         preamble:
-          "El dominio de triage de Red Andina no debe importar SQLAlchemy ni FastAPI: depende de un **port**. Esta demo tipa `open_case(repo: CaseRepo)` y pasa `MemoryCaseRepo` como adapter en memoria. No escribas: predice status, la flecha `domain<-adapters` y `implements_port`. Observa que puedes sustituir el adapter sin reescribir la regla.",
+          "El dominio de triage de Red Andina no debe importar bibliotecas de acceso a bases de datos ni frameworks web: depende de un **port**. Esta demo tipa `open_case(repo: CaseRepo)` y pasa `MemoryCaseRepo` como adapter en memoria. No escribas: predice status, la flecha `domain<-adapters` y `implements_port`. Observa que puedes sustituir el adapter sin reescribir la regla.",
         code: {
           language: 'python',
           title: "demo_ports_adapters_domain_dep.py",
@@ -500,7 +500,7 @@ class MemoryCaseRepo:
         return {"status": "open", "case_id": cid}
 
 def open_case(repo: CaseRepo, cid: str) -> str:
-    # dominio tipa el port; no importa SQLAlchemy ni FastAPI
+    # dominio tipa el port; no importa bibliotecas de base de datos ni frameworks web
     return repo.get(cid)["status"]
 
 print("status", open_case(MemoryCaseRepo(), "CASE-9"))
@@ -1185,7 +1185,7 @@ assert results == ["CONTINUE", "REDRAW_BOUNDARY", "REVIEW_LAYER_OWNER"]` ,
 port = "CaseRepository"
 adapter = "MemoryCaseRepository"
 implements_port = True  # MemoryCaseRepo cumple el Protocol
-domain_imports: list[str] = []  # dominio no importa sqlalchemy/fastapi
+domain_imports: list[str] = []  # dominio no importa bibliotecas de base de datos ni frameworks web
 contract_tests = 3
 record = {
     "case_id": "CASO-LIM-040-2B",
@@ -2297,7 +2297,7 @@ assert status in {"READY", "BLOCKED"}
       },
       {
         question: "En ports & adapters (hexagonal), ¿qué dependencia es un breach de frontera?",
-        options: ["el dominio importa solo puertos abstractos y los adapters implementan hacia infra", "un ADR registra el trade-off con medida y dueño", "C4 context muestra intake, triage y reporting como cajas separadas", "el dominio importa FastAPI/SQLAlchemy directamente para ir más rápido"],
+        options: ["el dominio importa solo puertos abstractos y los adapters implementan hacia infra", "un ADR registra el trade-off con medida y dueño", "C4 context muestra intake, triage y reporting como cajas separadas", "el dominio importa directamente frameworks web y bibliotecas de acceso a bases de datos para ir más rápido"],
         correctIndex: 3,
         explanation: "Invertir la dependencia (dominio → framework) acopla el núcleo a la infra; el adapter debe depender del puerto, no al revés.",
       },
