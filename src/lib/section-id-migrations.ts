@@ -29,8 +29,38 @@ export const SECTION_ID_RENAMES: Readonly<Record<string, string>> = {
 
 export const SECTION_ID_SCHEMA_VERSION = 1
 
+/**
+ * The id the app reads for `id`. Own properties only: every API schema now runs request input
+ * through this, and a bare lookup returned `Object.prototype` members for `constructor` or
+ * `__proto__`, which Prisma then rejected as a 500 instead of the 400 the input deserves.
+ */
 export function renameSectionId(id: string): string {
-  return SECTION_ID_RENAMES[id] ?? id
+  return Object.prototype.hasOwnProperty.call(SECTION_ID_RENAMES, id) ? SECTION_ID_RENAMES[id] : id
+}
+
+/**
+ * Every slug a section has been stored under: its current id first, then each id it was renamed
+ * from. A reader that asks only for the current id cannot see a row the database migration did
+ * not reach — and exam/start then found no questions for S03-S13 at all.
+ */
+export function sectionIdAliases(id: string): string[] {
+  const current = renameSectionId(id)
+  return [current, ...Object.keys(SECTION_ID_RENAMES).filter((old) => SECTION_ID_RENAMES[old] === current)]
+}
+
+/**
+ * Rows read from the database, with each section id as the app knows it today.
+ *
+ * The admin and cohort dashboards and the CSV export compare these ids against COURSE_SECTIONS;
+ * a row still under a pre-rename slug - written by the old server between the database step and
+ * the restart, or on a database the rename migration has not reached - fell out of every
+ * per-section view and was counted twice in per-learner totals.
+ */
+export function withCanonicalSectionIds<T extends { sectionId: string }>(rows: T[]): T[] {
+  return rows.map((r) => {
+    const sectionId = renameSectionId(r.sectionId)
+    return sectionId === r.sectionId ? r : { ...r, sectionId }
+  })
 }
 
 type MigratableProgress = {
@@ -48,24 +78,28 @@ type MigratableProgress = {
 export function migrateSectionIds<T extends MigratableProgress>(state: T): T {
   if (!state || typeof state !== 'object') return state
 
-  const remapKeys = <V>(record: Record<string, V> | undefined): Record<string, V> | undefined => {
+  // A blob can hold the same section under both keys — a tab opened before the deploy that
+  // hydrated from the renamed server stores both key spaces — so a collision is the same
+  // section twice, not two sections. Keeping only the first key read threw the other side's
+  // completed steps away; merge instead: every step either side has, the better quiz score.
+  const remapKeys = <V>(record: Record<string, V> | undefined,
+                        merge: (a: V, b: V) => V): Record<string, V> | undefined => {
     if (!record) return record
     const out: Record<string, V> = {}
     for (const [id, value] of Object.entries(record)) {
       const next = renameSectionId(id)
-      // A collision would mean two sections merged; keep the existing entry rather than
-      // silently dropping a learner's work.
-      out[next] = next in out ? out[next] : value
+      out[next] = Object.prototype.hasOwnProperty.call(out, next) ? merge(out[next], value) : value
     }
     return out
   }
+  const unique = (ids: string[] | undefined) => ids && Array.from(new Set(ids.map(renameSectionId)))
 
   return {
     ...state,
-    completedSections: state.completedSections?.map(renameSectionId),
-    completedSubSteps: remapKeys(state.completedSubSteps),
-    quizScores: remapKeys(state.quizScores),
-    bookmarks: state.bookmarks?.map(renameSectionId),
+    completedSections: unique(state.completedSections),
+    completedSubSteps: remapKeys(state.completedSubSteps, (a, b) => Array.from(new Set([...a, ...b]))),
+    quizScores: remapKeys(state.quizScores, (a, b) => Math.max(a, b)),
+    bookmarks: unique(state.bookmarks),
     lastVisited: state.lastVisited ? renameSectionId(state.lastVisited) : state.lastVisited,
   }
 }

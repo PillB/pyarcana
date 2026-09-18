@@ -4,9 +4,10 @@ import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { syncExamAttempt } from '@/lib/firebase/sync'
 import { z } from 'zod'
+import { renameSectionId, sectionIdAliases } from '@/lib/section-id-migrations'
 
 const startSchema = z.object({
-  sectionId: z.string(),
+  sectionId: z.string().transform(renameSectionId),
 })
 
 export async function POST(request: Request) {
@@ -25,9 +26,14 @@ export async function POST(request: Request) {
     const { sectionId } = parsed.data
     const userId = session.user.id
 
+    // Every slug this section was stored under: attempts and questions written before the id
+    // rename belong to the same section, count toward the attempt cap, and must stay visible
+    // even where the database migration has not reached them yet.
+    const aliases = sectionIdAliases(sectionId)
+
     // Get existing attempts for this section
     const existingAttempts = await db.examAttempt.findMany({
-      where: { userId, sectionId },
+      where: { userId, sectionId: { in: aliases } },
       orderBy: { attemptNumber: 'asc' },
     })
 
@@ -45,9 +51,17 @@ export async function POST(request: Request) {
     const attemptNumber = existingAttempts.length + 1
 
     // Get all questions for this section from the bank
-    const allQuestions = await db.questionBank.findMany({
-      where: { sectionId },
+    const bank = await db.questionBank.findMany({
+      where: { sectionId: { in: aliases } },
     })
+    // A reseed after the rename leaves the same (concept, variant) under both slugs; keep one
+    // copy, the current slug's, so a twinned variant is not drawn twice as often.
+    const byKey = new Map<string, (typeof bank)[number]>()
+    for (const q of bank) {
+      const key = `${q.concept}\u0000${q.variant}`
+      if (!byKey.has(key) || q.sectionId === sectionId) byKey.set(key, q)
+    }
+    const allQuestions = Array.from(byKey.values())
 
     if (allQuestions.length === 0) {
       return NextResponse.json(

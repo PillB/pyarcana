@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { syncProgress } from '@/lib/firebase/sync'
 import { z } from 'zod'
+import { renameSectionId } from '@/lib/section-id-migrations'
 
 export async function GET() {
   const session = await getServerSession(authOptions)
@@ -28,18 +29,32 @@ export async function GET() {
   // Format progress as a map for easy frontend consumption
   const progressMap: Record<string, string[]> = {}
   const bookmarks: string[] = []
+  // Rows written under a slug from before the rename are reported under the id the app reads,
+  // so a learner on a new browser does not see completed work vanish. The database migration
+  // 20260918030000_rename_section_ids_batch_a moves the rows themselves; this covers anything
+  // written between that deploy and the migration running.
+  // One row per (section, step). Where a learner holds rows under both the old and the current
+  // slug, the current one wins: it was written after the rename, so it carries their latest
+  // choice. OR-ing the two brought back a step they un-ticked or a bookmark they removed.
+  const latest = new Map<string, (typeof progress)[number]>()
   for (const p of progress) {
+    const sectionId = renameSectionId(p.sectionId)
+    const key = `${sectionId}\u0000${p.subStep}`
+    if (!latest.has(key) || p.sectionId === sectionId) latest.set(key, { ...p, sectionId })
+  }
+  for (const p of latest.values()) {
     if (p.completed) {
       if (!progressMap[p.sectionId]) progressMap[p.sectionId] = []
       progressMap[p.sectionId].push(p.subStep)
     }
-    if (p.bookmarked) bookmarks.push(p.sectionId)
+    if (p.bookmarked && !bookmarks.includes(p.sectionId)) bookmarks.push(p.sectionId)
   }
 
   const examAttemptsBySection: Record<string, typeof examAttempts> = {}
   for (const a of examAttempts) {
-    if (!examAttemptsBySection[a.sectionId]) examAttemptsBySection[a.sectionId] = []
-    examAttemptsBySection[a.sectionId].push(a)
+    const sectionId = renameSectionId(a.sectionId)
+    if (!examAttemptsBySection[sectionId]) examAttemptsBySection[sectionId] = []
+    examAttemptsBySection[sectionId].push({ ...a, sectionId })
   }
 
   return NextResponse.json({
@@ -50,8 +65,10 @@ export async function GET() {
   })
 }
 
+// Section ids were renamed (src/lib/section-id-migrations.ts). A tab opened before that deploy
+// still sends the old slug; canonicalise it here so the row lands under the id the app reads.
 const upsertSchema = z.object({
-  sectionId: z.string(),
+  sectionId: z.string().transform(renameSectionId),
   subStep: z.string(),
   completed: z.boolean(),
 })
@@ -102,7 +119,7 @@ export async function POST(request: Request) {
 }
 
 const bookmarkSchema = z.object({
-  sectionId: z.string(),
+  sectionId: z.string().transform(renameSectionId),
   bookmarked: z.boolean(),
 })
 

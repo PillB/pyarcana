@@ -15,6 +15,9 @@ import {
   sanitizePersisted,
   serializeProgressEnvelope,
 } from '../../src/lib/progress-sanitize.ts'
+import {
+  migrateSectionIds, renameSectionId, sectionIdAliases, withCanonicalSectionIds,
+} from '../../src/lib/section-id-migrations.ts'
 
 describe('progress field contract', () => {
   it('exposes the stable storage key python-ds-progress', () => {
@@ -163,6 +166,74 @@ describe('migration preserves completed work and is idempotent', () => {
       Object.keys(state.quizScores ?? {}).length,
       Object.keys(before.quizScores).length
     )
+  })
+
+  it('server progress under pre-rename slugs merges into the ids the app reads', () => {
+    // Raised in review on #63: localStorage was migrated, but a signed-in learner on a new
+    // browser hydrates from /api/progress, whose rows can still be keyed `oop`. Merged as-is,
+    // those steps land under a key nothing reads and look lost; continuing then writes a second
+    // set under the new key. The same step reported under both slugs must merge into one.
+    const merged = mergeServerProgress(
+      { completedSubSteps: { 'functions-contracts': ['wedo'] }, bookmarks: [],
+        completedSections: [], quizScores: {} },
+      { progress: { oop: ['theory', 'wedo'], 'functions-contracts': ['ido'], numpy: ['quiz'] },
+        bookmarks: ['visualization', 'exceptions-logging'] },
+    )
+    assert.deepEqual(
+      Object.keys(merged.completedSubSteps).sort(),
+      ['collections', 'functions-contracts'],
+      'no step may remain under an old slug',
+    )
+    assert.deepEqual([...merged.completedSubSteps['functions-contracts']].sort(), ['ido', 'theory', 'wedo'])
+    assert.deepEqual(merged.completedSubSteps.collections, ['quiz'])
+    assert.deepEqual(merged.bookmarks, ['exceptions-logging'], 'one bookmark, not one per slug')
+  })
+
+  it('a blob holding a section under both keys merges them instead of dropping one', () => {
+    // A tab opened before the deploy, hydrating from the renamed server, stores both key spaces.
+    // The first version kept whichever key it read first and threw the other side's work away.
+    const migrated = migrateSectionIds({
+      completedSections: ['oop', 'functions-contracts'],
+      completedSubSteps: { oop: ['theory'], 'functions-contracts': ['ido', 'theory'] },
+      quizScores: { oop: 90, 'functions-contracts': 70 },
+      bookmarks: ['oop', 'functions-contracts'],
+    })
+    assert.deepEqual(migrated.completedSections, ['functions-contracts'])
+    assert.deepEqual([...migrated.completedSubSteps!['functions-contracts']].sort(), ['ido', 'theory'])
+    assert.equal(migrated.quizScores!['functions-contracts'], 90, 'the better score survives')
+    assert.deepEqual(migrated.bookmarks, ['functions-contracts'])
+  })
+
+  it('the rename also runs on later version bumps, not only from v0', () => {
+    // Batches B-D append to the same map and bump the version; a v1 blob must still get them.
+    const { state } = migrateProgressState({ completedSections: ['numpy'] }, 1, 2)
+    assert.deepEqual(state.completedSections, ['collections'])
+  })
+
+  it('inherited object members are not section renames', () => {
+    // Every API schema runs request input through renameSectionId; a bare lookup returned
+    // Object.prototype members for these, which Prisma then rejected as a 500.
+    for (const id of ['constructor', '__proto__', 'toString', 'hasOwnProperty']) {
+      assert.equal(renameSectionId(id), id)
+      assert.deepEqual(sectionIdAliases(id), [id])
+    }
+  })
+
+  it('rows the dashboards read carry the section id the app knows', () => {
+    // The admin and cohort views compare row ids against COURSE_SECTIONS; a pre-rename row fell
+    // out of every per-section view. Rows already canonical are passed through untouched.
+    const rows = [{ sectionId: 'oop', score: 80 }, { sectionId: 'setup', score: 90 }]
+    const out = withCanonicalSectionIds(rows)
+    assert.deepEqual(out.map((r) => r.sectionId), ['functions-contracts', 'setup'])
+    assert.equal(out[0].score, 80)
+    assert.equal(out[1], rows[1])
+    assert.equal(rows[0].sectionId, 'oop', 'the input rows are not mutated')
+  })
+
+  it('a section can be found under every slug it was stored with', () => {
+    assert.deepEqual(sectionIdAliases('functions-contracts'), ['functions-contracts', 'oop'])
+    assert.deepEqual(sectionIdAliases('oop'), ['functions-contracts', 'oop'])
+    assert.deepEqual(sectionIdAliases('setup'), ['setup'])
   })
 
   it('section-id migration is idempotent and leaves unknown ids alone', () => {

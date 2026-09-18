@@ -10,7 +10,7 @@
     "start": "NODE_ENV=production bun .next/standalone/server.js 2>&1 | tee server.log",
     "lint": "eslint .",
     "lint:complexity": "node scripts/complexity_gate.mjs",
-    "db:push": "prisma db push",
+    "db:push": "prisma db push && node scripts/apply_section_id_renames.mjs",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:reset": "prisma migrate reset",
