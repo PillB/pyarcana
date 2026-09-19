@@ -5,6 +5,7 @@ import { db } from '@/lib/db'
 import { syncExamAttempt } from '@/lib/firebase/sync'
 import { z } from 'zod'
 import { renameSectionId, sectionIdAliases } from '@/lib/section-id-migrations'
+import { MAX_EXAM_ATTEMPTS } from '@/lib/exam-scoring'
 
 const startSchema = z.object({
   sectionId: z.string().transform(renameSectionId),
@@ -38,7 +39,7 @@ export async function POST(request: Request) {
     })
 
     // Enforce max 3 attempts (2 retries)
-    if (existingAttempts.length >= 3) {
+    if (existingAttempts.length >= MAX_EXAM_ATTEMPTS) {
       return NextResponse.json(
         {
           error: 'Has alcanzado el máximo de 3 intentos para esta sección',
@@ -144,7 +145,7 @@ export async function POST(request: Request) {
         question: q.question,
         options: JSON.parse(q.options),
       })),
-      totalAttemptsAllowed: 3,
+      totalAttemptsAllowed: MAX_EXAM_ATTEMPTS,
       attemptsUsed: existingAttempts.length,
     })
   } catch (error) {

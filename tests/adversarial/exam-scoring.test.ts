@@ -5,10 +5,16 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import {
+  MAX_EXAM_ATTEMPTS,
   PASS_THRESHOLD,
+  UNANSWERED,
+  answerKeyReleased,
   bestScoreBySection,
+  checkAnswersAgainstDraw,
   examSubmitSchema,
   gradeExamAnswers,
+  parseVariantSeed,
+  redactAttemptsForLearner,
 } from '../../src/lib/exam-scoring.ts'
 
 const bank = new Map([
@@ -125,7 +131,8 @@ describe('gradeExamAnswers', () => {
         { questionId: 'q1', selectedIndex: 1 },
         { questionId: 'q2', selectedIndex: 0 },
       ],
-      bank
+      bank,
+      ['q1', 'q2']
     )
     assert.equal(perfect.score, 100)
     assert.equal(perfect.passed, true)
@@ -136,14 +143,15 @@ describe('gradeExamAnswers', () => {
         { questionId: 'q1', selectedIndex: 1 },
         { questionId: 'q2', selectedIndex: 1 },
       ],
-      bank
+      bank,
+      ['q1', 'q2']
     )
     assert.equal(half.score, 50)
     assert.equal(half.passed, false)
   })
 
   it('treats missing questions as incorrect (no throw)', () => {
-    const r = gradeExamAnswers([{ questionId: 'ghost', selectedIndex: 0 }], bank)
+    const r = gradeExamAnswers([{ questionId: 'ghost', selectedIndex: 0 }], bank, ['ghost'])
     assert.equal(r.score, 0)
     assert.equal(r.detailedAnswers[0]!.correct, false)
     assert.equal(r.detailedAnswers[0]!.correctIndex, -1)
@@ -161,7 +169,7 @@ describe('gradeExamAnswers', () => {
         },
       ],
     ])
-    const r = gradeExamAnswers([{ questionId: 't', selectedIndex: 1 }], tiny)
+    const r = gradeExamAnswers([{ questionId: 't', selectedIndex: 1 }], tiny, ['t'])
     assert.equal(r.detailedAnswers[0]!.correct, false)
   })
 
@@ -169,13 +177,13 @@ describe('gradeExamAnswers', () => {
     const bad = new Map([
       ['b', { id: 'b', correctIndex: 0, options: '{not-json' }],
     ])
-    const r = gradeExamAnswers([{ questionId: 'b', selectedIndex: 0 }], bad)
+    const r = gradeExamAnswers([{ questionId: 'b', selectedIndex: 0 }], bad, ['b'])
     assert.equal(r.detailedAnswers[0]!.correct, true)
     assert.equal(r.score, 100)
   })
 
   it('empty answers array returns score 0 not NaN (defense in depth)', () => {
-    const r = gradeExamAnswers([], bank)
+    const r = gradeExamAnswers([], bank, [])
     assert.equal(r.score, 0)
     assert.equal(Number.isFinite(r.score), true)
     assert.equal(r.passed, false)
@@ -193,7 +201,7 @@ describe('gradeExamAnswers', () => {
         { id: a.questionId, correctIndex: 0, options: ['a', 'b'] },
       ])
     )
-    const r = gradeExamAnswers(answers, map)
+    const r = gradeExamAnswers(answers, map, answers.map((a) => a.questionId))
     assert.equal(r.score, 70)
     assert.equal(r.passed, true)
     assert.equal(PASS_THRESHOLD, 70)
@@ -202,7 +210,8 @@ describe('gradeExamAnswers', () => {
   it('accepts plain object bank (not only Map)', () => {
     const r = gradeExamAnswers(
       [{ questionId: 'q1', selectedIndex: 1 }],
-      { q1: { id: 'q1', correctIndex: 1, options: ['a', 'b'] } }
+      { q1: { id: 'q1', correctIndex: 1, options: ['a', 'b'] } },
+      ['q1']
     )
     assert.equal(r.score, 100)
   })
@@ -225,3 +234,165 @@ describe('bestScoreBySection', () => {
     assert.equal(best[''], undefined)
   })
 })
+
+// An eight-concept section, as exam/start draws it: one variant per concept. `other` is a second
+// section's bank, answered correctly, to stand in for questions the attempt never drew.
+const drawnBank = new Map(
+  Array.from({ length: 8 }, (_, i) => [
+    `setup-${i}`,
+    { id: `setup-${i}`, concept: `c${i}`, variant: 1, correctIndex: i % 4, options: ['a', 'b', 'c', 'd'], explanation: `e${i}` },
+  ])
+)
+const drawnIds = [...drawnBank.keys()]
+const other = new Map(
+  Array.from({ length: 8 }, (_, i) => [
+    `basics-${i}`,
+    { id: `basics-${i}`, concept: `b${i}`, variant: 1, correctIndex: 0, options: ['a', 'b', 'c', 'd'] },
+  ])
+)
+const bothBanks = new Map([...drawnBank, ...other])
+const right = (id: string) => ({ questionId: id, selectedIndex: bothBanks.get(id)!.correctIndex })
+
+describe('gradeExamAnswers — scored over the questions drawn, not the answers sent', () => {
+  it('one correct answer out of eight drawn scores 13%, not 100%', () => {
+    const r = gradeExamAnswers([right('setup-3')], drawnBank, drawnIds)
+    assert.equal(r.totalQuestions, 8)
+    assert.equal(r.correctCount, 1)
+    assert.equal(r.score, 13)
+    assert.equal(r.passed, false)
+    // The seven it skipped are graded, as unanswered and wrong.
+    assert.equal(r.detailedAnswers.length, 8)
+    const skipped = r.detailedAnswers.filter((a) => a.questionId !== 'setup-3')
+    assert.ok(skipped.every((a) => a.selectedIndex === UNANSWERED && a.correct === false))
+  })
+
+  it('answers to questions from another section earn nothing', () => {
+    const foreign = [...other.keys()].map(right)
+    const r = gradeExamAnswers(foreign, bothBanks, drawnIds)
+    assert.equal(r.correctCount, 0)
+    assert.equal(r.score, 0)
+    assert.ok(r.detailedAnswers.every((a) => a.questionId.startsWith('setup-')))
+  })
+
+  it('repeating one correct answer eight times counts it once', () => {
+    const r = gradeExamAnswers(Array(8).fill(right('setup-0')), drawnBank, drawnIds)
+    assert.equal(r.correctCount, 1)
+    assert.equal(r.score, 13)
+  })
+
+  it('a later wrong copy of an answer does not replace the first', () => {
+    const r = gradeExamAnswers(
+      [right('setup-1'), { questionId: 'setup-1', selectedIndex: 3 }],
+      drawnBank,
+      drawnIds
+    )
+    assert.equal(r.detailedAnswers.find((a) => a.questionId === 'setup-1')!.correct, true)
+  })
+
+  it('a full, honest submission grades as before, in the order it was answered', () => {
+    // Answered in the shuffled order the learner saw; six right, two wrong.
+    const order = ['setup-5', 'setup-2', 'setup-7', 'setup-0', 'setup-6', 'setup-1', 'setup-4', 'setup-3']
+    const answers = order.map((id, n) =>
+      n < 6 ? right(id) : { questionId: id, selectedIndex: (drawnBank.get(id)!.correctIndex + 1) % 4 }
+    )
+    const r = gradeExamAnswers(answers, drawnBank, drawnIds)
+    assert.equal(r.totalQuestions, 8)
+    assert.equal(r.correctCount, 6)
+    assert.equal(r.score, 75)
+    assert.equal(r.passed, true)
+    assert.deepEqual(r.detailedAnswers.map((a) => a.questionId), order)
+    assert.deepEqual(r.detailedAnswers.map((a) => a.correct), [true, true, true, true, true, true, false, false])
+    // What is stored keeps the key; the route decides what the learner sees.
+    assert.equal(r.detailedAnswers[0]!.correctIndex, drawnBank.get('setup-5')!.correctIndex)
+    assert.equal(r.detailedAnswers[0]!.explanation, 'e5')
+  })
+})
+
+describe('checkAnswersAgainstDraw', () => {
+  it('rejects a question the attempt did not draw', () => {
+    assert.deepEqual(checkAnswersAgainstDraw([right('setup-0'), right('basics-0')], drawnIds), {
+      ok: false,
+      reason: 'not-drawn',
+      questionId: 'basics-0',
+    })
+  })
+
+  it('rejects the same question answered twice', () => {
+    assert.deepEqual(checkAnswersAgainstDraw([right('setup-0'), right('setup-0')], drawnIds), {
+      ok: false,
+      reason: 'duplicate',
+      questionId: 'setup-0',
+    })
+  })
+
+  it('accepts a partial submission of drawn questions', () => {
+    assert.deepEqual(checkAnswersAgainstDraw([right('setup-4')], drawnIds), { ok: true })
+  })
+})
+
+describe('parseVariantSeed — an unreadable draw is not gradable', () => {
+  it('reads the seed exam/start writes', () => {
+    const seed = JSON.stringify([
+      { concept: 'venv', variant: 2, questionId: 'q1' },
+      { concept: 'git', variant: 1, questionId: 'q2' },
+    ])
+    assert.deepEqual(parseVariantSeed(seed)?.map((d) => d.questionId), ['q1', 'q2'])
+  })
+
+  it('returns null for malformed, empty, id-less or repeated seeds', () => {
+    assert.equal(parseVariantSeed('{not json'), null)
+    assert.equal(parseVariantSeed('[]'), null)
+    assert.equal(parseVariantSeed('{"questionId":"q1"}'), null)
+    assert.equal(parseVariantSeed(JSON.stringify([{ concept: 'venv', variant: 1 }])), null)
+    assert.equal(
+      parseVariantSeed(JSON.stringify([{ questionId: 'q1' }, { questionId: 'q1' }])),
+      null
+    )
+  })
+})
+
+describe('answer key release', () => {
+  const done = { completedAt: '2026-09-18T10:00:00.000Z' }
+  const open = { completedAt: null }
+
+  it('stays closed while an attempt remains, and while an attempt is still open', () => {
+    assert.equal(MAX_EXAM_ATTEMPTS, 3)
+    assert.equal(answerKeyReleased([done]), false)
+    assert.equal(answerKeyReleased([done, done]), false)
+    assert.equal(answerKeyReleased([done, open, done]), false)
+    assert.equal(answerKeyReleased([done, done, done]), true)
+  })
+
+  const stored = JSON.stringify([
+    { questionId: 'setup-0', concept: 'c0', variant: 1, selectedIndex: 1, correctIndex: 0, correct: false, explanation: 'e0', question: 'Q', options: ['a', 'b'] },
+  ])
+  const row = (id: string, sectionId: string, completedAt: string | null) => ({ id, sectionId, completedAt, answers: stored })
+
+  it('strips the key and explanation from a section that still has attempts left', () => {
+    const [r] = redactAttemptsForLearner([row('a1', 'setup', done.completedAt)])
+    const [a] = JSON.parse(r!.answers)
+    assert.equal('correctIndex' in a, false)
+    assert.equal('explanation' in a, false)
+    assert.deepEqual([a.selectedIndex, a.correct, a.question], [1, false, 'Q'])
+  })
+
+  it('keeps the key once all three attempts are graded, counting pre-rename slugs as the same section', () => {
+    // `numpy` was renamed to `collections`; the three attempts are one section's.
+    const rows = redactAttemptsForLearner([
+      row('a1', 'numpy', done.completedAt),
+      row('a2', 'numpy', done.completedAt),
+      row('a3', 'collections', done.completedAt),
+      row('b1', 'setup', done.completedAt),
+    ])
+    assert.equal(JSON.parse(rows[2]!.answers)[0].correctIndex, 0)
+    assert.equal(JSON.parse(rows[0]!.answers)[0].explanation, 'e0')
+    // Another section's single attempt stays redacted.
+    assert.equal('correctIndex' in JSON.parse(rows[3]!.answers)[0], false)
+  })
+
+  it('turns unreadable stored answers into an empty list rather than passing them through', () => {
+    const [r] = redactAttemptsForLearner([{ ...row('a1', 'setup', null), answers: '{"correctIndex":0' }])
+    assert.equal(r!.answers, '[]')
+  })
+})
+

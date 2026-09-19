@@ -37,6 +37,18 @@ interface AttemptSummary {
   timeSpentSec: number
 }
 
+/** A graded answer from exam/submit. correctIndex and explanation arrive only once the key is released. */
+interface ReviewedAnswer {
+  questionId: string
+  concept: string
+  question: string
+  options: string[]
+  selectedIndex: number
+  correctIndex?: number
+  correct: boolean
+  explanation?: string
+}
+
 interface ExamViewProps {
   sectionId: string
   sectionTitle: string
@@ -62,16 +74,8 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
     score: number
     correctCount: number
     totalQuestions: number
-    detailedAnswers: {
-      questionId: string
-      concept: string
-      question: string
-      options: string[]
-      selectedIndex: number
-      correctIndex: number
-      correct: boolean
-      explanation: string
-    }[]
+    detailedAnswers: ReviewedAnswer[]
+    answerKeyReleased?: boolean
     passed: boolean
   } | null>(null)
   const [previousAttempts, setPreviousAttempts] = useState<AttemptSummary[]>([])
@@ -328,41 +332,7 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
           </div>
         </Card>
 
-        <div>
-          <h3 className="mb-3 text-sm font-semibold text-foreground">{t('exam.review', lang)}</h3>
-          <div className="space-y-3">
-            {result.detailedAnswers.map((a, i) => (
-              <Card key={i} className={cn('p-4', a.correct ? 'border-green-500/30' : 'border-red-500/30')}>
-                <div className="flex items-start gap-2">
-                  <span
-                    className={cn(
-                      'flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white',
-                      a.correct ? 'bg-green-500' : 'bg-red-500'
-                    )}
-                  >
-                    {a.correct ? '✓' : '✗'}
-                  </span>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">{a.question}</p>
-                    <div className="mt-2 space-y-1 text-xs">
-                      <div className={cn('flex items-center gap-1', a.correct ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300')}>
-                        <span>
-                          {t('exam.yourAnswer', lang)}: {a.options[a.selectedIndex] || t('exam.noAnswer', lang)}
-                        </span>
-                      </div>
-                      {!a.correct && (
-                        <div className="text-green-700 dark:text-green-300">
-                          {t('exam.correctAnswer', lang)}: {a.options[a.correctIndex]}
-                        </div>
-                      )}
-                    </div>
-                    <p className="mt-2 text-xs text-muted-foreground italic">{a.explanation}</p>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
+        <ExamReview answers={result.detailedAnswers} keyReleased={result.answerKeyReleased !== false} />
 
         <Button onClick={() => { setExam(null); setSubmitted(false); setResult(null) }} className="w-full">
           {t('exam.backToSummary', lang)}
@@ -451,6 +421,59 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
             : `${t('exam.startN', lang)} ${completedAttempts.length + 1}`}
         </Button>
       )}
+    </div>
+  )
+}
+
+/**
+ * The per-question review after a submission. Until the answer key is released (every attempt
+ * for the section used), exam/submit sends whether each answer was right but not the correct
+ * option or the explanation, and this says when they will appear.
+ */
+function ExamReview({ answers, keyReleased }: { answers: ReviewedAnswer[]; keyReleased: boolean }) {
+  const lang = useI18n((s) => s.lang)
+  return (
+    <div>
+      <h3 className="mb-3 text-sm font-semibold text-foreground">{t('exam.review', lang)}</h3>
+      {!keyReleased && (
+        <p className="mb-3 text-xs text-muted-foreground" data-testid="exam-key-withheld">
+          {t('exam.keyAfterLastAttempt', lang)}
+        </p>
+      )}
+      <div className="space-y-3">
+        {answers.map((a, i) => (
+          <Card key={i} className={cn('p-4', a.correct ? 'border-green-500/30' : 'border-red-500/30')}>
+            <div className="flex items-start gap-2">
+              <span
+                className={cn(
+                  'flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white',
+                  a.correct ? 'bg-green-500' : 'bg-red-500'
+                )}
+              >
+                {a.correct ? '✓' : '✗'}
+              </span>
+              <div className="flex-1">
+                <p className="text-sm font-medium">{a.question}</p>
+                <div className="mt-2 space-y-1 text-xs">
+                  <div className={cn('flex items-center gap-1', a.correct ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300')}>
+                    <span>
+                      {t('exam.yourAnswer', lang)}: {a.options[a.selectedIndex] || t('exam.noAnswer', lang)}
+                    </span>
+                  </div>
+                  {!a.correct && a.correctIndex != null && (
+                    <div className="text-green-700 dark:text-green-300">
+                      {t('exam.correctAnswer', lang)}: {a.options[a.correctIndex]}
+                    </div>
+                  )}
+                </div>
+                {a.explanation && (
+                  <p className="mt-2 text-xs text-muted-foreground italic">{a.explanation}</p>
+                )}
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
     </div>
   )
 }
