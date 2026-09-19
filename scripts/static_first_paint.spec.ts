@@ -132,6 +132,11 @@ async function waitForHydration(el: Locator) {
 // Standalone routes, always prerendered. Both use LegalPage, as seven other
 // legal routes do. `floor` is about half of the elements with text each held
 // on 2026-09-18 (24, 26).
+//
+// The tests open the exported file, /pyarcana/cookies.html, which Pages
+// serves at /pyarcana/cookies too. CI serves the build with python's
+// http.server, which redirects /pyarcana/cookies to the cookies/ directory
+// the export writes beside the file and lists that directory instead.
 const LEGAL_ROUTES = [
   { path: 'cookies', title: 'Aviso de cookies y almacenamiento local', floor: 12 },
   { path: 'disclaimer', title: 'Aviso educativo y profesional', floor: 12 },
@@ -172,7 +177,7 @@ test.describe('PyArcana public edition: first paint', () => {
 
     for (const route of LEGAL_ROUTES) {
       test(`/${route.path} is painted, not left at the start of an animation`, async ({ page }) => {
-        await page.goto(`/pyarcana/${route.path}`)
+        await page.goto(`/pyarcana/${route.path}.html`)
         await expect(page.getByRole('heading', { name: route.title, level: 1 })).toHaveCount(1)
         await expectLegalPageFullyPainted(page, route)
       })
@@ -182,7 +187,7 @@ test.describe('PyArcana public edition: first paint', () => {
   for (const route of LEGAL_ROUTES) {
     test(`/${route.path} stays painted through hydration when no frames run`, async ({ page }) => {
       await stopAnimationFrames(page)
-      await page.goto(`/pyarcana/${route.path}`)
+      await page.goto(`/pyarcana/${route.path}.html`)
       const heading = page.getByRole('heading', { name: route.title, level: 1 })
       await expect(heading).toHaveCount(1)
       await waitForHydration(heading)
