@@ -397,3 +397,27 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   `raise_for_status` was unfixable by wrapping; its name moved into the outcome line, which is as
   wide as the canvas. When adding a figure, read it in the browser: the archetypes' text is
   centred, single-line by default, and silently wider than its container.
+
+### Committing into a tree other work shares (2026-09-18, PR #63)
+
+- **`git add <file>` on a file that was already dirty commits someone else's half-change.** Two
+  commits staged `RichText.tsx` and `SectionView.tsx` whole and took the call sites of an
+  uncommitted `InlineText` fix without its `Callout` type change; the committed branch then failed
+  `tsc` three times while the working tree compiled. Before editing a file, run
+  `git status --short <file>`; if it is already modified, stage only your hunk by writing HEAD's
+  version plus your change into the index (`git hash-object -w` then
+  `git update-index --cacheinfo`), and leave the rest exactly as it was.
+- **A dirty working tree hides what the commits alone would do.** Four real incompatibilities
+  passed every local run: the swept change above, a gitignored cache a test read, e2e specs that
+  still listed renamed ids, and the sentinel reading a deliberate rename as data loss. Validate a
+  PR in an isolated worktree of the branch merged with `origin/main`, running what CI runs, before
+  calling it compatible.
+- **A data migration has to reach the database the way it is actually built.** The rename was a
+  Prisma migration, and the documented setup is `db:push`, which never runs migration files, so
+  it would never have run. `db:push` now applies every rename, idempotently, in one transaction.
+  An adversarial pass found this and four more defects in a migration its own tests had passed.
+- **Three probes that lied this round.** zsh does not word-split `$cmd`, so a loop over
+  `"script.py S03"` ran a file that does not exist and reported exit 2 for audits that were fine; a
+  glob like `migrations/*_rename_*/migration.sql` inside a `/** */` comment closes the comment at
+  `*/`; and `cmd | tail` returns tail's status, hiding a crash. Check the result the command was
+  supposed to produce, not only its exit code.

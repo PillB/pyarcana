@@ -33,12 +33,44 @@ def sh(cmd: list[str], timeout: int = 1800) -> subprocess.CompletedProcess:
 INFORMATIONAL = "info:"
 
 
+class MeasurementFailed(RuntimeError):
+    """An instrument that could not run measured nothing, and a gate built on it did not pass."""
+
+
+def fresh_report(cmd: list[str], report: Path, ok_codes: tuple[int, ...] = (0,),
+                 timeout: int = 1800) -> dict:
+    """Run an audit and return the report it wrote on *this* run.
+
+    The reports are tracked files that survive between rounds. Reading one after an unchecked
+    run meant a crashed audit left last round's JSON in place and `snapshot` or `check` compared
+    stale values - reporting a pass exactly when the instrument could not run. An audit that
+    exits with findings (first_use_all and synthetic_identifier return 1 after writing) is
+    fine; one that exits otherwise, or leaves its report untouched, fails the measurement.
+    """
+    before = report.stat().st_mtime_ns if report.exists() else None
+    r = sh(cmd, timeout)
+    rewritten = report.exists() and report.stat().st_mtime_ns != before
+    if r.returncode not in ok_codes or not rewritten:
+        why = (f"exited {r.returncode}" if r.returncode not in ok_codes
+               else "finished without rewriting its report")
+        tail = " | ".join((r.stdout + r.stderr).strip().splitlines()[-4:])
+        raise MeasurementFailed(
+            f"{' '.join(cmd)} {why}, so {report.relative_to(ROOT)} would be stale. {tail}".strip())
+    try:
+        return json.loads(report.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        raise MeasurementFailed(f"{report.relative_to(ROOT)} is not valid JSON after "
+                                f"{' '.join(cmd)}: {e}") from e
+
+
 def strict_mismatches(tag: str) -> int | None:
     """Declared outputs in this section that differ from what the code prints, every line.
 
     The runtime audit below cannot see a wrong value; this can. None = could not run.
     """
     out = ROOT / f".fixer/{tag}.strict-output.json"
+    # A report left by a previous round would otherwise satisfy `out.exists()` below.
+    out.unlink(missing_ok=True)
     r = sh([str(CONTENT_PY), "scripts/python_content_strict_output_audit.py",
             "--only", f"s{int(tag[1:]):02d}-", "--json", str(out)], 1200)
     if r.returncode != 0 or not out.exists():
@@ -49,29 +81,38 @@ def strict_mismatches(tag: str) -> int | None:
 def measure(tag: str) -> dict:
     """What a round may not make worse, for this section and the course."""
     ev = sh(["npx", "tsx", "scripts/course_event_extractor.mts"])
+    # Written only if the extractor succeeded and produced JSON: an empty or partial stdout
+    # written here became the input to every measure below.
+    if ev.returncode != 0:
+        raise MeasurementFailed(f"course_event_extractor.mts exited {ev.returncode}: "
+                                + " | ".join(ev.stderr.strip().splitlines()[-4:]))
+    try:
+        json.loads(ev.stdout)
+    except json.JSONDecodeError as e:
+        raise MeasurementFailed(f"course_event_extractor.mts printed invalid JSON: {e}") from e
     (ROOT / ".fixer").mkdir(exist_ok=True)
     (ROOT / ".fixer/events.json").write_text(ev.stdout, encoding="utf-8")
 
-    sh(["python3", "scripts/concept_map.py"])
-    cmap = json.loads((ROOT / "course-state/concept_map.json").read_text(encoding="utf-8"))
+    cmap = fresh_report(["python3", "scripts/concept_map.py"], ROOT / "course-state/concept_map.json")
     never = sum(1 for c in cmap.values() if c["depth"] == "L0")
     surprising = sum(1 for c in cmap.values() if c["depth"] != "L0" and c["surprising_uses"])
     here = sum(1 for c in cmap.values() for u in c["surprising_uses"] if u["section"] == tag)
 
-    sh(["python3", "scripts/prose_quality_audit.py", tag])
-    prose = json.loads((ROOT / "course-state/prose_quality_report.json").read_text(encoding="utf-8")).get(tag, {})
+    prose = fresh_report(["python3", "scripts/prose_quality_audit.py", tag],
+                         ROOT / "course-state/prose_quality_report.json").get(tag, {})
 
-    sh(["python3", "scripts/code_switching_audit.py", tag])
-    cs = json.loads((ROOT / "course-state/code_switching_report.json").read_text(encoding="utf-8")).get(tag, {})
+    cs = fresh_report(["python3", "scripts/code_switching_audit.py", tag],
+                      ROOT / "course-state/code_switching_report.json").get(tag, {})
 
-    sh(["python3", "scripts/first_use_all_audit.py"])
-    fu = json.loads((ROOT / "course-state/first_use_all_report.json").read_text(encoding="utf-8"))
+    # first_use_all and synthetic_identifier exit 1 when they find something, after writing.
+    fu = fresh_report(["python3", "scripts/first_use_all_audit.py"],
+                      ROOT / "course-state/first_use_all_report.json", ok_codes=(0, 1))
 
     # D2 is scoped to this section and measured as a regression. Course-wide it was an
     # absolute gate, which stayed red on every round because S03, S07 and S09 carry known
     # debt - so it said nothing about the section actually being changed.
-    sh(["python3", "scripts/synthetic_identifier_audit.py"])
-    ids = json.loads((ROOT / "course-state/synthetic_identifier_report.json").read_text(encoding="utf-8"))
+    ids = fresh_report(["python3", "scripts/synthetic_identifier_audit.py"],
+                       ROOT / "course-state/synthetic_identifier_report.json", ok_codes=(0, 1))
     num = int(tag[1:])
     ids_here = sum(1 for f in ids.get("findings", []) if f"/s{num:02d}-" in f["file"])
 
@@ -105,9 +146,11 @@ def absolute_gate(name: str, cmd: list[str], failed: list[str], timeout: int = 1
 
 
 def snippets_gate(failed: list[str]) -> None:
-    sh([str(CONTENT_PY), "scripts/python_content_runtime_audit.py", "--workers", "4"], 2400)
+    report = ROOT / "course-state/python_runtime_audit_report.json"
     try:
-        rep = json.loads((ROOT / "course-state/python_runtime_audit_report.json").read_text(encoding="utf-8"))
+        # A stale report from the last round said nothing about this one, however green.
+        rep = fresh_report([str(CONTENT_PY), "scripts/python_content_runtime_audit.py", "--workers", "4"],
+                           report, ok_codes=(0, 1), timeout=2400)
         env = rep.get("environment_matches_pins")
         env = env.get("status") if isinstance(env, dict) else env
         ok = rep["totals"]["fail"] == 0 and env == "ok"
@@ -195,7 +238,12 @@ def check(tag: str) -> int:
     absolute_gate("adversarial (node)", ["npm", "run", "test:adversarial:node"], failed)
     absolute_gate("adversarial (py)", ["npm", "run", "test:adversarial:py"], failed)
     snippets_gate(failed)
-    after = measure(tag)
+    try:
+        after = measure(tag)
+    except MeasurementFailed as e:
+        print(f"  FAIL measurement: {e}")
+        print(f"  => {tag} FAILED: the regression measures could not run, so nothing was compared")
+        return 1
     regression_gate(before, after, failed, tag)
     (ROOT / f".fixer/{tag}.gate-after.json").write_text(
         json.dumps({"before": before, "after": after, "failed": failed}, indent=1), encoding="utf-8")
@@ -209,7 +257,12 @@ def check(tag: str) -> int:
 def main() -> int:
     mode, tag = sys.argv[1], sys.argv[2]
     if mode == "snapshot":
-        m = measure(tag)
+        try:
+            m = measure(tag)
+        except MeasurementFailed as e:
+            # A snapshot of stale numbers would make the round's `check` compare against them.
+            print(f"  FAIL snapshot {tag}: {e}")
+            return 1
         (ROOT / f".fixer/{tag}.gate-before.json").write_text(json.dumps(m, indent=1), encoding="utf-8")
         print(f"  snapshot {tag}: {m}")
         return 0
