@@ -37,6 +37,7 @@ import { Input } from '@/components/ui/input'
 import type { Resources } from '@/lib/types'
 import { LegalDisclaimer } from './LegalDisclaimer'
 import { cn } from '@/lib/utils'
+import { riseIn } from '@/lib/entrance'
 
 /** The part of a course section the catalogue needs to filter and label resources. */
 export interface ResourceSection {
@@ -47,6 +48,12 @@ export interface ResourceSection {
 }
 
 interface ResourcesPageProps {
+  /**
+   * False while this is the view the page restored from the URL hash as it
+   * loaded: the header, the per-section cards and the legal notices then
+   * mount at rest instead of waiting for an animation frame (see riseIn).
+   */
+  animateEntrance: boolean
   sections: (ResourceSection & { resources: Resources })[]
 }
 
@@ -1688,7 +1695,7 @@ const INITIAL_VISIBLE = 12
 // ────────────────────────────────────────────────────────────────────────────
 // ResourcesPage
 // ────────────────────────────────────────────────────────────────────────────
-export function ResourcesPage({ sections }: ResourcesPageProps) {
+export function ResourcesPage({ animateEntrance, sections }: ResourcesPageProps) {
   const [search, setSearch] = useState('')
   const [typeFilter, setTypeFilter] = useState<Set<ResourceType>>(new Set())
   const [levelFilter, setLevelFilter] = useState<Set<ResourceLevel>>(new Set())
@@ -1806,7 +1813,7 @@ export function ResourcesPage({ sections }: ResourcesPageProps) {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8" ref={containerRef}>
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
+        initial={riseIn(animateEntrance, 8)}
         animate={{ opacity: 1, y: 0 }}
       >
         <Badge variant="outline" className="mb-3 gap-1.5 border-primary/30 text-primary">
@@ -2079,7 +2086,7 @@ export function ResourcesPage({ sections }: ResourcesPageProps) {
           {sections.map((s, idx) => (
             <motion.div
               key={s.id}
-              initial={{ opacity: 0, y: 8 }}
+              initial={riseIn(animateEntrance, 8)}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: Math.min(idx * 0.02, 0.4) }}
             >
@@ -2117,7 +2124,7 @@ export function ResourcesPage({ sections }: ResourcesPageProps) {
       </section>
 
       {/* Legal & security disclaimers */}
-      <LegalDisclaimer />
+      <LegalDisclaimer animateEntrance={animateEntrance} />
     </div>
   )
 }

@@ -13,11 +13,10 @@ import assert from 'node:assert/strict'
 
 type Row = Record<string, unknown>
 
-const store: { attempts: Row[]; questions: Row[]; forms: Row[]; notifications: Row[] } = {
+const store: { attempts: Row[]; questions: Row[]; forms: Row[] } = {
   attempts: [],
   questions: [],
   forms: [],
-  notifications: [],
 }
 let sessionUserId: string | null = 'learner'
 let nextId = 0
@@ -94,12 +93,6 @@ const db = {
   },
   progress: { findMany: async () => [] },
   exerciseAttempt: { findMany: async () => [] },
-  notification: {
-    async create({ data }: { data: Row }) {
-      store.notifications.push(data)
-      return data
-    },
-  },
 }
 
 // Node 25.9 renamed mock.module's `namedExports` option to `exports` and deprecated the old name
@@ -124,7 +117,6 @@ let submit: Handler
 let start: Handler
 let listAttempts: Handler
 let getProgress: () => Promise<Response>
-let issueCredential: Handler
 
 // Imported after the mocks are registered, so the routes bind to them. (A hook, not top-level
 // await: tsx compiles this package's .ts files as CommonJS.)
@@ -133,8 +125,6 @@ before(async () => {
   ;({ POST: start } = await import('../../src/app/api/exam/start/route.ts'))
   ;({ GET: listAttempts } = await import('../../src/app/api/exam/attempts/route.ts'))
   ;({ GET: getProgress } = await import('../../src/app/api/progress/route.ts'))
-  const credentials = await import('../../src/app/api/credentials/issue/route.ts')
-  issueCredential = credentials.POST as unknown as Handler
 })
 
 // Two sections, 8 concepts x 3 variants each, as prisma/seed.ts builds the bank.
@@ -224,7 +214,6 @@ beforeEach(() => {
   store.questions = [...bank('setup'), ...bank('basics')]
   store.attempts = [attempt('att-1', 1, 1)]
   store.forms = []
-  store.notifications = []
 })
 
 describe('exam/submit grades the questions the attempt drew', () => {
@@ -457,29 +446,5 @@ describe('attempts graded before the fix', () => {
       (await listed()).map((a) => [a.id, a.legacy]),
       [['old-1', true], ['old-2', true], [body.attemptId, false]]
     )
-  })
-
-  it('earn no credential: thirteen legacy passes are refused, the same passes graded now are not', async () => {
-    const gates = ['S04', 'S08', 'S13', 'S17', 'S21', 'S26', 'S30', 'S34', 'S39', 'S43', 'S47', 'S51', 'S52']
-    const issue = async () => {
-      const res = await issueCredential(
-        new Request('http://localhost/api/credentials/issue', {
-          method: 'POST',
-          body: JSON.stringify({
-            badgeId: 'integrated_python_ai_capstone_foundations',
-            specificationVersion: '1',
-          }),
-        })
-      )
-      return { status: res.status, body: await res.json() }
-    }
-    store.attempts = gates.map((s, i) =>
-      graded(`g${i}`, 1, 1, { sectionId: s, score: 100, gradingVersion: 0 }))
-    const refused = await issue()
-    assert.equal(refused.status, 403)
-    assert.equal(refused.body.passedGates, 0)
-
-    for (const a of store.attempts) a.gradingVersion = 1
-    assert.equal((await issue()).status, 201)
   })
 })

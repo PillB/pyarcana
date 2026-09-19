@@ -39,6 +39,7 @@ import {
   Wrench,
 } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { riseIn } from '@/lib/entrance'
 import {
   Card,
   CardContent,
@@ -77,6 +78,12 @@ import {
 } from '@/lib/capstones/catalog'
 
 interface CapstonesPageProps {
+  /**
+   * False while this is the view the page restored from the URL hash as it
+   * loaded: every level section then mounts at rest, including those below
+   * the fold, instead of waiting for an animation frame (see riseIn).
+   */
+  animateEntrance: boolean
   /** Open a course section by its stable id (e.g. "S04"). */
   onOpenSection: (sectionId: string) => void
 }
@@ -742,7 +749,7 @@ function PathDialog({
 // Main page
 // ────────────────────────────────────────────────────────────────────────────
 
-export function CapstonesPage({ onOpenSection }: CapstonesPageProps) {
+export function CapstonesPage({ animateEntrance, onOpenSection }: CapstonesPageProps) {
   const tr = useTr()
   const [pathDialog, setPathDialog] = useState<PathDialogState>({
     open: false,
@@ -806,7 +813,7 @@ export function CapstonesPage({ onOpenSection }: CapstonesPageProps) {
         {levelsWithCapstones.map(({ level, capstones }) => (
           <motion.div
             key={level.id}
-            initial={{ opacity: 0, y: 8 }}
+            initial={riseIn(animateEntrance, 8)}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.25 }}
