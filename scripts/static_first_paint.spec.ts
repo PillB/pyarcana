@@ -79,15 +79,19 @@ async function skipTours(page: Page) {
 
 // Two of the five steps of the first section done, and it was the last visited:
 // the landing then shows a "continue" card and a 40% bar on that section.
-// `completedSections` are finished outright, which is what the sidebar counts.
-async function seedReturningLearner(page: Page, completedSections: string[] = []) {
-  await page.addInitScript((completedSections) => {
+// `completedSections` are finished outright, which is what the sidebar counts;
+// `setupSteps` replaces the two steps done in the first section.
+async function seedReturningLearner(
+  page: Page,
+  { completedSections = [] as string[], setupSteps = ['theory', 'ido'] } = {},
+) {
+  await page.addInitScript(({ completedSections, setupSteps }) => {
     localStorage.setItem(
       'python-ds-progress',
       JSON.stringify({
         state: {
           completedSections,
-          completedSubSteps: { setup: ['theory', 'ido'] },
+          completedSubSteps: { setup: setupSteps },
           quizScores: {},
           lastVisited: 'setup',
           bookmarks: [],
@@ -97,7 +101,34 @@ async function seedReturningLearner(page: Page, completedSections: string[] = []
         version: 0,
       }),
     )
-  }, completedSections)
+  }, { completedSections, setupSteps })
+}
+
+// Four finished sections: the sidebar reads 8% (4 of 52, rounded).
+const FOUR_SECTIONS = ['iteration-summaries', 'functions-contracts', 'collections', 'pandas']
+
+// Passes the open section's quiz on screen, without its answer key. Each
+// attempt answers the questions not yet solved with the next option; a submit
+// marks each question "✓ Correcto." or not. The attempt that scores 70% or
+// more completes the step, and with the other four steps done, the section.
+async function passSectionQuiz(page: Page) {
+  const total = await page.locator('[data-testid^="sc-q-"][data-testid$="-opt-0"]').count()
+  expect(total).toBeGreaterThan(0)
+  const solved = new Map<number, number>()
+  for (let option = 0; option < 6; option += 1) {
+    for (let q = 0; q < total; q += 1) {
+      await page.getByTestId(`sc-q-${q}-opt-${solved.get(q) ?? option}`).click()
+    }
+    await page.getByTestId('sc-submit').click()
+    if (await page.getByTestId('sc-result').getByText('Sección completada').count()) return
+    for (let q = 0; q < total; q += 1) {
+      if (!solved.has(q) && (await page.getByTestId(`sc-q-${q}`).getByText('✓ Correcto.').count())) {
+        solved.set(q, option)
+      }
+    }
+    await page.getByTestId('sc-result').getByRole('button', { name: 'Reintentar' }).click()
+  }
+  throw new Error('the quiz was not passed after trying six options per question')
 }
 
 // A background tab, a hidden preview pane or an embedded webview can run no
@@ -231,7 +262,7 @@ test.describe('PyArcana public edition: first paint', () => {
     // progress after hydration. Its bar grew to that value from 0, so without a
     // frame it stayed at 0 beside a label reading 8%.
     await skipTours(page)
-    await seedReturningLearner(page, ['iteration-summaries', 'functions-contracts', 'collections', 'pandas'])
+    await seedReturningLearner(page, { completedSections: FOUR_SECTIONS })
     await stopAnimationFrames(page)
     await page.goto('/pyarcana/')
     await waitForViewChangesToAnimate(page)
@@ -242,6 +273,38 @@ test.describe('PyArcana public edition: first paint', () => {
       .locator('.gradient-primary')
       .evaluate((el) => el.getBoundingClientRect().width / el.parentElement!.getBoundingClientRect().width)
     expect(filled).toBeCloseTo(0.08, 2)
+  })
+
+  test('progress made on the page still animates the sidebar bar', async ({ page }) => {
+    // The other half: mounting the bar at rest for good, or again on every
+    // change, would pass the test above and drop the animation that shows a
+    // learner their progress move. Passing the first section's quiz, its last
+    // step, completes it: 4 of 52 sections become 5, and 8% becomes 10%.
+    await skipTours(page)
+    await seedReturningLearner(page, {
+      completedSections: FOUR_SECTIONS,
+      setupSteps: ['theory', 'ido', 'wedo', 'youdo'],
+    })
+    await page.goto('/pyarcana/#S01')
+    await waitForViewChangesToAnimate(page)
+    const progress = page.getByTestId('sidebar-progress')
+    await expect(progress.getByText('8%', { exact: true })).toBeVisible()
+    const fill = progress.locator('.gradient-primary')
+    await fill.evaluate((el) => {
+      const w = window as unknown as { __fillWidths: string[] }
+      w.__fillWidths = []
+      new MutationObserver(() => w.__fillWidths.push((el as HTMLElement).style.width)).observe(el, {
+        attributes: true,
+        attributeFilter: ['style'],
+      })
+    })
+    await page.getByRole('tab', { name: 'Autocheck' }).click()
+    await passSectionQuiz(page)
+    await expect(progress.getByText('10%', { exact: true })).toBeVisible()
+    await expect.poll(() => fill.evaluate((el) => (el as HTMLElement).style.width)).toBe('10%')
+    const widths = await page.evaluate(() => (window as unknown as { __fillWidths: string[] }).__fillWidths)
+    const between = widths.filter((width) => parseFloat(width) > 8 && parseFloat(width) < 10)
+    expect(between.length, `widths the bar took: ${widths.join(', ')}`).toBeGreaterThan(0)
   })
 
   test('the page does not fade in a view restored from the URL, even when no frames run', async ({ page }) => {
