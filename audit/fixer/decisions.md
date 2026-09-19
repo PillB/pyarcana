@@ -297,10 +297,20 @@ evidence for it appears somewhere else in the course.
 - **Rows graded before the fix are not evidence.** `ExamAttempt.gradingVersion` 0 marks them. They
   count toward no credential, cohort figure, PDF report figure or best score, and use up none of
   the 3 attempts, so an honest learner can re-earn a pass. They stay in the learner's history,
-  labelled. The old code returned the full key after every attempt, so a learner with legacy
-  attempts in a section has seen those variants' keys: their retakes draw unseen variants first,
-  and after three legacy attempts none are unseen. Such a pass is weak evidence; nothing short of
-  new variants fixes that.
+  labelled.
+- **A question whose key the learner was shown is drawn last, and an attempt that includes one is
+  not evidence** (amended 2026-09-19). The old submit returned the key of every question id it was
+  sent, from any section, and a legacy row's stored answers name exactly those. `exam/start` draws,
+  per concept: a variant never shown with its key and not drawn before; one never shown with its
+  key; one not drawn before; any. It records the number of seen questions it could not avoid in
+  `ExamAttempt.exposedItems`. That attempt uses one of the 3, is graded, and shows its result, but
+  its score is not evidence. In practice only a learner whose legacy attempts covered all three
+  variants of a concept reaches that point; new variants are what would let them re-earn a pass.
+- **One rule decides what a score is worth**: `isEvidence` in `src/lib/exam-scoring.ts` (graded,
+  `gradingVersion` ≥ 1, `exposedItems` 0), failing closed when a caller did not select those
+  fields. Credentials, cohort `examsPassed` (distinct sections, not attempts), the PDF report, the
+  learner's best score and every admin score figure read it. Activity figures — attempts sent, time
+  spent, last active — keep every attempt.
 - **Submit grades against the form `exam/start` saved** (`ExamAttemptForm`): the questions as the
   learner saw them, with their key. A reseed or an edited question cannot change an attempt in
   progress. The form lives in its own table so no query returning attempts carries the key.
