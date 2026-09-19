@@ -80,6 +80,10 @@ type AttemptRow = {
   attemptNumber: number
   score: number
   completedAt: Date | null
+  /** How exam/submit graded the row; 0 is before the 2026-09-18 fix (GRADING_VERSION). */
+  gradingVersion: number
+  /** Questions in the attempt whose key the learner saw before the fix (isEvidence). */
+  exposedItems: number
 }
 
 let attempts: AttemptRow[] = []
@@ -88,7 +92,7 @@ let notifications: Array<Record<string, unknown>> = []
 function attempt(
   sectionId: string,
   score: number,
-  { attemptNumber = 1, userId = LEARNER, completed = true } = {}
+  { attemptNumber = 1, userId = LEARNER, completed = true, gradingVersion = 1, exposedItems = 0 } = {}
 ): AttemptRow {
   return {
     id: `${userId}:${sectionId}:${attemptNumber}`,
@@ -97,6 +101,8 @@ function attempt(
     attemptNumber,
     score,
     completedAt: completed ? new Date('2026-09-01T12:00:00Z') : null,
+    gradingVersion,
+    exposedItems,
   }
 }
 
@@ -109,6 +115,7 @@ function matchesWhere(row: AttemptRow, where: Record<string, unknown>): boolean 
     return Object.entries(condition as Record<string, unknown>).every(([op, arg]) => {
       if (op === 'in') return (arg as unknown[]).includes(value)
       if (op === 'not') return value !== arg
+      if (op === 'gte') return typeof value === 'number' && value >= (arg as number)
       throw new Error(`fake db: unsupported operator ${field}.${op}`)
     })
   })
@@ -232,6 +239,24 @@ describe('POST /api/credentials/issue — eligibility per badge', () => {
     const { body } = await requestCredential()
 
     assert.equal(body.passedSections, 12)
+  })
+
+  it('never counts an attempt graded before the 2026-09-18 fix, whose score may be forged (D12)', async () => {
+    attempts = foundationsPassed(100).map((row) => ({ ...row, gradingVersion: 0 }))
+    assert.equal((await requestCredential()).body.passedSections, 0)
+
+    attempts = [
+      ...without(foundationsPassed(), 'S13'),
+      attempt(FOUNDATIONS_SLUGS.S13, 100, { gradingVersion: 0 }),
+    ]
+    assert.equal((await requestCredential()).body.passedSections, 12)
+
+    // Graded now, but on questions whose answer the learner had been shown before the fix.
+    attempts = [
+      ...without(foundationsPassed(), 'S13'),
+      attempt(FOUNDATIONS_SLUGS.S13, 100, { exposedItems: 2 }),
+    ]
+    assert.equal((await requestCredential()).body.passedSections, 12)
   })
 
   it("never counts another learner's attempt or an unfinished one (D11)", async () => {
