@@ -25,7 +25,6 @@ export async function GET(request: Request) {
     orderBy: { attemptNumber: 'asc' },
   })
 
-  // The stored answers carry the key; a learner gets it only once the section's attempts are
-  // all used (answerKeyReleased).
+  // The stored answers carry the key, which a learner never gets (redactAttemptsForLearner).
   return NextResponse.json({ attempts: redactAttemptsForLearner(attempts) })
 }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 // A row under a pre-rename slug is the same section; count it once.
 import { renameSectionId } from '@/lib/section-id-migrations'
+import { isLegacyAttempt } from '@/lib/exam-scoring'
 import { getAuthContext, requireAuth, requireCohortRole } from '@/lib/permissions'
 
 export async function GET(
@@ -32,7 +33,7 @@ export async function GET(
               select: { sectionId: true, subStep: true, completed: true },
             },
             examAttempts: {
-              select: { sectionId: true, score: true, completedAt: true },
+              select: { sectionId: true, score: true, completedAt: true, gradingVersion: true },
               orderBy: { completedAt: 'desc' },
             },
           },
@@ -47,7 +48,8 @@ export async function GET(
       const sectionsCompleted = new Set(
         progress.filter((p) => p.subStep === 'youdo' && p.completed).map((p) => renameSectionId(p.sectionId)),
       ).size
-      const examsPassed = m.user.examAttempts.filter((e) => e.score >= 70).length
+      // A score graded before the 2026-09-18 fix may be forged; it is not evidence.
+      const examsPassed = m.user.examAttempts.filter((e) => e.score >= 70 && !isLegacyAttempt(e)).length
       const lastExamDate = m.user.examAttempts[0]?.completedAt
       const sectionsStarted = new Set(progress.filter((p) => p.completed).map((p) => renameSectionId(p.sectionId))).size
 

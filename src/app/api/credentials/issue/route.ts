@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { GRADED_AS_EVIDENCE } from '@/lib/exam-scoring'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
 import { createHmac, randomUUID } from 'crypto'
 
@@ -111,6 +112,8 @@ export async function POST(req: NextRequest) {
         userId,
         sectionId: { in: ['S04', 'S08', 'S13', 'S17', 'S21', 'S26', 'S30', 'S34', 'S39', 'S43', 'S47', 'S51', 'S52'] },
         completedAt: { not: null },
+        // A score graded before the 2026-09-18 fix may be forged; it is not evidence.
+        ...GRADED_AS_EVIDENCE,
       },
     })
 

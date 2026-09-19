@@ -5,16 +5,24 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import {
-  MAX_EXAM_ATTEMPTS,
+  EXAM_TIME_LIMIT_SEC,
+  GRADED_AS_EVIDENCE,
+  GRADING_VERSION,
   PASS_THRESHOLD,
   UNANSWERED,
-  answerKeyReleased,
   bestScoreBySection,
   checkAnswersAgainstDraw,
+  countedAttempts,
   examSubmitSchema,
+  expiredAttemptClosure,
   gradeExamAnswers,
+  isLegacyAttempt,
+  nextAttemptNumber,
+  parseFormItems,
   parseVariantSeed,
   redactAttemptsForLearner,
+  submissionDeadline,
+  toFormItem,
 } from '../../src/lib/exam-scoring.ts'
 
 const bank = new Map([
@@ -351,48 +359,94 @@ describe('parseVariantSeed — an unreadable draw is not gradable', () => {
   })
 })
 
-describe('answer key release', () => {
-  const done = { completedAt: '2026-09-18T10:00:00.000Z' }
-  const open = { completedAt: null }
-
-  it('stays closed while an attempt remains, and while an attempt is still open', () => {
-    assert.equal(MAX_EXAM_ATTEMPTS, 3)
-    assert.equal(answerKeyReleased([done]), false)
-    assert.equal(answerKeyReleased([done, done]), false)
-    assert.equal(answerKeyReleased([done, open, done]), false)
-    assert.equal(answerKeyReleased([done, done, done]), true)
-  })
-
+describe('the answer key never reaches a learner', () => {
   const stored = JSON.stringify([
     { questionId: 'setup-0', concept: 'c0', variant: 1, selectedIndex: 1, correctIndex: 0, correct: false, explanation: 'e0', question: 'Q', options: ['a', 'b'] },
   ])
-  const row = (id: string, sectionId: string, completedAt: string | null) => ({ id, sectionId, completedAt, answers: stored })
+  const row = (id: string, completedAt: string | null, gradingVersion = GRADING_VERSION) =>
+    ({ id, sectionId: 'setup', completedAt, gradingVersion, answers: stored })
+  const done = '2026-09-18T10:00:00.000Z'
 
-  it('strips the key and explanation from a section that still has attempts left', () => {
-    const [r] = redactAttemptsForLearner([row('a1', 'setup', done.completedAt)])
-    const [a] = JSON.parse(r!.answers)
-    assert.equal('correctIndex' in a, false)
-    assert.equal('explanation' in a, false)
-    assert.deepEqual([a.selectedIndex, a.correct, a.question], [1, false, 'Q'])
-  })
-
-  it('keeps the key once all three attempts are graded, counting pre-rename slugs as the same section', () => {
-    // `numpy` was renamed to `collections`; the three attempts are one section's.
-    const rows = redactAttemptsForLearner([
-      row('a1', 'numpy', done.completedAt),
-      row('a2', 'numpy', done.completedAt),
-      row('a3', 'collections', done.completedAt),
-      row('b1', 'setup', done.completedAt),
-    ])
-    assert.equal(JSON.parse(rows[2]!.answers)[0].correctIndex, 0)
-    assert.equal(JSON.parse(rows[0]!.answers)[0].explanation, 'e0')
-    // Another section's single attempt stays redacted.
-    assert.equal('correctIndex' in JSON.parse(rows[3]!.answers)[0], false)
+  it('strips the key and explanation from every attempt, the last one included', () => {
+    const rows = redactAttemptsForLearner([row('a1', done), row('a2', done), row('a3', done)])
+    for (const r of rows) {
+      const [a] = JSON.parse(r.answers)
+      assert.equal('correctIndex' in a, false)
+      assert.equal('explanation' in a, false)
+      assert.deepEqual([a.selectedIndex, a.correct, a.question], [1, false, 'Q'])
+    }
   })
 
   it('turns unreadable stored answers into an empty list rather than passing them through', () => {
-    const [r] = redactAttemptsForLearner([{ ...row('a1', 'setup', null), answers: '{"correctIndex":0' }])
+    const [r] = redactAttemptsForLearner([{ ...row('a1', null), answers: '{"correctIndex":0' }])
     assert.equal(r!.answers, '[]')
+  })
+
+  it('flags attempts graded before the fix, and only those', () => {
+    const rows = redactAttemptsForLearner([row('old', done, 0), row('new', done), row('open', null, 0)])
+    assert.deepEqual(rows.map((r) => r.legacy), [true, false, false])
   })
 })
 
+describe('attempts graded before the fix', () => {
+  const done = '2026-09-18T10:00:00.000Z'
+
+  it('a completed attempt without a grading version is legacy; an open one is not', () => {
+    assert.equal(isLegacyAttempt({ completedAt: done, gradingVersion: 0 }), true)
+    assert.equal(isLegacyAttempt({ completedAt: done }), true)
+    assert.equal(isLegacyAttempt({ completedAt: done, gradingVersion: GRADING_VERSION }), false)
+    // Started before the fix and still open: the current code will grade it.
+    assert.equal(isLegacyAttempt({ completedAt: null, gradingVersion: 0 }), false)
+  })
+
+  it('legacy attempts do not use up an attempt, and new numbers follow all of them', () => {
+    const attempts = [
+      { attemptNumber: 1, completedAt: done, gradingVersion: 0 },
+      { attemptNumber: 2, completedAt: done, gradingVersion: 0 },
+      { attemptNumber: 3, completedAt: done, gradingVersion: 0 },
+      { attemptNumber: 4, completedAt: done, gradingVersion: GRADING_VERSION },
+    ]
+    assert.equal(countedAttempts(attempts).length, 1)
+    assert.equal(nextAttemptNumber(attempts), 5)
+    assert.equal(nextAttemptNumber([]), 1)
+  })
+
+  it('the evidence filter admits only the current grading', () => {
+    assert.deepEqual(GRADED_AS_EVIDENCE, { gradingVersion: { gte: 1 } })
+  })
+})
+
+describe('time limit', () => {
+  const start = new Date('2026-09-18T10:00:00.000Z')
+
+  it('refuses submissions after 60 minutes plus a 2-minute grace for the request', () => {
+    assert.equal(EXAM_TIME_LIMIT_SEC, 3600)
+    assert.equal(submissionDeadline(start).toISOString(), '2026-09-18T11:02:00.000Z')
+  })
+
+  it('closes an expired attempt at the end of its hour, with 0 and nothing answered, as graded now', () => {
+    const c = expiredAttemptClosure(start)
+    assert.equal(c.completedAt.toISOString(), '2026-09-18T11:00:00.000Z')
+    assert.deepEqual([c.score, c.answers, c.timeSpentSec, c.gradingVersion], [0, '[]', 3600, GRADING_VERSION])
+  })
+})
+
+describe('attempt form — the questions as shown, with their key', () => {
+  const q = { id: 'q1', concept: 'venv', variant: 2, question: '¿Q?', options: '["a","b","c"]', correctIndex: 2, explanation: 'porque' }
+
+  it('round-trips a bank row into the key submit grades against', () => {
+    const key = parseFormItems(JSON.stringify([toFormItem(q)]))!
+    assert.deepEqual(key.get('q1'), {
+      id: 'q1', concept: 'venv', variant: 2, correctIndex: 2, explanation: 'porque', question: '¿Q?', options: ['a', 'b', 'c'],
+    })
+    const r = gradeExamAnswers([{ questionId: 'q1', selectedIndex: 2 }], key, ['q1'])
+    assert.equal(r.score, 100)
+  })
+
+  it('returns null for a form that cannot be read, rather than an empty key', () => {
+    assert.equal(parseFormItems('not json'), null)
+    assert.equal(parseFormItems('[]'), null)
+    assert.equal(parseFormItems(JSON.stringify([{ questionId: 'q1' }])), null)
+    assert.equal(parseFormItems(JSON.stringify([{ questionId: 'q1', correctIndex: '0' }])), null)
+  })
+})

@@ -4,37 +4,37 @@ import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { syncExamAttempt } from '@/lib/firebase/sync'
 import {
-  answerKeyReleased,
+  GRADING_VERSION,
   checkAnswersAgainstDraw,
   examSubmitSchema,
+  expiredAttemptClosure,
   gradeExamAnswers,
+  parseFormItems,
   parseVariantSeed,
+  submissionDeadline,
   withoutAnswerKey,
   type ExamAnswerInput,
   type QuestionKey,
 } from '@/lib/exam-scoring'
-import { sectionIdAliases } from '@/lib/section-id-migrations'
 
-const DRAW_REJECTION = {
-  'not-drawn': 'La respuesta incluye una pregunta que no pertenece a este intento',
-  duplicate: 'La respuesta incluye la misma pregunta más de una vez',
+// Shown to the learner as a toast. A learner using the page never sees the first two: only a
+// request altered by hand reaches them.
+const REFUSAL = {
+  'not-drawn': 'No pudimos calificar: una pregunta no pertenece a este intento.',
+  duplicate: 'No pudimos calificar: una pregunta fue respondida más de una vez.',
+  'no-draw':
+    'No pudimos calificar porque este intento no tiene preguntas registradas. Repórtalo con el botón para enviar comentarios de esta página.',
+  late: 'El tiempo se agotó antes de que llegaran tus respuestas; el intento se cerró con una puntuación de 0.',
 } as const
 
 /**
- * Grade a submission against the questions exam/start drew for the attempt, never against the
- * ids the client sends: those were how a single known answer, from any section, scored 100%.
- * Refuses, without grading, an attempt whose draw is unreadable and a submission that answers
- * a question outside the draw or answers one twice.
+ * The key to grade an attempt against: the form exam/start saved, which holds the questions as the
+ * learner saw them. An attempt started before forms existed has none and falls back to the bank.
+ * A form that exists but cannot be read is a refusal, not a fallback.
  */
-async function gradeAgainstDraw(
-  variantSeed: string,
-  answers: ExamAnswerInput[]
-): Promise<ReturnType<typeof gradeExamAnswers> | { error: string; status: number }> {
-  const drawn = parseVariantSeed(variantSeed)
-  if (!drawn) return { error: 'Este intento no tiene preguntas registradas', status: 409 }
-  const drawnIds = drawn.map((d) => d.questionId)
-  const check = checkAnswersAgainstDraw(answers, drawnIds)
-  if (!check.ok) return { error: DRAW_REJECTION[check.reason], status: 400 }
+async function answerKeyFor(attemptId: string, drawnIds: string[]): Promise<Map<string, QuestionKey> | null> {
+  const form = await db.examAttemptForm.findUnique({ where: { attemptId } })
+  if (form) return parseFormItems(form.items)
 
   const questions = await db.questionBank.findMany({
     where: { id: { in: drawnIds } },
@@ -51,7 +51,28 @@ async function gradeAgainstDraw(
       options: q.options,
     })
   }
-  return gradeExamAnswers(answers, byId, drawnIds)
+  return byId
+}
+
+/**
+ * Grade a submission against the questions exam/start drew for the attempt, never against the
+ * ids the client sends: those were how a single known answer, from any section, scored 100%.
+ * Refuses, without grading, an attempt whose draw or form is unreadable and a submission that
+ * answers a question outside the draw or answers one twice.
+ */
+async function gradeAgainstDraw(
+  attempt: { id: string; variantSeed: string },
+  answers: ExamAnswerInput[]
+): Promise<ReturnType<typeof gradeExamAnswers> | { error: string; status: number }> {
+  const drawn = parseVariantSeed(attempt.variantSeed)
+  if (!drawn) return { error: REFUSAL['no-draw'], status: 409 }
+  const drawnIds = drawn.map((d) => d.questionId)
+  const check = checkAnswersAgainstDraw(answers, drawnIds)
+  if (!check.ok) return { error: REFUSAL[check.reason], status: 400 }
+
+  const key = await answerKeyFor(attempt.id, drawnIds)
+  if (!key) return { error: REFUSAL['no-draw'], status: 409 }
+  return gradeExamAnswers(answers, key, drawnIds)
 }
 
 export async function POST(request: Request) {
@@ -91,7 +112,16 @@ export async function POST(request: Request) {
       )
     }
 
-    const grading = await gradeAgainstDraw(attempt.variantSeed, answers)
+    // The page submits when its countdown reaches zero; anything later is not graded.
+    if (new Date() > submissionDeadline(attempt.startedAt)) {
+      await db.examAttempt.updateMany({
+        where: { id: attemptId, completedAt: null },
+        data: expiredAttemptClosure(attempt.startedAt),
+      })
+      return NextResponse.json({ error: REFUSAL.late }, { status: 409 })
+    }
+
+    const grading = await gradeAgainstDraw(attempt, answers)
     if ('error' in grading) {
       return NextResponse.json({ error: grading.error }, { status: grading.status })
     }
@@ -106,6 +136,7 @@ export async function POST(request: Request) {
         score,
         completedAt: new Date(),
         timeSpentSec,
+        gradingVersion: GRADING_VERSION,
       },
     })
     if (count === 0) {
@@ -115,21 +146,16 @@ export async function POST(request: Request) {
       )
     }
 
-    const sectionAttempts = await db.examAttempt.findMany({
-      where: { userId, sectionId: { in: sectionIdAliases(attempt.sectionId) } },
-    })
-    const updated = sectionAttempts.find((a) => a.id === attemptId)
+    const updated = await db.examAttempt.findUnique({ where: { id: attemptId } })
     if (updated) void syncExamAttempt(updated)
 
-    const keyReleased = answerKeyReleased(sectionAttempts)
-
+    // The stored record keeps the key for the admin views; the learner never gets it.
     return NextResponse.json({
       attemptId,
       score,
       correctCount,
       totalQuestions,
-      detailedAnswers: keyReleased ? detailedAnswers : detailedAnswers.map(withoutAnswerKey),
-      answerKeyReleased: keyReleased,
+      detailedAnswers: detailedAnswers.map(withoutAnswerKey),
       passed,
     })
   } catch (error) {

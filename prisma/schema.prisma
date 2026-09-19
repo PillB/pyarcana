@@ -98,12 +98,27 @@ model ExamAttempt {
   startedAt     DateTime  @default(now())
   completedAt   DateTime?
   timeSpentSec  Int       @default(0)
-  variantSeed   String // JSON: [{concept, variant}] audit trail
+  variantSeed   String // JSON: [{concept, variant, questionId}] the questions exam/start drew
+  // How exam/submit graded this row. 0: before 2026-09-18, when it graded whatever question ids
+  // the client sent, so the score may be forged and is not evidence. 1: graded over the drawn
+  // questions. See GRADING_VERSION in src/lib/exam-scoring.ts.
+  gradingVersion Int    @default(0)
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  form ExamAttemptForm?
 
   @@unique([userId, sectionId, attemptNumber])
   @@index([userId, sectionId])
+}
+
+// The questions an attempt showed, with their answer key, as they were when exam/start drew them.
+// Submit grades against this, so a reseed or an edited question cannot change an attempt already
+// in progress. A table of its own, so no query that returns attempts can carry the key by accident.
+model ExamAttemptForm {
+  attemptId String @id
+  items     String // JSON: [{questionId, concept, variant, question, options, correctIndex, explanation}]
+
+  attempt ExamAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
 }
 
 // Exercise attempts with hint usage tracking

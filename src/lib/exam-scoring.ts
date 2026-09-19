@@ -4,15 +4,61 @@
  */
 
 import { z } from 'zod'
-import { renameSectionId } from './section-id-migrations'
 
 export const PASS_THRESHOLD = 70
 
-/** Attempts per learner and section. exam/start enforces it; the answer-key release reads it. */
+/** Counted attempts per learner and section; exam/start enforces it. */
 export const MAX_EXAM_ATTEMPTS = 3
 
 /** selectedIndex recorded for a drawn question the learner did not answer. */
 export const UNANSWERED = -1
+
+/**
+ * Written to ExamAttempt.gradingVersion by exam/submit. 0 is every row graded before 2026-09-18,
+ * when submit scored whatever question ids the client sent: those scores may be forged.
+ */
+export const GRADING_VERSION = 1
+
+/** How long an attempt may stay open, from exam/start. The page counts down from this. */
+export const EXAM_TIME_LIMIT_SEC = 60 * 60
+
+/**
+ * How late a submission may arrive and still be graded. The page submits at zero; this covers the
+ * request's trip to the server, not extra time to answer.
+ */
+export const EXAM_SUBMIT_GRACE_SEC = 2 * 60
+
+/** Past this moment an open attempt can no longer be submitted. */
+export function submissionDeadline(startedAt: Date): Date {
+  return new Date(startedAt.getTime() + (EXAM_TIME_LIMIT_SEC + EXAM_SUBMIT_GRACE_SEC) * 1000)
+}
+
+/**
+ * The update that closes an attempt whose time ran out before anything was graded: nothing
+ * answered, score 0, completed when its time ended. It stays one of the learner's counted
+ * attempts, as it was while open; closing it makes the history say what happened.
+ */
+export function expiredAttemptClosure(startedAt: Date) {
+  return {
+    answers: '[]',
+    score: 0,
+    completedAt: new Date(startedAt.getTime() + EXAM_TIME_LIMIT_SEC * 1000),
+    timeSpentSec: EXAM_TIME_LIMIT_SEC,
+    gradingVersion: GRADING_VERSION,
+  }
+}
+
+/**
+ * An attempt graded before GRADING_VERSION existed. Its score is not evidence: it counts for no
+ * credential, cohort figure or best score, and does not use up one of the learner's attempts.
+ * An open attempt started before the fix is not legacy: it will be graded by the current code.
+ */
+export function isLegacyAttempt(a: { completedAt: Date | string | null; gradingVersion?: number | null }): boolean {
+  return a.completedAt != null && (a.gradingVersion ?? 0) < GRADING_VERSION
+}
+
+/** Prisma filter for attempts whose score is evidence. */
+export const GRADED_AS_EVIDENCE = { gradingVersion: { gte: GRADING_VERSION } } as const
 
 export const examSubmitSchema = z.object({
   attemptId: z.string().min(1).max(128),
@@ -206,27 +252,13 @@ export function gradeExamAnswers(
   }
 }
 
-/** A graded answer as a learner may see it: the key and explanation only once released. */
-export type LearnerGradedAnswer = Omit<GradedAnswer, 'correctIndex' | 'explanation'> &
-  Partial<Pick<GradedAnswer, 'correctIndex' | 'explanation'>>
-
 /**
- * Whether a learner may see the answer key for a section: once every allowed attempt has been
- * started and graded, so no attempt remains in which a key could be used. The key stays on the
- * server until then; the learner still sees their score and which answers were right.
- *
- * `sectionAttempts` is every attempt the learner holds for the section, under all its ids.
- * An attempt started and never submitted keeps the key closed, because it could still be
- * submitted.
+ * A graded answer as a learner sees it. The correct option and the explanation never leave the
+ * server: the V3 roadmap (line 93) says the server "nunca expone claves". Each question has three
+ * parallel versions shared by every learner, and a key that circulates stops them measuring
+ * anything. The learner still sees the option they chose and whether it was right.
  */
-export function answerKeyReleased(
-  sectionAttempts: ReadonlyArray<{ completedAt: Date | string | null }>
-): boolean {
-  return (
-    sectionAttempts.length >= MAX_EXAM_ATTEMPTS &&
-    sectionAttempts.every((a) => a.completedAt != null)
-  )
-}
+export type LearnerGradedAnswer = Omit<GradedAnswer, 'correctIndex' | 'explanation'>
 
 export function withoutAnswerKey(answer: GradedAnswer): LearnerGradedAnswer {
   const { correctIndex: _correctIndex, explanation: _explanation, ...rest } = answer
@@ -247,27 +279,93 @@ function redactStoredAnswers(stored: string): string {
 }
 
 /**
- * Stored attempts as a learner-facing endpoint may return them. Each row's `answers` JSON keeps
- * what the learner chose and whether it was right, and loses the key and explanations unless
- * answerKeyReleased holds for that row's section. Rows are grouped by the section id the app
- * reads today, so attempts stored under a pre-rename slug count toward the same section.
+ * Stored attempts as a learner-facing endpoint returns them: the graded answers without the key,
+ * and `legacy` set on an attempt graded before GRADING_VERSION, which the page lists but does not
+ * count.
  */
 export function redactAttemptsForLearner<
-  T extends { sectionId: string; answers: string; completedAt: Date | string | null },
->(rows: T[]): T[] {
-  const bySection = new Map<string, T[]>()
-  for (const r of rows) {
-    const id = renameSectionId(r.sectionId)
-    bySection.set(id, [...(bySection.get(id) ?? []), r])
+  T extends { answers: string; completedAt: Date | string | null; gradingVersion?: number | null },
+>(rows: T[]): Array<T & { legacy: boolean }> {
+  return rows.map((r) => ({
+    ...r,
+    answers: redactStoredAnswers(r.answers),
+    legacy: isLegacyAttempt(r),
+  }))
+}
+
+/** Attempts that use up one of the learner's MAX_EXAM_ATTEMPTS: all but the legacy ones. */
+export function countedAttempts<
+  T extends { completedAt: Date | string | null; gradingVersion?: number | null },
+>(attempts: T[]): T[] {
+  return attempts.filter((a) => !isLegacyAttempt(a))
+}
+
+/**
+ * The attemptNumber for a new attempt. It follows every attempt the learner holds for the section,
+ * legacy ones included, because (userId, sectionId, attemptNumber) is unique; the number the page
+ * shows is the position among counted attempts instead.
+ */
+export function nextAttemptNumber(attempts: ReadonlyArray<{ attemptNumber: number }>): number {
+  return attempts.reduce((max, a) => Math.max(max, a.attemptNumber), 0) + 1
+}
+
+/** One question as exam/start showed it, with its key: an entry of ExamAttemptForm.items. */
+export type FormItem = {
+  questionId: string
+  concept: string
+  variant: number
+  question: string
+  options: string[]
+  correctIndex: number
+  explanation: string
+}
+
+export function toFormItem(q: {
+  id: string
+  concept: string
+  variant: number
+  question: string
+  options: string
+  correctIndex: number
+  explanation: string
+}): FormItem {
+  return {
+    questionId: q.id,
+    concept: q.concept,
+    variant: q.variant,
+    question: q.question,
+    options: parseOptions(q.options) ?? [],
+    correctIndex: q.correctIndex,
+    explanation: q.explanation,
   }
-  const released = new Set(
-    [...bySection].filter(([, attempts]) => answerKeyReleased(attempts)).map(([id]) => id)
-  )
-  return rows.map((r) =>
-    released.has(renameSectionId(r.sectionId))
-      ? r
-      : { ...r, answers: redactStoredAnswers(r.answers) }
-  )
+}
+
+/**
+ * The key an attempt's form holds, by question id, or null when the form cannot be read. Null is
+ * a refusal, not a cue to grade against the live bank: the form is what the learner saw.
+ */
+export function parseFormItems(raw: string): Map<string, QuestionKey> | null {
+  let items: unknown
+  try {
+    items = JSON.parse(raw)
+  } catch {
+    return null
+  }
+  if (!Array.isArray(items) || items.length === 0) return null
+  const byId = new Map<string, QuestionKey>()
+  for (const it of items as Partial<FormItem>[]) {
+    if (!it || typeof it.questionId !== 'string' || !Number.isInteger(it.correctIndex)) return null
+    byId.set(it.questionId, {
+      id: it.questionId,
+      concept: it.concept,
+      variant: it.variant,
+      correctIndex: it.correctIndex as number,
+      explanation: it.explanation,
+      question: it.question,
+      options: it.options,
+    })
+  }
+  return byId
 }
 
 /** Best score per section from multiple attempts (invalid scores ignored). */

@@ -22,6 +22,8 @@ interface ProgressData {
     score: number
     completedAt: string | null
     timeSpentSec: number
+    /** Graded before the 2026-09-18 fix; its score may be forged (isLegacyAttempt). */
+    legacy?: boolean
   }>>
   exerciseAttempts: Array<{
     id: string
@@ -30,6 +32,17 @@ interface ProgressData {
     usedHint: boolean
     correct: boolean
   }>
+}
+
+/**
+ * The report states exam results as evidence, so attempts graded before the 2026-09-18 fix, whose
+ * scores may be forged, are left out of every figure in it. They stay in the learner's history.
+ */
+function withoutLegacyAttempts(d: ProgressData): ProgressData {
+  const examAttempts = Object.fromEntries(
+    Object.entries(d.examAttempts ?? {}).map(([id, list]) => [id, list.filter((a) => !a.legacy)])
+  )
+  return { ...d, examAttempts }
 }
 
 interface PdfReportProps {
@@ -105,7 +118,7 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
     if (open && session?.user) {
       fetch('/api/progress')
         .then((r) => r.json())
-        .then((d) => setData(d))
+        .then((d: ProgressData) => setData(withoutLegacyAttempts(d)))
         .catch(() => {})
         .finally(() => setLoading(false))
     }
