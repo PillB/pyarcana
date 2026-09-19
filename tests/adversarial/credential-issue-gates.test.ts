@@ -82,6 +82,8 @@ type AttemptRow = {
   completedAt: Date | null
   /** How exam/submit graded the row; 0 is before the 2026-09-18 fix (GRADING_VERSION). */
   gradingVersion: number
+  /** Questions in the attempt whose key the learner saw before the fix (isEvidence). */
+  exposedItems: number
 }
 
 let attempts: AttemptRow[] = []
@@ -90,7 +92,7 @@ let notifications: Array<Record<string, unknown>> = []
 function attempt(
   sectionId: string,
   score: number,
-  { attemptNumber = 1, userId = LEARNER, completed = true, gradingVersion = 1 } = {}
+  { attemptNumber = 1, userId = LEARNER, completed = true, gradingVersion = 1, exposedItems = 0 } = {}
 ): AttemptRow {
   return {
     id: `${userId}:${sectionId}:${attemptNumber}`,
@@ -100,6 +102,7 @@ function attempt(
     score,
     completedAt: completed ? new Date('2026-09-01T12:00:00Z') : null,
     gradingVersion,
+    exposedItems,
   }
 }
 
@@ -245,6 +248,13 @@ describe('POST /api/credentials/issue — eligibility per badge', () => {
     attempts = [
       ...without(foundationsPassed(), 'S13'),
       attempt(FOUNDATIONS_SLUGS.S13, 100, { gradingVersion: 0 }),
+    ]
+    assert.equal((await requestCredential()).body.passedSections, 12)
+
+    // Graded now, but on questions whose answer the learner had been shown before the fix.
+    attempts = [
+      ...without(foundationsPassed(), 'S13'),
+      attempt(FOUNDATIONS_SLUGS.S13, 100, { exposedItems: 2 }),
     ]
     assert.equal((await requestCredential()).body.passedSections, 12)
   })

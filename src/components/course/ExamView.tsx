@@ -29,6 +29,8 @@ interface ExamStartResponse {
   attemptsUsed: number
   /** Seconds the attempt may stay open; the server refuses a submission after it. */
   timeLimitSec?: number
+  /** Questions in this attempt whose correct answer the learner saw before 2026-09-18. */
+  exposedItems?: number
 }
 
 interface AttemptSummary {
@@ -39,6 +41,17 @@ interface AttemptSummary {
   timeSpentSec: number
   /** Graded before the 2026-09-18 fix: listed, but it neither counts nor uses up an attempt. */
   legacy?: boolean
+  /** Whether the score counts (isEvidence on the server); an older server does not send it. */
+  evidence?: boolean
+}
+
+/** Whether a listed attempt's score counts toward the best score. */
+const scoreCounts = (a: AttemptSummary) => a.evidence ?? !a.legacy
+
+/** Why a listed attempt's score does not count, as an i18n key, or null when it does. */
+function unscoredReason(a: AttemptSummary): string | null {
+  if (a.legacy) return 'exam.legacyAttempt'
+  return scoreCounts(a) ? null : 'exam.exposedAttempt'
 }
 
 /** A graded answer from exam/submit. The correct option and the explanation are never sent. */
@@ -264,6 +277,8 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
           </div>
         </Card>
 
+        <ExposedNote count={exam.exposedItems ?? 0} />
+
         {exam.questions.map((q, qIdx) => {
           const userAnswer = answers[q.id]
           return (
@@ -398,15 +413,7 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
       {previousAttempts.length > 0 && <AttemptHistory attempts={completedAttempts} />}
 
       {counted.length >= 3 ? (
-        <Card className="border-amber-500/40 bg-amber-500/5 p-4 text-center">
-          <AlertTriangle className="mx-auto h-8 w-8 text-amber-600" />
-          <h3 className="mt-2 font-semibold">{t('exam.maxAttempts', lang)}</h3>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {fill(t('exam.bestScore', lang), {
-              score: Math.max(...counted.map((a) => a.score)),
-            })}
-          </p>
-        </Card>
+        <MaxAttemptsCard attempts={counted} />
       ) : (
         <Button
           onClick={handleStartExam}
@@ -439,13 +446,14 @@ function AttemptHistory({ attempts }: { attempts: AttemptSummary[] }) {
       <div className="space-y-2">
         {attempts.map((a) => {
           const n = position.get(a.id) ?? a.attemptNumber
+          const reason = unscoredReason(a)
           return (
-            <Card key={a.id} className={cn('flex items-center justify-between p-3', a.legacy && 'opacity-70')}>
+            <Card key={a.id} className={cn('flex items-center justify-between p-3', reason && 'opacity-70')}>
               <div className="flex items-center gap-3">
                 <div
                   className={cn(
                     'flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white',
-                    a.legacy ? 'bg-muted-foreground' : a.score >= 70 ? 'bg-green-500' : a.score >= 50 ? 'bg-amber-500' : 'bg-red-500'
+                    reason ? 'bg-muted-foreground' : a.score >= 70 ? 'bg-green-500' : a.score >= 50 ? 'bg-amber-500' : 'bg-red-500'
                   )}
                 >
                   {n}
@@ -459,14 +467,14 @@ function AttemptHistory({ attempts }: { attempts: AttemptSummary[] }) {
                     {' · '}
                     {Math.floor(a.timeSpentSec / 60)}m {a.timeSpentSec % 60}s
                   </div>
-                  {a.legacy && (
-                    <div className="text-xs text-muted-foreground" data-testid={`exam-legacy-${a.id}`}>
-                      {t('exam.legacyAttempt', lang)}
+                  {reason && (
+                    <div className="text-xs text-muted-foreground" data-testid={`exam-unscored-${a.id}`}>
+                      {t(reason, lang)}
                     </div>
                   )}
                 </div>
               </div>
-              <Badge variant={!a.legacy && a.score >= 70 ? 'default' : 'secondary'}>
+              <Badge variant={!reason && a.score >= 70 ? 'default' : 'secondary'}>
                 {a.score}%
               </Badge>
             </Card>
@@ -474,6 +482,36 @@ function AttemptHistory({ attempts }: { attempts: AttemptSummary[] }) {
         })}
       </div>
     </div>
+  )
+}
+
+/** All three attempts used. The best score shown is the best one that counts, if any does. */
+function MaxAttemptsCard({ attempts }: { attempts: AttemptSummary[] }) {
+  const lang = useI18n((s) => s.lang)
+  const scored = attempts.filter(scoreCounts)
+  return (
+    <Card className="border-amber-500/40 bg-amber-500/5 p-4 text-center">
+      <AlertTriangle className="mx-auto h-8 w-8 text-amber-600" />
+      <h3 className="mt-2 font-semibold">{t('exam.maxAttempts', lang)}</h3>
+      {scored.length > 0 && (
+        <p className="mt-1 text-sm text-muted-foreground">
+          {fill(t('exam.bestScore', lang), {
+            score: Math.max(...scored.map((a) => a.score)),
+          })}
+        </p>
+      )}
+    </Card>
+  )
+}
+
+/** Said at the top of an attempt that includes questions whose correct answer the learner saw. */
+function ExposedNote({ count }: { count: number }) {
+  const lang = useI18n((s) => s.lang)
+  if (count <= 0) return null
+  return (
+    <Card className="border-amber-500/30 bg-amber-500/5 p-4 text-sm" data-testid="exam-exposed-warning">
+      {t('exam.exposedWarning', lang)}
+    </Card>
   )
 }
 

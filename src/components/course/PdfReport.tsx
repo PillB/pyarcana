@@ -22,8 +22,8 @@ interface ProgressData {
     score: number
     completedAt: string | null
     timeSpentSec: number
-    /** Graded before the 2026-09-18 fix; its score may be forged (isLegacyAttempt). */
-    legacy?: boolean
+    /** Whether the score counts as evidence (isEvidence); absent from an older server. */
+    evidence?: boolean
   }>>
   exerciseAttempts: Array<{
     id: string
@@ -35,12 +35,13 @@ interface ProgressData {
 }
 
 /**
- * The report states exam results as evidence, so attempts graded before the 2026-09-18 fix, whose
- * scores may be forged, are left out of every figure in it. They stay in the learner's history.
+ * The report states exam results as evidence, so only attempts whose score is evidence enter any
+ * figure in it: not one graded before the 2026-09-18 fix, which may be forged, nor one on
+ * questions whose key the learner had been shown. They stay in the learner's history.
  */
 function withoutLegacyAttempts(d: ProgressData): ProgressData {
   const examAttempts = Object.fromEntries(
-    Object.entries(d.examAttempts ?? {}).map(([id, list]) => [id, list.filter((a) => !a.legacy)])
+    Object.entries(d.examAttempts ?? {}).map(([id, list]) => [id, list.filter((a) => a.evidence === true)])
   )
   return { ...d, examAttempts }
 }

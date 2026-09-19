@@ -103,6 +103,10 @@ model ExamAttempt {
   // the client sent, so the score may be forged and is not evidence. 1: graded over the drawn
   // questions. See GRADING_VERSION in src/lib/exam-scoring.ts.
   gradingVersion Int    @default(0)
+  // Questions in this attempt whose answer key the learner saw before 2026-09-18, when submit
+  // returned the key: the stored answers of their legacy attempts say which. exam/start draws
+  // those last; an attempt that still includes one is not evidence.
+  exposedItems   Int    @default(0)
 
   user User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   form ExamAttemptForm?

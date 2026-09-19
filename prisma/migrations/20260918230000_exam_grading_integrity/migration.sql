@@ -9,6 +9,11 @@
 -- and no attempt row is copied.
 ALTER TABLE "ExamAttempt" ADD COLUMN "gradingVersion" INTEGER NOT NULL DEFAULT 0;
 
+-- exposedItems counts the questions in an attempt whose key the learner had already been shown by
+-- that code. exam/start sets it; an attempt with any is not evidence. No existing attempt was drawn
+-- with this knowledge, so every one starts at 0.
+ALTER TABLE "ExamAttempt" ADD COLUMN "exposedItems" INTEGER NOT NULL DEFAULT 0;
+
 -- The questions each attempt showed, with their key, captured by exam/start.
 CREATE TABLE "ExamAttemptForm" (
     "attemptId" TEXT NOT NULL PRIMARY KEY,

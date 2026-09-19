@@ -16,10 +16,14 @@ import {
   examSubmitSchema,
   expiredAttemptClosure,
   gradeExamAnswers,
+  isEvidence,
   isLegacyAttempt,
+  itemKey,
+  keysSeenBeforeFix,
   nextAttemptNumber,
   parseFormItems,
   parseVariantSeed,
+  passedSectionCount,
   redactAttemptsForLearner,
   submissionDeadline,
   toFormItem,
@@ -386,6 +390,16 @@ describe('the answer key never reaches a learner', () => {
     const rows = redactAttemptsForLearner([row('old', done, 0), row('new', done), row('open', null, 0)])
     assert.deepEqual(rows.map((r) => r.legacy), [true, false, false])
   })
+
+  it('says whether each score counts', () => {
+    const rows = redactAttemptsForLearner([
+      { ...row('old', done, 0), exposedItems: 0 },
+      { ...row('seen', done), exposedItems: 2 },
+      { ...row('clean', done), exposedItems: 0 },
+      { ...row('open', null), exposedItems: 0 },
+    ])
+    assert.deepEqual(rows.map((r) => r.evidence), [false, false, true, false])
+  })
 })
 
 describe('attempts graded before the fix', () => {
@@ -411,8 +425,8 @@ describe('attempts graded before the fix', () => {
     assert.equal(nextAttemptNumber([]), 1)
   })
 
-  it('the evidence filter admits only the current grading', () => {
-    assert.deepEqual(GRADED_AS_EVIDENCE, { gradingVersion: { gte: 1 } })
+  it('the evidence filter admits only the current grading, over questions not seen', () => {
+    assert.deepEqual(GRADED_AS_EVIDENCE, { gradingVersion: { gte: 1 }, exposedItems: 0 })
   })
 })
 
@@ -448,5 +462,57 @@ describe('attempt form — the questions as shown, with their key', () => {
     assert.equal(parseFormItems('[]'), null)
     assert.equal(parseFormItems(JSON.stringify([{ questionId: 'q1' }])), null)
     assert.equal(parseFormItems(JSON.stringify([{ questionId: 'q1', correctIndex: '0' }])), null)
+  })
+})
+
+describe('evidence', () => {
+  const done = '2026-09-18T10:00:00.000Z'
+
+  it('is a graded attempt, by the current code, over questions whose key was not seen', () => {
+    assert.equal(isEvidence({ completedAt: done, gradingVersion: 1, exposedItems: 0 }), true)
+    assert.equal(isEvidence({ completedAt: done, gradingVersion: 0, exposedItems: 0 }), false)
+    assert.equal(isEvidence({ completedAt: done, gradingVersion: 1, exposedItems: 1 }), false)
+    assert.equal(isEvidence({ completedAt: null, gradingVersion: 1, exposedItems: 0 }), false)
+  })
+
+  it('fails closed when the grading fields were not selected', () => {
+    assert.equal(isEvidence({ completedAt: done }), false)
+    assert.equal(isEvidence({ completedAt: done, gradingVersion: 1 }), false)
+  })
+
+  it('counts sections passed, once each, under the id the app reads today', () => {
+    const canonical = (id: string) => (id === 'numpy' ? 'collections' : id)
+    const at = (sectionId: string, score: number, gradingVersion = 1, exposedItems = 0) =>
+      ({ sectionId, score, completedAt: done, gradingVersion, exposedItems })
+    assert.equal(passedSectionCount([
+      at('setup', 90), at('setup', 100), // one section, passed twice
+      at('numpy', 80), at('collections', 75), // one section under two slugs
+      at('basics', 69), // below the mark
+      at('decisions-rules', 100, 0), // graded before the fix
+      at('iteration-summaries', 100, 1, 2), // on questions whose key was seen
+    ], canonical), 2)
+  })
+})
+
+describe('keys seen before the fix', () => {
+  const legacy = (answers: unknown) => ({ answers: JSON.stringify(answers) })
+
+  it('names every question a legacy row returned the key for, from any section', () => {
+    const seen = keysSeenBeforeFix([
+      legacy([{ questionId: 'a', concept: 'venv', variant: 1, correctIndex: 2, correct: true }]),
+      // A forged submission with another section's question: its key was returned too.
+      legacy([{ questionId: 'b', concept: 'git-diff', variant: 3, correctIndex: 0, correct: false }]),
+    ])
+    assert.deepEqual([...seen].sort(), [itemKey('git-diff', 3), itemKey('venv', 1)].sort())
+  })
+
+  it('skips what revealed nothing, and rows it cannot read', () => {
+    const seen = keysSeenBeforeFix([
+      legacy([{ questionId: 'ghost', concept: 'unknown', variant: 0, correctIndex: -1, correct: false }]),
+      legacy([{ questionId: 'x', concept: 'venv' }]),
+      legacy({ not: 'a list' }),
+      { answers: '{broken' },
+    ])
+    assert.equal(seen.size, 0)
   })
 })

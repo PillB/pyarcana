@@ -7,9 +7,12 @@ import { z } from 'zod'
 import { renameSectionId, sectionIdAliases } from '@/lib/section-id-migrations'
 import {
   EXAM_TIME_LIMIT_SEC,
+  GRADING_VERSION,
   MAX_EXAM_ATTEMPTS,
   countedAttempts,
   expiredAttemptClosure,
+  itemKey,
+  keysSeenBeforeFix,
   nextAttemptNumber,
   redactAttemptsForLearner,
   submissionDeadline,
@@ -72,8 +75,17 @@ export async function POST(request: Request) {
       )
     }
 
-    // Variants seen in any earlier attempt, legacy ones included, are drawn last.
-    const { selectedQuestions, variantSeed } = drawOnePerConcept(allQuestions, existingAttempts)
+    // Questions whose key this learner was shown before the fix, in any section: their legacy
+    // attempts' stored answers name them.
+    const seenKeys = keysSeenBeforeFix(
+      await db.examAttempt.findMany({
+        where: { userId, completedAt: { not: null }, gradingVersion: { lt: GRADING_VERSION } },
+        select: { answers: true },
+      })
+    )
+    const { selectedQuestions, variantSeed } = drawOnePerConcept(allQuestions, existingAttempts, seenKeys)
+    // An attempt that has to include one of them is taken and graded, but is not evidence.
+    const exposedItems = selectedQuestions.filter((q) => seenKeys.has(itemKey(q.concept, q.variant))).length
 
     // Create the attempt record (started, not completed), with the questions exactly as shown
     // and their key, which submit grades against.
@@ -85,6 +97,7 @@ export async function POST(request: Request) {
         answers: '[]',
         score: 0,
         variantSeed: JSON.stringify(variantSeed),
+        exposedItems,
         form: { create: { items: JSON.stringify(selectedQuestions.map(toFormItem)) } },
       },
     })
@@ -105,6 +118,7 @@ export async function POST(request: Request) {
       totalAttemptsAllowed: MAX_EXAM_ATTEMPTS,
       attemptsUsed: counted.length,
       timeLimitSec: EXAM_TIME_LIMIT_SEC,
+      exposedItems,
     })
   } catch (error) {
     console.error('Exam start error:', error)
@@ -149,8 +163,13 @@ async function loadSectionBank(sectionId: string, aliases: string[]): Promise<Qu
   return Array.from(byKey.values())
 }
 
-/** One question per concept, avoiding the variants of earlier attempts, in shuffled order. */
-function drawOnePerConcept(allQuestions: QuestionBank[], earlier: ExamAttempt[]) {
+/**
+ * One question per concept, in shuffled order. Per concept it prefers, in turn: a variant whose key
+ * the learner never saw and that no earlier attempt drew; one whose key they never saw; one no
+ * earlier attempt drew; any. A key seen before the fix is worse than a variant met again without
+ * it, so reuse comes before exposure.
+ */
+function drawOnePerConcept(allQuestions: QuestionBank[], earlier: ExamAttempt[], seenKeys: Set<string>) {
   // Group questions by concept.
   // V3 exam model: N concepts × 1 variant per attempt (full sections: N=8).
   // Question count is dynamic — not hardcoded. Expanding the seed/bank to more
@@ -175,15 +194,13 @@ function drawOnePerConcept(allQuestions: QuestionBank[], earlier: ExamAttempt[])
 
   // One question per distinct concept present in the bank for this section
   for (const [concept, variants] of byConcept.entries()) {
-    // Filter out already-used variants for this concept
-    let available = variants.filter(
-      (v) => !usedVariants.has(`${concept}-${v.variant}`)
-    )
+    // Filter out already-used variants for this concept, and variants whose key was seen
+    const fresh = (list: QuestionBank[]) =>
+      list.filter((v) => !usedVariants.has(`${concept}-${v.variant}`))
+    const unseen = variants.filter((v) => !seenKeys.has(itemKey(concept, v.variant)))
 
-    // If all variants used (after 3 attempts), reset to allow reuse
-    if (available.length === 0) {
-      available = variants
-    }
+    // If all variants used (after 3 attempts), reset to allow reuse; exposure is the last resort
+    const available = [fresh(unseen), unseen, fresh(variants), variants].find((t) => t.length > 0)!
 
     // Random selection
     const selected = available[Math.floor(Math.random() * available.length)]

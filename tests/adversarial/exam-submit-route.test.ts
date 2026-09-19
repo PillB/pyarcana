@@ -29,6 +29,7 @@ function matchesOne(value: unknown, want: unknown, key: string): boolean {
   if (op === 'in' && Array.isArray(arg)) return arg.includes(value)
   if (op === 'not' && arg === null) return value != null
   if (op === 'gte' && typeof arg === 'number') return typeof value === 'number' && value >= arg
+  if (op === 'lt' && typeof arg === 'number') return typeof value === 'number' && value < arg
   throw new Error(`fake db: unmodelled filter on ${key}: ${JSON.stringify(want)}`)
 }
 const matches = (row: Row, where: Row) =>
@@ -45,9 +46,10 @@ const db = {
       const row = store.attempts.find((a) => a.id === where.id)
       return row ? { ...row } : null
     },
-    async findMany({ where, orderBy }: { where: Row; orderBy?: Row }) {
+    async findMany({ where, orderBy, select }: { where: Row; orderBy?: Row; select?: Row }) {
       await tick()
-      const rows = copy(store.attempts.filter((a) => matches(a, where)))
+      let rows = copy(store.attempts.filter((a) => matches(a, where)))
+      if (select) rows = rows.map((r) => Object.fromEntries(Object.keys(select).map((k) => [k, r[k]])))
       if (orderBy?.attemptNumber === 'asc') {
         rows.sort((a, b) => (a.attemptNumber as number) - (b.attemptNumber as number))
       }
@@ -71,6 +73,7 @@ const db = {
         completedAt: null,
         timeSpentSec: 0,
         gradingVersion: 0,
+        exposedItems: 0,
         ...fields,
       }
       store.attempts.push(row)
@@ -166,6 +169,7 @@ function attempt(id: string, attemptNumber: number, variant: number, extra: Row 
     timeSpentSec: 0,
     variantSeed: JSON.stringify(seed),
     gradingVersion: 0,
+    exposedItems: 0,
     ...extra,
   }
 }
@@ -446,5 +450,60 @@ describe('attempts graded before the fix', () => {
       (await listed()).map((a) => [a.id, a.legacy]),
       [['old-1', true], ['old-2', true], [body.attemptId, false]]
     )
+  })
+})
+
+describe('questions whose key the learner saw before the fix', () => {
+  /** A legacy row as the old submit stored it: the key of every question it was sent. */
+  const sawKeys = (id: string, n: number, sectionId: string, ids: string[]) =>
+    graded(id, n, 1, {
+      sectionId,
+      gradingVersion: 0,
+      answers: JSON.stringify(ids.map((q) => ({ ...right(q), concept: question(q).concept,
+        variant: question(q).variant, correctIndex: question(q).correctIndex, correct: true }))),
+    })
+
+  it('are drawn last, even when the key was shown for a forged answer in another section', async () => {
+    store.attempts = [
+      sawKeys('old-1', 1, 'setup', drawn(1)),
+      // Sent from a basics attempt, but these are setup's questions: the old submit returned them.
+      sawKeys('old-basics', 1, 'basics', [0, 1, 2, 3].map((c) => `setup-c${c}-v2`)),
+    ]
+    const { status, body } = await startExam()
+    assert.equal(status, 200)
+    const ids = body.questions.map((q: Row) => q.id as string)
+    for (const c of [0, 1, 2, 3]) assert.ok(ids.includes(`setup-c${c}-v3`), ids.join())
+    assert.ok(ids.every((id: string) => !id.endsWith('-v1')))
+    assert.equal(body.exposedItems, 0)
+    assert.equal(stored(body.attemptId).exposedItems, 0)
+  })
+
+  it('a variant met again without its key comes before one whose key was seen', async () => {
+    // Two attempts under the current code drew v2 and v3 and showed no key. v1 was never drawn in
+    // this section, but its key was returned to a forged answer sent from another one.
+    store.attempts = [sawKeys('old-basics', 1, 'basics', drawn(1)), graded('att-2', 2, 2), graded('att-3', 3, 3)]
+    const { status, body } = await startExam()
+    assert.equal(status, 200)
+    assert.ok(body.questions.every((q: Row) => !(q.id as string).endsWith('-v1')))
+    assert.equal(body.exposedItems, 0)
+  })
+
+  it('an attempt that cannot avoid them is taken and graded, and its score is not evidence', async () => {
+    store.attempts = [
+      sawKeys('old-1', 1, 'setup', drawn(1)),
+      sawKeys('old-2', 2, 'setup', drawn(2)),
+      sawKeys('old-3', 3, 'setup', drawn(3)),
+    ]
+    const { body } = await startExam()
+    assert.equal(body.exposedItems, 8)
+    assert.equal(body.attemptsUsed, 0)
+    const res = await post(body.attemptId, body.questions.map((q: Row) => right(q.id as string)))
+    assert.equal(res.status, 200)
+    assert.equal(res.body.score, 100)
+
+    const mine = (await listed()).find((a) => a.id === body.attemptId)!
+    assert.deepEqual([mine.legacy, mine.evidence], [false, false])
+    const fromProgress = (await (await getProgress()).json()).examAttempts.setup
+    assert.equal(fromProgress.find((a: Row) => a.id === body.attemptId).evidence, false)
   })
 })

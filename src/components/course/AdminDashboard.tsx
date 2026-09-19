@@ -82,6 +82,8 @@ interface StudentDetail {
       options: string[]
     }[]
     variantSeed: { concept: string; variant: number; questionId: string }[]
+    /** Whether the score counts: see isEvidence in src/lib/exam-scoring.ts. */
+    evidence?: boolean
   }[]
   sectionGaps: {
     sectionId: string
@@ -643,6 +645,11 @@ function StudentDetailView({
                   Intento {att.attemptNumber} · {Math.floor(att.timeSpentSec / 60)}m
                   {att.completedAt && ` · ${new Date(att.completedAt).toLocaleString('es-PE')}`}
                 </div>
+                {att.completedAt && att.evidence === false && (
+                  <div className="text-xs text-amber-700 dark:text-amber-300">
+                    No cuenta: calificado antes de la corrección del 18-09-2026, o con preguntas cuya respuesta el estudiante ya había visto.
+                  </div>
+                )}
               </div>
               <Badge variant={att.score >= PASS_THRESHOLD ? 'default' : 'secondary'}>{att.score}%</Badge>
             </div>

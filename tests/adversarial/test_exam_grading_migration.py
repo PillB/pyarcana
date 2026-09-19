@@ -54,16 +54,17 @@ class ExamGradingMigration(unittest.TestCase):
     def test_existing_attempts_become_version_0_and_keep_every_value(self) -> None:
         after = self.db.execute('SELECT * FROM "ExamAttempt" ORDER BY "id"').fetchall()
         cols = [c[1] for c in self.db.execute('PRAGMA table_info("ExamAttempt")')]
-        self.assertEqual(cols[-1], "gradingVersion")
-        self.assertEqual([row[:-1] for row in after], self.before)
-        self.assertEqual([row[-1] for row in after], [0, 0])
+        self.assertEqual(cols[-2:], ["gradingVersion", "exposedItems"])
+        self.assertEqual([row[:-2] for row in after], self.before)
+        # Every existing attempt was graded by the old code, and none was drawn knowing what it saw.
+        self.assertEqual([row[-2:] for row in after], [(0, 0), (0, 0)])
 
     def test_new_rows_default_to_version_0(self) -> None:
         self.db.execute(f"""INSERT INTO "ExamAttempt"
             ("id","userId","sectionId","attemptNumber","answers","score","startedAt","variantSeed")
             VALUES ('later','u1','setup',3,'[]',0,{SEP_01},'[]')""")
-        (version,) = self.db.execute("""SELECT "gradingVersion" FROM "ExamAttempt" WHERE "id"='later'""").fetchone()
-        self.assertEqual(version, 0)
+        row = self.db.execute("""SELECT "gradingVersion", "exposedItems" FROM "ExamAttempt" WHERE "id"='later'""").fetchone()
+        self.assertEqual(row, (0, 0))
 
     def test_a_form_belongs_to_one_attempt_and_goes_with_it(self) -> None:
         self.db.execute("""INSERT INTO "ExamAttemptForm" ("attemptId","items") VALUES ('open','[]')""")

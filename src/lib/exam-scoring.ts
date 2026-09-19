@@ -57,8 +57,69 @@ export function isLegacyAttempt(a: { completedAt: Date | string | null; gradingV
   return a.completedAt != null && (a.gradingVersion ?? 0) < GRADING_VERSION
 }
 
-/** Prisma filter for attempts whose score is evidence. */
-export const GRADED_AS_EVIDENCE = { gradingVersion: { gte: GRADING_VERSION } } as const
+/** The grading fields an evidence decision reads; a row missing them counts for nothing. */
+export type GradingFields = {
+  completedAt: Date | string | null
+  gradingVersion?: number | null
+  exposedItems?: number | null
+}
+
+/**
+ * Whether an attempt's score is evidence: graded, by the current code, over questions whose key
+ * the learner had not been shown. Credentials, cohort figures, reports, admin averages and the
+ * learner's best score read only these. Fails closed: a caller that did not select the grading
+ * fields gets no evidence rather than forged scores.
+ */
+export function isEvidence(a: GradingFields): boolean {
+  return (
+    a.completedAt != null &&
+    (a.gradingVersion ?? 0) >= GRADING_VERSION &&
+    a.exposedItems === 0
+  )
+}
+
+/** Prisma filter for attempts whose score is evidence (isEvidence, less completedAt). */
+export const GRADED_AS_EVIDENCE = { gradingVersion: { gte: GRADING_VERSION }, exposedItems: 0 } as const
+
+/** The key a question is known by across sections: every concept slug belongs to one section. */
+export function itemKey(concept: string, variant: number): string {
+  return `${concept}\u0000${variant}`
+}
+
+/**
+ * Every question whose answer key this learner was shown before the fix. Submit then returned the
+ * key for each question id the client sent, from any section, and stored exactly those answers,
+ * so a legacy row's stored answers name them. An entry for a question the bank did not have
+ * (correctIndex -1) revealed nothing.
+ */
+export function keysSeenBeforeFix(legacyRows: ReadonlyArray<{ answers: string }>): Set<string> {
+  const seen = new Set<string>()
+  for (const row of legacyRows) {
+    let answers: unknown
+    try {
+      answers = JSON.parse(row.answers)
+    } catch {
+      continue
+    }
+    if (!Array.isArray(answers)) continue
+    for (const a of answers as Partial<GradedAnswer>[]) {
+      if (!a || typeof a.concept !== 'string' || !Number.isInteger(a.variant)) continue
+      if (!Number.isInteger(a.correctIndex) || (a.correctIndex as number) < 0) continue
+      seen.add(itemKey(a.concept, a.variant as number))
+    }
+  }
+  return seen
+}
+
+/** Distinct sections, by the id the app reads today, with an evidence attempt at or above the pass mark. */
+export function passedSectionCount(
+  attempts: ReadonlyArray<GradingFields & { sectionId: string; score: number }>,
+  canonicalId: (id: string) => string
+): number {
+  return new Set(
+    attempts.filter((a) => a.score >= PASS_THRESHOLD && isEvidence(a)).map((a) => canonicalId(a.sectionId))
+  ).size
+}
 
 export const examSubmitSchema = z.object({
   attemptId: z.string().min(1).max(128),
@@ -280,16 +341,17 @@ function redactStoredAnswers(stored: string): string {
 
 /**
  * Stored attempts as a learner-facing endpoint returns them: the graded answers without the key,
- * and `legacy` set on an attempt graded before GRADING_VERSION, which the page lists but does not
- * count.
+ * `legacy` on an attempt graded before GRADING_VERSION, which the page lists but does not count
+ * toward the 3, and `evidence` (isEvidence), which says whether its score counts.
  */
-export function redactAttemptsForLearner<
-  T extends { answers: string; completedAt: Date | string | null; gradingVersion?: number | null },
->(rows: T[]): Array<T & { legacy: boolean }> {
+export function redactAttemptsForLearner<T extends GradingFields & { answers: string }>(
+  rows: T[]
+): Array<T & { legacy: boolean; evidence: boolean }> {
   return rows.map((r) => ({
     ...r,
     answers: redactStoredAnswers(r.answers),
     legacy: isLegacyAttempt(r),
+    evidence: isEvidence(r),
   }))
 }
 
