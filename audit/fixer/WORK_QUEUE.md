@@ -53,6 +53,20 @@ their verified findings, recorded here so a second interruption cannot lose them
 - **The gate lens of that check did not run** (session limit). `fresh_report()` is covered by six
   tests and an end-to-end `gate.py snapshot S03`, but the independent skeptic pass is still owed.
 
+## Exam grading integrity (2026-09-18)
+
+Red-team P0 `exam-submit-grades-client-chosen-questions` is fixed on `claude/brave-boyd-5da0c7`
+under D12. Still open, and not part of that fix:
+- **Credential issuance still 403s for everyone** (the `S04…S52` ids above). The evidence filter is
+  in place, so when the ids are fixed, forged pre-fix scores cannot issue a credential.
+- **The admin views still count legacy scores**: `admin/analytics`, `admin/students` and the CSV
+  export average and rank every completed attempt. The rows carry `gradingVersion`; the admin UI
+  does not label or exclude them yet.
+- **Cohort `examsPassed` counts attempts, not sections**: two passing attempts in one section count
+  twice. Pre-existing; legacy rows are now excluded from it.
+- **`exam.correctAnswer` is unused** in `src/lib/i18n.ts` since the key is never shown. Kept: the
+  deletion budget is zero without a destructive-change request.
+
 ## In flight
 
 1. **Skills-and-badges map (solarize cycle).** Mine the project documentation for the required

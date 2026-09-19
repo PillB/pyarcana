@@ -280,3 +280,27 @@ change in detail and raise it again for human review.
 
 **Never award a capstone or a badge retroactively**, and never mark one as earned because the
 evidence for it appears somewhere else in the course.
+
+## D12 — Section exams: the key never leaves the server, attempts last 60 minutes, and pre-fix scores are not evidence (2026-09-18)
+*Chosen by the repo owner, closing red-team finding `exam-submit-grades-client-chosen-questions`.*
+
+- **The answer key is never shown**, on any attempt: not the correct option, not the explanation.
+  The learner sees their score, the option they chose and whether it was right. This is V3:93
+  ("nunca expone claves ni variantes futuras"), which outranks the red-team's "after the last
+  attempt". Every learner-facing route redacts it — submit, `exam/attempts`, `progress`, and
+  `exam/start`'s refusal at the cap; the admin views keep it.
+- **An attempt lasts 60 minutes** from `exam/start`, shown as a countdown; at zero the page sends
+  what is marked. The server accepts a submission up to 2 minutes late, for the request's trip,
+  and closes a later one — or one abandoned in a closed tab, when the learner next starts — with
+  0 and nothing answered. V3 sets no limit; this is the owner's choice, matching the 3600 s cap
+  `timeSpentSec` already had.
+- **Rows graded before the fix are not evidence.** `ExamAttempt.gradingVersion` 0 marks them. They
+  count toward no credential, cohort figure, PDF report figure or best score, and use up none of
+  the 3 attempts, so an honest learner can re-earn a pass. They stay in the learner's history,
+  labelled. The old code returned the full key after every attempt, so a learner with legacy
+  attempts in a section has seen those variants' keys: their retakes draw unseen variants first,
+  and after three legacy attempts none are unseen. Such a pass is weak evidence; nothing short of
+  new variants fixes that.
+- **Submit grades against the form `exam/start` saved** (`ExamAttemptForm`): the questions as the
+  learner saw them, with their key. A reseed or an edited question cannot change an attempt in
+  progress. The form lives in its own table so no query returning attempts carries the key.
