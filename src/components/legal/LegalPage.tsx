@@ -14,8 +14,10 @@ interface LegalPageProps {
 }
 
 export function LegalPage({ title, subtitle, version, effectiveDate, children }: LegalPageProps) {
+  // <main>: each legal route is a page of its own. Without the landmark a screen
+  // reader user had no way to jump to the document (axe: landmark-one-main).
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
+    <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
       {/* No entrance: this route is always prerendered, and framer-motion
           wrote `initial` into its HTML, which left the heading at opacity 0
           without JavaScript and until an animation frame after hydration. */}
@@ -41,6 +43,6 @@ export function LegalPage({ title, subtitle, version, effectiveDate, children }:
       <p className="mt-4 text-xs text-muted-foreground">
         Este documento es informativo y no constituye asesoría legal. Para cuestiones formales, consulta con un abogado.
       </p>
-    </div>
+    </main>
   )
 }
