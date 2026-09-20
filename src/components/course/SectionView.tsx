@@ -184,6 +184,8 @@ export function SectionView({
       id="section-content"
       data-testid="section-root"
       data-section-id={section.id}
+      data-section-index={section.index}
+      data-section-title={section.shortTitle || section.title}
     >
       {/* Compact sticky top bar — replaces 500px preamble stack */}
       <div className="sticky top-14 z-30 -mx-4 mb-3 bg-background/85 backdrop-blur-md border-b border-border/60 px-4 py-2.5">
