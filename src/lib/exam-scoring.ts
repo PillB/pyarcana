@@ -326,7 +326,11 @@ export function withoutAnswerKey(answer: GradedAnswer): LearnerGradedAnswer {
   return rest
 }
 
-function redactStoredAnswers(stored: string): string {
+/**
+ * A stored answers JSON with the key and explanations taken out. Anything that leaves the server
+ * with a graded attempt on it — a learner-facing route, the Firestore mirror — passes through here.
+ */
+export function redactStoredAnswers(stored: string): string {
   let answers: unknown
   try {
     answers = JSON.parse(stored)

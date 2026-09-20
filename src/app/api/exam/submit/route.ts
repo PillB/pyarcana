@@ -75,6 +75,20 @@ async function gradeAgainstDraw(
   return gradeExamAnswers(answers, key, drawnIds)
 }
 
+/**
+ * Close an attempt whose time ran out, if a submission has not already closed it, and mirror it as
+ * exam/start does when it closes one; otherwise Firestore keeps it open for good.
+ */
+async function closeExpired(attempt: { id: string; startedAt: Date }): Promise<void> {
+  const { count } = await db.examAttempt.updateMany({
+    where: { id: attempt.id, completedAt: null },
+    data: expiredAttemptClosure(attempt.startedAt),
+  })
+  if (count === 0) return
+  const closed = await db.examAttempt.findUnique({ where: { id: attempt.id } })
+  if (closed) void syncExamAttempt(closed)
+}
+
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions)
   if (!session?.user?.id) {
@@ -114,10 +128,7 @@ export async function POST(request: Request) {
 
     // The page submits when its countdown reaches zero; anything later is not graded.
     if (new Date() > submissionDeadline(attempt.startedAt)) {
-      await db.examAttempt.updateMany({
-        where: { id: attemptId, completedAt: null },
-        data: expiredAttemptClosure(attempt.startedAt),
-      })
+      await closeExpired(attempt)
       return NextResponse.json({ error: REFUSAL.late }, { status: 409 })
     }
 

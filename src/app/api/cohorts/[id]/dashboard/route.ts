@@ -52,6 +52,9 @@ export async function GET(
       // evidence counts (isEvidence): not a score graded before the 2026-09-18 fix, nor one on
       // questions whose key the learner had been shown.
       const examsPassed = passedSectionCount(m.user.examAttempts, renameSectionId)
+      // Activity, not evidence: when this learner last sat an exam, whatever grading it got. A
+      // supervisor uses it to spot who has stopped, so a pre-fix attempt still counts here while
+      // its score does not count above (D12).
       const lastExamDate = m.user.examAttempts[0]?.completedAt
       const sectionsStarted = new Set(progress.filter((p) => p.completed).map((p) => renameSectionId(p.sectionId))).size
 

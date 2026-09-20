@@ -110,8 +110,12 @@ mock.module('next-auth', moduleExports({
 }))
 mock.module('@/lib/auth', moduleExports({ authOptions: {} }))
 mock.module('@/lib/db', moduleExports({ db }))
+/** What the routes hand to the Firestore mirror; its own redaction is in firebase-mirror.test.ts. */
+const mirrored: Row[] = []
 mock.module('@/lib/firebase/sync', moduleExports({
-  syncExamAttempt: async () => {},
+  syncExamAttempt: async (row: Row) => {
+    mirrored.push(row)
+  },
   syncProgress: async () => {},
 }))
 
@@ -218,6 +222,7 @@ beforeEach(() => {
   store.questions = [...bank('setup'), ...bank('basics')]
   store.attempts = [attempt('att-1', 1, 1)]
   store.forms = []
+  mirrored.length = 0
 })
 
 describe('exam/submit grades the questions the attempt drew', () => {
@@ -269,6 +274,8 @@ describe('exam/submit grades the questions the attempt drew', () => {
     assert.equal(body.detailedAnswers[0].question, 'setup question 5.1')
     assert.deepEqual(body.detailedAnswers[0].options, ['A', 'B', 'C', 'D'])
 
+    // The graded row reaches the mirror, which strips the key from it (firebase-mirror.test.ts).
+    assert.deepEqual(mirrored.map((r) => [r.id, r.score]), [['att-1', 75]])
     const row = stored('att-1')
     assert.equal(row.score, 75)
     assert.ok(row.completedAt instanceof Date)
@@ -412,6 +419,15 @@ describe('the 60-minute limit', () => {
     assert.equal(row.score, 0)
     assert.equal(row.gradingVersion, 1)
     assert.equal((row.completedAt as Date).getTime(), startedAt.getTime() + 3600_000)
+  })
+
+  it('mirrors the attempt a late submission closes, as exam/start does', async () => {
+    store.attempts = [attempt('att-1', 1, 1, { startedAt: minutesAgo(63) })]
+    assert.equal((await post('att-1', drawn(1).map(right))).status, 409)
+    const sent = mirrored.filter((r) => r.id === 'att-1')
+    assert.equal(sent.length, 1)
+    assert.deepEqual([sent[0]!.score, sent[0]!.gradingVersion], [0, 1])
+    assert.ok(sent[0]!.completedAt instanceof Date)
   })
 
   it('exam/start closes an attempt abandoned past its time, and it still uses up an attempt', async () => {
