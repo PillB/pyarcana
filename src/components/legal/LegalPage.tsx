@@ -1,6 +1,3 @@
-'use client'
-
-import { motion } from 'framer-motion'
 import { ArrowLeft, FileText } from 'lucide-react'
 import Link from 'next/link'
 import { Card } from '@/components/ui/card'
@@ -15,9 +12,14 @@ interface LegalPageProps {
 }
 
 export function LegalPage({ title, subtitle, version, effectiveDate, children }: LegalPageProps) {
+  // <main>: each legal route is a page of its own. Without the landmark a screen
+  // reader user had no way to jump to the document (axe: landmark-one-main).
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
-      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+    <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
+      {/* No entrance: this route is always prerendered, and framer-motion
+          wrote `initial` into its HTML, which left the heading at opacity 0
+          without JavaScript and until an animation frame after hydration. */}
+      <div>
         <Link href="/" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4">
           <ArrowLeft className="h-4 w-4" />
           Volver al curso
@@ -30,7 +32,7 @@ export function LegalPage({ title, subtitle, version, effectiveDate, children }:
         </div>
         <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
         {subtitle && <p className="mt-2 text-muted-foreground">{subtitle}</p>}
-      </motion.div>
+      </div>
       <Card className="mt-6 p-6 sm:p-8">
         <div className="prose prose-sm dark:prose-invert max-w-none space-y-4 text-sm leading-relaxed text-foreground/90">
           {children}
@@ -39,6 +41,6 @@ export function LegalPage({ title, subtitle, version, effectiveDate, children }:
       <p className="mt-4 text-xs text-muted-foreground">
         Este documento es informativo y no constituye asesoría legal. Para cuestiones formales, consulta con un abogado.
       </p>
-    </div>
+    </main>
   )
 }
