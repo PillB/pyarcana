@@ -52,7 +52,7 @@ export function LegalCallout({
 }) {
   return (
     <div className="rounded-lg border border-gold/40 bg-accent/5 p-4">
-      <div className="text-xs font-semibold uppercase tracking-wide text-gold">
+      <div className="text-xs font-semibold uppercase tracking-wide text-gold-ink">
         {title}
       </div>
       <div className="mt-1 text-sm leading-relaxed text-foreground/90">{children}</div>

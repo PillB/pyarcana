@@ -128,4 +128,25 @@ test.describe('Accessibility (axe, WCAG 2.2 AA rules)', () => {
     })
     expect(unnamed, 'controls with no accessible name').toEqual([])
   })
+  // Views no spec opened, where axe found WCAG AA colour-contrast failures in
+  // light mode: gold text at 1.78-1.84, amber at 4.33-4.44, muted text dimmed
+  // to 3.67-3.81, an emerald badge at 3.53. Contrast is a WCAG tag rule, so
+  // these were failing from the first run of this file -- it just never looked
+  // here. Dark mode passed throughout, and Playwright's default is light.
+  const COLOUR_VIEWS = [
+    { open: '/#familiarity', shows: 'Familiarity Score Dashboard' },
+    { open: '/#capstones', shows: 'Ver brief' },
+    { open: '/#resources', shows: 'Recursos del curso' },
+    { open: '/verify', shows: 'Edición pública (estática)' },
+    { open: '/privacy', shows: 'Resumen rápido' },
+  ]
+
+  for (const view of COLOUR_VIEWS) {
+    test(`${view.open} has no machine-detectable violations`, async ({ page }) => {
+      await page.goto(`${BASE}${view.open}`, { waitUntil: 'domcontentloaded' })
+      await expect(page.getByText(view.shows, { exact: true }).first()).toBeVisible({ timeout: 30000 })
+      const { violations } = await new AxeBuilder({ page }).withTags(TAGS).analyze()
+      expect(summarise(violations as Violation[])).toBe('')
+    })
+  }
 })

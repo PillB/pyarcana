@@ -124,7 +124,7 @@ export function FamiliarityDashboard({ animateEntrance }: FamiliarityDashboardPr
           initial={riseIn(animateEntrance, 8)}
           animate={{ opacity: 1, y: 0 }}
         >
-          <Badge variant="outline" className="mb-3 gap-1.5 border-gold text-gold">
+          <Badge variant="outline" className="mb-3 gap-1.5 border-gold text-gold-ink">
             <Sparkles className="h-3 w-3" />
             Herramienta del VP
           </Badge>
@@ -228,7 +228,7 @@ export function FamiliarityDashboard({ animateEntrance }: FamiliarityDashboardPr
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between">
         <div>
-          <Badge variant="outline" className="mb-2 gap-1.5 border-gold text-gold">
+          <Badge variant="outline" className="mb-2 gap-1.5 border-gold text-gold-ink">
             <Sparkles className="h-3 w-3" />
             Familiarity Score
           </Badge>
