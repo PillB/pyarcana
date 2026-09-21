@@ -133,12 +133,17 @@ test.describe('Accessibility (axe, WCAG 2.2 AA rules)', () => {
   // to 3.67-3.81, an emerald badge at 3.53. Contrast is a WCAG tag rule, so
   // these were failing from the first run of this file -- it just never looked
   // here. Dark mode passed throughout, and Playwright's default is light.
+  //
+  // The two routes open the exported .html file, which Pages serves at both
+  // /verify and /verify.html. CI serves the build with python3 -m http.server
+  // until #69 lands, and that answers /pyarcana/verify with a listing of the
+  // verify/ directory the export writes beside the file.
   const COLOUR_VIEWS = [
     { open: '/#familiarity', shows: 'Familiarity Score Dashboard' },
     { open: '/#capstones', shows: 'Ver brief' },
     { open: '/#resources', shows: 'Recursos del curso' },
-    { open: '/verify', shows: 'Edición pública (estática)' },
-    { open: '/privacy', shows: 'Resumen rápido' },
+    { open: '/verify.html', shows: 'Edición pública (estática)' },
+    { open: '/privacy.html', shows: 'Resumen rápido' },
   ]
 
   for (const view of COLOUR_VIEWS) {
