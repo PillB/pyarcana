@@ -5,10 +5,28 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import {
+  EXAM_TIME_LIMIT_SEC,
+  GRADED_AS_EVIDENCE,
+  GRADING_VERSION,
   PASS_THRESHOLD,
+  UNANSWERED,
   bestScoreBySection,
+  checkAnswersAgainstDraw,
+  countedAttempts,
   examSubmitSchema,
+  expiredAttemptClosure,
   gradeExamAnswers,
+  isEvidence,
+  isLegacyAttempt,
+  itemKey,
+  keysSeenBeforeFix,
+  nextAttemptNumber,
+  parseFormItems,
+  parseVariantSeed,
+  passedSectionCount,
+  redactAttemptsForLearner,
+  submissionDeadline,
+  toFormItem,
 } from '../../src/lib/exam-scoring.ts'
 
 const bank = new Map([
@@ -125,7 +143,8 @@ describe('gradeExamAnswers', () => {
         { questionId: 'q1', selectedIndex: 1 },
         { questionId: 'q2', selectedIndex: 0 },
       ],
-      bank
+      bank,
+      ['q1', 'q2']
     )
     assert.equal(perfect.score, 100)
     assert.equal(perfect.passed, true)
@@ -136,14 +155,15 @@ describe('gradeExamAnswers', () => {
         { questionId: 'q1', selectedIndex: 1 },
         { questionId: 'q2', selectedIndex: 1 },
       ],
-      bank
+      bank,
+      ['q1', 'q2']
     )
     assert.equal(half.score, 50)
     assert.equal(half.passed, false)
   })
 
   it('treats missing questions as incorrect (no throw)', () => {
-    const r = gradeExamAnswers([{ questionId: 'ghost', selectedIndex: 0 }], bank)
+    const r = gradeExamAnswers([{ questionId: 'ghost', selectedIndex: 0 }], bank, ['ghost'])
     assert.equal(r.score, 0)
     assert.equal(r.detailedAnswers[0]!.correct, false)
     assert.equal(r.detailedAnswers[0]!.correctIndex, -1)
@@ -161,7 +181,7 @@ describe('gradeExamAnswers', () => {
         },
       ],
     ])
-    const r = gradeExamAnswers([{ questionId: 't', selectedIndex: 1 }], tiny)
+    const r = gradeExamAnswers([{ questionId: 't', selectedIndex: 1 }], tiny, ['t'])
     assert.equal(r.detailedAnswers[0]!.correct, false)
   })
 
@@ -169,13 +189,13 @@ describe('gradeExamAnswers', () => {
     const bad = new Map([
       ['b', { id: 'b', correctIndex: 0, options: '{not-json' }],
     ])
-    const r = gradeExamAnswers([{ questionId: 'b', selectedIndex: 0 }], bad)
+    const r = gradeExamAnswers([{ questionId: 'b', selectedIndex: 0 }], bad, ['b'])
     assert.equal(r.detailedAnswers[0]!.correct, true)
     assert.equal(r.score, 100)
   })
 
   it('empty answers array returns score 0 not NaN (defense in depth)', () => {
-    const r = gradeExamAnswers([], bank)
+    const r = gradeExamAnswers([], bank, [])
     assert.equal(r.score, 0)
     assert.equal(Number.isFinite(r.score), true)
     assert.equal(r.passed, false)
@@ -193,7 +213,7 @@ describe('gradeExamAnswers', () => {
         { id: a.questionId, correctIndex: 0, options: ['a', 'b'] },
       ])
     )
-    const r = gradeExamAnswers(answers, map)
+    const r = gradeExamAnswers(answers, map, answers.map((a) => a.questionId))
     assert.equal(r.score, 70)
     assert.equal(r.passed, true)
     assert.equal(PASS_THRESHOLD, 70)
@@ -202,7 +222,8 @@ describe('gradeExamAnswers', () => {
   it('accepts plain object bank (not only Map)', () => {
     const r = gradeExamAnswers(
       [{ questionId: 'q1', selectedIndex: 1 }],
-      { q1: { id: 'q1', correctIndex: 1, options: ['a', 'b'] } }
+      { q1: { id: 'q1', correctIndex: 1, options: ['a', 'b'] } },
+      ['q1']
     )
     assert.equal(r.score, 100)
   })
@@ -223,5 +244,275 @@ describe('bestScoreBySection', () => {
     assert.equal(best.setup, 90)
     assert.equal(best.numpy, 100)
     assert.equal(best[''], undefined)
+  })
+})
+
+// An eight-concept section, as exam/start draws it: one variant per concept. `other` is a second
+// section's bank, answered correctly, to stand in for questions the attempt never drew.
+const drawnBank = new Map(
+  Array.from({ length: 8 }, (_, i) => [
+    `setup-${i}`,
+    { id: `setup-${i}`, concept: `c${i}`, variant: 1, correctIndex: i % 4, options: ['a', 'b', 'c', 'd'], explanation: `e${i}` },
+  ])
+)
+const drawnIds = [...drawnBank.keys()]
+const other = new Map(
+  Array.from({ length: 8 }, (_, i) => [
+    `basics-${i}`,
+    { id: `basics-${i}`, concept: `b${i}`, variant: 1, correctIndex: 0, options: ['a', 'b', 'c', 'd'] },
+  ])
+)
+const bothBanks = new Map([...drawnBank, ...other])
+const right = (id: string) => ({ questionId: id, selectedIndex: bothBanks.get(id)!.correctIndex })
+
+describe('gradeExamAnswers — scored over the questions drawn, not the answers sent', () => {
+  it('one correct answer out of eight drawn scores 13%, not 100%', () => {
+    const r = gradeExamAnswers([right('setup-3')], drawnBank, drawnIds)
+    assert.equal(r.totalQuestions, 8)
+    assert.equal(r.correctCount, 1)
+    assert.equal(r.score, 13)
+    assert.equal(r.passed, false)
+    // The seven it skipped are graded, as unanswered and wrong.
+    assert.equal(r.detailedAnswers.length, 8)
+    const skipped = r.detailedAnswers.filter((a) => a.questionId !== 'setup-3')
+    assert.ok(skipped.every((a) => a.selectedIndex === UNANSWERED && a.correct === false))
+  })
+
+  it('answers to questions from another section earn nothing', () => {
+    const foreign = [...other.keys()].map(right)
+    const r = gradeExamAnswers(foreign, bothBanks, drawnIds)
+    assert.equal(r.correctCount, 0)
+    assert.equal(r.score, 0)
+    assert.ok(r.detailedAnswers.every((a) => a.questionId.startsWith('setup-')))
+  })
+
+  it('repeating one correct answer eight times counts it once', () => {
+    const r = gradeExamAnswers(Array(8).fill(right('setup-0')), drawnBank, drawnIds)
+    assert.equal(r.correctCount, 1)
+    assert.equal(r.score, 13)
+  })
+
+  it('a later wrong copy of an answer does not replace the first', () => {
+    const r = gradeExamAnswers(
+      [right('setup-1'), { questionId: 'setup-1', selectedIndex: 3 }],
+      drawnBank,
+      drawnIds
+    )
+    assert.equal(r.detailedAnswers.find((a) => a.questionId === 'setup-1')!.correct, true)
+  })
+
+  it('a full, honest submission grades as before, in the order it was answered', () => {
+    // Answered in the shuffled order the learner saw; six right, two wrong.
+    const order = ['setup-5', 'setup-2', 'setup-7', 'setup-0', 'setup-6', 'setup-1', 'setup-4', 'setup-3']
+    const answers = order.map((id, n) =>
+      n < 6 ? right(id) : { questionId: id, selectedIndex: (drawnBank.get(id)!.correctIndex + 1) % 4 }
+    )
+    const r = gradeExamAnswers(answers, drawnBank, drawnIds)
+    assert.equal(r.totalQuestions, 8)
+    assert.equal(r.correctCount, 6)
+    assert.equal(r.score, 75)
+    assert.equal(r.passed, true)
+    assert.deepEqual(r.detailedAnswers.map((a) => a.questionId), order)
+    assert.deepEqual(r.detailedAnswers.map((a) => a.correct), [true, true, true, true, true, true, false, false])
+    // What is stored keeps the key; the route decides what the learner sees.
+    assert.equal(r.detailedAnswers[0]!.correctIndex, drawnBank.get('setup-5')!.correctIndex)
+    assert.equal(r.detailedAnswers[0]!.explanation, 'e5')
+  })
+})
+
+describe('checkAnswersAgainstDraw', () => {
+  it('rejects a question the attempt did not draw', () => {
+    assert.deepEqual(checkAnswersAgainstDraw([right('setup-0'), right('basics-0')], drawnIds), {
+      ok: false,
+      reason: 'not-drawn',
+      questionId: 'basics-0',
+    })
+  })
+
+  it('rejects the same question answered twice', () => {
+    assert.deepEqual(checkAnswersAgainstDraw([right('setup-0'), right('setup-0')], drawnIds), {
+      ok: false,
+      reason: 'duplicate',
+      questionId: 'setup-0',
+    })
+  })
+
+  it('accepts a partial submission of drawn questions', () => {
+    assert.deepEqual(checkAnswersAgainstDraw([right('setup-4')], drawnIds), { ok: true })
+  })
+})
+
+describe('parseVariantSeed — an unreadable draw is not gradable', () => {
+  it('reads the seed exam/start writes', () => {
+    const seed = JSON.stringify([
+      { concept: 'venv', variant: 2, questionId: 'q1' },
+      { concept: 'git', variant: 1, questionId: 'q2' },
+    ])
+    assert.deepEqual(parseVariantSeed(seed)?.map((d) => d.questionId), ['q1', 'q2'])
+  })
+
+  it('returns null for malformed, empty, id-less or repeated seeds', () => {
+    assert.equal(parseVariantSeed('{not json'), null)
+    assert.equal(parseVariantSeed('[]'), null)
+    assert.equal(parseVariantSeed('{"questionId":"q1"}'), null)
+    assert.equal(parseVariantSeed(JSON.stringify([{ concept: 'venv', variant: 1 }])), null)
+    assert.equal(
+      parseVariantSeed(JSON.stringify([{ questionId: 'q1' }, { questionId: 'q1' }])),
+      null
+    )
+  })
+})
+
+describe('the answer key never reaches a learner', () => {
+  const stored = JSON.stringify([
+    { questionId: 'setup-0', concept: 'c0', variant: 1, selectedIndex: 1, correctIndex: 0, correct: false, explanation: 'e0', question: 'Q', options: ['a', 'b'] },
+  ])
+  const row = (id: string, completedAt: string | null, gradingVersion = GRADING_VERSION) =>
+    ({ id, sectionId: 'setup', completedAt, gradingVersion, answers: stored })
+  const done = '2026-09-18T10:00:00.000Z'
+
+  it('strips the key and explanation from every attempt, the last one included', () => {
+    const rows = redactAttemptsForLearner([row('a1', done), row('a2', done), row('a3', done)])
+    for (const r of rows) {
+      const [a] = JSON.parse(r.answers)
+      assert.equal('correctIndex' in a, false)
+      assert.equal('explanation' in a, false)
+      assert.deepEqual([a.selectedIndex, a.correct, a.question], [1, false, 'Q'])
+    }
+  })
+
+  it('turns unreadable stored answers into an empty list rather than passing them through', () => {
+    const [r] = redactAttemptsForLearner([{ ...row('a1', null), answers: '{"correctIndex":0' }])
+    assert.equal(r!.answers, '[]')
+  })
+
+  it('flags attempts graded before the fix, and only those', () => {
+    const rows = redactAttemptsForLearner([row('old', done, 0), row('new', done), row('open', null, 0)])
+    assert.deepEqual(rows.map((r) => r.legacy), [true, false, false])
+  })
+
+  it('says whether each score counts', () => {
+    const rows = redactAttemptsForLearner([
+      { ...row('old', done, 0), exposedItems: 0 },
+      { ...row('seen', done), exposedItems: 2 },
+      { ...row('clean', done), exposedItems: 0 },
+      { ...row('open', null), exposedItems: 0 },
+    ])
+    assert.deepEqual(rows.map((r) => r.evidence), [false, false, true, false])
+  })
+})
+
+describe('attempts graded before the fix', () => {
+  const done = '2026-09-18T10:00:00.000Z'
+
+  it('a completed attempt without a grading version is legacy; an open one is not', () => {
+    assert.equal(isLegacyAttempt({ completedAt: done, gradingVersion: 0 }), true)
+    assert.equal(isLegacyAttempt({ completedAt: done }), true)
+    assert.equal(isLegacyAttempt({ completedAt: done, gradingVersion: GRADING_VERSION }), false)
+    // Started before the fix and still open: the current code will grade it.
+    assert.equal(isLegacyAttempt({ completedAt: null, gradingVersion: 0 }), false)
+  })
+
+  it('legacy attempts do not use up an attempt, and new numbers follow all of them', () => {
+    const attempts = [
+      { attemptNumber: 1, completedAt: done, gradingVersion: 0 },
+      { attemptNumber: 2, completedAt: done, gradingVersion: 0 },
+      { attemptNumber: 3, completedAt: done, gradingVersion: 0 },
+      { attemptNumber: 4, completedAt: done, gradingVersion: GRADING_VERSION },
+    ]
+    assert.equal(countedAttempts(attempts).length, 1)
+    assert.equal(nextAttemptNumber(attempts), 5)
+    assert.equal(nextAttemptNumber([]), 1)
+  })
+
+  it('the evidence filter admits only the current grading, over questions not seen', () => {
+    assert.deepEqual(GRADED_AS_EVIDENCE, { gradingVersion: { gte: 1 }, exposedItems: 0 })
+  })
+})
+
+describe('time limit', () => {
+  const start = new Date('2026-09-18T10:00:00.000Z')
+
+  it('refuses submissions after 60 minutes plus a 2-minute grace for the request', () => {
+    assert.equal(EXAM_TIME_LIMIT_SEC, 3600)
+    assert.equal(submissionDeadline(start).toISOString(), '2026-09-18T11:02:00.000Z')
+  })
+
+  it('closes an expired attempt at the end of its hour, with 0 and nothing answered, as graded now', () => {
+    const c = expiredAttemptClosure(start)
+    assert.equal(c.completedAt.toISOString(), '2026-09-18T11:00:00.000Z')
+    assert.deepEqual([c.score, c.answers, c.timeSpentSec, c.gradingVersion], [0, '[]', 3600, GRADING_VERSION])
+  })
+})
+
+describe('attempt form — the questions as shown, with their key', () => {
+  const q = { id: 'q1', concept: 'venv', variant: 2, question: '¿Q?', options: '["a","b","c"]', correctIndex: 2, explanation: 'porque' }
+
+  it('round-trips a bank row into the key submit grades against', () => {
+    const key = parseFormItems(JSON.stringify([toFormItem(q)]))!
+    assert.deepEqual(key.get('q1'), {
+      id: 'q1', concept: 'venv', variant: 2, correctIndex: 2, explanation: 'porque', question: '¿Q?', options: ['a', 'b', 'c'],
+    })
+    const r = gradeExamAnswers([{ questionId: 'q1', selectedIndex: 2 }], key, ['q1'])
+    assert.equal(r.score, 100)
+  })
+
+  it('returns null for a form that cannot be read, rather than an empty key', () => {
+    assert.equal(parseFormItems('not json'), null)
+    assert.equal(parseFormItems('[]'), null)
+    assert.equal(parseFormItems(JSON.stringify([{ questionId: 'q1' }])), null)
+    assert.equal(parseFormItems(JSON.stringify([{ questionId: 'q1', correctIndex: '0' }])), null)
+  })
+})
+
+describe('evidence', () => {
+  const done = '2026-09-18T10:00:00.000Z'
+
+  it('is a graded attempt, by the current code, over questions whose key was not seen', () => {
+    assert.equal(isEvidence({ completedAt: done, gradingVersion: 1, exposedItems: 0 }), true)
+    assert.equal(isEvidence({ completedAt: done, gradingVersion: 0, exposedItems: 0 }), false)
+    assert.equal(isEvidence({ completedAt: done, gradingVersion: 1, exposedItems: 1 }), false)
+    assert.equal(isEvidence({ completedAt: null, gradingVersion: 1, exposedItems: 0 }), false)
+  })
+
+  it('fails closed when the grading fields were not selected', () => {
+    assert.equal(isEvidence({ completedAt: done }), false)
+    assert.equal(isEvidence({ completedAt: done, gradingVersion: 1 }), false)
+  })
+
+  it('counts sections passed, once each, under the id the app reads today', () => {
+    const canonical = (id: string) => (id === 'numpy' ? 'collections' : id)
+    const at = (sectionId: string, score: number, gradingVersion = 1, exposedItems = 0) =>
+      ({ sectionId, score, completedAt: done, gradingVersion, exposedItems })
+    assert.equal(passedSectionCount([
+      at('setup', 90), at('setup', 100), // one section, passed twice
+      at('numpy', 80), at('collections', 75), // one section under two slugs
+      at('basics', 69), // below the mark
+      at('decisions-rules', 100, 0), // graded before the fix
+      at('iteration-summaries', 100, 1, 2), // on questions whose key was seen
+    ], canonical), 2)
+  })
+})
+
+describe('keys seen before the fix', () => {
+  const legacy = (answers: unknown) => ({ answers: JSON.stringify(answers) })
+
+  it('names every question a legacy row returned the key for, from any section', () => {
+    const seen = keysSeenBeforeFix([
+      legacy([{ questionId: 'a', concept: 'venv', variant: 1, correctIndex: 2, correct: true }]),
+      // A forged submission with another section's question: its key was returned too.
+      legacy([{ questionId: 'b', concept: 'git-diff', variant: 3, correctIndex: 0, correct: false }]),
+    ])
+    assert.deepEqual([...seen].sort(), [itemKey('git-diff', 3), itemKey('venv', 1)].sort())
+  })
+
+  it('skips what revealed nothing, and rows it cannot read', () => {
+    const seen = keysSeenBeforeFix([
+      legacy([{ questionId: 'ghost', concept: 'unknown', variant: 0, correctIndex: -1, correct: false }]),
+      legacy([{ questionId: 'x', concept: 'venv' }]),
+      legacy({ not: 'a list' }),
+      { answers: '{broken' },
+    ])
+    assert.equal(seen.size, 0)
   })
 })

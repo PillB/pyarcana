@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { redactAttemptsForLearner } from '@/lib/exam-scoring'
 import { renameSectionId, sectionIdAliases } from '@/lib/section-id-migrations'
 
 export async function GET(request: Request) {
@@ -24,5 +25,6 @@ export async function GET(request: Request) {
     orderBy: { attemptNumber: 'asc' },
   })
 
-  return NextResponse.json({ attempts })
+  // The stored answers carry the key, which a learner never gets (redactAttemptsForLearner).
+  return NextResponse.json({ attempts: redactAttemptsForLearner(attempts) })
 }

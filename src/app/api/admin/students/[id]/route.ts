@@ -5,6 +5,7 @@ import { db } from '@/lib/db'
 import { withCanonicalSectionIds } from '@/lib/section-id-migrations'
 import { buildStudentDetailExtras } from '@/lib/admin-analytics'
 import { COURSE_SECTIONS } from '@/lib/course'
+import { isEvidence } from '@/lib/exam-scoring'
 
 export async function GET(
   _request: Request,
@@ -49,8 +50,10 @@ export async function GET(
 
   for (const sectionId of sectionIds) {
     const sectionExams = examAttempts.filter((e) => e.sectionId === sectionId)
-    const bestScore = sectionExams.length > 0
-      ? Math.max(...sectionExams.map((e) => e.score))
+    // The best score reads evidence only (isEvidence); every attempt still counts as an attempt.
+    const scored = sectionExams.filter(isEvidence)
+    const bestScore = scored.length > 0
+      ? Math.max(...scored.map((e) => e.score))
       : null
     sectionGaps.push({
       sectionId,
@@ -79,6 +82,8 @@ export async function GET(
       startedAt: a.startedAt,
       timeSpentSec: a.timeSpentSec,
       answers: a.answers,
+      gradingVersion: a.gradingVersion,
+      exposedItems: a.exposedItems,
     }))
   )
 
@@ -87,6 +92,7 @@ export async function GET(
     progress,
     examAttempts: examAttempts.map((a) => ({
       ...a,
+      evidence: isEvidence(a),
       answers: JSON.parse(a.answers),
       variantSeed: JSON.parse(a.variantSeed),
     })),

@@ -16,6 +16,9 @@ import {
 
 const NOW = new Date('2026-07-21T12:00:00.000Z')
 
+/** A row graded by the current code over questions the learner had not seen (isEvidence). */
+const GRADED_NOW = { gradingVersion: 1, exposedItems: 0 }
+
 function user(partial: Partial<UserRow> & { id: string }): UserRow {
   return {
     email: `${partial.id}@test.pe`,
@@ -87,18 +90,21 @@ describe('buildStudentMetrics', () => {
         sectionId: 'setup',
         score: 40,
         completedAt: NOW.toISOString(),
+        ...GRADED_NOW,
       },
       {
         userId: 'u3',
         sectionId: 'setup',
         score: 85,
         completedAt: NOW.toISOString(),
+        ...GRADED_NOW,
       },
       {
         userId: 'u3',
         sectionId: 'setup',
         score: 99,
         completedAt: null, // incomplete
+        ...GRADED_NOW,
       },
     ]
     const [m] = buildStudentMetrics([u], [], exams, {}, NOW)
@@ -116,10 +122,37 @@ describe('buildStudentMetrics', () => {
         sectionId: 'setup',
         score: PASS_THRESHOLD,
         completedAt: NOW.toISOString(),
+        ...GRADED_NOW,
       },
     ]
     const [m] = buildStudentMetrics([u], [], exams, {}, NOW)
     assert.equal(m!.hasPassedExam, true)
+  })
+
+  it('scores that are not evidence count as activity but never as a score (D12)', () => {
+    const u = user({ id: 'u9', createdAt: NOW.toISOString() })
+    const at = (score: number, grading: Partial<ExamRow>): ExamRow => ({
+      userId: 'u9', sectionId: 'setup', score, completedAt: NOW.toISOString(), timeSpentSec: 60, ...grading,
+    })
+    const exams: ExamRow[] = [
+      at(100, { gradingVersion: 0, exposedItems: 0 }), // graded before the fix: may be forged
+      at(95, { gradingVersion: 1, exposedItems: 3 }), // on questions whose key was seen
+      at(100, {}), // a caller that did not select the grading fields
+      at(55, GRADED_NOW),
+    ]
+    const [m] = buildStudentMetrics([u], [], exams, {}, NOW)
+    assert.equal(m!.bestScoresBySection.setup, 55)
+    assert.equal(m!.avgExamScore, 55)
+    assert.equal(m!.hasPassedExam, false)
+    assert.equal(m!.examAttemptsCount, 4)
+    assert.equal(m!.totalTimeSpentSec, 240)
+
+    const payload = buildAnalyticsPayload([m!], [], exams, [u], { now: NOW })
+    const setup = payload.sections.find((x) => x.sectionId === 'setup')!
+    assert.equal(setup.avgBestScore, 55)
+    assert.equal(setup.attemptCount, 4)
+    assert.equal(payload.kpis.passRate, 0)
+    assert.equal(payload.kpis.totalExamAttempts, 4)
   })
 
   it('inactive 14d with prior activity → inactive risk', () => {
@@ -178,6 +211,7 @@ describe('buildAnalyticsPayload', () => {
         sectionId: 'setup',
         score: 100,
         completedAt: NOW.toISOString(),
+        ...GRADED_NOW,
       },
     ]
     const students = buildStudentMetrics([u], [], exams, {}, NOW)
