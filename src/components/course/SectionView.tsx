@@ -195,7 +195,7 @@ export function SectionView({
           {/* Job relevance — popover (was 100px card) */}
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title={tr('section.jobRelevance')}>
+              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title={tr('section.jobRelevance')} data-testid="section-job-relevance">
                 <Briefcase className="h-4 w-4 text-primary" />
               </Button>
             </PopoverTrigger>
@@ -205,7 +205,7 @@ export function SectionView({
                   <Briefcase className="h-4 w-4 text-primary" />
                   {tr('section.jobRelevance')}
                 </div>
-                <p className="text-sm text-foreground/80">{section.jobRelevance}</p>
+                <p className="text-sm text-foreground/80"><InlineText text={section.jobRelevance} /></p>
               </div>
             </PopoverContent>
           </Popover>
@@ -213,7 +213,7 @@ export function SectionView({
           {/* Learning outcomes — sheet (was 200-400px grid) */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title="Objetivos de aprendizaje">
+              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title="Objetivos de aprendizaje" data-testid="section-outcomes">
                 <ListChecks className="h-4 w-4 text-primary" />
               </Button>
             </SheetTrigger>
@@ -231,7 +231,7 @@ export function SectionView({
                     className="flex items-start gap-2 rounded-lg border border-border/60 bg-card p-2.5"
                   >
                     <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
-                    <span className="text-xs text-foreground/90">{lo.text}</span>
+                    <span className="text-xs text-foreground/90"><InlineText text={lo.text} /></span>
                   </div>
                 ))}
               </div>

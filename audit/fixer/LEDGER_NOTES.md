@@ -421,3 +421,41 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   glob like `migrations/*_rename_*/migration.sql` inside a `/** */` comment closes the comment at
   `*/`; and `cmd | tail` returns tail's status, hiding a crash. Check the result the command was
   supposed to produce, not only its exit code.
+
+### Teaching a concept the section already uses (2026-09-19, S16, S30, S33)
+
+- **A planted defect the fixture cannot expose certifies the habit it names.** S16-T3-B-E2 asks
+  the learner to fix a mask that looks only at the upper fence. Its fixture was
+  `[1.0, 2.0, 3.0, 100.0]`, whose lower fence is -36.5, so the broken starter printed `[100.0]` —
+  byte-identical to the declared solution — and «Éxito: `[100.0]`» told the learner they were
+  done. The exercise had shipped that way; the new teaching block only made it legible. Before
+  trusting any exercise that declares a DEFECT, run its starter under `.venv-content` and compare
+  with `solutionCode.output`: identical output means the exercise cannot fail. A course-wide gate
+  for this is in the work queue, because nothing else can see it.
+- **Explaining is not defining, and the measure counts definitions.** S30's new F1 block taught
+  the idea well — the formula, the harmonic mean, 1.0/0.5 against the simple average — with
+  «precisión pregunta: …¿cuántos lo eran realmente?» and «F1 combina ambas con `2*P*R/(P+R)`». A
+  rhetorical question defines nothing, so define-before-use went the wrong way: surprising uses in
+  S30 rose 20 → 31, all of them `f1-score` and `precision`, the two terms the block exists to
+  teach. At first use, state «X es …» with the term marked, then illustrate. The instrument and
+  the beginner want the same sentence.
+- **A new figure archetype needs its own arithmetic test; the render probe cannot see wrong.**
+  `NumberLineFigure` marked outliers with `at < min(fences) || at > max(fences)`. With one fence
+  that collapses and rings every value — and the obvious first reuse is the one-fence picture of
+  S16's upper-fence-only habit. Every gate was green: it paints, the labels fit, the contrast
+  passes. `tests/adversarial/figure-geometry.test.ts` now pins the predicate at zero, one and two
+  fences, and pins that authored fences and band edges lie inside the axis domain, since only
+  points get the off-scale bay.
+- **An archetype that reserves room for a wrapped headline must also draw it wrapped.**
+  `TableShapeFigure` computed `top` from `wrapLines(headline)` but drew the headline as a single
+  line and left the panel titles at a fixed `y`, so the first headline over ~62 characters put
+  «groupby + nunique» on top of «Conteo por clave» at every viewport and theme. Only
+  `figure_render_probe.mjs --sections S16` saw it. Run the probe for the section whenever a figure
+  is added, in both themes: static tests measure the data, not the drawing.
+- **A gate that is not in CI rots, and then it fails for the wrong reason.**
+  `scripts/raw_markdown_rendering.spec.ts` still listed `numpy` and `pandas`, ids this campaign
+  renamed in batch A, so it died on its first click instead of reporting anything — while 32
+  learning outcomes and 3 `jobRelevance` paragraphs rendered literal backticks on the live site,
+  because it walked only the learning tabs and those two surfaces are behind a popover and a
+  sheet. `InlineText` had existed since the 721-leak fix; the outcome site simply never used it.
+  When a fix is "those fields now go through InlineText", enumerate the fields that do not.

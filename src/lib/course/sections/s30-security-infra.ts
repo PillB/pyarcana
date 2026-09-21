@@ -30,8 +30,8 @@ export const section30: CourseSection = {
     { text: "Estimar el costo de pares por bloque y filtrar pares imposibles antes del scorer (filter_before_score)" },
     { text: "Calcular score ponderado didáctico y aplicar umbrales auto_match / review / non_match de forma conservadora" },
     { text: "Construir ítems de cola clerical y mantener consistencia de cluster con Union-Find" },
-    { text: "Partir pares por entidad sin leakage: train/test disjuntos y pares cross_split fuera de métricas primarias" },
-    { text: "Reportar precisión/recall/F1 pairwise, co-cluster completeness/quality (vista de cluster) y error slices accionables" },
+    { text: "Partir pares por entidad sin leakage (fuga de identidad). `train` reúne los pares para calibrar pesos y umbrales; `test`, los apartados solo para medir; `cross_split` mezcla entidades de ambos grupos y queda fuera de las métricas primarias" },
+    { text: "Reportar precisión/recall/F1 pairwise —un número que combina precisión y recall y cae si cualquiera es bajo—, co-cluster completeness/quality (vista de cluster) y error slices accionables" },
   ],
   theory: [
     {
@@ -350,11 +350,17 @@ label_space ['match', 'non_match', 'uncertain']`,
     },
     {
       heading: "pares etiquetados y splits por entidad",
+      figure: {
+        id: "S30-train-test",
+        caption: "Train calibra el motor; test solo lo mide, y cross_split queda fuera de la métrica principal.",
+        alt: "Flujo de pares etiquetados que se separan por entidad en train, test y cross_split; train calibra pesos y umbrales, test solo mide y cross_split se reporta aparte.",
+      },
       subtopicId: "S30-T4-A",
       paragraphs: [
+        "Antes de calibrar el motor del Caso 30, asigna dos funciones distintas a los pares etiquetados. Los pares de `train` ajustan los pesos y umbrales, como en T3-B. Los pares de `test` nunca intervienen en esa calibración: se guardan aparte y solo miden el resultado. Medir con los pares que guiaron el ajuste premia la memoria del motor, no su desempeño con pares nuevos.",
         "Sin evaluación honesta, el motor de T3 es teatro. El **benchmark etiquetado** tiene pares match/non-match **sintéticos**. Nunca uses el mismo par (ni la misma entidad) en train y test de umbrales sin control: eso es **leakage de identidad** (fuga de identidad) e infla métricas del motor de forma engañosa.",
-        "**Split por entidad**: primero particiona entidades (o componentes) en conjuntos disjuntos; luego asigna pares. Un par es `train` solo si **ambos** extremos ⊆ train; `test` solo si **ambos** están fuera de train. Un par mixto es `cross_split`: no es test limpio y se excluye de las métricas primarias (o se reporta aparte). El error clásico es un split aleatorio de pares con entidades compartidas que “mejora” el F1 en el notebook y falla con contactos nuevos.",
-        "Documenta tamaños de split y **prevalencia** (base rate) de matches — suele ser baja: pocos matches reales entre muchos non-matches. En el Caso 30, reporta match rate del gold junto al candidate recall del blocking y a P/R en el hold-out de entidades. T4-B convierte predicciones y clusters en métricas y slices de error.",
+        "**Split por entidad**: primero particiona entidades (o componentes) en conjuntos disjuntos; luego asigna pares. Un par es `train` solo si **ambos** extremos ⊆ train; `test` solo si **ambos** están fuera de train. Un par mixto es `cross_split`: no es test limpio y se excluye de las métricas primarias (o se reporta aparte). El error clásico es un split aleatorio de pares con entidades compartidas que hace que precisión y recall se vean mejor en el notebook y oculta que el motor falla con contactos nuevos.",
+        "Documenta tamaños de split y **prevalencia** (base rate) de matches — suele ser baja: pocos matches reales entre muchos non-matches. En el Caso 30, reporta match rate del gold junto al candidate recall del blocking y a P/R en `test`. T4-B convierte predicciones y clusters en métricas y slices de error.",
       ],
       code: {
         language: 'python',
@@ -402,6 +408,46 @@ entity_overlap 0`,
         title: "Leakage por entidad",
         content:
           "Partir al azar pares con entidades compartidas infla métricas del motor y engaña al cierre de CP-N3-A.",
+      },
+    },
+    {
+      heading: "F1: una sola cifra que exige precisión y recall",
+      figure: {
+        id: "S30-f1-harmonic",
+        caption: "Con precisión 1.0 y recall 0.5, F1 baja a 0.667 y deja visible el desequilibrio.",
+        alt: "Gráfico de cuatro barras: precisión 1.0, recall 0.5, promedio simple 0.75 y F1 0.667.",
+      },
+      paragraphs: [
+        "En el motor del Caso 30, un umbral más estricto puede aceptar menos pares incorrectos y dejar escapar más matches reales. El reporte necesita una cifra que resuma ese equilibrio.",
+        "En pares, la **precisión** es la fracción de los pares que el motor llamó `match` que realmente son `match`. El **recall** es la fracción de todos los pares que son `match` en el gold que el motor encontró.",
+        "**F1** es un solo número que combina precisión y recall: la **media armónica** de ambas. Se calcula con `2 * P * R / (P + R)`, donde P representa precisión y R, recall, y solo es alto cuando ambas métricas son altas. Con P = 1.0 y R = 0.5, el promedio simple da 0.75, pero F1 da 0.667 y queda más cerca del valor bajo.",
+        "F1 no dice cuál de las dos métricas es baja, así que reporta precisión y recall por separado. Tampoco describe clusters partidos o sobrefundidos; la vista de cluster del bloque siguiente cubre ese problema.",
+        "Primero ejecuta el ejemplo y relaciona cada salida con las barras. Después asigna 0.9 a `precision` y 0.1 a `recall`; antes de volver a ejecutar, predice F1. El promedio simple sería 0.5. Ejecuta el cambio y comprueba tu predicción.",
+      ],
+      code: {
+        language: 'python',
+        title: "f1_desde_conteos.py",
+        code: `tp = 3
+fp = 0
+fn = 3
+
+precision = tp / (tp + fp)
+recall = tp / (tp + fn)
+promedio = (precision + recall) / 2
+f1 = 2 * precision * recall / (precision + recall)
+
+print("precision", round(precision, 3), "recall", round(recall, 3))
+print("promedio", round(promedio, 3))
+print("f1", round(f1, 3))`,
+        output: `precision 1.0 recall 0.5
+promedio 0.75
+f1 0.667`,
+      },
+      callout: {
+        type: "tip",
+        title: "Lee las tres cifras",
+        content:
+          "F1 alto exige precisión y recall altas; léelo siempre junto a ambas y a la vista de cluster.",
       },
     },
     {
@@ -1614,7 +1660,7 @@ print(matches / n)`,
         kind: "transfer",
         title: "train, test y cross_split",
         preamble:
-          "- **Contexto:** un par con un pie en train y otro fuera no es hold-out limpio: la entidad de train reaparece en “evaluación”.\n- **Meta:** etiquetar train (ambos en train_e), test (ninguno en train_e), cross_split (mezcla).\n- **Éxito:** `['train', 'test', 'cross_split']` para los tres pares del fixture.\n- **Límites:** no trates el mixto como test; excluye cross_split de P/R primario.",
+          "- **Contexto:** un par con un pie en train y otro fuera no es `test` limpio: la entidad de train reaparece en “evaluación”.\n- **Meta:** etiquetar train (ambos en train_e), test (ninguno en train_e), cross_split (mezcla).\n- **Éxito:** `['train', 'test', 'cross_split']` para los tres pares del fixture.\n- **Límites:** no trates el mixto como test; excluye cross_split de P/R primario.",
         instruction:
           "1. Lee el starter: cualquier no-train cae en `\"test\"`.\n2. Añade rama `ents.isdisjoint(train_e) → \"test\"`.\n3. El resto mixto → `\"cross_split\"`.\n4. Imprime la lista de etiquetas en orden de pares.",
         hint: "tres etiquetas: train / test / cross_split",
@@ -1671,9 +1717,9 @@ print([label(a, b) for a, b in pairs])`,
         kind: "guided",
         title: "Precisión pairwise desde tp y fp",
         preamble:
-          "- **Contexto:** en el hold-out del Caso 30, un auto_match falso duele a operaciones; la precisión lo castiga.\n- **Meta:** contar tp (t=1∧p=1) y fp (t=0∧p=1) e imprimir `round(tp/(tp+fp), 2)`.\n- **Éxito:** `0.67` con los vectores dados (tp=2, fp=1).\n- **Límites:** no uses solo `sum(y_pred)`; recorre `zip(y_true, y_pred)`.",
+          "- **Contexto:** en el `test` del Caso 30, un auto_match falso duele a operaciones; la precisión lo castiga.\n- **Meta:** contar tp (t=1∧p=1) y fp (t=0∧p=1) e imprimir `round(tp/(tp+fp), 2)`.\n- **Éxito:** `0.67` con los vectores dados (tp=2, fp=1).\n- **Límites:** no uses solo `sum(y_pred)`; recorre `zip(y_true, y_pred)`.",
         instruction:
-          "1. Abre el starter: `pred_pos = sum(y_pred)` y cociente 1.0 (bug).\n2. Calcula tp y fp con generadores o bucles sobre `zip(y_true, y_pred)`.\n3. Imprime `round(tp/(tp+fp), 2)`.",
+          "1. Abre el starter: `pred_pos = sum(y_pred)` y cociente 1.0 (bug).\n2. Calcula tp y fp con un bucle sobre `zip(y_true, y_pred)` o con las expresiones `sum(...)` de la pista.\n3. Imprime `round(tp/(tp+fp), 2)`.",
         hint: "tp = sum(t==1 and p==1); fp = sum(t==0 and p==1)",
         hints: [
           "Recorre zip(y_true, y_pred)",
@@ -1722,7 +1768,7 @@ print(round(tp / (tp + fp), 2))`,
           "fn son matches perdidos",
           "Recall bajo → blocking o umbral agresivo",
         ],
-        edgeCases: ["F1 es media armónica de P y R."],
+        edgeCases: ["Si `tp + fn == 0`, no hay matches reales; define una salida antes de dividir."],
         tests: "salida coincide con solution output",
         feedback:
           "Recall pairwise complementa candidate recall de blocking: uno mira el scorer, el otro el embudo previo. Un numerador que siempre da 1.0 es teatro de métrica.",
@@ -1981,10 +2027,10 @@ if __name__ == "__main__":
       },
       {
         question: "Split por entidad evita:",
-        options: ["Sobreajuste del umbral a los pares del conjunto de entrenamiento", "Desbalance: los no-match superan a los match por varios órdenes", "Deriva: las claves de bloqueo cambian entre train y test", "Leakage (fuga) de identidad entre train y test"],
+        options: ["Que el umbral quede demasiado ajustado a los pares de `train` y falle con pares nuevos", "Desbalance: los no-match superan a los match por varios órdenes", "Deriva: las claves de bloqueo cambian entre train y test", "Leakage (fuga) de identidad entre train y test"],
         correctIndex: 3,
         explanation:
-          "Si la misma entidad aparece en train y test, las métricas se inflan. Particiona entidades primero; un par mixto es cross_split y no cuenta como test limpio.",
+          "Particionar entidades evita que una misma identidad aparezca en train y test, donde inflaría las métricas. No impide que el umbral quede demasiado ajustado a los pares de train; permite medir esa falla en entidades que la calibración nunca vio. Un par mixto es cross_split y no cuenta como test limpio.",
       },
       {
         question: "Un score alto de match en ER sintético implica…",

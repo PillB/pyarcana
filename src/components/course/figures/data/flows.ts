@@ -270,5 +270,18 @@ export const FLOW_FIGURES: Record<string, FigureData> = {
     ],
     outcome: 'Si falta un eslabón, el «exactly-once» del marketing se convierte en doble conteo en el dashboard.',
   },
+  'S30-train-test': {
+    kind: 'flow',
+    headline: 'Separar antes de calibrar protege una medición honesta',
+    stages: [
+      { label: 'pares con gold', tint: 3 },
+      { label: 'split entidad', sub: 'train, test, cross_split', tint: 1 },
+      { label: 'train', sub: 'calibra pesos y umbrales', tint: 2 },
+      { label: 'test', sub: 'solo mide', tint: 4 },
+    ],
+    boundaryAfter: 2,
+    boundaryLabel: "la calibración no cruza esta línea",
+    outcome: 'Un par cross_split se reporta aparte y nunca cuenta como test.',
+  },
 
 }

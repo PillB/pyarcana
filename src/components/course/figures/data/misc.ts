@@ -190,6 +190,25 @@ export const MISC_FIGURES: Record<string, FigureData> = {
     forward: '{c: v for …}',
     note: 'Buscar en la lista recorre; buscar en el dict no. Con tres filas da igual, con cien mil decide el diseño.',
   },
+  'S16-groupby-nunique': {
+    kind: 'table',
+    headline: 'Agrupar por clave convierte cuatro filas en un conteo por clave',
+    left: { title: 'Filas de entrada', head: ['cliente_id', 'region'], rows: [['C001', 'Lima'], ['C001', 'Lima'], ['C002', 'Cusco'], ['C002', 'Madrid']], tint: 3 },
+    right: { title: 'Conteo por clave', head: ['cliente_id (índ)', 'regiones'], rows: [['C001', '1'], ['C002', '2']], tint: 2 },
+    forward: 'groupby + nunique',
+    note: 'C001 repite Lima y queda en 1; C002 reúne Cusco y Madrid y queda en 2.',
+  },
+
+  // -------------------------------------------------------------- numberline
+  'S16-iqr-fences': {
+    kind: 'numberline',
+    headline: 'Las cercas marcan outliers estadísticos a ambos lados de la mitad central',
+    from: -2, to: 18, axisLabel: 'monto',
+    points: [{ at: -1 }, { at: 10 }, { at: 11 }, { at: 12 }, { at: 13 }, { at: 5000 }],
+    band: { from: 10.25, to: 12.75, label: 'mitad central · IQR 2.5', fromLabel: 'Q1 10.25', toLabel: 'Q3 12.75' },
+    fences: [{ at: 6.5, label: 'cerca inferior 6.5' }, { at: 16.5, label: 'cerca superior 16.5' }],
+    note: '-1 cae más allá de la cerca inferior; 5000, más allá de la superior. El corte del eje solo permite dibujar 5000.',
+  },
 
   // --------------------------------------------------------------------- set
   'S28-property-coverage': {
@@ -303,6 +322,31 @@ export const MISC_FIGURES: Record<string, FigureData> = {
       { label: 'hooks', value: 100, tint: 2, display: 'activos' },
     ],
     note: 'Basta que una barra se salga para detener: el error de contrato es olvidar comparar la de errores.',
+  },
+  'S33-group-folds': {
+    kind: 'folds',
+    headline: 'Cada entidad valida una vez y queda fuera de train en ese fold',
+    groups: ['e1', 'e2', 'e3'],
+    rows: [
+      { label: 'fold 0', roles: ['valid', 'train', 'train'], score: '0.6' },
+      { label: 'fold 1', roles: ['train', 'valid', 'train'], score: '0.7' },
+      { label: 'fold 2', roles: ['train', 'train', 'valid'], score: '0.65' },
+    ],
+    scoreLabel: 'score',
+    summary: 'media 0.65 · rango 0.6–0.7',
+    note: 'Las tres filas son tres evaluaciones: cambia quién valida, pero ninguna entidad aparece a ambos lados.',
+  },
+  'S30-f1-harmonic': {
+    kind: 'bars',
+    headline: 'F1 cae hacia la métrica más baja',
+    max: 1,
+    bars: [
+      { label: 'precisión', value: 1.0, tint: 2, display: '1.0' },
+      { label: 'recall', value: 0.5, tint: 4, display: '0.5' },
+      { label: 'promedio simple', value: 0.75, tint: 1, display: '0.75' },
+      { label: 'F1', value: 0.667, tint: 3, display: '0.667' },
+    ],
+    note: 'El promedio simple queda en 0.75; F1 baja a 0.667 porque recall vale 0.5.',
   },
   'S48-abstention': {
     kind: 'set',
@@ -522,11 +566,11 @@ export const MISC_FIGURES: Record<string, FigureData> = {
   },
   'S33-overfit-gap': {
     kind: 'bars',
-    headline: 'La distancia entre train y test es el diagnóstico',
+    headline: 'La distancia entre train y valid es el diagnóstico',
     max: 1,
     bars: [
       { label: 'train', value: 0.98, tint: 5, display: '0.98' },
-      { label: 'test', value: 0.71, tint: 4, display: '0.71' },
+      { label: 'valid', value: 0.71, tint: 4, display: '0.71' },
       { label: 'baseline', value: 0.68, tint: 1, display: '0.68' },
     ],
     note: 'Con esa brecha, el modelo memorizó. Y apenas supera al baseline: dos problemas, no uno.',

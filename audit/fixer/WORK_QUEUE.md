@@ -53,6 +53,30 @@ their verified findings, recorded here so a second interruption cannot lose them
 - **The gate lens of that check did not run** (session limit). `fresh_report()` is covered by six
   tests and an end-to-end `gate.py snapshot S03`, but the independent skeptic pass is still owed.
 
+## Done this round (2026-09-19), pending the S16 revision and one commit
+
+- **S16 (queue rows 5 and 6): both D3 blocks written, applied, verified.** "Contar valores
+  distintos por clave" (groupby + nunique, figure `S16-groupby-nunique`) before S16-T2-A, and
+  "Cuartiles, IQR y cercas de Tukey" (figure `S16-iqr-fences`, a new `numberline` archetype)
+  before S16-T3-B, plus the T2-A/demo rewrites off `transform`/`filter(lambda)`, the z-score
+  removals, the D1 glosses and selfCheck[3]. Surprising uses in S16: 50 -> 4. A four-lens
+  adversarial review of the applied diff produced 44 findings; round 2 is with codex
+  (`.fixer/S16D3b.prompt.txt`) and must land before the commit. Its P0: S16-T3-B-E2's planted
+  defect printed the same list as the solution.
+- **S30 (row 7): train/test opening + figure `S30-train-test`; F1 block + figure
+  `S30-f1-harmonic`.** Round 2 with codex: the block explained F1 without defining it, and
+  define-before-use went 20 -> 31 on `f1-score` and `precision`.
+- **S33 (row 8): cross-validation block + figure `S33-group-folds`** (a new `folds` archetype),
+  the `S33-overfit-gap` figure moved from T1-A to T3-B with its bars renamed train/valid, the
+  `valid` gloss, the roadmap paragraph in plain words, and fold 0 aligned to the k-fold scheme in
+  all six places. Gate clean except the shared S16 city-name failure.
+- **Two platform fixes found on the way.** `learningOutcomes` and `jobRelevance` rendered raw, so
+  32 outcomes in 17 sections showed literal backticks on the live site; both now go through
+  `InlineText`, and `scripts/raw_markdown_rendering.spec.ts` (stale ids from batch A, so it had
+  been failing at its first click) now opens the popover and the sheet. `TableShapeFigure` drew an
+  unwrapped headline while reserving room for a wrapped one, which put the arrow label on the
+  panel titles.
+
 ## In flight
 
 1. **Skills-and-badges map (solarize cycle).** Mine the project documentation for the required
@@ -115,6 +139,10 @@ their verified findings, recorded here so a second interruption cannot lose them
 
 ## Instrument debt
 
+0. **A gate for planted defects (new, 2026-09-19).** S16-T3-B-E2's DEFECT starter printed exactly
+   the declared solution output, so the exercise could not fail and certified the habit it names.
+   Run every exercise whose instruction or starter says DEFECT under `.venv-content` and fail when
+   the starter's output equals `solutionCode.output`. Nothing else can see this class.
 17. `glossary_intro_audit.py` reads section *source* — it matches `id: 'fastapi'`, a code comment
     and a book title. Move it onto the extractor's learner-visible events.
 18. The extractor still does not emit weDo `feedback`, `edgeCases`, declared `output`, You Do
@@ -124,6 +152,23 @@ their verified findings, recorded here so a second interruption cannot lose them
     which splitting a homonym entry does not stop the shorter alias matching inside the longer.
 20. Dead glossary entries (`args-y-kwargs`, `feature-engineering`, and the ones written for the
     three retired section files) — preservation says propose, not delete.
+
+## Follow-ups this round opened (each names the section that must carry it)
+
+- **S15**: its two forward mentions of groupby (`S15-T1-A.p2`, `selfCheck[8].opt[3]`) are now
+  previews of what S16 teaches; the glossary's `groupby.firstSectionId` still says `stdlib-deep`
+  and must move to `wxpython-gui` once S16's round 2 lands.
+- **S18**: T1-A/T1-B/T3-B should read as recall of S16's quartiles and cercas (CONCEPT_QUEUE 121),
+  putting the Q1 = p25 / Q3 = p75 mapping before the formula.
+- **S34 and S32**: S34-T2-A should use S33's name («validación cruzada») and S34 outcome[2] needs
+  a D1 gloss for «CV-safe»; the leakage link in S32 `resources.doc[5]` moves next to S33's
+  rolling-origin block (CONCEPT_QUEUE 154) — one move, two sections, so it waits for both.
+- **The groupby figure's middle state.** `S16-groupby-nunique` draws rows -> counts in one arrow;
+  the rows gathered into one group per key are never shown, and this is the only groupby visual
+  before S17 (review finding pedagogy-4). Needs either per-key tinting in `TableShapeFigure` or a
+  three-stage shape; deferred as a figure change, not prose.
+- **Generator expressions** are used in visible code from S02 onward and taught nowhere; S30-T4-B-E1
+  lost the word «generadores» this round but the construct remains. Curriculum decision to raise.
 
 ## Deferred, with a decision attached
 
