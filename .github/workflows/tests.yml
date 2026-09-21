@@ -191,7 +191,13 @@ jobs:
         run: |
           mkdir -p .ci-static
           cp -R out .ci-static/pyarcana
-          python3 -m http.server 4173 --bind 127.0.0.1 --directory .ci-static &
+          # Pages' own file resolution, not http.server's: /pyarcana/cookies is
+          # the exported cookies.html, not the cookies/ directory beside it.
+          python3 scripts/serve_pages_static.py .ci-static 4173 &
+          for _ in $(seq 1 30); do
+            curl -sf http://127.0.0.1:4173/pyarcana/ > /dev/null && break
+            sleep 1
+          done
           BASE_URL=http://127.0.0.1:4173 PAGES_BASE=1 npx playwright test scripts/static_public.spec.ts scripts/safe_agent_journeys.spec.ts scripts/static_first_paint.spec.ts --reporter=list
 
       - name: Accessibility (axe, WCAG 2.2 AA)

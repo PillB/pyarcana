@@ -135,9 +135,7 @@ test.describe('Accessibility (axe, WCAG 2.2 AA rules)', () => {
   // at all, which a screen reader user cannot jump to.
   for (const slug of ['cookies', 'disclaimer']) {
     test(`/${slug} has no machine-detectable violations, and its content is in <main>`, async ({ page }) => {
-      // The static edition is served in CI by python's http.server, which
-      // reaches the exported file, not the extensionless route Pages maps to it.
-      await page.goto(BASE ? `${BASE}/${slug}.html` : `/${slug}`, { waitUntil: 'domcontentloaded' })
+      await page.goto(`${BASE}/${slug}`, { waitUntil: 'domcontentloaded' })
       await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1)
       const wcag = await new AxeBuilder({ page }).withTags(TAGS).analyze()
       const landmarks = await new AxeBuilder({ page }).withRules(['landmark-one-main', 'region']).analyze()
