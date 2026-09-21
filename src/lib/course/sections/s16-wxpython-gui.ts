@@ -164,14 +164,14 @@ s16_th_2()`,
         caption:
           "`groupby` reúne las filas por clave y `nunique` deja un conteo de regiones por clave.",
         alt:
-          "Dos tablas unidas por una flecha. En la tabla izquierda, una clave repite la misma región y otra tiene dos regiones diferentes. La flecha dice groupby más nunique. La tabla derecha muestra un conteo por clave: la primera tiene 1 región distinta y la segunda tiene 2.",
+          "Dos tablas unidas por una flecha. En la tabla izquierda, C001 aparece en dos filas con regiones diferentes y C002 en una. La flecha dice groupby más nunique. La tabla derecha muestra C001 con 2 regiones distintas y C002 con 1.",
       },
       paragraphs: [
         "Un **maestro de clientes** es la tabla que conserva una fila oficial por cliente. Aquí la clave es `cliente_id`, y el maestro debe guardar una sola región por clave. La pregunta «¿cuántas regiones distintas tiene cada clave?» no se responde fila por fila: primero hay que reunir las filas de la misma clave.",
-        "`df.groupby(\"cliente_id\")` separa las filas en grupos que comparten el mismo `cliente_id`. Luego `[\"region\"]` elige la columna que se revisará dentro de cada grupo y `.nunique()` cuenta sus valores distintos.",
-        "La Series resultante se llama `regiones` y contiene un valor por clave: el índice guarda `C001` y `C002`, y los valores guardan sus conteos. Como la clave queda en el índice, `regiones[regiones > 1].index` recupera las claves en conflicto. Antes de este conteo, T1 debe resolver las filas cuyo `cliente_id` es nulo: `groupby` las omite y su clave no aparece en `regiones`.",
-        "`groupby` permite otras operaciones, pero aquí basta este patrón. S17 volverá a esa familia.",
-        "Antes de ejecutar, predice qué conteo tendrá C001 si llega una tercera fila con otra región y luego compruébalo. Después sustituye la última región por la otra región de C002, vuelve a ejecutar y explica por qué esa clave deja de aparecer en la lista de conflictos.",
+        "`groupby` reúne las filas que comparten el valor de una clave. Aquí se escribe `df.groupby(\"cliente_id\")`; luego `[\"region\"]` elige la columna que se revisará dentro de cada grupo y `.nunique()` cuenta sus valores distintos.",
+        "La Series resultante se llama `regiones` y contiene un valor por clave: el índice guarda `C001` y `C002`, con conteos 2 y 1, respectivamente. Como la clave queda en el índice, `regiones[regiones > 1].index` recupera las claves en conflicto. Antes de este conteo, T1 debe resolver las filas cuyo `cliente_id` es nulo: `groupby` las omite y su clave no aparece en `regiones`.",
+        "`groupby` permite otras operaciones, pero aquí basta este patrón: un cliente tiene dos regiones; T2-A añade el caso de filas que se repiten de forma idéntica. S17 volverá a esa familia.",
+        "Antes de ejecutar, predice qué conteo tendrá C001 si agregas una tercera fila para esa clave con Cusco y luego compruébalo. Después vuelve al fixture original, sustituye Madrid por la región de la primera fila, vuelve a ejecutar y explica por qué C001 deja de aparecer en la lista de conflictos.",
       ],
       code: {
         language: 'python',
@@ -180,16 +180,16 @@ s16_th_2()`,
     import pandas as pd
 
     df = pd.DataFrame({
-        "cliente_id": ["C001", "C001", "C002", "C002"],
-        "region": ["Lima", "Lima", "Cusco", "Madrid"],
+        "cliente_id": ["C001", "C001", "C002"],
+        "region": ["Lima", "Madrid", "Cusco"],
     })
     regiones = df.groupby("cliente_id")["region"].nunique()
     print(regiones.to_dict())
     print("conflict_ids", regiones[regiones > 1].index.tolist())
 
 s16_th_3a()`,
-        output: `{'C001': 1, 'C002': 2}
-conflict_ids ['C002']`,
+        output: `{'C001': 2, 'C002': 1}
+conflict_ids ['C001']`,
       },
       callout: {
         type: "tip",
@@ -343,14 +343,14 @@ fechas ['2024-03-01', '2024-03-15', '2024-03-15']`,
         caption:
           "Las dos cercas señalan outliers estadísticos; la regla de dominio decide si son errores o flags.",
         alt:
-          "Recta numérica con los valores -1, 10, 11, 12, 13 y 5000; 5000 aparece después de un corte del eje con su número real. Una banda va de Q1 igual a 10.25 hasta Q3 igual a 12.75 y representa la mitad central, cuyo IQR es 2.5. Las cercas están en 6.5 y 16.5. El valor -1 queda fuera por la cerca inferior y 5000 queda fuera por la cerca superior.",
+          "Recta numérica con los valores -1, 10, 11, 12, 13 y 5000; El eje se corta para que 5000 quepa en la recta, y el punto lleva la etiqueta 5000. Una banda va de Q1 igual a 10.25 hasta Q3 igual a 12.75 y representa la mitad central, cuyo IQR es 2.5. Las cercas están en 6.5 y 16.5. El valor -1 queda fuera por la cerca inferior y 5000 queda fuera por la cerca superior.",
       },
       paragraphs: [
         "El gate necesita una forma basada en los datos para señalar qué valores están lejos del resto, aparte de los límites que dicta el negocio. Un **outlier** o **valor atípico** es un valor alejado de la mayoría de su propia columna, según la dispersión de esa columna.",
         "Ordena mentalmente los seis montos `[-1, 10, 11, 12, 13, 5000]` antes de buscar sus **cuartiles**, los puntos que la dividen en cuatro partes. Q1 deja aproximadamente una cuarta parte de los valores por debajo; la mediana deja la mitad; Q3 deja tres cuartas partes. pandas ubica Q1 en la posición `(6 - 1) * 0.25 = 1.25`, un cuarto del camino de 10 a 11, y obtiene 10.25. Para Q3 usa la posición 3.75, tres cuartos del camino de 12 a 13, y obtiene 12.75.",
-        "El **rango intercuartílico (IQR)** es `q3 - q1`: mide el ancho de la mitad central de los valores. Las **cercas de Tukey** usan 1.5 como multiplicador convencional y quedan en `q1 - 1.5 * iqr` y `q3 + 1.5 * iqr`. Todo valor por debajo de la cerca inferior o por encima de la superior es un outlier estadístico, candidato para que la regla de dominio lo resuelva como error o flag.",
+        "El **rango intercuartílico (IQR)** es `q3 - q1`: mide el ancho de la mitad central de los valores. Las **cercas de Tukey** son dos límites calculados a partir de los cuartiles —uno inferior y otro superior— que separan el grueso de los valores de la columna de aquellos que quedan lejos; usan 1.5 como multiplicador convencional y se ubican en `q1 - 1.5 * iqr` y `q3 + 1.5 * iqr`. Todo valor por debajo de la cerca inferior o por encima de la superior es un outlier estadístico, candidato para que la regla de dominio lo resuelva como error o flag.",
         "Aquí `q1` es 10.25, la mediana es 11.5, `q3` es 12.75 y `iqr` es 2.5. Como los cortes caen entre observaciones, 10 queda justo fuera de la banda por ser menor que 10.25 y 13 queda fuera por ser mayor que 12.75. La banda contiene dos de los seis valores: «mitad central» nombra la proporción a la que apuntan los cuartiles, que con seis observaciones es aproximada.",
-        "Las cercas quedan en 6.5 y 16.5, por eso -1 y 5000 son outliers estadísticos. La media sube hasta 840.83 por el 5000, pero las cercas se calculan desde los valores ordenados, no desde la media, y no exigen una campana. El factor 1.5 es una convención, y cuántos valores marca depende de la forma de la columna: si los montos nunca son negativos, la cerca inferior puede quedar bajo cero y, en la práctica, solo dispara la superior.",
+        "Las cercas quedan en 6.5 y 16.5, por eso -1 y 5000 son outliers estadísticos. La media sube hasta 840.83 por el 5000, pero los cuartiles se obtienen de posiciones de la columna ordenada y las cercas se calculan a partir de ellos. Si reemplazas el mayor valor, 5000, por 9000, esas seis posiciones no cambian: las cercas siguen en 6.5 y 16.5, mientras la media sube a 1507.5. La regla no depende de la media ni exige una campana; cuántos valores marca depende de la forma de la columna y del factor convencional 1.5.",
         "Antes de volver a ejecutar, predice qué valor de la lista literal `[20, 22, 21, 23, 24, 2]` quedará fuera y por cuál de las dos cercas. Después usa esa lista para construir la Series `s` y ejecuta el código para comprobar tu respuesta.",
       ],
       code: {
@@ -371,11 +371,20 @@ fechas ['2024-03-01', '2024-03-15', '2024-03-15']`,
     print("fuera", fuera.tolist())
     print("media", round(s.mean(), 2))
 
+    s_9000 = pd.Series([10, 12, 11, 13, 9000, -1])
+    q1_9000 = s_9000.quantile(0.25)
+    q3_9000 = s_9000.quantile(0.75)
+    iqr_9000 = q3_9000 - q1_9000
+    print("cercas con 9000", q1_9000 - 1.5 * iqr_9000, q3_9000 + 1.5 * iqr_9000)
+    print("media con 9000", round(s_9000.mean(), 2))
+
 s16_th_6a()`,
         output: `q1 10.25 q3 12.75 iqr 2.5
 cercas 6.5 16.5
 fuera [5000, -1]
-media 840.83`,
+media 840.83
+cercas con 9000 6.5 16.5
+media con 9000 1507.5`,
       },
       callout: {
         type: "warning",
@@ -1775,7 +1784,7 @@ print(metrics["pass"])`,
   youDo: {
     title: "Quality gate explicable ante schema drift",
     context:
-      "Tú lo haces (You Do). Implementa una suite de checks (verificaciones) sobre un dataset sintético de clientes y transacciones. Las regiones son Lima, Madrid y Cusco; los montos son PEN ficticios.\n\nLa suite debe cubrir:\n\n- null policies required/optional (políticas de nulos obligatorias u opcionales por campo)\n- duplicados exactos vs. conflictos, con evidencia\n- normalización con columna raw (valor original) lateral\n- outliers de dominio e IQR (rango intercuartílico)\n- contratos de schema y cross-field (reglas entre columnas)\n- cuarentena con audit trail append-only (rastro de auditoría donde solo se agregan eventos)\n\nEl conjunto limpio alimenta S17 y CP-N2-A. El gate es fail-closed (fallar de forma segura): si el contrato se rompe, el job no aprueba en silencio. Nunca arregles un dato sin métrica ni uses PII real (datos personales identificables).\n\nAceptación mínima del fixture del starter:\n\n1. cliente_id null en la fila 3 → el gate detecta null_required y manda la fila a cuarentena. No uses fillna mágico.\n2. C001 con Lima y Cusco → el gate detecta conflict_region (o etiqueta similar). No uses drop_duplicates ciego.\n3. monto -1.0 en C003 → el gate detecta domain_error. No borres solo por IQR.\n4. Resultado del run → metrics.pass == False y el JSON contiene rows_in, rows_clean y rows_quarantine.",
+      "Tú lo haces (You Do). Implementa una suite de checks (verificaciones) sobre un dataset sintético de clientes y transacciones. Las regiones son Lima, Madrid y Cusco; los montos son PEN ficticios.\n\nLa suite debe cubrir:\n\n- null policies required/optional (políticas de nulos obligatorias u opcionales por campo)\n- duplicados exactos vs. conflictos, con evidencia\n- normalización con columna raw (valor original) lateral\n- errores de dominio por valores fuera de límites documentados\n- flags de outliers estadísticos con IQR (ancho de la mitad central) y cercas de Tukey\n- contratos de schema y cross-field (reglas entre columnas)\n- cuarentena con audit trail append-only (rastro de auditoría donde solo se agregan eventos)\n\nEl conjunto limpio alimenta S17 y CP-N2-A. El gate es fail-closed (fallar de forma segura): si el contrato se rompe, el job no aprueba en silencio. Nunca arregles un dato sin métrica ni uses PII real (datos personales identificables).\n\nAceptación mínima del fixture del starter:\n\n1. cliente_id null en la fila 3 → el gate detecta null_required y manda la fila a cuarentena. No uses fillna mágico.\n2. C001 con Lima y Cusco → el gate detecta conflict_region (o etiqueta similar). No uses drop_duplicates ciego.\n3. monto -1.0 en C003 → el gate detecta domain_error. No borres solo por IQR.\n4. Resultado del run → metrics.pass == False y el JSON contiene rows_in, rows_clean y rows_quarantine.",
     objectives: [
       "Suite de checks que falla explicablemente ante drift, null required y domain_error",
       "Cuantificar pérdida de filas/campos con metrics.rows_in / rows_clean / rows_quarantine",

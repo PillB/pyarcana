@@ -180,3 +180,26 @@ test('L3 requires a worked example, not just a heading and a figure', () => {
     .map(([id]) => id)
   assert.deepEqual(wrong, [], 'L3 is L2 plus orientation and a figure, so it cannot skip the example')
 })
+
+test('a pair defined in the plural with a quantifier counts as teaching', () => {
+  // "Las **cercas de Tukey** son dos límites calculados a partir de los cuartiles" is how
+  // Spanish defines a pair; the cue list only knew "es un/una" and "son unos/unas", so S16's
+  // own sentence left the term reported as never explained in all 52 sections.
+  const p2 = events.events.find(
+    (e) => e.kind === 'theory.paragraph' && /\*\*cercas de Tukey\*\* son dos/.test(e.text),
+  )
+  assert.ok(p2, 'the S16 quartiles paragraph that says what a cerca is must still exist')
+  assert.ok(
+    p2.defines.includes('cercas-de-tukey'),
+    `the sentence that says what a cerca is must teach it; defines: ${p2.defines.join(', ')}`,
+  )
+})
+
+test('a plural copula with no noun after the numeral is a count, not a definition', () => {
+  // The guard that keeps "las opciones son dos" out: the numeral has to introduce a noun.
+  const cue =
+    /^[^.!?;]{0,45}?(?<!\p{L})(?:es un|es una|son unos|son unas|son (?:dos|tres|cuatro|cinco|seis|\d+)\s+\p{L}{3,})/iu
+  assert.equal(cue.test(' son dos límites calculados a partir de los cuartiles'), true)
+  assert.equal(cue.test(' son dos.'), false)
+  assert.equal(cue.test(' son dos, y ya las viste'), false)
+})

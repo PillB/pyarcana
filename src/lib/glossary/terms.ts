@@ -560,10 +560,10 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'groupby',
     term: 'GroupBy',
-    aliases: ["GroupBy"],
+    aliases: ["GroupBy", "groupby"],
     category: 'Pandas',
-    definition: 'Patrón split-apply-combine. df.groupby("region")["ventas"].sum(). Agrupa por una clave y agrega.',
-    firstSectionId: 'stdlib-deep',
+    definition: 'Reúne las filas que comparten el valor de una clave para calcular algo por cada grupo.',
+    firstSectionId: 'wxpython-gui',
   },
   {
     id: 'merge',
@@ -738,7 +738,15 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'Outlier',
     aliases: ['Outlier', 'valor atípico', 'valores atípicos', 'outliers'],
     category: 'Data Science',
-    definition: 'Valor atípico. Detectar con IQR: Q1 - 1.5*IQR a Q3 + 1.5*IQR. Los outliers afectan media y modelos.',
+    definition: 'Valor alejado de la mayoría de su columna. Las cercas señalan candidatos estadísticos; la regla de dominio decide si cada uno es error o flag.',
+    firstSectionId: 'wxpython-gui',
+  },
+  {
+    id: 'cuartil',
+    term: 'Cuartil',
+    aliases: ['cuartil', 'cuartiles', 'Q1', 'Q3'],
+    category: 'Data Science',
+    definition: 'Punto que divide los valores ordenados en cuatro partes; Q1 deja aproximadamente una cuarta parte por debajo y Q3 deja tres cuartas partes.',
     firstSectionId: 'wxpython-gui',
   },
   {
@@ -747,6 +755,14 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['IQR', 'rango intercuartílico'],
     category: 'Data Science',
     definition: 'Rango intercuartílico. Q3 - Q1. Medida robusta de dispersión.',
+    firstSectionId: 'wxpython-gui',
+  },
+  {
+    id: 'cercas-de-tukey',
+    term: 'Cercas de Tukey',
+    aliases: ['cerca de Tukey', 'cercas de Tukey'],
+    category: 'Data Science',
+    definition: 'Límites calculados desde los cuartiles: Q1 - 1.5 × IQR y Q3 + 1.5 × IQR. Señalan candidatos estadísticos; la regla de dominio decide si cada uno es error o flag.',
     firstSectionId: 'wxpython-gui',
   },
   {

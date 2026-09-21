@@ -214,6 +214,49 @@ jobs 2 domain_imports_http False`,
       },
     },
     {
+      heading: "Del contrato stdlib al borde de FastAPI",
+      figure: {
+        id: "S41-stdlib-to-fastapi",
+        caption:
+          "FastAPI conserva las cuatro responsabilidades del modelo stdlib y automatiza cómo llegan al borde HTTP.",
+        alt:
+          "Tabla con columnas Modelo stdlib de T2-A y FastAPI. Cuatro filas: thin_handler con @app.post, get_store con Depends, body: dict con JobCreate y vista devuelta con OpenAPI.",
+      },
+      paragraphs: [
+        "Ya tienes las dos mitades de `CASO-ARE-041-2A`: `thin_handler` recibe piezas sustituibles y `create_job` conserva la regla; falta ver cómo FastAPI las conecta. S41 usa la biblioteca estándar a propósito: no levanta servidor, no pide credenciales y no toca la red. FastAPI aplica el mismo contrato y asume tres tareas: enruta la petición, valida el cuerpo antes de tu código y publica la descripción de la API.",
+        "`thin_handler` pasa a una **path operation**, la función que FastAPI llama para un método y una ruta, declarada con `@app.post(\"/v1/jobs\")`. `get_store` deja de pasarse a mano: `Depends(get_store)` llama esa función y entrega su resultado al parámetro. En una prueba, sustituyes esa dependencia por un `store` falso y la ruta queda intacta, igual que en el laboratorio.",
+        "`body: dict` pasa a `JobCreate`, un **modelo Pydantic**: una clase que declara los campos y sus tipos. FastAPI comprueba el cuerpo contra ese modelo antes de ejecutar el handler y responde 422 por su cuenta cuando no encaja. La vista devuelta pasa al esquema de respuesta que FastAPI publica como **OpenAPI**, la descripción de la API que otras herramientas pueden leer. Esa es la regla que S41-T2-B pondrá a prueba.",
+        "El fragmento de abajo no se ejecuta aquí: el laboratorio no tiene FastAPI instalado, por eso S41 modela el contrato con la biblioteca estándar. Pégalo en el módulo donde ya viven `get_store` y `create_job`: conserva el mismo dominio y cambia solo quién conecta las piezas.",
+        "Antes de mirar la figura, cubre la columna de FastAPI y haz el mapeo de memoria. ¿Qué corresponde a `thin_handler`, `get_store`, `body: dict` y la vista devuelta? Nombra las cuatro piezas; luego descubre la columna y comprueba cada fila.",
+      ],
+      code: {
+        language: 'python',
+        title: "El mismo contrato en FastAPI",
+        code: `from fastapi import Depends, FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class JobCreate(BaseModel):
+    name: str
+
+class JobView(BaseModel):
+    id: str
+    name: str
+
+@app.post("/v1/jobs", status_code=201)
+def post_job(body: JobCreate, store: list = Depends(get_store)) -> JobView:
+    job = create_job(store, body.model_dump())
+    return JobView(**job)
+`,
+      },
+      callout: {
+        type: "tip",
+        title: "Regla de frontera",
+        content: "FastAPI conecta y documenta el borde; `create_job` conserva la regla sin importar HTTP.",
+      },
+    },
+    {
       heading: "Validación, serialización y documentación",
       figure: {
         id: "S41-request-path",

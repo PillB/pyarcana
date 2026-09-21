@@ -192,11 +192,11 @@ export const MISC_FIGURES: Record<string, FigureData> = {
   },
   'S16-groupby-nunique': {
     kind: 'table',
-    headline: 'Agrupar por clave convierte cuatro filas en un conteo por clave',
-    left: { title: 'Filas de entrada', head: ['cliente_id', 'region'], rows: [['C001', 'Lima'], ['C001', 'Lima'], ['C002', 'Cusco'], ['C002', 'Madrid']], tint: 3 },
-    right: { title: 'Conteo por clave', head: ['cliente_id (índ)', 'regiones'], rows: [['C001', '1'], ['C002', '2']], tint: 2 },
+    headline: 'Agrupar por clave convierte tres filas en un conteo por clave',
+    left: { title: 'Filas de entrada', head: ['cliente_id', 'region'], rows: [['C001', 'Lima'], ['C001', 'Madrid'], ['C002', 'Cusco']], tint: 3 },
+    right: { title: 'Conteo por clave', head: ['cliente_id (índ)', 'regiones'], rows: [['C001', '2'], ['C002', '1']], tint: 2 },
     forward: 'groupby + nunique',
-    note: 'C001 repite Lima y queda en 1; C002 reúne Cusco y Madrid y queda en 2.',
+    note: 'C001 reúne Lima y Madrid y queda en 2; C002 solo tiene Cusco y queda en 1.',
   },
 
   // -------------------------------------------------------------- numberline
@@ -322,6 +322,14 @@ export const MISC_FIGURES: Record<string, FigureData> = {
       { label: 'hooks', value: 100, tint: 2, display: 'activos' },
     ],
     note: 'Basta que una barra se salga para detener: el error de contrato es olvidar comparar la de errores.',
+  },
+  'S41-stdlib-to-fastapi': {
+    kind: 'table',
+    headline: 'Las mismas cuatro piezas, ahora conectadas por FastAPI',
+    left: { title: 'Modelo stdlib de T2-A', head: ['pieza'], rows: [['thin_handler'], ['get_store'], ['body: dict'], ['vista devuelta']], tint: 3 },
+    right: { title: 'FastAPI', head: ['pieza'], rows: [['@app.post(...)'], ['Depends(...)'], ['JobCreate'], ['OpenAPI']], tint: 2 },
+    forward: 'corresponde a',
+    note: 'FastAPI conecta y documenta el borde: JobCreate rechaza antes de create_job y Depends permite sustituir get_store en una prueba.',
   },
   'S33-group-folds': {
     kind: 'folds',

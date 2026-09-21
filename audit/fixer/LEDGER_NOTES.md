@@ -459,3 +459,27 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   because it walked only the learning tabs and those two surfaces are behind a popover and a
   sheet. `InlineText` had existed since the 721-leak fix; the outcome site simply never used it.
   When a fix is "those fields now go through InlineText", enumerate the fields that do not.
+
+### The exercise that cannot fail, and two instruments (2026-09-21)
+
+- **Two planted defects that printed the solution's own answer.** S16-T3-B-E2 (upper fence only,
+  on a fixture whose lower fence was -36.5) and S13-T1-B-E1 (inverted precision/recall
+  denominators, on `tp, fp, fn = 8, 2, 2`, where both metrics are 0.8). In each the broken starter
+  printed exactly the declared «Éxito», so the learner ran it, matched the output and submitted,
+  having practised the habit the exercise names. No gate could see it: the snippets audit runs the
+  SOLUTION and compares it with the declared output, and nothing ran the starter.
+  `scripts/planted_defect_audit.py` now runs both for every exercise whose text declares a DEFECT
+  and reports the ones whose starter already prints every line the solution does. The comparison
+  is line-containment, not equality: S13's starter printed an extra `ok True`, which exact
+  comparison called a difference while the two metric lines the learner checks were already right.
+- **Adding a glossary entry adds a concept the map must see defined.** The round added `cuartil`
+  and `cercas de Tukey` because the blocks bold them as course vocabulary, and both immediately
+  became findings: the Tukey sentence said where the fences sit («usan 1.5 … y quedan en …») but
+  never what one is, so the term read as never explained anywhere in 52 sections. Bold a term,
+  and the same paragraph has to say «X es …».
+- **A block's own heading is not a forward reference.** `glossary_first_use.py` ordered events
+  positionally, so a block titled "Cuartiles, IQR y cercas de Tukey" whose paragraphs define all
+  three reported USE_BEFORE_DEFINITION against itself — the heading is emitted before the
+  paragraphs. Name the subject, then teach it, is how the course is written; the audit now skips a
+  first mention that is the heading of the very block that defines the term, and still reports a
+  heading that names something a later block defines. Course-wide first-use issues fell 68 → 67.

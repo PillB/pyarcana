@@ -41,7 +41,10 @@ type Ev = {
 // "tien-es el", "corromp-es el", "pierd-es la": 18 credited definitions at HEAD, every one of
 // them a cue glued to the end of the preceding verb.
 const POST_CUE =
-  /^[^.!?;]{0,45}?(?<!\p{L})(?:es un|es una|son unos|son unas|significa|consiste en|se refiere a|sirve para|quiere decir|no es mas que|no es m\u00e1s que|se define como|es el|es la|son los|son las|es aquel|es aquella)/iu
+  /^[^.!?;]{0,45}?(?<!\p{L})(?:es un|es una|son unos|son unas|significa|consiste en|se refiere a|sirve para|quiere decir|no es mas que|no es m\u00e1s que|se define como|es el|es la|son los|son las|es aquel|es aquella|son (?:dos|tres|cuatro|cinco|seis|\d+)\s+\p{L}{3,})/iu
+// A pair is defined in the plural with a quantifier, not with "un/una": "Las **cercas de Tukey**
+// son dos l\u00edmites calculados a partir de los cuartiles". The numeral has to be followed by a noun,
+// so "las opciones son dos" - a count, not a definition - stays out.
 // "se llama" is the plainest way Spanish names a thing, and it was missing: S02 teaches
 // unpacking with "Esta acci\u00f3n se llama **desempaquetar una tupla**" and scored never-explained.
 const PRE_CUE =

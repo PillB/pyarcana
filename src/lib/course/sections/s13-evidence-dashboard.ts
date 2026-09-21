@@ -123,7 +123,7 @@ relationship_signal_score SEPARATE`,
       },
       subtopicId: "S13-T1-B",
       paragraphs: [
-        "**Ancla:** sin etiquetas no sabes si tu regla de ER ayuda o daña. Con pares **sintéticos** etiquetados calculas **TP** (dijiste match y era match), **FP** (dijiste match y no lo era) y **FN** (era match y lo dejaste pasar). De ahí: precision = TP/(TP+FP) y recall = TP/(TP+FN). La etiqueta es ground truth (verdad de referencia) de *identidad en el fixture del curso* — **no** es un veredicto legal sobre personas reales.",
+        "**Ancla:** sin etiquetas no sabes si tu regla de ER ayuda o daña. Con pares **sintéticos** etiquetados calculas **TP** (dijiste match y era match), **FP** (dijiste match y no lo era) y **FN** (era match y lo dejaste pasar). De ahí: precision = TP/(TP+FP) y recall = TP/(TP+FN). La **precision** mide, entre los pares que llamaste match, qué parte sí lo era; el **recall** mide, entre los matches reales, qué parte encontraste. Estas dos lecturas permiten auditar la regla antes de que los casos dudosos pasen a la cola clerical. La etiqueta es ground truth (verdad de referencia) de *identidad en el fixture del curso* — **no** es un veredicto legal sobre personas reales.",
         "**Mecanismo y trade-off:** en ER de alto riesgo (crédito, compliance) priorizas **precision**: fusionar por error puede unir cuentas de dos personas distintas. El recall imperfecto se compensa con la **cola clerical** (humano revisa la duda). Scores en banda intermedia (p. ej. [0.4, 0.7]) **nunca** auto-mergean: van a revisión. Aceptar solo si score ≥ 0.8 y uncertainty ≠ high. Fail-closed si la etiqueta o el score no son finitos.",
         "**Caso trabajado:** tabla de 6 pares sintéticos con 2 TP, 1 FP y 1 FN → precision 0.667 y recall 0.667. Reportas ambos redondeados a 3 decimales y el flag explícito `fp_means_fraud=False` en el memo del gate. Si solo publicas «accuracy alto» sin desglose TP/FP/FN, el revisor no puede auditar el coste de los errores.",
         "**Borde ético:** un **FP no implica fraude**. Es colisión de identidad estimada (dos personas, un score alto por casualidad o por regla débil). Tratar FP como delito es el error más grave que puedes llevar a un dashboard de N1: por eso la ficha y el runbook repiten la frase hasta que se vuelva reflejo.",
@@ -939,7 +939,7 @@ print(er_score(A, B), er_score(A, C), er_score(A, D))`,
         kind: "guided",
         title: "Precision y recall sin invertir",
         preamble:
-          "- **Contexto:** en el gate N1 reportas si el matching sintético es confiable antes de ensanchar reglas.\n- **Meta:** calcular precision y recall a partir de tp/fp/fn (sin invertir denominadores).\n- **Éxito:** `precision 0.8` y `recall 0.8` con tp=8, fp=2, fn=2.\n- **Límites:** solo stdlib; redondeo a 3 decimales; no uses sklearn.",
+          "- **Contexto:** en el gate N1 reportas si el matching sintético es confiable antes de ensanchar reglas.\n- **Meta:** calcular precision y recall a partir de tp/fp/fn (sin invertir denominadores).\n- **Éxito:** `precision 0.8` y `recall 0.667` con tp=8, fp=2, fn=4.\n- **Límites:** solo stdlib; redondeo a 3 decimales; no uses sklearn.",
         instruction:
           "1. El starter invierte las formulas — ese es el DEFECT.\n2. precision = tp/(tp+fp); recall = tp/(tp+fn).\n3. Imprime con `round(..., 3)` y las etiquetas del solution.\n4. No cambies los conteos del fixture.",
         hint: "precision = tp/(tp+fp)",
@@ -948,7 +948,7 @@ print(er_score(A, B), er_score(A, C), er_score(A, D))`,
           "recall = tp/(tp+fn)",
         ],
         edgeCases: ["división por cero: no aplica en este fixture"],
-        tests: "0.8 y 0.8",
+        tests: "precision 0.8 y recall 0.667",
         feedback:
           "Si precision «baja» al subir FN o recall al subir FP, invertiste los denominadores. Precision castiga falsos match; recall castiga matches perdidos — en alto riesgo sueles priorizar precision y empujar duda a la cola.",
         retrospective:
@@ -958,7 +958,7 @@ print(er_score(A, B), er_score(A, C), er_score(A, D))`,
           title: "precision_recall.py",
           code: `# CASO-LIM-013 · precision/recall
 # DEFECT: formulas invertidas
-tp, fp, fn = 8, 2, 2
+tp, fp, fn = 8, 2, 4
 print("precision", round(tp / (tp + fn), 3))
 print("recall", round(tp / (tp + fp), 3))
 print('ok', True)`,
@@ -966,11 +966,11 @@ print('ok', True)`,
         solutionCode: {
           language: 'python',
           title: "precision_recall.py",
-          code: `tp, fp, fn = 8, 2, 2
+          code: `tp, fp, fn = 8, 2, 4
 print("precision", round(tp / (tp + fp), 3))
 print("recall", round(tp / (tp + fn), 3))`,
           output: `precision 0.8
-recall 0.8`,
+recall 0.667`,
         },
       },
       {

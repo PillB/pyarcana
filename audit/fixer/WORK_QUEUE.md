@@ -70,6 +70,17 @@ their verified findings, recorded here so a second interruption cannot lose them
   the `S33-overfit-gap` figure moved from T1-A to T3-B with its bars renamed train/valid, the
   `valid` gloss, the roadmap paragraph in plain words, and fold 0 aligned to the k-fold scheme in
   all six places. Gate clean except the shared S16 city-name failure.
+- **S27 (row 9): pytest.** A supporting block before S27-T2-A — what pytest is, that it is a
+  separate program installed into the `.venv` with `python -m pip install pytest`, and a real
+  measured run (`.F`, the node id, the assert diff) — plus one sentence in theory[0] naming it.
+- **S41 (row 10): FastAPI.** A supporting block after S41-T2-A mapping the stdlib model the
+  learner just ran onto `@app.post`, `Depends`, a Pydantic body and OpenAPI, with figure
+  `S41-stdlib-to-fastapi` and a non-executed snippet. Trade-off stated: `fastapi` is not in
+  requirements-content.txt, so the runtime audit skips that snippet as a missing dependency
+  rather than verifying it; the alternative was a new pinned content dependency for code the
+  section deliberately never runs.
+- **S13 (row 13): precision and recall in plain words**, in S13-T1-B where the formulas already
+  were, so S30's F1 block has something to recall. Surprising uses in S13: 77 -> 18.
 - **Two platform fixes found on the way.** `learningOutcomes` and `jobRelevance` rendered raw, so
   32 outcomes in 17 sections showed literal backticks on the live site; both now go through
   `InlineText`, and `scripts/raw_markdown_rendering.spec.ts` (stale ids from batch A, so it had
@@ -139,10 +150,12 @@ their verified findings, recorded here so a second interruption cannot lose them
 
 ## Instrument debt
 
-0. **A gate for planted defects (new, 2026-09-19).** S16-T3-B-E2's DEFECT starter printed exactly
-   the declared solution output, so the exercise could not fail and certified the habit it names.
-   Run every exercise whose instruction or starter says DEFECT under `.venv-content` and fail when
-   the starter's output equals `solutionCode.output`. Nothing else can see this class.
+0. **A gate for planted defects — BUILT (2026-09-21).** `scripts/planted_defect_audit.py` runs the
+   starter and the solution of every exercise whose text declares a DEFECT and reports those whose
+   starter already prints every line the solution does. It found S13-T1-B-E1 (inverted denominators
+   on a fixture where both metrics are 0.8) after S16-T3-B-E2 was found by hand; both are fixed.
+   Still owed: a full run across all 941 such exercises (the two sections checked are clean), and
+   a ratchet test holding the count once that baseline exists.
 17. `glossary_intro_audit.py` reads section *source* — it matches `id: 'fastapi'`, a code comment
     and a book title. Move it onto the extractor's learner-visible events.
 18. The extractor still does not emit weDo `feedback`, `edgeCases`, declared `output`, You Do

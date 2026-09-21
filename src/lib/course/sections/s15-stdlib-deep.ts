@@ -68,7 +68,7 @@ export const section15: CourseSection = {
       paragraphs: [
         "Una **Series** es un vector con **Index** (etiquetas); un **DataFrame** es una tabla de columnas — cada columna es una Series alineada por el mismo Index. Esa idea es el puente desde NumPy: ya no tienes un solo dtype por array, sino **columnas heterogéneas** unidas por un eje de etiqueta. Si sumas dos Series con índices distintos, pandas **alinea por etiqueta**: el resultado tiene la unión de índices y pone NaN donde falta valor. El Index no es decoración: es el eje de negocio que decide qué filas se combinan.",
         "Un Index **estable** (`cliente_id`) facilita auditoría y, más adelante, unir tablas sin adivinar el orden de las filas. `set_index` / `reset_index` cambian el eje de etiqueta; no pierdas la clave de negocio al exportar. **Fail-closed** (fallar de forma segura): si el id no es único y el contrato lo exige, reporta duplicados **antes** de un `set_index` ciego. En un retailer peruano sintético, `C001` en Lima y `C002` en Arequipa deben seguir siendo las mismas filas después de filtrar, reindexar o exportar — la etiqueta es la identidad de negocio, no la posición 0 o 1.",
-        "MultiIndex (por ejemplo región × mes) se menciona solo como etiquetas jerárquicas; las agregaciones multi-eje llegan cuando trabajes uniones y groupby. Caso de laboratorio: Series de scores indexada por `C001`/`C002` y un DataFrame con `region` (texto) + `score` (float64). Antes de las APIs de selección, interioriza esta regla: **etiqueta ≠ posición**. Si el index es `cliente_id`, `loc['C002']` y `iloc[1]` solo coinciden si el orden de filas lo permite — no lo asumas.",
+        "MultiIndex (por ejemplo región × mes) se menciona solo como etiquetas jerárquicas; las agregaciones multi-eje llegan cuando trabajes con uniones y reúnas las filas que comparten el valor de una clave. Caso de laboratorio: Series de scores indexada por `C001`/`C002` y un DataFrame con `region` (texto) + `score` (float64). Antes de las APIs de selección, interioriza esta regla: **etiqueta ≠ posición**. Si el index es `cliente_id`, `loc['C002']` y `iloc[1]` solo coinciden si el orden de filas lo permite — no lo asumas.",
       ],
       code: {
         language: 'python',
@@ -1914,7 +1914,7 @@ if __name__ == "__main__":
       },
       {
         question: "¿Para qué sirve astype('category') en una columna de región (Lima/Arequipa)?",
-        options: ["Acelera cualquier operación de texto sobre esa columna", "Agrupa las filas repetidas en un solo registro por región", "Reduce memoria y fija un conjunto de valores conocidos; conviene normalizar con str.title antes", "Ordena las regiones alfabéticamente al hacer groupby"],
+        options: ["Acelera cualquier operación de texto sobre esa columna", "Agrupa las filas repetidas en un solo registro por región", "Reduce memoria y fija un conjunto de valores conocidos; conviene normalizar con str.title antes", "Ordena las regiones alfabéticamente al reunir las filas que comparten el valor de una clave"],
         correctIndex: 2,
         explanation:
           "`category` es un dtype compacto para labels de cardinalidad baja o acotada (esto es, pocos valores únicos como regiones o estados). Normaliza mayúsculas/minúsculas antes para no duplicar 'lima' y 'Lima'; mide memoria si la cardinalidad (la cantidad de valores únicos) crece.",
