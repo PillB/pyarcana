@@ -471,7 +471,7 @@ print(provenance_backup())`,
       subtopicId: "S08-T4-B",
       paragraphs: [
         "El **manifest** de la corrida es un JSON con `run_id` (opcional), una lista `sources` y totales **derivados**. Cada fuente lleva `name`, `sha256` del crudo y conteos `n_in`, `n_clean`, `n_quarantine` (más `reconcile_ok` calculado). Los totales se **suman** desde las fuentes; no se hardcodean ni se copian de un run anterior “porque se veía bien”.",
-        "La **reconciliación ocurre en dos niveles**. Primero, cada fuente cumple `n_in == n_clean + n_quarantine`. Después, los totales deben ser la suma exacta de todas las fuentes. Mirar solo el total puede ocultar un sobrante en el CSV que compensa un faltante en el JSON. Eso es lo que muestra `compensated_bad` en la práctica guiada. `build_manifest` comprueba las cuentas y lanza `ValueError` si no cierran. En el límite del proceso, `main` captura esa señal y devuelve `1`. `SystemExit` convierte ese valor en el estado de salida que ve la terminal. La corrida falla de verdad; no se limita a imprimir una etiqueta de error.",
+        "La **reconciliación ocurre en dos niveles**. Primero, cada fuente cumple `n_in == n_clean + n_quarantine`. Después, los totales deben ser la suma exacta de todas las fuentes. Mirar solo el total puede ocultar un sobrante en el CSV que compensa un faltante en el JSON. Eso es lo que muestra `compensated_bad` en la práctica guiada. `build_manifest` comprueba las cuentas y lanza `ValueError` si no cierran. En el límite del proceso, el error se imprime y `SystemExit` termina la ejecución con estado `1`. La corrida falla de verdad; no se limita a imprimir una etiqueta de error.",
         "Evidencia del gate CP-N1-B en tu portfolio: scripts + fixtures sintéticos + manifest de demo + al menos un test de reconcile fallido (exit 1) + README reproducible. Clean y quarantine deben ser **siempre** explicables desde el manifest: un revisor no debería necesitar adivinar dónde fueron las filas.",
       ],
       code: {
@@ -518,19 +518,15 @@ sources = [
 ]
 print(json.dumps(build_manifest(sources), ensure_ascii=False, sort_keys=True))
 
-def main():
-    broken = [
-        {"name": "clients.csv", "sha256": "abc", "n_in": 6,
-         "n_clean": 4, "n_quarantine": 1}
-    ]
-    try:
-        build_manifest(broken)
-    except ValueError as error:
-        print(error, file=sys.stderr)
-        return 1
-    return 0
-
-raise SystemExit(main())`,
+broken = [
+    {"name": "clients.csv", "sha256": "abc", "n_in": 6,
+     "n_clean": 4, "n_quarantine": 1}
+]
+try:
+    build_manifest(broken)
+except ValueError as error:
+    print(error, file=sys.stderr)
+    raise SystemExit(1)`,
         output: `{"n_clean": 7, "n_in": 8, "n_quarantine": 1, "reconcile_ok": true, "sources": [{"n_clean": 5, "n_in": 6, "n_quarantine": 1, "name": "clients.csv", "reconcile_ok": true, "sha256": "abc"}, {"n_clean": 2, "n_in": 2, "n_quarantine": 0, "name": "transactions.json", "reconcile_ok": true, "sha256": "def"}]}
 reconcile fallo en ['clients.csv']`,
       },
@@ -2001,14 +1997,9 @@ def run(data_dir: Path, out_dir: Path) -> int:
     raise NotImplementedError
 
 
-def main() -> None:
-    root = Path(__file__).resolve().parent
-    code = run(root / "data", root / "out")
-    raise SystemExit(code)
-
-
-if __name__ == "__main__":
-    main()
+root = Path(__file__).resolve().parent
+code = run(root / "data", root / "out")
+raise SystemExit(code)
 `,
     portfolioNote:
       "Adjunta:\n\n1. Un manifest de demo con `reconcile_ok` por fuente\n2. Al menos 1 fila de cuarentena con `reason` estable\n3. Los hashes de ambos inputs crudos\n4. Un test o corrida de reconciliación fallida (exit 1)\n\nEsa carpeta es la evidencia del gate CP-N1-B ante un revisor o entrevista junior de data engineering.",

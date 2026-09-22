@@ -1792,17 +1792,12 @@ def normalize_record(raw: dict[str, Any]) -> dict[str, Any]:
     raise NotImplementedError
 
 
-def main() -> None:
-    sample = {
-        "nombre": "  María del Carmen Quispe Huamán ",
-        "email": "  Ana.Perez+demo@Example.COM ",
-        "telefono": "+51 999-000-111",
-    }
-    print(normalize_record(sample))
-
-
-if __name__ == "__main__":
-    main()
+sample = {
+    "nombre": "  María del Carmen Quispe Huamán ",
+    "email": "  Ana.Perez+demo@Example.COM ",
+    "telefono": "+51 999-000-111",
+}
+print(normalize_record(sample))
 `,
     portfolioNote:
       "Muestra en README tres casos y su evidencia: nombre con partícula, email con `+` y teléfono con máscara. Incluye la tabla `raw → transforms → normalized → decisión`, un caso que termine en `review` y un test que habría fallado antes. Describe el límite de no-parentesco como decisión de diseño, no como promesa decorativa.",

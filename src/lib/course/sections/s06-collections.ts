@@ -1881,7 +1881,7 @@ costo_conceptual_set 5`,
   youDo: {
     title: "Modelo tabular en memoria (CP-N1-B)",
     context:
-      "Ahora diseñas la mesa de clasificación completa sin una solución para copiar. Trabaja en cuatro pasadas. Primero escribe los invariantes: la primera fila única se conserva, un payload distinto se reporta y ninguna transacción pierde su `client_id`. Después implementa cada helper y pruébalo por separado. En la tercera pasada compón el flujo de `main`; en la cuarta, ejecuta una matriz de bordes con duplicado idéntico, conflicto, ruta ausente, lista vacía y entrada desordenada. El éxito no es que el archivo «corra», sino que puedas relacionar cada salida con una promesa verificable.",
+      "Ahora diseñas la mesa de clasificación completa sin una solución para copiar. Trabaja en cuatro pasadas. Primero escribe los invariantes: la primera fila única se conserva, un payload distinto se reporta y ninguna transacción pierde su `client_id`. Después implementa cada helper y pruébalo por separado. En la tercera pasada compón la demostración reproducible al final del archivo; en la cuarta, ejecuta una matriz de bordes con duplicado idéntico, conflicto, ruta ausente, lista vacía y entrada desordenada. El éxito no es que el archivo «corra», sino que puedas relacionar cada salida con una promesa verificable.",
     objectives: [
       "Representar cliente/contacto/tx en list[dict] documentado",
       "Implementar dedup_report → unique + conflicts (idéntico ≠ conflicto)",
@@ -1949,23 +1949,18 @@ def build_demo_store() -> list[dict]:
     ]
 
 
-def main() -> None:
-    store = build_demo_store()
-    print("n_clients", len(store))
-    print("flat", flatten_txs(store))
-    print(export_deterministic(store))
-    print("phone C002", get_nested(store[1], "contacts", default=[]))
-    print("missing path", get_nested(store[0], "profile", "phone", default="MISSING"))
-    rows = [
-        {"id": "C001", "v": 1},
-        {"id": "C001", "v": 9},
-        {"id": "C002", "v": 2},
-    ]
-    print(dedup_report(rows, key_fn=lambda r: r["id"]))
-
-
-if __name__ == "__main__":
-    main()
+store = build_demo_store()
+print("n_clients", len(store))
+print("flat", flatten_txs(store))
+print(export_deterministic(store))
+print("phone C002", get_nested(store[1], "contacts", default=[]))
+print("missing path", get_nested(store[0], "profile", "phone", default="MISSING"))
+rows = [
+    {"id": "C001", "v": 1},
+    {"id": "C001", "v": 9},
+    {"id": "C002", "v": 2},
+]
+print(dedup_report(rows, key_fn=lambda r: r["id"]))
 `,
     portfolioNote:
       "Presenta el proyecto como una decisión de diseño, no como una lista de funciones. Incluye el shape del store, el conflicto sintético que tu política conserva, dos dumps iguales obtenidos desde órdenes de entrada distintos y una breve justificación de cada colección. Un revisor debe poder reconstruir qué riesgo evita cada decisión sin abrir todo el código.",

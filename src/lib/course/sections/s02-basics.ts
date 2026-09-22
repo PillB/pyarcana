@@ -830,7 +830,7 @@ print(r3["errors"])`,
         },
         why: 'El schema de salida fija claves `*_raw`, campos limpios y `errors`. `clean_required` valida texto obligatorio; `safe_int` cubre edad opcional (vacío / OK / basura). Los asserts demuestran Unicode, vacío y número inválido sin depender de “mirar la consola”.',
         retrospective:
-          'Tres invariantes: raw siempre presente, Unicode round-trip, número inválido no revienta el proceso. El mensaje nombra campo y valor (`!r`). We Do construirá cada pieza y al final la suite completa; el You Do es este contrato con `main` y tests fijos.',
+          'Tres invariantes: raw siempre presente, Unicode round-trip, número inválido no revienta el proceso. El mensaje nombra campo y valor (`!r`). We Do construirá cada pieza y al final la suite completa; el You Do reúne este contrato, una demostración al final del archivo y tests fijos.',
       },
     ],
   },
@@ -2105,9 +2105,9 @@ Unicode OK`,
         edgeCases: ['raw conservado', '3 pruebas pasan', 'lista de errores'],
         tests: '3 pruebas pasan (unicode, vacío, edad inválida)',
         feedback:
-          'Esta suite es el corazón del You Do en miniatura. Si pasa en local y en Pyodide, el incremento CP-N1-A de S02 está listo para el portafolio — pero el You Do aún pide `mostrar_resumen`, `main` y un cuarto caso.',
+          'Esta suite es el corazón del You Do en miniatura. Si pasa en local y en Pyodide, el incremento CP-N1-A de S02 está listo para el portafolio — pero el You Do aún pide `mostrar_resumen`, una demostración al final del archivo y un cuarto caso.',
         retrospective:
-          'Una suite verde demuestra invariantes concretas: Unicode sobrevive, vacío se explica y número inválido no derriba el proceso. Nombra qué assert protege cada una; “tres tests OK” sin esa correspondencia es solo una luz verde. El You Do añade `mostrar_resumen`, `main` y un **cuarto** caso de edad en blanco: úsalo para demostrar transferencia, no para copiar esta miniatura.',
+          'Una suite verde demuestra invariantes concretas: Unicode sobrevive, vacío se explica y número inválido no derriba el proceso. Nombra qué assert protege cada una; “tres tests OK” sin esa correspondencia es solo una luz verde. El You Do añade `mostrar_resumen`, una demostración al final del archivo y un **cuarto** caso de edad en blanco: úsalo para demostrar transferencia, no para copiar esta miniatura.',
         starterCode: {
           language: 'python',
           title: 'parse_client_suite.py',
@@ -2208,7 +2208,7 @@ print("3 tests OK")`,
   youDo: {
     title: 'Parser de intake — registro sintético de cliente',
     context:
-      'Hasta aquí resolviste piezas aisladas; ahora deben colaborar sin perder sus contratos. Imagina el mismo formulario en una oficina, en una tableta y dentro de un proceso por lotes. La interfaz cambia. La obligación del parser no: debe conservar el original, normalizarlo con cuidado y explicar cada fallo del mismo modo. En este incremento del capstone CP-N1-A construirás el **esqueleto de un parser de intake** para un cliente sintético. Antes de programar, dibuja tres columnas —`raw`, `clean`, `errors`— y sigue por ellas un caso feliz, uno vacío y una edad inválida. Solo después implementa `safe_int`, `parse_client` y `mostrar_resumen`. Éxito operativo: `_run_tests()` imprime `tests OK` y `main()` muestra un resumen; los asserts fijos no se modifican y nunca se usa PII real.',
+      'Hasta aquí resolviste piezas aisladas; ahora deben colaborar sin perder sus contratos. Imagina el mismo formulario en una oficina, en una tableta y dentro de un proceso por lotes. La interfaz cambia. La obligación del parser no: debe conservar el original, normalizarlo con cuidado y explicar cada fallo del mismo modo. En este incremento del capstone CP-N1-A construirás el **esqueleto de un parser de intake** para un cliente sintético. Antes de programar, dibuja tres columnas —`raw`, `clean`, `errors`— y sigue por ellas un caso feliz, uno vacío y una edad inválida. Solo después implementa `safe_int`, `parse_client` y `mostrar_resumen`. Éxito operativo: al ejecutar el archivo, `_run_tests()` imprime `tests OK` y luego la demostración muestra un resumen; los asserts fijos no se modifican y nunca se usa PII real.',
     objectives: [
       'Capturar o recibir nombres, apellido_paterno, apellido_materno, contacto y dirección',
       'Conservar el valor original (raw) de cada campo',
@@ -2225,7 +2225,7 @@ print("3 tests OK")`,
       'safe_int trata vacío (tras strip) y ValueError con mensaje por campo',
       'Comprobaciones automáticas con `assert` —instrucciones que detienen la ejecución si una condición es falsa— documentadas y reproducibles',
       'Sin PII real; datos sintéticos (example.com si hay email)',
-      'Incluye una función `main()` y el guard `if __name__ == "__main__"`',
+      'Al ejecutar el archivo, corren los `assert` y luego una demostración reproducible',
     ],
     starterCode: `"""parse_client_intake.py — incremento CP-N1-A
 Datos sintéticos únicamente. No uses información real de clientes.
@@ -2316,21 +2316,16 @@ def _run_tests() -> None:
     print("tests OK")
 
 
-def main() -> None:
-    _run_tests()
-    demo = parse_client(
-        "  María José  ",
-        "Quispe",
-        "Ñahui",
-        "999000111",
-        "Av. Ejemplo 123, Lima",
-        edad=" 28 ",
-    )
-    mostrar_resumen(demo)
-
-
-if __name__ == "__main__":
-    main()
+_run_tests()
+demo = parse_client(
+    "  María José  ",
+    "Quispe",
+    "Ñahui",
+    "999000111",
+    "Av. Ejemplo 123, Lima",
+    edad=" 28 ",
+)
+mostrar_resumen(demo)
 `,
     portfolioNote:
       'Este esqueleto no destaca por tener muchas líneas, sino por hacer promesas verificables: tipos explícitos, conversión segura, nombres PEP 8, `raw` preservado y errores accionables. Es tu primer artefacto de datos defendible en un portafolio. En una entrevista, no digas solo “hice un parser”: muestra un input problemático, señala el assert que lo contiene y explica por qué el original sobrevive. Extensiones como más campos, `Decimal` o lectura de CSV son valiosas únicamente si respetan el contrato raw/clean/errors. Súbelo a tu repositorio de práctica **sin datos reales**.',

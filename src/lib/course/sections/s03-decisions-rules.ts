@@ -2273,7 +2273,7 @@ PASS 30 accept`,
       'Códigos estables: MISSING, OUT_OF_RANGE, NOT_IN_ALLOWLIST, NEEDS_REVIEW, OK (y BAD_TYPE si aplica)',
       'Cada resultado conserva exactamente status, code y message; los tipos incorrectos se rechazan sin lanzar TypeError',
       'Sin PII real; dataset sintético embebido o en data/',
-      "if __name__ == '__main__' demo reproducible",
+      "Demo reproducible al final del archivo; al ejecutarlo también corren los `assert`",
       'No usar assert como única validación de negocio (asserts OK en tests)',
       'Preferir guards a pirámides de if anidados',
     ],
@@ -2406,18 +2406,13 @@ def _run_tests():
     print("tests OK")
 
 
-def main():
-    demo = {
-        "edad": 17,
-        "region": "Lima",
-        "monto_ingreso": -5,
-    }
-    print(validate_record(demo))
-    _run_tests()
-
-
-if __name__ == "__main__":
-    main()
+demo = {
+    "edad": 17,
+    "region": "Lima",
+    "monto_ingreso": -5,
+}
+print(validate_record(demo))
+_run_tests()
 `,
     portfolioNote:
       'En el README cuenta la historia de una decisión, no una lista de funciones. Empieza con los invariantes en español; muestra después la tabla condición → `status`/`code` y explica por qué `if monto:` confundiría presencia con validez. Incluye una matriz con ausencia, tipo incorrecto, cero válido, fronteras, negativo y valor desconocido, y enlaza cada fila con la rama que protege. Si usas 50000 como umbral suave, decláralo como política revisable y explica por qué produce `review` en vez de `reject`. Cierra con una evidencia antes/después —por ejemplo, “el caso cero válido ya no cae en `reject`”— respaldada por la prueba correspondiente. Así la revisión de CP-N1-A puede discutir decisiones, no reconstruirlas.',

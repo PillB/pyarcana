@@ -96,6 +96,20 @@ their verified findings, recorded here so a second interruption cannot lose them
    every missing skill, wrong on-ramp and unsupported badge claim. Research syllabi, books and
    courses for completeness of the on-ramp. Feeds every row below.
 
+## Decided and owed (D9, D10) — S02-S08 DONE 2026-09-21
+
+D9's entrypoint sweep landed: the You Do starters of S02-S08 run their demo at top level, the
+requirements say what the file does instead of naming `main()`, the two Level-1 capstone starters
+are unwrapped, and `test_s04_independent_contract.py` now pins the ABSENCE of the idiom before S10
+and its presence in S10 (D9's "repointed, not weakened"). The ratchet reads the playgrounds and
+the capstone starters too, and D9 is down to the 2 sites in S09.
+
+**Next in this row: the S09/S10 round.** S09's guard protects a demo that a separate
+`test_audit_log.py` imports — remove the guard and the demo runs on import, so the three tests
+move into `audit_log.py` as final asserts (D11's rewrite rung), and S10 then teaches `__name__`
+with exactly that experience: a test module that imports the file and runs its demo by accident.
+Decisions L1Q3-1 (already decided by D9) and L1Q3-5 carry the detail.
+
 ## Decided and owed (D9, D10)
 
 2. **S01 entrypoint (D9).** Flatten `hello_sys.py`, `hello_lint.py`, `hello_env.py` and the

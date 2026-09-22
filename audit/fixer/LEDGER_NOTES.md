@@ -483,3 +483,13 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   paragraphs. Name the subject, then teach it, is how the course is written; the audit now skips a
   first mention that is the heading of the very block that defines the term, and still reports a
   heading that names something a later block defines. Course-wide first-use issues fell 68 → 67.
+
+### Widening a ratchet's scan is not relaxing it (2026-09-21, D9/D10)
+
+The D9/D10 gate read `src/lib/course/sections/` only. Learner code lives in two other places:
+the Theory-tab playgrounds in `SectionView.tsx` and the capstone `STARTER/*.py` files, both of
+which the learner opens and runs. Widening `offenders()` to read them — mapping a playground to
+its section id and a starter to its `gate.json` `gate_section` — put 8 `try`/`except` sites under
+the gate that no scan had ever seen, so D10's baseline went 98 → 106. That number went up while
+the gate got stronger: before, those sites were not protected at all. State that in the comment,
+or the next reader takes it for a relaxation and the ratchet loses its meaning.

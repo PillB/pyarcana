@@ -1757,7 +1757,7 @@ nota: la tasa solo necesita conteo O(n), no pares O(n2)`,
       "Emitir contadores y tasa_reject con denominador correcto",
       "Conservar el original (raw) de cada registro en el resultado",
       "Reutilizar validación tri-estado por campo (S03)",
-      "Demo reproducible con if __name__ == '__main__'",
+      "Incluir una demo reproducible al final del archivo y ejecutar los `assert` al correrlo",
     ],
     requirements: [
       "process_batch(records) → summary con n_total, n_accept, n_reject, n_review, tasa_reject, results[]",
@@ -1819,18 +1819,13 @@ def _run_tests() -> None:
     print("tests OK")
 
 
-def main() -> None:
-    demo = [
-        {"edad": 40, "region": "Arequipa", "monto_ingreso": 100, "raw_line": "40|Arequipa|100"},
-        {"edad": -3, "region": "Piura", "monto_ingreso": 50, "raw_line": "-3|Piura|50"},
-    ]
-    summary = process_batch(demo)
-    print(format_report(summary))
-    _run_tests()
-
-
-if __name__ == "__main__":
-    main()
+demo = [
+    {"edad": 40, "region": "Arequipa", "monto_ingreso": 100, "raw_line": "40|Arequipa|100"},
+    {"edad": -3, "region": "Piura", "monto_ingreso": 50, "raw_line": "-3|Piura|50"},
+]
+summary = process_batch(demo)
+print(format_report(summary))
+_run_tests()
 `,
     portfolioNote:
       "En el README cuenta la historia de un lote pequeño: tabla de entradas, decisiones, suma de contadores y cálculo `n_reject / n_total`. Incluye el caso vacío y una captura reproducible de stdout. Explica qué auditoría permite el raw intacto y qué decisión de diseño mantiene el procesamiento en O(n); esas razones valen más que una captura aislada.",

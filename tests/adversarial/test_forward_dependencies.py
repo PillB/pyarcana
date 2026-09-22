@@ -16,6 +16,7 @@ and is deliberately not matched.
 """
 from __future__ import annotations
 
+import json
 import re
 import unittest
 from pathlib import Path
@@ -46,15 +47,61 @@ def index_of(section_id: str) -> int:
     raise AssertionError(f"no active section has id {section_id!r}")
 
 
+PLAYGROUNDS = ROOT / "src/components/course/SectionView.tsx"
+CAPSTONES = ROOT / "course-state/capstones"
+
+
+def playground_sources() -> list[tuple[int, Path, str]]:
+    """(section index, path, source) for each Theory-tab playground, keyed by its section id.
+
+    The playground is Python the learner runs on the page, and it lives outside the section
+    files, so a sweep of `sections/` alone reports a section clean while the code under its
+    Theory tab still shows the construct.
+    """
+    order = {sid: idx for idx, sid, _, _ in active_sections()}
+    src = PLAYGROUNDS.read_text(encoding="utf-8")
+    out = []
+    for m in re.finditer(r"^\s{4}'([a-z0-9-]+)': \{", src, re.M):
+        sid = m.group(1)
+        if sid not in order:
+            continue
+        end = src.find("\n    },", m.end())
+        out.append((order[sid], PLAYGROUNDS, src[m.start() : end if end > 0 else len(src)]))
+    return out
+
+
+def capstone_starters() -> list[tuple[int, Path, str]]:
+    """(gate section index, path, source) for each capstone STARTER the learner opens.
+
+    A starter is the learner's own file; its gate.json says which section hands it over, and a
+    construct in it lands as early as that section does.
+    """
+    order = {sid: idx for idx, sid, _, _ in active_sections()}
+    out = []
+    for gate in sorted(CAPSTONES.glob("*/gate.json")):
+        try:
+            sid = json.loads(gate.read_text(encoding="utf-8")).get("gate_section")
+        except json.JSONDecodeError:
+            continue
+        idx = order.get(sid)
+        if idx is None:
+            continue
+        for starter in sorted((gate.parent / "STARTER").glob("*.py")):
+            out.append((idx, starter, starter.read_text(encoding="utf-8")))
+    return out
+
+
 def offenders(pattern: re.Pattern[str], before_index: int) -> list[str]:
     found = []
-    for idx, sid, path, src in active_sections():
+    scanned = [(idx, path, src) for idx, _, path, src in active_sections()]
+    scanned += playground_sources() + capstone_starters()
+    for idx, path, src in scanned:
         if idx >= before_index:
             continue
         for m in pattern.finditer(src):
             line = src[: m.start()].count("\n") + 1
             found.append(f"S{idx:02d} {path.name}:{line} {m.group(0)!r}")
-    return found
+    return sorted(found)
 
 
 # A ratchet, the same shape as `chore(lint)`'s complexity gate. The target is zero; these are
@@ -63,10 +110,19 @@ def offenders(pattern: re.Pattern[str], before_index: int) -> list[str]:
 #   - a new offender appears            -> someone wrote the construct early again;
 #   - the count drops below the baseline -> the work landed, so lower the number here, or the
 #                                           gate quietly stops protecting what was just fixed.
-# 2026-09-17: S01 went from 20 entrypoint sites to 0 (D9). What is left sits mostly in the
-# S02-S08 You Do increments of the cumulative capstone, and resolves with them.
-D9_OWED = 20
-D10_OWED = 98
+# 2026-09-17: S01 went from 20 entrypoint sites to 0 (D9).
+# 2026-09-21: S02-S08 followed — the You Do starters run their demo at top level and the
+# requirements say so. The scan now also reads the Theory-tab playgrounds and the capstone
+# STARTER files, which are learner code living outside sections/ (both clean). What is left is
+# S09, whose two sites are the guard around a demo that a separate test module imports; they
+# resolve with the S09/S10 round that moves those asserts into the file and teaches `__name__`
+# where a learner first imports their own module.
+D9_OWED = 2
+# 2026-09-21: 98 -> 106, and this is not a relaxation. Widening the scan to the Theory-tab
+# playgrounds put 8 `try`/`except` sites under the gate that no scan had ever read
+# (SectionView.tsx, the sections before S09). They were unprotected debt; now they are counted
+# debt, and the ratchet holds them. The number may only go down from here.
+D10_OWED = 106
 
 
 class ForwardDependencyTests(unittest.TestCase):

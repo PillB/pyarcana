@@ -1813,7 +1813,7 @@ all PASS`,
       "Demostrar idempotencia f(f(x)) == f(x) en cada uno",
       "Docstrings con pre/post; ValueError o política explícita en email",
       "Sin I/O ni prints dentro del core",
-      "Suite de ejemplos/asserts ejecutable en __main__",
+      "Ejecutar los ejemplos y asserts al correr el archivo",
     ],
     requirements: [
       "`normalize_nombre` colapsa espacios y aplica `title` por palabra (política del laboratorio, no regla universal de nombres)",
@@ -1899,18 +1899,13 @@ def _run_tests() -> None:
     print("tests OK")
 
 
-def main() -> None:
-    print(normalize_record(
-        "  Ana  Pérez ",
-        "  Ana.Perez@Example.COM ",
-        "999-000-111",
-        "  Av. Larco 123 ",
-    ))
-    _run_tests()
-
-
-if __name__ == "__main__":
-    main()
+print(normalize_record(
+    "  Ana  Pérez ",
+    "  Ana.Perez@Example.COM ",
+    "999-000-111",
+    "  Av. Larco 123 ",
+))
+_run_tests()
 `,
     portfolioNote:
       "Un portafolio convincente no dice «usé funciones»; muestra una decisión y su evidencia. Documenta en español la política y el límite de cada normalizador, pega la salida de la suite y relaciona cada assert con una promesa. Explica por qué `title` y «contiene `@`» son reglas didácticas, no validadores universales de identidad. Incluye un ejemplo de error controlado y señala cómo la ausencia de I/O permite probar el núcleo sin archivos. No atribuyas impacto productivo que no hayas medido.",
