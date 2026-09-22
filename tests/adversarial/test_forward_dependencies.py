@@ -123,7 +123,12 @@ D9_OWED = 0
 # playgrounds put 8 `try`/`except` sites under the gate that no scan had ever read
 # (SectionView.tsx, the sections before S09). They were unprotected debt; now they are counted
 # debt, and the ratchet holds them. The number may only go down from here.
-D10_OWED = 106
+# 2026-09-21: 106 -> 86. S05's twenty are gone: the section keeps every `raise` (a contract
+# that refuses bad input is its subject) and stopped catching them — a refused call is now shown
+# as the last line of the traceback in a comment, and the batch exercise checks each row before
+# calling instead of catching after. S02 and S04's sites wait on the Q3 route, which is an owner
+# question; S06, S07, S08 and the playgrounds are next.
+D10_OWED = 86
 
 
 class ForwardDependencyTests(unittest.TestCase):

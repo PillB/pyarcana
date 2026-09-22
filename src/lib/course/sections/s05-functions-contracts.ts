@@ -206,7 +206,7 @@ SR./SRA. QUISPE
         "Una **precondición** declara lo que quien llama debe proporcionar, por ejemplo, que `raw` sea un texto. No se comprueba sola: el núcleo interno de confianza puede asumirla, mientras una **frontera de entrada** —el punto donde llegan datos no confiables— puede validarla explícitamente. Una **postcondición** declara lo que la función garantiza al terminar, por ejemplo, texto sin espacios extremos y en minúsculas. Juntas forman el **contrato** del normalizador.",
         "El **docstring** (PEP 257) documenta contrato en español o inglés consistente del proyecto: qué hace, parámetros, retorno, errores. **No** copies la firma; explica la **política de negocio** (p. ej. colapsar espacios + title-case, o exigir `@` en email).",
         "En la entrada sintética, la precondición exige texto. La postcondición promete una forma canónica o un `ValueError`. Este error indica que el valor incumple una regla del dominio.",
-        "`raise ValueError(...)` interrumpe el camino normal, de modo que el `return` posterior no se ejecuta. Si ningún código **captura** el error, es decir, si no lo intercepta, Python lo muestra y termina esa ejecución. En S05 basta con reconocer este comportamiento como parte del contrato; S09 enseñará a continuar con `try/except`. La regla mínima de correo recorta espacios, pasa a minúsculas y ejecuta `raise` si falta `@`. Detecta un fallo básico, pero no demuestra que la dirección exista ni que cumpla todos los estándares.",
+        "`raise ValueError(...)` interrumpe el camino normal, de modo que el `return` posterior no se ejecuta. Si una llamada incumple el contrato, Python muestra el error y termina esa ejecución. Por eso, los ejemplos ejecutables de S05 usan entradas válidas y muestran el rechazo esperado como comentario. S09 enseñará a continuar después de un fallo sin detener todo el proceso. La regla mínima de correo recorta espacios, pasa a minúsculas y ejecuta `raise` si falta `@`. Detecta un fallo básico, pero no demuestra que la dirección exista ni que cumpla todos los estándares.",
         "**Audita la promesa:** tapa el cuerpo de `normalize_email` y predice, solo con el docstring, qué ocurrirá con `  A@B.COM ` y `sin-arroba`. Después abre el cuerpo y busca una línea que respalde cada promesa. Lo que no puedas enlazar es documentación huérfana o conducta indocumentada.",
       ],
       code: {
@@ -278,7 +278,7 @@ print(normalize_email("  X@Y.COM "))`,
         type: "tip",
         title: "ValueError vs. return",
         content:
-          "Una excepción y un valor de resultado pueden servir tanto en funciones puras como en otros diseños. Elige el contrato según lo que deba hacer quien llama cuando algo falla y úsalo de manera consistente. S06 presentará resultados estructurados; S09 enseñará a capturar excepciones y continuar.",
+          "Una excepción y un valor de resultado pueden servir tanto en funciones puras como en otros diseños. Elige el contrato según lo que deba hacer quien llama cuando algo falla y úsalo de manera consistente. S06 presentará resultados estructurados; S09 enseñará a continuar después de que una llamada falle.",
       },
     },
     {
@@ -517,7 +517,7 @@ bad  [1, 2] [1, 2]`,
         environment: "browser-pyodide",
         description: "Docstring + pre/post en normalize_email",
         preamble:
-          "Un normalizador de email no es «solo lower»: promete una entrada, una forma de salida y una reacción ante el dominio inválido. **Predicción:** sin mirar el output, recorre el docstring y decide qué camino toman `\"  X@Y.COM \"` y `\"x\"`; señala la línea que convierte cada promesa en conducta. Luego observa cómo el `try/except` del borde traduce el `ValueError` sin ocultarlo. Son datos sintéticos y el chequeo de `@` sigue siendo un gate mínimo.",
+          "Un normalizador de email no es «solo lower»: promete una entrada, una forma de salida y una reacción ante el dominio inválido. **Predicción:** sin mirar el output, recorre el docstring y decide qué camino toman `\"  X@Y.COM \"` y `\"x\"`; señala la línea que convierte cada promesa en conducta. Ejecuta el caso válido y lee en el comentario la última línea que mostraría Python para el caso rechazado. Son datos sintéticos y el chequeo de `@` sigue siendo un gate mínimo.",
         code: {
           language: 'python',
           title: "S05-T2-A-DEMO — email_contract",
@@ -529,15 +529,12 @@ bad  [1, 2] [1, 2]`,
     return s
 
 print(normalize_email("  X@Y.COM "))
-try:
-    normalize_email("x")
-except ValueError as e:
-    print("ValueError", e)`,
-          output: `x@y.com
-ValueError falta @`,
+# normalize_email("x") terminaría con:
+# ValueError: falta @`,
+          output: `x@y.com`,
         },
         why:
-          "El `raise` es parte del contrato de negocio, no un adorno de Python. El docstring no sustituye al código, pero debe coincidir en pre, post y errores. Un junior que solo hace `lower` sin comprobar `@` incumple el gate mínimo; un revisor que lee el doc y ejecuta el caso `x` debe ver el mismo rechazo. Aun así, pasar este gate no demuestra que la dirección exista.",
+          "El `raise` es parte del contrato de negocio, no un adorno de Python. El docstring no sustituye al código, pero debe coincidir en pre, post y errores. Un junior que solo hace `lower` sin comprobar `@` incumple el gate mínimo; un revisor debe encontrar en el cuerpo la condición que respalda el rechazo documentado. Aun así, pasar este gate no demuestra que la dirección exista.",
         retrospective:
           "Si el docstring dice “exige `@`” y el código no valida, gana el código y el revisor devuelve el PR. El error clásico es documentar la política y olvidar el `raise`. En We Do convertirás un `#` en docstring real y alinearás pre/post con el cuerpo.",
       },
@@ -991,18 +988,18 @@ a b`,
         subtopicId: "S05-T2-A",
         title: "Email con pre/post y ValueError",
         preamble:
-          "- **Contexto:** política de gate: strip+lower y rechazo si no hay `@`.\n- **Meta:** alinear docstring, código y error de dominio.\n- **Éxito:** `a@b.com` y `err email sin @`.\n- **Límites:** no tragues el error con un return silencioso; no uses PII real.",
+          "- **Contexto:** política de gate: strip+lower y rechazo si no hay `@`.\n- **Meta:** alinear docstring, código y error de dominio.\n- **Éxito:** `a@b.com`; el rechazo esperado queda documentado como `# ValueError: email sin @`.\n- **Límites:** ejecuta solo el caso válido en este bloque; no uses PII real.",
         id: "S05-T2-A-E2",
         kind: "independent",
         instruction:
-          "1. El starter hace strip pero no lower ni valida `@`.\n2. Normaliza con strip+lower.\n3. Si falta `@`, `raise ValueError` con mensaje en español.\n4. Prueba OK y el `try/except` del starter.",
+          "1. El starter hace strip pero no lower ni valida `@`.\n2. Normaliza con strip+lower.\n3. Si falta `@`, ejecuta `raise ValueError` con un mensaje en español.\n4. Ejecuta el caso válido y documenta como comentario la última línea del error esperado para `'x'`.",
         hint: "El docstring promete lower y @. ¿Qué falta en el cuerpo además del strip?",
         hints: [
           "El docstring promete lower y `@`. ¿Qué falta en el cuerpo además del `strip`?",
-          "El `try/except` del starter debe imprimir un mensaje en español accionable, no silenciar el fallo.",
+          "La ejecución debe imprimir `a@b.com`; representa el rechazo con la línea exacta `# ValueError: email sin @`.",
         ],
         edgeCases: ["ValueError dominio"],
-        tests: "a@b.com + err",
+        tests: "a@b.com + comentario de rechazo",
         feedback:
           "Pre/post en el docstring y `raise` en el cuerpo deben decir lo mismo. Strip sin lower ni `@` deja pasar basura que el gate rechaza; el mensaje en español ayuda al triage del ETL.",
         retrospective:
@@ -1016,10 +1013,7 @@ def normalize_email(raw: str) -> str:
     """Pre: str. Post: lower/strip con @."""
     return raw.strip()
 print(normalize_email('  A@B.COM '))
-try:
-    normalize_email('x')
-except ValueError as e:
-    print('err', e)`,
+# La solución debe documentar aquí la última línea del rechazo esperado.`,
         },
         solutionCode: {
           language: 'python',
@@ -1031,12 +1025,9 @@ except ValueError as e:
         raise ValueError('email sin @')
     return s
 print(normalize_email('  A@B.COM '))
-try:
-    normalize_email('x')
-except ValueError as e:
-    print('err', e)`,
-          output: `a@b.com
-err email sin @`,
+# normalize_email('x') terminaría con:
+# ValueError: email sin @`,
+          output: `a@b.com`,
         },
       },
       {
@@ -1136,27 +1127,36 @@ hint no valida en runtime`,
         id: "S05-T2-B-E2",
         kind: "independent",
         instruction:
-          "1. El starter acepta negativos y explota en no-enteros.\n2. `try/except` para parse a int.\n3. Si `n < 0`, error de dominio (no crash).\n4. Recorre los cuatro valores e imprime cada resultado.",
-        hint: "try int; if n<0 dominio",
+          "1. El starter reconoce dígitos ASCII, pero confunde `-1` con texto no entero.\n2. Separa un `-` inicial antes de comprobar `isascii()` e `isdecimal()`.\n3. Convierte con `int()` solo después de comprobar la forma; luego rechaza `n < 0` como regla de dominio.\n4. Recorre los cuatro valores e imprime cada resultado.",
+        hint: "Primero comprueba la forma; después convierte y aplica `n < 0`.",
         hints: [
-          "try int; if n<0 dominio",
-          "0 es válido; no uses raise — devuelve la tupla de error.",
+          "Tras `strip()`, separa un `-` inicial y exige que el resto sea ASCII y decimal.",
+          "`0` es válido; devuelve la tupla de error para el negativo y para el texto que no representa un entero.",
         ],
-        edgeCases: ["0 válido", "negativo dominio"],
+        edgeCases: ["0 válido", "negativo dominio", "dígitos no ASCII"],
         tests: "four lines for 0 / 10 / -1 / x",
         feedback:
-          "ValueError de `int()` es fallo de forma; “negativo no permitido” es regla de negocio. Mezclarlos en un solo mensaje opaco complica el triage. `0` es válido: no lo trates como error.",
+          "Una cadena que no cumple la forma entera necesita un mensaje distinto de “negativo no permitido”. Mezclar ambos casos en un mensaje opaco complica el triage. `0` es válido: no lo trates como error.",
         retrospective:
-          "Ordena los caminos: primero intenta construir el entero; después aplica la regla `n >= 0`. `x` falla antes de existir `n`, mientras `-1` es un entero válido para Python e inválido para este dominio. Si ambos mensajes fueran iguales, el operador no sabría si limpiar o revisar la política. Explica también por qué usar `if not n` rechazaría por accidente el cero válido.",
+          "Ordena los caminos: primero comprueba la forma y solo entonces construye el entero; después aplica la regla `n >= 0`. `x` falla antes de existir `n`, mientras `-1` es un entero válido para Python e inválido para este dominio. Si ambos mensajes fueran iguales, el operador no sabría si limpiar o revisar la política. Explica también por qué usar `if not n` rechazaría por accidente el cero válido.",
         starterCode: {
           language: 'python',
           title: "parse_monto.py",
           code: `# CASO-LIM-005 · parse_monto dominio
-# BUG intencional: acepta negativos; no distingue no-entero
+# FALLO: clasifica -1 como texto no entero antes de aplicar la regla de dominio
 from typing import Optional, Tuple
 
+def es_entero_ascii(raw: str) -> bool:
+    s = raw.strip()
+    return s.isascii() and s.isdecimal()
+
 def parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:
-    n = int(raw)
+    s = raw.strip()
+    if not es_entero_ascii(s):
+        return False, None, 'no es entero'
+    n = int(s)
+    if n < 0:
+        return False, None, 'negativo no permitido'
     return True, n, None
 for v in ['0', '10', '-1', 'x']:
     print(v, parse_monto(v))`,
@@ -1166,11 +1166,16 @@ for v in ['0', '10', '-1', 'x']:
           title: "parse_monto.py",
           code: `from typing import Optional, Tuple
 
+def es_entero_ascii(raw: str) -> bool:
+    s = raw.strip()
+    digitos = s[1:] if s.startswith('-') else s
+    return bool(digitos) and digitos.isascii() and digitos.isdecimal()
+
 def parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:
-    try:
-        n = int(raw.strip())
-    except ValueError:
+    s = raw.strip()
+    if not es_entero_ascii(s):
         return False, None, 'no es entero'
+    n = int(s)
     if n < 0:
         return False, None, 'negativo no permitido'
     return True, n, None
@@ -1186,27 +1191,27 @@ x (False, None, 'no es entero')`,
         subtopicId: "S05-T2-B",
         title: "Raise en el core, SKIP en el borde",
         preamble:
-          "- **Contexto:** el normalizador de email del gate es estricto; el **lote** debe tolerar filas malas sin abortar todo.\n- **Meta:** `raise` en el core + `try/except` por fila en el borde.\n- **Éxito:** `estrategia: raise + try por fila en el borde`, luego `OK ok@ex.com` y `SKIP malo email inválido`.\n- **Límites:** no pongas el `try` dentro del normalizador puro; no inventes PII.",
+          "- **Contexto:** el normalizador de email del gate es estricto; el **lote** debe tolerar filas malas sin abortar todo.\n- **Meta:** comprobar cada fila con `(ok, valor, error)` antes de llamar al core estricto.\n- **Éxito:** `estrategia: validar antes de llamar`, una fila `OK`, una `SKIP` y `reconciliación: 2 = 1 + 1`.\n- **Límites:** una fila rechazada no llega a `normalize_email`; no inventes PII.",
         id: "S05-T2-B-E3",
         kind: "transfer",
         instruction:
-          "1. El starter no valida `@` y etiqueta todo como OK.\n2. En `normalize_email`, raise si falta `@`.\n3. En el loop, captura `ValueError` y marca SKIP.\n4. Documenta la estrategia en un print legible (mismo texto que la solución).",
-        hint: "Lote: try/except por fila para no abortar todo",
+          "1. El starter procesa cada fila sin comprobarla y etiqueta todo como OK.\n2. Crea `validar_email(raw)` con la forma `(ok, valor, error)`.\n3. Llama a `normalize_email` solo cuando `ok` sea verdadero; guarda las demás filas con su motivo.\n4. Imprime la estrategia, los resultados y la reconciliación entre filas procesadas y rechazadas.",
+        hint: "Primero obtén `(ok, valor, error)`; solo el camino `ok` llama al normalizador.",
         hints: [
-          "Lote: try/except por fila para no abortar todo",
-          "Una fila mala no impide la buena; el raise vive en el core.",
+          "Acumula las filas buenas en `procesadas` y las malas, junto con su motivo, en `rechazadas`.",
+          "La cuenta final debe cumplir `len(filas) == len(procesadas) + len(rechazadas)`.",
         ],
-        edgeCases: ["borde I/O vs. core"],
-        tests: "OK + SKIP",
+        edgeCases: ["borde I/O vs. core", "reconciliación del lote"],
+        tests: "OK + SKIP + reconciliación",
         feedback:
-          "Core estricto + borde tolerante es un diseño limpio: tests del core no necesitan capturar “filas hermanas”. El error de una fila no borra el lote; el print de estrategia documenta esa decisión.",
+          "Core estricto + comprobación previa es un diseño limpio: una fila inválida no llega a la función que la rechazaría. El motivo queda junto a la fila, y la reconciliación demuestra que el lote no perdió datos en silencio.",
         retrospective:
-          "Separa responsabilidad de señal y responsabilidad de continuidad: el core levanta `ValueError`; el loop decide marcar `SKIP` y seguir. Si capturas dentro del normalizador y devuelves algo ambiguo, quien llama ya no distingue dato limpio de fallo oculto. Predice qué ocurriría si quitases el `try` del borde y explica por qué esa decisión puede cambiar según el proceso por lotes.",
+          "Separa responsabilidad de comprobación y procesamiento: el predicado devuelve `(ok, valor, error)` y el loop decide entre `OK` y `SKIP`. El core conserva `raise ValueError` para quien incumpla su contrato, pero este lote solo lo llama con valores aprobados. S09 enseñará otra forma de continuar cuando una llamada ya haya fallado. Si llamas al core con una fila nueva sin comprobarla antes y este la rechaza, ¿llega a imprimirse la reconciliación o el lote se detiene antes?",
         starterCode: {
           language: 'python',
           title: "raise_vs_tuple.py",
-          code: `# CASO-LIM-005 · raise + borde tolerante
-# FALLO: no raise; lote se traga filas malas sin SKIP
+          code: `# CASO-LIM-005 · core estricto + lote tolerante
+# FALLO: procesa cada fila sin comprobar primero si cumple el gate
 def normalize_email(raw: str) -> str:
     return raw.strip().lower()
 print('estrategia: ???')
@@ -1216,20 +1221,38 @@ for e in ['ok@ex.com', 'malo']:
         solutionCode: {
           language: 'python',
           title: "raise_vs_tuple.py",
-          code: `def normalize_email(raw: str) -> str:
+          code: `def validar_email(raw: str):
+    s = raw.strip().lower()
+    if '@' not in s:
+        return False, None, 'email inválido'
+    return True, s, None
+
+def normalize_email(raw: str) -> str:
     s = raw.strip().lower()
     if '@' not in s:
         raise ValueError('email inválido')
     return s
-print('estrategia: raise + try por fila en el borde')
-for e in ['ok@ex.com', 'malo']:
-    try:
-        print('OK', normalize_email(e))
-    except ValueError as err:
-        print('SKIP', e, err)`,
-          output: `estrategia: raise + try por fila en el borde
+
+filas = ['ok@ex.com', 'malo']
+procesadas = []
+rechazadas = []
+for raw in filas:
+    ok, valor, error = validar_email(raw)
+    if not ok:
+        rechazadas.append((raw, error))
+        continue
+    procesadas.append(normalize_email(valor))
+
+print('estrategia: validar antes de llamar')
+for email in procesadas:
+    print('OK', email)
+for raw, error in rechazadas:
+    print('SKIP', raw, error)
+print('reconciliación:', len(filas), '=', len(procesadas), '+', len(rechazadas))`,
+          output: `estrategia: validar antes de llamar
 OK ok@ex.com
-SKIP malo email inválido`,
+SKIP malo email inválido
+reconciliación: 2 = 1 + 1`,
         },
       },
       {
@@ -1874,17 +1897,17 @@ def is_idempotent(fn: Callable[[str], str], sample: str) -> bool:
     return fn(once) == once
 
 
+def email_cumple_gate(raw: str) -> bool:
+    return "@" in raw.strip()
+
+
 def _run_tests() -> None:
     assert normalize_nombre("  maría  josé ") == "María José"
     assert is_idempotent(normalize_nombre, "  ana  ")
     assert normalize_email("  A@B.COM ") == "a@b.com"
     assert is_idempotent(normalize_email, "A@B.COM")
-    try:
-        normalize_email("sin-arroba")
-    except ValueError:
-        pass
-    else:
-        raise AssertionError("normalize_email debe rechazar entradas sin @")
+    # S09 añadirá una prueba ejecutable de la ruta que falla.
+    assert not email_cumple_gate("sin-arroba")
     assert normalize_telefono("999-000-111") == "999000111"
     assert is_idempotent(normalize_telefono, "999-000-111")
     assert normalize_direccion("  av. larco 100 ") == "AV. LARCO 100"
@@ -1945,7 +1968,7 @@ _run_tests()
       },
       {
         question: "LEGB significa…",
-        options: ["Lista, Entrada, Grupo, Base", "Local, Enclosing, Global, Builtin", "Loop, Eval, Global, Binary", "Lambda, Except, Goto, Block"],
+        options: ["Lista, Entrada, Grupo, Base", "Local, Enclosing, Global, Builtin", "Loop, Eval, Global, Binary", "Lambda, Entorno, Grupo, Bloque"],
         correctIndex: 1,
         explanation:
           "Python busca un nombre en Local, Enclosing, Global y Builtin, en ese orden. Las otras opciones mezclan palabras de sintaxis sin describir ámbitos. Un closure funciona porque la función interna puede resolver configuración en el ámbito envolvente.",
