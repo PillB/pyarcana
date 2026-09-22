@@ -323,6 +323,22 @@ export const MISC_FIGURES: Record<string, FigureData> = {
     ],
     note: 'Basta que una barra se salga para detener: el error de contrato es olvidar comparar la de errores.',
   },
+  'S14-nan-propagation': {
+    kind: 'table',
+    headline: 'NaN se propaga; nanmean lo deja fuera',
+    left: { title: 'mean', head: ['x', 'resultado'], rows: [['1.0', ''], ['nan', 'nan'], ['3.0', '']], tint: 5 },
+    right: { title: 'nanmean', head: ['x', 'resultado'], rows: [['1.0', ''], ['(nan)', '2.0'], ['3.0', '']], tint: 2 },
+    forward: 'omite NaN',
+    note: 'Un solo NaN basta para llevar la media a nan; nanmean lo deja fuera y la cantidad de valores no finitos se informa aparte.',
+  },
+  'S14-broadcast-stretch': {
+    kind: 'table',
+    headline: 'Dos pesos se reutilizan en las tres filas',
+    left: { title: 'scores (3, 2)', head: ['col 0', 'col 1'], rows: [['0', '1'], ['2', '3'], ['4', '5']], tint: 3 },
+    right: { title: 'pesos (2,) reutilizados', head: ['col 0', 'col 1'], rows: [['0.5', '2.0'], ['0.5', '2.0'], ['0.5', '2.0']], tint: 2 },
+    forward: 'se reutiliza',
+    note: 'Los dos pesos no se copian: la misma fila se reutiliza para cada fila de scores.',
+  },
   'S41-stdlib-to-fastapi': {
     kind: 'table',
     headline: 'Las mismas cuatro piezas, ahora conectadas por FastAPI',

@@ -170,9 +170,16 @@ unicidad 0.6667`,
     },
     {
       heading: "Broadcasting y compatibilidad de shapes",
+      figure: {
+        id: "S14-broadcast-stretch",
+        caption:
+          "El vector de pesos `(2,)` se reutiliza en las tres filas de `scores` `(3, 2)`; el producto conserva la forma `(3, 2)` sin copiar los pesos.",
+        alt:
+          "Dos tablas de tres filas y dos columnas. La primera contiene scores distintos; la segunda muestra los mismos pesos 0.5 y 2.0 reutilizados en cada fila.",
+      },
       subtopicId: "S14-T2-B",
       paragraphs: [
-        "El **broadcasting** alinea shapes de **derecha a izquierda**: en cada dimensión, los tamaños son iguales, o uno es 1, o la dimensión está ausente en el array de menor rango. Si no hay compatibilidad, NumPy lanza `ValueError` — mejor un error ruidoso que un producto silencioso mal alineado (por ejemplo, restar un umbral a la dimensión equivocada del tablero).",
+        "El **broadcasting** reutiliza sin copiar el eje de tamaño 1, o el eje ausente, a lo largo del otro: así, pesos `(2,)` ponderan las tres filas de `scores` `(3, 2)`. La regla de compatibilidad alinea shapes de **derecha a izquierda**: en cada dimensión, los tamaños son iguales, o uno es 1, o la dimensión está ausente en el array de menor rango. Si no hay compatibilidad, NumPy lanza `ValueError` — mejor un error ruidoso que un producto silencioso mal alineado (por ejemplo, restar un umbral a la dimensión equivocada del tablero).",
         "`newaxis` / `None` inserta un eje de tamaño 1 para alinear vectores de filas o columnas (pesos por variable, umbral por cliente, o matriz de diferencias `score_i - score_j`). Es el mecanismo de las **señales por pares**: `agg[:, None] - agg[None, :]` produce una matriz (n, n) sin un doble loop Python.",
         "Documenta el shape esperado en el docstring y, si el batch puede cambiar de tamaño, aserta la compatibilidad antes de operar. Caso sintético: scores (3, 2) × pesos (2,) pondera bien; un intento (3, 2) + (3, 3) debe fallar con mensaje de broadcast y no “arreglarse” en silencio.",
       ],
@@ -250,11 +257,18 @@ vista_base_is_raw True`,
     },
     {
       heading: "NaN, inf y estabilidad numérica",
+      figure: {
+        id: "S14-nan-propagation",
+        caption:
+          "Con los mismos tres valores, `mean` devuelve `nan` porque el NaN se propaga; `nanmean` lo deja fuera y devuelve 2.0.",
+        alt:
+          "Dos tablas comparan los valores 1.0, nan y 3.0. La tabla mean termina en nan; la tabla nanmean omite nan y termina en 2.0.",
+      },
       subtopicId: "S14-T3-B",
       paragraphs: [
-        "`np.nan` y `±inf` rompen `mean`/`sum` clásicos: NaN **contagia** (el resultado de la media es nan) e inf **domina** (una suma con inf es inf). Antes de publicar una métrica de negocio usa `np.isnan` / `isinf` / `isfinite`, o reducciones `nansum` / `nanmean` con la política documentada del tablero.",
-        "`np.finfo(float).eps` es la distancia entre 1.0 y el siguiente número representable: te da la escala del error de **un** redondeo cerca de 1, que es lo que necesitas para elegir la tolerancia de un `allclose`. No acota el error **acumulado** de una cadena de operaciones, que puede ser mucho mayor y crece con el número de pasos. Un overflow en float produce `inf`; no lo trates como un score válido de calidad. **Falla de forma segura** (fail-closed): si el batch trae inf donde no es semántico, rechaza el lote o filtra con traza — no sustituyas por 0 en silencio.",
-        "En calidad de datos, un NaN **no es cero**: es **ausencia de medición**. Reporta la tasa de no-finitos aparte de la media de los finitos; mezclarlos distorsiona completitud y rangos. Caso sintético: `[1, nan, 3, inf]` → media solo sobre `isfinite` (= 2.0); convierte inf a nan antes de `nansum` si inf no es un valor de negocio.",
+        "Un **NaN** (`np.nan`) es un valor especial de punto flotante que NumPy usa para marcar la **ausencia de medición**. No es cero ni igual a nada, ni siquiera a sí mismo; por eso `x == np.nan` siempre da `False` y debes usar `np.isnan(x)`. `np.nan` y `±inf` rompen `mean`/`sum` clásicos: NaN **contagia** (la media resulta nan) e inf **domina** (una suma con inf resulta inf). Antes de publicar una métrica usa `np.isnan`, `np.isinf` o `np.isfinite`, o reducciones `np.nansum` y `np.nanmean`, según la política documentada del tablero.",
+        "`np.finfo(float).eps` es la distancia entre 1.0 y el siguiente número representable. Indica la escala del error de **un** redondeo cerca de 1 y orienta la tolerancia de un `allclose`. No acota el error **acumulado** de una cadena de operaciones, que puede crecer con el número de pasos. Un overflow en float produce `inf`; si no es semántico, **falla de forma segura**: rechaza el lote o filtra con traza, pero no sustituyas por 0.",
+        "Reporta la tasa de valores no finitos aparte de la media de los finitos; mezclarlos distorsiona la completitud y los rangos. Caso sintético: en `[1, nan, 3, inf]`, `isfinite` deja `[1, 3]` y su media es 2.0; convierte inf a nan antes de `nansum` si no representa un valor de negocio.",
       ],
       code: {
         language: 'python',
