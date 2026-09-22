@@ -36,6 +36,8 @@ export async function GET() {
           completedAt: true,
           startedAt: true,
           timeSpentSec: true,
+          gradingVersion: true,
+          exposedItems: true,
         },
       }).then(withCanonicalSectionIds),
       db.exerciseAttempt.groupBy({

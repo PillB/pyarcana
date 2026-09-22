@@ -23,6 +23,7 @@
  */
 import { before, beforeEach, describe, it, mock } from 'node:test'
 import assert from 'node:assert/strict'
+import { GRADING_VERSION } from '../../src/lib/exam-scoring.ts'
 
 if (typeof mock.module !== 'function') {
   throw new Error(
@@ -35,7 +36,8 @@ if (typeof mock.module !== 'function') {
 // route, so a column added, dropped or reordered fails here rather than silently reaching them.
 const STUDENT_HEADERS =
   'ID,Email,Nombre,Fecha Registro,Secciones Completadas,% Completado,Intentos Exam,Score Promedio'
-const ATTEMPT_HEADERS = 'Attempt ID,User Email,Section,Attempt #,Score,Time (sec),Completed At'
+const ATTEMPT_HEADERS =
+  'Attempt ID,User Email,Section,Attempt #,Score,Time (sec),Completed At,Counts as evidence'
 
 /** What Excel, LibreOffice Calc and Google Sheets read as the first character of a formula. */
 const FORMULA_TRIGGERS = ['=', '+', '-', '@', '\t', '\r']
@@ -193,11 +195,14 @@ describe('GET /api/admin/export?type=attempts', () => {
       {
         id: 'a1', userId: 'u1', sectionId: 'setup', attemptNumber: 1, score: 80,
         timeSpentSec: 900, completedAt: new Date('2026-04-01T09:00:00.000Z'),
+        gradingVersion: GRADING_VERSION, exposedItems: 0,
       },
       {
-        // A pre-rename slug, canonicalised by the route, not by the fake database.
+        // A pre-rename slug, canonicalised by the route, not by the fake database. Graded over
+        // questions whose key this learner had already seen, so its score is not evidence.
         id: 'a2', userId: 'u2', sectionId: 'pandas', attemptNumber: 2, score: 55,
         timeSpentSec: 1200, completedAt: new Date('2026-04-02T09:00:00.000Z'),
+        gradingVersion: GRADING_VERSION, exposedItems: 3,
       },
     )
 
@@ -205,9 +210,12 @@ describe('GET /api/admin/export?type=attempts', () => {
 
     assert.equal(rows[0]!.join(','), ATTEMPT_HEADERS)
     assert.deepEqual(formulaCells(rows), [])
-    for (const row of rows) assert.equal(row.length, 7, `row shifted columns: ${JSON.stringify(row)}`)
+    for (const row of rows) assert.equal(row.length, 8, `row shifted columns: ${JSON.stringify(row)}`)
     assert.deepEqual(rows[1]!.slice(1, 4), ["'=cmd|calc!A1@example.com", 'setup', '1'])
     assert.equal(rows[2]![2], 'files-ingestion')
+    // The trailing column PR #70 added is escaped like every other cell, and still says what it
+    // said: escaping a report must not quietly change what it reports.
+    assert.deepEqual([rows[1]![7], rows[2]![7]], ['yes', 'no'])
   })
 })
 

@@ -5,6 +5,7 @@ import { db } from '@/lib/db'
 import { withCanonicalSectionIds } from '@/lib/section-id-migrations'
 import { COURSE_META } from '@/lib/course'
 import { csvCell } from '@/lib/csv'
+import { isEvidence } from '@/lib/exam-scoring'
 
 export async function GET(request: Request) {
   const session = await getServerSession(authOptions)
@@ -42,9 +43,11 @@ export async function GET(request: Request) {
           progressItems.map((p) => p.sectionId)
         ).size
 
-        const avgScore = examAttempts.length > 0
+        // The average reads evidence only (isEvidence); the attempt count is every attempt.
+        const scored = examAttempts.filter(isEvidence)
+        const avgScore = scored.length > 0
           ? Math.round(
-              examAttempts.reduce((acc, a) => acc + a.score, 0) / examAttempts.length
+              scored.reduce((acc, a) => acc + a.score, 0) / scored.length
             )
           : 0
 
@@ -98,7 +101,7 @@ export async function GET(request: Request) {
 
     const headers = [
       'Attempt ID', 'User Email', 'Section', 'Attempt #', 'Score',
-      'Time (sec)', 'Completed At'
+      'Time (sec)', 'Completed At', 'Counts as evidence'
     ]
     const csv = [
       headers.join(','),
@@ -110,6 +113,7 @@ export async function GET(request: Request) {
         a.score,
         a.timeSpentSec,
         a.completedAt?.toISOString() || '',
+        isEvidence(a) ? 'yes' : 'no',
       ].map(csvCell).join(',')),
     ].join('\n')
 

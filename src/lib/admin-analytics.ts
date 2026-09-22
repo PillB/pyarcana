@@ -4,6 +4,7 @@
  */
 
 import { COURSE_META, COURSE_SECTIONS } from '@/lib/course'
+import { isEvidence } from '@/lib/exam-scoring'
 
 export const PASS_THRESHOLD = 70
 export const SUB_STEPS = ['theory', 'ido', 'wedo', 'youdo', 'quiz'] as const
@@ -25,6 +26,9 @@ export type ExamRow = {
   startedAt?: Date | string
   timeSpentSec?: number
   answers?: string | unknown
+  /** Select both, or no score of the row counts: see isEvidence in src/lib/exam-scoring.ts. */
+  gradingVersion?: number | null
+  exposedItems?: number | null
 }
 
 export type UserRow = {
@@ -100,6 +104,9 @@ export function buildStudentMetrics(
   return users.map((u) => {
     const up = progress.filter((p) => p.userId === u.id && p.completed)
     const ue = exams.filter((e) => e.userId === u.id && e.completedAt)
+    // Scores count only where they are evidence: not graded before the 2026-09-18 fix, nor on
+    // questions whose key the learner had seen. Every completed attempt is still activity and time.
+    const scored = ue.filter(isEvidence)
 
     const bySection: Record<string, Set<string>> = {}
     for (const p of up) {
@@ -113,7 +120,7 @@ export function buildStudentMetrics(
     }
 
     const bestScoresBySection: Record<string, number> = {}
-    for (const e of ue) {
+    for (const e of scored) {
       const prev = bestScoresBySection[e.sectionId]
       if (prev === undefined || e.score > prev) bestScoresBySection[e.sectionId] = e.score
     }
@@ -123,9 +130,9 @@ export function buildStudentMetrics(
         ? Math.round(bestValues.reduce((a, b) => a + b, 0) / bestValues.length)
         : 0
     const avgExamScore =
-      ue.length > 0 ? Math.round(ue.reduce((a, e) => a + e.score, 0) / ue.length) : 0
+      scored.length > 0 ? Math.round(scored.reduce((a, e) => a + e.score, 0) / scored.length) : 0
     const totalTimeSpentSec = ue.reduce((a, e) => a + (e.timeSpentSec || 0), 0)
-    const hasPassedExam = ue.some((e) => e.score >= PASS_THRESHOLD)
+    const hasPassedExam = scored.some((e) => e.score >= PASS_THRESHOLD)
 
     const activityDates: number[] = [new Date(u.createdAt).getTime()]
     for (const p of up) {
@@ -298,7 +305,9 @@ export function buildAnalyticsPayload(
     for (const [uid, steps] of Object.entries(byUser)) {
       if (steps.size >= 5) completers.add(uid)
     }
-    const sectionExams = exams.filter((e) => e.sectionId === m.id && e.completedAt)
+    const sectionAttempts = exams.filter((e) => e.sectionId === m.id && e.completedAt)
+    // Scores read evidence only (isEvidence); the attempt count is every completed attempt.
+    const sectionExams = sectionAttempts.filter(isEvidence)
     const bestByUser: Record<string, number> = {}
     for (const e of sectionExams) {
       if (bestByUser[e.userId] === undefined || e.score > bestByUser[e.userId]!) {
@@ -319,7 +328,7 @@ export function buildAnalyticsPayload(
       completed: completers.size,
       avgBestScore,
       failRate,
-      attemptCount: sectionExams.length,
+      attemptCount: sectionAttempts.length,
     }
   })
 
@@ -422,6 +431,8 @@ export function buildStudentDetailExtras(
   for (const e of exams) {
     if (!e.completedAt) continue
     totalTimeSpentSec += e.timeSpentSec || 0
+    // A best score and the concepts answered wrong are read only from evidence (isEvidence).
+    if (!isEvidence(e)) continue
     if (bestScoresBySection[e.sectionId] === undefined || e.score > bestScoresBySection[e.sectionId]!) {
       bestScoresBySection[e.sectionId] = e.score
     }
