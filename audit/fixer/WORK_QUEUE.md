@@ -127,8 +127,9 @@ Decisions L1Q3-1 (already decided by D9) and L1Q3-5 carry the detail.
    reusable for the rest: a refused call is shown as the last line of the traceback in a comment
    rather than run (a raising snippet exits non-zero, which the runtime audit records as a P0),
    and a batch checks each row before calling instead of catching after. Ratchet 106 -> 86.
-   **In flight:** S06 (17) and S07 (5). **Then:** S08 (21) and the 8 playground sites in
-   SectionView.tsx ('basics', 'functions-contracts', 'files-ingestion', 'text-unicode-regex').
+   **DONE:** S05 (20), S06 (17), S07 (5), S08 (21) and the 8 playground sites — everything that
+   is not blocked. Two playgrounds codex also swept came back out: `exceptions-logging` and
+   `oop-domain` are S09 and S11, where the construct is taught. Ratchet 106 -> 35.
    **Blocked:** S02 (24) and S04 (11) sit inside CP-N1-A, so they wait on the Q3 route — owner
    packet question 4. Decision L1Q3-2 carries the per-site plan.
 
@@ -191,8 +192,10 @@ Decisions L1Q3-1 (already decided by D9) and L1Q3-5 carry the detail.
 - **S15**: its two forward mentions of groupby (`S15-T1-A.p2`, `selfCheck[8].opt[3]`) are now
   previews of what S16 teaches; the glossary's `groupby.firstSectionId` still says `stdlib-deep`
   and must move to `wxpython-gui` once S16's round 2 lands.
-- **S18**: T1-A/T1-B/T3-B should read as recall of S16's quartiles and cercas (CONCEPT_QUEUE 121),
-  putting the Q1 = p25 / Q3 = p75 mapping before the formula.
+- ~~**S18**: recall of S16's quartiles~~ — done 2026-09-21: the percentile mapping comes before
+  the formula, robustness is stated as the positional property S16 demonstrated, and the anomalies
+  are named «cercas de Tukey». The glossary's `groupby` entry also moved to `wxpython-gui`, which
+  was waiting on S15's two mentions (both now reworded).
 - **S34 and S32**: S34-T2-A should use S33's name («validación cruzada») and S34 outcome[2] needs
   a D1 gloss for «CV-safe»; the leakage link in S32 `resources.doc[5]` moves next to S33's
   rolling-origin block (CONCEPT_QUEUE 154) — one move, two sections, so it waits for both.

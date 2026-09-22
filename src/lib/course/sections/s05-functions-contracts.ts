@@ -1499,7 +1499,7 @@ print_report('  Z@W.COM ')`,
         id: "S05-T3-B-E3",
         kind: "transfer",
         instruction:
-          "1. El starter recibe `norm` pero llama siempre a `normalize_tel`.\n2. Retorna `norm(line)`.\n3. Demuestra default (dígitos) y lambda upper+strip.\n4. Compara las dos salidas.",
+          "1. El starter recibe `norm` pero llama siempre a `normalize_tel`.\n2. Retorna `norm(line)`.\n3. Pasa una función diferente mediante `norm` y comprueba que cambia el comportamiento sin tocar `process`.\n4. Compara las dos salidas.",
         hint: "norm es parámetro con default",
         hints: [
           "norm es parámetro con default",
@@ -1520,8 +1520,10 @@ def normalize_tel(raw):
     return ''.join(c for c in raw if c.isdigit())
 def process(line, norm=normalize_tel):
     return normalize_tel(line)
+def mayusculas(s):
+    return s.strip().upper()
 print(process(' 999-a '))
-print(process(' 999-a ', norm=lambda s: s.strip().upper()))`,
+print(process(' 999-a ', norm=mayusculas))`,
         },
         solutionCode: {
           language: 'python',
@@ -1530,8 +1532,10 @@ print(process(' 999-a ', norm=lambda s: s.strip().upper()))`,
     return ''.join(c for c in raw if c.isdigit())
 def process(line, norm=normalize_tel):
     return norm(line)
+def mayusculas(s):
+    return s.strip().upper()
 print(process(' 999-a '))
-print(process(' 999-a ', norm=lambda s: s.strip().upper()))`,
+print(process(' 999-a ', norm=mayusculas))`,
           output: `999
 999-A`,
         },
@@ -1968,7 +1972,7 @@ _run_tests()
       },
       {
         question: "LEGB significa…",
-        options: ["Lista, Entrada, Grupo, Base", "Local, Enclosing, Global, Builtin", "Loop, Eval, Global, Binary", "Lambda, Entorno, Grupo, Bloque"],
+        options: ["Lista, Entrada, Grupo, Base", "Local, Enclosing, Global, Builtin", "Loop, Eval, Global, Binary", "Línea, Entorno, Grupo, Bloque"],
         correctIndex: 1,
         explanation:
           "Python busca un nombre en Local, Enclosing, Global y Builtin, en ese orden. Las otras opciones mezclan palabras de sintaxis sin describir ámbitos. Un closure funciona porque la función interna puede resolver configuración en el ámbito envolvente.",

@@ -404,6 +404,59 @@ top monto: Ana 50`,
       },
     },
     {
+      heading: "Una función pequeña donde se usa",
+      figure: {
+        id: "S06-key-lambda",
+        caption:
+          "Dos formas de escribir la misma función `key` producen el mismo orden; cambia dónde queda la regla, no el resultado.",
+        alt:
+          "Dos paneles comparan una función con nombre y una función lambda. Ambos usan la tupla región y nombre y ordenan los IDs como C001, C003 y C002.",
+      },
+      paragraphs: [
+        "A veces una función `key` solo se necesita una vez, junto a `sorted`. Ponerle nombre puede costar más de lo que aporta: lees el nombre y luego buscas en otro lugar la regla que decide el orden.",
+        "Una **lambda** es una función pequeña que se escribe en la misma línea donde se usa. Tiene parámetros antes de `:` y una sola expresión después; el valor de esa expresión es lo que devuelve. No lleva `return` ni admite un cuerpo de varias líneas.",
+        "Compara las dos formas con las mismas filas de clientes. `por_region_y_nombre` y `lambda r: ...` entregan a `sorted` la misma tupla; el programa imprime los IDs de cada resultado y comprueba que ambas listas son iguales.",
+      ],
+      code: {
+        language: 'python',
+        title: "lambda_key.py",
+        code: `clients = [
+    {"id": "C002", "region": "R-SUR", "nombre": "Beto"},
+    {"id": "C001", "region": "R-NORTE", "nombre": "Ana"},
+    {"id": "C003", "region": "R-SUR", "nombre": "Ana"},
+]
+
+def por_region_y_nombre(r):
+    return (r["region"], r["nombre"])
+
+orden_con_def = sorted(clients, key=por_region_y_nombre)
+orden_con_lambda = sorted(
+    clients,
+    key=lambda r: (r["region"], r["nombre"]),
+)
+ids_con_def = [r["id"] for r in orden_con_def]
+ids_con_lambda = [r["id"] for r in orden_con_lambda]
+print("con def:", ids_con_def)
+print("con lambda:", ids_con_lambda)
+print("listas iguales:", ids_con_def == ids_con_lambda)
+
+# Usa un nombre si reutilizas la regla o necesitas explicarla; usa lambda si la lees una vez aquí.
+# Antes de ejecutar la siguiente línea, predice el orden al usar solo el ID.
+por_id = sorted(clients, key=lambda r: r["id"])
+print("solo id:", [r["id"] for r in por_id])`,
+        output: `con def: ['C001', 'C003', 'C002']
+con lambda: ['C001', 'C003', 'C002']
+listas iguales: True
+solo id: ['C001', 'C002', 'C003']`,
+      },
+      callout: {
+        type: "tip",
+        title: "Una vez o varias",
+        content:
+          "Nombra la regla si la reutilizas o debes explicarla; usa `lambda` si se lee una sola vez donde se aplica.",
+      },
+    },
+    {
       heading: "Estructura adecuada, complejidad y determinismo",
       subtopicId: "S06-T4-B",
       paragraphs: [

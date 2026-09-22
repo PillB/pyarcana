@@ -44,6 +44,14 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     firstSectionId: 'basics',
   },
   {
+    id: 'lambda',
+    term: 'lambda',
+    aliases: ['lambda'],
+    category: 'Python',
+    definition: '`lambda` escribe una función pequeña en la misma línea donde se usa, con la forma `lambda parámetros: expresión`; devuelve el valor de esa única expresión sin `return`.',
+    firstSectionId: 'collections',
+  },
+  {
     id: 'tipo-de-dato',
     term: 'Tipo de dato',
     aliases: ['Tipo de dato', 'tipos de datos'],

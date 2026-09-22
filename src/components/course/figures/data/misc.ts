@@ -323,6 +323,14 @@ export const MISC_FIGURES: Record<string, FigureData> = {
     ],
     note: 'Basta que una barra se salga para detener: el error de contrato es olvidar comparar la de errores.',
   },
+  'S06-key-lambda': {
+    kind: 'table',
+    headline: 'Dos formas de escribir la misma clave de orden',
+    left: { title: 'con def', head: ['key'], rows: [['por_region_y_nombre'], ['(region, nombre)'], ['C001 C003 C002']], tint: 3 },
+    right: { title: 'con lambda', head: ['key'], rows: [['lambda r: ...'], ['(region, nombre)'], ['C001 C003 C002']], tint: 2 },
+    forward: 'mismo orden',
+    note: 'Las dos claves producen C001 C003 C002: cambia dónde lees la regla, no el orden que recibe el informe.',
+  },
   'S14-nan-propagation': {
     kind: 'table',
     headline: 'NaN se propaga; nanmean lo deja fuera',
