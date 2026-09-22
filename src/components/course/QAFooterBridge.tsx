@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, useEffect, useState, useSyncExternalStore } from 'react'
-import { COURSE_SECTIONS } from '@/lib/course'
 import { QAHarness } from './QAHarness'
 
 interface LiveQaContext {
@@ -25,12 +24,14 @@ export function QAFooterBridge() {
   const hydrated = useSyncExternalStore(subscribeHydration, () => true, () => false)
 
   const readContext = useCallback(() => {
+    // The open section's id, number and title come from the element SectionView
+    // renders. Importing the course to look them up put all 52 sections, 6.1 MB
+    // of chunk, into the root layout, so every route downloaded the whole
+    // course: /cookies, /privacy, /verify and the 404 page included.
     const root = document.querySelector<HTMLElement>('[data-section-id]')
     const hashId = window.location.hash.slice(1).split('/')[0] || null
     const rawId = root?.dataset.sectionId || hashId
-    const section = rawId
-      ? COURSE_SECTIONS.find((item) => item.id === rawId || `S${String(item.index).padStart(2, '0')}`.toLowerCase() === rawId.toLowerCase())
-      : null
+    const index = Number(root?.dataset.sectionIndex)
     const activeTab = document.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]')
     const activeSubStep = activeTab?.dataset.testid?.replace(/^.*tab-/, '')
       || activeTab?.textContent?.trim().replace(/\s+/g, ' ')
@@ -38,9 +39,12 @@ export function QAFooterBridge() {
 
     setContext((current) => {
       const next: LiveQaContext = {
-        sectionId: section?.id ?? rawId,
-        sectionIndex: section?.index ?? null,
-        sectionTitle: section?.shortTitle ?? section?.title ?? null,
+        sectionId: rawId,
+        // Only a rendered section carries these. A hash pointing at one that
+        // has not rendered yet reports the id alone, and the observer below
+        // fills the rest in as soon as it does.
+        sectionIndex: Number.isFinite(index) && index > 0 ? index : null,
+        sectionTitle: root?.dataset.sectionTitle || null,
         activeSubStep,
       }
       if (
