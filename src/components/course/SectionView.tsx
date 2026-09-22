@@ -1033,10 +1033,13 @@ def safe_int(campo, valor):
     texto = raw.strip()
     if texto == "":
         return {"campo": campo, "raw": raw, "clean": None, "error": "valor vacío"}
-    try:
-        return {"campo": campo, "raw": raw, "clean": int(texto), "error": None}
-    except ValueError:
+    entero_usable = texto.isascii() and (
+        texto.isdecimal()
+        or (texto.startswith("-") and texto[1:].isdecimal())
+    )
+    if not entero_usable:
         return {"campo": campo, "raw": raw, "clean": None, "error": "entero inválido"}
+    return {"campo": campo, "raw": raw, "clean": int(texto), "error": None}
 
 for edad_raw in [" 28 ", "  ", "abc"]:
     resultado = safe_int("edad", edad_raw)
@@ -1129,18 +1132,14 @@ def normalize_telefono(raw: str) -> str:
 print(normalize_nombre("  maría  josé "))
 print(normalize_email("  Ana@Example.COM "))
 print(normalize_telefono("(999) 000-111"))
-
-try:
-    normalize_email("sin-arroba")
-except ValueError as error:
-    print(error)
+# normalize_email("sin-arroba") terminaría con:
+# ValueError: email sin @
 
 nombre = normalize_nombre("  ANA ")
 print("idempotente", normalize_nombre(nombre) == nombre)`,
       expectedOutput: `María José
 ana@example.com
 999000111
-email sin @
 idempotente True`,
       hint: 'Añade normalize_direccion: colapsa espacios, aplica upper y demuestra f(f(x)) == f(x)',
     },
@@ -1187,20 +1186,34 @@ conflictos: 1
     'files-ingestion': {
       title: 'Practica ingesta con cuarentena y manifest',
       code: `import csv, hashlib, io, json
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal
 
 raw = "id,monto\\nC001,10.5\\nC002,x\\nC003,3\\n"
 clean = []
 quarantine = []
 
+def monto_usable(row):
+    required = ("id", "monto")
+    missing = [key for key in required if key not in row or row[key] is None]
+    if missing:
+        return False, "missing_key"
+    value = row["monto"]
+    if not isinstance(value, str):
+        return False, "cast_monto"
+    digits = value.replace(".", "", 1)
+    if not value.isascii() or value.count(".") > 1 or not digits.isdecimal():
+        return False, "cast_monto"
+    return True, None
+
 for row in csv.DictReader(io.StringIO(raw)):
-    try:
+    usable, reason = monto_usable(row)
+    if usable:
         clean.append({
             "id": row["id"],
             "monto": str(Decimal(row["monto"]).quantize(Decimal("0.01"))),
         })
-    except InvalidOperation:
-        quarantine.append({"raw": row, "reason": "cast_monto"})
+    else:
+        quarantine.append({"raw": row, "reason": reason})
 
 manifest = {
     "sha256_12": hashlib.sha256(raw.encode("utf-8")).hexdigest()[:12],
@@ -1386,14 +1399,20 @@ def normalize_text(raw):
     nfc = unicodedata.normalize("NFC", raw)
     return " ".join(nfc.split()).casefold()
 
-def normalize_email(raw):
+def email_usable(raw):
     value = raw.strip().casefold()
     if value.count("@") != 1 or any(ch.isspace() for ch in value):
-        raise ValueError("email requiere un @ y cero espacios")
+        return False, "email requiere un @ y cero espacios"
     local, domain = value.split("@")
     if not local or not domain:
-        raise ValueError("email requiere local y dominio")
-    return value
+        return False, "email requiere local y dominio"
+    return True, None
+
+def normalize_email(raw):
+    usable, reason = email_usable(raw)
+    if not usable:
+        raise ValueError(reason)
+    return raw.strip().casefold()
 
 def token_jaccard(a, b):
     def tokens(value):
@@ -1411,10 +1430,8 @@ raw_b = "Jose\\u0301 Quispe"
 print("NFC iguales:", normalize_text(raw_a) == normalize_text(raw_b))
 print("Email:", normalize_email(" Ana+demo@Example.COM "))
 
-try:
-    normalize_email("ana@@example.com")
-except ValueError:
-    print("Email inválido → review:", True)
+usable, reason = email_usable("ana@@example.com")
+print("Email inválido → review:", not usable)
 
 text = "DNI 12345678 PE"
 print("search/fullmatch:", bool(re.search(r"\\d{8}", text)), bool(re.fullmatch(r"\\d{8}", text)))

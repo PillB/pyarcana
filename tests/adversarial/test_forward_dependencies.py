@@ -131,7 +131,12 @@ D9_OWED = 0
 # 2026-09-21: 86 -> 64. S06 and S07 followed S05's two patterns — check the type before
 # mutating (the tuple's refusal is shown as the message Python prints, not run), and a batch that
 # validates each row before calling instead of catching after.
-D10_OWED = 64
+# 2026-09-21: 64 -> 35. S08 was the hard one — the section before S09, whose subject is files
+# that may be malformed. Its atomic write is linear, its rows are validated before conversion, a
+# `for` replaces `next(reader)` with StopIteration, and each refusal is shown as the line Python
+# would print. The four Theory-tab playgrounds before S09 followed. What remains is S02 (24) and
+# S04 (11), inside CP-N1-A, which wait on the Q3 route — an owner question.
+D10_OWED = 35
 
 
 class ForwardDependencyTests(unittest.TestCase):
