@@ -159,9 +159,24 @@ const DESCRIBING_VERB =
  * "ver un n\u00famero dentro de una funci\u00f3n no responde esa pregunta" does not, and the same verb
  * carries both. Keeping these off the bare-article path is what separates them \u2014 with the
  * marked-subject requirement they fire on an introduction, not on an ordinary sentence.
+ *
+ * The list is a whitelist, so a missing verb hides a real definition rather than inventing
+ * one. `divide` hid S33's: "La **validaci\u00f3n cruzada** (CV) divide los datos en `k` partes;
+ * cada parte se llama **fold**" is how the course teaches cross-validation, and with the verb
+ * missing the term scored never-explained across all 52 sections and its four uses were filed
+ * as surprises.
+ *
+ * Adding a verb is cheap and reverting one is not, so it is done on measured effect, never on
+ * plausibility. A 2026-09-22 scan of every marked-term sentence in the course offered
+ * `crea`, `declara`, `devuelve`, `exige` and `toma` as well. Re-running the extractor with all
+ * six changed exactly two events: this one, and a self-check explanation that would have been
+ * credited with `venv` \u2014 the non-teaching-surface credit this detector has been burned by
+ * before. The other four moved nothing at all (`devuelve` is already on DESCRIBING_VERB). So
+ * only `divide` stayed. The others are attested in the prose and can be added the day a real
+ * sentence needs one, with the case that proves it.
  */
 const MARKED_SUBJECT_VERB =
-  /^[^.!?;]{0,14}?\b(?:mide|miden|aloja|alojan|excluye|excluyen|instala|instalan|alinea|alinean|produce|producen|colapsa|colapsan|hace|hacen|responde|responden|captura|capturan|resume|resumen|descubre|descubren|memoriza|memorizan|fija|fijan|apila|apilan|inserta|insertan|act[u\u00fa]a|act[u\u00fa]an|reutiliza|reutilizan)\b/i
+  /^[^.!?;]{0,14}?\b(?:mide|miden|aloja|alojan|excluye|excluyen|instala|instalan|alinea|alinean|produce|producen|colapsa|colapsan|hace|hacen|responde|responden|captura|capturan|resume|resumen|descubre|descubren|memoriza|memorizan|fija|fijan|apila|apilan|inserta|insertan|act[u\u00fa]a|act[u\u00fa]an|reutiliza|reutilizan|divide|dividen)\b/i
 /** "una tupla **no** hace que el lote contin\u00fae" describes what the thing is not. */
 const NEGATED_VERB = /^[^.!?;]{0,12}?\b(?:no|nunca|jam[a\u00e1]s|tampoco)\s/i
 

@@ -203,3 +203,26 @@ test('a plural copula with no noun after the numeral is a count, not a definitio
   assert.equal(cue.test(' son dos.'), false)
   assert.equal(cue.test(' son dos, y ya las viste'), false)
 })
+
+test('a marked term that divides something teaches it, a command line that does not', () => {
+  // "La **validación cruzada** (CV) divide los datos en `k` partes" is S33's definition, and
+  // `divide` was missing from the verb list, so cross-validation scored never-explained in all
+  // 52 sections while the paragraph that teaches it sat in the section it belongs to.
+  assert.ok(defines('advanced-models.theory[10].p1', 'cross-validation'))
+  // The guard that keeps the verb honest: the formatted span still has to be the term itself.
+  // "`git commit -m \"docs: …\"` crea un commit" explains a command's effect, not what git is.
+  assert.equal(defines('setup.theory[17].p1', 'git'), false)
+})
+
+test('a self-check explanation still cannot introduce a term', () => {
+  // The same scan that added `divide` offered `crea`, whose only other effect in the whole
+  // course was to credit this explanation with venv. Surfaces the learner reaches after
+  // answering are reinforcement; the surface hierarchy has to outrank any verb rule.
+  const ev = events.events.find((e) => e.location === 'setup.selfCheck[3].explanation')
+  assert.ok(ev, 'the S01 self-check explanation that exposed this must still exist to guard')
+  assert.equal(
+    conceptMap['virtual-environment-venv']?.first_definition?.kind === 'selfcheck.explanation',
+    false,
+    'venv cannot be introduced by a self-check explanation',
+  )
+})
