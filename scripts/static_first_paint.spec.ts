@@ -393,3 +393,132 @@ test.describe('PyArcana public edition: first paint', () => {
     await expect(page.locator('main > div')).toHaveCSS('opacity', '1')
   })
 })
+// What a page downloads, rather than what it paints. The root layout renders
+// the QA footer on every route, and it imported the course to name the open
+// section, so every route pulled a 6.1 MB chunk holding all 52 sections --
+// /cookies, /privacy, /verify and the 404 page included, none of which has a
+// section at all. The footer now reads the section from the DOM.
+test.describe('PyArcana public edition: what a page downloads', () => {
+  // A canonical exercise id, present only in the course content itself and
+  // required to stay by the repository's invariants.
+  const COURSE_MARKER = 'S01-T1-A-E1'
+
+  // The scripts a page's own HTML asks for: what it needs to render itself,
+  // before anything the reader does next. A <Link> to the course also makes
+  // Next prefetch the landing's chunk, course included, in the background;
+  // that is a separate cost, measured in the pull request, not here.
+  async function scriptsCarryingCourse(page: Page, path: string) {
+    const html = await (await page.request.get(`/pyarcana/${path}`)).text()
+    const sources = [...html.matchAll(/<script[^>]+src="([^"]+)"/g)].map((match) => match[1])
+    // A floor, so a page that asked for no script cannot pass.
+    expect(sources.length).toBeGreaterThanOrEqual(5)
+    const carrying = []
+    for (const source of sources) {
+      if ((await (await page.request.get(source)).text()).includes(COURSE_MARKER)) carrying.push(source)
+    }
+    return carrying
+  }
+
+  for (const path of ['cookies.html', 'privacy.html', 'verify.html', '404.html']) {
+    test(`/${path} does not download the course`, async ({ page }) => {
+      await page.goto(`/pyarcana/${path}`)
+      // The QA footer renders its controls only once hydrated. Waiting for it
+      // means the page works, and that the footer still does on a page with no
+      // section, which is what stopped importing the course.
+      await expect(page.getByTestId('qa-footer-bridge')).toBeVisible({ timeout: 15000 })
+      expect(await scriptsCarryingCourse(page, path)).toEqual([])
+    })
+  }
+
+  test('the landing still downloads the course it renders', async ({ page }) => {
+    // The other half: the 52 section cards are the landing's content, so the
+    // chunk belongs there. A fix that dropped it everywhere would be a loss.
+    await skipTours(page)
+    await page.goto('/pyarcana/')
+    await waitForViewChangesToAnimate(page)
+    expect((await scriptsCarryingCourse(page, '')).length).toBeGreaterThanOrEqual(1)
+  })
+
+  test('the QA footer still reports the section it no longer imports', async ({ page }) => {
+    // The context a QA report carries came from the course lookup this change
+    // removes. It now comes from the element SectionView renders, and has to
+    // stay the same: id, number and title of the open section.
+    await skipTours(page)
+    await page.addInitScript(() => {
+      // The supported fallback store, so the report is readable from here.
+      Object.defineProperty(window, 'indexedDB', { configurable: true, get: () => undefined })
+    })
+    await page.goto('/pyarcana/#S05')
+    await waitForViewChangesToAnimate(page)
+    await expect(page.locator('[data-section-id]')).toBeAttached({ timeout: 15000 })
+    await page.keyboard.press('Control+Alt+q')
+    await expect(page.getByTestId('qa-harness-dialog')).toBeVisible()
+    await page.getByTestId('qa-category').selectOption('unanswerable-question')
+    await page.getByTestId('qa-cause').selectOption('content-gap')
+    await page.getByTestId('qa-severity').selectOption('high')
+    await page.getByTestId('qa-title').fill('Prueba del contexto que acompaña al reporte')
+    await page.getByTestId('qa-description').fill('El reporte debe llevar la sección abierta: id, número y título.')
+    await page.getByTestId('qa-repro').fill('1. Abrir S05\n2. Abrir QA interna\n3. Guardar')
+    await page.getByTestId('qa-save-issue').click()
+    await expect(page.getByTestId('qa-review-dashboard')).toBeVisible()
+    const context = await page.evaluate(() => {
+      const records = JSON.parse(localStorage.getItem('pyarcana:qa-issues:v1') ?? '[]')
+      return records[records.length - 1]?.context
+    })
+    expect(context?.sectionId).toBe('functions-contracts')
+    expect(context?.sectionIndex).toBe(5)
+    // Not pinned to the wording, which the content rounds still rewrite.
+    expect(context?.sectionTitle).toBeTruthy()
+  })
+
+  test('a QA report opened before the section mounts still records it', async ({ page }) => {
+    // The number and title now come from the element SectionView renders, and
+    // QAHarness freezes the context when the workspace opens, preferring that
+    // snapshot when the report is saved. A tester who opened it while a view
+    // restored from the hash was still mounting would otherwise file "S05"
+    // with no number and no title. Raised in review on #72.
+    //
+    // That window is a few milliseconds on this machine, so the test makes it
+    // deterministic: it strips the attributes the bridge reads, which is the
+    // state it sees before the section renders, and puts them back afterwards.
+    await skipTours(page)
+    await page.addInitScript(() => {
+      Object.defineProperty(window, 'indexedDB', { configurable: true, get: () => undefined })
+    })
+    await page.goto('/pyarcana/#S05')
+    await waitForViewChangesToAnimate(page)
+    const root = page.getByTestId('section-root')
+    await expect(root).toBeAttached({ timeout: 15000 })
+    const attributes = await root.evaluate((el) => {
+      const held = { ...(el as HTMLElement).dataset }
+      for (const name of ['sectionId', 'sectionIndex', 'sectionTitle']) delete (el as HTMLElement).dataset[name]
+      return { sectionId: held.sectionId, sectionIndex: held.sectionIndex, sectionTitle: held.sectionTitle }
+    })
+    expect(attributes.sectionIndex).toBe('5')
+
+    await page.keyboard.press('Control+Alt+q')
+    await expect(page.getByTestId('qa-harness-dialog')).toBeVisible()
+    // What the snapshot holds now: the hash, because there is no section to read.
+    await expect(page.getByTestId('qa-harness-dialog')).toContainText('#S05')
+
+    await root.evaluate((el, held) => {
+      Object.assign((el as HTMLElement).dataset, held)
+    }, attributes)
+
+    await page.getByTestId('qa-category').selectOption('unanswerable-question')
+    await page.getByTestId('qa-cause').selectOption('content-gap')
+    await page.getByTestId('qa-severity').selectOption('high')
+    await page.getByTestId('qa-title').fill('El reporte debe llevar la sección que se abrió')
+    await page.getByTestId('qa-description').fill('Abrí la QA interna mientras la sección aún se montaba.')
+    await page.getByTestId('qa-repro').fill('1. Abrir /pyarcana/#S05\n2. Abrir QA interna de inmediato\n3. Guardar')
+    await page.getByTestId('qa-save-issue').click()
+    await expect(page.getByTestId('qa-review-dashboard')).toBeVisible()
+    const context = await page.evaluate(() => {
+      const records = JSON.parse(localStorage.getItem('pyarcana:qa-issues:v1') ?? '[]')
+      return records[records.length - 1]?.context
+    })
+    expect(context?.sectionId).toBe('functions-contracts')
+    expect(context?.sectionIndex).toBe(5)
+    expect(context?.sectionTitle).toBeTruthy()
+  })
+})
