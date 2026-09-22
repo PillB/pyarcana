@@ -128,4 +128,18 @@ test.describe('Accessibility (axe, WCAG 2.2 AA rules)', () => {
     })
     expect(unnamed, 'controls with no accessible name').toEqual([])
   })
+
+  // The legal routes are standalone pages, reached from the footer. axe files
+  // "the page has one <main>, and the content is inside a landmark" under best
+  // practice rather than a WCAG tag, so TAGS alone passed pages with no <main>
+  // at all, which a screen reader user cannot jump to.
+  for (const slug of ['cookies', 'disclaimer']) {
+    test(`/${slug} has no machine-detectable violations, and its content is in <main>`, async ({ page }) => {
+      await page.goto(`${BASE}/${slug}`, { waitUntil: 'domcontentloaded' })
+      await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1)
+      const wcag = await new AxeBuilder({ page }).withTags(TAGS).analyze()
+      const landmarks = await new AxeBuilder({ page }).withRules(['landmark-one-main', 'region']).analyze()
+      expect(summarise([...wcag.violations, ...landmarks.violations] as Violation[])).toBe('')
+    })
+  }
 })

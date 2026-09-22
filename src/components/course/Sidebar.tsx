@@ -92,18 +92,24 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
         </div>
       </button>
 
-      <div className="border-b border-sidebar-border px-5 py-4">
+      <div className="border-b border-sidebar-border px-5 py-4" data-testid="sidebar-progress">
         <div className="mb-2 flex items-center justify-between text-xs">
           <span className="font-medium text-muted-foreground">{t('progress.yourProgress', lang)}</span>
           <span className="font-bold text-primary">{totalProgress}%</span>
         </div>
         <div className="h-2 overflow-hidden rounded-full bg-muted">
-          <motion.div
-            className="h-full rounded-full gradient-primary"
-            initial={{ width: 0 }}
-            animate={{ width: `${totalProgress}%` }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-          />
+          {/* Stored progress is read after hydration. Mounted with it, at rest,
+              the fill shows it at once; it grew there from 0 before, which
+              needs animation frames, and without them stayed at 0 beside a
+              label reading 8%. Only later progress animates. */}
+          {mounted && (
+            <motion.div
+              className="h-full rounded-full gradient-primary"
+              initial={false}
+              animate={{ width: `${totalProgress}%` }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+            />
+          )}
         </div>
         <div className="mt-2 text-xs text-muted-foreground">
           {fill(t('sidebar.sectionsDone', lang), {
