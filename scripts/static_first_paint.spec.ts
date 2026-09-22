@@ -470,4 +470,55 @@ test.describe('PyArcana public edition: what a page downloads', () => {
     // Not pinned to the wording, which the content rounds still rewrite.
     expect(context?.sectionTitle).toBeTruthy()
   })
+
+  test('a QA report opened before the section mounts still records it', async ({ page }) => {
+    // The number and title now come from the element SectionView renders, and
+    // QAHarness freezes the context when the workspace opens, preferring that
+    // snapshot when the report is saved. A tester who opened it while a view
+    // restored from the hash was still mounting would otherwise file "S05"
+    // with no number and no title. Raised in review on #72.
+    //
+    // That window is a few milliseconds on this machine, so the test makes it
+    // deterministic: it strips the attributes the bridge reads, which is the
+    // state it sees before the section renders, and puts them back afterwards.
+    await skipTours(page)
+    await page.addInitScript(() => {
+      Object.defineProperty(window, 'indexedDB', { configurable: true, get: () => undefined })
+    })
+    await page.goto('/pyarcana/#S05')
+    await waitForViewChangesToAnimate(page)
+    const root = page.getByTestId('section-root')
+    await expect(root).toBeAttached({ timeout: 15000 })
+    const attributes = await root.evaluate((el) => {
+      const held = { ...(el as HTMLElement).dataset }
+      for (const name of ['sectionId', 'sectionIndex', 'sectionTitle']) delete (el as HTMLElement).dataset[name]
+      return { sectionId: held.sectionId, sectionIndex: held.sectionIndex, sectionTitle: held.sectionTitle }
+    })
+    expect(attributes.sectionIndex).toBe('5')
+
+    await page.keyboard.press('Control+Alt+q')
+    await expect(page.getByTestId('qa-harness-dialog')).toBeVisible()
+    // What the snapshot holds now: the hash, because there is no section to read.
+    await expect(page.getByTestId('qa-harness-dialog')).toContainText('#S05')
+
+    await root.evaluate((el, held) => {
+      Object.assign((el as HTMLElement).dataset, held)
+    }, attributes)
+
+    await page.getByTestId('qa-category').selectOption('unanswerable-question')
+    await page.getByTestId('qa-cause').selectOption('content-gap')
+    await page.getByTestId('qa-severity').selectOption('high')
+    await page.getByTestId('qa-title').fill('El reporte debe llevar la sección que se abrió')
+    await page.getByTestId('qa-description').fill('Abrí la QA interna mientras la sección aún se montaba.')
+    await page.getByTestId('qa-repro').fill('1. Abrir /pyarcana/#S05\n2. Abrir QA interna de inmediato\n3. Guardar')
+    await page.getByTestId('qa-save-issue').click()
+    await expect(page.getByTestId('qa-review-dashboard')).toBeVisible()
+    const context = await page.evaluate(() => {
+      const records = JSON.parse(localStorage.getItem('pyarcana:qa-issues:v1') ?? '[]')
+      return records[records.length - 1]?.context
+    })
+    expect(context?.sectionId).toBe('functions-contracts')
+    expect(context?.sectionIndex).toBe(5)
+    expect(context?.sectionTitle).toBeTruthy()
+  })
 })

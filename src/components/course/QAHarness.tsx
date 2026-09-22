@@ -222,6 +222,26 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
     void refreshIssues()
   }, [refreshIssues, snapshotContext])
 
+  // The open section's number and title reach this component from the element
+  // SectionView renders, which is not there yet while a view restored from the
+  // URL hash is still mounting. openHarness freezes the context, and a report
+  // always prefers that snapshot, so a tester who opened the workspace in that
+  // window filed a report reading "S05" with no number and no title, however
+  // long they took to write it. Fill those in when they arrive. Raised in
+  // review on #72; before it, the course lookup resolved them without the DOM.
+  useEffect(() => {
+    const captured = capturedContext.current
+    // Only a rendered section has a title, so its absence is what marks a
+    // snapshot taken too early.
+    if (!open || !captured || captured.sectionTitle || !sectionTitle) return
+    // And only for the view the snapshot was taken on: if the tester has moved
+    // since, what they were looking at when they opened it is what belongs in
+    // the report.
+    if (window.location.hash !== captured.hash) return
+    capturedContext.current = { ...captured, sectionId, sectionIndex, sectionTitle }
+    setContextRevision((n) => n + 1)
+  }, [open, sectionId, sectionIndex, sectionTitle])
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && event.altKey && event.key.toLowerCase() === 'q') {
