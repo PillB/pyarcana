@@ -5,6 +5,7 @@ import { db } from '@/lib/db'
 import { syncProgress } from '@/lib/firebase/sync'
 import { z } from 'zod'
 import { renameSectionId } from '@/lib/section-id-migrations'
+import { redactAttemptsForLearner } from '@/lib/exam-scoring'
 
 export async function GET() {
   const session = await getServerSession(authOptions)
@@ -16,10 +17,11 @@ export async function GET() {
     db.progress.findMany({
       where: { userId: session.user.id },
     }),
+    // The stored answers carry the key, which a learner never gets (redactAttemptsForLearner).
     db.examAttempt.findMany({
       where: { userId: session.user.id },
       orderBy: { startedAt: 'desc' },
-    }),
+    }).then(redactAttemptsForLearner),
     db.exerciseAttempt.findMany({
       where: { userId: session.user.id },
       orderBy: { attemptedAt: 'desc' },

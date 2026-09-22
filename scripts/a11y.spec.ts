@@ -128,22 +128,31 @@ test.describe('Accessibility (axe, WCAG 2.2 AA rules)', () => {
     })
     expect(unnamed, 'controls with no accessible name').toEqual([])
   })
+
+  // The legal routes are standalone pages, reached from the footer. axe files
+  // "the page has one <main>, and the content is inside a landmark" under best
+  // practice rather than a WCAG tag, so TAGS alone passed pages with no <main>
+  // at all, which a screen reader user cannot jump to.
+  for (const slug of ['cookies', 'disclaimer']) {
+    test(`/${slug} has no machine-detectable violations, and its content is in <main>`, async ({ page }) => {
+      await page.goto(`${BASE}/${slug}`, { waitUntil: 'domcontentloaded' })
+      await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1)
+      const wcag = await new AxeBuilder({ page }).withTags(TAGS).analyze()
+      const landmarks = await new AxeBuilder({ page }).withRules(['landmark-one-main', 'region']).analyze()
+      expect(summarise([...wcag.violations, ...landmarks.violations] as Violation[])).toBe('')
+    })
+  }
   // Views no spec opened, where axe found WCAG AA colour-contrast failures in
   // light mode: gold text at 1.78-1.84, amber at 4.33-4.44, muted text dimmed
   // to 3.67-3.81, an emerald badge at 3.53. Contrast is a WCAG tag rule, so
   // these were failing from the first run of this file -- it just never looked
   // here. Dark mode passed throughout, and Playwright's default is light.
-  //
-  // The two routes open the exported .html file, which Pages serves at both
-  // /verify and /verify.html. CI serves the build with python3 -m http.server
-  // until #69 lands, and that answers /pyarcana/verify with a listing of the
-  // verify/ directory the export writes beside the file.
   const COLOUR_VIEWS = [
     { open: '/#familiarity', shows: 'Familiarity Score Dashboard' },
     { open: '/#capstones', shows: 'Ver brief' },
     { open: '/#resources', shows: 'Recursos del curso' },
-    { open: '/verify.html', shows: 'Edición pública (estática)' },
-    { open: '/privacy.html', shows: 'Resumen rápido' },
+    { open: '/verify', shows: 'Edición pública (estática)' },
+    { open: '/privacy', shows: 'Resumen rápido' },
   ]
 
   for (const view of COLOUR_VIEWS) {

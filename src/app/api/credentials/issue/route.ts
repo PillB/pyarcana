@@ -10,6 +10,7 @@ import {
   requiredSectionIds,
   unverifiedRequirements,
 } from '@/lib/credential-gates'
+import { GRADED_AS_EVIDENCE } from '@/lib/exam-scoring'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
 import { createHmac, randomUUID } from 'crypto'
 
@@ -113,6 +114,8 @@ export async function POST(req: NextRequest) {
         userId,
         sectionId: { in: requiredSectionAliases(spec) },
         completedAt: { not: null },
+        // A score graded before the 2026-09-18 fix may be forged; it is not evidence.
+        ...GRADED_AS_EVIDENCE,
       },
     })
 

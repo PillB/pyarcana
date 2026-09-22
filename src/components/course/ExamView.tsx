@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import {
   HelpCircle, CheckCircle2, Award, AlertTriangle,
   Loader2, RotateCcw, Trophy
@@ -27,6 +27,10 @@ interface ExamStartResponse {
   questions: ExamQuestion[]
   totalAttemptsAllowed: number
   attemptsUsed: number
+  /** Seconds the attempt may stay open; the server refuses a submission after it. */
+  timeLimitSec?: number
+  /** Questions in this attempt whose correct answer the learner saw before 2026-09-18. */
+  exposedItems?: number
 }
 
 interface AttemptSummary {
@@ -35,7 +39,32 @@ interface AttemptSummary {
   score: number
   completedAt: string | null
   timeSpentSec: number
+  /** Graded before the 2026-09-18 fix: listed, but it neither counts nor uses up an attempt. */
+  legacy?: boolean
+  /** Whether the score counts (isEvidence on the server); an older server does not send it. */
+  evidence?: boolean
 }
+
+/** Whether a listed attempt's score counts toward the best score. */
+const scoreCounts = (a: AttemptSummary) => a.evidence ?? !a.legacy
+
+/** Why a listed attempt's score does not count, as an i18n key, or null when it does. */
+function unscoredReason(a: AttemptSummary): string | null {
+  if (a.legacy) return 'exam.legacyAttempt'
+  return scoreCounts(a) ? null : 'exam.exposedAttempt'
+}
+
+/** A graded answer from exam/submit. The correct option and the explanation are never sent. */
+interface ReviewedAnswer {
+  questionId: string
+  concept: string
+  question: string
+  options: string[]
+  selectedIndex: number
+  correct: boolean
+}
+
+const DEFAULT_TIME_LIMIT_SEC = 60 * 60
 
 interface ExamViewProps {
   sectionId: string
@@ -62,20 +91,17 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
     score: number
     correctCount: number
     totalQuestions: number
-    detailedAnswers: {
-      questionId: string
-      concept: string
-      question: string
-      options: string[]
-      selectedIndex: number
-      correctIndex: number
-      correct: boolean
-      explanation: string
-    }[]
+    detailedAnswers: ReviewedAnswer[]
     passed: boolean
   } | null>(null)
   const [previousAttempts, setPreviousAttempts] = useState<AttemptSummary[]>([])
   const [startTime, setStartTime] = useState<number>(0)
+
+  const refreshAttempts = () =>
+    fetch(`/api/exam/attempts?sectionId=${sectionId}`)
+      .then((r) => r.json())
+      .then((data) => setPreviousAttempts(data.attempts || []))
+      .catch(() => {})
 
   useEffect(() => {
     if (status === 'authenticated' && session?.user) {
@@ -106,6 +132,8 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
           description: data.error || t('exam.unknownError', lang),
           variant: 'destructive',
         })
+        // start may have just closed an attempt whose time ran out; show it.
+        void refreshAttempts()
         return
       }
       setExam(data)
@@ -120,10 +148,23 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
     }
   }
 
-  const handleSubmit = async () => {
+  // timedOut: the countdown reached zero, so what is marked is sent even if incomplete.
+  const handleSubmit = async (timedOut = false) => {
     if (!exam) return
+    const limit = exam.timeLimitSec ?? DEFAULT_TIME_LIMIT_SEC
+    const timeSpentSec = Math.min(limit, Math.round((Date.now() - startTime) / 1000))
+    // Only answered questions are sent; the server counts the rest as wrong.
+    const marked = exam.questions
+      .filter((q) => answers[q.id] !== undefined)
+      .map((q) => ({ questionId: q.id, selectedIndex: answers[q.id] }))
+    if (marked.length === 0) {
+      // Nothing to grade: the server closes the attempt with 0 when its time is over.
+      toast({ title: t('exam.timeUpNothingAnswered', lang), variant: 'destructive' })
+      setExam(null)
+      void refreshAttempts()
+      return
+    }
     setLoading(true)
-    const timeSpentSec = Math.round((Date.now() - startTime) / 1000)
 
     try {
       const res = await fetch('/api/exam/submit', {
@@ -131,10 +172,7 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           attemptId: exam.attemptId,
-          answers: exam.questions.map((q) => ({
-            questionId: q.id,
-            selectedIndex: answers[q.id] ?? -1,
-          })),
+          answers: marked,
           timeSpentSec,
         }),
       })
@@ -149,7 +187,9 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
       const attemptsData = await attemptsRes.json()
       setPreviousAttempts(attemptsData.attempts || [])
       toast({
-        title: data.passed ? t('exam.passedToast', lang) : t('exam.failed', lang),
+        title: timedOut
+          ? t('exam.timeUp', lang)
+          : data.passed ? t('exam.passedToast', lang) : t('exam.failed', lang),
         description: fill(t('exam.ofCorrect', lang), {
           c: data.correctCount,
           t: data.totalQuestions,
@@ -217,6 +257,13 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
                 max: exam.totalAttemptsAllowed,
               })}
             </Badge>
+            <ExamCountdown
+              limitSec={exam.timeLimitSec ?? DEFAULT_TIME_LIMIT_SEC}
+              startedAt={startTime}
+              onExpire={() => {
+                if (!loading) void handleSubmit(true)
+              }}
+            />
           </div>
         </div>
 
@@ -224,10 +271,13 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
           <div className="flex items-start gap-2">
             <AlertTriangle className="mt-0.5 h-4 w-4 text-amber-600" />
             <div className="text-sm">
-              <strong>{t('exam.rules', lang)}:</strong> {t('exam.rulesDesc', lang)}
+              <strong>{t('exam.rules', lang)}:</strong> {t('exam.rulesDesc', lang)}{' '}
+              {t('exam.timeLimitRule', lang)}
             </div>
           </div>
         </Card>
+
+        <ExposedNote count={exam.exposedItems ?? 0} />
 
         {exam.questions.map((q, qIdx) => {
           const userAnswer = answers[q.id]
@@ -276,7 +326,7 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
         })}
 
         <Button
-          onClick={handleSubmit}
+          onClick={() => handleSubmit()}
           disabled={loading || Object.keys(answers).length < exam.questions.length}
           className="w-full gap-2"
           size="lg"
@@ -328,41 +378,7 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
           </div>
         </Card>
 
-        <div>
-          <h3 className="mb-3 text-sm font-semibold text-foreground">{t('exam.review', lang)}</h3>
-          <div className="space-y-3">
-            {result.detailedAnswers.map((a, i) => (
-              <Card key={i} className={cn('p-4', a.correct ? 'border-green-500/30' : 'border-red-500/30')}>
-                <div className="flex items-start gap-2">
-                  <span
-                    className={cn(
-                      'flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white',
-                      a.correct ? 'bg-green-500' : 'bg-red-500'
-                    )}
-                  >
-                    {a.correct ? '✓' : '✗'}
-                  </span>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">{a.question}</p>
-                    <div className="mt-2 space-y-1 text-xs">
-                      <div className={cn('flex items-center gap-1', a.correct ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300')}>
-                        <span>
-                          {t('exam.yourAnswer', lang)}: {a.options[a.selectedIndex] || t('exam.noAnswer', lang)}
-                        </span>
-                      </div>
-                      {!a.correct && (
-                        <div className="text-green-700 dark:text-green-300">
-                          {t('exam.correctAnswer', lang)}: {a.options[a.correctIndex]}
-                        </div>
-                      )}
-                    </div>
-                    <p className="mt-2 text-xs text-muted-foreground italic">{a.explanation}</p>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
+        <ExamReview answers={result.detailedAnswers} />
 
         <Button onClick={() => { setExam(null); setSubmitted(false); setResult(null) }} className="w-full">
           {t('exam.backToSummary', lang)}
@@ -372,6 +388,8 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
   }
 
   const completedAttempts = previousAttempts.filter((a) => a.completedAt)
+  // Legacy attempts are listed but neither count nor use up an attempt.
+  const counted = completedAttempts.filter((a) => !a.legacy)
 
   return (
     <div className="space-y-6">
@@ -392,51 +410,10 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
         </div>
       </Card>
 
-      {previousAttempts.length > 0 && (
-        <div>
-          <h3 className="mb-3 text-sm font-semibold">{t('exam.previousAttempts', lang)}</h3>
-          <div className="space-y-2">
-            {completedAttempts.map((a) => (
-              <Card key={a.id} className="flex items-center justify-between p-3">
-                <div className="flex items-center gap-3">
-                  <div
-                    className={cn(
-                      'flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white',
-                      a.score >= 70 ? 'bg-green-500' : a.score >= 50 ? 'bg-amber-500' : 'bg-red-500'
-                    )}
-                  >
-                    {a.attemptNumber}
-                  </div>
-                  <div>
-                    <div className="text-sm font-medium">
-                      {t('exam.attempt', lang)} {a.attemptNumber}
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      {a.completedAt && new Date(a.completedAt).toLocaleDateString(lang === 'en' ? 'en-US' : 'es-PE')}
-                      {' · '}
-                      {Math.floor(a.timeSpentSec / 60)}m {a.timeSpentSec % 60}s
-                    </div>
-                  </div>
-                </div>
-                <Badge variant={a.score >= 70 ? 'default' : 'secondary'}>
-                  {a.score}%
-                </Badge>
-              </Card>
-            ))}
-          </div>
-        </div>
-      )}
+      {previousAttempts.length > 0 && <AttemptHistory attempts={completedAttempts} />}
 
-      {completedAttempts.length >= 3 ? (
-        <Card className="border-amber-500/40 bg-amber-500/5 p-4 text-center">
-          <AlertTriangle className="mx-auto h-8 w-8 text-amber-600" />
-          <h3 className="mt-2 font-semibold">{t('exam.maxAttempts', lang)}</h3>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {fill(t('exam.bestScore', lang), {
-              score: Math.max(...completedAttempts.map((a) => a.score)),
-            })}
-          </p>
-        </Card>
+      {counted.length >= 3 ? (
+        <MaxAttemptsCard attempts={counted} />
       ) : (
         <Button
           onClick={handleStartExam}
@@ -446,11 +423,168 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
           data-testid="exam-start"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <HelpCircle className="h-4 w-4" />}
-          {previousAttempts.length === 0
+          {counted.length === 0
             ? t('exam.start', lang)
-            : `${t('exam.startN', lang)} ${completedAttempts.length + 1}`}
+            : `${t('exam.startN', lang)} ${counted.length + 1}`}
         </Button>
       )}
+    </div>
+  )
+}
+
+/**
+ * The attempts already graded. Counted ones are numbered by their place among counted attempts,
+ * which is what "Intento n de 3" means; a legacy one keeps its stored number and says it does not
+ * count.
+ */
+function AttemptHistory({ attempts }: { attempts: AttemptSummary[] }) {
+  const lang = useI18n((s) => s.lang)
+  const position = new Map(attempts.filter((a) => !a.legacy).map((a, i) => [a.id, i + 1]))
+  return (
+    <div>
+      <h3 className="mb-3 text-sm font-semibold">{t('exam.previousAttempts', lang)}</h3>
+      <div className="space-y-2">
+        {attempts.map((a) => {
+          const n = position.get(a.id) ?? a.attemptNumber
+          const reason = unscoredReason(a)
+          return (
+            <Card key={a.id} className={cn('flex items-center justify-between p-3', reason && 'opacity-70')}>
+              <div className="flex items-center gap-3">
+                <div
+                  className={cn(
+                    'flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white',
+                    reason ? 'bg-muted-foreground' : a.score >= 70 ? 'bg-green-500' : a.score >= 50 ? 'bg-amber-500' : 'bg-red-500'
+                  )}
+                >
+                  {n}
+                </div>
+                <div>
+                  <div className="text-sm font-medium">
+                    {t('exam.attempt', lang)} {n}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {a.completedAt && new Date(a.completedAt).toLocaleDateString(lang === 'en' ? 'en-US' : 'es-PE')}
+                    {' · '}
+                    {Math.floor(a.timeSpentSec / 60)}m {a.timeSpentSec % 60}s
+                  </div>
+                  {reason && (
+                    <div className="text-xs text-muted-foreground" data-testid={`exam-unscored-${a.id}`}>
+                      {t(reason, lang)}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <Badge variant={!reason && a.score >= 70 ? 'default' : 'secondary'}>
+                {a.score}%
+              </Badge>
+            </Card>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+/** All three attempts used. The best score shown is the best one that counts, if any does. */
+function MaxAttemptsCard({ attempts }: { attempts: AttemptSummary[] }) {
+  const lang = useI18n((s) => s.lang)
+  const scored = attempts.filter(scoreCounts)
+  return (
+    <Card className="border-amber-500/40 bg-amber-500/5 p-4 text-center">
+      <AlertTriangle className="mx-auto h-8 w-8 text-amber-600" />
+      <h3 className="mt-2 font-semibold">{t('exam.maxAttempts', lang)}</h3>
+      {scored.length > 0 && (
+        <p className="mt-1 text-sm text-muted-foreground">
+          {fill(t('exam.bestScore', lang), {
+            score: Math.max(...scored.map((a) => a.score)),
+          })}
+        </p>
+      )}
+    </Card>
+  )
+}
+
+/** Said at the top of an attempt that includes questions whose correct answer the learner saw. */
+function ExposedNote({ count }: { count: number }) {
+  const lang = useI18n((s) => s.lang)
+  if (count <= 0) return null
+  return (
+    <Card className="border-amber-500/30 bg-amber-500/5 p-4 text-sm" data-testid="exam-exposed-warning">
+      {t('exam.exposedWarning', lang)}
+    </Card>
+  )
+}
+
+/**
+ * Time left in the attempt, counted from when the page received it. At zero it calls onExpire
+ * once, which sends what is marked; the server allows a short grace for the request to arrive.
+ */
+function ExamCountdown({ limitSec, startedAt, onExpire }: { limitSec: number; startedAt: number; onExpire: () => void }) {
+  const lang = useI18n((s) => s.lang)
+  const [now, setNow] = useState(() => Date.now())
+  const expire = useRef(onExpire)
+  const fired = useRef(false)
+  useEffect(() => {
+    expire.current = onExpire
+  })
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000)
+    return () => clearInterval(id)
+  }, [])
+  const left = Math.max(0, Math.ceil(limitSec - (now - startedAt) / 1000))
+  useEffect(() => {
+    if (left === 0 && !fired.current) {
+      fired.current = true
+      expire.current()
+    }
+  }, [left])
+  const time = `${String(Math.floor(left / 60)).padStart(2, '0')}:${String(left % 60).padStart(2, '0')}`
+  return (
+    <Badge variant={left <= 300 ? 'destructive' : 'outline'} className="gap-1.5 tabular-nums" role="timer" data-testid="exam-countdown">
+      {fill(t('exam.timeLeft', lang), { time })}
+    </Badge>
+  )
+}
+
+/**
+ * The per-question review after a submission: the question, the option the learner chose and
+ * whether it was right. The correct option and the explanation never reach the page (V3 roadmap,
+ * line 93), and this says so and what to do instead.
+ */
+function ExamReview({ answers }: { answers: ReviewedAnswer[] }) {
+  const lang = useI18n((s) => s.lang)
+  return (
+    <div>
+      <h3 className="mb-3 text-sm font-semibold text-foreground">{t('exam.review', lang)}</h3>
+      <p className="mb-3 text-xs text-muted-foreground" data-testid="exam-key-withheld">
+        {t('exam.keyWithheld', lang)}
+      </p>
+      <div className="space-y-3">
+        {answers.map((a, i) => (
+          <Card key={i} className={cn('p-4', a.correct ? 'border-green-500/30' : 'border-red-500/30')}>
+            <div className="flex items-start gap-2">
+              <span
+                className={cn(
+                  'flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white',
+                  a.correct ? 'bg-green-500' : 'bg-red-500'
+                )}
+              >
+                {a.correct ? '✓' : '✗'}
+              </span>
+              <div className="flex-1">
+                <p className="text-sm font-medium">{a.question}</p>
+                <div className="mt-2 space-y-1 text-xs">
+                  <div className={cn('flex items-center gap-1', a.correct ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300')}>
+                    <span>
+                      {t('exam.yourAnswer', lang)}: {a.options[a.selectedIndex] || t('exam.noAnswer', lang)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
     </div>
   )
 }
