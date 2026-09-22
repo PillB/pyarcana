@@ -188,7 +188,20 @@ Decisions L1Q3-1 (already decided by D9) and L1Q3-5 carry the detail.
 
 ## Instrument debt
 
-0. **A gate for planted defects — BUILT (2026-09-21).** `scripts/planted_defect_audit.py` runs the
+0a. **S14-T4-A-E3 cannot fail (found 2026-09-22).** Its starter fills `c` with a loop and checks
+   `float(c[0]) == 1.0`; the solution vectorises and checks `float(c.mean()) == 1.0`. On the
+   fixture (`a` zeros, `b` ones) both print `timed True`, so the planted defect — checking one
+   element instead of the whole array — is invisible, and the «Éxito» line certifies it. The
+   repair is a content round: make the anomaly sit away from index 0 (for example one element of
+   `a` non-zero), so the weak check still passes while the mean check does not, and the learner
+   sees precisely what the retrospective asks about. Third instance of this class after
+   S16-T3-B-E2 and S13-T1-B-E1.
+
+0. **A gate for planted defects — BUILT (2026-09-21), widened (2026-09-22).** Markers are matched
+   case-insensitively now, after a review found that `defect;`, `Bug intencional` and
+   `# Bug a corregir` were skipped — the audit reported those exercises clean without running
+   them. Each invocation also gets its own temp directory, so concurrent per-section runs cannot
+   clobber each other. Original note: `scripts/planted_defect_audit.py` runs the
    starter and the solution of every exercise whose text declares a DEFECT and reports those whose
    starter already prints every line the solution does. It found S13-T1-B-E1 (inverted denominators
    on a fixture where both metrics are 0.8) after S16-T3-B-E2 was found by hand; both are fixed.
