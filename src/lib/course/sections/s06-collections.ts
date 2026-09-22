@@ -862,46 +862,47 @@ KEYS sigue ('id', 'monto')`,
       {
         subtopicId: "S06-T1-A",
         kind: "transfer",
-        title: "Diagnosticar append sobre tuple de ids",
+        title: "Comprobar antes de añadir a una tuple de ids",
         preamble:
-          "- **Contexto:** a veces un snapshot de ids llega como tuple (inmutable); el pipeline intenta mutarlo como cola.\n- **Meta:** capturar `AttributeError`, convertir a `list` y mutar una **copia**.\n- **Éxito:** un `print` de diagnóstico con nombre `AttributeError` y luego `['C001', 'C002', 'C003']`.\n- **Límites:** no uses `except Exception` genérico en la solución; no mutes la tuple original (no se puede).",
+          "- **Contexto:** a veces un snapshot de ids llega como tuple (inmutable), pero el siguiente paso necesita añadir un elemento.\n- **Meta:** comprobar el tipo, convertir a `list` y modificar solo la copia.\n- **Éxito:** `tipo original: tuple` y luego `['C001', 'C002', 'C003']`; el rechazo de `append` sobre la tuple queda mostrado en un comentario.\n- **Límites:** no mutes ni reemplaces la tuple original; no omitas la comprobación antes de convertir.",
         id: "S06-T1-A-E3",
         instruction:
-          "1. Intenta `ids.append('C003')` dentro de `try`.\n2. En `except AttributeError`, imprime tipo y mensaje.\n3. Convierte a lista, haz `append('C003')` e imprime el resultado.\n4. En el except usa solo AttributeError (no Exception genérico); la tuple original no se muta.",
-        hint: "tuple no tiene append → AttributeError.",
+          "1. Parte de `ids = ('C001', 'C002')`.\n2. Antes de añadir, comprueba `isinstance(ids, tuple)`.\n3. Si es una tuple, crea una copia con `list(ids)` y añade `'C003'` a esa lista.\n4. Imprime el tipo original y la lista final; muestra en un comentario la última línea que produciría `ids.append('C003')`.",
+        hint: "Comprueba `isinstance(ids, tuple)` antes de crear `mut = list(ids)`.",
         hints: [
-          "tuple no tiene append → AttributeError.",
-          "list(ids) para mutar una copia.",
+          "Comprueba `isinstance(ids, tuple)` antes de crear `mut = list(ids)`.",
+          "Añade `C003` a `mut`; `ids` debe seguir siendo la tuple original.",
         ],
-        edgeCases: ["diagnóstico AttributeError"],
-        tests: "AttributeError + lista mutada",
+        edgeCases: ["tuple original inmutable"],
+        tests: "tipo original tuple + lista mutada",
         feedback:
-          "Si necesitas mutar, trabaja con `list`; guarda `tuple` solo como snapshot. Convertir todo a list «por si acaso» pierde el contrato de inmutabilidad: el error es la señal, no un fallo vergonzoso.",
+          "La comprobación hace explícita la decisión: `ids` conserva el snapshot y `mut` es la copia que puede cambiar. Convertir sin preguntar borra esa diferencia y facilita que otro paso sustituya el contrato original por una lista.",
         retrospective:
-          "El `AttributeError` protege una decisión: esos IDs eran un snapshot, no una cola. Explica por qué convertir a lista y mutar la copia respeta esa decisión mejor que reemplazar la tupla original por una lista global. ¿En qué situación preferirías devolver una tupla nueva con `ids + ('C003',)`? La respuesta depende de quién comparte el contrato.",
+          "Compara los dos objetos después de añadir `C003`: la lista tiene tres IDs y la tuple conserva dos. Explica por qué esa separación respeta mejor el snapshot que reasignar `ids = list(ids)`. Si nadie necesitara modificar la secuencia, una tuple nueva con `ids + ('C003',)` mantendría el mismo tipo.",
         starterCode: {
           language: 'python',
           title: "fix_tuple_mut.py",
-          code: `# Diagnostica el error al mutar una tuple.
+          code: `# DEFECT: convierte sin comprobar y reemplaza el snapshot.
 ids = ('C001', 'C002')
-try:
-    ids.append('C003')
-except Exception as e:
-    print('error genérico', e)
-print('ids', ids)`,
+ids = list(ids)
+ids.append('C003')
+print('tipo original:', type(ids).__name__)
+print(ids)`,
         },
         solutionCode: {
           language: 'python',
           title: "fix_tuple_mut.py",
           code: `ids = ('C001', 'C002')
-try:
-    ids.append('C003')
-except AttributeError as e:
-    print('diagnóstico:', type(e).__name__, '-', e)
+if isinstance(ids, tuple):
     mut = list(ids)
-    mut.append('C003')
-    print(mut)`,
-          output: `diagnóstico: AttributeError - 'tuple' object has no attribute 'append'
+else:
+    mut = ids
+print('tipo original:', type(ids).__name__)
+mut.append('C003')
+print(mut)
+# ids.append('C003') terminaría con:
+# AttributeError: 'tuple' object has no attribute 'append'`,
+          output: `tipo original: tuple
 ['C001', 'C002', 'C003']`,
         },
       },
@@ -1084,33 +1085,31 @@ Cusco`,
       {
         subtopicId: "S06-T2-A",
         kind: "independent",
-        title: "get con default frente a KeyError",
+        title: "get con default frente a una clave obligatoria",
         preamble:
-          "- **Contexto:** ids opcionales en intake sintético: a veces reportas «N/A», a veces un bug de programación debe fallar fuerte.\n- **Meta:** usar `get` para opcionales y capturar `KeyError` en acceso duro.\n- **Éxito:** tres líneas conceptuales: `Ana`, `N/A`, y un print de `KeyError 'C999'`.\n- **Límites:** no tragues todas las excepciones con `except Exception`.",
+          "- **Contexto:** algunos ids del intake sintético son opcionales y otros deben existir.\n- **Meta:** usar `get` para la ausencia esperada y comprobar pertenencia antes de consultar una clave obligatoria.\n- **Éxito:** tres líneas: `Ana`, `N/A` y `falta obligatoria C999`.\n- **Límites:** no uses el mismo default para ocultar una clave obligatoria; no consultes esa clave antes de comprobarla.",
         id: "S06-T2-A-E2",
         instruction:
-          "1. Con `idx = {'C001': 'Ana'}`, imprime `get` de C001 y de C999 (default `'N/A'`).\n2. En un `try`, accede `idx['C999']`.\n3. En `except KeyError`, imprime el error.\n4. Compara con la solución: no omitas el `get` de C001.",
-        hint: "idx.get('C999','N/A')",
+          "1. Con `idx = {'C001': 'Ana'}`, imprime `get` de C001 y de C999 con el default `'N/A'`.\n2. Guarda `'C999'` en `clave` y comprueba `clave in idx` antes de usar `idx[clave]`.\n3. Si falta, imprime `falta obligatoria C999`.\n4. Muestra en un comentario la última línea que produciría el acceso directo sin esa comprobación.",
+        hint: "Para una clave obligatoria, pregunta primero `clave in idx`.",
         hints: [
-          "idx.get('C999','N/A')",
-          "KeyError solo en acceso duro.",
+          "`idx.get('C999', 'N/A')` cubre la ausencia opcional.",
+          "Para una clave obligatoria, pregunta primero `clave in idx`.",
         ],
-        edgeCases: ["get vs. KeyError"],
-        tests: "Ana / N/A / KeyError",
+        edgeCases: ["clave opcional frente a obligatoria"],
+        tests: "Ana / N/A / falta obligatoria C999",
         feedback:
-          "`get` con default cubre ausencia esperada (campo opcional). `KeyError` en acceso duro señala un invariante roto de programación — no lo envuelvas en `except Exception` genérico.",
+          "`get` con default cubre una ausencia prevista. Una clave obligatoria necesita otra decisión: comprobar pertenencia permite registrar cuál falta sin fingir que `N/A` satisface el contrato.",
         retrospective:
-          "No concluyas que `get` es «más seguro» en toda situación. Es seguro cuando la ausencia forma parte del contrato; puede ocultar un typo cuando el ID debía existir. Escribe dos tests: uno donde C999 produce N/A de manera legítima y otro donde una clave obligatoria debe lanzar `KeyError`. Esa distinción reaparecerá en rutas anidadas.",
+          "No concluyas que `get` es mejor en toda situación. Es adecuado cuando la ausencia forma parte del contrato, pero puede ocultar un nombre mal escrito cuando la clave debía existir. Escribe dos casos: uno donde C999 produce N/A de manera legítima y otro donde debe quedar registrado como clave obligatoria ausente. Esa distinción reaparecerá en rutas anidadas.",
         starterCode: {
           language: 'python',
           title: "get_vs_keyerror.py",
-          code: `# get con default vs acceso duro con KeyError.
+          code: `# DEFECT: usa el default opcional para una clave obligatoria.
 idx = {'C001': 'Ana'}
-print(idx['C001'])
-try:
-    print(idx['C999'])
-except KeyError as e:
-    print('KeyError', e)`,
+print(idx.get('C001', 'N/A'))
+print(idx.get('C999', 'N/A'))
+print('falta obligatoria', idx.get('C999', 'N/A'))`,
         },
         solutionCode: {
           language: 'python',
@@ -1118,13 +1117,16 @@ except KeyError as e:
           code: `idx = {'C001': 'Ana'}
 print(idx.get('C001', 'N/A'))
 print(idx.get('C999', 'N/A'))
-try:
-    print(idx['C999'])
-except KeyError as e:
-    print('KeyError', e)`,
+clave = 'C999'
+if clave in idx:
+    print(idx[clave])
+else:
+    print('falta obligatoria', clave)
+# idx['C999'] terminaría con:
+# KeyError: 'C999'`,
           output: `Ana
 N/A
-KeyError 'C999'`,
+falta obligatoria C999`,
         },
       },
       {
@@ -1466,7 +1468,7 @@ C003 review`,
         kind: "guided",
         title: "get_nested seguro por ruta de claves",
         preamble:
-          "- **Contexto:** `profile.phone` presente y `profile.email` ausente en un cliente sintético.\n- **Meta:** recorrer claves; si falta un nivel, devolver `default`.\n- **Éxito:** `999` y `N/A`.\n- **Límites:** no uses try/except como único diseño; chequea dict y pertenencia de clave.",
+          "- **Contexto:** `profile.phone` está presente y `profile.email` está ausente en un cliente sintético.\n- **Meta:** recorrer claves y devolver `default` cuando falte un nivel.\n- **Éxito:** `999` y `N/A`.\n- **Límites:** comprueba en cada nivel que `cur` sea un dict y que contenga la clave antes de consultarla.",
         id: "S06-T3-B-E1",
         instruction:
           "1. El starter hace `cur = cur[k]` sin guardas.\n2. Si no es dict o falta `k`, retorna `default`.\n3. Prueba phone y email con default.\n4. No hardcodees los resultados sin la función.",
@@ -1478,9 +1480,9 @@ C003 review`,
         edgeCases: ["path incompleto"],
         tests: "999 y N/A",
         feedback:
-          "Helper reutilizable del modelo anidado. Chequea `isinstance(cur, dict)` y pertenencia de clave; un try/except alrededor de todo el path oculta bugs de tipo.",
+          "El helper comprueba `isinstance(cur, dict)` y la pertenencia de la clave antes de avanzar. Así distingue una ruta incompleta de un nivel que ni siquiera tiene la forma esperada.",
         retrospective:
-          "Recorre a mano la ruta `profile → email`: el primer nivel existe y el segundo no, por eso aparece el default. Ahora imagina `profile: []`. El chequeo de tipo también debe detenerse. ¿Qué defecto podría ocultar un `except Exception` general? Un helper seguro no significa un helper que silencia cualquier error; significa un contrato preciso para rutas incompletas.",
+          "Recorre a mano la ruta `profile → email`: el primer nivel existe y el segundo no, por eso aparece el default. Ahora imagina `profile: []`; la comprobación de tipo debe detener el recorrido antes de buscar otra clave. Un helper seguro no silencia cualquier defecto: define con precisión qué rutas incompletas convierten el resultado en `default`.",
         starterCode: {
           language: 'python',
           title: "get_nested.py",

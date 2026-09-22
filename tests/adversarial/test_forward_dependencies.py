@@ -128,7 +128,10 @@ D9_OWED = 0
 # as the last line of the traceback in a comment, and the batch exercise checks each row before
 # calling instead of catching after. S02 and S04's sites wait on the Q3 route, which is an owner
 # question; S06, S07, S08 and the playgrounds are next.
-D10_OWED = 86
+# 2026-09-21: 86 -> 64. S06 and S07 followed S05's two patterns — check the type before
+# mutating (the tuple's refusal is shown as the message Python prints, not run), and a batch that
+# validates each row before calling instead of catching after.
+D10_OWED = 64
 
 
 class ForwardDependencyTests(unittest.TestCase):

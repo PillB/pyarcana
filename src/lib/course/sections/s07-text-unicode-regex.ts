@@ -1065,11 +1065,11 @@ print(''.join(c for c in raw if c.isdigit()))`,
           "- **Contexto:** el campo email del registro sintético debe ser usable o ir a review, sin fingir que el buzón existe.\n- **Meta:** implementar strip+casefold, un `@`, local/dominio no vacíos, cero espacios.\n- **Éxito:** `ok a@b.com` y tres líneas `review_error …` para `@b.com`, `a@@b.com`, `a b@c.com`.\n- **Límites:** no regex; no exijas `.com`; plus addressing debe seguir válido en el contrato (aunque no se prueba en este loop).",
         id: "S07-T2-B-E1",
         instruction:
-          "1. Reescribe `normalize_email`: el starter no valida `@` ni espacios.\n2. Usa `casefold` (no solo `lower`) por contrato del normalizador.\n3. Lanza `ValueError` con mensaje claro en fallos.\n4. Mantén el loop try/except e imprime `ok` / `review_error`.",
-        hint: "s.count('@') == 1; split; local/domain no vacíos; cero espacios",
+          "1. Crea `validar_email(raw)` para devolver `(ok, valor, motivo)`; el starter aprueba todo por error.\n2. Usa `casefold`, exige un solo `@`, partes no vacías y cero espacios.\n3. Conserva `normalize_email` como núcleo estricto que usa la misma comprobación.\n4. En el loop, llama al normalizador solo cuando `ok` sea verdadero; en los demás casos imprime `review_error` y el motivo devuelto.",
+        hint: "Devuelve `(False, None, motivo)` para una fila inválida y llama al normalizador solo cuando `ok` sea verdadero.",
         hints: [
-          "s.count('@') == 1; split; local/domain no vacíos; cero espacios",
-          "No uses regex ni exijas .com; acepta plus addressing.",
+          "Comprueba `s.count('@') == 1`, cero espacios y partes no vacías.",
+          "Acumula la decisión en `(ok, valor, motivo)` antes de llamar a `normalize_email`.",
         ],
         edgeCases: ["local vacío", "doble @", "espacios", "plus válido"],
         tests: "Contrato exacto: ok a@b.com; tres review_error; user+tag@example.com sigue válido.",
@@ -1080,34 +1080,45 @@ print(''.join(c for c in raw if c.isdigit()))`,
         starterCode: {
           language: 'python',
           title: "email_lower.py",
-          code: `# TAREA: normalize_email modesto (un @, sin espacios)
-# DEFECT: no valida @ ni espacios
+          code: `# TAREA: comprobar cada fila antes de llamar al normalizador.
+# DEFECT: la comprobación aprueba cualquier texto.
+def validar_email(raw):
+    return True, raw.strip().lower(), None
+
 def normalize_email(raw):
     return raw.strip().lower()
 
 for raw in ['  A@B.COM ', '@b.com', 'a@@b.com', 'a b@c.com']:
-    try:
-        print('ok', normalize_email(raw))
-    except ValueError as exc:
-        print('review_error', str(exc))`,
+    ok, valor, motivo = validar_email(raw)
+    if ok:
+        print('ok', normalize_email(valor))
+    else:
+        print('review_error', motivo)`,
         },
         solutionCode: {
           language: 'python',
           title: "email_lower.py",
-          code: `def normalize_email(raw):
+          code: `def validar_email(raw):
     s = raw.strip().casefold()
     if s.count('@') != 1 or any(ch.isspace() for ch in s):
-        raise ValueError('email requiere un @ y cero espacios')
+        return False, None, 'email requiere un @ y cero espacios'
     local, domain = s.split('@')
     if not local or not domain:
-        raise ValueError('email requiere local y dominio')
-    return s
+        return False, None, 'email requiere local y dominio'
+    return True, s, None
+
+def normalize_email(raw):
+    ok, valor, motivo = validar_email(raw)
+    if not ok:
+        raise ValueError(motivo)
+    return valor
 
 for raw in ['  A@B.COM ', '@b.com', 'a@@b.com', 'a b@c.com']:
-    try:
-        print('ok', normalize_email(raw))
-    except ValueError as exc:
-        print('review_error', str(exc))`,
+    ok, valor, motivo = validar_email(raw)
+    if ok:
+        print('ok', normalize_email(valor))
+    else:
+        print('review_error', motivo)`,
           output: `ok a@b.com
 review_error email requiere local y dominio
 review_error email requiere un @ y cero espacios

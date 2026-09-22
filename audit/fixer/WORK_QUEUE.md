@@ -121,10 +121,16 @@ Decisions L1Q3-1 (already decided by D9) and L1Q3-5 carry the detail.
 3. **S01-T1-B-E2 argv exercise (D9).** The subtopic's own prose defers argv to the CLI section;
    the exercise asks for `def main()`, `sys.argv[1:]`, `len` and an `if`. Replace it at S01 level
    (read exit codes of prepared commands) and move the `check_arg.py` contract to S10.
-4. **`try`/`except` before S09 (D10).** 54 occurrences: S02 (11), S04 (7), S05 (14), S06 (9),
-   S07 (3), S08 (10). Rewrite each so the failure is observed rather than caught, or move the
-   piece that needs catching. S02-T1-B-E2, S02-T3-B-E3 and S02-T4-B-E3 are inside CP-N1-A, so
-   they resolve with Q3.
+4. **`try`/`except` before S09 (D10).** The real count, once the scan also read the Theory-tab
+   playgrounds, was 106, not 54. **S05 is done** (20 sites, 2026-09-21): every `raise` stays —
+   refusing bad input is what the section teaches — and the catching goes. Two replacements,
+   reusable for the rest: a refused call is shown as the last line of the traceback in a comment
+   rather than run (a raising snippet exits non-zero, which the runtime audit records as a P0),
+   and a batch checks each row before calling instead of catching after. Ratchet 106 -> 86.
+   **In flight:** S06 (17) and S07 (5). **Then:** S08 (21) and the 8 playground sites in
+   SectionView.tsx ('basics', 'functions-contracts', 'files-ingestion', 'text-unicode-regex').
+   **Blocked:** S02 (24) and S04 (11) sit inside CP-N1-A, so they wait on the Q3 route — owner
+   packet question 4. Decision L1Q3-2 carries the per-site plan.
 
 ## D3 gaps, in the critic's priority order
 
