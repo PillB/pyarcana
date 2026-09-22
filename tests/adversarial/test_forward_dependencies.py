@@ -114,10 +114,11 @@ def offenders(pattern: re.Pattern[str], before_index: int) -> list[str]:
 # 2026-09-21: S02-S08 followed — the You Do starters run their demo at top level and the
 # requirements say so. The scan now also reads the Theory-tab playgrounds and the capstone
 # STARTER files, which are learner code living outside sections/ (both clean). What is left is
-# S09, whose two sites are the guard around a demo that a separate test module imports; they
-# resolve with the S09/S10 round that moves those asserts into the file and teaches `__name__`
-# where a learner first imports their own module.
-D9_OWED = 2
+# 2026-09-21 (later the same day): S09 followed. Its guard protected a demo that a separate
+# test_audit_log.py imported, so the three checks moved into audit_log.py itself (D11's rewrite
+# rung) and S10 now earns `__name__` with that exact case — the learner's own file running its
+# demo on import. D9 is at zero across the course and is held there, not ratcheted.
+D9_OWED = 0
 # 2026-09-21: 98 -> 106, and this is not a relaxation. Widening the scan to the Theory-tab
 # playgrounds put 8 `try`/`except` sites under the gate that no scan had ever read
 # (SectionView.tsx, the sections before S09). They were unprotected debt; now they are counted

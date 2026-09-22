@@ -2227,14 +2227,14 @@ print("idem_key=" + key)`,
   youDo: {
     title: "Bitácora auditable del pipeline (inicio CP-N1-C)",
     context:
-      "Inicias **CP-N1-C**: una bitácora de pipeline que **sintetiza** lo practicado en los We Do — taxonomía data|config|provider, máscaras de PII, `log` con correlation_id, fail-fast de config y cuarentena de filas. El resultado es un módulo de portfolio que un junior puede mostrar en GitHub. Usa solo datos sintéticos; sin claims de fraude ni parentesco. **Éxito de corrida:** demo con assert `in == ok + quarantined`, cero PII completa en logs, y fail-fast verificable si falta `required_fields`.",
+      "Inicias **CP-N1-C**: una bitácora de pipeline que **sintetiza** lo practicado en los We Do — taxonomía data|config|provider, máscaras de PII, `log` con correlation_id, fail-fast de config y cuarentena de filas. El resultado es un módulo de portfolio que un junior puede mostrar en GitHub. Usa solo datos sintéticos; sin claims de fraude ni parentesco. Todo lo que dejes al final de `audit_log.py` corre cada vez que ejecutas el archivo. **Éxito de corrida:** demo con assert `in == ok + quarantined`, cero PII completa en logs, y fail-fast verificable si falta `required_fields`.",
     objectives: [
       "Clasificar fallos en data | config | provider",
       "Emitir logs estructurados con correlation_id",
       "Enmascarar email, teléfono y dirección antes de escribir logs",
       "Cuarentena de filas inválidas sin abortar el lote salvo config fatal",
       "Documentar política fail-fast vs. continue en README",
-      "Reconciliar conteos in == ok + quarantined y cubrir con tests mínimos",
+      "Reconciliar conteos in == ok + quarantined y cubrirlos con comprobaciones mínimas",
     ],
     requirements: [
       "Módulo audit_log / process_batch con helpers de enmascarado (email, phone, address)",
@@ -2242,8 +2242,8 @@ print("idem_key=" + key)`,
       "Fail-fast si falta config['required_fields']; cuarentena de filas de datos inválidas",
       "Ningún log de demo contiene PII completa",
       "assert len(ok) + len(quarantined) == in en la demo",
-      "Dataset sintético; if __name__ == '__main__' demo reproducible",
-      "Al menos 3 tests en test_audit_log.py (máscaras, fail-fast config, reconcile)",
+      "Dataset sintético; demo reproducible al final del archivo",
+      "Al menos 3 comprobaciones con `assert` al final de `audit_log.py` (máscaras, fail-fast config, reconcile)",
       "Solo stdlib (logging, decimal si aplica); sin librerías de gráficos",
       "Entorno local-python",
     ],
@@ -2255,7 +2255,7 @@ TODO del estudiante (el starter NO es la solución):
 2) Fail-fast si config["required_fields"] falta o es None
 3) Completar process_batch: errors_by_class, campo in, reconcile
 4) Logs con correlation_id + email/phone/address enmascarados
-5) tests en test_audit_log.py (mínimo 3)
+5) Añadir al final 3 comprobaciones con assert: máscaras, fail-fast config y reconcile
 """
 from __future__ import annotations
 import logging
@@ -2295,40 +2295,64 @@ def process_batch(
     )
 
 
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.ERROR)
-    demo = [
-        {
-            "id": "C001",
-            "email": "ana@ejemplo.pe",
-            "phone": "999111222",
-            "address": "Av. Ejemplo 123, Lima",
-        },
-        {
-            "id": "C002",
-            "email": "no-email",
-            "phone": "999",
-            "address": "Jr. Prueba 1",
-        },
-        {"email": "x@ejemplo.pe", "address": "Sin id"},
-    ]
-    # Cuando completes process_batch, descomenta y verifica reconcile:
-    # result = process_batch(demo, "job-demo-1", {"required_fields": ["id", "email"]})
-    # assert result["in"] == len(result["ok"]) + len(result["quarantined"])
-    # print(result)
-    print("scaffold listo — implementa las funciones TODO")`,
+logging.basicConfig(level=logging.ERROR)
+demo = [
+    {
+        "id": "C001",
+        "email": "ana@ejemplo.pe",
+        "phone": "999111222",
+        "address": "Av. Ejemplo 123, Lima",
+    },
+    {
+        "id": "C002",
+        "email": "no-email",
+        "phone": "999",
+        "address": "Jr. Prueba 1",
+    },
+    {"email": "x@ejemplo.pe", "address": "Sin id"},
+]
+# Cuando completes process_batch, descomenta y verifica reconcile:
+# result = process_batch(demo, "job-demo-1", {"required_fields": ["id", "email"]})
+# assert result["in"] == len(result["ok"]) + len(result["quarantined"])
+# print(result)
+print("scaffold listo — implementa las funciones TODO")
+
+# Comprueba las tres máscaras sin fijar una única máscara de dirección.
+masked_address = mask_address("Av. Ejemplo 123, Lima")
+assert (
+    mask_email("ana@ejemplo.pe") == "a***@ejemplo.pe"
+    and mask_phone("999111222") == "***1222"
+    and masked_address
+    and masked_address != "Av. Ejemplo 123, Lima"
+)
+
+# Comprueba que una configuración incompleta detiene el lote.
+config_failed_fast = False
+try:
+    process_batch([], "job-test-config", {})
+except RuntimeError:
+    config_failed_fast = True
+assert config_failed_fast
+
+# Comprueba que cada fila termina en una sola salida.
+checked = process_batch(
+    demo,
+    "job-test-reconcile",
+    {"required_fields": ["id", "email"]},
+)
+assert checked["in"] == len(checked["ok"]) + len(checked["quarantined"])`,
     portfolioNote:
-      "Muestra en README: 1 corrida con correlation_id, 1 log enmascarado (email/teléfono/dirección), tabla de taxonomía data/config/provider, política de abort y evidencia de tests. Subraya privacidad.",
+      "Muestra en README: 1 corrida con correlation_id, 1 log enmascarado (email/teléfono/dirección), tabla de taxonomía data/config/provider, política de abort y evidencia de las comprobaciones. Subraya privacidad.",
     rubric: [
       { criterion: "Bitácora auditable: taxonomía + correlation_id + enmascarado verificable", weight: "25%" },
       { criterion: "Correctitud técnica en entorno declarado (fail-fast + cuarentena + reconcile)", weight: "20%" },
       { criterion: "Privacidad / sin PII real / sin secretos en logs", weight: "20%" },
-      { criterion: "Pruebas o casos de borde documentados (≥3 tests)", weight: "15%" },
+      { criterion: "Comprobaciones o casos de borde documentados (≥3 `assert`)", weight: "15%" },
       { criterion: "Código legible y límites claros", weight: "10%" },
       { criterion: "Documentación en español profesional (README de política)", weight: "10%" },
     ],
     retrospective:
-      "Antes de marcar listo: (1) ¿qué invariante demuestras con `in == ok + quarantined` y con un test de fail-fast de config? (2) ¿qué cambia con datos reales vs. sintéticos (PII, secretos en logs)? (3) Una frase de impacto medible en el README («antes: email completo en ERROR; después: máscara + correlation_id») defendible en 30 s. Si no separas timeout de provider de monto NaN, vuelve a T4-A/T4-B.",
+      "Antes de marcar listo: (1) ¿qué invariante demuestras con `in == ok + quarantined` y con una comprobación de fail-fast de config? (2) ¿qué cambia con datos reales vs. sintéticos (PII, secretos en logs)? (3) Una frase de impacto medible en el README («antes: email completo en ERROR; después: máscara + correlation_id») defendible en 30 s. Si no separas timeout de provider de monto NaN, vuelve a T4-A/T4-B.",
   },
   selfCheck: {
     questions: [
