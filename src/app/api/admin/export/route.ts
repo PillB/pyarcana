@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { withCanonicalSectionIds } from '@/lib/section-id-migrations'
 import { COURSE_META } from '@/lib/course'
+import { csvCell } from '@/lib/csv'
 import { isEvidence } from '@/lib/exam-scoring'
 
 export async function GET(request: Request) {
@@ -73,14 +74,14 @@ export async function GET(request: Request) {
       headers.join(','),
       ...rows.map((r) => [
         r.id,
-        `"${r.email}"`,
-        `"${r.name}"`,
+        r.email,
+        r.name,
         r.createdAt,
         r.sectionsCompleted,
         `${r.completionPct}%`,
         r.examAttempts,
         r.avgScore,
-      ].join(',')),
+      ].map(csvCell).join(',')),
     ].join('\n')
 
     return new NextResponse(csv, {
@@ -106,14 +107,14 @@ export async function GET(request: Request) {
       headers.join(','),
       ...attempts.map((a) => [
         a.id,
-        `"${a.user.email}"`,
+        a.user.email,
         a.sectionId,
         a.attemptNumber,
         a.score,
         a.timeSpentSec,
         a.completedAt?.toISOString() || '',
         isEvidence(a) ? 'yes' : 'no',
-      ].join(',')),
+      ].map(csvCell).join(',')),
     ].join('\n')
 
     return new NextResponse(csv, {
