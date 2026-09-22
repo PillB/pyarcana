@@ -1,4 +1,33 @@
 {
   "description": "Register of DestructiveChangeRequest records. Empty means no authorized deletions.",
-  "requests": []
+  "requests": [
+    {
+      "id": "DCR-2026-09-19-exam-correct-answer-string",
+      "status": "pending",
+      "paths": [
+        "src/lib/i18n.ts"
+      ],
+      "change": "Remove the 'exam.correctAnswer' string from the es-PE, es-ES and en dictionaries (three lines).",
+      "reason": "Decision D12: the section exam never shows the correct option, so no screen labels one.",
+      "obsolescence_evidence": [
+        "git grep 'exam.correctAnswer' finds it only in src/lib/i18n.ts and audit/fixer/WORK_QUEUE.md (on PR #70).",
+        "ExamView's review, its only user, no longer renders a correct option: exam/submit never sends one."
+      ],
+      "alternatives": [
+        "Keep it as an unused string: harmless, but a translator keeps maintaining a label for a screen that does not exist.",
+        "Reuse it in the admin attempt history, where the key may be shown: no such view exists today."
+      ],
+      "user_data_impact": "None. A UI string; no stored learner state reads it.",
+      "rollback": "git revert of the removal commit restores the three lines.",
+      "tests": [
+        "npm run test:i18n-parity (the three locales keep equal key sets)",
+        "npx tsc --noEmit, npm run lint",
+        "node --experimental-test-module-mocks --import tsx --test tests/adversarial/exam-submit-route.test.ts"
+      ],
+      "requested_by": "Claude (session for PR #70)",
+      "requested_at": "2026-09-19",
+      "human_approval": null,
+      "verifier_approval": null
+    }
+  ]
 }

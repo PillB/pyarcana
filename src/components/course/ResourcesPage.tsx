@@ -37,6 +37,7 @@ import { Input } from '@/components/ui/input'
 import type { Resources } from '@/lib/types'
 import { LegalDisclaimer } from './LegalDisclaimer'
 import { cn } from '@/lib/utils'
+import { riseIn } from '@/lib/entrance'
 
 /** The part of a course section the catalogue needs to filter and label resources. */
 export interface ResourceSection {
@@ -47,6 +48,12 @@ export interface ResourceSection {
 }
 
 interface ResourcesPageProps {
+  /**
+   * False while this is the view the page restored from the URL hash as it
+   * loaded: the header, the per-section cards and the legal notices then
+   * mount at rest instead of waiting for an animation frame (see riseIn).
+   */
+  animateEntrance: boolean
   sections: (ResourceSection & { resources: Resources })[]
 }
 
@@ -1677,7 +1684,7 @@ const ACCESS_LABELS: Record<ResourceAccess, string> = {
 }
 
 const STATUS_LABELS: Record<ResourceStatus, { label: string; tone: string }> = {
-  active: { label: 'Activo', tone: 'text-emerald-600 dark:text-emerald-300' },
+  active: { label: 'Activo', tone: 'text-emerald-700 dark:text-emerald-300' },
   changed: { label: 'Cambiado', tone: 'text-amber-600 dark:text-amber-300' },
   retired: { label: 'Retirado', tone: 'text-rose-600 dark:text-rose-300' },
   unavailable: { label: 'No disponible', tone: 'text-muted-foreground' },
@@ -1688,7 +1695,7 @@ const INITIAL_VISIBLE = 12
 // ────────────────────────────────────────────────────────────────────────────
 // ResourcesPage
 // ────────────────────────────────────────────────────────────────────────────
-export function ResourcesPage({ sections }: ResourcesPageProps) {
+export function ResourcesPage({ animateEntrance, sections }: ResourcesPageProps) {
   const [search, setSearch] = useState('')
   const [typeFilter, setTypeFilter] = useState<Set<ResourceType>>(new Set())
   const [levelFilter, setLevelFilter] = useState<Set<ResourceLevel>>(new Set())
@@ -1806,7 +1813,7 @@ export function ResourcesPage({ sections }: ResourcesPageProps) {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8" ref={containerRef}>
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
+        initial={riseIn(animateEntrance, 8)}
         animate={{ opacity: 1, y: 0 }}
       >
         <Badge variant="outline" className="mb-3 gap-1.5 border-primary/30 text-primary">
@@ -1883,7 +1890,7 @@ export function ResourcesPage({ sections }: ResourcesPageProps) {
             >
               <Icon className="h-3 w-3" />
               {label}
-              <span className="ml-1 text-[10px] opacity-70">({count})</span>
+              <span className="ml-1 text-[10px]">({count})</span>
             </button>
           )
         })}
@@ -2079,7 +2086,7 @@ export function ResourcesPage({ sections }: ResourcesPageProps) {
           {sections.map((s, idx) => (
             <motion.div
               key={s.id}
-              initial={{ opacity: 0, y: 8 }}
+              initial={riseIn(animateEntrance, 8)}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: Math.min(idx * 0.02, 0.4) }}
             >
@@ -2117,7 +2124,7 @@ export function ResourcesPage({ sections }: ResourcesPageProps) {
       </section>
 
       {/* Legal & security disclaimers */}
-      <LegalDisclaimer />
+      <LegalDisclaimer animateEntrance={animateEntrance} />
     </div>
   )
 }
@@ -2157,7 +2164,7 @@ function ResourceCard({
         </div>
         <div className="flex flex-wrap items-center justify-end gap-1">
           {resource.official && (
-            <Badge variant="outline" className="gap-1 border-emerald-500/40 text-emerald-600 dark:text-emerald-300">
+            <Badge variant="outline" className="gap-1 border-emerald-500/40 text-emerald-700 dark:text-emerald-300">
               <CheckCircle2 className="h-2.5 w-2.5" />
               Oficial
             </Badge>
@@ -2212,7 +2219,7 @@ function ResourceCard({
       )}
 
       <div className="mt-3 flex items-center justify-between">
-        <span className="text-[10px] text-muted-foreground/70">
+        <span className="text-[10px] text-muted-foreground">
           Verificado: {resource.lastVerifiedAt}
         </span>
         <span className="inline-flex items-center gap-1 text-xs font-medium text-primary group-hover:underline">

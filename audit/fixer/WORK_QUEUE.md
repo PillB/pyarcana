@@ -53,6 +53,23 @@ their verified findings, recorded here so a second interruption cannot lose them
 - **The gate lens of that check did not run** (session limit). `fresh_report()` is covered by six
   tests and an end-to-end `gate.py snapshot S03`, but the independent skeptic pass is still owed.
 
+## Exam grading integrity (2026-09-18)
+
+Red-team P0 `exam-submit-grades-client-chosen-questions` is fixed on PR #70 under D12. Closed on
+2026-09-19: the admin views and the CSV export read scores through `isEvidence`; cohort
+`examsPassed` counts distinct sections; questions whose key a learner saw are drawn last and flag
+the attempt. Still open:
+- **`exam.correctAnswer` is unused** in `src/lib/i18n.ts`. Removal is filed as
+  `DCR-2026-09-19-exam-correct-answer-string` in `audit/safe-agent/destructive-change-register.json`,
+  pending human and verifier approval.
+- **Learners whose legacy attempts covered all three variants of a concept** cannot earn evidence
+  in that section until new variants exist (V3:95 requires two reviewers per A/B/C form).
+- **The exam screen is not verified in a browser.** `scripts/e2e_max/05_exam_options.shard.spec.ts`
+  and `06_student_admin_flows.spec.ts` need `E2E_STUDENT_EMAIL`/`E2E_STUDENT_PASSWORD` for a real
+  account against the dynamic LMS.
+- **Admin CSV export writes learner fields unescaped** (formula injection, broken rows). Spun off as
+  its own task on 2026-09-19.
+
 ## Done this round (2026-09-19), pending the S16 revision and one commit
 
 - **S16 (queue rows 5 and 6): both D3 blocks written, applied, verified.** "Contar valores

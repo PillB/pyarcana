@@ -13,6 +13,7 @@ import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
+import { riseIn } from '@/lib/entrance'
 import {
   parseExcelData,
   computeFamiliarity,
@@ -23,7 +24,16 @@ import {
 } from '@/lib/familiarity'
 import { DividerVine, CornerOrnament } from '@/components/ornaments/Ornaments'
 
-export function FamiliarityDashboard() {
+interface FamiliarityDashboardProps {
+  /**
+   * False while this is the view the page restored from the URL hash as it
+   * loaded: the header then mounts at rest instead of waiting for an
+   * animation frame (see riseIn).
+   */
+  animateEntrance: boolean
+}
+
+export function FamiliarityDashboard({ animateEntrance }: FamiliarityDashboardProps) {
   const { toast } = useToast()
   const [records, setRecords] = useState<ClientRecord[]>([])
   const [result, setResult] = useState<FamiliarityResult | null>(null)
@@ -111,10 +121,10 @@ export function FamiliarityDashboard() {
     return (
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 8 }}
+          initial={riseIn(animateEntrance, 8)}
           animate={{ opacity: 1, y: 0 }}
         >
-          <Badge variant="outline" className="mb-3 gap-1.5 border-gold text-gold">
+          <Badge variant="outline" className="mb-3 gap-1.5 border-gold text-gold-ink">
             <Sparkles className="h-3 w-3" />
             Herramienta del VP
           </Badge>
@@ -193,12 +203,12 @@ export function FamiliarityDashboard() {
           <h4 className="text-sm font-semibold">¿Cómo se calcula el score?</h4>
           <div className="mt-3 space-y-1.5 text-xs">
             {[
-              { score: '100', label: 'Misma persona (match exacto de teléfono o email)', color: 'bg-red-500' },
-              { score: '95-99', label: 'Probablemente la misma persona', color: 'bg-amber-500' },
-              { score: '85-94', label: 'Familia (mismo hogar + apellido compartido)', color: 'bg-orange-500' },
-              { score: '75-84', label: 'Probable familia', color: 'bg-yellow-500' },
-              { score: '60-74', label: 'Vecino (mismo sector geográfico)', color: 'bg-green-500' },
-              { score: '40-59', label: 'Mismo distrito', color: 'bg-blue-500' },
+              { score: '100', label: 'Misma persona (match exacto de teléfono o email)', color: 'bg-red-600' },
+              { score: '95-99', label: 'Probablemente la misma persona', color: 'bg-amber-700' },
+              { score: '85-94', label: 'Familia (mismo hogar + apellido compartido)', color: 'bg-orange-700' },
+              { score: '75-84', label: 'Probable familia', color: 'bg-yellow-700' },
+              { score: '60-74', label: 'Vecino (mismo sector geográfico)', color: 'bg-green-700' },
+              { score: '40-59', label: 'Mismo distrito', color: 'bg-blue-600' },
             ].map((r) => (
               <div key={r.score} className="flex items-center gap-2">
                 <div className={cn('h-3 w-12 rounded text-center text-[10px] font-bold text-white flex items-center justify-center', r.color)}>
@@ -218,7 +228,7 @@ export function FamiliarityDashboard() {
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between">
         <div>
-          <Badge variant="outline" className="mb-2 gap-1.5 border-gold text-gold">
+          <Badge variant="outline" className="mb-2 gap-1.5 border-gold text-gold-ink">
             <Sparkles className="h-3 w-3" />
             Familiarity Score
           </Badge>
@@ -439,10 +449,10 @@ function PairList({ pairs, onSelect, emptyMessage, colorClass }: {
             <div className="flex min-w-0 flex-1 items-center gap-3">
               <div className={cn(
                 'flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white',
-                pair.score >= 95 ? 'bg-red-500' :
-                pair.score >= 85 ? 'bg-orange-500' :
-                pair.score >= 75 ? 'bg-amber-500' :
-                pair.score >= 60 ? 'bg-green-500' : 'bg-blue-500'
+                pair.score >= 95 ? 'bg-red-600' :
+                pair.score >= 85 ? 'bg-orange-700' :
+                pair.score >= 75 ? 'bg-amber-700' :
+                pair.score >= 60 ? 'bg-green-700' : 'bg-blue-600'
               )}>
                 {pair.score}
               </div>
@@ -487,7 +497,7 @@ function PairField({ label, valueA, valueB, match }: { label: string; valueA: st
           <div className="font-mono text-xs">{valueB || '—'}</div>
         </div>
       </div>
-      {match && <Badge className="mt-1 bg-green-500 text-white text-[10px]">MATCH</Badge>}
+      {match && <Badge className="mt-1 bg-green-700 text-white text-[10px]">MATCH</Badge>}
     </div>
   )
 }
@@ -503,10 +513,10 @@ function PairDetail({ pair, onClose }: { pair: FamiliarityPair; onClose: () => v
           <div className="flex items-center gap-3">
             <div className={cn(
               'flex h-14 w-14 items-center justify-center rounded-full text-lg font-bold text-white',
-              score >= 95 ? 'bg-red-500' :
-              score >= 85 ? 'bg-orange-500' :
-              score >= 75 ? 'bg-amber-500' :
-              score >= 60 ? 'bg-green-500' : 'bg-blue-500'
+              score >= 95 ? 'bg-red-600' :
+              score >= 85 ? 'bg-orange-700' :
+              score >= 75 ? 'bg-amber-700' :
+              score >= 60 ? 'bg-green-700' : 'bg-blue-600'
             )}>
               {score}
             </div>

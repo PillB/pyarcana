@@ -4,6 +4,7 @@
  */
 
 import { getFirestoreDb, isFirebaseSyncEnabled } from './admin'
+import { redactStoredAnswers } from '../exam-scoring'
 
 const COLLECTIONS = {
   users: 'users',
@@ -94,6 +95,13 @@ export async function syncProgress(row: {
   })
 }
 
+/**
+ * Mirror one exam attempt. The answer key never goes: D12 keeps it on the server, and a mirrored
+ * document is read under firestore.rules, which grant the learner owner access to their own
+ * examAttempts. Today a learner's Firebase uid is not their Prisma user id, so the rule cannot
+ * match, but nothing in the app reads these answers back, so there is no reason to send the key
+ * and wait for the two id spaces to meet. Prisma keeps the full record for the admin views.
+ */
 export async function syncExamAttempt(row: {
   id: string
   userId: string
@@ -106,7 +114,8 @@ export async function syncExamAttempt(row: {
   timeSpentSec?: number
   variantSeed?: string | null
 }): Promise<void> {
-  await upsertDoc(COLLECTIONS.examAttempts, row.id, row)
+  const answers = typeof row.answers === 'string' ? redactStoredAnswers(row.answers) : row.answers
+  await upsertDoc(COLLECTIONS.examAttempts, row.id, { ...row, answers })
 }
 
 export async function syncExerciseAttempt(row: {

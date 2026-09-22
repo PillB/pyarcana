@@ -69,6 +69,11 @@
   --ring: oklch(0.50 0.08 135);
   /* Mucha decorative tokens */
   --gold: oklch(0.78 0.13 88);
+  /* Gold for text. The decorative gold above is rgb(218,178,73): 1.78:1 on the
+     legal page's background, where WCAG AA asks 4.5:1 for body text. This is
+     the same hue carried down to 5.2:1 and up. Borders, icons beside a text
+     label and gold on a dark surface keep --gold. */
+  --gold-ink: oklch(0.50 0.13 88);
   --rose: oklch(0.74 0.10 20);
   --teal-dusty: oklch(0.62 0.06 200);
   --halo: oklch(0.88 0.05 65);
@@ -127,6 +132,8 @@
   --input: oklch(1 0 0 / 12%);
   --ring: oklch(0.68 0.10 135);
   --gold: oklch(0.82 0.13 88);
+  /* On a dark surface the decorative gold already passes: 8.7:1. */
+  --gold-ink: oklch(0.82 0.13 88);
   --rose: oklch(0.74 0.10 20);
   --teal-dusty: oklch(0.62 0.06 200);
   --halo: oklch(0.30 0.03 65);
@@ -238,6 +245,7 @@
     border: 1px solid oklch(0.78 0.13 88 / 0.3);
   }
   .text-gold { color: var(--gold); }
+  .text-gold-ink { color: var(--gold-ink); }
   .text-rose { color: var(--rose); }
   .text-teal-dusty { color: var(--teal-dusty); }
   .bg-gold { background-color: var(--gold); }

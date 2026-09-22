@@ -281,7 +281,41 @@ change in detail and raise it again for human review.
 **Never award a capstone or a badge retroactively**, and never mark one as earned because the
 evidence for it appears somewhere else in the course.
 
-## D12 — The self-answering pass of 2026-09-21, and what it settled
+## D12 — Section exams: the key never leaves the server, attempts last 60 minutes, and pre-fix scores are not evidence (2026-09-18)
+*Chosen by the repo owner, closing red-team finding `exam-submit-grades-client-chosen-questions`.*
+
+- **The answer key is never shown**, on any attempt: not the correct option, not the explanation.
+  The learner sees their score, the option they chose and whether it was right. This is V3:93
+  ("nunca expone claves ni variantes futuras"), which outranks the red-team's "after the last
+  attempt". Every learner-facing route redacts it — submit, `exam/attempts`, `progress`, and
+  `exam/start`'s refusal at the cap; the admin views keep it.
+- **An attempt lasts 60 minutes** from `exam/start`, shown as a countdown; at zero the page sends
+  what is marked. The server accepts a submission up to 2 minutes late, for the request's trip,
+  and closes a later one — or one abandoned in a closed tab, when the learner next starts — with
+  0 and nothing answered. V3 sets no limit; this is the owner's choice, matching the 3600 s cap
+  `timeSpentSec` already had.
+- **Rows graded before the fix are not evidence.** `ExamAttempt.gradingVersion` 0 marks them. They
+  count toward no credential, cohort figure, PDF report figure or best score, and use up none of
+  the 3 attempts, so an honest learner can re-earn a pass. They stay in the learner's history,
+  labelled.
+- **A question whose key the learner was shown is drawn last, and an attempt that includes one is
+  not evidence** (amended 2026-09-19). The old submit returned the key of every question id it was
+  sent, from any section, and a legacy row's stored answers name exactly those. `exam/start` draws,
+  per concept: a variant never shown with its key and not drawn before; one never shown with its
+  key; one not drawn before; any. It records the number of seen questions it could not avoid in
+  `ExamAttempt.exposedItems`. That attempt uses one of the 3, is graded, and shows its result, but
+  its score is not evidence. In practice only a learner whose legacy attempts covered all three
+  variants of a concept reaches that point; new variants are what would let them re-earn a pass.
+- **One rule decides what a score is worth**: `isEvidence` in `src/lib/exam-scoring.ts` (graded,
+  `gradingVersion` ≥ 1, `exposedItems` 0), failing closed when a caller did not select those
+  fields. Credentials, cohort `examsPassed` (distinct sections, not attempts), the PDF report, the
+  learner's best score and every admin score figure read it. Activity figures — attempts sent, time
+  spent, last active — keep every attempt.
+- **Submit grades against the form `exam/start` saved** (`ExamAttemptForm`): the questions as the
+  learner saw them, with their key. A reseed or an edited question cannot change an attempt in
+  progress. The form lives in its own table so no query returning attempts carries the key.
+
+## D13 — The self-answering pass of 2026-09-21, and what it settled
 
 *Recorded 2026-09-21.*
 

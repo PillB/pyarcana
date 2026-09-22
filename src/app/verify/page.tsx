@@ -145,7 +145,7 @@ function VerifyContent() {
       </p>
 
       {showStaticWarning && (
-        <div className="mt-4 flex items-start gap-2 rounded-md border border-amber-500/40 bg-amber-500/5 p-3 text-xs text-amber-700 dark:text-amber-300">
+        <div className="mt-4 flex items-start gap-2 rounded-md border border-amber-500/40 bg-amber-500/5 p-3 text-xs text-amber-800 dark:text-amber-300">
           <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0" />
           <div>
             <p className="font-semibold">Edición pública (estática)</p>
@@ -231,7 +231,7 @@ function VerifyContent() {
                 ) : (
                   <ShieldAlert className="h-6 w-6 text-rose-600" />
                 )}
-                <span className={`text-lg font-semibold ${result.unavailable ? 'text-amber-700 dark:text-amber-400' : 'text-rose-700 dark:text-rose-400'}`}>
+                <span className={`text-lg font-semibold ${result.unavailable ? 'text-amber-800 dark:text-amber-400' : 'text-rose-700 dark:text-rose-400'}`}>
                   {result.unavailable
                     ? 'Servicio no disponible'
                     : result.revoked

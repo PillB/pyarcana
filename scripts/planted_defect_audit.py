@@ -31,8 +31,10 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -41,7 +43,17 @@ VENV_PY = ROOT / ".venv-content/bin/python"
 TIMEOUT_S = 25
 
 #: The words the course uses to tell the learner the starter is wrong on purpose.
-DEFECT_MARKERS = ("DEFECT", "(bug)", "bug)", "Error:")
+#:
+#: Case-insensitive and word-bounded on purpose. A literal tuple of "DEFECT", "(bug)" and "bug)"
+#: matched the loudest spelling and missed the rest: the sections write "DEFECT:", "defect;",
+#: "Bug intencional" and "# Bug a corregir", so 18 S14 exercises alone were never checked and the
+#: audit reported them as clean. `\b` keeps "debug" out.
+DEFECT_MARKER_RE = re.compile(r"\b(?:defect(?:o|os)?|bugs?)\b|\bError:", re.IGNORECASE)
+
+
+def declares_defect(block: str) -> bool:
+    """Does this exercise tell the learner its starter is wrong on purpose?"""
+    return bool(DEFECT_MARKER_RE.search(block))
 
 
 def active_section_files() -> list[Path]:
@@ -77,8 +89,7 @@ def exercises(path: Path) -> list[dict]:
         solution = code_of(block, "solutionCode")
         if not starter or not solution:
             continue
-        declares_defect = any(k in block for k in DEFECT_MARKERS)
-        if not declares_defect:
+        if not declares_defect(block):
             continue
         out.append({"id": m.group(1), "file": path.name, "starter": starter, "solution": solution})
     return out
@@ -104,9 +115,15 @@ def contains_all_lines(starter_out: str, solution_out: str) -> bool:
     return i == len(want)
 
 
-def run(code: str) -> tuple[int, str]:
-    tmp = ROOT / ".fixer" / "_defect_probe.py"
-    tmp.parent.mkdir(parents=True, exist_ok=True)
+def run(code: str, workdir: Path) -> tuple[int, str]:
+    """Run one snippet in its own directory.
+
+    The probe file used to be a single shared `.fixer/_defect_probe.py`. Two audits running at
+    once — one per section, which is how the fan-out is meant to work — then wrote and unlinked
+    the same path, so a process could execute another section's snippet or fail because its own
+    probe had just been deleted, and both reports were wrong while looking clean.
+    """
+    tmp = workdir / "probe.py"
     tmp.write_text(code, encoding="utf-8")
     try:
         p = subprocess.run(
@@ -114,7 +131,7 @@ def run(code: str) -> tuple[int, str]:
             capture_output=True,
             text=True,
             timeout=TIMEOUT_S,
-            cwd=tmp.parent,
+            cwd=workdir,
             stdin=subprocess.DEVNULL,
         )
         return p.returncode, p.stdout
@@ -124,12 +141,14 @@ def run(code: str) -> tuple[int, str]:
         tmp.unlink(missing_ok=True)
 
 
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--section", help="restrict to one section, e.g. S16")
     ap.add_argument("--out", default="course-state/planted_defect_report.json")
     args = ap.parse_args()
 
+    (ROOT / ".fixer").mkdir(parents=True, exist_ok=True)
     if not VENV_PY.exists():
         print(f"missing {VENV_PY}: the audit needs the pinned content interpreter", file=sys.stderr)
         return 2
@@ -142,9 +161,12 @@ def main() -> int:
             rows.append(ex)
 
     invisible, unrunnable, ok = [], [], 0
+    # One temporary directory per invocation, removed at the end: snippets write files of their
+    # own, and two concurrent audits must not share a working directory either.
+    workdir = Path(tempfile.mkdtemp(prefix="planted-defect-", dir=ROOT / ".fixer"))
     for ex in rows:
-        rc_s, out_s = run(ex["starter"])
-        rc_v, out_v = run(ex["solution"])
+        rc_s, out_s = run(ex["starter"], workdir)
+        rc_v, out_v = run(ex["solution"], workdir)
         if rc_v != 0 or rc_s == -1:
             unrunnable.append({"id": ex["id"], "file": ex["file"], "starter_rc": rc_s, "solution_rc": rc_v})
             continue
@@ -167,6 +189,7 @@ def main() -> int:
         "defect_invisible": invisible,
         "not_runnable": unrunnable,
     }
+    shutil.rmtree(workdir, ignore_errors=True)
     out_path = ROOT / args.out
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
