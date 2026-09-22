@@ -109,7 +109,7 @@ const LEVEL_ACCENT: Record<
   },
   2: {
     ring: 'border-l-4 border-l-amber-500/70',
-    chip: 'bg-amber-500/10 text-amber-700 dark:text-amber-300',
+    chip: 'bg-amber-500/10 text-amber-800 dark:text-amber-300',
     dot: 'bg-amber-500',
   },
   3: {
@@ -282,7 +282,7 @@ function CapstoneCard({
         >
           <Badge
             variant="outline"
-            className="gap-1 border-amber-500/40 text-amber-700 dark:text-amber-300"
+            className="gap-1 border-amber-500/40 text-amber-800 dark:text-amber-300"
           >
             <AlertTriangle className="h-3 w-3" aria-hidden="true" />
             {tr('capstones.evidenceRequired')}
@@ -424,7 +424,7 @@ function FinalCapstoneCard({
           <Badge variant="outline" className="font-mono text-[10px] text-muted-foreground">
             v{cap.version}
           </Badge>
-          <Badge variant="outline" className="ml-auto gap-1 border-amber-500/40 text-amber-700 dark:text-amber-300">
+          <Badge variant="outline" className="ml-auto gap-1 border-amber-500/40 text-amber-800 dark:text-amber-300">
             <Award className="h-3 w-3" aria-hidden="true" />
             {cap.badgeId}
           </Badge>
@@ -465,7 +465,7 @@ function FinalCapstoneCard({
           role="status"
           aria-live="polite"
         >
-          <Badge variant="outline" className="gap-1 border-amber-500/40 text-amber-700 dark:text-amber-300">
+          <Badge variant="outline" className="gap-1 border-amber-500/40 text-amber-800 dark:text-amber-300">
             <AlertTriangle className="h-3 w-3" aria-hidden="true" />
             {tr('capstones.evidenceRequired')}
           </Badge>

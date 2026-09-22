@@ -1684,7 +1684,7 @@ const ACCESS_LABELS: Record<ResourceAccess, string> = {
 }
 
 const STATUS_LABELS: Record<ResourceStatus, { label: string; tone: string }> = {
-  active: { label: 'Activo', tone: 'text-emerald-600 dark:text-emerald-300' },
+  active: { label: 'Activo', tone: 'text-emerald-700 dark:text-emerald-300' },
   changed: { label: 'Cambiado', tone: 'text-amber-600 dark:text-amber-300' },
   retired: { label: 'Retirado', tone: 'text-rose-600 dark:text-rose-300' },
   unavailable: { label: 'No disponible', tone: 'text-muted-foreground' },
@@ -1890,7 +1890,7 @@ export function ResourcesPage({ animateEntrance, sections }: ResourcesPageProps)
             >
               <Icon className="h-3 w-3" />
               {label}
-              <span className="ml-1 text-[10px] opacity-70">({count})</span>
+              <span className="ml-1 text-[10px]">({count})</span>
             </button>
           )
         })}
@@ -2164,7 +2164,7 @@ function ResourceCard({
         </div>
         <div className="flex flex-wrap items-center justify-end gap-1">
           {resource.official && (
-            <Badge variant="outline" className="gap-1 border-emerald-500/40 text-emerald-600 dark:text-emerald-300">
+            <Badge variant="outline" className="gap-1 border-emerald-500/40 text-emerald-700 dark:text-emerald-300">
               <CheckCircle2 className="h-2.5 w-2.5" />
               Oficial
             </Badge>
@@ -2219,7 +2219,7 @@ function ResourceCard({
       )}
 
       <div className="mt-3 flex items-center justify-between">
-        <span className="text-[10px] text-muted-foreground/70">
+        <span className="text-[10px] text-muted-foreground">
           Verificado: {resource.lastVerifiedAt}
         </span>
         <span className="inline-flex items-center gap-1 text-xs font-medium text-primary group-hover:underline">
