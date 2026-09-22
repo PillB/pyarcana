@@ -280,3 +280,38 @@ change in detail and raise it again for human review.
 
 **Never award a capstone or a badge retroactively**, and never mark one as earned because the
 evidence for it appears somewhere else in the course.
+
+## D12 — The self-answering pass of 2026-09-21, and what it settled
+
+*Recorded 2026-09-21.*
+
+158 questions that the red team and this campaign had left for the owner were decided by a
+thirteen-cluster pass: one decider per cluster, then an adversarial judge that re-read every cited
+ruling and source and tried to refute it. The owner's instruction was to answer them from the
+project's own heuristics, researched practice and prior art, and to surface only what that cannot
+settle.
+
+- **31 were already decided** by D1-D11 and the standing owner policy. They are not new rulings;
+  they are those rulings with their sites listed. The largest is D9: `def main()` and the
+  `__name__` guard come out of 20 sites in S02-S09 plus the two Level-1 capstone starters, S09's
+  tests move into `audit_log.py` (a separate test module would run the demo on import), and S10
+  teaches the guard with exactly that case.
+- **64 are self-answered** and need nothing reserved to implement.
+- **4 were refuted** by their judge and are not findings.
+- **59 remain with the owner**, grouped into ten questions in `OWNER_PACKET_2026-09-21.md`, each
+  with a recommendation. Every one of them changes a credential claim, relaxes a gate, restructures
+  a practice layer, or edits `learning_roadmap_52_V3.md`.
+
+The full record, with rationale, rulings, sources, implementation steps, the test that fails today
+and the judge's verdict for each, is `audit/fixer/DECISIONS_2026-09-21.md`. A decision recorded
+there is binding in the same way this file is: read it before reopening any of those questions.
+
+Two standing consequences of the pass itself:
+
+1. **A decision is not settled until its judge has read the sources.** Four decisions died on
+   their judge's reading, and 38 more were amended - most often because a quoted line had moved,
+   or because the fix would have broken a neighbouring block. Cite the file and line, and expect
+   it to be checked.
+2. **Classification is about what the change touches, not how sure you are.** A decision can be
+   certain on the merits and still belong to the owner, because implementing it would rewrite what
+   a badge claims or relax a threshold. That boundary is what kept the packet to ten questions.
