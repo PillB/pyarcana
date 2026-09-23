@@ -41,6 +41,24 @@ def sentences(text: str) -> list[str]:
     return [p for p in parts if p.strip()]
 
 
+def terminated(text: str) -> str:
+    """One prose event, ended so it cannot run into the next one.
+
+    Sections are analysed as all their prose joined by newlines, and the split above only
+    breaks after `.`, `!` or `?`. A learning outcome or a tagline is a complete statement
+    written without a full stop, so 358 of the course's 6,870 prose events - 305 of them
+    outcomes - ran straight into whatever followed. A section's seven outcomes measured as
+    one 122-word sentence, and `run_on_sentences` is gated, so a round could be restored
+    over a run-on that is really a list.
+
+    Splitting on the newline itself is not the fix: 2,508 prose events contain one inside a
+    sentence, and breaking there would cut real sentences in half and hide the long ones
+    this measure exists to find.
+    """
+    text = text.strip()
+    return text if re.search(r"[.!?]\s*$", text) else text + "."
+
+
 def analyse(text: str) -> dict:
     words = re.findall(r"\b[\wÁÉÍÓÚÜÑáéíóúüñ]+\b", text)
     sents = sentences(text)
@@ -83,7 +101,7 @@ def main() -> int:
 
     rows = {}
     for i, slug in enumerate(payload["active_section_ids"], 1):
-        text = "\n".join(by_section.get(slug, []))
+        text = "\n".join(terminated(t) for t in by_section.get(slug, []))
         if not text:
             continue
         m = analyse(text)

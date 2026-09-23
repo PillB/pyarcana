@@ -312,7 +312,15 @@ function push(
     display_order: events.length,
     kind,
     location,
-    text: t.length > 400 ? t.slice(0, 400) + '…' : t,
+    // Not truncated. It used to be `t.slice(0, 400) + '…'`, which cut 2,928 of 22,782 events
+    // mid-word - 660 of them theory paragraphs, in all 52 sections. definesTerm() reads the
+    // full `t` above, so the concept map never saw it; prose_quality_audit.py reads this
+    // field, so every prose measure in the course was computed on cut text. Worse, a cut
+    // event ends in an ellipsis rather than a full stop, so it glued to the next event and
+    // manufactured run-on sentences that nobody wrote: S34 measured 11 and has 5. That is a
+    // gated measure, and it restored a round whose only fault was writing a paragraph longer
+    // than 400 characters. The cache grows 8.4 MB -> 9.2 MB, and it is gitignored.
+    text: t,
     learner_visible: visible,
     mentions,
     defines,
