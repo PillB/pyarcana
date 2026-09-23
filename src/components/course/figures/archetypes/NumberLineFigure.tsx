@@ -17,15 +17,19 @@ import { INK, outsideFences, tintOf, type NumberLineData, type NumberLinePoint, 
  * with every value beyond them ringed. The ring and the dashed fence carry the verdict in
  * shape, not colour, because the chart tints are not contrast-safe for an edge (INK).
  */
-export function NumberLineFigure({ title, data }: { title: string; data: NumberLineData }) {
+/**
+ * Every number this figure needs before anything is drawn.
+ *
+ * Split out from the component for the complexity ceiling (AGENTS.md: new code meets 15,
+ * and the whole figure scored 20). Keeping it a plain function rather than a hook is what
+ * lets `stages` be computed here and still be the argument to `useFigureSteps` below.
+ */
+function geometryOf(data: NumberLineData) {
   const headLines = wrapLines(data.headline, FIG.width - 48, 8.2)
   const headBlock = (headLines.length - 1) * 20
   const noteLines = data.note ? wrapLines(data.note, FIG.width - 48) : []
   const fences = data.fences ?? []
   const stages = 1 + (data.band ? 1 : 0) + (fences.length ? 1 : 0)
-  const { step, next, reset, transition, isLast } = useFigureSteps(stages)
-  const bandShown = !!data.band && step >= 1
-  const fencesShown = fences.length > 0 && step >= stages - 1 && step > 0
 
   // The axis starts after its own label, so a longer label never runs into the first dot.
   const x0 = 24 + Math.ceil(data.axisLabel.length * 7.4) + 16
@@ -69,85 +73,115 @@ export function NumberLineFigure({ title, data }: { title: string; data: NumberL
     return { key, p: members[0].p, text, out: members.some(({ p }) => outside(p)) }
   })
 
+  return { headLines, noteLines, fences, stages, x0, x1, below, above, sxOnAxis, xOf,
+           placed, bandLabelY, valueY, axisY, edgeLabelY, fenceLabelY, height, outside, labelled }
+}
+
+type Geometry = ReturnType<typeof geometryOf>
+
+/** The middle-half band and the two labels on its edges, which only some data carries. */
+function BandLayer({ band, g, shown, transition }: {
+  band: NonNullable<NumberLineData['band']>
+  g: Geometry
+  shown: boolean
+  transition: object
+}) {
+  const from = g.sxOnAxis(band.from)
+  const to = g.sxOnAxis(band.to)
+  return (
+    <motion.g initial={false} animate={{ opacity: shown ? 1 : 0.18 }} transition={transition}>
+      <rect
+        x={from}
+        y={g.valueY + 10}
+        width={to - from}
+        height={g.axisY - g.valueY + 2}
+        fill={tintOf(band.tint ?? 2)}
+        fillOpacity={INK.tintFillOpacity}
+        stroke={INK.outline}
+        strokeWidth={FIG.stroke}
+      />
+      <FigText x={(from + to) / 2} y={g.bandLabelY} size={FIG.microSize} weight={600} fill={INK.label}>
+        {band.label}
+      </FigText>
+      {band.fromLabel ? (
+        <FigText x={from - 4} y={g.edgeLabelY} anchor="end" size={FIG.microSize} mono fill={INK.muted}>
+          {band.fromLabel}
+        </FigText>
+      ) : null}
+      {band.toLabel ? (
+        <FigText x={to + 4} y={g.edgeLabelY} anchor="start" size={FIG.microSize} mono fill={INK.muted}>
+          {band.toLabel}
+        </FigText>
+      ) : null}
+    </motion.g>
+  )
+}
+
+/** A dot per value, ringed once the fences are shown and it falls outside them. */
+function DotLayer({ g, ringOutside }: { g: Geometry; ringOutside: boolean }) {
+  return (
+    <>
+      {g.placed.map(({ p, level }, i) => (
+        <g key={`${p.at}-${i}`}>
+          <circle cx={g.xOf(p)} cy={g.axisY - level * 12} r={5} fill={tintOf(p.tint)} stroke={INK.label} strokeWidth={1} />
+          {ringOutside && g.outside(p) ? (
+            <circle cx={g.xOf(p)} cy={g.axisY - level * 12} r={9.5} fill="none" stroke={INK.label} strokeWidth={FIG.strokeBold} />
+          ) : null}
+        </g>
+      ))}
+    </>
+  )
+}
+
+export function NumberLineFigure({ title, data }: { title: string; data: NumberLineData }) {
+  const g = geometryOf(data)
+  const { step, next, reset, transition, isLast } = useFigureSteps(g.stages)
+  const bandShown = !!data.band && step >= 1
+  const fencesShown = g.fences.length > 0 && step >= g.stages - 1 && step > 0
+
   const breakMark = (x: number) => (
     <g>
-      <line x1={x - 5} y1={axisY + 7} x2={x + 1} y2={axisY - 7} stroke={INK.outline} strokeWidth={FIG.stroke} />
-      <line x1={x + 1} y1={axisY + 7} x2={x + 7} y2={axisY - 7} stroke={INK.outline} strokeWidth={FIG.stroke} />
+      <line x1={x - 5} y1={g.axisY + 7} x2={x + 1} y2={g.axisY - 7} stroke={INK.outline} strokeWidth={FIG.stroke} />
+      <line x1={x + 1} y1={g.axisY + 7} x2={x + 7} y2={g.axisY - 7} stroke={INK.outline} strokeWidth={FIG.stroke} />
     </g>
   )
 
   return (
     <div>
-      <FigSvg title={title} viewBox={`0 0 ${FIG.width} ${height}`}>
-        {headLines.map((l, i) => (
+      <FigSvg title={title} viewBox={`0 0 ${FIG.width} ${g.height}`}>
+        {g.headLines.map((l, i) => (
           <FigText key={l} x={24} y={26 + i * 20} anchor="start" weight={600}>
             {l}
           </FigText>
         ))}
 
-        {data.band ? (
-          <motion.g initial={false} animate={{ opacity: bandShown ? 1 : 0.18 }} transition={transition}>
-            <rect
-              x={sxOnAxis(data.band.from)}
-              y={valueY + 10}
-              width={sxOnAxis(data.band.to) - sxOnAxis(data.band.from)}
-              height={axisY - valueY + 2}
-              fill={tintOf(data.band.tint ?? 2)}
-              fillOpacity={INK.tintFillOpacity}
-              stroke={INK.outline}
-              strokeWidth={FIG.stroke}
-            />
-            <FigText x={(sxOnAxis(data.band.from) + sxOnAxis(data.band.to)) / 2} y={bandLabelY} size={FIG.microSize} weight={600} fill={INK.label}>
-              {data.band.label}
-            </FigText>
-            {data.band.fromLabel ? (
-              <FigText x={sxOnAxis(data.band.from) - 4} y={edgeLabelY} anchor="end" size={FIG.microSize} mono fill={INK.muted}>
-                {data.band.fromLabel}
-              </FigText>
-            ) : null}
-            {data.band.toLabel ? (
-              <FigText x={sxOnAxis(data.band.to) + 4} y={edgeLabelY} anchor="start" size={FIG.microSize} mono fill={INK.muted}>
-                {data.band.toLabel}
-              </FigText>
-            ) : null}
-          </motion.g>
-        ) : null}
+        {data.band ? <BandLayer band={data.band} g={g} shown={bandShown} transition={transition} /> : null}
 
-        <line x1={x0} y1={axisY} x2={x1} y2={axisY} stroke={INK.outline} strokeWidth={FIG.stroke} />
-        {below ? breakMark(x0 + 30) : null}
-        {above ? breakMark(x1 - 34) : null}
-        <FigText x={24} y={axisY} anchor="start" size={FIG.microSize} fill={INK.muted}>
+        <line x1={g.x0} y1={g.axisY} x2={g.x1} y2={g.axisY} stroke={INK.outline} strokeWidth={FIG.stroke} />
+        {g.below ? breakMark(g.x0 + 30) : null}
+        {g.above ? breakMark(g.x1 - 34) : null}
+        <FigText x={24} y={g.axisY} anchor="start" size={FIG.microSize} fill={INK.muted}>
           {data.axisLabel}
         </FigText>
 
-        {fences.map((f) => (
+        {g.fences.map((f) => (
           <motion.g key={`${f.label}-${f.at}`} initial={false} animate={{ opacity: fencesShown ? 1 : 0.18 }} transition={transition}>
-            <line x1={sxOnAxis(f.at)} y1={valueY + 4} x2={sxOnAxis(f.at)} y2={fenceLabelY - 12} stroke={INK.label} strokeWidth={FIG.strokeBold} strokeDasharray="6 4" />
-            <FigText x={sxOnAxis(f.at)} y={fenceLabelY} size={FIG.microSize} weight={600} fill={INK.label}>
+            <line x1={g.sxOnAxis(f.at)} y1={g.valueY + 4} x2={g.sxOnAxis(f.at)} y2={g.fenceLabelY - 12} stroke={INK.label} strokeWidth={FIG.strokeBold} strokeDasharray="6 4" />
+            <FigText x={g.sxOnAxis(f.at)} y={g.fenceLabelY} size={FIG.microSize} weight={600} fill={INK.label}>
               {f.label}
             </FigText>
           </motion.g>
         ))}
 
-        {placed.map(({ p, level }, i) => {
-          const cx = xOf(p)
-          const cy = axisY - level * 12
-          const ringed = fencesShown && outside(p)
-          return (
-            <g key={`${p.at}-${i}`}>
-              <circle cx={cx} cy={cy} r={5} fill={tintOf(p.tint)} stroke={INK.label} strokeWidth={1} />
-              {ringed ? <circle cx={cx} cy={cy} r={9.5} fill="none" stroke={INK.label} strokeWidth={FIG.strokeBold} /> : null}
-            </g>
-          )
-        })}
-        {labelled.map(({ key, p, text, out }) => (
-          <FigText key={`v-${key}`} x={xOf(p)} y={valueY} size={FIG.microSize} mono weight={fencesShown && out ? 700 : 400} fill={INK.label}>
+        <DotLayer g={g} ringOutside={fencesShown} />
+        {g.labelled.map(({ key, p, text, out }) => (
+          <FigText key={`v-${key}`} x={g.xOf(p)} y={g.valueY} size={FIG.microSize} mono weight={fencesShown && out ? 700 : 400} fill={INK.label}>
             {text}
           </FigText>
         ))}
 
-        {noteLines.map((l, i) => (
-          <FigText key={l} x={24} y={fenceLabelY + 34 + i * 18} anchor="start" size={FIG.microSize} fill={INK.muted}>
+        {g.noteLines.map((l, i) => (
+          <FigText key={l} x={24} y={g.fenceLabelY + 34 + i * 18} anchor="start" size={FIG.microSize} fill={INK.muted}>
             {l}
           </FigText>
         ))}
