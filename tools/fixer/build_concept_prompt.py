@@ -29,6 +29,44 @@ def section_file(slug: str) -> Path:
     raise SystemExit(f"no section file for slug {slug!r}")
 
 
+def concept_row(cid: str, c: dict, tag: str) -> dict | None:
+    """One concept's entry in this section's prompt, or None if it is not a problem here.
+
+    `load_bearing` here is NOT the concept map's field of that name. That one is D5's
+    figure-targeting flag - depth L2 or L3 and used in three or more sections - and passing
+    it through inverted this prompt's meaning. Depth is earned by being explained, so a
+    concept the course never explains cannot reach L2, and all 13 never-explained concepts
+    arrived marked `load_bearing: false`. The words most in need of a full teaching block
+    were exactly the ones the "do not downgrade a load-bearing concept to GLOSS" rule could
+    never protect. overfitting drives a whole subtopic of S33, carries its worked example and
+    is promised in its outcomes, and arrived as false.
+
+    What the TEACH-or-GLOSS call needs is whether the concept carries weight HERE: whether
+    this section demonstrates it, grades it, promises it, or leans on it repeatedly. That
+    reads both ways - `merge` is load-bearing in the course and does no work in S06, where
+    the honest answer is GLOSS or DEFER rather than a teaching block it does not earn.
+    """
+    here = [u for u in c["surprising_uses"] if u["section"] == tag]
+    if not here:
+        return None
+    examples_here = [e for e in c["examples"] if e["section"] == tag]
+    checks_here = [s for s in c["self_checks"] if s["section"] == tag]
+    promised_here = any(u["kind"] == "outcome" for u in here)
+    return {
+        "concept": cid,
+        "depth_now": c["depth"],
+        "load_bearing": bool(examples_here or checks_here or promised_here or len(here) >= 4),
+        "never_explained_anywhere": c["depth"] == "L0",
+        "explained_currently_at": (c["first_definition"] or {}).get("location", None),
+        "used_here_at": [u["location"] for u in here][:8],
+        "used_in_sections": c["sections_used"],
+        "has_worked_example": len(examples_here) > 0,
+        "tested_in_selfcheck": len(checks_here) > 0,
+        "promised_in_this_sections_outcomes": promised_here,
+        "times_used_here": len(here),
+    }
+
+
 def main() -> int:
     tag = sys.argv[1]
     num = int(tag.lstrip("Ss"))
@@ -40,22 +78,8 @@ def main() -> int:
     cmap = json.loads((ROOT / "course-state/concept_map.json").read_text(encoding="utf-8"))
     glossary = {t["id"]: t for t in payload["terms"]}
 
-    todo = []
-    for cid, c in cmap.items():
-        here = [u for u in c["surprising_uses"] if u["section"] == tag]
-        if not here:
-            continue
-        todo.append({
-            "concept": cid,
-            "depth_now": c["depth"],
-            "load_bearing": c["load_bearing"],
-            "never_explained_anywhere": c["depth"] == "L0",
-            "explained_currently_at": (c["first_definition"] or {}).get("location", None),
-            "used_here_at": [u["location"] for u in here][:8],
-            "used_in_sections": c["sections_used"],
-            "has_worked_example": len(c["examples"]) > 0,
-            "tested_in_selfcheck": len(c["self_checks"]) > 0,
-        })
+    todo = [row for cid, c in cmap.items()
+            if (row := concept_row(cid, c, tag)) is not None]
     if not todo:
         print(f"{tag}: no unexplained concepts", file=sys.stderr)
         return 2
