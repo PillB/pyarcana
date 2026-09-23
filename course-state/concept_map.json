@@ -2605,6 +2605,36 @@
    },
    {
     "section": "S09",
+    "location": "exceptions-logging.theory[8].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.theory[8].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.theory[8].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.theory[8].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.theory[8].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S09",
     "location": "exceptions-logging.S09-T3-B.code",
     "kind": "theory.code",
     "visible": true
@@ -15365,6 +15395,12 @@
    },
    {
     "section": "S09",
+    "location": "exceptions-logging.theory[8].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
     "location": "exceptions-logging.S09-T3-B.code",
     "kind": "theory.code",
     "visible": true
@@ -23317,6 +23353,12 @@
    },
    {
     "section": "S09",
+    "location": "exceptions-logging.theory[2].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
     "location": "exceptions-logging.S09-T1-B.code",
     "kind": "theory.code",
     "visible": true
@@ -23330,6 +23372,12 @@
    {
     "section": "S09",
     "location": "exceptions-logging.S09-T2-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.theory[8].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -30323,6 +30371,12 @@
    },
    {
     "section": "S09",
+    "location": "exceptions-logging.theory[2].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
     "location": "exceptions-logging.S09-T1-B.code",
     "kind": "theory.code",
     "visible": true
@@ -30336,6 +30390,12 @@
    {
     "section": "S09",
     "location": "exceptions-logging.S09-T2-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.theory[8].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -67826,7 +67886,14 @@
     "visible": true
    }
   ],
-  "definitions": [],
+  "definitions": [
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T1-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   }
+  ],
   "examples": [],
   "exercises": [],
   "self_checks": [],
@@ -67838,47 +67905,15 @@
    "kind": "theory.paragraph",
    "visible": true
   },
-  "first_definition": null,
+  "first_definition": {
+   "section": "S09",
+   "location": "exceptions-logging.S09-T1-B.p0",
+   "kind": "theory.paragraph",
+   "visible": true
+  },
   "reinforcements": [],
-  "depth": "L0",
-  "surprising_uses": [
-   {
-    "section": "S09",
-    "location": "exceptions-logging.S09-T1-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S09",
-    "location": "exceptions-logging.resources.doc[4]",
-    "kind": "resource",
-    "visible": true
-   },
-   {
-    "section": "S38",
-    "location": "performance-extreme.S38-T2-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S38",
-    "location": "performance-extreme.S38-T2-B-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S38",
-    "location": "performance-extreme.S38-T2-B-E2.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S38",
-    "location": "performance-extreme.S38-T2-B-E2.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   }
-  ],
+  "depth": "L1",
+  "surprising_uses": [],
   "sections_used": [
    "S09",
    "S38"
@@ -67887,7 +67922,7 @@
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": null
+  "explanation_lag_sections": 0
  },
  "exception": {
   "id": "exception",
@@ -77455,12 +77490,6 @@
     "section": "S08",
     "location": "files-ingestion.resources.doc[0]",
     "kind": "resource",
-    "visible": true
-   },
-   {
-    "section": "S09",
-    "location": "exceptions-logging.S09-T1-B.p0",
-    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -117297,6 +117326,42 @@
   "uses": [
    {
     "section": "S09",
+    "location": "exceptions-logging.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.theory[2].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.theory[2].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.theory[2].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.theory[2].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S09",
     "location": "exceptions-logging.S09-T1-A-E2.preamble",
     "kind": "wedo.preamble",
     "visible": true
@@ -117994,6 +118059,12 @@
   ],
   "definitions": [
    {
+    "section": "S09",
+    "location": "exceptions-logging.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
     "section": "S14",
     "location": "security.S14-T3-B.p0",
     "kind": "theory.paragraph",
@@ -118031,6 +118102,12 @@
    }
   ],
   "examples": [
+   {
+    "section": "S09",
+    "location": "exceptions-logging.theory[2].code",
+    "kind": "theory.code",
+    "visible": true
+   },
    {
     "section": "S13",
     "location": "evidence-dashboard.S13-T3-B.code",
@@ -118200,6 +118277,12 @@
   ],
   "headings": [
    {
+    "section": "S09",
+    "location": "exceptions-logging.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
     "section": "S14",
     "location": "security.S14-T3-B.heading",
     "kind": "theory.heading",
@@ -118216,13 +118299,13 @@
   ],
   "first_use": {
    "section": "S09",
-   "location": "exceptions-logging.S09-T1-A-E2.preamble",
-   "kind": "wedo.preamble",
+   "location": "exceptions-logging.theory[2].heading",
+   "kind": "theory.heading",
    "visible": true
   },
   "first_definition": {
-   "section": "S14",
-   "location": "security.S14-T3-B.p0",
+   "section": "S09",
+   "location": "exceptions-logging.theory[2].p0",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -118247,146 +118330,7 @@
    }
   ],
   "depth": "L3",
-  "surprising_uses": [
-   {
-    "section": "S09",
-    "location": "exceptions-logging.S09-T1-A-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S09",
-    "location": "exceptions-logging.S09-T1-A-E2.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S09",
-    "location": "exceptions-logging.S09-T1-A-E2.tests",
-    "kind": "wedo.tests",
-    "visible": true
-   },
-   {
-    "section": "S09",
-    "location": "exceptions-logging.S09-T4-A-E1.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S09",
-    "location": "exceptions-logging.S09-T4-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S09",
-    "location": "exceptions-logging.S09-T4-A-E1.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T3-A.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T4-B.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T2-A-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T2-A-E3.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T2-A-E3.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T2-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T2-A-E3.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S12",
-    "location": "apis-sql-geo.S12-T4-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.S13-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.S13-T3-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.S13-T3-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.S13-T3-B-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.S13-T3-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.S13-T3-B-E2.tests",
-    "kind": "wedo.tests",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S14",
-    "location": "security.outcome[5]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S14",
-    "location": "security.theory[1].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S09",
    "S11",
@@ -118402,7 +118346,7 @@
   "figure_target": 5,
   "figure_count": 1,
   "figure_gap": 4,
-  "explanation_lag_sections": 5
+  "explanation_lag_sections": 0
  },
  "resample": {
   "id": "resample",
@@ -126396,6 +126340,18 @@
    },
    {
     "section": "S09",
+    "location": "exceptions-logging.theory[8].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.theory[8].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S09",
     "location": "exceptions-logging.selfCheck[10].explanation",
     "kind": "selfcheck.explanation",
     "visible": true
@@ -126529,6 +126485,12 @@
   ],
   "definitions": [
    {
+    "section": "S09",
+    "location": "exceptions-logging.theory[8].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
     "section": "S18",
     "location": "data-engineering.S18-T3-A.p0",
     "kind": "theory.paragraph",
@@ -126585,6 +126547,12 @@
   ],
   "headings": [
    {
+    "section": "S09",
+    "location": "exceptions-logging.theory[8].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
     "section": "S18",
     "location": "data-engineering.S18-T3-A.heading",
     "kind": "theory.heading",
@@ -126605,8 +126573,8 @@
    "visible": true
   },
   "first_definition": {
-   "section": "S18",
-   "location": "data-engineering.S18-T3-A.p0",
+   "section": "S09",
+   "location": "exceptions-logging.theory[8].p0",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -126630,30 +126598,6 @@
     "location": "exceptions-logging.theory[1].p1",
     "kind": "theory.paragraph",
     "visible": true
-   },
-   {
-    "section": "S09",
-    "location": "exceptions-logging.selfCheck[10].explanation",
-    "kind": "selfcheck.explanation",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.jobRelevance",
-    "kind": "jobRelevance",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.outcome[4]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.theory[0].callout",
-    "kind": "theory.callout",
-    "visible": true
    }
   ],
   "sections_used": [
@@ -126668,7 +126612,7 @@
   "figure_target": 5,
   "figure_count": 0,
   "figure_gap": 5,
-  "explanation_lag_sections": 9
+  "explanation_lag_sections": 0
  },
  "distribuci-n-normal": {
   "id": "distribuci-n-normal",

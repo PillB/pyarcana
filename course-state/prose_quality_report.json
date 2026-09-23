@@ -104,15 +104,15 @@
   "section": "S08"
  },
  "S09": {
-  "words": 5989,
-  "sentences": 421,
-  "words_per_sentence": 14.2,
-  "fernandez_huerta": 76.9,
-  "long_sentences": 13,
+  "words": 6379,
+  "sentences": 442,
+  "words_per_sentence": 14.4,
+  "fernandez_huerta": 76.3,
+  "long_sentences": 14,
   "run_on_sentences": 1,
-  "nominalisations_per_100w": 1.4,
+  "nominalisations_per_100w": 1.5,
   "gerunds_per_100w": 0.2,
-  "commas_per_sentence": 0.5,
+  "commas_per_sentence": 0.6,
   "meta_leaks": 11,
   "section": "S09"
  },

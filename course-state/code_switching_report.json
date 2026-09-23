@@ -1,15 +1,15 @@
 {
  "S01": {
   "section": "S01",
-  "prose_words": 11262,
+  "prose_words": 12360,
   "english_function_words": 2,
-  "ordinary_english_words": 16,
+  "ordinary_english_words": 18,
   "kept_technical_terms": 65,
   "avoidable_english_per_1000": 1.6,
   "top_terms": [
    [
     "request",
-    5
+    7
    ],
    [
     "check",
@@ -47,10 +47,10 @@
  },
  "S02": {
   "section": "S02",
-  "prose_words": 6870,
+  "prose_words": 6907,
   "english_function_words": 6,
   "ordinary_english_words": 10,
-  "kept_technical_terms": 33,
+  "kept_technical_terms": 32,
   "avoidable_english_per_1000": 2.3,
   "top_terms": [
    [
@@ -91,63 +91,22 @@
  },
  "S03": {
   "section": "S03",
-  "prose_words": 8088,
-  "english_function_words": 12,
-  "ordinary_english_words": 79,
-  "kept_technical_terms": 16,
-  "avoidable_english_per_1000": 11.3,
+  "prose_words": 8452,
+  "english_function_words": 0,
+  "ordinary_english_words": 1,
+  "kept_technical_terms": 14,
+  "avoidable_english_per_1000": 0.1,
   "top_terms": [
    [
     "review",
-    78
-   ],
-   [
-    "is",
-    6
-   ],
-   [
-    "and",
-    4
-   ],
-   [
-    "not",
-    2
-   ],
-   [
-    "check",
     1
    ]
   ],
-  "worst_passages": [
-   {
-    "location": "data-structures.S03-T3-A-E1.hint",
-    "avoidable_english": 2,
-    "words": 11,
-    "text": "if r is None / if r not in ALLOWED / return accept"
-   },
-   {
-    "location": "data-structures.S03-T3-A-E1.hint[0]",
-    "avoidable_english": 2,
-    "words": 11,
-    "text": "if r is None / if r not in ALLOWED / return accept"
-   },
-   {
-    "location": "data-structures.S03-T3-A-E2.instruction",
-    "avoidable_english": 2,
-    "words": 19,
-    "text": "1. Corrige `m <= 0` (rechaza el cero).\n2. Orden: None→review; `<0`→reject; `>50000`→review; else accept.\n3. Prueba la lista de cinco montos en orden."
-   },
-   {
-    "location": "data-structures.S03-T2-B-E2.instruction",
-    "avoidable_english": 2,
-    "words": 23,
-    "text": "1. Deja nested intacta.\n2. Implementa guards: None→review; no int→reject; `<0`→reject; `<=10000`→accept; else review.\n3. Compara ambas funciones en el bucle de seis casos."
-   }
-  ]
+  "worst_passages": []
  },
  "S04": {
   "section": "S04",
-  "prose_words": 6579,
+  "prose_words": 6696,
   "english_function_words": 15,
   "ordinary_english_words": 9,
   "kept_technical_terms": 17,
@@ -170,11 +129,11 @@
  },
  "S05": {
   "section": "S05",
-  "prose_words": 7945,
+  "prose_words": 8153,
   "english_function_words": 2,
   "ordinary_english_words": 9,
   "kept_technical_terms": 27,
-  "avoidable_english_per_1000": 1.4,
+  "avoidable_english_per_1000": 1.3,
   "top_terms": [
    [
     "scope",
@@ -199,7 +158,7 @@
   ],
   "worst_passages": [
    {
-    "location": "oop.selfCheck[2].opt[3]",
+    "location": "functions-contracts.selfCheck[2].opt[3]",
     "avoidable_english": 2,
     "words": 7,
     "text": "Mismo input → mismo output, sin efectos colaterales"
@@ -208,11 +167,11 @@
  },
  "S06": {
   "section": "S06",
-  "prose_words": 6412,
+  "prose_words": 6890,
   "english_function_words": 7,
   "ordinary_english_words": 4,
-  "kept_technical_terms": 23,
-  "avoidable_english_per_1000": 1.7,
+  "kept_technical_terms": 22,
+  "avoidable_english_per_1000": 1.6,
   "top_terms": [
    [
     "is",
@@ -237,13 +196,13 @@
   ],
   "worst_passages": [
    {
-    "location": "numpy.S06-T3-B-E2.hint",
+    "location": "collections.S06-T3-B-E2.hint",
     "avoidable_english": 2,
     "words": 10,
     "text": "'email' not in c or c['email'] is None → missing"
    },
    {
-    "location": "numpy.S06-T3-B-E2.hint[0]",
+    "location": "collections.S06-T3-B-E2.hint[0]",
     "avoidable_english": 2,
     "words": 10,
     "text": "'email' not in c or c['email'] is None → missing"
@@ -252,15 +211,15 @@
  },
  "S07": {
   "section": "S07",
-  "prose_words": 7376,
+  "prose_words": 7762,
   "english_function_words": 0,
-  "ordinary_english_words": 38,
-  "kept_technical_terms": 38,
-  "avoidable_english_per_1000": 5.2,
+  "ordinary_english_words": 39,
+  "kept_technical_terms": 42,
+  "avoidable_english_per_1000": 5.0,
   "top_terms": [
    [
     "review",
-    20
+    21
    ],
    [
     "split",
@@ -277,7 +236,7 @@
   ],
   "worst_passages": [
    {
-    "location": "data-acquisition.S07-T4-A-E3.preamble",
+    "location": "text-unicode-regex.S07-T4-A-E3.preamble",
     "avoidable_english": 3,
     "words": 32,
     "text": "- **Contexto:** el pipeline de matching emite una decisión de **proceso**, no un veredicto legal.\n- **Meta:** aplicar umbrales: 1.0 → exact; [0.4, 1.0) → review; <0.4 → no_match.\n- **Éxito:** `review "
@@ -286,11 +245,11 @@
  },
  "S08": {
   "section": "S08",
-  "prose_words": 6159,
+  "prose_words": 6890,
   "english_function_words": 2,
-  "ordinary_english_words": 16,
-  "kept_technical_terms": 60,
-  "avoidable_english_per_1000": 2.9,
+  "ordinary_english_words": 15,
+  "kept_technical_terms": 61,
+  "avoidable_english_per_1000": 2.5,
   "top_terms": [
    [
     "input",
@@ -313,10 +272,6 @@
     1
    ],
    [
-    "timestamp",
-    1
-   ],
-   [
     "is",
     1
    ],
@@ -327,7 +282,7 @@
   ],
   "worst_passages": [
    {
-    "location": "pandas.S08-T3-B-E2.hint[1]",
+    "location": "files-ingestion.S08-T3-B-E2.hint[1]",
     "avoidable_english": 2,
     "words": 5,
     "text": "None is not missing key"
@@ -336,22 +291,22 @@
  },
  "S09": {
   "section": "S09",
-  "prose_words": 6447,
+  "prose_words": 6937,
   "english_function_words": 5,
-  "ordinary_english_words": 2,
-  "kept_technical_terms": 49,
-  "avoidable_english_per_1000": 1.1,
+  "ordinary_english_words": 3,
+  "kept_technical_terms": 50,
+  "avoidable_english_per_1000": 1.2,
   "top_terms": [
    [
     "from",
     4
    ],
    [
-    "with",
-    1
+    "review",
+    2
    ],
    [
-    "review",
+    "with",
     1
    ],
    [
@@ -363,11 +318,11 @@
  },
  "S10": {
   "section": "S10",
-  "prose_words": 5881,
+  "prose_words": 6093,
   "english_function_words": 1,
   "ordinary_english_words": 6,
   "kept_technical_terms": 37,
-  "avoidable_english_per_1000": 1.2,
+  "avoidable_english_per_1000": 1.1,
   "top_terms": [
    [
     "input",
@@ -398,22 +353,22 @@
  },
  "S11": {
   "section": "S11",
-  "prose_words": 6115,
-  "english_function_words": 5,
-  "ordinary_english_words": 21,
-  "kept_technical_terms": 23,
-  "avoidable_english_per_1000": 4.3,
+  "prose_words": 6360,
+  "english_function_words": 4,
+  "ordinary_english_words": 24,
+  "kept_technical_terms": 25,
+  "avoidable_english_per_1000": 4.4,
   "top_terms": [
    [
     "matching",
-    17
-   ],
-   [
-    "is",
-    3
+    20
    ],
    [
     "relabel",
+    2
+   ],
+   [
+    "is",
     2
    ],
    [
@@ -433,15 +388,15 @@
  },
  "S12": {
   "section": "S12",
-  "prose_words": 6085,
+  "prose_words": 6337,
   "english_function_words": 1,
-  "ordinary_english_words": 34,
-  "kept_technical_terms": 123,
-  "avoidable_english_per_1000": 5.8,
+  "ordinary_english_words": 38,
+  "kept_technical_terms": 121,
+  "avoidable_english_per_1000": 6.2,
   "top_terms": [
    [
     "body",
-    18
+    21
    ],
    [
     "input",
@@ -456,15 +411,15 @@
     3
    ],
    [
+    "requests",
+    2
+   ],
+   [
     "matching",
     1
    ],
    [
     "while",
-    1
-   ],
-   [
-    "requests",
     1
    ]
   ],
@@ -472,11 +427,11 @@
  },
  "S13": {
   "section": "S13",
-  "prose_words": 6605,
-  "english_function_words": 5,
-  "ordinary_english_words": 21,
-  "kept_technical_terms": 131,
-  "avoidable_english_per_1000": 3.9,
+  "prose_words": 7101,
+  "english_function_words": 4,
+  "ordinary_english_words": 23,
+  "kept_technical_terms": 139,
+  "avoidable_english_per_1000": 3.8,
   "top_terms": [
    [
     "matching",
@@ -496,19 +451,15 @@
    ],
    [
     "input",
+    3
+   ],
+   [
+    "checks",
     2
    ],
    [
     "reviewer",
     2
-   ],
-   [
-    "checks",
-    1
-   ],
-   [
-    "is",
-    1
    ],
    [
     "split",
@@ -519,11 +470,11 @@
  },
  "S14": {
   "section": "S14",
-  "prose_words": 5869,
+  "prose_words": 5964,
   "english_function_words": 0,
   "ordinary_english_words": 8,
-  "kept_technical_terms": 45,
-  "avoidable_english_per_1000": 1.4,
+  "kept_technical_terms": 46,
+  "avoidable_english_per_1000": 1.3,
   "top_terms": [
    [
     "input",
@@ -542,15 +493,15 @@
  },
  "S15": {
   "section": "S15",
-  "prose_words": 6654,
+  "prose_words": 7184,
   "english_function_words": 0,
-  "ordinary_english_words": 2,
-  "kept_technical_terms": 108,
-  "avoidable_english_per_1000": 0.3,
+  "ordinary_english_words": 3,
+  "kept_technical_terms": 110,
+  "avoidable_english_per_1000": 0.4,
   "top_terms": [
    [
     "ticket",
-    1
+    2
    ],
    [
     "review",
@@ -561,15 +512,15 @@
  },
  "S16": {
   "section": "S16",
-  "prose_words": 6182,
-  "english_function_words": 13,
+  "prose_words": 7161,
+  "english_function_words": 14,
   "ordinary_english_words": 14,
-  "kept_technical_terms": 108,
-  "avoidable_english_per_1000": 4.4,
+  "kept_technical_terms": 115,
+  "avoidable_english_per_1000": 3.9,
   "top_terms": [
    [
     "only",
-    10
+    11
    ],
    [
     "ticket",
@@ -603,11 +554,11 @@
  },
  "S17": {
   "section": "S17",
-  "prose_words": 6275,
+  "prose_words": 6733,
   "english_function_words": 15,
   "ordinary_english_words": 2,
-  "kept_technical_terms": 119,
-  "avoidable_english_per_1000": 2.7,
+  "kept_technical_terms": 116,
+  "avoidable_english_per_1000": 2.5,
   "top_terms": [
    [
     "before",
@@ -645,18 +596,18 @@
  },
  "S18": {
   "section": "S18",
-  "prose_words": 6950,
+  "prose_words": 7493,
   "english_function_words": 0,
-  "ordinary_english_words": 32,
-  "kept_technical_terms": 52,
-  "avoidable_english_per_1000": 4.6,
+  "ordinary_english_words": 34,
+  "kept_technical_terms": 55,
+  "avoidable_english_per_1000": 4.5,
   "top_terms": [
    [
-    "tickets",
-    15
+    "ticket",
+    17
    ],
    [
-    "ticket",
+    "tickets",
     15
    ],
    [
@@ -672,11 +623,11 @@
  },
  "S19": {
   "section": "S19",
-  "prose_words": 6986,
+  "prose_words": 7294,
   "english_function_words": 2,
   "ordinary_english_words": 16,
-  "kept_technical_terms": 44,
-  "avoidable_english_per_1000": 2.6,
+  "kept_technical_terms": 46,
+  "avoidable_english_per_1000": 2.5,
   "top_terms": [
    [
     "ticket",
@@ -718,10 +669,10 @@
  },
  "S20": {
   "section": "S20",
-  "prose_words": 6517,
+  "prose_words": 6648,
   "english_function_words": 2,
   "ordinary_english_words": 5,
-  "kept_technical_terms": 112,
+  "kept_technical_terms": 118,
   "avoidable_english_per_1000": 1.1,
   "top_terms": [
    [
@@ -745,11 +696,11 @@
  },
  "S21": {
   "section": "S21",
-  "prose_words": 6741,
+  "prose_words": 6980,
   "english_function_words": 10,
   "ordinary_english_words": 12,
-  "kept_technical_terms": 70,
-  "avoidable_english_per_1000": 3.3,
+  "kept_technical_terms": 73,
+  "avoidable_english_per_1000": 3.2,
   "top_terms": [
    [
     "only",
@@ -792,15 +743,15 @@
  },
  "S22": {
   "section": "S22",
-  "prose_words": 6226,
-  "english_function_words": 13,
-  "ordinary_english_words": 26,
-  "kept_technical_terms": 46,
-  "avoidable_english_per_1000": 6.3,
+  "prose_words": 6482,
+  "english_function_words": 14,
+  "ordinary_english_words": 28,
+  "kept_technical_terms": 52,
+  "avoidable_english_per_1000": 6.5,
   "top_terms": [
    [
     "matching",
-    7
+    8
    ],
    [
     "workflow",
@@ -811,15 +762,15 @@
     6
    ],
    [
-    "tickets",
-    4
-   ],
-   [
     "only",
-    4
+    5
    ],
    [
     "scope",
+    5
+   ],
+   [
+    "tickets",
     4
    ],
    [
@@ -843,11 +794,11 @@
  },
  "S23": {
   "section": "S23",
-  "prose_words": 7249,
+  "prose_words": 7460,
   "english_function_words": 2,
   "ordinary_english_words": 17,
-  "kept_technical_terms": 86,
-  "avoidable_english_per_1000": 2.6,
+  "kept_technical_terms": 90,
+  "avoidable_english_per_1000": 2.5,
   "top_terms": [
    [
     "ticket",
@@ -874,15 +825,15 @@
  },
  "S24": {
   "section": "S24",
-  "prose_words": 6589,
+  "prose_words": 6792,
   "english_function_words": 3,
-  "ordinary_english_words": 33,
-  "kept_technical_terms": 100,
-  "avoidable_english_per_1000": 5.5,
+  "ordinary_english_words": 34,
+  "kept_technical_terms": 101,
+  "avoidable_english_per_1000": 5.4,
   "top_terms": [
    [
     "golden",
-    19
+    20
    ],
    [
     "review",
@@ -909,11 +860,11 @@
  },
  "S25": {
   "section": "S25",
-  "prose_words": 6305,
+  "prose_words": 6477,
   "english_function_words": 8,
-  "ordinary_english_words": 48,
-  "kept_technical_terms": 174,
-  "avoidable_english_per_1000": 8.9,
+  "ordinary_english_words": 50,
+  "kept_technical_terms": 177,
+  "avoidable_english_per_1000": 9.0,
   "top_terms": [
    [
     "ticket",
@@ -921,7 +872,7 @@
    ],
    [
     "golden",
-    13
+    14
    ],
    [
     "request",
@@ -948,11 +899,11 @@
     1
    ],
    [
-    "the",
+    "outputs",
     1
    ],
    [
-    "scoring",
+    "the",
     1
    ]
   ],
@@ -960,11 +911,11 @@
  },
  "S26": {
   "section": "S26",
-  "prose_words": 6148,
+  "prose_words": 6210,
   "english_function_words": 13,
   "ordinary_english_words": 25,
   "kept_technical_terms": 100,
-  "avoidable_english_per_1000": 6.2,
+  "avoidable_english_per_1000": 6.1,
   "top_terms": [
    [
     "matching",
@@ -1006,87 +957,46 @@
  },
  "S27": {
   "section": "S27",
-  "prose_words": 5948,
-  "english_function_words": 2,
-  "ordinary_english_words": 75,
-  "kept_technical_terms": 74,
-  "avoidable_english_per_1000": 12.9,
+  "prose_words": 6388,
+  "english_function_words": 1,
+  "ordinary_english_words": 2,
+  "kept_technical_terms": 67,
+  "avoidable_english_per_1000": 0.5,
   "top_terms": [
    [
-    "matching",
-    20
-   ],
-   [
-    "scope",
-    19
-   ],
-   [
-    "review",
-    12
-   ],
-   [
-    "input",
-    12
-   ],
-   [
-    "ranking",
-    5
-   ],
-   [
-    "ticket",
-    3
-   ],
-   [
     "split",
-    2
-   ],
-   [
-    "not",
-    2
-   ],
-   [
-    "request",
     1
    ],
    [
-    "inputs",
+    "not",
+    1
+   ],
+   [
+    "input",
     1
    ]
   ],
-  "worst_passages": [
-   {
-    "location": "async-concurrency.S27-T2-B.callout",
-    "avoidable_english": 2,
-    "words": 25,
-    "text": "Mutar fixture session. Si mutas un fixture session-scope, el siguiente test ve basura. Prefiere function + factory. En pytest: scope=\"function\" (default) o factory fixture."
-   },
-   {
-    "location": "async-concurrency.S27-T2-B-E2.instruction",
-    "avoidable_english": 2,
-    "words": 25,
-    "text": "1. El starter hardcodea `chosen = 'session'`.\n2. Busca el scope con valor True (p. ej. `next(... if ok)`).\n3. Imprime ese scope.\n4. No reescribas el dict de política a mano con todos True."
-   }
-  ]
+  "worst_passages": []
  },
  "S28": {
   "section": "S28",
-  "prose_words": 5596,
+  "prose_words": 5857,
   "english_function_words": 7,
-  "ordinary_english_words": 82,
-  "kept_technical_terms": 138,
-  "avoidable_english_per_1000": 15.9,
+  "ordinary_english_words": 56,
+  "kept_technical_terms": 137,
+  "avoidable_english_per_1000": 10.8,
   "top_terms": [
    [
     "golden",
-    36
+    24
    ],
    [
     "matching",
-    21
+    14
    ],
    [
     "input",
-    10
+    7
    ],
    [
     "not",
@@ -1098,23 +1008,23 @@
    ],
    [
     "ranking",
-    3
-   ],
-   [
-    "inputs",
-    2
-   ],
-   [
-    "output",
-    2
-   ],
-   [
-    "timestamp",
     2
    ],
    [
     "and",
     2
+   ],
+   [
+    "review",
+    2
+   ],
+   [
+    "timestamp",
+    1
+   ],
+   [
+    "output",
+    1
    ]
   ],
   "worst_passages": [
@@ -1135,40 +1045,16 @@
     "avoidable_english": 2,
     "words": 10,
     "text": "Review humana antes de actualizar el golden en el repo"
-   },
-   {
-    "location": "llm-agents.S28-T2-B.callout",
-    "avoidable_english": 3,
-    "words": 27,
-    "text": "No aceptar drift automáticamente. Actualizar el golden sin revisión esconde regresiones de matching. En desk PE: el PR que toca un golden debe explicar *por qué* cambió el contrato."
-   },
-   {
-    "location": "llm-agents.S28-T2-B.p2",
-    "avoidable_english": 3,
-    "words": 32,
-    "text": "**Reconciliación**: actualizar el golden solo con **revisión humana y nota de cambio** (`approved=True` + mensaje). Actualizar el golden sin aprobación en CI esconde regresiones de matching. Política:"
-   },
-   {
-    "location": "llm-agents.S28-T2-B-DEMO.preamble",
-    "avoidable_english": 4,
-    "words": 44,
-    "text": "Un golden es el snapshot versionado de salida esperada del pipeline de pares. Si actualizas el golden sin mirar el diff, escondes regresiones de matching. Esta demo compara golden vs. current y devuel"
-   },
-   {
-    "location": "llm-agents.S28-T3-B.p1",
-    "avoidable_english": 3,
-    "words": 36,
-    "text": "Prefiere **contratos de borde**: dado input, observa output y efectos visibles (filas escritas, status HTTP, schema del payload). Mockea solo I/O externo; deja la lógica de normalización/matching real"
    }
   ]
  },
  "S29": {
   "section": "S29",
-  "prose_words": 5833,
+  "prose_words": 6032,
   "english_function_words": 24,
   "ordinary_english_words": 19,
-  "kept_technical_terms": 61,
-  "avoidable_english_per_1000": 7.4,
+  "kept_technical_terms": 62,
+  "avoidable_english_per_1000": 7.1,
   "top_terms": [
    [
     "only",
@@ -1226,11 +1112,11 @@
  },
  "S30": {
   "section": "S30",
-  "prose_words": 6646,
+  "prose_words": 7249,
   "english_function_words": 4,
   "ordinary_english_words": 29,
-  "kept_technical_terms": 121,
-  "avoidable_english_per_1000": 5.0,
+  "kept_technical_terms": 130,
+  "avoidable_english_per_1000": 4.6,
   "top_terms": [
    [
     "review",
@@ -1274,11 +1160,11 @@
  },
  "S31": {
   "section": "S31",
-  "prose_words": 6611,
+  "prose_words": 6938,
   "english_function_words": 2,
   "ordinary_english_words": 8,
-  "kept_technical_terms": 64,
-  "avoidable_english_per_1000": 1.5,
+  "kept_technical_terms": 66,
+  "avoidable_english_per_1000": 1.4,
   "top_terms": [
    [
     "owner",
@@ -1309,15 +1195,15 @@
  },
  "S32": {
   "section": "S32",
-  "prose_words": 7030,
+  "prose_words": 7236,
   "english_function_words": 22,
-  "ordinary_english_words": 37,
-  "kept_technical_terms": 218,
-  "avoidable_english_per_1000": 8.4,
+  "ordinary_english_words": 38,
+  "kept_technical_terms": 225,
+  "avoidable_english_per_1000": 8.3,
   "top_terms": [
    [
     "split",
-    19
+    20
    ],
    [
     "not",
@@ -1409,15 +1295,15 @@
  },
  "S33": {
   "section": "S33",
-  "prose_words": 7877,
-  "english_function_words": 24,
-  "ordinary_english_words": 37,
-  "kept_technical_terms": 186,
-  "avoidable_english_per_1000": 7.7,
+  "prose_words": 8909,
+  "english_function_words": 25,
+  "ordinary_english_words": 40,
+  "kept_technical_terms": 201,
+  "avoidable_english_per_1000": 7.3,
   "top_terms": [
    [
     "split",
-    14
+    16
    ],
    [
     "is",
@@ -1429,7 +1315,7 @@
    ],
    [
     "ranking",
-    7
+    8
    ],
    [
     "framing",
@@ -1497,15 +1383,15 @@
  },
  "S34": {
   "section": "S34",
-  "prose_words": 6552,
+  "prose_words": 7410,
   "english_function_words": 14,
-  "ordinary_english_words": 31,
-  "kept_technical_terms": 173,
-  "avoidable_english_per_1000": 6.9,
+  "ordinary_english_words": 33,
+  "kept_technical_terms": 191,
+  "avoidable_english_per_1000": 6.3,
   "top_terms": [
    [
     "ranking",
-    14
+    15
    ],
    [
     "review",
@@ -1521,7 +1407,7 @@
    ],
    [
     "matching",
-    4
+    5
    ],
    [
     "split",
@@ -1559,15 +1445,15 @@
  },
  "S35": {
   "section": "S35",
-  "prose_words": 6431,
+  "prose_words": 6755,
   "english_function_words": 5,
-  "ordinary_english_words": 52,
-  "kept_technical_terms": 105,
-  "avoidable_english_per_1000": 8.9,
+  "ordinary_english_words": 53,
+  "kept_technical_terms": 108,
+  "avoidable_english_per_1000": 8.6,
   "top_terms": [
    [
     "ranking",
-    15
+    16
    ],
    [
     "review",
@@ -1617,15 +1503,15 @@
  },
  "S36": {
   "section": "S36",
-  "prose_words": 6790,
+  "prose_words": 7199,
   "english_function_words": 6,
-  "ordinary_english_words": 16,
-  "kept_technical_terms": 114,
+  "ordinary_english_words": 17,
+  "kept_technical_terms": 112,
   "avoidable_english_per_1000": 3.2,
   "top_terms": [
    [
     "ranking",
-    8
+    9
    ],
    [
     "split",
@@ -1663,12 +1549,16 @@
  },
  "S37": {
   "section": "S37",
-  "prose_words": 6313,
+  "prose_words": 6582,
   "english_function_words": 32,
-  "ordinary_english_words": 20,
-  "kept_technical_terms": 160,
-  "avoidable_english_per_1000": 8.2,
+  "ordinary_english_words": 21,
+  "kept_technical_terms": 163,
+  "avoidable_english_per_1000": 8.1,
   "top_terms": [
+   [
+    "matching",
+    16
+   ],
    [
     "before",
     16
@@ -1676,10 +1566,6 @@
    [
     "after",
     16
-   ],
-   [
-    "matching",
-    15
    ],
    [
     "review",
@@ -1737,11 +1623,11 @@
  },
  "S38": {
   "section": "S38",
-  "prose_words": 6456,
+  "prose_words": 6704,
   "english_function_words": 1,
   "ordinary_english_words": 28,
-  "kept_technical_terms": 215,
-  "avoidable_english_per_1000": 4.5,
+  "kept_technical_terms": 225,
+  "avoidable_english_per_1000": 4.3,
   "top_terms": [
    [
     "scoring",
@@ -1780,93 +1666,69 @@
  },
  "S39": {
   "section": "S39",
-  "prose_words": 6669,
-  "english_function_words": 7,
-  "ordinary_english_words": 80,
-  "kept_technical_terms": 139,
-  "avoidable_english_per_1000": 13.0,
+  "prose_words": 6977,
+  "english_function_words": 4,
+  "ordinary_english_words": 21,
+  "kept_technical_terms": 136,
+  "avoidable_english_per_1000": 3.6,
   "top_terms": [
    [
     "owner",
-    36
-   ],
-   [
-    "release",
     11
    ],
    [
-    "owners",
-    8
-   ],
-   [
     "only",
-    5
-   ],
-   [
-    "review",
-    5
-   ],
-   [
-    "ranking",
-    4
-   ],
-   [
-    "reviewer",
     3
+   ],
+   [
+    "release",
+    2
    ],
    [
     "scope",
-    3
+    2
+   ],
+   [
+    "the",
+    1
+   ],
+   [
+    "tickets",
+    1
+   ],
+   [
+    "owners",
+    1
    ],
    [
     "ticket",
-    3
+    1
    ],
    [
-    "timestamp",
-    2
+    "reviewer",
+    1
+   ],
+   [
+    "request",
+    1
    ]
   ],
   "worst_passages": [
    {
-    "location": "integrator-phase2.S39-T1-B-E2.hint",
-    "avoidable_english": 2,
-    "words": 9,
-    "text": "Si falta owner, devuelve MISSING:owner sin mirar bump."
-   },
-   {
-    "location": "integrator-phase2.S39-T1-B-E2.hint[0]",
-    "avoidable_english": 2,
-    "words": 9,
-    "text": "Si falta owner, devuelve MISSING:owner sin mirar bump."
-   },
-   {
     "location": "integrator-phase2.S39-T1-B.callout",
-    "avoidable_english": 3,
-    "words": 20,
-    "text": "Sin owner. Artefacto sin owner bloquea release del triage: no hay escalamiento de incidentes ni firmante del checklist de riesgo."
-   },
-   {
-    "location": "integrator-phase2.S39-T1-B-E2.retrospective",
-    "avoidable_english": 6,
-    "words": 53,
-    "text": "Gente (owner) y contrato (bump) se fallan por caminos distintos: un ticket de staffing no es un ticket de semver. El error clásico es inventar owner por defecto para «pasar» el release. Pregunta: si e"
-   },
-   {
-    "location": "integrator-phase2.S39-T3-A.callout",
     "avoidable_english": 2,
-    "words": 21,
-    "text": "Release gate. El checklist queda firmado por el owner: secrets_in_repo o falta de RBAC son blockers duros; no se «compensa» con un AUC alto."
+    "words": 24,
+    "text": "Sin owner. Artefacto sin owner bloquea el lanzamiento del triage: no hay escalamiento de incidentes ni quien firme la lista de comprobación de riesgos."
    }
   ]
  },
  "S40": {
   "section": "S40",
-  "prose_words": 6920,
+  "prose_words": 7182,
   "english_function_words": 16,
   "ordinary_english_words": 30,
-  "kept_technical_terms": 83,
-  "avoidable_english_per_1000": 6.6,
+  "kept_technical_terms": 86,
+  "avoidable_english_per_1000": 6.4,
   "top_terms": [
    [
     "owner",
@@ -1938,77 +1800,42 @@
  },
  "S41": {
   "section": "S41",
-  "prose_words": 6680,
+  "prose_words": 7384,
   "english_function_words": 0,
-  "ordinary_english_words": 73,
-  "kept_technical_terms": 99,
-  "avoidable_english_per_1000": 10.9,
+  "ordinary_english_words": 56,
+  "kept_technical_terms": 104,
+  "avoidable_english_per_1000": 7.6,
   "top_terms": [
    [
     "body",
-    46
+    36
    ],
    [
     "request",
-    18
+    17
    ],
    [
     "review",
-    5
+    2
    ],
    [
-    "response",
-    3
-   ],
-   [
-    "input",
+    "requests",
     1
    ]
   ],
-  "worst_passages": [
-   {
-    "location": "llm-finetuning.selfCheck[2].opt[1]",
-    "avoidable_english": 2,
-    "words": 9,
-    "text": "devolver el body crudo del request para maximizar fidelidad"
-   },
-   {
-    "location": "llm-finetuning.S41-T2-B-E3.hint",
-    "avoidable_english": 3,
-    "words": 16,
-    "text": "Si falta openapi_matches, no evalúes el body: REGENERATE_OPENAPI. Si hay secret en response o status 200 con body inválido: REJECT_AND_REDACT."
-   },
-   {
-    "location": "llm-finetuning.S41-T2-B-E3.hint[0]",
-    "avoidable_english": 3,
-    "words": 16,
-    "text": "Si falta openapi_matches, no evalúes el body: REGENERATE_OPENAPI. Si hay secret en response o status 200 con body inválido: REJECT_AND_REDACT."
-   },
-   {
-    "location": "llm-finetuning.selfCheck[1].explanation",
-    "avoidable_english": 2,
-    "words": 17,
-    "text": "La clave liga un hash canónico del request; body distinto es conflicto, no replay ni segundo create."
-   },
-   {
-    "location": "llm-finetuning.S41-T2-B.callout",
-    "avoidable_english": 2,
-    "words": 20,
-    "text": "Contrato local. Contrato S41-T2-B: body incompleto ⇒ 422 tipado; body válido ⇒ vista allow-list sin `internal_key`. OpenAPI debe coincidir con status y shape reales."
-   }
-  ]
+  "worst_passages": []
  },
  "S42": {
   "section": "S42",
-  "prose_words": 6024,
+  "prose_words": 6338,
   "english_function_words": 1,
-  "ordinary_english_words": 44,
-  "kept_technical_terms": 81,
-  "avoidable_english_per_1000": 7.5,
+  "ordinary_english_words": 45,
+  "kept_technical_terms": 83,
+  "avoidable_english_per_1000": 7.3,
   "top_terms": [
    [
     "scope",
-    17
+    18
    ],
    [
     "ticket",
@@ -2056,11 +1883,11 @@
  },
  "S43": {
   "section": "S43",
-  "prose_words": 6614,
+  "prose_words": 6840,
   "english_function_words": 6,
   "ordinary_english_words": 16,
-  "kept_technical_terms": 83,
-  "avoidable_english_per_1000": 3.3,
+  "kept_technical_terms": 84,
+  "avoidable_english_per_1000": 3.2,
   "top_terms": [
    [
     "checks",
@@ -2095,111 +1922,58 @@
  },
  "S44": {
   "section": "S44",
-  "prose_words": 6689,
-  "english_function_words": 2,
-  "ordinary_english_words": 113,
-  "kept_technical_terms": 228,
-  "avoidable_english_per_1000": 17.2,
+  "prose_words": 6861,
+  "english_function_words": 1,
+  "ordinary_english_words": 62,
+  "kept_technical_terms": 216,
+  "avoidable_english_per_1000": 9.2,
   "top_terms": [
    [
     "release",
-    36
+    21
    ],
    [
     "workflow",
-    17
-   ],
-   [
-    "checks",
-    16
+    18
    ],
    [
     "owner",
-    14
+    6
    ],
    [
-    "reviews",
-    11
+    "checks",
+    5
    ],
    [
     "check",
-    8
+    4
+   ],
+   [
+    "reviews",
+    4
    ],
    [
     "review",
-    8
+    3
    ],
    [
     "ticket",
-    2
+    1
    ],
    [
     "not",
-    2
-   ],
-   [
-    "inputs",
     1
    ]
   ],
-  "worst_passages": [
-   {
-    "location": "multimodal.S44-T4-A-DEMO.description",
-    "avoidable_english": 2,
-    "words": 7,
-    "text": "Demo: branch/review policy y release notes."
-   },
-   {
-    "location": "multimodal.outcome[6]",
-    "avoidable_english": 3,
-    "words": 13,
-    "text": "Exigir branch protection, reviews/checks y release notes operables (cambio, riesgo, migración, rollback)."
-   },
-   {
-    "location": "multimodal.S44-T4-A-E1.hint",
-    "avoidable_english": 2,
-    "words": 12,
-    "text": "Branch protegida, ≥1 review, checks activos y notes con change/risk/migration/rollback."
-   },
-   {
-    "location": "multimodal.S44-T4-A-E1.instruction",
-    "avoidable_english": 2,
-    "words": 13,
-    "text": "S44-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS sin protección o reviews==0 (DEFECT).\n2. Exige protected True, reviews ≥1, checks True, notes ⊇ {change, risk, migration, rol"
-   },
-   {
-    "location": "multimodal.S44-T4-A.p1",
-    "avoidable_english": 5,
-    "words": 40,
-    "text": "Contrato de release trazable. Entrada: branch protegida, número de reviews requeridas, checks obligatorios y conjunto de campos en release notes. Salida: `protected_branch`, `required_reviews ≥ 1`, ch"
-   },
-   {
-    "location": "multimodal.S44-T4-A-E3.hint[1]",
-    "avoidable_english": 2,
-    "words": 19,
-    "text": "Para datos completos reutiliza la regla que demostró branch protegida, review/checks y notas operables; solo ese caso devuelve `CONTINUE`."
-   },
-   {
-    "location": "multimodal.S44-T4-B-E1.instruction",
-    "avoidable_english": 2,
-    "words": 19,
-    "text": "S44-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si critical y not pipeline_blocked (DEFECT).\n2. Exige AND de blocked, redacted, owner, evidence.\n3. Conserva print.\n4. `S44-T"
-   },
-   {
-    "location": "multimodal.S44-T4-A-E2.hint[1]",
-    "avoidable_english": 2,
-    "words": 22,
-    "text": "Después aplica la regla de S44-T4-A: branch protegida, review/checks y notas operables. El fixture adverso debe fallar por contenido, no por schema."
-   }
-  ]
+  "worst_passages": []
  },
  "S45": {
   "section": "S45",
-  "prose_words": 6809,
+  "prose_words": 7349,
   "english_function_words": 7,
   "ordinary_english_words": 14,
-  "kept_technical_terms": 110,
-  "avoidable_english_per_1000": 3.1,
+  "kept_technical_terms": 113,
+  "avoidable_english_per_1000": 2.9,
   "top_terms": [
    [
     "backlog",
@@ -2214,35 +1988,35 @@
  },
  "S46": {
   "section": "S46",
-  "prose_words": 6316,
+  "prose_words": 6667,
   "english_function_words": 2,
-  "ordinary_english_words": 116,
-  "kept_technical_terms": 232,
-  "avoidable_english_per_1000": 18.7,
+  "ordinary_english_words": 96,
+  "kept_technical_terms": 233,
+  "avoidable_english_per_1000": 14.7,
   "top_terms": [
    [
     "owner",
-    77
-   ],
-   [
-    "inputs",
-    14
-   ],
-   [
-    "outputs",
-    8
+    67
    ],
    [
     "output",
-    6
+    11
+   ],
+   [
+    "inputs",
+    7
    ],
    [
     "ticket",
     6
    ],
    [
+    "outputs",
+    2
+   ],
+   [
     "timestamp",
-    3
+    1
    ],
    [
     "check",
@@ -2263,62 +2037,38 @@
   ],
   "worst_passages": [
    {
-    "location": "gpu-computing.S46-T3-B-E1.hint",
-    "avoidable_english": 3,
-    "words": 9,
-    "text": "startswith(\"run-\") + bool(inputs) + bool(outputs) + umbral de null_rate + owner."
-   },
-   {
-    "location": "gpu-computing.S46-T3-B-E1.hint[0]",
+    "location": "gpu-computing.S46-T3-A-E1.instruction",
     "avoidable_english": 2,
-    "words": 9,
-    "text": "null_rate ≤ 0.02 no basta sin inputs, outputs y run_id trazable (prefijo run-)."
+    "words": 21,
+    "text": "S46-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: predicado invertido (y sin owner).\n2. Exige schema == observed_schema.\n3. Exige freshness_min ≤ slo_min y bool(owner).\n4. "
    },
    {
-    "location": "gpu-computing.outcome[5]",
+    "location": "gpu-computing.S46-T3-B-E1.retrospective",
+    "avoidable_english": 4,
+    "words": 45,
+    "text": "Un solo eslabón roto basta para abrir incidente: run mal formado, IO vacío, null_rate alto u owner vacío. El error clásico es mirar solo `null_rate` y declarar “calidad OK”. Pregunta: ¿qué pones en el"
+   },
+   {
+    "location": "gpu-computing.S46-T3-B-E1.preamble",
     "avoidable_english": 3,
-    "words": 14,
-    "text": "Registrar lineage run→inputs→outputs con owner y métricas de calidad para reconstruir incidentes"
+    "words": 36,
+    "text": "- **Contexto:** en `CASO-HYO-046-3B`, un run de clean solo es trazable si el facet está completo y la calidad bajo umbral.\n- **Meta:** `meets_contract` con run- + inputs + outputs + null_rate≤0.02 + o"
    },
    {
-    "location": "gpu-computing.youDo.objective[4]",
-    "avoidable_english": 2,
-    "words": 12,
-    "text": "Registrar lineage run→inputs→outputs y un runbook de recovery con RTO medido."
-   },
-   {
-    "location": "gpu-computing.S46-T3-A-E2.hint",
-    "avoidable_english": 2,
-    "words": 14,
-    "text": "Missing de owner antes de leer schema; no uses PAGE_DATA_OWNER aquí (E2 usa MISSING:owner)."
-   },
-   {
-    "location": "gpu-computing.S46-T3-B-E1.instruction",
-    "avoidable_english": 3,
-    "words": 24,
-    "text": "S46-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: predicado invertido.\n2. startswith(\"run-\") y bool(inputs) y bool(outputs).\n3. null_rate ≤ 0.02 y bool(owner).\n4. PASS o OP"
-   },
-   {
-    "location": "gpu-computing.S46-T3-B.p1",
-    "avoidable_english": 5,
-    "words": 43,
-    "text": "Contrato operativo de trazabilidad. Entrada: run_id, sets de inputs/outputs, métricas (rows, null_rate) y owner. Salida: registro reconstruible run→datasets; incidente solo si calidad/owner fallan. Er"
-   },
-   {
-    "location": "gpu-computing.S46-T4-B-E1.preamble",
-    "avoidable_english": 3,
-    "words": 31,
-    "text": "- **Contexto:** en `CASO-HYO-046-4B`, el simulacro de ops de atenciones solo pasa si frescura, RTO, acciones y owner cierran.\n- **Meta:** sli ≥ slo ∧ rto ≤ target ∧ actions ≥ 1 ∧ owner.\n- **Éxito:** `"
+    "location": "gpu-computing.S46-T4-B-DEMO.why",
+    "avoidable_english": 4,
+    "words": 50,
+    "text": "SLI es la medición; SLO es el objetivo. El contrato de ops exige sli ≥ slo, rto ≤ target, ≥1 acción de post mórtem y owner; sin owner se activa el runbook. Vocabulario SRE que el self-check y el youDo"
    }
   ]
  },
  "S47": {
   "section": "S47",
-  "prose_words": 6910,
+  "prose_words": 7001,
   "english_function_words": 3,
   "ordinary_english_words": 19,
-  "kept_technical_terms": 317,
-  "avoidable_english_per_1000": 3.2,
+  "kept_technical_terms": 320,
+  "avoidable_english_per_1000": 3.1,
   "top_terms": [
    [
     "split",
@@ -2352,11 +2102,11 @@
  },
  "S48": {
   "section": "S48",
-  "prose_words": 5854,
+  "prose_words": 6046,
   "english_function_words": 14,
   "ordinary_english_words": 25,
-  "kept_technical_terms": 196,
-  "avoidable_english_per_1000": 6.7,
+  "kept_technical_terms": 203,
+  "avoidable_english_per_1000": 6.5,
   "top_terms": [
    [
     "ranking",
@@ -2406,15 +2156,15 @@
  },
  "S49": {
   "section": "S49",
-  "prose_words": 6263,
+  "prose_words": 6529,
   "english_function_words": 2,
-  "ordinary_english_words": 34,
-  "kept_technical_terms": 165,
+  "ordinary_english_words": 35,
+  "kept_technical_terms": 172,
   "avoidable_english_per_1000": 5.7,
   "top_terms": [
    [
     "workflow",
-    15
+    16
    ],
    [
     "scope",
@@ -2441,10 +2191,10 @@
  },
  "S50": {
   "section": "S50",
-  "prose_words": 6870,
+  "prose_words": 7057,
   "english_function_words": 10,
   "ordinary_english_words": 8,
-  "kept_technical_terms": 273,
+  "kept_technical_terms": 283,
   "avoidable_english_per_1000": 2.6,
   "top_terms": [
    [
@@ -2480,107 +2230,67 @@
  },
  "S51": {
   "section": "S51",
-  "prose_words": 6789,
-  "english_function_words": 22,
-  "ordinary_english_words": 99,
-  "kept_technical_terms": 175,
-  "avoidable_english_per_1000": 17.8,
+  "prose_words": 7336,
+  "english_function_words": 11,
+  "ordinary_english_words": 92,
+  "kept_technical_terms": 182,
+  "avoidable_english_per_1000": 14.0,
   "top_terms": [
    [
     "owner",
-    35
+    31
    ],
    [
     "release",
     27
    ],
    [
-    "only",
-    16
-   ],
-   [
-    "scope",
-    14
-   ],
-   [
     "owners",
-    12
+    13
    ],
    [
     "ticket",
+    10
+   ],
+   [
+    "only",
     9
    ],
    [
-    "not",
-    5
+    "scope",
+    9
    ],
    [
     "releases",
     2
    ],
    [
-    "is",
-    1
+    "not",
+    2
    ]
   ],
   "worst_passages": [
    {
-    "location": "integrator-final.S51-T2-B-E1.hint",
-    "avoidable_english": 2,
-    "words": 8,
-    "text": "author ≠ approver, scope `*-read`, retención ≤ 30 y audit append-only."
+    "location": "integrator-final.S51-T2-B-E2.preamble",
+    "avoidable_english": 3,
+    "words": 34,
+    "text": "- **Contexto:** el gate de change control en Moquegua separa ticket limpio, ticket no gobernado y registro sin flag de audit append-only.\n- **Meta:** `assess` → PASS, REJECT_UNGOVERNED_CHANGE, MISSING"
    },
    {
-    "location": "integrator-final.S51-T2-B-DEMO.description",
+    "location": "integrator-final.S51-T2-B.callout",
     "avoidable_english": 2,
-    "words": 9,
-    "text": "Demo: dual-control, scope read y audit append-only"
-   },
-   {
-    "location": "integrator-final.S51-T2-B-E3.hint[1]",
-    "avoidable_english": 2,
-    "words": 10,
-    "text": "sod_ok separa funciones; access_policy_ok une scope least-privilege, TTL y audit append-only."
-   },
-   {
-    "location": "integrator-final.outcome[3]",
-    "avoidable_english": 2,
-    "words": 12,
-    "text": "Aplicar dual-control, scope least-privilege, retención acotada y audit append-only"
-   },
-   {
-    "location": "integrator-final.S51-T3-A-E3.hint",
-    "avoidable_english": 2,
-    "words": 14,
-    "text": "Missing de owner → TRIAGE_DRIFT_SLICE; owner vacío o SLI roto → OPEN_COPILOT_INCIDENT. Burn = errors/allowed con allowed=(1-slo)*window."
-   },
-   {
-    "location": "integrator-final.S51-T2-B-DEMO.retrospective",
-    "avoidable_english": 4,
-    "words": 40,
-    "text": "Dual-control = dos personas + scope `-read` + retención acotada + audit append-only. El error clásico es autoaprobar «porque el owner está de vacaciones». Pregunta: ¿un wiki editable de aprobaciones e"
-   },
-   {
-    "location": "integrator-final.S51-T4-A-E3.instruction",
-    "avoidable_english": 2,
-    "words": 22,
-    "text": "S51-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. `evidence_visible`: incertidumbre + citas + effect_summary.\n2. `effect_confirmed`: not required or confirmed is True.\n3. Missing → ASK_USER"
-   },
-   {
-    "location": "integrator-final.S51-T4-B-E1.instruction",
-    "avoidable_english": 2,
-    "words": 22,
-    "text": "S51-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si not keyboard o contraste < min o not appeal (bug).\n2. Exige keyboard_complete y screen_reader_labels.\n3. `contrast_ratio >"
+    "words": 25,
+    "text": "Self-approve = change no gobernado. Contrato S51-T2-B: Un cambio sin aprobador independiente, con scope admin o sin audit append-only se rechaza como cambio no gobernado."
    }
   ]
  },
  "S52": {
   "section": "S52",
-  "prose_words": 6617,
+  "prose_words": 6817,
   "english_function_words": 8,
   "ordinary_english_words": 24,
-  "kept_technical_terms": 166,
-  "avoidable_english_per_1000": 4.8,
+  "kept_technical_terms": 174,
+  "avoidable_english_per_1000": 4.7,
   "top_terms": [
    [
     "workflow",
