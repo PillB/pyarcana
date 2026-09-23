@@ -111546,14 +111546,14 @@
   "uses": [
    {
     "section": "S17",
-    "location": "packaging.jobRelevance",
-    "kind": "jobRelevance",
+    "location": "packaging.theory[5].heading",
+    "kind": "theory.heading",
     "visible": true
    },
    {
     "section": "S17",
-    "location": "packaging.outcome[2]",
-    "kind": "outcome",
+    "location": "packaging.theory[5].p0",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -111616,12 +111616,19 @@
    }
   ],
   "self_checks": [],
-  "headings": [],
+  "headings": [
+   {
+    "section": "S17",
+    "location": "packaging.theory[5].heading",
+    "kind": "theory.heading",
+    "visible": true
+   }
+  ],
   "figures": [],
   "first_use": {
    "section": "S17",
-   "location": "packaging.jobRelevance",
-   "kind": "jobRelevance",
+   "location": "packaging.theory[5].heading",
+   "kind": "theory.heading",
    "visible": true
   },
   "first_definition": null,
@@ -111630,14 +111637,14 @@
   "surprising_uses": [
    {
     "section": "S17",
-    "location": "packaging.jobRelevance",
-    "kind": "jobRelevance",
+    "location": "packaging.theory[5].heading",
+    "kind": "theory.heading",
     "visible": true
    },
    {
     "section": "S17",
-    "location": "packaging.outcome[2]",
-    "kind": "outcome",
+    "location": "packaging.theory[5].p0",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -115588,8 +115595,14 @@
   "uses": [
    {
     "section": "S17",
-    "location": "packaging.outcome[2]",
-    "kind": "outcome",
+    "location": "packaging.theory[5].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.theory[5].p1",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -115982,6 +115995,12 @@
   "headings": [
    {
     "section": "S17",
+    "location": "packaging.theory[5].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S17",
     "location": "packaging.S17-T2-A.heading",
     "kind": "theory.heading",
     "visible": true
@@ -115997,8 +116016,8 @@
   ],
   "first_use": {
    "section": "S17",
-   "location": "packaging.outcome[2]",
-   "kind": "outcome",
+   "location": "packaging.theory[5].heading",
+   "kind": "theory.heading",
    "visible": true
   },
   "first_definition": {
@@ -116012,8 +116031,14 @@
   "surprising_uses": [
    {
     "section": "S17",
-    "location": "packaging.outcome[2]",
-    "kind": "outcome",
+    "location": "packaging.theory[5].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.theory[5].p1",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -116910,60 +116935,6 @@
     "visible": true
    },
    {
-    "section": "S17",
-    "location": "packaging.tagline",
-    "kind": "tagline",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T1-A.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T1-A.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T3-A.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T4-A.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T3-B-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T4-A-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T4-A-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.weDo.intro",
-    "kind": "wedo.intro",
-    "visible": true
-   },
-   {
     "section": "S18",
     "location": "data-engineering.tagline",
     "kind": "tagline",
@@ -117247,60 +117218,6 @@
     "visible": true
    },
    {
-    "section": "S17",
-    "location": "packaging.tagline",
-    "kind": "tagline",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T1-A.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T1-A.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T3-A.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T4-A.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T3-B-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T4-A-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T4-A-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.weDo.intro",
-    "kind": "wedo.intro",
-    "visible": true
-   },
-   {
     "section": "S18",
     "location": "data-engineering.tagline",
     "kind": "tagline",
@@ -117310,7 +117227,6 @@
   "sections_used": [
    "S15",
    "S16",
-   "S17",
    "S18",
    "S19",
    "S21"

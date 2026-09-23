@@ -16,7 +16,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | concept | depth | first use | first explained | surprising | examples | exercised | self-check | lag | figures | sections |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
 | 🔴 `roc-auc` | L0 | S34 · S34-T1-A.p1 | **never** | 13 | 0 | 0 | 7 | · | 0/1 ⚠ | 2 |
-| 🔴 `reshape` | L0 | S17 · jobRelevance | **never** | 9 | 0 | 2 | 0 | · | 0/1 ⚠ | 1 |
+| 🔴 `reshape` | L0 | S17 · theory[5].heading | **never** | 9 | 0 | 2 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `dict-comprehension` | L0 | S04 · S04-T3-B-E3.title | **never** | 8 | 0 | 1 | 0 | · | 0/1 ⚠ | 3 |
 | 🔴 `context-manager` | L0 | S09 · S09-T1-B.p0 | **never** | 6 | 0 | 0 | 0 | · | 0/1 ⚠ | 2 |
 | 🔴 `namedtuple` | L0 | S40 · S40-T3-B.p1 | **never** | 5 | 2 | 0 | 0 | · | 0/1 ⚠ | 1 |
@@ -46,7 +46,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `annotation` | L1 | S05 · outcome[3] | S11 · S11-T1-A.p1 | 8 | 0 | 1 | 1 | +6 | 0/1 ⚠ | 2 |
 | 🟠 `missing-values` | L3 | S09 · S09-T1-A-E2.preamble | S14 · S14-T3-B.p0 | 23 | 5 | 15 | 7 | +5 | 1/5 ⚠ | 9 |
 | 🟠 `pipeline` | L2 | S02 · theory[2].p0 | S05 · S05-T1-A.callout | 18 | 8 | 9 | 10 | +3 | 0/5 ⚠ | 43 |
-| 🟠 `eda` | L1 | S15 · youDo.context | S18 · jobRelevance | 14 | 0 | 0 | 3 | +3 | 0/1 ⚠ | 6 |
+| 🟠 `eda` | L1 | S15 · youDo.context | S18 · jobRelevance | 5 | 0 | 0 | 3 | +3 | 0/1 ⚠ | 5 |
 | 🟠 `for` | L2 | S02 · S02-T1-A-DEMO.code | S04 · S04-T1-A-E2.preamble | 105 | 353 | 34 | 4 | +2 | 0/5 ⚠ | 51 |
 | 🟠 `dict` | L2 | S02 · S02-T2-B.callout | S04 · S04-T4-A-E3.preamble | 33 | 155 | 110 | 7 | +2 | 3/5 ⚠ | 51 |
 | 🟠 `entity-resolution` | L3 | S11 · S11-T2-B-DEMO.preamble | S13 · S13-T1-A.p0 | 7 | 8 | 6 | 15 | +2 | 2/5 ⚠ | 16 |
@@ -57,7 +57,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `function` | L3 | S01 · S01-T4-B-DEMO.retrospective | S02 · theory[0].callout | 3 | 806 | 34 | 17 | +1 | 2/5 ⚠ | 52 |
 | 🟠 `parameter` | L3 | S02 · S02-T4-A-E3.hint | S03 · theory[3].p1 | 3 | 1 | 4 | 1 | +1 | 1/5 ⚠ | 19 |
 | 🟠 `cross-validation` | L1 | S32 · resources.doc[5] | S33 · theory[11].p1 | 2 | 0 | 0 | 0 | +1 | 0/1 ⚠ | 3 |
-| 🟠 `pivot-table` | L3 | S17 · outcome[2] | S17 · iDo.intro | 11 | 6 | 2 | 2 | · | 1/1 | 2 |
+| 🟠 `pivot-table` | L3 | S17 · theory[5].heading | S17 · iDo.intro | 12 | 6 | 2 | 2 | · | 1/1 | 2 |
 | 🟠 `vectorizaci-n` | L1 | S14 · tagline | S14 · S14-T4-A.p0 | 6 | 0 | 3 | 5 | · | 0/1 ⚠ | 4 |
 | 🟠 `dataframe` | L3 | S15 · outcome[0] | S15 · S15-T1-A.p0 | 4 | 50 | 7 | 7 | · | 1/5 ⚠ | 7 |
 | 🟠 `github` | L2 | S01 · outcome[5] | S01 · theory[8].p4 | 3 | 4 | 1 | 5 | · | 0/5 ⚠ | 6 |
