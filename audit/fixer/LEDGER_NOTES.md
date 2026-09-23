@@ -534,3 +534,19 @@ Add verbs on measured effect, never on plausibility. A frequency scan offered fi
 changed exactly two events, one of which credited a self-check explanation with `venv` — the
 non-teaching-surface credit the detector's own docstring opens with. Only the two verbs with a
 case to prove them stayed.
+
+### A glossary alias that is an ordinary word will be captured by longer prose (2026-09-22, S09)
+
+`correlaci-n`'s only alias is `Correlación`. S09 is about logging and writes "identificador de
+correlación" throughout, so the statistics term scored four uses in a section that never mentions
+a coefficient - and carried `firstSectionId: 'exceptions-logging'` as a result. The round then
+"fixed" it by teaching correlation ids, and the map now believes S09 is where the course explains
+statistical correlation.
+
+The extractor sorts aliases longest-first **within one term**, never across terms, so nothing
+arbitrates this. Before commissioning a block for a concept the map says this section uses, read
+one of the actual sentences: if the term is an ordinary word, check it is not a fragment of a
+longer phrase meaning something else. The same shape is waiting in five other pairs -
+`function` inside `función generadora`, `commit` inside `Conventional Commits`, `list` inside
+`List comprehension`, `dict` inside `Dict comprehension`, `recall` inside `precisión y recall`.
+

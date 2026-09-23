@@ -236,6 +236,23 @@ Decisions L1Q3-1 (already decided by D9) and L1Q3-5 carry the detail.
 - **Generator expressions** are used in visible code from S02 onward and taught nowhere; S30-T4-B-E1
   lost the word «generadores» this round but the construct remains. Curriculum decision to raise.
 
+- **`correlación` is two concepts wearing one glossary entry (found 2026-09-22, S09 round).**
+  `correlaci-n` is the statistics term - "Relación entre dos variables. -1 a 1. np.corrcoef,
+  df.corr()" - and its only alias is `Correlación`, an ordinary Spanish word. S09 is a logging
+  section that talks about `correlation_id`, so every "identificador de correlación" in its prose
+  registered as a use of statistical correlation, and that is why `correlaci-n` carried
+  `firstSectionId: 'exceptions-logging'`. After S09's round the concept map now records
+  `exceptions-logging.theory[8].p0` as where the course *defines* statistical correlation. The
+  block is correct and needed - the learner threads a correlation id through three layers in
+  S09-T3-B-E2 - but it defines a log identifier, not a coefficient, and the credit masks whether
+  S18 explains the real thing before using it.
+  *Fix*: a `correlation-id` glossary term for the logging sense, `correlaci-n` repointed to the
+  section that teaches the statistic, and cross-term arbitration in the extractor so the longer
+  alias wins. That last part is its own change: longest-first sorting today is **within** one
+  term's aliases only, and six pairs course-wide would move - `function`/`función generadora`,
+  `commit`/`Conventional Commits`, `list`/`List comprehension`, `dict`/`Dict comprehension`,
+  `recall`/`precisión y recall`. Measured, not guessed: 17 containments over those six pairs.
+
 ## Deferred, with a decision attached
 
 21. **Q3 route** (S02-S04 practice layer, CP-N1-A) — 12 rows wait on it; interacts with D10.
