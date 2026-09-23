@@ -177,6 +177,20 @@ const DESCRIBING_VERB =
  */
 const MARKED_SUBJECT_VERB =
   /^[^.!?;]{0,14}?\b(?:mide|miden|aloja|alojan|excluye|excluyen|instala|instalan|alinea|alinean|produce|producen|colapsa|colapsan|hace|hacen|responde|responden|captura|capturan|resume|resumen|descubre|descubren|memoriza|memorizan|fija|fijan|apila|apilan|inserta|insertan|act[u\u00fa]a|act[u\u00fa]an|reutiliza|reutilizan|divide|dividen)\b/i
+/**
+ * A phenomenon is defined by the conditions it arises under, not by what it is made of.
+ *
+ * "**Overfit** ocurre cuando un modelo aprende demasiado bien los datos usados para
+ * ajustarlo y luego pierde aciertos con datos que mantuviste aparte" is the standard Spanish
+ * frame for this, and it is the sentence S33 now teaches overfit with. Nothing above matched
+ * it: it has no copula, and `ocurrir` describes no property of the thing.
+ *
+ * `cuando` is required, and is the whole guard. A bare `ocurre` credits "el **error** ocurre
+ * en la linea 3", which locates a thing rather than defining it. `sucede cuando` is the same
+ * frame and is deliberately absent: the course does not currently write it, and a rule with
+ * no case to prove it is how this detector acquired its absurd credits.
+ */
+const PHENOMENON_CUE = /^[^.!?;]{0,14}?\bocurre[n]? cuando\b/i
 /** "una tupla **no** hace que el lote contin\u00fae" describes what the thing is not. */
 const NEGATED_VERB = /^[^.!?;]{0,12}?\b(?:no|nunca|jam[a\u00e1]s|tampoco)\s/i
 
@@ -212,6 +226,8 @@ function definesTerm(
   if ((INDEFINITE_BEFORE.test(before) || marked)
     && DESCRIBING_VERB.test(after) && !NEGATED.test(head) && !NEGATED_VERB.test(after)) return true
   if (marked && MARKED_SUBJECT_VERB.test(after) && !NEGATED.test(head) && !NEGATED_VERB.test(after)) return true
+  // "**Overfit** ocurre cuando un modelo aprende demasiado bien los datos…"
+  if (marked && PHENOMENON_CUE.test(after) && !NEGATED.test(head) && !NEGATED_VERB.test(after)) return true
   // "`Counter`, un contador de elementos de una secuencia…"
   if (APPOSITIVE.test(after) && !NEGATED.test(head)) return true
   // "**GitHub**, el sitio web que aloja repositorios…"

@@ -493,3 +493,44 @@ its section id and a starter to its `gate.json` `gate_section` — put 8 `try`/`
 the gate that no scan had ever seen, so D10's baseline went 98 → 106. That number went up while
 the gate got stronger: before, those sites were not protected at all. State that in the comment,
 or the next reader takes it for a relaxation and the ratchet loses its meaning.
+
+### A guard must survive the round it guards (2026-09-22, S33 concepts)
+
+S33's concepts round closed 27 of its 28 surprising uses on the first attempt, and the gate
+threw the whole thing away twice — both times on tests written minutes earlier in this same
+campaign, neither time on anything codex got wrong. A failed gate restores the section, so a
+brittle guard does not merely report noise: it destroys good work and reports that the round
+failed.
+
+- **Never pin a positional location.** The test asserted `advanced-models.theory[10].p1`
+  defines cross-validation. The round inserted a teaching block ahead of it, every later index
+  shifted by one, and the assertion failed on content that was strictly better. `theory[10]` is
+  a fact about an array, not about the course. Find the event by the sentence it contains —
+  `/\*\*validación cruzada\*\* .{0,12} divide los datos/` — the way the older tests in that
+  file already do.
+- **Never make the defect your fixture.** The next test asserted overfitting is still a
+  load-bearing problem in S33. It failed because the round taught overfitting. A test whose
+  setup is the bug cannot outlive the bug, and during a campaign whose whole purpose is
+  removing these, it is a landmine with a timer. Assert the property on a synthetic concept
+  shaped like the real one, and read the live course in at most one test that `skipTest`s when
+  its population is empty — so it stops guarding on the day the campaign wins instead of
+  blocking it.
+
+### The definition detector's whitelists hide teaching, they do not invent it (2026-09-22)
+
+Two of S33's three "never explained" concepts were explained, in that section, in a sentence
+the detector could not parse. `divide` was missing from MARKED_SUBJECT_VERB, so «La
+**validación cruzada** (CV) divide los datos en `k` partes» taught nothing; `ocurre cuando` —
+the standard Spanish frame for defining a phenomenon, and the one codex reached for
+unprompted — matched no rule at all, so the block written to teach overfit registered as
+defining nothing and the definition of record fell to a learning outcome.
+
+Before commissioning content for a concept the map calls never-explained, grep the section for
+the term in bold or backticks and read the sentence. Otherwise the round pays codex to write a
+block for something the course already teaches.
+
+Add verbs on measured effect, never on plausibility. A frequency scan offered five more
+(`crea`, `declara`, `devuelve`, `exige`, `toma`); re-running the extractor with all of them
+changed exactly two events, one of which credited a self-check explanation with `venv` — the
+non-teaching-surface credit the detector's own docstring opens with. Only the two verbs with a
+case to prove them stayed.

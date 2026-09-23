@@ -8107,7 +8107,7 @@
    },
    {
     "section": "S33",
-    "location": "advanced-models.S33-T4-B#12.code",
+    "location": "advanced-models.S33-T4-B#13.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -17675,7 +17675,7 @@
    },
    {
     "section": "S33",
-    "location": "advanced-models.S33-T4-B#12.code",
+    "location": "advanced-models.S33-T4-B#13.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -20549,7 +20549,7 @@
    },
    {
     "section": "S33",
-    "location": "advanced-models.S33-T4-B#12.code",
+    "location": "advanced-models.S33-T4-B#13.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -20955,7 +20955,7 @@
    },
    {
     "section": "S33",
-    "location": "advanced-models.S33-T4-B#12.code",
+    "location": "advanced-models.S33-T4-B#13.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -26659,13 +26659,13 @@
    },
    {
     "section": "S33",
-    "location": "advanced-models.theory[10].code",
+    "location": "advanced-models.theory[11].code",
     "kind": "theory.code",
     "visible": true
    },
    {
     "section": "S33",
-    "location": "advanced-models.S33-T4-B#12.code",
+    "location": "advanced-models.S33-T4-B#13.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -31331,13 +31331,13 @@
    },
    {
     "section": "S33",
-    "location": "advanced-models.theory[10].code",
+    "location": "advanced-models.theory[11].code",
     "kind": "theory.code",
     "visible": true
    },
    {
     "section": "S33",
-    "location": "advanced-models.S33-T4-B#12.code",
+    "location": "advanced-models.S33-T4-B#13.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -41190,13 +41190,13 @@
    },
    {
     "section": "S33",
-    "location": "advanced-models.theory[10].code",
+    "location": "advanced-models.theory[11].code",
     "kind": "theory.code",
     "visible": true
    },
    {
     "section": "S33",
-    "location": "advanced-models.S33-T4-B#12.code",
+    "location": "advanced-models.S33-T4-B#13.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -49264,13 +49264,13 @@
    },
    {
     "section": "S33",
-    "location": "advanced-models.theory[10].code",
+    "location": "advanced-models.theory[11].code",
     "kind": "theory.code",
     "visible": true
    },
    {
     "section": "S33",
-    "location": "advanced-models.S33-T4-B#12.code",
+    "location": "advanced-models.S33-T4-B#13.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -56959,7 +56959,7 @@
    },
    {
     "section": "S33",
-    "location": "advanced-models.S33-T4-B#12.code",
+    "location": "advanced-models.S33-T4-B#13.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -65363,7 +65363,7 @@
    },
    {
     "section": "S33",
-    "location": "advanced-models.S33-T4-B#12.code",
+    "location": "advanced-models.S33-T4-B#13.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -81216,6 +81216,12 @@
     "location": "rapidfuzz-entity.S22-T1-B.code",
     "kind": "theory.code",
     "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.theory[8].p3",
+    "kind": "theory.paragraph",
+    "visible": true
    }
   ],
   "definitions": [
@@ -81301,12 +81307,13 @@
   "surprising_uses": [],
   "sections_used": [
    "S01",
-   "S22"
+   "S22",
+   "S33"
   ],
-  "load_bearing": false,
-  "figure_target": 1,
+  "load_bearing": true,
+  "figure_target": 5,
   "figure_count": 1,
-  "figure_gap": 0,
+  "figure_gap": 4,
   "explanation_lag_sections": 0
  },
  "pip": {
@@ -104298,7 +104305,7 @@
    },
    {
     "section": "S33",
-    "location": "advanced-models.theory[10].code",
+    "location": "advanced-models.theory[11].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -106666,7 +106673,7 @@
    },
    {
     "section": "S33",
-    "location": "advanced-models.theory[10].code",
+    "location": "advanced-models.theory[11].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -120596,7 +120603,7 @@
    },
    {
     "section": "S33",
-    "location": "advanced-models.theory[10].p1",
+    "location": "advanced-models.theory[11].p1",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -120622,7 +120629,7 @@
   "definitions": [
    {
     "section": "S33",
-    "location": "advanced-models.theory[10].p1",
+    "location": "advanced-models.theory[11].p1",
     "kind": "theory.paragraph",
     "visible": true
    }
@@ -120647,7 +120654,7 @@
   },
   "first_definition": {
    "section": "S33",
-   "location": "advanced-models.theory[10].p1",
+   "location": "advanced-models.theory[11].p1",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -120714,6 +120721,42 @@
    },
    {
     "section": "S33",
+    "location": "advanced-models.theory[8].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.theory[8].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.theory[8].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.theory[8].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.theory[8].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.theory[8].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S33",
     "location": "advanced-models.S33-T3-B.heading",
     "kind": "theory.heading",
     "visible": true
@@ -120845,7 +120888,20 @@
     "visible": true
    }
   ],
-  "definitions": [],
+  "definitions": [
+   {
+    "section": "S33",
+    "location": "advanced-models.outcome[5]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.theory[8].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   }
+  ],
   "examples": [
    {
     "section": "S07",
@@ -120878,6 +120934,12 @@
   "headings": [
    {
     "section": "S33",
+    "location": "advanced-models.theory[8].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S33",
     "location": "advanced-models.S33-T3-B.heading",
     "kind": "theory.heading",
     "visible": true
@@ -120890,9 +120952,14 @@
    "kind": "ido.code",
    "visible": true
   },
-  "first_definition": null,
+  "first_definition": {
+   "section": "S33",
+   "location": "advanced-models.outcome[5]",
+   "kind": "outcome",
+   "visible": true
+  },
   "reinforcements": [],
-  "depth": "L0",
+  "depth": "L2",
   "surprising_uses": [
    {
     "section": "S07",
@@ -120911,150 +120978,6 @@
     "location": "text-unicode-regex.selfCheck[2].explanation",
     "kind": "selfcheck.explanation",
     "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.outcome[5]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-A.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B.heading",
-    "kind": "theory.heading",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.iDo.intro",
-    "kind": "ido.intro",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-A-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B-DEMO.description",
-    "kind": "ido.description",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B-E1.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B-E1.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B-E1.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B-E1.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B-E1.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B-E2.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.S33-T3-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
    }
   ],
   "sections_used": [
@@ -121065,7 +120988,7 @@
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": null
+  "explanation_lag_sections": 26
  },
  "roc-auc": {
   "id": "roc-auc",
@@ -124699,18 +124622,6 @@
   "declared_first_section": "advanced-models",
   "uses": [
    {
-    "section": "S33",
-    "location": "advanced-models.selfCheck[2].opt[1]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.selfCheck[2].explanation",
-    "kind": "selfcheck.explanation",
-    "visible": true
-   },
-   {
     "section": "S35",
     "location": "system-design.S35-T1-B.p0",
     "kind": "theory.paragraph",
@@ -124758,26 +124669,13 @@
    }
   ],
   "exercises": [],
-  "self_checks": [
-   {
-    "section": "S33",
-    "location": "advanced-models.selfCheck[2].opt[1]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.selfCheck[2].explanation",
-    "kind": "selfcheck.explanation",
-    "visible": true
-   }
-  ],
+  "self_checks": [],
   "headings": [],
   "figures": [],
   "first_use": {
-   "section": "S33",
-   "location": "advanced-models.selfCheck[2].opt[1]",
-   "kind": "selfcheck.option",
+   "section": "S35",
+   "location": "system-design.S35-T1-B.p0",
+   "kind": "theory.paragraph",
    "visible": true
   },
   "first_definition": {
@@ -124788,29 +124686,15 @@
   },
   "reinforcements": [],
   "depth": "L2",
-  "surprising_uses": [
-   {
-    "section": "S33",
-    "location": "advanced-models.selfCheck[2].opt[1]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
-    "section": "S33",
-    "location": "advanced-models.selfCheck[2].explanation",
-    "kind": "selfcheck.explanation",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
-   "S33",
    "S35"
   ],
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": 2
+  "explanation_lag_sections": 0
  },
  "hyperparameter-tuning": {
   "id": "hyperparameter-tuning",

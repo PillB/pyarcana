@@ -29,9 +29,9 @@ export const section33: CourseSection = {
     { text: "Calcular sigmoid, predicción umbralada y documentar L2 (penalty + l2_sq diagnóstico)" },
     { text: "Interpretar coeficientes escalados sin claim causal" },
     { text: "Aplicar stumps controlados y voto mayoritario frente al dummy y a la regla" },
-    { text: "Detectar overfit por gap train−valid (diagnóstico de lab) y fijar seed reproducible" },
+    { text: "Detectar overfit —cuando un modelo acierta en los datos con que se ajustó pero falla en datos apartados— por gap train−valid y fijar seed reproducible" },
     { text: "Registrar runs mínimos (params, metrics, beats_dummy/beats_rule) aunque pierdan al baseline" },
-    { text: "Aplicar group CV (validación cruzada por entidad, sin repartir una entidad entre train y valid) y leer `n_groups` / media de folds (partes que validan una vez cada una)" }
+    { text: "Aplicar validación cruzada por entidad: dividir los datos en partes, usar cada parte una vez para comprobar el modelo y mantener cada entidad completa en un solo lado; leer `n_groups` y la media de esas partes" }
   ],
   theory: [
     {
@@ -331,6 +331,21 @@ depth_unlimited False`,
         title: "Qué escribir ahora",
         content:
           "stump_preds con x>=thr y majority_vote; depth_unlimited debe ser False. Depth libre → REJECT_DEPTH_UNLIMITED. Sin stump → REQUEST_STUMP.",
+      },
+    },
+    {
+      heading: "Antes de medir overfit: práctica contra datos apartados",
+      paragraphs: [
+        "**Overfit** ocurre cuando un modelo aprende demasiado bien los datos usados para ajustarlo y luego pierde aciertos con datos que mantuviste aparte. El nombre permite detectar un modelo que parece fuerte durante la práctica, pero falla al recibir casos que no había visto.",
+        "Llama **train** a los datos usados para ajustar el modelo y **valid** a los datos apartados para comprobar decisiones como la profundidad. Si acierta 95 de 100 casos en train y 70 de 100 en valid, `train_acc = 0.95`, `valid_acc = 0.70` y el gap es `0.95 - 0.70 = 0.25`. Como 0.25 supera la regla de 0.2 de este lab, el resultado indica overfit.",
+        "Ahora hazlo con `train_acc = 0.80` y `valid_acc = 0.75`: resta `0.80 - 0.75`. El resultado correcto es 0.05; como no supera 0.2, este diagnóstico no marca overfit.",
+        "Compruébalo con un caso nuevo en el REPL: `round(0.92 - 0.68, 2)` debe producir `0.24`. Si comparas `0.24 > 0.2`, obtienes `True`; en el gate de este lab corresponde reportar overfit y rechazar ese run, no celebrar el 0.92 de train."
+      ],
+      callout: {
+        type: "tip",
+        title: "Comprueba antes de seguir",
+        content:
+          "Calcula siempre train menos valid. Gap 0.05 → no marca overfit; gap 0.24 → sí lo marca con la regla 0.2 del lab.",
       },
     },
     {
@@ -2566,10 +2581,10 @@ if __name__ == "__main__":
       },
       {
         question: "Comparar coeficientes exige:",
-        options: ["Features sin escala", "SHAP obligatorio", "Depth ilimitada", "Features scaled y causal=False"],
+        options: ["Features sin escala", "Orden alfabético obligatorio", "Depth ilimitada", "Features scaled y causal=False"],
         correctIndex: 3,
         explanation:
-          "Sin scaling (p. ej. amount_z de S32) los |coef| no son comparables; el signo no prueba causa social ni fraude. SHAP se reserva a S35.",
+          "Sin scaling (p. ej. amount_z de S32) los |coef| no son comparables; el signo no prueba causa social ni fraude.",
       },
       {
         question: "Group CV por entidad evita:",

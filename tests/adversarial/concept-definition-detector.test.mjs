@@ -204,14 +204,44 @@ test('a plural copula with no noun after the numeral is a count, not a definitio
   assert.equal(cue.test(' son dos, y ya las viste'), false)
 })
 
+/**
+ * Find an event by what it says, never by where it sits.
+ *
+ * The first version of the two tests below pinned `advanced-models.theory[10].p1`. The very
+ * next round inserted a teaching block ahead of it, every later index shifted by one, and the
+ * test failed on content that was strictly better - which, because a failing gate restores
+ * the section, would have thrown away a round that took S33 from 27 surprising uses to 1.
+ * A positional id is a fact about the array, not about the course.
+ */
+const definingEvent = (re, term) => {
+  const ev = events.events.find((e) => re.test(e.text ?? ''))
+  assert.ok(ev, `the sentence ${re} must still exist to guard this rule`)
+  return ev.defines.includes(term)
+}
+
 test('a marked term that divides something teaches it, a command line that does not', () => {
   // "La **validación cruzada** (CV) divide los datos en `k` partes" is S33's definition, and
   // `divide` was missing from the verb list, so cross-validation scored never-explained in all
   // 52 sections while the paragraph that teaches it sat in the section it belongs to.
-  assert.ok(defines('advanced-models.theory[10].p1', 'cross-validation'))
+  assert.ok(definingEvent(/\*\*validaci[oó]n cruzada\*\*.{0,12}divide los datos/, 'cross-validation'))
   // The guard that keeps the verb honest: the formatted span still has to be the term itself.
   // "`git commit -m \"docs: …\"` crea un commit" explains a command's effect, not what git is.
-  assert.equal(defines('setup.theory[17].p1', 'git'), false)
+  assert.equal(definingEvent(/`git commit -m "docs: indicar Python 3\.12"` crea/, 'git'), false)
+})
+
+test('a phenomenon defined by when it happens is taught', () => {
+  // "**Overfit** ocurre cuando un modelo aprende demasiado bien los datos…" is how S33 teaches
+  // it. No copula, and `ocurrir` describes no property, so every rule missed it and the
+  // definition of record fell to a learning outcome instead of the block written to teach it.
+  assert.ok(definingEvent(/\*\*Overfit\*\* ocurre cuando/, 'overfitting'))
+})
+
+test('`ocurre` without `cuando` locates a thing rather than defining it', () => {
+  // The guard, asserted on the rule because the course does not currently write the bad shape.
+  const cue = /^[^.!?;]{0,14}?\bocurre[n]? cuando\b/i
+  assert.equal(cue.test(' ocurre cuando un modelo aprende demasiado bien los datos'), true)
+  assert.equal(cue.test(' ocurre en la línea 3'), false)
+  assert.equal(cue.test(' ocurre dos veces por lote'), false)
 })
 
 test('a self-check explanation still cannot introduce a term', () => {
