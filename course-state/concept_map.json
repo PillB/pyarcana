@@ -26929,7 +26929,19 @@
    },
    {
     "section": "S34",
+    "location": "cv-ai-integration.theory[2].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S34",
     "location": "cv-ai-integration.S34-T1-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[5].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -31367,7 +31379,19 @@
    },
    {
     "section": "S34",
+    "location": "cv-ai-integration.theory[2].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S34",
     "location": "cv-ai-integration.S34-T1-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[5].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -41526,6 +41550,12 @@
    },
    {
     "section": "S34",
+    "location": "cv-ai-integration.theory[5].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S34",
     "location": "cv-ai-integration.S34-T3-A.code",
     "kind": "theory.code",
     "visible": true
@@ -49289,6 +49319,12 @@
    {
     "section": "S34",
     "location": "cv-ai-integration.S34-T1-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[5].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -76526,6 +76562,12 @@
    },
    {
     "section": "S34",
+    "location": "cv-ai-integration.theory[2].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S34",
     "location": "cv-ai-integration.S34-T1-A.p1",
     "kind": "theory.paragraph",
     "visible": true
@@ -88962,6 +89004,12 @@
    },
    {
     "section": "S34",
+    "location": "cv-ai-integration.theory[5].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S34",
     "location": "cv-ai-integration.S34-T2-A.code",
     "kind": "theory.code",
     "visible": true
@@ -90083,6 +90131,12 @@
    {
     "section": "S31",
     "location": "streaming-data.S31-T3-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[5].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -118356,8 +118410,26 @@
   "uses": [
    {
     "section": "S34",
-    "location": "cv-ai-integration.outcome[2]",
-    "kind": "outcome",
+    "location": "cv-ai-integration.theory[5].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[5].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[5].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[5].callout",
+    "kind": "theory.callout",
     "visible": true
    },
    {
@@ -118472,6 +118544,12 @@
   "headings": [
    {
     "section": "S34",
+    "location": "cv-ai-integration.theory[5].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S34",
     "location": "cv-ai-integration.S34-T2-A.heading",
     "kind": "theory.heading",
     "visible": true
@@ -118480,8 +118558,8 @@
   "figures": [],
   "first_use": {
    "section": "S34",
-   "location": "cv-ai-integration.outcome[2]",
-   "kind": "outcome",
+   "location": "cv-ai-integration.theory[5].heading",
+   "kind": "theory.heading",
    "visible": true
   },
   "first_definition": {
@@ -118495,8 +118573,26 @@
   "surprising_uses": [
    {
     "section": "S34",
-    "location": "cv-ai-integration.outcome[2]",
-    "kind": "outcome",
+    "location": "cv-ai-integration.theory[5].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[5].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[5].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[5].callout",
+    "kind": "theory.callout",
     "visible": true
    }
   ],
@@ -120912,6 +121008,42 @@
   "uses": [
    {
     "section": "S34",
+    "location": "cv-ai-integration.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[2].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[2].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[2].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[2].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S34",
     "location": "cv-ai-integration.S34-T1-A.p1",
     "kind": "theory.paragraph",
     "visible": true
@@ -120989,7 +121121,14 @@
     "visible": true
    }
   ],
-  "definitions": [],
+  "definitions": [
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[2].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   }
+  ],
   "examples": [],
   "exercises": [],
   "self_checks": [
@@ -121036,94 +121175,34 @@
     "visible": true
    }
   ],
-  "headings": [],
+  "headings": [
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   }
+  ],
   "figures": [],
   "first_use": {
    "section": "S34",
-   "location": "cv-ai-integration.S34-T1-A.p1",
+   "location": "cv-ai-integration.theory[2].heading",
+   "kind": "theory.heading",
+   "visible": true
+  },
+  "first_definition": {
+   "section": "S34",
+   "location": "cv-ai-integration.theory[2].p1",
    "kind": "theory.paragraph",
    "visible": true
   },
-  "first_definition": null,
   "reinforcements": [],
-  "depth": "L0",
+  "depth": "L1",
   "surprising_uses": [
    {
     "section": "S34",
-    "location": "cv-ai-integration.S34-T1-A.p1",
+    "location": "cv-ai-integration.theory[2].p0",
     "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.selfCheck[0].opt[2]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.selfCheck[6].q",
-    "kind": "selfcheck.question",
-    "visible": true
-   },
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.selfCheck[6].opt[0]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.selfCheck[6].opt[1]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.selfCheck[6].opt[2]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.selfCheck[6].opt[3]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.selfCheck[6].explanation",
-    "kind": "selfcheck.explanation",
-    "visible": true
-   },
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.resources.doc[0]",
-    "kind": "resource",
-    "visible": true
-   },
-   {
-    "section": "S36",
-    "location": "ai-apis-advanced.S36-T4-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S36",
-    "location": "ai-apis-advanced.S36-T4-B.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S36",
-    "location": "ai-apis-advanced.S36-T4-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S36",
-    "location": "ai-apis-advanced.S36-T4-B-E3.preamble",
-    "kind": "wedo.preamble",
     "visible": true
    }
   ],
@@ -121135,7 +121214,7 @@
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": null
+  "explanation_lag_sections": 0
  },
  "precision": {
   "id": "precision",
@@ -121503,6 +121582,24 @@
    },
    {
     "section": "S34",
+    "location": "cv-ai-integration.theory[2].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[2].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[2].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S34",
     "location": "cv-ai-integration.S34-T1-A.heading",
     "kind": "theory.heading",
     "visible": true
@@ -121731,6 +121828,12 @@
    },
    {
     "section": "S34",
+    "location": "cv-ai-integration.selfCheck[0].opt[2]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S34",
     "location": "cv-ai-integration.selfCheck[1].opt[1]",
     "kind": "selfcheck.option",
     "visible": true
@@ -121739,6 +121842,12 @@
     "section": "S34",
     "location": "cv-ai-integration.selfCheck[6].q",
     "kind": "selfcheck.question",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.selfCheck[6].opt[0]",
+    "kind": "selfcheck.option",
     "visible": true
    },
    {
@@ -122040,6 +122149,12 @@
     "visible": true
    },
    {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[2].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
     "section": "S35",
     "location": "system-design.S35-T2-A.code",
     "kind": "theory.code",
@@ -122159,6 +122274,12 @@
    },
    {
     "section": "S34",
+    "location": "cv-ai-integration.selfCheck[0].opt[2]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S34",
     "location": "cv-ai-integration.selfCheck[1].opt[1]",
     "kind": "selfcheck.option",
     "visible": true
@@ -122167,6 +122288,12 @@
     "section": "S34",
     "location": "cv-ai-integration.selfCheck[6].q",
     "kind": "selfcheck.question",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.selfCheck[6].opt[0]",
+    "kind": "selfcheck.option",
     "visible": true
    },
    {
@@ -122884,6 +123011,12 @@
    {
     "section": "S34",
     "location": "cv-ai-integration.theory[0].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[2].p0",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -124615,52 +124748,19 @@
  "hyperparameter-tuning": {
   "id": "hyperparameter-tuning",
   "declared_first_section": "ai-apis-advanced",
-  "uses": [
-   {
-    "section": "S36",
-    "location": "ai-apis-advanced.S36-T1-B-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S36",
-    "location": "ai-apis-advanced.S36-T1-B-E3.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   }
-  ],
+  "uses": [],
   "definitions": [],
   "examples": [],
   "exercises": [],
   "self_checks": [],
   "headings": [],
   "figures": [],
-  "first_use": {
-   "section": "S36",
-   "location": "ai-apis-advanced.S36-T1-B-DEMO.why",
-   "kind": "ido.why",
-   "visible": true
-  },
+  "first_use": null,
   "first_definition": null,
   "reinforcements": [],
   "depth": "L0",
-  "surprising_uses": [
-   {
-    "section": "S36",
-    "location": "ai-apis-advanced.S36-T1-B-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S36",
-    "location": "ai-apis-advanced.S36-T1-B-E3.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   }
-  ],
-  "sections_used": [
-   "S36"
-  ],
+  "surprising_uses": [],
+  "sections_used": [],
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
@@ -124670,40 +124770,19 @@
  "standardscaler": {
   "id": "standardscaler",
   "declared_first_section": "ai-apis-advanced",
-  "uses": [
-   {
-    "section": "S36",
-    "location": "ai-apis-advanced.resources.doc[3]",
-    "kind": "resource",
-    "visible": true
-   }
-  ],
+  "uses": [],
   "definitions": [],
   "examples": [],
   "exercises": [],
   "self_checks": [],
   "headings": [],
   "figures": [],
-  "first_use": {
-   "section": "S36",
-   "location": "ai-apis-advanced.resources.doc[3]",
-   "kind": "resource",
-   "visible": true
-  },
+  "first_use": null,
   "first_definition": null,
   "reinforcements": [],
   "depth": "L0",
-  "surprising_uses": [
-   {
-    "section": "S36",
-    "location": "ai-apis-advanced.resources.doc[3]",
-    "kind": "resource",
-    "visible": true
-   }
-  ],
-  "sections_used": [
-   "S36"
-  ],
+  "surprising_uses": [],
+  "sections_used": [],
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
@@ -126876,6 +126955,12 @@
     "section": "S32",
     "location": "microservices.selfCheck[8].opt[2]",
     "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.theory[5].callout",
+    "kind": "theory.callout",
     "visible": true
    },
    {

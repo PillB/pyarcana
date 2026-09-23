@@ -32,7 +32,7 @@ export const section34: CourseSection = {
       text: "Medir precision@k y recall@k de una cola ordenada y detectar overload frente a la capacidad diaria de analistas",
     },
     {
-      text: "Aplicar class weights o resampling solo dentro del fold de train y documentar la política CV-safe (test intacto)",
+      text: "Aplicar pesos por clase o reequilibrar los ejemplos solo dentro del fold de train y documentar la política CV-safe (test intacto)",
     },
     {
       text: "Reportar prevalencia (base rate) junto a P/R y rechazar accuracy como única métrica bajo desbalance",
@@ -78,6 +78,47 @@ export const section34: CourseSection = {
       ],
     },
     {
+      heading: "ROC-AUC: qué mide y qué deja fuera",
+      paragraphs: [
+        "`ROC` abrevia *receiver operating characteristic*; `AUC` significa área bajo la curva. La curva ROC recorre todos los cortes posibles. En cada corte enfrenta el **recall** con la **tasa de falsos positivos**, la fracción `FP/(FP+TN)` de negativos que entrarían por error.",
+        "**ROC-AUC** resume esa curva en un número entre 0 y 1 para medir qué tan bien ordena el score las dos clases sin elegir todavía un corte. También puede leerse así: tomas un positivo y un negativo; ROC-AUC es la fracción de pares en que el positivo recibe mayor score. Un empate cuenta como medio acierto.",
+        "Ejemplo resuelto: los positivos tienen scores `0.9` y `0.7`; los negativos, `0.8` y `0.1`. Las cuatro comparaciones dan `True, True, False, True`: tres aciertos de cuatro, por lo que ROC-AUC es `0.75`. En otro corte, `TP=2`, `FP=10` y `TN=990` producen una tasa de falsos positivos de `0.01`, pero una precision de apenas `2/12 = 0.167`.",
+        "Antes de ejecutar el código, escribe las cuatro comparaciones y predice ambas medidas. Luego cambia el segundo score positivo de `0.7` a `0.85`: lo correcto es obtener cuatro `True` y ROC-AUC `1.0`. Eso prueba un orden perfecto solo para esos cuatro casos; no prueba calibración ni una cola útil en datos nuevos.",
+      ],
+      code: {
+        language: "python",
+        title: "roc_auc_paso_a_paso.py",
+        code: `positive_scores = [0.9, 0.7]
+negative_scores = [0.8, 0.1]
+
+comparisons = [
+    positive > negative
+    for positive in positive_scores
+    for negative in negative_scores
+]
+roc_auc = sum(comparisons) / len(comparisons)
+
+print("comparisons", comparisons)
+print("roc_auc", roc_auc)
+
+tp, fp, tn = 2, 10, 990
+false_positive_rate = fp / (fp + tn)
+precision = tp / (tp + fp)
+print("false_positive_rate", round(false_positive_rate, 3))
+print("precision", round(precision, 3))`,
+        output: `comparisons [True, True, False, True]
+roc_auc 0.75
+false_positive_rate 0.01
+precision 0.167`,
+      },
+      callout: {
+        type: "info",
+        title: "Dos preguntas distintas",
+        content:
+          "ROC-AUC pregunta si el score ordena positivos por encima de negativos a través de todos los cortes. Precision y la familia PR preguntan qué proporción de la cola seleccionada resulta positiva. Para decidir una cola humana necesitas la segunda pregunta, además de capacidad y costo.",
+      },
+    },
+    {
       heading: "Matriz de confusión, precision, recall y F1",
       figure: {
         id: "S34-confusion-cost",
@@ -89,7 +130,7 @@ export const section34: CourseSection = {
       subtopicId: "S34-T1-A",
       paragraphs: [
         "Con **desbalance**, un solo porcentaje de aciertos (accuracy) engaña: si casi nadie necesita revisión, predecir siempre «no revisar» luce genial en el dashboard y no prioriza a nadie. Piensa en la cola como un filtro de calidad, no como un concurso de aciertos globales. **Precision** responde: de lo que mandas a cola, ¿cuánto era realmente positivo? **Recall** responde: de los positivos reales, ¿cuántos atrapaste? **F1** es la media armónica de ambos: castiga cuando uno de los dos se desploma. Cuando el costo de un FN pesa más que el de un FP (perder un caso que sí merecía revisión), la familia se generaliza a **Fβ** con β>1. En el workbench anclamos en F1 y dejamos el desbalance de costos al umbral versionado de T4.",
-        "Operación concreta: a partir de `y` (verdad) y `pred` (decisión binaria) cuentas la matriz completa **TP, FP, FN y TN**. Luego `P = TP/(TP+FP)`, `R = TP/(TP+FN)`, `F1 = 2·P·R/(P+R)` (con cuidado de ceros: si no hay predicciones positivas, P=0; si no hay positivos reales, R=0). **Average precision (AP)** resume el ranking sin fijar un thr: ordenas por score descendente y promedias la precision en cada positivo recuperado. Es el espíritu de la curva precision-recall (PR) y una aproximación a PR-AUC. Es la brújula natural cuando la clase positiva es rara, a diferencia de ROC, que se infla con muchos verdaderos negativos.",
+        "Operación concreta: a partir de `y` (verdad) y `pred` (decisión binaria) cuentas la matriz completa **TP, FP, FN y TN**. Luego `P = TP/(TP+FP)`, `R = TP/(TP+FN)`, `F1 = 2·P·R/(P+R)` (con cuidado de ceros: si no hay predicciones positivas, P=0; si no hay positivos reales, R=0). **Average precision (AP)** resume el ranking sin fijar un thr: ordenas por score descendente y promedias la precision en cada positivo recuperado. Es el espíritu de la curva precision-recall (PR) y una aproximación a PR-AUC. Para una cola con pocos positivos, PR y AP muestran directamente la calidad de lo recuperado; ROC-AUC mide el orden entre clases, pero por sí sola no muestra la precision ni el volumen de trabajo en un corte.",
         "Mini-caso `CASO-LIM-034`: con `y=[1,0]` y `pred=[1,1]` obtienes TP=1, FP=1, FN=0, TN=0 → P=0.5, R=1.0, F1≈0.667. Atrapaste el positivo, pero la mitad de la cola era ruido. El workbench trata costos de FP (cola ruidosa, horas de analista) y FN (miss operativo) por separado en T4. Si solo publicas accuracy, la política responde `REJECT_ACCURACY_ONLY`; si faltan counts, `REQUEST_CONFUSION`.",
       ],
       code: {
@@ -178,6 +219,38 @@ fraud_label False`,
         title: "Qué escribir ahora",
         content:
           "Reporta precision@k y recall@k junto a capacidad. Si load > capacity → REJECT_QUEUE_OVERLOAD; sin capacidad → REQUEST_CAPACITY.",
+      },
+    },
+    {
+      heading: "Resampling: reequilibrar sin tocar el test",
+      paragraphs: [
+        "El **resampling** o remuestreo crea una versión distinta del conjunto de train para que la clase minoritaria no quede casi invisible. Existe porque un modelo puede acertar muchas veces si favorece siempre a la clase numerosa. Repetir ejemplos de la minoría se llama **oversampling**; retirar ejemplos de la mayoría se llama **undersampling**.",
+        "Ejemplo resuelto: train contiene nueve `0` y un `1`. El código repite dos veces el único `1`, así que la nueva versión conserva nueve `0` y pasa de uno a tres `1`. Test permanece `[0, 0, 1]`: sirve para medir el resultado sobre casos que el remuestreo no modificó.",
+        "Antes de ejecutar, cuenta ambas clases y predice las tres líneas. Lo correcto es leer `train_before 9 1`, `train_after 9 3` y `test_unchanged True`. Ese último valor es la comprobación de que el cambio quedó dentro de train.",
+        "Ahora cambia `minority * 2` por `minority * 8` y vuelve a ejecutar. La comprobación correcta es `train_after 9 9`, mientras test sigue intacto. Si también cambia test, no has aplicado resampling dentro del fold: has contaminado la medición.",
+      ],
+      code: {
+        language: "python",
+        title: "resampling_paso_a_paso.py",
+        code: `train_y = [0] * 9 + [1]
+test_y = [0, 0, 1]
+test_before = list(test_y)
+
+minority = [value for value in train_y if value == 1]
+rebalanced_train = train_y + minority * 2
+
+print("train_before", train_y.count(0), train_y.count(1))
+print("train_after", rebalanced_train.count(0), rebalanced_train.count(1))
+print("test_unchanged", test_y == test_before)`,
+        output: `train_before 9 1
+train_after 9 3
+test_unchanged True`,
+      },
+      callout: {
+        type: "warning",
+        title: "El límite que no se cruza",
+        content:
+          "Primero separas train y test; después aplicas resampling solo a train. Si repites o retiras ejemplos antes de separar, la medición deja de representar datos intactos.",
       },
     },
     {
@@ -2411,7 +2484,7 @@ if __name__ == "__main__":
     questions: [
       {
         question: "Con desbalance fuerte en una cola de revisión, conviene priorizar:",
-        options: ["Accuracy, ponderada por el peso de cada clase", "Precision/recall o PR-AUC (familia PR) de la cola", "ROC-AUC, que es invariante al desbalance de clases", "La matriz de confusión sin umbral, para ver todo a la vez"],
+        options: ["Accuracy, ponderada por el peso de cada clase", "Precision/recall o PR-AUC (familia PR) de la cola", "ROC-AUC sola, sin medir la precision ni el tamaño de la cola", "La matriz de confusión sin umbral, para ver todo a la vez"],
         correctIndex: 1,
         explanation:
           "Accuracy engaña con prevalencia baja; P/R y la familia PR describen mejor la cola de revisión.",
@@ -2453,10 +2526,10 @@ if __name__ == "__main__":
       },
       {
         question: "Con clase positiva rara en cola de revisión, ¿por qué preferir familia PR (precision-recall / AP) sobre ROC-AUC sola?",
-        options: ["Porque ROC puede verse optimista cuando los negativos dominan; PR enfoca la cola positiva", "Porque ROC no se puede calcular con clases desbalanceadas", "Porque PR-AUC siempre es mayor que ROC-AUC en estos casos", "Porque ROC exige que las clases estén balanceadas al 50 %"],
+        options: ["Porque ROC-AUC resume el orden entre clases, pero no muestra la precision ni el tamaño de la cola en un corte; PR enfoca los positivos recuperados", "Porque ROC no se puede calcular con clases desbalanceadas", "Porque PR-AUC siempre es mayor que ROC-AUC en estos casos", "Porque ROC exige que las clases estén balanceadas al 50 %"],
         correctIndex: 0,
         explanation:
-          "Con prevalencia baja, muchos verdaderos negativos inflan ROC; PR y average precision miran la calidad de la cola positiva que el workbench prioriza.",
+          "ROC-AUC resume el orden a través de todos los cortes. PR y average precision muestran directamente cuántos positivos recupera la cola y cuánto ruido contiene, que es la decisión operativa del workbench.",
       },
       {
         question: "Si precision@k es alta, pero load > capacity del equipo de analistas, el workbench debe:",

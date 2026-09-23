@@ -579,7 +579,7 @@ print("stable", k_a == k_b)
 score 0.5
 stable True`,
  },
- why: "`max(scores, key=scores.get)` elige k por seed según el score reportado. La igualdad de k entre seeds es un acuerdo de hiperparámetro, no estabilidad de etiquetas (ARI o jitter de centroides). Un silhouette alto no legitima sanción: solo sugiere una partición útil para priorizar revisión. En We Do corregirás `min` por `max`, reportarás multi-seed y no sancionarás por métrica.",
+ why: "`max(scores, key=scores.get)` elige k para cada ejecución según el score reportado. Que dos ejecuciones sobre los mismos datos, pero con distinto punto de inicio, elijan el mismo k solo confirma que coinciden en el número de grupos; no demuestra que cada registro quede en el mismo grupo. Un valor alto de `silhouette` —una medida de qué tan cerca queda cada registro de su propio grupo frente a los demás— no legitima una sanción: solo sugiere una partición útil para priorizar la revisión. En We Do corregirás `min` por `max`, compararás varias ejecuciones y no sancionarás por una métrica.",
  retrospective:
   "Acuerdo de k ≠ ARI ni particiones idénticas: solo dice que dos seeds eligieron el mismo entero. El error clásico es vender un k inestable o sancionar por silhouette. Pregunta: si seed A elige 3 y seed B elige 4, ¿qué reportas al negocio? (sensibilidad a seed, no un «óptimo» fingido.) We Do: argmax, `stable` y `sanction_from_metric False`.",
  },
@@ -1062,9 +1062,9 @@ sanction_from_metric False`,
  edgeCases: ["seeds divergen", "sintético"],
  tests: "Salida alinea con solution output de S36-T1-B-E3 (CASO-LIM-036).",
  feedback:
-  "Stable de k es un acuerdo de hiperparámetro, no ARI de particiones. Invertir `==` a `!=` reporta inestabilidad falsa y empuja a fijar k a ciegas en el notebook de la cola.",
+  "`stable` solo indica que dos ejecuciones sobre los mismos datos, pero con distinto punto de inicio, eligieron el mismo k; no demuestra que cada registro haya quedado en el mismo grupo. Invertir `==` a `!=` reporta una diferencia falsa y empuja a fijar k a ciegas en el notebook de la cola.",
  retrospective:
-  "Stable de k es un acuerdo de hiperparámetro, no ARI. El error clásico es negar la igualdad o confundir k con etiquetas. Pregunta: si seeds divergen, ¿qué reportas al negocio? (sensibilidad a seed, no un k «óptimo» fingido.)",
+  "Que `stable` sea `True` confirma una sola cosa: las dos ejecuciones eligieron el mismo número de grupos. No confirma que hayan formado los mismos grupos. El error clásico es negar la igualdad o confundir k con las asignaciones. Pregunta: si una ejecución elige 3 y otra 4, ¿qué reportas al negocio? Reporta sensibilidad al punto de inicio, no un k «óptimo» fingido.",
  starterCode: {
  language: 'python',
  title: "s36-t1-b-e3.py",
@@ -2146,7 +2146,7 @@ if __name__ == "__main__":
  { label: "sklearn outlier detection", url: "https://scikit-learn.org/stable/modules/outlier_detection.html", note: "IF/LOF; novelty vs. outlier" },
  { label: "sklearn clustering", url: "https://scikit-learn.org/stable/modules/clustering.html", note: "k-means y límites" },
  { label: "sklearn PCA", url: "https://scikit-learn.org/stable/modules/decomposition.html#pca", note: "Proyecciones" },
- { label: "sklearn StandardScaler", url: "https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html", note: "Scale-first antes de distancias" },
+ { label: "sklearn: poner columnas en escala comparable", url: "https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html", note: "Cómo preparar las columnas antes de medir distancias" },
  { label: "Módulo statistics de Python — mean/pstdev", url: "https://docs.python.org/3/library/statistics.html", note: "Reglas σ en stdlib" },
  { label: "Py4E — progressive exercises", url: "https://www.py4e.com", note: "Pedagogía de liberación gradual" }
  ],
