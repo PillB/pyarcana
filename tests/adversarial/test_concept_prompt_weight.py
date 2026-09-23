@@ -23,6 +23,7 @@ guarding on the day the campaign wins rather than blocking it.
 from __future__ import annotations
 
 import json
+import re
 import sys
 import unittest
 from pathlib import Path
@@ -116,6 +117,62 @@ class ConceptPromptWeight(unittest.TestCase):
             any(r["load_bearing"] for r in rows),
             "every never-explained concept came back glossable; that is the inverted flag again",
         )
+
+
+
+class PlaceNameBudget(unittest.TestCase):
+    """The prompt's place-name budget must be the gate's, not a second opinion.
+
+    The budget exists because three concepts rounds were restored over a cap nothing told
+    codex about. It is stated as a number because "do not overuse place names" is
+    unactionable at 53 of 55. That number is only worth stating while it is the same number
+    the gate enforces, so the two copies are compared here rather than trusted.
+    """
+
+    def test_the_prompt_and_the_gate_count_the_same_names(self):
+        sys.path.insert(0, str(ROOT / "tests/adversarial"))
+        import build_concept_prompt as prompt
+        import test_over_localized_language as gate
+
+        self.assertEqual(
+            prompt.PE_CITIES.pattern,
+            gate.PE_CITIES.pattern,
+            "the prompt promises headroom against a different list of names than the gate counts",
+        )
+
+    def test_the_prompt_quotes_the_cap_the_gate_enforces(self):
+        import build_concept_prompt as prompt
+
+        source = (ROOT / "tests/adversarial/test_over_localized_language.py").read_text(encoding="utf-8")
+        caps = {int(n) for n in re.findall(r"assertLessEqual\(\s*count,\s*(\d+)", source)}
+        self.assertEqual(
+            caps,
+            {prompt.PE_CITY_CAP},
+            f"gate caps {caps}, prompt tells codex {prompt.PE_CITY_CAP}",
+        )
+
+    def test_a_saturated_file_is_told_to_add_none(self):
+        import build_concept_prompt as prompt
+
+        tmp = ROOT / "course-state/.place_name_budget_probe.ts"
+        try:
+            tmp.write_text("// " + " ".join(["Lima"] * (prompt.PE_CITY_CAP + 1)), encoding="utf-8")
+            self.assertIn("must add NONE", prompt.place_name_budget(tmp))
+            tmp.write_text("// sin nombres de ciudad", encoding="utf-8")
+            self.assertIn("room for", prompt.place_name_budget(tmp))
+        finally:
+            tmp.unlink(missing_ok=True)
+
+    def test_fixture_ids_do_not_spend_the_budget(self):
+        """The gate ignores `CASO-` lines, so the budget must too, or it under-reports room."""
+        import build_concept_prompt as prompt
+
+        tmp = ROOT / "course-state/.place_name_budget_probe.ts"
+        try:
+            tmp.write_text("\n".join(["// CASO-LIM-017 Lima Lima Lima", "// prosa sin nombres"]), encoding="utf-8")
+            self.assertIn(f"holds 0 of a hard cap of {prompt.PE_CITY_CAP}", prompt.place_name_budget(tmp))
+        finally:
+            tmp.unlink(missing_ok=True)
 
 
 if __name__ == "__main__":

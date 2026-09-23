@@ -29,6 +29,36 @@ def section_file(slug: str) -> Path:
     raise SystemExit(f"no section file for slug {slug!r}")
 
 
+#: Kept in step with PE_CITIES in tests/adversarial/test_over_localized_language.py, which
+#: is the gate. If the two drift, the prompt promises headroom the test will not honour.
+PE_CITIES = re.compile(r"\b(Lima|Cusco|Cuzco|Arequipa|Piura|Tacna|Ayacucho|Trujillo|Chiclayo|Iquitos|Huancayo)\b")
+PE_CITY_CAP = 55
+
+
+def place_name_budget(path: Path) -> str:
+    """How many more Peruvian place names this file can take before the gate fails it.
+
+    Three concepts rounds have been thrown away on this cap, and every one of them wrote in
+    the house style: nothing in the prompt said the limit existed, so codex had no way to
+    know a section was already saturated. The count is stated rather than the rule alone
+    because "do not overuse place names" is unactionable at 53 of 55.
+    """
+    prose = "\n".join(l for l in path.read_text(encoding="utf-8").splitlines() if "CASO-" not in l)
+    used = len(PE_CITIES.findall(prose))
+    left = PE_CITY_CAP - used
+    if left <= 0:
+        return (f"{path.name} already holds {used} place names against a hard cap of "
+                f"{PE_CITY_CAP}. Your new prose must add NONE, and every name you can replace "
+                f"with a role (`region norte`, `la sede`, `sucursal B`) helps.")
+    if left <= 5:
+        return (f"{path.name} holds {used} of a hard cap of {PE_CITY_CAP}. Your new prose may "
+                f"add AT MOST {left}. Prefer a role over a city name; this gate fails the "
+                f"round and the section is restored.")
+    return (f"{path.name} holds {used} of a hard cap of {PE_CITY_CAP}, so there is room for "
+            f"about {left}. Names counted: Lima, Cusco/Cuzco, Arequipa, Piura, Tacna, "
+            f"Ayacucho, Trujillo, Chiclayo, Iquitos, Huancayo.")
+
+
 def concept_row(cid: str, c: dict, tag: str) -> dict | None:
     """One concept's entry in this section's prompt, or None if it is not a problem here.
 
@@ -203,6 +233,9 @@ answer `self_critique` about the revised text.
 
 ===== DISTILLED WRITING RULES (binding) =====
 {rules}
+
+===== THIS FILE'S PLACE-NAME BUDGET (hard gate, H1) =====
+{place_name_budget(path)}
 """)
     return 0
 
