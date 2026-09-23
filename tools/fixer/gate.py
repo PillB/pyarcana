@@ -95,7 +95,19 @@ def measure(tag: str) -> dict:
 
     cmap = fresh_report(["python3", "scripts/concept_map.py"], ROOT / "course-state/concept_map.json")
     never = sum(1 for c in cmap.values() if c["depth"] == "L0")
+    # Concepts explained somewhere but used before that. Reported, not gated: it and `never`
+    # count two halves of one population, so teaching a never-explained concept moves it from
+    # the first to the second and reads as a regression on a round that improved the course.
+    # S17's concepts round taught `reshape`, whose only remaining uses were its own section's
+    # tagline and jobRelevance: never 14 -> 13, this 40 -> 41, and a round that removed 14
+    # surprising uses course-wide was restored. Any concept its own tagline names was
+    # structurally impossible to teach.
     surprising = sum(1 for c in cmap.values() if c["depth"] != "L0" and c["surprising_uses"])
+    # What that pair was reaching for, counted as the harm rather than as buckets: how many
+    # times in the whole course a learner meets a word before anything explains it. It is
+    # stricter than the concept count it replaces - every use counts, not just the first -
+    # and it still may not rise. 420 -> 406 on the round described above.
+    surprising_total = sum(len(c["surprising_uses"]) for c in cmap.values())
     here = sum(1 for c in cmap.values() for u in c["surprising_uses"] if u["section"] == tag)
 
     prose = fresh_report(["python3", "scripts/prose_quality_audit.py", tag],
@@ -119,7 +131,8 @@ def measure(tag: str) -> dict:
     return {
         "identifier_values_in_section": ids_here,
         "never_explained": never,
-        "used_before_explained": surprising,
+        "surprising_uses_course_wide": surprising_total,
+        f"{INFORMATIONAL}used_before_explained": surprising,
         "surprising_uses_in_section": here,
         "run_on_sentences": prose.get("run_on_sentences"),
         # Writing rule B5 as it is written: a noun doing a verb's job. The raw -ción/-miento
