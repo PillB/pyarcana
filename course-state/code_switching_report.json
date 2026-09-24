@@ -318,10 +318,10 @@
  },
  "S10": {
   "section": "S10",
-  "prose_words": 6093,
+  "prose_words": 6258,
   "english_function_words": 1,
   "ordinary_english_words": 6,
-  "kept_technical_terms": 37,
+  "kept_technical_terms": 34,
   "avoidable_english_per_1000": 1.1,
   "top_terms": [
    [

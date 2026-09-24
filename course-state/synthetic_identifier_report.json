@@ -5,50 +5,50 @@
   "violations": 8,
   "findings": [
     {
-      "file": "src/lib/course/sections/s03-data-structures.ts",
-      "line": 1588,
+      "file": "src/lib/course/sections/s03-decisions-rules.ts",
+      "line": 1641,
       "value": "12345678",
       "excerpt": " `tipo_doc_len(tipo, numero)` con dicts de resultado.\\n2. Usa `DOC_LEN` para la longitud esperada.\\n3. Prueba: `(\"DNI\",\"12345678\")`, `(\"DNI\",\"123\")`, `(\"RUC\",\"20123456789\")`, `(Non"
     },
     {
-      "file": "src/lib/course/sections/s03-data-structures.ts",
-      "line": 1612,
+      "file": "src/lib/course/sections/s03-decisions-rules.ts",
+      "line": 1665,
       "value": "12345678",
       "excerpt": " dict {status, code} if tipo not in ALLOWED_DOC: return \"reject\" return \"accept\" for t, n in [(\"DNI\", \"12345678\"), (\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]: print(t, n,"
     },
     {
-      "file": "src/lib/course/sections/s03-data-structures.ts",
-      "line": 1631,
+      "file": "src/lib/course/sections/s03-decisions-rules.ts",
+      "line": 1684,
       "value": "12345678",
       "excerpt": "eturn {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"} return {\"status\": \"accept\", \"code\": \"OK\"} for t, n in [(\"DNI\", \"12345678\"), (\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]:"
     },
     {
-      "file": "src/lib/course/sections/s03-data-structures.ts",
-      "line": 1633,
+      "file": "src/lib/course/sections/s03-decisions-rules.ts",
+      "line": 1686,
       "value": "12345678",
       "excerpt": "(\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]: print(t, n, \"→\", tipo_doc_len(t, n))`, output: `DNI 12345678 → {'status': 'accept', 'code': 'OK'} DNI 123 → {'status': 'reject"
     },
     {
-      "file": "src/lib/course/sections/s09-visualization.ts",
-      "line": 1381,
+      "file": "src/lib/course/sections/s09-exceptions-logging.ts",
+      "line": 1442,
       "value": "12345678",
       "excerpt": "r: if not (d.isdigit() and len(d) == 8): raise ValueError(f\"dni inválido: {d!r}\") return d fixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"] minimal = fixture[0] print(\"minimal"
     },
     {
-      "file": "src/lib/course/sections/s09-visualization.ts",
-      "line": 1381,
+      "file": "src/lib/course/sections/s09-exceptions-logging.ts",
+      "line": 1442,
       "value": "87654321",
       "excerpt": "digit() and len(d) == 8): raise ValueError(f\"dni inválido: {d!r}\") return d fixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"] minimal = fixture[0] print(\"minimal\", minimal) `, "
     },
     {
-      "file": "src/lib/course/sections/s09-visualization.ts",
-      "line": 1394,
+      "file": "src/lib/course/sections/s09-exceptions-logging.ts",
+      "line": 1455,
       "value": "12345678",
       "excerpt": "r: if not (d.isdigit() and len(d) == 8): raise ValueError(f\"dni inválido: {d!r}\") return d fixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"] minimal = None for d in fixture: tr"
     },
     {
-      "file": "src/lib/course/sections/s09-visualization.ts",
-      "line": 1394,
+      "file": "src/lib/course/sections/s09-exceptions-logging.ts",
+      "line": 1455,
       "value": "87654321",
       "excerpt": "digit() and len(d) == 8): raise ValueError(f\"dni inválido: {d!r}\") return d fixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"] minimal = None for d in fixture: try: parse_dni(d)"
     }

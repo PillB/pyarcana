@@ -416,8 +416,12 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'pytest',
     aliases: ["pytest"],
     category: 'Tooling',
-    definition: 'Framework de testing para Python. Más simple que unittest. Descubre automáticamente test_*.py.',
-    firstSectionId: 'async-concurrency',
+    definition: 'Herramienta que ejecuta comprobaciones escritas en Python y muestra cuáles pasan o fallan. Descubre automáticamente los archivos test_*.py.',
+    // S10, not S27. S10-T2-B-E2 asks the learner to classify `pytest` as a development
+    // dependency, and the section now teaches it there: what it does, `pip install pytest`,
+    // `python -m pytest -q`, reading `1 passed`, breaking it to see `1 failed`. Declaring
+    // S27 withheld the hover through seventeen sections of first contact.
+    firstSectionId: 'modules-packaging-cli',
   },
   {
     id: 'coverage',

@@ -14,17 +14,17 @@
   "v3_tagged_sections": [
     "setup",
     "basics",
-    "data-structures",
-    "functions-modules",
-    "oop",
-    "numpy",
-    "data-acquisition",
-    "pandas",
-    "visualization",
-    "sklearn",
-    "testing",
-    "performance",
-    "rpa-automation",
+    "decisions-rules",
+    "iteration-summaries",
+    "functions-contracts",
+    "collections",
+    "text-unicode-regex",
+    "files-ingestion",
+    "exceptions-logging",
+    "modules-packaging-cli",
+    "oop-domain",
+    "apis-sql-geo",
+    "evidence-dashboard",
     "security",
     "stdlib-deep",
     "wxpython-gui",
@@ -83,40 +83,32 @@
       "v3_tagged": true
     },
     {
-      "section_id": "data-structures",
-      "file": "src/lib/course/sections/s03-data-structures.ts",
+      "section_id": "decisions-rules",
+      "file": "src/lib/course/sections/s03-decisions-rules.ts",
       "subtopics": 8,
       "demos": 8,
       "exercises": 24,
       "v3_tagged": true
     },
     {
-      "section_id": "functions-modules",
-      "file": "src/lib/course/sections/s04-functions-modules.ts",
+      "section_id": "iteration-summaries",
+      "file": "src/lib/course/sections/s04-iteration-summaries.ts",
       "subtopics": 8,
       "demos": 8,
       "exercises": 24,
       "v3_tagged": true
     },
     {
-      "section_id": "oop",
-      "file": "src/lib/course/sections/s05-oop.ts",
+      "section_id": "functions-contracts",
+      "file": "src/lib/course/sections/s05-functions-contracts.ts",
       "subtopics": 8,
       "demos": 8,
       "exercises": 24,
       "v3_tagged": true
     },
     {
-      "section_id": "numpy",
-      "file": "src/lib/course/sections/s06-numpy.ts",
-      "subtopics": 8,
-      "demos": 8,
-      "exercises": 24,
-      "v3_tagged": true
-    },
-    {
-      "section_id": "data-acquisition",
-      "file": "src/lib/course/sections/s07-data-acquisition.ts",
+      "section_id": "collections",
+      "file": "src/lib/course/sections/s06-collections.ts",
       "subtopics": 8,
       "demos": 8,
       "exercises": 24,
@@ -131,8 +123,16 @@
       "v3_tagged": false
     },
     {
-      "section_id": "pandas",
-      "file": "src/lib/course/sections/s08-pandas.ts",
+      "section_id": "text-unicode-regex",
+      "file": "src/lib/course/sections/s07-text-unicode-regex.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "files-ingestion",
+      "file": "src/lib/course/sections/s08-files-ingestion.ts",
       "subtopics": 8,
       "demos": 8,
       "exercises": 24,
@@ -147,6 +147,14 @@
       "v3_tagged": false
     },
     {
+      "section_id": "exceptions-logging",
+      "file": "src/lib/course/sections/s09-exceptions-logging.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
       "section_id": "sklearn",
       "file": "src/lib/course/sections/s09-sklearn.ts",
       "subtopics": 0,
@@ -155,16 +163,8 @@
       "v3_tagged": false
     },
     {
-      "section_id": "visualization",
-      "file": "src/lib/course/sections/s09-visualization.ts",
-      "subtopics": 8,
-      "demos": 8,
-      "exercises": 24,
-      "v3_tagged": true
-    },
-    {
-      "section_id": "sklearn",
-      "file": "src/lib/course/sections/s10-sklearn.ts",
+      "section_id": "modules-packaging-cli",
+      "file": "src/lib/course/sections/s10-modules-packaging-cli.ts",
       "subtopics": 8,
       "demos": 8,
       "exercises": 24,
@@ -187,24 +187,24 @@
       "v3_tagged": false
     },
     {
-      "section_id": "testing",
-      "file": "src/lib/course/sections/s11-testing.ts",
+      "section_id": "oop-domain",
+      "file": "src/lib/course/sections/s11-oop-domain.ts",
       "subtopics": 8,
       "demos": 8,
       "exercises": 24,
       "v3_tagged": true
     },
     {
-      "section_id": "performance",
-      "file": "src/lib/course/sections/s12-performance.ts",
+      "section_id": "apis-sql-geo",
+      "file": "src/lib/course/sections/s12-apis-sql-geo.ts",
       "subtopics": 8,
       "demos": 8,
       "exercises": 24,
       "v3_tagged": true
     },
     {
-      "section_id": "rpa-automation",
-      "file": "src/lib/course/sections/s13-rpa-automation.ts",
+      "section_id": "evidence-dashboard",
+      "file": "src/lib/course/sections/s13-evidence-dashboard.ts",
       "subtopics": 8,
       "demos": 8,
       "exercises": 24,
@@ -526,12 +526,7 @@
   "seed_concepts_per_section": {
     "setup": 8,
     "basics": 8,
-    "oop": 8,
-    "numpy": 8,
-    "pandas": 8,
-    "visualization": 8,
-    "sklearn": 8,
-    "testing": 8
+    "collections": 8
   },
   "failures": [],
   "warnings": [],

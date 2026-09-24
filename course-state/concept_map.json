@@ -2953,6 +2953,12 @@
    },
    {
     "section": "S10",
+    "location": "modules-packaging-cli.theory[5].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S10",
     "location": "modules-packaging-cli.S10-T2-B.code",
     "kind": "theory.code",
     "visible": true
@@ -2967,6 +2973,12 @@
     "section": "S10",
     "location": "modules-packaging-cli.S10-T3-B.code",
     "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S10",
+    "location": "modules-packaging-cli.S10-T4-A.p2",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -72043,6 +72055,12 @@
    },
    {
     "section": "S10",
+    "location": "modules-packaging-cli.theory[5].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S10",
     "location": "modules-packaging-cli.youDo.requirement[0]",
     "kind": "youdo.requirement",
     "visible": true
@@ -81897,6 +81915,12 @@
    },
    {
     "section": "S10",
+    "location": "modules-packaging-cli.theory[5].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S10",
     "location": "modules-packaging-cli.S10-T2-A-DEMO.preamble",
     "kind": "ido.preamble",
     "visible": true
@@ -82947,6 +82971,12 @@
     "section": "S10",
     "location": "modules-packaging-cli.S10-T2-A.code",
     "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S10",
+    "location": "modules-packaging-cli.theory[5].p3",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -86728,8 +86758,38 @@
  },
  "pytest": {
   "id": "pytest",
-  "declared_first_section": "async-concurrency",
+  "declared_first_section": "modules-packaging-cli",
   "uses": [
+   {
+    "section": "S10",
+    "location": "modules-packaging-cli.theory[5].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S10",
+    "location": "modules-packaging-cli.theory[5].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S10",
+    "location": "modules-packaging-cli.theory[5].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S10",
+    "location": "modules-packaging-cli.theory[5].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S10",
+    "location": "modules-packaging-cli.theory[5].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
    {
     "section": "S10",
     "location": "modules-packaging-cli.S10-T2-B-E1.retrospective",
@@ -87159,6 +87219,18 @@
   ],
   "definitions": [
    {
+    "section": "S10",
+    "location": "modules-packaging-cli.theory[5].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S10",
+    "location": "modules-packaging-cli.theory[5].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
     "section": "S27",
     "location": "async-concurrency.S27-T1-A.p0",
     "kind": "theory.paragraph",
@@ -87245,6 +87317,12 @@
   ],
   "headings": [
    {
+    "section": "S10",
+    "location": "modules-packaging-cli.theory[5].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
     "section": "S27",
     "location": "async-concurrency.theory[4].heading",
     "kind": "theory.heading",
@@ -87260,74 +87338,19 @@
   "figures": [],
   "first_use": {
    "section": "S10",
-   "location": "modules-packaging-cli.S10-T2-B-E1.retrospective",
-   "kind": "wedo.retrospective",
+   "location": "modules-packaging-cli.theory[5].heading",
+   "kind": "theory.heading",
    "visible": true
   },
   "first_definition": {
-   "section": "S27",
-   "location": "async-concurrency.S27-T1-A.p0",
-   "kind": "theory.paragraph",
+   "section": "S10",
+   "location": "modules-packaging-cli.theory[5].heading",
+   "kind": "theory.heading",
    "visible": true
   },
   "reinforcements": [],
   "depth": "L2",
-  "surprising_uses": [
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T2-B-E1.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T2-B-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T2-B-E2.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T2-B-E2.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T2-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S27",
-    "location": "async-concurrency.tagline",
-    "kind": "tagline",
-    "visible": true
-   },
-   {
-    "section": "S27",
-    "location": "async-concurrency.jobRelevance",
-    "kind": "jobRelevance",
-    "visible": true
-   },
-   {
-    "section": "S27",
-    "location": "async-concurrency.outcome[2]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S27",
-    "location": "async-concurrency.theory[1].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S10",
    "S27",
@@ -87340,7 +87363,7 @@
   "figure_target": 5,
   "figure_count": 0,
   "figure_gap": 5,
-  "explanation_lag_sections": 17
+  "explanation_lag_sections": 0
  },
  "coverage": {
   "id": "coverage",
@@ -114605,26 +114628,14 @@
    },
    {
     "section": "S10",
-    "location": "modules-packaging-cli.S10-T4-A-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T4-A-E1.retrospective",
-    "kind": "wedo.retrospective",
+    "location": "modules-packaging-cli.S10-T4-A.p2",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S10",
     "location": "modules-packaging-cli.S10-T4-A-E2.title",
     "kind": "wedo.title",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T4-A-E2.instruction",
-    "kind": "wedo.instruction",
     "visible": true
    },
    {
@@ -115462,12 +115473,6 @@
   ],
   "exercises": [
    {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T4-A-E2.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
     "section": "S17",
     "location": "packaging.S17-T1-A-E1.instruction",
     "kind": "wedo.instruction",
@@ -115604,26 +115609,14 @@
    },
    {
     "section": "S10",
-    "location": "modules-packaging-cli.S10-T4-A-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T4-A-E1.retrospective",
-    "kind": "wedo.retrospective",
+    "location": "modules-packaging-cli.S10-T4-A.p2",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S10",
     "location": "modules-packaging-cli.S10-T4-A-E2.title",
     "kind": "wedo.title",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T4-A-E2.instruction",
-    "kind": "wedo.instruction",
     "visible": true
    },
    {
@@ -116495,18 +116488,6 @@
    },
    {
     "section": "S10",
-    "location": "modules-packaging-cli.S10-T4-A-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T4-A-E1.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S10",
     "location": "modules-packaging-cli.S10-T4-A-E1.hint[1]",
     "kind": "wedo.hint",
     "visible": true
@@ -116778,6 +116759,12 @@
   ],
   "definitions": [
    {
+    "section": "S10",
+    "location": "modules-packaging-cli.S10-T4-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
     "section": "S32",
     "location": "microservices.S32-T3-B-DEMO.why",
     "kind": "ido.why",
@@ -116793,12 +116780,6 @@
    }
   ],
   "exercises": [
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T4-A-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
    {
     "section": "S11",
     "location": "oop-domain.S11-T3-B-E2.instruction",
@@ -116834,147 +116815,14 @@
    "visible": true
   },
   "first_definition": {
-   "section": "S32",
-   "location": "microservices.S32-T3-B-DEMO.why",
-   "kind": "ido.why",
+   "section": "S10",
+   "location": "modules-packaging-cli.S10-T4-A-E1.preamble",
+   "kind": "wedo.preamble",
    "visible": true
   },
   "reinforcements": [],
   "depth": "L2",
-  "surprising_uses": [
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T4-A-E1.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T4-A-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T4-A-E1.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T4-A-E1.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S10",
-    "location": "modules-packaging-cli.S10-T4-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T3-B-E2.title",
-    "kind": "wedo.title",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T3-B-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T3-B-E2.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T3-B-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T3-B-E2.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T3-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.S22-T4-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.S22-T4-A-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.S22-T4-A-E2.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.S22-T4-A-E3.title",
-    "kind": "wedo.title",
-    "visible": true
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.S22-T4-A-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.S22-T4-A-E3.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.S22-T4-A-E3.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.S22-T4-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S22",
-    "location": "rapidfuzz-entity.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-B.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-B-DEMO.description",
-    "kind": "ido.description",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S10",
    "S11",
@@ -116987,7 +116835,7 @@
   "figure_target": 5,
   "figure_count": 0,
   "figure_gap": 5,
-  "explanation_lag_sections": 22
+  "explanation_lag_sections": 0
  },
  "eda": {
   "id": "eda",

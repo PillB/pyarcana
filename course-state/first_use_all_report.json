@@ -1,93 +1,85 @@
 {
   "ok": false,
   "sections_audited": 52,
-  "terms_audited": 95,
-  "events_audited": 22579,
+  "terms_audited": 106,
+  "events_audited": 22805,
   "issue_counts": {
-    "DEFINITION_AFTER_REQUIREMENT": 14,
-    "NO_VISIBLE_DEFINITION": 25,
-    "USE_BEFORE_DEFINITION": 43
+    "DEFINITION_AFTER_REQUIREMENT": 9,
+    "NO_VISIBLE_DEFINITION": 7,
+    "USE_BEFORE_DEFINITION": 37
   },
   "never_defined_but_mentioned": [
-    "boolean-masking",
-    "broadcasting",
-    "context-manager",
-    "correlaci-n",
-    "counter",
-    "cross-validation",
-    "decorador",
-    "defaultdict",
-    "dict-comprehension",
+    "distribuci-n-normal",
     "estimando",
     "generator",
-    "guardrail",
-    "hyperparameter-tuning",
-    "iloc-vs-loc",
     "joblib",
-    "list-comprehension",
     "namedtuple",
-    "notebook",
     "onehotencoder",
-    "p-value",
-    "pyodide",
-    "resample",
-    "roc-auc",
-    "row-group",
-    "standardscaler"
+    "reshape"
   ],
   "issues": [
     {
       "code": "USE_BEFORE_DEFINITION",
-      "term_id": "variable",
+      "term_id": "function",
       "severity": "P1",
-      "location": "data-structures.S03-T3-A.p0",
-      "definition_location": "functions-modules.S04-T2-A-E2.hint"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "list-comprehension",
-      "severity": "P1",
-      "location": "functions-modules.S04-T3-B-E2.instruction"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "dict-comprehension",
-      "severity": "P1",
-      "location": "functions-modules.S04-T3-B-E3.hint"
+      "location": "setup.S01-T4-B-DEMO.retrospective",
+      "definition_location": "basics.theory[0].callout"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
-      "term_id": "f-string",
+      "term_id": "annotation",
       "severity": "P1",
-      "location": "basics.S02-T4-A-DEMO.preamble",
-      "definition_location": "basics.S02-T4-A-E1.preamble"
+      "location": "functions-contracts.outcome[3]",
+      "definition_location": "oop-domain.S11-T1-A.p1"
+    },
+    {
+      "code": "USE_BEFORE_DEFINITION",
+      "term_id": "for",
+      "severity": "P1",
+      "location": "basics.S02-T1-A-DEMO.code",
+      "definition_location": "iteration-summaries.S04-T1-A-E2.preamble"
+    },
+    {
+      "code": "DEFINITION_AFTER_REQUIREMENT",
+      "term_id": "for",
+      "severity": "P1",
+      "location": "basics.S02-T1-A-E1.instruction",
+      "definition_location": "iteration-summaries.S04-T1-A-E2.preamble"
+    },
+    {
+      "code": "USE_BEFORE_DEFINITION",
+      "term_id": "list-comprehension",
+      "severity": "P1",
+      "location": "iteration-summaries.outcome[5]",
+      "definition_location": "iteration-summaries.theory[7].p0"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "slicing",
       "severity": "P1",
-      "location": "numpy.outcome[0]",
-      "definition_location": "numpy.S06-T1-A.p1"
+      "location": "collections.outcome[0]",
+      "definition_location": "collections.S06-T1-A.p1"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "truthiness",
       "severity": "P1",
-      "location": "basics.S02-T2-A-E2.preamble",
-      "definition_location": "data-structures.S03-T1-B-E1.instruction"
+      "location": "decisions-rules.tagline",
+      "definition_location": "decisions-rules.theory[0].p2"
+    },
+    {
+      "code": "USE_BEFORE_DEFINITION",
+      "term_id": "if",
+      "severity": "P1",
+      "location": "setup.S01-T1-B#6.code",
+      "definition_location": "basics.S02-T2-A-DEMO.why"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "dunder-method",
       "severity": "P1",
-      "location": "sklearn.S10-T1-B.p0",
-      "definition_location": "performance.S12-T1-A.code"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "decorador",
-      "severity": "P1",
-      "location": "testing.S11-T1-A.p0"
+      "location": "oop-domain.S11-T1-A.p0",
+      "definition_location": "oop-domain.S11-T1-B.p0"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
@@ -96,154 +88,95 @@
       "location": "data-engineering.S18-T2-B-E3.hint[1]"
     },
     {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "context-manager",
-      "severity": "P1",
-      "location": "performance-extreme.S38-T2-B-E2.hint"
-    },
-    {
       "code": "USE_BEFORE_DEFINITION",
-      "term_id": "abc",
+      "term_id": "return",
       "severity": "P1",
-      "location": "basics.S02-T1-B.p2",
-      "definition_location": "basics.S02-T3-B-E3.retrospective"
+      "location": "basics.theory[1].code",
+      "definition_location": "decisions-rules.theory[3].p3"
     },
     {
       "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "abc",
+      "term_id": "return",
       "severity": "P1",
-      "location": "basics.S02-T3-B-E3.tests",
-      "definition_location": "basics.S02-T3-B-E3.retrospective"
+      "location": "basics.S02-T4-A-E3.instruction",
+      "definition_location": "decisions-rules.theory[3].p3"
+    },
+    {
+      "code": "USE_BEFORE_DEFINITION",
+      "term_id": "exception",
+      "severity": "P1",
+      "location": "basics.theory[1].p3",
+      "definition_location": "decisions-rules.S03-T2-B.p0"
+    },
+    {
+      "code": "DEFINITION_AFTER_REQUIREMENT",
+      "term_id": "exception",
+      "severity": "P1",
+      "location": "basics.S02-T1-B-E2.hint",
+      "definition_location": "decisions-rules.S03-T2-B.p0"
+    },
+    {
+      "code": "USE_BEFORE_DEFINITION",
+      "term_id": "parameter",
+      "severity": "P1",
+      "location": "basics.S02-T4-A-E3.hint",
+      "definition_location": "decisions-rules.theory[3].p1"
+    },
+    {
+      "code": "DEFINITION_AFTER_REQUIREMENT",
+      "term_id": "parameter",
+      "severity": "P1",
+      "location": "basics.S02-T4-A-E3.hint",
+      "definition_location": "decisions-rules.theory[3].p1"
+    },
+    {
+      "code": "USE_BEFORE_DEFINITION",
+      "term_id": "repositorio-repo",
+      "severity": "P1",
+      "location": "setup.outcome[5]",
+      "definition_location": "setup.theory[0].p3"
+    },
+    {
+      "code": "USE_BEFORE_DEFINITION",
+      "term_id": "github",
+      "severity": "P1",
+      "location": "setup.outcome[5]",
+      "definition_location": "setup.theory[8].p4"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "interprete",
       "severity": "P1",
-      "location": "setup.jobRelevance",
+      "location": "setup.tagline",
       "definition_location": "setup.outcome[0]"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
-      "term_id": "repl",
-      "severity": "P1",
-      "location": "setup.outcome[0]",
-      "definition_location": "setup.S01-T1-A.p1"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "pip",
-      "severity": "P1",
-      "location": "setup.theory[0].p1",
-      "definition_location": "setup.S01-T1-B.p2"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "dependencias",
-      "severity": "P1",
-      "location": "setup.theory[0].p0",
-      "definition_location": "stdlib-deep.youDo.requirement[7]"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "dependencias",
-      "severity": "P1",
-      "location": "sklearn.S10-T2-B-E2.instruction",
-      "definition_location": "stdlib-deep.youDo.requirement[7]"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "conventional-commits",
-      "severity": "P1",
-      "location": "setup.S01-T3-A.p1",
-      "definition_location": "setup.selfCheck[2].explanation"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "conventional-commits",
-      "severity": "P1",
-      "location": "setup.S01-T3-A-E1.instruction",
-      "definition_location": "setup.selfCheck[2].explanation"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "terminal-shell",
-      "severity": "P1",
-      "location": "setup.jobRelevance",
-      "definition_location": "setup.theory[0].p2"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "ruff",
-      "severity": "P1",
-      "location": "setup.outcome[4]",
-      "definition_location": "setup.theory[7].code"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "vs-code",
-      "severity": "P1",
-      "location": "setup.outcome[4]",
-      "definition_location": "setup.theory[7].code"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "notebook",
-      "severity": "P1",
-      "location": "data-engineering.youDo.objective[5]"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "pytest",
-      "severity": "P1",
-      "location": "sklearn.S10-T2-B-E1.retrospective",
-      "definition_location": "async-concurrency.S27-T2-A.code"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "pytest",
-      "severity": "P1",
-      "location": "sklearn.S10-T2-B-E2.hint[0]",
-      "definition_location": "async-concurrency.S27-T2-A.code"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
       "term_id": "coverage",
       "severity": "P1",
-      "location": "data-structures.S03-T4-A.p2",
-      "definition_location": "rpa-advanced.S24-T4-A-E3.preamble"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "coverage",
-      "severity": "P1",
-      "location": "data-engineering.youDo.objective[1]",
+      "location": "rpa-advanced.S24-T4-A.callout",
       "definition_location": "rpa-advanced.S24-T4-A-E3.preamble"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
-      "term_id": "tuple",
+      "term_id": "dict",
       "severity": "P1",
-      "location": "basics.youDo.starter",
-      "definition_location": "numpy.S06-T1-A-DEMO.code"
+      "location": "basics.S02-T2-B.callout",
+      "definition_location": "iteration-summaries.S04-T4-A-E3.preamble"
+    },
+    {
+      "code": "DEFINITION_AFTER_REQUIREMENT",
+      "term_id": "dict",
+      "severity": "P1",
+      "location": "basics.S02-T1-A-E3.instruction",
+      "definition_location": "iteration-summaries.S04-T4-A-E3.preamble"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "set",
       "severity": "P1",
       "location": "setup.S01-T4-A-E3.starter",
-      "definition_location": "functions-modules.S04-T3-B-E2.title"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "defaultdict",
-      "severity": "P1",
-      "location": "streaming-data.S31-T2-A-E2.instruction"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "counter",
-      "severity": "P1",
-      "location": "pandas.S08-T2-B-E3.instruction"
+      "definition_location": "decisions-rules.S03-T1-A.p2"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
@@ -259,30 +192,24 @@
       "definition_location": "security.S14-T4-A.p0"
     },
     {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "broadcasting",
-      "severity": "P1",
-      "location": "security.youDo.objective[1]"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "boolean-masking",
-      "severity": "P1",
-      "location": "security.selfCheck[1].q"
-    },
-    {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "shape",
       "severity": "P1",
-      "location": "numpy.S06-T1-B.p0",
-      "definition_location": "security.S14-T1-A.p0"
+      "location": "collections.S06-T3-A.callout",
+      "definition_location": "collections.S06-T3-A-E3.title"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "dtype",
       "severity": "P1",
       "location": "security.outcome[0]",
-      "definition_location": "security.S14-T1-A.p0"
+      "definition_location": "security.theory[0].p1"
+    },
+    {
+      "code": "NO_VISIBLE_DEFINITION",
+      "term_id": "reshape",
+      "severity": "P1",
+      "location": "packaging.youDo.objective[2]"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
@@ -300,165 +227,94 @@
     },
     {
       "code": "USE_BEFORE_DEFINITION",
-      "term_id": "groupby",
-      "severity": "P1",
-      "location": "stdlib-deep.S15-T1-A.p2",
-      "definition_location": "packaging.S17-T3-A.p1"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "groupby",
-      "severity": "P1",
-      "location": "wxpython-gui.S16-T2-A-E2.hint",
-      "definition_location": "packaging.S17-T3-A.p1"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
       "term_id": "merge",
       "severity": "P1",
-      "location": "setup.youDo.objective[3]",
-      "definition_location": "packaging.S17-T1-A.p2"
+      "location": "collections.S06-T2-A-E3.preamble",
+      "definition_location": "packaging.S17-T1-A.p0"
     },
     {
       "code": "DEFINITION_AFTER_REQUIREMENT",
       "term_id": "merge",
       "severity": "P1",
-      "location": "setup.youDo.objective[3]",
-      "definition_location": "packaging.S17-T1-A.p2"
+      "location": "text-unicode-regex.S07-T4-A-E3.hint[1]",
+      "definition_location": "packaging.S17-T1-A.p0"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "pivot-table",
       "severity": "P1",
-      "location": "packaging.S17-T2-A.heading",
-      "definition_location": "packaging.S17-T2-B.code"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "iloc-vs-loc",
-      "severity": "P1",
-      "location": "stdlib-deep.S15-T1-A-E2.instruction"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "apply",
-      "severity": "P1",
-      "location": "sklearn.S10-T4-A-E1.preamble",
-      "definition_location": "rapidfuzz-entity.S22-T4-A.code"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "apply",
-      "severity": "P1",
-      "location": "sklearn.S10-T4-A-E1.instruction",
-      "definition_location": "rapidfuzz-entity.S22-T4-A.code"
+      "location": "packaging.theory[5].heading",
+      "definition_location": "packaging.iDo.intro"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "eda",
       "severity": "P1",
       "location": "stdlib-deep.youDo.context",
-      "definition_location": "wxpython-gui.S16-T1-A.p0"
+      "definition_location": "data-engineering.jobRelevance"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
-      "term_id": "missing-values",
-      "severity": "P1",
-      "location": "visualization.S09-T1-A-E2.preamble",
-      "definition_location": "security.S14-T3-B-E3.instruction"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "missing-values",
-      "severity": "P1",
-      "location": "visualization.S09-T1-A-E2.hint[1]",
-      "definition_location": "security.S14-T3-B-E3.instruction"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
       "term_id": "resample",
       "severity": "P1",
-      "location": "cv-ai-integration.S34-T2-A-E2.hint"
+      "location": "cv-ai-integration.theory[5].heading",
+      "definition_location": "cv-ai-integration.S34-T2-A.p0"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "pipeline",
       "severity": "P1",
-      "location": "setup.S01-T1-B.p2",
-      "definition_location": "basics.S02-T1-B-E3.instruction"
+      "location": "basics.theory[2].p0",
+      "definition_location": "functions-contracts.S05-T1-A.callout"
     },
     {
-      "code": "NO_VISIBLE_DEFINITION",
+      "code": "DEFINITION_AFTER_REQUIREMENT",
+      "term_id": "pipeline",
+      "severity": "P1",
+      "location": "basics.S02-T1-B-E3.instruction",
+      "definition_location": "functions-contracts.S05-T1-A.callout"
+    },
+    {
+      "code": "USE_BEFORE_DEFINITION",
       "term_id": "cross-validation",
       "severity": "P1",
-      "location": "microservices.resources.doc[5]"
+      "location": "microservices.resources.doc[5]",
+      "definition_location": "advanced-models.theory[11].p1"
     },
     {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "roc-auc",
+      "code": "USE_BEFORE_DEFINITION",
+      "term_id": "overfitting",
       "severity": "P1",
-      "location": "cv-ai-integration.selfCheck[6].q"
+      "location": "text-unicode-regex.S07-T2-B-DEMO.code",
+      "definition_location": "advanced-models.outcome[5]"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "precision",
       "severity": "P1",
-      "location": "rpa-automation.outcome[1]",
-      "definition_location": "cv-ai-integration.S34-T1-B.p0"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "precision",
-      "severity": "P1",
-      "location": "rpa-automation.S13-T1-B-E1.instruction",
-      "definition_location": "cv-ai-integration.S34-T1-B.p0"
+      "location": "evidence-dashboard.outcome[1]",
+      "definition_location": "evidence-dashboard.S13-T1-B.p0"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "recall",
       "severity": "P1",
-      "location": "rpa-automation.outcome[1]",
-      "definition_location": "security-infra.jobRelevance"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "recall",
-      "severity": "P1",
-      "location": "rpa-automation.S13-T1-B-E1.instruction",
-      "definition_location": "security-infra.jobRelevance"
+      "location": "evidence-dashboard.outcome[1]",
+      "definition_location": "evidence-dashboard.S13-T1-B.p0"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "f1-score",
       "severity": "P1",
       "location": "rpa-advanced.S24-T4-A.p1",
-      "definition_location": "security-infra.S30-T4-B-E2.instruction"
+      "definition_location": "security-infra.theory[9].p2"
     },
     {
       "code": "DEFINITION_AFTER_REQUIREMENT",
       "term_id": "f1-score",
       "severity": "P1",
       "location": "streamlit-dashboards.S25-T4-A-E2.hint",
-      "definition_location": "security-infra.S30-T4-B-E2.instruction"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "shap",
-      "severity": "P1",
-      "location": "advanced-models.selfCheck[2].opt[1]",
-      "definition_location": "system-design.S35-T1-B.p0"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "hyperparameter-tuning",
-      "severity": "P1",
-      "location": "ai-apis-advanced.S36-T1-B-DEMO.why"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "standardscaler",
-      "severity": "P1",
-      "location": "ai-apis-advanced.resources.doc[3]"
+      "definition_location": "security-infra.theory[9].p2"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
@@ -476,82 +332,35 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "outlier",
       "severity": "P1",
-      "location": "wxpython-gui.S16-T3-B.p0",
-      "definition_location": "ai-apis-advanced.S36-T3-A-E1.hint[1]"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "iqr",
-      "severity": "P1",
-      "location": "wxpython-gui.outcome[5]",
-      "definition_location": "wxpython-gui.youDo.context"
+      "location": "decisions-rules.S03-T3-A.p3",
+      "definition_location": "wxpython-gui.jobRelevance"
     },
     {
       "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "iqr",
+      "term_id": "outlier",
       "severity": "P1",
-      "location": "wxpython-gui.S16-T3-B-E2.instruction",
-      "definition_location": "wxpython-gui.youDo.context"
+      "location": "decisions-rules.S03-T3-A-E2.hint",
+      "definition_location": "wxpython-gui.jobRelevance"
     },
     {
-      "code": "NO_VISIBLE_DEFINITION",
+      "code": "USE_BEFORE_DEFINITION",
       "term_id": "correlaci-n",
       "severity": "P1",
-      "location": "data-engineering.youDo.objective[3]"
+      "location": "exceptions-logging.theory[0].p3",
+      "definition_location": "exceptions-logging.theory[8].p0"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "p-value",
+      "term_id": "distribuci-n-normal",
       "severity": "P1",
-      "location": "data-engineering.S18-T3-A.p0"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "train-test-split",
-      "severity": "P1",
-      "location": "security-infra.outcome[6]",
-      "definition_location": "microservices.S32-T4-A.p1"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "pyodide",
-      "severity": "P1",
-      "location": "basics.S02-T4-A-DEMO.code"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "rag",
-      "severity": "P1",
-      "location": "ai-governance.jobRelevance",
-      "definition_location": "ai-governance.selfCheck[2].explanation"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "rag",
-      "severity": "P1",
-      "location": "ai-governance.S48-T1-B-E1.instruction",
-      "definition_location": "ai-governance.selfCheck[2].explanation"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "mlops",
-      "severity": "P1",
-      "location": "microservices.theory[2].p2",
-      "definition_location": "opensource.jobRelevance"
+      "location": "data-engineering.S18-T1-A.p1"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "entity-resolution",
       "severity": "P1",
-      "location": "performance.selfCheck[4].opt[2]",
-      "definition_location": "rpa-automation.S13-T1-A.p0"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "fastapi",
-      "severity": "P1",
-      "location": "architecture-ddd-decisions.S40-T1-A.figure",
-      "definition_location": "llm-finetuning.S41-T2-A.p0"
+      "location": "oop-domain.S11-T2-B-DEMO.preamble",
+      "definition_location": "evidence-dashboard.S13-T1-A.p0"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
@@ -564,26 +373,14 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "embedding",
       "severity": "P1",
-      "location": "rpa-automation.S13-T1-A.p3",
+      "location": "evidence-dashboard.S13-T1-A.p3",
       "definition_location": "ai-governance.theory[0].p1"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
       "term_id": "estimando",
       "severity": "P1",
-      "location": "data-engineering.S18-T2-B.p1"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "guardrail",
-      "severity": "P1",
-      "location": "data-engineering.S18-T3-A.p2"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "row-group",
-      "severity": "P1",
-      "location": "stdlib-deep.S15-T4-B.p2"
+      "location": "data-engineering.S18-T2-B#6.p1"
     }
   ]
 }
