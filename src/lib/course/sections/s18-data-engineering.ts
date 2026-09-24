@@ -15,7 +15,7 @@ export const section18: CourseSection = {
  index: 18,
  title: "EDA, estadística descriptiva e incertidumbre",
  shortTitle: "EDA e incertidumbre",
- tagline: "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
+ tagline: "Análisis exploratorio de datos (EDA) que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
  estimatedHours: 9,
  level: "Práctica independiente",
  phase: 1,
@@ -60,11 +60,20 @@ export const section18: CourseSection = {
  ],
 },
 {
+ heading: "Qué hace un análisis exploratorio de datos",
+ paragraphs: [
+   "Un **análisis exploratorio de datos (EDA)** es una primera lectura ordenada de los datos antes de decidir. Existe para separar lo que los valores muestran, una explicación posible y lo que alguien hará después. Una **hipótesis** es una explicación posible que los datos todavía no confirman.",
+   "Yo hago: en `[10, 11, 12, 80]`, tres valores están juntos y `80` queda lejos. El hallazgo es «hay un valor separado»; la hipótesis es «puede ser una compra grande o un dato incorrecto»; la decisión es «revisar ese registro». Los datos sostienen el hallazgo, pero todavía no permiten elegir entre las dos explicaciones.",
+   "Hacemos juntos: lee `[8, 9, 10, 45]` y escribe una frase para cada capa. Vas bien si el hallazgo nombra el `45`, la hipótesis admite más de una explicación y la decisión pide revisar antes de actuar. Así evitas convertir una diferencia en una acusación.",
+   "Ahora tú: cambia `45` por `11` y repite las tres frases. La comprobación correcta es que ya no hay un valor separado, así que tampoco debes conservar el hallazgo anterior. Si tu conclusión no cambia cuando cambian los datos, no nació del EDA.",
+ ],
+},
+{
  heading: "Centro, dispersión y cuantiles",
  subtopicId: "S18-T1-A",
  paragraphs: [
  "El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar muestral (`std`, `ddof=1`) o **IQR**. Q1 es el percentil 25 y Q3, el percentil 75 —los mismos puntos de corte de la columna ordenada que usaste en S16—; el IQR (Q3−Q1) es el ancho de la mitad central que mediste allí. En montos de tickets peruanos sintéticos la media se mueve con colas; la mediana suele ser el “ticket típico” que el negocio pregunta primero.",
- "Contrato operativo: reporta siempre **n**, al menos un cuantil de cola (p90/p95 o max) y la métrica de centro elegida con justificación. Los cuantiles (p25, p50, p75, p90) describen la forma **sin asumir normalidad** — no digas “distribución normal” solo porque calculaste media y std.",
+ "Contrato operativo: reporta siempre **n**, al menos un cuantil de cola (p90/p95 o max) y la métrica de centro elegida con justificación. Los cuantiles (p25, p50, p75, p90) describen la forma sin imponer una forma previa a los datos. Calcular media y std no demuestra que los valores se repartan de forma simétrica alrededor del centro.",
  "Caso sintético: montos `[12.5, 18, 22, 25.5, 30, 45, 120]` PEN → media ~39, mediana 25.5, IQR ~17.5. En el memo de CP-N2-B escribes “mediana 25.5 PEN (n=7); cola p90 elevada por un outlier (un valor atípico) de 120”; no “el ticket promedio es 39 y representa al cliente típico”.",
  ],
  code: {
@@ -239,7 +248,7 @@ nota_ic z_approx; bootstrap si colas pesadas o n chico`,
  subtopicId: "S18-T2-B",
  paragraphs: [
  "Acabas de medir una diferencia entre dos grupos, d≈1.1, y un intervalo alrededor de la media de B. Fíjate en qué cubre ese intervalo: la media de B, no la diferencia entre A y B, y tampoco la propia d. Cada una de esas tres cantidades necesita su propio intervalo, y confundirlas es cómo una diferencia frágil termina reportada como firme. Falta la pregunta que decide si esa diferencia significa algo más que “B y A salieron distintos”: **¿cómo se formaron los grupos?** Si B son los comercios que se inscribieron solos al plan nuevo y A los que no, la diferencia mezcla dos cosas que ninguna aritmética posterior puede separar: lo que el plan hizo, y lo que ya era distinto en quien decidió inscribirse. Un intervalo más estrecho no arregla eso; solo estima con más precisión un número que responde a otra pregunta.",
- "La pregunta causal se formula sobre un **contrafactual**: ¿cuánto habría facturado *este mismo* comercio si no hubiera tenido el plan? Ese número no está en tus datos —nadie vive las dos historias— y por eso aquí el diseño pesa más que el cálculo. Para escribirla con precisión necesitas cinco piezas: la **unidad** (el comercio), el **tratamiento** (tener el plan), el **control** (no tenerlo), el **resultado** o *outcome* (ticket promedio del mes) y el **estimando** o *estimand*, que es la cantidad exacta que quieres estimar: “diferencia promedio de ticket entre tener y no tener el plan, en comercios como estos, durante un mes”. Si no logras escribir el estimando en una frase, todavía no tienes una pregunta, tienes una intuición.",
+ "La pregunta causal se formula sobre un **contrafactual**: ¿cuánto habría facturado *este mismo* comercio si no hubiera tenido el plan? Ese número no está en tus datos —nadie vive las dos historias— y por eso aquí el diseño pesa más que el cálculo. Para escribirla con precisión, nombra la **unidad** (el comercio), el **tratamiento** (tener el plan), el **control** (no tenerlo) y el **resultado** (ticket promedio del mes). Luego fija **la cantidad exacta que quieres estimar**: “diferencia promedio de ticket entre tener y no tener el plan, en comercios como estos, durante un mes”. Si no logras escribir esa cantidad en una frase, todavía no tienes una pregunta, tienes una intuición.",
  "La **asignación aleatoria** es el mecanismo que vuelve comparables a los dos grupos. Lanzas una moneda por comercio: la moneda no sabe cuánto facturaba antes, en qué región opera ni qué variables olvidaste medir. Por eso reparte todas esas características —**incluidas las que nunca observaste**— de forma pareja *en promedio* entre tratamiento y control. Vale la pena detenerse en ese *en promedio*. Aleatorizar no vuelve idénticos a los dos grupos; lo que garantiza es que su diferencia esperada, antes de aplicar el tratamiento, sea cero. Con n chico un sorteo puede salir desbalanceado por azar, y el intervalo que reportas ya carga esa incertidumbre.",
  "En `CASO-LIM-018` el efecto real del plan es 5.00 PEN y el confusor es el volumen previo del comercio. Con **autoselección** —se inscribe quien ya facturaba más de 110— la diferencia observada es **41.35**: ocho veces el efecto verdadero, y el volumen medio de cada grupo delata por qué (124.7 contra 89.0). Con **asignación aleatoria** sobre la misma población y el mismo efecto, la diferencia baja a **5.50** con IC 95% (1.18, 9.82), y los volúmenes medios quedan en 100.3 y 99.1: parecidos, no iguales. El experimento no entregó un número más bonito; entregó un número que responde la pregunta que hiciste.",
  ],
@@ -821,7 +830,7 @@ s18_ido_8()`,
 median_final 11.5`,
  },
  why:
-  "Ordenar por ticket_id estabiliza el hash: el mismo corte produce la misma huella. Seed fija el generador; filtros listados hacen auditable cada exclusión. Esa nota es la base del dashboard accesible en S19.",
+  "Ordenar por ticket_id estabiliza el hash: el mismo corte produce la misma huella. Una misma `seed` hace que `rng` produzca la misma secuencia; los filtros listados hacen auditable cada exclusión. Esa nota es la base del dashboard accesible en S19.",
  retrospective:
   "Si cambias el filtro y no actualizas n_final ni el hash, la nota miente. We Do: dict mínimo, sha1[:8], nota post-filtro con seed.",
  }
@@ -1303,7 +1312,7 @@ print("d", round(d, 2))`,
  hint: "Para i en range(B): rng.choice(x, size=len(x), replace=True).mean(); luego np.quantile(..., [0.025, 0.975]).",
  hints: [
  "Para i en range(B): rng.choice(x, size=len(x), replace=True).mean(); luego np.quantile(..., [0.025, 0.975]).",
- "No reinicies el Generator dentro del bucle; usa el rng del starter.",
+ "No vuelvas a crear `rng` dentro del bucle; usa el `rng` del starter.",
  ],
  edgeCases: ["B=1 inútil", "x vacío"],
  tests: "salida coincide con solution output",
@@ -2080,9 +2089,9 @@ print(df.head())
  note: "IC, sesgo, interpretación cuidadosa",
  },
  {
- label: "NumPy Generator (random)",
+ label: "NumPy: números aleatorios reproducibles",
  url: "https://numpy.org/doc/stable/reference/random/generator.html",
- note: "default_rng, random y normal: la moneda reproducible del experimento",
+ note: "`default_rng`, `random` y `normal`: cómo repetir la misma secuencia de valores",
  },
  ],
  books: [

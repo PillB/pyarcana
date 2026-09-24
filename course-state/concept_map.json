@@ -5047,7 +5047,7 @@
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T2-B#6.code",
+    "location": "data-engineering.S18-T2-B#7.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -5059,7 +5059,7 @@
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.code",
+    "location": "data-engineering.S18-T3-A#9.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -16337,7 +16337,7 @@
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T2-B#6.code",
+    "location": "data-engineering.S18-T2-B#7.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -16349,7 +16349,7 @@
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.code",
+    "location": "data-engineering.S18-T3-A#9.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -24366,7 +24366,7 @@
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.code",
+    "location": "data-engineering.S18-T3-A#9.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -30724,7 +30724,7 @@
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.code",
+    "location": "data-engineering.S18-T3-A#9.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -38566,13 +38566,13 @@
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.p0",
+    "location": "data-engineering.S18-T3-A#9.p0",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.code",
+    "location": "data-engineering.S18-T3-A#9.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -48674,7 +48674,7 @@
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.code",
+    "location": "data-engineering.S18-T3-A#9.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -51509,18 +51509,6 @@
   "declared_first_section": "dbt-bigquery",
   "uses": [
    {
-    "section": "S18",
-    "location": "data-engineering.S18-T2-B-E3.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.resources.doc[7]",
-    "kind": "resource",
-    "visible": true
-   },
-   {
     "section": "S24",
     "location": "rpa-advanced.S24-T4-A-E2.hint",
     "kind": "wedo.hint",
@@ -51547,8 +51535,8 @@
   "headings": [],
   "figures": [],
   "first_use": {
-   "section": "S18",
-   "location": "data-engineering.S18-T2-B-E3.hint[1]",
+   "section": "S24",
+   "location": "rpa-advanced.S24-T4-A-E2.hint",
    "kind": "wedo.hint",
    "visible": true
   },
@@ -51556,18 +51544,6 @@
   "reinforcements": [],
   "depth": "L0",
   "surprising_uses": [
-   {
-    "section": "S18",
-    "location": "data-engineering.S18-T2-B-E3.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.resources.doc[7]",
-    "kind": "resource",
-    "visible": true
-   },
    {
     "section": "S24",
     "location": "rpa-advanced.S24-T4-A-E2.hint",
@@ -51582,7 +51558,6 @@
    }
   ],
   "sections_used": [
-   "S18",
    "S24",
    "S37"
   ],
@@ -54874,7 +54849,7 @@
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.code",
+    "location": "data-engineering.S18-T3-A#9.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -64562,7 +64537,7 @@
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.code",
+    "location": "data-engineering.S18-T3-A#9.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -117031,6 +117006,24 @@
    },
    {
     "section": "S18",
+    "location": "data-engineering.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S18",
+    "location": "data-engineering.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S18",
+    "location": "data-engineering.theory[2].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S18",
     "location": "data-engineering.S18-T1-B.p1",
     "kind": "theory.paragraph",
     "visible": true
@@ -117219,6 +117212,12 @@
    },
    {
     "section": "S18",
+    "location": "data-engineering.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S18",
     "location": "data-engineering.selfCheck[4].q",
     "kind": "selfcheck.question",
     "visible": true
@@ -117246,7 +117245,14 @@
     "visible": true
    }
   ],
-  "headings": [],
+  "headings": [
+   {
+    "section": "S18",
+    "location": "data-engineering.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   }
+  ],
   "figures": [],
   "first_use": {
    "section": "S16",
@@ -126764,40 +126770,19 @@
  "distribuci-n-normal": {
   "id": "distribuci-n-normal",
   "declared_first_section": "data-engineering",
-  "uses": [
-   {
-    "section": "S18",
-    "location": "data-engineering.S18-T1-A.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "uses": [],
   "definitions": [],
   "examples": [],
   "exercises": [],
   "self_checks": [],
   "headings": [],
   "figures": [],
-  "first_use": {
-   "section": "S18",
-   "location": "data-engineering.S18-T1-A.p1",
-   "kind": "theory.paragraph",
-   "visible": true
-  },
+  "first_use": null,
   "first_definition": null,
   "reinforcements": [],
   "depth": "L0",
-  "surprising_uses": [
-   {
-    "section": "S18",
-    "location": "data-engineering.S18-T1-A.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
-  "sections_used": [
-   "S18"
-  ],
+  "surprising_uses": [],
+  "sections_used": [],
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
@@ -126810,25 +126795,25 @@
   "uses": [
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.heading",
+    "location": "data-engineering.S18-T3-A#9.heading",
     "kind": "theory.heading",
     "visible": true
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.p0",
+    "location": "data-engineering.S18-T3-A#9.p0",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.p1",
+    "location": "data-engineering.S18-T3-A#9.p1",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.callout",
+    "location": "data-engineering.S18-T3-A#9.callout",
     "kind": "theory.callout",
     "visible": true
    },
@@ -126848,7 +126833,7 @@
   "definitions": [
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.p0",
+    "location": "data-engineering.S18-T3-A#9.p0",
     "kind": "theory.paragraph",
     "visible": true
    }
@@ -126872,7 +126857,7 @@
   "headings": [
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.heading",
+    "location": "data-engineering.S18-T3-A#9.heading",
     "kind": "theory.heading",
     "visible": true
    }
@@ -126880,13 +126865,13 @@
   "figures": [],
   "first_use": {
    "section": "S18",
-   "location": "data-engineering.S18-T3-A#8.heading",
+   "location": "data-engineering.S18-T3-A#9.heading",
    "kind": "theory.heading",
    "visible": true
   },
   "first_definition": {
    "section": "S18",
-   "location": "data-engineering.S18-T3-A#8.p0",
+   "location": "data-engineering.S18-T3-A#9.p0",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -130482,19 +130467,19 @@
   "uses": [
    {
     "section": "S18",
-    "location": "data-engineering.S18-T2-B#6.p2",
+    "location": "data-engineering.S18-T2-B#7.p2",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T2-B#6.p3",
+    "location": "data-engineering.S18-T2-B#7.p3",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T2-B#6.code",
+    "location": "data-engineering.S18-T2-B#7.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -130508,7 +130493,7 @@
   "definitions": [
    {
     "section": "S18",
-    "location": "data-engineering.S18-T2-B#6.p2",
+    "location": "data-engineering.S18-T2-B#7.p2",
     "kind": "theory.paragraph",
     "visible": true
    }
@@ -130516,7 +130501,7 @@
   "examples": [
    {
     "section": "S18",
-    "location": "data-engineering.S18-T2-B#6.code",
+    "location": "data-engineering.S18-T2-B#7.code",
     "kind": "theory.code",
     "visible": true
    }
@@ -130534,13 +130519,13 @@
   "figures": [],
   "first_use": {
    "section": "S18",
-   "location": "data-engineering.S18-T2-B#6.p2",
+   "location": "data-engineering.S18-T2-B#7.p2",
    "kind": "theory.paragraph",
    "visible": true
   },
   "first_definition": {
    "section": "S18",
-   "location": "data-engineering.S18-T2-B#6.p2",
+   "location": "data-engineering.S18-T2-B#7.p2",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -130559,40 +130544,19 @@
  "estimando": {
   "id": "estimando",
   "declared_first_section": "data-engineering",
-  "uses": [
-   {
-    "section": "S18",
-    "location": "data-engineering.S18-T2-B#6.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "uses": [],
   "definitions": [],
   "examples": [],
   "exercises": [],
   "self_checks": [],
   "headings": [],
   "figures": [],
-  "first_use": {
-   "section": "S18",
-   "location": "data-engineering.S18-T2-B#6.p1",
-   "kind": "theory.paragraph",
-   "visible": true
-  },
+  "first_use": null,
   "first_definition": null,
   "reinforcements": [],
   "depth": "L0",
-  "surprising_uses": [
-   {
-    "section": "S18",
-    "location": "data-engineering.S18-T2-B#6.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
-  "sections_used": [
-   "S18"
-  ],
+  "surprising_uses": [],
+  "sections_used": [],
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
@@ -130605,19 +130569,19 @@
   "uses": [
    {
     "section": "S18",
-    "location": "data-engineering.S18-T2-B#6.p3",
+    "location": "data-engineering.S18-T2-B#7.p3",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T2-B#6.code",
+    "location": "data-engineering.S18-T2-B#7.code",
     "kind": "theory.code",
     "visible": true
    },
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.callout",
+    "location": "data-engineering.S18-T3-A#9.callout",
     "kind": "theory.callout",
     "visible": true
    },
@@ -130637,7 +130601,7 @@
   "definitions": [
    {
     "section": "S18",
-    "location": "data-engineering.S18-T2-B#6.p3",
+    "location": "data-engineering.S18-T2-B#7.p3",
     "kind": "theory.paragraph",
     "visible": true
    }
@@ -130645,7 +130609,7 @@
   "examples": [
    {
     "section": "S18",
-    "location": "data-engineering.S18-T2-B#6.code",
+    "location": "data-engineering.S18-T2-B#7.code",
     "kind": "theory.code",
     "visible": true
    }
@@ -130670,13 +130634,13 @@
   "figures": [],
   "first_use": {
    "section": "S18",
-   "location": "data-engineering.S18-T2-B#6.p3",
+   "location": "data-engineering.S18-T2-B#7.p3",
    "kind": "theory.paragraph",
    "visible": true
   },
   "first_definition": {
    "section": "S18",
-   "location": "data-engineering.S18-T2-B#6.p3",
+   "location": "data-engineering.S18-T2-B#7.p3",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -130698,7 +130662,7 @@
   "uses": [
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.p2",
+    "location": "data-engineering.S18-T3-A#9.p2",
     "kind": "theory.paragraph",
     "visible": true
    }
@@ -130706,7 +130670,7 @@
   "definitions": [
    {
     "section": "S18",
-    "location": "data-engineering.S18-T3-A#8.p2",
+    "location": "data-engineering.S18-T3-A#9.p2",
     "kind": "theory.paragraph",
     "visible": true
    }
@@ -130718,13 +130682,13 @@
   "figures": [],
   "first_use": {
    "section": "S18",
-   "location": "data-engineering.S18-T3-A#8.p2",
+   "location": "data-engineering.S18-T3-A#9.p2",
    "kind": "theory.paragraph",
    "visible": true
   },
   "first_definition": {
    "section": "S18",
-   "location": "data-engineering.S18-T3-A#8.p2",
+   "location": "data-engineering.S18-T3-A#9.p2",
    "kind": "theory.paragraph",
    "visible": true
   },

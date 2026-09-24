@@ -18,12 +18,12 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🔴 `reshape` | L0 | S17 · theory[5].heading | **never** | 9 | 0 | 2 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `dict-comprehension` | L0 | S04 · S04-T3-B-E3.title | **never** | 6 | 0 | 1 | 0 | · | 0/1 ⚠ | 2 |
 | 🔴 `namedtuple` | L0 | S40 · S40-T3-B.p1 | **never** | 5 | 2 | 0 | 0 | · | 0/1 ⚠ | 1 |
-| 🔴 `generator` | L0 | S18 · S18-T2-B-E3.hint[1] | **never** | 4 | 1 | 0 | 0 | · | 0/1 ⚠ | 3 |
-| 🔴 `distribuci-n-normal` | L0 | S18 · S18-T1-A.p1 | **never** | 1 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
-| 🔴 `estimando` | L0 | S18 · S18-T2-B#6.p1 | **never** | 1 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
+| 🔴 `generator` | L0 | S24 · S24-T4-A-E2.hint | **never** | 2 | 1 | 0 | 0 | · | 0/1 ⚠ | 2 |
 | 🔴 `joblib` | L0 | S32 · S32-T3-B.p0 | **never** | 1 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `onehotencoder` | L0 | S32 · S32-T1-B.p1 | **never** | 1 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `args-y-kwargs` | L0 | — | **never** | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 0 |
+| 🔴 `distribuci-n-normal` | L0 | — | **never** | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 0 |
+| 🔴 `estimando` | L0 | — | **never** | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 0 |
 | 🔴 `feature-engineering` | L0 | — | **never** | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 0 |
 | 🔴 `hyperparameter-tuning` | L0 | — | **never** | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 0 |
 | 🔴 `standardscaler` | L0 | — | **never** | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 0 |
@@ -70,8 +70,8 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `abc` | L1 | S11 · S11-T3-B.p1 | S11 · S11-T3-B.p1 | 0 | 0 | 0 | 1 | · | 0/1 ⚠ | 1 |
 | 🟢 `annotation` | L1 | S05 · outcome[3] | S05 · outcome[3] | 0 | 0 | 1 | 1 | · | 0/1 ⚠ | 2 |
 | 🟢 `apply` | L2 | S10 · S10-T4-A-E1.preamble | S10 · S10-T4-A-E1.preamble | 0 | 1 | 4 | 0 | · | 0/5 ⚠ | 6 |
-| 🟢 `asignacion-aleatoria` | L2 | S18 · S18-T2-B#6.p2 | S18 · S18-T2-B#6.p2 | 0 | 1 | 0 | 1 | · | 0/1 ⚠ | 1 |
-| 🟢 `autoseleccion` | L2 | S18 · S18-T2-B#6.p3 | S18 · S18-T2-B#6.p3 | 0 | 1 | 1 | 1 | · | 0/1 ⚠ | 1 |
+| 🟢 `asignacion-aleatoria` | L2 | S18 · S18-T2-B#7.p2 | S18 · S18-T2-B#7.p2 | 0 | 1 | 0 | 1 | · | 0/1 ⚠ | 1 |
+| 🟢 `autoseleccion` | L2 | S18 · S18-T2-B#7.p3 | S18 · S18-T2-B#7.p3 | 0 | 1 | 1 | 1 | · | 0/1 ⚠ | 1 |
 | 🟢 `boolean-masking` | L1 | S14 · outcome[1] | S14 · outcome[1] | 0 | 0 | 0 | 3 | · | 0/1 ⚠ | 3 |
 | 🟢 `broadcasting` | L2 | S14 · outcome[3] | S14 · outcome[3] | 0 | 1 | 2 | 2 | · | 0/1 ⚠ | 1 |
 | 🟢 `cercas-de-tukey` | L1 | S16 · theory[8].heading | S16 · theory[8].p2 | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 2 |
@@ -95,7 +95,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `git` | L2 | S01 · tagline | S01 · tagline | 0 | 9 | 7 | 6 | · | 0/5 ⚠ | 4 |
 | 🟢 `gitignore` | L2 | S01 · outcome[6] | S01 · outcome[6] | 0 | 2 | 4 | 1 | · | 0/1 ⚠ | 2 |
 | 🟢 `groupby` | L3 | S16 · theory[4].p1 | S16 · theory[4].p1 | 0 | 13 | 3 | 0 | · | 3/5 ⚠ | 6 |
-| 🟢 `guardrail` | L1 | S18 · S18-T3-A#8.p2 | S18 · S18-T3-A#8.p2 | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
+| 🟢 `guardrail` | L1 | S18 · S18-T3-A#9.p2 | S18 · S18-T3-A#9.p2 | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🟢 `iloc-vs-loc` | L2 | S15 · outcome[2] | S15 · outcome[2] | 0 | 1 | 4 | 2 | · | 0/5 ⚠ | 3 |
 | 🟢 `iqr` | L3 | S16 · outcome[5] | S16 · outcome[5] | 0 | 2 | 1 | 3 | · | 1/5 ⚠ | 3 |
 | 🟢 `lambda` | L2 | S06 · theory[9].p1 | S06 · theory[9].p1 | 0 | 38 | 5 | 1 | · | 1/5 ⚠ | 24 |
@@ -104,7 +104,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `mlops` | L1 | S47 · jobRelevance | S47 · jobRelevance | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🟢 `ndarray` | L2 | S14 · theory[0].p1 | S14 · theory[0].p1 | 0 | 1 | 0 | 2 | · | 0/1 ⚠ | 2 |
 | 🟢 `notebook` | L2 | S01 · theory[8].p6 | S01 · theory[8].p6 | 0 | 1 | 1 | 1 | · | 0/5 ⚠ | 14 |
-| 🟢 `p-value` | L1 | S18 · S18-T3-A#8.heading | S18 · S18-T3-A#8.p0 | 0 | 0 | 0 | 2 | · | 0/1 ⚠ | 1 |
+| 🟢 `p-value` | L1 | S18 · S18-T3-A#9.heading | S18 · S18-T3-A#9.p0 | 0 | 0 | 0 | 2 | · | 0/1 ⚠ | 1 |
 | 🟢 `path` | L2 | S01 · outcome[1] | S01 · outcome[1] | 0 | 40 | 31 | 17 | · | 0/5 ⚠ | 30 |
 | 🟢 `pip` | L2 | S01 · theory[0].p1 | S01 · theory[0].p1 | 0 | 11 | 9 | 3 | · | 0/5 ⚠ | 10 |
 | 🟢 `precision` | L2 | S13 · outcome[1] | S13 · outcome[1] | 0 | 7 | 11 | 16 | · | 0/5 ⚠ | 8 |

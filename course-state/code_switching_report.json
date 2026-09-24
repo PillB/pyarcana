@@ -589,11 +589,11 @@
  },
  "S18": {
   "section": "S18",
-  "prose_words": 7493,
+  "prose_words": 7679,
   "english_function_words": 0,
   "ordinary_english_words": 34,
-  "kept_technical_terms": 55,
-  "avoidable_english_per_1000": 4.5,
+  "kept_technical_terms": 52,
+  "avoidable_english_per_1000": 4.4,
   "top_terms": [
    [
     "ticket",
@@ -1542,11 +1542,11 @@
  },
  "S37": {
   "section": "S37",
-  "prose_words": 6582,
+  "prose_words": 6787,
   "english_function_words": 32,
   "ordinary_english_words": 21,
   "kept_technical_terms": 163,
-  "avoidable_english_per_1000": 8.1,
+  "avoidable_english_per_1000": 7.8,
   "top_terms": [
    [
     "matching",
