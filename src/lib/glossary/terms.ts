@@ -695,7 +695,11 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["F1-score", 'F1'],
     category: 'ML',
     definition: 'Media armónica de precision y recall. Útil cuando hay desbalance. 2 * (P * R) / (P + R).',
-    firstSectionId: 'cv-ai-integration',
+    // S25, not S34. S25-T4 forbids confusing `field_match_rate` with F1, and the section now
+    // teaches F1 before that exercise; declaring S34 withheld the hint for nine sections
+    // after first contact. Precision and recall, which this definition leans on, are taught
+    // in S13.
+    firstSectionId: 'streamlit-dashboards',
   },
   {
     id: 'shap',
