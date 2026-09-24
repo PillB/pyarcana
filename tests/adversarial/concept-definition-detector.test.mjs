@@ -153,7 +153,7 @@ test('naming a term in Spanish is not defining it', () => {
   // "un outlier (un valor atípico) de 120" translates the word and says nothing about it.
   assert.equal(defines('data-engineering.S18-T1-A.p2', 'outlier'), false)
   // But "bloques de filas llamados **row groups**" does teach: the description precedes it.
-  assert.ok(defines('stdlib-deep.S15-T4-B#10.p2', 'row-group'))
+  assert.ok(definingEvent(/bloques de filas llamados \*\*row groups\*\*/, 'row-group'))
 })
 
 test('a negated verb describes what a thing is not', () => {
@@ -170,13 +170,17 @@ test('a negated verb describes what a thing is not', () => {
  * this file failed, and the gate restored a round that took S05 from 8 surprising uses to 0.
  * The same thing cost S33's round earlier the same day. A subtopic id like `S14-T2-B` is a
  * fact about the course and survives; `theory[5]` is a fact about an array and does not.
+ *
+ * The first version of this guard only knew `theory[N]`, and S15's round walked straight past
+ * it: `stdlib-deep.S15-T4-B#10.p2` reads like a subtopic id but `#10` is a block ordinal
+ * inside that subtopic, and inserting one block made it `#11`. Both spellings are checked now.
  */
 test('no assertion in this file is pinned to a block index', () => {
   const source = fs.readFileSync('tests/adversarial/concept-definition-detector.test.mjs', 'utf8')
   const positional = source
     .split('\n')
     .map((line, i) => [i + 1, line])
-    .filter(([, line]) => /defines\(\s*'[^']*\btheory\[\d+\]/.test(line))
+    .filter(([, line]) => /defines\(\s*'[^']*(?:theory\[\d+\]|#\d+)/.test(line))
     .map(([n, line]) => `${n}: ${line.trim()}`)
   assert.deepEqual(
     positional, [],

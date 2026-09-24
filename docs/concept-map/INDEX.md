@@ -7,7 +7,7 @@ surprised by it?* 🔴 never explained · 🟠 used before it is explained · �
 
 Depth: **L0** never defined · **L1** defined inline at first use · **L2** plus a worked example · **L3** plus its own subtopic and a figure.
 
-**106 concepts.** 12 never explained, 32 used before they are explained, 62 clean.
+**106 concepts.** 12 never explained, 30 used before they are explained, 64 clean.
 
 Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) · [S05](S05.md) · [S06](S06.md) · [S07](S07.md) · [S08](S08.md) · [S09](S09.md) · [S10](S10.md) · [S11](S11.md) · [S12](S12.md) · [S13](S13.md) · [S14](S14.md) · [S15](S15.md) · [S16](S16.md) · [S17](S17.md) · [S18](S18.md) · [S19](S19.md) · [S20](S20.md) · [S21](S21.md) · [S22](S22.md) · [S23](S23.md) · [S24](S24.md) · [S25](S25.md) · [S26](S26.md) · [S27](S27.md) · [S28](S28.md) · [S29](S29.md) · [S30](S30.md) · [S31](S31.md) · [S32](S32.md) · [S33](S33.md) · [S34](S34.md) · [S35](S35.md) · [S36](S36.md) · [S37](S37.md) · [S38](S38.md) · [S39](S39.md) · [S40](S40.md) · [S41](S41.md) · [S42](S42.md) · [S43](S43.md) · [S44](S44.md) · [S45](S45.md) · [S46](S46.md) · [S47](S47.md) · [S48](S48.md) · [S49](S49.md) · [S50](S50.md) · [S51](S51.md) · [S52](S52.md)
 
@@ -37,9 +37,9 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `shape` | L2 | S06 · S06-T3-A-E3.starter | S14 · outcome[0] | 1 | 5 | 5 | 3 | +8 | 0/5 ⚠ | 4 |
 | 🟠 `merge` | L2 | S10 · S10-T4-A.p2 | S17 · S17-T1-A.p0 | 5 | 5 | 9 | 5 | +7 | 0/5 ⚠ | 10 |
 | 🟠 `pipeline` | L2 | S02 · theory[2].p0 | S05 · S05-T1-A.callout | 18 | 8 | 9 | 10 | +3 | 0/5 ⚠ | 43 |
-| 🟠 `eda` | L1 | S15 · youDo.context | S18 · jobRelevance | 5 | 0 | 0 | 3 | +3 | 0/1 ⚠ | 5 |
 | 🟠 `for` | L2 | S02 · S02-T1-A-DEMO.code | S04 · S04-T1-A-E2.preamble | 105 | 357 | 34 | 4 | +2 | 0/5 ⚠ | 51 |
 | 🟠 `dict` | L2 | S02 · S02-T2-B.callout | S04 · S04-T4-A-E3.preamble | 33 | 155 | 110 | 7 | +2 | 3/5 ⚠ | 51 |
+| 🟠 `eda` | L1 | S16 · S16-T1-A.p0 | S18 · jobRelevance | 4 | 0 | 0 | 3 | +2 | 0/1 ⚠ | 4 |
 | 🟠 `set` | L3 | S01 · S01-T4-A-E3.starter | S03 · S03-T1-A.p2 | 1 | 120 | 50 | 17 | +2 | 2/5 ⚠ | 46 |
 | 🟠 `exception` | L3 | S02 · theory[1].p3 | S03 · S03-T2-B.p0 | 14 | 53 | 27 | 10 | +1 | 3/5 ⚠ | 32 |
 | 🟠 `if` | L3 | S01 · S01-T1-B#6.code | S02 · S02-T2-A-DEMO.why | 6 | 439 | 50 | 19 | +1 | 1/5 ⚠ | 52 |
@@ -50,11 +50,9 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `f1-score` | L3 | S24 · S24-T4-A.p1 | S25 · theory[9].p0 | 1 | 9 | 5 | 4 | +1 | 1/5 ⚠ | 6 |
 | 🟠 `pivot-table` | L3 | S17 · theory[5].heading | S17 · iDo.intro | 12 | 6 | 2 | 2 | · | 1/1 | 2 |
 | 🟠 `llm` | L2 | S25 · outcome[0] | S25 · S25-T1-A.p0 | 7 | 2 | 3 | 5 | · | 0/5 ⚠ | 5 |
-| 🟠 `dataframe` | L3 | S15 · outcome[0] | S15 · S15-T1-A.p0 | 4 | 50 | 7 | 7 | · | 1/5 ⚠ | 7 |
 | 🟠 `resample` | L1 | S34 · theory[5].heading | S34 · S34-T2-A.p0 | 4 | 0 | 0 | 2 | · | 0/1 ⚠ | 1 |
 | 🟠 `correlaci-n` | L2 | S09 · theory[0].p3 | S09 · theory[8].p0 | 3 | 1 | 1 | 5 | · | 0/5 ⚠ | 6 |
 | 🟠 `github` | L2 | S01 · outcome[5] | S01 · theory[8].p4 | 3 | 4 | 1 | 5 | · | 0/5 ⚠ | 6 |
-| 🟠 `series` | L2 | S15 · outcome[0] | S15 · S15-T1-A.p0 | 3 | 4 | 1 | 0 | · | 0/5 ⚠ | 8 |
 | 🟠 `truthiness` | L1 | S03 · tagline | S03 · theory[0].p2 | 3 | 0 | 19 | 4 | · | 0/1 ⚠ | 12 |
 | 🟠 `function` | L3 | S02 · outcome[6] | S02 · theory[0].callout | 2 | 808 | 34 | 17 | · | 2/5 ⚠ | 51 |
 | 🟠 `interprete` | L1 | S01 · tagline | S01 · outcome[0] | 2 | 0 | 1 | 2 | · | 0/1 ⚠ | 9 |
@@ -85,6 +83,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `counter` | L2 | S08 · S08-T2-B-E3.instruction | S08 · S08-T2-B-E3.instruction | 0 | 3 | 5 | 0 | · | 0/5 ⚠ | 5 |
 | 🟢 `cuartil` | L3 | S16 · theory[8].heading | S16 · theory[8].p1 | 0 | 5 | 3 | 0 | · | 1/5 ⚠ | 3 |
 | 🟢 `data-leakage` | L1 | S19 · S19-T4-B.p5 | S19 · S19-T4-B.p5 | 0 | 0 | 0 | 1 | · | 0/1 ⚠ | 4 |
+| 🟢 `dataframe` | L3 | S15 · outcome[0] | S15 · outcome[0] | 0 | 50 | 7 | 7 | · | 1/5 ⚠ | 7 |
 | 🟢 `decorador` | L1 | S04 · theory[0].callout | S04 · theory[0].callout | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 2 |
 | 🟢 `defaultdict` | L2 | S30 · S30-T2-A.p3 | S30 · S30-T2-A.p3 | 0 | 13 | 1 | 0 | · | 0/5 ⚠ | 4 |
 | 🟢 `dependencias` | L3 | S01 · theory[0].p0 | S01 · theory[0].p0 | 0 | 2 | 16 | 9 | · | 1/5 ⚠ | 22 |
@@ -109,7 +108,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `path` | L2 | S01 · outcome[1] | S01 · outcome[1] | 0 | 40 | 31 | 17 | · | 0/5 ⚠ | 30 |
 | 🟢 `pip` | L2 | S01 · theory[0].p1 | S01 · theory[0].p1 | 0 | 11 | 9 | 3 | · | 0/5 ⚠ | 10 |
 | 🟢 `precision` | L2 | S13 · outcome[1] | S13 · outcome[1] | 0 | 7 | 11 | 16 | · | 0/5 ⚠ | 8 |
-| 🟢 `projection-pushdown` | L2 | S15 · S15-T4-B#10.p1 | S15 · S15-T4-B#10.p1 | 0 | 1 | 0 | 1 | · | 0/1 ⚠ | 1 |
+| 🟢 `projection-pushdown` | L2 | S15 · S15-T4-B#11.p1 | S15 · S15-T4-B#11.p1 | 0 | 1 | 0 | 1 | · | 0/1 ⚠ | 1 |
 | 🟢 `pull-request` | L2 | S01 · outcome[5] | S01 · outcome[5] | 0 | 2 | 3 | 10 | · | 0/5 ⚠ | 12 |
 | 🟢 `pyodide` | L2 | S02 · iDo.intro | S02 · iDo.intro | 0 | 1 | 0 | 0 | · | 0/5 ⚠ | 3 |
 | 🟢 `pytest` | L2 | S10 · theory[5].heading | S10 · theory[5].heading | 0 | 5 | 1 | 3 | · | 0/5 ⚠ | 6 |
@@ -117,8 +116,9 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `recall` | L3 | S13 · outcome[1] | S13 · outcome[1] | 0 | 10 | 10 | 30 | · | 1/5 ⚠ | 8 |
 | 🟢 `repl` | L3 | S01 · outcome[0] | S01 · outcome[0] | 0 | 1 | 1 | 0 | · | 1/5 ⚠ | 4 |
 | 🟢 `requirements-txt` | L2 | S01 · outcome[6] | S01 · outcome[6] | 0 | 6 | 6 | 5 | · | 0/5 ⚠ | 6 |
-| 🟢 `row-group` | L2 | S15 · S15-T4-B#10.p2 | S15 · S15-T4-B#10.p2 | 0 | 1 | 0 | 0 | · | 0/1 ⚠ | 1 |
+| 🟢 `row-group` | L2 | S15 · S15-T4-B#11.p2 | S15 · S15-T4-B#11.p2 | 0 | 1 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🟢 `ruff` | L2 | S01 · outcome[4] | S01 · outcome[4] | 0 | 3 | 5 | 4 | · | 0/1 ⚠ | 1 |
+| 🟢 `series` | L2 | S15 · outcome[0] | S15 · outcome[0] | 0 | 4 | 1 | 0 | · | 0/5 ⚠ | 8 |
 | 🟢 `shap` | L2 | S35 · S35-T1-B.p0 | S35 · S35-T1-B.p0 | 0 | 1 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🟢 `stratifiedkfold` | L1 | S34 · S34-T2-A.p3 | S34 · S34-T2-A.p3 | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🟢 `streamlit` | L1 | S13 · S13-T4-A.p0 | S13 · S13-T4-A.p0 | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 2 |

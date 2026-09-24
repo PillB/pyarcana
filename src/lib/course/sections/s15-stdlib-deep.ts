@@ -24,7 +24,7 @@ export const section15: CourseSection = {
   jobRelevance:
     "En banca, fintech y retail en Perú, el día a día del analista no es «abrir Excel y confiar»: es ingerir CSV y Excel de clientes y transacciones sin inventar datos. Aquí aprendes a declarar dtypes (el tipo declarado de cada columna: texto, número, fecha), reportar coerciones fallidas, reconciliar filas y columnas y dejar un manifest (origen, filas, columnas, hash) que otro equipo pueda auditar. Si un monto llega como 15,50 o el score como un token inválido, tu pipeline debe contarlo, no rellenarlo en silencio.",
   learningOutcomes: [
-    { text: "Modelar Series y DataFrame con Index de negocio estable (ids de cliente) y dtypes explícitos" },
+    { text: "Modelar una Series (una columna de valores con etiquetas) y un DataFrame (una tabla cuyas columnas comparten las mismas etiquetas de fila), con ids de cliente como etiquetas estables y dtypes explícitos" },
     { text: "Leer CSV/Excel con parser controlado (dtype, parse_dates, na_values, sep, decimal) y reconciliar filas" },
     { text: "Seleccionar filas/columnas con `loc` (por etiquetas) o `iloc` (por posiciones) y crear columnas derivadas con `assign` de forma idiomática" },
     { text: "Evitar chained assignment (SettingWithCopy) usando loc sobre el original o .copy() explícito" },
@@ -53,6 +53,15 @@ export const section15: CourseSection = {
         "**Ritmo orientativo (unas 10 horas).** De esas, tres o cuatro para el núcleo: al terminarlo ya puedes llevar un archivo a un DataFrame declarando los tipos en vez de descubrirlos. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
         "**Criterio de cierre.** Filas reconciliadas, un reporte de conversiones fallidas y un manifest con la procedencia del archivo.",
         "**Dependencias.** pandas 3 y lo ya visto en el curso: rutas, `StringIO`, diccionarios y funciones. Para Excel hace falta `openpyxl`; si no está disponible, se entrega CSV más un schema en JSON y se documenta el límite. El texto homogéneo infiere `str`; el schema de identificadores pide `string` (nullable); `object` queda para columnas que mezclaron tipos.",
+      ],
+     },
+     {
+      heading: "Antes de trabajar: una columna y una tabla",
+      paragraphs: [
+        "Una **Series** guarda una secuencia de valores y una etiqueta para cada uno. Puede existir por sí sola; dentro de un **DataFrame**, cada columna se comporta como una Series. Un DataFrame reúne esas columnas bajo las mismas etiquetas de fila. Así puedes conservar texto, números y fechas en una tabla sin perder qué valores pertenecen a la misma fila.",
+        "Mira un caso con dos clientes. Las etiquetas son `C001` y `C002`; la Series `score` guarda `C001: 0.9` y `C002: 0.4`, mientras otra Series guarda una región para cada etiqueta. El DataFrame las muestra juntas. Si cambia el orden, `C002` sigue asociado con `0.4`: pandas usa la etiqueta, no la segunda posición.",
+        "Haz una predicción antes de ejecutar `series_df.py`, el bloque siguiente. Escribe qué valor devolverá `s.loc[\"C001\"]`, qué etiquetas mostrará `df.index.tolist()` y qué tipo tendrá `score`. La respuesta correcta empieza con `0.9`, conserva `C001`, `C002` y `C003`, y declara `score` como `float64`.",
+        "Comprueba la idea en una copia del bloque: crea `pd.Series([0.4, 0.9], index=[\"C002\", \"C001\"])` y ejecuta `print(s.loc[\"C002\"])`. Debe imprimir `0.4` aunque `C002` esté en la primera posición. Si buscaste el segundo valor, vuelve a separar etiqueta de posición antes de continuar.",
       ],
      },
      {
@@ -1702,7 +1711,7 @@ print(hashlib.sha256(blob).hexdigest()[:8])`,
   youDo: {
     title: "Ingesta tipada clientes/transacciones con reconciliación",
     context:
-      "Tú lo haces (You Do). Eres analista de data quality en un retailer peruano sintético. Te entregan dos CSV en memoria: **clientes** (región, score) y **transacciones** (monto, fecha). Tu trabajo de portfolio es el tramo de **CP-N2-A** (la etapa A del capstone *Executive Data Quality & EDA* del nivel Competente) que ya practicaste en I Do/We Do. Lees con schema (el contrato columna→tipo esperado), coercionar con reporte (esto es, convertir forzadamente texto a número/fecha y contar los fallos) y reconciliar filas/columnas. Exportas con manifest (registro de filas, columnas, dtypes y hash del artefacto). Sin PII real (datos personales identificables reales). Un score sintético **no** es culpa ni fraude — solo un número de laboratorio. Si falta una columna del schema, falla de forma explicable (lanza un error claro); no rellenes ceros “para que corra”.",
+      "Tú lo haces (You Do). Eres analista de data quality en un retailer peruano sintético. Te entregan dos CSV en memoria: **clientes** (región, score) y **transacciones** (monto, fecha). Tu trabajo de portfolio es el tramo de **CP-N2-A** (la etapa A del capstone del nivel Competente) que ya practicaste en I Do/We Do. Lees con schema (el contrato columna→tipo esperado), coercionar con reporte (esto es, convertir forzadamente texto a número/fecha y contar los fallos) y reconciliar filas/columnas. Exportas con manifest (registro de filas, columnas, dtypes y hash del artefacto). Sin PII real (datos personales identificables reales). Un score sintético **no** es culpa ni fraude — solo un número de laboratorio. Si falta una columna del schema, falla de forma explicable (lanza un error claro); no rellenes ceros “para que corra”.",
     objectives: [
       "Ingerir CLIENTES y TRANSACCIONES con dtypes/schema explícitos (string, float64, datetime)",
       "Emitir coercion_report {columna: n_fallos} sin rellenar defaults ocultos",

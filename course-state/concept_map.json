@@ -4705,7 +4705,7 @@
    },
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.code",
+    "location": "stdlib-deep.S15-T4-B#11.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -16055,7 +16055,7 @@
    },
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.code",
+    "location": "stdlib-deep.S15-T4-B#11.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -24180,7 +24180,7 @@
    },
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.code",
+    "location": "stdlib-deep.S15-T4-B#11.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -30640,7 +30640,7 @@
    },
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.code",
+    "location": "stdlib-deep.S15-T4-B#11.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -38302,7 +38302,7 @@
    },
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.code",
+    "location": "stdlib-deep.S15-T4-B#11.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -48608,7 +48608,7 @@
    },
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.code",
+    "location": "stdlib-deep.S15-T4-B#11.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -54826,7 +54826,7 @@
    },
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.code",
+    "location": "stdlib-deep.S15-T4-B#11.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -64532,7 +64532,7 @@
    },
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.code",
+    "location": "stdlib-deep.S15-T4-B#11.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -101920,7 +101920,7 @@
    },
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.code",
+    "location": "stdlib-deep.S15-T4-B#11.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -102290,7 +102290,7 @@
    },
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.code",
+    "location": "stdlib-deep.S15-T4-B#11.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -110830,7 +110830,7 @@
    },
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.p0",
+    "location": "stdlib-deep.S15-T4-B#11.p0",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -112028,6 +112028,18 @@
    },
    {
     "section": "S15",
+    "location": "stdlib-deep.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.theory[2].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S15",
     "location": "stdlib-deep.S15-T1-A.heading",
     "kind": "theory.heading",
     "visible": true
@@ -113176,6 +113188,18 @@
   "definitions": [
    {
     "section": "S15",
+    "location": "stdlib-deep.outcome[0]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S15",
     "location": "stdlib-deep.S15-T1-A.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -113625,38 +113649,13 @@
   },
   "first_definition": {
    "section": "S15",
-   "location": "stdlib-deep.S15-T1-A.p0",
-   "kind": "theory.paragraph",
+   "location": "stdlib-deep.outcome[0]",
+   "kind": "outcome",
    "visible": true
   },
   "reinforcements": [],
   "depth": "L3",
-  "surprising_uses": [
-   {
-    "section": "S15",
-    "location": "stdlib-deep.outcome[0]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S15",
-    "location": "stdlib-deep.theory[0].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S15",
-    "location": "stdlib-deep.theory[1].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S15",
-    "location": "stdlib-deep.theory[1].p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S15",
    "S16",
@@ -113691,6 +113690,24 @@
    {
     "section": "S15",
     "location": "stdlib-deep.theory[1].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.theory[2].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.theory[2].p3",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -114088,6 +114105,18 @@
   "definitions": [
    {
     "section": "S15",
+    "location": "stdlib-deep.outcome[0]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S15",
     "location": "stdlib-deep.S15-T1-A.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -114145,32 +114174,13 @@
   },
   "first_definition": {
    "section": "S15",
-   "location": "stdlib-deep.S15-T1-A.p0",
-   "kind": "theory.paragraph",
+   "location": "stdlib-deep.outcome[0]",
+   "kind": "outcome",
    "visible": true
   },
   "reinforcements": [],
   "depth": "L2",
-  "surprising_uses": [
-   {
-    "section": "S15",
-    "location": "stdlib-deep.outcome[0]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S15",
-    "location": "stdlib-deep.theory[0].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S15",
-    "location": "stdlib-deep.theory[1].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S15",
    "S16",
@@ -116984,12 +116994,6 @@
   "declared_first_section": "wxpython-gui",
   "uses": [
    {
-    "section": "S15",
-    "location": "stdlib-deep.youDo.context",
-    "kind": "youdo.context",
-    "visible": true
-   },
-   {
     "section": "S16",
     "location": "wxpython-gui.S16-T1-A.p0",
     "kind": "theory.paragraph",
@@ -117245,9 +117249,9 @@
   "headings": [],
   "figures": [],
   "first_use": {
-   "section": "S15",
-   "location": "stdlib-deep.youDo.context",
-   "kind": "youdo.context",
+   "section": "S16",
+   "location": "wxpython-gui.S16-T1-A.p0",
+   "kind": "theory.paragraph",
    "visible": true
   },
   "first_definition": {
@@ -117266,12 +117270,6 @@
   ],
   "depth": "L1",
   "surprising_uses": [
-   {
-    "section": "S15",
-    "location": "stdlib-deep.youDo.context",
-    "kind": "youdo.context",
-    "visible": true
-   },
    {
     "section": "S16",
     "location": "wxpython-gui.S16-T1-A.p0",
@@ -117298,7 +117296,6 @@
    }
   ],
   "sections_used": [
-   "S15",
    "S16",
    "S18",
    "S19",
@@ -117308,7 +117305,7 @@
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": 3
+  "explanation_lag_sections": 2
  },
  "missing-values": {
   "id": "missing-values",
@@ -130749,13 +130746,13 @@
   "uses": [
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.p2",
+    "location": "stdlib-deep.S15-T4-B#11.p2",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.code",
+    "location": "stdlib-deep.S15-T4-B#11.code",
     "kind": "theory.code",
     "visible": true
    }
@@ -130763,7 +130760,7 @@
   "definitions": [
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.p2",
+    "location": "stdlib-deep.S15-T4-B#11.p2",
     "kind": "theory.paragraph",
     "visible": true
    }
@@ -130771,7 +130768,7 @@
   "examples": [
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.code",
+    "location": "stdlib-deep.S15-T4-B#11.code",
     "kind": "theory.code",
     "visible": true
    }
@@ -130782,13 +130779,13 @@
   "figures": [],
   "first_use": {
    "section": "S15",
-   "location": "stdlib-deep.S15-T4-B#10.p2",
+   "location": "stdlib-deep.S15-T4-B#11.p2",
    "kind": "theory.paragraph",
    "visible": true
   },
   "first_definition": {
    "section": "S15",
-   "location": "stdlib-deep.S15-T4-B#10.p2",
+   "location": "stdlib-deep.S15-T4-B#11.p2",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -130810,13 +130807,13 @@
   "uses": [
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.p1",
+    "location": "stdlib-deep.S15-T4-B#11.p1",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.code",
+    "location": "stdlib-deep.S15-T4-B#11.code",
     "kind": "theory.code",
     "visible": true
    },
@@ -130830,7 +130827,7 @@
   "definitions": [
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.p1",
+    "location": "stdlib-deep.S15-T4-B#11.p1",
     "kind": "theory.paragraph",
     "visible": true
    }
@@ -130838,7 +130835,7 @@
   "examples": [
    {
     "section": "S15",
-    "location": "stdlib-deep.S15-T4-B#10.code",
+    "location": "stdlib-deep.S15-T4-B#11.code",
     "kind": "theory.code",
     "visible": true
    }
@@ -130856,13 +130853,13 @@
   "figures": [],
   "first_use": {
    "section": "S15",
-   "location": "stdlib-deep.S15-T4-B#10.p1",
+   "location": "stdlib-deep.S15-T4-B#11.p1",
    "kind": "theory.paragraph",
    "visible": true
   },
   "first_definition": {
    "section": "S15",
-   "location": "stdlib-deep.S15-T4-B#10.p1",
+   "location": "stdlib-deep.S15-T4-B#11.p1",
    "kind": "theory.paragraph",
    "visible": true
   },
