@@ -1,10 +1,10 @@
 {
  "S01": {
   "section": "S01",
-  "prose_words": 12360,
+  "prose_words": 12364,
   "english_function_words": 2,
   "ordinary_english_words": 18,
-  "kept_technical_terms": 65,
+  "kept_technical_terms": 64,
   "avoidable_english_per_1000": 1.6,
   "top_terms": [
    [
@@ -129,7 +129,7 @@
  },
  "S05": {
   "section": "S05",
-  "prose_words": 8153,
+  "prose_words": 8265,
   "english_function_words": 2,
   "ordinary_english_words": 9,
   "kept_technical_terms": 27,

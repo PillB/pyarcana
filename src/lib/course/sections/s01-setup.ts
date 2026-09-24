@@ -855,7 +855,7 @@ A  README.md
         },
         why: '`.env` se ignora; `.env.example` se versiona **sin secretos**. El README cierra el circuito de un clon limpio: install + smoke sin adivinar. `git check-ignore -v .env` es la prueba observable de que el secreto real no entra al stage. Si un archivo ya estaba versionado, el ignore solo no lo saca: hace falta `git rm --cached` y un commit.',
         retrospective:
-          'El trío cumple funciones distintas: ignore excluye, example documenta y README guía. Repara la idea peligrosa de que agregar `.env` al ignore borra un secreto ya versionado: hay que retirarlo del seguimiento de Git y rotarlo. En We Do construirás cada pieza y terminarás con un checklist que otra persona pueda ejecutar en una máquina limpia.',
+          '`.gitignore`, `.env.example` y `README.md` hacen tareas distintas: el primero excluye, el segundo documenta y el tercero guía. Repara la idea peligrosa de que agregar `.env` a `.gitignore` borra un secreto ya versionado: hay que retirarlo del seguimiento de Git y rotarlo. En We Do construirás cada pieza y terminarás con una lista de comprobación que otra persona pueda ejecutar en una máquina limpia.',
       },
     ],
   },

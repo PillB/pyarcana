@@ -2,11 +2,11 @@
   "ok": false,
   "sections_audited": 52,
   "terms_audited": 106,
-  "events_audited": 22836,
+  "events_audited": 22843,
   "issue_counts": {
     "DEFINITION_AFTER_REQUIREMENT": 8,
     "NO_VISIBLE_DEFINITION": 7,
-    "USE_BEFORE_DEFINITION": 32
+    "USE_BEFORE_DEFINITION": 31
   },
   "never_defined_but_mentioned": [
     "distribuci-n-normal",
@@ -22,15 +22,8 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "function",
       "severity": "P1",
-      "location": "setup.S01-T4-B-DEMO.retrospective",
+      "location": "basics.outcome[6]",
       "definition_location": "basics.theory[0].callout"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "annotation",
-      "severity": "P1",
-      "location": "functions-contracts.outcome[3]",
-      "definition_location": "oop-domain.S11-T1-A.p1"
     },
     {
       "code": "USE_BEFORE_DEFINITION",

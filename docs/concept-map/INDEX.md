@@ -7,7 +7,7 @@ surprised by it?* 🔴 never explained · 🟠 used before it is explained · �
 
 Depth: **L0** never defined · **L1** defined inline at first use · **L2** plus a worked example · **L3** plus its own subtopic and a figure.
 
-**106 concepts.** 12 never explained, 33 used before they are explained, 61 clean.
+**106 concepts.** 12 never explained, 32 used before they are explained, 62 clean.
 
 Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) · [S05](S05.md) · [S06](S06.md) · [S07](S07.md) · [S08](S08.md) · [S09](S09.md) · [S10](S10.md) · [S11](S11.md) · [S12](S12.md) · [S13](S13.md) · [S14](S14.md) · [S15](S15.md) · [S16](S16.md) · [S17](S17.md) · [S18](S18.md) · [S19](S19.md) · [S20](S20.md) · [S21](S21.md) · [S22](S22.md) · [S23](S23.md) · [S24](S24.md) · [S25](S25.md) · [S26](S26.md) · [S27](S27.md) · [S28](S28.md) · [S29](S29.md) · [S30](S30.md) · [S31](S31.md) · [S32](S32.md) · [S33](S33.md) · [S34](S34.md) · [S35](S35.md) · [S36](S36.md) · [S37](S37.md) · [S38](S38.md) · [S39](S39.md) · [S40](S40.md) · [S41](S41.md) · [S42](S42.md) · [S43](S43.md) · [S44](S44.md) · [S45](S45.md) · [S46](S46.md) · [S47](S47.md) · [S48](S48.md) · [S49](S49.md) · [S50](S50.md) · [S51](S51.md) · [S52](S52.md)
 
@@ -37,7 +37,6 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `outlier` | L1 | S03 · S03-T3-A.p3 | S16 · jobRelevance | 8 | 0 | 0 | 3 | +13 | 1/1 | 7 |
 | 🟠 `merge` | L2 | S06 · S06-T2-A-E3.preamble | S17 · S17-T1-A.p0 | 8 | 5 | 9 | 5 | +11 | 0/5 ⚠ | 12 |
 | 🟠 `shape` | L2 | S06 · S06-T3-A.callout | S14 · outcome[0] | 5 | 5 | 5 | 3 | +8 | 0/5 ⚠ | 4 |
-| 🟠 `annotation` | L1 | S05 · outcome[3] | S11 · S11-T1-A.p1 | 8 | 0 | 1 | 1 | +6 | 0/1 ⚠ | 2 |
 | 🟠 `pipeline` | L2 | S02 · theory[2].p0 | S05 · S05-T1-A.callout | 18 | 8 | 9 | 10 | +3 | 0/5 ⚠ | 43 |
 | 🟠 `eda` | L1 | S15 · youDo.context | S18 · jobRelevance | 5 | 0 | 0 | 3 | +3 | 0/1 ⚠ | 5 |
 | 🟠 `for` | L2 | S02 · S02-T1-A-DEMO.code | S04 · S04-T1-A-E2.preamble | 105 | 357 | 34 | 4 | +2 | 0/5 ⚠ | 51 |
@@ -45,8 +44,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `set` | L3 | S01 · S01-T4-A-E3.starter | S03 · S03-T1-A.p2 | 1 | 120 | 50 | 17 | +2 | 2/5 ⚠ | 46 |
 | 🟠 `exception` | L3 | S02 · theory[1].p3 | S03 · S03-T2-B.p0 | 14 | 53 | 27 | 10 | +1 | 3/5 ⚠ | 32 |
 | 🟠 `if` | L3 | S01 · S01-T1-B#6.code | S02 · S02-T2-A-DEMO.why | 6 | 439 | 50 | 19 | +1 | 1/5 ⚠ | 52 |
-| 🟠 `return` | L3 | S02 · theory[1].code | S03 · theory[3].p3 | 6 | 642 | 41 | 5 | +1 | 1/5 ⚠ | 50 |
-| 🟠 `function` | L3 | S01 · S01-T4-B-DEMO.retrospective | S02 · theory[0].callout | 3 | 807 | 34 | 17 | +1 | 2/5 ⚠ | 52 |
+| 🟠 `return` | L3 | S02 · theory[1].code | S03 · theory[3].p3 | 6 | 643 | 41 | 5 | +1 | 1/5 ⚠ | 50 |
 | 🟠 `parameter` | L3 | S02 · S02-T4-A-E3.hint | S03 · theory[3].p1 | 3 | 1 | 4 | 1 | +1 | 1/5 ⚠ | 19 |
 | 🟠 `cross-validation` | L1 | S32 · resources.doc[5] | S33 · theory[11].p1 | 2 | 0 | 0 | 0 | +1 | 0/1 ⚠ | 3 |
 | 🟠 `entity-resolution` | L3 | S12 · selfCheck[4].opt[2] | S13 · S13-T1-A.p0 | 2 | 8 | 6 | 15 | +1 | 2/5 ⚠ | 15 |
@@ -59,6 +57,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `github` | L2 | S01 · outcome[5] | S01 · theory[8].p4 | 3 | 4 | 1 | 5 | · | 0/5 ⚠ | 6 |
 | 🟠 `series` | L2 | S15 · outcome[0] | S15 · S15-T1-A.p0 | 3 | 4 | 1 | 0 | · | 0/5 ⚠ | 8 |
 | 🟠 `truthiness` | L1 | S03 · tagline | S03 · theory[0].p2 | 3 | 0 | 19 | 4 | · | 0/1 ⚠ | 12 |
+| 🟠 `function` | L3 | S02 · outcome[6] | S02 · theory[0].callout | 2 | 808 | 34 | 17 | · | 2/5 ⚠ | 51 |
 | 🟠 `interprete` | L1 | S01 · tagline | S01 · outcome[0] | 2 | 0 | 1 | 2 | · | 0/1 ⚠ | 9 |
 | 🟠 `repositorio-repo` | L2 | S01 · outcome[5] | S01 · theory[0].p3 | 2 | 8 | 11 | 13 | · | 0/5 ⚠ | 26 |
 | 🟠 `coverage` | L1 | S24 · S24-T4-A.callout | S24 · S24-T4-A-E3.preamble | 1 | 0 | 3 | 0 | · | 0/1 ⚠ | 4 |
@@ -71,6 +70,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | concept | depth | first use | first explained | surprising | examples | exercised | self-check | lag | figures | sections |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
 | 🟢 `abc` | L1 | S11 · S11-T3-B.p1 | S11 · S11-T3-B.p1 | 0 | 0 | 0 | 1 | · | 0/1 ⚠ | 1 |
+| 🟢 `annotation` | L1 | S05 · outcome[3] | S05 · outcome[3] | 0 | 0 | 1 | 1 | · | 0/1 ⚠ | 2 |
 | 🟢 `apply` | L2 | S10 · S10-T4-A-E1.preamble | S10 · S10-T4-A-E1.preamble | 0 | 1 | 4 | 0 | · | 0/5 ⚠ | 6 |
 | 🟢 `asignacion-aleatoria` | L2 | S18 · S18-T2-B#6.p2 | S18 · S18-T2-B#6.p2 | 0 | 1 | 0 | 1 | · | 0/1 ⚠ | 1 |
 | 🟢 `autoseleccion` | L2 | S18 · S18-T2-B#6.p3 | S18 · S18-T2-B#6.p3 | 0 | 1 | 1 | 1 | · | 0/1 ⚠ | 1 |

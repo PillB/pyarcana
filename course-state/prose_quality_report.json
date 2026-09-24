@@ -1,6 +1,6 @@
 {
  "S01": {
-  "words": 11649,
+  "words": 11658,
   "sentences": 828,
   "words_per_sentence": 14.1,
   "fernandez_huerta": 77.7,
@@ -52,16 +52,16 @@
   "section": "S04"
  },
  "S05": {
-  "words": 7115,
-  "sentences": 627,
-  "words_per_sentence": 11.3,
-  "fernandez_huerta": 74.9,
+  "words": 7401,
+  "sentences": 645,
+  "words_per_sentence": 11.5,
+  "fernandez_huerta": 74.8,
   "long_sentences": 1,
   "run_on_sentences": 0,
-  "nominalisations_per_100w": 3.1,
+  "nominalisations_per_100w": 3.2,
   "gerunds_per_100w": 0.4,
   "commas_per_sentence": 0.4,
-  "meta_leaks": 6,
+  "meta_leaks": 7,
   "section": "S05"
  },
  "S06": {

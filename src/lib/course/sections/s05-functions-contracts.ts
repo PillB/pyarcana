@@ -27,7 +27,7 @@ export const section05: CourseSection = {
     { text: "Definir funciones con def, llamarlas y retornar valores (no None accidental)." },
     { text: "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)." },
     { text: "Documentar pre/postcondiciones con docstrings alineados al código." },
-    { text: "Anotar type hints graduales y modelar errores de dominio." },
+    { text: "Usar anotaciones de tipo —notas escritas en `def` que describen, pero no obligan, qué clase de valor recibe y devuelve una función— y modelar errores de dominio." },
     { text: "Descomponer lógica en funciones pequeñas y orquestadores delgados." },
     { text: "Distinguir funciones puras de efectos externos e inyectar entrada/salida en el borde: entregar como argumento la función que lee o escribe." },
     { text: "Explicar LEGB y escribir closures/factories simples." },
@@ -92,6 +92,37 @@ print("email_policy", c["policies"]["email"])
 gate CP-N1-B
 must pure,idempotent,no_io_in_core,no_real_pii
 email_policy strip+lower+require_@`,
+      },
+     },
+     {
+      heading: "Anotaciones de tipo: una promesa visible, no una barrera",
+      paragraphs: [
+        "Una **anotación de tipo** es una nota escrita en la línea de `def`. Después de un parámetro, `: str` dice «aquí se espera texto» y `: int` dice «aquí se espera un número entero»; después de los paréntesis, `-> int` describe lo que la función promete devolver. En la documentación también encontrarás el nombre *type hint*. Estas notas existen para que una persona pueda ver la forma del contrato antes de leer todo el cuerpo.",
+        "Mira `def sumar_uno(numero: int) -> int`. La anotación `numero: int` describe el argumento esperado y `-> int` describe el resultado. Al llamar `sumar_uno(4)`, el parámetro `numero` recibe `4`, el cuerpo suma uno y `return` entrega `5`. Las anotaciones no hacen la suma ni cambian el valor: solo cuentan la promesa.",
+        "**Práctica guiada:** lee `def sumar_uno(numero: int) -> int` de izquierda a derecha y completa esta frase: «recibe ___ y devuelve ___». La respuesta correcta es «un número entero» en ambos espacios. Después señala la línea que realmente produce el resultado: es `return numero + 1`, no `: int` ni `-> int`.",
+        "**Comprobación:** ejecuta el código. Debe imprimir `5` y luego `hola`. La segunda función lleva una anotación falsa solo para esta prueba: Python acepta el texto porque una anotación describe el contrato, pero no lo comprueba al ejecutar. No copies esa firma como contrato final; corrígela para que la nota y el valor real vuelvan a coincidir.",
+      ],
+      code: {
+        language: 'python',
+        title: "anotaciones_no_obligan.py",
+        code: `def sumar_uno(numero: int) -> int:
+    return numero + 1
+
+print(sumar_uno(4))
+
+# Contrato falso, usado solo para comprobar que la anotación no obliga.
+def eco(valor: int) -> int:
+    return valor
+
+print(eco("hola"))`,
+        output: `5
+hola`,
+      },
+      callout: {
+        type: "warning",
+        title: "La promesa debe coincidir con el cuerpo",
+        content:
+          "Python ejecuta la función aunque la anotación sea falsa. Por eso debes revisar juntos la firma, cada `return` y los valores reales: una nota incorrecta orienta a quien llama hacia una operación que puede fallar.",
       },
      },
      {

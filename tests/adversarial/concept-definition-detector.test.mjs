@@ -143,7 +143,7 @@ test('a command line that starts a sentence is not a definition of its command',
 
 test('an appositive with the definite article teaches, an ordinary sentence does not', () => {
   // "`pip`, el instalador de paquetes de Python" is the course's commonest gloss shape.
-  assert.ok(defines('setup.theory[0].p1', 'pip'))
+  assert.ok(definingEvent(/`pip`, el instalador de paquetes de Python/, 'pip'))
   // "Si solo haces `pass` dentro del `if`, el print posterior usa la última `i` del `for`"
   // has the same opening and defines nothing: its connector is 35 characters away.
   assert.equal(defines('computer-vision.S23-T1-B-E1.hint[1]', 'if'), false)
@@ -159,7 +159,29 @@ test('naming a term in Spanish is not defining it', () => {
 test('a negated verb describes what a thing is not', () => {
   // "Devolver una tupla no hace que el lote continúe por sí solo" matched the article and a
   // describing verb, and was credited as the definition of tuple.
-  assert.equal(defines('functions-contracts.theory[5].callout', 'tuple'), false)
+  assert.equal(definingEvent(/Devolver una tupla no hace que el lote contin/, 'tuple'), false)
+})
+
+/**
+ * No assertion above may name a block by its position in the array.
+ *
+ * `theory[5].callout` and `theory[0].p1` were both written as positional ids, and S05's
+ * concepts round inserted one teaching block ahead of the first - every later index shifted,
+ * this file failed, and the gate restored a round that took S05 from 8 surprising uses to 0.
+ * The same thing cost S33's round earlier the same day. A subtopic id like `S14-T2-B` is a
+ * fact about the course and survives; `theory[5]` is a fact about an array and does not.
+ */
+test('no assertion in this file is pinned to a block index', () => {
+  const source = fs.readFileSync('tests/adversarial/concept-definition-detector.test.mjs', 'utf8')
+  const positional = source
+    .split('\n')
+    .map((line, i) => [i + 1, line])
+    .filter(([, line]) => /defines\(\s*'[^']*\btheory\[\d+\]/.test(line))
+    .map(([n, line]) => `${n}: ${line.trim()}`)
+  assert.deepEqual(
+    positional, [],
+    'match the sentence with definingEvent() instead; an inserted block renumbers these',
+  )
 })
 
 test('a subsection title is not a surprise when its own first paragraph defines the term', () => {
