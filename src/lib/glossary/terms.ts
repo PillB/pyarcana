@@ -662,8 +662,15 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'Overfitting',
     aliases: ['Overfitting', 'sobreajuste', 'overfit', 'sobreajusta', 'sobreajustada', 'sobreajustado'],
     category: 'ML',
-    definition: 'Modelo memoriza training data, generaliza mal. Síntomas: train score >> test score. Fix: más datos, regularización, simpler model.',
-    firstSectionId: 'advanced-models',
+    definition: 'Ocurre cuando una regla o un modelo se ajusta tan pegado a los ejemplos con que se construyó que acierta con ellos y falla con otros que debería aceptar. En un modelo, el síntoma es acertar mucho con los datos usados para ajustarlo y perder aciertos con los que se mantuvieron aparte.',
+    // S07, not S33. The idea arrives long before the statistics: S07-T2-B-E3's success
+    // criterion is literally `rejected_by_overfit`, so the learner has to recognise a rule
+    // tuned too tightly to its examples, and the section now teaches exactly that with an
+    // email pattern. S33 gives it the train/valid treatment. The definition is the two
+    // sentences codex wrote for those two blocks, joined - the old one described a model
+    // with "training data", "score" and "simpler model", none of which a reader of a regex
+    // lesson has met, and the hover shows the same text in both places.
+    firstSectionId: 'text-unicode-regex',
   },
   {
     id: 'roc-auc',

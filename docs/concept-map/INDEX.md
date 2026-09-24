@@ -32,11 +32,10 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 
 | concept | depth | first use | first explained | surprising | examples | exercised | self-check | lag | figures | sections |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
-| 🟠 `overfitting` | L2 | S07 · S07-T2-B-DEMO.code | S33 · outcome[5] | 3 | 3 | 0 | 1 | +26 | 0/1 ⚠ | 2 |
 | 🟠 `embedding` | L1 | S28 · S28-T1-B.p1 | S48 · theory[0].p1 | 2 | 0 | 0 | 3 | +20 | 0/1 ⚠ | 2 |
 | 🟠 `outlier` | L1 | S03 · S03-T3-A.p3 | S16 · jobRelevance | 8 | 0 | 0 | 3 | +13 | 1/1 | 7 |
-| 🟠 `merge` | L2 | S06 · S06-T2-A-E3.preamble | S17 · S17-T1-A.p0 | 8 | 5 | 9 | 5 | +11 | 0/5 ⚠ | 12 |
-| 🟠 `shape` | L2 | S06 · S06-T3-A.callout | S14 · outcome[0] | 5 | 5 | 5 | 3 | +8 | 0/5 ⚠ | 4 |
+| 🟠 `shape` | L2 | S06 · S06-T3-A-E3.starter | S14 · outcome[0] | 1 | 5 | 5 | 3 | +8 | 0/5 ⚠ | 4 |
+| 🟠 `merge` | L2 | S10 · S10-T4-A.p2 | S17 · S17-T1-A.p0 | 5 | 5 | 9 | 5 | +7 | 0/5 ⚠ | 10 |
 | 🟠 `pipeline` | L2 | S02 · theory[2].p0 | S05 · S05-T1-A.callout | 18 | 8 | 9 | 10 | +3 | 0/5 ⚠ | 43 |
 | 🟠 `eda` | L1 | S15 · youDo.context | S18 · jobRelevance | 5 | 0 | 0 | 3 | +3 | 0/1 ⚠ | 5 |
 | 🟠 `for` | L2 | S02 · S02-T1-A-DEMO.code | S04 · S04-T1-A-E2.preamble | 105 | 357 | 34 | 4 | +2 | 0/5 ⚠ | 51 |
@@ -59,11 +58,12 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `truthiness` | L1 | S03 · tagline | S03 · theory[0].p2 | 3 | 0 | 19 | 4 | · | 0/1 ⚠ | 12 |
 | 🟠 `function` | L3 | S02 · outcome[6] | S02 · theory[0].callout | 2 | 808 | 34 | 17 | · | 2/5 ⚠ | 51 |
 | 🟠 `interprete` | L1 | S01 · tagline | S01 · outcome[0] | 2 | 0 | 1 | 2 | · | 0/1 ⚠ | 9 |
+| 🟠 `overfitting` | L2 | S07 · theory[5].p0 | S07 · theory[5].p3 | 2 | 3 | 0 | 1 | · | 0/1 ⚠ | 2 |
 | 🟠 `repositorio-repo` | L2 | S01 · outcome[5] | S01 · theory[0].p3 | 2 | 8 | 11 | 13 | · | 0/5 ⚠ | 26 |
 | 🟠 `coverage` | L1 | S24 · S24-T4-A.callout | S24 · S24-T4-A-E3.preamble | 1 | 0 | 3 | 0 | · | 0/1 ⚠ | 4 |
 | 🟠 `list-comprehension` | L1 | S04 · outcome[5] | S04 · theory[7].p0 | 1 | 0 | 5 | 0 | · | 0/1 ⚠ | 12 |
 | 🟠 `roc-auc` | L1 | S34 · theory[2].heading | S34 · theory[2].p1 | 1 | 0 | 0 | 7 | · | 0/1 ⚠ | 2 |
-| 🟠 `slicing` | L1 | S06 · outcome[0] | S06 · S06-T1-A.p1 | 1 | 0 | 7 | 4 | · | 0/1 ⚠ | 13 |
+| 🟠 `slicing` | L1 | S06 · outcome[0] | S06 · theory[1].p0 | 1 | 0 | 7 | 4 | · | 0/1 ⚠ | 13 |
 
 ## Explained before first use
 
@@ -99,7 +99,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `guardrail` | L1 | S18 · S18-T3-A#8.p2 | S18 · S18-T3-A#8.p2 | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🟢 `iloc-vs-loc` | L2 | S15 · outcome[2] | S15 · outcome[2] | 0 | 1 | 4 | 2 | · | 0/5 ⚠ | 3 |
 | 🟢 `iqr` | L3 | S16 · outcome[5] | S16 · outcome[5] | 0 | 2 | 1 | 3 | · | 1/5 ⚠ | 3 |
-| 🟢 `lambda` | L2 | S06 · theory[8].p1 | S06 · theory[8].p1 | 0 | 38 | 5 | 1 | · | 1/5 ⚠ | 24 |
+| 🟢 `lambda` | L2 | S06 · theory[9].p1 | S06 · theory[9].p1 | 0 | 38 | 5 | 1 | · | 1/5 ⚠ | 24 |
 | 🟢 `list` | L2 | S01 · S01-T1-B#6.p2 | S01 · S01-T1-B#6.p2 | 0 | 107 | 31 | 6 | · | 1/5 ⚠ | 44 |
 | 🟢 `missing-values` | L3 | S09 · theory[2].heading | S09 · theory[2].p0 | 0 | 6 | 15 | 7 | · | 1/5 ⚠ | 9 |
 | 🟢 `mlops` | L1 | S47 · jobRelevance | S47 · jobRelevance | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |

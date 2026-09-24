@@ -2,9 +2,9 @@
   "ok": false,
   "sections_audited": 52,
   "terms_audited": 106,
-  "events_audited": 22843,
+  "events_audited": 22854,
   "issue_counts": {
-    "DEFINITION_AFTER_REQUIREMENT": 8,
+    "DEFINITION_AFTER_REQUIREMENT": 7,
     "NO_VISIBLE_DEFINITION": 7,
     "USE_BEFORE_DEFINITION": 31
   },
@@ -51,7 +51,7 @@
       "term_id": "slicing",
       "severity": "P1",
       "location": "collections.outcome[0]",
-      "definition_location": "collections.S06-T1-A.p1"
+      "definition_location": "collections.theory[1].p0"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
@@ -174,8 +174,8 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "shape",
       "severity": "P1",
-      "location": "collections.S06-T3-A.callout",
-      "definition_location": "collections.S06-T3-A-E3.title"
+      "location": "collections.S06-T3-A-E3.starter",
+      "definition_location": "security.outcome[0]"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
@@ -201,14 +201,7 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "merge",
       "severity": "P1",
-      "location": "collections.S06-T2-A-E3.preamble",
-      "definition_location": "packaging.S17-T1-A.p0"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "merge",
-      "severity": "P1",
-      "location": "text-unicode-regex.S07-T4-A-E3.hint[1]",
+      "location": "modules-packaging-cli.S10-T4-A.p2",
       "definition_location": "packaging.S17-T1-A.p0"
     },
     {
@@ -257,8 +250,8 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "overfitting",
       "severity": "P1",
-      "location": "text-unicode-regex.S07-T2-B-DEMO.code",
-      "definition_location": "advanced-models.outcome[5]"
+      "location": "text-unicode-regex.theory[5].p0",
+      "definition_location": "text-unicode-regex.theory[5].p3"
     },
     {
       "code": "USE_BEFORE_DEFINITION",

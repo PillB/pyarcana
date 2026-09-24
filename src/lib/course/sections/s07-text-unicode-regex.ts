@@ -182,6 +182,15 @@ print(parts)`,
       },
     },
     {
+      heading: "Cuando una regla solo funciona con los ejemplos conocidos",
+      paragraphs: [
+        "El **overfitting** o **sobreajuste** ocurre cuando una regla se construye tan pegada a unos pocos ejemplos que acierta con ellos, pero falla ante otros casos que debería aceptar. El nombre distingue «funcionó con mis ejemplos» de «funciona para el problema». Una regla no está sobreajustada solo por ser estricta; lo está cuando sus restricciones descartan entradas que la tarea debía aceptar o enviar a `review`.",
+        "Mira una regla que solo admite letras minúsculas antes y después de `@`, seguidas de `.com`. `ana@example.com` pasa, pero `ana+ventas@example.com` falla por el signo `+` y `ana@ejemplo.org` falla por no terminar en `.com`. Esos rechazos no demuestran que las dos últimas direcciones sean inválidas; demuestran que la regla cubre un conjunto demasiado estrecho de casos.",
+        "Ahora aplica esa regla, sin ejecutar código, a `luz@example.com`, `luz+turno@example.com` y `luz@clinica.org`. El resultado correcto es aceptar solo la primera: el `+` excluye la segunda y la terminación `.org` excluye la tercera. Si puedes señalar qué restricción causa cada rechazo, ya puedes reconocer el sobreajuste en vez de limitarte a ver que una prueba falló.",
+        "Compruébalo en la demo siguiente: ejecútala y busca `regla rígida rechaza plus? True`. Ese `True` confirma que el patrón rechazó el caso con `+`; no confirma que la dirección sea inválida. En los nombres de código del ejercicio, `overfit` significa que la regla quedó sobreajustada.",
+      ],
+    },
+    {
       heading: "Nombres, emails y teléfonos sin sobrevalidación",
       subtopicId: "S07-T2-B",
       paragraphs: [
@@ -1514,7 +1523,7 @@ print(norm('  Juan  PEREZ ') == norm('juan perez'))`,
         edgeCases: ["score parcial"],
         tests: "≈0.667",
         feedback:
-          "`min(len)` infla el score (Dice-like). Jaccard usa la unión. Sin NFC, formas visualmente iguales se desdoblan en tokens distintos. Score parcial → review, no merge.",
+          "`min(len)` infla el score (Dice-like). Jaccard usa la unión. Sin NFC, formas visualmente iguales se desdoblan en tokens distintos. Score parcial → `review`; no conviertas dos registros en uno.",
         retrospective:
           "El resultado 0.667 se explica con dos tokens compartidos sobre tres distintos; muestra esos conjuntos antes de confiar en la cifra. Si contaste duplicados como más evidencia, olvidaste que Jaccard usa conjuntos. Transfiere el cálculo a etiquetas de productos y pregunta si perder frecuencia es aceptable; quizá otro modelo sea necesario, pero la evidencia debe seguir visible.",
         starterCode: {
@@ -1554,14 +1563,14 @@ print(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))`,
         kind: "transfer",
         title: "Umbrales exact / review / no_match",
         preamble:
-          "- **Contexto:** el pipeline de matching emite una decisión de **proceso**, no un veredicto legal.\n- **Meta:** aplicar umbrales: 1.0 → exact; [0.4, 1.0) → review; <0.4 → no_match.\n- **Éxito:** `review Juan Perez Juan P Perez 0.67`.\n- **Límites:** no auto-merge en review; no digas «es la misma persona».",
+          "- **Contexto:** el pipeline de matching emite una decisión de **proceso**, no un veredicto legal.\n- **Meta:** aplicar umbrales: 1.0 → exact; [0.4, 1.0) → review; <0.4 → no_match.\n- **Éxito:** `review Juan Perez Juan P Perez 0.67`.\n- **Límites:** si la decisión es `review`, no conviertas dos registros en uno automáticamente ni digas «es la misma persona».",
         id: "S07-T4-A-E3",
         instruction:
           "1. Con score `0.67`, corrige la rama que hoy cae en `exact`.\n2. Exact solo si `score == 1.0`.\n3. Imprime `decision a b score` en una línea.\n4. Superficie: política de umbrales, no el cálculo de Jaccard.",
         hint: "Umbrales explícitos",
         hints: [
           "Umbrales explícitos",
-          "No auto-merge en review.",
+          "Si la decisión es `review`, no conviertas dos registros en uno automáticamente.",
         ],
         edgeCases: ["score medio"],
         tests: "review",

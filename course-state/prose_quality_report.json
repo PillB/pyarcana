@@ -65,9 +65,9 @@
   "section": "S05"
  },
  "S06": {
-  "words": 6129,
-  "sentences": 572,
-  "words_per_sentence": 10.7,
+  "words": 6345,
+  "sentences": 586,
+  "words_per_sentence": 10.8,
   "fernandez_huerta": 77.2,
   "long_sentences": 0,
   "run_on_sentences": 0,
@@ -78,13 +78,13 @@
   "section": "S06"
  },
  "S07": {
-  "words": 6495,
-  "sentences": 595,
-  "words_per_sentence": 10.9,
-  "fernandez_huerta": 76.4,
+  "words": 6732,
+  "sentences": 608,
+  "words_per_sentence": 11.1,
+  "fernandez_huerta": 76.2,
   "long_sentences": 0,
   "run_on_sentences": 0,
-  "nominalisations_per_100w": 2.6,
+  "nominalisations_per_100w": 2.5,
   "gerunds_per_100w": 0.3,
   "commas_per_sentence": 0.5,
   "meta_leaks": 4,

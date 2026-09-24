@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T04:17:19.987278+00:00",
+  "generated_at": "2026-09-24T21:08:34.061605+00:00",
   "sections": 52,
   "dependency_visibility": {
     "status": "ok",
@@ -44,10 +44,10 @@
     "note": "The snippet interpreter matches the declared teaching environment."
   },
   "totals": {
-    "pass": 3304,
+    "pass": 3305,
     "fail": 0,
     "skip": 72,
-    "artifacts": 3376
+    "artifacts": 3377
   },
   "fail_count": 0,
   "p0_count": 0,
@@ -108,11 +108,11 @@
       "file": "src/lib/course/sections/s06-collections.ts",
       "section_id": "collections",
       "counts": {
-        "pass": 65,
+        "pass": 66,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 65
+      "artifact_count": 66
     },
     {
       "file": "src/lib/course/sections/s07-text-unicode-regex.ts",

@@ -167,10 +167,10 @@
  },
  "S06": {
   "section": "S06",
-  "prose_words": 6890,
+  "prose_words": 7072,
   "english_function_words": 7,
   "ordinary_english_words": 4,
-  "kept_technical_terms": 22,
+  "kept_technical_terms": 21,
   "avoidable_english_per_1000": 1.6,
   "top_terms": [
    [
@@ -211,15 +211,15 @@
  },
  "S07": {
   "section": "S07",
-  "prose_words": 7762,
+  "prose_words": 7973,
   "english_function_words": 0,
-  "ordinary_english_words": 39,
-  "kept_technical_terms": 42,
-  "avoidable_english_per_1000": 5.0,
+  "ordinary_english_words": 37,
+  "kept_technical_terms": 41,
+  "avoidable_english_per_1000": 4.6,
   "top_terms": [
    [
     "review",
-    21
+    19
    ],
    [
     "split",
@@ -234,14 +234,7 @@
     1
    ]
   ],
-  "worst_passages": [
-   {
-    "location": "text-unicode-regex.S07-T4-A-E3.preamble",
-    "avoidable_english": 3,
-    "words": 32,
-    "text": "- **Contexto:** el pipeline de matching emite una decisión de **proceso**, no un veredicto legal.\n- **Meta:** aplicar umbrales: 1.0 → exact; [0.4, 1.0) → review; <0.4 → no_match.\n- **Éxito:** `review "
-   }
-  ]
+  "worst_passages": []
  },
  "S08": {
   "section": "S08",

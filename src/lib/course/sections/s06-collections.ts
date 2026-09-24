@@ -24,7 +24,7 @@ export const section06: CourseSection = {
   jobRelevance:
     "Antes de guardar un lote fuera del programa, ordénalo en una mesa de clasificación en memoria. Allí puedes conservar el orden de llegada, localizar clientes por ID, detectar repeticiones y registrar desacuerdos. Aquí conviertes tus listas y funciones en ese pequeño almacén confiable. Esta habilidad aparece a diario en el onboarding, es decir, en el alta y la verificación de un nuevo cliente. También aparece en la logística, el comercio y el control de calidad. Elegir la colección correcta evita datos perdidos, búsquedas lentas y resultados que cambian sin explicación.",
   learningOutcomes: [
-    { text: "Usar `list`/`tuple` y recortes por posiciones (`slicing`) para crear ventanas de registros" },
+    { text: "Usar `list`/`tuple` y recortes por posiciones (`slicing`: tomar una parte seguida desde una posición inicial hasta antes de una posición final) para crear ventanas de registros" },
     { text: "Desempaquetar secuencias y distinguir alias vs. copia superficial/profunda" },
     { text: "Modelar registros con dict, get e índices id→fila" },
     { text: "Deduplicar con set y reportar conflictos sin borrarlos" },
@@ -54,6 +54,33 @@ export const section06: CourseSection = {
         title: "Alcance de S06",
         content:
           "Trabajas con los tipos incorporados `list`, `tuple`, `dict` y `set`; más adelante usarás el módulo `copy`, incluido con Python. El objetivo es construir y justificar un modelo tabular en memoria con datos sintéticos; nunca uses información personal real.",
+      },
+    },
+    {
+      heading: "Recortar una lista por posiciones",
+      paragraphs: [
+        "En Python, **slicing** consiste en escribir dos posiciones separadas por `:` dentro de `[]` para tomar una parte seguida de una `list`. Existe para elegir varios valores consecutivos sin escribir un `for` ni cambiar la lista original. La posición inicial entra en el resultado; la posición final marca dónde detenerse y no entra.",
+        "Mira `valores = [10, 20, 30, 40]`. El recorte `valores[1:3]` comienza en la posición 1 y se detiene antes de la 3, por eso produce `[20, 30]`. El recorte `valores[-2:]` comienza dos posiciones antes del final y, como no indica una posición final, produce `[30, 40]`. En ambos casos `valores` conserva sus cuatro números.",
+        "Ahora prueba con `ids = [\"T1\", \"T2\", \"T3\", \"T4\"]`. Antes de ejecutar, predice el resultado de `ids[-3:]`; después imprime el recorte y la lista original. La comprobación correcta muestra `[\"T2\", \"T3\", \"T4\"]` y luego los cuatro IDs originales. Si escribes `ids[-3]` sin `:`, obtienes un solo valor en vez de una lista: los dos puntos son lo que pide un recorte.",
+      ],
+      code: {
+        language: 'python',
+        title: "primer_recorte.py",
+        code: `valores = [10, 20, 30, 40]
+parte_central = valores[1:3]
+ultimos = valores[-2:]
+print(parte_central)
+print(ultimos)
+print(valores)`,
+        output: `[20, 30]
+[30, 40]
+[10, 20, 30, 40]`,
+      },
+      callout: {
+        type: "tip",
+        title: "Lee primero los límites",
+        content:
+          "En `lista[inicio:fin]`, incluye `inicio` y se detiene antes de `fin`. Ejecuta el ejemplo y confirma que el recorte no cambia la lista original.",
       },
     },
     {
@@ -305,7 +332,7 @@ flat rows: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 10}, {'client_id': 'C0
       },
       callout: {
         type: "tip",
-        title: "Shape listo para S08",
+        title: "Filas listas para S08",
         content:
           "Una lista plana de diccionarios es el puente natural hacia CSV. Conserva el ID del cliente en cada fila aplanada para no perder la relación.",
       },
@@ -978,7 +1005,7 @@ print(mut)
         feedback:
           "Unpack documenta la forma esperada de la fila. Si el largo no calza, Python falla de inmediato — y eso es bueno para detectar filas rotas antes del almacén.",
         retrospective:
-          "El unpack no solo ahorra índices: convierte el largo de la fila en una afirmación ejecutable. Predice el error si llega `('C001', 'Lima')` y explica por qué no conviene rellenar `monto` en silencio. Después decide cuándo usarías `cid, *rest`: flexibiliza el shape, pero también traslada a tu código la responsabilidad de validar cuánto contiene `rest`.",
+          "El unpack no solo ahorra índices: convierte el largo de la fila en una afirmación ejecutable. Predice el error si llega `('C001', 'Lima')` y explica por qué no conviene rellenar `monto` en silencio. Después decide cuándo usarías `cid, *rest`: permite una cantidad variable de valores, pero también traslada a tu código la responsabilidad de validar cuánto contiene `rest`.",
         starterCode: {
           language: 'python',
           title: "unpack_row.py",
@@ -1187,7 +1214,7 @@ falta obligatoria C999`,
         kind: "transfer",
         title: "Fusionar config sin mutar defaults",
         preamble:
-          "- **Contexto:** varios helpers comparten una config base de retry/timeout; un override no debe pisar el original en memoria.\n- **Meta:** merge con precedencia override > defaults, dejando `defaults` intacto.\n- **Éxito:** `merged` con `retry: 5` y `timeout: 30`; `defaults` sigue en `retry: 1`.\n- **Límites:** no dejes `defaults.update(override)` sobre el dict compartido.",
+          "- **Contexto:** varios helpers comparten una config base de retry/timeout; un override no debe pisar el original en memoria.\n- **Meta:** combinar ambos diccionarios de modo que `override` gane sobre `defaults`, dejando `defaults` intacto.\n- **Éxito:** `merged` con `retry: 5` y `timeout: 30`; `defaults` sigue en `retry: 1`.\n- **Límites:** no dejes `defaults.update(override)` sobre el dict compartido.",
         id: "S06-T2-A-E3",
         instruction:
           "1. Observa el starter: `update` muta `defaults`.\n2. Construye `merged` sin mutar el base.\n3. Imprime merged y defaults.\n4. Verifica que defaults sigue con `retry: 1`.",
@@ -1391,7 +1418,7 @@ print(dedup_report(rows))`,
         feedback:
           "Conteo con `len` valida el grafo anidado. Imprimir la lista cruda no resume; una lista vacía tiene la forma correcta y conteo 0; no representa un «cliente roto».",
         retrospective:
-          "C002 produce cero, no error ni «missing», porque la lista existe y simplemente no contiene contactos. Explica la diferencia entre `contacts: []` y una fila sin clave `contacts`. ¿Qué debería hacer un resumen y qué debería hacer un validador de shape? Mantener esas responsabilidades separadas evita convertir ausencia de actividad en corrupción estructural.",
+          "C002 produce cero, no error ni «missing», porque la lista existe y simplemente no contiene contactos. Explica la diferencia entre `contacts: []` y una fila sin clave `contacts`. ¿Qué debería hacer un resumen y qué debería hacer una comprobación de la forma esperada? Mantener esas responsabilidades separadas evita convertir ausencia de actividad en corrupción estructural.",
         starterCode: {
           language: 'python',
           title: "count_contacts.py",
@@ -1433,7 +1460,7 @@ C002 → 0`,
         edgeCases: ["denormalización"],
         tests: "3 filas flat",
         feedback:
-          "Shape listo para CSV en S08. Denormalizar `client_id` en cada fila conserva la relación; tomar solo `txs[0]` pierde ingresos en un resumen.",
+          "Las filas ya tienen la forma que usará CSV en S08. Denormalizar `client_id` en cada fila conserva la relación; tomar solo `txs[0]` pierde ingresos en un resumen.",
         retrospective:
           "Verifica una conservación: el número de filas planas debe ser la suma de las longitudes de `txs`. En este fixture, 1 + 2 = 3. Si usas siempre `[0]`, el programa produce una salida plausible de dos filas y pierde T3 sin lanzar error. ¿Qué assert convertiría esa pérdida silenciosa en un fallo visible?",
         starterCode: {
@@ -1468,7 +1495,7 @@ print(flat)`,
       {
         subtopicId: "S06-T3-A",
         kind: "transfer",
-        title: "Validar shape de txs (list o review)",
+        title: "Comprobar que `txs` sea una `list`",
         preamble:
           "- **Contexto:** filas rotas llegan al almacén (falta una clave o aparece una cadena donde debía haber una lista).\n- **Meta:** marcar `ok` solo si `txs` es `list` (vacía permitida).\n- **Éxito:** `C001 ok`, `C002 review`, `C003 review`.\n- **Límites:** no uses `bool(txs)` (castiga la lista vacía legítima).",
         id: "S06-T3-A-E3",
@@ -1482,7 +1509,7 @@ print(flat)`,
         edgeCases: ["forma incorrecta"],
         tests: "ok / review / review",
         feedback:
-          "Validar shape en memoria evita basura silenciosa al exportar. `bool(txs)` manda a review la lista vacía legítima; `isinstance(..., list)` separa shape de contenido.",
+          "Comprobar que `txs` sea una `list` evita aceptar una cadena u otro valor incorrecto. `bool(txs)` manda a `review` la lista vacía legítima; `isinstance(..., list)` distingue el tipo de contenedor de su contenido.",
         retrospective:
           "La prueba correcta pregunta «¿es una lista?», no «¿tiene elementos?». Por eso C001 es válido aunque `bool([])` sea falso. Explica por qué C003 no debe pasar aunque `bool('oops')` sea verdadero. Esta pareja revela un error común: usar truthiness para validar forma. En T3-B aplicarás la misma disciplina a ausencia y vacío.",
         starterCode: {
@@ -2018,7 +2045,7 @@ rows = [
 print(dedup_report(rows, key_fn=lambda r: r["id"]))
 `,
     portfolioNote:
-      "Presenta el proyecto como una decisión de diseño, no como una lista de funciones. Incluye el shape del store, el conflicto sintético que tu política conserva, dos dumps iguales obtenidos desde órdenes de entrada distintos y una breve justificación de cada colección. Un revisor debe poder reconstruir qué riesgo evita cada decisión sin abrir todo el código.",
+      "Presenta el proyecto como una decisión de diseño, no como una lista de funciones. Incluye la forma del almacén en memoria, el conflicto sintético que tu política conserva, dos dumps iguales obtenidos desde órdenes de entrada distintos y una breve justificación de cada colección. Un revisor debe poder reconstruir qué riesgo evita cada decisión sin abrir todo el código.",
     rubric: [
       { criterion: "Modelo completo cliente/contacto/tx", weight: "25%" },
       { criterion: "Dedup sin borrar conflictos", weight: "25%" },
