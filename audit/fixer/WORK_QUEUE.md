@@ -236,6 +236,15 @@ Decisions L1Q3-1 (already decided by D9) and L1Q3-5 carry the detail.
 - **Generator expressions** are used in visible code from S02 onward and taught nowhere; S30-T4-B-E1
   lost the word «generadores» this round but the construct remains. Curriculum decision to raise.
 
+- **The same shape again in S10, raised by codex itself (2026-09-22).** S10 combines
+  configuration layers, so it has a local `merge` function and an output label `apply`, and the
+  extractor reads both as the pandas concepts - five reported uses each. Codex cleaned the prose
+  but flagged that code identifiers and fixed output literals were outside its brief, and asked
+  whether the map should stop counting them. It should: `merge_config` is already excluded by the
+  identifier lookahead, but a bare local `merge(` is not. Three of S10's three remaining findings
+  are this. Same fix family as the entry below - the extractor needs to know that a term inside
+  code the section defines itself is not a use of the library concept that shares its name.
+
 - **`correlación` is two concepts wearing one glossary entry (found 2026-09-22, S09 round).**
   `correlaci-n` is the statistics term - "Relación entre dos variables. -1 a 1. np.corrcoef,
   df.corr()" - and its only alias is `Correlación`, an ordinary Spanish word. S09 is a logging
