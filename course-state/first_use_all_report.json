@@ -2,11 +2,11 @@
   "ok": false,
   "sections_audited": 52,
   "terms_audited": 106,
-  "events_audited": 22805,
+  "events_audited": 22836,
   "issue_counts": {
-    "DEFINITION_AFTER_REQUIREMENT": 9,
+    "DEFINITION_AFTER_REQUIREMENT": 8,
     "NO_VISIBLE_DEFINITION": 7,
-    "USE_BEFORE_DEFINITION": 37
+    "USE_BEFORE_DEFINITION": 32
   },
   "never_defined_but_mentioned": [
     "distribuci-n-normal",
@@ -73,13 +73,6 @@
       "severity": "P1",
       "location": "setup.S01-T1-B#6.code",
       "definition_location": "basics.S02-T2-A-DEMO.why"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "dunder-method",
-      "severity": "P1",
-      "location": "oop-domain.S11-T1-A.p0",
-      "definition_location": "oop-domain.S11-T1-B.p0"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
@@ -186,24 +179,10 @@
     },
     {
       "code": "USE_BEFORE_DEFINITION",
-      "term_id": "vectorizaci-n",
-      "severity": "P1",
-      "location": "security.tagline",
-      "definition_location": "security.S14-T4-A.p0"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
       "term_id": "shape",
       "severity": "P1",
       "location": "collections.S06-T3-A.callout",
       "definition_location": "collections.S06-T3-A-E3.title"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "dtype",
-      "severity": "P1",
-      "location": "security.outcome[0]",
-      "definition_location": "security.theory[0].p1"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
@@ -290,31 +269,10 @@
     },
     {
       "code": "USE_BEFORE_DEFINITION",
-      "term_id": "precision",
-      "severity": "P1",
-      "location": "evidence-dashboard.outcome[1]",
-      "definition_location": "evidence-dashboard.S13-T1-B.p0"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "recall",
-      "severity": "P1",
-      "location": "evidence-dashboard.outcome[1]",
-      "definition_location": "evidence-dashboard.S13-T1-B.p0"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
       "term_id": "f1-score",
       "severity": "P1",
       "location": "rpa-advanced.S24-T4-A.p1",
-      "definition_location": "security-infra.theory[9].p2"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "f1-score",
-      "severity": "P1",
-      "location": "streamlit-dashboards.S25-T4-A-E2.hint",
-      "definition_location": "security-infra.theory[9].p2"
+      "definition_location": "streamlit-dashboards.theory[9].p0"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",
@@ -359,7 +317,7 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "entity-resolution",
       "severity": "P1",
-      "location": "oop-domain.S11-T2-B-DEMO.preamble",
+      "location": "apis-sql-geo.selfCheck[4].opt[2]",
       "definition_location": "evidence-dashboard.S13-T1-A.p0"
     },
     {
@@ -373,7 +331,7 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "embedding",
       "severity": "P1",
-      "location": "evidence-dashboard.S13-T1-A.p3",
+      "location": "llm-agents.S28-T1-B.p1",
       "definition_location": "ai-governance.theory[0].p1"
     },
     {

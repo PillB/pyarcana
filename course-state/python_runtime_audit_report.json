@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T01:12:04.555232+00:00",
+  "generated_at": "2026-09-24T02:11:24.100757+00:00",
   "sections": 52,
   "dependency_visibility": {
     "status": "ok",
@@ -44,10 +44,10 @@
     "note": "The snippet interpreter matches the declared teaching environment."
   },
   "totals": {
-    "pass": 3301,
+    "pass": 3303,
     "fail": 0,
     "skip": 72,
-    "artifacts": 3373
+    "artifacts": 3375
   },
   "fail_count": 0,
   "p0_count": 0,
@@ -158,11 +158,11 @@
       "file": "src/lib/course/sections/s11-oop-domain.ts",
       "section_id": "oop-domain",
       "counts": {
-        "pass": 64,
+        "pass": 65,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 64
+      "artifact_count": 65
     },
     {
       "file": "src/lib/course/sections/s12-apis-sql-geo.ts",
@@ -188,11 +188,11 @@
       "file": "src/lib/course/sections/s14-security.ts",
       "section_id": "security",
       "counts": {
-        "pass": 64,
+        "pass": 65,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 64
+      "artifact_count": 65
     },
     {
       "file": "src/lib/course/sections/s15-stdlib-deep.ts",

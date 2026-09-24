@@ -353,11 +353,11 @@
  },
  "S11": {
   "section": "S11",
-  "prose_words": 6360,
+  "prose_words": 6550,
   "english_function_words": 4,
   "ordinary_english_words": 24,
   "kept_technical_terms": 25,
-  "avoidable_english_per_1000": 4.4,
+  "avoidable_english_per_1000": 4.3,
   "top_terms": [
    [
     "matching",
@@ -427,11 +427,11 @@
  },
  "S13": {
   "section": "S13",
-  "prose_words": 7101,
+  "prose_words": 7330,
   "english_function_words": 4,
   "ordinary_english_words": 23,
-  "kept_technical_terms": 139,
-  "avoidable_english_per_1000": 3.8,
+  "kept_technical_terms": 142,
+  "avoidable_english_per_1000": 3.7,
   "top_terms": [
    [
     "matching",
@@ -470,10 +470,10 @@
  },
  "S14": {
   "section": "S14",
-  "prose_words": 5964,
+  "prose_words": 6258,
   "english_function_words": 0,
   "ordinary_english_words": 8,
-  "kept_technical_terms": 46,
+  "kept_technical_terms": 47,
   "avoidable_english_per_1000": 1.3,
   "top_terms": [
    [
@@ -860,11 +860,11 @@
  },
  "S25": {
   "section": "S25",
-  "prose_words": 6477,
+  "prose_words": 6782,
   "english_function_words": 8,
   "ordinary_english_words": 50,
-  "kept_technical_terms": 177,
-  "avoidable_english_per_1000": 9.0,
+  "kept_technical_terms": 180,
+  "avoidable_english_per_1000": 8.6,
   "top_terms": [
    [
     "ticket",

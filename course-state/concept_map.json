@@ -3373,6 +3373,12 @@
    },
    {
     "section": "S11",
+    "location": "oop-domain.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S11",
     "location": "oop-domain.S11-T1-A.p1",
     "kind": "theory.paragraph",
     "visible": true
@@ -21200,6 +21206,18 @@
     "visible": true
    },
    {
+    "section": "S14",
+    "location": "security.outcome[0]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
     "section": "S19",
     "location": "databases-orm.resources.doc[5]",
     "kind": "resource",
@@ -21261,6 +21279,7 @@
   "surprising_uses": [],
   "sections_used": [
    "S06",
+   "S14",
    "S19",
    "S25",
    "S45"
@@ -24051,6 +24070,18 @@
     "section": "S13",
     "location": "evidence-dashboard.youDo.starter",
     "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].p2",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -33339,18 +33370,6 @@
     "visible": true
    },
    {
-    "section": "S13",
-    "location": "evidence-dashboard.S13-T3-B-E3.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.S13-T3-B-E3.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
     "section": "S37",
     "location": "dbt-bigquery.S37-T3-A-E2.instruction",
     "kind": "wedo.instruction",
@@ -33425,18 +33444,6 @@
     "visible": true
    },
    {
-    "section": "S13",
-    "location": "evidence-dashboard.S13-T3-B-E3.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.S13-T3-B-E3.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
     "section": "S37",
     "location": "dbt-bigquery.S37-T3-A-E2.instruction",
     "kind": "wedo.instruction",
@@ -33451,7 +33458,6 @@
   ],
   "sections_used": [
    "S04",
-   "S13",
    "S37"
   ],
   "load_bearing": false,
@@ -51040,6 +51046,24 @@
   "uses": [
    {
     "section": "S11",
+    "location": "oop-domain.theory[2].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.theory[2].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.theory[2].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S11",
     "location": "oop-domain.S11-T1-A.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -51240,6 +51264,12 @@
   "definitions": [
    {
     "section": "S11",
+    "location": "oop-domain.theory[2].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S11",
     "location": "oop-domain.S11-T1-B.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -51333,26 +51363,19 @@
   "figures": [],
   "first_use": {
    "section": "S11",
-   "location": "oop-domain.S11-T1-A.p0",
+   "location": "oop-domain.theory[2].p1",
    "kind": "theory.paragraph",
    "visible": true
   },
   "first_definition": {
    "section": "S11",
-   "location": "oop-domain.S11-T1-B.p0",
+   "location": "oop-domain.theory[2].p1",
    "kind": "theory.paragraph",
    "visible": true
   },
   "reinforcements": [],
   "depth": "L2",
-  "surprising_uses": [
-   {
-    "section": "S11",
-    "location": "oop-domain.S11-T1-A.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S11"
   ],
@@ -81301,6 +81324,12 @@
     "visible": true
    },
    {
+    "section": "S13",
+    "location": "evidence-dashboard.theory[3].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
     "section": "S22",
     "location": "rapidfuzz-entity.S22-T1-B.code",
     "kind": "theory.code",
@@ -81396,6 +81425,7 @@
   "surprising_uses": [],
   "sections_used": [
    "S01",
+   "S13",
    "S22",
    "S33"
   ],
@@ -92476,12 +92506,6 @@
    },
    {
     "section": "S13",
-    "location": "evidence-dashboard.S13-T3-B-E3.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S13",
     "location": "evidence-dashboard.S13-T3-B-E3.hint[0]",
     "kind": "wedo.hint",
     "visible": true
@@ -101772,6 +101796,18 @@
    },
    {
     "section": "S14",
+    "location": "security.outcome[0]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[0].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
     "location": "security.S14-T1-A.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -106453,6 +106489,12 @@
    },
    {
     "section": "S11",
+    "location": "oop-domain.S11-T2-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S11",
     "location": "oop-domain.S11-T2-B-E1.retrospective",
     "kind": "wedo.retrospective",
     "visible": true
@@ -108562,6 +108604,12 @@
    },
    {
     "section": "S14",
+    "location": "security.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
     "location": "security.S14-T1-A.heading",
     "kind": "theory.heading",
     "visible": true
@@ -108704,6 +108752,12 @@
    },
    {
     "section": "S14",
+    "location": "security.theory[0].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
     "location": "security.theory[0].callout",
     "kind": "theory.callout",
     "visible": true
@@ -108711,6 +108765,18 @@
    {
     "section": "S14",
     "location": "security.theory[1].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].p0",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -108964,6 +109030,36 @@
   "definitions": [
    {
     "section": "S14",
+    "location": "security.tagline",
+    "kind": "tagline",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.jobRelevance",
+    "kind": "jobRelevance",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.outcome[6]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[0].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
     "location": "security.S14-T4-A.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -109043,6 +109139,12 @@
   "headings": [
    {
     "section": "S14",
+    "location": "security.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S14",
     "location": "security.S14-T4-A.heading",
     "kind": "theory.heading",
     "visible": true
@@ -109063,8 +109165,8 @@
   },
   "first_definition": {
    "section": "S14",
-   "location": "security.S14-T4-A.p0",
-   "kind": "theory.paragraph",
+   "location": "security.tagline",
+   "kind": "tagline",
    "visible": true
   },
   "reinforcements": [
@@ -109088,44 +109190,7 @@
    }
   ],
   "depth": "L1",
-  "surprising_uses": [
-   {
-    "section": "S14",
-    "location": "security.tagline",
-    "kind": "tagline",
-    "visible": true
-   },
-   {
-    "section": "S14",
-    "location": "security.jobRelevance",
-    "kind": "jobRelevance",
-    "visible": true
-   },
-   {
-    "section": "S14",
-    "location": "security.outcome[6]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S14",
-    "location": "security.theory[0].callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S14",
-    "location": "security.theory[1].p3",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S14",
-    "location": "security.S14-T1-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S14",
    "S37",
@@ -109589,7 +109654,43 @@
    },
    {
     "section": "S14",
+    "location": "security.theory[0].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
     "location": "security.theory[0].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].callout",
     "kind": "theory.callout",
     "visible": true
    },
@@ -109927,6 +110028,18 @@
    },
    {
     "section": "S14",
+    "location": "security.outcome[0]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
     "location": "security.S14-T1-A.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -109939,6 +110052,12 @@
    }
   ],
   "examples": [
+   {
+    "section": "S14",
+    "location": "security.theory[2].code",
+    "kind": "theory.code",
+    "visible": true
+   },
    {
     "section": "S14",
     "location": "security.S14-T1-A.code",
@@ -110019,6 +110138,12 @@
   "headings": [
    {
     "section": "S14",
+    "location": "security.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S14",
     "location": "security.S14-T1-A.heading",
     "kind": "theory.heading",
     "visible": true
@@ -110033,8 +110158,8 @@
   },
   "first_definition": {
    "section": "S14",
-   "location": "security.S14-T1-A.p0",
-   "kind": "theory.paragraph",
+   "location": "security.outcome[0]",
+   "kind": "outcome",
    "visible": true
   },
   "reinforcements": [
@@ -110076,18 +110201,6 @@
     "location": "collections.S06-T3-A-E3.starter",
     "kind": "wedo.starter",
     "visible": true
-   },
-   {
-    "section": "S14",
-    "location": "security.outcome[0]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S14",
-    "location": "security.theory[0].callout",
-    "kind": "theory.callout",
-    "visible": true
    }
   ],
   "sections_used": [
@@ -110128,6 +110241,36 @@
     "section": "S14",
     "location": "security.theory[1].p1",
     "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].callout",
+    "kind": "theory.callout",
     "visible": true
    },
    {
@@ -111256,7 +111399,19 @@
   "definitions": [
    {
     "section": "S14",
+    "location": "security.outcome[0]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S14",
     "location": "security.theory[0].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.theory[2].p1",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -111304,6 +111459,12 @@
    }
   ],
   "examples": [
+   {
+    "section": "S14",
+    "location": "security.theory[2].code",
+    "kind": "theory.code",
+    "visible": true
+   },
    {
     "section": "S14",
     "location": "security.S14-T1-A.code",
@@ -111570,6 +111731,12 @@
   "headings": [
    {
     "section": "S14",
+    "location": "security.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S14",
     "location": "security.S14-T1-A.heading",
     "kind": "theory.heading",
     "visible": true
@@ -111603,8 +111770,8 @@
   },
   "first_definition": {
    "section": "S14",
-   "location": "security.theory[0].p1",
-   "kind": "theory.paragraph",
+   "location": "security.outcome[0]",
+   "kind": "outcome",
    "visible": true
   },
   "reinforcements": [
@@ -111622,14 +111789,7 @@
    }
   ],
   "depth": "L3",
-  "surprising_uses": [
-   {
-    "section": "S14",
-    "location": "security.outcome[0]",
-    "kind": "outcome",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S14",
    "S15",
@@ -114651,12 +114811,6 @@
     "visible": false
    },
    {
-    "section": "S13",
-    "location": "evidence-dashboard.S13-T1-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
     "section": "S17",
     "location": "packaging.jobRelevance",
     "kind": "jobRelevance",
@@ -115626,12 +115780,6 @@
     "visible": true
    },
    {
-    "section": "S13",
-    "location": "evidence-dashboard.S13-T1-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
     "section": "S17",
     "location": "packaging.jobRelevance",
     "kind": "jobRelevance",
@@ -115648,7 +115796,6 @@
    "S06",
    "S07",
    "S10",
-   "S13",
    "S17",
    "S20",
    "S27",
@@ -121020,6 +121167,30 @@
    },
    {
     "section": "S13",
+    "location": "evidence-dashboard.theory[3].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.theory[3].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.theory[3].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.theory[3].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S13",
     "location": "evidence-dashboard.S13-T1-B.heading",
     "kind": "theory.heading",
     "visible": true
@@ -121232,6 +121403,42 @@
     "section": "S24",
     "location": "rpa-advanced.S24-T4-A.p1",
     "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].callout",
+    "kind": "theory.callout",
     "visible": true
    },
    {
@@ -121880,6 +122087,18 @@
   "definitions": [
    {
     "section": "S13",
+    "location": "evidence-dashboard.outcome[1]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.theory[3].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S13",
     "location": "evidence-dashboard.S13-T1-B.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -122122,7 +122341,19 @@
   "headings": [
    {
     "section": "S13",
+    "location": "evidence-dashboard.theory[3].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S13",
     "location": "evidence-dashboard.S13-T1-B.heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].heading",
     "kind": "theory.heading",
     "visible": true
    },
@@ -122166,20 +122397,13 @@
   },
   "first_definition": {
    "section": "S13",
-   "location": "evidence-dashboard.S13-T1-B.p0",
-   "kind": "theory.paragraph",
+   "location": "evidence-dashboard.outcome[1]",
+   "kind": "outcome",
    "visible": true
   },
   "reinforcements": [],
   "depth": "L2",
-  "surprising_uses": [
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.outcome[1]",
-    "kind": "outcome",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S13",
    "S21",
@@ -122204,6 +122428,36 @@
     "section": "S13",
     "location": "evidence-dashboard.outcome[1]",
     "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.theory[3].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.theory[3].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.theory[3].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.theory[3].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.theory[3].p3",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -122396,6 +122650,42 @@
     "section": "S24",
     "location": "rpa-advanced.S24-T4-A.p1",
     "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].callout",
+    "kind": "theory.callout",
     "visible": true
    },
    {
@@ -123296,6 +123586,18 @@
   "definitions": [
    {
     "section": "S13",
+    "location": "evidence-dashboard.outcome[1]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.theory[3].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S13",
     "location": "evidence-dashboard.S13-T1-B.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -123640,7 +123942,19 @@
   "headings": [
    {
     "section": "S13",
+    "location": "evidence-dashboard.theory[3].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S13",
     "location": "evidence-dashboard.S13-T1-B.heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].heading",
     "kind": "theory.heading",
     "visible": true
    },
@@ -123691,20 +124005,13 @@
   },
   "first_definition": {
    "section": "S13",
-   "location": "evidence-dashboard.S13-T1-B.p0",
-   "kind": "theory.paragraph",
+   "location": "evidence-dashboard.outcome[1]",
+   "kind": "outcome",
    "visible": true
   },
   "reinforcements": [],
   "depth": "L3",
-  "surprising_uses": [
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.outcome[1]",
-    "kind": "outcome",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S13",
    "S24",
@@ -123729,6 +124036,36 @@
     "section": "S24",
     "location": "rpa-advanced.S24-T4-A.p1",
     "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].callout",
+    "kind": "theory.callout",
     "visible": true
    },
    {
@@ -124208,6 +124545,12 @@
   ],
   "definitions": [
    {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
     "section": "S30",
     "location": "security-infra.theory[9].p2",
     "kind": "theory.paragraph",
@@ -124342,6 +124685,12 @@
   ],
   "headings": [
    {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[9].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
     "section": "S30",
     "location": "security-infra.theory[9].heading",
     "kind": "theory.heading",
@@ -124369,8 +124718,8 @@
    "visible": true
   },
   "first_definition": {
-   "section": "S30",
-   "location": "security-infra.theory[9].p2",
+   "section": "S25",
+   "location": "streamlit-dashboards.theory[9].p0",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -124381,66 +124730,6 @@
     "section": "S24",
     "location": "rpa-advanced.S24-T4-A.p1",
     "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S25",
-    "location": "streamlit-dashboards.S25-T4-A.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S25",
-    "location": "streamlit-dashboards.S25-T4-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S25",
-    "location": "streamlit-dashboards.S25-T4-A-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S25",
-    "location": "streamlit-dashboards.S25-T4-A-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S25",
-    "location": "streamlit-dashboards.S25-T4-A-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S25",
-    "location": "streamlit-dashboards.S25-T4-A-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S25",
-    "location": "streamlit-dashboards.S25-T4-A-E2.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S25",
-    "location": "streamlit-dashboards.S25-T4-A-E2.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S25",
-    "location": "streamlit-dashboards.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S30",
-    "location": "security-infra.outcome[7]",
-    "kind": "outcome",
     "visible": true
    }
   ],
@@ -124456,7 +124745,7 @@
   "figure_target": 5,
   "figure_count": 1,
   "figure_gap": 4,
-  "explanation_lag_sections": 6
+  "explanation_lag_sections": 1
  },
  "shap": {
   "id": "shap",
@@ -127394,39 +127683,9 @@
   "declared_first_section": "evidence-dashboard",
   "uses": [
    {
-    "section": "S11",
-    "location": "oop-domain.S11-T2-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
     "section": "S12",
     "location": "apis-sql-geo.selfCheck[4].opt[2]",
     "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.tagline",
-    "kind": "tagline",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.jobRelevance",
-    "kind": "jobRelevance",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.outcome[0]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.outcome[1]",
-    "kind": "outcome",
     "visible": true
    },
    {
@@ -127450,12 +127709,6 @@
    {
     "section": "S13",
     "location": "evidence-dashboard.S13-T1-A.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.S13-T1-A.p3",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -128925,9 +129178,9 @@
    }
   ],
   "first_use": {
-   "section": "S11",
-   "location": "oop-domain.S11-T2-B-DEMO.preamble",
-   "kind": "ido.preamble",
+   "section": "S12",
+   "location": "apis-sql-geo.selfCheck[4].opt[2]",
+   "kind": "selfcheck.option",
    "visible": true
   },
   "first_definition": {
@@ -128940,39 +129193,9 @@
   "depth": "L3",
   "surprising_uses": [
    {
-    "section": "S11",
-    "location": "oop-domain.S11-T2-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
     "section": "S12",
     "location": "apis-sql-geo.selfCheck[4].opt[2]",
     "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.tagline",
-    "kind": "tagline",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.jobRelevance",
-    "kind": "jobRelevance",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.outcome[0]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.outcome[1]",
-    "kind": "outcome",
     "visible": true
    },
    {
@@ -128983,7 +129206,6 @@
    }
   ],
   "sections_used": [
-   "S11",
    "S12",
    "S13",
    "S27",
@@ -129004,7 +129226,7 @@
   "figure_target": 5,
   "figure_count": 2,
   "figure_gap": 3,
-  "explanation_lag_sections": 2
+  "explanation_lag_sections": 1
  },
  "fastapi": {
   "id": "fastapi",
@@ -129410,6 +129632,36 @@
     "section": "S25",
     "location": "streamlit-dashboards.theory[0].p0",
     "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[2].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[2].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[2].callout",
+    "kind": "theory.callout",
     "visible": true
    },
    {
@@ -129922,6 +130174,12 @@
   "headings": [
    {
     "section": "S25",
+    "location": "streamlit-dashboards.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S25",
     "location": "streamlit-dashboards.S25-T1-A.heading",
     "kind": "theory.heading",
     "visible": true
@@ -129967,6 +130225,36 @@
     "location": "streamlit-dashboards.theory[0].p0",
     "kind": "theory.paragraph",
     "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[2].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[2].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[2].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[2].callout",
+    "kind": "theory.callout",
+    "visible": true
    }
   ],
   "sections_used": [
@@ -129986,12 +130274,6 @@
   "id": "embedding",
   "declared_first_section": "evidence-dashboard",
   "uses": [
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.S13-T1-A.p3",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
    {
     "section": "S28",
     "location": "llm-agents.S28-T1-B.p1",
@@ -130147,8 +130429,8 @@
   ],
   "figures": [],
   "first_use": {
-   "section": "S13",
-   "location": "evidence-dashboard.S13-T1-A.p3",
+   "section": "S28",
+   "location": "llm-agents.S28-T1-B.p1",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -130161,12 +130443,6 @@
   "reinforcements": [],
   "depth": "L1",
   "surprising_uses": [
-   {
-    "section": "S13",
-    "location": "evidence-dashboard.S13-T1-A.p3",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
    {
     "section": "S28",
     "location": "llm-agents.S28-T1-B.p1",
@@ -130181,7 +130457,6 @@
    }
   ],
   "sections_used": [
-   "S13",
    "S28",
    "S48"
   ],
@@ -130189,7 +130464,7 @@
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": 35
+  "explanation_lag_sections": 20
  },
  "asignacion-aleatoria": {
   "id": "asignacion-aleatoria",
