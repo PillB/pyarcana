@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-25T19:25:52.031350+00:00",
+  "generated_at": "2026-09-25T22:47:22.842604+00:00",
   "sections": 52,
   "dependency_visibility": {
     "status": "ok",
@@ -44,10 +44,10 @@
     "note": "The snippet interpreter matches the declared teaching environment."
   },
   "totals": {
-    "pass": 3311,
+    "pass": 3312,
     "fail": 0,
     "skip": 72,
-    "artifacts": 3383
+    "artifacts": 3384
   },
   "fail_count": 0,
   "p0_count": 0,
@@ -68,11 +68,11 @@
       "file": "src/lib/course/sections/s02-basics.ts",
       "section_id": "basics",
       "counts": {
-        "pass": 69,
+        "pass": 70,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 69
+      "artifact_count": 70
     },
     {
       "file": "src/lib/course/sections/s03-decisions-rules.ts",

@@ -70399,12 +70399,6 @@
   "declared_first_section": "decisions-rules",
   "uses": [
    {
-    "section": "S02",
-    "location": "basics.S02-T4-A-E3.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
     "section": "S03",
     "location": "decisions-rules.theory[3].p1",
     "kind": "theory.paragraph",
@@ -70874,9 +70868,9 @@
    }
   ],
   "first_use": {
-   "section": "S02",
-   "location": "basics.S02-T4-A-E3.hint[0]",
-   "kind": "wedo.hint",
+   "section": "S03",
+   "location": "decisions-rules.theory[3].p1",
+   "kind": "theory.paragraph",
    "visible": true
   },
   "first_definition": {
@@ -70912,16 +70906,8 @@
    }
   ],
   "depth": "L3",
-  "surprising_uses": [
-   {
-    "section": "S02",
-    "location": "basics.S02-T4-A-E3.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
-   "S02",
    "S03",
    "S04",
    "S05",
@@ -70945,7 +70931,7 @@
   "figure_target": 5,
   "figure_count": 1,
   "figure_gap": 4,
-  "explanation_lag_sections": 1
+  "explanation_lag_sections": 0
  },
  "virtual-environment-venv": {
   "id": "virtual-environment-venv",

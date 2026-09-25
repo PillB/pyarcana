@@ -4,9 +4,9 @@
   "terms_audited": 106,
   "events_audited": 22897,
   "issue_counts": {
-    "DEFINITION_AFTER_REQUIREMENT": 5,
+    "DEFINITION_AFTER_REQUIREMENT": 4,
     "NO_VISIBLE_DEFINITION": 3,
-    "USE_BEFORE_DEFINITION": 26
+    "USE_BEFORE_DEFINITION": 25
   },
   "never_defined_but_mentioned": [
     "joblib",
@@ -83,20 +83,6 @@
       "severity": "P1",
       "location": "basics.S02-T1-B-E2.hint",
       "definition_location": "decisions-rules.S03-T2-B.p0"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "parameter",
-      "severity": "P1",
-      "location": "basics.S02-T4-A-E3.hint[0]",
-      "definition_location": "decisions-rules.theory[3].p1"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "parameter",
-      "severity": "P1",
-      "location": "basics.S02-T4-A-E3.hint[0]",
-      "definition_location": "decisions-rules.theory[3].p1"
     },
     {
       "code": "USE_BEFORE_DEFINITION",

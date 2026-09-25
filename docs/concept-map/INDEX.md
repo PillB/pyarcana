@@ -7,7 +7,7 @@ surprised by it?* 🔴 never explained · 🟠 used before it is explained · �
 
 Depth: **L0** never defined · **L1** defined inline at first use · **L2** plus a worked example · **L3** plus its own subtopic and a figure.
 
-**106 concepts.** 11 never explained, 26 used before they are explained, 69 clean.
+**106 concepts.** 11 never explained, 25 used before they are explained, 70 clean.
 
 Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) · [S05](S05.md) · [S06](S06.md) · [S07](S07.md) · [S08](S08.md) · [S09](S09.md) · [S10](S10.md) · [S11](S11.md) · [S12](S12.md) · [S13](S13.md) · [S14](S14.md) · [S15](S15.md) · [S16](S16.md) · [S17](S17.md) · [S18](S18.md) · [S19](S19.md) · [S20](S20.md) · [S21](S21.md) · [S22](S22.md) · [S23](S23.md) · [S24](S24.md) · [S25](S25.md) · [S26](S26.md) · [S27](S27.md) · [S28](S28.md) · [S29](S29.md) · [S30](S30.md) · [S31](S31.md) · [S32](S32.md) · [S33](S33.md) · [S34](S34.md) · [S35](S35.md) · [S36](S36.md) · [S37](S37.md) · [S38](S38.md) · [S39](S39.md) · [S40](S40.md) · [S41](S41.md) · [S42](S42.md) · [S43](S43.md) · [S44](S44.md) · [S45](S45.md) · [S46](S46.md) · [S47](S47.md) · [S48](S48.md) · [S49](S49.md) · [S50](S50.md) · [S51](S51.md) · [S52](S52.md)
 
@@ -44,7 +44,6 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `return` | L3 | S02 · S02-T1-B-DEMO.code | S03 · theory[3].p3 | 4 | 642 | 40 | 5 | +1 | 1/5 ⚠ | 50 |
 | 🟠 `cross-validation` | L1 | S32 · resources.doc[5] | S33 · theory[11].p1 | 2 | 0 | 0 | 0 | +1 | 0/1 ⚠ | 3 |
 | 🟠 `entity-resolution` | L3 | S12 · selfCheck[4].opt[2] | S13 · S13-T1-A.p0 | 2 | 8 | 6 | 15 | +1 | 2/5 ⚠ | 15 |
-| 🟠 `parameter` | L3 | S02 · S02-T4-A-E3.hint[0] | S03 · theory[3].p1 | 1 | 1 | 3 | 1 | +1 | 1/5 ⚠ | 19 |
 | 🟠 `pivot-table` | L3 | S17 · theory[5].heading | S17 · iDo.intro | 12 | 6 | 2 | 2 | · | 1/1 | 2 |
 | 🟠 `llm` | L2 | S25 · outcome[0] | S25 · S25-T1-A.p0 | 7 | 2 | 3 | 5 | · | 0/5 ⚠ | 5 |
 | 🟠 `resample` | L1 | S34 · theory[5].heading | S34 · S34-T2-A.p0 | 4 | 0 | 0 | 2 | · | 0/1 ⚠ | 1 |
@@ -103,6 +102,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `ndarray` | L2 | S14 · theory[0].p1 | S14 · theory[0].p1 | 0 | 1 | 0 | 2 | · | 0/1 ⚠ | 2 |
 | 🟢 `notebook` | L2 | S01 · theory[8].p6 | S01 · theory[8].p6 | 0 | 1 | 1 | 1 | · | 0/5 ⚠ | 14 |
 | 🟢 `p-value` | L1 | S18 · S18-T3-A#9.heading | S18 · S18-T3-A#9.p0 | 0 | 0 | 0 | 2 | · | 0/1 ⚠ | 1 |
+| 🟢 `parameter` | L3 | S03 · theory[3].p1 | S03 · theory[3].p1 | 0 | 1 | 3 | 1 | · | 1/5 ⚠ | 18 |
 | 🟢 `path` | L2 | S01 · outcome[1] | S01 · outcome[1] | 0 | 40 | 31 | 17 | · | 0/5 ⚠ | 30 |
 | 🟢 `pip` | L2 | S01 · theory[0].p1 | S01 · theory[0].p1 | 0 | 11 | 9 | 3 | · | 0/5 ⚠ | 10 |
 | 🟢 `pipeline` | L2 | S02 · theory[2].p0 | S02 · theory[2].p0 | 0 | 8 | 9 | 10 | · | 0/5 ⚠ | 42 |
