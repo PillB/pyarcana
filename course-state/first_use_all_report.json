@@ -2,11 +2,11 @@
   "ok": false,
   "sections_audited": 52,
   "terms_audited": 106,
-  "events_audited": 22891,
+  "events_audited": 22897,
   "issue_counts": {
     "DEFINITION_AFTER_REQUIREMENT": 5,
     "NO_VISIBLE_DEFINITION": 3,
-    "USE_BEFORE_DEFINITION": 27
+    "USE_BEFORE_DEFINITION": 26
   },
   "never_defined_but_mentioned": [
     "joblib",
@@ -55,13 +55,6 @@
       "severity": "P1",
       "location": "collections.outcome[0]",
       "definition_location": "collections.theory[1].p0"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "truthiness",
-      "severity": "P1",
-      "location": "decisions-rules.tagline",
-      "definition_location": "decisions-rules.theory[0].p2"
     },
     {
       "code": "USE_BEFORE_DEFINITION",

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-25T18:06:27.559394+00:00",
+  "generated_at": "2026-09-25T19:25:52.031350+00:00",
   "sections": 52,
   "dependency_visibility": {
     "status": "ok",
@@ -44,10 +44,10 @@
     "note": "The snippet interpreter matches the declared teaching environment."
   },
   "totals": {
-    "pass": 3310,
+    "pass": 3311,
     "fail": 0,
     "skip": 72,
-    "artifacts": 3382
+    "artifacts": 3383
   },
   "fail_count": 0,
   "p0_count": 0,
@@ -78,11 +78,11 @@
       "file": "src/lib/course/sections/s03-decisions-rules.ts",
       "section_id": "decisions-rules",
       "counts": {
-        "pass": 66,
+        "pass": 67,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 66
+      "artifact_count": 67
     },
     {
       "file": "src/lib/course/sections/s04-iteration-summaries.ts",

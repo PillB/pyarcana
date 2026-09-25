@@ -15,7 +15,7 @@ export const section03: CourseSection = {
   index: 3,
   title: 'Decisiones y reglas de validación',
   shortTitle: 'Decisiones & Reglas',
-  tagline: 'Booleanos, control de flujo y reglas `accept`/`reject`/`review` sin confundir ausencia con falsy',
+  tagline: 'Booleanos, control de flujo y reglas `accept`/`reject`/`review` sin confundir ausencia con un valor que Python trata como falso',
   estimatedHours: 9,
   level: 'Principiante',
   phase: 0,
@@ -25,7 +25,7 @@ export const section03: CourseSection = {
     'Un parser (el programa que lee texto y lo convierte en datos con tipo) puede transformar "0" en 0 y aun así tomar una decisión equivocada. En sistemas de incorporación de clientes, pedidos o pacientes, esa diferencia decide si una fila se aprueba, se rechaza o se revisa a mano. Aquí aprendes a escribir reglas con if/elif/else, listas permitidas y tablas de decisión, probando cada rama con mensajes accionables para que nadie tenga que adivinar por qué algo falló.',
   learningOutcomes: [
     { text: 'Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible' },
-    { text: 'Distinguir truthiness de presencia semántica y predecir short-circuit de `and`/`or`' },
+    { text: 'Distinguir la truthiness —la regla con la que Python trata un valor como verdadero o falso— de la presencia, y predecir qué valor entregan `and` y `or` y cuándo dejan de evaluar' },
     { text: 'Escribir if/elif/else que clasifiquen un campo en una sola rama dominante' },
     { text: 'Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones' },
     { text: 'Implementar rangos y allowlists combinados para reglas de dominio sintéticas' },
@@ -42,7 +42,7 @@ export const section03: CourseSection = {
         "Esa grieta tiene nombre. Python decide por su cuenta si un objeto «cuenta como verdadero» —el cero, la cadena vacía, la lista vacía y `None` cuentan como falsos—, y a esa comodidad se le llama *truthiness*. Es útil para escribir rápido y es exactamente lo que no debes usar cuando el valor significa algo. `if monto:` mezcla el cero con la ausencia; `if monto is None:` los separa. La sección entera vive de esa distinción.",
         "Sobre ella se construyen tres herramientas que verás una tras otra. Una **lista de permitidos** enumera de antemano los valores conocidos que una regla puede aceptar. En un catálogo cerrado, esta lista **falla cerrado**: un valor no enumerado no se acepta automáticamente; según la política, puede pasar a `review` o a `reject`. Si el catálogo puede quedar desactualizado, enviar lo desconocido a revisión evita confundir una omisión del catálogo con un valor definitivamente inválido. Una **salida temprana** es un `if` al principio de la función que rechaza lo imposible y devuelve de inmediato, para que el cuerpo trabaje solo con datos que ya cumplen sus condiciones. Una **tabla de decisión** reúne todas las combinaciones de condiciones y la acción que corresponde a cada una. Se escribe antes que el código. Si falta una fila, olvidaste un caso.",
         "Todo eso apunta a una sola cosa. Un **invariante** es una condición que declaras para una etapa concreta. No impide que llegue un dato que la incumple; dice qué debe ser verdad cuando esa etapa termina. Después de validar un monto, por ejemplo, puedes exigir que ningún dato aceptado sea negativo. Una entrada negativa todavía puede llegar al validador, pero este debe rechazarla. Las pruebas revelan si el código rompe esa condición. «El cero aceptado conserva el valor cero y la ausencia pasa a revisión» también puede formar parte de la especificación. Escribe primero estas condiciones. Después tradúcelas a ramas.",
-        "El hilo conductor es un **validador de campos** (`validate_field` / `validate_record`). La forma del resultado evoluciona deliberadamente. Primero usamos strings cortos (`\"accept\"` / `\"review\"`) para observar una decisión. Después aparecen dicts `{status, code}` para distinguir causas. En el **You Do** estandarizas `{status, code, message}` para que otra persona pueda actuar. No memorices las tres formas a la vez: sigue la razón de cada ampliación.",
+        "El hilo conductor es decidir qué ocurre con cada campo. En S03 usarás etiquetas cortas como `\"accept\"`, `\"review\"` y `\"reject\"` para observar cada rama sin aprender todavía una colección nueva. S06 enseñará a reunir varias partes de un resultado; allí podrás asociar cada decisión con su causa y su mensaje.",
         "**Antes de continuar, predice:** si un campo contiene `0`, ¿debería ir a `accept`, `reject` o `review`? La respuesta correcta es “depende del invariante”. Al terminar S03 deberás poder nombrar ese invariante, implementar la rama y exhibir una prueba que impida cambiarla por accidente.",
       ],
       callout: {
@@ -191,6 +191,30 @@ R-NORTE es accept → True`,
       },
     },
     {
+      heading: 'Antes de decidir: cómo Python convierte un valor en sí o no',
+      paragraphs: [
+        'Cuando un `if` recibe un valor en vez de una comparación, Python necesita convertirlo en una respuesta de sí o no. La regla que usa para hacerlo se llama **truthiness**. Existe para que `if valor:` pueda tomar una decisión, pero solo describe cómo Python trata el valor; no dice si el dato es válido para tu regla.',
+        'Mira un caso concreto. `bool(valor)` muestra la respuesta que usaría un `if`: `bool(None)` y `bool(0)` producen `False`, mientras que `bool(-5)` produce `True`. Sin embargo, una política puede enviar `None` a `review`, aceptar `0` y rechazar `-5`. La misma respuesta de Python no obliga a tomar la misma decisión.',
+        'Ahora cambia `monto` por `None` y predice las dos líneas antes de ejecutar. Lo correcto es `bool(None) → False` y `None is None → True`: la primera línea describe la truthiness y la segunda comprueba ausencia. Después prueba `-5`; debes obtener `True` y `False`. Si puedes explicar por qué un valor verdadero para Python todavía puede ser rechazado, ya separaste la mecánica del lenguaje de la regla del dato.',
+      ],
+      code: {
+        language: 'python',
+        title: 'truthiness_y_ausencia.py',
+        code: `monto = 0
+
+print("bool(0) →", bool(monto))
+print("0 is None →", monto is None)`,
+        output: `bool(0) → False
+0 is None → False`,
+      },
+      callout: {
+        type: 'warning',
+        title: 'Dos preguntas distintas',
+        content:
+          '`bool(valor)` pregunta cómo lo trata Python. `valor is None` pregunta si está ausente. La regla de negocio decide después si corresponde `accept`, `reject` o `review`.',
+      },
+    },
+    {
       heading: 'Qué es verdadero en un if (y qué no es “ausente”)',
       subtopicId: 'S03-T1-B',
       paragraphs: [
@@ -214,8 +238,10 @@ R-NORTE es accept → True`,
         return "reject: negativo"
     return "accept: positivo"
 
-for v in [None, 0, -5, 150]:
-    print(v, "bool=", bool(v), "→", decide_monto(v))
+print(None, "bool=", bool(None), "→", decide_monto(None))
+print(0, "bool=", bool(0), "→", decide_monto(0))
+print(-5, "bool=", bool(-5), "→", decide_monto(-5))
+print(150, "bool=", bool(150), "→", decide_monto(150))
 
 print("'' or 'default' →", "" or "default")
 print("5 and 99 →", 5 and 99)`,
@@ -1574,9 +1600,9 @@ None → review`,
       {
         subtopicId: 'S03-T3-A',
         kind: 'independent',
-        title: 'Rango de monto con valor atípico revisable',
+        title: 'Monto muy alto que requiere revisión',
         preamble:
-          '- **Contexto:** la calidad de datos distingue una falla estricta (monto negativo) de un valor atípico que requiere revisión (monto muy alto).\n- **Meta:** implementar `monto_ingreso` con tri-estado y cero válido.\n- **Éxito:** `None`, `-1`, `0`, `1200`, `60000` → `review`, `reject`, `accept`, `accept`, `review`.\n- **Límites:** `0` no es `reject`; superar el umbral `50000` produce `review`, no `reject`.',
+          '- **Contexto:** la regla distingue una falla estricta (monto negativo) de un monto muy alto que una persona debe revisar.\n- **Meta:** implementar `monto_ingreso` con tri-estado y cero válido.\n- **Éxito:** `None`, `-1`, `0`, `1200`, `60000` → `review`, `reject`, `accept`, `accept`, `review`.\n- **Límites:** `0` no es `reject`; superar el umbral `50000` produce `review`, no `reject`.',
         id: 'S03-T3-A-E2',
         instruction:
           '1. Corrige `m <= 0` (rechaza el cero).\n2. Orden: `None` → `review`; `< 0` → `reject`; `> 50000` → `review`; en los demás casos → `accept`.\n3. Prueba la lista de cinco montos en orden.',

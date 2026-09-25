@@ -89,7 +89,14 @@ def definitions_this_section_holds(cmap: dict, tag: str, slugs: list[str]) -> st
         d = c.get("first_definition")
         if not d or d.get("section") != tag:
             continue
-        later = [x for x in c.get("definitions", []) if x["location"] != d["location"]]
+        # Successors inside the SAME block do not survive the removal either. `return` is
+        # defined by both `decisions-rules.theory[3].p3` and `decisions-rules.theory[3].figure`;
+        # taking the figure as the next definition made the exposure look like nothing, this
+        # block stayed silent, and the round that replaced all of `theory[3]` exposed 58 uses.
+        # A patch replaces a block, not a sentence, so look past every definition in it.
+        block = d["location"].rsplit(".", 1)[0]
+        later = [x for x in c.get("definitions", [])
+                 if x["location"] != d["location"] and not x["location"].startswith(block + ".")]
         nxt = later[0] if later else None
         limit = order.get(nxt["section"], 99) if nxt else 99
         # Section-level, so it under-counts uses sitting earlier inside the next definition's

@@ -349,3 +349,37 @@ Two standing consequences of the pass itself:
 2. **Classification is about what the change touches, not how sure you are.** A decision can be
    certain on the merits and still belong to the owner, because implementing it would rewrite what
    a badge claims or relax a threshold. That boundary is what kept the packet to ten questions.
+
+## D14 — A graded exercise may be re-engineered, never watered down (2026-09-25)
+
+**Context.** Route 2 moves CP-N1-A to S05–S09, and S02–S04 need a practice layer built from
+what those sections have actually taught. Codex found exercises whose *objectives* require a
+later construct — S02-T1-B-E2, S02-T1-B-E3, S02-T3-B-E3, S02-T4-B-E1, S02-T4-B-E3,
+S02-T4-B-DEMO need a branch, a `def`/`return`, or recovery from a failed conversion — and
+correctly refused to either fake them or quietly weaken them.
+
+**Decision.** An exercise's objective may change. What may not change is its worth.
+
+A round may re-engineer a graded exercise to teach something the section has actually taught,
+provided the replacement:
+
+1. uses **only** terms and constructs introduced at or before that section — no surprises, and
+   no "you will see this later" substituting for making the work legible now;
+2. keeps the exercise's **id** and the section's exercise count, because the manifests and the
+   adversarial tests assert both;
+3. is **not weaker**. Same pedagogical relevance, same usefulness, same standard of practice.
+   An exercise reduced to a print statement to satisfy a constraint has failed this decision
+   more completely than one that leaked a future construct;
+4. teaches a **relevant** technique for that section, not a filler task. If the honest answer
+   is that nothing at this level is worth practising here, that is evidence the slot belongs
+   to a later section — say so rather than inventing busywork.
+
+**Worked consequence.** S03 decides accept/reject/review and reports a code and a message.
+That result is a `dict` today, and dicts are S06. Three separate names — `status`, `code`,
+`message` — carry the same three facts with S02's vocabulary, and the learner still practises
+the decision, the exclusivity of the branches and the reporting. That is re-engineering. Making
+the exercise print only `accept` would be watering down.
+
+**Why this is the owner's and not a round's.** It changes what a graded exercise claims to
+teach. Granted 2026-09-25 as a standing standard, so every round inherits it rather than
+re-asking per section.

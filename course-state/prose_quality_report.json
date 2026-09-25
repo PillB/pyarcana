@@ -26,13 +26,13 @@
   "section": "S02"
  },
  "S03": {
-  "words": 7653,
-  "sentences": 635,
-  "words_per_sentence": 12.1,
-  "fernandez_huerta": 74.7,
+  "words": 7871,
+  "sentences": 647,
+  "words_per_sentence": 12.2,
+  "fernandez_huerta": 75.0,
   "long_sentences": 2,
   "run_on_sentences": 1,
-  "nominalisations_per_100w": 2.6,
+  "nominalisations_per_100w": 2.5,
   "gerunds_per_100w": 0.2,
   "commas_per_sentence": 0.6,
   "meta_leaks": 5,

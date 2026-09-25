@@ -132,7 +132,32 @@ def main() -> int:
             buffers[target] = originals[target] = target.read_text(encoding="utf-8")
         return target
 
-    applied, rejected = [], []
+    def matched_escaping(anchor: str, repl: str) -> tuple[str, int]:
+        """Escape the delimiter of the string the anchor lives in, if the replacement did not.
+
+        A patch is a literal substitution into a TypeScript source file, and the applier has
+        never known what kind of literal it is landing in. LEDGER_NOTES records S39, where an
+        unescaped `"secrets_in_repo"` broke the file; the rollback was fixed then, the escaping
+        was not. It happened again on S03: the anchor carried 4 `\\"` and the replacement 6 bare
+        `"`, which close the string early. esbuild then says `Expected "]" but found "accept"`,
+        which names neither the patch nor the cause.
+
+        Escaping is semantically invisible - `\\"` and `"` render identically to a learner - so
+        this repairs rather than rejects, and records what it did. Deliberately narrow: it acts
+        only when the anchor proves which delimiter encloses it AND the replacement contains no
+        escaped ones of its own, because a mix means the author had some intent here and
+        guessing at it is how a silent corruption starts.
+        """
+        for delim in ('"', "'", "`"):
+            esc = "\\" + delim
+            if esc not in anchor or esc in repl:
+                continue
+            bare = re.findall(r"(?<!\\)" + re.escape(delim), repl)
+            if bare:
+                return re.sub(r"(?<!\\)" + re.escape(delim), esc, repl), len(bare)
+        return repl, 0
+
+    applied, rejected, repaired = [], [], []
     landed: list[tuple[dict, Path]] = []   # the source patch for each applied entry, for bisection
     for i, p in enumerate(data.get("patches", [])):
         anchor, repl = p["anchor"], p["replacement"]
@@ -156,6 +181,15 @@ def main() -> int:
             rejected.append({**{k: p[k] for k in ("finding_ids", "field_path")},
                              "reason": "replacement identical to anchor"})
             continue
+        repl, fixed = matched_escaping(anchor, repl)
+        if fixed:
+            # Back into the patch itself: `landed` replays `p["replacement"]` during the
+            # rollback bisection, so leaving the bare version there would re-break the file
+            # and blame this patch for a fault that was already repaired.
+            p = {**p, "replacement": repl}
+            repaired.append({**{k: p[k] for k in ("finding_ids", "field_path")},
+                             "reason": f"escaped {fixed} occurrences of the field's own "
+                                       f"quote delimiter, which the replacement left bare"})
         buffers[target] = text.replace(anchor, repl, 1)
         landed.append((p, target))
         applied.append({"finding_ids": p["finding_ids"], "field_path": p["field_path"],
@@ -169,6 +203,7 @@ def main() -> int:
         "applied": len(applied),
         "rejected": len(rejected),
         "rejections": rejected,
+        "escaping_repaired": repaired,
         "findings_closed": sorted({f for a in applied for f in a["finding_ids"]}),
         "findings_still_open": sorted({f for r in rejected for f in r.get("finding_ids", [])}),
         "unresolved_questions": data.get("unresolved_questions", []),

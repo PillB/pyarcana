@@ -550,3 +550,57 @@ longer phrase meaning something else. The same shape is waiting in five other pa
 `function` inside `función generadora`, `commit` inside `Conventional Commits`, `list` inside
 `List comprehension`, `dict` inside `Dict comprehension`, `recall` inside `precisión y recall`.
 
+
+### Retrospective, 2026-09-25: what has actually been destroying rounds
+
+Twenty-four sections were processed over two days. Codex produced roughly ninety patches with
+**zero rejected on quality**. Eleven rounds were nevertheless thrown away, and every one of
+them died on the machinery rather than on the Spanish. The gate restores the section when it
+fails, so a bad instrument does not report noise — it deletes the work and calls the round a
+failure. These are the shapes, so the next round recognises them before paying for them.
+
+**1. A test that pins HOW something is written, not WHAT is true.** Four variants, in the order
+they bit:
+
+- *Array index.* `advanced-models.theory[10].p1`. A concepts round's whole purpose is
+  inserting teaching blocks, which renumbers every later index. Cost S33's round.
+- *Block ordinal.* `stdlib-deep.S15-T4-B#10.p2` reads like a stable subtopic id, but `#10`
+  counts blocks inside that subtopic. Insert one and it is `#11`. Cost S15's round — and the
+  guard written after the first variant only knew `theory[N]`, so it walked straight past this.
+- *Literal prose.* `test_s04_text_first_prose` pinned exact substrings; a round split one
+  sentence, so «, el índice» became «. El índice» — same words, capital E. Cost S04's round.
+- *A defect counted twice.* `first_use_issues` charged 2 for a term both mentioned and required
+  before its definition, and 1 for a term defined nowhere, so *teaching* a never-defined term
+  read as damage.
+
+The durable form pins what is true: find the event by its sentence, fold case and whitespace,
+count one defect once. 2,208 of 7,717 event locations (28.6%) are positional, so assume any
+location-shaped string in a test is a liability until shown otherwise.
+
+**2. Removing a definition exposes everything it was masking.** The brief counts uses *given
+the definitions that exist now*. Remove one — often correct, since a section should not
+pre-announce what another teaches — and uses the brief never listed appear at once. `for` in
+S04 would have gone 268 → 1126; `function` in S02 went 229 → 301; `if` in S02, 208 → 223. All
+three patches were right. The brief now states this cost per section before the round starts.
+
+**3. The detector's rules are whitelists, so a missing entry hides real teaching.** The course
+marks a keyword with BOTH marks — `**`for`**` — and `FORMATTED_SUBJECT` accepted one, so the
+inner backtick sat behind an asterisk instead of sentence punctuation. Consequence: `for`, with
+1421 uses across 52 sections, had its only credited definition in a weDo preamble reading
+"(base del gate de resúmenes)", while S04's theory taught it correctly and was credited with
+nothing. 26 sentences in the course open that way. Before writing a block for a concept the map
+calls never-explained, grep the section and read the sentence.
+
+**4. Spanish is the canonical version, and that is a diagnostic asset.** Python keywords,
+operators and library names are English; ordinary Spanish prose is not. So an English token in
+Spanish prose is almost always the concept, and the homonym risk concentrates where an alias IS
+an ordinary Spanish word. Measured over the 200 remaining uses: 145 (72.5%) come from
+English-token-only aliases and carry low false-positive risk; 55 (27.5%) come from twelve
+concepts whose aliases include a Spanish word — `excepción`, `valor atípico`, `función`,
+`correlación` — and that is where a use needs corroboration before it is believed. The overall
+noise level is low: 10 of 268 were clear homonyms (3.7%), not the large fraction first claimed.
+
+**5. One of these was self-inflicted and is worth naming.** Repairing the prose test with a
+global string replace broke two sibling tests in the same file, because the pattern being
+replaced appeared in three tests and only one needed it. Scope an edit to the assertion it is
+meant to fix, and run the file before moving on.

@@ -227,3 +227,26 @@ class DefinitionsASectionHolds(unittest.TestCase):
         block = prompt.definitions_this_section_holds(cmap, "S04", [f"s{i:02d}" for i in range(1, 53)])
         self.assertIn("disappears from the whole course", block)
         self.assertIn("at least 3", block)
+
+    def test_a_sibling_definition_in_the_same_block_is_not_a_successor(self):
+        """A patch replaces a block, not a sentence, so both definitions in it go together.
+
+        `return` was defined by BOTH `decisions-rules.theory[3].p3` and
+        `decisions-rules.theory[3].figure`. Treating the figure as the next definition made the
+        exposure look like nothing, so this block stayed silent - and the round that replaced
+        all of `theory[3]` exposed 58 uses and was thrown away.
+        """
+        cmap = {"return": {
+            "first_definition": {"section": "S03", "location": "d.theory[3].p3", "kind": "theory.paragraph"},
+            "definitions": [
+                {"section": "S03", "location": "d.theory[3].p3"},
+                {"section": "S03", "location": "d.theory[3].figure"},
+                {"section": "S05", "location": "f.S05-T1-A.p1"},
+            ],
+            "uses": [{"section": s, "visible": True} for s in ("S02", "S03", "S04", "S05")],
+            "surprising_uses": [],
+        }}
+        import build_concept_prompt as prompt
+        block = prompt.definitions_this_section_holds(cmap, "S03", [f"s{i:02d}" for i in range(1, 53)])
+        self.assertIn("`return`", block, "the sibling figure hid the real successor in S05")
+        self.assertIn("moves to S05", block)

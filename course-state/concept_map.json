@@ -21576,12 +21576,6 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T1-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T2-A.code",
     "kind": "theory.code",
     "visible": true
@@ -29986,12 +29980,6 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T1-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T2-A.code",
     "kind": "theory.code",
     "visible": true
@@ -32475,12 +32463,6 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T1-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T2-A.code",
     "kind": "theory.code",
     "visible": true
@@ -34373,12 +34355,6 @@
   "uses": [
    {
     "section": "S03",
-    "location": "decisions-rules.tagline",
-    "kind": "tagline",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.outcome[1]",
     "kind": "outcome",
     "visible": true
@@ -34398,6 +34374,18 @@
    {
     "section": "S03",
     "location": "decisions-rules.theory[1].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[4].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[4].p2",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -34831,7 +34819,19 @@
   "definitions": [
    {
     "section": "S03",
+    "location": "decisions-rules.outcome[1]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S03",
     "location": "decisions-rules.theory[0].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[4].p0",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -34995,14 +34995,14 @@
   "figures": [],
   "first_use": {
    "section": "S03",
-   "location": "decisions-rules.tagline",
-   "kind": "tagline",
+   "location": "decisions-rules.outcome[1]",
+   "kind": "outcome",
    "visible": true
   },
   "first_definition": {
    "section": "S03",
-   "location": "decisions-rules.theory[0].p2",
-   "kind": "theory.paragraph",
+   "location": "decisions-rules.outcome[1]",
+   "kind": "outcome",
    "visible": true
   },
   "reinforcements": [
@@ -35014,26 +35014,7 @@
    }
   ],
   "depth": "L1",
-  "surprising_uses": [
-   {
-    "section": "S03",
-    "location": "decisions-rules.tagline",
-    "kind": "tagline",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.outcome[1]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.theory[0].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S03",
    "S06",
@@ -35266,6 +35247,18 @@
     "section": "S03",
     "location": "decisions-rules.theory[3].code",
     "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[4].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[4].p1",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -124436,18 +124429,6 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E2.title",
-    "kind": "wedo.title",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T3-A-E2.hint",
     "kind": "wedo.hint",
     "visible": true
@@ -124921,18 +124902,6 @@
     "section": "S03",
     "location": "decisions-rules.S03-T3-A-E1.retrospective",
     "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E2.title",
-    "kind": "wedo.title",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E2.preamble",
-    "kind": "wedo.preamble",
     "visible": true
    },
    {
