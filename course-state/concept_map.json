@@ -51509,12 +51509,6 @@
   "declared_first_section": "dbt-bigquery",
   "uses": [
    {
-    "section": "S24",
-    "location": "rpa-advanced.S24-T4-A-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
     "section": "S37",
     "location": "dbt-bigquery.S37-T3-A.code",
     "kind": "theory.code",
@@ -51535,21 +51529,15 @@
   "headings": [],
   "figures": [],
   "first_use": {
-   "section": "S24",
-   "location": "rpa-advanced.S24-T4-A-E2.hint",
-   "kind": "wedo.hint",
+   "section": "S37",
+   "location": "dbt-bigquery.S37-T3-A.code",
+   "kind": "theory.code",
    "visible": true
   },
   "first_definition": null,
   "reinforcements": [],
   "depth": "L0",
   "surprising_uses": [
-   {
-    "section": "S24",
-    "location": "rpa-advanced.S24-T4-A-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
    {
     "section": "S37",
     "location": "dbt-bigquery.S37-T3-A.code",
@@ -51558,7 +51546,6 @@
    }
   ],
   "sections_used": [
-   "S24",
    "S37"
   ],
   "load_bearing": false,
@@ -87464,12 +87451,6 @@
   "uses": [
    {
     "section": "S24",
-    "location": "rpa-advanced.S24-T4-A.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S24",
     "location": "rpa-advanced.S24-T4-A-E3.preamble",
     "kind": "wedo.preamble",
     "visible": true
@@ -87665,8 +87646,8 @@
   "figures": [],
   "first_use": {
    "section": "S24",
-   "location": "rpa-advanced.S24-T4-A.callout",
-   "kind": "theory.callout",
+   "location": "rpa-advanced.S24-T4-A-E3.preamble",
+   "kind": "wedo.preamble",
    "visible": true
   },
   "first_definition": {
@@ -87677,14 +87658,7 @@
   },
   "reinforcements": [],
   "depth": "L1",
-  "surprising_uses": [
-   {
-    "section": "S24",
-    "location": "rpa-advanced.S24-T4-A.callout",
-    "kind": "theory.callout",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S24",
    "S27",
@@ -121416,12 +121390,6 @@
     "visible": true
    },
    {
-    "section": "S24",
-    "location": "rpa-advanced.S24-T4-A.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
     "section": "S25",
     "location": "streamlit-dashboards.theory[9].heading",
     "kind": "theory.heading",
@@ -122423,7 +122391,6 @@
   "sections_used": [
    "S13",
    "S21",
-   "S24",
    "S25",
    "S30",
    "S34",
@@ -124049,12 +124016,6 @@
   "declared_first_section": "streamlit-dashboards",
   "uses": [
    {
-    "section": "S24",
-    "location": "rpa-advanced.S24-T4-A.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
     "section": "S25",
     "location": "streamlit-dashboards.theory[9].heading",
     "kind": "theory.heading",
@@ -124728,9 +124689,9 @@
    }
   ],
   "first_use": {
-   "section": "S24",
-   "location": "rpa-advanced.S24-T4-A.p1",
-   "kind": "theory.paragraph",
+   "section": "S25",
+   "location": "streamlit-dashboards.theory[9].heading",
+   "kind": "theory.heading",
    "visible": true
   },
   "first_definition": {
@@ -124741,16 +124702,8 @@
   },
   "reinforcements": [],
   "depth": "L3",
-  "surprising_uses": [
-   {
-    "section": "S24",
-    "location": "rpa-advanced.S24-T4-A.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
-   "S24",
    "S25",
    "S30",
    "S33",
@@ -124761,7 +124714,7 @@
   "figure_target": 5,
   "figure_count": 1,
   "figure_gap": 4,
-  "explanation_lag_sections": 1
+  "explanation_lag_sections": 0
  },
  "shap": {
   "id": "shap",

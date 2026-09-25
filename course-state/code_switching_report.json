@@ -818,11 +818,11 @@
  },
  "S24": {
   "section": "S24",
-  "prose_words": 6792,
+  "prose_words": 6809,
   "english_function_words": 3,
-  "ordinary_english_words": 34,
-  "kept_technical_terms": 101,
-  "avoidable_english_per_1000": 5.4,
+  "ordinary_english_words": 33,
+  "kept_technical_terms": 100,
+  "avoidable_english_per_1000": 5.3,
   "top_terms": [
    [
     "golden",
@@ -830,7 +830,7 @@
    ],
    [
     "review",
-    9
+    8
    ],
    [
     "split",
@@ -1542,11 +1542,11 @@
  },
  "S37": {
   "section": "S37",
-  "prose_words": 6787,
+  "prose_words": 6582,
   "english_function_words": 32,
   "ordinary_english_words": 21,
   "kept_technical_terms": 163,
-  "avoidable_english_per_1000": 7.8,
+  "avoidable_english_per_1000": 8.1,
   "top_terms": [
    [
     "matching",

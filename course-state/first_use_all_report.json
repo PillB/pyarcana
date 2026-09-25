@@ -2,13 +2,14 @@
   "ok": false,
   "sections_audited": 52,
   "terms_audited": 106,
-  "events_audited": 22870,
+  "events_audited": 22864,
   "issue_counts": {
-    "DEFINITION_AFTER_REQUIREMENT": 8,
-    "NO_VISIBLE_DEFINITION": 4,
-    "USE_BEFORE_DEFINITION": 30
+    "DEFINITION_AFTER_REQUIREMENT": 7,
+    "NO_VISIBLE_DEFINITION": 5,
+    "USE_BEFORE_DEFINITION": 27
   },
   "never_defined_but_mentioned": [
+    "generator",
     "joblib",
     "namedtuple",
     "onehotencoder",
@@ -65,18 +66,10 @@
       "definition_location": "basics.S02-T2-A-DEMO.why"
     },
     {
-      "code": "USE_BEFORE_DEFINITION",
+      "code": "NO_VISIBLE_DEFINITION",
       "term_id": "generator",
       "severity": "P1",
-      "location": "rpa-advanced.S24-T4-A-E2.hint",
-      "definition_location": "dbt-bigquery.theory[6].p0"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "generator",
-      "severity": "P1",
-      "location": "rpa-advanced.S24-T4-A-E2.hint",
-      "definition_location": "dbt-bigquery.theory[6].p0"
+      "location": "dbt-bigquery.S37-T3-A.code"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
@@ -140,13 +133,6 @@
       "severity": "P1",
       "location": "setup.tagline",
       "definition_location": "setup.outcome[0]"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "coverage",
-      "severity": "P1",
-      "location": "rpa-advanced.S24-T4-A.callout",
-      "definition_location": "rpa-advanced.S24-T4-A-E3.preamble"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
@@ -243,13 +229,6 @@
       "severity": "P1",
       "location": "text-unicode-regex.theory[5].p0",
       "definition_location": "text-unicode-regex.theory[5].p3"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "f1-score",
-      "severity": "P1",
-      "location": "rpa-advanced.S24-T4-A.p1",
-      "definition_location": "streamlit-dashboards.theory[9].p0"
     },
     {
       "code": "NO_VISIBLE_DEFINITION",

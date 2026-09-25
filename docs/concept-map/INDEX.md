@@ -7,7 +7,7 @@ surprised by it?* 🔴 never explained · 🟠 used before it is explained · �
 
 Depth: **L0** never defined · **L1** defined inline at first use · **L2** plus a worked example · **L3** plus its own subtopic and a figure.
 
-**106 concepts.** 12 never explained, 30 used before they are explained, 64 clean.
+**106 concepts.** 12 never explained, 28 used before they are explained, 66 clean.
 
 Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) · [S05](S05.md) · [S06](S06.md) · [S07](S07.md) · [S08](S08.md) · [S09](S09.md) · [S10](S10.md) · [S11](S11.md) · [S12](S12.md) · [S13](S13.md) · [S14](S14.md) · [S15](S15.md) · [S16](S16.md) · [S17](S17.md) · [S18](S18.md) · [S19](S19.md) · [S20](S20.md) · [S21](S21.md) · [S22](S22.md) · [S23](S23.md) · [S24](S24.md) · [S25](S25.md) · [S26](S26.md) · [S27](S27.md) · [S28](S28.md) · [S29](S29.md) · [S30](S30.md) · [S31](S31.md) · [S32](S32.md) · [S33](S33.md) · [S34](S34.md) · [S35](S35.md) · [S36](S36.md) · [S37](S37.md) · [S38](S38.md) · [S39](S39.md) · [S40](S40.md) · [S41](S41.md) · [S42](S42.md) · [S43](S43.md) · [S44](S44.md) · [S45](S45.md) · [S46](S46.md) · [S47](S47.md) · [S48](S48.md) · [S49](S49.md) · [S50](S50.md) · [S51](S51.md) · [S52](S52.md)
 
@@ -18,7 +18,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🔴 `reshape` | L0 | S17 · theory[5].heading | **never** | 9 | 0 | 2 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `dict-comprehension` | L0 | S04 · S04-T3-B-E3.title | **never** | 6 | 0 | 1 | 0 | · | 0/1 ⚠ | 2 |
 | 🔴 `namedtuple` | L0 | S40 · S40-T3-B.p1 | **never** | 5 | 2 | 0 | 0 | · | 0/1 ⚠ | 1 |
-| 🔴 `generator` | L0 | S24 · S24-T4-A-E2.hint | **never** | 2 | 1 | 0 | 0 | · | 0/1 ⚠ | 2 |
+| 🔴 `generator` | L0 | S37 · S37-T3-A.code | **never** | 1 | 1 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `joblib` | L0 | S32 · S32-T3-B.p0 | **never** | 1 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `onehotencoder` | L0 | S32 · S32-T1-B.p1 | **never** | 1 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `args-y-kwargs` | L0 | — | **never** | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 0 |
@@ -47,7 +47,6 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `parameter` | L3 | S02 · S02-T4-A-E3.hint | S03 · theory[3].p1 | 3 | 1 | 4 | 1 | +1 | 1/5 ⚠ | 19 |
 | 🟠 `cross-validation` | L1 | S32 · resources.doc[5] | S33 · theory[11].p1 | 2 | 0 | 0 | 0 | +1 | 0/1 ⚠ | 3 |
 | 🟠 `entity-resolution` | L3 | S12 · selfCheck[4].opt[2] | S13 · S13-T1-A.p0 | 2 | 8 | 6 | 15 | +1 | 2/5 ⚠ | 15 |
-| 🟠 `f1-score` | L3 | S24 · S24-T4-A.p1 | S25 · theory[9].p0 | 1 | 9 | 5 | 4 | +1 | 1/5 ⚠ | 6 |
 | 🟠 `pivot-table` | L3 | S17 · theory[5].heading | S17 · iDo.intro | 12 | 6 | 2 | 2 | · | 1/1 | 2 |
 | 🟠 `llm` | L2 | S25 · outcome[0] | S25 · S25-T1-A.p0 | 7 | 2 | 3 | 5 | · | 0/5 ⚠ | 5 |
 | 🟠 `resample` | L1 | S34 · theory[5].heading | S34 · S34-T2-A.p0 | 4 | 0 | 0 | 2 | · | 0/1 ⚠ | 1 |
@@ -58,7 +57,6 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `interprete` | L1 | S01 · tagline | S01 · outcome[0] | 2 | 0 | 1 | 2 | · | 0/1 ⚠ | 9 |
 | 🟠 `overfitting` | L2 | S07 · theory[5].p0 | S07 · theory[5].p3 | 2 | 3 | 0 | 1 | · | 0/1 ⚠ | 2 |
 | 🟠 `repositorio-repo` | L2 | S01 · outcome[5] | S01 · theory[0].p3 | 2 | 8 | 11 | 13 | · | 0/5 ⚠ | 26 |
-| 🟠 `coverage` | L1 | S24 · S24-T4-A.callout | S24 · S24-T4-A-E3.preamble | 1 | 0 | 3 | 0 | · | 0/1 ⚠ | 4 |
 | 🟠 `list-comprehension` | L1 | S04 · outcome[5] | S04 · theory[7].p0 | 1 | 0 | 5 | 0 | · | 0/1 ⚠ | 12 |
 | 🟠 `roc-auc` | L1 | S34 · theory[2].heading | S34 · theory[2].p1 | 1 | 0 | 0 | 7 | · | 0/1 ⚠ | 2 |
 | 🟠 `slicing` | L1 | S06 · outcome[0] | S06 · theory[1].p0 | 1 | 0 | 7 | 4 | · | 0/1 ⚠ | 13 |
@@ -81,6 +79,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `context-manager` | L1 | S09 · S09-T1-B.p0 | S09 · S09-T1-B.p0 | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 2 |
 | 🟢 `conventional-commits` | L1 | S01 · theory[18].p0 | S01 · theory[18].p0 | 0 | 0 | 4 | 2 | · | 0/1 ⚠ | 1 |
 | 🟢 `counter` | L2 | S08 · S08-T2-B-E3.instruction | S08 · S08-T2-B-E3.instruction | 0 | 3 | 5 | 0 | · | 0/5 ⚠ | 5 |
+| 🟢 `coverage` | L1 | S24 · S24-T4-A-E3.preamble | S24 · S24-T4-A-E3.preamble | 0 | 0 | 3 | 0 | · | 0/1 ⚠ | 4 |
 | 🟢 `cuartil` | L3 | S16 · theory[8].heading | S16 · theory[8].p1 | 0 | 5 | 3 | 0 | · | 1/5 ⚠ | 3 |
 | 🟢 `data-leakage` | L1 | S19 · S19-T4-B.p5 | S19 · S19-T4-B.p5 | 0 | 0 | 0 | 1 | · | 0/1 ⚠ | 4 |
 | 🟢 `dataframe` | L3 | S15 · outcome[0] | S15 · outcome[0] | 0 | 50 | 7 | 7 | · | 1/5 ⚠ | 7 |
@@ -91,6 +90,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `dtype` | L3 | S14 · outcome[0] | S14 · outcome[0] | 0 | 18 | 16 | 10 | · | 2/5 ⚠ | 8 |
 | 🟢 `dunder-method` | L2 | S11 · theory[2].p1 | S11 · theory[2].p1 | 0 | 6 | 4 | 1 | · | 0/1 ⚠ | 1 |
 | 🟢 `f-string` | L1 | S02 · theory[10].p0 | S02 · theory[10].p0 | 0 | 0 | 12 | 1 | · | 0/1 ⚠ | 10 |
+| 🟢 `f1-score` | L3 | S25 · theory[9].heading | S25 · theory[9].p0 | 0 | 9 | 5 | 4 | · | 1/5 ⚠ | 5 |
 | 🟢 `fastapi` | L3 | S41 · jobRelevance | S41 · jobRelevance | 0 | 1 | 2 | 2 | · | 1/1 | 1 |
 | 🟢 `git` | L2 | S01 · tagline | S01 · tagline | 0 | 9 | 7 | 6 | · | 0/5 ⚠ | 4 |
 | 🟢 `gitignore` | L2 | S01 · outcome[6] | S01 · outcome[6] | 0 | 2 | 4 | 1 | · | 0/1 ⚠ | 2 |
@@ -107,7 +107,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `p-value` | L1 | S18 · S18-T3-A#9.heading | S18 · S18-T3-A#9.p0 | 0 | 0 | 0 | 2 | · | 0/1 ⚠ | 1 |
 | 🟢 `path` | L2 | S01 · outcome[1] | S01 · outcome[1] | 0 | 40 | 31 | 17 | · | 0/5 ⚠ | 30 |
 | 🟢 `pip` | L2 | S01 · theory[0].p1 | S01 · theory[0].p1 | 0 | 11 | 9 | 3 | · | 0/5 ⚠ | 10 |
-| 🟢 `precision` | L2 | S13 · outcome[1] | S13 · outcome[1] | 0 | 7 | 11 | 16 | · | 0/5 ⚠ | 8 |
+| 🟢 `precision` | L2 | S13 · outcome[1] | S13 · outcome[1] | 0 | 7 | 11 | 16 | · | 0/5 ⚠ | 7 |
 | 🟢 `projection-pushdown` | L2 | S15 · S15-T4-B#11.p1 | S15 · S15-T4-B#11.p1 | 0 | 1 | 0 | 1 | · | 0/1 ⚠ | 1 |
 | 🟢 `pull-request` | L2 | S01 · outcome[5] | S01 · outcome[5] | 0 | 2 | 3 | 10 | · | 0/5 ⚠ | 12 |
 | 🟢 `pyodide` | L2 | S02 · iDo.intro | S02 · iDo.intro | 0 | 1 | 0 | 0 | · | 0/5 ⚠ | 3 |
