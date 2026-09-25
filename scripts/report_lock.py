@@ -27,9 +27,26 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-LOCK = ROOT / ".fixer/reports.lock"
+#: Overridable so a test can exercise the real refusal path, in a real subprocess, without
+#: touching the lock a live gate is holding. The first version of those tests deleted and
+#: rewrote this very file while a gate was measuring, which is the hazard this module exists to
+#: prevent - and it produced one spurious gate failure before anyone noticed.
+LOCK = Path(os.environ.get("PYARCANA_REPORT_LOCK_PATH") or (ROOT / ".fixer/reports.lock"))
 #: The token a gate passes to the audits it launches, so its own children are not refused.
 ENV = "PYARCANA_REPORT_LOCK"
+
+
+def _shown(p: Path) -> str:
+    """Repo-relative when it is inside the repo, absolute otherwise.
+
+    `relative_to` RAISES for a path outside ROOT, and the lock path is overridable - so the
+    error message meant to help a stuck human crashed instead, inside the very branch that
+    only runs when something has gone wrong.
+    """
+    try:
+        return str(p.relative_to(ROOT))
+    except ValueError:
+        return str(p)
 
 
 def holder() -> str | None:
@@ -49,7 +66,7 @@ def refuse_if_busy(script: str) -> None:
         f"REFUSED: {script} writes a shared report under course-state/, and a gate run is\n"
         f"         measuring right now (lock token {held}). Its numbers and yours would\n"
         f"         overwrite each other, which has already cost two rounds.\n"
-        f"         Wait for it, or remove {LOCK.relative_to(ROOT)} if that run is dead.",
+        f"         Wait for it, or remove {_shown(LOCK)} if that run is dead.",
         file=sys.stderr,
     )
     raise SystemExit(3)

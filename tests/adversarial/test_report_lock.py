@@ -22,7 +22,9 @@ from __future__ import annotations
 
 import os
 import re
+import shutil
 import subprocess
+import tempfile
 import sys
 import unittest
 from pathlib import Path
@@ -35,18 +37,34 @@ import report_lock  # noqa: E402
 
 class ReportLock(unittest.TestCase):
     def setUp(self) -> None:
-        self.saved = report_lock.LOCK.read_text(encoding="utf-8") if report_lock.LOCK.exists() else None
+        """Point the module at a private lock file, never the one a gate may be holding.
+
+        The first version of these tests deleted and rewrote the real
+        `.fixer/reports.lock` in setUp/tearDown. That is precisely the hazard this module
+        exists to prevent: run the suite while a gate is measuring - which the gate itself
+        does - and the gate's own children start being refused because the token changed
+        underneath them. It produced one spurious `adversarial (py)` failure before the cause
+        was found. A test for a lock must not fight over the lock.
+        """
+        self._dir = tempfile.mkdtemp(prefix="report-lock-test-")
+        self._path = Path(self._dir) / "reports.lock"
+        self._real, report_lock.LOCK = report_lock.LOCK, self._path
         self.saved_env = os.environ.get(report_lock.ENV)
-        report_lock.LOCK.unlink(missing_ok=True)
         os.environ.pop(report_lock.ENV, None)
+        os.environ["PYARCANA_REPORT_LOCK_PATH"] = str(self._path)
 
     def tearDown(self) -> None:
-        report_lock.LOCK.unlink(missing_ok=True)
-        if self.saved is not None:
-            report_lock.LOCK.write_text(self.saved, encoding="utf-8")
+        report_lock.LOCK = self._real
+        os.environ.pop("PYARCANA_REPORT_LOCK_PATH", None)
         os.environ.pop(report_lock.ENV, None)
         if self.saved_env is not None:
             os.environ[report_lock.ENV] = self.saved_env
+        shutil.rmtree(self._dir, ignore_errors=True)
+
+    def test_the_tests_never_touch_the_real_lock(self):
+        """The guard on the guard: this suite runs inside the gate it protects."""
+        self.assertNotEqual(report_lock.LOCK, self._real)
+        self.assertFalse(self._real.samefile(self._path) if self._real.exists() else False)
 
     def test_a_free_lock_lets_an_audit_through(self):
         report_lock.refuse_if_busy("probe")  # must not raise

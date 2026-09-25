@@ -318,6 +318,14 @@ def check(tag: str) -> int:
         return 1
     before = json.loads(before_path.read_text(encoding="utf-8"))
     failed: list[str] = []
+    # AGENTS.md lists `npx tsc --noEmit` in the block a round must pass, and the gate never ran
+    # it. apply_patches.py's own check is a tsx probe that imports COURSE_SECTIONS and counts 52
+    # - tsx TRANSPILES, it does not typecheck - so a patch whose anchor was one `heading:` line
+    # and whose replacement was a whole block left three duplicate keys in one object literal,
+    # passed every measure, and was pushed. TS1117 is exactly the class a transpiler cannot see:
+    # duplicate properties are valid JavaScript, the last one silently wins, and the learner
+    # gets whichever block the patch happened to land after.
+    absolute_gate("tsc --noEmit", ["npx", "tsc", "--noEmit"], failed)
     absolute_gate("test:v3", ["npm", "run", "test:v3"], failed)
     absolute_gate("adversarial (node)", ["npm", "run", "test:adversarial:node"], failed)
     absolute_gate("adversarial (py)", ["npm", "run", "test:adversarial:py"], failed)
