@@ -58,7 +58,7 @@ export const section02: CourseSection = {
         "Bloque de referencia. Orden de los subtemas, ritmo y alcance.",
         "**Orden de los subtemas.** T1 trata los valores: literales, inspección y conversión. T2 pasa a los nombres: asignación, convenciones PEP 8, identidad y copias. T3 cubre los operadores: precedencia y `Decimal` para dinero. T4 cierra con la entrada y salida: f-strings —cadenas con valores incrustados— y la lectura de datos. La recuperación de errores se estudia en S09.",
         "**Ritmo orientativo (unas 9 horas).** De esas, dos o tres para el núcleo: al terminarlo ya sabes leer un valor y decir de qué tipo es antes de operar con él. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
-        "**Criterio de cierre.** Puedes explicar el tipo de un valor, convertir texto válido, conservar el texto original, calcular con `Decimal` y presentar el resultado. La recuperación de entradas inválidas llegará cuando estudies excepciones en S09.",
+        "**Criterio de cierre.** Puedes explicar el tipo de un valor, convertir texto válido, conservar el texto original, calcular con `Decimal` y presentar el resultado. En S02 observarás qué ocurre al intentar una conversión inválida; en S09 aprenderás a impedir que ese fallo detenga el resto del trabajo.",
         "**Fuera de alcance por ahora.** Elegir entre distintos caminos y repetir instrucciones se estudiará en secciones posteriores. Allí también aprenderás a definir funciones, bloques reutilizables de instrucciones, cuando el modelo de valores y tipos ya esté firme.",
         "**Límites.** Solo datos sintéticos (`example.com`, teléfonos inventados). Nunca información personal identificable real en el repositorio.",
       ],
@@ -95,16 +95,31 @@ real_pii_ok False`,
      {
       heading: 'Una secuencia que permite encontrar el cambio',
       paragraphs: [
-        'Un dato rara vez pasa del formulario al resultado en un solo salto. Primero llega como texto, después se limpia y luego se interpreta. Una **pipeline** es esa secuencia ordenada: la salida de un paso se convierte en la entrada del siguiente.',
-        'La secuencia existe para que puedas señalar dónde cambió el dato. Con una edad escrita como `" 19 "`, el primer paso conserva el texto original. El segundo obtiene `"19"` sin los espacios de los bordes y el tercero obtiene el número `19`. Si aparece un problema, sabes en qué paso buscarlo.',
-        'Practica con `" 28 "`. Escribe tres resultados antes de continuar: original, texto sin espacios y número interpretado. Lo correcto es `" 28 "`, `"28"` y `28`; el primero debe permanecer intacto.',
-        'Cuando llegues a T1-B, ejecuta la conversión y comprueba esos tres resultados. Después explica la pipeline sin usar su nombre: “conservo, limpio e interpreto”. Si puedes señalar qué recibe y qué entrega cada paso, entendiste la relación y no solo la palabra.',
+        'Un dato rara vez pasa del formulario al resultado en un solo salto. Primero llega como texto, después se limpia y luego se interpreta. Una **pipeline** es una secuencia ordenada de pasos: cada paso recibe un valor, hace un cambio concreto y entrega el resultado al paso siguiente.',
+        'Esta secuencia resuelve un problema práctico: permite señalar dónde cambió el dato. Con una edad escrita como `" 19 "`, el primer paso conserva ese texto. El segundo obtiene `"19"` sin los espacios de los bordes. El tercero obtiene el número `19`.',
+        'Observa el ejemplo y predice sus tres líneas antes de ejecutarlo. `edad_raw` conserva lo recibido, `edad_clean` guarda el texto sin espacios y `edad` guarda el número interpretado.',
+        'Ahora repite los tres pasos con `" 28 "`. Debes obtener `" 28 "`, `"28"` y `28`, sin cambiar `edad_raw`. Como comprobación final, explica la secuencia sin decir pipeline: “conservo el texto, quito los espacios de los bordes y lo convierto en número”.',
       ],
+      code: {
+        language: 'python',
+        title: 'pipeline_edad.py',
+        code: `edad_raw = " 19 "
+edad_clean = edad_raw.strip()
+edad = int(edad_clean)
+
+print("raw: |" + edad_raw + "|")
+print("clean:", edad_clean)
+print("edad:", edad)
+`,
+        output: `raw: | 19 |
+clean: 19
+edad: 19`,
+      },
       callout: {
         type: 'info',
         title: 'No es una caja misteriosa',
         content:
-          'Una pipeline no garantiza que el dato sea correcto. Solo ordena los pasos y permite observar qué recibió y qué produjo cada uno.',
+          'Una pipeline no decide si el dato es correcto. Ordena transformaciones observables para que puedas comparar qué recibió y qué produjo cada paso.',
       },
      },
      {
@@ -250,11 +265,40 @@ False`,
       },
     },
     {
+      heading: 'Guardar campos por nombre con un diccionario',
+      paragraphs: [
+        'Cuando un registro tiene varios campos, recordar su posición es frágil. Un **`dict` o diccionario** reúne pares de clave y valor. La clave es el nombre que identifica un campo; el valor es el dato guardado para ese campo.',
+        'En `cliente = {"nombres": "Ana", "edad": 28}`, la clave `"nombres"` permite recuperar `"Ana"` con `cliente["nombres"]`. La clave `"edad"` permite recuperar `28`. Las llaves delimitan el diccionario y los dos puntos separan cada clave de su valor.',
+        'Copia el ejemplo y agrega `"contacto": "999000111"`. Después imprime `cliente["contacto"]`. Lo correcto es `999000111` como texto, porque un contacto no es una cantidad que debas sumar.',
+        'Comprueba tu lectura sin ejecutar: ¿qué valor entrega `cliente["edad"]`? Si respondes `28` y puedes señalar la clave que lo encuentra, ya puedes leer los diccionarios usados en T2-B.',
+      ],
+      code: {
+        language: 'python',
+        title: 'diccionario_cliente.py',
+        code: `cliente = {"nombres": "Ana", "edad": 28}
+print(cliente["nombres"])
+print(cliente["edad"])
+
+cliente["contacto"] = "999000111"
+print(cliente["contacto"])
+`,
+        output: `Ana
+28
+999000111`,
+      },
+      callout: {
+        type: 'info',
+        title: 'Clave y valor cumplen tareas distintas',
+        content:
+          'La clave nombra el campo; el valor guarda su dato. `cliente["edad"]` pide el valor asociado con la clave `"edad"`.',
+      },
+    },
+    {
       heading: 'Identidad, mutabilidad y copias superficiales',
       figure: {
         id: "S02-truthiness",
         caption:
-          "Un if desnudo funde ausente, cero y vacío en la misma rama. Por eso la ausencia se pregunta con `is None`.",
+          "Ausencia, cero y texto vacío son valores distintos. Para preguntar específicamente por ausencia, compara con `None` mediante `is None`.",
         alt:
           "Cuatro guardas evaluadas en orden: is None da ausente; == 0 y == vacío dan presente; el resto, presente.",
       },
@@ -508,16 +552,12 @@ apellido_clean: Ñahui`,
     activo = True
     referencia = None
 
-    campos = [
-        ("nombres", nombres),
-        ("apellido_paterno", apellido_paterno),
-        ("edad", edad),
-        ("monto_soles", monto_soles),
-        ("activo", activo),
-        ("referencia", referencia),
-    ]
-    for label, valor in campos:
-        print(f"{label}: valor={valor!r} type={type(valor).__name__}")
+    print(f"nombres: valor={nombres!r} type={type(nombres).__name__}")
+    print(f"apellido_paterno: valor={apellido_paterno!r} type={type(apellido_paterno).__name__}")
+    print(f"edad: valor={edad!r} type={type(edad).__name__}")
+    print(f"monto_soles: valor={monto_soles!r} type={type(monto_soles).__name__}")
+    print(f"activo: valor={activo!r} type={type(activo).__name__}")
+    print(f"referencia: valor={referencia!r} type={type(referencia).__name__}")
 
     print("type(42)=", type(42).__name__)
     print("type('42')=", type("42").__name__)
@@ -1930,14 +1970,14 @@ monto: S/ 99.50`,
           '- **Contexto:** en Pyodide/CI no hay consola interactiva confiable; los tests necesitan funciones puras.\n- **Meta:** `simular_intake(...)` devuelve campos str + subdict `types` con `__name__`.\n- **Éxito:** `types["edad"]` y `types["nombres"]` son `"str"`; print `OK`.\n- **Límites:** **no** llames `input()`; no conviertas tipos aún (eso es el parse).',
         id: 'S02-T4-A-E3',
         instruction:
-          '1. Implementa el dict de retorno con campos y `types`.\n2. Usa `type(...).__name__` para cada campo (sin comprehensions si evitas complejidad).\n3. Corre asserts del starter.',
-        hint: 'No uses input(). Los parámetros ya simulan las respuestas del usuario.',
+          '1. Completa el diccionario `registro` con los campos y el diccionario interno `types`.\n2. Usa `type(...).__name__` para cada campo, escrito de forma explícita.\n3. Imprime `registro` y compara los nombres de tipo con `str`.',
+        hint: 'No uses `input()`. Los tres textos ya están asignados a nombres para que puedas repetir la comprobación.',
         hints: [
           'No uses input(). Los parámetros ya simulan las respuestas del usuario.',
           'Construye types a mano: "nombres": type(nombres).__name__, etc. (sin comprehensions).',
         ],
         edgeCases: ['todo str', 'testeable sin consola interactiva'],
-        tests: 'la función recibe parámetros con valores; todos los tipos son str.',
+        tests: 'los tres textos asignados conservan el tipo `str` dentro de `types`.',
         feedback:
           'Si el intake es una función pura de str→dict, los tests del parser (T4-B) son triviales de automatizar. `types["edad"] == "str"` aunque el usuario “escribió un número”.',
         retrospective:

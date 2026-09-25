@@ -13,13 +13,13 @@
   "section": "S01"
  },
  "S02": {
-  "words": 7344,
-  "sentences": 640,
+  "words": 7513,
+  "sentences": 653,
   "words_per_sentence": 11.5,
-  "fernandez_huerta": 75.8,
+  "fernandez_huerta": 75.9,
   "long_sentences": 3,
   "run_on_sentences": 0,
-  "nominalisations_per_100w": 2.5,
+  "nominalisations_per_100w": 2.4,
   "gerunds_per_100w": 0.2,
   "commas_per_sentence": 0.6,
   "meta_leaks": 5,
