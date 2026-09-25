@@ -21,6 +21,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+import report_lock  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
 CONTENT_PY = ROOT / ".venv-content/bin/python"
 
@@ -269,6 +272,14 @@ def check(tag: str) -> int:
 
 def main() -> int:
     mode, tag = sys.argv[1], sys.argv[2]
+    # Everything below writes and then reads the shared reports under course-state/, so it
+    # runs as the only writer. Holding the lock here rather than inside each audit keeps the
+    # audits this gate launches from refusing themselves: they inherit the token.
+    with report_lock.held_by_this_run():
+        return _run(mode, tag)
+
+
+def _run(mode: str, tag: str) -> int:
     if mode == "snapshot":
         try:
             m = measure(tag)

@@ -21,6 +21,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+# Writes a shared course-state report, so it must not run while a gate is measuring.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import report_lock  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 EVENTS = ROOT / ".fixer/events.json"
 OUT = ROOT / "course-state/prose_quality_report.json"
@@ -84,6 +87,7 @@ def analyse(text: str) -> dict:
 
 
 def main() -> int:
+    report_lock.refuse_if_busy(__file__)
     if not EVENTS.exists():
         proc = subprocess.run(["npx", "tsx", "scripts/course_event_extractor.mts"],
                               cwd=ROOT, capture_output=True, text=True)

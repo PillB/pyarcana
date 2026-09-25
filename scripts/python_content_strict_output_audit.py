@@ -38,6 +38,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import python_content_runtime_audit as rt  # noqa: E402
 
+# Writes a shared course-state report, so it must not run while a gate is measuring.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import report_lock  # noqa: E402
 ROOT = rt.ROOT
 DEFAULT_OUT = ROOT / "course-state/python_strict_output_audit.json"
 SEEDS = ("0", "1")
@@ -166,6 +169,7 @@ def summarise(rows: list[dict]) -> dict:
 
 
 def main() -> int:
+    report_lock.refuse_if_busy(__file__)
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--only", default=None, help="substring of a section filename, e.g. s46")
     ap.add_argument("--file", default=None, help="audit this .ts file instead (probes)")
