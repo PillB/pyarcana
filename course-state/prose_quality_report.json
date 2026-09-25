@@ -507,13 +507,13 @@
   "section": "S39"
  },
  "S40": {
-  "words": 5802,
+  "words": 5811,
   "sentences": 580,
   "words_per_sentence": 10.0,
-  "fernandez_huerta": 77.8,
+  "fernandez_huerta": 77.9,
   "long_sentences": 8,
   "run_on_sentences": 1,
-  "nominalisations_per_100w": 2.1,
+  "nominalisations_per_100w": 2.0,
   "gerunds_per_100w": 0.1,
   "commas_per_sentence": 0.4,
   "meta_leaks": 4,

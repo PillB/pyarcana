@@ -16,7 +16,6 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | concept | depth | first use | first explained | surprising | examples | exercised | self-check | lag | figures | sections |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
 | 🔴 `reshape` | L0 | S17 · theory[5].heading | **never** | 9 | 0 | 2 | 0 | · | 0/1 ⚠ | 1 |
-| 🔴 `namedtuple` | L0 | S40 · S40-T3-B.p1 | **never** | 5 | 2 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `dict-comprehension` | L0 | S04 · S04-T3-B-E3.title | **never** | 4 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `joblib` | L0 | S32 · S32-T3-B.p0 | **never** | 1 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `onehotencoder` | L0 | S32 · S32-T1-B.p1 | **never** | 1 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
@@ -25,6 +24,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🔴 `estimando` | L0 | — | **never** | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 0 |
 | 🔴 `feature-engineering` | L0 | — | **never** | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 0 |
 | 🔴 `hyperparameter-tuning` | L0 | — | **never** | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 0 |
+| 🔴 `namedtuple` | L0 | — | **never** | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 0 |
 | 🔴 `standardscaler` | L0 | — | **never** | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 0 |
 
 ## Used before they are explained

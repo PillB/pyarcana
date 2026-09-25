@@ -5,12 +5,11 @@
   "events_audited": 22870,
   "issue_counts": {
     "DEFINITION_AFTER_REQUIREMENT": 7,
-    "NO_VISIBLE_DEFINITION": 4,
+    "NO_VISIBLE_DEFINITION": 3,
     "USE_BEFORE_DEFINITION": 27
   },
   "never_defined_but_mentioned": [
     "joblib",
-    "namedtuple",
     "onehotencoder",
     "reshape"
   ],
@@ -147,12 +146,6 @@
       "severity": "P1",
       "location": "setup.S01-T4-A-E3.starter",
       "definition_location": "decisions-rules.S03-T1-A.p2"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "namedtuple",
-      "severity": "P1",
-      "location": "architecture-ddd-decisions.S40-T3-B.p1"
     },
     {
       "code": "USE_BEFORE_DEFINITION",

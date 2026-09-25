@@ -108597,101 +108597,19 @@
  "namedtuple": {
   "id": "namedtuple",
   "declared_first_section": "architecture-ddd-decisions",
-  "uses": [
-   {
-    "section": "S40",
-    "location": "architecture-ddd-decisions.S40-T3-B.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S40",
-    "location": "architecture-ddd-decisions.S40-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S40",
-    "location": "architecture-ddd-decisions.S40-T3-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S40",
-    "location": "architecture-ddd-decisions.S40-T3-B-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S40",
-    "location": "architecture-ddd-decisions.S40-T3-B-E3.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   }
-  ],
+  "uses": [],
   "definitions": [],
-  "examples": [
-   {
-    "section": "S40",
-    "location": "architecture-ddd-decisions.S40-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S40",
-    "location": "architecture-ddd-decisions.S40-T3-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   }
-  ],
+  "examples": [],
   "exercises": [],
   "self_checks": [],
   "headings": [],
   "figures": [],
-  "first_use": {
-   "section": "S40",
-   "location": "architecture-ddd-decisions.S40-T3-B.p1",
-   "kind": "theory.paragraph",
-   "visible": true
-  },
+  "first_use": null,
   "first_definition": null,
   "reinforcements": [],
   "depth": "L0",
-  "surprising_uses": [
-   {
-    "section": "S40",
-    "location": "architecture-ddd-decisions.S40-T3-B.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S40",
-    "location": "architecture-ddd-decisions.S40-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S40",
-    "location": "architecture-ddd-decisions.S40-T3-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S40",
-    "location": "architecture-ddd-decisions.S40-T3-B-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S40",
-    "location": "architecture-ddd-decisions.S40-T3-B-E3.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   }
-  ],
-  "sections_used": [
-   "S40"
-  ],
+  "surprising_uses": [],
+  "sections_used": [],
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
