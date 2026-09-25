@@ -260,6 +260,55 @@ def regression_gate(before: dict, after: dict, failed: list[str], tag: str = "")
             if ratio_note and not shown:
                 print(ratio_note)
                 shown = True
+            if key == "surprising_uses_course_wide":
+                for line in definitions_that_moved(tag):
+                    print(line)
+
+
+def definitions_that_moved(tag: str) -> list[str]:
+    """Name the concepts whose definition this round removed or pushed later.
+
+    `surprising_uses_course_wide` rising is nearly always one thing: a patch removed or
+    reworded the sentence the detector was crediting as a concept's definition, so every use
+    before the NEXT definition became a surprise at once. Without this the failure is a bare
+    number, and the number is enormous and points nowhere.
+
+    Twice in one day it cost hours. S04's round risked taking the measure from 268 to 1126
+    because `for`'s only credited definition was a weDo preamble's "(base del gate de
+    resúmenes)". S02's took it 229 -> 301 because three patches correctly removed the gloss
+    "una función es un bloque reutilizable de instrucciones" - correct, but that gloss was the
+    earliest definition in the course, so 97 uses of `function` before S05 appeared at once.
+    Neither diff looked like the cause; both looked like improvements.
+
+    Reads the pre-round map the runner snapshots beside the section. Silent when it is absent,
+    because a missing snapshot must not turn a real failure into a crash.
+    """
+    before = ROOT / f".fixer/{tag}.pre-concepts.concept_map.json"
+    after = ROOT / "course-state/concept_map.json"
+    if not tag or not before.exists() or not after.exists():
+        return []
+    try:
+        was = json.loads(before.read_text(encoding="utf-8"))
+        now = json.loads(after.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
+    out = []
+    for cid, n in now.items():
+        o = was.get(cid)
+        if not o or not o.get("first_definition"):
+            continue
+        od, nd = o["first_definition"], n.get("first_definition")
+        delta = len(n.get("surprising_uses", [])) - len(o.get("surprising_uses", []))
+        if nd is None:
+            out.append(f"       {cid}: definition GONE (was {od['location']}) — "
+                       f"surprising uses +{delta}")
+        elif nd["location"] != od["location"] and delta > 0:
+            out.append(f"       {cid}: definition moved {od['location']} -> {nd['location']} — "
+                       f"surprising uses +{delta}")
+    out.sort(key=lambda s: -int(s.rsplit("+", 1)[-1]))
+    if out:
+        out.insert(0, "       a definition this round removed or pushed later is the cause:")
+    return out[:9]
 
 
 def check(tag: str) -> int:
