@@ -266,40 +266,7 @@ False`,
       },
     },
     {
-      heading: 'Separar el texto recibido del valor interpretado',
-      paragraphs: [
-        'Una captura puede mostrar `" 28 "`, pero el programa necesita conservar tres hechos distintos: el texto recibido, el texto sin espacios en los bordes y el número interpretado. Un nombre distinto para cada hecho evita que una transformación borre la evidencia anterior.',
-        'Con `edad_raw = " 28 "`, `edad_clean = edad_raw.strip()` produce `"28"` y `edad = int(edad_clean)` produce `28`. `edad_raw` no cambia. Así puedes explicar qué llegó, qué limpiaste y qué valor obtuviste.',
-        'Haz la prueba con `" 07 "`. Antes de ejecutar, predice los tres resultados. Lo correcto es conservar `" 07 "`, obtener `"07"` y convertirlo en `7`. Si el cero inicial forma parte de un código y no de una cantidad, conserva el dato como texto y no lo conviertas.',
-        'Comprueba al final que `edad_raw == " 07 "`, `edad_clean == "07"` y `edad == 7`. Las tres comparaciones deben producir `True`.',
-      ],
-      code: {
-        language: 'python',
-        title: 'tres_estados_edad.py',
-        code: `edad_raw = " 07 "
-edad_clean = edad_raw.strip()
-edad = int(edad_clean)
-
-print(repr(edad_raw))
-print(repr(edad_clean))
-print(edad)
-print(edad_raw == " 07 ")
-print(edad_clean == "07")
-print(edad == 7)
-`,
-        output: `' 07 '
-'07'
-7
-True
-True
-True`,
-      },
-      callout: {
-        type: 'info',
-        title: 'Cada nombre responde una pregunta',
-        content:
-          '`edad_raw` responde qué llegó; `edad_clean`, qué texto quedó tras quitar espacios; `edad`, qué cantidad representa ese texto.',
-      },
+      heading: 'Guardar campos por nombre con un diccionario',
       paragraphs: [
         'Cuando un registro tiene varios campos, recordar su posición es frágil. Un **`dict` o diccionario** reúne pares de clave y valor. La clave es el nombre que identifica un campo; el valor es el dato guardado para ese campo.',
         'En `cliente = {"nombres": "Ana", "edad": 28}`, la clave `"nombres"` permite recuperar `"Ana"` con `cliente["nombres"]`. La clave `"edad"` permite recuperar `28`. Las llaves delimitan el diccionario y los dos puntos separan cada clave de su valor.',
