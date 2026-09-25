@@ -115,7 +115,15 @@ const INDEFINITE_BEFORE = /\b(?:un|una|unos|unas)\s+(?:\*\*|`|_)?$/i
  * mark alone is not enough — a describing verb still has to follow. Requiring the sentence to
  * start there is what keeps "y `git remote -v` permite…" mid-sentence out.
  */
-const FORMATTED_SUBJECT = /(?:^|[.;:!?]\s+)(?:[EeLl][laos]{1,2}\s+)?(\*\*|`|_)$/u
+// The course's commonest way of marking a keyword is BOTH marks - "**`for`** recorre el
+// grupo" - and one mark was all this accepted. Stacked, the inner backtick is preceded by an
+// asterisk rather than by sentence punctuation, so the rule rejected it: `for` has 1421 uses
+// across 52 sections and the only sentence the detector would credit was a weDo preamble's
+// "(base del gate de resúmenes)", which says nothing about what a `for` is. 26 sentences in
+// the course open this way. The optional outer group is what lets the inner mark be found.
+// It does not loosen the guard below: the closing mark still has to come straight after the
+// term, so "**`rm -rf`** borra" is still not a definition of `rm`.
+const FORMATTED_SUBJECT = /(?:^|[.;:!?]\s+)(?:[EeLl][laos]{1,2}\s+)?(?:\*\*|__)?(\*\*|`|_)$/u
 /**
  * The mark has to close right after the term, so the formatted span is the term and nothing
  * else. Without this, "`git restore archivo` descarta cambios" and "`git remote -v` permite

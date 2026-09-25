@@ -39,13 +39,13 @@
   "section": "S03"
  },
  "S04": {
-  "words": 5547,
-  "sentences": 501,
-  "words_per_sentence": 11.1,
-  "fernandez_huerta": 80.8,
+  "words": 5926,
+  "sentences": 525,
+  "words_per_sentence": 11.3,
+  "fernandez_huerta": 81.0,
   "long_sentences": 0,
   "run_on_sentences": 0,
-  "nominalisations_per_100w": 2.2,
+  "nominalisations_per_100w": 2.1,
   "gerunds_per_100w": 0.6,
   "commas_per_sentence": 0.6,
   "meta_leaks": 5,

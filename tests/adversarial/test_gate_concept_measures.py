@@ -99,3 +99,65 @@ class GateConceptMeasures(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FirstUseIssueCounting(unittest.TestCase):
+    """The same defect seen twice is one defect.
+
+    `glossary_first_use.py` emits USE_BEFORE_DEFINITION and DEFINITION_AFTER_REQUIREMENT from
+    two independent `if`s, so a term that is both mentioned and required before its definition
+    costs 2, while a term defined nowhere ends in `continue` and costs 1. Teaching the second
+    kind therefore reads as damage: S04 taught `for`, whose earlier uses in S02 and S03 both
+    mention and require it, and `first_use_issues` went 37 -> 38 on a round that took the
+    course from 268 surprising uses to 229.
+
+    Both rows still reach the report, because badge_readiness_audit.py keys off
+    DEFINITION_AFTER_REQUIREMENT and suppressing it would weaken a different gate. Only the
+    ratchet folds them together.
+    """
+
+    @staticmethod
+    def count(issues: list[dict]) -> int:
+        return len({
+            (i["term_id"], "used-before-defined"
+             if i["code"] in ("USE_BEFORE_DEFINITION", "DEFINITION_AFTER_REQUIREMENT")
+             else i["code"])
+            for i in issues
+        })
+
+    def test_one_term_seen_both_ways_counts_once(self):
+        both = [
+            {"term_id": "for", "code": "USE_BEFORE_DEFINITION"},
+            {"term_id": "for", "code": "DEFINITION_AFTER_REQUIREMENT"},
+        ]
+        self.assertEqual(self.count(both), 1)
+
+    def test_teaching_a_never_defined_term_is_not_a_regression(self):
+        """The exact transition that failed S04, before and after."""
+        before = [{"term_id": "for", "code": "NO_VISIBLE_DEFINITION"}]
+        after = [
+            {"term_id": "for", "code": "USE_BEFORE_DEFINITION"},
+            {"term_id": "for", "code": "DEFINITION_AFTER_REQUIREMENT"},
+        ]
+        self.assertEqual(self.count(after), self.count(before),
+                         "defining a term the course never defined must not raise the count")
+
+    def test_different_terms_still_count_separately(self):
+        rows = [
+            {"term_id": "for", "code": "USE_BEFORE_DEFINITION"},
+            {"term_id": "dict", "code": "USE_BEFORE_DEFINITION"},
+            {"term_id": "exception", "code": "NO_VISIBLE_DEFINITION"},
+        ]
+        self.assertEqual(self.count(rows), 3, "the fold must not hide independent defects")
+
+    def test_an_unrelated_code_on_the_same_term_still_counts(self):
+        rows = [
+            {"term_id": "for", "code": "USE_BEFORE_DEFINITION"},
+            {"term_id": "for", "code": "GLOSSARY_SECTION_MISSING"},
+        ]
+        self.assertEqual(self.count(rows), 2)
+
+    def test_gate_py_counts_the_way_these_tests_do(self):
+        source = (ROOT / "tools/fixer/gate.py").read_text(encoding="utf-8")
+        self.assertIn('"used-before-defined"', source)
+        self.assertNotIn('sum(fu.get("issue_counts", {}).values())', source)

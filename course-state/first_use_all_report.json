@@ -2,11 +2,11 @@
   "ok": false,
   "sections_audited": 52,
   "terms_audited": 106,
-  "events_audited": 22870,
+  "events_audited": 22883,
   "issue_counts": {
     "DEFINITION_AFTER_REQUIREMENT": 7,
     "NO_VISIBLE_DEFINITION": 3,
-    "USE_BEFORE_DEFINITION": 27
+    "USE_BEFORE_DEFINITION": 28
   },
   "never_defined_but_mentioned": [
     "joblib",
@@ -26,21 +26,28 @@
       "term_id": "for",
       "severity": "P1",
       "location": "basics.S02-T1-A-DEMO.code",
-      "definition_location": "iteration-summaries.S04-T1-A-E2.preamble"
+      "definition_location": "iteration-summaries.S04-T1-A.p0"
     },
     {
       "code": "DEFINITION_AFTER_REQUIREMENT",
       "term_id": "for",
       "severity": "P1",
       "location": "basics.S02-T1-A-E1.instruction",
-      "definition_location": "iteration-summaries.S04-T1-A-E2.preamble"
+      "definition_location": "iteration-summaries.S04-T1-A.p0"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "list-comprehension",
       "severity": "P1",
       "location": "iteration-summaries.outcome[5]",
-      "definition_location": "iteration-summaries.theory[7].p0"
+      "definition_location": "iteration-summaries.theory[8].p0"
+    },
+    {
+      "code": "USE_BEFORE_DEFINITION",
+      "term_id": "dict-comprehension",
+      "severity": "P1",
+      "location": "iteration-summaries.theory[9].p0",
+      "definition_location": "iteration-summaries.S04-T3-B-E3.title"
     },
     {
       "code": "USE_BEFORE_DEFINITION",

@@ -16,7 +16,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | concept | depth | first use | first explained | surprising | examples | exercised | self-check | lag | figures | sections |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
 | 🔴 `reshape` | L0 | S17 · theory[5].heading | **never** | 9 | 0 | 2 | 0 | · | 0/1 ⚠ | 1 |
-| 🔴 `dict-comprehension` | L0 | S04 · S04-T3-B-E3.title | **never** | 4 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
+| 🔴 `dict-comprehension` | L0 | S04 · theory[9].p0 | **never** | 5 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `joblib` | L0 | S32 · S32-T3-B.p0 | **never** | 1 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `onehotencoder` | L0 | S32 · S32-T1-B.p1 | **never** | 1 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `args-y-kwargs` | L0 | — | **never** | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 0 |
@@ -35,9 +35,9 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `outlier` | L1 | S03 · S03-T3-A.p3 | S16 · jobRelevance | 8 | 0 | 0 | 3 | +13 | 1/1 | 7 |
 | 🟠 `shape` | L2 | S06 · S06-T3-A-E3.starter | S14 · outcome[0] | 1 | 5 | 5 | 3 | +8 | 0/5 ⚠ | 4 |
 | 🟠 `merge` | L2 | S10 · S10-T4-A.p2 | S17 · S17-T1-A.p0 | 5 | 5 | 9 | 5 | +7 | 0/5 ⚠ | 10 |
-| 🟠 `pipeline` | L2 | S02 · theory[2].p0 | S05 · S05-T1-A.callout | 18 | 8 | 9 | 10 | +3 | 0/5 ⚠ | 43 |
-| 🟠 `for` | L2 | S02 · S02-T1-A-DEMO.code | S04 · S04-T1-A-E2.preamble | 105 | 358 | 34 | 4 | +2 | 0/5 ⚠ | 51 |
-| 🟠 `dict` | L2 | S02 · S02-T2-B.callout | S04 · S04-T4-A-E3.preamble | 33 | 155 | 110 | 7 | +2 | 3/5 ⚠ | 51 |
+| 🟠 `pipeline` | L2 | S02 · theory[2].p0 | S05 · S05-T1-A.callout | 15 | 8 | 9 | 10 | +3 | 0/5 ⚠ | 42 |
+| 🟠 `for` | L2 | S02 · S02-T1-A-DEMO.code | S04 · S04-T1-A.p0 | 64 | 359 | 34 | 4 | +2 | 0/5 ⚠ | 51 |
+| 🟠 `dict` | L3 | S02 · S02-T2-B.callout | S04 · S04-T4-A-E3.preamble | 37 | 155 | 110 | 7 | +2 | 3/5 ⚠ | 51 |
 | 🟠 `eda` | L1 | S16 · S16-T1-A.p0 | S18 · jobRelevance | 4 | 0 | 0 | 3 | +2 | 0/1 ⚠ | 4 |
 | 🟠 `set` | L3 | S01 · S01-T4-A-E3.starter | S03 · S03-T1-A.p2 | 1 | 120 | 50 | 17 | +2 | 2/5 ⚠ | 46 |
 | 🟠 `exception` | L3 | S02 · theory[1].p3 | S03 · S03-T2-B.p0 | 14 | 53 | 27 | 10 | +1 | 3/5 ⚠ | 32 |
@@ -56,7 +56,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `interprete` | L1 | S01 · tagline | S01 · outcome[0] | 2 | 0 | 1 | 2 | · | 0/1 ⚠ | 9 |
 | 🟠 `overfitting` | L2 | S07 · theory[5].p0 | S07 · theory[5].p3 | 2 | 3 | 0 | 1 | · | 0/1 ⚠ | 2 |
 | 🟠 `repositorio-repo` | L2 | S01 · outcome[5] | S01 · theory[0].p3 | 2 | 8 | 11 | 13 | · | 0/5 ⚠ | 26 |
-| 🟠 `list-comprehension` | L1 | S04 · outcome[5] | S04 · theory[7].p0 | 1 | 0 | 5 | 0 | · | 0/1 ⚠ | 12 |
+| 🟠 `list-comprehension` | L1 | S04 · outcome[5] | S04 · theory[8].p0 | 1 | 0 | 5 | 0 | · | 0/1 ⚠ | 12 |
 | 🟠 `roc-auc` | L1 | S34 · theory[2].heading | S34 · theory[2].p1 | 1 | 0 | 0 | 7 | · | 0/1 ⚠ | 2 |
 | 🟠 `slicing` | L1 | S06 · outcome[0] | S06 · theory[1].p0 | 1 | 0 | 7 | 4 | · | 0/1 ⚠ | 13 |
 

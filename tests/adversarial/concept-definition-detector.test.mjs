@@ -282,3 +282,20 @@ test('a self-check explanation still cannot introduce a term', () => {
     'venv cannot be introduced by a self-check explanation',
   )
 })
+
+test('a keyword marked as both bold and code is still a marked subject', () => {
+  // The course's commonest way of marking a keyword is both marks at once. One mark was all
+  // FORMATTED_SUBJECT accepted, so "**`for`** recorre el grupo y entrega cada valor una vez"
+  // - S04's actual teaching sentence - was credited with nothing, and the only definition of
+  // `for` in 52 sections was a weDo preamble reading "(base del gate de resúmenes)". `for`
+  // has 1421 uses. Rewording that parenthesis would have taken the gated course-wide measure
+  // from 268 to 1126, so a style pass over an exercise preamble could have quadrupled it.
+  assert.ok(definingEvent(/\*\*`for`\*\* recorre el grupo/, 'for'))
+})
+
+test('stacking the marks does not let a command line define its command', () => {
+  // The guard that keeps the rule honest is the closing mark, not the opening one: the span
+  // has to be the term and nothing else. "**`pip freeze`** escribe..." opens a sentence the
+  // same way and is an instruction about a command, not an explanation of pip.
+  assert.equal(definingEvent(/\*\*`pip freeze`\*\* escribe/, 'pip'), false)
+})

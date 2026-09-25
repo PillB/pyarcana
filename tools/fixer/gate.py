@@ -146,7 +146,26 @@ def measure(tag: str) -> dict:
         INFORMATIONAL + "b5_nominal_constructions": prose.get("b5_nominal_constructions"),
         "strict_output_mismatches_in_section": strict_mismatches(tag),
         "avoidable_english_per_1000": cs.get("avoidable_english_per_1000"),
-        "first_use_issues": sum(fu.get("issue_counts", {}).values()),
+        # One defect, counted once. USE_BEFORE_DEFINITION and DEFINITION_AFTER_REQUIREMENT are
+        # two views of the same fault - the course uses a term before defining it, seen through
+        # a mention and through a requirement - and glossary_first_use.py emits them from two
+        # independent `if`s, so a term that does both costs 2. NO_VISIBLE_DEFINITION ends in
+        # `continue` and costs 1. Teaching a never-defined term therefore READS AS DAMAGE: S04
+        # taught `for`, whose earlier uses in S02 and S03 both mention and require it, and the
+        # measure went 37 -> 38 on a round that took the course from 268 surprising uses to 229.
+        # All 7 DEFINITION_AFTER_REQUIREMENT rows in the current report co-occur with a
+        # USE_BEFORE_DEFINITION for the same term; every one is a duplicate.
+        #
+        # Deduped here rather than in the audit because badge_readiness_audit.py keys off
+        # DEFINITION_AFTER_REQUIREMENT specifically, and suppressing the row would quietly
+        # weaken a different gate. The report keeps both rows; only the ratchet counts them as
+        # one, and a term with a genuinely different code still counts separately.
+        "first_use_issues": len({
+            (i["term_id"], "used-before-defined"
+             if i["code"] in ("USE_BEFORE_DEFINITION", "DEFINITION_AFTER_REQUIREMENT")
+             else i["code"])
+            for i in fu.get("issues", [])
+        }),
         INFORMATIONAL + "nominalisations_per_100w": prose.get("nominalisations_per_100w"),
     }
 

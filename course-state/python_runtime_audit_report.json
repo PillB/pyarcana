@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-25T02:36:05.202548+00:00",
+  "generated_at": "2026-09-25T15:09:49.747528+00:00",
   "sections": 52,
   "dependency_visibility": {
     "status": "ok",
@@ -44,10 +44,10 @@
     "note": "The snippet interpreter matches the declared teaching environment."
   },
   "totals": {
-    "pass": 3306,
+    "pass": 3308,
     "fail": 0,
     "skip": 72,
-    "artifacts": 3378
+    "artifacts": 3380
   },
   "fail_count": 0,
   "p0_count": 0,
@@ -88,11 +88,11 @@
       "file": "src/lib/course/sections/s04-iteration-summaries.ts",
       "section_id": "iteration-summaries",
       "counts": {
-        "pass": 65,
+        "pass": 67,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 65
+      "artifact_count": 67
     },
     {
       "file": "src/lib/course/sections/s05-functions-contracts.ts",
