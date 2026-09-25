@@ -177,3 +177,53 @@ class PlaceNameBudget(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DefinitionsASectionHolds(unittest.TestCase):
+    """A round must be told what it is standing on before it removes it.
+
+    The concepts brief counts how often a concept is used too early GIVEN the definitions that
+    exist now. Remove one - often the right call, since a section should not pre-announce what
+    another teaches - and every use it was masking becomes a surprise at once, including uses
+    the brief never listed. Three rounds hit this: `for` in S04 (268 -> 1126 had it landed),
+    `function` in S02 (229 -> 301) and `if` in S02 (208 -> 223). Each patch was correct and
+    each had to be held back after the fact.
+
+    So the prompt now states the cost up front, the same way the place-name cap is stated.
+    """
+
+    @staticmethod
+    def _block(tag: str) -> str:
+        import build_concept_prompt as prompt
+        ev = json.loads((ROOT / ".fixer/events.json").read_text(encoding="utf-8"))
+        return prompt.definitions_this_section_holds(CMAP, tag, ev["active_section_ids"])
+
+    def test_it_names_a_definition_the_section_holds_and_what_it_costs(self):
+        if not (ROOT / ".fixer/events.json").exists():
+            self.skipTest("no events cache; gate.py regenerates it on every run")
+        block = self._block("S02")
+        self.assertIn("`function`", block, "S02 holds the course's earliest gloss of function")
+        self.assertRegex(block, r"exposing at least \d+ further uses")
+
+    def test_a_section_holding_none_says_so_rather_than_printing_nothing(self):
+        if not (ROOT / ".fixer/events.json").exists():
+            self.skipTest("no events cache")
+        empty = {"x": {"first_definition": {"section": "S99", "location": "a", "kind": "k"},
+                       "definitions": [], "uses": [], "surprising_uses": []}}
+        import build_concept_prompt as prompt
+        ev = json.loads((ROOT / ".fixer/events.json").read_text(encoding="utf-8"))
+        block = prompt.definitions_this_section_holds(empty, "S02", ev["active_section_ids"])
+        self.assertIn("no concept's earliest definition", block)
+
+    def test_a_definition_with_no_successor_is_reported_as_course_wide(self):
+        """The `for` case: one definition in 52 sections, so removing it hides the term entirely."""
+        cmap = {"loopy": {
+            "first_definition": {"section": "S04", "location": "x.p0", "kind": "theory.paragraph"},
+            "definitions": [{"section": "S04", "location": "x.p0"}],
+            "uses": [{"section": s, "visible": True} for s in ("S02", "S03", "S04")],
+            "surprising_uses": [],
+        }}
+        import build_concept_prompt as prompt
+        block = prompt.definitions_this_section_holds(cmap, "S04", [f"s{i:02d}" for i in range(1, 53)])
+        self.assertIn("disappears from the whole course", block)
+        self.assertIn("at least 3", block)

@@ -59,6 +59,61 @@ def place_name_budget(path: Path) -> str:
             f"Ayacucho, Trujillo, Chiclayo, Iquitos, Huancayo.")
 
 
+def definitions_this_section_holds(cmap: dict, tag: str, slugs: list[str]) -> str:
+    """What breaks if this round removes a definition that lives here.
+
+    The brief below is computed from the concept map BEFORE the round. It tells codex how many
+    times each concept is used too early *given the definitions that exist now*. Remove one of
+    those definitions - often the right call, because a section should not pre-announce a
+    concept another section teaches - and every use it was masking becomes a surprise at once,
+    including uses the brief never mentioned and codex had no way to see.
+
+    That happened three times in two days, each time on a correct patch:
+
+      `for`    S04, the only definition in 52 sections was a weDo preamble's
+               "(base del gate de resúmenes)"; removing it would have taken the gated measure
+               from 268 to 1126.
+      function S02's gloss "una función es un bloque reutilizable de instrucciones" is the
+               earliest in the course; removing it exposed 97 uses before S05 and the measure
+               went 229 -> 301.
+      `if`     S02-T2-A-DEMO's `why`; removing it exposed 20 and the measure went 208 -> 223.
+
+    Each was diagnosed after the fact and the patch held back. Stating the number up front is
+    cheaper, and it is the same move that stopped the place-name cap destroying rounds: codex
+    cannot weigh a constraint nobody told it about.
+    """
+    # The map records a section as its tag (S04), while `slugs` is the slug order; key by tag.
+    order = {f"S{i + 1:02d}": i for i in range(len(slugs))}
+    rows = []
+    for cid, c in cmap.items():
+        d = c.get("first_definition")
+        if not d or d.get("section") != tag:
+            continue
+        later = [x for x in c.get("definitions", []) if x["location"] != d["location"]]
+        nxt = later[0] if later else None
+        limit = order.get(nxt["section"], 99) if nxt else 99
+        # Section-level, so it under-counts uses sitting earlier inside the next definition's
+        # own section. Stated as "at least" for that reason.
+        masked = sum(1 for u in c.get("uses", [])
+                     if u.get("visible") and order.get(u["section"], 99) < limit)
+        exposed = masked - len(c.get("surprising_uses", []))
+        if exposed > 0:
+            where = f"moves to {nxt['section']}" if nxt else "disappears from the whole course"
+            rows.append((exposed, f"  - `{cid}` is defined here, at {d['location']} ({d['kind']}).\n"
+                                  f"    Remove or reword that and the definition {where}, exposing at least "
+                                  f"{exposed} further uses at once."))
+    if not rows:
+        return "This section holds no concept's earliest definition, so nothing here is load-bearing that way."
+    rows.sort(reverse=True)
+    return ("Each of these is the earliest definition of its concept in the course. Removing one is\n"
+            "sometimes right - a section should not pre-announce what another teaches - but it is\n"
+            "never free, and the cost does not appear in the list above:\n\n"
+            + "\n".join(r for _, r in rows[:8])
+            + "\n\nIf you judge one should go, say so in `unresolved_questions` with the count, rather\n"
+              "than removing it and leaving the uses behind. A round that trades one masked concept\n"
+              "for dozens of exposed ones is rejected whole, and every other patch in it is lost.")
+
+
 def concept_row(cid: str, c: dict, tag: str) -> dict | None:
     """One concept's entry in this section's prompt, or None if it is not a problem here.
 
@@ -233,6 +288,9 @@ answer `self_critique` about the revised text.
 
 ===== DISTILLED WRITING RULES (binding) =====
 {rules}
+
+===== DEFINITIONS THIS SECTION HOLDS FOR THE WHOLE COURSE =====
+{definitions_this_section_holds(cmap, tag, slugs)}
 
 ===== THIS FILE'S PLACE-NAME BUDGET (hard gate, H1) =====
 {place_name_budget(path)}
