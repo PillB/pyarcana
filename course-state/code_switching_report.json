@@ -1542,11 +1542,11 @@
  },
  "S37": {
   "section": "S37",
-  "prose_words": 6582,
+  "prose_words": 6724,
   "english_function_words": 32,
   "ordinary_english_words": 21,
   "kept_technical_terms": 163,
-  "avoidable_english_per_1000": 8.1,
+  "avoidable_english_per_1000": 7.9,
   "top_terms": [
    [
     "matching",

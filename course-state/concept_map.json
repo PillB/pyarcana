@@ -9409,6 +9409,24 @@
    },
    {
     "section": "S37",
+    "location": "dbt-bigquery.theory[6].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.theory[6].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.theory[6].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S37",
     "location": "dbt-bigquery.S37-T3-A.code",
     "kind": "theory.code",
     "visible": true
@@ -18144,6 +18162,12 @@
    {
     "section": "S37",
     "location": "dbt-bigquery.S37-T2-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.theory[6].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -27732,6 +27756,24 @@
    },
    {
     "section": "S37",
+    "location": "dbt-bigquery.theory[6].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.theory[6].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.theory[6].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S37",
     "location": "dbt-bigquery.S37-T3-A.code",
     "kind": "theory.code",
     "visible": true
@@ -27789,6 +27831,12 @@
     "location": "dbt-bigquery.S37-T2-B-E2.solution",
     "kind": "solution",
     "visible": false
+   },
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.S37-T3-A-E2.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
    },
    {
     "section": "S37",
@@ -31714,6 +31762,12 @@
    },
    {
     "section": "S37",
+    "location": "dbt-bigquery.theory[6].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S37",
     "location": "dbt-bigquery.S37-T3-A.code",
     "kind": "theory.code",
     "visible": true
@@ -33396,18 +33450,6 @@
     "location": "iteration-summaries.S04-T3-B-E3.hint[0]",
     "kind": "wedo.hint",
     "visible": true
-   },
-   {
-    "section": "S37",
-    "location": "dbt-bigquery.S37-T3-A-E2.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S37",
-    "location": "dbt-bigquery.S37-T3-A-E2.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
    }
   ],
   "definitions": [
@@ -33419,14 +33461,7 @@
    }
   ],
   "examples": [],
-  "exercises": [
-   {
-    "section": "S37",
-    "location": "dbt-bigquery.S37-T3-A-E2.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   }
-  ],
+  "exercises": [],
   "self_checks": [],
   "headings": [],
   "figures": [],
@@ -33470,23 +33505,10 @@
     "location": "iteration-summaries.S04-T3-B-E3.hint[0]",
     "kind": "wedo.hint",
     "visible": true
-   },
-   {
-    "section": "S37",
-    "location": "dbt-bigquery.S37-T3-A-E2.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S37",
-    "location": "dbt-bigquery.S37-T3-A-E2.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
    }
   ],
   "sections_used": [
-   "S04",
-   "S37"
+   "S04"
   ],
   "load_bearing": false,
   "figure_target": 1,
@@ -51510,13 +51532,44 @@
   "uses": [
    {
     "section": "S37",
+    "location": "dbt-bigquery.theory[6].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.theory[6].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.theory[6].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S37",
     "location": "dbt-bigquery.S37-T3-A.code",
     "kind": "theory.code",
     "visible": true
    }
   ],
-  "definitions": [],
+  "definitions": [
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.theory[6].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   }
+  ],
   "examples": [
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.theory[6].code",
+    "kind": "theory.code",
+    "visible": true
+   },
    {
     "section": "S37",
     "location": "dbt-bigquery.S37-T3-A.code",
@@ -51530,21 +51583,19 @@
   "figures": [],
   "first_use": {
    "section": "S37",
-   "location": "dbt-bigquery.S37-T3-A.code",
-   "kind": "theory.code",
+   "location": "dbt-bigquery.theory[6].p0",
+   "kind": "theory.paragraph",
    "visible": true
   },
-  "first_definition": null,
+  "first_definition": {
+   "section": "S37",
+   "location": "dbt-bigquery.theory[6].p0",
+   "kind": "theory.paragraph",
+   "visible": true
+  },
   "reinforcements": [],
-  "depth": "L0",
-  "surprising_uses": [
-   {
-    "section": "S37",
-    "location": "dbt-bigquery.S37-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   }
-  ],
+  "depth": "L2",
+  "surprising_uses": [],
   "sections_used": [
    "S37"
   ],
@@ -51552,7 +51603,7 @@
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": null
+  "explanation_lag_sections": 0
  },
  "return": {
   "id": "return",
@@ -58324,6 +58375,12 @@
     "section": "S37",
     "location": "dbt-bigquery.S37-T2-B.code",
     "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.theory[6].p1",
+    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -89213,6 +89270,12 @@
    },
    {
     "section": "S37",
+    "location": "dbt-bigquery.theory[6].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S37",
     "location": "dbt-bigquery.S37-T3-A.code",
     "kind": "theory.code",
     "visible": true
@@ -90286,6 +90349,12 @@
    {
     "section": "S37",
     "location": "dbt-bigquery.S37-T2-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.theory[6].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -95215,12 +95284,6 @@
     "section": "S37",
     "location": "dbt-bigquery.S37-T3-A-E2.instruction",
     "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S37",
-    "location": "dbt-bigquery.S37-T3-A-E2.hint[0]",
-    "kind": "wedo.hint",
     "visible": true
    },
    {

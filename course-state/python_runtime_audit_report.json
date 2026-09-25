@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-25T02:07:46.795606+00:00",
+  "generated_at": "2026-09-25T02:22:40.697986+00:00",
   "sections": 52,
   "dependency_visibility": {
     "status": "ok",
@@ -44,10 +44,10 @@
     "note": "The snippet interpreter matches the declared teaching environment."
   },
   "totals": {
-    "pass": 3305,
+    "pass": 3306,
     "fail": 0,
     "skip": 72,
-    "artifacts": 3377
+    "artifacts": 3378
   },
   "fail_count": 0,
   "p0_count": 0,
@@ -418,11 +418,11 @@
       "file": "src/lib/course/sections/s37-dbt-bigquery.ts",
       "section_id": "dbt-bigquery",
       "counts": {
-        "pass": 65,
+        "pass": 66,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 65
+      "artifact_count": 66
     },
     {
       "file": "src/lib/course/sections/s38-performance-extreme.ts",

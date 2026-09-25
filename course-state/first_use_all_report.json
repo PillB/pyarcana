@@ -2,14 +2,13 @@
   "ok": false,
   "sections_audited": 52,
   "terms_audited": 106,
-  "events_audited": 22864,
+  "events_audited": 22870,
   "issue_counts": {
     "DEFINITION_AFTER_REQUIREMENT": 7,
-    "NO_VISIBLE_DEFINITION": 5,
+    "NO_VISIBLE_DEFINITION": 4,
     "USE_BEFORE_DEFINITION": 27
   },
   "never_defined_but_mentioned": [
-    "generator",
     "joblib",
     "namedtuple",
     "onehotencoder",
@@ -64,12 +63,6 @@
       "severity": "P1",
       "location": "setup.S01-T1-B#6.code",
       "definition_location": "basics.S02-T2-A-DEMO.why"
-    },
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "generator",
-      "severity": "P1",
-      "location": "dbt-bigquery.S37-T3-A.code"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
