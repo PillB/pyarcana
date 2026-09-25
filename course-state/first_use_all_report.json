@@ -32,7 +32,7 @@
       "code": "DEFINITION_AFTER_REQUIREMENT",
       "term_id": "for",
       "severity": "P1",
-      "location": "basics.S02-T1-A-E1.instruction",
+      "location": "basics.S02-T1-A-E3.instruction",
       "definition_location": "iteration-summaries.S04-T1-A.p0"
     },
     {
@@ -74,7 +74,7 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "return",
       "severity": "P1",
-      "location": "basics.theory[1].code",
+      "location": "basics.S02-T1-B-DEMO.code",
       "definition_location": "decisions-rules.theory[3].p3"
     },
     {

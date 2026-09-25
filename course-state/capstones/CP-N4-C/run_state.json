@@ -9,7 +9,7 @@
       "span": "Rollback restores the previous production model version after a gate failure."
     }
   ],
-  "created_at": 1790357547053,
+  "created_at": 1790359465611,
   "extras": {
     "stop_reason": "complete"
   },
@@ -22,20 +22,20 @@
       "tokens": 0.0
     },
     "citations": [],
-    "created_at": 1790357547053,
+    "created_at": 1790359465611,
     "extras": {},
     "final_answer": null,
     "mode": "LOCAL",
     "pending_hitl": null,
-    "run_id": "run_f74461383491",
+    "run_id": "run_c459283a9652",
     "status": "RUNNING",
     "steps": [],
     "task": "how to rollback a failed model gate",
-    "task_id": "t_9b92fb7b",
+    "task_id": "t_abd91a8d",
     "tool_calls": [],
-    "updated_at": 1790357547053
+    "updated_at": 1790359465611
   },
-  "run_id": "run_f74461383491",
+  "run_id": "run_c459283a9652",
   "status": "COMPLETE",
   "steps": [
     {
@@ -83,7 +83,7 @@
     }
   ],
   "task": "how to rollback a failed model gate",
-  "task_id": "t_9b92fb7b",
+  "task_id": "t_abd91a8d",
   "tool_calls": [
     {
       "approved": false,
@@ -109,5 +109,5 @@
       "tool": "search_docs"
     }
   ],
-  "updated_at": 1790357547057
+  "updated_at": 1790359465615
 }

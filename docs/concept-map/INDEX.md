@@ -35,13 +35,13 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `outlier` | L1 | S03 · S03-T3-A.p3 | S16 · jobRelevance | 8 | 0 | 0 | 3 | +13 | 1/1 | 7 |
 | 🟠 `shape` | L2 | S06 · S06-T3-A-E3.starter | S14 · outcome[0] | 1 | 5 | 5 | 3 | +8 | 0/5 ⚠ | 4 |
 | 🟠 `merge` | L2 | S10 · S10-T4-A.p2 | S17 · S17-T1-A.p0 | 5 | 5 | 9 | 5 | +7 | 0/5 ⚠ | 10 |
-| 🟠 `for` | L2 | S02 · S02-T1-B-DEMO.code | S04 · S04-T1-A.p0 | 63 | 358 | 34 | 4 | +2 | 0/5 ⚠ | 51 |
-| 🟠 `dict` | L3 | S02 · theory[7].p0 | S04 · S04-T4-A-E3.preamble | 37 | 155 | 109 | 7 | +2 | 3/5 ⚠ | 51 |
+| 🟠 `for` | L2 | S02 · S02-T1-B-DEMO.code | S04 · S04-T1-A.p0 | 60 | 358 | 33 | 4 | +2 | 0/5 ⚠ | 51 |
+| 🟠 `dict` | L3 | S02 · theory[7].p0 | S04 · S04-T4-A-E3.preamble | 36 | 155 | 109 | 7 | +2 | 3/5 ⚠ | 51 |
 | 🟠 `eda` | L1 | S16 · S16-T1-A.p0 | S18 · jobRelevance | 4 | 0 | 0 | 3 | +2 | 0/1 ⚠ | 4 |
 | 🟠 `set` | L3 | S01 · S01-T4-A-E3.starter | S03 · S03-T1-A.p2 | 1 | 120 | 50 | 17 | +2 | 2/5 ⚠ | 46 |
 | 🟠 `exception` | L3 | S02 · S02-T1-B-DEMO.code | S03 · S03-T2-B.p0 | 13 | 53 | 27 | 10 | +1 | 3/5 ⚠ | 32 |
 | 🟠 `if` | L2 | S01 · S01-T1-B#6.code | S02 · S02-T2-A-DEMO.why | 5 | 439 | 50 | 19 | +1 | 0/5 ⚠ | 52 |
-| 🟠 `return` | L3 | S02 · theory[1].code | S03 · theory[3].p3 | 5 | 643 | 40 | 5 | +1 | 1/5 ⚠ | 50 |
+| 🟠 `return` | L3 | S02 · S02-T1-B-DEMO.code | S03 · theory[3].p3 | 4 | 642 | 40 | 5 | +1 | 1/5 ⚠ | 50 |
 | 🟠 `cross-validation` | L1 | S32 · resources.doc[5] | S33 · theory[11].p1 | 2 | 0 | 0 | 0 | +1 | 0/1 ⚠ | 3 |
 | 🟠 `entity-resolution` | L3 | S12 · selfCheck[4].opt[2] | S13 · S13-T1-A.p0 | 2 | 8 | 6 | 15 | +1 | 2/5 ⚠ | 15 |
 | 🟠 `parameter` | L3 | S02 · S02-T4-A-E3.hint[0] | S03 · theory[3].p1 | 1 | 1 | 3 | 1 | +1 | 1/5 ⚠ | 19 |
@@ -51,7 +51,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `correlaci-n` | L2 | S09 · theory[0].p3 | S09 · theory[8].p0 | 3 | 1 | 1 | 5 | · | 0/5 ⚠ | 6 |
 | 🟠 `github` | L2 | S01 · outcome[5] | S01 · theory[8].p4 | 3 | 4 | 1 | 5 | · | 0/5 ⚠ | 6 |
 | 🟠 `truthiness` | L1 | S03 · tagline | S03 · theory[0].p2 | 3 | 0 | 19 | 4 | · | 0/1 ⚠ | 12 |
-| 🟠 `function` | L3 | S02 · outcome[6] | S02 · theory[0].callout | 2 | 809 | 33 | 17 | · | 2/5 ⚠ | 51 |
+| 🟠 `function` | L3 | S02 · outcome[6] | S02 · theory[0].callout | 2 | 803 | 33 | 17 | · | 2/5 ⚠ | 51 |
 | 🟠 `interprete` | L1 | S01 · tagline | S01 · outcome[0] | 2 | 0 | 1 | 2 | · | 0/1 ⚠ | 9 |
 | 🟠 `overfitting` | L2 | S07 · theory[5].p0 | S07 · theory[5].p3 | 2 | 3 | 0 | 1 | · | 0/1 ⚠ | 2 |
 | 🟠 `repositorio-repo` | L2 | S01 · outcome[5] | S01 · theory[0].p3 | 2 | 8 | 11 | 13 | · | 0/5 ⚠ | 26 |
@@ -110,7 +110,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `precision` | L2 | S13 · outcome[1] | S13 · outcome[1] | 0 | 7 | 11 | 16 | · | 0/5 ⚠ | 7 |
 | 🟢 `projection-pushdown` | L2 | S15 · S15-T4-B#11.p1 | S15 · S15-T4-B#11.p1 | 0 | 1 | 0 | 1 | · | 0/1 ⚠ | 1 |
 | 🟢 `pull-request` | L2 | S01 · outcome[5] | S01 · outcome[5] | 0 | 2 | 3 | 10 | · | 0/5 ⚠ | 12 |
-| 🟢 `pyodide` | L2 | S02 · iDo.intro | S02 · iDo.intro | 0 | 1 | 0 | 0 | · | 0/5 ⚠ | 3 |
+| 🟢 `pyodide` | L1 | S02 · iDo.intro | S02 · iDo.intro | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 3 |
 | 🟢 `pytest` | L2 | S10 · theory[5].heading | S10 · theory[5].heading | 0 | 5 | 1 | 3 | · | 0/5 ⚠ | 6 |
 | 🟢 `rag` | L1 | S48 · jobRelevance | S48 · jobRelevance | 0 | 0 | 2 | 2 | · | 0/1 ⚠ | 3 |
 | 🟢 `recall` | L3 | S13 · outcome[1] | S13 · outcome[1] | 0 | 10 | 10 | 30 | · | 1/5 ⚠ | 8 |

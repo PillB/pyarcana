@@ -65,24 +65,25 @@ export const section02: CourseSection = {
       code: {
         language: 'python',
         title: 's02_map_contract.py',
-        code: `def section_contract():
-    return {
-        "case": "CASO-LIM-002",
-        "gates": ["types_before_ops", "decimal_for_money", "raw_preserved", "no_real_pii"],
-        "focus": "values_types_ops_io",
-        "if_for_as_support_syntax": True,
-        "real_pii_ok": False,
-    }
+        code: `c = {
+    "case": "CASO-LIM-002",
+    "focus": "values_types_ops_io",
+    "types_before_ops": True,
+    "decimal_for_money": True,
+    "raw_preserved": True,
+    "real_pii_ok": False,
+}
 
-c = section_contract()
 print("case", c["case"])
 print("focus", c["focus"])
-print("if_for_as_support_syntax", c["if_for_as_support_syntax"])
+print("types_before_ops", c["types_before_ops"])
+print("raw_preserved", c["raw_preserved"])
 print("real_pii_ok", c["real_pii_ok"])
 `,
         output: `case CASO-LIM-002
 focus values_types_ops_io
-if_for_as_support_syntax True
+types_before_ops True
+raw_preserved True
 real_pii_ok False`,
       },
       callout: {
@@ -199,7 +200,7 @@ None`,
         'En una hoja de inscripción, `" 19 "` no es todavía una edad: es una secuencia de caracteres que *podría* representar una edad. **Puente desde T1-A:** reconocer el tipo describe el presente; convertir y validar decide si ese dato puede cruzar la puerta del sistema.',
         '**`type(x)`** responde “¿qué es esto ahora?”. **`isinstance(x, int)`** comprueba si `x` pertenece al tipo `int` o a uno de sus subtipos. Por eso `isinstance(True, int)` produce `True`: en Python, `bool` es subtipo de `int`. Conserva ese dato como una advertencia; los ejemplos de conversión que siguen trabajan con texto y no usan `isinstance` para aceptar edades.',
         'La conversión explícita usa **`int()`**, **`float()`** y **`str()`** para intentar producir un valor del tipo indicado. El texto de formularios puede traer espacios en los bordes: **`valor.strip()`** produce el texto sin esos espacios. La forma `x.metodo()` pide al valor `x` ejecutar una operación propia. `int(" 19 ")` funciona.',
-        'En cambio, `int("19.5")` e `int("abc")` terminan con **`ValueError`**. `"19.5"` representa un número, pero no un entero. `"abc"` no es una orden ni un nombre especial de Python: es solo un texto de prueba formado por tres letras. `ValueError` indica que el contenido no puede convertirse al tipo solicitado. Nunca uses `eval()` con texto recibido de una persona: podría ejecutar código incluido en esa entrada.',
+        'En cambio, `int("19.5")` e `int("abc")` detienen la ejecución porque ninguno de esos textos representa un entero válido. `"19.5"` contiene una parte decimal y `"abc"` contiene letras. Ejecuta cada caso por separado para observar el mensaje de Python. En S09 aprenderás qué clase de error es y cómo continuar después de encontrarlo. Nunca uses `eval()` con texto recibido de una persona: podría ejecutar código incluido en esa entrada.',
         'Avanza con ejemplos separados. Primero convierte `" 19 "`: `strip` produce `"19"` e `int` produce `19`. Después ejecuta `int("abc")` por separado y observa el `ValueError`: la ejecución se detiene en esa línea. En S09 aprenderás a capturar ese error y continuar; S02 se limita a distinguir una conversión válida de una inválida sin ocultar el fallo.',
         '**Modelo mental:** `strip` limpia los extremos; `int` intenta interpretar el contenido como entero. Predice el resultado de `int("19")` y el error de `int("diecinueve")` antes de probarlos. En T2 aprenderás a dar nombres claros a los valores.',
       ],
@@ -270,7 +271,7 @@ False`,
         'Cuando un registro tiene varios campos, recordar su posición es frágil. Un **`dict` o diccionario** reúne pares de clave y valor. La clave es el nombre que identifica un campo; el valor es el dato guardado para ese campo.',
         'En `cliente = {"nombres": "Ana", "edad": 28}`, la clave `"nombres"` permite recuperar `"Ana"` con `cliente["nombres"]`. La clave `"edad"` permite recuperar `28`. Las llaves delimitan el diccionario y los dos puntos separan cada clave de su valor.',
         'Copia el ejemplo y agrega `"contacto": "999000111"`. Después imprime `cliente["contacto"]`. Lo correcto es `999000111` como texto, porque un contacto no es una cantidad que debas sumar.',
-        'Comprueba tu lectura sin ejecutar: ¿qué valor entrega `cliente["edad"]`? Si respondes `28` y puedes señalar la clave que lo encuentra, ya puedes leer los diccionarios usados en T2-B.',
+        'Comprueba tu lectura sin ejecutar: ¿qué valor entrega `cliente["edad"]` y qué valor entrega `cliente["nombres"]`? La respuesta correcta es `28` y `"Ana"`: cada clave conduce al valor escrito a su derecha. Después cambia solo la edad a `29`, ejecuta otra vez y confirma que el nombre permanece igual.',
       ],
       code: {
         language: 'python',
@@ -464,7 +465,7 @@ print(mensaje)
         '**`input(mensaje)`** siempre devuelve **`str`**, aunque la persona escriba dígitos; `mensaje` es el texto que se muestra antes de esperar la respuesta. En las demostraciones asignaremos entradas de ejemplo a variables para repetir la misma comprobación sin escribirlas de nuevo. Para mostrar varios valores usa argumentos concretos, por ejemplo `print("a", "b", sep=" | ")`; `sep` indica qué texto coloca `print` entre ellos.',
         'Las **f-strings** son textos precedidos por `f` que incrustan valores entre llaves, como `f"Monto: {monto:.2f}"`. La parte `.2f` muestra dos posiciones decimales. Después de T3-B, todo monto de negocio continúa como `Decimal`: formatearlo con `.2f` no requiere convertirlo a `float`. Las preguntas mostradas por `input()` y los mensajes para la persona van en **español claro**.',
         'Primero **captura** el texto recibido. Luego **interpreta** ese texto al convertirlo al tipo necesario. Por último, **reporta** el resultado en un mensaje. Así puedes comprobar cada conversión con valores conocidos, sin depender de lo que alguien escriba en la consola. Un resumen de cliente con cuatro o cinco campos permite practicar la secuencia completa.',
-        '**Predicción útil:** si una persona escribe `34`, ¿qué mostrará `type(input(...)).__name__`? Responde antes de ejecutar. Luego explica por qué convertir dentro de la función de captura dificultaría probar el parser. T4-B reunirá las tres capas en un contrato con errores observables.',
+        '**Predicción útil:** si una persona escribe `34`, ¿qué mostrará `type(input(...)).__name__`? Responde antes de ejecutar. Luego explica por qué conviene conservar primero el texto recibido y convertirlo en un paso separado. T4-B reunirá las tres capas en una secuencia observable.',
       ],
       code: {
         language: 'python',
@@ -543,26 +544,24 @@ apellido_clean: Ñahui`,
         code: {
           language: 'python',
           title: 'S02-T1-A-DEMO — literales_cliente',
-          code: `def s02_ido_1():
-    # Cliente sintético (no es persona real)
-    nombres = "María José"
-    apellido_paterno = "Quispe"
-    edad = 34
-    monto_soles = 150.5
-    activo = True
-    referencia = None
+          code: `# Cliente sintético (no es persona real)
+nombres = "María José"
+apellido_paterno = "Quispe"
+edad = 34
+monto_soles = 150.5
+activo = True
+referencia = None
 
-    print(f"nombres: valor={nombres!r} type={type(nombres).__name__}")
-    print(f"apellido_paterno: valor={apellido_paterno!r} type={type(apellido_paterno).__name__}")
-    print(f"edad: valor={edad!r} type={type(edad).__name__}")
-    print(f"monto_soles: valor={monto_soles!r} type={type(monto_soles).__name__}")
-    print(f"activo: valor={activo!r} type={type(activo).__name__}")
-    print(f"referencia: valor={referencia!r} type={type(referencia).__name__}")
+print(f"nombres: valor={nombres!r} type={type(nombres).__name__}")
+print(f"apellido_paterno: valor={apellido_paterno!r} type={type(apellido_paterno).__name__}")
+print(f"edad: valor={edad!r} type={type(edad).__name__}")
+print(f"monto_soles: valor={monto_soles!r} type={type(monto_soles).__name__}")
+print(f"activo: valor={activo!r} type={type(activo).__name__}")
+print(f"referencia: valor={referencia!r} type={type(referencia).__name__}")
 
-    print("type(42)=", type(42).__name__)
-    print("type('42')=", type("42").__name__)
-    print("42 == '42' →", 42 == "42")
-s02_ido_1()
+print("type(42)=", type(42).__name__)
+print("type('42')=", type("42").__name__)
+print("42 == '42' →", 42 == "42")
 `,
           output: `nombres: valor='María José' type=str
 apellido_paterno: valor='Quispe' type=str
@@ -657,25 +656,23 @@ apellido_paterno= García`,
         code: {
           language: 'python',
           title: 'S02-T2-B-DEMO — raw_y_alias',
-          code: `def s02_ido_4():
-    raw_nombre = "  José Ñahui  "
-    clean_nombre = raw_nombre.strip()
-    print("raw=", repr(raw_nombre))
-    print("clean=", repr(clean_nombre))
-    print("raw is clean?", raw_nombre is clean_nombre)
+          code: `raw_nombre = "  José Ñahui  "
+clean_nombre = raw_nombre.strip()
+print("raw=", repr(raw_nombre))
+print("clean=", repr(clean_nombre))
+print("raw is clean?", raw_nombre is clean_nombre)
 
-    a = [1, 2, 3]
-    b = a
-    c = a.copy()
-    b.append(4)
-    print("a after alias mutate:", a)
-    print("c unchanged:", c)
-    print("a is b?", a is b)
-    print("a is c?", a is c)
+a = [1, 2, 3]
+b = a
+c = a.copy()
+b.append(4)
+print("a after alias mutate:", a)
+print("c unchanged:", c)
+print("a is b?", a is b)
+print("a is c?", a is c)
 
-    x = None
-    print("x is None →", x is None)
-s02_ido_4()
+x = None
+print("x is None →", x is None)
 `,
           output: `raw= '  José Ñahui  '
 clean= 'José Ñahui'
@@ -700,20 +697,20 @@ x is None → True`,
         code: {
           language: 'python',
           title: 'S02-T3-A-DEMO — operadores_precedencia',
-          code: `def s02_ido_5():
-    a, b, c = 10, 3, 2
-    print("10 // 3 =", a // b)
-    print("10 % 3  =", a % b)
-    print("3 ** 2  =", b ** c)
-    print("a + b * c =", a + b * c)
-    print("(a + b) * c =", (a + b) * c)
-    print("-3**2 =", -3**2)
-    print("(-3)**2 =", (-3)**2)
-    # Precio con IGV 18% (expresión; dinero exacto → Decimal en T3-B)
-    base = 100
-    total = base * (1 + 0.18)
-    print("total con IGV (float demo) =", total)
-s02_ido_5()
+          code: `a = 10
+b = 3
+c = 2
+print("10 // 3 =", a // b)
+print("10 % 3  =", a % b)
+print("3 ** 2  =", b ** c)
+print("a + b * c =", a + b * c)
+print("(a + b) * c =", (a + b) * c)
+print("-3**2 =", -3**2)
+print("(-3)**2 =", (-3)**2)
+# Precio con IGV 18% (expresión; dinero exacto → Decimal en T3-B)
+base = 100
+total = base * (1 + 0.18)
+print("total con IGV (float demo) =", total)
 `,
           output: `10 // 3 = 3
 10 % 3  = 1
@@ -738,19 +735,17 @@ total con IGV (float demo) = 118.0`,
         code: {
           language: 'python',
           title: 'S02-T3-B-DEMO — decimal_igv',
-          code: `def s02_ido_6():
-    from decimal import Decimal, ROUND_HALF_EVEN
+          code: `from decimal import Decimal, ROUND_HALF_EVEN
 
-    print("float 0.1+0.2 =", 0.1 + 0.2)
-    print("Decimal =", Decimal("0.1") + Decimal("0.2"))
+print("float 0.1+0.2 =", 0.1 + 0.2)
+print("Decimal =", Decimal("0.1") + Decimal("0.2"))
 
-    subtotal = Decimal("100.00")
-    igv = (subtotal * Decimal("0.18")).quantize(
-        Decimal("0.01"), rounding=ROUND_HALF_EVEN
-    )
-    total = (subtotal + igv).quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
-    print(f"subtotal={subtotal} IGV={igv} total={total}")
-s02_ido_6()
+subtotal = Decimal("100.00")
+igv = (subtotal * Decimal("0.18")).quantize(
+    Decimal("0.01"), rounding=ROUND_HALF_EVEN
+)
+total = (subtotal + igv).quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
+print(f"subtotal={subtotal} IGV={igv} total={total}")
 `,
           output: `float 0.1+0.2 = 0.30000000000000004
 Decimal = 0.3
@@ -770,15 +765,13 @@ subtotal=100.00 IGV=18.00 total=118.00`,
         code: {
           language: 'python',
           title: 'S02-T4-A-DEMO — reporte_fstring',
-          code: `def s02_ido_7():
-    from decimal import Decimal
+          code: `from decimal import Decimal
 
-    # Simula input() con variables (testeable en Pyodide/CI)
-    nombres = "María José"
-    monto = Decimal("150.50")
-    print(f"Cliente: {nombres} | Monto: S/ {monto:.2f}")
-    print("OK", "intake", sep=" · ")
-s02_ido_7()
+# Simula input() con valores conocidos.
+nombres = "María José"
+monto = Decimal("150.50")
+print(f"Cliente: {nombres} | Monto: S/ {monto:.2f}")
+print("OK", "intake", sep=" · ")
 `,
           output: `Cliente: María José | Monto: S/ 150.50
 OK · intake`,
@@ -887,11 +880,11 @@ print(r3["errors"])`,
           '- **Contexto:** en un lote de intake sintético (CASO-LIM-002) el primer control de calidad es saber qué tipo trae cada literal.\n- **Meta:** practicar `repr` + `type(...).__name__` sobre cinco valores base.\n- **Éxito:** cinco líneas en este orden de tipos: `int`, `float`, `str`, `bool`, `NoneType` (p. ej. `0 → int`).\n- **Límites:** no conviertas valores; no uses `eval`; solo datos del starter.',
         id: 'S02-T1-A-E1',
         instruction:
-          '1. Revisa la lista `literales` del starter.\n2. En el `for`, completa los dos huecos del `print`.\n3. Ejecuta y compara con la salida esperada (cinco líneas).',
-        hint: 'Recorre una lista de literales con un for. Usa type(x).__name__ para un nombre legible (int, float, str, bool, NoneType).',
+          '1. Revisa los cinco valores asignados en el starter.\n2. Completa cada `print` con el nombre del tipo correspondiente.\n3. Ejecuta y compara las cinco líneas con la salida esperada.',
+        hint: 'Usa `type(valor).__name__` en cada línea para obtener `int`, `float`, `str`, `bool` o `NoneType`.',
         hints: [
-          'Recorre una lista de literales con un for. Usa type(x).__name__ para un nombre legible (int, float, str, bool, NoneType).',
-          'None imprime type NoneType, no "None". False es bool, no str. 0 es int, no bool.',
+          'Escribe una línea para cada valor; la repetición es deliberada y permite comparar los cinco casos.',
+          '`None` produce el nombre de tipo `NoneType`. `False` es `bool`, no texto; `0` es `int`, no `bool`.',
         ],
         edgeCases: [
           'None es tipo NoneType',
@@ -1986,36 +1979,48 @@ monto: S/ 99.50`,
           language: 'python',
           title: 'simular_intake.py',
           code: `# CASO-LIM-002 · T4-A-E3
-# No llames input(). Devuelve campos + types (type(...).__name__ de cada uno).
-def simular_intake(nombres: str, contacto: str, edad: str) -> dict:
-    # Completa: dict con nombres, contacto, edad y subdict types
-    pass
+# No llames input(). Los textos conocidos simulan tres respuestas repetibles.
+nombres = "  Ana  "
+contacto = "999"
+edad = "34"
 
-r = simular_intake("  Ana  ", "999", "34")
-print(r)
-assert r["types"]["edad"] == "str"
-assert r["types"]["nombres"] == "str"
+registro = {
+    "nombres": nombres,
+    "contacto": contacto,
+    "edad": edad,
+    "types": {
+        "nombres": ____,
+        "contacto": ____,
+        "edad": ____,
+    },
+}
+
+print(registro)
+assert registro["types"]["edad"] == "str"
+assert registro["types"]["nombres"] == "str"
 print("OK")`,
         },
         solutionCode: {
           language: 'python',
           title: 'simular_intake.py',
-          code: `def simular_intake(nombres: str, contacto: str, edad: str) -> dict:
-    return {
-        "nombres": nombres,
-        "contacto": contacto,
-        "edad": edad,
-        "types": {
-            "nombres": type(nombres).__name__,
-            "contacto": type(contacto).__name__,
-            "edad": type(edad).__name__,
-        },
-    }
+          code: `nombres = "  Ana  "
+contacto = "999"
+edad = "34"
 
-r = simular_intake("  Ana  ", "999", "34")
-print(r)
-assert r["types"]["edad"] == "str"
-assert r["types"]["nombres"] == "str"
+registro = {
+    "nombres": nombres,
+    "contacto": contacto,
+    "edad": edad,
+    "types": {
+        "nombres": type(nombres).__name__,
+        "contacto": type(contacto).__name__,
+        "edad": type(edad).__name__,
+    },
+}
+
+print(registro)
+assert registro["types"]["edad"] == "str"
+assert registro["types"]["nombres"] == "str"
 print("OK")`,
           output: `{'nombres': '  Ana  ', 'contacto': '999', 'edad': '34', 'types': {'nombres': 'str', 'contacto': 'str', 'edad': 'str'}}
 OK`,

@@ -47,10 +47,10 @@
  },
  "S02": {
   "section": "S02",
-  "prose_words": 7045,
+  "prose_words": 7042,
   "english_function_words": 6,
   "ordinary_english_words": 10,
-  "kept_technical_terms": 32,
+  "kept_technical_terms": 31,
   "avoidable_english_per_1000": 2.3,
   "top_terms": [
    [
