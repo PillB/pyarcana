@@ -6,25 +6,25 @@
   "findings": [
     {
       "file": "src/lib/course/sections/s03-decisions-rules.ts",
-      "line": 1667,
+      "line": 1686,
       "value": "12345678",
       "excerpt": " `tipo_doc_len(tipo, numero)` con dicts de resultado.\\n2. Usa `DOC_LEN` para la longitud esperada.\\n3. Prueba: `(\"DNI\",\"12345678\")`, `(\"DNI\",\"123\")`, `(\"RUC\",\"20123456789\")`, `(Non"
     },
     {
       "file": "src/lib/course/sections/s03-decisions-rules.ts",
-      "line": 1691,
+      "line": 1710,
       "value": "12345678",
       "excerpt": " dict {status, code} if tipo not in ALLOWED_DOC: return \"reject\" return \"accept\" for t, n in [(\"DNI\", \"12345678\"), (\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]: print(t, n,"
     },
     {
       "file": "src/lib/course/sections/s03-decisions-rules.ts",
-      "line": 1710,
+      "line": 1729,
       "value": "12345678",
       "excerpt": "eturn {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"} return {\"status\": \"accept\", \"code\": \"OK\"} for t, n in [(\"DNI\", \"12345678\"), (\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]:"
     },
     {
       "file": "src/lib/course/sections/s03-decisions-rules.ts",
-      "line": 1712,
+      "line": 1731,
       "value": "12345678",
       "excerpt": "(\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]: print(t, n, \"→\", tipo_doc_len(t, n))`, output: `DNI 12345678 → {'status': 'accept', 'code': 'OK'} DNI 123 → {'status': 'reject"
     },

@@ -2,9 +2,9 @@
   "ok": false,
   "sections_audited": 52,
   "terms_audited": 106,
-  "events_audited": 22897,
+  "events_audited": 22896,
   "issue_counts": {
-    "DEFINITION_AFTER_REQUIREMENT": 3,
+    "DEFINITION_AFTER_REQUIREMENT": 2,
     "NO_VISIBLE_DEFINITION": 3,
     "USE_BEFORE_DEFINITION": 25
   },
@@ -190,14 +190,7 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "outlier",
       "severity": "P1",
-      "location": "decisions-rules.S03-T3-A.p3",
-      "definition_location": "wxpython-gui.jobRelevance"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "outlier",
-      "severity": "P1",
-      "location": "decisions-rules.S03-T3-A-E2.hint",
+      "location": "decisions-rules.S03-T3-A-E1.retrospective",
       "definition_location": "wxpython-gui.jobRelevance"
     },
     {

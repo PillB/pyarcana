@@ -499,12 +499,6 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[1].code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.theory[3].heading",
     "kind": "theory.heading",
     "visible": true
@@ -14807,12 +14801,6 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[1].code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.theory[3].code",
     "kind": "theory.code",
     "visible": true
@@ -21428,48 +21416,6 @@
     "section": "S03",
     "location": "decisions-rules.S03-T2-A.code",
     "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-DEMO.code",
-    "kind": "ido.code",
     "visible": true
    },
    {
@@ -29830,48 +29776,6 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T2-B-DEMO.code",
     "kind": "ido.code",
     "visible": true
@@ -32249,48 +32153,6 @@
     "section": "S03",
     "location": "decisions-rules.S03-T2-A.code",
     "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-DEMO.code",
-    "kind": "ido.code",
     "visible": true
    },
    {
@@ -50991,12 +50853,6 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[1].code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.theory[3].heading",
     "kind": "theory.heading",
     "visible": true
@@ -51101,12 +50957,6 @@
     "section": "S03",
     "location": "decisions-rules.S03-T2-A-DEMO.code",
     "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-DEMO.preamble",
-    "kind": "ido.preamble",
     "visible": true
    },
    {
@@ -63007,12 +62857,6 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[1].code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.theory[3].code",
     "kind": "theory.code",
     "visible": true
@@ -67174,12 +67018,6 @@
     "section": "S02",
     "location": "basics.S02-T1-B-DEMO.code",
     "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.theory[1].code",
-    "kind": "theory.code",
     "visible": true
    }
   ],
@@ -86823,12 +86661,6 @@
     "visible": true
    },
    {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-A.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
     "section": "S04",
     "location": "iteration-summaries.S04-T1-A-DEMO.preamble",
     "kind": "ido.preamble",
@@ -89967,7 +89799,6 @@
   "sections_used": [
    "S01",
    "S02",
-   "S03",
    "S04",
    "S06",
    "S07",
@@ -90096,24 +89927,6 @@
     "section": "S02",
     "location": "basics.youDo.starter",
     "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-A.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B.p4",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-DEMO.preamble",
-    "kind": "ido.preamble",
     "visible": true
    },
    {
@@ -100157,24 +99970,6 @@
     "section": "S02",
     "location": "basics.youDo.starter",
     "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-A.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B.p4",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-DEMO.preamble",
-    "kind": "ido.preamble",
     "visible": true
    },
    {
@@ -123785,32 +123580,8 @@
   "uses": [
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T3-A.p3",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T3-A-E1.retrospective",
     "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E2.hint[0]",
-    "kind": "wedo.hint",
     "visible": true
    },
    {
@@ -124234,8 +124005,8 @@
   ],
   "first_use": {
    "section": "S03",
-   "location": "decisions-rules.S03-T3-A.p3",
-   "kind": "theory.paragraph",
+   "location": "decisions-rules.S03-T3-A-E1.retrospective",
+   "kind": "wedo.retrospective",
    "visible": true
   },
   "first_definition": {
@@ -124262,32 +124033,8 @@
   "surprising_uses": [
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T3-A.p3",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T3-A-E1.retrospective",
     "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E2.hint[0]",
-    "kind": "wedo.hint",
     "visible": true
    },
    {

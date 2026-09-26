@@ -30,10 +30,10 @@
   "section": "S02"
  },
  "S03": {
-  "words": 7871,
-  "sentences": 647,
+  "words": 7867,
+  "sentences": 646,
   "words_per_sentence": 12.2,
-  "fernandez_huerta": 75.0,
+  "fernandez_huerta": 74.8,
   "long_sentences": 2,
   "run_on_sentences": 1,
   "nominalisations_per_100w": 2.5,
