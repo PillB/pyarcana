@@ -1,8 +1,8 @@
 {
   "ok": false,
   "sections_audited": 52,
-  "terms_audited": 106,
-  "events_audited": 22888,
+  "terms_audited": 108,
+  "events_audited": 22902,
   "issue_counts": {
     "DEFINITION_AFTER_REQUIREMENT": 2,
     "NO_VISIBLE_DEFINITION": 3,

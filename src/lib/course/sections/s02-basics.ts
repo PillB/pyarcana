@@ -142,6 +142,35 @@ False`,
       },
     },
     {
+      heading: 'Ver el valor con `repr()`',
+      paragraphs: [
+        'Al revisar una captura, `42`, `"42"` y `" 42 "` pueden parecer casi iguales en la pantalla. **`repr()`** produce un texto que muestra el valor de forma precisa: conserva las comillas de los textos y hace visibles los espacios de sus bordes.',
+        '`repr()` no cambia el valor original. En el ejemplo, el número `42` aparece sin comillas, el texto `"42"` aparece con comillas y el texto con espacios conserva esos espacios dentro de las comillas.',
+        'Predice las tres líneas antes de ejecutar. Después cambia `texto_con_bordes` por `"42 "` y comprueba que la salida deja un solo espacio antes de la comilla final.',
+      ],
+      code: {
+        language: 'python',
+        title: 'ver_valores_con_repr.py',
+        code: `valor_numero = 42
+valor_texto = "42"
+texto_con_bordes = " 42 "
+
+print(repr(valor_numero))
+print(repr(valor_texto))
+print(repr(texto_con_bordes))
+`,
+        output: `42
+'42'
+' 42 '`,
+      },
+      callout: {
+        type: 'tip',
+        title: 'Mirar no es transformar',
+        content:
+          '`repr()` ayuda a inspeccionar un valor; no quita espacios ni convierte texto en número. Usa `strip()` o `int()` cuando quieras producir otro valor.',
+      },
+    },
+    {
       heading: 'Tres resultados que viajan juntos',
       paragraphs: [
         'Una conversión puede necesitar comunicar tres hechos: si funcionó, qué valor produjo y qué problema encontró. Una **tupla** reúne varios valores en un orden fijo. Se escribe entre paréntesis, como `(True, 19, None)`, y sirve para trasladar esos hechos juntos sin confundir sus posiciones.',
@@ -203,6 +232,30 @@ edad: 19
         title: 'No eval, no silent pass',
         content:
           '`eval()` no es una herramienta de conversión segura para texto recibido de una persona. Usa `int()`, `float()` o `str()` según el significado del campo. Si `int()` recibe letras, deja visible el `ValueError`; aprenderás a recuperarte de ese error en S09.',
+      },
+    },
+    {
+      heading: 'Comprobar una expectativa con `assert`',
+      paragraphs: [
+        'Después de convertir un valor, necesitas comprobar que el resultado coincide con lo que esperabas. **`assert`** comprueba la comparación que escribes después de la palabra mientras practicas.',
+        'Si la comparación es `True`, `assert` no muestra nada y el programa continúa. En el ejemplo, la única salida procede de `print`; el `assert` pasa en silencio porque `edad` vale `19`.',
+        'Si cambias la comprobación por `assert edad == 20`, la comparación es `False`. Python se detiene y la última línea del mensaje muestra `AssertionError`; la línea `print` que viene después ya no se ejecuta.',
+        'Usa `assert` para comprobar tu propio resultado, no para responder a una entrada inválida de una persona. S03 retomará estas comprobaciones junto a las decisiones y S09 enseñará a responder a errores sin ocultarlos.',
+      ],
+      code: {
+        language: 'python',
+        title: 'comprobar_edad.py',
+        code: `edad = 19
+assert edad == 19
+print("edad comprobada:", edad)
+`,
+        output: `edad comprobada: 19`,
+      },
+      callout: {
+        type: 'info',
+        title: 'Mapa de `assert`',
+        content:
+          'Lee de izquierda a derecha: `assert comparación` → `True` → continúa sin mostrar nada; `assert comparación` → `False` → muestra `AssertionError` y se detiene.',
       },
     },
     {
@@ -382,6 +435,7 @@ subtotal 100.00 IGV 18.00 total 118.00`,
       paragraphs: [
         'Un mensaje suele mezclar texto fijo con valores que cambian. Escribir cada parte por separado vuelve difícil ver el resultado completo. Una **f-string** es un texto que comienza con `f` y contiene espacios entre llaves donde Python coloca valores.',
         'En `f"Cliente: {nombre} | Monto: S/ {monto:.2f}"`, `Cliente:` y `Monto:` permanecen iguales. Python sustituye `{nombre}` por `José` y muestra `{monto:.2f}` con dos posiciones decimales. La f-string resuelve un problema de presentación: no cambia el valor guardado en `nombre` ni en `monto`.',
+        'Dentro de una f-string, **`{valor!r}`** muestra la misma representación que `repr(valor)`. Por eso `f"raw={raw!r}"` deja visibles las comillas y los espacios del texto recibido, sin cambiar `raw`.',
         'Haz una modificación guiada: cambia `nombre` por `"Ana"` y `monto` por `Decimal("7")`. Antes de ejecutar, escribe el mensaje completo. Lo correcto es `Cliente: Ana | Monto: S/ 7.00`.',
         'Comprueba también el papel de la letra `f`: ejecuta `print("Cliente: {nombre}")`. Si aparecen las llaves y la palabra `nombre`, Python trató el contenido como texto ordinario. Añade la `f`, ejecuta otra vez y confirma que aparece el valor.',
       ],
@@ -392,10 +446,13 @@ subtotal 100.00 IGV 18.00 total 118.00`,
 
 nombre = "José"
 monto = Decimal("99.5")
+raw = " 42 "
 mensaje = f"Cliente: {nombre} | Monto: S/ {monto:.2f}"
 print(mensaje)
+print(f"raw={raw!r}")
 `,
-        output: `Cliente: José | Monto: S/ 99.50`,
+        output: `Cliente: José | Monto: S/ 99.50
+raw=' 42 '`,
       },
       callout: {
         type: 'tip',
