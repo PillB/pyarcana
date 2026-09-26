@@ -284,6 +284,18 @@ Decisions L1Q3-1 (already decided by D9) and L1Q3-5 carry the detail.
   (route 2), so S02–S04 should stop using them. That is the practice-layer work for those
   three sections.
 
+- **The definition detector credits advice as a definition (2026-09-26).** When `assert` and
+  `repr` entered the glossary, the map credited their first definitions to
+  `S03-T4-A.p3` («`assert` sirve en desarrollo y tests, pero **no**…») and
+  `S03-T4-A-DEMO.preamble` («`repr` hace legible el caso de solo espacios»). Neither says what
+  the thing is. They matter only until an earlier section teaches the concept, which S02 now
+  does for both. Falsify the verb list first: collect every first definition credited to a
+  sentence whose verb is «sirve en», «hace» or «ayuda», and read them.
+- **Core-language constructs the glossary still does not index.** S01 uses `import`, methods
+  (`.strip()`…), membership `in` and f-strings in code before any prose explains them. `assert`
+  and `repr` are now indexed. Each further entry needs codex's Spanish definition, and an early
+  hover must use only early vocabulary.
+
 ## Deferred, with a decision attached
 
 21. **Q3 route** (S02-S04 practice layer, CP-N1-A) — 12 rows wait on it; interacts with D10.

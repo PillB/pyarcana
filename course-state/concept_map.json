@@ -109023,6 +109023,7297 @@
   "figure_gap": 5,
   "explanation_lag_sections": 0
  },
+ "assert": {
+  "id": "assert",
+  "declared_first_section": "basics",
+  "uses": [
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-A-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T2-B-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T2-B-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-A-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-A-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-A-E2.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-A-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-A-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-A-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-A-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-B-E2.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-B-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S02",
+    "location": "basics.youDo.requirement[4]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A.p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B.p5",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-B-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E2.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.youDo.context",
+    "kind": "youdo.context",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.youDo.requirement[4]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.youDo.requirement[5]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.selfCheck[4].opt[3]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.selfCheck[4].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.resources.doc[5]",
+    "kind": "resource",
+    "visible": true
+   },
+   {
+    "section": "S04",
+    "location": "iteration-summaries.S04-T1-A-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S04",
+    "location": "iteration-summaries.youDo.objective[4]",
+    "kind": "youdo.objective",
+    "visible": true
+   },
+   {
+    "section": "S04",
+    "location": "iteration-summaries.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.outcome[7]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B.p5",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T3-B-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-DEMO.description",
+    "kind": "ido.description",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T2-A-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T2-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T2-A-E3.hint",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T2-A-E3.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T2-A-E3.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T2-A-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T2-A-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T3-B-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E1.title",
+    "kind": "wedo.title",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E1.hint",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E1.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E2.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E2.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E3.hint",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E3.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.youDo.objective[4]",
+    "kind": "youdo.objective",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.youDo.requirement[4]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.selfCheck[2].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "collections.S06-T3-A-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "collections.S06-T3-A-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T2-B-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T3-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T3-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T3-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T4-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T4-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T2-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T2-B-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T2-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T2-B-E3.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T4-A-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T4-A-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T4-A-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T4-A-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.youDo.context",
+    "kind": "youdo.context",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.youDo.requirement[4]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.youDo.requirement[6]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.youDo.rubric[3]",
+    "kind": "youdo.rubric",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S10",
+    "location": "modules-packaging-cli.theory[5].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S10",
+    "location": "modules-packaging-cli.S10-T1-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S10",
+    "location": "modules-packaging-cli.S10-T1-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E2.hint",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E2.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T1-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T2-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T2-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T2-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.weDo.intro",
+    "kind": "wedo.intro",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T4-B-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T4-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T4-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T4-B-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T4-B-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.S13-T3-B.p11",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.S13-T3-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.S13-T3-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.S13-T3-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.S13-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.S13-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T1-A.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T4-B.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T1-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T1-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T1-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T2-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T2-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T2-B-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T4-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T4-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T1-A-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T2-A-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T2-B-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T4-B-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T4-B-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T4-B-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.youDo.requirement[2]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.S15-T4-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.S15-T4-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.S15-T4-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.S15-T4-A-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.S15-T4-A-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.youDo.requirement[5]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S16",
+    "location": "wxpython-gui.youDo.requirement[5]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S16",
+    "location": "wxpython-gui.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T1-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T1-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S18",
+    "location": "data-engineering.S18-T4-A.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S19",
+    "location": "databases-orm.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S20",
+    "location": "rag.S20-T1-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S20",
+    "location": "rag.S20-T1-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S20",
+    "location": "rag.S20-T3-A.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S20",
+    "location": "rag.S20-T1-B-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S20",
+    "location": "rag.S20-T3-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S20",
+    "location": "rag.S20-T1-B-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S21",
+    "location": "fastapi.S21-T3-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S21",
+    "location": "fastapi.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S23",
+    "location": "computer-vision.S23-T2-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S23",
+    "location": "computer-vision.S23-T1-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S23",
+    "location": "computer-vision.S23-T1-B-E3.title",
+    "kind": "wedo.title",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.S25-T3-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.outcome[2]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.theory[0].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.theory[1].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B.heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B.figure",
+    "kind": "theory.figure",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.theory[4].p4",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-A.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T3-A.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T3-B.callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T4-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.iDo.intro",
+    "kind": "ido.intro",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T3-A-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T3-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T4-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T4-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-E2.title",
+    "kind": "wedo.title",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-E2.hint",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-A-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-A-E2.title",
+    "kind": "wedo.title",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-A-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-A-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-A-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-B-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T4-B-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.youDo.context",
+    "kind": "youdo.context",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.youDo.requirement[0]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.youDo.requirement[3]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.selfCheck[1].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.selfCheck[1].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T1-A.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T2-A.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.iDo.intro",
+    "kind": "ido.intro",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T1-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T1-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T1-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T3-A-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T1-A-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T1-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T1-A-E3.hint",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T1-A-E3.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T1-A-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T1-A-E3.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T1-A-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T4-B-E1.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T4-B-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S29",
+    "location": "mlops.S29-T4-B.callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S29",
+    "location": "mlops.S29-T4-A-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S29",
+    "location": "mlops.S29-T4-B-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S31",
+    "location": "streaming-data.S31-T4-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S31",
+    "location": "streaming-data.S31-T4-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S31",
+    "location": "streaming-data.S31-T4-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S31",
+    "location": "streaming-data.S31-T4-A-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S31",
+    "location": "streaming-data.S31-T4-A-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T1-B-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T1-B-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S32",
+    "location": "microservices.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T1-A-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T1-B-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T2-A-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T2-B-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T4-B-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T2-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T3-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T1-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T3-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T1-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T1-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T4-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S35",
+    "location": "system-design.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.S37-T4-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.S37-T4-A-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.S37-T4-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S37",
+    "location": "dbt-bigquery.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S38",
+    "location": "performance-extreme.S38-T2-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S38",
+    "location": "performance-extreme.S38-T4-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S38",
+    "location": "performance-extreme.S38-T2-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S38",
+    "location": "performance-extreme.S38-T1-B-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T3-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T3-B-E1.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T3-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T3-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T3-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T3-B-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.selfCheck[0].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.theory[0].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-B-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-A-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T2-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T2-A-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T2-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T2-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T2-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T2-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T2-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T3-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T3-A-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T3-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T3-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T3-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T3-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T4-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T4-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T4-A-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T4-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T4-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T4-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T4-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.youDo.objective[3]",
+    "kind": "youdo.objective",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.youDo.requirement[6]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.selfCheck[0].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T2-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S43",
+    "location": "llmops.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.selfCheck[0].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.theory[0].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T2-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T2-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T1-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T1-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T2-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T2-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T2-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T3-B-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T4-B-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S45",
+    "location": "iac.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.theory[0].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T1-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T2-A-E1.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T1-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T2-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.selfCheck[0].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.theory[0].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T1-A-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.selfCheck[0].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.theory[0].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.theory[1].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T1-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T1-A-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T1-A-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T1-A-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T1-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T1-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T1-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T1-B-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T2-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T2-A-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T2-A-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T2-A-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T2-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T2-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T2-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T2-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T2-B-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T3-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T3-A-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T3-A-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T3-A-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T3-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T3-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T3-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T3-B-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T4-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T4-A-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T4-A-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T4-A-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T4-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T4-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T4-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T4-B-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.selfCheck[0].opt[1]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.theory[0].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.weDo.intro",
+    "kind": "wedo.intro",
+    "visible": true
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T1-A-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.S50-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.selfCheck[0].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.theory[0].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T1-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T1-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T1-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T1-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T2-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T2-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T2-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T3-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T3-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T4-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T4-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.selfCheck[0].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-A-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T1-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T1-A-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T1-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T1-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T1-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T2-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T2-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T2-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T2-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T2-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T2-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T2-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T2-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T3-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T3-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T3-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T3-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.selfCheck[0].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   }
+  ],
+  "definitions": [
+   {
+    "section": "S02",
+    "location": "basics.youDo.requirement[4]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A.p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T3-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T4-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T1-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T2-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T2-B-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T4-B-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.S15-T4-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T1-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S23",
+    "location": "computer-vision.S23-T1-B-E3.title",
+    "kind": "wedo.title",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S31",
+    "location": "streaming-data.S31-T4-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T3-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T3-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   }
+  ],
+  "examples": [
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T3-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T4-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S10",
+    "location": "modules-packaging-cli.S10-T1-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T1-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T2-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T1-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T2-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.S15-T4-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T1-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S21",
+    "location": "fastapi.S21-T3-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S23",
+    "location": "computer-vision.S23-T2-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.S25-T3-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T2-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T1-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S31",
+    "location": "streaming-data.S31-T4-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T2-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T3-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T3-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S38",
+    "location": "performance-extreme.S38-T2-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S38",
+    "location": "performance-extreme.S38-T4-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S38",
+    "location": "performance-extreme.S38-T2-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T3-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T3-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T1-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T1-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   }
+  ],
+  "exercises": [
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-A-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T2-B-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-A-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-A-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.youDo.requirement[4]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-B-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.youDo.requirement[4]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.youDo.requirement[5]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S04",
+    "location": "iteration-summaries.S04-T1-A-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S04",
+    "location": "iteration-summaries.youDo.objective[4]",
+    "kind": "youdo.objective",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T2-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T4-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.youDo.objective[4]",
+    "kind": "youdo.objective",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.youDo.requirement[4]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T2-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T2-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T4-A-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T4-A-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.youDo.requirement[4]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.youDo.requirement[6]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T4-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T4-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T4-B-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.S13-T3-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S13",
+    "location": "evidence-dashboard.S13-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.youDo.requirement[2]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.youDo.requirement[5]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S16",
+    "location": "wxpython-gui.youDo.requirement[5]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.youDo.requirement[0]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.youDo.requirement[3]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T1-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.S28-T1-A-E3.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S34",
+    "location": "cv-ai-integration.S34-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T1-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S35",
+    "location": "system-design.S35-T4-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T3-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T1-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T2-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T2-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T2-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T2-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T3-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T3-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T3-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T3-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T4-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T4-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T4-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.S41-T4-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.youDo.objective[3]",
+    "kind": "youdo.objective",
+    "visible": true
+   },
+   {
+    "section": "S41",
+    "location": "llm-finetuning.youDo.requirement[6]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.S42-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T2-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.S43-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T2-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S44",
+    "location": "multimodal.S44-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T2-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S45",
+    "location": "iac.S45-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T1-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S46",
+    "location": "gpu-computing.S46-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T2-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.S48-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T2-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.S49-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T2-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.S51-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T1-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T2-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T2-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T2-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T2-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T3-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T3-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.S52-T4-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   }
+  ],
+  "self_checks": [
+   {
+    "section": "S03",
+    "location": "decisions-rules.selfCheck[4].opt[3]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.selfCheck[4].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.selfCheck[2].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.selfCheck[1].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.selfCheck[1].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.selfCheck[0].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S42",
+    "location": "graph-rag.selfCheck[0].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S43",
+    "location": "llmops.selfCheck[0].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.selfCheck[0].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S48",
+    "location": "ai-governance.selfCheck[0].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S49",
+    "location": "data-contracts.selfCheck[0].opt[1]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S50",
+    "location": "tech-leadership.selfCheck[0].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S51",
+    "location": "integrator-final.selfCheck[0].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S52",
+    "location": "career-strategy.selfCheck[0].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   }
+  ],
+  "headings": [
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B.heading",
+    "kind": "theory.heading",
+    "visible": true
+   }
+  ],
+  "figures": [
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B.figure",
+    "kind": "theory.figure",
+    "visible": true
+   }
+  ],
+  "first_use": {
+   "section": "S02",
+   "location": "basics.S02-T1-A-E2.tests",
+   "kind": "wedo.tests",
+   "visible": true
+  },
+  "first_definition": {
+   "section": "S03",
+   "location": "decisions-rules.S03-T4-A.p3",
+   "kind": "theory.paragraph",
+   "visible": true
+  },
+  "reinforcements": [
+   {
+    "section": "S02",
+    "location": "basics.youDo.requirement[4]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S14",
+    "location": "security.S14-T4-B-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S23",
+    "location": "computer-vision.S23-T1-B-E3.title",
+    "kind": "wedo.title",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T3-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S40",
+    "location": "architecture-ddd-decisions.S40-T3-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   }
+  ],
+  "depth": "L3",
+  "surprising_uses": [
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-A-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T2-B-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T2-B-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-A-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-A-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-A-E2.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-A-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-A-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T3-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-A-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-B-E2.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.youDo.requirement[4]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   }
+  ],
+  "sections_used": [
+   "S02",
+   "S03",
+   "S04",
+   "S05",
+   "S06",
+   "S09",
+   "S10",
+   "S11",
+   "S12",
+   "S13",
+   "S14",
+   "S15",
+   "S16",
+   "S17",
+   "S18",
+   "S19",
+   "S20",
+   "S21",
+   "S23",
+   "S25",
+   "S27",
+   "S28",
+   "S29",
+   "S31",
+   "S32",
+   "S33",
+   "S34",
+   "S35",
+   "S37",
+   "S38",
+   "S39",
+   "S40",
+   "S41",
+   "S42",
+   "S43",
+   "S44",
+   "S45",
+   "S46",
+   "S47",
+   "S48",
+   "S49",
+   "S50",
+   "S51",
+   "S52"
+  ],
+  "load_bearing": true,
+  "figure_target": 5,
+  "figure_count": 1,
+  "figure_gap": 4,
+  "explanation_lag_sections": 1
+ },
+ "repr": {
+  "id": "repr",
+  "declared_first_section": "basics",
+  "uses": [
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T2-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-A-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-B-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-B-E1.hint",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-B-E1.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T1-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T1-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "collections.S06-T3-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "collections.S06-T3-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "collections.S06-T3-B-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "collections.S06-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S07",
+    "location": "text-unicode-regex.S07-T4-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S07",
+    "location": "text-unicode-regex.S07-T1-A-E1.title",
+    "kind": "wedo.title",
+    "visible": true
+   },
+   {
+    "section": "S07",
+    "location": "text-unicode-regex.S07-T1-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S07",
+    "location": "text-unicode-regex.S07-T1-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S07",
+    "location": "text-unicode-regex.S07-T1-A-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S07",
+    "location": "text-unicode-regex.S07-T1-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T1-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T3-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T1-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T2-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T1-A-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T2-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T2-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S10",
+    "location": "modules-packaging-cli.S10-T4-B-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S10",
+    "location": "modules-packaging-cli.S10-T4-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T1-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T1-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T1-A-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T1-A-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T1-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T1-B-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T4-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T4-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T4-A-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.S15-T4-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.S15-T4-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.S15-T4-B-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S19",
+    "location": "databases-orm.S19-T2-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S23",
+    "location": "computer-vision.S23-T1-A-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T3-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T3-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T3-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T3-B-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T3-B-E3.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S28",
+    "location": "llm-agents.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S38",
+    "location": "performance-extreme.S38-T1-B-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   }
+  ],
+  "definitions": [
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S15",
+    "location": "stdlib-deep.S15-T4-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   }
+  ],
+  "examples": [
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T2-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S05",
+    "location": "functions-contracts.S05-T1-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "collections.S06-T3-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S07",
+    "location": "text-unicode-regex.S07-T4-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T1-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T3-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T1-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S09",
+    "location": "exceptions-logging.S09-T2-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S19",
+    "location": "databases-orm.S19-T2-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T1-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T3-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T3-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S27",
+    "location": "async-concurrency.S27-T3-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   }
+  ],
+  "exercises": [
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S06",
+    "location": "collections.S06-T3-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S07",
+    "location": "text-unicode-regex.S07-T1-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T1-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T1-A-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S11",
+    "location": "oop-domain.S11-T1-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S12",
+    "location": "apis-sql-geo.S12-T4-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S23",
+    "location": "computer-vision.S23-T1-A-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   }
+  ],
+  "self_checks": [],
+  "headings": [],
+  "figures": [],
+  "first_use": {
+   "section": "S02",
+   "location": "basics.S02-T1-A-DEMO.code",
+   "kind": "ido.code",
+   "visible": true
+  },
+  "first_definition": {
+   "section": "S03",
+   "location": "decisions-rules.S03-T4-A-DEMO.preamble",
+   "kind": "ido.preamble",
+   "visible": true
+  },
+  "reinforcements": [],
+  "depth": "L2",
+  "surprising_uses": [
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T2-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T1-A-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S02",
+    "location": "basics.S02-T4-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   }
+  ],
+  "sections_used": [
+   "S02",
+   "S03",
+   "S05",
+   "S06",
+   "S07",
+   "S09",
+   "S10",
+   "S11",
+   "S12",
+   "S15",
+   "S19",
+   "S23",
+   "S27",
+   "S28",
+   "S38"
+  ],
+  "load_bearing": true,
+  "figure_target": 5,
+  "figure_count": 0,
+  "figure_gap": 5,
+  "explanation_lag_sections": 1
+ },
  "set": {
   "id": "set",
   "declared_first_section": "decisions-rules",

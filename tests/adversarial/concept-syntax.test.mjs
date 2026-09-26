@@ -12,6 +12,7 @@ import test from 'node:test'
 import { execFileSync } from 'node:child_process'
 
 import { blankProperNames, syntaxMentions } from '../../scripts/concept_syntax.mts'
+import { GLOSSARY_TERMS } from '../../src/lib/glossary/terms'
 
 test('a dict literal is a use of dict, in either quote style and inside inline code', () => {
   for (const t of [
@@ -30,6 +31,13 @@ test('braces that are not a dict are not a use of dict', () => {
     'print(f"{nombre}")',
     'Usa llaves `{}` para interpolar',
   ]) assert.deepEqual(syntaxMentions(t), [], t)
+})
+
+test('the !r conversion is a use of repr, and nothing else that looks like it is', () => {
+  for (const t of ['print(f"valor={nombres!r}")', 'f"{x!r:>10}"', "f'{raw!r} → {clean!r}'"])
+    assert.ok(syntaxMentions(t).includes('repr'), t)
+  for (const t of ['if x != r:', '¡r}', 'print("!r")', 'f"{x!s}"'])
+    assert.ok(!syntaxMentions(t).includes('repr'), t)
 })
 
 test('blanking a proper name keeps every offset, so definesTerm still reads the right span', () => {
@@ -51,10 +59,13 @@ const events = JSON.parse(execFileSync(
   { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 },
 )).events
 
-test('property: every event holding a dict literal mentions dict', () => {
-  const missed = events
-    .filter((e) => syntaxMentions(e.text).includes('dict') && !e.mentions.includes('dict'))
-    .map((e) => e.location)
+test('property: every syntax use of a glossary concept is a mention of it', () => {
+  // Only glossary ids count: the extractor drops a syntax id with no entry, so `repr` starts
+  // counting the day its entry lands, and this property starts holding it to that.
+  const ids = new Set(GLOSSARY_TERMS.map((t) => t.id))
+  const missed = events.flatMap((e) => syntaxMentions(e.text)
+    .filter((id) => ids.has(id) && !e.mentions.includes(id))
+    .map((id) => `${id} @ ${e.location}`))
   assert.deepEqual(missed, [])
 })
 

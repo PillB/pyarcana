@@ -37,9 +37,14 @@ export function blankProperNames(text: string): string {
  * Measured on the course before adding it: 4,739 literal-shaped matches and not one f-string.
  * An unquoted key (`{k: v}`) is left out on purpose: `{x}` in an f-string and `{a, b}` as a set
  * are far commoner in this course than a dict keyed by a name.
+ *
+ * `repr`: the `!r` conversion inside an f-string replacement field, `{valor!r}` or
+ * `{valor!r:>10}`. It is repr() under another spelling, and the name matcher cannot reach it: a
+ * letter always precedes the `!`, which its lookbehind refuses.
  */
 const SYNTAX: ReadonlyArray<[string, RegExp]> = [
   ['dict', /\{\s*["'][^"'\n]{1,40}["']\s*:(?![<>^=,])/],
+  ['repr', /\{[^{}\n]*!r(?::[^{}\n]*)?\}/],
 ]
 
 export function syntaxMentions(text: string): string[] {
