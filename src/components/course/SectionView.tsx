@@ -414,14 +414,17 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
       {section.theory.map((block, i) => {
         const body = (
           <>
-            <RichText
-              sectionId={section.id}
-              content={
-                block.optional
-                  ? block.paragraphs.join('\n\n')
-                  : block.heading + '\n\n' + block.paragraphs.join('\n\n')
-              }
-            />
+            {/* A real heading, not the first paragraph. The heading used to be joined onto
+                the paragraphs and handed to RichText, so every theory heading in the course
+                rendered as a 15px <p> indistinguishable from the prose under it, and a
+                screen reader had no heading to jump to (WCAG 1.3.1). An optional block's
+                heading lives in its collapsible trigger instead. */}
+            {!block.optional && (
+              <h3 className="text-lg font-semibold tracking-tight text-foreground">
+                <InlineText text={block.heading} />
+              </h3>
+            )}
+            <RichText sectionId={section.id} content={block.paragraphs.join('\n\n')} />
             {/* Spatial contiguity: the figure sits between the prose it
                 explains and the code that follows, never in a gallery. */}
             {block.figure && <FigureFrame figure={block.figure} />}
