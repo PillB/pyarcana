@@ -2,7 +2,7 @@
   "ok": false,
   "sections_audited": 52,
   "terms_audited": 106,
-  "events_audited": 22889,
+  "events_audited": 22888,
   "issue_counts": {
     "DEFINITION_AFTER_REQUIREMENT": 2,
     "NO_VISIBLE_DEFINITION": 3,
@@ -18,7 +18,7 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "for",
       "severity": "P1",
-      "location": "basics.resources.doc[5]",
+      "location": "decisions-rules.S03-T2-A.code",
       "definition_location": "iteration-summaries.S04-T1-A.p0"
     },
     {
@@ -81,14 +81,14 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "dict",
       "severity": "P1",
-      "location": "basics.S02-T4-A-E3.retrospective",
+      "location": "decisions-rules.S03-T2-B.code",
       "definition_location": "iteration-summaries.S04-T4-A-E3.preamble"
     },
     {
       "code": "DEFINITION_AFTER_REQUIREMENT",
       "term_id": "dict",
       "severity": "P1",
-      "location": "decisions-rules.S03-T3-B-E1.hint",
+      "location": "decisions-rules.S03-T3-A-E3.hint[1]",
       "definition_location": "iteration-summaries.S04-T4-A-E3.preamble"
     },
     {

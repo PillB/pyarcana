@@ -62,30 +62,6 @@ export const section02: CourseSection = {
         "**Fuera de alcance por ahora.** En S02 ejecutarás cada ejemplo con valores concretos. Las secciones posteriores enseñarán a elegir caminos, repetir instrucciones y reunir pasos para volver a usarlos.",
         "**Límites.** Solo datos sintéticos (`example.com`, teléfonos inventados). Nunca información personal identificable real en el repositorio.",
       ],
-      code: {
-        language: 'python',
-        title: 's02_map_contract.py',
-        code: `c = {
-    "case": "CASO-LIM-002",
-    "focus": "values_types_ops_io",
-    "types_before_ops": True,
-    "decimal_for_money": True,
-    "raw_preserved": True,
-    "real_pii_ok": False,
-}
-
-print("case", c["case"])
-print("focus", c["focus"])
-print("types_before_ops", c["types_before_ops"])
-print("raw_preserved", c["raw_preserved"])
-print("real_pii_ok", c["real_pii_ok"])
-`,
-        output: `case CASO-LIM-002
-focus values_types_ops_io
-types_before_ops True
-raw_preserved True
-real_pii_ok False`,
-      },
       callout: {
         type: 'info',
         title: 'Mapa de S02',
@@ -1873,21 +1849,21 @@ monto: S/ 99.50`,
         kind: 'transfer',
         title: 'Simular prompts sin `input()` real',
         preamble:
-          '- **Contexto:** en Pyodide/CI no hay consola interactiva confiable; los tests necesitan funciones puras.\n- **Meta:** `simular_intake(...)` devuelve campos str + subdict `types` con `__name__`.\n- **Éxito:** `types["edad"]` y `types["nombres"]` son `"str"`; print `OK`.\n- **Límites:** **no** llames `input()`; no conviertas tipos aún (eso es el parse).',
+          '- **Contexto:** una comprobación automática no puede detenerse para esperar que alguien escriba en la consola. Por eso, tres textos conocidos ocupan el lugar de las respuestas.\n- **Meta:** conservar cada respuesta como texto y comprobar su tipo por separado.\n- **Éxito:** los tres nombres terminados en `_tipo` contienen `"str"` y el programa imprime `OK`.\n- **Límites:** **no** llames `input()` ni conviertas los textos todavía.',
         id: 'S02-T4-A-E3',
         instruction:
-          '1. Completa el diccionario `registro` con los campos y el diccionario interno `types`.\n2. Usa `type(...).__name__` para cada campo, escrito de forma explícita.\n3. Imprime `registro` y compara los nombres de tipo con `str`.',
-        hint: 'No uses `input()`. Los tres textos ya están asignados a nombres para que puedas repetir la comprobación.',
+          '1. Completa `nombres_tipo`, `contacto_tipo` y `edad_tipo` con el nombre del tipo de cada valor.\n2. Imprime los tres valores entre barras y después imprime los tres nombres de tipo.\n3. Comprueba con `assert` que cada nombre de tipo sea `"str"`.',
+        hint: 'No uses `input()`. Los tres textos ya están asignados a nombres para que puedas repetir exactamente la misma comprobación.',
         hints: [
-          'No uses `input()`. Los tres textos ya están asignados a nombres para que puedas repetir la comprobación.',
-          'Construye types a mano: "nombres": type(nombres).__name__, etc. (sin comprehensions).',
+          'No uses `input()`. Los tres textos ya están asignados a nombres para que puedas repetir exactamente la misma comprobación.',
+          'Para obtener el nombre del tipo de `nombres`, escribe `type(nombres).__name__`. Repite la misma forma con los otros dos valores.',
         ],
-        edgeCases: ['todo str', 'testeable sin consola interactiva'],
-        tests: 'los tres textos asignados conservan el tipo `str` dentro de `types`.',
+        edgeCases: ['espacios conservados', 'edad escrita como texto', 'tres comprobaciones explícitas'],
+        tests: 'Los tres valores permanecen intactos y cada nombre terminado en `_tipo` contiene `"str"`.',
         feedback:
-          'Si el intake es una función pura de str→dict, los tests del parser (T4-B) son triviales de automatizar. `types["edad"] == "str"` aunque el usuario “escribió un número”.',
+          '`input()` entrega texto incluso cuando alguien escribe `34`. Aquí los valores conocidos sustituyen solo la escritura en la consola. Los nombres terminados en `_tipo` guardan la palabra `"str"`; no guardan el valor original ni lo convierten.',
         retrospective:
-          'Una función `str → dict` pura convierte una conversación con el teclado en datos reproducibles. Si `types["edad"]` no es `"str"`, probablemente adelantaste una conversión y mezclaste captura con parse. Conserva la frontera: primero recibe, luego interpreta, después reporta. T4-B hará visible cualquier fallo de interpretación.',
+          'Predice qué cambiaría si `edad` fuera el número `34` en vez del texto `"34"`. Luego explica por qué, en esta práctica, los tres valores deben seguir siendo `str`. Comprueba cada nombre terminado en `_tipo`: si uno no contiene `"str"`, mezclaste la captura con la conversión. ¿Qué ventaja ofrece separar esos dos momentos antes de automatizar la lectura?',
         starterCode: {
           language: 'python',
           title: 'simular_intake.py',
@@ -1897,20 +1873,17 @@ nombres = "  Ana  "
 contacto = "999"
 edad = "34"
 
-registro = {
-    "nombres": nombres,
-    "contacto": contacto,
-    "edad": edad,
-    "types": {
-        "nombres": ____,
-        "contacto": ____,
-        "edad": ____,
-    },
-}
+nombres_tipo = ____
+contacto_tipo = ____
+edad_tipo = ____
 
-print(registro)
-assert registro["types"]["edad"] == "str"
-assert registro["types"]["nombres"] == "str"
+print(f"nombres: |{nombres}|")
+print(f"contacto: |{contacto}|")
+print(f"edad: |{edad}|")
+print("tipos:", nombres_tipo, contacto_tipo, edad_tipo)
+assert nombres_tipo == "str"
+assert contacto_tipo == "str"
+assert edad_tipo == "str"
 print("OK")`,
         },
         solutionCode: {
@@ -1920,22 +1893,22 @@ print("OK")`,
 contacto = "999"
 edad = "34"
 
-registro = {
-    "nombres": nombres,
-    "contacto": contacto,
-    "edad": edad,
-    "types": {
-        "nombres": type(nombres).__name__,
-        "contacto": type(contacto).__name__,
-        "edad": type(edad).__name__,
-    },
-}
+nombres_tipo = type(nombres).__name__
+contacto_tipo = type(contacto).__name__
+edad_tipo = type(edad).__name__
 
-print(registro)
-assert registro["types"]["edad"] == "str"
-assert registro["types"]["nombres"] == "str"
+print(f"nombres: |{nombres}|")
+print(f"contacto: |{contacto}|")
+print(f"edad: |{edad}|")
+print("tipos:", nombres_tipo, contacto_tipo, edad_tipo)
+assert nombres_tipo == "str"
+assert contacto_tipo == "str"
+assert edad_tipo == "str"
 print("OK")`,
-          output: `{'nombres': '  Ana  ', 'contacto': '999', 'edad': '34', 'types': {'nombres': 'str', 'contacto': 'str', 'edad': 'str'}}
+          output: `nombres: |  Ana  |
+contacto: |999|
+edad: |34|
+tipos: str str str
 OK`,
         },
       },
