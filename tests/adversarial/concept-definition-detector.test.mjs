@@ -299,3 +299,13 @@ test('stacking the marks does not let a command line define its command', () => 
   // same way and is an instruction about a command, not an explanation of pip.
   assert.equal(definingEvent(/\*\*`pip freeze`\*\* escribe/, 'pip'), false)
 })
+
+test('a marked keyword followed by what it checks is taught there (`comprueba`)', () => {
+  // A property, not a pinned sentence: any theory paragraph that opens a sentence with the bare
+  // marked name of a glossary term and says it «comprueba» something is crediting that term.
+  const rx = /(?:^|[.;:!?]\s+)\*\*`(\w+)`\*\*\s+comprueban?\b/
+  const missed = events.events
+    .filter((e) => e.kind === 'theory.paragraph')
+    .flatMap((e) => { const m = rx.exec(e.text); return m && e.mentions.includes(m[1]) && !e.defines.includes(m[1]) ? [`${m[1]} @ ${e.location}`] : [] })
+  assert.deepEqual(missed, [])
+})

@@ -185,7 +185,12 @@ const DESCRIBING_VERB =
  * sentence needs one, with the case that proves it.
  */
 const MARKED_SUBJECT_VERB =
-  /^[^.!?;]{0,14}?\b(?:mide|miden|aloja|alojan|excluye|excluyen|instala|instalan|alinea|alinean|produce|producen|colapsa|colapsan|hace|hacen|responde|responden|captura|capturan|resume|resumen|descubre|descubren|memoriza|memorizan|fija|fijan|apila|apilan|inserta|insertan|act[u\u00fa]a|act[u\u00fa]an|reutiliza|reutilizan|divide|dividen)\b/i
+  /^[^.!?;]{0,14}?\b(?:mide|miden|aloja|alojan|excluye|excluyen|instala|instalan|alinea|alinean|produce|producen|colapsa|colapsan|hace|hacen|responde|responden|captura|capturan|resume|resumen|descubre|descubren|memoriza|memorizan|fija|fijan|apila|apilan|inserta|insertan|act[u\u00fa]a|act[u\u00fa]an|reutiliza|reutilizan|divide|dividen|comprueba|comprueban)\b/i
+// `comprueba` added 2026-09-26 for «**`assert`** comprueba la comparación…», S02's definition of
+// assert, which read as teaching nothing. Falsified first: it follows a sentence-initial marked
+// span in five sentences course-wide. Two are genuine definitions (`assert`, `fullmatch`), and
+// the other three are still refused by the rules above (`isinstance(x, int)` and `is None` are
+// not bare terms; «Dos preguntas, no una:» is not a glossary term).
 /**
  * A phenomenon is defined by the conditions it arises under, not by what it is made of.
  *
