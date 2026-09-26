@@ -47,19 +47,15 @@
  },
  "S02": {
   "section": "S02",
-  "prose_words": 6811,
-  "english_function_words": 6,
-  "ordinary_english_words": 10,
-  "kept_technical_terms": 23,
-  "avoidable_english_per_1000": 2.3,
+  "prose_words": 6652,
+  "english_function_words": 1,
+  "ordinary_english_words": 9,
+  "kept_technical_terms": 11,
+  "avoidable_english_per_1000": 1.5,
   "top_terms": [
    [
-    "is",
-    6
-   ],
-   [
     "review",
-    5
+    4
    ],
    [
     "ticket",
@@ -72,22 +68,13 @@
    [
     "scoring",
     1
+   ],
+   [
+    "is",
+    1
    ]
   ],
-  "worst_passages": [
-   {
-    "location": "basics.S02-T2-B-E1.hint",
-    "avoidable_english": 2,
-    "words": 14,
-    "text": "Listas nuevas no son el mismo objeto: [] is [] es False. Usa is para None."
-   },
-   {
-    "location": "basics.S02-T2-B-E1.hint[0]",
-    "avoidable_english": 2,
-    "words": 14,
-    "text": "Listas nuevas no son el mismo objeto: [] is [] es False. Usa is para None."
-   }
-  ]
+  "worst_passages": []
  },
  "S03": {
   "section": "S03",

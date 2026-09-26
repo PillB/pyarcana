@@ -46,10 +46,28 @@ class TestSection02IndependentContract(unittest.TestCase):
         self.assertEqual(len(demos), 8)
         self.assertEqual(len(exercises), 24)
         self.assertEqual(len(topic_evaluations), 4)
-        self.assertIn('def safe_int(campo: str, valor: str)', source)
-        self.assertIn('def parse_client(', source)
-        self.assertIn('raise NotImplementedError', source)
-        self.assertIn('assert r["errors"] == []', source)
+
+    def test_you_do_uses_only_what_s02_teaches(self) -> None:
+        """Route 2 (decisions D9, D10, D14): S02's increment is the raw/clean/value walk.
+
+        This test used to pin `def safe_int(campo: str, valor: str)`, `def parse_client(`,
+        `raise NotImplementedError` and `assert r["errors"] == []` - the old You Do, which
+        asked for functions, a dict of errors and exception handling that S05, S06 and S09
+        teach. That part of CP-N1-A moved to those sections. What S02 still owes the
+        project is pinned here instead, together with the absence that route 2 bought.
+        """
+        you_do = _between(SECTION.read_text(encoding="utf-8"), "  youDo: {", "  selfCheck: {")
+        for contract in (
+            'assert nombres_raw == "  María José  "',   # the original survives cleaning
+            'assert contacto_clean == "0999000111"',    # the leading zero survives
+            'assert monto == Decimal("150.50")',        # money is Decimal, built from text
+            "# int(edad_invalida_raw)",                 # the failure is shown, not hidden
+        ):
+            self.assertIn(contract, you_do)
+        # Word-bounded: the Spanish around the code says "excepto" and "errores", which a
+        # bare substring check for `except` or `error` would mistake for the keywords.
+        for later in (r"\bdef ", r"\btry:", r"\bexcept\b", r"\breturn\b", r"\berrors\b"):
+            self.assertIsNone(re.search(later, you_do), f"S02's You Do reaches for {later}")
 
     def test_all_published_python_examples_match_their_output(self) -> None:
         source = SECTION.read_text(encoding="utf-8")

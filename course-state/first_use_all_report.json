@@ -2,11 +2,11 @@
   "ok": false,
   "sections_audited": 52,
   "terms_audited": 106,
-  "events_audited": 22896,
+  "events_audited": 22889,
   "issue_counts": {
     "DEFINITION_AFTER_REQUIREMENT": 2,
     "NO_VISIBLE_DEFINITION": 3,
-    "USE_BEFORE_DEFINITION": 25
+    "USE_BEFORE_DEFINITION": 22
   },
   "never_defined_but_mentioned": [
     "joblib",
@@ -16,23 +16,16 @@
   "issues": [
     {
       "code": "USE_BEFORE_DEFINITION",
-      "term_id": "function",
-      "severity": "P1",
-      "location": "basics.outcome[6]",
-      "definition_location": "basics.theory[0].callout"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
       "term_id": "for",
       "severity": "P1",
-      "location": "basics.S02-T1-B-DEMO.code",
+      "location": "basics.resources.doc[5]",
       "definition_location": "iteration-summaries.S04-T1-A.p0"
     },
     {
       "code": "DEFINITION_AFTER_REQUIREMENT",
       "term_id": "for",
       "severity": "P1",
-      "location": "basics.S02-T1-A-E3.instruction",
+      "location": "decisions-rules.S03-T1-B-E1.hint",
       "definition_location": "iteration-summaries.S04-T1-A.p0"
     },
     {
@@ -65,20 +58,6 @@
     },
     {
       "code": "USE_BEFORE_DEFINITION",
-      "term_id": "return",
-      "severity": "P1",
-      "location": "basics.S02-T1-B-DEMO.code",
-      "definition_location": "decisions-rules.theory[3].p3"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "exception",
-      "severity": "P1",
-      "location": "basics.S02-T1-B-DEMO.code",
-      "definition_location": "decisions-rules.S03-T2-B.p0"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
       "term_id": "repositorio-repo",
       "severity": "P1",
       "location": "setup.outcome[5]",
@@ -102,14 +81,14 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "dict",
       "severity": "P1",
-      "location": "basics.theory[7].p0",
+      "location": "basics.S02-T4-A-E3.retrospective",
       "definition_location": "iteration-summaries.S04-T4-A-E3.preamble"
     },
     {
       "code": "DEFINITION_AFTER_REQUIREMENT",
       "term_id": "dict",
       "severity": "P1",
-      "location": "basics.S02-T1-A-E3.instruction",
+      "location": "decisions-rules.S03-T3-B-E1.hint",
       "definition_location": "iteration-summaries.S04-T4-A-E3.preamble"
     },
     {

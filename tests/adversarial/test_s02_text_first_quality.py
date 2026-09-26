@@ -95,7 +95,9 @@ class TestSection02TextFirstQuality(unittest.TestCase):
             "dibuja tres columnas",
             "sigue por ellas un caso feliz",
             "promesas verificables",
-            "muestra un input problemático",
+            # Was "muestra un input problemático": an anglicism, and in S02 a homonym of the
+            # `input()` the section teaches. The pin had carried it into two more places.
+            "muestra una entrada problemática",
             "reconstruye el recorrido sin mirar la solución",
             "porque el test lo pide",
         ):
@@ -119,7 +121,10 @@ class TestSection02TextFirstQuality(unittest.TestCase):
             "Python lee `-(3**2)`",
             "recibe una aproximación binaria",
             "La apariencia no cambia el tipo",
-            "inventar `0` destruye información",
+            # Was "inventar `0` destruye información", on a question about the old parser's
+            # `errors` list. S02 now asks how to observe the failure; the same two
+            # data-destroying distractors (erase the raw, invent a value) are repaired here.
+            "sin borrar ni inventar datos",
             "`strip` devuelve otro string",
             "reintroduciría la representación",
         ):

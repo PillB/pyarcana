@@ -136,7 +136,10 @@ D9_OWED = 0
 # `for` replaces `next(reader)` with StopIteration, and each refusal is shown as the line Python
 # would print. The four Theory-tab playgrounds before S09 followed. What remains is S02 (24) and
 # S04 (11), inside CP-N1-A, which wait on the Q3 route — an owner question.
-D10_OWED = 13
+# 2026-09-26: 13 -> 10. The owner chose route 2: CP-N1-A's parsing-with-recovery half moves to
+# S09, and S02's You Do became the raw/clean/value walk, which shows the failing conversion as a
+# line to run on its own instead of catching it.
+D10_OWED = 10
 
 
 class ForwardDependencyTests(unittest.TestCase):

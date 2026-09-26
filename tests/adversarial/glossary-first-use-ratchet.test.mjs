@@ -26,7 +26,7 @@ import { GLOSSARY_TERMS, aliasIsAcronym } from '../../src/lib/glossary/terms'
 import { COURSE_SECTIONS } from '../../src/lib/course'
 
 /** Terms declared later than their first appearance anywhere in the course. */
-const DECLARED_LATE_OWED = 21
+const DECLARED_LATE_OWED = 20
 /** Terms no alias of which appears anywhere: dead entries, or an alias that is simply wrong. */
 const NEVER_APPEARS_OWED = 5
 
