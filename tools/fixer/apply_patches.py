@@ -86,6 +86,43 @@ def find_bad_patches(landed: list[tuple[dict, Path]],
     return bad
 
 
+def load_held(result_path: Path) -> list[dict]:
+    """The definitions this round's section holds for the whole course, if the brief listed any."""
+    side = result_path.parent / f"{result_path.name.split('.')[0]}.held_definitions.json"
+    return json.loads(side.read_text(encoding="utf-8")) if side.exists() else []
+
+
+def _plain(ts: str) -> str:
+    """A TypeScript string body as the learner reads it, so `\\'` matches the event text's `'`."""
+    return re.sub(r"\\(.)", r"\1", ts)
+
+
+def deletes_held_definition(anchor: str, repl: str, held: list[dict]) -> list[str]:
+    """Concepts whose course-wide earliest definition this patch deletes outright.
+
+    Outright means the anchor contains the defining sentence and the replacement names the
+    concept under none of its names. A reword that keeps the term passes and the gate judges
+    it; so does a patch that never touches the sentence. The narrowness is deliberate: this
+    refuses one patch, and a refusal on a false positive costs a finding that is still open.
+
+    Why it exists: the brief states each held definition and what removing it exposes, and on
+    2026-09-26 codex removed S02's theory[4] anyway - the only definition of `unpacking` in the
+    course - reasoning that it "is taught later". The gate caught it as never_explained 11 -> 12,
+    which fails the whole round; before this, five rounds were lost or hand-salvaged that way.
+    """
+    a, r = _plain(anchor), _plain(repl)
+    lost = []
+    for h in held:
+        names = [n for n in h.get("names", []) if n]
+        if not names or not h.get("text"):
+            continue
+        rx = re.compile(r"(?<!\w)(?:" + "|".join(map(re.escape, names)) + r")(?!\w)", re.I)
+        defining = [s for s in re.split(r"(?<=[.!?])\s+", h["text"]) if rx.search(s)]
+        if any(s.strip() and s.strip() in a for s in defining) and not rx.search(r):
+            lost.append(h["concept"])
+    return lost
+
+
 def main() -> int:
     result_path = Path(sys.argv[1])
     apply = "--apply" in sys.argv
@@ -165,6 +202,7 @@ def main() -> int:
                 return re.sub(r"(?<!\\)" + re.escape(delim), esc, repl), len(bare)
         return repl, 0
 
+    held = load_held(result_path)
     applied, rejected, repaired = [], [], []
     landed: list[tuple[dict, Path]] = []   # the source patch for each applied entry, for bisection
     for i, p in enumerate(data.get("patches", [])):
@@ -188,6 +226,14 @@ def main() -> int:
         if anchor == repl:
             rejected.append({**{k: p[k] for k in ("finding_ids", "field_path")},
                              "reason": "replacement identical to anchor"})
+            continue
+        lost = deletes_held_definition(anchor, repl, held)
+        if lost:
+            rejected.append({**{k: p[k] for k in ("finding_ids", "field_path")},
+                             "reason": "deletes the course's earliest definition of "
+                                       + ", ".join(f"`{c}`" for c in lost)
+                                       + "; the brief listed it as held - raise it instead",
+                             "anchor_head": anchor[:120]})
             continue
         repl, fixed = matched_escaping(anchor, repl)
         if fixed:

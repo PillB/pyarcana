@@ -85,7 +85,7 @@ def code_scope_rule(practice_in_scope: bool) -> str:
             "  may not.")
 
 
-def definitions_this_section_holds(cmap: dict, tag: str, slugs: list[str]) -> str:
+def held_definitions(cmap: dict, tag: str, slugs: list[str]) -> list[dict]:
     """What breaks if this round removes a definition that lives here.
 
     The brief below is computed from the concept map BEFORE the round. It tells codex how many
@@ -107,10 +107,15 @@ def definitions_this_section_holds(cmap: dict, tag: str, slugs: list[str]) -> st
     Each was diagnosed after the fact and the patch held back. Stating the number up front is
     cheaper, and it is the same move that stopped the place-name cap destroying rounds: codex
     cannot weigh a constraint nobody told it about.
+
+    Telling it is not enough on its own. On 2026-09-26 the S02 brief said `unpacking` "disappears
+    from the whole course" if theory[4] went, and codex deleted theory[4] with the rationale that
+    unpacking "is taught later". So the list is also written for `apply_patches.py`, which
+    refuses a patch that deletes one of these outright - see `write_held_definitions`.
     """
     # The map records a section as its tag (S04), while `slugs` is the slug order; key by tag.
     order = {f"S{i + 1:02d}": i for i in range(len(slugs))}
-    rows = []
+    held = []
     for cid, c in cmap.items():
         d = c.get("first_definition")
         if not d or d.get("section") != tag:
@@ -131,20 +136,44 @@ def definitions_this_section_holds(cmap: dict, tag: str, slugs: list[str]) -> st
                      if u.get("visible") and order.get(u["section"], 99) < limit)
         exposed = masked - len(c.get("surprising_uses", []))
         if exposed > 0:
-            where = f"moves to {nxt['section']}" if nxt else "disappears from the whole course"
-            rows.append((exposed, f"  - `{cid}` is defined here, at {d['location']} ({d['kind']}).\n"
-                                  f"    Remove or reword that and the definition {where}, exposing at least "
-                                  f"{exposed} further uses at once."))
+            held.append({"concept": cid, "location": d["location"], "kind": d["kind"],
+                         "moves_to": nxt["section"] if nxt else None, "exposed": exposed})
+    return sorted(held, key=lambda h: -h["exposed"])
+
+
+def definitions_this_section_holds(cmap: dict, tag: str, slugs: list[str]) -> str:
+    """The brief's rendering of `held_definitions`."""
+    rows = []
+    for h in held_definitions(cmap, tag, slugs)[:8]:
+        where = f"moves to {h['moves_to']}" if h["moves_to"] else "disappears from the whole course"
+        rows.append(f"  - `{h['concept']}` is defined here, at {h['location']} ({h['kind']}).\n"
+                    f"    Remove or reword that and the definition {where}, exposing at least "
+                    f"{h['exposed']} further uses at once.")
     if not rows:
         return "This section holds no concept's earliest definition, so nothing here is load-bearing that way."
-    rows.sort(reverse=True)
     return ("Each of these is the earliest definition of its concept in the course. Removing one is\n"
             "sometimes right - a section should not pre-announce what another teaches - but it is\n"
             "never free, and the cost does not appear in the list above:\n\n"
-            + "\n".join(r for _, r in rows[:8])
+            + "\n".join(rows)
             + "\n\nIf you judge one should go, say so in `unresolved_questions` with the count, rather\n"
               "than removing it and leaving the uses behind. A round that trades one masked concept\n"
               "for dozens of exposed ones is rejected whole, and every other patch in it is lost.")
+
+
+def write_held_definitions(cmap: dict, tag: str, payload: dict) -> Path:
+    """The held definitions with their sentence text and every name of the concept.
+
+    Named `{tag}k.*` like the rest of a concepts round's files, so `run_concepts.sh` clears it
+    with them and `apply_patches.py` finds it beside `{tag}k.result.json`. A stale list from
+    another round can therefore never guard this one.
+    """
+    text = {e["location"]: e["text"] for e in payload["events"]}
+    names = {t["id"]: t.get("names", []) for t in payload["terms"]}
+    rows = [{**h, "text": text.get(h["location"], ""), "names": names.get(h["concept"], [])}
+            for h in held_definitions(cmap, tag, payload["active_section_ids"])]
+    out = ROOT / f".fixer/{tag}k.held_definitions.json"
+    out.write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
+    return out
 
 
 def concept_row(cid: str, c: dict, tag: str) -> dict | None:
@@ -197,6 +226,7 @@ def main() -> int:
 
     cmap = json.loads((ROOT / "course-state/concept_map.json").read_text(encoding="utf-8"))
     glossary = {t["id"]: t for t in payload["terms"]}
+    write_held_definitions(cmap, tag, payload)
 
     todo = [row for cid, c in cmap.items()
             if (row := concept_row(cid, c, tag)) is not None]

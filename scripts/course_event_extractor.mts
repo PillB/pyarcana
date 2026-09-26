@@ -409,7 +409,11 @@ for (const s of COURSE_SECTIONS) {
 
 const payload = {
   active_section_ids: COURSE_SECTIONS.map((s) => s.id),
-  terms: GLOSSARY_TERMS.map((t) => ({ id: t.id, firstSectionId: t.firstSectionId })),
+  // Names as well as ids: apply_patches.py needs them to tell a patch that rewords a held
+  // definition (the term survives) from one that deletes it (no name of it survives).
+  terms: GLOSSARY_TERMS.map((t) => ({
+    id: t.id, firstSectionId: t.firstSectionId, names: [t.term, ...(t.aliases ?? [])],
+  })),
   events,
 }
 process.stdout.write(JSON.stringify(payload))

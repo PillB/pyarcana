@@ -604,3 +604,33 @@ noise level is low: 10 of 268 were clear homonyms (3.7%), not the large fraction
 global string replace broke two sibling tests in the same file, because the pattern being
 replaced appeared in three tests and only one needed it. Scope an edit to the assertion it is
 meant to fix, and run the file before moving on.
+
+### A brief can carry the defect it forbids (2026-09-26, S02 practice layer, route 2)
+
+S02's first route-2 round cut in-section surprises 31 → 19 and the course total 152 → 147, and
+still failed three measures. None of the three was codex writing bad Spanish. Two came from the
+brief, and the third came from codex overriding a fact the brief had stated.
+
+- *A pinned phrase is copied, defects included.* The brief listed six You Do phrases a test
+  requires verbatim, one of them «muestra un input problemático». Codex kept it and wrote
+  «un input problemático» twice more in the new You Do. `avoidable_english_per_1000` went
+  2.3 → 2.8. In S02 it is also a homonym, because the section teaches `input()`. **Never pin
+  or quote a phrase that carries an anglicism. Fix the phrase first, then pin it.**
+- *A prohibition reads as a deletion order.* «Do NOT reproduce … tuple returns» sat beside
+  «keep the course's earliest definitions». Codex resolved the conflict by deleting theory[4]
+  («Tres resultados que viajan juntos»), the only definition of `unpacking` in 52 sections. Its
+  rationale was «se enseñan más adelante», and the brief's held-definitions block had said the
+  opposite in so many words. `never_explained` went 11 → 12 and 7 uses in S06/S36 were exposed.
+  **When a brief forbids a construct, name the defining block that must stay.**
+  The applier now enforces this as well: `apply_patches.py` refuses a patch whose anchor holds
+  a listed definition's sentence and whose replacement names the concept under none of its
+  names (`test_patch_held_definition.py`). Replayed on the real round, it refuses exactly that
+  patch of the 11 and passes the other 10. This is the fifth round this failure class has cost.
+- *A rewritten self-check moved its answer.* The new question put the correct option first;
+  `correctIndex` went 1 → 0 and broke the section's answer-position balance. **When rewriting
+  a question, keep its `correctIndex` and order the options around it.**
+
+Salvage, not rerun: the refused patch was reverted by splicing the original block back at its
+exact offset, after checking that both 400-character neighbourhoods matched. The ten good
+patches stayed. The tuple block may leave S02 once S06 teaches tuples and unpacking. A
+definition moves only after its successor exists.
