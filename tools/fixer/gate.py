@@ -81,6 +81,21 @@ def strict_mismatches(tag: str) -> int | None:
     return json.loads(out.read_text(encoding="utf-8"))["counts"].get("mismatch", 0)
 
 
+def readiness_findings(report: dict) -> int:
+    """How much the badges and capstones claim that the course has not taught by then.
+
+    The required-skills map (badge_readiness_audit.py). A round can reach zero surprising uses
+    and still leave a credential claiming a skill its sections no longer teach; the owner asked
+    on 2026-09-26 that skills keep pace with outcomes, badges, projects and capstones, and a
+    rule that is only remembered is how D2 shipped a DNI after it was decided.
+
+    Each row counts by its `count`, not by its term list: the report truncates `terms` to 12
+    (`progress_journey_completed` carried 39 behind a list of 12), so a list length would let a
+    row grow unseen. A row with no count - PREREQUISITE_TAUGHT_LATER - is one finding.
+    """
+    return sum(int(f.get("count", 1)) for f in report.get("failures", []) + report.get("warnings", []))
+
+
 def measure(tag: str) -> dict:
     """What a round may not make worse, for this section and the course."""
     ev = sh(["npx", "tsx", "scripts/course_event_extractor.mts"])
@@ -131,8 +146,15 @@ def measure(tag: str) -> dict:
     num = int(tag[1:])
     ids_here = sum(1 for f in ids.get("findings", []) if f"/s{num:02d}-" in f["file"])
 
+    # After first_use_all, whose report it reads. Exits 1 while any finding remains.
+    ready = fresh_report(["python3", "scripts/badge_readiness_audit.py"],
+                         ROOT / "course-state/badge_readiness_report.json", ok_codes=(0, 1))
+
     return {
         "identifier_values_in_section": ids_here,
+        # Course-wide, because a round in one section changes what every badge requiring it
+        # can claim. See LESSON_READINESS.md: the second map, read and diffed every round.
+        "readiness_findings_course_wide": readiness_findings(ready),
         "never_explained": never,
         "surprising_uses_course_wide": surprising_total,
         f"{INFORMATIONAL}used_before_explained": surprising,

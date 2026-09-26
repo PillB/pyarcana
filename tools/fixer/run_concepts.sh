@@ -20,6 +20,7 @@ REPORTS=(
   "course-state/prose_quality_report.json"
   "course-state/synthetic_identifier_report.json"
   "course-state/python_runtime_audit_report.json"
+  "course-state/badge_readiness_report.json"
   ".fixer/events.json"
 )
 

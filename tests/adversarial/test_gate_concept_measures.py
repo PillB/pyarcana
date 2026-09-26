@@ -161,3 +161,36 @@ class FirstUseIssueCounting(unittest.TestCase):
         source = (ROOT / "tools/fixer/gate.py").read_text(encoding="utf-8")
         self.assertIn('"used-before-defined"', source)
         self.assertNotIn('sum(fu.get("issue_counts", {}).values())', source)
+
+
+class ReadinessFindings(unittest.TestCase):
+    """The required-skills map is gated, so skills keep pace with what credentials claim.
+
+    Synthetic reports shaped like badge_readiness_report.json, driving gate.py's own helper
+    and verdict function.
+    """
+
+    @staticmethod
+    def report(*rows_w, fails=()):
+        return {"failures": list(fails), "warnings": list(rows_w)}
+
+    def test_a_row_counts_by_its_count_not_its_truncated_term_list(self):
+        row = {"badge": "progress_journey_completed", "code": "CLAIMS_UNTAUGHT_VOCABULARY",
+               "count": 39, "terms": [f"t{i}" for i in range(12)]}
+        self.assertEqual(gate.readiness_findings(self.report(row)), 39)
+
+    def test_a_failure_without_a_count_is_one(self):
+        fail = {"badge": "x", "code": "PREREQUISITE_TAUGHT_LATER", "detail": "needs S52"}
+        self.assertEqual(gate.readiness_findings(self.report(fails=[fail])), 1)
+
+    def test_a_badge_claiming_one_more_untaught_term_fails_the_round(self):
+        before = self.report({"badge": "b", "code": "CLAIMS_UNTAUGHT_VOCABULARY", "count": 2})
+        after = self.report({"badge": "b", "code": "CLAIMS_UNTAUGHT_VOCABULARY", "count": 3})
+        key = "readiness_findings_course_wide"
+        self.assertEqual(gate.regression_verdict(
+            key, gate.readiness_findings(before), gate.readiness_findings(after)), "worse")
+
+    def test_the_gate_measures_it_and_the_runner_restores_it(self):
+        gate_src = (ROOT / "tools/fixer/gate.py").read_text(encoding="utf-8")
+        self.assertIn('"readiness_findings_course_wide": readiness_findings(ready)', gate_src)
+        self.assertIn('"scripts/badge_readiness_audit.py"', gate_src)
