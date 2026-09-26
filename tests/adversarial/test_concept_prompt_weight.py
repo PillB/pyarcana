@@ -98,6 +98,14 @@ class ConceptPromptWeight(unittest.TestCase):
     def test_a_concept_with_no_problem_here_is_not_in_this_sections_prompt(self):
         self.assertIsNone(concept_row("x", concept(depth="L2", uses=[use("S06")]), "S33"))
 
+    def test_every_use_is_listed_never_a_sample(self):
+        """The list was cut at eight. S02's `dict` had ten uses; codex fixed the eight it was
+        shown and the round closed with two in place that nobody had mentioned to it."""
+        uses = [use("S02", location=f"basics.p{i}") for i in range(12)]
+        row = concept_row("dict", concept(depth="L3", uses=uses), "S02")
+        self.assertEqual(len(row["used_here_at"]), row["times_used_here"])
+        self.assertEqual(row["used_here_at"][-1], "basics.p11")
+
     def test_the_live_course_agrees(self):
         """The same property against real data, skipped once the population is gone.
 

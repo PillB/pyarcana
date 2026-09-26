@@ -634,3 +634,19 @@ Salvage, not rerun: the refused patch was reverted by splicing the original bloc
 exact offset, after checking that both 400-character neighbourhoods matched. The ten good
 patches stayed. The tuple block may leave S02 once S06 teaches tuples and unpacking. A
 definition moves only after its successor exists.
+
+### A clean section the instrument could not see (2026-09-26, S02)
+
+S02 closed its route-2 rounds at "2 surprising uses" with two dict literals still in place. One
+was a nested `{"types": {"edad": "str"}}` in `S02-T4-A-E3`, the other a `c = {...}` printed by
+the optional contract block. A dict literal never says "dict", and the extractor finds concepts by
+name, so both were invisible. It is fixed for dict (`scripts/concept_syntax.mts`). The measure
+went 123 → 143, and every one of the 22 added uses was there before the change. The same
+change stopped counting the `for` in the title *Python for Everybody*, which no rewrite could
+remove. **When a section reaches low single digits, read its code for constructs used without
+their name before calling it done.** Tuple unpacking, comprehensions and f-strings have the same
+shape and are not yet covered.
+
+The brief had also cut each concept's location list at eight. S02's `dict` had ten, and codex
+fixed the eight it was shown. A list handed to codex is complete, or it states how much it
+leaves out.

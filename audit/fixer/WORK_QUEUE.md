@@ -262,6 +262,28 @@ Decisions L1Q3-1 (already decided by D9) and L1Q3-5 carry the detail.
   `commit`/`Conventional Commits`, `list`/`List comprehension`, `dict`/`Dict comprehension`,
   `recall`/`precisión y recall`. Measured, not guessed: 17 containments over those six pairs.
 
+- **«diccionario» is not an alias of `dict`, and S01 uses it for something else (2026-09-26).**
+  Spanish is canonical, so the concept's Spanish name should count: 61 events from S02 onward say
+  «diccionario» for a Python dict and the matcher sees none of them. It cannot simply be added.
+  S01 says «diccionario» six times for a *data dictionary*, the README table that documents CSV
+  columns («Un repo sin README ni diccionario…», `S01-T4-B.p2`, `S01-T4-B-E3`, `youDo`). The
+  alias would count those as surprising uses of dict. It would also make the site's glossary
+  hover show dict's definition on them, which misleads learners and not just the gate. Order: S01
+  says «diccionario de datos» (codex), then the alias lands with a phrase exemption and a test.
+- **B5 false positive: «distinguir X de Y».** `b5_constructions` reads «distinguir asignación de
+  comparación» (`S02 outcome[2]`, `S02-T2-A-E2.preamble`) as a nominal chain. That «de» means
+  "from", and a verb already governs it. It was in the S02 baseline, so no round paid for it, but
+  it counts against every section that says "tell X from Y". Falsify first: collect every B5 hit
+  whose chain follows «distinguir|separar|diferenciar» and read them.
+- **The concepts brief still caps the auditors' findings at 25** (`build_concept_prompt.py`,
+  `audit_findings[:25]`). That is context, not the task list, but it is silent. Say how many
+  were left out.
+- **The `dict` question is now measured (2026-09-26).** With literals visible, `dict` has 38
+  surprising uses: S02 3, S03 12, S04 23. Its earliest credited definition is still the S04 weDo
+  preamble `S04-T4-A-E3`, the same wrong-surface shape `for` had. Dicts are S06's subject
+  (route 2), so S02–S04 should stop using them. That is the practice-layer work for those
+  three sections.
+
 ## Deferred, with a decision attached
 
 21. **Q3 route** (S02-S04 practice layer, CP-N1-A) — 12 rows wait on it; interacts with D10.

@@ -15,6 +15,7 @@
  */
 import { COURSE_SECTIONS } from '../src/lib/course/index'
 import { GLOSSARY_TERMS, aliasIsAcronym } from '../src/lib/glossary/terms'
+import { blankProperNames, syntaxMentions } from './concept_syntax.mts'
 
 type Ev = {
   section_id: string
@@ -300,19 +301,28 @@ function push(
   const defines: string[] = []
   const requires: string[] = []
 
+  // Matched on a copy with proper names blanked; definesTerm() still reads the original `t`,
+  // and blanking keeps every offset valid. See scripts/concept_syntax.mts.
+  const scan = blankProperNames(t)
   for (const term of terms) {
     // Every occurrence, not just the first: a text often names a term and defines it a clause
     // later - "añade Python y Ruff; Ruff es un programa que señala errores". Testing only the
     // first hit missed that entirely, because the `;` blocks the definition cue, and `ruff`
     // scored "never explained" across 39 uses while its definition sat in the same sentence.
     const hits = [
-      ...(term.re ? t.matchAll(term.re) : []),
-      ...(term.reExact ? t.matchAll(term.reExact) : []),
+      ...(term.re ? scan.matchAll(term.re) : []),
+      ...(term.reExact ? scan.matchAll(term.reExact) : []),
     ]
     if (hits.length === 0) continue
     mentions.push(term.id)
     if (hits.some((m) => definesTerm(t, m.index!, m[0].length, kind, term.aliases))) defines.push(term.id)
     if (REQUIRING.has(kind)) requires.push(term.id)
+  }
+  // A use through syntax is a use; it never counts as a definition.
+  for (const id of syntaxMentions(t)) {
+    if (mentions.includes(id) || !terms.some((x) => x.id === id)) continue
+    mentions.push(id)
+    if (REQUIRING.has(kind)) requires.push(id)
   }
 
   events.push({

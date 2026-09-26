@@ -144,7 +144,7 @@ def held_definitions(cmap: dict, tag: str, slugs: list[str]) -> list[dict]:
 def definitions_this_section_holds(cmap: dict, tag: str, slugs: list[str]) -> str:
     """The brief's rendering of `held_definitions`."""
     rows = []
-    for h in held_definitions(cmap, tag, slugs)[:8]:
+    for h in held_definitions(cmap, tag, slugs):
         where = f"moves to {h['moves_to']}" if h["moves_to"] else "disappears from the whole course"
         rows.append(f"  - `{h['concept']}` is defined here, at {h['location']} ({h['kind']}).\n"
                     f"    Remove or reword that and the definition {where}, exposing at least "
@@ -205,7 +205,9 @@ def concept_row(cid: str, c: dict, tag: str) -> dict | None:
         "load_bearing": bool(examples_here or checks_here or promised_here or len(here) >= 4),
         "never_explained_anywhere": c["depth"] == "L0",
         "explained_currently_at": (c["first_definition"] or {}).get("location", None),
-        "used_here_at": [u["location"] for u in here][:8],
+        # Every location, never a sample. This was `[:8]`: S02's `dict` had 10 uses, codex was
+        # shown 8, fixed all 8, and the round ended with the other two in place and unmentioned.
+        "used_here_at": [u["location"] for u in here],
         "used_in_sections": c["sections_used"],
         "has_worked_example": len(examples_here) > 0,
         "tested_in_selfcheck": len(checks_here) > 0,
