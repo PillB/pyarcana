@@ -33,6 +33,82 @@ NOMINALISATION = re.compile(r"\b\w+(ción|ciones|miento|mientos|idad|idades|anza
 GERUND = re.compile(r"\b\w+(ando|iendo)\b", re.I)
 META = re.compile(r"\b(TODO|FIXME|as an AI|como modelo|lorem ipsum)\b", re.I)
 
+# --- Writing rule B5, as decision D7 defines it -------------------------------------------
+#
+# D7 (2026-09-15) ruled that the gate must stop failing rounds on `nominalisations_per_100w` -
+# the density of -ción/-miento/-idad words - because that proxy punished the very fix the
+# Spanish pass exists to make: translating an English noun to a Spanish noun (release ->
+# lanzamiento) is not what B5 forbids. It named three shapes to count instead.
+#
+# The gate has been reading `prose.get("b5_per_100_sentences")` ever since, and nothing has
+# ever written that key: `git log -S` finds one commit, the one that added the consuming line.
+# So the value was None in all 19 snapshots, the verdict was "unmeasurable", and it was never
+# appended to the failures. D7 has never once been enforced. These three patterns are it.
+#
+# It is a regex over Spanish and D7 says so plainly: it has false positives ("la versión del
+# lanzamiento" reads as a chain) and will miss unusual light verbs. That is tolerable ONLY
+# because it is gated as a regression - a false positive present before and after costs
+# nothing - and because the suffix density stays visible as info.
+# `-sión/-siones` is the same nominalising family after a sibilant stem - regresión,
+# decisión, revisión, precisión - and D7 names only "-ción, -miento, -idad, -anza,
+# -encia". Its own cited S28 regression is "regresiones del emparejamiento", which that
+# list cannot match, so the decision as written could not catch the case it was written
+# for. Found by running D7's four examples against the implementation.
+_NOM = r"\w*(?:ci[oó]n|ciones|si[oó]n|siones|miento|mientos|idad|idades|anza|anzas|encia|encias)"
+
+#: 1. A nominalisation doing the acting, where a verb should. D7's example:
+#:    "La validación del registro produce el rechazo" -> "el validador rechaza el registro".
+B5_ACTOR = re.compile(
+    rf"(?:^|(?<=[.!?;:]\s))\s*(?:La|El|Las|Los)\s+{_NOM}\b[^.!?;]{{0,60}}?"
+    rf"\s(?:produce|produjo|genera|generó|provoca|causa|permite|impide|requiere|exige|"
+    rf"determina|afecta|garantiza|implica|evita)\b", re.I | re.M)
+
+#: 2. A light verb carrying an action that belongs in the noun. "realizar la comprobación".
+B5_LIGHT = re.compile(
+    rf"\b(?:realiza|realizar|realizan|efect[uú]a\w*|efectuar|llevar\s+a\s+cabo|lleva\s+a\s+cabo|"
+    rf"proceder\s+a|procede\s+a|proporcionar|proporciona)\s+"
+    rf"(?:la|el|las|los|una|un|unas|unos)?\s*{_NOM}\b", re.I)
+
+#: 3. Nominalisations stacked with `de`. "la ejecución de la validación".
+# `del?` because Spanish contracts de+el. The first version required whitespace after "de",
+# so "regresiones DEL emparejamiento" - D7's own cited S28 regression - never matched, and
+# neither did the false positive D7 admits to ("la versión del lanzamiento"). Running the
+# decision's four examples against the code is what found both.
+B5_CHAIN = re.compile(rf"\b{_NOM}\s+del?\s+(?:la|el|las|los|una|un)?\s*{_NOM}\b", re.I)
+
+
+def glossary_names() -> set[str]:
+    """Terms and aliases the course owns, which B5 must not penalise.
+
+    D7 excludes names: "glossary terms and aliases, and terms a section introduces in bold".
+    `validación cruzada` is the name of a thing, not a nominal chain someone should have
+    written as a verb. Read straight out of the TS source, the way code_switching_audit.py
+    reads the anglicism list, because .fixer/events.json carries only term ids.
+    """
+    src = (ROOT / "src/lib/glossary/terms.ts").read_text(encoding="utf-8")
+    out: set[str] = set()
+    for m in re.finditer(r"\n    term: '([^']+)'|aliases:\s*\[([^\]]*)\]", src):
+        if m.group(1):
+            out.add(m.group(1).lower())
+        elif m.group(2):
+            out.update(a.lower() for a in re.findall(r"['\"]([^'\"]+)['\"]", m.group(2)))
+    return {n for n in out if len(n) > 3}
+
+
+def b5_constructions(text: str, names: set[str]) -> list[str]:
+    """Every B5 construction in the text, with the course's own names excluded."""
+    bolded = {m.group(1).lower() for m in re.finditer(r"\*\*([^*]{4,60})\*\*", text)}
+    exempt = names | bolded
+    hits = []
+    for rx in (B5_ACTOR, B5_LIGHT, B5_CHAIN):
+        for m in rx.finditer(text):
+            span = m.group(0).strip()
+            low = span.lower()
+            if any(n in low for n in exempt):
+                continue
+            hits.append(span)
+    return hits
+
 
 def syllables(word: str) -> int:
     groups = re.findall(rf"[{VOWELS}]+", word.lower())
@@ -62,7 +138,7 @@ def terminated(text: str) -> str:
     return text if re.search(r"[.!?]\s*$", text) else text + "."
 
 
-def analyse(text: str) -> dict:
+def analyse(text: str, names: set[str] | None = None) -> dict:
     words = re.findall(r"\b[\wÁÉÍÓÚÜÑáéíóúüñ]+\b", text)
     sents = sentences(text)
     if not words or not sents:
@@ -70,6 +146,7 @@ def analyse(text: str) -> dict:
     spw = sum(syllables(w) for w in words) / len(words)
     wps = len(words) / len(sents)
     fh = 206.84 - 60 * spw - 1.02 * wps
+    b5 = b5_constructions(text, names if names is not None else set())
     long_s = [s for s in sents if len(re.findall(r"\b\w+\b", s)) > 32]
     runon = [s for s in sents if len(re.findall(r"\b\w+\b", s)) > 45]
     return {
@@ -79,7 +156,10 @@ def analyse(text: str) -> dict:
         "fernandez_huerta": round(fh, 1),
         "long_sentences": len(long_s),
         "run_on_sentences": len(runon),
+        # D7: the suffix density stays VISIBLE but is no longer what fails a round.
         "nominalisations_per_100w": round(100 * len(NOMINALISATION.findall(text)) / len(words), 1),
+        "b5_nominal_constructions": len(b5),
+        "b5_per_100_sentences": round(100 * len(b5) / len(sents), 1),
         "gerunds_per_100w": round(100 * len(GERUND.findall(text)) / len(words), 1),
         "commas_per_sentence": round(text.count(",") / len(sents), 1),
         "meta_leaks": len(META.findall(text)),
@@ -103,12 +183,13 @@ def main() -> int:
         if e["kind"] in PROSE and e["learner_visible"]:
             by_section.setdefault(e["section_id"], []).append(e["text"])
 
+    names = glossary_names()
     rows = {}
     for i, slug in enumerate(payload["active_section_ids"], 1):
         text = "\n".join(terminated(t) for t in by_section.get(slug, []))
         if not text:
             continue
-        m = analyse(text)
+        m = analyse(text, names)
         m["section"] = f"S{i:02d}"
         rows[f"S{i:02d}"] = m
 
