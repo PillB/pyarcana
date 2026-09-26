@@ -59,6 +59,32 @@ def place_name_budget(path: Path) -> str:
             f"Ayacucho, Trujillo, Chiclayo, Iquitos, Huancayo.")
 
 
+def code_scope_rule(practice_in_scope: bool) -> str:
+    """The hard constraint on code, stated so the prompt never contradicts itself.
+
+    By default a concepts round is prose-only and code is frozen, which is right: most rounds
+    teach a term, and a code block and its `output:` must keep matching.
+
+    But D14 and route 2 put the PRACTICE LAYER in scope for S02-S04, and every amendment asking
+    for exercises to be rebuilt sat beneath a template line reading "Do not change code, declared
+    output...". Codex noticed both times and asked which wins instead of guessing - S02 ("¿Se
+    levanta para esta ronda la prohibición de cambiar código?") and S03 ("¿Debe prevalecer la
+    orden de ROUND TWO ... o la restricción anterior?") - and each round came back prose-only.
+    A prompt that contradicts itself costs a round to resolve, and the right place to resolve it
+    is the template, not an amendment underneath it.
+    """
+    if not practice_in_scope:
+        return ("- Do not change code, declared output, identifiers, headings of existing blocks, or\n"
+                "  exercise ids. A code block and its `output:` must keep matching; the runtime audit\n"
+                "  executes them.")
+    return ("- THE PRACTICE LAYER IS IN SCOPE for this section (decision D14, route 2). You MAY change\n"
+            "  code, `starterCode`, `solutionCode`, `tests` and declared `output` - always TOGETHER, so\n"
+            "  every code block and its `output:` still match line for line; the runtime audit executes\n"
+            "  them all. You may NOT change exercise ids, the exercise count, or the headings of\n"
+            "  existing blocks, and D14's rule holds: an exercise's objective may change, its worth\n"
+            "  may not.")
+
+
 def definitions_this_section_holds(cmap: dict, tag: str, slugs: list[str]) -> str:
     """What breaks if this round removes a definition that lives here.
 
@@ -161,6 +187,8 @@ def concept_row(cid: str, c: dict, tag: str) -> dict | None:
 
 def main() -> int:
     tag = sys.argv[1]
+    # D14 sections (S02-S04 under route 2) rebuild exercises; everything else stays prose-only.
+    practice_in_scope = "--practice-layer" in sys.argv[2:]
     num = int(tag.lstrip("Ss"))
     payload = json.loads((ROOT / ".fixer/events.json").read_text(encoding="utf-8"))
     slugs = payload["active_section_ids"]
@@ -263,9 +291,7 @@ HARD CONSTRAINTS:
 - Define using only what earlier sections taught. The vocabulary already available is
   listed below; anything outside it must be explained here too, or avoided.
 - Never explain a term with itself. "Un validador valida" teaches nothing.
-- Do not change code, declared output, identifiers, headings of existing blocks, or
-  exercise ids. A code block and its `output:` must keep matching; the runtime audit
-  executes them.
+{code_scope_rule(practice_in_scope)}
 - Preserve what already works. Repair the gap, do not rewrite the section.
 - If teaching a concept properly needs a decision you cannot make from the evidence,
   leave it and raise it in `unresolved_questions`.

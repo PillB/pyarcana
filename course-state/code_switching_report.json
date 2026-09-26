@@ -91,10 +91,10 @@
  },
  "S03": {
   "section": "S03",
-  "prose_words": 8646,
+  "prose_words": 8689,
   "english_function_words": 0,
   "ordinary_english_words": 1,
-  "kept_technical_terms": 14,
+  "kept_technical_terms": 13,
   "avoidable_english_per_1000": 0.1,
   "top_terms": [
    [

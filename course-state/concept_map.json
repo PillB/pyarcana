@@ -21450,18 +21450,6 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T1-A-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-A-E2.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T1-A-E2.starter",
     "kind": "wedo.starter",
     "visible": true
@@ -32183,18 +32171,6 @@
     "section": "S03",
     "location": "decisions-rules.S03-T4-B-DEMO.code",
     "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-A-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-A-E2.hint[0]",
-    "kind": "wedo.hint",
     "visible": true
    },
    {
@@ -89931,12 +89907,6 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T3-A-E3.starter",
     "kind": "wedo.starter",
     "visible": true
@@ -99970,12 +99940,6 @@
     "section": "S02",
     "location": "basics.youDo.starter",
     "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E3.preamble",
-    "kind": "wedo.preamble",
     "visible": true
    },
    {
@@ -123580,12 +123544,6 @@
   "uses": [
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.youDo.starter",
     "kind": "youdo.starter",
     "visible": true
@@ -124005,8 +123963,8 @@
   ],
   "first_use": {
    "section": "S03",
-   "location": "decisions-rules.S03-T3-A-E1.retrospective",
-   "kind": "wedo.retrospective",
+   "location": "decisions-rules.youDo.starter",
+   "kind": "youdo.starter",
    "visible": true
   },
   "first_definition": {
@@ -124031,12 +123989,6 @@
   ],
   "depth": "L1",
   "surprising_uses": [
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
    {
     "section": "S03",
     "location": "decisions-rules.youDo.starter",

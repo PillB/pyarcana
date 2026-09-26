@@ -937,9 +937,9 @@ True`,
         id: 'S03-T1-A-E2',
         instruction:
           '1. Mantén `TIPOS_DOC = {"DNI", "CE", "PAS"}`.\n2. Recorre `["DNI", "dni", "RUC"]`.\n3. Sustituye el DEFECT (`t == "DNI"`) por `t in TIPOS_DOC`.\n4. Imprime `t →` y el booleano en cada iteración.',
-        hint: 'for t in lista: print(t, "→", t in TIPOS_DOC)',
+        hint: 'Comprueba por separado `"DNI" in TIPOS_DOC`, `"dni" in TIPOS_DOC` y `"RUC" in TIPOS_DOC`.',
         hints: [
-          'for t in lista: print(t, "→", t in TIPOS_DOC)',
+          'Escribe un `print` para cada uno de los tres valores y conserva el mismo orden.',
           'La comparación distingue mayúsculas de minúsculas: "dni" ≠ "DNI". RUC no está en el conjunto.',
         ],
         edgeCases: ['case sensitivity de códigos'],
@@ -1418,7 +1418,7 @@ for e in [None, "25", 15, 30]:
           'Invierte el anidamiento: un if + return por precondición. No reescribas la política: solo el estilo.',
           'Compara salidas nested vs. guards en [None, "x", -1, 0, 500, 20000]; deben coincidir.',
         ],
-        edgeCases: ['mantener semántica idéntica', 'valor atípico > 10000 → review'],
+        edgeCases: ['mantener semántica idéntica', 'valor mayor que 10000 → review'],
         tests: 'same outputs que nested en [None, "x", -1, 0, 500, 20000]',
         feedback: 'Misma matriz, menos indentación: la mejora se nota durante la revisión porque el código es más fácil de mantener.',
         retrospective:
@@ -1580,7 +1580,7 @@ ok 0 → cero`,
         feedback:
           'Si `None` o `Tacna` salen `reject`, aún aplicas un rechazo definitivo. En esta política, la ausencia y el valor desconocido pasan a **review**; solo la lista permitida produce accept.',
         retrospective:
-          'Explica la diferencia entre “el catálogo no reconoce el valor” y “el valor viola una regla”. ¿Qué dato adicional permitiría resolver `Tacna` desde `review`? Si no existe una acción posible, reconsidera la política; si sí existe, `reject` sería prematuro. En E2 combinarás esta idea con un valor atípico numérico.',
+          'Explica la diferencia entre “el catálogo no reconoce el valor” y “el valor viola una regla”. ¿Qué dato adicional permitiría resolver `Tacna` desde `review`? Si no existe una acción posible, reconsidera la política; si sí existe, `reject` sería prematuro. En E2 combinarás esta idea con un monto que supera el umbral de revisión.',
         starterCode: {
           language: 'python',
           title: 'allowlist_regiones.py',
@@ -1680,7 +1680,7 @@ for m in [None, -1, 0, 1200, 60000]:
         kind: 'transfer',
         title: 'Tipo de documento y longitud (códigos)',
         preamble:
-          '- **Contexto:** DNI/CE/PAS tienen longitudes distintas; fallos de catálogo y de longitud deben llevar **códigos distintos**.\n- **Meta:** devolver dict `{status, code}` con MISSING, NOT_IN_ALLOWLIST, OUT_OF_RANGE, OK.\n- **Éxito:** DNI+8→OK; DNI corto→OUT_OF_RANGE; RUC→NOT_IN_ALLOWLIST; None→MISSING.\n- **Límites:** orden guards: ausencia → allowlist → longitud; no un solo `"reject"` genérico.',
+          '- **Contexto:** DNI/CE/PAS tienen longitudes distintas; fallos de catálogo y de longitud deben llevar **códigos distintos**.\n- **Meta:** guardar la decisión en `status` y la causa en `code`, como dos variables separadas.\n- **Éxito:** DNI+8→`accept` y `OK`; DNI corto→`reject` y `OUT_OF_RANGE`; RUC→`reject` y `NOT_IN_ALLOWLIST`; `None`→`review` y `MISSING`.\n- **Límites:** comprueba ausencia, pertenencia y longitud en ese orden; no uses un solo `"reject"` genérico ni reúnas el resultado en una colección.',
         id: 'S03-T3-A-E3',
         instruction:
           '1. Completa `tipo_doc_len(tipo, numero)` con dicts de resultado.\n2. Usa `DOC_LEN` para la longitud esperada.\n3. Prueba: `("DNI","12345678")`, `("DNI","123")`, `("RUC","20123456789")`, `(None,"1")`.',

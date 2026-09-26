@@ -32,11 +32,11 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | concept | depth | first use | first explained | surprising | examples | exercised | self-check | lag | figures | sections |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
 | 🟠 `embedding` | L1 | S28 · S28-T1-B.p1 | S48 · theory[0].p1 | 2 | 0 | 0 | 3 | +20 | 0/1 ⚠ | 2 |
-| 🟠 `outlier` | L1 | S03 · S03-T3-A-E1.retrospective | S16 · jobRelevance | 2 | 0 | 0 | 3 | +13 | 1/1 | 7 |
+| 🟠 `outlier` | L1 | S03 · youDo.starter | S16 · jobRelevance | 1 | 0 | 0 | 3 | +13 | 1/1 | 7 |
 | 🟠 `shape` | L2 | S06 · S06-T3-A-E3.starter | S14 · outcome[0] | 1 | 5 | 5 | 3 | +8 | 0/5 ⚠ | 4 |
 | 🟠 `merge` | L2 | S10 · S10-T4-A.p2 | S17 · S17-T1-A.p0 | 5 | 5 | 9 | 5 | +7 | 0/5 ⚠ | 10 |
-| 🟠 `for` | L2 | S02 · S02-T1-B-DEMO.code | S04 · S04-T1-A.p0 | 44 | 349 | 31 | 4 | +2 | 0/5 ⚠ | 51 |
-| 🟠 `dict` | L3 | S02 · theory[7].p0 | S04 · S04-T4-A-E3.preamble | 28 | 154 | 109 | 7 | +2 | 3/5 ⚠ | 51 |
+| 🟠 `for` | L2 | S02 · S02-T1-B-DEMO.code | S04 · S04-T1-A.p0 | 42 | 349 | 31 | 4 | +2 | 0/5 ⚠ | 51 |
+| 🟠 `dict` | L3 | S02 · theory[7].p0 | S04 · S04-T4-A-E3.preamble | 27 | 154 | 109 | 7 | +2 | 3/5 ⚠ | 51 |
 | 🟠 `eda` | L1 | S16 · S16-T1-A.p0 | S18 · jobRelevance | 4 | 0 | 0 | 3 | +2 | 0/1 ⚠ | 4 |
 | 🟠 `set` | L3 | S01 · S01-T4-A-E3.starter | S03 · S03-T1-A.p2 | 1 | 120 | 50 | 17 | +2 | 2/5 ⚠ | 46 |
 | 🟠 `if` | L2 | S01 · S01-T1-B#6.code | S02 · S02-T2-A-DEMO.why | 5 | 438 | 50 | 19 | +1 | 0/5 ⚠ | 52 |

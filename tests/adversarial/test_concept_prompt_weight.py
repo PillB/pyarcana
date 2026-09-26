@@ -250,3 +250,30 @@ class DefinitionsASectionHolds(unittest.TestCase):
         block = prompt.definitions_this_section_holds(cmap, "S03", [f"s{i:02d}" for i in range(1, 53)])
         self.assertIn("`return`", block, "the sibling figure hid the real successor in S05")
         self.assertIn("moves to S05", block)
+
+
+class CodeScopeRule(unittest.TestCase):
+    """The prompt must never tell codex two contradictory things about code.
+
+    A prose-only concepts round freezes code, correctly. But D14 and route 2 put S02-S04's
+    practice layer in scope, and the owner confirmed on 2026-09-25 that for this fix round their
+    explicit instructions supersede the base rule. The amendments asking for exercises to be
+    rebuilt sat BENEATH a template line reading "Do not change code, declared output...", so
+    codex asked which wins - in S02 and again in S03 - and both rounds came back prose-only.
+
+    The flag replaces the rule rather than overriding it underneath, so the contradiction cannot
+    reach codex at all.
+    """
+
+    def test_default_rounds_stay_prose_only(self):
+        import build_concept_prompt as prompt
+        self.assertIn("Do not change code, declared output", prompt.code_scope_rule(False))
+
+    def test_the_practice_layer_flag_removes_the_contradiction(self):
+        import build_concept_prompt as prompt
+        rule = prompt.code_scope_rule(True)
+        self.assertNotIn("Do not change code", rule, "the old rule must not survive under the new one")
+        self.assertIn("You MAY change", rule)
+        self.assertIn("TOGETHER", rule, "code and declared output must still move as one")
+        self.assertIn("may NOT change exercise ids", rule, "ids and counts stay pinned")
+        self.assertIn("D14", rule)

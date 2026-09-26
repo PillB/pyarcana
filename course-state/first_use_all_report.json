@@ -190,7 +190,7 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "outlier",
       "severity": "P1",
-      "location": "decisions-rules.S03-T3-A-E1.retrospective",
+      "location": "decisions-rules.youDo.starter",
       "definition_location": "wxpython-gui.jobRelevance"
     },
     {
