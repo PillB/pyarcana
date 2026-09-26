@@ -784,86 +784,43 @@ OK · intake`,
         demoId: 'S02-T4-B-DEMO',
         subtopicId: 'S02-T4-B',
         environment: 'browser-pyodide',
-        description: 'Parser mínimo: raw, clean, errors; 3 casos de prueba',
+        description: 'Recorrido visible: original, limpio, convertido y fallo observado',
         preamble:
-          'El gate del parser no es “imprimió algo”: son asserts sobre raw, Unicode y errores accionables. Esta demo reúne el schema del You Do (CP-N1-A): `*_raw`, campos limpios, `errors` y `safe_int` para edad. **Predicción:** para el caso feliz, el vacío y `"abc"`, anota qué clave debe conservar el original y qué lista debe cambiar. Luego sigue cada valor desde argumento hasta assert. Solo datos sintéticos.',
+          'Esta demostración sigue una captura sin esconder ninguna etapa. **Predicción:** decide qué originales conservarán espacios o un cero inicial, qué textos cambiarán con `strip()` y qué valor terminará como `int`. El texto vacío y la edad inválida se muestran sin intentar continuar después del fallo.',
         code: {
           language: 'python',
-          title: 'S02-T4-B-DEMO — parse_cliente_min',
-          code: `def safe_int(campo: str, valor: str):
-    texto = valor.strip()
-    if texto == "":
-        return False, None, f"ERROR en '{campo}': valor vacío"
-    try:
-        return True, int(texto), None
-    except ValueError:
-        return False, None, f"ERROR en '{campo}': no se pudo convertir {valor!r} a int"
+          title: 'S02-T4-B-DEMO — recorrido_captura',
+          code: `nombres_raw = "  María Ñahui  "
+contacto_raw = "0999000111"
+edad_raw = " 34 "
+vacio_raw = "   "
+edad_invalida_raw = "abc"
 
-def parse_client(
-    nombres: str,
-    apellido_paterno: str,
-    apellido_materno: str,
-    contacto: str,
-    direccion: str,
-    edad=None,
-) -> dict:
-    errors: list[str] = []
-    rec = {
-        "nombres_raw": nombres,
-        "apellido_paterno_raw": apellido_paterno,
-        "apellido_materno_raw": apellido_materno,
-        "contacto_raw": contacto,
-        "direccion_raw": direccion,
-        "edad_raw": edad,
-        "nombres": None,
-        "apellido_paterno": None,
-        "apellido_materno": None,
-        "contacto": None,
-        "direccion": None,
-        "edad": None,
-        "errors": errors,
-    }
+nombres_clean = nombres_raw.strip()
+contacto_clean = contacto_raw.strip()
+edad_clean = edad_raw.strip()
+vacio_clean = vacio_raw.strip()
+edad = int(edad_clean)
 
-    def clean_required(campo, valor):
-        if valor is None or str(valor).strip() == "":
-            errors.append(f"ERROR en '{campo}': vacío (raw={valor!r})")
-            return None
-        return str(valor).strip()
+print(f"raw nombre: |{nombres_raw}|")
+print("clean nombre:", nombres_clean)
+print("contacto:", contacto_clean, type(contacto_clean).__name__)
+print("edad:", edad, type(edad).__name__)
+print("vacío después de strip:", vacio_clean == "")
+print("edad inválida original:", edad_invalida_raw)
 
-    rec["nombres"] = clean_required("nombres", nombres)
-    rec["apellido_paterno"] = clean_required("apellido_paterno", apellido_paterno)
-    rec["apellido_materno"] = clean_required("apellido_materno", apellido_materno)
-    rec["contacto"] = clean_required("contacto", contacto)
-    rec["direccion"] = clean_required("direccion", direccion)
-    if edad is not None:
-        ok, n, err = safe_int("edad", edad)
-        if ok:
-            rec["edad"] = n
-        else:
-            errors.append(err)
-    return rec
-
-# 1) Unicode feliz
-r1 = parse_client("María", "Quispe", "Ñahui", "999000111", "Lima", "34")
-assert r1["apellido_materno_raw"] == "Ñahui" and r1["errors"] == []
-# 2) Vacío
-r2 = parse_client("", "Quispe", "Ñahui", "999", "Lima")
-assert r2["nombres_raw"] == "" and any("nombres" in e for e in r2["errors"])
-# 3) Número inválido
-r3 = parse_client("Ana", "Ramos", "Díaz", "999", "Cusco", "abc")
-assert r3["edad_raw"] == "abc" and any("edad" in e for e in r3["errors"])
-print("3 tests OK")
-print(r1)
-print(r2["errors"])
-print(r3["errors"])`,
-          output: `3 tests OK
-{'nombres_raw': 'María', 'apellido_paterno_raw': 'Quispe', 'apellido_materno_raw': 'Ñahui', 'contacto_raw': '999000111', 'direccion_raw': 'Lima', 'edad_raw': '34', 'nombres': 'María', 'apellido_paterno': 'Quispe', 'apellido_materno': 'Ñahui', 'contacto': '999000111', 'direccion': 'Lima', 'edad': 34, 'errors': []}
-["ERROR en 'nombres': vacío (raw='')"]
-["ERROR en 'edad': no se pudo convertir 'abc' a int"]`,
+# Ejecuta esta línea por separado para observar ValueError:
+# int(edad_invalida_raw)`,
+          output: `raw nombre: |  María Ñahui  |
+clean nombre: María Ñahui
+contacto: 0999000111 str
+edad: 34 int
+vacío después de strip: True
+edad inválida original: abc`,
         },
-        why: 'El schema de salida fija claves `*_raw`, campos limpios y `errors`. `clean_required` valida texto obligatorio; `safe_int` cubre edad opcional (vacío / OK / basura). Los asserts demuestran Unicode, vacío y número inválido sin depender de “mirar la consola”.',
+        why: 'Cada nombre corresponde a una etapa visible. `strip()` produce texto limpio sin alterar el original; `int()` convierte solo la edad válida; el contacto conserva su cero porque sigue siendo texto. La conversión inválida queda separada para que su `ValueError` sea observable sin exigir recuperación.',
         retrospective:
-          'Tres invariantes: raw siempre presente, Unicode round-trip, número inválido no revienta el proceso. El mensaje nombra campo y valor (`!r`). We Do construirá cada pieza y al final la suite completa; el You Do reúne este contrato, una demostración al final del archivo y tests fijos.',
+          'Narra el recorrido de cada campo: qué llegó, qué cambió y qué tipo quedó. Si puedes señalar por qué el contacto no se convierte y dónde se detiene `int("abc")`, ya puedes revisar una captura con las herramientas de S02.',
       },
     ],
   },
@@ -1082,137 +1039,122 @@ print(edad, type(edad).__name__)`,
       {
         subtopicId: 'S02-T1-B',
         kind: 'independent',
-        title: 'Implementar `safe_int` con tres ramas',
+        title: 'Convertir dos textos y comprobar sus tipos',
         preamble:
-          '- **Contexto:** el parser de intake no puede morir en el primer campo basura.\n- **Meta:** devolver `(ok, valor|None, mensaje|None)` con mensaje accionable.\n- **Éxito:** cuatro casos `" 21 "`, `""`, `"abc"`, `"  "` como en la solución (OK / vacío / basura / vacío).\n- **Límites:** sin `eval`; sin `except: pass`; mensaje con nombre de campo y `!r` del valor.',
+          '- **Contexto:** una edad y una cantidad llegan como texto, con espacios o ceros iniciales.\n- **Meta:** conservar ambos textos, limpiarlos y convertirlos en enteros.\n- **Éxito:** la salida muestra los originales intactos, valores `21` y `4`, tipos `int` y total `25`.\n- **Límites:** no sobrescribas los nombres terminados en `_raw`; ejecuta la conversión inválida solo por separado.',
         id: 'S02-T1-B-E2',
         instruction:
-          '1. Completa el cuerpo de `safe_int` (vacío tras strip → error; `try int`; `ValueError` → mensaje).\n2. Deja el `for` de prueba tal cual.\n3. Ejecuta y compara las cuatro líneas con la solución.',
-        hint: 'Tras strip, si texto == "", error de vacío. try/except ValueError para letras.',
+          '1. Obtén cada texto limpio con `strip()`.\n2. Convierte los dos textos limpios con `int()`.\n3. Ejecuta y compara las tres líneas con la solución. Después ejecuta `int("abc")` por separado y localiza la línea donde Python se detiene.',
+        hint: 'Conserva `edad_raw` y `asistentes_raw`; crea nombres nuevos para el texto limpio y para cada entero.',
         hints: [
-          'Tras strip, si texto == "", error de vacío. try/except ValueError para letras.',
-          'Mensaje accionable: incluye el nombre del campo y el valor recibido con !r (repr).',
+          'Primero usa `strip()` y después `int()`.',
+          'Si sumas los textos antes de convertirlos, obtendrás texto unido en vez del número `25`.',
         ],
-        edgeCases: ['vacío', 'solo espacios', 'letras'],
-        tests: 'devuelve (ok, valor|None, msg); 4 casos como en la demo de solución.',
+        edgeCases: ['espacios alrededor de la edad', 'cero inicial', 'texto no convertible observado por separado'],
+        tests: 'Imprime originales intactos, `21 int`, `4 int` y `total 25`.',
         feedback:
-          'Vacío y basura son errores distintos: el mensaje debe decirlo y nombrar el campo. Sin `eval` ni `except: pass`. Si las cuatro líneas coinciden con la solución, ya tienes el contrato reutilizable del parser.',
+          'Los nombres `_raw` conservan lo recibido. Los nombres nuevos guardan el texto limpio y los enteros. Si el total no es `25`, revisa que convertiste antes de sumar.',
         retrospective:
-          'Una función `safe_*` reutilizable concentra una decisión: tres ramas y un mensaje accionable con `!r`. Si vacío y `"abc"` devolvieron el mismo mensaje, perdiste información útil para quien corrige el formulario. Explica la diferencia sin código y después reutiliza exactamente esta firma en el pipeline de dos campos y en el You Do.',
+          'La conversión válida produce enteros con los que puedes sumar. `int("abc")` no produce un entero: Python muestra `ValueError` y se detiene en esa línea. La diferencia importa porque el texto `"12"` solo parece un número: sigue siendo texto hasta que `int()` lo convierte. Convertir de forma deliberada te permite saber si tienes un valor con el que puedes calcular o un texto que no sirve para ese cálculo. Predice qué tipo mostrará `type("12")` antes de ejecutarlo. En S09 aprenderás a continuar después de ese fallo.',
         starterCode: {
           language: 'python',
-          title: 'safe_int.py',
+          title: 'dos_conversiones.py',
           code: `# CASO-LIM-002 · T1-B-E2
-# Implementa safe_int: vacío tras strip → error; int OK → (True, n, None);
-# ValueError → (False, None, msg accionable con nombre de campo).
-def safe_int(campo: str, valor: str):
-    texto = valor.strip()
-    # 1) si texto == "" → (False, None, mensaje de vacío)
-    # 2) try int(texto) → (True, n, None)
-    # 3) except ValueError → (False, None, mensaje con valor!r)
-    pass
+edad_raw = " 21 "
+asistentes_raw = "04"
 
-for v in [" 21 ", "", "abc", "  "]:
-    print(repr(v), "→", safe_int("edad", v))`,
+edad_texto = ____
+asistentes_texto = ____
+edad = ____
+asistentes = ____
+
+print(f"edad raw=|{edad_raw}| valor={edad} tipo={type(edad).__name__}")
+print(f"asistentes raw=|{asistentes_raw}| valor={asistentes} tipo={type(asistentes).__name__}")
+print("total", edad + asistentes)
+
+# Ejecuta por separado para observar ValueError:
+# int("abc")`,
         },
         solutionCode: {
           language: 'python',
-          title: 'safe_int.py',
-          code: `def safe_int(campo: str, valor: str):
-    texto = valor.strip()
-    if texto == "":
-        return (False, None, f"ERROR en '{campo}': valor vacío")
-    try:
-        return (True, int(texto), None)
-    except ValueError:
-        return (False, None, f"ERROR en '{campo}': no se pudo convertir {valor!r} a int")
+          title: 'dos_conversiones.py',
+          code: `edad_raw = " 21 "
+asistentes_raw = "04"
 
-for v in [" 21 ", "", "abc", "  "]:
-    print(repr(v), "→", safe_int("edad", v))`,
-          output: `' 21 ' → (True, 21, None)
-'' → (False, None, "ERROR en 'edad': valor vacío")
-'abc' → (False, None, "ERROR en 'edad': no se pudo convertir 'abc' a int")
-'  ' → (False, None, "ERROR en 'edad': valor vacío")`,
+edad_texto = edad_raw.strip()
+asistentes_texto = asistentes_raw.strip()
+edad = int(edad_texto)
+asistentes = int(asistentes_texto)
+
+print(f"edad raw=|{edad_raw}| valor={edad} tipo={type(edad).__name__}")
+print(f"asistentes raw=|{asistentes_raw}| valor={asistentes} tipo={type(asistentes).__name__}")
+print("total", edad + asistentes)`,
+          output: `edad raw=| 21 | valor=21 tipo=int
+asistentes raw=|04| valor=4 tipo=int
+total 25`,
         },
       },
       {
         subtopicId: 'S02-T1-B',
         kind: 'transfer',
-        title: 'Pipeline de dos enteros con raw/errors',
+        title: 'Interpretar tres campos sin perder el original',
         preamble:
-          '- **Contexto:** un registro real tiene varios campos; uno puede fallar y el otro seguir OK.\n- **Meta:** armar dict `raw` / `clean` / `errors` reutilizando `safe_int` dos veces.\n- **Éxito:** tres escenarios impresos — ambos OK; edad inválida; anios inválidos — con raw intacto.\n- **Límites:** solo enteros (sin float/Decimal aún); raw siempre con los strings de entrada.',
+          '- **Contexto:** una captura trae un código postal, una cantidad y un precio como texto.\n- **Meta:** elegir qué texto debe seguir siendo texto y qué valores sí representan cantidades.\n- **Éxito:** el código conserva `007`, la cantidad es `12`, el precio es `3.5` y el subtotal es `42.0`.\n- **Límites:** conserva cada nombre `_raw`; no conviertas el código postal en número.',
         id: 'S02-T1-B-E3',
         instruction:
-          '1. Implementa `pipeline(edad_txt, anios_txt)`.\n2. Llama `safe_int` para `"edad"` y `"anios_cliente"`; acumula errores.\n3. Si falla, `clean[campo] = None` pero `raw` conserva el texto.\n4. Ejecuta los tres `print` del starter.',
-        hint: 'Reutiliza safe_int dos veces. Acumula mensajes en errors[]. clean[campo] = None si falla, pero raw sigue con el string de entrada.',
+          '1. Conserva `codigo_postal_raw` como texto.\n2. Limpia y convierte la cantidad con `int()` y el precio con `float()`.\n3. Calcula el subtotal y ejecuta las cuatro comprobaciones impresas.',
+        hint: 'Una cantidad admite aritmética; un código postal identifica una zona y puede empezar con cero.',
         hints: [
-          'Llama safe_int("edad", ...) y safe_int("anios_cliente", ...); no uses float ni Decimal aquí.',
-          'clean["edad"] = None si falla, pero raw["edad"] sigue siendo el string de entrada.',
+          'Usa `int(cantidad_raw.strip())` y `float(precio_raw.strip())`.',
+          'El subtotal sale de multiplicar los dos valores ya convertidos.',
         ],
-        edgeCases: ['un campo falla otro ok', 'raw siempre presente'],
-        tests: 'Contrato: 3 escenarios; raw intacto; ambos campos int cuando OK; cero float/Decimal.',
+        edgeCases: ['código con cero inicial', 'espacios en una cantidad', 'originales intactos'],
+        tests: 'Código `007` de tipo `str`, cantidad `12`, precio `3.5`, subtotal `42.0` y originales intactos.',
         feedback:
-          'Este es el embrión del `parse_client` del You Do: multi-campo, errores parciales, raw intacto. Si un campo falla, no pises `raw` al dejar clean en `None`. Decimal para montos se entrena en T3-B.',
+          'Convertir todo por igual es un error: `007` perdería información si se volviera entero. La operación que necesitas decide el tipo adecuado.',
         retrospective:
-          'Errores parciales + raw intacto es el embrión de `parse_client`: un campo defectuoso no borra el éxito del vecino. Si edad falla y años del cliente pasa, señala en el resultado dónde viven ambos hechos. No “arregles” nada pisando el original. En T3-B aplicarás el mismo patrón `(ok, valor, error)` a montos con `Decimal`.',
+          'Los tres campos llegaron como texto, pero no significan lo mismo. La cantidad y el precio participan en un cálculo; el código postal conserva su forma. La decisión depende del uso que tendrá cada valor: convertir permite operar, mientras conservar el texto protege su forma. Explica esa diferencia antes de mirar los tipos impresos.',
         starterCode: {
           language: 'python',
-          title: 'pipeline_dos_campos.py',
+          title: 'tres_campos.py',
           code: `# CASO-LIM-002 · T1-B-E3
-# Pipeline de dos enteros (edad + anios_cliente). Sin Decimal aún.
+codigo_postal_raw = "007"
+cantidad_raw = " 12 "
+precio_raw = "3.50"
 
-def safe_int(campo: str, valor: str):
-    texto = valor.strip()
-    if texto == "":
-        return (False, None, f"ERROR en '{campo}': valor vacío")
-    try:
-        return (True, int(texto), None)
-    except ValueError:
-        return (False, None, f"ERROR en '{campo}': no se pudo convertir {valor!r} a int")
+codigo_postal = ____
+cantidad = ____
+precio = ____
+subtotal = ____
 
-def pipeline(edad_txt: str, anios_txt: str) -> dict:
-    # Completa: raw, clean, errors con safe_int para ambos campos
-    pass
-
-print(pipeline(" 28 ", "3"))
-print(pipeline("xx", "5"))
-print(pipeline("30", "nope"))`,
+print(codigo_postal, type(codigo_postal).__name__)
+print(cantidad, type(cantidad).__name__)
+print(precio, type(precio).__name__)
+print("subtotal", subtotal)
+print("raw intactos", codigo_postal_raw == "007" and cantidad_raw == " 12 " and precio_raw == "3.50")`,
         },
         solutionCode: {
           language: 'python',
-          title: 'pipeline_dos_campos.py',
-          code: `def safe_int(campo: str, valor: str):
-    texto = valor.strip()
-    if texto == "":
-        return (False, None, f"ERROR en '{campo}': valor vacío")
-    try:
-        return (True, int(texto), None)
-    except ValueError:
-        return (False, None, f"ERROR en '{campo}': no se pudo convertir {valor!r} a int")
+          title: 'tres_campos.py',
+          code: `codigo_postal_raw = "007"
+cantidad_raw = " 12 "
+precio_raw = "3.50"
 
-def pipeline(edad_txt: str, anios_txt: str) -> dict:
-    errors: list[str] = []
-    clean: dict = {}
-    ok, val, msg = safe_int("edad", edad_txt)
-    clean["edad"] = val if ok else None
-    if not ok:
-        errors.append(msg)
-    ok, val, msg = safe_int("anios_cliente", anios_txt)
-    clean["anios_cliente"] = val if ok else None
-    if not ok:
-        errors.append(msg)
-    return {
-        "raw": {"edad": edad_txt, "anios_cliente": anios_txt},
-        "clean": clean,
-        "errors": errors,
-    }
+codigo_postal = str(codigo_postal_raw)
+cantidad = int(cantidad_raw.strip())
+precio = float(precio_raw.strip())
+subtotal = cantidad * precio
 
-print(pipeline(" 28 ", "3"))
-print(pipeline("xx", "5"))
-print(pipeline("30", "nope"))`,
-          output: `{'raw': {'edad': ' 28 ', 'anios_cliente': '3'}, 'clean': {'edad': 28, 'anios_cliente': 3}, 'errors': []}
-{'raw': {'edad': 'xx', 'anios_cliente': '5'}, 'clean': {'edad': None, 'anios_cliente': 5}, 'errors': ["ERROR en 'edad': no se pudo convertir 'xx' a int"]}
-{'raw': {'edad': '30', 'anios_cliente': 'nope'}, 'clean': {'edad': 30, 'anios_cliente': None}, 'errors': ["ERROR en 'anios_cliente': no se pudo convertir 'nope' a int"]}`,
+print(codigo_postal, type(codigo_postal).__name__)
+print(cantidad, type(cantidad).__name__)
+print(precio, type(precio).__name__)
+print("subtotal", subtotal)
+print("raw intactos", codigo_postal_raw == "007" and cantidad_raw == " 12 " and precio_raw == "3.50")`,
+          output: `007 str
+12 int
+3.5 float
+subtotal 42.0
+raw intactos True`,
         },
       },
       // ——— S02-T2-A ———
@@ -1800,59 +1742,72 @@ OK`,
       {
         subtopicId: 'S02-T3-B',
         kind: 'transfer',
-        title: '`parse_monto` con Decimal y errores',
+        title: 'Cuantizar tres montos escritos como texto',
         preamble:
-          '- **Contexto:** el monto llega como texto de formulario (`"150.50"`); el parser no puede explotar.\n- **Meta:** `(ok, Decimal|None, error|None)` con strip, vacío, `InvalidOperation` y quantize `0.01`.\n- **Éxito:** cuatro casos del starter (OK, OK quantize `20.10`, vacío, `abc`) con mensajes accionables.\n- **Límites:** convención **punto** decimal (no coma); sin float; raw en el mensaje con `!r`.',
+          '- **Contexto:** tres montos llegan como texto y deben quedar con dos decimales.\n- **Meta:** construir cada `Decimal` desde texto y aplicar la misma regla de redondeo.\n- **Éxito:** obtienes `150.50`, `20.10` y `0.00`; las tres comparaciones imprimen `True`.\n- **Límites:** sin `float`; conserva los textos originales; prueba un formato inválido por separado.',
         id: 'S02-T3-B-E3',
         instruction:
-          '1. Implementa `parse_monto`: strip → vacío → `Decimal` → `quantize(0.01)` → `except InvalidOperation`.\n2. Rechaza vacío antes de construir Decimal; mensaje con `!r` del raw.\n3. Ejecuta el `for` de cuatro strings y compara salidas.',
-        hint: 'try/except InvalidOperation. raw en el mensaje con !r.',
+          '1. Limpia cada texto con `strip()`.\n2. Construye cada `Decimal` y usa `quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)`.\n3. Ejecuta las comparaciones. Después prueba `Decimal("150,50")` por separado y observa dónde se detiene Python.',
+        hint: 'Repite para cada monto la secuencia texto → `strip()` → `Decimal` → `quantize`.',
         hints: [
-          'try/except InvalidOperation. raw en el mensaje con !r.',
-          'from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation. Si strip vacío → error antes de Decimal.',
+          'Construye desde texto, nunca desde `float`.',
+          '`ROUND_HALF_EVEN` lleva `0.005` a `0.00` porque el último dígito conservado es par.',
         ],
-        edgeCases: ['vacío', 'coma vs punto — documentar punto', 'quantize .01'],
-        tests: 'OK 150.50; vacío y abc con error; sin float',
+        edgeCases: ['espacios', 'un solo decimal', 'empate de redondeo', 'coma observada por separado'],
+        tests: 'Imprime `150.50 20.10 0.00` y tres líneas `True`.',
         feedback:
-          'Este `parse_monto` se conecta al parser de intake cuando el CSV traiga un monto. Mismo contrato `(ok, valor, error)` que `safe_int`, con `InvalidOperation` en lugar de `ValueError`.',
+          'Las tres cantidades siguen una sola regla visible. Si aparece una cola de dígitos, revisa que no hayas construido un `Decimal` desde `float`.',
         retrospective:
-          'El contrato sigue siendo ok / valor / error; cambia la clase de fallo porque cambió el constructor. Si `""` y `"abc"` llegan al mismo `except`, pierdes la distinción entre ausencia y formato inválido: rechaza el vacío primero. Conecta este helper al intake cuando aparezca un monto y conserva el raw; no uses `float` como atajo.',
+          'Un formato válido produce un monto cuantizado. `Decimal("150,50")` no acepta la coma en este ejercicio y detiene la ejecución. S09 enseñará a continuar después de ese fallo. Antes de convertir, el texto debe tener la forma que `Decimal` acepta; cambiar la coma por un punto cambia el formato, no el monto. Predice qué ocurre con `Decimal("150.50")` y comprueba la respuesta.',
         starterCode: {
           language: 'python',
-          title: 'parse_monto.py',
+          title: 'tres_montos.py',
           code: `# CASO-LIM-002 · T3-B-E3
-# parse_monto: strip, vacío, Decimal desde str, quantize 0.01, error accionable.
-from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation
+from decimal import Decimal, ROUND_HALF_EVEN
 
-def parse_monto(texto: str):
-    # Devuelve (ok, Decimal|None, error|None)
-    pass
+monto_a_raw = "150.50"
+monto_b_raw = " 20.1 "
+monto_c_raw = "0.005"
 
-for s in ["150.50", "  20.1 ", "", "abc"]:
-    print(repr(s), "→", parse_monto(s))`,
+monto_a = ____
+monto_b = ____
+monto_c = ____
+
+print(monto_a, monto_b, monto_c)
+print(monto_a == Decimal("150.50"))
+print(monto_b == Decimal("20.10"))
+print(monto_c == Decimal("0.00"))
+
+# Ejecuta por separado para observar el fallo:
+# Decimal("150,50")`,
         },
         solutionCode: {
           language: 'python',
-          title: 'parse_monto.py',
-          code: `from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation
+          title: 'tres_montos.py',
+          code: `from decimal import Decimal, ROUND_HALF_EVEN
 
-def parse_monto(texto: str):
-    raw = texto
-    t = texto.strip()
-    if not t:
-        return False, None, f"ERROR en 'monto': vacío (raw={raw!r})"
-    try:
-        d = Decimal(t).quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
-        return True, d, None
-    except (InvalidOperation, ValueError):
-        return False, None, f"ERROR en 'monto': no se pudo parsear {raw!r} a Decimal"
+monto_a_raw = "150.50"
+monto_b_raw = " 20.1 "
+monto_c_raw = "0.005"
 
-for s in ["150.50", "  20.1 ", "", "abc"]:
-    print(repr(s), "→", parse_monto(s))`,
-          output: `'150.50' → (True, Decimal('150.50'), None)
-'  20.1 ' → (True, Decimal('20.10'), None)
-'' → (False, None, "ERROR en 'monto': vacío (raw='')")
-'abc' → (False, None, "ERROR en 'monto': no se pudo parsear 'abc' a Decimal")`,
+monto_a = Decimal(monto_a_raw.strip()).quantize(
+    Decimal("0.01"), rounding=ROUND_HALF_EVEN
+)
+monto_b = Decimal(monto_b_raw.strip()).quantize(
+    Decimal("0.01"), rounding=ROUND_HALF_EVEN
+)
+monto_c = Decimal(monto_c_raw.strip()).quantize(
+    Decimal("0.01"), rounding=ROUND_HALF_EVEN
+)
+
+print(monto_a, monto_b, monto_c)
+print(monto_a == Decimal("150.50"))
+print(monto_b == Decimal("20.10"))
+print(monto_c == Decimal("0.00"))`,
+          output: `150.50 20.10 0.00
+True
+True
+True`,
         },
       },
       // ——— S02-T4-A ———
@@ -2030,60 +1985,58 @@ OK`,
       {
         subtopicId: 'S02-T4-B',
         kind: 'guided',
-        title: 'Parse de nombres vacíos con raw/errors',
+        title: 'Hacer visible un texto vacío sin borrar el original',
         preamble:
-          '- **Contexto:** el caso vacío es el primero que rompe demos “felices” de intake.\n- **Meta:** `parse_nombres` con `nombres_raw`, clean o `None`, y `errors` accionable.\n- **Éxito:** con `""` → raw `""`, `nombres is None`, errors menciona nombres; print `OK`.\n- **Límites:** guarda raw **antes** de strip; no borres el original.',
+          '- **Contexto:** un campo puede contener solo espacios, mientras otro contiene un apellido válido.\n- **Meta:** conservar ambos originales, limpiarlos y comprobar qué quedó vacío.\n- **Éxito:** el primer original sigue mostrando tres espacios, su texto limpio está vacío y `Ñahui` conserva la `Ñ`.\n- **Límites:** no sobrescribas los nombres `_raw`; todavía no elijas caminos distintos.',
         id: 'S02-T4-B-E1',
         instruction:
-          '1. Completa `parse_nombres`.\n2. Si vacío tras strip, agrega error y deja clean en `None`.\n3. Ejecuta asserts del starter.',
-        hint: 'Siempre guarda raw = valor original antes de strip.',
+          '1. Crea `nombres_clean` y `apellido_clean` con `strip()`.\n2. Imprime cada original entre barras para hacer visibles los espacios.\n3. Comprueba con `== ""` que el primer texto limpio quedó vacío.',
+        hint: 'El texto original y el texto limpio necesitan nombres distintos.',
         hints: [
-          'Siempre guarda raw = valor original antes de strip.',
-          "errors.append(f\"ERROR en 'nombres': vacío (raw={valor!r})\")",
+          '`nombres_clean = nombres_raw.strip()` conserva `nombres_raw`.',
+          'Las barras de `|{nombres_raw}|` permiten ver los espacios en la salida.',
         ],
-        edgeCases: ['mensaje accionable', "raw '' se conserva"],
-        tests: 'caso vacío: raw==""; errors no vacío; nombres is None',
+        edgeCases: ['solo espacios', 'Unicode', 'original intacto'],
+        tests: 'Muestra tres espacios en el original, vacío `True` y `Ñahui` intacto.',
         feedback:
-          'El caso vacío es el primero que rompe demos “felices”. Si pasa el assert, el contrato raw/errors ya nació: clean puede ser `None` sin borrar el original.',
+          'La comparación hace visible el estado del campo sin decidir todavía qué hacer con él. Si desaparecieron los espacios del nombre `_raw`, sobrescribiste la evidencia.',
         retrospective:
-          'Raw siempre está, aunque clean sea `None`: un fallo de interpretación no borra el hecho observado. Si tu mensaje solo dice “inválido”, quien corrige el dato aún no sabe qué campo ni qué llegó; `!r` vuelve visibles incluso los espacios. Este microcontrato se repetirá en todos los campos requeridos del You Do.',
+          'Limpiar y decidir son trabajos distintos. S02 puede mostrar que un texto quedó vacío; S03 enseñará a elegir una acción según esa comparación. Separar ambos trabajos permite observar primero el valor y usar después el resultado sin confundir la limpieza con la elección. Comprueba con `print()` y `type()` que el valor limpio sigue siendo texto, incluso cuando está vacío.',
         starterCode: {
           language: 'python',
-          title: 'parse_vacio.py',
+          title: 'observar_vacio.py',
           code: `# CASO-LIM-002 · T4-B-E1
-# Completa parse_nombres: nombres_raw, nombres (strip o None), errors.
-def parse_nombres(valor: str) -> dict:
-    # Si vacío tras strip → error accionable; raw siempre = valor original
-    pass
+nombres_raw = "   "
+apellido_raw = "  Ñahui  "
 
-r = parse_nombres("")
-print(r)
-assert r["nombres_raw"] == ""
-assert r["nombres"] is None
-assert any("nombres" in e.lower() for e in r["errors"])
-print("OK")`,
+nombres_clean = ____
+apellido_clean = ____
+
+print(f"nombres raw: |{nombres_raw}|")
+print("nombres vacío:", nombres_clean == "")
+print(f"apellido raw: |{apellido_raw}|")
+print("apellido clean:", apellido_clean)
+print("raw intactos:", nombres_raw == "   " and apellido_raw == "  Ñahui  ")`,
         },
         solutionCode: {
           language: 'python',
-          title: 'parse_vacio.py',
-          code: `def parse_nombres(valor: str) -> dict:
-    errors: list[str] = []
-    clean = valor.strip() if valor else ""
-    if not clean:
-        errors.append(f"ERROR en 'nombres': vacío (raw={valor!r})")
-        clean_val = None
-    else:
-        clean_val = clean
-    return {"nombres_raw": valor, "nombres": clean_val, "errors": errors}
+          title: 'observar_vacio.py',
+          code: `nombres_raw = "   "
+apellido_raw = "  Ñahui  "
 
-r = parse_nombres("")
-print(r)
-assert r["nombres_raw"] == ""
-assert r["nombres"] is None
-assert any("nombres" in e.lower() for e in r["errors"])
-print("OK")`,
-          output: `{'nombres_raw': '', 'nombres': None, 'errors': ["ERROR en 'nombres': vacío (raw='')"]}
-OK`,
+nombres_clean = nombres_raw.strip()
+apellido_clean = apellido_raw.strip()
+
+print(f"nombres raw: |{nombres_raw}|")
+print("nombres vacío:", nombres_clean == "")
+print(f"apellido raw: |{apellido_raw}|")
+print("apellido clean:", apellido_clean)
+print("raw intactos:", nombres_raw == "   " and apellido_raw == "  Ñahui  ")`,
+          output: `nombres raw: |   |
+nombres vacío: True
+apellido raw: |  Ñahui  |
+apellido clean: Ñahui
+raw intactos: True`,
         },
       },
       {
@@ -2136,116 +2089,74 @@ Unicode OK`,
       {
         subtopicId: 'S02-T4-B',
         kind: 'transfer',
-        title: 'Suite `parse_client`: Unicode, vacío, edad',
+        title: 'Recorrido completo de una captura válida',
         preamble:
-          '- **Contexto:** este ejercicio es el corazón del You Do (CP-N1-A) en miniatura.\n- **Meta:** `safe_int` + `parse_client` con `*_raw`, limpios y `errors`.\n- **Éxito:** tres asserts pasan — Ñahui raw OK y sin errors; nombres vacío con error; edad `"abc"` con `edad_raw` intacto — y print `3 tests OK`.\n- **Límites:** no dejes escapar `ValueError`; raw siempre presente; solo datos sintéticos.',
+          '- **Contexto:** una captura combina texto con espacios, Unicode, un contacto con cero inicial y una edad escrita como texto.\n- **Meta:** conservar cada original, limpiar los textos y convertir solo la edad.\n- **Éxito:** el resumen conserva `Ñahui`, el contacto sigue siendo texto, la edad es `int` y las cuatro comprobaciones imprimen `True`.\n- **Límites:** usa nombres separados; una edad inválida se observa por separado porque S02 todavía no recupera la ejecución.',
         id: 'S02-T4-B-E3',
         instruction:
-          '1. Implementa `safe_int` (vacío / OK / basura) con el contrato de la sección.\n2. Implementa `parse_client`: todas las claves `*_raw`, limpios, `edad`, `errors`; edad opcional con `safe_int`.\n3. No modifiques los tres bloques de assert; ejecuta hasta `3 tests OK`.',
-        hint: 'Reutiliza el patrón de la demo T4-B. No dejes que ValueError se escape.',
+          '1. Completa los cuatro nombres `_clean` sin cambiar los originales.\n2. Convierte `edad_clean` con `int()` y construye el resumen con una f-string.\n3. Ejecuta las cuatro comprobaciones. Después prueba la conversión comentada por separado.',
+        hint: 'Los campos de texto usan `strip()`; solo `edad_clean` pasa por `int()`.',
         hints: [
-          'Reutiliza el patrón de la demo T4-B. No dejes que ValueError se escape.',
-          'assert r["edad_raw"]=="abc" y any("edad" in e.lower() for e in errors). raw siempre presente.',
+          'El contacto debe seguir siendo `str` para conservar el cero inicial.',
+          'Compara cada original con su texto inicial para demostrar que no lo sobrescribiste.',
         ],
-        edgeCases: ['raw conservado', '3 pruebas pasan', 'lista de errores'],
-        tests: '3 pruebas pasan (unicode, vacío, edad inválida)',
+        edgeCases: ['Unicode', 'cero inicial', 'espacios', 'edad inválida observada por separado'],
+        tests: 'Resumen exacto y cuatro comprobaciones `True`.',
         feedback:
-          'Esta suite es el corazón del You Do en miniatura. Si pasa en local y en Pyodide, el incremento CP-N1-A de S02 está listo para el portafolio — pero el You Do aún pide `mostrar_resumen`, una demostración al final del archivo y un cuarto caso.',
+          'El recorrido es correcto cuando cada nombre cuenta una etapa: recibido, limpio o convertido. Si el contacto pierde el cero, convertiste un identificador como si fuera una cantidad.',
         retrospective:
-          'Una suite verde demuestra invariantes concretas: Unicode sobrevive, vacío se explica y número inválido no derriba el proceso. Nombra qué assert protege cada una; “tres tests OK” sin esa correspondencia es solo una luz verde. El You Do añade `mostrar_resumen`, una demostración al final del archivo y un **cuarto** caso de edad en blanco: úsalo para demostrar transferencia, no para copiar esta miniatura.',
+          'Este recorrido integra valores, tipos, conversión y presentación sin ocultar el original. La conversión comentada muestra el límite: S02 observa el fallo; S09 enseñará a recuperarse. Conservar el texto original permite revisar qué valor recibió `input()` y qué cambio intentó `int()` o `float()` antes de detenerse. Predice qué valor impreso conserva su tipo y comprueba la predicción con `type()`.',
         starterCode: {
           language: 'python',
-          title: 'parse_client_suite.py',
+          title: 'captura_valida.py',
           code: `# CASO-LIM-002 · T4-B-E3
-# Implementa safe_int (vacío + strip + int) y parse_client con el esquema completo.
-# Claves del dict: nombres_raw, apellido_paterno_raw, apellido_materno_raw,
-# contacto_raw, direccion_raw, edad_raw, nombres, apellido_paterno,
-# apellido_materno, contacto, direccion, edad, errors.
-# Completa ambas funciones antes de ejecutar los tres bloques de prueba.
-def safe_int(campo: str, valor: str):
-    # vacío tras strip → error; int OK; ValueError → mensaje accionable
-    pass
+nombres_raw = "  María José  "
+apellido_raw = "  Ñahui  "
+contacto_raw = "0999000111"
+edad_raw = " 34 "
 
-def parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None):
-    # *_raw, limpios, errors; edad opcional con safe_int
-    pass
+nombres_clean = ____
+apellido_clean = ____
+contacto_clean = ____
+edad_clean = ____
+edad = ____
 
-# tests
-r = parse_client("María José", "Quispe", "Ñahui", "999000111", "Lima", edad="34")
-assert r["apellido_materno_raw"] == "Ñahui"
-assert r["errors"] == []
+resumen = ____
+print(resumen)
+print("raw intactos", nombres_raw == "  María José  " and apellido_raw == "  Ñahui  ")
+print("Unicode intacto", apellido_clean == "Ñahui")
+print("contacto str", type(contacto_clean).__name__ == "str" and contacto_clean == "0999000111")
+print("edad int", type(edad).__name__ == "int" and edad == 34)
 
-r2 = parse_client("", "Quispe", "Ñahui", "999", "Lima")
-assert r2["nombres_raw"] == ""
-assert any("nombres" in e.lower() for e in r2["errors"])
-
-r3 = parse_client("Ana", "Ramos", "Díaz", "999", "Cusco", edad="abc")
-assert r3["edad_raw"] == "abc"
-assert any("edad" in e.lower() for e in r3["errors"])
-print("3 tests OK")`,
+edad_invalida_raw = "abc"
+# Ejecuta por separado para observar ValueError:
+# int(edad_invalida_raw)`,
         },
         solutionCode: {
           language: 'python',
-          title: 'parse_client_suite.py',
-          code: `def safe_int(campo: str, valor: str):
-    texto = valor.strip()
-    if texto == "":
-        return False, None, f"ERROR en '{campo}': valor vacío"
-    try:
-        return True, int(texto), None
-    except ValueError:
-        return False, None, f"ERROR en '{campo}': no se pudo convertir {valor!r} a int"
+          title: 'captura_valida.py',
+          code: `nombres_raw = "  María José  "
+apellido_raw = "  Ñahui  "
+contacto_raw = "0999000111"
+edad_raw = " 34 "
 
-def parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None):
-    errors: list[str] = []
-    rec = {
-        "nombres_raw": nombres,
-        "apellido_paterno_raw": apellido_paterno,
-        "apellido_materno_raw": apellido_materno,
-        "contacto_raw": contacto,
-        "direccion_raw": direccion,
-        "edad_raw": edad,
-        "nombres": None,
-        "apellido_paterno": None,
-        "apellido_materno": None,
-        "contacto": None,
-        "direccion": None,
-        "edad": None,
-        "errors": errors,
-    }
+nombres_clean = nombres_raw.strip()
+apellido_clean = apellido_raw.strip()
+contacto_clean = contacto_raw.strip()
+edad_clean = edad_raw.strip()
+edad = int(edad_clean)
 
-    def clean_required(campo, valor):
-        if valor is None or str(valor).strip() == "":
-            errors.append(f"ERROR en '{campo}': vacío (raw={valor!r})")
-            return None
-        return str(valor).strip()
-
-    rec["nombres"] = clean_required("nombres", nombres)
-    rec["apellido_paterno"] = clean_required("apellido_paterno", apellido_paterno)
-    rec["apellido_materno"] = clean_required("apellido_materno", apellido_materno)
-    rec["contacto"] = clean_required("contacto", contacto)
-    rec["direccion"] = clean_required("direccion", direccion)
-    if edad is not None:
-        ok, n, err = safe_int("edad", edad)
-        if ok:
-            rec["edad"] = n
-        else:
-            errors.append(err)
-    return rec
-
-r = parse_client("María José", "Quispe", "Ñahui", "999000111", "Lima", edad="34")
-assert r["apellido_materno_raw"] == "Ñahui"
-assert r["errors"] == []
-
-r2 = parse_client("", "Quispe", "Ñahui", "999", "Lima")
-assert r2["nombres_raw"] == ""
-assert any("nombres" in e.lower() for e in r2["errors"])
-
-r3 = parse_client("Ana", "Ramos", "Díaz", "999", "Cusco", edad="abc")
-assert r3["edad_raw"] == "abc"
-assert any("edad" in e.lower() for e in r3["errors"])
-print("3 tests OK")`,
-          output: `3 tests OK`,
+resumen = f"Cliente: {nombres_clean} {apellido_clean} | contacto={contacto_clean} | edad={edad}"
+print(resumen)
+print("raw intactos", nombres_raw == "  María José  " and apellido_raw == "  Ñahui  ")
+print("Unicode intacto", apellido_clean == "Ñahui")
+print("contacto str", type(contacto_clean).__name__ == "str" and contacto_clean == "0999000111")
+print("edad int", type(edad).__name__ == "int" and edad == 34)`,
+          output: `Cliente: María José Ñahui | contacto=0999000111 | edad=34
+raw intactos True
+Unicode intacto True
+contacto str True
+edad int True`,
         },
       },
     ],

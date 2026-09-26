@@ -4,7 +4,7 @@
   "terms_audited": 106,
   "events_audited": 22897,
   "issue_counts": {
-    "DEFINITION_AFTER_REQUIREMENT": 4,
+    "DEFINITION_AFTER_REQUIREMENT": 3,
     "NO_VISIBLE_DEFINITION": 3,
     "USE_BEFORE_DEFINITION": 25
   },
@@ -75,13 +75,6 @@
       "term_id": "exception",
       "severity": "P1",
       "location": "basics.S02-T1-B-DEMO.code",
-      "definition_location": "decisions-rules.S03-T2-B.p0"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "exception",
-      "severity": "P1",
-      "location": "basics.S02-T1-B-E2.hint",
       "definition_location": "decisions-rules.S03-T2-B.p0"
     },
     {

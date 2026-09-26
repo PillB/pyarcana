@@ -63,8 +63,13 @@ class ReportLock(unittest.TestCase):
 
     def test_the_tests_never_touch_the_real_lock(self):
         """The guard on the guard: this suite runs inside the gate it protects."""
+        # Compare resolved paths, never `samefile`: that stats both sides, and the temp lock
+        # does not exist until something takes it. The first version therefore raised
+        # FileNotFoundError whenever the REAL lock existed - which is exactly when a gate is
+        # holding it, so the test passed standalone and failed under the gate. That is the
+        # environment-dependence this file was written to remove, reintroduced by its own guard.
         self.assertNotEqual(report_lock.LOCK, self._real)
-        self.assertFalse(self._real.samefile(self._path) if self._real.exists() else False)
+        self.assertNotEqual(self._path.resolve(), self._real.resolve())
 
     def test_a_free_lock_lets_an_audit_through(self):
         report_lock.refuse_if_busy("probe")  # must not raise

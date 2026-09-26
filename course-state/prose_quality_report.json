@@ -15,17 +15,17 @@
   "section": "S01"
  },
  "S02": {
-  "words": 7537,
-  "sentences": 654,
-  "words_per_sentence": 11.5,
-  "fernandez_huerta": 75.7,
+  "words": 7550,
+  "sentences": 652,
+  "words_per_sentence": 11.6,
+  "fernandez_huerta": 75.0,
   "long_sentences": 3,
   "run_on_sentences": 0,
-  "nominalisations_per_100w": 2.4,
+  "nominalisations_per_100w": 2.6,
   "b5_nominal_constructions": 3,
   "b5_per_100_sentences": 0.5,
   "gerunds_per_100w": 0.2,
-  "commas_per_sentence": 0.6,
+  "commas_per_sentence": 0.5,
   "meta_leaks": 5,
   "section": "S02"
  },

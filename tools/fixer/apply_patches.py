@@ -152,6 +152,14 @@ def main() -> int:
             esc = "\\" + delim
             if esc not in anchor or esc in repl:
                 continue
+            # The anchor must prove it is entirely INSIDE one literal of this delimiter: every
+            # occurrence escaped, none bare. A whole-exercise anchor contains both a
+            # double-quoted `title:` and a backtick `code:` template, so it has `\"` AND bare
+            # `"` - and escaping the bare ones rewrote the Python inside the template as
+            # `nombres_raw = \"   \"`, a SyntaxError. Caught by the snippet gate, not by the
+            # typecheck, because it is valid TypeScript and broken Python.
+            if re.search(r'(?<!\\)' + re.escape(delim), anchor):
+                continue
             bare = re.findall(r"(?<!\\)" + re.escape(delim), repl)
             if bare:
                 return re.sub(r"(?<!\\)" + re.escape(delim), esc, repl), len(bare)

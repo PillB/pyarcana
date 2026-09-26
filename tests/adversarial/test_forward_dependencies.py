@@ -136,7 +136,7 @@ D9_OWED = 0
 # `for` replaces `next(reader)` with StopIteration, and each refusal is shown as the line Python
 # would print. The four Theory-tab playgrounds before S09 followed. What remains is S02 (24) and
 # S04 (11), inside CP-N1-A, which wait on the Q3 route — an owner question.
-D10_OWED = 34
+D10_OWED = 13
 
 
 class ForwardDependencyTests(unittest.TestCase):
