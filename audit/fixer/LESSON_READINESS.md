@@ -59,7 +59,9 @@ Work in a worktree of `audit/consolidated-issues-20260910`. Run lesson Python wi
    own commit, and you prove it leaves the baseline unchanged, or you re-snapshot.
 8. **Re-run both maps and diff.** Concept map: no new surprising or never-explained entries.
    Readiness: no new finding for any badge or capstone touching SXX. Treat a regression in
-   either as a failed round.
+   either as a failed round. The gate enforces the totals (`surprising_uses_course_wide`,
+   `readiness_findings_course_wide`, since b596f785). Diff the rows by hand anyway: a total can
+   hold while one badge gains a finding and another loses one.
 9. **Verify in the browser.** Local preview of the branch now; the live site after merge. Check
    theory, iDo, weDo, youDo and self-check as a learner meets them, and the console.
 10. **Record and commit.** Lower any ratchet that moved. Put lessons in LEDGER_NOTES and deferred
