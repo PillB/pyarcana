@@ -24,7 +24,7 @@ export const section06: CourseSection = {
   jobRelevance:
     "Antes de guardar un lote fuera del programa, ordénalo en una mesa de clasificación en memoria. Allí puedes conservar el orden de llegada, localizar clientes por ID, detectar repeticiones y registrar desacuerdos. Aquí conviertes tus listas y funciones en ese pequeño almacén confiable. Esta habilidad aparece a diario en el onboarding, es decir, en el alta y la verificación de un nuevo cliente. También aparece en la logística, el comercio y el control de calidad. Elegir la colección correcta evita datos perdidos, búsquedas lentas y resultados que cambian sin explicación.",
   learningOutcomes: [
-    { text: "Usar `list`/`tuple` y recortes por posiciones (`slicing`) para crear ventanas de registros" },
+    { text: "Usar `list`/`tuple` y recortes por posiciones (`slicing`: tomar una parte seguida desde una posición inicial hasta antes de una posición final) para crear ventanas de registros" },
     { text: "Desempaquetar secuencias y distinguir alias vs. copia superficial/profunda" },
     { text: "Modelar registros con dict, get e índices id→fila" },
     { text: "Deduplicar con set y reportar conflictos sin borrarlos" },
@@ -54,6 +54,33 @@ export const section06: CourseSection = {
         title: "Alcance de S06",
         content:
           "Trabajas con los tipos incorporados `list`, `tuple`, `dict` y `set`; más adelante usarás el módulo `copy`, incluido con Python. El objetivo es construir y justificar un modelo tabular en memoria con datos sintéticos; nunca uses información personal real.",
+      },
+    },
+    {
+      heading: "Recortar una lista por posiciones",
+      paragraphs: [
+        "En Python, **slicing** consiste en escribir dos posiciones separadas por `:` dentro de `[]` para tomar una parte seguida de una `list`. Existe para elegir varios valores consecutivos sin escribir un `for` ni cambiar la lista original. La posición inicial entra en el resultado; la posición final marca dónde detenerse y no entra.",
+        "Mira `valores = [10, 20, 30, 40]`. El recorte `valores[1:3]` comienza en la posición 1 y se detiene antes de la 3, por eso produce `[20, 30]`. El recorte `valores[-2:]` comienza dos posiciones antes del final y, como no indica una posición final, produce `[30, 40]`. En ambos casos `valores` conserva sus cuatro números.",
+        "Ahora prueba con `ids = [\"T1\", \"T2\", \"T3\", \"T4\"]`. Antes de ejecutar, predice el resultado de `ids[-3:]`; después imprime el recorte y la lista original. La comprobación correcta muestra `[\"T2\", \"T3\", \"T4\"]` y luego los cuatro IDs originales. Si escribes `ids[-3]` sin `:`, obtienes un solo valor en vez de una lista: los dos puntos son lo que pide un recorte.",
+      ],
+      code: {
+        language: 'python',
+        title: "primer_recorte.py",
+        code: `valores = [10, 20, 30, 40]
+parte_central = valores[1:3]
+ultimos = valores[-2:]
+print(parte_central)
+print(ultimos)
+print(valores)`,
+        output: `[20, 30]
+[30, 40]
+[10, 20, 30, 40]`,
+      },
+      callout: {
+        type: "tip",
+        title: "Lee primero los límites",
+        content:
+          "En `lista[inicio:fin]`, incluye `inicio` y se detiene antes de `fin`. Ejecuta el ejemplo y confirma que el recorte no cambia la lista original.",
       },
     },
     {
@@ -305,7 +332,7 @@ flat rows: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 10}, {'client_id': 'C0
       },
       callout: {
         type: "tip",
-        title: "Shape listo para S08",
+        title: "Filas listas para S08",
         content:
           "Una lista plana de diccionarios es el puente natural hacia CSV. Conserva el ID del cliente en cada fila aplanada para no perder la relación.",
       },
@@ -401,6 +428,59 @@ top monto: Ana 50`,
         title: "Orden determinista",
         content:
           "Ordena las filas por una clave de negocio antes de mostrarlas. Así, la misma entrada produce el mismo orden y una salida comparable.",
+      },
+    },
+    {
+      heading: "Una función pequeña donde se usa",
+      figure: {
+        id: "S06-key-lambda",
+        caption:
+          "Dos formas de escribir la misma función `key` producen el mismo orden; cambia dónde queda la regla, no el resultado.",
+        alt:
+          "Dos paneles comparan una función con nombre y una función lambda. Ambos usan la tupla región y nombre y ordenan los IDs como C001, C003 y C002.",
+      },
+      paragraphs: [
+        "A veces una función `key` solo se necesita una vez, junto a `sorted`. Ponerle nombre puede costar más de lo que aporta: lees el nombre y luego buscas en otro lugar la regla que decide el orden.",
+        "Una **lambda** es una función pequeña que se escribe en la misma línea donde se usa. Tiene parámetros antes de `:` y una sola expresión después; el valor de esa expresión es lo que devuelve. No lleva `return` ni admite un cuerpo de varias líneas.",
+        "Compara las dos formas con las mismas filas de clientes. `por_region_y_nombre` y `lambda r: ...` entregan a `sorted` la misma tupla; el programa imprime los IDs de cada resultado y comprueba que ambas listas son iguales.",
+      ],
+      code: {
+        language: 'python',
+        title: "lambda_key.py",
+        code: `clients = [
+    {"id": "C002", "region": "R-SUR", "nombre": "Beto"},
+    {"id": "C001", "region": "R-NORTE", "nombre": "Ana"},
+    {"id": "C003", "region": "R-SUR", "nombre": "Ana"},
+]
+
+def por_region_y_nombre(r):
+    return (r["region"], r["nombre"])
+
+orden_con_def = sorted(clients, key=por_region_y_nombre)
+orden_con_lambda = sorted(
+    clients,
+    key=lambda r: (r["region"], r["nombre"]),
+)
+ids_con_def = [r["id"] for r in orden_con_def]
+ids_con_lambda = [r["id"] for r in orden_con_lambda]
+print("con def:", ids_con_def)
+print("con lambda:", ids_con_lambda)
+print("listas iguales:", ids_con_def == ids_con_lambda)
+
+# Usa un nombre si reutilizas la regla o necesitas explicarla; usa lambda si la lees una vez aquí.
+# Antes de ejecutar la siguiente línea, predice el orden al usar solo el ID.
+por_id = sorted(clients, key=lambda r: r["id"])
+print("solo id:", [r["id"] for r in por_id])`,
+        output: `con def: ['C001', 'C003', 'C002']
+con lambda: ['C001', 'C003', 'C002']
+listas iguales: True
+solo id: ['C001', 'C002', 'C003']`,
+      },
+      callout: {
+        type: "tip",
+        title: "Una vez o varias",
+        content:
+          "Nombra la regla si la reutilizas o debes explicarla; usa `lambda` si se lee una sola vez donde se aplica.",
       },
     },
     {
@@ -862,46 +942,47 @@ KEYS sigue ('id', 'monto')`,
       {
         subtopicId: "S06-T1-A",
         kind: "transfer",
-        title: "Diagnosticar append sobre tuple de ids",
+        title: "Comprobar antes de añadir a una tuple de ids",
         preamble:
-          "- **Contexto:** a veces un snapshot de ids llega como tuple (inmutable); el pipeline intenta mutarlo como cola.\n- **Meta:** capturar `AttributeError`, convertir a `list` y mutar una **copia**.\n- **Éxito:** un `print` de diagnóstico con nombre `AttributeError` y luego `['C001', 'C002', 'C003']`.\n- **Límites:** no uses `except Exception` genérico en la solución; no mutes la tuple original (no se puede).",
+          "- **Contexto:** a veces un snapshot de ids llega como tuple (inmutable), pero el siguiente paso necesita añadir un elemento.\n- **Meta:** comprobar el tipo, convertir a `list` y modificar solo la copia.\n- **Éxito:** `tipo original: tuple` y luego `['C001', 'C002', 'C003']`; el rechazo de `append` sobre la tuple queda mostrado en un comentario.\n- **Límites:** no mutes ni reemplaces la tuple original; no omitas la comprobación antes de convertir.",
         id: "S06-T1-A-E3",
         instruction:
-          "1. Intenta `ids.append('C003')` dentro de `try`.\n2. En `except AttributeError`, imprime tipo y mensaje.\n3. Convierte a lista, haz `append('C003')` e imprime el resultado.\n4. En el except usa solo AttributeError (no Exception genérico); la tuple original no se muta.",
-        hint: "tuple no tiene append → AttributeError.",
+          "1. Parte de `ids = ('C001', 'C002')`.\n2. Antes de añadir, comprueba `isinstance(ids, tuple)`.\n3. Si es una tuple, crea una copia con `list(ids)` y añade `'C003'` a esa lista.\n4. Imprime el tipo original y la lista final; muestra en un comentario la última línea que produciría `ids.append('C003')`.",
+        hint: "Comprueba `isinstance(ids, tuple)` antes de crear `mut = list(ids)`.",
         hints: [
-          "tuple no tiene append → AttributeError.",
-          "list(ids) para mutar una copia.",
+          "Comprueba `isinstance(ids, tuple)` antes de crear `mut = list(ids)`.",
+          "Añade `C003` a `mut`; `ids` debe seguir siendo la tuple original.",
         ],
-        edgeCases: ["diagnóstico AttributeError"],
-        tests: "AttributeError + lista mutada",
+        edgeCases: ["tuple original inmutable"],
+        tests: "tipo original tuple + lista mutada",
         feedback:
-          "Si necesitas mutar, trabaja con `list`; guarda `tuple` solo como snapshot. Convertir todo a list «por si acaso» pierde el contrato de inmutabilidad: el error es la señal, no un fallo vergonzoso.",
+          "La comprobación hace explícita la decisión: `ids` conserva el snapshot y `mut` es la copia que puede cambiar. Convertir sin preguntar borra esa diferencia y facilita que otro paso sustituya el contrato original por una lista.",
         retrospective:
-          "El `AttributeError` protege una decisión: esos IDs eran un snapshot, no una cola. Explica por qué convertir a lista y mutar la copia respeta esa decisión mejor que reemplazar la tupla original por una lista global. ¿En qué situación preferirías devolver una tupla nueva con `ids + ('C003',)`? La respuesta depende de quién comparte el contrato.",
+          "Compara los dos objetos después de añadir `C003`: la lista tiene tres IDs y la tuple conserva dos. Explica por qué esa separación respeta mejor el snapshot que reasignar `ids = list(ids)`. Si nadie necesitara modificar la secuencia, una tuple nueva con `ids + ('C003',)` mantendría el mismo tipo.",
         starterCode: {
           language: 'python',
           title: "fix_tuple_mut.py",
-          code: `# Diagnostica el error al mutar una tuple.
+          code: `# DEFECT: convierte sin comprobar y reemplaza el snapshot.
 ids = ('C001', 'C002')
-try:
-    ids.append('C003')
-except Exception as e:
-    print('error genérico', e)
-print('ids', ids)`,
+ids = list(ids)
+ids.append('C003')
+print('tipo original:', type(ids).__name__)
+print(ids)`,
         },
         solutionCode: {
           language: 'python',
           title: "fix_tuple_mut.py",
           code: `ids = ('C001', 'C002')
-try:
-    ids.append('C003')
-except AttributeError as e:
-    print('diagnóstico:', type(e).__name__, '-', e)
+if isinstance(ids, tuple):
     mut = list(ids)
-    mut.append('C003')
-    print(mut)`,
-          output: `diagnóstico: AttributeError - 'tuple' object has no attribute 'append'
+else:
+    mut = ids
+print('tipo original:', type(ids).__name__)
+mut.append('C003')
+print(mut)
+# ids.append('C003') terminaría con:
+# AttributeError: 'tuple' object has no attribute 'append'`,
+          output: `tipo original: tuple
 ['C001', 'C002', 'C003']`,
         },
       },
@@ -924,7 +1005,7 @@ except AttributeError as e:
         feedback:
           "Unpack documenta la forma esperada de la fila. Si el largo no calza, Python falla de inmediato — y eso es bueno para detectar filas rotas antes del almacén.",
         retrospective:
-          "El unpack no solo ahorra índices: convierte el largo de la fila en una afirmación ejecutable. Predice el error si llega `('C001', 'Lima')` y explica por qué no conviene rellenar `monto` en silencio. Después decide cuándo usarías `cid, *rest`: flexibiliza el shape, pero también traslada a tu código la responsabilidad de validar cuánto contiene `rest`.",
+          "El unpack no solo ahorra índices: convierte el largo de la fila en una afirmación ejecutable. Predice el error si llega `('C001', 'Lima')` y explica por qué no conviene rellenar `monto` en silencio. Después decide cuándo usarías `cid, *rest`: permite una cantidad variable de valores, pero también traslada a tu código la responsabilidad de validar cuánto contiene `rest`.",
         starterCode: {
           language: 'python',
           title: "unpack_row.py",
@@ -1084,33 +1165,31 @@ Cusco`,
       {
         subtopicId: "S06-T2-A",
         kind: "independent",
-        title: "get con default frente a KeyError",
+        title: "get con default frente a una clave obligatoria",
         preamble:
-          "- **Contexto:** ids opcionales en intake sintético: a veces reportas «N/A», a veces un bug de programación debe fallar fuerte.\n- **Meta:** usar `get` para opcionales y capturar `KeyError` en acceso duro.\n- **Éxito:** tres líneas conceptuales: `Ana`, `N/A`, y un print de `KeyError 'C999'`.\n- **Límites:** no tragues todas las excepciones con `except Exception`.",
+          "- **Contexto:** algunos ids del intake sintético son opcionales y otros deben existir.\n- **Meta:** usar `get` para la ausencia esperada y comprobar pertenencia antes de consultar una clave obligatoria.\n- **Éxito:** tres líneas: `Ana`, `N/A` y `falta obligatoria C999`.\n- **Límites:** no uses el mismo default para ocultar una clave obligatoria; no consultes esa clave antes de comprobarla.",
         id: "S06-T2-A-E2",
         instruction:
-          "1. Con `idx = {'C001': 'Ana'}`, imprime `get` de C001 y de C999 (default `'N/A'`).\n2. En un `try`, accede `idx['C999']`.\n3. En `except KeyError`, imprime el error.\n4. Compara con la solución: no omitas el `get` de C001.",
-        hint: "idx.get('C999','N/A')",
+          "1. Con `idx = {'C001': 'Ana'}`, imprime `get` de C001 y de C999 con el default `'N/A'`.\n2. Guarda `'C999'` en `clave` y comprueba `clave in idx` antes de usar `idx[clave]`.\n3. Si falta, imprime `falta obligatoria C999`.\n4. Muestra en un comentario la última línea que produciría el acceso directo sin esa comprobación.",
+        hint: "Para una clave obligatoria, pregunta primero `clave in idx`.",
         hints: [
-          "idx.get('C999','N/A')",
-          "KeyError solo en acceso duro.",
+          "`idx.get('C999', 'N/A')` cubre la ausencia opcional.",
+          "Para una clave obligatoria, pregunta primero `clave in idx`.",
         ],
-        edgeCases: ["get vs. KeyError"],
-        tests: "Ana / N/A / KeyError",
+        edgeCases: ["clave opcional frente a obligatoria"],
+        tests: "Ana / N/A / falta obligatoria C999",
         feedback:
-          "`get` con default cubre ausencia esperada (campo opcional). `KeyError` en acceso duro señala un invariante roto de programación — no lo envuelvas en `except Exception` genérico.",
+          "`get` con default cubre una ausencia prevista. Una clave obligatoria necesita otra decisión: comprobar pertenencia permite registrar cuál falta sin fingir que `N/A` satisface el contrato.",
         retrospective:
-          "No concluyas que `get` es «más seguro» en toda situación. Es seguro cuando la ausencia forma parte del contrato; puede ocultar un typo cuando el ID debía existir. Escribe dos tests: uno donde C999 produce N/A de manera legítima y otro donde una clave obligatoria debe lanzar `KeyError`. Esa distinción reaparecerá en rutas anidadas.",
+          "No concluyas que `get` es mejor en toda situación. Es adecuado cuando la ausencia forma parte del contrato, pero puede ocultar un nombre mal escrito cuando la clave debía existir. Escribe dos casos: uno donde C999 produce N/A de manera legítima y otro donde debe quedar registrado como clave obligatoria ausente. Esa distinción reaparecerá en rutas anidadas.",
         starterCode: {
           language: 'python',
           title: "get_vs_keyerror.py",
-          code: `# get con default vs acceso duro con KeyError.
+          code: `# DEFECT: usa el default opcional para una clave obligatoria.
 idx = {'C001': 'Ana'}
-print(idx['C001'])
-try:
-    print(idx['C999'])
-except KeyError as e:
-    print('KeyError', e)`,
+print(idx.get('C001', 'N/A'))
+print(idx.get('C999', 'N/A'))
+print('falta obligatoria', idx.get('C999', 'N/A'))`,
         },
         solutionCode: {
           language: 'python',
@@ -1118,13 +1197,16 @@ except KeyError as e:
           code: `idx = {'C001': 'Ana'}
 print(idx.get('C001', 'N/A'))
 print(idx.get('C999', 'N/A'))
-try:
-    print(idx['C999'])
-except KeyError as e:
-    print('KeyError', e)`,
+clave = 'C999'
+if clave in idx:
+    print(idx[clave])
+else:
+    print('falta obligatoria', clave)
+# idx['C999'] terminaría con:
+# KeyError: 'C999'`,
           output: `Ana
 N/A
-KeyError 'C999'`,
+falta obligatoria C999`,
         },
       },
       {
@@ -1132,7 +1214,7 @@ KeyError 'C999'`,
         kind: "transfer",
         title: "Fusionar config sin mutar defaults",
         preamble:
-          "- **Contexto:** varios helpers comparten una config base de retry/timeout; un override no debe pisar el original en memoria.\n- **Meta:** merge con precedencia override > defaults, dejando `defaults` intacto.\n- **Éxito:** `merged` con `retry: 5` y `timeout: 30`; `defaults` sigue en `retry: 1`.\n- **Límites:** no dejes `defaults.update(override)` sobre el dict compartido.",
+          "- **Contexto:** varios helpers comparten una config base de retry/timeout; un override no debe pisar el original en memoria.\n- **Meta:** combinar ambos diccionarios de modo que `override` gane sobre `defaults`, dejando `defaults` intacto.\n- **Éxito:** `merged` con `retry: 5` y `timeout: 30`; `defaults` sigue en `retry: 1`.\n- **Límites:** no dejes `defaults.update(override)` sobre el dict compartido.",
         id: "S06-T2-A-E3",
         instruction:
           "1. Observa el starter: `update` muta `defaults`.\n2. Construye `merged` sin mutar el base.\n3. Imprime merged y defaults.\n4. Verifica que defaults sigue con `retry: 1`.",
@@ -1336,7 +1418,7 @@ print(dedup_report(rows))`,
         feedback:
           "Conteo con `len` valida el grafo anidado. Imprimir la lista cruda no resume; una lista vacía tiene la forma correcta y conteo 0; no representa un «cliente roto».",
         retrospective:
-          "C002 produce cero, no error ni «missing», porque la lista existe y simplemente no contiene contactos. Explica la diferencia entre `contacts: []` y una fila sin clave `contacts`. ¿Qué debería hacer un resumen y qué debería hacer un validador de shape? Mantener esas responsabilidades separadas evita convertir ausencia de actividad en corrupción estructural.",
+          "C002 produce cero, no error ni «missing», porque la lista existe y simplemente no contiene contactos. Explica la diferencia entre `contacts: []` y una fila sin clave `contacts`. ¿Qué debería hacer un resumen y qué debería hacer una comprobación de la forma esperada? Mantener esas responsabilidades separadas evita convertir ausencia de actividad en corrupción estructural.",
         starterCode: {
           language: 'python',
           title: "count_contacts.py",
@@ -1378,7 +1460,7 @@ C002 → 0`,
         edgeCases: ["denormalización"],
         tests: "3 filas flat",
         feedback:
-          "Shape listo para CSV en S08. Denormalizar `client_id` en cada fila conserva la relación; tomar solo `txs[0]` pierde ingresos en un resumen.",
+          "Las filas ya tienen la forma que usará CSV en S08. Denormalizar `client_id` en cada fila conserva la relación; tomar solo `txs[0]` pierde ingresos en un resumen.",
         retrospective:
           "Verifica una conservación: el número de filas planas debe ser la suma de las longitudes de `txs`. En este fixture, 1 + 2 = 3. Si usas siempre `[0]`, el programa produce una salida plausible de dos filas y pierde T3 sin lanzar error. ¿Qué assert convertiría esa pérdida silenciosa en un fallo visible?",
         starterCode: {
@@ -1413,7 +1495,7 @@ print(flat)`,
       {
         subtopicId: "S06-T3-A",
         kind: "transfer",
-        title: "Validar shape de txs (list o review)",
+        title: "Comprobar que `txs` sea una `list`",
         preamble:
           "- **Contexto:** filas rotas llegan al almacén (falta una clave o aparece una cadena donde debía haber una lista).\n- **Meta:** marcar `ok` solo si `txs` es `list` (vacía permitida).\n- **Éxito:** `C001 ok`, `C002 review`, `C003 review`.\n- **Límites:** no uses `bool(txs)` (castiga la lista vacía legítima).",
         id: "S06-T3-A-E3",
@@ -1427,7 +1509,7 @@ print(flat)`,
         edgeCases: ["forma incorrecta"],
         tests: "ok / review / review",
         feedback:
-          "Validar shape en memoria evita basura silenciosa al exportar. `bool(txs)` manda a review la lista vacía legítima; `isinstance(..., list)` separa shape de contenido.",
+          "Comprobar que `txs` sea una `list` evita aceptar una cadena u otro valor incorrecto. `bool(txs)` manda a `review` la lista vacía legítima; `isinstance(..., list)` distingue el tipo de contenedor de su contenido.",
         retrospective:
           "La prueba correcta pregunta «¿es una lista?», no «¿tiene elementos?». Por eso C001 es válido aunque `bool([])` sea falso. Explica por qué C003 no debe pasar aunque `bool('oops')` sea verdadero. Esta pareja revela un error común: usar truthiness para validar forma. En T3-B aplicarás la misma disciplina a ausencia y vacío.",
         starterCode: {
@@ -1466,7 +1548,7 @@ C003 review`,
         kind: "guided",
         title: "get_nested seguro por ruta de claves",
         preamble:
-          "- **Contexto:** `profile.phone` presente y `profile.email` ausente en un cliente sintético.\n- **Meta:** recorrer claves; si falta un nivel, devolver `default`.\n- **Éxito:** `999` y `N/A`.\n- **Límites:** no uses try/except como único diseño; chequea dict y pertenencia de clave.",
+          "- **Contexto:** `profile.phone` está presente y `profile.email` está ausente en un cliente sintético.\n- **Meta:** recorrer claves y devolver `default` cuando falte un nivel.\n- **Éxito:** `999` y `N/A`.\n- **Límites:** comprueba en cada nivel que `cur` sea un dict y que contenga la clave antes de consultarla.",
         id: "S06-T3-B-E1",
         instruction:
           "1. El starter hace `cur = cur[k]` sin guardas.\n2. Si no es dict o falta `k`, retorna `default`.\n3. Prueba phone y email con default.\n4. No hardcodees los resultados sin la función.",
@@ -1478,9 +1560,9 @@ C003 review`,
         edgeCases: ["path incompleto"],
         tests: "999 y N/A",
         feedback:
-          "Helper reutilizable del modelo anidado. Chequea `isinstance(cur, dict)` y pertenencia de clave; un try/except alrededor de todo el path oculta bugs de tipo.",
+          "El helper comprueba `isinstance(cur, dict)` y la pertenencia de la clave antes de avanzar. Así distingue una ruta incompleta de un nivel que ni siquiera tiene la forma esperada.",
         retrospective:
-          "Recorre a mano la ruta `profile → email`: el primer nivel existe y el segundo no, por eso aparece el default. Ahora imagina `profile: []`. El chequeo de tipo también debe detenerse. ¿Qué defecto podría ocultar un `except Exception` general? Un helper seguro no significa un helper que silencia cualquier error; significa un contrato preciso para rutas incompletas.",
+          "Recorre a mano la ruta `profile → email`: el primer nivel existe y el segundo no, por eso aparece el default. Ahora imagina `profile: []`; la comprobación de tipo debe detener el recorrido antes de buscar otra clave. Un helper seguro no silencia cualquier defecto: define con precisión qué rutas incompletas convierten el resultado en `default`.",
         starterCode: {
           language: 'python',
           title: "get_nested.py",
@@ -1881,7 +1963,7 @@ costo_conceptual_set 5`,
   youDo: {
     title: "Modelo tabular en memoria (CP-N1-B)",
     context:
-      "Ahora diseñas la mesa de clasificación completa sin una solución para copiar. Trabaja en cuatro pasadas. Primero escribe los invariantes: la primera fila única se conserva, un payload distinto se reporta y ninguna transacción pierde su `client_id`. Después implementa cada helper y pruébalo por separado. En la tercera pasada compón el flujo de `main`; en la cuarta, ejecuta una matriz de bordes con duplicado idéntico, conflicto, ruta ausente, lista vacía y entrada desordenada. El éxito no es que el archivo «corra», sino que puedas relacionar cada salida con una promesa verificable.",
+      "Ahora diseñas la mesa de clasificación completa sin una solución para copiar. Trabaja en cuatro pasadas. Primero escribe los invariantes: la primera fila única se conserva, un payload distinto se reporta y ninguna transacción pierde su `client_id`. Después implementa cada helper y pruébalo por separado. En la tercera pasada compón la demostración reproducible al final del archivo; en la cuarta, ejecuta una matriz de bordes con duplicado idéntico, conflicto, ruta ausente, lista vacía y entrada desordenada. El éxito no es que el archivo «corra», sino que puedas relacionar cada salida con una promesa verificable.",
     objectives: [
       "Representar cliente/contacto/tx en list[dict] documentado",
       "Implementar dedup_report → unique + conflicts (idéntico ≠ conflicto)",
@@ -1949,26 +2031,21 @@ def build_demo_store() -> list[dict]:
     ]
 
 
-def main() -> None:
-    store = build_demo_store()
-    print("n_clients", len(store))
-    print("flat", flatten_txs(store))
-    print(export_deterministic(store))
-    print("phone C002", get_nested(store[1], "contacts", default=[]))
-    print("missing path", get_nested(store[0], "profile", "phone", default="MISSING"))
-    rows = [
-        {"id": "C001", "v": 1},
-        {"id": "C001", "v": 9},
-        {"id": "C002", "v": 2},
-    ]
-    print(dedup_report(rows, key_fn=lambda r: r["id"]))
-
-
-if __name__ == "__main__":
-    main()
+store = build_demo_store()
+print("n_clients", len(store))
+print("flat", flatten_txs(store))
+print(export_deterministic(store))
+print("phone C002", get_nested(store[1], "contacts", default=[]))
+print("missing path", get_nested(store[0], "profile", "phone", default="MISSING"))
+rows = [
+    {"id": "C001", "v": 1},
+    {"id": "C001", "v": 9},
+    {"id": "C002", "v": 2},
+]
+print(dedup_report(rows, key_fn=lambda r: r["id"]))
 `,
     portfolioNote:
-      "Presenta el proyecto como una decisión de diseño, no como una lista de funciones. Incluye el shape del store, el conflicto sintético que tu política conserva, dos dumps iguales obtenidos desde órdenes de entrada distintos y una breve justificación de cada colección. Un revisor debe poder reconstruir qué riesgo evita cada decisión sin abrir todo el código.",
+      "Presenta el proyecto como una decisión de diseño, no como una lista de funciones. Incluye la forma del almacén en memoria, el conflicto sintético que tu política conserva, dos dumps iguales obtenidos desde órdenes de entrada distintos y una breve justificación de cada colección. Un revisor debe poder reconstruir qué riesgo evita cada decisión sin abrir todo el código.",
     rubric: [
       { criterion: "Modelo completo cliente/contacto/tx", weight: "25%" },
       { criterion: "Dedup sin borrar conflictos", weight: "25%" },

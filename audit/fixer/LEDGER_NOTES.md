@@ -421,3 +421,232 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   glob like `migrations/*_rename_*/migration.sql` inside a `/** */` comment closes the comment at
   `*/`; and `cmd | tail` returns tail's status, hiding a crash. Check the result the command was
   supposed to produce, not only its exit code.
+
+### Teaching a concept the section already uses (2026-09-19, S16, S30, S33)
+
+- **A planted defect the fixture cannot expose certifies the habit it names.** S16-T3-B-E2 asks
+  the learner to fix a mask that looks only at the upper fence. Its fixture was
+  `[1.0, 2.0, 3.0, 100.0]`, whose lower fence is -36.5, so the broken starter printed `[100.0]` —
+  byte-identical to the declared solution — and «Éxito: `[100.0]`» told the learner they were
+  done. The exercise had shipped that way; the new teaching block only made it legible. Before
+  trusting any exercise that declares a DEFECT, run its starter under `.venv-content` and compare
+  with `solutionCode.output`: identical output means the exercise cannot fail. A course-wide gate
+  for this is in the work queue, because nothing else can see it.
+- **Explaining is not defining, and the measure counts definitions.** S30's new F1 block taught
+  the idea well — the formula, the harmonic mean, 1.0/0.5 against the simple average — with
+  «precisión pregunta: …¿cuántos lo eran realmente?» and «F1 combina ambas con `2*P*R/(P+R)`». A
+  rhetorical question defines nothing, so define-before-use went the wrong way: surprising uses in
+  S30 rose 20 → 31, all of them `f1-score` and `precision`, the two terms the block exists to
+  teach. At first use, state «X es …» with the term marked, then illustrate. The instrument and
+  the beginner want the same sentence.
+- **A new figure archetype needs its own arithmetic test; the render probe cannot see wrong.**
+  `NumberLineFigure` marked outliers with `at < min(fences) || at > max(fences)`. With one fence
+  that collapses and rings every value — and the obvious first reuse is the one-fence picture of
+  S16's upper-fence-only habit. Every gate was green: it paints, the labels fit, the contrast
+  passes. `tests/adversarial/figure-geometry.test.ts` now pins the predicate at zero, one and two
+  fences, and pins that authored fences and band edges lie inside the axis domain, since only
+  points get the off-scale bay.
+- **An archetype that reserves room for a wrapped headline must also draw it wrapped.**
+  `TableShapeFigure` computed `top` from `wrapLines(headline)` but drew the headline as a single
+  line and left the panel titles at a fixed `y`, so the first headline over ~62 characters put
+  «groupby + nunique» on top of «Conteo por clave» at every viewport and theme. Only
+  `figure_render_probe.mjs --sections S16` saw it. Run the probe for the section whenever a figure
+  is added, in both themes: static tests measure the data, not the drawing.
+- **A gate that is not in CI rots, and then it fails for the wrong reason.**
+  `scripts/raw_markdown_rendering.spec.ts` still listed `numpy` and `pandas`, ids this campaign
+  renamed in batch A, so it died on its first click instead of reporting anything — while 32
+  learning outcomes and 3 `jobRelevance` paragraphs rendered literal backticks on the live site,
+  because it walked only the learning tabs and those two surfaces are behind a popover and a
+  sheet. `InlineText` had existed since the 721-leak fix; the outcome site simply never used it.
+  When a fix is "those fields now go through InlineText", enumerate the fields that do not.
+
+### The exercise that cannot fail, and two instruments (2026-09-21)
+
+- **Two planted defects that printed the solution's own answer.** S16-T3-B-E2 (upper fence only,
+  on a fixture whose lower fence was -36.5) and S13-T1-B-E1 (inverted precision/recall
+  denominators, on `tp, fp, fn = 8, 2, 2`, where both metrics are 0.8). In each the broken starter
+  printed exactly the declared «Éxito», so the learner ran it, matched the output and submitted,
+  having practised the habit the exercise names. No gate could see it: the snippets audit runs the
+  SOLUTION and compares it with the declared output, and nothing ran the starter.
+  `scripts/planted_defect_audit.py` now runs both for every exercise whose text declares a DEFECT
+  and reports the ones whose starter already prints every line the solution does. The comparison
+  is line-containment, not equality: S13's starter printed an extra `ok True`, which exact
+  comparison called a difference while the two metric lines the learner checks were already right.
+- **Adding a glossary entry adds a concept the map must see defined.** The round added `cuartil`
+  and `cercas de Tukey` because the blocks bold them as course vocabulary, and both immediately
+  became findings: the Tukey sentence said where the fences sit («usan 1.5 … y quedan en …») but
+  never what one is, so the term read as never explained anywhere in 52 sections. Bold a term,
+  and the same paragraph has to say «X es …».
+- **A block's own heading is not a forward reference.** `glossary_first_use.py` ordered events
+  positionally, so a block titled "Cuartiles, IQR y cercas de Tukey" whose paragraphs define all
+  three reported USE_BEFORE_DEFINITION against itself — the heading is emitted before the
+  paragraphs. Name the subject, then teach it, is how the course is written; the audit now skips a
+  first mention that is the heading of the very block that defines the term, and still reports a
+  heading that names something a later block defines. Course-wide first-use issues fell 68 → 67.
+
+### Widening a ratchet's scan is not relaxing it (2026-09-21, D9/D10)
+
+The D9/D10 gate read `src/lib/course/sections/` only. Learner code lives in two other places:
+the Theory-tab playgrounds in `SectionView.tsx` and the capstone `STARTER/*.py` files, both of
+which the learner opens and runs. Widening `offenders()` to read them — mapping a playground to
+its section id and a starter to its `gate.json` `gate_section` — put 8 `try`/`except` sites under
+the gate that no scan had ever seen, so D10's baseline went 98 → 106. That number went up while
+the gate got stronger: before, those sites were not protected at all. State that in the comment,
+or the next reader takes it for a relaxation and the ratchet loses its meaning.
+
+### A guard must survive the round it guards (2026-09-22, S33 concepts)
+
+S33's concepts round closed 27 of its 28 surprising uses on the first attempt, and the gate
+threw the whole thing away twice — both times on tests written minutes earlier in this same
+campaign, neither time on anything codex got wrong. A failed gate restores the section, so a
+brittle guard does not merely report noise: it destroys good work and reports that the round
+failed.
+
+- **Never pin a positional location.** The test asserted `advanced-models.theory[10].p1`
+  defines cross-validation. The round inserted a teaching block ahead of it, every later index
+  shifted by one, and the assertion failed on content that was strictly better. `theory[10]` is
+  a fact about an array, not about the course. Find the event by the sentence it contains —
+  `/\*\*validación cruzada\*\* .{0,12} divide los datos/` — the way the older tests in that
+  file already do.
+- **Never make the defect your fixture.** The next test asserted overfitting is still a
+  load-bearing problem in S33. It failed because the round taught overfitting. A test whose
+  setup is the bug cannot outlive the bug, and during a campaign whose whole purpose is
+  removing these, it is a landmine with a timer. Assert the property on a synthetic concept
+  shaped like the real one, and read the live course in at most one test that `skipTest`s when
+  its population is empty — so it stops guarding on the day the campaign wins instead of
+  blocking it.
+
+### The definition detector's whitelists hide teaching, they do not invent it (2026-09-22)
+
+Two of S33's three "never explained" concepts were explained, in that section, in a sentence
+the detector could not parse. `divide` was missing from MARKED_SUBJECT_VERB, so «La
+**validación cruzada** (CV) divide los datos en `k` partes» taught nothing; `ocurre cuando` —
+the standard Spanish frame for defining a phenomenon, and the one codex reached for
+unprompted — matched no rule at all, so the block written to teach overfit registered as
+defining nothing and the definition of record fell to a learning outcome.
+
+Before commissioning content for a concept the map calls never-explained, grep the section for
+the term in bold or backticks and read the sentence. Otherwise the round pays codex to write a
+block for something the course already teaches.
+
+Add verbs on measured effect, never on plausibility. A frequency scan offered five more
+(`crea`, `declara`, `devuelve`, `exige`, `toma`); re-running the extractor with all of them
+changed exactly two events, one of which credited a self-check explanation with `venv` — the
+non-teaching-surface credit the detector's own docstring opens with. Only the two verbs with a
+case to prove them stayed.
+
+### A glossary alias that is an ordinary word will be captured by longer prose (2026-09-22, S09)
+
+`correlaci-n`'s only alias is `Correlación`. S09 is about logging and writes "identificador de
+correlación" throughout, so the statistics term scored four uses in a section that never mentions
+a coefficient - and carried `firstSectionId: 'exceptions-logging'` as a result. The round then
+"fixed" it by teaching correlation ids, and the map now believes S09 is where the course explains
+statistical correlation.
+
+The extractor sorts aliases longest-first **within one term**, never across terms, so nothing
+arbitrates this. Before commissioning a block for a concept the map says this section uses, read
+one of the actual sentences: if the term is an ordinary word, check it is not a fragment of a
+longer phrase meaning something else. The same shape is waiting in five other pairs -
+`function` inside `función generadora`, `commit` inside `Conventional Commits`, `list` inside
+`List comprehension`, `dict` inside `Dict comprehension`, `recall` inside `precisión y recall`.
+
+
+### Retrospective, 2026-09-25: what has actually been destroying rounds
+
+Twenty-four sections were processed over two days. Codex produced roughly ninety patches with
+**zero rejected on quality**. Eleven rounds were nevertheless thrown away, and every one of
+them died on the machinery rather than on the Spanish. The gate restores the section when it
+fails, so a bad instrument does not report noise — it deletes the work and calls the round a
+failure. These are the shapes, so the next round recognises them before paying for them.
+
+**1. A test that pins HOW something is written, not WHAT is true.** Four variants, in the order
+they bit:
+
+- *Array index.* `advanced-models.theory[10].p1`. A concepts round's whole purpose is
+  inserting teaching blocks, which renumbers every later index. Cost S33's round.
+- *Block ordinal.* `stdlib-deep.S15-T4-B#10.p2` reads like a stable subtopic id, but `#10`
+  counts blocks inside that subtopic. Insert one and it is `#11`. Cost S15's round — and the
+  guard written after the first variant only knew `theory[N]`, so it walked straight past this.
+- *Literal prose.* `test_s04_text_first_prose` pinned exact substrings; a round split one
+  sentence, so «, el índice» became «. El índice» — same words, capital E. Cost S04's round.
+- *A defect counted twice.* `first_use_issues` charged 2 for a term both mentioned and required
+  before its definition, and 1 for a term defined nowhere, so *teaching* a never-defined term
+  read as damage.
+
+The durable form pins what is true: find the event by its sentence, fold case and whitespace,
+count one defect once. 2,208 of 7,717 event locations (28.6%) are positional, so assume any
+location-shaped string in a test is a liability until shown otherwise.
+
+**2. Removing a definition exposes everything it was masking.** The brief counts uses *given
+the definitions that exist now*. Remove one — often correct, since a section should not
+pre-announce what another teaches — and uses the brief never listed appear at once. `for` in
+S04 would have gone 268 → 1126; `function` in S02 went 229 → 301; `if` in S02, 208 → 223. All
+three patches were right. The brief now states this cost per section before the round starts.
+
+**3. The detector's rules are whitelists, so a missing entry hides real teaching.** The course
+marks a keyword with BOTH marks — `**`for`**` — and `FORMATTED_SUBJECT` accepted one, so the
+inner backtick sat behind an asterisk instead of sentence punctuation. Consequence: `for`, with
+1421 uses across 52 sections, had its only credited definition in a weDo preamble reading
+"(base del gate de resúmenes)", while S04's theory taught it correctly and was credited with
+nothing. 26 sentences in the course open that way. Before writing a block for a concept the map
+calls never-explained, grep the section and read the sentence.
+
+**4. Spanish is the canonical version, and that is a diagnostic asset.** Python keywords,
+operators and library names are English; ordinary Spanish prose is not. So an English token in
+Spanish prose is almost always the concept, and the homonym risk concentrates where an alias IS
+an ordinary Spanish word. Measured over the 200 remaining uses: 145 (72.5%) come from
+English-token-only aliases and carry low false-positive risk; 55 (27.5%) come from twelve
+concepts whose aliases include a Spanish word — `excepción`, `valor atípico`, `función`,
+`correlación` — and that is where a use needs corroboration before it is believed. The overall
+noise level is low: 10 of 268 were clear homonyms (3.7%), not the large fraction first claimed.
+
+**5. One of these was self-inflicted and is worth naming.** Repairing the prose test with a
+global string replace broke two sibling tests in the same file, because the pattern being
+replaced appeared in three tests and only one needed it. Scope an edit to the assertion it is
+meant to fix, and run the file before moving on.
+
+### A brief can carry the defect it forbids (2026-09-26, S02 practice layer, route 2)
+
+S02's first route-2 round cut in-section surprises 31 → 19 and the course total 152 → 147, and
+still failed three measures. None of the three was codex writing bad Spanish. Two came from the
+brief, and the third came from codex overriding a fact the brief had stated.
+
+- *A pinned phrase is copied, defects included.* The brief listed six You Do phrases a test
+  requires verbatim, one of them «muestra un input problemático». Codex kept it and wrote
+  «un input problemático» twice more in the new You Do. `avoidable_english_per_1000` went
+  2.3 → 2.8. In S02 it is also a homonym, because the section teaches `input()`. **Never pin
+  or quote a phrase that carries an anglicism. Fix the phrase first, then pin it.**
+- *A prohibition reads as a deletion order.* «Do NOT reproduce … tuple returns» sat beside
+  «keep the course's earliest definitions». Codex resolved the conflict by deleting theory[4]
+  («Tres resultados que viajan juntos»), the only definition of `unpacking` in 52 sections. Its
+  rationale was «se enseñan más adelante», and the brief's held-definitions block had said the
+  opposite in so many words. `never_explained` went 11 → 12 and 7 uses in S06/S36 were exposed.
+  **When a brief forbids a construct, name the defining block that must stay.**
+  The applier now enforces this as well: `apply_patches.py` refuses a patch whose anchor holds
+  a listed definition's sentence and whose replacement names the concept under none of its
+  names (`test_patch_held_definition.py`). Replayed on the real round, it refuses exactly that
+  patch of the 11 and passes the other 10. This is the fifth round this failure class has cost.
+- *A rewritten self-check moved its answer.* The new question put the correct option first;
+  `correctIndex` went 1 → 0 and broke the section's answer-position balance. **When rewriting
+  a question, keep its `correctIndex` and order the options around it.**
+
+Salvage, not rerun: the refused patch was reverted by splicing the original block back at its
+exact offset, after checking that both 400-character neighbourhoods matched. The ten good
+patches stayed. The tuple block may leave S02 once S06 teaches tuples and unpacking. A
+definition moves only after its successor exists.
+
+### A clean section the instrument could not see (2026-09-26, S02)
+
+S02 closed its route-2 rounds at "2 surprising uses" with two dict literals still in place. One
+was a nested `{"types": {"edad": "str"}}` in `S02-T4-A-E3`, the other a `c = {...}` printed by
+the optional contract block. A dict literal never says "dict", and the extractor finds concepts by
+name, so both were invisible. It is fixed for dict (`scripts/concept_syntax.mts`). The measure
+went 123 → 143, and every one of the 22 added uses was there before the change. The same
+change stopped counting the `for` in the title *Python for Everybody*, which no rewrite could
+remove. **When a section reaches low single digits, read its code for constructs used without
+their name before calling it done.** Tuple unpacking, comprehensions and f-strings have the same
+shape and are not yet covered.
+
+The brief had also cut each concept's location list at eight. S02's `dict` had ten, and codex
+fixed the eight it was shown. A list handed to codex is complete, or it states how much it
+leaves out.

@@ -15,17 +15,17 @@ export const section13: CourseSection = {
   index: 13,
   title: "Familiarity Evidence Dashboard y cierre de nivel",
   shortTitle: "Evidence Dashboard",
-  tagline: "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+  tagline: "Resolución de identidad determinista —decidir si dos registros representan a la misma persona—, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
   estimatedHours: 9,
   level: "Intermedio",
   phase: 0,
   icon: "LayoutDashboard",
   accentColor: "bg-gradient-to-br from-rose-500 to-pink-600",
   jobRelevance:
-    "En equipos de datos de banca, telco o fintech en Perú, el cuello de botella no es «tener un modelo»: es saber si dos registros hablan de la misma persona y, por separado, si hay señales de familiaridad operativa, todo sin inventar parentesco ni fraude. Aquí aprendes a entregar un dashboard de evidencia con entity resolution determinista, scores separados, fichas pseudonimizadas y cola de revisión humana. Quien logra eso se vuelve confiable en la mesa de riesgo y deja un portfolio defendible.",
+    "En equipos de datos de banca, telco o fintech en Perú, el cuello de botella no es «tener un modelo»: es saber si dos registros hablan de la misma persona y, por separado, si hay señales de familiaridad operativa, todo sin inventar parentesco ni fraude. Aquí aprendes a entregar un dashboard de evidencia con resolución de identidad determinista —reglas explícitas para decidir si dos registros representan a la misma persona—, puntajes separados, fichas pseudonimizadas y cola de revisión humana. Quien logra eso se vuelve confiable en la mesa de riesgo y deja un portfolio defendible.",
   learningOutcomes: [
-    { text: "Aplicar normalización y blocking para ER determinista y entity_resolution_score" },
-    { text: "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical" },
+    { text: "Aplicar normalización y blocking para resolución de identidad —decidir si dos registros representan a la misma persona— y producir `entity_resolution_score`" },
+    { text: "Evaluar la resolución de identidad con etiquetas sintéticas: precision —de los pares marcados como iguales, qué parte sí lo era—, recall —de los pares realmente iguales, qué parte encontraste— y cola clerical" },
     { text: "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER" },
     { text: "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión" },
     { text: "Producir score de evidencia con incertidumbre y explicación legible" },
@@ -77,7 +77,7 @@ export const section13: CourseSection = {
         "**Ancla:** entity resolution (ER) responde *¿es la misma entidad en dos filas?* No responde *¿son familia?* ni *¿hay fraude?* Esas preguntas se tratan con otros scores y con humanos. Sin normalización, `D-12.34` y `d1234` parecen identidades distintas aunque son el mismo documento sintético: por eso casefold (pasar todo a minúsculas) y limpieza de no-alfanuméricos van **antes** de cualquier comparación.",
         "**Mecanismo — blocking:** el comparar *N* registros entre sí da *N(N−1)/2* pares —cada fila con cada otra, una sola vez; el *N×N* del producto cartesiano cuenta además cada fila consigo misma y cada par dos veces—; con miles de filas es inviable revisarlos a mano. **Blocking** (apellido paterno + región) acota el espacio: solo corres reglas finas dentro del mismo bloque. Por eso el bloqueo usa **varias claves a la vez**: si además del nombre bloqueas por documento, un par que coincide en documento cae junto por esa clave aunque el nombre lo separe. Sin esa segunda clave, el caso «solo coincide el documento» no llegaría nunca a evaluarse. En nombres peruanos sintéticos del curso, con la forma `Nombre ApellidoPaterno ApellidoMaterno`, la clave toma el **segundo** token (`parts[1]`); si solo hay un token, usa ese. Ejemplo: `Luis Huamán Soto` + Cusco → `huamán|cusco`. Fíjate en lo que esa regla supone: que el nombre de pila ocupa exactamente un token. Con «Ana María Quispe Rojas» —el mismo caso que abre esta sección— `parts[1]` es «maría», no el apellido paterno, y el registro cae en un bloque distinto al de «Ana M. Quispe R.». Eso no invalida la regla: un blocking key es una heurística barata cuyo trabajo es reducir pares candidatos, no acertar siempre. Pero sí explica por qué **una sola clave nunca basta**, y por qué el documento como segunda clave rescata justamente los casos que el nombre parte en dos. Documenta la regla en el memo y **no** mezcles «último token» (materno) con «paterno» en el mismo pipeline.",
         "**Trabajo guiado:** ER **determinista por reglas** produce `entity_resolution_score` ∈ [0,1]. Contrato típico N1: 1.0 si documento normalizado y blocking key coinciden; 0.5 si solo el documento coincide (bloques distintos — sospecha de migración o error de región); 0.0 en otro caso. Caso sintético: `Ana Quispe` / `ANA QUISPE` en Lima con el mismo doc → ER 1.0; el `relationship_signal_score` se calcula en T2 y **no** se suma a ciegas al ER.",
-        "**Borde / fail-closed:** si falta `document_id`, el nombre está vacío o el bloque queda sin tokens, **no** inventes score 1.0. No uses embeddings, sklearn ni ER probabilístico aquí (eso es tramo posterior, p. ej. S30). En la ficha del dashboard los dos scores viajan en campos **separados** con etiquetas legibles.",
+        "**Borde / fail-closed:** si falta `document_id`, el nombre está vacío o el bloque queda sin tokens, **no** inventes score 1.0. Usa solo las reglas explícitas de esta sección; los métodos probabilísticos llegan en S30. En la ficha del dashboard los dos scores viajan en campos **separados** con etiquetas legibles.",
       ],
       code: {
         language: 'python',
@@ -113,6 +113,15 @@ relationship_signal_score SEPARATE`,
       },
     },
     {
+      heading: "Cómo leer precision y recall",
+      paragraphs: [
+        "Dos reglas pueden acertar la misma cantidad de veces y causar errores distintos. **Precision** responde: de los pares que la regla marcó como iguales, ¿qué parte sí lo era según las etiquetas sintéticas? **Recall** responde: de todos los pares que las etiquetas marcaban como iguales, ¿qué parte encontró la regla? Se usan juntas porque contar aciertos no separa las uniones incorrectas de los pares que se dejaron pasar.",
+        "**Ejemplo trabajado:** una regla encuentra 2 pares correctos, une 1 par incorrecto y deja pasar 1 par correcto. Entonces `precision = 2 / (2 + 1) = 0.667` y `recall = 2 / (2 + 1) = 0.667`. El mismo resultado numérico no significa que midan lo mismo: cada división responde una pregunta distinta.",
+        "**Paso guiado:** conserva los 2 pares correctos y el par que se dejó pasar, pero aumenta de 1 a 2 las uniones incorrectas. Calcula de nuevo. Lo correcto es `precision = 0.5` y `recall = 0.667`: solo baja precision porque añadiste una unión incorrecta, no otro par perdido.",
+        "**Comprobación:** ejecuta `(round(2 / (2 + 2), 3), round(2 / (2 + 1), 3))` en el REPL. Debes obtener `(0.5, 0.667)`. Si cambia el segundo valor, usaste las uniones incorrectas en la división de recall.",
+      ],
+    },
+    {
       heading: "Verdad etiquetada, precision/recall y revisión clerical",
       figure: {
         id: "S13-two-scores",
@@ -123,7 +132,7 @@ relationship_signal_score SEPARATE`,
       },
       subtopicId: "S13-T1-B",
       paragraphs: [
-        "**Ancla:** sin etiquetas no sabes si tu regla de ER ayuda o daña. Con pares **sintéticos** etiquetados calculas **TP** (dijiste match y era match), **FP** (dijiste match y no lo era) y **FN** (era match y lo dejaste pasar). De ahí: precision = TP/(TP+FP) y recall = TP/(TP+FN). La etiqueta es ground truth (verdad de referencia) de *identidad en el fixture del curso* — **no** es un veredicto legal sobre personas reales.",
+        "**Ancla:** sin etiquetas no sabes si tu regla de ER ayuda o daña. Con pares **sintéticos** etiquetados calculas **TP** (dijiste match y era match), **FP** (dijiste match y no lo era) y **FN** (era match y lo dejaste pasar). De ahí: precision = TP/(TP+FP) y recall = TP/(TP+FN). La **precision** mide, entre los pares que llamaste match, qué parte sí lo era; el **recall** mide, entre los matches reales, qué parte encontraste. Estas dos lecturas permiten auditar la regla antes de que los casos dudosos pasen a la cola clerical. La etiqueta es ground truth (verdad de referencia) de *identidad en el fixture del curso* — **no** es un veredicto legal sobre personas reales.",
         "**Mecanismo y trade-off:** en ER de alto riesgo (crédito, compliance) priorizas **precision**: fusionar por error puede unir cuentas de dos personas distintas. El recall imperfecto se compensa con la **cola clerical** (humano revisa la duda). Scores en banda intermedia (p. ej. [0.4, 0.7]) **nunca** auto-mergean: van a revisión. Aceptar solo si score ≥ 0.8 y uncertainty ≠ high. Fail-closed si la etiqueta o el score no son finitos.",
         "**Caso trabajado:** tabla de 6 pares sintéticos con 2 TP, 1 FP y 1 FN → precision 0.667 y recall 0.667. Reportas ambos redondeados a 3 decimales y el flag explícito `fp_means_fraud=False` en el memo del gate. Si solo publicas «accuracy alto» sin desglose TP/FP/FN, el revisor no puede auditar el coste de los errores.",
         "**Borde ético:** un **FP no implica fraude**. Es colisión de identidad estimada (dos personas, un score alto por casualidad o por regla débil). Tratar FP como delito es el error más grave que puedes llevar a un dashboard de N1: por eso la ficha y el runbook repiten la frase hasta que se vuelva reflejo.",
@@ -512,7 +521,7 @@ entity_resolution_score 1.0`,
         environment: "local-python",
         description: "Evaluar 20 pares etiquetados sintéticos; listar 3 para revisión humana por score en duda.",
         preamble:
-          "Sin etiquetas sintéticas no sabes si tu regla de ER ayuda o daña. Esta demo arma 20 pares con seed fijo, calcula precision/recall y lista la **cola clerical** (scores en [0.4, 0.7]). Observa que precision alta no borra los FN, y que la banda gris va a humano — no a auto-merge. Predice la cola antes de leer la salida.",
+          "Sin etiquetas sintéticas no sabes si tu regla de ER ayuda o daña. Esta demo arma 20 pares con seed fijo, calcula precision/recall y lista la **cola clerical** (scores en [0.4, 0.7]). Observa que precision alta no borra los FN, y que la banda gris va a una persona — no a una unión automática. Predice la cola antes de leer la salida.",
         code: {
           language: 'python',
           title: "eval_clerical_demo.py",
@@ -939,7 +948,7 @@ print(er_score(A, B), er_score(A, C), er_score(A, D))`,
         kind: "guided",
         title: "Precision y recall sin invertir",
         preamble:
-          "- **Contexto:** en el gate N1 reportas si el matching sintético es confiable antes de ensanchar reglas.\n- **Meta:** calcular precision y recall a partir de tp/fp/fn (sin invertir denominadores).\n- **Éxito:** `precision 0.8` y `recall 0.8` con tp=8, fp=2, fn=2.\n- **Límites:** solo stdlib; redondeo a 3 decimales; no uses sklearn.",
+          "- **Contexto:** en el gate N1 reportas si el matching sintético es confiable antes de ensanchar reglas.\n- **Meta:** calcular precision y recall a partir de tp/fp/fn (sin invertir denominadores).\n- **Éxito:** `precision 0.8` y `recall 0.667` con tp=8, fp=2, fn=4.\n- **Límites:** solo stdlib; redondeo a 3 decimales; no uses sklearn.",
         instruction:
           "1. El starter invierte las formulas — ese es el DEFECT.\n2. precision = tp/(tp+fp); recall = tp/(tp+fn).\n3. Imprime con `round(..., 3)` y las etiquetas del solution.\n4. No cambies los conteos del fixture.",
         hint: "precision = tp/(tp+fp)",
@@ -948,7 +957,7 @@ print(er_score(A, B), er_score(A, C), er_score(A, D))`,
           "recall = tp/(tp+fn)",
         ],
         edgeCases: ["división por cero: no aplica en este fixture"],
-        tests: "0.8 y 0.8",
+        tests: "precision 0.8 y recall 0.667",
         feedback:
           "Si precision «baja» al subir FN o recall al subir FP, invertiste los denominadores. Precision castiga falsos match; recall castiga matches perdidos — en alto riesgo sueles priorizar precision y empujar duda a la cola.",
         retrospective:
@@ -958,7 +967,7 @@ print(er_score(A, B), er_score(A, C), er_score(A, D))`,
           title: "precision_recall.py",
           code: `# CASO-LIM-013 · precision/recall
 # DEFECT: formulas invertidas
-tp, fp, fn = 8, 2, 2
+tp, fp, fn = 8, 2, 4
 print("precision", round(tp / (tp + fn), 3))
 print("recall", round(tp / (tp + fp), 3))
 print('ok', True)`,
@@ -966,11 +975,11 @@ print('ok', True)`,
         solutionCode: {
           language: 'python',
           title: "precision_recall.py",
-          code: `tp, fp, fn = 8, 2, 2
+          code: `tp, fp, fn = 8, 2, 4
 print("precision", round(tp / (tp + fp), 3))
 print("recall", round(tp / (tp + fn), 3))`,
           output: `precision 0.8
-recall 0.8`,
+recall 0.667`,
         },
       },
       {
@@ -1655,9 +1664,9 @@ nan low invalid_input`,
           "- **Contexto:** en auditoría de portfolio N1, cualquier path que emita `is_family` o `auto_fraud` cierra mal el gate.\n- **Meta:** limpiar un dict de salida dejando solo claves permitidas.\n- **Éxito:** `['score', 'status']` (sorted keys).\n- **Límites:** elimina ambas claves si existen; no inventes campos; solo stdlib.",
         instruction:
           "1. El starter copia `out` sin filtrar — DEFECT.\n2. Filtra con set de forbidden o `pop`.\n3. Imprime `sorted(clean.keys())`.\n4. No dejes rastros de las claves prohibidas.",
-        hint: "pop o dict comprehension",
+        hint: "Copia `out` y usa `pop` para quitar las dos claves prohibidas",
         hints: [
-          "pop o dict comprehension",
+          "Copia `out` con `dict(out)` y quita `is_family` y `auto_fraud` con `pop`",
           "No dejes rastros de esas claves",
         ],
         edgeCases: ["strip policy fields"],

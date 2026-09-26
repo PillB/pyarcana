@@ -63,6 +63,33 @@ export const section09: CourseSection = {
       ],
      },
      {
+      heading: "Valores faltantes y montos no válidos",
+      paragraphs: [
+        "Un **valor faltante** aparece cuando un dato que debía llegar está ausente. Puede venir como texto vacío, `N/A`, `None` —el valor de Python que representa ausencia— o `NaN` (*not a number*, «no es un número»); ninguna de esas marcas equivale a cero, porque cero sí es un monto conocido.",
+        "En este ejercicio, `NaN` e `Infinity` son entradas no válidas para un monto. `Decimal` crea valores decimales desde texto, y `from decimal import Decimal` hace disponible ese nombre incluido con Python. Aunque `Decimal` acepta esos dos textos, `is_finite()` devuelve `False` porque no representan una cantidad finita que pueda guardarse como dinero.",
+        "Observa el ejemplo antes de ejecutarlo: `10.50` sí representa un monto finito, mientras que `NaN` e `Infinity` no. La salida confirma esa diferencia con valores concretos.",
+        "Práctica guiada: añade `-1.00` a la lista y predice el resultado. Lo correcto es `finito= True`: ser finito no significa ser válido, así que la comprobación posterior del signo todavía debe rechazarlo. Para comprobar tu comprensión, ejecuta el bloque y verifica que solo `10.50` y `-1.00` produzcan `True`.",
+      ],
+      code: {
+        language: 'python',
+        title: "missing_values.py",
+        code: `from decimal import Decimal
+
+for texto in ["10.50", "NaN", "Infinity"]:
+    monto = Decimal(texto)
+    print(texto, "finito=", monto.is_finite())`,
+        output: `10.50 finito= True
+NaN finito= False
+Infinity finito= False`,
+      },
+      callout: {
+        type: "warning",
+        title: "Ausencia no es cero",
+        content:
+          "No conviertas un valor faltante en `0`: inventarías un monto y ocultarías que el dato no llegó.",
+      },
+    },
+    {
       heading: "Tipos específicos, raise y chaining",
       subtopicId: "S09-T1-A",
       paragraphs: [
@@ -125,7 +152,7 @@ cause: ParseError no parseable: 'abc'`,
       },
       subtopicId: "S09-T1-B",
       paragraphs: [
-        "`try/except/else/finally` dibuja el borde del job: **else** corre solo si no hubo excepción (camino feliz legible, p. ej. «lote legible»); **finally** siempre (cleanup de handles y contadores). El `with` hace lo mismo de forma idiomática vía context managers. No dejes un `StringIO`/archivo abierto en el crash path del intake CASO-LIM-009.",
+        "`try/except/else/finally` dibuja el borde del trabajo: **else** corre solo si no hubo excepción; **finally** corre siempre y permite limpiar lo que el bloque usó. Un **context manager** (administrador de contexto) controla qué ocurre al entrar y salir de un bloque `with`. Con un archivo o `StringIO`, asegura que quede cerrado al salir, incluso si ocurre una excepción; otros administradores de contexto pueden hacer algo más que cerrar un recurso.",
         "No uses **`except:` bare** ni tragues `Exception` sin re-raise o cuarentena documentada. Decide en el borde: **manejar** (recuperable: fila mala del CSV) vs. **propagar** (fatal: config inválida, encoding vacío). `except Exception: pass` es la forma más rápida de esconder corrupción de datos en producción y de mentir al on-call.",
         "Config rota → **fail-fast** (abortar antes de multiplicar basura en el lote). Fila de datos inválida → **cuarentena** y continúa, como el **manifest de S08** con conteos reconciliados. El borde del job es un **contrato operativo** que el on-call debe poder leer en el README del pipeline, no un gusto de estilo del autor del script.",
       ],
@@ -301,6 +328,36 @@ ERROR stage=normalize record_id=C003 event=parse_fail field=monto`,
         title: "Campos estables",
         content:
           "Acuerda un vocabulario (stage, correlation_id, error_class). El reloj se inyecta en demos/tests para obtener un oráculo estable; en producción usa time.perf_counter_ns.",
+      },
+    },
+    {
+      heading: "Cómo viaja un identificador de correlación",
+      paragraphs: [
+        "Un **identificador de correlación** es el mismo texto corto que varias funciones reciben para señalar que sus registros pertenecen a una sola ejecución. Existe porque dos ejecuciones pueden producir mensajes parecidos al mismo tiempo; el identificador permite reunir solo los de una de ellas. Identifica el trabajo, no a una persona, y no debe contener datos personales.",
+        "En el ejemplo, `procesar_lote` recibe `corr-9c2e` y lo pasa sin cambiarlo a `validar_fila`. Las dos funciones escriben el mismo valor, de modo que después puedes reconocer que ambas líneas cuentan una sola historia.",
+        "Práctica guiada: cambia la llamada final para usar `corr-7b1` y predice las dos líneas. La respuesta correcta contiene `correlation_id=corr-7b1` tanto en `stage=inicio` como en `stage=validar`.",
+        "Ejecuta el bloque para comprobarlo. Si una línea pierde el identificador o muestra otro, la propagación se rompió en la función que no lo recibió o no lo pasó.",
+      ],
+      code: {
+        language: 'python',
+        title: "propagar_correlation_id.py",
+        code: `def validar_fila(row, correlation_id):
+    print(f"correlation_id={correlation_id} stage=validar id={row['id']}")
+
+def procesar_lote(rows, correlation_id):
+    print(f"correlation_id={correlation_id} stage=inicio")
+    for row in rows:
+        validar_fila(row, correlation_id)
+
+procesar_lote([{"id": "C001"}], "corr-9c2e")`,
+        output: `correlation_id=corr-9c2e stage=inicio
+correlation_id=corr-9c2e stage=validar id=C001`,
+      },
+      callout: {
+        type: "tip",
+        title: "El mismo valor en cada función",
+        content:
+          "Créalo una vez al comenzar el trabajo y pásalo como argumento; no inventes uno nuevo en cada función.",
       },
     },
     {
@@ -2227,14 +2284,14 @@ print("idem_key=" + key)`,
   youDo: {
     title: "Bitácora auditable del pipeline (inicio CP-N1-C)",
     context:
-      "Inicias **CP-N1-C**: una bitácora de pipeline que **sintetiza** lo practicado en los We Do — taxonomía data|config|provider, máscaras de PII, `log` con correlation_id, fail-fast de config y cuarentena de filas. El resultado es un módulo de portfolio que un junior puede mostrar en GitHub. Usa solo datos sintéticos; sin claims de fraude ni parentesco. **Éxito de corrida:** demo con assert `in == ok + quarantined`, cero PII completa en logs, y fail-fast verificable si falta `required_fields`.",
+      "Inicias **CP-N1-C**: una bitácora de pipeline que **sintetiza** lo practicado en los We Do — taxonomía data|config|provider, máscaras de PII, `log` con correlation_id, fail-fast de config y cuarentena de filas. El resultado es un módulo de portfolio que un junior puede mostrar en GitHub. Usa solo datos sintéticos; sin claims de fraude ni parentesco. Todo lo que dejes al final de `audit_log.py` corre cada vez que ejecutas el archivo. **Éxito de corrida:** demo con assert `in == ok + quarantined`, cero PII completa en logs, y fail-fast verificable si falta `required_fields`.",
     objectives: [
       "Clasificar fallos en data | config | provider",
       "Emitir logs estructurados con correlation_id",
       "Enmascarar email, teléfono y dirección antes de escribir logs",
       "Cuarentena de filas inválidas sin abortar el lote salvo config fatal",
       "Documentar política fail-fast vs. continue en README",
-      "Reconciliar conteos in == ok + quarantined y cubrir con tests mínimos",
+      "Reconciliar conteos in == ok + quarantined y cubrirlos con comprobaciones mínimas",
     ],
     requirements: [
       "Módulo audit_log / process_batch con helpers de enmascarado (email, phone, address)",
@@ -2242,8 +2299,8 @@ print("idem_key=" + key)`,
       "Fail-fast si falta config['required_fields']; cuarentena de filas de datos inválidas",
       "Ningún log de demo contiene PII completa",
       "assert len(ok) + len(quarantined) == in en la demo",
-      "Dataset sintético; if __name__ == '__main__' demo reproducible",
-      "Al menos 3 tests en test_audit_log.py (máscaras, fail-fast config, reconcile)",
+      "Dataset sintético; demo reproducible al final del archivo",
+      "Al menos 3 comprobaciones con `assert` al final de `audit_log.py` (máscaras, fail-fast config, reconcile)",
       "Solo stdlib (logging, decimal si aplica); sin librerías de gráficos",
       "Entorno local-python",
     ],
@@ -2255,7 +2312,7 @@ TODO del estudiante (el starter NO es la solución):
 2) Fail-fast si config["required_fields"] falta o es None
 3) Completar process_batch: errors_by_class, campo in, reconcile
 4) Logs con correlation_id + email/phone/address enmascarados
-5) tests en test_audit_log.py (mínimo 3)
+5) Añadir al final 3 comprobaciones con assert: máscaras, fail-fast config y reconcile
 """
 from __future__ import annotations
 import logging
@@ -2295,40 +2352,64 @@ def process_batch(
     )
 
 
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.ERROR)
-    demo = [
-        {
-            "id": "C001",
-            "email": "ana@ejemplo.pe",
-            "phone": "999111222",
-            "address": "Av. Ejemplo 123, Lima",
-        },
-        {
-            "id": "C002",
-            "email": "no-email",
-            "phone": "999",
-            "address": "Jr. Prueba 1",
-        },
-        {"email": "x@ejemplo.pe", "address": "Sin id"},
-    ]
-    # Cuando completes process_batch, descomenta y verifica reconcile:
-    # result = process_batch(demo, "job-demo-1", {"required_fields": ["id", "email"]})
-    # assert result["in"] == len(result["ok"]) + len(result["quarantined"])
-    # print(result)
-    print("scaffold listo — implementa las funciones TODO")`,
+logging.basicConfig(level=logging.ERROR)
+demo = [
+    {
+        "id": "C001",
+        "email": "ana@ejemplo.pe",
+        "phone": "999111222",
+        "address": "Av. Ejemplo 123, Lima",
+    },
+    {
+        "id": "C002",
+        "email": "no-email",
+        "phone": "999",
+        "address": "Jr. Prueba 1",
+    },
+    {"email": "x@ejemplo.pe", "address": "Sin id"},
+]
+# Cuando completes process_batch, descomenta y verifica reconcile:
+# result = process_batch(demo, "job-demo-1", {"required_fields": ["id", "email"]})
+# assert result["in"] == len(result["ok"]) + len(result["quarantined"])
+# print(result)
+print("scaffold listo — implementa las funciones TODO")
+
+# Comprueba las tres máscaras sin fijar una única máscara de dirección.
+masked_address = mask_address("Av. Ejemplo 123, Lima")
+assert (
+    mask_email("ana@ejemplo.pe") == "a***@ejemplo.pe"
+    and mask_phone("999111222") == "***1222"
+    and masked_address
+    and masked_address != "Av. Ejemplo 123, Lima"
+)
+
+# Comprueba que una configuración incompleta detiene el lote.
+config_failed_fast = False
+try:
+    process_batch([], "job-test-config", {})
+except RuntimeError:
+    config_failed_fast = True
+assert config_failed_fast
+
+# Comprueba que cada fila termina en una sola salida.
+checked = process_batch(
+    demo,
+    "job-test-reconcile",
+    {"required_fields": ["id", "email"]},
+)
+assert checked["in"] == len(checked["ok"]) + len(checked["quarantined"])`,
     portfolioNote:
-      "Muestra en README: 1 corrida con correlation_id, 1 log enmascarado (email/teléfono/dirección), tabla de taxonomía data/config/provider, política de abort y evidencia de tests. Subraya privacidad.",
+      "Muestra en README: 1 corrida con correlation_id, 1 log enmascarado (email/teléfono/dirección), tabla de taxonomía data/config/provider, política de abort y evidencia de las comprobaciones. Subraya privacidad.",
     rubric: [
       { criterion: "Bitácora auditable: taxonomía + correlation_id + enmascarado verificable", weight: "25%" },
       { criterion: "Correctitud técnica en entorno declarado (fail-fast + cuarentena + reconcile)", weight: "20%" },
       { criterion: "Privacidad / sin PII real / sin secretos en logs", weight: "20%" },
-      { criterion: "Pruebas o casos de borde documentados (≥3 tests)", weight: "15%" },
+      { criterion: "Comprobaciones o casos de borde documentados (≥3 `assert`)", weight: "15%" },
       { criterion: "Código legible y límites claros", weight: "10%" },
       { criterion: "Documentación en español profesional (README de política)", weight: "10%" },
     ],
     retrospective:
-      "Antes de marcar listo: (1) ¿qué invariante demuestras con `in == ok + quarantined` y con un test de fail-fast de config? (2) ¿qué cambia con datos reales vs. sintéticos (PII, secretos en logs)? (3) Una frase de impacto medible en el README («antes: email completo en ERROR; después: máscara + correlation_id») defendible en 30 s. Si no separas timeout de provider de monto NaN, vuelve a T4-A/T4-B.",
+      "Antes de marcar listo: (1) ¿qué invariante demuestras con `in == ok + quarantined` y con una comprobación de fail-fast de config? (2) ¿qué cambia con datos reales vs. sintéticos (PII, secretos en logs)? (3) Una frase de impacto medible en el README («antes: email completo en ERROR; después: máscara + correlation_id») defendible en 30 s. Si no separas timeout de provider de monto NaN, vuelve a T4-A/T4-B.",
   },
   selfCheck: {
     questions: [

@@ -284,6 +284,34 @@ ok True`,
       },
     },
     {
+      heading: "Generadores: procesar un lote a la vez",
+      paragraphs: [
+        "Una **función generadora** entrega valores de uno en uno: conserva el punto donde quedó y continúa cuando un `for` pide el siguiente. Existe para procesar datos por partes sin crear primero una lista con todos los resultados en memoria.",
+        "Dentro de esta función, `yield` entrega un valor y pausa el trabajo; no termina la función como lo haría `return`. En el ejemplo, `chunks` entrega primero `[0, 1, 2]`, luego `[3, 4, 5]` y continúa hasta el lote final `[9]`.",
+        "El `for` recibe cada lote, lo imprime y suma su tamaño antes de pedir el siguiente. Así se recorren los diez valores sin guardar a la vez una segunda lista con todos los lotes.",
+        "Paso guiado: cambia el tamaño de 3 a 4 y predice los lotes antes de ejecutar; lo correcto es `[0, 1, 2, 3]`, `[4, 5, 6, 7]` y `[8, 9]`. Después, devuelve el tamaño a 3 y ejecuta el bloque: deben aparecer cuatro lotes y `completo True`.",
+      ],
+      code: {
+        language: 'python',
+        title: "generator_chunks.py",
+        code: `def chunks(xs, size):
+    for i in range(0, len(xs), size):
+        yield xs[i:i + size]
+
+data = list(range(10))
+total = 0
+for lote in chunks(data, 3):
+    print("lote", lote)
+    total += len(lote)
+print("completo", total == len(data))`,
+        output: `lote [0, 1, 2]
+lote [3, 4, 5]
+lote [6, 7, 8]
+lote [9]
+completo True`,
+      },
+    },
+    {
       heading: "Dtypes, chunking y lectura columnar",
       subtopicId: "S37-T3-A",
       paragraphs: [
@@ -1396,9 +1424,9 @@ ok True`,
         preamble:
           "- **Contexto:** el scorer del triage usa pocas columnas; arrastrar `blob` y `notes` multiplica I/O y RAM sin ganar recall.\n- **Meta:** proyectar solo `['id','amt']` y marcar `columnar True`.\n- **Éxito:** `['id', 'amt']` / `ok True` / `columnar True`.\n- **Límites:** no imprimas todas las claves del row; no dejes `columnar False` si proyectaste.",
         instruction:
-          "1. Starter hace `cols = list(row.keys())` y `columnar False`.\n2. Proyecta con un dict comprehension sobre `keep = [\"id\", \"amt\"]`.\n3. Imprime las claves del subset, `ok` si no hay blob, y `columnar True`.",
+          "1. Starter hace `cols = list(row.keys())` y `columnar False`.\n2. Recorre `keep` y guarda en un nuevo `dict` cada clave `c` con su valor `row[c]`.\n3. Imprime las claves del subset, `ok` si no hay blob, y `columnar True`.",
         hint: "Lee solo columnas usadas por el scorer.",
-        hints: ["Proyecta con un dict comprehension.", "blob y notes no deben quedar en el subset."],
+        hints: ["En una expresión entre llaves, escribe primero `c: row[c]` y después `for c in keep`.", "blob y notes no deben quedar en el subset."],
         edgeCases: ["tabla ancha", "sintético"],
         tests: "Salida alinea con solution output de S37-T3-A-E2; predicado de dominio sobre fixture sintético.",
         feedback:

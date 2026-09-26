@@ -24,7 +24,7 @@ export const section25: CourseSection = {
   jobRelevance:
     "En un desk de riesgos u operaciones en Lima (bancos, fintech, back-office de retail), el analista ya tiene campos OCR y necesita un asistente de IA que clasifique o redacte borradores sin inventar ni autoetiquetar fraude. Aquí aprendes a unificar un endpoint HTTP local o un transformers.pipeline bajo el mismo contrato de salida, validar el JSON y evaluar con golden sets (conjuntos de referencia con respuesta conocida). El score del modelo es señal de prioridad para revisión humana, nunca veredicto legal ni de parentesco.",
   learningOutcomes: [
-    { text: "Elegir regla vs. modelo especializado vs. LLM con justificación auditable" },
+    { text: "Elegir regla vs. modelo especializado vs. modelo de lenguaje grande (LLM) con justificación auditable" },
     { text: "Leer model cards, licencias y decidir despliegue local o cloud" },
     { text: "Implementar un adapter mock de pipeline/endpoint con contrato estable" },
     { text: "Operar batching, timeout, caché, costo y fallback (con circuit breaker simple)" },
@@ -61,6 +61,21 @@ export const section25: CourseSection = {
       ],
      },
      {
+      heading: "Antes de T1 · Qué hace un modelo de lenguaje grande",
+      paragraphs: [
+        "Un **modelo de lenguaje grande (LLM)** recibe texto y produce texto que continúa una instrucción. Existe para tareas donde una regla fija no basta porque las personas pueden expresar la misma idea de muchas formas.",
+        "Por ejemplo, ante `Resume en una oración: Factura 18 por S/ 40, vencida`, podría responder `La factura 18, por S/ 40, está vencida`. La respuesta conserva la idea, pero puede equivocarse o añadir algo que la entrada no decía; por eso todavía no es un dato aprobado.",
+        "Ahora compara dos tareas. Para comprobar si un texto empieza con `FACTURA-`, elige una regla; para resumir distintas redacciones, considera un LLM solo si después puedes comprobar su respuesta.",
+        "Haz esta comprobación: clasifica `aceptar solo códigos que empiezan con A-` y `resumir reclamos escritos de muchas maneras`. La respuesta correcta es `regla` para la primera y `LLM con comprobación` para la segunda; si elegiste LLM para ambas, vuelve a mirar qué tarea ya tenía un patrón fijo.",
+      ],
+      callout: {
+        type: "warning",
+        title: "Produce texto; no certifica hechos",
+        content:
+          "Una respuesta clara puede ser incorrecta. El LLM propone; el código comprueba la forma de la respuesta y una persona revisa la decisión.",
+      },
+    },
+    {
       heading: "S25-T1-A · Elegir regla, modelo especializado o LLM con justificación",
       subtopicId: "S25-T1-A",
       paragraphs: [
@@ -312,6 +327,21 @@ print(run_checkpointed([
         title: "Tools = privilegios",
         content:
           "Un tool de red o filesystem sin sandbox es un incidente esperando ocurrir. Checkpoint: plan → tool → validar → narrar; deny = stop.",
+      },
+    },
+    {
+      heading: "Antes de T4 · F1 combina precisión y recall",
+      paragraphs: [
+        "Un **F1-score** es un número que combina precisión y recall para que un resultado alto exija que ambas sean altas. Existe porque mirar solo una de las dos puede ocultar un modelo que acierta sus avisos, pero deja pasar muchos casos, o que encuentra muchos casos a costa de demasiados avisos incorrectos.",
+        "Se calcula como `2 * precision * recall / (precision + recall)`. Si la precisión es `1.0` y el recall es `0.5`, F1 vale aproximadamente `0.67`, no `0.75`: la mitad baja impide que el resultado parezca tan bueno como un promedio simple.",
+        "Calcula ahora el caso `precision = 0.75` y `recall = 0.60`. Sustituye ambos valores en la fórmula; el resultado correcto es aproximadamente `0.67`.",
+        "Comprueba tu regla con `precision = 0.80` y `recall = 0.80`: F1 debe dar `0.80`. En T4 no calcularás F1; esta referencia sirve para reconocer que `field_match_rate`, que cuenta campos iguales, responde una pregunta distinta.",
+      ],
+      callout: {
+        type: "info",
+        title: "Dos métricas, dos preguntas",
+        content:
+          "F1 combina precisión y recall sobre casos clasificados. `field_match_rate` cuenta qué campos de dos resultados tienen el mismo valor; no sustituyas una fórmula por la otra.",
       },
     },
     {

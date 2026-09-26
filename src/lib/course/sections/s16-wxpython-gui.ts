@@ -22,14 +22,14 @@ export const section16: CourseSection = {
   icon: "ShieldCheck",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "Los equipos de datos en banca, fintech y retail en Perú necesitan quality gates (puertas de control de calidad) explicables: políticas de nulos por campo, duplicados con evidencia, normalización con la columna raw (valor original) al lado, outliers con dominio y cuarentena con audit trail. Aquí aprendes a construir un gate fail-closed (que falla de forma segura: si el contrato se rompe, el job no aprueba en silencio). Trabajas sin PII real y sin arreglos silenciosos, dejando un conjunto limpio y métricas listas para el siguiente paso.",
+    "Los equipos de datos en banca, fintech y retail en Perú necesitan quality gates (puertas de control de calidad) explicables. Estas puertas aplican políticas de nulos por campo, conservan la columna raw (valor original), contrastan outliers (valores lejos del resto de su columna) con el dominio y dejan evidencia en cuarentena. Aquí aprendes a construir un gate fail-closed (que falla de forma segura: si el contrato se rompe, el job no aprueba en silencio). Trabajas sin PII real y sin arreglos silenciosos, dejando un conjunto limpio y métricas listas para el siguiente paso.",
   learningOutcomes: [
     { text: "Definir políticas de null required/optional y listar violaciones con conteo verificable (`isna` + mapa de campos)" },
     { text: "Limitar imputación con cap, indicadores de ausencia (`was_null`) y bloqueo si el rate supera el umbral" },
     { text: "Distinguir duplicados exactos de conflictos de atributo y clasificar antes de borrar" },
     { text: "Resolver claves con cardinalidad 1:1 documentada y conservar evidencia completa en cuarentena" },
     { text: "Normalizar strings, montos con locale PEN documentado, fechas multi-formato y categorías con mapa, sin borrar el raw" },
-    { text: "Clasificar outliers como error de dominio, flag estadístico (IQR) o valor ok, con dominio prioritario" },
+    { text: "Clasificar outliers (valores lejos del resto) como error de dominio, flag estadístico por IQR (ancho de la mitad central) o valor ok, con prioridad del dominio" },
     { text: "Implementar contratos de schema, schema drift y reglas cross-field con códigos legibles en cuarentena" },
     { text: "Publicar métricas (rows_in/clean/quarantine/pass), cuarentena y audit trail append-only (solo se agregan eventos) aunque pass=False" }
   ],
@@ -158,11 +158,53 @@ s16_th_2()`,
       },
     },
     {
+      heading: "Contar valores distintos por clave",
+      figure: {
+        id: "S16-groupby-nunique",
+        caption:
+          "`groupby` reúne las filas por clave y `nunique` deja un conteo de regiones por clave.",
+        alt:
+          "Dos tablas unidas por una flecha. En la tabla izquierda, C001 aparece en dos filas con regiones diferentes y C002 en una. La flecha dice groupby más nunique. La tabla derecha muestra C001 con 2 regiones distintas y C002 con 1.",
+      },
+      paragraphs: [
+        "Un **maestro de clientes** es la tabla que conserva una fila oficial por cliente. Aquí la clave es `cliente_id`, y el maestro debe guardar una sola región por clave. La pregunta «¿cuántas regiones distintas tiene cada clave?» no se responde fila por fila: primero hay que reunir las filas de la misma clave.",
+        "`groupby` reúne las filas que comparten el valor de una clave. Aquí se escribe `df.groupby(\"cliente_id\")`; luego `[\"region\"]` elige la columna que se revisará dentro de cada grupo y `.nunique()` cuenta sus valores distintos.",
+        "La Series resultante se llama `regiones` y contiene un valor por clave: el índice guarda `C001` y `C002`, con conteos 2 y 1, respectivamente. Como la clave queda en el índice, `regiones[regiones > 1].index` recupera las claves en conflicto. Antes de este conteo, T1 debe resolver las filas cuyo `cliente_id` es nulo: `groupby` las omite y su clave no aparece en `regiones`.",
+        "`groupby` permite otras operaciones, pero aquí basta este patrón: un cliente tiene dos regiones; T2-A añade el caso de filas que se repiten de forma idéntica. S17 volverá a esa familia.",
+        "Antes de ejecutar, predice qué conteo tendrá C001 si agregas una tercera fila para esa clave con Cusco y luego compruébalo. Después vuelve al fixture original, sustituye Madrid por la región de la primera fila, vuelve a ejecutar y explica por qué C001 deja de aparecer en la lista de conflictos.",
+      ],
+      code: {
+        language: 'python',
+        title: "groupby_nunique.py",
+        code: `def s16_th_3a():
+    import pandas as pd
+
+    df = pd.DataFrame({
+        "cliente_id": ["C001", "C001", "C002"],
+        "region": ["Lima", "Madrid", "Cusco"],
+    })
+    regiones = df.groupby("cliente_id")["region"].nunique()
+    print(regiones.to_dict())
+    print("conflict_ids", regiones[regiones > 1].index.tolist())
+
+s16_th_3a()`,
+        output: `{'C001': 2, 'C002': 1}
+conflict_ids ['C001']`,
+      },
+      callout: {
+        type: "tip",
+        title: "Cuenta por clave",
+        content:
+          "Más de un valor distinto para la misma clave señala un conflicto que debes revisar.",
+      },
+    },
+    {
       heading: "Duplicados exactos vs. conflictos",
       subtopicId: "S16-T2-A",
       paragraphs: [
         "**Duplicado exacto**: mismas columnas relevantes idénticas. **Conflicto**: misma clave de negocio con atributos distintos (p. ej. dos regiones para un `cliente_id`). Tratarlos igual con `drop_duplicates` ciego puede borrar el único rastro del conflicto y dejar un maestro mentiroso.",
-        "Contrato: usa `duplicated(keep=False)` para exactos y, para conflictos, `groupby(clave)[attr].transform('nunique')>1` **por cada atributo que deba coincidir** — con un solo `attr` detectas los conflictos de esa columna y ninguno más, así que dos filas de la misma clave que difieren solo en la dirección pasarían como si no hubiera conflicto. Recorre la lista de atributos del contrato y combina las máscaras con `|`. Solo después eliges política `keep='first'|'last'` o envío a cuarentena. **Clasifica antes de borrar**; el orden evita pérdida de evidencia.",
+        "Contrato: usa `duplicated(keep=False)` para los exactos. Para los conflictos, cuenta los valores distintos de cada atributo por clave y conserva las claves cuyo conteo sea mayor que 1, como en `regiones[regiones > 1].index`. Ese conteo está indexado por `cliente_id`: nombra clientes, no filas; para recuperar las filas de una clave, compara la columna con ese id, como en `df[df.cliente_id == \"C001\"]`.",
+        "Si el contrato también exige que la dirección coincida, repite el conteo para ese atributo. Como `regiones > 1` y `direcciones > 1` salen del mismo DataFrame, comparten el índice y es seguro combinarlas con `|`. Si solo revisas la región, dos filas de la misma clave que difieren únicamente en la dirección pasan como si no hubiera conflicto. Clasifica primero; solo después elige una política `keep='first'|'last'` o envía las filas a cuarentena.",
         "Caso sintético: C001 repetido exacto (Lima, score 0.9); C002 con Cusco vs. Madrid. Salida esperada: `exact_rows` para C001 y `conflict_ids` para C002. El portfolio de calidad de CP-N2-A debe listar ambos tipos por separado en el memo.",
       ],
       code: {
@@ -177,9 +219,9 @@ s16_th_2()`,
         "score": [0.9, 0.9, 0.5, 0.5],
     })
     exact = df.duplicated(keep=False)
-    conflict = df.groupby("cliente_id")["region"].transform("nunique") > 1
+    regiones = df.groupby("cliente_id")["region"].nunique()
     print("exact_rows", df.loc[exact].to_dict(orient="list"))
-    print("conflict_ids", df.loc[conflict, "cliente_id"].unique().tolist())
+    print("conflict_ids", regiones[regiones > 1].index.tolist())
 
 s16_th_3()`,
         output: `exact_rows {'cliente_id': ['C001', 'C001'], 'region': ['Lima', 'Lima'], 'score': [0.9, 0.9]}
@@ -295,11 +337,68 @@ fechas ['2024-03-01', '2024-03-15', '2024-03-15']`,
       },
     },
     {
+      heading: "Cuartiles, IQR y cercas de Tukey",
+      figure: {
+        id: "S16-iqr-fences",
+        caption:
+          "Las dos cercas señalan outliers estadísticos; la regla de dominio decide si son errores o flags.",
+        alt:
+          "Recta numérica con los valores -1, 10, 11, 12, 13 y 5000; El eje se corta para que 5000 quepa en la recta, y el punto lleva la etiqueta 5000. Una banda va de Q1 igual a 10.25 hasta Q3 igual a 12.75 y representa la mitad central, cuyo IQR es 2.5. Las cercas están en 6.5 y 16.5. El valor -1 queda fuera por la cerca inferior y 5000 queda fuera por la cerca superior.",
+      },
+      paragraphs: [
+        "El gate necesita una forma basada en los datos para señalar qué valores están lejos del resto, aparte de los límites que dicta el negocio. Un **outlier** o **valor atípico** es un valor alejado de la mayoría de su propia columna, según la dispersión de esa columna.",
+        "Ordena mentalmente los seis montos `[-1, 10, 11, 12, 13, 5000]` antes de buscar sus **cuartiles**, los puntos que la dividen en cuatro partes. Q1 deja aproximadamente una cuarta parte de los valores por debajo; la mediana deja la mitad; Q3 deja tres cuartas partes. pandas ubica Q1 en la posición `(6 - 1) * 0.25 = 1.25`, un cuarto del camino de 10 a 11, y obtiene 10.25. Para Q3 usa la posición 3.75, tres cuartos del camino de 12 a 13, y obtiene 12.75.",
+        "El **rango intercuartílico (IQR)** es `q3 - q1`: mide el ancho de la mitad central de los valores. Las **cercas de Tukey** son dos límites calculados a partir de los cuartiles —uno inferior y otro superior— que separan el grueso de los valores de la columna de aquellos que quedan lejos; usan 1.5 como multiplicador convencional y se ubican en `q1 - 1.5 * iqr` y `q3 + 1.5 * iqr`. Todo valor por debajo de la cerca inferior o por encima de la superior es un outlier estadístico, candidato para que la regla de dominio lo resuelva como error o flag.",
+        "Aquí `q1` es 10.25, la mediana es 11.5, `q3` es 12.75 y `iqr` es 2.5. Como los cortes caen entre observaciones, 10 queda justo fuera de la banda por ser menor que 10.25 y 13 queda fuera por ser mayor que 12.75. La banda contiene dos de los seis valores: «mitad central» nombra la proporción a la que apuntan los cuartiles, que con seis observaciones es aproximada.",
+        "Las cercas quedan en 6.5 y 16.5, por eso -1 y 5000 son outliers estadísticos. La media sube hasta 840.83 por el 5000, pero los cuartiles se obtienen de posiciones de la columna ordenada y las cercas se calculan a partir de ellos. Si reemplazas el mayor valor, 5000, por 9000, esas seis posiciones no cambian: las cercas siguen en 6.5 y 16.5, mientras la media sube a 1507.5. La regla no depende de la media ni exige una campana; cuántos valores marca depende de la forma de la columna y del factor convencional 1.5.",
+        "Antes de volver a ejecutar, predice qué valor de la lista literal `[20, 22, 21, 23, 24, 2]` quedará fuera y por cuál de las dos cercas. Después usa esa lista para construir la Series `s` y ejecuta el código para comprobar tu respuesta.",
+      ],
+      code: {
+        language: 'python',
+        title: "iqr_fences.py",
+        code: `def s16_th_6a():
+    import pandas as pd
+
+    s = pd.Series([10, 12, 11, 13, 5000, -1])
+    q1 = s.quantile(0.25)
+    q3 = s.quantile(0.75)
+    iqr = q3 - q1
+    lower = q1 - 1.5 * iqr
+    upper = q3 + 1.5 * iqr
+    fuera = s[(s < lower) | (s > upper)]
+    print("q1", q1, "q3", q3, "iqr", iqr)
+    print("cercas", lower, upper)
+    print("fuera", fuera.tolist())
+    print("media", round(s.mean(), 2))
+
+    s_9000 = pd.Series([10, 12, 11, 13, 9000, -1])
+    q1_9000 = s_9000.quantile(0.25)
+    q3_9000 = s_9000.quantile(0.75)
+    iqr_9000 = q3_9000 - q1_9000
+    print("cercas con 9000", q1_9000 - 1.5 * iqr_9000, q3_9000 + 1.5 * iqr_9000)
+    print("media con 9000", round(s_9000.mean(), 2))
+
+s16_th_6a()`,
+        output: `q1 10.25 q3 12.75 iqr 2.5
+cercas 6.5 16.5
+fuera [5000, -1]
+media 840.83
+cercas con 9000 6.5 16.5
+media con 9000 1507.5`,
+      },
+      callout: {
+        type: "warning",
+        title: "Dos cercas, no una",
+        content:
+          "Compara cada valor con la cerca inferior y la superior. Mirar una sola deja sin marcar todo el extremo opuesto.",
+      },
+    },
+    {
       heading: "Outliers plausibles vs. errores",
       subtopicId: "S16-T3-B",
       paragraphs: [
-        "Un outlier **plausible** está lejos estadísticamente pero dentro del dominio de negocio (por ejemplo, un monto alto legítimo en una campaña). Un **error de dominio** viola los bounds (monto < 0, lat 999, edad 200). IQR y z-score solo **identifican candidatos**; el dominio de negocio **decide** si es error o flag.",
-        "Contrato: mantén máscaras `stat_outlier` y `domain_error` por separado; por defecto flag y cuarentena, nunca drop silencioso solo por IQR. Documenta bounds en el memo del gate (p. ej. monto ∈ [0, 10000] PEN sintéticos del fixture de clase).",
+        "Las cercas marcan **outliers estadísticos**, valores alejados del resto de su columna. Cada uno es candidato para la regla de dominio: un monto alto legítimo puede quedar como flag plausible, mientras que un valor que viola los **límites de dominio** (monto < 0, lat 999, edad 200) es un error.",
+        "Contrato: mantén máscaras `stat_outlier` y `domain_error` por separado; por defecto flag y cuarentena, nunca drop silencioso solo por IQR. Documenta los límites de dominio en el memo del gate (p. ej. monto ∈ [0, 10000] PEN sintéticos del fixture de clase).",
         "Caso: serie con 5000 (cola plausible) y -1 (error). `stat` marca ambos; `domain` solo -1; `plausible_extreme` = 5000. El EDA de S17 no debe perder la cola legítima de montos por un 1.5·IQR ciego sin revisión explícita de dominio.",
       ],
       code: {
@@ -491,9 +590,9 @@ s16_ido_2()`,
         "score": [0.5, 0.5, 0.7, 0.7, 0.9],
     })
     exact_n = int(df.duplicated(keep=False).sum())
-    conf = df.groupby("cliente_id").filter(lambda g: g["region"].nunique() > 1)
+    regiones = df.groupby("cliente_id")["region"].nunique()
     print("exact_dup_rows", exact_n)
-    print("conflict_ids", conf["cliente_id"].unique().tolist())
+    print("conflict_ids", regiones[regiones > 1].index.tolist())
 
 s16_ido_3()`,
           output: `exact_dup_rows 2
@@ -595,7 +694,7 @@ s16_ido_6()`,
 error [-3]
 plausible [1000]`,
         },
-        why: "IQR propone candidatos estadísticos; los bounds de dominio deciden qué es error de negocio. Un monto negativo no es “outlier curioso”: es domain_error. Borrar por IQR a ciegas elimina colas legítimas (p. ej. un ticket alto pero válido). La capa `plausible` aísla lo raro-pero-dentro-de-dominio para flag, no drop. En We Do practicarás máscaras y etiquetas error/flag/ok.",
+        why: "IQR propone outliers estadísticos; los límites de dominio deciden qué es error de negocio. Un monto negativo no es “outlier curioso”: es domain_error. Borrar por IQR a ciegas elimina colas legítimas (p. ej. un ticket alto pero válido). La capa `plausible` aísla lo raro-pero-dentro-de-dominio para flag, no drop. En We Do practicarás máscaras y etiquetas error/flag/ok.",
         retrospective:
           "Si puedes explicar por qué 1000 es `flag` y -3 es `error`, ya separas estadística de regla de negocio. El error clásico es borrar todo lo “raro” por IQR. Pregunta: ¿quién manda si un valor es a la vez outlier estadístico y domain_error? En We Do practicarás cada capa (domain → IQR → etiquetas).",
       },
@@ -953,18 +1052,18 @@ print(int(df.duplicated(keep=False).sum()))`,
         kind: "independent",
         title: "Listar cliente_id con conflicto de región",
         preamble:
-          "- **Contexto:** misma clave con regiones distintas no es “duplicado exacto”; es conflicto que envenena el maestro.\n- **Meta:** listar ids con `region.nunique() > 1`.\n- **Éxito:** `['C001']` (C002 no entra).\n- **Límites:** no uses solo `duplicated` de filas completas; no inviertas el umbral de nunique.",
+          "- **Contexto:** misma clave con regiones distintas no es “duplicado exacto”; es conflicto que envenena el maestro.\n- **Meta:** crear `regiones`, el conteo de regiones distintas por `cliente_id`, y listar las claves cuyo conteo sea mayor que 1.\n- **Éxito:** `['C001']` (C002 no entra).\n- **Límites:** no uses solo `duplicated` de filas completas; no inviertas el umbral de nunique.",
         instruction:
-          "1. Agrupa por `cliente_id` y mide nunique de `region`.\n2. El starter filtra `ids == 1` (DEFECT: lista “limpios”).\n3. Filtra `ids > 1` e imprime el índice como lista.\n4. Sin drop ni fill.",
-        hint: "groupby nunique > 1 sobre region.",
+          "1. Agrupa por `cliente_id` y guarda en `regiones` el nunique de `region`.\n2. El starter filtra `regiones == 1` (DEFECT: lista “limpios”).\n3. Filtra `regiones > 1` e imprime el índice como lista.\n4. Sin drop ni fill.",
+        hint: "`regiones` guarda el conteo de `region` por `cliente_id`; filtra valores mayores que 1.",
         hints: [
-          "ids = df.groupby('cliente_id')['region'].nunique()",
-          "print(ids[ids > 1].index.tolist())",
+          "regiones = df.groupby('cliente_id')['region'].nunique()",
+          "print(regiones[regiones > 1].index.tolist())",
         ],
         edgeCases: ["duplicated exacto solo", "filter mal"],
         tests: "salida coincide con solution output",
         feedback:
-          "Si listaste C002 o ids sin conflicto, usaste `nunique == 1`. Conflicto es `nunique > 1` sobre región; listar limpios no es listar problemas del maestro.",
+          "Si listaste C002 o claves sin conflicto, usaste `nunique == 1`. En `regiones`, los valores son conteos y las claves están en el índice; conflicto es un conteo mayor que 1.",
         retrospective:
           "Conflicto = misma clave, atributos distintos. Listar limpios no es listar problemas del maestro. Pregunta: ¿por qué C002 no debe aparecer en la lista de conflicto del fixture? Luego (E3) etiquetas exact / conflict / clean en un solo id de prueba.",
         starterCode: {
@@ -974,16 +1073,16 @@ print(int(df.duplicated(keep=False).sum()))`,
 # Pista: conflicto es nunique > 1, no == 1
 import pandas as pd
 df = pd.DataFrame({"cliente_id": ["C001", "C001", "C002"], "region": ["Lima", "Cusco", "Lima"]})
-ids = df.groupby("cliente_id")["region"].nunique()
-print(ids[ids == 1].index.tolist())`,
+regiones = df.groupby("cliente_id")["region"].nunique()
+print(regiones[regiones == 1].index.tolist())`,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
 df = pd.DataFrame({"cliente_id": ["C001", "C001", "C002"], "region": ["Lima", "Cusco", "Lima"]})
-ids = df.groupby("cliente_id")["region"].nunique()
-print(ids[ids > 1].index.tolist())`,
+regiones = df.groupby("cliente_id")["region"].nunique()
+print(regiones[regiones > 1].index.tolist())`,
           output: `['C001']`,
         },
       },
@@ -1164,7 +1263,7 @@ print("card_ok" if df["id"].nunique() == len(df) else "card_bad")`,
         kind: "guided",
         title: "Normalizar región con strip y title",
         preamble:
-          "- **Contexto:** ` lima ` y `CUSCO` no deben generar tres buckets en un groupby de regiones PE.\n- **Meta:** aplicar `strip` + `title` a la Series.\n- **Éxito:** `['Lima', 'Cusco']`.\n- **Límites:** no uses solo lower; no borres el raw si el lab lo pide en columnas separadas (aquí solo Series).",
+          "- **Contexto:** sin normalizar, ` lima ` y `Lima` cuentan como regiones distintas. Eso divide una región en varios conteos y puede crear un conflicto falso en la comprobación de T2-A.\n- **Meta:** aplicar `strip` + `title` a la Series.\n- **Éxito:** `['Lima', 'Cusco']`.\n- **Límites:** no uses solo lower; no borres el raw si el lab lo pide en columnas separadas (aquí solo Series).",
         instruction:
           "1. El starter solo hace strip (DEFECT).\n2. Encadena `.str.title()` tras strip.\n3. Imprime `.tolist()`.\n4. Sin replace manual de cada ciudad.",
         hint: "str.strip().str.title() en cadena.",
@@ -1175,9 +1274,9 @@ print("card_ok" if df["id"].nunique() == len(df) else "card_bad")`,
         edgeCases: ["solo lower", "sin strip"],
         tests: "salida coincide con solution output",
         feedback:
-          "Si quedó `CUSCO` o con espacios, faltó title o strip. Encadena `strip().title()` sobre la Series; solo strip deja el ruido de mayúsculas para el groupby.",
+          "Si quedó `CUSCO` o con espacios, faltó `title` o `strip`. Encadena `.str.strip().str.title()` sobre la Series; usar solo `strip` hace que un conteo por región trate mayúsculas distintas como valores distintos.",
         retrospective:
-          "Canonicidad de strings es el primer filtro antes de mapas de sinónimos (`LIM`→Lima). Solo strip deja `CUSCO` ruidoso y parte el groupby de regiones PE. Pregunta: ¿qué buckets falsos evitas con `title` en este fixture? Siguiente (E2): locale de montos PEN.",
+          "Canonicidad de strings es el primer filtro antes de mapas de sinónimos (`LIM`→Lima). Usar solo `strip` deja `CUSCO` ruidoso, divide una región en varios conteos y también altera la comprobación de conflictos de T2-A. Si una misma ciudad llega en minúsculas, mayúsculas y con espacios, ¿cuántas regiones distintas quedan después de aplicar ambas operaciones? Siguiente (E2): locale de montos PEN.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1304,9 +1403,9 @@ print(df["region_raw"].tolist(), df["region"].tolist())`,
         edgeCases: ["usar abs", "IQR only"],
         tests: "salida coincide con solution output",
         feedback:
-          "Si True está en positivos, invertiste la máscara. `domain_error` es `s < 0` (True en el negativo). Domain bounds son reglas de negocio, no estadística.",
+          "Si True está en positivos, invertiste la máscara. `domain_error` es `s < 0` (True en el negativo). Los límites de dominio son reglas de negocio, no estadística.",
         retrospective:
-          "Domain bounds son reglas de negocio, no estadística: un monto negativo no es “outlier curioso”. Si la máscara marca positivos, el gate cuarentenará filas válidas. Pregunta: ¿por qué este lab **prohíbe** IQR a propósito? Siguiente (E2): candidatos IQR en una capa aparte.",
+          "Los límites de dominio son reglas de negocio, no estadística: un monto negativo no es “outlier curioso”. Si la máscara marca positivos, el gate cuarentenará filas válidas. Pregunta: ¿por qué este lab **prohíbe** IQR a propósito? Siguiente (E2): outliers estadísticos en una capa aparte.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1329,29 +1428,29 @@ print((s < 0).tolist())`,
         id: "S16-T3-B-E2",
         subtopicId: "S16-T3-B",
         kind: "independent",
-        title: "Listar outliers IQR con ambos fences",
+        title: "Listar outliers IQR con las dos cercas",
         preamble:
-          "- **Contexto:** el flag estadístico usa IQR 1.5 a **ambos** lados; un solo fence deja colas inferiores sin marcar.\n- **Meta:** listar valores fuera de `[q1-1.5*iqr, q3+1.5*iqr]`.\n- **Éxito:** `[100.0]` en el fixture.\n- **Límites:** no dropees filas; no uses z-score aquí; domain se evalúa aparte.",
+          "- **Contexto:** el flag estadístico usa el factor 1.5 × IQR en cada lado; una sola cerca deja un extremo sin marcar.\n- **Meta:** listar valores fuera de `[q1 - 1.5 * iqr, q3 + 1.5 * iqr]`.\n- **Éxito:** `[100.0, -50.0]` en el fixture.\n- **Límites:** no dropees filas; el dominio se evalúa aparte.",
         instruction:
-          "1. Calcula q1, q3 e iqr.\n2. El starter solo mira el upper fence (DEFECT de hábito).\n3. Une lower y upper con `|`.\n4. Imprime `s[mask].tolist()`.",
-        hint: "Fence inferior y superior: q1-1.5*iqr y q3+1.5*iqr.",
+          "1. Calcula q1, q3 e iqr.\n2. El starter solo mira la cerca superior (DEFECT de hábito).\n3. Une la comparación con la cerca inferior y la comparación con la superior mediante `|`.\n4. Imprime `s[mask].tolist()`.",
+        hint: "Cerca inferior y cerca superior: `q1 - 1.5 * iqr` y `q3 + 1.5 * iqr`.",
         hints: [
           "q1, q3 = quantile 0.25/0.75; iqr = q3 - q1.",
           "mask = (s < q1 - 1.5*iqr) | (s > q3 + 1.5*iqr).",
         ],
-        edgeCases: ["std z confuso", "dropear sin listar"],
+        edgeCases: ["usar solo la cerca superior", "dropear sin listar"],
         tests: "salida coincide con solution output",
         feedback:
-          "Si la lista está vacía, solo miraste un lado del fence o calculaste mal iqr. Incluye lower y upper con 1.5*iqr: el fixture solo ejercita upper, pero la máscara bilateral es el hábito del gate.",
+          "Si obtuviste `[100.0]`, conservaste la máscara de una sola cerca: falta `-50.0`. Combina las comparaciones con la cerca inferior y la superior para recuperar ambos extremos.",
         retrospective:
-          "IQR propone candidatos; no decide borrar. Ambos fences evitan ceguera a un lado aunque el fixture solo ejercite el upper. Pregunta: si mañana llega un −50 legible por domain, ¿la máscara IQR bilateral lo habría visto como candidato? Luego (E3) combinas dominio + IQR en etiquetas error/flag/ok.",
+          "IQR propone outliers estadísticos; no decide borrar. En este fixture, la máscara inicial encontró `100.0` y omitió `-50.0`. ¿Qué comparación con la cerca inferior recuperó el valor omitido? Luego (E3) combinas dominio + IQR en etiquetas error/flag/ok.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# Lab · outliers IQR
-# Pista: usa fence inferior Y superior, no solo upper
+# Pista: usa la cerca inferior Y la superior, no solo la superior
 import pandas as pd
-s = pd.Series([1.0, 2.0, 3.0, 100.0])
+s = pd.Series([1.0, 2.0, 3.0, 100.0, -50.0])
 q1, q3 = s.quantile(0.25), s.quantile(0.75)
 iqr = q3 - q1
 mask = s > q3 + 1.5 * iqr
@@ -1361,12 +1460,12 @@ print(s[mask].tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-s = pd.Series([1.0, 2.0, 3.0, 100.0])
+s = pd.Series([1.0, 2.0, 3.0, 100.0, -50.0])
 q1, q3 = s.quantile(0.25), s.quantile(0.75)
 iqr = q3 - q1
 mask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)
 print(s[mask].tolist())`,
-          output: `[100.0]`,
+          output: `[100.0, -50.0]`,
         },
       },
       {
@@ -1685,7 +1784,7 @@ print(metrics["pass"])`,
   youDo: {
     title: "Quality gate explicable ante schema drift",
     context:
-      "Tú lo haces (You Do). Implementa una suite de checks (verificaciones) sobre un dataset sintético de clientes y transacciones. Las regiones son Lima, Madrid y Cusco; los montos son PEN ficticios.\n\nLa suite debe cubrir:\n\n- null policies required/optional (políticas de nulos obligatorias u opcionales por campo)\n- duplicados exactos vs. conflictos, con evidencia\n- normalización con columna raw (valor original) lateral\n- outliers de dominio e IQR (rango intercuartílico)\n- contratos de schema y cross-field (reglas entre columnas)\n- cuarentena con audit trail append-only (rastro de auditoría donde solo se agregan eventos)\n\nEl conjunto limpio alimenta S17 y CP-N2-A. El gate es fail-closed (fallar de forma segura): si el contrato se rompe, el job no aprueba en silencio. Nunca arregles un dato sin métrica ni uses PII real (datos personales identificables).\n\nAceptación mínima del fixture del starter:\n\n1. cliente_id null en la fila 3 → el gate detecta null_required y manda la fila a cuarentena. No uses fillna mágico.\n2. C001 con Lima y Cusco → el gate detecta conflict_region (o etiqueta similar). No uses drop_duplicates ciego.\n3. monto -1.0 en C003 → el gate detecta domain_error. No borres solo por IQR.\n4. Resultado del run → metrics.pass == False y el JSON contiene rows_in, rows_clean y rows_quarantine.",
+      "Tú lo haces (You Do). Implementa una suite de checks (verificaciones) sobre un dataset sintético de clientes y transacciones. Las regiones son Lima, Madrid y Cusco; los montos son PEN ficticios.\n\nLa suite debe cubrir:\n\n- null policies required/optional (políticas de nulos obligatorias u opcionales por campo)\n- duplicados exactos vs. conflictos, con evidencia\n- normalización con columna raw (valor original) lateral\n- errores de dominio por valores fuera de límites documentados\n- flags de outliers estadísticos con IQR (ancho de la mitad central) y cercas de Tukey\n- contratos de schema y cross-field (reglas entre columnas)\n- cuarentena con audit trail append-only (rastro de auditoría donde solo se agregan eventos)\n\nEl conjunto limpio alimenta S17 y CP-N2-A. El gate es fail-closed (fallar de forma segura): si el contrato se rompe, el job no aprueba en silencio. Nunca arregles un dato sin métrica ni uses PII real (datos personales identificables).\n\nAceptación mínima del fixture del starter:\n\n1. cliente_id null en la fila 3 → el gate detecta null_required y manda la fila a cuarentena. No uses fillna mágico.\n2. C001 con Lima y Cusco → el gate detecta conflict_region (o etiqueta similar). No uses drop_duplicates ciego.\n3. monto -1.0 en C003 → el gate detecta domain_error. No borres solo por IQR.\n4. Resultado del run → metrics.pass == False y el JSON contiene rows_in, rows_clean y rows_quarantine.",
     objectives: [
       "Suite de checks que falla explicablemente ante drift, null required y domain_error",
       "Cuantificar pérdida de filas/campos con metrics.rows_in / rows_clean / rows_quarantine",
@@ -1778,11 +1877,11 @@ if __name__ == "__main__":
           "Normalizar ≠ borrar historia: el raw lateral permite auditoría y rollback conceptual del transform.",
       },
       {
-        question: "IQR sin domain bounds es riesgoso porque:",
-        options: ["Puede marcar (o borrar) colas legítimas de negocio como si fueran error", "Solo detecta valores extremos por arriba, nunca por abajo", "Depende del promedio, así que un extremo desplaza el umbral", "Necesita que la columna siga una distribución normal (la campana simétrica)"],
+        question: "IQR sin límites de dominio es riesgoso porque:",
+        options: ["Puede marcar (o borrar) colas legítimas de negocio como si fueran error", "Solo detecta valores extremos por arriba, nunca por abajo", "Depende del promedio, así que un extremo desplaza el umbral", "Solo funciona si los valores forman una campana simétrica"],
         correctIndex: 0,
         explanation:
-          "IQR solo identifica candidatos estadísticos; los bounds de dominio deciden error vs. flag plausible.",
+          "El IQR propone outliers estadísticos; los límites de dominio deciden si son errores o flags plausibles. «Solo detecta valores extremos por arriba» es falso porque hay una cerca inferior y otra superior. «Depende del promedio» es falso: las cercas se calculan desde los valores ordenados, no desde el promedio. «Solo funciona si los valores forman una campana simétrica» también es falso porque la regla no exige esa forma.",
       },
       {
         question: "Un quality gate que falla debe:",

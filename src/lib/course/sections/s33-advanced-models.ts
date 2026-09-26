@@ -29,9 +29,9 @@ export const section33: CourseSection = {
     { text: "Calcular sigmoid, predicción umbralada y documentar L2 (penalty + l2_sq diagnóstico)" },
     { text: "Interpretar coeficientes escalados sin claim causal" },
     { text: "Aplicar stumps controlados y voto mayoritario frente al dummy y a la regla" },
-    { text: "Detectar overfit por gap train−valid (diagnóstico de lab) y fijar seed reproducible" },
+    { text: "Detectar overfit —cuando un modelo acierta en los datos con que se ajustó pero falla en datos apartados— por gap train−valid y fijar seed reproducible" },
     { text: "Registrar runs mínimos (params, metrics, beats_dummy/beats_rule) aunque pierdan al baseline" },
-    { text: "Aplicar group CV por entidad con disyunción train/valid y leer n_groups / mean de folds" }
+    { text: "Aplicar validación cruzada por entidad: dividir los datos en partes, usar cada parte una vez para comprobar el modelo y mantener cada entidad completa en un solo lado; leer `n_groups` y la media de esas partes" }
   ],
   theory: [
     {
@@ -55,20 +55,13 @@ export const section33: CourseSection = {
       optional: true,
       paragraphs: [
         "Bloque de referencia. Orden de los subtemas y criterios de promoción.",
-        "**Orden de los subtemas.** T1 fija el encuadre y el baseline. T2 pasa a modelos lineales regularizados. T3 introduce stumps y el control del sobreajuste. T4 cierra con el registro de experimentos y la validación cruzada por grupo.",
+        "**Orden de los subtemas.** T1 fija el encuadre y el baseline. T2 pasa a modelos lineales regularizados. T3 controla cuánto memoriza el modelo al limitar la profundidad del árbol. T4 registra los experimentos y repite la evaluación en varias rondas sin dejar una entidad a ambos lados.",
         "**Criterios de promoción.** Sin baseline documentado no se promociona un modelo. El target debe ser del tipo `needs_review_*` con horizonte explícito, nunca `fraud`. Un run que no le gana al baseline se registra igual — ocultarlo es lo que convierte un experimento en propaganda. La prevalencia se anota antes de ajustar nada.",
         "**Referencia.** Las *Rules of ML* de Google resumen el mismo criterio: lanza primero con una heurística o un baseline, mide el valor, y solo después sube la complejidad.",
       ],
     },
     {
       heading: "Unidad, target y horizonte",
-      figure: {
-        id: "S33-overfit-gap",
-        caption:
-          "Con esa brecha, el modelo memorizó. Y apenas supera al baseline: dos problemas, no uno.",
-        alt:
-          "Tres barras sobre la misma escala: train, test y baseline.",
-      },
       subtopicId: "S33-T1-A",
       paragraphs: [
         "Antes de entrenar, cierra el **problema de scoring**: la **unidad** (par de entidades, caso o cuenta en el instante `t`), el **target observable** y el **horizonte** temporal (p. ej. 7 días). En el workbench de Red Andina, un target llamado `fraud` o `is_fraud` es un **breach de producto**: el ML solo prioriza la cola de revisión humana, no etiqueta delito ni parentesco.",
@@ -341,10 +334,32 @@ depth_unlimited False`,
       },
     },
     {
+      heading: "Antes de medir overfit: práctica contra datos apartados",
+      paragraphs: [
+        "**Overfit** ocurre cuando un modelo aprende demasiado bien los datos usados para ajustarlo y luego pierde aciertos con datos que mantuviste aparte. El nombre permite detectar un modelo que parece fuerte durante la práctica, pero falla al recibir casos que no había visto.",
+        "Llama **train** a los datos usados para ajustar el modelo y **valid** a los datos apartados para comprobar decisiones como la profundidad. Si acierta 95 de 100 casos en train y 70 de 100 en valid, `train_acc = 0.95`, `valid_acc = 0.70` y el gap es `0.95 - 0.70 = 0.25`. Como 0.25 supera la regla de 0.2 de este lab, el resultado indica overfit.",
+        "Ahora hazlo con `train_acc = 0.80` y `valid_acc = 0.75`: resta `0.80 - 0.75`. El resultado correcto es 0.05; como no supera 0.2, este diagnóstico no marca overfit.",
+        "Compruébalo con un caso nuevo en el REPL: `round(0.92 - 0.68, 2)` debe producir `0.24`. Si comparas `0.24 > 0.2`, obtienes `True`; en el gate de este lab corresponde reportar overfit y rechazar ese run, no celebrar el 0.92 de train."
+      ],
+      callout: {
+        type: "tip",
+        title: "Comprueba antes de seguir",
+        content:
+          "Calcula siempre train menos valid. Gap 0.05 → no marca overfit; gap 0.24 → sí lo marca con la regla 0.2 del lab.",
+      },
+    },
+    {
       heading: "Overfit, profundidad y reproducibilidad",
+      figure: {
+        id: "S33-overfit-gap",
+        caption:
+          "Una brecha grande entre train y valid revela memorización; la cercanía al baseline muestra que esa complejidad apenas aporta.",
+        alt:
+          "Tres barras sobre la misma escala: train 0.98, valid 0.71 y baseline 0.68.",
+      },
       subtopicId: "S33-T3-B",
       paragraphs: [
-        "Un gap **train − valid** grande señala overfit: el modelo memorizó train y no generaliza. El valor **0.2** es un **diagnóstico de lab** (umbral de práctica del workbench), no una ley universal de ML: en producción el umbral se calibra con validación y costo. Elegir profundidad **solo mirando train** es el error clásico. Fijar **seed** hace comparable la corrida entre los PR del workbench; sin seed, no hay auditoría de regresiones entre versiones del modelo.",
+        "Un gap **train − valid** grande señala overfit: el modelo memorizó train y no generaliza. Aquí **valid** es la parte de los datos apartada para elegir la profundidad; no es el test de S30, reservado para la medición final. El valor **0.2** es un **diagnóstico de lab** (umbral de práctica del workbench), no una ley universal de ML: en producción el umbral se calibra con validación y costo. Elegir profundidad **solo mirando train** es el error clásico; fijar **seed** hace comparable la corrida entre los PR del workbench y permite auditar regresiones entre versiones del modelo.",
         "Con `train_acc`, `valid_acc` y seed decides si hay overfit y generas una secuencia reproducible. La **mejor profundidad** se elige por **valid** (o por costo en valid), nunca solo por train. Si gap > 0.2 con seed presente, reportas el overfit y, según política del lab, controlas depth o rechazas el run.",
         "En `CASO-LIM-033`: `overfit(0.95, 0.70)` es True con gap de lab=0.2; `seeded_ints(42)` produce tres enteros fijos `[1, 0, 4]`. Reporta seed en params del run junto a depth y gap observado."
       ],
@@ -424,12 +439,56 @@ lose_run_ok True`,
       },
     },
     {
+      heading: "Un score no basta: cada entidad debe validar una vez",
+      figure: {
+        id: "S33-group-folds",
+        caption: "Los tres folds cambian la entidad que valida y mantienen train y valid separados en cada evaluación.",
+        alt: "Tres folds: e1 valida con score 0.6, e2 con 0.7 y e3 con 0.65; la media es 0.65.",
+      },
+      paragraphs: [
+        "Un solo split train/valid da un solo score, y ese resultado depende de qué entidades cayeron en valid. Repetir la evaluación con varios repartos muestra cuánto del resultado provino de esa suerte.",
+        "La **validación cruzada** (CV) divide los datos en `k` partes; cada parte se llama **fold**. Cada fold ocupa valid exactamente una vez, mientras los demás forman train. Así obtienes `k` scores y reportas su media junto con su dispersión; aquí usamos el mínimo y el máximo.",
+        "Cuando la CV se hace por entidad, cada fold conserva entidades completas: ninguna aparece en train y valid de la misma evaluación. En `CASO-LIM-033` hay tres entidades y tres folds, por lo que valida una entidad por fold. Los scores 0.6, 0.7 y 0.65 dan media 0.65 y rango de 0.6 a 0.7.",
+        "Antes de ejecutar, predice en cuántos folds estará cada entidad en valid. Luego predice qué imprimiría `disjoint` si añadieras `e1` al train del fold 0: sería `False`; pruébalo en el código.",
+      ],
+      code: {
+        language: 'python',
+        title: "folds_por_entidad.py",
+        code: `entities = ["e1", "e1", "e2", "e3"]
+scores = [0.6, 0.7, 0.65]
+unique_entities = sorted(set(entities))
+
+fold_index = 0
+for valid_entity in unique_entities:
+    valid = {valid_entity}
+    train = set()
+    for entity in entities:
+        if entity not in valid:
+            train.add(entity)
+    print("fold", fold_index, "train", sorted(train), "valid", sorted(valid), "disjoint", train.isdisjoint(valid))
+    fold_index += 1
+
+print("mean", round(sum(scores) / len(scores), 3))
+print("range", min(scores), max(scores))`,
+        output: `fold 0 train ['e2', 'e3'] valid ['e1'] disjoint True
+fold 1 train ['e1', 'e3'] valid ['e2'] disjoint True
+fold 2 train ['e1', 'e2'] valid ['e3'] disjoint True
+mean 0.65
+range 0.6 0.7`,
+      },
+      callout: {
+        type: "tip",
+        title: "Regla práctica",
+        content: "Reporta la media y el rango; verifica también que train y valid sean disjuntos en cada fold.",
+      },
+    },
+    {
       heading: "Validación cruzada por entidad y análisis de errores",
       subtopicId: "S33-T4-B",
       paragraphs: [
         "**Group CV por entidad** evita leakage entre folds: la misma entidad no debe aparecer en train y en valid del mismo split. Contar entidades únicas (`n_groups`) es **perfilado** del dataset; la prueba de group CV es la **disjunción** train∩valid = ∅ por entidad. Un random split clásico infla métricas cuando hay múltiples filas por entidad (pares, cuentas, dispositivos) — el modelo “recuerda” al par en valid porque ya lo vio en train.",
         "Recibes scores por fold, entity ids y, en el lab, conjuntos train/valid por fold. Devuelves la media de folds, `n_groups = len(set(entities))` y `groups_disjoint`. `random_split=True` (o entidades compartidas entre train y valid) es el error típico. El protocolo del workbench pide al menos dos grupos y disyunción verificada.",
-        "En `CASO-LIM-033`: mean de `[0.6, 0.7, 0.65]` con `round(..., 3)` es **0.65**; con entities `e1,e1,e2,e3` hay **3** grupos. Train `{e1}` y valid `{e2,e3}` son disjuntos; si `e1` aparece en ambos, hay leak. El **análisis de errores** mira el *slice* con más FN (p. ej. un tipo de par sintético), no solo la media global — umbrales y desbalance se profundizan en S34."
+        "En `CASO-LIM-033`: mean de `[0.6, 0.7, 0.65]` con `round(..., 3)` es **0.65**; con entities `e1,e1,e2,e3` hay **3** grupos. Train `{e2,e3}` y valid `{e1}` son disjuntos; si `e1` aparece en ambos, hay leak. El **análisis de errores** mira el *slice* con más FN (p. ej. un tipo de par sintético), no solo la media global — umbrales y desbalance se profundizan en S34."
       ],
       code: {
         language: 'python',
@@ -444,7 +503,7 @@ def groups_disjoint(train_ents, valid_ents):
     return set(train_ents).isdisjoint(set(valid_ents))
 
 entities = ["e1", "e1", "e2", "e3"]
-train_fold0, valid_fold0 = ["e1"], ["e2", "e3"]
+train_fold0, valid_fold0 = ["e2", "e3"], ["e1"]
 print("mean", mean_fold([0.6, 0.7, 0.65]))
 print("n_groups", n_groups(entities))
 print("disjoint", groups_disjoint(train_fold0, valid_fold0))
@@ -758,7 +817,7 @@ lose_run_ok True`,
         environment: "local-python",
         description: "Mean de folds (3 decimales) y n_groups desde entidades únicas.",
         preamble:
-          "Group CV por entidad evita leakage: la misma entidad no cae en train y valid del mismo fold. En esta demo, entities con e1 repetido dan **3** grupos (no 4 filas); mean de [0.6, 0.7, 0.65] con 3 decimales es 0.65; train {e1} y valid {e2,e3} son disjuntos. Observa `random_leak_ok False`: un split aleatorio con pares repetidos hace que el modelo «recuerde» al par.",
+          "Group CV por entidad evita leakage: la misma entidad no cae en train y valid del mismo fold. En esta demo, entities con e1 repetido dan **3** grupos (no 4 filas); mean de [0.6, 0.7, 0.65] con 3 decimales es 0.65; train {e2,e3} y valid {e1} son disjuntos. Observa `random_leak_ok False`: un split aleatorio con pares repetidos hace que el modelo «recuerde» al par.",
         code: {
           language: 'python',
           title: "gcv_demo.py",
@@ -774,7 +833,7 @@ def groups_disjoint(train_ents, valid_ents):
 entities = ["e1", "e1", "e2", "e3"]
 print("mean", mean_fold([0.6, 0.7, 0.65]))
 print("n_groups", n_groups(entities))
-print("disjoint", groups_disjoint(["e1"], ["e2", "e3"]))
+print("disjoint", groups_disjoint(["e2", "e3"], ["e1"]))
 print("random_leak_ok", False)`,
           output: `mean 0.65
 n_groups 3
@@ -2209,7 +2268,7 @@ assert win["beats_dummy"] is True and lose["beats_dummy"] is False
 # TAREA: n_groups==3, mean==0.65, disjoint True; PASS
 entities = ["e1", "e1", "e2", "e3"]
 folds = [0.6, 0.7, 0.65]
-train_ents, valid_ents = ["e1"], ["e2", "e3"]
+train_ents, valid_ents = ["e2", "e3"], ["e1"]
 n_groups = len(entities)  # DEFECT
 mean = round(sum(folds) / len(folds), 2)  # DEFECT: debe ser 3
 disjoint = True  # DEFECT: debe calcularse con isdisjoint
@@ -2223,7 +2282,7 @@ print("S33-T4-B", status)
           title: "s33-t4-b-e1.py",
           code: `entities = ["e1", "e1", "e2", "e3"]
 folds = [0.6, 0.7, 0.65]
-train_ents, valid_ents = ["e1"], ["e2", "e3"]
+train_ents, valid_ents = ["e2", "e3"], ["e1"]
 n_groups = len(set(entities))
 mean = round(sum(folds) / len(folds), 3)
 disjoint = set(train_ents).isdisjoint(set(valid_ents))
@@ -2416,7 +2475,7 @@ y = [1, 1, 0, 0]
 x = [0.1, 0.4, 0.2, 0.05]  # score sintético al estilo S32
 entities = ["e1", "e1", "e2", "e3"]
 fold_scores = [0.6, 0.7, 0.65]
-train_ents, valid_ents = ["e1"], ["e2", "e3"]
+train_ents, valid_ents = ["e2", "e3"], ["e1"]
 seed = 42
 c_fp, c_fn = 1, 5
 
@@ -2522,10 +2581,10 @@ if __name__ == "__main__":
       },
       {
         question: "Comparar coeficientes exige:",
-        options: ["Features sin escala", "SHAP obligatorio", "Depth ilimitada", "Features scaled y causal=False"],
+        options: ["Features sin escala", "Orden alfabético obligatorio", "Depth ilimitada", "Features scaled y causal=False"],
         correctIndex: 3,
         explanation:
-          "Sin scaling (p. ej. amount_z de S32) los |coef| no son comparables; el signo no prueba causa social ni fraude. SHAP se reserva a S35.",
+          "Sin scaling (p. ej. amount_z de S32) los |coef| no son comparables; el signo no prueba causa social ni fraude.",
       },
       {
         question: "Group CV por entidad evita:",

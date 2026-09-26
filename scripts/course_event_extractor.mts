@@ -15,6 +15,7 @@
  */
 import { COURSE_SECTIONS } from '../src/lib/course/index'
 import { GLOSSARY_TERMS, aliasIsAcronym } from '../src/lib/glossary/terms'
+import { blankProperNames, syntaxMentions } from './concept_syntax.mts'
 
 type Ev = {
   section_id: string
@@ -41,7 +42,10 @@ type Ev = {
 // "tien-es el", "corromp-es el", "pierd-es la": 18 credited definitions at HEAD, every one of
 // them a cue glued to the end of the preceding verb.
 const POST_CUE =
-  /^[^.!?;]{0,45}?(?<!\p{L})(?:es un|es una|son unos|son unas|significa|consiste en|se refiere a|sirve para|quiere decir|no es mas que|no es m\u00e1s que|se define como|es el|es la|son los|son las|es aquel|es aquella)/iu
+  /^[^.!?;]{0,45}?(?<!\p{L})(?:es un|es una|son unos|son unas|significa|consiste en|se refiere a|sirve para|quiere decir|no es mas que|no es m\u00e1s que|se define como|es el|es la|son los|son las|es aquel|es aquella|son (?:dos|tres|cuatro|cinco|seis|\d+)\s+\p{L}{3,})/iu
+// A pair is defined in the plural with a quantifier, not with "un/una": "Las **cercas de Tukey**
+// son dos l\u00edmites calculados a partir de los cuartiles". The numeral has to be followed by a noun,
+// so "las opciones son dos" - a count, not a definition - stays out.
 // "se llama" is the plainest way Spanish names a thing, and it was missing: S02 teaches
 // unpacking with "Esta acci\u00f3n se llama **desempaquetar una tupla**" and scored never-explained.
 const PRE_CUE =
@@ -112,7 +116,15 @@ const INDEFINITE_BEFORE = /\b(?:un|una|unos|unas)\s+(?:\*\*|`|_)?$/i
  * mark alone is not enough — a describing verb still has to follow. Requiring the sentence to
  * start there is what keeps "y `git remote -v` permite…" mid-sentence out.
  */
-const FORMATTED_SUBJECT = /(?:^|[.;:!?]\s+)(?:[EeLl][laos]{1,2}\s+)?(\*\*|`|_)$/u
+// The course's commonest way of marking a keyword is BOTH marks - "**`for`** recorre el
+// grupo" - and one mark was all this accepted. Stacked, the inner backtick is preceded by an
+// asterisk rather than by sentence punctuation, so the rule rejected it: `for` has 1421 uses
+// across 52 sections and the only sentence the detector would credit was a weDo preamble's
+// "(base del gate de resúmenes)", which says nothing about what a `for` is. 26 sentences in
+// the course open this way. The optional outer group is what lets the inner mark be found.
+// It does not loosen the guard below: the closing mark still has to come straight after the
+// term, so "**`rm -rf`** borra" is still not a definition of `rm`.
+const FORMATTED_SUBJECT = /(?:^|[.;:!?]\s+)(?:[EeLl][laos]{1,2}\s+)?(?:\*\*|__)?(\*\*|`|_)$/u
 /**
  * The mark has to close right after the term, so the formatted span is the term and nothing
  * else. Without this, "`git restore archivo` descarta cambios" and "`git remote -v` permite
@@ -156,9 +168,43 @@ const DESCRIBING_VERB =
  * "ver un n\u00famero dentro de una funci\u00f3n no responde esa pregunta" does not, and the same verb
  * carries both. Keeping these off the bare-article path is what separates them \u2014 with the
  * marked-subject requirement they fire on an introduction, not on an ordinary sentence.
+ *
+ * The list is a whitelist, so a missing verb hides a real definition rather than inventing
+ * one. `divide` hid S33's: "La **validaci\u00f3n cruzada** (CV) divide los datos en `k` partes;
+ * cada parte se llama **fold**" is how the course teaches cross-validation, and with the verb
+ * missing the term scored never-explained across all 52 sections and its four uses were filed
+ * as surprises.
+ *
+ * Adding a verb is cheap and reverting one is not, so it is done on measured effect, never on
+ * plausibility. A 2026-09-22 scan of every marked-term sentence in the course offered
+ * `crea`, `declara`, `devuelve`, `exige` and `toma` as well. Re-running the extractor with all
+ * six changed exactly two events: this one, and a self-check explanation that would have been
+ * credited with `venv` \u2014 the non-teaching-surface credit this detector has been burned by
+ * before. The other four moved nothing at all (`devuelve` is already on DESCRIBING_VERB). So
+ * only `divide` stayed. The others are attested in the prose and can be added the day a real
+ * sentence needs one, with the case that proves it.
  */
 const MARKED_SUBJECT_VERB =
-  /^[^.!?;]{0,14}?\b(?:mide|miden|aloja|alojan|excluye|excluyen|instala|instalan|alinea|alinean|produce|producen|colapsa|colapsan|hace|hacen|responde|responden|captura|capturan|resume|resumen|descubre|descubren|memoriza|memorizan|fija|fijan|apila|apilan|inserta|insertan|act[u\u00fa]a|act[u\u00fa]an)\b/i
+  /^[^.!?;]{0,14}?\b(?:mide|miden|aloja|alojan|excluye|excluyen|instala|instalan|alinea|alinean|produce|producen|colapsa|colapsan|hace|hacen|responde|responden|captura|capturan|resume|resumen|descubre|descubren|memoriza|memorizan|fija|fijan|apila|apilan|inserta|insertan|act[u\u00fa]a|act[u\u00fa]an|reutiliza|reutilizan|divide|dividen|comprueba|comprueban)\b/i
+// `comprueba` added 2026-09-26 for «**`assert`** comprueba la comparación…», S02's definition of
+// assert, which read as teaching nothing. Falsified first: it follows a sentence-initial marked
+// span in five sentences course-wide. Two are genuine definitions (`assert`, `fullmatch`), and
+// the other three are still refused by the rules above (`isinstance(x, int)` and `is None` are
+// not bare terms; «Dos preguntas, no una:» is not a glossary term).
+/**
+ * A phenomenon is defined by the conditions it arises under, not by what it is made of.
+ *
+ * "**Overfit** ocurre cuando un modelo aprende demasiado bien los datos usados para
+ * ajustarlo y luego pierde aciertos con datos que mantuviste aparte" is the standard Spanish
+ * frame for this, and it is the sentence S33 now teaches overfit with. Nothing above matched
+ * it: it has no copula, and `ocurrir` describes no property of the thing.
+ *
+ * `cuando` is required, and is the whole guard. A bare `ocurre` credits "el **error** ocurre
+ * en la linea 3", which locates a thing rather than defining it. `sucede cuando` is the same
+ * frame and is deliberately absent: the course does not currently write it, and a rule with
+ * no case to prove it is how this detector acquired its absurd credits.
+ */
+const PHENOMENON_CUE = /^[^.!?;]{0,14}?\bocurre[n]? cuando\b/i
 /** "una tupla **no** hace que el lote contin\u00fae" describes what the thing is not. */
 const NEGATED_VERB = /^[^.!?;]{0,12}?\b(?:no|nunca|jam[a\u00e1]s|tampoco)\s/i
 
@@ -194,6 +240,8 @@ function definesTerm(
   if ((INDEFINITE_BEFORE.test(before) || marked)
     && DESCRIBING_VERB.test(after) && !NEGATED.test(head) && !NEGATED_VERB.test(after)) return true
   if (marked && MARKED_SUBJECT_VERB.test(after) && !NEGATED.test(head) && !NEGATED_VERB.test(after)) return true
+  // "**Overfit** ocurre cuando un modelo aprende demasiado bien los datos…"
+  if (marked && PHENOMENON_CUE.test(after) && !NEGATED.test(head) && !NEGATED_VERB.test(after)) return true
   // "`Counter`, un contador de elementos de una secuencia…"
   if (APPOSITIVE.test(after) && !NEGATED.test(head)) return true
   // "**GitHub**, el sitio web que aloja repositorios…"
@@ -258,19 +306,28 @@ function push(
   const defines: string[] = []
   const requires: string[] = []
 
+  // Matched on a copy with proper names blanked; definesTerm() still reads the original `t`,
+  // and blanking keeps every offset valid. See scripts/concept_syntax.mts.
+  const scan = blankProperNames(t)
   for (const term of terms) {
     // Every occurrence, not just the first: a text often names a term and defines it a clause
     // later - "añade Python y Ruff; Ruff es un programa que señala errores". Testing only the
     // first hit missed that entirely, because the `;` blocks the definition cue, and `ruff`
     // scored "never explained" across 39 uses while its definition sat in the same sentence.
     const hits = [
-      ...(term.re ? t.matchAll(term.re) : []),
-      ...(term.reExact ? t.matchAll(term.reExact) : []),
+      ...(term.re ? scan.matchAll(term.re) : []),
+      ...(term.reExact ? scan.matchAll(term.reExact) : []),
     ]
     if (hits.length === 0) continue
     mentions.push(term.id)
     if (hits.some((m) => definesTerm(t, m.index!, m[0].length, kind, term.aliases))) defines.push(term.id)
     if (REQUIRING.has(kind)) requires.push(term.id)
+  }
+  // A use through syntax is a use; it never counts as a definition.
+  for (const id of syntaxMentions(t)) {
+    if (mentions.includes(id) || !terms.some((x) => x.id === id)) continue
+    mentions.push(id)
+    if (REQUIRING.has(kind)) requires.push(id)
   }
 
   events.push({
@@ -278,7 +335,15 @@ function push(
     display_order: events.length,
     kind,
     location,
-    text: t.length > 400 ? t.slice(0, 400) + '…' : t,
+    // Not truncated. It used to be `t.slice(0, 400) + '…'`, which cut 2,928 of 22,782 events
+    // mid-word - 660 of them theory paragraphs, in all 52 sections. definesTerm() reads the
+    // full `t` above, so the concept map never saw it; prose_quality_audit.py reads this
+    // field, so every prose measure in the course was computed on cut text. Worse, a cut
+    // event ends in an ellipsis rather than a full stop, so it glued to the next event and
+    // manufactured run-on sentences that nobody wrote: S34 measured 11 and has 5. That is a
+    // gated measure, and it restored a round whose only fault was writing a paragraph longer
+    // than 400 characters. The cache grows 8.4 MB -> 9.2 MB, and it is gitignored.
+    text: t,
     learner_visible: visible,
     mentions,
     defines,
@@ -359,7 +424,11 @@ for (const s of COURSE_SECTIONS) {
 
 const payload = {
   active_section_ids: COURSE_SECTIONS.map((s) => s.id),
-  terms: GLOSSARY_TERMS.map((t) => ({ id: t.id, firstSectionId: t.firstSectionId })),
+  // Names as well as ids: apply_patches.py needs them to tell a patch that rewords a held
+  // definition (the term survives) from one that deletes it (no name of it survives).
+  terms: GLOSSARY_TERMS.map((t) => ({
+    id: t.id, firstSectionId: t.firstSectionId, names: [t.term, ...(t.aliases ?? [])],
+  })),
   events,
 }
 process.stdout.write(JSON.stringify(payload))

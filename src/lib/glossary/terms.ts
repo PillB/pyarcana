@@ -44,6 +44,14 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     firstSectionId: 'basics',
   },
   {
+    id: 'lambda',
+    term: 'lambda',
+    aliases: ['lambda'],
+    category: 'Python',
+    definition: '`lambda` escribe una función pequeña en la misma línea donde se usa, con la forma `lambda parámetros: expresión`; devuelve el valor de esa única expresión sin `return`.',
+    firstSectionId: 'collections',
+  },
+  {
     id: 'tipo-de-dato',
     term: 'Tipo de dato',
     aliases: ['Tipo de dato', 'tipos de datos'],
@@ -408,8 +416,12 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'pytest',
     aliases: ["pytest"],
     category: 'Tooling',
-    definition: 'Framework de testing para Python. Más simple que unittest. Descubre automáticamente test_*.py.',
-    firstSectionId: 'async-concurrency',
+    definition: 'Herramienta que ejecuta comprobaciones escritas en Python y muestra cuáles pasan o fallan. Descubre automáticamente los archivos test_*.py.',
+    // S10, not S27. S10-T2-B-E2 asks the learner to classify `pytest` as a development
+    // dependency, and the section now teaches it there: what it does, `pip install pytest`,
+    // `python -m pytest -q`, reading `1 passed`, breaking it to see `1 failed`. Declaring
+    // S27 withheld the hover through seventeen sections of first contact.
+    firstSectionId: 'modules-packaging-cli',
   },
   {
     id: 'coverage',
@@ -452,6 +464,26 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     example: 'fila = ("C001", "Lima", 120)\\ncliente_id, ciudad, monto = fila',
     related: ['Tuple', 'List'],
     firstSectionId: 'collections',
+  },
+  {
+    id: 'assert',
+    term: 'assert',
+    aliases: ['assert', 'asserts'],
+    category: 'Python',
+    definition: '`assert` comprueba una comparación que esperas que sea verdadera. Si es falsa, Python detiene la ejecución con `AssertionError`; si es verdadera, no muestra nada y continúa.',
+    example: 'assert edad == 19',
+    related: ['Excepción'],
+    firstSectionId: 'basics',
+  },
+  {
+    id: 'repr',
+    term: 'repr()',
+    aliases: ['repr'],
+    category: 'Python',
+    definition: '`repr()` produce un texto que muestra un valor de forma precisa. En los textos hace visibles las comillas y los espacios de los bordes.',
+    example: 'repr(" 42 ")',
+    related: ['f-string'],
+    firstSectionId: 'basics',
   },
   {
     id: 'set',
@@ -560,10 +592,10 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'groupby',
     term: 'GroupBy',
-    aliases: ["GroupBy"],
+    aliases: ["GroupBy", "groupby"],
     category: 'Pandas',
-    definition: 'Patrón split-apply-combine. df.groupby("region")["ventas"].sum(). Agrupa por una clave y agrega.',
-    firstSectionId: 'stdlib-deep',
+    definition: 'Reúne las filas que comparten el valor de una clave para calcular algo por cada grupo.',
+    firstSectionId: 'wxpython-gui',
   },
   {
     id: 'merge',
@@ -650,8 +682,15 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'Overfitting',
     aliases: ['Overfitting', 'sobreajuste', 'overfit', 'sobreajusta', 'sobreajustada', 'sobreajustado'],
     category: 'ML',
-    definition: 'Modelo memoriza training data, generaliza mal. Síntomas: train score >> test score. Fix: más datos, regularización, simpler model.',
-    firstSectionId: 'advanced-models',
+    definition: 'Ocurre cuando una regla o un modelo se ajusta tan pegado a los ejemplos con que se construyó que acierta con ellos y falla con otros que debería aceptar. En un modelo, el síntoma es acertar mucho con los datos usados para ajustarlo y perder aciertos con los que se mantuvieron aparte.',
+    // S07, not S33. The idea arrives long before the statistics: S07-T2-B-E3's success
+    // criterion is literally `rejected_by_overfit`, so the learner has to recognise a rule
+    // tuned too tightly to its examples, and the section now teaches exactly that with an
+    // email pattern. S33 gives it the train/valid treatment. The definition is the two
+    // sentences codex wrote for those two blocks, joined - the old one described a model
+    // with "training data", "score" and "simpler model", none of which a reader of a regex
+    // lesson has met, and the hover shows the same text in both places.
+    firstSectionId: 'text-unicode-regex',
   },
   {
     id: 'roc-auc',
@@ -683,7 +722,11 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ["F1-score", 'F1'],
     category: 'ML',
     definition: 'Media armónica de precision y recall. Útil cuando hay desbalance. 2 * (P * R) / (P + R).',
-    firstSectionId: 'cv-ai-integration',
+    // S25, not S34. S25-T4 forbids confusing `field_match_rate` with F1, and the section now
+    // teaches F1 before that exercise; declaring S34 withheld the hint for nine sections
+    // after first contact. Precision and recall, which this definition leans on, are taught
+    // in S13.
+    firstSectionId: 'streamlit-dashboards',
   },
   {
     id: 'shap',
@@ -738,7 +781,15 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'Outlier',
     aliases: ['Outlier', 'valor atípico', 'valores atípicos', 'outliers'],
     category: 'Data Science',
-    definition: 'Valor atípico. Detectar con IQR: Q1 - 1.5*IQR a Q3 + 1.5*IQR. Los outliers afectan media y modelos.',
+    definition: 'Valor alejado de la mayoría de su columna. Las cercas señalan candidatos estadísticos; la regla de dominio decide si cada uno es error o flag.',
+    firstSectionId: 'wxpython-gui',
+  },
+  {
+    id: 'cuartil',
+    term: 'Cuartil',
+    aliases: ['cuartil', 'cuartiles', 'Q1', 'Q3'],
+    category: 'Data Science',
+    definition: 'Punto que divide los valores ordenados en cuatro partes; Q1 deja aproximadamente una cuarta parte por debajo y Q3 deja tres cuartas partes.',
     firstSectionId: 'wxpython-gui',
   },
   {
@@ -747,6 +798,14 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['IQR', 'rango intercuartílico'],
     category: 'Data Science',
     definition: 'Rango intercuartílico. Q3 - Q1. Medida robusta de dispersión.',
+    firstSectionId: 'wxpython-gui',
+  },
+  {
+    id: 'cercas-de-tukey',
+    term: 'Cercas de Tukey',
+    aliases: ['cerca de Tukey', 'cercas de Tukey'],
+    category: 'Data Science',
+    definition: 'Límites calculados desde los cuartiles: Q1 - 1.5 × IQR y Q3 + 1.5 × IQR. Señalan candidatos estadísticos; la regla de dominio decide si cada uno es error o flag.',
     firstSectionId: 'wxpython-gui',
   },
   {

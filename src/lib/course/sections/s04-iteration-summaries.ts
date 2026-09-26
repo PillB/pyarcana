@@ -69,6 +69,25 @@ export const section04: CourseSection = {
       ],
      },
      {
+      heading: "Cómo leer un dict en estos ejemplos",
+      paragraphs: [
+        "Un **`dict`** guarda pares formados por una clave y un valor. La clave es el nombre que aparece a la izquierda de `:`; sirve para recuperar el valor de la derecha sin buscar una posición. En `ficha = {\"id\": \"C001\", \"edad\": 30}`, `id` y `edad` son claves, mientras que `C001` y `30` son sus valores.",
+        "Yo hago: `ficha[\"edad\"]` pide el valor guardado bajo la clave `edad`, por eso devuelve `30`. Los corchetes no recorren toda la ficha: señalan la clave concreta que quieres consultar.",
+        "Hacemos juntos: cambia `30` por `31`, predice qué imprimirá la segunda línea y ejecuta el bloque. Lo correcto es `31`; si aparece `30`, todavía no cambiaste el valor asociado con `edad`.",
+        "Tú haces: crea `otra = {\"id\": \"C002\", \"edad\": 17}` e imprime primero `otra[\"id\"]` y después `otra[\"edad\"]`. La comprobación correcta muestra `C002` y `17`, cada uno en su propia línea.",
+      ],
+      code: {
+        language: 'python',
+        title: "leer_dict.py",
+        code: `ficha = {"id": "C001", "edad": 30}
+print(ficha["id"])
+print(ficha["edad"])
+`,
+        output: `C001
+30`,
+      },
+    },
+    {
       heading: "for, range y secuencias",
       figure: {
         id: "S04-loop-invariant",
@@ -79,7 +98,7 @@ export const section04: CourseSection = {
       },
       subtopicId: "S04-T1-A",
       paragraphs: [
-        "Una **lista** es un grupo ordenado de valores, como dos regiones guardadas en orden. Cuando la pregunta es «¿qué hago con cada valor de este grupo?», piensa primero en **`for`**. `for x in lista` entrega cada valor una vez y en orden; el índice es innecesario hasta que una necesidad concreta, como mostrar la posición, lo justifique.",
+        "Una **lista** es un grupo ordenado de valores, como dos regiones guardadas en orden. Cuando la pregunta es «¿qué hago con cada valor de este grupo?», piensa primero en **`for`**. **`for`** recorre el grupo y entrega cada valor una vez, en orden. En `for x in lista`, la variable `x` guarda el valor de la vuelta actual. El índice es innecesario hasta que una necesidad concreta, como mostrar la posición, lo justifique.",
         "**`range(stop)`**, **`range(start, stop)`**, **`range(start, stop, step)`** producen enteros sin materializar una lista gigante. El **stop es exclusivo**: `range(3)` → 0,1,2. Eso evita el off-by-one clásico al numerar N filas.",
         "En lotes de clientes sintéticos, el patrón base es `for registro in filas:` y, más adelante en el You Do, llamar a `validate_record` dentro del bucle. No mutes la lista mientras la recorres salvo que sepas lo que haces; acumula resultados en otra lista. Prefiere el for por valor; `range(len(...))` solo cuando el índice es imprescindible.",
       ],
@@ -113,7 +132,7 @@ posición 2`,
       paragraphs: [
         "Dos problemas parecen iguales y no lo son: **numerar** una sola secuencia y **alinear** dos secuencias. `enumerate(seq, start=1)` resuelve lo primero sin llevar un contador manual; `zip(a, b)` resuelve lo segundo, pero solo si puedes defender que ambas columnas tienen la misma longitud.",
         "**`zip(a, b)`** empareja valores que ocupan la misma posición. Sin `strict=True`, se detiene en el grupo más corto. Si `nombres` tiene 3 valores y `edades` tiene 2, el tercer nombre desaparece en silencio. En el entorno Python 3.12 del curso, usa `zip(a, b, strict=True)` cuando las longitudes deban coincidir. Si no coinciden, Python lanza un `ValueError`. Este error indica que los valores recibidos no cumplen ese requisito.",
-        "**Nunca** asumas que dos columnas CSV llegaron alineadas solo porque “deberían”. Cuenta longitudes en tests de pipeline (`len(a)==len(b)` o `zip(..., strict=True)`). Un zip corto silencioso infla o deflacta tasas de reject en el resumen de intake.",
+        "**Nunca** asumas que dos columnas CSV llegaron alineadas solo porque “deberían”. Comprueba sus longitudes (`len(a)==len(b)` o `zip(..., strict=True)`) antes de procesarlas juntas. Un zip corto silencioso infla o deflacta las tasas de reject del resumen.",
       ],
       code: {
         language: 'python',
@@ -259,7 +278,7 @@ first_reject_idx 1`,
         "Con un `for`, crear una lista nueva exige iniciar esa lista, recorrer la anterior y agregar los resultados. Una **comprensión de lista** reúne esos pasos entre `[` y `]`. Existe para crear una lista con una regla breve; si necesitas varias decisiones o mensajes, conserva el `for` explícito.",
         "Yo hago: `montos = [10, 0, -5, 20]` y `[m for m in montos if m > 0]`. Python toma cada monto por turno, comprueba `m > 0` y agrega `m` solo cuando la comparación es verdadera. El resultado exacto es `[10, 20]`; la lista `montos` no cambia.",
         "La parte inicial también puede calcular otro valor. Con `numeros = [1, 2, 3]`, `[n * n for n in numeros]` produce `[1, 4, 9]`. Como no hay un `if`, cada número aporta un resultado.",
-        "Hacemos juntos: para `valores = [3, -1, 5, 0]`, completa `[v for v in valores if ___]` para conservar solo los positivos. Escribe `v > 0`; lo correcto es `[3, 5]`. Después ejecuta el bloque y comprueba que la salida coincida exactamente.",
+        "Hacemos juntos: para `valores = [3, -1, 5, 0]`, completa `[v for v in valores if ___]` para conservar solo los positivos. Antes de ejecutar, escribe `v > 0` y predice el resultado: debe ser `[3, 5]`. Ejecuta el bloque; si aparece también `0` o `-1`, revisa la condición situada después de `if`.",
       ],
       code: {
         language: 'python',
@@ -269,6 +288,33 @@ positivos = [v for v in valores if v > 0]
 print(positivos)
 `,
         output: `[3, 5]`,
+      },
+    },
+    {
+      heading: "Cómo crear un dict con una regla breve",
+      paragraphs: [
+        "Una **comprensión de diccionario** (`dict comprehension`) crea un `dict` con una regla breve repetida por un `for`. Existe para producir un par clave-valor por cada elemento cuando no hacen falta varias decisiones. Su forma es `{clave: valor for elemento in lista}`; a la izquierda de `:` va la clave y a la derecha, el valor que quedará asociado.",
+        "Yo hago: en `{r[\"id\"]: r[\"status\"] for r in filas}`, `for` visita cada ficha. En cada vuelta, el id se convierte en clave y el estado se convierte en su valor. Con C1 aceptado y C2 rechazado, el resultado es `{'C1': 'accept', 'C2': 'reject'}`.",
+        "Hacemos juntos: añade `C3` con estado `review` a `filas` y predice el nuevo par antes de ejecutar. La salida correcta conserva los dos pares anteriores y añade `'C3': 'review'`.",
+        "Tú haces: crea dos fichas, C4 con `reject` y C5 con `accept`, y escribe la misma comprensión sin copiar el resultado. Ejecuta `print(por_id)` para comprobarlo: debe mostrar `{'C4': 'reject', 'C5': 'accept'}`.",
+      ],
+      code: {
+        language: 'python',
+        title: "comprobar_comprension_dict.py",
+        code: `filas = [
+    {"id": "C1", "status": "accept"},
+    {"id": "C2", "status": "reject"},
+]
+por_id = {r["id"]: r["status"] for r in filas}
+print(por_id)
+`,
+        output: `{'C1': 'accept', 'C2': 'reject'}`,
+      },
+      callout: {
+        type: "tip",
+        title: "Cuándo conservar el for explícito",
+        content:
+          "Usa esta forma solo cuando cada ficha produce un par mediante una regla breve. Si necesitas varias ramas, mensajes o cambios de contadores, conserva el `for` explícito.",
       },
     },
     {
@@ -430,7 +476,7 @@ fila 2: C002 @ Cusco
 fila 3: C003 @ Arequipa
 desalineado detectado`,
         },
-        why: "`start=1` numera para humanos (“fila 1…”); el índice interno de la lista sigue siendo 0-based. Validar `len(a)==len(b)` (o `zip(..., strict=True)` en 3.10+) evita el truncamiento silencioso de `zip`, que corrompe tasas de reject cuando una columna llega incompleta. Observa el try/except: el error ruidoso es el diseño correcto del pipeline.",
+        why: "`start=1` numera para humanos (“fila 1…”); el índice interno de la lista sigue siendo 0-based. Validar `len(a)==len(b)` (o `zip(..., strict=True)` en 3.10+) evita el truncamiento silencioso de `zip`, que corrompe tasas de reject cuando una columna llega incompleta. El proceso debe detenerse con un error visible en vez de perder datos sin avisar.",
         retrospective:
           "Un resultado corto puede parecer ordenado y seguir siendo falso. La evidencia correcta no es «zip funcionó», sino «demostré que las longitudes coinciden». Lleva esa regla a importaciones CSV, respuestas de API o cualquier par de columnas antes de practicar el fallo ruidoso.",
       },
@@ -654,7 +700,7 @@ Madrid
         kind: "independent",
         title: "Contar adultos con un recorrido explícito",
         preamble:
-          "- **Contexto:** en el resumen de un lote necesitas tasas por condición, no solo listar filas.\n- **Meta:** practicar un contador manual en un `for` (base del gate de resúmenes).\n- **Éxito:** imprimes un solo entero; con `edades = [30, 17, 45, 22]` el valor es `3`.\n- **Límites:** resuélvelo con el `for` mostrado; conserva la lista; la frontera `>= 18` es inclusiva.",
+          "- **Contexto:** en el resumen de un lote necesitas tasas por condición, no solo listar filas.\n- **Meta:** practicar un contador manual: el `for` recorre las edades y el contador sube solo cuando una cumple la condición.\n- **Éxito:** imprimes un solo entero; con `edades = [30, 17, 45, 22]` el valor es `3`.\n- **Límites:** resuélvelo con el `for` mostrado; conserva la lista; la frontera `>= 18` es inclusiva.",
         id: "S04-T1-A-E2",
         instruction:
           "1. El starter cuenta *todas* las edades (DEFECT).\n2. Dentro del for, incrementa solo si `e >= 18`.\n3. Imprime únicamente el contador (sin `ok True`).",
@@ -832,7 +878,7 @@ zip corto [('Ana', 30)]`,
         kind: "transfer",
         title: "zip_strict: fallar si hay desalineación",
         preamble:
-          "- **Contexto:** en un pipeline de calidad, desalineación de columnas debe ser error ruidoso, no pérdida silenciosa.\n- **Meta:** implementar validación de longitudes (equivalente pedagógico a `zip(..., strict=True)`).\n- **Éxito:** imprime `DESALINEADO` y luego `OK` (en ese orden).\n- **Límites:** lanza `ValueError` si `len(a) != len(b)`; no uses la API `strict=` si tu entorno no es 3.10+ — el helper basta.",
+          "- **Contexto:** al comprobar la calidad de dos columnas, una diferencia de longitud debe producir un error visible, no una pérdida silenciosa.\n- **Meta:** implementar una comprobación de longitudes equivalente a `zip(..., strict=True)`.\n- **Éxito:** imprime `DESALINEADO` y luego `OK` (en ese orden).\n- **Límites:** lanza `ValueError` si `len(a) != len(b)`; no uses la API `strict=` si tu entorno no es 3.10+ — el helper basta.",
         id: "S04-T1-B-E3",
         instruction:
           "1. Completa `zip_strict`: si longitudes difieren, `raise ValueError`.\n2. Primer intento con listas 3 vs. 2 → captura y `print(\"DESALINEADO\")`.\n3. Segundo intento con listas de longitud 2 → `print(\"OK\")` si no lanza.",
@@ -1757,7 +1803,7 @@ nota: la tasa solo necesita conteo O(n), no pares O(n2)`,
       "Emitir contadores y tasa_reject con denominador correcto",
       "Conservar el original (raw) de cada registro en el resultado",
       "Reutilizar validación tri-estado por campo (S03)",
-      "Demo reproducible con if __name__ == '__main__'",
+      "Incluir una demo reproducible al final del archivo y ejecutar los `assert` al correrlo",
     ],
     requirements: [
       "process_batch(records) → summary con n_total, n_accept, n_reject, n_review, tasa_reject, results[]",
@@ -1819,18 +1865,13 @@ def _run_tests() -> None:
     print("tests OK")
 
 
-def main() -> None:
-    demo = [
-        {"edad": 40, "region": "Arequipa", "monto_ingreso": 100, "raw_line": "40|Arequipa|100"},
-        {"edad": -3, "region": "Piura", "monto_ingreso": 50, "raw_line": "-3|Piura|50"},
-    ]
-    summary = process_batch(demo)
-    print(format_report(summary))
-    _run_tests()
-
-
-if __name__ == "__main__":
-    main()
+demo = [
+    {"edad": 40, "region": "Arequipa", "monto_ingreso": 100, "raw_line": "40|Arequipa|100"},
+    {"edad": -3, "region": "Piura", "monto_ingreso": 50, "raw_line": "-3|Piura|50"},
+]
+summary = process_batch(demo)
+print(format_report(summary))
+_run_tests()
 `,
     portfolioNote:
       "En el README cuenta la historia de un lote pequeño: tabla de entradas, decisiones, suma de contadores y cálculo `n_reject / n_total`. Incluye el caso vacío y una captura reproducible de stdout. Explica qué auditoría permite el raw intacto y qué decisión de diseño mantiene el procesamiento en O(n); esas razones valen más que una captura aislada.",

@@ -70,6 +70,41 @@ the attempt. Still open:
 - **Admin CSV export writes learner fields unescaped** (formula injection, broken rows). Spun off as
   its own task on 2026-09-19.
 
+## Done this round (2026-09-19), pending the S16 revision and one commit
+
+- **S16 (queue rows 5 and 6): both D3 blocks written, applied, verified.** "Contar valores
+  distintos por clave" (groupby + nunique, figure `S16-groupby-nunique`) before S16-T2-A, and
+  "Cuartiles, IQR y cercas de Tukey" (figure `S16-iqr-fences`, a new `numberline` archetype)
+  before S16-T3-B, plus the T2-A/demo rewrites off `transform`/`filter(lambda)`, the z-score
+  removals, the D1 glosses and selfCheck[3]. Surprising uses in S16: 50 -> 4. A four-lens
+  adversarial review of the applied diff produced 44 findings; round 2 is with codex
+  (`.fixer/S16D3b.prompt.txt`) and must land before the commit. Its P0: S16-T3-B-E2's planted
+  defect printed the same list as the solution.
+- **S30 (row 7): train/test opening + figure `S30-train-test`; F1 block + figure
+  `S30-f1-harmonic`.** Round 2 with codex: the block explained F1 without defining it, and
+  define-before-use went 20 -> 31 on `f1-score` and `precision`.
+- **S33 (row 8): cross-validation block + figure `S33-group-folds`** (a new `folds` archetype),
+  the `S33-overfit-gap` figure moved from T1-A to T3-B with its bars renamed train/valid, the
+  `valid` gloss, the roadmap paragraph in plain words, and fold 0 aligned to the k-fold scheme in
+  all six places. Gate clean except the shared S16 city-name failure.
+- **S27 (row 9): pytest.** A supporting block before S27-T2-A — what pytest is, that it is a
+  separate program installed into the `.venv` with `python -m pip install pytest`, and a real
+  measured run (`.F`, the node id, the assert diff) — plus one sentence in theory[0] naming it.
+- **S41 (row 10): FastAPI.** A supporting block after S41-T2-A mapping the stdlib model the
+  learner just ran onto `@app.post`, `Depends`, a Pydantic body and OpenAPI, with figure
+  `S41-stdlib-to-fastapi` and a non-executed snippet. Trade-off stated: `fastapi` is not in
+  requirements-content.txt, so the runtime audit skips that snippet as a missing dependency
+  rather than verifying it; the alternative was a new pinned content dependency for code the
+  section deliberately never runs.
+- **S13 (row 13): precision and recall in plain words**, in S13-T1-B where the formulas already
+  were, so S30's F1 block has something to recall. Surprising uses in S13: 77 -> 18.
+- **Two platform fixes found on the way.** `learningOutcomes` and `jobRelevance` rendered raw, so
+  32 outcomes in 17 sections showed literal backticks on the live site; both now go through
+  `InlineText`, and `scripts/raw_markdown_rendering.spec.ts` (stale ids from batch A, so it had
+  been failing at its first click) now opens the popover and the sheet. `TableShapeFigure` drew an
+  unwrapped headline while reserving room for a wrapped one, which put the arrow label on the
+  panel titles.
+
 ## In flight
 
 1. **Skills-and-badges map (solarize cycle).** Mine the project documentation for the required
@@ -77,6 +112,20 @@ the attempt. Still open:
    the live site renders what the roadmap claims, and produce a synced skills/content map naming
    every missing skill, wrong on-ramp and unsupported badge claim. Research syllabi, books and
    courses for completeness of the on-ramp. Feeds every row below.
+
+## Decided and owed (D9, D10) — S02-S08 DONE 2026-09-21
+
+D9's entrypoint sweep landed: the You Do starters of S02-S08 run their demo at top level, the
+requirements say what the file does instead of naming `main()`, the two Level-1 capstone starters
+are unwrapped, and `test_s04_independent_contract.py` now pins the ABSENCE of the idiom before S10
+and its presence in S10 (D9's "repointed, not weakened"). The ratchet reads the playgrounds and
+the capstone starters too, and D9 is down to the 2 sites in S09.
+
+**Next in this row: the S09/S10 round.** S09's guard protects a demo that a separate
+`test_audit_log.py` imports — remove the guard and the demo runs on import, so the three tests
+move into `audit_log.py` as final asserts (D11's rewrite rung), and S10 then teaches `__name__`
+with exactly that experience: a test module that imports the file and runs its demo by accident.
+Decisions L1Q3-1 (already decided by D9) and L1Q3-5 carry the detail.
 
 ## Decided and owed (D9, D10)
 
@@ -89,10 +138,17 @@ the attempt. Still open:
 3. **S01-T1-B-E2 argv exercise (D9).** The subtopic's own prose defers argv to the CLI section;
    the exercise asks for `def main()`, `sys.argv[1:]`, `len` and an `if`. Replace it at S01 level
    (read exit codes of prepared commands) and move the `check_arg.py` contract to S10.
-4. **`try`/`except` before S09 (D10).** 54 occurrences: S02 (11), S04 (7), S05 (14), S06 (9),
-   S07 (3), S08 (10). Rewrite each so the failure is observed rather than caught, or move the
-   piece that needs catching. S02-T1-B-E2, S02-T3-B-E3 and S02-T4-B-E3 are inside CP-N1-A, so
-   they resolve with Q3.
+4. **`try`/`except` before S09 (D10).** The real count, once the scan also read the Theory-tab
+   playgrounds, was 106, not 54. **S05 is done** (20 sites, 2026-09-21): every `raise` stays —
+   refusing bad input is what the section teaches — and the catching goes. Two replacements,
+   reusable for the rest: a refused call is shown as the last line of the traceback in a comment
+   rather than run (a raising snippet exits non-zero, which the runtime audit records as a P0),
+   and a batch checks each row before calling instead of catching after. Ratchet 106 -> 86.
+   **DONE:** S05 (20), S06 (17), S07 (5), S08 (21) and the 8 playground sites — everything that
+   is not blocked. Two playgrounds codex also swept came back out: `exceptions-logging` and
+   `oop-domain` are S09 and S11, where the construct is taught. Ratchet 106 -> 35.
+   **Blocked:** S02 (24) and S04 (11) sit inside CP-N1-A, so they wait on the Q3 route — owner
+   packet question 4. Decision L1Q3-2 carries the per-site plan.
 
 ## D3 gaps, in the critic's priority order
 
@@ -132,6 +188,25 @@ the attempt. Still open:
 
 ## Instrument debt
 
+0a. **S14-T4-A-E3 cannot fail (found 2026-09-22).** Its starter fills `c` with a loop and checks
+   `float(c[0]) == 1.0`; the solution vectorises and checks `float(c.mean()) == 1.0`. On the
+   fixture (`a` zeros, `b` ones) both print `timed True`, so the planted defect — checking one
+   element instead of the whole array — is invisible, and the «Éxito» line certifies it. The
+   repair is a content round: make the anomaly sit away from index 0 (for example one element of
+   `a` non-zero), so the weak check still passes while the mean check does not, and the learner
+   sees precisely what the retrospective asks about. Third instance of this class after
+   S16-T3-B-E2 and S13-T1-B-E1.
+
+0. **A gate for planted defects — BUILT (2026-09-21), widened (2026-09-22).** Markers are matched
+   case-insensitively now, after a review found that `defect;`, `Bug intencional` and
+   `# Bug a corregir` were skipped — the audit reported those exercises clean without running
+   them. Each invocation also gets its own temp directory, so concurrent per-section runs cannot
+   clobber each other. Original note: `scripts/planted_defect_audit.py` runs the
+   starter and the solution of every exercise whose text declares a DEFECT and reports those whose
+   starter already prints every line the solution does. It found S13-T1-B-E1 (inverted denominators
+   on a fixture where both metrics are 0.8) after S16-T3-B-E2 was found by hand; both are fixed.
+   Still owed: a full run across all 941 such exercises (the two sections checked are clean), and
+   a ratchet test holding the count once that baseline exists.
 17. `glossary_intro_audit.py` reads section *source* — it matches `id: 'fastapi'`, a code comment
     and a book title. Move it onto the extractor's learner-visible events.
 18. The extractor still does not emit weDo `feedback`, `edgeCases`, declared `output`, You Do
@@ -141,6 +216,85 @@ the attempt. Still open:
     which splitting a homonym entry does not stop the shorter alias matching inside the longer.
 20. Dead glossary entries (`args-y-kwargs`, `feature-engineering`, and the ones written for the
     three retired section files) — preservation says propose, not delete.
+
+## Follow-ups this round opened (each names the section that must carry it)
+
+- **S15**: its two forward mentions of groupby (`S15-T1-A.p2`, `selfCheck[8].opt[3]`) are now
+  previews of what S16 teaches; the glossary's `groupby.firstSectionId` still says `stdlib-deep`
+  and must move to `wxpython-gui` once S16's round 2 lands.
+- ~~**S18**: recall of S16's quartiles~~ — done 2026-09-21: the percentile mapping comes before
+  the formula, robustness is stated as the positional property S16 demonstrated, and the anomalies
+  are named «cercas de Tukey». The glossary's `groupby` entry also moved to `wxpython-gui`, which
+  was waiting on S15's two mentions (both now reworded).
+- **S34 and S32**: S34-T2-A should use S33's name («validación cruzada») and S34 outcome[2] needs
+  a D1 gloss for «CV-safe»; the leakage link in S32 `resources.doc[5]` moves next to S33's
+  rolling-origin block (CONCEPT_QUEUE 154) — one move, two sections, so it waits for both.
+- **The groupby figure's middle state.** `S16-groupby-nunique` draws rows -> counts in one arrow;
+  the rows gathered into one group per key are never shown, and this is the only groupby visual
+  before S17 (review finding pedagogy-4). Needs either per-key tinting in `TableShapeFigure` or a
+  three-stage shape; deferred as a figure change, not prose.
+- **Generator expressions** are used in visible code from S02 onward and taught nowhere; S30-T4-B-E1
+  lost the word «generadores» this round but the construct remains. Curriculum decision to raise.
+
+- **The same shape again in S10, raised by codex itself (2026-09-22).** S10 combines
+  configuration layers, so it has a local `merge` function and an output label `apply`, and the
+  extractor reads both as the pandas concepts - five reported uses each. Codex cleaned the prose
+  but flagged that code identifiers and fixed output literals were outside its brief, and asked
+  whether the map should stop counting them. It should: `merge_config` is already excluded by the
+  identifier lookahead, but a bare local `merge(` is not. Three of S10's three remaining findings
+  are this. Same fix family as the entry below - the extractor needs to know that a term inside
+  code the section defines itself is not a use of the library concept that shares its name.
+
+- **`correlación` is two concepts wearing one glossary entry (found 2026-09-22, S09 round).**
+  `correlaci-n` is the statistics term - "Relación entre dos variables. -1 a 1. np.corrcoef,
+  df.corr()" - and its only alias is `Correlación`, an ordinary Spanish word. S09 is a logging
+  section that talks about `correlation_id`, so every "identificador de correlación" in its prose
+  registered as a use of statistical correlation, and that is why `correlaci-n` carried
+  `firstSectionId: 'exceptions-logging'`. After S09's round the concept map now records
+  `exceptions-logging.theory[8].p0` as where the course *defines* statistical correlation. The
+  block is correct and needed - the learner threads a correlation id through three layers in
+  S09-T3-B-E2 - but it defines a log identifier, not a coefficient, and the credit masks whether
+  S18 explains the real thing before using it.
+  *Fix*: a `correlation-id` glossary term for the logging sense, `correlaci-n` repointed to the
+  section that teaches the statistic, and cross-term arbitration in the extractor so the longer
+  alias wins. That last part is its own change: longest-first sorting today is **within** one
+  term's aliases only, and six pairs course-wide would move - `function`/`función generadora`,
+  `commit`/`Conventional Commits`, `list`/`List comprehension`, `dict`/`Dict comprehension`,
+  `recall`/`precisión y recall`. Measured, not guessed: 17 containments over those six pairs.
+
+- **«diccionario» is not an alias of `dict`, and S01 uses it for something else (2026-09-26).**
+  Spanish is canonical, so the concept's Spanish name should count: 61 events from S02 onward say
+  «diccionario» for a Python dict and the matcher sees none of them. It cannot simply be added.
+  S01 says «diccionario» six times for a *data dictionary*, the README table that documents CSV
+  columns («Un repo sin README ni diccionario…», `S01-T4-B.p2`, `S01-T4-B-E3`, `youDo`). The
+  alias would count those as surprising uses of dict. It would also make the site's glossary
+  hover show dict's definition on them, which misleads learners and not just the gate. Order: S01
+  says «diccionario de datos» (codex), then the alias lands with a phrase exemption and a test.
+- **B5 false positive: «distinguir X de Y».** `b5_constructions` reads «distinguir asignación de
+  comparación» (`S02 outcome[2]`, `S02-T2-A-E2.preamble`) as a nominal chain. That «de» means
+  "from", and a verb already governs it. It was in the S02 baseline, so no round paid for it, but
+  it counts against every section that says "tell X from Y". Falsify first: collect every B5 hit
+  whose chain follows «distinguir|separar|diferenciar» and read them.
+- **The concepts brief still caps the auditors' findings at 25** (`build_concept_prompt.py`,
+  `audit_findings[:25]`). That is context, not the task list, but it is silent. Say how many
+  were left out.
+- **The `dict` question is now measured (2026-09-26).** With literals visible, `dict` has 38
+  surprising uses: S02 3, S03 12, S04 23. Its earliest credited definition is still the S04 weDo
+  preamble `S04-T4-A-E3`, the same wrong-surface shape `for` had. Dicts are S06's subject
+  (route 2), so S02–S04 should stop using them. That is the practice-layer work for those
+  three sections.
+
+- **The definition detector credits advice as a definition (2026-09-26).** When `assert` and
+  `repr` entered the glossary, the map credited their first definitions to
+  `S03-T4-A.p3` («`assert` sirve en desarrollo y tests, pero **no**…») and
+  `S03-T4-A-DEMO.preamble` («`repr` hace legible el caso de solo espacios»). Neither says what
+  the thing is. They matter only until an earlier section teaches the concept, which S02 now
+  does for both. Falsify the verb list first: collect every first definition credited to a
+  sentence whose verb is «sirve en», «hace» or «ayuda», and read them.
+- **Core-language constructs the glossary still does not index.** S01 uses `import`, methods
+  (`.strip()`…), membership `in` and f-strings in code before any prose explains them. `assert`
+  and `repr` are now indexed. Each further entry needs codex's Spanish definition, and an early
+  hover must use only early vocabulary.
 
 ## Deferred, with a decision attached
 

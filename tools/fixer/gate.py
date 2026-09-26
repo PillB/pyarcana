@@ -21,6 +21,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+import report_lock  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
 CONTENT_PY = ROOT / ".venv-content/bin/python"
 
@@ -78,6 +81,21 @@ def strict_mismatches(tag: str) -> int | None:
     return json.loads(out.read_text(encoding="utf-8"))["counts"].get("mismatch", 0)
 
 
+def readiness_findings(report: dict) -> int:
+    """How much the badges and capstones claim that the course has not taught by then.
+
+    The required-skills map (badge_readiness_audit.py). A round can reach zero surprising uses
+    and still leave a credential claiming a skill its sections no longer teach; the owner asked
+    on 2026-09-26 that skills keep pace with outcomes, badges, projects and capstones, and a
+    rule that is only remembered is how D2 shipped a DNI after it was decided.
+
+    Each row counts by its `count`, not by its term list: the report truncates `terms` to 12
+    (`progress_journey_completed` carried 39 behind a list of 12), so a list length would let a
+    row grow unseen. A row with no count - PREREQUISITE_TAUGHT_LATER - is one finding.
+    """
+    return sum(int(f.get("count", 1)) for f in report.get("failures", []) + report.get("warnings", []))
+
+
 def measure(tag: str) -> dict:
     """What a round may not make worse, for this section and the course."""
     ev = sh(["npx", "tsx", "scripts/course_event_extractor.mts"])
@@ -95,7 +113,19 @@ def measure(tag: str) -> dict:
 
     cmap = fresh_report(["python3", "scripts/concept_map.py"], ROOT / "course-state/concept_map.json")
     never = sum(1 for c in cmap.values() if c["depth"] == "L0")
+    # Concepts explained somewhere but used before that. Reported, not gated: it and `never`
+    # count two halves of one population, so teaching a never-explained concept moves it from
+    # the first to the second and reads as a regression on a round that improved the course.
+    # S17's concepts round taught `reshape`, whose only remaining uses were its own section's
+    # tagline and jobRelevance: never 14 -> 13, this 40 -> 41, and a round that removed 14
+    # surprising uses course-wide was restored. Any concept its own tagline names was
+    # structurally impossible to teach.
     surprising = sum(1 for c in cmap.values() if c["depth"] != "L0" and c["surprising_uses"])
+    # What that pair was reaching for, counted as the harm rather than as buckets: how many
+    # times in the whole course a learner meets a word before anything explains it. It is
+    # stricter than the concept count it replaces - every use counts, not just the first -
+    # and it still may not rise. 420 -> 406 on the round described above.
+    surprising_total = sum(len(c["surprising_uses"]) for c in cmap.values())
     here = sum(1 for c in cmap.values() for u in c["surprising_uses"] if u["section"] == tag)
 
     prose = fresh_report(["python3", "scripts/prose_quality_audit.py", tag],
@@ -116,10 +146,18 @@ def measure(tag: str) -> dict:
     num = int(tag[1:])
     ids_here = sum(1 for f in ids.get("findings", []) if f"/s{num:02d}-" in f["file"])
 
+    # After first_use_all, whose report it reads. Exits 1 while any finding remains.
+    ready = fresh_report(["python3", "scripts/badge_readiness_audit.py"],
+                         ROOT / "course-state/badge_readiness_report.json", ok_codes=(0, 1))
+
     return {
         "identifier_values_in_section": ids_here,
+        # Course-wide, because a round in one section changes what every badge requiring it
+        # can claim. See LESSON_READINESS.md: the second map, read and diffed every round.
+        "readiness_findings_course_wide": readiness_findings(ready),
         "never_explained": never,
-        "used_before_explained": surprising,
+        "surprising_uses_course_wide": surprising_total,
+        f"{INFORMATIONAL}used_before_explained": surprising,
         "surprising_uses_in_section": here,
         "run_on_sentences": prose.get("run_on_sentences"),
         # Writing rule B5 as it is written: a noun doing a verb's job. The raw -ción/-miento
@@ -130,7 +168,26 @@ def measure(tag: str) -> dict:
         INFORMATIONAL + "b5_nominal_constructions": prose.get("b5_nominal_constructions"),
         "strict_output_mismatches_in_section": strict_mismatches(tag),
         "avoidable_english_per_1000": cs.get("avoidable_english_per_1000"),
-        "first_use_issues": sum(fu.get("issue_counts", {}).values()),
+        # One defect, counted once. USE_BEFORE_DEFINITION and DEFINITION_AFTER_REQUIREMENT are
+        # two views of the same fault - the course uses a term before defining it, seen through
+        # a mention and through a requirement - and glossary_first_use.py emits them from two
+        # independent `if`s, so a term that does both costs 2. NO_VISIBLE_DEFINITION ends in
+        # `continue` and costs 1. Teaching a never-defined term therefore READS AS DAMAGE: S04
+        # taught `for`, whose earlier uses in S02 and S03 both mention and require it, and the
+        # measure went 37 -> 38 on a round that took the course from 268 surprising uses to 229.
+        # All 7 DEFINITION_AFTER_REQUIREMENT rows in the current report co-occur with a
+        # USE_BEFORE_DEFINITION for the same term; every one is a duplicate.
+        #
+        # Deduped here rather than in the audit because badge_readiness_audit.py keys off
+        # DEFINITION_AFTER_REQUIREMENT specifically, and suppressing the row would quietly
+        # weaken a different gate. The report keeps both rows; only the ratchet counts them as
+        # one, and a term with a genuinely different code still counts separately.
+        "first_use_issues": len({
+            (i["term_id"], "used-before-defined"
+             if i["code"] in ("USE_BEFORE_DEFINITION", "DEFINITION_AFTER_REQUIREMENT")
+             else i["code"])
+            for i in fu.get("issues", [])
+        }),
         INFORMATIONAL + "nominalisations_per_100w": prose.get("nominalisations_per_100w"),
     }
 
@@ -225,6 +282,55 @@ def regression_gate(before: dict, after: dict, failed: list[str], tag: str = "")
             if ratio_note and not shown:
                 print(ratio_note)
                 shown = True
+            if key == "surprising_uses_course_wide":
+                for line in definitions_that_moved(tag):
+                    print(line)
+
+
+def definitions_that_moved(tag: str) -> list[str]:
+    """Name the concepts whose definition this round removed or pushed later.
+
+    `surprising_uses_course_wide` rising is nearly always one thing: a patch removed or
+    reworded the sentence the detector was crediting as a concept's definition, so every use
+    before the NEXT definition became a surprise at once. Without this the failure is a bare
+    number, and the number is enormous and points nowhere.
+
+    Twice in one day it cost hours. S04's round risked taking the measure from 268 to 1126
+    because `for`'s only credited definition was a weDo preamble's "(base del gate de
+    resúmenes)". S02's took it 229 -> 301 because three patches correctly removed the gloss
+    "una función es un bloque reutilizable de instrucciones" - correct, but that gloss was the
+    earliest definition in the course, so 97 uses of `function` before S05 appeared at once.
+    Neither diff looked like the cause; both looked like improvements.
+
+    Reads the pre-round map the runner snapshots beside the section. Silent when it is absent,
+    because a missing snapshot must not turn a real failure into a crash.
+    """
+    before = ROOT / f".fixer/{tag}.pre-concepts.concept_map.json"
+    after = ROOT / "course-state/concept_map.json"
+    if not tag or not before.exists() or not after.exists():
+        return []
+    try:
+        was = json.loads(before.read_text(encoding="utf-8"))
+        now = json.loads(after.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
+    out = []
+    for cid, n in now.items():
+        o = was.get(cid)
+        if not o or not o.get("first_definition"):
+            continue
+        od, nd = o["first_definition"], n.get("first_definition")
+        delta = len(n.get("surprising_uses", [])) - len(o.get("surprising_uses", []))
+        if nd is None:
+            out.append(f"       {cid}: definition GONE (was {od['location']}) — "
+                       f"surprising uses +{delta}")
+        elif nd["location"] != od["location"] and delta > 0:
+            out.append(f"       {cid}: definition moved {od['location']} -> {nd['location']} — "
+                       f"surprising uses +{delta}")
+    out.sort(key=lambda s: -int(s.rsplit("+", 1)[-1]))
+    if out:
+        out.insert(0, "       a definition this round removed or pushed later is the cause:")
+    return out[:9]
 
 
 def check(tag: str) -> int:
@@ -234,6 +340,14 @@ def check(tag: str) -> int:
         return 1
     before = json.loads(before_path.read_text(encoding="utf-8"))
     failed: list[str] = []
+    # AGENTS.md lists `npx tsc --noEmit` in the block a round must pass, and the gate never ran
+    # it. apply_patches.py's own check is a tsx probe that imports COURSE_SECTIONS and counts 52
+    # - tsx TRANSPILES, it does not typecheck - so a patch whose anchor was one `heading:` line
+    # and whose replacement was a whole block left three duplicate keys in one object literal,
+    # passed every measure, and was pushed. TS1117 is exactly the class a transpiler cannot see:
+    # duplicate properties are valid JavaScript, the last one silently wins, and the learner
+    # gets whichever block the patch happened to land after.
+    absolute_gate("tsc --noEmit", ["npx", "tsc", "--noEmit"], failed)
     absolute_gate("test:v3", ["npm", "run", "test:v3"], failed)
     absolute_gate("adversarial (node)", ["npm", "run", "test:adversarial:node"], failed)
     absolute_gate("adversarial (py)", ["npm", "run", "test:adversarial:py"], failed)
@@ -256,6 +370,14 @@ def check(tag: str) -> int:
 
 def main() -> int:
     mode, tag = sys.argv[1], sys.argv[2]
+    # Everything below writes and then reads the shared reports under course-state/, so it
+    # runs as the only writer. Holding the lock here rather than inside each audit keeps the
+    # audits this gate launches from refusing themselves: they inherit the token.
+    with report_lock.held_by_this_run():
+        return _run(mode, tag)
+
+
+def _run(mode: str, tag: str) -> int:
     if mode == "snapshot":
         try:
             m = measure(tag)

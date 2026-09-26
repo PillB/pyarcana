@@ -86,6 +86,43 @@ def find_bad_patches(landed: list[tuple[dict, Path]],
     return bad
 
 
+def load_held(result_path: Path) -> list[dict]:
+    """The definitions this round's section holds for the whole course, if the brief listed any."""
+    side = result_path.parent / f"{result_path.name.split('.')[0]}.held_definitions.json"
+    return json.loads(side.read_text(encoding="utf-8")) if side.exists() else []
+
+
+def _plain(ts: str) -> str:
+    """A TypeScript string body as the learner reads it, so `\\'` matches the event text's `'`."""
+    return re.sub(r"\\(.)", r"\1", ts)
+
+
+def deletes_held_definition(anchor: str, repl: str, held: list[dict]) -> list[str]:
+    """Concepts whose course-wide earliest definition this patch deletes outright.
+
+    Outright means the anchor contains the defining sentence and the replacement names the
+    concept under none of its names. A reword that keeps the term passes and the gate judges
+    it; so does a patch that never touches the sentence. The narrowness is deliberate: this
+    refuses one patch, and a refusal on a false positive costs a finding that is still open.
+
+    Why it exists: the brief states each held definition and what removing it exposes, and on
+    2026-09-26 codex removed S02's theory[4] anyway - the only definition of `unpacking` in the
+    course - reasoning that it "is taught later". The gate caught it as never_explained 11 -> 12,
+    which fails the whole round; before this, five rounds were lost or hand-salvaged that way.
+    """
+    a, r = _plain(anchor), _plain(repl)
+    lost = []
+    for h in held:
+        names = [n for n in h.get("names", []) if n]
+        if not names or not h.get("text"):
+            continue
+        rx = re.compile(r"(?<!\w)(?:" + "|".join(map(re.escape, names)) + r")(?!\w)", re.I)
+        defining = [s for s in re.split(r"(?<=[.!?])\s+", h["text"]) if rx.search(s)]
+        if any(s.strip() and s.strip() in a for s in defining) and not rx.search(r):
+            lost.append(h["concept"])
+    return lost
+
+
 def main() -> int:
     result_path = Path(sys.argv[1])
     apply = "--apply" in sys.argv
@@ -132,7 +169,41 @@ def main() -> int:
             buffers[target] = originals[target] = target.read_text(encoding="utf-8")
         return target
 
-    applied, rejected = [], []
+    def matched_escaping(anchor: str, repl: str) -> tuple[str, int]:
+        """Escape the delimiter of the string the anchor lives in, if the replacement did not.
+
+        A patch is a literal substitution into a TypeScript source file, and the applier has
+        never known what kind of literal it is landing in. LEDGER_NOTES records S39, where an
+        unescaped `"secrets_in_repo"` broke the file; the rollback was fixed then, the escaping
+        was not. It happened again on S03: the anchor carried 4 `\\"` and the replacement 6 bare
+        `"`, which close the string early. esbuild then says `Expected "]" but found "accept"`,
+        which names neither the patch nor the cause.
+
+        Escaping is semantically invisible - `\\"` and `"` render identically to a learner - so
+        this repairs rather than rejects, and records what it did. Deliberately narrow: it acts
+        only when the anchor proves which delimiter encloses it AND the replacement contains no
+        escaped ones of its own, because a mix means the author had some intent here and
+        guessing at it is how a silent corruption starts.
+        """
+        for delim in ('"', "'", "`"):
+            esc = "\\" + delim
+            if esc not in anchor or esc in repl:
+                continue
+            # The anchor must prove it is entirely INSIDE one literal of this delimiter: every
+            # occurrence escaped, none bare. A whole-exercise anchor contains both a
+            # double-quoted `title:` and a backtick `code:` template, so it has `\"` AND bare
+            # `"` - and escaping the bare ones rewrote the Python inside the template as
+            # `nombres_raw = \"   \"`, a SyntaxError. Caught by the snippet gate, not by the
+            # typecheck, because it is valid TypeScript and broken Python.
+            if re.search(r'(?<!\\)' + re.escape(delim), anchor):
+                continue
+            bare = re.findall(r"(?<!\\)" + re.escape(delim), repl)
+            if bare:
+                return re.sub(r"(?<!\\)" + re.escape(delim), esc, repl), len(bare)
+        return repl, 0
+
+    held = load_held(result_path)
+    applied, rejected, repaired = [], [], []
     landed: list[tuple[dict, Path]] = []   # the source patch for each applied entry, for bisection
     for i, p in enumerate(data.get("patches", [])):
         anchor, repl = p["anchor"], p["replacement"]
@@ -156,6 +227,23 @@ def main() -> int:
             rejected.append({**{k: p[k] for k in ("finding_ids", "field_path")},
                              "reason": "replacement identical to anchor"})
             continue
+        lost = deletes_held_definition(anchor, repl, held)
+        if lost:
+            rejected.append({**{k: p[k] for k in ("finding_ids", "field_path")},
+                             "reason": "deletes the course's earliest definition of "
+                                       + ", ".join(f"`{c}`" for c in lost)
+                                       + "; the brief listed it as held - raise it instead",
+                             "anchor_head": anchor[:120]})
+            continue
+        repl, fixed = matched_escaping(anchor, repl)
+        if fixed:
+            # Back into the patch itself: `landed` replays `p["replacement"]` during the
+            # rollback bisection, so leaving the bare version there would re-break the file
+            # and blame this patch for a fault that was already repaired.
+            p = {**p, "replacement": repl}
+            repaired.append({**{k: p[k] for k in ("finding_ids", "field_path")},
+                             "reason": f"escaped {fixed} occurrences of the field's own "
+                                       f"quote delimiter, which the replacement left bare"})
         buffers[target] = text.replace(anchor, repl, 1)
         landed.append((p, target))
         applied.append({"finding_ids": p["finding_ids"], "field_path": p["field_path"],
@@ -169,6 +257,7 @@ def main() -> int:
         "applied": len(applied),
         "rejected": len(rejected),
         "rejections": rejected,
+        "escaping_repaired": repaired,
         "findings_closed": sorted({f for a in applied for f in a["finding_ids"]}),
         "findings_still_open": sorted({f for r in rejected for f in r.get("finding_ids", [])}),
         "unresolved_questions": data.get("unresolved_questions", []),

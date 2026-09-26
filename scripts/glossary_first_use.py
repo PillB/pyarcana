@@ -3,6 +3,25 @@
 HIDDEN_EVENT_KINDS = {"solution", "hidden_test", "answer_key", "reviewer_note"}
 
 
+def _block_of(location: str) -> str:
+    """`wxpython-gui.theory[8].p1` -> `wxpython-gui.theory[8]`."""
+    return location.rsplit(".", 1)[0] if location else ""
+
+
+def _heading_of_the_defining_block(mention: dict, definition: dict) -> bool:
+    """Is the first mention just the heading of the block that then defines the term?
+
+    A block titled "Cuartiles, IQR y cercas de Tukey" whose paragraphs define all three reads
+    as use-before-definition to an event-ordered audit, because the heading is emitted first.
+    That is how a section is supposed to be written -- name the subject, then teach it -- so
+    it is not a finding. A heading that names a term some LATER block defines still is.
+    """
+    return (
+        mention.get("kind", "").endswith(".heading")
+        and _block_of(mention.get("location", "")) == _block_of(definition.get("location", ""))
+    )
+
+
 def audit_concept_events(payload: dict) -> dict:
     """Validate define-before-use over ordered, learner-visible packet events."""
     active = payload.get("active_section_ids", [])
@@ -57,7 +76,12 @@ def audit_concept_events(payload: dict) -> dict:
             )
             continue
 
-        if first_mention and first_definition and visible_events.index(first_mention) < visible_events.index(first_definition):
+        if (
+            first_mention
+            and first_definition
+            and visible_events.index(first_mention) < visible_events.index(first_definition)
+            and not _heading_of_the_defining_block(first_mention, first_definition)
+        ):
             issues.append(
                 {
                     "code": "USE_BEFORE_DEFINITION",

@@ -19,6 +19,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from glossary_first_use import audit_concept_events  # noqa: E402
 
+# Writes a shared course-state report, so it must not run while a gate is measuring.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import report_lock  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 EVENTS = ROOT / ".fixer/events.json"
 OUT = ROOT / "course-state/first_use_all_report.json"
@@ -39,6 +42,7 @@ def build_events() -> dict:
 
 
 def main() -> int:
+    report_lock.refuse_if_busy(__file__)
     payload = build_events()
     result = audit_concept_events(payload)
 

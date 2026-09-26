@@ -15,18 +15,18 @@ export const section17: CourseSection = {
  index: 17,
  title: "Joins, reshape, groupby y cierre analítico",
  shortTitle: "Joins · groupby · cierre",
- tagline: "Portfolio ejecutivo de calidad + EDA: dataset limpio, script reproducible, reconciliación y preguntas de negocio",
+ tagline: "Portfolio ejecutivo de calidad: dataset limpio, script reproducible, reconciliación y preguntas de negocio",
  estimatedHours: 9,
  level: "Práctica independiente",
  phase: 1,
  icon: "GitMerge",
  accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
  jobRelevance:
- "En un equipo de analytics de banca, fintech o retail en Perú, el analista que solo «hace `merge` y `groupby`» resume así su trabajo: `merge` une tablas por sus claves y `groupby` reduce a un resumen las filas que comparten una clave. Si no documenta la cardinalidad (cuántas filas del lado derecho tocan cada clave del izquierdo), entrega números inflados al comité. Aquí aprendes a unir tablas con claves limpias, reshape long/wide con schema estable, agregaciones con contrato (suma vs. media) y reconciliación de totales que un stakeholder no técnico pueda auditar. Entregas un script reproducible, evidencias numéricas y un memo de límites, sin PII real ni claims causales sin evidencia.",
+ "En un equipo de analytics de banca, fintech o retail en Perú, el analista que solo «hace `merge` y `groupby`» resume así su trabajo: `merge` une tablas por sus claves y `groupby` reduce a un resumen las filas que comparten una clave. Si no documenta la cardinalidad (cuántas filas del lado derecho tocan cada clave del izquierdo), entrega números inflados al comité. Aquí aprendes a unir tablas con claves limpias, cambiar entre disposición larga y ancha con columnas estables, agregar con un contrato explícito (suma vs. media) y reconciliar totales para que un stakeholder no técnico pueda auditarlos. Entregas un script reproducible, evidencias numéricas y un memo de límites, sin PII real ni claims causales sin evidencia.",
  learningOutcomes: [
  { text: "Diseñar joins (merge) con claves alineadas y cardinalidad 1:1 / 1:m documentada (filas pre/post)" },
  { text: "Usar validate y anti-join (indicator) para detectar fan-out y filas huérfanas" },
- { text: "Reshapear tablas con concat, melt y pivot_table con aggfunc explícito" },
+ { text: "Cambiar tablas entre disposición larga y ancha con `concat`, `melt` y una regla explícita para combinar valores repetidos" },
  { text: "Mantener nombres de columnas estables en long/wide y validar el set expected" },
  { text: "Agregar con groupby/agg (resúmenes) y transform (features a nivel fila)" },
  { text: "Construir ventanas rolling, fechas ordenadas y cohortes por primera observación" },
@@ -81,7 +81,7 @@ export const section17: CourseSection = {
  subtopicId: "S17-T1-A",
  paragraphs: [
  "`merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esperada (1:1, 1:m, m:1, m:m) determina si el número de filas se mantiene, crece (fan-out) o produce cartesianos accidentales. En un maestro de clientes 1:1 la clave debe ser única; en transacciones 1:m es normal que un `cliente_id` se repita.",
- "Contrato operativo: **antes del merge** verifica dtype alineado (ambos `str` tras normalización S16), unicidad de la clave en el lado 1 (`Series.is_unique` o `nunique()==len`) y cuenta filas pre/post. Si `len(out) >> len(left)` en un supuesto 1:1, hay fan-out o clave sucia — no sigas al EDA.",
+ "Contrato operativo: **antes del merge** verifica dtype alineado (ambos `str` tras normalización S16), unicidad de la clave en el lado 1 (`Series.is_unique` o `nunique()==len`) y cuenta filas pre/post. Si `len(out) >> len(left)` en un supuesto 1:1, hay fan-out o clave sucia — no sigas con el análisis.",
  "Caso sintético Perú: `cli` (C001 Lima, C002 Cusco) left-merge con `tx` (dos filas C001 y una C003 huérfana de maestro). Salida esperada: C001 se duplica por monto; C002 queda con NaN en columnas de tx; C003 no entra al left-merge. Documenta `rows_cli → rows_merge` en el portfolio.",
  ],
  code: {
@@ -108,7 +108,7 @@ tx_unique False
  type: "tip",
  title: "Cuenta filas pre/post",
  content:
- "Si `len(out) >> len(left)` en un supuesto 1:1, hay fan-out o clave sucia. Detén el EDA, exporta el anti-join de duplicados y documenta `rows_cli → rows_merge` antes de sumar montos.",
+ "Si `len(out) >> len(left)` en un supuesto 1:1, hay fan-out o clave sucia. Detén el análisis, exporta las claves duplicadas y, por separado, el anti-join de filas sin pareja. Documenta `rows_cli → rows_merge` antes de sumar montos.",
  },
  },
  {
@@ -154,6 +154,15 @@ validate_fail True`,
  content:
  "Duplicados en ambos lados explotan filas y sesgan sumas de PEN. Usa `validate` para fallar temprano; si el contrato es 1:m, declara ese supuesto y no uses `one_to_one`.",
  },
+ },
+ {
+ heading: "Reshape y pivot_table: los mismos datos en otra disposición",
+ paragraphs: [
+  "Un **reshape** cambia cómo se reparten los datos entre filas y columnas para responder otra pregunta. Existe porque una tabla larga —una fila por cliente y periodo— facilita agrupar, mientras una tabla ancha —una fila por cliente y una columna por periodo— facilita leer un reporte. El cambio no debe alterar los montos; solo cambia dónde aparecen.",
+  "`melt` pasa de ancho a largo. `pivot` vuelve de largo a ancho cuando cada cruce de cliente y periodo tiene un solo monto. **`pivot_table`** también vuelve de largo a ancho, pero resuelve los cruces repetidos con `aggfunc`: esa es la regla que indica si deben sumarse, promediarse o contarse.",
+  "Trabajemos con tres filas: C001–ene–10, C001–ene–5 y C001–feb–3. Elige `cliente_id` para las filas, `mes` para las columnas, `monto` para los valores y `sum` para `aggfunc`. Lo correcto es una fila para C001 con `ene=15` y `feb=3`; el total sigue siendo 18.",
+  "Antes de ejecutar el código siguiente, predice sus formas: dos clientes por dos periodos pasan de una tabla ancha de 2×3 a una larga de 4×3, y regresan a una tabla de valores de 2×2. Ejecútalo y comprueba que la primera línea sea `(4, 3) (2, 2)` y que aparezcan dos valores `m1` y dos `m2`. Si no ocurre, revisa qué elegiste como identificador, periodo, valor y regla de combinación.",
+ ],
  },
  {
  heading: "Concat, melt y pivot",
@@ -236,7 +245,7 @@ True`,
  paragraphs: [
  "Con la forma long/wide ya estable, pasamos a **colapsar o reinyectar** números. `groupby` + `agg` **colapsa** grupos a una fila por clave (resúmenes ejecutivos). `transform` **reinyecta** el agregado al shape original (features a nivel fila: monto / media_región). Named aggregation (`total=('monto','sum')`) documenta el contrato de columnas de salida.",
  "Contrato: `as_index=False` facilita merges posteriores; no mezcles sin documentar si el index del groupby es la clave. Evita aplicar `mean` cuando la pregunta de negocio pide **suma de PEN** o conteos de clientes — el error más común en tableros es “promedio” cuando el stakeholder pidió “total”.",
- "Caso sintético: regiones Lima (dos filas), Madrid y Cusco con montos → `agg` produce total y n; `transform('mean')` deja la media regional en cada fila. El EDA del portfolio usa agg para tablas y transform para scores relativos sin leakage de fechas (eso es T4-B). **Antes de agregar**, asegúrate de haber documentado la cardinalidad del join: un fan-out no detectado infla la suma y el residual de reconciliación no “cuadra”.",
+ "Caso sintético: regiones Lima (dos filas), Madrid y Cusco con montos → `agg` produce total y n; `transform('mean')` deja la media regional en cada fila. El análisis del portfolio usa agg para tablas y transform para scores relativos sin leakage de fechas (eso es T4-B). **Antes de agregar**, asegúrate de haber documentado la cardinalidad del join: un fan-out no detectado infla la suma y el residual de reconciliación no “cuadra”.",
  ],
  code: {
  language: 'python',
@@ -334,7 +343,7 @@ tasa 0.75 denominador 200`,
  type: "warning",
  title: "Denominador correcto",
  content:
- "Una tasa con denominador de otro filtro (otro mes, otra región, otro universo de clientes) es el error clásico de EDA ejecutivo. Imprime siempre `numerador`, `denominador` y `tasa` juntos.",
+ "Una tasa con denominador de otro filtro (otro mes, otra región, otro universo de clientes) es un error clásico del análisis ejecutivo. Imprime siempre `numerador`, `denominador` y `tasa` juntos.",
  },
  },
  {
@@ -544,7 +553,7 @@ s17_ido_6()`,
  output: `{'cliente_id': ['C001', 'C002'], 'cohort': ['2024-01', '2024-01']}
 [None, 2.0, 2.5, 3.0]`,
  },
- why: "Cohorte = `min(fecha)` por entidad (primera observación válida), nunca `max` ni la fecha del batch de hoy. Las ventanas rolling exigen series ordenadas por índice temporal; sin `sort_index` el EDA inventa tendencias. El memo declara no-claims: series bien definidas, no causalidad. En S18 añadirás la capa de incertidumbre sobre estos mismos cortes temporales.",
+ why: "Cohorte = `min(fecha)` por entidad (primera observación válida), nunca `max` ni la fecha del batch de hoy. Las ventanas rolling exigen series ordenadas por índice temporal; sin `sort_index` el análisis inventa tendencias. El memo declara no-claims: series bien definidas, no causalidad. En S18 añadirás la capa de incertidumbre sobre estos mismos cortes temporales.",
  retrospective:
  "Si sabes por qué C001 y C002 pueden compartir cohorte 2024-01, entiendes “entrada”, no “última actividad”. El error clásico es usar `max` o la fecha del informe de hoy. We Do: window=2 con NaN honesto, min vs. max, y `sort_index` antes de rolling.",
  },
@@ -573,9 +582,9 @@ s17_ido_7()`,
  output: `diff 0.0 reconciled True
 tasa 0.75 den 200`,
  },
- why: "Totales y denominadores anclan el EDA ejecutivo. Imprime numerador, denominador y tasa juntos para que el hallazgo sea auditable. Si `sum(partes) ≠ total`, el residual se documenta en la tabla puente: es evidencia, no un error a redondear a ojo ni a ocultar en el slide. El denominador debe ser el mismo universo del texto del hallazgo.",
+ why: "Totales y denominadores sostienen el análisis ejecutivo. Imprime numerador, denominador y tasa juntos para que el hallazgo sea auditable. Si `sum(partes) ≠ total`, el residual se documenta en la tabla puente: es evidencia, no un error a redondear a ojo ni a ocultar en el slide. El denominador debe ser el mismo universo del texto del hallazgo.",
  retrospective:
- "Si puedes explicar por qué el denominador debe ser el mismo universo del hallazgo, ya evitas el error clásico del EDA ejecutivo. We Do: eps estricto, tasa bien orientada y residual de la tabla puente.",
+ "Si puedes explicar por qué el denominador debe ser el mismo universo del hallazgo, ya evitas un error clásico del análisis ejecutivo. We Do: eps estricto, tasa bien orientada y residual de la tabla puente.",
  },
  {
  demoId: "S17-T4-B-DEMO",
@@ -613,7 +622,7 @@ delta 999.0`,
  ],
  },
  weDo: {
- intro: "Lo hacemos juntos (We Do): 24 ejercicios en liberación gradual, E1 (guiado) → E2 (independiente) → E3 (transferencia) por cada subtema T1–T4. Cada starter (el código inicial que recibes) trae un bug intencional a corregir; las pistas y el feedback nombran el error típico (inner vs. left, mean vs. sum, post-cutoff, etc.). Completa T1→T4 en orden: no saltes a agregar sin cardinalidad documentada. El E3 de T4-B es una mini-integración (join + pre-cutoff + delta de leakage) que prepara el You Do del portfolio de calidad + EDA — trátalo como puente, no como drill suelto.",
+ intro: "Lo hacemos juntos (We Do): 24 ejercicios en liberación gradual, E1 (guiado) → E2 (independiente) → E3 (transferencia) por cada subtema T1–T4. Cada starter (el código inicial que recibes) trae un bug intencional a corregir; las pistas y el feedback nombran el error típico (inner vs. left, mean vs. sum, post-cutoff, etc.). Completa T1→T4 en orden: no saltes a agregar sin cardinalidad documentada. El E3 de T4-B es una mini-integración (join + pre-cutoff + delta de leakage) que prepara el You Do del portfolio de calidad y análisis — trátalo como puente, no como drill suelto.",
  steps: [
  {
  id: "S17-T1-A-E1",
@@ -1593,7 +1602,7 @@ print({"rows_merge": len(m), "total_pre": total_pre, "leakage_delta": leakage_de
  ],
  },
  youDo: {
- title: "Portfolio ejecutivo de calidad + EDA (cierre del nivel)",
+ title: "Portfolio ejecutivo de calidad y análisis (cierre del nivel)",
  context:
  "Tú lo haces (You Do). Integra clientes/transacciones sintéticas limpias (S15–S16) con joins validados (cardinalidad + anti-join), reshape long/wide con schema estable (el contrato columna→tipo esperado), groupby/agg/transform, reconciliación de totales/denominadores y controles de leakage con cutoff (fecha de corte que separa el pasado del futuro). Entrega un script reproducible (`if __name__`), respuestas de negocio con evidencia numérica y un memo de límites/no-claims (esto es, sin afirmar causalidad sin evidencia) en español profesional. Sin PII real (datos personales identificables reales) ni datos de producción. Criterios de aceptación del dict (mínimo): `rows_merge` (int), `n_huerfanos_left_only` (int), `total_monto` (float, todo el universo de tx del merge), `total_pre_cutoff` (float, solo `fecha <= cutoff`), `leakage_delta` (`total_monto - total_pre_cutoff`), `reconciled` (bool: p. ej. residual de partes vs. total bajo eps). Este entregable es la base tabular; en S18 trabajarás la lectura de incertidumbre (hallazgo vs. hipótesis) sobre estos mismos hallazgos.",
  objectives: [
@@ -1644,7 +1653,7 @@ if __name__ == "__main__":
  # rows_merge=3, n_huerfanos depende de matches, total_pre usa ene, leakage_delta > 0
 `,
  portfolioNote:
- "Este cierre del portfolio de calidad + EDA debe poder mostrarse a un stakeholder no técnico: métricas, reconciliación, límites y ausencia de claims causales no soportados. En S18 añadirás la capa de incertidumbre (intervalos, hallazgo vs. hipótesis) sobre estos números — no reescribas los joins; reutiliza el dataset limpio.",
+ "Este cierre del portfolio de calidad y análisis debe poder mostrarse a un stakeholder no técnico: métricas, reconciliación, límites y ausencia de claims causales no soportados. En S18 añadirás la capa de incertidumbre (intervalos, hallazgo vs. hipótesis) sobre estos números — no reescribas los joins; reutiliza el dataset limpio.",
  rubric: [
  { criterion: "Joins con cardinalidad documentada (filas pre/post, validate o anti-join de huérfanos)", weight: "20%" },
  { criterion: "Reshape o schema estable long/wide con columnas expected validadas", weight: "15%" },

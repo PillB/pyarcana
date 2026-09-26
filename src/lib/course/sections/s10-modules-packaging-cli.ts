@@ -67,7 +67,7 @@ export const section10: CourseSection = {
       subtopicId: "S10-T1-A",
       paragraphs: [
         "`import pkg.mod` y `from pkg.mod import name` cargan el módulo **una vez** en `sys.modules` (un diccionario interno que Python mantiene con todo lo ya importado). **`__name__`** es una variable especial que contiene el nombre del módulo, o el string `'__main__'` cuando el archivo se ejecuta directamente como script. Ejecutar `python -m familiarity_core` corre el paquete sin pelear con `sys.path` (la lista interna que decide de qué carpetas importar). Para que funcione, el paquete necesita un archivo `__main__.py`: eso es lo que `-m` busca y ejecuta. Si falta, Python responde `No module named familiarity_core.__main__` — un error que se lee como si el paquete no existiera y en realidad dice que le falta esa puerta de entrada.",
-        "`if __name__ == '__main__':` protege el CLI/demo para que **no** corra al importar. **`__all__`** documenta la API pública — la lista corta de nombres que el equipo puede importar con confianza — y comunica intención. Si el schema de config no cuadra al arranque, aborta (fail-closed) en vez de procesar a ciegas.",
+        "En S09, `audit_log.py` ejecutaba la demo y las comprobaciones cada vez que corría; eso estaba bien mientras nada lo importaba. Ahora, al importarlo, esas acciones también correrían: `if __name__ == '__main__':` separa «ejecutar el archivo» de «importar el archivo» y deja el CLI o la demo fuera del segundo camino. **`__all__`** documenta la API pública — la lista corta de nombres que el equipo puede importar con confianza — y comunica intención. Si el schema de config no cuadra al arranque, aborta (fail-closed) en vez de procesar a ciegas.",
         "Los **imports circulares** (módulo A importa a B y B importa a A: Python se enreda) se rompen extrayendo un tercer módulo compartido, usando *lazy import* — que es postergar el `import` hasta dentro de una función, cuando ya hace falta — o invirtiendo la dirección de dependencias. **Prefiere diseño a hacks**: si A y B se necesitan mutuamente, el util común es el primer recurso. Evita `import` dentro de cada método, salvo como último recurso documentado.",
       ],
       code: {
@@ -190,6 +190,15 @@ layout src/familiarity_core/__init__.py`,
         content:
           "En N1 el paquete puede no depender de terceros; declara deps solo cuando existan.",
       },
+    },
+    {
+      heading: "Qué hace `pytest` y por qué es una dependencia de desarrollo",
+      paragraphs: [
+        "`pytest` es una herramienta que ejecuta comprobaciones escritas en Python y muestra cuáles pasan o fallan. Existe para repetir esas comprobaciones con un solo comando después de cada cambio. Quien usa el paquete no la necesita para ejecutar el CLI; quien desarrolla el paquete sí la necesita para comprobarlo.",
+        "Supón que `normalize(' Ana ')` debe devolver `'ana'`. En un archivo llamado `test_normalize.py`, la función `test_normalize()` puede contener `assert normalize(' Ana ') == 'ana'`. `assert` compara ambos lados: si son distintos, `pytest` señala esa comprobación como fallida.",
+        "En un venv de práctica, instala la herramienta con `python -m pip install pytest`. Crea el archivo anterior y ejecuta `python -m pytest -q`. Lo correcto es ver una comprobación aprobada y una línea que contiene `1 passed`.",
+        "Ahora cambia temporalmente el valor esperado a `'otra'` y repite el comando. La comprobación debe fallar y mostrar `1 failed`; restaura `'ana'` y confirma que vuelve a pasar. Esa diferencia observable explica por qué `pytest` pertenece a las dependencias de desarrollo y no a las que necesita el CLI durante su uso normal.",
+      ],
     },
     {
       heading: "Versionado y compatibilidad",
@@ -321,7 +330,7 @@ stage=normalize event=done`,
       paragraphs: [
         "Precedencia canónica: **flags CLI > variables de entorno > archivo de config > defaults**. Es decir, si el operador pasa `--log-level ERROR` en la terminal, ese gana; si no, se mira la variable de entorno; luego el archivo de config; y al final los defaults internos del paquete. Documenta la tabla en README — sin sorpresas en ops.",
         "Un flag `--log-level` debe ganar a la variable `FAMILIARITY_LOG_LEVEL`. Trata `None` en los flags como «no pasado», para no pisar *env* — *environment*, las variables de entorno — con *nulls*.",
-        "Implementa un `merge_config` **puro y testeable**: dicts por capa, reduce de menor a mayor prioridad. Casos de borde: `None` en flags significa “no pasado” (no pisa env); una clave solo en defaults sobrevive si nadie la redefine.",
+        "Implementa `merge_config` como una función **pura y comprobable** que combina dicts por capas, desde la prioridad menor hasta la mayor. Aquí `merge` solo forma parte del nombre de la función y significa «combinar configuraciones»; no es la operación de tablas que aprenderás después. Casos de borde: `None` en flags significa «no pasado» y no pisa env; una clave solo en defaults sobrevive si nadie la redefine.",
       ],
       code: {
         language: 'python',
@@ -642,7 +651,7 @@ default INFO`,
         },
         why: "Orden canónico completo: flags > env > file > defaults. Un flag ausente (`None`) no debe pisar env (lo practicarás en We Do). Precedencia documentada y testeable evita «en mi máquina es DEBUG».",
         retrospective:
-          "Flag ausente (`None`) no es lo mismo que flag `\"INFO\"`: si tratas ambos igual, pisas el env sin querer. Pregunta de auto-chequeo: en la demo, ¿quién gana con env=DEBUG y sin flag? We Do: traza de capas, merge multi-clave y razón del ganador.",
+          "Flag ausente (`None`) no es lo mismo que flag `\"INFO\"`: si tratas ambos igual, pisas el env sin querer. Pregunta de auto-chequeo: en la demo, ¿quién gana con env=DEBUG y sin flag? We Do: traza de capas, combinación de varias claves y razón del ganador.",
       },
       {
         demoId: "S10-T4-B-DEMO",
@@ -1760,10 +1769,10 @@ stderr_only empezando | fin |`,
         kind: "guided",
         title: "Trazar capas de config y el ganador",
         preamble:
-          "- **Contexto:** al depurar «¿por qué el log_level es ERROR?», el operador necesita una traza de capas.\n- **Meta:** aplicar defaults → file → env → flags, saltando `None`, e imprimir el winner.\n- **Éxito:** tres `apply …` (sin file) y `winner=ERROR source=flags`.\n- **Límites:** no imprimas `apply file -> None`; flags es la prioridad más alta.",
+          "- **Contexto:** al depurar «¿por qué el log_level es ERROR?», el operador necesita una traza de capas.\n- **Meta:** usar defaults → file → env → flags, saltando `None`, e imprimir el winner.\n- **Éxito:** tres líneas con la etiqueta fija `apply` —aquí significa «usar esta capa»—, sin file, y `winner=ERROR source=flags`.\n- **Límites:** no imprimas `apply file -> None`; flags es la prioridad más alta.",
         instruction:
-          "1. Corrige el dict `PREC` (defaults=1 … flags=4).\n2. Al recorrer, `continue` si `val is None`.\n3. Actualiza winner/source y haz print de apply.\n4. Imprime la línea winner; quita `ok`.",
-        hint: "Ordena por PREC (defaults=1 … flags=4); recorre y solo aplica valores no-None; actualiza winner/source en cada apply.",
+          "1. Corrige el dict `PREC` (defaults=1 … flags=4).\n2. Al recorrer, `continue` si `val is None`.\n3. Actualiza winner/source e imprime una línea que registre la capa usada.\n4. Imprime la línea winner; quita `ok`.",
+        hint: "Ordena por PREC (defaults=1 … flags=4); recorre y usa solo valores que no sean `None`; actualiza winner/source en cada capa.",
         hints: [
           "PREC = {defaults:1, file:2, env:3, flags:4}; sorted(layers.keys(), key=PREC.get).",
           "Si val is None: continue (sin print); si no: print(f'apply {name} -> {val}') y actualiza winner/source.",
@@ -1773,7 +1782,7 @@ stderr_only empezando | fin |`,
         feedback:
           "Si aparece `apply file -> None` o winner=INFO, no filtras None o el orden PREC está invertido (flags debe ser el más alto). `None` = capa ausente, no el string `\"None\"`.",
         retrospective:
-          "None = «capa ausente», no el string `\"None\"`. La traza enseña el mismo orden que el README del paquete. Pregunta: si inviertes PREC, ¿qué source gana con este fixture? E2: merge de varias claves con el mismo filtro.",
+          "None = «capa ausente», no el string `\"None\"`. La traza enseña el mismo orden que el README del paquete. Pregunta: si inviertes PREC, ¿qué source gana con este fixture? E2: combinar varias claves con el mismo filtro.",
         starterCode: {
           language: 'python',
           title: "precedence_trace.py",
@@ -1838,7 +1847,7 @@ winner=ERROR source=flags`,
         preamble:
           "- **Contexto:** el arranque del CLI fusiona defaults, archivo, entorno y flags en un solo dict.\n- **Meta:** que el flag gane en `log_level` y que `jobs: None` en env **no** borre el default.\n- **Éxito:** `{'log_level': 'ERROR', 'jobs': 1}`.\n- **Límites:** aplica de menor a mayor prioridad; ignora `None` en capas altas.",
         instruction:
-          "1. Parte de `dict(defaults)`.\n2. Superpone file → env → flags solo si `v is not None`.\n3. Imprime el merge del caso del starter.\n4. Quita prints extra.",
+          "1. Parte de `dict(defaults)`.\n2. Superpone file → env → flags solo si `v is not None`.\n3. Imprime el dict combinado del caso del starter.\n4. Quita prints extra.",
         hint: "Prueba con log_level en todas las capas.",
         hints: [
           "Aplica capas de menor a mayor prioridad: defaults → file → env → flags.",

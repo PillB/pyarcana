@@ -15,22 +15,22 @@ export const section14: CourseSection = {
   index: 14,
   title: "NumPy y cómputo vectorizado",
   shortTitle: "NumPy vectorizado",
-  tagline: "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+  tagline: "cálculo vectorizado (aplicar con NumPy una misma operación a todo un bloque de datos) de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
   estimatedHours: 9,
   level: "Práctica independiente",
   phase: 1,
   icon: "Binary",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En data quality y analytics de banca, fintech y retail en Perú, el cómputo vectorizado con NumPy sostiene las métricas de completitud, unicidad y señales por pares. Aquí aprendes a operar arrays de miles de filas sin un bucle explícito, con benchmarks honestos y tests de tolerancia numérica (esto es, comparaciones que aceptan una diferencia mínima en vez de exigir igualdad exacta). Es la base para cualquier métrica de calidad de datos que un comité pueda auditar.",
+    "En data quality y analytics de banca, fintech y retail en Perú, el cómputo vectorizado —una operación expresada una vez y aplicada por NumPy a todo un bloque de datos— sostiene las métricas de completitud, unicidad y señales por pares. Aquí aprendes a operar arrays de miles de filas sin un bucle explícito, con benchmarks honestos y tests de tolerancia numérica (esto es, comparaciones que aceptan una diferencia mínima en vez de exigir igualdad exacta). NumPy vuelve eficientes los cálculos; documentar el contrato, conservar el origen de los datos y probar los resultados permite que un comité revise qué significa cada métrica.",
   learningOutcomes: [
-    { text: "Construir y validar ndarrays con dtype y shape correctos" },
+    { text: "Construir y validar ndarrays con dtype (tipo de dato compartido por sus elementos) y shape (tupla que indica sus dimensiones) correctos" },
     { text: "Indexar y filtrar con máscaras booleanas (arrays de `True` y `False` que seleccionan datos) de forma segura" },
     { text: "Aplicar ufuncs y reducciones por eje (completitud, unicidad con np.unique)" },
     { text: "Resolver broadcasting (alineación automática de shapes compatibles) y documentar esa compatibilidad" },
     { text: "Distinguir views de copies y controlar mutabilidad" },
     { text: "Manejar NaN/inf y evaluar estabilidad numérica" },
-    { text: "Vectorizar frente a loops con benchmark honesto" },
+    { text: "Vectorizar —aplicar una operación a todo el array en vez de recorrerlo con un loop— y comparar tiempos de forma honesta" },
     { text: "Medir memoria y probar equivalencia con tolerancia" },
   ],
   theory: [
@@ -38,8 +38,8 @@ export const section14: CourseSection = {
             heading: "Dejar de contar uno por uno",
       paragraphs: [
         "Hasta S13 tratabas cada caso por separado: un bucle recorre la lista, evalúa una regla y acumula. Funciona, se lee bien y con mil filas es instantáneo. Con dos millones deja de serlo, y el problema no es que Python sea lento — es que le estás pidiendo dos millones de decisiones pequeñas en vez de una grande.",
-        "La diferencia es la de contar monedas de una en una frente a pesarlas todas juntas. Un **ndarray** de NumPy es un bloque de memoria donde todos los elementos tienen el mismo tipo y el mismo tamaño, y eso permite que la operación se aplique al bloque entero de una vez. Por eso importa el **dtype**, el tipo de cada elemento: es lo que hace posible ese tratamiento uniforme. Si mezclas textos y números, se pierde la ventaja y vuelves a contar monedas.",
-        "El segundo concepto es la **forma**. Un array conoce sus dimensiones, y casi todo error de NumPy es un desacuerdo entre formas: sumar algo de diez elementos con algo de doce. La ventaja es que ese desacuerdo se detecta al instante en lugar de propagarse; la desventaja es que hay que aprender a leer el mensaje.",
+        "La diferencia es la de contar monedas de una en una frente a pesarlas todas juntas. Un **ndarray** de NumPy es un bloque de memoria donde todos los elementos tienen el mismo tipo y el mismo tamaño. Aplicar una operación al bloque entero se llama **vectorización**. Por eso importa el **dtype**, el tipo de cada elemento: hace posible ese tratamiento uniforme. Si mezclas textos y números, se pierde la ventaja y vuelves a contar monedas.",
+        "El segundo concepto es el **shape** o forma: la tupla que indica las dimensiones del array. Casi todo error de NumPy es un desacuerdo entre formas, como intentar sumar algo de diez elementos con algo de doce. La ventaja es que ese desacuerdo se detecta al instante en lugar de propagarse; la desventaja es que hay que aprender a leer el mensaje.",
         "De ahí sale la herramienta que reemplaza al `if` dentro del bucle. En vez de preguntar caso por caso, construyes una **máscara**: un array de verdaderos y falsos que dice qué posiciones cumplen la condición. Filtrar es entonces aplicar la máscara, y contar es sumar los verdaderos. La condición se expresa una vez, sobre todo el conjunto.",
         "La pregunta que atraviesa la sección es un hábito nuevo: **¿estoy pidiendo una operación sobre todo el bloque, o lo estoy recorriendo a mano sin darme cuenta?** El hilo es un tablero de calidad —completitud, unicidad, rangos— sobre datos sintéticos. Aquí no entra pandas todavía: eso es S15.",
       ],
@@ -59,6 +59,38 @@ export const section14: CourseSection = {
         "**Ritmo orientativo (unas 9 horas).** De esas, tres para el núcleo: al terminarlo ya entiendes cuándo NumPy te da una vista y cuándo una copia. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
         "**Límites.** Solo NumPy sobre datos sintéticos: nada de pandas, sklearn ni datos personales reales. Si el contrato de tipo o forma falla, se reporta el error en lugar de ocultarlo. El foco es el tablero de calidad vectorizado, no el aprendizaje profundo.",
       ],
+     },
+     {
+      heading: "Vectorización, shape y dtype antes de operar",
+      paragraphs: [
+        "La **vectorización** consiste en expresar una operación una vez para que NumPy la aplique a todos los elementos de un ndarray. Existe para evitar que Python repita la misma decisión dentro de un `for` por cada elemento. El resultado debe significar lo mismo que el cálculo elemento por elemento; hacerlo más rápido no corrige una operación equivocada.",
+        "El **shape** describe cómo se organizan los valores. En `[[0.2, 0.8, 0.5], [0.4, 0.6, 0.9]]`, el shape es `(2, 3)`: dos filas y tres columnas. El **dtype** indica el único tipo de dato que comparten esos seis valores; al crear el array con `dtype=np.float64`, NumPy guarda números con decimales.",
+        "Haz una predicción antes de ejecutar el ejemplo. Cuenta las dos listas exteriores y los tres valores de cada una para obtener `(2, 3)`. Después multiplica mentalmente la primera fila por 10: el resultado correcto empieza con `[2.0, 8.0, 5.0]`. NumPy realiza esa multiplicación sobre todo el array sin que escribas un `for`.",
+        "Ejecuta el código y compara las tres líneas con la salida declarada. Luego cambia solo `0.2` por `1.2` y vuelve a ejecutarlo: el shape debe seguir en `(2, 3)`, el dtype debe seguir en `float64` y el primer valor ajustado debe ser `12.0`. Si cambia el shape, cambiaste la organización; si cambia el dtype, cambiaste el tipo de los elementos.",
+      ],
+      code: {
+        language: 'python',
+        title: "vectorizacion_shape_dtype.py",
+        code: `import numpy as np
+
+valores = np.array(
+    [[0.2, 0.8, 0.5], [0.4, 0.6, 0.9]],
+    dtype=np.float64,
+)
+ajustados = valores * 10
+print("shape", valores.shape)
+print("dtype", valores.dtype)
+print("ajustados", ajustados.tolist())`,
+        output: `shape (2, 3)
+dtype float64
+ajustados [[2.0, 8.0, 5.0], [4.0, 6.0, 9.0]]`,
+      },
+      callout: {
+        type: "tip",
+        title: "Tres preguntas antes de calcular",
+        content:
+          "¿Qué operación se aplica a todo el bloque? ¿Qué organización declara `shape`? ¿Qué tipo de elementos declara `dtype`? Si puedes responder las tres y anticipar la salida, ya puedes revisar el contrato del array.",
+      },
      },
      {
       heading: "ndarray, dtype y shape",
@@ -170,9 +202,16 @@ unicidad 0.6667`,
     },
     {
       heading: "Broadcasting y compatibilidad de shapes",
+      figure: {
+        id: "S14-broadcast-stretch",
+        caption:
+          "El vector de pesos `(2,)` se reutiliza en las tres filas de `scores` `(3, 2)`; el producto conserva la forma `(3, 2)` sin copiar los pesos.",
+        alt:
+          "Dos tablas de tres filas y dos columnas. La primera contiene scores distintos; la segunda muestra los mismos pesos 0.5 y 2.0 reutilizados en cada fila.",
+      },
       subtopicId: "S14-T2-B",
       paragraphs: [
-        "El **broadcasting** alinea shapes de **derecha a izquierda**: en cada dimensión, los tamaños son iguales, o uno es 1, o la dimensión está ausente en el array de menor rango. Si no hay compatibilidad, NumPy lanza `ValueError` — mejor un error ruidoso que un producto silencioso mal alineado (por ejemplo, restar un umbral a la dimensión equivocada del tablero).",
+        "El **broadcasting** reutiliza sin copiar el eje de tamaño 1, o el eje ausente, a lo largo del otro: así, pesos `(2,)` ponderan las tres filas de `scores` `(3, 2)`. La regla de compatibilidad alinea shapes de **derecha a izquierda**: en cada dimensión, los tamaños son iguales, o uno es 1, o la dimensión está ausente en el array de menor rango. Si no hay compatibilidad, NumPy lanza `ValueError` — mejor un error ruidoso que un producto silencioso mal alineado (por ejemplo, restar un umbral a la dimensión equivocada del tablero).",
         "`newaxis` / `None` inserta un eje de tamaño 1 para alinear vectores de filas o columnas (pesos por variable, umbral por cliente, o matriz de diferencias `score_i - score_j`). Es el mecanismo de las **señales por pares**: `agg[:, None] - agg[None, :]` produce una matriz (n, n) sin un doble loop Python.",
         "Documenta el shape esperado en el docstring y, si el batch puede cambiar de tamaño, aserta la compatibilidad antes de operar. Caso sintético: scores (3, 2) × pesos (2,) pondera bien; un intento (3, 2) + (3, 3) debe fallar con mensaje de broadcast y no “arreglarse” en silencio.",
       ],
@@ -250,11 +289,18 @@ vista_base_is_raw True`,
     },
     {
       heading: "NaN, inf y estabilidad numérica",
+      figure: {
+        id: "S14-nan-propagation",
+        caption:
+          "Con los mismos tres valores, `mean` devuelve `nan` porque el NaN se propaga; `nanmean` lo deja fuera y devuelve 2.0.",
+        alt:
+          "Dos tablas comparan los valores 1.0, nan y 3.0. La tabla mean termina en nan; la tabla nanmean omite nan y termina en 2.0.",
+      },
       subtopicId: "S14-T3-B",
       paragraphs: [
-        "`np.nan` y `±inf` rompen `mean`/`sum` clásicos: NaN **contagia** (el resultado de la media es nan) e inf **domina** (una suma con inf es inf). Antes de publicar una métrica de negocio usa `np.isnan` / `isinf` / `isfinite`, o reducciones `nansum` / `nanmean` con la política documentada del tablero.",
-        "`np.finfo(float).eps` es la distancia entre 1.0 y el siguiente número representable: te da la escala del error de **un** redondeo cerca de 1, que es lo que necesitas para elegir la tolerancia de un `allclose`. No acota el error **acumulado** de una cadena de operaciones, que puede ser mucho mayor y crece con el número de pasos. Un overflow en float produce `inf`; no lo trates como un score válido de calidad. **Falla de forma segura** (fail-closed): si el batch trae inf donde no es semántico, rechaza el lote o filtra con traza — no sustituyas por 0 en silencio.",
-        "En calidad de datos, un NaN **no es cero**: es **ausencia de medición**. Reporta la tasa de no-finitos aparte de la media de los finitos; mezclarlos distorsiona completitud y rangos. Caso sintético: `[1, nan, 3, inf]` → media solo sobre `isfinite` (= 2.0); convierte inf a nan antes de `nansum` si inf no es un valor de negocio.",
+        "Un **NaN** (`np.nan`) es un valor especial de punto flotante que NumPy usa para marcar la **ausencia de medición**. No es cero ni igual a nada, ni siquiera a sí mismo; por eso `x == np.nan` siempre da `False` y debes usar `np.isnan(x)`. `np.nan` y `±inf` rompen `mean`/`sum` clásicos: NaN **contagia** (la media resulta nan) e inf **domina** (una suma con inf resulta inf). Antes de publicar una métrica usa `np.isnan`, `np.isinf` o `np.isfinite`, o reducciones `np.nansum` y `np.nanmean`, según la política documentada del tablero.",
+        "`np.finfo(float).eps` es la distancia entre 1.0 y el siguiente número representable. Indica la escala del error de **un** redondeo cerca de 1 y orienta la tolerancia de un `allclose`. No acota el error **acumulado** de una cadena de operaciones, que puede crecer con el número de pasos. Un overflow en float produce `inf`; si no es semántico, **falla de forma segura**: rechaza el lote o filtra con traza, pero no sustituyas por 0.",
+        "Reporta la tasa de valores no finitos aparte de la media de los finitos; mezclarlos distorsiona la completitud y los rangos. Caso sintético: en `[1, nan, 3, inf]`, `isfinite` deja `[1, 3]` y su media es 2.0; convierte inf a nan antes de `nansum` si no representa un valor de negocio.",
       ],
       code: {
         language: 'python',

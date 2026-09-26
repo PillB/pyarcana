@@ -32,6 +32,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { ProgressRing } from './ProgressRing'
+import { InlineText } from './RichText'
 import { useProgressStore } from '@/lib/progress-store'
 import type { CourseSection, CourseMeta } from '@/lib/types'
 import * as Icons from 'lucide-react'
@@ -386,7 +387,7 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
                   {english ? 'CONTINUE WHERE YOU LEFT OFF' : 'CONTINÚA DONDE LO DEJASTE'}
                 </div>
                 <h3 className="mt-1 text-lg font-bold">{nextSection.title}</h3>
-                <p className="text-sm text-muted-foreground">{nextSection.tagline}</p>
+                <p className="text-sm text-muted-foreground"><InlineText text={nextSection.tagline} /></p>
               </div>
               <Button onClick={() => onSelectSection(nextSection.id)} className="gap-2">
                 {english ? 'Continue' : 'Continuar'}
@@ -456,7 +457,7 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
                     {english ? 'Section' : 'Sección'} {section.index}
                   </div>
                   <h3 className="text-base font-bold leading-tight">{section.shortTitle}</h3>
-                  <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{section.tagline}</p>
+                  <p className="mt-1 text-xs text-muted-foreground line-clamp-2"><InlineText text={section.tagline} /></p>
                 </div>
 
                 {/* Bottom */}
