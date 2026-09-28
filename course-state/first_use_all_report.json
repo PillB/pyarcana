@@ -6,7 +6,7 @@
   "issue_counts": {
     "DEFINITION_AFTER_REQUIREMENT": 2,
     "NO_VISIBLE_DEFINITION": 3,
-    "USE_BEFORE_DEFINITION": 22
+    "USE_BEFORE_DEFINITION": 21
   },
   "never_defined_but_mentioned": [
     "joblib",
@@ -18,14 +18,14 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "for",
       "severity": "P1",
-      "location": "decisions-rules.S03-T2-A.code",
+      "location": "decisions-rules.S03-T1-B-E1.starter",
       "definition_location": "iteration-summaries.S04-T1-A.p0"
     },
     {
       "code": "DEFINITION_AFTER_REQUIREMENT",
       "term_id": "for",
       "severity": "P1",
-      "location": "decisions-rules.S03-T1-B-E1.hint",
+      "location": "decisions-rules.S03-T4-B-E2.hint[1]",
       "definition_location": "iteration-summaries.S04-T1-A.p0"
     },
     {
@@ -164,13 +164,6 @@
       "term_id": "joblib",
       "severity": "P1",
       "location": "microservices.S32-T3-B.p0"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "outlier",
-      "severity": "P1",
-      "location": "decisions-rules.youDo.starter",
-      "definition_location": "wxpython-gui.jobRelevance"
     },
     {
       "code": "USE_BEFORE_DEFINITION",

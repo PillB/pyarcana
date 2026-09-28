@@ -260,8 +260,11 @@ print("5 and 99 →", 5 and 99)`,
     else:
         return "reject"
 
-for s in [95, 60, 30, 80, 50]:
-    print(s, "→", classify_score(s))`,
+print(95, "→", classify_score(95))
+print(60, "→", classify_score(60))
+print(30, "→", classify_score(30))
+print(80, "→", classify_score(80))
+print(50, "→", classify_score(50))`,
         output: `95 → accept
 60 → review
 30 → reject
@@ -678,8 +681,12 @@ print(50, "→", classify_score(50))`,
         return {"status": "review", "code": "NEEDS_REVIEW"}
     return {"status": "accept", "code": "OK"}
 
-for e in [None, "25", -1, 15, 30, 200]:
-    print(repr(e), "→", validate_edad(e))`,
+print(repr(None), "→", validate_edad(None))
+print(repr("25"), "→", validate_edad("25"))
+print(repr(-1), "→", validate_edad(-1))
+print(repr(15), "→", validate_edad(15))
+print(repr(30), "→", validate_edad(30))
+print(repr(200), "→", validate_edad(200))`,
           output: `None → {'status': 'review', 'code': 'MISSING'}
 '25' → {'status': 'reject', 'code': 'BAD_TYPE'}
 -1 → {'status': 'reject', 'code': 'OUT_OF_RANGE'}
@@ -713,8 +720,10 @@ def rule_region_edad(region, edad):
         return "reject"
     return "accept"
 
-for r, e in [("Lima", 30), ("Tacna", 30), ("Piura", 15), (None, 40)]:
-    print(r, e, "→", rule_region_edad(r, e))`,
+print("Lima", 30, "→", rule_region_edad("Lima", 30))
+print("Tacna", 30, "→", rule_region_edad("Tacna", 30))
+print("Piura", 15, "→", rule_region_edad("Piura", 15))
+print(None, 40, "→", rule_region_edad(None, 40))`,
           output: `Lima 30 → accept
 Tacna 30 → review
 Piura 15 → reject
@@ -758,9 +767,30 @@ def status_match(code: str) -> str:
         case _:
             return "review"
 
-for c in ["OK", "MISSING", "OUT_OF_RANGE", "FOO", "NEEDS_REVIEW"]:
-    a, b = status_if(c), status_match(c)
-    print(c, a, b, "same=", a == b)
+code = "OK"
+a = status_if(code)
+b = status_match(code)
+print(code, a, b, "same=", a == b)
+
+code = "MISSING"
+a = status_if(code)
+b = status_match(code)
+print(code, a, b, "same=", a == b)
+
+code = "OUT_OF_RANGE"
+a = status_if(code)
+b = status_match(code)
+print(code, a, b, "same=", a == b)
+
+code = "FOO"
+a = status_if(code)
+b = status_match(code)
+print(code, a, b, "same=", a == b)
+
+code = "NEEDS_REVIEW"
+a = status_if(code)
+b = status_match(code)
+print(code, a, b, "same=", a == b)
 `,
           output: `OK accept accept same= True
 MISSING review review same= True
@@ -793,20 +823,20 @@ NEEDS_REVIEW review review same= True`,
         return "reject"
     return "accept"
 
-regla = {
-    "field": "contacto",
-    "invariant_text": "contacto es str de 9 dígitos o None (review)",
-    "examples": [
-        {"value": "999000111", "expected": "accept"},
-        {"value": "12345", "expected": "reject"},
-        {"value": None, "expected": "review"},
-        {"value": "  ", "expected": "reject"},
-    ],
-}
-print(regla["invariant_text"])
-for ex in regla["examples"]:
-    got = validate_contacto(ex["value"])
-    print(repr(ex["value"]), "→", got, "ok=", got == ex["expected"])`,
+invariant_text = "contacto es str de 9 dígitos o None (review)"
+print(invariant_text)
+
+got = validate_contacto("999000111")
+print(repr("999000111"), "→", got, "ok=", got == "accept")
+
+got = validate_contacto("12345")
+print(repr("12345"), "→", got, "ok=", got == "reject")
+
+got = validate_contacto(None)
+print(repr(None), "→", got, "ok=", got == "review")
+
+got = validate_contacto("  ")
+print(repr("  "), "→", got, "ok=", got == "reject")`,
           output: `contacto es str de 9 dígitos o None (review)
 '999000111' → accept ok= True
 '12345' → reject ok= True
@@ -849,12 +879,25 @@ None → review ok= True
         }
     return {"status": "accept", "code": "OK", "message": "edad OK"}
 
-tests = [(None, "MISSING"), ("x", "BAD_TYPE"), (-5, "OUT_OF_RANGE"), (35, "OK")]
-for val, code in tests:
-    r = validate_edad_msg(val)
-    assert r["code"] == code
-    print("PASS", val, r["code"])
-    print(" ", r["message"])`,
+r = validate_edad_msg(None)
+assert r["code"] == "MISSING"
+print("PASS", None, r["code"])
+print(" ", r["message"])
+
+r = validate_edad_msg("x")
+assert r["code"] == "BAD_TYPE"
+print("PASS", "x", r["code"])
+print(" ", r["message"])
+
+r = validate_edad_msg(-5)
+assert r["code"] == "OUT_OF_RANGE"
+print("PASS", -5, r["code"])
+print(" ", r["message"])
+
+r = validate_edad_msg(35)
+assert r["code"] == "OK"
+print("PASS", 35, r["code"])
+print(" ", r["message"])`,
           output: `PASS None MISSING
   Campo 'edad' ausente: envía un entero 0–120 o marca como desconocido.
 PASS x BAD_TYPE
@@ -936,7 +979,7 @@ True`,
           '- **Contexto:** los códigos de documento del intake (`DNI`, `CE`, `PAS`) se validan con pertenencia, no con un `if` por cada literal.\n- **Meta:** usar `t in TIPOS_DOC` y ver el efecto de mayúsculas.\n- **Éxito:** para `DNI`, `dni`, `RUC` imprimes `t → True/False` → `True`, `False`, `False`.\n- **Límites:** no uses `t == "DNI"`; no normalices a upper en este ejercicio (el punto es documentar sensibilidad).',
         id: 'S03-T1-A-E2',
         instruction:
-          '1. Mantén `TIPOS_DOC = {"DNI", "CE", "PAS"}`.\n2. Recorre `["DNI", "dni", "RUC"]`.\n3. Sustituye el DEFECT (`t == "DNI"`) por `t in TIPOS_DOC`.\n4. Imprime `t →` y el booleano en cada iteración.',
+          '1. Mantén `TIPOS_DOC = {"DNI", "CE", "PAS"}`.\n2. Conserva las tres líneas, una para `"DNI"`, otra para `"dni"` y otra para `"RUC"`.\n3. En cada línea, sustituye el DEFECT (`t == "DNI"`) por la comprobación correspondiente con `in TIPOS_DOC`.\n4. Imprime el código, `→` y su booleano en ese orden.',
         hint: 'Comprueba por separado `"DNI" in TIPOS_DOC`, `"dni" in TIPOS_DOC` y `"RUC" in TIPOS_DOC`.',
         hints: [
           'Escribe un `print` para cada uno de los tres valores y conserva el mismo orden.',
@@ -954,16 +997,18 @@ True`,
           code: `# CASO-LIM-003 · membership set TIPOS_DOC
 # DEFECT: compara con == lista
 TIPOS_DOC = {"DNI", "CE", "PAS"}
-for t in ["DNI", "dni", "RUC"]:
-    print(t, "→", t == "DNI")
+print("DNI", "→", "DNI" == "DNI")
+print("dni", "→", "dni" == "DNI")
+print("RUC", "→", "RUC" == "DNI")
 `,
         },
         solutionCode: {
           language: 'python',
           title: 'allowlist_tipo_doc.py',
           code: `TIPOS_DOC = {"DNI", "CE", "PAS"}
-for t in ["DNI", "dni", "RUC"]:
-    print(t, "→", t in TIPOS_DOC)`,
+print("DNI", "→", "DNI" in TIPOS_DOC)
+print("dni", "→", "dni" in TIPOS_DOC)
+print("RUC", "→", "RUC" in TIPOS_DOC)`,
           output: `DNI → True
 dni → False
 RUC → False`,
@@ -1025,10 +1070,10 @@ Nota: usa is solo para None; == para valores de negocio`,
         id: 'S03-T1-B-E1',
         instruction:
           '1. Revisa el DEFECT: el código inicial imprime `v is not None`, que comprueba ausencia, no **truthiness** (si Python trata el valor como verdadero o falso).\n2. Recorre la lista `vals` dada.\n3. Imprime `repr(v)` y `bool(v)` en cada paso.\n4. Confirma que `range(0)` es falsy y `[0]` es truthy.',
-        hint: 'for v in lista: print(repr(v), "→", bool(v))',
+        hint: 'Escribe una línea por valor: `print(repr(None), "→", bool(None))`; después conserva la misma forma y cambia solo el valor.',
         hints: [
-          'for v in lista: print(repr(v), "→", bool(v))',
-          'range(0) es falsy; [0] es truthy (lista no vacía).',
+          'Escribe una línea por valor: `print(repr(None), "→", bool(None))`; después conserva la misma forma y cambia solo el valor.',
+          'Comprueba también `range(0)` y `[0]`: el primero es falsy; el segundo es truthy porque la lista no está vacía.',
         ],
         edgeCases: ['range(0)', 'False', '[0] truthy'],
         tests: 'checklist: 9 falsy + 3 truthy en el orden dado',
@@ -1702,7 +1747,7 @@ ALLOWED_DOC = {"DNI", "CE", "PAS"}
 DOC_LEN = {"DNI": 8, "CE": 9, "PAS": 9}
 
 def tipo_doc_len(tipo, numero):
-    # DEFECT: string genérico; falta guards + dict {status, code}
+    # DEFECT: respuesta genérica; faltan decisiones separadas para status y code
     if tipo not in ALLOWED_DOC:
         return "reject"
     return "accept"
@@ -1744,7 +1789,7 @@ None 1 → {'status': 'review', 'code': 'MISSING'}`,
         id: 'S03-T3-B-E1',
         instruction:
           '1. Corrige `MISSING` (`review`) y `OUT_OF_RANGE` (`reject`).\n2. Implementa `status_for(code)` con `TABLE.get(code, "review")`; `status_for` significa “`status` correspondiente a este código”.\n3. Imprime el `status` de `OK`, `MISSING`, `OUT_OF_RANGE` y `FOO`.',
-        hint: 'table.get(code, table["_default"]) o case _ equivalente con dict.',
+        hint: 'Escribe una rama para cada código conocido y una rama final para cualquier código distinto.',
         hints: [
           '`table.get(code, "review")` si no incluyes `_default` como clave de negocio.',
           'Fila default cubre códigos desconocidos (FOO).',
@@ -2314,7 +2359,7 @@ PASS 30 accept`,
       'Documentar invariantes en español en README o docstrings',
     ],
     requirements: [
-      'Función o módulo validate_record(record: dict) → dict de resultados por campo',
+      'Programa de nivel superior que decide `status`, `code` y `message` para cada uno de tres campos sintéticos',
       'Códigos estables: MISSING, OUT_OF_RANGE, NOT_IN_ALLOWLIST, NEEDS_REVIEW, OK (y BAD_TYPE si aplica)',
       'Cada resultado conserva exactamente status, code y message; los tipos incorrectos se rechazan sin lanzar TypeError',
       'Sin PII real; dataset sintético embebido o en data/',
@@ -2441,7 +2486,7 @@ def _run_tests():
     assert r5["region"]["code"] == "MISSING"
     assert r5["monto_ingreso"]["code"] == "BAD_TYPE"
 
-    # Fronteras inclusivas y valor atípico revisable
+    # Fronteras inclusivas y monto que supera el umbral revisable
     r6 = validate_record({"edad": 18, "region": "Piura", "monto_ingreso": 50000})
     assert all(result["code"] == "OK" for result in r6.values())
     r7 = validate_record({"edad": 121, "region": "Cusco", "monto_ingreso": 50001})
