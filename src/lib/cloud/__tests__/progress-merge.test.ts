@@ -127,6 +127,13 @@ test('a hostile remote doc is sanitized: bad types, __proto__, impossible scores
   assert.equal(Object.getPrototypeOf(r.state.quizScores), Object.prototype)
 })
 
+test('a change log alone cannot add progress that neither state holds', () => {
+  const remote = doc({}, { 'sec:advanced-topics': { present: true, ts: NOW - 1 }, 'sub:basics:quiz': { present: true, ts: NOW - 1 } })
+  const r = mergeProgress(state(), {}, remote, NOW)
+  assert.deepEqual(r.state.completedSections, [])
+  assert.deepEqual(r.state.completedSubSteps, {})
+})
+
 test('an unreadable remote leaves local progress exactly as it was', () => {
   const local = state({ completedSections: ['setup'], completedSubSteps: { setup: ['theory'] }, bookmarks: ['basics'], quizScores: { setup: 90 } })
   for (const remote of [null, 'x', [], { v: 2, state: {} }, { state: { completedSections: [] } }]) {

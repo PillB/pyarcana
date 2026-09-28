@@ -308,5 +308,6 @@ test("admins see contact and account emails, triage with PATCH, and every admin 
   const updates = (await env.DB.prepare("SELECT target_id FROM audit_log WHERE action = 'admin.reports.update' AND actor_account_id = ?1 ORDER BY id").bind(admin.account.id).all()).results;
   assert.equal(updates.length, 3 + cases.length);
   assert.equal(updates[0].target_id, a.body.id);
-  assert.equal(await count(env, "FROM audit_log WHERE action = 'admin.reports.list'"), 1);
+  assert.equal(await count(env, "FROM audit_log WHERE action = 'admin.reports.list' AND actor_account_id = ?1", admin.account.id), 1);
+  assert.equal(await count(env, "FROM audit_log WHERE action = 'admin.reports.list' AND actor_account_id = ?1", tester.account.id), 1, "the refused tester is audited too");
 });
