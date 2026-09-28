@@ -87,7 +87,8 @@ export async function createCtx(overrides, now = NOW) {
  * @param {string} method HTTP method.
  * @param {string} path Path and query.
  * @param {{body?: unknown, rawBody?: BodyInit, cookie?: string, origin?: string|null, csrf?: boolean,
- *          headers?: Object, now?: number, fetchImpl?: function, log?: function}} [opts] Options.
+ *          headers?: Object, now?: number, fetchImpl?: function, log?: function, routes?: Object[],
+ *          providers?: Object}} [opts] Options (`routes` replaces the table; `providers` the cancel registry).
  * @returns {Promise<{status: number, body: any, headers: Headers, setCookie: string|null, token: string|null}>} Result.
  */
 export async function api(env, method, path, opts = {}) {
@@ -97,7 +98,9 @@ export async function api(env, method, path, opts = {}) {
   const response = await handleRequest(request, env, {
     now: opts.now === undefined ? NOW : opts.now,
     fetchImpl: opts.fetchImpl,
-    log: opts.log || (() => {})
+    log: opts.log || (() => {}),
+    ...(opts.routes ? { routes: opts.routes } : {}),
+    ...(opts.providers ? { providers: opts.providers } : {})
   });
   return readResponse(response);
 }
@@ -307,7 +310,7 @@ export async function createHarness(overrides) {
 /**
  * Seed a signed-in account straight into D1 (no provider round trip).
  * @param {Object} env Worker env (migrated).
- * @param {{email?: string|null, verified?: boolean, identities?: Array<[string, string]>, method?: string,
+ * @param {{email?: string|null, verified?: boolean, identities?: Array<Array<string|null>>, method?: string,
  *          signedIn?: boolean, now?: number, sessionAt?: number}} [spec] Account spec.
  * @returns {Promise<{account: Object, token: string, session: Object}>} Account and cookie token.
  */
@@ -320,8 +323,8 @@ export async function seedAccount(env, spec = {}) {
   const verified = spec.verified !== false;
   const account = await createAccount(ctx, { email, emailNormalized: verified && email ? email.toLowerCase() : null, emailVerified: verified && Boolean(email) });
   const identities = spec.identities || (email && verified ? [["email", email.toLowerCase()]] : []);
-  for (const [provider, subject] of identities) {
-    await linkIdentity(ctx, { provider, subject, accountId: account.id, emailAtLink: email });
+  for (const [provider, subject, emailAtLink] of identities) {
+    await linkIdentity(ctx, { provider, subject, accountId: account.id, emailAtLink: emailAtLink === undefined ? email : emailAtLink });
   }
   if (spec.signedIn !== false) {
     await env.DB.prepare("UPDATE accounts SET first_signin_at = ?2 WHERE id = ?1").bind(account.id, now).run();

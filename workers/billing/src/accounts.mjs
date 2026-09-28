@@ -91,6 +91,21 @@ export async function createAccount(ctx, fields) {
 }
 
 /**
+ * The live account for an email an admin typed, creating it (unverified,
+ * never signed in) when there is none.
+ * @param {{db: Object, now: number}} ctx Context.
+ * @param {string} email Normalized email.
+ * @returns {Promise<{account: Object, created: boolean}>} Account and whether this call created it.
+ */
+export async function findOrCreateByEmail(ctx, email) {
+  const existing = await findLiveAccountByEmail(ctx.db, email);
+  if (existing) {
+    return { account: existing, created: false };
+  }
+  return createAccountDetailed(ctx, { email, emailNormalized: email, emailVerified: false });
+}
+
+/**
  * Read an identity.
  * @param {Object} db D1 binding.
  * @param {string} provider google | microsoft | email.
@@ -198,8 +213,31 @@ export async function activeRoles(ctx, accountId) {
 }
 
 /**
- * The admin rule (DESIGN-v2 §4): a verified email listed in ADMIN_EMAILS AND a
- * Google session created within the last 12 hours. Admin is never stored.
+ * Why this session is not an admin session, or null when it is.
+ *
+ * The admin rule (DESIGN-v2 §4): a verified email listed in ADMIN_EMAILS
+ * (read per request) AND a Google session created within the last 12 hours.
+ * Admin is never stored. A listed, verified admin whose session fails only
+ * the Google/freshness part gets "reauth_required" (sign in with Google
+ * again); everyone else gets "forbidden", so a non-admin learns nothing.
+ * @param {Object} env Worker env.
+ * @param {Object} account Account row.
+ * @param {Object} session Session row.
+ * @param {number} now Epoch seconds.
+ * @returns {"forbidden"|"reauth_required"|null} Denial.
+ */
+export function adminDenial(env, account, session, now) {
+  const listed =
+    Boolean(account && session) && Number(account.email_verified) === 1 && adminEmails(env).includes(account.email_normalized);
+  if (!listed) {
+    return "forbidden";
+  }
+  const fresh = session.method === "google" && now - Number(session.created_at) <= ADMIN_SESSION_SECONDS;
+  return fresh ? null : "reauth_required";
+}
+
+/**
+ * The admin rule as a boolean (see adminDenial).
  * @param {Object} env Worker env.
  * @param {Object} account Account row.
  * @param {Object} session Session row.
@@ -207,12 +245,5 @@ export async function activeRoles(ctx, accountId) {
  * @returns {boolean} Admin.
  */
 export function isAdminSession(env, account, session, now) {
-  const checks = [
-    () => Boolean(account && session),
-    () => session.method === "google",
-    () => now - Number(session.created_at) <= ADMIN_SESSION_SECONDS,
-    () => Number(account.email_verified) === 1,
-    () => adminEmails(env).includes(account.email_normalized)
-  ];
-  return checks.every((check) => check());
+  return adminDenial(env, account, session, now) === null;
 }

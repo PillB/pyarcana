@@ -8,8 +8,10 @@
  *   CSRF    -> 403 bad_origin (state-changing, non-webhook)
  *   config  -> 503 db_not_configured | pepper_not_configured; then migrate()
  *   session -> 401 <reason> + cleared cookie (auth: "session"); renewal cookie
+ *   access  -> admin / qa gates (gate.mjs): 429 | 403 forbidden | 401 reauth_required
  *   body    -> 413 body_too_large | 400 bad_json
- *   handler -> {status, body, setCookie?, headers?}
+ *   handler -> {status, body, setCookie?, headers?, audit?, audited?}
+ *   audit   -> one audit_log row per admin request (gate.mjs)
  * Responses carry CORS for allowed origins (never for webhooks), no-store and
  * nosniff.
  */
@@ -18,6 +20,7 @@ import { handleEmailStart, handleEmailVerify } from "./auth-email.mjs";
 import { handleGoogleSignIn, handleLinkGoogle, handleLinkMicrosoft, handleMicrosoftSignIn } from "./auth-oidc.mjs";
 import { handleLogout } from "./auth-session.mjs";
 import { pepperBytes } from "./crypto.mjs";
+import { accessStage, auditAdminRequest } from "./gate.mjs";
 import {
   DEFAULT_BODY_CAP,
   callerIp,
@@ -33,6 +36,7 @@ import {
   sessionCookie
 } from "./http.mjs";
 import { handleGetMe } from "./me.mjs";
+import { handleStartTrial } from "./trial.mjs";
 import { handleHealth, handleMethods, hasDb } from "./public.mjs";
 import { migrate } from "./schema.mjs";
 import { resolveSession } from "./sessions.mjs";
@@ -42,6 +46,7 @@ const DB_PEPPER = ["db", "pepper"];
 /**
  * The route table. `auth`: "session" (required) | "optional" | undefined.
  * `needs`: config the route cannot run without. `bodyCap`: bytes.
+ * `access`: "admin" | "qa" (gate.mjs). `audit`: the admin audit action name.
  */
 export const ROUTES = [
   { method: "GET", path: "/v1/health", handler: handleHealth, needs: [] },
@@ -52,6 +57,7 @@ export const ROUTES = [
   { method: "POST", path: "/v1/auth/microsoft", handler: handleMicrosoftSignIn, needs: DB_PEPPER, auth: "optional" },
   { method: "POST", path: "/v1/auth/logout", handler: handleLogout, needs: ["db"], auth: "optional" },
   { method: "GET", path: "/v1/me", handler: handleGetMe, needs: ["db"], auth: "session" },
+  { method: "POST", path: "/v1/me/trial", handler: handleStartTrial, needs: DB_PEPPER, auth: "session" },
   { method: "POST", path: "/v1/me/link/google", handler: handleLinkGoogle, needs: DB_PEPPER, auth: "session" },
   { method: "POST", path: "/v1/me/link/microsoft", handler: handleLinkMicrosoft, needs: DB_PEPPER, auth: "session" }
 ];
@@ -222,21 +228,25 @@ async function bodyStage(ctx) {
   return null;
 }
 
-const STAGES = [csrfStage, configStage, sessionStage, bodyStage];
+const STAGES = [csrfStage, configStage, sessionStage, accessStage, bodyStage];
 
 /**
- * Run a matched route through the stages and its handler.
+ * Run a matched route through the stages and its handler. Admin routes are
+ * audited whatever the outcome once a session is known (gate.mjs).
  * @param {Object} ctx Context with `route` and `params`.
  * @returns {Promise<Response>} Response.
  */
 async function runRoute(ctx) {
+  let result = null;
   for (const stage of STAGES) {
-    const stop = await stage(ctx);
-    if (stop) {
-      return respond(ctx, stop);
+    result = await stage(ctx);
+    if (result) {
+      break;
     }
   }
-  return respond(ctx, await ctx.route.handler(ctx));
+  result = result || (await ctx.route.handler(ctx));
+  await auditAdminRequest(ctx, result);
+  return respond(ctx, result);
 }
 
 /**

@@ -228,6 +228,7 @@ function unactivated(grant) {
     id: grant.id,
     kind: grant.kind,
     days: isSet(grant.days) ? Number(grant.days) : null,
+    createdAt: Number(grant.created_at),
     state: isSet(grant.revoked_at) ? "revoked" : "pending_activation",
     start: null,
     end: null,
@@ -257,7 +258,8 @@ export function grantSchedule(rows, now, cfg, coverage) {
     const pieces = start === INF ? [] : packInto(runs, start, seconds, limit);
     cursor = pieces.length ? pieces[pieces.length - 1].end : cursor;
     const span = spanOf(pieces);
-    return { id: grant.id, kind: grant.kind, days: isSet(grant.days) ? Number(grant.days) : null, state: grantState(grant, span, now), ...span, pieces };
+    const days = isSet(grant.days) ? Number(grant.days) : null;
+    return { id: grant.id, kind: grant.kind, days, createdAt: Number(grant.created_at), state: grantState(grant, span, now), ...span, pieces };
   });
 }
 
