@@ -51,7 +51,8 @@ const CLAIM_CHECKS = [
  * @param {{fetchImpl?: function, now: number, nonce: string, jwksTimeoutMs?: number}} opts Injectables and
  *   the expected nonce (a missing one fails closed as bad_nonce).
  * @returns {Promise<{ok: true, expiresAt: number, nonce: string, identity: {subject: string, email: string,
- *                    emailNormalized: string, hd: string|null, name: string|null}}|{ok: false, reason: string}>} Result.
+ *                    emailNormalized: string, hd: string|null, authoritative: boolean, name: string|null}}|
+ *                   {ok: false, reason: string}>} Result.
  */
 export async function verifyGoogleIdToken(idToken, env, opts) {
   const clientIds = googleClientIds(env);
@@ -69,6 +70,8 @@ export async function verifyGoogleIdToken(idToken, env, opts) {
       return { ok: false, reason };
     }
   }
+  const emailNormalized = normalizeEmail(claims.email);
+  const hd = typeof claims.hd === "string" && claims.hd ? claims.hd : null;
   return {
     ok: true,
     expiresAt: claims.exp,
@@ -76,9 +79,23 @@ export async function verifyGoogleIdToken(idToken, env, opts) {
     identity: {
       subject: claims.sub,
       email: String(claims.email).trim(),
-      emailNormalized: normalizeEmail(claims.email),
-      hd: typeof claims.hd === "string" && claims.hd ? claims.hd : null,
+      emailNormalized,
+      hd,
+      authoritative: isGoogleAuthoritative(emailNormalized, hd),
       name: typeof claims.name === "string" ? claims.name.slice(0, 80) : null
     }
   };
+}
+
+/**
+ * Google proves mailbox ownership only for its own consumer domain and for
+ * Workspace accounts (the `hd` claim). For any other address, a verified
+ * Google email only says the address was verified once, possibly by an
+ * earlier holder of a since-reassigned mailbox.
+ * @param {string} emailNormalized Normalized email.
+ * @param {string|null} hd Hosted domain claim.
+ * @returns {boolean} Authoritative.
+ */
+export function isGoogleAuthoritative(emailNormalized, hd) {
+  return emailNormalized.endsWith("@gmail.com") || hd !== null;
 }

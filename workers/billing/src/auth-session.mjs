@@ -34,7 +34,8 @@ export function checkTerms(ctx) {
  * @param {Object} ctx Context.
  * @param {Object} account Account row.
  * @param {"google"|"microsoft"|"email"} method Sign-in method.
- * @param {{emailVerified: boolean}} proof What this sign-in proved about the email.
+ * @param {{emailVerified: boolean, subject: string}} proof What this sign-in proved about the email, and
+ *   the identity subject (of `method`) that signed in, recorded on the session.
  * @returns {Promise<Object>} Result with the me payload and the session cookie.
  */
 export async function completeSignIn(ctx, account, method, proof) {
@@ -46,7 +47,7 @@ export async function completeSignIn(ctx, account, method, proof) {
   if (ctx.session) {
     await revokeSession(ctx, ctx.session.id);
   }
-  const { token, session, maxAge } = await createSession(ctx, account.id, method);
+  const { token, session, maxAge } = await createSession(ctx, account.id, method, proof.subject);
   const fresh = await getAccount(ctx.db, account.id);
   return { status: 200, body: await buildMePayload(ctx, fresh, session), setCookie: sessionCookie(token, maxAge) };
 }

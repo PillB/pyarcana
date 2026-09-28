@@ -272,16 +272,26 @@ const MIGRATION_1 = [
 const MIGRATION_2 = ["ALTER TABLE reports ADD COLUMN improvement TEXT"];
 
 /**
- * Migration 3 (review round 1, DESIGN-v3 §B): single-use OIDC nonces. The
- * key is HMAC(pepper, nonce); a row lives until its token could no longer
- * verify (exp + skew), then the daily sweep drops it.
+ * Migration 3 (review round 1):
+ * - used_nonces (DESIGN-v3 §B): single-use OIDC nonces. The key is
+ *   HMAC(pepper, nonce); a row lives until its token could no longer verify
+ *   (exp + skew), then the daily sweep drops it.
+ * - sessions.identity_subject: WHICH identity (of the session's `method`
+ *   provider) created the session, so the admin rule can require the admin's
+ *   own Google identity rather than any Google identity linked to the account.
+ * - identities.email_authoritative: 1 when the provider proves mailbox
+ *   ownership of email_at_link (an email code; Google for @gmail.com or a
+ *   Workspace `hd` address). Only authoritative addresses count for admin and
+ *   trial claims.
  */
 const MIGRATION_3 = [
   `CREATE TABLE IF NOT EXISTS used_nonces (
      hash TEXT PRIMARY KEY,
      expires_at INTEGER NOT NULL
    )`,
-  `CREATE INDEX IF NOT EXISTS idx_used_nonces_expires ON used_nonces (expires_at)`
+  `CREATE INDEX IF NOT EXISTS idx_used_nonces_expires ON used_nonces (expires_at)`,
+  "ALTER TABLE sessions ADD COLUMN identity_subject TEXT",
+  "ALTER TABLE identities ADD COLUMN email_authoritative INTEGER NOT NULL DEFAULT 0"
 ];
 
 /** Every migration, in order. Append only; never edit a shipped one. */

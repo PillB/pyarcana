@@ -8,6 +8,9 @@
  *   idle one is signed out after 30 days.
  * - Revoked or expired sessions, and sessions of disabled or deleted accounts,
  *   are refused.
+ * - A session records WHICH identity created it (identity_subject, of the
+ *   `method` provider), and every read joins that identity (SESSION_SELECT),
+ *   so the admin rule can check the admin's own Google identity.
  */
 
 import { accountBlockReason, getAccount } from "./accounts.mjs";
@@ -25,6 +28,21 @@ export const RECENT_AUTH_SECONDS = 600;
 
 const TOKEN_SHAPE = /^[A-Za-z0-9_-]{43}$/;
 
+/** A session row plus the identity that created it (null fields when none). */
+export const SESSION_SELECT = `SELECT s.*, i.account_id AS identity_account_id, i.email_at_link AS identity_email,
+    i.email_authoritative AS identity_authoritative
+  FROM sessions s LEFT JOIN identities i ON i.provider = s.method AND i.subject = s.identity_subject`;
+
+/**
+ * Read one session (with its identity) by id.
+ * @param {Object} db D1 binding.
+ * @param {string} id Session id.
+ * @returns {Promise<Object|null>} Row.
+ */
+export function getSession(db, id) {
+  return db.prepare(`${SESSION_SELECT} WHERE s.id = ?1`).bind(id).first();
+}
+
 /**
  * Expiry for a session created at `createdAt`, evaluated at `now`.
  * @param {Object} env Worker env.
@@ -41,27 +59,23 @@ function expiryAt(env, createdAt, now) {
  * @param {{env: Object, db: Object, now: number}} ctx Context.
  * @param {string} accountId Account id.
  * @param {"google"|"microsoft"|"email"} method How the user proved themselves.
- * @returns {Promise<{token: string, session: Object, maxAge: number}>} The token, once.
+ * @param {string|null} [identitySubject] The identity (of `method`) that signed in.
+ * @returns {Promise<{token: string, session: Object, maxAge: number}>} The token, once; the
+ *   session row as SESSION_SELECT reads it.
  */
-export async function createSession(ctx, accountId, method) {
+export async function createSession(ctx, accountId, method, identitySubject = null) {
   const token = randomToken();
-  const session = {
-    id: randomId("sess"),
-    account_id: accountId,
-    method,
-    created_at: ctx.now,
-    renewed_at: ctx.now,
-    expires_at: expiryAt(ctx.env, ctx.now, ctx.now),
-    revoked_at: null
-  };
+  const id = randomId("sess");
+  const expiresAt = expiryAt(ctx.env, ctx.now, ctx.now);
   await ctx.db
     .prepare(
-      `INSERT INTO sessions (id, account_id, token_hash, method, created_at, renewed_at, expires_at)
-       VALUES (?1, ?2, ?3, ?4, ?5, ?5, ?6)`
+      `INSERT INTO sessions (id, account_id, token_hash, method, created_at, renewed_at, expires_at, identity_subject)
+       VALUES (?1, ?2, ?3, ?4, ?5, ?5, ?6, ?7)`
     )
-    .bind(session.id, accountId, await sha256Hex(token), method, ctx.now, session.expires_at)
+    .bind(id, accountId, await sha256Hex(token), method, ctx.now, expiresAt, identitySubject)
     .run();
-  return { token, session, maxAge: session.expires_at - ctx.now };
+  const session = await getSession(ctx.db, id);
+  return { token, session, maxAge: expiresAt - ctx.now };
 }
 
 /**
@@ -111,7 +125,7 @@ export async function resolveSession(ctx, token) {
   if (typeof token !== "string" || !TOKEN_SHAPE.test(token)) {
     return { ok: false, reason: "no_session" };
   }
-  const session = await ctx.db.prepare("SELECT * FROM sessions WHERE token_hash = ?1").bind(await sha256Hex(token)).first();
+  const session = await ctx.db.prepare(`${SESSION_SELECT} WHERE s.token_hash = ?1`).bind(await sha256Hex(token)).first();
   const sessionReason = sessionBlockReason(session, ctx.now);
   if (sessionReason) {
     return { ok: false, reason: sessionReason };

@@ -122,7 +122,7 @@ async function accountForProvenEmail(ctx, email) {
   const account = existing || (await createAccount(ctx, { email, emailNormalized: email, emailVerified: true }));
   // The address is proven either way; an email identity left on another
   // account (after an admin rectification) must not block the sign-in.
-  await linkIdentity(ctx, { provider: "email", subject: email, accountId: account.id, emailAtLink: email });
+  await linkIdentity(ctx, { provider: "email", subject: email, accountId: account.id, emailAtLink: email, emailAuthoritative: true });
   return account;
 }
 
@@ -155,5 +155,5 @@ export async function handleEmailVerify(ctx) {
     return { status: 401, body: { ok: false, reason: verified.reason } };
   }
   const account = await accountForProvenEmail(ctx, email);
-  return completeSignIn(ctx, account, "email", { emailVerified: true });
+  return completeSignIn(ctx, account, "email", { emailVerified: true, subject: email });
 }

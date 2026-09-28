@@ -7,6 +7,7 @@
  * are is an `identities` row, keyed (provider, subject).
  */
 
+import { normalizeEmail } from "./address.mjs";
 import { adminEmails } from "./config.mjs";
 import { randomId } from "./crypto.mjs";
 
@@ -145,17 +146,20 @@ export async function hasProviderIdentity(db, accountId, provider) {
 /**
  * Attach an identity to an account. Idempotent for the same account; an
  * identity already owned by another account is refused, never moved.
+ * `emailAuthoritative`: the provider proves mailbox ownership of emailAtLink
+ * (an email code; Google for @gmail.com or a Workspace hd address).
  * @param {{db: Object, now: number}} ctx Context.
- * @param {{provider: string, subject: string, accountId: string, emailAtLink: string|null}} link Link.
+ * @param {{provider: string, subject: string, accountId: string, emailAtLink: string|null,
+ *          emailAuthoritative?: boolean}} link Link.
  * @returns {Promise<{ok: true, accountId: string}|{ok: false, reason: string, accountId: string}>} Result.
  */
 export async function linkIdentity(ctx, link) {
   await ctx.db
     .prepare(
-      `INSERT INTO identities (provider, subject, account_id, email_at_link, created_at)
-       VALUES (?1, ?2, ?3, ?4, ?5) ON CONFLICT (provider, subject) DO NOTHING`
+      `INSERT INTO identities (provider, subject, account_id, email_at_link, created_at, email_authoritative)
+       VALUES (?1, ?2, ?3, ?4, ?5, ?6) ON CONFLICT (provider, subject) DO NOTHING`
     )
-    .bind(link.provider, link.subject, link.accountId, link.emailAtLink || null, ctx.now)
+    .bind(link.provider, link.subject, link.accountId, link.emailAtLink || null, ctx.now, link.emailAuthoritative ? 1 : 0)
     .run();
   const row = await findIdentity(ctx.db, link.provider, link.subject);
   if (row.account_id === link.accountId) {
@@ -224,13 +228,35 @@ export async function activeRoles(ctx, accountId) {
 }
 
 /**
+ * True when the Google identity that created this session proves the
+ * account's own address: it belongs to this account, Google is
+ * authoritative for its address, and that address IS the account's email.
+ * Session rows carry the identity through sessions.SESSION_SELECT.
+ * @param {Object} account Account row.
+ * @param {Object} session Session row (with identity_* fields).
+ * @returns {boolean} Proven.
+ */
+function sessionProvesAdminAddress(account, session) {
+  return (
+    session.method === "google" &&
+    Boolean(session.identity_subject) &&
+    session.identity_account_id === account.id &&
+    Number(session.identity_authoritative) === 1 &&
+    normalizeEmail(session.identity_email) === account.email_normalized
+  );
+}
+
+/**
  * Why this session is not an admin session, or null when it is.
  *
- * The admin rule (DESIGN-v2 §4): a verified email listed in ADMIN_EMAILS
- * (read per request) AND a Google session created within the last 12 hours.
- * Admin is never stored. A listed, verified admin whose session fails only
- * the Google/freshness part gets "reauth_required" (sign in with Google
- * again); everyone else gets "forbidden", so a non-admin learns nothing.
+ * The admin rule (DESIGN-v2 §4, tightened in review round 1): a verified
+ * email listed in ADMIN_EMAILS (read per request) AND a session created
+ * within the last 12 hours by a Google identity that is authoritative for
+ * THAT address (sessionProvesAdminAddress). Any other Google account linked
+ * to the admin account (e.g. by someone holding one emailed code) never
+ * makes admin. Admin is never stored. A listed, verified admin whose session
+ * fails only the Google part gets "reauth_required" (sign in with your own
+ * Google again); everyone else gets "forbidden", so a non-admin learns nothing.
  * @param {Object} env Worker env.
  * @param {Object} account Account row.
  * @param {Object} session Session row.
@@ -243,8 +269,18 @@ export function adminDenial(env, account, session, now) {
   if (!listed) {
     return "forbidden";
   }
-  const fresh = session.method === "google" && now - Number(session.created_at) <= ADMIN_SESSION_SECONDS;
-  return fresh ? null : "reauth_required";
+  const fresh = now - Number(session.created_at) <= ADMIN_SESSION_SECONDS;
+  return fresh && sessionProvesAdminAddress(account, session) ? null : "reauth_required";
+}
+
+/**
+ * True when the account's address is listed in ADMIN_EMAILS (verified or not).
+ * @param {Object} env Worker env.
+ * @param {Object} account Account row.
+ * @returns {boolean} Listed.
+ */
+export function isListedAdminAddress(env, account) {
+  return Boolean(account && account.email_normalized) && adminEmails(env).includes(account.email_normalized);
 }
 
 /**
