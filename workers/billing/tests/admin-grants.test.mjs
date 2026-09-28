@@ -86,16 +86,29 @@ test("a gift to an unknown email creates the account; the days wait for the firs
   assert.deepEqual([me.body.access.source, me.body.access.accessEnd], ["gift", NOW + 35 * DAY]);
 });
 
+/**
+ * A fresh Google session for the admin at `at` (admin sessions last 12 h).
+ * @param {Object} env Env.
+ * @param {Object} admin Seeded admin.
+ * @param {number} at Clock.
+ * @returns {Promise<string>} Token.
+ */
+async function adminAt(env, admin, at) {
+  const { createSession } = await import("../src/sessions.mjs");
+  return (await createSession({ env, db: env.DB, now: at }, admin.account.id, "google")).token;
+}
+
 test("an indefinite tester grant runs until revoked, then a queued gift re-flows from the revocation", async () => {
   const { env, admin } = await withAdmin();
   const qa = await seedAccount(env, { email: "qa@example.test" });
   const tester = await grant(env, admin.token, { email: "qa@example.test", days: null, kind: "tester" });
   assert.deepEqual([tester.status, tester.body.grant.days, tester.body.grant.end, tester.body.grant.kind], [201, null, null, "tester"]);
-  const queued = await grant(env, admin.token, { email: "qa@example.test", days: 30 }, { now: NOW + DAY });
+  const queued = await grant(env, await adminAt(env, admin, NOW + DAY), { email: "qa@example.test", days: 30 }, { now: NOW + DAY });
   assert.deepEqual([queued.body.grant.state, queued.body.grant.start], ["upcoming", null]);
   let me = await api(env, "GET", "/v1/me", { cookie: qa.token, now: NOW + 2 * DAY });
   assert.deepEqual([me.body.access.source, me.body.access.indefinite, me.body.access.accessEnd], ["tester", true, null]);
-  const revoked = await api(env, "POST", "/v1/admin/grants/revoke", { cookie: admin.token, body: { grantId: tester.body.grant.id, reason: "fin de la beta" }, now: NOW + 10 * DAY });
+  const later = await adminAt(env, admin, NOW + 10 * DAY);
+  const revoked = await api(env, "POST", "/v1/admin/grants/revoke", { cookie: later, body: { grantId: tester.body.grant.id, reason: "fin de la beta" }, now: NOW + 10 * DAY });
   assert.deepEqual([revoked.status, revoked.body.grant.state, revoked.body.grant.end], [200, "revoked", NOW + 10 * DAY]);
   me = await api(env, "GET", "/v1/me", { cookie: qa.token, now: NOW + 11 * DAY });
   assert.deepEqual([me.body.access.source, me.body.access.accessEnd], ["gift", NOW + 40 * DAY]);
@@ -193,6 +206,7 @@ test("the list answers who holds which kind of Pro, in which state, newest first
   await seedAccount(env, { email: "ana@example.test" });
   await seedAccount(env, { email: "qa@example.test" });
   const gift = await grant(env, admin.token, { email: "ana@example.test", days: 30, note: "n1" }, { now: NOW - 3 * DAY });
+  const queued = await grant(env, admin.token, { email: "ana@example.test", days: 30 }, { now: NOW - 2.5 * DAY });
   const tester = await grant(env, admin.token, { email: "qa@example.test", days: null, kind: "tester" }, { now: NOW - 2 * DAY });
   const pending = await grant(env, admin.token, { email: "nuevo@example.test", days: 7 }, { now: NOW - DAY });
   const gone = await grant(env, admin.token, { email: "ana@example.test", days: 5 }, { now: NOW - 60 });
@@ -205,17 +219,19 @@ test("the list answers who holds which kind of Pro, in which state, newest first
       [gone.body.grant.id, "ana@example.test", "gift", "revoked"],
       [pending.body.grant.id, "nuevo@example.test", "gift", "pending_activation"],
       [tester.body.grant.id, "qa@example.test", "tester", "active"],
+      [queued.body.grant.id, "ana@example.test", "gift", "upcoming"],
       [gift.body.grant.id, "ana@example.test", "gift", "active"]
     ]
   );
   assert.deepEqual(
-    Object.keys(all.grants[3]).sort(),
+    Object.keys(all.grants[4]).sort(),
     ["accountId", "createdAt", "days", "email", "end", "id", "issuedBy", "kind", "note", "requestId", "revokeReason", "revokedAt", "start", "state"].sort()
   );
   assert.deepEqual((await list("?kind=tester&state=active")).grants.map((g) => [g.email, g.days, g.end]), [["qa@example.test", null, null]]);
   assert.deepEqual((await list("?state=pending_activation")).grants.map((g) => g.email), ["nuevo@example.test"]);
   assert.deepEqual((await list("?state=revoked")).grants.map((g) => [g.id, g.revokeReason]), [[gone.body.grant.id, "x"]]);
   assert.deepEqual((await list("?kind=gift&state=active")).grants.map((g) => [g.id, g.issuedBy, g.note]), [[gift.body.grant.id, "owner@gmail.com", "n1"]]);
+  assert.deepEqual((await list("?state=upcoming")).grants.map((g) => [g.id, g.start]), [[queued.body.grant.id, NOW + 30 * DAY]]);
   assert.equal((await list("?limit=2")).grants.length, 2);
   const bad = await api(env, "GET", "/v1/admin/grants?kind=bogus", { cookie: admin.token });
   assert.deepEqual([bad.status, bad.body.reason], [400, "bad_kind"]);

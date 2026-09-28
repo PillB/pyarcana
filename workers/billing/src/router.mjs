@@ -21,6 +21,7 @@ import { handleGoogleSignIn, handleLinkGoogle, handleLinkMicrosoft, handleMicros
 import { handleLogout } from "./auth-session.mjs";
 import { pepperBytes } from "./crypto.mjs";
 import { accessStage, auditAdminRequest } from "./gate.mjs";
+import { handleCreateGrant, handleListGrants, handleRevokeGrant } from "./grants.mjs";
 import {
   DEFAULT_BODY_CAP,
   callerIp,
@@ -36,12 +37,25 @@ import {
   sessionCookie
 } from "./http.mjs";
 import { handleGetMe } from "./me.mjs";
+import { handleGrantRole, handleListRoles, handleRevokeRole } from "./roles.mjs";
 import { handleStartTrial } from "./trial.mjs";
 import { handleHealth, handleMethods, hasDb } from "./public.mjs";
 import { migrate } from "./schema.mjs";
 import { resolveSession } from "./sessions.mjs";
 
 const DB_PEPPER = ["db", "pepper"];
+
+/**
+ * An admin route: session + admin gate + audit, db and pepper required.
+ * @param {string} method HTTP method.
+ * @param {string} path Path.
+ * @param {function} handler Handler.
+ * @param {string} audit Audit action name.
+ * @returns {Object} Route.
+ */
+function adminRoute(method, path, handler, audit) {
+  return { method, path, handler, needs: DB_PEPPER, auth: "session", access: "admin", audit };
+}
 
 /**
  * The route table. `auth`: "session" (required) | "optional" | undefined.
@@ -59,7 +73,13 @@ export const ROUTES = [
   { method: "GET", path: "/v1/me", handler: handleGetMe, needs: ["db"], auth: "session" },
   { method: "POST", path: "/v1/me/trial", handler: handleStartTrial, needs: DB_PEPPER, auth: "session" },
   { method: "POST", path: "/v1/me/link/google", handler: handleLinkGoogle, needs: DB_PEPPER, auth: "session" },
-  { method: "POST", path: "/v1/me/link/microsoft", handler: handleLinkMicrosoft, needs: DB_PEPPER, auth: "session" }
+  { method: "POST", path: "/v1/me/link/microsoft", handler: handleLinkMicrosoft, needs: DB_PEPPER, auth: "session" },
+  adminRoute("POST", "/v1/admin/grants", handleCreateGrant, "admin.grants.create"),
+  adminRoute("POST", "/v1/admin/grants/revoke", handleRevokeGrant, "admin.grants.revoke"),
+  adminRoute("GET", "/v1/admin/grants", handleListGrants, "admin.grants.list"),
+  adminRoute("POST", "/v1/admin/roles", handleGrantRole, "admin.roles.grant"),
+  adminRoute("POST", "/v1/admin/roles/revoke", handleRevokeRole, "admin.roles.revoke"),
+  adminRoute("GET", "/v1/admin/roles", handleListRoles, "admin.roles.list")
 ];
 
 /**

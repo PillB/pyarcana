@@ -20,9 +20,10 @@
  * revoked_by and revoke_reason.
  */
 
-import { findOrCreateByEmail } from "./accounts.mjs";
+import { grantSchedule } from "./access.mjs";
+import { findLiveAccountByEmail, findOrCreateByEmail } from "./accounts.mjs";
 import { randomId } from "./crypto.mjs";
-import { accessSnapshot } from "./entitlement.mjs";
+import { accessConfig, accessSnapshot } from "./entitlement.mjs";
 import {
   badRequest,
   daysValue,
@@ -36,7 +37,6 @@ import {
   requestIdValue,
   requiredText
 } from "./input.mjs";
-import { listScheduledGrants } from "./grant-list.mjs";
 
 /** Kinds an admin may issue (trials come only from POST /v1/me/trial). */
 export const ADMIN_GRANT_KINDS = ["gift", "tester"];
@@ -131,7 +131,7 @@ function grantWarnings(account, created, snapshot) {
  * True when a stored grant matches a (re)submitted create body.
  * @param {Object} row Stored grant.
  * @param {Object} input Parsed body.
- * @param {string} accountId Target account id.
+ * @param {string|null} accountId Account id the submitted email resolves to.
  * @returns {boolean} Same request.
  */
 function sameRequest(row, input, accountId) {
@@ -166,18 +166,21 @@ function createBatch(ctx, input, grantId, target) {
 }
 
 /**
- * The answer for a replayed requestId.
+ * The answer for a replayed requestId. `targetId` is the live account that
+ * holds the submitted email now (null when none): a replay aimed at another
+ * address is a mismatch, and nothing is created for it.
  * @param {Object} ctx Context.
  * @param {Object} stored Stored grant row (with emails).
  * @param {Object} input Parsed body.
- * @param {Object} account Target account.
+ * @param {string|null} targetId Account id for the submitted email.
  * @returns {Promise<Object>} Result.
  */
-async function replayResult(ctx, stored, input, account) {
+async function replayResult(ctx, stored, input, targetId) {
   const audit = { targetAccountId: stored.account_id, targetId: stored.id, detail: { deduplicated: true } };
-  if (!sameRequest(stored, input, account.id)) {
+  if (!sameRequest(stored, input, targetId)) {
     return { status: 409, body: { ok: false, reason: "idempotency_mismatch", grantId: stored.id }, audit };
   }
+  const account = await accountRow(ctx, stored.account_id);
   const { view, snapshot } = await viewWithSchedule(ctx, stored, account);
   const body = { ok: true, deduplicated: true, account: accountSummary(account), grant: view, warnings: grantWarnings(account, false, snapshot) };
   return { status: 200, body, audit };
@@ -215,14 +218,15 @@ export async function handleCreateGrant(ctx) {
   const input = parsed.values;
   const earlier = await grantRow(ctx.db, "g.issued_by = ?1 AND g.request_id = ?2", ctx.account.id, input.requestId);
   if (earlier) {
-    return replayResult(ctx, earlier, input, await findOrCreateByEmail(ctx, input.email).then((t) => t.account));
+    const holder = await findLiveAccountByEmail(ctx.db, input.email);
+    return replayResult(ctx, earlier, input, holder ? holder.id : null);
   }
   const target = await findOrCreateByEmail(ctx, input.email);
   const grantId = randomId("grant");
   await ctx.db.batch(createBatch(ctx, input, grantId, { accountId: target.account.id, created: target.created }));
   const stored = await grantRow(ctx.db, "g.issued_by = ?1 AND g.request_id = ?2", ctx.account.id, input.requestId);
   if (stored.id !== grantId) {
-    return replayResult(ctx, stored, input, target.account);
+    return replayResult(ctx, stored, input, target.account.id);
   }
   const { view, snapshot } = await viewWithSchedule(ctx, stored, target.account);
   const body = { ok: true, deduplicated: false, account: accountSummary(target.account), grant: view, warnings: grantWarnings(target.account, target.created, snapshot) };
@@ -264,6 +268,99 @@ const LIST_FIELDS = [
   ["kind", (q) => enumValue(q.kind, ["trial", "gift", "tester"], null), "bad_kind"],
   ["state", (q) => enumValue(q.state, LIST_STATES, "all"), "bad_state"]
 ];
+
+const ACTIVATED = "g.revoked_at IS NULL AND a.first_signin_at IS NOT NULL";
+
+/** SQL prefilter per state; `exact` states need no post-filter. */
+const STATE_SQL = {
+  all: { sql: "1 = 1", exact: true },
+  revoked: { sql: "g.revoked_at IS NOT NULL", exact: true },
+  pending_activation: { sql: "g.revoked_at IS NULL AND a.first_signin_at IS NULL", exact: true },
+  active: { sql: ACTIVATED, exact: false },
+  upcoming: { sql: ACTIVATED, exact: false },
+  used: { sql: ACTIVATED, exact: false }
+};
+
+/** Rows scanned when the state has to be computed (active/upcoming/used). */
+export const COMPUTED_STATE_SCAN = 500;
+
+/**
+ * The five statements of the list batch: the candidate grants with emails,
+ * then every row resolveAccess needs for the candidates' accounts.
+ * @param {string} stateSql State prefilter.
+ * @returns {string[]} SQL texts (each binds ?1 kind|null, ?2 scan).
+ */
+function listStatements(stateSql) {
+  const cand = `WITH cand AS (SELECT g.id, g.account_id FROM grants g JOIN accounts a ON a.id = g.account_id
+      WHERE (?1 IS NULL OR g.kind = ?1) AND ${stateSql} ORDER BY g.created_at DESC, g.id DESC LIMIT ?2)`;
+  const accounts = "(SELECT account_id FROM cand)";
+  return [
+    `${cand} ${GRANT_WITH_EMAILS} WHERE g.id IN (SELECT id FROM cand) ORDER BY g.created_at DESC, g.id DESC`,
+    `${cand} SELECT * FROM accounts WHERE id IN ${accounts}`,
+    `${cand} SELECT * FROM grants WHERE account_id IN ${accounts}`,
+    `${cand} SELECT * FROM subscriptions WHERE account_id IN ${accounts}`,
+    `${cand} SELECT * FROM charges WHERE account_id IN ${accounts}
+       OR subscription_id IN (SELECT id FROM subscriptions WHERE account_id IN ${accounts})`
+  ];
+}
+
+/**
+ * Group rows by a key.
+ * @param {Object[]} rows Rows.
+ * @param {function(Object): string} keyOf Key function.
+ * @returns {Map<string, Object[]>} Groups.
+ */
+function groupBy(rows, keyOf) {
+  const groups = new Map();
+  for (const row of rows) {
+    const key = keyOf(row);
+    groups.set(key, (groups.get(key) || []).concat(row));
+  }
+  return groups;
+}
+
+/**
+ * Schedule every grant of every listed account.
+ * @param {Object} ctx Context.
+ * @param {Object[][]} tables [accounts, grants, subscriptions, charges] rows.
+ * @returns {Map<string, Object>} Grant id -> schedule entry.
+ */
+function scheduleAll(ctx, [accounts, grants, subscriptions, charges]) {
+  const subAccount = new Map(subscriptions.map((s) => [s.id, s.account_id]));
+  const byAccount = {
+    grants: groupBy(grants, (g) => g.account_id),
+    subscriptions: groupBy(subscriptions, (s) => s.account_id),
+    charges: groupBy(charges, (c) => c.account_id || subAccount.get(c.subscription_id))
+  };
+  const entries = new Map();
+  for (const account of accounts) {
+    const rows = {
+      account,
+      grants: byAccount.grants.get(account.id) || [],
+      subscriptions: byAccount.subscriptions.get(account.id) || [],
+      charges: byAccount.charges.get(account.id) || []
+    };
+    grantSchedule(rows, ctx.now, accessConfig(ctx.env)).forEach((entry) => entries.set(entry.id, entry));
+  }
+  return entries;
+}
+
+/**
+ * Newest grants matching a kind and state, with computed states, in one batch.
+ * @param {Object} ctx Context.
+ * @param {{kind: string|null, state: string, limit: number}} query Query.
+ * @returns {Promise<{grants: Object[], partial: boolean}>} Views; `partial` when the computed-state scan hit its cap.
+ */
+async function listScheduledGrants(ctx, query) {
+  const plan = STATE_SQL[query.state];
+  const scan = plan.exact ? query.limit : COMPUTED_STATE_SCAN;
+  const results = await ctx.db.batch(listStatements(plan.sql).map((sqlText) => ctx.db.prepare(sqlText).bind(query.kind, scan)));
+  const [listed, ...tables] = results.map((r) => r.results);
+  const entries = scheduleAll(ctx, tables);
+  const views = listed.map((row) => adminGrantView(row, entries.get(row.id)));
+  const matching = plan.exact ? views : views.filter((view) => view.state === query.state);
+  return { grants: matching.slice(0, query.limit), partial: !plan.exact && listed.length === scan };
+}
 
 /**
  * GET /v1/admin/grants.
