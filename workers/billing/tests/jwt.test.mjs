@@ -8,7 +8,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createHmac } from "node:crypto";
 
-import { CLOCK_SKEW_SECONDS, checkTimes, clearJwksCache, decodeJwt, verifyRs256 } from "../src/jwt.mjs";
+import { CLOCK_SKEW_SECONDS, JWKS_FETCH_TIMEOUT_MS, MAX_TOKEN_LIFETIME_SECONDS, checkTimes, clearJwksCache, decodeJwt, verifyRs256 } from "../src/jwt.mjs";
 import { NOW, b64url, createFakeFetch, makeSigner } from "./fixtures.mjs";
 
 const URL_A = "https://keys.example.test/a";
@@ -166,4 +166,62 @@ test("checkTimes allows 300 s of skew and no more", () => {
   assert.equal(checkTimes({ exp: NOW + 60 }, NOW), "missing_time");
   assert.equal(checkTimes({ ...base, exp: "later" }, NOW), "missing_time");
   assert.equal(checkTimes({ ...base, nbf: "soon" }, NOW), "missing_time");
+});
+
+test("checkTimes refuses a token that claims to live longer than 24 h (DESIGN-v3 §B)", () => {
+  assert.equal(MAX_TOKEN_LIFETIME_SECONDS, 86400);
+  assert.equal(checkTimes({ iat: NOW, exp: NOW + 86400 }, NOW), null);
+  assert.equal(checkTimes({ iat: NOW, exp: NOW + 86401 }, NOW), "lifetime_too_long");
+  assert.equal(checkTimes({ iat: NOW - 9 * 365 * 86400, exp: NOW + 365 * 86400 }, NOW), "lifetime_too_long", "a 10-year token used 9 years on");
+});
+
+/**
+ * A fetch that accepts the request and never answers, except by honouring
+ * its AbortSignal (as the platform fetch does). Records each init.
+ * @returns {{fetchImpl: function, inits: Object[]}} Fake.
+ */
+function stallingFetch() {
+  const inits = [];
+  const pending = [];
+  const fetchImpl = (url, init) => {
+    inits.push(init);
+    return new Promise((resolve, reject) => {
+      pending.push(reject);
+      if (init && init.signal) {
+        init.signal.addEventListener("abort", () => reject(init.signal.reason || new Error("aborted")));
+      }
+    });
+  };
+  const release = () => pending.forEach((reject) => reject(new Error("released by the test")));
+  return { fetchImpl, inits, release };
+}
+
+test("a JWKS endpoint that accepts and stalls is abandoned at the timeout: jwks_unavailable, not a hung request", { timeout: 3000 }, async () => {
+  clearJwksCache();
+  const signer = await makeSigner("k1");
+  const stall = stallingFetch();
+  const started = Date.now();
+  const result = await verifyRs256(await signer.sign(CLAIMS), { jwksUrl: URL_A, fetchImpl: stall.fetchImpl, now: NOW, jwksTimeoutMs: 50 });
+  assert.deepEqual(result, { ok: false, reason: "jwks_unavailable" });
+  assert.ok(Date.now() - started < 2000, "it did not wait for the platform to kill the request");
+  assert.ok(stall.inits[0].signal instanceof AbortSignal, "the fetch carries an abort signal");
+});
+
+test("the production JWKS fetch carries a 5 s abort signal; a refresh that stalls keeps the stale keys working", { timeout: 3000 }, async () => {
+  assert.equal(JWKS_FETCH_TIMEOUT_MS, 5000);
+  clearJwksCache();
+  const signer = await makeSigner("k1");
+  const stall = stallingFetch();
+  const pending = verifyRs256(await signer.sign(CLAIMS), { jwksUrl: URL_A, fetchImpl: stall.fetchImpl, now: NOW });
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.ok(stall.inits[0] && stall.inits[0].signal instanceof AbortSignal, "the default fetch has a signal");
+  assert.equal(stall.inits[0].signal.aborted, false, "a timeout, not an immediate abort");
+  stall.release();
+  assert.deepEqual(await pending, { ok: false, reason: "jwks_unavailable" });
+  clearJwksCache();
+  const warm = createFakeFetch({ jwks: { [URL_A]: { keys: [signer.jwk] } } });
+  const token = await signer.sign({ ...CLAIMS, exp: NOW + 9000 });
+  assert.equal((await verifyRs256(token, { jwksUrl: URL_A, fetchImpl: warm.fetchImpl, now: NOW })).ok, true);
+  const later = await verifyRs256(token, { jwksUrl: URL_A, fetchImpl: stallingFetch().fetchImpl, now: NOW + 3601, jwksTimeoutMs: 50 });
+  assert.equal(later.ok, true, "the expired cache is refreshed, the refresh stalls and times out, the stale keys still verify");
 });

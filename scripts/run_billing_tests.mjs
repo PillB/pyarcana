@@ -33,7 +33,7 @@ export const SUITES = [
   ["d1-fake", 11],
   ["crypto", 12],
   ["http", 15],
-  ["schema", 14],
+  ["schema", 15],
   ["ratelimit", 6],
   ["address", 5],
   ["config", 6],
@@ -47,10 +47,21 @@ export const SUITES = [
   ["google", 16],
   ["microsoft", 19],
   ["session-routes", 5],
-  ["retention", 5],
+  ["retention", 6],
   ["wrangler", 5],
   ["audit", 3],
-  ["runner", 5]
+  ["runner", 6],
+  // Stage 1b: entitlement, trial, admin, progress, reports, privacy.
+  ["access", 35],
+  ["me", 6],
+  ["trial", 12],
+  ["admin-auth", 10],
+  ["admin-grants", 9],
+  ["admin-roles", 5],
+  ["admin-accounts", 4],
+  ["progress", 8],
+  ["reports", 9],
+  ["privacy", 8]
 ].map(([name, floor]) => ({ group: "worker", file: `${WORKER_TESTS}/${name}.test.mjs`, floor }));
 
 /**

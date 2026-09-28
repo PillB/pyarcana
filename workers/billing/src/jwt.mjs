@@ -9,8 +9,12 @@
  *   tokens with random kids cannot turn the worker into a fetch amplifier.
  *   If a refresh fails, the stale keys keep working (the provider rotates
  *   with overlap), and the next attempt waits a minute.
+ * - A JWKS fetch is aborted after 5 s: a provider that accepts the
+ *   connection and stalls counts as a failed fetch (stale keys, 60 s back-off)
+ *   instead of hanging every sign-in until the platform kills the request.
  * - Issuer, audience and other claim rules belong to the caller (google.mjs,
- *   microsoft.mjs); `checkTimes` is the shared exp/iat/nbf rule (±300 s).
+ *   microsoft.mjs); `checkTimes` is the shared exp/iat/nbf rule (±300 s, and
+ *   exp - iat <= 24 h).
  */
 
 import { base64UrlToBytes, base64UrlToString } from "./crypto.mjs";
@@ -23,6 +27,12 @@ export const JWKS_TTL_SECONDS = 3600;
 
 /** Minimum spacing between fetches of the same key set. */
 export const JWKS_MIN_REFETCH_SECONDS = 60;
+
+/** Longest lifetime (exp - iat) a provider ID token may claim (DESIGN-v3 §B). */
+export const MAX_TOKEN_LIFETIME_SECONDS = 86400;
+
+/** A JWKS fetch that has not answered by then is abandoned (DESIGN-v3 §B). */
+export const JWKS_FETCH_TIMEOUT_MS = 5000;
 
 /** Longest token accepted. */
 const MAX_TOKEN_LENGTH = 8192;
@@ -101,11 +111,21 @@ function isRs256SigningKey(jwk) {
  * @returns {Promise<Object>} Cache entry.
  */
 async function fetchJwks(url, opts) {
-  const response = await (opts.fetchImpl || fetch)(url, { method: "GET", headers: { accept: "application/json" } });
-  if (!response.ok) {
-    throw new Error(`jwks fetch failed: ${response.status}`);
+  // An explicit controller + timer (cleared when done) rather than
+  // AbortSignal.timeout: the same abort, but the timer is not unref'd, so it
+  // fires even when nothing else keeps the event loop alive (Node tests).
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(new Error("jwks fetch timed out")), opts.jwksTimeoutMs || JWKS_FETCH_TIMEOUT_MS);
+  let body;
+  try {
+    const response = await (opts.fetchImpl || fetch)(url, { method: "GET", headers: { accept: "application/json" }, signal: controller.signal });
+    if (!response.ok) {
+      throw new Error(`jwks fetch failed: ${response.status}`);
+    }
+    body = await response.json();
+  } finally {
+    clearTimeout(timer);
   }
-  const body = await response.json();
   const keys = (body && Array.isArray(body.keys) ? body.keys : []).filter(isRs256SigningKey);
   const entry = { keys, fetchedAt: opts.now, retryAt: opts.now + JWKS_MIN_REFETCH_SECONDS, imported: new Map() };
   cache.set(url, entry);
@@ -201,7 +221,8 @@ async function signatureValid(entry, jwk, decoded) {
 /**
  * Verify an RS256 token's signature against a JWKS.
  * @param {unknown} token Compact token.
- * @param {{jwksUrl: string, fetchImpl?: function, now: number}} opts Options.
+ * @param {{jwksUrl: string, fetchImpl?: function, now: number, jwksTimeoutMs?: number}} opts Options
+ *   (`jwksTimeoutMs` defaults to JWKS_FETCH_TIMEOUT_MS; tests shorten it).
  * @returns {Promise<{ok: true, header: Object, claims: Object, jwk: Object}|{ok: false, reason: string}>} Result.
  */
 export async function verifyRs256(token, opts) {
@@ -226,7 +247,9 @@ export async function verifyRs256(token, opts) {
 }
 
 /**
- * The shared time rule: exp and iat required, nbf optional, ±300 s.
+ * The shared time rule: exp and iat required, nbf optional, ±300 s, and a
+ * lifetime (exp - iat) of at most 24 h, so a token minted with a far exp
+ * cannot be replayed for years.
  * @param {Object} claims Claims.
  * @param {number} now Clock.
  * @returns {string|null} Reason, or null when valid.
@@ -235,6 +258,9 @@ export function checkTimes(claims, now) {
   const { exp, iat, nbf } = claims;
   if (!Number.isFinite(exp) || !Number.isFinite(iat) || (nbf !== undefined && !Number.isFinite(nbf))) {
     return "missing_time";
+  }
+  if (exp - iat > MAX_TOKEN_LIFETIME_SECONDS) {
+    return "lifetime_too_long";
   }
   if (exp + CLOCK_SKEW_SECONDS <= now) {
     return "expired";

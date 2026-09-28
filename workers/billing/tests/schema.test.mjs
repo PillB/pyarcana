@@ -27,6 +27,7 @@ const EXPECTED_TABLES = [
   "subscription_events",
   "subscriptions",
   "trial_claims",
+  "used_nonces",
   "webhook_events"
 ];
 
@@ -237,10 +238,20 @@ test("migration 2 adds reports.improvement, and a version-1 database upgrades in
   assert.equal((await columns(db, "reports")).has("improvement"), false);
   resetSchemaMemo();
   await migrate(db);
-  assert.equal(await currentVersion(db), 2);
+  assert.equal(await currentVersion(db), SCHEMA_VERSION, "upgraded to the current version in place");
   assert.equal((await columns(db, "reports")).has("improvement"), true);
   assert.equal(await db.prepare("SELECT title FROM reports WHERE id = 'rep_old'").first("title"), "kept");
   resetSchemaMemo();
   await migrate(db);
-  assert.equal(await currentVersion(db), 2, "running again is a no-op");
+  assert.equal(await currentVersion(db), SCHEMA_VERSION, "running again is a no-op");
+});
+
+test("migration 3: used_nonces makes an OIDC nonce single-use (primary key on its HMAC)", async () => {
+  const db = await migrated();
+  const cols = await columns(db, "used_nonces");
+  assert.deepEqual([...cols.keys()], ["hash", "expires_at"]);
+  assert.equal(cols.get("hash").pk, 1);
+  const first = await db.prepare("INSERT INTO used_nonces (hash, expires_at) VALUES ('h', 1) ON CONFLICT (hash) DO NOTHING").run();
+  const second = await db.prepare("INSERT INTO used_nonces (hash, expires_at) VALUES ('h', 2) ON CONFLICT (hash) DO NOTHING").run();
+  assert.deepEqual([first.meta.changes, second.meta.changes], [1, 0]);
 });

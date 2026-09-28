@@ -27,7 +27,7 @@ function defaultLog(line) {
  * Handle one HTTP request.
  * @param {Request} request Incoming request.
  * @param {Object} env Worker env.
- * @param {{fetchImpl?: function, now?: number|function, log?: function}} [opts] Injectables.
+ * @param {{fetchImpl?: function, now?: number|function, log?: function, providers?: Object}} [opts] Injectables.
  * @returns {Promise<Response>} Response.
  */
 export async function handleRequest(request, env, opts = {}) {

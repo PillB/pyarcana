@@ -4,8 +4,8 @@
  *
  * Remote doc: {v:1, sv:<section-id schema version>, state:<progress fields>, changes:{[item]:{present, ts}}}
  * Items: `sec:<id>`, `sub:<id>:<step>`, `bm:<id>`.
- * - An item in either change log: the newest ts wins; a tie goes to present. Present also requires
- *   the item in at least one state, so a change log alone cannot inject progress.
+ * - An item in either change log: the newest ts wins; a tie goes to present. Lists are rebuilt only
+ *   from ids some state holds, so a change log alone cannot inject progress.
  * - Otherwise: union.  quizScores: max.  startDate: earliest.  lastVisited: local (remote only
  *   when local has none).  isHydratedFromServer: ALWAYS local (never forced true).
  * - The remote state passes sanitizePersisted then migrateProgressState before anything else, and
@@ -209,10 +209,10 @@ export function mergeProgress(local: ProgressState, localChanges: ChangeLog, rem
   const changes = recordChanges(localChanges, remote.changes)
   const localItems = itemSet(local)
   const remoteItems = itemSet(remote.state)
+  // Lists are rebuilt only from ids that some state holds, so a change entry alone never adds an item.
   const present = (key: string) => {
-    const inEither = localItems.has(key) || remoteItems.has(key)
     const change = changes[key]
-    return change ? change.present && inEither : inEither
+    return change ? change.present : localItems.has(key) || remoteItems.has(key)
   }
   return { state: buildMerged(local, remote.state, present), changes }
 }

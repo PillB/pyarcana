@@ -32,7 +32,9 @@ async function seed(db) {
     `INSERT INTO checkouts (id, account_id, provider, plan, amount_minor, currency, created_at, status) VALUES ('chk_done', 'acct_1', 'creem', 'pro_monthly', 799, 'USD', ${at(-30 * DAY)}, 'completed')`,
     `INSERT INTO webhook_events (provider, event_id, received_at) VALUES ('creem', 'evt_ancient', ${at(-400 * DAY)})`,
     `INSERT INTO trial_claims (key, claimed_at) VALUES ('claim', ${at(-400 * DAY)})`,
-    `INSERT INTO audit_log (action, created_at) VALUES ('x', ${at(-400 * DAY)})`
+    `INSERT INTO audit_log (action, created_at) VALUES ('x', ${at(-400 * DAY)})`,
+    `INSERT INTO used_nonces (hash, expires_at) VALUES ('nonce_spent_expired', ${at(-1)})`,
+    `INSERT INTO used_nonces (hash, expires_at) VALUES ('nonce_live', ${at(1)})`
   ];
   for (const sql of statements) {
     await db.exec(sql);
@@ -53,7 +55,8 @@ test("the sweep deletes exactly what the policy says", async () => {
   const ctx = await createCtx();
   await seed(ctx.db);
   const counts = await sweepRetention(ctx);
-  assert.deepEqual(counts, { loginCodes: 1, sessions: 1, rateLimits: 1, checkoutsExpired: 1 });
+  assert.deepEqual(counts, { loginCodes: 1, sessions: 1, rateLimits: 1, checkoutsExpired: 1, usedNonces: 1 });
+  assert.deepEqual(await ids(ctx.db, "SELECT hash AS id FROM used_nonces"), ["nonce_live"], "a spent nonce is kept until its token could no longer verify");
   assert.deepEqual(await ids(ctx.db, "SELECT id FROM login_codes"), ["code_recent"]);
   assert.deepEqual(await ids(ctx.db, "SELECT id FROM sessions"), ["sess_recent"]);
   assert.deepEqual(await ids(ctx.db, "SELECT bucket AS id FROM rate_limits"), ["rl_recent"]);
@@ -97,4 +100,27 @@ test("the worker's scheduled entry hands the sweep to waitUntil", async () => {
   assert.equal(pending.length, 1);
   await Promise.all(pending);
   assert.equal(await ctx.db.prepare("SELECT COUNT(*) AS c FROM sessions").first("c"), 1);
+});
+
+test("the sweep keeps every stage-1b table whatever its age: progress, grants, roles, reports, screenshots, billing", async () => {
+  const ctx = await createCtx();
+  await seed(ctx.db);
+  const old = NOW - 400 * DAY;
+  const statements = [
+    `INSERT INTO progress (account_id, rev, doc, size_bytes, updated_at) VALUES ('acct_1', 1, '{}', 2, ${old})`,
+    `INSERT INTO grants (id, account_id, kind, days, created_at, revoked_at) VALUES ('grant_old', 'acct_1', 'gift', 30, ${old}, ${old + 1})`,
+    `INSERT INTO account_roles (account_id, role, created_at, expires_at) VALUES ('acct_1', 'tester', ${old}, ${old + 1})`,
+    `INSERT INTO reports (id, created_at, updated_at, source, status, title) VALUES ('rep_old', ${old}, ${old}, 'feedback', 'fixed', 't')`,
+    `INSERT INTO report_attachments (id, report_id, mime, bytes, created_at) VALUES ('att_old', 'rep_old', 'image/png', x'89504e470d0a1a0a', ${old})`,
+    `INSERT INTO subscriptions (id, account_id, provider, provider_ref, plan, amount_minor, currency, status, created_at, updated_at) VALUES ('sub_old', 'acct_1', 'creem', 'r', 'pro_monthly', 799, 'USD', 'canceled', ${old}, ${old})`,
+    `INSERT INTO charges (id, provider, provider_charge_id, subscription_id, account_id, amount_minor, currency, status, created_at, updated_at) VALUES ('ch_old', 'creem', 'p', 'sub_old', 'acct_1', 799, 'USD', 'approved', ${old}, ${old})`,
+    `INSERT INTO subscription_events (subscription_id, provider, kind, created_at) VALUES ('sub_old', 'creem', 'x', ${old})`
+  ];
+  for (const sqlText of statements) {
+    await ctx.db.exec(sqlText);
+  }
+  await sweepRetention(ctx);
+  for (const table of ["progress", "grants", "account_roles", "reports", "report_attachments", "subscriptions", "charges", "subscription_events"]) {
+    assert.equal(await ctx.db.prepare(`SELECT COUNT(*) AS c FROM ${table}`).first("c"), 1, `${table} is not swept`);
+  }
 });

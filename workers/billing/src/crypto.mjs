@@ -150,6 +150,15 @@ export async function sha256Hex(value) {
   return toHex(await crypto.subtle.digest("SHA-256", encoder.encode(String(value))));
 }
 
+/**
+ * SHA-256 of a UTF-8 string, as unpadded base64url (the OIDC nonce form).
+ * @param {string} value Text.
+ * @returns {Promise<string>} base64url digest.
+ */
+export async function sha256Base64Url(value) {
+  return bytesToBase64Url(await crypto.subtle.digest("SHA-256", encoder.encode(String(value))));
+}
+
 /** One imported HMAC key per pepper value, per isolate. */
 const hmacKeys = new Map();
 

@@ -9,7 +9,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { matchRoute } from "../src/router.mjs";
-import { APP_ORIGIN, api, createEnv } from "./fixtures.mjs";
+import { APP_ORIGIN, api, createEnv, createHarness, seedAccount } from "./fixtures.mjs";
 
 const SECRETS = {
   SERVER_PEPPER: Buffer.alloc(32, 0x61).toString("base64"),
@@ -207,4 +207,26 @@ test("webhook routes skip CSRF and never send CORS headers", async () => {
   );
   assert.equal(res.status, 200);
   assert.equal(res.headers.get("access-control-allow-origin"), null);
+});
+
+test("the one-origin deployment's /api prefix routes like bare /v1 (DESIGN-v3 §A)", async () => {
+  const { env } = await createHarness();
+  const health = await api(env, "GET", "/api/v1/health");
+  assert.deepEqual([health.status, health.body.ok], [200, true]);
+  const preflightRes = await api(env, "OPTIONS", "/api/v1/auth/email/start", {
+    headers: { "Access-Control-Request-Method": "POST", "Access-Control-Request-Headers": "content-type,x-pyarcana" }
+  });
+  assert.equal(preflightRes.status, 204);
+  const learner = await seedAccount(env, { email: "ana@example.test" });
+  const me = await api(env, "GET", "/api/v1/me", { cookie: learner.token });
+  assert.deepEqual([me.status, me.body.account.id], [200, learner.account.id]);
+  assert.equal((await api(env, "GET", "/v1/me", { cookie: learner.token })).status, 200, "bare /v1 still works (local dev, webhooks)");
+});
+
+test("only ONE leading /api segment is stripped; look-alike prefixes are 404", async () => {
+  const env = createEnv();
+  for (const path of ["/api/api/v1/health", "/apiv1/health", "/api", "/API/v1/health", "/x/api/v1/health"]) {
+    const res = await api(env, "GET", path);
+    assert.deepEqual([path, res.status, res.body.reason], [path, 404, "not_found"]);
+  }
 });

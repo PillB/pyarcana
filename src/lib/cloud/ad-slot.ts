@@ -1,0 +1,75 @@
+/**
+ * The pieces of <AdSlot> that are rules rather than markup (DESIGN-v3 §E; research-ads.md).
+ *
+ * - AdSense only after an in-slot opt-in WITH an 18+ attestation; a decline is remembered and
+ *   falls back to a house ad. Stored per device under `pyarcana-adsense-optin-v1`.
+ * - Geo (GET /v1/geo) counts only as a two-letter country; anything else fails closed (house).
+ * - House creatives never promise what the stage cannot deliver: no annual-plan promo before
+ *   payments open, no trial promo to someone who cannot start one, nothing while there is no Pro.
+ *   The pick is stable per section, so the slot never rotates on a sub-step change.
+ * - Every placement reserves a fixed box before anything loads (CLS).
+ */
+import type { ApiResult } from '@/lib/cloud/api'
+import { isGatingStage, type LaunchStage } from '@/lib/cloud/config'
+import type { AdPlacement } from '@/lib/cloud/ads'
+import { fnv1a32 } from '@/lib/cloud/experiments'
+import { isPlainObject, readJson, writeJson, type KeyValueStorage } from '@/lib/cloud/storage'
+
+export const ADSENSE_OPTIN_KEY = 'pyarcana-adsense-optin-v1'
+export const HOUSE_CREATIVES = ['trial', 'annual', 'noads'] as const
+export type HouseCreative = (typeof HOUSE_CREATIVES)[number]
+
+/** Fixed box heights; the house card is written to fit 200 px at a 320 px viewport. */
+export const SLOT_HEIGHT_PX: Readonly<Record<AdPlacement, number>> = {
+  section_end: 200,
+  resources_end: 200,
+  rail: 320,
+  glossary_footer: 120,
+}
+
+export type OptIn = 'unset' | 'accepted' | 'declined'
+
+export function readAdsenseOptIn(storage: KeyValueStorage | null): OptIn {
+  const raw = readJson(storage, ADSENSE_OPTIN_KEY)
+  if (!isPlainObject(raw) || raw.v !== 1) return 'unset'
+  if (raw.value === 'declined') return 'declined'
+  return raw.value === 'accepted' && raw.adult === true ? 'accepted' : 'unset'
+}
+
+/** false (and nothing stored) for an accept without the attestation. */
+export function writeAdsenseOptIn(storage: KeyValueStorage | null, value: 'accepted' | 'declined', adultAttested: boolean, nowMs: number): boolean {
+  if (value === 'accepted' && adultAttested !== true) return false
+  return writeJson(storage, ADSENSE_OPTIN_KEY, { v: 1, value, adult: adultAttested === true, at: new Date(nowMs).toISOString() })
+}
+
+const COUNTRY = /^[A-Z]{2}$/
+
+export function parseGeo(result: ApiResult<Record<string, unknown>>): { status: 'ok' | 'failed'; country: string | null } {
+  const raw = result.ok && typeof result.data.country === 'string' ? result.data.country.toUpperCase() : ''
+  return COUNTRY.test(raw) ? { status: 'ok', country: raw } : { status: 'failed', country: null }
+}
+
+export function houseCreative(i: { sectionKey: string; stage: LaunchStage; trialOffered: boolean }): HouseCreative | null {
+  const gating = isGatingStage(i.stage)
+  const candidates = HOUSE_CREATIVES.filter((c) => {
+    if (c === 'trial') return gating && i.trialOffered
+    if (c === 'annual') return i.stage === 'paid'
+    return i.stage === 'paid' || (gating && i.trialOffered)
+  })
+  if (candidates.length === 0) return null
+  return candidates[fnv1a32(i.sectionKey) % candidates.length]
+}
+
+/** Experiment ads_house_v1: arm 'none' is the control (no promo slot); no experiment = house. */
+export function houseArmShows(arm: string | null): boolean {
+  return arm !== 'none'
+}
+
+const KEYWORD = /^[a-z0-9]{2,30}$/
+const MAX_KEYWORDS = 20
+
+/** data-ea-keywords: pipe-separated, English, at most 20 (EthicalAds MAX_KEYWORDS). */
+export function ethicalAdsKeywords(sectionId: string): string {
+  const parts = sectionId.split('-').filter((p) => KEYWORD.test(p))
+  return ['python', 'data-science', ...parts].slice(0, MAX_KEYWORDS).join('|')
+}

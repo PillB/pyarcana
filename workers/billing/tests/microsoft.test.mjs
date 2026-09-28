@@ -15,19 +15,22 @@ import { migrate, resetSchemaMemo } from "../src/schema.mjs";
 import { createSession } from "../src/sessions.mjs";
 import {
   MICROSOFT_JWKS,
+  NONCE,
+  NONCE_PREIMAGE,
   NOW,
   TENANT,
   TERMS_VERSION,
   api,
   b64url,
+  count,
   createEnv,
   createIdentityProviders,
+  freshNonce,
   googleClaims,
   makeSigner,
   microsoftClaims
 } from "./fixtures.mjs";
 
-const NONCE = "n-0S6_WzA2Mj-abcdef";
 const OID = "00000000-0000-0000-66f3-3332eca7ea81";
 const TERMS = { ageConfirmed: true, termsVersion: TERMS_VERSION };
 
@@ -44,17 +47,23 @@ async function harness(overrides) {
   await migrate(env.DB);
   const token = (patch, header) => idp.microsoft.sign(microsoftClaims(patch), header);
   const verify = async (patch, nonce = NONCE, opts = {}) =>
-    verifyMicrosoftIdToken(opts.raw || (await token(patch, opts.header)), nonce, opts.env || env, {
+    verifyMicrosoftIdToken(opts.raw || (await token(patch, opts.header)), opts.env || env, {
       fetchImpl: idp.fake.fetchImpl,
-      now: opts.now || NOW
+      now: opts.now || NOW,
+      nonce
     });
   const call = (method, path, opts = {}) => api(env, method, path, { fetchImpl: idp.fake.fetchImpl, ...opts });
+  // What the browser posts: a token minted for a fresh nonce, and that nonce's preimage.
+  const proof = async (patch) => {
+    const n = freshNonce();
+    return { idToken: await token({ nonce: n.nonce, ...(patch || {}) }), noncePreimage: n.preimage };
+  };
   const signIn = async (patch, opts = {}) => {
     const { body: extra, ...rest } = opts;
-    return call("POST", "/v1/auth/microsoft", { body: { idToken: await token(patch), nonce: NONCE, ...TERMS, ...(extra || {}) }, ...rest });
+    return call("POST", "/v1/auth/microsoft", { body: { ...(await proof(patch)), ...TERMS, ...(extra || {}) }, ...rest });
   };
   const ctx = { env, db: env.DB, now: NOW };
-  return { env, idp, token, verify, call, signIn, ctx };
+  return { env, idp, token, proof, verify, call, signIn, ctx };
 }
 
 test("a valid Microsoft token yields subject <tid>:<oid> and a display email", async () => {
@@ -85,15 +94,37 @@ test("the issuer must be login.microsoftonline.com/<the token's own tid>/v2.0", 
   assert.deepEqual(await h.verify({ tid: undefined }), { ok: false, reason: "bad_tenant" });
 });
 
-test("without a key issuer template, the token's own tid alone still binds the issuer", async () => {
+test("a signing key without an issuer template fails closed (DESIGN-v3 §B key-issuer binding)", async () => {
   const h = await harness();
   const bare = await makeSigner("m-bare");
   h.idp.fake.jwks[MICROSOFT_JWKS] = { keys: [h.idp.microsoft.jwk, bare.jwk] };
   const otherTenant = "9188040d-6c67-4c5b-b112-36a304b66dad";
   const raw = await bare.sign(microsoftClaims({ iss: `https://login.microsoftonline.com/${otherTenant}/v2.0` }));
   assert.deepEqual(await h.verify({}, NONCE, { raw, now: NOW + 120 }), { ok: false, reason: "bad_issuer" });
-  const good = await bare.sign(microsoftClaims());
-  assert.equal((await h.verify({}, NONCE, { raw: good, now: NOW + 120 })).ok, true);
+  const otherwiseGood = await bare.sign(microsoftClaims());
+  assert.deepEqual(await h.verify({}, NONCE, { raw: otherwiseGood, now: NOW + 120 }), { ok: false, reason: "key_without_issuer" });
+});
+
+test("only v2.0 tokens are accepted (ver claim)", async () => {
+  const h = await harness();
+  assert.deepEqual(await h.verify({ ver: "1.0" }), { ok: false, reason: "bad_version" });
+  assert.deepEqual(await h.verify({ ver: undefined }), { ok: false, reason: "bad_version" });
+  assert.equal((await h.verify({ ver: "2.0" })).ok, true);
+});
+
+test("a key published for another cloud instance (e.g. US Government) is refused", async () => {
+  const h = await harness();
+  const template = "https://login.microsoftonline.com/{tenantid}/v2.0";
+  const gov = await makeSigner("m-gov", { issuer: template, cloud_instance_name: "microsoftonline.us" });
+  const pub = await makeSigner("m-pub", { issuer: template, cloud_instance_name: "microsoftonline.com" });
+  h.idp.fake.jwks[MICROSOFT_JWKS] = { keys: [h.idp.microsoft.jwk, gov.jwk, pub.jwk] };
+  assert.deepEqual(await h.verify({}, NONCE, { raw: await gov.sign(microsoftClaims()), now: NOW + 120 }), { ok: false, reason: "bad_cloud_instance" });
+  assert.equal((await h.verify({}, NONCE, { raw: await pub.sign(microsoftClaims()), now: NOW + 120 })).ok, true);
+});
+
+test("a Microsoft token claiming a lifetime over 24 h is refused", async () => {
+  const h = await harness();
+  assert.deepEqual(await h.verify({ iat: NOW - 30, exp: NOW + 86400 }), { ok: false, reason: "lifetime_too_long" });
 });
 
 test("personal Microsoft accounts (the consumer tenant) are accepted", async () => {
@@ -112,14 +143,36 @@ test("the signing key's issuer template must match the token issuer", async () =
   assert.deepEqual(await h.verify({}, NONCE, { raw, now: NOW + 120 }), { ok: false, reason: "bad_issuer" });
 });
 
-test("the nonce must be submitted (16+ chars) and equal the token's", async () => {
+test("the verifier compares the nonce claim with the EXPECTED nonce, and fails closed without one", async () => {
   const h = await harness();
   assert.deepEqual(await h.verify({ nonce: undefined }), { ok: false, reason: "bad_nonce" });
   assert.deepEqual(await h.verify({}, "a-different-nonce-value"), { ok: false, reason: "bad_nonce" });
-  assert.deepEqual(await h.verify({ nonce: "short" }, "short"), { ok: false, reason: "bad_nonce" });
   // null and "" (not undefined, which would trigger the helper's default nonce)
   assert.deepEqual(await h.verify({}, null), { ok: false, reason: "bad_nonce" });
   assert.deepEqual(await h.verify({}, ""), { ok: false, reason: "bad_nonce" });
+});
+
+test("over HTTP the worker derives the nonce from the preimage: a nonce copied out of the token proves nothing", async () => {
+  const h = await harness();
+  const { idToken, noncePreimage } = await h.proof();
+  const claimed = JSON.parse(Buffer.from(idToken.split(".")[1], "base64url")).nonce;
+  const copied = await h.call("POST", "/v1/auth/microsoft", { body: { idToken, noncePreimage: claimed, ...TERMS } });
+  assert.deepEqual([copied.status, copied.body.reason, copied.body.detail], [401, "invalid_token", "bad_nonce"]);
+  const legacy = await h.call("POST", "/v1/auth/microsoft", { body: { idToken, nonce: claimed, ...TERMS } });
+  assert.deepEqual([legacy.status, legacy.body.detail], [401, "bad_nonce"], "the old {nonce} body field is not accepted");
+  const other = await h.call("POST", "/v1/auth/microsoft", { body: { idToken, noncePreimage: NONCE_PREIMAGE, ...TERMS } });
+  assert.deepEqual([other.status, other.body.detail], [401, "bad_nonce"]);
+  const good = await h.call("POST", "/v1/auth/microsoft", { body: { idToken, noncePreimage, ...TERMS } });
+  assert.equal(good.status, 200);
+});
+
+test("a Microsoft ID token is single-use: the second POST is 401 token_replayed", async () => {
+  const h = await harness();
+  const body = { ...(await h.proof()), ...TERMS };
+  assert.equal((await h.call("POST", "/v1/auth/microsoft", { body })).status, 200);
+  const replay = await h.call("POST", "/v1/auth/microsoft", { body, now: NOW + 5 });
+  assert.deepEqual([replay.status, replay.body.reason, replay.body.detail, replay.setCookie], [401, "invalid_token", "token_replayed", null]);
+  assert.equal(await count(h.env, "FROM sessions"), 1);
 });
 
 test("an unknown kid triggers a refetch that finds a rotated key", async () => {
@@ -191,8 +244,9 @@ test("a Microsoft-claimed address cannot pre-hijack the real owner's Google acco
   const h = await harness();
   const attacker = await h.signIn({ email: "victim@gmail.com", preferred_username: "victim@gmail.com" });
   assert.equal(attacker.status, 200);
+  const n = freshNonce();
   const victim = await h.call("POST", "/v1/auth/google", {
-    body: { idToken: await h.idp.google.sign(googleClaims({ email: "victim@gmail.com", sub: "victim-sub" })), ...TERMS }
+    body: { idToken: await h.idp.google.sign(googleClaims({ email: "victim@gmail.com", sub: "victim-sub", nonce: n.nonce })), noncePreimage: n.preimage, ...TERMS }
   });
   assert.equal(victim.status, 200);
   assert.notEqual(victim.body.account.id, attacker.body.account.id);
@@ -206,9 +260,9 @@ test("a Microsoft session is never admin, even for a listed address", async () =
 
 test("Microsoft sign-in needs the terms and the nonce", async () => {
   const h = await harness();
-  const noTerms = await h.call("POST", "/v1/auth/microsoft", { body: { idToken: await h.token(), nonce: NONCE } });
+  const noTerms = await h.call("POST", "/v1/auth/microsoft", { body: await h.proof() });
   assert.deepEqual([noTerms.status, noTerms.body.reason], [400, "terms_required"]);
-  const noNonce = await h.signIn({}, { body: { nonce: undefined } });
+  const noNonce = await h.signIn({}, { body: { noncePreimage: undefined } });
   assert.deepEqual([noNonce.status, noNonce.body.reason, noNonce.body.detail], [401, "invalid_token", "bad_nonce"]);
   const off = await (await harness({ MICROSOFT_CLIENT_ID: "" })).signIn();
   assert.deepEqual([off.status, off.body.reason], [503, "microsoft_not_configured"]);
@@ -218,7 +272,7 @@ test("after an email-code sign-in the user links Microsoft, then Microsoft signs
   const h = await harness();
   const owner = await createAccount(h.ctx, { email: "ana@contoso.test", emailNormalized: "ana@contoso.test", emailVerified: true });
   const { token } = await createSession(h.ctx, owner.id, "email");
-  const linked = await h.call("POST", "/v1/me/link/microsoft", { cookie: token, body: { idToken: await h.token(), nonce: NONCE } });
+  const linked = await h.call("POST", "/v1/me/link/microsoft", { cookie: token, body: await h.proof() });
   assert.equal(linked.status, 200);
   const res = await h.signIn({}, { now: NOW + 60 });
   assert.equal(res.status, 200);

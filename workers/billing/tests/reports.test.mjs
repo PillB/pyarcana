@@ -165,6 +165,10 @@ test("invalid reports are refused with a reason and store nothing", async () => 
   }
   assert.equal(await count(env, "FROM reports"), 0);
   assert.equal(await count(env, "FROM report_attachments"), 0);
+  const exact = new Uint8Array(1024 * 1024);
+  exact.set(PNG);
+  const atLimit = await submit(env, report({ attachments: [{ mime: "image/png", data: b64(exact) }] }), { headers: { "cf-connecting-ip": "198.51.100.200" } });
+  assert.equal(atLimit.status, 201, "exactly 1 MiB is accepted");
 });
 
 test("a re-sent issue (same clientIssueId) is stored once, even when sent five times at once", async () => {
@@ -224,7 +228,8 @@ test("the QA list shows every report without reporter identity, filters, and pag
   assert.ok(!JSON.stringify(all).includes("@"), "no email anywhere in the tester view");
   assert.deepEqual((await list("?severity=blocker")).reports.map((r) => r.title), ["Cinco", "Tres", "Uno"]);
   assert.deepEqual((await list("?category=content&section=S02")).reports.map((r) => r.title), ["Tres"]);
-  assert.deepEqual((await list("?q=100%25")).reports.map((r) => r.title), ["Dos 100%"], "LIKE wildcards in q are literal");
+  assert.deepEqual((await list("?q=100%25")).reports.map((r) => r.title), ["Dos 100%"]);
+  assert.deepEqual((await list("?q=%25")).reports.map((r) => r.title), ["Dos 100%"], "a bare % is a literal percent sign, not a wildcard");
   const seen = [];
   let cursor = "";
   for (let page = 0; page < 5 && cursor !== null; page += 1) {
@@ -264,6 +269,9 @@ test("QA detail lists attachments, and the bytes are served sniff-checked with s
   assert.equal(bytes.headers.get("cache-control"), "private, no-store");
   assert.deepEqual(new Uint8Array(await bytes.arrayBuffer()), PNG);
   assert.equal((await api(env, "GET", `/v1/qa/reports/${res.body.id}/attachments/att_nope`, { cookie: tester.token })).status, 404);
+  const other = await submit(env, report({ attachments: [{ mime: "image/jpeg", data: b64(JPEG) }] }), { cookie: learner.token });
+  const otherAtt = (await api(env, "GET", `/v1/qa/reports/${other.body.id}`, { cookie: tester.token })).body.attachments[0].id;
+  assert.equal((await api(env, "GET", `/v1/qa/reports/${res.body.id}/attachments/${otherAtt}`, { cookie: tester.token })).status, 404, "an attachment only under its own report");
   assert.equal((await api(env, "GET", `/v1/qa/reports/rep_nope`, { cookie: tester.token })).status, 404);
   assert.equal((await api(env, "GET", `/v1/qa/reports/${res.body.id}`, { cookie: learner.token })).status, 403);
   await sql(env, "UPDATE report_attachments SET mime = 'image/jpeg' WHERE id = ?1", att.id);
@@ -274,7 +282,7 @@ test("QA detail lists attachments, and the bytes are served sniff-checked with s
 test("admins see contact and account emails, triage with PATCH, and every admin call is audited", async () => {
   const { env, admin, tester, learner } = await people();
   const a = await submit(env, report({ title: "Original", contactEmail: "v@example.test" }));
-  const b = await submit(env, report({ title: "Copia" }), { cookie: learner.token });
+  const b = await submit(env, report({ title: "Copia" }), { cookie: learner.token, now: NOW + 1 });
   const list = await api(env, "GET", "/v1/admin/reports", { cookie: admin.token });
   assert.deepEqual(
     list.body.reports.map((r) => [r.title, r.contactEmail, r.accountEmail]),

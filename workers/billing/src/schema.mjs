@@ -271,10 +271,24 @@ const MIGRATION_1 = [
  */
 const MIGRATION_2 = ["ALTER TABLE reports ADD COLUMN improvement TEXT"];
 
+/**
+ * Migration 3 (review round 1, DESIGN-v3 §B): single-use OIDC nonces. The
+ * key is HMAC(pepper, nonce); a row lives until its token could no longer
+ * verify (exp + skew), then the daily sweep drops it.
+ */
+const MIGRATION_3 = [
+  `CREATE TABLE IF NOT EXISTS used_nonces (
+     hash TEXT PRIMARY KEY,
+     expires_at INTEGER NOT NULL
+   )`,
+  `CREATE INDEX IF NOT EXISTS idx_used_nonces_expires ON used_nonces (expires_at)`
+];
+
 /** Every migration, in order. Append only; never edit a shipped one. */
 export const MIGRATIONS = [
   { version: 1, statements: MIGRATION_1 },
-  { version: 2, statements: MIGRATION_2 }
+  { version: 2, statements: MIGRATION_2 },
+  { version: 3, statements: MIGRATION_3 }
 ];
 
 /** The version a fully migrated database reports. */

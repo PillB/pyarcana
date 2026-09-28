@@ -40,10 +40,20 @@ export interface CloudConfig {
   launchStage: LaunchStage
   /** e.g. https://pyarcana.com — accounts run only here (DESIGN-v3 §A). */
   canonicalOrigin: string
+  /**
+   * The owner confirms the canonical site is live (DESIGN-v3 §K). Until then no origin shows the
+   * "PyArcana se mudó" banner and the canonical origin accepts no #import= handoff.
+   */
+  movedToCanonical: boolean
   /** Same-origin worker route in production; http://localhost:8787 in local dev. */
   apiBaseUrl: string
   googleClientId: string
   microsoftClientId: string
+  /**
+   * The version of the Terms the sign-in panel links to. It must equal the worker's TERMS_VERSION;
+   * the worker refuses a sign-in with any other value (400 terms_required).
+   */
+  termsVersion: string
   /** 'common' admits personal plus work/school accounts; 'consumers' personal only. */
   microsoftAuthority: string
   licence: { publicKeys: LicencePublicKey[] }
@@ -52,6 +62,10 @@ export interface CloudConfig {
     freeSections: number
     /** ISO date the gate starts; '' = as soon as the stage is beta or paid. */
     since: string
+    /**
+     * 'A' (launch control): the whole section. 'B' is implemented in the pure gate (gate.ts) but its
+     * UI -- a lock over one tab panel -- is NOT built, so the page applies A when B is set.
+     */
     packaging: Packaging
   }
   rails: { peru: 'mercadopago' | ''; international: 'creem' | '' }
@@ -73,9 +87,11 @@ const FREE_PLAN_SECTIONS = getPlanByCode('free')?.maxSections
 export const CLOUD_CONFIG: CloudConfig = {
   launchStage: 'off',
   canonicalOrigin: '',
+  movedToCanonical: false,
   apiBaseUrl: '/api',
   googleClientId: '',
   microsoftClientId: '',
+  termsVersion: '',
   microsoftAuthority: 'common',
   licence: { publicKeys: [] },
   gate: { freeSections: FREE_PLAN_SECTIONS ?? 0, since: '', packaging: 'A' },

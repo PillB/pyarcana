@@ -1,6 +1,10 @@
 /**
  * Route table and request pipeline.
  *
+ * Paths: production serves the API at /api/v1/... on the site's own origin
+ * (DESIGN-v3 §A); one leading /api is stripped (routePath), so /api/v1/x and
+ * /v1/x are the same route. Bare /v1 stays for local dev and webhooks.
+ *
  * Every request goes through the same stages, in this order, so no handler
  * can forget one:
  *   OPTIONS -> preflight (404 for unknown paths)
@@ -38,7 +42,11 @@ import {
   sessionCookie
 } from "./http.mjs";
 import { handleGetMe } from "./me.mjs";
+import { handleDeleteAccount, handleExport } from "./privacy.mjs";
 import { handleGetProgress, handlePutProgress, PROGRESS_BODY_CAP } from "./progress.mjs";
+import { DEFAULT_PROVIDERS } from "./providers.mjs";
+import { handleAdminReports, handlePatchReport, handleQaAttachment, handleQaReport, handleQaReports } from "./report-triage.mjs";
+import { handleMyReports, handleSubmitReport, REPORT_BODY_CAP } from "./reports.mjs";
 import { handleGrantRole, handleListRoles, handleRevokeRole } from "./roles.mjs";
 import { handleStartTrial } from "./trial.mjs";
 import { handleHealth, handleMethods, hasDb } from "./public.mjs";
@@ -60,6 +68,16 @@ function adminRoute(method, path, handler, audit) {
 }
 
 /**
+ * A QA subsite read: session + tester-or-admin gate.
+ * @param {string} path Path.
+ * @param {function} handler Handler.
+ * @returns {Object} Route.
+ */
+function qaRoute(path, handler) {
+  return { method: "GET", path, handler, needs: ["db"], auth: "session", access: "qa" };
+}
+
+/**
  * The route table. `auth`: "session" (required) | "optional" | undefined.
  * `needs`: config the route cannot run without. `bodyCap`: bytes.
  * `access`: "admin" | "qa" (gate.mjs). `audit`: the admin audit action name.
@@ -73,9 +91,16 @@ export const ROUTES = [
   { method: "POST", path: "/v1/auth/microsoft", handler: handleMicrosoftSignIn, needs: DB_PEPPER, auth: "optional" },
   { method: "POST", path: "/v1/auth/logout", handler: handleLogout, needs: ["db"], auth: "optional" },
   { method: "GET", path: "/v1/me", handler: handleGetMe, needs: ["db"], auth: "session" },
+  { method: "DELETE", path: "/v1/me", handler: handleDeleteAccount, needs: DB_PEPPER, auth: "session" },
+  { method: "GET", path: "/v1/me/export", handler: handleExport, needs: DB_PEPPER, auth: "session" },
   { method: "POST", path: "/v1/me/trial", handler: handleStartTrial, needs: DB_PEPPER, auth: "session" },
   { method: "GET", path: "/v1/me/progress", handler: handleGetProgress, needs: ["db"], auth: "session" },
   { method: "PUT", path: "/v1/me/progress", handler: handlePutProgress, needs: DB_PEPPER, auth: "session", bodyCap: PROGRESS_BODY_CAP },
+  { method: "POST", path: "/v1/reports", handler: handleSubmitReport, needs: DB_PEPPER, auth: "optional", bodyCap: REPORT_BODY_CAP },
+  { method: "GET", path: "/v1/me/reports", handler: handleMyReports, needs: ["db"], auth: "session" },
+  qaRoute("/v1/qa/reports", handleQaReports),
+  qaRoute("/v1/qa/reports/:id", handleQaReport),
+  qaRoute("/v1/qa/reports/:id/attachments/:aid", handleQaAttachment),
   { method: "POST", path: "/v1/me/link/google", handler: handleLinkGoogle, needs: DB_PEPPER, auth: "session" },
   { method: "POST", path: "/v1/me/link/microsoft", handler: handleLinkMicrosoft, needs: DB_PEPPER, auth: "session" },
   adminRoute("POST", "/v1/admin/grants", handleCreateGrant, "admin.grants.create"),
@@ -87,7 +112,9 @@ export const ROUTES = [
   adminRoute("GET", "/v1/admin/account", handleGetAccount, "admin.account.read"),
   adminRoute("POST", "/v1/admin/accounts/disable", handleDisableAccount, "admin.accounts.disable"),
   adminRoute("POST", "/v1/admin/accounts/enable", handleEnableAccount, "admin.accounts.enable"),
-  adminRoute("POST", "/v1/admin/accounts/email", handleRectifyEmail, "admin.accounts.email")
+  adminRoute("POST", "/v1/admin/accounts/email", handleRectifyEmail, "admin.accounts.email"),
+  adminRoute("GET", "/v1/admin/reports", handleAdminReports, "admin.reports.list"),
+  adminRoute("PATCH", "/v1/admin/reports/:id", handlePatchReport, "admin.reports.update")
 ];
 
 /**
@@ -152,6 +179,21 @@ export function matchRoute(routes, method, pathname) {
   return allow.length ? { allow } : null;
 }
 
+/** The one-origin deployment serves the API under this prefix (DESIGN-v3 §A). */
+export const API_PREFIX = "/api";
+
+/**
+ * The route path for a request path: ONE leading "/api" segment is removed
+ * (production: https://<domain>/api/v1/...), and bare /v1/... stays as it is
+ * (local dev, provider webhooks). Look-alikes such as "/apiv1" are untouched,
+ * so they miss the table.
+ * @param {string} pathname Request path.
+ * @returns {string} Path matched against the route table.
+ */
+export function routePath(pathname) {
+  return pathname.startsWith(`${API_PREFIX}/`) ? pathname.slice(API_PREFIX.length) : pathname;
+}
+
 /**
  * Epoch seconds from an injected clock (number or function) or the real one.
  * @param {number|function|undefined} now Injected clock.
@@ -167,7 +209,8 @@ function resolveNow(now) {
 /**
  * Build the JSON response for a handler or stage result.
  * @param {Object} ctx Request context.
- * @param {{status: number, body: Object, setCookie?: string, headers?: Object}} result Result.
+ * @param {{status: number, body?: Object, raw?: Uint8Array, setCookie?: string, headers?: Object}} result Result
+ *   (`raw` bytes are sent as-is with the handler's own headers).
  * @returns {Response} Response.
  */
 function respond(ctx, result) {
@@ -175,6 +218,9 @@ function respond(ctx, result) {
   const cookie = result.setCookie || ctx.renewCookie;
   if (cookie) {
     headers["set-cookie"] = cookie;
+  }
+  if (result.raw) {
+    return new Response(result.raw, { status: result.status, headers });
   }
   return json(result.body, result.status, headers);
 }
@@ -281,8 +327,9 @@ async function runRoute(ctx) {
  * Route one request. Throws on unexpected errors (index.mjs catches).
  * @param {Request} request Incoming request.
  * @param {Object} env Worker env.
- * @param {{fetchImpl?: function, now?: number|function, log: function, routes?: Object[]}} opts
- *   Injectables; `routes` replaces the table (default ROUTES).
+ * @param {{fetchImpl?: function, now?: number|function, log: function, routes?: Object[], providers?: Object}} opts
+ *   Injectables; `routes` replaces the table (default ROUTES); `providers` the
+ *   payment-provider registry (default providers.DEFAULT_PROVIDERS, empty).
  * @returns {Promise<Response>} Response.
  */
 export async function routeRequest(request, env, opts) {
@@ -294,6 +341,7 @@ export async function routeRequest(request, env, opts) {
     now: resolveNow(opts.now),
     fetchImpl: opts.fetchImpl,
     log: opts.log,
+    providers: opts.providers || DEFAULT_PROVIDERS,
     db: env.DB,
     pepper: pepperBytes(env),
     ip: callerIp(request),
@@ -301,7 +349,7 @@ export async function routeRequest(request, env, opts) {
     params: {},
     renewCookie: null
   };
-  const match = matchRoute(opts.routes || ROUTES, request.method, url.pathname);
+  const match = matchRoute(opts.routes || ROUTES, request.method, routePath(url.pathname));
   if (!match) {
     return respond(ctx, { status: 404, body: { ok: false, reason: "not_found" } });
   }

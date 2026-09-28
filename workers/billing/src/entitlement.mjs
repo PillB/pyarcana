@@ -6,7 +6,7 @@
  * account view and the grant routes all see the same answer.
  */
 
-import { grantSchedule, resolveAccess } from "./access.mjs";
+import { resolveAccessDetailed } from "./access.mjs";
 import { graceDays } from "./config.mjs";
 
 /**
@@ -45,9 +45,8 @@ export async function loadAccessRows(db, account) {
  */
 export async function accessSnapshot(ctx, account) {
   const rows = await loadAccessRows(ctx.db, account);
-  const cfg = accessConfig(ctx.env);
-  const access = resolveAccess(rows, ctx.now, cfg);
-  return { rows, access, schedule: grantSchedule(rows, ctx.now, cfg) };
+  const { access, schedule } = resolveAccessDetailed(rows, ctx.now, accessConfig(ctx.env));
+  return { rows, access, schedule };
 }
 
 /**

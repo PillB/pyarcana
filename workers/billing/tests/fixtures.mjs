@@ -5,7 +5,7 @@
  * No network, no Workers runtime, no dependencies.
  */
 
-import { webcrypto } from "node:crypto";
+import { createHash, randomBytes, webcrypto } from "node:crypto";
 
 import { pepperBytes } from "../src/crypto.mjs";
 import { migrate, resetSchemaMemo } from "../src/schema.mjs";
@@ -187,6 +187,29 @@ export const GOOGLE_JWKS = "https://www.googleapis.com/oauth2/v3/certs";
 /** Microsoft's common-endpoint JWKS URL (as microsoft.mjs fetches it). */
 export const MICROSOFT_JWKS = "https://login.microsoftonline.com/common/discovery/v2.0/keys";
 
+/**
+ * The provider nonce for a client preimage, as the browser computes it
+ * (DESIGN-v3 §B): base64url(SHA-256(UTF-8 preimage)), unpadded.
+ * @param {string} preimage Preimage.
+ * @returns {string} Nonce.
+ */
+export function nonceFor(preimage) {
+  return b64url(createHash("sha256").update(preimage, "utf8").digest());
+}
+
+/** A fixed 32-byte preimage (43 base64url chars) and its nonce, for verifier-level tests. */
+export const NONCE_PREIMAGE = b64url(Buffer.alloc(32, 0x42));
+export const NONCE = nonceFor(NONCE_PREIMAGE);
+
+/**
+ * A fresh preimage and nonce, as the client makes one per sign-in attempt.
+ * @returns {{preimage: string, nonce: string}} Pair.
+ */
+export function freshNonce() {
+  const preimage = b64url(randomBytes(32));
+  return { preimage, nonce: nonceFor(preimage) };
+}
+
 /** A tenant id (GUID) for Microsoft tokens. */
 export const TENANT = "72f988bf-86f1-41af-91ab-2d7cd011db47";
 
@@ -203,6 +226,7 @@ export function googleClaims(patch) {
     email: "ana.perez@gmail.com",
     email_verified: true,
     name: "Ana Pérez",
+    nonce: NONCE,
     iat: NOW - 30,
     exp: NOW + 3570,
     ...(patch || {})
@@ -224,7 +248,8 @@ export function microsoftClaims(patch) {
     preferred_username: "ana@contoso.test",
     email: "ana@contoso.test",
     name: "Ana",
-    nonce: "n-0S6_WzA2Mj-abcdef",
+    ver: "2.0",
+    nonce: NONCE,
     iat: NOW - 30,
     nbf: NOW - 30,
     exp: NOW + 3570,
@@ -308,6 +333,27 @@ export async function createHarness(overrides) {
 }
 
 /**
+ * Defaults for seedAccount.
+ * @param {Object} spec Caller's spec.
+ * @returns {{now: number, email: string|null, verified: boolean, identities: Array<Array<string|null>>,
+ *            signedIn: boolean, sessionAt: number, method: string}} Full spec.
+ */
+function accountSpec(spec) {
+  const now = spec.now === undefined ? NOW : spec.now;
+  const email = spec.email === undefined ? "learner@example.test" : spec.email;
+  const verified = spec.verified !== false && Boolean(email);
+  return {
+    now,
+    email,
+    verified,
+    identities: spec.identities || (verified ? [["email", email.toLowerCase()]] : []),
+    signedIn: spec.signedIn !== false,
+    sessionAt: spec.sessionAt === undefined ? now : spec.sessionAt,
+    method: spec.method || "email"
+  };
+}
+
+/**
  * Seed a signed-in account straight into D1 (no provider round trip).
  * @param {Object} env Worker env (migrated).
  * @param {{email?: string|null, verified?: boolean, identities?: Array<Array<string|null>>, method?: string,
@@ -317,20 +363,17 @@ export async function createHarness(overrides) {
 export async function seedAccount(env, spec = {}) {
   const { createAccount, linkIdentity } = await import("../src/accounts.mjs");
   const { createSession } = await import("../src/sessions.mjs");
-  const now = spec.now === undefined ? NOW : spec.now;
-  const ctx = { env, db: env.DB, now };
-  const email = spec.email === undefined ? "learner@example.test" : spec.email;
-  const verified = spec.verified !== false;
-  const account = await createAccount(ctx, { email, emailNormalized: verified && email ? email.toLowerCase() : null, emailVerified: verified && Boolean(email) });
-  const identities = spec.identities || (email && verified ? [["email", email.toLowerCase()]] : []);
-  for (const [provider, subject, emailAtLink] of identities) {
-    await linkIdentity(ctx, { provider, subject, accountId: account.id, emailAtLink: emailAtLink === undefined ? email : emailAtLink });
+  const s = accountSpec(spec);
+  const ctx = { env, db: env.DB, now: s.now };
+  const normalized = s.verified ? s.email.toLowerCase() : null;
+  const account = await createAccount(ctx, { email: s.email, emailNormalized: normalized, emailVerified: s.verified });
+  for (const [provider, subject, emailAtLink] of s.identities) {
+    await linkIdentity(ctx, { provider, subject, accountId: account.id, emailAtLink: emailAtLink === undefined ? s.email : emailAtLink });
   }
-  if (spec.signedIn !== false) {
-    await env.DB.prepare("UPDATE accounts SET first_signin_at = ?2 WHERE id = ?1").bind(account.id, now).run();
+  if (s.signedIn) {
+    await env.DB.prepare("UPDATE accounts SET first_signin_at = ?2 WHERE id = ?1").bind(account.id, s.now).run();
   }
-  const sessionAt = spec.sessionAt === undefined ? now : spec.sessionAt;
-  const { token, session } = await createSession({ env, db: env.DB, now: sessionAt }, account.id, spec.method || "email");
+  const { token, session } = await createSession({ env, db: env.DB, now: s.sessionAt }, account.id, s.method);
   const fresh = await env.DB.prepare("SELECT * FROM accounts WHERE id = ?1").bind(account.id).first();
   return { account: fresh, token, session };
 }

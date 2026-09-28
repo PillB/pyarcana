@@ -181,3 +181,11 @@ test("fail closed: no pepper is 503, no session is 401, and claim keys are never
   assert.ok(keys.every((k) => /^[0-9a-f]{64}$/.test(k)), "HMAC hex only");
   assert.ok(keys.every((k) => !k.includes("clear") && !k.includes(me.account.id)));
 });
+
+test("a Google address Google is not authoritative for never claims that address's trial", async () => {
+  const { env } = await createHarness();
+  const stale = await seedAccount(env, { email: null, verified: false, identities: [["google", "s-stale", "j.doe@corp.test", false]], method: "google" });
+  assert.equal((await startTrial(env, stale.token)).status, 200);
+  const owner = await seedAccount(env, { email: "j.doe@corp.test" });
+  assert.equal((await startTrial(env, owner.token)).status, 200, "the mailbox's real owner still has a trial");
+});

@@ -11,7 +11,19 @@ import { createAccount } from "../src/accounts.mjs";
 import { verifyGoogleIdToken } from "../src/google.mjs";
 import { clearJwksCache } from "../src/jwt.mjs";
 import { migrate, resetSchemaMemo } from "../src/schema.mjs";
-import { GOOGLE_CLIENT_ID, NOW, TERMS_VERSION, api, createEnv, createIdentityProviders, googleClaims } from "./fixtures.mjs";
+import {
+  GOOGLE_CLIENT_ID,
+  NONCE,
+  NONCE_PREIMAGE,
+  NOW,
+  TERMS_VERSION,
+  api,
+  count,
+  createEnv,
+  createIdentityProviders,
+  freshNonce,
+  googleClaims
+} from "./fixtures.mjs";
 
 const TERMS = { ageConfirmed: true, termsVersion: TERMS_VERSION };
 
@@ -28,11 +40,18 @@ async function harness(overrides) {
   await migrate(env.DB);
   const call = (method, path, opts = {}) => api(env, method, path, { fetchImpl: idp.fake.fetchImpl, ...opts });
   const token = (patch) => idp.google.sign(googleClaims(patch));
-  const signIn = async (patch, opts = {}) =>
-    call("POST", "/v1/auth/google", { body: { idToken: await token(patch), ...TERMS, ...(opts.body || {}) }, ...opts });
+  // What the browser posts: a token minted for a fresh nonce, and that nonce's preimage.
+  const proof = async (patch) => {
+    const n = freshNonce();
+    return { idToken: await token({ nonce: n.nonce, ...(patch || {}) }), noncePreimage: n.preimage };
+  };
+  const signIn = async (patch, opts = {}) => {
+    const { body: extra, ...rest } = opts;
+    return call("POST", "/v1/auth/google", { body: { ...(await proof(patch)), ...TERMS, ...(extra || {}) }, ...rest });
+  };
   const ctx = { env, db: env.DB, now: NOW };
   const identities = () => env.DB.prepare("SELECT provider, subject, account_id FROM identities ORDER BY provider, subject").all();
-  return { env, idp, call, token, signIn, ctx, identities };
+  return { env, idp, call, token, proof, signIn, ctx, identities };
 }
 
 /**
@@ -43,7 +62,7 @@ async function harness(overrides) {
  * @returns {Promise<Object>} Result.
  */
 async function verify(h, patch, env) {
-  return verifyGoogleIdToken(await h.token(patch), env || h.env, { fetchImpl: h.idp.fake.fetchImpl, now: NOW });
+  return verifyGoogleIdToken(await h.token(patch), env || h.env, { fetchImpl: h.idp.fake.fetchImpl, now: NOW, nonce: NONCE });
 }
 
 test("a valid Google token yields the identity", async () => {
@@ -185,7 +204,7 @@ test("link Google from a fresh session; then Google signs into that account", as
   const owner = await createAccount(h.ctx, { email: "ana@yahoo.test", emailNormalized: "ana@yahoo.test", emailVerified: true });
   const { createSession } = await import("../src/sessions.mjs");
   const { token } = await createSession({ ...h.ctx, now: NOW - 60 }, owner.id, "email");
-  const linked = await h.call("POST", "/v1/me/link/google", { cookie: token, body: { idToken: await h.token({ email: "ana@yahoo.test", sub: "sub-y" }) } });
+  const linked = await h.call("POST", "/v1/me/link/google", { cookie: token, body: await h.proof({ email: "ana@yahoo.test", sub: "sub-y" }) });
   assert.equal(linked.status, 200);
   assert.equal(linked.body.account.id, owner.id);
   const signIn = await h.signIn({ email: "ana@yahoo.test", sub: "sub-y" });
@@ -199,19 +218,144 @@ test("linking needs recent authentication, a free identity and no existing Googl
   const { createSession } = await import("../src/sessions.mjs");
   const a = await createAccount(h.ctx, { email: "a@example.test", emailNormalized: "a@example.test", emailVerified: true });
   const stale = await createSession({ ...h.ctx, now: NOW - 601 }, a.id, "email");
-  const tooOld = await h.call("POST", "/v1/me/link/google", { cookie: stale.token, body: { idToken: await h.token({ sub: "s1" }) } });
+  const tooOld = await h.call("POST", "/v1/me/link/google", { cookie: stale.token, body: await h.proof({ sub: "s1" }) });
   assert.deepEqual([tooOld.status, tooOld.body.reason], [401, "reauth_required"]);
   const other = await h.signIn({ sub: "taken", email: "b@gmail.com" });
   assert.equal(other.status, 200);
   const fresh = await createSession(h.ctx, a.id, "email");
-  const taken = await h.call("POST", "/v1/me/link/google", { cookie: fresh.token, body: { idToken: await h.token({ sub: "taken" }) } });
+  const taken = await h.call("POST", "/v1/me/link/google", { cookie: fresh.token, body: await h.proof({ sub: "taken" }) });
   assert.deepEqual([taken.status, taken.body.reason], [409, "identity_in_use"]);
-  const ok = await h.call("POST", "/v1/me/link/google", { cookie: fresh.token, body: { idToken: await h.token({ sub: "mine" }) } });
+  const ok = await h.call("POST", "/v1/me/link/google", { cookie: fresh.token, body: await h.proof({ sub: "mine" }) });
   assert.equal(ok.status, 200);
-  const second = await h.call("POST", "/v1/me/link/google", { cookie: fresh.token, body: { idToken: await h.token({ sub: "another" }) } });
+  const second = await h.call("POST", "/v1/me/link/google", { cookie: fresh.token, body: await h.proof({ sub: "another" }) });
   assert.deepEqual([second.status, second.body.reason], [409, "provider_already_linked"]);
-  const again = await h.call("POST", "/v1/me/link/google", { cookie: fresh.token, body: { idToken: await h.token({ sub: "mine" }) } });
+  const again = await h.call("POST", "/v1/me/link/google", { cookie: fresh.token, body: await h.proof({ sub: "mine" }) });
   assert.equal(again.status, 200, "re-linking the same identity is idempotent");
-  const anonymous = await h.call("POST", "/v1/me/link/google", { body: { idToken: await h.token() } });
+  const anonymous = await h.call("POST", "/v1/me/link/google", { body: await h.proof() });
   assert.deepEqual([anonymous.status, anonymous.body.reason], [401, "no_session"]);
+});
+
+test("the Google nonce claim must equal b64url(SHA-256(noncePreimage)) (DESIGN-v3 §B)", async () => {
+  const h = await harness();
+  assert.deepEqual(await verifyGoogleIdToken(await h.token({ nonce: undefined }), h.env, { fetchImpl: h.idp.fake.fetchImpl, now: NOW, nonce: NONCE }), {
+    ok: false,
+    reason: "bad_nonce"
+  });
+  assert.deepEqual(await verifyGoogleIdToken(await h.token(), h.env, { fetchImpl: h.idp.fake.fetchImpl, now: NOW }), { ok: false, reason: "bad_nonce" }, "no expected nonce fails closed");
+  const wrongPreimage = await h.signIn({}, { body: { noncePreimage: NONCE_PREIMAGE } });
+  assert.deepEqual([wrongPreimage.status, wrongPreimage.body.reason, wrongPreimage.body.detail], [401, "invalid_token", "bad_nonce"]);
+  const missing = await h.signIn({}, { body: { noncePreimage: undefined } });
+  assert.deepEqual([missing.status, missing.body.detail], [401, "bad_nonce"]);
+  const { idToken } = await h.proof();
+  const copied = await h.call("POST", "/v1/auth/google", { body: { idToken, noncePreimage: JSON.parse(Buffer.from(idToken.split(".")[1], "base64url")).nonce, ...TERMS } });
+  assert.deepEqual([copied.status, copied.body.detail], [401, "bad_nonce"], "the nonce read out of the token is not its preimage");
+  assert.equal(await count(h.env, "FROM sessions"), 0);
+});
+
+test("a Google ID token is single-use: a replay is 401 token_replayed and mints no session", async () => {
+  const h = await harness();
+  const body = { ...(await h.proof()), ...TERMS };
+  const first = await h.call("POST", "/v1/auth/google", { body });
+  assert.equal(first.status, 200);
+  for (const at of [NOW + 1, NOW + 600]) {
+    const replay = await h.call("POST", "/v1/auth/google", { body, now: at });
+    assert.deepEqual([replay.status, replay.body.reason, replay.body.detail, replay.setCookie], [401, "invalid_token", "token_replayed", null]);
+  }
+  assert.equal(await count(h.env, "FROM sessions"), 1, "one token, one session");
+  const stored = await h.env.DB.prepare("SELECT hash, expires_at FROM used_nonces").all();
+  assert.equal(stored.results.length, 1);
+  assert.match(stored.results[0].hash, /^[0-9a-f]{64}$/, "only an HMAC is stored, never the nonce or its preimage");
+  assert.equal(stored.results[0].expires_at, NOW + 3570 + 300, "kept until the token could no longer verify");
+});
+
+test("a token spent on POST /v1/me/link/google cannot then sign in (and vice versa)", async () => {
+  const h = await harness();
+  const { createAccount } = await import("../src/accounts.mjs");
+  const { createSession } = await import("../src/sessions.mjs");
+  const owner = await createAccount(h.ctx, { email: "ana@yahoo.test", emailNormalized: "ana@yahoo.test", emailVerified: true });
+  const { token } = await createSession(h.ctx, owner.id, "email");
+  const proof = await h.proof({ email: "ana@yahoo.test", sub: "sub-y" });
+  assert.equal((await h.call("POST", "/v1/me/link/google", { cookie: token, body: proof })).status, 200);
+  const replay = await h.call("POST", "/v1/auth/google", { body: { ...proof, ...TERMS } });
+  assert.deepEqual([replay.status, replay.body.detail], [401, "token_replayed"]);
+});
+
+test("a Google token claiming a lifetime over 24 h is refused", async () => {
+  const h = await harness();
+  const res = await h.signIn({ iat: NOW - 30, exp: NOW - 30 + 10 * 365 * 86400 });
+  assert.deepEqual([res.status, res.body.detail], [401, "lifetime_too_long"]);
+});
+
+test("a preimage must carry at least 32 random bytes: a short or non-base64url one is refused even if the token echoes it", async () => {
+  const h = await harness();
+  for (const preimage of ["short-preimage", "x".repeat(42), `${"a".repeat(43)}.`, "a".repeat(129)]) {
+    const idToken = await h.token({ nonce: preimage });
+    const res = await h.call("POST", "/v1/auth/google", { body: { idToken, noncePreimage: preimage, ...TERMS } });
+    assert.deepEqual([preimage.length, res.status, res.body.detail], [preimage.length, 401, "bad_nonce"]);
+  }
+});
+
+/**
+ * Sign in by email code (the code is read straight from a fresh issue, as if
+ * it had been intercepted or delivered).
+ * @param {Object} h Harness.
+ * @param {string} email Address.
+ * @param {number} at Clock.
+ * @returns {Promise<Object>} Response.
+ */
+async function emailCodeSignIn(h, email, at) {
+  const { issueLoginCode } = await import("../src/logincodes.mjs");
+  const { pepperBytes } = await import("../src/crypto.mjs");
+  const { code } = await issueLoginCode({ env: h.env, db: h.env.DB, pepper: pepperBytes(h.env), now: at }, email);
+  return h.call("POST", "/v1/auth/email/verify", { body: { email, code, ...TERMS }, now: at });
+}
+
+test("review F7: one emailed admin code + the attacker's own Google account is NOT admin, and the owner keeps the admin path", async () => {
+  const h = await harness({ ADMIN_EMAILS: "owner@gmail.com" });
+  const owner = await emailCodeSignIn(h, "owner@gmail.com", NOW);
+  assert.equal(owner.body.account.isAdmin, false, "an email-code session is never admin");
+  const t1 = NOW + 3600;
+  const attacker = await emailCodeSignIn(h, "owner@gmail.com", t1);
+  const mallory = { sub: "sub-attacker", email: "mallory@gmail.com", iat: t1 - 30, exp: t1 + 3000 };
+  const link = await h.call("POST", "/v1/me/link/google", { cookie: attacker.token, body: await h.proof(mallory), now: t1 + 60 });
+  assert.deepEqual([link.status, link.body.reason], [409, "admin_identity_mismatch"], "a listed admin address only links its own Google address");
+  const t2 = t1 + 120;
+  const asMallory = await h.signIn({ ...mallory, iat: t2 - 30, exp: t2 + 3000 }, { now: t2 });
+  assert.notEqual(asMallory.body.account && asMallory.body.account.id, owner.body.account.id, "mallory's Google does not land in the owner's account");
+  const t3 = t2 + 600;
+  const real = await h.signIn({ sub: "sub-owner", email: "owner@gmail.com", iat: t3 - 30, exp: t3 + 3000 }, { now: t3 });
+  assert.deepEqual([real.status, real.body.account.id, real.body.account.isAdmin], [200, owner.body.account.id, true], "the real owner is not locked out");
+});
+
+test("review F7: even if another Google identity sits on the admin account, its sessions are not admin", async () => {
+  const h = await harness({ ADMIN_EMAILS: "owner@gmail.com" });
+  const owner = await emailCodeSignIn(h, "owner@gmail.com", NOW);
+  const { linkIdentity } = await import("../src/accounts.mjs");
+  // Planted directly (the link route refuses it): the rule itself must not trust it.
+  await linkIdentity(h.ctx, { provider: "google", subject: "sub-attacker", accountId: owner.body.account.id, emailAtLink: "mallory@gmail.com", emailAuthoritative: true });
+  const asMallory = await h.signIn({ sub: "sub-attacker", email: "mallory@gmail.com" }, { now: NOW + 60 });
+  assert.deepEqual([asMallory.status, asMallory.body.account.id, asMallory.body.account.isAdmin], [200, owner.body.account.id, false]);
+  const grant = await h.call("POST", "/v1/admin/grants", { cookie: asMallory.token, body: { email: "mallory@gmail.com", days: null, kind: "gift", requestId: "req-00000001" }, now: NOW + 65 });
+  assert.deepEqual([grant.status, grant.body.reason], [401, "reauth_required"]);
+  const role = await h.call("POST", "/v1/admin/roles", { cookie: asMallory.token, body: { email: "mallory@gmail.com", role: "tester", days: null }, now: NOW + 66 });
+  assert.equal(role.status, 401);
+  assert.equal(await count(h.env, "FROM grants"), 0);
+  assert.equal(await count(h.env, "FROM account_roles"), 0);
+});
+
+test("review F4: a Google address Google is not authoritative for is display-only; the mailbox's later owner gets their own account", async () => {
+  const h = await harness({ ADMIN_EMAILS: "j.doe@corp.test" });
+  const stale = await h.signIn({ sub: "sub-old-holder", email: "j.doe@corp.test" });
+  assert.deepEqual([stale.status, stale.body.account.email, stale.body.account.emailVerified, stale.body.account.isAdmin], [200, "j.doe@corp.test", false, false]);
+  const row = await h.env.DB.prepare("SELECT email_normalized, email_verified FROM accounts WHERE id = ?1").bind(stale.body.account.id).first();
+  assert.deepEqual(row, { email_normalized: null, email_verified: 0 });
+  const admin = await h.call("GET", "/v1/admin/grants", { cookie: stale.token });
+  assert.deepEqual([admin.status, admin.body.reason], [403, "forbidden"]);
+  const newOwner = await emailCodeSignIn(h, "j.doe@corp.test", NOW + 60);
+  assert.equal(newOwner.status, 200);
+  assert.notEqual(newOwner.body.account.id, stale.body.account.id, "no merge into the old holder's account");
+  const again = await h.signIn({ sub: "sub-old-holder", email: "j.doe@corp.test" }, { now: NOW + 120 });
+  assert.equal(again.body.account.id, stale.body.account.id, "the old holder keeps only their own account");
+  const hd = await h.signIn({ sub: "sub-ws", email: "ana@uni.edu.pe", hd: "uni.edu.pe" }, { now: NOW + 180 });
+  assert.equal(hd.body.account.emailVerified, true, "Workspace (hd) addresses stay proven");
 });

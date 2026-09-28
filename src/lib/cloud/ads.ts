@@ -1,0 +1,112 @@
+/**
+ * Ad eligibility and adapter choice (DESIGN-v3 §E, decision D-ORCH-06). Pure; the <AdSlot> in C2
+ * renders what this returns.
+ *
+ * Eligibility: 'unknown' (reserve the box, show nothing) | 'none' | 'test' | 'free'.
+ * - stage off: nothing at all. Only the course route carries ads (an allowlist, so a new route is
+ *   ad-free until someone decides otherwise).
+ * - QA test mode or "Previsualizar anuncios": labelled placeholders for anyone, zero requests.
+ * - Admins, testers and every Pro source: none. Free users only: 'free'.
+ * Adapter for 'free': house promos by default (no network, no cookies). Networks are built but
+ * off: EthicalAds only in the desktop right rail; AdSense only after an in-slot opt-in with an
+ * 18+ attestation, never in the EEA/UK/CH, never without a geo answer, and never for signed-in
+ * users who have not attested 18+ (house only).
+ */
+import type { CloudConfig, LaunchStage } from '@/lib/cloud/config'
+import type { AccessState } from '@/lib/cloud/access'
+import type { QaMode } from '@/lib/cloud/qa-mode'
+import { CONSENT_REGION } from '@/lib/cloud/consent'
+
+export type AdEligibility = 'unknown' | 'none' | 'test' | 'free'
+export type AdAdapter = 'none' | 'reserved' | 'test' | 'house' | 'ethicalads' | 'adsense' | 'adsense_optin'
+export type AdPlacement = 'section_end' | 'resources_end' | 'rail' | 'glossary_footer'
+
+/** Routes that may carry an ad slot. Everything else is excluded. */
+export const AD_ROUTES: readonly string[] = ['/']
+
+/** Named for review and tests; enforcement is the allowlist above. */
+export const AD_EXCLUDED_ROUTES: readonly string[] = [
+  '/cuenta', '/admin', '/qa', '/precios', '/suscripcion', '/regalos', '/verify', '/404',
+  '/privacy', '/cookies', '/terms', '/data-rights', '/disclaimer', '/acceptable-use',
+  '/credential-policy', '/security', '/badge-notice', '/external-resources',
+]
+
+export function routePath(pathname: string, basePath = ''): string {
+  const stripped = basePath && pathname.startsWith(basePath) ? pathname.slice(basePath.length) : pathname
+  const trimmed = stripped.replace(/\/+$/, '')
+  return trimmed === '' ? '/' : trimmed
+}
+
+export function isAdRoute(pathname: string, basePath = ''): boolean {
+  return AD_ROUTES.includes(routePath(pathname, basePath))
+}
+
+export interface AdEligibilityInput {
+  stage: LaunchStage
+  pathname: string
+  basePath?: string
+  qa: QaMode
+  access: AccessState
+  isAdmin: boolean
+  isTester: boolean
+}
+
+export function adEligibility(i: AdEligibilityInput): AdEligibility {
+  if (i.stage === 'off' || !isAdRoute(i.pathname, i.basePath)) return 'none'
+  if (i.qa.testMode || i.qa.adPreview) return 'test'
+  if (i.access === 'unknown') return 'unknown'
+  if (i.isAdmin || i.isTester || i.access === 'pro') return 'none'
+  return 'free'
+}
+
+export interface AdapterInput {
+  eligibility: AdEligibility
+  ads: CloudConfig['ads']
+  placement: AdPlacement
+  signedIn: boolean
+  /** Signed-in users: an 18+ attestation stored on the account. */
+  adultAttested: boolean
+  geo: { status: 'unknown' | 'ok' | 'failed'; country: string | null }
+  /** The in-slot "¿Mostrar anuncios de Google aquí? … Soy mayor de 18 años" answer. */
+  adsenseOptIn: 'unset' | 'accepted' | 'declined'
+  desktop: boolean
+}
+
+function ethicalAdsAdapter(i: AdapterInput): AdAdapter {
+  const ready = i.ads.ethicaladsPublisher !== '' && i.desktop && i.placement === 'rail'
+  return ready ? 'ethicalads' : 'house'
+}
+
+function adsenseAdapter(i: AdapterInput): AdAdapter {
+  const slot = Object.prototype.hasOwnProperty.call(i.ads.adsenseSlots, i.placement) ? i.ads.adsenseSlots[i.placement] : ''
+  if (!i.ads.adsenseClient || !slot) return 'house'
+  if (i.geo.status !== 'ok' || !i.geo.country || CONSENT_REGION.has(i.geo.country.toUpperCase())) return 'house'
+  if (i.signedIn && !i.adultAttested) return 'house'
+  if (i.adsenseOptIn === 'accepted') return 'adsense'
+  return i.adsenseOptIn === 'unset' ? 'adsense_optin' : 'house'
+}
+
+const FIXED: Record<Exclude<AdEligibility, 'free'>, AdAdapter> = { none: 'none', unknown: 'reserved', test: 'test' }
+
+export function chooseAdapter(i: AdapterInput): AdAdapter {
+  if (i.eligibility !== 'free') return FIXED[i.eligibility]
+  if (i.ads.provider === 'ethicalads') return ethicalAdsAdapter(i)
+  if (i.ads.provider === 'adsense') return adsenseAdapter(i)
+  return 'house'
+}
+
+const HOSTS: Partial<Record<AdAdapter, string[]>> = {
+  ethicalads: ['https://media.ethicalads.io', 'https://server.ethicalads.io'],
+  adsense: ['https://pagead2.googlesyndication.com', 'https://googleads.g.doubleclick.net', 'https://tpc.googlesyndication.com'],
+}
+
+/** Third-party origins an adapter contacts; [] for everything that stays first-party. */
+export function networkHosts(adapter: AdAdapter): string[] {
+  return HOSTS[adapter] ?? []
+}
+
+export function scriptUrl(adapter: AdAdapter, ads: CloudConfig['ads']): string | null {
+  if (adapter === 'ethicalads') return 'https://media.ethicalads.io/media/client/ethicalads.min.js'
+  if (adapter === 'adsense') return `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(ads.adsenseClient)}`
+  return null
+}

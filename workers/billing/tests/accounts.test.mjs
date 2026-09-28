@@ -14,6 +14,7 @@ import {
   findIdentity,
   findLiveAccountByEmail,
   getAccount,
+  adminDenial,
   isAdminSession,
   linkIdentity,
   recordSignin
@@ -127,8 +128,15 @@ test("activeRoles lists only unrevoked, unexpired roles", async () => {
 
 test("admin needs a verified listed email AND a Google session younger than 12 h", () => {
   const env = { ADMIN_EMAILS: "Owner@gmail.com" };
-  const account = { email_normalized: "owner@gmail.com", email_verified: 1 };
-  const session = { method: "google", created_at: NOW - 3600 };
+  const account = { id: "acct_owner", email_normalized: "owner@gmail.com", email_verified: 1 };
+  const session = {
+    method: "google",
+    created_at: NOW - 3600,
+    identity_subject: "sub-owner",
+    identity_account_id: "acct_owner",
+    identity_email: "owner@gmail.com",
+    identity_authoritative: 1
+  };
   assert.equal(isAdminSession(env, account, session, NOW), true);
   assert.equal(isAdminSession(env, account, { ...session, method: "email" }, NOW), false);
   assert.equal(isAdminSession(env, account, { ...session, method: "microsoft" }, NOW), false);
@@ -136,4 +144,30 @@ test("admin needs a verified listed email AND a Google session younger than 12 h
   assert.equal(isAdminSession(env, { ...account, email_verified: 0 }, session, NOW), false);
   assert.equal(isAdminSession(env, { ...account, email_normalized: "other@gmail.com" }, session, NOW), false);
   assert.equal(isAdminSession({}, account, session, NOW), false);
+});
+
+test("admin also needs the session's OWN Google identity to be authoritative for the listed address (review F7)", () => {
+  const env = { ADMIN_EMAILS: "owner@gmail.com" };
+  const account = { id: "acct_owner", email_normalized: "owner@gmail.com", email_verified: 1 };
+  const session = {
+    method: "google",
+    created_at: NOW - 60,
+    identity_subject: "sub-owner",
+    identity_account_id: "acct_owner",
+    identity_email: "owner@gmail.com",
+    identity_authoritative: 1
+  };
+  assert.equal(adminDenial(env, account, session, NOW), null);
+  const cases = [
+    ["another Google account linked to the admin account", { identity_subject: "sub-mallory", identity_email: "mallory@gmail.com" }],
+    ["a Google address Google is not authoritative for", { identity_authoritative: 0 }],
+    ["an identity that belongs to another account", { identity_account_id: "acct_other" }],
+    ["no identity recorded on the session", { identity_subject: null, identity_account_id: null, identity_email: null, identity_authoritative: null }],
+    ["the identity row is gone", { identity_account_id: null, identity_email: null, identity_authoritative: null }]
+  ];
+  for (const [label, patch] of cases) {
+    assert.equal(adminDenial(env, account, { ...session, ...patch }, NOW), "reauth_required", label);
+    assert.equal(isAdminSession(env, account, { ...session, ...patch }, NOW), false, label);
+  }
+  assert.equal(adminDenial(env, account, { ...session, identity_email: " Owner@Gmail.com " }, NOW), null, "compared normalized");
 });

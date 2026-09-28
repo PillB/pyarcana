@@ -6,6 +6,7 @@
  *   sessions      deleted 7 days after expiry
  *   rate_limits   deleted 2 days after their window started
  *   checkouts     `open` for more than 7 days -> `expired`
+ *   used_nonces   deleted once their token could no longer verify (exp + skew)
  * Never swept: webhook_events (Creem replay protection), trial_claims
  * (anti-abuse, stated on the privacy page), audit_log, billing rows.
  *
@@ -27,20 +28,23 @@ const DAY = 86400;
 /**
  * Delete what the retention policy says, in one batch.
  * @param {{db: Object, now: number}} ctx Context.
- * @returns {Promise<{loginCodes: number, sessions: number, rateLimits: number, checkoutsExpired: number}>} Counts.
+ * @returns {Promise<{loginCodes: number, sessions: number, rateLimits: number, checkoutsExpired: number,
+ *   usedNonces: number}>} Counts.
  */
 export async function sweepRetention(ctx) {
-  const [codes, sessions, limits, checkouts] = await ctx.db.batch([
+  const [codes, sessions, limits, checkouts, nonces] = await ctx.db.batch([
     ctx.db.prepare("DELETE FROM login_codes WHERE expires_at < ?1").bind(ctx.now - DAY),
     ctx.db.prepare("DELETE FROM sessions WHERE expires_at < ?1").bind(ctx.now - 7 * DAY),
     ctx.db.prepare("DELETE FROM rate_limits WHERE window_start < ?1").bind(ctx.now - 2 * DAY),
-    ctx.db.prepare("UPDATE checkouts SET status = 'expired' WHERE status = 'open' AND created_at < ?1").bind(ctx.now - 7 * DAY)
+    ctx.db.prepare("UPDATE checkouts SET status = 'expired' WHERE status = 'open' AND created_at < ?1").bind(ctx.now - 7 * DAY),
+    ctx.db.prepare("DELETE FROM used_nonces WHERE expires_at < ?1").bind(ctx.now)
   ]);
   return {
     loginCodes: codes.meta.changes,
     sessions: sessions.meta.changes,
     rateLimits: limits.meta.changes,
-    checkoutsExpired: checkouts.meta.changes
+    checkoutsExpired: checkouts.meta.changes,
+    usedNonces: nonces.meta.changes
   };
 }
 

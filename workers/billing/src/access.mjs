@@ -310,6 +310,17 @@ function upcomingOf(intervals, now) {
  *            upcoming: Object[]}} Access.
  */
 export function resolveAccess(rows, now, cfg) {
+  return resolveAccessDetailed(rows, now, cfg).access;
+}
+
+/**
+ * resolveAccess plus the per-grant schedule it was computed from (one pass).
+ * @param {Object} rows Rows (see resolveAccess).
+ * @param {number} now Epoch seconds.
+ * @param {{graceDays: number}} cfg Config.
+ * @returns {{access: Object, schedule: Object[]}} Access and schedule.
+ */
+export function resolveAccessDetailed(rows, now, cfg) {
   const paid = paidIntervals(rows, cfg);
   const coverage = mergeIntervals(paid);
   const schedule = grantSchedule(rows, now, cfg, coverage);
@@ -318,10 +329,10 @@ export function resolveAccess(rows, now, cfg) {
   const base = { ...pendingOf(schedule), upcoming: upcomingOf(intervals, now) };
   const covering = coveringInterval(intervals, now);
   if (!covering) {
-    return { isPro: false, source: null, accessEnd: null, indefinite: false, graceUntil: null, ...base };
+    return { access: { isPro: false, source: null, accessEnd: null, indefinite: false, graceUntil: null, ...base }, schedule };
   }
   const run = mergeIntervals(intervals).find((r) => r.start <= now && now < r.end);
-  return {
+  const access = {
     isPro: true,
     source: covering.kind,
     accessEnd: run.end === INF ? null : run.end,
@@ -329,6 +340,7 @@ export function resolveAccess(rows, now, cfg) {
     graceUntil: covering.grace ? covering.end : null,
     ...base
   };
+  return { access, schedule };
 }
 
 /**

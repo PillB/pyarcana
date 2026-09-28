@@ -30,7 +30,12 @@ export interface MeAccount {
   roles: string[]
   firstSigninAt: number | null
   trialAvailable: boolean
+  /** How THIS session signed in (the worker's session.method). */
+  signInMethod: SignInMethod | null
 }
+
+export type SignInMethod = 'google' | 'microsoft' | 'email'
+const METHODS = new Set<unknown>(['google', 'microsoft', 'email'])
 
 export interface MeAccess {
   isPro: boolean
@@ -97,6 +102,7 @@ function parseAccount(raw: unknown): MeAccount | null {
     roles: list(raw.roles).filter((r): r is string => typeof r === 'string'),
     firstSigninAt: num(raw.firstSigninAt),
     trialAvailable: raw.trialAvailable === true,
+    signInMethod: METHODS.has(raw.signInMethod) ? (raw.signInMethod as SignInMethod) : null,
   }
 }
 

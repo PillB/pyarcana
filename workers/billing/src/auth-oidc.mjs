@@ -16,6 +16,11 @@
  * Linking from the account panel needs a session created in the last 10
  * minutes: adding a sign-in method is an account change (ASVS V3.7), and a
  * stolen session must not be able to plant a permanent way back in.
+ *
+ * Every route takes {idToken, noncePreimage} (DESIGN-v3 §B): the token's
+ * nonce must be base64url(SHA-256(preimage)), and the nonce is spent on
+ * first use (nonce.mjs), so a captured or replayed token is refused with
+ * 401 invalid_token / token_replayed.
  */
 
 import {
@@ -32,6 +37,7 @@ import { checkTerms, completeSignIn } from "./auth-session.mjs";
 import { googleClientIds, verifyGoogleIdToken } from "./google.mjs";
 import { buildMePayload } from "./me.mjs";
 import { microsoftClientIds, verifyMicrosoftIdToken } from "./microsoft.mjs";
+import { expectedNonce, spendNonce } from "./nonce.mjs";
 import { hitRateLimit } from "./ratelimit.mjs";
 import { isRecentAuth } from "./sessions.mjs";
 
@@ -158,20 +164,21 @@ async function accountForMicrosoft(ctx, identity) {
 const PROVIDERS = {
   google: {
     configured: (env) => googleClientIds(env).length > 0,
-    verify: (ctx) => verifyGoogleIdToken(ctx.body.idToken, ctx.env, ctx),
+    verify: verifyGoogleIdToken,
     resolve: accountForGoogle,
     emailVerified: (account, identity) => account.email_normalized === identity.emailNormalized
   },
   microsoft: {
     configured: (env) => microsoftClientIds(env).length > 0,
-    verify: (ctx) => verifyMicrosoftIdToken(ctx.body.idToken, ctx.body.nonce, ctx.env, ctx),
+    verify: verifyMicrosoftIdToken,
     resolve: accountForMicrosoft,
     emailVerified: () => false
   }
 };
 
 /**
- * Verify a provider token after the config and rate checks.
+ * Verify a provider token after the config and rate checks: the nonce must
+ * derive from the posted preimage, and it is spent on first use.
  * @param {Object} ctx Context.
  * @param {string} name Provider name.
  * @returns {Promise<{stop: Object}|{identity: Object}>} Identity or stop.
@@ -185,8 +192,18 @@ async function verifiedIdentity(ctx, name) {
   if (limited) {
     return { stop: limited };
   }
-  const verified = await provider.verify(ctx);
-  return verified.ok ? { identity: verified.identity } : { stop: tokenFailure(verified.reason) };
+  const nonce = await expectedNonce(ctx.body.noncePreimage);
+  if (!nonce) {
+    return { stop: tokenFailure("bad_nonce") };
+  }
+  const verified = await provider.verify(ctx.body.idToken, ctx.env, { fetchImpl: ctx.fetchImpl, now: ctx.now, nonce });
+  if (!verified.ok) {
+    return { stop: tokenFailure(verified.reason) };
+  }
+  if (!(await spendNonce(ctx, verified.nonce, verified.expiresAt))) {
+    return { stop: tokenFailure("token_replayed") };
+  }
+  return { identity: verified.identity };
 }
 
 /**
@@ -246,7 +263,7 @@ async function linkWith(ctx, name) {
 }
 
 /**
- * POST /v1/auth/google {idToken, ageConfirmed, termsVersion}.
+ * POST /v1/auth/google {idToken, noncePreimage, ageConfirmed, termsVersion}.
  * @param {Object} ctx Context.
  * @returns {Promise<Object>} Result.
  */
@@ -255,7 +272,7 @@ export function handleGoogleSignIn(ctx) {
 }
 
 /**
- * POST /v1/auth/microsoft {idToken, nonce, ageConfirmed, termsVersion}.
+ * POST /v1/auth/microsoft {idToken, noncePreimage, ageConfirmed, termsVersion}.
  * @param {Object} ctx Context.
  * @returns {Promise<Object>} Result.
  */
@@ -264,7 +281,7 @@ export function handleMicrosoftSignIn(ctx) {
 }
 
 /**
- * POST /v1/me/link/google {idToken}.
+ * POST /v1/me/link/google {idToken, noncePreimage}.
  * @param {Object} ctx Context with a session.
  * @returns {Promise<Object>} Result.
  */
@@ -273,7 +290,7 @@ export function handleLinkGoogle(ctx) {
 }
 
 /**
- * POST /v1/me/link/microsoft {idToken, nonce}.
+ * POST /v1/me/link/microsoft {idToken, noncePreimage}.
  * @param {Object} ctx Context with a session.
  * @returns {Promise<Object>} Result.
  */

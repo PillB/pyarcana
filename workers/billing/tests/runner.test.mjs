@@ -66,3 +66,13 @@ test("every suite names a file that exists and has a positive floor", async () =
   }
   assert.ok(SUITES.some((s) => s.file.endsWith("runner.test.mjs")), "the runner guards itself");
 });
+
+test("every *.test.mjs in workers/billing/tests is a listed suite (none can be left out of CI)", async () => {
+  const { readdirSync } = await import("node:fs");
+  const onDisk = readdirSync(path.resolve(ROOT, "workers/billing/tests"))
+    .filter((name) => name.endsWith(".test.mjs"))
+    .map((name) => `workers/billing/tests/${name}`)
+    .sort();
+  const listed = SUITES.filter((s) => s.file.startsWith("workers/billing/tests/")).map((s) => s.file).sort();
+  assert.deepEqual(listed, onDisk);
+});
