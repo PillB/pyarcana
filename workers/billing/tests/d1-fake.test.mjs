@@ -78,6 +78,36 @@ test("a batch cannot be interleaved by another request's statement", async () =>
   assert.deepEqual(ids, ["b"]);
 });
 
+test("statements yield like network round trips, so a read-then-write race loses updates", async () => {
+  // Each request does async work first (as the worker's HMAC does), then a
+  // SELECT and a dependent UPDATE. On D1 each statement is a round trip, so
+  // other requests' statements land in between and increments are lost. The
+  // fake must reproduce that, or race tests would pass on racy code.
+  const db = createD1();
+  await db.exec("CREATE TABLE c (id TEXT PRIMARY KEY, n INTEGER)");
+  await db.exec("INSERT INTO c VALUES ('x', 0)");
+  const racy = async () => {
+    await crypto.subtle.digest("SHA-256", new Uint8Array(8));
+    const n = await db.prepare("SELECT n FROM c WHERE id = 'x'").first("n");
+    await db.prepare("UPDATE c SET n = ?1 WHERE id = 'x'").bind(n + 1).run();
+  };
+  await Promise.all(Array.from({ length: 20 }, racy));
+  const n = await db.prepare("SELECT n FROM c WHERE id = 'x'").first("n");
+  assert.ok(n < 20, `expected lost updates under interleaving, got n=${n}`);
+});
+
+test("an atomic increment never loses updates under the same interleaving", async () => {
+  const db = createD1();
+  await db.exec("CREATE TABLE c (id TEXT PRIMARY KEY, n INTEGER)");
+  await db.exec("INSERT INTO c VALUES ('x', 0)");
+  const atomic = async () => {
+    await crypto.subtle.digest("SHA-256", new Uint8Array(8));
+    await db.prepare("UPDATE c SET n = n + 1 WHERE id = 'x'").run();
+  };
+  await Promise.all(Array.from({ length: 20 }, atomic));
+  assert.equal(await db.prepare("SELECT n FROM c WHERE id = 'x'").first("n"), 20);
+});
+
 test("foreign keys are enforced, as in D1", async () => {
   const db = createD1();
   await db.exec("CREATE TABLE p (id TEXT PRIMARY KEY)");

@@ -1,26 +1,38 @@
 /**
  * A D1-shaped adapter over Node's built-in SQLite (Node >= 22.13).
  *
- * Ported from the Vocal Studio worker's fake, with four corrections, each
+ * Ported from the Vocal Studio worker's fake, with five corrections, each
  * pinned by d1-fake.test.mjs:
  * - binding `undefined` throws D1_TYPE_ERROR, as D1 does (the original coerced
  *   it to NULL and so hid bugs production would hit);
  * - BLOBs bind from Uint8Array or ArrayBuffer and read back as number arrays;
  * - `run()` and `batch()` return RETURNING rows in `results`, as D1 does;
- * - `batch()` runs synchronously, so a concurrent request's statement can
- *   never land inside (and roll back with) another request's transaction.
+ * - `batch()` executes its statements without yielding in between, so a
+ *   concurrent request's statement can never land inside (and roll back
+ *   with) another request's transaction;
+ * - every call yields like a network round trip (see the concurrency model).
  *
  * UNVERIFIED against live D1 (docs egress-blocked while writing this): the
  * BLOB read shape and the exact error text. Production code must accept any
  * of Array, ArrayBuffer or Uint8Array for a BLOB column.
  *
- * Concurrency model: every statement is atomic, and an `await` between two
- * statements lets other in-flight requests run theirs. That is exactly the
- * interleaving a read-then-write race needs, so `Promise.all` over the fake
- * reproduces lost updates that a real D1 would show.
+ * Concurrency model: every statement (and every batch) is atomic, and it is
+ * preceded and followed by a macrotask yield standing in for the D1 network
+ * round trip. Other in-flight requests run their statements in between, so
+ * `Promise.all` over the fake reproduces the lost updates of a read-then-write
+ * race, as a real D1 would (pinned by d1-fake.test.mjs).
  */
 
 import { DatabaseSync } from "node:sqlite";
+
+/**
+ * One network leg: yield to the macrotask queue, as a D1 round trip does, so
+ * other in-flight requests get to run their statements in between.
+ * @returns {Promise<void>} Resolves on the next check phase.
+ */
+function networkLeg() {
+  return new Promise((resolve) => setImmediate(resolve));
+}
 
 /**
  * Convert one bound value the way D1 does.
@@ -120,7 +132,9 @@ class FakeD1PreparedStatement {
    * @returns {Promise<Object|unknown|null>} Row, value, or null.
    */
   async first(column) {
+    await networkLeg();
     const { rows } = this.execute();
+    await networkLeg();
     if (!rows.length) {
       return null;
     }
@@ -132,7 +146,10 @@ class FakeD1PreparedStatement {
    * @returns {Promise<{results: Object[], success: boolean, meta: Object}>} D1-shaped result.
    */
   async all() {
-    return this.runSync();
+    await networkLeg();
+    const result = this.runSync();
+    await networkLeg();
+    return result;
   }
 
   /**
@@ -140,7 +157,10 @@ class FakeD1PreparedStatement {
    * @returns {Promise<{results: Object[], success: boolean, meta: Object}>} D1-shaped result.
    */
   async run() {
-    return this.runSync();
+    await networkLeg();
+    const result = this.runSync();
+    await networkLeg();
+    return result;
   }
 }
 
@@ -188,15 +208,18 @@ export class FakeD1Database {
    * @returns {Promise<Object[]>} Per-statement results.
    */
   async batch(statements) {
+    await networkLeg();
+    let out;
     this.db.exec("BEGIN");
     try {
-      const out = statements.map((statement) => statement.runSync());
+      out = statements.map((statement) => statement.runSync());
       this.db.exec("COMMIT");
-      return out;
     } catch (error) {
       this.db.exec("ROLLBACK");
       throw error;
     }
+    await networkLeg();
+    return out;
   }
 
   /**
@@ -205,6 +228,7 @@ export class FakeD1Database {
    * @returns {Promise<{count: number}>} D1-shaped result.
    */
   async exec(sql) {
+    await networkLeg();
     this.db.exec(sql);
     return { count: 0 };
   }

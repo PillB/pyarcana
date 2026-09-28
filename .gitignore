@@ -101,3 +101,8 @@ course-state/curriculum-agent/qa/**/*.png
 # not committed (matches existing repository practice).
 course-state/curriculum-agent/staging/
 .fixer/
+
+# Cloudflare Worker local state and secrets (workers/billing)
+.dev.vars
+.wrangler/
+/outputs/
