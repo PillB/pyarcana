@@ -50,7 +50,7 @@ const LIST_FIELDS = [
   ["state", (q) => enumValue(q.state, ["active", "expired", "revoked", "all"], "all"), "bad_state"]
 ];
 
-const ROLE_WITH_EMAILS = `SELECT r.*, a.email AS account_email, g.email AS granter_email
+export const ROLE_WITH_EMAILS = `SELECT r.*, a.email AS account_email, g.email AS granter_email
   FROM account_roles r JOIN accounts a ON a.id = r.account_id LEFT JOIN accounts g ON g.id = r.granted_by`;
 
 const STATE_SQL = {
@@ -79,7 +79,7 @@ function roleState(row, now) {
  * @param {number} now Clock.
  * @returns {Object} View.
  */
-function roleView(row, now) {
+export function roleView(row, now) {
   return {
     accountId: row.account_id,
     email: row.account_email || null,

@@ -264,8 +264,18 @@ const MIGRATION_1 = [
   `CREATE INDEX IF NOT EXISTS idx_report_attachments_report ON report_attachments (report_id)`
 ];
 
+/**
+ * Migration 2: the QA harness's "improvement" field (what the tester
+ * suggests), which DESIGN-v3's reports table left out; without it a sent
+ * issue would lose part of what the tester wrote.
+ */
+const MIGRATION_2 = ["ALTER TABLE reports ADD COLUMN improvement TEXT"];
+
 /** Every migration, in order. Append only; never edit a shipped one. */
-export const MIGRATIONS = [{ version: 1, statements: MIGRATION_1 }];
+export const MIGRATIONS = [
+  { version: 1, statements: MIGRATION_1 },
+  { version: 2, statements: MIGRATION_2 }
+];
 
 /** The version a fully migrated database reports. */
 export const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1].version;

@@ -106,6 +106,17 @@ export async function findOrCreateByEmail(ctx, email) {
 }
 
 /**
+ * A provider subject shortened for display: enough to tell two apart,
+ * never enough to reuse ("1100…42").
+ * @param {string} subject Subject.
+ * @returns {string} Masked subject.
+ */
+export function maskSubject(subject) {
+  const text = String(subject || "");
+  return text.length > 8 ? `${text.slice(0, 4)}…${text.slice(-2)}` : `…${text.slice(-2)}`;
+}
+
+/**
  * Read an identity.
  * @param {Object} db D1 binding.
  * @param {string} provider google | microsoft | email.

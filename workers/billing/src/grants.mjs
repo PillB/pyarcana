@@ -82,7 +82,7 @@ export function adminGrantView(row, entry) {
   };
 }
 
-const GRANT_WITH_EMAILS = `SELECT g.*, a.email AS account_email, i.email AS issuer_email
+export const GRANT_WITH_EMAILS = `SELECT g.*, a.email AS account_email, i.email AS issuer_email
   FROM grants g JOIN accounts a ON a.id = g.account_id LEFT JOIN accounts i ON i.id = g.issued_by`;
 
 /**

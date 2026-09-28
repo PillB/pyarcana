@@ -16,6 +16,7 @@
  * nosniff.
  */
 
+import { handleDisableAccount, handleEnableAccount, handleGetAccount, handleRectifyEmail } from "./admin-accounts.mjs";
 import { handleEmailStart, handleEmailVerify } from "./auth-email.mjs";
 import { handleGoogleSignIn, handleLinkGoogle, handleLinkMicrosoft, handleMicrosoftSignIn } from "./auth-oidc.mjs";
 import { handleLogout } from "./auth-session.mjs";
@@ -37,6 +38,7 @@ import {
   sessionCookie
 } from "./http.mjs";
 import { handleGetMe } from "./me.mjs";
+import { handleGetProgress, handlePutProgress, PROGRESS_BODY_CAP } from "./progress.mjs";
 import { handleGrantRole, handleListRoles, handleRevokeRole } from "./roles.mjs";
 import { handleStartTrial } from "./trial.mjs";
 import { handleHealth, handleMethods, hasDb } from "./public.mjs";
@@ -72,6 +74,8 @@ export const ROUTES = [
   { method: "POST", path: "/v1/auth/logout", handler: handleLogout, needs: ["db"], auth: "optional" },
   { method: "GET", path: "/v1/me", handler: handleGetMe, needs: ["db"], auth: "session" },
   { method: "POST", path: "/v1/me/trial", handler: handleStartTrial, needs: DB_PEPPER, auth: "session" },
+  { method: "GET", path: "/v1/me/progress", handler: handleGetProgress, needs: ["db"], auth: "session" },
+  { method: "PUT", path: "/v1/me/progress", handler: handlePutProgress, needs: DB_PEPPER, auth: "session", bodyCap: PROGRESS_BODY_CAP },
   { method: "POST", path: "/v1/me/link/google", handler: handleLinkGoogle, needs: DB_PEPPER, auth: "session" },
   { method: "POST", path: "/v1/me/link/microsoft", handler: handleLinkMicrosoft, needs: DB_PEPPER, auth: "session" },
   adminRoute("POST", "/v1/admin/grants", handleCreateGrant, "admin.grants.create"),
@@ -79,7 +83,11 @@ export const ROUTES = [
   adminRoute("GET", "/v1/admin/grants", handleListGrants, "admin.grants.list"),
   adminRoute("POST", "/v1/admin/roles", handleGrantRole, "admin.roles.grant"),
   adminRoute("POST", "/v1/admin/roles/revoke", handleRevokeRole, "admin.roles.revoke"),
-  adminRoute("GET", "/v1/admin/roles", handleListRoles, "admin.roles.list")
+  adminRoute("GET", "/v1/admin/roles", handleListRoles, "admin.roles.list"),
+  adminRoute("GET", "/v1/admin/account", handleGetAccount, "admin.account.read"),
+  adminRoute("POST", "/v1/admin/accounts/disable", handleDisableAccount, "admin.accounts.disable"),
+  adminRoute("POST", "/v1/admin/accounts/enable", handleEnableAccount, "admin.accounts.enable"),
+  adminRoute("POST", "/v1/admin/accounts/email", handleRectifyEmail, "admin.accounts.email")
 ];
 
 /**

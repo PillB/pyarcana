@@ -227,3 +227,20 @@ test("reports are idempotent per (account_id, client_issue_id)", async () => {
   await report("rep_a");
   await assert.rejects(() => report("rep_b"), /UNIQUE/);
 });
+
+test("migration 2 adds reports.improvement, and a version-1 database upgrades in place keeping its rows", async () => {
+  resetSchemaMemo();
+  const db = createD1();
+  await applyMigrations(db, MIGRATIONS.slice(0, 1));
+  assert.equal(await currentVersion(db), 1);
+  await db.exec("INSERT INTO reports (id, created_at, updated_at, source, status, title) VALUES ('rep_old', 1, 1, 'feedback', 'new', 'kept')");
+  assert.equal((await columns(db, "reports")).has("improvement"), false);
+  resetSchemaMemo();
+  await migrate(db);
+  assert.equal(await currentVersion(db), 2);
+  assert.equal((await columns(db, "reports")).has("improvement"), true);
+  assert.equal(await db.prepare("SELECT title FROM reports WHERE id = 'rep_old'").first("title"), "kept");
+  resetSchemaMemo();
+  await migrate(db);
+  assert.equal(await currentVersion(db), 2, "running again is a no-op");
+});
