@@ -335,7 +335,7 @@ export async function seedAccount(env, spec = {}) {
 /**
  * Run one SQL statement with bound values (test setup).
  * @param {Object} env Worker env.
- * @param {string} sql SQL.
+ * @param {string} sqlText SQL.
  * @param {...unknown} values Bound values.
  * @returns {Promise<Object>} D1 result.
  */
