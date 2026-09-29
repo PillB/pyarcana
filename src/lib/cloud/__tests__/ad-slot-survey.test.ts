@@ -10,6 +10,7 @@ import {
   ethicalAdsKeywords,
   SLOT_HEIGHT_PX,
   houseArmShows,
+  slotView,
 } from '@/lib/cloud/ad-slot'
 import { buildSurveyBody, GATE_REASONS, surveyTrigger } from '@/lib/cloud/survey-ui'
 import { createMemoryStorage } from '@/lib/cloud/storage'
@@ -80,6 +81,29 @@ test('the ads_house_v1 control arm shows no promo; without the experiment the ho
   assert.equal(houseArmShows('none'), false)
 })
 
+test('ads_house_v1: both arms render nothing until access and arm are known, so the layout differs only where the arms do (CLS)', () => {
+  // Frames of one page load: access unknown (/v1/me pending) -> free, arm loading -> arm known.
+  const frames = (arm: 'none' | 'house') => [
+    slotView('reserved', undefined, 'house'),
+    slotView('house', undefined, 'house'),
+    slotView('house', houseArmShows(arm) ? 'trial' : null, 'house'),
+  ]
+  assert.deepEqual(frames('none'), [null, null, null], 'control: no box appears and collapses')
+  assert.deepEqual(frames('house'), [null, null, 'house'], 'treatment: the box appears once, with its content')
+  assert.equal(slotView('house', null, 'house'), null)
+  assert.equal(slotView('none', 'trial', 'house'), null)
+})
+
+test('a configured ad network keeps the reserved box before its script; test placeholders render at once', () => {
+  assert.equal(slotView('reserved', undefined, 'adsense'), 'reserved', 'eligibility still unknown: the box is held')
+  assert.equal(slotView('reserved', undefined, 'ethicalads'), 'reserved')
+  assert.equal(slotView('test', null, 'house'), 'test')
+  assert.equal(slotView('adsense', null, 'adsense'), 'adsense')
+  assert.equal(slotView('adsense_optin', null, 'adsense'), 'adsense_optin')
+  assert.equal(slotView('ethicalads', null, 'ethicalads'), 'ethicalads')
+  assert.equal(slotView('house', 'annual', 'adsense'), 'house', 'a network provider falling back to house still shows the promo')
+})
+
 test('EthicalAds gets English keywords per section (its classifier skips Spanish text)', () => {
   assert.equal(ethicalAdsKeywords('files-ingestion'), 'python|data-science|files|ingestion')
   assert.equal(ethicalAdsKeywords('Bad Id!'), 'python|data-science')
@@ -110,8 +134,8 @@ test('survey bodies are validated before sending; free text is capped at 500 cha
 })
 
 test('the prompt trigger: CSAT on a newly completed section, NPS from the first visit date, gate reason on dismissal', () => {
-  assert.deepEqual(surveyTrigger({ kind: 'completed', prev: ['a'], next: ['a', 'b'] }), { kind: 'section_csat', sectionId: 'b' })
-  assert.equal(surveyTrigger({ kind: 'completed', prev: ['a', 'b'], next: ['a'] }), null, 'an un-toggle asks nothing')
-  assert.equal(surveyTrigger({ kind: 'completed', prev: ['a'], next: ['a'] }), null)
+  assert.deepEqual(surveyTrigger({ kind: 'completed', prev: ['a'], next: ['a', 'b'], remote: false }), { kind: 'section_csat', sectionId: 'b' })
+  assert.equal(surveyTrigger({ kind: 'completed', prev: ['a', 'b'], next: ['a'], remote: false }), null, 'an un-toggle asks nothing')
+  assert.equal(surveyTrigger({ kind: 'completed', prev: ['a'], next: ['a'], remote: false }), null)
   assert.deepEqual(surveyTrigger({ kind: 'gate_dismissed', sectionIndex: 6 }), { kind: 'gate_reason', sectionIndex: 6 })
 })

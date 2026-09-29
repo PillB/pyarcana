@@ -12,6 +12,7 @@ import {
 import { buildRemoteDoc, CHANGES_KEY, type ChangeLog, type ProgressState } from '@/lib/cloud/progress-merge'
 import { createMemoryStorage, type KeyValueStorage } from '@/lib/cloud/storage'
 import type { ApiClient, ApiResult } from '@/lib/cloud/api'
+import { signOutAccount, type ActionResult } from '@/lib/cloud/account-api'
 
 const PROGRESS_KEY = 'python-ds-progress'
 const T0 = Date.parse('2026-09-28T12:00:00Z')
@@ -49,9 +50,9 @@ function fakeApi(handlers: { get?: Handler[]; put?: Handler[] }) {
     return h
   }
   const api: ApiClient = {
-    get: async (path) => {
-      calls.push({ method: 'GET', path })
-      return take(handlers.get, 'GET')(undefined) as never
+    get: async (path, opts) => {
+      calls.push({ method: 'GET', path, keepalive: opts?.keepalive })
+      return take(handlers.get, 'GET')(undefined, opts) as never
     },
     put: async (path, body, opts) => {
       calls.push({ method: 'PUT', path, body: JSON.parse(JSON.stringify(body)), keepalive: opts?.keepalive })
@@ -65,7 +66,13 @@ function fakeApi(handlers: { get?: Handler[]; put?: Handler[] }) {
 }
 
 const ok = (data: Record<string, unknown>): ApiResult<Record<string, unknown>> => ({ ok: true, status: 200, data: { ok: true, ...data } })
-const conflict = (data: Record<string, unknown> = {}): ApiResult<Record<string, unknown>> => ({ ok: false, status: 409, reason: 'conflict', data: { ok: false, reason: 'conflict', ...data } })
+/** The worker's 409 body (workers/billing/src/progress.mjs): the winner's copy under `server`. */
+const conflict = (server?: { rev: number; doc: unknown }): ApiResult<Record<string, unknown>> => ({
+  ok: false,
+  status: 409,
+  reason: 'conflict',
+  data: { ok: false, reason: 'conflict', ...(server ? { server: { ...server, updatedAt: T0 } } : {}) },
+})
 const network = (): ApiResult<Record<string, unknown>> => ({ ok: false, status: 0, reason: 'network', data: null })
 
 function manualScheduler(): Scheduler & { run: () => void; pending: () => number } {
@@ -233,6 +240,7 @@ test('a 409 re-merges the server copy and retries; both devices\' work survives'
   await t.sync.start('acct_a')
   t.store.setState({ completedSections: ['setup'] })
   assert.equal(await t.sync.pushNow(), 'synced')
+  assert.deepEqual(t.calls.map((c) => c.method), ['GET', 'PUT', 'PUT'], 'the server copy in the 409 body needs no re-pull')
   const puts = t.calls.filter((c) => c.method === 'PUT')
   assert.equal(puts.length, 2)
   const second = puts[1].body as { doc: { state: ProgressState }; baseRev: number }
@@ -276,6 +284,35 @@ test('page hide flushes with keepalive; a doc over 64 KiB is flushed without it'
   const puts = t.calls.filter((c) => c.method === 'PUT')
   assert.equal(puts[0].keepalive, true)
   assert.equal(puts[1].keepalive, false)
+})
+
+test('a 409 during the page-hide flush retries from the 409 body, still with keepalive', async () => {
+  const serverNow = buildRemoteDoc(blank({ bookmarks: ['basics'] }), { 'bm:basics': { present: true, ts: T0 - 1 } })
+  const t = setup({
+    owner: 'acct_a',
+    get: [() => ok({ rev: 1, doc: buildRemoteDoc(blank(), {}) })],
+    put: [() => conflict({ rev: 2, doc: serverNow }), () => ok({ rev: 3 })],
+  })
+  await t.sync.start('acct_a')
+  t.store.setState({ completedSections: ['setup'] })
+  assert.equal(await t.sync.flush(), 'synced')
+  const after = t.calls.slice(1)
+  assert.deepEqual(after.map((c) => `${c.method}:${c.keepalive}`), ['PUT:true', 'PUT:true'])
+  const second = after[1].body as { doc: { state: ProgressState }; baseRev: number }
+  assert.equal(second.baseRev, 2)
+  assert.deepEqual(second.doc.state.bookmarks, ['basics'])
+})
+
+test('a 409 during the flush without a server copy re-pulls with keepalive, so the unload does not cancel it', async () => {
+  const t = setup({
+    owner: 'acct_a',
+    get: [() => ok({ rev: 1, doc: buildRemoteDoc(blank(), {}) }), () => ok({ rev: 4, doc: buildRemoteDoc(blank(), {}) })],
+    put: [() => conflict(), () => ok({ rev: 5 })],
+  })
+  await t.sync.start('acct_a')
+  t.store.setState({ completedSections: ['setup'] })
+  assert.equal(await t.sync.flush(), 'synced')
+  assert.deepEqual(t.calls.slice(1).map((c) => `${c.method}:${c.keepalive}`), ['PUT:true', 'GET:true', 'PUT:true'])
 })
 
 test('a doc over the 256 KiB server cap is not sent', async () => {
@@ -371,4 +408,44 @@ test('archive keys are only ever the archive namespace, never the progress key',
   assert.equal(archiveKey('../../evil', 1), 'python-ds-progress.archive.unknown.1')
   const storage = createMemoryStorage({ [PROGRESS_KEY]: '{}', 'python-ds-progress.archive.acct_b.10': '{}', 'python-ds-progress.archive.bad key.x': '{}' })
   assert.deepEqual(listArchives(storage).map((a) => a.key), ['python-ds-progress.archive.acct_b.10'])
+})
+
+// --- sign-out through the account panel (runtime.signOutCloud -> account-api.signOutAccount) ---------
+
+const logoutFailed = (status: number): ActionResult => ({ ok: false, status, reason: status === 0 ? 'network' : `http_${status}`, error: { key: 'account.error.unavailable' } })
+
+test('a failed logout (network or 5xx) keeps sync on for the still-signed-in account', async () => {
+  for (const status of [0, 503]) {
+    const t = setup({ owner: 'acct_a', get: [() => ok({ rev: 1, doc: buildRemoteDoc(blank(), {}) })], put: [() => ok({ rev: 2 }), () => ok({ rev: 3 })] })
+    await t.sync.start('acct_a')
+    t.store.setState({ completedSections: ['setup'] })
+    const order: string[] = []
+    const r = await signOutAccount({
+      sync: t.sync,
+      request: async () => (order.push(`logout after ${t.calls.filter((c) => c.method === 'PUT').length} PUT`), logoutFailed(status)),
+      onSignedOut: () => void order.push('ended'),
+    })
+    assert.equal(r.ok, false)
+    assert.deepEqual(order, ['logout after 1 PUT'], 'the flush went first and the session was not ended')
+    assert.notEqual(t.sync.status, 'signed_out')
+    t.store.setState({ completedSections: ['setup', 'basics'] })
+    t.scheduler.run()
+    await flushMicrotasks()
+    const puts = t.calls.filter((c) => c.method === 'PUT')
+    assert.equal(puts.length, 2, `status ${status}: the next change is still pushed`)
+    assert.deepEqual((puts[1].body as { doc: { state: ProgressState } }).doc.state.completedSections.sort(), ['basics', 'setup'])
+  }
+})
+
+test('a successful (or already expired, 401) logout ends the session after the flush', async () => {
+  for (const r0 of [{ ok: true as const, me: null, data: {} }, logoutFailed(401)]) {
+    const t = setup({ owner: 'acct_a', get: [() => ok({ rev: 1, doc: buildRemoteDoc(blank(), {}) })], put: [() => ok({ rev: 2 })] })
+    await t.sync.start('acct_a')
+    t.store.setState({ completedSections: ['setup'] })
+    const order: string[] = []
+    await signOutAccount({ sync: t.sync, request: async () => (order.push('logout'), r0), onSignedOut: () => void order.push('ended') })
+    assert.deepEqual(order, ['logout', 'ended'])
+    assert.equal(t.calls.filter((c) => c.method === 'PUT').length, 1)
+    assert.deepEqual(t.store.getState().completedSections, ['setup'], 'local progress is kept')
+  }
 })

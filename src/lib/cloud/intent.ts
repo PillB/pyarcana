@@ -37,3 +37,13 @@ export function takeIntent(storage: KeyValueStorage | null, nowMs: number): Inte
 export function shouldResumeTrial(intent: Intent | null, me: MePayload | null): boolean {
   return intent?.kind === 'trial' && me !== null && me.account.trialAvailable && !me.access.isPro
 }
+
+/**
+ * Take the pending trial intent and say whether to start the trial now. A page that is navigating
+ * away (the Microsoft callback on /cuenta, right before location.replace(returnTo)) must leave it:
+ * the unload would abort the POST, and the return page would find nothing to resume.
+ */
+export function claimTrialIntent(storage: KeyValueStorage | null, me: MePayload | null, nowMs: number, leaving: boolean): boolean {
+  if (leaving) return false
+  return shouldResumeTrial(takeIntent(storage, nowMs), me)
+}

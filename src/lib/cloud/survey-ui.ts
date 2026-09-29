@@ -44,12 +44,22 @@ export function buildSurveyBody(kind: SurveyKind, a: SurveyAnswer): Record<strin
   return body
 }
 
+/**
+ * The section the learner just completed on THIS device, or null: nothing was added, or the change
+ * is a sync pull / 409 merge / archive restore / #import= handoff (remote = isApplyingRemote()).
+ * Counting those would emit section_complete and open a CSAT prompt about work done elsewhere.
+ */
+export function localCompletion(prev: readonly string[], next: readonly string[], remote: boolean): string | null {
+  if (remote) return null
+  return next.find((id) => !prev.includes(id)) ?? null
+}
+
 export type SurveyTriggerInput =
-  | { kind: 'completed'; prev: readonly string[]; next: readonly string[] }
+  | { kind: 'completed'; prev: readonly string[]; next: readonly string[]; remote: boolean }
   | { kind: 'gate_dismissed'; sectionIndex: number }
 
 export function surveyTrigger(i: SurveyTriggerInput): { kind: SurveyKind; sectionId?: string; sectionIndex?: number } | null {
   if (i.kind === 'gate_dismissed') return { kind: 'gate_reason', sectionIndex: i.sectionIndex }
-  const added = i.next.find((id) => !i.prev.includes(id))
+  const added = localCompletion(i.prev, i.next, i.remote)
   return added ? { kind: 'section_csat', sectionId: added } : null
 }

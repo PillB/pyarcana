@@ -8,7 +8,8 @@
  *   also while signed out, so an un-toggle made offline still wins later.
  * - Pull on start and when the page becomes visible; push 5 s after the last change; flush on
  *   hide/pagehide with `keepalive` when the body is <= 64 KiB (the browser's keepalive budget).
- * - 409: merge the server copy (from the 409 body, else a re-pull) and retry, at most 3 times.
+ * - 409: merge the server copy (the worker sends it as `server: {rev, doc, updatedAt}`; without it,
+ *   a re-pull) and retry, at most 3 times. During a page-hide flush the re-pull keeps `keepalive`.
  * - Owner rule: no owner or the same owner -> merge; a different owner and local work -> the
  *   learner chooses. "Usar solo mi cuenta" first copies the stored `python-ds-progress` string
  *   byte-for-byte to `python-ds-progress.archive.<owner>.<ts>` (never deleted), and only then
@@ -134,6 +135,12 @@ interface RemoteCopy {
 function readRemoteCopy(data: Record<string, unknown> | null): RemoteCopy | null {
   if (!data || typeof data.rev !== 'number' || !Number.isInteger(data.rev) || data.rev < 0) return null
   return { rev: data.rev, doc: 'doc' in data ? data.doc ?? null : null }
+}
+
+/** The winner's copy in the worker's 409 body `{reason:'conflict', server:{rev, doc, updatedAt}}`. */
+function conflictCopy(data: Record<string, unknown> | null): RemoteCopy | null {
+  const server = data?.server
+  return isPlainObject(server) && 'doc' in server ? readRemoteCopy(server) : null
 }
 
 function stableStringify(value: unknown): string {
@@ -399,7 +406,7 @@ export class ProgressSync {
       const r = await this.deps.api.put(PROGRESS_PATH, body, { keepalive: keepalive && size <= KEEPALIVE_MAX_BYTES })
       if (r.ok) return this.pushed(r.data, seq)
       if (r.status !== 409) return this.failed(r)
-      const absorbed = await this.absorbConflict(r.data)
+      const absorbed = await this.absorbConflict(r.data, keepalive)
       if (absorbed !== null) return this.setStatus(absorbed)
     }
     return this.setStatus('conflict')
@@ -413,10 +420,10 @@ export class ProgressSync {
   }
 
   /** Take the server copy from the 409 body (or re-pull it) and merge; null when ready to retry. */
-  private async absorbConflict(data: Record<string, unknown> | null): Promise<SyncStatus | null> {
-    let remote = data && 'doc' in data ? readRemoteCopy(data) : null
+  private async absorbConflict(data: Record<string, unknown> | null, keepalive: boolean): Promise<SyncStatus | null> {
+    let remote = conflictCopy(data)
     if (!remote) {
-      const r = await this.deps.api.get(PROGRESS_PATH)
+      const r = await this.deps.api.get(PROGRESS_PATH, { keepalive })
       remote = r.ok ? readRemoteCopy(r.data) : null
       if (!remote) return r.ok ? 'remote_unreadable' : this.failed(r)
     }

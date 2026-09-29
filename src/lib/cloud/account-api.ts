@@ -145,6 +145,19 @@ export async function signOutRequest(api: ApiClient, everywhere: boolean): Promi
   return toAction(await api.post('/v1/auth/logout', { everywhere }), false)
 }
 
+/**
+ * Sign out from the account panel: upload pending progress while the session still works, then
+ * end the session. Sync stops only when the logout took effect (ok, or 401 = already gone), through
+ * onSignedOut -> meStatus 'signed_out' -> SyncController. A failed logout (network, 5xx) leaves the
+ * learner signed in, so sync must keep running for that account.
+ */
+export async function signOutAccount(d: { sync: { pushNow(): Promise<unknown> }; request: () => Promise<ActionResult>; onSignedOut: () => void }): Promise<ActionResult> {
+  await d.sync.pushNow()
+  const r = await d.request()
+  if (r.ok || r.status === 401) d.onSignedOut()
+  return r
+}
+
 /** The export as a pretty JSON file body; null when the answer is not an object. */
 export function exportFileBody(data: unknown): string | null {
   return isPlainObject(data) ? JSON.stringify(data, null, 2) : null

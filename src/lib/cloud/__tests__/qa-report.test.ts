@@ -26,7 +26,8 @@ import {
   type ImageCodec,
 } from '@/lib/cloud/qa-report'
 
-function issue(over: Partial<QAIssue> & Record<string, unknown> = {}): QAIssue {
+// remoteId/sentAt are left untyped here so hostile stored values (a number, markup) can be fed in.
+function issue(over: Omit<Partial<QAIssue>, 'remoteId' | 'sentAt'> & Record<string, unknown> = {}): QAIssue {
   return {
     id: '3f2b8c1e-8a4d-4f5e-9b1c-2d3e4f5a6b7c',
     createdAt: '2026-09-28T10:00:00.000Z',

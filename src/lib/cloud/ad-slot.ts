@@ -7,11 +7,12 @@
  * - House creatives never promise what the stage cannot deliver: no annual-plan promo before
  *   payments open, no trial promo to someone who cannot start one, nothing while there is no Pro.
  *   The pick is stable per section, so the slot never rotates on a sub-step change.
- * - Every placement reserves a fixed box before anything loads (CLS).
+ * - Every placement reserves a fixed box before anything loads (CLS), except a house promo whose
+ *   experiment arm is still loading (slotView).
  */
 import type { ApiResult } from '@/lib/cloud/api'
-import { isGatingStage, type LaunchStage } from '@/lib/cloud/config'
-import type { AdPlacement } from '@/lib/cloud/ads'
+import { isGatingStage, type AdProvider, type LaunchStage } from '@/lib/cloud/config'
+import type { AdAdapter, AdPlacement } from '@/lib/cloud/ads'
 import { fnv1a32 } from '@/lib/cloud/experiments'
 import { isPlainObject, readJson, writeJson, type KeyValueStorage } from '@/lib/cloud/storage'
 
@@ -72,4 +73,21 @@ const MAX_KEYWORDS = 20
 export function ethicalAdsKeywords(sectionId: string): string {
   const parts = sectionId.split('-').filter((p) => KEYWORD.test(p))
   return ['python', 'data-science', ...parts].slice(0, MAX_KEYWORDS).join('|')
+}
+
+/**
+ * What a slot renders, or null for no box at all.
+ * - A house promo renders only once its creative is decided. While the ads_house_v1 arm loads
+ *   (creative undefined), and while access is still unknown with the house provider (chosen
+ *   'reserved'), there is NO box: the control arm shows no slot, and a box that appeared and then
+ *   collapsed would add a layout shift to control only and bias the CLS guardrail. House promos
+ *   load no script, so there is nothing to reserve height for.
+ * - A configured network keeps its reserved box while access is unknown: its script and creative
+ *   arrive later, and the height must be held before they do (DESIGN-v3 §E).
+ */
+export function slotView(chosen: AdAdapter, creative: HouseCreative | null | undefined, provider: AdProvider): AdAdapter | null {
+  if (chosen === 'none') return null
+  if (chosen === 'house') return creative ? 'house' : null
+  if (chosen === 'reserved' && provider === 'house') return null
+  return chosen
 }

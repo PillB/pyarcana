@@ -15,12 +15,14 @@ import { canMeasure, readConsent, readPrivacySignals } from '@/lib/cloud/consent
 import { readQaMode } from '@/lib/cloud/qa-mode'
 import { resolveAccessState } from '@/lib/cloud/access'
 import { useCloudRuntime, useCloudSession, type MePayload } from '@/lib/cloud/session'
-import { signOutRequest, type ActionResult } from '@/lib/cloud/account-api'
+import { signOutAccount, signOutRequest, type ActionResult } from '@/lib/cloud/account-api'
 import { safeStorage } from '@/lib/cloud/storage'
 import type { TrackedEvent } from '@/lib/cloud/experiments'
 import { MS_CALLBACK_PATH } from '@/lib/cloud/oidc'
 import { routePath } from '@/lib/cloud/ads'
-import { SITE_BASE_PATH } from '@/lib/runtime-mode'
+import { HandoffImporter } from '@/lib/cloud/handoff-import'
+import { movedState } from '@/lib/cloud/ui-state'
+import { IS_STATIC_SITE, SITE_BASE_PATH } from '@/lib/runtime-mode'
 
 let api: ApiClient | null = null
 export function cloudApi(): ApiClient {
@@ -94,15 +96,19 @@ export function applyMe(me: MePayload | null): void {
   useCloudRuntime.setState({ meStatus: 'ok', licence: { state: 'unchecked' } })
 }
 
-/** Flush progress while the session still works, then end it. Local progress is never touched. */
-export async function signOutCloud(everywhere = false): Promise<ActionResult> {
-  await getProgressSync().signOut()
-  const r = await signOutRequest(cloudApi(), everywhere)
-  if (r.ok || r.status === 401) {
-    useCloudSession.setState({ me: null, licenseToken: null, fetchedAt: Date.now() })
-    useCloudRuntime.setState({ meStatus: 'signed_out', licence: { state: 'unchecked' } })
-  }
-  return r
+/**
+ * Flush progress while the session still works, then end it. Local progress is never touched. Sync
+ * stops through the SyncController only once the logout took effect (account-api signOutAccount).
+ */
+export function signOutCloud(everywhere = false): Promise<ActionResult> {
+  return signOutAccount({
+    sync: getProgressSync(),
+    request: () => signOutRequest(cloudApi(), everywhere),
+    onSignedOut: () => {
+      useCloudSession.setState({ me: null, licenseToken: null, fetchedAt: Date.now() })
+      useCloudRuntime.setState({ meStatus: 'signed_out', licence: { state: 'unchecked' } })
+    },
+  })
 }
 
 // --- progress sync --------------------------------------------------------------------------------------
@@ -134,6 +140,27 @@ let controller: SyncController | null = null
 export function getSyncController(): SyncController {
   controller = controller ?? new SyncController({ sync: getProgressSync(), doc: document, win: window })
   return controller
+}
+
+// --- #import= handoff (one per page load; the grandfather snapshot waits for it) -------------------------
+
+function isImportTarget(hash: string): boolean {
+  const input = { origin: window.location.origin, isStaticSite: IS_STATIC_SITE, canonicalOrigin: CLOUD_CONFIG.canonicalOrigin, movedToCanonical: CLOUD_CONFIG.movedToCanonical, hash }
+  return movedState(input) === 'import'
+}
+
+let importer: HandoffImporter | null = null
+export function getHandoffImporter(): HandoffImporter {
+  importer = importer ?? new HandoffImporter({
+    readHash: () => window.location.hash,
+    currentHref: () => window.location.href,
+    replaceUrl: (url) => window.history.replaceState(null, '', url),
+    isImportTarget,
+    store: progressStoreAdapter,
+    storage: safeStorage(),
+    now: () => Date.now(),
+  })
+  return importer
 }
 
 // --- measurement ------------------------------------------------------------------------------------------
@@ -171,11 +198,20 @@ export function track(event: TrackedEvent): void {
 
 // --- Microsoft callback in progress ---------------------------------------------------------------------
 
-const callback = { microsoft: false }
+const callback = { microsoft: false, leaving: false }
 
 /** Mark that /cuenta is completing a Microsoft redirect (the page strips the fragment first). */
 export function markMicrosoftCallback(active: boolean): void {
   callback.microsoft = active
+}
+
+/** /cuenta is about to location.replace() back to where sign-in started: start nothing here. */
+export function markLeavingPage(): void {
+  callback.leaving = true
+}
+
+export function isLeavingPage(): boolean {
+  return callback.leaving
 }
 
 /**

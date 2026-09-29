@@ -15,20 +15,25 @@ import { useToast } from '@/hooks/use-toast'
 import { CLOUD_CONFIG, isGatingStage, type LaunchStage } from '@/lib/cloud/config'
 import { useCloudStage } from '@/lib/cloud/hooks'
 import { refreshMe, useCloudRuntime, useCloudSession } from '@/lib/cloud/session'
-import { ensureGrandfatherSnapshot, stageForGate } from '@/lib/cloud/gate'
+import { stageForGate } from '@/lib/cloud/gate'
+import { snapshotAfterHandoff } from '@/lib/cloud/handoff-import'
 import { whenProgressHydrated } from '@/lib/cloud/progress-adapter'
 import { useProgressStore } from '@/lib/progress-store'
-import { shouldResumeTrial, takeIntent } from '@/lib/cloud/intent'
+import { claimTrialIntent } from '@/lib/cloud/intent'
 import { startTrial } from '@/lib/cloud/account-api'
 import { safeSessionStorage, safeStorage } from '@/lib/cloud/storage'
-import { applyMe, cloudApi, getMeasurement, getProgressSync, getSyncController, inMicrosoftCallback, track, useAccountUi, useSyncUi } from './runtime'
+import { applyMe, cloudApi, getHandoffImporter, getMeasurement, getProgressSync, getSyncController, inMicrosoftCallback, isLeavingPage, track, useAccountUi, useSyncUi } from './runtime'
 import { useText } from './text'
 
-/** First load where the gate applies: remember every section this device touched (gate.ts). */
+/**
+ * First load where the gate applies: remember every section this device touched (gate.ts), after
+ * a pending #import= on this load was merged, so progress brought from the old origin counts.
+ */
 function takeGrandfatherSnapshot(stage: LaunchStage): () => void {
   if (!isGatingStage(stageForGate(stage, CLOUD_CONFIG.gate.since, Date.now()))) return () => {}
+  getHandoffImporter().capture()
   return whenProgressHydrated(() => {
-    ensureGrandfatherSnapshot(safeStorage(), useProgressStore.getState(), Date.now())
+    snapshotAfterHandoff(getHandoffImporter(), safeStorage(), () => useProgressStore.getState(), Date.now())
   })
 }
 
@@ -65,7 +70,7 @@ function useSessionFollowers() {
     getSyncController().setAccount(accountId)
     void getMeasurement().bind(accountId)
     const me = useCloudSession.getState().me
-    if (!shouldResumeTrial(takeIntent(safeSessionStorage(), Date.now()), me)) return
+    if (!claimTrialIntent(safeSessionStorage(), me, Date.now(), isLeavingPage())) return
     void startTrial(cloudApi()).then((r) => {
       if (!r.ok) return
       applyMe(r.me)

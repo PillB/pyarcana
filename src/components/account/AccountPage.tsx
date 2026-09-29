@@ -15,7 +15,7 @@ import { ErrorAlert, StatusNote } from './Alerts'
 import { AccountPanel } from './AccountPanel'
 import { AccountDialog } from './AccountDialog'
 import { CloudSync } from './CloudSync'
-import { applyMe, cloudApi, inMicrosoftCallback, markMicrosoftCallback } from './runtime'
+import { applyMe, cloudApi, inMicrosoftCallback, markLeavingPage, markMicrosoftCallback } from './runtime'
 import { useAfterMount, useText, type Tr } from './text'
 
 type Phase = { kind: 'idle' } | { kind: 'ms_working' } | { kind: 'ms_failed'; message: string } | { kind: 'ms_linked' }
@@ -50,6 +50,9 @@ function useMicrosoftCallback(tr: Tr, apiText: (e: UiError) => string): Phase {
         void refreshMe()
         return setPhase({ kind: 'ms_failed', message: msFailure(r, tr, apiText) })
       }
+      // A sign-in leaves this page: flag it BEFORE applyMe, so the session followers keep a pending
+      // "Probar 7 días" intent for the return page instead of starting a POST the unload aborts.
+      if (r.purpose !== 'link') markLeavingPage()
       applyMe(parseMe(r.data))
       if (r.purpose === 'link') return setPhase({ kind: 'ms_linked' })
       window.location.replace(r.returnTo)

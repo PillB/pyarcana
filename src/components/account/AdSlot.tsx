@@ -9,7 +9,7 @@ import { CLOUD_CONFIG, type LaunchStage } from '@/lib/cloud/config'
 import { useAdEligibility, useCloudStage } from '@/lib/cloud/hooks'
 import { useCloudSession } from '@/lib/cloud/session'
 import { chooseAdapter, scriptUrl, type AdAdapter, type AdEligibility, type AdPlacement } from '@/lib/cloud/ads'
-import { SLOT_HEIGHT_PX, ethicalAdsKeywords, houseArmShows, houseCreative, parseGeo, readAdsenseOptIn, writeAdsenseOptIn, type HouseCreative, type OptIn } from '@/lib/cloud/ad-slot'
+import { SLOT_HEIGHT_PX, ethicalAdsKeywords, houseArmShows, houseCreative, parseGeo, readAdsenseOptIn, slotView, writeAdsenseOptIn, type HouseCreative, type OptIn } from '@/lib/cloud/ad-slot'
 import { safeStorage } from '@/lib/cloud/storage'
 import { scriptLoader } from './GoogleButton'
 import { cloudApi, getMeasurement, track, useAccountUi } from './runtime'
@@ -201,8 +201,8 @@ function ActiveSlot({ placement, sectionKey, eligibility, stage }: { placement: 
   const desktop = useDesktop()
   const chosen = chooseAdapter({ eligibility, ads: CLOUD_CONFIG.ads, placement, signedIn, adultAttested: false, geo, adsenseOptIn: optIn, desktop })
   const creative = useHouse(chosen, sectionKey, stage)
-  if (chosen === 'none' || (chosen === 'house' && creative === null)) return null
-  const adapter: AdAdapter = creative === undefined ? 'reserved' : chosen
+  const adapter = slotView(chosen, creative, CLOUD_CONFIG.ads.provider)
+  if (adapter === null) return null
   const onOptIn = (value: 'accepted' | 'declined', adult: boolean) => {
     if (value === 'accepted') track({ name: 'ad_optin_accept' })
     if (writeAdsenseOptIn(safeStorage(), value, adult, Date.now())) setOptIn(value)

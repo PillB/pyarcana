@@ -67,6 +67,10 @@ export interface QAIssue {
   improvement: string
   context: QAContext
   screenshotDataUrl?: string | null
+  /** Server id (rep_…) once the issue was sent to the team with "Enviar al equipo". */
+  remoteId?: string
+  /** ISO time of that send. Both marks are optional: most issues stay local. */
+  sentAt?: string
 }
 
 export interface QAPackage {

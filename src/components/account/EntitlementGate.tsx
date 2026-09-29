@@ -4,21 +4,27 @@ import { useEffect, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { CLOUD_CONFIG, isGatingStage, type LaunchStage } from '@/lib/cloud/config'
 import { useAccess, useCloudStage } from '@/lib/cloud/hooks'
-import { ensureGrandfatherSnapshot, stageForGate, type GrandfatherSnapshot } from '@/lib/cloud/gate'
+import { stageForGate, type GrandfatherSnapshot } from '@/lib/cloud/gate'
+import { snapshotAfterHandoff } from '@/lib/cloud/handoff-import'
 import { whenProgressHydrated } from '@/lib/cloud/progress-adapter'
 import { useProgressStore } from '@/lib/progress-store'
 import { sectionGateState } from '@/lib/cloud/ui-state'
 import { safeStorage } from '@/lib/cloud/storage'
 import { UpgradeCard } from './UpgradeCard'
+import { getHandoffImporter } from './runtime'
 import { useText } from './text'
 
-/** The first-load snapshot of sections this device touched; null until progress has loaded. */
+/**
+ * The first-load snapshot of sections this device touched; null until progress has loaded. A
+ * pending #import= on this load is merged first (handoff-import.ts).
+ */
 function useGrandfather(stage: LaunchStage): GrandfatherSnapshot | null {
   const [snapshot, setSnapshot] = useState<GrandfatherSnapshot | null>(null)
   useEffect(() => {
     if (!isGatingStage(stageForGate(stage, CLOUD_CONFIG.gate.since, Date.now()))) return
+    getHandoffImporter().capture()
     return whenProgressHydrated(() => {
-      setSnapshot(ensureGrandfatherSnapshot(safeStorage(), useProgressStore.getState(), Date.now()))
+      setSnapshot(snapshotAfterHandoff(getHandoffImporter(), safeStorage(), () => useProgressStore.getState(), Date.now()))
     })
   }, [stage])
   return snapshot

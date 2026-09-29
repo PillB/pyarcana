@@ -14,7 +14,7 @@ import {
   signOutRequest,
   DELETE_API_CONFIRM,
 } from '@/lib/cloud/account-api'
-import { saveIntent, takeIntent, peekIntent, shouldResumeTrial, INTENT_KEY, INTENT_MAX_AGE_MS } from '@/lib/cloud/intent'
+import { saveIntent, takeIntent, peekIntent, shouldResumeTrial, claimTrialIntent, INTENT_KEY, INTENT_MAX_AGE_MS } from '@/lib/cloud/intent'
 import type { ApiClient, ApiResult } from '@/lib/cloud/api'
 import { createMemoryStorage } from '@/lib/cloud/storage'
 import { parseMe } from '@/lib/cloud/session'
@@ -177,4 +177,25 @@ test('a trial is resumed only for a signed-in free account that can still start 
   assert.equal(shouldResumeTrial(intent, me(true, true)), false, 'already Pro: no trial burned')
   assert.equal(shouldResumeTrial(null, me(true, false)), false)
   assert.equal(shouldResumeTrial(intent, null), false)
+})
+
+test('a page that is navigating away (Microsoft sign-in -> returnTo) leaves the trial intent for the next page', () => {
+  const now = Date.parse('2026-09-29T12:00:00Z')
+  const free = parseMe({ account: { id: 'a', trialAvailable: true }, access: { isPro: false } })
+  const s = createMemoryStorage()
+  saveIntent(s, { kind: 'trial', sectionId: 'functions' }, now)
+  assert.equal(claimTrialIntent(s, free, now + 1000, true), false, '/cuenta starts no trial while it redirects')
+  assert.notEqual(s.getItem(INTENT_KEY), null, 'the intent survives the redirect')
+  assert.equal(claimTrialIntent(s, free, now + 2000, false), true, 'the return page starts it')
+  assert.equal(s.getItem(INTENT_KEY), null, 'single use')
+  assert.equal(claimTrialIntent(s, free, now + 3000, false), false)
+})
+
+test('claiming an intent the account cannot use still spends it (no surprise trial later)', () => {
+  const now = Date.parse('2026-09-29T12:00:00Z')
+  const pro = parseMe({ account: { id: 'a', trialAvailable: true }, access: { isPro: true } })
+  const s = createMemoryStorage()
+  saveIntent(s, { kind: 'trial', sectionId: null }, now)
+  assert.equal(claimTrialIntent(s, pro, now + 1000, false), false)
+  assert.equal(s.getItem(INTENT_KEY), null)
 })

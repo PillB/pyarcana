@@ -7,7 +7,8 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { useCloudStage } from '@/lib/cloud/hooks'
 import { canPrompt, readSurveyCap, recordPrompt, type SurveyKind } from '@/lib/cloud/surveys'
-import { buildSurveyBody, GATE_REASONS, surveyTrigger, type SurveyTriggerInput } from '@/lib/cloud/survey-ui'
+import { buildSurveyBody, GATE_REASONS, localCompletion, surveyTrigger, type SurveyTriggerInput } from '@/lib/cloud/survey-ui'
+import { isApplyingRemote } from '@/lib/cloud/progress-adapter'
 import { readQaMode } from '@/lib/cloud/qa-mode'
 import { readRaw, safeStorage } from '@/lib/cloud/storage'
 import { CID_KEY } from '@/lib/cloud/experiments'
@@ -63,11 +64,13 @@ export function requestSurvey(input: SurveyTriggerInput): void {
 function useTriggers(active: boolean) {
   useEffect(() => {
     if (!active) return
+    // Only the learner's own completions: a sync pull or the handoff (isApplyingRemote) is not one.
     const unsubscribe = useProgressStore.subscribe((next, prev) => {
       if (next.completedSections === prev.completedSections) return
-      const added = next.completedSections.find((id) => !prev.completedSections.includes(id))
+      const remote = isApplyingRemote()
+      const added = localCompletion(prev.completedSections, next.completedSections, remote)
       if (added) track({ name: 'section_complete', sectionIndex: sectionIndexOf(added) })
-      requestSurvey({ kind: 'completed', prev: prev.completedSections, next: next.completedSections })
+      requestSurvey({ kind: 'completed', prev: prev.completedSections, next: next.completedSections, remote })
     })
     const nps = window.setTimeout(() => offer('nps'), 60_000)
     return () => {

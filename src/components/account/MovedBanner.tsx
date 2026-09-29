@@ -5,13 +5,13 @@ import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
 import { CLOUD_CONFIG, normalizeOrigin } from '@/lib/cloud/config'
-import { applyHandoff, buildHandoffUrl, decodeHandoff, stripImportFragment } from '@/lib/cloud/handoff'
-import { loadChangeLog, saveChangeLog } from '@/lib/cloud/progress-merge'
-import { progressStoreAdapter, whenProgressHydrated } from '@/lib/cloud/progress-adapter'
+import { buildHandoffUrl } from '@/lib/cloud/handoff'
+import { whenProgressHydrated } from '@/lib/cloud/progress-adapter'
 import { movedState } from '@/lib/cloud/ui-state'
 import { readRaw, safeStorage } from '@/lib/cloud/storage'
 import { PROGRESS_STORAGE_KEY } from '@/lib/progress-sanitize'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
+import { getHandoffImporter } from './runtime'
 import { useAfterMount, useText } from './text'
 
 /** Decided once after mount (the import then removes the fragment it was decided from). */
@@ -22,24 +22,22 @@ function useMovedState(): 'none' | 'banner' | 'import' {
   )
 }
 
-/** Canonical origin: merge the #import= progress (never a replace), then drop the fragment. */
-function useHandoffImport(active: boolean) {
+/**
+ * Canonical origin: merge the #import= progress (never a replace) and say so once. The importer
+ * is shared with the grandfather snapshot, which may already have applied it on this load.
+ */
+function useHandoffImport() {
   const { toast } = useToast()
   const { tr } = useText()
   useEffect(() => {
-    if (!active) return
-    const hash = window.location.hash
-    window.history.replaceState(null, '', stripImportFragment(window.location.href))
+    getHandoffImporter().capture()
     return whenProgressHydrated(() => {
-      const decoded = decodeHandoff(hash)
-      if (!decoded.ok) return void toast({ title: tr('moved.importFailed') })
-      const storage = safeStorage()
-      const r = applyHandoff(progressStoreAdapter.getState(), loadChangeLog(storage, Date.now()), decoded.state, Date.now())
-      progressStoreAdapter.setState(r.state)
-      saveChangeLog(storage, r.changes)
-      toast({ title: tr('moved.imported', { n: r.added }) })
+      getHandoffImporter().run()
+      const notice = getHandoffImporter().notice()
+      if (notice?.status === 'failed') toast({ title: tr('moved.importFailed') })
+      if (notice?.status === 'imported') toast({ title: tr('moved.imported', { n: notice.added }) })
     })
-  }, [active])
+  }, [])
 }
 
 function Banner() {
@@ -75,6 +73,6 @@ function Banner() {
  */
 export function MovedBanner() {
   const state = useMovedState()
-  useHandoffImport(state === 'import')
+  useHandoffImport()
   return state === 'banner' ? <Banner /> : null
 }
