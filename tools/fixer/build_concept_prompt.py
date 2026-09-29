@@ -242,6 +242,11 @@ def main() -> int:
                     for t in e["defines"]})
     rules = (ROOT / "audit/fixer/writing_rules.md").read_text(encoding="utf-8")
     decisions = (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")
+    # The owner's answers to questions only they could settle. Separate from decisions.md because
+    # these expire: each carries a scope and a "Retire when". Injected rather than remembered -
+    # D2 was in the S03 prompt as a standing rule and S03 still shipped a DNI, so a decision that
+    # lives only in someone's head or in a chat message is not a decision the round will honour.
+    owner = (ROOT / "audit/fixer/OWNER_DECISIONS.md").read_text(encoding="utf-8")
 
     # The auditors' wiki: the operating contract and the Attack -> Defense -> Verdict rule.
     wiki = (ROOT / "audit/fixer/wiki/README.md").read_text(encoding="utf-8")
@@ -350,6 +355,9 @@ answer `self_critique` about the revised text.
 
 ===== STANDING DECISIONS (binding) =====
 {decisions}
+
+===== THE OWNER'S LIVE DECISIONS (binding; they outrank anything below that conflicts) =====
+{owner}
 
 ===== DISTILLED WRITING RULES (binding) =====
 {rules}

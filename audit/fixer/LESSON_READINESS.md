@@ -62,35 +62,38 @@ question), and again for the section as a whole.
 1. **Baseline.** `gate.py snapshot SXX`. Copy the section file and the derived reports to
    `.fixer/SXX.pre-concepts.*` so a failed round can be restored. That includes
    `badge_readiness_report.json`, the skills baseline.
-2. **Map every part against the whole surface.** Read `docs/concept-map/SXX.md`, the readiness
+2. **Read the owner's live decisions first** (`audit/fixer/OWNER_DECISIONS.md`). They answer
+   questions no instrument can settle and they outrank the plan. Check each one's **Scope** for
+   this section, and retire any whose **Retire when** condition this round satisfies.
+3. **Map every part against the whole surface.** Read `docs/concept-map/SXX.md`, the readiness
    rows for every badge requiring SXX and every capstone gated at or after it, the outcomes,
    level and phase, the self-check, topic evaluations and exam bank, and the figure targets.
    Read the code for constructs used without their name (`assert`, `repr`/`!r`, dict and set
    literals, imports, methods, `in`, slicing). One analyst per slice of the section, read-only.
-3. **Plan, then red-team the plan.** Fix one convention for the section before any rewrite. Then
+4. **Plan, then red-team the plan.** Fix one convention for the section before any rewrite. Then
    attack the plan once per dimension above, each attacker trying to show where it fails that
    dimension for a part or for the whole. Revise and attack again. **Converge at two quiet
    rounds** (no new real issue); stop at five and raise what is left. Resolve gaps with the
    open-questions tree (`audit/fixer/OPEN_QUESTIONS.md`, D11): primer → rewrite (D14) → move →
    re-raise. Never award retroactively. Changing `badge_catalog.json` or moving a project is
    Ask-first.
-4. **Brief codex.** Verify every factual claim in the brief before sending it: section ids,
+5. **Brief codex.** Verify every factual claim in the brief before sending it: section ids,
    detector verb lists, Python behaviour. Name the defining blocks that must stay. Never pin a
    phrase that carries an anglicism. Give every location, never a sample.
-5. **Red-team the patches, per part and as a whole.** Before applying, attack codex's result on
+6. **Red-team the patches, per part and as a whole.** Before applying, attack codex's result on
    every dimension: run every snippet and every claim on 3.12; check D14, PEP 8/Ruff, self-check
    `correctIndex` and balance, the bare-name definitional sentence (**`X`** + verb), and whether
    the section still reads as one teacher. Send real issues back to codex. Its unresolved
    concerns return at most twice, then go to a human. Converge at two quiet rounds.
-6. **Gate.** `gate.py check SXX` against the step-1 snapshot. An instrument change goes in its
+7. **Gate.** `gate.py check SXX` against the step-1 snapshot. An instrument change goes in its
    own commit, and you prove it leaves the baseline unchanged, or you re-snapshot.
-7. **Re-run the maps and diff the rows.** The gate enforces the totals
+8. **Re-run the maps and diff the rows.** The gate enforces the totals
    (`surprising_uses_course_wide`, `readiness_findings_course_wide`, since b596f785). Diff the
    concept and readiness rows by hand anyway: a total can hold while one badge gains a finding
    and another loses one. Any regression in any dimension is a failed round.
-8. **Verify in the browser.** Local preview of the branch now; the live site after merge. Read
+9. **Verify in the browser.** Local preview of the branch now; the live site after merge. Read
    the section as a learner meets it — theory, iDo, weDo, youDo, self-check — for each part and
    for the arc, and check the console.
-9. **Record and commit.** Lower any ratchet that moved. Put lessons in LEDGER_NOTES and deferred
+10. **Record and commit.** Lower any ratchet that moved. Put lessons in LEDGER_NOTES and deferred
    items in WORK_QUEUE, and re-raise judgment calls in OPEN_QUESTIONS. Stage named files only,
    commit, push. Report what is still open.
