@@ -1,7 +1,11 @@
 /**
  * Transactional email for sign-in codes. One authenticated JSON POST per
- * provider, so no SDK.
+ * HTTP provider, so no SDK.
  *
+ *   EMAIL_PROVIDER=cloudflare (default in wrangler.toml, D-USER-04) + the
+ *                              send_email binding EMAIL; no API key. The
+ *                              binding throws an Error with `.code` on
+ *                              failure; only that code is logged.
  *   EMAIL_PROVIDER=resend     + RESEND_API_KEY
  *   EMAIL_PROVIDER=brevo      + BREVO_API_KEY
  *   EMAIL_PROVIDER=mailersend + MAILERSEND_API_KEY
@@ -25,6 +29,34 @@ import { hitRateLimit } from "./ratelimit.mjs";
 
 const API_KEYS = { resend: "RESEND_API_KEY", brevo: "BREVO_API_KEY", mailersend: "MAILERSEND_API_KEY" };
 
+/** Cloudflare Email Sending: provider id and the send_email binding's name. */
+export const CLOUDFLARE_PROVIDER = "cloudflare";
+
+/**
+ * The send_email binding, when it can send.
+ * @param {Object} env Worker env.
+ * @returns {Object|null} Binding or null.
+ */
+function sendEmailBinding(env) {
+  return env.EMAIL && typeof env.EMAIL.send === "function" ? env.EMAIL : null;
+}
+
+/**
+ * The credential a provider needs: the binding for cloudflare, else its API key.
+ * @param {Object} env Worker env.
+ * @param {string} provider Provider id.
+ * @returns {{apiKey?: string, binding?: Object}|null} Credential, or null when missing.
+ */
+function providerCredential(env, provider) {
+  if (provider === CLOUDFLARE_PROVIDER) {
+    const binding = sendEmailBinding(env);
+    return binding ? { binding } : null;
+  }
+  const keyName = API_KEYS[provider];
+  const apiKey = keyName ? stringVar(env, keyName) : "";
+  return apiKey ? { apiKey } : null;
+}
+
 /**
  * dev-log is allowed only when every allowed origin is local.
  * @param {Object} env Worker env.
@@ -42,20 +74,20 @@ function devLogAllowed(env) {
 /**
  * Resolve the provider and its credentials.
  * @param {Object} env Worker env.
- * @returns {{provider: string|null, apiKey?: string, from?: string, fromName?: string, reason?: string}} Config.
+ * @returns {{provider: string|null, apiKey?: string, binding?: Object, from?: string, fromName?: string,
+ *            reason?: string}} Config.
  */
 export function resolveEmailConfig(env) {
   const provider = stringVar(env, "EMAIL_PROVIDER").toLowerCase();
   if (provider === "dev-log") {
     return devLogAllowed(env) ? { provider } : { provider: null, reason: "dev_log_refused" };
   }
-  const keyName = API_KEYS[provider];
-  const apiKey = keyName ? stringVar(env, keyName) : "";
+  const credential = providerCredential(env, provider);
   const from = stringVar(env, "EMAIL_FROM");
-  if (!apiKey || !from) {
+  if (!credential || !from) {
     return { provider: null, reason: "email_not_configured" };
   }
-  return { provider, apiKey, from, fromName: stringVar(env, "EMAIL_FROM_NAME") || "PyArcana" };
+  return { provider, ...credential, from, fromName: stringVar(env, "EMAIL_FROM_NAME") || "PyArcana" };
 }
 
 /**
@@ -181,6 +213,35 @@ async function deliver(ctx, config, message) {
   return { ok: false, reason: "email_unavailable" };
 }
 
+/** A binding error code safe to log: a short token, never free text. */
+const SAFE_CODE = /^[A-Za-z0-9_.-]{1,64}$/;
+
+/**
+ * Send through the Cloudflare send_email binding; any throw is
+ * `email_unavailable`, logged by its `.code` only (the message can carry the
+ * recipient's address, so it is never logged).
+ * @param {Object} ctx Request context (`log`).
+ * @param {Object} config Resolved config with `binding`.
+ * @param {{to: string, subject: string, text: string, html: string}} message Message.
+ * @returns {Promise<{ok: boolean, reason?: string}>} Result.
+ */
+async function deliverCloudflare(ctx, config, message) {
+  try {
+    await config.binding.send({
+      to: message.to,
+      from: { email: config.from, name: safeName(config.fromName) },
+      subject: message.subject,
+      text: message.text,
+      html: message.html
+    });
+    return { ok: true };
+  } catch (error) {
+    const code = error && typeof error.code === "string" && SAFE_CODE.test(error.code) ? error.code : "unknown";
+    ctx.log(`email send failed provider=${CLOUDFLARE_PROVIDER} code=${code}`);
+    return { ok: false, reason: "email_unavailable" };
+  }
+}
+
 /** How each sign-in method is named in a notice. */
 const METHOD_LABELS = { google: "Google", microsoft: "Microsoft" };
 
@@ -228,6 +289,9 @@ async function sendCapped(ctx, config, message) {
   if (config.provider === "dev-log") {
     ctx.log(`[dev-log] to=${message.to} subject=${message.subject}`);
     return { ok: true };
+  }
+  if (config.provider === CLOUDFLARE_PROVIDER) {
+    return deliverCloudflare(ctx, config, message);
   }
   return deliver(ctx, config, message);
 }

@@ -58,18 +58,18 @@ const WORKER_SUITES = [
   ["ratelimit", 6],
   ["address", 5],
   ["config", 9],
-  ["email", 13],
+  ["email", 18],
   ["accounts", 10],
-  ["sessions", 11],
-  ["router", 14],
+  ["sessions", 12],
+  ["router", 17],
   ["logincodes", 12],
   ["auth-email", 18],
-  ["jwt", 15],
-  ["google", 16],
-  ["microsoft", 19],
+  ["jwt", 18],
+  ["google", 28],
+  ["microsoft", 25],
   ["session-routes", 5],
   ["retention", 6],
-  ["wrangler", 5],
+  ["wrangler", 7],
   ["audit", 3],
   ["runner", 6],
   // Stage 1b: entitlement, trial, admin, progress, reports, privacy.
@@ -80,11 +80,14 @@ const WORKER_SUITES = [
   ["admin-grants", 9],
   ["admin-roles", 5],
   ["admin-accounts", 4],
-  ["progress", 8],
+  ["progress", 9],
   ["reports", 22],
   ["privacy", 8],
   // Review round 1.
-  ["identities", 5]
+  ["identities", 6],
+  // Stage 2a: one-origin hosting (DESIGN-v3 §A) and the ads region check (§E).
+  ["hosting", 5],
+  ["geo", 4]
 ].map(([name, floor]) => ({ group: "worker", file: `${WORKER_TESTS}/${name}.test.mjs`, floor }));
 
 /**

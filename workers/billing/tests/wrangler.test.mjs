@@ -27,17 +27,19 @@ const SECRETS = [
 ];
 
 const PUBLIC_VARS = {
-  ALLOWED_ORIGINS: null,
-  CANONICAL_ORIGIN: null,
-  SITE_PATH: null,
+  // DESIGN-v3 §K/§L: the owner's domain, prefilled (public, safe to commit).
+  ALLOWED_ORIGINS: "https://pyarcana.dev",
+  CANONICAL_ORIGIN: "https://pyarcana.dev",
+  SITE_PATH: "",
   TERMS_VERSION: null,
   TRIAL_DAYS: "7",
   GRACE_DAYS: "7",
   SESSION_MAX_DAYS: "180",
   GOOGLE_CLIENT_ID: "",
   MICROSOFT_CLIENT_ID: "",
-  EMAIL_PROVIDER: "",
-  EMAIL_FROM: "",
+  // D-USER-04: sign-in codes go through Cloudflare Email Sending (send_email binding EMAIL).
+  EMAIL_PROVIDER: "cloudflare",
+  EMAIL_FROM: "no-reply@pyarcana.dev",
   EMAIL_FROM_NAME: "PyArcana",
   EMAIL_DAILY_CAP: "90",
   REPORT_ATTACHMENTS_CAP_MB: "200",
@@ -121,4 +123,21 @@ test("crons match the code's dispatch table, and observability is on", () => {
   const triggers = section(TOML, "triggers");
   assert.deepEqual(JSON.parse(triggers.crons), [DAILY_CRON, HOURLY_CRON]);
   assert.equal(section(TOML, "observability").enabled, "true");
+});
+
+test("DESIGN-v3 §A: the static export is served from the same worker, the API path runs the worker first", () => {
+  const assets = section(TOML, "assets");
+  assert.equal(unquote(assets.directory), "../../out");
+  assert.equal(unquote(assets.binding), "ASSETS");
+  assert.deepEqual(JSON.parse(assets.run_worker_first), ["/api/*"]);
+  assert.equal(unquote(assets.not_found_handling), "404-page");
+  assert.ok(existsSync(fileURLToPath(new URL("../../package.json", ROOT))), "../../ resolves to the repository root, where next build writes out/");
+});
+
+test("D-USER-04: the send_email binding EMAIL may send only from the configured no-reply address", () => {
+  const binding = section(TOML, "send_email");
+  assert.equal(unquote(binding.name), "EMAIL");
+  const vars = section(TOML, "vars");
+  assert.deepEqual(JSON.parse(binding.allowed_sender_addresses), [unquote(vars.EMAIL_FROM)]);
+  assert.equal((TOML.match(/^\[\[send_email\]\]$/gm) || []).length, 1);
 });

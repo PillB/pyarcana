@@ -74,6 +74,7 @@ test('"no compartimos datos con terceros para publicidad" stays only while no ad
   // Google sign-in sets third-party cookies but is not advertising: this claim survives it.
   assert.equal(adSharingClaimHolds(cfg({ launchStage: 'sync', googleClientId: 'g' })), true)
   assert.equal(adSharingClaimHolds(cfg({ launchStage: 'beta', ...ads('house', { adsenseClient: 'ca-pub-1234567890123456' }) })), true, 'house promos')
+  assert.equal(adSharingClaimHolds(cfg({ launchStage: 'beta', ...ads('adsense') })), true, 'a network chosen without its id loads nothing')
   assert.equal(adSharingClaimHolds(cfg({ launchStage: 'beta', ...ads('adsense', { adsenseClient: 'ca-pub-1234567890123456' }) })), false)
   assert.equal(adSharingClaimHolds(cfg({ launchStage: 'paid', ...ads('ethicalads', { ethicaladsPublisher: 'p' }) })), false)
 })

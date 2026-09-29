@@ -2,6 +2,17 @@ name = "pyarcana-billing"
 main = "src/index.mjs"
 compatibility_date = "2025-09-01"
 
+# --- One origin: the static site and the API from this worker (DESIGN-v3 §A) ----------
+# The Next.js static export (`NEXT_PUBLIC_BASE_PATH= bun run build:static`, repository
+# root) is served as Workers Static Assets. Only /api/* runs the worker first; every other
+# path is a file, and a missing file gets out/404.html with status 404. src/index.mjs also
+# hands any non-API path to ASSETS if the platform routes one to the worker.
+[assets]
+directory = "../../out"
+binding = "ASSETS"
+run_worker_first = ["/api/*"]
+not_found_handling = "404-page"
+
 # --- D1 (accounts, sessions, progress, grants, billing ledger, reports) ---------------
 # Create it, then paste the id printed by:
 #   npx wrangler d1 create pyarcana-accounts
@@ -18,9 +29,10 @@ database_id = "TODO_REPLACE_WITH_D1_DATABASE_ID"
 [vars]
 # Exact origins allowed to call the API with credentials, comma-separated, no trailing
 # slash. Accounts run only on PyArcana's own domain, never on the shared pillb.github.io.
-ALLOWED_ORIGINS = ""
-# The canonical site origin (e.g. https://app.<domain>) and the site base path ("" or "/x").
-CANONICAL_ORIGIN = ""
+# Production is one origin (DESIGN-v3 §K); local dev adds http://localhost:3000 in .dev.vars.
+ALLOWED_ORIGINS = "https://pyarcana.dev"
+# The canonical site origin and the site base path ("" = served at the root).
+CANONICAL_ORIGIN = "https://pyarcana.dev"
 SITE_PATH = ""
 # Version string of the Terms the sign-in panel shows; sign-in must echo it exactly.
 TERMS_VERSION = ""
@@ -31,11 +43,16 @@ SESSION_MAX_DAYS = "180"
 # OAuth client ids are public by design (they ship in the page). Use PyArcana's OWN ids:
 # a token minted for any other app is refused by audience.
 GOOGLE_CLIENT_ID = ""
+# Microsoft uses the `common` authority (D-USER-05: any Entra ID tenant + personal
+# accounts). The authority is the client's setting (microsoftAuthority); the worker always
+# verifies against the common JWKS and the token's own tenant issuer.
 MICROSOFT_CLIENT_ID = ""
-# Sign-in code email: resend | brevo | mailersend (dev-log only for localhost E2E).
-EMAIL_PROVIDER = ""
-# A role address on PyArcana's domain, never a personal mailbox.
-EMAIL_FROM = ""
+# Sign-in code email (D-USER-04): cloudflare (the send_email binding EMAIL below; needs
+# Workers Paid) | resend | brevo | mailersend (dev-log only for localhost E2E).
+EMAIL_PROVIDER = "cloudflare"
+# A role address on PyArcana's domain, never a personal mailbox. With cloudflare it must be
+# an allowed sender of the EMAIL binding and a verified Email Sending identity.
+EMAIL_FROM = "no-reply@pyarcana.dev"
 EMAIL_FROM_NAME = "PyArcana"
 # Global emails per UTC day; keep it under the provider's free quota. One network
 # (IPv4 address or IPv6 /64) may use at most a ninth of it per day.
@@ -59,13 +76,22 @@ CREEM_PRODUCT_PRO_MONTHLY = ""
 CREEM_PRODUCT_PRO_YEARLY = ""
 MP_API_BASE = "https://api.mercadopago.com"
 
+# --- Cloudflare Email Sending (D-USER-04) -------------------------------------------
+# Sign-in codes are sent with env.EMAIL.send(). Needs Workers Paid (3,000 messages a month
+# included) and pyarcana.dev onboarded to Email Sending (its records live on the cf-bounce
+# subdomain, so Hostinger's MX/SPF/DKIM stay as they are). The binding may send only from
+# the address below, which must equal EMAIL_FROM.
+[[send_email]]
+name = "EMAIL"
+allowed_sender_addresses = ["no-reply@pyarcana.dev"]
+
 # --- Secrets (NEVER put values in this file; it is public) ----------------------------
 # Set each with wrangler from workers/billing/:
 #   npx wrangler secret put SERVER_PEPPER          32+ random bytes, base64:
 #                                                  openssl rand -base64 32
 #   npx wrangler secret put ADMIN_EMAILS           comma-separated admin addresses
 #                                                  (admin also needs a Google session < 12 h)
-# Only the one named in EMAIL_PROVIDER:
+# Only the one named in EMAIL_PROVIDER (cloudflare needs none):
 #   npx wrangler secret put RESEND_API_KEY
 #   npx wrangler secret put BREVO_API_KEY
 #   npx wrangler secret put MAILERSEND_API_KEY

@@ -70,7 +70,7 @@ test('account detail: no account, a foreign id shape or a non-object is null; mi
   assert.equal(parseAccountDetail(null), null)
   assert.equal(parseAccountDetail({ ok: true }), null)
   assert.equal(parseAccountDetail({ account: { id: 'u_1' } }), null)
-  const bare = parseAccountDetail({ account: { id: 'acct_x', disabledAt: 5, disabledReason: 'abuso' } })
+  const bare = parseAccountDetail({ account: { id: 'acct_x', emailVerified: 1, disabledAt: 5, disabledReason: 'abuso' } })
   assert.ok(bare)
   assert.equal(bare.account.disabledAt, 5)
   assert.equal(bare.account.disabledReason, 'abuso')

@@ -28,13 +28,18 @@ node scripts/run_billing_tests.mjs --only worker # this worker's suites only
 ## Routes
 
 The API is served at `/api/v1/...` on the site's own origin (DESIGN-v3 §A); bare `/v1/...` also
-works (local dev, provider webhooks). Every state-changing request needs `X-PyArcana: 1` and an
+works (local dev, provider webhooks). The same worker serves the static site: `wrangler.toml`
+declares Workers Static Assets (`[assets]`, directory `../../out`, binding `ASSETS`,
+`run_worker_first = ["/api/*"]`, `not_found_handling = "404-page"`), and `src/index.mjs` hands
+any path outside `/api`, `/api/*`, `/v1` and `/v1/*` to `ASSETS` when the binding exists (else
+the JSON 404). Every state-changing request needs `X-PyArcana: 1` and an
 allowed `Origin` (403 `bad_origin`). Answers are JSON `{ok, ...}` or `{ok: false, reason}`.
 
 | Route | Access | What it does |
 |---|---|---|
 | `GET /v1/health` | public | Booleans only: db, pepper, terms, email, google, microsoft, mercadopago, creem, origins. |
 | `GET /v1/auth/methods` | public | Which sign-in methods work, the client ids, trialDays. |
+| `GET /v1/geo` | public | `{country}` from Cloudflare's `request.cf.country`: two letters, or null (none, junk, `XX` unknown, `T1` Tor). Nothing else from `request.cf` leaves the worker. For the ads region check (DESIGN-v3 §E). |
 | `POST /v1/auth/email/start` | public | Emails a 6-digit code. Limits: 10/h and a daily share (cap / 9) per network, 5/h per email+network, 8/h per email, 3 live codes, `EMAIL_DAILY_CAP` per day. |
 | `POST /v1/auth/email/verify` | public | Signs in with the code. 30/h per network; 20 attempts per email per UTC day, spent before comparing. |
 | `POST /v1/auth/google` | public | `{idToken, noncePreimage, ageConfirmed, termsVersion}`. The nonce must be base64url(SHA-256(preimage)) and is single-use. |
@@ -76,6 +81,21 @@ Every admin request is audited (rate-limited ones excepted).
 Scheduled: daily at 09:17 UTC the retention sweep (login codes, sessions, rate limits, stale open
 checkouts, spent nonces, report screenshots). The hourly cron does nothing yet.
 
+## Sign-in email
+
+`EMAIL_PROVIDER` picks exactly one provider; a key for another provider is never a fallback.
+
+| `EMAIL_PROVIDER` | Needs | Notes |
+|---|---|---|
+| `cloudflare` (the documented default, D-USER-04) | the `send_email` binding `EMAIL` in `wrangler.toml`, `EMAIL_FROM` | Cloudflare Email Sending; Workers Paid (3,000 messages a month included). A thrown binding error is `email_unavailable`; only its `.code` is logged. |
+| `resend` | `RESEND_API_KEY`, `EMAIL_FROM` | Alternative. |
+| `brevo` | `BREVO_API_KEY`, `EMAIL_FROM` | Alternative. |
+| `mailersend` | `MAILERSEND_API_KEY`, `EMAIL_FROM` | Alternative. |
+| `dev-log` | every allowed origin `http://localhost[:port]` | Local end-to-end only: prints the code, sends nothing. |
+
+Every provider shares `EMAIL_DAILY_CAP` (default 90 a day). The Hostinger SMTP provider of
+DESIGN-v3 §K is dropped (D-USER-04): Hostinger mailbox credentials never go into the worker.
+
 ## Not built yet
 
 Named undone work; nothing below exists in the code today.
@@ -90,11 +110,14 @@ Named undone work; nothing below exists in the code today.
 - Experiments and events (DESIGN-v3 §F): `GET /v1/experiments`, `POST /v1/events`,
   `POST /v1/me/experiments/bind`, `GET /v1/admin/experiments`, `GET /v1/admin/experiments/results`.
 - Satisfaction surveys (DESIGN-v3 §G): `POST /v1/surveys`, `GET /v1/admin/surveys`; the consents
-  record; `GET /v1/geo` for the ads region check.
-- The SMTP email provider for the Hostinger mailbox (DESIGN-v3 §K); today: resend, brevo,
-  mailersend, or dev-log for localhost.
-- The one-origin deployment: the `[assets]` block in `wrangler.toml` and `scripts/deploy.sh`
-  (DESIGN-v3 §A). The worker already strips `/api`.
+  record.
+- The one-origin deploy script `scripts/deploy.sh` (DESIGN-v3 §A: static build at the root,
+  `out/_headers` and `out/ads.txt`, then `wrangler deploy`). The `[assets]` block and the worker's
+  fall-through to `ASSETS` are built; until the script exists the owner runs the three steps by
+  hand.
+- JWKS and authority URL overrides for an end-to-end mock identity provider (DESIGN-v3 §B allows
+  them only when every allowed origin is localhost). The worker has no override at all: it always
+  uses Google's and Microsoft's real JWKS URLs.
 - Turnstile in front of email codes and anonymous reports (DESIGN-v2 §0 lists it as out of scope);
   per-network daily shares bound the abuse instead.
 - A route that proves an email address on an existing account (for example a Microsoft-only
@@ -110,16 +133,29 @@ Named undone work; nothing below exists in the code today.
 Only the owner can do these; nothing here is deployed.
 
 1. Create the database, paste its id into `wrangler.toml`: `npx wrangler d1 create pyarcana-accounts`.
-2. Set the secrets from `workers/billing/`: `SERVER_PEPPER` (`openssl rand -base64 32`),
-   `ADMIN_EMAILS` (use a Gmail address: Google is authoritative for it), and the key of the email
-   provider named in `EMAIL_PROVIDER`.
-3. Fill the public vars: `ALLOWED_ORIGINS`, `CANONICAL_ORIGIN`, `TERMS_VERSION`, `EMAIL_PROVIDER`,
-   `EMAIL_FROM`, `GOOGLE_CLIENT_ID`, `MICROSOFT_CLIENT_ID`. Local development overrides them in
-   `workers/billing/.dev.vars` (git-ignored).
-4. Google Cloud console: an OAuth web client with the site origin as an authorized JavaScript origin.
-5. Microsoft Entra: an app registration (any tenant and personal accounts), SPA platform, redirect
-   URI `https://<domain>/cuenta` exactly.
-6. After the first deploy, open one Workers Logs entry and confirm which request fields it keeps
+2. Set the secrets from `workers/billing/`: `SERVER_PEPPER` (`openssl rand -base64 32`) and
+   `ADMIN_EMAILS` (use a Gmail address: Google is authoritative for it). With the default
+   `EMAIL_PROVIDER = "cloudflare"` no email key is needed; with an alternative, set its key.
+3. Prefilled for `https://pyarcana.dev` (DESIGN-v3 §K): `ALLOWED_ORIGINS`, `CANONICAL_ORIGIN`,
+   `SITE_PATH`, `EMAIL_PROVIDER`, `EMAIL_FROM`, `EMAIL_FROM_NAME`. Still to fill: `TERMS_VERSION`,
+   `GOOGLE_CLIENT_ID`, `MICROSOFT_CLIENT_ID`. Local development overrides them in
+   `workers/billing/.dev.vars` (git-ignored), for example
+   `ALLOWED_ORIGINS=http://localhost:3000` and `EMAIL_PROVIDER=dev-log`.
+4. Cloudflare Email Sending (D-USER-04): move the account to Workers Paid, onboard `pyarcana.dev`
+   to Email Sending (its records go on the `cf-bounce` subdomain, so the Hostinger MX, SPF, DKIM
+   and DMARC records stay as they are) and verify `no-reply@pyarcana.dev` as a sender. The
+   `[[send_email]]` binding in `wrangler.toml` may send only from that address; if `EMAIL_FROM`
+   changes, change `allowed_sender_addresses` with it. Send one code to yourself after deploy:
+   this sandbox cannot reach Cloudflare, so the live send is unproven here.
+5. One origin (DESIGN-v3 §A, §K): build the static export at the root
+   (`NEXT_PUBLIC_BASE_PATH= bun run build:static`, which writes `out/`), then `npx wrangler deploy`
+   from `workers/billing/`, and attach `pyarcana.dev` as a Workers Custom Domain (the zone must be
+   on Cloudflare first). `run_worker_first` as a list needs a recent wrangler 4.
+6. Google Cloud console: an OAuth web client with the site origin as an authorized JavaScript origin.
+7. Microsoft Entra: an app registration ("Any Entra ID Tenant + Personal Microsoft accounts",
+   authority `common`, D-USER-05), SPA platform, redirect URI `https://pyarcana.dev/cuenta`
+   exactly.
+8. After the first deploy, open one Workers Logs entry and confirm which request fields it keeps
    (not verifiable from here).
 
 ## Stated deviations
@@ -151,5 +187,12 @@ Each one is a decision someone may want to revisit.
 - The admin's free-text reason is kept in the audit row as `adminReason`, with email-shaped words
   replaced by `[email]`.
 - `POST /v1/admin/accounts/enable` and `accountId` targeting are additions to DESIGN-v2.
+- `EMAIL_PROVIDER` left empty still means "not configured" (fail closed): `cloudflare` is the
+  default only in `wrangler.toml`, not a silent fallback in code.
+- The Microsoft authority (`common`, D-USER-05) is not a worker var: it is the client's
+  `microsoftAuthority`. The worker verifies every token against the common JWKS and the token's own
+  tenant issuer, which covers `common`, `organizations` and `consumers` alike.
+- `GET /v1/geo` answers `country: null` for `XX` (unknown) and `T1` (Tor), not just for a missing
+  value, so an unplaceable caller gets house ads.
 - The JWKS fetch is aborted after 5 s with an AbortController and a cleared timer (the same abort
   as `AbortSignal.timeout`, without an unref'd timer).

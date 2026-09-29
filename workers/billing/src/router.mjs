@@ -51,7 +51,7 @@ import { handleAdminReports, handlePatchReport, handleQaAttachment, handleQaRepo
 import { handleMyReports, handleSubmitReport, REPORT_BODY_CAP } from "./reports.mjs";
 import { handleGrantRole, handleListRoles, handleRevokeRole } from "./roles.mjs";
 import { handleStartTrial } from "./trial.mjs";
-import { handleHealth, handleMethods, hasDb } from "./public.mjs";
+import { handleGeo, handleHealth, handleMethods, hasDb } from "./public.mjs";
 import { migrate } from "./schema.mjs";
 import { resolveSession } from "./sessions.mjs";
 
@@ -87,6 +87,7 @@ function qaRoute(path, handler) {
 export const ROUTES = [
   { method: "GET", path: "/v1/health", handler: handleHealth, needs: [] },
   { method: "GET", path: "/v1/auth/methods", handler: handleMethods, needs: [] },
+  { method: "GET", path: "/v1/geo", handler: handleGeo, needs: [] },
   { method: "POST", path: "/v1/auth/email/start", handler: handleEmailStart, needs: DB_PEPPER },
   { method: "POST", path: "/v1/auth/email/verify", handler: handleEmailVerify, needs: DB_PEPPER, auth: "optional" },
   { method: "POST", path: "/v1/auth/google", handler: handleGoogleSignIn, needs: DB_PEPPER, auth: "optional" },

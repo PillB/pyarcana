@@ -19,6 +19,9 @@ import { QATour } from './QATour'
 import { ElementPicker } from './ElementPicker'
 import { QAHint } from './QAHint'
 import { QA_TOUR_STORAGE_KEY } from '@/lib/qa-tour-content'
+import { deploymentJsonUrl } from '@/lib/cloud/qa-links'
+import { SITE_BASE_PATH } from '@/lib/runtime-mode'
+import { QaModeBadge, QaSendIssueSlot, QaSessionSlot, useQaOpenRequest } from '@/components/account/QaCloudSlots'
 import {
   Dialog,
   DialogContent,
@@ -178,8 +181,8 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
     let cancelled = false
     async function loadDeployment() {
       try {
-        const base = window.location.pathname.startsWith('/pyarcana') ? '/pyarcana' : ''
-        const response = await fetch(`${base}/deployment.json`, { cache: 'no-store' })
+        // The build's own base path: a custom domain serves the site at '/', GitHub Pages at '/pyarcana'.
+        const response = await fetch(deploymentJsonUrl(SITE_BASE_PATH), { cache: 'no-store' })
         if (!response.ok) return
         const data = await response.json() as { git_sha?: unknown }
         if (!cancelled && typeof data.git_sha === 'string') setDeploymentSha(data.git_sha)
@@ -241,6 +244,9 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
     capturedContext.current = { ...captured, sectionId, sectionIndex, sectionTitle }
     setContextRevision((n) => n + 1)
   }, [open, sectionId, sectionIndex, sectionTitle])
+
+  // The /qa page's "Abrir el workspace de QA" (a window event; only where accounts run).
+  useQaOpenRequest(openHarness)
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -755,6 +761,7 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
                     </Button>
                   </QAHint>
                 </section>
+                <QaSessionSlot issues={issues} tester={tester} onSent={() => void refreshIssues()} />
               </div>
             )}
 
@@ -807,6 +814,8 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
                           </Button>
                         </QAHint>
                       </div>
+
+                      <QaSendIssueSlot issue={selected} tester={tester} onSent={() => void refreshIssues()} />
 
                       <div className="rounded-xl border border-border bg-muted/20 p-4">
                         <div className="mb-2 flex items-center gap-2 font-semibold"><MapPin className="h-4 w-4 text-primary" /> Sitemap de la incidencia</div>
@@ -866,6 +875,7 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
           of the Dialog tree, Radix reads a click on the tour's overlay as an
           outside-click and closes the workspace underneath -- so dismissing the
           tutorial threw the tester out of the form they were about to fill. */}
+      <QaModeBadge />
     </>
   )
 }

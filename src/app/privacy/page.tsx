@@ -2,6 +2,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { LegalPageShell } from '@/components/legal/LegalPageShell'
 import { LegalSection, LegalParagraph, LegalList, LegalCallout } from '@/components/legal/LegalAtoms'
+import { CloudLegalSection } from '@/components/account/CloudLegalSection'
+import { ThirdPartyClaim } from '@/components/account/ThirdPartyClaim'
+import { CLOUD_CONFIG } from '@/lib/cloud/config'
+import { adSharingClaimHolds } from '@/lib/cloud/legal-content'
 
 export const metadata: Metadata = {
   title: 'Aviso de Privacidad · PyArcana',
@@ -17,7 +21,8 @@ const META = {
   version: '1.0.0',
   effectiveDate: '2025-07-29',
   englishSummary:
-    'We store only the data needed to operate the course: progress, quiz scores, and (when you sign in) the email used to identify your account. We do not sell or share your data. You can delete it at any time.',
+    // "or share" holds only while no ad network is enabled (legal-content.ts adSharingClaimHolds).
+    `We store only the data needed to operate the course: progress, quiz scores, and (when you sign in) the email used to identify your account. ${adSharingClaimHolds(CLOUD_CONFIG) ? 'We do not sell or share your data.' : 'We do not sell your data.'} You can delete it at any time.`,
 }
 
 export default function PrivacyPage() {
@@ -26,8 +31,11 @@ export default function PrivacyPage() {
       <LegalCallout title="Resumen rápido">
         En la edición pública (GitHub Pages) guardamos tu progreso solo en tu navegador. Si creas
         una cuenta, además guardamos tu correo y tu progreso en nuestros servidores para
-        sincronizar entre dispositivos. No vendemos ni compartimos tus datos. Esto es, ninguno de
-        los dos modos comparte tu información con terceros para publicidad.
+        sincronizar entre dispositivos.{' '}
+        <ThirdPartyClaim kind="ads">
+          No vendemos ni compartimos tus datos. Esto es, ninguno de
+          los dos modos comparte tu información con terceros para publicidad.
+        </ThirdPartyClaim>
       </LegalCallout>
 
       <LegalSection title="1. Datos que tratamos">
@@ -165,6 +173,7 @@ export default function PrivacyPage() {
           <Link href="/security" className="font-medium underline-offset-2 hover:underline">Aviso de Seguridad</Link>.
         </LegalParagraph>
       </LegalSection>
+      <CloudLegalSection kind="privacy" />
     </LegalPageShell>
   )
 }

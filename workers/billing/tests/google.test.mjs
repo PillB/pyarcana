@@ -22,6 +22,7 @@ import {
   createEnv,
   createIdentityProviders,
   freshNonce,
+  nonceFor,
   googleClaims
 } from "./fixtures.mjs";
 
@@ -294,6 +295,20 @@ test("a preimage must carry at least 32 random bytes: a short or non-base64url o
     const res = await h.call("POST", "/v1/auth/google", { body: { idToken, noncePreimage: preimage, ...TERMS } });
     assert.deepEqual([preimage.length, res.status, res.body.detail], [preimage.length, 401, "bad_nonce"]);
   }
+});
+
+test("stage 2a: a short or malformed preimage is refused even when the token carries its CORRECT hash", async () => {
+  // The echo test above cannot see the length rule (sha256(preimage) never equals the preimage);
+  // here the token's nonce is exactly b64url(SHA-256(preimage)), so only the preimage rule can refuse it.
+  const h = await harness();
+  for (const preimage of ["short-preimage", "x".repeat(42), `${"a".repeat(43)}.`, `${"a".repeat(42)}=`, "a".repeat(129)]) {
+    const idToken = await h.token({ nonce: nonceFor(preimage) });
+    const res = await h.call("POST", "/v1/auth/google", { body: { idToken, noncePreimage: preimage, ...TERMS } });
+    assert.deepEqual([preimage.length, res.status, res.body.detail], [preimage.length, 401, "bad_nonce"]);
+  }
+  const ok = "b".repeat(43);
+  const accepted = await h.call("POST", "/v1/auth/google", { body: { idToken: await h.token({ nonce: nonceFor(ok) }), noncePreimage: ok, ...TERMS } });
+  assert.equal(accepted.status, 200, "the boundary: 43 base64url characters (32 bytes) is enough");
 });
 
 /**

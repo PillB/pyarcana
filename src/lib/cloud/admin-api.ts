@@ -13,6 +13,7 @@
  * - Only the worker's own id shapes reach a URL path.
  * - Everything the server returns is parsed field by field.
  */
+import type { ApiResult } from '@/lib/cloud/api'
 import { isPlainObject } from '@/lib/cloud/storage'
 import { SURVEY_KINDS, type SurveyKind } from '@/lib/cloud/surveys'
 import { QA_CATEGORIES, QA_SEVERITIES } from '@/lib/qa-session'
@@ -554,6 +555,6 @@ export function parseAccountDetail(data: unknown): AccountDetail | null {
  * Experimentos and Satisfacción tabs, whose routes are designed but not built: a refusal (403) or
  * an outage is never presented as "not available yet".
  */
-export function routeMissing(result: { ok: boolean; status: number; reason?: string }): boolean {
+export function routeMissing(result: ApiResult<unknown>): boolean {
   return !result.ok && result.status === 404 && (result.reason === 'not_found' || result.reason === 'http_404')
 }

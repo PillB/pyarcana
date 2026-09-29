@@ -14,7 +14,7 @@ import {
   resolveEmailConfig,
   sendLoginCode
 } from "../src/email.mjs";
-import { createCtx, createFakeFetch } from "./fixtures.mjs";
+import { TERMS_VERSION, api, createCtx, createFakeFetch, createHarness } from "./fixtures.mjs";
 
 const TO = "ana.perez@example.test";
 const CODE = "482913";
@@ -150,4 +150,108 @@ test("dev-log with a non-localhost origin refuses instead of printing codes", as
   const ctx = await emailCtx({ EMAIL_PROVIDER: "dev-log" });
   assert.deepEqual(await sendLoginCode(ctx, TO, CODE, 15), { ok: false, reason: "email_not_configured" });
   assert.ok(!ctx.logs.some((line) => line.includes(CODE)));
+});
+
+/**
+ * A fake Cloudflare send_email binding (env.EMAIL): records each message and
+ * answers {messageId}, or throws what `failWith` says.
+ * @param {{failWith?: Error}} [options] Failure to throw.
+ * @returns {{send: function, sent: Object[]}} Binding.
+ */
+function fakeSendEmail(options = {}) {
+  const sent = [];
+  return {
+    sent,
+    async send(message) {
+      if (options.failWith) {
+        throw options.failWith;
+      }
+      sent.push(message);
+      return { messageId: `msg-${sent.length}` };
+    }
+  };
+}
+
+/**
+ * An Error shaped like the send_email binding's (a message plus `.code`).
+ * @param {string} message Message.
+ * @param {unknown} code Code.
+ * @returns {Error} Error.
+ */
+function bindingError(message, code) {
+  const error = new Error(message);
+  error.code = code;
+  return error;
+}
+
+const CF = { EMAIL_PROVIDER: "cloudflare", EMAIL_FROM: "no-reply@pyarcana.dev", RESEND_API_KEY: undefined };
+
+test("D-USER-04: cloudflare is configured by the send_email binding EMAIL and a sender, with no API key", () => {
+  const binding = fakeSendEmail();
+  assert.equal(emailConfigured({ ...CF, EMAIL: binding }), true);
+  assert.equal(resolveEmailConfig({ ...CF, EMAIL: binding }).provider, "cloudflare");
+  assert.equal(resolveEmailConfig({ EMAIL_PROVIDER: "Cloudflare", EMAIL_FROM: "a@b.test", EMAIL: binding }).provider, "cloudflare");
+  assert.deepEqual(resolveEmailConfig({ ...CF }), { provider: null, reason: "email_not_configured" }, "no binding");
+  assert.equal(emailConfigured({ ...CF, EMAIL: { send: "not a function" } }), false, "a binding without send()");
+  assert.equal(emailConfigured({ EMAIL_PROVIDER: "cloudflare", EMAIL: binding }), false, "no sender");
+  assert.equal(emailConfigured({ EMAIL_PROVIDER: "resend", EMAIL_FROM: "a@b.test", EMAIL: binding }), false, "the binding is not a fallback for another provider");
+});
+
+test("D-USER-04: a cloudflare send calls env.EMAIL.send once with the documented message shape and no fetch", async () => {
+  const binding = fakeSendEmail();
+  const ctx = await emailCtx({ ...CF, EMAIL: binding, EMAIL_FROM_NAME: 'Py"Arcana <x>' });
+  assert.deepEqual(await sendLoginCode(ctx, TO, CODE, 15), { ok: true });
+  assert.equal(binding.sent.length, 1);
+  const message = buildLoginCodeMessage(CODE, 15);
+  assert.deepEqual(binding.sent[0], {
+    to: TO,
+    from: { email: "no-reply@pyarcana.dev", name: "PyArcana x" },
+    subject: message.subject,
+    text: message.text,
+    html: message.html
+  });
+  assert.equal(ctx.fake.calls.length, 0, "no HTTP provider is called");
+  assert.deepEqual(ctx.logs, []);
+});
+
+test("D-USER-04: a thrown binding error maps to email_unavailable and logs the provider and its code only", async () => {
+  const cases = [
+    [bindingError(`recipient ${TO} rejected for code ${CODE}`, "E_RECIPIENT_NOT_ALLOWED"), "code=E_RECIPIENT_NOT_ALLOWED"],
+    [bindingError("daily limit", "E_RATE_LIMIT_EXCEEDED"), "code=E_RATE_LIMIT_EXCEEDED"],
+    [new Error(`transport failed for ${TO}`), "code=unknown"],
+    [bindingError("weird", `${TO}\nforged line`), "code=unknown"],
+    [bindingError("weird", { toString: () => TO }), "code=unknown"]
+  ];
+  for (const [failure, expected] of cases) {
+    const ctx = await emailCtx({ ...CF, EMAIL: fakeSendEmail({ failWith: failure }) });
+    assert.deepEqual(await sendLoginCode(ctx, TO, CODE, 15), { ok: false, reason: "email_unavailable" });
+    assert.deepEqual(ctx.logs, [`email send failed provider=cloudflare ${expected}`]);
+    assert.ok(!ctx.logs[0].includes(CODE) && !ctx.logs[0].includes("ana"));
+  }
+});
+
+test("D-USER-04: EMAIL_DAILY_CAP holds for cloudflare too; past it the binding is not called", async () => {
+  const binding = fakeSendEmail();
+  const ctx = await emailCtx({ ...CF, EMAIL: binding, EMAIL_DAILY_CAP: "2" });
+  assert.equal((await sendLoginCode(ctx, TO, CODE, 15)).ok, true);
+  assert.equal((await sendLoginCode(ctx, "b@example.test", CODE, 15)).ok, true);
+  assert.deepEqual(await sendLoginCode(ctx, "c@example.test", CODE, 15), { ok: false, reason: "email_unavailable" });
+  assert.equal(binding.sent.length, 2);
+});
+
+test("D-USER-04 over HTTP: with the binding, health and methods offer email and /api/v1/auth/email/start sends through it", async () => {
+  const binding = fakeSendEmail();
+  const { env } = await createHarness({ ...CF, EMAIL: binding });
+  const fake = createFakeFetch();
+  assert.equal((await api(env, "GET", "/api/v1/health")).body.email, true);
+  assert.equal((await api(env, "GET", "/api/v1/auth/methods")).body.email, true);
+  const res = await api(env, "POST", "/api/v1/auth/email/start", {
+    body: { email: TO, ageConfirmed: true, termsVersion: TERMS_VERSION },
+    fetchImpl: fake.fetchImpl
+  });
+  assert.deepEqual([res.status, res.body.ok], [200, true]);
+  assert.equal(binding.sent.length, 1);
+  assert.equal(binding.sent[0].to, TO);
+  assert.match(binding.sent[0].subject, /^\d{6} — PyArcana$/);
+  assert.equal(fake.calls.length, 0);
 });

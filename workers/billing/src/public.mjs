@@ -1,7 +1,8 @@
 /**
- * Public, unauthenticated routes: GET /v1/health and GET /v1/auth/methods.
- * Health answers booleans only (plus the public origin list): never a secret,
- * never a count, never an email.
+ * Public, unauthenticated routes: GET /v1/health, GET /v1/auth/methods and
+ * GET /v1/geo. Health answers booleans only (plus the public origin list):
+ * never a secret, never a count, never an email. Geo answers the country
+ * only.
  */
 
 import { listVar, stringVar, termsVersion, trialDays } from "./config.mjs";
@@ -91,4 +92,26 @@ export function handleMethods(ctx) {
       trialDays: trialDays(env)
     }
   };
+}
+
+/**
+ * An ISO 3166-1 alpha-2 country as Cloudflare writes it. XX (unknown) and T1
+ * (Tor) match the shape but are not places, so they are refused below.
+ */
+const COUNTRY_RE = /^[A-Z]{2}$/;
+const NOT_A_COUNTRY = new Set(["XX", "T1"]);
+
+/**
+ * GET /v1/geo: the caller's country from Cloudflare's request.cf, for the ads
+ * region check (DESIGN-v3 §E). Only the two letters leave the worker; any
+ * other cf field (city, coordinates, ASN) never does. Anything that is not a
+ * real country is null, and the client then shows house ads (fail closed).
+ * @param {Object} ctx Context.
+ * @returns {Object} Result.
+ */
+export function handleGeo(ctx) {
+  const cf = ctx.request.cf;
+  const raw = cf && typeof cf.country === "string" ? cf.country : "";
+  const country = COUNTRY_RE.test(raw) && !NOT_A_COUNTRY.has(raw) ? raw : null;
+  return { status: 200, body: { ok: true, country } };
 }

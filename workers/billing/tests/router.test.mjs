@@ -242,7 +242,7 @@ test("review: workers/billing/README.md documents every built route and names th
     assert.ok(readme.includes(heading), heading);
   }
   const undone = readme.slice(readme.indexOf("## Not built yet"), readme.indexOf("## Owner steps"));
-  for (const item of ["POST /v1/checkout", "/v1/webhooks/mercadopago", "/v1/webhooks/creem", "GET /v1/jwks", "licenseToken", "/v1/admin/experiments", "reconciliation", "Turnstile", "[assets]"]) {
+  for (const item of ["POST /v1/checkout", "/v1/webhooks/mercadopago", "/v1/webhooks/creem", "GET /v1/jwks", "licenseToken", "/v1/admin/experiments", "reconciliation", "Turnstile", "scripts/deploy.sh"]) {
     assert.ok(undone.includes(item), `named as undone: ${item}`);
   }
   for (const built of ROUTES.map((r) => `${r.method} ${r.path}`)) {

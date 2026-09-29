@@ -249,10 +249,4 @@ export async function sendUnsent(api: ApiClient, issues: QAIssue[], o: Omit<Repo
   return result
 }
 
-/** Where the deployed commit is published (public/deployment.json), under the site base path. */
-export function deploymentJsonUrl(basePath: string): string {
-  return `${basePath}/deployment.json`
-}
-
-/** Window event that asks the QA harness to open (the /qa page's "Abrir el workspace"). */
-export const QA_OPEN_EVENT = 'pyarcana:qa-open'
+export { deploymentJsonUrl, QA_OPEN_EVENT } from '@/lib/cloud/qa-links'

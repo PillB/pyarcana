@@ -1,4 +1,5 @@
 import { LegalPage } from '@/components/legal/LegalPage'
+import { CloudLegalSection } from '@/components/account/CloudLegalSection'
 
 export default function Page() {
   return (
@@ -9,6 +10,7 @@ export default function Page() {
         <li><a href="mailto:security@pyarcana.dev" className="font-medium underline-offset-2 hover:underline">security@pyarcana.dev</a> — para reportes de seguridad y vulnerabilidades</li>
       </ul>
       <p className="mt-2">Respondemos en un plazo razonable según la normativa aplicable, incluyendo la Ley N° 29733 de Protección de Datos Personales del Perú y el Reglamento General de Protección de Datos (GDPR) de la Unión Europea.</p>
+      <CloudLegalSection kind="data-rights" />
       <p className="mt-4 text-xs text-muted-foreground">Este documento es informativo. Para cuestiones formales, consulta con un profesional cualificado.</p>
     </LegalPage>
   )
