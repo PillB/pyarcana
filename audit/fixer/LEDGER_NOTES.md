@@ -650,3 +650,26 @@ shape and are not yet covered.
 The brief had also cut each concept's location list at eight. S02's `dict` had ten, and codex
 fixed the eight it was shown. A list handed to codex is complete, or it states how much it
 leaves out.
+
+### A dead reviewer is not a clean review (2026-09-28, S03 red team)
+
+The S03 plan was attacked by twelve agents per round, one per readiness dimension, looping until
+two quiet rounds. The run reported `converged: true`. It had not converged: the session hit its
+usage limit after round 1, every agent in rounds 2 and 3 died, and the loop counted two rounds of
+total failure as two quiet rounds. The reviser died too, so the revised plan came back `null`
+while the run still reported three rounds and convergence.
+
+The cause is one line. `parallel()` resolves a failed agent to `null`, the loop did
+`.filter(Boolean)` before counting, and after that filter a dead attacker and a satisfied
+attacker are the same thing: no findings. Same class as the contaminated baseline and the
+phantom 40 snippet failures - **an instrument that could not run must never be
+indistinguishable from an instrument that passed.** Counting nulls separately is the fix: a
+round with any failure can never be quiet, a round where every agent failed stops the loop, and
+a dead reviser ends the run instead of discarding the revision. Falsified against the real run
+(`scratchpad/redteam_loop_sim.mjs`): the old arithmetic says converged, the new one says ended
+on agent failure, and genuinely quiet rounds still converge.
+
+**Whenever a loop treats "nothing came back" as "nothing is wrong", count the failures
+separately.** That is true of every fan-out in this campaign, not only this one.
+
+The 68 findings round 1 did produce are kept in `audit/fixer/rca/s03-redteam-findings.md`.
