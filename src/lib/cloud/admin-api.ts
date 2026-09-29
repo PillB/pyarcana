@@ -457,3 +457,103 @@ export function surveyView(data: unknown): { stats: Array<[string, number]>; tex
     .map((t) => t.slice(0, SURVEY_TEXT_MAX))
   return { stats: flatNumbers(d, () => true), texts }
 }
+
+// --- one account (the "Cuentas" tab) --------------------------------------------------------------
+
+export interface AdminAccount {
+  id: string
+  email: string | null
+  emailVerified: boolean
+  displayName: string | null
+  createdAt: number | null
+  firstSigninAt: number | null
+  trialUsedAt: number | null
+  disabledAt: number | null
+  disabledReason: string | null
+  deletedAt: number | null
+}
+
+export interface AdminSubscription {
+  id: string
+  provider: string
+  plan: string
+  status: string
+  cancelAtPeriodEnd: boolean
+  paidThrough: number | null
+  amountMinor: number | null
+  currency: string | null
+}
+
+export interface AccountDetail {
+  account: AdminAccount
+  access: { isPro: boolean; source: string | null; accessEnd: number | null; indefinite: boolean }
+  grants: AdminGrant[]
+  roles: AdminRole[]
+  /** Provider and date only: the (masked) subject is not kept. */
+  identities: Array<{ provider: string; createdAt: number | null }>
+  subscriptions: AdminSubscription[]
+  doubleSubscription: boolean
+}
+
+/** The worker's adminAccountView; null unless the id is an acct_ id. */
+export function parseAdminAccount(raw: unknown): AdminAccount | null {
+  if (!isPlainObject(raw) || typeof raw.id !== 'string' || !ACCOUNT_ID.test(raw.id)) return null
+  return {
+    id: raw.id,
+    email: str(raw.email),
+    emailVerified: raw.emailVerified === true,
+    displayName: str(raw.displayName),
+    createdAt: num(raw.createdAt),
+    firstSigninAt: num(raw.firstSigninAt),
+    trialUsedAt: num(raw.trialUsedAt),
+    disabledAt: num(raw.disabledAt),
+    disabledReason: str(raw.disabledReason),
+    deletedAt: num(raw.deletedAt),
+  }
+}
+
+function parseSubscription(s: Record<string, unknown>): AdminSubscription | null {
+  if (typeof s.id !== 'string' || typeof s.provider !== 'string') return null
+  return {
+    id: s.id,
+    provider: s.provider,
+    plan: str(s.plan) ?? '',
+    status: str(s.status) ?? '',
+    cancelAtPeriodEnd: s.cancelAtPeriodEnd === true,
+    paidThrough: num(s.paidThrough),
+    amountMinor: num(s.amountMinor),
+    currency: str(s.currency),
+  }
+}
+
+function parseAccess(raw: unknown): AccountDetail['access'] {
+  const a = isPlainObject(raw) ? raw : {}
+  return { isPro: a.isPro === true, source: str(a.source), accessEnd: num(a.accessEnd), indefinite: a.indefinite === true }
+}
+
+/** POST /v1/admin/account/lookup -> everything the admin sees about one account. */
+export function parseAccountDetail(data: unknown): AccountDetail | null {
+  const account = isPlainObject(data) ? parseAdminAccount(data.account) : null
+  if (!account) return null
+  const d = data as Record<string, unknown>
+  return {
+    account,
+    access: parseAccess(d.access),
+    grants: rows(d, 'grants').map(parseGrant).filter((g): g is AdminGrant => g !== null),
+    roles: parseRoleList(d),
+    identities: rows(d, 'identities')
+      .filter((i) => typeof i.provider === 'string')
+      .map((i) => ({ provider: i.provider as string, createdAt: num(i.createdAt) })),
+    subscriptions: rows(d, 'subscriptions').map(parseSubscription).filter((s): s is AdminSubscription => s !== null),
+    doubleSubscription: isPlainObject(d.flags) && d.flags.doubleSubscription === true,
+  }
+}
+
+/**
+ * The worker has no such route (router.mjs answers 404 not_found for an unknown path). Used for the
+ * Experimentos and Satisfacción tabs, whose routes are designed but not built: a refusal (403) or
+ * an outage is never presented as "not available yet".
+ */
+export function routeMissing(result: { ok: boolean; status: number; reason?: string }): boolean {
+  return !result.ok && result.status === 404 && (result.reason === 'not_found' || result.reason === 'http_404')
+}

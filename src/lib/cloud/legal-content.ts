@@ -49,6 +49,15 @@ export function thirdPartyCookieClaimHolds(cfg: CloudConfig): boolean {
   return adNetwork(cfg) === null && cfg.googleClientId === ''
 }
 
+/**
+ * True while no ad network can load through this site under this build's config, so "no
+ * compartimos tu información con terceros para publicidad" stays true. Google sign-in does not
+ * make it false (it is not advertising); thirdPartyCookieClaimHolds covers cookies.
+ */
+export function adSharingClaimHolds(cfg: CloudConfig): boolean {
+  return cfg.launchStage === 'off' || adNetwork(cfg) === null
+}
+
 function withAds(blocks: LegalBlock[], cfg: CloudConfig): LegalBlock[] {
   return adNetwork(cfg) ? [...blocks, 'ads'] : blocks
 }

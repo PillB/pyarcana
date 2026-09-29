@@ -136,3 +136,24 @@ test("removing the method the current session came from signs this browser out",
   assert.match(res.setCookie, /Max-Age=0/);
   assert.equal((await h.call("GET", "/v1/me", { cookie: ana.token })).status, 401);
 });
+
+test("removing a method touches only the caller's identity and sessions: a bystander on the same provider keeps both", async () => {
+  const h = await harness();
+  const ana = await seedAccount(h.env, { email: "ana@example.test", identities: [["email", "ana@example.test"], ["google", "g-ana", "ana@gmail.com"]] });
+  const anaGoogle = await h.call("POST", "/v1/auth/google", {
+    body: await (async () => {
+      const n = freshNonce();
+      return { idToken: await h.idp.google.sign(googleClaims({ sub: "g-ana", email: "ana@gmail.com", nonce: n.nonce })), noncePreimage: n.preimage, ...TERMS };
+    })()
+  });
+  assert.deepEqual([anaGoogle.status, anaGoogle.body.account.id], [200, ana.account.id]);
+  const luis = await seedAccount(h.env, { email: "luis@example.test", identities: [["email", "luis@example.test"], ["google", "g-luis", "luis@gmail.com"]], method: "google" });
+  const removed = await h.call("DELETE", "/v1/me/identities/google", { cookie: ana.token, now: NOW + 60 });
+  assert.equal(removed.status, 200);
+  assert.equal(await count(h.env, "FROM identities WHERE account_id = ?1 AND provider = 'google'", ana.account.id), 0);
+  assert.equal((await h.call("GET", "/v1/me", { cookie: anaGoogle.token, now: NOW + 70 })).status, 401, "the caller's own google session ended");
+  assert.equal(await count(h.env, "FROM identities WHERE account_id = ?1 AND provider = 'google' AND subject = 'g-luis'", luis.account.id), 1, "the bystander's identity stays");
+  assert.equal(await count(h.env, "FROM sessions WHERE account_id = ?1 AND revoked_at IS NOT NULL", luis.account.id), 0, "the bystander's session is not revoked");
+  const me = await h.call("GET", "/v1/me", { cookie: luis.token, now: NOW + 70 });
+  assert.deepEqual([me.status, me.body.account.id], [200, luis.account.id], "the bystander's google session still resolves");
+});

@@ -133,3 +133,16 @@ test("recent authentication means a session created in the last 10 minutes", () 
   assert.equal(isRecentAuth({ created_at: NOW - 600 }, NOW), true);
   assert.equal(isRecentAuth({ created_at: NOW - 601 }, NOW), false);
 });
+
+test("renewal rewrites only the renewed session: another account's live and expired sessions keep their expiry", async () => {
+  const { ctx, token } = await signedIn();
+  const other = await createAccount(ctx, { email: "o@example.test", emailNormalized: "o@example.test", emailVerified: true });
+  const live = await createSession(ctx, other.id, "google");
+  const stale = await createSession({ ...ctx, now: NOW - 40 * DAY }, other.id, "email");
+  const read = (id) => ctx.db.prepare("SELECT expires_at, renewed_at FROM sessions WHERE id = ?1").bind(id).first();
+  const before = { live: await read(live.session.id), stale: await read(stale.session.id) };
+  assert.equal((await resolveAt(ctx, token, NOW + DAY)).renewedMaxAge, SESSION_WINDOW_SECONDS);
+  assert.deepEqual(await read(live.session.id), before.live, "another account's live session is untouched");
+  assert.deepEqual(await read(stale.session.id), before.stale, "an expired session is not revived");
+  assert.deepEqual(await resolveAt(ctx, stale.token, NOW + DAY), { ok: false, reason: "session_expired" });
+});

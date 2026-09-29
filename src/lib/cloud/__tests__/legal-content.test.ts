@@ -11,7 +11,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { CLOUD_CONFIG, type CloudConfig } from '@/lib/cloud/config'
-import { adNetwork, controllerOf, legalBlocks, processors, thirdPartyCookieClaimHolds } from '@/lib/cloud/legal-content'
+import { adNetwork, adSharingClaimHolds, controllerOf, legalBlocks, processors, thirdPartyCookieClaimHolds } from '@/lib/cloud/legal-content'
 
 const base: CloudConfig = structuredClone(CLOUD_CONFIG)
 const cfg = (patch: Partial<CloudConfig> = {}): CloudConfig => ({ ...structuredClone(base), ...patch })
@@ -68,6 +68,16 @@ test('"sin cookies de terceros" stays only while true', () => {
   assert.equal(thirdPartyCookieClaimHolds(cfg({ launchStage: 'beta', ...ads('ethicalads', { ethicaladsPublisher: 'p' }) })), false)
 })
 
+test('"no compartimos datos con terceros para publicidad" stays only while no ad network can load', () => {
+  assert.equal(adSharingClaimHolds(base), true, 'the shipped config')
+  assert.equal(adSharingClaimHolds(cfg({ launchStage: 'off', ...ads('adsense', { adsenseClient: 'ca-pub-1234567890123456' }) })), true, 'configured but off')
+  // Google sign-in sets third-party cookies but is not advertising: this claim survives it.
+  assert.equal(adSharingClaimHolds(cfg({ launchStage: 'sync', googleClientId: 'g' })), true)
+  assert.equal(adSharingClaimHolds(cfg({ launchStage: 'beta', ...ads('house', { adsenseClient: 'ca-pub-1234567890123456' }) })), true, 'house promos')
+  assert.equal(adSharingClaimHolds(cfg({ launchStage: 'beta', ...ads('adsense', { adsenseClient: 'ca-pub-1234567890123456' }) })), false)
+  assert.equal(adSharingClaimHolds(cfg({ launchStage: 'paid', ...ads('ethicalads', { ethicaladsPublisher: 'p' }) })), false)
+})
+
 test('processors follow the config: Cloudflare always; Google, Microsoft, rails and networks only when used', () => {
   assert.deepEqual(processors(cfg({ launchStage: 'sync' })).map((p) => p.key), ['cloudflare', 'email'])
   const all = cfg({
@@ -83,5 +93,8 @@ test('processors follow the config: Cloudflare always; Google, Microsoft, rails 
 
 test('controller: named only from legal.sellerName (with RUC and address when given)', () => {
   assert.deepEqual(controllerOf(cfg()), null)
-  assert.deepEqual(controllerOf(cfg({ legal: { ...base.legal, sellerName: '  Ana Pérez ', ruc: '10123456789' } })), { name: 'Ana Pérez', ruc: '10123456789', address: null, email: null })
+  // The shipped config prefills only the support address (DESIGN-v3 §K): still no controller.
+  assert.equal(base.legal.supportEmail, 'soporte@pyarcana.dev')
+  assert.deepEqual(controllerOf(cfg({ legal: { ...base.legal, supportEmail: '', sellerName: '  Ana Pérez ', ruc: '10123456789' } })), { name: 'Ana Pérez', ruc: '10123456789', address: null, email: null })
+  assert.deepEqual(controllerOf(cfg({ legal: { ...base.legal, sellerName: 'Ana Pérez' } })), { name: 'Ana Pérez', ruc: null, address: null, email: 'soporte@pyarcana.dev' })
 })

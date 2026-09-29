@@ -142,3 +142,15 @@ test("each account sees only its own document; no session is 401", async () => {
   assert.equal((await api(env, "GET", "/v1/me/progress", {})).status, 401);
   assert.equal((await put(env, undefined, { doc: {}, baseRev: 0 })).status, 401);
 });
+
+test("a compare-and-swap write touches only the caller's document, never another account's at the same rev", async () => {
+  const { env } = await createHarness();
+  const a = await seedAccount(env, { email: "a@example.test" });
+  const b = await seedAccount(env, { email: "b@example.test" });
+  await put(env, a.token, { doc: { v: 1, owner: "a" }, baseRev: 0 });
+  await put(env, b.token, { doc: { v: 1, owner: "b" }, baseRev: 0 }, { now: NOW + 1 });
+  const res = await put(env, a.token, { doc: { v: 1, owner: "a", step: 2 }, baseRev: 1 }, { now: NOW + 9 });
+  assert.deepEqual(res.body, { ok: true, rev: 2, updatedAt: NOW + 9 });
+  assert.deepEqual(await get(env, b.token), { ok: true, rev: 1, doc: { v: 1, owner: "b" }, updatedAt: NOW + 1 });
+  assert.deepEqual(await get(env, a.token), { ok: true, rev: 2, doc: { v: 1, owner: "a", step: 2 }, updatedAt: NOW + 9 });
+});

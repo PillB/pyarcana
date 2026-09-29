@@ -38,7 +38,7 @@ export interface LegalIdentity {
 
 export interface CloudConfig {
   launchStage: LaunchStage
-  /** e.g. https://pyarcana.com — accounts run only here (DESIGN-v3 §A). */
+  /** https://pyarcana.dev (DESIGN-v3 §K) — accounts run only here (DESIGN-v3 §A). */
   canonicalOrigin: string
   /**
    * The owner confirms the canonical site is live (DESIGN-v3 §K). Until then no origin shows the
@@ -86,7 +86,9 @@ const FREE_PLAN_SECTIONS = getPlanByCode('free')?.maxSections
 
 export const CLOUD_CONFIG: CloudConfig = {
   launchStage: 'off',
-  canonicalOrigin: '',
+  // DESIGN-v3 §K/§L prefill. Inert while launchStage is 'off' (effectiveStage) and movedToCanonical
+  // is false (no banner, no #import=), so github.io stays exactly as it is.
+  canonicalOrigin: 'https://pyarcana.dev',
   movedToCanonical: false,
   apiBaseUrl: '/api',
   googleClientId: '',
@@ -96,7 +98,7 @@ export const CLOUD_CONFIG: CloudConfig = {
   licence: { publicKeys: [] },
   gate: { freeSections: FREE_PLAN_SECTIONS ?? 0, since: '', packaging: 'A' },
   rails: { peru: '', international: '' },
-  legal: { sellerName: '', ruc: '', address: '', complaintsBookUrl: '', supportEmail: '' },
+  legal: { sellerName: '', ruc: '', address: '', complaintsBookUrl: '', supportEmail: 'soporte@pyarcana.dev' },
   providerPortals: { mercadopago: 'https://www.mercadopago.com.pe/subscriptions', creem: '' },
   ads: { provider: 'house', adsenseClient: '', adsenseSlots: {}, ethicaladsPublisher: '' },
   consent: { mode: 'everywhere' },

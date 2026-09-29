@@ -22,7 +22,10 @@ const LEGAL_COMPLETE = {
 
 test('shipped defaults keep the live site unchanged: stage off, nothing configured', () => {
   assert.equal(CLOUD_CONFIG.launchStage, 'off')
-  assert.equal(CLOUD_CONFIG.canonicalOrigin, '')
+  // DESIGN-v3 §K/§L prefill: public values, inert while the stage is off and movedToCanonical false.
+  assert.equal(CLOUD_CONFIG.canonicalOrigin, 'https://pyarcana.dev')
+  assert.equal(CLOUD_CONFIG.movedToCanonical, false)
+  assert.equal(CLOUD_CONFIG.legal.supportEmail, 'soporte@pyarcana.dev')
   assert.equal(CLOUD_CONFIG.apiBaseUrl, '/api')
   assert.equal(CLOUD_CONFIG.googleClientId, '')
   assert.equal(CLOUD_CONFIG.microsoftClientId, '')
@@ -34,6 +37,9 @@ test('shipped defaults keep the live site unchanged: stage off, nothing configur
   assert.equal(CLOUD_CONFIG.experiments.allowAutomation, false)
   assert.equal(effectiveStage(CLOUD_CONFIG, { origin: 'https://pillb.github.io', isStaticSite: true }), 'off')
   assert.equal(effectiveStage(CLOUD_CONFIG, { origin: CANON, isStaticSite: true }), 'off')
+  assert.equal(effectiveStage(CLOUD_CONFIG, { origin: 'https://pyarcana.dev', isStaticSite: true }), 'off')
+  // Paid still needs every other legal field: the support address alone does not open payments.
+  assert.equal(effectiveStage({ ...CLOUD_CONFIG, launchStage: 'paid', rails: { peru: 'mercadopago', international: '' } }, { origin: 'https://pyarcana.dev', isStaticSite: true }), 'beta')
 })
 
 test('free sections come from the free plan (5 today), not a second copy of the number', () => {

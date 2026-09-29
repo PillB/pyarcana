@@ -230,7 +230,7 @@ export async function verifyRs256(token, opts) {
   if (!decoded.ok) {
     return decoded;
   }
-  if (false) {
+  if (decoded.header.alg !== "RS256") {
     return { ok: false, reason: "bad_alg" };
   }
   if (typeof decoded.header.kid !== "string" || !decoded.header.kid) {
