@@ -267,6 +267,7 @@ test("QA detail lists attachments, and the bytes are served sniff-checked with s
   assert.match(bytes.headers.get("content-disposition"), /^inline/);
   assert.match(bytes.headers.get("content-security-policy"), /sandbox/);
   assert.equal(bytes.headers.get("cache-control"), "private, no-store");
+  assert.equal(bytes.headers.get("cross-origin-resource-policy"), "same-site", "no other site can embed the screenshot");
   assert.deepEqual(new Uint8Array(await bytes.arrayBuffer()), PNG);
   assert.equal((await api(env, "GET", `/v1/qa/reports/${res.body.id}/attachments/att_nope`, { cookie: tester.token })).status, 404);
   const other = await submit(env, report({ attachments: [{ mime: "image/jpeg", data: b64(JPEG) }] }), { cookie: learner.token });
@@ -318,4 +319,160 @@ test("admins see contact and account emails, triage with PATCH, and every admin 
   assert.equal(updates[0].target_id, a.body.id);
   assert.equal(await count(env, "FROM audit_log WHERE action = 'admin.reports.list' AND actor_account_id = ?1", admin.account.id), 1);
   assert.equal(await count(env, "FROM audit_log WHERE action = 'admin.reports.list' AND actor_account_id = ?1", tester.account.id), 1, "the refused tester is audited too");
+});
+
+test("review F2: one IPv6 /64 cannot exhaust the 50/day anonymous budget; an honest reporter elsewhere still files", async () => {
+  const { env } = await people();
+  const day = NOW - (NOW % 86400);
+  let accepted = 0;
+  for (let hour = 0; hour < 10; hour += 1) {
+    for (let i = 0; i < 5; i += 1) {
+      const res = await submit(env, report(), { headers: { "cf-connecting-ip": `2001:db8:5:5::${(hour * 5 + i + 1).toString(16)}` }, now: day + hour * 3600 + i });
+      accepted += res.status === 201 ? 1 : 0;
+    }
+  }
+  assert.equal(accepted, 5, "5 anonymous reports per network per UTC day");
+  const honest = await submit(env, report(), { headers: { "cf-connecting-ip": "198.51.100.23" }, now: day + 11 * 3600 });
+  assert.equal(honest.status, 201);
+});
+
+/**
+ * A PNG of exactly `size` bytes (magic bytes, then filler), as base64.
+ * @param {number} size Bytes.
+ * @returns {{mime: string, data: string}} Attachment.
+ */
+function pngOf(size) {
+  const bytes = new Uint8Array(size);
+  bytes.set(PNG);
+  return { mime: "image/png", data: b64(bytes) };
+}
+
+/**
+ * Stored attachment bytes in total.
+ * @param {Object} env Env.
+ * @returns {Promise<number>} Bytes.
+ */
+async function storedBytes(env) {
+  return Number(await env.DB.prepare("SELECT COALESCE(SUM(length(bytes)), 0) AS b FROM report_attachments").first("b"));
+}
+
+test("review F3: one account's screenshots are capped at 10 MiB a day; past it the report text is still stored", async () => {
+  const { env, learner } = await people();
+  const three = [pngOf(1000000), pngOf(1000000), pngOf(1000000)];
+  for (let i = 0; i < 3; i += 1) {
+    const res = await submit(env, report({ attachments: three }), { cookie: learner.token });
+    assert.deepEqual([res.status, res.body.attachments], [201, 3], `report ${i + 1}`);
+  }
+  const over = await submit(env, report({ title: "Cuarto", attachments: three }), { cookie: learner.token });
+  assert.deepEqual([over.status, over.body.attachments, over.body.attachmentsDropped, over.body.attachmentsReason], [201, 0, 3, "attachment_budget"]);
+  assert.equal(await count(env, "FROM reports WHERE id = ?1", over.body.id), 1, "the text is kept");
+  assert.equal(await count(env, "FROM report_attachments WHERE report_id = ?1", over.body.id), 0);
+  assert.equal(await storedBytes(env), 9000000);
+  const tomorrow = await submit(env, report({ attachments: three }), { cookie: learner.token, now: NOW + 86400 });
+  assert.equal(tomorrow.body.attachments, 3, "the budget renews with the UTC day");
+});
+
+test("review F3: anonymous screenshots share 20 MiB a day across every network", async () => {
+  const { env } = await people();
+  const three = [pngOf(1000000), pngOf(1000000), pngOf(1000000)];
+  const results = [];
+  for (let i = 0; i < 7; i += 1) {
+    const res = await submit(env, report({ attachments: three }), { headers: { "cf-connecting-ip": `203.0.113.${i + 1}` } });
+    results.push([res.status, res.body.attachments]);
+  }
+  assert.deepEqual(results, [[201, 3], [201, 3], [201, 3], [201, 3], [201, 3], [201, 3], [201, 0]]);
+  assert.equal(await storedBytes(env), 18000000);
+});
+
+test("review F3: above the global ceiling (REPORT_ATTACHMENTS_CAP_MB) screenshots are refused as storage_full; text is kept", async () => {
+  const { env, learner } = await people();
+  env.REPORT_ATTACHMENTS_CAP_MB = "2";
+  const mib = pngOf(1024 * 1024);
+  assert.equal((await submit(env, report({ attachments: [mib] }), { cookie: learner.token })).body.attachments, 1);
+  assert.equal((await submit(env, report({ attachments: [mib] }), { cookie: learner.token })).body.attachments, 1, "exactly at the ceiling");
+  const full = await submit(env, report({ title: "Lleno", attachments: [mib, pngOf(64)] }), { cookie: learner.token });
+  assert.deepEqual([full.status, full.body.attachments, full.body.attachmentsDropped, full.body.attachmentsReason], [201, 0, 2, "storage_full"]);
+  assert.equal(await count(env, "FROM reports WHERE title = 'Lleno'"), 1);
+  assert.equal(await storedBytes(env), 2 * 1024 * 1024);
+});
+
+test("review F3: a re-sent issue spends no screenshot budget", async () => {
+  const { env, learner } = await people();
+  const body = report({ clientIssueId: "qa-issue-resend-01", attachments: [pngOf(1000000), pngOf(1000000), pngOf(1000000)] });
+  assert.equal((await submit(env, body, { cookie: learner.token })).status, 201);
+  for (let i = 0; i < 5; i += 1) {
+    assert.equal((await submit(env, body, { cookie: learner.token })).body.deduplicated, true);
+  }
+  for (let i = 0; i < 2; i += 1) {
+    assert.equal((await submit(env, report({ attachments: [pngOf(1000000), pngOf(1000000), pngOf(1000000)] }), { cookie: learner.token })).body.attachments, 3, `fresh report ${i + 1}`);
+  }
+});
+
+/**
+ * Insert a report row straight into D1.
+ * @param {Object} env Env.
+ * @param {string} id Report id.
+ * @param {number} createdAt Clock.
+ * @returns {Promise<Object>} Result.
+ */
+function rawReport(env, id, createdAt) {
+  return sql(env, "INSERT INTO reports (id, created_at, updated_at, source, status, title) VALUES (?1, ?2, ?2, 'feedback', 'new', ?1)", id, createdAt);
+}
+
+test("review: reports filed in the same second page without repeats or gaps (the id tie-break)", async () => {
+  const { env, tester } = await people();
+  const ids = ["rep_a", "rep_b", "rep_c", "rep_d", "rep_e"];
+  for (const id of ids) {
+    await rawReport(env, id, NOW);
+  }
+  const seen = [];
+  let cursor = "";
+  for (let page = 0; page < 5; page += 1) {
+    const res = await api(env, "GET", `/v1/qa/reports?limit=2${cursor ? `&cursor=${cursor}` : ""}`, { cookie: tester.token });
+    seen.push(...res.body.reports.map((r) => r.id));
+    if (!res.body.nextCursor) {
+      break;
+    }
+    cursor = res.body.nextCursor;
+  }
+  assert.deepEqual(seen, [...ids].reverse(), "each report exactly once, newest id first within the second");
+});
+
+test("review: a page holds at most 100 reports whatever limit is asked (larger limits are clamped)", async () => {
+  const { env, tester } = await people();
+  for (let i = 0; i < 101; i += 1) {
+    await rawReport(env, `rep_${String(i).padStart(3, "0")}`, NOW - i);
+  }
+  const res = await api(env, "GET", "/v1/qa/reports?limit=5000", { cookie: tester.token });
+  assert.equal(res.body.reports.length, 100);
+  assert.ok(res.body.nextCursor, "the 101st is on the next page");
+  assert.deepEqual((await api(env, "GET", "/v1/qa/reports?limit=0", { cookie: tester.token })).body.reason, "bad_limit");
+});
+
+test("review: a status-only PATCH keeps the admin's triage note", async () => {
+  const { env, admin, learner } = await people();
+  const res = await submit(env, report(), { cookie: learner.token });
+  const patch = (body) => api(env, "PATCH", `/v1/admin/reports/${res.body.id}`, { cookie: admin.token, body });
+  assert.equal((await patch({ status: "triaged", adminNote: "reproducido en Safari" })).status, 200);
+  const fixed = await patch({ status: "fixed" });
+  assert.deepEqual([fixed.status, fixed.body.report.status, fixed.body.report.adminNote], [200, "fixed", "reproducido en Safari"]);
+  const cleared = await patch({ adminNote: null });
+  assert.deepEqual([cleared.body.report.status, cleared.body.report.adminNote], ["fixed", null], "an explicit null clears it");
+});
+
+test("review: the step, alias and context caps hold, and a RIFF file that is not WebP is refused", async () => {
+  const { env } = await people();
+  const ip = (n) => ({ headers: { "cf-connecting-ip": `198.18.0.${n}` } });
+  const steps = await submit(env, report({ steps: "x".repeat(5001) }), ip(1));
+  assert.deepEqual([steps.status, steps.body.reason], [400, "bad_steps"]);
+  assert.equal((await submit(env, report({ steps: "x".repeat(5000) }), ip(2))).status, 201);
+  const alias = await submit(env, report({ reporterAlias: "a".repeat(81) }), ip(3));
+  assert.deepEqual([alias.status, alias.body.reason], [400, "bad_alias"]);
+  const wave = Uint8Array.from([...Buffer.from("RIFF"), 36, 0, 0, 0, ...Buffer.from("WAVEfmt "), 0, 0]);
+  const riff = await submit(env, report({ attachments: [{ mime: "image/webp", data: b64(wave) }] }), ip(4));
+  assert.deepEqual([riff.status, riff.body.reason], [400, "bad_attachment"], "a WAV (RIFF....WAVE) is not served as image/webp");
+  assert.equal((await submit(env, report({ attachments: [{ mime: "image/webp", data: b64(WEBP) }] }), ip(5))).status, 201);
+  const long = await submit(env, report({ context: { path: `/${"p".repeat(400)}`, userAgent: "U".repeat(1000), sectionId: "S".repeat(50) } }), ip(6));
+  const stored = JSON.parse(await env.DB.prepare("SELECT context FROM reports WHERE id = ?1").bind(long.body.id).first("context"));
+  assert.deepEqual([stored.path.length, stored.userAgent.length, stored.sectionId.length], [300, 400, 40], "context text is truncated to its caps");
 });

@@ -55,7 +55,7 @@ test("the sweep deletes exactly what the policy says", async () => {
   const ctx = await createCtx();
   await seed(ctx.db);
   const counts = await sweepRetention(ctx);
-  assert.deepEqual(counts, { loginCodes: 1, sessions: 1, rateLimits: 1, checkoutsExpired: 1, usedNonces: 1 });
+  assert.deepEqual(counts, { loginCodes: 1, sessions: 1, rateLimits: 1, checkoutsExpired: 1, usedNonces: 1, reportAttachments: 0 });
   assert.deepEqual(await ids(ctx.db, "SELECT hash AS id FROM used_nonces"), ["nonce_live"], "a spent nonce is kept until its token could no longer verify");
   assert.deepEqual(await ids(ctx.db, "SELECT id FROM login_codes"), ["code_recent"]);
   assert.deepEqual(await ids(ctx.db, "SELECT id FROM sessions"), ["sess_recent"]);
@@ -102,7 +102,7 @@ test("the worker's scheduled entry hands the sweep to waitUntil", async () => {
   assert.equal(await ctx.db.prepare("SELECT COUNT(*) AS c FROM sessions").first("c"), 1);
 });
 
-test("the sweep keeps every stage-1b table whatever its age: progress, grants, roles, reports, screenshots, billing", async () => {
+test("the sweep keeps every stage-1b table whatever its age: progress, grants, roles, reports (text), billing", async () => {
   const ctx = await createCtx();
   await seed(ctx.db);
   const old = NOW - 400 * DAY;
@@ -120,7 +120,30 @@ test("the sweep keeps every stage-1b table whatever its age: progress, grants, r
     await ctx.db.exec(sqlText);
   }
   await sweepRetention(ctx);
-  for (const table of ["progress", "grants", "account_roles", "reports", "report_attachments", "subscriptions", "charges", "subscription_events"]) {
+  for (const table of ["progress", "grants", "account_roles", "reports", "subscriptions", "charges", "subscription_events"]) {
     assert.equal(await ctx.db.prepare(`SELECT COUNT(*) AS c FROM ${table}`).first("c"), 1, `${table} is not swept`);
   }
+});
+
+test("review F3: screenshots are deleted 90 days after their report is closed, or 180 days after it was filed", async () => {
+  const ctx = await createCtx();
+  const reportRow = (id, status, created, updated) =>
+    `INSERT INTO reports (id, created_at, updated_at, source, status, title) VALUES ('${id}', ${created}, ${updated}, 'feedback', '${status}', 't')`;
+  const shot = (id, reportId) => `INSERT INTO report_attachments (id, report_id, mime, bytes, created_at) VALUES ('${id}', '${reportId}', 'image/png', x'89504e470d0a1a0a', 1)`;
+  const rows = [
+    ["closed_91", "fixed", NOW - 100 * DAY, NOW - 91 * DAY],
+    ["closed_89", "wontfix", NOW - 100 * DAY, NOW - 89 * DAY],
+    ["dup_91", "duplicate", NOW - 100 * DAY, NOW - 91 * DAY],
+    ["open_179", "in_progress", NOW - 179 * DAY, NOW - 179 * DAY],
+    ["open_181", "new", NOW - 181 * DAY, NOW - 1 * DAY],
+    ["triaged_91", "triaged", NOW - 100 * DAY, NOW - 91 * DAY]
+  ];
+  for (const [id, status, created, updated] of rows) {
+    await ctx.db.exec(reportRow(`rep_${id}`, status, created, updated));
+    await ctx.db.exec(shot(`att_${id}`, `rep_${id}`));
+  }
+  const counts = await sweepRetention(ctx);
+  assert.equal(counts.reportAttachments, 3);
+  assert.deepEqual(await ids(ctx.db, "SELECT id FROM report_attachments"), ["att_closed_89", "att_open_179", "att_triaged_91"]);
+  assert.equal(await ctx.db.prepare("SELECT COUNT(*) AS c FROM reports").first("c"), rows.length, "the report text stays");
 });

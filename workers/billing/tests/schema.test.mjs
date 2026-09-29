@@ -255,3 +255,19 @@ test("migration 3: used_nonces makes an OIDC nonce single-use (primary key on it
   const second = await db.prepare("INSERT INTO used_nonces (hash, expires_at) VALUES ('h', 2) ON CONFLICT (hash) DO NOTHING").run();
   assert.deepEqual([first.meta.changes, second.meta.changes], [1, 0]);
 });
+
+test("review: identities.provider, sessions.token_hash and account_roles' key are enforced by the schema", async () => {
+  const db = await migrated();
+  await db.exec("INSERT INTO accounts (id, email, email_normalized, created_at, updated_at) VALUES ('acct_c', 'c@x.test', 'c@x.test', 1, 1)");
+  await assert.rejects(
+    () => db.prepare("INSERT INTO identities (provider, subject, account_id, created_at) VALUES ('github', 's', 'acct_c', 1)").run(),
+    /CHECK/,
+    "only google, microsoft and email identities exist"
+  );
+  const session = (id) => db.prepare("INSERT INTO sessions (id, account_id, token_hash, method, created_at, renewed_at, expires_at) VALUES (?1, 'acct_c', 'same-hash', 'email', 1, 1, 2)").bind(id).run();
+  await session("s1");
+  await assert.rejects(() => session("s2"), /UNIQUE/, "one token hash, one session (and the lookup index)");
+  const role = () => db.prepare("INSERT INTO account_roles (account_id, role, created_at) VALUES ('acct_c', 'tester', 5)").run();
+  await role();
+  await assert.rejects(role, /UNIQUE|PRIMARY/, "(account_id, role, created_at) is the key");
+});

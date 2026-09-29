@@ -95,7 +95,7 @@ test("a gift to an unknown email creates the account; the days wait for the firs
  */
 async function adminAt(env, admin, at) {
   const { createSession } = await import("../src/sessions.mjs");
-  return (await createSession({ env, db: env.DB, now: at }, admin.account.id, "google")).token;
+  return (await createSession({ env, db: env.DB, now: at }, admin.account.id, "google", admin.identitySubject)).token;
 }
 
 test("an indefinite tester grant runs until revoked, then a queued gift re-flows from the revocation", async () => {
@@ -247,4 +247,78 @@ test("a non-admin cannot grant, revoke or list", async () => {
   assert.equal((await api(env, "POST", "/v1/admin/grants/revoke", { cookie: user.token, body: { grantId: "g", reason: "r" } })).status, 403);
   assert.equal((await api(env, "GET", "/v1/admin/grants", { cookie: user.token })).status, 403);
   assert.equal(await count(env, "FROM grants"), 0);
+});
+
+test("review: a Microsoft-only account (no proven email) gets a Pro gift and the tester role by accountId", async () => {
+  const { env, admin } = await withAdmin();
+  const ms = await seedAccount(env, { email: "tester@uni.edu.pe", verified: false, method: "microsoft" });
+  assert.equal(ms.account.email_normalized, null);
+  const g = await grant(env, admin.token, { accountId: ms.account.id, kind: "tester", days: null, requestId: "req-ms-000001" });
+  assert.deepEqual([g.status, g.body.account.id, g.body.grant.state, g.body.warnings], [201, ms.account.id, "active", []]);
+  const r = await api(env, "POST", "/v1/admin/roles", { cookie: admin.token, body: { accountId: ms.account.id, role: "tester", days: null } });
+  assert.deepEqual([r.status, r.body.role.accountId], [201, ms.account.id]);
+  const me = await api(env, "GET", "/v1/me", { cookie: ms.token });
+  assert.deepEqual([me.body.access.isPro, me.body.access.indefinite, me.body.account.roles], [true, true, ["tester"]]);
+  assert.equal(await count(env, "FROM accounts"), 2, "no stray account was created");
+  const replay = await grant(env, admin.token, { accountId: ms.account.id, kind: "tester", days: null, requestId: "req-ms-000001" });
+  assert.deepEqual([replay.status, replay.body.deduplicated], [200, true]);
+  const otherTarget = await grant(env, admin.token, { accountId: admin.account.id, kind: "tester", days: null, requestId: "req-ms-000001" });
+  assert.deepEqual([otherTarget.status, otherTarget.body.reason], [409, "idempotency_mismatch"], "the target is part of the idempotency comparison");
+});
+
+test("review: accountId targeting refuses unknown, deleted and ambiguous targets", async () => {
+  const { env, admin } = await withAdmin();
+  const gone = await seedAccount(env, { email: "gone@example.test" });
+  await sql(env, "UPDATE accounts SET deleted_at = ?2, email = NULL, email_normalized = NULL WHERE id = ?1", gone.account.id, NOW);
+  const cases = [
+    [{ accountId: "acct_nope", days: 5 }, 404, "not_found"],
+    [{ accountId: gone.account.id, days: 5 }, 404, "not_found"],
+    [{ accountId: gone.account.id, email: "x@example.test", days: 5 }, 400, "bad_target"],
+    [{ days: 5 }, 400, "bad_target"],
+    [{ accountId: 42, days: 5 }, 400, "bad_account_id"]
+  ];
+  for (const [body, status, reason] of cases) {
+    const g = await grant(env, admin.token, body);
+    assert.deepEqual([JSON.stringify(body), g.status, g.body.reason], [JSON.stringify(body), status, reason]);
+    const r = await api(env, "POST", "/v1/admin/roles", { cookie: admin.token, body: { role: "tester", ...body } });
+    assert.deepEqual(["role", JSON.stringify(body), r.status, r.body.reason], ["role", JSON.stringify(body), status, reason]);
+  }
+  assert.equal(await count(env, "FROM grants"), 0);
+  assert.equal(await count(env, "FROM account_roles"), 0);
+});
+
+test("review: a grant by email that creates an account warns when an unproven account already shows that address", async () => {
+  const { env, admin } = await withAdmin();
+  const ms = await seedAccount(env, { email: "Tester@Uni.edu.pe", verified: false, method: "microsoft" });
+  const res = await grant(env, admin.token, { email: "tester@uni.edu.pe", days: 30 });
+  assert.equal(res.status, 201);
+  assert.ok(res.body.warnings.includes("account_created"));
+  assert.ok(res.body.warnings.includes("unproven_account_shows_this_email"), JSON.stringify(res.body.warnings));
+  assert.deepEqual(res.body.unprovenAccountIds, [ms.account.id], "the admin is pointed at the account to target by id");
+});
+
+test("review: a replay whose note differs is 409 idempotency_mismatch", async () => {
+  const { env, admin } = await withAdmin();
+  await seedAccount(env, { email: "ana@example.test" });
+  const body = { email: "ana@example.test", days: 14, note: "primera", requestId: "req-note-0001" };
+  assert.equal((await grant(env, admin.token, body)).status, 201);
+  const changed = await grant(env, admin.token, { ...body, note: "otra nota" });
+  assert.deepEqual([changed.status, changed.body.reason], [409, "idempotency_mismatch"]);
+  assert.equal((await grant(env, admin.token, body)).status, 200, "the identical replay is still a dedupe");
+});
+
+test("review: a computed-state list that hits the scan cap says partial: true; a small one says false", async () => {
+  const { env, admin } = await withAdmin();
+  const ana = await seedAccount(env, { email: "ana@example.test" });
+  const insert = (i) => sql(env, "INSERT INTO grants (id, account_id, kind, days, created_at) VALUES (?1, ?2, 'gift', 1, ?3)", `grant_${String(i).padStart(4, "0")}`, ana.account.id, NOW - 1000 + i);
+  for (let i = 0; i < 10; i += 1) {
+    await insert(i);
+  }
+  const small = await api(env, "GET", "/v1/admin/grants?state=active", { cookie: admin.token });
+  assert.deepEqual([small.status, small.body.partial, small.body.grants.length], [200, false, 1]);
+  for (let i = 10; i < 501; i += 1) {
+    await insert(i);
+  }
+  const big = await api(env, "GET", "/v1/admin/grants?state=active", { cookie: admin.token });
+  assert.equal(big.body.partial, true, "500 rows scanned: some matches may be beyond the scan");
 });

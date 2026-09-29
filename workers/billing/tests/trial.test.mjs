@@ -189,3 +189,25 @@ test("a Google address Google is not authoritative for never claims that address
   const owner = await seedAccount(env, { email: "j.doe@corp.test" });
   assert.equal((await startTrial(env, owner.token)).status, 200, "the mailbox's real owner still has a trial");
 });
+
+test("review: one learner's trial touches only their account; a bystander can still start theirs", async () => {
+  const { env } = await createHarness();
+  const { accountSnapshot } = await import("./fixtures.mjs");
+  const ana = await seedAccount(env, { email: "ana@example.test" });
+  const luis = await seedAccount(env, { email: "luis@example.test" });
+  const before = await accountSnapshot(env, luis.account.id);
+  assert.equal((await startTrial(env, ana.token)).status, 200);
+  assert.deepEqual(await accountSnapshot(env, luis.account.id), before);
+  assert.equal((await api(env, "GET", "/v1/me", { cookie: luis.token })).body.account.trialAvailable, true);
+  assert.equal((await startTrial(env, luis.token)).status, 200);
+});
+
+test("review: an address an admin typed in (unproven) never claims that address's trial for its real owner", async () => {
+  const { env } = await createHarness();
+  const typed = await seedAccount(env, { email: "shown@contoso.test", verified: false, method: "microsoft" });
+  await sql(env, "UPDATE accounts SET email = 'typed@example.test', email_normalized = 'typed@example.test', email_verified = 0 WHERE id = ?1", typed.account.id);
+  assert.equal((await startTrial(env, typed.token)).status, 200);
+  await sql(env, "UPDATE accounts SET email = 'fixed@example.test', email_normalized = 'fixed@example.test' WHERE id = ?1", typed.account.id);
+  const owner = await seedAccount(env, { email: "typed@example.test" });
+  assert.equal((await startTrial(env, owner.token)).status, 200, "the real owner of the address still has a trial");
+});

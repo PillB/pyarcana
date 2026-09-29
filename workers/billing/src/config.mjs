@@ -87,6 +87,19 @@ export function emailDailyCap(env) {
 }
 
 /**
+ * Ceiling on the bytes of report screenshots stored in D1, all reports
+ * together (REPORT_ATTACHMENTS_CAP_MB, MiB, default 200: well under the
+ * 500 MB of a D1 Free database, so a full screenshot store can never stop
+ * sign-in, sessions or progress writes). Above it, screenshots are refused
+ * and report text is still stored.
+ * @param {Object} env Worker env.
+ * @returns {number} Bytes.
+ */
+export function reportAttachmentsCapBytes(env) {
+  return intVar(env, "REPORT_ATTACHMENTS_CAP_MB", 200, 1, 9000) * 1024 * 1024;
+}
+
+/**
  * The terms version sign-in must echo, or "" when unset.
  * @param {Object} env Worker env.
  * @returns {string} Version.

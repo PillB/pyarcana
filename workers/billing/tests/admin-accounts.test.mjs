@@ -78,7 +78,7 @@ test("email rectification moves the address, marks it unproven, and never writes
   assert.deepEqual([res.status, res.body.account.email, res.body.unchanged], [200, "ana.nueva@example.test", false]);
   const row = await env.DB.prepare("SELECT email, email_normalized, email_verified FROM accounts WHERE id = ?1").bind(ana.account.id).first();
   assert.deepEqual(row, { email: "ana.nueva@example.test", email_normalized: "ana.nueva@example.test", email_verified: 0 });
-  const lookupOld = await api(env, "GET", "/v1/admin/account?email=ana@example.test", { cookie: admin.token });
+  const lookupOld = await post(env, admin, "/v1/admin/account/lookup", { email: "ana@example.test" });
   assert.equal(lookupOld.status, 404);
   const detail = (await env.DB.prepare("SELECT detail FROM audit_log WHERE action = 'admin.accounts.email'").first()).detail;
   assert.ok(!detail.includes("@"), `audit detail must not hold an email: ${detail}`);
@@ -105,7 +105,7 @@ test("the account view shows access, grants with notes, roles, masked identities
     ana.account.id,
     NOW - 5 * DAY
   );
-  const res = await api(env, "GET", "/v1/admin/account?email=ANA@example.test", { cookie: admin.token });
+  const res = await post(env, admin, "/v1/admin/account/lookup", { email: "ANA@example.test" });
   assert.equal(res.status, 200);
   const body = res.body;
   assert.deepEqual([body.account.id, body.account.email, body.account.emailVerified, body.account.disabledAt], [ana.account.id, "ana@example.test", true, null]);
@@ -125,4 +125,46 @@ test("the account view shows access, grants with notes, roles, masked identities
   assert.equal(read.target_account_id, ana.account.id, "admin reads are audited against the account read");
   const none = await api(env, "GET", "/v1/admin/account", { cookie: admin.token });
   assert.deepEqual([none.status, none.body.reason], [400, "bad_target"]);
+});
+
+test("review F9: an admin looks an account up by address in a POST body; GET refuses an address in the URL", async () => {
+  const { env, admin, ana } = await setup();
+  const byBody = await post(env, admin, "/v1/admin/account/lookup", { email: "ana@example.test" });
+  assert.deepEqual([byBody.status, byBody.body.account.id], [200, ana.account.id]);
+  const byIdBody = await post(env, admin, "/v1/admin/account/lookup", { accountId: ana.account.id });
+  assert.equal(byIdBody.body.account.id, ana.account.id);
+  const inUrl = await api(env, "GET", "/v1/admin/account?email=ana%40example.test", { cookie: admin.token });
+  assert.deepEqual([inUrl.status, inUrl.body.reason], [400, "email_not_allowed_in_url"]);
+  const byId = await api(env, "GET", `/v1/admin/account?id=${ana.account.id}`, { cookie: admin.token });
+  assert.equal(byId.body.account.id, ana.account.id, "id lookups stay on GET");
+  const actions = (await env.DB.prepare("SELECT action, target_account_id FROM audit_log ORDER BY id").all()).results;
+  assert.deepEqual(actions.map((a) => a.action), ["admin.account.lookup", "admin.account.lookup", "admin.account.read", "admin.account.read"]);
+  assert.equal(actions[0].target_account_id, ana.account.id);
+  const unlisted = await api(env, "POST", "/v1/admin/account/lookup", { cookie: admin.token, body: { email: "ana@example.test" }, csrf: false });
+  assert.deepEqual([unlisted.status, unlisted.body.reason], [403, "bad_origin"], "the lookup is a CSRF-checked POST like every admin write");
+});
+
+test("review F14: the admin's reason is kept for disable, enable and rectification, and enable keeps the disable reason", async () => {
+  const { env, admin, ana } = await setup();
+  await post(env, admin, "/v1/admin/accounts/disable", { accountId: ana.account.id, reason: "abuse-1" });
+  await post(env, admin, "/v1/admin/accounts/enable", { accountId: ana.account.id, reason: "appeal-OK-77" });
+  await post(env, admin, "/v1/admin/accounts/email", { accountId: ana.account.id, newEmail: "ana.b@example.test", reason: "ARCO-2026-0042 pedido por ana@example.test" });
+  const view = await post(env, admin, "/v1/admin/account/lookup", { accountId: ana.account.id });
+  const byAction = Object.fromEntries(view.body.audit.map((a) => [a.action, a.detail]));
+  assert.equal(byAction["admin.accounts.disable"].adminReason, "abuse-1");
+  assert.equal(byAction["admin.accounts.enable"].adminReason, "appeal-OK-77");
+  assert.equal(byAction["admin.accounts.enable"].previousReason, "abuse-1", "why it had been disabled survives the enable");
+  assert.equal(byAction["admin.accounts.email"].adminReason, "ARCO-2026-0042 pedido por [email]", "an address typed into a reason is redacted");
+  const raw = (await env.DB.prepare("SELECT detail FROM audit_log").all()).results.map((r) => r.detail).join(" ");
+  assert.ok(!raw.includes("@"), "no address reaches the audit log");
+});
+
+test("review: enabling one account leaves another disabled account disabled", async () => {
+  const { env, admin, ana } = await setup();
+  const luis = await seedAccount(env, { email: "luis@example.test" });
+  await post(env, admin, "/v1/admin/accounts/disable", { accountId: ana.account.id, reason: "a" });
+  await post(env, admin, "/v1/admin/accounts/disable", { accountId: luis.account.id, reason: "b" });
+  await post(env, admin, "/v1/admin/accounts/enable", { accountId: ana.account.id, reason: "c" });
+  const row = await env.DB.prepare("SELECT disabled_at, disabled_reason FROM accounts WHERE id = ?1").bind(luis.account.id).first();
+  assert.deepEqual(row, { disabled_at: NOW, disabled_reason: "b" });
 });

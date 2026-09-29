@@ -279,10 +279,11 @@ const MIGRATION_2 = ["ALTER TABLE reports ADD COLUMN improvement TEXT"];
  * - sessions.identity_subject: WHICH identity (of the session's `method`
  *   provider) created the session, so the admin rule can require the admin's
  *   own Google identity rather than any Google identity linked to the account.
- * - identities.email_authoritative: 1 when the provider proves mailbox
- *   ownership of email_at_link (an email code; Google for @gmail.com or a
- *   Workspace `hd` address). Only authoritative addresses count for admin and
- *   trial claims.
+ * - identities.email_authoritative: for GOOGLE identities, 1 when Google is
+ *   authoritative for email_at_link (@gmail.com, or a Workspace `hd`
+ *   address); only those addresses count for admin and trial claims. Other
+ *   providers keep 0 and never read it: an email identity is proven by
+ *   construction (its subject is the address), Microsoft never proves one.
  */
 const MIGRATION_3 = [
   `CREATE TABLE IF NOT EXISTS used_nonces (

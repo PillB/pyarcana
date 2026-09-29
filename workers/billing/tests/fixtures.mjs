@@ -333,32 +333,69 @@ export async function createHarness(overrides) {
 }
 
 /**
+ * The identities a seeded account gets: the caller's, else an email identity
+ * for a verified address; plus, for a google/microsoft session with no
+ * identity of that provider, one seeded identity (subject "seed-<method>:<email>")
+ * so the session is recorded as that identity's, as a real sign-in is.
+ * @param {Object} spec Caller's spec.
+ * @param {string|null} email Email.
+ * @param {boolean} verified Verified.
+ * @param {string} method Session method.
+ * @returns {Array<Array<string|null|boolean>>} [provider, subject, emailAtLink?, authoritative?] tuples.
+ */
+function seededIdentities(spec, email, verified, method) {
+  const base = spec.identities || (verified ? [["email", email.toLowerCase()]] : []);
+  if (method === "email" || base.some(([provider]) => provider === method)) {
+    return base;
+  }
+  return base.concat([[method, `seed-${method}:${email || "none"}`]]);
+}
+
+/**
  * Defaults for seedAccount.
  * @param {Object} spec Caller's spec.
- * @returns {{now: number, email: string|null, verified: boolean, identities: Array<Array<string|null>>,
+ * @returns {{now: number, email: string|null, verified: boolean, identities: Array<Array<string|null|boolean>>,
  *            signedIn: boolean, sessionAt: number, method: string}} Full spec.
  */
 function accountSpec(spec) {
   const now = spec.now === undefined ? NOW : spec.now;
   const email = spec.email === undefined ? "learner@example.test" : spec.email;
   const verified = spec.verified !== false && Boolean(email);
+  const method = spec.method || "email";
   return {
     now,
     email,
     verified,
-    identities: spec.identities || (verified ? [["email", email.toLowerCase()]] : []),
+    identities: seededIdentities(spec, email, verified, method),
     signedIn: spec.signedIn !== false,
     sessionAt: spec.sessionAt === undefined ? now : spec.sessionAt,
-    method: spec.method || "email"
+    method
   };
+}
+
+/**
+ * Whether a seeded identity's provider is authoritative for its address,
+ * as the worker records it (Google identities for @gmail.com; others 0).
+ * @param {string} provider Provider.
+ * @param {string|null} emailAtLink Address.
+ * @param {boolean|undefined} override Explicit 4th tuple value.
+ * @returns {boolean} Authoritative.
+ */
+function seededAuthority(provider, emailAtLink, override) {
+  if (override !== undefined) {
+    return override;
+  }
+  return provider === "google" && /@gmail\.com$/i.test(String(emailAtLink || ""));
 }
 
 /**
  * Seed a signed-in account straight into D1 (no provider round trip).
  * @param {Object} env Worker env (migrated).
- * @param {{email?: string|null, verified?: boolean, identities?: Array<Array<string|null>>, method?: string,
- *          signedIn?: boolean, now?: number, sessionAt?: number}} [spec] Account spec.
- * @returns {Promise<{account: Object, token: string, session: Object}>} Account and cookie token.
+ * @param {{email?: string|null, verified?: boolean, identities?: Array<Array<string|null|boolean>>, method?: string,
+ *          signedIn?: boolean, now?: number, sessionAt?: number}} [spec] Account spec. An identity tuple is
+ *          [provider, subject, emailAtLink (default: the account email), authoritative (default: as the worker)].
+ * @returns {Promise<{account: Object, token: string, session: Object, identitySubject: string|null}>} Account,
+ *   cookie token, and the identity subject the session was recorded under.
  */
 export async function seedAccount(env, spec = {}) {
   const { createAccount, linkIdentity } = await import("../src/accounts.mjs");
@@ -367,15 +404,19 @@ export async function seedAccount(env, spec = {}) {
   const ctx = { env, db: env.DB, now: s.now };
   const normalized = s.verified ? s.email.toLowerCase() : null;
   const account = await createAccount(ctx, { email: s.email, emailNormalized: normalized, emailVerified: s.verified });
-  for (const [provider, subject, emailAtLink] of s.identities) {
-    await linkIdentity(ctx, { provider, subject, accountId: account.id, emailAtLink: emailAtLink === undefined ? s.email : emailAtLink });
+  for (const [provider, subject, emailAtLink, authoritative] of s.identities) {
+    const address = emailAtLink === undefined ? s.email : emailAtLink;
+    const emailAuthoritative = seededAuthority(provider, address, authoritative);
+    await linkIdentity(ctx, { provider, subject, accountId: account.id, emailAtLink: address, emailAuthoritative });
   }
   if (s.signedIn) {
     await env.DB.prepare("UPDATE accounts SET first_signin_at = ?2 WHERE id = ?1").bind(account.id, s.now).run();
   }
-  const { token, session } = await createSession({ env, db: env.DB, now: s.sessionAt }, account.id, s.method);
+  const own = s.identities.find(([provider]) => provider === s.method);
+  const identitySubject = own ? own[1] : null;
+  const { token, session } = await createSession({ env, db: env.DB, now: s.sessionAt }, account.id, s.method, identitySubject);
   const fresh = await env.DB.prepare("SELECT * FROM accounts WHERE id = ?1").bind(account.id).first();
-  return { account: fresh, token, session };
+  return { account: fresh, token, session, identitySubject };
 }
 
 /**
@@ -398,4 +439,70 @@ export function sql(env, sqlText, ...values) {
  */
 export async function count(env, where, ...values) {
   return Number(await env.DB.prepare(`SELECT COUNT(*) AS c ${where}`).bind(...values).first("c"));
+}
+
+/** Per-table queries for accountSnapshot; each binds ?1 = account id. */
+const SNAPSHOT_QUERIES = {
+  account: "SELECT * FROM accounts WHERE id = ?1",
+  identities: "SELECT * FROM identities WHERE account_id = ?1 ORDER BY provider, subject",
+  sessions: "SELECT * FROM sessions WHERE account_id = ?1 ORDER BY id",
+  roles: "SELECT * FROM account_roles WHERE account_id = ?1 ORDER BY created_at, role",
+  grants: "SELECT * FROM grants WHERE account_id = ?1 ORDER BY id",
+  progress: "SELECT * FROM progress WHERE account_id = ?1",
+  loginCodes: "SELECT * FROM login_codes WHERE email_normalized = (SELECT email_normalized FROM accounts WHERE id = ?1) ORDER BY id",
+  checkouts: "SELECT * FROM checkouts WHERE account_id = ?1 ORDER BY id",
+  subscriptions: "SELECT * FROM subscriptions WHERE account_id = ?1 ORDER BY id",
+  charges: "SELECT * FROM charges WHERE account_id = ?1 ORDER BY id",
+  reports: "SELECT * FROM reports WHERE account_id = ?1 ORDER BY id",
+  attachments: "SELECT id, report_id, mime, length(bytes) AS size FROM report_attachments WHERE report_id IN (SELECT id FROM reports WHERE account_id = ?1) ORDER BY id",
+  audit: "SELECT * FROM audit_log WHERE target_account_id = ?1 ORDER BY id"
+};
+
+/**
+ * Every row that belongs to one account, table by table (bystander checks:
+ * a write for account A must leave account B's snapshot identical).
+ * @param {Object} env Worker env.
+ * @param {string} accountId Account id.
+ * @returns {Promise<Object>} Rows by table.
+ */
+export async function accountSnapshot(env, accountId) {
+  const out = {};
+  for (const [name, sqlText] of Object.entries(SNAPSHOT_QUERIES)) {
+    out[name] = (await env.DB.prepare(sqlText).bind(accountId).all()).results;
+  }
+  return out;
+}
+
+/**
+ * Seed a second learner with a row in every table an account touches, so a
+ * write or read scoped to someone else can be checked against it.
+ * @param {Object} env Worker env (migrated).
+ * @param {{issuer?: string, email?: string}} [opts] Grant issuer account id, email.
+ * @returns {Promise<Object>} Seeded account plus the ids of its rows.
+ */
+export async function seedBystander(env, opts = {}) {
+  const email = opts.email || "luis.bystander@example.test";
+  const who = await seedAccount(env, { email, identities: [["email", email], ["google", "220000000000000000077", "luis.bystander@gmail.com"]] });
+  const id = who.account.id;
+  const ids = { report: "rep_bystander", attachment: "att_bystander", grant: "grant_bystander", checkout: "chk_bystander", subscription: "sub_bystander", charge: "ch_bystander" };
+  const rows = [
+    ["INSERT INTO account_roles (account_id, role, created_at, note) VALUES (?1, 'tester', ?2, 'bystander role')", id, NOW - 40],
+    ["INSERT INTO progress (account_id, rev, doc, size_bytes, updated_at) VALUES (?1, 9, '{\"v\":1,\"who\":\"luis\"}', 20, ?2)", id, NOW - 9],
+    ["INSERT INTO login_codes (id, email_normalized, code_hmac, created_at, expires_at) VALUES ('code_bystander', ?1, 'bystander-code-hmac', ?2, ?3)", email, NOW - 4, NOW + 800],
+    ["INSERT INTO grants (id, account_id, kind, days, created_at, note, issued_by) VALUES (?1, ?2, 'gift', 10, ?3, 'regalo de Luis', ?4)", ids.grant, id, NOW - 60, opts.issuer || null],
+    ["INSERT INTO checkouts (id, account_id, provider, plan, amount_minor, currency, created_at, status) VALUES (?1, ?2, 'mercadopago', 'pro_yearly', 11990, 'PEN', ?3, 'open')", ids.checkout, id, NOW - 15],
+    [`INSERT INTO subscriptions (id, account_id, provider, provider_ref, plan, amount_minor, currency, status, created_at, updated_at)
+      VALUES (?1, ?2, 'mercadopago', 'ref_bystander', 'pro_yearly', 11990, 'PEN', 'active', ?3, ?3)`, ids.subscription, id, NOW - 2000],
+    [`INSERT INTO charges (id, provider, provider_charge_id, subscription_id, account_id, amount_minor, currency, status, approved_at, period_start, period_end, created_at, updated_at)
+      VALUES (?1, 'mercadopago', ?1, ?2, ?3, 11990, 'PEN', 'approved', ?4, ?4, ?5, ?4, ?4)`, ids.charge, ids.subscription, id, NOW - 2000, NOW + 300000],
+    [`INSERT INTO reports (id, created_at, updated_at, account_id, reporter_alias, source, category, status, title, client_issue_id)
+      VALUES (?1, ?2, ?2, ?3, 'Luis', 'feedback', 'content', 'new', 'Informe de Luis', 'issue-bystander')`, ids.report, NOW - 25, id],
+    ["INSERT INTO audit_log (actor_account_id, action, target_account_id, target_id, created_at) VALUES (NULL, 'bystander.event', ?1, 'bystander-target', ?2)", id, NOW - 70]
+  ];
+  for (const [sqlText, ...values] of rows) {
+    await env.DB.prepare(sqlText).bind(...values).run();
+  }
+  const png = Uint8Array.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 7, 7, 7]);
+  await env.DB.prepare("INSERT INTO report_attachments (id, report_id, mime, bytes, created_at) VALUES (?1, ?2, 'image/png', ?3, ?4)").bind(ids.attachment, ids.report, png.buffer, NOW - 25).run();
+  return { ...who, id, email, ids };
 }

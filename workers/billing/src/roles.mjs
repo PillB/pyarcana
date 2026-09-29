@@ -3,7 +3,7 @@
  * reporting subsite beyond the tester's own reports. Admin is NEVER a stored
  * role (it stays ADMIN_EMAILS plus a fresh Google session).
  *
- *   POST /v1/admin/roles        {email, role, days: 1..3650 | null, note?}
+ *   POST /v1/admin/roles        {email | accountId, role, days: 1..3650 | null, note?}
  *   POST /v1/admin/roles/revoke {accountId, role, reason}
  *   GET  /v1/admin/roles        ?role=tester&state=active|expired|revoked|all&limit=
  *
@@ -13,11 +13,11 @@
  * Audited by the gate after each request.
  */
 
-import { findOrCreateByEmail, getAccount } from "./accounts.mjs";
+import { getAccount } from "./accounts.mjs";
+import { parseTarget, resolveTargetAccount } from "./grants.mjs";
 import {
   badRequest,
   daysValue,
-  emailValue,
   enumValue,
   INVALID,
   limitValue,
@@ -33,7 +33,6 @@ export const ROLES = ["tester"];
 const DAY = 86400;
 
 const GRANT_FIELDS = [
-  ["email", (b) => emailValue(b.email), "bad_email"],
   ["role", (b) => enumValue(b.role, ROLES), "bad_role"],
   ["days", (b) => daysValue(b, "days"), "bad_days"],
   ["note", (b) => optionalText(b.note, 200), "bad_note"]
@@ -100,12 +99,16 @@ export function roleView(row, now) {
  * @returns {Promise<Object>} Result.
  */
 export async function handleGrantRole(ctx) {
-  const parsed = parseFields(ctx.body, GRANT_FIELDS);
+  const aimed = parseTarget(ctx.body);
+  const parsed = aimed.error ? aimed : parseFields(ctx.body, GRANT_FIELDS);
   if (parsed.error) {
     return parsed.error;
   }
-  const { email, role, days, note } = parsed.values;
-  const target = await findOrCreateByEmail(ctx, email);
+  const { role, days, note } = parsed.values;
+  const target = await resolveTargetAccount(ctx, aimed.target);
+  if (target.stop) {
+    return target.stop;
+  }
   const expiresAt = days === null ? null : ctx.now + days * DAY;
   await ctx.db
     .prepare(

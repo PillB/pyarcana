@@ -37,8 +37,13 @@ EMAIL_PROVIDER = ""
 # A role address on PyArcana's domain, never a personal mailbox.
 EMAIL_FROM = ""
 EMAIL_FROM_NAME = "PyArcana"
-# Global emails per UTC day; keep it under the provider's free quota.
+# Global emails per UTC day; keep it under the provider's free quota. One network
+# (IPv4 address or IPv6 /64) may use at most a ninth of it per day.
 EMAIL_DAILY_CAP = "90"
+# Ceiling (MiB) on bug-report screenshots stored in D1, all reports together. Keep it
+# well under the database limit (D1 Free: 500 MB) so screenshots can never fill the
+# database that sign-in and progress need. Above it, report text is still stored.
+REPORT_ATTACHMENTS_CAP_MB = "200"
 # Prices in integer minor units (céntimos / cents). New prices apply to new checkouts only.
 PRICE_PE_MONTHLY_MINOR = "1990"
 PRICE_PE_YEARLY_MINOR = "11990"

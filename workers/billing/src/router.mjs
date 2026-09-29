@@ -20,7 +20,7 @@
  * nosniff.
  */
 
-import { handleDisableAccount, handleEnableAccount, handleGetAccount, handleRectifyEmail } from "./admin-accounts.mjs";
+import { handleDisableAccount, handleEnableAccount, handleGetAccount, handleLookupAccount, handleRectifyEmail } from "./admin-accounts.mjs";
 import { handleEmailStart, handleEmailVerify } from "./auth-email.mjs";
 import { handleGoogleSignIn, handleLinkGoogle, handleLinkMicrosoft, handleMicrosoftSignIn } from "./auth-oidc.mjs";
 import { handleLogout } from "./auth-session.mjs";
@@ -35,12 +35,14 @@ import {
   csrfFailure,
   isStateChanging,
   json,
+  networkKey,
   preflight,
   readCookie,
   readJsonBody,
   SESSION_COOKIE,
   sessionCookie
 } from "./http.mjs";
+import { handleUnlinkIdentity } from "./identities.mjs";
 import { handleGetMe } from "./me.mjs";
 import { handleDeleteAccount, handleExport } from "./privacy.mjs";
 import { handleGetProgress, handlePutProgress, PROGRESS_BODY_CAP } from "./progress.mjs";
@@ -103,6 +105,7 @@ export const ROUTES = [
   qaRoute("/v1/qa/reports/:id/attachments/:aid", handleQaAttachment),
   { method: "POST", path: "/v1/me/link/google", handler: handleLinkGoogle, needs: DB_PEPPER, auth: "session" },
   { method: "POST", path: "/v1/me/link/microsoft", handler: handleLinkMicrosoft, needs: DB_PEPPER, auth: "session" },
+  { method: "DELETE", path: "/v1/me/identities/:provider", handler: handleUnlinkIdentity, needs: DB_PEPPER, auth: "session" },
   adminRoute("POST", "/v1/admin/grants", handleCreateGrant, "admin.grants.create"),
   adminRoute("POST", "/v1/admin/grants/revoke", handleRevokeGrant, "admin.grants.revoke"),
   adminRoute("GET", "/v1/admin/grants", handleListGrants, "admin.grants.list"),
@@ -110,6 +113,7 @@ export const ROUTES = [
   adminRoute("POST", "/v1/admin/roles/revoke", handleRevokeRole, "admin.roles.revoke"),
   adminRoute("GET", "/v1/admin/roles", handleListRoles, "admin.roles.list"),
   adminRoute("GET", "/v1/admin/account", handleGetAccount, "admin.account.read"),
+  adminRoute("POST", "/v1/admin/account/lookup", handleLookupAccount, "admin.account.lookup"),
   adminRoute("POST", "/v1/admin/accounts/disable", handleDisableAccount, "admin.accounts.disable"),
   adminRoute("POST", "/v1/admin/accounts/enable", handleEnableAccount, "admin.accounts.enable"),
   adminRoute("POST", "/v1/admin/accounts/email", handleRectifyEmail, "admin.accounts.email"),
@@ -344,7 +348,8 @@ export async function routeRequest(request, env, opts) {
     providers: opts.providers || DEFAULT_PROVIDERS,
     db: env.DB,
     pepper: pepperBytes(env),
-    ip: callerIp(request),
+    // Rate limits count the caller's NETWORK (IPv4 address or IPv6 /64).
+    ip: networkKey(callerIp(request)),
     route: null,
     params: {},
     renewCookie: null

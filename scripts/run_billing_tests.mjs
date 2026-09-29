@@ -5,6 +5,17 @@
  *   node scripts/run_billing_tests.mjs               # every group
  *   node scripts/run_billing_tests.mjs --only worker # one group (repeatable)
  *
+ * Groups:
+ *   worker  workers/billing/tests/*.test.mjs on plain Node (node:sqlite D1 fake)
+ *   client  src/lib/cloud/__tests__/*.test.ts through `--import tsx`
+ *   lint    ESLint's `complexity` rule at 15 (the chore(lint) ceiling) over the
+ *           worker, this runner, src/lib/cloud and src/components/account.
+ *           scripts/complexity_gate.mjs only lints src/**, as a ratchet, and
+ *           `npm run lint` sets no complexity rule, so without this step a
+ *           worker function could grow past 15 and pass CI. It fails on any
+ *           complexity message or any file ESLint cannot parse; other rules
+ *           are `npm run lint`'s job and are only counted here.
+ *
  * Why a runner instead of `node --test <glob>`:
  * - a glob that matches nothing prints "# tests 0" and exits 0, and a pipe into a
  *   counter hides failures under sh without pipefail;
@@ -14,8 +25,9 @@
  *   tests never count toward a floor.
  * Floors catch loss; they are not ceilings. Raise a floor when you add tests.
  *
- * Needs Node >= 22.13 (node:sqlite without a flag backs the D1 fake).
- * Later stages add groups (e.g. "client" for src/lib/cloud TypeScript suites).
+ * Needs Node >= 22.13 (node:sqlite without a flag backs the D1 fake). The
+ * client group passes `execArgv` to node:test's run(); on a Node that ignored
+ * it, the .ts files would fail to load, so the run fails closed.
  */
 
 import { existsSync } from "node:fs";
@@ -27,9 +39,18 @@ import { fileURLToPath } from "node:url";
 const MIN_NODE = [22, 13, 0];
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const WORKER_TESTS = "workers/billing/tests";
+const CLIENT_TESTS = "src/lib/cloud/__tests__";
+const TSX = Object.freeze(["--import", "tsx"]);
 
-/** Every suite: group, file (repo-relative) and floor. */
-export const SUITES = [
+/** The complexity gate (group "lint"). */
+export const LINT = Object.freeze({
+  group: "lint",
+  ceiling: 15,
+  targets: Object.freeze(["workers/billing", "scripts/run_billing_tests.mjs", "src/lib/cloud", "src/components/account"])
+});
+
+/** Worker suites: group, file (repo-relative) and floor. */
+const WORKER_SUITES = [
   ["d1-fake", 11],
   ["crypto", 12],
   ["http", 15],
@@ -61,8 +82,42 @@ export const SUITES = [
   ["admin-accounts", 4],
   ["progress", 8],
   ["reports", 9],
-  ["privacy", 8]
+  ["privacy", 8],
+  // Review round 1.
+  ["identities", 5]
 ].map(([name, floor]) => ({ group: "worker", file: `${WORKER_TESTS}/${name}.test.mjs`, floor }));
+
+/** Client suites (src/lib/cloud), run through tsx. Floors: counts on 2026-09-28. */
+const CLIENT_SUITES = [
+  ["account-api", 10],
+  ["ad-slot-survey", 10],
+  ["ads-surveys", 16],
+  ["api", 10],
+  ["billing-ui", 11],
+  ["config", 13],
+  ["consent-qa", 7],
+  ["experiments", 10],
+  ["gate", 16],
+  ["handoff", 8],
+  ["headers", 9],
+  ["import-boundary", 2],
+  ["licence", 15],
+  ["me-extras", 1],
+  ["ms-callback", 8],
+  ["offer", 7],
+  ["oidc", 14],
+  ["plans", 4],
+  ["prerender", 7],
+  ["primitives", 10],
+  ["progress-merge", 17],
+  ["progress-sync", 21],
+  ["runtime", 10],
+  ["session-access", 20],
+  ["ui-state", 12]
+].map(([name, floor]) => ({ group: "client", file: `${CLIENT_TESTS}/${name}.test.ts`, floor, execArgv: TSX }));
+
+/** Every suite: group, file (repo-relative), floor and, for TypeScript, execArgv. */
+export const SUITES = [...WORKER_SUITES, ...CLIENT_SUITES];
 
 /**
  * True when the running Node is at least `min`.
@@ -111,7 +166,7 @@ export function selectSuites(suites, groups) {
   if (!groups) {
     return { selected: suites };
   }
-  const known = new Set(suites.map((s) => s.group));
+  const known = new Set(suites.map((s) => s.group).concat(LINT.group));
   const unknown = groups.filter((g) => !known.has(g));
   if (unknown.length) {
     return { selected: [], error: `unknown group(s): ${unknown.join(", ")} (known: ${[...known].join(", ")})` };
@@ -135,14 +190,66 @@ export function checkFloors(suites, passes, missing) {
 }
 
 /**
+ * Decide a lint run: any complexity message, or any file ESLint could not
+ * parse, fails it. Other rules' messages are counted, not gated.
+ * @param {Array<{filePath: string, messages: Object[]}>} results ESLint results.
+ * @returns {{ok: boolean, offenders: Array<{file: string, line: number, message: string}>, other: number}} Verdict.
+ */
+export function lintVerdict(results) {
+  const offenders = [];
+  let other = 0;
+  for (const result of results) {
+    for (const m of result.messages) {
+      if (m.ruleId === "complexity" || m.fatal) {
+        offenders.push({ file: path.relative(ROOT, result.filePath), line: m.line, message: m.message });
+      } else {
+        other += 1;
+      }
+    }
+  }
+  return { ok: offenders.length === 0, offenders, other };
+}
+
+/**
+ * Run ESLint's complexity rule over LINT.targets (ignore patterns off, so
+ * this runner, which the repo's ESLint config ignores under scripts/**, is
+ * linted too).
+ * @returns {Promise<{ok: boolean, offenders: Object[], other: number, files: number}>} Verdict.
+ */
+async function runLint() {
+  const { ESLint } = await import("eslint");
+  const eslint = new ESLint({
+    cwd: ROOT,
+    ignore: false,
+    overrideConfigFile: path.join(ROOT, "eslint.config.mjs"),
+    overrideConfig: { rules: { complexity: ["error", LINT.ceiling] } }
+  });
+  const results = await eslint.lintFiles([...LINT.targets]);
+  return { ...lintVerdict(results), files: results.length };
+}
+
+/**
+ * Print the lint verdict.
+ * @param {{ok: boolean, offenders: Object[], other: number, files: number}} verdict Verdict.
+ * @returns {void}
+ */
+function reportLint(verdict) {
+  console.log(`\ncomplexity gate (ceiling ${LINT.ceiling}): ${verdict.files} files, ${verdict.offenders.length} offenders, ${verdict.other} other messages (npm run lint's job)`);
+  for (const o of verdict.offenders) {
+    console.log(`  OVER CEILING  ${o.file}:${o.line}  ${o.message}`);
+  }
+}
+
+/**
  * Run the files and count events per file.
  * @param {string[]} files Absolute paths.
+ * @param {string[]} [execArgv] Node flags for the test processes.
  * @returns {Promise<{passes: Map<string, number>, failures: number}>} Counts.
  */
-function runFiles(files) {
+function runFiles(files, execArgv = []) {
   const passes = new Map();
   let failures = 0;
-  const stream = run({ files, concurrency: true });
+  const stream = run({ files, concurrency: true, execArgv: [...execArgv] });
   stream.on("test:pass", (data) => {
     const counted = data.details && data.details.type === "test" && !data.skip && !data.todo && data.name !== data.file;
     if (counted) {
@@ -158,6 +265,28 @@ function runFiles(files) {
     out.on("end", () => resolve({ passes, failures }));
     out.pipe(process.stdout, { end: false });
   });
+}
+
+/**
+ * Run the selected suites, one batch per distinct execArgv (plain Node for
+ * the worker, tsx for the client), and merge the counts.
+ * @param {Object[]} suites Present suites.
+ * @returns {Promise<{passes: Map<string, number>, failures: number}>} Counts.
+ */
+async function runSuites(suites) {
+  const batches = new Map();
+  for (const suite of suites) {
+    const key = JSON.stringify(suite.execArgv || []);
+    batches.set(key, (batches.get(key) || []).concat(path.resolve(ROOT, suite.file)));
+  }
+  const passes = new Map();
+  let failures = 0;
+  for (const [key, files] of batches) {
+    const counts = await runFiles(files, JSON.parse(key));
+    counts.passes.forEach((n, file) => passes.set(file, n));
+    failures += counts.failures;
+  }
+  return { passes, failures };
 }
 
 /**
@@ -184,6 +313,48 @@ function report(rows, failures) {
 }
 
 /**
+ * What this invocation runs: the selected suites and whether the lint step runs.
+ * @param {string[]} argv Arguments after the script.
+ * @returns {{selected: Object[], lint: boolean, error?: string}} Plan.
+ */
+export function planRun(argv) {
+  const args = parseArgs(argv);
+  if (args.error) {
+    return { selected: [], lint: false, error: args.error };
+  }
+  const { selected, error } = selectSuites(SUITES, args.groups);
+  const lint = !args.groups || args.groups.includes(LINT.group);
+  const nothing = !error && !selected.length && !lint;
+  return { selected, lint, error: error || (nothing ? "no suites selected" : undefined) };
+}
+
+/**
+ * Run the suites and report them against their floors.
+ * @param {Object[]} selected Selected suites.
+ * @returns {Promise<number>} Exit code (0 when nothing was selected).
+ */
+async function testsStep(selected) {
+  if (!selected.length) {
+    return 0;
+  }
+  const missing = new Set(selected.map((suite) => path.resolve(ROOT, suite.file)).filter((file) => !existsSync(file)));
+  const present = selected.filter((suite) => !missing.has(path.resolve(ROOT, suite.file)));
+  const { passes, failures } = await runSuites(present);
+  return report(checkFloors(selected, passes, missing), failures);
+}
+
+/**
+ * Run and report the complexity gate.
+ * @returns {Promise<number>} Exit code.
+ */
+async function lintStep() {
+  const verdict = await runLint();
+  reportLint(verdict);
+  console.log(verdict.ok ? "COMPLEXITY GATE PASSED" : "COMPLEXITY GATE FAILED");
+  return verdict.ok ? 0 : 1;
+}
+
+/**
  * Entry point.
  * @returns {Promise<number>} Exit code.
  */
@@ -192,17 +363,14 @@ async function main() {
     console.error(`run_billing_tests: Node >= ${MIN_NODE.join(".")} is required (node:sqlite); found ${process.versions.node}.`);
     return 1;
   }
-  const args = parseArgs(process.argv.slice(2));
-  const { selected, error } = args.error ? { selected: [], error: args.error } : selectSuites(SUITES, args.groups);
-  if (error || !selected.length) {
-    console.error(`run_billing_tests: ${error || "no suites selected"}`);
+  const plan = planRun(process.argv.slice(2));
+  if (plan.error) {
+    console.error(`run_billing_tests: ${plan.error}`);
     return 2;
   }
-  const absolute = selected.map((suite) => path.resolve(ROOT, suite.file));
-  const missing = new Set(absolute.filter((file) => !existsSync(file)));
-  const present = absolute.filter((file) => !missing.has(file));
-  const { passes, failures } = present.length ? await runFiles(present) : { passes: new Map(), failures: 0 };
-  return report(checkFloors(selected, passes, missing), failures);
+  const testsCode = await testsStep(plan.selected);
+  const lintCode = plan.lint ? await lintStep() : 0;
+  return testsCode || lintCode;
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

@@ -181,6 +181,80 @@ async function deliver(ctx, config, message) {
   return { ok: false, reason: "email_unavailable" };
 }
 
+/** How each sign-in method is named in a notice. */
+const METHOD_LABELS = { google: "Google", microsoft: "Microsoft" };
+
+/**
+ * The notice sent when a sign-in method is added to or removed from an
+ * account (ASVS 2.5.x: tell the owner about changes to how they sign in).
+ * No link, no address of the new method: only what changed and what to do.
+ * @param {"linked"|"unlinked"} change What happened.
+ * @param {string} provider google | microsoft.
+ * @returns {{subject: string, text: string, html: string}} Message.
+ */
+export function buildMethodNoticeMessage(change, provider) {
+  const label = METHOD_LABELS[provider] || "otro proveedor";
+  const what = change === "linked" ? `Se añadió ${label} como forma de entrar a tu cuenta.` : `Se quitó ${label} de las formas de entrar a tu cuenta.`;
+  const lines = [
+    what,
+    "",
+    "Si fuiste tú, no tienes que hacer nada.",
+    "Si no lo reconoces, entra a PyArcana, revisa tus métodos de inicio de sesión en la página Cuenta y cierra la sesión en todos los dispositivos."
+  ];
+  return {
+    subject: "Cambió un método de inicio de sesión — PyArcana",
+    text: lines.join("\n"),
+    html: `<div style="font-family:system-ui,sans-serif;font-size:16px;line-height:1.5;color:#1a1a1a">${lines
+      .filter(Boolean)
+      .map((line) => `<p>${line}</p>`)
+      .join("")}</div>`
+  };
+}
+
+/**
+ * Send a message under the global daily cap (shared with sign-in codes,
+ * because both spend the same provider quota).
+ * @param {Object} ctx Context.
+ * @param {Object} config Resolved email config.
+ * @param {{to: string, subject: string, text: string, html: string}} message Message.
+ * @returns {Promise<{ok: boolean, reason?: string}>} Result.
+ */
+async function sendCapped(ctx, config, message) {
+  const cap = await hitRateLimit(ctx, "email:global", emailDailyCap(ctx.env), 86400);
+  if (!cap.ok) {
+    ctx.log("email daily cap reached");
+    return { ok: false, reason: "email_unavailable" };
+  }
+  if (config.provider === "dev-log") {
+    ctx.log(`[dev-log] to=${message.to} subject=${message.subject}`);
+    return { ok: true };
+  }
+  return deliver(ctx, config, message);
+}
+
+/**
+ * Best-effort notice about a sign-in method change to a PROVEN address.
+ * Never throws; a failure is logged (provider and status only) and ignored.
+ * @param {Object} ctx Context.
+ * @param {Object} account Account row.
+ * @param {"linked"|"unlinked"} change What happened.
+ * @param {string} provider Provider.
+ * @returns {Promise<boolean>} True when handed to the provider.
+ */
+export async function notifyMethodChange(ctx, account, change, provider) {
+  const config = resolveEmailConfig(ctx.env);
+  const proven = Boolean(account.email_normalized) && Number(account.email_verified) === 1;
+  if (!config.provider || !proven) {
+    return false;
+  }
+  try {
+    return (await sendCapped(ctx, config, { to: account.email_normalized, ...buildMethodNoticeMessage(change, provider) })).ok;
+  } catch {
+    ctx.log("method notice failed");
+    return false;
+  }
+}
+
 /**
  * Send a sign-in code, spending one unit of the global daily cap.
  * @param {{env: Object, db: Object, pepper: Uint8Array, now: number, fetchImpl?: function, log: function}} ctx Context.
@@ -194,15 +268,5 @@ export async function sendLoginCode(ctx, to, code, minutes) {
   if (!config.provider) {
     return { ok: false, reason: "email_not_configured" };
   }
-  const cap = await hitRateLimit(ctx, "email:global", emailDailyCap(ctx.env), 86400);
-  if (!cap.ok) {
-    ctx.log("email daily cap reached");
-    return { ok: false, reason: "email_unavailable" };
-  }
-  const message = { to, ...buildLoginCodeMessage(code, minutes) };
-  if (config.provider === "dev-log") {
-    ctx.log(`[dev-log] to=${to} subject=${message.subject}`);
-    return { ok: true };
-  }
-  return deliver(ctx, config, message);
+  return sendCapped(ctx, config, { to, ...buildLoginCodeMessage(code, minutes) });
 }

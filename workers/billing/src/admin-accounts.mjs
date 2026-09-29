@@ -1,10 +1,18 @@
 /**
  * Admin account operations (DESIGN-v2 §4 Admin).
  *
- *   GET  /v1/admin/account?email= | ?id=                 one account, everything about it
+ *   POST /v1/admin/account/lookup   {email|accountId}          one account, everything about it
+ *   GET  /v1/admin/account?id=                                 the same, by id only
  *   POST /v1/admin/accounts/disable {email|accountId, reason}  disable + revoke every session
  *   POST /v1/admin/accounts/enable  {email|accountId, reason}  undo a disable (sessions stay revoked)
  *   POST /v1/admin/accounts/email   {accountId, newEmail, reason} rectification
+ *
+ * An address never travels in a URL (review round 1): request URLs, query
+ * included, land in the platform's invocation logs, so a lookup by address
+ * is a POST body and GET ?email= is refused (400 email_not_allowed_in_url).
+ * The admin's `reason` is kept in the request's audit row as `adminReason`
+ * (email-shaped text redacted to "[email]", so the audit log still holds no
+ * address); enable also records the `previousReason` it clears.
  *
  * `accountId` is accepted next to `email` because a Microsoft-only account
  * has no proven email to look it up by. Rectification stores the typed
@@ -23,6 +31,16 @@ import { ROLE_WITH_EMAILS, roleView } from "./roles.mjs";
 
 const REASON = ["reason", (b) => requiredText(b.reason, 200), "reason_required"];
 const RENEWING = new Set(["active", "past_due"]);
+const EMAIL_SHAPED = /[^\s@]+@[^\s@]+/g;
+
+/**
+ * An admin's free-text reason as it may be stored in the audit log.
+ * @param {string|null} text Reason.
+ * @returns {string|null} Text with email-shaped words replaced by "[email]".
+ */
+export function auditableReason(text) {
+  return typeof text === "string" ? text.replace(EMAIL_SHAPED, "[email]") : null;
+}
 
 /**
  * Resolve the account a request targets, by accountId or by email.
@@ -108,7 +126,7 @@ export async function handleDisableAccount(ctx) {
   return {
     status: 200,
     body: { ok: true, account: adminAccountView(await getAccount(ctx.db, id)), alreadyDisabled, sessionsRevoked },
-    audit: { targetAccountId: id, detail: { alreadyDisabled, sessionsRevoked } }
+    audit: { targetAccountId: id, detail: { alreadyDisabled, sessionsRevoked, adminReason: auditableReason(target.reason) } }
   };
 }
 
@@ -123,6 +141,7 @@ export async function handleEnableAccount(ctx) {
     return target.stop;
   }
   const id = target.account.id;
+  const previousReason = target.account.disabled_at === null ? null : auditableReason(target.account.disabled_reason);
   const update = await ctx.db
     .prepare("UPDATE accounts SET disabled_at = NULL, disabled_reason = NULL, updated_at = ?2 WHERE id = ?1 AND disabled_at IS NOT NULL")
     .bind(id, ctx.now)
@@ -131,7 +150,7 @@ export async function handleEnableAccount(ctx) {
   return {
     status: 200,
     body: { ok: true, account: adminAccountView(await getAccount(ctx.db, id)), wasDisabled },
-    audit: { targetAccountId: id, detail: { wasDisabled } }
+    audit: { targetAccountId: id, detail: { wasDisabled, previousReason, adminReason: auditableReason(target.reason) } }
   };
 }
 
@@ -173,21 +192,22 @@ export async function handleRectifyEmail(ctx) {
   if (parsed.error) {
     return parsed.error;
   }
-  const { accountId, newEmail } = parsed.values;
+  const { accountId, newEmail, reason } = parsed.values;
+  const adminReason = auditableReason(reason);
   const account = await getAccount(ctx.db, accountId);
   if (!account || account.deleted_at !== null) {
     return { status: 404, body: { ok: false, reason: "not_found" } };
   }
-  const audit = { targetAccountId: account.id };
+  const audit = { targetAccountId: account.id, detail: { adminReason } };
   if (account.email_normalized === newEmail) {
-    return { status: 200, body: { ok: true, unchanged: true, account: adminAccountView(account) }, audit: { ...audit, detail: { unchanged: true } } };
+    return { status: 200, body: { ok: true, unchanged: true, account: adminAccountView(account) }, audit: { ...audit, detail: { unchanged: true, adminReason } } };
   }
   const holder = await findLiveAccountByEmail(ctx.db, newEmail);
   if ((holder && holder.id !== account.id) || !(await storeEmail(ctx, account.id, newEmail))) {
     return { status: 409, body: { ok: false, reason: "email_in_use" }, audit };
   }
   const fresh = await getAccount(ctx.db, account.id);
-  return { status: 200, body: { ok: true, unchanged: false, account: adminAccountView(fresh) }, audit: { ...audit, detail: { emailVerifiedReset: true } } };
+  return { status: 200, body: { ok: true, unchanged: false, account: adminAccountView(fresh) }, audit: { ...audit, detail: { emailVerifiedReset: true, adminReason } } };
 }
 
 /**
@@ -268,12 +288,35 @@ function auditView(row) {
 }
 
 /**
- * GET /v1/admin/account?email= | ?id=.
+ * GET /v1/admin/account?id=. An address in the URL is refused.
  * @param {Object} ctx Admin context.
  * @returns {Promise<Object>} Result.
  */
-export async function handleGetAccount(ctx) {
-  const target = await resolveTarget(ctx, queryObject(ctx.url));
+export function handleGetAccount(ctx) {
+  const query = queryObject(ctx.url);
+  if (query.email !== undefined) {
+    return badRequest("email_not_allowed_in_url");
+  }
+  return accountDetail(ctx, query);
+}
+
+/**
+ * POST /v1/admin/account/lookup {email | accountId}.
+ * @param {Object} ctx Admin context.
+ * @returns {Promise<Object>} Result.
+ */
+export function handleLookupAccount(ctx) {
+  return accountDetail(ctx, { email: ctx.body.email, accountId: ctx.body.accountId });
+}
+
+/**
+ * Everything about one account (the admin "Cuentas" view).
+ * @param {Object} ctx Admin context.
+ * @param {Object} source Target fields.
+ * @returns {Promise<Object>} Result.
+ */
+async function accountDetail(ctx, source) {
+  const target = await resolveTarget(ctx, source);
   if (target.stop) {
     return target.stop;
   }

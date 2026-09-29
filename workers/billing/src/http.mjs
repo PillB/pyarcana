@@ -259,3 +259,53 @@ export function readCookie(request, name) {
 export function callerIp(request) {
   return request.headers.get("cf-connecting-ip") || "unknown";
 }
+
+const HEX_GROUP = /^[0-9a-f]{1,4}$/;
+const MAPPED_V4 = /^::ffff:(\d{1,3}(?:\.\d{1,3}){3})$/;
+
+/**
+ * The eight 16-bit groups of an IPv6 address (at most one "::"), or null.
+ * @param {string} text Lowercase address without a zone.
+ * @returns {string[]|null} Groups without leading zeros.
+ */
+function ipv6Groups(text) {
+  const halves = text.split("::");
+  if (halves.length > 2) {
+    return null;
+  }
+  const left = halves[0] ? halves[0].split(":") : [];
+  const right = halves.length === 2 && halves[1] ? halves[1].split(":") : [];
+  const missing = 8 - left.length - right.length;
+  const fits = halves.length === 2 ? missing >= 1 : missing === 0;
+  const groups = left.concat(Array(Math.max(missing, 0)).fill("0"), right);
+  if (!fits || !groups.every((g) => HEX_GROUP.test(g))) {
+    return null;
+  }
+  return groups.map((g) => String(Number.parseInt(g, 16).toString(16)));
+}
+
+/**
+ * The network a rate limit should count an address against (review round
+ * 1): an IPv4 address is its own network; an IPv6 address counts as its /64,
+ * the smallest block one host is normally given, so rotating through the
+ * 2^64 addresses of one /64 does not buy new buckets. An IPv4-mapped IPv6
+ * address counts as its IPv4 address. Anything unparsable is keyed as-is
+ * ("raw:" + text), never merged into a real network.
+ * @param {string} ip callerIp output.
+ * @returns {string} Network key.
+ */
+export function networkKey(ip) {
+  const text = String(ip || "").trim().toLowerCase().split("%")[0];
+  if (!text || text === "unknown") {
+    return "unknown";
+  }
+  if (!text.includes(":")) {
+    return text;
+  }
+  const mapped = MAPPED_V4.exec(text);
+  if (mapped) {
+    return mapped[1];
+  }
+  const groups = ipv6Groups(text);
+  return groups ? `${groups.slice(0, 4).join(":")}::/64` : `raw:${String(ip).trim()}`;
+}

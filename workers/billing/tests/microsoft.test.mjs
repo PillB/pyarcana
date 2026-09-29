@@ -278,3 +278,11 @@ test("after an email-code sign-in the user links Microsoft, then Microsoft signs
   assert.equal(res.status, 200);
   assert.equal(res.body.account.id, owner.id);
 });
+
+test("review: tenant and object ids in any case map to ONE lowercase subject", async () => {
+  const h = await harness();
+  const upper = TENANT.toUpperCase();
+  const result = await h.verify({ tid: upper, iss: `https://login.microsoftonline.com/${upper}/v2.0`, oid: OID.toUpperCase() });
+  assert.equal(result.ok, true);
+  assert.equal(result.identity.subject, `${TENANT}:${OID}`.toLowerCase());
+});

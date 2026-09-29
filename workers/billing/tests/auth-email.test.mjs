@@ -125,7 +125,8 @@ test("a provider failure is 503 email_unavailable and leaves no usable code", as
 test("the global daily cap answers 503 email_unavailable", async () => {
   const h = harness({ EMAIL_DAILY_CAP: "1" });
   assert.equal((await h.start("a@example.test")).status, 200);
-  const res = await h.start("b@example.test");
+  // From another network: the first network's own daily share (at least 1) is spent too.
+  const res = await h.start("b@example.test", "198.51.100.77");
   assert.deepEqual([res.status, res.body.reason], [503, "email_unavailable"]);
 });
 
@@ -241,4 +242,106 @@ test("nothing the email flow logs contains the address or the code", async () =>
   for (const line of h.logs) {
     assert.ok(!line.includes(EMAIL) && !line.includes("other@") && !line.includes(code), line);
   }
+});
+
+test("review F2: 90 code requests from ONE IPv6 /64 are refused long before the global cap; other networks still get codes", async () => {
+  const h = harness();
+  const day = NOW - (NOW % 86400);
+  let accepted = 0;
+  for (let hour = 0; hour < 9; hour += 1) {
+    for (let i = 0; i < 10; i += 1) {
+      const ip = `2001:db8:1:2::${(hour * 10 + i + 1).toString(16)}`;
+      const res = await h.call("POST", "/v1/auth/email/start", {
+        body: { email: `junk${hour}-${i}@mailinator.test`, ...TERMS },
+        headers: { "cf-connecting-ip": ip },
+        now: day + hour * 3600 + i
+      });
+      accepted += res.status === 200 ? 1 : 0;
+    }
+  }
+  assert.equal(accepted, 10, "one network gets EMAIL_DAILY_CAP / 9 = 10 codes a day");
+  assert.equal(h.fake.emails.length, 10);
+  const victim = await h.call("POST", "/v1/auth/email/start", {
+    body: { email: "real.learner@example.test", ...TERMS },
+    headers: { "cf-connecting-ip": "198.51.100.7" },
+    now: day + 9 * 3600
+  });
+  assert.equal(victim.status, 200, "a real user on another network still gets a code");
+});
+
+test("review F2: a single IPv4 address cannot drain the daily cap across the day either", async () => {
+  const h = harness();
+  const day = NOW - (NOW % 86400);
+  let accepted = 0;
+  for (let hour = 0; hour < 9; hour += 1) {
+    for (let i = 0; i < 10; i += 1) {
+      const res = await h.call("POST", "/v1/auth/email/start", {
+        body: { email: `j${hour}-${i}@mailinator.test`, ...TERMS },
+        headers: { "cf-connecting-ip": "203.0.113.9" },
+        now: day + hour * 3600 + i
+      });
+      accepted += res.status === 200 ? 1 : 0;
+    }
+  }
+  assert.equal(accepted, 10);
+  const next = await h.call("POST", "/v1/auth/email/start", {
+    body: { email: "next-day@mailinator.test", ...TERMS },
+    headers: { "cf-connecting-ip": "203.0.113.9" },
+    now: day + 86400
+  });
+  assert.equal(next.status, 200, "the network's share renews with the UTC day");
+});
+
+test("review F2: the per-IP verify limit keys on the /64 too", async () => {
+  const h = harness();
+  for (let i = 0; i < 30; i += 1) {
+    await h.verify("000000", `user${i}@example.test`, `2001:db8:9:9::${(i + 1).toString(16)}`);
+  }
+  const rotated = await h.verify("000000", "user99@example.test", "2001:db8:9:9::ffff");
+  assert.deepEqual([rotated.status, rotated.body.reason], [429, "rate_limited"]);
+  assert.equal((await h.verify("000000", "user99@example.test", "2001:db8:9:a::1")).status, 401, "the next /64 is not limited");
+});
+
+test("review F6: after 19 recorded attempts, a burst of 10 concurrent guesses gets exactly ONE comparison", async () => {
+  const h = harness();
+  for (let i = 0; i < 19; i += 1) {
+    assert.equal((await h.verify("000000", EMAIL, `192.0.2.${i}`)).status, 401, `attempt ${i + 1}`);
+  }
+  await migrate(h.env.DB);
+  for (let i = 0; i < 3; i += 1) {
+    await issueLoginCode(h.ctx(), EMAIL);
+  }
+  const results = await Promise.all(Array.from({ length: 10 }, (_, i) => h.verify("000000", EMAIL, `198.51.100.${i}`)));
+  const tally = results.map((r) => `${r.status}:${r.body.reason}`).sort();
+  const compared = tally.filter((t) => t.startsWith("401")).length;
+  assert.equal(compared, 1, tally.join(" "));
+  assert.equal(tally.filter((t) => t === "429:rate_limited").length, 9);
+  const spent = await h.env.DB.prepare("SELECT SUM(attempts) AS s FROM login_codes").first("s");
+  assert.equal(spent, 3, "one request compared against the 3 live codes, nothing more");
+});
+
+test("review F6: every verify attempt counts toward the address's 20 a day, a success included", async () => {
+  const h = harness();
+  await migrate(h.env.DB);
+  const { code } = await issueLoginCode(h.ctx(), EMAIL);
+  assert.equal((await h.verify(code, EMAIL, "192.0.2.1")).status, 200);
+  for (let i = 0; i < 19; i += 1) {
+    await h.verify("000000", EMAIL, `192.0.2.${i + 2}`);
+  }
+  const again = await issueLoginCode(h.ctx(), EMAIL);
+  const refused = await h.verify(again.code, EMAIL, "192.0.2.99");
+  assert.deepEqual([refused.status, refused.body.reason], [429, "rate_limited"], "the 21st attempt of the day is refused before comparing");
+});
+
+test("review: an email-code sign-in writes only its own account (bystanders keep first_signin_at, terms and email_verified)", async () => {
+  const h = harness();
+  await migrate(h.env.DB);
+  const { accountSnapshot, seedAccount } = await import("./fixtures.mjs");
+  const neverSignedIn = await seedAccount(h.env, { email: "gift.recipient@example.test", verified: false, signedIn: false });
+  const signedIn = await seedAccount(h.env, { email: "luis@example.test", now: NOW - 5000 });
+  const before = [await accountSnapshot(h.env, neverSignedIn.account.id), await accountSnapshot(h.env, signedIn.account.id)];
+  const { code } = await issueLoginCode(h.ctx(), EMAIL);
+  assert.equal((await h.verify(code, EMAIL)).status, 200);
+  const after = [await accountSnapshot(h.env, neverSignedIn.account.id), await accountSnapshot(h.env, signedIn.account.id)];
+  assert.deepEqual(after, before);
 });

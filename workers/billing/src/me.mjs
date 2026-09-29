@@ -3,7 +3,8 @@
  * (DESIGN-v2 §4 + v3), so the client always reads ONE shape:
  *
  *   {ok, account: {id, email, emailVerified, displayName, isAdmin, roles,
- *                  trialAvailable, firstSigninAt, signInMethod},
+ *                  trialAvailable, firstSigninAt, signInMethod,
+ *                  identities: [{provider, subject (masked), createdAt}]},
  *    access: resolveAccess(...),
  *    subscriptions: [{id, provider, plan, status, cancelAtPeriodEnd,
  *                     paidThrough, manageUrl}],
@@ -17,6 +18,7 @@
 import { activeRoles, isAdminSession } from "./accounts.mjs";
 import { paidThrough } from "./access.mjs";
 import { accessSnapshot, publicGrant } from "./entitlement.mjs";
+import { publicIdentities } from "./identities.mjs";
 import { trialBlockReason, trialClaimKeys } from "./trial-claims.mjs";
 
 /** A checkout or pending subscription younger than this blocks a new one. */
@@ -59,7 +61,8 @@ async function publicAccount(ctx, account, session, rows) {
     roles: await activeRoles(ctx, account.id),
     trialAvailable: await trialAvailable(ctx, account, rows),
     firstSigninAt: account.first_signin_at === null ? null : Number(account.first_signin_at),
-    signInMethod: session.method
+    signInMethod: session.method,
+    identities: await publicIdentities(ctx.db, account.id)
   };
 }
 

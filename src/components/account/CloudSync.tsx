@@ -21,7 +21,7 @@ import { useProgressStore } from '@/lib/progress-store'
 import { shouldResumeTrial, takeIntent } from '@/lib/cloud/intent'
 import { startTrial } from '@/lib/cloud/account-api'
 import { safeSessionStorage, safeStorage } from '@/lib/cloud/storage'
-import { applyMe, cloudApi, getMeasurement, getProgressSync, getSyncController, track, useSyncUi } from './runtime'
+import { applyMe, cloudApi, getMeasurement, getProgressSync, getSyncController, inMicrosoftCallback, track, useAccountUi, useSyncUi } from './runtime'
 import { useText } from './text'
 
 /** First load where the gate applies: remember every section this device touched (gate.ts). */
@@ -34,7 +34,7 @@ function takeGrandfatherSnapshot(stage: LaunchStage): () => void {
 
 function usePageLifecycle(stage: LaunchStage) {
   useEffect(() => {
-    void refreshMe()
+    if (!inMicrosoftCallback()) void refreshMe()
     const unmountSync = getSyncController().mount()
     const unsnapshot = takeGrandfatherSnapshot(stage)
     track({ name: 'session_start' })
@@ -69,6 +69,7 @@ function useSessionFollowers() {
     void startTrial(cloudApi()).then((r) => {
       if (!r.ok) return
       applyMe(r.me)
+      useAccountUi.getState().setOpen(false)
       toast({ title: tr('account.trial.started') })
     })
   }, [meStatus, accountId])

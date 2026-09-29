@@ -48,7 +48,7 @@ export function ConsentCard() {
   const reopened = useConsentUi((s) => s.reopened)
   const wanted = useMeasurementWanted(stage)
   const [record, setRecord] = useState<ConsentRecord | null>(() => readConsent(safeStorage()))
-  const signals = readPrivacySignals(typeof navigator === 'undefined' ? undefined : (navigator as never))
+  const signals = readPrivacySignals(typeof navigator === 'undefined' ? undefined : navigator)
   const mode = consentCardMode({ stage, mode: CLOUD_CONFIG.consent.mode, record, signals, country: null, measurementWanted: wanted, reopened })
   if (mode === 'hidden') return null
   const answer = (value: 'granted' | 'denied') => {

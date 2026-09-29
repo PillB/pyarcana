@@ -230,3 +230,22 @@ test("only ONE leading /api segment is stripped; look-alike prefixes are 404", a
     assert.deepEqual([path, res.status, res.body.reason], [path, 404, "not_found"]);
   }
 });
+
+test("review: workers/billing/README.md documents every built route and names the undone work and owner steps", async () => {
+  const { readFileSync } = await import("node:fs");
+  const { ROUTES } = await import("../src/router.mjs");
+  const readme = readFileSync(new URL("../README.md", import.meta.url), "utf8");
+  for (const route of ROUTES) {
+    assert.ok(readme.includes(`\`${route.method} ${route.path}\``), `README lists ${route.method} ${route.path}`);
+  }
+  for (const heading of ["## Routes", "## Not built yet", "## Owner steps", "## Stated deviations"]) {
+    assert.ok(readme.includes(heading), heading);
+  }
+  const undone = readme.slice(readme.indexOf("## Not built yet"), readme.indexOf("## Owner steps"));
+  for (const item of ["POST /v1/checkout", "/v1/webhooks/mercadopago", "/v1/webhooks/creem", "GET /v1/jwks", "licenseToken", "/v1/admin/experiments", "reconciliation", "Turnstile", "[assets]"]) {
+    assert.ok(undone.includes(item), `named as undone: ${item}`);
+  }
+  for (const built of ROUTES.map((r) => `${r.method} ${r.path}`)) {
+    assert.ok(!undone.includes(`\`${built}\``), `${built} is built; it must not be listed as undone`);
+  }
+});

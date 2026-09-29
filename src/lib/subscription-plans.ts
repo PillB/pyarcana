@@ -4,10 +4,9 @@
  * 3 tiers: Free, Pro, Team
  * Multi-region pricing: Peru (PEN), US/EU/Rest (USD)
  *
- * Based on market research:
- * - Peru: S/29-59/month (PPP-adjusted, ~$8-16 USD)
- * - US/EU: $9.99-29.99/month (industry standard for online courses)
- * - Annual: ~2 months free (17% discount)
+ * Pro prices follow the owner's decision D-USER-01 (DESIGN-v3 §I): S/ 19.90 / S/ 119.90 in Peru,
+ * US$ 7.99 / US$ 49 elsewhere. Free and Team are unchanged. This table feeds only the dynamic
+ * LMS; the static edition's prices come from src/lib/cloud/offer.ts.
  */
 
 export type PlanCode = 'free' | 'pro' | 'team'
@@ -68,10 +67,12 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlanConfig[] = [
     tagline: 'Para conseguir tu primer trabajo de Data Scientist',
     popular: true,
     pricing: {
-      PE: { monthly: 29, yearly: 290, currency: 'PEN', currencySymbol: 'S/' },
-      US: { monthly: 9.99, yearly: 99, currency: 'USD', currencySymbol: '$' },
-      EU: { monthly: 8.99, yearly: 89, currency: 'EUR', currencySymbol: '€' },
-      REST: { monthly: 9.99, yearly: 99, currency: 'USD', currencySymbol: '$' },
+      // D-USER-01 (DESIGN-v3 §I): the same amounts as src/lib/cloud/offer.ts, which a test pins
+      // to the worker's PRICE_* vars. EU is billed in USD: no EUR price until Creem confirms tax.
+      PE: { monthly: 19.9, yearly: 119.9, currency: 'PEN', currencySymbol: 'S/' },
+      US: { monthly: 7.99, yearly: 49, currency: 'USD', currencySymbol: '$' },
+      EU: { monthly: 7.99, yearly: 49, currency: 'USD', currencySymbol: '$' },
+      REST: { monthly: 7.99, yearly: 49, currency: 'USD', currencySymbol: '$' },
     },
     features: [
       'Las 52 secciones completas',
@@ -136,8 +137,13 @@ export function getPlanByCode(code: PlanCode): SubscriptionPlanConfig | undefine
   return SUBSCRIPTION_PLANS.find((p) => p.code === code)
 }
 
+/**
+ * 'S/ 29', 'S/ 19.90', '$9.99'. Soles show cents only when there are any (after rounding to the
+ * cent, so a floating-point 118.8999… reads 'S/ 118.90'); dollars always show two decimals.
+ */
 export function formatPrice(amount: number, symbol: string): string {
   if (!Number.isFinite(amount) || amount <= 0) return 'Gratis'
-  if (symbol === 'S/') return `${symbol} ${amount.toFixed(0)}`
-  return `${symbol}${amount.toFixed(2)}`
+  if (symbol !== 'S/') return `${symbol}${amount.toFixed(2)}`
+  const cents = Math.round(amount * 100)
+  return `${symbol} ${cents % 100 === 0 ? String(cents / 100) : (cents / 100).toFixed(2)}`
 }

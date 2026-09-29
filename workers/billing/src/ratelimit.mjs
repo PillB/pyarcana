@@ -80,3 +80,35 @@ export async function peekRateLimit(ctx, name, windowSeconds) {
     .first("count");
   return Number(count) || 0;
 }
+
+/**
+ * Spend `amount` units (e.g. bytes) from a budget, all or nothing: the
+ * upsert only applies when the new total stays within `limit`, in ONE
+ * statement, so concurrent spenders cannot overshoot it. Unlike
+ * hitRateLimit, a refused spend costs nothing.
+ * @param {{db: Object, pepper: Uint8Array, now: number}} ctx Request context.
+ * @param {string} name Logical budget name.
+ * @param {number} amount Units to spend (> 0).
+ * @param {number} limit Units allowed per window.
+ * @param {number} windowSeconds Window length.
+ * @returns {Promise<{ok: boolean, retryAfter: number}>} Decision.
+ */
+export async function spendBudget(ctx, name, amount, limit, windowSeconds) {
+  const windowStart = windowStartOf(ctx.now, windowSeconds);
+  const refused = { ok: false, retryAfter: windowStart + windowSeconds - ctx.now };
+  if (!(amount > 0) || amount > limit) {
+    return amount > 0 ? refused : { ok: true, retryAfter: 0 };
+  }
+  const bucket = await bucketKey(ctx.pepper, name, windowSeconds);
+  const next = "CASE WHEN rate_limits.window_start = excluded.window_start THEN rate_limits.count + excluded.count ELSE excluded.count END";
+  const total = await ctx.db
+    .prepare(
+      `INSERT INTO rate_limits (bucket, count, window_start) VALUES (?1, ?3, ?2)
+       ON CONFLICT (bucket) DO UPDATE SET count = ${next}, window_start = excluded.window_start
+       WHERE ${next} <= ?4
+       RETURNING count`
+    )
+    .bind(bucket, windowStart, amount, limit)
+    .first("count");
+  return total === null || total === undefined ? refused : { ok: true, retryAfter: 0 };
+}

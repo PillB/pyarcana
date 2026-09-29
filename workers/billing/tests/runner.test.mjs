@@ -76,3 +76,54 @@ test("every *.test.mjs in workers/billing/tests is a listed suite (none can be l
   const listed = SUITES.filter((s) => s.file.startsWith("workers/billing/tests/")).map((s) => s.file).sort();
   assert.deepEqual(listed, onDisk);
 });
+
+test("review: every *.test.ts in src/lib/cloud/__tests__ is a listed 'client' suite, run through tsx", async () => {
+  const { readdirSync } = await import("node:fs");
+  const onDisk = readdirSync(path.resolve(ROOT, "src/lib/cloud/__tests__"))
+    .filter((name) => name.endsWith(".test.ts"))
+    .map((name) => `src/lib/cloud/__tests__/${name}`)
+    .sort();
+  const client = SUITES.filter((s) => s.group === "client");
+  assert.deepEqual(client.map((s) => s.file).sort(), onDisk);
+  assert.ok(onDisk.length >= 8, "the committed client suites are all there");
+  for (const suite of client) {
+    assert.deepEqual(suite.execArgv, ["--import", "tsx"], suite.file);
+  }
+  assert.ok(SUITES.filter((s) => s.group === "worker").every((s) => !s.execArgv), "worker suites run on plain Node");
+});
+
+test("review: the lint step gates cyclomatic complexity 15 over the worker, the runner, and the client cloud code", async () => {
+  const { LINT } = await import("../../../scripts/run_billing_tests.mjs");
+  assert.equal(LINT.ceiling, 15);
+  for (const target of ["workers/billing", "scripts/run_billing_tests.mjs", "src/lib/cloud", "src/components/account"]) {
+    assert.ok(LINT.targets.includes(target), target);
+  }
+  assert.deepEqual(parseArgs(["--only", "lint"]), { groups: ["lint"] });
+  assert.equal(selectSuites(SUITES, ["lint"]).error, undefined, "lint is a known group");
+});
+
+test("review: the lint verdict fails on any complexity message or unparsable file, and only on those", async () => {
+  const { lintVerdict } = await import("../../../scripts/run_billing_tests.mjs");
+  const clean = [{ filePath: "/r/a.mjs", messages: [] }];
+  assert.deepEqual(lintVerdict(clean), { ok: true, offenders: [], other: 0 });
+  const tooComplex = [{ filePath: "/r/a.mjs", messages: [{ ruleId: "complexity", line: 3, message: "Function 'f' has a complexity of 16. Maximum allowed is 15." }] }];
+  const complexVerdict = lintVerdict(tooComplex);
+  assert.equal(complexVerdict.ok, false);
+  assert.equal(complexVerdict.offenders.length, 1);
+  const broken = [{ filePath: "/r/b.ts", messages: [{ ruleId: null, fatal: true, line: 1, message: "Parsing error" }] }];
+  assert.equal(lintVerdict(broken).ok, false, "a file ESLint cannot parse is not a pass");
+  const style = [{ filePath: "/r/c.ts", messages: [{ ruleId: "prefer-const", severity: 1, line: 2, message: "x" }] }];
+  assert.deepEqual(lintVerdict(style), { ok: true, offenders: [], other: 1 }, "other rules belong to npm run lint");
+});
+
+test("review: the default run plans every group, lint included; --only narrows it; nothing selected is an error", async () => {
+  const { planRun } = await import("../../../scripts/run_billing_tests.mjs");
+  const all = planRun([]);
+  assert.deepEqual([all.lint, all.error, new Set(all.selected.map((s) => s.group)).size], [true, undefined, 2]);
+  const worker = planRun(["--only", "worker"]);
+  assert.deepEqual([worker.lint, worker.selected.every((s) => s.group === "worker")], [false, true]);
+  const lintOnly = planRun(["--only", "lint"]);
+  assert.deepEqual([lintOnly.lint, lintOnly.selected.length, lintOnly.error], [true, 0, undefined]);
+  assert.match(planRun(["--only", "nope"]).error, /unknown group/);
+  assert.match(planRun(["--bogus"]).error, /unknown argument/);
+});

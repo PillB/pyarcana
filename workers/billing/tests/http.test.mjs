@@ -15,6 +15,7 @@ import {
   corsHeaders,
   csrfFailure,
   json,
+  networkKey,
   preflight,
   readCookie,
   readJsonBody,
@@ -172,4 +173,22 @@ test("readCookie finds the exact cookie name among others", () => {
 test("callerIp trusts cf-connecting-ip only", () => {
   assert.equal(callerIp(req("GET", { "cf-connecting-ip": "203.0.113.9", "x-forwarded-for": "1.1.1.1" })), "203.0.113.9");
   assert.equal(callerIp(req("GET", { "x-forwarded-for": "1.1.1.1" })), "unknown");
+});
+
+test("networkKey: an IPv4 address is its own network; an IPv6 address keys on its /64 (review F2)", () => {
+  assert.equal(networkKey("203.0.113.9"), "203.0.113.9");
+  const a = networkKey("2001:db8:1:2::1");
+  assert.equal(a, "2001:db8:1:2::/64");
+  for (const same of ["2001:db8:1:2::ffff", "2001:0DB8:0001:0002:0000:0000:0000:0042", "2001:db8:1:2:aaaa:bbbb:cccc:dddd", "2001:db8:1:2:0:0:0:1%eth0"]) {
+    assert.equal(networkKey(same), a, same);
+  }
+  assert.notEqual(networkKey("2001:db8:1:3::1"), a, "the next /64 is another network");
+  assert.equal(networkKey("::1"), "0:0:0:0::/64");
+  assert.equal(networkKey("2001:db8::"), "2001:db8:0:0::/64");
+  assert.equal(networkKey("::ffff:198.51.100.7"), "198.51.100.7", "an IPv4-mapped address is that IPv4 address");
+  assert.equal(networkKey("unknown"), "unknown");
+  assert.equal(networkKey(""), "unknown");
+  for (const junk of ["2001:db8:::1", "2001:db8::1::2", "1:2:3:4:5:6:7:8:9", "2001:db8:zz::1", "12345::1"]) {
+    assert.equal(networkKey(junk), `raw:${junk}`, `${junk} is keyed as-is, never merged into a real /64`);
+  }
 });

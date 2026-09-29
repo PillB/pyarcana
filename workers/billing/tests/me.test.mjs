@@ -98,7 +98,8 @@ test("a fresh account's payload has every field, with nothing granted", async ()
       roles: [],
       trialAvailable: true,
       firstSigninAt: NOW,
-      signInMethod: "email"
+      signInMethod: "email",
+      identities: [{ provider: "email", subject: "ana@…st", createdAt: NOW }]
     },
     access: {
       isPro: false,
@@ -201,4 +202,14 @@ test("isAdmin needs a listed, verified email and a Google session younger than 1
   const { createSession } = await import("../src/sessions.mjs");
   const email = await createSession({ env, db: env.DB, now: NOW }, google.account.id, "email");
   assert.equal((await api(env, "GET", "/v1/me", { cookie: email.token })).body.account.isAdmin, false);
+});
+
+test("review: someone else's open checkout or pending subscription never makes MY checkoutPending true", async () => {
+  const { env } = await createHarness();
+  const me = await seedAccount(env, { email: "ana@example.test" });
+  const other = await seedAccount(env, { email: "luis@example.test" });
+  await sql(env, "INSERT INTO checkouts (id, account_id, provider, plan, amount_minor, currency, created_at, status) VALUES ('chk_luis', ?1, 'creem', 'pro_monthly', 799, 'USD', ?2, 'open')", other.account.id, NOW - 60);
+  await seedSubscription(env, other.account.id, { id: "sub_luis", status: "pending", createdAt: NOW - 60 });
+  assert.equal((await api(env, "GET", "/v1/me", { cookie: me.token })).body.checkoutPending, false);
+  assert.equal((await api(env, "GET", "/v1/me", { cookie: other.token })).body.checkoutPending, true);
 });

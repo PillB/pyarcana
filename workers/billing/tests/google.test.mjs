@@ -74,6 +74,7 @@ test("a valid Google token yields the identity", async () => {
     email: "ana.perez@gmail.com",
     emailNormalized: "ana.perez@gmail.com",
     hd: null,
+    authoritative: true,
     name: "Ana Pérez"
   });
 });
@@ -358,4 +359,36 @@ test("review F4: a Google address Google is not authoritative for is display-onl
   assert.equal(again.body.account.id, stale.body.account.id, "the old holder keeps only their own account");
   const hd = await h.signIn({ sub: "sub-ws", email: "ana@uni.edu.pe", hd: "uni.edu.pe" }, { now: NOW + 180 });
   assert.equal(hd.body.account.emailVerified, true, "Workspace (hd) addresses stay proven");
+});
+
+test("signing in with a non-authoritative Google identity never marks the account's address as proven", async () => {
+  const h = await harness();
+  const first = await h.signIn({ sub: "sub-corp", email: "j.doe@corp.test" });
+  // An admin rectification later types that same address in (stored unproven).
+  await h.env.DB.prepare("UPDATE accounts SET email_normalized = 'j.doe@corp.test', email_verified = 0 WHERE id = ?1").bind(first.body.account.id).run();
+  const again = await h.signIn({ sub: "sub-corp", email: "j.doe@corp.test" }, { now: NOW + 60 });
+  assert.deepEqual([again.status, again.body.account.id, again.body.account.emailVerified], [200, first.body.account.id, false]);
+});
+
+test("review: 30 Google sign-in or link attempts per network per hour; the 31st is 429; other networks and providers are unaffected", async () => {
+  const h = await harness();
+  const from = (ip) => ({ headers: { "cf-connecting-ip": ip } });
+  for (let i = 0; i < 30; i += 1) {
+    const res = await h.signIn({ aud: "someone-else" }, from("203.0.113.50"));
+    assert.deepEqual([i, res.status, res.body.detail], [i, 401, "bad_audience"]);
+  }
+  const limited = await h.signIn({}, from("203.0.113.50"));
+  assert.deepEqual([limited.status, limited.body.reason], [429, "rate_limited"]);
+  assert.ok(Number(limited.headers.get("retry-after")) > 0);
+  const link = await h.call("POST", "/v1/me/link/google", { body: await h.proof(), ...from("203.0.113.50") });
+  assert.equal(link.status, 401, "no session: refused before the limiter");
+  assert.equal((await h.signIn({ sub: "other-net" }, from("198.51.100.60"))).status, 200, "another network");
+  const ms = await h.call("POST", "/v1/auth/microsoft", { body: { idToken: "x.y.z", noncePreimage: "a".repeat(43), ...TERMS }, ...from("203.0.113.50") });
+  assert.deepEqual([ms.status, ms.body.reason], [401, "invalid_token"], "Microsoft has its own bucket");
+});
+
+test("review: a Google subject longer than 255 characters is refused", async () => {
+  const h = await harness();
+  assert.deepEqual(await verify(h, { sub: "1".repeat(256) }), { ok: false, reason: "no_subject" });
+  assert.equal((await verify(h, { sub: "1".repeat(255) })).ok, true);
 });

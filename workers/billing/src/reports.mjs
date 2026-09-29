@@ -1,8 +1,12 @@
 /**
  * Bug reports: submitting them and listing your own (DESIGN-v3).
  *
- *   POST /v1/reports      anonymous or signed in. Limits: anonymous 5/h per IP
- *                         and 50/day overall; signed in 60/h per account.
+ *   POST /v1/reports      anonymous or signed in. Limits: anonymous 5/h and
+ *                         5/day per network (IPv4 address or IPv6 /64), and
+ *                         50/day overall; signed in 60/h per account. The
+ *                         per-network daily share keeps one network from
+ *                         spending the global anonymous budget (it would take
+ *                         10 networks); signing in (free) lifts it.
  *                         Body <= 4 MiB including base64 attachments.
  *   GET  /v1/me/reports   the caller's reports and their triage status.
  *
@@ -18,11 +22,26 @@
  * A signed-in report never stores a contact email (the account is the
  * contact); an anonymous one may. The QA views never show either.
  * Triage and the QA/admin views live in report-triage.mjs.
+ *
+ * Screenshot storage (review round 1): screenshots are D1 BLOBs, and D1 has
+ * a per-database size limit shared with sign-in, sessions and progress. So:
+ *   - a byte budget per UTC day: 10 MiB per account, 20 MiB for all anonymous
+ *     reports together (spent all-or-nothing per report, ratelimit.spendBudget);
+ *   - a global ceiling (config.reportAttachmentsCapBytes, 200 MiB default),
+ *     checked inside each attachment INSERT of the batch;
+ *   - the daily sweep deletes screenshots of closed reports after 90 days and
+ *     every screenshot after 180 (retention.mjs).
+ * Past a budget or the ceiling the REPORT TEXT is still stored and the answer
+ * is 201 with `attachments: 0, attachmentsDropped, attachmentsReason`
+ * ("attachment_budget" | "storage_full"): the report did land, so a failure
+ * status would make the client resend what is already saved.
+ * A re-sent issue (same clientIssueId) is answered before any budget is spent.
  */
 
+import { reportAttachmentsCapBytes } from "./config.mjs";
 import { randomId } from "./crypto.mjs";
 import { emailValue, enumValue, optionalText, parseFields, requestIdValue, requiredText } from "./input.mjs";
-import { hitRateLimit } from "./ratelimit.mjs";
+import { hitRateLimit, spendBudget } from "./ratelimit.mjs";
 import {
   parseAttachments,
   REPORT_CATEGORIES,
@@ -39,6 +58,20 @@ export const REPORT_BODY_CAP = 4 * 1024 * 1024;
 
 const HOUR = 3600;
 const DAY = 86400;
+
+/** Anonymous reports per UTC day, all networks together. */
+export const ANON_REPORTS_PER_DAY = 50;
+
+/** Anonymous reports per network per UTC day. */
+export const ANON_REPORTS_PER_NETWORK_DAY = 5;
+
+const MIB = 1024 * 1024;
+
+/** Screenshot bytes one account may store per UTC day. */
+export const ACCOUNT_SCREENSHOT_BYTES_PER_DAY = 10 * MIB;
+
+/** Screenshot bytes all anonymous reports together may store per UTC day. */
+export const ANON_SCREENSHOT_BYTES_PER_DAY = 20 * MIB;
 
 /**
  * An optional field parsed only when present.
@@ -76,7 +109,8 @@ async function spendReportLimits(ctx) {
     ? [[`reports:acct:${ctx.account.id}`, 60, HOUR]]
     : [
         [`reports:ip:${ctx.ip}`, 5, HOUR],
-        ["reports:anon:day", 50, DAY]
+        [`reports:anon:net-day:${ctx.ip}`, ANON_REPORTS_PER_NETWORK_DAY, DAY],
+        ["reports:anon:day", ANON_REPORTS_PER_DAY, DAY]
       ];
   for (const [name, limit, windowSeconds] of buckets) {
     const hit = await hitRateLimit(ctx, name, limit, windowSeconds);
@@ -131,15 +165,64 @@ function reportBatch(ctx, input, reportId) {
       JSON.stringify(input.context),
       input.clientIssueId
     );
+  const cap = reportAttachmentsCapBytes(ctx.env);
   const attachments = input.attachments.map((a) =>
     ctx.db
       .prepare(
         `INSERT INTO report_attachments (id, report_id, mime, bytes, created_at)
-         SELECT ?1, ?2, ?3, ?4, ?5 WHERE EXISTS (SELECT 1 FROM reports WHERE id = ?2)`
+         SELECT ?1, ?2, ?3, ?4, ?5 WHERE EXISTS (SELECT 1 FROM reports WHERE id = ?2)
+           AND (SELECT COALESCE(SUM(length(bytes)), 0) FROM report_attachments) + ?6 <= ?7`
       )
-      .bind(randomId("att"), reportId, a.mime, exactBuffer(a.bytes), ctx.now)
+      .bind(randomId("att"), reportId, a.mime, exactBuffer(a.bytes), ctx.now, a.bytes.byteLength, cap)
   );
   return [report, ...attachments];
+}
+
+/**
+ * Spend the submitter's daily screenshot budget for this report's bytes.
+ * @param {Object} ctx Context (optional session).
+ * @param {Object[]} attachments Decoded attachments.
+ * @returns {Promise<boolean>} True when the screenshots may be stored.
+ */
+async function spendScreenshotBudget(ctx, attachments) {
+  const bytes = attachments.reduce((sum, a) => sum + a.bytes.byteLength, 0);
+  if (!bytes) {
+    return true;
+  }
+  const [name, limit] = ctx.account
+    ? [`report-bytes:acct:${ctx.account.id}`, ACCOUNT_SCREENSHOT_BYTES_PER_DAY]
+    : ["report-bytes:anon", ANON_SCREENSHOT_BYTES_PER_DAY];
+  return (await spendBudget(ctx, name, bytes, limit, DAY)).ok;
+}
+
+/**
+ * The id of an issue this submitter already sent, or null.
+ * @param {Object} ctx Context.
+ * @param {string|null} clientIssueId Client key.
+ * @returns {Promise<string|null>} Report id.
+ */
+async function alreadySent(ctx, clientIssueId) {
+  if (!clientIssueId) {
+    return null;
+  }
+  const row = await ctx.db
+    .prepare("SELECT id FROM reports WHERE account_id IS ?1 AND client_issue_id = ?2")
+    .bind(ctx.account ? ctx.account.id : null, clientIssueId)
+    .first();
+  return row ? row.id : null;
+}
+
+/**
+ * The 201 body, naming screenshots that were not stored and why.
+ * @param {string} reportId Report id.
+ * @param {number} sent Screenshots sent.
+ * @param {number} stored Screenshots stored.
+ * @param {string} reason Why they were dropped, when they were.
+ * @returns {Object} Body.
+ */
+function createdBody(reportId, sent, stored, reason) {
+  const body = { ok: true, id: reportId, status: "new", attachments: stored, deduplicated: false };
+  return stored === sent ? body : { ...body, attachmentsDropped: sent - stored, attachmentsReason: reason };
 }
 
 /**
@@ -173,17 +256,21 @@ export async function handleSubmitReport(ctx) {
   if (parsed.error) {
     return parsed.error;
   }
-  const input = parsed.input;
+  const sent = parsed.input.attachments;
+  const earlier = await alreadySent(ctx, parsed.input.clientIssueId);
+  if (earlier) {
+    return { status: 200, body: { ok: true, id: earlier, deduplicated: true } };
+  }
+  const withinBudget = await spendScreenshotBudget(ctx, sent);
+  const input = withinBudget ? parsed.input : { ...parsed.input, attachments: [] };
   const reportId = randomId("rep");
   await ctx.db.batch(reportBatch(ctx, input, reportId));
   if (await ctx.db.prepare("SELECT 1 AS hit FROM reports WHERE id = ?1").bind(reportId).first()) {
-    return { status: 201, body: { ok: true, id: reportId, status: "new", attachments: input.attachments.length, deduplicated: false } };
+    const stored = await ctx.db.prepare("SELECT COUNT(*) AS c FROM report_attachments WHERE report_id = ?1").bind(reportId).first("c");
+    return { status: 201, body: createdBody(reportId, sent.length, Number(stored), withinBudget ? "storage_full" : "attachment_budget") };
   }
-  const existing = await ctx.db
-    .prepare("SELECT id FROM reports WHERE account_id IS ?1 AND client_issue_id = ?2")
-    .bind(ctx.account ? ctx.account.id : null, input.clientIssueId)
-    .first();
-  return { status: 200, body: { ok: true, id: existing.id, deduplicated: true } };
+  // Lost a race with a concurrent send of the same issue.
+  return { status: 200, body: { ok: true, id: await alreadySent(ctx, input.clientIssueId), deduplicated: true } };
 }
 
 /**

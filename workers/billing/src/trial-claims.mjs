@@ -7,7 +7,8 @@
  *   account:<id>                     the account row itself
  *   email:<canonical>                every PROVEN email: the account email when
  *                                    email_verified, email-code identities, and
- *                                    Google identities' (email_verified) address;
+ *                                    the address of Google identities Google is
+ *                                    authoritative for (@gmail.com, Workspace);
  *                                    canonical strips +tags and Gmail dots
  *   google:<sub>, microsoft:<tid:oid> every OIDC subject
  * A Microsoft email claim is never used: Microsoft does not prove mailbox
@@ -20,7 +21,7 @@ import { hmacHex } from "./crypto.mjs";
 
 /**
  * The claim source for one identity row, or null.
- * @param {{provider: string, subject: string, email_at_link: string|null}} identity Identity row.
+ * @param {{provider: string, subject: string, email_at_link: string|null, email_authoritative: number}} identity Row.
  * @returns {string[]} Sources.
  */
 function identitySources(identity) {
@@ -28,7 +29,8 @@ function identitySources(identity) {
     return [`email:${canonicalEmail(normalizeEmail(identity.subject))}`];
   }
   const sources = [`${identity.provider}:${identity.subject}`];
-  const googleEmail = identity.provider === "google" ? normalizeEmail(identity.email_at_link) : "";
+  const proven = identity.provider === "google" && Number(identity.email_authoritative) === 1;
+  const googleEmail = proven ? normalizeEmail(identity.email_at_link) : "";
   return googleEmail ? sources.concat(`email:${canonicalEmail(googleEmail)}`) : sources;
 }
 
@@ -39,7 +41,10 @@ function identitySources(identity) {
  * @returns {Promise<string[]>} Distinct sources.
  */
 async function claimSources(db, account) {
-  const identities = await db.prepare("SELECT provider, subject, email_at_link FROM identities WHERE account_id = ?1").bind(account.id).all();
+  const identities = await db
+    .prepare("SELECT provider, subject, email_at_link, email_authoritative FROM identities WHERE account_id = ?1")
+    .bind(account.id)
+    .all();
   const sources = new Set([`account:${account.id}`]);
   if (account.email_normalized && Number(account.email_verified) === 1) {
     sources.add(`email:${canonicalEmail(account.email_normalized)}`);

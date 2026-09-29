@@ -18,6 +18,9 @@ import { useCloudRuntime, useCloudSession, type MePayload } from '@/lib/cloud/se
 import { signOutRequest, type ActionResult } from '@/lib/cloud/account-api'
 import { safeStorage } from '@/lib/cloud/storage'
 import type { TrackedEvent } from '@/lib/cloud/experiments'
+import { MS_CALLBACK_PATH } from '@/lib/cloud/oidc'
+import { routePath } from '@/lib/cloud/ads'
+import { SITE_BASE_PATH } from '@/lib/runtime-mode'
 
 let api: ApiClient | null = null
 export function cloudApi(): ApiClient {
@@ -137,7 +140,7 @@ export function getSyncController(): SyncController {
 
 function measurementContext() {
   const storage = safeStorage()
-  const signals = readPrivacySignals(typeof navigator === 'undefined' ? undefined : (navigator as never))
+  const signals = readPrivacySignals(typeof navigator === 'undefined' ? undefined : navigator)
   const account = useCloudSession.getState().me?.account
   const runtime = useCloudRuntime.getState()
   const stage = currentStage()
@@ -164,4 +167,23 @@ export function getMeasurement(): Measurement {
 export function track(event: TrackedEvent): void {
   if (currentStage() === 'off') return
   getMeasurement().track(event)
+}
+
+// --- Microsoft callback in progress ---------------------------------------------------------------------
+
+const callback = { microsoft: false }
+
+/** Mark that /cuenta is completing a Microsoft redirect (the page strips the fragment first). */
+export function markMicrosoftCallback(active: boolean): void {
+  callback.microsoft = active
+}
+
+/**
+ * True while a Microsoft redirect is being completed: a GET /v1/me racing the sign-in could answer
+ * 401 after the new session landed and wipe it from the page.
+ */
+export function inMicrosoftCallback(): boolean {
+  if (callback.microsoft) return true
+  const onCallbackRoute = routePath(window.location.pathname, SITE_BASE_PATH) === MS_CALLBACK_PATH
+  return onCallbackRoute && /[#&](code|error|state)=/.test(window.location.hash)
 }

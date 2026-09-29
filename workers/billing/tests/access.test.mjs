@@ -369,3 +369,32 @@ test("the grace length follows cfg.graceDays", () => {
   assert.equal(resolveAccess(spec, at(31), { graceDays: 0 }).isPro, false);
   assert.equal(resolveAccess(spec, at(31), { graceDays: 2 }).accessEnd, at(32));
 });
+
+test("review: a gift revoked inside a gap that ends at later paid time stops AT the revocation (no Pro until the paid run)", () => {
+  const spec = {
+    grants: [grant("g1", "gift", 30, 0, 5)],
+    subscriptions: [sub("sub_1", "canceled")],
+    charges: [charge("c1", "sub_1", 10, 40)]
+  };
+  assert.deepEqual(view(resolveAccess(rows(spec), at(7), CFG)), FREE, "day 7: revoked on day 5, paid starts day 10");
+  assert.deepEqual(view(resolveAccess(rows(spec), at(4), CFG)), pro("gift", 5), "day 4: the gift runs up to its revocation");
+  const [entry] = grantSchedule(rows(spec), at(7), CFG);
+  assert.deepEqual([entry.state, entry.start, entry.end], ["revoked", at(0), at(5)], "the covered stretch ends exactly at revoked_at");
+});
+
+test("review: grants created in the same second pack in id order, whatever order the rows arrive in", () => {
+  const a = { id: "grant_a", kind: "gift", days: 10, created_at: at(0), revoked_at: null };
+  const b = { id: "grant_b", kind: "tester", days: 10, created_at: at(0), revoked_at: null };
+  for (const order of [[a, b], [b, a]]) {
+    const schedule = grantSchedule(rows({ grants: order }), at(1), CFG);
+    const byId = Object.fromEntries(schedule.map((g) => [g.id, [g.start, g.end]]));
+    assert.deepEqual(byId, { grant_a: [at(0), at(10)], grant_b: [at(10), at(20)] });
+    assert.equal(resolveAccess(rows({ grants: order }), at(1), CFG).source, "gift", "grant_a (id order) covers first");
+  }
+});
+
+test("review: upcoming never lists a renewing subscription's future grace window", () => {
+  const spec = { subscriptions: [sub("sub_1", "active")], charges: [charge("c1", "sub_1", 20, 50)] };
+  const access = resolveAccess(rows(spec), at(5), CFG);
+  assert.deepEqual(access.upcoming, [{ kind: "paid", start: at(20), end: at(50) }], "the paid period only; its grace (50..57) is not a promise");
+});

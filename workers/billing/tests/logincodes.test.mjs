@@ -144,3 +144,26 @@ test("two concurrent right answers sign in once", async () => {
   const results = await Promise.all([verifyLoginCode(ctx, EMAIL, code), verifyLoginCode(ctx, EMAIL, code)]);
   assert.equal(results.filter((r) => r.ok).length, 1);
 });
+
+test("review: a sign-in retires only ITS address's other codes; another address's live code still verifies", async () => {
+  const ctx = await createCtx();
+  const other = await issueLoginCode(ctx, "luis@example.test");
+  const mine = await issueLoginCode(ctx, EMAIL);
+  await issueLoginCode(ctx, EMAIL);
+  assert.deepEqual(await verifyLoginCode(ctx, EMAIL, mine.code), { ok: true });
+  assert.deepEqual(await verifyLoginCode(ctx, "luis@example.test", other.code), { ok: true });
+});
+
+test("review: codes spent by five wrong tries no longer count toward the three live codes", async () => {
+  const ctx = await createCtx();
+  for (let i = 0; i < 3; i += 1) {
+    await issueLoginCode(ctx, EMAIL);
+  }
+  assert.equal((await issueLoginCode(ctx, EMAIL)).ok, false, "three live codes: a fourth waits");
+  for (let i = 0; i < LOGIN_CODE_MAX_ATTEMPTS; i += 1) {
+    await verifyLoginCode(ctx, EMAIL, "999999");
+  }
+  const fresh = await issueLoginCode(ctx, EMAIL);
+  assert.equal(fresh.ok, true, "a learner who mistyped five times can ask for a new code at once");
+  assert.deepEqual(await verifyLoginCode(ctx, EMAIL, fresh.code), { ok: true });
+});

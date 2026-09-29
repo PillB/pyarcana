@@ -13,6 +13,7 @@ import {
   intVar,
   isLocalhostOrigin,
   listVar,
+  reportAttachmentsCapBytes,
   sessionMaxSeconds,
   termsVersion,
   trialDays
@@ -57,4 +58,11 @@ test("isLocalhostOrigin accepts only http://localhost[:port]", () => {
   assert.equal(isLocalhostOrigin("https://localhost:3000"), false);
   assert.equal(isLocalhostOrigin("http://127.0.0.1:3000"), false);
   assert.equal(isLocalhostOrigin("garbage"), false);
+});
+
+test("the screenshot storage ceiling defaults to 200 MiB, clamped to 1..9000 MiB", () => {
+  assert.equal(reportAttachmentsCapBytes({}), 200 * 1024 * 1024);
+  assert.equal(reportAttachmentsCapBytes({ REPORT_ATTACHMENTS_CAP_MB: "0" }), 1024 * 1024);
+  assert.equal(reportAttachmentsCapBytes({ REPORT_ATTACHMENTS_CAP_MB: "50" }), 50 * 1024 * 1024);
+  assert.equal(reportAttachmentsCapBytes({ REPORT_ATTACHMENTS_CAP_MB: "junk" }), 200 * 1024 * 1024);
 });

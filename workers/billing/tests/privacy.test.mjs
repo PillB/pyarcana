@@ -15,7 +15,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { hmacHex } from "../src/crypto.mjs";
-import { NOW, api, count, createHarness, seedAccount, sql } from "./fixtures.mjs";
+import { NOW, accountSnapshot, api, count, createHarness, seedAccount, seedBystander, sql } from "./fixtures.mjs";
 
 const PNG = Uint8Array.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 1, 2, 3]);
 
@@ -239,4 +239,62 @@ test("one failed cancel stops the deletion; the cancel that did succeed is recor
     assert.equal(await count(h.env, "FROM accounts WHERE id = ?1 AND deleted_at IS NULL", h.id), 1);
     assert.equal(await count(h.env, "FROM audit_log WHERE action = 'account.delete_failed' AND target_account_id = ?1", h.id), 1);
   }
+});
+
+test("review: the export holds ONLY the caller's rows — a bystander's sessions, roles, checkouts, reports, progress and audit stay out", async () => {
+  const h = await richLearner();
+  await subscription(h.env, h.id, "sub_1", "mercadopago", "active");
+  const other = await seedBystander(h.env, { issuer: h.admin.account.id });
+  const read = [];
+  h.env.DB.observe((sqlText, rows) => read.push(...rows));
+  const res = await api(h.env, "GET", "/v1/me/export", { cookie: h.me.token });
+  assert.equal(res.status, 200);
+  const touched = JSON.stringify(read);
+  for (const id of [other.id, ...Object.values(other.ids)]) {
+    assert.ok(!touched.includes(id), `the export read the bystander's ${id} from the database`);
+  }
+  const e = res.body;
+  const text = JSON.stringify(e);
+  const foreign = [other.id, other.email, "luis.bystander@gmail.com", "Informe de Luis", "regalo de Luis", "bystander role", "bystander-target", "bystander.event", "\"who\"", ...Object.values(other.ids), "ref_bystander"];
+  for (const value of foreign) {
+    assert.ok(!text.includes(value), `the export leaks the bystander's ${value}`);
+  }
+  assert.equal(e.sessions.length, 1, "only the caller's own session");
+  assert.deepEqual(e.roles.length, 1);
+  assert.deepEqual(e.checkouts.map((c) => c.id), ["chk_1"]);
+  assert.deepEqual(e.reports.map((r) => r.id), ["rep_1"]);
+  assert.deepEqual(e.identities.length, 2);
+  assert.equal(e.audit.length, 3);
+  assert.deepEqual(e.progress.doc, { v: 1 });
+  await sql(h.env, "DELETE FROM progress WHERE account_id = ?1", h.id);
+  const without = await api(h.env, "GET", "/v1/me/export", { cookie: h.me.token });
+  assert.equal(without.body.progress, null, "no progress of their own: none, never someone else's");
+});
+
+test("review: deleting one account leaves a bystander's every row untouched and cancels only the caller's subscriptions", async () => {
+  const h = await richLearner();
+  await subscription(h.env, h.id, "sub_mine", "creem", "active");
+  const other = await seedBystander(h.env, { issuer: h.admin.account.id });
+  const before = await accountSnapshot(h.env, other.id);
+  const adminBefore = await accountSnapshot(h.env, h.admin.account.id);
+  const fake = fakeProviders();
+  const res = await deleteMe(h.env, h.me.token, { providers: fake.providers });
+  assert.equal(res.status, 200);
+  assert.deepEqual(fake.calls, ["creem:sub_mine"], "the bystander's live subscription is not cancelled at the provider");
+  assert.deepEqual(await accountSnapshot(h.env, other.id), before, "every bystander row is identical after the delete");
+  assert.deepEqual(await accountSnapshot(h.env, h.admin.account.id), adminBefore, "the admin's rows too");
+  assert.equal((await api(h.env, "GET", "/v1/me", { cookie: other.token })).status, 200, "the bystander is still signed in");
+  assert.equal(await count(h.env, "FROM accounts WHERE deleted_at IS NOT NULL"), 1, "exactly one account was tombstoned");
+});
+
+test("review: at most 10 exports per account per hour; the 11th is 429 and another account is unaffected", async () => {
+  const h = await richLearner();
+  for (let i = 0; i < 10; i += 1) {
+    assert.equal((await api(h.env, "GET", "/v1/me/export", { cookie: h.me.token, now: NOW + i })).status, 200, `export ${i + 1}`);
+  }
+  const eleventh = await api(h.env, "GET", "/v1/me/export", { cookie: h.me.token, now: NOW + 10 });
+  assert.deepEqual([eleventh.status, eleventh.body.reason], [429, "rate_limited"]);
+  assert.ok(eleventh.body.retryAfter > 0);
+  const other = await seedAccount(h.env, { email: "luis@example.test" });
+  assert.equal((await api(h.env, "GET", "/v1/me/export", { cookie: other.token, now: NOW + 11 })).status, 200);
 });

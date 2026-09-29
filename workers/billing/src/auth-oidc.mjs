@@ -6,6 +6,14 @@
  * yet AND Google is authoritative for the address (@gmail.com, or an `hd`
  * Workspace claim); anything else is 409 `link_requires_email_code`, so a
  * reassigned mailbox or a lapsed custom domain cannot take over an account.
+ * A NEW account from a non-authoritative Google address keeps that address
+ * for display only (email_normalized NULL, like Microsoft): otherwise the
+ * earlier holder of a reassigned mailbox would occupy the address and the
+ * new owner's email-code sign-in would land in the old holder's account.
+ *
+ * Admin-listed addresses (ADMIN_EMAILS) link only a Google identity for the
+ * SAME address (409 admin_identity_mismatch), so one intercepted email code
+ * cannot attach a stranger's Google account to the admin account.
  *
  * Microsoft (DESIGN-v3): identity (microsoft, "<tid>:<oid>") only. Microsoft
  * email claims do not prove ownership (nOAuth), so there is NO email linking:
@@ -15,7 +23,9 @@
  *
  * Linking from the account panel needs a session created in the last 10
  * minutes: adding a sign-in method is an account change (ASVS V3.7), and a
- * stolen session must not be able to plant a permanent way back in.
+ * stolen session must not be able to plant a permanent way back in. A new
+ * link is audited and notified to the account's proven address, and the
+ * owner can see and remove it (identities.mjs).
  *
  * Every route takes {idToken, noncePreimage} (DESIGN-v3 §B): the token's
  * nonce must be base64url(SHA-256(preimage)), and the nonce is spent on
@@ -29,10 +39,12 @@ import {
   findLiveAccountByEmail,
   getAccount,
   hasProviderIdentity,
+  isListedAdminAddress,
   linkIdentity
 } from "./accounts.mjs";
 import { normalizeEmail } from "./address.mjs";
 import { writeAudit } from "./audit.mjs";
+import { notifyMethodChange } from "./email.mjs";
 import { checkTerms, completeSignIn } from "./auth-session.mjs";
 import { googleClientIds, verifyGoogleIdToken } from "./google.mjs";
 import { buildMePayload } from "./me.mjs";
@@ -89,12 +101,23 @@ async function ipLimit(ctx, provider) {
  * @param {Object} ctx Context.
  * @param {Object} account Account row.
  * @param {string} provider Provider.
- * @param {{subject: string, email: string|null}} identity Identity.
+ * @param {{subject: string, email: string|null, authoritative?: boolean}} identity Identity.
  * @returns {Promise<{account: Object}>} Resolved account.
  */
 async function attach(ctx, account, provider, identity) {
-  const linked = await linkIdentity(ctx, { provider, subject: identity.subject, accountId: account.id, emailAtLink: identity.email });
+  const linked = await linkIdentity(ctx, identityLink(provider, identity, account.id));
   return { account: linked.ok ? account : await getAccount(ctx.db, linked.accountId) };
+}
+
+/**
+ * The identities row for a verified identity.
+ * @param {string} provider Provider.
+ * @param {{subject: string, email: string|null, authoritative?: boolean}} identity Identity.
+ * @param {string} accountId Account id.
+ * @returns {Object} linkIdentity input.
+ */
+function identityLink(provider, identity, accountId) {
+  return { provider, subject: identity.subject, accountId, emailAtLink: identity.email, emailAuthoritative: identity.authoritative === true };
 }
 
 /**
@@ -106,8 +129,7 @@ async function attach(ctx, account, provider, identity) {
  * @returns {Promise<{account: Object}|{stop: Object}>} Result.
  */
 async function linkGoogleByEmail(ctx, account, identity) {
-  const authoritative = identity.emailNormalized.endsWith("@gmail.com") || identity.hd !== null;
-  if (!authoritative || (await hasProviderIdentity(ctx.db, account.id, "google"))) {
+  if (!identity.authoritative || (await hasProviderIdentity(ctx.db, account.id, "google"))) {
     return { stop: conflict("link_requires_email_code") };
   }
   return attach(ctx, account, "google", identity);
@@ -128,10 +150,11 @@ async function accountForGoogle(ctx, identity) {
   if (byEmail) {
     return linkGoogleByEmail(ctx, byEmail, identity);
   }
+  // A non-authoritative address is display-only (email_normalized NULL).
   const made = await createAccountDetailed(ctx, {
     email: identity.email,
-    emailNormalized: identity.emailNormalized,
-    emailVerified: true,
+    emailNormalized: identity.authoritative ? identity.emailNormalized : null,
+    emailVerified: identity.authoritative,
     displayName: identity.name
   });
   // Lost a race to another sign-in for this email: apply the linking rules.
@@ -166,7 +189,7 @@ const PROVIDERS = {
     configured: (env) => googleClientIds(env).length > 0,
     verify: verifyGoogleIdToken,
     resolve: accountForGoogle,
-    emailVerified: (account, identity) => account.email_normalized === identity.emailNormalized
+    emailVerified: (account, identity) => identity.authoritative && account.email_normalized === identity.emailNormalized
   },
   microsoft: {
     configured: (env) => microsoftClientIds(env).length > 0,
@@ -227,7 +250,29 @@ async function signInWith(ctx, name) {
     return resolved.stop;
   }
   const emailVerified = PROVIDERS[name].emailVerified(resolved.account, verified.identity);
-  return completeSignIn(ctx, resolved.account, name, { emailVerified });
+  return completeSignIn(ctx, resolved.account, name, { emailVerified, subject: verified.identity.subject });
+}
+
+/**
+ * Why this identity may not be linked to the signed-in account, or null.
+ * @param {Object} ctx Context with a session.
+ * @param {string} name Provider.
+ * @param {Object} identity Verified identity.
+ * @returns {Promise<string|null>} 409 reason, or null.
+ */
+async function linkRefusal(ctx, name, identity) {
+  const existing = await findIdentity(ctx.db, name, identity.subject);
+  if (existing && existing.account_id !== ctx.account.id) {
+    return "identity_in_use";
+  }
+  if (!existing && (await hasProviderIdentity(ctx.db, ctx.account.id, name))) {
+    return "provider_already_linked";
+  }
+  const sameAddress = identity.emailNormalized === ctx.account.email_normalized;
+  if (!existing && name === "google" && isListedAdminAddress(ctx.env, ctx.account) && !sameAddress) {
+    return "admin_identity_mismatch";
+  }
+  return null;
 }
 
 /**
@@ -246,18 +291,17 @@ async function linkWith(ctx, name) {
   }
   const { identity } = verified;
   const existing = await findIdentity(ctx.db, name, identity.subject);
-  if (existing && existing.account_id !== ctx.account.id) {
-    return conflict("identity_in_use");
+  const refusal = await linkRefusal(ctx, name, identity);
+  if (refusal) {
+    return conflict(refusal);
   }
-  if (!existing && (await hasProviderIdentity(ctx.db, ctx.account.id, name))) {
-    return conflict("provider_already_linked");
-  }
-  const linked = await linkIdentity(ctx, { provider: name, subject: identity.subject, accountId: ctx.account.id, emailAtLink: identity.email });
+  const linked = await linkIdentity(ctx, identityLink(name, identity, ctx.account.id));
   if (!linked.ok) {
     return conflict("identity_in_use");
   }
   if (!existing) {
     await writeAudit(ctx, { action: "identity.link", actorAccountId: ctx.account.id, targetAccountId: ctx.account.id, detail: { provider: name } });
+    await notifyMethodChange(ctx, ctx.account, "linked", name);
   }
   return { status: 200, body: await buildMePayload(ctx, ctx.account, ctx.session) };
 }

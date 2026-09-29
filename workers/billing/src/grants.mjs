@@ -1,7 +1,7 @@
 /**
  * Admin grants (DESIGN-v2 §4 Admin, amended by DESIGN-v3).
  *
- *   POST /v1/admin/grants        {email, days: 1..3650 | null, kind?: gift|tester, note?, requestId}
+ *   POST /v1/admin/grants        {email | accountId, days: 1..3650 | null, kind?: gift|tester, note?, requestId}
  *   POST /v1/admin/grants/revoke {grantId, reason}
  *   GET  /v1/admin/grants        ?kind=trial|gift|tester &state=active|upcoming|pending_activation|used|revoked|all &limit=
  *
@@ -10,6 +10,13 @@
  * time, activation at first sign-in and re-flow after a revoke need no
  * stored start/end. The account is created (unverified, never signed in)
  * when the email is unknown.
+ *
+ * Target: exactly one of `email` or `accountId` (review round 1). A
+ * Microsoft-only account has no proven email (email_normalized NULL, by
+ * design), so it can only be targeted by id; granting by its DISPLAY address
+ * would create a separate, empty account. When a grant by email does create
+ * an account while an unproven account already shows that address, the
+ * answer warns `unproven_account_shows_this_email` with those account ids.
  *
  * Idempotency: UNIQUE(issued_by, request_id). A replay of the same body
  * answers 200 with the existing grant (`deduplicated: true`); a replay with a
@@ -21,7 +28,7 @@
  */
 
 import { grantSchedule } from "./access.mjs";
-import { findLiveAccountByEmail, findOrCreateByEmail } from "./accounts.mjs";
+import { findLiveAccountByEmail, findOrCreateByEmail, getAccount } from "./accounts.mjs";
 import { randomId } from "./crypto.mjs";
 import { accessConfig, accessSnapshot } from "./entitlement.mjs";
 import {
@@ -42,7 +49,6 @@ import {
 export const ADMIN_GRANT_KINDS = ["gift", "tester"];
 
 const CREATE_FIELDS = [
-  ["email", (b) => emailValue(b.email), "bad_email"],
   ["days", (b) => daysValue(b, "days"), "bad_days"],
   ["kind", (b) => enumValue(b.kind, ADMIN_GRANT_KINDS, "gift"), "bad_kind"],
   ["note", (b) => optionalText(b.note, 200), "bad_note"],
@@ -55,6 +61,82 @@ const REVOKE_FIELDS = [
 ];
 
 const RENEWING = new Set(["active", "past_due"]);
+
+const NOT_FOUND = { status: 404, body: { ok: false, reason: "not_found" } };
+
+/**
+ * True when a body field was sent (null counts as not sent).
+ * @param {unknown} value Field value.
+ * @returns {boolean} Sent.
+ */
+function sent(value) {
+  return value !== undefined && value !== null;
+}
+
+/**
+ * The account an admin request targets: exactly one of `email` or `accountId`.
+ * @param {Object} body Request body.
+ * @returns {{target: {email?: string, accountId?: string}}|{error: Object}} Target or a 400.
+ */
+export function parseTarget(body) {
+  if (sent(body.accountId) === sent(body.email)) {
+    return { error: badRequest("bad_target") };
+  }
+  if (sent(body.accountId)) {
+    const id = requiredText(body.accountId, 100);
+    return id === INVALID ? { error: badRequest("bad_account_id") } : { target: { accountId: id } };
+  }
+  const email = emailValue(body.email);
+  return email === INVALID ? { error: badRequest("bad_email") } : { target: { email } };
+}
+
+/**
+ * The live account for a parsed target; an unknown email creates one
+ * (unverified, never signed in), an unknown or deleted id is 404.
+ * @param {Object} ctx Context.
+ * @param {{email?: string, accountId?: string}} target Parsed target.
+ * @returns {Promise<{account: Object, created: boolean}|{stop: Object}>} Account or 404.
+ */
+export async function resolveTargetAccount(ctx, target) {
+  if (!target.accountId) {
+    return findOrCreateByEmail(ctx, target.email);
+  }
+  const account = await getAccount(ctx.db, target.accountId);
+  const live = account && (account.deleted_at === null || account.deleted_at === undefined);
+  return live ? { account, created: false } : { stop: NOT_FOUND };
+}
+
+/**
+ * The account id a target names NOW, without creating anything (null when none).
+ * @param {Object} ctx Context.
+ * @param {{email?: string, accountId?: string}} target Parsed target.
+ * @returns {Promise<string|null>} Account id.
+ */
+async function currentTargetId(ctx, target) {
+  if (target.accountId) {
+    return target.accountId;
+  }
+  const holder = await findLiveAccountByEmail(ctx.db, target.email);
+  return holder ? holder.id : null;
+}
+
+/**
+ * Live accounts WITHOUT a proven email whose display address is this one
+ * (e.g. a Microsoft-only account): the admin probably meant one of them.
+ * @param {Object} ctx Context.
+ * @param {string} email Normalized email.
+ * @returns {Promise<string[]>} Account ids (at most 5).
+ */
+async function unprovenAccountsShowing(ctx, email) {
+  const rows = await ctx.db
+    .prepare(
+      `SELECT id FROM accounts WHERE email_normalized IS NULL AND deleted_at IS NULL AND lower(trim(email)) = ?1
+       ORDER BY created_at, id LIMIT 5`
+    )
+    .bind(email)
+    .all();
+  return rows.results.map((row) => row.id);
+}
 
 /**
  * Admin view of a grant row plus its computed schedule entry.
@@ -211,17 +293,20 @@ function accountRow(ctx, accountId) {
  * @returns {Promise<Object>} Result.
  */
 export async function handleCreateGrant(ctx) {
-  const parsed = parseFields(ctx.body, CREATE_FIELDS);
+  const aimed = parseTarget(ctx.body);
+  const parsed = aimed.error ? aimed : parseFields(ctx.body, CREATE_FIELDS);
   if (parsed.error) {
     return parsed.error;
   }
-  const input = parsed.values;
+  const input = { ...parsed.values, ...aimed.target };
   const earlier = await grantRow(ctx.db, "g.issued_by = ?1 AND g.request_id = ?2", ctx.account.id, input.requestId);
   if (earlier) {
-    const holder = await findLiveAccountByEmail(ctx.db, input.email);
-    return replayResult(ctx, earlier, input, holder ? holder.id : null);
+    return replayResult(ctx, earlier, input, await currentTargetId(ctx, aimed.target));
   }
-  const target = await findOrCreateByEmail(ctx, input.email);
+  const target = await resolveTargetAccount(ctx, aimed.target);
+  if (target.stop) {
+    return target.stop;
+  }
   const grantId = randomId("grant");
   await ctx.db.batch(createBatch(ctx, input, grantId, { accountId: target.account.id, created: target.created }));
   const stored = await grantRow(ctx.db, "g.issued_by = ?1 AND g.request_id = ?2", ctx.account.id, input.requestId);
@@ -230,6 +315,11 @@ export async function handleCreateGrant(ctx) {
   }
   const { view, snapshot } = await viewWithSchedule(ctx, stored, target.account);
   const body = { ok: true, deduplicated: false, account: accountSummary(target.account), grant: view, warnings: grantWarnings(target.account, target.created, snapshot) };
+  const unproven = target.created ? await unprovenAccountsShowing(ctx, input.email) : [];
+  if (unproven.length) {
+    body.warnings.push("unproven_account_shows_this_email");
+    body.unprovenAccountIds = unproven;
+  }
   return { status: 201, body, audited: true };
 }
 

@@ -6,6 +6,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/Providers";
 import { QAFooterBridge } from "@/components/course/QAFooterBridge";
 import { SITE_BASE_PATH } from "@/lib/runtime-mode";
+import { buildCsp } from "@/lib/cloud/csp";
+import { CLOUD_CONFIG } from "@/lib/cloud/config";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -56,20 +58,11 @@ export const metadata: Metadata = {
   //   - img-src/style-src/font-src restricted to self + the Pyodide CDN
   //   - connect-src 'self' + Firebase + Pyodide CDN + GitHub Pages origin
   // When the dynamic LMS ships, replace unsafe-inline with nonces/hashes.
+  // Built from the public cloud config (src/lib/cloud/csp.ts): the shipped config (stage off)
+  // yields the pre-accounts policy (LEGACY_CSP) byte for byte, which a test pins; a provider's
+  // hosts are added only when the stage is on and that provider is configured.
   other: {
-    "Content-Security-Policy": [
-      "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "img-src 'self' data: https:",
-      "font-src 'self' data:",
-      "connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://cdn.jsdelivr.net",
-      "object-src 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
-      "frame-ancestors 'none'",
-      "upgrade-insecure-requests",
-    ].join("; "),
+    "Content-Security-Policy": buildCsp(CLOUD_CONFIG),
   },
   openGraph: {
     title: "PyArcana · De cero a Data Analyst/Scientist",

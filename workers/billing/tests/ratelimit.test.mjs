@@ -68,3 +68,15 @@ test("peek reads the current window without spending", async () => {
   const nextDay = { ...ctx, now: NOW - (NOW % 86400) + 86400 };
   assert.equal(await peekRateLimit(nextDay, "p", 86400), 0);
 });
+
+test("spendBudget is all-or-nothing and atomic: 50 concurrent spends of 3 against 10 admit exactly 3, and a refusal costs nothing", async () => {
+  const { spendBudget } = await import("../src/ratelimit.mjs");
+  const ctx = await createCtx();
+  const results = await Promise.all(Array.from({ length: 50 }, () => spendBudget(ctx, "bytes", 3, 10, 86400)));
+  assert.equal(results.filter((r) => r.ok).length, 3);
+  assert.ok(results.filter((r) => !r.ok).every((r) => r.retryAfter > 0));
+  assert.equal((await spendBudget(ctx, "bytes", 1, 10, 86400)).ok, true, "9 spent: a 1-unit spend still fits, refused ones added nothing");
+  assert.equal((await spendBudget(ctx, "bytes", 1, 10, 86400)).ok, false);
+  assert.equal((await spendBudget(ctx, "big", 11, 10, 86400)).ok, false, "more than the whole budget is refused outright");
+  assert.equal((await spendBudget({ ...ctx, now: ctx.now + 86400 }, "bytes", 10, 10, 86400)).ok, true, "a new window starts empty");
+});
