@@ -106,7 +106,8 @@ export function reportAttachmentsCapBytes(env) {
  * fixed row overhead. With the 200 MiB screenshot ceiling, reports can hold
  * at most ~315 MB of a 500 MB D1 Free database, so sign-in, sessions and
  * progress keep ~185 MB. Above it, new reports are refused (507
- * report_storage_full) until an admin prunes old ones.
+ * report_storage_full) until the owner deletes old ones in D1 (no route does
+ * that yet; README "Not built yet").
  * @param {Object} env Worker env.
  * @returns {number} Bytes.
  */

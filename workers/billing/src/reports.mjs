@@ -36,9 +36,28 @@
  * ("attachment_budget" | "storage_full"): the report did land, so a failure
  * status would make the client resend what is already saved.
  * A re-sent issue (same clientIssueId) is answered before any budget is spent.
+ *
+ * Text storage (review round 2): field caps count characters, and one free
+ * account could store ~77 MB of 3-byte text a day. Each report is charged
+ * reports.text_bytes = UTF-8 bytes of its text columns + a 256-byte row
+ * overhead (an estimate for ids, timestamps, enums and index entries), and:
+ *   - a byte budget per UTC day: 512 KiB per account; 64 KiB per network and
+ *     1 MiB for all anonymous reports together (the network is spent first, so
+ *     an exhausted network cannot drain the shared budget; 16 networks are
+ *     needed to exhaust it). Over budget: 429 rate_limited with
+ *     `budget: "report_text"`, nothing stored; a refused spend costs nothing;
+ *   - a global ceiling (config.reportTextCapBytes, 100 MiB default) checked
+ *     inside the report INSERT over SUM(text_bytes). Past it: 507
+ *     report_storage_full, nothing stored.
+ * Stated limits: report text has no retention rule (the sweep keeps it, as the
+ * QA record); the ceiling is the bound, and only the owner can reopen it by
+ * deleting old reports in D1 (no prune route yet; README "Not built yet").
+ * Admin notes are not charged (admins are trusted). Erasure nulls the alias,
+ * contact and issue id but keeps text_bytes, so the charge only overcounts.
+ * Budgets spent on a report the ceiling then refuses are not refunded.
  */
 
-import { reportAttachmentsCapBytes } from "./config.mjs";
+import { reportAttachmentsCapBytes, reportTextCapBytes } from "./config.mjs";
 import { randomId } from "./crypto.mjs";
 import { emailValue, enumValue, optionalText, parseFields, requestIdValue, requiredText } from "./input.mjs";
 import { hitRateLimit, spendBudget } from "./ratelimit.mjs";
@@ -72,6 +91,22 @@ export const ACCOUNT_SCREENSHOT_BYTES_PER_DAY = 10 * MIB;
 
 /** Screenshot bytes all anonymous reports together may store per UTC day. */
 export const ANON_SCREENSHOT_BYTES_PER_DAY = 20 * MIB;
+
+const KIB = 1024;
+
+/** Bytes charged per report on top of its UTF-8 text (migration 4 backfills with the same 256). */
+export const REPORT_ROW_OVERHEAD_BYTES = 256;
+
+/** Report text bytes one account may store per UTC day. */
+export const ACCOUNT_REPORT_TEXT_BYTES_PER_DAY = 512 * KIB;
+
+/** Report text bytes one network may store anonymously per UTC day. */
+export const ANON_REPORT_TEXT_BYTES_PER_NETWORK_DAY = 64 * KIB;
+
+/** Report text bytes all anonymous reports together may store per UTC day. */
+export const ANON_REPORT_TEXT_BYTES_PER_DAY = MIB;
+
+const UTF8 = new TextEncoder();
 
 /**
  * An optional field parsed only when present.
@@ -131,40 +166,88 @@ function exactBuffer(bytes) {
 }
 
 /**
- * The batch: the report (unless this issue was already sent) and its attachments.
+ * The text columns a report stores, exactly as bound. A signed-in report
+ * never stores a contact email.
  * @param {Object} ctx Context.
- * @param {Object} input Parsed fields (+ context, attachments).
- * @param {string} reportId New report id.
- * @returns {Object[]} Statements.
+ * @param {Object} input Parsed fields (+ context).
+ * @returns {Object} Column values.
  */
-function reportBatch(ctx, input, reportId) {
-  const accountId = ctx.account ? ctx.account.id : null;
-  const report = ctx.db
+function storedText(ctx, input) {
+  return {
+    reporterAlias: input.reporterAlias,
+    contactEmail: ctx.account ? null : input.contactEmail,
+    title: input.title,
+    description: input.description,
+    steps: input.steps,
+    expected: input.expected,
+    actual: input.actual,
+    improvement: input.improvement,
+    context: JSON.stringify(input.context),
+    clientIssueId: input.clientIssueId
+  };
+}
+
+/**
+ * The bytes a report is charged: the UTF-8 size of its stored text plus the
+ * row overhead (reports.text_bytes).
+ * @param {Object} text storedText() values.
+ * @returns {number} Bytes.
+ */
+export function reportTextBytes(text) {
+  return Object.values(text).reduce((sum, v) => sum + (typeof v === "string" ? UTF8.encode(v).byteLength : 0), REPORT_ROW_OVERHEAD_BYTES);
+}
+
+/**
+ * The report INSERT: skipped when this issue was already sent, or when it
+ * would take all report text past the global ceiling.
+ * @param {Object} ctx Context.
+ * @param {Object} input Parsed fields.
+ * @param {string} reportId New report id.
+ * @param {{text: Object, bytes: number}} charged storedText() and its bytes.
+ * @returns {Object} Statement.
+ */
+function reportInsert(ctx, input, reportId, charged) {
+  const t = charged.text;
+  return ctx.db
     .prepare(
       `INSERT INTO reports (id, created_at, updated_at, account_id, reporter_alias, contact_email, source, category, cause, severity,
-         status, title, description, steps, expected, actual, improvement, context, client_issue_id)
-       SELECT ?1, ?2, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, 'new', ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17
-       WHERE NOT EXISTS (SELECT 1 FROM reports WHERE account_id IS ?3 AND client_issue_id = ?17)`
+         status, title, description, steps, expected, actual, improvement, context, client_issue_id, text_bytes)
+       SELECT ?1, ?2, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, 'new', ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18
+       WHERE NOT EXISTS (SELECT 1 FROM reports WHERE account_id IS ?3 AND client_issue_id = ?17)
+         AND (SELECT COALESCE(SUM(text_bytes), 0) FROM reports) + ?18 <= ?19`
     )
     .bind(
       reportId,
       ctx.now,
-      accountId,
-      input.reporterAlias,
-      accountId ? null : input.contactEmail,
+      ctx.account ? ctx.account.id : null,
+      t.reporterAlias,
+      t.contactEmail,
       input.source,
       input.category,
       input.cause,
       input.severity,
-      input.title,
-      input.description,
-      input.steps,
-      input.expected,
-      input.actual,
-      input.improvement,
-      JSON.stringify(input.context),
-      input.clientIssueId
+      t.title,
+      t.description,
+      t.steps,
+      t.expected,
+      t.actual,
+      t.improvement,
+      t.context,
+      t.clientIssueId,
+      charged.bytes,
+      reportTextCapBytes(ctx.env)
     );
+}
+
+/**
+ * The batch: the report (unless already sent or over the ceiling) and its attachments.
+ * @param {Object} ctx Context.
+ * @param {Object} input Parsed fields (+ context, attachments).
+ * @param {string} reportId New report id.
+ * @param {{text: Object, bytes: number}} charged storedText() and its bytes.
+ * @returns {Object[]} Statements.
+ */
+function reportBatch(ctx, input, reportId, charged) {
   const cap = reportAttachmentsCapBytes(ctx.env);
   const attachments = input.attachments.map((a) =>
     ctx.db
@@ -175,7 +258,39 @@ function reportBatch(ctx, input, reportId) {
       )
       .bind(randomId("att"), reportId, a.mime, exactBuffer(a.bytes), ctx.now, a.bytes.byteLength, cap)
   );
-  return [report, ...attachments];
+  return [reportInsert(ctx, input, reportId, charged), ...attachments];
+}
+
+/**
+ * The daily text budgets this submitter spends, in order: an anonymous
+ * report spends its network's share before the shared anonymous budget.
+ * @param {Object} ctx Context (optional session).
+ * @returns {Array<[string, number]>} [bucket name, bytes per UTC day].
+ */
+function textBudgets(ctx) {
+  return ctx.account
+    ? [[`report-text:acct:${ctx.account.id}`, ACCOUNT_REPORT_TEXT_BYTES_PER_DAY]]
+    : [
+        [`report-text:anon:net:${ctx.ip}`, ANON_REPORT_TEXT_BYTES_PER_NETWORK_DAY],
+        ["report-text:anon", ANON_REPORT_TEXT_BYTES_PER_DAY]
+      ];
+}
+
+/**
+ * Spend the submitter's daily report text budget.
+ * @param {Object} ctx Context (optional session).
+ * @param {number} bytes Charged bytes.
+ * @returns {Promise<Object|null>} 429 result or null.
+ */
+async function spendTextBudget(ctx, bytes) {
+  for (const [name, limit] of textBudgets(ctx)) {
+    const spent = await spendBudget(ctx, name, bytes, limit, DAY);
+    if (!spent.ok) {
+      const body = { ok: false, reason: "rate_limited", budget: "report_text", retryAfter: spent.retryAfter };
+      return { status: 429, body, headers: { "retry-after": String(spent.retryAfter) } };
+    }
+  }
+  return null;
 }
 
 /**
@@ -243,6 +358,46 @@ function parseReport(body) {
 }
 
 /**
+ * The answer when the report row did not land: a concurrent send of the same
+ * issue won the race (200, its id), or the text ceiling is reached (507).
+ * @param {Object} ctx Context.
+ * @param {string|null} clientIssueId Client key.
+ * @returns {Promise<Object>} Result.
+ */
+async function notStored(ctx, clientIssueId) {
+  const earlier = await alreadySent(ctx, clientIssueId);
+  if (earlier) {
+    return { status: 200, body: { ok: true, id: earlier, deduplicated: true } };
+  }
+  return { status: 507, body: { ok: false, reason: "report_storage_full" } };
+}
+
+/**
+ * Spend the budgets and store a new report with what screenshots fit.
+ * @param {Object} ctx Context.
+ * @param {Object} parsed Clean input.
+ * @returns {Promise<Object>} Result.
+ */
+async function storeReport(ctx, parsed) {
+  const text = storedText(ctx, parsed);
+  const charged = { text, bytes: reportTextBytes(text) };
+  const overBudget = await spendTextBudget(ctx, charged.bytes);
+  if (overBudget) {
+    return overBudget;
+  }
+  const sent = parsed.attachments;
+  const withinBudget = await spendScreenshotBudget(ctx, sent);
+  const input = withinBudget ? parsed : { ...parsed, attachments: [] };
+  const reportId = randomId("rep");
+  await ctx.db.batch(reportBatch(ctx, input, reportId, charged));
+  if (!(await ctx.db.prepare("SELECT 1 AS hit FROM reports WHERE id = ?1").bind(reportId).first())) {
+    return notStored(ctx, input.clientIssueId);
+  }
+  const stored = await ctx.db.prepare("SELECT COUNT(*) AS c FROM report_attachments WHERE report_id = ?1").bind(reportId).first("c");
+  return { status: 201, body: createdBody(reportId, sent.length, Number(stored), withinBudget ? "storage_full" : "attachment_budget") };
+}
+
+/**
  * POST /v1/reports.
  * @param {Object} ctx Context (optional session; db + pepper configured).
  * @returns {Promise<Object>} Result.
@@ -256,21 +411,11 @@ export async function handleSubmitReport(ctx) {
   if (parsed.error) {
     return parsed.error;
   }
-  const sent = parsed.input.attachments;
   const earlier = await alreadySent(ctx, parsed.input.clientIssueId);
   if (earlier) {
     return { status: 200, body: { ok: true, id: earlier, deduplicated: true } };
   }
-  const withinBudget = await spendScreenshotBudget(ctx, sent);
-  const input = withinBudget ? parsed.input : { ...parsed.input, attachments: [] };
-  const reportId = randomId("rep");
-  await ctx.db.batch(reportBatch(ctx, input, reportId));
-  if (await ctx.db.prepare("SELECT 1 AS hit FROM reports WHERE id = ?1").bind(reportId).first()) {
-    const stored = await ctx.db.prepare("SELECT COUNT(*) AS c FROM report_attachments WHERE report_id = ?1").bind(reportId).first("c");
-    return { status: 201, body: createdBody(reportId, sent.length, Number(stored), withinBudget ? "storage_full" : "attachment_budget") };
-  }
-  // Lost a race with a concurrent send of the same issue.
-  return { status: 200, body: { ok: true, id: await alreadySent(ctx, input.clientIssueId), deduplicated: true } };
+  return storeReport(ctx, parsed.input);
 }
 
 /**

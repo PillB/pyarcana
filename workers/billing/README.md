@@ -101,6 +101,9 @@ Named undone work; nothing below exists in the code today.
   account); admins target such accounts by `accountId`.
 - The admin web page's address lookup must use the POST lookup route, never an address in a URL
   (client stage).
+- A retention rule for report text, and an admin route to delete old reports. Until then, once
+  `REPORT_TEXT_CAP_MB` is reached, new reports get 507 until the owner deletes rows in D1
+  (`npx wrangler d1 execute`), and nothing alerts the admin that the ceiling was reached.
 
 ## Owner steps
 
@@ -139,6 +142,12 @@ Each one is a decision someone may want to revisit.
   stored and the answer is 201 with `attachmentsDropped` and `attachmentsReason`
   (`attachment_budget` or `storage_full`), not an error. Screenshots are deleted 90 days after
   their report is closed, or 180 days after it was filed.
+- Report text: each report is charged `text_bytes`, the UTF-8 size of its text plus 256 bytes per
+  row. Per UTC day: 512 KiB per account; 64 KiB per network and 1 MiB for all anonymous reports
+  (429 `rate_limited` with `budget: "report_text"`). A global ceiling `REPORT_TEXT_CAP_MB`
+  (default 100) is checked inside the report INSERT; past it a new report gets 507
+  `report_storage_full` and nothing is stored. With the screenshot ceiling, reports can take at
+  most ~315 MB of D1 Free's 500 MB. Report text is never swept: the ceiling is its only bound.
 - The admin's free-text reason is kept in the audit row as `adminReason`, with email-shaped words
   replaced by `[email]`.
 - `POST /v1/admin/accounts/enable` and `accountId` targeting are additions to DESIGN-v2.

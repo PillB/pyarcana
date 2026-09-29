@@ -54,10 +54,10 @@ const WORKER_SUITES = [
   ["d1-fake", 11],
   ["crypto", 12],
   ["http", 15],
-  ["schema", 15],
+  ["schema", 18],
   ["ratelimit", 6],
   ["address", 5],
-  ["config", 6],
+  ["config", 9],
   ["email", 13],
   ["accounts", 10],
   ["sessions", 11],
@@ -81,7 +81,7 @@ const WORKER_SUITES = [
   ["admin-roles", 5],
   ["admin-accounts", 4],
   ["progress", 8],
-  ["reports", 9],
+  ["reports", 22],
   ["privacy", 8],
   // Review round 1.
   ["identities", 5]
