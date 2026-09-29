@@ -87,10 +87,16 @@ const WORKER_SUITES = [
   ["identities", 5]
 ].map(([name, floor]) => ({ group: "worker", file: `${WORKER_TESTS}/${name}.test.mjs`, floor }));
 
-/** Client suites (src/lib/cloud), run through tsx. Floors: counts on 2026-09-28. */
+/**
+ * Client suites (src/lib/cloud), run through tsx. Floors: counts on 2026-09-28.
+ * Review round 2 (2026-09-29): admin-api at its committed count (11 at bacc6c9);
+ * legal-content and pricing-view, then on disk but not yet committed, at their
+ * counts that day.
+ */
 const CLIENT_SUITES = [
   ["account-api", 10],
   ["ad-slot-survey", 10],
+  ["admin-api", 11],
   ["ads-surveys", 16],
   ["api", 10],
   ["billing-ui", 11],
@@ -101,6 +107,7 @@ const CLIENT_SUITES = [
   ["handoff", 8],
   ["headers", 9],
   ["import-boundary", 2],
+  ["legal-content", 9],
   ["licence", 15],
   ["me-extras", 1],
   ["ms-callback", 8],
@@ -108,6 +115,7 @@ const CLIENT_SUITES = [
   ["oidc", 14],
   ["plans", 4],
   ["prerender", 7],
+  ["pricing-view", 5],
   ["primitives", 10],
   ["progress-merge", 17],
   ["progress-sync", 21],

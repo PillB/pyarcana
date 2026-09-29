@@ -66,3 +66,18 @@ test("the screenshot storage ceiling defaults to 200 MiB, clamped to 1..9000 MiB
   assert.equal(reportAttachmentsCapBytes({ REPORT_ATTACHMENTS_CAP_MB: "50" }), 50 * 1024 * 1024);
   assert.equal(reportAttachmentsCapBytes({ REPORT_ATTACHMENTS_CAP_MB: "junk" }), 200 * 1024 * 1024);
 });
+
+test("review r2: the report text ceiling defaults to 100 MiB, clamped to 1..9000 MiB", async () => {
+  const config = await import("../src/config.mjs");
+  assert.equal(typeof config.reportTextCapBytes, "function", "config exports reportTextCapBytes");
+  assert.equal(config.reportTextCapBytes({}), 100 * 1024 * 1024);
+  assert.equal(config.reportTextCapBytes({ REPORT_TEXT_CAP_MB: "0" }), 1024 * 1024);
+  assert.equal(config.reportTextCapBytes({ REPORT_TEXT_CAP_MB: "30" }), 30 * 1024 * 1024);
+  assert.equal(config.reportTextCapBytes({ REPORT_TEXT_CAP_MB: "junk" }), 100 * 1024 * 1024);
+});
+
+test("review r2: by default, report screenshots and report text together leave at least 150 MB of a D1 Free database (500 MB)", async () => {
+  const config = await import("../src/config.mjs");
+  const reports = config.reportAttachmentsCapBytes({}) + config.reportTextCapBytes({});
+  assert.ok(500e6 - reports >= 150e6, `${reports} bytes reserved for reports`);
+});

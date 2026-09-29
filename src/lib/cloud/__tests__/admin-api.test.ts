@@ -34,6 +34,8 @@ import {
   accountActionRequest,
   experimentResultsPath,
   surveysPath,
+  experimentView,
+  surveyView,
 } from '@/lib/cloud/admin-api'
 
 const REQ = 'req_2026-09-29_abcdef'
@@ -170,4 +172,25 @@ test('role and report lists: parsed field by field; the next-page cursor passes 
   assert.equal(page.reports[0].accountEmail, null)
   assert.equal(page.nextCursor, 'MTA6cmVwXzE')
   assert.equal(parseReportList({ reports: [], nextCursor: 'a b<script>' }).nextCursor, null)
+})
+
+// --- experiments and satisfaction (worker routes pending: shape assumed from DESIGN-v3 §F/§G) --------
+
+
+test('experiment results: before the plan is met only exposure counts are shown, never a comparison', () => {
+  const early = experimentView({ key: 'pkg_ab_v1', plan: { met: false, minPerArm: 400, minDays: 14 }, arms: [{ arm: 'a', exposed: 12, trialStarts: 3, rate: 0.25 }, { arm: 'b', exposed: 9, trialStarts: 1 }] })
+  assert.equal(early.planMet, false)
+  assert.deepEqual(early.arms, [{ arm: 'a', cells: [['exposed', 12]] }, { arm: 'b', cells: [['exposed', 9]] }])
+  const done = experimentView({ plan: { met: true }, srm: { flagged: true, p: 0.0001 }, arms: [{ arm: 'a', exposed: 500, trialStarts: 40, label: '<b>x</b>', nested: { a: 1 } }] })
+  assert.equal(done.planMet, true)
+  assert.equal(done.srmFlagged, true)
+  assert.deepEqual(done.arms, [{ arm: 'a', cells: [['exposed', 500], ['trialStarts', 40]] }])
+  assert.deepEqual(experimentView('junk'), { planMet: false, srmFlagged: false, arms: [] })
+})
+
+test('satisfaction: numeric aggregates and the latest texts (strings only, capped at 500 characters)', () => {
+  const v = surveyView({ kind: 'nps', n: 31, mean: 8.2, ci: [7.5, 8.9], latest: [{ text: 'Muy claro', at: 5 }, { text: 'x'.repeat(900) }, { text: 42 }] })
+  assert.deepEqual(v.stats, [['n', 31], ['mean', 8.2]])
+  assert.deepEqual(v.texts.map((t) => t.length), [9, 500])
+  assert.deepEqual(surveyView(null), { stats: [], texts: [] })
 })

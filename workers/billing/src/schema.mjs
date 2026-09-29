@@ -295,11 +295,33 @@ const MIGRATION_3 = [
   "ALTER TABLE identities ADD COLUMN email_authoritative INTEGER NOT NULL DEFAULT 0"
 ];
 
+/**
+ * Migration 4 (review round 2): reports.text_bytes, the bytes a report is
+ * charged against the report text budgets and the REPORT_TEXT_CAP_MB
+ * ceiling: the UTF-8 size of its text columns plus a fixed 256-byte row
+ * overhead (reports.mjs REPORT_ROW_OVERHEAD_BYTES). Existing rows are
+ * backfilled from what SQLite stores (CAST AS BLOB gives UTF-8 bytes; length
+ * of a TEXT gives characters). The index lets the ceiling's SUM scan a
+ * narrow covering index instead of every report row's text.
+ * Written out literally: a shipped migration never changes.
+ */
+const MIGRATION_4 = [
+  "ALTER TABLE reports ADD COLUMN text_bytes INTEGER NOT NULL DEFAULT 0",
+  `UPDATE reports SET text_bytes = 256
+     + COALESCE(length(CAST(title AS BLOB)), 0) + COALESCE(length(CAST(description AS BLOB)), 0)
+     + COALESCE(length(CAST(steps AS BLOB)), 0) + COALESCE(length(CAST(expected AS BLOB)), 0)
+     + COALESCE(length(CAST(actual AS BLOB)), 0) + COALESCE(length(CAST(improvement AS BLOB)), 0)
+     + COALESCE(length(CAST(reporter_alias AS BLOB)), 0) + COALESCE(length(CAST(contact_email AS BLOB)), 0)
+     + COALESCE(length(CAST(context AS BLOB)), 0) + COALESCE(length(CAST(client_issue_id AS BLOB)), 0)`,
+  "CREATE INDEX IF NOT EXISTS idx_reports_text_bytes ON reports (text_bytes)"
+];
+
 /** Every migration, in order. Append only; never edit a shipped one. */
 export const MIGRATIONS = [
   { version: 1, statements: MIGRATION_1 },
   { version: 2, statements: MIGRATION_2 },
-  { version: 3, statements: MIGRATION_3 }
+  { version: 3, statements: MIGRATION_3 },
+  { version: 4, statements: MIGRATION_4 }
 ];
 
 /** The version a fully migrated database reports. */

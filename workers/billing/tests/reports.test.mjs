@@ -476,3 +476,111 @@ test("review: the step, alias and context caps hold, and a RIFF file that is not
   const stored = JSON.parse(await env.DB.prepare("SELECT context FROM reports WHERE id = ?1").bind(long.body.id).first("context"));
   assert.deepEqual([stored.path.length, stored.userAgent.length, stored.sectionId.length], [300, 400, 40], "context text is truncated to its caps");
 });
+
+/*
+ * Review round 2: report TEXT had no byte budget, no ceiling and no retention,
+ * so one free account could write ~77 MB a day into D1. The policy numbers
+ * below are written out here on purpose (an oracle independent of the code):
+ * raising a budget in reports.mjs must fail these tests.
+ */
+const ROW_OVERHEAD = 256;
+const ACCOUNT_TEXT_PER_DAY = 512 * 1024;
+const ANON_TEXT_PER_NETWORK_DAY = 64 * 1024;
+const ANON_TEXT_PER_DAY = 1024 * 1024;
+const TEXT_COLUMNS = ["title", "description", "steps", "expected", "actual", "improvement", "reporter_alias", "contact_email", "context", "client_issue_id"];
+
+/**
+ * The bytes a stored report holds, measured by SQLite itself (UTF-8 BLOB
+ * lengths of its text columns) plus the fixed row overhead.
+ * @param {Object} env Env.
+ * @param {string} id Report id.
+ * @returns {Promise<number>} Bytes.
+ */
+async function sqliteTextBytes(env, id) {
+  const sum = TEXT_COLUMNS.map((c) => `COALESCE(length(CAST(${c} AS BLOB)), 0)`).join(" + ");
+  return ROW_OVERHEAD + Number(await env.DB.prepare(`SELECT ${sum} AS b FROM reports WHERE id = ?1`).bind(id).first("b"));
+}
+
+/**
+ * A report with every text field at its character cap in 3-byte UTF-8.
+ * @param {Object} [patch] Overrides.
+ * @returns {Object} Body.
+ */
+function heavyReport(patch) {
+  const cjk = (n) => "中".repeat(n);
+  return report({ title: cjk(200), description: cjk(5000), steps: cjk(5000), expected: cjk(2000), actual: cjk(2000), improvement: cjk(2000), reporterAlias: cjk(80), ...(patch || {}) });
+}
+
+test("review r2: a stored report's text_bytes is the UTF-8 size SQLite holds for its text, plus the row overhead", async () => {
+  const { env } = await people();
+  const res = await submit(env, heavyReport({ contactEmail: "v@example.test", clientIssueId: "qa-issue-bytes-0001" }), { headers: { "cf-connecting-ip": "203.0.113.77" } });
+  assert.equal(res.status, 201);
+  const stored = Number(await env.DB.prepare("SELECT text_bytes FROM reports WHERE id = ?1").bind(res.body.id).first("text_bytes"));
+  const measured = await sqliteTextBytes(env, res.body.id);
+  assert.ok(measured > 3 * 16000, "3-byte characters are counted as 3 bytes, not 1 UTF-16 unit");
+  assert.equal(stored, measured);
+});
+
+test("review r2: one account's report text is capped per UTC day (429 rate_limited, budget report_text); a refused spend costs nothing", async () => {
+  const { env, learner, tester } = await people();
+  const first = await submit(env, heavyReport(), { cookie: learner.token });
+  assert.equal(first.status, 201);
+  const size = await sqliteTextBytes(env, first.body.id);
+  const fits = Math.floor(ACCOUNT_TEXT_PER_DAY / size);
+  const statuses = [first.status];
+  let refused = null;
+  for (let i = 1; i <= fits; i += 1) {
+    const res = await submit(env, heavyReport(), { cookie: learner.token, now: NOW + i });
+    statuses.push(res.status);
+    refused = res.status === 201 ? refused : res;
+  }
+  assert.deepEqual(statuses, [...Array(fits).fill(201), 429], `${fits} heavy reports fit in the account's daily text budget`);
+  assert.deepEqual([refused.body.reason, refused.body.budget], ["rate_limited", "report_text"]);
+  assert.ok(Number(refused.headers.get("retry-after")) > 0);
+  const stored = await env.DB.prepare("SELECT SUM(text_bytes) AS b, COUNT(*) AS c FROM reports WHERE account_id = ?1").bind(learner.account.id).first();
+  assert.deepEqual([Number(stored.c), Number(stored.b) <= ACCOUNT_TEXT_PER_DAY], [fits, true]);
+  assert.equal((await submit(env, report(), { cookie: learner.token, now: NOW + 100 })).status, 201, "the refused heavy report spent nothing; a small one still fits");
+  assert.equal((await submit(env, heavyReport(), { cookie: tester.token, now: NOW + 100 })).status, 201, "another account has its own budget");
+  assert.equal((await submit(env, heavyReport(), { cookie: learner.token, now: NOW + 86400 })).status, 201, "the budget renews with the UTC day");
+});
+
+test("review r2: anonymous report text is capped at 64 KiB per network and 1 MiB for all networks per UTC day", async () => {
+  const { env } = await people();
+  const net = (n) => ({ headers: { "cf-connecting-ip": `198.51.100.${n}` } });
+  const a1 = await submit(env, heavyReport({ contactEmail: "v@example.test" }), net(1));
+  assert.equal(a1.status, 201);
+  const size = await sqliteTextBytes(env, a1.body.id);
+  assert.ok(size <= ANON_TEXT_PER_NETWORK_DAY && 2 * size > ANON_TEXT_PER_NETWORK_DAY, "one heavy report per network fits");
+  const a2 = await submit(env, heavyReport({ contactEmail: "v@example.test" }), net(1));
+  assert.deepEqual([a2.status, a2.body.reason, a2.body.budget], [429, "rate_limited", "report_text"]);
+  const fits = Math.floor(ANON_TEXT_PER_DAY / size);
+  let accepted = 1;
+  for (let n = 2; n <= fits + 3; n += 1) {
+    const res = await submit(env, heavyReport({ contactEmail: "v@example.test" }), net(n));
+    accepted += res.status === 201 ? 1 : 0;
+    assert.ok(res.status === 201 || (res.status === 429 && res.body.budget === "report_text"), `network ${n}: ${res.status}`);
+  }
+  assert.equal(accepted, fits, "all anonymous reports together stop at the daily text budget");
+  const total = Number(await env.DB.prepare("SELECT SUM(text_bytes) AS b FROM reports WHERE account_id IS NULL").first("b"));
+  assert.ok(total <= ANON_TEXT_PER_DAY, `${total} bytes of anonymous text today`);
+  assert.equal((await submit(env, report(), net(99))).status, 201, "a small honest report from a fresh network still fits the remainder");
+});
+
+test("review r2: the global ceiling REPORT_TEXT_CAP_MB is checked inside the report INSERT; past it 507 report_storage_full stores nothing", async () => {
+  const { env, learner } = await people();
+  const first = await submit(env, report({ clientIssueId: "qa-issue-cap-0001" }), { cookie: learner.token });
+  assert.equal(first.status, 201);
+  const size = await sqliteTextBytes(env, first.body.id);
+  env.REPORT_TEXT_CAP_MB = "1";
+  const cap = 1024 * 1024;
+  await sql(env, "INSERT INTO reports (id, created_at, updated_at, source, status, title, text_bytes) VALUES ('rep_bulk', ?1, ?1, 'feedback', 'new', 'b', ?2)", NOW - 5, cap - 2 * size);
+  const atCeiling = await submit(env, report({ clientIssueId: "qa-issue-cap-0002" }), { cookie: learner.token });
+  assert.equal(atCeiling.status, 201, "exactly at the ceiling is accepted");
+  const full = await submit(env, report({ clientIssueId: "qa-issue-cap-0003", attachments: [pngOf(64)] }), { cookie: learner.token });
+  assert.deepEqual([full.status, full.body.ok, full.body.reason], [507, false, "report_storage_full"]);
+  assert.equal(await count(env, "FROM reports"), 3, "nothing new stored");
+  assert.equal(await count(env, "FROM report_attachments"), 0, "nor its screenshot");
+  const resent = await submit(env, report({ clientIssueId: "qa-issue-cap-0001" }), { cookie: learner.token });
+  assert.deepEqual([resent.status, resent.body.id, resent.body.deduplicated], [200, first.body.id, true], "a stored issue re-sent while full is still recognised");
+  assert.equal(Number(await env.DB.prepare("SELECT SUM(text_bytes) AS b FROM reports").first("b")), cap);
+});

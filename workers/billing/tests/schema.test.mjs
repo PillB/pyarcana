@@ -271,3 +271,23 @@ test("review: identities.provider, sessions.token_hash and account_roles' key ar
   await role();
   await assert.rejects(role, /UNIQUE|PRIMARY/, "(account_id, role, created_at) is the key");
 });
+
+test("review r2: migration 4 adds reports.text_bytes, backfills it from the stored UTF-8 text, and indexes it for the ceiling's SUM", async () => {
+  resetSchemaMemo();
+  const db = createD1();
+  await applyMigrations(db, MIGRATIONS.slice(0, 3));
+  await db.exec(
+    `INSERT INTO reports (id, created_at, updated_at, source, status, title, description, improvement, reporter_alias, contact_email, context, client_issue_id)
+     VALUES ('rep_old', 1, 1, 'feedback', 'new', '中中', 'ñ', 'x', NULL, 'a@b.c', '{"k":"é"}', 'id-1')`
+  );
+  await db.exec("INSERT INTO reports (id, created_at, updated_at, source, status, title) VALUES ('rep_min', 1, 1, 'feedback', 'new', 't')");
+  resetSchemaMemo();
+  await migrate(db);
+  const bytes = async (id) => Number(await db.prepare("SELECT text_bytes FROM reports WHERE id = ?1").bind(id).first("text_bytes"));
+  assert.equal(await bytes("rep_old"), 256 + 6 + 2 + 1 + 5 + 10 + 4, "UTF-8 bytes of every text column, plus the 256-byte row overhead");
+  assert.equal(await bytes("rep_min"), 256 + 1);
+  await db.exec("INSERT INTO reports (id, created_at, updated_at, source, status, title) VALUES ('rep_new', 1, 1, 'feedback', 'new', 't')");
+  assert.equal(await bytes("rep_new"), 0, "a row inserted without it defaults to 0 (the worker always sets it)");
+  const plan = (await db.prepare("EXPLAIN QUERY PLAN SELECT COALESCE(SUM(text_bytes), 0) FROM reports").all()).results;
+  assert.ok(plan.some((row) => /COVERING INDEX idx_reports_text_bytes/.test(row.detail)), JSON.stringify(plan));
+});

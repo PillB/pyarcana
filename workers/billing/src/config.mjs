@@ -100,6 +100,21 @@ export function reportAttachmentsCapBytes(env) {
 }
 
 /**
+ * Ceiling on the bytes of report TEXT stored in D1, all reports together
+ * (REPORT_TEXT_CAP_MB, MiB, default 100; review round 2). A report is
+ * charged its reports.text_bytes: the UTF-8 size of its text columns plus a
+ * fixed row overhead. With the 200 MiB screenshot ceiling, reports can hold
+ * at most ~315 MB of a 500 MB D1 Free database, so sign-in, sessions and
+ * progress keep ~185 MB. Above it, new reports are refused (507
+ * report_storage_full) until an admin prunes old ones.
+ * @param {Object} env Worker env.
+ * @returns {number} Bytes.
+ */
+export function reportTextCapBytes(env) {
+  return intVar(env, "REPORT_TEXT_CAP_MB", 100, 1, 9000) * 1024 * 1024;
+}
+
+/**
  * The terms version sign-in must echo, or "" when unset.
  * @param {Object} env Worker env.
  * @returns {string} Version.

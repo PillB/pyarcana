@@ -44,6 +44,10 @@ EMAIL_DAILY_CAP = "90"
 # well under the database limit (D1 Free: 500 MB) so screenshots can never fill the
 # database that sign-in and progress need. Above it, report text is still stored.
 REPORT_ATTACHMENTS_CAP_MB = "200"
+# Ceiling (MiB) on bug-report TEXT stored in D1, all reports together (UTF-8 bytes plus a
+# fixed row overhead per report). With the screenshot ceiling it keeps reports under ~315 MB
+# of D1 Free's 500 MB. Above it new reports are refused (507) until old ones are pruned.
+REPORT_TEXT_CAP_MB = "100"
 # Prices in integer minor units (céntimos / cents). New prices apply to new checkouts only.
 PRICE_PE_MONTHLY_MINOR = "1990"
 PRICE_PE_YEARLY_MINOR = "11990"
