@@ -111,6 +111,7 @@ const CLIENT_SUITES = [
   ["primitives", 10],
   ["progress-merge", 17],
   ["progress-sync", 21],
+  ["qa-report", 21],
   ["runtime", 10],
   ["session-access", 20],
   ["ui-state", 12]
