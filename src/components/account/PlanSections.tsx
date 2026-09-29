@@ -17,7 +17,7 @@ import { CLOUD_CONFIG, isGatingStage } from '@/lib/cloud/config'
 import { useCloudStage } from '@/lib/cloud/hooks'
 import type { MePayload, MeSubscription } from '@/lib/cloud/session'
 import { cancelSubscription, startTrial, type UiError } from '@/lib/cloud/account-api'
-import { canUpgrade, formatDate, planStatus } from '@/lib/cloud/billing-ui'
+import { canUpgrade, cancelBodyKey, formatDate, planStatus } from '@/lib/cloud/billing-ui'
 import { buildSurveyBody, CANCEL_REASONS } from '@/lib/cloud/survey-ui'
 import type { Language } from '@/lib/i18n'
 import { ErrorAlert, StatusNote } from './Alerts'
@@ -133,7 +133,7 @@ function CancelDialog({ sub, onDone }: { sub: MeSubscription; onDone: () => void
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{tr('account.subs.cancelTitle')}</AlertDialogTitle>
-          <AlertDialogDescription>{tr('account.subs.cancelBody')}</AlertDialogDescription>
+          <AlertDialogDescription>{tr(cancelBodyKey(sub, Math.floor(Date.now() / 1000)))}</AlertDialogDescription>
         </AlertDialogHeader>
         <label className="block space-y-1 text-sm">
           <span>{tr('account.subs.cancelReason')}</span>

@@ -10,7 +10,9 @@ import {
   errorMessage,
   formatDate,
   CHECKOUT_BACKOFF_MS,
+  cancelBodyKey,
 } from '@/lib/cloud/billing-ui'
+import { t, type Language } from '@/lib/i18n'
 import { parseMe, type MePayload } from '@/lib/cloud/session'
 import type { ActionResult } from '@/lib/cloud/account-api'
 
@@ -149,4 +151,27 @@ test('dates are written in the interface language', () => {
   const ts = Date.parse('2026-10-15T15:00:00Z') / 1000
   assert.match(formatDate(ts, 'es-PE'), /15.*octubre.*2026/)
   assert.match(formatDate(ts, 'en'), /October 15, 2026|15 October 2026/)
+})
+
+// --- cancel dialog body -------------------------------------------------------------------------
+
+const sub = (status: string, paidThrough: number | null) => ({ id: 's1', provider: 'creem', plan: 'pro_monthly', status, cancelAtPeriodEnd: false, paidThrough, manageUrl: null })
+
+test('the cancel dialog promises Pro to the end of the period only while a paid period still covers now', () => {
+  // access.mjs grants grace only to a renewing sub that is not cancelling, so cancelling a
+  // sub whose paid period has ended (past_due, or an MP preapproval still 'authorized' while
+  // it retries, which maps to 'active') ends the only coverage it has left.
+  assert.equal(cancelBodyKey(sub('active', NOW_S + 10 * DAY), NOW_S), 'account.subs.cancelBody')
+  assert.equal(cancelBodyKey(sub('active', NOW_S - 3 * DAY), NOW_S), 'account.subs.cancelBodyPastDue')
+  assert.equal(cancelBodyKey(sub('active', NOW_S), NOW_S), 'account.subs.cancelBodyPastDue')
+  assert.equal(cancelBodyKey(sub('active', null), NOW_S), 'account.subs.cancelBodyPastDue')
+  assert.equal(cancelBodyKey(sub('past_due', NOW_S - 3 * DAY), NOW_S), 'account.subs.cancelBodyPastDue')
+  const langs: Language[] = ['es-PE', 'es-ES', 'en']
+  for (const lang of langs) {
+    const body = t('account.subs.cancelBodyPastDue', lang)
+    assert.notEqual(body, 'account.subs.cancelBodyPastDue', `${lang} text missing`)
+    assert.notEqual(body, t('account.subs.cancelBody', lang))
+    assert.doesNotMatch(body, /hasta el final|until the end/i)
+  }
+  assert.match(t('account.subs.cancelBodyPastDue', 'es-PE'), /termina al cancelar/)
 })

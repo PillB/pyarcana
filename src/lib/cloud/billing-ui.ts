@@ -52,6 +52,17 @@ export function canUpgrade(me: MePayload): boolean {
   return !me.subscriptions.some((s) => RENEWING.has(s.status))
 }
 
+/**
+ * The cancel dialog's body, chosen by coverage rather than status. Once the paid period has ended
+ * the worker keeps the sub Pro only through grace, which stops the moment the renewal is cancelled
+ * (access.mjs). That happens for past_due and also for an 'active' sub whose renewal is still being
+ * retried (a Mercado Pago preapproval stays 'authorized'), so only a paidThrough still in the
+ * future may be promised "until the end of the period you already paid for".
+ */
+export function cancelBodyKey(sub: { paidThrough: number | null }, nowS: number): string {
+  return sub.paidThrough !== null && sub.paidThrough > nowS ? 'account.subs.cancelBody' : 'account.subs.cancelBodyPastDue'
+}
+
 // --- checkout confirm panel -----------------------------------------------------------------------
 
 export interface CheckoutViewInput {
