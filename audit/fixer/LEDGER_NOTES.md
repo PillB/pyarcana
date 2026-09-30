@@ -673,3 +673,27 @@ on agent failure, and genuinely quiet rounds still converge.
 separately.** That is true of every fan-out in this campaign, not only this one.
 
 The 68 findings round 1 did produce are kept in `audit/fixer/rca/s03-redteam-findings.md`.
+
+### The exam can be passed without Python (2026-09-29, course-wide)
+
+S03's red team reported that its exam bank's correct option is the longest of the four in 23 of
+24 questions. Measured across all 44 banks in `prisma/seed.ts`: **1125 of 1200, 94%**, where
+chance is 25%, and eleven banks are at 100%. The key averages 2.5x the length of the distractors.
+
+Nothing shuffles them. `exam/start/route.ts:116` sends `options: JSON.parse(q.options)` in stored
+order — its "shuffled order" at :167 shuffles the questions, not the options — so the cue reaches
+the learner as authored. `PASS_THRESHOLD` is 70. **A learner who always picks the longest option
+scores about 94 and passes every exam in the course knowing no Python**, and
+`exam-scoring.ts:120` counts a passing attempt as evidence of section completion, which badges
+and the certificate are built on.
+
+It is a ratchet (`tests/adversarial/test_exam_length_cue.py`), not an absolute gate: 1125
+questions cannot be rewritten in one round, and a gate red on every round says nothing about the
+round. **Lengthen the distractors; never trim the key** — a key cut to match three short
+distractors loses the precision that made it correct. Every section round pays down its own bank.
+
+Two process notes. The finding came from an attacker assigned a dimension nobody would have
+thought to point at the exam bank; it turned up because the dimension list is read for every
+section, not because anyone suspected it. And the first count of perfect banks, eight, was wrong:
+it came from printing the top rows of a sorted list and counting the print. The test caught it at
+eleven. **Count with the assertion, not with the log line.**
