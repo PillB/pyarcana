@@ -672,6 +672,15 @@ on agent failure, and genuinely quiet rounds still converge.
 **Whenever a loop treats "nothing came back" as "nothing is wrong", count the failures
 separately.** That is true of every fan-out in this campaign, not only this one.
 
+*Follow-up, 2026-09-30.* Knowing that a dead agent is not a clean review does not stop agents
+dying. Nine attackers launched at once and five came back `429 rate_limit` against the five-hour
+window: a burst spends the quota faster than it spends the work, and every dimension it kills is
+left unchecked. Two cheap changes make a fan-out survivable — run it in **batches** (three at a
+time here, so a limit reached mid-run costs one batch rather than the round) and give each agent
+**one retry**. Keep the first attempt's prompt and label byte-identical, and a resume replays
+what already succeeded instead of paying for it twice. Read the run's `journal.jsonl` to see
+which labels failed; the summary only counts them.
+
 The 68 findings round 1 did produce are kept in `audit/fixer/rca/s03-redteam-findings.md`.
 
 ### The exam can be passed without Python (2026-09-29, course-wide)
