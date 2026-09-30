@@ -45,22 +45,25 @@ export const metadata: Metadata = {
     shortcut: `${SITE_BASE_PATH}/favicon.svg`,
     apple: `${SITE_BASE_PATH}/logo.svg`,
   },
-  // Content-Security-Policy via <meta> tag. GitHub Pages doesn't support
-  // custom HTTP headers, so a <meta> tag is the only way to ship a CSP on the
-  // static export. Next.js static export uses inline scripts for hydration,
-  // so 'unsafe-inline' is required for script-src (this is a known Next.js
-  // limitation — see next.js discussion #91816). We still gain:
-  //   - object-src 'none': blocks Flash/Java/plugin-based XSS
-  //   - base-uri 'self': blocks <base> tag injection
-  //   - frame-ancestors 'none': blocks clickjacking (the site is not meant
-  //     to be framed)
-  //   - form-action 'self': blocks form submissions to external origins
-  //   - img-src/style-src/font-src restricted to self + the Pyodide CDN
-  //   - connect-src 'self' + Firebase + Pyodide CDN + GitHub Pages origin
+  // Content-Security-Policy via <meta> tag. GitHub Pages cannot send custom HTTP headers, so the
+  // meta tag is the only CSP the static export ships there. Next.js static export uses inline
+  // scripts for hydration, so script-src needs 'unsafe-inline' (and Pyodide needs 'unsafe-eval').
+  // What the policy still gives:
+  //   - object-src 'none': no plugin content
+  //   - base-uri 'self': no <base> tag injection
+  //   - form-action 'self': no form posts to other origins
+  //   - script-src: self + cdn.jsdelivr.net (Pyodide)
+  //   - style-src: self + fonts.googleapis.com; font-src and img-src as in LEGACY_CSP
+  //   - connect-src: self + the Firebase hosts (firestore, identitytoolkit, securetoken) +
+  //     cdn.jsdelivr.net
+  // frame-ancestors is in the string but browsers IGNORE it in a <meta> tag (CSP3 §6.2); it only
+  // protects against framing when sent as a header, which the Cloudflare build does through
+  // _headers (src/lib/cloud/headers.ts, scripts/cloud-headers.mjs, plus X-Frame-Options DENY).
   // When the dynamic LMS ships, replace unsafe-inline with nonces/hashes.
   // Built from the public cloud config (src/lib/cloud/csp.ts): the shipped config (stage off)
   // yields the pre-accounts policy (LEGACY_CSP) byte for byte, which a test pins; a provider's
-  // hosts are added only when the stage is on and that provider is configured.
+  // hosts (the API origin, accounts.google.com, the ad network) are added only when the stage is
+  // on and that provider is configured.
   other: {
     "Content-Security-Policy": buildCsp(CLOUD_CONFIG),
   },

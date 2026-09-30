@@ -314,3 +314,57 @@ evidence for it appears somewhere else in the course.
 - **Submit grades against the form `exam/start` saved** (`ExamAttemptForm`): the questions as the
   learner saw them, with their key. A reseed or an edited question cannot change an attempt in
   progress. The form lives in its own table so no query returning attempts carries the key.
+
+## D13 — ADR-7: the static edition may run accounts and billing when configured (2026-09-29)
+*Decided by the repo owner (D-USER-02, D-USER-03), recorded 2026-09-29 during the client fix round.*
+
+Until now the contract was "the GitHub Pages edition is content-only; login, payments and admin
+are never rendered there" (DEPLOY.md). The owner changed it:
+
+- **Contract.** The static export (`bun run build:static`) CAN show accounts, progress sync, the
+  Pro gate, checkout, the QA reporting subsite and the admin window, but only when the public
+  config (`src/lib/cloud/config.ts`) turns them on AND the page is served from the canonical
+  origin (`effectiveStage`). The shipped config keeps `launchStage: 'off'`, so the published
+  site is unchanged, and nothing account-related is prerendered into `out/index.html` at any
+  stage (prerender tests and `test_static_export_guard`).
+- **Where.** One Cloudflare Worker serves the static assets and the API at
+  `https://pyarcana.dev/api/v1/...` (DESIGN-v3 §A, §K). GitHub Pages keeps deploying the same
+  code with the stage always off; it shows the moved banner only once `movedToCanonical` is set.
+- **Why.** The owner wants accounts, a 7-day trial, Pro gifts, QA reports and Google plus
+  Microsoft sign-in on the public course (D-USER-02), on domains he bought for it (D-USER-03).
+
+The owner decisions this rests on, for reference (full text in the design notes of the build):
+
+- **D-USER-01** — the attached billing report is binding: ES256 licence token; prices PE
+  S/ 19.90 a month or S/ 119.90 a year, elsewhere US$ 7.99 or US$ 49; refunds "según la ley
+  aplicable y, en compras internacionales, los términos de Creem".
+- **D-USER-02** — ads for free users and in QA mode; a researched Free/Pro split measured by
+  experiments; a 7-day opt-in trial without a card; indefinite or fixed Pro gifts and testers;
+  QA menu and reports visible to admins and testers; Google and Microsoft sign-in.
+- **D-USER-03** — canonical origin `https://pyarcana.dev`; `legal.supportEmail`
+  `soporte@pyarcana.dev`; `pyarcana.com` and `www` redirect there.
+- **D-USER-04** — sign-in codes go out through Cloudflare Email Sending (`send_email` binding);
+  the Hostinger SMTP provider is dropped.
+- **D-USER-05** — Microsoft sign-in uses the `common` authority (personal plus work and school
+  accounts); a tenant that blocks the app is explained and Google or an email code is offered.
+- Standing instruction (relayed): **no promise the law does not require** — no voluntary refund
+  window, no renewal-reminder promise, no cancel-confirmation email promise.
+
+Client rules fixed in the same round, binding on later work (tests in
+`src/lib/cloud/__tests__/client-fixes.test.ts` and `a11y-render.test.ts`):
+
+- **Consent record contract (for the worker).** After sign-in, and after a choice made while
+  signed in, the client sends `POST /v1/me/consents {kind: 'measurement', value: 'granted'|'denied',
+  version: <int>, at: <ISO time>}` (session required) and expects any 2xx. It sends each
+  (account, choice) once; a 404 or network failure is retried on the next signed-in load. The
+  worker route and its `consents` table (account_id, kind, value, version, at) are NOT built yet.
+- **Consent text version 2.** "Sí" authorises an identifier plus activity events (for example a
+  completed section or a trial start) and, on sign-in, their link to the account. Any change to
+  `consent.text` bumps `CONSENT_VERSION`, which asks everyone again; the test pins the text hash.
+- **Credit is counted in whole days, rounded down.** No screen may promise a day the learner does
+  not have.
+- **The rail is EthicalAds-only.** Where it cannot show EthicalAds (narrow screen, no publisher
+  id, another provider) it renders nothing; one house promo per view stays the rule.
+- **A price button never leads to a form without a price.** Signed-out visitors go to `/precios`.
+- **A survey says "Gracias" only after the worker stored the answer.**
+- **Every "escríbenos" names the address** (`legal.supportEmail`).

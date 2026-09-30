@@ -9,7 +9,9 @@ import { useCloudStage } from '@/lib/cloud/hooks'
 import { readConsent, readPrivacySignals, recordConsent, withdrawConsent, type ConsentRecord } from '@/lib/cloud/consent'
 import { consentCardMode } from '@/lib/cloud/ui-state'
 import { safeStorage } from '@/lib/cloud/storage'
-import { getMeasurement } from './runtime'
+import { sendConsentRecord } from '@/lib/cloud/consent-sync'
+import { useCloudSession } from '@/lib/cloud/session'
+import { cloudApi, getMeasurement } from './runtime'
 import { useText, type Tr } from './text'
 
 const useConsentUi = create<{ reopened: boolean }>()(() => ({ reopened: false }))
@@ -55,6 +57,8 @@ export function ConsentCard() {
     const storage = safeStorage()
     setRecord(value === 'granted' ? recordConsent(storage, 'granted', Date.now()) : withdrawConsent(storage, Date.now()))
     useConsentUi.setState({ reopened: false })
+    const accountId = useCloudSession.getState().me?.account.id
+    if (accountId) void sendConsentRecord(cloudApi(), storage, accountId)
   }
   return (
     <section aria-labelledby="consent-title" className="fixed inset-x-4 bottom-4 z-40 max-w-md rounded-xl border border-border bg-background p-4 text-sm shadow-lg sm:left-4 sm:right-auto" data-testid="consent-card">
@@ -65,7 +69,7 @@ export function ConsentCard() {
       <div className="mt-3 flex flex-wrap items-center gap-2">
         <Button size="sm" variant="outline" onClick={() => answer('granted')}>{tr('consent.yes')}</Button>
         <Button size="sm" variant="outline" onClick={() => answer('denied')}>{tr('consent.no')}</Button>
-        <Link href="/cookies" className="text-xs underline underline-offset-2">{tr('consent.more')}</Link>
+        <Link href="/cookies#cloud-legal" className="text-xs underline underline-offset-2">{tr('consent.more')}</Link>
         {mode === 'manage' && (
           <Button size="sm" variant="ghost" onClick={() => useConsentUi.setState({ reopened: false })}>{tr('consent.close')}</Button>
         )}

@@ -1,13 +1,14 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { create } from 'zustand'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { useCloudStage } from '@/lib/cloud/hooks'
 import { canPrompt, readSurveyCap, recordPrompt, type SurveyKind } from '@/lib/cloud/surveys'
-import { buildSurveyBody, GATE_REASONS, localCompletion, surveyTrigger, type SurveyTriggerInput } from '@/lib/cloud/survey-ui'
+import { buildSurveyBody, GATE_REASONS, localCompletion, surveyOutcomeKey, surveyTrigger, type SurveyTriggerInput } from '@/lib/cloud/survey-ui'
+import { radioKeyTarget } from '@/lib/cloud/ui-state'
 import { isApplyingRemote } from '@/lib/cloud/progress-adapter'
 import { readQaMode } from '@/lib/cloud/qa-mode'
 import { readRaw, safeStorage } from '@/lib/cloud/storage'
@@ -80,17 +81,52 @@ function useTriggers(active: boolean) {
   }, [active])
 }
 
-function ScoreScale({ kind, score, setScore, tr }: { kind: SurveyKind; score: number | null; setScore: (n: number) => void; tr: Tr }) {
+/**
+ * Radio buttons with the WAI-ARIA radio-group keyboard model: one tab stop (the checked option, or
+ * the first), arrows move and select with wrap-around, Home/End jump (radioKeyTarget).
+ */
+function RadioButtons<T extends string | number>({ values, selected, onSelect, label, className }: { values: readonly T[]; selected: T | null; onSelect: (v: T) => void; label: (v: T) => string; className?: string }) {
+  const refs = useRef<Array<HTMLButtonElement | null>>([])
+  const current = selected === null ? -1 : values.indexOf(selected)
+  const onKeyDown = (e: React.KeyboardEvent, i: number) => {
+    const target = radioKeyTarget(e.key, i, values.length)
+    if (target === null) return
+    e.preventDefault()
+    onSelect(values[target])
+    refs.current[target]?.focus()
+  }
+  return (
+    <>
+      {values.map((v, i) => (
+        <Button
+          key={String(v)}
+          ref={(el) => {
+            refs.current[i] = el
+          }}
+          type="button"
+          size="sm"
+          variant={selected === v ? 'default' : 'outline'}
+          role="radio"
+          aria-checked={selected === v}
+          tabIndex={i === Math.max(current, 0) ? 0 : -1}
+          className={className}
+          onClick={() => onSelect(v)}
+          onKeyDown={(e) => onKeyDown(e, i)}
+        >
+          {label(v)}
+        </Button>
+      ))}
+    </>
+  )
+}
+
+export function ScoreScale({ kind, score, setScore, tr }: { kind: SurveyKind; score: number | null; setScore: (n: number) => void; tr: Tr }) {
   const values = kind === 'nps' ? Array.from({ length: 11 }, (_, i) => i) : [1, 2, 3, 4, 5]
   const ends = kind === 'nps' ? ['survey.nps.low', 'survey.nps.high'] : ['survey.csat.low', 'survey.csat.high']
   return (
     <div role="radiogroup" aria-label={tr(kind === 'nps' ? 'survey.nps.q' : 'survey.csat.q')} className="space-y-1">
       <div className="flex flex-wrap gap-1">
-        {values.map((v) => (
-          <Button key={v} type="button" size="sm" variant={score === v ? 'default' : 'outline'} role="radio" aria-checked={score === v} className="h-8 w-8 p-0" onClick={() => setScore(v)}>
-            {v}
-          </Button>
-        ))}
+        <RadioButtons values={values} selected={score} onSelect={setScore} label={String} className="h-8 w-8 p-0" />
       </div>
       <p className="flex justify-between text-xs text-muted-foreground">
         <span>{tr(ends[0])}</span>
@@ -103,11 +139,7 @@ function ScoreScale({ kind, score, setScore, tr }: { kind: SurveyKind; score: nu
 function ReasonChoice({ reason, setReason, tr }: { reason: string; setReason: (r: string) => void; tr: Tr }) {
   return (
     <div role="radiogroup" aria-label={tr('survey.gate.q')} className="flex flex-wrap gap-1">
-      {GATE_REASONS.map((r) => (
-        <Button key={r} type="button" size="sm" variant={reason === r ? 'default' : 'outline'} role="radio" aria-checked={reason === r} onClick={() => setReason(r)}>
-          {tr(`survey.reason.${r}`)}
-        </Button>
-      ))}
+      <RadioButtons values={GATE_REASONS} selected={reason === '' ? null : (reason as (typeof GATE_REASONS)[number])} onSelect={setReason} label={(r) => tr(`survey.reason.${r}`)} />
     </div>
   )
 }
@@ -119,7 +151,8 @@ function SurveyCard({ survey, onClose }: { survey: ActiveSurvey; onClose: () => 
   const [score, setScore] = useState<number | null>(null)
   const [reason, setReason] = useState('')
   const [text, setText] = useState('')
-  const [sent, setSent] = useState(false)
+  const [outcome, setOutcome] = useState<string | null>(null)
+  const [sending, setSending] = useState(false)
   const isReason = survey.kind === 'gate_reason'
   const body = buildSurveyBody(survey.kind, {
     score: isReason ? undefined : score ?? -1,
@@ -128,14 +161,16 @@ function SurveyCard({ survey, onClose }: { survey: ActiveSurvey; onClose: () => 
     sectionIndex: survey.sectionIndex,
     cid: readRaw(safeStorage(), CID_KEY),
   })
-  const send = () => {
-    if (body) void cloudApi().post('/v1/surveys', body)
-    setSent(true)
+  // Thanks only once the worker stored it; otherwise say nothing was saved (surveyOutcomeKey).
+  const send = async () => {
+    if (!body) return
+    setSending(true)
+    setOutcome(surveyOutcomeKey(await cloudApi().post('/v1/surveys', body)))
   }
-  if (sent) {
+  if (outcome) {
     return (
       <div className="space-y-2">
-        <p role="status" className="text-sm">{tr('survey.thanks')}</p>
+        <p role="status" className="text-sm">{tr(outcome)}</p>
         <Button size="sm" variant="ghost" onClick={onClose}>{tr('consent.close')}</Button>
       </div>
     )
@@ -147,7 +182,7 @@ function SurveyCard({ survey, onClose }: { survey: ActiveSurvey; onClose: () => 
       <Label htmlFor="survey-text" className="text-xs font-normal">{tr('survey.text')}</Label>
       <Textarea id="survey-text" maxLength={500} rows={2} value={text} onChange={(e) => setText(e.target.value)} />
       <div className="flex gap-2">
-        <Button size="sm" onClick={send} disabled={!body}>{tr('survey.send')}</Button>
+        <Button size="sm" onClick={() => void send()} disabled={!body || sending}>{tr('survey.send')}</Button>
         <Button size="sm" variant="ghost" onClick={onClose}>{tr('survey.skip')}</Button>
       </div>
     </div>

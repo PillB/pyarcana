@@ -77,7 +77,8 @@ test('one rail per market: Peru pays PEN through Mercado Pago, everyone else USD
 })
 
 test('remaining trial or gift days are shown as credit kept after paying; paid or open-ended access has none', () => {
-  assert.equal(view({ me: me({ isPro: true, source: 'trial', accessEnd: NOW_S + 3 * DAY + 60 }) }).creditDays, 4)
+  // Whole days, rounded DOWN (client review finding 22, 2026-09-29): 3 days and a minute is 3.
+  assert.equal(view({ me: me({ isPro: true, source: 'trial', accessEnd: NOW_S + 3 * DAY + 60 }) }).creditDays, 3)
   assert.equal(view({ me: me({ isPro: true, source: 'gift', accessEnd: NOW_S + 10 * DAY }) }).creditDays, 10)
   assert.equal(view({ me: me({ isPro: false }) }).creditDays, null)
   assert.equal(view({ me: me({ isPro: true, source: 'tester', accessEnd: NOW_S + 2 * DAY }) }).creditDays, 2, 'fixed-term tester days pack like a gift')

@@ -8,6 +8,7 @@ import { SURVEY_KINDS, type SurveyKind } from '@/lib/cloud/surveys'
 import { LoadNote, SELECT_CLASS } from '../LoadNote'
 import { useApiLoad } from '../useApiLoad'
 import { useText } from '../text'
+import { ERROR_ALERT_CLASS } from '@/components/account/a11y'
 
 function Cells({ cells }: { cells: Array<[string, number]> }) {
   return (
@@ -30,7 +31,7 @@ function ExperimentResults({ experimentKey }: { experimentKey: string }) {
   return (
     <div className="space-y-3" data-testid="admin-experiment">
       {!v.planMet && <p className="text-sm">{tr('adm.exp.planNotMet')}</p>}
-      {v.srmFlagged && <p role="alert" className="text-sm text-destructive">{tr('adm.exp.srm')}</p>}
+      {v.srmFlagged && <p role="alert" className={ERROR_ALERT_CLASS}>{tr('adm.exp.srm')}</p>}
       {v.arms.map((a) => (
         <section key={a.arm} className="rounded-md border border-border p-3">
           <h4 className="text-sm font-semibold">{a.arm}</h4>

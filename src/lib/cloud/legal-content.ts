@@ -67,7 +67,8 @@ function blocksFor(cfg: CloudConfig, kind: LegalKind, stage: LaunchStage): Legal
     case 'privacy':
       return withAds(['controller', 'accountData', 'processors', 'retention', 'storageKeys', 'measurement', 'reports', 'rights', 'trialClaim'], cfg)
     case 'cookies':
-      return withAds(cfg.googleClientId ? ['session', 'storageKeys', 'googleSignIn'] : ['session', 'storageKeys'], cfg)
+      // 'measurement': the consent card's "Más información" lands here, so this page explains it.
+      return withAds(cfg.googleClientId ? ['session', 'storageKeys', 'measurement', 'googleSignIn'] : ['session', 'storageKeys', 'measurement'], cfg)
     case 'data-rights':
       return ['rights', 'arcoDeadlines', 'exportDelete', 'trialClaim']
     case 'terms':

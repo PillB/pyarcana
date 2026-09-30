@@ -1,16 +1,8 @@
 'use client'
 
 import { useEffect } from 'react'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
-import { buttonVariants } from '@/components/ui/button'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
 import { CLOUD_CONFIG, isGatingStage, type LaunchStage } from '@/lib/cloud/config'
 import { useCloudStage } from '@/lib/cloud/hooks'
@@ -20,6 +12,8 @@ import { snapshotAfterHandoff } from '@/lib/cloud/handoff-import'
 import { whenProgressHydrated } from '@/lib/cloud/progress-adapter'
 import { useProgressStore } from '@/lib/progress-store'
 import { claimTrialIntent } from '@/lib/cloud/intent'
+import { sendConsentRecord } from '@/lib/cloud/consent-sync'
+import { ownerChoiceOpen } from '@/lib/cloud/ui-state'
 import { startTrial } from '@/lib/cloud/account-api'
 import { safeSessionStorage, safeStorage } from '@/lib/cloud/storage'
 import { applyMe, cloudApi, getHandoffImporter, getMeasurement, getProgressSync, getSyncController, inMicrosoftCallback, isLeavingPage, track, useAccountUi, useSyncUi } from './runtime'
@@ -69,6 +63,7 @@ function useSessionFollowers() {
     if (meStatus !== 'ok' || !accountId) return
     getSyncController().setAccount(accountId)
     void getMeasurement().bind(accountId)
+    void sendConsentRecord(cloudApi(), safeStorage(), accountId)
     const me = useCloudSession.getState().me
     if (!claimTrialIntent(safeSessionStorage(), me, Date.now(), isLeavingPage())) return
     void startTrial(cloudApi()).then((r) => {
@@ -80,25 +75,31 @@ function useSessionFollowers() {
   }, [meStatus, accountId])
 }
 
+/**
+ * Another account's progress is on this device. Dismissable (Esc, the close button, "Decidir
+ * después"): the choice stays pending and sync stays paused until the learner picks one, from here
+ * or from "Elegir ahora" in the account panel. Plain Buttons: mixing the default and outline
+ * classes on one AlertDialogAction painted the "Usar solo mi cuenta" label on its own background.
+ */
 function OwnerChoiceDialog() {
   const { tr } = useText()
-  const status = useSyncUi((s) => s.status)
+  const open = useSyncUi((s) => ownerChoiceOpen(s.status, s.choiceDeferred))
   const choose = (choice: 'merge' | 'use_account') => void getProgressSync().resolveOwnerChoice(choice)
+  const defer = () => useSyncUi.setState({ choiceDeferred: true })
   return (
-    <AlertDialog open={status === 'needs_choice'}>
-      <AlertDialogContent data-testid="sync-owner-choice">
-        <AlertDialogHeader>
-          <AlertDialogTitle>{tr('sync.choice.title')}</AlertDialogTitle>
-          <AlertDialogDescription>{tr('sync.choice.body')}</AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogAction className={buttonVariants({ variant: 'outline' })} onClick={() => choose('use_account')}>
-            {tr('sync.choice.account')}
-          </AlertDialogAction>
-          <AlertDialogAction onClick={() => choose('merge')}>{tr('sync.choice.merge')}</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <Dialog open={open} onOpenChange={(next) => !next && defer()}>
+      <DialogContent size="md" data-testid="sync-owner-choice" closeLabel={tr('account.dialog.close')}>
+        <DialogHeader>
+          <DialogTitle>{tr('sync.choice.title')}</DialogTitle>
+          <DialogDescription>{tr('sync.choice.body')}</DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="flex-wrap gap-2">
+          <Button variant="ghost" onClick={defer}>{tr('sync.choice.later')}</Button>
+          <Button variant="outline" onClick={() => choose('use_account')}>{tr('sync.choice.account')}</Button>
+          <Button onClick={() => choose('merge')}>{tr('sync.choice.merge')}</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
 

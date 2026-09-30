@@ -147,3 +147,14 @@ export function formatPrice(amount: number, symbol: string): string {
   const cents = Math.round(amount * 100)
   return `${symbol} ${cents % 100 === 0 ? String(cents / 100) : (cents / 100).toFixed(2)}`
 }
+/**
+ * What the yearly price saves against twelve monthly payments, in whole percent rounded DOWN (a
+ * rounded-up figure would overstate the saving). Computed in cents so 7.99 * 12 is exact. 0 for a
+ * free plan or a yearly price that saves nothing.
+ */
+export function annualSavingPercentOf(monthly: number, yearly: number): number {
+  const twelve = Math.round(monthly * 100) * 12
+  const year = Math.round(yearly * 100)
+  if (!(twelve > 0) || !(year < twelve)) return 0
+  return Math.floor(((twelve - year) * 100) / twelve)
+}

@@ -14,8 +14,9 @@ import type { MePayload } from '@/lib/cloud/session'
 import { ErrorAlert } from './Alerts'
 import { EmailCodeForm } from './EmailCodeForm'
 import { GoogleButton } from './GoogleButton'
-import { cloudApi, loadAuthMethods, useAuthMethods, type AuthMethods } from './runtime'
+import { cloudApi, loadAuthMethods, useLoadedAuthMethods, type AuthMethods } from './runtime'
 import { useText } from './text'
+import { LEGAL_CHECKBOX_CLASS } from '@/components/account/a11y'
 
 export function MicrosoftLogo() {
   return (
@@ -64,9 +65,9 @@ function TermsLine() {
   return (
     <p className="text-xs text-muted-foreground">
       {tr('account.signin.termsPrefix')}{' '}
-      <Link href="/terms" target="_blank" rel="noopener" className={link}>{tr('account.signin.termsLink')}</Link>{' '}
+      <Link href="/terms#cloud-legal" target="_blank" rel="noopener" className={link}>{tr('account.signin.termsLink')}</Link>{' '}
       {tr('account.signin.and')}{' '}
-      <Link href="/privacy" target="_blank" rel="noopener" className={link}>{tr('account.signin.privacyLink')}</Link>.
+      <Link href="/privacy#cloud-legal" target="_blank" rel="noopener" className={link}>{tr('account.signin.privacyLink')}</Link>.
     </p>
   )
 }
@@ -86,7 +87,7 @@ function MethodsState({ methods }: { methods: AuthMethods }) {
  */
 export function SignInPanel({ onSignedIn }: { onSignedIn: (me: MePayload) => void }) {
   const { tr } = useText()
-  const methods = useAuthMethods()
+  const methods = useLoadedAuthMethods()
   const [age, setAge] = useState(false)
   const [error, setError] = useState<UiError | null>(null)
   const [intent] = useState(() => peekIntent(safeSessionStorage(), Date.now()))
@@ -107,7 +108,7 @@ export function SignInPanel({ onSignedIn }: { onSignedIn: (me: MePayload) => voi
     <div className="space-y-4" data-testid="signin-panel">
       {intent && <p className="rounded-md bg-primary/10 px-3 py-2 text-sm">{tr('account.signin.trialIntent')}</p>}
       <div className="flex items-center gap-2">
-        <Checkbox id="account-age" checked={age} onCheckedChange={(v) => setAge(v === true)} />
+        <Checkbox id="account-age" className={LEGAL_CHECKBOX_CLASS} checked={age} onCheckedChange={(v) => setAge(v === true)} />
         <Label htmlFor="account-age">{tr('account.signin.age')}</Label>
       </div>
       <TermsLine />

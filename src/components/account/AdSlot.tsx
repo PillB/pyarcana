@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -9,11 +10,13 @@ import { CLOUD_CONFIG, type LaunchStage } from '@/lib/cloud/config'
 import { useAdEligibility, useCloudStage } from '@/lib/cloud/hooks'
 import { useCloudSession } from '@/lib/cloud/session'
 import { chooseAdapter, scriptUrl, type AdAdapter, type AdEligibility, type AdPlacement } from '@/lib/cloud/ads'
-import { SLOT_HEIGHT_PX, ethicalAdsKeywords, houseArmShows, houseCreative, parseGeo, readAdsenseOptIn, slotView, writeAdsenseOptIn, type HouseCreative, type OptIn } from '@/lib/cloud/ad-slot'
+import { SLOT_HEIGHT_PX, railMediaQuery, ethicalAdsKeywords, houseArmShows, houseCreative, parseGeo, readAdsenseOptIn, slotView, writeAdsenseOptIn, type HouseCreative, type OptIn } from '@/lib/cloud/ad-slot'
 import { safeStorage } from '@/lib/cloud/storage'
 import { scriptLoader } from './GoogleButton'
 import { cloudApi, getMeasurement, track, useAccountUi } from './runtime'
-import { useText, type Tr } from './text'
+import { sitePath, useText, type Tr } from './text'
+import { priceCtaTarget } from '@/lib/cloud/ui-state'
+import { LEGAL_CHECKBOX_CLASS } from '@/components/account/a11y'
 
 type Geo = { status: 'unknown' | 'ok' | 'failed'; country: string | null }
 
@@ -33,15 +36,15 @@ function useGeo(needed: boolean): Geo {
   return geo
 }
 
-function useDesktop(): boolean {
+function useDesktop(query: string): boolean {
   const [desktop, setDesktop] = useState(false)
   useEffect(() => {
-    const mq = window.matchMedia('(min-width: 1024px)')
+    const mq = window.matchMedia(query)
     const update = () => setDesktop(mq.matches)
     update()
     mq.addEventListener('change', update)
     return () => mq.removeEventListener('change', update)
-  }, [])
+  }, [query])
   return desktop
 }
 
@@ -68,7 +71,10 @@ function HouseAd({ creative, sectionKey, tr }: { creative: HouseCreative; sectio
   useEffect(() => track({ name: 'house_ad_view' }), [creative, sectionKey])
   const click = () => {
     track({ name: 'house_ad_click' })
-    show(creative === 'annual' && signedIn ? 'checkout' : 'main')
+    if (creative !== 'annual') return show('main')
+    // "Ver precios": the prices themselves, never a sign-in form without them.
+    if (priceCtaTarget(signedIn) === 'checkout') return show('checkout')
+    window.location.assign(sitePath('/precios'))
   }
   return (
     <div className="flex h-full flex-col justify-center gap-1 p-4" data-testid="house-ad" data-creative={creative}>
@@ -90,21 +96,38 @@ function TestAd({ placement, eligibility, tr }: { placement: AdPlacement; eligib
   )
 }
 
-function AdsenseOptIn({ onAnswer, tr }: { onAnswer: (v: 'accepted' | 'declined', adult: boolean) => void; tr: Tr }) {
+export function AdsenseOptIn({ onAnswer, tr }: { onAnswer: (v: 'accepted' | 'declined', adult: boolean) => void; tr: Tr }) {
   const [adult, setAdult] = useState(false)
   useEffect(() => track({ name: 'ad_optin_shown' }), [])
   return (
     <div className="flex h-full flex-col justify-center gap-2 p-4 text-sm" data-testid="adsense-optin">
       <p>{tr('ads.optin.question')}</p>
       <div className="flex items-center gap-2">
-        <Checkbox id="ads-adult" checked={adult} onCheckedChange={(v) => setAdult(v === true)} />
+        <Checkbox id="ads-adult" className={LEGAL_CHECKBOX_CLASS} checked={adult} onCheckedChange={(v) => setAdult(v === true)} />
         <Label htmlFor="ads-adult" className="font-normal">{tr('ads.optin.adult')}</Label>
       </div>
       <div className="flex flex-wrap gap-2">
         <Button size="sm" variant="outline" disabled={!adult} onClick={() => onAnswer('accepted', adult)}>{tr('ads.optin.accept')}</Button>
         <Button size="sm" variant="outline" onClick={() => onAnswer('declined', false)}>{tr('ads.optin.decline')}</Button>
+        <Link href="/cookies#cloud-legal" className="self-center text-xs underline underline-offset-2">{tr('ads.optin.privacy')}</Link>
       </div>
     </div>
+  )
+}
+
+/**
+ * Under a network ad: "Sin anuncios con Pro" and, for Google, a way to take the opt-in back that is
+ * as easy as giving it (one click, next to the ad). Withdrawing stores 'declined': the slot falls
+ * back to a house promo and Google's script is not requested again on later loads.
+ */
+export function NetworkAdControls({ adapter, onWithdraw, onNoAds, tr }: { adapter: AdAdapter; onWithdraw: () => void; onNoAds: () => void; tr: Tr }) {
+  if (adapter !== 'adsense' && adapter !== 'ethicalads') return null
+  const link = 'h-auto p-0 text-xs'
+  return (
+    <p className="mt-1 flex flex-wrap justify-end gap-3">
+      {adapter === 'adsense' && <Button variant="link" size="sm" className={link} onClick={onWithdraw}>{tr('ads.optin.withdraw')}</Button>}
+      <Button variant="link" size="sm" className={link} onClick={onNoAds}>{tr('ads.noAdsLink')}</Button>
+    </p>
   )
 }
 
@@ -192,13 +215,20 @@ function useHouse(adapter: AdAdapter, sectionKey: string, stage: LaunchStage): H
   return houseArmShows(arm) ? creative : null
 }
 
+/**
+ * The desktop right rail: fixed beside the course column, above the fold, and hidden below the
+ * width railMediaQuery() tests, so a hidden rail never loads a network script (chooseAdapter
+ * gives 'none' there). The breakpoint literal must equal RAIL_MIN_WIDTH_PX.
+ */
+const RAIL_CLASS = 'fixed right-4 top-24 z-20 hidden w-[200px] min-[1600px]:block'
+
 function ActiveSlot({ placement, sectionKey, eligibility, stage }: { placement: AdPlacement; sectionKey: string; eligibility: AdEligibility; stage: LaunchStage }) {
   const { tr } = useText()
   const signedIn = useCloudSession((s) => s.me !== null)
   const show = useAccountUi((s) => s.show)
   const [optIn, setOptIn] = useState<OptIn>(() => readAdsenseOptIn(safeStorage()))
   const geo = useGeo(eligibility === 'free' && CLOUD_CONFIG.ads.provider === 'adsense')
-  const desktop = useDesktop()
+  const desktop = useDesktop(placement === 'rail' ? railMediaQuery() : '(min-width: 1024px)')
   const chosen = chooseAdapter({ eligibility, ads: CLOUD_CONFIG.ads, placement, signedIn, adultAttested: false, geo, adsenseOptIn: optIn, desktop })
   const creative = useHouse(chosen, sectionKey, stage)
   const adapter = slotView(chosen, creative, CLOUD_CONFIG.ads.provider)
@@ -207,19 +237,17 @@ function ActiveSlot({ placement, sectionKey, eligibility, stage }: { placement: 
     if (value === 'accepted') track({ name: 'ad_optin_accept' })
     if (writeAdsenseOptIn(safeStorage(), value, adult, Date.now())) setOptIn(value)
   }
+  const onWithdraw = () => {
+    if (writeAdsenseOptIn(safeStorage(), 'declined', false, Date.now())) setOptIn('declined')
+  }
   const labelled = adapter !== 'test' && adapter !== 'reserved'
-  const network = adapter === 'adsense' || adapter === 'ethicalads'
   return (
-    <div className="mx-auto my-6 max-w-3xl px-4 sm:px-6">
+    <div className={placement === 'rail' ? RAIL_CLASS : 'mx-auto my-6 max-w-3xl px-4 sm:px-6'}>
       <aside aria-label={tr('ads.label')} className="overflow-hidden rounded-xl border border-border bg-muted/20" style={{ minHeight: SLOT_HEIGHT_PX[placement] }} data-testid="ad-slot" data-placement={placement} data-adapter={adapter}>
         {labelled && <p className="px-4 pt-2 text-[11px] uppercase tracking-wide text-muted-foreground">{tr('ads.label')}</p>}
         <AdBody adapter={adapter} placement={placement} eligibility={eligibility} sectionKey={sectionKey} creative={creative ?? null} onOptIn={onOptIn} tr={tr} />
       </aside>
-      {network && (
-        <p className="mt-1 text-right">
-          <Button variant="link" size="sm" className="h-auto p-0 text-xs" onClick={() => show('main')}>{tr('ads.noAdsLink')}</Button>
-        </p>
-      )}
+      <NetworkAdControls adapter={adapter} onWithdraw={onWithdraw} onNoAds={() => show('main')} tr={tr} />
     </div>
   )
 }

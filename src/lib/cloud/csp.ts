@@ -44,7 +44,11 @@ function additions(cfg: CloudConfig): Additions[] {
     })
   }
   if (cfg.ads.provider === 'ethicalads' && cfg.ads.ethicaladsPublisher) {
-    out.push({ 'script-src': ['https://media.ethicalads.io'], 'connect-src': ['https://server.ethicalads.io'] })
+    // The client script comes from media.ethicalads.io and fetches the ad decision as a JSONP
+    // <script> from server.ethicalads.io (ethical-ad-client index.js AD_DECISION_URL), so both hosts
+    // belong in script-src; images and view pixels are <img> (img-src https: already allows them).
+    // connect-src keeps the decision host too, as before, for a client version that uses fetch.
+    out.push({ 'script-src': ['https://media.ethicalads.io', 'https://server.ethicalads.io'], 'connect-src': ['https://server.ethicalads.io'] })
   }
   return out
 }

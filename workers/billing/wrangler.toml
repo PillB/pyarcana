@@ -66,15 +66,32 @@ REPORT_ATTACHMENTS_CAP_MB = "200"
 # of D1 Free's 500 MB. Above it new reports are refused (507) until old ones are deleted.
 REPORT_TEXT_CAP_MB = "100"
 # Prices in integer minor units (céntimos / cents). New prices apply to new checkouts only.
+# Mercado Pago bills PRICE_PE_* in PEN; Creem bills PRICE_US_* in USD, and the Creem products'
+# prices must equal these (a webhook with another price is ignored). They must also equal
+# src/lib/cloud/offer.ts (tests/money.test.mjs checks it).
 PRICE_PE_MONTHLY_MINOR = "1990"
 PRICE_PE_YEARLY_MINOR = "11990"
 PRICE_US_MONTHLY_MINOR = "799"
 PRICE_US_YEARLY_MINOR = "4900"
-# Creem: https://api.creem.io (live) or https://test-api.creem.io (test mode).
+# Creem: https://api.creem.io (live) or https://test-api.creem.io (test mode). Product ids are
+# public (they appear in checkout URLs).
 CREEM_API_BASE = "https://api.creem.io"
 CREEM_PRODUCT_PRO_MONTHLY = ""
 CREEM_PRODUCT_PRO_YEARLY = ""
 MP_API_BASE = "https://api.mercadopago.com"
+# Licence token (DESIGN-v3-delta D-ORCH-03): the ES256 key id in every token header and in
+# GET /v1/jwks; set it to the kid you passed to scripts/generate-keys.mjs. Tokens live at most
+# LICENSE_TTL_SECONDS (clamped to 60..259200: the browser refuses anything over 72 h). During a
+# key rotation, LICENSE_PREV_PUBLIC_JWK holds the OLD public JWK (one line of JSON, public only)
+# so GET /v1/jwks lists both until the old tokens have expired.
+LICENSE_KEY_ID = "k1"
+LICENSE_TTL_SECONDS = "259200"
+LICENSE_PREV_PUBLIC_JWK = ""
+# Experiments (DESIGN-v3 §F): comma list of registry keys to run (aa_2026_q4, pkg_ab_v1,
+# ads_house_v1; see src/experiments.mjs). Empty: nothing runs, GET /v1/experiments is empty.
+EXPERIMENTS_ENABLED = ""
+# Anonymous events (POST /v1/events): "false" is the kill switch (answers 202, stores nothing).
+EVENTS_ENABLED = "true"
 
 # --- Cloudflare Email Sending (D-USER-04) -------------------------------------------
 # Sign-in codes are sent with env.EMAIL.send(). Needs Workers Paid (3,000 messages a month
@@ -95,14 +112,19 @@ allowed_sender_addresses = ["no-reply@pyarcana.dev"]
 #   npx wrangler secret put RESEND_API_KEY
 #   npx wrangler secret put BREVO_API_KEY
 #   npx wrangler secret put MAILERSEND_API_KEY
-# Payments (added with the payment stage):
-#   npx wrangler secret put MP_ACCESS_TOKEN
-#   npx wrangler secret put MP_WEBHOOK_SECRET
+# Payments (a rail is offered only when its key, its webhook secret, its PRICE_* vars and,
+# for Creem, both product ids are set; webhooks: https://pyarcana.dev/api/v1/webhooks/...):
+#   npx wrangler secret put MP_ACCESS_TOKEN        Mercado Pago "Tus integraciones" access token
+#   npx wrangler secret put MP_WEBHOOK_SECRET      the webhook "secret signature"
 #   npx wrangler secret put CREEM_API_KEY
-#   npx wrangler secret put CREEM_WEBHOOK_SECRET
+#   npx wrangler secret put CREEM_WEBHOOK_SECRET   the whole whsec_... string
+# Licence signing key (without it /v1/me sends licenseToken null and GET /v1/jwks is 503):
+#   node scripts/generate-keys.mjs k1              prints the key and the public JWK
+#   npx wrangler secret put LICENSE_PRIVATE_KEY_PKCS8_B64   paste the key at the prompt
 
-# Daily at 09:17 UTC (04:17 Lima): retention sweep (src/retention.mjs).
-# Hourly at :07: provider reconciliation (payment stage).
+# Daily at 09:17 UTC (04:17 Lima): retention sweep, then reconciliation of every live
+# subscription. Hourly at :07: reconciliation of recent checkouts and pending subscriptions
+# (src/retention.mjs, src/reconcile.mjs; 50 rows per set per run).
 [triggers]
 crons = ["17 9 * * *", "7 * * * *"]
 

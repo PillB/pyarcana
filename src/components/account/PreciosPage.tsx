@@ -8,7 +8,7 @@ import { pricingView, type PriceRow, type PricingView } from '@/lib/cloud/pricin
 import { AccountDialog } from './AccountDialog'
 import { CloudSync } from './CloudSync'
 import { CloudPageFrame, TrademarkNotice, type OnStage } from './CloudPageFrame'
-import { loadAuthMethods, useAccountUi, useAuthMethods } from './runtime'
+import { loadAuthMethods, useAccountUi, useLoadedAuthMethods } from './runtime'
 import { useText, type Tr } from './text'
 
 const TAX_KEYS: Record<PriceRow['market'], string> = { pe: 'billing.tax.pe', world: 'billing.tax.world' }
@@ -62,7 +62,7 @@ export function PricingContent({ view, trialDays, onSubscribe }: { view: Pricing
 }
 
 function PreciosActive({ stage }: { stage: OnStage }) {
-  const trialDays = useAuthMethods((s) => s.trialDays)
+  const trialDays = useLoadedAuthMethods((s) => s.trialDays)
   useEffect(() => {
     void loadAuthMethods()
   }, [])

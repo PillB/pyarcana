@@ -2,7 +2,8 @@
 
 import type { ReactNode } from 'react'
 import Link from 'next/link'
-import { CLOUD_CONFIG, type CloudConfig } from '@/lib/cloud/config'
+import { CLOUD_CONFIG, normalizeOrigin, type CloudConfig, type LaunchStage } from '@/lib/cloud/config'
+import { supportContact } from '@/lib/cloud/billing-ui'
 import { controllerOf, legalBlocks, processors, type LegalBlock, type LegalKind } from '@/lib/cloud/legal-content'
 import { useCloudStage } from '@/lib/cloud/hooks'
 import { CLOUD_SESSION_KEY } from '@/lib/cloud/session'
@@ -56,7 +57,7 @@ function Body({ block, cfg, tr }: { block: LegalBlock; cfg: CloudConfig; tr: Tr 
   if (block === 'subscription') {
     return <p>{tr('legalc.subscription.body')} <Link href="/suscripcion" className="underline underline-offset-2">{tr('legalc.subscription.link')}</Link></p>
   }
-  return <p>{tr(`legalc.${block}.body`)}</p>
+  return <p>{tr(`legalc.${block}.body`, { email: supportContact() })}</p>
 }
 
 /**
@@ -65,13 +66,24 @@ function Body({ block, cfg, tr }: { block: LegalBlock; cfg: CloudConfig; tr: Tr 
  * pages read exactly as they did.
  */
 export function CloudLegalSection({ kind, cfg = CLOUD_CONFIG }: { kind: LegalKind; cfg?: CloudConfig }) {
-  const { tr } = useText()
   const stage = useCloudStage()
+  return <CloudLegalContent kind={kind} cfg={cfg} stage={stage} />
+}
+
+/**
+ * The section for a known stage. id="cloud-legal" is the anchor the sign-in panel and the consent
+ * card link to, so a learner lands on the paragraphs about this site's accounts rather than on the
+ * top of a page that also describes other editions; the intro says this section is what applies.
+ */
+export function CloudLegalContent({ kind, cfg, stage }: { kind: LegalKind; cfg: CloudConfig; stage: LaunchStage }) {
+  const { tr } = useText()
   const blocks = legalBlocks(cfg, kind, stage)
   if (!blocks.length) return null
+  const host = (normalizeOrigin(cfg.canonicalOrigin) ?? '').replace(/^https?:\/\//, '')
   return (
-    <section className="space-y-4 border-t border-border pt-6" data-testid={`cloud-legal-${kind}`} aria-labelledby={`cloud-legal-${kind}-h`}>
+    <section id="cloud-legal" className="scroll-mt-20 space-y-4 border-t border-border pt-6" data-testid={`cloud-legal-${kind}`} aria-labelledby={`cloud-legal-${kind}-h`}>
       <h2 id={`cloud-legal-${kind}-h`} className="text-lg font-semibold">{tr('legalc.heading')}</h2>
+      <p>{tr('legalc.intro', { host })}</p>
       {blocks.map((block) => (
         <div key={block} className="space-y-1">
           <h3 className="font-semibold">{tr(`legalc.${block}.h`)}</h3>

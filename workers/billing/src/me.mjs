@@ -9,16 +9,20 @@
  *    subscriptions: [{id, provider, plan, status, cancelAtPeriodEnd,
  *                     paidThrough, manageUrl}],
  *    grants: [{id, kind, days, start, end, state, createdAt}],
- *    checkoutPending, serverTime}
+ *    checkoutPending, serverTime,
+ *    licenseToken}
  *
- * Not here yet (named, later stage): the ES256 `licenseToken` of DESIGN-v3
- * D-ORCH-03. Admin notes and issuers never reach the client.
+ * `licenseToken` is the ES256 licence of DESIGN-v3-delta D-ORCH-03
+ * (license.mjs), signed once per payload, or null when the account is not
+ * Pro or no signing key is configured. Admin notes and issuers never reach
+ * the client.
  */
 
 import { activeRoles, isAdminSession } from "./accounts.mjs";
 import { paidThrough } from "./access.mjs";
 import { accessSnapshot, publicGrant } from "./entitlement.mjs";
 import { publicIdentities } from "./identities.mjs";
+import { licenceTokenFor } from "./license.mjs";
 import { trialBlockReason, trialClaimKeys } from "./trial-claims.mjs";
 
 /** A checkout or pending subscription younger than this blocks a new one. */
@@ -121,7 +125,8 @@ export async function buildMePayload(ctx, account, session) {
     subscriptions: publicSubscriptions(rows),
     grants: schedule.map(publicGrant),
     checkoutPending: await checkoutPending(ctx, account, rows.subscriptions),
-    serverTime: ctx.now
+    serverTime: ctx.now,
+    licenseToken: await licenceTokenFor(ctx, account.id, access)
   };
 }
 

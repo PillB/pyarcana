@@ -10,6 +10,7 @@ import { formatDay } from '../LoadNote'
 import { useText, type Tr } from '../text'
 import { GrantRows, RevokeGrantDialog } from './AdminGrants'
 import { Feedback, ReasonDialog, sendBuilt } from './shared'
+import { ERROR_ALERT_CLASS } from '@/components/account/a11y'
 
 function Facts({ d, tr, lang }: { d: AccountDetail; tr: Tr; lang: Language }) {
   const a = d.account
@@ -38,7 +39,7 @@ function Subscriptions({ d, tr, lang }: { d: AccountDetail; tr: Tr; lang: Langua
   if (!d.subscriptions.length) return <p className="text-sm text-muted-foreground">{tr('adm.acct.noSubs')}</p>
   return (
     <ul className="space-y-1 text-sm">
-      {d.doubleSubscription && <li role="alert" className="text-destructive">{tr('adm.acct.double')}</li>}
+      {d.doubleSubscription && <li role="alert" className={ERROR_ALERT_CLASS}>{tr('adm.acct.double')}</li>}
       {d.subscriptions.map((s) => (
         <li key={s.id}>
           {s.provider} · {s.plan} · {s.status}{s.cancelAtPeriodEnd ? ` · ${tr('adm.acct.cancelling')}` : ''} · {tr('adm.acct.paidThrough', { date: formatDay(s.paidThrough, lang) })}
@@ -80,7 +81,7 @@ function DisableToggle({ d, onDone }: { d: AccountDetail; onDone: () => void }) 
   const action = disabled ? 'enable' : 'disable'
   return (
     <>
-      {disabled && <p className="text-sm text-destructive">{tr('adm.acct.disabled', { reason: d.account.disabledReason ?? '—' })}</p>}
+      {disabled && <p className={ERROR_ALERT_CLASS}>{tr('adm.acct.disabled', { reason: d.account.disabledReason ?? '—' })}</p>}
       <Button variant={disabled ? 'outline' : 'destructive'} size="sm" onClick={() => setOpen(true)}>{tr(`adm.acct.${action}`)}</Button>
       <ReasonDialog
         open={open}

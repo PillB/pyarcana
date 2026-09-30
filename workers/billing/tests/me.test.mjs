@@ -114,7 +114,9 @@ test("a fresh account's payload has every field, with nothing granted", async ()
     subscriptions: [],
     grants: [],
     checkoutPending: false,
-    serverTime: NOW
+    serverTime: NOW,
+    // DESIGN-v3-delta D-ORCH-03: the signed licence, null when not Pro.
+    licenseToken: null
   });
 });
 

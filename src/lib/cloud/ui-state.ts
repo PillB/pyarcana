@@ -105,3 +105,67 @@ export function sectionGateState(i: SectionGateInput): GateDecision {
   if (decision === 'locked' && i.snapshot === null) return 'pending'
   return decision
 }
+// --- fix round 2026-09-29 (client review findings) ---------------------------------------------
+
+/** The owner-choice dialog shows while a choice is pending, unless the learner put it off for now. */
+export function ownerChoiceOpen(status: string, deferred: boolean): boolean {
+  return status === 'needs_choice' && !deferred
+}
+
+/**
+ * Where a "Ver precios" button goes. The confirm panel shows prices only to a signed-in learner;
+ * a signed-out visitor gets the public /precios page, not a sign-in form without a price.
+ */
+export function priceCtaTarget(signedIn: boolean): 'checkout' | 'prices-page' {
+  return signedIn ? 'checkout' : 'prices-page'
+}
+
+const RADIO_STEP: Record<string, number> = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }
+
+/** WAI-ARIA radio group keys: arrows move and wrap, Home/End jump; null for any other key. */
+export function radioKeyTarget(key: string, index: number, count: number): number | null {
+  if (count <= 0) return null
+  if (key === 'Home') return 0
+  if (key === 'End') return count - 1
+  const step = RADIO_STEP[key]
+  if (step === undefined) return null
+  if (index < 0) return 0
+  return (index + step + count) % count
+}
+
+export interface StorageNoticeInput {
+  signedIn: boolean
+  isStaticSite: boolean
+  stage: LaunchStage
+  syncStatus: string
+}
+
+/**
+ * The variable sentences of the Dashboard's "¿Dónde se guarda tu progreso?" notice.
+ * - Signed out: the account sentence only where accounts can exist (the dynamic build, or the
+ *   static site with a stage on). With the stage off the "Edición pública" notice says there are
+ *   no accounts, and the two must not disagree.
+ * - Signed in on the static site: "saved in your account" only once a sync succeeded on this load;
+ *   otherwise a sentence that points to the account panel for the state.
+ */
+export function storageNoticeKeys(i: StorageNoticeInput): string[] {
+  if (!i.signedIn) return i.isStaticSite && i.stage === 'off' ? [] : ['storage.accountSync']
+  if (!i.isStaticSite) return ['storage.signedIn.dynamic']
+  return [i.syncStatus === 'synced' ? 'storage.signedIn.synced' : 'storage.signedIn.notYet']
+}
+
+export interface MovedCopyInput {
+  link: { ok: true } | { ok: false; reason: string }
+  /** Accounts run on the canonical origin (this build's stage is on there). */
+  accountsThere: boolean
+}
+
+/** The moved banner's sentences: only what the link and the canonical site can deliver. */
+export function movedCopy(i: MovedCopyInput): string[] {
+  const keys: string[] = i.accountsThere ? ['moved.body.accounts'] : []
+  if (i.link.ok) return [...keys, 'moved.body.carry']
+  if (!i.accountsThere) keys.push('moved.body.plain')
+  if (i.link.reason === 'too_large') keys.push('moved.tooLarge')
+  if (i.link.reason === 'unreadable') keys.push('moved.unreadable')
+  return keys
+}

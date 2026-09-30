@@ -31,7 +31,7 @@ export function AccountDialog() {
   const mode: Mode = me ? (view === 'checkout' ? 'checkout' : 'account') : 'signIn'
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent size="md" data-testid="account-dialog">
+      <DialogContent size="md" data-testid="account-dialog" closeLabel={tr('account.dialog.close')}>
         <div className="flex min-h-0 flex-col gap-4">
           <DialogHeader>
             <DialogTitle>{tr(`account.dialog.title.${mode}`)}</DialogTitle>

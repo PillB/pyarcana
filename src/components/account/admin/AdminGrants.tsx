@@ -23,6 +23,7 @@ import { LoadNote, SELECT_CLASS, formatDay } from '../LoadNote'
 import { useApiLoad } from '../useApiLoad'
 import { useText, type Tr } from '../text'
 import { Feedback, ReasonDialog, newRequestId, sendBuilt } from './shared'
+import { LEGAL_CHECKBOX_CLASS } from '@/components/account/a11y'
 
 /** Fixed days or indefinite (DESIGN-v3 §H); shared by gifts and the tester role. */
 export function DaysFields({ id, daysText, indefinite, onDays, onIndefinite, tr }: {
@@ -40,7 +41,7 @@ export function DaysFields({ id, daysText, indefinite, onDays, onIndefinite, tr 
         <Input id={`${id}-days`} inputMode="numeric" className="w-28" value={daysText} disabled={indefinite} onChange={(e) => onDays(e.target.value)} />
       </div>
       <div className="flex items-center gap-2 pb-2">
-        <Checkbox id={`${id}-indef`} checked={indefinite} onCheckedChange={(v) => onIndefinite(v === true)} />
+        <Checkbox id={`${id}-indef`} className={LEGAL_CHECKBOX_CLASS} checked={indefinite} onCheckedChange={(v) => onIndefinite(v === true)} />
         <Label htmlFor={`${id}-indef`} className="font-normal">{tr('adm.indefinite')}</Label>
       </div>
     </div>

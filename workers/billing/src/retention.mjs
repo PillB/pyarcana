@@ -12,14 +12,23 @@
  *                 was closed (fixed, wontfix or duplicate; updated_at), or 180
  *                 days after it was filed, whichever comes first. The report
  *                 text is kept.
+ * Daily, after it — measurement sweep (DESIGN-v3 §F/§G), one batch:
+ *   events, experiment_arms, experiment_bindings  deleted 180 days after
+ *                 they were received / first seen / bound
+ *   survey_responses  deleted 2 years (730 days) after they were given
+ *   consents are kept while the account lives (deleted with it).
  * Never swept: webhook_events (Creem replay protection), trial_claims
  * (anti-abuse, stated on the privacy page), audit_log, billing rows.
  *
- * Hourly (7 * * * *) — provider reconciliation, added with the payment stage;
- * until then the hourly run does nothing.
+ * Hourly (7 * * * *) — provider reconciliation of RECENT rows (open
+ * checkouts and pending subscriptions younger than 7 days); the daily run
+ * reconciles every live subscription after the sweep (reconcile.mjs).
  */
 
+import { pepperBytes } from "./crypto.mjs";
+import { DEFAULT_PROVIDERS } from "./providers.mjs";
 import { hasDb } from "./public.mjs";
+import { reconcile } from "./reconcile.mjs";
 import { migrate } from "./schema.mjs";
 
 /** The daily retention cron. */
@@ -66,22 +75,53 @@ export async function sweepRetention(ctx) {
   };
 }
 
+/** Measurement rows (events, arms, bindings) are kept this many days. */
+export const MEASUREMENT_DAYS = 180;
+
+/** Survey answers are kept this many days (2 years). */
+export const SURVEY_DAYS = 730;
+
+/**
+ * Delete measurement and survey rows past their retention, in one batch.
+ * @param {{db: Object, now: number}} ctx Context.
+ * @returns {Promise<{events: number, arms: number, bindings: number, surveys: number}>} Counts.
+ */
+export async function sweepMeasurement(ctx) {
+  const cutoff = ctx.now - MEASUREMENT_DAYS * DAY;
+  const [events, arms, bindings, surveys] = await ctx.db.batch([
+    ctx.db.prepare("DELETE FROM events WHERE received_at < ?1").bind(cutoff),
+    ctx.db.prepare("DELETE FROM experiment_arms WHERE first_at < ?1").bind(cutoff),
+    ctx.db.prepare("DELETE FROM experiment_bindings WHERE created_at < ?1").bind(cutoff),
+    ctx.db.prepare("DELETE FROM survey_responses WHERE created_at < ?1").bind(ctx.now - SURVEY_DAYS * DAY)
+  ]);
+  return { events: events.meta.changes, arms: arms.meta.changes, bindings: bindings.meta.changes, surveys: surveys.meta.changes };
+}
+
 /**
  * Run the job for a cron expression.
  * @param {Object} env Worker env.
- * @param {{cron: string, now: number, log: function}} opts Cron, clock and logger.
- * @returns {Promise<{ran: string[], skipped?: string}>} What ran.
+ * @param {{cron: string, now: number, log: function, fetchImpl?: function, providers?: Object, limit?: number}} opts
+ *   Cron, clock, logger, and the injectables reconciliation uses.
+ * @returns {Promise<{ran: string[], skipped?: string, reconciled?: Object}>} What ran.
  */
 export async function runScheduled(env, opts) {
   if (!hasDb(env)) {
     opts.log("scheduled skipped: db_not_configured");
     return { ran: [], skipped: "db_not_configured" };
   }
-  if (opts.cron !== DAILY_CRON) {
+  if (opts.cron !== DAILY_CRON && opts.cron !== HOURLY_CRON) {
     return { ran: [] };
   }
   await migrate(env.DB);
-  const counts = await sweepRetention({ db: env.DB, now: opts.now });
-  opts.log(`retention sweep ${JSON.stringify(counts)}`);
-  return { ran: ["retention"] };
+  const ran = [];
+  if (opts.cron === DAILY_CRON) {
+    const counts = await sweepRetention({ db: env.DB, now: opts.now });
+    opts.log(`retention sweep ${JSON.stringify(counts)}`);
+    opts.log(`measurement sweep ${JSON.stringify(await sweepMeasurement({ db: env.DB, now: opts.now }))}`);
+    ran.push("retention");
+  }
+  const ctx = { env, db: env.DB, now: opts.now, log: opts.log, fetchImpl: opts.fetchImpl, pepper: pepperBytes(env), providers: opts.providers || DEFAULT_PROVIDERS };
+  const reconciled = await reconcile(ctx, { scope: opts.cron === DAILY_CRON ? "all" : "recent", limit: opts.limit });
+  ran.push("reconcile");
+  return { ran, reconciled };
 }

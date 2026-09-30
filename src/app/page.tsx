@@ -584,6 +584,7 @@ export default function Home() {
                 </EntitlementGate>
                 <TrialSoftCard sectionIndex={activeSection.index} sectionId={activeSection.id} />
                 <AdSlot key={activeSection.id} placement="section_end" sectionId={activeSection.id} />
+                <AdSlot key={`rail-${activeSection.id}`} placement="rail" sectionId={activeSection.id} />
               </>
             )}
           </motion.div>

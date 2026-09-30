@@ -316,12 +316,96 @@ const MIGRATION_4 = [
   "CREATE INDEX IF NOT EXISTS idx_reports_text_bytes ON reports (text_bytes)"
 ];
 
+/**
+ * Migration 5 (stage 2b, payments): reconciled_at on checkouts and
+ * subscriptions, when the scheduled reconciliation last re-read the row at
+ * the provider (retention.mjs). Each run takes the least recently reconciled
+ * rows first under a per-run cap, so every row gets its turn.
+ */
+const MIGRATION_5 = [
+  "ALTER TABLE checkouts ADD COLUMN reconciled_at INTEGER",
+  "ALTER TABLE subscriptions ADD COLUMN reconciled_at INTEGER",
+  "CREATE INDEX IF NOT EXISTS idx_subscriptions_status ON subscriptions (status, reconciled_at)",
+  "CREATE INDEX IF NOT EXISTS idx_checkouts_status ON checkouts (status, created_at)"
+];
+
+/**
+ * Migration 6 (stage 2c, DESIGN-v3 §F/§G): measurement, surveys, consents.
+ * - events: anonymous allowlisted events under cid_hash = HMAC(pepper, cid);
+ *   qa = 1 when the client flagged QA mode. Kept 180 days.
+ * - experiment_arms: the FIRST arm per (subject, experiment) (intent to
+ *   treat). subject is a cid_hash (subject_kind 'cid') or an account id
+ *   ('account', copied from a bound id). Kept 180 days.
+ * - experiment_bindings: which account an id signed in as (first binding
+ *   wins). Kept 180 days.
+ * - consents: the signed-in record of a measurement choice (kind, value,
+ *   the text version answered, the client's time, when it was stored).
+ * - survey_responses: satisfaction answers, anonymous or signed-in. Kept 2 years.
+ */
+const MIGRATION_6 = [
+  `CREATE TABLE IF NOT EXISTS events (
+     id INTEGER PRIMARY KEY AUTOINCREMENT,
+     received_at INTEGER NOT NULL,
+     day TEXT NOT NULL,
+     cid_hash TEXT NOT NULL,
+     name TEXT NOT NULL,
+     experiment TEXT,
+     arm TEXT,
+     surface TEXT,
+     section_idx INTEGER,
+     qa INTEGER NOT NULL DEFAULT 0 CHECK (qa IN (0, 1))
+   )`,
+  "CREATE INDEX IF NOT EXISTS idx_events_cid ON events (cid_hash, received_at)",
+  "CREATE INDEX IF NOT EXISTS idx_events_received ON events (received_at)",
+  `CREATE TABLE IF NOT EXISTS experiment_arms (
+     subject TEXT NOT NULL,
+     subject_kind TEXT NOT NULL CHECK (subject_kind IN ('cid', 'account')),
+     experiment TEXT NOT NULL,
+     arm TEXT NOT NULL,
+     first_at INTEGER NOT NULL,
+     PRIMARY KEY (subject, experiment)
+   )`,
+  "CREATE INDEX IF NOT EXISTS idx_experiment_arms_experiment ON experiment_arms (experiment, subject_kind, arm)",
+  `CREATE TABLE IF NOT EXISTS experiment_bindings (
+     cid_hash TEXT PRIMARY KEY,
+     account_id TEXT NOT NULL,
+     created_at INTEGER NOT NULL
+   )`,
+  "CREATE INDEX IF NOT EXISTS idx_experiment_bindings_account ON experiment_bindings (account_id)",
+  `CREATE TABLE IF NOT EXISTS consents (
+     id INTEGER PRIMARY KEY AUTOINCREMENT,
+     account_id TEXT NOT NULL,
+     kind TEXT NOT NULL CHECK (kind IN ('measurement')),
+     value TEXT NOT NULL CHECK (value IN ('granted', 'denied')),
+     version INTEGER NOT NULL,
+     client_at TEXT,
+     created_at INTEGER NOT NULL
+   )`,
+  "CREATE INDEX IF NOT EXISTS idx_consents_account ON consents (account_id, created_at)",
+  `CREATE TABLE IF NOT EXISTS survey_responses (
+     id TEXT PRIMARY KEY,
+     created_at INTEGER NOT NULL,
+     account_id TEXT,
+     cid_hash TEXT,
+     kind TEXT NOT NULL CHECK (kind IN ('section_csat', 'nps', 'gate_reason', 'cancel_reason')),
+     score INTEGER,
+     reason_code TEXT,
+     text TEXT,
+     section_idx INTEGER
+   )`,
+  "CREATE INDEX IF NOT EXISTS idx_survey_responses_kind ON survey_responses (kind, created_at)",
+  "CREATE INDEX IF NOT EXISTS idx_survey_responses_account ON survey_responses (account_id)",
+  "CREATE INDEX IF NOT EXISTS idx_survey_responses_cid ON survey_responses (cid_hash)"
+];
+
 /** Every migration, in order. Append only; never edit a shipped one. */
 export const MIGRATIONS = [
   { version: 1, statements: MIGRATION_1 },
   { version: 2, statements: MIGRATION_2 },
   { version: 3, statements: MIGRATION_3 },
-  { version: 4, statements: MIGRATION_4 }
+  { version: 4, statements: MIGRATION_4 },
+  { version: 5, statements: MIGRATION_5 },
+  { version: 6, statements: MIGRATION_6 }
 ];
 
 /** The version a fully migrated database reports. */

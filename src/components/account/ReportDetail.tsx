@@ -5,6 +5,7 @@ import { REPORT_STATUSES, attachmentPath, parseReportDetail, reportPath, type Re
 import { LoadNote, formatDay } from './LoadNote'
 import { useApiLoad } from './useApiLoad'
 import { useText, type Tr } from './text'
+import { ERROR_ALERT_CLASS } from '@/components/account/a11y'
 
 /** A worker status in words; an unknown one is shown as sent, never as a missing key. */
 export function statusText(status: string, tr: Tr): string {
@@ -53,7 +54,7 @@ export function ReportDetail({ id }: { id: string }) {
   const { tr, lang } = useText()
   const state = useApiLoad(reportPath(id), parseReportDetail)
   if (!state || state.status !== 'ok') return <LoadNote state={state} />
-  if (!state.value) return <p role="alert" className="text-sm text-destructive">{tr('cloudpage.loadFailed', { reason: 'bad_response' })}</p>
+  if (!state.value) return <p role="alert" className={ERROR_ALERT_CLASS}>{tr('cloudpage.loadFailed', { reason: 'bad_response' })}</p>
   const { report, attachments } = state.value
   return (
     <article className="space-y-3 rounded-md border border-border p-4" data-testid="report-detail">
@@ -69,8 +70,8 @@ export function ReportDetail({ id }: { id: string }) {
       <Block title={tr('qasite.f.improvement')} text={report.improvement} />
       {attachments.map((a, i) => {
         const path = attachmentPath(report.id, a.id)
+        // A plain <img>: a same-origin API image behind the session cookie (next/image cannot send it).
         return path && (
-          // eslint-disable-next-line @next/next/no-img-element -- a same-origin API image behind the session cookie
           <img key={a.id} src={`${CLOUD_CONFIG.apiBaseUrl}${path}`} alt={tr('qasite.attachmentAlt', { n: i + 1, title: report.title })} className="max-h-[360px] w-full rounded-md border border-border object-contain" loading="lazy" />
         )
       })}

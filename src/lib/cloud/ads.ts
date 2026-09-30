@@ -72,9 +72,14 @@ export interface AdapterInput {
   desktop: boolean
 }
 
+/**
+ * EthicalAds runs only in the desktop right rail (its policy: one EthicalAds ad per page, above the
+ * fold). Every other placement keeps the house promo; a rail that cannot show the network (narrow
+ * screen, no publisher id) stays empty rather than adding a second promo.
+ */
 function ethicalAdsAdapter(i: AdapterInput): AdAdapter {
-  const ready = i.ads.ethicaladsPublisher !== '' && i.desktop && i.placement === 'rail'
-  return ready ? 'ethicalads' : 'house'
+  if (i.placement !== 'rail') return 'house'
+  return i.ads.ethicaladsPublisher !== '' && i.desktop ? 'ethicalads' : 'none'
 }
 
 function adsenseAdapter(i: AdapterInput): AdAdapter {
@@ -89,6 +94,8 @@ function adsenseAdapter(i: AdapterInput): AdAdapter {
 const FIXED: Record<Exclude<AdEligibility, 'free'>, AdAdapter> = { none: 'none', unknown: 'reserved', test: 'test' }
 
 export function chooseAdapter(i: AdapterInput): AdAdapter {
+  // The rail exists only for EthicalAds; with any other provider it renders nothing at all.
+  if (i.placement === 'rail' && i.ads.provider !== 'ethicalads') return 'none'
   if (i.eligibility !== 'free') return FIXED[i.eligibility]
   if (i.ads.provider === 'ethicalads') return ethicalAdsAdapter(i)
   if (i.ads.provider === 'adsense') return adsenseAdapter(i)

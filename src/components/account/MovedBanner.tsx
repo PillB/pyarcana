@@ -7,7 +7,8 @@ import { useToast } from '@/hooks/use-toast'
 import { CLOUD_CONFIG, normalizeOrigin } from '@/lib/cloud/config'
 import { buildHandoffUrl } from '@/lib/cloud/handoff'
 import { whenProgressHydrated } from '@/lib/cloud/progress-adapter'
-import { movedState } from '@/lib/cloud/ui-state'
+import { movedCopy, movedState } from '@/lib/cloud/ui-state'
+import { supportContact } from '@/lib/cloud/billing-ui'
 import { readRaw, safeStorage } from '@/lib/cloud/storage'
 import { PROGRESS_STORAGE_KEY } from '@/lib/progress-sanitize'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
@@ -46,13 +47,17 @@ function Banner() {
   const host = canonical.replace(/^https?:\/\//, '')
   const [link] = useState(() => buildHandoffUrl(canonical, readRaw(safeStorage(), PROGRESS_STORAGE_KEY)))
   const href = link.ok ? link.url : `${canonical}/`
+  // Only what this state supports: accounts only where the canonical site runs them (this same
+  // build's stage), "the button carries your progress" only when the link carries it.
+  const lines = movedCopy({ link: link.ok ? { ok: true } : { ok: false, reason: link.reason }, accountsThere: CLOUD_CONFIG.launchStage !== 'off' })
   return (
     <div role="region" aria-label={tr('moved.title', { host })} className="border-b border-gold/50 bg-gold/10 px-4 py-3 text-sm" data-testid="moved-banner">
       <div className="mx-auto flex max-w-6xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="font-semibold">{tr('moved.title', { host })}</p>
-          <p className="text-foreground/80">{tr('moved.body', { host })}</p>
-          {!link.ok && link.reason === 'too_large' && <p className="text-foreground/80">{tr('moved.tooLarge')}</p>}
+          {lines.map((key) => (
+            <p key={key} className="text-foreground/80">{tr(key, { host, email: supportContact() })}</p>
+          ))}
         </div>
         <Button asChild size="sm" className="shrink-0 gap-1.5">
           <a href={href}>

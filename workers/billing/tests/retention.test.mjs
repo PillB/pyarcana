@@ -72,16 +72,16 @@ test("the sweep never touches webhook markers, trial claims or the audit log", a
   assert.equal(await ctx.db.prepare("SELECT COUNT(*) AS c FROM audit_log").first("c"), 1);
 });
 
-test("the daily cron sweeps; the hourly cron does not", async () => {
+test("the daily cron sweeps; the hourly cron does not (it only reconciles, stage 2b)", async () => {
   const hourly = await createCtx();
   await seed(hourly.db);
   const quiet = await runScheduled(hourly.env, { cron: HOURLY_CRON, now: NOW, log: () => {} });
-  assert.deepEqual(quiet.ran, []);
+  assert.deepEqual(quiet.ran, ["reconcile"]);
   assert.equal(await hourly.db.prepare("SELECT COUNT(*) AS c FROM login_codes").first("c"), 2);
   const daily = await createCtx();
   await seed(daily.db);
   const swept = await runScheduled(daily.env, { cron: DAILY_CRON, now: NOW, log: () => {} });
-  assert.deepEqual(swept.ran, ["retention"]);
+  assert.deepEqual(swept.ran, ["retention", "reconcile"]);
   assert.equal(await daily.db.prepare("SELECT COUNT(*) AS c FROM login_codes").first("c"), 1);
 });
 

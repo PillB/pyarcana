@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { Lock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -9,15 +10,16 @@ import { useCloudStage } from '@/lib/cloud/hooks'
 import { useCloudRuntime, useCloudSession } from '@/lib/cloud/session'
 import { startTrial, type UiError } from '@/lib/cloud/account-api'
 import { saveIntent } from '@/lib/cloud/intent'
+import { priceCtaTarget } from '@/lib/cloud/ui-state'
 import { safeSessionStorage } from '@/lib/cloud/storage'
 import { ErrorAlert } from './Alerts'
 import { requestSurvey } from './SurveyPrompt'
-import { applyMe, cloudApi, getMeasurement, loadAuthMethods, track, useAccountUi, useAuthMethods } from './runtime'
+import { applyMe, cloudApi, getMeasurement, loadAuthMethods, track, useAccountUi, useLoadedAuthMethods } from './runtime'
 import { useText, type Tr } from './text'
 
 function TrialButton({ sectionId, sectionIndex, tr }: { sectionId: string; sectionIndex: number; tr: Tr }) {
   const me = useCloudSession((s) => s.me)
-  const days = useAuthMethods((s) => s.trialDays)
+  const days = useLoadedAuthMethods((s) => s.trialDays)
   const show = useAccountUi((s) => s.show)
   const [error, setError] = useState<UiError | null>(null)
   const [busy, setBusy] = useState(false)
@@ -50,8 +52,15 @@ function PayOption({ tr }: { tr: Tr }) {
   const signedIn = useCloudSession((s) => s.me !== null)
   const show = useAccountUi((s) => s.show)
   if (stage !== 'paid') return <p className="text-sm text-muted-foreground">{tr('account.upgrade.notOpen')}</p>
+  if (priceCtaTarget(signedIn) === 'prices-page') {
+    return (
+      <Button variant="outline" asChild data-testid="gate-upgrade">
+        <Link href="/precios">{tr('gate.upgrade')}</Link>
+      </Button>
+    )
+  }
   return (
-    <Button variant="outline" onClick={() => show(signedIn ? 'checkout' : 'main')} data-testid="gate-upgrade">
+    <Button variant="outline" onClick={() => show('checkout')} data-testid="gate-upgrade">
       {tr('gate.upgrade')}
     </Button>
   )
@@ -87,7 +96,7 @@ export function UpgradeCard({ sectionIndex, sectionId, onBackToFree }: UpgradeCa
       <Card className="space-y-4 p-6">
         <div className="flex items-center gap-2 text-primary">
           <Lock className="h-5 w-5" aria-hidden="true" />
-          <h2 className="text-xl font-semibold">{tr('gate.title', { index: sectionIndex })}</h2>
+          <h1 className="text-xl font-semibold">{tr('gate.title', { index: sectionIndex })}</h1>
         </div>
         <p className="text-sm">{tr('gate.body', { n, next: n + 1 })}</p>
         {unavailable && <p role="status" className="text-sm text-muted-foreground">{tr('gate.checkFailed')}</p>}

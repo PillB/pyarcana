@@ -5,6 +5,7 @@ import { CLOUD_CONFIG } from '@/lib/cloud/config'
 import { GIS_SRC, browserScriptHost, createScriptLoader, gisAllowedOn, gisButtonOptions, gisInitOptions, makeNonce, type GisInitOptions } from '@/lib/cloud/oidc'
 import { SITE_BASE_PATH } from '@/lib/runtime-mode'
 import { useText } from './text'
+import { ERROR_ALERT_CLASS } from '@/components/account/a11y'
 
 interface GisId {
   initialize(options: GisInitOptions): void
@@ -64,7 +65,7 @@ export function GoogleButton({ enabled, onToken }: { enabled: boolean; onToken: 
   }, [allowed, lang])
 
   if (!allowed) return <p className="text-xs text-muted-foreground">{tr('account.signin.googleHere')}</p>
-  if (failed) return <p role="alert" className="text-sm text-destructive">{tr('account.signin.googleFailed')}</p>
+  if (failed) return <p role="alert" className={ERROR_ALERT_CLASS}>{tr('account.signin.googleFailed')}</p>
   return (
     <div inert={!enabled} className={enabled ? 'min-h-10' : 'min-h-10 opacity-50'} data-testid="google-signin">
       <div ref={box} />

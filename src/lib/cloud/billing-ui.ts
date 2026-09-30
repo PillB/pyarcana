@@ -11,7 +11,7 @@
  *   currency equal what the panel showed.
  * - The return page re-reads the provider with backoff and never calls a slow webhook a failure.
  */
-import type { LaunchStage } from '@/lib/cloud/config'
+import { CLOUD_CONFIG, type LaunchStage } from '@/lib/cloud/config'
 import type { MePayload } from '@/lib/cloud/session'
 import type { ActionResult, UiError } from '@/lib/cloud/account-api'
 import { OFFER, formatMinor, railFor, type Cadence, type Currency, type Market } from '@/lib/cloud/offer'
@@ -90,7 +90,10 @@ export interface CheckoutView {
 function creditDays(me: MePayload | null, nowS: number): number | null {
   const a = me?.access
   if (!a || !a.isPro || a.indefinite || a.accessEnd === null || a.accessEnd <= nowS) return null
-  return a.source === 'paid' || a.source === null ? null : Math.ceil((a.accessEnd - nowS) / DAY)
+  if (a.source === 'paid' || a.source === null) return null
+  // Whole days only: rounding up would promise a day the learner does not have.
+  const days = Math.floor((a.accessEnd - nowS) / DAY)
+  return days >= 1 ? days : null
 }
 
 export function checkoutView(i: CheckoutViewInput): CheckoutView {
@@ -181,13 +184,24 @@ export async function pollCheckout(d: { refresh: () => Promise<ActionResult>; sl
 
 // --- text ---------------------------------------------------------------------------------------------
 
+/** The address a message may ask the learner to write to (legal.supportEmail), or a neutral fallback. */
+export function supportContact(): string {
+  return CLOUD_CONFIG.legal.supportEmail.trim() || 'soporte'
+}
+
 export function errorMessage(e: UiError, lang: Language): string {
   if (e.key === 'account.error.rateLimited' && e.minutes === undefined) return t('account.error.rateLimitedNoTime', lang)
-  return fillTemplate(t(e.key, lang), { minutes: e.minutes ?? '' })
+  return fillTemplate(t(e.key, lang), { minutes: e.minutes ?? '', email: supportContact() })
 }
 
 const LOCALES: Record<Language, string> = { 'es-PE': 'es-PE', 'es-ES': 'es-ES', en: 'en-US' }
 
 export function formatDate(epochSeconds: number, lang: Language): string {
   return new Intl.DateTimeFormat(LOCALES[lang] ?? 'es-PE', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(epochSeconds * 1000))
+}
+/** The cancel dialog's text, with the date the paid period ends when there is one to promise. */
+export function cancelBody(sub: { paidThrough: number | null }, nowS: number, lang: Language): string {
+  const key = cancelBodyKey(sub, nowS)
+  const date = sub.paidThrough !== null ? formatDate(sub.paidThrough, lang) : ''
+  return fillTemplate(t(key, lang), { date })
 }

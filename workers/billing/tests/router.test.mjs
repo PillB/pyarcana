@@ -242,7 +242,10 @@ test("review: workers/billing/README.md documents every built route and names th
     assert.ok(readme.includes(heading), heading);
   }
   const undone = readme.slice(readme.indexOf("## Not built yet"), readme.indexOf("## Owner steps"));
-  for (const item of ["POST /v1/checkout", "/v1/webhooks/mercadopago", "/v1/webhooks/creem", "GET /v1/jwks", "licenseToken", "/v1/admin/experiments", "reconciliation", "Turnstile", "scripts/deploy.sh"]) {
+  // Stage 2b built checkout, both webhooks and reconciliation; stage 2c built the licence, events,
+  // experiments, surveys and consents (all listed as routes above). What they still leave undone
+  // is named instead.
+  for (const item of ["Polar", "manageUrl", "topic_chargebacks_wh", "Turnstile", "scripts/deploy.sh", "withdrawal", "guardrail", "ingest_daily"]) {
     assert.ok(undone.includes(item), `named as undone: ${item}`);
   }
   for (const built of ROUTES.map((r) => `${r.method} ${r.path}`)) {

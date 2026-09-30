@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   AlertDialog,
@@ -17,17 +17,28 @@ import { CLOUD_CONFIG, isGatingStage } from '@/lib/cloud/config'
 import { useCloudStage } from '@/lib/cloud/hooks'
 import type { MePayload, MeSubscription } from '@/lib/cloud/session'
 import { cancelSubscription, startTrial, type UiError } from '@/lib/cloud/account-api'
-import { canUpgrade, cancelBodyKey, formatDate, planStatus } from '@/lib/cloud/billing-ui'
+import { canUpgrade, cancelBody, formatDate, planStatus } from '@/lib/cloud/billing-ui'
 import { buildSurveyBody, CANCEL_REASONS } from '@/lib/cloud/survey-ui'
 import type { Language } from '@/lib/i18n'
 import { ErrorAlert, StatusNote } from './Alerts'
-import { applyMe, cloudApi, useAccountUi, useAuthMethods } from './runtime'
+import { applyMe, cloudApi, useAccountUi, useLoadedAuthMethods } from './runtime'
 import { useText, type Tr } from './text'
 
+const SectionHeadingLevel = createContext<2 | 3>(3)
+
+/**
+ * The heading level of the account panel's sections: h3 inside the dialog (its title is the h2),
+ * h2 on /cuenta (under the page's h1), so neither outline skips a level.
+ */
+export function HeadingLevel({ level, children }: { level: 2 | 3; children: React.ReactNode }) {
+  return <SectionHeadingLevel.Provider value={level}>{children}</SectionHeadingLevel.Provider>
+}
+
 export function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  const Heading = useContext(SectionHeadingLevel) === 2 ? 'h2' : 'h3'
   return (
     <section className="space-y-2 border-t border-border pt-4 first:border-t-0 first:pt-0">
-      <h3 className="text-sm font-semibold">{title}</h3>
+      <Heading className="text-sm font-semibold">{title}</Heading>
       {children}
     </section>
   )
@@ -61,7 +72,7 @@ export function PlanSection({ me }: { me: MePayload }) {
 export function TrialSection({ me }: { me: MePayload }) {
   const { tr } = useText()
   const stage = useCloudStage()
-  const days = useAuthMethods((s) => s.trialDays)
+  const days = useLoadedAuthMethods((s) => s.trialDays)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<UiError | null>(null)
   if (!isGatingStage(stage) || !me.account.trialAvailable || me.access.isPro) return null
@@ -111,7 +122,7 @@ function subscriptionLine(s: MeSubscription, tr: Tr, lang: Language): string | n
 }
 
 function CancelDialog({ sub, onDone }: { sub: MeSubscription; onDone: () => void }) {
-  const { tr } = useText()
+  const { tr, lang } = useText()
   const [reason, setReason] = useState('')
   const [error, setError] = useState<UiError | null>(null)
   const [busy, setBusy] = useState(false)
@@ -133,7 +144,7 @@ function CancelDialog({ sub, onDone }: { sub: MeSubscription; onDone: () => void
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{tr('account.subs.cancelTitle')}</AlertDialogTitle>
-          <AlertDialogDescription>{tr(cancelBodyKey(sub, Math.floor(Date.now() / 1000)))}</AlertDialogDescription>
+          <AlertDialogDescription>{cancelBody(sub, Math.floor(Date.now() / 1000), lang)}</AlertDialogDescription>
         </AlertDialogHeader>
         <label className="block space-y-1 text-sm">
           <span>{tr('account.subs.cancelReason')}</span>

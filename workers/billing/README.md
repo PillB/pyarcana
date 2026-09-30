@@ -2,7 +2,10 @@
 
 A Cloudflare Worker with no npm dependencies: accounts, cookie sessions, email-code, Google and
 Microsoft sign-in, progress sync, the 7-day trial, Pro gifts (fixed or indefinite), the tester
-role, bug reports and the QA/admin views, export and deletion. Storage is D1 only.
+role, bug reports and the QA/admin views, export and deletion, Pro subscriptions through
+Mercado Pago (PEN) and Creem (USD) with a charges ledger and reconciliation, the signed ES256
+licence, anonymous events and A/B experiments with their admin results, satisfaction surveys and
+the consent record. Storage is D1 only.
 
 The binding design is `DESIGN-v2.md` as amended by `DESIGN-v3-delta.md` and `DESIGN-v3.md`
 (kept outside the repository by the orchestrating session). This file says what is built, what
@@ -39,16 +42,27 @@ allowed `Origin` (403 `bad_origin`). Answers are JSON `{ok, ...}` or `{ok: false
 |---|---|---|
 | `GET /v1/health` | public | Booleans only: db, pepper, terms, email, google, microsoft, mercadopago, creem, origins. |
 | `GET /v1/auth/methods` | public | Which sign-in methods work, the client ids, trialDays. |
+| `GET /v1/jwks` | public | The licence verification keys: the current one (derived from the signing key) and `LICENSE_PREV_PUBLIC_JWK` during a rotation. 503 `license_not_configured` without a key. See "Licence". |
+| `GET /v1/experiments` | public | `{experiments: [{key, arms, weights, surface}]}` for the keys in `EXPERIMENTS_ENABLED`; no id, no database. |
+| `POST /v1/events` | public (CSRF) | `{cid, qa?, events: [<= 25]}`, 16 KB; see "Events and experiments". |
+| `POST /v1/me/experiments/bind` | session | `{cid}`: links the measurement id to the account; answers the account's stored arms. 30/h. |
+| `POST /v1/me/consents` | session | `{kind: "measurement", value: granted or denied, version, at}`: appends the consent record. 30/h. |
+| `POST /v1/surveys` | optional session | `{kind, score?, reasonCode?, text?, sectionIndex?, cid?}`; see "Surveys". 20/h per network, 30/h per account. |
 | `GET /v1/geo` | public | `{country}` from Cloudflare's `request.cf.country`: two letters, or null (none, junk, `XX` unknown, `T1` Tor). Nothing else from `request.cf` leaves the worker. For the ads region check (DESIGN-v3 §E). |
 | `POST /v1/auth/email/start` | public | Emails a 6-digit code. Limits: 10/h and a daily share (cap / 9) per network, 5/h per email+network, 8/h per email, 3 live codes, `EMAIL_DAILY_CAP` per day. |
 | `POST /v1/auth/email/verify` | public | Signs in with the code. 30/h per network; 20 attempts per email per UTC day, spent before comparing. |
 | `POST /v1/auth/google` | public | `{idToken, noncePreimage, ageConfirmed, termsVersion}`. The nonce must be base64url(SHA-256(preimage)) and is single-use. |
 | `POST /v1/auth/microsoft` | public | Same contract. No email-based linking (nOAuth). |
 | `POST /v1/auth/logout` | optional session | `{everywhere?}`. |
-| `GET /v1/me` | session | The me payload, including `account.identities` (masked). |
+| `GET /v1/me` | session | The me payload, including `account.identities` (masked) and `licenseToken` (see "Licence"). |
 | `DELETE /v1/me` | session, recent auth | `{confirm: "DELETE"}`: cancels live subscriptions first, then erases and tombstones. |
 | `GET /v1/me/export` | session, recent auth | Everything about the caller; 10 per hour. |
 | `POST /v1/me/trial` | session | Starts the 7-day trial (one per person; anti-abuse claims). |
+| `POST /v1/checkout` | session | `{provider, plan, payerEmail?, acceptTerms: true, adultOrAuthorized: true, force?}`: starts a Mercado Pago or Creem checkout; see "Payments". |
+| `POST /v1/me/subscription/refresh` | session | Re-reads the provider for the caller's open checkouts and live subscriptions; the me payload plus `refresh: {ok}`. 30/h. |
+| `POST /v1/me/subscription/cancel` | session | `{subscriptionId}`: cancels at the provider, re-reads, stores the confirmed state; 502 `cancel_failed` otherwise. |
+| `POST /v1/webhooks/mercadopago` | provider (signed) | `x-signature` over the query `data.id`; the body is a pointer; the resource is re-read. |
+| `POST /v1/webhooks/creem` | provider (signed) | `creem-signature` HMAC of the raw body; envelope ids deduplicated for ever. |
 | `GET /v1/me/progress` | session | The synced progress document. |
 | `PUT /v1/me/progress` | session | Compare-and-swap on `rev`; 256 KiB. |
 | `POST /v1/reports` | optional session | A bug report with up to 3 screenshots (see "Stated deviations" for the byte budgets). |
@@ -72,6 +86,9 @@ allowed `Origin` (403 `bad_origin`). Answers are JSON `{ok, ...}` or `{ok: false
 | `POST /v1/admin/accounts/email` | admin | `{accountId, newEmail, reason}`: rectification (stored unproven). |
 | `GET /v1/admin/reports` | admin | Reports with contact and account email. |
 | `PATCH /v1/admin/reports/:id` | admin | `{status?, adminNote?, duplicateOf?}`. |
+| `GET /v1/admin/experiments` | admin | Every registry entry: enabled flag, plan, raw exposures per arm, SRM. |
+| `GET /v1/admin/experiments/results` | admin | `?key=`: the analysed sample; see "Events and experiments". |
+| `GET /v1/admin/surveys` | admin | `?kind=`: aggregates and the 20 newest texts; see "Surveys". |
 
 Admin means all of: the account's verified email is in `ADMIN_EMAILS` (read per request); the
 session is younger than 12 hours; and it was created by a Google identity that belongs to this
@@ -79,7 +96,117 @@ account, for that same address, where Google is authoritative (`@gmail.com` or a
 Every admin request is audited (rate-limited ones excepted).
 
 Scheduled: daily at 09:17 UTC the retention sweep (login codes, sessions, rate limits, stale open
-checkouts, spent nonces, report screenshots). The hourly cron does nothing yet.
+checkouts, spent nonces, report screenshots) and the measurement sweep (events, arms and
+bindings after 180 days, survey answers after 2 years), then reconciliation of every pending, active or
+past_due subscription. Hourly at :07, reconciliation of recent rows (open checkouts and pending
+subscriptions younger than 7 days). Each set is capped at 50 rows a run, least recently
+reconciled first (`reconciled_at`, migration 5).
+
+## Payments
+
+DESIGN-v2 §4-§7. Provider field names come from vendor SDK and OpenAPI source (live docs were
+unreachable from the build sandbox); the first live test on real test accounts is the proof.
+
+- **Money** is integer minor units everywhere. Prices are the `PRICE_*` vars (Mercado Pago bills
+  `PRICE_PE_*` in PEN, Creem bills `PRICE_US_*` in USD); `tests/money.test.mjs` checks they equal
+  `src/lib/cloud/offer.ts`. Mercado Pago decimals become `Math.round(x * 100)` and are refused
+  unless that is a safe integer; Creem amounts must already be integer cents.
+- **Checkout.** Mercado Pago: `POST /preapproval` with `status: "pending"`, no plan,
+  `external_reference: "pyarcana:<acct>:<chk>"`, `X-Idempotency-Key: <chk>`, `back_url`
+  `CANONICAL_ORIGIN + SITE_PATH + /cuenta/?billing=return&checkout=<chk>`; a PENDING subscription
+  row is stored with the checkout (pending never entitles). Creem: `POST /v1/checkouts` with
+  `request_id: <chk>` and `metadata: {account_id, checkout_id}`; the subscription row is created
+  by `checkout.completed`. Refusals, in order: 429 (10/h, refusals included), 400
+  `terms_required`, `bad_provider`, `bad_plan`, `provider_not_configured`, `bad_payer_email`,
+  `payer_email_required`, 409 `rail_country_mismatch` (advisory on `request.cf.country`: Mercado
+  Pago for PE or unknown, Creem outside PE; an admin's `force` overrides it and is audited), 409
+  `already_subscribed`, and 502 `provider_unavailable` (checkout expired).
+- **Ledger.** `charges` is UNIQUE on (provider, provider charge id); the subscription row, the
+  charges, `subscription_events` (append-only, only for real changes), audit lines and the
+  `webhook_events` marker are written in ONE `db.batch` after the provider read, so a duplicate
+  delivery re-applies the same state. Paid-through comes from approved charges without a refund
+  or chargeback (`access.mjs`). A Mercado Pago charge's period is fixed when it is first seen
+  approved: it starts at the previous clean period's end when approved within `GRACE_DAYS` of
+  it (no drift), else at approval, and lasts the plan's calendar months. Creem states its own
+  period. `canceled` is terminal; a status older than the stored provider time is ignored.
+- **Mercado Pago mapping** (one test per row in `tests/webhook-mp.test.mjs`): preapproval pending
+  -> pending; authorized -> active (first_active_at at the first approved charge); paused ->
+  past_due; cancelled -> canceled; payment approved -> charge approved; rejected, pending,
+  in_process, cancelled -> a charge with that status, never entitling; refunded ->
+  `refunded_at`; charged_back -> `charged_back_at`; in_mediation -> flagged, still entitling,
+  audited; a partial refund -> no change, audited. The payment and the authorized payment of one
+  collection share the payment id, so they are one ledger row. A full refund or chargeback also
+  cancels the preapproval (re-read confirmed; a failure answers 502 so the delivery is retried).
+- **Creem mapping** (`tests/webhook-creem.test.mjs`): checkout.completed -> subscription row
+  (sub id -> account stored) + the first charge when the order names its transaction;
+  subscription.active -> active; .paid -> charge approved with Creem's period; .past_due ->
+  past_due; .scheduled_cancel -> cancel_at_period_end; .canceled and .expired -> canceled;
+  .trialing -> ignored; refund.created -> `refunded_at` (partial: no change, audited);
+  dispute.created -> `charged_back_at`; a full refund or dispute cancels the subscription.
+- **Binding.** A resource counts only when it names one of OUR checkouts for the same account
+  with the same product (Creem), net price, currency and cadence; anything else answers 200 and
+  writes `webhook.unmatched` (no email in it). A deleted account is never entitled: its charges
+  are flagged `refund_due`, the provider object is cancelled, and `webhook.deleted_account` is
+  audited for a manual refund. A second renewing subscription on one account writes
+  `double_subscription`; it is not auto-cancelled.
+- **Cancel.** The buyer's cancel is Mercado Pago `PUT /preapproval/{id} {status: "cancelled"}`
+  (immediate; access runs to paid-through, no grace) or Creem `mode: "scheduled"`. Account
+  deletion and the refund policy cancel Creem with `mode: "immediate"`.
+
+## Licence
+
+DESIGN-v3-delta D-ORCH-03, a port of Vocal Studio's `license.js` (`src/license.mjs`). When the
+browser cannot reach the worker it grants Pro only while a token this worker signed verifies
+against the public keys pinned in the site config (`src/lib/cloud/licence.ts`); live `/v1/me`
+always wins, so a revocation takes effect on the next load that reaches the worker.
+
+- Compact JWS, header `{alg: "ES256", typ: "PAL", kid: LICENSE_KEY_ID}`; claims `iss:
+  "pyarcana-billing"`, `sub` (account id), `aud` (`CANONICAL_ORIGIN`), `plan: "pro"`, `source`,
+  `iat`, `exp`, `indefinite`. Signature raw r||s (64 bytes).
+- `exp = min(now + LICENSE_TTL_SECONDS, accessEnd)`; an indefinite access runs on the TTL. The TTL
+  defaults to 72 h and is clamped to 60 s..72 h (the browser refuses longer tokens).
+- `licenseToken` is null when the account is not Pro, when `CANONICAL_ORIGIN` is empty, or when the
+  key is missing or unusable (logged by error name only, never the key). `/v1/me` never fails
+  because of the licence: without a key, offline Pro simply does not exist (fail closed).
+- One secret: the public key is derived from `LICENSE_PRIVATE_KEY_PKCS8_B64`; the imported key is
+  cached per isolate and per secret, and one payload signs once.
+- `scripts/generate-keys.mjs [kid]` prints the private key (for `wrangler secret put`), the public
+  JWK (for the site config `licence.publicKeys`) and the `LICENSE_KEY_ID` line. Nothing is written
+  to disk.
+
+## Events and experiments
+
+DESIGN-v3 §F, trimmed from Vocal Studio's `events.js` and `stats.js`.
+
+- Registry (`src/experiments.mjs`): `aa_2026_q4` (a/b, surface `gate_or_home`, 200 per arm),
+  `pkg_ab_v1` (a/b, `gate`, 400), `ads_house_v1` (none/house, `ad_slot`, 400); equal weights, 14
+  days minimum, primary metric `trial_14d`. The control is `arms[0]`. Nothing runs until its key
+  is in `EXPERIMENTS_ENABLED`.
+- `POST /v1/events`: GPC (`Sec-GPC: 1`), DNT, a missing or bot user agent, and `EVENTS_ENABLED =
+  "false"` answer 202 and store nothing. Then 600 requests/h per network, the batch shape (400
+  `bad_cid`, `bad_events`, `bad_qa`), 60 requests/h per id. Allowlisted names only (the client's
+  eleven); an event with an unknown key, a bad token or a section outside 1..999 is dropped and
+  counted in `{accepted, dropped}`. An `exposure` is kept only for an enabled experiment's
+  registered arm and records the id's FIRST arm (intent to treat).
+- The id is never stored: `cid_hash = HMAC(SERVER_PEPPER, "cid:" + cid)`. A bind links an id to an
+  account (the first binding of an id wins; the account keeps its first arm per experiment).
+- Results (`src/experiment-results.mjs`): unit = exposed id. Exclusions at read time, first match
+  wins: admin (listed, verified address), tester (role or tester grant), gift holder, an id that
+  sent QA-mode events. Metrics over the 14 days after the first exposure: trial started (grant,
+  through the binding), paid (approved charge, not refunded or charged back), D7 return (an event
+  on days 7-13). Rates count only ids exposed at least 14 days ago. Wilson 95 % intervals,
+  Newcombe differences against the control, SRM chi-square flagged at p < 0.001, arm-switch rate.
+  The plan gate: every arm has `minPerArm` matured ids and the first exposure is `minDays` old;
+  before that only `exposed` is returned, and no comparison.
+
+## Surveys
+
+DESIGN-v3 §G (`src/surveys.mjs`). `section_csat` score 1..5, `nps` 0..10, `gate_reason` and
+`cancel_reason` a code from the client's lists; text at most 500 characters; the optional `cid`
+is stored hashed. Admin aggregates: CSAT n, mean with a normal 95 % interval and the score split;
+NPS n, score, interval from 30 answers, promoters/passives/detractors; reasons counted per code;
+the 20 newest texts (never the account). Answers are kept 2 years and are exported and deleted
+with the account, as are the consent records and the measurement rows of every id bound to it.
 
 ## Sign-in email
 
@@ -100,17 +227,25 @@ DESIGN-v3 §K is dropped (D-USER-04): Hostinger mailbox credentials never go int
 
 Named undone work; nothing below exists in the code today.
 
-- Payments: `POST /v1/checkout`, `POST /v1/me/subscription/refresh`,
-  `POST /v1/me/subscription/cancel`, `POST /v1/webhooks/mercadopago`, `POST /v1/webhooks/creem`,
-  and the provider adapters. Until then account deletion answers 502 `cancel_failed` for an
-  account that still has a pending, active or past_due subscription (none can exist yet).
-- The hourly provider reconciliation (the cron entry is a no-op).
-- The licence token (DESIGN-v3-delta D-ORCH-03): `GET /v1/jwks`, `licenseToken` in the me payload,
-  the signing key and `scripts/generate-keys.mjs`.
-- Experiments and events (DESIGN-v3 §F): `GET /v1/experiments`, `POST /v1/events`,
-  `POST /v1/me/experiments/bind`, `GET /v1/admin/experiments`, `GET /v1/admin/experiments/results`.
-- Satisfaction surveys (DESIGN-v3 §G): `POST /v1/surveys`, `GET /v1/admin/surveys`; the consents
-  record.
+- Payments, named gaps: the Polar adapter; a Creem customer-portal link in the me payload
+  (`manageUrl` is null for Creem; `POST /v1/customers/billing` exists but is not called); Mercado
+  Pago's dedicated chargeback topic (`topic_chargebacks_wh` / `chargebacks` is acknowledged and
+  ignored; a chargeback is applied from the payment's `charged_back` status); legacy IPN
+  deliveries without a query `data.id` (400); Creem `subscription.unpaid`, `.paused` and
+  `.update` events (ignored; a re-read maps `unpaid` to past_due); verifying the Creem return
+  URL's `signature` (the return page calls refresh, an API read, instead); resubscribing or
+  switching plan while a cancelled period still runs (409 `already_subscribed`); refunds
+  themselves (manual, in the provider dashboards); an admin view of `double_subscription` and
+  `webhook.deleted_account` beyond the audit rows.
+- Measurement, named gaps: a consent withdrawal stores the record only; server-side erasure of
+  the id's past rows on withdrawal is not built (the browser forgets its id and stops sending;
+  account deletion erases them). The `ads_house_v1` guardrail metrics (sections completed per
+  active user per week, CLS) are not computed; results show trial, paid and D7 only. Vocal's
+  per-day ingest counters (`ingest_daily`) are not ported: drops are reported per request only.
+  The plan gate is fixed-horizon: reading results repeatedly after it is met, or across three
+  metrics, is not corrected for multiple looks. Survey aggregates exclude nobody (the client sends
+  none in QA mode) and have no date filter. The health route has no licence flag; the JWKS route
+  is the check.
 - The one-origin deploy script `scripts/deploy.sh` (DESIGN-v3 §A: static build at the root,
   `out/_headers` and `out/ads.txt`, then `wrangler deploy`). The `[assets]` block and the worker's
   fall-through to `ASSETS` are built; until the script exists the owner runs the three steps by
@@ -157,6 +292,33 @@ Only the owner can do these; nothing here is deployed.
    exactly.
 8. After the first deploy, open one Workers Logs entry and confirm which request fields it keeps
    (not verifiable from here).
+9. Payments, Mercado Pago (Peru): create the application in "Tus integraciones", set
+   `MP_ACCESS_TOKEN` (`npx wrangler secret put MP_ACCESS_TOKEN`), configure the webhook URL
+   `https://pyarcana.dev/api/v1/webhooks/mercadopago` for the topics Payments and Subscriptions
+   (preapproval and authorized payments), and put its "secret signature" in `MP_WEBHOOK_SECRET`.
+   Then prove with test users (buyer and seller must both be test users): one sandbox
+   `POST /preapproval` in PEN succeeds (the vendor sources disagree on Peru availability), the
+   buyer authorizes at `init_point`, the webhook arrives signed and the account turns Pro; a
+   refund from the dashboard ends access and cancels the preapproval.
+10. Payments, Creem: create the two products (monthly, yearly) in USD at exactly
+    `PRICE_US_MONTHLY_MINOR` / `PRICE_US_YEARLY_MINOR`, paste their ids into
+    `CREEM_PRODUCT_PRO_MONTHLY` / `CREEM_PRODUCT_PRO_YEARLY`, set `CREEM_API_KEY` and, after adding
+    the webhook `https://pyarcana.dev/api/v1/webhooks/creem`, `CREEM_WEBHOOK_SECRET` (the whole
+    `whsec_...` string). Use `CREEM_API_BASE = "https://test-api.creem.io"` with test keys first.
+    Decide the products' tax mode (the worker compares the NET price) and keep the store's default
+    cancel mode irrelevant: the worker always sends `mode` explicitly.
+11. Workers Paid is already needed for Email Sending; reconciliation also needs its subrequest
+    allowance (a Mercado Pago row costs two or three subrequests, 50 rows per set per run).
+12. Licence key: `node scripts/generate-keys.mjs k1` (from `workers/billing/`), then
+    `npx wrangler secret put LICENSE_PRIVATE_KEY_PKCS8_B64` and paste the printed key at the
+    prompt (never in chat, a file or git; clear the scrollback). Put the printed public JWK in the
+    site config `licence.publicKeys`, keep `LICENSE_KEY_ID` equal to its `kid`, and after deploy
+    check that `GET /api/v1/jwks` lists that kid. Rotation: new kid, old public JWK kept in the
+    site config and in `LICENSE_PREV_PUBLIC_JWK` for at least 72 h.
+13. Experiments: enable one at a time by adding its key to `EXPERIMENTS_ENABLED` and redeploying;
+    run `aa_2026_q4` first and read its SRM before trusting any other result. The consent text
+    and `consent.mode` are a legal decision (DESIGN-v3 §F keeps `everywhere` until a lawyer says
+    otherwise).
 
 ## Stated deviations
 
@@ -194,5 +356,38 @@ Each one is a decision someone may want to revisit.
   tenant issuer, which covers `common`, `organizations` and `consumers` alike.
 - `GET /v1/geo` answers `country: null` for `XX` (unknown) and `T1` (Tor), not just for a missing
   value, so an unplaceable caller gets house ads.
+- Payments: Creem charges are keyed by the TRANSACTION id (the id refunds and disputes carry), so
+  `checkout.completed` records the first charge only when its order names the transaction;
+  otherwise `subscription.paid` (the event Creem recommends for access) records it. A partial
+  Creem refund is treated like a partial Mercado Pago refund (no change, audited). Creem amounts
+  are compared as NET prices (product `price`, transaction `amount`), tax excluded.
+- Payments: the Mercado Pago marker is (topic, data.id, x-request-id), and a redelivery re-reads
+  and re-applies the current state; Creem envelope ids are refused as duplicates for ever.
+  The rail/country check reads only Cloudflare's `request.cf.country`; a `country` in the
+  checkout body (DESIGN-v2 lists it) is ignored, because the client could send anything.
+  Unknown providers answer 400 `bad_provider` (DESIGN-v2 names only `bad_plan` and
+  `provider_not_configured`). Refresh also answers `refresh: {ok}` beside the me payload. No
+  cancel-confirmation email is sent (DESIGN-v3-delta: no voluntary promises).
+- Payments: two DIFFERENT charges of one Mercado Pago subscription processed at the same instant
+  could both chain from the same previous period and overlap by up to one period (the buyer's
+  loss). Mercado Pago collects a subscription at most once a cycle, so this needs two collections
+  within seconds; it is accepted, not prevented.
+- Stage 2c: the consent record route is `POST /v1/me/consents` (plural), the path the client
+  already calls (`src/lib/cloud/consent-sync.ts`); the orchestration brief said `/v1/me/consent`.
+  Every call appends a row (a history), and `at` is stored as the browser sent it.
+- Stage 2c: `experiment_arms` is keyed by (subject, experiment), not by subject alone as
+  DESIGN-v3 §F writes it, so one id can be in several experiments; `subject_kind` tells an id
+  from an account copy. `events.qa` carries the client's QA-mode flag; the client sends none in
+  QA mode today, so the exclusion is a guard.
+- Stage 2c: `EVENTS_ENABLED` is a kill switch (only `"false"` turns ingest off; `wrangler.toml`
+  says `"true"`), as in Vocal; `EXPERIMENTS_ENABLED` is opt-in (empty = nothing runs). An
+  exposure for a disabled experiment is dropped, so switching an experiment off stops enrolment.
+- Stage 2c: exclusions count anything EVER held (a tester role or grant, a gift grant), not only
+  what was active at exposure; an excluded id is dropped from both SRM and metrics. Paid counts
+  an approved charge without a later refund or chargeback. Consent records and survey answers
+  under a bound id are deleted with the account (the record exists to justify processing that
+  ends with the account).
+- Stage 2c: the licence TTL ceiling is 72 h (Vocal allowed 30 days) because the browser refuses
+  longer tokens; the subject is the account id (Vocal used a bearer licence id).
 - The JWKS fetch is aborted after 5 s with an AbortController and a cleared timer (the same abort
   as `AbortSignal.timeout`, without an unref'd timer).

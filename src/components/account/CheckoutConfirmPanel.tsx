@@ -16,6 +16,7 @@ import { parseGeo } from '@/lib/cloud/ad-slot'
 import { ErrorAlert } from './Alerts'
 import { cloudApi, track, useAccountUi } from './runtime'
 import { useText, type Tr } from './text'
+import { LEGAL_CHECKBOX_CLASS } from '@/components/account/a11y'
 
 function initialMarket(): Market {
   return defaultMarket({ timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, language: navigator.language })
@@ -98,7 +99,7 @@ function CadenceChoice({ market, cadence, onChange, tr }: { market: Market; cade
 function Box({ id, checked, onChange, label }: { id: string; checked: boolean; onChange: (v: boolean) => void; label: string }) {
   return (
     <div className="flex items-start gap-2">
-      <Checkbox id={id} checked={checked} onCheckedChange={(v) => onChange(v === true)} className="mt-0.5" />
+      <Checkbox id={id} className={`mt-0.5 ${LEGAL_CHECKBOX_CLASS}`} checked={checked} onCheckedChange={(v) => onChange(v === true)} />
       <Label htmlFor={id} className="text-sm font-normal leading-snug">{label}</Label>
     </div>
   )

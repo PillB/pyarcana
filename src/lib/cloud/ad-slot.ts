@@ -91,3 +91,13 @@ export function slotView(chosen: AdAdapter, creative: HouseCreative | null | und
   if (chosen === 'reserved' && provider === 'house') return null
   return chosen
 }
+/**
+ * The desktop right rail (EthicalAds, DESIGN-v3 §E): shown only where it fits beside the course
+ * column (max-w-6xl = 1152 px) with its 180 px image unit and gutters, so the EthicalAds client
+ * only runs where its ad is actually visible. The same width is the CSS breakpoint in AdSlot.
+ */
+export const RAIL_MIN_WIDTH_PX = 1600
+
+export function railMediaQuery(): string {
+  return `(min-width: ${RAIL_MIN_WIDTH_PX}px)`
+}

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { CLOUD_CONFIG, isGatingStage, type CloudConfig, type LaunchStage } from '@/lib/cloud/config'
 import { sellerView, type OwnerIdentity } from '@/lib/cloud/pricing-view'
 import { CloudPageFrame, TrademarkNotice } from './CloudPageFrame'
-import { loadAuthMethods, useAuthMethods } from './runtime'
+import { loadAuthMethods, useLoadedAuthMethods } from './runtime'
 import { useText, type Tr } from './text'
 
 function Part({ id, title, children }: { id?: string; title: string; children: ReactNode }) {
@@ -77,7 +77,7 @@ export function SubscriptionContent({ stage, cfg, trialDays }: { stage: LaunchSt
 }
 
 function SuscripcionActive({ stage }: { stage: LaunchStage }) {
-  const trialDays = useAuthMethods((s) => s.trialDays)
+  const trialDays = useLoadedAuthMethods((s) => s.trialDays)
   useEffect(() => {
     void loadAuthMethods()
   }, [])

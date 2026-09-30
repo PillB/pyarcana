@@ -15,6 +15,11 @@ const EXPECTED_TABLES = [
   "audit_log",
   "charges",
   "checkouts",
+  // Stage 2c (DESIGN-v3 §F/§G): consents, measurement and surveys.
+  "consents",
+  "events",
+  "experiment_arms",
+  "experiment_bindings",
   "grants",
   "identities",
   "login_codes",
@@ -26,6 +31,7 @@ const EXPECTED_TABLES = [
   "sessions",
   "subscription_events",
   "subscriptions",
+  "survey_responses",
   "trial_claims",
   "used_nonces",
   "webhook_events"

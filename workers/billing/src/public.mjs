@@ -110,8 +110,17 @@ const NOT_A_COUNTRY = new Set(["XX", "T1"]);
  * @returns {Object} Result.
  */
 export function handleGeo(ctx) {
-  const cf = ctx.request.cf;
+  return { status: 200, body: { ok: true, country: requestCountry(ctx.request) } };
+}
+
+/**
+ * The caller's real country from Cloudflare's request.cf, or null (none,
+ * junk, XX unknown, T1 Tor). Used by /v1/geo and the checkout rail check.
+ * @param {Request} request Incoming request.
+ * @returns {string|null} ISO 3166-1 alpha-2 country.
+ */
+export function requestCountry(request) {
+  const cf = request && request.cf;
   const raw = cf && typeof cf.country === "string" ? cf.country : "";
-  const country = COUNTRY_RE.test(raw) && !NOT_A_COUNTRY.has(raw) ? raw : null;
-  return { status: 200, body: { ok: true, country } };
+  return COUNTRY_RE.test(raw) && !NOT_A_COUNTRY.has(raw) ? raw : null;
 }

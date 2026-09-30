@@ -93,9 +93,11 @@ test('launch default: house ads only, no network', () => {
 test('EthicalAds: desktop right rail only, and only with a publisher id', () => {
   const ea = { ...CLOUD_CONFIG.ads, provider: 'ethicalads' as const, ethicaladsPublisher: 'pyarcana' }
   assert.equal(chooseAdapter({ ...adapterBase, ads: ea, placement: 'rail' }), 'ethicalads')
-  assert.equal(chooseAdapter({ ...adapterBase, ads: ea, placement: 'rail', desktop: false }), 'house')
+  // The rail is EthicalAds-only (client review finding 28, 2026-09-29): where it cannot show the
+  // network it stays empty instead of adding a second house promo to the view.
+  assert.equal(chooseAdapter({ ...adapterBase, ads: ea, placement: 'rail', desktop: false }), 'none')
   assert.equal(chooseAdapter({ ...adapterBase, ads: ea, placement: 'section_end' }), 'house')
-  assert.equal(chooseAdapter({ ...adapterBase, ads: { ...ea, ethicaladsPublisher: '' }, placement: 'rail' }), 'house')
+  assert.equal(chooseAdapter({ ...adapterBase, ads: { ...ea, ethicaladsPublisher: '' }, placement: 'rail' }), 'none')
   assert.deepEqual(networkHosts('ethicalads'), ['https://media.ethicalads.io', 'https://server.ethicalads.io'])
   assert.equal(scriptUrl('ethicalads', ea), 'https://media.ethicalads.io/media/client/ethicalads.min.js')
 })

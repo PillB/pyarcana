@@ -9,17 +9,24 @@
  * Export: the account, identities (provider + masked subject), sessions
  * (without their hashes), roles, grants (with the admin's note: it is data
  * about the person), subscriptions, charges, checkouts, progress, the
- * person's reports with attachment metadata, and the audit rows about them
- * (actor shown as self / admin / system). Never token_hash, code_hmac,
- * email_hmac, trial-claim keys or rate-limit buckets.
+ * person's reports with attachment metadata, the audit rows about them
+ * (actor shown as self / admin / system), and (stage 2c) their consent
+ * records, survey answers and measurement rows: answers and events sent under
+ * a measurement id bound to the account count as theirs. Never token_hash,
+ * code_hmac, email_hmac, cid_hash, trial-claim keys or rate-limit buckets.
  *
  * Delete:
  *  1. every pending / active / past_due subscription is cancelled through the
- *     provider registry (providers.mjs), and each confirmed cancel is stored
- *     at once; any failure answers 502 cancel_failed and NOTHING is deleted;
+ *     provider registry (providers.mjs: Mercado Pago PUT cancelled, Creem
+ *     mode "immediate", each confirmed by a re-read), and each confirmed
+ *     cancel is stored at once; any failure, or a rail that is not
+ *     configured, answers 502 cancel_failed and NOTHING is deleted;
  *  2. then ONE batch: open checkouts expire; identities, sessions, progress,
  *     login codes and roles are deleted; the person's report screenshots are
  *     deleted and their reports anonymized; grant notes are cleared; the
+ *     measurement rows of the account and of every id bound to it (events,
+ *     arms, bindings), its survey answers (signed-in or under a bound id)
+ *     and its consent records are deleted;
  *     account is tombstoned (deleted_at, email/display name/locale NULL,
  *     email_hmac = HMAC(pepper, "tombstone:" + email)); an audit row.
  *  Subscriptions, charges and grants stay as billing records, with no email.
@@ -36,6 +43,9 @@ import { hitRateLimit } from "./ratelimit.mjs";
 import { isRecentAuth } from "./sessions.mjs";
 
 const NON_TERMINAL = ["pending", "active", "past_due"];
+
+/** The measurement ids bound to the account ?1. */
+const BOUND_IDS = "(SELECT cid_hash FROM experiment_bindings WHERE account_id = ?1)";
 
 /** Exports allowed per account per hour. */
 export const EXPORTS_PER_HOUR = 10;
@@ -66,7 +76,13 @@ async function personalRows(ctx, id) {
     reports: "SELECT * FROM reports WHERE account_id = ?1 ORDER BY created_at",
     attachments:
       "SELECT id, report_id, mime, length(bytes) AS size, created_at FROM report_attachments WHERE report_id IN (SELECT id FROM reports WHERE account_id = ?1)",
-    audit: "SELECT actor_account_id, action, target_id, detail, created_at FROM audit_log WHERE target_account_id = ?1 ORDER BY id"
+    audit: "SELECT actor_account_id, action, target_id, detail, created_at FROM audit_log WHERE target_account_id = ?1 ORDER BY id",
+    consents: "SELECT kind, value, version, client_at, created_at FROM consents WHERE account_id = ?1 ORDER BY id",
+    surveys: `SELECT kind, score, reason_code, text, section_idx, created_at FROM survey_responses
+      WHERE account_id = ?1 OR cid_hash IN ${BOUND_IDS} ORDER BY created_at, id`,
+    arms: "SELECT experiment, arm, first_at FROM experiment_arms WHERE subject = ?1 AND subject_kind = 'account' ORDER BY experiment",
+    events: `SELECT name, experiment, arm, surface, section_idx, day, received_at FROM events WHERE cid_hash IN ${BOUND_IDS} ORDER BY id`,
+    devices: "SELECT COUNT(*) AS n FROM experiment_bindings WHERE account_id = ?1"
   };
   const names = Object.keys(statements);
   const results = await ctx.db.batch(names.map((name) => ctx.db.prepare(statements[name]).bind(id)));
@@ -167,6 +183,23 @@ function exportBilling(rows) {
 }
 
 /**
+ * The export's consent, survey and measurement sections.
+ * @param {Object} p personalRows output.
+ * @returns {{consents: Object[], surveys: Object[], measurement: Object}} Sections.
+ */
+function exportMeasurement(p) {
+  return {
+    consents: p.consents.map((c) => ({ kind: c.kind, value: c.value, version: c.version, at: c.client_at, createdAt: c.created_at })),
+    surveys: p.surveys.map((s) => ({ kind: s.kind, score: s.score, reasonCode: s.reason_code, text: s.text, sectionIndex: s.section_idx, createdAt: s.created_at })),
+    measurement: {
+      devices: Number(p.devices[0].n),
+      arms: p.arms.map((a) => ({ experiment: a.experiment, arm: a.arm, firstAt: a.first_at })),
+      events: p.events.map((e) => ({ name: e.name, experiment: e.experiment, arm: e.arm, surface: e.surface, sectionIndex: e.section_idx, day: e.day, receivedAt: e.received_at }))
+    }
+  };
+}
+
+/**
  * Assemble the export document.
  * @param {Object} ctx Context.
  * @param {Object} snapshot accessSnapshot.
@@ -190,7 +223,8 @@ function buildExport(ctx, snapshot, p) {
     checkouts: p.checkouts.map((c) => ({ id: c.id, provider: c.provider, plan: c.plan, amountMinor: Number(c.amount_minor), currency: c.currency, country: c.country, createdAt: c.created_at, status: c.status })),
     progress: progress ? { rev: progress.rev, doc: JSON.parse(progress.doc), updatedAt: progress.updated_at } : null,
     reports: exportReports(p.reports, p.attachments),
-    audit: p.audit.map((a) => ({ action: a.action, actor: actorKind(a.actor_account_id, id), targetId: a.target_id, detail: a.detail ? JSON.parse(a.detail) : null, createdAt: a.created_at }))
+    audit: p.audit.map((a) => ({ action: a.action, actor: actorKind(a.actor_account_id, id), targetId: a.target_id, detail: a.detail ? JSON.parse(a.detail) : null, createdAt: a.created_at })),
+    ...exportMeasurement(p)
   };
 }
 
@@ -292,6 +326,12 @@ function erasureBatch(ctx, emailHmac, cancelled) {
     db.prepare(`DELETE FROM report_attachments WHERE report_id IN ${own}`).bind(id),
     db.prepare("UPDATE reports SET account_id = NULL, reporter_alias = NULL, contact_email = NULL, client_issue_id = NULL WHERE account_id = ?1").bind(id),
     db.prepare("UPDATE grants SET note = NULL WHERE account_id = ?1").bind(id),
+    // Measurement and surveys: rows under the bound ids first, then the bindings.
+    db.prepare(`DELETE FROM events WHERE cid_hash IN ${BOUND_IDS}`).bind(id),
+    db.prepare(`DELETE FROM survey_responses WHERE account_id = ?1 OR cid_hash IN ${BOUND_IDS}`).bind(id),
+    db.prepare(`DELETE FROM experiment_arms WHERE subject = ?1 OR subject IN ${BOUND_IDS}`).bind(id),
+    db.prepare("DELETE FROM experiment_bindings WHERE account_id = ?1").bind(id),
+    db.prepare("DELETE FROM consents WHERE account_id = ?1").bind(id),
     db
       .prepare(
         `UPDATE accounts SET deleted_at = ?2, email = NULL, email_normalized = NULL, display_name = NULL, locale = NULL,

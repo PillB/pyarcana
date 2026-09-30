@@ -13,10 +13,12 @@ import { refreshSubscription, uiError, type UiError } from '@/lib/cloud/account-
 import { safeSessionStorage } from '@/lib/cloud/storage'
 import { ErrorAlert, StatusNote } from './Alerts'
 import { AccountPanel } from './AccountPanel'
+import { HeadingLevel } from './PlanSections'
 import { AccountDialog } from './AccountDialog'
 import { CloudSync } from './CloudSync'
 import { applyMe, cloudApi, inMicrosoftCallback, markLeavingPage, markMicrosoftCallback } from './runtime'
 import { useAfterMount, useText, type Tr } from './text'
+import { ERROR_ALERT_CLASS } from '@/components/account/a11y'
 
 type Phase = { kind: 'idle' } | { kind: 'ms_working' } | { kind: 'ms_failed'; message: string } | { kind: 'ms_linked' }
 
@@ -99,7 +101,7 @@ function BillingStatus({ state, retry, tr }: { state: PollState | 'checking' | n
 
 function PhaseNote({ phase, tr }: { phase: Phase; tr: Tr }) {
   if (phase.kind === 'ms_working') return <p role="status" className="text-sm">{tr('cuenta.ms.working')}</p>
-  if (phase.kind === 'ms_failed') return <p role="alert" className="text-sm text-destructive">{phase.message}</p>
+  if (phase.kind === 'ms_failed') return <p role="alert" className={ERROR_ALERT_CLASS}>{phase.message}</p>
   return <StatusNote text={phase.kind === 'ms_linked' ? tr('cuenta.ms.linked') : null} />
 }
 
@@ -115,7 +117,11 @@ function AccountPageActive() {
     <div className="space-y-4" lang={lang}>
       <PhaseNote phase={phase} tr={tr} />
       <BillingStatus state={billing} retry={retry} tr={tr} />
-      {me && <AccountPanel me={me} />}
+      {me && (
+        <HeadingLevel level={2}>
+          <AccountPanel me={me} />
+        </HeadingLevel>
+      )}
       {signedOut && <p className="text-sm">{tr('cuenta.signedOut')}</p>}
       <ErrorAlert error={meStatus === 'unavailable' ? { key: 'account.error.unavailable' } : null} />
       <CloudSync />

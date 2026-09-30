@@ -20,6 +20,7 @@ import type { UiError } from '@/lib/cloud/account-api'
 import { saveQaIssue, type QAIssue } from '@/lib/qa-session'
 import { cloudApi } from './runtime'
 import { useText, type Tr } from './text'
+import { LEGAL_CHECKBOX_CLASS } from '@/components/account/a11y'
 
 /** Draws through a canvas: only pixels are written, so EXIF never leaves the browser. */
 function browserCodec(): ImageCodec {
@@ -145,7 +146,7 @@ function SendAll({ issues, tester, onSent }: { issues: QAIssue[]; tester: string
 function ModeToggle({ id, checked, label, hint, onChange }: { id: string; checked: boolean; label: string; hint: string; onChange: (v: boolean) => void }) {
   return (
     <div className="flex items-start gap-2">
-      <Checkbox id={id} checked={checked} onCheckedChange={(v) => onChange(v === true)} className="mt-0.5" />
+      <Checkbox id={id} className={`mt-0.5 ${LEGAL_CHECKBOX_CLASS}`} checked={checked} onCheckedChange={(v) => onChange(v === true)} />
       <div>
         <Label htmlFor={id}>{label}</Label>
         <p className="text-xs text-muted-foreground">{hint}</p>

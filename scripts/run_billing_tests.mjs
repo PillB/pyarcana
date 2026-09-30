@@ -87,7 +87,23 @@ const WORKER_SUITES = [
   ["identities", 6],
   // Stage 2a: one-origin hosting (DESIGN-v3 §A) and the ads region check (§E).
   ["hosting", 5],
-  ["geo", 4]
+  ["geo", 4],
+  // Stage 2b: payments (DESIGN-v2 §4-§7): money, checkout, both webhooks,
+  // refresh/cancel, reconciliation.
+  ["money", 6],
+  ["checkout", 14],
+  ["webhook-mp", 23],
+  ["webhook-creem", 16],
+  ["subscription", 10],
+  ["reconcile", 6],
+  // Stage 2c: the licence (DESIGN-v3-delta D-ORCH-03), events and experiments (DESIGN-v3 §F),
+  // surveys and consents (§G), and their export/delete/retention.
+  ["license", 9],
+  ["experiments", 10],
+  ["stats", 5],
+  ["experiment-results", 8],
+  ["surveys", 7],
+  ["measurement-privacy", 3]
 ].map(([name, floor]) => ({ group: "worker", file: `${WORKER_TESTS}/${name}.test.mjs`, floor }));
 
 /**
@@ -97,17 +113,22 @@ const WORKER_SUITES = [
  * counts that day.
  */
 const CLIENT_SUITES = [
+  ["a11y-render", 7],
   ["account-api", 10],
   ["ad-slot-survey", 10],
   ["admin-api", 11],
+  ["admin-detail", 3],
   ["ads-surveys", 16],
   ["api", 10],
   ["billing-ui", 11],
+  ["client-fixes", 21],
+  ["cloud-i18n", 3],
   ["config", 13],
   ["consent-qa", 7],
   ["experiments", 10],
   ["gate", 16],
   ["handoff", 8],
+  ["handoff-import", 6],
   ["headers", 9],
   ["import-boundary", 2],
   ["legal-content", 9],
@@ -117,12 +138,13 @@ const CLIENT_SUITES = [
   ["offer", 7],
   ["oidc", 14],
   ["plans", 4],
-  ["prerender", 7],
+  ["prerender", 14],
   ["pricing-view", 5],
   ["primitives", 10],
   ["progress-merge", 17],
   ["progress-sync", 21],
   ["qa-report", 21],
+  ["remote-apply", 4],
   ["runtime", 10],
   ["session-access", 20],
   ["ui-state", 12]

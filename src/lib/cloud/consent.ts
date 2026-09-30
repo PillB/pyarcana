@@ -13,7 +13,7 @@ import type { ConsentMode } from '@/lib/cloud/config'
 
 export const CONSENT_KEY = 'pyarcana-consent-v1'
 /** Bump when the consent sentence changes, so everyone is asked again. */
-export const CONSENT_VERSION = 1
+export const CONSENT_VERSION = 2
 export const MEASUREMENT_ID_KEY = 'pyarcana-exp-cid'
 
 export type ConsentValue = 'granted' | 'denied'

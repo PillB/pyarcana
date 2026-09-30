@@ -2,6 +2,11 @@
 
 import Link from 'next/link'
 import { Lock, ShieldCheck } from 'lucide-react'
+import { useCloudStage } from '@/lib/cloud/hooks'
+import { storageNoticeKeys } from '@/lib/cloud/ui-state'
+import { IS_STATIC_SITE } from '@/lib/runtime-mode'
+import { useSyncUi } from './runtime'
+import { useText } from './text'
 
 /**
  * "Where is your progress stored?" on the Dashboard, moved out of Dashboard() verbatim so the
@@ -9,6 +14,12 @@ import { Lock, ShieldCheck } from 'lucide-react'
  * already far over the complexity ceiling.
  */
 export function ProgressStorageNotice({ isSignedIn, english }: { isSignedIn: boolean; english: boolean }) {
+  const { tr } = useText()
+  const stage = useCloudStage()
+  const syncStatus = useSyncUi((s) => s.status)
+  // Only what is true here (storageNoticeKeys): no account promise where the stage-off notice
+  // says there are none, and "saved in your account" only after a sync succeeded.
+  const [line] = storageNoticeKeys({ signedIn: isSignedIn, isStaticSite: IS_STATIC_SITE, stage, syncStatus })
   if (!isSignedIn) {
     return (
       <div
@@ -25,9 +36,8 @@ export function ProgressStorageNotice({ isSignedIn, english }: { isSignedIn: boo
                 : 'Por ahora, solo en este navegador (localStorage — esto es, una base de datos interna del navegador que tú controlas).'}
             </p>
             <p>
-              {english
-                ? 'If you create an account, your progress also syncs to our servers so you can resume on another device. We do not sell or share your data.'
-                : 'Si creas una cuenta, tu progreso también se sincroniza con nuestros servidores para que puedas retomarlo en otro dispositivo. No vendemos ni compartimos tus datos.'}{' '}
+              {line && `${tr(line)} `}
+              {english ? 'We do not sell or share your data.' : 'No vendemos ni compartimos tus datos.'}{' '}
               <Link
                 href="/privacy"
                 className="font-medium text-foreground underline-offset-2 hover:underline"
@@ -57,9 +67,7 @@ export function ProgressStorageNotice({ isSignedIn, english }: { isSignedIn: boo
           <div className="space-y-1">
             <p>
               <strong>{english ? 'Signed in' : 'Sesión iniciada'}</strong>{' '}
-              {english
-                ? '— your progress is syncing to your cloud account, so it follows you across devices.'
-                : '— tu progreso se está sincronizando con tu cuenta en la nube, así te sigue entre dispositivos.'}
+              {tr(line ?? 'storage.signedIn.notYet')}
             </p>
             <p>
               {english

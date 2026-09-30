@@ -24,6 +24,11 @@ import { handleDisableAccount, handleEnableAccount, handleGetAccount, handleLook
 import { handleEmailStart, handleEmailVerify } from "./auth-email.mjs";
 import { handleGoogleSignIn, handleLinkGoogle, handleLinkMicrosoft, handleMicrosoftSignIn } from "./auth-oidc.mjs";
 import { handleLogout } from "./auth-session.mjs";
+import { handleCheckout } from "./checkout.mjs";
+import { handleRecordConsent } from "./consents.mjs";
+import { EVENTS_BODY_CAP, handleEvents } from "./events.mjs";
+import { handleAdminExperiments, handleExperimentResults } from "./experiment-results.mjs";
+import { handleBindExperiments, handleListExperiments } from "./experiments.mjs";
 import { pepperBytes } from "./crypto.mjs";
 import { accessStage, auditAdminRequest } from "./gate.mjs";
 import { handleCreateGrant, handleListGrants, handleRevokeGrant } from "./grants.mjs";
@@ -38,11 +43,13 @@ import {
   networkKey,
   preflight,
   readCookie,
+  readBodyBytes,
   readJsonBody,
   SESSION_COOKIE,
   sessionCookie
 } from "./http.mjs";
 import { handleUnlinkIdentity } from "./identities.mjs";
+import { handleJwks } from "./license.mjs";
 import { handleGetMe } from "./me.mjs";
 import { handleDeleteAccount, handleExport } from "./privacy.mjs";
 import { handleGetProgress, handlePutProgress, PROGRESS_BODY_CAP } from "./progress.mjs";
@@ -50,10 +57,13 @@ import { DEFAULT_PROVIDERS } from "./providers.mjs";
 import { handleAdminReports, handlePatchReport, handleQaAttachment, handleQaReport, handleQaReports } from "./report-triage.mjs";
 import { handleMyReports, handleSubmitReport, REPORT_BODY_CAP } from "./reports.mjs";
 import { handleGrantRole, handleListRoles, handleRevokeRole } from "./roles.mjs";
+import { handleAdminSurveys, handleSubmitSurvey } from "./surveys.mjs";
 import { handleStartTrial } from "./trial.mjs";
 import { handleGeo, handleHealth, handleMethods, hasDb } from "./public.mjs";
 import { migrate } from "./schema.mjs";
+import { handleCreemWebhook, handleMercadoPagoWebhook, WEBHOOK_BODY_CAP } from "./webhooks.mjs";
 import { resolveSession } from "./sessions.mjs";
+import { handleCancelSubscription, handleRefresh } from "./subscription.mjs";
 
 const DB_PEPPER = ["db", "pepper"];
 
@@ -88,6 +98,12 @@ export const ROUTES = [
   { method: "GET", path: "/v1/health", handler: handleHealth, needs: [] },
   { method: "GET", path: "/v1/auth/methods", handler: handleMethods, needs: [] },
   { method: "GET", path: "/v1/geo", handler: handleGeo, needs: [] },
+  { method: "GET", path: "/v1/jwks", handler: handleJwks, needs: [] },
+  { method: "GET", path: "/v1/experiments", handler: handleListExperiments, needs: [] },
+  { method: "POST", path: "/v1/events", handler: handleEvents, needs: DB_PEPPER, bodyCap: EVENTS_BODY_CAP },
+  { method: "POST", path: "/v1/me/experiments/bind", handler: handleBindExperiments, needs: DB_PEPPER, auth: "session" },
+  { method: "POST", path: "/v1/me/consents", handler: handleRecordConsent, needs: DB_PEPPER, auth: "session" },
+  { method: "POST", path: "/v1/surveys", handler: handleSubmitSurvey, needs: DB_PEPPER, auth: "optional" },
   { method: "POST", path: "/v1/auth/email/start", handler: handleEmailStart, needs: DB_PEPPER },
   { method: "POST", path: "/v1/auth/email/verify", handler: handleEmailVerify, needs: DB_PEPPER, auth: "optional" },
   { method: "POST", path: "/v1/auth/google", handler: handleGoogleSignIn, needs: DB_PEPPER, auth: "optional" },
@@ -97,6 +113,11 @@ export const ROUTES = [
   { method: "DELETE", path: "/v1/me", handler: handleDeleteAccount, needs: DB_PEPPER, auth: "session" },
   { method: "GET", path: "/v1/me/export", handler: handleExport, needs: DB_PEPPER, auth: "session" },
   { method: "POST", path: "/v1/me/trial", handler: handleStartTrial, needs: DB_PEPPER, auth: "session" },
+  { method: "POST", path: "/v1/checkout", handler: handleCheckout, needs: DB_PEPPER, auth: "session" },
+  { method: "POST", path: "/v1/me/subscription/refresh", handler: handleRefresh, needs: DB_PEPPER, auth: "session" },
+  { method: "POST", path: "/v1/me/subscription/cancel", handler: handleCancelSubscription, needs: DB_PEPPER, auth: "session" },
+  { method: "POST", path: "/v1/webhooks/mercadopago", handler: handleMercadoPagoWebhook, needs: ["db"], webhook: true, bodyCap: WEBHOOK_BODY_CAP },
+  { method: "POST", path: "/v1/webhooks/creem", handler: handleCreemWebhook, needs: ["db"], webhook: true, bodyCap: WEBHOOK_BODY_CAP },
   { method: "GET", path: "/v1/me/progress", handler: handleGetProgress, needs: ["db"], auth: "session" },
   { method: "PUT", path: "/v1/me/progress", handler: handlePutProgress, needs: DB_PEPPER, auth: "session", bodyCap: PROGRESS_BODY_CAP },
   { method: "POST", path: "/v1/reports", handler: handleSubmitReport, needs: DB_PEPPER, auth: "optional", bodyCap: REPORT_BODY_CAP },
@@ -119,6 +140,9 @@ export const ROUTES = [
   adminRoute("POST", "/v1/admin/accounts/enable", handleEnableAccount, "admin.accounts.enable"),
   adminRoute("POST", "/v1/admin/accounts/email", handleRectifyEmail, "admin.accounts.email"),
   adminRoute("GET", "/v1/admin/reports", handleAdminReports, "admin.reports.list"),
+  adminRoute("GET", "/v1/admin/experiments", handleAdminExperiments, "admin.experiments.list"),
+  adminRoute("GET", "/v1/admin/experiments/results", handleExperimentResults, "admin.experiments.results"),
+  adminRoute("GET", "/v1/admin/surveys", handleAdminSurveys, "admin.surveys.list"),
   adminRoute("PATCH", "/v1/admin/reports/:id", handlePatchReport, "admin.reports.update")
 ];
 
@@ -299,11 +323,36 @@ async function bodyStage(ctx) {
     ctx.body = {};
     return null;
   }
+  if (ctx.route.webhook) {
+    return webhookBody(ctx);
+  }
   const read = await readJsonBody(ctx.request, ctx.route.bodyCap || DEFAULT_BODY_CAP);
   if (!read.ok) {
     return { status: read.status, body: { ok: false, reason: read.reason } };
   }
   ctx.body = read.body;
+  return null;
+}
+
+/**
+ * Webhook body: the raw bytes (signatures are computed over them) plus a
+ * best-effort parse. An unparsable body is `null`, never a stop, so the
+ * signature decides first; handlers treat the parse as untrusted.
+ * @param {Object} ctx Context.
+ * @returns {Promise<Object|null>} Stop result or null.
+ */
+async function webhookBody(ctx) {
+  const read = await readBodyBytes(ctx.request, ctx.route.bodyCap);
+  if (!read.ok) {
+    return { status: read.status, body: { ok: false, reason: read.reason } };
+  }
+  ctx.rawBody = read.bytes;
+  try {
+    const parsed = JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(read.bytes));
+    ctx.body = parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : null;
+  } catch {
+    ctx.body = null;
+  }
   return null;
 }
 

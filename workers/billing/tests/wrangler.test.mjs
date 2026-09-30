@@ -23,7 +23,9 @@ const SECRETS = [
   "MP_ACCESS_TOKEN",
   "MP_WEBHOOK_SECRET",
   "CREEM_API_KEY",
-  "CREEM_WEBHOOK_SECRET"
+  "CREEM_WEBHOOK_SECRET",
+  // Stage 2c: the licence signing key (scripts/generate-keys.mjs).
+  "LICENSE_PRIVATE_KEY_PKCS8_B64"
 ];
 
 const PUBLIC_VARS = {
@@ -51,7 +53,13 @@ const PUBLIC_VARS = {
   CREEM_API_BASE: "https://api.creem.io",
   CREEM_PRODUCT_PRO_MONTHLY: "",
   CREEM_PRODUCT_PRO_YEARLY: "",
-  MP_API_BASE: "https://api.mercadopago.com"
+  MP_API_BASE: "https://api.mercadopago.com",
+  // Stage 2c (DESIGN-v3-delta D-ORCH-03; DESIGN-v3 §F): licence and measurement.
+  LICENSE_KEY_ID: "k1",
+  LICENSE_TTL_SECONDS: "259200",
+  LICENSE_PREV_PUBLIC_JWK: "",
+  EXPERIMENTS_ENABLED: "",
+  EVENTS_ENABLED: "true"
 };
 
 /**

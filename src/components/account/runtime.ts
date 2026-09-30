@@ -4,6 +4,7 @@
  * Client-side singletons and small UI stores for the account components. Everything is created
  * lazily in the browser; nothing here runs during prerendering.
  */
+import { useEffect } from 'react'
 import { create } from 'zustand'
 import { createApiClient, type ApiClient } from '@/lib/cloud/api'
 import { CLOUD_CONFIG, currentStage } from '@/lib/cloud/config'
@@ -65,26 +66,41 @@ export interface AuthMethods {
   trialDays: number | null
 }
 
-export const useAuthMethods = create<AuthMethods>()(() => ({ state: 'idle', email: false, google: false, microsoft: false, trialDays: null }))
+/** The store; read it through useLoadedAuthMethods, which also fetches it. */
+const authMethodsStore = create<AuthMethods>()(() => ({ state: 'idle', email: false, google: false, microsoft: false, trialDays: null }))
 
 export async function loadAuthMethods(): Promise<void> {
-  if (useAuthMethods.getState().state !== 'idle') return
-  useAuthMethods.setState({ state: 'loading' })
+  if (authMethodsStore.getState().state !== 'idle') return
+  authMethodsStore.setState({ state: 'loading' })
   const r = await cloudApi().get('/v1/auth/methods')
   if (!r.ok) {
-    useAuthMethods.setState({ state: 'failed' })
+    authMethodsStore.setState({ state: 'failed' })
     return
   }
   const d = r.data
   const days = typeof d.trialDays === 'number' && Number.isInteger(d.trialDays) && d.trialDays > 0 ? d.trialDays : null
   // A provider shows only when the worker accepts it AND this build's CSP allows its script/endpoint.
-  useAuthMethods.setState({
+  authMethodsStore.setState({
     state: 'ok',
     email: d.email === true,
     google: d.google === true && CLOUD_CONFIG.googleClientId !== '',
     microsoft: d.microsoft === true && CLOUD_CONFIG.microsoftClientId !== '',
     trialDays: days,
   })
+}
+
+/**
+ * The sign-in methods and trial length, fetched once per page on first use. Every reader loads it:
+ * the signed-in panel used to read the store without loading it, so it could never offer to link
+ * Google or Microsoft and the trial button lost its day count.
+ */
+export function useLoadedAuthMethods(): AuthMethods
+export function useLoadedAuthMethods<T>(select: (m: AuthMethods) => T): T
+export function useLoadedAuthMethods<T>(select?: (m: AuthMethods) => T): T | AuthMethods {
+  useEffect(() => {
+    void loadAuthMethods()
+  }, [])
+  return authMethodsStore((m) => (select ? select(m) : m))
 }
 
 // --- session ------------------------------------------------------------------------------------------
@@ -116,9 +132,11 @@ export function signOutCloud(everywhere = false): Promise<ActionResult> {
 interface SyncUi {
   status: SyncStatus
   lastError: string | null
+  /** The learner closed the owner-choice dialog for now; the choice stays pending and sync paused. */
+  choiceDeferred: boolean
 }
 
-export const useSyncUi = create<SyncUi>()(() => ({ status: 'idle', lastError: null }))
+export const useSyncUi = create<SyncUi>()(() => ({ status: 'idle', lastError: null, choiceDeferred: false }))
 
 let sync: ProgressSync | null = null
 export function getProgressSync(): ProgressSync {
@@ -132,7 +150,8 @@ export function getProgressSync(): ProgressSync {
     onSynced: (ms) => useCloudSession.setState({ lastSyncAt: ms }),
   })
   const s = sync
-  s.onStatus((status) => useSyncUi.setState({ status, lastError: s.lastError }))
+  // Leaving needs_choice clears "Decidir después", so a later conflict asks again.
+  s.onStatus((status) => useSyncUi.setState({ status, lastError: s.lastError, choiceDeferred: status === 'needs_choice' && useSyncUi.getState().choiceDeferred }))
   return s
 }
 

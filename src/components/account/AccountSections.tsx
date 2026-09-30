@@ -25,7 +25,7 @@ import { ErrorAlert, StatusNote } from './Alerts'
 import { GoogleButton } from './GoogleButton'
 import { MicrosoftButton } from './SignInPanel'
 import { Section } from './PlanSections'
-import { applyMe, cloudApi, getProgressSync, signOutCloud, useAccountUi, useAuthMethods, useSyncUi } from './runtime'
+import { applyMe, cloudApi, getProgressSync, signOutCloud, useAccountUi, useLoadedAuthMethods, useSyncUi } from './runtime'
 import { useText } from './text'
 
 const SYNC_KEYS: Partial<Record<SyncStatus, string>> = {
@@ -59,6 +59,9 @@ export function SyncSection() {
       <Button variant="outline" size="sm" onClick={() => void syncNow()} disabled={busy || status === 'needs_choice'}>
         {tr('account.sync.now')}
       </Button>
+      {status === 'needs_choice' && (
+        <Button size="sm" className="ml-2" onClick={() => useSyncUi.setState({ choiceDeferred: false })}>{tr('account.sync.chooseNow')}</Button>
+      )}
     </Section>
   )
 }
@@ -94,7 +97,7 @@ export function ArchiveSection() {
  */
 export function LinkSection({ me }: { me: MePayload }) {
   const { tr } = useText()
-  const methods = useAuthMethods()
+  const methods = useLoadedAuthMethods()
   const [error, setError] = useState<UiError | null>(null)
   const [done, setDone] = useState<string | null>(null)
   const current = me.account.signInMethod

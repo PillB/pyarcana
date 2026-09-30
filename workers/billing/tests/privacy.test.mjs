@@ -4,7 +4,8 @@
  *
  * Both need recent authentication (session created <= 10 min ago). Delete
  * first cancels every non-terminal provider subscription through the
- * provider registry (empty in production until the payment stage), and any
+ * provider registry (these tests inject a fake one; subscription.test.mjs
+ * drives the real Mercado Pago and Creem adapters), and any
  * failure is 502 cancel_failed with NOTHING deleted. Then identities,
  * sessions, progress, login codes and roles go; the account is tombstoned
  * (email HMAC kept); billing rows stay without an email; reports are

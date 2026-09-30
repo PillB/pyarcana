@@ -2,6 +2,7 @@
  * Satisfaction prompts: what may be sent and what triggers a prompt (DESIGN-v3 §G). The caps
  * (QA mode, 1 per session, 1 per 7 days, CSAT 1 in 3, NPS from day 14) live in surveys.ts.
  */
+import type { ApiResult } from '@/lib/cloud/api'
 import type { SurveyKind } from '@/lib/cloud/surveys'
 
 export const GATE_REASONS = ['price', 'not_now', 'free_enough', 'unsure_value', 'other'] as const
@@ -62,4 +63,12 @@ export function surveyTrigger(i: SurveyTriggerInput): { kind: SurveyKind; sectio
   if (i.kind === 'gate_dismissed') return { kind: 'gate_reason', sectionIndex: i.sectionIndex }
   const added = localCompletion(i.prev, i.next, i.remote)
   return added ? { kind: 'section_csat', sectionId: added } : null
+}
+/**
+ * What the survey card says after "Enviar": thanks only when the worker stored the answer. A
+ * missing route (404), a refusal or no network says nothing was saved, so no learner is thanked
+ * for feedback nobody will read.
+ */
+export function surveyOutcomeKey(result: ApiResult<unknown>): 'survey.thanks' | 'survey.notSaved' {
+  return result.ok ? 'survey.thanks' : 'survey.notSaved'
 }

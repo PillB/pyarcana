@@ -17,6 +17,7 @@ import type { ApiResult } from '@/lib/cloud/api'
 import type { Built } from '@/lib/cloud/admin-api'
 import { cloudApi } from '../runtime'
 import type { Tr } from '../text'
+import { ERROR_ALERT_CLASS } from '@/components/account/a11y'
 
 export type Outcome = { ok: true; data: Record<string, unknown> } | { ok: false; text: string }
 
@@ -41,7 +42,7 @@ export function newRequestId(): string {
 }
 
 export function Feedback({ error, done }: { error: string | null; done: string | null }) {
-  if (error) return <p role="alert" className="text-sm text-destructive">{error}</p>
+  if (error) return <p role="alert" className={ERROR_ALERT_CLASS}>{error}</p>
   if (done) return <p role="status" className="text-sm">{done}</p>
   return null
 }
