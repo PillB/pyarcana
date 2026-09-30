@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/card'
 import { CLOUD_CONFIG } from '@/lib/cloud/config'
 import { useCloudStage } from '@/lib/cloud/hooks'
 import { parseMe, refreshMe, useCloudRuntime, useCloudSession } from '@/lib/cloud/session'
-import { completeMicrosoftCallback, type MsCallbackResult } from '@/lib/cloud/ms-callback'
+import { completeMicrosoftCallback, msFailureView, type MsCallbackResult } from '@/lib/cloud/ms-callback'
 import { pollCheckout, type PollState } from '@/lib/cloud/billing-ui'
 import { refreshSubscription, uiError, type UiError } from '@/lib/cloud/account-api'
 import { safeSessionStorage } from '@/lib/cloud/storage'
@@ -16,21 +16,16 @@ import { AccountPanel } from './AccountPanel'
 import { HeadingLevel } from './PlanSections'
 import { AccountDialog } from './AccountDialog'
 import { CloudSync } from './CloudSync'
-import { applyMe, cloudApi, inMicrosoftCallback, markLeavingPage, markMicrosoftCallback } from './runtime'
+import { applyMe, cloudApi, inMicrosoftCallback, markLeavingPage, markMicrosoftCallback, useAccountUi } from './runtime'
 import { useAfterMount, useText, type Tr } from './text'
 import { ERROR_ALERT_CLASS } from '@/components/account/a11y'
 
-type Phase = { kind: 'idle' } | { kind: 'ms_working' } | { kind: 'ms_failed'; message: string } | { kind: 'ms_linked' }
+export type Phase = { kind: 'idle' } | { kind: 'ms_working' } | { kind: 'ms_failed'; message: string; offerOtherWays: boolean } | { kind: 'ms_linked' }
 
-const MS_FAIL_KEYS: Partial<Record<string, string>> = {
-  no_pending: 'cuenta.ms.expired',
-  state_mismatch: 'cuenta.ms.expired',
-  provider_error: 'cuenta.ms.cancelled',
-}
-
-function msFailure(r: Exclude<MsCallbackResult, { ok: true }>, tr: Tr, apiText: (e: UiError) => string): string {
-  if (r.reason === 'api') return `${tr('cuenta.ms.failed')} ${apiText(uiError(r.result))}`
-  return `${tr('cuenta.ms.failed')} ${tr(MS_FAIL_KEYS[r.reason] ?? 'account.error.unavailable')}`
+function msFailure(r: Exclude<MsCallbackResult, { ok: true }>, tr: Tr, apiText: (e: UiError) => string): Phase {
+  const view = msFailureView(r)
+  const detail = r.reason === 'api' ? apiText(uiError(r.result)) : tr(view.key)
+  return { kind: 'ms_failed', message: `${tr('cuenta.ms.failed')} ${detail}`, offerOtherWays: view.offerOtherWays }
 }
 
 /**
@@ -50,7 +45,7 @@ function useMicrosoftCallback(tr: Tr, apiText: (e: UiError) => string): Phase {
       markMicrosoftCallback(false)
       if (!r.ok) {
         void refreshMe()
-        return setPhase({ kind: 'ms_failed', message: msFailure(r, tr, apiText) })
+        return setPhase(msFailure(r, tr, apiText))
       }
       // A sign-in leaves this page: flag it BEFORE applyMe, so the session followers keep a pending
       // "Probar 7 días" intent for the return page instead of starting a POST the unload aborts.
@@ -99,9 +94,19 @@ function BillingStatus({ state, retry, tr }: { state: PollState | 'checking' | n
   )
 }
 
-function PhaseNote({ phase, tr }: { phase: Phase; tr: Tr }) {
+/** The callback's outcome on /cuenta; exported for the rendered-markup test. */
+export function PhaseNote({ phase, tr }: { phase: Phase; tr: Tr }) {
   if (phase.kind === 'ms_working') return <p role="status" className="text-sm">{tr('cuenta.ms.working')}</p>
-  if (phase.kind === 'ms_failed') return <p role="alert" className={ERROR_ALERT_CLASS}>{phase.message}</p>
+  if (phase.kind === 'ms_failed') {
+    return (
+      <div className="space-y-2">
+        <p role="alert" className={ERROR_ALERT_CLASS}>{phase.message}</p>
+        {phase.offerOtherWays && (
+          <Button variant="outline" size="sm" onClick={() => useAccountUi.getState().show('main')}>{tr('cuenta.ms.otherWays')}</Button>
+        )}
+      </div>
+    )
+  }
   return <StatusNote text={phase.kind === 'ms_linked' ? tr('cuenta.ms.linked') : null} />
 }
 

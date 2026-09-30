@@ -6,7 +6,7 @@ import { buildCsp, LEGACY_CSP } from '@/lib/cloud/csp'
 import { CLOUD_CONFIG, type CloudConfig } from '@/lib/cloud/config'
 import type { ApiClient, ApiResult } from '@/lib/cloud/api'
 import { createMemoryStorage } from '@/lib/cloud/storage'
-import { CID_KEY } from '@/lib/cloud/experiments'
+import { CID_KEY, assignArm } from '@/lib/cloud/experiments'
 
 // --- SyncController: page events -> ProgressSync ----------------------------------------------------
 
@@ -164,6 +164,70 @@ test('the page-hide flush uses keepalive; binding the id to the account happens 
   const none = new Measurement({ api, storage: createMemoryStorage(), context: () => ctx({ canMeasure: false }), search: () => '' })
   await none.bind('acct_2')
   assert.equal(calls.filter((c) => c.path === '/v1/me/experiments/bind').length, 1, 'no id, nothing to bind')
+})
+
+test('the account\'s stored arm (from bind) wins over the id-derived arm, for the signed-in account only (DESIGN-v3 §F)', async () => {
+  // Review round 1: bind's {arms} answer was discarded, so a second device showed the other arm.
+  const exp = EXP.experiments[0]
+  const storage = createMemoryStorage()
+  let cid = ''
+  for (let i = 0; ; i++) {
+    cid = i.toString(16).padStart(32, '0')
+    if (assignArm(cid, exp) === 'none') break
+  }
+  storage.setItem(CID_KEY, cid)
+  const calls: string[] = []
+  const api = {
+    get: async () => ({ ok: true, status: 200, data: EXP }),
+    post: async (path: string) => {
+      calls.push(path)
+      if (path === '/v1/me/experiments/bind') return { ok: true, status: 200, data: { ok: true, arms: { ads_house_v1: 'house', other_exp: 'x', bad: 3 } } }
+      return { ok: true, status: 200, data: {} }
+    },
+  } as unknown as ApiClient
+  let account: string | null = 'acct_1'
+  const m = new Measurement({ api, storage, context: () => ctx(), search: () => '', accountId: () => account })
+  await m.bind('acct_1')
+  assert.equal(await m.arm('ads_house_v1'), 'house', 'the account keeps its first stored arm on this device')
+  await m.flush(false)
+  const again = new Measurement({ api, storage, context: () => ctx(), search: () => '', accountId: () => account })
+  await again.bind('acct_1')
+  assert.equal(calls.filter((c) => c === '/v1/me/experiments/bind').length, 1, 'still bound once per account and id')
+  assert.equal(await again.arm('ads_house_v1'), 'house')
+  account = 'acct_2'
+  assert.equal(await again.arm('ads_house_v1'), 'none', 'another account does not inherit acct_1\'s arm')
+  account = 'acct_1'
+  const forced = new Measurement({ api, storage, context: () => ctx(), search: () => '?ab_ads_house_v1=none', accountId: () => account })
+  assert.equal(await forced.arm('ads_house_v1'), 'none', 'a forced arm (QA) still wins')
+  const excluded = new Measurement({ api, storage, context: () => ctx({ canMeasure: false }), search: () => '', accountId: () => account })
+  assert.equal(await excluded.arm('ads_house_v1'), 'none', 'an excluded visitor still gets control')
+})
+
+test('a device bound before arms were kept binds once more to fetch them', async () => {
+  const storage = createMemoryStorage()
+  const calls: string[] = []
+  const api = {
+    get: async () => ({ ok: true, status: 200, data: EXP }),
+    post: async (path: string) => (calls.push(path), { ok: true, status: 200, data: { ok: true, arms: { ads_house_v1: 'house' } } }),
+  } as unknown as ApiClient
+  const m = new Measurement({ api, storage, context: () => ctx(), search: () => '', accountId: () => 'acct_1' })
+  await m.arm('ads_house_v1')
+  storage.setItem(BOUND_KEY, JSON.stringify({ cid: storage.getItem(CID_KEY), account: 'acct_1' }))
+  await m.bind('acct_1')
+  await m.bind('acct_1')
+  assert.equal(calls.filter((c) => c === '/v1/me/experiments/bind').length, 1)
+})
+
+test('a stored account arm that is not one of the experiment\'s arms is ignored', async () => {
+  const storage = createMemoryStorage()
+  const api = {
+    get: async () => ({ ok: true, status: 200, data: EXP }),
+    post: async (path: string) => ({ ok: true, status: 200, data: path.endsWith('/bind') ? { ok: true, arms: { ads_house_v1: 'retired_arm' } } : {} }),
+  } as unknown as ApiClient
+  const m = new Measurement({ api, storage, context: () => ctx(), search: () => '', accountId: () => 'acct_1' })
+  await m.bind('acct_1')
+  const arm = await m.arm('ads_house_v1')
+  assert.equal(arm, assignArm(storage.getItem(CID_KEY)!, EXP.experiments[0]))
 })
 
 // --- CSP ------------------------------------------------------------------------------------------------

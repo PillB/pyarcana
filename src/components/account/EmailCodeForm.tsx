@@ -24,7 +24,7 @@ function useSecondsLeft(until: number): number {
   return Math.max(0, Math.ceil((until - now) / 1000))
 }
 
-function EmailStep({ enabled, busy, email, setEmail, onSubmit }: { enabled: boolean; busy: boolean; email: string; setEmail: (v: string) => void; onSubmit: () => void }) {
+function EmailStep({ enabled, busy, email, setEmail, onSubmit, focus }: { enabled: boolean; busy: boolean; email: string; setEmail: (v: string) => void; onSubmit: () => void; focus: boolean }) {
   const { tr } = useText()
   const submit = (e: FormEvent) => {
     e.preventDefault()
@@ -33,7 +33,7 @@ function EmailStep({ enabled, busy, email, setEmail, onSubmit }: { enabled: bool
   return (
     <form onSubmit={submit} className="space-y-2" noValidate>
       <Label htmlFor="account-email">{tr('account.signin.emailLabel')}</Label>
-      <Input id="account-email" type="email" autoComplete="email" inputMode="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={!enabled || busy} required />
+      <Input id="account-email" autoFocus={focus} type="email" autoComplete="email" inputMode="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={!enabled || busy} required />
       <Button type="submit" variant="secondary" className="w-full" disabled={!enabled || busy || email.trim() === ''}>
         {busy ? tr('account.signin.working') : tr('account.signin.sendCode')}
       </Button>
@@ -63,7 +63,7 @@ function CodeStep({ email, ttlMinutes, resendAt, busy, onVerify, onResend, onCha
     <form onSubmit={submit} className="space-y-3">
       <p role="status" className="text-sm">{tr('account.signin.sent', { email, minutes: ttlMinutes })}</p>
       <Label htmlFor="account-code">{tr('account.signin.codeLabel')}</Label>
-      <InputOTP id="account-code" maxLength={6} value={code} onChange={setCode} pattern={REGEXP_ONLY_DIGITS} autoComplete="one-time-code" inputMode="numeric" aria-label={tr('account.signin.codeLabel')} disabled={busy}>
+      <InputOTP id="account-code" autoFocus maxLength={6} value={code} onChange={setCode} pattern={REGEXP_ONLY_DIGITS} autoComplete="one-time-code" inputMode="numeric" aria-label={tr('account.signin.codeLabel')} disabled={busy}>
         <InputOTPGroup>
           {[0, 1, 2, 3, 4, 5].map((i) => (
             <InputOTPSlot key={i} index={i} />
@@ -94,6 +94,9 @@ export function EmailCodeForm({ enabled, terms, onResult }: { enabled: boolean; 
   const { tr } = useText()
   const [email, setEmail] = useState('')
   const [step, setStep] = useState<'email' | 'code'>('email')
+  // The step that held the focus unmounts: the next step takes it (the code field; the email field
+  // after "Usar otro correo"), instead of it falling back to the dialog container.
+  const [backToEmail, setBackToEmail] = useState(false)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<UiError | null>(null)
   const [ttl, setTtl] = useState(DEFAULT_TTL_S)
@@ -123,9 +126,12 @@ export function EmailCodeForm({ enabled, terms, onResult }: { enabled: boolean; 
     <div className="space-y-2 border-t border-border pt-4" data-testid="email-signin">
       <p className="text-xs uppercase tracking-wide text-muted-foreground">{tr('account.signin.or')}</p>
       {step === 'email' ? (
-        <EmailStep enabled={enabled} busy={busy} email={email} setEmail={setEmail} onSubmit={() => void send()} />
+        <EmailStep enabled={enabled} busy={busy} email={email} setEmail={setEmail} onSubmit={() => void send()} focus={backToEmail} />
       ) : (
-        <CodeStep email={email.trim()} ttlMinutes={Math.round(ttl / 60)} resendAt={resendAt} busy={busy} onVerify={(c) => void verify(c)} onResend={() => void send()} onChangeEmail={() => setStep('email')} />
+        <CodeStep email={email.trim()} ttlMinutes={Math.round(ttl / 60)} resendAt={resendAt} busy={busy} onVerify={(c) => void verify(c)} onResend={() => void send()} onChangeEmail={() => {
+            setBackToEmail(true)
+            setStep('email')
+          }} />
       )}
       <ErrorAlert error={error} />
     </div>

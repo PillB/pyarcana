@@ -1,7 +1,7 @@
 'use client'
 
 import { CLOUD_CONFIG } from '@/lib/cloud/config'
-import { REPORT_STATUSES, attachmentPath, parseReportDetail, reportPath, type ReportRow } from '@/lib/cloud/admin-api'
+import { REPORT_STATUSES, attachmentPath, categoryLabel, parseReportDetail, reportPath, severityLabel, type ReportRow } from '@/lib/cloud/admin-api'
 import { LoadNote, formatDay } from './LoadNote'
 import { useApiLoad } from './useApiLoad'
 import { useText, type Tr } from './text'
@@ -60,7 +60,7 @@ export function ReportDetail({ id }: { id: string }) {
     <article className="space-y-3 rounded-md border border-border p-4" data-testid="report-detail">
       <h3 className="text-base font-semibold">{report.title}</h3>
       <p className="text-xs text-muted-foreground">
-        {report.id} · {formatDay(report.createdAt, lang)} · {statusText(report.status, tr)} · {report.severity ?? '—'} · {report.category}
+        {report.id} · {formatDay(report.createdAt, lang)} · {statusText(report.status, tr)} · {report.severity ? severityLabel(report.severity) : '—'} · {categoryLabel(report.category)}
       </p>
       <ContextList report={report} tr={tr} />
       <Block title={tr('qasite.f.description')} text={report.description} />

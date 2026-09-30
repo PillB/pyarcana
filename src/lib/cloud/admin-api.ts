@@ -31,6 +31,19 @@ export const REPORT_STATUSES = ['new', 'triaged', 'in_progress', 'fixed', 'wontf
 export const REPORT_SEVERITY_VALUES: readonly string[] = QA_SEVERITIES.map((s) => s.value)
 export const REPORT_CATEGORY_VALUES: readonly string[] = QA_CATEGORIES.map((c) => c.value)
 
+const SEVERITY_LABELS: ReadonlyMap<string, string> = new Map(QA_SEVERITIES.map((x) => [x.value, x.label]))
+const CATEGORY_LABELS: ReadonlyMap<string, string> = new Map(QA_CATEGORIES.map((x) => [x.value, x.label]))
+
+/** The Spanish label the report form uses for a stored severity code; an unknown code as it is. */
+export function severityLabel(value: string): string {
+  return SEVERITY_LABELS.get(value) ?? value
+}
+
+/** The Spanish label the report form uses for a stored category code; an unknown code as it is. */
+export function categoryLabel(value: string): string {
+  return CATEGORY_LABELS.get(value) ?? value
+}
+
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const ACCOUNT_ID = /^acct_[A-Za-z0-9_-]{1,64}$/
 const REQUEST_ID = /^[A-Za-z0-9_.:-]{8,100}$/

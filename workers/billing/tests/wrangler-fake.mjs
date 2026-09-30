@@ -108,6 +108,7 @@ function d1Create(state, name) {
   if (!state.createLosesDatabase) {
     state.dbs.push({ uuid, name });
   }
+  save(state);
   process.stdout.write(`${BANNER}${PROXY_WARNING}`);
   process.stdout.write(`✅ Successfully created DB '${name}' in region WEUR\nCreated your new D1 database.\n\n`);
   process.stdout.write("To access your new D1 Database in your Worker, add the following snippet to your configuration file:\n");
@@ -168,13 +169,13 @@ function deploy(state) {
   const toml = readFileSync("wrangler.toml", "utf8");
   const interactive = Boolean(process.stdin.isTTY && process.stdout.isTTY);
   const assets = path.resolve("../../out/index.html");
-  state.deploys.push({ interactive, placeholder: /TODO_/.test(toml), assets: existsSync(assets), secrets: Object.keys(state.secrets).sort() });
+  state.deploys.push({ interactive, placeholder: /^[^#]*TODO_/m.test(toml), assets: existsSync(assets), secrets: Object.keys(state.secrets).sort() });
   save(state);
   if (!interactive && !state.hasSubdomain) {
     process.stdout.write("? Would you like to register a workers.dev subdomain now?\n🤖 Using fallback value in non-interactive context: no\n");
     fail("You can either deploy your worker to one or more routes by specifying them in your wrangler.toml file, or register a workers.dev subdomain here:");
   }
-  if (/TODO_/.test(toml)) {
+  if (/^[^#]*TODO_/m.test(toml)) {
     fail("You must use a real database in the database_id configuration.");
   }
   state.workerExists = true;

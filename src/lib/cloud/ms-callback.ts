@@ -22,7 +22,16 @@ export interface MsCallbackDeps {
   api: ApiClient
 }
 
-type FailReason = 'no_response' | 'no_pending' | 'state_mismatch' | 'provider_error' | 'missing_code' | 'token_failed' | 'no_id_token' | 'not_configured'
+type FailReason =
+  | 'no_response'
+  | 'no_pending'
+  | 'state_mismatch'
+  | 'provider_error'
+  | 'tenant_blocked'
+  | 'missing_code'
+  | 'token_failed'
+  | 'no_id_token'
+  | 'not_configured'
 
 export type MsCallbackResult =
   | { ok: true; purpose: MicrosoftPurpose; returnTo: string; data: Record<string, unknown> }
@@ -49,7 +58,10 @@ export async function completeMicrosoftCallback(d: MsCallbackDeps): Promise<MsCa
   if (!pending) return { ok: false, reason: 'no_pending', returnTo: '/' }
   const back = pending.returnTo
   const auth = parseAuthResponse(d.hash, pending.state)
-  if (!auth.ok) return { ok: false, reason: auth.reason, returnTo: back }
+  if (!auth.ok) {
+    const tenantBlocked = auth.reason === 'provider_error' && auth.kind === 'tenant_blocked'
+    return { ok: false, reason: tenantBlocked ? 'tenant_blocked' : auth.reason, returnTo: back }
+  }
   const redirectUri = microsoftRedirectUri(d.cfg.canonicalOrigin)
   if (!redirectUri || !d.cfg.microsoftClientId) return { ok: false, reason: 'not_configured', returnTo: back }
   const idToken = await redeem(d, auth.code, pending.verifier, redirectUri)
@@ -62,4 +74,24 @@ export async function completeMicrosoftCallback(d: MsCallbackDeps): Promise<MsCa
   const result = await d.api.post(link ? '/v1/me/link/microsoft' : '/v1/auth/microsoft', body)
   if (!result.ok) return { ok: false, reason: 'api', result, returnTo: back }
   return { ok: true, purpose: pending.purpose, returnTo: back, data: result.data }
+}
+
+const FAIL_KEYS: Partial<Record<FailReason, string>> = {
+  no_pending: 'cuenta.ms.expired',
+  state_mismatch: 'cuenta.ms.expired',
+  provider_error: 'cuenta.ms.cancelled',
+  tenant_blocked: 'cuenta.ms.tenantBlocked',
+}
+
+/** Worker refusals after which the learner should be offered the other ways in right away. */
+const OTHER_WAYS_API_REASONS = new Set(['link_requires_email_code'])
+
+/**
+ * What /cuenta says after a failed Microsoft callback (DESIGN-v3 §L D-USER-05). `key: 'api'` means
+ * "use the worker's own message". `offerOtherWays` puts the sign-in dialog (email code; Google from
+ * the course) one button away when Microsoft cannot work for this learner.
+ */
+export function msFailureView(r: Exclude<MsCallbackResult, { ok: true }>): { key: string; offerOtherWays: boolean } {
+  if (r.reason === 'api') return { key: 'api', offerOtherWays: OTHER_WAYS_API_REASONS.has(r.result.reason) }
+  return { key: FAIL_KEYS[r.reason] ?? 'account.error.unavailable', offerOtherWays: r.reason === 'tenant_blocked' }
 }

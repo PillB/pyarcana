@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { beginMicrosoft, takePending, MS_PENDING_KEY } from '@/lib/cloud/oidc'
-import { completeMicrosoftCallback, type MsCallbackDeps } from '@/lib/cloud/ms-callback'
+import { completeMicrosoftCallback, msFailureView, type MsCallbackDeps } from '@/lib/cloud/ms-callback'
 import type { ApiClient, ApiResult } from '@/lib/cloud/api'
 import { createMemoryStorage, type KeyValueStorage } from '@/lib/cloud/storage'
 
@@ -136,4 +136,27 @@ test('without a Microsoft client id or canonical origin the callback refuses to 
   const r = await completeMicrosoftCallback({ ...d, cfg: { ...CFG, microsoftClientId: '' } })
   assert.equal(!r.ok && r.reason, 'not_configured')
   assert.equal(fetched.length, 0)
+})
+
+test('a tenant that blocks the app ends as tenant_blocked, before any token request', async () => {
+  const { session, state } = await setup()
+  const { d, fetched } = deps(session, `#error=access_denied&error_description=AADSTS90094%3A+admin+permission&state=${state}`)
+  const r = await completeMicrosoftCallback(d)
+  assert.equal(!r.ok && r.reason, 'tenant_blocked')
+  assert.equal(!r.ok && r.returnTo, '/#functions/wedo')
+  assert.equal(fetched.length, 0)
+})
+
+test('the /cuenta failure view explains a blocked tenant and offers the other ways in; a cancel does not blame the tenant', () => {
+  const back = '/'
+  assert.deepEqual(msFailureView({ ok: false, reason: 'tenant_blocked', returnTo: back }), { key: 'cuenta.ms.tenantBlocked', offerOtherWays: true })
+  assert.deepEqual(
+    msFailureView({ ok: false, reason: 'api', result: { ok: false, status: 409, reason: 'link_requires_email_code', data: null }, returnTo: back }),
+    { key: 'api', offerOtherWays: true },
+    'an existing email account: the email-code option has to be right there',
+  )
+  assert.deepEqual(msFailureView({ ok: false, reason: 'api', result: { ok: false, status: 0, reason: 'network', data: null }, returnTo: back }), { key: 'api', offerOtherWays: false })
+  assert.deepEqual(msFailureView({ ok: false, reason: 'provider_error', returnTo: back }), { key: 'cuenta.ms.cancelled', offerOtherWays: false })
+  assert.deepEqual(msFailureView({ ok: false, reason: 'state_mismatch', returnTo: back }), { key: 'cuenta.ms.expired', offerOtherWays: false })
+  assert.deepEqual(msFailureView({ ok: false, reason: 'token_failed', returnTo: back }), { key: 'account.error.unavailable', offerOtherWays: false })
 })

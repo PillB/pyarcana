@@ -38,12 +38,22 @@ export function shouldResumeTrial(intent: Intent | null, me: MePayload | null): 
   return intent?.kind === 'trial' && me !== null && me.account.trialAvailable && !me.access.isPro
 }
 
+export type TrialIntentOutcome = 'none' | 'start' | 'unavailable'
+
 /**
- * Take the pending trial intent and say whether to start the trial now. A page that is navigating
- * away (the Microsoft callback on /cuenta, right before location.replace(returnTo)) must leave it:
- * the unload would abort the POST, and the return page would find nothing to resume.
+ * Take the pending trial intent and decide what happens now. A page that is navigating away (the
+ * Microsoft callback on /cuenta, right before location.replace(returnTo)) must leave it: the unload
+ * would abort the POST, and the return page would find nothing to resume. 'unavailable': the
+ * learner was promised a trial at sign-in and this account cannot have one, so the page says so
+ * instead of dropping it silently. Already Pro: nothing to start and nothing to explain.
  */
+export function trialIntentOutcome(storage: KeyValueStorage | null, me: MePayload | null, nowMs: number, leaving: boolean): TrialIntentOutcome {
+  if (leaving) return 'none'
+  const intent = takeIntent(storage, nowMs)
+  if (intent?.kind !== 'trial' || me === null || me.access.isPro) return 'none'
+  return me.account.trialAvailable ? 'start' : 'unavailable'
+}
+
 export function claimTrialIntent(storage: KeyValueStorage | null, me: MePayload | null, nowMs: number, leaving: boolean): boolean {
-  if (leaving) return false
-  return shouldResumeTrial(takeIntent(storage, nowMs), me)
+  return trialIntentOutcome(storage, me, nowMs, leaving) === 'start'
 }

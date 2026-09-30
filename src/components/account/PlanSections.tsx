@@ -207,7 +207,7 @@ export function SubscriptionSection({ me }: { me: MePayload }) {
           <SubscriptionRow key={s.id} sub={s} onCancelled={() => setDone(true)} />
         ))}
       </ul>
-      <StatusNote text={done ? tr('account.subs.cancelled') : null} />
+      <StatusNote text={done ? tr('account.subs.cancelled') : null} focusOnShow />
     </Section>
   )
 }

@@ -118,7 +118,24 @@ export function buildTokenRequest(a: TokenArgs): { url: string; init: RequestIni
 export type AuthResponse =
   | { ok: true; code: string }
   | { ok: false; reason: 'no_response' | 'state_mismatch' | 'missing_code' }
-  | { ok: false; reason: 'provider_error'; error: string }
+  | { ok: false; reason: 'provider_error'; error: string; kind: ProviderErrorKind }
+
+/**
+ * 'tenant_blocked': a work or school tenant does not let its users consent to this app (Microsoft
+ * Entra sends access_denied or consent_required with AADSTS65001, 90094, 90095 or 50105 in
+ * error_description). 'cancelled': the learner declined (error_subcode=cancel, AADSTS65004).
+ * Only this classification is kept; the free-text description never leaves this function.
+ */
+export type ProviderErrorKind = 'tenant_blocked' | 'cancelled' | 'other'
+
+const TENANT_BLOCK_CODE = /\bAADSTS(?:65001|90094|90095|50105)\b/
+const USER_DECLINED_CODE = /\bAADSTS65004\b/
+
+export function classifyProviderError(error: string, description: string, subcode: string): ProviderErrorKind {
+  if (error === 'consent_required' || TENANT_BLOCK_CODE.test(description)) return 'tenant_blocked'
+  if (subcode === 'cancel' || USER_DECLINED_CODE.test(description)) return 'cancelled'
+  return 'other'
+}
 
 /** Read the redirect fragment. The state we sent must come back before anything else counts. */
 export function parseAuthResponse(hash: string, expectedState: string | null): AuthResponse {
@@ -126,7 +143,10 @@ export function parseAuthResponse(hash: string, expectedState: string | null): A
   if (!params.has('code') && !params.has('error') && !params.has('state')) return { ok: false, reason: 'no_response' }
   if (!expectedState || params.get('state') !== expectedState) return { ok: false, reason: 'state_mismatch' }
   const error = params.get('error')
-  if (error !== null) return { ok: false, reason: 'provider_error', error: ERROR_CODE.test(error) ? error : 'unknown' }
+  if (error !== null) {
+    const kind = classifyProviderError(error, params.get('error_description') ?? '', params.get('error_subcode') ?? '')
+    return { ok: false, reason: 'provider_error', error: ERROR_CODE.test(error) ? error : 'unknown', kind }
+  }
   const code = params.get('code')
   return code ? { ok: true, code } : { ok: false, reason: 'missing_code' }
 }

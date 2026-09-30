@@ -15,6 +15,9 @@
  *   byte-for-byte to `python-ds-progress.archive.<owner>.<ts>` (never deleted), and only then
  *   adopts the account copy through the store's setState. Nothing here writes or removes
  *   `python-ds-progress` directly.
+ * - Nothing is uploaded until this device is claimed by the signed-in account: not while the first
+ *   pull is in flight, and not while the owner choice is pending (flush, debounce and sign-out
+ *   included). Sign-out then drops the unanswered choice.
  * - Sign-out flushes first and keeps local progress.
  */
 import { PROGRESS_STORAGE_KEY, parsePersistedEnvelope } from '@/lib/progress-sanitize'
@@ -255,6 +258,7 @@ export class ProgressSync {
     return this.push(true)
   }
 
+  /** Sign-out flushes first; with an owner choice outstanding it uploads nothing and drops the choice. */
   async signOut(): Promise<void> {
     this.cancelTimer()
     await this.enqueue(() => this.push(false))
@@ -305,7 +309,16 @@ export class ProgressSync {
 
   private markDirty(): void {
     this.changeSeq += 1
-    if (this.accountId) this.schedulePush()
+    if (this.canPush()) this.schedulePush()
+  }
+
+  /**
+   * Uploads need a signed-in account that has claimed this device (owner === account). Until the
+   * first pull applies the owner rule, and while the learner has not answered the owner choice,
+   * the local copy may be another account's progress, so nothing is sent (DESIGN-v2 §8.6).
+   */
+  private canPush(): boolean {
+    return this.accountId !== null && this.pending === null && this.deps.owner.get() === this.accountId
   }
 
   private onStoreChange(next: ProgressState, prev: ProgressState): void {
@@ -396,7 +409,7 @@ export class ProgressSync {
   }
 
   private async push(keepalive: boolean): Promise<SyncStatus> {
-    if (!this.accountId || this.changeSeq === this.syncedSeq) return this.status
+    if (!this.canPush() || this.changeSeq === this.syncedSeq) return this.status
     this.setStatus('pushing')
     for (let attempt = 0; attempt <= MAX_CONFLICT_RETRIES; attempt++) {
       const seq = this.changeSeq

@@ -31,10 +31,10 @@ function OwnerSeller({ owner, tr }: { owner: OwnerIdentity; tr: Tr }) {
   )
 }
 
-function Refunds({ email, tr }: { email: string; tr: Tr }) {
+function Refunds({ email, creem, tr }: { email: string; creem: boolean; tr: Tr }) {
   return (
     <Part id="devoluciones" title={tr('susc.refunds.h')}>
-      <p className="text-sm">{tr('susc.refunds.body')}</p>
+      <p className="text-sm">{tr(creem ? 'susc.refunds.body' : 'susc.refunds.bodyLocal')}</p>
       {email !== '' && <p className="text-sm">{tr('susc.refunds.contact', { email })}</p>}
     </Part>
   )
@@ -43,12 +43,14 @@ function Refunds({ email, tr }: { email: string; tr: Tr }) {
 /**
  * How the subscription works, as facts the worker enforces (DESIGN-v2 §8.9, v3 §D): the trial,
  * renewal, cancelling where you subscribed, refunds as the law and Creem's terms provide (no
- * voluntary window is promised), gifted months, who sells. Pure given its inputs.
+ * voluntary window is promised), gifted months, who sells. Creem is named only when its rail is
+ * configured. Pure given its inputs.
  */
 export function SubscriptionContent({ stage, cfg, trialDays }: { stage: LaunchStage; cfg: CloudConfig; trialDays: number | null }) {
   const { tr } = useText()
   if (!isGatingStage(stage)) return <p className="text-sm">{tr('precios.notYet')}</p>
-  const { owner } = sellerView(cfg)
+  const { owner, international } = sellerView(cfg)
+  const creem = international === 'creem'
   return (
     <div className="space-y-6" data-testid="subscription-content">
       <Part title={tr('susc.trial.h')}>
@@ -60,13 +62,13 @@ export function SubscriptionContent({ stage, cfg, trialDays }: { stage: LaunchSt
       <Part title={tr('susc.cancel.h')}>
         <p className="text-sm">{tr('susc.cancel.body')}</p>
       </Part>
-      <Refunds email={cfg.legal.supportEmail.trim()} tr={tr} />
+      <Refunds email={cfg.legal.supportEmail.trim()} creem={creem} tr={tr} />
       <Part title={tr('susc.gift.h')}>
         <p className="text-sm">{tr('susc.gift.body')}</p>
       </Part>
       <Part id="vendedor" title={tr('susc.seller.h')}>
         {owner ? <OwnerSeller owner={owner} tr={tr} /> : <p className="text-sm">{tr('susc.seller.pending')}</p>}
-        <p className="text-sm">{tr('susc.seller.world')}</p>
+        {creem && <p className="text-sm">{tr('susc.seller.world')}</p>}
       </Part>
       <p className="text-sm">
         <Link href="/precios" className="underline underline-offset-2">{tr('susc.toPrices')}</Link>

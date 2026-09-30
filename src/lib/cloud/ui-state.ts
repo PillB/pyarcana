@@ -8,6 +8,7 @@ import type { AccessState } from '@/lib/cloud/access'
 import { shouldAskConsent, type ConsentRecord, type PrivacySignals } from '@/lib/cloud/consent'
 import { gateDecision, isGrandfathered, stageForGate, type GateDecision, type GrandfatherSnapshot } from '@/lib/cloud/gate'
 import { IMPORT_PREFIX } from '@/lib/cloud/handoff'
+import type { HouseCreative } from '@/lib/cloud/ad-slot'
 import { t, type Language } from '@/lib/i18n'
 
 // --- useIsSignedIn ----------------------------------------------------------------------------
@@ -71,11 +72,14 @@ export interface ConsentCardInput {
   measurementWanted: boolean
   /** The learner opened it from the footer link to change the answer. */
   reopened: boolean
+  /** "Ahora no" (or Esc) on this page view: hidden until the next load; nothing is stored. */
+  deferred?: boolean
 }
 
 export function consentCardMode(i: ConsentCardInput): 'hidden' | 'ask' | 'manage' {
   if (i.stage === 'off') return 'hidden'
   if (i.reopened) return 'manage'
+  if (i.deferred === true) return 'hidden'
   return i.measurementWanted && shouldAskConsent(i.mode, i.record, i.signals, i.country) ? 'ask' : 'hidden'
 }
 
@@ -118,6 +122,17 @@ export function ownerChoiceOpen(status: string, deferred: boolean): boolean {
  */
 export function priceCtaTarget(signedIn: boolean): 'checkout' | 'prices-page' {
   return signedIn ? 'checkout' : 'prices-page'
+}
+
+/**
+ * Where a house-ad button (by creative) or the "Sin anuncios con Pro" link under a network ad
+ * goes. Anything that promises Pro information leads to prices ("Conocer Pro", "Ver precios", "Sin
+ * anuncios con Pro"); "Ver la prueba" signs in and keeps the trial intent (like the trial card),
+ * or opens the account panel with its trial button when already signed in.
+ */
+export function houseCtaTarget(cta: HouseCreative | 'no-ads-link', signedIn: boolean): 'checkout' | 'prices-page' | 'signin-trial' | 'account' {
+  if (cta !== 'trial') return priceCtaTarget(signedIn)
+  return signedIn ? 'account' : 'signin-trial'
 }
 
 const RADIO_STEP: Record<string, number> = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }

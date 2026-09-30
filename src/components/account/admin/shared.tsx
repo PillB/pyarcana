@@ -17,7 +17,7 @@ import type { ApiResult } from '@/lib/cloud/api'
 import type { Built } from '@/lib/cloud/admin-api'
 import { cloudApi } from '../runtime'
 import type { Tr } from '../text'
-import { ERROR_ALERT_CLASS } from '@/components/account/a11y'
+import { DESTRUCTIVE_HOVER_CLASS, ERROR_ALERT_CLASS } from '@/components/account/a11y'
 
 export type Outcome = { ok: true; data: Record<string, unknown> } | { ok: false; text: string }
 
@@ -87,7 +87,7 @@ export function ReasonDialog({ open, title, body, confirm, onClose, onConfirm, t
         <Feedback error={error} done={null} />
         <AlertDialogFooter>
           <AlertDialogCancel>{tr('adm.cancel')}</AlertDialogCancel>
-          <Button variant="destructive" disabled={busy || reason.trim() === ''} onClick={() => void run()}>{confirm}</Button>
+          <Button variant="destructive" className={DESTRUCTIVE_HOVER_CLASS} disabled={busy || reason.trim() === ''} onClick={() => void run()}>{confirm}</Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -20,6 +20,8 @@ export interface PriceRow {
   yearly: string
   savingPct: number
   payRail: 'mercadopago' | 'creem' | null
+  /** This market's rail is configured (whatever the stage); false: the row says "todavía no disponible" and names no seller. */
+  railReady: boolean
 }
 
 export interface PricingView {
@@ -42,6 +44,7 @@ export function pricingView(stage: LaunchStage, cfg: CloudConfig): PricingView {
       yearly: formatMinor(offer.yearly, offer.currency),
       savingPct: annualSavingPercent(market),
       payRail: stage === 'paid' ? railFor(market, cfg.rails) : null,
+      railReady: railFor(market, cfg.rails) !== null,
     }
   })
   const freeSections = cfg.gate.freeSections
@@ -62,12 +65,12 @@ export interface OwnerIdentity {
   complaintsBookUrl: string | null
 }
 
-/** Who sells: the owner (Peru, when every legal field is filled) and Creem (international). */
-export function sellerView(cfg: CloudConfig): { owner: OwnerIdentity | null; international: 'creem' } {
+/** Who sells: the owner (Peru, when every legal field is filled) and Creem (international, only when its rail is configured). */
+export function sellerView(cfg: CloudConfig): { owner: OwnerIdentity | null; international: 'creem' | null } {
   const l = cfg.legal
   const complete = [l.sellerName, l.ruc, l.address, l.supportEmail].every((v) => v.trim() !== '')
   const owner = complete
     ? { name: l.sellerName.trim(), ruc: l.ruc.trim(), address: l.address.trim(), email: l.supportEmail.trim(), complaintsBookUrl: safeHttpsUrl(l.complaintsBookUrl) }
     : null
-  return { owner, international: 'creem' }
+  return { owner, international: cfg.rails.international === 'creem' ? 'creem' : null }
 }

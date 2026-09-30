@@ -449,3 +449,53 @@ test('a successful (or already expired, 401) logout ends the session after the f
     assert.deepEqual(t.store.getState().completedSections, ['setup'], 'local progress is kept')
   }
 })
+
+test('while the owner choice is pending, nothing is uploaded: not the page-hide flush, the debounce, pushNow or sign-out', async () => {
+  // Review round 1 (blocker): a flush in needs_choice PUT the previous owner's progress into the
+  // new account and merged the account's copy in, the outcome "Usar solo mi cuenta" exists to prevent.
+  const remoteDoc = buildRemoteDoc(blank({ completedSections: ['acct-new-section'] }), {})
+  const t = setup({
+    local: blank({ completedSections: ['prev-owner-section'] }),
+    owner: 'acct_PREVIOUS',
+    get: [() => ok({ rev: 4, doc: remoteDoc })],
+    put: [() => ok({ rev: 5 }), () => ok({ rev: 6 }), () => ok({ rev: 7 })],
+  })
+  assert.equal(await t.sync.start('acct_NEW'), 'needs_choice')
+  assert.equal(await t.sync.flush(), 'needs_choice')
+  t.store.setState({ completedSections: ['prev-owner-section', 'basics'] })
+  assert.equal(t.scheduler.pending(), 0, 'a local change schedules no upload')
+  t.scheduler.run()
+  await flushMicrotasks()
+  assert.equal(await t.sync.pushNow(), 'needs_choice')
+  const puts = () => t.calls.filter((c) => c.method === 'PUT').length
+  assert.equal(puts(), 0)
+  assert.equal(t.owner(), 'acct_PREVIOUS')
+  assert.deepEqual(t.store.getState().completedSections, ['prev-owner-section', 'basics'], 'the account copy was not merged in')
+  await t.sync.signOut()
+  assert.equal(puts(), 0, 'sign-out drops the pending choice without uploading')
+  assert.equal(t.sync.status, 'signed_out')
+  assert.equal(await t.sync.resolveOwnerChoice('merge'), 'signed_out', 'the stale choice is gone')
+})
+
+test('a page-hide flush before the first pull has answered uploads nothing (the device is not claimed yet)', async () => {
+  let release: () => void = () => undefined
+  const gate = new Promise<void>((r) => { release = r })
+  const storage = createMemoryStorage()
+  const store = fakeStore(blank({ completedSections: ['prev-owner-section'] }))
+  let owner: string | null = 'acct_PREVIOUS'
+  const calls: string[] = []
+  const api: ApiClient = {
+    get: async () => { calls.push('GET'); await gate; return ok({ rev: 4, doc: null }) as never },
+    put: async () => { calls.push('PUT'); return ok({ rev: 5 }) as never },
+    post: async () => { throw new Error('unexpected') },
+    patch: async () => { throw new Error('unexpected') },
+    del: async () => { throw new Error('unexpected') },
+  }
+  const sync = new ProgressSync({ api, storage, store, owner: { get: () => owner, set: (id) => { owner = id } }, now: () => T0, scheduler: manualScheduler() })
+  const started = sync.start('acct_NEW')
+  await sync.flush()
+  assert.deepEqual(calls, ['GET'], 'no PUT while the pull that decides the owner rule is in flight')
+  release()
+  assert.equal(await started, 'needs_choice')
+  assert.deepEqual(calls, ['GET'])
+})

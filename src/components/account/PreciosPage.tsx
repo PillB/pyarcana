@@ -13,6 +13,11 @@ import { useText, type Tr } from './text'
 
 const TAX_KEYS: Record<PriceRow['market'], string> = { pe: 'billing.tax.pe', world: 'billing.tax.world' }
 
+/** The tax line; the world row names Creem only when the Creem rail is configured. */
+function taxKey(r: PriceRow): string {
+  return r.market === 'world' && !r.railReady ? 'billing.tax.worldPending' : TAX_KEYS[r.market]
+}
+
 function PriceTable({ rows, tr }: { rows: PriceRow[]; tr: Tr }) {
   return (
     <table className="w-full text-left text-sm" data-testid="price-table">
@@ -29,7 +34,8 @@ function PriceTable({ rows, tr }: { rows: PriceRow[]; tr: Tr }) {
           <tr key={r.market} className="border-b border-border align-top">
             <th scope="row" className="py-2 pr-3 font-medium">
               {tr(`precios.market.${r.market}`)}
-              <span className="block text-xs font-normal text-muted-foreground">{tr(TAX_KEYS[r.market])}</span>
+              <span className="block text-xs font-normal text-muted-foreground">{tr(taxKey(r))}</span>
+              {!r.railReady && <span className="block text-xs font-normal text-muted-foreground">{tr('precios.rowNotYet')}</span>}
             </th>
             <td className="py-2 pr-3">{tr('billing.price.monthly', { price: r.monthly })}</td>
             <td className="py-2">

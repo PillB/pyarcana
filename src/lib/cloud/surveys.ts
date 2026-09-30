@@ -1,7 +1,7 @@
 /**
  * Satisfaction prompts: when a prompt may appear (DESIGN-v3 §G). Pure caps; the copy lives in i18n.
  *
- * - None in QA mode.
+ * - None in QA mode, and none while the consent card is open (two fixed cards would cover the page).
  * - Global cap on unsolicited prompts: 1 per session and 1 per 7 days (`pyarcana-survey-cap-v1`).
  * - section_csat: sampled 1 in 3. nps: from day 14 after the first visit, then every 90 days at most.
  *   gate_reason: once per device.
@@ -43,6 +43,8 @@ export interface PromptInput {
   qaMode: boolean
   random: () => number
   firstVisitAt: number | null
+  /** Another fixed bottom card (the consent card) is open: no prompt over it. */
+  overlayOpen?: boolean
 }
 
 function kindAllows(kind: SurveyKind, i: PromptInput): boolean {
@@ -56,7 +58,7 @@ function kindAllows(kind: SurveyKind, i: PromptInput): boolean {
 export function canPrompt(kind: SurveyKind, i: PromptInput): boolean {
   if (i.qaMode) return false
   if (kind === 'cancel_reason') return true
-  if (i.sessionShown) return false
+  if (i.sessionShown || i.overlayOpen === true) return false
   if (i.cap.lastAt !== null && i.nowMs - i.cap.lastAt < GLOBAL_GAP) return false
   return kindAllows(kind, i)
 }

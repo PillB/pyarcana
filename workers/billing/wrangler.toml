@@ -14,8 +14,9 @@ run_worker_first = ["/api/*"]
 not_found_handling = "404-page"
 
 # --- D1 (accounts, sessions, progress, grants, billing ledger, reports) ---------------
-# Create it, then paste the id printed by:
-#   npx wrangler d1 create pyarcana-accounts
+# scripts/setup.sh finds or creates it and writes its id into your LOCAL copy of this file;
+# keep the placeholder in git (scripts/deploy.sh refuses to deploy while a placeholder remains).
+# By hand: npx wrangler d1 create pyarcana-accounts, then paste the id it prints.
 # The schema is applied by the worker itself (numbered migrations in src/schema.mjs).
 [[d1_databases]]
 binding = "DB"
@@ -103,7 +104,8 @@ name = "EMAIL"
 allowed_sender_addresses = ["no-reply@pyarcana.dev"]
 
 # --- Secrets (NEVER put values in this file; it is public) ----------------------------
-# Set each with wrangler from workers/billing/:
+# scripts/setup.sh sets SERVER_PEPPER, ADMIN_EMAILS and LICENSE_PRIVATE_KEY_PKCS8_B64 (piped,
+# never printed). The rest, or all of them by hand, with wrangler from workers/billing/:
 #   npx wrangler secret put SERVER_PEPPER          32+ random bytes, base64:
 #                                                  openssl rand -base64 32
 #   npx wrangler secret put ADMIN_EMAILS           comma-separated admin addresses

@@ -11,10 +11,11 @@ import { stageForGate } from '@/lib/cloud/gate'
 import { snapshotAfterHandoff } from '@/lib/cloud/handoff-import'
 import { whenProgressHydrated } from '@/lib/cloud/progress-adapter'
 import { useProgressStore } from '@/lib/progress-store'
-import { claimTrialIntent } from '@/lib/cloud/intent'
+import { trialIntentOutcome } from '@/lib/cloud/intent'
 import { sendConsentRecord } from '@/lib/cloud/consent-sync'
 import { ownerChoiceOpen } from '@/lib/cloud/ui-state'
-import { startTrial } from '@/lib/cloud/account-api'
+import { startTrial, type UiError } from '@/lib/cloud/account-api'
+import { errorMessage } from '@/lib/cloud/billing-ui'
 import { safeSessionStorage, safeStorage } from '@/lib/cloud/storage'
 import { applyMe, cloudApi, getHandoffImporter, getMeasurement, getProgressSync, getSyncController, inMicrosoftCallback, isLeavingPage, track, useAccountUi, useSyncUi } from './runtime'
 import { useText } from './text'
@@ -55,7 +56,7 @@ function usePageLifecycle(stage: LaunchStage) {
 /** Sync follows the live session; a trial the learner asked for before signing in starts now. */
 function useSessionFollowers() {
   const { toast } = useToast()
-  const { tr } = useText()
+  const { tr, lang } = useText()
   const meStatus = useCloudRuntime((s) => s.meStatus)
   const accountId = useCloudSession((s) => s.me?.account.id ?? null)
   useEffect(() => {
@@ -64,10 +65,13 @@ function useSessionFollowers() {
     getSyncController().setAccount(accountId)
     void getMeasurement().bind(accountId)
     void sendConsentRecord(cloudApi(), safeStorage(), accountId)
-    const me = useCloudSession.getState().me
-    if (!claimTrialIntent(safeSessionStorage(), me, Date.now(), isLeavingPage())) return
+    const outcome = trialIntentOutcome(safeSessionStorage(), useCloudSession.getState().me, Date.now(), isLeavingPage())
+    // The sign-in panel promised the trial: when it cannot start, say why instead of dropping it.
+    const notStarted = (error: UiError) => void toast({ title: tr('account.trial.notStarted'), description: errorMessage(error, lang) })
+    if (outcome === 'unavailable') notStarted({ key: 'account.error.trialUsed' })
+    if (outcome !== 'start') return
     void startTrial(cloudApi()).then((r) => {
-      if (!r.ok) return
+      if (!r.ok) return notStarted(r.error)
       applyMe(r.me)
       useAccountUi.getState().setOpen(false)
       toast({ title: tr('account.trial.started') })

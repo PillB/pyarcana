@@ -5,6 +5,29 @@
 
 PyArcana has acquired `pyarcana.dev` and `pyarcana.com` plus a mailing service, all from Hostinger. This document covers all setup and securing steps.
 
+> **Update, 2026-09-30: read this before the rest of the page.** The content below is kept as it
+> was written on 2026-07-31. It assumed a VPS-hosted dynamic LMS, and the product no longer uses
+> one.
+>
+> - **Hosting.** The site and its API are one Cloudflare Worker (`workers/billing`), which also
+>   serves the static export, on `https://pyarcana.dev` through a Workers Custom Domain. The
+>   operator steps are in `workers/billing/README.md` ("Setup order": `scripts/setup.sh`, then
+>   `scripts/deploy.sh`). Section 2's A records pointing to a server IP no longer apply.
+> - **DNS.** The nameservers of `pyarcana.dev` and `pyarcana.com` move to Cloudflare (free plan).
+>   Registration stays at Hostinger. `pyarcana.com` and `www` redirect to `https://pyarcana.dev`.
+>   If DNSSEC is on at Hostinger, turn it off before switching.
+> - **Sign-in email.** Codes are sent with Cloudflare Email Sending from `no-reply@pyarcana.dev`
+>   (Workers Paid). Its records live on the `cf-bounce` subdomain. The Worker never uses Hostinger
+>   SMTP or mailbox credentials.
+> - **Mail stays at Hostinger.** Recreate the mail records in Cloudflare DNS as DNS-only records
+>   BEFORE switching the nameservers. The live records replace this page's older examples:
+>   - MX `mx1.hostinger.com` (priority 5) and `mx2.hostinger.com` (priority 10). The
+>     `mx1/mx2.hostingermail.com` rows in section 2.1 are out of date.
+>   - SPF `v=spf1 include:_spf.mail.hostinger.com ~all`.
+>   - DKIM CNAMEs `hostingermail-{a,b,c}._domainkey` → `hostingermail-{a,b,c}.dkim.mail.hostinger.com`.
+>   - DMARC `_dmarc` `v=DMARC1; p=none`.
+>   - `autodiscover` and `autoconfig` CNAMEs to Hostinger's mail hosts.
+
 ---
 
 ## 1. Acquired assets
@@ -86,6 +109,8 @@ In Hostinger hPanel → Email → Email Accounts:
 - `soporte@pyarcana.dev` — technical support
 - `postmaster@pyarcana.dev` — DMARC reports, bounces
 - `no-reply@pyarcana.dev` — automated notifications (exam results, progress)
+
+> **Addresses the site already names (added 2026-09-30).** The published privacy, data-rights, terms and security pages name `privacy@pyarcana.dev` and `security@pyarcana.dev`, and the account pages name `soporte@pyarcana.dev`. Per DESIGN-v3 §L only `hola@` exists as a mailbox, so these must exist as aliases or forwarders to it before launch; see the checklist in §7. The page text is kept as it is (preservation rule); changing it to a single address is a content decision for the owner.
 
 ### 4.2 Email authentication (critical for deliverability)
 
@@ -187,6 +212,7 @@ dig default._domainkey.pyarcana.dev CNAME +short
 - [ ] 301 redirect from `pyarcana.com` → `pyarcana.dev`
 - [ ] 301 redirect from `www.pyarcana.dev` → `pyarcana.dev`
 - [ ] Mailboxes created (`hola@`, `soporte@`, `postmaster@`, `no-reply@`)
+- [ ] Before the account edition launches (DESIGN-v3 §K/§L; client review round 3): every address the site names reaches a person. The legal pages already tell users to write to `privacy@` (ARCO and privacy requests under Ley 29733) and `security@` (vulnerability reports), and the account pages use `soporte@` (`legal.supportEmail`). Hostinger has one mailbox (`hola@`), so create `soporte@`, `privacy@` and `security@` as aliases or forwarders to `hola@` in hPanel → Emails → Forwarders, then send a test message to each.
 - [ ] SMTP credentials set as env vars (NOT committed to git)
 - [ ] Firebase authorized domains updated to include `pyarcana.dev`
 - [ ] `NEXTAUTH_URL=https://pyarcana.dev` in production env

@@ -205,7 +205,15 @@ function measurementContext() {
 
 let measurement: Measurement | null = null
 export function getMeasurement(): Measurement {
-  measurement = measurement ?? new Measurement({ api: cloudApi(), storage: safeStorage(), context: measurementContext, search: () => window.location.search })
+  measurement =
+    measurement ??
+    new Measurement({
+      api: cloudApi(),
+      storage: safeStorage(),
+      context: measurementContext,
+      search: () => window.location.search,
+      accountId: () => useCloudSession.getState().me?.account.id ?? null,
+    })
   return measurement
 }
 

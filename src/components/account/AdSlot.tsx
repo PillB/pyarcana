@@ -11,11 +11,12 @@ import { useAdEligibility, useCloudStage } from '@/lib/cloud/hooks'
 import { useCloudSession } from '@/lib/cloud/session'
 import { chooseAdapter, scriptUrl, type AdAdapter, type AdEligibility, type AdPlacement } from '@/lib/cloud/ads'
 import { SLOT_HEIGHT_PX, railMediaQuery, ethicalAdsKeywords, houseArmShows, houseCreative, parseGeo, readAdsenseOptIn, slotView, writeAdsenseOptIn, type HouseCreative, type OptIn } from '@/lib/cloud/ad-slot'
-import { safeStorage } from '@/lib/cloud/storage'
+import { safeSessionStorage, safeStorage } from '@/lib/cloud/storage'
+import { saveIntent } from '@/lib/cloud/intent'
 import { scriptLoader } from './GoogleButton'
 import { cloudApi, getMeasurement, track, useAccountUi } from './runtime'
 import { sitePath, useText, type Tr } from './text'
-import { priceCtaTarget } from '@/lib/cloud/ui-state'
+import { houseCtaTarget } from '@/lib/cloud/ui-state'
 import { LEGAL_CHECKBOX_CLASS } from '@/components/account/a11y'
 
 type Geo = { status: 'unknown' | 'ok' | 'failed'; country: string | null }
@@ -64,17 +65,22 @@ function useHouseArm(enabled: boolean): string | null | undefined {
   return arm
 }
 
+/** Follow a house-ad or no-ads button (houseCtaTarget): prices, checkout, or sign-in keeping the trial intent. */
+function goToCta(cta: HouseCreative | 'no-ads-link', signedIn: boolean): void {
+  const target = houseCtaTarget(cta, signedIn)
+  const { show } = useAccountUi.getState()
+  if (target === 'prices-page') return window.location.assign(sitePath('/precios'))
+  if (target === 'signin-trial') saveIntent(safeSessionStorage(), { kind: 'trial', sectionId: null }, Date.now())
+  show(target === 'checkout' ? 'checkout' : 'main')
+}
+
 function HouseAd({ creative, sectionKey, tr }: { creative: HouseCreative; sectionKey: string; tr: Tr }) {
-  const show = useAccountUi((s) => s.show)
   const signedIn = useCloudSession((s) => s.me !== null)
   const from = CLOUD_CONFIG.gate.freeSections + 1
   useEffect(() => track({ name: 'house_ad_view' }), [creative, sectionKey])
   const click = () => {
     track({ name: 'house_ad_click' })
-    if (creative !== 'annual') return show('main')
-    // "Ver precios": the prices themselves, never a sign-in form without them.
-    if (priceCtaTarget(signedIn) === 'checkout') return show('checkout')
-    window.location.assign(sitePath('/precios'))
+    goToCta(creative, signedIn)
   }
   return (
     <div className="flex h-full flex-col justify-center gap-1 p-4" data-testid="house-ad" data-creative={creative}>
@@ -225,7 +231,6 @@ const RAIL_CLASS = 'fixed right-4 top-24 z-20 hidden w-[200px] min-[1600px]:bloc
 function ActiveSlot({ placement, sectionKey, eligibility, stage }: { placement: AdPlacement; sectionKey: string; eligibility: AdEligibility; stage: LaunchStage }) {
   const { tr } = useText()
   const signedIn = useCloudSession((s) => s.me !== null)
-  const show = useAccountUi((s) => s.show)
   const [optIn, setOptIn] = useState<OptIn>(() => readAdsenseOptIn(safeStorage()))
   const geo = useGeo(eligibility === 'free' && CLOUD_CONFIG.ads.provider === 'adsense')
   const desktop = useDesktop(placement === 'rail' ? railMediaQuery() : '(min-width: 1024px)')
@@ -247,7 +252,7 @@ function ActiveSlot({ placement, sectionKey, eligibility, stage }: { placement: 
         {labelled && <p className="px-4 pt-2 text-[11px] uppercase tracking-wide text-muted-foreground">{tr('ads.label')}</p>}
         <AdBody adapter={adapter} placement={placement} eligibility={eligibility} sectionKey={sectionKey} creative={creative ?? null} onOptIn={onOptIn} tr={tr} />
       </aside>
-      <NetworkAdControls adapter={adapter} onWithdraw={onWithdraw} onNoAds={() => show('main')} tr={tr} />
+      <NetworkAdControls adapter={adapter} onWithdraw={onWithdraw} onNoAds={() => goToCta('no-ads-link', signedIn)} tr={tr} />
     </div>
   )
 }

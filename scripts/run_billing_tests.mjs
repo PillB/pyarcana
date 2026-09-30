@@ -103,7 +103,11 @@ const WORKER_SUITES = [
   ["stats", 5],
   ["experiment-results", 8],
   ["surveys", 7],
-  ["measurement-privacy", 3]
+  ["measurement-privacy", 3],
+  // Stage 2d: the owner's operator scripts (setup.sh, deploy.sh) and their helper; the second
+  // runs both scripts under a real pty (util-linux `script`) against a fake wrangler.
+  ["ops", 7],
+  ["operator-scripts", 11]
 ].map(([name, floor]) => ({ group: "worker", file: `${WORKER_TESTS}/${name}.test.mjs`, floor }));
 
 /**
@@ -134,18 +138,19 @@ const CLIENT_SUITES = [
   ["legal-content", 9],
   ["licence", 15],
   ["me-extras", 1],
-  ["ms-callback", 8],
+  ["ms-callback", 10],
   ["offer", 7],
-  ["oidc", 14],
+  ["oidc", 15],
   ["plans", 4],
   ["prerender", 14],
   ["pricing-view", 5],
   ["primitives", 10],
   ["progress-merge", 17],
-  ["progress-sync", 21],
+  ["progress-sync", 27],
   ["qa-report", 21],
   ["remote-apply", 4],
-  ["runtime", 10],
+  ["review-r3", 11],
+  ["runtime", 13],
   ["session-access", 20],
   ["ui-state", 12]
 ].map(([name, floor]) => ({ group: "client", file: `${CLIENT_TESTS}/${name}.test.ts`, floor, execArgv: TSX }));

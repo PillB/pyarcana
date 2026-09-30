@@ -9,7 +9,100 @@ the consent record. Storage is D1 only.
 
 The binding design is `DESIGN-v2.md` as amended by `DESIGN-v3-delta.md` and `DESIGN-v3.md`
 (kept outside the repository by the orchestrating session). This file says what is built, what
-is not, and what only the owner can do.
+is not, and what only the owner can do. It is public: it names roles and role addresses on
+PyArcana's domain, never a person's mailbox.
+
+## Setup order
+
+Everything runs on the owner's machine (Node >= 20, bun, a PyArcana checkout); the Cloudflare
+API is not reachable from the build sandbox. Once the zone and the identity providers exist:
+
+```bash
+read -rs CLOUDFLARE_API_TOKEN && export CLOUDFLARE_API_TOKEN   # typed, not echoed
+export CLOUDFLARE_ACCOUNT_ID=<account id from the dashboard>
+workers/billing/scripts/setup.sh          # first run, and every later run (idempotent)
+workers/billing/scripts/deploy.sh         # later deploys
+workers/billing/scripts/setup.sh --rotate-key k2   # only to replace the licence key
+```
+
+The token needs two account permissions, both Edit: Workers Scripts and D1. With
+`CLOUDFLARE_ACCOUNT_ID` set it needs no Account Settings:Read. Make a fresh token for the run and
+revoke it afterwards.
+
+`scripts/setup.sh`, in order:
+
+1. Checks Node >= 20, `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` before any wrangler call.
+2. Finds the D1 database `pyarcana-accounts` with `wrangler d1 list --json` (never `d1 info`,
+   which reads the placeholder as an id), or creates it, and writes its id into the LOCAL
+   `wrangler.toml`. The repository keeps `TODO_REPLACE_WITH_D1_DATABASE_ID`
+   (`tests/wrangler.test.mjs` checks it): do not commit the id.
+   `git checkout -- workers/billing/wrangler.toml` restores the placeholder, and the next run
+   writes the id again (it finds the database by name).
+3. Stops while any `TODO_` value survives in `wrangler.toml`, before any secret or deploy.
+4. Reads the Worker's secret names (`wrangler secret list`). "Worker not found" means none yet.
+   Any other failure stops the script, so a secret that may exist is never replaced blindly.
+5. Asks for `ADMIN_EMAILS` (comma-separated). Enter keeps the stored value, or skips it on a
+   first run. A malformed list stops the script before anything is stored.
+6. Licence key: when absent, or with `--rotate-key <new kid>`, it generates an ES256 pair. The
+   private half is piped straight into `wrangler secret put LICENSE_PRIVATE_KEY_PKCS8_B64`, so it
+   never reaches a file or the terminal. Rotation then writes the new `LICENSE_KEY_ID` into
+   `wrangler.toml`.
+7. `SERVER_PEPPER`: when absent, 32 random bytes are piped the same way. The script never rotates
+   it, because every session, sign-in code, rate-limit key and hashed id is keyed by it.
+8. `ADMIN_EMAILS` is piped into `wrangler secret put`.
+9. Prints the PUBLIC JWK for `src/lib/cloud/config.ts` (`licence.publicKeys`). It prints before
+   the deploy, so a failed deploy cannot lose it.
+10. Runs `scripts/deploy.sh`.
+
+`scripts/deploy.sh`:
+
+1. Refuses while a `TODO_` placeholder is in `wrangler.toml`.
+2. Runs `NEXT_PUBLIC_BASE_PATH= bun run build:static` at the repository root, then refuses unless
+   `out/deployment.json` records base path `""`. A build script that reads the variable with
+   `|| '/pyarcana'` turns the empty value into `/pyarcana`. That was the rule at commit 29200ca;
+   see "Not built yet".
+3. Runs `node scripts/cloud-headers.mjs out` (`out/_headers`, `out/ads.txt`) when the script
+   exists, and says so when it does not.
+4. Runs `wrangler deploy` from `workers/billing/`.
+
+Neither script ever pipes an interactive wrangler command. wrangler is interactive only when stdin
+AND stdout are terminals, and a piped `deploy` answers its own questions with fallbacks. `secret
+put` is always piped: it reads stdin when stdin is not a terminal.
+
+Wrangler is `npx --yes wrangler@4.144.0`, the version whose source these scripts were checked
+against: output shapes, `secret put` reading stdin, and draft-Worker creation. `WRANGLER_PKG`
+overrides the version. `PYARCANA_WRANGLER` is the tests' fake-wrangler seam; leave it unset.
+`tests/operator-scripts.test.mjs` runs both scripts under a real pty (`script -qec`, util-linux,
+so Linux only) against `tests/wrangler-fake.mjs`, which copies wrangler 4.144.0's output shapes.
+Nothing has run against the live Cloudflare API from here.
+
+## Configuration: vars and secrets
+
+`wrangler.toml` is public. `[vars]` holds only values that are safe to publish. Secrets are set
+with `wrangler secret put` (by `setup.sh`, or by hand for the payment keys), never in a file.
+
+| Kind | Name | Default / how to set |
+|---|---|---|
+| var | `ALLOWED_ORIGINS`, `CANONICAL_ORIGIN` | `https://pyarcana.dev`; local dev adds `http://localhost:3000` in `.dev.vars` (git-ignored) |
+| var | `SITE_PATH` | `""` (served at the root) |
+| var | `TERMS_VERSION` | owner fills it; empty = sign-in answers 503 |
+| var | `TRIAL_DAYS`, `GRACE_DAYS`, `SESSION_MAX_DAYS` | `7`, `7`, `180` |
+| var | `GOOGLE_CLIENT_ID`, `MICROSOFT_CLIENT_ID` | owner fills them (public by design) |
+| var | `EMAIL_PROVIDER`, `EMAIL_FROM`, `EMAIL_FROM_NAME`, `EMAIL_DAILY_CAP` | `cloudflare`, `no-reply@pyarcana.dev`, `PyArcana`, `90` |
+| var | `REPORT_ATTACHMENTS_CAP_MB`, `REPORT_TEXT_CAP_MB` | `200`, `100` |
+| var | `PRICE_PE_MONTHLY_MINOR`, `PRICE_PE_YEARLY_MINOR`, `PRICE_US_MONTHLY_MINOR`, `PRICE_US_YEARLY_MINOR` | `1990`, `11990`, `799`, `4900` (integer minor units; must equal `src/lib/cloud/offer.ts`) |
+| var | `CREEM_API_BASE`, `CREEM_PRODUCT_PRO_MONTHLY`, `CREEM_PRODUCT_PRO_YEARLY`, `MP_API_BASE` | live API bases; product ids filled by the owner |
+| var | `LICENSE_KEY_ID`, `LICENSE_TTL_SECONDS`, `LICENSE_PREV_PUBLIC_JWK` | `k1`, `259200`, `""` (the old PUBLIC JWK during a rotation) |
+| var | `EXPERIMENTS_ENABLED`, `EVENTS_ENABLED` | `""`, `"true"` |
+| binding | `DB` (D1), `EMAIL` (`send_email`), `ASSETS` (static assets) | `wrangler.toml`; the D1 id is written locally by `setup.sh` |
+| secret | `SERVER_PEPPER` | `setup.sh` (generated, piped) |
+| secret | `LICENSE_PRIVATE_KEY_PKCS8_B64` | `setup.sh` (generated, piped; `--rotate-key` replaces it) |
+| secret | `ADMIN_EMAILS` | `setup.sh` (typed at its prompt, piped) |
+| secret | `MP_ACCESS_TOKEN`, `MP_WEBHOOK_SECRET`, `CREEM_API_KEY`, `CREEM_WEBHOOK_SECRET` | by hand: `npx wrangler secret put <NAME>` from `workers/billing/` |
+| secret | `RESEND_API_KEY`, `BREVO_API_KEY`, `MAILERSEND_API_KEY` | only for the matching alternative `EMAIL_PROVIDER` |
+
+`tests/wrangler.test.mjs` fails if any secret name is ever assigned in `wrangler.toml`, or if a
+`@gmail.com` address appears there.
 
 ## Running the tests
 
@@ -21,6 +114,8 @@ node scripts/run_billing_tests.mjs --only worker # this worker's suites only
 - Worker suites: `workers/billing/tests/*.test.mjs`, `node:test` on Node >= 22.13, with a D1 fake
   on `node:sqlite` (`tests/d1-fake.mjs`). Every external call (JWKS, email) goes through an
   injected `fetchImpl`, and the clock through `now`.
+- `tests/operator-scripts.test.mjs` runs `scripts/setup.sh` and `scripts/deploy.sh` under a pty
+  with util-linux `script -qec`, so it needs Linux (CI); macOS's BSD `script` takes other flags.
 - Client suites: `src/lib/cloud/__tests__/*.test.ts` through `--import tsx`.
 - Complexity gate: ESLint `complexity` at 15 over this worker, the runner, `src/lib/cloud` and
   `src/components/account`.
@@ -246,10 +341,19 @@ Named undone work; nothing below exists in the code today.
   metrics, is not corrected for multiple looks. Survey aggregates exclude nobody (the client sends
   none in QA mode) and have no date filter. The health route has no licence flag; the JWKS route
   is the check.
-- The one-origin deploy script `scripts/deploy.sh` (DESIGN-v3 §A: static build at the root,
-  `out/_headers` and `out/ads.txt`, then `wrangler deploy`). The `[assets]` block and the worker's
-  fall-through to `ASSETS` are built; until the script exists the owner runs the three steps by
-  hand.
+- A committed root static build. At commit 29200ca, `scripts/build_static_export.mjs` (outside
+  this worker) read `process.env.NEXT_PUBLIC_BASE_PATH || '/pyarcana'`, so the empty value DESIGN-v3
+  §A prescribes still built under `/pyarcana`. A concurrent, uncommitted change
+  (`scripts/static_base_path.mjs`) makes an empty value mean the root. Until that change lands,
+  `deploy.sh` stops at its base-path check. It reads the base path the build records in
+  `out/deployment.json`, so it refuses any build that is not at the root.
+- A live run of `setup.sh` / `deploy.sh`. They are tested only against a fake wrangler that copies
+  wrangler 4.144.0's source, under a pty. The first real run on the owner's machine is the proof.
+  In particular, creating the Worker as a draft on the first `secret put` (before the first
+  deploy) is read from wrangler's source (`createDraftWorker`, fallback "yes" when not
+  interactive). Vocal Studio's live-proven order was deploy first, then secrets.
+- Automatic `LICENSE_PREV_PUBLIC_JWK` on rotation. `setup.sh --rotate-key` prints what to keep,
+  and the owner pastes the old public JWK into `wrangler.toml` and the site config.
 - JWKS and authority URL overrides for an end-to-end mock identity provider (DESIGN-v3 §B allows
   them only when every allowed origin is localhost). The worker has no override at all: it always
   uses Google's and Microsoft's real JWKS URLs.
@@ -267,10 +371,14 @@ Named undone work; nothing below exists in the code today.
 
 Only the owner can do these; nothing here is deployed.
 
-1. Create the database, paste its id into `wrangler.toml`: `npx wrangler d1 create pyarcana-accounts`.
-2. Set the secrets from `workers/billing/`: `SERVER_PEPPER` (`openssl rand -base64 32`) and
-   `ADMIN_EMAILS` (use a Gmail address: Google is authoritative for it). With the default
-   `EMAIL_PROVIDER = "cloudflare"` no email key is needed; with an alternative, set its key.
+1. Run `workers/billing/scripts/setup.sh` (see "Setup order"). It creates the D1 database, writes
+   its id into the local `wrangler.toml`, and sets `SERVER_PEPPER`, `ADMIN_EMAILS` and the licence
+   key. For `ADMIN_EMAILS` use an address Google is authoritative for, such as a Gmail address.
+   It then deploys. By hand, the same steps are `npx wrangler d1 create pyarcana-accounts`, the
+   id pasted into `wrangler.toml`, and `npx wrangler secret put` for each secret, with the value
+   typed at wrangler's prompt.
+2. With the default `EMAIL_PROVIDER = "cloudflare"` no email key is needed; with an alternative,
+   set its key.
 3. Prefilled for `https://pyarcana.dev` (DESIGN-v3 §K): `ALLOWED_ORIGINS`, `CANONICAL_ORIGIN`,
    `SITE_PATH`, `EMAIL_PROVIDER`, `EMAIL_FROM`, `EMAIL_FROM_NAME`. Still to fill: `TERMS_VERSION`,
    `GOOGLE_CLIENT_ID`, `MICROSOFT_CLIENT_ID`. Local development overrides them in
@@ -282,10 +390,10 @@ Only the owner can do these; nothing here is deployed.
    `[[send_email]]` binding in `wrangler.toml` may send only from that address; if `EMAIL_FROM`
    changes, change `allowed_sender_addresses` with it. Send one code to yourself after deploy:
    this sandbox cannot reach Cloudflare, so the live send is unproven here.
-5. One origin (DESIGN-v3 §A, §K): build the static export at the root
-   (`NEXT_PUBLIC_BASE_PATH= bun run build:static`, which writes `out/`), then `npx wrangler deploy`
-   from `workers/billing/`, and attach `pyarcana.dev` as a Workers Custom Domain (the zone must be
-   on Cloudflare first). `run_worker_first` as a list needs a recent wrangler 4.
+5. One origin (DESIGN-v3 §A, §K): `workers/billing/scripts/deploy.sh` (the static build at the
+   root, `out/_headers`, `wrangler deploy`). Attach `pyarcana.dev` as a Workers Custom Domain; the
+   zone must be on Cloudflare first (`docs/HOSTINGER_SETUP.md` has the pointer). `run_worker_first`
+   as a list needs a recent wrangler 4. It needs the root-build fix (see "Not built yet").
 6. Google Cloud console: an OAuth web client with the site origin as an authorized JavaScript origin.
 7. Microsoft Entra: an app registration ("Any Entra ID Tenant + Personal Microsoft accounts",
    authority `common`, D-USER-05), SPA platform, redirect URI `https://pyarcana.dev/cuenta`
@@ -309,12 +417,13 @@ Only the owner can do these; nothing here is deployed.
     cancel mode irrelevant: the worker always sends `mode` explicitly.
 11. Workers Paid is already needed for Email Sending; reconciliation also needs its subrequest
     allowance (a Mercado Pago row costs two or three subrequests, 50 rows per set per run).
-12. Licence key: `node scripts/generate-keys.mjs k1` (from `workers/billing/`), then
-    `npx wrangler secret put LICENSE_PRIVATE_KEY_PKCS8_B64` and paste the printed key at the
-    prompt (never in chat, a file or git; clear the scrollback). Put the printed public JWK in the
-    site config `licence.publicKeys`, keep `LICENSE_KEY_ID` equal to its `kid`, and after deploy
-    check that `GET /api/v1/jwks` lists that kid. Rotation: new kid, old public JWK kept in the
-    site config and in `LICENSE_PREV_PUBLIC_JWK` for at least 72 h.
+12. Licence key: `setup.sh` generates it and pipes the private half into the secret. Put the
+    public JWK it prints into the site config `licence.publicKeys`, and after deploy check that
+    `GET /api/v1/jwks` lists that kid. For rotation, run `setup.sh --rotate-key <new kid>`: it
+    writes the new `LICENSE_KEY_ID`. Keep the old public JWK in the site config and in
+    `LICENSE_PREV_PUBLIC_JWK` for at least 72 h. The manual path, `node scripts/generate-keys.mjs
+    k1` plus a paste at wrangler's prompt, still works. It prints the private key to the terminal,
+    so clear the scrollback afterwards.
 13. Experiments: enable one at a time by adding its key to `EXPERIMENTS_ENABLED` and redeploying;
     run `aa_2026_q4` first and read its SRM before trusting any other result. The consent text
     and `consent.mode` are a legal decision (DESIGN-v3 §F keeps `everywhere` until a lawyer says
@@ -389,5 +498,17 @@ Each one is a decision someone may want to revisit.
   ends with the account).
 - Stage 2c: the licence TTL ceiling is 72 h (Vocal allowed 30 days) because the browser refuses
   longer tokens; the subject is the account id (Vocal used a bearer licence id).
+- Stage 2d: `setup.sh` stores the secrets BEFORE the first deploy, so the first live version
+  already has `SERVER_PEPPER` and the licence key, and a rotated key ships with its new kid in the
+  same run. Vocal Studio deployed first. Its script swallowed every `secret list` failure; this
+  one swallows only "Worker not found" and stops on any other failure, so an unreadable list can
+  never regenerate `SERVER_PEPPER`.
+- Stage 2d: `CLOUDFLARE_ACCOUNT_ID` is required, not optional as in Vocal. It removes the
+  `wrangler whoami` / Account Settings:Read path. `setup.sh` does not look up the workers.dev
+  subdomain and does not curl the Worker afterwards: the product is served on the custom domain,
+  and `deploy.sh` prints the two URLs to check. The public JWK is printed, never written to the
+  repository.
+- Stage 2d: the licence key id for `--rotate-key` must be new and is written into `wrangler.toml`
+  only after the secret upload succeeds. A failed upload leaves the old kid and key in place.
 - The JWKS fetch is aborted after 5 s with an AbortController and a cleared timer (the same abort
   as `AbortSignal.timeout`, without an unref'd timer).

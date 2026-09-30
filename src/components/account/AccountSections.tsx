@@ -27,6 +27,7 @@ import { MicrosoftButton } from './SignInPanel'
 import { Section } from './PlanSections'
 import { applyMe, cloudApi, getProgressSync, signOutCloud, useAccountUi, useLoadedAuthMethods, useSyncUi } from './runtime'
 import { useText } from './text'
+import { DESTRUCTIVE_ACTION_CLASS, DESTRUCTIVE_HOVER_CLASS } from './a11y'
 
 const SYNC_KEYS: Partial<Record<SyncStatus, string>> = {
   pulling: 'account.sync.busy',
@@ -146,7 +147,7 @@ function DeleteDialog({ onDeleted }: { onDeleted: () => void }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="sm">{tr('account.data.delete')}</Button>
+        <Button variant="destructive" size="sm" className={DESTRUCTIVE_HOVER_CLASS}>{tr('account.data.delete')}</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -161,7 +162,7 @@ function DeleteDialog({ onDeleted }: { onDeleted: () => void }) {
         <AlertDialogFooter>
           <AlertDialogCancel>{tr('account.delete.back')}</AlertDialogCancel>
           <AlertDialogAction
-            className="bg-destructive text-white hover:bg-destructive/90"
+            className={DESTRUCTIVE_ACTION_CLASS}
             disabled={busy || typed.trim() === ''}
             onClick={(e) => {
               e.preventDefault()

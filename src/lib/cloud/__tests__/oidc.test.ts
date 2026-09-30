@@ -119,8 +119,8 @@ test('the fragment response is accepted only with the state we sent', () => {
   assert.deepEqual(parseAuthResponse('#code=abc&state=s2', 's1'), { ok: false, reason: 'state_mismatch' })
   assert.deepEqual(parseAuthResponse('#code=abc&state=s1', null), { ok: false, reason: 'state_mismatch' })
   assert.deepEqual(parseAuthResponse('#code=abc', 's1'), { ok: false, reason: 'state_mismatch' })
-  assert.deepEqual(parseAuthResponse('#error=access_denied&error_description=User+cancelled&state=s1', 's1'), { ok: false, reason: 'provider_error', error: 'access_denied' })
-  assert.deepEqual(parseAuthResponse('#error=%3Cimg%3E&state=s1', 's1'), { ok: false, reason: 'provider_error', error: 'unknown' })
+  assert.deepEqual(parseAuthResponse('#error=access_denied&error_description=User+cancelled&state=s1', 's1'), { ok: false, reason: 'provider_error', error: 'access_denied', kind: 'other' })
+  assert.deepEqual(parseAuthResponse('#error=%3Cimg%3E&state=s1', 's1'), { ok: false, reason: 'provider_error', error: 'unknown', kind: 'other' })
   assert.deepEqual(parseAuthResponse('#state=s1', 's1'), { ok: false, reason: 'missing_code' })
   assert.deepEqual(parseAuthResponse('', 's1'), { ok: false, reason: 'no_response' })
   assert.deepEqual(parseAuthResponse('#setup/theory', 's1'), { ok: false, reason: 'no_response' })
@@ -199,4 +199,23 @@ test('the script loader appends once, shares the pending load, and allows a retr
   assert.equal(appended.length, 3, 'a failed load can be retried')
   ;(appended[2].onload as () => void)()
   await p4
+})
+
+test('a work or school tenant that blocks the app is told apart from a plain cancel (DESIGN-v3 §L D-USER-05)', () => {
+  // Microsoft Entra: the callback carries error=access_denied (or consent_required) with an AADSTS
+  // consent code in error_description when the tenant requires admin approval.
+  const kind = (h: string) => {
+    const r = parseAuthResponse(`${h}&state=s1`, 's1')
+    return !r.ok && r.reason === 'provider_error' ? r.kind : null
+  }
+  assert.equal(kind('#error=access_denied&error_description=AADSTS90094%3A+The+grant+requires+admin+permission.'), 'tenant_blocked')
+  assert.equal(kind('#error=access_denied&error_description=AADSTS65001:+The+user+or+administrator+has+not+consented'), 'tenant_blocked')
+  assert.equal(kind('#error=access_denied&error_description=AADSTS90095%3A+Admin+consent+is+required'), 'tenant_blocked')
+  assert.equal(kind('#error=access_denied&error_description=AADSTS50105%3A+not+assigned+to+a+role'), 'tenant_blocked')
+  assert.equal(kind('#error=consent_required&error_description=whatever'), 'tenant_blocked')
+  assert.equal(kind('#error=access_denied&error_subcode=cancel&error_description=AADSTS65004%3A+User+declined'), 'cancelled')
+  assert.equal(kind('#error=access_denied&error_description=AADSTS900144%3A+other'), 'other', 'a longer code is not a consent code')
+  assert.equal(kind('#error=server_error'), 'other')
+  const r = parseAuthResponse('#error=access_denied&error_description=AADSTS90094%3A+%3Cscript%3E&state=s1', 's1')
+  assert.deepEqual(Object.keys(r).sort(), ['error', 'kind', 'ok', 'reason'], 'the free-text description itself is never kept')
 })

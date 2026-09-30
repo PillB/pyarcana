@@ -8,8 +8,10 @@ import {
   REPORT_CATEGORY_VALUES,
   REPORT_SEVERITY_VALUES,
   REPORT_STATUSES,
+  categoryLabel,
   parseReportList,
   reportsPath,
+  severityLabel,
   type ReportFilters,
   type ReportRow,
 } from '@/lib/cloud/admin-api'
@@ -20,13 +22,13 @@ import { useText, type Tr } from './text'
 
 const EMPTY: ReportFilters = { status: '', severity: '', category: '', section: '', q: '' }
 
-function Choice({ id, label, value, options, onChange, tr }: { id: string; label: string; value: string; options: readonly string[]; onChange: (v: string) => void; tr: Tr }) {
+function Choice({ id, label, value, options, text, onChange, tr }: { id: string; label: string; value: string; options: readonly string[]; text: (v: string) => string; onChange: (v: string) => void; tr: Tr }) {
   return (
     <div className="space-y-1">
       <Label htmlFor={id}>{label}</Label>
       <select id={id} className={`${SELECT_CLASS} w-full`} value={value} onChange={(e) => onChange(e.target.value)}>
         <option value="">{tr('qasite.filter.any')}</option>
-        {options.map((o) => <option key={o} value={o}>{o}</option>)}
+        {options.map((o) => <option key={o} value={o}>{text(o)}</option>)}
       </select>
     </div>
   )
@@ -44,9 +46,9 @@ function FilterBar({ scope, onApply }: { scope: string; onApply: (f: ReportFilte
         onApply(draft)
       }}
     >
-      <Choice id={`${scope}-status`} label={tr('qasite.filter.status')} value={draft.status ?? ''} options={REPORT_STATUSES} onChange={set('status')} tr={tr} />
-      <Choice id={`${scope}-severity`} label={tr('qasite.filter.severity')} value={draft.severity ?? ''} options={REPORT_SEVERITY_VALUES} onChange={set('severity')} tr={tr} />
-      <Choice id={`${scope}-category`} label={tr('qasite.filter.category')} value={draft.category ?? ''} options={REPORT_CATEGORY_VALUES} onChange={set('category')} tr={tr} />
+      <Choice id={`${scope}-status`} label={tr('qasite.filter.status')} value={draft.status ?? ''} options={REPORT_STATUSES} text={(v) => statusText(v, tr)} onChange={set('status')} tr={tr} />
+      <Choice id={`${scope}-severity`} label={tr('qasite.filter.severity')} value={draft.severity ?? ''} options={REPORT_SEVERITY_VALUES} text={severityLabel} onChange={set('severity')} tr={tr} />
+      <Choice id={`${scope}-category`} label={tr('qasite.filter.category')} value={draft.category ?? ''} options={REPORT_CATEGORY_VALUES} text={categoryLabel} onChange={set('category')} tr={tr} />
       <div className="space-y-1">
         <Label htmlFor={`${scope}-section`}>{tr('qasite.filter.section')}</Label>
         <Input id={`${scope}-section`} value={draft.section ?? ''} maxLength={40} onChange={(e) => set('section')(e.target.value)} />
@@ -76,7 +78,7 @@ function ReportRows({ reports, selected, onSelect, tr, lang }: { reports: Report
           >
             <span className="font-medium">{r.title}</span>
             <span className="block text-xs text-muted-foreground">
-              {formatDay(r.createdAt, lang)} · {statusText(r.status, tr)} · {r.severity ?? '—'} · {r.category}
+              {formatDay(r.createdAt, lang)} · {statusText(r.status, tr)} · {r.severity ? severityLabel(r.severity) : '—'} · {categoryLabel(r.category)}
               {r.accountEmail ? ` · ${r.accountEmail}` : ''}
             </span>
           </button>

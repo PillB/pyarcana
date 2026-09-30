@@ -16,6 +16,8 @@ import { CID_KEY } from '@/lib/cloud/experiments'
 import { useProgressStore } from '@/lib/progress-store'
 import { cloudApi, track } from './runtime'
 import { useText, type Tr } from './text'
+import { useConsentUi } from './ConsentCard'
+import { useBottomReserve } from './useBottomReserve'
 
 interface ActiveSurvey {
   kind: SurveyKind
@@ -48,6 +50,7 @@ function offer(kind: SurveyKind, sectionIndex?: number): void {
     qaMode: readQaMode(storage).testMode,
     random: Math.random,
     firstVisitAt: firstVisitMs(),
+    overlayOpen: useConsentUi.getState().showing,
   })
   if (!allowed) return
   shownThisSession = true
@@ -192,17 +195,28 @@ function SurveyCard({ survey, onClose }: { survey: ActiveSurvey; onClose: () => 
 /**
  * Satisfaction prompts (DESIGN-v3 §G): section CSAT after a completion (1 in 3), NPS from day 14,
  * a one-tap reason when the learner leaves the gate. At most one per session and one per 7 days;
- * none in QA mode; never modal and never blocking. Nothing with the stage off.
+ * none in QA mode or while the consent card is up; never modal and never blocking (Esc or "Ahora
+ * no" closes it, and the page keeps room below the focus while it is open). Nothing with the stage off.
  */
 export function SurveyPrompt() {
   const { tr } = useText()
   const stage = useCloudStage()
   const active = useSurveyUi((s) => s.active)
+  const card = useRef<HTMLElement>(null)
   useTriggers(stage !== 'off')
+  useBottomReserve('survey', card, stage !== 'off' && active !== null)
   if (stage === 'off' || !active) return null
   const close = () => useSurveyUi.setState({ active: null })
   return (
-    <section aria-label={tr('survey.region')} className="fixed bottom-4 right-4 z-40 w-[min(22rem,calc(100%-2rem))] rounded-xl border border-border bg-background p-4 text-sm shadow-lg" data-testid="survey-prompt">
+    <section
+      ref={card}
+      aria-label={tr('survey.region')}
+      className="fixed bottom-4 right-4 z-40 w-[min(22rem,calc(100%-2rem))] rounded-xl border border-border bg-background p-4 text-sm shadow-lg"
+      data-testid="survey-prompt"
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') close()
+      }}
+    >
       <SurveyCard key={active.kind} survey={active} onClose={close} />
     </section>
   )

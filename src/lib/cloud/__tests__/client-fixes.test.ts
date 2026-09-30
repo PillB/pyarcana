@@ -92,9 +92,11 @@ test('4: the owner-choice dialog opens on needs_choice, can be deferred, and reo
 test('7: price CTAs open the checkout only for a signed-in learner; otherwise the /precios page', () => {
   assert.equal(priceCtaTarget(true), 'checkout')
   assert.equal(priceCtaTarget(false), 'prices-page')
-  for (const rel of ['src/components/account/UpgradeCard.tsx', 'src/components/account/AdSlot.tsx']) {
-    assert.match(read(rel), /priceCtaTarget\(/, `${rel} decides through priceCtaTarget`)
-  }
+  assert.match(read('src/components/account/UpgradeCard.tsx'), /priceCtaTarget\(/, 'UpgradeCard decides through priceCtaTarget')
+  // Review round 3 (finding 11): AdSlot routes every Pro button through houseCtaTarget, which
+  // delegates to priceCtaTarget for everything but "Ver la prueba".
+  assert.match(read('src/components/account/AdSlot.tsx'), /houseCtaTarget\(/)
+  assert.match(read('src/lib/cloud/ui-state.ts'), /if \(cta !== 'trial'\) return priceCtaTarget\(signedIn\)/)
 })
 
 // --- 8: the survey reports what happened ------------------------------------------------------------

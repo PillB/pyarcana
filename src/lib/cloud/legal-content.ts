@@ -4,6 +4,8 @@
  * in i18n (legalc.*). Pure, so every "only when" is tested:
  *
  * - Nothing while accounts do not run here (stage off): the pages stay as they are today.
+ * - Privacy covers the satisfaction surveys (what is kept, the link to the account, 2-year
+ *   retention), since they are stored whether or not measurement was accepted.
  * - The ads paragraph only when an ad NETWORK is enabled (provider adsense/ethicalads AND its id).
  *   House ads are first-party promos: no request to anyone else, no cookie.
  * - The existing "sin cookies de terceros" statements are shown only while they are true
@@ -23,6 +25,7 @@ export type LegalBlock =
   | 'retention'
   | 'storageKeys'
   | 'measurement'
+  | 'surveys'
   | 'ads'
   | 'googleSignIn'
   | 'session'
@@ -65,7 +68,7 @@ function withAds(blocks: LegalBlock[], cfg: CloudConfig): LegalBlock[] {
 function blocksFor(cfg: CloudConfig, kind: LegalKind, stage: LaunchStage): LegalBlock[] {
   switch (kind) {
     case 'privacy':
-      return withAds(['controller', 'accountData', 'processors', 'retention', 'storageKeys', 'measurement', 'reports', 'rights', 'trialClaim'], cfg)
+      return withAds(['controller', 'accountData', 'processors', 'retention', 'storageKeys', 'measurement', 'surveys', 'reports', 'rights', 'trialClaim'], cfg)
     case 'cookies':
       // 'measurement': the consent card's "Más información" lands here, so this page explains it.
       return withAds(cfg.googleClientId ? ['session', 'storageKeys', 'measurement', 'googleSignIn'] : ['session', 'storageKeys', 'measurement'], cfg)
