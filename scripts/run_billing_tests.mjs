@@ -150,6 +150,7 @@ const CLIENT_SUITES = [
   ["qa-report", 21],
   ["remote-apply", 4],
   ["review-r3", 11],
+  ["review-r4", 12],
   ["runtime", 13],
   ["session-access", 20],
   ["ui-state", 12]

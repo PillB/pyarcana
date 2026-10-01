@@ -78,3 +78,17 @@ export const LEGACY_CSP = [
   "frame-ancestors 'none'",
   "upgrade-insecure-requests",
 ].join('; ')
+
+/** Directives a browser ignores in a <meta> policy (CSP3 §3.3), and logs an error for. */
+const HEADER_ONLY = new Set(['frame-ancestors', 'report-uri', 'sandbox'])
+
+/**
+ * The policy as the <meta http-equiv> copy carries it: buildCsp minus the header-only directives.
+ * The Cloudflare build sends the full policy as a header (_headers), where they take effect.
+ */
+export function metaCsp(cfg: CloudConfig): string {
+  return buildCsp(cfg)
+    .split('; ')
+    .filter((d) => !HEADER_ONLY.has(d.split(' ')[0]))
+    .join('; ')
+}

@@ -331,6 +331,7 @@ export interface ReportContext {
   hash: string | null
   sectionId: string | null
   sectionIndex: number | null
+  sectionTitle: string | null
   subStep: string | null
   viewport: string | null
   userAgent: string | null
@@ -379,6 +380,7 @@ function parseContext(raw: unknown): ReportContext {
     hash: str(c.hash),
     sectionId: str(c.sectionId),
     sectionIndex: num(c.sectionIndex),
+    sectionTitle: str(c.sectionTitle),
     subStep: str(c.subStep),
     viewport: viewportText(c.viewport),
     userAgent: str(c.userAgent),
@@ -386,6 +388,39 @@ function parseContext(raw: unknown): ReportContext {
     deploymentSha: str(c.deploymentSha),
     elementHint: str(c.elementHint),
   }
+}
+
+/**
+ * A report's section in words, "S07 · Pandas" (the course's own S-number, then the title or the
+ * id). The report filter offers these same labels and sends the sectionId, the value the worker
+ * matches (report-triage.mjs: json_extract(context, '$.sectionId') = ?), so what a tester reads in
+ * a report is what the filter accepts.
+ */
+export function sectionLabel(c: Pick<ReportContext, 'sectionId' | 'sectionIndex' | 'sectionTitle'>): string | null {
+  const name = c.sectionTitle ?? c.sectionId
+  const code = c.sectionIndex === null ? null : `S${String(c.sectionIndex).padStart(2, '0')}`
+  return [code, name].filter(Boolean).join(' · ') || null
+}
+
+export interface SectionOption {
+  id: string
+  label: string
+  index: number | null
+}
+
+/**
+ * The section filter's options: every section seen in the reports loaded so far (this view keeps
+ * them across pages and filters), one per id, in course order. The course list itself is a 6 MB
+ * chunk this code may not import (import-boundary.test.ts), so a section with no loaded report is
+ * not offered until a page that contains it has been shown.
+ */
+export function mergeSectionOptions(prev: SectionOption[], rows: ReportRow[]): SectionOption[] {
+  const byId = new Map(prev.map((o) => [o.id, o]))
+  for (const r of rows) {
+    const label = sectionLabel(r.context)
+    if (label && r.context.sectionId && !byId.has(r.context.sectionId)) byId.set(r.context.sectionId, { id: r.context.sectionId, label, index: r.context.sectionIndex })
+  }
+  return [...byId.values()].sort((a, b) => (a.index ?? 1000) - (b.index ?? 1000) || a.label.localeCompare(b.label))
 }
 
 export function parseReport(r: Record<string, unknown>): ReportRow | null {

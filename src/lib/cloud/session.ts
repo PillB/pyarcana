@@ -32,6 +32,11 @@ export interface MeAccount {
   trialAvailable: boolean
   /** How THIS session signed in (the worker's session.method). */
   signInMethod: SignInMethod | null
+  /**
+   * Every way in the account holds (the worker's account.identities, provider only; the masked
+   * subject is not kept). Empty for a cached payload from before the field existed.
+   */
+  identities: SignInMethod[]
 }
 
 export type SignInMethod = 'google' | 'microsoft' | 'email'
@@ -91,6 +96,11 @@ export function safeHttpsUrl(v: unknown): string | null {
   }
 }
 
+function parseIdentities(raw: unknown): SignInMethod[] {
+  const providers = list(raw).filter(isPlainObject).map((i) => i.provider)
+  return [...new Set(providers.filter((p): p is SignInMethod => METHODS.has(p)))]
+}
+
 function parseAccount(raw: unknown): MeAccount | null {
   if (!isPlainObject(raw) || typeof raw.id !== 'string' || raw.id === '') return null
   return {
@@ -103,6 +113,7 @@ function parseAccount(raw: unknown): MeAccount | null {
     firstSigninAt: num(raw.firstSigninAt),
     trialAvailable: raw.trialAvailable === true,
     signInMethod: METHODS.has(raw.signInMethod) ? (raw.signInMethod as SignInMethod) : null,
+    identities: parseIdentities(raw.identities),
   }
 }
 

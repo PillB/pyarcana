@@ -10,7 +10,7 @@ import { CLOUD_CONFIG } from '@/lib/cloud/config'
 import { useCloudStage } from '@/lib/cloud/hooks'
 import type { MePayload } from '@/lib/cloud/session'
 import { annualSavingPercent, defaultMarket, type Cadence, type Market } from '@/lib/cloud/offer'
-import { checkoutBody, checkoutRedirect, checkoutView, type CheckoutView } from '@/lib/cloud/billing-ui'
+import { checkoutBody, checkoutRedirect, checkoutTaxKey, checkoutView, type CheckoutView } from '@/lib/cloud/billing-ui'
 import { uiError, type UiError } from '@/lib/cloud/account-api'
 import { parseGeo } from '@/lib/cloud/ad-slot'
 import { ErrorAlert } from './Alerts'
@@ -46,13 +46,44 @@ function useMarket(): [Market, (m: Market) => void, string | null] {
   return [market, choose, country]
 }
 
+function PriceLine({ view, cadence, tr }: { view: CheckoutView; cadence: Cadence; tr: Tr }) {
+  return (
+    <>
+      <strong>{tr(`billing.price.${cadence}`, { price: view.priceLabel })}</strong> · {tr(checkoutTaxKey(view))}
+    </>
+  )
+}
+
+function MarketSwitch({ market, onMarket, tr }: { market: Market; onMarket: (m: Market) => void; tr: Tr }) {
+  return (
+    <Button variant="link" size="sm" className="h-auto p-0" onClick={() => onMarket(market === 'pe' ? 'world' : 'pe')}>
+      {market === 'pe' ? tr('billing.market.notPeru') : tr('billing.market.inPeru')}
+    </Button>
+  )
+}
+
+/**
+ * A market with no payment rail configured: the price and "not available yet", nothing else. No
+ * seller, no "first charge today", no legal boxes, because no sale can happen here.
+ */
+export function NoRailCheckout({ view, cadence, market, onMarket, tr }: { view: CheckoutView; cadence: Cadence; market: Market; onMarket: (m: Market) => void; tr: Tr }) {
+  return (
+    <>
+      <p className="text-sm" data-testid="checkout-price-only">
+        <PriceLine view={view} cadence={cadence} tr={tr} />
+      </p>
+      <p role="status" className="text-sm text-muted-foreground">{tr('billing.railMissing')}</p>
+      <MarketSwitch market={market} onMarket={onMarket} tr={tr} />
+    </>
+  )
+}
+
 function Disclosures({ view, cadence, tr }: { view: CheckoutView; cadence: Cadence; tr: Tr }) {
   const legal = CLOUD_CONFIG.legal
-  const tax = view.currency === 'PEN' ? tr('billing.tax.pe') : tr('billing.tax.world')
   return (
     <ul className="list-disc space-y-1 pl-5 text-sm" data-testid="checkout-disclosures">
       <li>
-        <strong>{tr(`billing.price.${cadence}`, { price: view.priceLabel })}</strong> · {tax}
+        <PriceLine view={view} cadence={cadence} tr={tr} />
       </li>
       <li>{tr(`billing.renews.${cadence}`)}</li>
       <li>{tr('billing.chargedToday')}</li>
@@ -109,9 +140,10 @@ function Box({ id, checked, onChange, label }: { id: string; checked: boolean; o
  * The review step before any redirect (DESIGN-v2 §8.8): final price with its tax note, cadence
  * and automatic renewal, first charge today, credit for remaining free days, how to cancel,
  * links to the subscription terms, refunds and the Libro de Reclamaciones, the seller (or Creem as
- * merchant of record), the Mercado Pago payer email, and two unticked boxes. Pay buttons render
- * only in stage 'paid' on a configured rail; the redirect happens only when the worker charges
- * exactly the price shown here.
+ * merchant of record), the Mercado Pago payer email, and two unticked boxes. A market with no
+ * configured rail shows only the price and "not available yet" (NoRailCheckout). Pay buttons
+ * render only in stage 'paid' on a configured rail; the redirect happens only when the worker
+ * charges exactly the price shown here.
  */
 export function CheckoutConfirmPanel({ me }: { me: MePayload }) {
   const { tr } = useText()
@@ -142,14 +174,23 @@ export function CheckoutConfirmPanel({ me }: { me: MePayload }) {
     setError(next ? { key: next.key } : uiError(r))
   }
 
+  const back = <Button variant="ghost" size="sm" onClick={() => show('main')}>{tr('billing.back')}</Button>
+  if (!view.rail) {
+    return (
+      <div className="space-y-4" data-testid="checkout-confirm">
+        <CadenceChoice market={market} cadence={cadence} onChange={setCadence} tr={tr} />
+        <NoRailCheckout view={view} cadence={cadence} market={market} onMarket={setMarket} tr={tr} />
+        {back}
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-4" data-testid="checkout-confirm">
       <CadenceChoice market={market} cadence={cadence} onChange={setCadence} tr={tr} />
       <Disclosures view={view} cadence={cadence} tr={tr} />
       <LegalLinks tr={tr} />
-      <Button variant="link" size="sm" className="h-auto p-0" onClick={() => setMarket(market === 'pe' ? 'world' : 'pe')}>
-        {market === 'pe' ? tr('billing.market.notPeru') : tr('billing.market.inPeru')}
-      </Button>
+      <MarketSwitch market={market} onMarket={setMarket} tr={tr} />
       {view.needsPayerEmail && (
         <div className="space-y-1">
           <Label htmlFor="checkout-payer">{tr('billing.payerEmail')}</Label>
@@ -161,15 +202,13 @@ export function CheckoutConfirmPanel({ me }: { me: MePayload }) {
       <Box id="checkout-adult" checked={adult} onChange={setAdult} label={tr('billing.box.adult')} />
       <PayArea view={view} busy={busy} onPay={() => void pay()} tr={tr} />
       <ErrorAlert error={error} />
-      <Button variant="ghost" size="sm" onClick={() => show('main')}>{tr('billing.back')}</Button>
+      {back}
     </div>
   )
 }
 
 function PayArea({ view, busy, onPay, tr }: { view: CheckoutView; busy: boolean; onPay: () => void; tr: Tr }) {
-  if (!view.showPay || !view.rail) {
-    return <p role="status" className="text-sm text-muted-foreground">{view.rail ? tr('billing.notOpen') : tr('billing.railMissing')}</p>
-  }
+  if (!view.showPay || !view.rail) return <p role="status" className="text-sm text-muted-foreground">{tr('billing.notOpen')}</p>
   return (
     <Button className="w-full" onClick={onPay} disabled={busy} data-testid="checkout-pay">
       {busy ? tr('billing.redirecting') : tr(`billing.pay.${view.rail}`)}

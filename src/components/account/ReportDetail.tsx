@@ -1,7 +1,7 @@
 'use client'
 
 import { CLOUD_CONFIG } from '@/lib/cloud/config'
-import { REPORT_STATUSES, attachmentPath, categoryLabel, parseReportDetail, reportPath, severityLabel, type ReportRow } from '@/lib/cloud/admin-api'
+import { REPORT_STATUSES, attachmentPath, categoryLabel, parseReportDetail, reportPath, sectionLabel, severityLabel, type ReportRow } from '@/lib/cloud/admin-api'
 import { LoadNote, formatDay } from './LoadNote'
 import { useApiLoad } from './useApiLoad'
 import { useText, type Tr } from './text'
@@ -22,11 +22,12 @@ function Block({ title, text }: { title: string; text: string | null }) {
   )
 }
 
-function ContextList({ report, tr }: { report: ReportRow; tr: Tr }) {
+/** The report's context; the section reads as the section filter offers it ("S07 · Pandas"). */
+export function ContextList({ report, tr }: { report: ReportRow; tr: Tr }) {
   const c = report.context
   const items: Array<[string, string | number | null]> = [
     ['qasite.ctx.path', c.path ? `${c.path}${c.hash ?? ''}` : null],
-    ['qasite.ctx.section', c.sectionIndex ?? c.sectionId],
+    ['qasite.ctx.section', sectionLabel(c)],
     ['qasite.ctx.subStep', c.subStep],
     ['qasite.ctx.element', c.elementHint],
     ['qasite.ctx.viewport', c.viewport],

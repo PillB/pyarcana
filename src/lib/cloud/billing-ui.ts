@@ -112,6 +112,15 @@ export function checkoutView(i: CheckoutViewInput): CheckoutView {
   }
 }
 
+/**
+ * The tax line under the price. The international line names Creem as seller, so it is used only
+ * when the Creem rail is what would sell; otherwise the neutral line (as /precios does).
+ */
+export function checkoutTaxKey(view: Pick<CheckoutView, 'currency' | 'rail'>): string {
+  if (view.currency === 'PEN') return 'billing.tax.pe'
+  return view.rail === 'creem' ? 'billing.tax.world' : 'billing.tax.worldPending'
+}
+
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export interface CheckoutBodyInput {

@@ -234,9 +234,14 @@ export class ProgressSync {
     return this.enqueue(() => this.pullNow())
   }
 
-  /** Pull again (page became visible). No-op when signed out. */
+  /**
+   * Pull again (page became visible). No-op when signed out, and while the owner choice is pending:
+   * the learner may have closed that dialog with "Decidir después", and a re-pull would pass
+   * through 'pulling' back to 'needs_choice' and reopen it on every tab switch. The pending remote
+   * copy stays; the answer merges it, and a stale copy is corrected by the 409 path on upload.
+   */
   pull(): Promise<SyncStatus> {
-    if (!this.accountId) return Promise.resolve(this.status)
+    if (!this.accountId || this.pending) return Promise.resolve(this.status)
     return this.enqueue(() => this.pullNow())
   }
 

@@ -58,9 +58,8 @@ revoke it afterwards.
 
 1. Refuses while a `TODO_` placeholder is in `wrangler.toml`.
 2. Runs `NEXT_PUBLIC_BASE_PATH= bun run build:static` at the repository root, then refuses unless
-   `out/deployment.json` records base path `""`. A build script that reads the variable with
-   `|| '/pyarcana'` turns the empty value into `/pyarcana`. That was the rule at commit 29200ca;
-   see "Not built yet".
+   `out/deployment.json` records base path `""`. `scripts/static_base_path.mjs` makes an empty
+   value mean the root; the check guards against any build that would still land under `/pyarcana`.
 3. Runs `node scripts/cloud-headers.mjs out` (`out/_headers`, `out/ads.txt`) when the script
    exists, and says so when it does not.
 4. Runs `wrangler deploy` from `workers/billing/`.
@@ -341,12 +340,6 @@ Named undone work; nothing below exists in the code today.
   metrics, is not corrected for multiple looks. Survey aggregates exclude nobody (the client sends
   none in QA mode) and have no date filter. The health route has no licence flag; the JWKS route
   is the check.
-- A committed root static build. At commit 29200ca, `scripts/build_static_export.mjs` (outside
-  this worker) read `process.env.NEXT_PUBLIC_BASE_PATH || '/pyarcana'`, so the empty value DESIGN-v3
-  §A prescribes still built under `/pyarcana`. A concurrent, uncommitted change
-  (`scripts/static_base_path.mjs`) makes an empty value mean the root. Until that change lands,
-  `deploy.sh` stops at its base-path check. It reads the base path the build records in
-  `out/deployment.json`, so it refuses any build that is not at the root.
 - A live run of `setup.sh` / `deploy.sh`. They are tested only against a fake wrangler that copies
   wrangler 4.144.0's source, under a pty. The first real run on the owner's machine is the proof.
   In particular, creating the Worker as a draft on the first `secret put` (before the first

@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { useToast } from '@/hooks/use-toast'
 import { useCloudRuntime, useCloudSession, type MePayload } from '@/lib/cloud/session'
-import { confirmWordFor, deleteAccount, exportAccount, exportFileBody, linkProvider, type UiError } from '@/lib/cloud/account-api'
+import { confirmWordFor, deleteAccount, exportAccount, exportFileBody, linkProvider, linkState, unlinkProvider, type ActionResult, type LinkProvider, type UiError } from '@/lib/cloud/account-api'
 import { formatDate } from '@/lib/cloud/billing-ui'
 import { listArchives, type SyncStatus } from '@/lib/cloud/progress-sync'
 import { safeStorage } from '@/lib/cloud/storage'
@@ -92,30 +92,90 @@ export function ArchiveSection() {
   )
 }
 
+function methodList(methods: string[], lang: string): string {
+  return new Intl.ListFormat(lang, { type: 'conjunction' }).format(methods)
+}
+
+/** One linked provider's "Quitar" button and its confirmation (DELETE /v1/me/identities/:provider). */
+function UnlinkDialog({ provider, onResult }: { provider: LinkProvider; onResult: (r: ActionResult) => void }) {
+  const { tr } = useText()
+  const [busy, setBusy] = useState(false)
+  const method = tr(`account.method.${provider}`)
+  const confirm = async () => {
+    setBusy(true)
+    const r = await unlinkProvider(cloudApi(), provider)
+    setBusy(false)
+    onResult(r)
+  }
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="outline" size="sm">{tr('account.unlink.button', { method })}</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{tr('account.unlink.title', { method })}</AlertDialogTitle>
+          <AlertDialogDescription>{tr('account.unlink.body', { method })}</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>{tr('account.delete.back')}</AlertDialogCancel>
+          <AlertDialogAction className={DESTRUCTIVE_ACTION_CLASS} disabled={busy} onClick={() => void confirm()}>
+            {tr('account.unlink.confirm')}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
+
+function signedOutLocally(): void {
+  useCloudSession.setState({ me: null, licenseToken: null, fetchedAt: Date.now() })
+  useCloudRuntime.setState({ meStatus: 'signed_out', licence: { state: 'unchecked' } })
+}
+
 /**
- * The me payload names only how THIS session signed in, so the panel says that and offers to link
- * the other providers (POST /v1/me/link/*, recent sign-in required; 409 identity_in_use explained).
+ * The ways in the account holds (me.account.identities) and the ones it can add. A provider the
+ * account already holds is not offered again; a Google or Microsoft identity can be removed while
+ * another way in remains (the worker refuses the last one, 409 last_sign_in_method). Linking and
+ * removing both need a sign-in from the last 10 minutes (401 reauth_required, explained).
  */
 export function LinkSection({ me }: { me: MePayload }) {
-  const { tr } = useText()
+  const { tr, lang } = useText()
+  const { toast } = useToast()
   const methods = useLoadedAuthMethods()
   const [error, setError] = useState<UiError | null>(null)
   const [done, setDone] = useState<string | null>(null)
   const current = me.account.signInMethod
+  const state = linkState(me.account, methods)
   const onGoogle = async (idToken: string, noncePreimage: string) => {
     const r = await linkProvider(cloudApi(), 'google', { idToken, noncePreimage })
     if (!r.ok) return setError(r.error)
     applyMe(r.me)
     setDone(tr('account.link.done', { method: 'Google' }))
   }
-  const offerGoogle = methods.google && current !== 'google'
-  const offerMicrosoft = methods.microsoft && current !== 'microsoft'
+  const onUnlinked = (provider: LinkProvider) => (r: ActionResult) => {
+    const method = tr(`account.method.${provider}`)
+    if (!r.ok) return setError(r.error)
+    setError(null)
+    if (r.data.signedOut === true) {
+      signedOutLocally()
+      return toast({ title: tr('account.unlink.signedOut', { method }) })
+    }
+    applyMe(r.me)
+    setDone(tr('account.unlink.done', { method }))
+  }
   return (
     <Section title={tr('account.link.heading')}>
-      {current && <p className="text-sm">{tr('account.link.current', { method: tr(`account.method.${current}`) })}</p>}
-      {(offerGoogle || offerMicrosoft) && <p className="text-xs text-muted-foreground">{tr('account.link.hint')}</p>}
-      {offerGoogle && <GoogleButton enabled onToken={(t, p) => void onGoogle(t, p)} />}
-      {offerMicrosoft && <MicrosoftButton enabled purpose="link" label={tr('account.link.microsoft')} />}
+      {state.linked.length > 0 && <p className="text-sm">{tr('account.link.linked', { methods: methodList(state.linked.map((m) => tr(`account.method.${m}`)), lang) })}</p>}
+      {current && <p className="text-xs text-muted-foreground">{tr('account.link.current', { method: tr(`account.method.${current}`) })}</p>}
+      {(state.offer.length > 0 || state.removable.length > 0) && <p className="text-xs text-muted-foreground">{tr('account.link.hint')}</p>}
+      {state.offer.includes('google') && <GoogleButton enabled onToken={(t, p) => void onGoogle(t, p)} />}
+      {state.offer.includes('microsoft') && <MicrosoftButton enabled purpose="link" label={tr('account.link.microsoft')} />}
+      {state.removable.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {state.removable.map((p) => <UnlinkDialog key={p} provider={p} onResult={onUnlinked(p)} />)}
+        </div>
+      )}
       <ErrorAlert error={error} />
       <StatusNote text={done} />
     </Section>
@@ -189,8 +249,7 @@ export function DataSection() {
     setError(r.ok ? { key: 'account.error.unavailable' } : r.error)
   }
   const onDeleted = () => {
-    useCloudSession.setState({ me: null, licenseToken: null, fetchedAt: Date.now() })
-    useCloudRuntime.setState({ meStatus: 'signed_out', licence: { state: 'unchecked' } })
+    signedOutLocally()
     close(false)
     toast({ title: tr('account.delete.done') })
   }

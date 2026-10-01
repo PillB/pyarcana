@@ -9,7 +9,7 @@
  */
 import type { ApiClient, ApiResult } from '@/lib/cloud/api'
 import { isPlainObject } from '@/lib/cloud/storage'
-import { parseMe, type MePayload } from '@/lib/cloud/session'
+import { parseMe, type MeAccount, type MePayload, type SignInMethod } from '@/lib/cloud/session'
 import type { Language } from '@/lib/i18n'
 
 /** The worker's constant (DELETE /v1/me {confirm:'DELETE'}); the learner types a localized word. */
@@ -35,6 +35,9 @@ const REASON_KEYS: Record<string, string> = {
   link_requires_email_code: 'account.error.linkRequiresEmailCode',
   identity_in_use: 'account.error.identityInUse',
   email_in_use: 'account.error.identityInUse',
+  provider_already_linked: 'account.error.providerLinked',
+  admin_identity_mismatch: 'account.error.adminAddress',
+  last_sign_in_method: 'account.error.lastMethod',
   bad_code: 'account.error.badCode',
   code_expired: 'account.error.codeExpired',
   reauth_required: 'account.error.reauth',
@@ -121,6 +124,40 @@ export async function signInGoogle(api: ApiClient, b: { idToken: string; noncePr
 
 export async function linkProvider(api: ApiClient, provider: 'google' | 'microsoft', b: { idToken: string; noncePreimage: string }): Promise<ActionResult> {
   return toAction(await api.post(`/v1/me/link/${provider}`, { idToken: b.idToken, noncePreimage: b.noncePreimage }), false)
+}
+
+export type LinkProvider = 'google' | 'microsoft'
+const LINKABLE: LinkProvider[] = ['google', 'microsoft']
+
+export interface LinkState {
+  /** The ways in the account holds (the session method when the payload predates identities). */
+  linked: SignInMethod[]
+  /** Providers this site accepts that the account does not hold yet. */
+  offer: LinkProvider[]
+  /** Linked providers that leave another way in once removed (the worker still decides). */
+  removable: LinkProvider[]
+}
+
+/**
+ * What the "Formas de entrar" panel shows. A provider the account already holds is never offered
+ * again: the worker would answer 409 provider_already_linked on every attempt.
+ */
+export function linkState(account: MeAccount, methods: { google: boolean; microsoft: boolean }): LinkState {
+  const current = account.signInMethod
+  const linked = account.identities.length > 0 ? account.identities : current ? [current] : []
+  return {
+    linked,
+    offer: LINKABLE.filter((p) => methods[p] && !linked.includes(p)),
+    removable: linked.length > 1 ? LINKABLE.filter((p) => linked.includes(p)) : [],
+  }
+}
+
+/**
+ * DELETE /v1/me/identities/:provider (recent sign-in required). The answer is the new me payload,
+ * or {signedOut: true} when this session came from the removed method.
+ */
+export async function unlinkProvider(api: ApiClient, provider: LinkProvider): Promise<ActionResult> {
+  return toAction(await api.del(`/v1/me/identities/${provider}`), false)
 }
 
 // --- account -------------------------------------------------------------------------------------

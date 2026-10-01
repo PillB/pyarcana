@@ -6,8 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/Providers";
 import { QAFooterBridge } from "@/components/course/QAFooterBridge";
 import { SITE_BASE_PATH } from "@/lib/runtime-mode";
-import { buildCsp } from "@/lib/cloud/csp";
-import { CLOUD_CONFIG } from "@/lib/cloud/config";
+import { CspMeta } from "@/components/CspMeta";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -45,28 +44,6 @@ export const metadata: Metadata = {
     shortcut: `${SITE_BASE_PATH}/favicon.svg`,
     apple: `${SITE_BASE_PATH}/logo.svg`,
   },
-  // Content-Security-Policy via <meta> tag. GitHub Pages cannot send custom HTTP headers, so the
-  // meta tag is the only CSP the static export ships there. Next.js static export uses inline
-  // scripts for hydration, so script-src needs 'unsafe-inline' (and Pyodide needs 'unsafe-eval').
-  // What the policy still gives:
-  //   - object-src 'none': no plugin content
-  //   - base-uri 'self': no <base> tag injection
-  //   - form-action 'self': no form posts to other origins
-  //   - script-src: self + cdn.jsdelivr.net (Pyodide)
-  //   - style-src: self + fonts.googleapis.com; font-src and img-src as in LEGACY_CSP
-  //   - connect-src: self + the Firebase hosts (firestore, identitytoolkit, securetoken) +
-  //     cdn.jsdelivr.net
-  // frame-ancestors is in the string but browsers IGNORE it in a <meta> tag (CSP3 §6.2); it only
-  // protects against framing when sent as a header, which the Cloudflare build does through
-  // _headers (src/lib/cloud/headers.ts, scripts/cloud-headers.mjs, plus X-Frame-Options DENY).
-  // When the dynamic LMS ships, replace unsafe-inline with nonces/hashes.
-  // Built from the public cloud config (src/lib/cloud/csp.ts): the shipped config (stage off)
-  // yields the pre-accounts policy (LEGACY_CSP) byte for byte, which a test pins; a provider's
-  // hosts (the API origin, accounts.google.com, the ad network) are added only when the stage is
-  // on and that provider is configured.
-  other: {
-    "Content-Security-Policy": buildCsp(CLOUD_CONFIG),
-  },
   openGraph: {
     title: "PyArcana · De cero a Data Analyst/Scientist",
     description: "PyArcana — curso online de Python para Data Analysis y Data Science en español peruano.",
@@ -88,6 +65,19 @@ export default function RootLayout({
   return (
     <html lang="es-PE" suppressHydrationWarning>
       <head>
+        <CspMeta />
+        {/* Content-Security-Policy as <meta http-equiv> (src/components/CspMeta.tsx). GitHub Pages
+            cannot send headers, so this meta is the policy there; it must be http-equiv, since a
+            name= meta (what metadata.other renders) is ignored by browsers. Next's static export
+            hydrates with inline scripts, so script-src keeps 'unsafe-inline' (and Pyodide needs
+            'unsafe-eval'). What the policy gives: object-src 'none', base-uri 'self',
+            form-action 'self', script-src self + cdn.jsdelivr.net (Pyodide), style-src self +
+            fonts.googleapis.com, connect-src self + the Firebase hosts + cdn.jsdelivr.net.
+            frame-ancestors is IGNORED in a meta policy (CSP3), so metaCsp leaves it out; the
+            Cloudflare build sends it as a header through _headers (src/lib/cloud/headers.ts, plus X-Frame-Options DENY). Built
+            from the public cloud config (src/lib/cloud/csp.ts): the shipped config (stage off)
+            yields LEGACY_CSP byte for byte (minus frame-ancestors here), which tests pin. When the dynamic LMS ships,
+            replace unsafe-inline with nonces/hashes. */}
         {/* ChunkLoadError guard — inlined directly in <head> so it runs BEFORE
             any Next.js bundle. On a static export, next/script's
             "beforeInteractive" strategy loads via the Next.js runtime, which

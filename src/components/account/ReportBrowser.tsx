@@ -9,11 +9,14 @@ import {
   REPORT_SEVERITY_VALUES,
   REPORT_STATUSES,
   categoryLabel,
+  mergeSectionOptions,
   parseReportList,
   reportsPath,
+  sectionLabel,
   severityLabel,
   type ReportFilters,
   type ReportRow,
+  type SectionOption,
 } from '@/lib/cloud/admin-api'
 import { LoadNote, SELECT_CLASS, formatDay } from './LoadNote'
 import { statusText } from './ReportDetail'
@@ -34,10 +37,11 @@ function Choice({ id, label, value, options, text, onChange, tr }: { id: string;
   )
 }
 
-function FilterBar({ scope, onApply }: { scope: string; onApply: (f: ReportFilters) => void }) {
+function FilterBar({ scope, sections, onApply }: { scope: string; sections: SectionOption[]; onApply: (f: ReportFilters) => void }) {
   const { tr } = useText()
   const [draft, setDraft] = useState<ReportFilters>(EMPTY)
   const set = (key: keyof ReportFilters) => (value: string) => setDraft((d) => ({ ...d, [key]: value }))
+  const labels = new Map(sections.map((o) => [o.id, o.label]))
   return (
     <form
       className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6"
@@ -49,10 +53,7 @@ function FilterBar({ scope, onApply }: { scope: string; onApply: (f: ReportFilte
       <Choice id={`${scope}-status`} label={tr('qasite.filter.status')} value={draft.status ?? ''} options={REPORT_STATUSES} text={(v) => statusText(v, tr)} onChange={set('status')} tr={tr} />
       <Choice id={`${scope}-severity`} label={tr('qasite.filter.severity')} value={draft.severity ?? ''} options={REPORT_SEVERITY_VALUES} text={severityLabel} onChange={set('severity')} tr={tr} />
       <Choice id={`${scope}-category`} label={tr('qasite.filter.category')} value={draft.category ?? ''} options={REPORT_CATEGORY_VALUES} text={categoryLabel} onChange={set('category')} tr={tr} />
-      <div className="space-y-1">
-        <Label htmlFor={`${scope}-section`}>{tr('qasite.filter.section')}</Label>
-        <Input id={`${scope}-section`} value={draft.section ?? ''} maxLength={40} onChange={(e) => set('section')(e.target.value)} />
-      </div>
+      <Choice id={`${scope}-section`} label={tr('qasite.filter.section')} value={draft.section ?? ''} options={sections.map((o) => o.id)} text={(v) => labels.get(v) ?? v} onChange={set('section')} tr={tr} />
       <div className="space-y-1">
         <Label htmlFor={`${scope}-q`}>{tr('qasite.filter.q')}</Label>
         <Input id={`${scope}-q`} value={draft.q ?? ''} maxLength={100} onChange={(e) => set('q')(e.target.value)} />
@@ -79,6 +80,7 @@ function ReportRows({ reports, selected, onSelect, tr, lang }: { reports: Report
             <span className="font-medium">{r.title}</span>
             <span className="block text-xs text-muted-foreground">
               {formatDay(r.createdAt, lang)} · {statusText(r.status, tr)} · {r.severity ? severityLabel(r.severity) : '—'} · {categoryLabel(r.category)}
+              {sectionLabel(r.context) ? ` · ${sectionLabel(r.context)}` : ''}
               {r.accountEmail ? ` · ${r.accountEmail}` : ''}
             </span>
           </button>
@@ -89,8 +91,20 @@ function ReportRows({ reports, selected, onSelect, tr, lang }: { reports: Report
 }
 
 /**
+ * The sections of every report list loaded in this view, kept across pages and filters. Updated
+ * while rendering when a new list arrives (React's "storing information from previous renders"),
+ * so no effect sets state.
+ */
+function useSeenSections(rows: ReportRow[] | null): SectionOption[] {
+  const [seen, setSeen] = useState<{ rows: ReportRow[] | null; sections: SectionOption[] }>({ rows: null, sections: [] })
+  if (rows && rows !== seen.rows) setSeen({ rows, sections: mergeSectionOptions(seen.sections, rows) })
+  return seen.sections
+}
+
+/**
  * Every report, filtered (DESIGN-v3 §H): status, severity, category, section and text search, one
- * page at a time with the worker's cursor. `renderDetail` shows the chosen report (admins add the
+ * page at a time with the worker's cursor. The section filter lists the sections of the reports
+ * loaded so far, labelled as the rows and the detail show them (admin-api sectionLabel). `renderDetail` shows the chosen report (admins add the
  * triage form there).
  */
 export function ReportBrowser({ scope, renderDetail }: { scope: 'qa' | 'admin'; renderDetail: (row: ReportRow, reload: () => void) => ReactNode }) {
@@ -102,10 +116,12 @@ export function ReportBrowser({ scope, renderDetail }: { scope: 'qa' | 'admin'; 
   const state = useApiLoad(reportsPath(scope, filters, cursor), parseReportList, nonce)
   const list = state?.status === 'ok' ? state.value : null
   const row = list?.reports.find((r) => r.id === selected) ?? null
+  const sections = useSeenSections(list?.reports ?? null)
   return (
     <div className="space-y-4">
       <FilterBar
         scope={scope}
+        sections={sections}
         onApply={(f) => {
           setFilters(f)
           setCursor(null)
