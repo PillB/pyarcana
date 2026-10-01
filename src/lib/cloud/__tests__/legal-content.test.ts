@@ -80,7 +80,9 @@ test('"no compartimos datos con terceros para publicidad" stays only while no ad
 })
 
 test('processors follow the config: Cloudflare always; Google, Microsoft, rails and networks only when used', () => {
-  assert.deepEqual(processors(cfg({ launchStage: 'sync' })).map((p) => p.key), ['cloudflare', 'email'])
+  assert.deepEqual(processors(cfg({ launchStage: 'sync', microsoftClientId: '' })).map((p) => p.key), ['cloudflare', 'email'])
+  // The shipped config names the registered Microsoft app, so Microsoft is listed once accounts run.
+  assert.deepEqual(processors(cfg({ launchStage: 'sync' })).map((p) => p.key), ['cloudflare', 'email', 'microsoft'])
   const all = cfg({
     launchStage: 'paid',
     googleClientId: 'g',

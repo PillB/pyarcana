@@ -92,7 +92,7 @@ export const CLOUD_CONFIG: CloudConfig = {
   movedToCanonical: false,
   apiBaseUrl: '/api',
   googleClientId: '',
-  microsoftClientId: '',
+  microsoftClientId: '171fb4ff-f112-46b2-9043-92ecb97f56fe',
   termsVersion: '',
   microsoftAuthority: 'common',
   licence: { publicKeys: [] },

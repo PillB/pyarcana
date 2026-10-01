@@ -28,7 +28,8 @@ test('shipped defaults keep the live site unchanged: stage off, nothing configur
   assert.equal(CLOUD_CONFIG.legal.supportEmail, 'soporte@pyarcana.dev')
   assert.equal(CLOUD_CONFIG.apiBaseUrl, '/api')
   assert.equal(CLOUD_CONFIG.googleClientId, '')
-  assert.equal(CLOUD_CONFIG.microsoftClientId, '')
+  // The registered Entra app (setup thread, 1 Oct 2026): a public id, inert while the stage is off.
+  assert.equal(CLOUD_CONFIG.microsoftClientId, '171fb4ff-f112-46b2-9043-92ecb97f56fe')
   assert.equal(CLOUD_CONFIG.microsoftAuthority, 'common')
   assert.deepEqual(CLOUD_CONFIG.licence.publicKeys, [])
   assert.equal(CLOUD_CONFIG.gate.packaging, 'A')

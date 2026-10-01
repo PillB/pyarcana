@@ -38,7 +38,7 @@ const PUBLIC_VARS = {
   GRACE_DAYS: "7",
   SESSION_MAX_DAYS: "180",
   GOOGLE_CLIENT_ID: "",
-  MICROSOFT_CLIENT_ID: "",
+  MICROSOFT_CLIENT_ID: "171fb4ff-f112-46b2-9043-92ecb97f56fe",
   // D-USER-04: sign-in codes go through Cloudflare Email Sending (send_email binding EMAIL).
   EMAIL_PROVIDER: "cloudflare",
   EMAIL_FROM: "no-reply@pyarcana.dev",

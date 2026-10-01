@@ -47,7 +47,7 @@ GOOGLE_CLIENT_ID = ""
 # Microsoft uses the `common` authority (D-USER-05: any Entra ID tenant + personal
 # accounts). The authority is the client's setting (microsoftAuthority); the worker always
 # verifies against the common JWKS and the token's own tenant issuer.
-MICROSOFT_CLIENT_ID = ""
+MICROSOFT_CLIENT_ID = "171fb4ff-f112-46b2-9043-92ecb97f56fe"
 # Sign-in code email (D-USER-04): cloudflare (the send_email binding EMAIL below; needs
 # Workers Paid) | resend | brevo | mailersend (dev-log only for localhost E2E).
 EMAIL_PROVIDER = "cloudflare"
