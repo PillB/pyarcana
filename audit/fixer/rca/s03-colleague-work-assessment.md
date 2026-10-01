@@ -74,3 +74,37 @@ Their section is the base; this branch supplies what the base was missing. In or
    readiness rows unmoved.
 
 Steps 1–3 are codex's to write; the measurement is this branch's.
+
+## The same hazard outside S03
+
+The two lanes diverged 108 commits ago, so this is a merge, not an adoption. Ten substantive
+files were changed by both, and taking the GLM lane's tree wholesale reverts this branch's work
+in every one:
+
+```
+audit/fixer/LEDGER_NOTES.md          scripts/code_switching_audit.py
+audit/fixer/WORK_QUEUE.md            scripts/prose_quality_audit.py
+audit/fixer/decisions.md             src/components/course/Dashboard.tsx
+package.json                         src/components/course/Sidebar.tsx
+src/lib/course/sections/s03-decisions-rules.ts
+src/lib/course/sections/s09-exceptions-logging.ts
+```
+
+**S09 is S03's hazard again, in miniature.** That lane rewrote S09's tagline, outcomes and the
+traceback and correlation-id prose — good work this branch does not have. It does not contain
+the theory block this branch added in `b0c1abac`, «Valores faltantes y montos no válidos», which
+defines *valor faltante*, because that commit postdates their base. Adopting their S09 drops that
+block and its definition without a diff ever showing a deletion: the file simply never had it.
+
+So each of the ten is merged by hand, keeping both contributions, and never resolved by taking a
+side. The reverse direction is safe: everything only one lane touched — their
+`MODEL_ROUTING.md`, `complexity_gate_py.py`, S08; this branch's `OWNER_DECISIONS.md`,
+`LESSON_READINESS.md`, the `rca/` analyses — carries across untouched.
+
+## What their lane got that this branch did not
+
+Recorded so the merge keeps it: an S08 close-out (27/27) and an S09 findings round (22/22), both
+with browser evidence; a Python complexity gate (`scripts/complexity_gate_py.py`) where this
+branch's ceiling only lints TypeScript; `tools/fixer/sync_declared_output.py`; figure archetypes;
+and `docs/agents/MODEL_ROUTING.md`, which binds a model-and-effort lane per task — the discipline
+this branch states in prose and does not enforce.
