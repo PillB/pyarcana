@@ -414,7 +414,7 @@ Only the owner can do these; nothing here is deployed.
 5. One origin (DESIGN-v3 §A, §K): `workers/billing/scripts/deploy.sh` (the static build at the
    root, `out/_headers`, `wrangler deploy`). Attach `pyarcana.dev` as a Workers Custom Domain; the
    zone must be on Cloudflare first (`docs/HOSTINGER_SETUP.md` has the pointer). `run_worker_first`
-   as a list needs a recent wrangler 4. It needs the root-build fix (see "Not built yet").
+   as a list needs a recent wrangler 4.
 6. Google Cloud console: an OAuth web client with the site origin as an authorized JavaScript origin.
 7. Microsoft Entra: an app registration ("Any Entra ID Tenant + Personal Microsoft accounts",
    authority `common`, D-USER-05), SPA platform, redirect URI `https://pyarcana.dev/cuenta`
