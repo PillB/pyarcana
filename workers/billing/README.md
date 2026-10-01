@@ -87,7 +87,7 @@ with `wrangler secret put` (by `setup.sh`, or by hand for the payment keys), nev
 | var | `TERMS_VERSION` | owner fills it; empty = sign-in answers 503 |
 | var | `TRIAL_DAYS`, `GRACE_DAYS`, `SESSION_MAX_DAYS` | `7`, `7`, `180` |
 | var | `GOOGLE_CLIENT_ID`, `MICROSOFT_CLIENT_ID` | owner fills them (public by design) |
-| var | `EMAIL_PROVIDER`, `EMAIL_FROM`, `EMAIL_FROM_NAME`, `EMAIL_DAILY_CAP` | `cloudflare`, `no-reply@pyarcana.dev`, `PyArcana`, `90` |
+| var | `EMAIL_PROVIDER`, `EMAIL_FROM`, `EMAIL_FROM_NAME`, `EMAIL_DAILY_CAP` | `""` (email codes off on Workers Free; `cloudflare` on Workers Paid), `no-reply@pyarcana.dev`, `PyArcana`, `90` |
 | var | `REPORT_ATTACHMENTS_CAP_MB`, `REPORT_TEXT_CAP_MB` | `200`, `100` |
 | var | `PRICE_PE_MONTHLY_MINOR`, `PRICE_PE_YEARLY_MINOR`, `PRICE_US_MONTHLY_MINOR`, `PRICE_US_YEARLY_MINOR` | `1990`, `11990`, `799`, `4900` (integer minor units; must equal `src/lib/cloud/offer.ts`) |
 | var | `CREEM_API_BASE`, `CREEM_PRODUCT_PRO_MONTHLY`, `CREEM_PRODUCT_PRO_YEARLY`, `MP_API_BASE` | live API bases; product ids filled by the owner |
@@ -398,8 +398,11 @@ Only the owner can do these; nothing here is deployed.
    It then deploys. By hand, the same steps are `npx wrangler d1 create pyarcana-accounts`, the
    id pasted into `wrangler.toml`, and `npx wrangler secret put` for each secret, with the value
    typed at wrangler's prompt.
-2. With the default `EMAIL_PROVIDER = "cloudflare"` no email key is needed; with an alternative,
-   set its key.
+2. Email codes start OFF (`EMAIL_PROVIDER = ""`, owner decision 1 Oct 2026): the beta runs on
+   Workers Free with Google and Microsoft sign-in only, `GET /v1/health` reports `"email": false`
+   and the sign-in panel hides the email option. To turn them on, move to Workers Paid, follow
+   step 4, uncomment the `[[send_email]]` block and set `EMAIL_PROVIDER = "cloudflare"` (no key
+   needed). An alternative provider needs its key instead.
 3. Prefilled for `https://pyarcana.dev` (DESIGN-v3 §K): `ALLOWED_ORIGINS`, `CANONICAL_ORIGIN`,
    `SITE_PATH`, `EMAIL_PROVIDER`, `EMAIL_FROM`, `EMAIL_FROM_NAME`. Still to fill: `TERMS_VERSION`,
    `GOOGLE_CLIENT_ID`, `MICROSOFT_CLIENT_ID`. Local development overrides them in
@@ -436,8 +439,13 @@ Only the owner can do these; nothing here is deployed.
     `whsec_...` string). Use `CREEM_API_BASE = "https://test-api.creem.io"` with test keys first.
     Decide the products' tax mode (the worker compares the NET price) and keep the store's default
     cancel mode irrelevant: the worker always sends `mode` explicitly.
-11. Workers Paid is already needed for Email Sending; reconciliation also needs its subrequest
-    allowance (a Mercado Pago row costs two or three subrequests, 50 rows per set per run).
+11. Workers Paid before payments: reconciliation needs its subrequest allowance (a Mercado Pago
+    row costs two or three provider fetches, 50 rows per set per run; Workers Free allows 50
+    fetches per invocation). The beta without payments fits Workers Free: D1 calls count against
+    the free plan's 1,000 internal subrequests, the two crons fit its five, the static build is
+    263 files (largest 6.4 MiB) against 20,000 and 25 MiB, and CPU is 10 ms per request on Free:
+    watch Workers Logs for `exceededCpu` during the beta (sign-in verifies an RS256 token and
+    /v1/me signs an ES256 licence; neither was measured on Cloudflare).
 12. Licence key: `setup.sh` generates it and pipes the private half into the secret. Put the
     public JWK it prints into the site config `licence.publicKeys`, and after deploy check that
     `GET /api/v1/jwks` lists that kid. For rotation, run `setup.sh --rotate-key <new kid>`: it

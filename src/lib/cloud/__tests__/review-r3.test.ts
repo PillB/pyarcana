@@ -45,10 +45,10 @@ function sourceFiles(dir: string): string[] {
 // --- finding 2/7 (D-USER-05): a blocked tenant is explained and the other ways in are offered -----
 
 test('D-USER-05: /cuenta explains a blocked work or school tenant and offers the email code, without blaming the learner', () => {
-  const html = render(h(PhaseNote, { phase: { kind: 'ms_failed', message: 'X', offerOtherWays: true }, tr: (k: string) => k }))
+  const html = render(h(PhaseNote, { phase: { kind: 'ms_failed', detailKey: 'X', offerOtherWays: true }, tr: (k: string) => k }))
   assert.match(html, /role="alert"/)
   assert.match(html, /<button[^>]*>cuenta\.ms\.otherWays<\/button>/)
-  const plain = render(h(PhaseNote, { phase: { kind: 'ms_failed', message: 'X', offerOtherWays: false }, tr: (k: string) => k }))
+  const plain = render(h(PhaseNote, { phase: { kind: 'ms_failed', detailKey: 'X', offerOtherWays: false }, tr: (k: string) => k }))
   assert.doesNotMatch(plain, /cuenta\.ms\.otherWays/)
   const es = t('cuenta.ms.tenantBlocked', 'es-PE')
   assert.match(es, /organización/)
@@ -215,4 +215,24 @@ test('15: the consent card can be put off without answering; no survey opens ove
   assert.equal(bottomReserve([]), '')
   assert.equal(bottomReserve([120, 200]), '216px', 'the tallest card plus its 16 px offset')
   assert.ok(t('consent.later', 'es-PE').length > 0)
+})
+
+test('email codes off (owner decision 2026-10-01, beta on Workers Free): no Microsoft message sends anyone to an email code', async () => {
+  const { withoutEmailCode } = await import('@/lib/cloud/ms-callback')
+  const tr = (k: string) => k
+  const off = render(h(PhaseNote, { phase: { kind: 'ms_failed', detailKey: 'cuenta.ms.tenantBlocked', offerOtherWays: true }, tr, emailOn: false }))
+  assert.match(off, /cuenta\.ms\.tenantBlockedNoEmail/)
+  assert.match(off, /<button[^>]*>cuenta\.ms\.otherWaysNoEmail<\/button>/)
+  const on = render(h(PhaseNote, { phase: { kind: 'ms_failed', detailKey: 'cuenta.ms.tenantBlocked', offerOtherWays: true }, tr, emailOn: true }))
+  assert.match(on, /cuenta\.ms\.tenantBlocked(?!NoEmail)/)
+  assert.equal(withoutEmailCode('account.error.linkRequiresEmailCode', false), 'account.error.linkRequiresEmailCodeNoEmail')
+  assert.equal(withoutEmailCode('account.error.linkRequiresEmailCode', true), 'account.error.linkRequiresEmailCode')
+  assert.equal(withoutEmailCode('cuenta.ms.cancelled', false), 'cuenta.ms.cancelled')
+  for (const lang of ['es-PE', 'es-ES', 'en'] as const) {
+    for (const k of ['cuenta.ms.tenantBlockedNoEmail', 'cuenta.ms.otherWaysNoEmail', 'account.error.linkRequiresEmailCodeNoEmail']) {
+      const text = t(k, lang)
+      assert.notEqual(text, k, `${k} exists in ${lang}`)
+      assert.doesNotMatch(text, /código por correo|email code/i, `${k} in ${lang} does not mention the email code`)
+    }
+  }
 })

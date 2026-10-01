@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/card'
 import { CLOUD_CONFIG } from '@/lib/cloud/config'
 import { useCloudStage } from '@/lib/cloud/hooks'
 import { parseMe, refreshMe, useCloudRuntime, useCloudSession } from '@/lib/cloud/session'
-import { completeMicrosoftCallback, msFailureView, type MsCallbackResult } from '@/lib/cloud/ms-callback'
+import { completeMicrosoftCallback, msFailureView, withoutEmailCode, type MsCallbackResult } from '@/lib/cloud/ms-callback'
 import { pollCheckout, type PollState } from '@/lib/cloud/billing-ui'
 import { refreshSubscription, uiError, type UiError } from '@/lib/cloud/account-api'
 import { safeSessionStorage } from '@/lib/cloud/storage'
@@ -16,16 +16,22 @@ import { AccountPanel } from './AccountPanel'
 import { HeadingLevel } from './PlanSections'
 import { AccountDialog } from './AccountDialog'
 import { CloudSync } from './CloudSync'
-import { applyMe, cloudApi, inMicrosoftCallback, markLeavingPage, markMicrosoftCallback, useAccountUi } from './runtime'
+import { applyMe, cloudApi, inMicrosoftCallback, markLeavingPage, markMicrosoftCallback, useAccountUi, useLoadedAuthMethods } from './runtime'
 import { useAfterMount, useText, type Tr } from './text'
 import { ERROR_ALERT_CLASS } from '@/components/account/a11y'
 
-export type Phase = { kind: 'idle' } | { kind: 'ms_working' } | { kind: 'ms_failed'; message: string; offerOtherWays: boolean } | { kind: 'ms_linked' }
+/** A failed callback keeps message KEYS, so the wording can follow whether email codes run. */
+export type Phase =
+  | { kind: 'idle' }
+  | { kind: 'ms_working' }
+  | { kind: 'ms_failed'; detailKey: string; minutes?: string; offerOtherWays: boolean }
+  | { kind: 'ms_linked' }
 
-function msFailure(r: Exclude<MsCallbackResult, { ok: true }>, tr: Tr, apiText: (e: UiError) => string): Phase {
+function msFailure(r: Exclude<MsCallbackResult, { ok: true }>): Phase {
   const view = msFailureView(r)
-  const detail = r.reason === 'api' ? apiText(uiError(r.result)) : tr(view.key)
-  return { kind: 'ms_failed', message: `${tr('cuenta.ms.failed')} ${detail}`, offerOtherWays: view.offerOtherWays }
+  if (r.reason !== 'api') return { kind: 'ms_failed', detailKey: view.key, offerOtherWays: view.offerOtherWays }
+  const e: UiError = uiError(r.result)
+  return { kind: 'ms_failed', detailKey: e.key, minutes: e.minutes === undefined ? undefined : String(e.minutes), offerOtherWays: view.offerOtherWays }
 }
 
 /**
@@ -33,7 +39,7 @@ function msFailure(r: Exclude<MsCallbackResult, { ok: true }>, tr: Tr, apiText: 
  * before anything else, then the code is redeemed and the id_token posted to the worker. A
  * sign-in returns the learner to where they started; a link stays here and says it worked.
  */
-function useMicrosoftCallback(tr: Tr, apiText: (e: UiError) => string): Phase {
+function useMicrosoftCallback(): Phase {
   const [phase, setPhase] = useState<Phase>({ kind: 'idle' })
   useEffect(() => {
     if (!inMicrosoftCallback()) return
@@ -45,7 +51,7 @@ function useMicrosoftCallback(tr: Tr, apiText: (e: UiError) => string): Phase {
       markMicrosoftCallback(false)
       if (!r.ok) {
         void refreshMe()
-        return setPhase(msFailure(r, tr, apiText))
+        return setPhase(msFailure(r))
       }
       // A sign-in leaves this page: flag it BEFORE applyMe, so the session followers keep a pending
       // "Probar 7 días" intent for the return page instead of starting a POST the unload aborts.
@@ -95,14 +101,15 @@ function BillingStatus({ state, retry, tr }: { state: PollState | 'checking' | n
 }
 
 /** The callback's outcome on /cuenta; exported for the rendered-markup test. */
-export function PhaseNote({ phase, tr }: { phase: Phase; tr: Tr }) {
+export function PhaseNote({ phase, tr, emailOn = true }: { phase: Phase; tr: Tr; emailOn?: boolean }) {
   if (phase.kind === 'ms_working') return <p role="status" className="text-sm">{tr('cuenta.ms.working')}</p>
   if (phase.kind === 'ms_failed') {
+    const detail = tr(withoutEmailCode(phase.detailKey, emailOn), { minutes: phase.minutes ?? '' })
     return (
       <div className="space-y-2">
-        <p role="alert" className={ERROR_ALERT_CLASS}>{phase.message}</p>
+        <p role="alert" className={ERROR_ALERT_CLASS}>{`${tr('cuenta.ms.failed')} ${detail}`}</p>
         {phase.offerOtherWays && (
-          <Button variant="outline" size="sm" onClick={() => useAccountUi.getState().show('main')}>{tr('cuenta.ms.otherWays')}</Button>
+          <Button variant="outline" size="sm" onClick={() => useAccountUi.getState().show('main')}>{tr(withoutEmailCode('cuenta.ms.otherWays', emailOn))}</Button>
         )}
       </div>
     )
@@ -112,8 +119,8 @@ export function PhaseNote({ phase, tr }: { phase: Phase; tr: Tr }) {
 
 function AccountPageActive() {
   const { tr, lang } = useText()
-  const apiText = (e: UiError) => tr(e.key, { minutes: e.minutes ?? '' })
-  const phase = useMicrosoftCallback(tr, apiText)
+  const phase = useMicrosoftCallback()
+  const emailOn = useLoadedAuthMethods((m) => m.email)
   const [billing, retry] = useBillingReturn()
   const me = useCloudSession((s) => s.me)
   const meStatus = useCloudRuntime((s) => s.meStatus)
@@ -133,7 +140,7 @@ function AccountPageActive() {
   }
   return (
     <div className="space-y-4" lang={lang}>
-      <PhaseNote phase={phase} tr={tr} />
+      <PhaseNote phase={phase} tr={tr} emailOn={emailOn} />
       <BillingStatus state={billing} retry={retry} tr={tr} />
       {me && (
         <HeadingLevel level={2}>

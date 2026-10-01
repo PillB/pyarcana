@@ -48,9 +48,11 @@ GOOGLE_CLIENT_ID = ""
 # accounts). The authority is the client's setting (microsoftAuthority); the worker always
 # verifies against the common JWKS and the token's own tenant issuer.
 MICROSOFT_CLIENT_ID = "171fb4ff-f112-46b2-9043-92ecb97f56fe"
-# Sign-in code email (D-USER-04): cloudflare (the send_email binding EMAIL below; needs
-# Workers Paid) | resend | brevo | mailersend (dev-log only for localhost E2E).
-EMAIL_PROVIDER = "cloudflare"
+# Sign-in code email: "" = OFF. The beta starts on Workers Free with Google and Microsoft
+# sign-in only (owner decision, 1 Oct 2026); the sign-in panel then hides the email option.
+# To turn codes on: cloudflare (Workers Paid + the send_email block below, D-USER-04) |
+# resend | brevo | mailersend (dev-log only for localhost E2E).
+EMAIL_PROVIDER = ""
 # A role address on PyArcana's domain, never a personal mailbox. With cloudflare it must be
 # an allowed sender of the EMAIL binding and a verified Email Sending identity.
 EMAIL_FROM = "no-reply@pyarcana.dev"
@@ -99,9 +101,12 @@ EVENTS_ENABLED = "true"
 # included) and pyarcana.dev onboarded to Email Sending (its records live on the cf-bounce
 # subdomain, so Hostinger's MX/SPF/DKIM stay as they are). The binding may send only from
 # the address below, which must equal EMAIL_FROM.
-[[send_email]]
-name = "EMAIL"
-allowed_sender_addresses = ["no-reply@pyarcana.dev"]
+# OFF while the account is on Workers Free (owner decision, 1 Oct 2026): Email Sending needs
+# Workers Paid, and a binding is not deployed until it can work. To turn it on, uncomment the
+# three lines below and set EMAIL_PROVIDER = "cloudflare" above, then deploy.
+# [[send_email]]
+# name = "EMAIL"
+# allowed_sender_addresses = ["no-reply@pyarcana.dev"]
 
 # --- Secrets (NEVER put values in this file; it is public) ----------------------------
 # scripts/setup.sh sets SERVER_PEPPER, ADMIN_EMAILS and LICENSE_PRIVATE_KEY_PKCS8_B64 (piped,

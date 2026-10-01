@@ -95,3 +95,18 @@ export function msFailureView(r: Exclude<MsCallbackResult, { ok: true }>): { key
   if (r.reason === 'api') return { key: 'api', offerOtherWays: OTHER_WAYS_API_REASONS.has(r.result.reason) }
   return { key: FAIL_KEYS[r.reason] ?? 'account.error.unavailable', offerOtherWays: r.reason === 'tenant_blocked' }
 }
+
+/**
+ * Owner decision 2026-10-01: the beta may run with email codes off (Workers Free, no sender).
+ * These messages name the email code as the way out; with email off they use a variant that
+ * points to Google, a personal Microsoft account or linking Microsoft from the account instead.
+ */
+const EMAIL_FREE_KEYS: Readonly<Record<string, string>> = {
+  'cuenta.ms.tenantBlocked': 'cuenta.ms.tenantBlockedNoEmail',
+  'cuenta.ms.otherWays': 'cuenta.ms.otherWaysNoEmail',
+  'account.error.linkRequiresEmailCode': 'account.error.linkRequiresEmailCodeNoEmail',
+}
+
+export function withoutEmailCode(key: string, emailOn: boolean): string {
+  return emailOn ? key : (EMAIL_FREE_KEYS[key] ?? key)
+}

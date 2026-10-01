@@ -39,8 +39,9 @@ const PUBLIC_VARS = {
   SESSION_MAX_DAYS: "180",
   GOOGLE_CLIENT_ID: "",
   MICROSOFT_CLIENT_ID: "171fb4ff-f112-46b2-9043-92ecb97f56fe",
-  // D-USER-04: sign-in codes go through Cloudflare Email Sending (send_email binding EMAIL).
-  EMAIL_PROVIDER: "cloudflare",
+  // Owner decision 2026-10-01: the beta starts on Workers Free, email codes OFF (Google and
+  // Microsoft only). D-USER-04's Cloudflare Email Sending is one uncommenting away.
+  EMAIL_PROVIDER: "",
   EMAIL_FROM: "no-reply@pyarcana.dev",
   EMAIL_FROM_NAME: "PyArcana",
   EMAIL_DAILY_CAP: "90",
@@ -142,10 +143,14 @@ test("DESIGN-v3 §A: the static export is served from the same worker, the API p
   assert.ok(existsSync(fileURLToPath(new URL("../../package.json", ROOT))), "../../ resolves to the repository root, where next build writes out/");
 });
 
-test("D-USER-04: the send_email binding EMAIL may send only from the configured no-reply address", () => {
-  const binding = section(TOML, "send_email");
-  assert.equal(unquote(binding.name), "EMAIL");
+test("Workers Free: no send_email binding is deployed, and the commented one may send only from EMAIL_FROM", () => {
+  // A binding that cannot work on Workers Free is never deployed (owner decision 2026-10-01).
+  assert.equal((TOML.match(/^\[\[send_email\]\]$/gm) || []).length, 0);
+  // Turning it on is uncommenting three lines: they must still say the right thing (D-USER-04).
   const vars = section(TOML, "vars");
-  assert.deepEqual(JSON.parse(binding.allowed_sender_addresses), [unquote(vars.EMAIL_FROM)]);
-  assert.equal((TOML.match(/^\[\[send_email\]\]$/gm) || []).length, 1);
+  assert.match(TOML, /^# \[\[send_email\]\]$/m);
+  assert.match(TOML, /^# name = "EMAIL"$/m);
+  const sender = /^# allowed_sender_addresses = (\[.*\])$/m.exec(TOML);
+  assert.ok(sender, "the commented binding names its allowed sender");
+  assert.deepEqual(JSON.parse(sender[1]), [unquote(vars.EMAIL_FROM)]);
 });
