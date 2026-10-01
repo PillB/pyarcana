@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -118,6 +118,19 @@ function AccountPageActive() {
   const me = useCloudSession((s) => s.me)
   const meStatus = useCloudRuntime((s) => s.meStatus)
   const signedOut = !me && meStatus === 'signed_out' && phase.kind !== 'ms_working'
+  // Signing in from this page's Entrar button: once it succeeds, close the dialog, because this
+  // page already shows the account panel and the open dialog would cover it.
+  const signingInHere = useRef(false)
+  useEffect(() => {
+    if (me && signingInHere.current) {
+      signingInHere.current = false
+      useAccountUi.getState().setOpen(false)
+    }
+  }, [me])
+  const openSignIn = () => {
+    signingInHere.current = true
+    useAccountUi.getState().show('main')
+  }
   return (
     <div className="space-y-4" lang={lang}>
       <PhaseNote phase={phase} tr={tr} />
@@ -130,7 +143,7 @@ function AccountPageActive() {
       {signedOut && (
         <div className="flex flex-wrap items-center gap-3">
           <p className="text-sm">{tr('cuenta.signedOut')}</p>
-          <Button size="sm" onClick={() => useAccountUi.getState().show('main')} data-testid="cuenta-signin">{tr('cuenta.signInCta')}</Button>
+          <Button size="sm" onClick={openSignIn} data-testid="cuenta-signin">{tr('cuenta.signInCta')}</Button>
         </div>
       )}
       <ErrorAlert error={meStatus === 'unavailable' ? { key: 'account.error.unavailable' } : null} />
