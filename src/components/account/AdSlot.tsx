@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { CLOUD_CONFIG, type LaunchStage } from '@/lib/cloud/config'
-import { useAdEligibility, useCloudStage } from '@/lib/cloud/hooks'
+import { useAdEligibility, useCloudStage, useIsAdStaff } from '@/lib/cloud/hooks'
 import { useCloudSession } from '@/lib/cloud/session'
 import { chooseAdapter, scriptUrl, type AdAdapter, type AdEligibility, type AdPlacement } from '@/lib/cloud/ads'
 import { SLOT_HEIGHT_PX, railMediaQuery, ethicalAdsKeywords, houseArmShows, houseCreative, parseGeo, readAdsenseOptIn, slotView, writeAdsenseOptIn, type HouseCreative, type OptIn } from '@/lib/cloud/ad-slot'
@@ -234,7 +234,8 @@ function ActiveSlot({ placement, sectionKey, eligibility, stage }: { placement: 
   const [optIn, setOptIn] = useState<OptIn>(() => readAdsenseOptIn(safeStorage()))
   const geo = useGeo(eligibility === 'free' && CLOUD_CONFIG.ads.provider === 'adsense')
   const desktop = useDesktop(placement === 'rail' ? railMediaQuery() : '(min-width: 1024px)')
-  const chosen = chooseAdapter({ eligibility, ads: CLOUD_CONFIG.ads, placement, signedIn, adultAttested: false, geo, adsenseOptIn: optIn, desktop })
+  const staff = useIsAdStaff()
+  const chosen = chooseAdapter({ eligibility, ads: CLOUD_CONFIG.ads, placement, signedIn, adultAttested: false, geo, adsenseOptIn: optIn, desktop, staff })
   const creative = useHouse(chosen, sectionKey, stage)
   const adapter = slotView(chosen, creative, CLOUD_CONFIG.ads.provider)
   if (adapter === null) return null

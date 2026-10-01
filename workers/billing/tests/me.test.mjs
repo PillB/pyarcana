@@ -111,6 +111,8 @@ test("a fresh account's payload has every field, with nothing granted", async ()
       pendingIndefinite: false,
       upcoming: []
     },
+    // Owner decision 2026-10-01 (ads.mjs): ads on by default, off for paid, trial or the admin switch.
+    ads: { show: true, reason: "default" },
     subscriptions: [],
     grants: [],
     checkoutPending: false,

@@ -71,9 +71,17 @@ export interface MeGrant {
   state: string
 }
 
+/** Whether this account sees ads, and why (worker ads.mjs). */
+export interface MeAds {
+  show: boolean
+  reason: 'default' | 'paid' | 'trial' | 'disabled'
+}
+
 export interface MePayload {
   account: MeAccount
   access: MeAccess
+  /** Null for a payload from a worker without the field (older cache). */
+  ads: MeAds | null
   subscriptions: MeSubscription[]
   grants: MeGrant[]
   checkoutPending: boolean
@@ -138,6 +146,13 @@ function parseAccess(raw: unknown): MeAccess {
   }
 }
 
+const AD_REASONS = new Set<unknown>(['default', 'paid', 'trial', 'disabled'])
+
+function parseAds(raw: unknown): MeAds | null {
+  if (!isPlainObject(raw) || typeof raw.show !== 'boolean' || !AD_REASONS.has(raw.reason)) return null
+  return { show: raw.show, reason: raw.reason as MeAds['reason'] }
+}
+
 function parseSubscription(s: Record<string, unknown>): MeSubscription | null {
   if (typeof s.id !== 'string') return null
   return {
@@ -164,6 +179,7 @@ export function parseMe(raw: unknown): MePayload | null {
   return {
     account,
     access: parseAccess(raw.access),
+    ads: parseAds(raw.ads),
     subscriptions: list(raw.subscriptions).filter(isPlainObject).map(parseSubscription).filter((s): s is MeSubscription => s !== null),
     grants: list(raw.grants).filter(isPlainObject).map(parseGrant).filter((g): g is MeGrant => g !== null),
     checkoutPending: raw.checkoutPending === true,

@@ -606,3 +606,61 @@ export function parseAccountDetail(data: unknown): AccountDetail | null {
 export function routeMissing(result: ApiResult<unknown>): boolean {
   return !result.ok && result.status === 404 && (result.reason === 'not_found' || result.reason === 'http_404')
 }
+
+/*
+ * Ads per account (owner decision 2026-10-01, worker ads.mjs): ads are on by default; paid and
+ * trial accounts see none; an admin switches any account off, or back to the default, in batches
+ * of up to 100. Accounts are selected by id from the list, never by address.
+ */
+export const AD_FILTERS = ['all', 'disabled', 'gift', 'tester', 'free', 'paid', 'trial'] as const
+export type AdFilter = (typeof AD_FILTERS)[number]
+export const AD_BATCH_MAX = 100
+const AD_REASONS: readonly string[] = ['default', 'paid', 'trial', 'disabled']
+const AD_SOURCES: readonly string[] = ['paid', 'gift', 'trial', 'tester']
+// ACCOUNT_ID: the same id shape as above.
+const AD_CURSOR = /^\d{1,12}\.[A-Za-z0-9_-]{1,100}$/
+
+export interface AdAccountRow {
+  accountId: string
+  email: string | null
+  displayName: string | null
+  source: 'paid' | 'gift' | 'trial' | 'tester' | null
+  adsDisabled: boolean
+  showsAds: boolean
+  reason: 'default' | 'paid' | 'trial' | 'disabled'
+}
+
+export function adsPath(filter: AdFilter, cursor: string | null, limit = 50): string {
+  const safeCursor = cursor !== null && AD_CURSOR.test(cursor) ? cursor : null
+  return `/v1/admin/ads${encodeQuery({ filter: oneOf(filter, AD_FILTERS) ?? 'all', limit, cursor: safeCursor })}`
+}
+
+function parseAdRow(r: Record<string, unknown>): AdAccountRow | null {
+  if (typeof r.accountId !== 'string' || !ACCOUNT_ID.test(r.accountId) || typeof r.reason !== 'string' || !AD_REASONS.includes(r.reason)) return null
+  return {
+    accountId: r.accountId,
+    email: typeof r.email === 'string' ? r.email : null,
+    displayName: typeof r.displayName === 'string' ? r.displayName : null,
+    source: typeof r.source === 'string' && AD_SOURCES.includes(r.source) ? (r.source as AdAccountRow['source']) : null,
+    adsDisabled: r.adsDisabled === true,
+    showsAds: r.showsAds === true,
+    reason: r.reason as AdAccountRow['reason'],
+  }
+}
+
+export function parseAdsList(data: unknown): { accounts: AdAccountRow[]; nextCursor: string | null } {
+  const d = isPlainObject(data) ? data : {}
+  const rows = Array.isArray(d.accounts) ? d.accounts.filter(isPlainObject).map(parseAdRow) : []
+  const nextCursor = typeof d.nextCursor === 'string' && AD_CURSOR.test(d.nextCursor) ? d.nextCursor : null
+  return { accounts: rows.filter((r): r is AdAccountRow => r !== null), nextCursor }
+}
+
+/** POST /v1/admin/ads: 1..100 selected ids, off (true) or back to the default (false), and a reason. */
+export function adsRequest(accountIds: readonly string[], adsDisabled: boolean, reason: string): Built {
+  const ids = [...new Set(accountIds)].filter((id) => ACCOUNT_ID.test(id))
+  if (ids.length === 0) return { ok: false, key: 'adm.ads.error.none' }
+  if (ids.length > AD_BATCH_MAX) return { ok: false, key: 'adm.ads.error.tooMany' }
+  const text = reason.trim()
+  if (!text) return { ok: false, key: 'adm.error.reason' }
+  return { ok: true, body: { accountIds: ids, adsDisabled, reason: text.slice(0, 200) } }
+}

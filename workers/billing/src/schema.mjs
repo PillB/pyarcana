@@ -398,6 +398,12 @@ const MIGRATION_6 = [
   "CREATE INDEX IF NOT EXISTS idx_survey_responses_cid ON survey_responses (cid_hash)"
 ];
 
+/**
+ * Ads per account (owner decision 2026-10-01, ads.mjs): the admin's off switch lives on the account
+ * so it outlives any grant or subscription. 0 = the default policy, 1 = no ads.
+ */
+const MIGRATION_7 = ["ALTER TABLE accounts ADD COLUMN ads_disabled INTEGER NOT NULL DEFAULT 0 CHECK (ads_disabled IN (0, 1))"];
+
 /** Every migration, in order. Append only; never edit a shipped one. */
 export const MIGRATIONS = [
   { version: 1, statements: MIGRATION_1 },
@@ -405,7 +411,8 @@ export const MIGRATIONS = [
   { version: 3, statements: MIGRATION_3 },
   { version: 4, statements: MIGRATION_4 },
   { version: 5, statements: MIGRATION_5 },
-  { version: 6, statements: MIGRATION_6 }
+  { version: 6, statements: MIGRATION_6 },
+  { version: 7, statements: MIGRATION_7 }
 ];
 
 /** The version a fully migrated database reports. */

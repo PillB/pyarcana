@@ -5,6 +5,7 @@ import { CloudPageFrame } from '../CloudPageFrame'
 import { useMeOnce } from '../QaSitePage'
 import { useText } from '../text'
 import { AdminAccounts } from './AdminAccounts'
+import { AdminAds } from './AdminAds'
 import { AdminGrants } from './AdminGrants'
 import { AdminExperiments, AdminSurveys } from './AdminInsights'
 import { AdminReports } from './AdminReports'
@@ -15,6 +16,7 @@ const TABS = [
   ['grants', AdminGrants],
   ['testers', AdminTesters],
   ['accounts', AdminAccounts],
+  ['ads', AdminAds],
   ['experiments', AdminExperiments],
   ['surveys', AdminSurveys],
 ] as const

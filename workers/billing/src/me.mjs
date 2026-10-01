@@ -20,6 +20,7 @@
 
 import { activeRoles, isAdminSession } from "./accounts.mjs";
 import { paidThrough } from "./access.mjs";
+import { adsPolicy } from "./ads.mjs";
 import { accessSnapshot, publicGrant } from "./entitlement.mjs";
 import { publicIdentities } from "./identities.mjs";
 import { licenceTokenFor } from "./license.mjs";
@@ -122,6 +123,7 @@ export async function buildMePayload(ctx, account, session) {
     ok: true,
     account: await publicAccount(ctx, account, session, rows),
     access,
+    ads: adsPolicy(access, account),
     subscriptions: publicSubscriptions(rows),
     grants: schedule.map(publicGrant),
     checkoutPending: await checkoutPending(ctx, account, rows.subscriptions),

@@ -51,6 +51,7 @@ export const LINT = Object.freeze({
 
 /** Worker suites: group, file (repo-relative) and floor. */
 const WORKER_SUITES = [
+  ["ads", 7],
   ["d1-fake", 11],
   ["crypto", 12],
   ["http", 15],
@@ -122,7 +123,8 @@ const CLIENT_SUITES = [
   ["ad-slot-survey", 10],
   ["admin-api", 11],
   ["admin-detail", 3],
-  ["ads-surveys", 16],
+  ["admin-ads", 3],
+  ["ads-surveys", 18],
   ["api", 10],
   ["billing-ui", 11],
   ["client-fixes", 21],

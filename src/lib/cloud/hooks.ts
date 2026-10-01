@@ -48,14 +48,12 @@ export function useAdEligibility(pathname: string): AdEligibility {
   const stage = useCloudStage()
   const access = useAccess()
   const qa = useQaMode()
-  const account = useCloudSession((s) => s.me?.account ?? null)
-  return adEligibility({
-    stage,
-    pathname,
-    basePath: SITE_BASE_PATH,
-    qa,
-    access,
-    isAdmin: account?.isAdmin === true,
-    isTester: account?.roles.includes('tester') === true,
-  })
+  const meStatus = useCloudRuntime((s) => s.meStatus)
+  const ads = useCloudSession((s) => s.me?.ads ?? null)
+  return adEligibility({ stage, pathname, basePath: SITE_BASE_PATH, qa, access, liveAds: meStatus === 'ok' && ads ? ads.show : null })
+}
+
+/** Admins and testers: they see ads, but never a real network creative (chooseAdapter). */
+export function useIsAdStaff(): boolean {
+  return useCloudSession((s) => s.me !== null && (s.me.account.isAdmin || s.me.account.roles.includes('tester')))
 }

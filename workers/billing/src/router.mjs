@@ -58,6 +58,7 @@ import { handleAdminReports, handlePatchReport, handleQaAttachment, handleQaRepo
 import { handleMyReports, handleSubmitReport, REPORT_BODY_CAP } from "./reports.mjs";
 import { handleGrantRole, handleListRoles, handleRevokeRole } from "./roles.mjs";
 import { handleAdminSurveys, handleSubmitSurvey } from "./surveys.mjs";
+import { handleListAds, handleSetAds } from "./ads.mjs";
 import { handleStartTrial } from "./trial.mjs";
 import { handleGeo, handleHealth, handleMethods, hasDb } from "./public.mjs";
 import { migrate } from "./schema.mjs";
@@ -143,6 +144,8 @@ export const ROUTES = [
   adminRoute("GET", "/v1/admin/experiments", handleAdminExperiments, "admin.experiments.list"),
   adminRoute("GET", "/v1/admin/experiments/results", handleExperimentResults, "admin.experiments.results"),
   adminRoute("GET", "/v1/admin/surveys", handleAdminSurveys, "admin.surveys.list"),
+  adminRoute("POST", "/v1/admin/ads", handleSetAds, "admin.ads.set"),
+  adminRoute("GET", "/v1/admin/ads", handleListAds, "admin.ads.list"),
   adminRoute("PATCH", "/v1/admin/reports/:id", handlePatchReport, "admin.reports.update")
 ];
 

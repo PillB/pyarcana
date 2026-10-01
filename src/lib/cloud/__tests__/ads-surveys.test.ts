@@ -15,16 +15,35 @@ const adapterBase: AdapterInput = {
   geo: { status: 'ok', country: 'PE' },
   adsenseOptIn: 'unset',
   desktop: true,
+  staff: false,
 }
 
 const elig = (p: Partial<AdEligibilityInput> = {}) =>
-  adEligibility({ stage: 'beta', pathname: '/', basePath: '', qa: QA_OFF, access: 'free', isAdmin: false, isTester: false, ...p })
+  adEligibility({ stage: 'beta', pathname: '/', basePath: '', qa: QA_OFF, access: 'free', liveAds: null, ...p })
 
-test('only free users on the course page are eligible', () => {
+test('owner decision 2026-10-01: the live me.ads answer decides, so gift and tester Pro see ads unless switched off', () => {
   assert.equal(elig(), 'free')
-  assert.equal(elig({ access: 'pro' }), 'none')
-  assert.equal(elig({ isAdmin: true }), 'none')
-  assert.equal(elig({ isTester: true }), 'none')
+  // A gift or tester holder is Pro, yet the worker says show: ads.
+  assert.equal(elig({ access: 'pro', liveAds: true }), 'free')
+  // Paid, trial, or the admin switch: the worker says no.
+  assert.equal(elig({ access: 'pro', liveAds: false }), 'none')
+  assert.equal(elig({ access: 'free', liveAds: false }), 'none')
+  // No live answer on this load (offline on the licence): a Pro licence means no ads.
+  assert.equal(elig({ access: 'pro', liveAds: null }), 'none')
+  assert.equal(elig({ access: 'free', liveAds: null }), 'free')
+})
+
+test('staff (admin, tester) see house ads but never a real network creative: it becomes the test placeholder', () => {
+  const adsense = { ...CLOUD_CONFIG.ads, provider: 'adsense' as const, adsenseClient: 'ca-pub-1', adsenseSlots: { section_end: '1' } }
+  assert.equal(chooseAdapter({ ...adapterBase, ads: adsense, adsenseOptIn: 'accepted' }), 'adsense')
+  assert.equal(chooseAdapter({ ...adapterBase, ads: adsense, adsenseOptIn: 'accepted', staff: true }), 'test')
+  assert.equal(chooseAdapter({ ...adapterBase, ads: adsense, staff: true }), 'test')
+  const ethical = { ...CLOUD_CONFIG.ads, provider: 'ethicalads' as const, ethicaladsPublisher: 'pyarcana' }
+  assert.equal(chooseAdapter({ ...adapterBase, ads: ethical, placement: 'rail' }), 'ethicalads')
+  assert.equal(chooseAdapter({ ...adapterBase, ads: ethical, placement: 'rail', staff: true }), 'test')
+  // House promos load nothing third-party, so staff see them as everyone does.
+  assert.equal(chooseAdapter({ ...adapterBase, ads: { ...CLOUD_CONFIG.ads, provider: 'house' }, staff: true }), 'house')
+  assert.equal(chooseAdapter({ ...adapterBase, eligibility: 'none', staff: true }), 'none')
 })
 
 test('entitlement not yet known reserves the box and shows nothing (no ad flash at a Pro user)', () => {
@@ -37,7 +56,7 @@ test('entitlement not yet known reserves the box and shows nothing (no ad flash 
 test('QA test mode or the ad preview show test placeholders to anyone, Pro and staff included', () => {
   for (const qa of [{ testMode: true, adPreview: false }, { testMode: false, adPreview: true }]) {
     assert.equal(elig({ qa, access: 'pro' }), 'test')
-    assert.equal(elig({ qa, isAdmin: true }), 'test')
+    assert.equal(elig({ qa, liveAds: false }), 'test')
     assert.equal(elig({ qa, access: 'unknown' }), 'test')
   }
   assert.equal(chooseAdapter({ ...adapterBase, eligibility: 'test', ads: { ...CLOUD_CONFIG.ads, provider: 'adsense', adsenseClient: 'ca-pub-1', adsenseSlots: { section_end: '1' } } }), 'test')
@@ -173,4 +192,14 @@ test('the optional cancel reason is part of the cancel flow: never capped, and i
 test('a corrupt cap record reads as empty', () => {
   const storage = createMemoryStorage({ [SURVEY_CAP_KEY]: '{"lastAt":"soon","byKind":{"nps":"x","evil":1}}' })
   assert.deepEqual(readSurveyCap(storage), { lastAt: null, byKind: {} })
+})
+
+test('me.ads is parsed strictly: a malformed or missing field is null, never a guess', async () => {
+  const { parseMe } = await import('@/lib/cloud/session')
+  const base = { account: { id: 'acc_1' }, access: { isPro: true, source: 'gift' } }
+  assert.deepEqual(parseMe({ ...base, ads: { show: true, reason: 'default' } })?.ads, { show: true, reason: 'default' })
+  assert.deepEqual(parseMe({ ...base, ads: { show: false, reason: 'disabled' } })?.ads, { show: false, reason: 'disabled' })
+  assert.equal(parseMe(base)?.ads, null)
+  assert.equal(parseMe({ ...base, ads: { show: 'yes', reason: 'default' } })?.ads, null)
+  assert.equal(parseMe({ ...base, ads: { show: true, reason: 'because' } })?.ads, null)
 })

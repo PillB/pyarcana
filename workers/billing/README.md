@@ -183,6 +183,8 @@ allowed `Origin` (403 `bad_origin`). Answers are JSON `{ok, ...}` or `{ok: false
 | `GET /v1/admin/experiments` | admin | Every registry entry: enabled flag, plan, raw exposures per arm, SRM. |
 | `GET /v1/admin/experiments/results` | admin | `?key=`: the analysed sample; see "Events and experiments". |
 | `GET /v1/admin/surveys` | admin | `?kind=`: aggregates and the 20 newest texts; see "Surveys". |
+| `POST /v1/admin/ads` | admin | `{accountIds: string[1..100], adsDisabled, reason}`: switch ads off, or back to the default, for a batch; see "Ads per account". |
+| `GET /v1/admin/ads` | admin | `?filter=all\|disabled\|gift\|tester\|free\|paid\|trial&limit=&cursor=`: who sees ads and why. |
 
 Admin means all of: the account's verified email is in `ADMIN_EMAILS` (read per request); the
 session is younger than 12 hours; and it was created by a Google identity that belongs to this
@@ -316,6 +318,16 @@ with the account, as are the consent records and the measurement rows of every i
 
 Every provider shares `EMAIL_DAILY_CAP` (default 90 a day). The Hostinger SMTP provider of
 DESIGN-v3 §K is dropped (D-USER-04): Hostinger mailbox credentials never go into the worker.
+
+## Ads per account
+
+Owner decision, 1 Oct 2026. Ads are on by default for every account: free, gift, tester and admin.
+Paid subscribers and running trials see none; that is Pro's ad-free benefit, and the trial previews
+it. An admin switches ads off, or back to the default, for one account or a batch of up to 100
+(`POST /v1/admin/ads`). The switch is stored on the account (`accounts.ads_disabled`, migration 7),
+so it outlives a grant or a subscription. `GET /v1/me` returns `ads: {show, reason}`, with reason
+`default`, `paid`, `trial` or `disabled`. Each request writes one audit row listing the changed
+account ids; the admin's reason is stored with email-shaped text redacted.
 
 ## Not built yet
 

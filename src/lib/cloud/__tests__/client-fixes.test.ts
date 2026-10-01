@@ -312,7 +312,7 @@ test('28: the CSP lets the EthicalAds decision (a JSONP script from server.ethic
 })
 
 test('28: the rail placement is mounted, carries EthicalAds on wide screens only, and nothing else', () => {
-  const base: AdapterInput = { eligibility: 'free', ads: ETHICAL.ads, placement: 'rail', signedIn: false, adultAttested: false, geo: { status: 'unknown', country: null }, adsenseOptIn: 'unset', desktop: true }
+  const base: AdapterInput = { eligibility: 'free', ads: ETHICAL.ads, placement: 'rail', signedIn: false, adultAttested: false, geo: { status: 'unknown', country: null }, adsenseOptIn: 'unset', desktop: true, staff: false }
   assert.equal(chooseAdapter(base), 'ethicalads')
   assert.equal(chooseAdapter({ ...base, desktop: false }), 'none', 'no house promo squeezed into a hidden rail')
   assert.equal(chooseAdapter({ ...base, ads: CLOUD_CONFIG.ads }), 'none', 'house provider: the rail stays empty (one promo per view)')

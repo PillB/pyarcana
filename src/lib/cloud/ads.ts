@@ -6,7 +6,12 @@
  * - stage off: nothing at all. Only the course route carries ads (an allowlist, so a new route is
  *   ad-free until someone decides otherwise).
  * - QA test mode or "Previsualizar anuncios": labelled placeholders for anyone, zero requests.
- * - Admins, testers and every Pro source: none. Free users only: 'free'.
+ * - Owner decision 2026-10-01: ads are ON by default for every account (free, gift, tester, admin);
+ *   paid subscribers and running trials see none, and an admin can switch any account off. The
+ *   live /v1/me answer (`me.ads.show`) decides. Without one on this load (offline, served from the
+ *   signed licence) a Pro licence means no ads and everyone else is 'free'.
+ * - Staff (admins, testers) never get a real network creative: an invalid click can close the
+ *   network account, so a network adapter becomes the labelled test placeholder for them.
  * Adapter for 'free': house promos by default (no network, no cookies). Networks are built but
  * off: EthicalAds only in the desktop right rail; AdSense only after an in-slot opt-in with an
  * 18+ attestation, never in the EEA/UK/CH, never without a geo answer, and never for signed-in
@@ -47,16 +52,16 @@ export interface AdEligibilityInput {
   basePath?: string
   qa: QaMode
   access: AccessState
-  isAdmin: boolean
-  isTester: boolean
+  /** `me.ads.show` from THIS load's live /v1/me; null when there is none (signed out, offline, old worker). */
+  liveAds: boolean | null
 }
 
 export function adEligibility(i: AdEligibilityInput): AdEligibility {
   if (i.stage === 'off' || !isAdRoute(i.pathname, i.basePath)) return 'none'
   if (i.qa.testMode || i.qa.adPreview) return 'test'
   if (i.access === 'unknown') return 'unknown'
-  if (i.isAdmin || i.isTester || i.access === 'pro') return 'none'
-  return 'free'
+  if (i.liveAds !== null) return i.liveAds ? 'free' : 'none'
+  return i.access === 'pro' ? 'none' : 'free'
 }
 
 export interface AdapterInput {
@@ -70,6 +75,8 @@ export interface AdapterInput {
   /** The in-slot "¿Mostrar anuncios de Google aquí? … Soy mayor de 18 años" answer. */
   adsenseOptIn: 'unset' | 'accepted' | 'declined'
   desktop: boolean
+  /** Admin or tester: a network adapter turns into the test placeholder (no invalid clicks). */
+  staff: boolean
 }
 
 /**
@@ -92,14 +99,20 @@ function adsenseAdapter(i: AdapterInput): AdAdapter {
 }
 
 const FIXED: Record<Exclude<AdEligibility, 'free'>, AdAdapter> = { none: 'none', unknown: 'reserved', test: 'test' }
+const NETWORK: ReadonlySet<AdAdapter> = new Set(['ethicalads', 'adsense', 'adsense_optin'])
+
+function freeAdapter(i: AdapterInput): AdAdapter {
+  if (i.ads.provider === 'ethicalads') return ethicalAdsAdapter(i)
+  if (i.ads.provider === 'adsense') return adsenseAdapter(i)
+  return 'house'
+}
 
 export function chooseAdapter(i: AdapterInput): AdAdapter {
   // The rail exists only for EthicalAds; with any other provider it renders nothing at all.
   if (i.placement === 'rail' && i.ads.provider !== 'ethicalads') return 'none'
   if (i.eligibility !== 'free') return FIXED[i.eligibility]
-  if (i.ads.provider === 'ethicalads') return ethicalAdsAdapter(i)
-  if (i.ads.provider === 'adsense') return adsenseAdapter(i)
-  return 'house'
+  const adapter = freeAdapter(i)
+  return i.staff && NETWORK.has(adapter) ? 'test' : adapter
 }
 
 const HOSTS: Partial<Record<AdAdapter, string[]>> = {
