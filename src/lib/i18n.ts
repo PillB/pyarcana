@@ -599,7 +599,8 @@ const translations: Record<Language, Dict> = {
     'cuenta.billing.confirmed': 'Tu suscripción está activa.',
     'cuenta.billing.pending': 'Tu pago todavía no se confirma. A veces el proveedor tarda unos minutos en avisarnos.',
     'cuenta.billing.checkNow': 'Comprobar ahora',
-    'cuenta.signedOut': 'No has iniciado sesión. Entra desde el curso con el botón Entrar.',
+    'cuenta.signedOut': 'No has iniciado sesión.',
+    'cuenta.signInCta': 'Entrar',
     // C2-END
     // C3-BEGIN (routes /precios /suscripcion /qa /admin, QA sending, legal sections)
     'cloudpage.off': 'Esta página todavía no está disponible.',
@@ -1483,7 +1484,8 @@ const translations: Record<Language, Dict> = {
     'cuenta.billing.confirmed': 'Tu suscripción está activa.',
     'cuenta.billing.pending': 'Tu pago todavía no se ha confirmado. A veces el proveedor tarda unos minutos en avisarnos.',
     'cuenta.billing.checkNow': 'Comprobar ahora',
-    'cuenta.signedOut': 'No has iniciado sesión. Entra desde el curso con el botón Entrar.',
+    'cuenta.signedOut': 'No has iniciado sesión.',
+    'cuenta.signInCta': 'Entrar',
     // C2-END
     // C3-BEGIN (routes /precios /suscripcion /qa /admin, QA sending, legal sections)
     'cloudpage.off': 'Esta página todavía no está disponible.',
@@ -2367,7 +2369,8 @@ const translations: Record<Language, Dict> = {
     'cuenta.billing.confirmed': 'Your subscription is active.',
     'cuenta.billing.pending': 'Your payment is not confirmed yet. Sometimes the provider takes a few minutes to tell us.',
     'cuenta.billing.checkNow': 'Check now',
-    'cuenta.signedOut': 'You are not signed in. Sign in from the course with the Sign in button.',
+    'cuenta.signedOut': 'You are not signed in.',
+    'cuenta.signInCta': 'Sign in',
     // C2-END
     // C3-BEGIN (routes /precios /suscripcion /qa /admin, QA sending, legal sections)
     'cloudpage.off': 'This page is not available yet.',

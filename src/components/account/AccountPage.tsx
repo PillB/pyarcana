@@ -127,7 +127,12 @@ function AccountPageActive() {
           <AccountPanel me={me} />
         </HeadingLevel>
       )}
-      {signedOut && <p className="text-sm">{tr('cuenta.signedOut')}</p>}
+      {signedOut && (
+        <div className="flex flex-wrap items-center gap-3">
+          <p className="text-sm">{tr('cuenta.signedOut')}</p>
+          <Button size="sm" onClick={() => useAccountUi.getState().show('main')} data-testid="cuenta-signin">{tr('cuenta.signInCta')}</Button>
+        </div>
+      )}
       <ErrorAlert error={meStatus === 'unavailable' ? { key: 'account.error.unavailable' } : null} />
       <CloudSync />
       <AccountDialog />
