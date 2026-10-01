@@ -139,3 +139,11 @@ test('the prompt trigger: CSAT on a newly completed section, NPS from the first 
   assert.equal(surveyTrigger({ kind: 'completed', prev: ['a'], next: ['a'], remote: false }), null)
   assert.deepEqual(surveyTrigger({ kind: 'gate_dismissed', sectionIndex: 6 }), { kind: 'gate_reason', sectionIndex: 6 })
 })
+
+test('owner decision 2026-10-01: a gift or tester holder (already Pro) never gets the trial promo, only the subscription ones', () => {
+  for (const id of ['setup', 'values', 'decisions', 'loops', 'functions', 'collections', 'text', 'files']) {
+    assert.equal(houseCreative({ sectionKey: id, stage: 'beta', trialOffered: true, hasPro: true }), 'noads')
+    assert.notEqual(houseCreative({ sectionKey: id, stage: 'paid', trialOffered: true, hasPro: true }), 'trial')
+  }
+  assert.equal(houseCreative({ sectionKey: 'a', stage: 'sync', trialOffered: true, hasPro: true }), null)
+})

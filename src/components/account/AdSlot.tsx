@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { CLOUD_CONFIG, type LaunchStage } from '@/lib/cloud/config'
-import { useAdEligibility, useCloudStage, useIsAdStaff } from '@/lib/cloud/hooks'
+import { useAccess, useAdEligibility, useCloudStage, useIsAdStaff } from '@/lib/cloud/hooks'
 import { useCloudSession } from '@/lib/cloud/session'
 import { chooseAdapter, scriptUrl, type AdAdapter, type AdEligibility, type AdPlacement } from '@/lib/cloud/ads'
 import { SLOT_HEIGHT_PX, railMediaQuery, ethicalAdsKeywords, houseArmShows, houseCreative, parseGeo, readAdsenseOptIn, slotView, writeAdsenseOptIn, type HouseCreative, type OptIn } from '@/lib/cloud/ad-slot'
@@ -214,7 +214,8 @@ function AdBody(p: BodyProps) {
 /** The house promo for this slot: null when none applies or the ads_house_v1 control arm says so; undefined while deciding. */
 function useHouse(adapter: AdAdapter, sectionKey: string, stage: LaunchStage): HouseCreative | null | undefined {
   const trialOffered = useCloudSession((s) => (s.me ? s.me.account.trialAvailable : true))
-  const creative = adapter === 'house' ? houseCreative({ sectionKey, stage, trialOffered }) : null
+  const hasPro = useAccess() === 'pro'
+  const creative = adapter === 'house' ? houseCreative({ sectionKey, stage, trialOffered, hasPro }) : null
   const arm = useHouseArm(creative !== null)
   if (!creative) return null
   if (arm === undefined) return undefined

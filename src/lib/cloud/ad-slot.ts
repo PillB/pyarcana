@@ -50,8 +50,17 @@ export function parseGeo(result: ApiResult<Record<string, unknown>>): { status: 
   return COUNTRY.test(raw) ? { status: 'ok', country: raw } : { status: 'failed', country: null }
 }
 
-export function houseCreative(i: { sectionKey: string; stage: LaunchStage; trialOffered: boolean }): HouseCreative | null {
+/**
+ * The house promo for a section. `hasPro`: a gift or tester holder (owner decision 2026-10-01: they
+ * see ads too). A trial promo would be pointless to them, so they get the "a subscription removes
+ * ads" promo in any gating stage (and the annual one once paying exists).
+ */
+export function houseCreative(i: { sectionKey: string; stage: LaunchStage; trialOffered: boolean; hasPro?: boolean }): HouseCreative | null {
   const gating = isGatingStage(i.stage)
+  if (i.hasPro) {
+    const forPro = HOUSE_CREATIVES.filter((c) => (c === 'noads' && gating) || (c === 'annual' && i.stage === 'paid'))
+    return forPro.length ? forPro[fnv1a32(i.sectionKey) % forPro.length] : null
+  }
   const candidates = HOUSE_CREATIVES.filter((c) => {
     if (c === 'trial') return gating && i.trialOffered
     if (c === 'annual') return i.stage === 'paid'

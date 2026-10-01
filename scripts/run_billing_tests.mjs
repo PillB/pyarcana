@@ -120,7 +120,7 @@ const WORKER_SUITES = [
 const CLIENT_SUITES = [
   ["a11y-render", 7],
   ["account-api", 10],
-  ["ad-slot-survey", 10],
+  ["ad-slot-survey", 13],
   ["admin-api", 11],
   ["admin-detail", 3],
   ["admin-ads", 3],
