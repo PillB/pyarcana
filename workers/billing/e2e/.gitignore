@@ -1,0 +1,9 @@
+.work/
+node_modules
+package-lock.json
+package.json
+shots/
+seed.sql
+tokens.json
+wrangler.log
+run.out

@@ -329,6 +329,22 @@ so it outlives a grant or a subscription. `GET /v1/me` returns `ads: {show, reas
 `default`, `paid`, `trial` or `disabled`. Each request writes one audit row listing the changed
 account ids; the admin's reason is stored with email-shaped text redacted.
 
+## Local end-to-end run (Chromium)
+
+`e2e/run.sh` builds a throwaway worktree of HEAD (outside the repo, `$TMPDIR/pyarcana-e2e`) at stage `beta` on `http://localhost:8787`, serves
+it with `wrangler dev --local` (workerd and a local D1), seeds one account per kind (free, gift,
+tester, paid, trial, admin) and runs two Chromium suites:
+- `ads.e2e.mjs`: 16 checks on who sees ads and on the admin batch switch;
+- `flows.e2e.mjs`: 64 checks covering email-code sign-in and sign-out through the UI, progress
+  sync across two browsers, the section 6 gate, the trial, every admin tab (gifts fixed and
+  indefinite, revoke, testers, account lookup), "Enviar al equipo" from the QA menu, `/qa`, every
+  cloud and legal page, and a button sweep.
+
+The seeded accounts get their sessions straight from the database, because the worker accepts
+only real Google and Microsoft tokens. Real Google and Microsoft sign-in is therefore not covered
+here. Setup: `cd e2e && npm i wrangler@4 playwright`, then `./run.sh`; Chromium comes from
+`CHROMIUM` (default `/opt/pw-browsers/chromium`).
+
 ## Not built yet
 
 Named undone work; nothing below exists in the code today.
