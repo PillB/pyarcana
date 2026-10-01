@@ -168,3 +168,31 @@ test("a deleted account is neither listed nor switchable", async () => {
   const all = await api(s.env, "GET", "/v1/admin/ads?filter=all", { cookie: s.admin.token });
   assert.ok(!all.body.accounts.some((a) => a.accountId === s.free.account.id));
 });
+
+test("robots.txt never blocks Google's ad crawlers (Mediapartners-Google, AdsBot-Google)", async () => {
+  // They obey only groups that name them, so the '*' group never applies to them. Cloudflare's
+  // managed robots.txt (Bot Preference Sync) prepends AI-training groups only. This guards a
+  // future edit of public/robots.txt that would name them with a Disallow.
+  const { readFileSync } = await import("node:fs");
+  const text = readFileSync(new URL("../../../public/robots.txt", import.meta.url), "utf8");
+  const groups = [];
+  let current = null;
+  for (const raw of text.split("\n")) {
+    const line = raw.replace(/#.*/, "").trim();
+    const m = /^([A-Za-z-]+)\s*:\s*(.*)$/.exec(line);
+    if (!m) continue;
+    const [, key, value] = m;
+    if (key.toLowerCase() === "user-agent") {
+      if (!current || current.rules.length) groups.push((current = { agents: [], rules: [] }));
+      current.agents.push(value.toLowerCase());
+    } else if (current) {
+      current.rules.push([key.toLowerCase(), value]);
+    }
+  }
+  assert.ok(groups.length > 0);
+  for (const bot of ["mediapartners-google", "adsbot-google"]) {
+    for (const g of groups.filter((x) => x.agents.includes(bot))) {
+      assert.ok(!g.rules.some(([k, v]) => k === "disallow" && v === "/"), `${bot} is disallowed from the whole site`);
+    }
+  }
+});
