@@ -7,3 +7,4 @@ seed.sql
 tokens.json
 wrangler.log
 run.out
+state.json
