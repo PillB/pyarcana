@@ -835,11 +835,11 @@
  },
  "S25": {
   "section": "S25",
-  "prose_words": 6782,
+  "prose_words": 6786,
   "english_function_words": 8,
   "ordinary_english_words": 50,
   "kept_technical_terms": 180,
-  "avoidable_english_per_1000": 8.6,
+  "avoidable_english_per_1000": 8.5,
   "top_terms": [
    [
     "ticket",

@@ -121,8 +121,24 @@ class ConceptPromptWeight(unittest.TestCase):
         ]
         if not rows:
             self.skipTest("no never-explained concept is used anywhere; nothing left to guard")
+        # The population can also shrink below the property rather than to nothing. By 2026-10-02
+        # only `onehotencoder` and `joblib` were left, used once each, with no worked example, no
+        # self-check and no outcome promising them - so `load_bearing: False` is the RIGHT answer
+        # for both, and asserting that some row is load-bearing would fail on the campaign's own
+        # progress. Skip when nothing left could be load-bearing on the merits; the synthetic
+        # cases above still hold the property, and they are where the inverted flag would show.
+        could = [
+            r for r in rows
+            if r["times_used_here"] >= 4 or r["has_worked_example"]
+            or r["tested_in_selfcheck"] or r["promised_in_this_sections_outcomes"]
+        ]
+        if not could:
+            self.skipTest(
+                f"{len(rows)} never-explained uses remain and none carries weight "
+                f"({', '.join(sorted({r['concept'] for r in rows}))}); nothing left to guard"
+            )
         self.assertTrue(
-            any(r["load_bearing"] for r in rows),
+            any(r["load_bearing"] for r in could),
             "every never-explained concept came back glossable; that is the inverted flag again",
         )
 

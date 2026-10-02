@@ -140833,12 +140833,6 @@
    },
    {
     "section": "S25",
-    "location": "streamlit-dashboards.theory[0].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S25",
     "location": "streamlit-dashboards.theory[2].heading",
     "kind": "theory.heading",
     "visible": true
@@ -141291,6 +141285,18 @@
   "definitions": [
    {
     "section": "S25",
+    "location": "streamlit-dashboards.outcome[0]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S25",
+    "location": "streamlit-dashboards.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S25",
     "location": "streamlit-dashboards.S25-T1-A.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -141403,8 +141409,8 @@
   },
   "first_definition": {
    "section": "S25",
-   "location": "streamlit-dashboards.S25-T1-A.p0",
-   "kind": "theory.paragraph",
+   "location": "streamlit-dashboards.outcome[0]",
+   "kind": "outcome",
    "visible": true
   },
   "reinforcements": [
@@ -141416,50 +141422,7 @@
    }
   ],
   "depth": "L2",
-  "surprising_uses": [
-   {
-    "section": "S25",
-    "location": "streamlit-dashboards.outcome[0]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S25",
-    "location": "streamlit-dashboards.theory[0].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S25",
-    "location": "streamlit-dashboards.theory[2].heading",
-    "kind": "theory.heading",
-    "visible": true
-   },
-   {
-    "section": "S25",
-    "location": "streamlit-dashboards.theory[2].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S25",
-    "location": "streamlit-dashboards.theory[2].p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S25",
-    "location": "streamlit-dashboards.theory[2].p3",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S25",
-    "location": "streamlit-dashboards.theory[2].callout",
-    "kind": "theory.callout",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S25",
    "S40",
