@@ -128585,24 +128585,6 @@
   "declared_first_section": "wxpython-gui",
   "uses": [
    {
-    "section": "S16",
-    "location": "wxpython-gui.S16-T1-A.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S16",
-    "location": "wxpython-gui.S16-T1-A.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S16",
-    "location": "wxpython-gui.S16-T3-B.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
     "section": "S18",
     "location": "data-engineering.tagline",
     "kind": "tagline",
@@ -128877,9 +128859,9 @@
   ],
   "figures": [],
   "first_use": {
-   "section": "S16",
-   "location": "wxpython-gui.S16-T1-A.p0",
-   "kind": "theory.paragraph",
+   "section": "S18",
+   "location": "data-engineering.tagline",
+   "kind": "tagline",
    "visible": true
   },
   "first_definition": {
@@ -128897,28 +128879,8 @@
    }
   ],
   "depth": "L1",
-  "surprising_uses": [
-   {
-    "section": "S16",
-    "location": "wxpython-gui.S16-T1-A.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S16",
-    "location": "wxpython-gui.S16-T1-A.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S16",
-    "location": "wxpython-gui.S16-T3-B.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
-   "S16",
    "S18",
    "S19",
    "S21"
@@ -128927,7 +128889,7 @@
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": 2
+  "explanation_lag_sections": 0
  },
  "missing-values": {
   "id": "missing-values",

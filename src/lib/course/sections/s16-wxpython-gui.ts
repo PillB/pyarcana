@@ -77,8 +77,8 @@ export const section16: CourseSection = {
       },
       subtopicId: "S16-T1-A",
       paragraphs: [
-        "Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente con indicador de ausencia). Mezclar ambas sin documentar es la causa clásica de “defaults mágicos” que envenenan el EDA (análisis exploratorio de datos) de S17.",
-        "Contrato operativo: documenta un dict `{campo: 'required'|'optional'}`, mide con `isna`/`notna`, y arma un mapa `violations` solo para required con n>0. No imputes un required “para que pase el job”: eso oculta rotura de fuente y contamina el EDA posterior.",
+        "Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente con indicador de ausencia). Mezclar ambas sin documentar es la causa clásica de “defaults mágicos” que envenenan la lectura posterior de los datos en S17.",
+        "Contrato operativo: documenta un dict `{campo: 'required'|'optional'}`, mide con `isna`/`notna`, y arma un mapa `violations` solo para required con n>0. No imputes un required “para que pase el job”: eso oculta rotura de fuente y contamina el trabajo posterior con esos datos.",
         "Caso sintético Perú: `cliente_id` y `monto` son required; `email` es optional. Las filas con id o monto nulo entran a `violations`; la tasa de null de email se reporta como métrica, pero no tumba el gate por sí sola. Imprime `violations` y el `null_rate` de los opcionales en el reporte del run.",
       ],
       code: {
@@ -399,7 +399,7 @@ media con 9000 1507.5`,
       paragraphs: [
         "Las cercas marcan **outliers estadísticos**, valores alejados del resto de su columna. Cada uno es candidato para la regla de dominio: un monto alto legítimo puede quedar como flag plausible, mientras que un valor que viola los **límites de dominio** (monto < 0, lat 999, edad 200) es un error.",
         "Contrato: mantén máscaras `stat_outlier` y `domain_error` por separado; por defecto flag y cuarentena, nunca drop silencioso solo por IQR. Documenta los límites de dominio en el memo del gate (p. ej. monto ∈ [0, 10000] PEN sintéticos del fixture de clase).",
-        "Caso: serie con 5000 (cola plausible) y -1 (error). `stat` marca ambos; `domain` solo -1; `plausible_extreme` = 5000. El EDA de S17 no debe perder la cola legítima de montos por un 1.5·IQR ciego sin revisión explícita de dominio.",
+        "Caso: serie con 5000 (cola plausible) y -1 (error). `stat` marca ambos; `domain` solo -1; `plausible_extreme` = 5000. La lectura posterior de los montos en S17 no debe perder la cola legítima por un 1.5·IQR ciego sin revisión explícita de dominio.",
       ],
       code: {
         language: 'python',
