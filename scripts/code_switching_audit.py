@@ -32,6 +32,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+# Writes a shared course-state report, so it must not run while a gate is measuring.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import report_lock  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 EVENTS = ROOT / ".fixer/events.json"
 OUT = ROOT / "course-state/code_switching_report.json"
@@ -73,6 +76,18 @@ def anglicism_terms() -> set[str]:
 
 STRIP = [
     re.compile(r"```[\s\S]*?```"),            # fenced code
+    # An English phrase that its own sentence translates on the spot is a gloss, not a leak.
+    # The course teaches an initialism by expanding it and rendering it immediately:
+    #   `NaN` (*not a number*, «no es un número»)
+    # `not` counted as English leakage, so S09's round - which took the course from 400
+    # surprising uses to 367 - was restored for explaining what NaN stands for. This file's
+    # own contract is that "a finding it raises must be real", and by the campaign's rules
+    # the alternatives are worse: drop the expansion and the acronym is arbitrary, or drop
+    # the gloss and the English is genuinely unexplained.
+    # Narrow on purpose: the span has to be italic AND be followed by a Spanish gloss in
+    # guillemets. `*emphasis*` on its own, and English with no translation beside it, are
+    # both still counted.
+    re.compile(r"(?<!\*)\*[^*\n]{2,80}\*(?=[,;:]?\s*«)"),
     re.compile(r"`[^`]*`"),                   # inline code
     re.compile(r"https?://\S+"),              # urls
     re.compile(r"\b[A-Z]{2,}[-_][A-Z0-9_-]+\b"),  # CASO-LIM-001, CP-N1-A
@@ -101,6 +116,7 @@ def clean(text: str) -> str:
 
 
 def main() -> int:
+    report_lock.refuse_if_busy(__file__)
     if not EVENTS.exists():
         EVENTS.parent.mkdir(parents=True, exist_ok=True)
         EVENTS.write_text(subprocess.run(["npx", "tsx", "scripts/course_event_extractor.mts"],

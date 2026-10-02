@@ -205,7 +205,7 @@ export function SectionView({
           {/* Job relevance — popover (was 100px card) */}
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title={tr('section.jobRelevance')}>
+              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title={tr('section.jobRelevance')} data-testid="section-job-relevance">
                 <Briefcase className="h-4 w-4 text-primary" />
               </Button>
             </PopoverTrigger>
@@ -215,7 +215,7 @@ export function SectionView({
                   <Briefcase className="h-4 w-4 text-primary" />
                   {tr('section.jobRelevance')}
                 </div>
-                <p className="text-sm text-foreground/80">{section.jobRelevance}</p>
+                <p className="text-sm text-foreground/80"><InlineText text={section.jobRelevance} /></p>
               </div>
             </PopoverContent>
           </Popover>
@@ -223,7 +223,7 @@ export function SectionView({
           {/* Learning outcomes — sheet (was 200-400px grid) */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title="Objetivos de aprendizaje">
+              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title="Objetivos de aprendizaje" data-testid="section-outcomes">
                 <ListChecks className="h-4 w-4 text-primary" />
               </Button>
             </SheetTrigger>
@@ -241,7 +241,7 @@ export function SectionView({
                     className="flex items-start gap-2 rounded-lg border border-border/60 bg-card p-2.5"
                   >
                     <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
-                    <span className="text-xs text-foreground/90">{lo.text}</span>
+                    <span className="text-xs text-foreground/90"><InlineText text={lo.text} /></span>
                   </div>
                 ))}
               </div>
@@ -414,14 +414,17 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
       {section.theory.map((block, i) => {
         const body = (
           <>
-            <RichText
-              sectionId={section.id}
-              content={
-                block.optional
-                  ? block.paragraphs.join('\n\n')
-                  : block.heading + '\n\n' + block.paragraphs.join('\n\n')
-              }
-            />
+            {/* A real heading, not the first paragraph. The heading used to be joined onto
+                the paragraphs and handed to RichText, so every theory heading in the course
+                rendered as a 15px <p> indistinguishable from the prose under it, and a
+                screen reader had no heading to jump to (WCAG 1.3.1). An optional block's
+                heading lives in its collapsible trigger instead. */}
+            {!block.optional && (
+              <h3 className="text-lg font-semibold tracking-tight text-foreground">
+                <InlineText text={block.heading} />
+              </h3>
+            )}
+            <RichText sectionId={section.id} content={block.paragraphs.join('\n\n')} />
             {/* Spatial contiguity: the figure sits between the prose it
                 explains and the code that follows, never in a gallery. */}
             {block.figure && <FigureFrame figure={block.figure} />}
@@ -1043,10 +1046,13 @@ def safe_int(campo, valor):
     texto = raw.strip()
     if texto == "":
         return {"campo": campo, "raw": raw, "clean": None, "error": "valor vacío"}
-    try:
-        return {"campo": campo, "raw": raw, "clean": int(texto), "error": None}
-    except ValueError:
+    entero_usable = texto.isascii() and (
+        texto.isdecimal()
+        or (texto.startswith("-") and texto[1:].isdecimal())
+    )
+    if not entero_usable:
         return {"campo": campo, "raw": raw, "clean": None, "error": "entero inválido"}
+    return {"campo": campo, "raw": raw, "clean": int(texto), "error": None}
 
 for edad_raw in [" 28 ", "  ", "abc"]:
     resultado = safe_int("edad", edad_raw)
@@ -1139,18 +1145,14 @@ def normalize_telefono(raw: str) -> str:
 print(normalize_nombre("  maría  josé "))
 print(normalize_email("  Ana@Example.COM "))
 print(normalize_telefono("(999) 000-111"))
-
-try:
-    normalize_email("sin-arroba")
-except ValueError as error:
-    print(error)
+# normalize_email("sin-arroba") terminaría con:
+# ValueError: email sin @
 
 nombre = normalize_nombre("  ANA ")
 print("idempotente", normalize_nombre(nombre) == nombre)`,
       expectedOutput: `María José
 ana@example.com
 999000111
-email sin @
 idempotente True`,
       hint: 'Añade normalize_direccion: colapsa espacios, aplica upper y demuestra f(f(x)) == f(x)',
     },
@@ -1197,20 +1199,34 @@ conflictos: 1
     'files-ingestion': {
       title: 'Practica ingesta con cuarentena y manifest',
       code: `import csv, hashlib, io, json
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal
 
 raw = "id,monto\\nC001,10.5\\nC002,x\\nC003,3\\n"
 clean = []
 quarantine = []
 
+def monto_usable(row):
+    required = ("id", "monto")
+    missing = [key for key in required if key not in row or row[key] is None]
+    if missing:
+        return False, "missing_key"
+    value = row["monto"]
+    if not isinstance(value, str):
+        return False, "cast_monto"
+    digits = value.replace(".", "", 1)
+    if not value.isascii() or value.count(".") > 1 or not digits.isdecimal():
+        return False, "cast_monto"
+    return True, None
+
 for row in csv.DictReader(io.StringIO(raw)):
-    try:
+    usable, reason = monto_usable(row)
+    if usable:
         clean.append({
             "id": row["id"],
             "monto": str(Decimal(row["monto"]).quantize(Decimal("0.01"))),
         })
-    except InvalidOperation:
-        quarantine.append({"raw": row, "reason": "cast_monto"})
+    else:
+        quarantine.append({"raw": row, "reason": reason})
 
 manifest = {
     "sha256_12": hashlib.sha256(raw.encode("utf-8")).hexdigest()[:12],
@@ -1396,14 +1412,20 @@ def normalize_text(raw):
     nfc = unicodedata.normalize("NFC", raw)
     return " ".join(nfc.split()).casefold()
 
-def normalize_email(raw):
+def email_usable(raw):
     value = raw.strip().casefold()
     if value.count("@") != 1 or any(ch.isspace() for ch in value):
-        raise ValueError("email requiere un @ y cero espacios")
+        return False, "email requiere un @ y cero espacios"
     local, domain = value.split("@")
     if not local or not domain:
-        raise ValueError("email requiere local y dominio")
-    return value
+        return False, "email requiere local y dominio"
+    return True, None
+
+def normalize_email(raw):
+    usable, reason = email_usable(raw)
+    if not usable:
+        raise ValueError(reason)
+    return raw.strip().casefold()
 
 def token_jaccard(a, b):
     def tokens(value):
@@ -1421,10 +1443,8 @@ raw_b = "Jose\\u0301 Quispe"
 print("NFC iguales:", normalize_text(raw_a) == normalize_text(raw_b))
 print("Email:", normalize_email(" Ana+demo@Example.COM "))
 
-try:
-    normalize_email("ana@@example.com")
-except ValueError:
-    print("Email inválido → review:", True)
+usable, reason = email_usable("ana@@example.com")
+print("Email inválido → review:", not usable)
 
 text = "DNI 12345678 PE"
 print("search/fullmatch:", bool(re.search(r"\\d{8}", text)), bool(re.fullmatch(r"\\d{8}", text)))

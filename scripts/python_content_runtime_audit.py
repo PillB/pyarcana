@@ -24,6 +24,9 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
 
+# Writes a shared course-state report, so it must not run while a gate is measuring.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import report_lock  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 SECTIONS_DIR = ROOT / "src/lib/course/sections"
 OUT = ROOT / "course-state/python_runtime_audit_report.json"
@@ -776,6 +779,7 @@ def list_section_files(only: str | None, shard: str | None) -> list[Path]:
 
 
 def main() -> int:
+    report_lock.refuse_if_busy(__file__)
     ap = argparse.ArgumentParser()
     ap.add_argument("--shard", default=None, help="k/n")
     ap.add_argument("--only", default=None)

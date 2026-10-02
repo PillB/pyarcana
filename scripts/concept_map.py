@@ -29,6 +29,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+# Writes a shared course-state report, so it must not run while a gate is measuring.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import report_lock  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 EVENTS = ROOT / ".fixer/events.json"
 OUT_JSON = ROOT / "course-state/concept_map.json"
@@ -96,6 +99,7 @@ def load_events() -> dict:
 
 
 def main() -> int:
+    report_lock.refuse_if_busy(__file__)
     payload = load_events()
     slugs = payload["active_section_ids"]
     order = {s: i for i, s in enumerate(slugs)}

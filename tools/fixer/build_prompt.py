@@ -134,6 +134,11 @@ substantially rewrote will be read as a skipped step, not as a clean result.""",
         block("STANDING DECISIONS (binding, override anything below)",
               (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")),
 
+        # The owner's answers to questions only they could settle. Separate from decisions.md
+        # because these expire: each carries a scope and a "Retire when".
+        block("THE OWNER'S LIVE DECISIONS (binding, override anything below)",
+              (ROOT / "audit/fixer/OWNER_DECISIONS.md").read_text(encoding="utf-8")),
+
         block("WRITING RULES (binding, distilled)",
               (ROOT / "audit/fixer/writing_rules.md").read_text(encoding="utf-8")
               + "\n\nThe full sources are in the repository and are the authority where the\n"
