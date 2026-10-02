@@ -11,8 +11,56 @@
    },
    {
     "section": "S03",
+    "location": "decisions-rules.theory[0].p5",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[3].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
     "location": "decisions-rules.S03-T3-A.p0",
     "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[11].p4",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-B-E1.hint",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-B-E1.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-A-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.youDo.context",
+    "kind": "youdo.context",
     "visible": true
    },
    {
@@ -421,380 +469,128 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[0].p3",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.theory[3].heading",
-    "kind": "theory.heading",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.theory[3].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.theory[3].p2",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].p3",
+    "location": "decisions-rules.theory[3].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B.p4",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].p4",
+    "location": "decisions-rules.theory[11].heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[11].p0",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A.p4",
+    "location": "decisions-rules.theory[11].p1",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T4-A.code",
+    "location": "decisions-rules.theory[11].p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[11].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[11].p4",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[11].code",
     "kind": "theory.code",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T4-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.preamble",
+    "location": "decisions-rules.S03-T1-B-E3.preamble",
     "kind": "wedo.preamble",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.starter",
-    "kind": "wedo.starter",
+    "location": "decisions-rules.S03-T2-A-E3.preamble",
+    "kind": "wedo.preamble",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E3.starter",
-    "kind": "wedo.starter",
+    "location": "decisions-rules.S03-T2-B-E1.preamble",
+    "kind": "wedo.preamble",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E3.solution",
-    "kind": "solution",
-    "visible": false
+    "location": "decisions-rules.S03-T2-B-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.youDo.starter",
-    "kind": "youdo.starter",
+    "location": "decisions-rules.S03-T2-B-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-A-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E3.preamble",
+    "kind": "wedo.preamble",
     "visible": true
    },
    {
@@ -14711,92 +14507,8 @@
   "examples": [
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].code",
+    "location": "decisions-rules.theory[11].code",
     "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-DEMO.code",
-    "kind": "ido.code",
     "visible": true
    },
    {
@@ -19506,12 +19218,6 @@
   ],
   "exercises": [
    {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
     "section": "S05",
     "location": "functions-contracts.S05-T3-B-E3.instruction",
     "kind": "wedo.instruction",
@@ -19799,7 +19505,7 @@
   "headings": [
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].heading",
+    "location": "decisions-rules.theory[11].heading",
     "kind": "theory.heading",
     "visible": true
    },
@@ -21225,228 +20931,6 @@
   "id": "for",
   "declared_first_section": "iteration-summaries",
   "uses": [
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.tests",
-    "kind": "wedo.tests",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
    {
     "section": "S04",
     "location": "iteration-summaries.tagline",
@@ -31534,12 +31018,6 @@
   ],
   "exercises": [
    {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.tests",
-    "kind": "wedo.tests",
-    "visible": true
-   },
-   {
     "section": "S04",
     "location": "iteration-summaries.S04-T1-A-E1.instruction",
     "kind": "wedo.instruction",
@@ -31744,9 +31222,9 @@
   ],
   "figures": [],
   "first_use": {
-   "section": "S03",
-   "location": "decisions-rules.S03-T1-B-E1.starter",
-   "kind": "wedo.starter",
+   "section": "S04",
+   "location": "iteration-summaries.tagline",
+   "kind": "tagline",
    "visible": true
   },
   "first_definition": {
@@ -31758,126 +31236,6 @@
   "reinforcements": [],
   "depth": "L2",
   "surprising_uses": [
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.tests",
-    "kind": "wedo.tests",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
    {
     "section": "S04",
     "location": "iteration-summaries.tagline",
@@ -31898,7 +31256,6 @@
    }
   ],
   "sections_used": [
-   "S03",
    "S04",
    "S05",
    "S06",
@@ -31953,7 +31310,7 @@
   "figure_target": 5,
   "figure_count": 0,
   "figure_gap": 5,
-  "explanation_lag_sections": 1
+  "explanation_lag_sections": 0
  },
  "list-comprehension": {
   "id": "list-comprehension",
@@ -33591,18 +32948,6 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[4].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.theory[4].p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T1-B.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -33621,128 +32966,8 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T1-B.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.title",
-    "kind": "wedo.title",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.tests",
-    "kind": "wedo.tests",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E2.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.youDo.context",
-    "kind": "youdo.context",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.youDo.objective[2]",
-    "kind": "youdo.objective",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.youDo.rubric[1]",
-    "kind": "youdo.rubric",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.youDo.starter",
-    "kind": "youdo.starter",
+    "location": "decisions-rules.S03-T1-B.code",
+    "kind": "theory.code",
     "visible": true
    },
    {
@@ -33766,6 +32991,12 @@
    {
     "section": "S03",
     "location": "decisions-rules.selfCheck[3].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.selfCheck[4].explanation",
     "kind": "selfcheck.explanation",
     "visible": true
    },
@@ -34043,49 +33274,20 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[4].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.selfCheck[3].explanation",
     "kind": "selfcheck.explanation",
     "visible": true
    }
   ],
-  "examples": [],
+  "examples": [
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-B.code",
+    "kind": "theory.code",
+    "visible": true
+   }
+  ],
   "exercises": [
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.tests",
-    "kind": "wedo.tests",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.youDo.objective[2]",
-    "kind": "youdo.objective",
-    "visible": true
-   },
    {
     "section": "S06",
     "location": "collections.S06-T3-A-E3.instruction",
@@ -34201,6 +33403,12 @@
     "location": "decisions-rules.selfCheck[3].explanation",
     "kind": "selfcheck.explanation",
     "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.selfCheck[4].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
    }
   ],
   "headings": [],
@@ -34225,7 +33433,7 @@
     "visible": true
    }
   ],
-  "depth": "L1",
+  "depth": "L2",
   "surprising_uses": [],
   "sections_used": [
    "S03",
@@ -34241,10 +33449,10 @@
    "S47",
    "S51"
   ],
-  "load_bearing": false,
-  "figure_target": 1,
+  "load_bearing": true,
+  "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 1,
+  "figure_gap": 5,
   "explanation_lag_sections": 0
  },
  "if": {
@@ -34289,14 +33497,14 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[0].p3",
+    "location": "decisions-rules.theory[1].p1",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[1].p1",
-    "kind": "theory.paragraph",
+    "location": "decisions-rules.theory[1].code",
+    "kind": "theory.code",
     "visible": true
    },
    {
@@ -34307,20 +33515,14 @@
    },
    {
     "section": "S03",
+    "location": "decisions-rules.theory[3].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
     "location": "decisions-rules.theory[3].code",
     "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.theory[4].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.theory[4].p1",
-    "kind": "theory.paragraph",
     "visible": true
    },
    {
@@ -34344,6 +33546,12 @@
    {
     "section": "S03",
     "location": "decisions-rules.S03-T1-B.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T1-B.p4",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -34385,18 +33593,6 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T2-A.p4",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A.p5",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T2-A.code",
     "kind": "theory.code",
     "visible": true
@@ -34415,13 +33611,7 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T2-B.p3",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.p5",
+    "location": "decisions-rules.S03-T2-B.p2",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -34439,19 +33629,13 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T3-B.p1",
-    "kind": "theory.paragraph",
+    "location": "decisions-rules.S03-T3-B.heading",
+    "kind": "theory.heading",
     "visible": true
    },
    {
     "section": "S03",
     "location": "decisions-rules.S03-T3-B.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B.p3",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -34463,8 +33647,8 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T3-B.p5",
-    "kind": "theory.paragraph",
+    "location": "decisions-rules.S03-T3-B.code",
+    "kind": "theory.code",
     "visible": true
    },
    {
@@ -34481,13 +33665,19 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T4-B.p2",
+    "location": "decisions-rules.S03-T4-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[11].p0",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T4-B.code",
+    "location": "decisions-rules.theory[11].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -34495,12 +33685,6 @@
     "section": "S03",
     "location": "decisions-rules.S03-T1-A-DEMO.preamble",
     "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-A-DEMO.why",
-    "kind": "ido.why",
     "visible": true
    },
    {
@@ -34525,6 +33709,12 @@
     "section": "S03",
     "location": "decisions-rules.S03-T2-A-DEMO.retrospective",
     "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B-DEMO.preamble",
+    "kind": "ido.preamble",
     "visible": true
    },
    {
@@ -34577,61 +33767,25 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T1-A-E1.preamble",
+    "location": "decisions-rules.S03-T1-A-E3.preamble",
     "kind": "wedo.preamble",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T1-A-E1.hint",
-    "kind": "wedo.hint",
+    "location": "decisions-rules.S03-T1-A-E3.starter",
+    "kind": "wedo.starter",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T1-A-E1.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
+    "location": "decisions-rules.S03-T1-A-E3.solution",
+    "kind": "solution",
+    "visible": false
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T1-A-E1.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-A-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.hint[0]",
+    "location": "decisions-rules.S03-T1-B-E3.hint[1]",
     "kind": "wedo.hint",
     "visible": true
    },
@@ -34649,12 +33803,6 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E1.title",
-    "kind": "wedo.title",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T2-A-E1.preamble",
     "kind": "wedo.preamble",
     "visible": true
@@ -34663,18 +33811,6 @@
     "section": "S03",
     "location": "decisions-rules.S03-T2-A-E1.instruction",
     "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E1.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E1.hint[0]",
-    "kind": "wedo.hint",
     "visible": true
    },
    {
@@ -34688,6 +33824,12 @@
     "location": "decisions-rules.S03-T2-A-E1.solution",
     "kind": "solution",
     "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-A-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
    },
    {
     "section": "S03",
@@ -34721,6 +33863,12 @@
    },
    {
     "section": "S03",
+    "location": "decisions-rules.S03-T2-A-E2.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S03",
     "location": "decisions-rules.S03-T2-A-E2.starter",
     "kind": "wedo.starter",
     "visible": true
@@ -34739,26 +33887,8 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T2-A-E3.instruction",
     "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E3.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E3.hint[0]",
-    "kind": "wedo.hint",
     "visible": true
    },
    {
@@ -34775,30 +33905,6 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T2-B-E1.starter",
     "kind": "wedo.starter",
     "visible": true
@@ -34811,14 +33917,8 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.hint[0]",
-    "kind": "wedo.hint",
+    "location": "decisions-rules.S03-T2-B-E2.preamble",
+    "kind": "wedo.preamble",
     "visible": true
    },
    {
@@ -34835,32 +33935,8 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T2-B-E3.instruction",
     "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E3.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E3.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E3.hint[1]",
-    "kind": "wedo.hint",
     "visible": true
    },
    {
@@ -34871,32 +33947,14 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E3.tests",
-    "kind": "wedo.tests",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T2-B-E3.solution",
     "kind": "solution",
     "visible": false
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E3.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.hint[0]",
-    "kind": "wedo.hint",
+    "location": "decisions-rules.S03-T3-A-E1.preamble",
+    "kind": "wedo.preamble",
     "visible": true
    },
    {
@@ -34937,6 +33995,42 @@
    },
    {
     "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E1.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E2.title",
+    "kind": "wedo.title",
+    "visible": true
+   },
+   {
+    "section": "S03",
     "location": "decisions-rules.S03-T3-B-E2.preamble",
     "kind": "wedo.preamble",
     "visible": true
@@ -34946,6 +34040,18 @@
     "location": "decisions-rules.S03-T3-B-E2.hint[1]",
     "kind": "wedo.hint",
     "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E2.solution",
+    "kind": "solution",
+    "visible": false
    },
    {
     "section": "S03",
@@ -34961,25 +34067,7 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E3.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E3.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T3-B-E3.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E3.hint[1]",
     "kind": "wedo.hint",
     "visible": true
    },
@@ -34997,8 +34085,8 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E3.retrospective",
-    "kind": "wedo.retrospective",
+    "location": "decisions-rules.S03-T4-A-E1.preamble",
+    "kind": "wedo.preamble",
     "visible": true
    },
    {
@@ -35039,6 +34127,18 @@
    },
    {
     "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
     "location": "decisions-rules.S03-T4-B-E2.starter",
     "kind": "wedo.starter",
     "visible": true
@@ -35063,7 +34163,13 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.youDo.requirement[6]",
+    "location": "decisions-rules.youDo.context",
+    "kind": "youdo.context",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.youDo.requirement[1]",
     "kind": "youdo.requirement",
     "visible": true
    },
@@ -35123,7 +34229,7 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.selfCheck[4].opt[0]",
+    "location": "decisions-rules.selfCheck[4].opt[1]",
     "kind": "selfcheck.option",
     "visible": true
    },
@@ -35154,6 +34260,12 @@
    {
     "section": "S03",
     "location": "decisions-rules.resources.doc[2]",
+    "kind": "resource",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.resources.doc[3]",
     "kind": "resource",
     "visible": true
    },
@@ -46579,14 +45691,14 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T2-A.p1",
-    "kind": "theory.paragraph",
+    "location": "decisions-rules.S03-T3-B-E2.hint[1]",
+    "kind": "wedo.hint",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T2-A.p4",
-    "kind": "theory.paragraph",
+    "location": "decisions-rules.S03-T3-B-E3.hint[0]",
+    "kind": "wedo.hint",
     "visible": true
    },
    {
@@ -46606,6 +45718,12 @@
    {
     "section": "S01",
     "location": "setup.S01-T1-B#6.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[1].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -46641,6 +45759,12 @@
    },
    {
     "section": "S03",
+    "location": "decisions-rules.S03-T3-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
     "location": "decisions-rules.S03-T4-A.code",
     "kind": "theory.code",
     "visible": true
@@ -46648,6 +45772,12 @@
    {
     "section": "S03",
     "location": "decisions-rules.S03-T4-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[11].code",
     "kind": "theory.code",
     "visible": true
    },
@@ -49223,12 +48353,6 @@
   "exercises": [
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T2-A-E1.instruction",
     "kind": "wedo.instruction",
     "visible": true
@@ -49247,31 +48371,19 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T2-B-E3.instruction",
     "kind": "wedo.instruction",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E3.tests",
-    "kind": "wedo.tests",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E3.instruction",
+    "location": "decisions-rules.S03-T3-B-E1.instruction",
     "kind": "wedo.instruction",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.youDo.requirement[6]",
+    "location": "decisions-rules.youDo.requirement[1]",
     "kind": "youdo.requirement",
     "visible": true
    },
@@ -49573,7 +48685,7 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.selfCheck[4].opt[0]",
+    "location": "decisions-rules.selfCheck[4].opt[1]",
     "kind": "selfcheck.option",
     "visible": true
    },
@@ -49626,6 +48738,12 @@
     "location": "decisions-rules.S03-T2-A.heading",
     "kind": "theory.heading",
     "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B.heading",
+    "kind": "theory.heading",
+    "visible": true
    }
   ],
   "figures": [],
@@ -49642,6 +48760,18 @@
    "visible": true
   },
   "reinforcements": [
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E2.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E3.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
    {
     "section": "S28",
     "location": "llm-agents.S28-T2-A-E2.retrospective",
@@ -50227,398 +49357,38 @@
   "uses": [
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].heading",
+    "location": "decisions-rules.theory[11].heading",
     "kind": "theory.heading",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].p3",
+    "location": "decisions-rules.theory[11].p3",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].p4",
+    "location": "decisions-rules.theory[11].p4",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].code",
+    "location": "decisions-rules.theory[11].code",
     "kind": "theory.code",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].callout",
+    "location": "decisions-rules.theory[11].callout",
     "kind": "theory.callout",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].figure",
+    "location": "decisions-rules.theory[11].figure",
     "kind": "theory.figure",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.p4",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.youDo.starter",
-    "kind": "youdo.starter",
     "visible": true
    },
    {
@@ -62187,13 +60957,13 @@
   "definitions": [
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].p3",
+    "location": "decisions-rules.theory[11].p3",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].figure",
+    "location": "decisions-rules.theory[11].figure",
     "kind": "theory.figure",
     "visible": true
    },
@@ -62225,92 +60995,8 @@
   "examples": [
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].code",
+    "location": "decisions-rules.theory[11].code",
     "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-DEMO.code",
-    "kind": "ido.code",
     "visible": true
    },
    {
@@ -66060,12 +64746,6 @@
   ],
   "exercises": [
    {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E3.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
     "section": "S04",
     "location": "iteration-summaries.S04-T3-A-E2.instruction",
     "kind": "wedo.instruction",
@@ -66335,7 +65015,7 @@
   "headings": [
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].heading",
+    "location": "decisions-rules.theory[11].heading",
     "kind": "theory.heading",
     "visible": true
    },
@@ -66349,27 +65029,27 @@
   "figures": [
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].figure",
+    "location": "decisions-rules.theory[11].figure",
     "kind": "theory.figure",
     "visible": true
    }
   ],
   "first_use": {
    "section": "S03",
-   "location": "decisions-rules.theory[3].heading",
+   "location": "decisions-rules.theory[11].heading",
    "kind": "theory.heading",
    "visible": true
   },
   "first_definition": {
    "section": "S03",
-   "location": "decisions-rules.theory[3].p3",
+   "location": "decisions-rules.theory[11].p3",
    "kind": "theory.paragraph",
    "visible": true
   },
   "reinforcements": [
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].figure",
+    "location": "decisions-rules.theory[11].figure",
     "kind": "theory.figure",
     "visible": true
    },
@@ -66530,8 +65210,8 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E2.retrospective",
-    "kind": "wedo.retrospective",
+    "location": "decisions-rules.selfCheck[6].explanation",
+    "kind": "selfcheck.explanation",
     "visible": true
    },
    {
@@ -68823,6 +67503,12 @@
   ],
   "self_checks": [
    {
+    "section": "S03",
+    "location": "decisions-rules.selfCheck[6].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
     "section": "S07",
     "location": "text-unicode-regex.selfCheck[5].opt[3]",
     "kind": "selfcheck.option",
@@ -69086,13 +67772,13 @@
   "uses": [
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].p1",
+    "location": "decisions-rules.theory[11].p1",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].figure",
+    "location": "decisions-rules.theory[11].figure",
     "kind": "theory.figure",
     "visible": true
    },
@@ -69442,7 +68128,7 @@
   "definitions": [
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].p1",
+    "location": "decisions-rules.theory[11].p1",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -69548,20 +68234,20 @@
   "figures": [
    {
     "section": "S03",
-    "location": "decisions-rules.theory[3].figure",
+    "location": "decisions-rules.theory[11].figure",
     "kind": "theory.figure",
     "visible": true
    }
   ],
   "first_use": {
    "section": "S03",
-   "location": "decisions-rules.theory[3].p1",
+   "location": "decisions-rules.theory[11].p1",
    "kind": "theory.paragraph",
    "visible": true
   },
   "first_definition": {
    "section": "S03",
-   "location": "decisions-rules.theory[3].p1",
+   "location": "decisions-rules.theory[11].p1",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -89161,90 +87847,6 @@
   "declared_first_section": "basics",
   "uses": [
    {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E3.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E3.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
     "section": "S04",
     "location": "iteration-summaries.theory[2].heading",
     "kind": "theory.heading",
@@ -103601,30 +102203,6 @@
   ],
   "examples": [
    {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
     "section": "S04",
     "location": "iteration-summaries.theory[2].code",
     "kind": "theory.code",
@@ -107210,9 +105788,9 @@
    }
   ],
   "first_use": {
-   "section": "S03",
-   "location": "decisions-rules.S03-T2-B.code",
-   "kind": "theory.code",
+   "section": "S04",
+   "location": "iteration-summaries.theory[2].heading",
+   "kind": "theory.heading",
    "visible": true
   },
   "first_definition": {
@@ -107254,64 +105832,8 @@
    }
   ],
   "depth": "L3",
-  "surprising_uses": [
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E3.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
-   "S03",
    "S04",
    "S05",
    "S06",
@@ -107366,7 +105888,7 @@
   "figure_target": 5,
   "figure_count": 3,
   "figure_gap": 2,
-  "explanation_lag_sections": 1
+  "explanation_lag_sections": 0
  },
  "tuple": {
   "id": "tuple",
@@ -108909,13 +107431,37 @@
    },
    {
     "section": "S03",
+    "location": "decisions-rules.outcome[7]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.theory[1].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
     "location": "decisions-rules.S03-T4-A.p3",
     "kind": "theory.paragraph",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T4-B.p5",
+    "location": "decisions-rules.S03-T4-B.p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B.p4",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B.p6",
     "kind": "theory.paragraph",
     "visible": true
    },
@@ -108923,6 +107469,30 @@
     "section": "S03",
     "location": "decisions-rules.S03-T4-B.code",
     "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B.callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
     "visible": true
    },
    {
@@ -108945,32 +107515,260 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T1-A-E1.tests",
+    "location": "decisions-rules.S03-T4-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-A-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-A-E2.tests",
     "kind": "wedo.tests",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E2.tests",
+    "location": "decisions-rules.S03-T2-A-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B-E2.tests",
     "kind": "wedo.tests",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E1.tests",
+    "location": "decisions-rules.S03-T2-B-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-A-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-A-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-A-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-A-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-A-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E1.tests",
     "kind": "wedo.tests",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.tests",
+    "location": "decisions-rules.S03-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E2.tests",
     "kind": "wedo.tests",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E2.tests",
+    "location": "decisions-rules.S03-T4-A-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E3.tests",
     "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E1.retrospective",
+    "kind": "wedo.retrospective",
     "visible": true
    },
    {
@@ -108981,20 +107779,14 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.hint[1]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
     "location": "decisions-rules.S03-T4-B-E2.starter",
     "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E2.tests",
+    "kind": "wedo.tests",
     "visible": true
    },
    {
@@ -109023,9 +107815,21 @@
    },
    {
     "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E3.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
     "location": "decisions-rules.S03-T4-B-E3.solution",
     "kind": "solution",
     "visible": false
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
    },
    {
     "section": "S03",
@@ -109035,32 +107839,26 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.youDo.requirement[4]",
+    "location": "decisions-rules.youDo.objective[3]",
+    "kind": "youdo.objective",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.youDo.requirement[6]",
     "kind": "youdo.requirement",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.youDo.requirement[5]",
-    "kind": "youdo.requirement",
+    "location": "decisions-rules.youDo.rubric[3]",
+    "kind": "youdo.rubric",
     "visible": true
    },
    {
     "section": "S03",
     "location": "decisions-rules.youDo.starter",
     "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.selfCheck[4].opt[3]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.selfCheck[4].explanation",
-    "kind": "selfcheck.explanation",
     "visible": true
    },
    {
@@ -113626,12 +112424,6 @@
     "visible": true
    },
    {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
     "section": "S05",
     "location": "functions-contracts.S05-T4-B.p2",
     "kind": "theory.paragraph",
@@ -113749,8 +112541,20 @@
    },
    {
     "section": "S03",
+    "location": "decisions-rules.theory[1].code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
     "location": "decisions-rules.S03-T4-B.code",
     "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-DEMO.code",
+    "kind": "ido.code",
     "visible": true
    },
    {
@@ -114045,38 +112849,98 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.S03-T1-A-E1.tests",
-    "kind": "wedo.tests",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E2.tests",
-    "kind": "wedo.tests",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-A-E1.tests",
-    "kind": "wedo.tests",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-A-E1.tests",
-    "kind": "wedo.tests",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T3-B-E2.tests",
-    "kind": "wedo.tests",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-E2.instruction",
+    "location": "decisions-rules.S03-T2-A-E2.instruction",
     "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-A-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T2-B-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-A-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T3-B-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E2.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E3.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-A-E3.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E1.tests",
+    "kind": "wedo.tests",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.S03-T4-B-E2.tests",
+    "kind": "wedo.tests",
     "visible": true
    },
    {
@@ -114087,13 +112951,19 @@
    },
    {
     "section": "S03",
-    "location": "decisions-rules.youDo.requirement[4]",
-    "kind": "youdo.requirement",
+    "location": "decisions-rules.S03-T4-B-E3.tests",
+    "kind": "wedo.tests",
     "visible": true
    },
    {
     "section": "S03",
-    "location": "decisions-rules.youDo.requirement[5]",
+    "location": "decisions-rules.youDo.objective[3]",
+    "kind": "youdo.objective",
+    "visible": true
+   },
+   {
+    "section": "S03",
+    "location": "decisions-rules.youDo.requirement[6]",
     "kind": "youdo.requirement",
     "visible": true
    },
@@ -114904,18 +113774,6 @@
   ],
   "self_checks": [
    {
-    "section": "S03",
-    "location": "decisions-rules.selfCheck[4].opt[3]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.selfCheck[4].explanation",
-    "kind": "selfcheck.explanation",
-    "visible": true
-   },
-   {
     "section": "S05",
     "location": "functions-contracts.selfCheck[2].explanation",
     "kind": "selfcheck.explanation",
@@ -115205,126 +114063,6 @@
    {
     "section": "S02",
     "location": "basics.S02-T4-B-E2.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-DEMO.why",
-    "kind": "ido.why",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.solution",
     "kind": "solution",
     "visible": false
    },
@@ -115625,12 +114363,6 @@
     "visible": true
    },
    {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
     "section": "S15",
     "location": "stdlib-deep.S15-T4-B.p1",
     "kind": "theory.paragraph",
@@ -115665,48 +114397,6 @@
    {
     "section": "S02",
     "location": "basics.S02-T2-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-B-DEMO.code",
     "kind": "ido.code",
     "visible": true
    },
@@ -115785,18 +114475,6 @@
   ],
   "exercises": [
    {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T2-B-E1.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
     "section": "S06",
     "location": "collections.S06-T3-B-E3.instruction",
     "kind": "wedo.instruction",
@@ -115866,7 +114544,6 @@
   "surprising_uses": [],
   "sections_used": [
    "S02",
-   "S03",
    "S05",
    "S06",
    "S07",
@@ -115901,48 +114578,6 @@
     "section": "S03",
     "location": "decisions-rules.S03-T1-A.p2",
     "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-A-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-A-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-E1.solution",
-    "kind": "solution",
-    "visible": false
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.selfCheck[4].opt[2]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.selfCheck[4].explanation",
-    "kind": "selfcheck.explanation",
     "visible": true
    },
    {
@@ -120879,18 +119514,6 @@
    }
   ],
   "self_checks": [
-   {
-    "section": "S03",
-    "location": "decisions-rules.selfCheck[4].opt[2]",
-    "kind": "selfcheck.option",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.selfCheck[4].explanation",
-    "kind": "selfcheck.explanation",
-    "visible": true
-   },
    {
     "section": "S06",
     "location": "collections.selfCheck[2].opt[3]",
@@ -131744,18 +130367,6 @@
     "visible": true
    },
    {
-    "section": "S03",
-    "location": "decisions-rules.S03-T1-B-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S03",
-    "location": "decisions-rules.S03-T4-A-E1.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
     "section": "S05",
     "location": "functions-contracts.S05-T1-A.callout",
     "kind": "theory.callout",
@@ -133381,7 +131992,6 @@
   "surprising_uses": [],
   "sections_used": [
    "S02",
-   "S03",
    "S05",
    "S06",
    "S07",

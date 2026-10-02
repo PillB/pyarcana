@@ -78,17 +78,12 @@
  },
  "S03": {
   "section": "S03",
-  "prose_words": 8751,
+  "prose_words": 10138,
   "english_function_words": 0,
-  "ordinary_english_words": 1,
-  "kept_technical_terms": 13,
-  "avoidable_english_per_1000": 0.1,
-  "top_terms": [
-   [
-    "review",
-    1
-   ]
-  ],
+  "ordinary_english_words": 0,
+  "kept_technical_terms": 3,
+  "avoidable_english_per_1000": 0.0,
+  "top_terms": [],
   "worst_passages": []
  },
  "S04": {

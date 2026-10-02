@@ -31,15 +31,6 @@
   ],
   "warnings": [
     {
-      "badge": "progress_phase0_walked",
-      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 2,
-      "terms": [
-        "dict",
-        "for"
-      ]
-    },
-    {
       "badge": "progress_phase1_walked",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
       "count": 1,
@@ -59,22 +50,11 @@
     {
       "badge": "progress_journey_completed",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 5,
+      "count": 3,
       "terms": [
-        "dict",
-        "for",
         "joblib",
         "onehotencoder",
         "reshape"
-      ]
-    },
-    {
-      "badge": "python_data_foundations",
-      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 2,
-      "terms": [
-        "dict",
-        "for"
       ]
     },
     {
@@ -102,15 +82,6 @@
         "joblib",
         "onehotencoder",
         "reshape"
-      ]
-    },
-    {
-      "badge": "integrated_python_ai_capstone_foundations",
-      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 2,
-      "terms": [
-        "dict",
-        "for"
       ]
     },
     {
@@ -158,7 +129,7 @@
         "S12",
         "S13"
       ],
-      "blocking_term_gaps": 2
+      "blocking_term_gaps": 0
     },
     {
       "badge": "progress_phase1_walked",
@@ -276,7 +247,7 @@
         "S51",
         "S52"
       ],
-      "blocking_term_gaps": 5
+      "blocking_term_gaps": 3
     },
     {
       "badge": "python_data_foundations",
@@ -288,7 +259,7 @@
         "S04",
         "S05"
       ],
-      "blocking_term_gaps": 2
+      "blocking_term_gaps": 0
     },
     {
       "badge": "independent_data_preparation",
@@ -519,7 +490,7 @@
         "S12",
         "S13"
       ],
-      "blocking_term_gaps": 2
+      "blocking_term_gaps": 0
     },
     {
       "badge": "integrated_python_ai_capstone_independent",

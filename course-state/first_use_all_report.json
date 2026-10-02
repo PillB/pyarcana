@@ -2,11 +2,10 @@
   "ok": false,
   "sections_audited": 52,
   "terms_audited": 108,
-  "events_audited": 22902,
+  "events_audited": 22901,
   "issue_counts": {
-    "DEFINITION_AFTER_REQUIREMENT": 2,
     "NO_VISIBLE_DEFINITION": 3,
-    "USE_BEFORE_DEFINITION": 21
+    "USE_BEFORE_DEFINITION": 20
   },
   "never_defined_but_mentioned": [
     "joblib",
@@ -18,14 +17,7 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "for",
       "severity": "P1",
-      "location": "decisions-rules.S03-T1-B-E1.starter",
-      "definition_location": "iteration-summaries.S04-T1-A.p0"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "for",
-      "severity": "P1",
-      "location": "decisions-rules.S03-T4-B-E2.hint[1]",
+      "location": "iteration-summaries.tagline",
       "definition_location": "iteration-summaries.S04-T1-A.p0"
     },
     {
@@ -76,20 +68,6 @@
       "severity": "P1",
       "location": "setup.tagline",
       "definition_location": "setup.outcome[0]"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "dict",
-      "severity": "P1",
-      "location": "decisions-rules.S03-T2-B.code",
-      "definition_location": "iteration-summaries.S04-T4-A-E3.preamble"
-    },
-    {
-      "code": "DEFINITION_AFTER_REQUIREMENT",
-      "term_id": "dict",
-      "severity": "P1",
-      "location": "decisions-rules.S03-T3-A-E3.hint[1]",
-      "definition_location": "iteration-summaries.S04-T4-A-E3.preamble"
     },
     {
       "code": "USE_BEFORE_DEFINITION",

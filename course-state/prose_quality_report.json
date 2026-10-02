@@ -30,18 +30,18 @@
   "section": "S02"
  },
  "S03": {
-  "words": 7908,
-  "sentences": 646,
-  "words_per_sentence": 12.2,
-  "fernandez_huerta": 74.8,
-  "long_sentences": 2,
+  "words": 8436,
+  "sentences": 606,
+  "words_per_sentence": 13.9,
+  "fernandez_huerta": 67.9,
+  "long_sentences": 5,
   "run_on_sentences": 1,
-  "nominalisations_per_100w": 2.5,
-  "b5_nominal_constructions": 4,
-  "b5_per_100_sentences": 0.6,
+  "nominalisations_per_100w": 3.0,
+  "b5_nominal_constructions": 2,
+  "b5_per_100_sentences": 0.3,
   "gerunds_per_100w": 0.2,
   "commas_per_sentence": 0.6,
-  "meta_leaks": 5,
+  "meta_leaks": 7,
   "section": "S03"
  },
  "S04": {
