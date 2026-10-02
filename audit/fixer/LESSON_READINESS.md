@@ -59,7 +59,13 @@ question), and again for the section as a whole.
 
 ## Procedure
 
-0. **Read the section yourself first and say whether it is complete.** Before any measure: are
+0a. **Open the section with a written preamble.** Before any reading or measuring, state in the
+   turn: what the owner asked for, which checks this section must pass, and which requirements and
+   live decisions bind it (`OWNER_DECISIONS.md`, `decisions.md`, the twelve dimensions). The owner
+   asked for this (2026-09-30) so the requirements stay alive across a long section rather than
+   decaying into whatever the last tool output was about. A section begun without it is begun
+   half-blind.
+0b. **Read the section yourself first and say whether it is complete.** Before any measure: are
    all its parts there (theory blocks, demos, every exercise id, subtopics, self-check questions,
    outcomes, the You Do, the program count against its floor), and does it teach what it promises?
    A measure confirms or refutes a reading; it is not a substitute for one, and a section can be
