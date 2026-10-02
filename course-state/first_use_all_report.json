@@ -4,35 +4,14 @@
   "terms_audited": 108,
   "events_audited": 22909,
   "issue_counts": {
-    "NO_VISIBLE_DEFINITION": 3,
-    "USE_BEFORE_DEFINITION": 9
+    "NO_VISIBLE_DEFINITION": 2,
+    "USE_BEFORE_DEFINITION": 7
   },
   "never_defined_but_mentioned": [
     "joblib",
-    "onehotencoder",
-    "reshape"
+    "onehotencoder"
   ],
   "issues": [
-    {
-      "code": "NO_VISIBLE_DEFINITION",
-      "term_id": "reshape",
-      "severity": "P1",
-      "location": "packaging.youDo.objective[2]"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "merge",
-      "severity": "P1",
-      "location": "packaging.jobRelevance",
-      "definition_location": "packaging.S17-T1-A.p0"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "pivot-table",
-      "severity": "P1",
-      "location": "packaging.theory[5].heading",
-      "definition_location": "packaging.iDo.intro"
-    },
     {
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "eda",

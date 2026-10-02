@@ -22,7 +22,7 @@ export const section17: CourseSection = {
  icon: "GitMerge",
  accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
  jobRelevance:
- "En un equipo de analytics de banca, fintech o retail en Perú, el analista que solo «hace `merge` y `groupby`» resume así su trabajo: `merge` une tablas por sus claves y `groupby` reduce a un resumen las filas que comparten una clave. Si no documenta la cardinalidad (cuántas filas del lado derecho tocan cada clave del izquierdo), entrega números inflados al comité. Aquí aprendes a unir tablas con claves limpias, cambiar entre disposición larga y ancha con columnas estables, agregar con un contrato explícito (suma vs. media) y reconciliar totales para que un stakeholder no técnico pueda auditarlos. Entregas un script reproducible, evidencias numéricas y un memo de límites, sin PII real ni claims causales sin evidencia.",
+ "En un equipo de analytics de banca, fintech o retail en Perú, el analista que solo «hace `merge` y `groupby`» resume así su trabajo: **`merge`** combina tablas por sus claves y `groupby` reduce a un resumen las filas que comparten una clave. Si no documenta la cardinalidad (cuántas filas del lado derecho tocan cada clave del izquierdo), entrega números inflados al comité. Aquí aprendes a unir tablas con claves limpias, cambiar entre disposición larga y ancha con columnas estables, agregar con un contrato explícito (suma vs. media) y reconciliar totales para que un stakeholder no técnico pueda auditarlos. Entregas un script reproducible, evidencias numéricas y un memo de límites, sin PII real ni claims causales sin evidencia.",
  learningOutcomes: [
  { text: "Diseñar joins (merge) con claves alineadas y cardinalidad 1:1 / 1:m documentada (filas pre/post)" },
  { text: "Usar validate y anti-join (indicator) para detectar fan-out y filas huérfanas" },
@@ -158,8 +158,8 @@ validate_fail True`,
  {
  heading: "Reshape y pivot_table: los mismos datos en otra disposición",
  paragraphs: [
-  "Un **reshape** cambia cómo se reparten los datos entre filas y columnas para responder otra pregunta. Existe porque una tabla larga —una fila por cliente y periodo— facilita agrupar, mientras una tabla ancha —una fila por cliente y una columna por periodo— facilita leer un reporte. El cambio no debe alterar los montos; solo cambia dónde aparecen.",
-  "`melt` pasa de ancho a largo. `pivot` vuelve de largo a ancho cuando cada cruce de cliente y periodo tiene un solo monto. **`pivot_table`** también vuelve de largo a ancho, pero resuelve los cruces repetidos con `aggfunc`: esa es la regla que indica si deben sumarse, promediarse o contarse.",
+  "Un **reshape** reparte los mismos datos entre filas y columnas para responder otra pregunta. Existe porque una tabla larga —una fila por cliente y periodo— facilita agrupar, mientras una tabla ancha —una fila por cliente y una columna por periodo— facilita leer un reporte. El cambio no debe alterar los montos; solo cambia dónde aparecen.",
+  "`melt` pasa de ancho a largo. `pivot` vuelve de largo a ancho cuando cada cruce de cliente y periodo tiene un solo monto. **`pivot_table`** convierte los datos de largo a ancho, pero resuelve los cruces repetidos con `aggfunc`: esa es la regla que indica si deben sumarse, promediarse o contarse.",
   "Trabajemos con tres filas: C001–ene–10, C001–ene–5 y C001–feb–3. Elige `cliente_id` para las filas, `mes` para las columnas, `monto` para los valores y `sum` para `aggfunc`. Lo correcto es una fila para C001 con `ene=15` y `feb=3`; el total sigue siendo 18.",
   "Antes de ejecutar el código siguiente, predice sus formas: dos clientes por dos periodos pasan de una tabla ancha de 2×3 a una larga de 4×3, y regresan a una tabla de valores de 2×2. Ejecútalo y comprueba que la primera línea sea `(4, 3) (2, 2)` y que aparezcan dos valores `m1` y dos `m2`. Si no ocurre, revisa qué elegiste como identificador, periodo, valor y regla de combinación.",
  ],

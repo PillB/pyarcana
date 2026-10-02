@@ -31,14 +31,6 @@
   ],
   "warnings": [
     {
-      "badge": "progress_phase1_walked",
-      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 1,
-      "terms": [
-        "reshape"
-      ]
-    },
-    {
       "badge": "progress_phase2_walked",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
       "count": 2,
@@ -50,19 +42,10 @@
     {
       "badge": "progress_journey_completed",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 3,
+      "count": 2,
       "terms": [
         "joblib",
-        "onehotencoder",
-        "reshape"
-      ]
-    },
-    {
-      "badge": "production_python_delivery_foundations",
-      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 1,
-      "terms": [
-        "reshape"
+        "onehotencoder"
       ]
     },
     {
@@ -77,19 +60,10 @@
     {
       "badge": "integrated_production_python_practice",
       "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 3,
+      "count": 2,
       "terms": [
         "joblib",
-        "onehotencoder",
-        "reshape"
-      ]
-    },
-    {
-      "badge": "integrated_python_ai_capstone_independent",
-      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 1,
-      "terms": [
-        "reshape"
+        "onehotencoder"
       ]
     },
     {
@@ -99,14 +73,6 @@
       "terms": [
         "joblib",
         "onehotencoder"
-      ]
-    },
-    {
-      "badge": "CP-N2-A",
-      "code": "CAPSTONE_GATE_VOCABULARY_GAP",
-      "count": 1,
-      "terms": [
-        "reshape"
       ]
     }
   ],
@@ -149,7 +115,7 @@
         "S25",
         "S26"
       ],
-      "blocking_term_gaps": 1
+      "blocking_term_gaps": 0
     },
     {
       "badge": "progress_phase2_walked",
@@ -247,7 +213,7 @@
         "S51",
         "S52"
       ],
-      "blocking_term_gaps": 3
+      "blocking_term_gaps": 2
     },
     {
       "badge": "python_data_foundations",
@@ -307,7 +273,7 @@
         "S17",
         "S21"
       ],
-      "blocking_term_gaps": 1
+      "blocking_term_gaps": 0
     },
     {
       "badge": "responsible_machine_learning_evaluation",
@@ -470,7 +436,7 @@
         "S32",
         "S38"
       ],
-      "blocking_term_gaps": 3
+      "blocking_term_gaps": 2
     },
     {
       "badge": "integrated_python_ai_capstone_foundations",
@@ -510,7 +476,7 @@
         "S25",
         "S26"
       ],
-      "blocking_term_gaps": 1
+      "blocking_term_gaps": 0
     },
     {
       "badge": "integrated_python_ai_capstone_advanced_applied",
@@ -579,7 +545,7 @@
     {
       "id": "CP-N2-A",
       "gate_section": "packaging",
-      "blocking_term_gaps": 1
+      "blocking_term_gaps": 0
     },
     {
       "id": "CP-N2-B",

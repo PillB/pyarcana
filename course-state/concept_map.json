@@ -123649,7 +123649,14 @@
     "visible": true
    }
   ],
-  "definitions": [],
+  "definitions": [
+   {
+    "section": "S17",
+    "location": "packaging.theory[5].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   }
+  ],
   "examples": [],
   "exercises": [
    {
@@ -123681,65 +123688,15 @@
    "kind": "theory.heading",
    "visible": true
   },
-  "first_definition": null,
+  "first_definition": {
+   "section": "S17",
+   "location": "packaging.theory[5].p0",
+   "kind": "theory.paragraph",
+   "visible": true
+  },
   "reinforcements": [],
-  "depth": "L0",
-  "surprising_uses": [
-   {
-    "section": "S17",
-    "location": "packaging.theory[5].heading",
-    "kind": "theory.heading",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.theory[5].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T2-A-DEMO.retrospective",
-    "kind": "ido.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T1-B-E3.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.youDo.context",
-    "kind": "youdo.context",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.youDo.objective[2]",
-    "kind": "youdo.objective",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.youDo.requirement[2]",
-    "kind": "youdo.requirement",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.youDo.rubric[1]",
-    "kind": "youdo.rubric",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.resources.doc[3]",
-    "kind": "resource",
-    "visible": true
-   }
-  ],
+  "depth": "L1",
+  "surprising_uses": [],
   "sections_used": [
    "S17"
   ],
@@ -123747,7 +123704,7 @@
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": null
+  "explanation_lag_sections": 0
  },
  "dataframe": {
   "id": "dataframe",
@@ -127316,6 +127273,12 @@
   "definitions": [
    {
     "section": "S17",
+    "location": "packaging.jobRelevance",
+    "kind": "jobRelevance",
+    "visible": true
+   },
+   {
+    "section": "S17",
     "location": "packaging.S17-T1-A.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -127475,8 +127438,8 @@
   },
   "first_definition": {
    "section": "S17",
-   "location": "packaging.S17-T1-A.p0",
-   "kind": "theory.paragraph",
+   "location": "packaging.jobRelevance",
+   "kind": "jobRelevance",
    "visible": true
   },
   "reinforcements": [
@@ -127494,20 +127457,7 @@
    }
   ],
   "depth": "L2",
-  "surprising_uses": [
-   {
-    "section": "S17",
-    "location": "packaging.jobRelevance",
-    "kind": "jobRelevance",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.outcome[0]",
-    "kind": "outcome",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S17",
    "S20",
@@ -127857,6 +127807,12 @@
   "definitions": [
    {
     "section": "S17",
+    "location": "packaging.theory[5].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S17",
     "location": "packaging.iDo.intro",
     "kind": "ido.intro",
     "visible": true
@@ -127958,86 +127914,13 @@
   },
   "first_definition": {
    "section": "S17",
-   "location": "packaging.iDo.intro",
-   "kind": "ido.intro",
+   "location": "packaging.theory[5].p1",
+   "kind": "theory.paragraph",
    "visible": true
   },
   "reinforcements": [],
   "depth": "L3",
-  "surprising_uses": [
-   {
-    "section": "S17",
-    "location": "packaging.theory[5].heading",
-    "kind": "theory.heading",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.theory[5].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T2-A.heading",
-    "kind": "theory.heading",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T2-A.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T2-A.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T2-A.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T2-A.code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T2-A.callout",
-    "kind": "theory.callout",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T2-A.figure",
-    "kind": "theory.figure",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T2-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T2-B.p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S17",
-    "location": "packaging.S17-T2-B.code",
-    "kind": "theory.code",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S17",
    "S20"
