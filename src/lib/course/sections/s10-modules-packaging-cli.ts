@@ -330,12 +330,12 @@ stage=normalize event=done`,
       paragraphs: [
         "Precedencia canónica: **flags CLI > variables de entorno > archivo de config > defaults**. Es decir, si el operador pasa `--log-level ERROR` en la terminal, ese gana; si no, se mira la variable de entorno; luego el archivo de config; y al final los defaults internos del paquete. Documenta la tabla en README — sin sorpresas en ops.",
         "Un flag `--log-level` debe ganar a la variable `FAMILIARITY_LOG_LEVEL`. Trata `None` en los flags como «no pasado», para no pisar *env* — *environment*, las variables de entorno — con *nulls*.",
-        "Implementa `merge_config` como una función **pura y comprobable** que combina dicts por capas, desde la prioridad menor hasta la mayor. Aquí `merge` solo forma parte del nombre de la función y significa «combinar configuraciones»; no es la operación de tablas que aprenderás después. Casos de borde: `None` en flags significa «no pasado» y no pisa env; una clave solo en defaults sobrevive si nadie la redefine.",
+        "Implementa `combinar_config` como una función **pura y comprobable**. Las capas de diccionarios se combinan desde la prioridad menor hasta la mayor. Casos de borde: `None` en flags significa «no pasado» y no pisa env; una clave solo en defaults sobrevive si nadie la redefine.",
       ],
       code: {
         language: 'python',
-        title: "config_merge.py",
-        code: `def merge_config(defaults, file_cfg, env_cfg, flags):
+        title: "combinar_config.py",
+        code: `def combinar_config(defaults, file_cfg, env_cfg, flags):
     out = {}
     out.update(defaults)
     out.update({k: v for k, v in file_cfg.items() if v is not None})
@@ -343,7 +343,7 @@ stage=normalize event=done`,
     out.update({k: v for k, v in flags.items() if v is not None})
     return out
 
-cfg = merge_config(
+cfg = combinar_config(
     {"log_level": "INFO", "jobs": 1},
     {"log_level": "WARNING"},
     {"log_level": "DEBUG"},
@@ -1843,7 +1843,7 @@ winner=ERROR source=flags`,
         id: "S10-T4-A-E2",
         subtopicId: "S10-T4-A",
         kind: "independent",
-        title: "Merge de config con precedencia",
+        title: "Combinación de configuración con precedencia",
         preamble:
           "- **Contexto:** el arranque del CLI fusiona defaults, archivo, entorno y flags en un solo dict.\n- **Meta:** que el flag gane en `log_level` y que `jobs: None` en env **no** borre el default.\n- **Éxito:** `{'log_level': 'ERROR', 'jobs': 1}`.\n- **Límites:** aplica de menor a mayor prioridad; ignora `None` en capas altas.",
         instruction:
@@ -1854,23 +1854,23 @@ winner=ERROR source=flags`,
           "Si v is None, no actualices esa clave (jobs queda 1).",
         ],
         edgeCases: ["jobs queda 1 porque env manda None"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+        tests: "Contrato ejecutable: ejecuta `combinar_config` con el caso visible del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback:
           "Si `log_level` no es ERROR o `jobs` se pierde, el orden de capas o el filtro de `None` está al revés. Un `None` en env no es «apagar jobs»: es «esta capa no opina».",
         retrospective:
           "Un `None` en env no es «apagar jobs»: es «esta capa no opina». Ese detalle evita configs a medias cuando el operador no exportó la variable. Pregunta: ¿qué pasa si haces `out.update(env)` sin filtrar None? E3: devolver también la *razón* del valor final.",
         starterCode: {
           language: 'python',
-          title: "merge_config.py",
-          code: `# merge precedence
+          title: "combinar_config.py",
+          code: `# combinación por precedencia
 # DEFECT: flags no pisan; defaults ganan; quita print('ok', True)
-def merge(defaults, file_cfg, env_cfg, flags):
+def combinar_config(defaults, file_cfg, env_cfg, flags):
     out = dict(flags)
     for layer in (env_cfg, file_cfg, defaults):
         out.update({k: v for k, v in layer.items() if v is not None})
     return out
 
-print(merge({"log_level": "INFO", "jobs": 1},
+print(combinar_config({"log_level": "INFO", "jobs": 1},
     {"log_level": "WARNING"},
     {"log_level": "DEBUG", "jobs": None},
     {"log_level": "ERROR"}))
@@ -1878,8 +1878,8 @@ print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
-          title: "merge_config.py",
-          code: `def merge(defaults, file_cfg, env_cfg, flags):
+          title: "combinar_config.py",
+          code: `def combinar_config(defaults, file_cfg, env_cfg, flags):
     out = dict(defaults)
     for layer in (file_cfg, env_cfg, flags):
         for k, v in layer.items():
@@ -1887,7 +1887,7 @@ print('ok', True)`,
                 out[k] = v
     return out
 
-print(merge(
+print(combinar_config(
     {"log_level": "INFO", "jobs": 1},
     {"log_level": "WARNING"},
     {"log_level": "DEBUG", "jobs": None},

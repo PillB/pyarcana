@@ -5,7 +5,7 @@
   "events_audited": 22909,
   "issue_counts": {
     "NO_VISIBLE_DEFINITION": 3,
-    "USE_BEFORE_DEFINITION": 14
+    "USE_BEFORE_DEFINITION": 9
   },
   "never_defined_but_mentioned": [
     "joblib",
@@ -13,41 +13,6 @@
     "reshape"
   ],
   "issues": [
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "if",
-      "severity": "P1",
-      "location": "setup.S01-T1-B#6.code",
-      "definition_location": "basics.S02-T2-A-DEMO.why"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "repositorio-repo",
-      "severity": "P1",
-      "location": "setup.outcome[5]",
-      "definition_location": "setup.theory[0].p3"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "github",
-      "severity": "P1",
-      "location": "setup.outcome[5]",
-      "definition_location": "setup.theory[8].p4"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "interprete",
-      "severity": "P1",
-      "location": "setup.tagline",
-      "definition_location": "setup.outcome[0]"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "set",
-      "severity": "P1",
-      "location": "setup.S01-T4-A-E3.starter",
-      "definition_location": "decisions-rules.S03-T1-A.p2"
-    },
     {
       "code": "NO_VISIBLE_DEFINITION",
       "term_id": "reshape",
@@ -58,7 +23,7 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "merge",
       "severity": "P1",
-      "location": "modules-packaging-cli.S10-T4-A.p2",
+      "location": "packaging.jobRelevance",
       "definition_location": "packaging.S17-T1-A.p0"
     },
     {
@@ -112,7 +77,7 @@
       "code": "USE_BEFORE_DEFINITION",
       "term_id": "entity-resolution",
       "severity": "P1",
-      "location": "apis-sql-geo.selfCheck[4].opt[2]",
+      "location": "evidence-dashboard.outcome[2]",
       "definition_location": "evidence-dashboard.S13-T1-A.p0"
     },
     {

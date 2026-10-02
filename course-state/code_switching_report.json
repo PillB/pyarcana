@@ -1,7 +1,7 @@
 {
  "S01": {
   "section": "S01",
-  "prose_words": 12364,
+  "prose_words": 12367,
   "english_function_words": 2,
   "ordinary_english_words": 18,
   "kept_technical_terms": 64,
@@ -293,7 +293,7 @@
  },
  "S10": {
   "section": "S10",
-  "prose_words": 6258,
+  "prose_words": 6237,
   "english_function_words": 1,
   "ordinary_english_words": 6,
   "kept_technical_terms": 34,
@@ -363,7 +363,7 @@
  },
  "S12": {
   "section": "S12",
-  "prose_words": 6337,
+  "prose_words": 6339,
   "english_function_words": 1,
   "ordinary_english_words": 38,
   "kept_technical_terms": 121,

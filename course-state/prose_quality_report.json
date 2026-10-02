@@ -1,6 +1,6 @@
 {
  "S01": {
-  "words": 11658,
+  "words": 11661,
   "sentences": 828,
   "words_per_sentence": 14.1,
   "fernandez_huerta": 77.7,
@@ -135,13 +135,13 @@
   "section": "S09"
  },
  "S10": {
-  "words": 5649,
+  "words": 5627,
   "sentences": 518,
   "words_per_sentence": 10.9,
-  "fernandez_huerta": 81.6,
+  "fernandez_huerta": 81.7,
   "long_sentences": 12,
   "run_on_sentences": 3,
-  "nominalisations_per_100w": 1.6,
+  "nominalisations_per_100w": 1.5,
   "b5_nominal_constructions": 1,
   "b5_per_100_sentences": 0.2,
   "gerunds_per_100w": 0.7,
