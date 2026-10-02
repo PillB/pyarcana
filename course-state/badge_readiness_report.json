@@ -29,53 +29,7 @@
       "detail": "applied_mlops_pipeline_delivery needs S43, after this badge's S39"
     }
   ],
-  "warnings": [
-    {
-      "badge": "progress_phase2_walked",
-      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 2,
-      "terms": [
-        "joblib",
-        "onehotencoder"
-      ]
-    },
-    {
-      "badge": "progress_journey_completed",
-      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 2,
-      "terms": [
-        "joblib",
-        "onehotencoder"
-      ]
-    },
-    {
-      "badge": "production_python_hardening_practice",
-      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 2,
-      "terms": [
-        "joblib",
-        "onehotencoder"
-      ]
-    },
-    {
-      "badge": "integrated_production_python_practice",
-      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 2,
-      "terms": [
-        "joblib",
-        "onehotencoder"
-      ]
-    },
-    {
-      "badge": "integrated_python_ai_capstone_advanced_applied",
-      "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-      "count": 2,
-      "terms": [
-        "joblib",
-        "onehotencoder"
-      ]
-    }
-  ],
+  "warnings": [],
   "badges": [
     {
       "badge": "progress_phase0_walked",
@@ -135,7 +89,7 @@
         "S38",
         "S39"
       ],
-      "blocking_term_gaps": 2
+      "blocking_term_gaps": 0
     },
     {
       "badge": "progress_phase3_walked",
@@ -213,7 +167,7 @@
         "S51",
         "S52"
       ],
-      "blocking_term_gaps": 2
+      "blocking_term_gaps": 0
     },
     {
       "badge": "python_data_foundations",
@@ -320,7 +274,7 @@
         "S32",
         "S38"
       ],
-      "blocking_term_gaps": 2
+      "blocking_term_gaps": 0
     },
     {
       "badge": "applied_deep_learning_practice",
@@ -436,7 +390,7 @@
         "S32",
         "S38"
       ],
-      "blocking_term_gaps": 2
+      "blocking_term_gaps": 0
     },
     {
       "badge": "integrated_python_ai_capstone_foundations",
@@ -496,7 +450,7 @@
         "S38",
         "S39"
       ],
-      "blocking_term_gaps": 2
+      "blocking_term_gaps": 0
     },
     {
       "badge": "integrated_python_ai_capstone_integrated_mastery",

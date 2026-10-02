@@ -1170,11 +1170,11 @@
  },
  "S32": {
   "section": "S32",
-  "prose_words": 7236,
+  "prose_words": 7279,
   "english_function_words": 22,
   "ordinary_english_words": 38,
   "kept_technical_terms": 225,
-  "avoidable_english_per_1000": 8.3,
+  "avoidable_english_per_1000": 8.2,
   "top_terms": [
    [
     "split",

@@ -465,10 +465,10 @@
   "section": "S31"
  },
  "S32": {
-  "words": 5729,
-  "sentences": 561,
-  "words_per_sentence": 10.2,
-  "fernandez_huerta": 81.9,
+  "words": 5775,
+  "sentences": 562,
+  "words_per_sentence": 10.3,
+  "fernandez_huerta": 81.8,
   "long_sentences": 7,
   "run_on_sentences": 1,
   "nominalisations_per_100w": 2.3,

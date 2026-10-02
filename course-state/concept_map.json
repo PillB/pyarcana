@@ -125792,12 +125792,6 @@
     "visible": true
    },
    {
-    "section": "S32",
-    "location": "microservices.resources.doc[5]",
-    "kind": "resource",
-    "visible": true
-   },
-   {
     "section": "S36",
     "location": "ai-apis-advanced.S36-T4-A.p3",
     "kind": "theory.paragraph",
@@ -125895,7 +125889,6 @@
    "S17",
    "S19",
    "S20",
-   "S32",
    "S36",
    "S42"
   ],
@@ -131909,12 +131902,6 @@
   "declared_first_section": "advanced-models",
   "uses": [
    {
-    "section": "S32",
-    "location": "microservices.resources.doc[5]",
-    "kind": "resource",
-    "visible": true
-   },
-   {
     "section": "S33",
     "location": "advanced-models.outcome[7]",
     "kind": "outcome",
@@ -131966,9 +131953,9 @@
   ],
   "figures": [],
   "first_use": {
-   "section": "S32",
-   "location": "microservices.resources.doc[5]",
-   "kind": "resource",
+   "section": "S33",
+   "location": "advanced-models.outcome[7]",
+   "kind": "outcome",
    "visible": true
   },
   "first_definition": {
@@ -131981,12 +131968,6 @@
   "depth": "L1",
   "surprising_uses": [
    {
-    "section": "S32",
-    "location": "microservices.resources.doc[5]",
-    "kind": "resource",
-    "visible": true
-   },
-   {
     "section": "S33",
     "location": "advanced-models.outcome[7]",
     "kind": "outcome",
@@ -131994,7 +131975,6 @@
    }
   ],
   "sections_used": [
-   "S32",
    "S33",
    "S34"
   ],
@@ -132002,7 +131982,7 @@
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": 1
+  "explanation_lag_sections": 0
  },
  "overfitting": {
   "id": "overfitting",
@@ -136238,7 +136218,14 @@
     "visible": true
    }
   ],
-  "definitions": [],
+  "definitions": [
+   {
+    "section": "S32",
+    "location": "microservices.S32-T1-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   }
+  ],
   "examples": [],
   "exercises": [],
   "self_checks": [],
@@ -136250,17 +136237,15 @@
    "kind": "theory.paragraph",
    "visible": true
   },
-  "first_definition": null,
+  "first_definition": {
+   "section": "S32",
+   "location": "microservices.S32-T1-B.p1",
+   "kind": "theory.paragraph",
+   "visible": true
+  },
   "reinforcements": [],
-  "depth": "L0",
-  "surprising_uses": [
-   {
-    "section": "S32",
-    "location": "microservices.S32-T1-B.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "depth": "L1",
+  "surprising_uses": [],
   "sections_used": [
    "S32"
   ],
@@ -136268,7 +136253,7 @@
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": null
+  "explanation_lag_sections": 0
  },
  "stratifiedkfold": {
   "id": "stratifiedkfold",
@@ -136329,7 +136314,14 @@
     "visible": true
    }
   ],
-  "definitions": [],
+  "definitions": [
+   {
+    "section": "S32",
+    "location": "microservices.S32-T3-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   }
+  ],
   "examples": [],
   "exercises": [],
   "self_checks": [],
@@ -136341,17 +136333,15 @@
    "kind": "theory.paragraph",
    "visible": true
   },
-  "first_definition": null,
+  "first_definition": {
+   "section": "S32",
+   "location": "microservices.S32-T3-B.p0",
+   "kind": "theory.paragraph",
+   "visible": true
+  },
   "reinforcements": [],
-  "depth": "L0",
-  "surprising_uses": [
-   {
-    "section": "S32",
-    "location": "microservices.S32-T3-B.p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "depth": "L1",
+  "surprising_uses": [],
   "sections_used": [
    "S32"
   ],
@@ -136359,7 +136349,7 @@
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": null
+  "explanation_lag_sections": 0
  },
  "outlier": {
   "id": "outlier",

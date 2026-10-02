@@ -7,7 +7,7 @@ surprised by it?* 🔴 never explained · 🟠 used before it is explained · �
 
 Depth: **L0** never defined · **L1** defined inline at first use · **L2** plus a worked example · **L3** plus its own subtopic and a figure.
 
-**108 concepts.** 9 never explained, 3 used before they are explained, 96 clean.
+**108 concepts.** 7 never explained, 3 used before they are explained, 98 clean.
 
 Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) · [S05](S05.md) · [S06](S06.md) · [S07](S07.md) · [S08](S08.md) · [S09](S09.md) · [S10](S10.md) · [S11](S11.md) · [S12](S12.md) · [S13](S13.md) · [S14](S14.md) · [S15](S15.md) · [S16](S16.md) · [S17](S17.md) · [S18](S18.md) · [S19](S19.md) · [S20](S20.md) · [S21](S21.md) · [S22](S22.md) · [S23](S23.md) · [S24](S24.md) · [S25](S25.md) · [S26](S26.md) · [S27](S27.md) · [S28](S28.md) · [S29](S29.md) · [S30](S30.md) · [S31](S31.md) · [S32](S32.md) · [S33](S33.md) · [S34](S34.md) · [S35](S35.md) · [S36](S36.md) · [S37](S37.md) · [S38](S38.md) · [S39](S39.md) · [S40](S40.md) · [S41](S41.md) · [S42](S42.md) · [S43](S43.md) · [S44](S44.md) · [S45](S45.md) · [S46](S46.md) · [S47](S47.md) · [S48](S48.md) · [S49](S49.md) · [S50](S50.md) · [S51](S51.md) · [S52](S52.md)
 
@@ -15,8 +15,6 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 
 | concept | depth | first use | first explained | surprising | examples | exercised | self-check | lag | figures | sections |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
-| 🔴 `joblib` | L0 | S32 · S32-T3-B.p0 | **never** | 1 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
-| 🔴 `onehotencoder` | L0 | S32 · S32-T1-B.p1 | **never** | 1 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🔴 `args-y-kwargs` | L0 | — | **never** | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 0 |
 | 🔴 `distribuci-n-normal` | L0 | — | **never** | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 0 |
 | 🔴 `estimando` | L0 | — | **never** | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 0 |
@@ -30,7 +28,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | concept | depth | first use | first explained | surprising | examples | exercised | self-check | lag | figures | sections |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
 | 🟠 `embedding` | L1 | S28 · S28-T1-B.p1 | S48 · theory[0].p1 | 2 | 0 | 0 | 3 | +20 | 0/1 ⚠ | 2 |
-| 🟠 `cross-validation` | L1 | S32 · resources.doc[5] | S33 · theory[11].p1 | 2 | 0 | 0 | 0 | +1 | 0/1 ⚠ | 3 |
+| 🟠 `cross-validation` | L1 | S33 · outcome[7] | S33 · theory[11].p1 | 1 | 0 | 0 | 0 | · | 0/1 ⚠ | 2 |
 | 🟠 `entity-resolution` | L3 | S13 · outcome[2] | S13 · S13-T1-A.p0 | 1 | 8 | 6 | 14 | · | 2/5 ⚠ | 14 |
 
 ## Explained before first use
@@ -82,6 +80,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `iloc-vs-loc` | L2 | S15 · outcome[2] | S15 · outcome[2] | 0 | 1 | 4 | 2 | · | 0/5 ⚠ | 3 |
 | 🟢 `interprete` | L1 | S01 · tagline | S01 · tagline | 0 | 0 | 1 | 2 | · | 0/1 ⚠ | 9 |
 | 🟢 `iqr` | L3 | S16 · outcome[5] | S16 · outcome[5] | 0 | 2 | 1 | 3 | · | 1/5 ⚠ | 3 |
+| 🟢 `joblib` | L1 | S32 · S32-T3-B.p0 | S32 · S32-T3-B.p0 | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🟢 `lambda` | L2 | S06 · theory[9].p1 | S06 · theory[9].p1 | 0 | 36 | 5 | 1 | · | 1/5 ⚠ | 24 |
 | 🟢 `list` | L2 | S01 · S01-T1-B#6.p2 | S01 · S01-T1-B#6.p2 | 0 | 107 | 31 | 6 | · | 1/5 ⚠ | 42 |
 | 🟢 `list-comprehension` | L1 | S04 · outcome[5] | S04 · outcome[5] | 0 | 0 | 5 | 0 | · | 0/1 ⚠ | 12 |
@@ -91,6 +90,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `mlops` | L1 | S47 · jobRelevance | S47 · jobRelevance | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🟢 `ndarray` | L2 | S14 · theory[0].p1 | S14 · theory[0].p1 | 0 | 1 | 0 | 2 | · | 0/1 ⚠ | 2 |
 | 🟢 `notebook` | L2 | S01 · theory[8].p6 | S01 · theory[8].p6 | 0 | 1 | 1 | 1 | · | 0/5 ⚠ | 14 |
+| 🟢 `onehotencoder` | L1 | S32 · S32-T1-B.p1 | S32 · S32-T1-B.p1 | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🟢 `outlier` | L1 | S16 · jobRelevance | S16 · jobRelevance | 0 | 0 | 0 | 3 | · | 1/1 | 6 |
 | 🟢 `overfitting` | L2 | S07 · theory[5].p0 | S07 · theory[5].p0 | 0 | 3 | 0 | 1 | · | 0/1 ⚠ | 2 |
 | 🟢 `p-value` | L1 | S18 · S18-T3-A#9.heading | S18 · S18-T3-A#9.p0 | 0 | 0 | 0 | 2 | · | 0/1 ⚠ | 1 |
@@ -116,7 +116,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `roc-auc` | L1 | S34 · theory[2].heading | S34 · theory[2].p0 | 0 | 0 | 0 | 7 | · | 0/1 ⚠ | 2 |
 | 🟢 `row-group` | L2 | S15 · S15-T4-B#11.p2 | S15 · S15-T4-B#11.p2 | 0 | 1 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🟢 `ruff` | L2 | S01 · outcome[4] | S01 · outcome[4] | 0 | 3 | 5 | 4 | · | 0/1 ⚠ | 1 |
-| 🟢 `series` | L2 | S15 · outcome[0] | S15 · outcome[0] | 0 | 4 | 1 | 0 | · | 0/5 ⚠ | 8 |
+| 🟢 `series` | L2 | S15 · outcome[0] | S15 · outcome[0] | 0 | 4 | 1 | 0 | · | 0/5 ⚠ | 7 |
 | 🟢 `set` | L3 | S03 · S03-T1-A.p2 | S03 · S03-T1-A.p2 | 0 | 120 | 50 | 15 | · | 2/5 ⚠ | 45 |
 | 🟢 `shap` | L2 | S35 · S35-T1-B.p0 | S35 · S35-T1-B.p0 | 0 | 1 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🟢 `shape` | L2 | S14 · outcome[0] | S14 · outcome[0] | 0 | 5 | 5 | 3 | · | 0/5 ⚠ | 3 |
