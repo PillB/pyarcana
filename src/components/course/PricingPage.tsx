@@ -8,6 +8,11 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import {
+  COMPLETION_CERTIFICATE_TITLE,
+  MIN_SECTIONS_FOR_PROGRESS_RECORD,
+  PROGRESS_RECORD_TITLE,
+} from '@/lib/progress-document'
+import {
   SUBSCRIPTION_PLANS,
   detectCountry,
   formatPrice,
@@ -236,8 +241,8 @@ export function PricingPage({ currentPlan, onSelectPlan, onOpenAuth, isAuthentic
             a="Sí, en cualquier momento desde tu panel de cuenta. Mantienes acceso hasta el final del período pagado."
           />
           <FAQItem
-            q="¿El certificado es válido?"
-            a="El certificado de completitud demuestra que terminaste las 52 secciones + 4 capstones. No es un certificado oficial de una universidad, pero es un signal valioso para portafolio y LinkedIn."
+            q="¿Qué documento recibo?"
+            a={`Cuando completas ${MIN_SECTIONS_FOR_PROGRESS_RECORD} secciones, puedes descargar una ${PROGRESS_RECORD_TITLE.toLowerCase()} que indica cuántas de las 52 completaste. Al completar las 52, recibes el ${COMPLETION_CERTIFICATE_TITLE.toLowerCase()}.`}
           />
         </div>
       </div>
