@@ -26,7 +26,7 @@ export const section13: CourseSection = {
   learningOutcomes: [
     { text: "Aplicar normalización y blocking para resolución de identidad —decidir si dos registros representan a la misma persona— y producir `entity_resolution_score`" },
     { text: "Evaluar la resolución de identidad con etiquetas sintéticas: precision —de los pares marcados como iguales, qué parte sí lo era—, recall —de los pares realmente iguales, qué parte encontraste— y cola clerical" },
-    { text: "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER" },
+    { text: "La **resolución de entidades** (ER) indica si dos registros describen la misma entidad; computar `relationship_signal_score` (contacto compartido, distancia y apellidos) por separado." },
     { text: "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión" },
     { text: "Producir score de evidencia con incertidumbre y explicación legible" },
     { text: "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude" },

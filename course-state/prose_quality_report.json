@@ -180,13 +180,13 @@
   "section": "S12"
  },
  "S13": {
-  "words": 6687,
+  "words": 6700,
   "sentences": 573,
   "words_per_sentence": 11.7,
   "fernandez_huerta": 80.6,
   "long_sentences": 20,
   "run_on_sentences": 5,
-  "nominalisations_per_100w": 2.2,
+  "nominalisations_per_100w": 2.3,
   "b5_nominal_constructions": 6,
   "b5_per_100_sentences": 1.0,
   "gerunds_per_100w": 0.1,
