@@ -309,3 +309,20 @@ test('a marked keyword followed by what it checks is taught there (`comprueba`)'
     .flatMap((e) => { const m = rx.exec(e.text); return m && e.mentions.includes(m[1]) && !e.defines.includes(m[1]) ? [`${m[1]} @ ${e.location}`] : [] })
   assert.deepEqual(missed, [])
 })
+
+test('an indefinite article plus BOTH marks still introduces the term', () => {
+  // The stacked-mark bug, found a second time in a sibling regex. FORMATTED_SUBJECT was widened
+  // for "**`for`**"; INDEFINITE_BEFORE was not, so "Un **`set`** reúne valores distintos y sin
+  // repetir" - S03's course-first definition of `set` - credited nothing, `set` read as first
+  // defined in S11, and 64 earlier uses counted as surprises. Two sentences in the course have
+  // this shape and both are real definitions, so the property is stated over all of them.
+  const shaped = events.events.filter((e) => /\b(?:[Uu]n|[Uu]na|[Uu]nos|[Uu]nas)\s+\*\*`(\w[\w-]*)`\*\*/.test(e.text))
+  assert.ok(shaped.length > 0, 'nothing has this shape any more; this guard has stopped checking')
+  const missed = shaped
+    .filter((e) => {
+      const id = /\b(?:[Uu]n|[Uu]na|[Uu]nos|[Uu]nas)\s+\*\*`(\w[\w-]*)`\*\*/.exec(e.text)[1]
+      return e.mentions.includes(id) && !e.defines.includes(id)
+    })
+    .map((e) => e.location)
+  assert.deepEqual(missed, [])
+})

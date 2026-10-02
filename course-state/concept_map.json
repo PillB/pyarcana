@@ -103486,6 +103486,12 @@
   "definitions": [
    {
     "section": "S04",
+    "location": "iteration-summaries.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S04",
     "location": "iteration-summaries.S04-T4-A-E3.preamble",
     "kind": "wedo.preamble",
     "visible": true
@@ -107211,8 +107217,8 @@
   },
   "first_definition": {
    "section": "S04",
-   "location": "iteration-summaries.S04-T4-A-E3.preamble",
-   "kind": "wedo.preamble",
+   "location": "iteration-summaries.theory[2].p0",
+   "kind": "theory.paragraph",
    "visible": true
   },
   "reinforcements": [
@@ -107301,144 +107307,6 @@
     "section": "S03",
     "location": "decisions-rules.youDo.starter",
     "kind": "youdo.starter",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.theory[2].heading",
-    "kind": "theory.heading",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.theory[2].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.theory[2].p3",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.theory[2].code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.theory[9].heading",
-    "kind": "theory.heading",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.theory[9].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.theory[9].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.theory[9].p3",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.theory[9].code",
-    "kind": "theory.code",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T1-A-DEMO.preamble",
-    "kind": "ido.preamble",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T1-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T3-A-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T3-B-DEMO.code",
-    "kind": "ido.code",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T1-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T3-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T3-B-E2.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T3-B-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T3-B-E3.instruction",
-    "kind": "wedo.instruction",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T3-B-E3.hint",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T3-B-E3.hint[0]",
-    "kind": "wedo.hint",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T3-B-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T3-B-E3.retrospective",
-    "kind": "wedo.retrospective",
-    "visible": true
-   },
-   {
-    "section": "S04",
-    "location": "iteration-summaries.S04-T4-A-E3.title",
-    "kind": "wedo.title",
     "visible": true
    }
   ],

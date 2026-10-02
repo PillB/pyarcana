@@ -36,8 +36,8 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `merge` | L2 | S10 · S10-T4-A.p2 | S17 · S17-T1-A.p0 | 5 | 5 | 9 | 5 | +7 | 0/5 ⚠ | 10 |
 | 🟠 `eda` | L1 | S16 · S16-T1-A.p0 | S18 · jobRelevance | 4 | 0 | 0 | 3 | +2 | 0/1 ⚠ | 4 |
 | 🟠 `set` | L3 | S01 · S01-T4-A-E3.starter | S03 · S03-T1-A.p2 | 1 | 120 | 50 | 17 | +2 | 2/5 ⚠ | 46 |
-| 🟠 `dict` | L3 | S03 · S03-T2-B.code | S04 · S04-T4-A-E3.preamble | 32 | 467 | 121 | 7 | +1 | 3/5 ⚠ | 50 |
 | 🟠 `for` | L2 | S03 · S03-T1-B-E1.starter | S04 · S04-T1-A.p0 | 23 | 342 | 29 | 4 | +1 | 0/5 ⚠ | 50 |
+| 🟠 `dict` | L3 | S03 · S03-T2-B.code | S04 · theory[2].p0 | 9 | 467 | 121 | 7 | +1 | 3/5 ⚠ | 50 |
 | 🟠 `cross-validation` | L1 | S32 · resources.doc[5] | S33 · theory[11].p1 | 2 | 0 | 0 | 0 | +1 | 0/1 ⚠ | 3 |
 | 🟠 `entity-resolution` | L3 | S12 · selfCheck[4].opt[2] | S13 · S13-T1-A.p0 | 2 | 8 | 6 | 15 | +1 | 2/5 ⚠ | 15 |
 | 🟠 `if` | L2 | S01 · S01-T1-B#6.code | S02 · S02-T2-A-DEMO.why | 1 | 436 | 50 | 15 | +1 | 0/5 ⚠ | 52 |

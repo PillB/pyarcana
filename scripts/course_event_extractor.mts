@@ -104,7 +104,12 @@ function looksLikeProse(inner: string): boolean {
  * indefinite article is what generalises ("a tuple gathers\u2026", not "the tuple we just made"),
  * so require it before the term and a describing verb just after.
  */
-const INDEFINITE_BEFORE = /\b(?:un|una|unos|unas)\s+(?:\*\*|`|_)?$/i
+// The stacked mark again. FORMATTED_SUBJECT was widened for "**`for`**" and this sibling was
+// not, so "Un **`set`** reúne valores distintos…" - S03's course-first definition of `set` -
+// credited nothing, and `set` read as first defined in S11 with 64 earlier uses exposed.
+// Falsified before widening: exactly two sentences in the course put `**` plus a backtick
+// after an indefinite article, and both are real definitions (`set` in S03, `dict` in S04).
+const INDEFINITE_BEFORE = /\b(?:un|una|unos|unas)\s+(?:\*\*|__)?(?:\*\*|`|_)?$/i
 
 /**
  * A keyword never takes an article, so the article test above can never credit one.
