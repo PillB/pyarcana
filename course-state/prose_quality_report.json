@@ -405,13 +405,13 @@
   "section": "S27"
  },
  "S28": {
-  "words": 5425,
+  "words": 5435,
   "sentences": 530,
-  "words_per_sentence": 10.2,
+  "words_per_sentence": 10.3,
   "fernandez_huerta": 83.7,
   "long_sentences": 4,
   "run_on_sentences": 4,
-  "nominalisations_per_100w": 2.5,
+  "nominalisations_per_100w": 2.6,
   "b5_nominal_constructions": 2,
   "b5_per_100_sentences": 0.4,
   "gerunds_per_100w": 0.4,

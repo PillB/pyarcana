@@ -141358,12 +141358,6 @@
   "declared_first_section": "evidence-dashboard",
   "uses": [
    {
-    "section": "S28",
-    "location": "llm-agents.S28-T1-B.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
     "section": "S48",
     "location": "ai-governance.outcome[0]",
     "kind": "outcome",
@@ -141518,9 +141512,9 @@
   ],
   "figures": [],
   "first_use": {
-   "section": "S28",
-   "location": "llm-agents.S28-T1-B.p1",
-   "kind": "theory.paragraph",
+   "section": "S48",
+   "location": "ai-governance.outcome[0]",
+   "kind": "outcome",
    "visible": true
   },
   "first_definition": {
@@ -141531,23 +141525,15 @@
   },
   "reinforcements": [],
   "depth": "L1",
-  "surprising_uses": [
-   {
-    "section": "S28",
-    "location": "llm-agents.S28-T1-B.p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
-   "S28",
    "S48"
   ],
   "load_bearing": false,
   "figure_target": 1,
   "figure_count": 0,
   "figure_gap": 1,
-  "explanation_lag_sections": 20
+  "explanation_lag_sections": 0
  },
  "asignacion-aleatoria": {
   "id": "asignacion-aleatoria",

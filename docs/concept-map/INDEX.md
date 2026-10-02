@@ -7,7 +7,7 @@ surprised by it?* 🔴 never explained · 🟠 used before it is explained · �
 
 Depth: **L0** never defined · **L1** defined inline at first use · **L2** plus a worked example · **L3** plus its own subtopic and a figure.
 
-**108 concepts.** 7 never explained, 1 used before they are explained, 100 clean.
+**108 concepts.** 7 never explained, 0 used before they are explained, 101 clean.
 
 Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) · [S05](S05.md) · [S06](S06.md) · [S07](S07.md) · [S08](S08.md) · [S09](S09.md) · [S10](S10.md) · [S11](S11.md) · [S12](S12.md) · [S13](S13.md) · [S14](S14.md) · [S15](S15.md) · [S16](S16.md) · [S17](S17.md) · [S18](S18.md) · [S19](S19.md) · [S20](S20.md) · [S21](S21.md) · [S22](S22.md) · [S23](S23.md) · [S24](S24.md) · [S25](S25.md) · [S26](S26.md) · [S27](S27.md) · [S28](S28.md) · [S29](S29.md) · [S30](S30.md) · [S31](S31.md) · [S32](S32.md) · [S33](S33.md) · [S34](S34.md) · [S35](S35.md) · [S36](S36.md) · [S37](S37.md) · [S38](S38.md) · [S39](S39.md) · [S40](S40.md) · [S41](S41.md) · [S42](S42.md) · [S43](S43.md) · [S44](S44.md) · [S45](S45.md) · [S46](S46.md) · [S47](S47.md) · [S48](S48.md) · [S49](S49.md) · [S50](S50.md) · [S51](S51.md) · [S52](S52.md)
 
@@ -27,7 +27,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 
 | concept | depth | first use | first explained | surprising | examples | exercised | self-check | lag | figures | sections |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
-| 🟠 `embedding` | L1 | S28 · S28-T1-B.p1 | S48 · outcome[0] | 1 | 0 | 0 | 3 | +20 | 0/1 ⚠ | 2 |
+| _none_ |
 
 ## Explained before first use
 
@@ -63,6 +63,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `dtype` | L3 | S14 · outcome[0] | S14 · outcome[0] | 0 | 18 | 16 | 10 | · | 2/5 ⚠ | 8 |
 | 🟢 `dunder-method` | L2 | S11 · theory[2].p1 | S11 · theory[2].p1 | 0 | 6 | 4 | 1 | · | 0/1 ⚠ | 1 |
 | 🟢 `eda` | L1 | S18 · tagline | S18 · tagline | 0 | 0 | 0 | 3 | · | 0/1 ⚠ | 3 |
+| 🟢 `embedding` | L1 | S48 · outcome[0] | S48 · outcome[0] | 0 | 0 | 0 | 3 | · | 0/1 ⚠ | 1 |
 | 🟢 `entity-resolution` | L3 | S13 · outcome[2] | S13 · outcome[2] | 0 | 8 | 6 | 14 | · | 2/5 ⚠ | 14 |
 | 🟢 `exception` | L3 | S03 · S03-T2-B.p0 | S03 · S03-T2-B.p0 | 0 | 51 | 26 | 11 | · | 3/5 ⚠ | 31 |
 | 🟢 `f-string` | L1 | S02 · theory[12].p0 | S02 · theory[12].p0 | 0 | 0 | 14 | 1 | · | 0/1 ⚠ | 10 |
