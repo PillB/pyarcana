@@ -128822,6 +128822,12 @@
   "definitions": [
    {
     "section": "S18",
+    "location": "data-engineering.tagline",
+    "kind": "tagline",
+    "visible": true
+   },
+   {
+    "section": "S18",
     "location": "data-engineering.jobRelevance",
     "kind": "jobRelevance",
     "visible": true
@@ -128878,8 +128884,8 @@
   },
   "first_definition": {
    "section": "S18",
-   "location": "data-engineering.jobRelevance",
-   "kind": "jobRelevance",
+   "location": "data-engineering.tagline",
+   "kind": "tagline",
    "visible": true
   },
   "reinforcements": [
@@ -128908,12 +128914,6 @@
     "section": "S16",
     "location": "wxpython-gui.S16-T3-B.p2",
     "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.tagline",
-    "kind": "tagline",
     "visible": true
    }
   ],
@@ -137884,6 +137884,12 @@
   "definitions": [
    {
     "section": "S18",
+    "location": "data-engineering.jobRelevance",
+    "kind": "jobRelevance",
+    "visible": true
+   },
+   {
+    "section": "S18",
     "location": "data-engineering.S18-T3-A.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -137954,32 +137960,13 @@
   },
   "first_definition": {
    "section": "S18",
-   "location": "data-engineering.S18-T3-A.p0",
-   "kind": "theory.paragraph",
+   "location": "data-engineering.jobRelevance",
+   "kind": "jobRelevance",
    "visible": true
   },
   "reinforcements": [],
   "depth": "L2",
-  "surprising_uses": [
-   {
-    "section": "S18",
-    "location": "data-engineering.jobRelevance",
-    "kind": "jobRelevance",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.outcome[4]",
-    "kind": "outcome",
-    "visible": true
-   },
-   {
-    "section": "S18",
-    "location": "data-engineering.theory[0].callout",
-    "kind": "theory.callout",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S18",
    "S19",

@@ -15,14 +15,14 @@ export const section18: CourseSection = {
  index: 18,
  title: "EDA, estadística descriptiva e incertidumbre",
  shortTitle: "EDA e incertidumbre",
- tagline: "Análisis exploratorio de datos (EDA) que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
+ tagline: "El **análisis exploratorio de datos** describe una práctica inicial: mirar los datos para descubrir qué hay y formular preguntas antes de adoptar una conclusión. Esta práctica (EDA) diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
  estimatedHours: 9,
  level: "Práctica independiente",
  phase: 1,
  icon: "BarChart3",
  accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
  jobRelevance:
- "En analytics y data products de banca, fintech y retail en Perú, un EDA honesto (esto es, un análisis exploratorio de datos que declara supuestos e incertidumbre) separa hallazgo, hipótesis y decisión: cada número lleva n, cobertura e incertidumbre. Aquí practicas resúmenes robustos, sesgo muestral, intervalos básicos y correlación sin causalidad, con notas de datos reproducibles. Es la base para construir un dashboard accesible que no mienta con promedios sobre muestras chicas.",
+ "En analytics y data products de banca, fintech y retail en Perú, un EDA honesto (esto es, un análisis exploratorio de datos que declara supuestos e incertidumbre) separa hallazgo, hipótesis y decisión: cada número lleva n, cobertura e incertidumbre. Aquí practicas resúmenes robustos, sesgo muestral e intervalos básicos con notas de datos reproducibles. La **correlación** describe cómo dos variables se mueven juntas, sin afirmar causalidad. Es la base para construir un dashboard accesible que no mienta con promedios sobre muestras chicas.",
  learningOutcomes: [
  { text: "Resumir distribuciones con centro, dispersión y cuantiles" },
  { text: "Elegir métricas robustas y escalas honestas" },

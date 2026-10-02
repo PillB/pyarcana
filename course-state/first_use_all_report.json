@@ -5,7 +5,7 @@
   "events_audited": 22909,
   "issue_counts": {
     "NO_VISIBLE_DEFINITION": 2,
-    "USE_BEFORE_DEFINITION": 5
+    "USE_BEFORE_DEFINITION": 4
   },
   "never_defined_but_mentioned": [
     "joblib",
@@ -17,7 +17,7 @@
       "term_id": "eda",
       "severity": "P1",
       "location": "wxpython-gui.S16-T1-A.p0",
-      "definition_location": "data-engineering.jobRelevance"
+      "definition_location": "data-engineering.tagline"
     },
     {
       "code": "USE_BEFORE_DEFINITION",
@@ -37,13 +37,6 @@
       "term_id": "joblib",
       "severity": "P1",
       "location": "microservices.S32-T3-B.p0"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "correlaci-n",
-      "severity": "P1",
-      "location": "data-engineering.jobRelevance",
-      "definition_location": "data-engineering.S18-T3-A.p0"
     },
     {
       "code": "USE_BEFORE_DEFINITION",

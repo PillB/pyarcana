@@ -7,7 +7,7 @@ surprised by it?* 🔴 never explained · 🟠 used before it is explained · �
 
 Depth: **L0** never defined · **L1** defined inline at first use · **L2** plus a worked example · **L3** plus its own subtopic and a figure.
 
-**108 concepts.** 9 never explained, 5 used before they are explained, 94 clean.
+**108 concepts.** 9 never explained, 4 used before they are explained, 95 clean.
 
 Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) · [S05](S05.md) · [S06](S06.md) · [S07](S07.md) · [S08](S08.md) · [S09](S09.md) · [S10](S10.md) · [S11](S11.md) · [S12](S12.md) · [S13](S13.md) · [S14](S14.md) · [S15](S15.md) · [S16](S16.md) · [S17](S17.md) · [S18](S18.md) · [S19](S19.md) · [S20](S20.md) · [S21](S21.md) · [S22](S22.md) · [S23](S23.md) · [S24](S24.md) · [S25](S25.md) · [S26](S26.md) · [S27](S27.md) · [S28](S28.md) · [S29](S29.md) · [S30](S30.md) · [S31](S31.md) · [S32](S32.md) · [S33](S33.md) · [S34](S34.md) · [S35](S35.md) · [S36](S36.md) · [S37](S37.md) · [S38](S38.md) · [S39](S39.md) · [S40](S40.md) · [S41](S41.md) · [S42](S42.md) · [S43](S43.md) · [S44](S44.md) · [S45](S45.md) · [S46](S46.md) · [S47](S47.md) · [S48](S48.md) · [S49](S49.md) · [S50](S50.md) · [S51](S51.md) · [S52](S52.md)
 
@@ -30,9 +30,8 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | concept | depth | first use | first explained | surprising | examples | exercised | self-check | lag | figures | sections |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
 | 🟠 `embedding` | L1 | S28 · S28-T1-B.p1 | S48 · theory[0].p1 | 2 | 0 | 0 | 3 | +20 | 0/1 ⚠ | 2 |
-| 🟠 `eda` | L1 | S16 · S16-T1-A.p0 | S18 · jobRelevance | 4 | 0 | 0 | 3 | +2 | 0/1 ⚠ | 4 |
+| 🟠 `eda` | L1 | S16 · S16-T1-A.p0 | S18 · tagline | 3 | 0 | 0 | 3 | +2 | 0/1 ⚠ | 4 |
 | 🟠 `cross-validation` | L1 | S32 · resources.doc[5] | S33 · theory[11].p1 | 2 | 0 | 0 | 0 | +1 | 0/1 ⚠ | 3 |
-| 🟠 `correlaci-n` | L2 | S18 · jobRelevance | S18 · S18-T3-A.p0 | 3 | 1 | 1 | 4 | · | 0/5 ⚠ | 5 |
 | 🟠 `entity-resolution` | L3 | S13 · outcome[2] | S13 · S13-T1-A.p0 | 1 | 8 | 6 | 14 | · | 2/5 ⚠ | 14 |
 
 ## Explained before first use
@@ -53,6 +52,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `commit` | L3 | S01 · outcome[5] | S01 · outcome[5] | 0 | 8 | 13 | 6 | · | 1/5 ⚠ | 7 |
 | 🟢 `context-manager` | L1 | S09 · S09-T1-B.p0 | S09 · S09-T1-B.p0 | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 2 |
 | 🟢 `conventional-commits` | L1 | S01 · theory[18].p0 | S01 · theory[18].p0 | 0 | 0 | 4 | 2 | · | 0/1 ⚠ | 1 |
+| 🟢 `correlaci-n` | L2 | S18 · jobRelevance | S18 · jobRelevance | 0 | 1 | 1 | 4 | · | 0/5 ⚠ | 5 |
 | 🟢 `counter` | L2 | S08 · S08-T2-B-E3.instruction | S08 · S08-T2-B-E3.instruction | 0 | 3 | 5 | 0 | · | 0/5 ⚠ | 5 |
 | 🟢 `coverage` | L1 | S24 · S24-T4-A-E3.preamble | S24 · S24-T4-A-E3.preamble | 0 | 0 | 3 | 0 | · | 0/1 ⚠ | 4 |
 | 🟢 `cuartil` | L3 | S16 · theory[8].heading | S16 · theory[8].p1 | 0 | 5 | 3 | 0 | · | 1/5 ⚠ | 3 |
