@@ -15,7 +15,7 @@ export const section04: CourseSection = {
   index: 4,
   title: "Iteración y resúmenes transaccionales",
   shortTitle: "Iteración y resúmenes",
-  tagline: "`for`, `while`, contadores y comprensiones —formas compactas de crear listas— para cerrar CP-N1-A, el proyecto acumulativo de captura y calidad de datos del Nivel 1",
+  tagline: "`for` —la instrucción que repite un bloque de código para cada elemento de un grupo—, `while`, contadores y comprensiones —formas compactas de crear listas— para cerrar CP-N1-A, el proyecto acumulativo de captura y calidad de datos del Nivel 1",
   estimatedHours: 9,
   level: "Principiante",
   phase: 0,
@@ -29,7 +29,7 @@ export const section04: CourseSection = {
     { text: "Escribir `while` con una salida alcanzable y usar un centinela, un valor especial que marca el final" },
     { text: "Usar `continue` para saltar una vuelta, `break` para terminar el bucle y límites para evitar repeticiones infinitas" },
     { text: "Implementar contadores, sumas acumuladas y búsquedas con costo O(n), es decir, proporcional al número de elementos" },
-    { text: "Escribir comprensiones de lista, formas compactas de crear listas, para filtros simples" },
+    { text: "Escribir comprensiones de lista —formas compactas de crear listas— para filtros simples" },
     { text: "Registrar el estado de un bucle paso a paso para localizar errores en los contadores" },
     { text: "Distinguir el costo lineal O(n) del cuadrático O(n²) y corregir accesos que se desvían una posición" },
   ],
@@ -293,7 +293,7 @@ print(positivos)
     {
       heading: "Cómo crear un dict con una regla breve",
       paragraphs: [
-        "Una **comprensión de diccionario** (`dict comprehension`) crea un `dict` con una regla breve repetida por un `for`. Existe para producir un par clave-valor por cada elemento cuando no hacen falta varias decisiones. Su forma es `{clave: valor for elemento in lista}`; a la izquierda de `:` va la clave y a la derecha, el valor que quedará asociado.",
+        "Una **comprensión de diccionario** crea un `dict` con una regla breve repetida por un `for`. En inglés también se llama `dict comprehension`. Existe para producir un par clave-valor por cada elemento cuando no hacen falta varias decisiones. Su forma es `{clave: valor for elemento in lista}`; a la izquierda de `:` va la clave y a la derecha, el valor que quedará asociado.",
         "Yo hago: en `{r[\"id\"]: r[\"status\"] for r in filas}`, `for` visita cada ficha. En cada vuelta, el id se convierte en clave y el estado se convierte en su valor. Con C1 aceptado y C2 rechazado, el resultado es `{'C1': 'accept', 'C2': 'reject'}`.",
         "Hacemos juntos: añade `C3` con estado `review` a `filas` y predice el nuevo par antes de ejecutar. La salida correcta conserva los dos pares anteriores y añade `'C3': 'review'`.",
         "Tú haces: crea dos fichas, C4 con `reject` y C5 con `accept`, y escribe la misma comprensión sin copiar el resultado. Ejecuta `print(por_id)` para comprobarlo: debe mostrar `{'C4': 'reject', 'C5': 'accept'}`.",
@@ -1797,84 +1797,173 @@ nota: la tasa solo necesita conteo O(n), no pares O(n2)`,
   youDo: {
     title: "Client Intake & Data Quality Script (cierre CP-N1-A)",
     context:
-      "Ahora reúnes las piezas en una promesa verificable: cada registro sintético entra una vez, conserva su raw, recibe una decisión y contribuye exactamente una vez al resumen. Sobre el parser de S02 y las reglas de S03, construye un procesador **O(n)** que pueda explicar sus contadores accept/reject/review y la población usada por `tasa_reject`. Un lote vacío no es una tasa perfecta: es ausencia de observaciones y se representa con `None`. Antes de completar el starter, escribe los invariantes que `_run_tests` debe proteger; después implementa las tres funciones hasta ver `tests OK`. El empaquetado CLI llega más adelante.",
+      "Ahora reúnes las piezas en una promesa verificable: cada registro sintético entra una vez, conserva su raw y contribuye exactamente una vez al resumen. Recorre las filas con un solo `for` **O(n)** y escribe dentro de ese recorrido las cadenas `if`/`elif`/`else` que S03 usó para edad, región y monto. Acumula los contadores accept/reject/review y calcula `tasa_reject` sobre `len(rows)`. Un lote vacío no es una tasa perfecta: es ausencia de observaciones y se representa con `None`. Antes de ejecutar, escribe los invariantes que los `assert` deben proteger y predice los contadores y la tasa. Después ejecuta el único recorrido hasta que los contadores y la tasa coincidan con tu predicción.",
     objectives: [
-      "Procesar ≥3 registros sintéticos en un solo pase",
-      "Emitir contadores y tasa_reject con denominador correcto",
-      "Conservar el original (raw) de cada registro en el resultado",
-      "Reutilizar validación tri-estado por campo (S03)",
-      "Incluir una demo reproducible al final del archivo y ejecutar los `assert` al correrlo",
+      "Procesar ≥3 registros sintéticos con un solo `for` sobre `rows`",
+      "Decidir cada campo dentro del recorrido con cadenas `if`/`elif`/`else`",
+      "Acumular los contadores accept/reject/review y construir un `dict` resumen",
+      "Calcular `tasa_reject` con `len(rows)` como denominador",
+      "Conservar el raw de cada registro y comprobar los invariantes con `assert`",
     ],
     requirements: [
-      "process_batch(records) → summary con n_total, n_accept, n_reject, n_review, tasa_reject, results[]",
-      "Cada result incluye raw intacto + status agregado + detalle de campos (accept|reject|review)",
-      "tasa_reject is None cuando n_total == 0 (sin ZeroDivisionError); si n_total > 0, tasa_reject ∈ [0, 1]",
-      "Fixture de _run_tests (3 filas): n_total == 3; results[0]['raw']['raw_line'] conserva exactamente el raw original de la primera fila; lote vacío → tasa_reject is None",
-      "Sin PII real; datos sintéticos embebidos; sin bucles O(n²) innecesarios para el resumen",
-      "README o docstring en español: explica el denominador de tasas y por qué se conserva el raw",
+      "Cada fila usa el esquema `{edad, region, monto_ingreso, raw_line}` recibido de S03",
+      "El único `for` sobre `rows` visita cada fila una vez; no uses recorridos anidados",
+      "Cada campo conserva `estado`, `codigo` y `mensaje`; `registro_estado` es `reject` si algún campo se rechaza, `review` si ninguno se rechaza y alguno requiere revisión, o `accept` en los demás casos",
+      "El resumen contiene n_total, n_accept, n_reject, n_review, tasa_reject y resultados",
+      "`tasa_reject = n_reject / len(rows)` cuando hay filas; para un lote vacío vale `None`",
+      "Los `assert` fijan los cuatro conteos, la suma de estados, la tasa, el raw original y el caso vacío",
+      "La salida exacta es `resumen 4 1 1 2 0.25` y, en la línea siguiente, `tests OK`",
+      "Sin datos personales reales y sin herramientas que se enseñan después de S04",
     ],
-    starterCode: `"""intake_quality_batch.py — cierre CP-N1-A (S04)
-Procesa múltiples registros sintéticos, resume tasas, conserva raw.
-Datos ficticios únicamente. No uses PII real.
+    starterCode: `"""intake_quality_batch.py — cierre CP-N1-A (S04).
+Un solo recorrido, decisiones por campo y resumen comprobable.
+Datos sintéticos únicamente.
 """
 
-from __future__ import annotations
+from decimal import Decimal
 
-from typing import Any
-
-
-def validate_record(record: dict[str, Any]) -> dict[str, Any]:
-    """Reutiliza lógica tipo S03: status global + detalle por campo.
-    Mínimo: edad, region, monto_ingreso con accept|reject|review.
-    """
-    # TODO: devolver {status, fields} con accept|reject|review por campo (S03)
-    raise NotImplementedError
-
-
-def process_batch(records: list[dict[str, Any]]) -> dict[str, Any]:
-    """Recorre el lote UNA vez (O(n)).
-    Devuelve {
-      "n_total", "n_accept", "n_reject", "n_review",
-      "tasa_reject",  # None si n_total==0
-      "results": [ {"raw": ..., "status": ..., "fields": ...}, ... ]
-    }
-    Conserva cada raw intacto.
-    """
-    # TODO: un solo for O(n); contadores; tasa_reject None si vacío; raw intacto
-    raise NotImplementedError
-
-
-def format_report(summary: dict[str, Any]) -> str:
-    """Texto stdout legible con contadores y tasa."""
-    # TODO: texto stdout con n_total, contadores y tasa
-    raise NotImplementedError
-
-
-def _run_tests() -> None:
-    batch = [
-        {"edad": 30, "region": "Lima", "monto_ingreso": 0, "raw_line": "30|Lima|0"},
-        {"edad": None, "region": "Cusco", "monto_ingreso": 10, "raw_line": "|Cusco|10"},
-        {"edad": 15, "region": "Tacna", "monto_ingreso": -1, "raw_line": "15|Tacna|-1"},
-    ]
-    s = process_batch(batch)
-    assert s["n_total"] == 3
-    assert s["results"][0]["raw"]["raw_line"] == "30|Lima|0"
-    assert s["tasa_reject"] is None or 0 <= s["tasa_reject"] <= 1
-    empty = process_batch([])
-    assert empty["tasa_reject"] is None
-    print("tests OK")
-
-
-demo = [
-    {"edad": 40, "region": "Arequipa", "monto_ingreso": 100, "raw_line": "40|Arequipa|100"},
-    {"edad": -3, "region": "Piura", "monto_ingreso": 50, "raw_line": "-3|Piura|50"},
+# Esquema recibido de S03:
+# {"edad": ..., "region": ..., "monto_ingreso": ..., "raw_line": ...}
+rows = [
+    {"edad": 30, "region": "R-NORTE", "monto_ingreso": Decimal("0.00"), "raw_line": "30|R-NORTE|0"},
+    {"edad": None, "region": "R-SUR", "monto_ingreso": 10, "raw_line": "|R-SUR|10"},
+    {"edad": 25, "region": "R-CENTRO", "monto_ingreso": -1, "raw_line": "25|R-CENTRO|-1"},
+    {"edad": 40, "region": "R-FUERA", "monto_ingreso": 100, "raw_line": "40|R-FUERA|100"},
 ]
-summary = process_batch(demo)
-print(format_report(summary))
-_run_tests()
+
+n_accept = 0
+n_reject = 0
+n_review = 0
+resultados = []
+
+for row in rows:
+    edad = row["edad"]
+    region = row["region"]
+    monto_ingreso = row["monto_ingreso"]
+
+    if edad is None:
+        edad_estado = "review"
+        edad_codigo = "MISSING"
+        edad_mensaje = "Edad ausente; revisa el caso."
+    elif not isinstance(edad, int) or isinstance(edad, bool):
+        edad_estado = "reject"
+        edad_codigo = "BAD_TYPE"
+        edad_mensaje = "Edad no numérica; corrige el dato."
+    elif edad < 0 or edad > 120:
+        edad_estado = "reject"
+        edad_codigo = "OUT_OF_RANGE"
+        edad_mensaje = "Edad fuera de rango; corrige el dato."
+    elif edad < 18:
+        edad_estado = "review"
+        edad_codigo = "NEEDS_REVIEW"
+        edad_mensaje = "Edad menor de 18; revisa el caso."
+    else:
+        edad_estado = "accept"
+        edad_codigo = "OK"
+        edad_mensaje = "Edad aceptada."
+
+    if region is None:
+        region_estado = "review"
+        region_codigo = "MISSING"
+        region_mensaje = "Región ausente; revisa el caso."
+    elif region == "R-NORTE" or region == "R-SUR" or region == "R-CENTRO" or region == "R-COSTA":
+        region_estado = "accept"
+        region_codigo = "OK"
+        region_mensaje = "Región aceptada."
+    else:
+        region_estado = "review"
+        region_codigo = "NOT_IN_ALLOWLIST"
+        region_mensaje = "Región fuera del catálogo; revisa el caso."
+
+    if monto_ingreso is None:
+        monto_estado = "review"
+        monto_codigo = "MISSING"
+        monto_mensaje = "Monto ausente; revisa el caso."
+    elif not (isinstance(monto_ingreso, int) or isinstance(monto_ingreso, Decimal)) or isinstance(monto_ingreso, bool):
+        monto_estado = "reject"
+        monto_codigo = "BAD_TYPE"
+        monto_mensaje = "Monto no numérico; corrige el dato."
+    elif monto_ingreso < 0:
+        monto_estado = "reject"
+        monto_codigo = "OUT_OF_RANGE"
+        monto_mensaje = "Monto negativo; usa cero o un valor mayor."
+    elif monto_ingreso > 50000:
+        monto_estado = "review"
+        monto_codigo = "NEEDS_REVIEW"
+        monto_mensaje = "Monto mayor que 50000; revisa el caso."
+    else:
+        monto_estado = "accept"
+        monto_codigo = "OK"
+        monto_mensaje = "Monto aceptado."
+
+    if edad_estado == "reject" or region_estado == "reject" or monto_estado == "reject":
+        registro_estado = "reject"
+    elif edad_estado == "review" or region_estado == "review" or monto_estado == "review":
+        registro_estado = "review"
+    else:
+        registro_estado = "accept"
+
+    if registro_estado == "accept":
+        n_accept += 1
+    elif registro_estado == "reject":
+        n_reject += 1
+    else:
+        n_review += 1
+
+    resultados.append({
+        "raw": row,
+        "estado": registro_estado,
+        "campos": {
+            "edad": {"estado": edad_estado, "codigo": edad_codigo, "mensaje": edad_mensaje},
+            "region": {"estado": region_estado, "codigo": region_codigo, "mensaje": region_mensaje},
+            "monto_ingreso": {"estado": monto_estado, "codigo": monto_codigo, "mensaje": monto_mensaje},
+        },
+    })
+
+tasa_reject = n_reject / len(rows) if rows else None
+pares_resumen = [
+    ("n_total", len(rows)),
+    ("n_accept", n_accept),
+    ("n_reject", n_reject),
+    ("n_review", n_review),
+    ("tasa_reject", tasa_reject),
+    ("resultados", resultados),
+]
+resumen = {clave: valor for clave, valor in pares_resumen}
+
+assert resumen["n_total"] == 4
+assert resumen["n_accept"] == 1
+assert resumen["n_reject"] == 1
+assert resumen["n_review"] == 2
+assert resumen["n_accept"] + resumen["n_reject"] + resumen["n_review"] == len(rows)
+assert resumen["tasa_reject"] == 0.25
+assert resumen["resultados"][0]["raw"]["raw_line"] == "30|R-NORTE|0"
+
+filas_vacias = []
+tasa_vacia = 0 / len(filas_vacias) if filas_vacias else None
+pares_vacios = [
+    ("n_total", len(filas_vacias)),
+    ("n_accept", 0),
+    ("n_reject", 0),
+    ("n_review", 0),
+    ("tasa_reject", tasa_vacia),
+    ("resultados", []),
+]
+resumen_vacio = {clave: valor for clave, valor in pares_vacios}
+assert resumen_vacio["tasa_reject"] is None
+
+print(
+    "resumen",
+    resumen["n_total"],
+    resumen["n_accept"],
+    resumen["n_reject"],
+    resumen["n_review"],
+    resumen["tasa_reject"],
+)
+print("tests OK")
 `,
     portfolioNote:
-      "En el README cuenta la historia de un lote pequeño: tabla de entradas, decisiones, suma de contadores y cálculo `n_reject / n_total`. Incluye el caso vacío y una captura reproducible de stdout. Explica qué auditoría permite el raw intacto y qué decisión de diseño mantiene el procesamiento en O(n); esas razones valen más que una captura aislada.",
+      "En el README escribe primero el esquema `{edad, region, monto_ingreso, raw_line}`. Luego cuenta la historia de un lote pequeño: tabla de entradas, decisiones, suma de contadores y cálculo `n_reject / len(rows)`. Incluye el caso vacío y una captura reproducible de stdout. Explica qué auditoría permite el raw intacto y qué decisión de diseño mantiene el procesamiento en O(n); esas razones valen más que una captura aislada.",
     rubric: [
       { criterion: "Procesa lote multi-registro en O(n)", weight: "25%" },
       { criterion: "Tasas con denominador correcto / vacío seguro", weight: "25%" },

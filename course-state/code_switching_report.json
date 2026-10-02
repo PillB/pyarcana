@@ -88,10 +88,10 @@
  },
  "S04": {
   "section": "S04",
-  "prose_words": 7002,
+  "prose_words": 7080,
   "english_function_words": 15,
   "ordinary_english_words": 9,
-  "kept_technical_terms": 15,
+  "kept_technical_terms": 14,
   "avoidable_english_per_1000": 3.4,
   "top_terms": [
    [

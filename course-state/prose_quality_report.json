@@ -45,11 +45,11 @@
   "section": "S03"
  },
  "S04": {
-  "words": 5926,
-  "sentences": 525,
+  "words": 5960,
+  "sentences": 527,
   "words_per_sentence": 11.3,
-  "fernandez_huerta": 81.0,
-  "long_sentences": 0,
+  "fernandez_huerta": 80.9,
+  "long_sentences": 1,
   "run_on_sentences": 0,
   "nominalisations_per_100w": 2.1,
   "b5_nominal_constructions": 4,
