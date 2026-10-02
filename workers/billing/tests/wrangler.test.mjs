@@ -37,7 +37,7 @@ const PUBLIC_VARS = {
   TRIAL_DAYS: "7",
   GRACE_DAYS: "7",
   SESSION_MAX_DAYS: "180",
-  GOOGLE_CLIENT_ID: "",
+  GOOGLE_CLIENT_ID: "432743649609-a450e9saoe4akd98dt3gsnous80vblj4.apps.googleusercontent.com",
   MICROSOFT_CLIENT_ID: "171fb4ff-f112-46b2-9043-92ecb97f56fe",
   // Owner decision 2026-10-01: the beta starts on Workers Free, email codes OFF (Google and
   // Microsoft only). D-USER-04's Cloudflare Email Sending is one uncommenting away.
@@ -153,4 +153,12 @@ test("Workers Free: no send_email binding is deployed, and the commented one may
   const sender = /^# allowed_sender_addresses = (\[.*\])$/m.exec(TOML);
   assert.ok(sender, "the commented binding names its allowed sender");
   assert.deepEqual(JSON.parse(sender[1]), [unquote(vars.EMAIL_FROM)]);
+});
+
+test("the site's emailSignIn equals whether the worker sends email codes (privacy page names the sender only then)", () => {
+  const config = readFileSync(fileURLToPath(new URL("../../src/lib/cloud/config.ts", ROOT)), "utf8");
+  const match = /^ {2}emailSignIn: (true|false),$/m.exec(config);
+  assert.ok(match, "CLOUD_CONFIG.emailSignIn is set");
+  const provider = unquote(section(TOML, "vars").EMAIL_PROVIDER);
+  assert.equal(match[1] === "true", provider !== "", `emailSignIn=${match[1]} but EMAIL_PROVIDER="${provider}"`);
 });

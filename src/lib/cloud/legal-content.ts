@@ -92,10 +92,8 @@ export interface Processor {
 
 /** Who processes account data for the owner, in the order a reader meets them. */
 export function processors(cfg: CloudConfig): Processor[] {
-  const list: Processor[] = [
-    { key: 'cloudflare', country: 'US' },
-    { key: 'email', country: '' },
-  ]
+  const list: Processor[] = [{ key: 'cloudflare', country: 'US' }]
+  if (cfg.emailSignIn) list.push({ key: 'email', country: '' })
   if (cfg.googleClientId) list.push({ key: 'google', country: 'US' })
   if (cfg.microsoftClientId) list.push({ key: 'microsoft', country: 'US' })
   if (cfg.rails.peru === 'mercadopago') list.push({ key: 'mercadopago', country: 'PE' })

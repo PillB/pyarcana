@@ -56,6 +56,11 @@ export interface CloudConfig {
   termsVersion: string
   /** 'common' admits personal plus work/school accounts; 'consumers' personal only. */
   microsoftAuthority: string
+  /**
+   * Whether email sign-in codes run (the worker's EMAIL_PROVIDER is set). Keep it equal to the worker:
+   * the privacy page names the email sender only while this is true. Off for the Workers Free beta.
+   */
+  emailSignIn: boolean
   licence: { publicKeys: LicencePublicKey[] }
   gate: {
     /** Sections 1..freeSections are free. A non-positive or non-integer value turns the gate off. */
@@ -91,10 +96,11 @@ export const CLOUD_CONFIG: CloudConfig = {
   canonicalOrigin: 'https://pyarcana.dev',
   movedToCanonical: false,
   apiBaseUrl: '/api',
-  googleClientId: '',
+  googleClientId: '432743649609-a450e9saoe4akd98dt3gsnous80vblj4.apps.googleusercontent.com',
   microsoftClientId: '171fb4ff-f112-46b2-9043-92ecb97f56fe',
   termsVersion: '',
   microsoftAuthority: 'common',
+  emailSignIn: false,
   licence: { publicKeys: [] },
   gate: { freeSections: FREE_PLAN_SECTIONS ?? 0, since: '', packaging: 'A' },
   rails: { peru: '', international: '' },

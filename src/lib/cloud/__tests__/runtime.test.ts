@@ -250,7 +250,7 @@ test('with accounts on, each configured provider adds only its own hosts', () =>
   assert.match(directive(csp, 'connect-src'), /https:\/\/login.microsoftonline.com/)
   assert.match(directive(csp, 'connect-src'), /http:\/\/localhost:8787/)
   assert.doesNotMatch(csp, /googlesyndication|ethicalads/, 'house ads add no network host')
-  const sameOrigin = buildCsp(cfg({ launchStage: 'sync', apiBaseUrl: '/api', microsoftClientId: '' }))
+  const sameOrigin = buildCsp(cfg({ launchStage: 'sync', apiBaseUrl: '/api', googleClientId: '', microsoftClientId: '' }))
   assert.equal(sameOrigin, LEGACY_CSP, "a same-origin API needs nothing beyond 'self'")
 })
 

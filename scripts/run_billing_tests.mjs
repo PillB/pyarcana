@@ -70,7 +70,7 @@ const WORKER_SUITES = [
   ["microsoft", 25],
   ["session-routes", 5],
   ["retention", 6],
-  ["wrangler", 7],
+  ["wrangler", 8],
   ["audit", 3],
   ["runner", 6],
   // Stage 1b: entitlement, trial, admin, progress, reports, privacy.

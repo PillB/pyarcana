@@ -43,7 +43,7 @@ GRACE_DAYS = "7"
 SESSION_MAX_DAYS = "180"
 # OAuth client ids are public by design (they ship in the page). Use PyArcana's OWN ids:
 # a token minted for any other app is refused by audience.
-GOOGLE_CLIENT_ID = ""
+GOOGLE_CLIENT_ID = "432743649609-a450e9saoe4akd98dt3gsnous80vblj4.apps.googleusercontent.com"
 # Microsoft uses the `common` authority (D-USER-05: any Entra ID tenant + personal
 # accounts). The authority is the client's setting (microsoftAuthority); the worker always
 # verifies against the common JWKS and the token's own tenant issuer.

@@ -49,7 +49,9 @@ test('privacy carries controller, data, processors, retention, stored keys, righ
 })
 
 test('cookies: the Google sign-in paragraph only when the Google button is configured', () => {
-  assert.ok(!legalBlocks(cfg({ launchStage: 'sync' }), 'cookies', 'sync').includes('googleSignIn'))
+  assert.ok(!legalBlocks(cfg({ launchStage: 'sync', googleClientId: '' }), 'cookies', 'sync').includes('googleSignIn'))
+  // The shipped config names the registered Google client (1 Oct 2026): the paragraph appears once accounts run.
+  assert.ok(legalBlocks(cfg({ launchStage: 'beta' }), 'cookies', 'beta').includes('googleSignIn'))
   assert.ok(legalBlocks(cfg({ launchStage: 'sync', googleClientId: 'x.apps.googleusercontent.com' }), 'cookies', 'sync').includes('googleSignIn'))
 })
 
@@ -63,7 +65,9 @@ test('"sin cookies de terceros" stays only while true', () => {
   assert.equal(thirdPartyCookieClaimHolds(base), true, 'the shipped config')
   // Configured but switched off: nothing runs, so the statement is still true.
   assert.equal(thirdPartyCookieClaimHolds(cfg({ launchStage: 'off', googleClientId: 'g', ...ads('adsense', { adsenseClient: 'ca-pub-1234567890123456' }) })), true)
-  assert.equal(thirdPartyCookieClaimHolds(cfg({ launchStage: 'beta' })), true, 'house ads and email sign-in only')
+  assert.equal(thirdPartyCookieClaimHolds(cfg({ launchStage: 'beta', googleClientId: '' })), true, 'house ads, no Google button')
+  // The shipped config at beta has the Google button, which sets Google cookies: the claim must drop.
+  assert.equal(thirdPartyCookieClaimHolds(cfg({ launchStage: 'beta' })), false, 'shipped config at beta')
   assert.equal(thirdPartyCookieClaimHolds(cfg({ launchStage: 'sync', googleClientId: 'g' })), false)
   assert.equal(thirdPartyCookieClaimHolds(cfg({ launchStage: 'beta', ...ads('ethicalads', { ethicaladsPublisher: 'p' }) })), false)
 })
@@ -80,13 +84,14 @@ test('"no compartimos datos con terceros para publicidad" stays only while no ad
 })
 
 test('processors follow the config: Cloudflare always; Google, Microsoft, rails and networks only when used', () => {
-  assert.deepEqual(processors(cfg({ launchStage: 'sync', microsoftClientId: '' })).map((p) => p.key), ['cloudflare', 'email'])
-  // The shipped config names the registered Microsoft app, so Microsoft is listed once accounts run.
-  assert.deepEqual(processors(cfg({ launchStage: 'sync' })).map((p) => p.key), ['cloudflare', 'email', 'microsoft'])
+  assert.deepEqual(processors(cfg({ launchStage: 'sync', googleClientId: '', microsoftClientId: '', emailSignIn: true })).map((p) => p.key), ['cloudflare', 'email'])
+  // The shipped config: Google and Microsoft registered, email codes off (Workers Free beta), so no email sender is named.
+  assert.deepEqual(processors(cfg({ launchStage: 'sync' })).map((p) => p.key), ['cloudflare', 'google', 'microsoft'])
   const all = cfg({
     launchStage: 'paid',
     googleClientId: 'g',
     microsoftClientId: 'm',
+    emailSignIn: true,
     rails: { peru: 'mercadopago', international: 'creem' },
     ...ads('adsense', { adsenseClient: 'ca-pub-1234567890123456' }),
   })
