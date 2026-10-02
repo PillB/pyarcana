@@ -1,32 +1,7 @@
 {
-  "ok": false,
+  "ok": true,
   "decision": "D2 - synthetic records carry no DNI",
   "files_scanned": 52,
-  "violations": 4,
-  "findings": [
-    {
-      "file": "src/lib/course/sections/s09-exceptions-logging.ts",
-      "line": 1442,
-      "value": "12345678",
-      "excerpt": "r: if not (d.isdigit() and len(d) == 8): raise ValueError(f\"dni inválido: {d!r}\") return d fixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"] minimal = fixture[0] print(\"minimal"
-    },
-    {
-      "file": "src/lib/course/sections/s09-exceptions-logging.ts",
-      "line": 1442,
-      "value": "87654321",
-      "excerpt": "digit() and len(d) == 8): raise ValueError(f\"dni inválido: {d!r}\") return d fixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"] minimal = fixture[0] print(\"minimal\", minimal) `, "
-    },
-    {
-      "file": "src/lib/course/sections/s09-exceptions-logging.ts",
-      "line": 1455,
-      "value": "12345678",
-      "excerpt": "r: if not (d.isdigit() and len(d) == 8): raise ValueError(f\"dni inválido: {d!r}\") return d fixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"] minimal = None for d in fixture: tr"
-    },
-    {
-      "file": "src/lib/course/sections/s09-exceptions-logging.ts",
-      "line": 1455,
-      "value": "87654321",
-      "excerpt": "digit() and len(d) == 8): raise ValueError(f\"dni inválido: {d!r}\") return d fixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"] minimal = None for d in fixture: try: parse_dni(d)"
-    }
-  ]
+  "violations": 0,
+  "findings": []
 }

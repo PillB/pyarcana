@@ -266,11 +266,11 @@
  },
  "S09": {
   "section": "S09",
-  "prose_words": 6937,
+  "prose_words": 6953,
   "english_function_words": 5,
-  "ordinary_english_words": 3,
-  "kept_technical_terms": 50,
-  "avoidable_english_per_1000": 1.2,
+  "ordinary_english_words": 2,
+  "kept_technical_terms": 42,
+  "avoidable_english_per_1000": 1.0,
   "top_terms": [
    [
     "from",
@@ -278,7 +278,7 @@
    ],
    [
     "review",
-    2
+    1
    ],
    [
     "with",

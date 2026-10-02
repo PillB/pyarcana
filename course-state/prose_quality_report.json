@@ -120,13 +120,13 @@
   "section": "S08"
  },
  "S09": {
-  "words": 6379,
+  "words": 6395,
   "sentences": 442,
-  "words_per_sentence": 14.4,
-  "fernandez_huerta": 76.3,
-  "long_sentences": 14,
+  "words_per_sentence": 14.5,
+  "fernandez_huerta": 73.1,
+  "long_sentences": 10,
   "run_on_sentences": 1,
-  "nominalisations_per_100w": 1.5,
+  "nominalisations_per_100w": 2.0,
   "b5_nominal_constructions": 1,
   "b5_per_100_sentences": 0.2,
   "gerunds_per_100w": 0.2,

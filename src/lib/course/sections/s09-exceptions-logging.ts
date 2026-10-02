@@ -15,7 +15,7 @@ export const section09: CourseSection = {
   index: 9,
   title: "Excepciones, debugging y logging seguro",
   shortTitle: "Excepciones & logs",
-  tagline: "Excepciones específicas, diagnóstico, logging sin datos personales expuestos y resiliencia del pipeline de familiaridad",
+  tagline: "Excepciones específicas, diagnóstico, logging sin exponer datos personales y resiliencia del pipeline de ingreso",
   estimatedHours: 9,
   level: "Intermedio",
   phase: 0,
@@ -26,10 +26,10 @@ export const section09: CourseSection = {
   learningOutcomes: [
     { text: "Elegir tipos de excepción, raise con contexto y chaining con from" },
     { text: "Dibujar fronteras try/except/else/finally y with; separar recuperable vs. fatal" },
-    { text: "Leer tracebacks y ubicar el frame útil sin exponer secretos" },
+    { text: "Leer tracebacks, ubicar el frame útil y usar el debugger local sin exponer secretos" },
     { text: "Reducir fallos a minimal repro con hipótesis y tests de regresión" },
     { text: "Configurar logging con niveles, campos estructurados y log.exception en ERROR" },
-    { text: "Propagar correlation_id y enmascarar email, teléfono y dirección" },
+    { text: "Propagar `correlation_id` —el identificador común de una corrida— y enmascarar email, teléfono y dirección" },
     { text: "Decidir fail-fast vs. cuarentena según data|config|provider" },
     { text: "Reintentar solo errores transitorios con operaciones idempotentes" },
   ],
@@ -38,9 +38,9 @@ export const section09: CourseSection = {
             heading: "Las dos y diez de la mañana",
       paragraphs: [
         "El trabajo `ingest_clientes` falló a las 02:10. Quien está de guardia abre el registro y encuentra sesenta líneas de traza que terminan en `KeyError: 'monto'`. Con eso no sabe lo esencial: si el problema es una fila mala que debería apartarse, una variable de configuración que alguien cambió ayer, o el proveedor que está caído y basta con reintentar. Baja un poco más y encuentra otra cosa: el correo completo de un cliente, impreso en el mensaje de error y ahora visible en el canal donde llegan las alertas.",
-        "Esta sección convierte esos fallos en señales que se pueden usar. La primera pieza es que el tipo de error ya es un diagnóstico. Cuando defines excepciones propias —una para el dato inválido, otra para la configuración incompleta, otra para el proveedor que no responde— el nombre del error contesta la pregunta de las 02:10 antes de leer una sola línea de traza. Elegir bien ese nombre vale más que cualquier mensaje largo.",
-        "La segunda es que un fallo casi nunca ocurre donde se nota. Una traza se lee de abajo hacia arriba, y conviene saber qué hay en cada extremo. Abajo está el error y, justo encima, la línea que lo lanzó: casi siempre es ahí donde está el problema. Hacia arriba están las llamadas que llevaron hasta ese punto, hasta la primera de todas. Es decir, abajo el qué falló y arriba el cómo llegaste. Y cuando encadenas una excepción sobre otra conservas las dos, porque «no pude convertir el monto» y «no pude procesar el archivo del proveedor» son piezas distintas de la misma historia.",
-        "La tercera es que el registro tiene que servir sin traicionar a nadie. Un identificador de correlación —un valor que acompaña a todo lo que ocurre durante una misma corrida, casi siempre una cadena como un UUID o `corr-9c2e`, no un número— permite reunir después todas las líneas de ese trabajo, incluso entre miles de otros. Y antes de escribir cualquier cosa, los datos personales se enmascaran: `a***@ejemplo.pe` basta para reconocer un caso y no expone a la persona. Un registro que no se puede compartir no sirve para depurar en equipo.",
+        "Esta sección convierte esos fallos en señales que se pueden usar. La primera pieza es el tipo de excepción: reduce los lugares donde buscar, pero no demuestra por sí solo la causa raíz. Un nombre como `ConfigError` ayuda solo si el programa tiene evidencia para clasificar el fallo; todavía debes leer el contexto y la traza.",
+        "La segunda pieza es la traza estándar de Python. Después del encabezado, el primer frame muestra una llamada anterior; los frames siguientes entran en llamadas más profundas y el último señala la línea inmediata donde surgió la excepción. La línea final muestra la clase y el mensaje, por ejemplo `KeyError: 'monto'`. Empieza por el último frame de tu código y retrocede hacia sus llamadores si necesitas saber cómo llegó allí.",
+        "La tercera pieza es un registro útil sin exponer de más. Un identificador de correlación acompaña una misma corrida y permite reunir sus eventos. Enmascarar un correo como `a***@ejemplo.pe` reduce la exposición, pero no vuelve anónimo el evento: el dominio, la hora y otros campos todavía pueden vincularlo con un caso. Por eso el equipo también limita qué registra, quién accede y cuánto tiempo lo conserva.",
         "Queda una decisión que se toma una vez y se respeta siempre: qué merece detener el programa. Si la configuración está mal, todo lo que venga después será basura, así que se falla de inmediato. Si una fila viene mal, el resto del archivo sigue siendo bueno, así que se aparta y se continúa. Confundir las dos produce los dos peores resultados posibles: un proceso que se cae por una fila, o un proceso que procesa mil archivos con la configuración equivocada.",
         "La pregunta que ordena la sección es la de esa persona de guardia: **¿qué puede hacer con esto alguien que no escribió el código, a las dos de la mañana, sin poder preguntarte?** El hilo es el mismo intake sintético de siempre, con los conteos reconciliados de S08 detrás: cada fila apartada debería poder llevar su clase de error y su identificador de correlación para el análisis del día siguiente.",
       ],
@@ -48,7 +48,7 @@ export const section09: CourseSection = {
         type: "info",
         title: "Inicio CP-N1-C",
         content:
-          "Gate operativo: bitácora auditable que nunca registra email/teléfono/dirección completos y diferencia **fallos** de datos, configuración y proveedor. Sin claims de fraude ni parentesco.",
+          "CP-N1-C, el tercer incremento del proyecto acumulativo del Nivel 1, comienza con este criterio operativo. La bitácora auditable nunca registra de forma completa correos, teléfonos ni direcciones y diferencia **fallos** de datos, configuración y proveedor. Sin afirmaciones de fraude ni parentesco.",
       },
      },
      {
@@ -59,7 +59,7 @@ export const section09: CourseSection = {
         "**Orden de los subtemas.** T1 trata las excepciones: tipos, `raise` y fronteras. T2 pasa al diagnóstico: lectura de trazas y reproducción mínima. T3 cubre el registro: niveles, identificador de correlación y enmascarado. T4 cierra con la resiliencia: fallar rápido frente a apartar en cuarentena, y reintentos que se puedan repetir sin duplicar nada.",
         "**Criterio de cierre (inicio CP-N1-C).** Una bitácora auditable que nunca registre correo, teléfono ni dirección completos, y que distinga los fallos de datos, de configuración y de proveedor.",
         "**Qué integra y hacia dónde va.** Reutiliza los normalizadores de S05 a S07 y los conteos reconciliados de S08. En S10 este vocabulario se empaqueta en una CLI con manejadores limpios; aquí se construye el contrato operativo.",
-        "**Límites.** Caso `CASO-LIM-009` con datos sintéticos: clientes `C00x`, correos `@ejemplo.pe` y montos en `Decimal`. Nunca datos personales reales ni afirmaciones de fraude o parentesco.",
+        "**Límites.** `CASO-LIM-009` es el caso de incidente sintético usado en esta sección: clientes `C00x`, correos `@ejemplo.pe` y montos en `Decimal`. Nunca datos personales reales ni afirmaciones de fraude o parentesco.",
       ],
      },
      {
@@ -93,52 +93,57 @@ Infinity finito= False`,
       heading: "Tipos específicos, raise y chaining",
       subtopicId: "S09-T1-A",
       paragraphs: [
-        "Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (tipo incorrecto), `KeyError` (clave ausente), `OSError`/`FileNotFoundError` (I/O). Un `except Exception` amplio no borra por sí solo el traceback, pero mezcla políticas distintas y complica el triage. Si lo usas en el borde del proceso para registrar un fallo inesperado, conserva la excepción y vuelve a lanzarla.",
-        "`raise ValueError('monto no numérico: …')` da contexto accionable. Para montos del intake: **`Decimal` desde texto**, `quantize(Decimal('0.01'))`, rechazo de no finitos — **nunca** `float`. Con **`raise NewError(...) from e`** encadenas la causa en `__cause__` sin perder el traceback original: el parse falla y la validación de fila lo envuelve.",
-        "Una **excepción personalizada ligera** (`class DataLoadError(Exception): ...`) nombra el borde de tu capa sin reinventar la jerarquía de la stdlib. En CASO-LIM-009, el mensaje lleva el `id` de fila y el valor problemático **enmascarado** si contiene datos personales: accionable en el post mórtem, inofensivo en el canal de Slack del equipo.",
+        "Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (tipo incorrecto), `KeyError` (clave ausente), `OSError`/`FileNotFoundError` (fallo al leer o escribir). Un `except Exception` amplio no borra por sí solo el traceback, pero mezcla políticas distintas. Si lo usas en el borde del proceso, registra el fallo y vuelve a lanzarlo.",
+        "`decimal`, `io`, `traceback`, `logging` y `time` son herramientas incluidas con Python; `import` hace disponibles aquí los nombres que cada ejemplo usa. La organización general de estas herramientas se estudia en S10.",
+        "Primero practica `raise` y el encadenamiento con excepciones incorporadas. `raise RuntimeError('fila C001: monto inválido') from e` conserva como causa el `ValueError` original. El mensaje contiene un identificador interno y un motivo, nunca un correo, teléfono, dirección ni otro valor sensible que pueda reaparecer en un traceback.",
+        "Después usamos una excepción personalizada. `class ParseError(Exception): pass` crea un tipo de excepción llamado `ParseError` a partir del tipo general `Exception`; S11 explicará la sintaxis general de clases. Aquí solo necesitas reconocer que ese nombre permite distinguir el fallo de conversión.",
+        "Este ejemplo acepta punto decimal o una coma seguida por exactamente dos decimales; no acepta separadores de miles ni mezcla punto y coma. Así `12,50` significa doce con cincuenta, mientras `1,234` se rechaza en lugar de interpretarse en silencio.",
       ],
       code: {
         language: 'python',
         title: "raise_chain.py",
         code: `from decimal import Decimal, InvalidOperation
 
-class ValidationError(Exception):
-    pass
-
 class ParseError(Exception):
     pass
 
 def parse_monto(raw: object) -> Decimal:
+    text = str(raw).strip()
     try:
-        value = Decimal(str(raw).strip().replace(",", ".")).quantize(Decimal("0.01"))
+        if "," in text:
+            entero, decimal = text.split(",")
+            if "." in text or len(decimal) != 2:
+                raise InvalidOperation
+            text = entero + "." + decimal
+        value = Decimal(text).quantize(Decimal("0.01"))
         if not value.is_finite():
             raise InvalidOperation
         return value
     except (InvalidOperation, ValueError) as e:
-        raise ParseError(f"no parseable: {raw!r}") from e
+        raise ParseError("monto no parseable") from e
 
 def validate_row(row: dict) -> Decimal:
     try:
-        m = parse_monto(row["monto"])
+        monto = parse_monto(row["monto"])
     except ParseError as e:
-        raise ValidationError(f"fila {row.get('id')}: monto inválido") from e
-    if m < Decimal("0"):
-        raise ValidationError(f"fila {row.get('id')}: monto negativo")
-    return m
+        raise RuntimeError(f"fila {row.get('id')}: monto inválido") from e
+    if monto < Decimal("0"):
+        raise ValueError(f"fila {row.get('id')}: monto negativo")
+    return monto
 
 try:
     validate_row({"id": "C001", "monto": "abc"})
-except ValidationError as e:
+except RuntimeError as e:
     print(type(e).__name__, e)
     print("cause:", type(e.__cause__).__name__, e.__cause__)`,
-        output: `ValidationError fila C001: monto inválido
-cause: ParseError no parseable: 'abc'`,
+        output: `RuntimeError fila C001: monto inválido
+cause: ParseError monto no parseable`,
       },
       callout: {
         type: "tip",
-        title: "Mensajes accionables",
+        title: "Mensajes accionables y seguros",
         content:
-          "Incluye el id de fila y el valor problemático (enmascarado si contiene datos personales). No digas solo «error». El monto válido sigue siendo Decimal con dos decimales.",
+          "Incluye un identificador interno y un código o motivo seguro. Si el valor puede identificar a una persona, no lo pongas en la excepción: `log.exception` también imprime el mensaje de esa excepción.",
       },
     },
     {
@@ -146,13 +151,13 @@ cause: ParseError no parseable: 'abc'`,
       figure: {
         id: "S09-failfast",
         caption:
-          "La frontera no es una convención de estilo: después de decidir ya no queda fila que mandar a cuarentena, solo un resumen que corregir.",
+          "Leer, convertir y validar todavía permiten clasificar una fila y enviarla a cuarentena. La frontera cambia al publicar o confirmar el lote: desde allí ya no basta con reclasificar una fila en memoria.",
         alt:
-          "Cuatro etapas en fila —leer, parsear, validar, decidir— unidas por flechas, con una línea vertical punteada entre parsear y validar marcada como el punto tras el cual la fila ya no puede enviarse a cuarentena.",
+          "Cinco etapas en fila —leer, convertir, validar, decidir y publicar— unidas por flechas. Una línea vertical después de decidir marca la publicación del lote; antes de ella una fila inválida aún puede clasificarse y enviarse a cuarentena.",
       },
       subtopicId: "S09-T1-B",
       paragraphs: [
-        "`try/except/else/finally` dibuja el borde del trabajo: **else** corre solo si no hubo excepción; **finally** corre siempre y permite limpiar lo que el bloque usó. Un **context manager** (administrador de contexto) controla qué ocurre al entrar y salir de un bloque `with`. Con un archivo o `StringIO`, asegura que quede cerrado al salir, incluso si ocurre una excepción; otros administradores de contexto pueden hacer algo más que cerrar un recurso.",
+        "`try/except/else/finally` dibuja el borde del proceso: **else** corre solo si no hubo excepción y **finally** corre siempre, lo que permite limpiar lo que el bloque usó. Un **context manager** (administrador de contexto) controla la preparación y la salida de un bloque `with`; para un archivo o `StringIO`, cierra el recurso incluso si el bloque falla. Otros administradores pueden hacer más trabajo, así que `with` no significa simplemente «un `finally` abreviado».",
         "No uses **`except:` bare** ni tragues `Exception` sin re-raise o cuarentena documentada. Decide en el borde: **manejar** (recuperable: fila mala del CSV) vs. **propagar** (fatal: config inválida, encoding vacío). `except Exception: pass` es la forma más rápida de esconder corrupción de datos en producción y de mentir al on-call.",
         "Config rota → **fail-fast** (abortar antes de multiplicar basura en el lote). Fila de datos inválida → **cuarentena** y continúa, como el **manifest de S08** con conteos reconciliados. El borde del job es un **contrato operativo** que el on-call debe poder leer en el README del pipeline, no un gusto de estilo del autor del script.",
       ],
@@ -183,11 +188,13 @@ procesar_lote("a\\nb\\n")
 try:
     read_lote("x", False)
 except RuntimeError as e:
-    print("fatal:", e)`,
+    print("demo capturada:", e)
+    print("el proceso real debe propagar este error")`,
         output: `cleanup: handle cerrado (with)
 lote legible ['a', 'b']
 finally: contadores listos
-fatal: config inválida: delimiter vacío`,
+demo capturada: config inválida: delimiter vacío
+el proceso real debe propagar este error`,
       },
       callout: {
         type: "warning",
@@ -201,15 +208,16 @@ fatal: config inválida: delimiter vacío`,
       figure: {
         id: "S09-error-boundary",
         caption:
-          "Atrapar Exception en el origen borra el tipo; atraparlo todo en la frontera pierde el contexto de dónde ocurrió.",
+          "Una captura amplia puede mezclar políticas. La evidencia se pierde al silenciar el error o reemplazarlo sin encadenar; en la frontera del proceso puedes registrarlo si conservas la excepción y luego la propagas o la conviertes de forma deliberada.",
         alt:
           "Tres capas apiladas: origen, capa de dominio y frontera de recuperación.",
       },
       subtopicId: "S09-T2-A",
       paragraphs: [
-        "Un **traceback** lista frames del más reciente al más profundo (o viceversa según la herramienta). El frame útil suele ser **tu código**, no el de la stdlib: en el job de intake empieza por la última línea de `normalize` o `validate`, no por el interior de `csv` o `logging`. Si el stack solo muestra la librería, sube un frame hasta tu módulo del pipeline.",
-        "`breakpoint()` / `pdb` inspeccionan variables en vivo cuando tienes TTY local. En demos, CI y el entorno del curso usamos **`traceback.format_exc` + prints controlados** (solo `id` de fila, nunca el row completo) porque no siempre hay sesión interactiva. El hábito es el mismo: mirar locals seguros, no volcar el diccionario crudo del cliente sintético.",
-        "Al registrar stacks, **nunca** imprimas secretos ni datos personales completos que haya en las variables locales (email, token, password). **Enmascara** u omite: un traceback con `password=...` o `email=lucia@…` es un incidente de cumplimiento, no un log útil. CASO-LIM-009 exige el mismo cuidado que la bitácora de T3: diagnóstico accionable sin filtrar datos personales al canal de operaciones.",
+        "El traceback estándar de Python imprime primero las llamadas anteriores y después las más profundas. El último frame señala la línea inmediata donde surgió la excepción; la línea final contiene su clase y mensaje. Empieza por ese último frame de **tu código** y retrocede hacia los llamadores para reconstruir cómo llegó allí.",
+        "El debugger es una sesión interactiva que pausa el programa para inspeccionar su estado. Solo en una terminal local, coloca `breakpoint()` antes de la línea sospechosa; cuando aparezca `(Pdb)`, escribe `p record_id` para ver esa variable segura y `c` para continuar. No uses `p row`, porque mostraría el registro completo.",
+        "En demos y automatización usamos `traceback.format_exc()` porque no hay una sesión interactiva. Esta función devuelve la traza como texto; incluye los frames y también el mensaje de la excepción. Por eso una excepción que contiene un correo o un secreto seguirá filtrándolo aunque el mensaje principal del log esté enmascarado.",
+        "Registra identificadores internos y motivos seguros. Omite datos personales completos tanto de las variables impresas como de los mensajes lanzados; la evidencia completa, si es necesaria, pertenece a un almacenamiento separado con acceso restringido.",
       ],
       code: {
         language: 'python',
@@ -248,37 +256,43 @@ KeyError: 'email'`,
       heading: "Reproducción mínima, hipótesis y causa raíz",
       subtopicId: "S09-T2-B",
       paragraphs: [
-        "**Minimal repro**: reduce un lote sintético a la **menor entrada** que dispara el bug. Facilita tests de regresión, code review y el post mórtem sin arrastrar PII real ni ruido de otras columnas del CSV de intake. En CASO-LIM-009, un fallo de apellidos no exige el archivo completo: basta `SoloNombre` (o la cadena mínima) que rompe el parser.",
-        "Formula **hipótesis falsables** («si el apellido2 vacío rompe el join, entonces con apellido2='X' pasa»). Ojo: un nombre con 3 tokens puede **no lanzar** y aun así truncar mal el segundo apellido — ese bug silencioso no aparece en el `except`; el minimal repro del ValueError es el de 1 token. Descartar una hipótesis es progreso: anótala en la bitácora del incidente.",
-        "Un **test de regresión** rojo→verde documenta la causa raíz y evita reintroducir el fallo en el siguiente PR. 5-whys ligero: no pares en el síntoma («KeyError email»). Pregunta si el schema del lote de S08 realmente exige esa clave en todas las filas o si el productor omitió un campo opcional sin documentarlo.",
+        "Una **reproducción mínima** es el menor ejemplo autocontenido que todavía produce el comportamiento: incluye solo el código, la entrada, la configuración y el estado necesarios. No significa simplemente «la cadena más corta». Aquí basta una función y `Maria Lopez Garcia` para mostrar que el segundo apellido se pierde.",
+        "Formula una hipótesis que una causa con una predicción: «si la función devuelve los dos primeros fragmentos, entonces `Maria Lopez Garcia` producirá `('Maria', 'Lopez')` en vez de `('Lopez', 'Garcia')`». Una aserción pequeña compara ambas salidas y falla; ese es el rojo.",
+        "Después corrige la función y ejecuta la misma aserción hasta que pase: ese es el verde. Vuelve a comprobar un caso vecino, como un nombre de un solo fragmento, para confirmar que la reparación no eliminó el rechazo que todavía corresponde.",
       ],
       code: {
         language: 'python',
         title: "minimal_repro.py",
-        code: `def split_apellidos(nombre: str) -> tuple[str, str]:
-    parts = nombre.split()
-    if len(parts) < 2:
+        code: `def apellidos_con_bug(nombre: str) -> tuple[str, str]:
+    partes = nombre.split()
+    if len(partes) < 3:
         raise ValueError("faltan apellidos")
-    # bug silencioso: con 3+ tokens descarta el resto (no lanza)
-    return parts[0], parts[1]
+    return partes[0], partes[1]
 
-# lote sintético: casi todos "Nombre Apellido"; uno con 1 token falla
-lote = [f"Cliente{i} Perez" for i in range(5)] + ["Maria Lopez Garcia", "SoloNombre"]
-bad = []
-for n in lote:
-    try:
-        split_apellidos(n)
-    except ValueError as e:
-        bad.append((n, type(e).__name__))
-# minimal repro = la entrada más corta que dispara el ValueError
-print("bad in lote:", bad)
-minimal = min((n for n, _ in bad), key=len)
+repro = "Maria Lopez Garcia"
+esperado = ("Lopez", "Garcia")
+print("hipotesis: la función toma los dos primeros fragmentos")
 try:
-    split_apellidos(minimal)
-except ValueError as e:
-    print("minimal repro:", minimal, "->", e)`,
-        output: `bad in lote: [('SoloNombre', 'ValueError')]
-minimal repro: SoloNombre -> faltan apellidos`,
+    assert apellidos_con_bug(repro) == esperado
+except AssertionError:
+    print("rojo: la aserción falla")
+
+def apellidos(nombre: str) -> tuple[str, str]:
+    partes = nombre.split()
+    if len(partes) < 3:
+        raise ValueError("faltan apellidos")
+    return partes[-2], partes[-1]
+
+assert apellidos(repro) == esperado
+print("verde: la misma aserción pasa")
+try:
+    apellidos("SoloNombre")
+except ValueError:
+    print("caso vecino: sigue rechazado")`,
+        output: `hipotesis: la función toma los dos primeros fragmentos
+rojo: la aserción falla
+verde: la misma aserción pasa
+caso vecino: sigue rechazado`,
       },
       callout: {
         type: "info",
@@ -293,7 +307,7 @@ minimal repro: SoloNombre -> faltan apellidos`,
       paragraphs: [
         "Niveles: **DEBUG** (detalle dev), **INFO** (progreso del job), **WARNING** (anomalía recuperable: fila opcional rara), **ERROR** (fallo de una unidad que cuarentenarás o reintentarás), **CRITICAL** (el proceso o el lote entero está en peligro: config rota, disco lleno). No loguees ERROR para filas esperables de cuarentena si WARNING basta: el ruido entierra el incidente real en el dashboard de ops.",
         "Usa un **Logger de módulo** (`logging.getLogger(__name__)`) en vez de configurar el root a ciegas en cada helper. Handlers y formatters se arman **una vez** en el entrypoint del CLI (preview suave de S10, Módulos y CLI). En el camino de ERROR dentro de un `except`, `log.exception(...)` o `exc_info=True` adjuntan el traceback al mensaje estructurado sin perder `correlation_id` ni forzar un `print` del stack.",
-        "Logs **estructurados** (`key=value` o JSON) con campos estables (`stage`, `record_id`, `correlation_id`, `duration_ms`, `error_class`) se filtran en agregadores y en el post mórtem. Un `print(\"ok\")` suelto no escala a prod ni a la bitácora de **CP-N1-C**: no tiene nivel, no tiene correlation_id y se pierde en el stdout del pipe.",
+        "Un log tiene campos estructurados cuando cada dato ocupa un atributo propio del evento, no solo una parte de la frase. En `logging`, `extra={...}` añade esos atributos al registro interno que crea la biblioteca; el `Formatter` decide después cómo emitirlos. Así un recolector puede conservar `stage` o `record_id` sin depender de analizar la redacción del mensaje.",
         "Caso sintético CASO-LIM-009: el job `ingest_clientes` falla a las 02:10. Sin campos `stage`/`record_id`, el on-call no une el WARNING de la fila C014 con el ERROR del provider. Con mensajes `stage=normalize record_id=C014 event=parse_fail` y nivel correcto, el triage tarda minutos, no horas — y aún no has tocado PII (eso es T3-B).",
       ],
       code: {
@@ -307,21 +321,26 @@ def demo_logger():
     log = logging.getLogger("pipeline.demo")
     log.handlers.clear()
     log.setLevel(logging.INFO)
-    h = logging.StreamHandler(buf)
-    h.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
-    log.addHandler(h)
+    handler = logging.StreamHandler(buf)
+    handler.setFormatter(logging.Formatter(
+        "%(levelname)s stage=%(stage)s record_id=%(record_id)s "
+        "event=%(event)s duration_ms=%(duration_ms)s"
+    ))
+    log.addHandler(handler)
     log.propagate = False
-    log.info("stage=normalize record_id=C001 event=start")
-    log.info("stage=normalize record_id=C001 event=done duration_ms=7")
-    log.warning("stage=normalize record_id=C002 event=missing_optional field=email")
-    log.error("stage=normalize record_id=C003 event=parse_fail field=monto")
+    log.info("inicio", extra={
+        "stage": "normalize", "record_id": "C001",
+        "event": "start", "duration_ms": 0,
+    })
+    log.info("fin", extra={
+        "stage": "normalize", "record_id": "C001",
+        "event": "done", "duration_ms": 7,
+    })
     return buf.getvalue()
 
 print(demo_logger())`,
-        output: `INFO stage=normalize record_id=C001 event=start
-INFO stage=normalize record_id=C001 event=done duration_ms=7
-WARNING stage=normalize record_id=C002 event=missing_optional field=email
-ERROR stage=normalize record_id=C003 event=parse_fail field=monto`,
+        output: `INFO stage=normalize record_id=C001 event=start duration_ms=0
+INFO stage=normalize record_id=C001 event=done duration_ms=7`,
       },
       callout: {
         type: "tip",
@@ -364,9 +383,9 @@ correlation_id=corr-9c2e stage=validar id=C001`,
       heading: "Correlation IDs y enmascarado de datos personales",
       subtopicId: "S09-T3-B",
       paragraphs: [
-        "Un **correlation_id** (o request_id) viaja por capas (CLI → service → repo) como argumento explícito para unir logs del mismo job o lote. Sin él, el post mórtem de las 02:10 es arqueología: no sabes si el WARNING de la fila C014 y el ERROR del provider pertenecen a la misma corrida de intake. En el **manifest de S08**, cada fila en cuarentena gana poder operativo si lleva el mismo `correlation_id` que el job que la rechazó.",
-        "**Nunca** loguees email, teléfono o dirección **completos**. Usa máscaras estables: `a***@ejemplo.pe`, `***4567`, dirección reducida a ciudad o `***`. Un ERROR con el row completo es un incidente de cumplimiento (y de confianza del cliente), no un «log detallado» útil. En CASO-LIM-009, con `corr-9c2e` y email enmascarado el canal de ops actúa en minutos sin filtrar PII a Slack.",
-        "Los helpers `mask_email` / `mask_phone` / `mask_address` deben ser el **único** camino hacia los logs; una auditoría de código falla si alguien hace `log.info(row)` o formatea f-strings con el email crudo. Enmascara **antes** de construir el mensaje. En el `except`, combina el enmascarado con `log.exception(...)` para el análisis forense (stack + correlation_id) sin exponer datos personales.",
+        "Un `correlation_id` viaja como argumento explícito: `process_row` lo recibe y se lo pasa a `validate_row`, que lo añade al evento. Repetir el mismo valor en cada capa permite unir los eventos de una corrida sin usar una variable global.",
+        "Nunca registres email, teléfono o dirección completos. `mask_email`, `mask_phone` y `mask_address` reducen la exposición antes de construir el evento; la máscara de dirección de este ejemplo devuelve `***` porque el log no necesita la calle. Aun enmascarado, el evento sigue siendo sensible y requiere acceso limitado, conservación definida y solo los campos necesarios.",
+        "`log.exception` adjunta los frames y el mensaje de la excepción. Por eso el código lanza `ValueError('campo requerido inválido')`, un motivo seguro, y mantiene cualquier valor completo fuera de la excepción y del log. Si se necesita conservar evidencia completa, debe ir a un almacenamiento separado y protegido.",
       ],
       code: {
         language: 'python',
@@ -386,6 +405,9 @@ def mask_phone(phone: str) -> str:
     if len(digits) < 4:
         return "***"
     return "***" + digits[-4:]
+
+def mask_address(address: str) -> str:
+    return "***" if address else "***"
 
 def parse_campo_requerido(raw: str) -> str:
     # demo de ERROR path: no uses float para montos (ver Decimal en T1-A)
@@ -430,9 +452,9 @@ phone=***4567`,
       heading: "Fallar rápido vs. continuar con cuarentena",
       subtopicId: "S09-T4-A",
       paragraphs: [
-        "Taxonomía del intake: **data** (fila sucia del CSV), **config** (delimiter, schema path, env `ROOT_PATH` vacía), **provider** (timeout S3, HTTP 503). La **política difiere** por clase: no trates un timeout del proveedor igual que un monto inválido. El primero puede reintentarse (T4-B); el segundo va a cuarentena con `error_class=data` y el lote sigue.",
-        "**Fail-fast** en config: seguir con schema roto multiplica basura y envenena el **manifest de S08**. **Cuarentena** en data: una fila mala **no** debe tumbar el lote entero. El mismo gate de reconciliación (`in == ok + quarantined`) ahora lleva `error_class` y `correlation_id` explícitos en cada rechazo para el post mórtem de CP-N1-C.",
-        "Éxito parcial es válido si el manifest cuadra. Documenta la política en el README del job y **cierra en fallo** (**fail closed**: no publiques resultados si el reconcile no cuadra). Mejor abortar con ERROR/CRITICAL claro que entregar conteos mentirosos al dashboard de familiaridad o a un informe regulatorio sintético del lab.",
+        "Clasifica primero con ejemplos de Python: **data** es una fila cuyo monto no cumple el contrato; **config** es una lista de campos requeridos ausente; **provider** es una llamada externa simulada que lanza `TimeoutError`. La clase orienta la política, pero no basta por sí sola para autorizar un reintento.",
+        "La configuración inválida detiene el proceso porque continuar afectaría todo el lote. Una fila inválida puede ir a cuarentena con `error_class=data` y su `correlation_id`, mientras las demás continúan. Leer, convertir y validar todavía permiten tomar esa decisión antes de publicar.",
+        "La igualdad `in == ok + quarantined` es necesaria, pero no basta para declarar éxito parcial. También deben estar presentes todas las entradas críticas y la política de esa fuente debe permitir las clases y la proporción observadas en cuarentena. Si cualquiera de esas condiciones falla, no publiques el lote.",
       ],
       code: {
         language: 'python',
@@ -455,65 +477,85 @@ print(process_batch(
 try:
     process_batch([], {})
 except RuntimeError as e:
-    print("abort:", e)`,
+    print("demo capturada:", e)
+    print("el proceso real debe propagar este error")`,
         output: `{'ok': [{'id': 'C001', 'monto': 10}], 'quarantined': [{'row': {'nombre': 'x'}, 'reason': 'data: campos requeridos'}]}
-abort: config: delimiter requerido`,
+demo capturada: config: delimiter requerido
+el proceso real debe propagar este error`,
       },
       callout: {
         type: "info",
         title: "Éxito parcial",
         content:
-          "Operaciones de intake latam casi siempre tienen filas sucias. Cuarentena + conteos > crash total.",
+          "Cuarentena y conteos permiten continuar solo cuando la política de la fuente acepta los rechazos observados y todas las entradas críticas están presentes.",
       },
     },
     {
       heading: "Idempotencia, retries y cuarentena",
       subtopicId: "S09-T4-B",
       paragraphs: [
-        "**Retry solo errores transitorios** (`TimeoutError`, HTTP 503, red). Un `ValueError` de datos **no** se reintenta: va a **cuarentena** con `error_class=data`. Reintentar un monto inválido no lo hace válido: solo gasta cuota del proveedor, multiplica logs ERROR y confunde al on-call del intake CASO-LIM-009 a las 02:10.",
-        "Operaciones **idempotentes** (misma clave de escritura) permiten **volver a ejecutar** un job sin duplicar side-effects. Clave típica: `(source, record_id, version)` más un hash del payload — el mismo espíritu del **manifest de S08**, ahora a nivel de reingesta tras un retry, un redeploy nocturno o un reproceso parcial del lote cuarentenado.",
-        "El **backoff** creciente reduce la presión sobre el proveedor; en producción se añade **jitter** (una variación aleatoria acotada) para que varios workers no reintenten al mismo instante. Tras `max_attempts`, la unidad va a cuarentena o el job falla según la política del README. **Nunca** uses retries infinitos en producción: un bucle eterno es un incidente disfrazado de «resiliencia».",
+        "Un error es candidato a reintento solo si el contrato de la operación lo considera temporal. `TimeoutError` puede ser candidato en una lectura sin efectos, pero un timeout de escritura puede ocurrir después de que el receptor ya guardó el dato. Por eso la clase de excepción no decide sola.",
+        "Una operación es **idempotente** cuando repetir la misma solicitud lógica deja el mismo resultado observable. Una clave de idempotencia ayuda solo si el receptor la usa para detectar una solicitud ya procesada y devolver el resultado anterior, o para actualizar la misma entrada en vez de insertar otra.",
+        "El ejemplo primero reintenta una lectura sin efectos externos. Después, un almacén falso recuerda la clave antes de simular una respuesta perdida; el segundo intento encuentra esa clave y reutiliza el resultado, de modo que el almacén conserva una sola entrada.",
+        "El **backoff** creciente espera más entre intentos y reduce presión sobre el receptor. El **jitter** es una variación aleatoria acotada que evita que muchos procesos reintenten al mismo instante. Siempre fija un máximo y conserva la regla del contrato sobre qué errores y operaciones admiten reintento.",
       ],
       code: {
         language: 'python',
         title: "retry_policy.py",
         code: `import time
 
-def fetch_with_retry(fn, max_attempts=3):
-    if max_attempts < 1:
-        raise ValueError("max_attempts debe ser >= 1")
-    last = None
+read_calls = 0
+
+def read_with_retry(max_attempts=3):
+    global read_calls
     for attempt in range(1, max_attempts + 1):
+        read_calls += 1
         try:
-            return fn(attempt)
-        except TimeoutError as e:
-            last = e
-            time.sleep(0.01 * attempt)  # backoff demo
-        except ValueError:
-            raise  # no retry
-    raise last
+            if attempt < 3:
+                raise TimeoutError("lectura temporal")
+            return "datos"
+        except TimeoutError:
+            if attempt == max_attempts:
+                raise
+            time.sleep(0.01 * attempt)
 
-calls = {"n": 0}
+print(read_with_retry(), "read_calls", read_calls)
 
-def flaky(attempt):
-    calls["n"] += 1
-    if attempt < 3:
-        raise TimeoutError("simulado")
-    return "ok"
+store = {}
 
-print(fetch_with_retry(flaky), "calls", calls["n"])
+def save_once(key, payload):
+    if key in store:
+        return store[key]
+    store[key] = payload
+    return payload
+
+def write_with_retry(key, payload):
+    for attempt in range(1, 3):
+        result = save_once(key, payload)
+        if attempt == 1:
+            continue  # la respuesta se perdió después de guardar
+        return result
+
+print(write_with_retry("banco:C001:v1", {"monto": 10}))
+print("stored", len(store))
+
+def bad_data():
+    raise ValueError("dato malo")
+
 try:
-    fetch_with_retry(lambda a: (_ for _ in ()).throw(ValueError("dato malo")))
+    bad_data()
 except ValueError as e:
     print("no-retry:", e)`,
-        output: `ok calls 3
+        output: `datos read_calls 3
+{'monto': 10}
+stored 1
 no-retry: dato malo`,
       },
       callout: {
         type: "warning",
-        title: "Idempotencia",
+        title: "La clave no aplica la política por sí sola",
         content:
-          "Reintentar un INSERT no idempotente duplica filas. Diseña la clave antes del retry.",
+          "El receptor debe comprobar la clave y reutilizar el resultado anterior o actualizar la misma entrada. Añadir la clave a un `INSERT` común todavía puede duplicar filas.",
       },
     },
   ],
@@ -659,7 +701,7 @@ KeyError: 'email'`,
         environment: "local-python",
         description: "De un lote de 200 filas sintéticas al caso mínimo de apellidos.",
         preamble:
-          "Un lote sintético de casi 200 nombres «ok» y dos incompletos hace ruidoso el debug. Observa cómo el demo cuenta fallos y reduce al **string más corto** que dispara el `ValueError` (`'Solo'`). Ese minimal repro es lo que irá al test de regresión — no el archivo completo. No reescribas; sigue total_fallos → minimal_repro → root_symptom.",
+          "Un lote sintético de casi 200 nombres y dos incompletos hace ruidoso el diagnóstico. Este demo aísla un solo valor que reproduce el `ValueError`; eso reduce la entrada, no define por sí solo toda reproducción mínima. Una reproducción mínima también conserva el código, la configuración y el estado indispensables para que el fallo ocurra.",
         code: {
           language: 'python',
           title: "minimal_apellidos.py",
@@ -860,7 +902,11 @@ def flaky(attempt):
     return "payload"
 
 print(with_retry(flaky), "attempts", state["t"])
-print(with_retry(lambda a: (_ for _ in ()).throw(ValueError("monto"))))`,
+
+def bad_data(_attempt):
+    raise ValueError("monto")
+
+print(with_retry(bad_data))`,
           output: `('ok', 'payload') attempts 3
 ('quarantine', 'monto')`,
         },
@@ -935,10 +981,10 @@ regla de negocio: monto < 0 -> ValidationError`,
         kind: "independent",
         title: "Parsear monto con Decimal y mensajes claros",
         preamble:
-          "- **Contexto:** en el intake, un monto `12,50` o `N/A` no puede pasar por `float` (precisión y no-finitos).\n- **Meta:** implementar `parse_monto(raw)` robusto con `Decimal` y raise `ValueError` accionable.\n- **Éxito:** `10.5` → `10.50`; `3,25` → `3.25`; `abc` → mensaje con `monto no numérico`; `-1` → `monto negativo`; NaN/Infinity fallan.\n- **Límites:** prohíbe `float()`; construye desde texto; solo stdlib `decimal`.",
+          "- **Contexto:** este contrato acepta punto decimal o coma con exactamente dos decimales; `1,234` y una mezcla de punto y coma se rechazan. `NaN` representa un resultado numérico no definido e `Infinity` un valor sin límite finito; ninguno es un monto válido.\n- **Meta:** implementar `parse_monto(raw)` con `Decimal` y mensajes seguros.\n- **Éxito:** `10.5` → `10.50`; `3,25` → `3.25`; `abc` → `monto no numérico`; `-1` → `monto negativo`; `NaN`, `Infinity` y formatos ambiguos fallan.\n- **Límites:** no uses `float()` ni incluyas el valor recibido en la excepción; construye desde texto y usa solo `decimal`.",
         id: "S09-T1-A-E2",
         instruction:
-          "Paso 1: Revisa el starter: usa `float` y no valida signo ni finitud.\nPaso 2: Normaliza coma → punto, `quantize(Decimal('0.01'))`, rechaza no finitos.\nPaso 3: Si no parsea: `ValueError` con el `raw` en el mensaje.\nPaso 4: Si es negativo: otro `ValueError` explícito. Demuestra con el loop del starter ampliado a [\"10.5\", \"3,25\", \"abc\", \"-1\"].",
+          "Paso 1: Revisa el starter: usa `float` y no valida signo, finitud ni separadores.\nPaso 2: Acepta una sola coma únicamente cuando la siguen dos decimales y no hay punto; rechaza los demás usos de coma.\nPaso 3: Convierte con `Decimal`, cuantiza a `Decimal('0.01')` y rechaza valores no finitos con un mensaje que no repita `raw`.\nPaso 4: Rechaza negativos y demuestra los casos `10.5`, `3,25`, `1,234`, `abc` y `-1`.",
         hint: "Construye Decimal desde texto, no desde float.",
         hints: [
           "Decimal desde str; captura InvalidOperation. Mensaje debe incluir el raw.",
@@ -1414,32 +1460,34 @@ print(f"causa_raiz=normalize falta clave {key}")`,
       {
         subtopicId: "S09-T2-B",
         kind: "guided",
-        title: "Recortar fixture al primer DNI inválido",
+        title: "Recortar fixture al primer identificador interno inválido",
         preamble:
-          "- **Contexto:** al validar DNI peruano sintético (8 dígitos), el fixture mezcla válidos e inválidos.\n- **Meta:** encontrar la primera entrada que hace fallar `parse_dni` y reejecutar solo esa.\n- **Éxito:** `minimal= 123` y `dni inválido: '123'`.\n- **Límites:** no reproceses todo el fixture en el print final; datos sintéticos (no DNI real de persona).",
+          "- **Contexto:** el fixture usa claves internas opacas con forma `CLI-0001`; nunca usa documentos nacionales en datos de práctica.\n- **Meta:** encontrar la primera entrada que hace fallar `parse_cliente_id` y volver a ejecutar solo esa.\n- **Éxito:** `minimal= 123` y `cliente_id inválido: '123'`.\n- **Límites:** no reproceses todo el fixture en la salida final ni introduzcas identificadores reales.",
         id: "S09-T2-B-E1",
         instruction:
-          "Paso 1: El starter fija `minimal = fixture[0]` (válido).\nPaso 2: Recorre hasta el primer `ValueError`, guarda esa cadena y haz `break`.\nPaso 3: Imprime `minimal=` y vuelve a llamar `parse_dni` solo con ese valor.\nPaso 4: Captura e imprime el mensaje.",
-        hint: "Recorta a la primera fila que hace fallar parse_dni.",
+          "Paso 1: El starter fija `minimal = fixture[0]`, que es válido.\nPaso 2: Recorre hasta el primer `ValueError`, guarda esa cadena y haz `break`.\nPaso 3: Imprime `minimal=` y vuelve a llamar `parse_cliente_id` solo con ese valor.\nPaso 4: Captura e imprime el mensaje.",
+        hint: "Recorta el fixture a la primera clave interna que falla.",
         hints: [
-          "Encuentra el primer fallido y vuelve a ejecutar solo ese.",
-          "Imprime minimal=... y el mensaje dni inválido.",
+          "Encuentra el primer valor fallido y vuelve a ejecutar solo ese.",
+          "Imprime `minimal=...` y el mensaje `cliente_id inválido`.",
         ],
-        edgeCases: ["Puede haber varios fallos; el mínimo del primer fallo basta para el test."],
-        tests: "Contrato exacto: `minimal= 123` y línea `dni inválido: '123'`; exit 0.",
-        feedback: "El primer fallo basta como minimal repro: vuelve a ejecutar solo esa entrada, no todo el fixture.",
+        edgeCases: ["Puede haber varios fallos; aquí se busca el primero en el orden del fixture."],
+        tests: "Contrato exacto: `minimal= 123` y línea `cliente_id inválido: '123'`; salida 0.",
+        feedback: "El primer fallo basta para este ejemplo: vuelve a ejecutar solo esa entrada, no todo el fixture.",
         retrospective:
-          "El primer fallo basta para un repro de regresión; el resto del fixture es ruido. Siguiente (E2): hipótesis falsables sobre normalización de teléfono.",
+          "Reducir la entrada quita ruido; una reproducción completa también conserva el código y el estado necesarios. Siguiente (E2): hipótesis falsables sobre normalización de teléfono.",
         starterCode: {
           language: 'python',
           title: "crop_fixture.py",
-          code: `# A corregir: no encuentra primer fail
-def parse_dni(d: str) -> str:
-    if not (d.isdigit() and len(d) == 8):
-        raise ValueError(f"dni inválido: {d!r}")
-    return d
+          code: `# A corregir: no encuentra el primer fallo
+def parse_cliente_id(value: str) -> str:
+    prefix = "CLI-"
+    suffix = value[len(prefix):]
+    if not (value.startswith(prefix) and len(suffix) == 4 and suffix.isdigit()):
+        raise ValueError(f"cliente_id inválido: {value!r}")
+    return value
 
-fixture = ["12345678", "123", "87654321", "12AB5678"]
+fixture = ["CLI-0001", "123", "CLI-0002", "C-3"]
 minimal = fixture[0]
 print("minimal", minimal)
 `,
@@ -1447,26 +1495,28 @@ print("minimal", minimal)
         solutionCode: {
           language: 'python',
           title: "crop_fixture.py",
-          code: `def parse_dni(d: str) -> str:
-    if not (d.isdigit() and len(d) == 8):
-        raise ValueError(f"dni inválido: {d!r}")
-    return d
+          code: `def parse_cliente_id(value: str) -> str:
+    prefix = "CLI-"
+    suffix = value[len(prefix):]
+    if not (value.startswith(prefix) and len(suffix) == 4 and suffix.isdigit()):
+        raise ValueError(f"cliente_id inválido: {value!r}")
+    return value
 
-fixture = ["12345678", "123", "87654321", "12AB5678"]
+fixture = ["CLI-0001", "123", "CLI-0002", "C-3"]
 minimal = None
-for d in fixture:
+for value in fixture:
     try:
-        parse_dni(d)
+        parse_cliente_id(value)
     except ValueError:
-        minimal = d
+        minimal = value
         break
 print("minimal=", minimal)
 try:
-    parse_dni(minimal)
+    parse_cliente_id(minimal)
 except ValueError as e:
     print(e)`,
           output: `minimal= 123
-dni inválido: '123'`,
+cliente_id inválido: '123'`,
         },
       },
       {
