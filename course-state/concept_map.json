@@ -131935,6 +131935,12 @@
   "definitions": [
    {
     "section": "S33",
+    "location": "advanced-models.outcome[7]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S33",
     "location": "advanced-models.theory[11].p1",
     "kind": "theory.paragraph",
     "visible": true
@@ -131960,20 +131966,13 @@
   },
   "first_definition": {
    "section": "S33",
-   "location": "advanced-models.theory[11].p1",
-   "kind": "theory.paragraph",
+   "location": "advanced-models.outcome[7]",
+   "kind": "outcome",
    "visible": true
   },
   "reinforcements": [],
   "depth": "L1",
-  "surprising_uses": [
-   {
-    "section": "S33",
-    "location": "advanced-models.outcome[7]",
-    "kind": "outcome",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S33",
    "S34"

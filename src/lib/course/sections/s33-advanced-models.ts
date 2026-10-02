@@ -31,7 +31,7 @@ export const section33: CourseSection = {
     { text: "Aplicar stumps controlados y voto mayoritario frente al dummy y a la regla" },
     { text: "Detectar overfit —cuando un modelo acierta en los datos con que se ajustó pero falla en datos apartados— por gap train−valid y fijar seed reproducible" },
     { text: "Registrar runs mínimos (params, metrics, beats_dummy/beats_rule) aunque pierdan al baseline" },
-    { text: "Aplicar validación cruzada por entidad: dividir los datos en partes, usar cada parte una vez para comprobar el modelo y mantener cada entidad completa en un solo lado; leer `n_groups` y la media de esas partes" }
+    { text: "Aplicar **validación cruzada** —reparte los datos en partes y usa cada parte una vez para comprobar el modelo— por entidad: mantener juntos todos los registros de cada entidad, ya sea en entrenamiento o comprobación; leer `n_groups` y la media de los resultados de las partes." }
   ],
   theory: [
     {
