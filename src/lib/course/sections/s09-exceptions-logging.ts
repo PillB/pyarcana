@@ -2538,7 +2538,7 @@ assert checked["in"] == len(checked["ok"]) + len(checked["quarantined"])`,
         options: ["Cifran automáticamente la PII del row", "Reemplazan la necesidad de tests de regresión", "Convierten todo ValueError en TimeoutError", "Permiten filtrar y correlacionar eventos en agregadores y post mórtems"],
         correctIndex: 3,
         explanation:
-          "Campos estables (stage, record_id, correlation_id, error_class) hacen el log consultable; un print suelto no tiene nivel ni correlación.",
+          "Campos estables (stage, record_id, correlation_id, error_class) hacen el log consultable; un print suelto no tiene nivel ni identificador de correlación.",
       },
     ],
   },

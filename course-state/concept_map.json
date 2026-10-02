@@ -137974,42 +137974,6 @@
   "declared_first_section": "exceptions-logging",
   "uses": [
    {
-    "section": "S09",
-    "location": "exceptions-logging.theory[0].p3",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S09",
-    "location": "exceptions-logging.theory[0].p5",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S09",
-    "location": "exceptions-logging.theory[1].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S09",
-    "location": "exceptions-logging.theory[8].heading",
-    "kind": "theory.heading",
-    "visible": true
-   },
-   {
-    "section": "S09",
-    "location": "exceptions-logging.theory[8].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S09",
-    "location": "exceptions-logging.selfCheck[10].explanation",
-    "kind": "selfcheck.explanation",
-    "visible": true
-   },
-   {
     "section": "S18",
     "location": "data-engineering.jobRelevance",
     "kind": "jobRelevance",
@@ -138138,12 +138102,6 @@
   ],
   "definitions": [
    {
-    "section": "S09",
-    "location": "exceptions-logging.theory[8].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
     "section": "S18",
     "location": "data-engineering.S18-T3-A.p0",
     "kind": "theory.paragraph",
@@ -138167,12 +138125,6 @@
    }
   ],
   "self_checks": [
-   {
-    "section": "S09",
-    "location": "exceptions-logging.selfCheck[10].explanation",
-    "kind": "selfcheck.explanation",
-    "visible": true
-   },
    {
     "section": "S18",
     "location": "data-engineering.selfCheck[1].q",
@@ -138200,12 +138152,6 @@
   ],
   "headings": [
    {
-    "section": "S09",
-    "location": "exceptions-logging.theory[8].heading",
-    "kind": "theory.heading",
-    "visible": true
-   },
-   {
     "section": "S18",
     "location": "data-engineering.S18-T3-A.heading",
     "kind": "theory.heading",
@@ -138220,14 +138166,14 @@
   ],
   "figures": [],
   "first_use": {
-   "section": "S09",
-   "location": "exceptions-logging.theory[0].p3",
-   "kind": "theory.paragraph",
+   "section": "S18",
+   "location": "data-engineering.jobRelevance",
+   "kind": "jobRelevance",
    "visible": true
   },
   "first_definition": {
-   "section": "S09",
-   "location": "exceptions-logging.theory[8].p0",
+   "section": "S18",
+   "location": "data-engineering.S18-T3-A.p0",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -138235,26 +138181,25 @@
   "depth": "L2",
   "surprising_uses": [
    {
-    "section": "S09",
-    "location": "exceptions-logging.theory[0].p3",
-    "kind": "theory.paragraph",
+    "section": "S18",
+    "location": "data-engineering.jobRelevance",
+    "kind": "jobRelevance",
     "visible": true
    },
    {
-    "section": "S09",
-    "location": "exceptions-logging.theory[0].p5",
-    "kind": "theory.paragraph",
+    "section": "S18",
+    "location": "data-engineering.outcome[4]",
+    "kind": "outcome",
     "visible": true
    },
    {
-    "section": "S09",
-    "location": "exceptions-logging.theory[1].p1",
-    "kind": "theory.paragraph",
+    "section": "S18",
+    "location": "data-engineering.theory[0].callout",
+    "kind": "theory.callout",
     "visible": true
    }
   ],
   "sections_used": [
-   "S09",
    "S18",
    "S19",
    "S35",

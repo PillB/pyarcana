@@ -42,7 +42,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `pivot-table` | L3 | S17 · theory[5].heading | S17 · iDo.intro | 12 | 6 | 2 | 2 | · | 1/1 | 2 |
 | 🟠 `llm` | L2 | S25 · outcome[0] | S25 · S25-T1-A.p0 | 7 | 2 | 3 | 5 | · | 0/5 ⚠ | 5 |
 | 🟠 `resample` | L1 | S34 · theory[5].heading | S34 · S34-T2-A.p0 | 4 | 0 | 0 | 2 | · | 0/1 ⚠ | 1 |
-| 🟠 `correlaci-n` | L2 | S09 · theory[0].p3 | S09 · theory[8].p0 | 3 | 1 | 1 | 5 | · | 0/5 ⚠ | 6 |
+| 🟠 `correlaci-n` | L2 | S18 · jobRelevance | S18 · S18-T3-A.p0 | 3 | 1 | 1 | 4 | · | 0/5 ⚠ | 5 |
 | 🟠 `for` | L2 | S04 · tagline | S04 · S04-T1-A.p0 | 3 | 341 | 28 | 4 | · | 0/5 ⚠ | 49 |
 | 🟠 `github` | L2 | S01 · outcome[5] | S01 · theory[8].p4 | 3 | 4 | 1 | 5 | · | 0/5 ⚠ | 6 |
 | 🟠 `interprete` | L1 | S01 · tagline | S01 · outcome[0] | 2 | 0 | 1 | 2 | · | 0/1 ⚠ | 9 |

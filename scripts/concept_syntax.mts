@@ -18,11 +18,26 @@
  */
 
 /**
+ * Phrases whose words are not the concept they appear to name. Two kinds live here.
+ *
+ * A PROPER NAME: *Python for Everybody* is Charles Severance's book and course, and its `for` is
+ * an English preposition, not the loop keyword.
+ *
+ * A LONGER TERM THAT SWALLOWS A SHORTER ONE: «identificador de correlación» is a correlation id,
+ * the short text that ties one run's log lines together, and it has nothing to do with
+ * `correlación`, the statistic the glossary defines as «Relación entre dos variables… np.corrcoef».
+ * S09 defines the id properly at `theory[8].p0` and still read as using the statistic three times
+ * before explaining it. Measured before adding it: 5 events in the course use only the phrase, 22
+ * use the bare statistic, and NONE mixes the two - so blanking the phrase cannot hide a real
+ * statistical use. The general form of this is cross-term arbitration, where the longest matching
+ * alias wins; this list is the narrow version, one phrase at a time with its evidence.
+ *
  * Proper names whose words are not the concepts they spell. Spanish is this course's canonical
  * language, so an English token in Spanish prose is almost always the concept; inside an English
  * title it is not. Add a name only with a test showing its words still count everywhere else.
  */
-const PROPER_NAMES = /Python for Everybody/g
+const PROPER_NAMES =
+  /Python for Everybody|identificador(?:es)? de correlaci[oó]n/gi
 
 /** The text with proper names blanked to spaces, so every match offset still fits the original. */
 export function blankProperNames(text: string): string {
