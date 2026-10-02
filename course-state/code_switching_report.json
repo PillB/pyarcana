@@ -220,11 +220,11 @@
  },
  "S08": {
   "section": "S08",
-  "prose_words": 6890,
+  "prose_words": 7019,
   "english_function_words": 2,
   "ordinary_english_words": 15,
   "kept_technical_terms": 61,
-  "avoidable_english_per_1000": 2.5,
+  "avoidable_english_per_1000": 2.4,
   "top_terms": [
    [
     "input",

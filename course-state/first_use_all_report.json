@@ -2,7 +2,7 @@
   "ok": false,
   "sections_audited": 52,
   "terms_audited": 108,
-  "events_audited": 22901,
+  "events_audited": 22903,
   "issue_counts": {
     "NO_VISIBLE_DEFINITION": 3,
     "USE_BEFORE_DEFINITION": 20

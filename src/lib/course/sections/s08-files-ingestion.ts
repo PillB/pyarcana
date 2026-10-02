@@ -93,7 +93,7 @@ real_pii_ok False`,
         "`pathlib.Path` unifica rutas en Windows, macOS y Linux: `Path('data') / 'clients.csv'` evita armar strings con `\\` o `/` a mano. `Path.read_text(encoding='utf-8')` y `write_text` son convenientes.",
         "Cuando una línea no se puede leer o convertir, el programa se detiene allí y no ejecuta las líneas posteriores. Por eso, en S08 comprobamos primero todo lo que sí podemos reconocer: que exista la ruta, que estén las claves requeridas y que el texto tenga la forma esperada. S09 enseñará cómo responder a otros fallos y decidir si el programa continúa o termina.",
         "`with path.open(...) as f` abre el archivo y guarda en `f` el objeto con el que lo lees o escribes. Las líneas indentadas bajo `with` forman su **bloque**: el grupo de instrucciones que `with` controla. Cuando sales de ese bloque, Python cierra el archivo incluso si una operación lanza una excepción. En CP-N1-B no abres archivos por curiosidad. Necesitas un rastro auditable de cada entrada y salidas predecibles para el manifiesto.",
-        "Modos: `r` lee, `w` trunca, `a` añade y `x` crea un archivo nuevo; este último falla si el archivo ya existe. **Siempre** declara `encoding='utf-8'` al trabajar con texto. En Windows, el sistema puede usar por omisión otra codificación. Esa preferencia regional se llama *locale* y varía entre máquinas, por lo que no sirve como contrato entre equipos. En la ingesta principal, `errors='strict'` detiene la lectura ante bytes que UTF-8 no puede interpretar. `errors='replace'` sustituye caracteres y `errors='ignore'` los descarta. Úsalos solo en vistas diagnósticas que no produzcan `clean` ni reemplacen la evidencia cruda. En esta sección trabajarás únicamente con `pathlib`, `csv`, `json`, `hashlib`, `shutil`, `os` y `Decimal`, todos incluidos con Python. Necesitas `os` porque la escritura atómica de T1-B termina en `os.replace`.",
+        "Modos: `r` lee, `w` trunca, `a` añade y `x` crea un archivo nuevo; este último falla si el archivo ya existe. **Siempre** declara `encoding='utf-8'` al trabajar con texto. En Windows, el sistema puede usar por omisión otra codificación. Esa preferencia regional se llama *locale* y varía entre máquinas, por lo que no sirve como contrato entre equipos. En la ingesta principal, `errors='strict'` detiene la lectura ante bytes que UTF-8 no puede interpretar. `errors='replace'` sustituye caracteres y `errors='ignore'` los descarta. Úsalos solo en vistas diagnósticas que no produzcan `clean` ni reemplacen la evidencia cruda. En esta sección trabajarás únicamente con `pathlib`, `csv`, `json`, `hashlib`, `shutil`, `os`, `uuid` y `Decimal`, todos incluidos con Python. El módulo `uuid` crea identificadores diseñados para distinguir una ejecución de otra. Necesitas `os` porque la escritura atómica de T1-B termina en `os.replace`.",
         "`path.exists()` e `is_file()` permiten rechazar una ruta ausente con un mensaje claro antes de abrirla. No garantizan que el archivo siga allí: entre la comprobación y la apertura puede desaparecer, cambiar o ser reemplazado. Esa carrera se conoce como **TOCTOU**, sigla de *time of check to time of use*: el tiempo entre comprobar y usar. Si el archivo desaparece después de comprobarlo, el programa se detiene al abrirlo; S09 enseña qué decisión tomar en ese punto. Tampoco supongas cuál es el directorio de trabajo del entorno de desarrollo. Ancla las rutas con `Path(__file__).resolve().parent` o documenta rutas relativas como `data/` y `out/`. Si los bytes no cumplen el contrato UTF-8, no produzcas `clean`: conserva el archivo crudo y apártalo para revisarlo. No arregles las tildes a ojo.",
       ],
       code: {
@@ -428,21 +428,20 @@ print(obj)`,
       subtopicId: "S08-T4-A",
       paragraphs: [
         "`hashlib.sha256` calcula una huella del contenido crudo preservado. Los mismos bytes producen la misma huella; si cambia un byte —una coma, un BOM o un `\\r`— es abrumadoramente probable que la huella sea distinta. Esto permite detectar cambios y comparar reingestas, pero no prueba autoría ni autenticidad. Después de copiar la entrada al respaldo, calcula la huella sobre los bytes de ese respaldo: así el valor registrado identifica exactamente la evidencia conservada, aunque la ruta de entrada cambie después. No calcules esta huella sobre `clean`, porque `clean` es un producto transformado.",
-        "Crea la copia de respaldo con `shutil.copy2` **antes** de transformar los datos o escribir salidas. Dale un nombre que no se repita, como `backups/{run_id}/{nombre}` o uno que incluya el momento de la corrida. Un `input.bak` fijo pisa la copia anterior en la segunda ejecución. También puede chocar con otra fuente que traiga el mismo nombre. En ambos casos pierdes justo la evidencia que querías conservar. No modifiques el original ni normalices el contenido crudo sobre sí mismo. Para repetir la corrida necesitas conservar intacta la entrada.",
+        "Crea la copia de respaldo con `shutil.copy2` **antes** de transformar los datos o escribir salidas. Genera un `run_id` nuevo una sola vez al comenzar cada corrida y guarda todas sus copias en `backups/{run_id}/{nombre}`. Ese mismo `run_id` debe aparecer en el manifiesto: así enlaza el manifiesto con sus respaldos y dos corridas nunca comparten carpeta. El momento de la corrida puede registrarse como metadata —un dato que describe la ejecución—, pero no reemplaza su identidad. Un `input.bak` fijo pisa la copia anterior en la segunda ejecución. También puede chocar con otra fuente que traiga el mismo nombre. En ambos casos pierdes justo la evidencia que querías conservar. No modifiques el original ni normalices el contenido crudo sobre sí mismo. Para repetir la corrida necesitas conservar intacta la entrada.",
         "Provenance mínima por fuente: `{path, sha256, bytes}` (y opcionalmente `received_at` ISO). Con el fixture de laboratorio `id\\nC1\\n` el tamaño es **6** bytes y el digest es fijo (`b776a3a3…`); si cambias el fixture, **recalcula** el hash en demos y tests — no copies un hex de memoria.",
       ],
       code: {
         language: 'python',
         title: "hash_backup.py",
         code: `from pathlib import Path
-import hashlib, tempfile, shutil
+import hashlib, tempfile, shutil, uuid
 
-def provenance_backup(src_name="clients.csv", run_id="2026-08-26T12-00-00Z"):
+def provenance_backup(run_id, src_name="clients.csv"):
     td = Path(tempfile.mkdtemp())
     src = td / src_name
     src.write_text("id\\nC1\\n", encoding="utf-8")
-    # backups/{run_id}/{nombre}: un "clients.csv.bak" fijo pisa el respaldo de
-    # la corrida anterior, que es exactamente la evidencia que querias guardar.
+    # Todas las copias de esta corrida comparten la carpeta de su run_id.
     bak = td / "backups" / run_id / src_name
     bak.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(src, bak)
@@ -456,8 +455,14 @@ def provenance_backup(src_name="clients.csv", run_id="2026-08-26T12-00-00Z"):
         "bak_ok": evidence == src.read_bytes(),
     }
 
-print(provenance_backup())`,
-        output: `{'path': 'clients.csv', 'sha256': 'b776a3a3926835c70a8b32f595320ba866cf1c5c8d9106d2e50f36b5a9548fc9', 'bytes': 6, 'bak_rel': 'backups/2026-08-26T12-00-00Z/clients.csv', 'bak_ok': True}`,
+run_id = uuid.uuid4().hex
+info = provenance_backup(run_id)
+shown = dict(info)
+shown["bak_rel"] = shown["bak_rel"].replace(run_id, "{run_id}")
+print(shown)
+print(len(run_id), info["bak_rel"] == f"backups/{run_id}/clients.csv")`,
+        output: `{'path': 'clients.csv', 'sha256': 'b776a3a3926835c70a8b32f595320ba866cf1c5c8d9106d2e50f36b5a9548fc9', 'bytes': 6, 'bak_rel': 'backups/{run_id}/clients.csv', 'bak_ok': True}
+32 True`,
       },
       callout: {
         type: "tip",
@@ -477,7 +482,7 @@ print(provenance_backup())`,
       },
       subtopicId: "S08-T4-B",
       paragraphs: [
-        "El **manifest** de la corrida es un JSON con `run_id` (opcional), una lista `sources` y totales **derivados**. Cada fuente lleva `name`, `sha256` del crudo y conteos `n_in`, `n_clean`, `n_quarantine` (más `reconcile_ok` calculado). Los totales se **suman** desde las fuentes; no se hardcodean ni se copian de un run anterior “porque se veía bien”.",
+        "El **manifest** de la corrida es un JSON con `run_id` obligatorio, una lista `sources` y totales **derivados**. `run_id` identifica una sola ejecución: debe ser el mismo que nombra la carpeta de sus respaldos, y una corrida nueva debe crear uno nuevo. Así puedes enlazar cada manifiesto con la evidencia que preservó sin permitir que dos ejecuciones compartan carpeta. El momento de ejecución queda como metadata y nunca es la única identidad. Cada fuente lleva `name`, `sha256` del crudo y conteos `n_in`, `n_clean`, `n_quarantine` (más `reconcile_ok` calculado). Los totales se **suman** desde las fuentes; no se hardcodean ni se copian de un run anterior “porque se veía bien”.",
         "La **reconciliación ocurre en dos niveles**. Primero, cada fuente cumple `n_in == n_clean + n_quarantine`. Después, los totales deben ser la suma exacta de todas las fuentes. Mirar solo el total puede ocultar un sobrante en el CSV que compensa un faltante en el JSON. Eso es lo que muestra `compensated_bad` en la práctica guiada. `build_manifest` comprueba las cuentas y lanza `ValueError` si no cierran. El bloque ejecuta solo la fuente válida y muestra como comentario la última línea que produciría la fuente rota. El punto fail-fast se conserva: si una fuente no reconcilia, no se publica un manifiesto como si la corrida hubiera terminado bien.",
         "Evidencia del gate CP-N1-B en tu portfolio: scripts + fixtures sintéticos + manifest de demo + al menos un test de reconcile fallido (exit 1) + README reproducible. Clean y quarantine deben ser **siempre** explicables desde el manifest: un revisor no debería necesitar adivinar dónde fueron las filas.",
       ],
@@ -485,8 +490,9 @@ print(provenance_backup())`,
         language: 'python',
         title: "manifest.py",
         code: `import json
+import uuid
 
-def build_manifest(sources):
+def build_manifest(sources, run_id):
     names = [source["name"] for source in sources]
     if len(names) != len(set(names)):
         raise ValueError("nombre de fuente duplicado")
@@ -500,6 +506,7 @@ def build_manifest(sources):
             == source["n_clean"] + source["n_quarantine"]
         )
     manifest = {
+        "run_id": run_id,
         "sources": ordered_sources,
         "n_in": sum(source["n_in"] for source in ordered_sources),
         "n_clean": sum(source["n_clean"] for source in ordered_sources),
@@ -523,7 +530,12 @@ sources = [
     {"name": "clients.csv", "sha256": "abc", "n_in": 6, "n_clean": 5, "n_quarantine": 1},
     {"name": "transactions.json", "sha256": "def", "n_in": 2, "n_clean": 2, "n_quarantine": 0},
 ]
-print(json.dumps(build_manifest(sources), ensure_ascii=False, sort_keys=True))
+run_id = uuid.uuid4().hex
+manifest = build_manifest(sources, run_id)
+shown = dict(manifest)
+shown["run_id"] = "{run_id}"
+print(len(run_id), manifest["run_id"] == run_id)
+print(json.dumps(shown, ensure_ascii=False, sort_keys=True))
 
 broken = [
     {"name": "clients.csv", "sha256": "abc", "n_in": 6,
@@ -531,7 +543,8 @@ broken = [
 ]
 # build_manifest(broken) terminaría con:
 # ValueError: reconcile fallo en ['clients.csv']`,
-        output: `{"n_clean": 7, "n_in": 8, "n_quarantine": 1, "reconcile_ok": true, "sources": [{"n_clean": 5, "n_in": 6, "n_quarantine": 1, "name": "clients.csv", "reconcile_ok": true, "sha256": "abc"}, {"n_clean": 2, "n_in": 2, "n_quarantine": 0, "name": "transactions.json", "reconcile_ok": true, "sha256": "def"}]}`,
+        output: `32 True
+{"n_clean": 7, "n_in": 8, "n_quarantine": 1, "reconcile_ok": true, "run_id": "{run_id}", "sources": [{"n_clean": 5, "n_in": 6, "n_quarantine": 1, "name": "clients.csv", "reconcile_ok": true, "sha256": "abc"}, {"n_clean": 2, "n_in": 2, "n_quarantine": 0, "name": "transactions.json", "reconcile_ok": true, "sha256": "def"}]}`,
       },
       callout: {
         type: "success",
@@ -780,9 +793,9 @@ print(hash_and_backup())`,
           title: "S08-T4-B-DEMO — manifest",
           code: `import json
 from pathlib import Path
-import tempfile
+import tempfile, uuid
 
-def write_manifest(sources, run_id="demo-001"):
+def write_manifest(sources, run_id):
     for s in sources:
         s["reconcile_ok"] = s["n_in"] == s["n_clean"] + s["n_quarantine"]
     manifest = {
@@ -802,8 +815,14 @@ sources = [
     {"name": "clients.csv", "sha256": "deadbeef", "n_in": 3, "n_clean": 2, "n_quarantine": 1},
     {"name": "transactions.json", "sha256": "cafebabe", "n_in": 2, "n_clean": 2, "n_quarantine": 0},
 ]
-print(write_manifest(sources))`,
-          output: `{'run_id': 'demo-001', 'sources': [{'name': 'clients.csv', 'sha256': 'deadbeef', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 1, 'reconcile_ok': True}, {'name': 'transactions.json', 'sha256': 'cafebabe', 'n_in': 2, 'n_clean': 2, 'n_quarantine': 0, 'reconcile_ok': True}], 'n_in': 5, 'n_clean': 4, 'n_quarantine': 1, 'reconcile_ok': True}`,
+run_id = uuid.uuid4().hex
+manifest = write_manifest(sources, run_id)
+shown = dict(manifest)
+shown["run_id"] = "{run_id}"
+print(len(run_id), manifest["run_id"] == run_id)
+print(shown)`,
+          output: `32 True
+{'run_id': '{run_id}', 'sources': [{'name': 'clients.csv', 'sha256': 'deadbeef', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 1, 'reconcile_ok': True}, {'name': 'transactions.json', 'sha256': 'cafebabe', 'n_in': 2, 'n_clean': 2, 'n_quarantine': 0, 'reconcile_ok': True}], 'n_in': 5, 'n_clean': 4, 'n_quarantine': 1, 'reconcile_ok': True}`,
         },
         why: "El manifest prueba reconciliación por fuente y agregada; los totales se **derivan** con `sum`, no se hardcodean. Ninguna fuente puede esconder pérdidas detrás de otra. Es la pieza final antes de ensamblar el You Do (E3 T4-B es el `run()` fail-closed).",
         retrospective:
@@ -1747,9 +1766,9 @@ print(prov)`,
         kind: "guided",
         title: "Manifest multi-fuente con totales derivados",
         preamble:
-          "- **Contexto:** clients.csv + transactions.json deben aparecer juntos en un solo run_id.\n- **Meta:** derivar `reconcile_ok` y totales con `sum` (sin hardcode).\n- **Éxito:** imprime `5 4 1`, ambas fuentes True, manifest True.\n- **Límites:** no pongas `reconcile_ok = True` a ciegas; calcula la igualdad por fuente.",
+          "- **Contexto:** `clients.csv` + `transactions.json` pertenecen a una sola corrida: genera un `run_id` nuevo al iniciarla y usa ese mismo valor para ambas fuentes y su manifiesto.\n- **Meta:** derivar `reconcile_ok` y totales con `sum` (sin hardcode).\n- **Éxito:** imprime `5 4 1`, ambas fuentes True, manifest True.\n- **Límites:** no pongas `reconcile_ok = True` a ciegas ni escribas un `run_id` fijo; calcula la igualdad por fuente.",
         instruction:
-          "1. Corrige el loop: `reconcile_ok = n_in == n_clean + n_quarantine`.\n2. Arma el dict manifest con `run_id`, `sources` y totales sumados.\n3. `reconcile_ok` global = `all` por fuente.\n4. Imprime totales, lista (name, ok) y el booleano global.",
+          "1. Corrige el loop: `reconcile_ok = n_in == n_clean + n_quarantine`.\n2. Antes de armar el manifiesto, crea una sola vez `run_id = uuid.uuid4().hex`.\n3. Arma el dict manifest con ese `run_id`, `sources` y totales sumados.\n4. `reconcile_ok` global = `all` por fuente.\n5. Imprime totales, lista (`name`, `ok`) y el booleano global.",
         hint: "Calcula reconcile_ok por fuente antes de sumar",
         hints: [
           "Calcula reconcile_ok por fuente antes de sumar",
@@ -1776,14 +1795,17 @@ for source in sources:
         solutionCode: {
           language: 'python',
           title: "manifest_min.py",
-          code: `sources = [
+          code: `import uuid
+
+run_id = uuid.uuid4().hex
+sources = [
     {'name': 'clients.csv', 'sha256': 'abc', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 1},
     {'name': 'transactions.json', 'sha256': 'def', 'n_in': 2, 'n_clean': 2, 'n_quarantine': 0},
 ]
 for source in sources:
     source['reconcile_ok'] = source['n_in'] == source['n_clean'] + source['n_quarantine']
 manifest = {
-    'run_id': 'r1',
+    'run_id': run_id,
     'sources': sources,
     'n_in': sum(s['n_in'] for s in sources),
     'n_clean': sum(s['n_clean'] for s in sources),
@@ -1920,7 +1942,7 @@ exit_code 1`,
   youDo: {
     title: "Client/Transaction ETL Pipeline (cierre CP-N1-B)",
     context:
-      "Cierras el gate **CP-N1-B**. Los We Do de T1–T4 te dieron las piezas; aquí las **ensamblas** en un ETL **local-python**.\n\n**Receta de ensamblaje (orden sugerido):**\n\n1. `sha256_file` + backup del crudo (T4-A)\n2. `load_clients_csv` con dialecto, Decimal, `newline=''` y cuarentena `{raw, reason}` (T2)\n3. `load_transactions_json` con `validate_schema` + Decimal (T3)\n4. `write_atomic` de clean y quarantine (T1-B)\n5. `build_manifest` con totales derivados y `reconcile_ok` por fuente (T4-B)\n6. `run` retorna 0 solo si todo reconcilia — si no, exit 1 (E3 de T4-B)\n\n**Éxito de corrida observable:** demo con filas sanas → exit 0 y manifest `reconcile_ok`; demo con fila irregular → exit 0 y `n_quarantine ≥ 1`; demo con conteos rotos (o fuente que no cuadra) → exit 1.\n\nRutas: `data/clients.csv` + `data/transactions.json` (sintéticos) → `out/clean/`, `out/quarantine/`, `out/manifest.json`. El CLI instalable llega en S10 (Módulos & CLI). Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.",
+      "Cierras el gate **CP-N1-B**. Los We Do de T1–T4 te dieron las piezas; aquí las **ensamblas** en un ETL **local-python**.\n\n**Receta de ensamblaje (orden sugerido):**\n\n1. Crea una sola vez `run_id = uuid.uuid4().hex`; calcula `sha256_file`, guarda el backup del crudo dentro de `backups/{run_id}/` y reutiliza ese mismo valor en el manifest (T4-A)\n2. `load_clients_csv` con dialecto, Decimal, `newline=''` y cuarentena `{raw, reason}` (T2)\n3. `load_transactions_json` con `validate_schema` + Decimal (T3)\n4. `write_atomic` de clean y quarantine (T1-B)\n5. `build_manifest` con totales derivados y `reconcile_ok` por fuente (T4-B)\n6. `run` retorna 0 solo si todo reconcilia — si no, exit 1 (E3 de T4-B)\n\n**Éxito de corrida observable:** demo con filas sanas → exit 0 y manifest `reconcile_ok`; demo con fila irregular → exit 0 y `n_quarantine ≥ 1`; demo con conteos rotos (o fuente que no cuadra) → exit 1.\n\nRutas: `data/clients.csv` + `data/transactions.json` (sintéticos) → `out/clean/`, `out/quarantine/`, `out/manifest.json`. El CLI instalable llega en S10 (Módulos & CLI). Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.",
     objectives: [
       "Ingesta CSV y JSON con contratos documentados",
       "Validar/normalizar y cuarentenar rejects con motivo estable",
@@ -1930,6 +1952,8 @@ exit_code 1`,
     ],
     requirements: [
       "Entradas sintéticas clients.csv + transactions.json",
+      "Cada corrida genera una sola vez `uuid.uuid4().hex`; ese `run_id` obligatorio nombra la carpeta de todos sus backups y aparece sin cambios en el manifest",
+      "La marca de tiempo es metadata de la corrida, nunca su única identidad",
       "Salidas out/clean/, out/quarantine/, out/manifest.json",
       "Integrar normalizadores (S05–S07) y modelo en memoria (S06) donde aplique",
       "README + demo local-python reproducible",
@@ -1952,6 +1976,7 @@ import hashlib
 import json
 import os
 import shutil
+import uuid
 from decimal import Decimal, InvalidOperation
 from datetime import datetime, timezone
 from pathlib import Path
@@ -1989,6 +2014,7 @@ def load_transactions_json(path: Path) -> tuple[list[dict], list[dict]]:
 
 def build_manifest(
     *,
+    run_id: str,
     sources: list[dict[str, Any]],
 ) -> dict[str, Any]:
     """Deriva totales y reconcile_ok desde cada fuente; no acepta totales agregados."""
@@ -1998,7 +2024,9 @@ def build_manifest(
 
 def run(data_dir: Path, out_dir: Path) -> int:
     """Retorna exit code 0/1."""
-    # Contrato: backup, load, write clean/quar, manifest; fail if not reconcile
+    run_id = uuid.uuid4().hex
+    # Contrato: usa este mismo run_id en cada backup y en build_manifest;
+    # luego load, write clean/quar y falla si no reconcilia.
     raise NotImplementedError
 
 

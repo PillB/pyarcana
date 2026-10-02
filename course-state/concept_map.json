@@ -35164,12 +35164,6 @@
     "visible": false
    },
    {
-    "section": "S08",
-    "location": "files-ingestion.youDo.starter",
-    "kind": "youdo.starter",
-    "visible": true
-   },
-   {
     "section": "S09",
     "location": "exceptions-logging.outcome[1]",
     "kind": "outcome",
@@ -74500,7 +74494,7 @@
    },
    {
     "section": "S08",
-    "location": "files-ingestion.youDo.requirement[7]",
+    "location": "files-ingestion.youDo.requirement[9]",
     "kind": "youdo.requirement",
     "visible": true
    },
@@ -77326,7 +77320,7 @@
    },
    {
     "section": "S08",
-    "location": "files-ingestion.youDo.requirement[7]",
+    "location": "files-ingestion.youDo.requirement[9]",
     "kind": "youdo.requirement",
     "visible": true
    },
@@ -130554,7 +130548,7 @@
    },
    {
     "section": "S08",
-    "location": "files-ingestion.youDo.requirement[4]",
+    "location": "files-ingestion.youDo.requirement[6]",
     "kind": "youdo.requirement",
     "visible": true
    },
@@ -131832,7 +131826,7 @@
    },
    {
     "section": "S08",
-    "location": "files-ingestion.youDo.requirement[4]",
+    "location": "files-ingestion.youDo.requirement[6]",
     "kind": "youdo.requirement",
     "visible": true
    },
