@@ -130079,6 +130079,12 @@
   "definitions": [
    {
     "section": "S34",
+    "location": "cv-ai-integration.theory[5].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S34",
     "location": "cv-ai-integration.S34-T2-A.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -130123,38 +130129,13 @@
   },
   "first_definition": {
    "section": "S34",
-   "location": "cv-ai-integration.S34-T2-A.p0",
+   "location": "cv-ai-integration.theory[5].p0",
    "kind": "theory.paragraph",
    "visible": true
   },
   "reinforcements": [],
   "depth": "L1",
-  "surprising_uses": [
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.theory[5].heading",
-    "kind": "theory.heading",
-    "visible": true
-   },
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.theory[5].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.theory[5].p3",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.theory[5].callout",
-    "kind": "theory.callout",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S34"
   ],
@@ -132499,6 +132480,12 @@
   "definitions": [
    {
     "section": "S34",
+    "location": "cv-ai-integration.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S34",
     "location": "cv-ai-integration.theory[2].p1",
     "kind": "theory.paragraph",
     "visible": true
@@ -132567,20 +132554,13 @@
   },
   "first_definition": {
    "section": "S34",
-   "location": "cv-ai-integration.theory[2].p1",
+   "location": "cv-ai-integration.theory[2].p0",
    "kind": "theory.paragraph",
    "visible": true
   },
   "reinforcements": [],
   "depth": "L1",
-  "surprising_uses": [
-   {
-    "section": "S34",
-    "location": "cv-ai-integration.theory[2].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S34",
    "S36"

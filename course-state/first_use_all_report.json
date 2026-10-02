@@ -5,7 +5,7 @@
   "events_audited": 22909,
   "issue_counts": {
     "NO_VISIBLE_DEFINITION": 2,
-    "USE_BEFORE_DEFINITION": 6
+    "USE_BEFORE_DEFINITION": 5
   },
   "never_defined_but_mentioned": [
     "joblib",
@@ -18,13 +18,6 @@
       "severity": "P1",
       "location": "wxpython-gui.S16-T1-A.p0",
       "definition_location": "data-engineering.jobRelevance"
-    },
-    {
-      "code": "USE_BEFORE_DEFINITION",
-      "term_id": "resample",
-      "severity": "P1",
-      "location": "cv-ai-integration.theory[5].heading",
-      "definition_location": "cv-ai-integration.S34-T2-A.p0"
     },
     {
       "code": "USE_BEFORE_DEFINITION",

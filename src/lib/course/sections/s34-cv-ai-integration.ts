@@ -80,7 +80,7 @@ export const section34: CourseSection = {
     {
       heading: "ROC-AUC: qué mide y qué deja fuera",
       paragraphs: [
-        "`ROC` abrevia *receiver operating characteristic*; `AUC` significa área bajo la curva. La curva ROC recorre todos los cortes posibles. En cada corte enfrenta el **recall** con la **tasa de falsos positivos**, la fracción `FP/(FP+TN)` de negativos que entrarían por error.",
+        "`ROC` abrevia *receiver operating characteristic*; `AUC` significa área bajo la curva. **ROC-AUC** indica qué tan bien distingue un clasificador las dos clases al considerar todos los umbrales posibles. La curva ROC recorre todos los cortes posibles. En cada corte enfrenta el **recall** con la **tasa de falsos positivos**, la fracción `FP/(FP+TN)` de negativos que entrarían por error.",
         "**ROC-AUC** resume esa curva en un número entre 0 y 1 para medir qué tan bien ordena el score las dos clases sin elegir todavía un corte. También puede leerse así: tomas un positivo y un negativo; ROC-AUC es la fracción de pares en que el positivo recibe mayor score. Un empate cuenta como medio acierto.",
         "Ejemplo resuelto: los positivos tienen scores `0.9` y `0.7`; los negativos, `0.8` y `0.1`. Las cuatro comparaciones dan `True, True, False, True`: tres aciertos de cuatro, por lo que ROC-AUC es `0.75`. En otro corte, `TP=2`, `FP=10` y `TN=990` producen una tasa de falsos positivos de `0.01`, pero una precision de apenas `2/12 = 0.167`.",
         "Antes de ejecutar el código, escribe las cuatro comparaciones y predice ambas medidas. Luego cambia el segundo score positivo de `0.7` a `0.85`: lo correcto es obtener cuatro `True` y ROC-AUC `1.0`. Eso prueba un orden perfecto solo para esos cuatro casos; no prueba calibración ni una cola útil en datos nuevos.",
@@ -224,7 +224,7 @@ fraud_label False`,
     {
       heading: "Resampling: reequilibrar sin tocar el test",
       paragraphs: [
-        "El **resampling** o remuestreo crea una versión distinta del conjunto de train para que la clase minoritaria no quede casi invisible. Existe porque un modelo puede acertar muchas veces si favorece siempre a la clase numerosa. Repetir ejemplos de la minoría se llama **oversampling**; retirar ejemplos de la mayoría se llama **undersampling**.",
+        "El **resampling** convierte el conjunto de train en una versión distinta para que la clase minoritaria no quede casi invisible. También se le llama remuestreo. Existe porque un modelo puede acertar muchas veces si favorece siempre a la clase numerosa. Repetir ejemplos de la minoría se llama **oversampling**; retirar ejemplos de la mayoría se llama **undersampling**.",
         "Ejemplo resuelto: train contiene nueve `0` y un `1`. El código repite dos veces el único `1`, así que la nueva versión conserva nueve `0` y pasa de uno a tres `1`. Test permanece `[0, 0, 1]`: sirve para medir el resultado sobre casos que el remuestreo no modificó.",
         "Antes de ejecutar, cuenta ambas clases y predice las tres líneas. Lo correcto es leer `train_before 9 1`, `train_after 9 3` y `test_unchanged True`. Ese último valor es la comprobación de que el cambio quedó dentro de train.",
         "Ahora cambia `minority * 2` por `minority * 8` y vuelve a ejecutar. La comprobación correcta es `train_after 9 9`, mientras test sigue intacto. Si también cambia test, no has aplicado resampling dentro del fold: has contaminado la medición.",
