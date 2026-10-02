@@ -59,6 +59,11 @@ question), and again for the section as a whole.
 
 ## Procedure
 
+0. **Read the section yourself first and say whether it is complete.** Before any measure: are
+   all its parts there (theory blocks, demos, every exercise id, subtopics, self-check questions,
+   outcomes, the You Do, the program count against its floor), and does it teach what it promises?
+   A measure confirms or refutes a reading; it is not a substitute for one, and a section can be
+   green and still be missing a block nobody looked for.
 1. **Baseline.** `gate.py snapshot SXX`. Copy the section file and the derived reports to
    `.fixer/SXX.pre-concepts.*` so a failed round can be restored. That includes
    `badge_readiness_report.json`, the skills baseline.
@@ -87,7 +92,7 @@ question), and again for the section as a whole.
    concerns return at most twice, then go to a human. Converge at two quiet rounds.
 7. **Gate.** `gate.py check SXX` against the step-1 snapshot. An instrument change goes in its
    own commit, and you prove it leaves the baseline unchanged, or you re-snapshot.
-8. **Re-run the maps and diff the rows.** The gate enforces the totals
+8. **Re-run BOTH maps and diff the rows — every section, always.** The gate enforces the totals
    (`surprising_uses_course_wide`, `readiness_findings_course_wide`, since b596f785). Diff the
    concept and readiness rows by hand anyway: a total can hold while one badge gains a finding
    and another loses one. Any regression in any dimension is a failed round.
