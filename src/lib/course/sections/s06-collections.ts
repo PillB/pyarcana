@@ -24,7 +24,7 @@ export const section06: CourseSection = {
   jobRelevance:
     "Antes de guardar un lote fuera del programa, ordénalo en una mesa de clasificación en memoria. Allí puedes conservar el orden de llegada, localizar clientes por ID, detectar repeticiones y registrar desacuerdos. Aquí conviertes tus listas y funciones en ese pequeño almacén confiable. Esta habilidad aparece a diario en el onboarding, es decir, en el alta y la verificación de un nuevo cliente. También aparece en la logística, el comercio y el control de calidad. Elegir la colección correcta evita datos perdidos, búsquedas lentas y resultados que cambian sin explicación.",
   learningOutcomes: [
-    { text: "Usar `list`/`tuple` y recortes por posiciones (`slicing`: tomar una parte seguida desde una posición inicial hasta antes de una posición final) para crear ventanas de registros" },
+    { text: "Usar `list`/`tuple` y `slicing` —el recorte que toma elementos seguidos de una lista por sus posiciones— para crear ventanas de registros" },
     { text: "Desempaquetar secuencias y distinguir alias vs. copia superficial/profunda" },
     { text: "Modelar registros con dict, get e índices id→fila" },
     { text: "Deduplicar con set y reportar conflictos sin borrarlos" },
@@ -1515,7 +1515,7 @@ print(flat)`,
         starterCode: {
           language: 'python',
           title: "shape_check.py",
-          code: `# Valida shape: txs debe ser list.
+          code: `# Valida la estructura de los datos: txs debe ser list.
 clients = [
     {'id': 'C001', 'txs': []},
     {'id': 'C002'},

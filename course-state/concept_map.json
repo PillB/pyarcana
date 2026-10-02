@@ -32731,6 +32731,12 @@
   "definitions": [
    {
     "section": "S06",
+    "location": "collections.outcome[0]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S06",
     "location": "collections.theory[1].p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -32860,8 +32866,8 @@
   },
   "first_definition": {
    "section": "S06",
-   "location": "collections.theory[1].p0",
-   "kind": "theory.paragraph",
+   "location": "collections.outcome[0]",
+   "kind": "outcome",
    "visible": true
   },
   "reinforcements": [
@@ -32873,14 +32879,7 @@
    }
   ],
   "depth": "L1",
-  "surprising_uses": [
-   {
-    "section": "S06",
-    "location": "collections.outcome[0]",
-    "kind": "outcome",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S06",
    "S08",
@@ -121544,12 +121543,6 @@
   "declared_first_section": "security",
   "uses": [
    {
-    "section": "S06",
-    "location": "collections.S06-T3-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
     "section": "S14",
     "location": "security.outcome[0]",
     "kind": "outcome",
@@ -122048,9 +122041,9 @@
   ],
   "figures": [],
   "first_use": {
-   "section": "S06",
-   "location": "collections.S06-T3-A-E3.starter",
-   "kind": "wedo.starter",
+   "section": "S14",
+   "location": "security.outcome[0]",
+   "kind": "outcome",
    "visible": true
   },
   "first_definition": {
@@ -122061,16 +122054,8 @@
   },
   "reinforcements": [],
   "depth": "L2",
-  "surprising_uses": [
-   {
-    "section": "S06",
-    "location": "collections.S06-T3-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
-   "S06",
    "S14",
    "S17",
    "S41"
@@ -122079,7 +122064,7 @@
   "figure_target": 5,
   "figure_count": 0,
   "figure_gap": 5,
-  "explanation_lag_sections": 8
+  "explanation_lag_sections": 0
  },
  "dtype": {
   "id": "dtype",
@@ -132527,6 +132512,12 @@
   "definitions": [
    {
     "section": "S07",
+    "location": "text-unicode-regex.theory[5].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S07",
     "location": "text-unicode-regex.theory[5].p3",
     "kind": "theory.paragraph",
     "visible": true
@@ -132596,26 +132587,13 @@
   },
   "first_definition": {
    "section": "S07",
-   "location": "text-unicode-regex.theory[5].p3",
+   "location": "text-unicode-regex.theory[5].p0",
    "kind": "theory.paragraph",
    "visible": true
   },
   "reinforcements": [],
   "depth": "L2",
-  "surprising_uses": [
-   {
-    "section": "S07",
-    "location": "text-unicode-regex.theory[5].p0",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S07",
-    "location": "text-unicode-regex.theory[5].p2",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S07",
    "S33"

@@ -7,7 +7,7 @@ surprised by it?* 🔴 never explained · 🟠 used before it is explained · �
 
 Depth: **L0** never defined · **L1** defined inline at first use · **L2** plus a worked example · **L3** plus its own subtopic and a figure.
 
-**108 concepts.** 10 never explained, 18 used before they are explained, 80 clean.
+**108 concepts.** 10 never explained, 15 used before they are explained, 83 clean.
 
 Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) · [S05](S05.md) · [S06](S06.md) · [S07](S07.md) · [S08](S08.md) · [S09](S09.md) · [S10](S10.md) · [S11](S11.md) · [S12](S12.md) · [S13](S13.md) · [S14](S14.md) · [S15](S15.md) · [S16](S16.md) · [S17](S17.md) · [S18](S18.md) · [S19](S19.md) · [S20](S20.md) · [S21](S21.md) · [S22](S22.md) · [S23](S23.md) · [S24](S24.md) · [S25](S25.md) · [S26](S26.md) · [S27](S27.md) · [S28](S28.md) · [S29](S29.md) · [S30](S30.md) · [S31](S31.md) · [S32](S32.md) · [S33](S33.md) · [S34](S34.md) · [S35](S35.md) · [S36](S36.md) · [S37](S37.md) · [S38](S38.md) · [S39](S39.md) · [S40](S40.md) · [S41](S41.md) · [S42](S42.md) · [S43](S43.md) · [S44](S44.md) · [S45](S45.md) · [S46](S46.md) · [S47](S47.md) · [S48](S48.md) · [S49](S49.md) · [S50](S50.md) · [S51](S51.md) · [S52](S52.md)
 
@@ -31,7 +31,6 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | concept | depth | first use | first explained | surprising | examples | exercised | self-check | lag | figures | sections |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
 | 🟠 `embedding` | L1 | S28 · S28-T1-B.p1 | S48 · theory[0].p1 | 2 | 0 | 0 | 3 | +20 | 0/1 ⚠ | 2 |
-| 🟠 `shape` | L2 | S06 · S06-T3-A-E3.starter | S14 · outcome[0] | 1 | 5 | 5 | 3 | +8 | 0/5 ⚠ | 4 |
 | 🟠 `merge` | L2 | S10 · S10-T4-A.p2 | S17 · S17-T1-A.p0 | 5 | 5 | 9 | 5 | +7 | 0/5 ⚠ | 10 |
 | 🟠 `eda` | L1 | S16 · S16-T1-A.p0 | S18 · jobRelevance | 4 | 0 | 0 | 3 | +2 | 0/1 ⚠ | 4 |
 | 🟠 `set` | L3 | S01 · S01-T4-A-E3.starter | S03 · S03-T1-A.p2 | 1 | 120 | 50 | 15 | +2 | 2/5 ⚠ | 46 |
@@ -44,10 +43,8 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟠 `correlaci-n` | L2 | S18 · jobRelevance | S18 · S18-T3-A.p0 | 3 | 1 | 1 | 4 | · | 0/5 ⚠ | 5 |
 | 🟠 `github` | L2 | S01 · outcome[5] | S01 · theory[8].p4 | 3 | 4 | 1 | 5 | · | 0/5 ⚠ | 6 |
 | 🟠 `interprete` | L1 | S01 · tagline | S01 · outcome[0] | 2 | 0 | 1 | 2 | · | 0/1 ⚠ | 9 |
-| 🟠 `overfitting` | L2 | S07 · theory[5].p0 | S07 · theory[5].p3 | 2 | 3 | 0 | 1 | · | 0/1 ⚠ | 2 |
 | 🟠 `repositorio-repo` | L2 | S01 · outcome[5] | S01 · theory[0].p3 | 2 | 8 | 11 | 13 | · | 0/5 ⚠ | 26 |
 | 🟠 `roc-auc` | L1 | S34 · theory[2].heading | S34 · theory[2].p1 | 1 | 0 | 0 | 7 | · | 0/1 ⚠ | 2 |
-| 🟠 `slicing` | L1 | S06 · outcome[0] | S06 · theory[1].p0 | 1 | 0 | 7 | 4 | · | 0/1 ⚠ | 13 |
 
 ## Explained before first use
 
@@ -101,6 +98,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `ndarray` | L2 | S14 · theory[0].p1 | S14 · theory[0].p1 | 0 | 1 | 0 | 2 | · | 0/1 ⚠ | 2 |
 | 🟢 `notebook` | L2 | S01 · theory[8].p6 | S01 · theory[8].p6 | 0 | 1 | 1 | 1 | · | 0/5 ⚠ | 14 |
 | 🟢 `outlier` | L1 | S16 · jobRelevance | S16 · jobRelevance | 0 | 0 | 0 | 3 | · | 1/1 | 6 |
+| 🟢 `overfitting` | L2 | S07 · theory[5].p0 | S07 · theory[5].p0 | 0 | 3 | 0 | 1 | · | 0/1 ⚠ | 2 |
 | 🟢 `p-value` | L1 | S18 · S18-T3-A#9.heading | S18 · S18-T3-A#9.p0 | 0 | 0 | 0 | 2 | · | 0/1 ⚠ | 1 |
 | 🟢 `parameter` | L3 | S03 · theory[11].p1 | S03 · theory[11].p1 | 0 | 1 | 3 | 1 | · | 1/5 ⚠ | 18 |
 | 🟢 `path` | L2 | S01 · outcome[1] | S01 · outcome[1] | 0 | 40 | 31 | 17 | · | 0/5 ⚠ | 30 |
@@ -121,6 +119,8 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `ruff` | L2 | S01 · outcome[4] | S01 · outcome[4] | 0 | 3 | 5 | 4 | · | 0/1 ⚠ | 1 |
 | 🟢 `series` | L2 | S15 · outcome[0] | S15 · outcome[0] | 0 | 4 | 1 | 0 | · | 0/5 ⚠ | 8 |
 | 🟢 `shap` | L2 | S35 · S35-T1-B.p0 | S35 · S35-T1-B.p0 | 0 | 1 | 0 | 0 | · | 0/1 ⚠ | 1 |
+| 🟢 `shape` | L2 | S14 · outcome[0] | S14 · outcome[0] | 0 | 5 | 5 | 3 | · | 0/5 ⚠ | 3 |
+| 🟢 `slicing` | L1 | S06 · outcome[0] | S06 · outcome[0] | 0 | 0 | 7 | 4 | · | 0/1 ⚠ | 13 |
 | 🟢 `stratifiedkfold` | L1 | S34 · S34-T2-A.p3 | S34 · S34-T2-A.p3 | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 1 |
 | 🟢 `streamlit` | L1 | S13 · S13-T4-A.p0 | S13 · S13-T4-A.p0 | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 2 |
 | 🟢 `terminal-shell` | L2 | S01 · jobRelevance | S01 · jobRelevance | 0 | 4 | 10 | 3 | · | 0/5 ⚠ | 13 |

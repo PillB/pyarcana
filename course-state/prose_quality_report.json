@@ -75,10 +75,10 @@
   "section": "S05"
  },
  "S06": {
-  "words": 6345,
+  "words": 6340,
   "sentences": 586,
   "words_per_sentence": 10.8,
-  "fernandez_huerta": 77.2,
+  "fernandez_huerta": 77.3,
   "long_sentences": 0,
   "run_on_sentences": 0,
   "nominalisations_per_100w": 2.9,
@@ -90,8 +90,8 @@
   "section": "S06"
  },
  "S07": {
-  "words": 6732,
-  "sentences": 608,
+  "words": 6735,
+  "sentences": 609,
   "words_per_sentence": 11.1,
   "fernandez_huerta": 76.2,
   "long_sentences": 0,
