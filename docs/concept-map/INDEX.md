@@ -27,7 +27,7 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 
 | concept | depth | first use | first explained | surprising | examples | exercised | self-check | lag | figures | sections |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
-| 🟠 `embedding` | L1 | S28 · S28-T1-B.p1 | S48 · theory[0].p1 | 2 | 0 | 0 | 3 | +20 | 0/1 ⚠ | 2 |
+| 🟠 `embedding` | L1 | S28 · S28-T1-B.p1 | S48 · outcome[0] | 1 | 0 | 0 | 3 | +20 | 0/1 ⚠ | 2 |
 
 ## Explained before first use
 

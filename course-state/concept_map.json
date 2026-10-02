@@ -141475,6 +141475,12 @@
   "definitions": [
    {
     "section": "S48",
+    "location": "ai-governance.outcome[0]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S48",
     "location": "ai-governance.theory[0].p1",
     "kind": "theory.paragraph",
     "visible": true
@@ -141519,8 +141525,8 @@
   },
   "first_definition": {
    "section": "S48",
-   "location": "ai-governance.theory[0].p1",
-   "kind": "theory.paragraph",
+   "location": "ai-governance.outcome[0]",
+   "kind": "outcome",
    "visible": true
   },
   "reinforcements": [],
@@ -141530,12 +141536,6 @@
     "section": "S28",
     "location": "llm-agents.S28-T1-B.p1",
     "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S48",
-    "location": "ai-governance.outcome[0]",
-    "kind": "outcome",
     "visible": true
    }
   ],

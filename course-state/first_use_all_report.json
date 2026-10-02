@@ -13,7 +13,7 @@
       "term_id": "embedding",
       "severity": "P1",
       "location": "llm-agents.S28-T1-B.p1",
-      "definition_location": "ai-governance.theory[0].p1"
+      "definition_location": "ai-governance.outcome[0]"
     }
   ]
 }

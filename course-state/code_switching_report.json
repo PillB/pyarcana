@@ -2077,11 +2077,11 @@
  },
  "S48": {
   "section": "S48",
-  "prose_words": 6046,
+  "prose_words": 6058,
   "english_function_words": 14,
   "ordinary_english_words": 25,
   "kept_technical_terms": 203,
-  "avoidable_english_per_1000": 6.5,
+  "avoidable_english_per_1000": 6.4,
   "top_terms": [
    [
     "ranking",
