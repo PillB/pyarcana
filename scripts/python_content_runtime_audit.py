@@ -787,17 +787,22 @@ EXPECTED_SKIP_PREFIXES = ("non_python:", "needs_cli_argv")
 #: Lesson code that imports something the declared environment does not provide, so its output
 #: is never checked. Owed, not accepted, and two-sided like the test ratchets: a new one fails,
 #: and so does paying one off without lowering this number.
-#: 2026-10-03: 6. Five `reportlab` imports in the fastapi section and one `fastapi` in
-#: llm-finetuning; requirements-content.txt pins neither.
-MISSING_DEPENDENCY_OWED = 6
+#: 2026-10-03: 54, measured where CI measures - requirements-content.txt installed alone. By the
+#: first import that fails: openpyxl 25 (rag, stdlib-deep), matplotlib 9 (databases-orm), jinja2 8,
+#: python-docx 5, pymupdf 3, pypdf 1 and Pillow 1 (fastapi), playwright 1 (computer-vision),
+#: fastapi 1 (llm-finetuning). The first value set here, 6, was measured in a local .venv-content
+#: that has most of those packages installed without declaring them; CI caught it.
+MISSING_DEPENDENCY_OWED = 54
 
 
-def skip_verdict(section_reports: list[dict], full_run: bool) -> dict:
+def skip_verdict(section_reports: list[dict], enforce_lower_bound: bool) -> dict:
     """Every skip by reason, and whether each is one the run could not have avoided.
 
     Skips used to be a per-section count that `ok` ignored, so lesson code whose import failed
-    read exactly like a shell command: 72 skips on 2026-10-03, 6 of them lesson code that never
-    ran. The lower bound applies to a full run only - a shard holds fewer by construction.
+    read exactly like a shell command: on 2026-10-03, 54 of 72 skips in CI were lesson code that
+    never ran. The upper bound holds everywhere. The lower bound needs a full run in exactly the
+    declared environment - a shard holds fewer by construction, and a local environment carrying
+    undeclared packages runs code CI cannot - so `main()` enforces it only for a full run in CI.
     """
     skipped = [(s["section_id"], r) for s in section_reports for r in s["results"]
                if r["result"]["status"] == "skip"]
@@ -810,7 +815,7 @@ def skip_verdict(section_reports: list[dict], full_run: bool) -> dict:
         problems.append(f"{len(missing)} missing_dependency skips, more than the "
                         f"{MISSING_DEPENDENCY_OWED} owed - lesson code now imports something "
                         "requirements-content.txt does not provide")
-    elif full_run and len(missing) < MISSING_DEPENDENCY_OWED:
+    elif enforce_lower_bound and len(missing) < MISSING_DEPENDENCY_OWED:
         problems.append(f"only {len(missing)} missing_dependency skips remain - lower "
                         f"MISSING_DEPENDENCY_OWED to {len(missing)} so the ratchet keeps what was fixed")
     return {"status": "fail" if problems else "ok", "problems": problems,
@@ -860,7 +865,9 @@ def main() -> int:
 
     dependency_visibility = probe_dependency_visibility()
     version_drift = probe_version_drift()
-    skips = skip_verdict(section_reports, full_run=not (args.only or args.shard or args.limit))
+    full_run = not (args.only or args.shard or args.limit)
+    skips = skip_verdict(section_reports,
+                         enforce_lower_bound=full_run and os.environ.get("CI") == "true")
 
     report = {
         "generated_at": datetime.now(timezone.utc).isoformat(),

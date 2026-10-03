@@ -134,29 +134,30 @@ class TestSkipVerdict(unittest.TestCase):
 
     def test_nothing_to_run_is_free(self):
         verdict = mod.skip_verdict([_section("non_python:bash", "needs_cli_argv",
-                                             *["missing_dependency"] * self.OWED)], full_run=True)
+                                             *["missing_dependency"] * self.OWED)], enforce_lower_bound=True)
         self.assertEqual(verdict["status"], "ok", verdict["problems"])
         self.assertEqual(verdict["by_reason"]["non_python:bash"], 1)
 
     def test_any_other_reason_fails_and_is_named(self):
         verdict = mod.skip_verdict([_section("unknown_kind", *["missing_dependency"] * self.OWED)],
-                                   full_run=True)
+                                   enforce_lower_bound=True)
         self.assertEqual(verdict["status"], "fail")
         self.assertIn("1 snippets skipped as unknown_kind", verdict["problems"])
 
     def test_a_new_missing_dependency_fails(self):
-        verdict = mod.skip_verdict([_section(*["missing_dependency"] * (self.OWED + 1))], full_run=True)
+        verdict = mod.skip_verdict([_section(*["missing_dependency"] * (self.OWED + 1))], enforce_lower_bound=True)
         self.assertEqual(verdict["status"], "fail")
         self.assertIn("more than the", verdict["problems"][0])
 
     def test_paying_one_off_without_lowering_the_number_fails(self):
-        verdict = mod.skip_verdict([_section(*["missing_dependency"] * (self.OWED - 1))], full_run=True)
+        verdict = mod.skip_verdict([_section(*["missing_dependency"] * (self.OWED - 1))], enforce_lower_bound=True)
         self.assertEqual(verdict["status"], "fail")
         self.assertIn("lower MISSING_DEPENDENCY_OWED", verdict["problems"][0])
 
     def test_a_shard_is_not_asked_to_lower_it(self):
-        """A shard holds fewer by construction; only the upper bound applies to it."""
-        verdict = mod.skip_verdict([_section("missing_dependency")], full_run=False)
+        """A shard holds fewer by construction, and so does a local environment carrying
+        packages the declaration lacks; only the upper bound applies to either."""
+        verdict = mod.skip_verdict([_section("missing_dependency")], enforce_lower_bound=False)
         self.assertEqual(verdict["status"], "ok", verdict["problems"])
 
 

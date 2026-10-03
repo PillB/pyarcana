@@ -552,17 +552,31 @@ Routes: wire `engine.ts` into the route with a differential test against the Pyt
 the spec at the route's own decision; or mark the engine and its mirror `INACTIVE_PRESERVED` and
 let `credential-issue-gates` be the contract. Each changes what a credential is checked against.
 
-## Q7 — Six lesson snippets import packages the declared environment does not pin (2026-10-03)
+## Q7 — 54 lesson snippets import packages the declared environment does not pin (2026-10-03)
 
 The content runtime audit used to count skips without reasons, and `ok` ignored them, so lesson
-code whose import failed read exactly like a shell snippet. Measured on 2026-10-03: of 72 skips,
-62 are not Python and 4 need command-line arguments, but **6 are lesson code that never runs**:
-five `reportlab` imports in the `fastapi` section (`solutionCode-9..11`, `code-block-3`, `-11`) and
-one `fastapi` import in `llm-finetuning` (`code-block-4`). `requirements-content.txt` pins neither,
-so their declared outputs have never been checked.
+code whose import failed read exactly like a shell snippet. Measured on 2026-10-03 where CI
+measures, with `requirements-content.txt` installed alone: of the skips, the not-Python and
+needs-argv ones are expected, but **54 are lesson code that never runs in CI**. By the first
+import that fails:
 
-They are now owed, not accepted: `MISSING_DEPENDENCY_OWED = 6` in
-`scripts/python_content_runtime_audit.py` fails the audit if a seventh appears, and asks for the
-number to be lowered when one is paid. Paying them means pinning `reportlab` and `fastapi` in the
-learners' declared environment, or rewriting those snippets not to need them — the first changes
-what a learner installs, so it is the owner's call.
+| package | snippets | sections |
+|---|---:|---|
+| openpyxl | 25 | rag, stdlib-deep |
+| matplotlib | 9 | databases-orm |
+| jinja2 | 8 | fastapi |
+| python-docx | 5 | fastapi |
+| pymupdf (`fitz`) | 3 | fastapi |
+| pypdf, Pillow | 1 each | fastapi |
+| playwright | 1 | computer-vision |
+| fastapi | 1 | llm-finetuning |
+
+`requirements-content.txt` declares four packages: numpy, pandas, scikit-learn, scipy. The local
+`.venv-content` has most of the above installed without declaring them, so **a local run executes
+48 snippets CI skips** - the audit gives different verdicts on the two machines. The first
+ratchet value, 6, was measured locally and failed CI on arrival.
+
+They are now owed, not accepted: `MISSING_DEPENDENCY_OWED = 54` fails the audit if another
+appears, and (in CI, on a full run) asks for the number to be lowered when one is paid. Paying
+them means declaring those packages in the learners' environment, or rewriting the snippets not
+to need them. The first changes what a learner installs, so it is the owner's call.
