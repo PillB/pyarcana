@@ -22,9 +22,9 @@ guarding on the day the campaign wins rather than blocking it.
 """
 from __future__ import annotations
 
-import json
 import re
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -36,8 +36,6 @@ sys.path.insert(0, str(ROOT / "tests/adversarial"))
 from build_concept_prompt import concept_row  # noqa: E402
 from concept_map import build_concepts  # noqa: E402
 from course_events import fresh_events  # noqa: E402
-
-CMAP = json.loads((ROOT / "course-state/concept_map.json").read_text(encoding="utf-8"))
 
 
 def concept(*, depth, uses, examples=(), self_checks=(), defined=True):
@@ -159,6 +157,13 @@ class PlaceNameBudget(unittest.TestCase):
     the gate enforces, so the two copies are compared here rather than trusted.
     """
 
+    def probe(self) -> Path:
+        """A scratch section file outside the repo. It used to be written into course-state/,
+        where a gate measuring at the same moment could read it."""
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        return Path(tmp.name) / "probe.ts"
+
     def test_the_prompt_and_the_gate_count_the_same_names(self):
         sys.path.insert(0, str(ROOT / "tests/adversarial"))
         import build_concept_prompt as prompt
@@ -184,29 +189,19 @@ class PlaceNameBudget(unittest.TestCase):
     def test_a_saturated_file_is_told_to_add_none(self):
         import build_concept_prompt as prompt
 
-        tmp = ROOT / "course-state/.place_name_budget_probe.ts"
-        try:
-            tmp.write_text("// " + " ".join(["Lima"] * (prompt.PE_CITY_CAP + 1)), encoding="utf-8")
-            self.assertIn("must add NONE", prompt.place_name_budget(tmp))
-            tmp.write_text("// sin nombres de ciudad", encoding="utf-8")
-            self.assertIn("room for", prompt.place_name_budget(tmp))
-        finally:
-            tmp.unlink(missing_ok=True)
+        tmp = self.probe()
+        tmp.write_text("// " + " ".join(["Lima"] * (prompt.PE_CITY_CAP + 1)), encoding="utf-8")
+        self.assertIn("must add NONE", prompt.place_name_budget(tmp))
+        tmp.write_text("// sin nombres de ciudad", encoding="utf-8")
+        self.assertIn("room for", prompt.place_name_budget(tmp))
 
     def test_fixture_ids_do_not_spend_the_budget(self):
         """The gate ignores `CASO-` lines, so the budget must too, or it under-reports room."""
         import build_concept_prompt as prompt
 
-        tmp = ROOT / "course-state/.place_name_budget_probe.ts"
-        try:
-            tmp.write_text("\n".join(["// CASO-LIM-017 Lima Lima Lima", "// prosa sin nombres"]), encoding="utf-8")
-            self.assertIn(f"holds 0 of a hard cap of {prompt.PE_CITY_CAP}", prompt.place_name_budget(tmp))
-        finally:
-            tmp.unlink(missing_ok=True)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        tmp = self.probe()
+        tmp.write_text("\n".join(["// CASO-LIM-017 Lima Lima Lima", "// prosa sin nombres"]), encoding="utf-8")
+        self.assertIn(f"holds 0 of a hard cap of {prompt.PE_CITY_CAP}", prompt.place_name_budget(tmp))
 
 
 class DefinitionsASectionHolds(unittest.TestCase):
@@ -224,25 +219,22 @@ class DefinitionsASectionHolds(unittest.TestCase):
 
     @staticmethod
     def _block(tag: str) -> str:
+        """From a fresh extraction: the gitignored `.fixer/events.json` this used to read does
+        not exist in CI, so both tests here skipped on every run there."""
         import build_concept_prompt as prompt
-        ev = json.loads((ROOT / ".fixer/events.json").read_text(encoding="utf-8"))
-        return prompt.definitions_this_section_holds(CMAP, tag, ev["active_section_ids"])
+        ev = fresh_events()
+        return prompt.definitions_this_section_holds(build_concepts(ev), tag, ev["active_section_ids"])
 
     def test_it_names_a_definition_the_section_holds_and_what_it_costs(self):
-        if not (ROOT / ".fixer/events.json").exists():
-            self.skipTest("no events cache; gate.py regenerates it on every run")
         block = self._block("S02")
         self.assertIn("`function`", block, "S02 holds the course's earliest gloss of function")
         self.assertRegex(block, r"exposing at least \d+ further uses")
 
     def test_a_section_holding_none_says_so_rather_than_printing_nothing(self):
-        if not (ROOT / ".fixer/events.json").exists():
-            self.skipTest("no events cache")
         empty = {"x": {"first_definition": {"section": "S99", "location": "a", "kind": "k"},
                        "definitions": [], "uses": [], "surprising_uses": []}}
         import build_concept_prompt as prompt
-        ev = json.loads((ROOT / ".fixer/events.json").read_text(encoding="utf-8"))
-        block = prompt.definitions_this_section_holds(empty, "S02", ev["active_section_ids"])
+        block = prompt.definitions_this_section_holds(empty, "S02", [f"s{i:02d}" for i in range(1, 53)])
         self.assertIn("no concept's earliest definition", block)
 
     def test_a_definition_with_no_successor_is_reported_as_course_wide(self):
@@ -307,3 +299,7 @@ class CodeScopeRule(unittest.TestCase):
         self.assertIn("TOGETHER", rule, "code and declared output must still move as one")
         self.assertIn("may NOT change exercise ids", rule, "ids and counts stay pinned")
         self.assertIn("D14", rule)
+
+
+if __name__ == "__main__":
+    unittest.main()
