@@ -6,6 +6,42 @@
  * and concept-definition-detector.test.mjs kept copies of two of these patterns to test them -
  * copies that agree with the originals only until one of them changes.
  */
+import { aliasIsAcronym } from '../src/lib/glossary/terms'
+
+/**
+ * The patterns that find a term's mentions, built from its name and aliases. Moved here from
+ * the extractor unchanged, for the same reason as definesTerm.
+ *
+ * The length sort is load-bearing. An alternation takes the first alternative that matches, not
+ * the longest, so with "leakage" tried before "leakage temporal" every match would stop at the
+ * shorter word, and the definition after the compound would be read from the wrong place.
+ * Sorted here, the order aliases are declared in cannot matter.
+ */
+export function termPatterns(raw: string[]): { re: RegExp | null, reExact: RegExp | null } {
+  // longest first so "list comprehension" wins over "list"
+  const alts = [...new Set(raw)]
+    .sort((a, b) => b.length - a.length)
+    .map((a) => a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+  return {
+    // \b is wrong for accented Spanish; use lookarounds on letter chars instead.
+    // `.py` is excluded too: S10 teaches packaging and writes `__init__.py` constantly, which
+    // is a package marker file, not the `__init__` dunder method. That alone accounted for 40
+    // of dunder-method's 50 "mentions" and scored it never-explained.
+    // An acronym matches exactly (aliasIsAcronym); everything else ignores case. Two regexes
+    // rather than one, because a flag is per-pattern: `ABC` must not match `int("abc")` while
+    // `tupla` still matches `Tupla` at the start of a sentence.
+    re: alts.filter((a) => !aliasIsAcronym(a)).length
+      ? new RegExp(
+        `(?<![\\p{L}\\d_])(?:${alts.filter((a) => !aliasIsAcronym(a)).join('|')})(?![\\p{L}\\d_]|\\.py)`,
+        'giu')
+      : null,
+    reExact: alts.filter((a) => aliasIsAcronym(a)).length
+      ? new RegExp(
+        `(?<![\\p{L}\\d_])(?:${alts.filter((a) => aliasIsAcronym(a)).join('|')})(?![\\p{L}\\d_]|\\.py)`,
+        'gu')
+      : null,
+  }
+}
 
 /**
  * Spanish definition cues, applied *directionally* around the term.

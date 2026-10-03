@@ -14,9 +14,9 @@
  * refuse to let a hidden answer count as having taught anything.
  */
 import { COURSE_SECTIONS } from '../src/lib/course/index'
-import { GLOSSARY_TERMS, aliasIsAcronym } from '../src/lib/glossary/terms'
+import { GLOSSARY_TERMS } from '../src/lib/glossary/terms'
 import { blankProperNames, syntaxMentions } from './concept_syntax.mts'
-import { definesTerm } from './concept_detector.mts'
+import { definesTerm, termPatterns } from './concept_detector.mts'
 
 type Ev = {
   section_id: string
@@ -38,31 +38,11 @@ const REQUIRING = new Set([
 
 const terms = GLOSSARY_TERMS.map((t) => {
   const raw = [t.term, ...(t.aliases ?? [])].filter(Boolean)
-  // longest first so "list comprehension" wins over "list"
-  const alts = [...new Set(raw)]
-    .sort((a, b) => b.length - a.length)
-    .map((a) => a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
   return {
     id: t.id,
     firstSectionId: t.firstSectionId,
     aliases: raw,
-    // \b is wrong for accented Spanish; use lookarounds on letter chars instead.
-    // `.py` is excluded too: S10 teaches packaging and writes `__init__.py` constantly, which
-    // is a package marker file, not the `__init__` dunder method. That alone accounted for 40
-    // of dunder-method's 50 "mentions" and scored it never-explained.
-    // An acronym matches exactly (aliasIsAcronym); everything else ignores case. Two regexes
-    // rather than one, because a flag is per-pattern: `ABC` must not match `int("abc")` while
-    // `tupla` still matches `Tupla` at the start of a sentence.
-    re: alts.filter((a) => !aliasIsAcronym(a)).length
-      ? new RegExp(
-        `(?<![\\p{L}\\d_])(?:${alts.filter((a) => !aliasIsAcronym(a)).join('|')})(?![\\p{L}\\d_]|\\.py)`,
-        'giu')
-      : null,
-    reExact: alts.filter((a) => aliasIsAcronym(a)).length
-      ? new RegExp(
-        `(?<![\\p{L}\\d_])(?:${alts.filter((a) => aliasIsAcronym(a)).join('|')})(?![\\p{L}\\d_]|\\.py)`,
-        'gu')
-      : null,
+    ...termPatterns(raw),
   }
 })
 
