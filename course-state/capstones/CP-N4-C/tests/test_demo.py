@@ -14,8 +14,10 @@ fields (citations, holdout, trajectory).
 from __future__ import annotations
 import json
 import os
+import shutil
 import subprocess
 import sys
+import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PKG = os.path.dirname(HERE)
@@ -23,12 +25,22 @@ PKG = os.path.dirname(HERE)
 
 def _run_demo():
     demo_path = os.path.join(PKG, "demo.py")
-    proc = subprocess.run(
-        [sys.executable, demo_path],
-        capture_output=True,
-        text=True,
-        timeout=60,
-    )
+    # The demo's state goes to a temporary file: run_state.json is committed, and every run of
+    # this test used to rewrite it. A key in the caller's shell must not reach the demo either.
+    state_dir = tempfile.mkdtemp(prefix="cpn4c_demo_")
+    env = {k: v for k, v in os.environ.items()
+           if k not in ("CPN4C_COMMERCIAL_KEY", "COMMERCIAL_API_KEY")}
+    env["CP_N4C_STATE_PATH"] = os.path.join(state_dir, "run_state.json")
+    try:
+        proc = subprocess.run(
+            [sys.executable, demo_path],
+            capture_output=True,
+            text=True,
+            timeout=60,
+            env=env,
+        )
+    finally:
+        shutil.rmtree(state_dir, ignore_errors=True)
     return proc
 
 
