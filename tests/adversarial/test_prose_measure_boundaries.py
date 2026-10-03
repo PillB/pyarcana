@@ -21,17 +21,17 @@ that nobody could see - so these tests hold both.
 """
 from __future__ import annotations
 
-import json
 import sys
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "tests/adversarial"))
 
+from course_events import fresh_events  # noqa: E402
 from prose_quality_audit import analyse, sentences, terminated  # noqa: E402
 
-EVENTS = ROOT / ".fixer/events.json"
 #: What the old truncation produced: 400 characters plus one ellipsis.
 TRUNCATED_LEN = 401
 
@@ -80,10 +80,15 @@ class ProseMeasureBoundaries(unittest.TestCase):
         self.assertEqual(analyse(" ".join(["palabra"] * 40) + ".")["run_on_sentences"], 0)
 
     def test_the_extractor_stores_whole_events(self):
-        """Structural, not content: nothing may carry the old cut's exact signature."""
-        if not EVENTS.exists():
-            self.skipTest("no events cache; gate.py regenerates it on every run")
-        payload = json.loads(EVENTS.read_text(encoding="utf-8"))
+        """Structural, not content: nothing may carry the old cut's exact signature.
+
+        From a fresh extraction: the gitignored `.fixer/events.json` this used to read does not
+        exist in CI, so the test skipped on every run there. The floor first, because "nothing
+        was cut" also holds when nothing long was extracted at all.
+        """
+        payload = fresh_events()
+        longest = max(len(e.get("text") or "") for e in payload["events"])
+        self.assertGreater(longest, TRUNCATED_LEN, "no event outlasts the old cut, so the check below proves nothing")
         cut = [
             e["location"] for e in payload["events"]
             if len(e.get("text") or "") == TRUNCATED_LEN and (e.get("text") or "").endswith("…")

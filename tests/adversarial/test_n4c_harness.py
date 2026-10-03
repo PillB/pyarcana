@@ -75,13 +75,20 @@ def _default_kb() -> KnowledgeBase:
 # ---------------------------------------------------------------------------
 class TestNoKeyDeterministic(unittest.TestCase):
     def test_demo_exits_zero_with_metrics(self):
-        # Subprocess the demo to prove the no-key path runs end-to-end.
+        # Subprocess the demo to prove the no-key path runs end-to-end. Its state goes to a temp
+        # file rather than the committed run_state.json, and a key in the caller's shell must not
+        # reach it: with one set, the missing-key check stops raising and the demo exits 1.
+        env = {k: v for k, v in os.environ.items()
+               if k not in ("CPN4C_COMMERCIAL_KEY", "COMMERCIAL_API_KEY")}
+        env["CP_N4C_STATE_PATH"] = state_path = _fresh_state_path()
+        self.addCleanup(lambda: os.path.exists(state_path) and os.remove(state_path))
         proc = subprocess.run(
             [sys.executable, "demo.py"],
             cwd=str(CAPSTONE),
             capture_output=True,
             text=True,
             timeout=60,
+            env=env,
         )
         self.assertEqual(proc.returncode, 0, msg=proc.stderr)
         self.assertIn("METRICS_JSON:", proc.stdout)
@@ -177,7 +184,8 @@ class TestLoopStopped(unittest.TestCase):
             )
             r = c.run(Task(query="loop test query", mode="LOCAL", max_steps=8))
             self.assertLessEqual(len(r.steps), 8)
-            self.assertIn(r.stop_reason, ("loop_detected", "max_steps", "complete"))
+            # Not "complete": a plan that never completes the loop must not read as one that did.
+            self.assertIn(r.stop_reason, ("loop_detected", "max_steps"))
         finally:
             if os.path.exists(path):
                 os.remove(path)

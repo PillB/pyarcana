@@ -112,21 +112,6 @@ def measure(tag: str) -> dict:
     (ROOT / ".fixer/events.json").write_text(ev.stdout, encoding="utf-8")
 
     cmap = fresh_report(["python3", "scripts/concept_map.py"], ROOT / "course-state/concept_map.json")
-    never = sum(1 for c in cmap.values() if c["depth"] == "L0")
-    # Concepts explained somewhere but used before that. Reported, not gated: it and `never`
-    # count two halves of one population, so teaching a never-explained concept moves it from
-    # the first to the second and reads as a regression on a round that improved the course.
-    # S17's concepts round taught `reshape`, whose only remaining uses were its own section's
-    # tagline and jobRelevance: never 14 -> 13, this 40 -> 41, and a round that removed 14
-    # surprising uses course-wide was restored. Any concept its own tagline names was
-    # structurally impossible to teach.
-    surprising = sum(1 for c in cmap.values() if c["depth"] != "L0" and c["surprising_uses"])
-    # What that pair was reaching for, counted as the harm rather than as buckets: how many
-    # times in the whole course a learner meets a word before anything explains it. It is
-    # stricter than the concept count it replaces - every use counts, not just the first -
-    # and it still may not rise. 420 -> 406 on the round described above.
-    surprising_total = sum(len(c["surprising_uses"]) for c in cmap.values())
-    here = sum(1 for c in cmap.values() for u in c["surprising_uses"] if u["section"] == tag)
 
     prose = fresh_report(["python3", "scripts/prose_quality_audit.py", tag],
                          ROOT / "course-state/prose_quality_report.json").get(tag, {})
@@ -143,12 +128,64 @@ def measure(tag: str) -> dict:
     # debt - so it said nothing about the section actually being changed.
     ids = fresh_report(["python3", "scripts/synthetic_identifier_audit.py"],
                        ROOT / "course-state/synthetic_identifier_report.json", ok_codes=(0, 1))
-    num = int(tag[1:])
-    ids_here = sum(1 for f in ids.get("findings", []) if f"/s{num:02d}-" in f["file"])
 
     # After first_use_all, whose report it reads. Exits 1 while any finding remains.
     ready = fresh_report(["python3", "scripts/badge_readiness_audit.py"],
                          ROOT / "course-state/badge_readiness_report.json", ok_codes=(0, 1))
+
+    return assemble_measures(tag, cmap, prose, cs, fu, ids, ready, strict_mismatches(tag))
+
+
+def first_use_issue_count(issues: list[dict]) -> int:
+    """One defect, counted once.
+
+    USE_BEFORE_DEFINITION and DEFINITION_AFTER_REQUIREMENT are two views of the same fault -
+    the course uses a term before defining it, seen through a mention and through a
+    requirement - and glossary_first_use.py emits them from two independent `if`s, so a term
+    that does both costs 2. NO_VISIBLE_DEFINITION ends in `continue` and costs 1. Teaching a
+    never-defined term therefore READS AS DAMAGE: S04 taught `for`, whose earlier uses in S02
+    and S03 both mention and require it, and the measure went 37 -> 38 on a round that took the
+    course from 268 surprising uses to 229. All 7 DEFINITION_AFTER_REQUIREMENT rows in the
+    report of the time co-occur with a USE_BEFORE_DEFINITION for the same term.
+
+    Deduped here rather than in the audit because badge_readiness_audit.py keys off
+    DEFINITION_AFTER_REQUIREMENT specifically, and suppressing the row would quietly weaken a
+    different gate. The report keeps both rows; only the ratchet counts them as one, and a term
+    with a genuinely different code still counts separately.
+    """
+    return len({
+        (i["term_id"], "used-before-defined"
+         if i["code"] in ("USE_BEFORE_DEFINITION", "DEFINITION_AFTER_REQUIREMENT")
+         else i["code"])
+        for i in issues
+    })
+
+
+def assemble_measures(tag: str, cmap: dict, prose: dict, cs: dict, fu: dict, ids: dict,
+                      ready: dict, strict: int | None) -> dict:
+    """The measures a round is gated on, from the reports `measure()` just regenerated.
+
+    Pure, so a test can hand it complete reports and check that every gated key comes back
+    measured: a key nothing writes reads as "unmeasurable" in check(), which is printed, not
+    failed. The tests used to pin these keys as strings in this file's source instead.
+    """
+    never = sum(1 for c in cmap.values() if c["depth"] == "L0")
+    # Concepts explained somewhere but used before that. Reported, not gated: it and `never`
+    # count two halves of one population, so teaching a never-explained concept moves it from
+    # the first to the second and reads as a regression on a round that improved the course.
+    # S17's concepts round taught `reshape`, whose only remaining uses were its own section's
+    # tagline and jobRelevance: never 14 -> 13, this 40 -> 41, and a round that removed 14
+    # surprising uses course-wide was restored. Any concept its own tagline names was
+    # structurally impossible to teach.
+    surprising = sum(1 for c in cmap.values() if c["depth"] != "L0" and c["surprising_uses"])
+    # What that pair was reaching for, counted as the harm rather than as buckets: how many
+    # times in the whole course a learner meets a word before anything explains it. It is
+    # stricter than the concept count it replaces - every use counts, not just the first -
+    # and it still may not rise. 420 -> 406 on the round described above.
+    surprising_total = sum(len(c["surprising_uses"]) for c in cmap.values())
+    here = sum(1 for c in cmap.values() for u in c["surprising_uses"] if u["section"] == tag)
+    num = int(tag[1:])
+    ids_here = sum(1 for f in ids.get("findings", []) if f"/s{num:02d}-" in f["file"])
 
     return {
         "identifier_values_in_section": ids_here,
@@ -166,28 +203,10 @@ def measure(tag: str) -> dict:
         # The gated measure is a ratio over the whole section, so a sentence-count shift can
         # move it without a word changing. The raw count says which happened.
         INFORMATIONAL + "b5_nominal_constructions": prose.get("b5_nominal_constructions"),
-        "strict_output_mismatches_in_section": strict_mismatches(tag),
+        "strict_output_mismatches_in_section": strict,
         "avoidable_english_per_1000": cs.get("avoidable_english_per_1000"),
-        # One defect, counted once. USE_BEFORE_DEFINITION and DEFINITION_AFTER_REQUIREMENT are
-        # two views of the same fault - the course uses a term before defining it, seen through
-        # a mention and through a requirement - and glossary_first_use.py emits them from two
-        # independent `if`s, so a term that does both costs 2. NO_VISIBLE_DEFINITION ends in
-        # `continue` and costs 1. Teaching a never-defined term therefore READS AS DAMAGE: S04
-        # taught `for`, whose earlier uses in S02 and S03 both mention and require it, and the
-        # measure went 37 -> 38 on a round that took the course from 268 surprising uses to 229.
-        # All 7 DEFINITION_AFTER_REQUIREMENT rows in the current report co-occur with a
-        # USE_BEFORE_DEFINITION for the same term; every one is a duplicate.
-        #
-        # Deduped here rather than in the audit because badge_readiness_audit.py keys off
-        # DEFINITION_AFTER_REQUIREMENT specifically, and suppressing the row would quietly
-        # weaken a different gate. The report keeps both rows; only the ratchet counts them as
-        # one, and a term with a genuinely different code still counts separately.
-        "first_use_issues": len({
-            (i["term_id"], "used-before-defined"
-             if i["code"] in ("USE_BEFORE_DEFINITION", "DEFINITION_AFTER_REQUIREMENT")
-             else i["code"])
-            for i in fu.get("issues", [])
-        }),
+        # One defect, counted once; see first_use_issue_count.
+        "first_use_issues": first_use_issue_count(fu.get("issues", [])),
         INFORMATIONAL + "nominalisations_per_100w": prose.get("nominalisations_per_100w"),
     }
 

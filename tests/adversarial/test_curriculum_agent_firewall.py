@@ -543,6 +543,9 @@ class ExecutionReceiptTests(unittest.TestCase):
                 receipts_dir=root / "execution_receipts",
             )
             self.assertIn("REPO False", receipt["stdout"])
+            # The half this test is named for. It used to assert only the repository, while the
+            # probe's request really went out - and the receipt recorded `network: False` anyway.
+            self.assertIn("NET blocked", receipt["stdout"], receipt["stdout"])
 
     def test_replayed_receipt_id_cannot_be_sealed_twice(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

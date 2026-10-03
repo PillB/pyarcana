@@ -23,8 +23,10 @@ not a restatement of the arithmetic.
 from __future__ import annotations
 
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/fixer"))
@@ -34,6 +36,21 @@ import gate  # noqa: E402
 
 def verdicts(before: dict, after: dict) -> dict[str, str]:
     return {k: gate.regression_verdict(k, before[k], after[k]) for k in before}
+
+
+#: Complete synthetic inputs for gate.assemble_measures: every field it reads, present once.
+REPORTS = {
+    "cmap": {"x": {"depth": "L1", "surprising_uses": [{"section": "S03", "location": "a"}]},
+             "y": {"depth": "L0", "surprising_uses": []}},
+    "prose": {"run_on_sentences": 1, "b5_per_100_sentences": 0.5, "b5_nominal_constructions": 2,
+              "nominalisations_per_100w": 1.0},
+    "cs": {"avoidable_english_per_1000": 2.0},
+    "fu": {"issues": [{"term_id": "for", "code": "USE_BEFORE_DEFINITION"},
+                      {"term_id": "for", "code": "DEFINITION_AFTER_REQUIREMENT"}]},
+    "ids": {"findings": [{"file": "src/lib/course/sections/s03-decisions-rules.ts"}]},
+    "ready": {"failures": [], "warnings": [{"badge": "b", "code": "C", "count": 2}]},
+    "strict": 0,
+}
 
 
 #: S17's real round, as the gate measured it.
@@ -91,14 +108,13 @@ class GateConceptMeasures(unittest.TestCase):
         )
 
     def test_the_gate_emits_the_keys_these_tests_assert_on(self):
-        """Guards the rename: a typo here would silently gate nothing at all."""
-        source = (ROOT / "tools/fixer/gate.py").read_text(encoding="utf-8")
-        self.assertIn('"surprising_uses_course_wide": surprising_total', source)
-        self.assertIn('f"{INFORMATIONAL}used_before_explained": surprising', source)
+        """Guards the rename: a typo here would silently gate nothing at all.
 
-
-if __name__ == "__main__":
-    unittest.main()
+        Read off what the gate computes, not off its source text as it used to be."""
+        m = gate.assemble_measures("S03", **REPORTS)
+        self.assertEqual(m["surprising_uses_course_wide"], 1)
+        self.assertEqual(m["info:used_before_explained"], 1)
+        self.assertEqual(m["never_explained"], 1)
 
 
 class FirstUseIssueCounting(unittest.TestCase):
@@ -116,14 +132,9 @@ class FirstUseIssueCounting(unittest.TestCase):
     ratchet folds them together.
     """
 
-    @staticmethod
-    def count(issues: list[dict]) -> int:
-        return len({
-            (i["term_id"], "used-before-defined"
-             if i["code"] in ("USE_BEFORE_DEFINITION", "DEFINITION_AFTER_REQUIREMENT")
-             else i["code"])
-            for i in issues
-        })
+    #: The gate's own count. These tests used to run a copy of it written here, tied to gate.py
+    #: by one pinned source string.
+    count = staticmethod(gate.first_use_issue_count)
 
     def test_one_term_seen_both_ways_counts_once(self):
         both = [
@@ -157,10 +168,9 @@ class FirstUseIssueCounting(unittest.TestCase):
         ]
         self.assertEqual(self.count(rows), 2)
 
-    def test_gate_py_counts_the_way_these_tests_do(self):
-        source = (ROOT / "tools/fixer/gate.py").read_text(encoding="utf-8")
-        self.assertIn('"used-before-defined"', source)
-        self.assertNotIn('sum(fu.get("issue_counts", {}).values())', source)
+    def test_the_measure_the_gate_reports_is_this_count(self):
+        """REPORTS holds one term seen both ways: one defect in the measure, not two."""
+        self.assertEqual(gate.assemble_measures("S03", **REPORTS)["first_use_issues"], 1)
 
 
 class ReadinessFindings(unittest.TestCase):
@@ -190,7 +200,52 @@ class ReadinessFindings(unittest.TestCase):
         self.assertEqual(gate.regression_verdict(
             key, gate.readiness_findings(before), gate.readiness_findings(after)), "worse")
 
-    def test_the_gate_measures_it_and_the_runner_restores_it(self):
-        gate_src = (ROOT / "tools/fixer/gate.py").read_text(encoding="utf-8")
-        self.assertIn('"readiness_findings_course_wide": readiness_findings(ready)', gate_src)
-        self.assertIn('"scripts/badge_readiness_audit.py"', gate_src)
+    def test_the_gate_measures_it(self):
+        self.assertEqual(gate.assemble_measures("S03", **REPORTS)["readiness_findings_course_wide"], 2)
+
+
+class EveryGatedMeasureIsMeasured(unittest.TestCase):
+    """A gated key that comes back None reads as "unmeasurable" in check(), which is printed and
+    then passed - a dead measure indistinguishable from a clean one. With complete reports every
+    gated key must carry a value, and a report missing a field must be named."""
+
+    @staticmethod
+    def unmeasured(measures: dict) -> list[str]:
+        return [k for k, v in measures.items() if v is None and not k.startswith(gate.INFORMATIONAL)]
+
+    def test_complete_reports_leave_no_gated_key_unmeasured(self):
+        self.assertEqual(self.unmeasured(gate.assemble_measures("S03", **REPORTS)), [])
+
+    def test_a_report_missing_a_field_is_named(self):
+        prose = {k: v for k, v in REPORTS["prose"].items() if k != "b5_per_100_sentences"}
+        measures = gate.assemble_measures("S03", **{**REPORTS, "prose": prose})
+        self.assertEqual(self.unmeasured(measures), ["b5_nominal_constructions_per_100_sentences"])
+
+    def test_measure_runs_every_audit_it_reads(self):
+        """The wiring the source pins stood in for: each report comes from running its audit."""
+        by_report = {"concept_map.json": REPORTS["cmap"],
+                     "prose_quality_report.json": {"S03": REPORTS["prose"]},
+                     "code_switching_report.json": {"S03": REPORTS["cs"]},
+                     "first_use_all_report.json": REPORTS["fu"],
+                     "synthetic_identifier_report.json": REPORTS["ids"],
+                     "badge_readiness_report.json": REPORTS["ready"]}
+        ran = []
+
+        def fresh_report(cmd, report, ok_codes=(0,), timeout=1800):
+            ran.append(cmd[1])
+            return by_report[Path(report).name]
+
+        with tempfile.TemporaryDirectory() as tmp, \
+                mock.patch.object(gate, "ROOT", Path(tmp)), \
+                mock.patch.object(gate, "sh", lambda cmd, timeout=1800: mock.Mock(returncode=0, stdout="{}", stderr="")), \
+                mock.patch.object(gate, "fresh_report", fresh_report), \
+                mock.patch.object(gate, "strict_mismatches", lambda tag: REPORTS["strict"]):
+            measures = gate.measure("S03")
+        self.assertEqual(measures, gate.assemble_measures("S03", **REPORTS))
+        for script in ("concept_map.py", "prose_quality_audit.py", "code_switching_audit.py",
+                       "first_use_all_audit.py", "synthetic_identifier_audit.py", "badge_readiness_audit.py"):
+            self.assertIn(f"scripts/{script}", ran)
+
+
+if __name__ == "__main__":
+    unittest.main()

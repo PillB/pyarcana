@@ -64,7 +64,12 @@ test('stress fixtures are never attached to a section', () => {
 test('every figure entry carries a caption and an alt', () => {
   for (const [id, files] of attachments()) {
     const src = readFileSync(`${SECTIONS}/${files[0]}`, 'utf8')
-    const block = src.slice(src.indexOf(`id: "${id}"`))
+    // Bounded at the next entry's id: unbounded, a figure with no caption of its own was
+    // satisfied by the next figure's, and the check passed for the one that lacked it.
+    const start = src.indexOf(`id: "${id}"`)
+    assert.notEqual(start, -1, `${id}: attached but not found in ${files[0]}`)
+    const next = src.indexOf('id: "', start + 1)
+    const block = src.slice(start, next === -1 ? undefined : next)
     const cap = block.match(/caption:\s*\n?\s*"([^"]*)"/)
     const alt = block.match(/alt:\s*\n?\s*"([^"]*)"/)
     assert.ok(cap && cap[1].trim().length > 20, `${id}: caption missing or too short`)
@@ -108,12 +113,16 @@ test('a figure id names the section it is attached to', () => {
     [...index.matchAll(/import\s+\{\s*section(\d{2})\s*\}\s+from\s+['"]\.\/sections\/([^'"]+)['"]/g)]
       .map((m) => [`${m[2]}.ts`, Number(m[1])]),
   )
+  // A section file the index does not import would be skipped below, so an index regex that
+  // stopped matching made this pass on nothing; every attached file must be resolvable.
+  assert.ok(numberOf.size > 0, 'read no section numbers from index.ts')
   const wrong = []
   for (const [id, files] of attachments()) {
     const m = id.match(/^S(\d{2})-/)
     if (!m) continue
     const actual = numberOf.get(files[0])
-    if (actual !== undefined && Number(m[1]) !== actual) {
+    assert.notEqual(actual, undefined, `${id} hangs in ${files[0]}, which index.ts does not import`)
+    if (Number(m[1]) !== actual) {
       wrong.push(`${id} is attached to S${String(actual).padStart(2, '0')} (${files[0]})`)
     }
   }

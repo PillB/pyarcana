@@ -27,16 +27,30 @@ BUILDERS = ["tools/fixer/build_concept_prompt.py", "tools/fixer/build_prompt.py"
 
 
 def decisions(text: str) -> list[str]:
-    """Each `### O<n> — ...` block, up to the next heading of the same or higher level."""
+    """Each live `### O<n> — ...` block, up to the next heading of the same or higher level."""
     parts = re.split(r"\n(?=### )", text.split("\n## Archive")[0])
     return [p for p in parts if p.startswith("### ")]
 
 
+def recorded(text: str) -> list[str]:
+    """Every `### O<n>` heading in the file, live or archived."""
+    return re.findall(r"^### O\d+\b.*$", text, re.M)
+
+
 class OwnerDecisionsReachTheRound(unittest.TestCase):
     def test_the_document_exists_and_holds_decisions(self):
+        """Live or archived. Retiring every decision is what the file is for, so an empty live
+        list is success; it used to fail this test. A file with no decision anywhere is not."""
         self.assertTrue(DOC.exists(), "the owner's decisions have nowhere to live")
-        self.assertTrue(decisions(DOC.read_text(encoding="utf-8")),
-                        "no `### O<n>` entries; the file has stopped being the record")
+        self.assertTrue(recorded(DOC.read_text(encoding="utf-8")),
+                        "no `### O<n>` entry, live or archived; the file has stopped being the record")
+
+    def test_retiring_every_decision_is_not_a_broken_record(self):
+        archived = ("# Owner decisions, live\n\n## Archive\n\n### O1 — retired 2026-10-03\n"
+                    "**Scope:** x.\n**Retire when:** y.\n")
+        self.assertEqual(decisions(archived), [], "an archived decision is not live")
+        self.assertTrue(recorded(archived))
+        self.assertFalse(recorded("# Owner decisions, live\n\n## Archive\n\n*(empty)*\n"))
 
     def test_every_builder_injects_it(self):
         for rel in BUILDERS:

@@ -123,6 +123,43 @@ def deletes_held_definition(anchor: str, repl: str, held: list[dict]) -> list[st
     return lost
 
 
+def matched_escaping(anchor: str, repl: str) -> tuple[str, int]:
+    """Escape the delimiter of the string the anchor lives in, if the replacement did not.
+
+    A patch is a literal substitution into a TypeScript source file, and the applier has
+    never known what kind of literal it is landing in. LEDGER_NOTES records S39, where an
+    unescaped `"secrets_in_repo"` broke the file; the rollback was fixed then, the escaping
+    was not. It happened again on S03: the anchor carried 4 `\\"` and the replacement 6 bare
+    `"`, which close the string early. esbuild then says `Expected "]" but found "accept"`,
+    which names neither the patch nor the cause.
+
+    Escaping is semantically invisible - `\\"` and `"` render identically to a learner - so
+    this repairs rather than rejects, and records what it did. Deliberately narrow: it acts
+    only when the anchor proves which delimiter encloses it AND the replacement contains no
+    escaped ones of its own, because a mix means the author had some intent here and
+    guessing at it is how a silent corruption starts.
+
+    Module-level so the tests exercise this function: they used to test a copy of it written
+    in the test file, which covered one of the three delimiters.
+    """
+    for delim in ('"', "'", "`"):
+        esc = "\\" + delim
+        if esc not in anchor or esc in repl:
+            continue
+        # The anchor must prove it is entirely INSIDE one literal of this delimiter: every
+        # occurrence escaped, none bare. A whole-exercise anchor contains both a
+        # double-quoted `title:` and a backtick `code:` template, so it has `\"` AND bare
+        # `"` - and escaping the bare ones rewrote the Python inside the template as
+        # `nombres_raw = \"   \"`, a SyntaxError. Caught by the snippet gate, not by the
+        # typecheck, because it is valid TypeScript and broken Python.
+        if re.search(r'(?<!\\)' + re.escape(delim), anchor):
+            continue
+        bare = re.findall(r"(?<!\\)" + re.escape(delim), repl)
+        if bare:
+            return re.sub(r"(?<!\\)" + re.escape(delim), esc, repl), len(bare)
+    return repl, 0
+
+
 def main() -> int:
     result_path = Path(sys.argv[1])
     apply = "--apply" in sys.argv
@@ -168,39 +205,6 @@ def main() -> int:
                 raise SystemExit(f"patch names a file that does not exist: {rel}")
             buffers[target] = originals[target] = target.read_text(encoding="utf-8")
         return target
-
-    def matched_escaping(anchor: str, repl: str) -> tuple[str, int]:
-        """Escape the delimiter of the string the anchor lives in, if the replacement did not.
-
-        A patch is a literal substitution into a TypeScript source file, and the applier has
-        never known what kind of literal it is landing in. LEDGER_NOTES records S39, where an
-        unescaped `"secrets_in_repo"` broke the file; the rollback was fixed then, the escaping
-        was not. It happened again on S03: the anchor carried 4 `\\"` and the replacement 6 bare
-        `"`, which close the string early. esbuild then says `Expected "]" but found "accept"`,
-        which names neither the patch nor the cause.
-
-        Escaping is semantically invisible - `\\"` and `"` render identically to a learner - so
-        this repairs rather than rejects, and records what it did. Deliberately narrow: it acts
-        only when the anchor proves which delimiter encloses it AND the replacement contains no
-        escaped ones of its own, because a mix means the author had some intent here and
-        guessing at it is how a silent corruption starts.
-        """
-        for delim in ('"', "'", "`"):
-            esc = "\\" + delim
-            if esc not in anchor or esc in repl:
-                continue
-            # The anchor must prove it is entirely INSIDE one literal of this delimiter: every
-            # occurrence escaped, none bare. A whole-exercise anchor contains both a
-            # double-quoted `title:` and a backtick `code:` template, so it has `\"` AND bare
-            # `"` - and escaping the bare ones rewrote the Python inside the template as
-            # `nombres_raw = \"   \"`, a SyntaxError. Caught by the snippet gate, not by the
-            # typecheck, because it is valid TypeScript and broken Python.
-            if re.search(r'(?<!\\)' + re.escape(delim), anchor):
-                continue
-            bare = re.findall(r"(?<!\\)" + re.escape(delim), repl)
-            if bare:
-                return re.sub(r"(?<!\\)" + re.escape(delim), esc, repl), len(bare)
-        return repl, 0
 
     held = load_held(result_path)
     applied, rejected, repaired = [], [], []
