@@ -26,6 +26,24 @@ RECEIPTS = STATE / "execution_receipts"
 DEFAULT_TIMEOUT_SECONDS = 20
 MAX_CAPTURE_BYTES = 64_000
 
+#: What actually runs: refuse every socket connection and name lookup, then run the learner's
+#: main.py as __main__. Receipts record `network: False`, and until 2026-10-03 nothing made that
+#: true - a probe opening http://example.com printed "NET reachable". This is a Python-level
+#: guard, not an OS sandbox: code that reaches `_socket` directly, or spawns a process, is not
+#: stopped by it.
+NETWORK_GUARD_NAME = "_runtime_guard.py"
+NETWORK_GUARD = """\
+import runpy, socket, sys
+
+def _refuse(*args, **kwargs):
+    raise PermissionError("network access is disabled in the student runtime")
+
+socket.socket.connect = socket.socket.connect_ex = _refuse
+socket.create_connection = socket.getaddrinfo = _refuse
+sys.argv[0] = "main.py"
+runpy.run_path("main.py", run_name="__main__")
+"""
+
 
 def _sha_text(value: str) -> str:
     return hashlib.sha256(value.encode()).hexdigest()
@@ -127,7 +145,8 @@ def execute_request(
     fingerprint = runtime_fingerprint()
     main = workdir / "main.py"
     main.write_text(code, encoding="utf-8")
-    command = [fingerprint["interpreter"], "-I", "-S", "main.py"]
+    (workdir / NETWORK_GUARD_NAME).write_text(NETWORK_GUARD, encoding="utf-8")
+    command = [fingerprint["interpreter"], "-I", "-S", NETWORK_GUARD_NAME]
 
     started_at = datetime.now(timezone.utc).isoformat()
     timed_out = False
