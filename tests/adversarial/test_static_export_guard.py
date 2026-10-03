@@ -92,4 +92,9 @@ class StaticExportGuardTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    # Run directly only by CI's static job, after the build, where `out/` must exist: there a
+    # skip means the guard checked nothing, so it fails instead of exiting 0.
+    import sys
+
+    outcome = unittest.main(exit=False).result
+    sys.exit(0 if outcome.wasSuccessful() and not outcome.skipped else 1)
