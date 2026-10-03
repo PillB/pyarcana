@@ -17,24 +17,9 @@ const read = (p) => readFileSync(fileURLToPath(new URL(p, import.meta.url)), 'ut
 const STEPPED = read('../../src/components/course/SteppedCode.tsx')
 const CODEBLOCK = read('../../src/components/course/CodeBlock.tsx')
 
-/** Mirrors segmentCode; kept in step by the shape test below. */
-function segmentCode(code, maxLines = 5) {
-  const lines = code.split('\n')
-  const ends = []
-  let start = 0
-  lines.forEach((line, i) => {
-    const isBlank = line.trim() === ''
-    const isLast = i === lines.length - 1
-    if ((isBlank && i > start) || isLast || i - start + 1 >= maxLines) {
-      ends.push(i)
-      start = i + 1
-    }
-  })
-  if (ends.length > 1 && ends[ends.length - 1] - ends[ends.length - 2] === 1) {
-    ends.splice(ends.length - 2, 1)
-  }
-  return ends
-}
+// The component's own function. This file used to hold a copy "kept in step by the shape test
+// below" - no such test existed, so the copy could drift from what learners run, unnoticed.
+const { __test: { segmentCode } } = await import('../../src/components/course/SteppedCode.tsx')
 
 test('every demo segments, including ones written without blank lines', () => {
   const withBlanks = 'import numpy as np\n\ndef f():\n    return 1\n\nprint(f())'
