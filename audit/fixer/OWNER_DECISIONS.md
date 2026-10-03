@@ -122,6 +122,75 @@ least as strong as they were.
 
 **Retire when:** the competency is re-scoped, or practice for it lands before S13.
 
+### O10 — Relabel the inverted badges, and carry the capabilities forward
+**Scope:** `badge_catalog.json`, both copies. **Status:** live.
+
+Four `applied_skill` badges are relabelled to the level where their evidence actually completes
+(`independent_data_preparation`, `reliable_automation_development` → `independent_practitioner`;
+`applied_sql_query_development` → `advanced_applied`; `applied_mlops_pipeline_delivery` →
+`integrated_mastery`). The owner's condition: a capability removed from a level's claim **must be
+picked up by a later badge** — never dropped. So each stripped prerequisite moves one level forward.
+
+`capability_level` has zero code consumers, so the relabel is semantics; what clears the five audit
+failures is the prerequisite carry-forward, because the rule is
+`max(prereq.required_sections) > max(own.required_sections)`. Note there are **two** badge catalogs
+(`src/lib/eligibility/` is live, `industry_alignment/` is read by the only badge test that runs);
+`capability_level` agrees across all 31 in both today, so both must be edited.
+
+**Retire when:** `badge_readiness_audit.py` reports 0 failures and both catalogs agree.
+
+### O11 — Three new sections; proceed despite the migration cost
+**Scope:** course structure, 52 → 55 sections. **Status:** live.
+
+S19 *Inferencia*, S20 *Diseño experimental, estimandos y causalidad*, S35 *Regresión y
+regularización*. Inference in N2, regression at the head of the N3 ML block.
+
+The cost was re-presented with real numbers — ~1,360 stable id rewrites, 76 figure ids,
+`preservation_sentinel.mjs` failing on ~816 "removed" exercise ids, a protected roadmap file, and a
+level-hours assertion that hardcodes 13-section windows — and the owner reaffirmed. The sentinel is
+to be taught the renumber map rather than disabled, so the protection survives the migration.
+
+**Retire when:** all 55 sections render, gates are green, and the roadmap carries 55 headings.
+
+### O12 — `namedtuple` retired; `estimando` kept and delivered
+**Scope:** `src/lib/glossary/terms.ts`. **Status:** live.
+
+`namedtuple` is retired in favour of `dataclass`, which the course already teaches heavily (S11, 189
+occurrences) while `namedtuple` appears nowhere.
+
+`estimando` was challenged as a possible common Spanish word. It is not: it is the standard Spanish
+technical term for *estimand*, paired against *estimador*, following the gerundive pattern of
+*sumando*/*minuendo*/*sustraendo*. It **is** a homonym with the gerund of *estimar*, so it needs the
+same disambiguation as `correlación`/correlation-id. It is therefore **delivered in S20**, not
+retired.
+
+**Retire when:** `namedtuple` is gone, `dataclass` has an entry, and S20 teaches the estimand.
+
+### O13 — The N1 credential claim is narrowed to match its evidence
+**Scope:** `integrated_python_ai_capstone_foundations.public_claim`. **Status:** live, owed.
+
+Stripped of three prerequisites by O10, it retains only `progress_phase0_walked` and
+`python_data_foundations` (S01–S05), while still claiming the learner *"demostró independientemente"*
+the integrated foundations competency. The claim is narrowed to exactly what S01–S13 evidences.
+Codex drafts the Spanish; **the wording returns for sign-off before it lands.**
+
+**Retire when:** the narrowed claim is signed off and in both catalogs.
+
+### O14 — The tautological `assert` tier is its own ratcheted campaign
+**Scope:** 133 exercises across 17 sections. **Status:** live, owed.
+
+`assert <var> is True` over literal fixtures appears **133 times across 17 sections** — exactly 8 per
+section from S32 onward, i.e. the whole E1 tier of the course's back half. There is no input and the
+fixture never varies, so the assertion cannot fail; `AGENTS.md` names this failure directly
+(*"tautological tests are worse than no test"*). Every badge resting on those sections is partly
+evidenced by assertions that cannot fail.
+
+Handled as a tracked, two-sided ratchet so the count cannot rise, paid down per section round by
+giving each E1 a real input and a falsifiable assertion. Deliberately **not** folded into the
+statistics work, so it stays visible.
+
+**Retire when:** the ratchet reaches 0.
+
 ---
 
 ## Archive

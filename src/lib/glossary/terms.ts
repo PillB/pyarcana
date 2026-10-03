@@ -851,10 +851,20 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'data-leakage',
     term: 'Data leakage',
-    aliases: ['Data leakage', 'fuga de datos'],
+    // 2026-10-02: `leakage` added. The course never writes "Data leakage" or "fuga de datos" --
+    // it writes the word bare, 215 times across 8 sections: "Eso es **leakage**", "leakage
+    // temporal", "leakage de identidad", "anti-leakage", "scan de leakage". So the concept map
+    // recorded 5 uses in 4 sections with 0 examples and 0 exercises, while S32 ("Feature
+    // engineering y pipelines sin leakage") teaches all five leakage modes across theory, iDo,
+    // weDo, youDo and selfCheck. The measure was blind to its own best-taught concept.
+    aliases: ['Data leakage', 'fuga de datos', 'leakage'],
     category: 'ML',
     definition: 'Cuando info del test set "contamina" el entrenamiento. Pipeline lo previene aplicando fit solo en train.',
-    firstSectionId: 'databases-orm',
+    // Re-pointed the same day, and for the same reason: with `leakage` visible, the first use and
+    // the first definition are both S17 (`packaging`, really "Joins, reshape, groupby y cierre
+    // analítico"), which uses the word 29 times. It was declared at S19 only because the narrow
+    // alias list could not see S17. The hover belongs where the learner first meets the word.
+    firstSectionId: 'packaging',
   },
   {
     id: 'pyodide',

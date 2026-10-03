@@ -355,3 +355,131 @@ Each must be two-sided — failing above (listing offenders) and below ("lower i
 Secondary, repo-internal: `industry_alignment/industry_reality_brief.md` (2,279 lines, §0–§32),
 `industry_skill_graph.json` (62 skill nodes, 5 roles, 4 levels, 8 critical competencies),
 `curriculum_gap_matrix.json` (41 gaps — severities usable, locations not).
+
+---
+
+# Part 2 — exercise displacement, argued per slot (2026-10-02)
+
+Owner decision 5: argue, with pros and cons, which exercises should be displaced to make room for
+new teaching, measured against the three new sections.
+
+**Two rules govern every nomination.** A slot may be taken only by an exercise that (a) duplicates a
+neighbour's skill or is pre-solved by its own iDo demo, and never by one carrying a unique assessed
+skill; and (b) every displaced exercise's `retrospective` forward-pointer, `selfCheck` and
+`topicEvaluations` references are re-pointed in the same round, so nothing is orphaned.
+
+**Structural facts that make this safe.** Across S18, S26 and S39, `selfCheck` contains **zero**
+references to any exercise, demo or subtopic id — every item is keyed to theory. `topicEvaluations`
+(loaded from `course-state/topic_evaluations/sNN_te.json`, not inline) references only *subtopic*
+ids. So displacing an exercise cannot orphan an assessment; only removing a whole subtopic could.
+The real coupling is prose: each subtopic chains "Siguiente (E2)" → "Luego (E3)" in its
+`retrospective`, so rescoping an E2 means rewriting its predecessor's closing sentence.
+
+## S18 — no displacement *required*, but one is strongly *justified*
+
+The statistics teaching that would have evicted S18 exercises now lives in S19/S20, so the grid is
+safe. But the inventory surfaced something better than a cost: **S18's two richest theory blocks
+have no exercises at all.**
+
+| block | teaches | exercises |
+|---|---|---|
+| `:247` "De la diferencia observada al experimento aleatorizado" (tagged `S18-T2-B`) | randomisation, counterfactual, self-selection, the estimand; demo prints `dif_autoseleccion 41.35` vs `dif_aleatorizada 5.5` | **0** |
+| `:353` "Leer el resultado sin exagerarlo: valor p, guardrails y pruebas repetidas" (tagged `S18-T3-A`) | p-value interpretation, statistical vs practical significance, multiple comparisons, peeking; demo computes p via `math.erfc` and shows `falso_positivo_una_mirada 0.045` vs `..._diez_miradas 0.191` | **0** |
+
+And `selfCheck` Q9 (self-selection, 41 PEN) and Q10 (p = 0.013, CI (1.18, 9.82)) test **only** those
+two blocks. **Those two self-checks are already orphaned on the practice side** — the course assesses
+them without ever having the learner do them.
+
+Five S18 slots are single-token repairs, each pre-solved elsewhere:
+
+| candidate | what it actually asks | pre-solved by |
+|---|---|---|
+| `S18-T2-B-E2` "d de Cohen" | `(10-13)/2` → `(13-10)/2`; `2` is a magic literal, no `s_pooled` | theory `:199`, demo `cohens_d 1.118`, selfCheck Q8 |
+| `S18-T4-A-E1` | `print(evidencia["hipotesis"])` → `["pregunta"]` — one dict key | — (no computation at all) |
+| `S18-T1-B-E1` | `med/m` → `m/med`; success criterion is literally `ratio 2.43` | `S18-T1-B-DEMO` prints `ratio_mean_median 2.43` |
+| `S18-T2-A-E1` | `.count("Madrid")` → `.count("Lima")` — one string | subsumed by E3's `max_bias` |
+| `S18-T3-B-E1` | `0.5` → `1.5` | E3 hands the learner `lo, hi` already computed with 1.5 |
+
+**Recommendation: rescope two of them — `S18-T2-B-E2` and `S18-T4-A-E1` — to practise S18's own
+orphaned theory.** E2 becomes a randomised-vs-self-selected comparison in T2-B; T4-A-E1 becomes a
+p-value reading exercise in T3-A.
+
+*Pro:* closes two already-orphaned self-checks, converts the section's two best theory blocks from
+read-only into practised, and costs nothing unique — both candidates are a sign flip and a dict
+lookup whose concepts are carried by theory, demo and self-check already.
+*Con:* S18's `retrospective` chain must be rewritten in both subtopics, and T2-B loses its only
+explicit mention of Cohen's d as an exercise (mitigated: d stays in theory `:199`, in the demo, in
+selfCheck Q8, and is a youDo deliverable `d + n`).
+*Alternative considered and rejected:* leave S18 untouched and let S19/S20 carry the practice. That
+keeps Q9/Q10 orphaned in their own section, which is the defect the owner's flywheel rule exists to
+prevent.
+
+## S26 — two slots, both clean
+
+| candidate | evidence | verdict |
+|---|---|---|
+| **`S26-T1-A-E2`** "Aristas lineales con zip de nodos" | the `zip` the title advertises is **already written in the starter**; the instruction says *"Deja `list(zip(nodes, nodes[1:]))`"* — *leave it alone* — and the only change from starter to solution is `print(len(edges))` → `print(len(edges), edges)` | **displace — this is not an exercise, it is a print statement** |
+| **`S26-T4-A-E2`** "P0 si hay envío sin approve" | same subtopic, adjacent to E1, both are `print(LABEL if <one comparison> else 'ok')` and both defects are an inverted comparison | **displace — duplicate of E1** |
+
+Both become the dispatcher/performer and durable-queue exercises (`dispatcher`/`performer` are at
+**zero** occurrences course-wide, so this is genuinely new teaching that needs real slots).
+
+*Pro:* T1-A-E2 carries no skill whatsoever, and T4-A-E2's policy fact (*"un solo envío ya es P0"*) is
+independently carried by selfCheck and by the youDo's binding requirement *"Cero envíos sin
+approve"*. *Con:* two `retrospective` sentences need rewriting; T4-A's E1→E2→E3 ramp shortens.
+*Held in reserve, not taken:* `S26-T3-A-E1` (same `'pending'` predicate as E3, and
+`S26-T3-A-DEMO` already contains E2's complete solution verbatim) and `S26-T2-B-E2`. Available if the
+RPA teaching needs a third slot; not spent speculatively.
+
+## S39 — a defect, not just a displacement opportunity
+
+`S39`'s `weDo.intro` states the template outright: *"E1 repara un predicado de dominio; E2 separa
+válido, adverso y missing; E3 demuestra fail-closed con tokens de error exactos."* In practice **all
+eight E1 slots compile to the same shape**:
+
+```python
+<literal fixture dict/list>
+meets = <boolean expression over those literals>
+status = "PASS" if meets else "<REJECT_TOKEN>"
+print("S39-Tn-X", status)
+assert meets is True
+```
+
+There is no input, the fixture never varies, and **`assert meets is True` is unfalsifiable by
+construction** — the learner edits a literal until a tautology holds. `AGENTS.md` names this exact
+failure: *"Tautological tests are worse than no test: they convert an unverified claim into a green
+check."* Eight exercises in a level-closing integrator section are built on one.
+
+Worse, **six of the eight E1s are a strict logical subset of their own E2** — T1-A-E2's `assess()`
+re-implements E1's predicate verbatim before adding a missing-key pre-check. And `S39-T3-B-E1` and
+`S39-T3-B-E2` have **byte-identical solution functions**:
+
+```python
+def mode(drift_high, incident):
+    if incident:   return "human_only"
+    if drift_high: return "abstain_more"
+    return "normal"
+```
+
+E1's own retrospective concedes it: *"Siguiente: tabla completa normal / drift / incident."*
+
+**Recommendation: `S39-T3-B-E1` is the cleanest reclaim in the course** — byte-identical duplication,
+and selfCheck Q4 (the only item covering T3-B) is satisfied by E2 and E3 independently. Take it for
+the leakage-audit You Do sub-task.
+
+**Raised separately, not actioned here:** the E1 tier's tautological-assert pattern is a quality
+defect across 8 exercises in S39, independent of any displacement need. Fixing it means giving each
+E1 a real input and a falsifiable assertion — a section round of its own, and **an owner decision**,
+because it rewrites assessed exercises rather than reclaiming empty ones.
+
+## Net
+
+| section | slots reclaimed | for |
+|---|---|---|
+| S18 | 2 (rescoped to its **own** orphaned theory) | p-value and randomisation practice |
+| S26 | 2 (3rd held in reserve) | dispatcher/performer, durable queue |
+| S39 | 1 | leakage-audit You Do sub-task |
+| S32 | **0** | nothing needed — all five leakage modes already taught |
+
+Five slots, every one of them either not an exercise, a duplicate, or pre-solved by its own demo.
+No slot carrying a unique assessed skill is touched.
