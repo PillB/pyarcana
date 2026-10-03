@@ -706,3 +706,69 @@ thought to point at the exam bank; it turned up because the dimension list is re
 section, not because anyone suspected it. And the first count of perfect banks, eight, was wrong:
 it came from printing the top rows of a sorted list and counting the print. The test caught it at
 eleven. **Count with the assertion, not with the log line.**
+
+### The measure speaks a different Spanish than the course (2026-10-02, course-wide)
+
+`surprising_uses_course_wide` reached 0. It was the instrument's zero, not the course's.
+
+The glossary declared `data-leakage` as `'Data leakage'` and `'fuga de datos'`. The course never
+writes either. It writes the word **bare**, 215 times across 8 sections: *"Eso es **leakage**"*,
+*"leakage temporal"*, *"leakage de identidad"*, *"anti-leakage"*, *"scan de leakage"*. One alias
+later:
+
+```
+before  L1 ·   5 uses ·  4 sections · 0 examples · 0 exercises ·  1 self-check
+after   L2 · 146 uses · 10 sections · 5 examples · 9 exercises · 13 self-checks
+```
+
+So `leakage_prevention`, a P0 "absent skill" in `curriculum_gap_matrix.json`, was never a gap at
+all. S32 — titled *"Feature engineering y pipelines sin leakage"* — teaches all five modes the
+market examines across theory, iDo, weDo, youDo **and** selfCheck. The matrix recorded it absent
+because the instrument could not see the word. **Briefed from that measure, a round would have
+asked codex to write 24 exercises that already existed, and displaced real teaching to fit them.**
+
+**The heuristic: a measure computed over declared names is blind to the names the course actually
+writes, and reports that blindness as success.** Before trusting any vocabulary-keyed number,
+check one term by hand — grep the bare word and compare it to the recorded use count. A term whose
+raw occurrences dwarf its recorded uses is an alias miss, not a teaching gap.
+
+The same fix also revealed what the blindness was hiding: **8 genuine surprising uses in S17**,
+which writes the word in `outcome[7]`, `theory[2].p3`, `S17-T3-A.p2` and the whole of `S17-T4-B`
+before `iDo.intro` defines it. S17 owes a definition in theory ahead of first use.
+
+Two process notes. `firstSectionId` was re-pointed S19 → S17 in the same change, because with the
+alias visible both first use and first definition are S17 — so the first-use ratchet held at 15
+instead of rising to 16. **Fix the cause, not the counter.** And the first attempt to rank this
+divergence course-wide was wrong: ungrouped alternation
+(`(?<![\w])ROC-AUC|ROC|curva ROC(?![\w])`) leaves middle alternatives unanchored, so `roc` matched
+*p**roc**eso*, `nan` matched *fi**nan**zas*, `repl` matched *replace* — 305 phantom misses against
+a real 129. A separate probe matched `ttest` inside *a**ttest**ation*, inventing 101 statistics
+hits in S44. **Group every alternation, and run each probe's own counterexample before believing
+it.**
+
+The debt the repaired measure exposes is held in `tests/adversarial/test_concept_depth_ratchets.py`
+— 44 self-certifying definitions, 7 never explained, 35 explained-but-unexemplified, 103 concepts
+short of their figures, 30 load-bearing concepts below L3 (which is why the ledger's `concepts`
+column reads 0/52). All two-sided, all falsified against planted defects.
+
+### How to explain work to the owner (2026-10-02, process)
+
+**Scope first, because this file is injected into every authoring prompt: this rule governs
+agent-to-owner explanations only. It does NOT govern learner-facing Spanish.** Lesson prose keeps
+following `audit/fixer/writing_rules.md` and the narration-voice rule — a human teacher narrating.
+A 20-word cap applied to lesson prose would fragment the teaching and break that rule. Codex must
+ignore this section when authoring content.
+
+Write every explanation of code, a plan, an error or a change in about **80% ASD-STE100**:
+
+1. One fact or one instruction per sentence. Instructions: 20 words max. Descriptions: 25 words max.
+2. Use the active voice. Say who does what.
+3. Use the same word for the same thing every time. Define a term once, then reuse it exactly.
+4. Start with the answer. Then give the details.
+5. Put steps in a numbered list. Keep each paragraph to one topic, 6 sentences max.
+6. Keep "the", "a" and "this". Do not drop words to save space.
+7. Answer in the language the owner uses. In other languages, keep sentences just as short.
+8. Add an ASCII diagram when a flow or a structure has more than 3 steps or parts.
+
+The owner reads these explanations to make decisions. An answer-first order makes the decision
+faster. A consistent term stops the reader re-deriving what a word means.
