@@ -29,9 +29,10 @@ ROOT = Path(__file__).resolve().parents[1]
 ALLOWLIST = ROOT / "tests/adversarial/skip_allowlist.json"
 SUITES = ("tests/adversarial", "tests")
 PATTERN = "test_*.py"
-#: CI's interpreter. Under 3.9 the course's 3.12 syntax and pinned outputs read as broken, so
-#: a pass or a fail there says nothing about CI.
-MIN_PYTHON = (3, 12)
+#: CI's interpreter, and the only one a verdict is reported under. Under 3.9 the course's 3.12
+#: syntax and pinned outputs read as broken; under 3.13+ they can differ the other way. Either
+#: way a pass or a fail there says nothing about CI.
+CI_PYTHON = (3, 12)
 
 
 def tree_state() -> dict[str, tuple[int, int]]:
@@ -122,8 +123,11 @@ def run_all() -> int:
 
 
 def main(argv: list[str]) -> int:
-    if sys.version_info < MIN_PYTHON:
-        print(f"REFUSED: Python {sys.version.split()[0]} is not CI's {MIN_PYTHON[0]}.{MIN_PYTHON[1]};"
+    # Equality, not a floor: 3.13 parses and prints differently from CI's 3.12 just as 3.9 does,
+    # so a verdict from either side of it is not comparable.
+    if tuple(sys.version_info[:2]) != CI_PYTHON:
+        found = ".".join(str(part) for part in sys.version_info[:3])
+        print(f"REFUSED: Python {found} is not CI's {CI_PYTHON[0]}.{CI_PYTHON[1]};"
               " a result here would not be comparable. Run with python3.12.", file=sys.stderr)
         return 2
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])

@@ -13,9 +13,14 @@ sample the test feeds to a validator.
 from __future__ import annotations
 
 import ast
+import contextlib
+import importlib.util
+import io
+import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 TEST_FILES = sorted((ROOT / "tests/adversarial").glob("test_*.py")) + sorted((ROOT / "tests").glob("test_*.py"))
@@ -57,6 +62,42 @@ class MainGuardComesLast(unittest.TestCase):
             path = Path(tmp) / "test_x.py"
             path.write_text("if __name__ == '__main__':\n    pass\nx = 1\n", encoding="utf-8")
             self.assertEqual(misplaced_main_guard(path.read_text(encoding="utf-8")), 1)
+
+
+def load_runner():
+    spec = importlib.util.spec_from_file_location("run_adversarial_py",
+                                                  ROOT / "scripts/run_adversarial_py.py")
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader
+    spec.loader.exec_module(module)
+    return module
+
+
+class RunnerRefusesOtherInterpreters(unittest.TestCase):
+    """The runner checked only a floor, so 3.13 and 3.14 ran the suites and reported a verdict
+    its own rule calls incomparable. Both directions are refused now."""
+
+    def verdict_under(self, version: tuple) -> tuple[int, str]:
+        runner = load_runner()
+        # Should the refusal ever break, fail here instead of running the whole suite from
+        # inside one of its own tests.
+        ran = AssertionError("the runner went on to run the suites")
+        with mock.patch.object(sys, "version_info", version), \
+                mock.patch.object(runner, "run_all", side_effect=ran), \
+                mock.patch.object(runner, "run_suite", side_effect=ran), \
+                mock.patch.object(runner.os, "chdir"), \
+                contextlib.redirect_stderr(io.StringIO()) as err:
+            return runner.main([]), err.getvalue()
+
+    def test_an_older_python_is_refused(self):
+        code, err = self.verdict_under((3, 11, 9, "final", 0))
+        self.assertEqual(code, 2)
+        self.assertIn("REFUSED: Python 3.11.9 is not CI's 3.12", err)
+
+    def test_a_newer_python_is_refused(self):
+        code, err = self.verdict_under((3, 13, 1, "final", 0))
+        self.assertEqual(code, 2)
+        self.assertIn("REFUSED: Python 3.13.1 is not CI's 3.12", err)
 
 
 if __name__ == "__main__":
