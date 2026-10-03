@@ -57,6 +57,17 @@ jobs:
       - name: Run ESLint
         run: bun run lint
 
+      # The ratchet tightens by rewriting its baseline, and a CI checkout discards the write:
+      # a PR that cut debt would pass and leave the old ceiling for the next PR to grow back
+      # into. The diff makes the tightened baseline part of the PR that earned it.
+      - name: Complexity ratchet (cyclomatic ceiling 15)
+        run: |
+          node scripts/complexity_gate.mjs
+          git diff --exit-code audit/fixer/complexity_baseline.json || {
+            echo "::error::complexity debt fell; commit the tightened audit/fixer/complexity_baseline.json that node scripts/complexity_gate.mjs writes"
+            exit 1
+          }
+
   typecheck:
     runs-on: ubuntu-latest
     steps:
@@ -110,6 +121,11 @@ jobs:
 
       - name: Exam pedagogy + v3 counts
         run: npm run test:exam-pedagogy && npm run test:v3-counts
+
+      # Here rather than in content-gates: it extracts the course with tsx, which needs the
+      # installed dependencies this job already has.
+      - name: Define-before-use across the course
+        run: npm run test:first-use-all
 
   capstone-pytest:
     name: CP-N4-C + CP-FINAL pytest
@@ -181,6 +197,12 @@ jobs:
       - name: Verify static artifact contract
         if: matrix.mode == 'static'
         run: python3 tests/adversarial/test_static_export_guard.py
+
+      # The unit job skips this file's export half (no build there), and the skip allowlist
+      # names this step as where it runs instead. Run as a script it fails without out/.
+      - name: Verify the QA harness ships in the static export
+        if: matrix.mode == 'static'
+        run: python3 tests/adversarial/test_qa_harness_static.py
 
       - name: Install Playwright Chromium for public-site journeys
         if: matrix.mode == 'static'
@@ -316,6 +338,27 @@ jobs:
           python3 scripts/glossary_intro_audit.py
           python3 scripts/glossary_coverage_audit.py
 
+      # The rest of `npm run test:ux-gates`, one step each so a failure names its gate.
+      - name: No national identifiers in course data (D2)
+        run: npm run test:no-identifiers
+
+      - name: i18n key parity (es-PE, es-ES, en)
+        run: npm run test:i18n-parity
+
+      - name: Theme tokens present (light and dark)
+        run: npm run test:a11y-contrast
+
+      - name: Code block syntax contrast (WCAG AA)
+        run: npm run test:code-syntax-contrast
+
+      # The runtime audit above asks whether each snippet runs, and compares output loosely.
+      # This compares every declared output line, twice, under two hash seeds. A snippet the
+      # runtime audit could not run is not compared here; that population is held above.
+      - name: Python content strict output audit
+        run: npm run test:python-strict
+        env:
+          PYARCANA_SNIPPET_TIMEOUT: '30'
+
       - name: Upload audit reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -323,5 +366,10 @@ jobs:
           name: content-gate-reports
           path: |
             course-state/python_runtime_audit_report.json
+            course-state/python_strict_output_audit.json
             course-state/glossary_intro_report.json
             course-state/glossary_coverage_report.json
+            course-state/synthetic_identifier_report.json
+            course-state/i18n_parity_report.json
+            course-state/a11y_contrast_report.json
+            course-state/code_syntax_contrast_report.json
