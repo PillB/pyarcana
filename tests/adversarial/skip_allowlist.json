@@ -1,0 +1,43 @@
+{
+  "_doc": [
+    "Every skip and expected failure scripts/run_adversarial_py.py lets pass. Anything not listed fails the run.",
+    "An entry names the suite, the test id, a phrase the skip reason must contain, why skipping is honest, and where the",
+    "check runs instead. A skip that stops happening is harmless here; a new one has to be argued for in this file.",
+    "Conditional skips that do not fire today (the eligibility pilot skip, the S03 <3.10 skip) are deliberately",
+    "absent: the day one starts firing, the run fails and somebody looks."
+  ],
+  "allowed": [
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_concept_prompt_weight.ConceptPromptWeight.test_the_live_course_agrees",
+      "reason_contains": "no never-explained concept is used anywhere",
+      "why": "The live population is empty because the campaign fixed it; the property itself is held by the synthetic tests in the same class.",
+      "covered_by": "test_surprising_uses_ratchet.SurprisingUsesRatchet.test_the_course_holds_its_count, which fails if any surprising use returns"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_concept_prompt_weight.ConceptPromptWeight.test_the_live_course_agrees",
+      "reason_contains": "never-explained uses remain and none carries weight",
+      "why": "Its second skip names the remaining concepts and fires only when none could be load-bearing on the merits.",
+      "covered_by": "the synthetic tests in ConceptPromptWeight, and the surprising-use ratchet"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_static_export_guard.StaticExportGuardTests.test_built_document_obeys_pages_contract_when_present",
+      "reason_contains": "out/index.html is produced by npm run build:static",
+      "why": "The unit job does not build the site.",
+      "covered_by": "CI job 'Platform build (static)' runs this file as __main__ after the build, where a skip fails"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_qa_harness_static.QAHarnessStaticContract.test_the_static_export_ships_the_harness",
+      "reason_contains": "out/ is produced by npm run build:static",
+      "why": "The unit job does not build the site; the source half of this contract runs here.",
+      "covered_by": "CI job 'Platform build (static)' runs this file as __main__ after the build, where a missing out/ fails"
+    }
+  ]
+}
