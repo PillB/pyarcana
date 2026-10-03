@@ -93,12 +93,20 @@ class TestPacketIsolation(unittest.TestCase):
     def test_section1_has_no_solution_keys(self):
         pkt = build_packet(1, attempt_id="adv")
         blob = str(pkt)
-        # solutions stripped from exercises
-        for ex in (pkt["active"].get("weDo") or {}).get("exercises") or []:
+        # solutions stripped from exercises - and the lists must hold something, or a renamed
+        # key would empty both loops and the test would pass having checked nothing
+        exercises = (pkt["active"].get("weDo") or {}).get("exercises") or []
+        stems = pkt["active"].get("selfCheck_stems") or []
+        self.assertGreater(len(exercises), 0, "no weDo exercise reached the packet")
+        self.assertGreater(len(stems), 0, "no self-check stem reached the packet")
+        for ex in exercises:
             self.assertNotIn("solutionCode", ex)
-        for sc in pkt["active"].get("selfCheck_stems") or []:
+        for sc in stems:
             self.assertNotIn("correctIndex", sc)
             self.assertNotIn("explanation", sc)
+        # anywhere in the packet, not only where the loops look
+        for key in ("solutionCode", "correctIndex"):
+            self.assertNotIn(key, blob)
         self.assertIn("forbidden", pkt)
         self.assertGreater(len((pkt["active"].get("theory") or [])), 0)
 

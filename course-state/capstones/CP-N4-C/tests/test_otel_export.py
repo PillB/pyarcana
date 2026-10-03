@@ -336,7 +336,7 @@ class TestCurrentGenAIKeys:
         assert PYARCANA_RUN_ID in keys
         assert PYARCANA_PROVIDER_MODE in keys
         assert PYARCANA_COST_USD in keys
-        assert all(k.startswith("gen_ai.") or k.startswith("pyarcana.") or k in {"passed"} or True for k in keys)
+        assert all(k.startswith("gen_ai.") or k.startswith("pyarcana.") or k in {"passed"} for k in keys), sorted(k for k in keys if not k.startswith(("gen_ai.", "pyarcana.")))
 
     def test_verifier_faithfulness(self, tracer_with_spans: Tracer):
         verifier = next(s for s in export_spans_flat(tracer_with_spans) if s["name"] == "verifier.check")
