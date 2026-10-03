@@ -32,3 +32,19 @@ npm run test:adversarial:py
 2. **Non-duplicative** — one assertion path per behavior.
 3. **Meaningful** — assert product invariants (score ∈ [0,100], pass≥70, packets strip keys).
 4. Prefer pure helpers over mounting React.
+5. **It must run.** `unittest` collects `TestCase` classes and nothing else: a pytest-style
+   function or a bare `main()` script imports cleanly and never runs. Seventeen files here did
+   exactly that until 2026-10-03. Wrap a `main()` check with `script_case.assert_main_passes`.
+   `scripts/run_adversarial_py.py` fails a file that collects no tests.
+6. **No skip without an entry in `skip_allowlist.json`** that says why and where the check runs
+   instead. Prefer a fixture or a fresh extraction to a skip. A skip that fires only in some
+   environments is still a test that did not run there.
+7. **Never read `.fixer/`.** It is gitignored, so a test reading it skips forever in CI and, locally,
+   checks whatever the last gate run left. Use `course_events.fresh_events()`.
+8. **Never write into the tree.** Use `tempfile`. Both runners fail a run that changes any tracked or
+   untracked file — a byte-identical rewrite included, because that is a silent re-baseline.
+9. **Test the real code, never a copy of it.** Import the function; if it is nested or private,
+   move it to module level first. A copy agrees with the original until the day it matters.
+10. **Show that it can fail.** Break what the test guards, watch it report, revert, and say in the
+    PR which mutation you used.
+11. **Python 3.12, as CI.** The Python runner refuses any other interpreter.

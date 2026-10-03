@@ -27,6 +27,9 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
+import unittest
+from script_case import assert_main_passes
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 PACKAGES_DIR = os.path.join(REPO, "course-state", "capstones")
@@ -203,14 +206,25 @@ def _scan_demo_for_suspicious_tokens(source, capstone_id):
 
 
 def _run_demo(capstone_id):
-    """Run demo.py and return (exit_code, stdout)."""
+    """Run demo.py and return (exit_code, stdout).
+
+    Two demos write next to themselves by default - CP-N4-C its run_state.json, CP-FINAL its
+    evidence backup - and both files are committed, so their output goes to a temporary
+    directory here. A key in the caller's shell would also flip CP-N4-C's missing-key check.
+    """
     demo_path = os.path.join(PACKAGES_DIR, capstone_id, "demo.py")
-    proc = subprocess.run(
-        [sys.executable, demo_path],
-        capture_output=True,
-        text=True,
-        timeout=60,
-    )
+    with tempfile.TemporaryDirectory() as scratch:
+        env = {k: v for k, v in os.environ.items()
+               if k not in ("CPN4C_COMMERCIAL_KEY", "COMMERCIAL_API_KEY")}
+        env["CP_N4C_STATE_PATH"] = os.path.join(scratch, "run_state.json")
+        env["CP_FINAL_BACKUP_DIR"] = scratch
+        proc = subprocess.run(
+            [sys.executable, demo_path],
+            capture_output=True,
+            text=True,
+            timeout=60,
+            env=env,
+        )
     return proc.returncode, proc.stdout
 
 
@@ -292,6 +306,13 @@ def main() -> int:
         "no suspicious tokens in demo.py"
     )
     return 0
+
+
+class MainPasses(unittest.TestCase):
+    """Discovery collects TestCases, so as a bare script this check never ran in CI."""
+
+    def test_main(self) -> None:
+        assert_main_passes(self, main)
 
 
 if __name__ == "__main__":

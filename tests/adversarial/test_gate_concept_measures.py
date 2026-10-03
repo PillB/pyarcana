@@ -97,10 +97,6 @@ class GateConceptMeasures(unittest.TestCase):
         self.assertIn('f"{INFORMATIONAL}used_before_explained": surprising', source)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class FirstUseIssueCounting(unittest.TestCase):
     """The same defect seen twice is one defect.
 
@@ -194,3 +190,7 @@ class ReadinessFindings(unittest.TestCase):
         gate_src = (ROOT / "tools/fixer/gate.py").read_text(encoding="utf-8")
         self.assertIn('"readiness_findings_course_wide": readiness_findings(ready)', gate_src)
         self.assertIn('"scripts/badge_readiness_audit.py"', gate_src)
+
+
+if __name__ == "__main__":
+    unittest.main()
