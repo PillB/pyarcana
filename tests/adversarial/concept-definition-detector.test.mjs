@@ -19,6 +19,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import fs from 'node:fs'
 import { execFileSync } from 'node:child_process'
+import { POST_CUE, PHENOMENON_CUE, definesTerm } from '../../scripts/concept_detector.mts'
 
 // `.fixer/` is gitignored, so on a fresh checkout — CI — the events cache does not exist, and
 // reading it crashed this whole file before a single assertion ran. Extract from the sections
@@ -58,7 +59,7 @@ test('a term defined at a later occurrence in the same text still counts', () =>
   // "añade Python y Ruff; Ruff es un programa que señala errores" - testing only the first
   // occurrence missed this, because the `;` blocks the cue, and ruff scored never-explained
   // across 39 uses with its definition in the same sentence.
-  const ev = events.events.find((e) => e.location === 'setup.outcome[4]')
+  const ev = events.events.find((e) => e.kind === 'outcome' && /Ruff es un programa que señala/.test(e.text ?? ''))
   assert.ok(ev, 'the S01 outcome that exposed this must still exist to guard')
   assert.ok(ev.defines.includes('ruff'), 'the definition is in the second occurrence, not the first')
 })
@@ -129,16 +130,16 @@ test('a cue glued to the end of a verb is not a definition', () => {
 test('a term the course marks as a term, plus a verb, teaches it', () => {
   // A keyword or a bolded noun never takes the indefinite article the older rule required,
   // so "El **broadcasting** alinea shapes…" scored as a surprising use of broadcasting.
-  assert.ok(defines('security.S14-T2-B.p0', 'broadcasting'))
-  assert.ok(defines('data-engineering.S18-T3-A.p0', 'correlaci-n'))
-  assert.ok(defines('security.S14-T1-A.p0', 'dtype'))
+  assert.ok(definingEvent(/El \*\*broadcasting\*\* reutiliza sin copiar/, 'broadcasting'))
+  assert.ok(definingEvent(/La \*\*correlación\*\* mide asociación, \*\*no causa\*\*/, 'correlaci-n'))
+  assert.ok(definingEvent(/Tras S01–S13 trabajaste con listas y dicts de Python\. Un \*\*ndarray\*\* es distinto/, 'dtype'))
 })
 
 test('a command line that starts a sentence is not a definition of its command', () => {
   // "`git restore archivo` descarta cambios sin commit" is an instruction about a command,
   // not an explanation of Git. The formatted span has to be the term and nothing else.
-  assert.equal(defines('setup.S01-T3-B.p5', 'git'), false)
-  assert.equal(defines('setup.S01-T3-B.p2', 'git'), false)
+  assert.equal(definingEvent(/`git restore archivo` descarta cambios/, 'git'), false)
+  assert.equal(definingEvent(/`git remote -v` permite/, 'git'), false)
 })
 
 test('an appositive with the definite article teaches, an ordinary sentence does not', () => {
@@ -146,12 +147,12 @@ test('an appositive with the definite article teaches, an ordinary sentence does
   assert.ok(definingEvent(/`pip`, el instalador de paquetes de Python/, 'pip'))
   // "Si solo haces `pass` dentro del `if`, el print posterior usa la última `i` del `for`"
   // has the same opening and defines nothing: its connector is 35 characters away.
-  assert.equal(defines('computer-vision.S23-T1-B-E1.hint[1]', 'if'), false)
+  assert.equal(definingEvent(/Si solo haces `pass` dentro del `if`/, 'if'), false)
 })
 
 test('naming a term in Spanish is not defining it', () => {
   // "un outlier (un valor atípico) de 120" translates the word and says nothing about it.
-  assert.equal(defines('data-engineering.S18-T1-A.p2', 'outlier'), false)
+  assert.equal(definingEvent(/un outlier \(un valor atípico\) de 120/, 'outlier'), false)
   // But "bloques de filas llamados **row groups**" does teach: the description precedes it.
   assert.ok(definingEvent(/bloques de filas llamados \*\*row groups\*\*/, 'row-group'))
 })
@@ -176,11 +177,15 @@ test('a negated verb describes what a thing is not', () => {
  * inside that subtopic, and inserting one block made it `#11`. Both spellings are checked now.
  */
 test('no assertion in this file is pinned to a block index', () => {
+  // Paragraph and item indexes too (`.p5`, `outcome[4]`, `hint[1]`, `selfCheck[3]`): a negative
+  // pinned that way passes on whatever paragraph shifts into the slot, since most paragraphs
+  // define nothing - the failure reads as success. Anchor on the sentence instead.
   const source = fs.readFileSync('tests/adversarial/concept-definition-detector.test.mjs', 'utf8')
   const positional = source
     .split('\n')
     .map((line, i) => [i + 1, line])
-    .filter(([, line]) => /defines\(\s*'[^']*(?:theory\[\d+\]|#\d+)/.test(line))
+    .filter(([, line]) => !/^\s*(\/\/|\*)/.test(line))
+    .filter(([, line]) => /(?:defines\(\s*|location === )'[^']*(?:\[\d+\]|#\d+|\.p\d+\b)/.test(line))
     .map(([n, line]) => `${n}: ${line.trim()}`)
   assert.deepEqual(
     positional, [],
@@ -223,11 +228,10 @@ test('a pair defined in the plural with a quantifier counts as teaching', () => 
 
 test('a plural copula with no noun after the numeral is a count, not a definition', () => {
   // The guard that keeps "las opciones son dos" out: the numeral has to introduce a noun.
-  const cue =
-    /^[^.!?;]{0,45}?(?<!\p{L})(?:es un|es una|son unos|son unas|son (?:dos|tres|cuatro|cinco|seis|\d+)\s+\p{L}{3,})/iu
-  assert.equal(cue.test(' son dos límites calculados a partir de los cuartiles'), true)
-  assert.equal(cue.test(' son dos.'), false)
-  assert.equal(cue.test(' son dos, y ya las viste'), false)
+  // POST_CUE itself, imported: this test used to declare a copy of its plural branch.
+  assert.equal(POST_CUE.test(' son dos límites calculados a partir de los cuartiles'), true)
+  assert.equal(POST_CUE.test(' son dos.'), false)
+  assert.equal(POST_CUE.test(' son dos, y ya las viste'), false)
 })
 
 /**
@@ -264,23 +268,24 @@ test('a phenomenon defined by when it happens is taught', () => {
 
 test('`ocurre` without `cuando` locates a thing rather than defining it', () => {
   // The guard, asserted on the rule because the course does not currently write the bad shape.
-  const cue = /^[^.!?;]{0,14}?\bocurre[n]? cuando\b/i
-  assert.equal(cue.test(' ocurre cuando un modelo aprende demasiado bien los datos'), true)
-  assert.equal(cue.test(' ocurre en la línea 3'), false)
-  assert.equal(cue.test(' ocurre dos veces por lote'), false)
+  // The extractor's own PHENOMENON_CUE, not a copy of it as this used to be.
+  assert.equal(PHENOMENON_CUE.test(' ocurre cuando un modelo aprende demasiado bien los datos'), true)
+  assert.equal(PHENOMENON_CUE.test(' ocurre en la línea 3'), false)
+  assert.equal(PHENOMENON_CUE.test(' ocurre dos veces por lote'), false)
 })
 
 test('a self-check explanation still cannot introduce a term', () => {
   // The same scan that added `divide` offered `crea`, whose only other effect in the whole
   // course was to credit this explanation with venv. Surfaces the learner reaches after
   // answering are reinforcement; the surface hierarchy has to outrank any verb rule.
-  const ev = events.events.find((e) => e.location === 'setup.selfCheck[3].explanation')
+  const ev = events.events.find((e) => e.kind === 'selfcheck.explanation'
+    && /une dos contratos: usa el instalador del intérprete activo/.test(e.text ?? ''))
   assert.ok(ev, 'the S01 self-check explanation that exposed this must still exist to guard')
-  assert.equal(
-    conceptMap['virtual-environment-venv']?.first_definition?.kind === 'selfcheck.explanation',
-    false,
-    'venv cannot be introduced by a self-check explanation',
-  )
+  // Present first: with `?.` a renamed concept compared `undefined` and passed.
+  const venv = conceptMap['virtual-environment-venv']
+  assert.ok(venv, 'the venv concept must exist for this to check anything')
+  assert.notEqual(venv.first_definition?.kind, 'selfcheck.explanation',
+    'venv cannot be introduced by a self-check explanation')
 })
 
 test('a keyword marked as both bold and code is still a marked subject', () => {
@@ -325,4 +330,34 @@ test('an indefinite article plus BOTH marks still introduces the term', () => {
     })
     .map((e) => e.location)
   assert.deepEqual(missed, [])
+})
+
+/**
+ * Four shapes the detector does not credit. Each cost a round of 2026-10-02 a rewrite - S25,
+ * S32 (three passes, one per shape), S33 and S13 - and each time the prose moved and the
+ * detector stayed put, because each shape occurs once or twice course-wide. Conceded, not
+ * fixed, and pinned so that a detector change which starts crediting one has to flip its line
+ * here on purpose. Each sits beside the nearest shape that IS credited, so the pin holds the
+ * boundary rather than a detector that credits nothing.
+ */
+const credits = (text, alias) => definesTerm(text, text.indexOf(alias), alias.length, 'theory.paragraph', [alias])
+
+test('conceded: a marked span wider than the glossary term is not credited', () => {
+  assert.equal(credits('El **encoding one-hot** convierte cada categoría en columnas de ceros y unos.', 'one-hot'), false)
+  assert.equal(credits('El **one-hot** convierte cada categoría en columnas de ceros y unos.', 'one-hot'), true)
+})
+
+test('conceded: two names sharing one verb credit neither', () => {
+  assert.equal(credits('**joblib** o **pickle** son formatos para guardar un modelo entrenado en disco.', 'joblib'), false)
+  assert.equal(credits('**joblib** es un formato para guardar un modelo entrenado en disco.', 'joblib'), true)
+})
+
+test('conceded: a marked term after a comma is not a sentence subject', () => {
+  assert.equal(credits('Para guardar el modelo, **joblib** produce un archivo con el objeto entrenado.', 'joblib'), false)
+  assert.equal(credits('Hay que guardar el modelo. **joblib** produce un archivo con el objeto entrenado.', 'joblib'), true)
+})
+
+test('conceded: a gloss more than 45 characters from its term is not attached to it', () => {
+  assert.equal(credits('La **ER**, en todo este curso, en sus proyectos y en cada capstone del nivel cuatro, es un proceso que une registros.', 'ER'), false)
+  assert.equal(credits('La **ER**, en todo este curso, es un proceso que une registros de una misma entidad.', 'ER'), true)
 })
