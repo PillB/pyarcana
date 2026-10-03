@@ -526,3 +526,43 @@ One measurement changed since Q3 was written: adding `except` and `try/except` a
 `Excepción` made the dependency visible for the first time — 11 occurrences in S02, 7 in S04, 14
 in S05, 9 in S06, 3 in S07 and 10 in S08, all before S09 teaches exception handling. Q3's original
 text understated this because no alias covered the keyword.
+
+## Q6 — The eligibility contract tests code production does not run (2026-10-03)
+
+Raised by the test-suite red team; the owner chose to record it and decide later. Nothing was
+changed.
+
+`tests/adversarial/test_eligibility_engine.py` (~1300 lines, ~60 tests) holds a Python "reference
+implementation" of `src/lib/eligibility/engine.ts`. Its docstring says the TypeScript engine "is
+verified against the same fixtures and must produce identical outputs". No test does that:
+
+- `engine.ts` (711 lines) is imported by no application code, and by one spec,
+  `tests/e2e_max/badge_eligibility.spec.ts`, which CI never runs.
+- Credentials are issued by `src/app/api/credentials/issue/route.ts`, with its own per-badge
+  checks. Its real handler is tested by `credential-issue-gates.test.ts`; that is the guard that
+  can fail when production breaks.
+- The Python file loads `industry_alignment/badge_catalog.json`; production imports
+  `src/lib/eligibility/badge_catalog.json`. They differ in 7 eligibility fields
+  (`verification_mode` on five capstones; `progress_phase3_walked`'s `required_sections` and
+  `required_activities`).
+- `:884` `cls.assertTrue(cls.specs, "Catalog failed to load")` inside a classmethod binds the
+  catalog to `self` and tests the message string, so it can never fail.
+
+Routes: wire `engine.ts` into the route with a differential test against the Python spec; point
+the spec at the route's own decision; or mark the engine and its mirror `INACTIVE_PRESERVED` and
+let `credential-issue-gates` be the contract. Each changes what a credential is checked against.
+
+## Q7 — Six lesson snippets import packages the declared environment does not pin (2026-10-03)
+
+The content runtime audit used to count skips without reasons, and `ok` ignored them, so lesson
+code whose import failed read exactly like a shell snippet. Measured on 2026-10-03: of 72 skips,
+62 are not Python and 4 need command-line arguments, but **6 are lesson code that never runs**:
+five `reportlab` imports in the `fastapi` section (`solutionCode-9..11`, `code-block-3`, `-11`) and
+one `fastapi` import in `llm-finetuning` (`code-block-4`). `requirements-content.txt` pins neither,
+so their declared outputs have never been checked.
+
+They are now owed, not accepted: `MISSING_DEPENDENCY_OWED = 6` in
+`scripts/python_content_runtime_audit.py` fails the audit if a seventh appears, and asks for the
+number to be lowered when one is paid. Paying them means pinning `reportlab` and `fastapi` in the
+learners' declared environment, or rewriting those snippets not to need them — the first changes
+what a learner installs, so it is the owner's call.
