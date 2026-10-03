@@ -88,9 +88,37 @@ across theory, iDo, weDo, youDo *and* selfCheck — the whole flywheel. The inst
 it. So the measure is blind in both directions: it certifies definitions that do not teach, and it
 misses teaching that does.
 
-A further 31 terms literally appear in sections the map does not record (129 term/section pairs).
-Some are legitimate exclusions — `requirements.txt` and `github` inside shell commands and URLs —
-so this list is a work queue to triage, not 129 defects.
+A further 31 terms literally appeared in sections the map did not record (129 term/section
+pairs). **Triaged 2026-10-03: zero defects.** The method matters, because two earlier attempts were
+wrong. Rather than guess which field an occurrence sits in, ask the extractor what text it actually
+saw — check each section's own event texts in `.fixer/events.json`, honouring `aliasIsAcronym` so
+acronym aliases match case-sensitively:
+
+| outcome | count |
+|---|---:|
+| correct exclusion — the string appears only in content the extractor never walks | 111 |
+| looked like a matcher bug | 4 |
+| **actually a bug** | **0** |
+
+All four are correct behaviour, and three are guards this campaign built: `for` in S02/S03 matches
+inside the book title *"Python for Everybody"*, which `concept_syntax.mts` blanks via
+`PROPER_NAMES`; `correlaci-n` in S09 matches *"identificador de correlación"*, blanked by the same
+guard; and `pipeline` in S01 sits in a `solution` event, which is `learner_visible: false` and
+correctly gated out. The 111 concentrate in `requirements-txt` (46 sections) and `github` (21),
+whose declared strings live in URLs and shell commands — confirmed cause: `resources` push
+`${label} ${note}` and never `url`, and `environment`, `feedback`, `edgeCases`, `portfolioNote`,
+`books` and `courses` are not walked at all.
+
+Two corrections to earlier figures in this file's own history: a "253 real misses" count came from
+a classifier that ignored `aliasIsAcronym`, so the alias `ABC` matched `abc` inside code fixtures
+course-wide; and a "nearest preceding key" heuristic kept reporting Python identifiers inside code
+strings (`missing`, `bool`, `ValueError`) as section fields. **The only genuine alias defect in the
+course was `data-leakage`.**
+
+One real extractor gap found during the triage, small and left open: `s.resources.docs` is walked
+but `s.resources.books` and `s.resources.courses` are not
+(`scripts/course_event_extractor.mts:427`). Book and course labels are learner-visible and
+invisible to the measure.
 
 ---
 
@@ -226,7 +254,13 @@ python3 scripts/badge_readiness_audit.py       # required-skills map (exits 1 on
 ```
 
 Caveats that change results, both found with the S25 test-suite session:
-- Local `python3` is **3.9.6**; CI runs **3.12**. Gate results differ by interpreter.
+- Local `python3` is **3.9.6**; CI runs **3.12**. Every measurement in this file was taken with
+  `PATH="/usr/local/opt/python@3.12/libexec/bin:$PATH"`. A Claude session keeps the PATH it
+  captured at start, so the profile change does not reach a running session.
+- **Suite counts, verified by the S25 test-suite session under 3.12 at `a56a4167`:** 416 Python
+  tests passed — but only **53 of 70 files contributed**, because 17 collected zero tests. With
+  those wired in: **485 adversarial Python** (3 allowlisted skips), **11** in `tests/`, **381**
+  Node. Use those figures, not the 416.
 - **CI never regenerates `concept_map.json`**, and the may-not-rise ratchet lives only in
   `gate.py`. Nothing in CI defends the zero: a commit reintroducing surprising uses passes CI.
 

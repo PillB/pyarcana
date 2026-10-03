@@ -48,7 +48,15 @@ TEACHING_SURFACES = frozenset({
 
 # Opening values measured at commit c3057a30 (2026-10-02), after `leakage` was added to
 # data-leakage's aliases. Lower each as its debt is paid; raise only with a dated reason.
-SELF_CERTIFYING_DEFINITIONS_OWED = 44
+# 2026-10-03, S17: raised 44 -> 45 on purpose. Closing data-leakage's 8 surprising uses required a
+# definition at or before its first use, and its first use is `outcome[7]` -- outcomes precede every
+# theory block, so no later definition can reach them. The outcome now carries a real appositive
+# gloss: «Controlar leakage temporal —el uso de datos posteriores a la fecha de corte— con
+# cutoff/as-of». A learner meets the word WITH its meaning instead of without it, which is the trade
+# this ratchet cannot see: it counts the surface KIND, not whether a gloss is present. The P0
+# surface-hierarchy change will distinguish "an outcome that glosses" from "an outcome that only
+# names", and should reclassify this one back down. Until then the honest count is 45.
+SELF_CERTIFYING_DEFINITIONS_OWED = 45
 NEVER_EXPLAINED_OWED = 7
 UNEXEMPLIFIED_CONCEPTS_OWED = 35
 FIGURE_SHORT_CONCEPTS_OWED = 103
@@ -180,12 +188,14 @@ class TheRatchetsMeasureSomethingReal(unittest.TestCase):
         examples and 0 exercises while S32 -- titled "Feature engineering y pipelines sin
         leakage" -- taught all five leakage modes across the whole flywheel. If an alias edit ever
         narrows this again, fail here rather than in a content round six sections later.
+
+        Assert BEHAVIOUR, never the alias string. An earlier version of this test re-parsed
+        terms.ts with a naive quote regex to confirm the bare alias was present. An apostrophe
+        inside a code comment broke that parse and failed the test for a reason that had nothing
+        to do with the course. The assertions below already fail if the alias is removed, and they
+        fail through the extractor's own output rather than through a copy of its logic.
         """
         c = concept_map()["data-leakage"]
-        self.assertIn("leakage", [a.lower() for a in
-                                  re.findall(r"'([^']+)'", GLOSSARY.read_text(encoding="utf-8")
-                                             .split("id: 'data-leakage'")[1].split("]")[0])],
-                      "the bare `leakage` alias is gone; the measure is blind again")
         for section in ("S17", "S32"):
             self.assertIn(section, c["sections_used"])
         self.assertGreaterEqual(len(c["examples"]), 5)

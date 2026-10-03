@@ -857,9 +857,18 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     // recorded 5 uses in 4 sections with 0 examples and 0 exercises, while S32 ("Feature
     // engineering y pipelines sin leakage") teaches all five leakage modes across theory, iDo,
     // weDo, youDo and selfCheck. The measure was blind to its own best-taught concept.
-    aliases: ['Data leakage', 'fuga de datos', 'leakage'],
+    // 2026-10-03: `leakage temporal` added because the course names the compound -- S17 teaches
+    // it as its own thing, in an analytics context with no model. Declaration order does NOT
+    // matter: the extractor sorts each term's aliases longest-first before building the
+    // alternation (course_event_extractor.mts:270), so the compound already wins over the bare
+    // word wherever it appears. An earlier version of this comment claimed the order was
+    // load-bearing; that was wrong, and it was wrong because the probe behind it rebuilt the
+    // alternation in declaration order instead of importing the extractor's own -- the
+    // copy-instead-of-the-code trap. S17's real blocker is POST_CUE, which has no `es` +
+    // infinitive, and that shape occurs exactly once in the course, so the prose moves.
+    aliases: ['Data leakage', 'fuga de datos', 'leakage temporal', 'leakage'],
     category: 'ML',
-    definition: 'Cuando info del test set "contamina" el entrenamiento. Pipeline lo previene aplicando fit solo en train.',
+    definition: 'El leakage ocurre cuando información que aún no podías conocer entra en el análisis. Aparece por fechas posteriores al cutoff o, en modelos, por mezclar train y test dentro de un pipeline.',
     // Re-pointed the same day, and for the same reason: with `leakage` visible, the first use and
     // the first definition are both S17 (`packaging`, really "Joins, reshape, groupby y cierre
     // analítico"), which uses the word 29 times. It was declared at S19 only because the narrow

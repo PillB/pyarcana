@@ -1,8 +1,65 @@
 {
-  "generated_at": "2026-08-23T00:25:39.291320Z",
-  "terms": 95,
+  "generated_at": "2026-10-03T18:43:57.999079Z",
+  "terms": 108,
   "sections": 52,
-  "forward_refs": 0,
-  "issues": [],
-  "ok": true
+  "forward_refs": 7,
+  "issues": [
+    {
+      "term": "return",
+      "id": "return",
+      "declared_first": "functions-contracts",
+      "found_first": "decisions-rules",
+      "severity": "P2",
+      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
+    },
+    {
+      "term": "Coverage",
+      "id": "coverage",
+      "declared_first": "async-concurrency",
+      "found_first": "rpa-advanced",
+      "severity": "P2",
+      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
+    },
+    {
+      "term": "EDA",
+      "id": "eda",
+      "declared_first": "wxpython-gui",
+      "found_first": "security",
+      "severity": "P2",
+      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
+    },
+    {
+      "term": "Pipeline",
+      "id": "pipeline",
+      "declared_first": "basics",
+      "found_first": "setup",
+      "severity": "P2",
+      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
+    },
+    {
+      "term": "MLOps",
+      "id": "mlops",
+      "declared_first": "opensource",
+      "found_first": "rpa-advanced",
+      "severity": "P2",
+      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
+    },
+    {
+      "term": "FastAPI",
+      "id": "fastapi",
+      "declared_first": "llm-finetuning",
+      "found_first": "fastapi",
+      "severity": "P2",
+      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
+    },
+    {
+      "term": "LLM",
+      "id": "llm",
+      "declared_first": "streamlit-dashboards",
+      "found_first": "rpa-advanced",
+      "severity": "P2",
+      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
+    }
+  ],
+  "ok": false
 }
