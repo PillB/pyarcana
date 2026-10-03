@@ -216,7 +216,7 @@ def _run_demo(capstone_id):
     with tempfile.TemporaryDirectory() as scratch:
         env = {k: v for k, v in os.environ.items()
                if k not in ("CPN4C_COMMERCIAL_KEY", "COMMERCIAL_API_KEY")}
-        env["CP_N4C_STATE_PATH"] = os.path.join(scratch, "run_state.json")
+        env["CP_N4C_STATE_DIR"] = scratch
         env["CP_FINAL_BACKUP_DIR"] = scratch
         proc = subprocess.run(
             [sys.executable, demo_path],
