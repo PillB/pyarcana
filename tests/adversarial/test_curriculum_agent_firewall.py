@@ -547,6 +547,51 @@ class ExecutionReceiptTests(unittest.TestCase):
             # probe's request really went out - and the receipt recorded `network: False` anyway.
             self.assertIn("NET blocked", receipt["stdout"], receipt["stdout"])
 
+    def test_runtime_refuses_every_python_level_network_channel(self) -> None:
+        """The first guard refused connect() and name lookups, and a UDP datagram went out past
+        both: sendto() needs neither. Each channel is tried here against a documentation
+        address or a reserved name (RFC 5737, RFC 3849, `.invalid`), so even a broken guard
+        sends nothing that reaches anyone. A local socket pair must keep working."""
+        probe_code = (
+            "import socket\n"
+            "def attempt(label, action):\n"
+            "    try:\n"
+            "        action()\n"
+            "        print(label, 'reachable')\n"
+            "    except PermissionError:\n"
+            "        print(label, 'blocked')\n"
+            "    except OSError as error:\n"
+            "        print(label, 'failed', type(error).__name__)\n"
+            "attempt('UDP', lambda: socket.socket(socket.AF_INET, socket.SOCK_DGRAM)"
+            ".sendto(b'x', ('192.0.2.1', 9)))\n"
+            "attempt('UDP6', lambda: socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)"
+            ".sendto(b'x', ('2001:db8::1', 9)))\n"
+            "attempt('SENDMSG', lambda: socket.socket(socket.AF_INET, socket.SOCK_DGRAM)"
+            ".sendmsg([b'x'], [], 0, ('192.0.2.1', 9)))\n"
+            "attempt('SOCKETTYPE', lambda: socket.SocketType(socket.AF_INET, socket.SOCK_DGRAM)"
+            ".sendto(b'x', ('192.0.2.1', 9)))\n"
+            "attempt('DNS', lambda: socket.gethostbyname('pyarcana-probe.invalid'))\n"
+            "attempt('DNS_EX', lambda: socket.gethostbyname_ex('pyarcana-probe.invalid'))\n"
+            "attempt('REVERSE', lambda: socket.gethostbyaddr('192.0.2.1'))\n"
+            "attempt('NAMEINFO', lambda: socket.getnameinfo(('192.0.2.1', 80), 0))\n"
+            "left, right = socket.socketpair()\n"
+            "left.sendall(b'local')\n"
+            "print('LOCAL', right.recv(5).decode())\n"
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            receipt = student_runtime.execute_request(
+                {"exercise_id": "S01-T1-A-E3", "attempt_number": 1, "code": probe_code},
+                campaign_id=self.CAMPAIGN, outer_pass=1, journey_id=self.JOURNEY,
+                learner_id="LEARNER_A", section_id="setup",
+                receipts_dir=Path(tmp) / "execution_receipts",
+            )
+        printed = receipt["stdout"].splitlines()
+        channels = ("UDP", "UDP6", "SENDMSG", "SOCKETTYPE", "DNS", "DNS_EX", "REVERSE", "NAMEINFO")
+        self.assertEqual([line for line in printed if line.split()[0] in channels],
+                         [f"{channel} blocked" for channel in channels], receipt["stdout"])
+        self.assertIn("LOCAL local", printed, receipt["stdout"] + receipt.get("stderr", ""))
+        self.assertFalse(receipt["network"])
+
     def test_replayed_receipt_id_cannot_be_sealed_twice(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
