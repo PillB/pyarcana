@@ -23,7 +23,7 @@ Must run under `.venv-content` (Python 3.12, pinned packages), like the runtime 
 
 Usage:
   .venv-content/bin/python scripts/python_content_strict_output_audit.py [--only s46] [--file X.ts]
-      [--json OUT] [--check]
+      [--json OUT] [--check] [--workers N]
 `--check` exits 1 when any declared output mismatches.
 """
 from __future__ import annotations
@@ -33,6 +33,7 @@ import json
 import os
 import re
 import sys
+from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -175,6 +176,8 @@ def main() -> int:
     ap.add_argument("--file", default=None, help="audit this .ts file instead (probes)")
     ap.add_argument("--json", default=str(DEFAULT_OUT))
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--workers", type=int, default=1,
+                    help="audit this many snippets at once, each in its own process")
     args = ap.parse_args()
 
     drift = rt.probe_version_drift()
@@ -183,7 +186,14 @@ def main() -> int:
         print(json.dumps(drift, indent=2)[:800])
         return 2
 
-    rows = [audit_artifact(a) for p in target_files(args.only, args.file) for a in extract(p)]
+    artifacts = [a for p in target_files(args.only, args.file) for a in extract(p)]
+    # Processes, never threads: run_with_seed sets PYTHONHASHSEED in os.environ, which threads
+    # would share mid-run. map() keeps the input order, so the report is the same at any width.
+    if args.workers > 1:
+        with ProcessPoolExecutor(max_workers=args.workers) as pool:
+            rows = list(pool.map(audit_artifact, artifacts, chunksize=4))
+    else:
+        rows = [audit_artifact(a) for a in artifacts]
     counts = summarise(rows)
     mismatches = [r for r in rows if r["verdict"] == "mismatch"]
     Path(args.json).write_text(json.dumps({"counts": counts, "mismatches": mismatches, "rows": rows}, ensure_ascii=False, indent=1), encoding="utf-8")
