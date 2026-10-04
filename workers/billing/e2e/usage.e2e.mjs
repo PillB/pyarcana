@@ -226,7 +226,10 @@ await flow('CSP: Pyodide runs with wasm-unsafe-eval; eval, other jsDelivr files 
   record('P4c: Pyodide loads and runs Python under wasm-unsafe-eval, no CSP violation', run === '{"fact": 120, "sum": 45}' && violations.length === 0, `${run} | ${violations.join(', ')}`)
   const refused = await page.evaluate(async () => {
     const before = window.__csp.length
-    try { (0, eval)('1 + 1') } catch {}
+    // From the page's own inline script: code run through Playwright's evaluate is not judged by the CSP.
+    const inline = document.createElement('script')
+    inline.textContent = "try { eval('1 + 1') } catch (e) {}"
+    document.head.appendChild(inline)
     await new Promise((ok) => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/left-pad@1.3.0/index.js'; s.onerror = ok; s.onload = ok; document.head.appendChild(s) })
     try { await fetch('https://firestore.googleapis.com/') } catch {}
     await new Promise((ok) => setTimeout(ok, 300))
