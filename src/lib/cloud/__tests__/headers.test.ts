@@ -16,7 +16,7 @@ import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { CLOUD_CONFIG, type CloudConfig } from '@/lib/cloud/config'
 import { buildCsp, LEGACY_CSP } from '@/lib/cloud/csp'
-import { buildAdsTxt, buildHeadersFile, checkHeaderLine, parseHeadersFile } from '@/lib/cloud/headers'
+import { buildAdsTxt, buildHeadersFile, buildSecurityTxt, checkHeaderLine, parseHeadersFile, SECURITY_TXT_DAYS } from '@/lib/cloud/headers'
 
 const ON: CloudConfig = {
   ...structuredClone(CLOUD_CONFIG),
@@ -109,4 +109,30 @@ test('CLI: a stale ads.txt with no AdSense id configured stops the deploy', () =
   const r = run(dir)
   assert.notEqual(r.status, 0)
   assert.match(r.stderr, /ads\.txt/)
+})
+
+// --- security.txt (RFC 9116; audit 10.1) -----------------------------------------------------------
+
+test('security.txt: contact, an Expires under a year renewed per build, languages and canonical; none at stage off', () => {
+  const now = Date.parse('2026-10-05T12:00:00.000Z')
+  const body = buildSecurityTxt(ON, now)!
+  const fields = Object.fromEntries(body.trim().split('\n').map((l) => [l.slice(0, l.indexOf(':')), l.slice(l.indexOf(':') + 2)]))
+  assert.equal(fields.Contact, 'mailto:security@pyarcana.dev')
+  assert.equal(fields['Preferred-Languages'], 'es, en')
+  assert.equal(fields.Canonical, 'https://pyarcana.dev/.well-known/security.txt')
+  assert.match(fields.Expires, /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/)
+  const days = (Date.parse(fields.Expires) - now) / 86_400_000
+  assert.ok(days === SECURITY_TXT_DAYS && days < 365, `Expires ${days} days ahead`)
+  assert.ok(body.endsWith('\n'))
+  assert.equal(buildSecurityTxt({ ...ON, launchStage: 'off' }, now), null, 'the GitHub Pages build has no account edition to report on')
+  assert.throws(() => buildSecurityTxt({ ...ON, canonicalOrigin: 'http://pyarcana.dev' }, now), /https/)
+})
+
+test('CLI: a root build (base path "") also gets /.well-known/security.txt', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'pa-root-'))
+  writeFileSync(join(dir, 'index.html'), '<!doctype html>')
+  writeFileSync(join(dir, 'deployment.json'), JSON.stringify({ base_path: '' }))
+  const r = run(dir)
+  assert.equal(r.status, 0, r.stderr)
+  assert.match(readFileSync(join(dir, '.well-known', 'security.txt'), 'utf8'), /^Contact: mailto:security@pyarcana\.dev\n/)
 })

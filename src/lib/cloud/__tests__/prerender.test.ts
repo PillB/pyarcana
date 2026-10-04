@@ -45,7 +45,7 @@ const EVERYTHING_ON: Partial<CloudConfig> = {
   microsoftClientId: '11111111-2222-3333-4444-555555555555',
   termsVersion: '1.0',
   rails: { peru: 'mercadopago', international: 'creem' },
-  legal: { sellerName: 'Titular', ruc: '10000000001', address: 'Lima', complaintsBookUrl: 'https://pyarcana.example/libro', supportEmail: 'soporte@pyarcana.example' },
+  legal: { sellerName: 'Titular', ruc: '10000000001', address: 'Lima', complaintsBookUrl: 'https://pyarcana.example/libro', supportEmail: 'soporte@pyarcana.example', rnpd: 'RNPD-0001' },
   ads: { provider: 'adsense', adsenseClient: 'ca-pub-1', adsenseSlots: { section_end: '1' }, ethicaladsPublisher: '' },
 }
 

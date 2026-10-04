@@ -407,3 +407,20 @@ test("review: a Google subject longer than 255 characters is refused", async () 
   assert.deepEqual(await verify(h, { sub: "1".repeat(256) }), { ok: false, reason: "no_subject" });
   assert.equal((await verify(h, { sub: "1".repeat(255) })).ok, true);
 });
+
+test("sign-up closed until the holder is named: only a listed, Google-proven address creates an account", async () => {
+  const closed = { CONTROLLER_NAME: undefined, ADMIN_EMAILS: "owner@gmail.com" };
+  const h = await harness(closed);
+  const stranger = await h.signIn();
+  assert.deepEqual([stranger.status, stranger.body.reason, stranger.setCookie], [403, "signup_closed", null]);
+  assert.equal(await h.env.DB.prepare("SELECT COUNT(*) AS c FROM accounts").first("c"), 0, "nothing stored for the stranger");
+  const owner = await h.signIn({ sub: "110000000000000000009", email: "owner@gmail.com" });
+  assert.equal(owner.status, 200, "the listed owner creates their account");
+  const again = await h.signIn({ sub: "110000000000000000009", email: "owner@gmail.com" }, { now: NOW + 60 });
+  assert.equal(again.status, 200, "and signs in again");
+  // A listed address Google is not authoritative for (not gmail, no hosted domain) proves nothing.
+  const lookalike = await (await harness({ ...closed, ADMIN_EMAILS: "j.doe@corp.test" })).signIn({ sub: "sub-x", email: "j.doe@corp.test" });
+  assert.deepEqual([lookalike.status, lookalike.body.reason], [403, "signup_closed"]);
+  const open = await harness();
+  assert.equal((await open.signIn()).status, 200, "a named holder opens sign-up");
+});

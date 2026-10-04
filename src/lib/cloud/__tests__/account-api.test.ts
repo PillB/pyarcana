@@ -53,6 +53,7 @@ test('each worker refusal maps to an honest message key that exists in all three
     [fail(400, 'terms_required'), 'account.error.termsChanged'],
     [fail(400, 'bad_email'), 'account.error.badEmail'],
     [fail(403, 'account_disabled'), 'account.error.blocked'],
+    [fail(403, 'signup_closed'), 'account.error.signupClosed'],
     [fail(409, 'trial_used'), 'account.error.trialUsed'],
     [fail(409, 'trial_not_available'), 'account.error.trialNotAvailable'],
     [fail(409, 'already_subscribed'), 'billing.error.alreadySubscribed'],

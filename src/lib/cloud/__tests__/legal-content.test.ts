@@ -83,10 +83,10 @@ test('"no compartimos datos con terceros para publicidad" stays only while no ad
   assert.equal(adSharingClaimHolds(cfg({ launchStage: 'paid', ...ads('ethicalads', { ethicaladsPublisher: 'p' }) })), false)
 })
 
-test('processors follow the config: Cloudflare always; Google, Microsoft, rails and networks only when used', () => {
-  assert.deepEqual(processors(cfg({ launchStage: 'sync', googleClientId: '', microsoftClientId: '', emailSignIn: true })).map((p) => p.key), ['cloudflare', 'email'])
+test('processors follow the config: Cloudflare and Hostinger (our mailboxes) always; Google, Microsoft, rails and networks only when used', () => {
+  assert.deepEqual(processors(cfg({ launchStage: 'sync', googleClientId: '', microsoftClientId: '', emailSignIn: true })).map((p) => p.key), ['cloudflare', 'email', 'hostinger'])
   // The shipped config: Google and Microsoft registered, email codes off (Workers Free beta), so no email sender is named.
-  assert.deepEqual(processors(cfg({ launchStage: 'sync' })).map((p) => p.key), ['cloudflare', 'google', 'microsoft'])
+  assert.deepEqual(processors(cfg({ launchStage: 'sync' })).map((p) => p.key), ['cloudflare', 'hostinger', 'google', 'microsoft'])
   const all = cfg({
     launchStage: 'paid',
     googleClientId: 'g',
@@ -95,7 +95,7 @@ test('processors follow the config: Cloudflare always; Google, Microsoft, rails 
     rails: { peru: 'mercadopago', international: 'creem' },
     ...ads('adsense', { adsenseClient: 'ca-pub-1234567890123456' }),
   })
-  assert.deepEqual(processors(all).map((p) => p.key), ['cloudflare', 'email', 'google', 'microsoft', 'mercadopago', 'creem', 'adsense'])
+  assert.deepEqual(processors(all).map((p) => p.key), ['cloudflare', 'email', 'hostinger', 'google', 'microsoft', 'mercadopago', 'creem', 'adsense'])
   assert.equal(processors(all).find((p) => p.key === 'mercadopago')?.country, 'PE')
 })
 

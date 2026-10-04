@@ -125,6 +125,34 @@ export function termsVersion(env) {
 }
 
 /**
+ * The named holder of the personal-data bank (Ley 29733 art. 18), or "" while it is being formed.
+ * Must equal the site's CLOUD_CONFIG.legal.sellerName (pinned by a test).
+ * @param {Object} env Worker env.
+ * @returns {string} Name.
+ */
+export function controllerName(env) {
+  return stringVar(env, "CONTROLLER_NAME");
+}
+
+/**
+ * Whether a NEW account may be created for this proven address (owner decision 2026-10-04). Until the
+ * privacy notice can name the holder and its address (CONTROLLER_NAME), only ADMIN_EMAILS may create
+ * an account; existing accounts always sign in. An address that is not proven counts as unknown.
+ * @param {Object} env Worker env.
+ * @param {string|null} provenEmail Normalized address the provider vouches for, or null.
+ * @returns {boolean} Allowed.
+ */
+export function signupOpen(env, provenEmail) {
+  if (controllerName(env)) {
+    return true;
+  }
+  return Boolean(provenEmail) && adminEmails(env).includes(provenEmail);
+}
+
+/** The answer when a new account is refused by signupOpen. */
+export const SIGNUP_CLOSED = Object.freeze({ status: 403, body: Object.freeze({ ok: false, reason: "signup_closed" }) });
+
+/**
  * Admin addresses from the ADMIN_EMAILS secret, normalized. Read per request.
  * @param {Object} env Worker env.
  * @returns {string[]} Emails.

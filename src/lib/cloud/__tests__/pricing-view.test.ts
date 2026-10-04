@@ -51,7 +51,7 @@ test('seller: the owner identity for Peru (or null until filled), Creem as merch
   // Review round 3 (finding 12): Creem is named only when its rail is configured.
   assert.deepEqual(sellerView({ ...base, rails: { ...base.rails, international: 'creem' } }), { owner: null, international: 'creem' })
   assert.deepEqual(sellerView({ ...base, rails: { ...base.rails, international: '' } }), { owner: null, international: null })
-  const filled = { ...structuredClone(base), legal: { sellerName: 'Ana Pérez', ruc: '10123456789', address: 'Lima', complaintsBookUrl: 'https://x.example/libro', supportEmail: 'soporte@x.example' } }
+  const filled = { ...structuredClone(base), legal: { sellerName: 'Ana Pérez', ruc: '10123456789', address: 'Lima', complaintsBookUrl: 'https://x.example/libro', supportEmail: 'soporte@x.example', rnpd: 'RNPD-0001' } }
   assert.deepEqual(sellerView(filled).owner, { name: 'Ana Pérez', ruc: '10123456789', address: 'Lima', email: 'soporte@x.example', complaintsBookUrl: 'https://x.example/libro' })
   // A complaints-book link must be https (it becomes an href).
   const bad = { ...filled, legal: { ...filled.legal, complaintsBookUrl: 'javascript:alert(1)' } }

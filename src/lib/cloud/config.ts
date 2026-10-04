@@ -34,6 +34,8 @@ export interface LegalIdentity {
   address: string
   complaintsBookUrl: string
   supportEmail: string
+  /** Registro Nacional de Protección de Datos Personales: the bank's registration number, '' while in progress. */
+  rnpd: string
 }
 
 export interface CloudConfig {
@@ -112,7 +114,7 @@ export const CLOUD_CONFIG: CloudConfig = {
   apiBaseUrl: '/api',
   googleClientId: '432743649609-a450e9saoe4akd98dt3gsnous80vblj4.apps.googleusercontent.com',
   microsoftClientId: '171fb4ff-f112-46b2-9043-92ecb97f56fe',
-  termsVersion: '2026-10-04',
+  termsVersion: '2026-10-05',
   microsoftAuthority: 'common',
   emailSignIn: false,
   // The k1 key setup.sh generated on deploy day (4 Oct 2026); GET /api/v1/jwks serves the same x/y.
@@ -123,7 +125,7 @@ export const CLOUD_CONFIG: CloudConfig = {
   },
   gate: { freeSections: FREE_PLAN_SECTIONS ?? 0, since: '', packaging: 'A' },
   rails: { peru: '', international: '' },
-  legal: { sellerName: '', ruc: '', address: '', complaintsBookUrl: '', supportEmail: 'soporte@pyarcana.dev' },
+  legal: { sellerName: '', ruc: '', address: '', complaintsBookUrl: '', supportEmail: 'soporte@pyarcana.dev', rnpd: '' },
   providerPortals: { mercadopago: 'https://www.mercadopago.com.pe/subscriptions', creem: '' },
   ads: { provider: 'house', adsenseClient: '', adsenseSlots: {}, ethicaladsPublisher: '' },
   consent: { mode: 'everywhere' },

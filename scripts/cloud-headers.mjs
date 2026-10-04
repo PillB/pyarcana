@@ -11,7 +11,7 @@
  * Refuses (exit 1, nothing written) when outDir holds no index.html (not a built export), and when
  * an ads.txt is already there but no AdSense id is configured (a stale authorization).
  */
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawnSync } from 'node:child_process'
@@ -55,13 +55,15 @@ if (!existsSync(join(outDir, 'index.html'))) fail(`${outDir} has no index.html; 
 
 const here = import.meta.url
 const { CLOUD_CONFIG } = await import(new URL('../src/lib/cloud/config.ts', here).href)
-const { buildAdsTxt, buildHeadersFile } = await import(new URL('../src/lib/cloud/headers.ts', here).href)
+const { buildAdsTxt, buildHeadersFile, buildSecurityTxt } = await import(new URL('../src/lib/cloud/headers.ts', here).href)
 
 let adsTxt
 let headers
+let securityTxt
 try {
   adsTxt = buildAdsTxt(CLOUD_CONFIG)
   headers = buildHeadersFile(CLOUD_CONFIG)
+  securityTxt = buildSecurityTxt(CLOUD_CONFIG, Date.now())
 } catch (error) {
   fail(error instanceof Error ? error.message : String(error))
 }
@@ -71,4 +73,8 @@ if (adsTxt === null && existsSync(join(outDir, 'ads.txt'))) {
 
 writeFileSync(join(outDir, '_headers'), headers)
 if (adsTxt !== null) writeFileSync(join(outDir, 'ads.txt'), adsTxt)
-console.log(`cloud-headers: wrote _headers${adsTxt !== null ? ' and ads.txt' : ''} to ${outDir} (stage ${CLOUD_CONFIG.launchStage}, base path ${JSON.stringify(process.env.NEXT_PUBLIC_BASE_PATH ?? null)})`)
+if (securityTxt !== null) {
+  mkdirSync(join(outDir, '.well-known'), { recursive: true })
+  writeFileSync(join(outDir, '.well-known', 'security.txt'), securityTxt)
+}
+console.log(`cloud-headers: wrote _headers${adsTxt !== null ? ', ads.txt' : ''}${securityTxt !== null ? ', .well-known/security.txt' : ''} to ${outDir} (stage ${CLOUD_CONFIG.launchStage}, base path ${JSON.stringify(process.env.NEXT_PUBLIC_BASE_PATH ?? null)})`)

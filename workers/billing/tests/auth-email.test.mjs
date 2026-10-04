@@ -345,3 +345,16 @@ test("review: an email-code sign-in writes only its own account (bystanders keep
   const after = [await accountSnapshot(h.env, neverSignedIn.account.id), await accountSnapshot(h.env, signedIn.account.id)];
   assert.deepEqual(after, before);
 });
+
+test("sign-up closed until the holder is named: a proven stranger is refused, a listed owner and an existing account sign in", async () => {
+  const h = harness({ CONTROLLER_NAME: undefined, ADMIN_EMAILS: "owner@example.test" });
+  await h.start("stranger@example.test");
+  const stranger = await h.verify(h.lastCode(), "stranger@example.test");
+  assert.deepEqual([stranger.status, stranger.body.reason], [403, "signup_closed"]);
+  assert.equal(await h.env.DB.prepare("SELECT COUNT(*) AS c FROM accounts").first("c"), 0);
+  await h.start("owner@example.test", "203.0.113.2");
+  assert.equal((await h.verify(h.lastCode(), "owner@example.test", "203.0.113.2")).status, 200);
+  await createAccount(h.ctx(), { email: EMAIL, emailNormalized: EMAIL, emailVerified: true });
+  await h.start(EMAIL, "203.0.113.3");
+  assert.equal((await h.verify(h.lastCode(), EMAIL, "203.0.113.3")).status, 200, "an existing account is never locked out");
+});

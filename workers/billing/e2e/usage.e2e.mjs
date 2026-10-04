@@ -8,6 +8,7 @@
 //    banner and the Uso tab, a learner's change stays in the browser with the "paused" line, and
 //    once the row is gone "Sincronizar ahora" sends it.
 // 4. Signed out: the sign-in nudge and the one-time storage persistence request.
+// 5. security.txt is served from the dot-folder, and /privacy is the new notice.
 // E2E_WORKER_DIR (set by run.sh) is the worker folder whose local D1 is used.
 import { chromium } from 'playwright'
 import { execFileSync } from 'node:child_process'
@@ -167,6 +168,21 @@ await flow('signed-out nudge', async () => {
   await page.waitForTimeout(1200)
   record('"Ahora no" hides it on the next visit', !(await page.getByTestId('signin-nudge').isVisible().catch(() => false)))
   record('the sign-in button stays', await page.getByTestId('storage-signin').isVisible().catch(() => false))
+  await ctx.close()
+})
+
+// 5. D4 audit: security.txt from Workers Static Assets (a dot-folder), and the prerendered notice.
+await flow('security.txt and privacy notice', async () => {
+  const r = await fetch(`${BASE}/.well-known/security.txt`)
+  const body = await r.text()
+  record('/.well-known/security.txt: 200, text/plain, Contact and Expires', r.status === 200 && /^text\/plain/.test(r.headers.get('content-type') ?? '') && /^Contact: mailto:security@/m.test(body) && /^Expires: \d{4}-/m.test(body), `status=${r.status} type=${r.headers.get('content-type')}`)
+  const html = await (await fetch(`${BASE}/privacy`)).text()
+  const text = html.replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<[^>]+>/g, ' ')
+  record('/privacy without JavaScript: the real stack, RNPD and 48 h, nothing from Firebase', /Cloudflare/.test(text) && /RNPD/.test(text) && /48 horas/.test(text) && !/Firebase|PostgreSQL/.test(text))
+  const ctx = await contextFor(null)
+  const page = await open(ctx, '/privacy')
+  record('/privacy renders in Chromium with the cloud section', await page.locator('#cloud-legal').count() === 1 && await page.getByText('Resumen rápido').isVisible())
+  await page.screenshot({ path: `${OUT}privacy.png`, fullPage: true })
   await ctx.close()
 })
 

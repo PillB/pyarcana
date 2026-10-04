@@ -35,7 +35,7 @@ if [[ "${1:-}" != "--no-build" ]]; then
   (cd "$WORK/site" && NEXT_PUBLIC_BASE_PATH= bun run build:static >"$WORK/build.log" 2>&1 && node scripts/cloud-headers.mjs out >/dev/null)
 fi
 PEPPER="$(node -e 'console.log(require("crypto").randomBytes(32).toString("base64"))')"
-printf 'SERVER_PEPPER=%s\nADMIN_EMAILS=admin@example.test\nALLOWED_ORIGINS=http://localhost:8787\nCANONICAL_ORIGIN=http://localhost:8787\nTERMS_VERSION=e2e-2026-10-01\nEMAIL_PROVIDER=dev-log\nUSAGE_FLUSH_SECONDS=0\n' "$PEPPER" >"$WORK/site/workers/billing/.dev.vars"
+printf 'SERVER_PEPPER=%s\nADMIN_EMAILS=admin@example.test\nALLOWED_ORIGINS=http://localhost:8787\nCANONICAL_ORIGIN=http://localhost:8787\nTERMS_VERSION=e2e-2026-10-01\nEMAIL_PROVIDER=dev-log\nUSAGE_FLUSH_SECONDS=0\nCONTROLLER_NAME=PyArcana E2E E.I.R.L.\n' "$PEPPER" >"$WORK/site/workers/billing/.dev.vars"
 WRANGLER=""
 stop() { if [[ -n "$WRANGLER" ]]; then kill "$WRANGLER" 2>/dev/null || true; wait "$WRANGLER" 2>/dev/null || true; fi; WRANGLER=""; }
 trap stop EXIT

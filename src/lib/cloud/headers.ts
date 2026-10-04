@@ -11,6 +11,10 @@
  * ads.txt authorizes one AdSense publisher to sell ad space on the domain. It is written only when
  * a publisher id is configured, and a malformed id throws: a deploy must stop rather than publish
  * a wrong or injected authorization line.
+ *
+ * /.well-known/security.txt (RFC 9116) tells researchers where to report a vulnerability. It is
+ * written into the root build at deploy time (public/ is a protected path), with Expires 300 days
+ * after the build: always under the RFC's one-year advice, renewed by every deploy.
  */
 import type { CloudConfig } from '@/lib/cloud/config'
 import { buildCsp } from '@/lib/cloud/csp'
@@ -77,4 +81,24 @@ export function buildAdsTxt(cfg: CloudConfig): string | null {
   const m = ADSENSE_CLIENT.exec(client)
   if (!m) throw new Error(`AdSense publisher id must look like ca-pub- followed by 16 digits; got ${JSON.stringify(client)}`)
   return `google.com, pub-${m[1]}, DIRECT, ${GOOGLE_ADS_TXT_CERT}\n`
+}
+
+/** Days from the build to security.txt's Expires (RFC 9116 advises less than a year). */
+export const SECURITY_TXT_DAYS = 300
+
+/** The security.txt body for the account edition, or null where there is none (stage off). */
+export function buildSecurityTxt(cfg: CloudConfig, nowMs: number): string | null {
+  if (cfg.launchStage === 'off') return null
+  const origin = cfg.canonicalOrigin.replace(/\/+$/, '')
+  if (!/^https:\/\/[a-z0-9.-]+$/.test(origin)) throw new Error(`security.txt needs an https canonical origin; got ${JSON.stringify(cfg.canonicalOrigin)}`)
+  const host = new URL(origin).hostname
+  const expires = new Date(nowMs + SECURITY_TXT_DAYS * 86_400_000).toISOString().replace(/\.\d{3}Z$/, 'Z')
+  return [
+    `Contact: mailto:security@${host}`,
+    `Expires: ${expires}`,
+    'Preferred-Languages: es, en',
+    `Canonical: ${origin}/.well-known/security.txt`,
+    `Policy: ${origin}/security`,
+    '',
+  ].join('\n')
 }

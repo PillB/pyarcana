@@ -93,6 +93,7 @@ with `wrangler secret put` (by `setup.sh`, or by hand for the payment keys), nev
 | var | `CREEM_API_BASE`, `CREEM_PRODUCT_PRO_MONTHLY`, `CREEM_PRODUCT_PRO_YEARLY`, `MP_API_BASE` | live API bases; product ids filled by the owner |
 | var | `LICENSE_KEY_ID`, `LICENSE_TTL_SECONDS`, `LICENSE_PREV_PUBLIC_JWK` | `k1`, `259200`, `""` (the old PUBLIC JWK during a rotation) |
 | var | `EXPERIMENTS_ENABLED`, `EVENTS_ENABLED` | `""`, `"true"` |
+| var | `CONTROLLER_NAME` | `""` = sign-up closed to all but `ADMIN_EMAILS`; the legal entity's name opens it (Owner steps 14) |
 | var | `USAGE_FLUSH_SECONDS`, `USAGE_LEVEL` | unset: `300` and the measured level (drills and the e2e run only; see "Progress and the free tier") |
 | binding | `DB` (D1), `EMAIL` (`send_email`), `ASSETS` (static assets) | `wrangler.toml`; the D1 id is written locally by `setup.sh` |
 | secret | `SERVER_PEPPER` | `setup.sh` (generated, piped) |
@@ -193,8 +194,9 @@ session is younger than 12 hours; and it was created by a Google identity that b
 account, for that same address, where Google is authoritative (`@gmail.com` or a Workspace `hd`).
 Every admin request is audited (rate-limited ones excepted).
 
-Scheduled: daily at 09:17 UTC the retention sweep (login codes, sessions, rate limits, stale open
-checkouts, spent nonces, report screenshots) and the measurement sweep (events, arms and
+Scheduled: daily at 09:17 UTC the retention sweep (login codes; sessions 2 years after expiry;
+rate limits; stale open checkouts; spent nonces; report screenshots; report text 1 year after
+closing or 2 years after filing; audit rows after 2 years; usage rows after 60 days) and the measurement sweep (events, arms and
 bindings after 180 days, survey answers after 2 years), then reconciliation of every pending, active or
 past_due subscription. Hourly at :07, reconciliation of recent rows (open checkouts and pending
 subscriptions younger than 7 days). Each set is capped at 50 rows a run, least recently
@@ -453,9 +455,12 @@ Named undone work; nothing below exists in the code today.
   account); admins target such accounts by `accountId`.
 - The admin web page's address lookup must use the POST lookup route, never an address in a URL
   (client stage).
-- A retention rule for report text, and an admin route to delete old reports. Until then, once
-  `REPORT_TEXT_CAP_MB` is reached, new reports get 507 until the owner deletes rows in D1
-  (`npx wrangler d1 execute`), and nothing alerts the admin that the ceiling was reached.
+- An admin route to delete a report early. Report text is swept 1 year after closing or 2 years
+  after filing (retention.mjs); until then, once `REPORT_TEXT_CAP_MB` is reached, new reports get
+  507 until the owner deletes rows in D1 (`npx wrangler d1 execute`), and nothing alerts the admin.
+- A retention rule for billing rows (`checkouts`, `subscriptions`, `charges`,
+  `subscription_events`, `webhook_events`). No payment runs yet, so none exist; the rule and its
+  privacy-page line must ship before payments open (tax law may require keeping them for years).
 
 ## Owner steps
 
@@ -526,6 +531,16 @@ Only the owner can do these; nothing here is deployed.
     run `aa_2026_q4` first and read its SRM before trusting any other result. The consent text
     and `consent.mode` are a legal decision (DESIGN-v3 §F keeps `everywhere` until a lawyer says
     otherwise).
+14. Opening sign-up (D4 audit, 4 Oct 2026). Until the privacy notice names the holder of the data
+    bank and its address (Ley 29733 art. 18), only `ADMIN_EMAILS` may create an account; anyone
+    else gets 403 `signup_closed` and existing accounts sign in as usual. Microsoft never proves an
+    address, so a backup owner signs up with Google first and links Microsoft afterwards. Once the
+    legal entity exists, set `CLOUD_CONFIG.legal.sellerName`, `address` and `ruc` on the site and
+    `CONTROLLER_NAME` (the same name) in `wrangler.toml`, then redeploy: a test keeps the two equal.
+    Put the RNPD number in `CLOUD_CONFIG.legal.rnpd` when it arrives.
+15. `/.well-known/security.txt` is written by `scripts/cloud-headers.mjs` at deploy with `Expires`
+    300 days ahead. Redeploy at least every 300 days, or it expires; the release checklist carries
+    this.
 
 ## Stated deviations
 

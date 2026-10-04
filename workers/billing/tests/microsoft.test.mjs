@@ -286,3 +286,10 @@ test("review: tenant and object ids in any case map to ONE lowercase subject", a
   assert.equal(result.ok, true);
   assert.equal(result.identity.subject, `${TENANT}:${OID}`.toLowerCase());
 });
+
+test("sign-up closed until the holder is named: Microsoft proves no address, so it creates no account", async () => {
+  const h = await harness({ CONTROLLER_NAME: undefined, ADMIN_EMAILS: "ana@contoso.test" });
+  const res = await h.signIn();
+  assert.deepEqual([res.status, res.body.reason], [403, "signup_closed"], "even a listed address: Microsoft does not prove it");
+  assert.equal(await h.env.DB.prepare("SELECT COUNT(*) AS c FROM accounts").first("c"), 0);
+});

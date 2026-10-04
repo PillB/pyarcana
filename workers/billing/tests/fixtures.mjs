@@ -55,7 +55,9 @@ export function createEnv(overrides) {
     EMAIL_FROM: "acceso@pyarcana.test",
     EMAIL_FROM_NAME: "PyArcana",
     EMAIL_DAILY_CAP: "90",
-    ADMIN_EMAILS: "owner@gmail.com"
+    ADMIN_EMAILS: "owner@gmail.com",
+    // A named holder opens sign-up (config.signupOpen); tests of the closed state delete it.
+    CONTROLLER_NAME: "PyArcana Test E.I.R.L."
   };
   for (const [key, value] of Object.entries(overrides || {})) {
     if (value === undefined) {

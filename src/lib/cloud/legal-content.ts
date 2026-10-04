@@ -68,7 +68,7 @@ function withAds(blocks: LegalBlock[], cfg: CloudConfig): LegalBlock[] {
 function blocksFor(cfg: CloudConfig, kind: LegalKind, stage: LaunchStage): LegalBlock[] {
   switch (kind) {
     case 'privacy':
-      return withAds(['controller', 'accountData', 'processors', 'retention', 'storageKeys', 'measurement', 'surveys', 'reports', 'rights', 'trialClaim'], cfg)
+      return withAds(['controller', 'accountData', 'processors', 'retention', 'storageKeys', 'measurement', 'surveys', 'reports', 'rights', 'arcoDeadlines', 'trialClaim'], cfg)
     case 'cookies':
       // 'measurement': the consent card's "Más información" lands here, so this page explains it.
       return withAds(cfg.googleClientId ? ['session', 'storageKeys', 'measurement', 'googleSignIn'] : ['session', 'storageKeys', 'measurement'], cfg)
@@ -94,6 +94,8 @@ export interface Processor {
 export function processors(cfg: CloudConfig): Processor[] {
   const list: Processor[] = [{ key: 'cloudflare', country: 'US' }]
   if (cfg.emailSignIn) list.push({ key: 'email', country: '' })
+  // Our mailboxes (privacy@, security@, soporte@): whoever writes to us reaches Hostinger.
+  list.push({ key: 'hostinger', country: '' })
   if (cfg.googleClientId) list.push({ key: 'google', country: 'US' })
   if (cfg.microsoftClientId) list.push({ key: 'microsoft', country: 'US' })
   if (cfg.rails.peru === 'mercadopago') list.push({ key: 'mercadopago', country: 'PE' })

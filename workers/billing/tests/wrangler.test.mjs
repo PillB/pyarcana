@@ -34,6 +34,7 @@ const PUBLIC_VARS = {
   CANONICAL_ORIGIN: "https://pyarcana.dev",
   SITE_PATH: "",
   TERMS_VERSION: null,
+  CONTROLLER_NAME: null,
   TRIAL_DAYS: "7",
   GRACE_DAYS: "7",
   SESSION_MAX_DAYS: "180",
@@ -172,4 +173,11 @@ test("one origin: no workers.dev or preview URL, the deploy owns both custom dom
   const site = /^ {2}termsVersion: '([^']*)',$/m.exec(config);
   assert.ok(site, "CLOUD_CONFIG.termsVersion is set");
   assert.equal(unquote(section(TOML, "vars").TERMS_VERSION), site[1], "sign-in must echo the exact terms version the site shows");
+});
+
+test("CONTROLLER_NAME equals the site's legal.sellerName: the notice names the holder exactly when sign-up opens", () => {
+  const config = readFileSync(fileURLToPath(new URL("../../src/lib/cloud/config.ts", ROOT)), "utf8");
+  const site = /legal: \{ sellerName: '([^']*)'/.exec(config);
+  assert.ok(site, "CLOUD_CONFIG.legal.sellerName is set");
+  assert.equal(unquote(section(TOML, "vars").CONTROLLER_NAME), site[1]);
 });

@@ -395,3 +395,33 @@ account copy must cost as little as possible, and the site must stay under the f
 - **Stated limits:** the meter can undercount by up to one flush interval per isolate, the cron is
   not metered, and the exact figure is Cloudflare's analytics (GraphQL needs an Analytics-Read
   token; not wired).
+
+## D15 — D4 audit: a true privacy notice before sign-up opens; sign-up waits for a named holder (2026-10-05)
+
+The setup thread's signed-out audit of pyarcana.dev (3 Oct 2026; 95 pass, 3 fail, 3 warn) asked
+for the privacy notice, security.txt and retention to ship with the go-live redeploy.
+
+- **The notice is chosen by the build**, so the prerendered HTML is the whole notice:
+  - GitHub Pages: no accounts; GitHub Pages and jsDelivr see an IP address.
+  - pyarcana.dev: the account edition.
+  - Server-rendered edition: keeps its 2025 text, unchanged in `DynamicEditionPrivacy`, until it ships.
+- **Holder of the data bank.** Ley 29733 art. 18 requires its identity and address before
+  collecting data. The owner chose to form a legal entity first, so the page says it is being
+  formed. Until `CONTROLLER_NAME` is set, the worker lets only `ADMIN_EMAILS` create an account
+  (403 `signup_closed`); existing accounts are never locked out. The RNPD shows "en trámite" until
+  `legal.rnpd` holds the number.
+- **Owner wording choices:**
+  - inactive accounts "podemos eliminar" after 2 years, with no sweep;
+  - breach notice to the ANPD within 48 h and to people "sin demora indebida" (no promise beyond
+    the regulation);
+  - report text kept 1 year after closing or 2 years at most.
+- **Retention now swept:**
+  - report text (above);
+  - `audit_log` after 2 years;
+  - sign-in records (sessions, no IP) 2 years after expiry, up from 7 days, as the setup thread
+    asked for traceability.
+- **Billing rows** have no rule yet. None exist while payments are off; the rule is a stated
+  prerequisite for payments.
+- **Unverified here:** the 20/10 business-day ARCO deadlines and the 48 h rule come from the setup
+  thread and DS 016-2024-JUS summaries. The lawyer check (task 13) covers them.
+- **CSP, extra headers and `/v1/health`** (P4–P6) wait for the deploy after go-live, as sequenced.

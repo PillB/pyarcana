@@ -43,6 +43,7 @@ import {
   linkIdentity
 } from "./accounts.mjs";
 import { normalizeEmail } from "./address.mjs";
+import { SIGNUP_CLOSED, signupOpen } from "./config.mjs";
 import { writeAudit } from "./audit.mjs";
 import { notifyMethodChange } from "./email.mjs";
 import { checkTerms, completeSignIn } from "./auth-session.mjs";
@@ -150,6 +151,9 @@ async function accountForGoogle(ctx, identity) {
   if (byEmail) {
     return linkGoogleByEmail(ctx, byEmail, identity);
   }
+  if (!signupOpen(ctx.env, identity.authoritative ? identity.emailNormalized : null)) {
+    return { stop: SIGNUP_CLOSED };
+  }
   // A non-authoritative address is display-only (email_normalized NULL).
   const made = await createAccountDetailed(ctx, {
     email: identity.email,
@@ -174,6 +178,10 @@ async function accountForMicrosoft(ctx, identity) {
   }
   if (await findLiveAccountByEmail(ctx.db, normalizeEmail(identity.email))) {
     return { stop: conflict("link_requires_email_code") };
+  }
+  // Microsoft never proves an address here, so a closed sign-up refuses every new Microsoft account.
+  if (!signupOpen(ctx.env, null)) {
+    return { stop: SIGNUP_CLOSED };
   }
   const made = await createAccountDetailed(ctx, {
     email: identity.email,

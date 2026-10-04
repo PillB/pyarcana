@@ -24,7 +24,7 @@
 import { createAccount, findLiveAccountByEmail, linkIdentity } from "./accounts.mjs";
 import { normalizeEmail } from "./address.mjs";
 import { checkTerms, completeSignIn } from "./auth-session.mjs";
-import { emailDailyCap } from "./config.mjs";
+import { SIGNUP_CLOSED, emailDailyCap, signupOpen } from "./config.mjs";
 import { emailConfigured, sendLoginCode } from "./email.mjs";
 import { LOGIN_CODE_TTL_SECONDS, issueLoginCode, retireLoginCode, verifyLoginCode } from "./logincodes.mjs";
 import { hitRateLimit } from "./ratelimit.mjs";
@@ -126,13 +126,16 @@ export async function handleEmailStart(ctx) {
 }
 
 /**
- * The live account for a proven email, created on first sign-in.
+ * The live account for a proven email, created on first sign-in (null while sign-up is closed).
  * @param {Object} ctx Context.
  * @param {string} email Proven, normalized email.
- * @returns {Promise<Object>} Account row.
+ * @returns {Promise<Object|null>} Account row.
  */
 async function accountForProvenEmail(ctx, email) {
   const existing = await findLiveAccountByEmail(ctx.db, email);
+  if (!existing && !signupOpen(ctx.env, email)) {
+    return null;
+  }
   const account = existing || (await createAccount(ctx, { email, emailNormalized: email, emailVerified: true }));
   // The address is proven either way; an email identity left on another
   // account (after an admin rectification) must not block the sign-in.
@@ -167,5 +170,8 @@ export async function handleEmailVerify(ctx) {
     return { status: 401, body: { ok: false, reason: verified.reason } };
   }
   const account = await accountForProvenEmail(ctx, email);
+  if (!account) {
+    return SIGNUP_CLOSED;
+  }
   return completeSignIn(ctx, account, "email", { emailVerified: true, subject: email });
 }

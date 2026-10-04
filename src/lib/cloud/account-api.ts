@@ -43,6 +43,7 @@ const REASON_KEYS: Record<string, string> = {
   reauth_required: 'account.error.reauth',
   invalid_token: 'account.error.invalidToken',
   terms_required: 'account.error.termsChanged',
+  signup_closed: 'account.error.signupClosed',
   bad_email: 'account.error.badEmail',
   account_disabled: 'account.error.blocked',
   account_deleted: 'account.error.blocked',

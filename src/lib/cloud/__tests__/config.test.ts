@@ -18,6 +18,7 @@ const LEGAL_COMPLETE = {
   address: 'Av. Ejemplo 123, Lima',
   complaintsBookUrl: 'https://pyarcana.example/reclamaciones',
   supportEmail: 'soporte@pyarcana.example',
+  rnpd: 'RNPD-0001',
 }
 
 test('shipped defaults keep the live site unchanged: stage off, nothing configured', () => {
@@ -36,7 +37,8 @@ test('shipped defaults keep the live site unchanged: stage off, nothing configur
   assert.deepEqual(CLOUD_CONFIG.licence.publicKeys.map((k) => [k.kid, k.kty, k.crv, k.alg]), [['k1', 'EC', 'P-256', 'ES256']])
   assert.equal(CLOUD_CONFIG.licence.publicKeys[0].x, 'QlsNt0JdgF6krSYFxH8RyDVJIrw-fCpw6zN1zsaUuqo')
   assert.ok(CLOUD_CONFIG.licence.publicKeys.every((k) => !('d' in k)), 'never a private key in the site')
-  assert.equal(CLOUD_CONFIG.termsVersion, '2026-10-04')
+  // 5 Oct 2026: the privacy notice was rewritten (D4 audit), so everyone accepts the new text.
+  assert.equal(CLOUD_CONFIG.termsVersion, '2026-10-05')
   assert.equal(CLOUD_CONFIG.gate.packaging, 'A')
   assert.equal(CLOUD_CONFIG.ads.provider, 'house')
   assert.equal(CLOUD_CONFIG.consent.mode, 'everywhere')
