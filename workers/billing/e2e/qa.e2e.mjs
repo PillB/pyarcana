@@ -124,9 +124,10 @@ await flow('QA session', async () => {
   record('the session lives in this tab (sessionStorage)', /"sections":\{"setup":\d+/.test(stored ?? ''), (stored ?? '').slice(0, 160))
   await page.getByTestId('qa-session-send').click()
   await page.waitForTimeout(1500)
-  const note = await page.getByTestId('qa-cloud-session').textContent()
-  sessionSent = /enviad/i.test(note ?? '')
-  record('a signed-in tester sends the session summary', sessionSent, (note ?? '').slice(0, 200))
+  const note = await page.getByTestId('qa-cloud-session').getByRole('status').allTextContents()
+  // Sent by the click, or already sent by the automatic send a moment earlier: either way it says so.
+  sessionSent = note.includes('Resumen enviado.') || note.some((n) => n.startsWith('Ya enviado'))
+  record('a signed-in tester sends the session summary, and the button says what happened', sessionSent, note.join(' | '))
   // Write and send one report, so admin has something to count and download.
   await page.getByTestId('qa-tab-report').click()
   await page.getByTestId('qa-title').fill('E2E QA: el índice no se actualiza')
@@ -186,8 +187,8 @@ await flow('admin QA tab', async () => {
   const card = async (key) => (await page.locator(`[data-testid="qa-summary"] [data-key="${key}"] dd`).textContent())?.trim()
   const reports = Number(await card('reports'))
   const sessions = Number(await card('sessions'))
-  record('admin QA tab: reports and sessions counted', reports >= 1 && sessions >= (sessionSent ? 1 : 0), `reports=${reports} sessions=${sessions} coverage=${await card('coverage')}`)
-  record('admin QA tab: time per section and per tester', (await page.getByTestId('qa-section-time').count()) === (sessionSent ? 1 : 0) && (await page.getByTestId('qa-by-severity').count()) === 1)
+  record('admin QA tab: reports and sessions counted', reports >= 1 && sessions >= 1, `reports=${reports} sessions=${sessions} coverage=${await card('coverage')}`)
+  record('admin QA tab: time per section and per tester', (await page.getByTestId('qa-section-time').count()) === 1 && (await page.getByTestId('qa-testers').count()) === 1 && (await page.getByTestId('qa-by-severity').count()) === 1)
   await page.screenshot({ path: `${OUT}qa-admin-tab.png`, fullPage: true })
 
   const [csv] = await Promise.all([page.waitForEvent('download'), page.getByTestId('qa-download-csv').click()])

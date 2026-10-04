@@ -17,6 +17,12 @@ export function canSendQaSession(me: MePayload | null): boolean {
 }
 
 /** Whether to send now: something changed since the last send, and the interval passed (or forced). */
+/** Why a summary would not be sent now, for the button's answer; null when it would be. */
+export function qaSessionHold(summary: QaSessionSummary, last: { at: number; json: string } | null): 'empty' | 'current' | null {
+  if (summary.activeSeconds === 0 && summary.issuesCreated === 0) return 'empty'
+  return last && last.json === JSON.stringify(summary) ? 'current' : null
+}
+
 export function shouldSendQaSession(summary: QaSessionSummary, last: { at: number; json: string } | null, now: number, force: boolean): boolean {
   if (summary.activeSeconds === 0 && summary.issuesCreated === 0) return false
   const json = JSON.stringify(summary)

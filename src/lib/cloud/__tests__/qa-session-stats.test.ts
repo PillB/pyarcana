@@ -55,3 +55,15 @@ test('browser families, the stored session read back defensively, and the time l
   assert.equal(formatActive(12 * 60_000), '12 min')
   assert.equal(formatActive(65 * 60_000), '1 h 05 min')
 })
+
+test('the send button always has an answer: nothing yet, already sent, or send', async () => {
+  const { qaSessionHold, shouldSendQaSession } = await import('@/lib/cloud/qa-sessions')
+  const s = qaSessionSummary(tickQaSession(newQaSession(T0, 'UA', null, () => 0.5), active(T0 + TICK_MS)), [], '')
+  const empty = qaSessionSummary(newQaSession(T0, 'UA', null, () => 0.5), [], '')
+  assert.equal(qaSessionHold(empty, null), 'empty')
+  assert.equal(qaSessionHold(s, null), null)
+  assert.equal(shouldSendQaSession(s, null, T0, true), true)
+  const last = { at: T0, json: JSON.stringify(s) }
+  assert.equal(qaSessionHold(s, last), 'current')
+  assert.equal(shouldSendQaSession(s, last, T0, true), false, 'the hold and the send rule agree')
+})

@@ -19,7 +19,7 @@ import { safeStorage } from '@/lib/cloud/storage'
 import type { UiError } from '@/lib/cloud/account-api'
 import { saveQaIssue, type QAIssue } from '@/lib/qa-session'
 import type { QaSessionSummary } from '@/lib/qa-session-stats'
-import { canSendQaSession, sendQaSession, shouldSendQaSession } from '@/lib/cloud/qa-sessions'
+import { canSendQaSession, qaSessionHold, sendQaSession, shouldSendQaSession } from '@/lib/cloud/qa-sessions'
 import { cloudApi } from './runtime'
 import { useText, type Tr } from './text'
 import { LEGAL_CHECKBOX_CLASS } from '@/components/account/a11y'
@@ -194,7 +194,11 @@ function SessionSummary({ session }: { session: QaSessionSummary | null }) {
     if (r.ok) last.current = { at: Date.now(), json: JSON.stringify(s) }
     return r.ok
   }
+  // The button always answers: sent, failed, or why there was nothing to send.
   const sendNow = async () => {
+    const s = latest.current
+    const hold = s ? qaSessionHold(s, last.current) : 'empty'
+    if (hold) return setNote(tr(`qa.session.${hold}`))
     const ok = await send(true)
     if (ok !== null) setNote(tr(ok ? 'qa.session.sent' : 'qa.session.failed'))
   }
