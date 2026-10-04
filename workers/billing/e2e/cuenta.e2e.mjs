@@ -54,7 +54,12 @@ async function visit(hash) {
 try {
   const plain = await visit('')
   record('plain /cuenta: Google\'s sign-in script is requested (once)', plain.google.script === 1, `requests=${plain.google.script}`)
-  if (plain.google.failed.length) {
+  const certError = plain.google.failed.some((f) => f.includes('ERR_CERT'))
+  if (certError && sandboxTrustArgs().length > 0) {
+    // In the sandbox the proxy's CA is trusted on purpose (sandbox-trust.mjs): a certificate error
+    // means that fix broke, which is a failure, not "Google unreachable".
+    record('plain /cuenta: the real Google script is trusted (sandbox CA)', false, plain.google.failed[0])
+  } else if (plain.google.failed.length) {
     skip('plain /cuenta: the real Google button renders under the site\'s CSP', `Google unreachable: ${plain.google.failed[0]}`)
   } else {
     const iframe = await plain.page.locator('iframe[src^="https://accounts.google.com/gsi/button"]').count()
