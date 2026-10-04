@@ -64,6 +64,9 @@ HOST_SPECIFIC = (
 #: SIMD math path, both picked for the CPU at run time, and GitHub's runners vary in CPU: CI's
 #: first run printed [0, 0, 1, 0], its second the declared [0, 0, 0, 0]. Owing it "until it
 #: matches in CI" assumed a stable platform result and failed on the second run.
+#: The fix is in the fixer session's #80: the snippet prints the probabilities, [0.5, 0.5, 0.5,
+#: 0.5], instead of a tie broken by noise. When #80 and this entry meet, the pin fails; delete the
+#: entry (and these lines). The tests use a synthetic entry, so nothing else changes.
 KNOWN_MISMATCHES = {
     ("src/lib/course/sections/s33-advanced-models.ts", "code-block-4"): (
         "b15faa81c708",
