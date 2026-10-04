@@ -1,4 +1,5 @@
 // Chromium checks against the LIVE site (default https://pyarcana.dev). Read-only unless --write.
+// The easy way: workers/billing/e2e/live.sh runs the setup and every step below, guided.
 //
 //   node live.e2e.mjs                 anonymous checks: health, sign-in methods, JWKS, pages, ads,
 //                                     robots.txt, ads.txt, the pyarcana.com redirect
