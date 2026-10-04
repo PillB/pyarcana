@@ -25,22 +25,31 @@ import { POST_CUE, PHENOMENON_CUE, definesTerm } from '../../scripts/concept_det
 // reading it crashed this whole file before a single assertion ran. Extract from the sections
 // themselves instead: the test then checks the course being committed, not whatever a previous
 // local run left behind.
-const events = JSON.parse(execFileSync(
+const extracted = execFileSync(
   'npx', ['tsx', 'scripts/course_event_extractor.mts'],
   { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 },
-))
-const conceptMap = JSON.parse(fs.readFileSync('course-state/concept_map.json', 'utf8'))
+)
+const events = JSON.parse(extracted)
 
-// Kept in step with TEACHING_KINDS in scripts/concept_map.py. `outcome` is here because D1 puts
-// taglines, learning outcomes and jobRelevance on the same footing, and weDo preamble and
-// instruction because We Do is a teaching phase - the learner works with guidance, and that is
-// the guidance. A weDo *hint* is not: it appears after the learner is already stuck.
-const TEACHING = new Set([
-  'theory.paragraph', 'theory.callout', 'theory.heading', 'theory.code.explanation',
-  'ido.why', 'ido.preamble', 'ido.description', 'ido.intro', 'ido.retrospective',
-  'wedo.intro', 'wedo.preamble', 'wedo.instruction', 'youdo.context', 'jobRelevance',
-  'tagline', 'outcome',
-])
+// The map is built here, from those same events, by the real build_concepts. It used to be
+// read from course-state/concept_map.json, which nothing in CI regenerates, so these assertions
+// held whatever the last local run had committed: a change that moved a first definition onto
+// a hint went unseen until someone rebuilt the map. TEACHING_KINDS comes from the same module.
+// It was copied here and "kept in step" by hand, and nothing kept it in step.
+const BUILD = [
+  'import json, sys',
+  "sys.path.insert(0, 'scripts')",
+  'from concept_map import build_concepts, TEACHING_KINDS',
+  "json.dump({'map': build_concepts(json.load(sys.stdin)), 'teaching': sorted(TEACHING_KINDS)}, sys.stdout)",
+].join('\n')
+const built = JSON.parse(execFileSync('python3', ['-c', BUILD], {
+  input: extracted, encoding: 'utf8', maxBuffer: 256 * 1024 * 1024,
+}))
+const conceptMap = built.map
+// Where a definition may be the first one. `outcome` is among them because D1 puts taglines,
+// learning outcomes and jobRelevance on the same footing; weDo preamble and instruction because
+// We Do is a teaching phase. A weDo *hint* is not: it appears after the learner is stuck.
+const TEACHING = new Set(built.teaching)
 
 const NEVER_TEACHING = ['wedo.hint', 'wedo.title', 'wedo.starter', 'wedo.tests',
   'selfcheck.question', 'selfcheck.option', 'selfcheck.explanation', 'solution',
