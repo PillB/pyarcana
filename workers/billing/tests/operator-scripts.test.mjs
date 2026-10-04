@@ -453,6 +453,8 @@ test("redeploy.sh stops on the wrong branch, and with other local changes, befor
   assert.notEqual(dirty.status, 0);
   assert.match(dirty.out, /STOP: this checkout has local changes besides workers\/billing\/wrangler\.toml/);
   assert.match(dirty.out, /package\.json/);
+  assert.match(dirty.out, /What changed \(first 40 lines\):[\s\S]*\+\{"name":"changed"\}/, "the stop shows the change itself");
+  assert.match(dirty.out, /git checkout -- <file>/);
   for (const r of [wrong, dirty]) {
     assert.deepEqual(r.state.calls, [], "no wrangler call");
     assert.doesNotMatch(r.log, /bun/, "no install, no build");

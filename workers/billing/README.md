@@ -18,14 +18,24 @@ Everything runs on the owner's machine (Node >= 22, which wrangler 4 requires; b
 API is not reachable from the build sandbox. Once the zone and the identity providers exist:
 
 ```bash
-workers/billing/scripts/redeploy.sh       # from the deploy checkout: checks the branch and local
-                                          # changes, pulls, bun install, then setup.sh
-read -rs CLOUDFLARE_API_TOKEN && export CLOUDFLARE_API_TOKEN   # optional: setup.sh asks if unset
-export CLOUDFLARE_ACCOUNT_ID=<account id from the dashboard>   # optional: setup.sh asks if unset
-workers/billing/scripts/setup.sh          # first run, and every later run (idempotent)
-workers/billing/scripts/deploy.sh         # later deploys
-workers/billing/scripts/setup.sh --rotate-key k2   # only to replace the licence key
+workers/billing/scripts/redeploy.sh
 ```
+
+That is the whole redeploy, from the deploy checkout: it checks the branch and local changes,
+pulls, runs `bun install`, then `setup.sh`, which asks for the token (hidden) and the account id
+when they are not exported. The pieces, when needed on their own (no comments inside the block:
+macOS zsh does not treat `#` as a comment in pasted commands):
+
+```bash
+read -rs CLOUDFLARE_API_TOKEN && export CLOUDFLARE_API_TOKEN
+export CLOUDFLARE_ACCOUNT_ID=<account id from the dashboard>
+workers/billing/scripts/setup.sh
+workers/billing/scripts/deploy.sh
+workers/billing/scripts/setup.sh --rotate-key k2
+```
+
+`setup.sh` is the first run and every later run (idempotent); `deploy.sh` deploys again without
+touching secrets; `--rotate-key k2` only replaces the licence key.
 
 The token needs two account permissions, both Edit: Workers Scripts and D1. With
 `CLOUDFLARE_ACCOUNT_ID` set it needs no Account Settings:Read. Make a fresh token for the run and

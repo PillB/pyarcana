@@ -35,9 +35,19 @@ then run this again."
 fi
 other="$(git status --porcelain --untracked-files=no | grep -v " $TOML\$" || true)"
 if [ -n "$other" ]; then
+  # Show what changed, so the decision (keep or discard) is made on the content, not the file name.
+  changed="$(git diff --no-color --stat -- . ":(exclude)$TOML" | tail -n 1)"
+  detail="$(git diff --no-color -- . ":(exclude)$TOML" | head -n 40)"
   die "STOP: this checkout has local changes besides $TOML:
 $other
-Nothing was changed. Commit, stash or discard them, then run this again."
+($changed)
+
+What changed (first 40 lines):
+$detail
+
+Nothing was changed. If you do not need these edits, discard them with
+  git checkout -- <file>
+otherwise commit or stash them; then run this again."
 fi
 echo "On $DEPLOY_BRANCH, no other local changes."
 
