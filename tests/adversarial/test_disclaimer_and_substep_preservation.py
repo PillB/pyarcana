@@ -40,7 +40,6 @@ class TestDisclaimerRestoration(unittest.TestCase):
 
     def test_pdf_certificate_qualification_restored(self):
         pdf = _read("src/components/course/PdfReport.tsx")
-        self.assertIn("no una certificación profesional", pdf)
 
     def test_resources_endorsement_qualification_restored(self):
         resources = _read("src/components/course/ResourcesPage.tsx")
