@@ -178,7 +178,8 @@ test('18: at sign-in the stored consent choice is sent as the record, once, and 
 test('19: with accounts off the storage notice promises no account; signed in it claims sync only when synced', () => {
   const off = storageNoticeKeys({ signedIn: false, isStaticSite: true, stage: 'off', syncStatus: 'idle' })
   assert.ok(!off.includes('storage.accountSync'), off.join(' '))
-  assert.ok(storageNoticeKeys({ signedIn: false, isStaticSite: true, stage: 'sync', syncStatus: 'idle' }).includes('storage.accountSync'))
+  // Accounts on, signed out: the headline (storageHeadline, tested below) promises the account copy.
+  assert.deepEqual(storageNoticeKeys({ signedIn: false, isStaticSite: true, stage: 'sync', syncStatus: 'idle' }), [])
   assert.ok(storageNoticeKeys({ signedIn: false, isStaticSite: false, stage: 'off', syncStatus: 'idle' }).includes('storage.accountSync'), 'dynamic build unchanged')
   assert.deepEqual(storageNoticeKeys({ signedIn: true, isStaticSite: true, stage: 'sync', syncStatus: 'synced' }), ['storage.signedIn.synced'])
   for (const s of ['error', 'offline', 'needs_choice', 'pulling', 'idle'] as const) {
@@ -321,4 +322,28 @@ test('28: the rail placement is mounted, carries EthicalAds on wide screens only
   assert.match(read('src/app/page.tsx'), /<AdSlot[^>]*placement="rail"/)
   const width = /\d+/.exec(railMediaQuery())![0]
   assert.match(read('src/components/account/AdSlot.tsx'), new RegExp(`min-\\[${width}px\\]:block`), 'the CSS breakpoint and the media query agree')
+})
+
+// --- owner request 4 Oct 2026: the storage notice says exactly where progress lives -----------------
+
+test('storage headline: local only while accounts are off; local plus account (and a way in) once they run', async () => {
+  const { storageHeadline } = await import('@/lib/cloud/ui-state')
+  assert.deepEqual(storageHeadline({ signedIn: false, isStaticSite: true, stage: 'off' }), { key: 'storage.where.localOnly', offerSignIn: false })
+  for (const stage of ['sync', 'beta', 'paid'] as const) {
+    assert.deepEqual(storageHeadline({ signedIn: false, isStaticSite: true, stage }), { key: 'storage.where.localAndAccount', offerSignIn: true }, stage)
+  }
+  assert.deepEqual(storageHeadline({ signedIn: false, isStaticSite: false, stage: 'off' }), { key: 'storage.where.dynamic', offerSignIn: false })
+  assert.equal(storageHeadline({ signedIn: true, isStaticSite: true, stage: 'sync' }), null)
+  // The second line never repeats the headline on the static site.
+  assert.deepEqual(storageNoticeKeys({ signedIn: false, isStaticSite: true, stage: 'sync', syncStatus: 'idle' }), [])
+  for (const lang of LANGS) {
+    for (const k of ['storage.where.title', 'storage.where.localOnly', 'storage.where.localAndAccount', 'storage.where.dynamic', 'storage.where.signIn', 'storage.signedIn.detail', 'storage.signedIn.lastSync']) {
+      assert.notEqual(t(k, lang), k, `${k} in ${lang}`)
+    }
+    // No jargon, and no Spanish inside the English copy (the old text mixed them).
+    assert.doesNotMatch(t('storage.where.localOnly', lang), /localStorage/)
+    if (lang === 'en') assert.doesNotMatch(t('storage.where.localOnly', lang) + t('storage.where.localAndAccount', lang), /esto es|navegador/)
+    assert.match(t('storage.where.localOnly', lang), /navegador|browser/)
+    assert.match(t('storage.where.localAndAccount', lang), /cuenta|account/)
+  }
 })

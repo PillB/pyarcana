@@ -127,7 +127,7 @@ const CLIENT_SUITES = [
   ["ads-surveys", 18],
   ["api", 10],
   ["billing-ui", 11],
-  ["client-fixes", 21],
+  ["client-fixes", 22],
   ["cloud-i18n", 3],
   ["config", 14],
   ["consent-qa", 7],

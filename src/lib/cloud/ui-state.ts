@@ -164,9 +164,22 @@ export interface StorageNoticeInput {
  *   otherwise a sentence that points to the account panel for the state.
  */
 export function storageNoticeKeys(i: StorageNoticeInput): string[] {
-  if (!i.signedIn) return i.isStaticSite && i.stage === 'off' ? [] : ['storage.accountSync']
+  // Signed out on the static site the headline (storageHeadline) already says it all.
+  if (!i.signedIn) return i.isStaticSite ? [] : ['storage.accountSync']
   if (!i.isStaticSite) return ['storage.signedIn.dynamic']
   return [i.syncStatus === 'synced' ? 'storage.signedIn.synced' : 'storage.signedIn.notYet']
+}
+
+/**
+ * "¿Dónde se guarda tu progreso?" for a signed-out learner (owner request, 4 Oct 2026): only
+ * this browser while accounts are off; this browser plus, after signing in, the account (with a
+ * way in) once they run; the dynamic edition keeps its own server sync. Null when signed in: the
+ * signed-in notice tells the sync state instead.
+ */
+export function storageHeadline(i: { signedIn: boolean; isStaticSite: boolean; stage: LaunchStage }): { key: string; offerSignIn: boolean } | null {
+  if (i.signedIn) return null
+  if (!i.isStaticSite) return { key: 'storage.where.dynamic', offerSignIn: false }
+  return i.stage === 'off' ? { key: 'storage.where.localOnly', offerSignIn: false } : { key: 'storage.where.localAndAccount', offerSignIn: true }
 }
 
 export interface MovedCopyInput {
