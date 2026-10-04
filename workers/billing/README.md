@@ -185,6 +185,7 @@ allowed `Origin` (403 `bad_origin`). Answers are JSON `{ok, ...}` or `{ok: false
 | `GET /v1/admin/surveys` | admin | `?kind=`: aggregates and the 20 newest texts; see "Surveys". |
 | `POST /v1/admin/ads` | admin | `{accountIds: string[1..100], adsDisabled, reason}`: switch ads off, or back to the default, for a batch; see "Ads per account". |
 | `GET /v1/admin/ads` | admin | `?filter=all\|disabled\|gift\|tester\|free\|paid\|trial&limit=&cursor=`: who sees ads and why. |
+| `GET /v1/admin/usage` | admin | D1 rows read and written today against the free limits, by route, the last 14 days, and the budget level; see "Progress and the free tier". |
 
 Admin means all of: the account's verified email is in `ADMIN_EMAILS` (read per request); the
 session is younger than 12 hours; and it was created by a Google identity that belongs to this

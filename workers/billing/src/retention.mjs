@@ -28,6 +28,7 @@
 import { pepperBytes } from "./crypto.mjs";
 import { DEFAULT_PROVIDERS } from "./providers.mjs";
 import { hasDb } from "./public.mjs";
+import { KEEP_DAYS, utcDay } from "./usage.mjs";
 import { reconcile } from "./reconcile.mjs";
 import { migrate } from "./schema.mjs";
 
@@ -49,10 +50,10 @@ export const REPORT_SCREENSHOT_MAX_DAYS = 180;
  * Delete what the retention policy says, in one batch.
  * @param {{db: Object, now: number}} ctx Context.
  * @returns {Promise<{loginCodes: number, sessions: number, rateLimits: number, checkoutsExpired: number,
- *   usedNonces: number, reportAttachments: number}>} Counts.
+ *   usedNonces: number, reportAttachments: number, usageDays: number}>} Counts.
  */
 export async function sweepRetention(ctx) {
-  const [codes, sessions, limits, checkouts, nonces, screenshots] = await ctx.db.batch([
+  const [codes, sessions, limits, checkouts, nonces, screenshots, usage] = await ctx.db.batch([
     ctx.db.prepare("DELETE FROM login_codes WHERE expires_at < ?1").bind(ctx.now - DAY),
     ctx.db.prepare("DELETE FROM sessions WHERE expires_at < ?1").bind(ctx.now - 7 * DAY),
     ctx.db.prepare("DELETE FROM rate_limits WHERE window_start < ?1").bind(ctx.now - 2 * DAY),
@@ -63,7 +64,8 @@ export async function sweepRetention(ctx) {
         `DELETE FROM report_attachments WHERE report_id IN (SELECT id FROM reports
            WHERE (status IN ('fixed', 'wontfix', 'duplicate') AND updated_at < ?1) OR created_at < ?2)`
       )
-      .bind(ctx.now - CLOSED_REPORT_SCREENSHOT_DAYS * DAY, ctx.now - REPORT_SCREENSHOT_MAX_DAYS * DAY)
+      .bind(ctx.now - CLOSED_REPORT_SCREENSHOT_DAYS * DAY, ctx.now - REPORT_SCREENSHOT_MAX_DAYS * DAY),
+    ctx.db.prepare("DELETE FROM usage_daily WHERE day < ?1").bind(utcDay(ctx.now - KEEP_DAYS * DAY))
   ]);
   return {
     loginCodes: codes.meta.changes,
@@ -71,7 +73,8 @@ export async function sweepRetention(ctx) {
     rateLimits: limits.meta.changes,
     checkoutsExpired: checkouts.meta.changes,
     usedNonces: nonces.meta.changes,
-    reportAttachments: screenshots.meta.changes
+    reportAttachments: screenshots.meta.changes,
+    usageDays: usage.meta.changes
   };
 }
 

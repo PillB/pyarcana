@@ -172,6 +172,21 @@ test('the server hint slows uploads down (budget saver) and is cleared by a late
   assert.equal(t.scheduler.delays.at(-1), PUSH_DEBOUNCE_MS, 'back to normal once the server stops hinting')
 })
 
+test('a red budget day (503 budget_saver) defers the upload to the server\'s time without calling it offline', async () => {
+  const saver: R = { ok: false, status: 503, reason: 'budget_saver', data: { ok: false, reason: 'budget_saver', retryAfter: 18_300 } }
+  const t = setup([agreed(blank())], [saver, ok({ rev: 2 })], blank())
+  await t.sync.start('acct_a')
+  t.store.setState({ completedSections: ['setup'] })
+  t.scheduler.run()
+  await settle()
+  assert.equal(t.sync.status, 'deferred')
+  assert.equal(t.scheduler.delays.at(-1), 18_300_000, 'retry when the budget resets, not on the backoff ladder')
+  t.scheduler.run()
+  await settle()
+  assert.equal(t.sync.status, 'synced')
+  assert.deepEqual(t.store.getState().completedSections, ['setup'])
+})
+
 test('the controller flushes and re-pulls as soon as the connection comes back', () => {
   const seen: string[] = []
   const host = (): EventHost & { fire: (t: string) => void } => {

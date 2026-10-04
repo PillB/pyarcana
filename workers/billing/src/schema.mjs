@@ -404,6 +404,22 @@ const MIGRATION_6 = [
  */
 const MIGRATION_7 = ["ALTER TABLE accounts ADD COLUMN ads_disabled INTEGER NOT NULL DEFAULT 0 CHECK (ads_disabled IN (0, 1))"];
 
+/**
+ * D1 free-tier meter (usage.mjs, owner request 2026-10-04): rows read and written per UTC day and
+ * per source (route), flushed by each isolate at most every 5 minutes. WITHOUT ROWID on the
+ * (day, source) key, so an upsert writes one row and no separate index row.
+ */
+const MIGRATION_8 = [
+  `CREATE TABLE IF NOT EXISTS usage_daily (
+     day TEXT NOT NULL,
+     source TEXT NOT NULL,
+     rows_read INTEGER NOT NULL DEFAULT 0,
+     rows_written INTEGER NOT NULL DEFAULT 0,
+     updated_at INTEGER NOT NULL,
+     PRIMARY KEY (day, source)
+   ) WITHOUT ROWID`
+];
+
 /** Every migration, in order. Append only; never edit a shipped one. */
 export const MIGRATIONS = [
   { version: 1, statements: MIGRATION_1 },
@@ -412,7 +428,8 @@ export const MIGRATIONS = [
   { version: 4, statements: MIGRATION_4 },
   { version: 5, statements: MIGRATION_5 },
   { version: 6, statements: MIGRATION_6 },
-  { version: 7, statements: MIGRATION_7 }
+  { version: 7, statements: MIGRATION_7 },
+  { version: 8, statements: MIGRATION_8 }
 ];
 
 /** The version a fully migrated database reports. */

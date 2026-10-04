@@ -111,6 +111,8 @@ export type SyncStatus =
   | 'pushing'
   | 'synced'
   | 'offline'
+  /** The server is saving its free daily budget (503 budget_saver): kept here, sent after 00:05 UTC. */
+  | 'deferred'
   | 'conflict'
   | 'too_large'
   | 'remote_unreadable'
@@ -420,6 +422,7 @@ export class ProgressSync {
   private failed(result: ApiResult<unknown>): SyncStatus {
     this.lastError = result.ok ? null : result.reason
     if (retryable(result)) this.scheduleRetry(result)
+    if (!result.ok && result.reason === 'budget_saver') return this.setStatus('deferred')
     if (isUnavailable(result)) return this.setStatus('offline')
     return this.setStatus(result.status === 401 ? 'signed_out' : 'error')
   }

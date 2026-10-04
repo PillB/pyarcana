@@ -10,6 +10,7 @@ import { AdminGrants } from './AdminGrants'
 import { AdminExperiments, AdminSurveys } from './AdminInsights'
 import { AdminReports } from './AdminReports'
 import { AdminTesters } from './AdminTesters'
+import { AdminUsage, UsageBanner } from './AdminUsage'
 
 const TABS = [
   ['reports', AdminReports],
@@ -19,11 +20,14 @@ const TABS = [
   ['ads', AdminAds],
   ['experiments', AdminExperiments],
   ['surveys', AdminSurveys],
+  ['usage', AdminUsage],
 ] as const
 
 function AdminTabs() {
   const { tr } = useText()
   return (
+    <div className="space-y-4">
+    <UsageBanner />
     <Tabs defaultValue="reports" className="space-y-4">
       <TabsList className="flex h-auto flex-wrap">
         {TABS.map(([value]) => <TabsTrigger key={value} value={value}>{tr(`adm.tab.${value}`)}</TabsTrigger>)}
@@ -34,6 +38,7 @@ function AdminTabs() {
         </TabsContent>
       ))}
     </Tabs>
+    </div>
   )
 }
 

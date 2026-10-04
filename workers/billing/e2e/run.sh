@@ -9,7 +9,7 @@
 #
 # Needs: bun, node >= 20, and in this folder `npm i wrangler@4 playwright` (not repo deps).
 # Chromium: set CHROMIUM=/path/to/chrome (default /opt/pw-browsers/chromium).
-#   ./run.sh            build, start, seed, run both suites
+#   ./run.sh            build, start, seed, run the three suites (ads, flows, usage)
 #   ./run.sh --no-build reuse the last build
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -35,7 +35,7 @@ if [[ "${1:-}" != "--no-build" ]]; then
   (cd "$WORK/site" && NEXT_PUBLIC_BASE_PATH= bun run build:static >"$WORK/build.log" 2>&1 && node scripts/cloud-headers.mjs out >/dev/null)
 fi
 PEPPER="$(node -e 'console.log(require("crypto").randomBytes(32).toString("base64"))')"
-printf 'SERVER_PEPPER=%s\nADMIN_EMAILS=admin@example.test\nALLOWED_ORIGINS=http://localhost:8787\nCANONICAL_ORIGIN=http://localhost:8787\nTERMS_VERSION=e2e-2026-10-01\nEMAIL_PROVIDER=dev-log\n' "$PEPPER" >"$WORK/site/workers/billing/.dev.vars"
+printf 'SERVER_PEPPER=%s\nADMIN_EMAILS=admin@example.test\nALLOWED_ORIGINS=http://localhost:8787\nCANONICAL_ORIGIN=http://localhost:8787\nTERMS_VERSION=e2e-2026-10-01\nEMAIL_PROVIDER=dev-log\nUSAGE_FLUSH_SECONDS=0\n' "$PEPPER" >"$WORK/site/workers/billing/.dev.vars"
 WRANGLER=""
 stop() { if [[ -n "$WRANGLER" ]]; then kill "$WRANGLER" 2>/dev/null || true; wait "$WRANGLER" 2>/dev/null || true; fi; WRANGLER=""; }
 trap stop EXIT
@@ -56,4 +56,8 @@ start
 stop
 start
 (cd "$HERE" && node flows.e2e.mjs) || STATUS=1
+# The usage suite seeds a usage row and measures rows per action: a fresh database again.
+stop
+start
+(cd "$HERE" && E2E_WORKER_DIR="$WORK/site/workers/billing" node usage.e2e.mjs) || STATUS=1
 exit $STATUS

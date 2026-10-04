@@ -8,7 +8,8 @@
  * keys. The body is capped at 16 KB by the router.
  *
  * Order:
- *  1. refusals that are the visitor's choice or not ours to count answer 202
+ *  1. refusals that are the visitor's choice, not ours to count, or over the free-tier budget
+ *     (budgetRefusal) answer 202
  *     and store nothing, so the client never retries them: EVENTS_ENABLED =
  *     "false" (kill switch), Sec-GPC: 1 or DNT: 1, a missing or bot user agent;
  *  2. the caller's network: EVENTS_PER_IP_HOUR requests (HMAC bucket);
@@ -25,6 +26,24 @@
 
 import { cidHash, CID_RE, isEnabledArm } from "./experiments.mjs";
 import { hitRateLimit } from "./ratelimit.mjs";
+
+/**
+ * The free-tier budget's answer for this batch (usage.mjs), before anything is spent: at red no
+ * event is stored; at amber only ids starting with 0 or 1 (1 in 8 visitors, whole visitors, so
+ * per-arm comparisons stay unbiased) are. A malformed id goes on to its normal 400.
+ * @param {Object} ctx Context (ctx.budget from the router).
+ * @returns {string|null} 202 reason, or null to continue.
+ */
+export function budgetRefusal(ctx) {
+  if (ctx.budget === "red") {
+    return "budget_saver";
+  }
+  const cid = ctx.body && ctx.body.cid;
+  if (ctx.budget === "amber" && typeof cid === "string" && CID_RE.test(cid) && !/^[01]/.test(cid)) {
+    return "budget_sampled";
+  }
+  return null;
+}
 
 /** Body cap for POST /v1/events (bytes). */
 export const EVENTS_BODY_CAP = 16 * 1024;
@@ -168,7 +187,7 @@ function keepEvent(env, e) {
  * @returns {Promise<Object>} Result.
  */
 export async function handleEvents(ctx) {
-  const refusal = ingestRefusal(ctx.request, ctx.env);
+  const refusal = ingestRefusal(ctx.request, ctx.env) || budgetRefusal(ctx);
   if (refusal) {
     return { status: 202, body: { ok: true, accepted: 0, reason: refusal } };
   }

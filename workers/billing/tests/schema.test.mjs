@@ -33,6 +33,7 @@ const EXPECTED_TABLES = [
   "subscriptions",
   "survey_responses",
   "trial_claims",
+  "usage_daily",
   "used_nonces",
   "webhook_events"
 ];

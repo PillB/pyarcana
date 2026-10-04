@@ -25,6 +25,9 @@
 
 import { DatabaseSync } from "node:sqlite";
 
+/** A statement that cannot write (SELECT or WITH ... SELECT); changes() is stale after one. */
+const READ_ONLY = /^\s*(SELECT|WITH)\b/i;
+
 /**
  * One network leg: yield to the macrotask queue, as a D1 round trip does, so
  * other in-flight requests get to run their statements in between.
@@ -122,7 +125,14 @@ class FakeD1PreparedStatement {
     return {
       results: outcome.rows,
       success: true,
-      meta: { changes: outcome.changes, last_row_id: outcome.lastRowId, rows_read: outcome.rows.length }
+      meta: {
+        changes: outcome.changes,
+        last_row_id: outcome.lastRowId,
+        // Approximations of D1's meters: rows returned, and rows changed by a write. D1 also counts
+        // the rows a query scans and the index rows a write updates, so the fake undercounts both.
+        rows_read: outcome.rows.length,
+        rows_written: READ_ONLY.test(this.sql) ? 0 : outcome.changes
+      }
     };
   }
 

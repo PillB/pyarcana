@@ -55,7 +55,7 @@ test("the sweep deletes exactly what the policy says", async () => {
   const ctx = await createCtx();
   await seed(ctx.db);
   const counts = await sweepRetention(ctx);
-  assert.deepEqual(counts, { loginCodes: 1, sessions: 1, rateLimits: 1, checkoutsExpired: 1, usedNonces: 1, reportAttachments: 0 });
+  assert.deepEqual(counts, { loginCodes: 1, sessions: 1, rateLimits: 1, checkoutsExpired: 1, usedNonces: 1, reportAttachments: 0, usageDays: 0 });
   assert.deepEqual(await ids(ctx.db, "SELECT hash AS id FROM used_nonces"), ["nonce_live"], "a spent nonce is kept until its token could no longer verify");
   assert.deepEqual(await ids(ctx.db, "SELECT id FROM login_codes"), ["code_recent"]);
   assert.deepEqual(await ids(ctx.db, "SELECT id FROM sessions"), ["sess_recent"]);

@@ -13,9 +13,15 @@
  * cannot both win, and a concurrent first insert is a 409 with the winner's
  * copy instead of a primary-key 500 (the reference worker read first, then
  * inserted). Writes are limited to 600 per hour per account; reads are not.
+ *
+ * Free-tier budget (usage.mjs): while the day's D1 budget is amber or red every answer carries
+ * `syncHint: {minIntervalMs, level}`, which the client uses as its minimum interval between syncs;
+ * at red a write answers 503 budget_saver with retryAfter until 00:05 UTC, before it spends
+ * anything (not even the rate-limit row). The browser keeps the progress and sends it then.
  */
 
 import { hitRateLimit } from "./ratelimit.mjs";
+import { secondsUntilReset, syncHint } from "./usage.mjs";
 
 /** Largest stored document, in bytes. */
 export const PROGRESS_MAX_BYTES = 256 * 1024;
@@ -52,7 +58,18 @@ async function readProgress(db, accountId) {
  * @returns {Promise<Object>} Result.
  */
 export async function handleGetProgress(ctx) {
-  return { status: 200, body: { ok: true, ...(await readProgress(ctx.db, ctx.account.id)) } };
+  return { status: 200, body: withHint(ctx, { ok: true, ...(await readProgress(ctx.db, ctx.account.id)) }) };
+}
+
+/**
+ * Add the budget's sync hint to an answer when the level is not green.
+ * @param {Object} ctx Context (ctx.budget from the router).
+ * @param {Object} body Answer body.
+ * @returns {Object} Body.
+ */
+function withHint(ctx, body) {
+  const hint = syncHint(ctx.budget || "green");
+  return hint ? { ...body, syncHint: hint } : body;
 }
 
 /**
@@ -105,6 +122,10 @@ async function casWrite(ctx, put) {
  * @returns {Promise<Object>} Result.
  */
 export async function handlePutProgress(ctx) {
+  if (ctx.budget === "red") {
+    const retryAfter = secondsUntilReset(ctx.now);
+    return { status: 503, body: withHint(ctx, { ok: false, reason: "budget_saver", retryAfter }), headers: { "retry-after": String(retryAfter) } };
+  }
   const hit = await hitRateLimit(ctx, `progress:${ctx.account.id}`, PROGRESS_WRITES_PER_HOUR, 3600);
   if (!hit.ok) {
     return { status: 429, body: { ok: false, reason: "rate_limited", retryAfter: hit.retryAfter }, headers: { "retry-after": String(hit.retryAfter) } };
@@ -114,7 +135,7 @@ export async function handlePutProgress(ctx) {
     return put.stop;
   }
   if (await casWrite(ctx, put)) {
-    return { status: 200, body: { ok: true, rev: put.baseRev + 1, updatedAt: ctx.now } };
+    return { status: 200, body: withHint(ctx, { ok: true, rev: put.baseRev + 1, updatedAt: ctx.now }) };
   }
-  return { status: 409, body: { ok: false, reason: "conflict", server: await readProgress(ctx.db, ctx.account.id) } };
+  return { status: 409, body: withHint(ctx, { ok: false, reason: "conflict", server: await readProgress(ctx.db, ctx.account.id) }) };
 }

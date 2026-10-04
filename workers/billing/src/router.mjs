@@ -10,7 +10,8 @@
  *   OPTIONS -> preflight (404 for unknown paths)
  *   match   -> 404 not_found | 405 method_not_allowed (+ Allow)
  *   CSRF    -> 403 bad_origin (state-changing, non-webhook)
- *   config  -> 503 db_not_configured | pepper_not_configured; then migrate()
+ *   config  -> 503 db_not_configured | pepper_not_configured; then migrate(), the usage flush (at most
+ *              every 5 min) and ctx.budget, the free-tier level (usage.mjs)
  *   session -> 401 <reason> + cleared cookie (auth: "session"); renewal cookie
  *   access  -> admin / qa gates (gate.mjs): 429 | 403 forbidden | 401 reauth_required
  *   body    -> 413 body_too_large | 400 bad_json
@@ -60,6 +61,7 @@ import { handleGrantRole, handleListRoles, handleRevokeRole } from "./roles.mjs"
 import { handleAdminSurveys, handleSubmitSurvey } from "./surveys.mjs";
 import { handleListAds, handleSetAds } from "./ads.mjs";
 import { handleStartTrial } from "./trial.mjs";
+import { budgetLevel, flushUsage, handleAdminUsage, meterDb } from "./usage.mjs";
 import { handleGeo, handleHealth, handleMethods, hasDb } from "./public.mjs";
 import { migrate } from "./schema.mjs";
 import { handleCreemWebhook, handleMercadoPagoWebhook, WEBHOOK_BODY_CAP } from "./webhooks.mjs";
@@ -146,6 +148,7 @@ export const ROUTES = [
   adminRoute("GET", "/v1/admin/surveys", handleAdminSurveys, "admin.surveys.list"),
   adminRoute("POST", "/v1/admin/ads", handleSetAds, "admin.ads.set"),
   adminRoute("GET", "/v1/admin/ads", handleListAds, "admin.ads.list"),
+  adminRoute("GET", "/v1/admin/usage", handleAdminUsage, "admin.usage.read"),
   adminRoute("PATCH", "/v1/admin/reports/:id", handlePatchReport, "admin.reports.update")
 ];
 
@@ -288,7 +291,10 @@ async function configStage(ctx) {
     }
   }
   if (ctx.route.needs.includes("db")) {
-    await migrate(ctx.db);
+    // The raw binding: the migration memo is keyed by it, and the metered one is per request.
+    await migrate(ctx.env.DB);
+    await flushUsage(ctx);
+    ctx.budget = budgetLevel(ctx);
   }
   return null;
 }
@@ -405,7 +411,8 @@ export async function routeRequest(request, env, opts) {
     ip: networkKey(callerIp(request)),
     route: null,
     params: {},
-    renewCookie: null
+    renewCookie: null,
+    budget: "green"
   };
   const match = matchRoute(opts.routes || ROUTES, request.method, routePath(url.pathname));
   if (!match) {
@@ -419,5 +426,9 @@ export async function routeRequest(request, env, opts) {
   }
   ctx.route = match.route;
   ctx.params = match.params;
+  if (hasDb(env)) {
+    // Every D1 call this request makes is tallied against the free tier under its route (usage.mjs).
+    ctx.db = meterDb(env.DB, `${match.route.method} ${match.route.path}`, ctx.now);
+  }
   return runRoute(ctx);
 }

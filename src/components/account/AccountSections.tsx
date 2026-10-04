@@ -33,6 +33,7 @@ const SYNC_KEYS: Partial<Record<SyncStatus, string>> = {
   pulling: 'account.sync.busy',
   pushing: 'account.sync.busy',
   offline: 'account.sync.offline',
+  deferred: 'account.sync.deferred',
   error: 'account.sync.error',
   conflict: 'account.sync.conflict',
   too_large: 'account.sync.tooLarge',

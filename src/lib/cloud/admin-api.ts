@@ -664,3 +664,51 @@ export function adsRequest(accountIds: readonly string[], adsDisabled: boolean, 
   if (!text) return { ok: false, key: 'adm.error.reason' }
   return { ok: true, body: { accountIds: ids, adsDisabled, reason: text.slice(0, 200) } }
 }
+
+// --- D1 free-tier usage (GET /v1/admin/usage, workers/billing/src/usage.mjs) ---------------------
+
+export const USAGE_PATH = '/v1/admin/usage'
+export const USAGE_LEVELS = ['green', 'amber', 'red'] as const
+export type UsageLevel = (typeof USAGE_LEVELS)[number]
+export type UsageRow = { label: string; rowsRead: number; rowsWritten: number }
+export type Usage = {
+  level: UsageLevel
+  limits: { rowsRead: number; rowsWritten: number }
+  thresholds: { amber: number; red: number }
+  flushSeconds: number
+  today: UsageRow
+  sources: UsageRow[]
+  days: UsageRow[]
+}
+
+const count = (v: unknown): number => Math.max(0, num(v) ?? 0)
+
+function usageRow(r: Record<string, unknown>, key: 'day' | 'source'): UsageRow | null {
+  const label = str(r[key])
+  return label ? { label, rowsRead: count(r.rowsRead), rowsWritten: count(r.rowsWritten) } : null
+}
+
+const usageRows = (v: unknown, key: 'day' | 'source'): UsageRow[] =>
+  (Array.isArray(v) ? v.filter(isPlainObject).map((r) => usageRow(r, key)) : []).filter((r): r is UsageRow => r !== null)
+
+/** Parse the usage answer; unknown levels read as green, missing limits as D1 Free's. */
+export function parseUsage(data: unknown): Usage {
+  const d = isPlainObject(data) ? data : {}
+  const limits = isPlainObject(d.limits) ? d.limits : {}
+  const thresholds = isPlainObject(d.thresholds) ? d.thresholds : {}
+  const today = isPlainObject(d.today) ? usageRow(d.today, 'day') : null
+  return {
+    level: oneOf(str(d.level) ?? undefined, USAGE_LEVELS) as UsageLevel | null ?? 'green',
+    limits: { rowsRead: num(limits.rowsRead) ?? 5_000_000, rowsWritten: num(limits.rowsWritten) ?? 100_000 },
+    thresholds: { amber: num(thresholds.amber) ?? 0.6, red: num(thresholds.red) ?? 0.85 },
+    flushSeconds: count(d.flushSeconds),
+    today: today ?? { label: '', rowsRead: 0, rowsWritten: 0 },
+    sources: usageRows(d.sources, 'source'),
+    days: usageRows(d.days, 'day'),
+  }
+}
+
+/** Whole percent of a limit, for display (never negative; may pass 100). */
+export function usagePercent(n: number, limit: number): number {
+  return limit > 0 ? Math.round((100 * n) / limit) : 0
+}
