@@ -75,7 +75,7 @@ class ReportLock(unittest.TestCase):
         self.assertNotEqual(self._path.resolve(), self._real.resolve())
 
     def test_a_free_lock_lets_an_audit_through(self):
-        report_lock.refuse_if_busy("probe")  # must not raise
+        self.assertIsNone(report_lock.refuse_if_busy("probe"))  # and must not raise
 
     def test_a_held_lock_refuses_an_outsider(self):
         report_lock.LOCK.parent.mkdir(parents=True, exist_ok=True)
@@ -89,7 +89,7 @@ class ReportLock(unittest.TestCase):
         report_lock.LOCK.parent.mkdir(parents=True, exist_ok=True)
         report_lock.LOCK.write_text("this-run", encoding="utf-8")
         os.environ[report_lock.ENV] = "this-run"
-        report_lock.refuse_if_busy("probe")  # must not raise
+        self.assertIsNone(report_lock.refuse_if_busy("probe"))  # and must not raise
 
     def test_the_context_manager_takes_and_releases(self):
         with report_lock.held_by_this_run("t1"):
