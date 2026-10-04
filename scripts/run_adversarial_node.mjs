@@ -17,6 +17,8 @@ import { fileURLToPath } from 'node:url'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const DIR = 'tests/adversarial'
+/** Tests kept beside the code they test, run after DIR's, as the npm script used to list them. */
+const ALSO = ['src/lib/progress-document.test.ts']
 
 /** Size and mtime of every tracked file and every untracked, unignored one. */
 function treeState() {
@@ -41,11 +43,11 @@ function written(before, after) {
   return [...keys].filter((k) => before.get(k) !== after.get(k)).sort()
 }
 
-/** `*.test.ts` then `*.test.mjs`, each sorted: the order the npm script's shell globs gave. */
+/** `*.test.ts` then `*.test.mjs`, each sorted (the order the npm script's shell globs gave), then ALSO. */
 function testFiles() {
   const names = readdirSync(join(ROOT, DIR))
   const pick = (ext) => names.filter((n) => n.endsWith(ext)).sort().map((n) => `${DIR}/${n}`)
-  return [...pick('.test.ts'), ...pick('.test.mjs')]
+  return [...pick('.test.ts'), ...pick('.test.mjs'), ...ALSO]
 }
 
 /** The `# name N` counters the TAP reporter ends with. */
