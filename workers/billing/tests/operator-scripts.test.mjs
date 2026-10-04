@@ -21,6 +21,20 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const BILLING = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+
+// The fake Cloudflare token-verify API (cf-api-fake.mjs, a TEST DOUBLE), one process for the file:
+// the scripts run synchronously (spawnSync), so it cannot live in this process's event loop.
+const CF_TOKENS = {
+  user: ["test-token-not-real", "cf-token-for-the-prompt-test-0123456789abcdef", "fresh-token-0123456789abcdefghij"],
+  account: ["cf-account-token-0123456789abcdef"],
+  expired: ["expired-token-0123456789abcdef"]
+};
+const cfFake = spawn(process.execPath, [path.join(path.dirname(fileURLToPath(import.meta.url)), "cf-api-fake.mjs")], {
+  env: { ...process.env, FAKE_CF_TOKENS: CF_TOKENS.user.join(","), FAKE_CF_ACCOUNT_TOKENS: CF_TOKENS.account.join(","), FAKE_CF_EXPIRED: CF_TOKENS.expired.join(",") },
+  stdio: ["ignore", "pipe", "inherit"]
+});
+const CF_API = await new Promise((resolve) => cfFake.stdout.once("data", (d) => resolve(`http://127.0.0.1:${String(d).trim()}`)));
+test.after(() => cfFake.kill());
 const FAKE = path.join(BILLING, "tests", "wrangler-fake.mjs");
 const UUID = "0f6c2d9e-4a1b-4c7d-9e2f-3a4b5c6d7e8f";
 
@@ -90,6 +104,7 @@ function run(t, script, options = {}) {
     PYARCANA_WRANGLER: path.join(t.bin, "wrangler"),
     FAKE_WRANGLER_STATE: t.stateFile,
     FAKE_LOG: t.log,
+    PYARCANA_CF_API: CF_API,
     ...options.env
   };
   for (const [key, value] of Object.entries(env)) {
@@ -97,7 +112,11 @@ function run(t, script, options = {}) {
       delete env[key];
     }
   }
-  const result = spawnSync("script", ["-qec", command, "/dev/null"], { cwd: t.root, env, input: options.input ?? "", encoding: "utf8", timeout: 60000 });
+  // setup.sh offers an exported account id and token ("Use it? [Y/n]"): Enter keeps each, unless
+  // the test types its own answers (reuse: false).
+  const offered = options.reuse === false ? "" : `${env.CLOUDFLARE_ACCOUNT_ID ? "\n" : ""}${env.CLOUDFLARE_API_TOKEN ? "\n" : ""}`;
+  const input = script === "deploy.sh" ? options.input ?? "" : offered + (options.input ?? "");
+  const result = spawnSync("script", ["-qec", command, "/dev/null"], { cwd: t.root, env, input, encoding: "utf8", timeout: 60000 });
   return {
     status: result.status,
     out: `${result.stdout}${result.stderr}`,
@@ -353,7 +372,7 @@ const afterPrompt = (out) => out.slice(out.indexOf("Paste your Cloudflare API to
  * @returns {Promise<{status: number, out: string, state: Object}>} Result.
  */
 function runTyped(t, answers, env) {
-  const full = { PATH: `${t.bin}:${process.env.PATH}`, HOME: t.root, SHELL: "/bin/bash", TERM: "dumb", PYARCANA_WRANGLER: path.join(t.bin, "wrangler"), FAKE_WRANGLER_STATE: t.stateFile, FAKE_LOG: t.log, ...env };
+  const full = { PATH: `${t.bin}:${process.env.PATH}`, HOME: t.root, SHELL: "/bin/bash", TERM: "dumb", PYARCANA_WRANGLER: path.join(t.bin, "wrangler"), FAKE_WRANGLER_STATE: t.stateFile, FAKE_LOG: t.log, PYARCANA_CF_API: CF_API, ...env };
   for (const [key, value] of Object.entries(full)) {
     if (value === undefined) {
       delete full[key];
@@ -388,8 +407,8 @@ function runTyped(t, answers, env) {
 test("setup.sh asks for a missing token and account id with visible prompts; typing the token shows nothing", async () => {
   const t = tree();
   const r = await runTyped(t, [
-    [/Paste your Cloudflare API token/, TOKEN],
     [/Cloudflare account ID/, "0123456789abcdef0123456789abcdef"],
+    [/Paste your Cloudflare API token/, TOKEN],
     [/Comma-separated list/, "admin@example.com"]
   ], { CLOUDFLARE_API_TOKEN: undefined, CLOUDFLARE_ACCOUNT_ID: undefined });
   assert.equal(r.status, 0, r.out);
@@ -476,5 +495,69 @@ test("redeploy.sh: right branch with the local D1 id: pulls the new work, instal
   assertNotPrinted(afterPrompt(r.out), TOKEN, "the API token");
   assert.equal(r.state.deploys.length, 1);
   assert.ok(r.out.indexOf("1/4") < r.out.indexOf("2/4") && r.out.indexOf("3/4") < r.out.indexOf("4/4"), "the steps are announced in order");
+  rmSync(t.root, { recursive: true, force: true });
+});
+
+// --- an exported token is offered, never used silently, and checked with Cloudflare first ------------
+// Owner's redeploy, 5 Oct 2026: a token left exported from an earlier deploy (revoked since) was used
+// without asking, and wrangler failed with "Invalid access token".
+
+const REVOKED = "revoked-old-token-0123456789abcdef";
+const FRESH = "fresh-token-0123456789abcdefghij";
+
+test("setup.sh offers the exported account id and token instead of using them silently; no character of the token is shown", () => {
+  const t = tree();
+  const r = run(t, "setup.sh", { reuse: false, env: { CLOUDFLARE_API_TOKEN: REVOKED }, input: `\nn\n${FRESH}\nadmin@example.com\n` });
+  assert.equal(r.status, 0, r.out);
+  assert.match(r.out, /Cloudflare account ID in this terminal: 0123456789abcdef0123456789abcdef\. Use it\? \[Y\/n\]/);
+  assert.match(r.out, new RegExp(`A Cloudflare API token is already set in this terminal \\(${REVOKED.length} characters, not shown\\)\\. Use it\\? \\[Y/n\\]`));
+  assert.match(r.out, /Cloudflare accepts the token \(active\)/);
+  assertNotPrinted(r.out.slice(r.out.indexOf("Use it?")), FRESH, "the new token");
+  assertNotPrinted(r.out, REVOKED, "the old token");
+  assert.equal(r.state.deploys.length, 1);
+  rmSync(t.root, { recursive: true, force: true });
+});
+
+test("setup.sh: a revoked token is caught before any wrangler call, said plainly, and a new one is asked for", () => {
+  const t = tree();
+  const r = run(t, "setup.sh", { env: { CLOUDFLARE_API_TOKEN: REVOKED }, input: `${FRESH}\nadmin@example.com\n` });
+  assert.equal(r.status, 0, r.out);
+  assert.match(r.out, /Cloudflare does not recognise this token \(revoked, expired or mistyped\)\. Make a new token \(or copy the current one\) and paste it\./);
+  assert.equal(r.state.deploys.length, 1, "deployed with the new token");
+  rmSync(t.root, { recursive: true, force: true });
+});
+
+test("setup.sh: three refused tokens, an expired one, Cloudflare unreachable, or a non-Cloudflare answer stop before any wrangler call", () => {
+  const refused = tree();
+  const r1 = run(refused, "setup.sh", { env: { CLOUDFLARE_API_TOKEN: REVOKED }, input: `${REVOKED}\n${REVOKED}\n` });
+  assert.notEqual(r1.status, 0);
+  assert.match(r1.out, /Nothing was changed\. Make a new token \(Workers Scripts and D1, Edit\)/);
+  assert.deepEqual(r1.state.calls, [], "no wrangler call");
+  const expired = tree();
+  const r2 = run(expired, "setup.sh", { env: { CLOUDFLARE_API_TOKEN: "expired-token-0123456789abcdef" }, input: "" });
+  assert.notEqual(r2.status, 0);
+  assert.match(r2.out, /Cloudflare says the token is expired/);
+  assert.deepEqual(r2.state.calls, []);
+  const offline = tree();
+  const r3 = run(offline, "setup.sh", { env: { PYARCANA_CF_API: "http://127.0.0.1:1" }, input: "" });
+  assert.notEqual(r3.status, 0);
+  assert.match(r3.out, /Could not check the token: could not reach Cloudflare/);
+  assert.deepEqual(r3.state.calls, []);
+  // A proxy or firewall page is not Cloudflare refusing the token: it must not be called "revoked".
+  const blocked = tree();
+  const r4 = run(blocked, "setup.sh", { env: { PYARCANA_CF_API: `${CF_API}/blocked` }, input: "" });
+  assert.notEqual(r4.status, 0);
+  assert.match(r4.out, /Could not check the token: HTTP 403 that is not Cloudflare's answer \(Host not in allowlist/);
+  assert.doesNotMatch(r4.out, /does not recognise this token/);
+  assert.deepEqual(r4.state.calls, []);
+  rmSync(blocked.root, { recursive: true, force: true });
+  for (const t of [refused, expired, offline]) rmSync(t.root, { recursive: true, force: true });
+});
+
+test("setup.sh accepts an account-owned token (verified on the account's own endpoint)", () => {
+  const t = tree();
+  const r = run(t, "setup.sh", { env: { CLOUDFLARE_API_TOKEN: "cf-account-token-0123456789abcdef" }, input: "admin@example.com\n" });
+  assert.equal(r.status, 0, r.out);
+  assert.match(r.out, /Cloudflare accepts the token \(active\)/);
   rmSync(t.root, { recursive: true, force: true });
 });

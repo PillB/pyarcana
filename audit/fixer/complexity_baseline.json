@@ -1,12 +1,12 @@
 {
  "ceiling": 15,
  "over_ceiling": 33,
- "worst": 90,
+ "worst": 78,
  "worst_offenders": [
   {
-   "score": 90,
+   "score": 78,
    "file": "src/components/course/Dashboard.tsx",
-   "line": 65
+   "line": 76
   },
   {
    "score": 43,
@@ -19,9 +19,9 @@
    "line": 169
   },
   {
-   "score": 37,
+   "score": 40,
    "file": "src/app/page.tsx",
-   "line": 47
+   "line": 69
   },
   {
    "score": 33,
@@ -31,27 +31,27 @@
   {
    "score": 29,
    "file": "src/lib/admin-analytics.ts",
-   "line": 100
+   "line": 104
+  },
+  {
+   "score": 26,
+   "file": "src/components/course/ExamView.tsx",
+   "line": 82
+  },
+  {
+   "score": 26,
+   "file": "src/components/course/QAHarness.tsx",
+   "line": 138
   },
   {
    "score": 26,
    "file": "src/lib/admin-analytics.ts",
-   "line": 193
-  },
-  {
-   "score": 25,
-   "file": "src/components/course/ExamView.tsx",
-   "line": 69
+   "line": 200
   },
   {
    "score": 24,
    "file": "src/app/api/feedback/route.ts",
    "line": 29
-  },
-  {
-   "score": 24,
-   "file": "src/components/course/AuthModal.tsx",
-   "line": 573
   }
  ]
 }

@@ -14,6 +14,8 @@
  *   node ops.mjs kid-ok <kid>                -> exit 0 when the key id is well formed
  *   node ops.mjs pepper                      -> 32 random bytes, base64, on stdout (for a pipe into `wrangler secret put`)
  *   node ops.mjs licence-key <kid> <jwkFile> -> base64 PKCS#8 on stdout (for a pipe), public JWK written to <jwkFile>
+ *   node ops.mjs token-check                 -> asks Cloudflare whether $CLOUDFLARE_API_TOKEN is active
+ *                                               (exit 0 active, 1 refused, 2 Cloudflare unreachable)
  *
  * The generated secrets are written to stdout only so the calling script can pipe them straight
  * into `wrangler secret put`; the scripts never let them reach a terminal or a file.
@@ -273,6 +275,74 @@ function cmdSecretNames() {
   return 0;
 }
 
+/** Cloudflare's API root; PYARCANA_CF_API points the tests at a local fake. */
+const CF_API = () => (process.env.PYARCANA_CF_API || "https://api.cloudflare.com/client/v4").replace(/\/+$/, "");
+
+/**
+ * Cloudflare's JSON envelope from a response body, or null when it is not one (a proxy or firewall
+ * page, "Host not in allowlist", an HTML error).
+ * @param {string} text Body.
+ * @returns {Object|null} Envelope.
+ */
+function cfEnvelope(text) {
+  try {
+    const body = JSON.parse(text);
+    return body && typeof body === "object" && typeof body.success === "boolean" ? body : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * One verify request.
+ * @param {string} path API path.
+ * @param {string} token Token.
+ * @returns {Promise<{kind: "active"|"refused"|"unchecked", detail: string}>} Outcome.
+ */
+async function verifyAt(path, token) {
+  let res;
+  try {
+    res = await fetch(`${CF_API()}${path}`, { headers: { Authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(15000) });
+  } catch (e) {
+    return { kind: "unchecked", detail: `could not reach Cloudflare (${e.cause?.code || e.name})` };
+  }
+  const text = await res.text().catch(() => "");
+  const body = cfEnvelope(text);
+  if (!body) {
+    // Only Cloudflare's own answer can say a token is refused.
+    return { kind: "unchecked", detail: `HTTP ${res.status} that is not Cloudflare's answer (${text.replace(/\s+/g, " ").trim().slice(0, 80) || "empty"})` };
+  }
+  const status = body.result?.status;
+  if (res.ok && body.success && status === "active") {
+    return { kind: "active", detail: "active" };
+  }
+  return { kind: "refused", detail: status ? `Cloudflare says the token is ${status}` : "" };
+}
+
+/**
+ * Ask Cloudflare whether the token in $CLOUDFLARE_API_TOKEN is active, before any wrangler call.
+ * A user token answers on /user/tokens/verify; an account-owned token on
+ * /accounts/<id>/tokens/verify. The token is read from the environment, never from argv, and is
+ * never printed. Prints one line: "active", or why it is refused or could not be checked.
+ * @returns {Promise<number>} 0 active, 1 refused (revoked, expired, mistyped), 2 not checked.
+ */
+async function cmdTokenCheck() {
+  const token = process.env.CLOUDFLARE_API_TOKEN || "";
+  const account = process.env.CLOUDFLARE_ACCOUNT_ID || "";
+  const paths = ["/user/tokens/verify", ...(SAFE_VALUE_RE.test(account) ? [`/accounts/${account}/tokens/verify`] : [])];
+  let refused = "Cloudflare does not recognise this token (revoked, expired or mistyped)";
+  for (const path of paths) {
+    const outcome = await verifyAt(path, token);
+    if (outcome.kind !== "refused") {
+      process.stdout.write(outcome.detail);
+      return outcome.kind === "active" ? 0 : 2;
+    }
+    refused = outcome.detail || refused;
+  }
+  process.stdout.write(refused);
+  return 1;
+}
+
 const COMMANDS = {
   "d1-id-from-list": ([name]) => (process.stdout.write(d1IdFromList(stdin(), name)), 0),
   "d1-id-from-create": () => (process.stdout.write(d1IdFromCreate(stdin())), 0),
@@ -283,7 +353,8 @@ const COMMANDS = {
   "admin-emails": () => cmdAdminEmails(),
   "kid-ok": ([kid]) => (KID_RE.test(String(kid || "")) ? 0 : 1),
   pepper: () => (process.stdout.write(randomBytes(32).toString("base64")), 0),
-  "licence-key": ([kid, jwkFile]) => cmdLicenceKey(kid, jwkFile)
+  "licence-key": ([kid, jwkFile]) => cmdLicenceKey(kid, jwkFile),
+  "token-check": () => cmdTokenCheck()
 };
 
 /**

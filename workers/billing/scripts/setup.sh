@@ -24,8 +24,9 @@
 #   9. runs scripts/deploy.sh (static build at the root, headers, `wrangler deploy`, never piped).
 #
 # Needs, in the environment or typed at its prompt, and never on the command line or in a file:
-#   CLOUDFLARE_API_TOKEN   asked for (hidden) when not exported; or beforehand, without echo:
-#                          read -rs CLOUDFLARE_API_TOKEN && export CLOUDFLARE_API_TOKEN
+#   CLOUDFLARE_API_TOKEN   asked for (hidden) when not exported. An exported one is offered
+#                          ("Use it? [Y/n]", never shown) and never used silently; either way
+#                          Cloudflare is asked whether it is active before anything runs.
 #                          Account permissions (Edit): Workers Scripts, D1. Revoke it afterwards.
 #   CLOUDFLARE_ACCOUNT_ID  from the dashboard; with it the token needs no Account Settings:Read.
 
@@ -47,7 +48,7 @@ while [ $# -gt 0 ]; do
       shift 2
       ;;
     -h | --help)
-      sed -n '2,30p' "$0"
+      sed -n '2,31p' "$0"
       exit 0
       ;;
     *) die "Unknown argument: $1 (see --help)" ;;
@@ -55,23 +56,59 @@ while [ $# -gt 0 ]; do
 done
 
 need_node
-# Asked here when missing, with a visible prompt: a silent `read -rs` on a bare line looks exactly
-# like a program that is still working. The token's typing stays hidden; nothing typed still stops.
-if [ -z "${CLOUDFLARE_API_TOKEN:-}" ] && [ -t 0 ]; then
+# Account id and token: asked here, with visible prompts. A value already exported in this terminal
+# is offered, never used silently: a token left over from an earlier deploy is usually revoked
+# (owner's first redeploy, 5 Oct 2026: "Invalid access token"). The token's typing stays hidden and
+# no character of it is ever shown. Then Cloudflare is asked whether the token is active, before
+# anything else runs. Without a terminal (no prompts possible) the exported values are used as is.
+reuse() { # reuse "question": Enter or y keeps the value
+  local answer
+  printf '%s [Y/n] ' "$1"
+  IFS= read -r answer || answer=""
+  case "$answer" in n | N | no | No) return 1 ;; *) return 0 ;; esac
+}
+ask_token() {
   printf '\n\033[1mPaste your Cloudflare API token and press Enter\033[0m (typing stays hidden): '
   IFS= read -rs CLOUDFLARE_API_TOKEN || CLOUDFLARE_API_TOKEN=""
   printf '\n'
   [ -z "$CLOUDFLARE_API_TOKEN" ] || echo "Token received (${#CLOUDFLARE_API_TOKEN} characters)."
+}
+if [ -t 0 ]; then
+  if [ -n "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
+    reuse "Cloudflare account ID in this terminal: $CLOUDFLARE_ACCOUNT_ID. Use it?" || CLOUDFLARE_ACCOUNT_ID=""
+  fi
+  if [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
+    printf '\n\033[1mCloudflare account ID\033[0m (Dashboard → Account home → ⋯ → Copy account ID), then Enter: '
+    IFS= read -r CLOUDFLARE_ACCOUNT_ID || CLOUDFLARE_ACCOUNT_ID=""
+  fi
+  if [ -n "${CLOUDFLARE_API_TOKEN:-}" ]; then
+    reuse "A Cloudflare API token is already set in this terminal (${#CLOUDFLARE_API_TOKEN} characters, not shown). Use it?" || CLOUDFLARE_API_TOKEN=""
+  fi
+  [ -n "${CLOUDFLARE_API_TOKEN:-}" ] || ask_token
 fi
 [ -n "${CLOUDFLARE_API_TOKEN:-}" ] || die "CLOUDFLARE_API_TOKEN is not set. Type it without echo, then run this again:
   read -rs CLOUDFLARE_API_TOKEN && export CLOUDFLARE_API_TOKEN"
-if [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ] && [ -t 0 ]; then
-  printf '\n\033[1mCloudflare account ID\033[0m (Dashboard → Account home → ⋯ → Copy account ID), then Enter: '
-  IFS= read -r CLOUDFLARE_ACCOUNT_ID || CLOUDFLARE_ACCOUNT_ID=""
-fi
 [ -n "${CLOUDFLARE_ACCOUNT_ID:-}" ] || die "CLOUDFLARE_ACCOUNT_ID is not set. Copy it from the Cloudflare dashboard, then:
   export CLOUDFLARE_ACCOUNT_ID=<account id>"
 export CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID
+
+say "Checking the token with Cloudflare"
+attempt=1
+while :; do
+  # "|| status=$?" keeps set -e from ending the script on a refused token.
+  status=0
+  check="$(ops token-check)" || status=$?
+  [ "$status" -eq 0 ] && { echo "Cloudflare accepts the token (active)."; break; }
+  [ "$status" -eq 2 ] && die "Could not check the token: $check. Check your internet connection, then run this again."
+  if [ -t 0 ] && [ "$attempt" -lt 3 ]; then
+    echo "$check. Make a new token (or copy the current one) and paste it."
+    ask_token
+    export CLOUDFLARE_API_TOKEN
+    attempt=$((attempt + 1))
+  else
+    die "$check. Nothing was changed. Make a new token (Workers Scripts and D1, Edit) and run this again."
+  fi
+done
 
 cd "$BILLING"
 WORKER_NAME=$(sed -n 's/^name *= *"\(.*\)"/\1/p' "$TOML" | head -1)
