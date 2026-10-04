@@ -75,6 +75,9 @@ def main() -> int:
             ids_bad.add(f"S{int(m.group(1)):02d}")
 
     runtime_clean = runtime.get("ok") is True
+    redaction_applied = set(
+        load(ROOT / "audit/fixer/redaction_applied.json", {}).get("sections", []))
+
     rows, done_counts = [], {k: 0 for k, _ in STEPS}
 
     for i, slug in enumerate(slugs, 1):
@@ -83,7 +86,11 @@ def main() -> int:
         total = len({f["finding_id"] for f in registry
                      if f["section"] == tag and f["finding_id"]})
         closed = len(cycle["findings_closed"]) if cycle else 0
-        redacted = (ROOT / f".fixer/{tag}r.result.json").exists()
+        # 2026-10-03: was `(ROOT / f".fixer/{tag}r.result.json").exists()`. `.fixer/` is gitignored,
+        # so this column read 8/52 in the worktree holding those artefacts and 0/52 in CI, and
+        # `--check` could never pass there. A ledger whose number depends on untracked state is the
+        # dead-measure shape wearing the campaign's own badge. The evidence is committed now.
+        redacted = tag in redaction_applied
         p = prose.get(tag, {})
 
         state = {

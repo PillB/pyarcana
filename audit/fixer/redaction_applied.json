@@ -1,0 +1,15 @@
+{
+  "_why": "The ledger's `redaction` column used to be computed from whether .fixer/SXXr.result.json existed. .fixer/ is gitignored (.gitignore:103), so the column read 8/52 in a worktree that held those artefacts and 0/52 everywhere else, including CI. `ledger.py --check` could therefore never pass in CI, and the ledger reported a number that depended on untracked state. That is the dead-measure failure mode LEDGER_NOTES warns about, inside the campaign's own instrument.",
+  "_contract": "A tag belongs here when its redaction round was applied and verified. ledger.py reads this list and still requires the committed prose report to show run_on_sentences <= 12, so the evidence is committed on both halves. Add a tag in the same commit that lands its round.",
+  "_recorded": "2026-10-03, from the .fixer/SXXr.result.json artefacts present in the campaign worktree at commit 8b0e112a. Two junk tags produced by earlier runs, S112 and S67, are not sections and are excluded.",
+  "sections": [
+    "S01",
+    "S03",
+    "S04",
+    "S16",
+    "S17",
+    "S28",
+    "S32",
+    "S48"
+  ]
+}

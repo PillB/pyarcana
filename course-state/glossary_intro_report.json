@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-10-03T18:43:57.999079Z",
+  "generated_at": "2026-10-04T02:44:08.214783Z",
   "terms": 108,
   "sections": 52,
-  "forward_refs": 7,
+  "forward_refs": 2,
   "issues": [
     {
       "term": "return",
@@ -16,46 +16,6 @@
       "term": "Coverage",
       "id": "coverage",
       "declared_first": "async-concurrency",
-      "found_first": "rpa-advanced",
-      "severity": "P2",
-      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
-    },
-    {
-      "term": "EDA",
-      "id": "eda",
-      "declared_first": "wxpython-gui",
-      "found_first": "security",
-      "severity": "P2",
-      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
-    },
-    {
-      "term": "Pipeline",
-      "id": "pipeline",
-      "declared_first": "basics",
-      "found_first": "setup",
-      "severity": "P2",
-      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
-    },
-    {
-      "term": "MLOps",
-      "id": "mlops",
-      "declared_first": "opensource",
-      "found_first": "rpa-advanced",
-      "severity": "P2",
-      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
-    },
-    {
-      "term": "FastAPI",
-      "id": "fastapi",
-      "declared_first": "llm-finetuning",
-      "found_first": "fastapi",
-      "severity": "P2",
-      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
-    },
-    {
-      "term": "LLM",
-      "id": "llm",
-      "declared_first": "streamlit-dashboards",
       "found_first": "rpa-advanced",
       "severity": "P2",
       "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"

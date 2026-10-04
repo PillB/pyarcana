@@ -12,6 +12,8 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
+import sys
 from pathlib import Path
 
 from glossary_first_use import audit_concept_events  # re-export for existing callers
@@ -32,6 +34,7 @@ INDEX = (ROOT / "src/lib/course/index.ts").read_text(encoding="utf-8")
 TERMS_TS = (ROOT / "src/lib/glossary/terms.ts").read_text(encoding="utf-8")
 SECTIONS_DIR = ROOT / "src/lib/course/sections"
 OUT = ROOT / "course-state/glossary_intro_report.json"
+EVENTS = ROOT / ".fixer/events.json"
 
 # parse firstSectionId and term from terms.ts
 terms = []
@@ -48,21 +51,40 @@ for m in re.finditer(
 ):
     order.append(m.group(1))
 
+def load_events() -> dict:
+    """Same regeneration contract as badge_readiness_audit.load_events, so this runs in CI."""
+    if not EVENTS.exists():
+        proc = subprocess.run(
+            ["npx", "tsx", "scripts/course_event_extractor.mts"],
+            cwd=ROOT, capture_output=True, text=True,
+        )
+        if proc.returncode != 0:
+            print(proc.stderr[-2000:], file=sys.stderr)
+            raise SystemExit("course_event_extractor.mts failed")
+        EVENTS.parent.mkdir(parents=True, exist_ok=True)
+        EVENTS.write_text(proc.stdout, encoding="utf-8")
+    return json.loads(EVENTS.read_text(encoding="utf-8"))
+
+
+# 2026-10-03: this scan used to match each term against the whole section FILE SOURCE, stripping
+# only ``` fences -- and a TypeScript section file has none, so nothing was stripped. It therefore
+# matched the section's own `id:` declaration and every hidden surface. Two of the seven forward
+# refs it reported were artefacts of exactly that: `fastapi` matched `id: 'fastapi'`, and `pipeline`
+# matched inside S01's hidden `solution` field. This file's own docstring already said "hidden
+# solutions and code cannot satisfy a learner-visible definition"; the source-level scan simply
+# never honoured it. It now matches the extractor's learner-visible event texts, which is the same
+# surface the concept map and first_use_all_audit use, so the three matchers finally agree.
+_events = load_events()
+_visible = {}
+for _e in _events["events"]:
+    if _e.get("learner_visible"):
+        _visible.setdefault(_e["section_id"], []).append(_e["text"])
+
 section_ids = []
 section_text = {}
-for base in order:
-    path = SECTIONS_DIR / (base if base.endswith(".ts") else f"{base}.ts")
-    if not path.exists():
-        continue
-    text = path.read_text(encoding="utf-8", errors="replace")
-    # strip code fences content for matching prose only (rough)
-    prose = re.sub(r"```[\s\S]*?```", " ", text)
-    id_m = re.search(r"\bid:\s*['\"]([^'\"]+)['\"]", text)
-    if not id_m:
-        continue
-    sid = id_m.group(1)
+for sid in _events["active_section_ids"]:
     section_ids.append(sid)
-    section_text[sid] = prose
+    section_text[sid] = "\n".join(_visible.get(sid, ()))
 
 idx = {sid: i for i, sid in enumerate(section_ids)}
 issues = []
