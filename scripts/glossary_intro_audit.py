@@ -17,6 +17,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+from concept_map import sources_newer_than_cache
 from glossary_first_use import audit_concept_events  # re-export for existing callers
 
 
@@ -53,8 +54,21 @@ for m in re.finditer(
     order.append(m.group(1))
 
 def load_events() -> dict:
-    """Same regeneration contract as badge_readiness_audit.load_events, so this runs in CI."""
-    if not EVENTS.exists():
+    """Fresh events, or a cache proven current. Never a cache merely proven to exist.
+
+    2026-10-04, from Codex's review of PR #80: the first version of this only checked
+    `EVENTS.exists()`, copying `badge_readiness_audit.load_events`. That is the weaker of the two
+    patterns in this repo, and for a gate it is the wrong one. Once `.fixer/events.json` exists --
+    the fixer gate or the concept map writes it constantly -- editing a section or a glossary entry
+    and running this audit would reuse the old events, so a newly introduced forward reference
+    could report 0 and exit 0 until some unrelated command happened to refresh the cache.
+
+    `concept_map.sources_newer_than_cache()` already solves this, so it is imported rather than
+    copied. Reimplementing it here is the copy-instead-of-the-code trap, which this same review
+    round caught twice elsewhere; and when the S25 session's import-graph version lands, this
+    inherits it for free.
+    """
+    if not EVENTS.exists() or sources_newer_than_cache():
         proc = subprocess.run(
             ["npx", "tsx", "scripts/course_event_extractor.mts"],
             cwd=ROOT, capture_output=True, text=True,

@@ -29,14 +29,17 @@ Plus the figure debt, which the map has always flagged with a warning and never 
 """
 from __future__ import annotations
 
-import json
-import re
+import functools
+import sys
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-CONCEPT_MAP = ROOT / "course-state" / "concept_map.json"
-GLOSSARY = ROOT / "src" / "lib" / "glossary" / "terms.ts"
+sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "tests/adversarial"))
+
+from concept_map import build_concepts  # noqa: E402
+from course_events import fresh_events  # noqa: E402
 
 # RETRACTED 2026-10-04 -- `SELF_CERTIFYING_DEFINITIONS_OWED` is gone, and this note stays so the
 # mistake is not repeated.
@@ -79,17 +82,29 @@ GLOSSARY = ROOT / "src" / "lib" / "glossary" / "terms.ts"
 # data-leakage's aliases. Lower each as its debt is paid; raise only with a dated reason.
 NEVER_EXPLAINED_OWED = 7
 UNEXEMPLIFIED_CONCEPTS_OWED = 35
-FIGURE_SHORT_CONCEPTS_OWED = 103
+# The DEFICIT in figures, summed, not the number of concepts short of one. 103 concepts
+# are short; they owe 274 figures between them. Counting concepts hid a lost figure.
+FIGURES_OWED = 274
 D3_SUBTOPIC_OWED = 30
 
 
-def concept_map() -> dict:
-    return json.loads(CONCEPT_MAP.read_text(encoding="utf-8"))
+@functools.cache
+def concepts() -> dict:
+    """The map for the course being committed, built by the function that writes the report.
 
+    2026-10-04, from Codex's review of PR #80 (P1): this used to read
+    `course-state/concept_map.json`. Nothing in the adversarial-unit job regenerates that report,
+    so every ratchet below scored whatever the last local fixer run had left. The staleness guard
+    it shipped with compared GLOSSARY IDS, which cannot see the thing that matters -- remove a
+    definition, an example, a heading or a figure without touching the id set and the report is
+    wrong while the guard reports it fine. That is the dead-measure shape these ratchets exist to
+    catch, inside the ratchets.
 
-def glossary_ids() -> set[str]:
-    source = GLOSSARY.read_text(encoding="utf-8")
-    return set(re.findall(r"\n    id: '([^']+)'", source))
+    `build_concepts` was extracted in #76 for exactly this, and `fresh_events` treats an
+    extraction that cannot run as an error rather than a skip. Cached per process, so the
+    extractor runs once for the whole file.
+    """
+    return build_concepts(fresh_events())
 
 
 def _report(label: str, offenders: list[str], owed: int, case: unittest.TestCase) -> None:
@@ -106,50 +121,50 @@ def _report(label: str, offenders: list[str], owed: int, case: unittest.TestCase
     )
 
 
-class TheMapMustNotBeStale(unittest.TestCase):
-    """A ratchet read from a stale artefact is the dead-measure failure mode again.
-
-    `LEDGER_NOTES.md`: "an instrument that could not run must never be indistinguishable from an
-    instrument that passed." CI does not regenerate `concept_map.json`, so the cheapest real
-    staleness signal is a glossary term the map has never heard of.
-    """
-
-    def test_every_glossary_term_appears_in_the_map(self) -> None:
-        missing = sorted(glossary_ids() - set(concept_map()))
-        self.assertEqual(
-            missing, [],
-            "concept_map.json predates the glossary -- run "
-            "`npx tsx scripts/course_event_extractor.mts && python3 scripts/concept_map.py`. "
-            f"Terms the map has never seen: {missing}",
-        )
-
-
 class ConceptDepthRatchets(unittest.TestCase):
     def test_no_more_concepts_are_never_explained(self) -> None:
         offenders = sorted(
-            cid for cid, c in concept_map().items() if not c.get("first_definition")
+            cid for cid, c in concepts().items() if not c.get("first_definition")
         )
         _report("NEVER_EXPLAINED", offenders, NEVER_EXPLAINED_OWED, self)
 
     def test_explained_concepts_are_also_exemplified(self) -> None:
         offenders = sorted(
-            cid for cid, c in concept_map().items()
+            cid for cid, c in concepts().items()
             if c.get("first_definition") and not (c.get("examples") or [])
         )
         _report("UNEXEMPLIFIED_CONCEPTS", offenders, UNEXEMPLIFIED_CONCEPTS_OWED, self)
 
     def test_concepts_carry_the_figures_they_are_owed(self) -> None:
-        offenders = sorted(
-            f"{cid} ({c['figure_count']}/{c['figure_target']})"
-            for cid, c in concept_map().items() if (c.get("figure_gap") or 0) > 0
+        """The deficit, not the number of offenders.
+
+        2026-10-04, from Codex's review of PR #80 (P2): this counted concepts with any gap. A
+        concept already at 1/5 that loses its last figure stays exactly one offender, so the
+        advertised debt could rise while the count still passed. Summing `figure_gap` makes a lost
+        figure fail. The message still names the worst offenders, because a number nobody can act
+        on is not much better than no number.
+        """
+        c_all = concepts()
+        short = {cid: c for cid, c in c_all.items() if (c.get("figure_gap") or 0) > 0}
+        owed = sum(c["figure_gap"] for c in short.values())
+        worst = sorted(short.items(), key=lambda kv: -kv[1]["figure_gap"])
+        named = ", ".join(f"{cid} ({c['figure_count']}/{c['figure_target']})"
+                          for cid, c in worst[:12])
+        self.assertLessEqual(
+            owed, FIGURES_OWED,
+            f"figure debt rose to {owed} across {len(short)} concepts, owed is {FIGURES_OWED}."
+            f" Worst: {named}",
         )
-        _report("FIGURE_SHORT_CONCEPTS", offenders, FIGURE_SHORT_CONCEPTS_OWED, self)
+        self.assertEqual(
+            owed, FIGURES_OWED,
+            f"figure debt is down to {owed} -- lower FIGURES_OWED to {owed} so the repair is kept",
+        )
 
     def test_load_bearing_concepts_earn_their_own_subtopic(self) -> None:
         """D3: a load-bearing concept needs a subsection, not a gloss."""
         offenders = sorted(
             f"{cid} ({c['depth']}, {len(c['sections_used'])} secs)"
-            for cid, c in concept_map().items()
+            for cid, c in concepts().items()
             if c.get("load_bearing") and c.get("depth") != "L3"
         )
         _report("D3_SUBTOPIC", offenders, D3_SUBTOPIC_OWED, self)
@@ -164,7 +179,7 @@ class TheRatchetsMeasureSomethingReal(unittest.TestCase):
 
     def test_the_known_worked_cases_are_still_the_cases(self) -> None:
         """The two findings that motivated this file, pinned so a silent reversal is caught."""
-        cmap = concept_map()
+        cmap = concepts()
         for cid in ("if", "for"):
             self.assertNotEqual(
                 cmap[cid]["depth"], "L3",
@@ -186,7 +201,7 @@ class TheRatchetsMeasureSomethingReal(unittest.TestCase):
         to do with the course. The assertions below already fail if the alias is removed, and they
         fail through the extractor's own output rather than through a copy of its logic.
         """
-        c = concept_map()["data-leakage"]
+        c = concepts()["data-leakage"]
         for section in ("S17", "S32"):
             self.assertIn(section, c["sections_used"])
         self.assertGreaterEqual(len(c["examples"]), 5)
