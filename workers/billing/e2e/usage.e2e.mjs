@@ -177,7 +177,8 @@ await flow('security.txt and privacy notice', async () => {
   const body = await r.text()
   record('/.well-known/security.txt: 200, text/plain, Contact and Expires', r.status === 200 && /^text\/plain/.test(r.headers.get('content-type') ?? '') && /^Contact: mailto:security@/m.test(body) && /^Expires: \d{4}-/m.test(body), `status=${r.status} type=${r.headers.get('content-type')}`)
   const html = await (await fetch(`${BASE}/privacy`)).text()
-  const text = html.replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<[^>]+>/g, ' ')
+  // React separates text nodes with <!-- --> markers; drop them before reading the words.
+  const text = html.replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<!--[\s\S]*?-->/g, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ')
   record('/privacy without JavaScript: the real stack, RNPD and 48 h, nothing from Firebase', /Cloudflare/.test(text) && /RNPD/.test(text) && /48 horas/.test(text) && !/Firebase|PostgreSQL/.test(text))
   const ctx = await contextFor(null)
   const page = await open(ctx, '/privacy')
