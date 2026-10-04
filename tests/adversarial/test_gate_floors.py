@@ -8,6 +8,7 @@ background colour it made up, so a green run could mean that nothing was measure
 """
 from __future__ import annotations
 
+import ast
 import contextlib
 import importlib.util
 import io
@@ -215,6 +216,73 @@ class FirstUseAllFloor(unittest.TestCase):
         code, report = self.verdict({"active_section_ids": [], "terms": [], "events": []})
         self.assertEqual(code, 1)
         self.assertEqual(report["empty_populations"], ["active_section_ids", "terms", "events"])
+
+
+def owed(script: str, name: str) -> int:
+    """The debt a ratcheted gate declares, read from the script itself."""
+    for node in ast.parse((ROOT / "scripts" / script).read_text(encoding="utf-8")).body:
+        if isinstance(node, ast.Assign) and any(getattr(t, "id", None) == name for t in node.targets):
+            return ast.literal_eval(node.value)
+    raise AssertionError(f"scripts/{script} declares no {name}")
+
+
+def glossary_course(early: int, missing: int) -> dict[str, str]:
+    """Sections alpha then beta, and glossary terms all introduced in beta: `early` of them
+    are used in alpha first (forward references), `missing` never appear in beta's prose (hovers
+    that cannot fire), and one control term sits only in beta, where it belongs."""
+    early_names = [f"temprana{i}" for i in range(early)]
+    missing_names = [f"ausente{i}" for i in range(missing)]
+    entries = "".join(f"  {{ id: 't-{n}', term: '{n}', aliases: [], firstSectionId: 'beta' }},\n"
+                      for n in [*early_names, *missing_names, "presente"])
+    return {
+        "src/lib/course/index.ts": ("import { section01 } from './sections/s01-alpha'\n"
+                                    "import { section02 } from './sections/s02-beta'\n"),
+        "src/lib/glossary/terms.ts": f"export const GLOSSARY_TERMS = [\n{entries}]\n",
+        "src/lib/course/sections/s01-alpha.ts": f"export const s = {{ id: 'alpha', theory: '{' '.join(early_names)}' }}\n",
+        "src/lib/course/sections/s02-beta.ts": f"export const s = {{ id: 'beta', theory: '{' '.join([*early_names, 'presente'])}' }}\n",
+    }
+
+
+class GlossaryRatchets(unittest.TestCase):
+    """Both glossary audits printed "ok": false and exited 0, so the CI step that ran them could
+    never fail. Each now holds the count it carries today, in both directions."""
+
+    def run_intro(self, early: int) -> subprocess.CompletedProcess:
+        return run_gate("glossary_intro_audit.py", glossary_course(early, 0),
+                        also=("scripts/glossary_first_use.py",))
+
+    def run_coverage(self, missing: int) -> subprocess.CompletedProcess:
+        return run_gate("glossary_coverage_audit.py", glossary_course(0, missing))
+
+    def test_the_forward_references_owed_pass(self) -> None:
+        result = self.run_intro(owed("glossary_intro_audit.py", "FORWARD_REFS_OWED"))
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_a_new_forward_reference_fails(self) -> None:
+        result = self.run_intro(owed("glossary_intro_audit.py", "FORWARD_REFS_OWED") + 1)
+        self.assertEqual(result.returncode, 1, result.stdout)
+        self.assertIn("more than the", result.stdout)
+
+    def test_a_paid_forward_reference_must_lower_the_number(self) -> None:
+        debt = owed("glossary_intro_audit.py", "FORWARD_REFS_OWED")
+        result = self.run_intro(debt - 1)
+        self.assertEqual(result.returncode, 1, result.stdout)
+        self.assertIn(f"Lower FORWARD_REFS_OWED to {debt - 1}", result.stdout)
+
+    def test_the_missing_prose_owed_passes(self) -> None:
+        result = self.run_coverage(owed("glossary_coverage_audit.py", "MISSING_PROSE_OWED"))
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_a_new_hover_that_cannot_fire_fails(self) -> None:
+        result = self.run_coverage(owed("glossary_coverage_audit.py", "MISSING_PROSE_OWED") + 1)
+        self.assertEqual(result.returncode, 1, result.stdout)
+        self.assertIn("more than the", result.stdout)
+
+    def test_a_closed_gap_must_lower_the_number(self) -> None:
+        debt = owed("glossary_coverage_audit.py", "MISSING_PROSE_OWED")
+        result = self.run_coverage(debt - 1)
+        self.assertEqual(result.returncode, 1, result.stdout)
+        self.assertIn(f"Lower MISSING_PROSE_OWED to {debt - 1}", result.stdout)
 
 
 if __name__ == "__main__":

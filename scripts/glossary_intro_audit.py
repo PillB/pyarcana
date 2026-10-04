@@ -32,6 +32,13 @@ INDEX = (ROOT / "src/lib/course/index.ts").read_text(encoding="utf-8")
 TERMS_TS = (ROOT / "src/lib/glossary/terms.ts").read_text(encoding="utf-8")
 SECTIONS_DIR = ROOT / "src/lib/course/sections"
 OUT = ROOT / "course-state/glossary_intro_report.json"
+#: Forward references the course carries today. This audit printed "ok": false and still exited
+#: 0, so the CI step running it could never fail. It now fails when the count moves: a new
+#: forward reference fails, and so does paying one off without lowering this number.
+#: 2026-10-03: 7 - return, coverage, eda, pipeline, mlops, fastapi, llm. fastapi is the audit's
+#: own false positive: it reads source and matches the section id `fastapi` (LEDGER_NOTES, "That
+#: audit reads source, not learner prose").
+FORWARD_REFS_OWED = 7
 
 # parse firstSectionId and term from terms.ts
 terms = []
@@ -101,3 +108,12 @@ report = {
 }
 OUT.write_text(json.dumps(report, indent=2, ensure_ascii=False))
 print(json.dumps({"ok": report["ok"], "forward_refs": len(issues), "terms": len(terms)}, indent=2))
+if len(issues) > FORWARD_REFS_OWED:
+    print(f"FAIL: {len(issues)} forward references, more than the {FORWARD_REFS_OWED} owed. A term now"
+          " appears before the section that teaches it: gloss it there, move it, or point its"
+          " firstSectionId at the section that really teaches it.")
+    raise SystemExit(1)
+if len(issues) < FORWARD_REFS_OWED:
+    print(f"FAIL: {len(issues)} forward references, fewer than the {FORWARD_REFS_OWED} owed. Lower"
+          f" FORWARD_REFS_OWED to {len(issues)} in this commit, with a dated line naming the term.")
+    raise SystemExit(1)
