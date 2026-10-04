@@ -213,23 +213,29 @@ await flow('CSP: Pyodide runs with wasm-unsafe-eval; eval, other jsDelivr files 
   const headers = (await page.evaluate(async () => Object.fromEntries((await fetch('/', { cache: 'no-store' })).headers)))
   record('P5: CORP same-origin and X-Permitted-Cross-Domain-Policies none; no COEP', headers['cross-origin-resource-policy'] === 'same-origin' && headers['x-permitted-cross-domain-policies'] === 'none' && !headers['cross-origin-embedder-policy'], JSON.stringify({ corp: headers['cross-origin-resource-policy'], xpcdp: headers['x-permitted-cross-domain-policies'] }))
   record('P4: the served CSP has no Firebase host, no bare jsDelivr and no unsafe-eval', !/firestore|identitytoolkit|securetoken|'unsafe-eval'|cdn\.jsdelivr\.net[ ;]/.test(headers['content-security-policy'] ?? 'x') && (headers['content-security-policy'] ?? '').includes(PYO_CDN), (headers['content-security-policy'] ?? '').slice(0, 160))
-  // The loader exactly as CodePlayground runs it (script tag with SRI, then loadPyodide).
-  const run = await page.evaluate(async ([cdn, integrity]) => {
+  // The loader exactly as CodePlayground runs it (script tag with SRI, then loadPyodide). It starts
+  // from a page task: code inside Playwright's evaluate call may eval regardless of the CSP (CDP
+  // Runtime.evaluate allows it), which would make this check prove nothing.
+  await page.evaluate(([cdn, integrity]) => { setTimeout(async () => { window.__py = await (async () => {
     await new Promise((ok, ko) => { const s = document.createElement('script'); s.src = `${cdn}pyodide.js`; s.integrity = integrity; s.crossOrigin = 'anonymous'; s.onload = ok; s.onerror = () => ko(new Error('script')); document.head.appendChild(s) })
     const py = await window.loadPyodide({ indexURL: cdn })
     const out = []
     py.setStdout({ batched: (line) => out.push(line) })
     await py.runPythonAsync('import json, math\nprint(json.dumps({"fact": math.factorial(5), "sum": sum(range(10))}))')
     return out.join('\n')
-  }, [PYO_CDN, process.env.E2E_PYODIDE_SRI]).catch((e) => `threw: ${e.message}`)
+  })().catch((e) => `threw: ${e.message}`) }, 0) }, [PYO_CDN, process.env.E2E_PYODIDE_SRI])
+  await page.waitForFunction(() => window.__py !== undefined, null, { timeout: 120000 })
+  const run = await page.evaluate(() => window.__py)
   const violations = await page.evaluate(() => window.__csp)
   record('P4c: Pyodide loads and runs Python under wasm-unsafe-eval, no CSP violation', run === '{"fact": 120, "sum": 45}' && violations.length === 0, `${run} | ${violations.join(', ')}`)
   const refused = await page.evaluate(async () => {
     const before = window.__csp.length
-    // From the page's own inline script: code run through Playwright's evaluate is not judged by the CSP.
-    const inline = document.createElement('script')
-    inline.textContent = "try { eval('1 + 1') } catch (e) {}"
-    document.head.appendChild(inline)
+    // From a page task, as above: inside the evaluate call itself the eval would be allowed.
+    setTimeout(() => {
+      const inline = document.createElement('script')
+      inline.textContent = "try { eval('1 + 1') } catch (e) {}"
+      document.head.appendChild(inline)
+    }, 0)
     await new Promise((ok) => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/left-pad@1.3.0/index.js'; s.onerror = ok; s.onload = ok; document.head.appendChild(s) })
     try { await fetch('https://firestore.googleapis.com/') } catch {}
     await new Promise((ok) => setTimeout(ok, 300))
