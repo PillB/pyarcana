@@ -11,7 +11,7 @@
  * Refuses (exit 1, nothing written) when outDir holds no index.html (not a built export), and when
  * an ads.txt is already there but no AdSense id is configured (a stale authorization).
  */
-import { existsSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawnSync } from 'node:child_process'
@@ -22,11 +22,26 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 // The config and builders are TypeScript with '@/' imports. Re-run this script once under the tsx
 // loader (the same `node --import tsx` the unit tests use), from the repository root so tsx finds
 // tsconfig.json's paths whatever directory the caller is in.
+// The config's launch stage depends on the build's base path (config.ts buildStage): read the one
+// this build recorded in out/deployment.json, so out/_headers always matches the pages' meta CSP.
+function recordedBasePath() {
+  try {
+    const value = JSON.parse(readFileSync(join(outDir, 'deployment.json'), 'utf8')).base_path
+    return typeof value === 'string' ? value : undefined
+  } catch {
+    return undefined
+  }
+}
+
 if (process.env.PYARCANA_CLOUD_HEADERS_TSX !== '1') {
+  const basePath = recordedBasePath()
+  const env = { ...process.env, PYARCANA_CLOUD_HEADERS_TSX: '1' }
+  if (basePath === undefined) delete env.NEXT_PUBLIC_BASE_PATH
+  else env.NEXT_PUBLIC_BASE_PATH = basePath
   const child = spawnSync(process.execPath, ['--import', import.meta.resolve('tsx'), fileURLToPath(import.meta.url), outDir], {
     cwd: repoRoot,
     stdio: 'inherit',
-    env: { ...process.env, PYARCANA_CLOUD_HEADERS_TSX: '1' },
+    env,
   })
   process.exit(child.status ?? 1)
 }
@@ -56,4 +71,4 @@ if (adsTxt === null && existsSync(join(outDir, 'ads.txt'))) {
 
 writeFileSync(join(outDir, '_headers'), headers)
 if (adsTxt !== null) writeFileSync(join(outDir, 'ads.txt'), adsTxt)
-console.log(`cloud-headers: wrote _headers${adsTxt !== null ? ' and ads.txt' : ''} to ${outDir} (from ${fileURLToPath(new URL('../src/lib/cloud/config.ts', here))})`)
+console.log(`cloud-headers: wrote _headers${adsTxt !== null ? ' and ads.txt' : ''} to ${outDir} (stage ${CLOUD_CONFIG.launchStage}, base path ${JSON.stringify(process.env.NEXT_PUBLIC_BASE_PATH ?? null)})`)

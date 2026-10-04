@@ -162,3 +162,14 @@ test("the site's emailSignIn equals whether the worker sends email codes (privac
   const provider = unquote(section(TOML, "vars").EMAIL_PROVIDER);
   assert.equal(match[1] === "true", provider !== "", `emailSignIn=${match[1]} but EMAIL_PROVIDER="${provider}"`);
 });
+
+test("one origin: no workers.dev or preview URL, the deploy owns both custom domains, and TERMS_VERSION matches the site", () => {
+  assert.match(TOML, /^workers_dev = false$/m);
+  assert.match(TOML, /^preview_urls = false$/m);
+  assert.match(TOML, /\{ pattern = "pyarcana\.dev", custom_domain = true \}/);
+  assert.match(TOML, /\{ pattern = "www\.pyarcana\.dev", custom_domain = true \}/);
+  const config = readFileSync(fileURLToPath(new URL("../../src/lib/cloud/config.ts", ROOT)), "utf8");
+  const site = /^ {2}termsVersion: '([^']*)',$/m.exec(config);
+  assert.ok(site, "CLOUD_CONFIG.termsVersion is set");
+  assert.equal(unquote(section(TOML, "vars").TERMS_VERSION), site[1], "sign-in must echo the exact terms version the site shows");
+});

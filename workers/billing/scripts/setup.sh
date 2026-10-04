@@ -7,7 +7,7 @@
 #   workers/billing/scripts/setup.sh --rotate-key k2    # replace the licence signing key (opt-in)
 #
 # What it does, in order:
-#   1. checks Node >= 20, CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID;
+#   1. checks Node >= 22, CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID;
 #   2. finds the D1 database by name (`wrangler d1 list --json`) or creates it, and writes its id
 #      into your LOCAL wrangler.toml (the repository keeps the TODO_ placeholder: do not commit it);
 #   3. refuses to go on while any TODO_ placeholder survives in wrangler.toml;

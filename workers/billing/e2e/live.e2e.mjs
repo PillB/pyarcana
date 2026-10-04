@@ -62,10 +62,10 @@ async function open(ctx, path, label) {
 
 await flow('worker', async () => {
   const health = await (await api.get('/api/v1/health')).json()
-  const want = ['db', 'pepper', 'terms', 'email', 'google', 'microsoft']
-  record('health: database, pepper, terms, email, Google and Microsoft all configured', want.every((k) => health[k] === true), JSON.stringify(health))
+  const want = ['db', 'pepper', 'terms', 'google', 'microsoft']
+  record('health: database, pepper, terms, Google and Microsoft configured (email optional)', want.every((k) => health[k] === true), JSON.stringify(health))
   const methods = await (await api.get('/api/v1/auth/methods')).json()
-  record('sign-in methods: email, Google and Microsoft offered', methods.email === true && methods.google === true && methods.microsoft === true, JSON.stringify(methods).slice(0, 200))
+  record('sign-in methods: Google and Microsoft offered; email exactly when health says so', methods.google === true && methods.microsoft === true && methods.email === health.email, JSON.stringify(methods).slice(0, 200))
   const jwks = await api.get('/api/v1/jwks')
   const keys = jwks.ok() ? (await jwks.json()).keys ?? [] : []
   record('JWKS publishes the licence key', keys.length > 0 && keys.every((k) => k.kty === 'EC' && !('d' in k)), `kids=${keys.map((k) => k.kid).join(',')}`)
@@ -96,7 +96,8 @@ await flow('anonymous pages', async () => {
     record(`anonymous ${path} renders cleanly`, errors.length === before, errors.slice(before).join(' | '))
     if (path === '/#setup') {
       const adapter = await page.locator('[data-testid="ad-slot"][data-placement="section_end"]').first().getAttribute('data-adapter').catch(() => null)
-      record('a signed-out visitor sees the house ad at the end of section 1', adapter === 'house', `adapter=${adapter}`)
+      // In sync there is no Pro to promote, so no house box; in beta or paid the trial promo shows.
+      record('the end-of-section ad slot shows a house promo or nothing, never a network ad', adapter === null || adapter === 'house', `adapter=${adapter}`)
     }
     if (path === '/cuenta') record('/cuenta offers "Entrar" when signed out', await page.getByTestId('cuenta-signin').isVisible().catch(() => false))
     await page.screenshot({ path: `${OUT}live${path.replace(/[/#]/g, '-') || '-home'}.png`, fullPage: true })

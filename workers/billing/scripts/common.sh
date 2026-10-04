@@ -18,15 +18,15 @@ wr() {
   fi
 }
 
-# wrangler 4 and scripts/ops.mjs need Node 20 or newer. An older Homebrew node fails several steps
+# wrangler 4 and scripts/ops.mjs need Node 22 or newer. An older Homebrew node fails several steps
 # later with a much less obvious message, so say it first.
 need_node() {
-  command -v node >/dev/null 2>&1 || die "node is not installed. Install Node 20 or newer (https://nodejs.org) and run this again."
+  command -v node >/dev/null 2>&1 || die "node is not installed. Install Node 22 or newer (https://nodejs.org) and run this again."
   local version major
   version=$(node -p 'process.versions.node' 2>/dev/null || true)
   major="${version%%.*}"
   case "$major" in
-    '' | *[!0-9]*) die "Could not read the Node version. Install Node 20 or newer and run this again." ;;
+    '' | *[!0-9]*) die "Could not read the Node version. Install Node 22 or newer and run this again." ;;
   esac
-  [ "$major" -ge 20 ] || die "node $version is too old: wrangler 4 and these scripts need Node 20 or newer."
+  [ "$major" -ge 22 ] || die "node $version is too old: wrangler 4 and these scripts need Node 22 or newer."
 }

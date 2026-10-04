@@ -70,7 +70,7 @@ const WORKER_SUITES = [
   ["microsoft", 25],
   ["session-routes", 5],
   ["retention", 6],
-  ["wrangler", 8],
+  ["wrangler", 9],
   ["audit", 3],
   ["runner", 6],
   // Stage 1b: entitlement, trial, admin, progress, reports, privacy.
@@ -129,7 +129,7 @@ const CLIENT_SUITES = [
   ["billing-ui", 11],
   ["client-fixes", 21],
   ["cloud-i18n", 3],
-  ["config", 13],
+  ["config", 14],
   ["consent-qa", 7],
   ["experiments", 10],
   ["gate", 16],

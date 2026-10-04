@@ -14,7 +14,7 @@ PyArcana's domain, never a person's mailbox.
 
 ## Setup order
 
-Everything runs on the owner's machine (Node >= 20, bun, a PyArcana checkout); the Cloudflare
+Everything runs on the owner's machine (Node >= 22, which wrangler 4 requires; bun; a PyArcana checkout); the Cloudflare
 API is not reachable from the build sandbox. Once the zone and the identity providers exist:
 
 ```bash
@@ -31,7 +31,7 @@ revoke it afterwards.
 
 `scripts/setup.sh`, in order:
 
-1. Checks Node >= 20, `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` before any wrangler call.
+1. Checks Node >= 22, `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` before any wrangler call.
 2. Finds the D1 database `pyarcana-accounts` with `wrangler d1 list --json` (never `d1 info`,
    which reads the placeholder as an id), or creates it, and writes its id into the LOCAL
    `wrangler.toml`. The repository keeps `TODO_REPLACE_WITH_D1_DATABASE_ID`

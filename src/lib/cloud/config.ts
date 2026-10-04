@@ -89,8 +89,22 @@ export interface CloudConfig {
 
 const FREE_PLAN_SECTIONS = getPlanByCode('free')?.maxSections
 
+/**
+ * The committed launch stage (owner decision 4 Oct 2026: 'sync', accounts and progress sync on, no
+ * gate, every section free). It applies ONLY to the root build that deploy.sh makes for the
+ * canonical origin (NEXT_PUBLIC_BASE_PATH set to ''). Every other build ships 'off' at build time
+ * too: the GitHub Pages edition under /pyarcana, tests and local dev keep their CSP, their
+ * "sin cookies de terceros" text and their pages exactly as before, not only at run time
+ * (effectiveStage already refuses any origin but the canonical one).
+ */
+export const COMMITTED_LAUNCH_STAGE: LaunchStage = 'sync'
+
+export function buildStage(committed: LaunchStage, basePathEnv: string | undefined): LaunchStage {
+  return basePathEnv === '' ? committed : 'off'
+}
+
 export const CLOUD_CONFIG: CloudConfig = {
-  launchStage: 'off',
+  launchStage: buildStage(COMMITTED_LAUNCH_STAGE, process.env.NEXT_PUBLIC_BASE_PATH),
   // DESIGN-v3 §K/§L prefill. Inert while launchStage is 'off' (effectiveStage) and movedToCanonical
   // is false (no banner, no #import=), so github.io stays exactly as it is.
   canonicalOrigin: 'https://pyarcana.dev',
@@ -98,10 +112,15 @@ export const CLOUD_CONFIG: CloudConfig = {
   apiBaseUrl: '/api',
   googleClientId: '432743649609-a450e9saoe4akd98dt3gsnous80vblj4.apps.googleusercontent.com',
   microsoftClientId: '171fb4ff-f112-46b2-9043-92ecb97f56fe',
-  termsVersion: '',
+  termsVersion: '2026-10-04',
   microsoftAuthority: 'common',
   emailSignIn: false,
-  licence: { publicKeys: [] },
+  // The k1 key setup.sh generated on deploy day (4 Oct 2026); GET /api/v1/jwks serves the same x/y.
+  licence: {
+    publicKeys: [
+      { kty: 'EC', crv: 'P-256', x: 'QlsNt0JdgF6krSYFxH8RyDVJIrw-fCpw6zN1zsaUuqo', y: 'HW--fWwX_KxhFSFSqvJR9D-G-H37bdgQk9ySNEOfamY', kid: 'k1', alg: 'ES256', use: 'sig' },
+    ],
+  },
   gate: { freeSections: FREE_PLAN_SECTIONS ?? 0, since: '', packaging: 'A' },
   rails: { peru: '', international: '' },
   legal: { sellerName: '', ruc: '', address: '', complaintsBookUrl: '', supportEmail: 'soporte@pyarcana.dev' },

@@ -32,7 +32,11 @@ test('shipped defaults keep the live site unchanged: stage off, nothing configur
   // The registered Entra app (setup thread, 1 Oct 2026): a public id, inert while the stage is off.
   assert.equal(CLOUD_CONFIG.microsoftClientId, '171fb4ff-f112-46b2-9043-92ecb97f56fe')
   assert.equal(CLOUD_CONFIG.microsoftAuthority, 'common')
-  assert.deepEqual(CLOUD_CONFIG.licence.publicKeys, [])
+  // Deploy day, 4 Oct 2026: the k1 public key setup.sh printed (the worker's /api/v1/jwks serves the same).
+  assert.deepEqual(CLOUD_CONFIG.licence.publicKeys.map((k) => [k.kid, k.kty, k.crv, k.alg]), [['k1', 'EC', 'P-256', 'ES256']])
+  assert.equal(CLOUD_CONFIG.licence.publicKeys[0].x, 'QlsNt0JdgF6krSYFxH8RyDVJIrw-fCpw6zN1zsaUuqo')
+  assert.ok(CLOUD_CONFIG.licence.publicKeys.every((k) => !('d' in k)), 'never a private key in the site')
+  assert.equal(CLOUD_CONFIG.termsVersion, '2026-10-04')
   assert.equal(CLOUD_CONFIG.gate.packaging, 'A')
   assert.equal(CLOUD_CONFIG.ads.provider, 'house')
   assert.equal(CLOUD_CONFIG.consent.mode, 'everywhere')
@@ -117,4 +121,16 @@ test('currentStage is off during server rendering (no window)', () => {
 test('config.ts commits no personal mailbox (role addresses on the business domain only)', () => {
   const source = readFileSync(join(process.cwd(), 'src/lib/cloud/config.ts'), 'utf8')
   assert.doesNotMatch(source, /@(gmail|googlemail|hotmail|outlook|yahoo)\./i)
+})
+
+test('the committed stage reaches only the root build (deploy.sh); GitHub Pages, tests and dev build at off', async () => {
+  const { buildStage, COMMITTED_LAUNCH_STAGE } = await import('@/lib/cloud/config')
+  // Owner decision 4 Oct 2026: accounts and sync on, no gate.
+  assert.equal(COMMITTED_LAUNCH_STAGE, 'sync')
+  assert.equal(buildStage('sync', ''), 'sync', 'the root build for https://pyarcana.dev')
+  assert.equal(buildStage('sync', '/pyarcana'), 'off', 'the GitHub Pages edition')
+  assert.equal(buildStage('sync', undefined), 'off', 'tests and local dev')
+  assert.equal(buildStage('paid', '/pyarcana'), 'off')
+  // This test process has no base path, so the shipped CLOUD_CONFIG is the GitHub Pages one: off.
+  assert.equal(CLOUD_CONFIG.launchStage, 'off')
 })

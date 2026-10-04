@@ -21,9 +21,11 @@ if [[ "${1:-}" != "--no-build" ]]; then
   ln -sfn "$REPO/node_modules" "$WORK/site/node_modules"
   node -e '
     const fs = require("fs"); const p = process.argv[1]; let s = fs.readFileSync(p, "utf8");
-    s = s.replace("  launchStage: \x27off\x27,", "  launchStage: \x27beta\x27,")
+    // The harness tests the full feature set: the gated beta, even though production runs sync.
+    s = s.replace(/COMMITTED_LAUNCH_STAGE: LaunchStage = \x27[a-z]+\x27/, "COMMITTED_LAUNCH_STAGE: LaunchStage = \x27beta\x27")
          .replace("  canonicalOrigin: \x27https://pyarcana.dev\x27,", "  canonicalOrigin: \x27http://localhost:8787\x27,")
-         .replace("  termsVersion: \x27\x27,", "  termsVersion: \x27e2e-2026-10-01\x27,");
+         .replace(/  termsVersion: \x27[^\x27]*\x27,/, "  termsVersion: \x27e2e-2026-10-01\x27,")
+         .replace("  emailSignIn: false,", "  emailSignIn: true,");
     fs.writeFileSync(p, s);' "$WORK/site/src/lib/cloud/config.ts"
   (cd "$WORK/site" && NEXT_PUBLIC_BASE_PATH= bun run build:static >"$WORK/build.log" 2>&1 && node scripts/cloud-headers.mjs out >/dev/null)
 fi

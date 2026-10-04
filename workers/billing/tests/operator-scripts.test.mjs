@@ -168,11 +168,11 @@ test("setup.sh refuses a Node older than 20, before any wrangler call", () => {
   const t = tree();
   const old = path.join(t.root, ".oldnode");
   mkdirSync(old);
-  writeFileSync(path.join(old, "node"), '#!/bin/sh\n[ "$1" = "--version" ] && { echo v18.19.0; exit 0; }\necho 18.19.0\n');
+  writeFileSync(path.join(old, "node"), '#!/bin/sh\n[ "$1" = "--version" ] && { echo v20.19.0; exit 0; }\necho 20.19.0\n');
   chmodSync(path.join(old, "node"), 0o755);
   const r = run(t, "setup.sh", { pathPrefix: old, input: "admin@example.com\n" });
   assert.notEqual(r.status, 0);
-  assert.match(r.out, /Node 20/);
+  assert.match(r.out, /Node 22/);
   assert.deepEqual(r.state.calls, []);
   rmSync(t.root, { recursive: true, force: true });
 });

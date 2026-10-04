@@ -1,6 +1,14 @@
 name = "pyarcana-billing"
 main = "src/index.mjs"
 compatibility_date = "2025-09-01"
+# One origin only (DESIGN-v3 §A): no *.workers.dev URL and no preview URLs, so the site, its
+# cookie and its CORS answer exist on pyarcana.dev alone. The deploy owns both custom domains.
+workers_dev = false
+preview_urls = false
+routes = [
+  { pattern = "pyarcana.dev", custom_domain = true },
+  { pattern = "www.pyarcana.dev", custom_domain = true },
+]
 
 # --- One origin: the static site and the API from this worker (DESIGN-v3 §A) ----------
 # The Next.js static export (`NEXT_PUBLIC_BASE_PATH= bun run build:static`, repository
@@ -36,7 +44,7 @@ ALLOWED_ORIGINS = "https://pyarcana.dev"
 CANONICAL_ORIGIN = "https://pyarcana.dev"
 SITE_PATH = ""
 # Version string of the Terms the sign-in panel shows; sign-in must echo it exactly.
-TERMS_VERSION = ""
+TERMS_VERSION = "2026-10-04"
 # Trial length (days), grace after a failed renewal (days), absolute session cap (days).
 TRIAL_DAYS = "7"
 GRACE_DAYS = "7"
