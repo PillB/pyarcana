@@ -30,8 +30,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/fixer"))
+sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "tests/adversarial"))
 
 from build_concept_prompt import concept_row  # noqa: E402
+from concept_map import build_concepts  # noqa: E402
+from course_events import fresh_events  # noqa: E402
 
 CMAP = json.loads((ROOT / "course-state/concept_map.json").read_text(encoding="utf-8"))
 
@@ -111,11 +115,13 @@ class ConceptPromptWeight(unittest.TestCase):
 
         This is the one place the course itself is read. If the campaign ever reaches zero
         never-explained concepts there is nothing left to check, and saying so is better than
-        failing the gate on success.
+        failing the gate on success. The map is built from a fresh extraction, never the
+        committed report, and while it is empty `test_surprising_uses_ratchet` is what holds it
+        there.
         """
         rows = [
             concept_row(cid, c, u["section"])
-            for cid, c in CMAP.items()
+            for cid, c in build_concepts(fresh_events()).items()
             if c["depth"] == "L0"
             for u in c["surprising_uses"]
         ]
