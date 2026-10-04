@@ -45,6 +45,10 @@ test('_headers: one rule for every asset, the meta CSP as a header, standard sec
   // The QA harness captures the screen with getDisplayMedia: display-capture must stay allowed.
   assert.match(h['Permissions-Policy'], /display-capture=\(self\)/)
   assert.match(h['Permissions-Policy'], /camera=\(\)/)
+  // D4 audit P5: two cheap headers; never COEP (it would block the sign-in popups and the Pyodide CDN).
+  assert.equal(h['X-Permitted-Cross-Domain-Policies'], 'none')
+  assert.equal(h['Cross-Origin-Resource-Policy'], 'same-origin')
+  assert.equal(h['Cross-Origin-Embedder-Policy'], undefined)
 })
 
 test('_headers follows the config: provider hosts appear in the header exactly as in the meta tag', () => {

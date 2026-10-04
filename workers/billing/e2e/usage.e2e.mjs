@@ -9,10 +9,13 @@
 //    once the row is gone "Sincronizar ahora" sends it.
 // 4. Signed out: the sign-in nudge and the one-time storage persistence request.
 // 5. security.txt is served from the dot-folder, and /privacy is the new notice.
+// 6. D4 P4–P6 under the real CSP: Pyodide runs, eval and other CDN files are refused, two new
+//    headers, a slim /v1/health and the admin's configuration list.
 // E2E_WORKER_DIR (set by run.sh) is the worker folder whose local D1 is used.
 import { chromium } from 'playwright'
 import { execFileSync } from 'node:child_process'
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { extname, join } from 'node:path'
 
 const BASE = 'http://localhost:8787'
 const OUT = new URL('./shots/', import.meta.url).pathname
@@ -185,6 +188,62 @@ await flow('security.txt and privacy notice', async () => {
   record('/privacy renders in Chromium with the cloud section', await page.locator('#cloud-legal').count() === 1 && await page.getByText('Resumen rápido').isVisible())
   await page.screenshot({ path: `${OUT}privacy.png`, fullPage: true })
   await ctx.close()
+})
+
+// 6. D4 audit P4/P5/P6 under the real policy (the _headers CSP and the meta CSP, both enforced).
+// jsDelivr is unreachable from CI sandboxes, so its Pyodide URLs are answered from the npm package of
+// the same version (E2E_PYODIDE_DIR, prepared by run.sh): same URLs, so the CSP decision is real;
+// same bytes, so the SRI check in the loader passes; real WebAssembly compilation.
+const PYO_DIR = process.env.E2E_PYODIDE_DIR
+const PYO_CDN = process.env.E2E_PYODIDE_CDN
+const TYPES = { '.js': 'text/javascript', '.mjs': 'text/javascript', '.wasm': 'application/wasm', '.json': 'application/json', '.zip': 'application/zip' }
+await flow('CSP: Pyodide runs with wasm-unsafe-eval; eval, other jsDelivr files and Firebase are refused', async () => {
+  if (!PYO_DIR || !existsSync(join(PYO_DIR, 'pyodide.js'))) return record('Pyodide under the real CSP', false, 'E2E_PYODIDE_DIR missing')
+  const ctx = await contextFor(null)
+  await ctx.route(`${PYO_CDN}**`, (route) => {
+    const file = join(PYO_DIR, new URL(route.request().url()).pathname.split('/').pop())
+    if (!existsSync(file)) return route.fulfill({ status: 404, body: 'not in the npm package' })
+    return route.fulfill({ status: 200, body: readFileSync(file), headers: { 'content-type': TYPES[extname(file)] ?? 'application/octet-stream', 'access-control-allow-origin': '*' } })
+  })
+  await ctx.addInitScript(() => {
+    window.__csp = []
+    document.addEventListener('securitypolicyviolation', (e) => window.__csp.push(`${e.effectiveDirective} ${e.blockedURI}`))
+  })
+  const page = await open(ctx, '/')
+  const headers = (await page.evaluate(async () => Object.fromEntries((await fetch('/', { cache: 'no-store' })).headers)))
+  record('P5: CORP same-origin and X-Permitted-Cross-Domain-Policies none; no COEP', headers['cross-origin-resource-policy'] === 'same-origin' && headers['x-permitted-cross-domain-policies'] === 'none' && !headers['cross-origin-embedder-policy'], JSON.stringify({ corp: headers['cross-origin-resource-policy'], xpcdp: headers['x-permitted-cross-domain-policies'] }))
+  record('P4: the served CSP has no Firebase host, no bare jsDelivr and no unsafe-eval', !/firestore|identitytoolkit|securetoken|'unsafe-eval'|cdn\.jsdelivr\.net[ ;]/.test(headers['content-security-policy'] ?? 'x') && (headers['content-security-policy'] ?? '').includes(PYO_CDN), (headers['content-security-policy'] ?? '').slice(0, 160))
+  // The loader exactly as CodePlayground runs it (script tag with SRI, then loadPyodide).
+  const run = await page.evaluate(async ([cdn, integrity]) => {
+    await new Promise((ok, ko) => { const s = document.createElement('script'); s.src = `${cdn}pyodide.js`; s.integrity = integrity; s.crossOrigin = 'anonymous'; s.onload = ok; s.onerror = () => ko(new Error('script')); document.head.appendChild(s) })
+    const py = await window.loadPyodide({ indexURL: cdn })
+    const out = []
+    py.setStdout({ batched: (line) => out.push(line) })
+    await py.runPythonAsync('import json, math\nprint(json.dumps({"fact": math.factorial(5), "sum": sum(range(10))}))')
+    return out.join('\n')
+  }, [PYO_CDN, process.env.E2E_PYODIDE_SRI]).catch((e) => `threw: ${e.message}`)
+  const violations = await page.evaluate(() => window.__csp)
+  record('P4c: Pyodide loads and runs Python under wasm-unsafe-eval, no CSP violation', run === '{"fact": 120, "sum": 45}' && violations.length === 0, `${run} | ${violations.join(', ')}`)
+  const refused = await page.evaluate(async () => {
+    const before = window.__csp.length
+    try { (0, eval)('1 + 1') } catch {}
+    await new Promise((ok) => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/left-pad@1.3.0/index.js'; s.onerror = ok; s.onload = ok; document.head.appendChild(s) })
+    try { await fetch('https://firestore.googleapis.com/') } catch {}
+    await new Promise((ok) => setTimeout(ok, 300))
+    return window.__csp.slice(before)
+  })
+  record('P4: eval, a jsDelivr file outside Pyodide and a Firebase host are each refused by the CSP', refused.some((v) => v.startsWith('script-src') && /eval/.test(v)) && refused.some((v) => v.includes('left-pad')) && refused.some((v) => v.includes('firestore')), refused.join(' | '))
+  const health = await page.evaluate(async () => (await fetch('/api/v1/health')).json())
+  record('P6: /api/v1/health is {ok, db} only', JSON.stringify(health) === '{"ok":true,"db":true}', JSON.stringify(health))
+  await ctx.close()
+  const adminCtx = await contextFor('admin')
+  const adminPage = await open(adminCtx, '/admin')
+  await adminPage.getByRole('tab', { name: 'Uso' }).click()
+  const cfg = adminPage.getByTestId('usage-config')
+  await cfg.waitFor({ timeout: 15000 })
+  record('P6: the admin Uso tab lists the configuration (terms on, controller named in the harness)', (await cfg.locator('[data-key="terms"]').getAttribute('data-on')) === 'yes' && (await cfg.locator('[data-key="controller"]').getAttribute('data-on')) === 'yes')
+  await adminPage.screenshot({ path: `${OUT}usage-config.png`, fullPage: true })
+  await adminCtx.close()
 })
 
 await browser.close()

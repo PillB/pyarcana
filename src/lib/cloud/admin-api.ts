@@ -679,7 +679,13 @@ export type Usage = {
   today: UsageRow
   sources: UsageRow[]
   days: UsageRow[]
+  /** The deployment's configuration flags (worker public.mjs configStatus), in CONFIG_KEYS order. */
+  config: Array<{ key: ConfigKey; on: boolean }>
 }
+
+/** Flags the admin sees; origins are left out (a list, not a yes/no). */
+export const CONFIG_KEYS = ['pepper', 'terms', 'controller', 'email', 'google', 'microsoft', 'mercadopago', 'creem'] as const
+export type ConfigKey = (typeof CONFIG_KEYS)[number]
 
 const count = (v: unknown): number => Math.max(0, num(v) ?? 0)
 
@@ -705,6 +711,7 @@ export function parseUsage(data: unknown): Usage {
     today: today ?? { label: '', rowsRead: 0, rowsWritten: 0 },
     sources: usageRows(d.sources, 'source'),
     days: usageRows(d.days, 'day'),
+    config: isPlainObject(d.config) ? CONFIG_KEYS.map((key) => ({ key, on: (d.config as Record<string, unknown>)[key] === true })) : [],
   }
 }
 

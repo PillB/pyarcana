@@ -30,6 +30,10 @@ export const HEADERS_LINE_MAX = 2000
  * - COOP same-origin-allow-popups: Google's popup sign-in needs its popup to reach window.opener.
  * - Permissions-Policy: no camera, microphone, location, USB or Payment Request API; screen capture
  *   only for this origin (the QA harness uses getDisplayMedia).
+ * - X-Permitted-Cross-Domain-Policies none: no Flash or PDF cross-domain policy file is honoured.
+ * - CORP same-origin: our responses cannot be embedded by other sites. It only governs what WE
+ *   serve, so loading Pyodide, GIS or MSAL from their hosts is unaffected. No COEP: it would block
+ *   the sign-in popups and the Pyodide CDN (D4 audit P5).
  */
 export const SECURITY_HEADERS: ReadonlyArray<readonly [string, string]> = [
   ['X-Content-Type-Options', 'nosniff'],
@@ -38,6 +42,8 @@ export const SECURITY_HEADERS: ReadonlyArray<readonly [string, string]> = [
   ['Strict-Transport-Security', 'max-age=31536000; includeSubDomains'],
   ['Cross-Origin-Opener-Policy', 'same-origin-allow-popups'],
   ['Permissions-Policy', 'camera=(), microphone=(), geolocation=(), usb=(), payment=(), display-capture=(self)'],
+  ['X-Permitted-Cross-Domain-Policies', 'none'],
+  ['Cross-Origin-Resource-Policy', 'same-origin'],
 ]
 
 /** The _headers file: one rule for every asset path. */

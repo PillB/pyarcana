@@ -67,6 +67,18 @@ export function UsageView({ u }: { u: Usage }) {
         : <RowsTable caption={tr('adm.usage.sources')} head={tr('adm.usage.source')} rows={u.sources} lang={lang} testId="usage-sources" />}
       {u.days.length > 0 && <RowsTable caption={tr('adm.usage.days')} head={tr('adm.usage.day')} rows={u.days} lang={lang} testId="usage-days" />}
       <p className="text-xs text-muted-foreground">{tr('adm.usage.note', { min: String(Math.round(u.flushSeconds / 60)) })}</p>
+      {u.config.length > 0 && (
+        <div data-testid="usage-config">
+          <p className="mb-1 text-sm font-medium">{tr('adm.usage.config')}</p>
+          <ul className="grid grid-cols-1 gap-x-4 text-sm sm:grid-cols-2">
+            {u.config.map((c) => (
+              <li key={c.key} data-key={c.key} data-on={c.on ? 'yes' : 'no'}>
+                {c.on ? '✓' : '—'} {tr(`adm.usage.config.${c.key}`)}: {tr(c.on ? 'adm.usage.config.yes' : 'adm.usage.config.no')}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   )
 }

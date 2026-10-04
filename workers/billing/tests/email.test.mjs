@@ -239,11 +239,10 @@ test("D-USER-04: EMAIL_DAILY_CAP holds for cloudflare too; past it the binding i
   assert.equal(binding.sent.length, 2);
 });
 
-test("D-USER-04 over HTTP: with the binding, health and methods offer email and /api/v1/auth/email/start sends through it", async () => {
+test("D-USER-04 over HTTP: with the binding, methods offer email and /api/v1/auth/email/start sends through it", async () => {
   const binding = fakeSendEmail();
   const { env } = await createHarness({ ...CF, EMAIL: binding });
   const fake = createFakeFetch();
-  assert.equal((await api(env, "GET", "/api/v1/health")).body.email, true);
   assert.equal((await api(env, "GET", "/api/v1/auth/methods")).body.email, true);
   const res = await api(env, "POST", "/api/v1/auth/email/start", {
     body: { email: TO, ageConfirmed: true, termsVersion: TERMS_VERSION },

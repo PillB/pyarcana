@@ -69,10 +69,12 @@ export default function RootLayout({
         {/* Content-Security-Policy as <meta http-equiv> (src/components/CspMeta.tsx). GitHub Pages
             cannot send headers, so this meta is the policy there; it must be http-equiv, since a
             name= meta (what metadata.other renders) is ignored by browsers. Next's static export
-            hydrates with inline scripts, so script-src keeps 'unsafe-inline' (and Pyodide needs
-            'unsafe-eval'). What the policy gives: object-src 'none', base-uri 'self',
-            form-action 'self', script-src self + cdn.jsdelivr.net (Pyodide), style-src self +
-            fonts.googleapis.com, connect-src self + the Firebase hosts + cdn.jsdelivr.net.
+            hydrates with inline scripts, so script-src keeps 'unsafe-inline' (their hashes change on
+            every build and differ per page; replacing it is its own round), and Pyodide needs
+            'wasm-unsafe-eval' to compile WebAssembly. What the policy gives: object-src 'none',
+            base-uri 'self', form-action 'self', script-src and connect-src self + the Pyodide
+            folder on jsDelivr only (src/lib/pyodide.ts), style-src self + fonts.googleapis.com.
+            No Firebase hosts: the static builds never configure Firebase (D4 audit, P4).
             frame-ancestors is IGNORED in a meta policy (CSP3), so metaCsp leaves it out; the
             Cloudflare build sends it as a header through _headers (src/lib/cloud/headers.ts, plus X-Frame-Options DENY). Built
             from the public cloud config (src/lib/cloud/csp.ts): the shipped config (stage off)

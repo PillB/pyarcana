@@ -18,6 +18,7 @@ const answer = {
   today: { day: '2026-10-04', rowsRead: 1_250_000, rowsWritten: 72_000 },
   sources: [{ source: 'PUT /v1/me/progress', rowsRead: 900, rowsWritten: 70_000 }, { source: 42 }, 'x'],
   days: [{ day: '2026-10-04', rowsRead: 1_250_000, rowsWritten: 72_000 }, { day: '2026-10-03', rowsRead: 10, rowsWritten: -5 }],
+  config: { pepper: true, terms: true, controller: false, email: 'yes', google: true, microsoft: true, mercadopago: false, creem: false, origins: ['https://pyarcana.dev'] },
 }
 
 test('the usage answer is parsed field by field; junk rows dropped, negative counts floored, unknown level green', () => {
@@ -50,4 +51,15 @@ test('an empty day says so instead of an empty table; every usage key exists in 
   assert.doesNotMatch(html, /usage-sources/)
   const keys = ['adm.tab.usage', 'adm.usage.what', 'adm.usage.note', 'adm.usage.banner.amber', 'adm.usage.banner.red', 'adm.usage.level.red.detail', 'account.sync.deferred']
   for (const lang of ['es-PE', 'es-ES', 'en'] as const) for (const k of keys) assert.notEqual(t(k, lang), k, `${lang} ${k}`)
+})
+
+test('the configuration flags (moved off the public health route): known keys only, true only when exactly true', () => {
+  const u = parseUsage(answer)
+  assert.deepEqual(u.config.filter((c) => c.on).map((c) => c.key), ['pepper', 'terms', 'google', 'microsoft'], "'yes' is not true")
+  assert.equal(u.config.length, 8)
+  assert.deepEqual(parseUsage({}).config, [])
+  const html = renderToStaticMarkup(h(UsageView, { u }))
+  assert.match(html, /data-key="controller" data-on="no"/)
+  assert.ok(html.includes(t('adm.usage.config.controller', 'es-PE')))
+  for (const lang of ['es-PE', 'es-ES', 'en'] as const) for (const c of u.config) assert.notEqual(t(`adm.usage.config.${c.key}`, lang), `adm.usage.config.${c.key}`)
 })

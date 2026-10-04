@@ -2,6 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { SyncController, type SyncLike } from '@/lib/cloud/sync-controller'
 import { Measurement, BOUND_KEY, type MeasurementContext } from '@/lib/cloud/measurement'
+import { PYODIDE_CDN } from '@/lib/pyodide'
 import { buildCsp, LEGACY_CSP } from '@/lib/cloud/csp'
 import { CLOUD_CONFIG, type CloudConfig } from '@/lib/cloud/config'
 import type { ApiClient, ApiResult } from '@/lib/cloud/api'
@@ -238,7 +239,15 @@ const directive = (csp: string, name: string) => csp.split('; ').find((d) => d.s
 
 test('the shipped config produces exactly the CSP the site ships today', () => {
   assert.equal(buildCsp(CLOUD_CONFIG), LEGACY_CSP)
-  assert.match(LEGACY_CSP, /^default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:\/\/cdn.jsdelivr.net;/)
+  // D4 audit P4 (setup thread, 4 Oct 2026): Pyodide's jsDelivr folder only, WebAssembly-only eval, no Firebase hosts.
+  assert.match(LEGACY_CSP, /^default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https:\/\/cdn\.jsdelivr\.net\/pyodide\/v[\d.]+\/full\/;/)
+  for (const policy of [LEGACY_CSP, buildCsp(cfg({ launchStage: 'sync' }))]) {
+    assert.doesNotMatch(policy, /firestore\.googleapis|identitytoolkit\.googleapis|securetoken\.googleapis/, 'no Firebase host')
+    assert.doesNotMatch(policy, /'unsafe-eval'/, 'no JavaScript eval')
+    assert.doesNotMatch(policy, /https:\/\/cdn\.jsdelivr\.net(?= |;|$)/, 'never the whole CDN')
+    assert.ok(directive(policy, 'connect-src').startsWith(`connect-src 'self' ${PYODIDE_CDN}`), directive(policy, 'connect-src'))
+    assert.ok(directive(policy, 'script-src').includes(` ${PYODIDE_CDN}`), 'the loader and its SRI script come from that folder')
+  }
   assert.equal(buildCsp(cfg({ googleClientId: 'x.apps.googleusercontent.com' })), LEGACY_CSP, 'stage off adds nothing')
 })
 

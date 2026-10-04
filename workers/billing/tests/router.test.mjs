@@ -37,22 +37,11 @@ test("matchRoute resolves params, reports 405 with Allow, and misses with null",
   assert.equal(matchRoute(routes, "GET", "/v1/items/%E0%A4%A"), null, "a malformed escape is a miss, not a crash");
 });
 
-test("health reports booleans only and never a secret value", async () => {
+test("health says only that the worker and D1 answer: no provider, secret or origin (D4 audit P6)", async () => {
   const env = createEnv(SECRETS);
   const res = await api(env, "GET", "/v1/health");
   assert.equal(res.status, 200);
-  assert.deepEqual(res.body, {
-    ok: true,
-    db: true,
-    pepper: true,
-    terms: true,
-    email: true,
-    google: true,
-    microsoft: true,
-    mercadopago: true,
-    creem: true,
-    origins: [APP_ORIGIN]
-  });
+  assert.deepEqual(res.body, { ok: true, db: true });
   const text = JSON.stringify(res.body);
   for (const value of Object.values(SECRETS)) {
     assert.ok(!text.includes(value), value);
@@ -62,11 +51,26 @@ test("health reports booleans only and never a secret value", async () => {
 test("health still answers, all false, when nothing is configured", async () => {
   const res = await api({}, "GET", "/v1/health");
   assert.equal(res.status, 200);
-  assert.deepEqual(res.body, {
-    ok: true,
-    db: false,
+  assert.deepEqual(res.body, { ok: true, db: false });
+});
+
+test("the configuration flags moved to the admin: configStatus, all true when configured, all false when not", async () => {
+  const { configStatus } = await import("../src/public.mjs");
+  assert.deepEqual(configStatus(createEnv(SECRETS)), {
+    pepper: true,
+    terms: true,
+    controller: true,
+    email: true,
+    google: true,
+    microsoft: true,
+    mercadopago: true,
+    creem: true,
+    origins: [APP_ORIGIN]
+  });
+  assert.deepEqual(configStatus({}), {
     pepper: false,
     terms: false,
+    controller: false,
     email: false,
     google: false,
     microsoft: false,
@@ -74,6 +78,10 @@ test("health still answers, all false, when nothing is configured", async () => 
     creem: false,
     origins: []
   });
+  const text = JSON.stringify(configStatus(createEnv(SECRETS)));
+  for (const value of Object.values(SECRETS)) {
+    assert.ok(!text.includes(value), value);
+  }
 });
 
 test("auth methods advertise what works and the 7-day trial", async () => {

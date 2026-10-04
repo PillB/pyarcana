@@ -27,6 +27,8 @@
  * USAGE_FLUSH_SECONDS sets the interval, for tests and drills only.
  */
 
+import { configStatus } from "./public.mjs";
+
 /** Daily D1 Free limits. */
 export const FREE_LIMITS = Object.freeze({ rowsRead: 5_000_000, rowsWritten: 100_000 });
 
@@ -286,7 +288,8 @@ export function syncHint(level) {
 }
 
 /**
- * GET /v1/admin/usage: today's level and totals by source, and the last HISTORY_DAYS days.
+ * GET /v1/admin/usage: today's level and totals by source, the last HISTORY_DAYS days, and the
+ * deployment's configuration flags (public.mjs configStatus).
  * @param {Object} ctx Admin request context.
  * @returns {Promise<Object>} Result.
  */
@@ -312,7 +315,9 @@ export async function handleAdminUsage(ctx) {
       flushSeconds: flushSeconds(ctx.env),
       today: totals,
       sources: (bySource.results || []).map((r) => ({ source: r.source, rowsRead: Number(r.rows_read), rowsWritten: Number(r.rows_written) })),
-      days
+      days,
+      // What this deployment has configured (moved here from the public health route, D4 audit P6).
+      config: configStatus(ctx.env)
     }
   };
 }

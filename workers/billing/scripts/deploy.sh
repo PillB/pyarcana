@@ -69,4 +69,4 @@ cd "$BILLING"
 say "Deploying the Worker (static assets + API)"
 wr deploy
 say "Deployed"
-echo "Check: https://pyarcana.dev/api/v1/health (booleans only) and https://pyarcana.dev/api/v1/jwks"
+echo "Check: https://pyarcana.dev/api/v1/health ({ok, db}), https://pyarcana.dev/api/v1/auth/methods and https://pyarcana.dev/api/v1/jwks; the full configuration is on /admin, tab Uso"

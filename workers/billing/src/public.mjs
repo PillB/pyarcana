@@ -1,11 +1,12 @@
 /**
  * Public, unauthenticated routes: GET /v1/health, GET /v1/auth/methods and
- * GET /v1/geo. Health answers booleans only (plus the public origin list):
- * never a secret, never a count, never an email. Geo answers the country
- * only.
+ * GET /v1/geo. Health answers {ok, db} only (D4 audit P6, 4 Oct 2026): which
+ * providers and secrets are configured is admin information (configStatus,
+ * served by GET /v1/admin/usage). Methods answers what the sign-in panel
+ * needs. Geo answers the country only.
  */
 
-import { listVar, stringVar, termsVersion, trialDays } from "./config.mjs";
+import { controllerName, listVar, stringVar, termsVersion, trialDays } from "./config.mjs";
 import { pepperBytes } from "./crypto.mjs";
 import { emailConfigured } from "./email.mjs";
 import { allowedOrigins } from "./http.mjs";
@@ -46,27 +47,33 @@ function allSet(env, names) {
 }
 
 /**
- * GET /v1/health.
+ * What this deployment has configured, as booleans (plus the public origin list): never a secret,
+ * a count or an email. Admin only (usage.mjs handleAdminUsage); `controller` true means sign-up is
+ * open to everyone (config.signupOpen).
+ * @param {Object} env Worker env.
+ * @returns {Object} Flags.
+ */
+export function configStatus(env) {
+  return {
+    pepper: pepperBytes(env) !== null,
+    terms: termsVersion(env) !== "",
+    controller: controllerName(env) !== "",
+    email: emailConfigured(env),
+    google: listVar(env, "GOOGLE_CLIENT_ID").length > 0,
+    microsoft: listVar(env, "MICROSOFT_CLIENT_ID").length > 0,
+    mercadopago: allSet(env, ["MP_ACCESS_TOKEN", "MP_WEBHOOK_SECRET"]),
+    creem: allSet(env, ["CREEM_API_KEY", "CREEM_WEBHOOK_SECRET", "CREEM_PRODUCT_PRO_MONTHLY", "CREEM_PRODUCT_PRO_YEARLY"]),
+    origins: allowedOrigins(env)
+  };
+}
+
+/**
+ * GET /v1/health: alive, and whether D1 answers. Nothing about configuration.
  * @param {Object} ctx Context.
  * @returns {Promise<Object>} Result.
  */
 export async function handleHealth(ctx) {
-  const env = ctx.env;
-  return {
-    status: 200,
-    body: {
-      ok: true,
-      db: await dbReachable(env),
-      pepper: pepperBytes(env) !== null,
-      terms: termsVersion(env) !== "",
-      email: emailConfigured(env),
-      google: listVar(env, "GOOGLE_CLIENT_ID").length > 0,
-      microsoft: listVar(env, "MICROSOFT_CLIENT_ID").length > 0,
-      mercadopago: allSet(env, ["MP_ACCESS_TOKEN", "MP_WEBHOOK_SECRET"]),
-      creem: allSet(env, ["CREEM_API_KEY", "CREEM_WEBHOOK_SECRET", "CREEM_PRODUCT_PRO_MONTHLY", "CREEM_PRODUCT_PRO_YEARLY"]),
-      origins: allowedOrigins(env)
-    }
-  };
+  return { status: 200, body: { ok: true, db: await dbReachable(ctx.env) } };
 }
 
 /**

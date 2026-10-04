@@ -62,10 +62,10 @@ async function open(ctx, path, label) {
 
 await flow('worker', async () => {
   const health = await (await api.get('/api/v1/health')).json()
-  const want = ['db', 'pepper', 'terms', 'google', 'microsoft']
-  record('health: database, pepper, terms, Google and Microsoft configured (email optional)', want.every((k) => health[k] === true), JSON.stringify(health))
+  // D4 audit P6: health tells only that the worker and D1 answer; the configuration is admin-only.
+  record('health: {ok, db} and nothing about configuration', JSON.stringify(health) === '{"ok":true,"db":true}', JSON.stringify(health))
   const methods = await (await api.get('/api/v1/auth/methods')).json()
-  record('sign-in methods: Google and Microsoft offered; email exactly when health says so', methods.google === true && methods.microsoft === true && methods.email === health.email, JSON.stringify(methods).slice(0, 200))
+  record('sign-in methods: Google and Microsoft offered (so pepper, terms and D1 are ready)', methods.google === true && methods.microsoft === true, JSON.stringify(methods).slice(0, 200))
   const jwks = await api.get('/api/v1/jwks')
   const keys = jwks.ok() ? (await jwks.json()).keys ?? [] : []
   record('JWKS publishes the licence key', keys.length > 0 && keys.every((k) => k.kty === 'EC' && !('d' in k)), `kids=${keys.map((k) => k.kid).join(',')}`)
@@ -119,7 +119,7 @@ if (args.has('--state')) {
       await page.screenshot({ path: `${OUT}live-cuenta-signed-in.png`, fullPage: true })
       if (me.body?.account?.isAdmin) {
         const admin = await open(ctx, '/admin', 'admin')
-        for (const tab of ['Reportes', 'Pro regalado', 'Testers', 'Cuentas', 'Anuncios', 'Experimentos', 'Satisfacción']) {
+        for (const tab of ['Reportes', 'Pro regalado', 'Testers', 'Cuentas', 'Anuncios', 'Experimentos', 'Satisfacción', 'Uso']) {
           await admin.getByRole('tab', { name: tab }).click()
           await admin.waitForTimeout(900)
           const alert = await admin.locator('[role="alert"]').first().textContent().catch(() => null)
@@ -128,6 +128,8 @@ if (args.has('--state')) {
         await admin.getByRole('tab', { name: 'Anuncios' }).click()
         await admin.waitForTimeout(1200)
         record('the Anuncios tab lists accounts', (await admin.getByTestId('ads-row').count()) > 0)
+        const usage = await admin.evaluate(async () => (await (await fetch('/api/v1/admin/usage', { credentials: 'include' })).json()).config)
+        record('admin config: pepper, terms, Google and Microsoft configured', ['pepper', 'terms', 'google', 'microsoft'].every((k) => usage?.[k] === true), JSON.stringify(usage))
         await admin.screenshot({ path: `${OUT}live-admin.png`, fullPage: true })
       } else {
         record('admin checks skipped: this session is not an admin session (sign in with Google as an ADMIN_EMAILS address within 12 h)', true)

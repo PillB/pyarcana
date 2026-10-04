@@ -136,7 +136,7 @@ allowed `Origin` (403 `bad_origin`). Answers are JSON `{ok, ...}` or `{ok: false
 
 | Route | Access | What it does |
 |---|---|---|
-| `GET /v1/health` | public | Booleans only: db, pepper, terms, email, google, microsoft, mercadopago, creem, origins. |
+| `GET /v1/health` | public | `{ok, db}` only: the worker and D1 answer. Which providers and secrets are configured is admin information (`GET /v1/admin/usage` → `config`; D4 audit P6). |
 | `GET /v1/auth/methods` | public | Which sign-in methods work, the client ids, trialDays. |
 | `GET /v1/jwks` | public | The licence verification keys: the current one (derived from the signing key) and `LICENSE_PREV_PUBLIC_JWK` during a rotation. 503 `license_not_configured` without a key. See "Licence". |
 | `GET /v1/experiments` | public | `{experiments: [{key, arms, weights, surface}]}` for the keys in `EXPERIMENTS_ENABLED`; no id, no database. |
@@ -187,7 +187,7 @@ allowed `Origin` (403 `bad_origin`). Answers are JSON `{ok, ...}` or `{ok: false
 | `GET /v1/admin/surveys` | admin | `?kind=`: aggregates and the 20 newest texts; see "Surveys". |
 | `POST /v1/admin/ads` | admin | `{accountIds: string[1..100], adsDisabled, reason}`: switch ads off, or back to the default, for a batch; see "Ads per account". |
 | `GET /v1/admin/ads` | admin | `?filter=all\|disabled\|gift\|tester\|free\|paid\|trial&limit=&cursor=`: who sees ads and why. |
-| `GET /v1/admin/usage` | admin | D1 rows read and written today against the free limits, by route, the last 14 days, and the budget level; see "Progress and the free tier". |
+| `GET /v1/admin/usage` | admin | D1 rows read and written today against the free limits, by route, the last 14 days, and the budget level; see "Progress and the free tier". Also `config`: which of pepper, terms, controller (sign-up open), email, Google, Microsoft, Mercado Pago and Creem are configured, and the allowed origins. |
 
 Admin means all of: the account's verified email is in `ADMIN_EMAILS` (read per request); the
 session is younger than 12 hours; and it was created by a Google identity that belongs to this
@@ -473,7 +473,7 @@ Only the owner can do these; nothing here is deployed.
    id pasted into `wrangler.toml`, and `npx wrangler secret put` for each secret, with the value
    typed at wrangler's prompt.
 2. Email codes start OFF (`EMAIL_PROVIDER = ""`, owner decision 1 Oct 2026): the beta runs on
-   Workers Free with Google and Microsoft sign-in only, `GET /v1/health` reports `"email": false`
+   Workers Free with Google and Microsoft sign-in only, `GET /v1/auth/methods` reports `"email": false`
    and the sign-in panel hides the email option. To turn them on, move to Workers Paid, follow
    step 4, uncomment the `[[send_email]]` block and set `EMAIL_PROVIDER = "cloudflare"` (no key
    needed). An alternative provider needs its key instead.

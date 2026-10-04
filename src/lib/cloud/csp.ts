@@ -5,14 +5,27 @@
  * needs it is configured. House ads, same-origin '/api' and the QA placeholders need nothing.
  */
 import { normalizeOrigin, type CloudConfig } from '@/lib/cloud/config'
+import { PYODIDE_CDN } from '@/lib/pyodide'
+
+/**
+ * D4 audit (setup thread, 4 Oct 2026), P4:
+ * - no Firebase hosts: the Firebase client is bundled but never configured in either static
+ *   build (no NEXT_PUBLIC_FIREBASE_*), so those hosts were open and unused. A build that does
+ *   configure Firebase (the server edition) must add them back;
+ * - jsDelivr only for the Pyodide folder (PYODIDE_CDN), not the whole CDN;
+ * - 'wasm-unsafe-eval' instead of 'unsafe-eval': Pyodide compiles WebAssembly and nothing here
+ *   evaluates JavaScript strings (checked in Chromium, e2e/usage.e2e.mjs);
+ * - 'unsafe-inline' stays: the export's inline scripts change hash on every build (see layout.tsx).
+ */
+const WASM_EVAL = "'wasm-unsafe-eval'"
 
 const BASE: ReadonlyArray<[string, string[]]> = [
   ['default-src', ["'self'"]],
-  ['script-src', ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://cdn.jsdelivr.net']],
+  ['script-src', ["'self'", "'unsafe-inline'", WASM_EVAL, PYODIDE_CDN]],
   ['style-src', ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com']],
   ['img-src', ["'self'", 'data:', 'https:']],
   ['font-src', ["'self'", 'data:']],
-  ['connect-src', ["'self'", 'https://firestore.googleapis.com', 'https://identitytoolkit.googleapis.com', 'https://securetoken.googleapis.com', 'https://cdn.jsdelivr.net']],
+  ['connect-src', ["'self'", PYODIDE_CDN]],
   ['frame-src', []],
   ['object-src', ["'none'"]],
   ['base-uri', ["'self'"]],
@@ -64,14 +77,18 @@ export function buildCsp(cfg: CloudConfig): string {
     .join('; ')
 }
 
-/** The policy shipped before accounts existed; the default config must reproduce it byte for byte. */
+/**
+ * The policy of a build with the stage off (GitHub Pages); the default config must reproduce it
+ * byte for byte. Since the D4 audit it no longer equals the pre-accounts policy: Firebase hosts
+ * gone, jsDelivr narrowed to Pyodide, 'wasm-unsafe-eval' for 'unsafe-eval'.
+ */
 export const LEGACY_CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net",
+  `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' ${PYODIDE_CDN}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "img-src 'self' data: https:",
   "font-src 'self' data:",
-  "connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://cdn.jsdelivr.net",
+  `connect-src 'self' ${PYODIDE_CDN}`,
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

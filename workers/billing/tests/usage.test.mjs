@@ -191,4 +191,9 @@ test("GET /v1/admin/usage: admins see today's totals by route, 14 days and the l
   assert.ok(r.body.today.rowsWritten >= 0.7 * FREE_LIMITS.rowsWritten);
   assert.equal(r.body.sources[0].source, "seed", "sorted by rows written");
   assert.ok(r.body.days.every((d) => d.day > utcDay(NOW - 14 * 86400)), "14 days only");
+  // D4 audit P6: the configuration flags live here now, behind the admin gate.
+  assert.equal(r.body.config.google, true);
+  assert.equal(r.body.config.terms, true);
+  assert.equal(r.body.config.controller, true);
+  assert.equal((await api(env, "GET", "/v1/admin/usage", { cookie: me.token })).body.config, undefined, "not for a learner");
 });
