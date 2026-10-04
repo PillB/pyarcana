@@ -56,7 +56,12 @@ TEACHING_SURFACES = frozenset({
 # this ratchet cannot see: it counts the surface KIND, not whether a gloss is present. The P0
 # surface-hierarchy change will distinguish "an outcome that glosses" from "an outcome that only
 # names", and should reclassify this one back down. Until then the honest count is 45.
-SELF_CERTIFYING_DEFINITIONS_OWED = 45
+#
+# 2026-10-04, S24: back down to 44, and not by undoing the above. Removing the `coverage` homonym
+# moved that concept's first definition from a weDo preamble in S24 -- a non-teaching surface --
+# to a theory paragraph in S27, where test coverage is actually taught. So the homonym fix healed a
+# self-certifying definition as a side effect. data-leakage's outcome gloss still counts here.
+SELF_CERTIFYING_DEFINITIONS_OWED = 44
 NEVER_EXPLAINED_OWED = 7
 UNEXEMPLIFIED_CONCEPTS_OWED = 35
 FIGURE_SHORT_CONCEPTS_OWED = 103

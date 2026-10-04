@@ -148,7 +148,18 @@ print(json.dumps({"ok": report["ok"], "forward_refs": len(issues), "terms": len(
 # decisions-rules. `coverage` is the one that remains, and it is a homonym rather than a gap: S24
 # means automation coverage (`coverage_auto = auto/(auto+review)`), while every alias on this entry
 # is test coverage. It is fixed in S24's own round, not here.
-FORWARD_REFS_OWED = 1
+# 2026-10-04: 1 -> 0, and at 0 this stops being a ratchet and becomes an absolute gate. The
+# "fails below" branch is now unreachable, which is the intended end state: no glossary term may be
+# used before the section that declares it.
+#
+# `coverage` was the last one, and it was a homonym rather than a gap. S24 means automation coverage
+# -- `coverage_auto = auto / (auto + review)`, the share of documents resolved without a human --
+# while every alias on that entry means test coverage, which S27 teaches. S24 already said
+# «cobertura automática» in its callout and its instruction; two places still used the bare English
+# word, which the alias `Coverage` matched. They now use the section's own Spanish.
+#
+# Raise this above 0 only with a dated line saying which term regressed and why.
+FORWARD_REFS_OWED = 0
 
 if len(issues) > FORWARD_REFS_OWED:
     print(f"\nFAIL: forward refs rose to {len(issues)}, owed is {FORWARD_REFS_OWED}:",

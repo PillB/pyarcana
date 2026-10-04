@@ -791,8 +791,12 @@ Measured across the course, the word carries at least four senses in 17 sections
 | sample coverage vs quotas | **S18**, 26 hits | «cobertura LIMITADA / OK» |
 
 Two consequences. First, `coverage`'s forward reference is a homonym, not a teaching gap, and the
-fix belongs in S24's prose — say automation coverage and mean it — not in teaching test coverage
-early. Second, the alias **`cobertura de ramas` mis-fires on «cobertura de ramas de negocio»**, in
+fix belonged in S24's prose — say automation coverage and mean it — not in teaching test coverage
+early. **Closed 2026-10-04.** S24 already wrote «cobertura automática» in its callout and its E3
+instruction; only two places used the bare English word, which the alias `Coverage` matched. They
+now use the section's own Spanish. `coverage` is consequently scoped to S27/S30/S50 and first used
+in S27, where it is declared — and its first definition moved from a weDo preamble to S27's theory
+paragraph, so the homonym fix healed a self-certifying definition as a side effect. Second, the alias **`cobertura de ramas` mis-fires on «cobertura de ramas de negocio»**, in
 the very section where test coverage is declared. It does not currently show as a defect only
 because a match in S27 is on time.
 

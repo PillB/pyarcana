@@ -34,8 +34,14 @@ import { COURSE_SECTIONS } from '../../src/lib/course'
  * concept map already scored it L3 with 625 examples and 0 surprising uses, so the declaration was
  * the only thing that was late. A repoint is the right fix only when the teaching is already
  * there; when it is not, it buys a green without moving any teaching.
+ *
+ * 2026-10-04: 14 -> 13. `coverage` left the late list, and not by a repoint. S24 meant automation
+ * coverage — `coverage_auto = auto / (auto + review)` — while every alias on that entry means test
+ * coverage, which S27 teaches. Two places in S24 still used the bare English word, which the alias
+ * `Coverage` matched; they now use the «cobertura automática» the section already wrote elsewhere.
+ * `coverage` is consequently scoped to S27/S30/S50, first used in S27, where it is declared.
  */
-const DECLARED_LATE_OWED = 14
+const DECLARED_LATE_OWED = 13
 /** Terms no alias of which appears anywhere: dead entries, or an alias that is simply wrong. */
 const NEVER_APPEARS_OWED = 5
 

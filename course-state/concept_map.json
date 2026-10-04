@@ -84379,18 +84379,6 @@
   "declared_first_section": "async-concurrency",
   "uses": [
    {
-    "section": "S24",
-    "location": "rpa-advanced.S24-T4-A-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S24",
-    "location": "rpa-advanced.S24-T4-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
     "section": "S27",
     "location": "async-concurrency.theory[1].p1",
     "kind": "theory.paragraph",
@@ -84537,12 +84525,6 @@
   ],
   "definitions": [
    {
-    "section": "S24",
-    "location": "rpa-advanced.S24-T4-A-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
     "section": "S27",
     "location": "async-concurrency.S27-T4-A.p0",
     "kind": "theory.paragraph",
@@ -84574,22 +84556,28 @@
   "headings": [],
   "figures": [],
   "first_use": {
-   "section": "S24",
-   "location": "rpa-advanced.S24-T4-A-E3.preamble",
-   "kind": "wedo.preamble",
+   "section": "S27",
+   "location": "async-concurrency.theory[1].p1",
+   "kind": "theory.paragraph",
    "visible": true
   },
   "first_definition": {
-   "section": "S24",
-   "location": "rpa-advanced.S24-T4-A-E3.preamble",
-   "kind": "wedo.preamble",
+   "section": "S27",
+   "location": "async-concurrency.S27-T4-A.p0",
+   "kind": "theory.paragraph",
    "visible": true
   },
   "reinforcements": [],
   "depth": "L1",
-  "surprising_uses": [],
+  "surprising_uses": [
+   {
+    "section": "S27",
+    "location": "async-concurrency.theory[1].p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   }
+  ],
   "sections_used": [
-   "S24",
    "S27",
    "S30",
    "S50"

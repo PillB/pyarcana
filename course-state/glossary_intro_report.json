@@ -1,17 +1,8 @@
 {
-  "generated_at": "2026-10-04T04:09:11.615272Z",
+  "generated_at": "2026-10-04T06:06:08.797061Z",
   "terms": 108,
   "sections": 52,
-  "forward_refs": 1,
-  "issues": [
-    {
-      "term": "Coverage",
-      "id": "coverage",
-      "declared_first": "async-concurrency",
-      "found_first": "rpa-advanced",
-      "severity": "P2",
-      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
-    }
-  ],
-  "ok": false
+  "forward_refs": 0,
+  "issues": [],
+  "ok": true
 }
