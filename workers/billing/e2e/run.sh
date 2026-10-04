@@ -7,7 +7,9 @@
 # known session tokens (seed.mjs), because the worker only accepts real Google and Microsoft
 # tokens; email-code sign-in runs for real through the UI (EMAIL_PROVIDER=dev-log).
 #
-# Needs: bun, node >= 20, and in this folder `npm i wrangler@4 playwright` (not repo deps).
+# Needs: bun, node >= 20, and in this folder
+#   npm install --prefix . --no-save wrangler@4 playwright@1.63.0   (not repo deps; --prefix keeps
+#   npm from writing them into workers/billing/package.json, the nearest package.json above)
 # Chromium: set CHROMIUM=/path/to/chrome (default /opt/pw-browsers/chromium).
 #   ./run.sh            build, start, seed, run the suites (ads, flows, usage, qa, cuenta)
 #   ./run.sh --no-build reuse the last build

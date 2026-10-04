@@ -429,7 +429,7 @@ tester, paid, trial, admin) and runs three Chromium suites:
 
 The seeded accounts get their sessions straight from the database, because the worker accepts
 only real Google and Microsoft tokens. Real Google and Microsoft sign-in is therefore not covered
-here. Setup: `cd e2e && npm i wrangler@4 playwright`, then `./run.sh`; Chromium comes from
+here. Setup: `cd e2e && npm install --prefix . --no-save wrangler@4 playwright@1.63.0` (`--prefix` keeps npm out of `workers/billing/package.json`), then `./run.sh`; Chromium comes from
 `CHROMIUM` (default `/opt/pw-browsers/chromium`).
 
 ## Not built yet

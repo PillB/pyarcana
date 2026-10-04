@@ -60,7 +60,9 @@ NODE_MAJOR="$(node -p 'process.versions.node.split(".")[0]')"
 [ "$NODE_MAJOR" -ge 20 ] || die "Node $(node -v) is too old: Playwright needs Node 20 or newer."
 if [ "$(node -p "try { require('./node_modules/playwright/package.json').version } catch { '' }")" != "$PW_VERSION" ]; then
   echo "Installing Playwright $PW_VERSION in $HERE (one time; not added to git)…"
-  npm install --no-save --no-package-lock --no-audit --no-fund "playwright@$PW_VERSION" >/dev/null || die "npm install failed. Check your internet connection and run this again."
+  # --prefix keeps it in this folder: without it npm walks up to workers/billing/package.json (this
+  # folder has none) and installs there, which is how that file gained "playwright" on 5 Oct 2026.
+  npm install --prefix "$HERE" --no-save --no-package-lock --no-audit --no-fund "playwright@$PW_VERSION" >/dev/null || die "npm install failed. Check your internet connection and run this again."
 fi
 if [ -z "${CHROMIUM:-}" ] && [ "${SKIP_BROWSER_INSTALL:-}" != 1 ]; then
   echo "Making sure Playwright's Chromium is installed (used for the automatic checks; your own Chrome is used to sign in)…"
