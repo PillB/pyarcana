@@ -229,17 +229,24 @@ def snippets_gate(failed: list[str]) -> None:
                            report, ok_codes=(0, 1), timeout=2400)
         env = rep.get("environment_matches_pins")
         env = env.get("status") if isinstance(env, dict) else env
-        ok = rep["totals"]["fail"] == 0 and env == "ok"
+        # The audit's own skip verdict: a snippet skipped for a reason it does not allow, or more
+        # missing dependencies than it owes. Exit 1 is accepted above so failing snippets can be
+        # listed here, which means the verdict must be read here too, or a failed skip check
+        # printed PASS. A report without one did not check, and does not pass.
+        skips = (rep.get("skips") or {}).get("status")
+        ok = rep["totals"]["fail"] == 0 and env == "ok" and skips == "ok"
         # Honest label. The runtime audit compares only the FIRST output line, then
         # scrubs every integer before calling outputs "structurally similar" - so a
         # wrong number passes. This proves snippets run and their first line has the
         # right shape; values are checked by strict_output_mismatches_in_section.
         print(f"  {'PASS' if ok else 'FAIL'} snippets run; first output line shape matches "
-              f"(fail={rep['totals']['fail']}, pins={env}) [values checked by the strict measure]")
+              f"(fail={rep['totals']['fail']}, pins={env}, skips={skips}) [values checked by the strict measure]")
         if not ok:
             failed.append("python-content")
             for f in rep.get("failures", [])[:8]:
                 print(f"       [{f['severity']}] {f['section_id']} {f['artifact_id']} -> {f['reason']}")
+            for problem in (rep.get("skips") or {}).get("problems", [])[:8]:
+                print(f"       [skips] {problem}")
     except Exception as e:  # a gate that could not run did not pass
         print(f"  FAIL lesson snippets: report unreadable ({e})")
         failed.append("python-content")
