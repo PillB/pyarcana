@@ -39,7 +39,22 @@ class TestDisclaimerRestoration(unittest.TestCase):
         self.assertIn("no es una certificación profesional", dash)
 
     def test_pdf_certificate_qualification_restored(self):
+        """The PDF qualifies itself by what it is, not by denying what it is not.
+
+        PR #27 restored "no una certificación profesional" here. The constancia/certificado
+        contract (#75) reversed that: the document names itself, a constancia de progreso until
+        52/52 and a certificado de finalización only then, and uses no reserved term, not even
+        to deny it. #75 deleted the assertion and left this test reading the file and passing
+        for any content (Codex P1 on #75). It now pins the component's half of that contract;
+        src/lib/progress-document.test.ts renders the document itself.
+        """
         pdf = _read("src/components/course/PdfReport.tsx")
+        self.assertNotIn("certificación profesional", pdf.lower(),
+                         "a reserved term may not appear even to deny it")
+        self.assertRegex(pdf, r"progressDocumentKind\(\s*sectionsCompleted\s*,\s*TOTAL_SECTIONS\s*\)",
+                         "the document kind must come from the shared 8-of-52 rule")
+        self.assertNotRegex(pdf, r"sectionsCompleted\s*>=\s*\d",
+                            "a threshold written into the component drifts from progress-document.ts")
 
     def test_resources_endorsement_qualification_restored(self):
         resources = _read("src/components/course/ResourcesPage.tsx")
