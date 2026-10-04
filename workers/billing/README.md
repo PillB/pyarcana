@@ -93,6 +93,7 @@ with `wrangler secret put` (by `setup.sh`, or by hand for the payment keys), nev
 | var | `CREEM_API_BASE`, `CREEM_PRODUCT_PRO_MONTHLY`, `CREEM_PRODUCT_PRO_YEARLY`, `MP_API_BASE` | live API bases; product ids filled by the owner |
 | var | `LICENSE_KEY_ID`, `LICENSE_TTL_SECONDS`, `LICENSE_PREV_PUBLIC_JWK` | `k1`, `259200`, `""` (the old PUBLIC JWK during a rotation) |
 | var | `EXPERIMENTS_ENABLED`, `EVENTS_ENABLED` | `""`, `"true"` |
+| var | `USAGE_FLUSH_SECONDS`, `USAGE_LEVEL` | unset: `300` and the measured level (drills and the e2e run only; see "Progress and the free tier") |
 | binding | `DB` (D1), `EMAIL` (`send_email`), `ASSETS` (static assets) | `wrangler.toml`; the D1 id is written locally by `setup.sh` |
 | secret | `SERVER_PEPPER` | `setup.sh` (generated, piped) |
 | secret | `LICENSE_PRIVATE_KEY_PKCS8_B64` | `setup.sh` (generated, piped; `--rotate-key` replaces it) |
@@ -330,12 +331,79 @@ so it outlives a grant or a subscription. `GET /v1/me` returns `ads: {show, reas
 `default`, `paid`, `trial` or `disabled`. Each request writes one audit row listing the changed
 account ids; the admin's reason is stored with email-shaped text redacted.
 
+## Progress and the free tier
+
+Owner request, 4 Oct 2026: progress must not live only in one browser, and keeping a copy in the
+account must cost as little as possible and stay under the free limits.
+
+**Where progress lives.** The browser's copy (`localStorage`) is the working copy and the offline
+fallback; a signed-in learner's account holds a second copy in D1 (`/v1/me/progress`). Without
+sign-in there is no server copy: there is no identity to attach it to.
+
+**Why D1 and not Firestore.** The "Firebase connection" belongs to the older server-rendered edition
+(`src/lib/firebase`, `src/app/api`), which the static site and this worker cannot use. Firestore
+from the static site would add a second login system, a second database and a second processor.
+D1 Free allows 5,000,000 rows read and 100,000 rows written per day (reset at 00:00 UTC, Cloudflare
+docs read 4 Oct 2026), is already deployed, and is already disclosed as a processor. Firestore's
+free quota was not checked here (its docs were unreachable from this environment).
+
+**What the client does to stay cheap** (`src/lib/cloud/progress-sync.ts`):
+- no upload when the document equals the last one the server acknowledged;
+- a 5 s debounce that never holds a change more than 60 s;
+- pulls on tab focus at most once a minute (start and "Sincronizar ahora" always pull);
+- offline, 5xx, 429 and 503 retry with capped exponential backoff and jitter (5 s to 5 min); the
+  server's `retryAfter` wins;
+- the server's `syncHint.minIntervalMs` raises both the debounce and the pull throttle;
+- on the browser's `online` event it sends and pulls at once.
+
+**What the worker does** (`src/usage.mjs`): it meters every D1 call from its result's
+`meta.rows_read` / `rows_written`, per route, and keeps a daily row per route in `usage_daily`
+(migration 8). The larger share of either limit sets the level:
+
+| Level | Share of the daily limit | Effect |
+|---|---|---|
+| green | under 60 % | normal |
+| amber | 60–85 % | progress answers carry `syncHint` (sync at most once a minute); events keep 1 in 8 visitors (whole visitors, ids starting `0` or `1`) |
+| red | 85 % and over | progress writes answer 503 `budget_saver` until 00:05 UTC, before spending anything; the browser keeps the change and shows "en pausa"; no events stored. Sign-in, admin, reports and reads keep working |
+
+`/admin` → **Uso** shows today's rows by route, 14 days and the level, and a banner appears on
+`/admin` while the level is amber or red.
+
+Measured on `wrangler dev --local` (workerd and its local D1, the engine production D1 runs on) by
+`e2e/usage.e2e.mjs`, rows per request:
+
+| Request | Rows read | Rows written |
+|---|---|---|
+| first progress upload (new row) | 4 | 4 |
+| progress upload (update) | 6 | 2 |
+| progress download | 4 | 0 |
+| `GET /v1/me` | 15 | 0 |
+| one events batch (`POST /v1/events`, 1 event) | 3 | 8 |
+
+What that means: an update costs 2 written rows, and steady study uploads at most once a minute, so
+one hour of study costs at most about 120 written rows; 100,000 a day is roughly 800 learner-hours
+of continuous study, and amber (60 %) starts near 500. Measurement batches are the heaviest writer
+per request (two rate-limit rows, the event row and its indexes), which is why amber samples them
+first.
+
+Stated limits: the meter keeps its tally in memory and flushes every 5 minutes
+(`USAGE_FLUSH_SECONDS`), so a tally lost with its isolate undercounts by up to one interval; the
+daily cron is not metered; sign-in was not measured (it needs a real Google or Microsoft token).
+The exact daily figure is Cloudflare's own (dashboard → D1 → Metrics, or the GraphQL
+`d1AnalyticsAdaptiveGroups` dataset with an Analytics-Read token, not wired). The progress
+rate-limit row stays a separate statement before the write, because it must decide before the
+write. `USAGE_LEVEL` (`amber` or `red`) forces a level for drills; leave it unset in production.
+
 ## Local end-to-end run (Chromium)
 
 `e2e/run.sh` builds a throwaway worktree of HEAD (outside the repo, `$TMPDIR/pyarcana-e2e`) at stage `beta` on `http://localhost:8787`, serves
 it with `wrangler dev --local` (workerd and a local D1), seeds one account per kind (free, gift,
-tester, paid, trial, admin) and runs two Chromium suites:
+tester, paid, trial, admin) and runs three Chromium suites:
 - `ads.e2e.mjs`: 16 checks on who sees ads and on the admin batch switch;
+- `usage.e2e.mjs` (its own fresh database, `USAGE_FLUSH_SECONDS=0`): rows per request from the
+  meter, no upload on a reload without changes, the red-day drill (admin banner and Uso tab, the
+  learner's change kept with the "en pausa" line, then sent once the budget is back), and the
+  signed-out sign-in nudge;
 - `flows.e2e.mjs`: 64 checks covering email-code sign-in and sign-out through the UI, progress
   sync across two browsers, the section 6 gate, the trial, every admin tab (gifts fixed and
   indefinite, revoke, testers, account lookup), "Enviar al equipo" from the QA menu, `/qa`, every

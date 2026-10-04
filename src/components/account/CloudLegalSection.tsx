@@ -19,6 +19,7 @@ import { SURVEY_CAP_KEY } from '@/lib/cloud/surveys'
 import { SEEN_KEY } from '@/lib/cloud/experiments'
 import { ACCOUNT_ARMS_KEY, BOUND_KEY } from '@/lib/cloud/measurement'
 import { ADSENSE_OPTIN_KEY } from '@/lib/cloud/ad-slot'
+import { NUDGE_KEY, PERSIST_KEY } from '@/lib/cloud/storage-resilience'
 import { TRIAL_CARD_DISMISSED_KEY } from './TrialSoftCard'
 import { useText, type Tr } from './text'
 
@@ -52,6 +53,7 @@ export function storageDisclosure(cfg: CloudConfig): StorageGroup[] {
         { key: CONSENT_SENT_KEY, text: 'legalc.key.consentSent' },
         { key: GRANDFATHER_KEY, text: 'legalc.key.grandfather' },
         { key: QA_MODE_KEY, text: 'legalc.key.qa' },
+        { key: PERSIST_KEY, text: 'legalc.key.persist' },
       ],
     },
     {
@@ -59,6 +61,7 @@ export function storageDisclosure(cfg: CloudConfig): StorageGroup[] {
       items: [
         { key: TRIAL_CARD_DISMISSED_KEY, text: 'legalc.key.trialCard' },
         { key: SURVEY_CAP_KEY, text: 'legalc.key.surveyCap' },
+        { key: NUDGE_KEY, text: 'legalc.key.signinNudge' },
       ],
     },
     {

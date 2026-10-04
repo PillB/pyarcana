@@ -158,6 +158,7 @@ const CLIENT_SUITES = [
   ["review-r4", 12],
   ["runtime", 13],
   ["session-access", 20],
+  ["storage-resilience", 4],
   ["ui-state", 12]
 ].map(([name, floor]) => ({ group: "client", file: `${CLIENT_TESTS}/${name}.test.ts`, floor, execArgv: TSX }));
 

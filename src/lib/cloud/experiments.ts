@@ -43,6 +43,8 @@ export const EVENT_NAMES = [
   'ad_optin_accept',
   'section_complete',
   'session_start',
+  'signin_nudge_view',
+  'signin_nudge_click',
 ] as const
 export type EventName = (typeof EVENT_NAMES)[number]
 

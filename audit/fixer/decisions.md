@@ -368,3 +368,30 @@ Client rules fixed in the same round, binding on later work (tests in
 - **A price button never leads to a form without a price.** Signed-out visitors go to `/precios`.
 - **A survey says "Gracias" only after the worker stored the answer.**
 - **Every "escríbenos" names the address** (`legal.supportEmail`).
+
+## D14 — Progress lives in the browser and in D1, not Firestore; the free tier is metered and guarded (2026-10-04)
+
+Owner request: progress must not rely on `localStorage` alone (kept as the offline fallback), the
+account copy must cost as little as possible, and the site must stay under the free limits.
+
+- **D1, not Firestore.** The Firebase project serves only the older server-rendered edition
+  (`src/lib/firebase`, `src/app/api`), which the static site and the worker cannot use. Firestore
+  from the static site would add a second login system, a second database and a second processor.
+  D1 Free (5,000,000 rows read and 100,000 written per UTC day, read in Cloudflare's docs
+  repository on this date) is deployed and already disclosed. Firestore's own free quota was not
+  verified (its docs were unreachable from this environment). The Firebase code is left untouched.
+- **The server copy needs an identity.** Without sign-in there is none; the browser is asked once
+  to keep the data (`navigator.storage.persist()`), and signed-out learners with three or more
+  completed steps are invited to sign in (snoozed a week by "Ahora no"). A same-origin backup link
+  through the `#import=` handoff was **not** built: that import feeds the gate's grandfather
+  snapshot, so opening it to every visitor needs a decision about gated stages first.
+- **Client sync is frugal** (`progress-sync.ts`): no upload of an unchanged document, a debounce
+  capped at 60 s, focus pulls throttled to one a minute, capped backoff with jitter that honours the
+  server's `retryAfter`, the server's `syncHint`, and a flush on `online`.
+- **The worker meters and guards** (`workers/billing/src/usage.mjs`): green < 60 %, amber < 85 %,
+  red from 85 % of either daily limit; red defers progress writes to 00:05 UTC without data loss
+  (client status `deferred`) and stops event storage. Measured rows per request are in the worker
+  README, "Progress and the free tier".
+- **Stated limits:** the meter can undercount by up to one flush interval per isolate, the cron is
+  not metered, and the exact figure is Cloudflare's analytics (GraphQL needs an Analytics-Read
+  token; not wired).

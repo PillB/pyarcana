@@ -7,6 +7,7 @@
 // 3. Red-day drill: a seeded usage row puts today at 90 % of the write limit; the admin sees the
 //    banner and the Uso tab, a learner's change stays in the browser with the "paused" line, and
 //    once the row is gone "Sincronizar ahora" sends it.
+// 4. Signed out: the sign-in nudge and the one-time storage persistence request.
 // E2E_WORKER_DIR (set by run.sh) is the worker folder whose local D1 is used.
 import { chromium } from 'playwright'
 import { execFileSync } from 'node:child_process'
@@ -35,8 +36,11 @@ function d1(sql) {
   execFileSync(WRANGLER, ['d1', 'execute', 'pyarcana-accounts', '--local', '--command', sql], { cwd: WORKER_DIR, stdio: 'pipe' })
 }
 
+// A desktop Chrome user agent: the worker refuses events from "HeadlessChrome" as a bot.
+const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36'
+
 async function contextFor(who) {
-  const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'es-PE' })
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'es-PE', userAgent: UA })
   await ctx.addInitScript(() => { try { localStorage.setItem('pyarcana:tourCompleted', '1'); localStorage.setItem('pyarcana:qaTourCompleted', '1') } catch {} })
   if (who) await ctx.addCookies([{ name: '__Host-pa_session', value: tokens[who].token, domain: 'localhost', path: '/', secure: true, httpOnly: true, sameSite: 'Lax' }])
   return ctx
@@ -138,6 +142,31 @@ await flow('red-day drill', async () => {
   const after = await page.getByTestId('account-sync-status').textContent()
   const remote = await api(page, 'GET', '/v1/me/progress')
   record('budget back to green: "Sincronizar ahora" sends the kept change', !/en pausa/.test(after ?? '') && /setup/.test(JSON.stringify(remote.body?.doc ?? {})), after)
+  await ctx.close()
+})
+
+// 4. Signed out with real progress: the notice offers the account copy, "Ahora no" snoozes it, and
+//    the browser was asked once to keep the data.
+await flow('signed-out nudge', async () => {
+  const ctx = await contextFor(null)
+  await ctx.addInitScript(() => {
+    try {
+      if (!localStorage.getItem('python-ds-progress')) {
+        localStorage.setItem('python-ds-progress', JSON.stringify({ state: { completedSections: [], completedSubSteps: { setup: ['theory', 'practice', 'quiz'] }, quizScores: {}, lastVisited: null, bookmarks: [], startDate: null }, version: 1 }))
+      }
+    } catch {}
+  })
+  const page = await open(ctx, '/')
+  const nudge = page.getByTestId('signin-nudge')
+  record('nudge shows with 3 completed steps', await nudge.isVisible().catch(() => false), await nudge.textContent().catch(() => ''))
+  const persist = await page.evaluate(() => localStorage.getItem('pyarcana:storagePersist:v1'))
+  record('the browser was asked once to keep the data, and the answer is remembered', ['granted', 'denied', 'unsupported'].includes(persist ?? ''), persist)
+  await page.screenshot({ path: `${OUT}usage-nudge.png`, fullPage: false })
+  await page.getByTestId('signin-nudge-dismiss').click()
+  await page.reload({ waitUntil: 'networkidle' })
+  await page.waitForTimeout(1200)
+  record('"Ahora no" hides it on the next visit', !(await page.getByTestId('signin-nudge').isVisible().catch(() => false)))
+  record('the sign-in button stays', await page.getByTestId('storage-signin').isVisible().catch(() => false))
   await ctx.close()
 })
 

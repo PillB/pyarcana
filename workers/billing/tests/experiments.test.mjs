@@ -29,7 +29,9 @@ const CLIENT_NAMES = [
   "ad_optin_shown",
   "ad_optin_accept",
   "section_complete",
-  "session_start"
+  "session_start",
+  "signin_nudge_view",
+  "signin_nudge_click"
 ];
 const TOKEN = /^[a-z0-9_]{1,40}$/i;
 
