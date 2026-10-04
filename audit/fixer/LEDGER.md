@@ -9,65 +9,65 @@ Every box is computed from an artifact, never hand-ticked. Regenerate with
 | `redaction` | grammar and redaction pass applied | 8/52 |
 | `concepts` | load-bearing concepts have their own subtopic (D3) | 0/52 |
 | `figures` | at least two figures carrying real teaching (D4) | 44/52 |
-| `vocab` | no term used before it is defined | 25/52 |
-| `ids` | no identifier-shaped synthetic value (D2) | 50/52 |
+| `vocab` | no term used before it is defined | 52/52 |
+| `ids` | no identifier-shaped synthetic value (D2) | 52/52 |
 | `runtime` | every snippet executes under .venv-content | 52/52 |
 
 ## Sections
 
 | sec | findings | figs | run-ons | findings | redaction | concepts | figures | vocab | ids | runtime |
 |---|---|---:|---:|---|---|---|---|---|---|---|
-| **S01** setup | 19/21 | 2 | 2 | [ ] | [x] | [ ] | [x] | [ ] | [x] | [x] |
-| **S02** basics | 21/21 | 2 | 0 | [x] | [x] | [ ] | [x] | [ ] | [x] | [x] |
-| **S03** data-structures | 12/17 | 2 | 0 | [ ] | [x] | [ ] | [x] | [ ] | [ ] | [x] |
-| **S04** functions-modules | 18/18 | 2 | 0 | [x] | [x] | [ ] | [x] | [ ] | [x] | [x] |
-| **S05** oop | 22/22 | 2 | 0 | [x] | [x] | [ ] | [x] | [x] | [x] | [x] |
-| **S06** numpy | 20/20 | 2 | 0 | [x] | [x] | [ ] | [x] | [ ] | [x] | [x] |
-| **S07** data-acquisition | 19/19 | 2 | 0 | [x] | [x] | [ ] | [x] | [ ] | [x] | [x] |
-| **S08** pandas | 26/27 | 2 | 0 | [ ] | [x] | [ ] | [x] | [ ] | [x] | [x] |
-| **S09** visualization | 0/22 | 2 | 1 | [ ] | [ ] | [ ] | [x] | [ ] | [ ] | [x] |
-| **S10** sklearn | 0/22 | 2 | 3 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
-| **S11** testing | 0/22 | 1 | 3 | [ ] | [ ] | [ ] | [ ] | [ ] | [x] | [x] |
-| **S12** performance | 0/23 | 2 | 1 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
-| **S13** rpa-automation | 0/27 | 2 | 4 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
-| **S14** security | 0/23 | 2 | 0 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
-| **S15** stdlib-deep | 0/18 | 2 | 1 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
-| **S16** wxpython-gui | 0/23 | 2 | 2 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
-| **S17** packaging | 0/23 | 2 | 1 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
-| **S18** data-engineering | 0/24 | 2 | 3 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
-| **S19** databases-orm | 0/24 | 1 | 0 | [ ] | [ ] | [ ] | [ ] | [x] | [x] | [x] |
+| **S01** setup | 19/21 | 2 | 3 | [ ] | [x] | [ ] | [x] | [x] | [x] | [x] |
+| **S02** basics | 21/21 | 2 | 0 | [x] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S03** decisions-rules | 12/17 | 3 | 1 | [ ] | [x] | [ ] | [x] | [x] | [x] | [x] |
+| **S04** iteration-summaries | 18/18 | 2 | 0 | [x] | [x] | [ ] | [x] | [x] | [x] | [x] |
+| **S05** functions-contracts | 22/22 | 2 | 0 | [x] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S06** collections | 20/20 | 3 | 0 | [x] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S07** text-unicode-regex | 19/19 | 2 | 0 | [x] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S08** files-ingestion | 26/27 | 2 | 2 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S09** exceptions-logging | 0/22 | 2 | 1 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S10** modules-packaging-cli | 0/22 | 2 | 3 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S11** oop-domain | 0/22 | 1 | 6 | [ ] | [ ] | [ ] | [ ] | [x] | [x] | [x] |
+| **S12** apis-sql-geo | 0/23 | 2 | 2 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S13** evidence-dashboard | 0/27 | 2 | 5 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S14** security | 0/23 | 4 | 0 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S15** stdlib-deep | 0/18 | 2 | 3 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S16** wxpython-gui | 0/23 | 4 | 3 | [ ] | [x] | [ ] | [x] | [x] | [x] | [x] |
+| **S17** packaging | 0/23 | 2 | 1 | [ ] | [x] | [ ] | [x] | [x] | [x] | [x] |
+| **S18** data-engineering | 0/24 | 2 | 5 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S19** databases-orm | 0/24 | 1 | 2 | [ ] | [ ] | [ ] | [ ] | [x] | [x] | [x] |
 | **S20** rag | 0/24 | 1 | 0 | [ ] | [ ] | [ ] | [ ] | [x] | [x] | [x] |
 | **S21** fastapi | 0/25 | 1 | 1 | [ ] | [ ] | [ ] | [ ] | [x] | [x] | [x] |
 | **S22** rapidfuzz-entity | 0/28 | 3 | 2 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
-| **S23** computer-vision | 0/27 | 1 | 1 | [ ] | [ ] | [ ] | [ ] | [x] | [x] | [x] |
-| **S24** rpa-advanced | 0/33 | 2 | 0 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
-| **S25** streamlit-dashboards | 0/33 | 2 | 1 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
+| **S23** computer-vision | 0/27 | 1 | 2 | [ ] | [ ] | [ ] | [ ] | [x] | [x] | [x] |
+| **S24** rpa-advanced | 0/33 | 2 | 0 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S25** streamlit-dashboards | 0/33 | 2 | 2 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
 | **S26** integrator-phase1 | 0/35 | 2 | 0 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
 | **S27** async-concurrency | 0/30 | 2 | 2 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
-| **S28** llm-agents | 0/35 | 2 | 2 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S28** llm-agents | 0/35 | 2 | 4 | [ ] | [x] | [ ] | [x] | [x] | [x] | [x] |
 | **S29** mlops | 0/34 | 3 | 1 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
-| **S30** security-infra | 0/35 | 2 | 2 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
-| **S31** streaming-data | 0/35 | 2 | 1 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
-| **S32** microservices | 0/37 | 2 | 1 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
-| **S33** advanced-models | 0/45 | 3 | 3 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
-| **S34** cv-ai-integration | 0/43 | 2 | 1 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
-| **S35** system-design | 0/39 | 1 | 0 | [ ] | [ ] | [ ] | [ ] | [x] | [x] | [x] |
-| **S36** ai-apis-advanced | 0/43 | 3 | 1 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
-| **S37** dbt-bigquery | 0/36 | 2 | 1 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
-| **S38** performance-extreme | 0/57 | 2 | 0 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
+| **S30** security-infra | 0/35 | 4 | 2 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S31** streaming-data | 0/35 | 2 | 3 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S32** microservices | 0/37 | 2 | 1 | [ ] | [x] | [ ] | [x] | [x] | [x] | [x] |
+| **S33** advanced-models | 0/45 | 4 | 5 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S34** cv-ai-integration | 0/43 | 2 | 2 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S35** system-design | 0/39 | 1 | 3 | [ ] | [ ] | [ ] | [ ] | [x] | [x] | [x] |
+| **S36** ai-apis-advanced | 0/43 | 3 | 1 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S37** dbt-bigquery | 0/36 | 2 | 2 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S38** performance-extreme | 0/57 | 2 | 0 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
 | **S39** integrator-phase2 | 0/81 | 1 | 1 | [ ] | [ ] | [ ] | [ ] | [x] | [x] | [x] |
-| **S40** architecture-ddd-decisions | 0/67 | 2 | 1 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
-| **S41** llm-finetuning | 0/70 | 2 | 0 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
-| **S42** graph-rag | 0/50 | 2 | 0 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S40** architecture-ddd-decisions | 0/67 | 2 | 1 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S41** llm-finetuning | 0/70 | 3 | 1 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S42** graph-rag | 0/50 | 2 | 1 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
 | **S43** llmops | 0/44 | 3 | 0 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
 | **S44** multimodal | 0/101 | 2 | 0 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
-| **S45** iac | 0/43 | 3 | 3 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
-| **S46** gpu-computing | 0/41 | 2 | 1 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S45** iac | 0/43 | 3 | 4 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S46** gpu-computing | 0/41 | 2 | 3 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
 | **S47** opensource | 0/45 | 4 | 2 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
-| **S48** ai-governance | 0/46 | 4 | 1 | [ ] | [ ] | [ ] | [x] | [ ] | [x] | [x] |
+| **S48** ai-governance | 0/46 | 4 | 3 | [ ] | [x] | [ ] | [x] | [x] | [x] | [x] |
 | **S49** data-contracts | 0/54 | 3 | 2 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
-| **S50** tech-leadership | 0/60 | 2 | 1 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
-| **S51** integrator-final | 0/84 | 2 | 0 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S50** tech-leadership | 0/60 | 2 | 2 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S51** integrator-final | 0/84 | 2 | 2 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
 | **S52** career-strategy | 0/90 | 1 | 1 | [ ] | [ ] | [ ] | [ ] | [x] | [x] | [x] |
 
 ## The round, per section
@@ -247,3 +247,622 @@ it too. Append, don't rewrite: date each entry and say which section taught it.
   and bullets end without a period and were fused into false run-ons.
 - **The Timeline figure archetype computes `noteLines` and never draws them.** Notes given to
   timeline figures have never been visible. Not fixed in this pass — recorded.
+
+### Narration voice (2026-09-16)
+
+- **Write like a teacher narrating, not like an assistant reporting.** *(S01, generalised from
+  the Orbiter regression)* The Orbiter paragraph is the worked example of the failure: the round
+  replaced "Nadie mintió y nadie se equivocó al calcular; simplemente, cada lado dio por supuesto
+  algo que el otro no compartía" — the only sentence stating the transferable rule — with "La
+  investigación de NASA también señaló fallas contribuyentes de verificación, comunicación e
+  ingeniería de sistemas". Accurate, and it teaches nothing. `3f0cebe9` restored the beat. The
+  general rule: a concrete sentence that carries the teaching point outranks an accurate sentence
+  that carries none. Prose that reads as competent and teaches nothing has failed, whatever the
+  gates say.
+- **The register to avoid has a shape, so it can be checked by eye.** Hedging and
+  over-qualification; scaffolding phrases ("cabe señalar", "es importante recordar"); an abstract
+  noun where a verb would do; bullet-fragmenting an explanation that should flow; even-handed
+  neutrality that never commits to what matters; closing sentences that restate instead of
+  advancing. Before returning a passage, read it once for this shape alone.
+- **Verbosity inflation is the same failure wearing a translation costume, and the gates reward
+  it.** *(S51, S28)* "audit append-only" (3 words) became "un registro de auditoría al que solo se
+  añade información" (10) at every occurrence; "Drift visible y bloqueado > golden actualizado en
+  silencio." became "Una desviación visible y bloqueada protege más que una salida de referencia
+  actualizada en silencio." Both lower `avoidable_english_per_1000`, so every gate scores them as
+  improvements. A translation that is longer, flatter and less quotable than what it replaced is a
+  regression — say so in the critique rather than shipping it because the number improved.
+- **Aggregates hide paragraph-level damage.** The Orbiter regression measured FH −24.7 and b5
+  0 → 33.3 per 100 sentences *at paragraph scale*, and moved the gated section measure 0.6 → 0.6.
+  A green gate is not evidence that a passage survived; read the passage.
+
+### The concept map's instrument (2026-09-16)
+
+- **A hint is not a lesson, and a quiz option is not a lesson.** *(S02, course-wide)* Any event
+  kind could carry a concept's *first definition*, so 18 of 77 defined concepts were credited to
+  a surface the learner reaches only after they needed the term — `dict-comprehension` to a weDo
+  title, `reshape` to a starter, and `distribución normal` to a selfcheck **distractor**: the
+  quiz that tests a concept recorded as the place that taught it. `concept_map.py` now accepts a
+  first definition only from a teaching surface (theory, callout, heading, iDo prose, jobRelevance,
+  tagline); everything else is kept as `reinforcements`. Eleven concepts moved to L0 on the first
+  run, `variable` among them — the most basic term in the course, previously "defined" by a hint.
+- **Spanish teaches with a verb far more often than with a copula.** *(S02)* `definesTerm` knew
+  only "es un/es una", so "Una **tupla** reúne varios valores en un orden fijo" did not count and
+  the four paragraphs that teach tuples were filed as *surprising uses* of the term. An indefinite
+  article plus a describing verb now counts. Before assuming a concept is untaught, read the
+  paragraph: the instrument was wrong about this one for the whole campaign.
+- **A parenthetical full of code is not a gloss.** *(S02)* `(valor, tipo_esperado)` in a hint was
+  read as the definition of `tuple`. A gloss is prose and contains function words; an argument
+  list does not.
+- **L3 could skip the worked example.** The ladder tested heading+figure before examples, so a
+  concept with orientation and a diagram but no worked example scored highest. D3 makes L3 mean
+  L2 *plus* orientation and a figure.
+- **Adding a term to the glossary is a measurement change, and it will look like a regression.**
+  *(2026-09-16)* Eight core-language terms (`function`, `parameter`, `return`, `annotation`, `if`,
+  `for`, `unpacking`, `exception`) took surprising uses from 761 to 2,348 and doubled
+  `concept_map.json`. Nothing got worse; the course had been measured with an instrument that
+  could not see the language it teaches. Expect the same each time the vocabulary grows, and
+  re-snapshot before reading a round's gate delta.
+
+### Locking (2026-09-16)
+
+- **The per-section lock does not make two rounds safe to run at once.** *(found while planning
+  the S39/S27/S03 residuals)* `run_spanish.sh` now takes a lock on the section it edits, which
+  stops two runners fighting over one file - the S44 failure. But four of `gate.py`'s regression
+  measures are **course-wide**, not per-section: `never_explained`, `used_before_explained` and
+  `first_use_issues` are computed from the whole concept map, and the strict-output and
+  identifier audits scan every section. A second runner editing a *different* section still
+  moves those numbers underneath the first runner's snapshot-to-check window, and the first
+  round gets blamed for a delta it did not cause. Run one section at a time until the
+  course-wide measures are scoped per-section or a global lock exists.
+
+- **"regresiones de matching" has now cost three rounds; translate it with a verb.** *(S28)*
+  Every pass renders it "regresiones del emparejamiento", which is a real B5 chain — two
+  nominalisations joined by *del* — and `decisions.md` names it as the one genuine defect the
+  old suffix proxy had hidden among its noise. Write what actually happens instead: *"esconde
+  que el emparejamiento empeore sin avisar"*, or *"esconde fallas nuevas en el emparejamiento"*.
+  Do **not** reach for "regresiones en el emparejamiento": it slips past the regex because the
+  measure looks for *de/del*, while leaving the same noun-heavy sentence a reader has to unpack.
+  That is gaming the instrument, which is the one move this campaign never makes.
+
+- **A translated term must not leave the section calling one thing two names.** *(S44)* The
+  Spanish pass turned three of twenty-nine "workflow"s into "flujo de trabajo", so one concept
+  had two names in one section — while the learner types `.github/workflows/ci-supply-chain.yml`
+  and reads "workflow" in the GitHub Actions UI. Every gate passed it; nothing measures naming
+  consistency (writing rule A5 has no instrument). Reverted to the practitioner term. Before
+  translating a word, count how many times the section already uses it and whether the learner
+  meets it in a tool. Still owed: `workflow` is kept vocabulary and rule 2 wants it glossed once
+  at first use in S44 — queued for that section's round, not done here.
+
+- **`ticket` stays English where the learner meets it in a tool.** *(S39)* The pass turned "el
+  ticket de remediación" into "la incidencia de remediación", which both created a B5 chain and
+  traded away the word the learner will read in Jira or GitHub Issues. Rule 3 already says
+  *ticket* survives where the tool shows it; incident and remediation workflows are exactly that
+  case. The sentence was already Spanish — see the S44 note, the Spanish pass must not rewrite
+  Spanish. Accepted separately: **lista de comprobación** is the standard rendering of
+  *checklist*, a named artifact, and is now in `b5_established_terms.json`.
+
+### No-ops are failures (2026-09-16)
+
+- **A round that changed nothing did not pass; it failed quietly.** *(S39, and the runner itself)*
+  Every regression gate compares the section against a snapshot of itself, so when no patch lands
+  they all go green and the run reports success having improved nothing. S39 printed "passed
+  every gate" and exited 0 with 48 patches rolled back. `run_spanish.sh` now treats zero applied
+  patches as a failure and says the PASS lines mean nothing in that case. Read any green round
+  with `applied 0` as a red one.
+- **The same rule applies to anything else that reports nothing.** Three scripted edits in one
+  session silently did nothing and looked like success: a `git grep -lE "\b<name>\.ts\b"` loop
+  that matched no files because `\b` does not behave against hyphenated names, and two `perl`
+  invocations lost to shell escaping. A tool that edits nothing must say so; if it cannot, count
+  the matches before and after and fail when the count is zero. Prefer the Edit tool, which
+  errors instead of shrugging.
+- **One bad patch should cost one patch, not the round.** *(S39)* A single replacement embedding
+  an unescaped quote broke the file and rolled back 48 good patches, twice. `apply_patches.py`
+  now bisects on a typecheck failure (~log2(n) checks, only after a failure), rejects just the
+  culprits with `this patch stopped the file parsing`, and keeps the rest.
+
+- **When the English subject is a noun, make the Spanish subject an infinitive.** *(S39)*
+  "Release del triage es política firmable" became "**El lanzamiento del** triage exige una
+  política firmable", which is B5's actor shape exactly: a nominalisation doing the sentence's
+  work. Spanish has a better move than either the noun or a clause — the plain infinitive:
+  *"Lanzar el triage exige una política firmable"*. It is shorter than the nominalised version,
+  reads as speech rather than documentation, and the measure does not fire. Reach for it whenever
+  a translation is about to open a sentence with "El/La <algo>ción/miento de…".
+
+- **Check every occurrence of a term, not the first one.** *(S01, course-wide)* The extractor
+  tested the definition cue only at the first match, so "añade Python y Ruff; Ruff es un programa
+  que señala algunos errores" never registered — the `;` blocks `POST_CUE`, and the definition in
+  the very next clause was never looked at. `ruff` scored never-explained across 39 uses with its
+  definition sitting in the same sentence. Now every occurrence is tested.
+- **A preview surface can teach, and We Do is a teaching phase.** D1 puts taglines, learning
+  outcomes and jobRelevance on the same footing, so excluding `outcome` while keeping the other
+  two was arbitrary; and in gradual release the We Do preamble and instruction *are* the
+  guidance, so a term explained there has been taught with support. A weDo **hint** still cannot
+  count: the learner only sees it after being stuck. These two corrections together took
+  surprising uses from 2,307 to 1,359 without letting a single one of the absurd cases back in -
+  `distribución normal` is still not taught by a quiz distractor.
+
+- **Write the gloss the way Spanish writes it; then check the instrument can see it.** *(S08,
+  S15, S30, S48)* Four well-written glosses landed and the map still called all four terms never
+  explained, because the detector only knew copulas, verb-first sentences and long parentheticals.
+  It could not see an **appositive** ("`Counter`, un contador de elementos de una secuencia"), a
+  **contrast** ("`defaultdict` se diferencia de un `dict` común en que…"), or a **short
+  parenthetical** ("`loc` (por etiquetas)" — thirteen characters, under an eighteen-character
+  floor). All three are ordinary Spanish. They are recognised now, and the four terms went from
+  128 surprising uses to zero without another word being written. When a fix does not move the
+  number, suspect the instrument before rewriting the prose.
+
+- **Ask D6's first question before writing the brief, not after reading the draft.** *(S14, S17,
+  2026-09-17)* The brief said "explain `reshape`" and "say what `resample` does", and codex did
+  both, well. Both were wrong: S14 never calls `reshape` (the code inserts an axis with
+  `[:, None]`, and two comments call that "reshape"), and S17 mentions `resample` once and never
+  uses it; S34's "resample" is class rebalancing, a different operation. The mistake was in the
+  brief, so no draft could have fixed it. For each term, find a use the learner must *act on*
+  before asking for a definition; if there is none, the treatment is to remove the mention.
+- **Read `what_could_confuse`; do not trust `residual_concern: ""`.** *(S14)* Codex returned the
+  `reshape` paragraph with `addressed_in_this_replacement: true` and an empty residual concern,
+  while its own `what_could_confuse` said the sentence could make a learner look for an
+  `np.reshape` call that is not there. The self-critique found the defect; the summary field did
+  not carry it. Review the prose field, not the boolean.
+
+- **Measure every detector rule in both directions before keeping it.** *(course-wide, 2026-09-17)*
+  Seven rule changes went in and three of them over-fired on their first draft, each caught only by
+  reading the credit delta: "hace" credited "Devolver una tupla **no** hace que el lote continúe" as
+  the definition of tuple; the definite-article appositive credited "`if`, el print posterior usa la
+  última `i` del `for`"; "a" in the gloss word list turned `(neighbors(txs, a) & neighbors(txs, c))`
+  into prose; and a naming participle with a 45-character window credited every `return` near the
+  ordinary noun "llamada". The working method: dump `defines` at HEAD, apply the rule, dump again,
+  and read every added and removed credit with its sentence. Sixteen additions and twenty-five
+  removals is a reviewable diff; a count is not.
+- **A location has to name exactly one paragraph.** *(S15, course-wide)* Several sections give two
+  or three supporting blocks the same `subtopicId`, which D6 allows, and the extractor keyed on it
+  alone: 43 collisions, so `S15-T4-B.p2` addressed two different paragraphs. A test written against
+  that string tested whichever block came second. Repeats now carry the block index
+  (`S15-T4-B#10.p2`). Any patch anchored on a bare theory location from an older artifact should be
+  re-derived before it is applied.
+- **`.fixer/events.json` was a cache with no expiry.** *(2026-09-17)* `concept_map.py` read it
+  whenever it existed, so the map could describe a course that no longer existed — this round built
+  its dossiers from an events file eight hours older than the sections it was diagnosing, and two of
+  the sixty-three concepts it diagnosed had already been fixed. It now re-extracts when any section,
+  the glossary, the course index or the extractor is newer than the cache. Redirecting the
+  extractor's stdout to `/dev/null` does **not** refresh it; only `gate.py`, `concept_map.py` and an
+  explicit redirect into the file do.
+
+### The glossary was written for sections that no longer exist (2026-09-17)
+
+- **Seventeen `firstSectionId` values named a section where the term never appears.** A
+  course-wide diagnosis of 63 concepts (see `audit/fixer/CONCEPT_QUEUE.md`) traced them to two
+  causes: the pre-V3 slugs (`fastapi` for S21, `rag` for S20 — sections whose content is now
+  something else), and three retired section files that `index.ts` does not import
+  (`s09-sklearn.ts`, `s10-testing.ts`, `s11-advanced-topics.ts`), which are still the source of
+  the definitions for pytest, coverage, joblib, cross-validation, onehotencoder and others.
+  Twenty-six entries now point at the section the concept map says teaches them.
+- **A green glossary gate can be bought with wrong data.** `glossary_intro_audit.py` compares
+  "where the string first appears" against `firstSectionId`, so pointing a term at an early
+  section where nothing teaches it scores zero forward references. The honest values took it from
+  4 to 18. Fourteen of those are real — the word appears before the section that teaches it — and
+  each is a row in the concept queue. **The committed report claiming 0 was stale**; regenerate a
+  report before comparing against it.
+- **That audit reads source, not learner prose**, so its 18 are not 18 defects: it matches
+  `id: 'fastapi'` in the section source, `# merge precedence` in a code comment and the book title
+  "Practical MLOps" in a resources list. `tests/adversarial/glossary-first-use.test.mjs` scans
+  only `paragraphs:` and is the better instrument; the audit should be moved onto the extractor's
+  learner-visible events. Until it is, read its rows before believing them.
+- **An acronym has to match case-sensitively, in every matcher at once.** `ABC` matched the
+  placeholder string in `int("abc")` 94 times out of 97, and a beginner hovering S02's second hint
+  was offered "Abstract Base Class". `aliasIsAcronym` in `src/lib/glossary/terms.ts` is now shared
+  by the hover, the extractor, both Python audits and the first-use test. Change them together:
+  when only one of them moved, `abc` was recorded as introduced in S02 to satisfy the one that
+  had not.
+- **Three sections named a library or an operation the course never uses.** S40 made the
+  ports-and-adapters point with FastAPI and SQLAlchemy (S41 and S19 territory; S40 never has the
+  learner write either), S15 forbade `merge` eleven sections before S17 teaches it, and S06 wrote
+  the English `shape` for the *form of a row* — a different idea from the NumPy `shape` S14
+  teaches, under the same word, thirteen sections earlier. In all three the section already had
+  the Spanish for what it meant. Before glossing a term, check whether the section is merely
+  borrowing a name for something it already says plainly.
+
+- **The first D3 block of the campaign: S03 teaches `def`, the call and `return`.** *(2026-09-17)*
+  Seven of S03's nine theory blocks illustrate decisions with a function, and S03-T2-B's subject is
+  the early return, while `def` was not taught until S05. The new supporting block — no
+  `subtopicId`, per D6 — sits between S03-T1-A and S03-T1-B with a worked example, a four-stage
+  figure (`S03-call-return`) whose boundary is drawn after `return`, and a predict-the-output
+  check. `return` went from 76 surprising uses to 6 and from first-defined-in-S05 to S03;
+  `parameter` from 7 to 3. Course-wide surprising uses 898 → 658 across the day.
+  Three things the round had to carry, none of them in the brief the first time:
+  - **The example collided with the block after it.** Codex named the function `decidir_monto`,
+    one letter from S03-T1-B's `decide_monto`, deciding almost the same thing. Moved to the region
+    rule S03-T1-A had just taught, which also reinforces the block it follows.
+  - **An inserting patch has to re-emit its anchor.** The returned `replacement` held only the new
+    block, so applying it deleted S03-T1-A's callout and broke the file. The rollback caught it.
+    When a patch inserts rather than replaces, check `replacement.startswith(anchor)` before
+    applying, or assemble the insertion yourself.
+  - **Adding teaching trips the count pins, by design.** `test_s03_independent_contract`'s
+    `len(blocks) == 41` is now `>= 41`, proven in both directions (passes at 42, still fails when
+    programs are removed) — the same D6 conversion S01 and S02 already needed. And a new figure's
+    `id`, `caption` and `alt` must be double-quoted: `figure-data-schema.test.mjs` reads them with
+    a double-quote regex, so single quotes read as a missing caption.
+- **SVG text does not clip; it spills over the next box, and no gate saw it.** *(S03, S07, S12,
+  2026-09-17)* The new `S03-call-return` figure was written with `decidir_region("R-NORTE")` under
+  a four-stage box and rendered as `ecidir_region("R-NOR`, cut at both ends, with every suite
+  green. Measuring the live page found seven more: S07's "con una codificación" drew 133px inside
+  a 116px box, in production. `FlowFigure` now wraps a stage's `sub` to a second line and grows the
+  box for it, so no existing wording had to be trimmed, and `figure-data-schema.test.mjs` fails on
+  a label that still cannot fit — an unbreakable identifier, or text needing a third line. Only
+  `raise_for_status` was unfixable by wrapping; its name moved into the outcome line, which is as
+  wide as the canvas. When adding a figure, read it in the browser: the archetypes' text is
+  centred, single-line by default, and silently wider than its container.
+
+### Committing into a tree other work shares (2026-09-18, PR #63)
+
+- **`git add <file>` on a file that was already dirty commits someone else's half-change.** Two
+  commits staged `RichText.tsx` and `SectionView.tsx` whole and took the call sites of an
+  uncommitted `InlineText` fix without its `Callout` type change; the committed branch then failed
+  `tsc` three times while the working tree compiled. Before editing a file, run
+  `git status --short <file>`; if it is already modified, stage only your hunk by writing HEAD's
+  version plus your change into the index (`git hash-object -w` then
+  `git update-index --cacheinfo`), and leave the rest exactly as it was.
+- **A dirty working tree hides what the commits alone would do.** Four real incompatibilities
+  passed every local run: the swept change above, a gitignored cache a test read, e2e specs that
+  still listed renamed ids, and the sentinel reading a deliberate rename as data loss. Validate a
+  PR in an isolated worktree of the branch merged with `origin/main`, running what CI runs, before
+  calling it compatible.
+- **A data migration has to reach the database the way it is actually built.** The rename was a
+  Prisma migration, and the documented setup is `db:push`, which never runs migration files, so
+  it would never have run. `db:push` now applies every rename, idempotently, in one transaction.
+  An adversarial pass found this and four more defects in a migration its own tests had passed.
+- **Three probes that lied this round.** zsh does not word-split `$cmd`, so a loop over
+  `"script.py S03"` ran a file that does not exist and reported exit 2 for audits that were fine; a
+  glob like `migrations/*_rename_*/migration.sql` inside a `/** */` comment closes the comment at
+  `*/`; and `cmd | tail` returns tail's status, hiding a crash. Check the result the command was
+  supposed to produce, not only its exit code.
+
+### Teaching a concept the section already uses (2026-09-19, S16, S30, S33)
+
+- **A planted defect the fixture cannot expose certifies the habit it names.** S16-T3-B-E2 asks
+  the learner to fix a mask that looks only at the upper fence. Its fixture was
+  `[1.0, 2.0, 3.0, 100.0]`, whose lower fence is -36.5, so the broken starter printed `[100.0]` —
+  byte-identical to the declared solution — and «Éxito: `[100.0]`» told the learner they were
+  done. The exercise had shipped that way; the new teaching block only made it legible. Before
+  trusting any exercise that declares a DEFECT, run its starter under `.venv-content` and compare
+  with `solutionCode.output`: identical output means the exercise cannot fail. A course-wide gate
+  for this is in the work queue, because nothing else can see it.
+- **Explaining is not defining, and the measure counts definitions.** S30's new F1 block taught
+  the idea well — the formula, the harmonic mean, 1.0/0.5 against the simple average — with
+  «precisión pregunta: …¿cuántos lo eran realmente?» and «F1 combina ambas con `2*P*R/(P+R)`». A
+  rhetorical question defines nothing, so define-before-use went the wrong way: surprising uses in
+  S30 rose 20 → 31, all of them `f1-score` and `precision`, the two terms the block exists to
+  teach. At first use, state «X es …» with the term marked, then illustrate. The instrument and
+  the beginner want the same sentence.
+- **A new figure archetype needs its own arithmetic test; the render probe cannot see wrong.**
+  `NumberLineFigure` marked outliers with `at < min(fences) || at > max(fences)`. With one fence
+  that collapses and rings every value — and the obvious first reuse is the one-fence picture of
+  S16's upper-fence-only habit. Every gate was green: it paints, the labels fit, the contrast
+  passes. `tests/adversarial/figure-geometry.test.ts` now pins the predicate at zero, one and two
+  fences, and pins that authored fences and band edges lie inside the axis domain, since only
+  points get the off-scale bay.
+- **An archetype that reserves room for a wrapped headline must also draw it wrapped.**
+  `TableShapeFigure` computed `top` from `wrapLines(headline)` but drew the headline as a single
+  line and left the panel titles at a fixed `y`, so the first headline over ~62 characters put
+  «groupby + nunique» on top of «Conteo por clave» at every viewport and theme. Only
+  `figure_render_probe.mjs --sections S16` saw it. Run the probe for the section whenever a figure
+  is added, in both themes: static tests measure the data, not the drawing.
+- **A gate that is not in CI rots, and then it fails for the wrong reason.**
+  `scripts/raw_markdown_rendering.spec.ts` still listed `numpy` and `pandas`, ids this campaign
+  renamed in batch A, so it died on its first click instead of reporting anything — while 32
+  learning outcomes and 3 `jobRelevance` paragraphs rendered literal backticks on the live site,
+  because it walked only the learning tabs and those two surfaces are behind a popover and a
+  sheet. `InlineText` had existed since the 721-leak fix; the outcome site simply never used it.
+  When a fix is "those fields now go through InlineText", enumerate the fields that do not.
+
+### The exercise that cannot fail, and two instruments (2026-09-21)
+
+- **Two planted defects that printed the solution's own answer.** S16-T3-B-E2 (upper fence only,
+  on a fixture whose lower fence was -36.5) and S13-T1-B-E1 (inverted precision/recall
+  denominators, on `tp, fp, fn = 8, 2, 2`, where both metrics are 0.8). In each the broken starter
+  printed exactly the declared «Éxito», so the learner ran it, matched the output and submitted,
+  having practised the habit the exercise names. No gate could see it: the snippets audit runs the
+  SOLUTION and compares it with the declared output, and nothing ran the starter.
+  `scripts/planted_defect_audit.py` now runs both for every exercise whose text declares a DEFECT
+  and reports the ones whose starter already prints every line the solution does. The comparison
+  is line-containment, not equality: S13's starter printed an extra `ok True`, which exact
+  comparison called a difference while the two metric lines the learner checks were already right.
+- **Adding a glossary entry adds a concept the map must see defined.** The round added `cuartil`
+  and `cercas de Tukey` because the blocks bold them as course vocabulary, and both immediately
+  became findings: the Tukey sentence said where the fences sit («usan 1.5 … y quedan en …») but
+  never what one is, so the term read as never explained anywhere in 52 sections. Bold a term,
+  and the same paragraph has to say «X es …».
+- **A block's own heading is not a forward reference.** `glossary_first_use.py` ordered events
+  positionally, so a block titled "Cuartiles, IQR y cercas de Tukey" whose paragraphs define all
+  three reported USE_BEFORE_DEFINITION against itself — the heading is emitted before the
+  paragraphs. Name the subject, then teach it, is how the course is written; the audit now skips a
+  first mention that is the heading of the very block that defines the term, and still reports a
+  heading that names something a later block defines. Course-wide first-use issues fell 68 → 67.
+
+### Widening a ratchet's scan is not relaxing it (2026-09-21, D9/D10)
+
+The D9/D10 gate read `src/lib/course/sections/` only. Learner code lives in two other places:
+the Theory-tab playgrounds in `SectionView.tsx` and the capstone `STARTER/*.py` files, both of
+which the learner opens and runs. Widening `offenders()` to read them — mapping a playground to
+its section id and a starter to its `gate.json` `gate_section` — put 8 `try`/`except` sites under
+the gate that no scan had ever seen, so D10's baseline went 98 → 106. That number went up while
+the gate got stronger: before, those sites were not protected at all. State that in the comment,
+or the next reader takes it for a relaxation and the ratchet loses its meaning.
+
+### A guard must survive the round it guards (2026-09-22, S33 concepts)
+
+S33's concepts round closed 27 of its 28 surprising uses on the first attempt, and the gate
+threw the whole thing away twice — both times on tests written minutes earlier in this same
+campaign, neither time on anything codex got wrong. A failed gate restores the section, so a
+brittle guard does not merely report noise: it destroys good work and reports that the round
+failed.
+
+- **Never pin a positional location.** The test asserted `advanced-models.theory[10].p1`
+  defines cross-validation. The round inserted a teaching block ahead of it, every later index
+  shifted by one, and the assertion failed on content that was strictly better. `theory[10]` is
+  a fact about an array, not about the course. Find the event by the sentence it contains —
+  `/\*\*validación cruzada\*\* .{0,12} divide los datos/` — the way the older tests in that
+  file already do.
+- **Never make the defect your fixture.** The next test asserted overfitting is still a
+  load-bearing problem in S33. It failed because the round taught overfitting. A test whose
+  setup is the bug cannot outlive the bug, and during a campaign whose whole purpose is
+  removing these, it is a landmine with a timer. Assert the property on a synthetic concept
+  shaped like the real one, and read the live course in at most one test that `skipTest`s when
+  its population is empty — so it stops guarding on the day the campaign wins instead of
+  blocking it.
+
+### The definition detector's whitelists hide teaching, they do not invent it (2026-09-22)
+
+Two of S33's three "never explained" concepts were explained, in that section, in a sentence
+the detector could not parse. `divide` was missing from MARKED_SUBJECT_VERB, so «La
+**validación cruzada** (CV) divide los datos en `k` partes» taught nothing; `ocurre cuando` —
+the standard Spanish frame for defining a phenomenon, and the one codex reached for
+unprompted — matched no rule at all, so the block written to teach overfit registered as
+defining nothing and the definition of record fell to a learning outcome.
+
+Before commissioning content for a concept the map calls never-explained, grep the section for
+the term in bold or backticks and read the sentence. Otherwise the round pays codex to write a
+block for something the course already teaches.
+
+Add verbs on measured effect, never on plausibility. A frequency scan offered five more
+(`crea`, `declara`, `devuelve`, `exige`, `toma`); re-running the extractor with all of them
+changed exactly two events, one of which credited a self-check explanation with `venv` — the
+non-teaching-surface credit the detector's own docstring opens with. Only the two verbs with a
+case to prove them stayed.
+
+### A glossary alias that is an ordinary word will be captured by longer prose (2026-09-22, S09)
+
+`correlaci-n`'s only alias is `Correlación`. S09 is about logging and writes "identificador de
+correlación" throughout, so the statistics term scored four uses in a section that never mentions
+a coefficient - and carried `firstSectionId: 'exceptions-logging'` as a result. The round then
+"fixed" it by teaching correlation ids, and the map now believes S09 is where the course explains
+statistical correlation.
+
+The extractor sorts aliases longest-first **within one term**, never across terms, so nothing
+arbitrates this. Before commissioning a block for a concept the map says this section uses, read
+one of the actual sentences: if the term is an ordinary word, check it is not a fragment of a
+longer phrase meaning something else. The same shape is waiting in five other pairs -
+`function` inside `función generadora`, `commit` inside `Conventional Commits`, `list` inside
+`List comprehension`, `dict` inside `Dict comprehension`, `recall` inside `precisión y recall`.
+
+
+### Retrospective, 2026-09-25: what has actually been destroying rounds
+
+Twenty-four sections were processed over two days. Codex produced roughly ninety patches with
+**zero rejected on quality**. Eleven rounds were nevertheless thrown away, and every one of
+them died on the machinery rather than on the Spanish. The gate restores the section when it
+fails, so a bad instrument does not report noise — it deletes the work and calls the round a
+failure. These are the shapes, so the next round recognises them before paying for them.
+
+**1. A test that pins HOW something is written, not WHAT is true.** Four variants, in the order
+they bit:
+
+- *Array index.* `advanced-models.theory[10].p1`. A concepts round's whole purpose is
+  inserting teaching blocks, which renumbers every later index. Cost S33's round.
+- *Block ordinal.* `stdlib-deep.S15-T4-B#10.p2` reads like a stable subtopic id, but `#10`
+  counts blocks inside that subtopic. Insert one and it is `#11`. Cost S15's round — and the
+  guard written after the first variant only knew `theory[N]`, so it walked straight past this.
+- *Literal prose.* `test_s04_text_first_prose` pinned exact substrings; a round split one
+  sentence, so «, el índice» became «. El índice» — same words, capital E. Cost S04's round.
+- *A defect counted twice.* `first_use_issues` charged 2 for a term both mentioned and required
+  before its definition, and 1 for a term defined nowhere, so *teaching* a never-defined term
+  read as damage.
+
+The durable form pins what is true: find the event by its sentence, fold case and whitespace,
+count one defect once. 2,208 of 7,717 event locations (28.6%) are positional, so assume any
+location-shaped string in a test is a liability until shown otherwise.
+
+**2. Removing a definition exposes everything it was masking.** The brief counts uses *given
+the definitions that exist now*. Remove one — often correct, since a section should not
+pre-announce what another teaches — and uses the brief never listed appear at once. `for` in
+S04 would have gone 268 → 1126; `function` in S02 went 229 → 301; `if` in S02, 208 → 223. All
+three patches were right. The brief now states this cost per section before the round starts.
+
+**3. The detector's rules are whitelists, so a missing entry hides real teaching.** The course
+marks a keyword with BOTH marks — `**`for`**` — and `FORMATTED_SUBJECT` accepted one, so the
+inner backtick sat behind an asterisk instead of sentence punctuation. Consequence: `for`, with
+1421 uses across 52 sections, had its only credited definition in a weDo preamble reading
+"(base del gate de resúmenes)", while S04's theory taught it correctly and was credited with
+nothing. 26 sentences in the course open that way. Before writing a block for a concept the map
+calls never-explained, grep the section and read the sentence.
+
+**4. Spanish is the canonical version, and that is a diagnostic asset.** Python keywords,
+operators and library names are English; ordinary Spanish prose is not. So an English token in
+Spanish prose is almost always the concept, and the homonym risk concentrates where an alias IS
+an ordinary Spanish word. Measured over the 200 remaining uses: 145 (72.5%) come from
+English-token-only aliases and carry low false-positive risk; 55 (27.5%) come from twelve
+concepts whose aliases include a Spanish word — `excepción`, `valor atípico`, `función`,
+`correlación` — and that is where a use needs corroboration before it is believed. The overall
+noise level is low: 10 of 268 were clear homonyms (3.7%), not the large fraction first claimed.
+
+**5. One of these was self-inflicted and is worth naming.** Repairing the prose test with a
+global string replace broke two sibling tests in the same file, because the pattern being
+replaced appeared in three tests and only one needed it. Scope an edit to the assertion it is
+meant to fix, and run the file before moving on.
+
+### A brief can carry the defect it forbids (2026-09-26, S02 practice layer, route 2)
+
+S02's first route-2 round cut in-section surprises 31 → 19 and the course total 152 → 147, and
+still failed three measures. None of the three was codex writing bad Spanish. Two came from the
+brief, and the third came from codex overriding a fact the brief had stated.
+
+- *A pinned phrase is copied, defects included.* The brief listed six You Do phrases a test
+  requires verbatim, one of them «muestra un input problemático». Codex kept it and wrote
+  «un input problemático» twice more in the new You Do. `avoidable_english_per_1000` went
+  2.3 → 2.8. In S02 it is also a homonym, because the section teaches `input()`. **Never pin
+  or quote a phrase that carries an anglicism. Fix the phrase first, then pin it.**
+- *A prohibition reads as a deletion order.* «Do NOT reproduce … tuple returns» sat beside
+  «keep the course's earliest definitions». Codex resolved the conflict by deleting theory[4]
+  («Tres resultados que viajan juntos»), the only definition of `unpacking` in 52 sections. Its
+  rationale was «se enseñan más adelante», and the brief's held-definitions block had said the
+  opposite in so many words. `never_explained` went 11 → 12 and 7 uses in S06/S36 were exposed.
+  **When a brief forbids a construct, name the defining block that must stay.**
+  The applier now enforces this as well: `apply_patches.py` refuses a patch whose anchor holds
+  a listed definition's sentence and whose replacement names the concept under none of its
+  names (`test_patch_held_definition.py`). Replayed on the real round, it refuses exactly that
+  patch of the 11 and passes the other 10. This is the fifth round this failure class has cost.
+- *A rewritten self-check moved its answer.* The new question put the correct option first;
+  `correctIndex` went 1 → 0 and broke the section's answer-position balance. **When rewriting
+  a question, keep its `correctIndex` and order the options around it.**
+
+Salvage, not rerun: the refused patch was reverted by splicing the original block back at its
+exact offset, after checking that both 400-character neighbourhoods matched. The ten good
+patches stayed. The tuple block may leave S02 once S06 teaches tuples and unpacking. A
+definition moves only after its successor exists.
+
+### A clean section the instrument could not see (2026-09-26, S02)
+
+S02 closed its route-2 rounds at "2 surprising uses" with two dict literals still in place. One
+was a nested `{"types": {"edad": "str"}}` in `S02-T4-A-E3`, the other a `c = {...}` printed by
+the optional contract block. A dict literal never says "dict", and the extractor finds concepts by
+name, so both were invisible. It is fixed for dict (`scripts/concept_syntax.mts`). The measure
+went 123 → 143, and every one of the 22 added uses was there before the change. The same
+change stopped counting the `for` in the title *Python for Everybody*, which no rewrite could
+remove. **When a section reaches low single digits, read its code for constructs used without
+their name before calling it done.** Tuple unpacking, comprehensions and f-strings have the same
+shape and are not yet covered.
+
+The brief had also cut each concept's location list at eight. S02's `dict` had ten, and codex
+fixed the eight it was shown. A list handed to codex is complete, or it states how much it
+leaves out.
+
+### A dead reviewer is not a clean review (2026-09-28, S03 red team)
+
+The S03 plan was attacked by twelve agents per round, one per readiness dimension, looping until
+two quiet rounds. The run reported `converged: true`. It had not converged: the session hit its
+usage limit after round 1, every agent in rounds 2 and 3 died, and the loop counted two rounds of
+total failure as two quiet rounds. The reviser died too, so the revised plan came back `null`
+while the run still reported three rounds and convergence.
+
+The cause is one line. `parallel()` resolves a failed agent to `null`, the loop did
+`.filter(Boolean)` before counting, and after that filter a dead attacker and a satisfied
+attacker are the same thing: no findings. Same class as the contaminated baseline and the
+phantom 40 snippet failures - **an instrument that could not run must never be
+indistinguishable from an instrument that passed.** Counting nulls separately is the fix: a
+round with any failure can never be quiet, a round where every agent failed stops the loop, and
+a dead reviser ends the run instead of discarding the revision. Falsified against the real run
+(`scratchpad/redteam_loop_sim.mjs`): the old arithmetic says converged, the new one says ended
+on agent failure, and genuinely quiet rounds still converge.
+
+**Whenever a loop treats "nothing came back" as "nothing is wrong", count the failures
+separately.** That is true of every fan-out in this campaign, not only this one.
+
+*Follow-up, 2026-09-30.* Knowing that a dead agent is not a clean review does not stop agents
+dying. Nine attackers launched at once and five came back `429 rate_limit` against the five-hour
+window: a burst spends the quota faster than it spends the work, and every dimension it kills is
+left unchecked. Two cheap changes make a fan-out survivable — run it in **batches** (three at a
+time here, so a limit reached mid-run costs one batch rather than the round) and give each agent
+**one retry**. Keep the first attempt's prompt and label byte-identical, and a resume replays
+what already succeeded instead of paying for it twice. Read the run's `journal.jsonl` to see
+which labels failed; the summary only counts them.
+
+The 68 findings round 1 did produce are kept in `audit/fixer/rca/s03-redteam-findings.md`.
+
+### The exam can be passed without Python (2026-09-29, course-wide)
+
+S03's red team reported that its exam bank's correct option is the longest of the four in 23 of
+24 questions. Measured across all 44 banks in `prisma/seed.ts`: **1125 of 1200, 94%**, where
+chance is 25%, and eleven banks are at 100%. The key averages 2.5x the length of the distractors.
+
+Nothing shuffles them. `exam/start/route.ts:116` sends `options: JSON.parse(q.options)` in stored
+order — its "shuffled order" at :167 shuffles the questions, not the options — so the cue reaches
+the learner as authored. `PASS_THRESHOLD` is 70. **A learner who always picks the longest option
+scores about 94 and passes every exam in the course knowing no Python**, and
+`exam-scoring.ts:120` counts a passing attempt as evidence of section completion, which badges
+and the certificate are built on.
+
+It is a ratchet (`tests/adversarial/test_exam_length_cue.py`), not an absolute gate: 1125
+questions cannot be rewritten in one round, and a gate red on every round says nothing about the
+round. **Lengthen the distractors; never trim the key** — a key cut to match three short
+distractors loses the precision that made it correct. Every section round pays down its own bank.
+
+Two process notes. The finding came from an attacker assigned a dimension nobody would have
+thought to point at the exam bank; it turned up because the dimension list is read for every
+section, not because anyone suspected it. And the first count of perfect banks, eight, was wrong:
+it came from printing the top rows of a sorted list and counting the print. The test caught it at
+eleven. **Count with the assertion, not with the log line.**
+
+### The measure speaks a different Spanish than the course (2026-10-02, course-wide)
+
+`surprising_uses_course_wide` reached 0. It was the instrument's zero, not the course's.
+
+The glossary declared `data-leakage` as `'Data leakage'` and `'fuga de datos'`. The course never
+writes either. It writes the word **bare**, 215 times across 8 sections: *"Eso es **leakage**"*,
+*"leakage temporal"*, *"leakage de identidad"*, *"anti-leakage"*, *"scan de leakage"*. One alias
+later:
+
+```
+before  L1 ·   5 uses ·  4 sections · 0 examples · 0 exercises ·  1 self-check
+after   L2 · 146 uses · 10 sections · 5 examples · 9 exercises · 13 self-checks
+```
+
+So `leakage_prevention`, a P0 "absent skill" in `curriculum_gap_matrix.json`, was never a gap at
+all. S32 — titled *"Feature engineering y pipelines sin leakage"* — teaches all five modes the
+market examines across theory, iDo, weDo, youDo **and** selfCheck. The matrix recorded it absent
+because the instrument could not see the word. **Briefed from that measure, a round would have
+asked codex to write 24 exercises that already existed, and displaced real teaching to fit them.**
+
+**The heuristic: a measure computed over declared names is blind to the names the course actually
+writes, and reports that blindness as success.** Before trusting any vocabulary-keyed number,
+check one term by hand — grep the bare word and compare it to the recorded use count. A term whose
+raw occurrences dwarf its recorded uses is an alias miss, not a teaching gap.
+
+The same fix also revealed what the blindness was hiding: **8 genuine surprising uses in S17**,
+which writes the word in `outcome[7]`, `theory[2].p3`, `S17-T3-A.p2` and the whole of `S17-T4-B`
+before `iDo.intro` defines it. S17 owes a definition in theory ahead of first use.
+
+Two process notes. `firstSectionId` was re-pointed S19 → S17 in the same change, because with the
+alias visible both first use and first definition are S17 — so the first-use ratchet held at 15
+instead of rising to 16. **Fix the cause, not the counter.** And the first attempt to rank this
+divergence course-wide was wrong: ungrouped alternation
+(`(?<![\w])ROC-AUC|ROC|curva ROC(?![\w])`) leaves middle alternatives unanchored, so `roc` matched
+*p**roc**eso*, `nan` matched *fi**nan**zas*, `repl` matched *replace* — 305 phantom misses against
+a real 129. A separate probe matched `ttest` inside *a**ttest**ation*, inventing 101 statistics
+hits in S44. **Group every alternation, and run each probe's own counterexample before believing
+it.**
+
+The debt the repaired measure exposes is held in `tests/adversarial/test_concept_depth_ratchets.py`
+— 44 self-certifying definitions, 7 never explained, 35 explained-but-unexemplified, 103 concepts
+short of their figures, 30 load-bearing concepts below L3 (which is why the ledger's `concepts`
+column reads 0/52). All two-sided, all falsified against planted defects.
+
+### How to explain work to the owner (2026-10-02, process)
+
+**Scope first, because this file is injected into every authoring prompt: this rule governs
+agent-to-owner explanations only. It does NOT govern learner-facing Spanish.** Lesson prose keeps
+following `audit/fixer/writing_rules.md` and the narration-voice rule — a human teacher narrating.
+A 20-word cap applied to lesson prose would fragment the teaching and break that rule. Codex must
+ignore this section when authoring content.
+
+Write every explanation of code, a plan, an error or a change in about **80% ASD-STE100**:
+
+1. One fact or one instruction per sentence. Instructions: 20 words max. Descriptions: 25 words max.
+2. Use the active voice. Say who does what.
+3. Use the same word for the same thing every time. Define a term once, then reuse it exactly.
+4. Start with the answer. Then give the details.
+5. Put steps in a numbered list. Keep each paragraph to one topic, 6 sentences max.
+6. Keep "the", "a" and "this". Do not drop words to save space.
+7. Answer in the language the owner uses. In other languages, keep sentences just as short.
+8. Add an ASCII diagram when a flow or a structure has more than 3 steps or parts.
+
+The owner reads these explanations to make decisions. An answer-first order makes the decision
+faster. A consistent term stops the reader re-deriving what a word means.
