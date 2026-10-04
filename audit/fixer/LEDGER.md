@@ -1033,3 +1033,40 @@ synthetic event fixture is the right shape for it; a code mutation is not.
 **The general rule: before trusting a test to guard an invariant, check that the invariant is
 currently load-bearing.** A guard on a condition the data never meets is indistinguishable from a
 guard that works, and both pass.
+
+### An accuracy equal to chance is not a measurement (2026-10-04, S33)
+
+S33's XOR demo trains the same net twice, with `tanh` and without, to show that stacking linear
+layers buys nothing. CI found the output unstable. The S25 session traced it; the root cause makes
+the *prose* wrong as well, and that is the part worth keeping.
+
+Without the activation the net collapses to an affine function,
+`z2 = X·(W1·W2) + (b1·W2 + b2)`. XOR is not linearly separable and its four labels are balanced, so
+the lowest loss an affine score can reach is the **constant** predictor p = 0.5, at exactly ln 2.
+Gradient descent duly drives the effective weights to zero — measured
+`w = (-1.4e-16, -4.4e-16)`, `b = +1.7e-16`.
+
+So `(p > 0.5)` was a **strict comparison on a tie**. Double spacing at 0.5 is 1.11e-16 and the
+sigmoid's slope at 0 is 0.25, so any accumulated score past ~4.4e-16 flips it. That depends on
+matmul summation order, which depends on the BLAS kernel and numpy's SIMD path — both chosen *per
+CPU at run time*. It therefore varied **between CI runs**, not between platforms: across twelve
+forced kernel/AVX settings the printed list can be `[0,0,0,0]`, `[0,0,1,0]`, `[1,0,1,0]` or
+`[1,1,1,0]`.
+
+**The fix was not to stabilise it.** `(np.round(p, 6) > 0.5)` does pin the output, and it was
+offered — but it pins *one arbitrary member of a four-element set* as "the result" and keeps the
+lesson reporting a decision the model never made. The round prints the probabilities instead:
+`sin_tanh prob [0.5, 0.5, 0.5, 0.5]`, with a constant string in place of the accuracy line so
+nothing can drift.
+
+**And the prose had been wrong all along, with no help from floating point.** It said the net
+without activation «acierta **2 de 4**». Two of four is what *any* constant prediction scores on
+four balanced labels; the line printing it was reporting the result of breaking a tie downward. The
+tell was already on the page: three sentences later the same paragraph explained that the loss comes
+«de predecir siempre **0.5**». **The paragraph contradicted itself, and only the "2 de 4" clause was
+wrong.**
+
+**Two heuristics.** First: a reported accuracy that equals chance on balanced labels is a prompt to
+ask whether the model decided anything at all — not a weak result to report. Second: when a lesson
+states a number and then explains a mechanism that implies a different number, the explanation is
+usually the surviving half. Read a paragraph against itself before reading it against the code.
