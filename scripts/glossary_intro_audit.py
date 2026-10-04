@@ -14,6 +14,7 @@ import json
 import re
 import subprocess
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 from glossary_first_use import audit_concept_events  # re-export for existing callers
@@ -114,7 +115,7 @@ for t in terms:
         )
 
 report = {
-    "generated_at": __import__("datetime").datetime.utcnow().isoformat() + "Z",
+    "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
     "terms": len(terms),
     "sections": len(section_ids),
     "forward_refs": len(issues),
@@ -123,3 +124,35 @@ report = {
 }
 OUT.write_text(json.dumps(report, indent=2, ensure_ascii=False))
 print(json.dumps({"ok": report["ok"], "forward_refs": len(issues), "terms": len(terms)}, indent=2))
+
+# 2026-10-03: this script printed "ok": false and exited 0, so CI ran it for weeks as a gate that
+# could never fail. The ratchet below is what gives it an exit code.
+#
+# The value is 2, not 7. Until today the scan matched each term against the whole section file
+# source, which counted the section's own `id:` declaration and every hidden surface. Five of its
+# seven findings were artefacts of that: `fastapi` matched `id: 'fastapi'`, `pipeline` matched
+# inside S01's hidden `solution` field, and `eda`, `mlops` and `llm` likewise. The concept map
+# agrees independently -- for all five, the declared section IS the first-used section.
+#
+# The two that remain are real, and both are corroborated by the concept map:
+#     return    declared functions-contracts (S05), first used S03
+#     coverage  declared async-concurrency   (S27), first used S24
+#
+# Do NOT pay this down by repointing a `firstSectionId`. That buys a green without moving any
+# teaching, and it is the gate-gaming this ratchet exists to make visible. Pay it down by teaching
+# the term where the learner first meets it, then lower the constant in the same commit.
+FORWARD_REFS_OWED = 2
+
+if len(issues) > FORWARD_REFS_OWED:
+    print(f"\nFAIL: forward refs rose to {len(issues)}, owed is {FORWARD_REFS_OWED}:",
+          file=sys.stderr)
+    for i in issues:
+        print(f"  {i['term']}: declared {i['declared_first']}, first used {i['found_first']}",
+              file=sys.stderr)
+    raise SystemExit(1)
+
+if len(issues) < FORWARD_REFS_OWED:
+    raise SystemExit(
+        f"\nFAIL: only {len(issues)} forward refs remain -- lower FORWARD_REFS_OWED to "
+        f"{len(issues)} in {__file__} so the repair is kept."
+    )
