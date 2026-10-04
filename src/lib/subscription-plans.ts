@@ -10,6 +10,9 @@
  * - Annual: ~2 months free (17% discount)
  */
 
+import { TOTAL_CAPSTONES } from '@/lib/capstones/catalog'
+import { COMPLETION_CERTIFICATE_TITLE, PROGRESS_RECORD_TITLE } from '@/lib/progress-document'
+
 export type PlanCode = 'free' | 'pro' | 'team'
 export type BillingCycle = 'MONTHLY' | 'YEARLY'
 export type CountryCode = 'PE' | 'US' | 'EU' | 'REST'
@@ -77,8 +80,8 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlanConfig[] = [
       'Las 52 secciones completas',
       'Exámenes con anti-plagio (3 variantes)',
       'Editor interactivo Pyodide',
-      '4 proyectos capstone de portafolio',
-      'Certificado de completitud',
+      `${TOTAL_CAPSTONES} proyectos capstone de portafolio`,
+      `${PROGRESS_RECORD_TITLE} y ${COMPLETION_CERTIFICATE_TITLE.toLowerCase()}`,
       'Dashboard de progreso avanzado',
       'Familiarity Score Dashboard',
     ],
