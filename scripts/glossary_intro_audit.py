@@ -35,9 +35,12 @@ OUT = ROOT / "course-state/glossary_intro_report.json"
 #: Forward references the course carries today. This audit printed "ok": false and still exited
 #: 0, so the CI step running it could never fail. It now fails when the count moves: a new
 #: forward reference fails, and so does paying one off without lowering this number.
-#: 2026-10-03: 7 - return, coverage, eda, pipeline, mlops, fastapi, llm. fastapi is the audit's
-#: own false positive: it reads source and matches the section id `fastapi` (LEDGER_NOTES, "That
-#: audit reads source, not learner prose").
+#: 2026-10-03: 7 - return, coverage, eda, pipeline, mlops, fastapi, llm. Only return and coverage
+#: are real. This version matches each term against the whole section source, where nothing is
+#: stripped, so fastapi matches the section's own `id:` and the other four match hidden surfaces.
+#: The fixer session's rewrite onto the extractor's learner-visible events (8988b615, verified
+#: from a clean checkout) reads 2. Whichever of the two lands second sets this number to what its
+#: script measures; nobody should repoint a firstSectionId to pay down the five artefacts.
 FORWARD_REFS_OWED = 7
 
 # parse firstSectionId and term from terms.ts
