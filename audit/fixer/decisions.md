@@ -426,25 +426,38 @@ for the privacy notice, security.txt and retention to ship with the go-live rede
   thread and DS 016-2024-JUS summaries. The lawyer check (task 13) covers them.
 - **CSP, extra headers and `/v1/health`** (P4–P6) wait for the deploy after go-live, as sequenced.
 
-## D16 — Firebase leaves the static builds' bundle; nothing is deleted (2026-10-05)
+## D16 — Firebase is left out of the static builds for real; no stand-ins (2026-10-05)
 
-The static builds (GitHub Pages and pyarcana.dev) shipped about 280 KB of minified Firebase that
+The static builds (GitHub Pages and pyarcana.dev) shipped about 0.5 MB of minified Firebase that
 never ran. Every guard reads "not configured" in both builds, and the CSP blocks Firebase's hosts.
 The owner asked to remove it only with proof that nothing changes.
 
-- **Stand-ins, not deletion.** `src/lib/firebase/client.static.ts` and `auth.static.ts` replace the
-  real modules in the static build only (`next.config.ts`, a `NormalModuleReplacementPlugin`; a
-  plain alias is resolved after the tsconfig path and does not apply). The server edition, dev
-  and the 4 protected tests keep the real Firebase code. `satisfies` ties the stand-ins' exports
-  to the real module's, so the two cannot drift.
-- **Reversible:** `PYARCANA_FIREBASE_STUB=0` builds today's bundle.
-- **Proof** (`scripts/static_bundle_firebase_check.mjs`, both builds, stand-ins off then on):
-  - 19 pages each, the same pages, identical visible text;
-  - files carrying Firebase go from 3 to 0, and the "off" build shows the check can see them;
-  - JavaScript goes from 10,922,885 to 10,399,575 bytes (Pages) and from 10,922,537 to
-    10,406,291 (root), about 0.5 MB.
-- **Narrowing:** a static build can no longer turn Firebase on by configuration. The CSP already
-  forbade it.
+- **First version (superseded the same day):** two stand-in modules (`client.static.ts`,
+  `auth.static.ts`) swapped in by webpack. The owner's rule is that no stand-ins are kept, so they
+  were replaced by the real fix below. Nothing imports them any more; they are deleted once the
+  verifier approves DCR-2026-10-05-firebase-static-stand-ins (owner approval recorded).
+- **Root cause:** `src/app/page.tsx` imported the old Firebase sign-in (`AuthModal`, `UserMenu`)
+  directly, and `AuthModal` and `StaticSiteNoticeText` imported the Firebase SDK.
+- **On the static site that UI is unreachable:**
+  - `UserMenu` returns null without Firebase settings;
+  - the Dashboard sign-up and `PricingPage` are `!IS_STATIC_SITE`;
+  - `ExamView`, the only other opener, needs a next-auth session, which the static build never
+    has (`Providers.tsx` passes `session={null}`).
+- **Fix, part 1:** `page.tsx` requires the Firebase sign-in only when
+  `process.env.NEXT_PUBLIC_STATIC_SITE !== '1'`. It is written as the literal env comparison so
+  webpack folds it at build time and drops the module. In the server edition the require is
+  synchronous, so nothing changes there.
+- **Fix, part 2:** `StaticSiteNoticeText` reads the settings from the SDK-free
+  `src/lib/firebase/config.ts`. `client.ts` re-exports it, so its API and the 4 protected tests are
+  unchanged.
+- **Proof** (`scripts/static_bundle_firebase_check.mjs --before=HEAD`; "before" is ac5e2e5 built
+  with Firebase included):
+  - both builds: 19 pages, the same pages, identical visible text, files carrying Firebase 3 → 0;
+  - JavaScript 10,954,420 → 10,418,118 bytes (Pages) and 10,954,082 → 10,417,774 (root), about
+    536 KB less each.
+  - Mutation: with the condition broken, the static build ships Firebase again (3 files).
+- **Narrowing, unchanged:** a static build can no longer turn Firebase on by configuration. The CSP
+  already forbade it.
 
 ## D17 — QA sessions are measured, and admin sees and downloads QA (2026-10-05)
 

@@ -1,20 +1,21 @@
 // Chromium check of the QA round of 5 Oct 2026 on the real local stack (wrangler dev --local):
-// 1. Ctrl/⌘ + Alt + Q opens the QA window from the key events each platform really sends
-//    (dispatched through the DevTools protocol, so key, code and modifiers are exact):
-//    macOS Ctrl+Option+Q and ⌘+Option+Q ("œ", KeyQ), Windows/Linux US Ctrl+Alt+Q ("q"), and a
-//    German AltGr+Q ("@"), which types "@" and must NOT open it.
+// 1. Ctrl + Alt + Q opens the QA window in this browser (Chromium on Linux, no platform faked);
+//    Ctrl + Q alone does not. Key events go through the browser's input pipeline (DevTools
+//    protocol): synthetic input on the real platform. macOS keys are checked on a real Mac
+//    keyboard (`node live.e2e.mjs --keys`); other layouts are in the unit matrix (hotkeys.test.ts).
 // 2. A tester's session accrues active time and sections, and is sent to the team.
 // 3. Ctrl/⌘ + Alt + S: one forced upload; a check/uncheck flip-flop gets the cooldown message and
 //    no upload; autosave still saves the change.
 // 4. Admin → QA: the counts, then the CSV and JSON downloads; the JSON opens in the QA workspace.
 import { chromium } from 'playwright'
+import { sandboxTrustArgs } from './sandbox-trust.mjs'
 import { mkdirSync, readFileSync } from 'node:fs'
 
 const BASE = 'http://localhost:8787'
 const OUT = new URL('./shots/', import.meta.url).pathname
 mkdirSync(OUT, { recursive: true })
 const tokens = JSON.parse(readFileSync(new URL('./tokens.json', import.meta.url)))
-const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium', headless: true })
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium', headless: true, args: sandboxTrustArgs() })
 const results = []
 
 function record(name, ok, detail = '') {
@@ -26,21 +27,16 @@ async function flow(name, fn) {
   try { await fn() } catch (e) { record(name, false, `threw: ${e.message.split('\n')[0]}`) }
 }
 
-const MAC_UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36'
-const WIN_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36'
-
-async function contextFor(who, { qa = null, mac = false } = {}) {
-  const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'es-PE', userAgent: mac ? MAC_UA : WIN_UA, acceptDownloads: true })
-  await ctx.addInitScript(([qaMode, isMac]) => {
+// The browser is what it is: Chromium on Linux. No user agent or platform is faked (5 Oct 2026);
+// macOS keys are checked on a real Mac keyboard with `node live.e2e.mjs --keys`.
+async function contextFor(who, { qa = null } = {}) {
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'es-PE', acceptDownloads: true })
+  await ctx.addInitScript((qaMode) => {
     try {
       localStorage.setItem('pyarcana:tourCompleted', '1'); localStorage.setItem('pyarcana:qaTourCompleted', '1')
       if (qaMode) localStorage.setItem('pyarcana:qa-mode:v1', JSON.stringify({ v: 1, ...qaMode }))
     } catch {}
-    // The platform the page reads (src/lib/hotkeys.ts isApplePlatform): what a Mac or a PC reports.
-    const platform = isMac ? 'macOS' : 'Windows'
-    Object.defineProperty(navigator, 'userAgentData', { get: () => ({ platform, mobile: false, brands: [] }) })
-    Object.defineProperty(navigator, 'platform', { get: () => (isMac ? 'MacIntel' : 'Win32') })
-  }, [qa, mac])
+  }, qa)
   if (who) await ctx.addCookies([{ name: '__Host-pa_session', value: tokens[who].token, domain: 'localhost', path: '/', secure: true, httpOnly: true, sameSite: 'Lax' }])
   return ctx
 }
@@ -61,7 +57,6 @@ const api = (page, method, path, body) => page.evaluate(async ([m, p, b]) => {
 
 const ALT = 1
 const CTRL = 2
-const META = 4
 
 /** One key press exactly as the browser receives it from the operating system. */
 async function press(page, { key, code, modifiers, text }) {
@@ -85,21 +80,17 @@ async function closeDialog(page) {
 // 1. The QA hotkey, per platform.
 await flow('QA hotkey', async () => {
   const cases = [
-    { name: 'macOS Ctrl + Option + Q ("œ") opens the QA window', mac: true, ev: { key: 'œ', code: 'KeyQ', modifiers: CTRL | ALT }, want: true },
-    { name: 'macOS ⌘ + Option + Q ("œ") opens the QA window', mac: true, ev: { key: 'œ', code: 'KeyQ', modifiers: META | ALT }, want: true },
-    { name: 'Windows/Linux US Ctrl + Alt + Q opens the QA window', mac: false, ev: { key: 'q', code: 'KeyQ', modifiers: CTRL | ALT }, want: true },
-    { name: 'German AltGr + Q (types "@") does NOT open the QA window', mac: false, ev: { key: '@', code: 'KeyQ', modifiers: CTRL | ALT, text: '@' }, want: false },
-    { name: 'Ctrl + Q alone does not open it', mac: false, ev: { key: 'q', code: 'KeyQ', modifiers: CTRL }, want: false },
+    { name: 'Linux (this browser) Ctrl + Alt + Q opens the QA window', ev: { key: 'q', code: 'KeyQ', modifiers: CTRL | ALT }, want: true },
+    { name: 'Ctrl + Q alone does not open it', ev: { key: 'q', code: 'KeyQ', modifiers: CTRL }, want: false },
   ]
   for (const c of cases) {
-    const ctx = await contextFor('tester', { mac: c.mac })
+    const ctx = await contextFor('tester')
     const page = await open(ctx, '/#setup')
     await closeDialog(page)
     await page.locator('body').click({ position: { x: 5, y: 5 } })
     await press(page, c.ev)
     const opened = await dialogOpen(page)
     record(c.name, opened === c.want, `opened=${opened}`)
-    if (c.want && opened && c.mac) await page.screenshot({ path: `${OUT}qa-hotkey-mac.png` })
     await ctx.close()
   }
 })

@@ -52,11 +52,10 @@ async function waitForCdp(port, child, timeoutMs = 20000) {
 }
 
 /**
- * Open `url` in the installed Chrome, wait for `ready()` (the person signs in, then presses Enter),
- * save the session to `statePath`, close Chrome and delete the temporary profile.
- * @returns {Promise<{webdriver: boolean, cookies: number}>} What the saved session holds.
+ * Open `url` in the installed Chrome (a throwaway profile), attach over CDP, run `fn(page, ctx)`,
+ * then close Chrome and delete the profile. `ready()` runs before attaching (the person signs in).
  */
-export async function loginWithSystemChrome({ chromium, url, statePath, ready, port = Number(process.env.CDP_PORT) || 9222, chrome = chromePath(), headless = false, extraArgs = [], log = console.log }) {
+export async function withSystemChrome({ chromium, url, ready = async () => {}, port = Number(process.env.CDP_PORT) || 9222, chrome = chromePath(), headless = false, extraArgs = [], log = console.log }, fn) {
   if (!chrome) throw new Error('Google Chrome was not found. Install it, or set CHROME=/path/to/chrome.')
   const profile = mkdtempSync(join(tmpdir(), 'pyarcana-login-'))
   const child = spawn(chrome, chromeArgs({ port, profile, url, headless, extraArgs }), { stdio: 'ignore' })
@@ -67,15 +66,52 @@ export async function loginWithSystemChrome({ chromium, url, statePath, ready, p
     await ready()
     browser = await chromium.connectOverCDP(`http://127.0.0.1:${port}`)
     const ctx = browser.contexts()[0]
-    const page = ctx.pages()[0]
+    return await fn(ctx.pages()[0], ctx)
+  } finally {
+    await quitChrome(browser, child)
+    await removeProfile(profile)
+  }
+}
+
+/**
+ * Ask Chrome to quit (CDP Browser.close), so its helper processes stop writing to the profile;
+ * kill it only if it has not exited after 5 s. Killing first left helpers writing, and deleting the
+ * profile then failed with ENOTEMPTY (found in the 5 Oct 2026 probe).
+ */
+async function quitChrome(browser, child) {
+  const exited = new Promise((resolve) => (child.exitCode !== null ? resolve() : child.once('exit', resolve)))
+  try {
+    const cdp = await browser?.newBrowserCDPSession()
+    await cdp?.send('Browser.close')
+  } catch {
+    // not attached (Chrome failed to start, or the person closed it): fall through to kill
+  }
+  const timer = setTimeout(() => child.kill(), 5000)
+  await exited
+  clearTimeout(timer)
+}
+
+/** Delete the throwaway profile, retrying while the last writes settle. */
+async function removeProfile(profile) {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return rmSync(profile, { recursive: true, force: true })
+    } catch (e) {
+      if (attempt >= 20) throw new Error(`could not delete the temporary profile ${profile}: ${e.code}. Delete it by hand.`)
+      await new Promise((resolve) => setTimeout(resolve, 250))
+    }
+  }
+}
+
+/**
+ * Open `url` in the installed Chrome, wait for `ready()` (the person signs in, then presses Enter),
+ * save the session to `statePath`, close Chrome and delete the temporary profile.
+ * @returns {Promise<{webdriver: boolean, cookies: number}>} What the saved session holds.
+ */
+export function loginWithSystemChrome({ statePath, ...options }) {
+  return withSystemChrome(options, async (page, ctx) => {
     const webdriver = page ? await page.evaluate(() => navigator.webdriver === true) : false
     await ctx.storageState({ path: statePath })
-    const cookies = (await ctx.cookies()).length
-    return { webdriver, cookies }
-  } finally {
-    await browser?.close().catch(() => {})
-    child.kill()
-    await new Promise((resolve) => (child.exitCode !== null ? resolve() : child.once('exit', resolve)))
-    rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 })
-  }
+    return { webdriver, cookies: (await ctx.cookies()).length }
+  })
 }

@@ -3,7 +3,7 @@
 import { CLOUD_CONFIG } from '@/lib/cloud/config'
 import { useCloudStage } from '@/lib/cloud/hooks'
 import { staticNoticeText } from '@/lib/cloud/ui-state'
-import { isFirebaseClientConfigured } from '@/lib/firebase/client'
+import { isFirebaseClientConfigured } from '@/lib/firebase/config'
 import type { Language } from '@/lib/i18n'
 
 /**

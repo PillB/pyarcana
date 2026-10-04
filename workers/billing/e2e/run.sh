@@ -57,17 +57,13 @@ stop
 start
 (cd "$HERE" && node flows.e2e.mjs) || STATUS=1
 # The usage suite seeds a usage row and measures rows per action: a fresh database again. Its CSP
-# check runs Pyodide from the npm package of the site's version (sandboxes cannot reach jsDelivr),
-# served at jsDelivr's own URLs; pyodide.js is byte-identical, so the site's SRI hash must match it.
+# check loads Pyodide from the REAL jsDelivr, checked against the site's SRI hash; where the network
+# blocks jsDelivr it reports SKIP (live.e2e.mjs runs it on a normal machine). No local copy.
 PYO_VER="$(sed -n "s/^export const PYODIDE_VERSION = '\(.*\)'$/\1/p" "$REPO/src/lib/pyodide.ts")"
-PYO_DIR="$WORK/pyodide-$PYO_VER"
-if [[ ! -f "$PYO_DIR/pyodide.js" ]]; then
-  mkdir -p "$PYO_DIR" && (cd "$WORK" && npm pack "pyodide@$PYO_VER" >/dev/null && tar xzf "pyodide-$PYO_VER.tgz" -C "$PYO_DIR" --strip-components=1)
-fi
 PYO_SRI="$(sed -n "s/.*script.integrity = '\(sha384-[^']*\)'.*/\1/p" "$REPO/src/components/course/CodePlayground.tsx")"
 stop
 start
-(cd "$HERE" && E2E_WORKER_DIR="$WORK/site/workers/billing" E2E_PYODIDE_DIR="$PYO_DIR" E2E_PYODIDE_SRI="$PYO_SRI" \
+(cd "$HERE" && E2E_WORKER_DIR="$WORK/site/workers/billing" E2E_PYODIDE_SRI="$PYO_SRI" \
   E2E_PYODIDE_CDN="https://cdn.jsdelivr.net/pyodide/v$PYO_VER/full/" node usage.e2e.mjs) || STATUS=1
 # The QA suite (hotkeys, sessions, force-sync guard, admin QA downloads): a fresh database again.
 stop

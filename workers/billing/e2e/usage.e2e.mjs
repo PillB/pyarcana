@@ -13,9 +13,9 @@
 //    headers, a slim /v1/health and the admin's configuration list.
 // E2E_WORKER_DIR (set by run.sh) is the worker folder whose local D1 is used.
 import { chromium } from 'playwright'
+import { sandboxTrustArgs } from './sandbox-trust.mjs'
 import { execFileSync } from 'node:child_process'
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { extname, join } from 'node:path'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 
 const BASE = 'http://localhost:8787'
 const OUT = new URL('./shots/', import.meta.url).pathname
@@ -23,7 +23,7 @@ const WORKER_DIR = process.env.E2E_WORKER_DIR
 const WRANGLER = new URL('./node_modules/.bin/wrangler', import.meta.url).pathname
 mkdirSync(OUT, { recursive: true })
 const tokens = JSON.parse(readFileSync(new URL('./tokens.json', import.meta.url)))
-const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium', headless: true })
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium', headless: true, args: sandboxTrustArgs() })
 const results = []
 const today = new Date().toISOString().slice(0, 10)
 
@@ -194,25 +194,21 @@ await flow('security.txt and privacy notice', async () => {
 })
 
 // 6. D4 audit P4/P5/P6 under the real policy (the _headers CSP and the meta CSP, both enforced).
-// jsDelivr is unreachable from CI sandboxes, so its Pyodide URLs are answered from the npm package of
-// the same version (E2E_PYODIDE_DIR, prepared by run.sh): same URLs, so the CSP decision is real;
-// same bytes, so the SRI check in the loader passes; real WebAssembly compilation.
-const PYO_DIR = process.env.E2E_PYODIDE_DIR
+// Pyodide comes from the REAL jsDelivr (no local copy, 5 Oct 2026). Where the network blocks
+// cdn.jsdelivr.net (the Claude Code cloud sandbox's policy), the Pyodide run reports SKIP with the
+// reason, never PASS; `node live.e2e.mjs` runs the same check against the live site on a normal
+// machine. The CSP refusal checks below need no Pyodide and always run.
 const PYO_CDN = process.env.E2E_PYODIDE_CDN
-const TYPES = { '.js': 'text/javascript', '.mjs': 'text/javascript', '.wasm': 'application/wasm', '.json': 'application/json', '.zip': 'application/zip' }
 await flow('CSP: Pyodide runs with wasm-unsafe-eval; eval, other jsDelivr files and Firebase are refused', async () => {
-  if (!PYO_DIR || !existsSync(join(PYO_DIR, 'pyodide.js'))) return record('Pyodide under the real CSP', false, 'E2E_PYODIDE_DIR missing')
+  if (!PYO_CDN || !process.env.E2E_PYODIDE_SRI) return record('Pyodide under the real CSP', false, 'E2E_PYODIDE_CDN or E2E_PYODIDE_SRI missing')
   const ctx = await contextFor(null)
-  await ctx.route(`${PYO_CDN}**`, (route) => {
-    const file = join(PYO_DIR, new URL(route.request().url()).pathname.split('/').pop())
-    if (!existsSync(file)) return route.fulfill({ status: 404, body: 'not in the npm package' })
-    return route.fulfill({ status: 200, body: readFileSync(file), headers: { 'content-type': TYPES[extname(file)] ?? 'application/octet-stream', 'access-control-allow-origin': '*' } })
-  })
+  const pyoFailed = []
   await ctx.addInitScript(() => {
     window.__csp = []
     document.addEventListener('securitypolicyviolation', (e) => window.__csp.push(`${e.effectiveDirective} ${e.blockedURI}`))
   })
   const page = await open(ctx, '/')
+  page.on('requestfailed', (r) => { if (r.url().startsWith(PYO_CDN)) pyoFailed.push(`${r.url().slice(PYO_CDN.length)} ${r.failure()?.errorText}`) })
   const headers = (await page.evaluate(async () => Object.fromEntries((await fetch('/', { cache: 'no-store' })).headers)))
   record('P5: CORP same-origin and X-Permitted-Cross-Domain-Policies none; no COEP', headers['cross-origin-resource-policy'] === 'same-origin' && headers['x-permitted-cross-domain-policies'] === 'none' && !headers['cross-origin-embedder-policy'], JSON.stringify({ corp: headers['cross-origin-resource-policy'], xpcdp: headers['x-permitted-cross-domain-policies'] }))
   record('P4: the served CSP has no Firebase host, no bare jsDelivr and no unsafe-eval', !/firestore|identitytoolkit|securetoken|'unsafe-eval'|cdn\.jsdelivr\.net[ ;]/.test(headers['content-security-policy'] ?? 'x') && (headers['content-security-policy'] ?? '').includes(PYO_CDN), (headers['content-security-policy'] ?? '').slice(0, 160))
@@ -230,7 +226,11 @@ await flow('CSP: Pyodide runs with wasm-unsafe-eval; eval, other jsDelivr files 
   await page.waitForFunction(() => window.__py !== undefined, null, { timeout: 120000 })
   const run = await page.evaluate(() => window.__py)
   const violations = await page.evaluate(() => window.__csp)
-  record('P4c: Pyodide loads and runs Python under wasm-unsafe-eval, no CSP violation', run === '{"fact": 120, "sum": 45}' && violations.length === 0, `${run} | ${violations.join(', ')}`)
+  if (run !== '{"fact": 120, "sum": 45}' && pyoFailed.length > 0) {
+    console.log(`SKIP  P4c: Pyodide from the real jsDelivr under the CSP  (jsDelivr unreachable here: ${pyoFailed[0]}; runs in live.e2e.mjs)`)
+  } else {
+    record('P4c: Pyodide from the real jsDelivr loads and runs Python under wasm-unsafe-eval, no CSP violation', run === '{"fact": 120, "sum": 45}' && violations.length === 0, `${run} | ${violations.join(', ')}`)
+  }
   const refused = await page.evaluate(async () => {
     const before = window.__csp.length
     // From a page task, as above: inside the evaluate call itself the eval would be allowed.

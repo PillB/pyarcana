@@ -7,6 +7,9 @@
 //                                     sign in yourself (Google is needed for admin), then press Enter
 //                                     here; saves ./state.json, closes Chrome, deletes the profile.
 //                                     CHROME=/path/to/chrome if it is not in the usual place.
+//   node live.e2e.mjs --keys          the hotkeys on YOUR real keyboard in your own Chrome: it asks you
+//                                     to press ⌘+Option+Q, Ctrl+Option+Q and (signed in) ⌘+Option+S,
+//                                     and checks the page reacted. Nothing is simulated.
 //   node live.e2e.mjs --cookie        fallback when Google still refuses: sign in in your everyday
 //                                     Chrome, copy the __Host-pa_session cookie (DevTools →
 //                                     Application → Cookies → https://pyarcana.dev), paste it at the
@@ -19,16 +22,17 @@
 // state.json holds a live session cookie: it is git-ignored, never share it, and delete it after.
 // BASE overrides the origin; CHROMIUM the browser (default: Playwright's own Chromium).
 import { chromium, request as pwRequest } from 'playwright'
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createInterface } from 'node:readline/promises'
-import { loginWithSystemChrome } from './system-chrome-login.mjs'
+import { loginWithSystemChrome, withSystemChrome } from './system-chrome-login.mjs'
+import { sandboxTrustArgs } from './sandbox-trust.mjs'
 
 const BASE = process.env.BASE || 'https://pyarcana.dev'
 const STATE = new URL('./state.json', import.meta.url).pathname
 const OUT = new URL('./shots/', import.meta.url).pathname
 const args = new Set(process.argv.slice(2))
 mkdirSync(OUT, { recursive: true })
-const launch = (headless) => chromium.launch({ headless, ...(process.env.CHROMIUM ? { executablePath: process.env.CHROMIUM } : {}) })
+const launch = (headless) => chromium.launch({ headless, args: sandboxTrustArgs(), ...(process.env.CHROMIUM ? { executablePath: process.env.CHROMIUM } : {}) })
 const results = []
 const errors = []
 const IGNORED = /ERR_ABORTED|status of 401|favicon|_rsc=/i
@@ -64,6 +68,52 @@ if (args.has('--cookie')) {
   writeFileSync(STATE, JSON.stringify({ cookies: [{ name: '__Host-pa_session', value, domain: host, path: '/', expires: -1, httpOnly: true, secure: true, sameSite: 'Lax' }], origins: [] }))
   console.log(`saved ${STATE} — it holds a live session: delete it when you are done`)
   process.exit(0)
+}
+
+if (args.has('--keys')) {
+  // The hotkeys on a REAL keyboard, in your own Chrome (no simulated key events, no faked platform).
+  // You press each combination; the script only watches the page over CDP and says PASS or FAIL.
+  const rl = createInterface({ input: process.stdin, output: process.stdout })
+  const ask = (q) => rl.question(q)
+  const keyResults = []
+  const mark = (name, ok, detail = '') => { keyResults.push(ok); console.log(`${ok ? 'PASS' : 'FAIL'}  ${name}${detail ? `  (${detail})` : ''}`) }
+  // Watch the page while the person presses the keys: what appeared is recorded even if it is gone
+  // (the QA window closed, the toast faded) by the time they press Enter here.
+  const watch = (page, pattern) => page.evaluate((src) => {
+    window.__seen = ''
+    const re = new RegExp(src)
+    const look = () => {
+      if (document.querySelector('[data-testid="qa-harness-dialog"]')) window.__seen ||= 'qa-window'
+      const m = document.body.innerText.match(re)
+      if (m) window.__seen ||= m[0]
+    }
+    new MutationObserver(look).observe(document.body, { childList: true, subtree: true, characterData: true })
+  }, pattern)
+  const seen = (page) => page.evaluate(() => window.__seen)
+  const SAVE = 'Ya está guardado|Guardado en tu cuenta|Espera \\d+|Has marcado y desmarcado|El servidor pidió esperar|Already saved|Saved to your account'
+  await withSystemChrome({ chromium, url: `${BASE}/#setup` }, async (page) => {
+    for (const combo of ['⌘ + Option + Q', 'Ctrl + Option + Q']) {
+      await watch(page, '$^')
+      await ask(`Click once inside the page (not the address bar), press ${combo}, then press Enter here… `)
+      mark(`${combo} opens the QA window`, (await seen(page)) === 'qa-window')
+      await page.keyboard.press('Escape').catch(() => {}) // closing it is not what is being tested
+      await page.waitForTimeout(500)
+    }
+    await ask('Now sign in in that window with your account (any method), come back to a course page, then press Enter here… ')
+    const signedIn = await page.evaluate(async () => (await fetch('/api/v1/me', { credentials: 'include' })).status === 200)
+    if (!signedIn) {
+      mark('⌘ + Option + S (force save)', false, 'not signed in in that window, so the shortcut is not active')
+    } else {
+      await watch(page, SAVE)
+      await ask('Click once inside the page, press ⌘ + Option + S, then press Enter here… ')
+      const text = await seen(page)
+      mark('⌘ + Option + S answers with a save message', Boolean(text) && text !== 'qa-window', text)
+    }
+  })
+  rl.close()
+  console.log(`\nkeys: ${keyResults.filter(Boolean).length}/${keyResults.length} passed`)
+  console.log('Safari and Firefox cannot be watched this way: check them by hand (see the hand-back checklist).')
+  process.exit(keyResults.every(Boolean) ? 0 : 1)
 }
 
 /** Read one line without echoing it (the session cookie is a credential). */
@@ -133,6 +183,37 @@ await flow('domain', async () => {
   record('the home page carries no Cloudflare analytics beacon (cloudflareinsights)', !/cloudflareinsights/i.test(homeHtml), `occurrences=${(homeHtml.match(/cloudflareinsights/gi) || []).length}`)
   const headers = home.headers()
   record('security headers on the home page (CSP, nosniff)', Boolean(headers['content-security-policy']) && headers['x-content-type-options'] === 'nosniff', Object.keys(headers).filter((h) => /security|content-type-options|frame/.test(h)).join(','))
+})
+
+// Pyodide from the REAL jsDelivr under the LIVE CSP, exactly as the course runs it (script tag with
+// the site's SRI hash, then loadPyodide). The local e2e cannot reach jsDelivr from the cloud
+// sandbox, so this is where it is proven (5 Oct 2026: no local copy any more). The version and the
+// SRI hash are read from this checkout: run it at the deployed commit.
+const REPO = new URL('../../../', import.meta.url).pathname
+const PYO_VER = /PYODIDE_VERSION = '([^']+)'/.exec(readFileSync(`${REPO}src/lib/pyodide.ts`, 'utf8'))[1]
+const PYO_SRI = /script\.integrity = '(sha384-[^']+)'/.exec(readFileSync(`${REPO}src/components/course/CodePlayground.tsx`, 'utf8'))[1]
+await flow('pyodide', async () => {
+  const cdn = `https://cdn.jsdelivr.net/pyodide/v${PYO_VER}/full/`
+  const ctx = await browser.newContext({ locale: 'es-PE' })
+  await ctx.addInitScript(() => {
+    window.__csp = []
+    document.addEventListener('securitypolicyviolation', (e) => window.__csp.push(`${e.effectiveDirective} ${e.blockedURI}`))
+  })
+  const page = await open(ctx, '/', 'pyodide')
+  // From a page task: inside Playwright's evaluate call eval is allowed regardless of the CSP.
+  await page.evaluate(([base, integrity]) => { setTimeout(async () => { window.__py = await (async () => {
+    await new Promise((ok, ko) => { const s = document.createElement('script'); s.src = `${base}pyodide.js`; s.integrity = integrity; s.crossOrigin = 'anonymous'; s.onload = ok; s.onerror = () => ko(new Error('pyodide.js did not load (network, SRI or CSP)')); document.head.appendChild(s) })
+    const py = await window.loadPyodide({ indexURL: base })
+    const out = []
+    py.setStdout({ batched: (line) => out.push(line) })
+    await py.runPythonAsync('import json, math\nprint(json.dumps({"fact": math.factorial(5), "sum": sum(range(10))}))')
+    return out.join('\n')
+  })().catch((e) => `threw: ${e.message}`) }, 0) }, [cdn, PYO_SRI])
+  await page.waitForFunction(() => window.__py !== undefined, null, { timeout: 120000 })
+  const run = await page.evaluate(() => window.__py)
+  const violations = await page.evaluate(() => window.__csp)
+  record(`Pyodide ${PYO_VER} from jsDelivr runs Python under the live CSP and the site's SRI hash`, run === '{"fact": 120, "sum": 45}' && violations.length === 0, `${run} | ${violations.join(', ')}`)
+  await ctx.close()
 })
 
 await flow('anonymous pages', async () => {

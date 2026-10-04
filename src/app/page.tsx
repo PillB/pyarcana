@@ -11,7 +11,6 @@ import { Dashboard } from '@/components/course/Dashboard'
 import { SectionView } from '@/components/course/SectionView'
 import { ResourcesPage } from '@/components/course/ResourcesPage'
 import { AdminDashboard } from '@/components/course/AdminDashboard'
-import { AuthModal, UserMenu } from '@/components/course/AuthModal'
 import { Glossary } from '@/components/course/Glossary'
 import { FeedbackFab } from '@/components/course/FeedbackFab'
 import { PdfReport } from '@/components/course/PdfReport'
@@ -36,6 +35,18 @@ import { IS_STATIC_SITE } from '@/lib/runtime-mode'
 import { renameSectionId } from '@/lib/section-id-migrations'
 import { t, useI18n } from '@/lib/i18n'
 import { riseIn } from '@/lib/entrance'
+
+// The old Firebase sign-in (AuthModal, UserMenu) belongs to the server edition only. On the static
+// site it can never run: UserMenu renders nothing without Firebase settings, and every path that
+// opens AuthModal is server-only. The check is written as the literal env comparison, not
+// IS_STATIC_SITE, so webpack folds it at build time and the static build never bundles Firebase
+// (decision D16). In the server edition the require is synchronous: nothing changes there.
+type FirebaseAuthUi = typeof import('@/components/course/AuthModal')
+const firebaseAuthUi: FirebaseAuthUi | null =
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  process.env.NEXT_PUBLIC_STATIC_SITE === '1' ? null : (require('@/components/course/AuthModal') as FirebaseAuthUi)
+const AuthModal = firebaseAuthUi?.AuthModal ?? null
+const UserMenu = firebaseAuthUi?.UserMenu ?? null
 
 type View = 'home' | 'section' | 'resources' | 'admin' | 'familiarity' | 'pricing' | 'capstones'
 
@@ -229,7 +240,7 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} defaultTab={authTab} />
+      {AuthModal && <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} defaultTab={authTab} />}
       <AccountDialog />
       <CloudSync />
       <ConsentCard />
@@ -355,7 +366,7 @@ export default function Home() {
             <ThemeToggle mounted={mounted} theme={theme} setTheme={setTheme} />
             <LanguageToggle />
             <AccountButton />
-            <UserMenu onOpenAuth={() => handleOpenAuth('login')} />
+            {UserMenu && <UserMenu onOpenAuth={() => handleOpenAuth('login')} />}
           </div>
         </header>
 
@@ -486,7 +497,7 @@ export default function Home() {
             <ThemeToggle mounted={mounted} theme={theme} setTheme={setTheme} />
             <LanguageToggle />
             <AccountButton />
-            <UserMenu onOpenAuth={() => handleOpenAuth('login')} />
+            {UserMenu && <UserMenu onOpenAuth={() => handleOpenAuth('login')} />}
           </div>
         </header>
 

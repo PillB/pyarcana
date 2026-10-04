@@ -1,19 +1,20 @@
 #!/usr/bin/env node
 /**
- * D16 proof: the Firebase stand-ins change the static builds' bundle and nothing a visitor sees.
+ * D16 proof: the static builds leave Firebase out, and nothing a visitor sees changes.
  *
- * For each static build (GitHub Pages "/pyarcana" and pyarcana.dev ""), the SAME source is built
- * twice: once with the stand-ins off (PYARCANA_FIREBASE_STUB=0, today's bundle) and once with them
- * on. Then:
+ * "Before" is a git ref (default HEAD) built in a temporary worktree with Firebase included
+ * (PYARCANA_FIREBASE_STUB=0 switches off the stand-ins older refs had; a ref without them ignores
+ * it). "After" is this working tree. Both static builds are compared (GitHub Pages "/pyarcana" and
+ * pyarcana.dev ""):
  *   1. the same HTML pages exist in both;
  *   2. every page's visible text is identical (scripts, styles, links and React's text markers
  *      removed; chunk names legitimately differ);
- *   3. the "off" build contains Firebase (the check can detect it) and the "on" build does not;
+ *   3. "before" contains Firebase (the check can detect it) and "after" does not;
  *   4. the JavaScript saved is reported.
- * Usage: node scripts/static_bundle_firebase_check.mjs [--keep]   (about 4 builds; minutes each)
+ * Usage: node scripts/static_bundle_firebase_check.mjs [--before=<git ref>] [--keep]
  */
 import { spawnSync } from 'node:child_process'
-import { cpSync, existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync } from 'node:fs'
+import { cpSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, symlinkSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, relative } from 'node:path'
 
@@ -28,12 +29,23 @@ function files(dir, pick) {
   })
 }
 
-function build(basePath, stub) {
-  const env = { ...process.env, NEXT_PUBLIC_BASE_PATH: basePath, PYARCANA_FIREBASE_STUB: stub ? '1' : '0' }
-  const r = spawnSync('node', ['scripts/build_static_export.mjs'], { cwd: ROOT, env, stdio: ['ignore', 'ignore', 'inherit'] })
-  if (r.status !== 0) throw new Error(`static build failed (base "${basePath}", stub ${stub})`)
-  const dest = join(work, `${basePath ? 'pages' : 'root'}-${stub ? 'on' : 'off'}`)
-  cpSync(join(ROOT, 'out'), dest, { recursive: true })
+const BEFORE = (process.argv.find((a) => a.startsWith('--before=')) ?? '--before=HEAD').slice('--before='.length)
+
+/** A checkout of the "before" ref, sharing this repository's node_modules. */
+function beforeTree() {
+  const dir = join(work, 'before-src')
+  const r = spawnSync('git', ['worktree', 'add', '--detach', dir, BEFORE], { cwd: ROOT, stdio: ['ignore', 'ignore', 'inherit'] })
+  if (r.status !== 0) throw new Error(`git worktree add ${BEFORE} failed`)
+  symlinkSync(join(ROOT, 'node_modules'), join(dir, 'node_modules'))
+  return dir
+}
+
+function build(cwd, basePath, label) {
+  const env = { ...process.env, NEXT_PUBLIC_BASE_PATH: basePath, PYARCANA_FIREBASE_STUB: '0' }
+  const r = spawnSync('node', ['scripts/build_static_export.mjs'], { cwd, env, stdio: ['ignore', 'ignore', 'inherit'] })
+  if (r.status !== 0) throw new Error(`static build failed (${label}, base "${basePath}")`)
+  const dest = join(work, `${basePath ? 'pages' : 'root'}-${label}`)
+  cpSync(join(cwd, 'out'), dest, { recursive: true })
   return dest
 }
 
@@ -66,7 +78,7 @@ function compare(off, on, label) {
   }
   const before = firebaseFiles(off)
   const after = firebaseFiles(on)
-  if (before.length === 0) problems.push('control failed: the build without stand-ins has no Firebase, so this check proves nothing')
+  if (before.length === 0) problems.push(`control failed: the "before" build (${BEFORE}) has no Firebase, so this check proves nothing`)
   if (after.length > 0) problems.push(`Firebase still shipped in: ${after.join(', ')}`)
   const saved = jsBytes(off) - jsBytes(on)
   console.log(`${label}: ${a.length} pages, visible text ${problems.some((p) => p.startsWith('visible')) ? 'DIFFERS' : 'identical'}; Firebase files ${before.length} -> ${after.length}; JavaScript ${jsBytes(off)} -> ${jsBytes(on)} bytes (${saved} saved)`)
@@ -74,13 +86,16 @@ function compare(off, on, label) {
 }
 
 const problems = []
+let beforeDir = null
 try {
+  beforeDir = beforeTree()
   for (const [basePath, label] of [['/pyarcana', 'GitHub Pages (/pyarcana)'], ['', 'pyarcana.dev (root)']]) {
-    const off = build(basePath, false)
-    const on = build(basePath, true)
+    const off = build(beforeDir, basePath, 'before')
+    const on = build(ROOT, basePath, 'after')
     problems.push(...compare(off, on, label).map((p) => `${label}: ${p}`))
   }
 } finally {
+  if (beforeDir) spawnSync('git', ['worktree', 'remove', '--force', beforeDir], { cwd: ROOT, stdio: 'ignore' })
   if (!process.argv.includes('--keep')) rmSync(work, { recursive: true, force: true })
   else console.log(`kept builds in ${work}`)
 }
@@ -88,4 +103,4 @@ if (problems.length) {
   console.error(`FAIL\n${problems.join('\n')}`)
   process.exit(1)
 }
-console.log('PASS: same pages, same visible text, no Firebase shipped')
+console.log(`PASS against ${BEFORE}: same pages, same visible text, no Firebase shipped`)
