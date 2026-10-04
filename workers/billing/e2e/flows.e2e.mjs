@@ -13,6 +13,7 @@ const tokens = JSON.parse(readFileSync(new URL('./tokens.json', import.meta.url)
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium', headless: true })
 const results = []
 const errors = []
+const GIS_STUB = 'window.google = { accounts: { id: { initialize() {}, renderButton(el) { el.textContent = "Google (stand-in)" } } } }'
 const IGNORED = /cdn\.jsdelivr\.net|ERR_TUNNEL_CONNECTION_FAILED|ERR_ABORTED|status of 401|favicon/i
 
 function record(name, ok, detail = '') {
@@ -30,6 +31,9 @@ async function flow(name, fn) {
 
 async function contextFor(who, { qa = null } = {}) {
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'es-PE' })
+  // Google's sign-in script: the sandbox cannot reach Google, and /cuenta now loads it (D18). A local
+  // stand-in keeps the console check strict instead of ignoring the failed request.
+  await ctx.route('https://accounts.google.com/gsi/client', (route) => route.fulfill({ status: 200, contentType: 'text/javascript', body: GIS_STUB }))
   await ctx.addInitScript((qaMode) => {
     try {
       localStorage.setItem('pyarcana:tourCompleted', '1'); localStorage.setItem('pyarcana:qaTourCompleted', '1')
