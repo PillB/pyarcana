@@ -450,7 +450,7 @@ export default function Home() {
                 size="sm"
                 onClick={() => setPdfReportOpen(true)}
                 className="gap-1.5"
-                title="Reportes y certificados"
+                title={tr('reports.title')}
               >
                 <FileText className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">{tr('nav.reports')}</span>

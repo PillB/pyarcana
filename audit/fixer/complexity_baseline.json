@@ -1,12 +1,12 @@
 {
  "ceiling": 15,
- "over_ceiling": 33,
+ "over_ceiling": 32,
  "worst": 90,
  "worst_offenders": [
   {
    "score": 90,
    "file": "src/components/course/Dashboard.tsx",
-   "line": 65
+   "line": 73
   },
   {
    "score": 43,
@@ -21,7 +21,7 @@
   {
    "score": 37,
    "file": "src/app/page.tsx",
-   "line": 47
+   "line": 48
   },
   {
    "score": 33,
@@ -31,17 +31,17 @@
   {
    "score": 29,
    "file": "src/lib/admin-analytics.ts",
-   "line": 100
+   "line": 104
+  },
+  {
+   "score": 26,
+   "file": "src/components/course/ExamView.tsx",
+   "line": 82
   },
   {
    "score": 26,
    "file": "src/lib/admin-analytics.ts",
-   "line": 193
-  },
-  {
-   "score": 25,
-   "file": "src/components/course/ExamView.tsx",
-   "line": 69
+   "line": 200
   },
   {
    "score": 24,
