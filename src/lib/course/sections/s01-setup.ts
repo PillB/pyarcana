@@ -16,7 +16,7 @@ export const section01: CourseSection = {
   title: 'Entorno reproducible y trabajo seguro',
   shortTitle: 'Entorno reproducible',
   tagline:
-    'Prepara Python, un editor, un entorno virtual y Git desde el día 1. Un entorno virtual (`venv`) es un directorio aislado, asociado a un intérprete Python —el programa que lee tus instrucciones y las convierte en acciones— y con sus propios paquetes. Git es el sistema que conserva el historial de cambios. Ritmo sugerido: unas 10 horas en total, repartidas en 3 h de núcleo, 5 h de práctica guiada y 2 h para iniciar `CP-N1-A`, el proyecto acumulativo de Nivel 1.',
+    'Prepara Python, un editor, un entorno virtual y Git desde el día 1. Un entorno virtual (`venv`) es un directorio aislado, asociado a un **intérprete** —el programa que lee tus instrucciones y las convierte en acciones— de Python y con sus propios paquetes. Git es el sistema que conserva el historial de cambios. Ritmo sugerido: unas 10 horas en total, repartidas en 3 h de núcleo, 5 h de práctica guiada y 2 h para iniciar `CP-N1-A`, el proyecto acumulativo de Nivel 1.',
   estimatedHours: 10,
   level: 'Principiante',
   phase: 0,
@@ -37,7 +37,7 @@ export const section01: CourseSection = {
     },
     { text: 'Instalar Visual Studio Code (VS Code), una aplicación para escribir y revisar archivos de código, y añadir dos complementos: Python y Ruff; Ruff es un programa que señala algunos errores y problemas de estilo sin ejecutar el código' },
     {
-      text: 'Inicializar un repositorio Git, una carpeta con historial, y crear un `commit`, un punto guardado de ese historial. Publicar el commit con `push` y abrir un Pull Request, una propuesta de cambios, en GitHub, el sitio web que aloja y permite compartir el repositorio',
+      text: 'Inicializar un **repositorio**, una carpeta con historial que Git mantiene, y crear un `commit`, un punto guardado de ese historial. Publicar el commit con `push` y abrir un Pull Request, una propuesta de cambios, en **GitHub**, el sitio web que aloja y permite compartir el repositorio',
     },
     {
       text: 'Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)',
@@ -201,7 +201,7 @@ cat notas.txt | head -1
 grep "segunda" notas.txt
 
 # 6) || ejecuta el segundo solo si el primero falla
-# (PowerShell 5.1 no tiene || ; alli se encadena con if. Esto es bash.)
+# (PowerShell 5.1 no tiene ||; allí las condiciones se encadenan de otra manera. Esto es bash.)
 grep "tercera" notas.txt || echo "no aparece"
 
 # 7) 2>/dev/null descarta el mensaje de error de un comando que no existe
@@ -855,7 +855,7 @@ A  README.md
         },
         why: '`.env` se ignora; `.env.example` se versiona **sin secretos**. El README cierra el circuito de un clon limpio: install + smoke sin adivinar. `git check-ignore -v .env` es la prueba observable de que el secreto real no entra al stage. Si un archivo ya estaba versionado, el ignore solo no lo saca: hace falta `git rm --cached` y un commit.',
         retrospective:
-          'El trío cumple funciones distintas: ignore excluye, example documenta y README guía. Repara la idea peligrosa de que agregar `.env` al ignore borra un secreto ya versionado: hay que retirarlo del seguimiento de Git y rotarlo. En We Do construirás cada pieza y terminarás con un checklist que otra persona pueda ejecutar en una máquina limpia.',
+          '`.gitignore`, `.env.example` y `README.md` hacen tareas distintas: el primero excluye, el segundo documenta y el tercero guía. Repara la idea peligrosa de que agregar `.env` a `.gitignore` borra un secreto ya versionado: hay que retirarlo del seguimiento de Git y rotarlo. En We Do construirás cada pieza y terminarás con una lista de comprobación que otra persona pueda ejecutar en una máquina limpia.',
       },
     ],
   },
@@ -2119,7 +2119,7 @@ print(datetime.now().date())`,
           title: 'ruff_select_minimo.md',
           code: `# CASO-LIM-001 · select ALL día 1
 # TAREA: propone select mínimo y justifica por qué no ALL el día 1
-# Éxito: set acotado + plan de ampliación
+# Éxito: selección acotada + plan de ampliación
 # Select mínimo para repo de datos (S01)
 
 ## Propuesta

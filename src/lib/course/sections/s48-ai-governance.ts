@@ -24,7 +24,7 @@ export const section48: CourseSection = {
   jobRelevance:
     "En equipos de plataforma y producto, las aplicaciones LLM y RAG (Retrieval-Augmented Generation: recupera fragmentos permitidos y responde basándose en ellos) con evidencia entregan respuestas citadas con ACL (Access Control List: quién puede ver qué) y groundedness (anclaje en una fuente verificable), no alucinaciones operativas. Aquí aprendes a garantizar que cada afirmación esté soportada por un fragmento permitido y que la inyección de instrucciones en documentos se trate como data hostil, no como instrucción del sistema. Es la capa de respuesta con prueba antes de exponer herramientas sobre el modelo.",
   learningOutcomes: [
-    { text: "Calcular similitud (cosine/dot) y producir un ranking reproducible con versión de embedding documentada." },
+    { text: "Calcular similitud (cosine/dot), producir un ranking reproducible y documentar la versión del modelo que genera cada **embedding** —vector que representa el significado de un texto—." },
     { text: "Comparar baseline vs. candidato en holdout de retrieval y rechazar regresión o reindexación sin presupuesto." },
     { text: "Partir documentos en unidades semánticas con metadata, hash de deduplicación y provenance." },
     { text: "Filtrar por ACL antes del ranking y demostrar que un usuario sin permiso recupera cero fragmentos." },

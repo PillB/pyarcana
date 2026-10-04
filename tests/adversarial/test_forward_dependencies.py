@@ -16,6 +16,7 @@ and is deliberately not matched.
 """
 from __future__ import annotations
 
+import json
 import re
 import unittest
 from pathlib import Path
@@ -46,15 +47,61 @@ def index_of(section_id: str) -> int:
     raise AssertionError(f"no active section has id {section_id!r}")
 
 
+PLAYGROUNDS = ROOT / "src/components/course/SectionView.tsx"
+CAPSTONES = ROOT / "course-state/capstones"
+
+
+def playground_sources() -> list[tuple[int, Path, str]]:
+    """(section index, path, source) for each Theory-tab playground, keyed by its section id.
+
+    The playground is Python the learner runs on the page, and it lives outside the section
+    files, so a sweep of `sections/` alone reports a section clean while the code under its
+    Theory tab still shows the construct.
+    """
+    order = {sid: idx for idx, sid, _, _ in active_sections()}
+    src = PLAYGROUNDS.read_text(encoding="utf-8")
+    out = []
+    for m in re.finditer(r"^\s{4}'([a-z0-9-]+)': \{", src, re.M):
+        sid = m.group(1)
+        if sid not in order:
+            continue
+        end = src.find("\n    },", m.end())
+        out.append((order[sid], PLAYGROUNDS, src[m.start() : end if end > 0 else len(src)]))
+    return out
+
+
+def capstone_starters() -> list[tuple[int, Path, str]]:
+    """(gate section index, path, source) for each capstone STARTER the learner opens.
+
+    A starter is the learner's own file; its gate.json says which section hands it over, and a
+    construct in it lands as early as that section does.
+    """
+    order = {sid: idx for idx, sid, _, _ in active_sections()}
+    out = []
+    for gate in sorted(CAPSTONES.glob("*/gate.json")):
+        try:
+            sid = json.loads(gate.read_text(encoding="utf-8")).get("gate_section")
+        except json.JSONDecodeError:
+            continue
+        idx = order.get(sid)
+        if idx is None:
+            continue
+        for starter in sorted((gate.parent / "STARTER").glob("*.py")):
+            out.append((idx, starter, starter.read_text(encoding="utf-8")))
+    return out
+
+
 def offenders(pattern: re.Pattern[str], before_index: int) -> list[str]:
     found = []
-    for idx, sid, path, src in active_sections():
+    scanned = [(idx, path, src) for idx, _, path, src in active_sections()]
+    scanned += playground_sources() + capstone_starters()
+    for idx, path, src in scanned:
         if idx >= before_index:
             continue
         for m in pattern.finditer(src):
             line = src[: m.start()].count("\n") + 1
             found.append(f"S{idx:02d} {path.name}:{line} {m.group(0)!r}")
-    return found
+    return sorted(found)
 
 
 # A ratchet, the same shape as `chore(lint)`'s complexity gate. The target is zero; these are
@@ -63,10 +110,36 @@ def offenders(pattern: re.Pattern[str], before_index: int) -> list[str]:
 #   - a new offender appears            -> someone wrote the construct early again;
 #   - the count drops below the baseline -> the work landed, so lower the number here, or the
 #                                           gate quietly stops protecting what was just fixed.
-# 2026-09-17: S01 went from 20 entrypoint sites to 0 (D9). What is left sits mostly in the
-# S02-S08 You Do increments of the cumulative capstone, and resolves with them.
-D9_OWED = 20
-D10_OWED = 98
+# 2026-09-17: S01 went from 20 entrypoint sites to 0 (D9).
+# 2026-09-21: S02-S08 followed — the You Do starters run their demo at top level and the
+# requirements say so. The scan now also reads the Theory-tab playgrounds and the capstone
+# STARTER files, which are learner code living outside sections/ (both clean). What is left is
+# 2026-09-21 (later the same day): S09 followed. Its guard protected a demo that a separate
+# test_audit_log.py imported, so the three checks moved into audit_log.py itself (D11's rewrite
+# rung) and S10 now earns `__name__` with that exact case — the learner's own file running its
+# demo on import. D9 is at zero across the course and is held there, not ratcheted.
+D9_OWED = 0
+# 2026-09-21: 98 -> 106, and this is not a relaxation. Widening the scan to the Theory-tab
+# playgrounds put 8 `try`/`except` sites under the gate that no scan had ever read
+# (SectionView.tsx, the sections before S09). They were unprotected debt; now they are counted
+# debt, and the ratchet holds them. The number may only go down from here.
+# 2026-09-21: 106 -> 86. S05's twenty are gone: the section keeps every `raise` (a contract
+# that refuses bad input is its subject) and stopped catching them — a refused call is now shown
+# as the last line of the traceback in a comment, and the batch exercise checks each row before
+# calling instead of catching after. S02 and S04's sites wait on the Q3 route, which is an owner
+# question; S06, S07, S08 and the playgrounds are next.
+# 2026-09-21: 86 -> 64. S06 and S07 followed S05's two patterns — check the type before
+# mutating (the tuple's refusal is shown as the message Python prints, not run), and a batch that
+# validates each row before calling instead of catching after.
+# 2026-09-21: 64 -> 35. S08 was the hard one — the section before S09, whose subject is files
+# that may be malformed. Its atomic write is linear, its rows are validated before conversion, a
+# `for` replaces `next(reader)` with StopIteration, and each refusal is shown as the line Python
+# would print. The four Theory-tab playgrounds before S09 followed. What remains is S02 (24) and
+# S04 (11), inside CP-N1-A, which wait on the Q3 route — an owner question.
+# 2026-09-26: 13 -> 10. The owner chose route 2: CP-N1-A's parsing-with-recovery half moves to
+# S09, and S02's You Do became the raw/clean/value walk, which shows the failing conversion as a
+# line to run on its own instead of catching it.
+D10_OWED = 10
 
 
 class ForwardDependencyTests(unittest.TestCase):

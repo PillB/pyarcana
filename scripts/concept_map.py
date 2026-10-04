@@ -29,6 +29,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+# Writes a shared course-state report, so it must not run while a gate is measuring.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import report_lock  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 EVENTS = ROOT / ".fixer/events.json"
 OUT_JSON = ROOT / "course-state/concept_map.json"
@@ -95,11 +98,21 @@ def load_events() -> dict:
     return json.loads(proc.stdout)
 
 
-def main() -> int:
-    payload = load_events()
+def section_tags(payload: dict) -> tuple[list[str], dict[str, str]]:
+    """The live section ids in course order, and the SXX tag each one carries."""
     slugs = payload["active_section_ids"]
+    return slugs, {s: f"S{i+1:02d}" for i, s in enumerate(slugs)}
+
+
+def build_concepts(payload: dict) -> dict[str, dict]:
+    """Every term's uses, definitions and depth, computed from one extractor payload.
+
+    It reads and writes nothing, so a test can build the map from a fresh extraction of the
+    course being committed instead of trusting the report on disk - CI never regenerates
+    that report, so a ratchet reading it would guard whatever the last local run left.
+    """
+    slugs, tag = section_tags(payload)
     order = {s: i for i, s in enumerate(slugs)}
-    tag = {s: f"S{i+1:02d}" for i, s in enumerate(slugs)}
     terms = {t["id"]: t for t in payload["terms"]}
 
     events = sorted(
@@ -188,6 +201,14 @@ def main() -> int:
                 0, int(fd["section"][1:]) - int(fu["section"][1:]))
         else:
             c["explanation_lag_sections"] = None
+    return concepts
+
+
+def main() -> int:
+    report_lock.refuse_if_busy(__file__)
+    payload = load_events()
+    slugs, tag = section_tags(payload)
+    concepts = build_concepts(payload)
 
     OUT_JSON.write_text(json.dumps(concepts, indent=1, ensure_ascii=False), encoding="utf-8")
     OUT_DIR.mkdir(parents=True, exist_ok=True)

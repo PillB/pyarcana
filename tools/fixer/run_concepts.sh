@@ -11,6 +11,19 @@ cd "$ROOT"
 MODEL="${FIXER_MODEL:-gpt-5.6-sol}"
 EFFORT="${FIXER_EFFORT:-medium}"
 
+# Every derived report gate.py rewrites during a check. Restoring the section without these
+# leaves them describing content that was rolled back. Keep in step with gate.py's measure().
+REPORTS=(
+  "course-state/concept_map.json"
+  "course-state/first_use_all_report.json"
+  "course-state/code_switching_report.json"
+  "course-state/prose_quality_report.json"
+  "course-state/synthetic_identifier_report.json"
+  "course-state/python_runtime_audit_report.json"
+  "course-state/badge_readiness_report.json"
+  ".fixer/events.json"
+)
+
 for TAG in "$@"; do
   echo "################ $TAG concepts $(date -u +%H:%M:%SZ)"
   rm -f .fixer/${TAG}k.* ".fixer/$TAG.gate-before.json" ".fixer/$TAG.gate-after.json"
@@ -23,6 +36,15 @@ for TAG in "$@"; do
 
   read -r SLUG FILE < <(python3 tools/fixer/section_path.py "$TAG")
   cp "$FILE" ".fixer/${TAG}.pre-concepts.ts"
+
+  # The derived reports are part of the state this round is about to change, so they are part
+  # of what "restore" has to mean. gate.py regenerates all of them during its check; without
+  # this, a failed round leaves them describing a tree that no longer exists, and the next
+  # person to diagnose the failure copies one as a "before" snapshot and measures nothing.
+  # That happened three times in one day before anyone noticed the reports were lying.
+  for R in "${REPORTS[@]}"; do
+    [ -f "$R" ] && cp "$R" ".fixer/${TAG}.pre-concepts.$(basename "$R")"
+  done
 
   python3 -c "
 import json, pathlib
@@ -37,6 +59,11 @@ print(f\"    applied {r['applied']}, rejected {r['rejected']}, rolled_back {r.ge
   if ! python3 tools/fixer/gate.py check "$TAG"; then
     echo "!! $TAG failed its gates - restoring the section and stopping the chain"
     cp ".fixer/${TAG}.pre-concepts.ts" "$FILE"
+    for R in "${REPORTS[@]}"; do
+      S=".fixer/${TAG}.pre-concepts.$(basename "$R")"
+      [ -f "$S" ] && cp "$S" "$R"
+    done
+    echo "   the derived reports were restored too; they describe the section as it is now"
     exit 1
   fi
 

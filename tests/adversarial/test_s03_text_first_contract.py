@@ -51,12 +51,11 @@ class Section03TextFirstContractTests(unittest.TestCase):
             "equipo de logística de Copenhague",
             "**Busca el contraejemplo.**",
             "servicio de salud de Toronto",
-            "**Tres capas, una misma verdad.**",
+            "**Tres variables, una misma verdad.**",
         )
         for anchor in required_learner_visible_anchors:
             with self.subTest(anchor=anchor):
                 self.assertIn(anchor, theory)
-
         self.assertEqual(
             set(re.findall(r"subtopicId: '(S03-T[1-4]-[AB])'", theory)),
             {

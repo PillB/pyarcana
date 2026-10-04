@@ -99,14 +99,16 @@ class Section04IndependentContractTests(unittest.TestCase):
 
         self.assertEqual(Counter(positions), Counter({0: 6, 1: 6, 2: 6, 3: 6}))
 
-    def test_capstone_starter_preserves_the_typed_entrypoint(self) -> None:
-        """Guards the typed-entrypoint convention audit/fixer/OPEN_QUESTIONS.md Q4 moved here.
+    def test_capstone_starter_has_no_entrypoint_before_s10(self) -> None:
+        """D9: the entrypoint idiom waits for the section where a learner imports a module.
 
-        S01-F06 removed a check_arg.py demo that taught `def main() -> None:` before
-        indentation, `def` or type annotations were introduced - S04 is the first section
-        where a learner can actually read this. The convention still lives here in the
-        Client Intake & Data Quality Script capstone; this pins it in place of the test
-        that used to pin the removed S01 demo.
+        This test used to pin the opposite. Q4 (2026-09-15) moved the `def main() -> None:`
+        convention here from a removed S01 demo; D9 (2026-09-17) then ruled that neither
+        `main()` nor the `__name__` guard may appear or be mentioned before S10, which teaches
+        modules and is the first place anything imports the learner's own file. D9 is the later
+        ruling and it says the gates are repointed, not weakened: absence where the idiom is not
+        taught, presence where it is. So the same convention is still pinned - one section-pair
+        apart, and in the direction the owner chose.
         """
         lesson = SECTION.read_text(encoding="utf-8")
         block = _between(
@@ -115,10 +117,13 @@ class Section04IndependentContractTests(unittest.TestCase):
             "portfolioNote:",
         )
 
-        self.assertIn("def main() -> None:", block)
-        self.assertNotIn("def main():", block)
-        self.assertIn('if __name__ == "__main__":', block)
-        self.assertIn("Demo reproducible con if __name__ == '__main__'", block)
+        self.assertNotIn("def main(", block)
+        self.assertNotIn("__main__", block)
+
+        teaches = (
+            SECTION.parent / "s10-modules-packaging-cli.ts"
+        ).read_text(encoding="utf-8")
+        self.assertIn('if __name__ == "__main__":', teaches)
 
     def test_public_self_check_retains_eight_valid_questions(self) -> None:
         lesson = SECTION.read_text(encoding="utf-8")

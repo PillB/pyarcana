@@ -62,6 +62,36 @@ export const section11: CourseSection = {
       ],
      },
      {
+      heading: "Métodos especiales: nombres con doble guion bajo",
+      paragraphs: [
+        "Antes de usar `@dataclass`, necesitas reconocer una señal de Python. Una **clase** es un molde para crear objetos; una función escrita dentro de ese molde se llama **método**. Cada objeto creado con la clase es una **instancia**.",
+        "Un **método dunder** es un método cuyo nombre empieza y termina con dos guiones bajos; *dunder* abrevia *double underscore*, que significa «doble guion bajo». Python reserva esa forma para operaciones que activa por ti: `__init__` recibe los valores al crear una instancia y `__repr__` produce una representación legible del objeto. Así, todas las clases responden a las mismas operaciones sin inventar un nombre distinto en cada programa; normalmente activas la operación y no llamas al método dunder a mano.",
+        "En el ejemplo, `ClientRecord(\"C001\")` activa el `__init__` que genera `@dataclass`. Después, `print(c)` obtiene la representación creada por `__repr__`, mientras que `print(c.client_id)` muestra solo el valor guardado.",
+        "Ahora hazlo tú: antes de ejecutar, cambia `C001` por `C002` y escribe las dos líneas que esperas. Lo correcto es `ClientRecord(client_id='C002')` y luego `C002`. Ejecuta el bloque para comprobarlo; si ambas líneas coinciden, reconociste qué operación activa cada método especial.",
+      ],
+      code: {
+        language: 'python',
+        title: "dunder_dataclass.py",
+        code: `from dataclasses import dataclass
+
+@dataclass
+class ClientRecord:
+    client_id: str
+
+c = ClientRecord("C001")
+print(c)
+print(c.client_id)`,
+        output: `ClientRecord(client_id='C001')
+C001`,
+      },
+      callout: {
+        type: "tip",
+        title: "Reconoce la operación",
+        content:
+          "Crear una instancia activa `__init__`; pedir su representación activa `__repr__`. Los dobles guiones bajos indican que Python conoce esa operación.",
+      },
+    },
+    {
       heading: "Clases, instancias y dataclass",
       subtopicId: "S11-T1-A",
       paragraphs: [
@@ -554,7 +584,7 @@ l***@ejemplo.pe`,
         environment: "local-python",
         description: "ResolvedEntity frozen por entity_id; set de entidades; id vacío rechazado.",
         preamble:
-          "En resolución de entidades, la identidad estable (lo que hace que dos objetos sean 'el mismo') es `entity_id`, no el nombre visible ni el documento. Observa `frozen=True` (congelar el objeto al construirlo, impidiendo mutarlo después), `display_name` con `compare=False` (una directiva que excluye ese campo de la igualdad), y el set `{e1, e1b, e2}`: el relabel (cambio de etiqueta) de Ana **no** inventa una tercera entidad. También el reject de id en blanco. Predice `size 2` y `e1==e1b True` antes de mirar la salida.",
+          "Cuando un `set` reúne objetos que representan clientes, la identidad estable (lo que hace que dos objetos sean 'el mismo') es `entity_id`, no el nombre visible ni el documento. Observa `frozen=True` (congelar el objeto al construirlo, impidiendo mutarlo después), `display_name` con `compare=False` (una directiva que excluye ese campo de la igualdad), y el set `{e1, e1b, e2}`: el relabel (cambio de etiqueta) de Ana **no** inventa una tercera entidad. También el reject de id en blanco. Predice `size 2` y `e1==e1b True` antes de mirar la salida.",
         code: {
           language: 'python',
           title: "frozen_set.py",
