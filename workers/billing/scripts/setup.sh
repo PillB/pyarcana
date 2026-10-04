@@ -23,8 +23,9 @@
 #   8. ADMIN_EMAILS into `wrangler secret put` through stdin;
 #   9. runs scripts/deploy.sh (static build at the root, headers, `wrangler deploy`, never piped).
 #
-# Needs, in the environment and never on the command line or in a file:
-#   CLOUDFLARE_API_TOKEN   type it without echo:  read -rs CLOUDFLARE_API_TOKEN && export CLOUDFLARE_API_TOKEN
+# Needs, in the environment or typed at its prompt, and never on the command line or in a file:
+#   CLOUDFLARE_API_TOKEN   asked for (hidden) when not exported; or beforehand, without echo:
+#                          read -rs CLOUDFLARE_API_TOKEN && export CLOUDFLARE_API_TOKEN
 #                          Account permissions (Edit): Workers Scripts, D1. Revoke it afterwards.
 #   CLOUDFLARE_ACCOUNT_ID  from the dashboard; with it the token needs no Account Settings:Read.
 
@@ -46,7 +47,7 @@ while [ $# -gt 0 ]; do
       shift 2
       ;;
     -h | --help)
-      sed -n '2,32p' "$0"
+      sed -n '2,30p' "$0"
       exit 0
       ;;
     *) die "Unknown argument: $1 (see --help)" ;;
@@ -54,8 +55,20 @@ while [ $# -gt 0 ]; do
 done
 
 need_node
+# Asked here when missing, with a visible prompt: a silent `read -rs` on a bare line looks exactly
+# like a program that is still working. The token's typing stays hidden; nothing typed still stops.
+if [ -z "${CLOUDFLARE_API_TOKEN:-}" ] && [ -t 0 ]; then
+  printf '\n\033[1mPaste your Cloudflare API token and press Enter\033[0m (typing stays hidden): '
+  IFS= read -rs CLOUDFLARE_API_TOKEN || CLOUDFLARE_API_TOKEN=""
+  printf '\n'
+  [ -z "$CLOUDFLARE_API_TOKEN" ] || echo "Token received (${#CLOUDFLARE_API_TOKEN} characters)."
+fi
 [ -n "${CLOUDFLARE_API_TOKEN:-}" ] || die "CLOUDFLARE_API_TOKEN is not set. Type it without echo, then run this again:
   read -rs CLOUDFLARE_API_TOKEN && export CLOUDFLARE_API_TOKEN"
+if [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ] && [ -t 0 ]; then
+  printf '\n\033[1mCloudflare account ID\033[0m (Dashboard → Account home → ⋯ → Copy account ID), then Enter: '
+  IFS= read -r CLOUDFLARE_ACCOUNT_ID || CLOUDFLARE_ACCOUNT_ID=""
+fi
 [ -n "${CLOUDFLARE_ACCOUNT_ID:-}" ] || die "CLOUDFLARE_ACCOUNT_ID is not set. Copy it from the Cloudflare dashboard, then:
   export CLOUDFLARE_ACCOUNT_ID=<account id>"
 export CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID

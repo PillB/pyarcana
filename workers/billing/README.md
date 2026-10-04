@@ -18,8 +18,10 @@ Everything runs on the owner's machine (Node >= 22, which wrangler 4 requires; b
 API is not reachable from the build sandbox. Once the zone and the identity providers exist:
 
 ```bash
-read -rs CLOUDFLARE_API_TOKEN && export CLOUDFLARE_API_TOKEN   # typed, not echoed
-export CLOUDFLARE_ACCOUNT_ID=<account id from the dashboard>
+workers/billing/scripts/redeploy.sh       # from the deploy checkout: checks the branch and local
+                                          # changes, pulls, bun install, then setup.sh
+read -rs CLOUDFLARE_API_TOKEN && export CLOUDFLARE_API_TOKEN   # optional: setup.sh asks if unset
+export CLOUDFLARE_ACCOUNT_ID=<account id from the dashboard>   # optional: setup.sh asks if unset
 workers/billing/scripts/setup.sh          # first run, and every later run (idempotent)
 workers/billing/scripts/deploy.sh         # later deploys
 workers/billing/scripts/setup.sh --rotate-key k2   # only to replace the licence key

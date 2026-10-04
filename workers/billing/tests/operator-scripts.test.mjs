@@ -13,7 +13,7 @@
 
 import assert from "node:assert/strict";
 import test from "node:test";
-import { spawnSync } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { webcrypto } from "node:crypto";
 import { chmodSync, cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -330,5 +330,149 @@ test("deploy.sh without scripts/cloud-headers.mjs says so and still deploys", ()
   assert.equal(r.status, 0, r.out);
   assert.match(r.out, /cloud-headers\.mjs/);
   assert.deepEqual(r.log.trim().split("\n"), ["bun run build:static base=", "wrangler deploy"]);
+  rmSync(t.root, { recursive: true, force: true });
+});
+
+// --- the prompts and redeploy.sh (owner request 2026-10-05) -----------------------------------------
+// A bare `read -rs` on an empty line looked like a program still working; the branch was checked by
+// eye. setup.sh now asks for what is missing with a visible prompt, and redeploy.sh checks the
+// branch, the local changes and the pull before anything is deployed.
+
+const TOKEN = "cf-token-for-the-prompt-test-0123456789abcdef";
+
+// The test types ahead (all input is written at once), and a terminal echoes typed-ahead text before
+// `read -s` turns echo off. A person types after the prompt, so the check starts at the prompt.
+const afterPrompt = (out) => out.slice(out.indexOf("Paste your Cloudflare API token"));
+
+/**
+ * Run setup.sh under a pty and answer each prompt only once it is on screen, as a person does, so
+ * the terminal's echo (or its absence) is the real one.
+ * @param {Object} t Tree from tree().
+ * @param {Array<[RegExp, string]>} answers Prompt pattern and the line to type after it, in order.
+ * @param {Object} env Environment overrides (undefined removes).
+ * @returns {Promise<{status: number, out: string, state: Object}>} Result.
+ */
+function runTyped(t, answers, env) {
+  const full = { PATH: `${t.bin}:${process.env.PATH}`, HOME: t.root, SHELL: "/bin/bash", TERM: "dumb", PYARCANA_WRANGLER: path.join(t.bin, "wrangler"), FAKE_WRANGLER_STATE: t.stateFile, FAKE_LOG: t.log, ...env };
+  for (const [key, value] of Object.entries(full)) {
+    if (value === undefined) {
+      delete full[key];
+    }
+  }
+  return new Promise((resolve) => {
+    const child = spawn("script", ["-qec", `bash '${path.join(t.billing, "scripts", "setup.sh")}'`, "/dev/null"], { cwd: t.root, env: full });
+    let out = "";
+    let next = 0;
+    let from = 0; // where the next prompt is looked for: after the previous one
+    const timer = setTimeout(() => child.kill(), 60000);
+    child.stdout.on("data", (chunk) => {
+      out += chunk;
+      while (next < answers.length) {
+        const at = out.slice(from).search(answers[next][0]);
+        if (at < 0) {
+          break;
+        }
+        from += at + 1;
+        child.stdin.write(`${answers[next][1]}\n`);
+        next += 1;
+      }
+    });
+    child.stderr.on("data", (chunk) => { out += chunk; });
+    child.on("close", (status) => {
+      clearTimeout(timer);
+      resolve({ status, out, state: JSON.parse(readFileSync(t.stateFile, "utf8")) });
+    });
+  });
+}
+
+test("setup.sh asks for a missing token and account id with visible prompts; typing the token shows nothing", async () => {
+  const t = tree();
+  const r = await runTyped(t, [
+    [/Paste your Cloudflare API token/, TOKEN],
+    [/Cloudflare account ID/, "0123456789abcdef0123456789abcdef"],
+    [/Comma-separated list/, "admin@example.com"]
+  ], { CLOUDFLARE_API_TOKEN: undefined, CLOUDFLARE_ACCOUNT_ID: undefined });
+  assert.equal(r.status, 0, r.out);
+  assert.match(r.out, /Paste your Cloudflare API token and press Enter.*typing stays hidden/);
+  assert.match(r.out, new RegExp(`Token received \\(${TOKEN.length} characters\\)`));
+  assert.match(r.out, /0123456789abcdef0123456789abcdef/, "the account id is not secret: it echoes, so a typo shows");
+  assertNotPrinted(r.out, TOKEN, "the API token");
+  assert.equal(r.state.deploys.length, 1, "it went on to deploy");
+  rmSync(t.root, { recursive: true, force: true });
+});
+
+test("setup.sh: Enter at the token prompt still stops before any wrangler call", () => {
+  const t = tree();
+  const r = run(t, "setup.sh", { env: { CLOUDFLARE_API_TOKEN: undefined }, input: "\n" });
+  assert.notEqual(r.status, 0);
+  assert.match(r.out, /CLOUDFLARE_API_TOKEN is not set/);
+  assert.deepEqual(r.state.calls, []);
+  rmSync(t.root, { recursive: true, force: true });
+});
+
+const GIT_ENV = { GIT_AUTHOR_NAME: "t", GIT_AUTHOR_EMAIL: "t@example.test", GIT_COMMITTER_NAME: "t", GIT_COMMITTER_EMAIL: "t@example.test", GIT_CONFIG_NOSYSTEM: "1" };
+const BRANCH = "claude/gifted-lamport-8ddc84";
+
+function git(cwd, ...args) {
+  const r = spawnSync("git", args, { cwd, env: { ...process.env, ...GIT_ENV, HOME: cwd }, encoding: "utf8" });
+  assert.equal(r.status, 0, `git ${args.join(" ")}: ${r.stderr}`);
+  return r.stdout.trim();
+}
+
+/** tree() as a git checkout on BRANCH, with an origin that has one commit more. */
+function deployCheckout() {
+  const t = tree();
+  writeFileSync(path.join(t.root, ".gitignore"), ".bin/\nstate.json\nlog.txt\nout/\norigin.git/\nother/\n");
+  git(t.root, "init", "-q", "-b", BRANCH);
+  git(t.root, "add", "-A");
+  git(t.root, "commit", "-qm", "first");
+  git(t.root, "init", "-q", "--bare", "origin.git");
+  git(t.root, "remote", "add", "origin", path.join(t.root, "origin.git"));
+  git(t.root, "push", "-q", "-u", "origin", BRANCH);
+  // Someone pushes the new work: the deploy checkout is one commit behind.
+  git(t.root, "clone", "-q", "-b", BRANCH, path.join(t.root, "origin.git"), "other");
+  writeFileSync(path.join(t.root, "other", "NEW.txt"), "new\n");
+  git(path.join(t.root, "other"), "add", "NEW.txt");
+  git(path.join(t.root, "other"), "commit", "-qm", "the new work");
+  git(path.join(t.root, "other"), "push", "-q");
+  return t;
+}
+
+const redeploy = (t, opts = {}) => run(t, "redeploy.sh", { ...opts, env: { ...GIT_ENV, ...(opts.env || {}) } });
+
+test("redeploy.sh stops on the wrong branch, and with other local changes, before touching anything", () => {
+  const t = deployCheckout();
+  git(t.root, "checkout", "-q", "-b", "main");
+  const wrong = redeploy(t, { input: "\n" });
+  assert.notEqual(wrong.status, 0);
+  assert.match(wrong.out, /STOP: this checkout is on "main", but pyarcana\.dev deploys from "claude\/gifted-lamport-8ddc84"/);
+  assert.match(wrong.out, /git checkout claude\/gifted-lamport-8ddc84/);
+  git(t.root, "checkout", "-q", BRANCH);
+  writeFileSync(path.join(t.root, "package.json"), '{"name":"changed"}\n');
+  const dirty = redeploy(t, { input: "\n" });
+  assert.notEqual(dirty.status, 0);
+  assert.match(dirty.out, /STOP: this checkout has local changes besides workers\/billing\/wrangler\.toml/);
+  assert.match(dirty.out, /package\.json/);
+  for (const r of [wrong, dirty]) {
+    assert.deepEqual(r.state.calls, [], "no wrangler call");
+    assert.doesNotMatch(r.log, /bun/, "no install, no build");
+  }
+  assert.equal(git(t.root, "rev-list", "--count", "HEAD"), "1", "nothing pulled");
+  rmSync(t.root, { recursive: true, force: true });
+});
+
+test("redeploy.sh: right branch with the local D1 id: pulls the new work, installs, asks for the token, deploys", () => {
+  const t = deployCheckout();
+  const toml = path.join(t.billing, "wrangler.toml");
+  writeFileSync(toml, readFileSync(toml, "utf8").replace("TODO_REPLACE_WITH_D1_DATABASE_ID", UUID)); // what setup.sh leaves
+  const r = redeploy(t, { env: { CLOUDFLARE_API_TOKEN: undefined }, input: `${TOKEN}\nadmin@example.com\n` });
+  assert.equal(r.status, 0, r.out);
+  assert.equal(git(t.root, "log", "-1", "--format=%s"), "the new work", "pulled");
+  assert.match(r.out, /Deploying: [0-9a-f]+ the new work/);
+  assert.match(r.log, /^bun install/m);
+  assert.match(r.out, /Paste your Cloudflare API token/);
+  assertNotPrinted(afterPrompt(r.out), TOKEN, "the API token");
+  assert.equal(r.state.deploys.length, 1);
+  assert.ok(r.out.indexOf("1/4") < r.out.indexOf("2/4") && r.out.indexOf("3/4") < r.out.indexOf("4/4"), "the steps are announced in order");
   rmSync(t.root, { recursive: true, force: true });
 });
