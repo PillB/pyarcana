@@ -866,3 +866,33 @@ Write every explanation of code, a plan, an error or a change in about **80% ASD
 
 The owner reads these explanations to make decisions. An answer-first order makes the decision
 faster. A consistent term stops the reader re-deriving what a word means.
+
+### «cobertura» carries four meanings, and one alias mis-fires (2026-10-03, course-wide)
+
+A forward-reference finding said `coverage` was used in S24 before its declared S27. Reading it,
+S24 never meant the glossary's concept at all. It means **automation coverage** —
+`coverage_auto = auto/(auto+review)`, the share of documents that pass without a human. Every alias
+on the glossary entry is **test** coverage: `cobertura de código`, `cobertura de ramas`,
+`cobertura de líneas`, `branch coverage`, `line coverage`, `coverage.py`.
+
+Measured across the course, the word carries at least four senses in 17 sections:
+
+| sense | where | written as |
+|---|---|---|
+| test coverage | **S27** only, 11 hits | `cobertura de código` / `de ramas` / `de líneas` |
+| automation coverage | **S24** | `coverage_auto`, «cobertura alta y accuracy baja» |
+| business-branch coverage | **S27** too | «cobertura de ramas **de negocio**» |
+| sample coverage vs quotas | **S18**, 26 hits | «cobertura LIMITADA / OK» |
+
+Two consequences. First, `coverage`'s forward reference is a homonym, not a teaching gap, and the
+fix belongs in S24's prose — say automation coverage and mean it — not in teaching test coverage
+early. Second, the alias **`cobertura de ramas` mis-fires on «cobertura de ramas de negocio»**, in
+the very section where test coverage is declared. It does not currently show as a defect only
+because a match in S27 is on time.
+
+**The heuristic, and it is the fourth time this campaign has paid for it:** an ordinary Spanish noun
+promoted to a glossary alias will collide with its ordinary use. `correlación` collided with the
+correlation id, `merge` with pandas' merge, `set` with `if`, and now `cobertura` with three other
+coverages. Before adding a Spanish common noun as an alias, grep the course for the bare word and
+read the senses. A term whose alias is a common noun needs the compound form declared, not the bare
+one — and the prose that means something else needs to say so.

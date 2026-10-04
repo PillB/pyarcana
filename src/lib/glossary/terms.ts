@@ -174,7 +174,15 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     definition: 'Termina la ejecución de una función y entrega un valor a quien la llamó. Si falta, Python entrega `None`.',
     example: 'def doble(numero):\\n    return numero * 2\\n\\ndoble(4)  # 8',
     related: ['Función', 'Excepción'],
-    firstSectionId: 'functions-contracts',
+    // 2026-10-03: was 'functions-contracts' (S05). The learner meets `return` in S03, and S03
+    // teaches it: theory[11] is headed «Una regla con nombre: `def`, llamada y `return`» and p3
+    // reads «`return` entrega un valor al código que hizo la llamada y termina la función justo en
+    // esa línea». S03 says outright that «S05 te enseñará a escribir funciones», so it introduces
+    // the named rule on purpose and defers the full treatment. The hover has to be available where
+    // the learner first meets the word, which is S03 -- this is a metadata correction, not a
+    // repoint to buy a green: the concept map already scores `return` L3 with 625 examples and 0
+    // surprising uses, so the teaching was never the thing that was missing.
+    firstSectionId: 'decisions-rules',
   },
   {
     id: 'context-manager',

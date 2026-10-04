@@ -1,17 +1,9 @@
 {
-  "generated_at": "2026-10-04T02:44:08.214783Z",
+  "generated_at": "2026-10-04T04:09:11.615272Z",
   "terms": 108,
   "sections": 52,
-  "forward_refs": 2,
+  "forward_refs": 1,
   "issues": [
-    {
-      "term": "return",
-      "id": "return",
-      "declared_first": "functions-contracts",
-      "found_first": "decisions-rules",
-      "severity": "P2",
-      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
-    },
     {
       "term": "Coverage",
       "id": "coverage",

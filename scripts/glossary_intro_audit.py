@@ -141,7 +141,14 @@ print(json.dumps({"ok": report["ok"], "forward_refs": len(issues), "terms": len(
 # Do NOT pay this down by repointing a `firstSectionId`. That buys a green without moving any
 # teaching, and it is the gate-gaming this ratchet exists to make visible. Pay it down by teaching
 # the term where the learner first meets it, then lower the constant in the same commit.
-FORWARD_REFS_OWED = 2
+# 2026-10-03, later the same day: 2 -> 1. `return` was declared functions-contracts (S05) while the
+# learner meets it in S03, whose theory[11] is headed «Una regla con nombre: `def`, llamada y
+# `return`» and whose p3 defines it. The declaration was wrong, not the teaching -- the concept map
+# already scored `return` L3 with 625 examples and 0 surprising uses -- so firstSectionId moved to
+# decisions-rules. `coverage` is the one that remains, and it is a homonym rather than a gap: S24
+# means automation coverage (`coverage_auto = auto/(auto+review)`), while every alias on this entry
+# is test coverage. It is fixed in S24's own round, not here.
+FORWARD_REFS_OWED = 1
 
 if len(issues) > FORWARD_REFS_OWED:
     print(f"\nFAIL: forward refs rose to {len(issues)}, owed is {FORWARD_REFS_OWED}:",

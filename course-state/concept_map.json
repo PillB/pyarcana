@@ -49334,7 +49334,7 @@
  },
  "return": {
   "id": "return",
-  "declared_first_section": "functions-contracts",
+  "declared_first_section": "decisions-rules",
   "uses": [
    {
     "section": "S03",

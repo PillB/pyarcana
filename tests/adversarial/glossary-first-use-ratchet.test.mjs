@@ -25,8 +25,17 @@ import test from 'node:test'
 import { GLOSSARY_TERMS, aliasIsAcronym } from '../../src/lib/glossary/terms'
 import { COURSE_SECTIONS } from '../../src/lib/course'
 
-/** Terms declared later than their first appearance anywhere in the course. */
-const DECLARED_LATE_OWED = 15
+/**
+ * Terms declared later than their first appearance anywhere in the course.
+ *
+ * 2026-10-03: 15 -> 14. `return`'s firstSectionId moved from functions-contracts (S05) to
+ * decisions-rules (S03), because S03 is where the learner meets it AND where it is taught:
+ * theory[11] is headed «Una regla con nombre: `def`, llamada y `return`» and p3 defines it. The
+ * concept map already scored it L3 with 625 examples and 0 surprising uses, so the declaration was
+ * the only thing that was late. A repoint is the right fix only when the teaching is already
+ * there; when it is not, it buys a green without moving any teaching.
+ */
+const DECLARED_LATE_OWED = 14
 /** Terms no alias of which appears anywhere: dead entries, or an alias that is simply wrong. */
 const NEVER_APPEARS_OWED = 5
 
