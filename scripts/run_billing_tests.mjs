@@ -128,6 +128,7 @@ const CLIENT_SUITES = [
   ["admin-ads", 3],
   ["admin-usage", 4],
   ["admin-qa", 5],
+  ["stage-labels", 3],
   ["ads-surveys", 18],
   ["api", 10],
   ["billing-ui", 11],

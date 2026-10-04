@@ -160,11 +160,21 @@ test('GIS is initialised with the hashed nonce, popup mode and no automatic sign
   assert.equal(gisButtonOptions('es-ES').locale, 'es')
 })
 
-test('no third-party sign-in script on the Microsoft callback route', () => {
-  assert.equal(gisAllowedOn('/'), true)
-  assert.equal(gisAllowedOn('/cuenta'), false)
-  assert.equal(gisAllowedOn('/cuenta/'), false)
-  assert.equal(gisAllowedOn('/pyarcana/cuenta', '/pyarcana'), false)
+test('no third-party sign-in script in a page view that loaded as a Microsoft callback; plain /cuenta allows it', () => {
+  const at = (pathname: string, hash = '') => ({ pathname, hash })
+  // Callback loads: code, state or error in the fragment, on the callback route.
+  assert.equal(gisAllowedOn(at('/cuenta', '#code=abc&state=xyz')), false)
+  assert.equal(gisAllowedOn(at('/cuenta/', '#state=xyz&code=abc')), false)
+  assert.equal(gisAllowedOn(at('/cuenta', '#error=access_denied&error_description=x&state=s')), false)
+  assert.equal(gisAllowedOn(at('/pyarcana/cuenta', '#code=abc&state=xyz'), '/pyarcana'), false)
+  // The ordinary account page and every other page (handback 5 Oct 2026: /cuenta never showed Google).
+  assert.equal(gisAllowedOn(at('/cuenta')), true)
+  assert.equal(gisAllowedOn(at('/cuenta/')), true)
+  assert.equal(gisAllowedOn(at('/pyarcana/cuenta'), '/pyarcana'), true)
+  assert.equal(gisAllowedOn(at('/cuenta', '#ajustes')), true)
+  assert.equal(gisAllowedOn(at('/cuenta', '#mycode=1')), true, 'a key that only ends in "code" is not a callback')
+  assert.equal(gisAllowedOn(at('/')), true)
+  assert.equal(gisAllowedOn(at('/', '#code=abc&state=xyz')), true, 'a callback fragment off the callback route is not one')
 })
 
 function fakeDocument() {

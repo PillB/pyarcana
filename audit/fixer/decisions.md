@@ -490,3 +490,23 @@ the dashboard recorded no session data, and admin had no aggregate and no downlo
     (at most once per 10 s) to ask whether the server is still red, and sends only if the
     server's own answer says it is not.
   - The old button sent a GET and two PUTs per click and ignored the backoff; that is gone.
+
+## D18 — Google's script on /cuenta: decided by the page load, not the path (2026-10-05)
+
+/cuenta is the account page and the Microsoft redirect target. The rule "no Google script on
+/cuenta" kept GIS off the callback, but it also hid the Google button from every ordinary visit
+(handback 5 Oct 2026, item 1).
+
+- **Rule now:** GIS may load unless this page view began as a Microsoft callback, meaning
+  /cuenta with code, state or error in the fragment.
+- **When it is decided:** the location is read once, when `runtime.ts` is first evaluated. That is
+  before any component renders, so before AccountPage strips the fragment with replaceState.
+- **Why the whole page view:** the decision holds for the whole page view, because the PKCE
+  verifier sits in this origin's storage until the code is redeemed. A useState initializer at
+  mount could already see the cleaned URL, which is why the decision is not read there.
+- **Proof:** unit cases in `oidc.test.ts`, and `e2e/cuenta.e2e.mjs` in Chromium.
+  - A plain /cuenta requests the script once and renders the button.
+  - A callback load strips the fragment, never requests the script, and never adds a script
+    element. Its sign-in panel shows the refusal line, which proves the button was mounted.
+- **Not chosen:** a separate callback route (/cuenta/microsoft/). It needs a new Entra redirect
+  URI, and the load-time rule gives the same protection without one.

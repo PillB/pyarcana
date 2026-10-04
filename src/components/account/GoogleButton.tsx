@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { CLOUD_CONFIG } from '@/lib/cloud/config'
-import { GIS_SRC, browserScriptHost, createScriptLoader, gisAllowedOn, gisButtonOptions, gisInitOptions, makeNonce, type GisInitOptions } from '@/lib/cloud/oidc'
-import { SITE_BASE_PATH } from '@/lib/runtime-mode'
+import { GIS_SRC, browserScriptHost, createScriptLoader, gisButtonOptions, gisInitOptions, makeNonce, type GisInitOptions } from '@/lib/cloud/oidc'
+import { gisAllowedThisPageView } from './runtime'
 import { useText } from './text'
 import { ERROR_ALERT_CLASS } from '@/components/account/a11y'
 
@@ -34,7 +34,8 @@ export function GoogleButton({ enabled, onToken }: { enabled: boolean; onToken: 
   const { tr, lang } = useText()
   const box = useRef<HTMLDivElement>(null)
   const onTokenRef = useRef(onToken)
-  const [allowed] = useState(() => gisAllowedOn(window.location.pathname, SITE_BASE_PATH))
+  // Decided at page load (runtime.ts), not now: AccountPage may already have stripped the fragment.
+  const [allowed] = useState(gisAllowedThisPageView)
   const [failed, setFailed] = useState(false)
 
   useEffect(() => {

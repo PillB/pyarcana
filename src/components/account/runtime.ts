@@ -19,8 +19,7 @@ import { useCloudRuntime, useCloudSession, type MePayload } from '@/lib/cloud/se
 import { signOutAccount, signOutRequest, type ActionResult } from '@/lib/cloud/account-api'
 import { safeStorage } from '@/lib/cloud/storage'
 import type { TrackedEvent } from '@/lib/cloud/experiments'
-import { MS_CALLBACK_PATH } from '@/lib/cloud/oidc'
-import { routePath } from '@/lib/cloud/ads'
+import { gisAllowedOn, isMicrosoftCallbackLoad } from '@/lib/cloud/oidc'
 import { HandoffImporter } from '@/lib/cloud/handoff-import'
 import { movedState } from '@/lib/cloud/ui-state'
 import { IS_STATIC_SITE, SITE_BASE_PATH } from '@/lib/runtime-mode'
@@ -227,6 +226,18 @@ export function track(event: TrackedEvent): void {
 
 const callback = { microsoft: false, leaving: false }
 
+/**
+ * Where this page view began, read when this module is first evaluated: before any component
+ * renders, so before AccountPage's effect strips a Microsoft fragment with replaceState. Reading
+ * location.hash later (a useState initializer at mount, say) can see the cleaned URL.
+ */
+const INITIAL_LOCATION = typeof window === 'undefined' ? { pathname: '', hash: '' } : { pathname: window.location.pathname, hash: window.location.hash }
+
+/** Google's script may load in this page view (oidc.ts gisAllowedOn: not a Microsoft callback load). */
+export function gisAllowedThisPageView(): boolean {
+  return gisAllowedOn(INITIAL_LOCATION, SITE_BASE_PATH)
+}
+
 /** Mark that /cuenta is completing a Microsoft redirect (the page strips the fragment first). */
 export function markMicrosoftCallback(active: boolean): void {
   callback.microsoft = active
@@ -247,6 +258,5 @@ export function isLeavingPage(): boolean {
  */
 export function inMicrosoftCallback(): boolean {
   if (callback.microsoft) return true
-  const onCallbackRoute = routePath(window.location.pathname, SITE_BASE_PATH) === MS_CALLBACK_PATH
-  return onCallbackRoute && /[#&](code|error|state)=/.test(window.location.hash)
+  return isMicrosoftCallbackLoad(window.location.pathname, window.location.hash, SITE_BASE_PATH)
 }

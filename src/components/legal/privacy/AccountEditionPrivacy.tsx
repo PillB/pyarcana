@@ -113,7 +113,7 @@ export function AccountEditionPrivacy({ cfg = CLOUD_CONFIG }: { cfg?: CloudConfi
         </LegalParagraph>
         <LegalList
           items={[
-            <><strong>Cloudflare</strong> (Estados Unidos): aloja el sitio, el servidor de cuentas y la base de datos.</>,
+            <><strong>Cloudflare</strong> (Estados Unidos): aloja el sitio, el servidor de cuentas y la base de datos. Para entregar y proteger el sitio trata tu dirección IP y los datos de cada petición (la página pedida, la hora, tu navegador). Con ellos produce estadísticas de tráfico agregadas y registros técnicos del servidor, que guarda según sus propios plazos.</>,
             <><strong>Google</strong> y <strong>Microsoft</strong> (Estados Unidos): solo para entrar. Confirman quién eres y nos dan tu correo y tu nombre.</>,
             <><strong>Hostinger</strong>: aloja nuestro correo. Recibe los mensajes que nos escribes.</>,
             <><strong>jsDelivr</strong>: entrega Pyodide, el programa que ejecuta Python en tu navegador. Recibe tu dirección IP, como cualquier servidor web, pero no tus datos del curso.</>,

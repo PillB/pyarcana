@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { CLOUD_CONFIG } from '@/lib/cloud/config'
+import { stageForGate } from '@/lib/cloud/gate'
 import { pricingView, type PriceRow, type PricingView } from '@/lib/cloud/pricing-view'
 import { AccountDialog } from './AccountDialog'
 import { CloudSync } from './CloudSync'
@@ -74,7 +75,7 @@ function PreciosActive({ stage }: { stage: OnStage }) {
   }, [])
   return (
     <>
-      <PricingContent view={pricingView(stage, CLOUD_CONFIG)} trialDays={trialDays} onSubscribe={() => useAccountUi.getState().show('checkout')} />
+      <PricingContent view={pricingView(stageForGate(stage, CLOUD_CONFIG.gate.since, Date.now()), CLOUD_CONFIG)} trialDays={trialDays} onSubscribe={() => useAccountUi.getState().show('checkout')} />
       <CloudSync />
       <AccountDialog />
     </>

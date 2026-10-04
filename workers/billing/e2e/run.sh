@@ -9,7 +9,7 @@
 #
 # Needs: bun, node >= 20, and in this folder `npm i wrangler@4 playwright` (not repo deps).
 # Chromium: set CHROMIUM=/path/to/chrome (default /opt/pw-browsers/chromium).
-#   ./run.sh            build, start, seed, run the four suites (ads, flows, usage, qa)
+#   ./run.sh            build, start, seed, run the suites (ads, flows, usage, qa, cuenta)
 #   ./run.sh --no-build reuse the last build
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -73,4 +73,5 @@ start
 stop
 start
 (cd "$HERE" && node qa.e2e.mjs) || STATUS=1
+(cd "$HERE" && node cuenta.e2e.mjs) || STATUS=1
 exit $STATUS

@@ -2,8 +2,15 @@
 //
 //   node live.e2e.mjs                 anonymous checks: health, sign-in methods, JWKS, pages, ads,
 //                                     robots.txt, ads.txt, the pyarcana.com redirect
-//   node live.e2e.mjs --login         opens a visible browser on /cuenta: sign in yourself (Google is
-//                                     needed for admin), then press Enter here; saves ./state.json
+//   node live.e2e.mjs --login         opens YOUR installed Chrome (a throwaway profile, not driven by
+//                                     automation, so Google accepts the sign-in) on the home page:
+//                                     sign in yourself (Google is needed for admin), then press Enter
+//                                     here; saves ./state.json, closes Chrome, deletes the profile.
+//                                     CHROME=/path/to/chrome if it is not in the usual place.
+//   node live.e2e.mjs --cookie        fallback when Google still refuses: sign in in your everyday
+//                                     Chrome, copy the __Host-pa_session cookie (DevTools →
+//                                     Application → Cookies → https://pyarcana.dev), paste it at the
+//                                     hidden prompt; saves ./state.json
 //   node live.e2e.mjs --state         anonymous checks plus signed-in ones with ./state.json:
 //                                     /v1/me, admin tabs, the Anuncios list, /qa, /cuenta
 //   node live.e2e.mjs --state --write also sends one QA report titled "[prueba en vivo] …" from the
@@ -12,8 +19,9 @@
 // state.json holds a live session cookie: it is git-ignored, never share it, and delete it after.
 // BASE overrides the origin; CHROMIUM the browser (default: Playwright's own Chromium).
 import { chromium, request as pwRequest } from 'playwright'
-import { existsSync, mkdirSync } from 'node:fs'
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import { createInterface } from 'node:readline/promises'
+import { loginWithSystemChrome } from './system-chrome-login.mjs'
 
 const BASE = process.env.BASE || 'https://pyarcana.dev'
 const STATE = new URL('./state.json', import.meta.url).pathname
@@ -35,17 +43,52 @@ async function flow(name, fn) {
 }
 
 if (args.has('--login')) {
-  const browser = await launch(false)
-  const ctx = await browser.newContext()
-  const page = await ctx.newPage()
-  await page.goto(`${BASE}/cuenta`)
-  const rl = createInterface({ input: process.stdin, output: process.stdout })
-  await rl.question('Sign in in the browser window (use Google for admin checks), then press Enter here… ')
-  rl.close()
-  await ctx.storageState({ path: STATE })
-  await browser.close()
+  const ready = async () => {
+    const rl = createInterface({ input: process.stdin, output: process.stdout })
+    await rl.question('Sign in in that Chrome window (use Google for admin checks), then press Enter here… ')
+    rl.close()
+  }
+  const saved = await loginWithSystemChrome({ chromium, url: `${BASE}/`, statePath: STATE, ready, headless: process.env.LOGIN_HEADLESS === '1' })
+  console.log(`navigator.webdriver in that window: ${saved.webdriver} (false is what Google needs)`)
+  console.log(`saved ${STATE} with ${saved.cookies} cookies — it holds a live session: delete it when you are done`)
+  process.exit(0)
+}
+
+if (args.has('--cookie')) {
+  const value = await hiddenQuestion('Paste the __Host-pa_session cookie value and press Enter (typing stays hidden): ')
+  if (!/^[A-Za-z0-9_-]{20,200}$/.test(value)) {
+    console.log('That does not look like a session cookie value (letters, digits, - and _ only). Nothing saved.')
+    process.exit(1)
+  }
+  const host = new URL(BASE).hostname
+  writeFileSync(STATE, JSON.stringify({ cookies: [{ name: '__Host-pa_session', value, domain: host, path: '/', expires: -1, httpOnly: true, secure: true, sameSite: 'Lax' }], origins: [] }))
   console.log(`saved ${STATE} — it holds a live session: delete it when you are done`)
   process.exit(0)
+}
+
+/** Read one line without echoing it (the session cookie is a credential). */
+function hiddenQuestion(prompt) {
+  return new Promise((resolve) => {
+    process.stdout.write(prompt)
+    const stdin = process.stdin
+    if (stdin.isTTY) stdin.setRawMode(true)
+    let text = ''
+    const onData = (buf) => {
+      for (const ch of buf.toString('utf8')) {
+        if (ch === '\r' || ch === '\n') {
+          stdin.off('data', onData)
+          if (stdin.isTTY) stdin.setRawMode(false)
+          stdin.pause()
+          process.stdout.write('\n')
+          return resolve(text.trim())
+        }
+        if (ch === '\u0003') process.exit(130)
+        text = ch === '\u007f' ? text.slice(0, -1) : text + ch
+      }
+    }
+    stdin.on('data', onData)
+    stdin.resume()
+  })
 }
 
 const browser = await launch(true)
@@ -83,7 +126,12 @@ await flow('domain', async () => {
   const r = await com.get('https://pyarcana.com/precios?x=1', { maxRedirects: 0 }).catch(() => null)
   const loc = r?.headers().location ?? ''
   record('pyarcana.com redirects (301) to pyarcana.dev with path and query', r?.status() === 301 && loc === `${BASE}/precios?x=1`, `status=${r?.status()} location=${loc}`)
-  const headers = (await api.get('/')).headers()
+  // Handback 5 Oct 2026, item 3: Cloudflare's automatic RUM injected its beacon into every page,
+  // and the dashboard offers "Enable RUM" again whenever Observatory is opened. It stays off.
+  const home = await api.get('/')
+  const homeHtml = await home.text()
+  record('the home page carries no Cloudflare analytics beacon (cloudflareinsights)', !/cloudflareinsights/i.test(homeHtml), `occurrences=${(homeHtml.match(/cloudflareinsights/gi) || []).length}`)
+  const headers = home.headers()
   record('security headers on the home page (CSP, nosniff)', Boolean(headers['content-security-policy']) && headers['x-content-type-options'] === 'nosniff', Object.keys(headers).filter((h) => /security|content-type-options|frame/.test(h)).join(','))
 })
 
@@ -99,7 +147,14 @@ await flow('anonymous pages', async () => {
       // In sync there is no Pro to promote, so no house box; in beta or paid the trial promo shows.
       record('the end-of-section ad slot shows a house promo or nothing, never a network ad', adapter === null || adapter === 'house', `adapter=${adapter}`)
     }
-    if (path === '/cuenta') record('/cuenta offers "Entrar" when signed out', await page.getByTestId('cuenta-signin').isVisible().catch(() => false))
+    if (path === '/cuenta') {
+      const entrar = page.getByTestId('cuenta-signin')
+      record('/cuenta offers "Entrar" when signed out', await entrar.isVisible().catch(() => false))
+      // Handback item 1: a plain /cuenta visit offers Google too (only a Microsoft callback load does not).
+      await entrar.click().catch(() => {})
+      const google = await page.getByTestId('google-signin').waitFor({ timeout: 8000 }).then(() => true, () => false)
+      record('/cuenta offers the Google button', google)
+    }
     await page.screenshot({ path: `${OUT}live${path.replace(/[/#]/g, '-') || '-home'}.png`, fullPage: true })
     await page.close()
   }
@@ -119,7 +174,7 @@ if (args.has('--state')) {
       await page.screenshot({ path: `${OUT}live-cuenta-signed-in.png`, fullPage: true })
       if (me.body?.account?.isAdmin) {
         const admin = await open(ctx, '/admin', 'admin')
-        for (const tab of ['Reportes', 'Pro regalado', 'Testers', 'Cuentas', 'Anuncios', 'Experimentos', 'Satisfacción', 'Uso']) {
+        for (const tab of ['Reportes', 'QA', 'Pro regalado', 'Testers', 'Cuentas', 'Anuncios', 'Experimentos', 'Satisfacción', 'Uso']) {
           await admin.getByRole('tab', { name: tab }).click()
           await admin.waitForTimeout(900)
           const alert = await admin.locator('[role="alert"]').first().textContent().catch(() => null)

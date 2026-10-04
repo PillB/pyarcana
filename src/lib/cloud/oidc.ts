@@ -12,7 +12,8 @@
  * 'omit' (the token endpoint answers Access-Control-Allow-Origin: *); the access token is discarded.
  *
  * Google: the GIS rendered button in popup mode with a callback; script loaded when the sign-in
- * panel mounts (never on the Microsoft callback route); no One Tap, no auto-select.
+ * panel mounts (never during a page view that loaded as a Microsoft callback); no One Tap, no
+ * auto-select.
  */
 import { randomB64url, sha256B64url } from '@/lib/cloud/b64'
 import { normalizeOrigin } from '@/lib/cloud/config'
@@ -240,9 +241,22 @@ export function gisButtonOptions(uiLanguage: string) {
   } as const
 }
 
-/** No third-party script on the Microsoft callback route (it holds the code and the verifier). */
-export function gisAllowedOn(pathname: string, basePath = ''): boolean {
-  return routePath(pathname, basePath) !== MS_CALLBACK_PATH
+/**
+ * This page load is a Microsoft callback: the callback route with code, state or error in the
+ * fragment. /cuenta is also the ordinary account page, so the route alone decides nothing.
+ */
+export function isMicrosoftCallbackLoad(pathname: string, hash: string, basePath = ''): boolean {
+  return routePath(pathname, basePath) === MS_CALLBACK_PATH && /^#(?:.*&)?(?:code|state|error)=/.test(hash)
+}
+
+/**
+ * Google's script may load unless this page view began as a Microsoft callback: the fragment holds
+ * the code and this origin's storage the PKCE verifier while it is redeemed, and any script on the
+ * page could read either. Decided from the location at LOAD (before the page strips the fragment),
+ * for the whole page view; a plain /cuenta load allows it.
+ */
+export function gisAllowedOn(initial: { pathname: string; hash: string }, basePath = ''): boolean {
+  return !isMicrosoftCallbackLoad(initial.pathname, initial.hash, basePath)
 }
 
 export interface ScriptElement {

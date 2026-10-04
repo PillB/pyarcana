@@ -60,6 +60,7 @@ test('account edition: retention per kind of data, ARCO deadlines, minors and br
   assert.match(t, /Si eres tester del curso.*Se borra 1 año después de la última actividad de la sesión/)
   assert.match(t, /Podemos eliminar las cuentas sin inicios de sesión durante 2 años/)
   assert.match(t, /no guardamos datos de pago/)
+  assert.match(t, /Cloudflare.*dirección IP y los datos de cada petición.*estadísticas de tráfico agregadas.*según sus propios plazos/, 'Cloudflare\'s own traffic data (handback 5 Oct 2026, item 5)')
   assert.match(t, new RegExp(`${ARCO_DAYS.access} días hábiles.*${ARCO_DAYS.other} días hábiles`))
   assert.match(t, /14 años o más/)
   assert.match(t, /Desde los 14 años puedes aceptar este aviso tú mismo/)

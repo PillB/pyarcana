@@ -13,7 +13,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { CLOUD_CONFIG, isGatingStage } from '@/lib/cloud/config'
+import { CLOUD_CONFIG, isGatingStage, type LaunchStage } from '@/lib/cloud/config'
+import { stageForGate } from '@/lib/cloud/gate'
 import { useCloudStage } from '@/lib/cloud/hooks'
 import type { MePayload, MeSubscription } from '@/lib/cloud/session'
 import { cancelSubscription, startTrial, type UiError } from '@/lib/cloud/account-api'
@@ -44,9 +45,17 @@ export function Section({ title, children }: { title: string; children: React.Re
   )
 }
 
-function planLine(me: MePayload, tr: Tr, lang: Language): string {
-  const s = planStatus(me, Math.floor(Date.now() / 1000))
-  if (!s.pro || !s.sourceKey) return tr('account.plan.free', { n: CLOUD_CONFIG.gate.freeSections })
+/**
+ * The plan in one line. Without Pro it follows the same stage as the gate (gate.ts stageForGate):
+ * "sections 1 to n" only when sections past n are really closed; in sync every section is open
+ * (handback 5 Oct 2026: the panel said "secciones 1 a 5" while nothing was locked).
+ */
+export function planLine(me: MePayload, tr: Tr, lang: Language, stage: LaunchStage, nowMs = Date.now()): string {
+  const s = planStatus(me, Math.floor(nowMs / 1000))
+  if (!s.pro || !s.sourceKey) {
+    const gated = isGatingStage(stageForGate(stage, CLOUD_CONFIG.gate.since, nowMs))
+    return gated ? tr('account.plan.free', { n: CLOUD_CONFIG.gate.freeSections }) : tr('account.plan.allOpen')
+  }
   const end = s.indefinite ? tr('account.plan.indefinite') : s.endsAt ? tr('account.plan.until', { date: formatDate(s.endsAt, lang) }) : ''
   return `${tr(s.sourceKey)}. ${end}`.trim()
 }
@@ -59,10 +68,11 @@ function upcomingLine(me: MePayload, tr: Tr, lang: Language): string | null {
 
 export function PlanSection({ me }: { me: MePayload }) {
   const { tr, lang } = useText()
+  const stage = useCloudStage()
   const upcoming = upcomingLine(me, tr, lang)
   return (
     <Section title={tr('account.plan.heading')}>
-      <p className="text-sm" data-testid="account-plan">{planLine(me, tr, lang)}</p>
+      <p className="text-sm" data-testid="account-plan">{planLine(me, tr, lang, stage)}</p>
       {upcoming && <p className="text-xs text-muted-foreground">{upcoming}</p>}
     </Section>
   )
