@@ -208,8 +208,16 @@ pymupdf/pypdf/python-docx S21, playwright S23 — so none is optional. All pinne
 `.venv-content` is verified against, because a floating version can change a printed value.
 Transitive dependencies are deliberately left unpinned.
 
-**Retire when:** CI's missing-dependency skip count matches the local count, and the S25 session's
-`MISSING_DEPENDENCY_OWED` (54, in its own PR) is lowered to what remains.
+**Discharged 2026-10-04.** CI's count fell **54 → 6** on the first run after the declaration and now
+matches the local count exactly; the runtime audit went green on the same run (3311 pass, 0 fail,
+p0 0, p1 0). `MISSING_DEPENDENCY_OWED` lowered 54 → 6 with a dated line.
+
+**Retire when:** the tail is closed. Six skips remain, the same kind of gap and in sections whose
+subject the package is: five in `fastapi` (S21, *"Documentos, plantillas y reportes trazables"*)
+import `reportlab`, and one in `llm-finetuning` (S41, *"APIs con FastAPI y contratos HTTP"*) imports
+`fastapi`. They are **owed, not accepted**. Declaring them needs a measured run proving their
+snippets *pass* rather than fail first — a snippet that starts an ASGI server turns an honest skip
+into a CI hang, which is worse.
 
 ---
 
