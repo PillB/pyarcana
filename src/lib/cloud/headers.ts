@@ -90,7 +90,10 @@ export const SECURITY_TXT_DAYS = 300
 export function buildSecurityTxt(cfg: CloudConfig, nowMs: number): string | null {
   if (cfg.launchStage === 'off') return null
   const origin = cfg.canonicalOrigin.replace(/\/+$/, '')
-  if (!/^https:\/\/[a-z0-9.-]+$/.test(origin)) throw new Error(`security.txt needs an https canonical origin; got ${JSON.stringify(cfg.canonicalOrigin)}`)
+  // https only, except a local test server (the e2e harness serves http://localhost:8787).
+  if (!/^https:\/\/[a-z0-9.-]+$/.test(origin) && !/^http:\/\/localhost(:\d+)?$/.test(origin)) {
+    throw new Error(`security.txt needs an https canonical origin; got ${JSON.stringify(cfg.canonicalOrigin)}`)
+  }
   const host = new URL(origin).hostname
   const expires = new Date(nowMs + SECURITY_TXT_DAYS * 86_400_000).toISOString().replace(/\.\d{3}Z$/, 'Z')
   return [

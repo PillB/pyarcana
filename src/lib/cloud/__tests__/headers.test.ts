@@ -126,6 +126,7 @@ test('security.txt: contact, an Expires under a year renewed per build, language
   assert.ok(body.endsWith('\n'))
   assert.equal(buildSecurityTxt({ ...ON, launchStage: 'off' }, now), null, 'the GitHub Pages build has no account edition to report on')
   assert.throws(() => buildSecurityTxt({ ...ON, canonicalOrigin: 'http://pyarcana.dev' }, now), /https/)
+  assert.match(buildSecurityTxt({ ...ON, canonicalOrigin: 'http://localhost:8787' }, now)!, /^Contact: mailto:security@localhost$/m, 'the local e2e server')
 })
 
 test('CLI: a root build (base path "") also gets /.well-known/security.txt', () => {
