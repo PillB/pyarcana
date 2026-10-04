@@ -199,7 +199,8 @@ class TestLoopStopped(unittest.TestCase):
             )
             r = c.run(Task(query="loop test query", mode="LOCAL", max_steps=8))
             self.assertLessEqual(len(r.steps), 8)
-            self.assertIn(r.stop_reason, ("loop_detected", "max_steps", "complete"))
+            # Not "complete": a plan that never completes the loop must not read as one that did.
+            self.assertIn(r.stop_reason, ("loop_detected", "max_steps"))
         finally:
             if os.path.exists(path):
                 os.remove(path)

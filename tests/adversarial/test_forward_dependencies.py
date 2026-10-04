@@ -75,19 +75,20 @@ def capstone_starters() -> list[tuple[int, Path, str]]:
 
     A starter is the learner's own file; its gate.json says which section hands it over, and a
     construct in it lands as early as that section does.
+
+    `gate_section` holds the section's SXX tag. It used to be looked up among the slug ids, which
+    matched nothing, so until 2026-10-03 this returned no starter at all and the scan reported
+    them clean without reading one. An unreadable gate.json or an unknown tag now fails rather
+    than being skipped: either way the scan would otherwise be narrower than it says.
     """
-    order = {sid: idx for idx, sid, _, _ in active_sections()}
+    order = {f"S{idx:02d}": idx for idx, _, _, _ in active_sections()}
     out = []
     for gate in sorted(CAPSTONES.glob("*/gate.json")):
-        try:
-            sid = json.loads(gate.read_text(encoding="utf-8")).get("gate_section")
-        except json.JSONDecodeError:
-            continue
-        idx = order.get(sid)
-        if idx is None:
-            continue
+        tag = json.loads(gate.read_text(encoding="utf-8")).get("gate_section")
+        if tag not in order:
+            raise AssertionError(f"{gate.relative_to(ROOT)}: gate_section {tag!r} is no active section")
         for starter in sorted((gate.parent / "STARTER").glob("*.py")):
-            out.append((idx, starter, starter.read_text(encoding="utf-8")))
+            out.append((order[tag], starter, starter.read_text(encoding="utf-8")))
     return out
 
 
@@ -139,6 +140,9 @@ D9_OWED = 0
 # 2026-09-26: 13 -> 10. The owner chose route 2: CP-N1-A's parsing-with-recovery half moves to
 # S09, and S02's You Do became the raw/clean/value walk, which shows the failing conversion as a
 # line to run on its own instead of catching it.
+# 2026-10-03: the starter half of the 2026-09-21 widening had read nothing - gate.json holds SXX
+# tags and the lookup used slug ids, so "(both clean)" above was never measured. Fixed; the 12
+# starters now scanned add no site to D9 or D10, so both numbers stand.
 D10_OWED = 10
 
 
@@ -178,6 +182,13 @@ class ForwardDependencyTests(unittest.TestCase):
         by_id = {sid: src for _, sid, _, src in active_sections()}
         self.assertIn("__name__", by_id["modules-packaging-cli"])
         self.assertRegex(by_id["exceptions-logging"], r"\bexcept\b")
+
+    def test_every_capstone_starter_is_scanned(self) -> None:
+        """The scan is only as wide as this list, and the list was empty for every capstone."""
+        on_disk = sorted(p for gate in CAPSTONES.glob("*/gate.json")
+                         for p in (gate.parent / "STARTER").glob("*.py"))
+        self.assertGreater(len(on_disk), 0, "no capstone STARTER files found to scan")
+        self.assertEqual(sorted(p for _, p, _ in capstone_starters()), on_disk)
 
 
 if __name__ == "__main__":

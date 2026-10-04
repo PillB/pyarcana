@@ -9,8 +9,10 @@
  *   `migrateSectionIds` carries learner progress across it; see scripts/section_id_renames.mjs)
  * - removes tests, migrations, or progress fields from the progress sanitizer contract
  *
- * Baseline: merge-base with origin/main when available, else HEAD~1, else
- * audit/safe-agent/preservation-manifest-before.json
+ * Baseline: --base, else PRESERVATION_BASE / GITHUB_BASE_SHA, else the merge-base with
+ * origin/main, else HEAD~1. With none of those, or a base git cannot diff against, it fails:
+ * it used to fall back to the before-manifest "for informational counts", compare nothing, and
+ * exit 0 - a sentinel that cannot compare has not passed.
  *
  * Usage:
  *   node scripts/preservation_sentinel.mjs
@@ -27,7 +29,6 @@ import {
 
 const ROOT = process.cwd()
 const ALLOWLIST_PATH = join(ROOT, 'audit/safe-agent/deletion-allowlist.json')
-const BEFORE_PATH = join(ROOT, 'audit/safe-agent/preservation-manifest-before.json')
 const RESULT_PATH = join(ROOT, 'audit/safe-agent/preservation-sentinel-result.json')
 
 const PROGRESS_FIELDS = [
@@ -74,9 +75,10 @@ function resolveBase(cliBase) {
   return null
 }
 
+/** null when git cannot diff against the base - never read as "nothing was deleted". */
 function deletedPaths(base) {
-  if (!base) return []
   const out = tryGit(`git diff --name-status --diff-filter=D ${base}...HEAD`)
+  if (out === null) return null
   if (!out) return []
   return out
     .split('\n')
@@ -222,10 +224,23 @@ function main() {
   const failures = []
   const warnings = []
 
+  // 0) A comparison that could not run is a failure. With no base, or a base git cannot read,
+  // this used to report no deletions, skip every comparison below and exit 0 - a sentinel that
+  // checked nothing, indistinguishable from one that found nothing.
+  if (!base) {
+    failures.push({
+      code: 'BASE_UNRESOLVED',
+      message: 'Cannot compare: no base commit resolved (pass --base, or set PRESERVATION_BASE)',
+    })
+  }
+
   // 1) Tracked file deletions
-  const deleted = deletedPaths(base)
+  const deleted = base ? deletedPaths(base) : []
+  if (deleted === null) {
+    failures.push({ code: 'BASE_UNREADABLE', message: `Cannot compare: git could not diff ${base}...HEAD` })
+  }
   const unauthorizedDeletes = []
-  for (const path of deleted) {
+  for (const path of deleted ?? []) {
     if (!allowlist.has(path)) {
       unauthorizedDeletes.push(path)
       failures.push({
@@ -281,13 +296,6 @@ function main() {
     } catch (e) {
       warnings.push({ code: 'PROGRESS_FIELD_CHECK_SKIPPED', message: String(e) })
     }
-  } else if (existsSync(BEFORE_PATH)) {
-    warnings.push({
-      code: 'NO_GIT_BASE',
-      message: 'No git base; using on-disk before manifest only for informational counts',
-    })
-  } else {
-    warnings.push({ code: 'NO_BASE', message: 'No comparison base available' })
   }
 
   const result = {

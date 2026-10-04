@@ -209,3 +209,48 @@ describe('preservation sentinel CLI: section id renames', () => {
     assert.deepEqual(removedIds(result), ENTRIES.map(([from]) => from))
   })
 })
+
+describe('preservation sentinel CLI: a comparison that cannot run fails', () => {
+  // With no base, or one git could not read, the sentinel reported no deletions, skipped every
+  // comparison and exited 0 - indistinguishable from a clean run.
+  const tempDirs = []
+  after(() => {
+    for (const dir of tempDirs) rmSync(dir, { recursive: true, force: true })
+  })
+
+  /** A repository with one commit: no origin/main to merge-base with, no HEAD~1. */
+  function oneCommitRepo() {
+    const dir = mkdtempSync(join(tmpdir(), 'sentinel-base-'))
+    tempDirs.push(dir)
+    const git = (...args) => execFileSync('git', ['-c', 'user.name=sentinel-test',
+      '-c', 'user.email=sentinel-test@example.invalid', '-c', 'commit.gpgsign=false', ...args],
+    { cwd: dir, encoding: 'utf8' })
+    git('init', '-q')
+    writeFileSync(join(dir, 'README.md'), 'only commit\n')
+    git('add', '-A')
+    git('commit', '-q', '-m', 'only commit')
+    return dir
+  }
+
+  function run(dir, args) {
+    const env = { ...process.env }
+    for (const key of ['PRESERVATION_BASE', 'GITHUB_BASE_SHA', 'GIT_DIR', 'GIT_WORK_TREE', 'GIT_INDEX_FILE']) {
+      delete env[key]
+    }
+    const done = spawnSync(process.execPath, [SENTINEL, ...args], { cwd: dir, encoding: 'utf8', env })
+    const resultPath = join(dir, 'audit/safe-agent/preservation-sentinel-result.json')
+    return { status: done.status, result: JSON.parse(readFileSync(resultPath, 'utf8')) }
+  }
+
+  it('fails when no base can be resolved', () => {
+    const { status, result } = run(oneCommitRepo(), [])
+    assert.equal(status, 1)
+    assert.deepEqual(result.failures.map((f) => f.code), ['BASE_UNRESOLVED'])
+  })
+
+  it('fails when git cannot diff against the base it was given', () => {
+    const { status, result } = run(oneCommitRepo(), ['--base', 'deadbeef'.repeat(5)])
+    assert.equal(status, 1)
+    assert.ok(result.failures.some((f) => f.code === 'BASE_UNREADABLE'), JSON.stringify(result.failures))
+  })
+})

@@ -35,8 +35,7 @@ class PhraseBankAndScKeysGates(unittest.TestCase):
 
     def test_agentic_k2_fails_phrase_bank_gate_if_present(self):
         root = ROOT / "course-state/newbie_walkthrough/agentic_K2"
-        if not root.exists():
-            return
+        self.assertTrue(root.exists(), f"{root} is gone; this regression has nothing left to check")
         tags = {i.get("tag") for i in attempt_level_gates("agentic_K2")}
         assert "PHRASE_BANK_JUSTIFICATION" in tags, tags
         # Must NOT be empty gates — receipt bind alone is insufficient for bulk theater
@@ -44,8 +43,7 @@ class PhraseBankAndScKeysGates(unittest.TestCase):
 
     def test_agentic_k1_fails_reseal_or_sc_keys_if_present(self):
         root = ROOT / "course-state/newbie_walkthrough/agentic_K1"
-        if not root.exists():
-            return
+        self.assertTrue(root.exists(), f"{root} is gone; this regression has nothing left to check")
         tags = {i.get("tag") for i in attempt_level_gates("agentic_K1")}
         assert tags & {
             "ADMITTED_BULK_OR_RESEAL",
@@ -58,8 +56,7 @@ class PhraseBankAndScKeysGates(unittest.TestCase):
         """Honest L* path must not trip phrase-bank / reseal / opening-mass theater."""
         for att in ("agentic_L1", "agentic_L2"):
             root = ROOT / "course-state/newbie_walkthrough" / att
-            if not root.exists():
-                continue
+            self.assertTrue(root.exists(), f"{root} is gone; this regression has nothing left to check")
             tags = {i.get("tag") for i in attempt_level_gates(att)}
             ban = {
                 "PHRASE_BANK_JUSTIFICATION",
@@ -76,8 +73,7 @@ class PhraseBankAndScKeysGates(unittest.TestCase):
             ROOT
             / "scripts/quarantine_theater/tool_results_bulk/k2_newbie_b_s01_s13.py"
         )
-        if not p.exists():
-            return
+        self.assertTrue(p.exists(), f"{p} is gone; this regression has nothing left to check")
         text = p.read_text(encoding="utf-8")
         assert "SC_CORRECT" in text
         assert "Sigo dudando de atajos" in text or "releer con desconfianza" in text

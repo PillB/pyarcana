@@ -46,8 +46,7 @@ class ForensicPedagogyGates(unittest.TestCase):
 
     def test_agentic_i2_fails_forensic_gates_if_present(self):
         root = ROOT / "course-state/newbie_walkthrough/agentic_I2"
-        if not root.exists():
-            return
+        self.assertTrue(root.exists(), f"{root} is gone; this regression has nothing left to check")
         tags = {i.get("tag") for i in attempt_level_gates("agentic_I2")}
         # At least one structural theater signal
         assert tags & {
@@ -62,8 +61,7 @@ class ForensicPedagogyGates(unittest.TestCase):
 
     def test_agentic_h2_fails_forensic_gates_if_present(self):
         root = ROOT / "course-state/newbie_walkthrough/agentic_H2"
-        if not root.exists():
-            return
+        self.assertTrue(root.exists(), f"{root} is gone; this regression has nothing left to check")
         tags = {i.get("tag") for i in attempt_level_gates("agentic_H2")}
         assert tags & {
             "JUSTIFICATION_MASS",
@@ -78,8 +76,7 @@ class ForensicPedagogyGates(unittest.TestCase):
 
     def test_agentic_i1_fails_diversify_or_lineage_if_present(self):
         root = ROOT / "course-state/newbie_walkthrough/agentic_I1"
-        if not root.exists():
-            return
+        self.assertTrue(root.exists(), f"{root} is gone; this regression has nothing left to check")
         tags = {i.get("tag") for i in attempt_level_gates("agentic_I1")}
         assert tags & {
             "DIVERSIFY_FORENSICS",

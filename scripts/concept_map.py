@@ -67,6 +67,35 @@ TEACHING_KINDS = {
 }
 
 
+#: A local import in TypeScript: `... from './x'`, `export ... from '../y'`, or `import './z'`.
+IMPORT = re.compile(r"""(?:\bfrom|^\s*import)\s+['"]([^'"]+)['"]""", re.M)
+RESOLVE = ("", ".ts", ".mts", ".tsx", "/index.ts")
+
+
+def extractor_inputs(entry: Path | None = None) -> set[Path]:
+    """Every file the extractor imports, followed transitively from its own imports.
+
+    The watch list was written by hand, and it went stale as soon as the definition rules moved
+    into concept_detector.mts: editing only the rules left the map built from events made under
+    the old ones (Codex review on #79). concept_syntax.mts had never been on the list at all.
+    Reading the imports keeps the list true for the next module too. Packages are skipped:
+    node_modules is not the course.
+    """
+    todo = [entry or ROOT / "scripts/course_event_extractor.mts"]
+    seen: set[Path] = set()
+    while todo:
+        path = todo.pop().resolve()
+        if path in seen or not path.is_file():
+            continue
+        seen.add(path)
+        for spec in IMPORT.findall(path.read_text(encoding="utf-8")):
+            base = path.parent / spec if spec.startswith(".") else (
+                ROOT / "src" / spec[2:] if spec.startswith("@/") else None)
+            if base is not None:
+                todo += [Path(f"{base}{suffix}") for suffix in RESOLVE]
+    return seen
+
+
 def sources_newer_than_cache() -> bool:
     """Has anything the extractor reads changed since the cache was written?
 
@@ -79,10 +108,7 @@ def sources_newer_than_cache() -> bool:
     if not EVENTS.exists():
         return True
     cached = EVENTS.stat().st_mtime
-    watched = list((ROOT / "src/lib/course/sections").glob("*.ts"))
-    watched += [ROOT / "src/lib/glossary/terms.ts", ROOT / "src/lib/course/index.ts",
-                ROOT / "scripts/course_event_extractor.mts"]
-    return any(p.exists() and p.stat().st_mtime > cached for p in watched)
+    return any(p.stat().st_mtime > cached for p in extractor_inputs())
 
 
 def load_events() -> dict:
