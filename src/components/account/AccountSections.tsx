@@ -22,6 +22,7 @@ import { formatDate } from '@/lib/cloud/billing-ui'
 import { listArchives, type SyncStatus } from '@/lib/cloud/progress-sync'
 import { safeStorage } from '@/lib/cloud/storage'
 import { ErrorAlert, StatusNote } from './Alerts'
+import { useForceSync, useForceSyncShortcutLabel } from './useForceSync'
 import { GoogleButton } from './GoogleButton'
 import { MicrosoftButton } from './SignInPanel'
 import { Section } from './PlanSections'
@@ -45,22 +46,20 @@ export function SyncSection() {
   const { tr, lang } = useText()
   const status = useSyncUi((s) => s.status)
   const lastSyncAt = useCloudSession((s) => s.lastSyncAt)
-  const [busy, setBusy] = useState(false)
+  // One guarded forced sync, shared with Ctrl/⌘ + Alt + S (useForceSync.ts): it never skips the
+  // server's back-off, uploads only a real change, and slows down check/uncheck loops.
+  const { run, busy } = useForceSync()
+  const shortcut = useForceSyncShortcutLabel()
   const special = SYNC_KEYS[status]
   const when = lastSyncAt ? formatDate(Math.floor(lastSyncAt / 1000), lang) : null
   const line = special ? tr(special) : when ? tr('account.sync.synced', { when }) : tr('account.sync.never')
-  const syncNow = async () => {
-    setBusy(true)
-    await getProgressSync().pull(true)
-    await getProgressSync().pushNow()
-    setBusy(false)
-  }
   return (
     <Section title={tr('account.sync.heading')}>
       <p role="status" className="text-sm" data-testid="account-sync-status">{line}</p>
-      <Button variant="outline" size="sm" onClick={() => void syncNow()} disabled={busy || status === 'needs_choice'}>
+      <Button variant="outline" size="sm" onClick={() => void run()} disabled={busy || status === 'needs_choice'} data-testid="account-sync-now">
         {tr('account.sync.now')}
       </Button>
+      <p className="mt-1 text-xs text-muted-foreground">{tr('account.force.hint', { shortcut })}</p>
       {status === 'needs_choice' && (
         <Button size="sm" className="ml-2" onClick={() => useSyncUi.setState({ choiceDeferred: false })}>{tr('account.sync.chooseNow')}</Button>
       )}

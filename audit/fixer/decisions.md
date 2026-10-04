@@ -425,3 +425,68 @@ for the privacy notice, security.txt and retention to ship with the go-live rede
 - **Unverified here:** the 20/10 business-day ARCO deadlines and the 48 h rule come from the setup
   thread and DS 016-2024-JUS summaries. The lawyer check (task 13) covers them.
 - **CSP, extra headers and `/v1/health`** (P4–P6) wait for the deploy after go-live, as sequenced.
+
+## D16 — Firebase leaves the static builds' bundle; nothing is deleted (2026-10-05)
+
+The static builds (GitHub Pages and pyarcana.dev) shipped about 280 KB of minified Firebase that
+never ran. Every guard reads "not configured" in both builds, and the CSP blocks Firebase's hosts.
+The owner asked to remove it only with proof that nothing changes.
+
+- **Stand-ins, not deletion.** `src/lib/firebase/client.static.ts` and `auth.static.ts` replace the
+  real modules in the static build only (`next.config.ts`, a `NormalModuleReplacementPlugin`; a
+  plain alias is resolved after the tsconfig path and does not apply). The server edition, dev
+  and the 4 protected tests keep the real Firebase code. `satisfies` ties the stand-ins' exports
+  to the real module's, so the two cannot drift.
+- **Reversible:** `PYARCANA_FIREBASE_STUB=0` builds today's bundle.
+- **Proof** (`scripts/static_bundle_firebase_check.mjs`, both builds, stand-ins off then on):
+  - 19 pages each, the same pages, identical visible text;
+  - files carrying Firebase go from 3 to 0, and the "off" build shows the check can see them;
+  - JavaScript goes from 10,922,885 to 10,399,575 bytes (Pages) and from 10,922,537 to
+    10,406,291 (root), about 0.5 MB.
+- **Narrowing:** a static build can no longer turn Firebase on by configuration. The CSP already
+  forbade it.
+
+## D17 — QA sessions are measured, and admin sees and downloads QA (2026-10-05)
+
+The owner asked to see and download, in admin, what the QA tester dashboard knows. Before this,
+the dashboard recorded no session data, and admin had no aggregate and no download.
+
+- **Measured, in the tester's tab (local first):**
+  - active time, counted in 15 s ticks only while the tab is visible and focused and there was
+    input in the last 60 s, and never more than 30 s per tick;
+  - time per section;
+  - issues created and sent;
+  - the build and the browser family.
+  It is kept in sessionStorage (`pyarcana:qa-session-stats:v1`) and added to the exported package.
+- **Sent only by signed-in testers and admins** to `POST /v1/qa/sessions`:
+  - every 5 minutes when it changed, and when the tab is hidden;
+  - an idempotent upsert that a stale copy can never lower;
+  - stored in migration 9 (`qa_sessions`);
+  - kept 1 year after the last activity, deleted with the account, and part of the account
+    export;
+  - disclosed in the privacy notice and the browser-key list.
+- **Admin, the "QA" tab:**
+  - reports by severity, status, section, tester, cause, build and day;
+  - active time, coverage (sections with at least 1 minute, out of 52), issues per active hour,
+    and one row per tester.
+- **Admin downloads:**
+  - **CSV:** every cell quoted and protected against spreadsheet formulas, with a UTF-8 BOM for
+    Excel.
+  - **JSON:** the testers' own `pyarcana.qa.v1` package, so it opens in the QA workspace with
+    "Importar". The file is kept under the importer's 16 MiB limit, measured in characters of
+    the final file (base64 included). When reports or screenshots are left out, the file says
+    so (`partial`). The `tester` field is empty, so importing does not rename the importer.
+  - 10 downloads per hour, audited.
+- **Hotkeys:** Ctrl/⌘ + Alt/Option + Q and S. They are matched on the physical key when the
+  typed character changed, which covers macOS Option and Windows Ctrl+Alt. AltGr typing (for
+  example `@` on a German keyboard) is left alone. Those layouts keep the footer button.
+- **Forced save (button and Ctrl/⌘+Alt+S):**
+  - sends no request when nothing changed;
+  - at most one every 10 s;
+  - a save that flips back to an earlier state (checking and unchecking a box) gets 30 s, then
+    2 min, then 10 min, reset after 10 quiet minutes;
+  - never bypasses the server's backoff, and autosave is untouched. One exception is asked, not
+    assumed: the budget saver's wait lasts until 00:05 UTC, so a forced sync may spend one read
+    (at most once per 10 s) to ask whether the server is still red, and sends only if the
+    server's own answer says it is not.
+  - The old button sent a GET and two PUTs per click and ignored the backoff; that is gone.

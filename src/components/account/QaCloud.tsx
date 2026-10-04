@@ -5,7 +5,7 @@
  * QaCloudSlots only where accounts run, so the harness on github.io stays local-only.
  * Nothing is sent without a click; the local copy always stays.
  */
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { create } from 'zustand'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -18,6 +18,8 @@ import { useCloudRuntime, useCloudSession } from '@/lib/cloud/session'
 import { safeStorage } from '@/lib/cloud/storage'
 import type { UiError } from '@/lib/cloud/account-api'
 import { saveQaIssue, type QAIssue } from '@/lib/qa-session'
+import type { QaSessionSummary } from '@/lib/qa-session-stats'
+import { canSendQaSession, sendQaSession, shouldSendQaSession } from '@/lib/cloud/qa-sessions'
 import { cloudApi } from './runtime'
 import { useText, type Tr } from './text'
 import { LEGAL_CHECKBOX_CLASS } from '@/components/account/a11y'
@@ -167,13 +169,65 @@ function QaModeToggles() {
   )
 }
 
-/** The Session tab's team section: send every unsent issue, and the test-mode switches. */
-export function QaSessionCloud({ issues, tester, onSent }: { issues: QAIssue[]; tester: string; onSent: () => void }) {
+/**
+ * The session summary to the team (worker /v1/qa/sessions): only for signed-in testers and admins.
+ * It goes on its own every few minutes while the numbers change and when the page is hidden, and on
+ * demand with the button. Anyone else keeps it in this browser and in the downloaded file.
+ */
+function SessionSummary({ session }: { session: QaSessionSummary | null }) {
+  const { tr } = useText()
+  const me = useCloudSession((s) => s.me)
+  const live = useCloudRuntime((s) => s.meStatus === 'ok')
+  const allowed = live && canSendQaSession(me)
+  const last = useRef<{ at: number; json: string } | null>(null)
+  const latest = useRef(session)
+  // Before the sending effect below (effects run in order): it always sends the newest numbers.
+  useEffect(() => {
+    latest.current = session
+  }, [session])
+  const [note, setNote] = useState<string | null>(null)
+  // Sends when due (or forced); null when nothing was sent. It sets no state, so effects may call it.
+  const send = async (force: boolean, keepalive = false): Promise<boolean | null> => {
+    const s = latest.current
+    if (!allowed || !s || !shouldSendQaSession(s, last.current, Date.now(), force)) return null
+    const r = await sendQaSession(cloudApi(), s, keepalive)
+    if (r.ok) last.current = { at: Date.now(), json: JSON.stringify(s) }
+    return r.ok
+  }
+  const sendNow = async () => {
+    const ok = await send(true)
+    if (ok !== null) setNote(tr(ok ? 'qa.session.sent' : 'qa.session.failed'))
+  }
+  useEffect(() => {
+    if (!allowed) return
+    void send(false)
+    const onHide = () => {
+      if (document.visibilityState === 'hidden') void send(true, true)
+    }
+    document.addEventListener('visibilitychange', onHide)
+    return () => document.removeEventListener('visibilitychange', onHide)
+  })
+  if (!allowed) return <p className="text-sm text-muted-foreground" data-testid="qa-session-local">{tr('qa.session.local')}</p>
+  return (
+    <div className="space-y-2">
+      <p className="text-sm text-muted-foreground">{tr('qa.session.what')}</p>
+      <Button type="button" variant="outline" disabled={!session} onClick={() => void sendNow()} data-testid="qa-session-send">
+        {tr('qa.session.send')}
+      </Button>
+      {note && <p role="status" className="text-sm">{note}</p>}
+    </div>
+  )
+}
+
+/** The Session tab's team section: send every unsent issue, the session summary, the test-mode switches. */
+export function QaSessionCloud({ issues, tester, session, onSent }: { issues: QAIssue[]; tester: string; session: QaSessionSummary | null; onSent: () => void }) {
   const { tr } = useText()
   return (
     <section className="space-y-4 rounded-xl border border-border p-5 lg:col-span-2" data-testid="qa-cloud-session">
       <h3 className="font-semibold">{tr('qa.send.h')}</h3>
       <SendAll issues={issues} tester={tester} onSent={onSent} />
+      <h3 className="font-semibold">{tr('qa.session.h')}</h3>
+      <SessionSummary session={session} />
       <h3 className="font-semibold">{tr('qa.mode.h')}</h3>
       <QaModeToggles />
     </section>

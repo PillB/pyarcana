@@ -9,6 +9,7 @@ import { useCloudStage } from '@/lib/cloud/hooks'
 import { CLOUD_SESSION_KEY } from '@/lib/cloud/session'
 import { CONSENT_KEY, MEASUREMENT_ID_KEY } from '@/lib/cloud/consent'
 import { QA_MODE_KEY } from '@/lib/cloud/qa-mode'
+import { QA_SESSION_KEY } from '@/lib/qa-session-stats'
 import { CHANGES_KEY } from '@/lib/cloud/progress-merge'
 import { ARCHIVE_PREFIX } from '@/lib/cloud/progress-sync'
 import { MS_PENDING_KEY } from '@/lib/cloud/oidc'
@@ -53,6 +54,7 @@ export function storageDisclosure(cfg: CloudConfig): StorageGroup[] {
         { key: CONSENT_SENT_KEY, text: 'legalc.key.consentSent' },
         { key: GRANDFATHER_KEY, text: 'legalc.key.grandfather' },
         { key: QA_MODE_KEY, text: 'legalc.key.qa' },
+        { key: QA_SESSION_KEY, text: 'legalc.key.qaSession', tabOnly: true },
         { key: PERSIST_KEY, text: 'legalc.key.persist' },
       ],
     },

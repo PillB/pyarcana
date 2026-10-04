@@ -61,6 +61,8 @@ import { handleGrantRole, handleListRoles, handleRevokeRole } from "./roles.mjs"
 import { handleAdminSurveys, handleSubmitSurvey } from "./surveys.mjs";
 import { handleListAds, handleSetAds } from "./ads.mjs";
 import { handleStartTrial } from "./trial.mjs";
+import { handleQaSession, QA_SESSION_BODY_CAP } from "./qa-sessions.mjs";
+import { handleQaExport, handleQaStats } from "./qa-admin.mjs";
 import { budgetLevel, flushUsage, handleAdminUsage, meterDb } from "./usage.mjs";
 import { handleGeo, handleHealth, handleMethods, hasDb } from "./public.mjs";
 import { migrate } from "./schema.mjs";
@@ -126,6 +128,7 @@ export const ROUTES = [
   { method: "POST", path: "/v1/reports", handler: handleSubmitReport, needs: DB_PEPPER, auth: "optional", bodyCap: REPORT_BODY_CAP },
   { method: "GET", path: "/v1/me/reports", handler: handleMyReports, needs: ["db"], auth: "session" },
   qaRoute("/v1/qa/reports", handleQaReports),
+  { method: "POST", path: "/v1/qa/sessions", handler: handleQaSession, needs: DB_PEPPER, auth: "session", access: "qa", bodyCap: QA_SESSION_BODY_CAP },
   qaRoute("/v1/qa/reports/:id", handleQaReport),
   qaRoute("/v1/qa/reports/:id/attachments/:aid", handleQaAttachment),
   { method: "POST", path: "/v1/me/link/google", handler: handleLinkGoogle, needs: DB_PEPPER, auth: "session" },
@@ -149,6 +152,8 @@ export const ROUTES = [
   adminRoute("POST", "/v1/admin/ads", handleSetAds, "admin.ads.set"),
   adminRoute("GET", "/v1/admin/ads", handleListAds, "admin.ads.list"),
   adminRoute("GET", "/v1/admin/usage", handleAdminUsage, "admin.usage.read"),
+  adminRoute("GET", "/v1/admin/qa/stats", handleQaStats, "admin.qa.stats"),
+  adminRoute("GET", "/v1/admin/qa/export", handleQaExport, "admin.qa.export"),
   adminRoute("PATCH", "/v1/admin/reports/:id", handlePatchReport, "admin.reports.update")
 ];
 

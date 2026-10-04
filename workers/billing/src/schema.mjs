@@ -420,6 +420,29 @@ const MIGRATION_8 = [
    ) WITHOUT ROWID`
 ];
 
+/**
+ * QA session summaries (qa-sessions.mjs, owner request 2026-10-05): one row per tester session,
+ * upserted with running totals. Kept 1 year after last activity (retention.mjs).
+ */
+const MIGRATION_9 = [
+  `CREATE TABLE IF NOT EXISTS qa_sessions (
+     account_id TEXT NOT NULL REFERENCES accounts (id),
+     session_id TEXT NOT NULL,
+     alias TEXT,
+     started_at INTEGER NOT NULL,
+     last_active_at INTEGER NOT NULL,
+     active_seconds INTEGER NOT NULL DEFAULT 0,
+     sections TEXT NOT NULL DEFAULT '{}',
+     issues_created INTEGER NOT NULL DEFAULT 0,
+     issues_sent INTEGER NOT NULL DEFAULT 0,
+     deployment_sha TEXT,
+     browser TEXT NOT NULL CHECK (browser IN ('chromium', 'firefox', 'safari', 'other')),
+     updated_at INTEGER NOT NULL,
+     PRIMARY KEY (account_id, session_id)
+   ) WITHOUT ROWID`,
+  "CREATE INDEX IF NOT EXISTS idx_qa_sessions_last_active ON qa_sessions (last_active_at)"
+];
+
 /** Every migration, in order. Append only; never edit a shipped one. */
 export const MIGRATIONS = [
   { version: 1, statements: MIGRATION_1 },
@@ -429,7 +452,8 @@ export const MIGRATIONS = [
   { version: 5, statements: MIGRATION_5 },
   { version: 6, statements: MIGRATION_6 },
   { version: 7, statements: MIGRATION_7 },
-  { version: 8, statements: MIGRATION_8 }
+  { version: 8, statements: MIGRATION_8 },
+  { version: 9, statements: MIGRATION_9 }
 ];
 
 /** The version a fully migrated database reports. */

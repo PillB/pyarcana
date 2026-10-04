@@ -166,6 +166,7 @@ allowed `Origin` (403 `bad_origin`). Answers are JSON `{ok, ...}` or `{ok: false
 | `GET /v1/qa/reports` | tester or admin | All reports without reporter identity; filters and a keyset cursor. |
 | `GET /v1/qa/reports/:id` | tester or admin | One report and its attachment metadata. |
 | `GET /v1/qa/reports/:id/attachments/:aid` | tester or admin | The image bytes, sniff-checked, `nosniff`, sandbox CSP. |
+| `POST /v1/qa/sessions` | tester or admin | A QA session summary (time, seconds per section, issues created and sent), upserted per session; only signed-in testers send it. Kept 1 year after its last activity. |
 | `POST /v1/me/link/google` | session, recent auth | Adds Google; audited and notified to the proven address. |
 | `POST /v1/me/link/microsoft` | session, recent auth | Adds Microsoft; audited and notified. |
 | `DELETE /v1/me/identities/:provider` | session, recent auth | Removes a Google or Microsoft method, ends its sessions, never the last way in. |
@@ -188,6 +189,8 @@ allowed `Origin` (403 `bad_origin`). Answers are JSON `{ok, ...}` or `{ok: false
 | `POST /v1/admin/ads` | admin | `{accountIds: string[1..100], adsDisabled, reason}`: switch ads off, or back to the default, for a batch; see "Ads per account". |
 | `GET /v1/admin/ads` | admin | `?filter=all\|disabled\|gift\|tester\|free\|paid\|trial&limit=&cursor=`: who sees ads and why. |
 | `GET /v1/admin/usage` | admin | D1 rows read and written today against the free limits, by route, the last 14 days, and the budget level; see "Progress and the free tier". Also `config`: which of pepper, terms, controller (sign-up open), email, Google, Microsoft, Mercado Pago and Creem are configured, and the allowed origins. |
+| `GET /v1/admin/qa/stats` | admin | `?from=&to=` (UTC days, at most 366): reports by status, severity, category, cause, source, section, tester, build and day; QA sessions: count, testers, active time, issues, seconds per section, per-tester rows. |
+| `GET /v1/admin/qa/export` | admin | `?format=csv\|json&from=&to=`: CSV with every cell disarmed against spreadsheet formulas, or the QA workspace's `pyarcana.qa.v1` package (importable there) with screenshots and session summaries. At most 500 reports; the JSON file stays under 15 MiB (the importer takes 16 MiB), so reports or screenshots past that are left out (`x-pyarcana-partial: 1` and `partial: true` when cut); 10 per admin per hour. |
 
 Admin means all of: the account's verified email is in `ADMIN_EMAILS` (read per request); the
 session is younger than 12 hours; and it was created by a Google identity that belongs to this
@@ -196,7 +199,8 @@ Every admin request is audited (rate-limited ones excepted).
 
 Scheduled: daily at 09:17 UTC the retention sweep (login codes; sessions 2 years after expiry;
 rate limits; stale open checkouts; spent nonces; report screenshots; report text 1 year after
-closing or 2 years after filing; audit rows after 2 years; usage rows after 60 days) and the measurement sweep (events, arms and
+closing or 2 years after filing; audit rows after 2 years; usage rows after 60 days; QA session
+summaries 1 year after their last activity) and the measurement sweep (events, arms and
 bindings after 180 days, survey answers after 2 years), then reconciliation of every pending, active or
 past_due subscription. Hourly at :07, reconciliation of recent rows (open checkouts and pending
 subscriptions younger than 7 days). Each set is capped at 50 rows a run, least recently

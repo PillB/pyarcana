@@ -1,7 +1,7 @@
 'use client'
 
 import { CLOUD_CONFIG } from '@/lib/cloud/config'
-import { REPORT_STATUSES, attachmentPath, categoryLabel, parseReportDetail, reportPath, sectionLabel, severityLabel, type ReportRow } from '@/lib/cloud/admin-api'
+import { REPORT_STATUSES, attachmentPath, categoryLabel, causeLabel, parseReportDetail, reportPath, sectionLabel, severityLabel, type ReportRow } from '@/lib/cloud/admin-api'
 import { LoadNote, formatDay } from './LoadNote'
 import { useApiLoad } from './useApiLoad'
 import { useText, type Tr } from './text'
@@ -34,6 +34,10 @@ export function ContextList({ report, tr }: { report: ReportRow; tr: Tr }) {
     ['qasite.ctx.language', c.language],
     ['qasite.ctx.sha', c.deploymentSha ? c.deploymentSha.slice(0, 12) : null],
     ['qasite.ctx.browser', c.userAgent],
+    ['qasite.ctx.tester', report.reporterAlias],
+    ['qasite.ctx.cause', report.cause ? causeLabel(report.cause) : null],
+    ['qasite.ctx.source', report.source || null],
+    ['qasite.ctx.shots', report.attachmentCount > 0 ? report.attachmentCount : null],
   ]
   return (
     <dl className="grid gap-1 text-xs sm:grid-cols-[10rem_1fr]">

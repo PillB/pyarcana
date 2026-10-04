@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label'
 import {
   REPORT_CATEGORY_VALUES,
   REPORT_SEVERITY_VALUES,
+  REPORT_SOURCE_VALUES,
   REPORT_STATUSES,
   categoryLabel,
   mergeSectionOptions,
@@ -23,7 +24,7 @@ import { statusText } from './ReportDetail'
 import { useApiLoad } from './useApiLoad'
 import { useText, type Tr } from './text'
 
-const EMPTY: ReportFilters = { status: '', severity: '', category: '', section: '', q: '' }
+const EMPTY: ReportFilters = { status: '', severity: '', category: '', section: '', source: '', tester: '', q: '' }
 
 function Choice({ id, label, value, options, text, onChange, tr }: { id: string; label: string; value: string; options: readonly string[]; text: (v: string) => string; onChange: (v: string) => void; tr: Tr }) {
   return (
@@ -44,7 +45,7 @@ function FilterBar({ scope, sections, onApply }: { scope: string; sections: Sect
   const labels = new Map(sections.map((o) => [o.id, o.label]))
   return (
     <form
-      className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6"
+      className="grid gap-3 sm:grid-cols-3 lg:grid-cols-4"
       onSubmit={(e) => {
         e.preventDefault()
         onApply(draft)
@@ -54,6 +55,11 @@ function FilterBar({ scope, sections, onApply }: { scope: string; sections: Sect
       <Choice id={`${scope}-severity`} label={tr('qasite.filter.severity')} value={draft.severity ?? ''} options={REPORT_SEVERITY_VALUES} text={severityLabel} onChange={set('severity')} tr={tr} />
       <Choice id={`${scope}-category`} label={tr('qasite.filter.category')} value={draft.category ?? ''} options={REPORT_CATEGORY_VALUES} text={categoryLabel} onChange={set('category')} tr={tr} />
       <Choice id={`${scope}-section`} label={tr('qasite.filter.section')} value={draft.section ?? ''} options={sections.map((o) => o.id)} text={(v) => labels.get(v) ?? v} onChange={set('section')} tr={tr} />
+      <Choice id={`${scope}-source`} label={tr('qasite.filter.source')} value={draft.source ?? ''} options={REPORT_SOURCE_VALUES} text={(v) => tr(`qasite.source.${v}`)} onChange={set('source')} tr={tr} />
+      <div className="space-y-1">
+        <Label htmlFor={`${scope}-tester`}>{tr('qasite.filter.tester')}</Label>
+        <Input id={`${scope}-tester`} value={draft.tester ?? ''} maxLength={80} onChange={(e) => set('tester')(e.target.value)} />
+      </div>
       <div className="space-y-1">
         <Label htmlFor={`${scope}-q`}>{tr('qasite.filter.q')}</Label>
         <Input id={`${scope}-q`} value={draft.q ?? ''} maxLength={100} onChange={(e) => set('q')(e.target.value)} />

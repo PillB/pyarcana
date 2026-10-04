@@ -1,7 +1,7 @@
 /**
  * The QA reporting subsite's reads and the admin triage (DESIGN-v3).
  *
- *   GET   /v1/qa/reports?status=&severity=&category=&section=&q=&limit=&cursor=  (tester or admin)
+ *   GET   /v1/qa/reports?status=&severity=&category=&section=&source=&tester=&q=&limit=&cursor=  (tester or admin)
  *   GET   /v1/qa/reports/:id                         report + attachment metadata
  *   GET   /v1/qa/reports/:id/attachments/:aid        image bytes
  *   GET   /v1/admin/reports?<same filters>           admin: + contact email, account email, admin note
@@ -17,7 +17,7 @@
 
 import { bytesToBase64Url, base64UrlToString } from "./crypto.mjs";
 import { badRequest, enumValue, INVALID, limitValue, optionalText, parseFields, queryObject, requiredText } from "./input.mjs";
-import { blobBytes, REPORT_CATEGORIES, REPORT_SEVERITIES, REPORT_STATUSES, sniffImage } from "./report-input.mjs";
+import { blobBytes, REPORT_CATEGORIES, REPORT_SEVERITIES, REPORT_SOURCES, REPORT_STATUSES, sniffImage } from "./report-input.mjs";
 
 const NOT_FOUND = { status: 404, body: { ok: false, reason: "not_found" } };
 
@@ -40,6 +40,8 @@ const FILTERS = [
   ["severity", (q) => enumValue(q.severity, REPORT_SEVERITIES, null), "bad_severity", "r.severity = ?", 1],
   ["category", (q) => enumValue(q.category, REPORT_CATEGORIES, null), "bad_category", "r.category = ?", 1],
   ["section", (q) => optionalText(q.section, 40), "bad_section", "json_extract(r.context, '$.sectionId') = ?", 1],
+  ["source", (q) => enumValue(q.source, REPORT_SOURCES, null), "bad_source", "r.source = ?", 1],
+  ["tester", (q) => optionalText(q.tester, 80), "bad_tester", "r.reporter_alias = ?", 1],
   ["q", (q) => likePattern(optionalText(q.q, 100)), "bad_q", "(r.title LIKE ? ESCAPE '\\' OR r.description LIKE ? ESCAPE '\\')", 2]
 ];
 

@@ -19,6 +19,7 @@ import { errorMessage } from '@/lib/cloud/billing-ui'
 import { safeSessionStorage, safeStorage } from '@/lib/cloud/storage'
 import { applyMe, cloudApi, getHandoffImporter, getMeasurement, getProgressSync, getSyncController, inMicrosoftCallback, isLeavingPage, track, useAccountUi, useSyncUi } from './runtime'
 import { useText } from './text'
+import { useForceSyncHotkey } from './useForceSync'
 
 /**
  * First load where the gate applies: remember every section this device touched (gate.ts), after
@@ -110,6 +111,8 @@ function OwnerChoiceDialog() {
 function CloudSyncActive({ stage }: { stage: LaunchStage }) {
   usePageLifecycle(stage)
   useSessionFollowers()
+  // Ctrl/⌘ + Alt + S: a guarded forced sync, only while signed in (useForceSync.ts, force-sync.ts).
+  useForceSyncHotkey(useCloudRuntime((s) => s.meStatus) === 'ok')
   return <OwnerChoiceDialog />
 }
 

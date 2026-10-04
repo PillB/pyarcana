@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic'
 import { useCloudStage, useQaMode } from '@/lib/cloud/hooks'
 import { QA_OPEN_EVENT } from '@/lib/cloud/qa-links'
 import type { QAIssue } from '@/lib/qa-session'
+import type { QaSessionSummary } from '@/lib/qa-session-stats'
 import { useText } from './text'
 
 const SendIssue = dynamic(() => import('./QaCloud').then((m) => m.QaSendIssue), { ssr: false })
@@ -25,9 +26,9 @@ export function QaSendIssueSlot({ issue, ...rest }: SlotProps & { issue: QAIssue
   return stage === 'off' ? null : <SendIssue issue={issue} {...rest} />
 }
 
-export function QaSessionSlot({ issues, ...rest }: SlotProps & { issues: QAIssue[] }) {
+export function QaSessionSlot({ issues, session = null, ...rest }: SlotProps & { issues: QAIssue[]; session?: QaSessionSummary | null }) {
   const stage = useCloudStage()
-  return stage === 'off' ? null : <SessionCloud issues={issues} {...rest} />
+  return stage === 'off' ? null : <SessionCloud issues={issues} session={session} {...rest} />
 }
 
 /** A small, always-visible reminder that ads, experiments and surveys are in test mode. */

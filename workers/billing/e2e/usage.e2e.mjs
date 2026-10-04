@@ -141,6 +141,9 @@ await flow('red-day drill', async () => {
   await page.screenshot({ path: `${OUT}usage-learner-deferred.png`, fullPage: true })
 
   d1(`DELETE FROM usage_daily WHERE source = 'drill'`)
+  // At most one forced sync per 10 s (force-sync.ts); the click then asks the server once whether
+  // the budget saver's wait still holds, and sends because it no longer does.
+  await page.waitForTimeout(10_500)
   await page.getByRole('button', { name: 'Sincronizar ahora' }).click()
   await page.waitForTimeout(2500)
   const after = await page.getByTestId('account-sync-status').textContent()

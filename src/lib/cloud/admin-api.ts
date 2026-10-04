@@ -16,7 +16,7 @@
 import type { ApiResult } from '@/lib/cloud/api'
 import { isPlainObject } from '@/lib/cloud/storage'
 import { SURVEY_KINDS, type SurveyKind } from '@/lib/cloud/surveys'
-import { QA_CATEGORIES, QA_SEVERITIES } from '@/lib/qa-session'
+import { QA_CATEGORIES, QA_CAUSES, QA_SEVERITIES } from '@/lib/qa-session'
 
 export type Target = { email: string } | { accountId: string }
 export type Built = { ok: true; body: Record<string, unknown> } | { ok: false; key: string }
@@ -30,6 +30,8 @@ export type RoleState = (typeof ROLE_STATES)[number]
 export const REPORT_STATUSES = ['new', 'triaged', 'in_progress', 'fixed', 'wontfix', 'duplicate'] as const
 export const REPORT_SEVERITY_VALUES: readonly string[] = QA_SEVERITIES.map((s) => s.value)
 export const REPORT_CATEGORY_VALUES: readonly string[] = QA_CATEGORIES.map((c) => c.value)
+/** workers/billing/src/report-input.mjs REPORT_SOURCES: the QA window, or the learner's feedback button. */
+export const REPORT_SOURCE_VALUES = ['qa_harness', 'feedback'] as const
 
 const SEVERITY_LABELS: ReadonlyMap<string, string> = new Map(QA_SEVERITIES.map((x) => [x.value, x.label]))
 const CATEGORY_LABELS: ReadonlyMap<string, string> = new Map(QA_CATEGORIES.map((x) => [x.value, x.label]))
@@ -42,6 +44,13 @@ export function severityLabel(value: string): string {
 /** The Spanish label the report form uses for a stored category code; an unknown code as it is. */
 export function categoryLabel(value: string): string {
   return CATEGORY_LABELS.get(value) ?? value
+}
+
+const CAUSE_LABELS: ReadonlyMap<string, string> = new Map(QA_CAUSES.map((c) => [c.value, c.label]))
+
+/** The Spanish label the report form uses for a stored cause code; an unknown code as it is. */
+export function causeLabel(value: string): string {
+  return CAUSE_LABELS.get(value) ?? value
 }
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -180,6 +189,9 @@ export interface ReportFilters {
   severity?: string
   category?: string
   section?: string
+  source?: string
+  /** The tester's alias, matched exactly (the worker's reporter_alias). */
+  tester?: string
   q?: string
 }
 
@@ -190,6 +202,8 @@ export function reportsPath(scope: 'qa' | 'admin', f: ReportFilters, cursor: str
     severity: oneOf(f.severity, REPORT_SEVERITY_VALUES),
     category: oneOf(f.category, REPORT_CATEGORY_VALUES),
     section: f.section?.trim().slice(0, 40),
+    source: oneOf(f.source, REPORT_SOURCE_VALUES),
+    tester: f.tester?.trim().slice(0, 80),
     q: f.q?.trim().slice(0, 100),
     cursor: cursor && CURSOR.test(cursor) ? cursor : null,
     limit,
@@ -718,4 +732,110 @@ export function parseUsage(data: unknown): Usage {
 /** Whole percent of a limit, for display (never negative; may pass 100). */
 export function usagePercent(n: number, limit: number): number {
   return limit > 0 ? Math.round((100 * n) / limit) : 0
+}
+
+// --- QA statistics and downloads (GET /v1/admin/qa/stats|export, workers/billing/src/qa-admin.mjs) --
+
+export const QA_STATS_PATH = '/v1/admin/qa/stats'
+/** Sections in the course (pinned to COURSE_SECTIONS by a test; importing the course here would ship it). */
+export const COURSE_SECTION_COUNT = 52
+export const QA_EXPORT_FORMATS = ['csv', 'json'] as const
+export type QaExportFormat = (typeof QA_EXPORT_FORMATS)[number]
+export const QA_DIMENSIONS = ['status', 'severity', 'category', 'cause', 'source', 'section', 'tester', 'build', 'day'] as const
+export type QaDimension = (typeof QA_DIMENSIONS)[number]
+export type QaCount = { key: string | null; count: number }
+export type QaTesterRow = {
+  accountId: string
+  alias: string | null
+  email: string | null
+  sessions: number
+  activeSeconds: number
+  issuesCreated: number
+  issuesSent: number
+  lastActiveAt: number
+}
+export type QaStats = {
+  range: { from: number; to: number }
+  reports: { total: number } & Record<QaDimension, QaCount[]>
+  sessions: {
+    count: number
+    testers: number
+    activeSeconds: number
+    issuesCreated: number
+    issuesSent: number
+    sections: Array<{ key: string; seconds: number }>
+    perTester: QaTesterRow[]
+  }
+}
+
+const QA_DAY = /^\d{4}-\d{2}-\d{2}$/
+
+/** ?from=&to= as UTC days (YYYY-MM-DD, `to` inclusive); a malformed day is left out, never sent. */
+function qaRange(range: { from?: string; to?: string }): Record<string, string | null> {
+  const day = (v: string | undefined) => (v && QA_DAY.test(v) ? v : null)
+  return { from: day(range.from), to: day(range.to) }
+}
+
+export function qaStatsPath(range: { from?: string; to?: string } = {}): string {
+  return `${QA_STATS_PATH}${encodeQuery(qaRange(range))}`
+}
+
+export function qaExportPath(format: QaExportFormat, range: { from?: string; to?: string } = {}): string {
+  return `/v1/admin/qa/export${encodeQuery({ format: oneOf(format, QA_EXPORT_FORMATS) ?? 'csv', ...qaRange(range) })}`
+}
+
+const qaCounts = (v: unknown): QaCount[] =>
+  (Array.isArray(v) ? v.filter(isPlainObject) : []).map((r) => ({ key: str(r.key), count: count(r.count) }))
+
+function qaTester(r: Record<string, unknown>): QaTesterRow | null {
+  const accountId = str(r.accountId)
+  if (!accountId) return null
+  return {
+    accountId,
+    alias: str(r.alias),
+    email: str(r.email),
+    sessions: count(r.sessions),
+    activeSeconds: count(r.activeSeconds),
+    issuesCreated: count(r.issuesCreated),
+    issuesSent: count(r.issuesSent),
+    lastActiveAt: count(r.lastActiveAt),
+  }
+}
+
+/** Parse the QA statistics answer; anything missing reads as zero or empty. */
+export function parseQaStats(data: unknown): QaStats {
+  const d = isPlainObject(data) ? data : {}
+  const range = isPlainObject(d.range) ? d.range : {}
+  const reports = isPlainObject(d.reports) ? d.reports : {}
+  const s = isPlainObject(d.sessions) ? d.sessions : {}
+  const dims = Object.fromEntries(QA_DIMENSIONS.map((k) => [k, qaCounts(reports[k])])) as Record<QaDimension, QaCount[]>
+  const sections = (Array.isArray(s.sections) ? s.sections.filter(isPlainObject) : [])
+    .map((r) => ({ key: str(r.key) ?? '', seconds: count(r.seconds) }))
+    .filter((r) => r.key !== '')
+  return {
+    range: { from: count(range.from), to: count(range.to) },
+    reports: { total: count(reports.total), ...dims },
+    sessions: {
+      count: count(s.count),
+      testers: count(s.testers),
+      activeSeconds: count(s.activeSeconds),
+      issuesCreated: count(s.issuesCreated),
+      issuesSent: count(s.issuesSent),
+      sections,
+      perTester: (Array.isArray(s.perTester) ? s.perTester.filter(isPlainObject).map(qaTester) : []).filter((r): r is QaTesterRow => r !== null),
+    },
+  }
+}
+
+/** Issues per active hour, one decimal; null without active time (no division by zero). */
+export function issuesPerHour(issues: number, activeSeconds: number): number | null {
+  return activeSeconds > 0 ? Math.round((issues * 36000) / activeSeconds) / 10 : null
+}
+
+const DOWNLOAD_NAME = /filename="(pyarcana-qa-\d{4}-\d{2}-\d{2}\.(?:csv|json))"/
+
+/** The file name from the worker's Content-Disposition, or a safe default (never a path). */
+export function downloadName(disposition: string | null, format: QaExportFormat): string {
+  const m = disposition ? DOWNLOAD_NAME.exec(disposition) : null
+  return m ? m[1] : `pyarcana-qa.${format}`
 }

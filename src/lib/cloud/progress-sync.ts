@@ -45,6 +45,8 @@ import {
   type ProgressState,
 } from '@/lib/cloud/progress-merge'
 import { isPlainObject, readRaw, writeRaw, type KeyValueStorage } from '@/lib/cloud/storage'
+import { fnv1a32 } from '@/lib/cloud/experiments'
+import { decideForce, FORCE_FLOOR_MS, type ForceDecision, type ForceState, INITIAL_FORCE_STATE } from '@/lib/cloud/force-sync'
 
 export const ARCHIVE_PREFIX = `${PROGRESS_STORAGE_KEY}.archive.`
 export const PUSH_DEBOUNCE_MS = 5000
@@ -100,6 +102,12 @@ function retryAfterMs(r: ApiResult<unknown>): number | null {
 }
 
 /** `syncHint.minIntervalMs` in a success body; 0 without one. */
+/** What a learner sees as their progress (force-sync rule 5): no change log, no lastVisited. */
+function progressHash(state: unknown): string {
+  const s = isPlainObject(state) ? state : {}
+  return String(fnv1a32(stableStringify([s.completedSections ?? [], s.completedSubSteps ?? {}, s.quizScores ?? {}, s.bookmarks ?? []])))
+}
+
 function hintMs(data: Record<string, unknown>): number {
   const hint = isPlainObject(data.syncHint) ? data.syncHint.minIntervalMs : undefined
   return typeof hint === 'number' && Number.isFinite(hint) && hint > 0 ? Math.min(hint, 3_600_000) : 0
@@ -242,7 +250,10 @@ export class ProgressSync {
   private lastSyncMs = 0
   private retries = 0
   private notBefore = 0
+  /** When a forced sync last asked whether the budget saver's wait still holds. */
+  private budgetCheckAt = 0
   private minIntervalMs = 0
+  private force: ForceState = INITIAL_FORCE_STATE
 
   constructor(deps: SyncDeps) {
     this.deps = { ...deps, scheduler: deps.scheduler ?? realScheduler() }
@@ -296,6 +307,55 @@ export class ProgressSync {
   pushNow(): Promise<SyncStatus> {
     this.cancelTimer()
     return this.enqueue(() => this.push(false))
+  }
+
+  /**
+   * "Sincronizar ahora" and Ctrl/⌘ + Alt + S: one guarded request (force-sync.ts). A changed
+   * document is uploaded (conflicts merge as usual); an unchanged one only pulls, at most once a
+   * minute. Refusals send nothing; autosave carries on regardless.
+   */
+  async forceSync(): Promise<{ decision: ForceDecision; status: SyncStatus }> {
+    await this.recheckBudget(this.deps.now())
+    const doc = this.body().doc
+    const docJson = JSON.stringify(doc)
+    const acked = this.ackedJson === null ? null : (JSON.parse(this.ackedJson) as { state?: unknown })
+    const { decision, next } = decideForce(this.force, {
+      now: this.deps.now(),
+      signedIn: this.accountId !== null,
+      choicePending: this.pending !== null,
+      notBefore: this.notBefore,
+      docHash: progressHash(doc.state),
+      ackedHash: acked === null ? null : progressHash(acked.state),
+      unchanged: this.ackedJson !== null && docJson === this.ackedJson,
+    })
+    this.force = next
+    if (decision.action === 'push') {
+      // A document that differs from the ack counts as a change even if the store's counter missed it.
+      if (this.changeSeq === this.syncedSeq) this.changeSeq += 1
+      return { decision, status: await this.pushNow() }
+    }
+    if (decision.action === 'unchanged') return { decision, status: await this.pull() }
+    return { decision, status: this.status }
+  }
+
+  /**
+   * The budget saver's wait lasts until 00:05 UTC. A forced sync may ask the server whether it still
+   * holds: one read, at most once per FORCE_FLOOR_MS, and only for that wait. The server's own
+   * answer lifts it (no `level: 'red'` in its hint); any other back-off (429, offline, 5xx) is
+   * never second-guessed.
+   */
+  private async recheckBudget(now: number): Promise<void> {
+    if (this.lastError !== 'budget_saver' || this.notBefore <= now || this.accountId === null || this.pending !== null) return
+    if (now - Math.max(this.force.lastAt, this.budgetCheckAt) < FORCE_FLOOR_MS) return
+    this.budgetCheckAt = now
+    const r = await this.deps.api.get(PROGRESS_PATH)
+    if (!r.ok) return
+    const data = r.data as Record<string, unknown>
+    if (isPlainObject(data.syncHint) && data.syncHint.level === 'red') return
+    this.minIntervalMs = hintMs(data)
+    this.notBefore = 0
+    this.retries = 0
+    this.lastError = null
   }
 
   /** Page hidden or unloading: send now with keepalive, without waiting behind queued work. */
@@ -432,6 +492,8 @@ export class ProgressSync {
     const r = await this.deps.api.get(PROGRESS_PATH)
     const remote = r.ok ? readRemoteCopy(r.data) : null
     if (!remote) return r.ok ? this.setStatus('remote_unreadable') : this.failed(r)
+    // The budget saver's hint rides on reads too (worker progress.mjs); a pull-only session must slow down.
+    this.minIntervalMs = hintMs(r.data as Record<string, unknown>)
     const local = this.deps.store.getState()
     if (decideOwnerAction(this.deps.owner.get(), this.accountId!, hasProgress(local)) === 'ask') {
       this.pending = remote

@@ -17,6 +17,8 @@ export const RETENTION_DAYS = {
   screenshotMax: 180,
   /** Anonymous measurement events and experiment arms. */
   measurement: 180,
+  /** A tester's QA session summary (active time, sections, issue counts), after its last activity. */
+  qaSessions: 365,
   /** Survey answers. */
   surveys: 730,
   /** Audit rows (admin actions, account changes). */

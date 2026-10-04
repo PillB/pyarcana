@@ -1,5 +1,7 @@
 'use client'
 
+import type { QaSessionSummary } from './qa-session-stats'
+
 export const QA_SCHEMA_VERSION = 'pyarcana.qa.v1' as const
 
 export const QA_CATEGORIES = [
@@ -80,6 +82,8 @@ export interface QAPackage {
   sourceDeploymentSha: string | null
   issueCount: number
   issues: QAIssue[]
+  /** This tab's session statistics (src/lib/qa-session-stats.ts), when one was running. Informative only. */
+  session?: QaSessionSummary
 }
 
 const DB_NAME = 'pyarcana-internal-qa'
@@ -321,7 +325,7 @@ export function createQaIssueId(): string {
   return `qa-${Date.now()}-${Math.random().toString(16).slice(2)}`
 }
 
-export function buildQaPackage(issues: QAIssue[], tester: string): QAPackage {
+export function buildQaPackage(issues: QAIssue[], tester: string, session?: QaSessionSummary | null): QAPackage {
   const sourceDeploymentSha = issues.find((issue) => issue.context.deploymentSha)?.context.deploymentSha ?? null
   return {
     schemaVersion: QA_SCHEMA_VERSION,
@@ -330,6 +334,7 @@ export function buildQaPackage(issues: QAIssue[], tester: string): QAPackage {
     sourceDeploymentSha,
     issueCount: issues.length,
     issues,
+    ...(session ? { session } : {}),
   }
 }
 

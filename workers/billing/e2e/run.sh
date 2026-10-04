@@ -9,7 +9,7 @@
 #
 # Needs: bun, node >= 20, and in this folder `npm i wrangler@4 playwright` (not repo deps).
 # Chromium: set CHROMIUM=/path/to/chrome (default /opt/pw-browsers/chromium).
-#   ./run.sh            build, start, seed, run the three suites (ads, flows, usage)
+#   ./run.sh            build, start, seed, run the four suites (ads, flows, usage, qa)
 #   ./run.sh --no-build reuse the last build
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -69,4 +69,8 @@ stop
 start
 (cd "$HERE" && E2E_WORKER_DIR="$WORK/site/workers/billing" E2E_PYODIDE_DIR="$PYO_DIR" E2E_PYODIDE_SRI="$PYO_SRI" \
   E2E_PYODIDE_CDN="https://cdn.jsdelivr.net/pyodide/v$PYO_VER/full/" node usage.e2e.mjs) || STATUS=1
+# The QA suite (hotkeys, sessions, force-sync guard, admin QA downloads): a fresh database again.
+stop
+start
+(cd "$HERE" && node qa.e2e.mjs) || STATUS=1
 exit $STATUS

@@ -8,12 +8,14 @@ import { AdminAccounts } from './AdminAccounts'
 import { AdminAds } from './AdminAds'
 import { AdminGrants } from './AdminGrants'
 import { AdminExperiments, AdminSurveys } from './AdminInsights'
+import { AdminQa } from './AdminQa'
 import { AdminReports } from './AdminReports'
 import { AdminTesters } from './AdminTesters'
 import { AdminUsage, UsageBanner } from './AdminUsage'
 
 const TABS = [
   ['reports', AdminReports],
+  ['qa', AdminQa],
   ['grants', AdminGrants],
   ['testers', AdminTesters],
   ['accounts', AdminAccounts],

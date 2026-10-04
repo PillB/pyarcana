@@ -41,6 +41,7 @@ import { clearSessionCookie } from "./http.mjs";
 import { publicSubscriptions } from "./me.mjs";
 import { hitRateLimit } from "./ratelimit.mjs";
 import { isRecentAuth } from "./sessions.mjs";
+import { sessionView } from "./qa-sessions.mjs";
 
 const NON_TERMINAL = ["pending", "active", "past_due"];
 
@@ -78,6 +79,7 @@ async function personalRows(ctx, id) {
       "SELECT id, report_id, mime, length(bytes) AS size, created_at FROM report_attachments WHERE report_id IN (SELECT id FROM reports WHERE account_id = ?1)",
     audit: "SELECT actor_account_id, action, target_id, detail, created_at FROM audit_log WHERE target_account_id = ?1 ORDER BY id",
     consents: "SELECT kind, value, version, client_at, created_at FROM consents WHERE account_id = ?1 ORDER BY id",
+    qaSessions: "SELECT * FROM qa_sessions WHERE account_id = ?1 ORDER BY started_at",
     surveys: `SELECT kind, score, reason_code, text, section_idx, created_at FROM survey_responses
       WHERE account_id = ?1 OR cid_hash IN ${BOUND_IDS} ORDER BY created_at, id`,
     arms: "SELECT experiment, arm, first_at FROM experiment_arms WHERE subject = ?1 AND subject_kind = 'account' ORDER BY experiment",
@@ -223,6 +225,7 @@ function buildExport(ctx, snapshot, p) {
     checkouts: p.checkouts.map((c) => ({ id: c.id, provider: c.provider, plan: c.plan, amountMinor: Number(c.amount_minor), currency: c.currency, country: c.country, createdAt: c.created_at, status: c.status })),
     progress: progress ? { rev: progress.rev, doc: JSON.parse(progress.doc), updatedAt: progress.updated_at } : null,
     reports: exportReports(p.reports, p.attachments),
+    qaSessions: p.qaSessions.map(sessionView),
     audit: p.audit.map((a) => ({ action: a.action, actor: actorKind(a.actor_account_id, id), targetId: a.target_id, detail: a.detail ? JSON.parse(a.detail) : null, createdAt: a.created_at })),
     ...exportMeasurement(p)
   };
@@ -332,6 +335,7 @@ function erasureBatch(ctx, emailHmac, cancelled) {
     db.prepare(`DELETE FROM experiment_arms WHERE subject = ?1 OR subject IN ${BOUND_IDS}`).bind(id),
     db.prepare("DELETE FROM experiment_bindings WHERE account_id = ?1").bind(id),
     db.prepare("DELETE FROM consents WHERE account_id = ?1").bind(id),
+    db.prepare("DELETE FROM qa_sessions WHERE account_id = ?1").bind(id),
     db
       .prepare(
         `UPDATE accounts SET deleted_at = ?2, email = NULL, email_normalized = NULL, display_name = NULL, locale = NULL,

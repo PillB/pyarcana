@@ -19,6 +19,9 @@ import { QATour } from './QATour'
 import { ElementPicker } from './ElementPicker'
 import { QAHint } from './QAHint'
 import { QA_TOUR_STORAGE_KEY } from '@/lib/qa-tour-content'
+import { currentNavigator, isApplePlatform, matchShortcut, shortcutLabel } from '@/lib/hotkeys'
+import { formatActive, qaSessionSummary } from '@/lib/qa-session-stats'
+import { useQaSessionStats } from './useQaSessionStats'
 import { deploymentJsonUrl } from '@/lib/cloud/qa-links'
 import { SITE_BASE_PATH } from '@/lib/runtime-mode'
 import { QaModeBadge, QaSendIssueSlot, QaSessionSlot, useQaOpenRequest } from '@/components/account/QaCloudSlots'
@@ -217,13 +220,18 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
     elementHint: null,
   }), [activeSubStep, deploymentSha, sectionId, sectionIndex, sectionTitle])
 
+  // QA session statistics: time, sections, issues of this tab's session (useQaSessionStats.ts).
+  const { stats: sessionStats, start: startSession } = useQaSessionStats(sectionId, deploymentSha)
+  const sessionSummary = useMemo(() => (sessionStats ? qaSessionSummary(sessionStats, issues, tester) : null), [sessionStats, issues, tester])
+
   const openHarness = useCallback((nextTab: Tab = 'report') => {
+    startSession()
     capturedContext.current = snapshotContext()
     setMessage(null)
     setTab(nextTab)
     setOpen(true)
     void refreshIssues()
-  }, [refreshIssues, snapshotContext])
+  }, [refreshIssues, snapshotContext, startSession])
 
   // The open section's number and title reach this component from the element
   // SectionView renders, which is not there yet while a view restored from the
@@ -248,12 +256,16 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
   // The /qa page's "Abrir el workspace de QA" (a window event; only where accounts run).
   useQaOpenRequest(openHarness)
 
+  // Ctrl/⌘ + Alt + Q on every platform and layout (src/lib/hotkeys.ts: macOS Option turns Q into
+  // "œ", and Ctrl + Alt is AltGr elsewhere, so comparing event.key alone missed both).
+  const [shortcut, setShortcut] = useState('Ctrl/⌘ + Alt + Q')
   useEffect(() => {
+    const apple = isApplePlatform(currentNavigator())
+    setShortcut(shortcutLabel('q', apple))
     const onKeyDown = (event: KeyboardEvent) => {
-      if ((event.ctrlKey || event.metaKey) && event.altKey && event.key.toLowerCase() === 'q') {
-        event.preventDefault()
-        openHarness('report')
-      }
+      if (!matchShortcut(event, 'q', apple)) return
+      event.preventDefault()
+      openHarness('report')
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
@@ -347,7 +359,7 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
     }
   }
 
-  const currentPackage = useCallback(() => buildQaPackage(issues, tester), [issues, tester])
+  const currentPackage = useCallback(() => buildQaPackage(issues, tester, sessionSummary), [issues, tester, sessionSummary])
 
   const handleDownload = () => {
     if (!issues.length) {
@@ -448,7 +460,7 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
 
   return (
     <>
-      <QAHint label="Abre el workspace de QA para reportar lo que encuentres. Atajo: Ctrl/⌘ + Alt + Q." side="top">
+      <QAHint label={`Abre el workspace de QA para reportar lo que encuentres. Atajo: ${shortcut}.`} side="top">
         <button
           type="button"
           onClick={() => openHarness('report')}
@@ -720,6 +732,9 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
                   </Field>
                   <dl className="grid gap-2 text-sm">
                     <div className="flex justify-between gap-4"><dt className="text-muted-foreground">Incidencias</dt><dd>{issues.length}</dd></div>
+                    <div className="flex justify-between gap-4"><dt className="text-muted-foreground">Tiempo activo en esta sesión</dt><dd data-testid="qa-session-active">{sessionStats ? formatActive(sessionStats.activeMs) : '—'}</dd></div>
+                    <div className="flex justify-between gap-4"><dt className="text-muted-foreground">Secciones visitadas</dt><dd data-testid="qa-session-sections">{sessionStats ? Object.keys(sessionStats.sections).length : 0}</dd></div>
+                    <div className="flex justify-between gap-4"><dt className="text-muted-foreground">Incidencias de esta sesión (enviadas)</dt><dd>{sessionSummary ? `${sessionSummary.issuesCreated} (${sessionSummary.issuesSent})` : '—'}</dd></div>
                     <div className="flex justify-between gap-4"><dt className="text-muted-foreground">Deployment</dt><dd className="max-w-[18rem] truncate font-mono text-xs" title={deploymentSha ?? ''}>{deploymentSha ?? 'no disponible'}</dd></div>
                     <div className="flex justify-between gap-4"><dt className="text-muted-foreground">Persistencia</dt><dd>IndexedDB local-first</dd></div>
                     <div className="flex justify-between gap-4"><dt className="text-muted-foreground">Formato</dt><dd className="font-mono text-xs">pyarcana.qa.v1</dd></div>
@@ -761,7 +776,7 @@ export function QAHarness({ sectionId, sectionIndex, sectionTitle, activeSubStep
                     </Button>
                   </QAHint>
                 </section>
-                <QaSessionSlot issues={issues} tester={tester} onSent={() => void refreshIssues()} />
+                <QaSessionSlot issues={issues} tester={tester} session={sessionSummary} onSent={() => void refreshIssues()} />
               </div>
             )}
 

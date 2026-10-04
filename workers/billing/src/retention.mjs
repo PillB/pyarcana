@@ -16,6 +16,7 @@
  *                 report was closed, or 2 years after it was filed, whichever
  *                 comes first (owner decision 2026-10-04)
  *   audit_log     deleted 2 years after it was written (AUDIT_DAYS)
+ *   qa_sessions   deleted 1 year after the session's last activity (QA_SESSION_DAYS)
  * Daily, after it — measurement sweep (DESIGN-v3 §F/§G), one batch:
  *   events, experiment_arms, experiment_bindings  deleted 180 days after
  *                 they were received / first seen / bound
@@ -65,16 +66,20 @@ export const SIGNIN_RECORD_DAYS = 730;
 /** Audit rows are kept this many days. */
 export const AUDIT_DAYS = 730;
 
+/** QA session summaries are kept this many days after their last activity. */
+export const QA_SESSION_DAYS = 365;
+
 const CLOSED = "status IN ('fixed', 'wontfix', 'duplicate')";
 
 /**
  * Delete what the retention policy says, in one batch.
  * @param {{db: Object, now: number}} ctx Context.
  * @returns {Promise<{loginCodes: number, sessions: number, rateLimits: number, checkoutsExpired: number,
- *   usedNonces: number, reportAttachments: number, usageDays: number, reports: number, auditRows: number}>} Counts.
+ *   usedNonces: number, reportAttachments: number, usageDays: number, reports: number, auditRows: number,
+ *   qaSessions: number}>} Counts.
  */
 export async function sweepRetention(ctx) {
-  const [codes, sessions, limits, checkouts, nonces, screenshots, usage, reports, audit] = await ctx.db.batch([
+  const [codes, sessions, limits, checkouts, nonces, screenshots, usage, reports, audit, qaSessions] = await ctx.db.batch([
     ctx.db.prepare("DELETE FROM login_codes WHERE expires_at < ?1").bind(ctx.now - DAY),
     ctx.db.prepare("DELETE FROM sessions WHERE expires_at < ?1").bind(ctx.now - SIGNIN_RECORD_DAYS * DAY),
     ctx.db.prepare("DELETE FROM rate_limits WHERE window_start < ?1").bind(ctx.now - 2 * DAY),
@@ -91,7 +96,8 @@ export async function sweepRetention(ctx) {
     ctx.db
       .prepare(`DELETE FROM reports WHERE (${CLOSED} AND updated_at < ?1) OR created_at < ?2`)
       .bind(ctx.now - CLOSED_REPORT_DAYS * DAY, ctx.now - REPORT_MAX_DAYS * DAY),
-    ctx.db.prepare("DELETE FROM audit_log WHERE created_at < ?1").bind(ctx.now - AUDIT_DAYS * DAY)
+    ctx.db.prepare("DELETE FROM audit_log WHERE created_at < ?1").bind(ctx.now - AUDIT_DAYS * DAY),
+    ctx.db.prepare("DELETE FROM qa_sessions WHERE last_active_at < ?1").bind(ctx.now - QA_SESSION_DAYS * DAY)
   ]);
   return {
     loginCodes: codes.meta.changes,
@@ -102,7 +108,8 @@ export async function sweepRetention(ctx) {
     reportAttachments: screenshots.meta.changes,
     usageDays: usage.meta.changes,
     reports: reports.meta.changes,
-    auditRows: audit.meta.changes
+    auditRows: audit.meta.changes,
+    qaSessions: qaSessions.meta.changes
   };
 }
 

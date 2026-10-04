@@ -24,6 +24,7 @@ const EXPECTED_TABLES = [
   "identities",
   "login_codes",
   "progress",
+  "qa_sessions",
   "rate_limits",
   "report_attachments",
   "reports",
