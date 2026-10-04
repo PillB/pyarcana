@@ -991,3 +991,45 @@ number: did the work improve, or did the standard move?
 
 Both holes were invisible to the tests that guarded them, and both turned up only because the fixes
 were attacked after they passed. **A fix that has not been attacked has been reviewed, not verified.**
+
+### A mutation that fails neither version is a non-proof (2026-10-04, test suite)
+
+Found by the S25 test-suite session, writing up its own fix to
+`tests/adversarial/concept-definition-detector.test.mjs`. That file extracted events fresh but read
+the committed `course-state/concept_map.json`, so **seven** assertions — including the
+never-teaching one and the pins on `tuple`, `p-value` and `virtual-environment-venv` — scored
+whatever the last local run had left. It also kept its own copy of `TEACHING_KINDS`, which is the
+copy-instead-of-the-code shape in the very file that pins that trap.
+
+**The method, which is the transferable part.** To show a test now guards something, run the same
+mutation against the old version and the new one. If the old version fails too, the test was
+already guarding it. **If neither fails, the mutation proves nothing — record it as a non-proof
+rather than quietly reaching for one that works.**
+
+*The decisive mutation (theirs):* reintroduce the old L3 bug — an L3 depth awarded with no worked
+example. The rebuilt test fails with "L3 requires a worked example"; the committed-map version
+passes all 29. That is a real proof: old passes, new fails.
+
+*Two non-proofs (theirs):* letting hints teach, and dropping the teaching filter entirely. Neither
+could fail either version.
+
+**Why they cannot, measured here rather than reasoned — and the first explanation was wrong.** It is
+not that the invariant is held twice. The extractor does **not** refuse definitions on non-teaching
+surfaces: it emits **84 of them across 13 kinds**, including 10 on `wedo.hint` and 7 on
+`selfcheck.explanation`, the exact surfaces the invariant forbids. `build_concepts`'
+`TEACHING_KINDS` filter is the **only** layer.
+
+That layer is currently **inert**. Recomputing every concept's first definition with the filter
+removed moves **zero of 108**: for every concept, the earliest learner-visible definition already
+sits on a teaching surface, and all 84 non-teaching ones fall later. **Removing a guard that is
+doing nothing changes nothing**, which is why both mutations passed both versions.
+
+So the filter is insurance against a regression the course has not yet made — a concept whose
+earliest definition is a hint — not a thing presently doing work. The consequence is the same one
+the S25 session drew, by a different route: **that invariant can only be tested with planted
+content**, because no code mutation alone can move a number the content does not put at risk. A
+synthetic event fixture is the right shape for it; a code mutation is not.
+
+**The general rule: before trusting a test to guard an invariant, check that the invariant is
+currently load-bearing.** A guard on a condition the data never meets is indistinguishable from a
+guard that works, and both pass.
