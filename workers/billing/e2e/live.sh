@@ -82,9 +82,9 @@ if [ "$MODE" = all ]; then
   if ask "Sign in and run the signed-in checks?" y; then
     if step "sign in (your Chrome)" node live.e2e.mjs --login; then
       if ask "Also send one test QA report \"[prueba en vivo] …\" (it appears in /qa and /admin; close it there afterwards)?" n; then
-        step "signed-in checks + test report" node live.e2e.mjs --state --write
+        step "signed-in checks + test report" node live.e2e.mjs --state --signed-in-only --write
       else
-        step "signed-in checks" node live.e2e.mjs --state
+        step "signed-in checks" node live.e2e.mjs --state --signed-in-only
       fi
     fi
     cleanup

@@ -15,7 +15,8 @@
 //                                     Chrome, copy the __Host-pa_session cookie (DevTools →
 //                                     Application → Cookies → https://pyarcana.dev), paste it at the
 //                                     hidden prompt; saves ./state.json
-//   node live.e2e.mjs --state         anonymous checks plus signed-in ones with ./state.json:
+//   node live.e2e.mjs --state         anonymous checks plus signed-in ones with ./state.json
+//                                     (add --signed-in-only to skip the anonymous ones):
 //                                     /v1/me, admin tabs, the Anuncios list, /qa, /cuenta
 //   node live.e2e.mjs --state --write also sends one QA report titled "[prueba en vivo] …" from the
 //                                     QA menu and checks it reaches /qa and /admin
@@ -36,6 +37,11 @@ mkdirSync(OUT, { recursive: true })
 const launch = (headless) => chromium.launch({ headless, args: sandboxTrustArgs(), ...(process.env.CHROMIUM ? { executablePath: process.env.CHROMIUM } : {}) })
 const results = []
 const errors = []
+// Page loads that requested Cloudflare's analytics beacon: one cause, reported by one check (below),
+// not as a failure of every page it lands on.
+const beacon = new Set()
+const BEACON = /static\.cloudflareinsights\.com|cloudflareinsights/i
+const BROWSER_UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36'
 const IGNORED = /ERR_ABORTED|status of 401|favicon|_rsc=/i
 
 function record(name, ok, detail = '') {
@@ -85,14 +91,21 @@ if (args.has('--keys')) {
     const re = new RegExp(src)
     const look = () => {
       if (document.querySelector('[data-testid="qa-harness-dialog"]')) window.__seen ||= 'qa-window'
-      const m = document.body.innerText.match(re)
+      const m = (document.body || document.documentElement).innerText.match(re)
       if (m) window.__seen ||= m[0]
     }
-    new MutationObserver(look).observe(document.body, { childList: true, subtree: true, characterData: true })
+    // documentElement always exists; document.body is null while the page is still loading, which
+    // crashed the first live run ("parameter 1 is not of type 'Node'").
+    new MutationObserver(look).observe(document.documentElement, { childList: true, subtree: true, characterData: true })
+    look()
   }, pattern)
-  const seen = (page) => page.evaluate(() => window.__seen)
+  // undefined: the page reloaded or navigated away after the watch started (the record was lost).
+  const seen = (page) => page.evaluate(() => (window.__seen === undefined ? 'page reloaded: press the keys again' : window.__seen))
   const SAVE = 'Ya está guardado|Guardado en tu cuenta|Espera \\d+|Has marcado y desmarcado|El servidor pidió esperar|Already saved|Saved to your account'
-  await withSystemChrome({ chromium, url: `${BASE}/#setup` }, async (page) => {
+  await withSystemChrome({ chromium, url: `${BASE}/#setup` }, async (first, ctx) => {
+    // The pyarcana tab, loaded: Chrome may open with a different tab first, and attaching happens
+    // while the page is still loading.
+    const page = await siteTab(ctx, first)
     for (const combo of ['⌘ + Option + Q', 'Ctrl + Option + Q']) {
       await watch(page, '$^')
       await ask(`Click once inside the page (not the address bar), press ${combo}, then press Enter here… `)
@@ -115,6 +128,19 @@ if (args.has('--keys')) {
   console.log(`\nkeys: ${keyResults.filter(Boolean).length}/${keyResults.length} passed`)
   console.log('Safari and Firefox cannot be watched this way: check them by hand (see the hand-back checklist).')
   process.exit(keyResults.every(Boolean) ? 0 : 1)
+}
+
+/** The tab showing BASE (waits up to 30 s for it), once its document has loaded. */
+async function siteTab(ctx, first) {
+  for (let i = 0; i < 60; i++) {
+    const tab = [first, ...ctx.pages()].find((p) => p && p.url().startsWith(BASE))
+    if (tab) {
+      await tab.waitForLoadState('domcontentloaded')
+      return tab
+    }
+    await new Promise((resolve) => setTimeout(resolve, 500))
+  }
+  throw new Error(`no tab with ${BASE} opened in Chrome within 30 s`)
 }
 
 /** Read one line without echoing it (the session cookie is a credential). */
@@ -142,19 +168,26 @@ function hiddenQuestion(prompt) {
   })
 }
 
+// --signed-in-only (live.sh's second step): only the signed-in checks, not the anonymous ones again.
+const ANON = !args.has('--signed-in-only')
 const browser = await launch(true)
 const api = await pwRequest.newContext({ baseURL: BASE })
 
 async function open(ctx, path, label) {
   const page = await ctx.newPage()
-  page.on('console', (m) => { if (m.type() === 'error' && !IGNORED.test(m.text())) errors.push(`${label} ${path}: ${m.text()}`) })
+  page.on('request', (r) => { if (BEACON.test(r.url())) beacon.add(`${label} ${path}`) })
+  page.on('console', (m) => {
+    if (m.type() !== 'error' || IGNORED.test(m.text())) return
+    if (BEACON.test(m.text())) return beacon.add(`${label} ${path}`) // counted once, in its own check
+    errors.push(`${label} ${path}: ${m.text()}`)
+  })
   page.on('pageerror', (e) => errors.push(`${label} ${path}: pageerror ${e.message}`))
   await page.goto(`${BASE}${path}`, { waitUntil: 'networkidle' })
   await page.waitForTimeout(1500)
   return page
 }
 
-await flow('worker', async () => {
+if (ANON) await flow('worker', async () => {
   const health = await (await api.get('/api/v1/health')).json()
   // D4 audit P6: health tells only that the worker and D1 answer; the configuration is admin-only.
   record('health: {ok, db} and nothing about configuration', JSON.stringify(health) === '{"ok":true,"db":true}', JSON.stringify(health))
@@ -167,7 +200,7 @@ await flow('worker', async () => {
   record('signed out, /v1/me answers 401', me.status() === 401, `status=${me.status()}`)
 })
 
-await flow('domain', async () => {
+if (ANON) await flow('domain', async () => {
   const robots = await api.get('/robots.txt')
   const text = robots.ok() ? await robots.text() : ''
   record('robots.txt is served and does not block Google\'s ad crawler', robots.ok() && !/User-agent:\s*Mediapartners-Google[\s\S]*?Disallow:\s*\/\s*$/im.test(text), `status=${robots.status()}`)
@@ -177,11 +210,13 @@ await flow('domain', async () => {
   const r = await com.get('https://pyarcana.com/precios?x=1', { maxRedirects: 0 }).catch(() => null)
   const loc = r?.headers().location ?? ''
   record('pyarcana.com redirects (301) to pyarcana.dev with path and query', r?.status() === 301 && loc === `${BASE}/precios?x=1`, `status=${r?.status()} location=${loc}`)
-  // Handback 5 Oct 2026, item 3: Cloudflare's automatic RUM injected its beacon into every page,
-  // and the dashboard offers "Enable RUM" again whenever Observatory is opened. It stays off.
-  const home = await api.get('/')
+  // Handback 5 Oct 2026, item 3: Cloudflare's automatic RUM injects its beacon at the edge, and only
+  // into what looks like a browser page load: the request must say it accepts HTML. Asked without
+  // that header (the first version of this check, and `curl`), the page comes back clean even when
+  // every real visitor gets the beacon. The browser check below ("page loads") is the stronger one.
+  const home = await api.get('/', { headers: { Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 'User-Agent': BROWSER_UA } })
   const homeHtml = await home.text()
-  record('the home page carries no Cloudflare analytics beacon (cloudflareinsights)', !/cloudflareinsights/i.test(homeHtml), `occurrences=${(homeHtml.match(/cloudflareinsights/gi) || []).length}`)
+  record('the home page HTML, requested as a browser does, carries no Cloudflare beacon (cloudflareinsights)', !/cloudflareinsights/i.test(homeHtml), `occurrences=${(homeHtml.match(/cloudflareinsights/gi) || []).length}`)
   const headers = home.headers()
   record('security headers on the home page (CSP, nosniff)', Boolean(headers['content-security-policy']) && headers['x-content-type-options'] === 'nosniff', Object.keys(headers).filter((h) => /security|content-type-options|frame/.test(h)).join(','))
 })
@@ -193,7 +228,7 @@ await flow('domain', async () => {
 const REPO = new URL('../../../', import.meta.url).pathname
 const PYO_VER = /PYODIDE_VERSION = '([^']+)'/.exec(readFileSync(`${REPO}src/lib/pyodide.ts`, 'utf8'))[1]
 const PYO_SRI = /script\.integrity = '(sha384-[^']+)'/.exec(readFileSync(`${REPO}src/components/course/CodePlayground.tsx`, 'utf8'))[1]
-await flow('pyodide', async () => {
+if (ANON) await flow('pyodide', async () => {
   const cdn = `https://cdn.jsdelivr.net/pyodide/v${PYO_VER}/full/`
   const ctx = await browser.newContext({ locale: 'es-PE' })
   await ctx.addInitScript(() => {
@@ -212,12 +247,13 @@ await flow('pyodide', async () => {
   })().catch((e) => `threw: ${e.message}`) }, 0) }, [cdn, PYO_SRI])
   await page.waitForFunction(() => window.__py !== undefined, null, { timeout: 120000 })
   const run = await page.evaluate(() => window.__py)
-  const violations = await page.evaluate(() => window.__csp)
+  // The beacon's violation is reported by its own check; this one judges Pyodide, jsDelivr and eval.
+  const violations = (await page.evaluate(() => window.__csp)).filter((v) => !BEACON.test(v))
   record(`Pyodide ${PYO_VER} from jsDelivr runs Python under the live CSP and the site's SRI hash`, run === '{"fact": 120, "sum": 45}' && violations.length === 0, `${run} | ${violations.join(', ')}`)
   await ctx.close()
 })
 
-await flow('anonymous pages', async () => {
+if (ANON) await flow('anonymous pages', async () => {
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'es-PE' })
   await ctx.addInitScript(() => { try { localStorage.setItem('pyarcana:tourCompleted', '1') } catch {} })
   for (const path of ['/', '/#setup', '/precios', '/suscripcion', '/cuenta', '/qa', '/privacy', '/cookies', '/terms', '/data-rights']) {
@@ -292,6 +328,9 @@ if (args.has('--state')) {
     })
   }
 }
+
+// Every page load above, anonymous and signed in, was watched for Cloudflare's beacon.
+record('no page load got Cloudflare\'s analytics beacon (Web Analytics automatic setup must be off)', beacon.size === 0, beacon.size ? `requested on: ${[...beacon].join(', ')}` : '')
 
 await browser.close()
 const failed = results.filter((r) => !r.ok)
