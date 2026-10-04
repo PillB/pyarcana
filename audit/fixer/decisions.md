@@ -434,8 +434,8 @@ The owner asked to remove it only with proof that nothing changes.
 
 - **First version (superseded the same day):** two stand-in modules (`client.static.ts`,
   `auth.static.ts`) swapped in by webpack. The owner's rule is that no stand-ins are kept, so they
-  were replaced by the real fix below. Nothing imports them any more; they are deleted once the
-  verifier approves DCR-2026-10-05-firebase-static-stand-ins (owner approval recorded).
+  were replaced by the real fix below and deleted (DCR-2026-10-05-firebase-static-stand-ins:
+  owner and independent verifier approved).
 - **Root cause:** `src/app/page.tsx` imported the old Firebase sign-in (`AuthModal`, `UserMenu`)
   directly, and `AuthModal` and `StaticSiteNoticeText` imported the Firebase SDK.
 - **On the static site that UI is unreachable:**

@@ -31,7 +31,7 @@
     },
     {
       "id": "DCR-2026-10-05-firebase-static-stand-ins",
-      "status": "approved-by-owner, verifier pending",
+      "status": "approved",
       "paths": [
         "src/lib/firebase/client.static.ts",
         "src/lib/firebase/auth.static.ts"
@@ -58,7 +58,7 @@
       "requested_by": "Claude (session for claude/gifted-lamport-8ddc84)",
       "requested_at": "2026-10-05",
       "human_approval": "Pablo (owner), in the session on 2026-10-05: 'Real fix, delete the 2 files'.",
-      "verifier_approval": null
+      "verifier_approval": "Independent read-only verifier agent, 2026-10-05: APPROVE. No importer outside history (decisions.md, this register); client.ts exports unchanged (its only importer is AuthModal.tsx; no protected test imports it); the old Firebase dialog cannot be opened on the static site (UserMenu returns null without Firebase settings, Dashboard sign-up and PricingPage are !IS_STATIC_SITE, ExamView needs a next-auth session that is null in static); server edition unchanged (synchronous require, same props). The verifier did not rebuild; the build evidence is the requester's (static_bundle_firebase_check against HEAD, server build, adversarial suite)."
     }
   ]
 }
