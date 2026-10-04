@@ -952,3 +952,42 @@ files; until that lands, `concept_syntax.mts` is watched explicitly.
 This is the second time in one session that a hand-written list of inputs has silently excluded real
 evidence. The other was the ledger's `redaction` column, computed from gitignored `.fixer/` state.
 Both reported success from a file nobody was looking at.
+
+### Freshness is identity, not age; and a falling number is not always a repair (2026-10-04)
+
+Two gate holes, both found by adversarially verifying fixes that had already passed their own tests,
+and both **exploited** rather than reasoned about.
+
+**1. mtime is ordering, not identity.** `concept_map.sources_newer_than_cache()` asked whether any
+source was *newer* than `.fixer/events.json`. So any write to the cache that is not a fresh
+extraction permanently re-blinds every reader — and `tools/fixer/run_concepts.sh:24` restores that
+exact file in its restore list, with a test asserting it does. Measured: a forward reference sat on
+disk reporting `forward_refs 0`, rc 0, and flipped to rc 1 only after a content-free `touch`. The
+symmetric case is as bad: a source whose mtime is *older* than the cache is invisible, which is what
+`cp -p`, `rsync -t`, `tar -xp`, `unzip`, clock skew and checking out an older revision all produce.
+
+`cache_is_current()` now compares a sha256 over the watched inputs' paths **and contents**, stored
+in `.fixer/events.inputs.sha256`. Absence is hashed as a sentinel, so deleting a watched file
+invalidates too — something an mtime comparison can never do.
+
+**The heuristic: a cache is current when its inputs *are* what it was built from, not when it
+happens to be younger than them.** Any freshness check built on timestamps can be defeated by a
+copy, a restore, or a clock.
+
+**2. A two-sided ratchet can be walked down by deletion.** The figure ratchet summed `figure_gap`,
+which looked airtight. But `figure_target` is 5 only while a concept is `load_bearing`, and that
+needs ≥ 3 sections. Delete a mention so a concept drops to 2 sections: target 5 → 1, gap 4 → 0, the
+**sum falls**, and the ratchet's own message says *"lower the constant so the repair is kept"* —
+banking a content loss as a repair. Five concepts sit exactly on that edge today (`cuartil`,
+`iloc-vs-loc`, `iqr`, `shape`, `unpacking`), worth 23 figures between them. The old
+count-the-offenders form had the same hole.
+
+Closed with `FIGURE_TARGET_FLOOR`, which may rise freely but not fall, and whose message says not to
+lower the deficit to match.
+
+**The heuristic: when a ratchet measures a gap, ratchet the TARGET too.** A gap is a difference, and
+a difference shrinks just as well by lowering the bar as by raising the floor. Ask of every falling
+number: did the work improve, or did the standard move?
+
+Both holes were invisible to the tests that guarded them, and both turned up only because the fixes
+were attacked after they passed. **A fix that has not been attacked has been reviewed, not verified.**

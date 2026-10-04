@@ -17,7 +17,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-from concept_map import sources_newer_than_cache
+from concept_map import load_events as concept_map_load_events
 from glossary_first_use import audit_concept_events  # re-export for existing callers
 
 
@@ -54,31 +54,19 @@ for m in re.finditer(
     order.append(m.group(1))
 
 def load_events() -> dict:
-    """Fresh events, or a cache proven current. Never a cache merely proven to exist.
+    """Fresh events, or a cache proven current by CONTENT. Never one proven to exist.
 
-    2026-10-04, from Codex's review of PR #80: the first version of this only checked
-    `EVENTS.exists()`, copying `badge_readiness_audit.load_events`. That is the weaker of the two
-    patterns in this repo, and for a gate it is the wrong one. Once `.fixer/events.json` exists --
-    the fixer gate or the concept map writes it constantly -- editing a section or a glossary entry
-    and running this audit would reuse the old events, so a newly introduced forward reference
-    could report 0 and exit 0 until some unrelated command happened to refresh the cache.
+    2026-10-04, from Codex's review of PR #80: the first version only checked `EVENTS.exists()`,
+    copying `badge_readiness_audit.load_events`. For a gate that is the wrong one of this repo's
+    two patterns -- with the cache warm, editing a section or a glossary entry reused the old
+    events, so a NEW forward reference could report 0 and exit 0.
 
-    `concept_map.sources_newer_than_cache()` already solves this, so it is imported rather than
-    copied. Reimplementing it here is the copy-instead-of-the-code trap, which this same review
-    round caught twice elsewhere; and when the S25 session's import-graph version lands, this
-    inherits it for free.
+    It then used `sources_newer_than_cache()`, which this branch's adversarial verification
+    exploited: mtime is ordering, not identity, and `run_concepts.sh` restores events.json with the
+    newest mtime. Both the comparison and the extraction now live in `concept_map`, which hashes
+    the inputs -- imported, never copied, so this inherits every future fix to it.
     """
-    if not EVENTS.exists() or sources_newer_than_cache():
-        proc = subprocess.run(
-            ["npx", "tsx", "scripts/course_event_extractor.mts"],
-            cwd=ROOT, capture_output=True, text=True,
-        )
-        if proc.returncode != 0:
-            print(proc.stderr[-2000:], file=sys.stderr)
-            raise SystemExit("course_event_extractor.mts failed")
-        EVENTS.parent.mkdir(parents=True, exist_ok=True)
-        EVENTS.write_text(proc.stdout, encoding="utf-8")
-    return json.loads(EVENTS.read_text(encoding="utf-8"))
+    return concept_map_load_events()
 
 
 # 2026-10-03: this scan used to match each term against the whole section FILE SOURCE, stripping

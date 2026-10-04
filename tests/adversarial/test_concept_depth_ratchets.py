@@ -85,6 +85,11 @@ UNEXEMPLIFIED_CONCEPTS_OWED = 35
 # The DEFICIT in figures, summed, not the number of concepts short of one. 103 concepts
 # are short; they owe 274 figures between them. Counting concepts hid a lost figure.
 FIGURES_OWED = 274
+#: The total the deficit is measured AGAINST, as a floor rather than a ratchet. It may rise
+#: freely; a fall means a concept stopped being load-bearing, which is a content loss
+#: wearing the shape of a repair. 51 concepts are load-bearing today (target 5 each) and 57
+#: are not (target 1): 312. Lower it only with a dated line naming what was consolidated.
+FIGURE_TARGET_FLOOR = 312
 D3_SUBTOPIC_OWED = 30
 
 
@@ -136,28 +141,56 @@ class ConceptDepthRatchets(unittest.TestCase):
         _report("UNEXEMPLIFIED_CONCEPTS", offenders, UNEXEMPLIFIED_CONCEPTS_OWED, self)
 
     def test_concepts_carry_the_figures_they_are_owed(self) -> None:
-        """The deficit, not the number of offenders.
+        """The deficit, not the number of offenders -- and the target it is measured against.
 
         2026-10-04, from Codex's review of PR #80 (P2): this counted concepts with any gap. A
         concept already at 1/5 that loses its last figure stays exactly one offender, so the
-        advertised debt could rise while the count still passed. Summing `figure_gap` makes a lost
-        figure fail. The message still names the worst offenders, because a number nobody can act
-        on is not much better than no number.
+        advertised debt could rise while the count still passed. Summing `figure_gap` fixes that.
+
+        2026-10-04, from this branch's own adversarial verification, which exploited what the sum
+        alone still allowed: **a falling deficit is not always a repair.** `figure_target` is 5 only
+        while `load_bearing` holds, and that needs >= 3 sections. Delete a mention so a concept
+        drops to 2 sections and the target flips 5 -> 1, the gap 4 -> 0, and the SUM FALLS -- so the
+        two-sided check demanded the constant be lowered, banking a content loss as a repair. Five
+        concepts sit exactly on that edge today, worth 23 figures between them, so the debt could be
+        walked down by deletion alone.
+
+        So the target total carries a floor of its own. It may rise freely -- a concept becoming
+        load-bearing is good news -- but it may not fall without someone saying why, in the same
+        commit. The old count form had this hole too; it is inherited, not introduced, and it is
+        closed here rather than left for the next reader to be bitten by.
         """
         c_all = concepts()
         short = {cid: c for cid, c in c_all.items() if (c.get("figure_gap") or 0) > 0}
         owed = sum(c["figure_gap"] for c in short.values())
-        worst = sorted(short.items(), key=lambda kv: -kv[1]["figure_gap"])
-        named = ", ".join(f"{cid} ({c['figure_count']}/{c['figure_target']})"
-                          for cid, c in worst[:12])
+        target = sum(c["figure_target"] for c in c_all.values())
+
+        # Named because a deletion here is what silently lowers the deficit.
+        edge = sorted(cid for cid, c in c_all.items()
+                      if c["load_bearing"] and len(c["sections_used"]) == 3
+                      and (c.get("figure_gap") or 0) > 0)
+
+        # The target floor first: if it moved, the deficit's movement is not what it looks like.
+        self.assertGreaterEqual(
+            target, FIGURE_TARGET_FLOOR,
+            f"the figure TARGET fell to {target}, below the floor of {FIGURE_TARGET_FLOOR}. That is "
+            f"a concept losing load-bearing status, not a repair -- it means a term is now taught in "
+            f"fewer than 3 sections. Do not lower FIGURES_OWED to match; find what stopped being "
+            f"taught. One section from the edge right now: {', '.join(edge) or 'none'}",
+        )
+
+        worst = sorted(short.items(), key=lambda kv: (-kv[1]["figure_gap"], kv[0]))
+        named = ", ".join(f"{cid} {c['figure_count']}/{c['figure_target']}"
+                          f" ({len(c['sections_used'])} secs)" for cid, c in worst[:10])
         self.assertLessEqual(
             owed, FIGURES_OWED,
-            f"figure debt rose to {owed} across {len(short)} concepts, owed is {FIGURES_OWED}."
-            f" Worst: {named}",
+            f"figure debt rose to {owed} across {len(short)} concepts (target total {target}, floor "
+            f"{FIGURE_TARGET_FLOOR}), owed is {FIGURES_OWED}. Largest gaps: {named}",
         )
         self.assertEqual(
             owed, FIGURES_OWED,
-            f"figure debt is down to {owed} -- lower FIGURES_OWED to {owed} so the repair is kept",
+            f"figure debt is down to {owed} with the target total still {target} -- lower "
+            f"FIGURES_OWED to {owed} so the repair is kept",
         )
 
     def test_load_bearing_concepts_earn_their_own_subtopic(self) -> None:

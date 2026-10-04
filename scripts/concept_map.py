@@ -23,6 +23,7 @@ definition. That is the failure this map exists to make visible.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import subprocess
@@ -67,34 +68,83 @@ TEACHING_KINDS = {
 }
 
 
-def sources_newer_than_cache() -> bool:
-    """Has anything the extractor reads changed since the cache was written?
+#: Written beside the cache: the digest of every input the extractor reads, as of the run that
+#: produced it. Compared by content, never by mtime -- see cache_is_current().
+EVENTS_INPUTS = ROOT / ".fixer/events.inputs.sha256"
 
-    The cache used to be trusted whenever it existed, so a map could describe a course
-    that no longer existed: the 2026-09-17 gap round built its dossiers from an
-    events.json eight hours older than the sections it was diagnosing, and two of the
-    entries it diagnosed had already been fixed. `gate.py` refreshes the file on every
-    run; nothing else did.
+
+def watched_inputs() -> list[Path]:
+    """Every file the extractor reads whose content can change its output.
+
+    The glob takes .ts, .tsx and .mts: a section added under a different extension would
+    otherwise be unwatched, and nothing stops one being added.
+
+    Not watched, and known: node_modules and the tsx version. A dependency bump that changed
+    extraction output would not invalidate the cache. Hashing node_modules costs more than the
+    bug is worth; CI installs from a lockfile, so the realistic exposure is local.
     """
-    if not EVENTS.exists():
-        return True
-    cached = EVENTS.stat().st_mtime
-    watched = list((ROOT / "src/lib/course/sections").glob("*.ts"))
-    watched += [ROOT / "src/lib/glossary/terms.ts", ROOT / "src/lib/course/index.ts",
-                ROOT / "scripts/course_event_extractor.mts",
-                # 2026-10-04: concept_syntax.mts was missing, and it holds PROPER_NAMES -- the
-                # homonym guard the extractor applies before matching any term. So an edit to the
-                # guard did not invalidate the cache, and the map stayed stale against its own
-                # guard. Measured, not reasoned: adding `cobertura de ramas de negocio` to
-                # PROPER_NAMES changed nothing until this line existed, because the hand-written
-                # list below is what decides whether the extractor runs at all.
-                ROOT / "scripts/concept_syntax.mts"]
-    return any(p.exists() and p.stat().st_mtime > cached for p in watched)
+    sections = sorted(
+        p for ext in ("*.ts", "*.tsx", "*.mts")
+        for p in (ROOT / "src/lib/course/sections").glob(ext)
+    )
+    return sections + [
+        ROOT / "src/lib/glossary/terms.ts",
+        ROOT / "src/lib/course/index.ts",
+        ROOT / "scripts/course_event_extractor.mts",
+        # concept_syntax.mts holds PROPER_NAMES, the homonym guard the extractor applies before
+        # matching any term. It was missing from this list on 2026-10-04, so an edit to the guard
+        # did not invalidate the cache and the map stayed stale against its own guard.
+        ROOT / "scripts/concept_syntax.mts",
+    ]
 
 
-def load_events() -> dict:
-    if not sources_newer_than_cache():
-        return json.loads(EVENTS.read_text(encoding="utf-8"))
+def inputs_digest() -> str:
+    """A content hash of the watched inputs, including which ones are absent.
+
+    Path and content both go in, so renaming a section changes the digest; absence goes in as a
+    sentinel, so DELETING a watched file invalidates the cache, which an mtime comparison could
+    never do.
+    """
+    h = hashlib.sha256()
+    for p in watched_inputs():
+        h.update(p.relative_to(ROOT).as_posix().encode())
+        h.update(b"\0")
+        h.update(p.read_bytes() if p.exists() else b"<absent>")
+        h.update(b"\0")
+    return h.hexdigest()
+
+
+def cache_is_current() -> bool:
+    """Is `.fixer/events.json` the extraction of the tree as it stands right now?
+
+    2026-10-04. This compared mtimes: `any(source.st_mtime > events.st_mtime)`. That is ordering,
+    not identity, and this branch's adversarial verification exploited it twice.
+
+      - Any write to events.json that is not a fresh extraction gives the cache the newest mtime
+        and permanently re-blinds every reader. `tools/fixer/run_concepts.sh:24` does exactly that
+        in its restore list, and a test asserts it does. Measured: a forward reference sat on disk
+        with rc=0 and forward_refs 0, and flipped to rc=1 after a content-free `touch`.
+      - A source whose mtime is OLDER than the cache is invisible. `cp -p`, `rsync -t`, `tar -xp`,
+        `unzip` and clock skew all produce that, and so does checking out an older revision.
+
+    A digest has neither failure mode. It costs one read of ~57 section files, which is cheap
+    beside the ~6 s extraction it decides whether to skip.
+    """
+    return (EVENTS.exists() and EVENTS_INPUTS.exists()
+            and EVENTS_INPUTS.read_text(encoding="utf-8").strip() == inputs_digest())
+
+
+def sources_newer_than_cache() -> bool:
+    """Kept as the name other scripts import; the question is now identity, not age."""
+    return not cache_is_current()
+
+
+def extract_events() -> dict:
+    """Run the extractor, write the cache, and record the digest of what produced it.
+
+    Both the digest and the payload are written here, so no caller can leave a cache without the
+    fingerprint that says which tree it describes.
+    """
     proc = subprocess.run(["npx", "tsx", "scripts/course_event_extractor.mts"],
                           cwd=ROOT, capture_output=True, text=True)
     if proc.returncode != 0:
@@ -102,7 +152,14 @@ def load_events() -> dict:
         raise SystemExit("extractor failed")
     EVENTS.parent.mkdir(parents=True, exist_ok=True)
     EVENTS.write_text(proc.stdout, encoding="utf-8")
+    EVENTS_INPUTS.write_text(inputs_digest() + "\n", encoding="utf-8")
     return json.loads(proc.stdout)
+
+
+def load_events() -> dict:
+    if cache_is_current():
+        return json.loads(EVENTS.read_text(encoding="utf-8"))
+    return extract_events()
 
 
 def section_tags(payload: dict) -> tuple[list[str], dict[str, str]]:
