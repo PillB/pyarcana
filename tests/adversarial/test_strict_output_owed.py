@@ -1,8 +1,11 @@
-"""python-strict's owed mismatches: each one named, held both ways in CI, and nothing else forgiven.
+"""python-strict's owed snippets: pinned to their code, and nothing else forgiven.
 
-CI's Linux printed [0, 0, 1, 0] for S33's XOR demo where the lesson declares [0, 0, 0, 0]: the
-linear model ends at p = 0.5 within floating-point noise, so thresholding it is decided by the
-platform. The gate is right and the fix belongs to the content; until then the mismatch is owed.
+S33's XOR demo thresholds a probability that is rounding noise at XOR's symmetric optimum, so
+what it prints depends on the BLAS kernel and SIMD path a runner's CPU selects. CI's first run
+printed [0, 0, 1, 0] and its second the declared [0, 0, 0, 0]. An exception keyed to the output
+("owed until it matches in CI") therefore failed the second run. It is keyed to the code instead:
+either verdict is accepted while the code is unchanged, and editing the snippet, which is the fix,
+fails until the entry is removed.
 """
 from __future__ import annotations
 
@@ -23,31 +26,39 @@ def row(key: tuple[str, str], verdict: str) -> dict:
     return {"file": key[0], "artifact_id": key[1], "kind": "demo", "verdict": verdict}
 
 
-class OwedMismatches(unittest.TestCase):
+class OwedSnippets(unittest.TestCase):
+    def check(self, rows: list[dict], owed_code_changed: bool = False) -> list[str]:
+        live = {a["artifact_id"]: a["code"] for a in strict.extract(ROOT / OWED[0])}
+        code = live[OWED[1]] + ("\n# edited" if owed_code_changed else "")
+        return strict.check_problems(rows, {OWED: code, OTHER: "print(1)"})
+
     def test_an_owed_mismatch_passes(self):
-        self.assertEqual(strict.check_problems([row(OWED, "mismatch")], in_ci=True), [])
+        self.assertEqual(self.check([row(OWED, "mismatch")]), [])
+
+    def test_an_owed_match_passes_too_because_the_output_is_noise(self):
+        """CI's second run printed the declared output; that must not fail the gate either."""
+        self.assertEqual(self.check([row(OWED, "match")]), [])
+
+    def test_editing_the_owed_snippet_fails_until_the_entry_is_removed(self):
+        for verdict in ("match", "mismatch"):
+            problems = self.check([row(OWED, verdict)], owed_code_changed=True)
+            self.assertEqual(len(problems), 1, problems)
+            self.assertIn("changed since it was owed", problems[0])
 
     def test_any_other_mismatch_fails(self):
-        problems = strict.check_problems([row(OTHER, "mismatch")], in_ci=False)
+        problems = self.check([row(OTHER, "mismatch")])
         self.assertEqual(len(problems), 1, problems)
         self.assertIn("is not owed", problems[0])
 
-    def test_an_owed_snippet_that_matches_in_ci_must_be_removed(self):
-        problems = strict.check_problems([row(OWED, "match")], in_ci=True)
-        self.assertEqual(len(problems), 1, problems)
-        self.assertIn("remove it from KNOWN_MISMATCHES", problems[0])
-
-    def test_outside_ci_an_owed_snippet_may_match(self):
-        """macOS prints the declared [0, 0, 0, 0]; only CI's environment is held to the entry."""
-        self.assertEqual(strict.check_problems([row(OWED, "match")], in_ci=False), [])
-
     def test_a_shard_that_did_not_run_the_snippet_is_not_asked_about_it(self):
-        self.assertEqual(strict.check_problems([row(OTHER, "match")], in_ci=True), [])
+        self.assertEqual(self.check([row(OTHER, "match")]), [])
 
-    def test_every_owed_entry_names_a_snippet_that_exists_and_says_why(self):
-        for (file, artifact), why in strict.KNOWN_MISMATCHES.items():
-            ids = {a["artifact_id"] for a in strict.extract(ROOT / file)}
-            self.assertIn(artifact, ids, f"{file} has no {artifact}: a typo here owes nothing")
+    def test_every_entry_is_pinned_to_the_snippet_as_it_stands(self):
+        for (file, artifact), (digest, why) in strict.KNOWN_MISMATCHES.items():
+            live = {a["artifact_id"]: a["code"] for a in strict.extract(ROOT / file)}
+            self.assertIn(artifact, live, f"{file} has no {artifact}: a typo here owes nothing")
+            self.assertEqual(strict.code_digest(live[artifact]), digest,
+                             f"{file} {artifact} changed: remove the entry if fixed, else re-measure")
             self.assertTrue(why.strip(), f"{file} {artifact} needs a reason")
 
 

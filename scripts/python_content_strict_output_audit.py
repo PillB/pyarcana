@@ -29,6 +29,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -53,17 +54,25 @@ HOST_SPECIFIC = (
     (re.compile(r"\b3\.12\.\d+\b"), "3.12.<patch>"),
     (re.compile(r'File "[^"]+"'), 'File "<file>"'),
 )
-#: Mismatches CI's environment shows today, each owed to a content fix. They are named by file
-#: and artifact, so any other mismatch still fails --check, and in CI an entry whose snippet
-#: matches again fails too, until it is removed here. Elsewhere an entry may match: these are
-#: platform numerics, and CI's Linux is the environment the declared outputs promise.
-#: 2026-10-04: S33's XOR demo. Its linear model ends at p = 0.5 for all four points (loss 0.6931,
-#: ln 2), so `(p > 0.5)` is decided by floating-point noise: [0, 0, 0, 0] on macOS, [0, 0, 1, 0]
-#: on CI's Linux, and "aciertos_sin" moves with it. The content fix belongs to a section round.
+#: Snippets whose printed output is not reproducible, each owed to a content fix. An entry is
+#: pinned to the code it was granted for (a sha256 prefix): while that code is unchanged its
+#: snippet may match or mismatch, because the output is noise, and any other mismatch still fails
+#: --check. Editing the snippet, which is the fix, fails until the entry is removed here.
+#: 2026-10-04: S33's XOR demo. XOR is symmetric, so the best linear logistic model is exactly
+#: p = 0.5, and 4000 steps reach it: the logits end as rounding noise (|z| < 4e-16), and
+#: `(p > 0.5)` reads the sign of that noise. Which noise depends on the BLAS kernel and numpy's
+#: SIMD math path, both picked for the CPU at run time, and GitHub's runners vary in CPU: CI's
+#: first run printed [0, 0, 1, 0], its second the declared [0, 0, 0, 0]. Owing it "until it
+#: matches in CI" assumed a stable platform result and failed on the second run.
 KNOWN_MISMATCHES = {
-    ("src/lib/course/sections/s33-advanced-models.ts", "code-block-4"):
-        "a prediction thresholded at p = 0.5 within float noise differs by platform",
+    ("src/lib/course/sections/s33-advanced-models.ts", "code-block-4"): (
+        "b15faa81c708",
+        "thresholds a probability that is rounding noise at XOR's symmetric optimum"),
 }
+
+
+def code_digest(code: str) -> str:
+    return hashlib.sha256(code.encode("utf-8")).hexdigest()[:12]
 
 
 def run_with_seed(code: str, seed: str) -> dict:
@@ -180,15 +189,17 @@ def summarise(rows: list[dict]) -> dict:
     return counts
 
 
-def check_problems(rows: list[dict], in_ci: bool) -> list[str]:
-    """What fails --check: a mismatch nobody owes, or, in CI, an owed snippet that matches again."""
-    def owed(r: dict) -> bool:
-        return (r["file"], r["artifact_id"]) in KNOWN_MISMATCHES
-    problems = [f"{r['file']} {r['artifact_id']} mismatches and is not owed in KNOWN_MISMATCHES"
-                for r in rows if r["verdict"] == "mismatch" and not owed(r)]
-    if in_ci:
-        problems += [f"{r['file']} {r['artifact_id']} matches in CI now: remove it from KNOWN_MISMATCHES"
-                     for r in rows if r["verdict"] in ("match", "match_elided") and owed(r)]
+def check_problems(rows: list[dict], codes: dict[tuple[str, str], str]) -> list[str]:
+    """What fails --check: a mismatch nobody owes, or an owed snippet whose code has changed."""
+    problems = []
+    for r in rows:
+        key = (r["file"], r["artifact_id"])
+        entry = KNOWN_MISMATCHES.get(key)
+        if entry and code_digest(codes[key]) != entry[0]:
+            problems.append(f"{key[0]} {key[1]} changed since it was owed: if this is the fix, remove "
+                            "its KNOWN_MISMATCHES entry; if not, re-measure it")
+        elif r["verdict"] == "mismatch" and not entry:
+            problems.append(f"{key[0]} {key[1]} mismatches and is not owed in KNOWN_MISMATCHES")
     return problems
 
 
@@ -224,7 +235,7 @@ def main() -> int:
     for m in mismatches[:40]:
         owed = " (owed)" if (m["file"], m["artifact_id"]) in KNOWN_MISMATCHES else ""
         print(f"  MISMATCH{owed} {m['file']} {m['artifact_id']} line {m.get('line')}: declared {m.get('declared')!r} printed {m.get('printed')!r}")
-    problems = check_problems(rows, os.environ.get("CI") == "true")
+    problems = check_problems(rows, {(a["file"], a["artifact_id"]): a["code"] for a in artifacts})
     for problem in problems:
         print(f"  FAILS --check: {problem}")
     return 1 if (args.check and problems) else 0
