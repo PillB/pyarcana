@@ -18,6 +18,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
+import { parseQaPackage, QA_SCHEMA_VERSION } from '../../src/lib/qa-session.ts'
 
 const SRC = readFileSync('src/lib/qa-session.ts', 'utf8')
 const UI = readFileSync('src/components/course/QAHarness.tsx', 'utf8')
@@ -45,7 +46,8 @@ test('a failed local write is reported, never swallowed', () => {
 test('the quota case is distinguishable, because it is the reachable one', () => {
   // A screenshot near the 6 MB cap becomes a larger base64 data URL, so the
   // serialised session can exceed the localStorage quota on a normal report.
-  assert.match(SRC, /Quota|quota/, 'the quota failure needs its own message')
+  // Scoped to the write path: a match anywhere in the file was satisfied by a comment.
+  assert.match(bodyOf(SRC, 'fallbackWrite'), /QuotaExceededError/, 'the quota failure needs its own message')
 })
 
 test('the form is kept when the write failed', () => {
@@ -59,27 +61,40 @@ test('the form is kept when the write failed', () => {
   )
 })
 
+// The importer itself, handed the shapes it must refuse. These two tests used to read the
+// source text instead, and passed on its type declarations and comments: deleting the
+// validators left them green.
+const CONTEXT = {
+  path: '/s/setup', hash: '#theory', sectionId: 'setup', sectionIndex: 1, sectionTitle: 'x',
+  subStep: 'theory', viewport: { width: 1280, height: 800 }, scrollY: 0, userAgent: 'test',
+  language: 'es', deploymentSha: null, elementHint: null,
+}
+const ISSUE = {
+  id: 'qa-1', createdAt: '2026-10-03T00:00:00Z', updatedAt: '2026-10-03T00:00:00Z',
+  status: 'open', category: 'content', cause: 'content-gap', severity: 'low', title: 't',
+  description: 'd', expected: 'e', actual: 'a', reproductionSteps: 'r', improvement: 'i',
+  context: CONTEXT,
+}
+const pkg = (...issues) => JSON.stringify({
+  schemaVersion: QA_SCHEMA_VERSION, exportedAt: '2026-10-03T00:00:00Z', tester: 'qa', issues,
+})
+
+test('a complete package imports, so the refusals below are about the bad field', () => {
+  assert.equal(parseQaPackage(pkg(ISSUE)).issueCount, 1)
+})
+
 test('an imported context is validated past mere existence', () => {
   // `{}` is an object. The review tab reads context.viewport.width.
-  assert.match(SRC, /viewport/, 'nested viewport must be validated')
-  assert.match(SRC, /width/, 'the field the review tab dereferences must be checked')
-  assert.doesNotMatch(
-    SRC,
-    /&&\s*typeof issue\.context === 'object'\s*\n?\s*\}/,
-    'a bare typeof-object check on context is what let `{}` through',
+  assert.throws(() => parseQaPackage(pkg({ ...ISSUE, context: {} })), '`context: {}` was accepted')
+  assert.throws(
+    () => parseQaPackage(pkg({ ...ISSUE, context: { ...CONTEXT, viewport: { height: 800 } } })),
+    'a viewport without the width the review tab dereferences was accepted',
   )
 })
 
 test('category, cause and severity are checked against the taxonomy', () => {
-  for (const list of ['QA_CATEGORIES', 'QA_CAUSES', 'QA_SEVERITIES']) {
-    assert.ok(
-      SRC.includes(list),
-      `${list} must gate the imported value, not just a typeof string test`,
-    )
+  // An unrecognised category renders an empty label and cannot be filtered.
+  for (const [field, value] of [['category', 'not-a-category'], ['cause', 'nope'], ['severity', 'critical']]) {
+    assert.throws(() => parseQaPackage(pkg({ ...ISSUE, [field]: value })), `${field}=${value} was accepted`)
   }
-  assert.doesNotMatch(
-    SRC,
-    /typeof issue\.category === 'string'\s*$/m,
-    'an unrecognised category renders an empty label and cannot be filtered',
-  )
 })

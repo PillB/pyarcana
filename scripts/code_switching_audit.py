@@ -74,20 +74,22 @@ def anglicism_terms() -> set[str]:
     return {t.lower() for t in re.findall(r'"([^"]+)"', block) if " " not in t}
 
 
+# An English phrase that its own sentence translates on the spot is a gloss, not a leak.
+# The course teaches an initialism by expanding it and rendering it immediately:
+#   `NaN` (*not a number*, «no es un número»)
+# `not` counted as English leakage, so S09's round - which took the course from 400
+# surprising uses to 367 - was restored for explaining what NaN stands for. This file's
+# own contract is that "a finding it raises must be real", and by the campaign's rules
+# the alternatives are worse: drop the expansion and the acronym is arbitrary, or drop
+# the gloss and the English is genuinely unexplained.
+# Narrow on purpose: the span has to be italic AND be followed by a Spanish gloss in
+# guillemets. `*emphasis*` on its own, and English with no translation beside it, are
+# both still counted. Named so a test can measure what it removes from the course.
+GLOSS = re.compile(r"(?<!\*)\*[^*\n]{2,80}\*(?=[,;:]?\s*«)")
+
 STRIP = [
     re.compile(r"```[\s\S]*?```"),            # fenced code
-    # An English phrase that its own sentence translates on the spot is a gloss, not a leak.
-    # The course teaches an initialism by expanding it and rendering it immediately:
-    #   `NaN` (*not a number*, «no es un número»)
-    # `not` counted as English leakage, so S09's round - which took the course from 400
-    # surprising uses to 367 - was restored for explaining what NaN stands for. This file's
-    # own contract is that "a finding it raises must be real", and by the campaign's rules
-    # the alternatives are worse: drop the expansion and the acronym is arbitrary, or drop
-    # the gloss and the English is genuinely unexplained.
-    # Narrow on purpose: the span has to be italic AND be followed by a Spanish gloss in
-    # guillemets. `*emphasis*` on its own, and English with no translation beside it, are
-    # both still counted.
-    re.compile(r"(?<!\*)\*[^*\n]{2,80}\*(?=[,;:]?\s*«)"),
+    GLOSS,
     re.compile(r"`[^`]*`"),                   # inline code
     re.compile(r"https?://\S+"),              # urls
     re.compile(r"\b[A-Z]{2,}[-_][A-Z0-9_-]+\b"),  # CASO-LIM-001, CP-N1-A
@@ -115,6 +117,19 @@ def clean(text: str) -> str:
     return text
 
 
+#: The learner-visible surfaces measured as prose.
+PROSE = {"theory.paragraph", "tagline", "jobRelevance", "outcome", "theory.callout",
+         "ido.preamble", "ido.why", "ido.retrospective", "ido.description",
+         "wedo.preamble", "wedo.instruction", "wedo.hint", "wedo.retrospective",
+         "youdo.context", "youdo.objective", "youdo.requirement",
+         "selfcheck.question", "selfcheck.option", "selfcheck.explanation"}
+
+
+def tokens(text: str) -> list[str]:
+    """The words the measure counts in one passage: code, ids and glossed English stripped."""
+    return [t for t in re.findall(r"[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+", clean(text)) if not ACRONYM.match(t)]
+
+
 def main() -> int:
     report_lock.refuse_if_busy(__file__)
     if not EVENTS.exists():
@@ -125,12 +140,6 @@ def main() -> int:
     payload = json.loads(EVENTS.read_text(encoding="utf-8"))
     kept = KEPT_TECHNICAL | anglicism_terms()
 
-    PROSE = {"theory.paragraph", "tagline", "jobRelevance", "outcome", "theory.callout",
-             "ido.preamble", "ido.why", "ido.retrospective", "ido.description",
-             "wedo.preamble", "wedo.instruction", "wedo.hint", "wedo.retrospective",
-             "youdo.context", "youdo.objective", "youdo.requirement",
-             "selfcheck.question", "selfcheck.option", "selfcheck.explanation"}
-
     rows = {}
     for i, slug in enumerate(payload["active_section_ids"], 1):
         tag = f"S{i:02d}"
@@ -140,8 +149,7 @@ def main() -> int:
         for e in payload["events"]:
             if e["section_id"] != slug or e["kind"] not in PROSE or not e["learner_visible"]:
                 continue
-            toks = [t for t in re.findall(r"[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+", clean(e["text"]))
-                    if not ACRONYM.match(t)]
+            toks = tokens(e["text"])
             words += len(toks)
             ef = [t for t in toks if t.lower() in FUNCTION]
             eo = [t for t in toks if t.lower() in ORDINARY]

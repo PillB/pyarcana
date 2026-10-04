@@ -64,6 +64,121 @@ class MainGuardComesLast(unittest.TestCase):
             self.assertEqual(misplaced_main_guard(path.read_text(encoding="utf-8")), 1)
 
 
+FUNCTION = (ast.FunctionDef, ast.AsyncFunctionDef)
+
+
+def _calls(node: ast.AST) -> set[str]:
+    """What a body calls by name: bare functions, and methods on self or cls."""
+    names = set()
+    for n in ast.walk(node):
+        if isinstance(n, ast.Call):
+            f = n.func
+            if isinstance(f, ast.Name):
+                names.add(f.id)
+            elif isinstance(f, ast.Attribute) and isinstance(f.value, ast.Name) and f.value.id in ("self", "cls"):
+                names.add(f.attr)
+    return names
+
+
+def _fails_here(node: ast.AST) -> bool:
+    """An assert, a raise, or a TestCase assertion or fail() on any object, in this body."""
+    for n in ast.walk(node):
+        if isinstance(n, (ast.Assert, ast.Raise)):
+            return True
+        if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute) \
+                and (n.func.attr.startswith("assert") or n.func.attr == "fail"):
+            return True
+    return False
+
+
+def _functions(tree: ast.Module, folder: Path) -> dict[str, list[ast.AST]]:
+    """Every function this file defines, then those of sibling modules it imports from."""
+    defs: dict[str, list[ast.AST]] = {}
+    for n in ast.walk(tree):
+        if isinstance(n, FUNCTION):
+            defs.setdefault(n.name, []).append(n)
+    for n in tree.body:
+        sibling = folder / f"{n.module}.py" if isinstance(n, ast.ImportFrom) and n.module and not n.level else None
+        if sibling and sibling.is_file():
+            for d in ast.walk(ast.parse(sibling.read_text(encoding="utf-8"))):
+                if isinstance(d, FUNCTION) and d.name not in defs:
+                    defs[d.name] = [d]
+    return defs
+
+
+def unfailable_tests(source: str, folder: Path) -> list[str]:
+    """Test methods with no way to fail: no assert, raise or assertion call in the body, nor in
+    any function it calls from this file or a sibling helper module. A module-level test
+    function is listed too, because unittest never collects it."""
+    tree = ast.parse(source)
+    defs = _functions(tree, folder)
+    can = set()
+
+    def can_fail(name: str, seen: frozenset) -> bool:
+        if name in can:
+            return True
+        if name in seen or name not in defs:
+            return False
+        if any(_fails_here(d) or any(can_fail(c, seen | {name}) for c in _calls(d)) for d in defs[name]):
+            can.add(name)
+            return True
+        return False
+
+    found = [f"{n.name}:{n.lineno} (module level)" for n in tree.body
+             if isinstance(n, FUNCTION) and n.name.startswith("test")]
+    for cls in (n for n in tree.body if isinstance(n, ast.ClassDef)):
+        for fn in cls.body:
+            if isinstance(fn, FUNCTION) and fn.name.startswith("test") and not _fails_here(fn) \
+                    and not any(can_fail(c, frozenset({fn.name})) for c in _calls(fn)):
+                found.append(f"{cls.name}.{fn.name}:{fn.lineno}")
+    return found
+
+
+class EveryTestCanFail(unittest.TestCase):
+    """Codex's P1 on #75 was a test whose only assertion had been deleted: it read a file and
+    passed for every possible content. A test with no failure path is a green check that cannot
+    turn red, which AGENTS.md calls worse than no test. Read with `ast`, following helpers."""
+
+    def test_no_test_in_either_suite_lacks_a_failure_path(self):
+        self.assertGreater(len(TEST_FILES), 0)
+        found = {p.relative_to(ROOT).as_posix(): hits for p in TEST_FILES
+                 if (hits := unfailable_tests(p.read_text(encoding="utf-8"), p.parent))}
+        self.assertEqual(found, {}, "give each listed test an assertion that can fail")
+
+    def check(self, source: str, helpers: dict[str, str] | None = None) -> list[str]:
+        with tempfile.TemporaryDirectory() as tmp:
+            for name, text in (helpers or {}).items():
+                (Path(tmp) / f"{name}.py").write_text(text, encoding="utf-8")
+            return unfailable_tests(source, Path(tmp))
+
+    def test_a_test_that_only_reads_a_file_is_flagged(self):
+        """The shape of #75's test, after its assertion was deleted."""
+        self.assertEqual(self.check(
+            "class T(unittest.TestCase):\n"
+            "    def test_pdf(self):\n"
+            "        text = Path('PdfReport.tsx').read_text()\n"), ["T.test_pdf:2"])
+
+    def test_an_assertion_in_the_body_counts(self):
+        self.assertEqual(self.check(
+            "class T(unittest.TestCase):\n    def test_x(self):\n        self.assertTrue(1)\n"), [])
+
+    def test_an_assertion_in_a_helper_of_the_same_file_counts(self):
+        self.assertEqual(self.check(
+            "def require(x):\n    if not x:\n        raise AssertionError(x)\n"
+            "class T(unittest.TestCase):\n    def test_x(self):\n        self.go()\n"
+            "    def go(self):\n        require(1)\n"), [])
+
+    def test_an_assertion_in_a_sibling_helper_module_counts(self):
+        source = "from script_case import passes\nclass T(unittest.TestCase):\n    def test_x(self):\n        passes(self)\n"
+        self.assertEqual(self.check(source, {"script_case": "def passes(case):\n    case.fail('no')\n"}), [])
+        self.assertEqual(self.check(source, {"script_case": "def passes(case):\n    return None\n"}),
+                         ["T.test_x:3"])
+
+    def test_a_module_level_test_function_is_flagged(self):
+        """unittest collects TestCase methods only, so this one never runs."""
+        self.assertEqual(self.check("def test_x():\n    assert True\n"), ["test_x:1 (module level)"])
+
+
 def load_runner():
     spec = importlib.util.spec_from_file_location("run_adversarial_py",
                                                   ROOT / "scripts/run_adversarial_py.py")

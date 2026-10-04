@@ -24,11 +24,14 @@ from __future__ import annotations
 import sys
 import unittest
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "tests/adversarial"))
 
 from code_switching_audit import FUNCTION, clean  # noqa: E402
+from course_events import fresh_events  # noqa: E402
 
 
 def english_left(text: str) -> set[str]:
@@ -67,14 +70,26 @@ class CodeSwitchingGloss(unittest.TestCase):
         self.assertIn("the", left)
 
     def test_the_exemption_is_one_count_in_the_whole_course(self):
-        """Narrowness, measured. If this grows, the exemption stopped being surgical."""
-        import json
-        report = ROOT / "course-state/code_switching_report.json"
-        if not report.exists():
-            self.skipTest("no code-switching report; gate.py regenerates it on every run")
-        rows = json.loads(report.read_text(encoding="utf-8"))
-        total = sum(r["english_function_words"] for r in rows.values() if isinstance(r, dict))
-        self.assertGreater(total, 300, "the measure has stopped counting English at all")
+        """Narrowness, measured. If this grows, the exemption stopped being surgical.
+
+        Counted on a fresh extraction, with the gloss rule and without it. This used to assert
+        instead that the committed report still held over 300 English function words: a
+        different property, read from a file CI never regenerates, and bound to fail the day
+        the Spanish rounds succeed. That the measure counts English at all is held by the
+        synthetic cases above. 2026-10-03: 356 without the rule, 355 with it.
+        """
+        import code_switching_audit as audit
+        texts = [e["text"] for e in fresh_events()["events"]
+                 if e["kind"] in audit.PROSE and e["learner_visible"]]
+
+        def counted() -> int:
+            return sum(1 for t in texts for w in audit.tokens(t) if w.lower() in audit.FUNCTION)
+
+        with_rule = counted()
+        with mock.patch.object(audit, "STRIP", [rx for rx in audit.STRIP if rx is not audit.GLOSS]):
+            without_rule = counted()
+        self.assertLessEqual(without_rule - with_rule, 1,
+                             f"the gloss exemption now hides {without_rule - with_rule} English words")
 
 
 if __name__ == "__main__":

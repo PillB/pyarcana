@@ -65,32 +65,28 @@ class HardenedGates(unittest.TestCase):
     def test_dual_explorer_h_stamp_detected_on_h1_if_present(self):
         """H1 historical dual explorer-H1 stamps must trip MECHANICAL_IDENTITY_STAMP."""
         h1 = ROOT / "course-state/newbie_walkthrough/agentic_H1"
-        if not h1.exists():
-            return
+        self.assertTrue(h1.exists(), f"{h1} is gone; this regression has nothing left to check")
         issues = attempt_level_gates("agentic_H1")
         tags = {i.get("tag") for i in issues}
         assert "MECHANICAL_IDENTITY_STAMP" in tags or "ZERO_DURATION_SESSION" in tags or "BULK_WRITE_MTIME" in tags, tags
 
     def test_h2_exploratory_fails_gates_if_present(self):
         h2 = ROOT / "course-state/newbie_walkthrough/agentic_H2"
-        if not h2.exists():
-            return
-        issues = attempt_level_gates("agentic_H2")
-        # Either stamps or when validating section incompletes matter more at section level
-        # At attempt level, if exploratory only in exercises, stamp_re may still hit exploratory pass
-        tags = {i.get("tag") for i in issues}
-        # H2 should fail stamp (exploratory pass) or we at least flag incompletes via code_incomplete
+        self.assertTrue(h2.exists(), f"{h2} is gone; this regression has nothing left to check")
+        # H2's attempt-level tags are asserted in test_forensic_pedagogy_gates; this one holds the
+        # section-level half: its exploratory exercises must read as incomplete. The check used
+        # to sit behind `if sample.exists()`, and the tags computed here were never asserted.
         sample = (h2 / "section_01" / "newbie_a_live.json")
-        if sample.exists():
-            import json
-            data = json.loads(sample.read_text())
-            reasons = [code_incomplete(e.get("code") or "") for e in data.get("exercises") or []]
-            assert any(r for r in reasons), "H2 S01 exercises should be incomplete under new rules"
+        self.assertTrue(sample.exists(), f"{sample} is gone; this regression has nothing left to check")
+        import json
+        data = json.loads(sample.read_text())
+        reasons = [code_incomplete(e.get("code") or "") for e in data.get("exercises") or []]
+        self.assertTrue(reasons, "H2 S01 has no exercises to check")
+        assert any(r for r in reasons), "H2 S01 exercises should be incomplete under new rules"
 
     def test_g1_still_rejected(self):
         g1 = ROOT / "course-state/newbie_walkthrough/agentic_G1"
-        if not g1.exists():
-            return
+        self.assertTrue(g1.exists(), f"{g1} is gone; this regression has nothing left to check")
         tags = {i.get("tag") for i in attempt_level_gates("agentic_G1")}
         assert tags & {
             "ZERO_DURATION_SESSION",

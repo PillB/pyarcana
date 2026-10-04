@@ -73,43 +73,51 @@ TEACHING_KINDS = {
 EVENTS_INPUTS = ROOT / ".fixer/events.inputs.sha256"
 
 
-def watched_inputs() -> list[Path]:
-    """Every file the extractor reads whose content can change its output.
+#: A local import in TypeScript: `... from './x'`, `export ... from '../y'`, or `import './z'`.
+IMPORT = re.compile(r"""(?:\bfrom|^\s*import)\s+['"]([^'"]+)['"]""", re.M)
+RESOLVE = ("", ".ts", ".mts", ".tsx", "/index.ts")
 
-    The glob takes .ts, .tsx and .mts: a section added under a different extension would
-    otherwise be unwatched, and nothing stops one being added.
 
-    Not watched, and known: node_modules and the tsx version. A dependency bump that changed
-    extraction output would not invalidate the cache. Hashing node_modules costs more than the
-    bug is worth; CI installs from a lockfile, so the realistic exposure is local.
+def extractor_inputs(entry: Path | None = None) -> set[Path]:
+    """Every file the extractor imports, followed transitively from its own imports.
+
+    The watch list was written by hand, and it went stale as soon as the definition rules moved
+    into concept_detector.mts: editing only the rules left the map built from events made under
+    the old ones (Codex review on #79). concept_syntax.mts had never been on the list at all.
+    Reading the imports keeps the list true for the next module too. Packages are skipped:
+    node_modules is not the course.
     """
-    sections = sorted(
-        p for ext in ("*.ts", "*.tsx", "*.mts")
-        for p in (ROOT / "src/lib/course/sections").glob(ext)
-    )
-    return sections + [
-        ROOT / "src/lib/glossary/terms.ts",
-        ROOT / "src/lib/course/index.ts",
-        ROOT / "scripts/course_event_extractor.mts",
-        # concept_syntax.mts holds PROPER_NAMES, the homonym guard the extractor applies before
-        # matching any term. It was missing from this list on 2026-10-04, so an edit to the guard
-        # did not invalidate the cache and the map stayed stale against its own guard.
-        ROOT / "scripts/concept_syntax.mts",
-    ]
+    todo = [entry or ROOT / "scripts/course_event_extractor.mts"]
+    seen: set[Path] = set()
+    while todo:
+        path = todo.pop().resolve()
+        if path in seen or not path.is_file():
+            continue
+        seen.add(path)
+        for spec in IMPORT.findall(path.read_text(encoding="utf-8")):
+            base = path.parent / spec if spec.startswith(".") else (
+                ROOT / "src" / spec[2:] if spec.startswith("@/") else None)
+            if base is not None:
+                todo += [Path(f"{base}{suffix}") for suffix in RESOLVE]
+    return seen
 
 
 def inputs_digest() -> str:
-    """A content hash of the watched inputs, including which ones are absent.
+    """A content hash of everything the extractor imports, in a stable order.
 
-    Path and content both go in, so renaming a section changes the digest; absence goes in as a
-    sentinel, so DELETING a watched file invalidates the cache, which an mtime comparison could
-    never do.
+    Path and content both go in, so renaming a module changes the digest as surely as editing one.
+
+    Composed 2026-10-04 from two halves of the same bug. #78 replaced the hand-written watch LIST
+    with `extractor_inputs()`, which follows the import graph -- the list had gone stale the moment
+    the definition rules moved into concept_detector.mts, and `concept_syntax.mts` had never been on
+    it. This branch replaced the COMPARISON, because mtime is ordering rather than identity. Each
+    fix leaves the other's failure open, so both are kept.
     """
     h = hashlib.sha256()
-    for p in watched_inputs():
+    for p in sorted(extractor_inputs()):
         h.update(p.relative_to(ROOT).as_posix().encode())
         h.update(b"\0")
-        h.update(p.read_bytes() if p.exists() else b"<absent>")
+        h.update(p.read_bytes())
         h.update(b"\0")
     return h.hexdigest()
 
@@ -117,18 +125,20 @@ def inputs_digest() -> str:
 def cache_is_current() -> bool:
     """Is `.fixer/events.json` the extraction of the tree as it stands right now?
 
-    2026-10-04. This compared mtimes: `any(source.st_mtime > events.st_mtime)`. That is ordering,
-    not identity, and this branch's adversarial verification exploited it twice.
+    This asked `any(source.st_mtime > events.st_mtime)`. That is ordering, not identity, and this
+    branch's adversarial verification exploited it in both directions:
 
-      - Any write to events.json that is not a fresh extraction gives the cache the newest mtime
-        and permanently re-blinds every reader. `tools/fixer/run_concepts.sh:24` does exactly that
-        in its restore list, and a test asserts it does. Measured: a forward reference sat on disk
-        with rc=0 and forward_refs 0, and flipped to rc=1 after a content-free `touch`.
-      - A source whose mtime is OLDER than the cache is invisible. `cp -p`, `rsync -t`, `tar -xp`,
-        `unzip` and clock skew all produce that, and so does checking out an older revision.
+      - Any write to events.json that is not a fresh extraction gives the cache the newest mtime and
+        permanently re-blinds every reader. `tools/fixer/run_concepts.sh:24` does exactly that in
+        its restore list, and `test_round_restore_is_complete.py:67` asserts it does. Measured: a
+        forward reference sat on disk with rc=0 and forward_refs 0, flipping to rc=1 only after a
+        content-free `touch`.
+      - A source whose mtime is OLDER than the cache is invisible -- `cp -p`, `rsync -t`, `tar -xp`,
+        `unzip`, clock skew, or checking out an older revision.
 
-    A digest has neither failure mode. It costs one read of ~57 section files, which is cheap
-    beside the ~6 s extraction it decides whether to skip.
+    A digest has neither failure mode. Deletion needs no special case: `extractor_inputs()` returns
+    only existing files, and a deleted module either changes the hash of whatever imports it or
+    breaks extraction loudly.
     """
     return (EVENTS.exists() and EVENTS_INPUTS.exists()
             and EVENTS_INPUTS.read_text(encoding="utf-8").strip() == inputs_digest())
@@ -142,8 +152,8 @@ def sources_newer_than_cache() -> bool:
 def extract_events() -> dict:
     """Run the extractor, write the cache, and record the digest of what produced it.
 
-    Both the digest and the payload are written here, so no caller can leave a cache without the
-    fingerprint that says which tree it describes.
+    Both are written here, so no caller can leave a cache without the fingerprint saying which tree
+    it describes.
     """
     proc = subprocess.run(["npx", "tsx", "scripts/course_event_extractor.mts"],
                           cwd=ROOT, capture_output=True, text=True)

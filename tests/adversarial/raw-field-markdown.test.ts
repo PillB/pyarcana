@@ -63,15 +63,27 @@ const COMPONENTS = ['src/app', 'src/components/course']
  * raw form as a substring, so without it every field reads as raw and all of these fail even
  * on a page that renders correctly.
  */
-const FIELDS: { name: string; raw: RegExp; values: () => { where: string; text: string }[] }[] = [
+/**
+ * A raw interpolation of `field`: `{s.f}`, `{ s?.f }`, `{s.f ?? ''}`, `{(s.f)}` - anything but
+ * `text={...}` handed to InlineText. The first version matched `{s.f}` alone, so optional
+ * chaining or a fallback read as "not rendered raw" and the test returned without checking.
+ */
+const rawPattern = (field: string) =>
+  new RegExp(`(?<!text=)\\{\\s*\\(?\\s*\\w+\\??\\.${field}\\s*\\)?\\s*(?:\\?\\?[^}]*)?\\}`)
+/** The field routed through InlineText, which renders its markdown. */
+const inlinePattern = (field: string) => new RegExp(`text=\\{\\s*\\w+\\??\\.${field}\\b`)
+
+const FIELDS: { name: string; raw: RegExp; inline: RegExp; values: () => { where: string; text: string }[] }[] = [
   {
     name: 'jobRelevance',
-    raw: /(?<!text=)\{\w+\.jobRelevance\}/,
+    raw: rawPattern('jobRelevance'),
+    inline: inlinePattern('jobRelevance'),
     values: () => COURSE_SECTIONS.map((s) => ({ where: `S${s.index} jobRelevance`, text: s.jobRelevance })),
   },
   {
     name: 'learningOutcomes[].text',
-    raw: /(?<!text=)\{\w+\.text\}/,
+    raw: rawPattern('text'),
+    inline: inlinePattern('text'),
     values: () =>
       COURSE_SECTIONS.flatMap((s) =>
         s.learningOutcomes.map((lo, i) => ({ where: `S${s.index} learningOutcomes[${i}]`, text: lo.text })),
@@ -79,7 +91,8 @@ const FIELDS: { name: string; raw: RegExp; values: () => { where: string; text: 
   },
   {
     name: 'tagline',
-    raw: /(?<!text=)\{\w+\.tagline\}/,
+    raw: rawPattern('tagline'),
+    inline: inlinePattern('tagline'),
     values: () => COURSE_SECTIONS.map((s) => ({ where: `S${s.index} tagline`, text: s.tagline })),
   },
   {
@@ -90,10 +103,22 @@ const FIELDS: { name: string; raw: RegExp; values: () => { where: string; text: 
      * this fails, the repair is in the section data, not in a component.
      */
     name: 'shortTitle',
-    raw: /(?<!text=)\{\w+\.shortTitle\}/,
+    raw: rawPattern('shortTitle'),
+    inline: inlinePattern('shortTitle'),
     values: () => COURSE_SECTIONS.map((s) => ({ where: `S${s.index} shortTitle`, text: s.shortTitle })),
   },
 ]
+
+test('the raw pattern sees the forms a component actually writes, and no others', () => {
+  const raw = rawPattern('tagline')
+  for (const form of ['{s.tagline}', '{ section.tagline }', '{s?.tagline}', "{s.tagline ?? ''}", '{(s.tagline)}', 'title={s.tagline}']) {
+    assert.ok(raw.test(form), `${form} is a raw interpolation`)
+  }
+  for (const form of ['text={s.tagline}', 'text={s?.tagline}', '{s.taglineShort}', '{s.tagline.length}']) {
+    assert.ok(!raw.test(form), `${form} is not a raw interpolation of the tagline`)
+  }
+  assert.ok(inlinePattern('tagline').test('<InlineText text={section.tagline} />'))
+})
 
 test('the scan covers the components that render sections', () => {
   // A rename or a move that empties this list would turn every test below into a pass.
@@ -110,7 +135,12 @@ test('the scan covers the components that render sections', () => {
 for (const field of FIELDS) {
   test(`${field.name}: rendered raw means no markdown in it`, () => {
     const rawIn = COMPONENTS.filter((f) => field.raw.test(readFileSync(f, 'utf8')))
-    if (rawIn.length === 0) return // every surface routes it through InlineText
+    const viaInline = COMPONENTS.filter((f) => field.inline.test(readFileSync(f, 'utf8')))
+    // Rendered nowhere the scan reads means the scan lost the field, not that it is safe: the
+    // early return below used to pass three of these four tests on nothing at all.
+    assert.ok(rawIn.length + viaInline.length > 0,
+      `${field.name} is rendered by none of the scanned components, so this test would check nothing`)
+    if (rawIn.length === 0) return // every surface that renders it routes it through InlineText
     const leaks = field
       .values()
       .filter((v) => MARKDOWN.test(v.text))
