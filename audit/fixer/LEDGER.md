@@ -801,6 +801,30 @@ section, not because anyone suspected it. And the first count of perfect banks, 
 it came from printing the top rows of a sorted list and counting the print. The test caught it at
 eleven. **Count with the assertion, not with the log line.**
 
+### The suite counted tests that never ran (2026-10-03, test suite)
+
+"416 Python tests OK" was quoted after every round as evidence the round was safe. It was true of
+what ran, and the denominator was wrong. **17 of 70 adversarial files collected zero tests** —
+twelve `main()` scripts (claim evidence, credential tamper resistance, maintainer PII, capstone
+cardinality...), four pytest-style files and one with plain classes — because `unittest discover`
+collects `TestCase` classes and nothing else. Four more Python tests sat outside the discovery path.
+None had run in CI or in this gate. Wired in on 2026-10-03, all of them passed except one that
+needs a static build, so nothing had broken meanwhile; but nothing would have said so.
+
+The same audit found the other ways a green suite can be hollow: six tests skipped in every CI
+run, four of them because they read gitignored `.fixer/` caches; `test_the_live_course_agrees`
+skips forever once the campaign fixed the defects it read, so **nothing in CI held the zero
+surprising uses** until `test_surprising_uses_ratchet.py`; two tests exercised copies of the code
+they claimed to guard (`would_repair` covered one of `matched_escaping`'s three delimiters); and
+every run rewrote `run_state.json` and a CP-FINAL evidence file, which is why 40 commits in a row
+carried timestamp churn.
+
+`npm run test:adversarial:*` now runs `scripts/run_adversarial_{py,node}`: a file with no tests,
+a skip not in `tests/adversarial/skip_allowlist.json`, or any write into the tree fails the run,
+and the Python half refuses anything but 3.12. **When a round's gate fails on one of these, the
+round did not regress — the gate is now reporting what it used to hide.** Read the FAIL line: it
+names the file, the skip or the path written.
+
 ### The measure speaks a different Spanish than the course (2026-10-02, course-wide)
 
 `surprising_uses_course_wide` reached 0. It was the instrument's zero, not the course's.

@@ -75,13 +75,19 @@ def _default_kb() -> KnowledgeBase:
 # ---------------------------------------------------------------------------
 class TestNoKeyDeterministic(unittest.TestCase):
     def test_demo_exits_zero_with_metrics(self):
-        # Subprocess the demo to prove the no-key path runs end-to-end.
+        # Subprocess the demo to prove the no-key path runs end-to-end. Its state goes to a temp
+        # directory rather than the committed run_state.json, and a key in the caller's shell
+        # must not reach it: with one set, the missing-key check stops raising and the demo exits 1.
+        env = {k: v for k, v in os.environ.items()
+               if k not in ("CPN4C_COMMERCIAL_KEY", "COMMERCIAL_API_KEY")}
+        env["CP_N4C_STATE_DIR"] = self.enterContext(tempfile.TemporaryDirectory(prefix="cpn4c_state_"))
         proc = subprocess.run(
             [sys.executable, "demo.py"],
             cwd=str(CAPSTONE),
             capture_output=True,
             text=True,
             timeout=60,
+            env=env,
         )
         self.assertEqual(proc.returncode, 0, msg=proc.stderr)
         self.assertIn("METRICS_JSON:", proc.stdout)
@@ -91,6 +97,22 @@ class TestNoKeyDeterministic(unittest.TestCase):
         self.assertEqual(metrics["package_version"], "3.0.0")
         self.assertTrue(metrics["final_answer_cited"])
         self.assertTrue(metrics["commercial_missing_key_raises"])
+
+    def test_a_stale_override_cannot_delete_an_unrelated_file(self):
+        """The demo deletes its state file before a run. Its first override named that file
+        directly, so a CP_N4C_STATE_PATH inherited from an older shell made the demo delete
+        whatever it pointed at. The override is a directory now, and the old name is ignored."""
+        unrelated = Path(self.enterContext(tempfile.TemporaryDirectory())) / "notes.json"
+        unrelated.write_text('{"keep": true}', encoding="utf-8")
+        state_dir = self.enterContext(tempfile.TemporaryDirectory(prefix="cpn4c_state_"))
+        env = {k: v for k, v in os.environ.items()
+               if k not in ("CPN4C_COMMERCIAL_KEY", "COMMERCIAL_API_KEY")}
+        env.update(CP_N4C_STATE_DIR=state_dir, CP_N4C_STATE_PATH=str(unrelated))
+        proc = subprocess.run([sys.executable, "demo.py"], cwd=str(CAPSTONE), capture_output=True,
+                              text=True, timeout=60, env=env)
+        self.assertEqual(proc.returncode, 0, msg=proc.stderr)
+        self.assertEqual(unrelated.read_text(encoding="utf-8"), '{"keep": true}')
+        self.assertTrue((Path(state_dir) / "run_state.json").is_file())
 
     def test_harness_local_mode_no_key(self):
         # Direct harness invocation: LOCAL mode, no key, no env, no network.

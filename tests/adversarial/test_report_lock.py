@@ -50,12 +50,15 @@ class ReportLock(unittest.TestCase):
         self._path = Path(self._dir) / "reports.lock"
         self._real, report_lock.LOCK = report_lock.LOCK, self._path
         self.saved_env = os.environ.get(report_lock.ENV)
+        self.saved_path = os.environ.get("PYARCANA_REPORT_LOCK_PATH")
         os.environ.pop(report_lock.ENV, None)
         os.environ["PYARCANA_REPORT_LOCK_PATH"] = str(self._path)
 
     def tearDown(self) -> None:
         report_lock.LOCK = self._real
         os.environ.pop("PYARCANA_REPORT_LOCK_PATH", None)
+        if self.saved_path is not None:  # whatever pointed elsewhere before this test, still does
+            os.environ["PYARCANA_REPORT_LOCK_PATH"] = self.saved_path
         os.environ.pop(report_lock.ENV, None)
         if self.saved_env is not None:
             os.environ[report_lock.ENV] = self.saved_env

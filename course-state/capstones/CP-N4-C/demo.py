@@ -67,7 +67,12 @@ def main() -> int:
         print(f"ERROR: unexpected package version {versions.EXPECTED_PACKAGE_VERSION}", file=sys.stderr)
         return 2
 
-    state_path = os.path.join(HERE, "run_state.json")
+    # Next to this file by default, as a learner expects. Tests set CP_N4C_STATE_DIR to a
+    # temporary directory: run_state.json is committed, and every test run used to rewrite it
+    # with fresh ids and timestamps. The override names a directory, never a file, because the
+    # line below deletes what it points at: the only file a run may remove is its own state.
+    state_dir = os.environ.get("CP_N4C_STATE_DIR") or HERE
+    state_path = os.path.join(state_dir, "run_state.json")
     if os.path.exists(state_path):
         os.remove(state_path)
 
