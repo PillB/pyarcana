@@ -18,6 +18,7 @@ function fakeSync() {
     start: async (id: string) => (log.push(`start:${id}`), 'synced'),
     pull: async () => (log.push('pull'), 'synced'),
     flush: async () => (log.push('flush'), 'synced'),
+    pushNow: async () => (log.push('pushNow'), 'synced'),
     signOut: async () => void log.push('signOut'),
   }
   return { sync, log }

@@ -50,7 +50,7 @@ export function SyncSection() {
   const line = special ? tr(special) : when ? tr('account.sync.synced', { when }) : tr('account.sync.never')
   const syncNow = async () => {
     setBusy(true)
-    await getProgressSync().pull()
+    await getProgressSync().pull(true)
     await getProgressSync().pushNow()
     setBusy(false)
   }

@@ -10,8 +10,9 @@ export interface SyncLike {
   attach(): void
   detach(): void
   start(accountId: string): Promise<SyncStatus>
-  pull(): Promise<SyncStatus>
+  pull(force?: boolean): Promise<SyncStatus>
   flush(): Promise<SyncStatus>
+  pushNow(): Promise<SyncStatus>
   signOut(): Promise<void>
 }
 
@@ -37,11 +38,20 @@ export class SyncController {
     void this.deps.sync.flush()
   }
 
+  /** Back online: send what waited locally, then take what other devices sent meanwhile. */
+  private readonly onOnline = () => {
+    if (!this.account) return
+    void this.deps.sync.pushNow()
+    void this.deps.sync.pull(true)
+  }
+
   mount(): () => void {
     this.deps.sync.attach()
     this.deps.doc.addEventListener('visibilitychange', this.onVisibility)
     this.deps.win.addEventListener('pagehide', this.onPageHide)
+    this.deps.win.addEventListener('online', this.onOnline)
     return () => {
+      this.deps.win.removeEventListener('online', this.onOnline)
       this.deps.doc.removeEventListener('visibilitychange', this.onVisibility)
       this.deps.win.removeEventListener('pagehide', this.onPageHide)
       this.deps.sync.detach()

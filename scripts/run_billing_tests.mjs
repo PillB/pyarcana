@@ -149,6 +149,7 @@ const CLIENT_SUITES = [
   ["primitives", 10],
   ["progress-merge", 17],
   ["progress-sync", 27],
+  ["progress-sync-efficiency", 6],
   ["qa-report", 21],
   ["remote-apply", 4],
   ["review-r3", 11],

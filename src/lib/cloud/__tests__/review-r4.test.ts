@@ -13,7 +13,7 @@ import { CLOUD_CONFIG } from '@/lib/cloud/config'
 import { LEGACY_CSP, buildCsp, metaCsp } from '@/lib/cloud/csp'
 import { parseMe, type MePayload } from '@/lib/cloud/session'
 import { linkState, unlinkProvider, uiError } from '@/lib/cloud/account-api'
-import { ProgressSync, type ProgressStoreAdapter, type SyncStatus } from '@/lib/cloud/progress-sync'
+import { ProgressSync, PULL_THROTTLE_MS, type ProgressStoreAdapter, type SyncStatus } from '@/lib/cloud/progress-sync'
 import type { ProgressState } from '@/lib/cloud/progress-merge'
 import { createMemoryStorage } from '@/lib/cloud/storage'
 import type { ApiClient, ApiResult } from '@/lib/cloud/api'
@@ -120,7 +120,8 @@ test('F2: a visibility pull while the owner choice is pending changes no status 
     put: async () => ({ ok: true, status: 200, data: { ok: true, rev: 4 } }),
   } as unknown as ApiClient
   let owner: string | null = 'acc_old'
-  const sync = new ProgressSync({ api, storage: createMemoryStorage(), store: fakeStore(blank({ completedSections: ['intro'] })), owner: { get: () => owner, set: (a) => { owner = a } }, now: () => Date.now(), scheduler: { setTimeout: () => 0, clearTimeout: () => {} } })
+  let clock = Date.now()
+  const sync = new ProgressSync({ api, storage: createMemoryStorage(), store: fakeStore(blank({ completedSections: ['intro'] })), owner: { get: () => owner, set: (a) => { owner = a } }, now: () => clock, scheduler: { setTimeout: () => 0, clearTimeout: () => {} } })
   const seen: SyncStatus[] = []
   sync.onStatus((s) => seen.push(s))
   assert.equal(await sync.start('acc_new'), 'needs_choice')
@@ -129,6 +130,8 @@ test('F2: a visibility pull while the owner choice is pending changes no status 
   assert.deepEqual(seen, [], 'no transient pulling status, so the runtime keeps choiceDeferred')
   assert.equal(gets, 1, 'the pending remote copy is kept; the choice decides what happens to it')
   assert.equal(await sync.resolveOwnerChoice('merge'), 'synced')
+  // Pulls are throttled since 4 Oct 2026 (progress-sync-efficiency); past the window the gate is gone.
+  clock += PULL_THROTTLE_MS + 1
   assert.equal(await sync.pull(), 'synced', 'once answered, a pull works again')
   assert.equal(gets, 2)
 })

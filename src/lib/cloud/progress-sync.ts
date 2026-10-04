@@ -19,6 +19,12 @@
  *   pull is in flight, and not while the owner choice is pending (flush, debounce and sign-out
  *   included). Sign-out then drops the unanswered choice.
  * - Sign-out flushes first and keeps local progress.
+ * - Cost (owner request, 4 Oct 2026): no upload when the document equals the last acknowledged one;
+ *   the debounce never holds a change past PUSH_MAX_WAIT_MS; focus pulls are throttled to one per
+ *   PULL_THROTTLE_MS (start and "Sincronizar ahora" always pull); offline, 5xx, 429 and 503 retry
+ *   with capped exponential backoff and jitter, the server's `retryAfter` (s) winning; a
+ *   `syncHint.minIntervalMs` in an answer (the worker's budget saver) raises the debounce, the
+ *   maximum wait and the pull throttle until an answer comes without it.
  */
 import { PROGRESS_STORAGE_KEY, parsePersistedEnvelope } from '@/lib/progress-sanitize'
 import type { ApiClient, ApiResult } from '@/lib/cloud/api'
@@ -42,6 +48,10 @@ import { isPlainObject, readRaw, writeRaw, type KeyValueStorage } from '@/lib/cl
 
 export const ARCHIVE_PREFIX = `${PROGRESS_STORAGE_KEY}.archive.`
 export const PUSH_DEBOUNCE_MS = 5000
+export const PUSH_MAX_WAIT_MS = 60_000
+export const PULL_THROTTLE_MS = 60_000
+export const RETRY_BASE_MS = 5000
+export const RETRY_MAX_MS = 300_000
 export const KEEPALIVE_MAX_BYTES = 64 * 1024
 export const DOC_MAX_BYTES = 256 * 1024
 export const MAX_CONFLICT_RETRIES = 3
@@ -74,6 +84,25 @@ export interface SyncDeps {
   scheduler?: Scheduler
   /** Called with the time of every successful pull or push. */
   onSynced?: (ms: number) => void
+  /** [0, 1) for retry jitter; Math.random by default. */
+  random?: () => number
+}
+
+/** A failure worth retrying by itself: offline, timeout, 5xx, or the server asking to wait. */
+function retryable(r: ApiResult<unknown>): boolean {
+  return !r.ok && (isUnavailable(r) || r.status === 429 || r.status === 503)
+}
+
+/** The server's `retryAfter` (seconds) in a failure body, in ms; null without one. */
+function retryAfterMs(r: ApiResult<unknown>): number | null {
+  const v = !r.ok && r.data ? r.data.retryAfter : undefined
+  return typeof v === 'number' && Number.isFinite(v) && v > 0 ? Math.min(v, 86_400) * 1000 : null
+}
+
+/** `syncHint.minIntervalMs` in a success body; 0 without one. */
+function hintMs(data: Record<string, unknown>): number {
+  const hint = isPlainObject(data.syncHint) ? data.syncHint.minIntervalMs : undefined
+  return typeof hint === 'number' && Number.isFinite(hint) && hint > 0 ? Math.min(hint, 3_600_000) : 0
 }
 
 export type SyncStatus =
@@ -204,6 +233,14 @@ export class ProgressSync {
   private pending: RemoteCopy | null = null
   private chain: Promise<unknown> = Promise.resolve()
   private readonly listeners = new Set<(s: SyncStatus) => void>()
+  /** JSON of the document the server last acknowledged (or that a pull showed it already holds). */
+  private ackedJson: string | null = null
+  /** When the oldest unsent change happened; bounds the debounce. */
+  private dirtySince: number | null = null
+  private lastSyncMs = 0
+  private retries = 0
+  private notBefore = 0
+  private minIntervalMs = 0
 
   constructor(deps: SyncDeps) {
     this.deps = { ...deps, scheduler: deps.scheduler ?? realScheduler() }
@@ -240,8 +277,10 @@ export class ProgressSync {
    * through 'pulling' back to 'needs_choice' and reopen it on every tab switch. The pending remote
    * copy stays; the answer merges it, and a stale copy is corrected by the 409 path on upload.
    */
-  pull(): Promise<SyncStatus> {
+  pull(force = false): Promise<SyncStatus> {
     if (!this.accountId || this.pending) return Promise.resolve(this.status)
+    const throttle = Math.max(PULL_THROTTLE_MS, this.minIntervalMs)
+    if (!force && this.lastSyncMs > 0 && this.deps.now() - this.lastSyncMs < throttle) return Promise.resolve(this.status)
     return this.enqueue(() => this.pullNow())
   }
 
@@ -304,17 +343,38 @@ export class ProgressSync {
     this.timer = null
   }
 
+  /** Debounce, bounded by the maximum wait since the oldest unsent change, never before notBefore. */
+  private pushDelay(): number {
+    const now = this.deps.now()
+    let delay = Math.max(PUSH_DEBOUNCE_MS, this.minIntervalMs)
+    if (this.dirtySince !== null) {
+      const maxWait = Math.max(PUSH_MAX_WAIT_MS, this.minIntervalMs)
+      delay = Math.min(delay, Math.max(0, this.dirtySince + maxWait - now))
+    }
+    return Math.max(delay, this.notBefore - now)
+  }
+
   private schedulePush(): void {
     this.cancelTimer()
     this.timer = this.deps.scheduler.setTimeout(() => {
       this.timer = null
       void this.enqueue(() => this.push(false))
-    }, PUSH_DEBOUNCE_MS)
+    }, this.pushDelay())
   }
 
   private markDirty(): void {
     this.changeSeq += 1
+    if (this.dirtySince === null) this.dirtySince = this.deps.now()
     if (this.canPush()) this.schedulePush()
+  }
+
+  /** Offline, 5xx, 429 or 503: wait (server's retryAfter, else capped backoff with jitter) and retry. */
+  private scheduleRetry(r: ApiResult<unknown>): void {
+    const backoff = Math.min(RETRY_MAX_MS, RETRY_BASE_MS * 2 ** this.retries)
+    const jitter = 0.8 + 0.4 * (this.deps.random ?? Math.random)()
+    this.retries += 1
+    this.notBefore = this.deps.now() + (retryAfterMs(r) ?? Math.round(backoff * jitter))
+    if (this.canPush() && this.changeSeq !== this.syncedSeq) this.schedulePush()
   }
 
   /**
@@ -350,12 +410,16 @@ export class ProgressSync {
 
   private synced(): SyncStatus {
     this.lastError = null
+    this.lastSyncMs = this.deps.now()
+    this.retries = 0
+    this.notBefore = 0
     this.deps.onSynced?.(this.deps.now())
     return this.setStatus('synced')
   }
 
   private failed(result: ApiResult<unknown>): SyncStatus {
     this.lastError = result.ok ? null : result.reason
+    if (retryable(result)) this.scheduleRetry(result)
     if (isUnavailable(result)) return this.setStatus('offline')
     return this.setStatus(result.status === 401 ? 'signed_out' : 'error')
   }
@@ -387,6 +451,8 @@ export class ProgressSync {
     this.baseRev = remote.rev
     if (!this.differsFromRemote(merged.state, merged.changes, remote.doc)) {
       this.syncedSeq = this.changeSeq
+      this.ackedJson = JSON.stringify(buildRemoteDoc(merged.state, merged.changes))
+      this.dirtySince = null
       return this.synced()
     }
     this.changeSeq += 1
@@ -415,6 +481,7 @@ export class ProgressSync {
 
   private async push(keepalive: boolean): Promise<SyncStatus> {
     if (!this.canPush() || this.changeSeq === this.syncedSeq) return this.status
+    if (this.unchangedSinceAck()) return this.synced()
     this.setStatus('pushing')
     for (let attempt = 0; attempt <= MAX_CONFLICT_RETRIES; attempt++) {
       const seq = this.changeSeq
@@ -422,7 +489,7 @@ export class ProgressSync {
       const size = byteLength(JSON.stringify(body))
       if (size > DOC_MAX_BYTES) return this.setStatus('too_large')
       const r = await this.deps.api.put(PROGRESS_PATH, body, { keepalive: keepalive && size <= KEEPALIVE_MAX_BYTES })
-      if (r.ok) return this.pushed(r.data, seq)
+      if (r.ok) return this.pushed(r.data, seq, JSON.stringify(body.doc))
       if (r.status !== 409) return this.failed(r)
       const absorbed = await this.absorbConflict(r.data, keepalive)
       if (absorbed !== null) return this.setStatus(absorbed)
@@ -430,8 +497,19 @@ export class ProgressSync {
     return this.setStatus('conflict')
   }
 
-  private pushed(data: Record<string, unknown>, seq: number): SyncStatus {
+  /** Nothing to send: the document equals what the server already holds. Marks it synced. */
+  private unchangedSinceAck(): boolean {
+    if (this.ackedJson === null || JSON.stringify(this.body().doc) !== this.ackedJson) return false
+    this.syncedSeq = this.changeSeq
+    this.dirtySince = null
+    return true
+  }
+
+  private pushed(data: Record<string, unknown>, seq: number, sentJson: string): SyncStatus {
     if (typeof data.rev === 'number' && Number.isInteger(data.rev)) this.baseRev = data.rev
+    this.minIntervalMs = hintMs(data)
+    this.ackedJson = sentJson
+    if (this.changeSeq === seq) this.dirtySince = null
     this.syncedSeq = seq
     if (this.changeSeq !== seq) this.schedulePush()
     return this.synced()
