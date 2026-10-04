@@ -61,7 +61,9 @@ function contrast(fg, bg) {
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
 }
 
-const bg = oklchToSrgb(vars['code-bg'] || 'oklch(0.16 0.02 260)')
+// No stand-in background. A ratio against a colour the stylesheet does not declare measures
+// nothing, and a deleted --code-bg used to pass against the one hard-coded here.
+const bg = vars['code-bg'] ? oklchToSrgb(vars['code-bg']) : null
 const pairs = [
   ['code-fg', 4.5],
   ['code-comment', 4.5],
@@ -73,13 +75,15 @@ const pairs = [
 ]
 
 const results = []
+if (!bg) results.push({ name: 'code-bg', ok: false, error: 'missing or not oklch()' })
 for (const [name, min] of pairs) {
   const raw = vars[name]
-  if (!raw || !bg) {
-    results.push({ name, ok: false, error: 'missing' })
+  // A colour this parser cannot read used to reach contrast() as null and crash the gate.
+  const fg = raw ? oklchToSrgb(raw) : null
+  if (!fg || !bg) {
+    results.push({ name, ok: false, error: raw ? 'not comparable' : 'missing' })
     continue
   }
-  const fg = oklchToSrgb(raw)
   const r = contrast(fg, bg)
   results.push({ name, min, ratio: Math.round(r * 100) / 100, ok: r >= min, fg: raw, bg: vars['code-bg'] })
 }

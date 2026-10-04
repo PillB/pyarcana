@@ -1,5 +1,6 @@
 {
   "ok": true,
+  "empty_populations": [],
   "sections_audited": 52,
   "terms_audited": 108,
   "events_audited": 22909,

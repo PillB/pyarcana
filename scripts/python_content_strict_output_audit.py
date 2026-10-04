@@ -23,16 +23,18 @@ Must run under `.venv-content` (Python 3.12, pinned packages), like the runtime 
 
 Usage:
   .venv-content/bin/python scripts/python_content_strict_output_audit.py [--only s46] [--file X.ts]
-      [--json OUT] [--check]
+      [--json OUT] [--check] [--workers N]
 `--check` exits 1 when any declared output mismatches.
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
 import sys
+from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -52,6 +54,28 @@ HOST_SPECIFIC = (
     (re.compile(r"\b3\.12\.\d+\b"), "3.12.<patch>"),
     (re.compile(r'File "[^"]+"'), 'File "<file>"'),
 )
+#: Snippets whose printed output is not reproducible, each owed to a content fix. An entry is
+#: pinned to the code it was granted for (a sha256 prefix): while that code is unchanged its
+#: snippet may match or mismatch, because the output is noise, and any other mismatch still fails
+#: --check. Editing the snippet, which is the fix, fails until the entry is removed here.
+#: 2026-10-04: S33's XOR demo. XOR is symmetric, so the best linear logistic model is exactly
+#: p = 0.5, and 4000 steps reach it: the logits end as rounding noise (|z| < 4e-16), and
+#: `(p > 0.5)` reads the sign of that noise. Which noise depends on the BLAS kernel and numpy's
+#: SIMD math path, both picked for the CPU at run time, and GitHub's runners vary in CPU: CI's
+#: first run printed [0, 0, 1, 0], its second the declared [0, 0, 0, 0]. Owing it "until it
+#: matches in CI" assumed a stable platform result and failed on the second run.
+#: The fix is in the fixer session's #80: the snippet prints the probabilities, [0.5, 0.5, 0.5,
+#: 0.5], instead of a tie broken by noise. When #80 and this entry meet, the pin fails; delete the
+#: entry (and these lines). The tests use a synthetic entry, so nothing else changes.
+KNOWN_MISMATCHES = {
+    ("src/lib/course/sections/s33-advanced-models.ts", "code-block-4"): (
+        "b15faa81c708",
+        "thresholds a probability that is rounding noise at XOR's symmetric optimum"),
+}
+
+
+def code_digest(code: str) -> str:
+    return hashlib.sha256(code.encode("utf-8")).hexdigest()[:12]
 
 
 def run_with_seed(code: str, seed: str) -> dict:
@@ -168,6 +192,20 @@ def summarise(rows: list[dict]) -> dict:
     return counts
 
 
+def check_problems(rows: list[dict], codes: dict[tuple[str, str], str]) -> list[str]:
+    """What fails --check: a mismatch nobody owes, or an owed snippet whose code has changed."""
+    problems = []
+    for r in rows:
+        key = (r["file"], r["artifact_id"])
+        entry = KNOWN_MISMATCHES.get(key)
+        if entry and code_digest(codes[key]) != entry[0]:
+            problems.append(f"{key[0]} {key[1]} changed since it was owed: if this is the fix, remove "
+                            "its KNOWN_MISMATCHES entry; if not, re-measure it")
+        elif r["verdict"] == "mismatch" and not entry:
+            problems.append(f"{key[0]} {key[1]} mismatches and is not owed in KNOWN_MISMATCHES")
+    return problems
+
+
 def main() -> int:
     report_lock.refuse_if_busy(__file__)
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
@@ -175,6 +213,8 @@ def main() -> int:
     ap.add_argument("--file", default=None, help="audit this .ts file instead (probes)")
     ap.add_argument("--json", default=str(DEFAULT_OUT))
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--workers", type=int, default=1,
+                    help="audit this many snippets at once, each in its own process")
     args = ap.parse_args()
 
     drift = rt.probe_version_drift()
@@ -183,14 +223,25 @@ def main() -> int:
         print(json.dumps(drift, indent=2)[:800])
         return 2
 
-    rows = [audit_artifact(a) for p in target_files(args.only, args.file) for a in extract(p)]
+    artifacts = [a for p in target_files(args.only, args.file) for a in extract(p)]
+    # Processes, never threads: run_with_seed sets PYTHONHASHSEED in os.environ, which threads
+    # would share mid-run. map() keeps the input order, so the report is the same at any width.
+    if args.workers > 1:
+        with ProcessPoolExecutor(max_workers=args.workers) as pool:
+            rows = list(pool.map(audit_artifact, artifacts, chunksize=4))
+    else:
+        rows = [audit_artifact(a) for a in artifacts]
     counts = summarise(rows)
     mismatches = [r for r in rows if r["verdict"] == "mismatch"]
     Path(args.json).write_text(json.dumps({"counts": counts, "mismatches": mismatches, "rows": rows}, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"strict output audit: {counts}")
     for m in mismatches[:40]:
-        print(f"  MISMATCH {m['file']} {m['artifact_id']} line {m.get('line')}: declared {m.get('declared')!r} printed {m.get('printed')!r}")
-    return 1 if (args.check and mismatches) else 0
+        owed = " (owed)" if (m["file"], m["artifact_id"]) in KNOWN_MISMATCHES else ""
+        print(f"  MISMATCH{owed} {m['file']} {m['artifact_id']} line {m.get('line')}: declared {m.get('declared')!r} printed {m.get('printed')!r}")
+    problems = check_problems(rows, {(a["file"], a["artifact_id"]): a["code"] for a in artifacts})
+    for problem in problems:
+        print(f"  FAILS --check: {problem}")
+    return 1 if (args.check and problems) else 0
 
 
 if __name__ == "__main__":

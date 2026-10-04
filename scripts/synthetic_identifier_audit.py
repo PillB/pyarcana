@@ -37,13 +37,17 @@ ID_WORD = re.compile(r"\b(DNI|RUC|documento\s+de\s+identidad|n[uú]mero\s+de\s+d
 def wired_files() -> list[Path]:
     index = (ROOT / "src/lib/course/index.ts").read_text(encoding="utf-8")
     return [SECTIONS / f"{m.group(1)}.ts"
-            for m in re.finditer(r"from '\./sections/([^']+)'", index)]
+            for m in re.finditer(r"from\s+['\"]\./sections/([^'\"]+)['\"]", index)]
 
 
 def main() -> int:
     report_lock.refuse_if_busy(__file__)
+    files = wired_files()
+    # A scan of nothing is not a clean scan. An import written in the other quote style, or a
+    # wired file that moved, used to drop out silently and leave the gate green.
+    unreadable = [str(p.relative_to(ROOT)) for p in files if not p.exists()]
     findings = []
-    for path in wired_files():
+    for path in files:
         if not path.exists():
             continue
         text = path.read_text(encoding="utf-8")
@@ -60,14 +64,16 @@ def main() -> int:
             })
 
     report = {
-        "ok": not findings,
+        "ok": bool(files) and not unreadable and not findings,
         "decision": "D2 - synthetic records carry no DNI",
-        "files_scanned": len(wired_files()),
+        "files_scanned": len(files) - len(unreadable),
+        "unreadable": unreadable,
         "violations": len(findings),
         "findings": findings,
     }
     OUT.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
-    print(json.dumps({"ok": report["ok"], "violations": len(findings),
+    print(json.dumps({"ok": report["ok"], "files_scanned": report["files_scanned"],
+                      "unreadable": unreadable, "violations": len(findings),
                       "files": sorted({f["file"].split("/")[-1] for f in findings}),
                       "report": str(OUT.relative_to(ROOT))}, indent=2, ensure_ascii=False))
     return 0 if report["ok"] else 1

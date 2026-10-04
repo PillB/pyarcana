@@ -42,9 +42,13 @@ const BUILD = [
   'from concept_map import build_concepts, TEACHING_KINDS',
   "json.dump({'map': build_concepts(json.load(sys.stdin)), 'teaching': sorted(TEACHING_KINDS)}, sys.stdout)",
 ].join('\n')
-const built = JSON.parse(execFileSync('python3', ['-c', BUILD], {
-  input: extracted, encoding: 'utf8', maxBuffer: 256 * 1024 * 1024,
-}))
+/** The real build_concepts over an extractor payload, given as its JSON text. */
+function buildConcepts(payloadJson) {
+  return JSON.parse(execFileSync('python3', ['-c', BUILD], {
+    input: payloadJson, encoding: 'utf8', maxBuffer: 256 * 1024 * 1024,
+  }))
+}
+const built = buildConcepts(extracted)
 const conceptMap = built.map
 // Where a definition may be the first one. `outcome` is among them because D1 puts taglines,
 // learning outcomes and jobRelevance on the same footing; weDo preamble and instruction because
@@ -62,6 +66,26 @@ test('a surface the learner only reaches after being stuck cannot introduce a te
     .filter(([, c]) => c.first_definition && NEVER_TEACHING.includes(c.first_definition.kind))
     .map(([id, c]) => `${id} <- ${c.first_definition.kind}`)
   assert.deepEqual(offenders, [])
+})
+
+test('a hint that defines a term first still does not teach it', () => {
+  // The assertion above guards nothing live. TEACHING_KINDS in build_concepts is the only layer
+  // between a hint and a first definition: the extractor does emit definitions on non-teaching
+  // surfaces (79 on 2026-10-04, 10 of them on hints). But every one comes after a teaching
+  // definition, so removing the filter moves 0 of 108 first definitions and the live check
+  // passes either way. Here the data puts the rule at risk: the hint defines the term first.
+  const ev = (order, kind) => ({
+    section_id: 'alpha', display_order: order, kind, location: `alpha.${kind}[${order}]`,
+    text: 'Una tupla es una secuencia que no cambia.', learner_visible: true,
+    mentions: ['tupla'], defines: ['tupla'], requires: [],
+  })
+  const { map } = buildConcepts(JSON.stringify({
+    active_section_ids: ['alpha'],
+    terms: [{ id: 'tupla', firstSectionId: 'alpha' }],
+    events: [ev(0, 'wedo.hint'), ev(1, 'theory.paragraph')],
+  }))
+  assert.equal(map.tupla.first_definition.kind, 'theory.paragraph')
+  assert.deepEqual(map.tupla.reinforcements.map((d) => d.kind), ['wedo.hint'])
 })
 
 test('a term defined at a later occurrence in the same text still counts', () => {

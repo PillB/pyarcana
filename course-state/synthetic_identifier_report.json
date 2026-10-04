@@ -2,6 +2,7 @@
   "ok": true,
   "decision": "D2 - synthetic records carry no DNI",
   "files_scanned": 52,
+  "unreadable": [],
   "violations": 0,
   "findings": []
 }
