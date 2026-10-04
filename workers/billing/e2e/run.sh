@@ -27,6 +27,11 @@ if [[ "${1:-}" != "--no-build" ]]; then
          .replace(/  termsVersion: \x27[^\x27]*\x27,/, "  termsVersion: \x27e2e-2026-10-01\x27,")
          .replace("  emailSignIn: false,", "  emailSignIn: true,");
     fs.writeFileSync(p, s);' "$WORK/site/src/lib/cloud/config.ts"
+  # Local only: wrangler dev rewrites requests to a declared route's host (pyarcana.dev), which the
+  # worker's origin check refuses; the throwaway copy drops the custom-domain routes.
+  node -e '
+    const fs = require("fs"); const p = process.argv[1];
+    fs.writeFileSync(p, fs.readFileSync(p, "utf8").replace(/^routes = \[[\s\S]*?\]\n/m, ""));' "$WORK/site/workers/billing/wrangler.toml"
   (cd "$WORK/site" && NEXT_PUBLIC_BASE_PATH= bun run build:static >"$WORK/build.log" 2>&1 && node scripts/cloud-headers.mjs out >/dev/null)
 fi
 PEPPER="$(node -e 'console.log(require("crypto").randomBytes(32).toString("base64"))')"
