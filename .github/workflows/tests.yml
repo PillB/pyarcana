@@ -127,6 +127,25 @@ jobs:
       - name: Define-before-use across the course
         run: npm run test:first-use-all
 
+      # Here for the same reason. The fixer session's rewrite of the intro audit reads the
+      # extractor's learner-visible events, and content-gates installs no Node dependencies,
+      # so it would fetch an unpinned tsx at run time. One step each, so a failure names its audit.
+      - name: Glossary first-use (forward references)
+        run: npm run test:glossary-intro
+
+      - name: Glossary coverage (hovers that can fire)
+        run: npm run test:glossary-coverage
+
+      - name: Upload glossary and first-use reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: glossary-reports
+          path: |
+            course-state/first_use_all_report.json
+            course-state/glossary_intro_report.json
+            course-state/glossary_coverage_report.json
+
   capstone-pytest:
     name: CP-N4-C + CP-FINAL pytest
     runs-on: ubuntu-latest
@@ -333,12 +352,8 @@ jobs:
       - name: V3 structural invariants
         run: npm run test:v3
 
-      - name: Glossary first-use and coverage
-        run: |
-          python3 scripts/glossary_intro_audit.py
-          python3 scripts/glossary_coverage_audit.py
-
-      # The rest of `npm run test:ux-gates`, one step each so a failure names its gate.
+      # The rest of `npm run test:ux-gates` (the glossary audits run in adversarial-unit), one
+      # step each so a failure names its gate.
       - name: No national identifiers in course data (D2)
         run: npm run test:no-identifiers
 
@@ -367,8 +382,6 @@ jobs:
           path: |
             course-state/python_runtime_audit_report.json
             course-state/python_strict_output_audit.json
-            course-state/glossary_intro_report.json
-            course-state/glossary_coverage_report.json
             course-state/synthetic_identifier_report.json
             course-state/i18n_parity_report.json
             course-state/a11y_contrast_report.json
