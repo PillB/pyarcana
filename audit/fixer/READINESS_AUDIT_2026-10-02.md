@@ -14,11 +14,29 @@ surprising.** The gate reports 0 because of three independent blind spots, all r
 
 | # | Blind spot | Scale | Status |
 |---|---|---|---|
-| 1 | **Self-certifying first mention** — a term whose first appearance is a non-teaching surface is credited with defining itself, so the use can never precede the definition | **46 concepts** | measured |
+| 1 | ~~**Self-certifying first mention**~~ — **RETRACTED 2026-10-04**, see the note in §1.1: `concept_map.py` already had a surface hierarchy, and the surfaces it keeps are kept deliberately and only credited when a gloss is actually present | ~~46 concepts~~ **0** | withdrawn |
 | 2 | **Explained but never exemplified** — the gate checks *explained*, never *exemplified*; the owner's definition requires both | **36 concepts** | measured |
 | 3 | **Alias miss** — the glossary does not declare the form the course actually writes, so real teaching is invisible | proven on `data-leakage` | measured |
 | — | never defined anywhere | 7 concepts | measured |
 | — | union on the owner's definition | **75 / 108** | measured |
+
+> **RETRACTION, 2026-10-04.** Blind spot 1 below is withdrawn. `scripts/concept_map.py` already
+> had a surface hierarchy: `TEACHING_KINDS` filters definitions *before* the first one is chosen,
+> and commit `fb27fcd8` had already removed `wedo.hint` and `selfcheck.option` from it for exactly
+> the reason argued here. What it keeps it keeps deliberately — `outcome`/`tagline`/`jobRelevance`
+> because D1 treats a gloss on a preview surface as a definition (excluding `outcome` had scored
+> `ruff` never-explained across 39 uses), and `wedo.preamble`/`wedo.instruction` because We Do is a
+> teaching phase in gradual release and the preamble *is* the guidance. The detector credits those
+> surfaces only when `definesTerm` actually fires, i.e. when the text contains a gloss — and every
+> sampled case does: *"`for` —la instrucción que repite un bloque de código…"*, *"un
+> **repositorio**, una carpeta con historial que Git mantiene"*, *"precision —de los pares marcados
+> como iguales, qué parte sí lo era—"*.
+>
+> **The `precision`/`recall` example below is therefore wrong**, and it was this section's most
+> rhetorically effective one. S13's `outcome[1]` defines both, correctly. `SELF_CERTIFYING_DEFINITIONS_OWED`
+> is retired; the ratchet counted a second opinion wearing a number. Blind spots 2 (explained but
+> never exemplified, 35) and 3 (alias miss) stand, and 2 is the half of the owner's definition that
+> genuinely goes unmeasured.
 
 ### 1.1 Self-certifying first mention
 

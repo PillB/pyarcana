@@ -3,27 +3,29 @@
 `gate.py`'s `surprising_uses_course_wide` reached 0 on 2026-10-02. On the owner's definition --
 a term must be explained *on a surface that teaches* **and** exemplified before it is used --
 that zero was the instrument's, not the course's. `audit/fixer/READINESS_AUDIT_2026-10-02.md`
-records the measurement; these five ratchets hold the debt it found.
+records the measurement; these four ratchets hold the debt that survived checking.
 
-Why ratchets and not gates: 44 concepts cannot be re-taught in one round, and a gate that is red
-on every round says nothing about the round. Each ratchet is **two-sided**, on the `D10_OWED`
+Why ratchets and not gates: 35 concepts cannot be re-exemplified in one round, and a gate that is
+red on every round says nothing about the round. Each ratchet is **two-sided**, on the `D10_OWED`
 precedent in `test_forward_dependencies.py`: it fails above its constant, listing the offenders,
 and it fails below with "lower it to N" so a repair is recorded rather than absorbed.
 
+A fifth ratchet, `SELF_CERTIFYING_DEFINITIONS_OWED`, was retracted on 2026-10-04 -- it counted a
+disagreement with a documented decision rather than debt. The long note below the constants records
+why, because the mistake is instructive and easy to repeat.
+
 The three failure shapes being counted:
 
-1. **Self-certifying definitions.** A concept whose first appearance is a learning-outcome
-   bullet, a `jobRelevance` blurb, a section `tagline` or a weDo nudge is credited with defining
-   itself -- `first_use` IS `first_definition`, same location, same field -- so the use can never
-   precede the definition. An outcome bullet says "you will learn to X"; it does not explain X.
-   `precision` and `recall` are the costly case: S25 teaches `f1-score` at L3 with its own
-   figure, and F1 is the harmonic mean of two concepts whose only explanation is a bullet
-   promising to teach them.
-2. **Explained, never exemplified.** The measure checks *explained* and never *exemplified*, so a
-   concept with a definition and zero worked examples reads clean.
+1. **Explained, never exemplified.** The measure checks *explained* and never *exemplified*, so a
+   concept with a definition and zero worked examples reads clean. This is the one half of the
+   owner's definition that genuinely goes unmeasured.
+2. **Never explained at all.** Seven concepts have a glossary entry, a declared section, and no
+   definition anywhere -- promises the course does not keep.
 3. **Load-bearing without a subtopic (D3).** `if` and `for` are the most load-bearing concepts in
    the course -- 51 and 49 sections -- and both sit at L2, with no subtopic of their own. The
    ledger's own `concepts` column agrees: 0/52.
+
+Plus the figure debt, which the map has always flagged with a warning and never gated.
 """
 from __future__ import annotations
 
@@ -36,32 +38,45 @@ ROOT = Path(__file__).resolve().parents[2]
 CONCEPT_MAP = ROOT / "course-state" / "concept_map.json"
 GLOSSARY = ROOT / "src" / "lib" / "glossary" / "terms.ts"
 
-# Surfaces that actually teach: prose the learner reads in order to learn, plus the I Do
-# narration, which is instruction by construction -- the teacher demonstrating and explaining.
-# Everything else is a promise (`outcome`), a marketing blurb (`jobRelevance`), a label
-# (`tagline`), a quiz artefact (`selfcheck.*`) or a nudge inside practice (`wedo.*`, `youdo.*`).
-# A definition may be REINFORCED on any surface; it may only be FIRST GIVEN on one of these.
-TEACHING_SURFACES = frozenset({
-    "theory.paragraph", "theory.callout", "theory.heading",
-    "ido.intro", "ido.why", "ido.description", "ido.preamble", "ido.retrospective",
-})
+# RETRACTED 2026-10-04 -- `SELF_CERTIFYING_DEFINITIONS_OWED` is gone, and this note stays so the
+# mistake is not repeated.
+#
+# This file opened with a ratchet counting 44 concepts whose first definition sits on `outcome`,
+# `jobRelevance`, `tagline`, `wedo.preamble` or `wedo.instruction`, on the argument that "an outcome
+# bullet says you will learn to X; it does not explain X".
+#
+# That argument was wrong, and scripts/concept_map.py already had the better one. `TEACHING_KINDS`
+# there filters definitions BEFORE the first one is chosen, so a surface hierarchy already existed;
+# commit fb27fcd8 removed `wedo.hint` and `selfcheck.option` from it for exactly the reason this
+# file was invoking. What it keeps, it keeps deliberately and with a worked counterexample:
+#   - `outcome` / `tagline` / `jobRelevance`, because D1 names all three in one breath and a gloss
+#     written on a preview surface still defines the term. Excluding `outcome` had scored `ruff`
+#     never-explained across 39 uses while S01's outcome said "Ruff es un programa que senala
+#     algunos errores".
+#   - `wedo.preamble` / `wedo.instruction`, because We Do is a teaching phase in gradual release and
+#     the preamble IS the guidance. A hint is different: it arrives after the learner is stuck.
+#
+# And the detector only credits any of those when definesTerm actually fires there -- that is, when
+# the text really contains a gloss. Checked against the course: every sampled case does.
+#     for                 "`for` --la instruccion que repite un bloque de codigo para cada
+#                          elemento de un grupo--"
+#     repositorio-repo    "un **repositorio**, una carpeta con historial que Git mantiene"
+#     truthiness          "*truthiness* --como Python trata un valor como verdadero o falso--"
+#     precision / recall  "precision --de los pares marcados como iguales, que parte si lo era--,
+#                          recall --de los pares realmente iguales, que parte encontraste--"
+#
+# The last of those also refutes the audit's headline example, which said S25 teaches `f1-score` at
+# L3 on top of two concepts "whose only explanation is a bullet promising to teach them". The bullet
+# defines them, correctly.
+#
+# The lesson is the one this campaign keeps relearning from the other side: before replacing an
+# instrument's rule, read the rule it already has and the comment explaining why. A ratchet that
+# counts a disagreement with a documented decision is not debt -- it is a second opinion wearing a
+# number. The real gap from that audit survives as UNEXEMPLIFIED_CONCEPTS_OWED: the measure checks
+# explained and never exemplified, which IS the owner's definition going unmeasured.
 
 # Opening values measured at commit c3057a30 (2026-10-02), after `leakage` was added to
 # data-leakage's aliases. Lower each as its debt is paid; raise only with a dated reason.
-# 2026-10-03, S17: raised 44 -> 45 on purpose. Closing data-leakage's 8 surprising uses required a
-# definition at or before its first use, and its first use is `outcome[7]` -- outcomes precede every
-# theory block, so no later definition can reach them. The outcome now carries a real appositive
-# gloss: «Controlar leakage temporal —el uso de datos posteriores a la fecha de corte— con
-# cutoff/as-of». A learner meets the word WITH its meaning instead of without it, which is the trade
-# this ratchet cannot see: it counts the surface KIND, not whether a gloss is present. The P0
-# surface-hierarchy change will distinguish "an outcome that glosses" from "an outcome that only
-# names", and should reclassify this one back down. Until then the honest count is 45.
-#
-# 2026-10-04, S24: back down to 44, and not by undoing the above. Removing the `coverage` homonym
-# moved that concept's first definition from a weDo preamble in S24 -- a non-teaching surface --
-# to a theory paragraph in S27, where test coverage is actually taught. So the homonym fix healed a
-# self-certifying definition as a side effect. data-leakage's outcome gloss still counts here.
-SELF_CERTIFYING_DEFINITIONS_OWED = 44
 NEVER_EXPLAINED_OWED = 7
 UNEXEMPLIFIED_CONCEPTS_OWED = 35
 FIGURE_SHORT_CONCEPTS_OWED = 103
@@ -110,15 +125,6 @@ class TheMapMustNotBeStale(unittest.TestCase):
 
 
 class ConceptDepthRatchets(unittest.TestCase):
-    def test_first_definitions_sit_on_a_surface_that_teaches(self) -> None:
-        offenders = sorted(
-            f"{cid} ({c['first_definition']['kind']} @ {c['first_definition']['section']})"
-            for cid, c in concept_map().items()
-            if (c.get("first_definition") or {}).get("kind")
-            and c["first_definition"]["kind"] not in TEACHING_SURFACES
-        )
-        _report("SELF_CERTIFYING_DEFINITIONS", offenders, SELF_CERTIFYING_DEFINITIONS_OWED, self)
-
     def test_no_more_concepts_are_never_explained(self) -> None:
         offenders = sorted(
             cid for cid, c in concept_map().items() if not c.get("first_definition")
@@ -156,29 +162,9 @@ class TheRatchetsMeasureSomethingReal(unittest.TestCase):
     an unverified claim. These assertions fail if any of the five becomes vacuous.
     """
 
-    def test_the_teaching_surface_split_is_not_degenerate(self) -> None:
-        kinds = {
-            (c.get("first_definition") or {}).get("kind")
-            for c in concept_map().values()
-        } - {None}
-        self.assertTrue(
-            kinds & TEACHING_SURFACES,
-            "no concept is defined on a teaching surface -- the split is inverted",
-        )
-        self.assertTrue(
-            kinds - TEACHING_SURFACES,
-            "every surface counts as teaching -- delete this ratchet, it cannot fail",
-        )
-
     def test_the_known_worked_cases_are_still_the_cases(self) -> None:
         """The two findings that motivated this file, pinned so a silent reversal is caught."""
         cmap = concept_map()
-        for cid in ("precision", "recall"):
-            self.assertEqual(
-                cmap[cid]["first_definition"]["kind"], "outcome",
-                f"{cid} no longer self-certifies from an outcome bullet -- if it was fixed, "
-                f"lower SELF_CERTIFYING_DEFINITIONS_OWED and drop it from this pin",
-            )
         for cid in ("if", "for"):
             self.assertNotEqual(
                 cmap[cid]["depth"], "L3",
