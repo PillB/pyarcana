@@ -191,6 +191,26 @@ statistics work, so it stays visible.
 
 **Retire when:** the ratchet reaches 0.
 
+### O15 — The undeclared teaching packages are declared, not designed around
+**Scope:** `requirements-content.txt`. **Status:** live.
+
+Eight packages were installed in `.venv-content` and never declared: matplotlib, openpyxl, jinja2,
+Pillow, pymupdf, pypdf, python-docx, playwright. The snippets importing them ran locally and
+**skipped in CI** — 6 missing-dependency skips measured locally against 54 in CI. A skipped snippet
+is an unverified `output:` promise, so the runtime audit was reporting a green it had not earned.
+
+The owner's call: declare them. The snippets are correct Python, `.venv-content` proves they run,
+and the manifest is what fell behind the content. Rewriting working lesson code to satisfy a stale
+manifest would be the measure driving the course.
+
+Each is imported by the section whose subject it is — matplotlib S19, openpyxl S20, jinja2/Pillow/
+pymupdf/pypdf/python-docx S21, playwright S23 — so none is optional. All pinned to the versions
+`.venv-content` is verified against, because a floating version can change a printed value.
+Transitive dependencies are deliberately left unpinned.
+
+**Retire when:** CI's missing-dependency skip count matches the local count, and the S25 session's
+`MISSING_DEPENDENCY_OWED` (54, in its own PR) is lowered to what remains.
+
 ---
 
 ## Archive
