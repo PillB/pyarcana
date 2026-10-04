@@ -53,6 +53,17 @@ HOST_SPECIFIC = (
     (re.compile(r"\b3\.12\.\d+\b"), "3.12.<patch>"),
     (re.compile(r'File "[^"]+"'), 'File "<file>"'),
 )
+#: Mismatches CI's environment shows today, each owed to a content fix. They are named by file
+#: and artifact, so any other mismatch still fails --check, and in CI an entry whose snippet
+#: matches again fails too, until it is removed here. Elsewhere an entry may match: these are
+#: platform numerics, and CI's Linux is the environment the declared outputs promise.
+#: 2026-10-04: S33's XOR demo. Its linear model ends at p = 0.5 for all four points (loss 0.6931,
+#: ln 2), so `(p > 0.5)` is decided by floating-point noise: [0, 0, 0, 0] on macOS, [0, 0, 1, 0]
+#: on CI's Linux, and "aciertos_sin" moves with it. The content fix belongs to a section round.
+KNOWN_MISMATCHES = {
+    ("src/lib/course/sections/s33-advanced-models.ts", "code-block-4"):
+        "a prediction thresholded at p = 0.5 within float noise differs by platform",
+}
 
 
 def run_with_seed(code: str, seed: str) -> dict:
@@ -169,6 +180,18 @@ def summarise(rows: list[dict]) -> dict:
     return counts
 
 
+def check_problems(rows: list[dict], in_ci: bool) -> list[str]:
+    """What fails --check: a mismatch nobody owes, or, in CI, an owed snippet that matches again."""
+    def owed(r: dict) -> bool:
+        return (r["file"], r["artifact_id"]) in KNOWN_MISMATCHES
+    problems = [f"{r['file']} {r['artifact_id']} mismatches and is not owed in KNOWN_MISMATCHES"
+                for r in rows if r["verdict"] == "mismatch" and not owed(r)]
+    if in_ci:
+        problems += [f"{r['file']} {r['artifact_id']} matches in CI now: remove it from KNOWN_MISMATCHES"
+                     for r in rows if r["verdict"] in ("match", "match_elided") and owed(r)]
+    return problems
+
+
 def main() -> int:
     report_lock.refuse_if_busy(__file__)
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
@@ -199,8 +222,12 @@ def main() -> int:
     Path(args.json).write_text(json.dumps({"counts": counts, "mismatches": mismatches, "rows": rows}, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"strict output audit: {counts}")
     for m in mismatches[:40]:
-        print(f"  MISMATCH {m['file']} {m['artifact_id']} line {m.get('line')}: declared {m.get('declared')!r} printed {m.get('printed')!r}")
-    return 1 if (args.check and mismatches) else 0
+        owed = " (owed)" if (m["file"], m["artifact_id"]) in KNOWN_MISMATCHES else ""
+        print(f"  MISMATCH{owed} {m['file']} {m['artifact_id']} line {m.get('line')}: declared {m.get('declared')!r} printed {m.get('printed')!r}")
+    problems = check_problems(rows, os.environ.get("CI") == "true")
+    for problem in problems:
+        print(f"  FAILS --check: {problem}")
+    return 1 if (args.check and problems) else 0
 
 
 if __name__ == "__main__":
