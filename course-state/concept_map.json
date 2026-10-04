@@ -84380,12 +84380,6 @@
   "uses": [
    {
     "section": "S27",
-    "location": "async-concurrency.theory[1].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
-    "section": "S27",
     "location": "async-concurrency.S27-T4-A.p0",
     "kind": "theory.paragraph",
     "visible": true
@@ -84557,7 +84551,7 @@
   "figures": [],
   "first_use": {
    "section": "S27",
-   "location": "async-concurrency.theory[1].p1",
+   "location": "async-concurrency.S27-T4-A.p0",
    "kind": "theory.paragraph",
    "visible": true
   },
@@ -84569,14 +84563,7 @@
   },
   "reinforcements": [],
   "depth": "L1",
-  "surprising_uses": [
-   {
-    "section": "S27",
-    "location": "async-concurrency.theory[1].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   }
-  ],
+  "surprising_uses": [],
   "sections_used": [
    "S27",
    "S30",

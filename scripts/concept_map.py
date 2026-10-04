@@ -81,7 +81,14 @@ def sources_newer_than_cache() -> bool:
     cached = EVENTS.stat().st_mtime
     watched = list((ROOT / "src/lib/course/sections").glob("*.ts"))
     watched += [ROOT / "src/lib/glossary/terms.ts", ROOT / "src/lib/course/index.ts",
-                ROOT / "scripts/course_event_extractor.mts"]
+                ROOT / "scripts/course_event_extractor.mts",
+                # 2026-10-04: concept_syntax.mts was missing, and it holds PROPER_NAMES -- the
+                # homonym guard the extractor applies before matching any term. So an edit to the
+                # guard did not invalidate the cache, and the map stayed stale against its own
+                # guard. Measured, not reasoned: adding `cobertura de ramas de negocio` to
+                # PROPER_NAMES changed nothing until this line existed, because the hand-written
+                # list below is what decides whether the extractor runs at all.
+                ROOT / "scripts/concept_syntax.mts"]
     return any(p.exists() and p.stat().st_mtime > cached for p in watched)
 
 

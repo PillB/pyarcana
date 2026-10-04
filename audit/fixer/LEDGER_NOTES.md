@@ -806,3 +806,31 @@ correlation id, `merge` with pandas' merge, `set` with `if`, and now `cobertura`
 coverages. Before adding a Spanish common noun as an alias, grep the course for the bare word and
 read the senses. A term whose alias is a common noun needs the compound form declared, not the bare
 one — and the prose that means something else needs to say so.
+
+### A cache that does not watch the guard reports the guard never worked (2026-10-04, course-wide)
+
+S27's roadmap paragraph says «T4 cierra con **cobertura de ramas de negocio**» — business branches,
+`auto_match` / `review` / `non_match`. `S27-T4-A.p0` then defines «**cobertura de ramas**» as code
+branches, «mide si cada rama (`if`/`else`) se ejecutó». The glossary alias matched the business
+phrase, so the section's own contract read as a use of the term 49 events before the section defines
+it. The prose is right and the contrast is deliberate; the match was wrong.
+
+The fix is the established one: add the compound to `PROPER_NAMES` in `scripts/concept_syntax.mts`,
+exactly as `identificador de correlación` was added. **It changed nothing.** Three regenerations in
+a row still reported the surprising use.
+
+The cause: `concept_map.py`'s `sources_newer_than_cache()` watched the section files, `terms.ts`,
+`index.ts` and `course_event_extractor.mts` — and **not `concept_syntax.mts`**, which holds the
+guard the extractor applies before matching any term. So an edit to the homonym guard did not
+invalidate the cache, the extractor never re-ran, and the map stayed stale **against its own
+guard**. The watch list is what decides whether the measurement happens at all.
+
+**The heuristic: a cache's watch list is part of the measurement, and a hand-written one rots.**
+When a change to an instrument appears to do nothing, check whether the thing that decides to re-run
+it can see the file you edited — before you conclude the change was wrong. The S25 session reached
+the same defect from the other side and replaced the list with the extractor's import graph, 58
+files; until that lands, `concept_syntax.mts` is watched explicitly.
+
+This is the second time in one session that a hand-written list of inputs has silently excluded real
+evidence. The other was the ledger's `redaction` column, computed from gitignored `.fixer/` state.
+Both reported success from a file nobody was looking at.
