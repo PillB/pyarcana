@@ -1,2 +1,2 @@
-STATUS: IN PROGRESS — Levels 1–3 walked and read (L1–L2 filed, L3 filing); Level 4 walking.
+STATUS: IN PROGRESS — all 52 sections walked and read; final QA filing and export running.
 

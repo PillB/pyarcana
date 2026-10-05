@@ -1,4 +1,4 @@
-STATUS: IN PROGRESS — Levels 1–3 walked and read (L1–L2 filed, L3 filing); Level 4 walking.
+STATUS: IN PROGRESS — all 52 sections walked and read; final QA filing and export running.
 
 # PyArcana learner walkthrough: S01–S52 through the QA platform
 
@@ -158,7 +158,7 @@ Cross-cutting findings W01–W11 are defined once in §3.0 and referenced by id 
 
 **W01 [high]** Al pulsar «Marcar como completada» tras aprobar el Autocheck, la sección deja de estar completada  
 *Where:* first seen S01 (quiz); QA report `W01`.  
-[O] After passing the self-check (≥70%), the section is already complete and the quiz sub-step is marked. The result card then offers «Marcar como completada». Clicking it calls the same toggle again (toggleSubStep/toggleSectionComplete in src/lib/progress-store.ts:54-75; onDone at SectionView.tsx:996 and the auto-call at :858-860), which UN-marks the quiz and the section. Reproduced on all 13 L1 sections (data/walk/S01..S13.json: afterAttempt1.complete=true → afterCta.complete=false). The server copy follows: GET /api/v1/me/progress shows completedSections: [] and "sec:setup": {present:false}. Severity: Alta by the QA tutorial's own rule («¿existe una forma de seguir?»): she can go on, but her record of finishing is wrong, and badges built on section completion cannot see it.  
+[O] After passing the self-check (≥70%), the section is already complete and the quiz sub-step is marked. The result card then offers «Marcar como completada». Clicking it calls the same toggle again (toggleSubStep/toggleSectionComplete in src/lib/progress-store.ts:54-75; the result-card button at SectionView.tsx:992 and the auto-call at :857-859), which UN-marks the quiz and the section. Reproduced on all 52 of 52 sections (data/walk/S01..S52.json: afterAttempt1.complete=true → afterCta.complete=false). The server copy follows: GET /api/v1/me/progress shows completedSections: [] and "sec:setup": {present:false}. Severity: Alta by the QA tutorial's own rule («¿existe una forma de seguir?»): she can go on, but her record of finishing is wrong, and badges built on section completion cannot see it.  
 *Expected:* Después de aprobar, «Marcar como completada» deja la sección completada (o no aparece, porque ya lo está).  
 *Observed:* La sección pasa de completada a no completada; la barra «Tu progreso» no avanza; el estado del servidor también pierde la sección.  
 *Fix:* src/components/course/SectionView.tsx: make onDone idempotent (set, not toggle) for quiz completion, and remove or disable the result card button once the section is complete. Add a unit test that passing then clicking keeps completion.
@@ -1673,7 +1673,7 @@ None found. The You Do is stdlib-only, needs no paid service, and every function
 
 #### S47 — MLOps: experimentos, registro y serving
 
-*Browser walk:* not run for S47.
+*Browser walk [O]:* playground «Practica empaquetado y CI» (**off topic** (W03)): ran in Pyodide, verdict `match`; after a one-string edit `match`. I Do: 8 demos, output pre-written (W04). We Do: 24 exercises, 0 editable (W05). Autocheck: 8 questions, no exam, self-check only (W02); completion lost after «Marcar como completada» (W01). 1 console/page/network errors (first: `console.error: Failed to load resource: the server responded with a status of 409 (Conflict)`); no horizontal scroll at 390 px. Data: `data/walk/S47.json`.
 
 Read: all fields of `/tmp/claude-0/sections/S47-opensource.json` (jobRelevance, learningOutcomes[0–7], theory[0–9] incl. code/output/callouts/figures, iDo.intro + steps[0–7], weDo.intro + steps[0–23] incl. starter/solution/output/feedback, youDo incl. full starterCode + rubric, selfCheck[0–7], resources) and all 24 items of `S47-opensource.exam.json`. Also read: `src/lib/capstones/catalog.ts` (CP-N4-B entry, `GATE_MAP` S47 → CP-N4-B) and every file in `course-state/capstones/CP-N4-B/` (BRIEF, FINAL_INTERFACE, RUBRIC.json, gate.json, IDO/WEDO/YOUDO.md, RUN.md, execution.json, evidence_manifest.json, system_or_data_card.md, demo.py, data/generate.py, tests/test_demo.py, STARTER/). I ran `demo.py` and `tests/test_demo.py` read-only and removed the `__pycache__` the run created. Also read: the S47 playground (`SectionView.tsx` `demos['opensource']`), `PdfReport.tsx` labels, `route.ts` option order, and the badges in `badge_catalog.json` listing S47. Checked earlier sections: grep of S01–S46 `.json` (non-exam) for `CF-4`, `CF-3`, `MLflow`, `pickle`, `p95`, `F1`, `holdout`, `leakage`, `sha256`, `digest`, `model card`, `canary`, `shadow`, `skew`, `lockfile`, `contract test`, `registry`, `baseline`, `rollback`, `last-known-good`, `feature store`, `depth`, `ranker`, `error budget`, `drift`.
 
@@ -1710,7 +1710,7 @@ Read: all fields of `/tmp/claude-0/sections/S47-opensource.json` (jobRelevance, 
 
 #### S48 — LLM applications y RAG con evidencia
 
-*Browser walk:* not run for S48.
+*Browser walk [O]:* playground «Practica bias y fairness» (**off topic** (W03)): ran in Pyodide, verdict `match`; after a one-string edit `mismatch`. I Do: 8 demos, output pre-written (W04). We Do: 24 exercises, 0 editable (W05). Autocheck: 7 questions, no exam, self-check only (W02); completion lost after «Marcar como completada» (W01). 2 console/page/network errors (first: `console.error: Failed to load resource: the server responded with a status of 409 (Conflict)`); no horizontal scroll at 390 px. Data: `data/walk/S48.json`.
 
 Read: all fields of `/tmp/claude-0/sections/S48-ai-governance.json` (jobRelevance, learningOutcomes[0–7], theory[0–9] incl. code/output/callouts/figures, iDo.intro + steps[0–7], weDo.intro + steps[0–23] incl. starter/solution/output/feedback, youDo incl. full starterCode + rubric, selfCheck[0–6], resources) and all 24 items of `S48-ai-governance.exam.json`. Also read: `src/lib/capstones/catalog.ts` (CP-N4-C and its sub-gates S49/S50/S51), `course-state/capstones/CP-N4-C/BRIEF.md` plus a grep of that package for API keys, the S48 playground (`SectionView.tsx` `demos['ai-governance']`; I reproduced its seeded output under CPython), `PdfReport.tsx` labels, `src/lib/glossary/terms.ts` (`rag`), `route.ts` option order, and the badges in `badge_catalog.json` listing S48. Checked earlier sections: grep of S01–S47 `.json` (non-exam) for `embedding`, `cosine/coseno`, `dot product/producto punto`, `BM25`, `TF-IDF`, `Recall@`, `MRR/nDCG`, `faithfulness`, `groundedness`, `ACL`, `tombstone`, `rerank`, `chunk`, `allowlist`, `inyecci/prompt injection`, `LLM`, `REQUEST_CLARIFICATION`, `CP-N4-C-RAG`. Searched S48 for `openai|anthropic|api key|requests.|sentence-transformers|faiss|chroma|pip install|import`.
 
@@ -1742,7 +1742,7 @@ None found. Paid API keys: none needed [O]. Every S48 snippet is stdlib (`hashli
 
 #### S49 — Agentes, herramientas y context engineering
 
-*Browser walk:* not run for S49.
+*Browser walk [O]:* playground «Practica agentes y tools» (on topic): ran in Pyodide, verdict `match`; after a one-string edit `mismatch`. I Do: 8 demos, output pre-written (W04). We Do: 24 exercises, 0 editable (W05). Autocheck: 7 questions, no exam, self-check only (W02); completion lost after «Marcar como completada» (W01). 2 console/page/network errors (first: `console.error: Failed to load resource: the server responded with a status of 409 (Conflict)`); no horizontal scroll at 390 px. Data: `data/walk/S49.json`.
 
 Read: all fields of `/tmp/claude-0/sections/S49-data-contracts.json` (jobRelevance, learningOutcomes[0–7], theory[0–9] incl. code/output/callouts/figures, iDo.intro + steps[0–7], weDo.intro + steps[0–23] incl. starter/solution/output/feedback/hints, youDo incl. full starterCode + rubric, selfCheck[0–6], resources) and all 24 items of `S49-data-contracts.exam.json`. Also read: `src/lib/capstones/catalog.ts` (CP-N4-C, `SUB_N4C`), `course-state/capstones/CP-N4-C/{SUBGATES,BRIEF,RUN,YOUDO,WEDO}.md`, `STARTER/README.md`, `harness/STARTER/README.md`, `RUBRIC.json`, the head of `harness/commercial_model_adapter.py` and of `tests/adversarial/test_n4c_harness.py`, `src/components/course/CapstonesPage.tsx` (sub-gate card), `src/app/api/exam/start/route.ts` (no option shuffling), and the badges in `badge_catalog.json` whose `required_sections` include S49. Checked earlier sections: grep of S01–S48 `.json` for `LLM`, `prompt`, `ADR`, `idempoten`, `least privilege`, `holdout`, `HITL`, `SRP`/`responsabilidad única` (0 hits), `side effect`, `sandbox`, `checkpoint`, `provenance`, `SLO`, `retrieval`, `last-known-good`/`LKG`, `compaction` (0 hits), `evaluator` (0 hits), `ACL`. Grep of S49/S50 + exams for `SERP`, `adapter`/`adaptador`, `fallback`, `wrap_as_data`, `multi-agente`, `harness`, `course-state`, `API key`, `OpenAI`, `fingerprint`.
 
@@ -1775,7 +1775,7 @@ Read: all fields of `/tmp/claude-0/sections/S49-data-contracts.json` (jobRelevan
 
 #### S50 — Evals, red teaming y fiabilidad de IA
 
-*Browser walk:* not run for S50.
+*Browser walk [O]:* playground «Practica design doc y postmortem» (**off topic** (W03)): ran in Pyodide, verdict `match`; after a one-string edit `match`. I Do: 8 demos, output pre-written (W04). We Do: 24 exercises, 0 editable (W05). Autocheck: 10 questions, no exam, self-check only (W02); completion lost after «Marcar como completada» (W01). 2 console/page/network errors (first: `console.error: Failed to load resource: the server responded with a status of 409 (Conflict)`); no horizontal scroll at 390 px. Data: `data/walk/S50.json`.
 
 Read: all fields of `/tmp/claude-0/sections/S50-tech-leadership.json` (jobRelevance, learningOutcomes[0–7], theory[0–9] incl. code/output/callouts/figures, iDo.intro + steps[0–7], weDo.intro + steps[0–23] incl. starter/solution/output/feedback, youDo incl. full starterCode + rubric, selfCheck[0–9], resources) and all 24 items of `S50-tech-leadership.exam.json`. Also read: `src/lib/capstones/catalog.ts` (`SUB_N4C[1]`), `course-state/capstones/CP-N4-C/{SUBGATES,RUN,YOUDO,WEDO}.md`, `RUBRIC.json`, `STARTER/README.md`, the head of `tests/adversarial/test_n4c_harness.py`, `src/app/api/exam/start/route.ts` (`drawOnePerConcept`: question order shuffled, options not), and the badges in `badge_catalog.json` that list S50. Checked earlier sections: grep of S01–S49 `.json` for `p95`, `\bRTO\b` (glossed S44), `canary`, `prefix cache` (0), `order bias` (0), `LLM-judge`/`juez` (0 in S40–S48), `exfiltra`, `poisoning` (0), `alucina`/`hallucina`, `groundedness`, `slice`, `holdout`, `trayectoria`/`trajectory`, `\bP0\b` (S26 only, undefined), `SLO`, `runbook`, `error budget`, `WAF` (0), `\bIAM\b`, `\bACL\b` (glossed S48), `temperatura`/`temperature` (0). Grep of S50 for `harness`, `Copilot`, `BLOCK_CANDIDATE`, `injection`, `API key`.
 
@@ -1808,7 +1808,7 @@ Read: all fields of `/tmp/claude-0/sections/S50-tech-leadership.json` (jobReleva
 
 #### S51 — Observabilidad, gobernanza y UX del copiloto
 
-*Browser walk:* not run for S51.
+*Browser walk [O]:* playground «Practica arquitectura agenticaca» (**off topic** (W03)): ran in Pyodide, verdict `match`; after a one-string edit `match`. I Do: 8 demos, output pre-written (W04). We Do: 24 exercises, 0 editable (W05). Autocheck: 5 questions, no exam, self-check only (W02); completion lost after «Marcar como completada» (W01). 2 console/page/network errors (first: `console.error: Failed to load resource: the server responded with a status of 409 (Conflict)`); no horizontal scroll at 390 px. Data: `data/walk/S51.json`.
 
 Read: all fields of `/tmp/claude-0/sections/S51-integrator-final.json`: jobRelevance, learningOutcomes[0–7], theory[0–9] with code, output and callouts, iDo.intro and steps[0–7], weDo.intro and steps[0–23] (instruction, hints, starter, solution, output, feedback), youDo with full starterCode, rubric and portfolioNote, selfCheck[0–4] and resources. Also read all 24 items of `S51-integrator-final.exam.json`.
 
@@ -1860,7 +1860,7 @@ Checked earlier sections with greps of S01–S50 `.json` for: `CF-5`, `CF-[0-9]`
 
 #### S52 — Enterprise Relationship & Operations Intelligence Platform: capstone final
 
-*Browser walk:* not run for S52.
+*Browser walk [O]:* playground «Practica portfolio y CV» (**off topic** (W03)): ran in Pyodide, verdict `match`; after a one-string edit `mismatch`. I Do: 8 demos, output pre-written (W04). We Do: 24 exercises, 0 editable (W05). Autocheck: 5 questions, no exam, self-check only (W02); completion lost after «Marcar como completada» (W01). 2 console/page/network errors (first: `console.error: Failed to load resource: the server responded with a status of 409 (Conflict)`); no horizontal scroll at 390 px. Data: `data/walk/S52.json`.
 
 Read: all fields of `/tmp/claude-0/sections/S52-career-strategy.json`: jobRelevance, learningOutcomes[0–7], theory[0–9] with code, output and callouts, iDo.intro and steps[0–7], weDo.intro and steps[0–23] (titles, instructions, solution code, outputs, with the T3-B triad read in full), youDo with full starterCode, rubric and portfolioNote, selfCheck[0–4] and resources. Also read all 24 items of `S52-career-strategy.exam.json`.
 
@@ -2205,3 +2205,7 @@ lockfile's integrity hashes. The repository's `bun.lock` was not changed.
   `qa-export/`.
 - My first S01 walk clicked the green «Completado» buttons a second time and un-marked them. That
   is how W07 was found; the walk was then changed never to click a done button.
+- During the L4 walk, the QA-filing browser and the walk browser were signed in to the same account
+  at once (two devices). The walk logged `409 Conflict` on `PUT /api/v1/me/progress`; the server
+  copy still converged to all 52 sections (`rev` 130), so the conflict handling works [O]. The 409s
+  in `data/walk/S41…S52.json` come from that setup, not from a learner's single session.

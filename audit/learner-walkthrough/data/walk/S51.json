@@ -1,0 +1,159 @@
+{
+ "section": "S51",
+ "id": "integrator-final",
+ "title": "Observabilidad, gobernanza y UX del copiloto",
+ "at": "2026-10-05T03:17:56.656Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "ido"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "ido"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "wedo"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "wedo"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794366080,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Observabilidad, gobernanza y UX del copiloto",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 5,
+  "optional": 1,
+  "words": 3333
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica arquitectura agenticaca",
+  "readyMs": 2,
+  "verdict": "match",
+  "output": "=== Plataforma Agéntica ===\nQuery: Analisis de churn Q2 2026\n  [Researcher] Buscando: Analisis de churn Q2 2026\n  [Analyst] Analizando: Datos encontrados sobre Analis...\n  [Writer] Escribiendo reporte...\n=== Reporte Final ===\n# Reporte\nQuery: Analisis de churn Q2 2026\nAnalisis: Insights: Analisis de churn Q2 2026 tiene 3 patrones clave\n=== LLMOps ===\n  latency_p99: 245\n  tokens_used: 1850\n  cost_usd: 0.0046\n  faithfulness: 0.92",
+  "hint": "Anade un cuarto agente \"Reviewer\" que valide el reporte antes de entregarlo",
+  "afterEdit": {
+   "edited": "\"Agente 1: busca informacion.\"",
+   "verdict": "match",
+   "message": "¡Correcto! El output coincide con lo esperado."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 779,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Qué evidencia permite aprobar traces de",
+  "questions": 5,
+  "attempt1": {
+   "result": "80%\n¡Buenazo! Sección completada\n\n4 de 5 correctas (80%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\n¿Qué evidencia permite aprobar traces de prompts, retrieval y tools en CASO-MOQ-051?\n\nA\nun print sin assert ni versión\nB\nuna captura de pantalla sin fuente\ntrace reconstruible sin PII\ndatos personales reales para que parezca auténtico\n✗ Incorrecto. La teoría exige trace reconstruible sin PII; evidencia decorativa o PII no satisface el contrato."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 80
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 80
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 80
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 33642
+}

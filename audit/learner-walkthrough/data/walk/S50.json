@@ -1,0 +1,159 @@
+{
+ "section": "S50",
+ "id": "tech-leadership",
+ "title": "Evals, red teaming y fiabilidad de IA",
+ "at": "2026-10-05T03:17:23.840Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "ido"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "ido"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "wedo"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "wedo"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794366080,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Evals, red teaming y fiabilidad de IA",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 5,
+  "optional": 1,
+  "words": 2808
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica design doc y postmortem",
+  "readyMs": 5,
+  "verdict": "match",
+  "output": "# Design Doc: Sistema de Recomendacion en Tiempo Real\n## Context\nNecesitamos recomendar productos en <50ms para 10K usuarios concurrentes.\n## Goals\n- Latencia p99 < 50ms\n- Throughput: 10K QPS\n- Cobertura: 95% de catalogo\n## Design\nRedis cache + collaborative filtering + fallback a populares\n## Alternatives\n- Batch pre-compute (descartado: no personalizado)\n- ML en cada request (descartado: >200ms)\n## Risks\n- Cache invalidation staleness\n- Cold start para nuevos usuarios\n==================================================\n# Postmortem: API caida 23 min (12K requests fallidos)\n## Timeline\n- 12:03 Alerta error rate >5%\n- 12:05 Investigacion: Redis pool\n- 12:15 Rollback\n- 12:26 Restaurado\n## Root Cause (5 Whys)\n- Pool agotado por leak\n- No habia test de pool\n- CI no cubre Redis\n## Action Items\n- [ ] Anadir Redis a docker-compose test\n- [ ] Contract test para pool\n- [ ] Alerta pool > 80%",
+  "hint": "Escribe un design doc para tu propio proyecto",
+  "afterEdit": {
+   "edited": "\"Genera un design doc estructurado.\"",
+   "verdict": "match",
+   "message": "¡Correcto! El output coincide con lo esperado."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 866,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Qué evidencia permite aprobar task data",
+  "questions": 10,
+  "attempt1": {
+   "result": "90%\n¡Buenazo! Sección completada\n\n9 de 10 correctas (90%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\n¿Qué evidencia permite aprobar task dataset y rúbrica en CASO-ICA-050?\n\nA\nun print sin assert ni versión\ndataset versionado y rúbrica calibrada con anclas 0–3\nuna captura de pantalla sin fuente\nD\ndatos personales reales para que parezca auténtico\n✗ Incorrecto. La teoría exige dataset versionado y rúbrica calibrada; evidencia decorativa o PII no satisface el contrato."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 90
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 90
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 90
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 32815
+}

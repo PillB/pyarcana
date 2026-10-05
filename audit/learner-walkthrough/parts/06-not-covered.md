@@ -57,3 +57,7 @@ lockfile's integrity hashes. The repository's `bun.lock` was not changed.
   `qa-export/`.
 - My first S01 walk clicked the green «Completado» buttons a second time and un-marked them. That
   is how W07 was found; the walk was then changed never to click a done button.
+- During the L4 walk, the QA-filing browser and the walk browser were signed in to the same account
+  at once (two devices). The walk logged `409 Conflict` on `PUT /api/v1/me/progress`; the server
+  copy still converged to all 52 sections (`rev` 130), so the conflict handling works [O]. The 409s
+  in `data/walk/S41…S52.json` come from that setup, not from a learner's single session.
