@@ -35,7 +35,17 @@ gap is covered, explicitly as judgement.
 self-check, the 24-item exam bank) by a reading agent working from the same written brief
 (`reading/BRIEF.md`), one agent per two or three sections, in order, with the earlier sections on
 hand for "taught so far" checks. The strongest claims were then re-checked by hand against the
-source before they went into this report (noted where it matters). The browser walk and the QA
+source before they went into this report. Re-checked and confirmed:
+- S04 exam item 23's key («tasa = rejects/procesados»);
+- the corrupted S07 regex starters (`(w+)`, `d{2}`, a `\x08` byte);
+- the templated S12/S13 exam banks;
+- the capstone placeholder tests (counted: 66);
+- the wrong keys S18 #22, S19 #4, S42 #16, S45 #17, S46 #2 and S48 #8, plus 5 more found by a
+  second search (`data/exam-key-audit-manual.md`);
+- S16's money parser on «S/ 1,250.50» (traced; es-PE formatting checked with `Intl.NumberFormat`);
+- the options never being shuffled (`src/app/api/exam/start/route.ts:215-219`).
+My own first exam heuristic (explanation vs option word overlap) flagged 24 items, of which 20
+were false positives; it is kept, with its manual review, so the method is visible. The browser walk and the QA
 filing were run once per level.
 
 **Evidence labels.** Every judgement is marked **[O]** observation (seen in the text, the browser
@@ -54,7 +64,8 @@ score), a blocker here means *she cannot complete that activity from what she wa
 | `npm run test:python-content` under `.venv-content` (CPython 3.12, pinned numpy 2.2.6, pandas 3.0.5, scikit-learn 1.6.1, scipy 1.13.1), built here from PyPI | **3244 pass, 0 fail, 118 skip**, 52 sections, environment matches pins | `data/cpython/` |
 | Browser walk, `scripts/walk.mjs`, Chromium, 1366×768 and 390×844, account `paid` (Pro) | per section | `data/walk/SXX.json` |
 | Persona reading, `reading/BRIEF.md` | per section | `reading/SXX.md` |
-| QA workspace: tutorial taken, one report per finding filed from its page, session exported | see §6 | `data/qa-tour.json`, `qa-export/` |
+| `node scripts/complexity_gate.mjs` (repo gate, to check the audit scripts add nothing) | FAIL at base `2ffbfed` already: 34 functions over 15 (baseline 33); identical offender list with and without this work, none under `audit/` | — |
+| QA workspace: tutorial taken (9 steps), one report per finding filed from its page (section + tab, so the captured context is real), session exported from Sesión | **576 reports** (8 blocker, 149 high, 263 medium, 156 low), all with deploy SHA `2ffbfed`; the export re-imports into a fresh browser as «Importadas 576 incidencias» | `data/qa-tour.json`, `qa-export/qa-session-final.json` (`qa-session-L1.json` is the Level 1 snapshot) |
 
 The CPython result matters for reading the rest: **lesson code is correct under the declared
 environment**. Where something fails, it is the page, the browser runtime, the order of teaching,

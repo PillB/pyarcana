@@ -45,6 +45,10 @@ lockfile's integrity hashes. The repository's `bun.lock` was not changed.
   (§1).
 - **Per-section QA reports beyond the readings' top findings.** Each reading aimed at the 3–10 most
   important findings per section, as the brief asked. Minor style issues were not filed.
+- **Screenshots per finding.** The QA reports carry their captured context (section, sub-step,
+  scroll, window, deploy SHA) but no image: the workspace's «Capturar» uses the browser's
+  screen-share prompt, which a headless run cannot answer, and the findings are textual (quotes,
+  field paths, JSON records), so one screenshot (the first onboarding step) is kept.
 - **Fixes.** Report-only by instruction. No course content, test or protected path was changed.
 
 ### 6.3 Incidents during the run (recorded so the data can be read correctly)
