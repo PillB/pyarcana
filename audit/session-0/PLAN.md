@@ -1,4 +1,4 @@
-STATUS: COMPLETE 4f06957c3dd591c22acc21141ef6fe3eca6dc778 — page, tests and pipeline built; 8 of 19 screenshots in place, reused from official docs and Django Girls under open licences; 11 still missing (blocked: sandbox network for 3, a real Windows/Mac for 8). See §5, MUST 1. (Updated after 4f06957; see the git log.)
+STATUS: COMPLETE e712dfb — page, tests and pipeline built; 8 of 19 screenshots in place, reused from official docs and Django Girls under open licences; 11 still missing (blocked: sandbox network for 3, a real Windows/Mac for 8). See §5, MUST 1.
 
 # Sesión 0: plan, state and hand-off
 
