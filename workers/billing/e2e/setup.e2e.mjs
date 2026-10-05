@@ -171,26 +171,46 @@ for (const vp of [{ width: 1280, height: 800, ua: UA.mac, name: 'desktop' }, { w
   await ctx.close()
 }
 
-// The screenshot pipeline, on a build that carries a capture.
+// The screenshots, on a build that carries captures: every one on the Windows and macOS tracks.
 if (process.env.EXPECT_SHOT) {
-  const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 }, userAgent: UA.win, locale: 'es-PE' })
-  try {
-    const { page } = await open(ctx)
-    const shot = page.locator('[data-testid="setup-shot"]').first()
-    await shot.scrollIntoViewIfNeeded()
-    const info = await shot.evaluate(async (fig) => {
-      const img = fig.querySelector('img')
-      if (!img.complete) await new Promise((r) => img.addEventListener('load', r, { once: true }))
-      return { src: img.getAttribute('src'), natural: img.naturalWidth, alt: img.alt, box: !!fig.querySelector('svg rect'), caption: fig.querySelector('figcaption').textContent }
-    })
-    const base = new URL(BASE).pathname.replace(/\/$/, '')
-    record('screenshot: served from _next/static under the base path', info.src.startsWith(`${base}/_next/static/media/`) && info.natural > 0, info.src)
-    record('screenshot: alt, box and dated caption', info.alt.length > 40 && info.box && /Comprobado el \d+ \w+ \d{4}/.test(info.caption), info.caption)
-    await shot.screenshot({ path: `${OUT}setup-shot.png` })
-  } catch (e) {
-    record('screenshot pipeline', false, e.message)
+  for (const ua of [UA.win, UA.mac]) {
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 }, userAgent: ua, locale: 'es-PE' })
+    try {
+      const { page } = await open(ctx)
+      const shots = page.locator('[data-testid="setup-shot"]')
+      const n = await shots.count()
+      const base = new URL(BASE).pathname.replace(/\/$/, '')
+      const bad = []
+      let boxes = 0
+      for (let i = 0; i < n; i++) {
+        const shot = shots.nth(i)
+        await shot.scrollIntoViewIfNeeded()
+        const info = await shot.evaluate(async (fig) => {
+          const img = fig.querySelector('img')
+          if (!img.complete) await new Promise((r) => img.addEventListener('load', r, { once: true }))
+          const credit = fig.querySelector('[data-testid="setup-shot-credit"]')
+          return {
+            id: fig.getAttribute('data-shot-id'), src: img.getAttribute('src'), natural: img.naturalWidth, alt: img.alt,
+            box: !!fig.querySelector('svg rect'), caption: fig.querySelector('figcaption').textContent,
+            licence: credit ? [...credit.querySelectorAll('a')].map((a) => a.getAttribute('href')) : null,
+          }
+        })
+        boxes += info.box ? 1 : 0
+        const served = info.src.startsWith(`${base}/_next/static/media/`) && info.natural > 0
+        const dated = /(Comprobado|Consultada) el \d+ \w+ \d{4}/.test(info.caption)
+        // A reused picture links its source and its licence (CC BY 4.0 §3(a)); our own says when it was checked.
+        const attributed = info.licence ? info.licence.length === 2 && info.licence.every((h) => h?.startsWith('https://')) : /Comprobado/.test(info.caption)
+        if (!(served && info.alt.length > 40 && dated && attributed)) bad.push(`${info.id}: ${JSON.stringify(info).slice(0, 200)}`)
+        await shot.screenshot({ path: `${OUT}setup-shot-${info.id}.png` })
+      }
+      const track = ua === UA.mac ? 'macOS' : 'Windows'
+      record(`screenshots (${track}): ${n} served from _next/static under the base path, with alt, date and attribution`, n > 0 && bad.length === 0, bad.join(' | '))
+      record(`screenshots (${track}): at least one carries a box drawn over it`, boxes > 0, `${boxes} of ${n}`)
+    } catch (e) {
+      record('screenshots', false, e.message)
+    }
+    await ctx.close()
   }
-  await ctx.close()
 }
 
 await browser.close()

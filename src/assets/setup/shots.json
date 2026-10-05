@@ -1,1 +1,131 @@
-[]
+[
+  {
+    "id": "gh-2fa-setup",
+    "checkedOn": "2026-10-05",
+    "width": 725,
+    "height": 446,
+    "credit": {
+      "source": "GitHub Docs",
+      "url": "https://github.com/github/docs/blob/main/assets/images/help/2fa/ghes-3.8-and-higher-2fa-wizard-app-click-code.png",
+      "licence": "CC BY 4.0"
+    },
+    "alt": "Pantalla Setup authenticator app de GitHub. Muestra un texto sobre las aplicaciones de códigos, el título Scan the QR code, un código QR cuadrado y, debajo, para quien no puede escanear, el enlace setup key, recuadrado.",
+    "caption": "Escanea el código cuadrado con la aplicación de tu celular. Si no puedes, el enlace recuadrado, setup key, muestra una clave para escribirla a mano."
+  },
+  {
+    "id": "gh-noreply-email",
+    "checkedOn": "2026-10-05",
+    "width": 1760,
+    "height": 205,
+    "box": {
+      "x": 15,
+      "y": 54,
+      "w": 40,
+      "h": 27
+    },
+    "credit": {
+      "source": "GitHub Docs",
+      "url": "https://github.com/github/docs/blob/main/assets/images/help/settings/email-primary.png",
+      "licence": "CC BY 4.0",
+      "changes": "recortada"
+    },
+    "alt": "Sección Primary email address de la página Emails de GitHub. Dice que, con la privacidad del correo activada, la dirección 101839405+octocat@users.noreply.github.com se usará para las operaciones de Git. Esa dirección está resaltada.",
+    "caption": "Con la privacidad activada, GitHub muestra tu dirección privada: la que termina en users.noreply.github.com. En la imagen es la de la cuenta de ejemplo octocat."
+  },
+  {
+    "id": "mac-py-certificates",
+    "checkedOn": "2026-10-05",
+    "width": 800,
+    "height": 691,
+    "box": {
+      "x": 4,
+      "y": 91.5,
+      "w": 24,
+      "h": 5.5
+    },
+    "credit": {
+      "source": "Documentación de Python (Python Software Foundation)",
+      "url": "https://github.com/python/cpython/blob/main/Doc/using/mac_installer_08_install_certificates.png",
+      "licence": "PSF License v2"
+    },
+    "alt": "En un Mac, la carpeta Python 3.13 con el archivo Install Certificates.command seleccionado. Delante, una ventana de Terminal muestra cómo se instala certifi y termina con la línea [Process completed], que está resaltada.",
+    "caption": "Al terminar, la ventana dice [Process completed]. La imagen es de Python 3.13; en tu Mac la carpeta se llama Python 3.12, y lo demás se ve igual."
+  },
+  {
+    "id": "mac-py-installer-done",
+    "checkedOn": "2026-10-05",
+    "width": 800,
+    "height": 483,
+    "credit": {
+      "source": "Documentación de Python (Python Software Foundation)",
+      "url": "https://github.com/python/cpython/blob/main/Doc/using/mac_installer_07_applications.png",
+      "licence": "PSF License v2"
+    },
+    "alt": "Ventana de Finder de la carpeta Python 3.13, con los archivos IDLE, Install Certificates.command, License.rtf, Python Documentation.html, Python Launcher, ReadMe.rtf y Update Shell Profile.command. Una flecha roja señala Install Certificates.command.",
+    "caption": "La carpeta que se abre al terminar la instalación. La flecha señala el archivo del paso siguiente. La imagen es de Python 3.13; la tuya dirá Python 3.12."
+  },
+  {
+    "id": "mac-vscode-shell-command",
+    "checkedOn": "2026-10-05",
+    "width": 618,
+    "height": 100,
+    "box": {
+      "x": 1,
+      "y": 37,
+      "w": 98,
+      "h": 24
+    },
+    "credit": {
+      "source": "Documentación de VS Code (Microsoft)",
+      "url": "https://github.com/microsoft/vscode-docs/blob/main/docs/setup/images/mac/shell-command.png",
+      "licence": "CC BY 3.0 US"
+    },
+    "alt": "Paleta de comandos de VS Code con el texto shell command. Debajo, dos opciones: Shell Command: Install 'code' command in PATH, resaltada, y Shell Command: Uninstall 'code' command from PATH.",
+    "caption": "Elige la primera opción, la que instala la orden code. No la segunda, que la desinstala."
+  },
+  {
+    "id": "vscode-terminal",
+    "checkedOn": "2026-10-05",
+    "width": 1687,
+    "height": 905,
+    "box": {
+      "x": 29,
+      "y": 55,
+      "w": 70.5,
+      "h": 40
+    },
+    "credit": {
+      "source": "Documentación de VS Code (Microsoft)",
+      "url": "https://github.com/microsoft/vscode-docs/blob/main/docs/editing/images/getting-started/terminal-new-file.png",
+      "licence": "CC BY 3.0 US"
+    },
+    "alt": "Ventana de VS Code en Windows. A la izquierda, el panel Explorer con la carpeta VSCODE101 y tres archivos. Abajo a la derecha, resaltado, el panel TERMINAL con PowerShell y el prompt C:\\temp\\vscode101>.",
+    "caption": "La terminal integrada ocupa la parte de abajo y empieza dentro de la carpeta abierta. En la imagen la carpeta se llama vscode101; la tuya se llamará pyarcana."
+  },
+  {
+    "id": "vscode-trust",
+    "checkedOn": "2026-10-05",
+    "width": 1687,
+    "height": 1057,
+    "credit": {
+      "source": "Documentación de VS Code (Microsoft)",
+      "url": "https://github.com/microsoft/vscode-docs/blob/main/docs/editing/images/getting-started/workspace-trust.png",
+      "licence": "CC BY 3.0 US"
+    },
+    "alt": "Diálogo de VS Code con un escudo y la pregunta «Do you trust the authors of the files in this folder», es decir, si confías en los autores de los archivos. Abajo, dos botones: Yes, I trust the authors, enmarcado en rojo, y No, I don't trust the authors.",
+    "caption": "El recuadro rojo de la imagen marca el botón que debes pulsar: Yes, I trust the authors."
+  },
+  {
+    "id": "win-py-installer-path",
+    "checkedOn": "2026-10-05",
+    "width": 658,
+    "height": 408,
+    "credit": {
+      "source": "Django Girls Tutorial",
+      "url": "https://github.com/DjangoGirls/tutorial/blob/master/en/python_installation/images/python-installation-options.png",
+      "licence": "CC BY-SA 4.0"
+    },
+    "alt": "Primera pantalla del instalador de Python 3.12.2 para Windows. Arriba, Install Now y Customize installation. Abajo, dos casillas: Use admin privileges when installing py.exe, y Add python.exe to PATH, marcada y enmarcada en verde.",
+    "caption": "La casilla Add python.exe to PATH, marcada: es el clic que más se olvida. La imagen es de Python 3.12.2; la tuya dirá 3.12.10, y lo demás se ve igual."
+  }
+]

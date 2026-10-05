@@ -1,6 +1,7 @@
 # Sesión 0 screenshots
 
-Real captures only (owner's order, 5 Oct 2026). Each picture here has a spec in
+Real screenshots only (owner's order, 5 Oct 2026): our own captures, or screenshots reused from
+official documentation under an open licence. Each picture here has a spec in
 `src/lib/setup/content.ts` (`SETUP_SHOTS`: what it must show, its alt text and caption) and a
 record in `shots.json` (the date it was checked, its size, the box around what to click).
 
@@ -44,3 +45,20 @@ On a real Windows 11 or macOS machine, in Spanish where the system offers it:
 
 Retake a capture when its installer or page changes, and at the latest when `--report` calls it
 stale (older than 120 days).
+
+## Reusing a screenshot from official documentation
+
+Allowed only under a licence in `REUSE_LICENCES` (`src/lib/setup/screenshots.ts`): CC BY 4.0,
+CC BY 3.0 US, the PSF License, or CC BY-SA 4.0 **unmodified** (no crop, no `box`). Never a
+NonCommercial licence: PyArcana Pro is paid. Take the file from the documentation's own source repository
+(for example `github/docs`, `microsoft/vscode-docs`, `python/cpython` `Doc/using/`), never from a
+blog or a third-party tutorial. Then:
+
+1. Look at it next to its step. Reject it if it would teach a beginner something wrong, or bury
+   what matters (a power-user layout, a box on the wrong control, a stale label).
+2. Save it as `<id>.png`. If you crop it, say so in `changes`.
+3. Add a record with a `credit` (source, the exact source file URL, licence, changes) and the
+   picture's **own** `alt` and `caption`: what it really shows, including any difference from the
+   learner's screen ("la imagen es de Python 3.13; la tuya dirá Python 3.12").
+4. Same checks as above. The unit tests refuse a record with any other licence, or one without
+   its own alt and caption.

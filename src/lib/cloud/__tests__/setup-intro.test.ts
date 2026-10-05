@@ -156,7 +156,7 @@ test('the check date prints in Spanish, and its age counts in whole days', () =>
 import { SETUP_PARTS, SETUP_SHOTS, setupStepIds, stepsFor } from '@/lib/setup/content'
 import { SETUP_FIGURES } from '@/lib/setup/figures'
 import { SETUP_OS } from '@/lib/setup/os'
-import { SHOT_IMAGES } from '@/assets/setup'
+import { readFileSync, readdirSync } from 'node:fs'
 import shotRecords from '@/assets/setup/shots.json'
 
 const ALL_STEPS = SETUP_PARTS.flatMap((p) => p.steps)
@@ -219,15 +219,52 @@ test('every screenshot spec can be taken and read without seeing it', () => {
   }
 })
 
+// The PNGs are read from disk: Node cannot import them, and the build's own index.ts is checked
+// against them below (the same renderIndex the generator writes).
+const SHOT_DIR = 'src/assets/setup'
+const PNGS = readdirSync(SHOT_DIR).filter((f) => f.endsWith('.png')).map((f) => f.slice(0, -4))
+
+/** Width and height from a PNG's IHDR chunk. */
+function pngSize(id: string): [number, number] {
+  const b = readFileSync(`${SHOT_DIR}/${id}.png`)
+  assert.equal(b.subarray(1, 4).toString(), 'PNG', `${id}.png is not a PNG`)
+  return [b.readUInt32BE(16), b.readUInt32BE(20)]
+}
+
 test('captures and their records match: no picture without a date, no date without a picture', () => {
   const records = (shotRecords as unknown[]).filter(validShotRecord)
   assert.equal(records.length, (shotRecords as unknown[]).length, 'a record in shots.json is malformed')
   const specs = new Set(SETUP_SHOTS.map((s) => s.id))
-  for (const id of Object.keys(SHOT_IMAGES)) {
+  for (const id of PNGS) {
     assert.ok(specs.has(id), `${id}.png has no spec`)
     assert.ok(records.some((r) => r.id === id), `${id}.png has no checkedOn record`)
   }
-  for (const r of records) assert.ok(SHOT_IMAGES[r.id], `${r.id}: record without a picture`)
+  for (const r of records) {
+    assert.ok(PNGS.includes(r.id), `${r.id}: record without a picture`)
+    assert.deepEqual(pngSize(r.id), [r.width, r.height], `${r.id}: the record's size is not the picture's`)
+  }
+  assert.equal(readFileSync(`${SHOT_DIR}/index.ts`, 'utf8'), renderIndex(PNGS), 'index.ts is stale: run node scripts/setup_shots_index.mjs')
+})
+
+test('a reused picture names its source and an open licence, and says what it really shows', () => {
+  const reused = (shotRecords as unknown[]).filter(validShotRecord).filter((r) => r.credit)
+  for (const r of reused) {
+    assert.ok(r.credit!.url.startsWith('https://github.com/'), `${r.id}: link the exact source file`)
+    assert.ok(r.alt && r.caption, `${r.id}: a reused picture brings its own alt and caption`)
+  }
+  // The licence list is a gate: a NonCommercial or all-rights-reserved picture fails here.
+  const words = { alt: 'a'.repeat(50), caption: 'b'.repeat(20) }
+  const rec = (licence: string, extra: object = {}) =>
+    validShotRecord({ id: 'x', checkedOn: '2026-10-05', width: 1, height: 1, credit: { source: 'Some docs', url: 'https://github.com/x', licence }, ...words, ...extra })
+  assert.ok(!rec('CC BY-NC-SA 4.0'))
+  assert.ok(!rec('All rights reserved'))
+  // Share-alike only as published: no crop, no box of ours over it.
+  assert.ok(rec('CC BY-SA 4.0'))
+  assert.ok(!rec('CC BY-SA 4.0', { box: { x: 1, y: 1, w: 10, h: 10 } }))
+  assert.ok(!validShotRecord({ id: 'x', checkedOn: '2026-10-05', width: 1, height: 1, credit: { source: 'Some docs', url: 'https://github.com/x', licence: 'CC BY-SA 4.0', changes: 'recortada' }, ...words }))
+  assert.ok(rec('CC BY 4.0', { box: { x: 1, y: 1, w: 10, h: 10 } }))
+  // And a reused picture without its own alt would describe a screen it does not show.
+  assert.ok(!validShotRecord({ id: 'x', checkedOn: '2026-10-05', width: 1, height: 1, credit: { source: 'GitHub Docs', url: 'https://github.com/x', licence: 'CC BY 4.0' } }))
 })
 
 test('diagram text fits the archetype boxes it is drawn in', () => {

@@ -28,6 +28,7 @@ from prose_quality_audit import analyse, sentences  # noqa: E402
 DUMP = r"""
 import { SETUP_INTRO, SETUP_PARTS, SETUP_SHOTS } from './src/lib/setup/content.ts'
 import { SETUP_FIGURES } from './src/lib/setup/figures.ts'
+import { readFileSync } from 'node:fs'
 const out = []
 const add = (where, text, teaching = false) => out.push({ where, text, teaching })
 SETUP_INTRO.lead.forEach((t) => add('intro', t))
@@ -42,6 +43,8 @@ for (const p of SETUP_PARTS) {
   }
 }
 for (const s of SETUP_SHOTS) { add('shots', s.alt); add('shots', s.caption) }
+// Reused pictures bring their own alt and caption (src/assets/setup/shots.json).
+for (const r of JSON.parse(readFileSync('src/assets/setup/shots.json', 'utf8'))) { if (r.alt) add('shots', r.alt); if (r.caption) add('shots', r.caption) }
 for (const f of Object.values(SETUP_FIGURES)) { add('figures', f.caption); add('figures', f.alt) }
 console.log(JSON.stringify(out))
 """

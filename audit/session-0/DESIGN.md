@@ -237,7 +237,7 @@ Rank 6, Git Bash vs PowerShell, is avoided: the page names one shell per system.
 - Never a fake one.
 
 **Decisions:**
-- **A screenshot is first a specification.** `SETUP_SHOTS` in `content.ts` holds 18 specs. Each
+- **A screenshot is first a specification.** `SETUP_SHOTS` in `content.ts` holds 19 specs. Each
   has:
   - an id;
   - the system it belongs to;
@@ -281,20 +281,36 @@ Rank 6, Git Bash vs PowerShell, is avoided: the page names one shell per system.
     change their pages. The report is not a CI gate on purpose: a gate that turns red with the
     calendar fails builds that changed nothing.
 - **Licences.**
-  - Every picture is our own capture of a product's screen, used to show a learner where to click.
-  - Official documentation images are not reused. GitHub Docs are CC BY 4.0 and the Python docs are
-    under the PSF License (R§5.12), but the python.org Windows screenshot shows 3.8.0 anyway (R§5.2).
+  - A picture is either our own capture of a product's screen, or a screenshot reused from the
+    product's official documentation under that documentation's open licence.
+  - Reuse is allowed only under a licence that permits commercial use with attribution
+    (`REUSE_LICENCES` in `src/lib/setup/screenshots.ts`): CC BY 4.0 (GitHub Docs, Microsoft Learn,
+    Windows Terminal docs), CC BY 3.0 US (VS Code docs), the PSF License (Python docs), and CC BY-SA
+    4.0 under the condition below.
+  - The attribution is printed under the picture: source and licence linked, changes ("recortada"),
+    and the date it was taken. That is what CC BY 4.0 §3(a) asks for.
+  - **CC BY-SA 4.0 is allowed only for a picture shown unmodified**: no crop, and no box of ours over
+    it. The validator enforces this.
+    - Shown as-is beside our text, the picture is part of a collection, which share-alike does not
+      reach (Creative Commons FAQ).
+    - A crop or an overlay could make it an adaptation.
+    - It is used once, for the Python PATH checkbox (Django Girls). Owner decision D6 in `PLAN.md`.
+  - NonCommercial licences are refused, because Pro is paid. That rules out Missing Semester, The
+    Odin Project, Happy Git with R and Pro Git (RESEARCH.md §8).
+  - A reused picture brings its own alt and caption. It shows someone else's screen (another folder,
+    Python 3.13 instead of 3.12), and the caption says so instead of pretending otherwise.
   - Not verified: whether GitHub's, the PSF's or Microsoft's trademark and brand guidelines restrict
-    instructional screenshots of their products. This is a SHOULD item for Pablo in `PLAN.md`,
-    before the first capture ships.
+    instructional screenshots of their products. This is a SHOULD item for Pablo in `PLAN.md`. The
+    reused images come with a copyright licence, which is not a trademark licence.
 
 **Blocked, stated (AGENTS.md: a blocked dependency is a stop):**
 - The sandbox's network policy refused python.org, git-scm.com, code.visualstudio.com and
   github.com pages. Both curl and Chromium were refused: `ERR_TUNNEL_CONNECTION_FAILED`, then a 403
   from the proxy.
 - So none of the 3 `browser-script` captures could be taken.
-- The 15 `owner-capture` specs need a real Windows or Mac.
-- `PLAN.md` lists all 18 as MUST items.
+- Of the 16 `owner-capture` specs, 8 were filled by reusing openly licensed screenshots (second
+  round, `PLAN.md` MUST 1). The other 8 need a real Windows or Mac.
+- `PLAN.md` lists the 11 still missing as MUST items.
 
 ## 8. Diagrams
 

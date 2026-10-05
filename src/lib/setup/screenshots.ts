@@ -44,15 +44,70 @@ export interface ShotSpec {
   caption: string
 }
 
+/**
+ * Licences a reused screenshot may carry. Each allows commercial reuse with attribution, which
+ * PyArcana needs because Pro is paid. NonCommercial licences (Missing Semester, The Odin Project,
+ * Pro Git) are absent for that reason.
+ *
+ * CC BY-SA 4.0 is allowed for an **unmodified** picture only: no crop, no box drawn over it
+ * (`validReuse`). Shown as-is beside our text, it is part of a collection, which share-alike does
+ * not reach (Creative Commons FAQ, "adaptations"); a crop or an overlay could make it an
+ * adaptation. Owner decision D6 in audit/session-0/PLAN.md.
+ */
+export const REUSE_LICENCES = {
+  'CC BY 4.0': 'https://creativecommons.org/licenses/by/4.0/deed.es',
+  'CC BY 3.0 US': 'https://creativecommons.org/licenses/by/3.0/us/deed.es',
+  'CC BY-SA 4.0': 'https://creativecommons.org/licenses/by-sa/4.0/deed.es',
+  'PSF License v2': 'https://docs.python.org/3/license.html',
+} as const
+
+/** Licences under which the picture must be shown exactly as published. */
+const UNMODIFIED_ONLY: readonly string[] = ['CC BY-SA 4.0']
+
+export type ReuseLicence = keyof typeof REUSE_LICENCES
+
+/** Where a reused picture comes from, printed under it as its attribution. */
+export interface ShotCredit {
+  /** Who published it, as the attribution names them: "GitHub Docs". */
+  source: string
+  /** The page or file it was taken from. */
+  url: string
+  licence: ReuseLicence
+  /** What we changed, if anything, in Spanish: "recortada". CC BY requires saying so. */
+  changes?: string
+}
+
 /** What a capture adds to its spec: written by the script, or by hand for an owner capture. */
 export interface ShotRecord {
   id: string
-  /** ISO date the screen was checked to still look like this. */
+  /**
+   * ISO date. For our own capture: the day the screen was checked to still look like this.
+   * For a reused picture: the day it was taken from its source and checked against it.
+   */
   checkedOn: string
   width: number
   height: number
   /** The box around what to click; omitted when the picture only shows a result. */
   box?: ShotBox
+  /** Set when the picture is someone else's, reused under an open licence. */
+  credit?: ShotCredit
+  /**
+   * A reused picture rarely shows exactly what the spec asks for (another folder name, another
+   * Python version), so it carries its own alt and caption, which say what it really shows.
+   */
+  alt?: string
+  caption?: string
+}
+
+export function validShotCredit(c: unknown): c is ShotCredit {
+  if (!c || typeof c !== 'object') return false
+  const r = c as Record<string, unknown>
+  return (
+    typeof r.source === 'string' && r.source.length > 2 &&
+    typeof r.url === 'string' && r.url.startsWith('https://') &&
+    typeof r.licence === 'string' && r.licence in REUSE_LICENCES &&
+    (r.changes === undefined || typeof r.changes === 'string')
+  )
 }
 
 export function validShotBox(b: unknown): b is ShotBox {
@@ -66,12 +121,24 @@ export function validShotBox(b: unknown): b is ShotBox {
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
 
-export function validShotRecord(r: unknown): r is ShotRecord {
-  if (!r || typeof r !== 'object') return false
-  const rec = r as Record<string, unknown>
+function validCore(rec: Record<string, unknown>): boolean {
   if (typeof rec.id !== 'string' || typeof rec.checkedOn !== 'string' || !ISO_DATE.test(rec.checkedOn)) return false
   if (typeof rec.width !== 'number' || typeof rec.height !== 'number' || rec.width < 1 || rec.height < 1) return false
   return rec.box === undefined || validShotBox(rec.box)
+}
+
+/** A reused picture must say what it shows: the spec's alt describes the capture we wanted. */
+function validReuse(rec: Record<string, unknown>): boolean {
+  if (rec.credit === undefined) return true
+  const ownWords = typeof rec.alt === 'string' && rec.alt.length > 40 && typeof rec.caption === 'string' && rec.caption.length > 15
+  if (!validShotCredit(rec.credit) || !ownWords) return false
+  return !UNMODIFIED_ONLY.includes(rec.credit.licence) || (rec.credit.changes === undefined && rec.box === undefined)
+}
+
+export function validShotRecord(r: unknown): r is ShotRecord {
+  if (!r || typeof r !== 'object') return false
+  const rec = r as Record<string, unknown>
+  return validCore(rec) && validReuse(rec)
 }
 
 /** How old a capture may get before the retake routine flags it (DESIGN.md §7). */

@@ -269,7 +269,11 @@ const python: SetupPart = {
       fixes: [
         {
           symptom: 'Se abre la Microsoft Store, o aparece `Python was not found; run without arguments to install from the Microsoft Store`.',
-          steps: ['Repite el paso 2.4: el atajo de la Store sigue encendido.', PATH_FIX],
+          steps: [
+            'Repite el paso 2.4: el atajo de la Store sigue encendido.',
+            PATH_FIX,
+            'Para comprobarlo, escribe `where.exe python`. Si la primera línea contiene `WindowsApps`, la terminal sigue encontrando primero el atajo.',
+          ],
         },
         {
           symptom: 'Aparece en rojo: `python : El término "python" no se reconoce…`.',
@@ -328,6 +332,7 @@ const python: SetupPart = {
         'En la ventana de la carpeta `Python 3.12`, haz doble clic en `Install Certificates.command`.',
         'Los **certificados** permiten que Python compruebe que una página segura es quien dice ser. Sin ellos, descargar datos desde internet fallará más adelante.',
       ],
+      shot: 'mac-py-certificates',
       expect: { text: 'Una terminal que muestra texto y termina con `[Process completed]`. Ciérrala.' },
       fixes: [
         {
@@ -786,6 +791,16 @@ const github: SetupPart = {
       ],
       shot: 'gh-2fa-setup',
       expect: { text: 'GitHub te muestra tus **códigos de recuperación**. No cierres esa pantalla: el paso siguiente los guarda.' },
+      fixes: [
+        {
+          symptom: 'No tienes un celular donde instalar una aplicación de códigos.',
+          steps: [
+            'GitHub no envía estos códigos por SMS a números de Perú, así que hace falta una aplicación.',
+            'Usa una aplicación de códigos para computadora o una extensión del navegador que genere códigos de seis números.',
+            'En la pantalla del código cuadrado, haz clic en `setup key`: te da una clave para escribirla en esa aplicación en lugar de escanear.',
+          ],
+        },
+      ],
     },
     {
       id: 'github.recuperacion',
@@ -1137,6 +1152,14 @@ export const SETUP_SHOTS: readonly ShotSpec[] = [
     brief: 'Instalador de Python 3.12.10 en macOS, pantalla «The installation was successful», con la carpeta Python 3.12 abierta detrás mostrando Install Certificates.command. Recuadro en ese archivo.',
     alt: 'Instalador de Python en macOS con el mensaje The installation was successful. Detrás, la carpeta Python 3.12 con los archivos IDLE, Install Certificates.command y Update Shell Profile.command.',
     caption: 'Al terminar, se abre la carpeta Python 3.12. El siguiente paso usa el archivo Install Certificates.command.',
+  },
+  {
+    id: 'mac-py-certificates',
+    os: 'macos',
+    source: 'owner-capture',
+    brief: 'macOS, carpeta Python 3.12 abierta y la Terminal que abrió Install Certificates.command, terminada en [Process completed]. Recuadro en esa última línea.',
+    alt: 'En un Mac, la carpeta Python 3.12 con el archivo Install Certificates.command. Delante, una ventana de Terminal que instala certifi y termina con la línea [Process completed], resaltada.',
+    caption: 'Al terminar, la ventana dice [Process completed]. Ya puedes cerrarla.',
   },
   {
     id: 'win-vscode-tasks',

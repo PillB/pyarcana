@@ -1,4 +1,4 @@
-STATUS: COMPLETE 4f06957c3dd591c22acc21141ef6fe3eca6dc778 — page, tests and pipeline built; 0 of 18 screenshots captured (blocked: sandbox network for 3, a real Windows/Mac for 15). See §5, MUST 1.
+STATUS: COMPLETE 4f06957c3dd591c22acc21141ef6fe3eca6dc778 — page, tests and pipeline built; 8 of 19 screenshots in place, reused from official docs and Django Girls under open licences; 11 still missing (blocked: sandbox network for 3, a real Windows/Mac for 8). See §5, MUST 1. (Updated after 4f06957; see the git log.)
 
 # Sesión 0: plan, state and hand-off
 
@@ -13,7 +13,7 @@ done, what was verified and how, what is left, and what Pablo must decide or do.
 | A, research and root cause | done | `RESEARCH.md`: 70 sources, dated, the blocked ones marked |
 | B, design and architecture | done | `DESIGN.md`, this file |
 | C, stop for approval | not needed | no protected path was required (§3) |
-| D, build | done, except the screenshots themselves (§5, MUST 1) | the files in §2 |
+| D, build | done; 8 of 19 screenshots reused under open licences, 11 still missing (§5, MUST 1) | the files in §2 |
 
 ## 2. What was built
 
@@ -159,47 +159,100 @@ worktree of `e161435`.
 AGENTS.md: "Report every stub, placeholder, stand-in or fake … as a MUST item: where it is, why it
 exists, what it hides, and the decision needed."
 
-**MUST 1. No screenshot exists yet: 0 of 18.**
-- **Where:** `SETUP_SHOTS` in `src/lib/setup/content.ts`. `src/assets/setup/shots.json` is `[]`.
-- **What the page does meanwhile:** `Screenshot` renders nothing, and the step's text carries the
-  whole instruction. No drawing pretends to be a screenshot.
-- **What it hides:** the owner's order is real screenshots. The page as built is text and diagrams
-  only.
+**MUST 1. 11 of 19 screenshots are still missing; 8 are reused under open licences.**
+
+*Reused (5 Oct 2026, second round):* Pablo asked for existing tutorials whose screenshots could be
+reused. Seven pictures come from the official docs' own public source repositories, and one from
+the Django Girls tutorial's repository. The docs
+websites were blocked for this sandbox, but `raw.githubusercontent.com` and GitHub's LFS media host
+were not. Each picture was chosen by looking at it against its step, and some were rejected (below).
+- **Licences:** each has one that allows commercial reuse with attribution:
+  - GitHub Docs, CC BY 4.0;
+  - VS Code docs, CC BY 3.0 US;
+  - Python docs, PSF License v2;
+  - Django Girls, CC BY-SA 4.0, **shown unmodified only** (decision D6).
+- **Attribution:** under each picture, with links to the source file and the licence, the changes
+  ("recortada") and the date it was taken (`Screenshot.tsx`, `Credit`).
+- **Its own alt and caption:** each reused picture has them, because it shows someone else's folder
+  or version (`vscode101`, `Python 3.13`, the `octocat` account). The caption says so: "la tuya dirá
+  Python 3.12".
+- **Tests:** a unit test refuses a reused record without an open licence on the allowed list
+  (NonCommercial licences are refused, and CC BY-SA is refused if cropped or boxed) or without
+  its own alt. The e2e check verifies the
+  attribution links on the page.
+
+| id | step | source file | licence | notes |
+|---|---|---|---|---|
+| `win-py-installer-path` | 2.2 (Windows) | `DjangoGirls/tutorial` `en/python_installation/images/python-installation-options.png` | CC BY-SA 4.0 | Python **3.12.2** with "Add python.exe to PATH" ticked and boxed in green by Django Girls; **unmodified**, no box of ours; the caption says the learner's will read 3.12.10 |
+| `gh-2fa-setup` | 4.4 | `github/docs` `assets/images/help/2fa/ghes-3.8-and-higher-2fa-wizard-app-click-code.png` | CC BY 4.0 | its own box marks "setup key"; the caption explains that link | **reused** |
+| `gh-noreply-email` | 4.6 | `github/docs` `assets/images/help/settings/email-primary.png` | CC BY 4.0 | **cropped** to remove a box on the wrong control; our box marks the noreply address. It shows the result, not the checkbox | **reused** |
+| `mac-py-installer-done` | 2.2 (macOS) | `python/cpython` `Doc/using/mac_installer_07_applications.png` | PSF | shows Python 3.13; the caption says so | **reused** |
+| `mac-py-certificates` | 2.3 (macOS), **new spec** | `python/cpython` `Doc/using/mac_installer_08_install_certificates.png` | PSF | 3.13; it **confirms** the `[Process completed]` string of MUST 3 |
+| `mac-vscode-shell-command` | 3.2 (macOS) | `microsoft/vscode-docs` `docs/setup/images/mac/shell-command.png` | CC BY 3.0 US | exact wording confirmed (MUST 3) | **reused** |
+| `vscode-trust` | 3.x | `microsoft/vscode-docs` `docs/editing/images/getting-started/workspace-trust.png` | CC BY 3.0 US | its own red box is on "Yes, I trust the authors"; button text confirmed (MUST 3) | **reused** |
+| `vscode-terminal` | 3.x | `microsoft/vscode-docs` `docs/editing/images/getting-started/terminal-new-file.png` | CC BY 3.0 US | the folder is `vscode101`, the command is `echo`; the caption says so | **reused** |
+
+**Looked at and rejected:**
+- the Copilot device-code dialog (`github/docs`). It is a JetBrains window, not the
+  github.com/login/device page.
+- Windows Terminal's `overview.png` and colour-scheme images (`MicrosoftDocs/terminal`, CC BY 4.0).
+  They show split panes and colour tables, too much for a learner opening a terminal for the first
+  time (Mayer's coherence principle).
+- the hub "terminal" icon (`windows-dev-docs`). It is an illustration, not a screenshot.
+- the python.org Windows installer screenshot. It shows 3.8.0, with an older checkbox label.
+- Django Girls' other images (the Spanish chapter), which show Python 3.6.1 and 3.4.3.
+- Missing Semester, Happy Git with R, Pro Git and The Odin Project. They are NonCommercial, and
+  PyArcana Pro is paid (RESEARCH.md §8).
+
+*Still missing: 11.*
+- **Where:** `SETUP_SHOTS` in `src/lib/setup/content.ts` with no row in `src/assets/setup/shots.json`.
+- **What the page does meanwhile:** for these, `Screenshot` renders nothing, and the step's text
+  carries the whole instruction. No drawing pretends to be a screenshot.
+- **What it hides:**
+  - the Windows track still has no picture before Part 3;
+  - the Windows track still has no picture of `Install Now` finishing, the Store aliases screen, or
+    the Git installer.
 - **Why:**
-  - The 3 browser captures were blocked: the sandbox's network policy refused python.org,
+  - The 3 browser captures were blocked. The sandbox's network policy refused python.org,
     git-scm.com, code.visualstudio.com and github.com pages, through curl and through Chromium
-    (`ERR_TUNNEL_CONNECTION_FAILED`, and a 403 from the proxy). They were tried once and not
+    (`ERR_TUNNEL_CONNECTION_FAILED`, then a 403 from the proxy). They were tried once and not
     retried (AGENTS.md).
-  - The 15 installer and desktop captures need a real Windows 11 or Mac.
+  - The 8 remaining installer and desktop captures need a real Windows 11 or Mac. No openly licensed, current
+    capture of them was found (RESEARCH.md §8).
 - **Decision and action needed from Pablo:**
   1. Browser captures, either way:
      - run `node --import tsx scripts/setup_screenshots.mjs --take` on your own computer; or
      - allow these hosts in the cloud environment's network settings (Network access → Custom →
        add `www.python.org`, `git-scm.com`, `github.com`), and a later session takes them.
-  2. Owner captures: take the 15 by following `src/assets/setup/README.md`. Each spec's `brief`
-     says exactly what must be on screen. **Use a test GitHub account**, because 3 of them show
-     account screens.
+  2. Owner captures: take the remaining ones by following `src/assets/setup/README.md`. **Use a test
+     GitHub account** for `gh-device-code`.
+  3. Optional: replace any reused picture with your own capture later. Delete its row in `shots.json`
+     and its PNG, then capture to the spec. The spec's alt and caption already describe the ideal
+     capture.
 
-| id | system | source | step |
-|---|---|---|---|
-| `win-terminal-open` | Windows | owner | 1.1 |
-| `mac-terminal-open` | macOS | owner | 1.1 |
-| `py-release-files` | any | browser | 2.1 |
-| `win-py-installer-path` | Windows | owner | 2.2 |
-| `win-py-installer-done` | Windows | owner | 2.3 |
-| `win-app-aliases` | Windows | owner | 2.4 |
-| `mac-py-installer-done` | macOS | owner | 2.2 |
-| `win-vscode-tasks` | Windows | owner | 3.1 |
-| `mac-vscode-shell-command` | macOS | owner | 3.2 |
-| `vscode-trust` | any | owner | 3.x "Abre la carpeta en VS Code" |
-| `vscode-terminal` | any | owner | 3.x "Abre la terminal integrada" |
-| `gh-signup-form` | any | browser | 4.2 |
-| `gh-2fa-setup` | any | owner (test account) | 4.4 |
-| `gh-noreply-email` | any | owner (test account) | 4.6 |
-| `git-win-download` | Windows | browser | 5.1 |
-| `win-git-editor` | Windows | owner | 5.2 |
-| `mac-clt-prompt` | macOS | owner | 5.1 |
-| `gh-device-code` | any | owner (test account) | 6.x "Inicia sesión…" |
+All specs, and their state:
+
+| id | system | source | step | state |
+|---|---|---|---|---|
+| `win-terminal-open` | Windows | owner | 1.1 | missing |
+| `mac-terminal-open` | macOS | owner | 1.1 | missing |
+| `py-release-files` | any | browser | 2.1 | missing |
+| `win-py-installer-path` | Windows | owner | 2.2 | **reused** |
+| `win-py-installer-done` | Windows | owner | 2.3 | missing |
+| `win-app-aliases` | Windows | owner | 2.4 | missing |
+| `mac-py-installer-done` | macOS | owner | 2.2 | **reused** |
+| `mac-py-certificates` | macOS | owner | 2.3 | **reused** |
+| `win-vscode-tasks` | Windows | owner | 3.1 | missing |
+| `mac-vscode-shell-command` | macOS | owner | 3.2 | **reused** |
+| `vscode-trust` | any | owner | 3.x "Abre la carpeta en VS Code" | **reused** |
+| `vscode-terminal` | any | owner | 3.x "Abre la terminal integrada" | **reused** |
+| `gh-signup-form` | any | browser | 4.2 | missing |
+| `gh-2fa-setup` | any | owner (test account) | 4.4 | **reused** |
+| `gh-noreply-email` | any | owner (test account) | 4.6 | **reused** |
+| `git-win-download` | Windows | browser | 5.1 | missing |
+| `win-git-editor` | Windows | owner | 5.2 | missing |
+| `mac-clt-prompt` | macOS | owner | 5.1 | missing |
+| `gh-device-code` | any | owner (test account) | 6.x "Inicia sesión…" | missing |
 
 **MUST 2. No installer step was run.** Every installer screen, label and output on the page comes
 from source code and documentation (R§7), not from a run. The checklist in §7 is the hand check.
@@ -214,15 +267,15 @@ from source code or docs, not read on a live screen. Confirm each during the han
   wording);
 - the Spanish Windows Settings path: Aplicaciones → Configuración avanzada de aplicaciones → Alias
   de ejecución de aplicaciones, and the `Instalador de aplicación` rows;
-- the macOS "Install Certificates.command" ending `[Process completed]`;
+- ~~the macOS "Install Certificates.command" ending `[Process completed]`~~: confirmed by the Python docs' own screenshot (MUST 1);
 - `cli.github.com`'s "Download for Mac" button giving a `.pkg`;
 - `winget install --id GitHub.cli -e`'s success line (`Instalado correctamente` /
   `Successfully installed`);
 - the GitHub sign-up rules (39 characters, single hyphens) and the Settings labels
   (`Password and authentication`, `Enable two-factor authentication`, `Emails`,
   `Keep my email addresses private`);
-- VS Code's `Shell Command: Install 'code' command in PATH` wording, and the trust dialog's
-  button text;
+- ~~VS Code's `Shell Command: Install 'code' command in PATH` wording, and the trust dialog's
+  button text~~: both confirmed by the VS Code docs' screenshots (MUST 1);
 - the Ubuntu apt prompt `¿Desea continuar? [S/n]` (on a Spanish-locale Ubuntu);
 - `gh auth status` showing `(keyring)`.
 
@@ -263,6 +316,17 @@ captures exist, so the text and the pictures match.
 - **Options:**
   - (a) accept it as the right register for one-action steps (recommended);
   - (b) ask for a rewrite towards 70.
+
+**D6. Share-alike screenshots, shown unmodified** (DESIGN.md §7).
+- The Python 3.12 PATH-checkbox picture is Django Girls', under CC BY-SA 4.0. It is shown exactly
+  as published, with no crop and no box of ours, and attributed with the licence linked.
+- Under the Creative Commons FAQ, that makes it part of a collection, which share-alike does not
+  reach. The validator enforces "unmodified" for BY-SA.
+- **Options:**
+  - (a) keep it (recommended: it is the most important click on the page, and no other open,
+    current capture of it exists);
+  - (b) remove it until your own capture exists. Delete its row in `shots.json` and the PNG, then
+    run `node scripts/setup_shots_index.mjs`.
 
 **D5. Trademark and brand terms for product screenshots** (DESIGN.md §7). Not verified for GitHub,
 the PSF or Microsoft. Check before the first capture ships.

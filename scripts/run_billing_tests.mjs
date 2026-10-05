@@ -167,7 +167,7 @@ const CLIENT_SUITES = [
   ["runtime", 13],
   ["session-access", 20],
   // Sesión 0 (/empezar): OS detection, ticks, screenshot records, content rules (2026-10-05).
-  ["setup-intro", 29],
+  ["setup-intro", 30],
   ["storage-resilience", 4],
   ["ui-state", 12]
 ].map(([name, floor]) => ({ group: "client", file: `${CLIENT_TESTS}/${name}.test.ts`, floor, execArgv: TSX }));
