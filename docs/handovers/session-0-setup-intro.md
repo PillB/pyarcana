@@ -122,20 +122,22 @@ which points into the inline-SVG registry `src/components/course/figures/index.t
 The page itself can use the existing components: `Callout.tsx`, `CodeBlock.tsx`, `RichText.tsx`
 and `FigureFrame` (in `Figure.tsx`).
 
-**Screenshots need Pablo's decision.**
-- `src/lib/course/sections/AGENTS.md` rule D4 says "no screenshots" for sections.
-- No image file exists under `src/`, and `public/` is protected.
-- `next/image` is used only with `siteAsset()` from `src/lib/runtime-mode.ts`, which adds the
-  `/pyarcana` base path on the static build.
-
-Put the options to him with their trade-offs:
-- real screenshots in a new folder, for example `public/setup/`, which needs approval;
-- SVG redraws of the installer screens, which follow the theme and need no image files, but
-  must be maintained by hand;
-- a mix of the two.
-
-Also cover how screenshots stay current when installers change: a dated "checked on" line per
-step, and a re-check routine.
+**Screenshots: OWNER'S DIRECT ORDER (Pablo, 5 Oct 2026).** Sesión 0 uses real screenshots.
+- This order supersedes any earlier rule against screenshots. It is decided: do not put it to
+  him as a question, and do not quote old rules back to him.
+- Annotate every screenshot (an arrow or box on what to click), and give it a caption and alt
+  text. Say the key text in the prose too, so a screen-reader user loses nothing.
+- Add SVG diagrams (the figure registry) where a diagram explains better than a picture.
+- **Storage:** prefer image files imported from `src/` (for example `src/assets/setup/*.png`,
+  with `import shot from '…png'`, which the build emits under `_next/static`). That needs no
+  protected path. Check that it works with the static export and the `/pyarcana` base path
+  (`siteAsset()` in `src/lib/runtime-mode.ts` handles `public/` files only). If it cannot work,
+  explain why in PLAN.md. `public/` is still a protected path to ask about.
+- **Currency:** give each screenshot a dated "checked on" line, and set up a routine to retake
+  them when installers change. Script the browser ones (python.org, git-scm.com,
+  github.com sign-up) with Playwright where possible. Installer and terminal screenshots for
+  Windows and macOS cannot be taken from this sandbox: list them as needed from Pablo (or
+  sourced from official docs with their licence noted), and never fake one.
 
 ### Also design
 - **OS tracks:** detect the learner's OS, with a visible switch for Windows, macOS and Linux.
@@ -156,14 +158,15 @@ step, and a re-check routine.
 
 ## Phase C: stop for approval
 
-When the design needs a protected path (`public/`, a section file, `index.ts`, `tests/`) or the
-screenshot decision, stop:
+When the design needs a protected path (`public/`, a section file, `index.ts`, `tests/`), stop:
 - write `STATUS: NEEDS APPROVAL — <decisions, each with the options and your recommendation>`
   as the first line of `audit/session-0/PLAN.md`;
 - push, and end your turn.
 
-The session that started you relays the decisions to Pablo and sends you his answers. Do the
-unprotected work you can before stopping: research, design, SVG diagrams, the page skeleton.
+The session that started you relays the decisions to Pablo. His answers come back as an
+update to this handover, and a fresh session continues from your branch. So leave everything
+committed and pushed, and leave PLAN.md complete enough to resume from. Do the unprotected work
+you can before stopping: research, design, SVG diagrams, the page skeleton.
 
 ## Phase D: build
 
