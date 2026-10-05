@@ -31,6 +31,15 @@ INDEX = (ROOT / "src/lib/course/index.ts").read_text(encoding="utf-8")
 TERMS_TS = (ROOT / "src/lib/glossary/terms.ts").read_text(encoding="utf-8")
 SECTIONS_DIR = ROOT / "src/lib/course/sections"
 OUT = ROOT / "course-state/glossary_coverage_report.json"
+#: Intro terms whose aliases never appear in their section's prose, so the hover cannot fire.
+#: This audit was advisory and exited 0 on any count, so its CI step could never fail. The
+#: gaps it carries today stay owed rather than blocking, but the count may no longer move
+#: silently: a new gap fails, and so does closing one without lowering this number.
+#: 2026-10-03: 9 - args-y-kwargs (basics), apply (decisions-rules), embedding
+#: (evidence-dashboard), eda (wxpython-gui), distribuci-n-normal and estimando
+#: (data-engineering), shap (advanced-models), hyperparameter-tuning (ai-apis-advanced),
+#: namedtuple (architecture-ddd-decisions).
+MISSING_PROSE_OWED = 9
 
 terms = []
 for m in re.finditer(
@@ -141,8 +150,17 @@ print(
         indent=2,
     )
 )
-# Coverage audit is advisory for density; exit 0 so CI doesn't block on soft gaps
-# unless env STRICT_GLOSSARY_COVERAGE=1
+if len(p1) > MISSING_PROSE_OWED:
+    print(f"FAIL: {len(p1)} intro terms missing from their section's prose, more than the"
+          f" {MISSING_PROSE_OWED} owed. Use the term in the section that introduces it, or point its"
+          " firstSectionId at the section whose prose does.")
+    raise SystemExit(1)
+if len(p1) < MISSING_PROSE_OWED:
+    print(f"FAIL: {len(p1)} intro terms missing from their section's prose, fewer than the"
+          f" {MISSING_PROSE_OWED} owed. Lower MISSING_PROSE_OWED to {len(p1)} in this commit, with a"
+          " dated line naming the term.")
+    raise SystemExit(1)
+# STRICT_GLOSSARY_COVERAGE=1 still asks for zero gaps, not just no new ones.
 import os
 
 if os.environ.get("STRICT_GLOSSARY_COVERAGE") == "1" and not report["ok"]:

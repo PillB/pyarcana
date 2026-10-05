@@ -161,18 +161,20 @@ print(json.dumps({"ok": report["ok"], "forward_refs": len(issues), "terms": len(
 # word, which the alias `Coverage` matched. They now use the section's own Spanish.
 #
 # Raise this above 0 only with a dated line saying which term regressed and why.
+# 2026-10-04, merging #79: main carried this same ratchet at 7, measured by the whole-source scan,
+# and its comment set the rule for this merge -- whichever version lands second sets the number to
+# what its script measures. This version reads learner-visible events and measures 0.
 FORWARD_REFS_OWED = 0
 
 if len(issues) > FORWARD_REFS_OWED:
-    print(f"\nFAIL: forward refs rose to {len(issues)}, owed is {FORWARD_REFS_OWED}:",
-          file=sys.stderr)
+    print(f"FAIL: {len(issues)} forward references, more than the {FORWARD_REFS_OWED} owed. A term now"
+          " appears before the section that teaches it: gloss it there or move it. Point its"
+          " firstSectionId elsewhere only when the declaration itself is wrong:")
     for i in issues:
-        print(f"  {i['term']}: declared {i['declared_first']}, first used {i['found_first']}",
-              file=sys.stderr)
+        print(f"  {i['term']}: declared {i['declared_first']}, first used {i['found_first']}")
     raise SystemExit(1)
 
 if len(issues) < FORWARD_REFS_OWED:
-    raise SystemExit(
-        f"\nFAIL: only {len(issues)} forward refs remain -- lower FORWARD_REFS_OWED to "
-        f"{len(issues)} in {__file__} so the repair is kept."
-    )
+    print(f"FAIL: {len(issues)} forward references, fewer than the {FORWARD_REFS_OWED} owed. Lower"
+          f" FORWARD_REFS_OWED to {len(issues)} in this commit, with a dated line naming the term.")
+    raise SystemExit(1)

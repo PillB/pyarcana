@@ -45,6 +45,9 @@ def main() -> int:
     report_lock.refuse_if_busy(__file__)
     payload = build_events()
     result = audit_concept_events(payload)
+    # Define-before-use holds over nothing. An extraction that returns no section, term or
+    # event must not read as a clean course.
+    empty = [k for k in ("active_section_ids", "terms", "events") if not payload.get(k)]
 
     issues = result["issues"]
     by_code: dict[str, list[dict]] = {}
@@ -57,7 +60,8 @@ def main() -> int:
     never_defined = sorted(mentioned_terms - defined_terms)
 
     report = {
-        "ok": result["ok"],
+        "ok": result["ok"] and not empty,
+        "empty_populations": empty,
         "sections_audited": len(payload["active_section_ids"]),
         "terms_audited": len(payload["terms"]),
         "events_audited": len(payload["events"]),
@@ -74,10 +78,11 @@ def main() -> int:
         "terms": report["terms_audited"],
         "events": report["events_audited"],
         "issue_counts": report["issue_counts"],
+        "empty_populations": empty,
         "never_defined": len(never_defined),
         "report": str(OUT.relative_to(ROOT)),
     }, indent=2, ensure_ascii=False))
-    return 0 if result["ok"] else 1
+    return 0 if report["ok"] else 1
 
 
 if __name__ == "__main__":
