@@ -1,9 +1,17 @@
 name: Deploy to GitHub Pages
 
+# Deploy only what the Tests workflow passed on main. This ran on every push to main, beside the
+# tests rather than after them, so a red commit reached learners; and `workflow_dispatch` could
+# deploy any ref by hand. Owner decision O17 (Gate A).
+#
+# Under `workflow_run`, `github.sha` is the default branch's CURRENT tip, not the commit the tests
+# ran on. Everything below therefore names `workflow_run.head_sha`, and a commit that is no longer
+# main's tip is skipped: the newer commit's own Tests run deploys it once it passes.
 on:
-  push:
+  workflow_run:
+    workflows: [Tests]
+    types: [completed]
     branches: [main]
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -16,36 +24,65 @@ concurrency:
 
 jobs:
   build:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main'
     runs-on: ubuntu-latest
+    outputs:
+      current: ${{ steps.tip.outputs.current }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+
+      - name: Deploy only main's current tip
+        id: tip
+        env:
+          TESTED_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          git fetch --quiet origin main
+          tip="$(git rev-parse origin/main)"
+          if [ "$tip" = "$TESTED_SHA" ]; then
+            echo "current=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "current=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Tested $TESTED_SHA is no longer main's tip ($tip); that commit's own Tests run deploys it."
+          fi
 
       - name: Set up Node.js
+        if: steps.tip.outputs.current == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
       - name: Install bun
+        if: steps.tip.outputs.current == 'true'
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: '1.3.4'
 
       - name: Install dependencies
+        if: steps.tip.outputs.current == 'true'
         run: bash scripts/ci_bun_install.sh
 
       - name: Build static export
+        if: steps.tip.outputs.current == 'true'
         run: bun run build:static
         env:
           NEXT_PUBLIC_BASE_PATH: /pyarcana
-          PYARCANA_DEPLOY_SHA: ${{ github.sha }}
+          PYARCANA_DEPLOY_SHA: ${{ github.event.workflow_run.head_sha }}
 
       - name: Upload artifact
+        if: steps.tip.outputs.current == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
 
   deploy:
     needs: build
+    if: needs.build.outputs.current == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
