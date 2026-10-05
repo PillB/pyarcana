@@ -127,8 +127,8 @@
   "category": "assessment-design",
   "cause": "content-gap",
   "severity": "high",
-  "title": "Exámenes: en 31 de 52 secciones la respuesta correcta es siempre la opción B",
-  "description": "[O] prisma/seed.ts QUESTION_BANK: in 31 of 52 sections all 24 items have correctIndex=1 (S10–S22, S24–S30, S41–S48, S50–S52); S23 and S32 23/24. The exam start route shuffles question order but not options (src/app/api/exam/start/route.ts:215-219, options returned as stored). The correct option is also the longest in 19–24 of 24 items in every bank. S12 and S13 exams are one template («[S12/A] Sobre «requests-status-json», ¿cuál es la práctica correcta…») repeated for 24 items. A test-wise learner passes without the skill (Haladyna, Downing & Rodriguez 2002, item-writing guidelines on answer position and length cues).",
+  "title": "Exámenes: en 31 de 52 secciones la respuesta correcta es siempre la B, y al menos 11 claves están mal",
+  "description": "[O] prisma/seed.ts QUESTION_BANK: in 31 of 52 sections all 24 items have correctIndex=1 (S10–S22, S24–S30, S41–S48, S50–S52); S23 and S32 23/24. The exam start route shuffles question order but not options (src/app/api/exam/start/route.ts:215-219, options returned as stored). The correct option is also the longest in 19–24 of 24 items in every bank. S12 and S13 exams are one template («[S12/A] Sobre «requests-status-json», ¿cuál es la práctica correcta…») repeated for 24 items. A test-wise learner passes without the skill (Haladyna, Downing & Rodriguez 2002, item-writing guidelines on answer position and length cues). Worse: at least 11 items are keyed to an option that is plainly wrong while the explanation names option A (S18 #22 «Un color corporativo exacto», S19 #4, S21 #11, S42 #16 «Que pip elija al azar cada deploy», S43 #10, S44 #5, S44 #13, S45 #17, S46 #2, S48 #8, S50 #23; list in data/exam-key-audit-manual.md). A learner who knows the answer loses those points.",
   "expected": "Posición de la respuesta balanceada/aleatoria; distractores plausibles de longitud similar; ítems que exigen la habilidad.",
   "actual": "Responder «B» o «la más larga» aprueba.",
   "repro": "1. bun audit/learner-walkthrough/scripts/extract_exam_bank.ts out.json\n2. Contar correctIndex por sección",
@@ -164,5 +164,35 @@
   "actual": "Las pruebas pasan siempre.",
   "repro": "1. grep -rn \"assert True\" course-state/capstones/",
   "improvement": "course-state/capstones/_generate_formal_packages.py: generate real asserts from RUBRIC.json tests_required; compute tests_pass from a real pytest run. Owner decision needed (MUST)."
+ },
+ {
+  "id": "W12",
+  "firstSection": "S19",
+  "sectionId": "databases-orm",
+  "tab": "theory",
+  "category": "functionality",
+  "cause": "content-gap",
+  "severity": "high",
+  "title": "S19 «Pruébalo tú mismo» no corre: SyntaxError en la línea 31",
+  "description": "[O] Pressing Run on the unedited S19 playground prints «SyntaxError: unterminated string literal (detected at line 31)» (data/walk/S19.json). Line 31 is `cursor.execute(\"SELECT * FROM clientes WHERE ciudad = ?\", (\"Lima\",\"))` in src/components/course/SectionView.tsx (demos['databases-orm']). It fails the same way under CPython 3.12 (data/playgrounds-cpython.json), so this is a source typo, not the browser. The playground is also off topic (W03: SQL in the visualisation section). The content runtime audit does not cover these snippets.",
+  "expected": "El código de ejemplo corre y coincide con la salida esperada.",
+  "actual": "Error de sintaxis antes de ejecutar nada; el editor dice «Output diferente al esperado. Revisa tu código.» a una alumna que no tocó nada.",
+  "repro": "1. S19 › Teoría › Pruébalo tú mismo\n2. Run",
+  "improvement": "SectionView.tsx demos['databases-orm']: (\"Lima\",) — and extend scripts/python_content_runtime_audit.py (or a test) to execute every InteractivePlaygroundDemo snippet against its expectedOutput (audit/learner-walkthrough/scripts/playgrounds_cpython.py does this)."
+ },
+ {
+  "id": "W13",
+  "firstSection": "S14",
+  "sectionId": "security",
+  "tab": "theory",
+  "category": "compatibility",
+  "cause": "browser-device",
+  "severity": "medium",
+  "title": "S14 «Pruébalo tú mismo» falla solo en el navegador: hashlib.pbkdf2_hmac no existe en Pyodide",
+  "description": "[O] S14 playground (off topic, W03: password hashing in the NumPy section) stops with «AttributeError: module 'hashlib' has no attribute 'pbkdf2_hmac'» in Pyodide 0.26.2 (data/walk/S14.json); the same code matches its expected output under CPython 3.12 (data/playgrounds-cpython.json). The content is pinned to CPython 3.12 + pandas 3, the browser runs Pyodide (pandas 2.2.0, numpy 1.26.4, scikit-learn 1.4.2, no OpenSSL-backed pbkdf2), and nothing tells the learner the two differ. The demo also teaches plain SHA-256 + `==` for passwords (reading S14).",
+  "expected": "Lo que se puede ejecutar en el navegador corre en el navegador.",
+  "actual": "Error de atributo que la alumna no puede entender ni arreglar.",
+  "repro": "1. S14 › Teoría › Pruébalo tú mismo\n2. Run",
+  "improvement": "Replace the S14 demo with a NumPy one (W03). Run the playground audit under Pyodide too (e.g. in the browser walk) so browser-only failures are caught."
  }
 ]

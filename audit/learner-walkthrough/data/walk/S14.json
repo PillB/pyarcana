@@ -1,0 +1,128 @@
+{
+ "section": "S14",
+ "id": "security",
+ "title": "NumPy y cómputo vectorizado",
+ "at": "2026-10-05T02:49:42.593Z",
+ "events": [],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794364204,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "NumPy y cómputo vectorizado",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 24,
+  "optional": 1,
+  "words": 2704
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica seguridad: hashing y cifrado",
+  "readyMs": 3,
+  "verdict": "mismatch",
+  "output": "AttributeError: module 'hashlib' has no attribute 'pbkdf2_hmac'",
+  "hint": "Cambia el numero de iteraciones de PBKDF2 y observa como cambia el hash",
+  "afterEdit": {
+   "edited": "\"mi_password_123\"",
+   "verdict": "mismatch",
+   "message": "Output diferente al esperado. Revisa tu código."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 942,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Qué atributo del ndarray indica el tipo",
+  "questions": 11,
+  "attempt1": {
+   "result": "91%\n¡Buenazo! Sección completada\n\n10 de 11 correctas (91%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\n¿Qué atributo del ndarray indica el tipo homogéneo de sus elementos?\n\nA\nshape\ndtype\nndim\nD\nbase\n✗ Incorrecto. dtype fija el tipo de cada elemento (float64, int32, etc.)."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 91
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 91
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 91
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 30244
+}

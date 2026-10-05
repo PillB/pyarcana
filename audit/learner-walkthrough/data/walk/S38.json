@@ -1,0 +1,142 @@
+{
+ "section": "S38",
+ "id": "performance-extreme",
+ "title": "Concurrencia, observabilidad y workflows resilientes",
+ "at": "2026-10-05T03:06:32.407Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794366080,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Concurrencia, observabilidad y workflows resilientes",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 9,
+  "optional": 1,
+  "words": 3346
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica backpressure, timeout e idempotencia",
+  "readyMs": 3,
+  "verdict": "no-verdict",
+  "output": "enqueued c-synth-1\nenqueued c2\nbackpressure c3\nallows [True, True, False]\ntimeout_policy {'status': 'timeout', 'seconds': 0.05, 'on_fail': 'retry_or_dlq'}\nkey c-synth-1:score:v1\npii_raw False",
+  "hint": "Sube maxsize a 3 y observa cómo desaparece el backpressure del tercer caso.",
+  "afterEdit": {
+   "edited": "\"Didáctico estático: sin refill por tiempo (en prod sí hay ventana).\"",
+   "verdict": "no-verdict",
+   "message": null
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": [
+   "div:ResetRun",
+   "button:Run"
+  ]
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 731,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 8
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\nPara CPU bound en CPython suele preferir",
+  "questions": 9,
+  "attempt1": {
+   "result": "89%\n¡Buenazo! Sección completada\n\n8 de 9 correctas (89%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\nPara CPU bound en CPython suele preferirse:\n\nA\nMiles de threads CPU\nProcesos\nQuitar timeouts\nD\nLogs con PII\n✗ Incorrecto. El GIL limita el paralelismo CPU multi-thread; processes (con costo de IPC) son la opción habitual para features densas."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 89
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 89
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 89
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 90977
+}

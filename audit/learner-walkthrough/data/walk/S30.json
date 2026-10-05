@@ -1,0 +1,128 @@
+{
+ "section": "S30",
+ "id": "security-infra",
+ "title": "Entity resolution probabilístico",
+ "at": "2026-10-05T03:01:23.703Z",
+ "events": [],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794366080,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Entity resolution probabilístico",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 13,
+  "optional": 1,
+  "words": 3555
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica blocking y candidate recall",
+  "readyMs": 4,
+  "verdict": "match",
+  "output": "{'lopez|lim': ['r1', 'r2'], 'diaz|cus': ['r3']}\ncandidate_pairs 1",
+  "hint": "Sin plegar acentos, López y Lopez caen en bloques distintos y el candidate recall baja a 0",
+  "afterEdit": {
+   "edited": "\"casefold + pliega tildes para claves de blocking estables.\"",
+   "verdict": "match",
+   "message": "¡Correcto! El output coincide con lo esperado."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 1487,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\nEl motor ER de CP-N3-A debe decidir:\n\nA\n",
+  "questions": 9,
+  "attempt1": {
+   "result": "89%\n¡Buenazo! Sección completada\n\n8 de 9 correctas (89%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\nEl motor ER de CP-N3-A debe decidir:\n\nA\nSi dos registros comparten al menos un atributo de contacto\nSi dos registros son la misma entidad\nSi dos registros deben ir al mismo bloque de comparación\nD\nSi dos registros superan el umbral de similitud textual\n✗ Incorrecto. Entity resolution solo decide si dos registros apuntan a la misma entidad del mundo real. Parentesco, colusión o fraude son tareas distintas (más adelante en el path de investigación)."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 89
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 89
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 89
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 31374
+}

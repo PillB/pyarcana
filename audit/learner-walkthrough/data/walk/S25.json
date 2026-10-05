@@ -1,0 +1,139 @@
+{
+ "section": "S25",
+ "id": "streamlit-dashboards",
+ "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+ "at": "2026-10-05T02:55:03.175Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794364204,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Endpoints de IA, Hugging Face y prompting evaluado",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 12,
+  "optional": 1,
+  "words": 2984
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica estado y caching (simulado)",
+  "readyMs": 9,
+  "verdict": "match",
+  "output": "=== Primera llamada (cache miss) ===\n  [CACHE MISS] cargar_datos(100,) - calculando...\n  Datos: 100 registros\n=== Segunda llamada (cache hit) ===\n  [CACHE HIT] cargar_datos(100,)\n  Datos: 100 registros\n=== Tercera llamada con args diferentes (cache miss) ===\n  [CACHE MISS] cargar_datos(50,) - calculando...\n  Datos: 50 registros\n=== Session State ===\n  Clicks iniciales: 0\n  Clicks despues de 2: 2",
+  "hint": "Llama cargar_datos(100) una tercera vez - debe ser cache hit",
+  "afterEdit": {
+   "edited": "\"Simula el comportamiento de Streamlit.\"",
+   "verdict": "match",
+   "message": "¡Correcto! El output coincide con lo esperado."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 758,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Cuándo preferir reglas a un LLM en el a",
+  "questions": 5,
+  "attempt1": {
+   "result": "80%\n¡Buenazo! Sección completada\n\n4 de 5 correctas (80%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\n¿Cuándo preferir reglas a un LLM en el asistente de IA?\n\nCuando el problema es determinista y la auditabilidad importa\nSiempre preferir LLM por flexibilidad\nC\nNunca usar reglas en producción\nD\nSolo cuando el endpoint en la nube esté más barato\n✗ Incorrecto. Las reglas son baratas, deterministas y fáciles de auditar; el LLM se reserva para lenguaje con schema y revisión."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 80
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 80
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 80
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 29694
+}
