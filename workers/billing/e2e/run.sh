@@ -11,7 +11,7 @@
 #   npm install --prefix . --no-save wrangler@4 playwright@1.63.0   (not repo deps; --prefix keeps
 #   npm from writing them into workers/billing/package.json, the nearest package.json above)
 # Chromium: set CHROMIUM=/path/to/chrome (default /opt/pw-browsers/chromium).
-#   ./run.sh            build, start, seed, run the suites (ads, flows, usage, qa, cuenta, tour)
+#   ./run.sh            build, start, seed, run the suites (ads, flows, usage, qa, cuenta, progress, tour)
 #   ./run.sh --no-build reuse the last build
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -72,6 +72,10 @@ stop
 start
 (cd "$HERE" && node qa.e2e.mjs) || STATUS=1
 (cd "$HERE" && node cuenta.e2e.mjs) || STATUS=1
+# Section completion and progress sync (learner walkthrough W01, W07, W10): a fresh database again.
+stop
+start
+(cd "$HERE" && node progress.e2e.mjs) || STATUS=1
 # The QA tutorial's highlight: never under its panel, at four window sizes (no database needed).
 (cd "$HERE" && node tour.e2e.mjs) || STATUS=1
 exit $STATUS

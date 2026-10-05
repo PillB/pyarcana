@@ -80,12 +80,47 @@ function useTourGeometry(open: boolean, target: string | undefined, overlayRef: 
   return geo && geo.target === target ? geo : null
 }
 
-/** The panel's position for a placement: centred by the overlay, or on one side of the control. */
-function panelSlot(placement: TourPlacement | undefined): { slot: CSSProperties | undefined; panel: CSSProperties | undefined } {
-  if (!placement || placement.kind === 'center') return { slot: undefined, panel: undefined }
-  const panel = { maxHeight: placement.maxHeight }
-  if (placement.kind === 'below') return { slot: { top: placement.top }, panel }
-  return { slot: { bottom: placement.bottom }, panel }
+/**
+ * The overlay's, slot's and panel's layout for a placement. Centred (no control, or not measured
+ * yet): the overlay dims and centres the panel, as before. Otherwise the spotlight dims, and the
+ * panel sits in a slot on one side of the control.
+ */
+function tourLayout(placement: TourPlacement | undefined): {
+  overlay: string
+  slotClass: string
+  slot: CSSProperties | undefined
+  panel: CSSProperties | undefined
+} {
+  if (!placement || placement.kind === 'center') {
+    return { overlay: 'flex items-center justify-center bg-black/40 p-3 sm:p-4', slotClass: 'contents', slot: undefined, panel: undefined }
+  }
+  const side = placement.kind === 'below' ? { top: placement.top } : { bottom: placement.bottom }
+  return { overlay: '', slotClass: 'absolute inset-x-0 flex justify-center px-3 sm:px-4', slot: side, panel: { maxHeight: placement.maxHeight } }
+}
+
+/** The step's geometry and layout, for QATour (kept out of it to hold its complexity at 15). */
+function useTourStage(open: boolean, step: QATourStep | undefined, overlayRef: RefObject<HTMLDivElement | null>) {
+  const geo = useTourGeometry(open, step?.target, overlayRef)
+  return { spot: geo?.spot, layout: tourLayout(geo?.placement) }
+}
+
+/** The ring around the highlighted control; its shadow dims everything else in the workspace. */
+function TourSpotlight({ spot }: { spot: TourBox | undefined }) {
+  if (!spot) return null
+  return (
+    <div
+      aria-hidden="true"
+      data-testid="qa-tour-spotlight"
+      className="pointer-events-none absolute rounded-md"
+      style={{
+        top: spot.top - SPOT_PAD,
+        left: spot.left - SPOT_PAD,
+        width: spot.right - spot.left + 2 * SPOT_PAD,
+        height: spot.bottom - spot.top + 2 * SPOT_PAD,
+        boxShadow: '0 0 0 3px var(--primary), 0 0 0 9999px rgb(0 0 0 / 0.4)',
+      }}
+    />
+  )
 }
 
 /** Body copy with its **bold** spans rendered as bold, not as asterisks. */
@@ -155,8 +190,7 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
 
   // Highlight the field the step is about, so the words attach to a control: a ring around it, the
   // rest of the workspace dimmed, and the panel beside it rather than over it.
-  const geo = useTourGeometry(open, step?.target, overlayRef)
-  const { slot, panel } = panelSlot(geo?.placement)
+  const { spot, layout } = useTourStage(open, step, overlayRef)
 
   if (!open || !step) return null
 
@@ -174,32 +208,19 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
       // With a control to point at, the dimming comes from the spotlight's shadow, which leaves a
       // hole over the control; overflow-hidden keeps that shadow inside the workspace.
       ref={overlayRef}
-      className={`absolute inset-0 z-[60] overflow-hidden ${geo ? '' : 'flex items-center justify-center bg-black/40 p-3 sm:p-4'}`}
+      className={`absolute inset-0 z-[60] overflow-hidden ${layout.overlay}`}
       role="dialog"
       aria-modal="true"
       aria-label="Tutorial de QA"
       data-testid="qa-tour"
       data-target={step.target}
     >
-      {geo && (
-        <div
-          aria-hidden="true"
-          data-testid="qa-tour-spotlight"
-          className="pointer-events-none absolute rounded-md"
-          style={{
-            top: geo.spot.top - SPOT_PAD,
-            left: geo.spot.left - SPOT_PAD,
-            width: geo.spot.right - geo.spot.left + 2 * SPOT_PAD,
-            height: geo.spot.bottom - geo.spot.top + 2 * SPOT_PAD,
-            boxShadow: '0 0 0 3px var(--primary), 0 0 0 9999px rgb(0 0 0 / 0.4)',
-          }}
-        />
-      )}
-      <div className={slot ? 'absolute inset-x-0 flex justify-center px-3 sm:px-4' : 'contents'} style={slot}>
+      <TourSpotlight spot={spot} />
+      <div className={layout.slotClass} style={layout.slot}>
       <div
         ref={panelRef}
         tabIndex={-1}
-        style={panel}
+        style={layout.panel}
         // Three rows: header, a body that scrolls, and a footer pinned to the
         // bottom. Letting the whole panel scroll was not enough -- on step 2 a
         // correct answer adds both the feedback and the rule, and the Siguiente
