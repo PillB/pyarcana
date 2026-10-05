@@ -58,6 +58,7 @@ import {
   optionOrders,
   revealsKey,
 } from '@/lib/self-check'
+import { quizPassChanges } from '@/lib/section-completion'
 import { CodeBlock } from './CodeBlock'
 import { Callout } from './Callout'
 import { InlineText, RichText } from './RichText'
@@ -122,6 +123,7 @@ export function SectionView({
   const { data: session } = useSession()
   const {
     completedSubSteps,
+    completedSections,
     toggleSubStep,
     toggleSectionComplete,
     quizScores,
@@ -337,10 +339,10 @@ export function SectionView({
                 <QuizTab
                   section={section}
                   onDone={() => {
-                    toggleSubStep(section.id, 'quiz')
-                    if (allDone || subStepsDone.length >= SUB_STEPS.length - 1) {
-                      toggleSectionComplete(section.id)
-                    }
+                    // A pass only adds (quizPassChanges): toggling here un-finished the section.
+                    const { markQuiz, markSection } = quizPassChanges(subStepsDone, completedSections.includes(section.id), SUB_STEPS)
+                    if (markQuiz) toggleSubStep(section.id, 'quiz')
+                    if (markSection) toggleSectionComplete(section.id)
                   }}
                   done={subStepsDone.includes('quiz')}
                   score={quizScores[section.id] || 0}
@@ -894,7 +896,7 @@ function QuizTab({
         <h2 className="text-xl font-semibold">Autocheck — Verifica tu aprendizaje</h2>
       </div>
       <Callout type="info" title="¿Para qué este quiz?">
-        Intentar recordar lo aprendido te ayuda a retenerlo mejor que volver a leerlo. Contesta sin mirar la teoría; las opciones cambian de orden en cada intento. Con 70% o más desbloqueas la siguiente sección y ves las respuestas correctas y sus explicaciones. Si no llegas, repasa y reintenta.
+        Intentar recordar lo aprendido te ayuda a retenerlo mejor que volver a leerlo. Contesta sin mirar la teoría; las opciones cambian de orden en cada intento. Con 70% o más apruebas el Autocheck y ves las respuestas correctas y sus explicaciones. Los badges de competencia piden más: 85% en el examen de la sección. Si no llegas, repasa y reintenta.
       </Callout>
 
       {questions.map((q, qIdx) => {
@@ -1010,7 +1012,7 @@ function QuizTab({
             <Button variant="outline" onClick={handleRetry} className="gap-2">
               Reintentar
             </Button>
-            {reveal && (
+            {reveal && !done && (
               <Button className="gap-2" onClick={onDone}>
                 <Award className="h-4 w-4" />
                 Marcar como completada
@@ -1024,16 +1026,31 @@ function QuizTab({
 }
 
 // === Mark Done Button ===
+// Done, it is a status with a separate, explicit undo. A green «Completado» that was itself the
+// toggle read as a status, and one click erased the step (learner walkthrough W07).
 function MarkDoneButton({ onDone, done, label }: { onDone: () => void; done: boolean; label: string }) {
+  if (done) {
+    return (
+      <div className="flex w-full items-center justify-between gap-3 rounded-md bg-green-600 px-4 py-2 text-white" data-testid="step-done">
+        <span className="flex items-center gap-2 text-sm font-medium" role="status">
+          <CheckCircle2 className="h-4 w-4" />
+          Completado
+        </span>
+        <button
+          type="button"
+          onClick={onDone}
+          className="min-h-11 rounded-md px-3 text-sm underline underline-offset-2 hover:bg-white/10"
+          data-testid="step-undo"
+        >
+          Desmarcar
+        </button>
+      </div>
+    )
+  }
   return (
-    <Button
-      onClick={onDone}
-      variant={done ? 'secondary' : 'default'}
-      className={cn('w-full gap-2', done && 'bg-green-600 text-white hover:bg-green-700')}
-      size="lg"
-    >
+    <Button onClick={onDone} className="w-full gap-2" size="lg">
       <CheckCircle2 className="h-4 w-4" />
-      {done ? 'Completado' : label}
+      {label}
     </Button>
   )
 }
@@ -1926,7 +1943,7 @@ cursor.executemany("INSERT INTO clientes VALUES (?,?,?,?,?)", clientes)
 conn.commit()
 
 # Query: todos los clientes de Lima
-cursor.execute("SELECT * FROM clientes WHERE ciudad = ?", ("Lima","))
+cursor.execute("SELECT * FROM clientes WHERE ciudad = ?", ("Lima",))
 lima = cursor.fetchall()
 print(f"Clientes de Lima: {len(lima)}")
 for c in lima:
