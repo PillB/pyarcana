@@ -9,7 +9,8 @@
 # Steps of the guided run:
 #   0. setup: Node 20 or newer; Playwright 1.63.0 installed in this folder (not in git); its Chromium
 #   1. anonymous checks: health, sign-in methods, licence keys, pages, ads, security headers, no
-#      Cloudflare beacon, /cuenta offers Google, Pyodide from jsDelivr runs under the live CSP
+#      Cloudflare beacon, /cuenta offers Google, Pyodide from jsDelivr runs under the live CSP;
+#      the QA tutorial never covers the control it highlights (tour.e2e.mjs, four window sizes)
 #   2. (asks) sign in in YOUR Chrome, then the signed-in checks: /v1/me, /cuenta, every admin tab
 #   3. (asks) also send one test QA report "[prueba en vivo] …" (it lands in /qa and /admin)
 #   4. (asks) the hotkeys on your physical keyboard in your Chrome
@@ -73,6 +74,7 @@ echo "Ready. Site: $BASE"
 if [ "$MODE" = all ] || [ "$MODE" = anon ]; then
   say "1  Anonymous checks (about 1-2 minutes)"
   step "anonymous checks" node live.e2e.mjs
+  step "QA tutorial: highlighted control never under its panel" node tour.e2e.mjs
 fi
 
 if [ "$MODE" = all ]; then

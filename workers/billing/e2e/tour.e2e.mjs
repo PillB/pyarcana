@@ -7,12 +7,15 @@
 // Real page, real layout, real scrolling; nothing is faked.
 import { chromium } from 'playwright'
 import { sandboxTrustArgs } from './sandbox-trust.mjs'
-import { mkdirSync } from 'node:fs'
+import { existsSync, mkdirSync } from 'node:fs'
 
 const BASE = process.env.BASE || 'http://localhost:8787'
 const OUT = new URL('./shots/', import.meta.url).pathname
 mkdirSync(OUT, { recursive: true })
-const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium', headless: true, args: sandboxTrustArgs() })
+// CHROMIUM, else this sandbox's Chromium, else Playwright's own (on the owner's computer, via live.sh).
+const SANDBOX_CHROMIUM = '/opt/pw-browsers/chromium'
+const executablePath = process.env.CHROMIUM || (existsSync(SANDBOX_CHROMIUM) ? SANDBOX_CHROMIUM : undefined)
+const browser = await chromium.launch({ headless: true, args: sandboxTrustArgs(), ...(executablePath ? { executablePath } : {}) })
 const results = []
 
 function record(name, ok, detail = '') {
