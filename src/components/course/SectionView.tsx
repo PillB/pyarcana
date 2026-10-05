@@ -54,6 +54,7 @@ import { CodeBlock } from './CodeBlock'
 import { Callout } from './Callout'
 import { InlineText, RichText } from './RichText'
 import { FigureFrame } from './Figure'
+import { SetupIntroLink } from '@/components/setup/SetupIntroLink'
 import { SteppedCode } from './SteppedCode'
 import { ProgressRing } from './ProgressRing'
 import { ExamView } from './ExamView'
@@ -270,6 +271,9 @@ export function SectionView({
           )}
         </div>
       </div>
+
+      {/* Section 1 assumes a computer that is already set up; Sesión 0 is the way there. */}
+      <SetupIntroLink when={section.index === 1} className="mb-3" />
 
       {/* Tabs — compact horizontal, no per-trigger CheckCircle (uses color) */}
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as SubStep)}>
