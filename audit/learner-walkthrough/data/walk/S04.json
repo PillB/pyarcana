@@ -1,0 +1,139 @@
+{
+ "section": "S04",
+ "id": "iteration-summaries",
+ "title": "Iteración y resúmenes transaccionales",
+ "at": "2026-10-05T02:32:05.216Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794364204,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Iteración y resúmenes transaccionales",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 9,
+  "termHints": 6,
+  "optional": 1,
+  "words": 2609
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica un resumen por lotes",
+  "readyMs": 3,
+  "verdict": "match",
+  "output": "conteos {'accept': 2, 'reject': 2, 'review': 1}\nn_total 5\ntasa_reject 0.4\ntasa_lote_vacio None",
+  "hint": "Cambia un status y observa cómo se actualizan el contador y la tasa; luego prueba una lista vacía.",
+  "afterEdit": {
+   "edited": "\"accept\"",
+   "verdict": "mismatch",
+   "message": "Output diferente al esperado. Revisa tu código."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 732,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Qué produce list(range(3))?\n\nA\n1,2,3 (e",
+  "questions": 8,
+  "attempt1": {
+   "result": "88%\n¡Buenazo! Sección completada\n\n7 de 8 correctas (88%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\n¿Qué produce list(range(3))?\n\n1,2,3 (empieza en 1)\nB\n0,1,2,3 (incluye el stop)\nC\n3 (solo el argumento)\n0,1,2 (empieza en 0, excluye stop)\n✗ Incorrecto. `range(stop)` empieza en 0 y se detiene antes de `stop`. Por eso tres posiciones son 0, 1 y 2; el valor 3 sería una cuarta posición. Este límite exclusivo encaja con los índices válidos de una lista de longitud 3."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 88
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 88
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 88
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 26363
+}

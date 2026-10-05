@@ -1,0 +1,180 @@
+{
+ "section": "S01",
+ "id": "setup",
+ "title": "Entorno reproducible y trabajo seguro",
+ "at": "2026-10-05T02:30:26.907Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/badge-notice net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/credential-policy net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/disclaimer net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/security net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/acceptable-use net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/external-resources net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/data-rights net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/cookies net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/terms net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/privacy net::ERR_ABORTED",
+   "tab": "load"
+  }
+ ],
+ "onboardingTourSteps": 16,
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794364204,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Entorno reproducible y trabajo seguro",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 11,
+  "termHints": 84,
+  "optional": 2,
+  "words": 7829
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica el intérprete y tu primer script",
+  "readyMs": 3,
+  "verdict": "match",
+  "output": "Hola Estudiante, bienvenido a PyArcana!\nPython mayor: 3\nScript ejecutado de arriba abajo",
+  "hint": "Mantén un nombre sintético. Cambia el nombre y vuelve a ejecutar: Python lee las instrucciones en orden, de arriba abajo.",
+  "afterEdit": {
+   "edited": "\"Estudiante\"",
+   "verdict": "mismatch",
+   "message": "Output diferente al esperado. Revisa tu código."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 1070,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 5
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Para qué sirve un entorno virtual (venv",
+  "questions": 8,
+  "attempt1": {
+   "result": "88%\n¡Buenazo! Sección completada\n\n7 de 8 correctas (88%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "proyecto y evitar conflictos de versiones\nPara acelerar la ejecución del código Python\nC\nPara conectarse a internet más rápido al instalar paquetes\nD\nPara compilar Python a código de máquina más eficiente\n✗ Incorrecto. Un `venv` crea una frontera de dependencias por proyecto. Así, dos proyectos pueden usar versiones distintas del mismo paquete sin negociar sobre un único Python global. La prueba no es el nombre de la carpeta: `sys.prefix` y la ruta del ejecutable deben apuntar al entorno activo."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 88
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 88
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 88
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 40329
+}
