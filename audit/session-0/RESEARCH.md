@@ -827,3 +827,188 @@ Read from the source [C1].
 - EDteam content (site blocked, not found by search).
 - No real installs were run. Every installer flow above is from source code or docs, not from a run
   on Windows or macOS.
+
+---
+
+## 8. Addendum (5 Oct 2026): more tutorials, and reusable screenshots
+
+Second research pass, 2026-10-05. Same rules as §0: every claim has an ID, every ID says how it was
+read. The proxy blocked the same hosts as in §0.1, plus these, each tried once and not retried:
+missing.csail.mit.edu, happygitwithr.com, codigofacilito.com, infoworld.com, mclibre.org,
+ciberaula.com, pythonguis.com, stanford.edu, cs61a.org, datacamp.com, ds100.org, cs.toronto.edu,
+pyladies.com, python.org.ar and github.blog. **github.com pages were readable through WebFetch**, and
+`git clone` of public repositories worked. So, again, most primary reads come from source repos.
+
+### 8.1 Licence filter first: PyArcana is commercial
+
+`docs/SUBSCRIPTION.md` describes paid plans (MercadoPago, Paddle, Lemon Squeezy). **So any
+NonCommercial (NC) licence rules out reuse**, however good the material is. That removes several of
+the best-known guides at once:
+
+| Source | Licence (read from the repo) | Reusable here? |
+|---|---|---|
+| Missing Semester (MIT), `missing-semester/missing-semester` `license.md` | CC BY-NC-SA 4.0 (text, notes, *and videos*) | **No** (NC) [A1] |
+| Happy Git and GitHub for the useR (Jenny Bryan), `jennybc/happy-git-with-r` `LICENSE` | CC BY-NC 4.0 | **No** (NC) [A2] |
+| Pro Git, es and en (`progit/progit2-es`, `progit/progit2`), `LICENSE.asc` | CC BY-NC-SA 3.0 Unported | **No** (NC) [A3] |
+| The Odin Project, `TheOdinProject/curriculum` `license.md` | CC BY-NC-SA 4.0 | **No** (NC) [OP1] |
+| VS Code docs, `microsoft/vscode-docs` `LICENSE.md` | Docs **CC BY 3.0 US**, code MIT; no trademark or logo rights | **Yes, with attribution** [A4] |
+| GitHub Docs, `github/docs` | Content CC BY 4.0, code MIT [H11] | **Yes, with attribution** [A12] |
+| Microsoft `MicrosoftDocs/windows-dev-docs`, `MicrosoftDocs/terminal` `LICENSE` | CC BY 4.0 (code: `LICENSE-CODE`) | **Yes, with attribution** [A15, A16] |
+| Django Girls tutorial, `DjangoGirls/tutorial` `LICENSE` | **CC BY-SA 4.0** | Yes, but ShareAlike (see the caveat below) [A6] |
+| Carpentries `swcarpentry/git-novice`, `carpentries/workshop-template` `LICENSE.md` | CC BY 4.0 (lesson material) | **Yes, with attribution** [A13] |
+| CPython docs images (`Doc/using/*.png`) | PSF License v2 for documentation [P10] | **Yes, with the PSF notice** [A7] |
+
+Caveats that apply to every "Yes" row, none of them legal advice:
+
+- **CC BY needs credit.** Each figure needs author, source link, licence link, and "modified" if we
+  crop or annotate.
+- **ShareAlike (Django Girls).** Under the CC licences, placing an unmodified image next to our own
+  text is generally treated as a collection, not an adaptation. If we **annotate** the image, the
+  annotated image must itself be CC BY-SA 4.0. That is fine for one image, but it must be labelled.
+  Not checked with a lawyer.
+- **Trademarks and logos are excluded.** The Microsoft licences say so explicitly [A4, A15].
+  Python and VS Code logos visible *inside* a screenshot are incidental. Do not crop a logo out and
+  reuse it as an icon. `windows-dev-docs/hub/images/python-logo.png` in particular is a logo, not a
+  screenshot.
+- **Hosting gotcha.** `microsoft/vscode-docs` stores images in **Git LFS**.
+  `raw.githubusercontent.com` returns a 130-byte LFS pointer, not the PNG. The real file is at
+  `https://media.githubusercontent.com/media/microsoft/vscode-docs/main/<path>`, checked: it returns
+  a 1736×1154 PNG for the terminal image below [A4]. `github/docs`, CPython, Django Girls and the
+  Carpentries serve real PNGs from `raw.githubusercontent.com`.
+
+### 8.2 Reusable screenshots, by Sesión 0 step (repo paths verified by `git ls-tree`, 2026-10-05)
+
+| Step | Image (repo · branch · path) | What it shows / fitness | Ref |
+|---|---|---|---|
+| Terminal inside VS Code | `microsoft/vscode-docs` · main · `docs/terminal/images/getting-started/open-terminal.png` (LFS) | Windows, dark theme, folder `C:\temp\terminal-basics`, **TERMINAL tab and "powershell" profile boxed in red**. Exactly our "integrated terminal" step. Viewed. | A4 |
+| Terminal inside VS Code (more) | same dir: `select-shell.png`, `terminal-output.png`, `rerun-command.png`, `close-terminal.png` | Shell picker, output, re-run, close. Not viewed. | A4 |
+| Open folder / first commit | `microsoft/vscode-docs` · `docs/sourcecontrol/images/quickstart/initialize-repository.png`, `stage-changes-button.png`, `commit-button.png`, `sync-changes.png`, `clone-repository-url.png` | From the 2026 source-control quickstart [A5]. Not viewed. The page has two `<!-- TODO: Capture … -->` placeholders, so the set is still in flux. | A5 |
+| macOS "code" command | `microsoft/vscode-docs` · `docs/setup/images/mac/shell-command.png` | Command Palette, **"Shell Command: Install 'code' command in PATH"**. This confirms the wording §7 listed as unverified (`docs/setup/mac.md` line 34). | A4 |
+| macOS Gatekeeper | `microsoft/vscode-docs` · `docs/setup/images/mac/open-anyway.png` | "Open Anyway" fallback. Not viewed. | A4 |
+| Python Windows installer (classic, 3.12) | `DjangoGirls/tutorial` · master · `en/python_installation/images/python-installation-options.png` (658×408) | **"Install Python 3.12.2 (64-bit)"**, Windows 11 style; **"Add python.exe to PATH" ticked and boxed in green**; "Use admin privileges when installing py.exe" ticked and greyed. Both labels match the v3.12.10 installer strings exactly (`ShortPrependPathLabel`, `ShortInstallLauncherAllUsersLabel`, checked 2026-10-05) [P8]. **The best freely licensed 3.12 shot found.** The title says 3.12.2, not 3.12.10, so our caption must say "la versión puede variar". Viewed. | A6 |
+| Python Windows installer, **do not use** | `DjangoGirls/tutorial` · `es/python_installation/images/python-installation-options.png` | **Python 3.6.1**, "Add Python 3.6 to PATH". The Spanish chapter still uses this image. Viewed. | A6 |
+| Python Windows installer, **do not use** | `DjangoGirls/tutorial` · `es/python_installation/images/add_python_to_windows_path.png` | **Python 3.4.3** "Customize" tree, Windows 7 chrome. Viewed. | A6 |
+| Python Windows installer, **do not use** | `python/cpython` · 3.12 · `Doc/using/win_installer.png` | 3.8-era image (already flagged in §2). **Removed from `main`**: `Doc/using/` on main has no `win_installer.png`. | A7 |
+| macOS .pkg installer | `python/cpython` · 3.14 (or 3.13) · `Doc/using/mac_installer_01_introduction.png` … `_08_install_certificates.png` (9 files) | The 3.14 branch intro shows **Python 3.13.0** plus a "Free-threading support" paragraph that 3.12 lacks. `main` shows **3.15.0b4**. The **3.12 branch has no macOS images**. Use screens 02–07 (version-neutral) and 08 (`Install Certificates.command` terminal output ending "Successfully installed certifi … update complete"; folder "Python 3.13"). Caption: "tu carpeta dirá Python 3.12". Viewed 01 (main and 3.14) and 08. | A7 |
+| GitHub email verification | `github/docs` · main · `assets/images/help/settings/email-verify-button.png`, `email-primary.png` | Not viewed. | A12 |
+| GitHub 2FA recovery codes | `github/docs` · `assets/images/help/2fa/view-recovery-codes-button.png` (1562×294), `2fa-totp-secret-setup-key-link.png` | The setup-key link matters for learners without a QR-capable phone (see §8.4). Not viewed. | A12 |
+| Clone URL | `github/docs` · `assets/images/help/repository/code-button.png`, `https-url-clone-cli.png` | Not viewed. | A12 |
+| New repository | `github/docs` · `assets/images/help/repository/repo-create.png`, `create-repository-name.png`, `create-repository-owner.png` | Not viewed. | A12 |
+| GitHub Desktop sign-in and clone | `github/docs` · `assets/images/help/desktop/sign-in-github.png`, `lets-get-started.png`, `clone-file-menu-windows.png`, `clone-choose-button-url-windows.png` | Desktop route (§6 item 7). Not viewed. | A12 |
+| Windows Terminal, **avoid** | `MicrosoftDocs/terminal` · main · `TerminalDocs/images/overview.png` (1672×935) | 2020-era: three split panes (PowerShell 7.0.0, retro-green CMD, Ubuntu), powerline prompt with `master`. **Too busy for day 0, and it teaches `master`.** Viewed. | A15 |
+| GitHub web create-repo (Carpentries) | `swcarpentry/git-novice` · main · `episodes/fig/github-create-repo-01.png` … `-03.png` | 619×97 strip; probably older GitHub UI. The folder is mostly RStudio screenshots. Low value. | A13 |
+
+**Not found (gap): a freely licensed screenshot of the Python install manager** (MSIX dialog or
+first-run console). CPython's `Doc/using/` has none, and the pymanager repo only holds icons
+(`src/pymanager/_resources/*.png`) [A7, A8]. If we teach that route, we must take our own captures.
+H8's screenshot rules apply.
+
+### 8.3 New sources: what to copy, what is wrong
+
+Method key as in §0.2. "S" = search-summary only, marked [snippet] in the text.
+
+| ID | Source · URL · date · language | Copy this | Wrong / stale | Method |
+|---|---|---|---|---|
+| A1 | MIT Missing Semester 2026, "Course Overview + Introduction to the Shell", https://missing.csail.mit.edu/2026/course-shell/ · lecture 2026-01-12, repo HEAD 2026-09-28 · en | The opener names the shell vs terminal split, then gives **one line per OS to open a terminal**. macOS: "Press `Cmd + Space` … type 'Terminal'". Windows: "search 'Terminal' or 'Command Prompt'". It also recommends `tldr` and says LLMs "are usually very good at explaining" commands. The 2026 edition "folds AI tools into every lecture" [snippet]. | Sends Windows users to **WSL or a Linux VM**: the CMD/PowerShell commands are "not what we'll be teaching". That is too heavy for our audience (same objection as OP1). NC licence. | R (`_2026/course-shell.md`) |
+| A2 | Happy Git and GitHub for the useR (Jenny Bryan), https://happygitwithr.com/hello-git.html · repo HEAD 2025-01-31 · en | "Introduce yourself to Git": the name "does not have to be your GitHub username", and the real first and last name is a fine choice [snippet]. That defuses a common beginner worry. Also a strong "half the battle is installation" framing. | R/RStudio-centric. Its Windows shell screenshots are dated **2018–2019** (`img/2018-01-15_*.png`). NC licence. | S + R (licence, file list) |
+| A3 | Pro Git 2nd ed., Spanish, `progit/progit2-es` · HEAD 2025-12-12 · es | Full Spanish ch. 1 "Inicio" (install, first-time setup), the only complete Spanish Git book found. | NC licence. Translation lags the English edition (not measured). | R (licence only) |
+| A4 | VS Code docs, "Getting started with the terminal", https://code.visualstudio.com/docs/terminal/getting-started · **DateApproved 9/30/2026** · en | **Start the editor, open a folder, then View > Terminal**, then a harmless first command (`ls`), with screenshots that box the click target in red. It defines shell vs terminal in two sentences. | English only. | R |
+| A4b | VS Code "Getting Started with Python", same repo · **DateApproved 02/04/2026** | (see V1) | **Still** links `docs.python.org/3.9/using/windows.html`, says "the system install of Python on macOS is not supported" and recommends **Homebrew**, and verifies with `py -3 --version`. So V1's staleness from §2 persists after a 2026 re-approval. | R |
+| A5 | VS Code "Quickstart: use source control", https://code.visualstudio.com/docs/sourcecontrol/quickstart · **DateApproved 9/30/2026** · en | A **practice repo with no hosting account needed**; "publishing … is an optional final step". A prerequisite check (`git --version`) with an explicit failure branch: "If the command isn't found, restart VS Code after installing Git". It sets `user.name`/`user.email` *before* the first commit, ends with "Verify that it contains `README.md` and your commit", and distinguishes **Unstage** from **Discard** (data-loss warning). | No `init.defaultBranch`; no noreply email advice. | R |
+| A6 | Django Girls tutorial (en/es), `DjangoGirls/tutorial` · HEAD 2026-07-19 | The English chapter now ships a **3.12.2 screenshot with the PATH box highlighted** (§8.2). | **The Spanish chapter is unchanged** since §2 (DG2): text "Add Python 3.6 to PATH", links to 3.4.6, a 3.6.1 image, and a macOS file `python-3.6.1-macosx10.6.pkg`. The English text still says "Add Python {{ book.py_version }} to PATH", which does not match its own new image ("Add python.exe to PATH"). | R |
+| A7 | CPython docs, `python/cpython` · main HEAD 2026-10-05; branches 3.12/3.13/3.14 | The 3.14 docs title the classic route **"The full installer (deprecated)"**: "deprecated since 3.14 and will not be produced for Python 3.16 or later". | On `main` (3.15 dev docs) the full-installer section is **gone entirely**, along with `win_installer.png`. A 3.12 learner who follows "latest docs" will find no PATH-checkbox instructions. Link the **3.12 docs** explicitly. | R |
+| A8 | Python install manager source, `python/pymanager` `src/manage/firstrun.py` · HEAD 2026-09-29; latest stable tag **26.3**, betas to **26.4b3** (git ls-remote); python.org "Python install manager 26.3", 2026-06-30 [snippet] | Exact first-run console strings (quotable): "Welcome to the Python installation manager configuration helper."; alias warning plus "Open Settings now, so you can modify App execution aliases?"; "Windows is not configured to allow paths longer than 260 characters." … "Update setting now?"; "The legacy 'py' command is still installed." … "Open Installed apps now?"; "The global shortcuts directory is not configured." … "**Add commands directory to your PATH now?**" (prompt `y/N`, **default No**; not needed for `python` or `py`); "You do not have any Python runtimes installed." … "**Install CPython now?**" (default Yes). | **Default Yes installs the *latest* CPython (3.14), not 3.12.** A 3.12 course on this route must say "escribe `n`, luego `py install 3.12`", or accept both. Combine with P13/P14 (stale 3.12 patch issues). | R |
+| A9 | python-docs-es, `using/windows.po`, branch 3.14 · HEAD 2026-08-03 · es | Spanish exists for the reference page. | **587 entries, 210 untranslated, 45 fuzzy** (counted 2026-10-05). The install-manager paragraphs sampled are untranslated (`msgstr ""`), so docs.python.org/es/3.14 shows them **in English**. PO-Revision-Date 2023-02-14. Do not send Spanish beginners there for pymanager. | R |
+| A10 | GitHub Docs, "Countries where SMS authentication is supported" · `github/docs` HEAD 2026-10-02 | — | **Peru is not on the list** (107 entries; Mexico and Spain are; Argentina, Chile and Colombia are not). "If we don't support … text message for your country … you can set up authentication via a TOTP mobile application." | R |
+| A11 | GitHub Community discussion #191012, "Mandatory Github 2FA before May 2 2026", https://github.com/orgs/community/discussions/191012 · 2026-03-29 · en | Real learner voice: SMS unsupported in Kenya, no smartphone, "this might lock some of us out". Replies list **desktop TOTP apps** (KeePassXC, WinAuth) and hardware keys. A maintainer links FAQ #68240 (not read). | The "May 2, 2026" date is that user's personal enrolment deadline, **not verified** as a global date. It fits H1's per-user 45-day windows. | D (WebFetch) |
+| A12 | GitHub Docs image assets, `github/docs/assets/images/help/` | See §8.2. | GitHub UI changes often; check each image against the live UI before use (H8 itself warns). | R (paths only) |
+| A13 | Carpentries `swcarpentry/git-novice` · HEAD 2026-09-01; `swcarpentry/git-novice-es` · HEAD 2026-09-01 · en/es | CC BY 4.0 **SVG diagrams** (`git-staging-area.svg`, `git-committing.svg`, `github-repo-after-first-push.svg`). Reusable concept art for "qué es un commit/push". A Spanish lesson exists. | Screenshots are mostly RStudio. | R (paths) |
+| A14 | PUCP Software Carpentry workshop "Introducción a la Computación Científica", 27–28 June 2025, Lima, https://tibbben.github.io/2025-06-27-pucp-swc/ (repo `tibbben/2025-06-27-pucp-swc`, HEAD 2025-05-30) · es-PE | Shows that a Peruvian university audience gets Carpentries setup. Spanish config comments. Instructors are named (Norris, Romero). | Its legacy Spanish setup block translates **Git 2.8.2** installer options into Spanish ("Utilizar Git desde la Línea de Comando de Windows", "Deshabilitar estilo Windows…"). The installer shows them **in English**, so learners hunt for labels that do not exist. It also includes `setx HOME`. Python via Anaconda [snippet]. | R + S |
+| A15 | Windows Terminal docs, `MicrosoftDocs/terminal` · HEAD 2026-05-19 | CC BY 4.0. | Hero image is 2020-era and busy (§8.2). | R |
+| A16 | `MicrosoftDocs/windows-dev-docs` · HEAD 2026-09-17 | CC BY 4.0; `hub/images/terminal.png`, `hub/images/vscode.png` (not viewed). | M1's content problems in §2 stand. | R (paths) |
+| A17 | Berkeley CS 61A Fall 2026, Lab 0, https://cs61a.org/fa26/labs/lab00/ · en | **A major university already teaches the install-manager route**: "download the Python install manager from the Windows downloads page … click Install. If it asks whether to add Python to your PATH, accept." It uses **Windows PowerShell** (preinstalled, no extra setup) instead of Git Bash [snippet]. | Course needs "3.8 or later (ideally 3.11+)", not a pinned version [snippet, possibly an older term]. | S |
+| A18 | Stanford CS106A "Installing Python and PyCharm", https://stanford.edu/class/cs106a/handouts/installingpycharm.html · en | Tells Mac users to check Apple Silicon vs Intel in "About This Mac" before downloading; "even if you think you already have Python installed, follow the steps" [snippet]. | Label "Add Python VERSION_NUMBER in PATH" is pre-3.12 wording; PyCharm-only support [snippet]. | S |
+| A19 | Real Python video course "Installing Python on Windows, macOS, and Linux", https://realpython.com/courses/installing-python-windows-macos-linux/ · last modified 2026-08-12 [snippet] · en | Now recommends the **Python Install Manager from the Microsoft Store**, verified with `python --version` in PowerShell [snippet]. | No pinned-version path [snippet]. | S |
+| A20 | GitHub Blog "GitHub for Beginners" series: "What is Git? Our beginner's guide to version control" (2024-05-27, updated 2025-03-18); "…How to create your first repo" (2024-06-24); "…Uploading files and folders" (2024-07-08) · en | A first-party, short, episodic series (an article plus a video each) [snippet]. | Content not read (github.blog blocked). | S |
+| A21 | InfoWorld, "Get started with the new Python Installation Manager", https://www.infoworld.com/article/4001983/ · date not captured · en | Lists `py install <version>`, `py list --online`, `py install --configure` [snippet]. | — | S |
+| A22 | CodeGym, "Install Python and pip on Windows in 2026: Five Paths, the py Launcher, and the Store Stub Trap", https://codegym.cc/groups/posts/python-install-pip-windows-2026 · 2026 · en | Names the trap ("Store stub"), and **verifies the fix with `where python` (WindowsApps must not appear)** [snippet]. That is a concrete, checkable signal. | Says the change happened "in late 2024"; PEP 773 was accepted in Apr 2025 [P4] and 3.14 shipped Oct 2025 [P3]. Recommends `py -3.13` syntax. | S |
+| A23 | freeCodeCamp Español: "Configuración de Git por primera vez" (https://www.freecodecamp.org/espanol/news/configuracion-inicial-git/); "Aprende Git y GitHub – Curso desde cero" (5+ h YouTube) · es | First Spanish freeCodeCamp pages that actually cover install plus `user.name`/`user.email` on all three OSes [snippet]. Partially updates FC2's "no first-party Spanish guide". | Dates and content not read. | S |
+| A24 | Código Facilito, "Instalación de Python y Visual Studio Code", https://codigofacilito.com/articulos/python-vsc · date not captured · es (LatAm) | Short two-tool walkthrough (python.org → tick PATH; code.visualstudio.com) [snippet]. | Generic "casilla del PATH" with no exact label; no Store-alias warning [snippet]. | S |
+| A25 | Platzi, "Instalación de Python, VS Code y Git en Windows" (course *Fundamentos de Python*), https://platzi.com/cursos/fundamentos-python/instalacion-de-python-vs-code-y-git-en-w/ · es | All three tools in one Windows class: the same bundle as Sesión 0. | Uses the label "Add Python to PATH" (not the 3.12 label) [snippet]; paywalled course. | S |
+| A26 | Coursera, Universidad Austral (AR), "Introducción a la programación con Python"; it includes a 10-min "instalación de Visual Studio Code" item [snippet]. edX/UMich "Programación para todos (empezando con Python)" (2019 announcement) · es | Shows Spanish MOOCs fold setup into week 1 as short videos. | Content and dates not read. | S |
+| A27 | Universidad de La Laguna OCW "GitHub Command Line Interface", https://ull-ocw-github-education.github.io/pages/gh.html (repo HEAD 2026-10-02) · es-ES | Spanish, current: "lo más sencillo es ejecutar `gh auth login`. El asistente permite autenticarse con el navegador y guarda las credenciales en el almacén seguro del sistema cuando está disponible". This is good Spanish wording to adapt. | Aimed at advanced students (tokens, scopes, Codespaces). No licence found in the README. | R |
+| A28 | dev.to (Raúl Peñate), "Guía para principiantes: instalación y uso de GitHub CLI"; NVDA-es community "GitHub CLI: cómo instalarlo y usarlo" (https://nvdaes.github.io/GitHub-CLI/) · es | The NVDA guide is **written for blind screen-reader users**, relevant to our a11y gate [snippet]. | Repo clone failed (needs auth or renamed); content not read. | S |
+| A29 | Ubuntu 24.04 / PEP 668 guides (Jeff Geerling 2023; Raff Technologies "Install pip on Ubuntu 24.04 with venv") · en | Same fix as ours: `sudo apt install python3-venv python3-pip`, `python3 -m venv .venv` [snippet]. The `externally-managed-environment` error is the Ubuntu learner's first wall, so name it. | — | S |
+| A30 | "Python 3.12 vs 3.13 vs 3.14 … which to use" (releaserun / dev.to, 2026) and pyreadiness.org/3.13 · en | Frames 3.12 as "universal support", the safe choice for package compatibility [snippet]. | Commercial blog; the readiness percentage quoted (74.2%) is undated; do not cite numbers. | S |
+| A31 | mclibre (Bartolomé Sintes, IES Abastos, Valencia), "Instalación. Python", https://www.mclibre.org/consultar/python/otros/python-instalacion.html · es-ES | Long-running Spanish teacher's install page, with screenshots. | Blocked; date, version and licence **not verified**. | S (exists) |
+| A32 | Ciberaula, "Instalar Python 3.12 en Windows, Mac y Linux" / "…en 2026" · es | One of the few Spanish pages pinned to **3.12**; says "Add python.exe to PATH" [snippet]. | Commercial training site; not read. | S |
+
+Searched and **not found**: an EDteam install guide (third pass), a Python Perú, PyAr or PyLadies
+beginner install page, and a UNAM, UBA or UNI public setup page. The only PUCP items are
+Educación Continua course listings and A14.
+
+### 8.4 New techniques worth copying into Sesión 0
+
+1. **Boxed click target in every screenshot** (red or green rectangle on exactly one control) [A4,
+   A6]. This matches the signalling evidence in §3. Reuse the boxed images as-is rather than
+   re-annotating, which also avoids the ShareAlike obligation on A6.
+2. **Prerequisite check with a named failure branch** before each tool step: run `git --version`;
+   if not found, restart VS Code; if still failing, follow a link [A5]. Apply the same to
+   `python --version` and `gh --version`.
+3. **Practice repo first, publishing last.** The first commit happens locally, and pushing to GitHub
+   is a separate final step with its own success signal ("Verify that it contains README.md and your
+   commit") [A5, H5]. That way a failed sign-in does not erase the learner's sense of progress.
+4. **`where python` as the Store-stub test** (Windows). The output must not include
+   `WindowsApps` [A22]. It is cheaper than explaining aliases up front. It can be our check after
+   the PATH step.
+5. **Quote the installer in its own language.** Show the English label and give the Spanish
+   meaning in brackets, e.g. "**Add python.exe to PATH** (añadir python.exe al PATH)". Never
+   translate the label alone; A14 shows the failure mode.
+6. **2FA without SMS, for Peru.** Since Peru is not on GitHub's SMS list [A10], present an
+   authenticator app as the default. Give a **no-smartphone fallback**: a desktop TOTP app via the
+   "setup key" link instead of the QR code [A11, A12 `2fa-totp-secret-setup-key-link.png`]. Recovery
+   codes come before closing the tab.
+7. **If we offer the install-manager route, script the first-run dialogue** with the exact prompts
+   and the keys to press ("Add commands directory to your PATH now? → Enter (No)"; "Install CPython
+   now? → n, then `py install 3.12`") [A8]. A17 shows universities already accept this route.
+8. **Name reassurance:** `user.name` can be your real name and need not match your GitHub username
+   [A2].
+9. **Avoid the Mac chip question instead of teaching it.** A18 makes learners check Apple Silicon
+   vs Intel first. But VS Code's download page "also lists Universal, Intel chip, and Apple silicon
+   builds", and "the Universal build … includes both" (`docs/setup/mac.md` lines 24 and 116) [A4].
+   Python 3.12.10's .pkg is universal2 [P11, snippet]. So we tell learners to choose **Universal**
+   and skip the chip check.
+
+### 8.5 Facts that contradict or update our page
+
+1. **The 3.12.x installer shows "Use admin privileges when installing py.exe"**, ticked and greyed
+   on a non-admin install, under "Add python.exe to PATH". Seen in the A6 image (3.12.2); the string is
+   confirmed in v3.12.10 `Default.wxl` (`ShortInstallLauncherAllUsersLabel`) [P8]. If our page tells
+   learners to "untick everything except PATH", that would be wrong; tell them to leave it as it is.
+2. **docs.python.org "latest" no longer documents the full installer.** `main` has removed the section
+   and its screenshot. The 3.14 docs mark it deprecated, with no builds from 3.16 [A7]. Every
+   python.org link on our page must point to the **3.12** docs.
+3. **The install manager installs the latest Python by default** ("Install CPython now?", default
+   Yes) [A8]. It does **not** install 3.12 unless asked.
+4. **The install manager's PATH prompt defaults to No, and that is fine.** `python` and `py` work
+   without it [A8]. If our page says "accept the PATH prompt" for this route, it is stricter than
+   needed, though harmless. A17 says "accept".
+5. **SMS 2FA is unavailable for Peruvian numbers** [A10]. Any wording like "puedes usar SMS" must go.
+6. **The VS Code macOS command is "Shell Command: Install 'code' command in PATH"** (verified,
+   resolving the §7 open item) [A4].
+7. **Pymanager is at 26.3 stable, with 26.4 in beta** [A8]. Any version number we print for the manager
+   goes stale fast, so don't print one.
+8. **Spanish python.org docs are not a safe Spanish fallback** for Windows install: the pymanager
+   sections show English text [A9].
+9. **Django Girls (es) has not been fixed** since §2; do not link it for Windows install [A6].
+
+### 8.6 Not verified in this pass
+
+- Every [snippet] row in 8.3 (A17–A32): the pages were not opened.
+- GitHub FAQ discussion #68240, and whether a platform-wide 2FA date exists in 2026 (A11).
+- The visual content of the `github/docs`, `vscode-docs` quickstart and Carpentries images marked
+  "not viewed" in §8.2. Each needs a check against the live UI before reuse.
+- Licence of mclibre (A31), ULL OCW (A27) and the NVDA-es guide (A28).
+- Whether CS 61A's quoted text is from the Fall 2026 page or an older term cached by the search
+  engine (A17).
+- The ShareAlike "collection vs adaptation" reading in §8.1 (not legal advice).
