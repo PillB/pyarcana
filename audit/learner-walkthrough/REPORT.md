@@ -1,3 +1,5 @@
+STATUS: COMPLETE 98996d99215cd21ef347a51cfdbaeebfc68d1f52
+
 # PyArcana learner walkthrough: S01–S52 through the QA platform
 
 ## 1. Method and persona
