@@ -1,0 +1,159 @@
+{
+ "section": "S44",
+ "id": "multimodal",
+ "title": "CI/CD y seguridad de la cadena de suministro",
+ "at": "2026-10-05T03:13:07.916Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "ido"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "ido"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "wedo"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "wedo"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794366080,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "CI/CD y seguridad de la cadena de suministro",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 13,
+  "optional": 1,
+  "words": 3043
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica CLIP y Whisper (simulado)",
+  "readyMs": 3,
+  "verdict": "match",
+  "output": "=== CLIP: Buscar imagen por texto ===\nQuery: 'un gato' -> embedding: [0.2, 0.4]\n  img1.jpg: similitud=0.70\n  img2.jpg: similitud=0.89\n  img3.jpg: similitud=0.40\n=== Whisper: Transcripcion (simulada) ===\nTranscripcion con timestamps:\n  [0.0s - 2.5s] Hola, bienvenidos al curso\n  [2.5s - 5.0s] de Python para Data Science\n  [5.0s - 7.5s] vamos a aprender mucho\nTexto completo: 'Hola, bienvenidos al curso de Python para Data Science vamos a aprender mucho'",
+  "hint": "Cambia el query a \"un auto\" y observa cual imagen tiene mayor similitud",
+  "afterEdit": {
+   "edited": "\"Simula embedding de texto (CLIP).\"",
+   "verdict": "match",
+   "message": "¡Correcto! El output coincide con lo esperado."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 792,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\nEn S44, ¿qué cuenta como pin profesional",
+  "questions": 5,
+  "attempt1": {
+   "result": "80%\n¡Buenazo! Sección completada\n\n4 de 5 correctas (80%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\nEn S44, ¿qué cuenta como pin profesional de una action de GitHub?\n\nusar el tag flotante @v4 porque “siempre es la última”\nB\nun stub de 7 caracteres después de @\nC\ndejar el tag y confiar en branch protection\nel SHA completo de commit (40 hex) inmutable en uses:\n✗ Incorrecto. El pin inmutable es el SHA completo de 40 hex; los tags se pueden mover y no cierran el control de supply chain."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 80
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 80
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 80
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 32271
+}

@@ -1,2 +1,2 @@
-STATUS: IN PROGRESS — Levels 1–2 walked, read and filed; Level 3 walked and read; Level 4 in progress.
+STATUS: IN PROGRESS — Levels 1–3 walked and read (L1–L2 filed, L3 filing); Level 4 walking.
 

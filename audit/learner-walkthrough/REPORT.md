@@ -1,4 +1,4 @@
-STATUS: IN PROGRESS — Levels 1–2 walked, read and filed; Level 3 walked and read; Level 4 in progress.
+STATUS: IN PROGRESS — Levels 1–3 walked and read (L1–L2 filed, L3 filing); Level 4 walking.
 
 # PyArcana learner walkthrough: S01–S52 through the QA platform
 
@@ -64,23 +64,91 @@ The CPython result matters for reading the rest: **lesson code is correct under 
 environment**. Where something fails, it is the page, the browser runtime, the order of teaching,
 or the assessment, not the Python.
 
-## 2. Summary (interim, after Level 1)
+## 2. Summary (2-minute read)
 
-The full summary is written when all four levels are done. After S01–S13:
+I took PyArcana from S01 to S52 as **Lucía**: a paying Spanish-speaking beginner in Lima who wants
+a first data job. I clicked through every section in a real browser, read every lesson and exam as
+she would, and filed every problem in the course's own QA tool. **576 findings**: 8 blocker, 149
+high, 263 medium, 156 low; 528 are direct observations, 48 inferences.
 
-- **Top blocker [O]:** passing a section's Autocheck and then clicking the result card's own
-  «Marcar como completada» button *un*-completes the section, on every section, and the server
-  copy loses it too (W01).
-- **Exams are missing [O] and weak where they exist [O]:** a signed-in Pro learner never sees an exam
-  on this build, only the self-check (W02); and in the exam bank the right answer is always «B» in
-  31 of 52 sections, the longest option in almost every item (W09). Every competency badge needs
-  those exams.
-- **Practice is read-only [O]:** We Do exercises cannot be typed, run or checked (W05); I Do's
-  «Ejecutar» shows pre-written output (W04); the one real editor per section is off-topic from S10
-  on (W03).
-- **Teaching order [O]:** across L1 the readings repeatedly find skills required before they are
-  taught (`try/except`, loops, classes, regex syntax, SQL), and a few self-contradictions in
-  graded material (S04 denominator, S03 allowlist routing, S07 email rule).
+**The short version.** The course teaches the right *values* unusually well: privacy, honest
+numbers, "a score is not a verdict", fail-closed. It does not yet let her *practise*, *prove* or
+*show* what she learned:
+- Exercises are read-only.
+- Exams are unreachable, and where they exist, answering «B» passes.
+- Badges point at the wrong sections.
+- 12 of 13 portfolio projects would not survive a recruiter's first look.
+
+### Top blockers and high-severity problems
+
+1. **Finishing a section can un-finish it.** After she passes the Autocheck, the button the result
+   card offers, «Marcar como completada», marks the section *not* complete. It happens on every
+   section, and her account loses it too. (W01, observed on all 52)
+2. **A paying learner never sees an exam.** Signed in with Pro, every section shows only the
+   self-check. Every competency badge requires the exams. (W02)
+3. **The exams that exist can be passed without knowing anything.** In 31 of 52 sections the right
+   answer is always option B. The right answer is almost always the longest option. At least 11 keys
+   mark a plainly wrong answer as right, e.g. S42 «Que pip elija al azar cada deploy». (W09)
+4. **She cannot practise in the browser.** We Do's 1248 exercises have no editor and only a
+   «Ver solución» button (W05). I Do's «Ejecutar» shows a pre-written output (W04). The one real
+   editor per section practises another topic from S10 on, in 38 of 43 sections (W03). S19's
+   editor is a SyntaxError (W12).
+5. **Level-closing projects grade something else.** Eight sections are rated blocker because she
+   cannot finish the activity from what was taught:
+   - Gate sections build a different product from the capstone that grades them: S34, S39, S47,
+     S51, S52.
+   - S43 needs Docker, which the course never shows how to install.
+   - S32's acceptance checks fail correct code.
+   - S07's regex starters ship corrupted.
+
+### Top confusions
+
+- **Skills used before they are taught.** For example `try/except` (S02–S05), loops (S03), regex
+  syntax (S07), SQL basics (S12), pytest running (S27) and FastAPI itself (S41).
+- **Graded material contradicts the lesson.** For example S04's denominator, S08's atomic write,
+  S16's Peruvian money format (1000× error on «S/ 1,250.50»), S24's DPI rule and S38's
+  idempotency key.
+- **Sections titled for tools they never use.** «Browser RPA con Playwright» (S23), «OCR y Document
+  AI» (S24), «Endpoints de IA» (S25), «APIs con FastAPI» (S41).
+- **Pass marks.** She is told 70% «desbloquea la siguiente sección». Nothing is locked, and badges
+  need 85% (W08).
+
+### Badge verdict
+
+**No badge or credential can be earned today, and most would mean the wrong thing if they could.**
+- The evidence can't be produced: no exam, no submission, no integrator project, no defense.
+- She is never shown a badge's criteria, and the descriptions exist only in English, in a file.
+- 19 of 21 competency badges require sections that don't teach the claimed skill. They were mapped
+  before the sections were renamed. Example: the SQL badge requires the visualisation and
+  profiling sections, not the SQL ones.
+- The three level-capstone credentials each need a badge from a *later* level.
+
+(§4)
+
+### Value verdict per level
+
+| Level | Verdict | In one line |
+|---|---|---|
+| L1 (S01–S13) | **Mostly fulfilled** | The best value for her: rare data discipline from day one, let down by practice that outruns teaching and a closing exam she can't reach. |
+| L2 (S14–S26) | **Mixed** | The analyst core (NumPy, pandas, cleaning, joins, EDA, charts) mostly delivers. Three sections are titled for tools they don't use. |
+| L3 (S27–S39) | **Mixed, leaning shortchanged** | Interview-grade ideas (SQL, testing, ER, metrics) taught mostly by flipping flags in dicts. |
+| L4 (S40–S52) | **Shortchanged for her goal** | Production/SRE material taught by simulation, aimed at a different job. The final project is a self-report form. |
+
+**Portfolio:** 1 of 13 capstones (CP-N4-C) would read well on GitHub, after fixing its run
+instructions. The other 12 ship placeholder tests that report green, identical toy data and
+no README. None shows SQL, a dataset with a chart, or a dashboard, which is what a Lima recruiter
+screens a junior analyst for. The briefs themselves are portfolio-grade (§5.3).
+
+### What to fix first (owner's order, by learner impact)
+
+1. W01: make completion idempotent. One file, `SectionView.tsx`.
+2. W02 + W09: serve exams on the static edition; shuffle options; fix the 11 wrong keys; rewrite
+   the templated S12/S13 banks.
+3. §4: remap `badge_catalog.json` to the current sections and show criteria in Spanish. This is
+   an owner decision, under "Ask first".
+4. W05 + W03: give We Do a runnable editor, and replace the 38 off-topic playgrounds.
+5. §5.3: real tests, fixtures and a README for each capstone; connect each gate section's You Do
+   to its capstone.
 
 ## 3. Per section
 
@@ -1392,7 +1460,7 @@ Read: all fields of `/tmp/claude-0/sections/S39-integrator-phase2.json` (jobRele
 
 #### S40 — Arquitectura, DDD y decisiones técnicas
 
-*Browser walk:* not run for S40.
+*Browser walk [O]:* playground «Practica multi-agent (simulado)» (**off topic** (W03)): ran in Pyodide, verdict `match`; after a one-string edit `match`. I Do: 8 demos, output pre-written (W04). We Do: 24 exercises, 0 editable (W05). Autocheck: 8 questions, no exam, self-check only (W02); completion lost after «Marcar como completada» (W01). 0 console/page/network errors; no horizontal scroll at 390 px. Data: `data/walk/S40.json`.
 
 Read: all fields of `/tmp/claude-0/sections/S40-architecture-ddd-decisions.json` (jobRelevance, learningOutcomes[0–7], theory[0–9] incl. code/output/callouts/figures, iDo.intro + steps[0–7], weDo.intro + steps[0–23] incl. starter/solution/output/hints/feedback/retrospective, youDo incl. full starterCode, portfolioNote, rubric, selfCheck[0–7], resources) and all 24 items of `S40-architecture-ddd-decisions.exam.json`. Also read: `src/app/api/exam/start/route.ts` (options are returned as stored, unshuffled), `src/lib/exam-scoring.ts` (`PASS_THRESHOLD = 70`), the badges in `src/lib/eligibility/badge_catalog.json` whose `required_sections` include S40, and `src/lib/capstones/catalog.ts` (CP-N4-A gate is S43). Checked earlier sections: grep of S01–S39 `.json` for `ADR`, `C4`, `DDD`, `bounded context`, `hexagonal`, `adapter`, `Protocol` (S11 teaches it), `frozen=True` (S11, S39), `NamedTuple` (0 hits), `isdisjoint` (S22, S30, S33), `BLOCK_ARCHITECTURE`/`REVIEW_ADR` (0 hits anywhere outside S40's You Do and self-check), `SLO`, `least privilege`, `CP-N4`.
 
@@ -1422,7 +1490,7 @@ None found. Every We Do exercise can be solved from S40's own theory and I Do, a
 
 #### S41 — APIs con FastAPI y contratos HTTP
 
-*Browser walk:* not run for S41.
+*Browser walk [O]:* playground «Practica QLoRA concepts (simulado)» (**off topic** (W03)): ran in Pyodide, verdict `match`; after a one-string edit `match`. I Do: 8 demos, output pre-written (W04). We Do: 24 exercises, 0 editable (W05). Autocheck: 8 questions, no exam, self-check only (W02); completion lost after «Marcar como completada» (W01). 2 console/page/network errors (first: `console.error: Failed to load resource: the server responded with a status of 409 (Conflict)`); no horizontal scroll at 390 px. Data: `data/walk/S41.json`.
 
 Read: all fields of `/tmp/claude-0/sections/S41-llm-finetuning.json` (jobRelevance, learningOutcomes[0–7], theory[0–9] incl. code/output/callouts/figures, iDo.intro + steps[0–7], weDo.intro + steps[0–23] incl. starter/solution/output/hints/feedback/retrospective, youDo incl. full starterCode, portfolioNote, rubric, selfCheck[0–7], resources) and all 24 items of `S41-llm-finetuning.exam.json`. Also read: `src/app/api/exam/start/route.ts` (options returned as stored; only question order is shuffled), `src/lib/exam-scoring.ts` (`PASS_THRESHOLD = 70`), the badges in `badge_catalog.json` whose `required_sections` include S41, and `catalog.ts` (CP-N4-A gate is S43). Checked earlier sections: grep of S01–S40 `.json` for `fastapi`/`FastAPI` (the only hit is S21's stale `"id": "fastapi"`; S21 teaches documents and reports), `Pydantic` (one passing mention in S05: «usar una librería que la realice, como Pydantic»), `event loop` (S38 only: «sin red ni event loop en el playground» and a resource note), `async def`/`await ` (0), `OpenAPI` (0), `422` (0), `404` (S12 mock API), `Idempotency` (S22, S38), `TestClient`, `Depends`, `response_model`, `BackgroundTasks` (all 0), `pytest` (S27, S28), `REJECT_REQUEST`/`RETRY_OR_ESCALATE` (0, and only in S41's You Do).
 
@@ -1452,7 +1520,7 @@ None found. The You Do is a stdlib lab that the We Do E1 steps fully prepare her
 
 #### S42 — Schemas, seguridad y privacidad de servicios
 
-*Browser walk:* not run for S42.
+*Browser walk [O]:* playground «Practica el policy_engine fail-closed (simulado)» (on topic): ran in Pyodide, verdict `match`; after a one-string edit `mismatch`. I Do: 8 demos, output pre-written (W04). We Do: 24 exercises, 0 editable (W05). Autocheck: 5 questions, no exam, self-check only (W02); completion lost after «Marcar como completada» (W01). 2 console/page/network errors (first: `console.error: Failed to load resource: the server responded with a status of 409 (Conflict)`); no horizontal scroll at 390 px. Data: `data/walk/S42.json`.
 
 Read: all fields of `/tmp/claude-0/sections/S42-graph-rag.json` (jobRelevance, learningOutcomes[0–7], theory[0–9] incl. code/output/callouts/figures, iDo.intro + steps[0–7], weDo.intro + steps[0–23] incl. starter/solution/output/hints/feedback/retrospective, youDo incl. full starterCode, portfolioNote, rubric, selfCheck[0–4], resources) and all 24 items of `S42-graph-rag.exam.json`. Also read: `prisma/seed.ts` around the item «Fijar versiones de dependencias» (block `'graph-rag'`, ~l.12520–12530), `src/app/api/exam/start/route.ts` (options unshuffled), `src/lib/exam-scoring.ts`, the badges in `badge_catalog.json` whose `required_sections` include S42, and `catalog.ts`. Checked earlier sections: grep of S01–S41 `.json` for `tenant` (0 hits before S42), `JWT` (0), `CVE` (0), `threat model`/`modelo de amenazas` (0), `model_json_schema`/`Field(` (0), `discriminat` (0), `Pydantic` (one mention in S05), `ipaddress`/`realpath` (0), `SSRF` (S39 only, as a name), `RBAC` (S39), `OAuth` (S22), `least privilege` (S22), `pseudonim`/`seudonim` (S13), `hashlib` (S08+), `isdisjoint` (S22, S30, S33).
 
@@ -1483,7 +1551,7 @@ None found. Every exercise is solvable from S42's own blocks, and the You Do sta
 
 #### S43 — Contenedores y reproducibilidad operativa
 
-*Browser walk:* not run for S43.
+*Browser walk [O]:* playground «Practica tracing y eval (simulado)» (**off topic** (W03)): ran in Pyodide, verdict `no-verdict`; after a one-string edit `no-verdict`. I Do: 8 demos, output pre-written (W04). We Do: 24 exercises, 0 editable (W05). Autocheck: 5 questions, no exam, self-check only (W02); completion lost after «Marcar como completada» (W01). 2 console/page/network errors (first: `console.error: Failed to load resource: the server responded with a status of 409 (Conflict)`); no horizontal scroll at 390 px. Data: `data/walk/S43.json`.
 
 Read: all fields of `/tmp/claude-0/sections/S43-llmops.json`: header (title, tagline, jobRelevance), learningOutcomes[0–7], theory[0–9] (paragraphs, code, output, callouts, figures), iDo.intro + steps[0–7], weDo.intro + steps[0–23] (preamble, instruction, hints, edgeCases, tests, feedback, starter, solution, output), youDo (context, objectives, requirements, starterCode, portfolioNote, rubric, retrospective), selfCheck[0–4] and resources. Also all 24 items of `S43-llmops.exam.json`. Also read: `src/lib/capstones/catalog.ts` (CP-N4-A entry, `GATE_MAP`), every file in `course-state/capstones/CP-N4-A/` (BRIEF, FINAL_INTERFACE, RUN, YOUDO, IDO, WEDO, RUBRIC.json, gate.json, execution.json, evidence_manifest.json, system_or_data_card.md, demo.py, tests/test_demo.py, data/generate.py, STARTER/), `src/app/api/exam/start/route.ts` (option order), `src/lib/exam-scoring.ts` (`PASS_THRESHOLD = 70`), and the badges in `badge_catalog.json` whose `required_sections` contain S43. Checked earlier sections: grep of S01–S42 `.json` for `WSL`, `Docker Desktop`, `docker build`, `docker run`, `docker compose`, `Podman`, `Codespaces`, `instala Docker`, `Dockerfile`, `SIGTERM`, `liveness`, `readiness`, `capabilit`, `multi-stage`, `CVE`, `trivy`, `Compose`, `expand/contract`, `Kubernetes`, `orquestador`, `digest`, `sha256`, `requirements.txt`, `pip install`, `Redis`, `socket`, `apt-get`, `fine-tun`, `graph-RAG`, `drift`.
 
@@ -1514,7 +1582,7 @@ Read: all fields of `/tmp/claude-0/sections/S43-llmops.json`: header (title, tag
 
 #### S44 — CI/CD y seguridad de la cadena de suministro
 
-*Browser walk:* not run for S44.
+*Browser walk [O]:* playground «Practica CLIP y Whisper (simulado)» (**off topic** (W03)): ran in Pyodide, verdict `match`; after a one-string edit `match`. I Do: 8 demos, output pre-written (W04). We Do: 24 exercises, 0 editable (W05). Autocheck: 5 questions, no exam, self-check only (W02); completion lost after «Marcar como completada» (W01). 2 console/page/network errors (first: `console.error: Failed to load resource: the server responded with a status of 409 (Conflict)`); no horizontal scroll at 390 px. Data: `data/walk/S44.json`.
 
 Read: all fields of `/tmp/claude-0/sections/S44-multimodal.json`: header, jobRelevance, learningOutcomes[0–7], theory[0–9] (paragraphs, code, output, callouts), iDo.intro + steps[0–7] (code, output, why, retrospective), weDo.steps[0–23] (titles, instructions, edgeCases, tests; full starter/solution for steps 6, 12, 21, 22, 23), youDo (context, objectives, requirements, starterCode, portfolioNote, rubric, retrospective), selfCheck[0–4] and resources. Also all 24 items of `S44-multimodal.exam.json`. Also checked: `badge_catalog.json` entries listing S44, `catalog.ts` (S44 feeds CP-N4-B, gated at S47), and `route.ts` (options unshuffled). Checked earlier sections: grep of S01–S43 `.json` (excluding exam files) for `GitHub Actions`, `.github/workflows`, `git commit`, `git push`, `pull request`, `YAML`, `mypy`, `ruff`/`flake8`, `gitleaks`, `syft`/`cyclonedx-py`/`pip-audit`, `cosign`, `SBOM`, `canary`, `staging`, `attestation`, `branch protection`/`rama protegida`. Grep of S44 for `OIDC`, `fork`, `PAT`, `required reviewers`, `conventional`.
 
@@ -1544,7 +1612,7 @@ Read: all fields of `/tmp/claude-0/sections/S44-multimodal.json`: header, jobRel
 
 #### S45 — Cloud, almacenamiento, colas e infraestructura
 
-*Browser walk:* not run for S45.
+*Browser walk [O]:* playground «Practica Terraform concepts» (on topic): ran in Pyodide, verdict `match`; after a one-string edit `match`. I Do: 8 demos, output pre-written (W04). We Do: 24 exercises, 0 editable (W05). Autocheck: 7 questions, no exam, self-check only (W02); completion lost after «Marcar como completada» (W01). 2 console/page/network errors (first: `console.error: Failed to load resource: the server responded with a status of 409 (Conflict)`); no horizontal scroll at 390 px. Data: `data/walk/S45.json`.
 
 Read: all fields of `/tmp/claude-0/sections/S45-iac.json`: header (title, tagline, estimatedHours, jobRelevance), learningOutcomes[0–7], theory[0–9] (all paragraphs incl. the Docker/Kubernetes block in theory[6].paragraphs[3–6], code, output, callouts), iDo.intro + steps[0–7] (full code for step 2), weDo.steps[0–23] (titles, instructions, edgeCases, outputs; full starter/solution for steps 3 and 9), youDo (context, objectives, requirements, starterCode, portfolioNote, rubric, retrospective), selfCheck[0–6] and resources. Also all 24 items of `S45-iac.exam.json`. Also checked: `badge_catalog.json` entries listing S45, `catalog.ts` (S45 feeds CP-N4-B, gated at S47), and `route.ts` (options unshuffled). Checked earlier sections: grep of S01–S44 (excluding exam files) for `Kubernetes`/`k8s`, `Redis`, `backoff`, `orquestador`, `red privada`, `staging`, `RTO`, `SSRF`. Grep of S45 for `OIDC`, `pub/sub`, `cold start`, `scale-to-zero`, `workspace`, `SSRF`, `S3`, `exactly-once`, `Terraform`, `lifecycle`.
 
@@ -1574,7 +1642,7 @@ None found. [O] Unlike S43 and S44, S45 is fully runnable for free on her Window
 
 #### S46 — Ingeniería de datos y orquestación de producción
 
-*Browser walk:* not run for S46.
+*Browser walk [O]:* playground «Practica conceptos de GPU (simulado)» (**off topic** (W03)): ran in Pyodide, verdict `no-verdict`; after a one-string edit `no-verdict`. I Do: 8 demos, output pre-written (W04). We Do: 24 exercises, 0 editable (W05). Autocheck: 5 questions, no exam, self-check only (W02); completion lost after «Marcar como completada» (W01). 2 console/page/network errors (first: `console.error: Failed to load resource: the server responded with a status of 409 (Conflict)`); no horizontal scroll at 390 px. Data: `data/walk/S46.json`.
 
 Read: all fields of `/tmp/claude-0/sections/S46-gpu-computing.json` (jobRelevance, learningOutcomes[0–7], theory[0–9] incl. code/output/callouts/figures, iDo.intro + steps[0–7], weDo.intro + steps[0–23] incl. starter/solution/output/feedback, youDo incl. full starterCode + rubric, selfCheck[0–4], resources) and all 24 items of `S46-gpu-computing.exam.json`. Also read: the S46 playground (`src/components/course/SectionView.tsx` `demos['gpu-computing']`), `src/components/course/PdfReport.tsx` section labels, `src/app/api/exam/start/route.ts` (option order), the badges in `badge_catalog.json` listing S46, `src/lib/capstones/catalog.ts` (CP-N4-B) and every file in `course-state/capstones/CP-N4-B/` (S46 is a contributing section). Checked earlier sections: grep of S01–S45 `.json` (non-exam) for `watermark`, `event time`, `DAG`, `Kahn`, `in-degree`, `deque`, `defaultdict`, `SLO`, `SLI`, `RTO`, `idempoten`, `checkpoint`, `lineage`, `backfill`, `data contract`, `topológ`, `half-open`, `blast radius`, `small files`, `partici` (S15 pruning), `side-output`, `exactly-once`, `at-least-once`, `sink`, `facet`, `asset`, `tumbling`, `sensor`, `error budget`, `on-call`, `runbook`, `post mórtem`.
 
@@ -1941,6 +2009,84 @@ what differs. "Assessed" lists the catalog's components; their availability is T
 - Make prerequisite chains respect level order (rows 27–29).
 - Replace placeholder `specification_hash` values with real hashes of the spec.
 
+## 5. Value to a paying client
+
+Judged as Lucía: paying monthly from a modest salary, aiming at a first data job in Lima. Each
+level verdict draws on its sections' "Value" lines (§3) and the capstone checks below. These are
+judgements: **[I]** unless marked.
+
+### 5.1 Per level
+
+| Level | Sections | What she gets that is genuinely valuable | Where she is shortchanged | Verdict |
+|---|---|---|---|---|
+| **L1 Fundamentos Guiados** | S01–S13 | Rare, job-relevant discipline from day one: reproducible environment and Git hygiene (S01), raw/clean traceability and `Decimal` for soles (S02), None ≠ 0 and tri-state validation (S03), honest denominators (S04), quarantine plus a reconciling manifest (S08), PII-safe logging (S09), «score ≠ veredicto» and abstention (S13). Unicode for Peruvian names (S07) is better than most paid courses. Section-level verdicts: 6 fulfilled, 7 mixed, 0 shortchanged. | Practice outruns teaching (loops, `try/except`, classes and regex used before they are taught: S02–S05, S07, S09). Graded material contradicts itself (S03, S04, S07, S08). S10's You Do arrives already written. S12 is her first SQL but never explains `SELECT/WHERE/JOIN`. The level closes on a templated exam she cannot reach (W02, W09) and a capstone with placeholder tests. | **Mostly fulfilled on content, shortchanged on practice and closure.** For this persona it is the best-value level. |
+| **L2 Práctica Aplicada Independiente** | S14–S26 | The analyst core: NumPy, pandas dtypes and coercion reports (S14–S15), cleaning judgement (S16), joins with fan-out/anti-join and as-of leakage (S17), EDA with p-hacking and peeking measured (S18, "better than most paid bootcamps"), honest charts with WCAG (S19), Excel/report/email automation with human approval (S20–S22). | S15 is written for pandas 3, never tells her to install it, and its graded project fails if she follows the lesson. S16 parses Peruvian money 1000× wrong. S19 gives little plotting practice and its playground is a SyntaxError (W12). S23 «Browser RPA con Playwright» never runs Playwright, S24 «OCR» never touches an image, S25 «Endpoints de IA» never calls a model. Answer keys are B throughout, with wrong keys in S18, S19 and S21. | **Mixed.** S14–S19 are the heart of a data-analyst course and mostly deliver; S23–S25 are titled for tools they don't use. |
+| **L3 Integración y Evaluación Avanzada** | S27–S39 | Testing judgement (oracle problem, mutants, S27; metamorphic and golden tests, S28), real SQL interview material (windows, anti-joins, plans, S29), entity resolution with measured blocking (S30), metrics/calibration/thresholds under capacity (S34), fairness with n beside every metric (S35). | Mostly flag-and-dict simulations: no fitted model in the "supervised ML" section (S33), no `KMeans`/`PCA`/`IsolationForest` run in S36, no pytest run in the pytest section (S27). You Do checks that cannot fail (S37) or fail correct code (S32). Gates grade different products than their sections build (S30→CP-N3-A, S34→CP-N3-B, S39→CP-N3-C). | **Mixed, leaning shortchanged.** The ideas are interview-grade; the hands-on volume for 118 estimated hours is thin. |
+| **L4 Sistemas de Producción Gobernados** | S40–S52 | Sound production thinking: ADRs and bounded contexts (S40), HTTP contracts (S41), SSRF/authz (S42), pinning and supply chain (S43–S44), idempotent queues (S45), evals and red teaming (S50), observability and incident response (S51). Runs without paid API keys (readings S48–S50). | Far from her goal of a first analyst job: SRE/platform material taught by simulation. S41 «APIs con FastAPI» never shows FastAPI. S43/S44 need Docker, a second reviewer and a deployed service that the course never sets up. You Dos are checklists of self-typed `True`s (S47, S51, S52). The S52 playground teaches fabricated CV metrics («salvando S/2M anuales»). | **Shortchanged for this persona** (it targets another job), and mixed on its own terms. |
+
+**Overall [I].** A paying beginner gets a course with an unusually mature *conscience*:
+privacy, abstention, «score ≠ culpa», honest denominators and fail-closed are taught everywhere,
+better than in most paid alternatives. She is shortchanged on *doing*:
+- **Practice is read-only.** She can type and run code in one off-topic playground per section; We Do
+  is read-the-solution (W05).
+- **Assessment does not measure skill.** Exams can't be reached, and where they exist «always B»
+  passes (W02, W09).
+- **Projects don't connect.** Capstones grade products the sections never build.
+- **Credentials can't be earned.** Badges either can't be earned or would certify the wrong skills
+  (§4).
+- **Effort is not rewarded.** Finishing a section can silently un-finish it (W01).
+
+### 5.2 Would she feel accomplished by the projects?
+
+**[I] Partly, during L1–L2; less after.** The You Do projects with real files and a reconciling
+manifest (S08, S17, S20–S22) produce something she can open and show. Too many others end in:
+- a starter that is already the solution (S10, S36, S42),
+- a check that passes before she writes a line (S13, S20, S26, S37),
+- checks that fail correct code (S15, S32),
+- a list of self-typed `True` values (S40, S47, S51, S52).
+
+Each of those takes away the feeling of having *made* it. The capstones are where accomplishment
+should peak, and §5.3 shows why it doesn't.
+
+### 5.3 Portfolio check: would the projects read well on GitHub?
+
+Judged as a recruiter or a client in Lima opening the repository. Detailed per-capstone evidence
+is in the "Capstone checks from the readings" below; the source is `course-state/capstones/CP-*/`.
+
+| Capstone | Gate | README | Tests | Data | Deploy / demo | Reads well? |
+|---|---|---|---|---|---|---|
+| CP-N1-A Admisión de clientes (CLI) | S04 | 3-line STARTER README | 5 of 6 `assert True` placeholders | 3 generic records, same generator as B and C | stdout JSON | **No.** Strong idea (correct denominators). |
+| CP-N1-B ETL con cuarentena y manifiesto | S08 | same | 5/6 placeholders | same toy file; no `clients.csv`/`transactions.json` as briefed | stdout JSON | **No.** Strong idea (idempotent manifest). |
+| CP-N1-C Tablero de evidencia de familiaridad | S13 | same | 5/6 placeholders | same | reference `demo.py` contradicts S13's formulas and hard-codes `"status": "pass"` | **No.** |
+| CP-N2-A Portafolio EDA | S17 | same | 5/6 placeholders | toy | no rendered report | **No.** The brief is exactly what an analyst portfolio needs. |
+| CP-N2-B Fábrica de reportes accesible | S21 | same | 5/6 placeholders | toy | no rendered artifact | **No.** |
+| CP-N2-C RPA + analista IA con aprobación | S26 | same | 6/7 placeholders | toy | reference sets `approved = True` without a human | **No.** |
+| CP-N3-A Resolución de entidades | S30 | same | 7/8 placeholders | 5 hand-typed records | fails its own P0s | **No.** |
+| CP-N3-B Grafo de relaciones | S34 | same | 6/7 placeholders | 5 nodes | fails its own P0s | **No.** |
+| CP-N3-C Triaje responsable con ML | S39 | same | 8/9 placeholders | toy | "model" scores 1.0 on labels it generated (leakage, its own P0) | **No.** |
+| CP-N4-A Servicio Python gobernado | S43 | same | 7/8 placeholders | toy | no Dockerfile, no rate limiting, no migrations | **No.** |
+| CP-N4-B Plataforma de datos y ML | S47 | same | 7/8 placeholders | toy | fails 3 of its 4 critical criteria | **No.** |
+| CP-N4-C Copiloto multi-agente auditable | S51 | none at top level | **47 real tests**, 21 adversarial pass | synthetic corpus | `RUN.md` names files that don't exist (`RAG.py`, `incidente.py`) | **Yes, after the run instructions are fixed.** |
+| CP-FINAL Plataforma integrada | S52 | none at top level | 31 tests, but quality flags are constants (`entry["redacted"] = True`) | synthetic | «Licencia: uso interno de capacitación únicamente» | **No.** A technical reviewer stops trusting it at `triage.py`. |
+
+**Portfolio verdict [I].** As shipped, **1 of 13** capstones would read well on a GitHub profile.
+For Lucía's target (a junior data-analyst role in Lima) none shows what a recruiter screens for
+first: SQL against a real-shaped dataset, a pandas notebook or script with a chart, and a
+dashboard. The briefs, though, are portfolio-grade, especially CP-N1-B, CP-N2-A, CP-N2-B, CP-N3-A
+and CP-N3-C. What each one is missing is concrete and the same every time:
+1. A Spanish README: problem, how to run, sample output, limits, what she did.
+2. Real fixtures that match the brief.
+3. One real test per `tests_required`.
+4. One rendered artifact: an HTML report, a chart, a case sheet or a confusion table.
+5. A licence.
+6. For L4, a free deploy path (Codespaces/Docker instructions for Windows, or a static demo).
+
+**Proposed fix:** `course-state/capstones/_generate_formal_packages.py`. Generate real tests from
+`RUBRIC.json.tests_required` and per-capstone fixtures from each BRIEF's «Datos». Add a README
+template and an MIT/CC-BY `LICENSE`. Compute `tests_pass` from a real run. Regenerate BRIEF
+prerequisites from current section titles. Then connect each gate section's You Do to its capstone
+interface, so that finishing the section *is* the first commit of the capstone.
+
 ### Capstone checks from the readings
 
 **L1 capstones**
@@ -1999,3 +2145,63 @@ Judged as Lucía publishing each one to her GitHub profile, as a recruiter or cl
   - None has a README, a licence that allows publishing, a deployed demo (e.g. a free Render or Hugging Face Space, or GitHub Pages for a static report) or a recorded video.
 
   The briefs themselves are good targets: a governed API, a model registry with a proven rollback, an auditable copilot, and contract-integrated platform no-go rules. With real tests, a Spanish README, a seeded dataset and one live demo link each, CP-N4-C and CP-FINAL could anchor a credible portfolio. For her junior data-analyst goal, they should sit next to an L1–L2 analytics capstone that shows SQL and a dashboard.
+
+## 6. What was not covered, and MUST items
+
+### 6.1 MUST items: stand-ins, placeholders and fakes (AGENTS.md: each needs the owner's decision)
+
+| # | Where | Why it exists | What it hides | Decision needed |
+|---|---|---|---|---|
+| M1 | **This walkthrough:** Pyodide served from the official GitHub release `pyodide-0.26.2.tar.bz2` under its jsDelivr URL (`page.route`, `scripts/walk.mjs`) | The sandbox's egress policy blocks `cdn.jsdelivr.net`. Root cause is the network policy, not the site; the files are the real release and `pyodide.js` matches the site's SRI (`sha384-tVslJOEk…`, checked at start of every run). | Whether jsDelivr serves the files, with the site's CSP and SRI, from Peru. `usage.e2e.mjs` P4c reported SKIP here for the same reason. | Run `workers/billing/e2e/live.e2e.mjs` (or `live.sh`) on a normal machine to cover the real CDN. |
+| M2 | **This walkthrough:** the local build (`workers/billing/e2e/run.sh`) forces `launchStage: 'beta'`, `canonicalOrigin: http://localhost:8787`, `emailSignIn: true` | The harness tests the full feature set; production (`DEPLOY.md`) may run another stage. | What a learner on pyarcana.dev sees today. Example: the Pro gate on this build says «Todavía no se puede pagar en el sitio. Por ahora, Pro se abre con la prueba gratuita o con un regalo.», so on this build a client **cannot pay**. Whether production says the same was not checked (pyarcana.dev is unreachable here). | Confirm the production stage and checkout state; if no one can pay yet, the "paying client" premise of question 3 is about the future product. |
+| M3 | **This walkthrough:** signed-in learner = seeded `paid` account with a session token inserted into the local D1 (`seed.mjs`) | The worker only accepts real Google/Microsoft tokens. | The real sign-in flow (covered by `flows.e2e.mjs` for email codes). | None for this report. |
+| M4 | **Course:** `course-state/capstones/CP-N1-A … CP-N4-B/tests/test_demo.py`, **66** `assert True  # placeholder — replace with real check` across 11 capstones; each `execution.json` says `"tests_pass": true` (W11) | Generated by `_generate_formal_packages.py` as scaffolding. | That no capstone behaviour is tested, while the gate looks green. | Generate real tests, or mark the packages "draft" and stop recording `tests_pass`. |
+| M5 | **Course:** all 31 `src/lib/eligibility/claim_evidence_contracts/*.json` have `specification_hash: "sha256:<id>:<version>"` (not a hash) and `market_task_mappings: []` (§4 T5) | Placeholders from the badge-architect phase. | That the spec a credential cites is not pinned or verifiable. | Hash the spec or drop the field. |
+| M6 | **Course:** `src/lib/capstones/catalog.ts` `badgeId`s `capstone_foundations`, `capstone_independent`, `capstone_advanced_applied`, `capstone_integrated_mastery`, `evidence_grounded_ai_systems` (none of these five exists in `badge_catalog.json`, checked) | Pre-catalog names. | Broken capstone→credential links. | Point them at the catalog ids. |
+| M7 | **Course:** constant quality flags in reference implementations: CP-FINAL `entry["redacted"] = True` without redacting; CP-N1-C and CP-N2-* `"status": "pass"` hard-coded; CP-N2-C `approved = True` with no human | Demo scaffolding. | Exactly the "green without evidence" failure the course teaches against. | Re-implement from the section solutions. |
+| M8 | **Course:** learner starters that report success before any work: S26 `"n2_regression": "pass"` and a self-approval; S39 model card with fixed «precision_at_k≈0.55», «false_queue=0.08»; S42 `assert status == "READY"` already passing; S13 demo printing `er 1.0`/`rel 1.0` whatever she does (readings) | Starters written as worked examples. | Whether her work is right. | Make each starter fail until the task is done. |
+
+Not a stand-in, but recorded: the sandbox's policy also denies `registry.npmjs.com`, the host that
+`bun.lock` pins. Dependencies were installed from a scratch copy of the lockfile with that host
+rewritten to `registry.npmjs.org`, the same registry; bun verified every tarball against the
+lockfile's integrity hashes. The repository's `bun.lock` was not changed.
+
+### 6.2 Not covered, and why
+
+- **The live site.** pyarcana.dev is unreachable from the sandbox. Everything here is the local
+  build of HEAD `2ffbfed`, and local results do not prove production (AGENTS.md).
+- **The exam as a learner takes it.** The static edition never renders `ExamView` (W02). The exam
+  UI only exists in the dynamic Node.js LMS (`DEPLOY.md`), which was not built here: it is a
+  different product from the one the handover asked about. The exam **content** was audited in full
+  (1248 items, `data/exam-key-audit.json`). Its grading and timing were not exercised.
+- **Typing a solution into We Do.** There is no editor to type into (W05). The We Do solutions run
+  under CPython as part of the content audit (3244 pass).
+- **Running I Do code in the browser.** I Do does not execute (W04). Its outputs are verified by the
+  CPython audit, not by Pyodide. Pyodide was exercised only through the 52 playgrounds.
+- **`requests` and the network in the browser.** No lesson code makes a real network call:
+  - S01 names `requests` only as a `pip install` example.
+  - S12 («APIs, SQL y geodatos») mentions `urllib` in prose.
+  - No playground fetched anything but Pyodide's own wheels (`data/walk/pyodide-requests-*.json`:
+    numpy and scikit-learn for S10's off-topic demo).
+
+  So "requests cannot reach the network from the browser" never bites a learner, because nothing
+  she runs in the browser tries.
+- **Browsers and devices.** Chromium only, at 1366×768 and a 390-px overflow check per section. No
+  Windows/macOS, Safari, Firefox, screen reader or real phone.
+- **Real learners.** This is an expert inspection with a persona (cognitive walkthrough), not a
+  usability test. It finds learnability and alignment problems well and motivation problems poorly
+  (§1).
+- **Per-section QA reports beyond the readings' top findings.** Each reading aimed at the 3–10 most
+  important findings per section, as the brief asked. Minor style issues were not filed.
+- **Fixes.** Report-only by instruction. No course content, test or protected path was changed.
+
+### 6.3 Incidents during the run (recorded so the data can be read correctly)
+
+- The local stack was stopped once by the sandbox's 30-minute background limit, during the L3 walk.
+  S30–S39 were walked again after a restart (fresh local database). S29's two
+  `ERR_CONNECTION_REFUSED` console errors come from that stop, not from the course.
+- The L4 walk used a second browser profile (`/tmp/claude-0/walk-profile-L4`), so it saw the
+  first-visit tour again; the QA reports all live in the first profile, whose export is
+  `qa-export/`.
+- My first S01 walk clicked the green «Completado» buttons a second time and un-marked them. That
+  is how W07 was found; the walk was then changed never to click a done button.

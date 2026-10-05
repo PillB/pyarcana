@@ -1,0 +1,159 @@
+{
+ "section": "S41",
+ "id": "llm-finetuning",
+ "title": "APIs con FastAPI y contratos HTTP",
+ "at": "2026-10-05T03:10:31.214Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "ido"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "ido"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "wedo"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "wedo"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794366080,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "APIs con FastAPI y contratos HTTP",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 12,
+  "optional": 1,
+  "words": 3212
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica QLoRA concepts (simulado)",
+  "readyMs": 3,
+  "verdict": "match",
+  "output": "=== Cuantizacion ===\nOriginal (FP32): [0.123, 0.456, 0.789, 0.012, 0.345]\nCuantizado (4-bit): [0.133, 0.467, 0.8, 0.0, 0.333]\nCompression: 88% menos memoria\n=== LoRA ===\nModelo total: 8,000,000,000 parametros\nLoRA adapters: 8,000,000 parametros\nPorcentaje entrenable: 0.10%\nAhorro de VRAM: ~99.9% (no se guardan gradientes del modelo base)\n=== VRAM Requirements ===\nFP32: 32.0 GB\nFP16: 16.0 GB\nINT4: 4.0 GB (QLoRA)\nGPU necesaria: RTX 3090 (24GB) puede fine-tunear 8B en INT4",
+  "hint": "Calcula la VRAM necesaria para un modelo de 70B en INT4",
+  "afterEdit": {
+   "edited": "\"Simula cuantizacion: reduce precision de pesos.\"",
+   "verdict": "match",
+   "message": "¡Correcto! El output coincide con lo esperado."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 814,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\nEn un POST de creación exitosa con cuerp",
+  "questions": 8,
+  "attempt1": {
+   "result": "88%\n¡Buenazo! Sección completada\n\n7 de 8 correctas (88%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\nEn un POST de creación exitosa con cuerpo del nuevo job, ¿qué status semántico corresponde?\n\n201\n200\nC\n204\nD\n202 siempre, aunque el job sea síncrono y ya exista el recurso\n✗ Incorrecto. 201 Created comunica que se creó un recurso; 200 es lectura u OK genérico y confunde el contrato OpenAPI del create."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 88
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 88
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 88
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 32603
+}
