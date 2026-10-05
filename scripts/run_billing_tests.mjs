@@ -160,6 +160,7 @@ const CLIENT_SUITES = [
   ["progress-sync-efficiency", 7],
   ["qa-report", 21],
   ["qa-session-stats", 4],
+  ["qa-tour-layout", 6],
   ["remote-apply", 4],
   ["review-r3", 11],
   ["review-r4", 12],

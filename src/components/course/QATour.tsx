@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type RefObject } from 'react'
 import { GraduationCap, ChevronLeft, ChevronRight, X, Check } from 'lucide-react'
 import {
   QA_TOUR_STEPS,
@@ -11,6 +11,7 @@ import {
   type QATourStep,
 } from '@/lib/qa-tour-content'
 import { QA_CATEGORIES, QA_CAUSES, QA_SEVERITIES } from '@/lib/qa-session'
+import { boldParts, placeTourPanel, type TourBox, type TourPlacement } from '@/lib/qa-tour-layout'
 
 /**
  * The full option list for one field: label from the form, meaning and example
@@ -22,6 +23,75 @@ const DEFINITION_SETS = {
   cause: { options: QA_CAUSES, defs: QA_CAUSE_DEFINITIONS },
   severity: { options: QA_SEVERITIES, defs: QA_SEVERITY_DEFINITIONS },
 } as const
+
+/** Space between the highlighted control and the ring drawn around it. */
+const SPOT_PAD = 4
+
+/**
+ * Where the highlighted control is, relative to the tutorial's overlay, and where the panel goes so
+ * it never covers that control. Measured again whenever the control can move: its scroll area
+ * scrolls, the window resizes, or either box changes size.
+ *
+ * The control is first scrolled only as far as needed to show it (`nearest`). When that leaves
+ * neither side of it room for a usable panel, it is scrolled to the top of its scroll area once, so
+ * the panel gets the space below. It used to be scrolled to the centre, under the centred panel.
+ */
+function useTourGeometry(open: boolean, target: string | undefined, overlayRef: RefObject<HTMLDivElement | null>) {
+  const [geo, setGeo] = useState<{ target: string; spot: TourBox; placement: TourPlacement } | null>(null)
+
+  useEffect(() => {
+    const overlay = overlayRef.current
+    const el = open && target ? document.querySelector<HTMLElement>(target) : null
+    if (!overlay || !el || !target) return
+    let frame = 0
+    let scrolledToTop = false
+    const measure = () => {
+      frame = 0
+      const o = overlay.getBoundingClientRect()
+      const r = el.getBoundingClientRect()
+      const box = { top: r.top - o.top, bottom: r.bottom - o.top, left: r.left - o.left, right: r.right - o.left }
+      const { placement, fits } = placeTourPanel(o.height, box)
+      if (!fits && !scrolledToTop) {
+        scrolledToTop = true
+        el.scrollIntoView({ block: 'start' })
+        frame = requestAnimationFrame(measure)
+        return
+      }
+      setGeo({ target, spot: box, placement })
+    }
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(measure) }
+    el.scrollIntoView({ block: 'nearest' })
+    schedule()
+    const observer = new ResizeObserver(schedule)
+    observer.observe(overlay)
+    observer.observe(el)
+    // Capture: scroll does not bubble, and the control's scroll area is not the window.
+    document.addEventListener('scroll', schedule, true)
+    window.addEventListener('resize', schedule)
+    return () => {
+      if (frame) cancelAnimationFrame(frame)
+      observer.disconnect()
+      document.removeEventListener('scroll', schedule, true)
+      window.removeEventListener('resize', schedule)
+    }
+  }, [open, target, overlayRef])
+
+  // A measurement from an earlier step is stale the moment the step changes.
+  return geo && geo.target === target ? geo : null
+}
+
+/** The panel's position for a placement: centred by the overlay, or on one side of the control. */
+function panelSlot(placement: TourPlacement | undefined): { slot: CSSProperties | undefined; panel: CSSProperties | undefined } {
+  if (!placement || placement.kind === 'center') return { slot: undefined, panel: undefined }
+  const panel = { maxHeight: placement.maxHeight }
+  if (placement.kind === 'below') return { slot: { top: placement.top }, panel }
+  return { slot: { bottom: placement.bottom }, panel }
+}
+
+/** Body copy with its **bold** spans rendered as bold, not as asterisks. */
+function Rich({ text }: { text: string }) {
+  return <>{boldParts(text).map((p, i) => (p.bold ? <strong key={i} className="font-semibold text-foreground">{p.text}</strong> : p.text))}</>
+}
 
 /**
  * The QA tester tour. Deliberately independent of InteractiveTour.
@@ -41,6 +111,7 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
   const [index, setIndex] = useState(0)
   const [picked, setPicked] = useState<string | null>(null)
   const panelRef = useRef<HTMLDivElement>(null)
+  const overlayRef = useRef<HTMLDivElement>(null)
   const step: QATourStep | undefined = QA_TOUR_STEPS[index]
   const isLast = index === QA_TOUR_STEPS.length - 1
 
@@ -82,16 +153,10 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
     if (open) panelRef.current?.focus()
   }, [open, index])
 
-  // Highlight the field the step is about, so the words attach to a control.
-  useEffect(() => {
-    if (!open || !step?.target) return
-    const el = document.querySelector<HTMLElement>(step.target)
-    if (!el) return
-    const previous = el.style.boxShadow
-    el.style.boxShadow = '0 0 0 3px var(--primary)'
-    el.scrollIntoView({ block: 'center', behavior: 'smooth' })
-    return () => { el.style.boxShadow = previous }
-  }, [open, step?.target])
+  // Highlight the field the step is about, so the words attach to a control: a ring around it, the
+  // rest of the workspace dimmed, and the panel beside it rather than over it.
+  const geo = useTourGeometry(open, step?.target, overlayRef)
+  const { slot, panel } = panelSlot(geo?.placement)
 
   if (!open || !step) return null
 
@@ -105,15 +170,36 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
       // DialogContent, which is a transformed containing block. Staying in that
       // subtree is what puts the tour inside Radix's focus scope, so the
       // exercise options are reachable by Tab and not only by mouse.
-      className="absolute inset-0 z-[60] flex items-center justify-center bg-black/40 p-3 sm:p-4"
+      //
+      // With a control to point at, the dimming comes from the spotlight's shadow, which leaves a
+      // hole over the control; overflow-hidden keeps that shadow inside the workspace.
+      ref={overlayRef}
+      className={`absolute inset-0 z-[60] overflow-hidden ${geo ? '' : 'flex items-center justify-center bg-black/40 p-3 sm:p-4'}`}
       role="dialog"
       aria-modal="true"
       aria-label="Tutorial de QA"
       data-testid="qa-tour"
+      data-target={step.target}
     >
+      {geo && (
+        <div
+          aria-hidden="true"
+          data-testid="qa-tour-spotlight"
+          className="pointer-events-none absolute rounded-md"
+          style={{
+            top: geo.spot.top - SPOT_PAD,
+            left: geo.spot.left - SPOT_PAD,
+            width: geo.spot.right - geo.spot.left + 2 * SPOT_PAD,
+            height: geo.spot.bottom - geo.spot.top + 2 * SPOT_PAD,
+            boxShadow: '0 0 0 3px var(--primary), 0 0 0 9999px rgb(0 0 0 / 0.4)',
+          }}
+        />
+      )}
+      <div className={slot ? 'absolute inset-x-0 flex justify-center px-3 sm:px-4' : 'contents'} style={slot}>
       <div
         ref={panelRef}
         tabIndex={-1}
+        style={panel}
         // Three rows: header, a body that scrolls, and a footer pinned to the
         // bottom. Letting the whole panel scroll was not enough -- on step 2 a
         // correct answer adds both the feedback and the rule, and the Siguiente
@@ -146,7 +232,7 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
 
         <div className="overflow-y-auto px-5 pb-1">
         <h2 className="text-lg font-semibold">{step.title}</h2>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground"><Rich text={step.body} /></p>
 
         {step.definitions && (
           <dl className="mt-4 space-y-2" data-testid="qa-tour-definitions">
@@ -250,6 +336,7 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
             </button>
           </div>
         </div>
+      </div>
       </div>
     </div>
   )
