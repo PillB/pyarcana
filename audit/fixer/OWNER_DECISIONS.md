@@ -139,6 +139,13 @@ failures is the prerequisite carry-forward, because the rule is
 
 **Retire when:** `badge_readiness_audit.py` reports 0 failures and both catalogs agree.
 
+**2026-10-05, from the G0 adversarial gate:** the chain above was computed on section tokens that
+were chosen by **slug**, not by title. About 15 `applied_skill` and `integrated_*` badges cite
+sections whose titles teach something else (`applied_rag_llm_service_development` cites `rag`, which
+is the Excel section). Re-keyed to the sections whose titles teach each claim, 4 of the 5 inversions
+survive, but their endpoints move. So the relabel is **re-derived after the title re-key** (O17's
+manifest), not carried as written. The owner's pickup condition is unchanged.
+
 ### O11 — Three new sections; proceed despite the migration cost
 **Scope:** course structure, 52 → 55 sections. **Status:** live.
 
@@ -218,6 +225,58 @@ import `reportlab`, and one in `llm-finetuning` (S41, *"APIs con FastAPI y contr
 `fastapi`. They are **owed, not accepted**. Declaring them needs a measured run proving their
 snippets *pass* rather than fail first — a snippet that starts an ASGI server turns an honest skip
 into a CI hang, which is worse.
+
+### O16 — The ruled placement stands after the adversarial gate
+**Scope:** course structure, 52 → 55 sections. **Status:** live.
+
+The owner required a red team, an anti-challenge and a VP-of-AI-and-pedagogy review before the
+renumber. Three verifiers checked 31 of their claims (18 true, 13 partly, 0 false), and four review
+rounds followed. The gate recommended placement G — inference S19, regression S34, design and
+causality S37 — chiefly because model-based IPW and CUPED need what old S33/S34 teach. The owner
+saw that recommendation with its reasons and **kept the ruling**: S19 *Inferencia* and S20 *Diseño
+experimental, estimandos y causalidad* in N2, S35 *Regresión y regularización* at the head of the
+N3 ML block. Old S19–S32 move +2; old S33–S52 move +3.
+
+What the gate changed inside the ruling: each new section teaches only the **delta** over what S18
+and old S33 already teach. S18 already teaches intervals, bootstrap, Cohen's d, reading a p-value,
+and randomisation against self-selection. Old S33 already teaches logistic regression, L2 and group
+cross-validation. At N2, S20 teaches CUPED through θ = cov(Y, X)/var(X) and IPW through stratum
+propensities; the model-based forms return as bridges after S35. Full record:
+`audit/fixer/renumber_g0/` (start with `SYNTHESIS.md`).
+
+**Retire when:** O11 retires.
+
+### O17 — Gate A: the guards and claims that precede the renumber
+**Scope:** protected paths and credential claims touched before any renumber. **Status:** live.
+
+Approved in full, each an ask-first item:
+- CI runs on a `curriculum/55` integration branch, because the renumber cannot be staged across
+  merges to `main`. Guards land **before** the renumber, each with a mutation proof. The
+  preservation sentinel learns two things: a branch's first push is not an unreadable base, and the
+  section count comes from the roadmap's headings instead of the literal 52. CODEOWNERS and an
+  `AGENTS.md` ask-first line cover the new state files.
+- Deploy runs only after tests pass on `main`, checks out the commit that was tested, and loses its
+  manual `workflow_dispatch` trigger.
+- Positional badges (phase, journey, level capstone) derive their spans from the level. Their
+  claims carry no counts, versioned 2.0.0. The stale `industry_alignment/` catalog is synced to the
+  live one. Codex writes the text; it returns as a diff before it lands. Nothing is awarded
+  retroactively — no learner holds a badge today.
+- S18 gains the word *estimando*; S18's "prefer bootstrap with heavy tails" line is softened,
+  because a coverage simulation showed the percentile bootstrap undercovers at small n; the glossary
+  p-value definition is rewritten in S18's own correct words (it omits "or more extreme" today).
+
+**Retire when:** every item has landed on `main`.
+
+### O18 — Untaught claimed capabilities are teaching debts, never dropped
+**Scope:** badge claims naming deep learning, fine-tuning and graph-RAG. **Status:** live, owed.
+
+No section title teaches these three, yet badges claim them. O10's rule forbids dropping a claimed
+capability. The owner's call: **keep the claims and teach them later**, scheduled after the
+statistics work. Until then a guard blocks issuing any badge whose claimed skill has no teaching
+home. No learner holds these badges, so nothing is withdrawn from anyone.
+
+**Retire when:** each of the three has a teaching home with practice and assessment, and the guard
+reports none owed.
 
 ---
 
