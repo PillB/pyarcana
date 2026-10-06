@@ -4926,7 +4926,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Un outlier plausible vs error de captura se distinguen por:',
       options: [
         'El color del chart',
-        'Reglas de dominio + métodos (IQR/z) + decisión flag vs drop documentada',
+        'Límites de dominio + cercas de Tukey con 1.5 × IQR + decisión flag vs drop documentada',
         'Siempre drop automático',
         'Siempre keep sin flag',
       ],

@@ -1,4 +1,4 @@
-// Chromium check of /cuenta's Google button (handback 5 Oct 2026, item 1; decision D18) on the real
+// Chromium check of /cuenta's Google button (handback 5 Oct 2026, item 1; decision D20) on the real
 // local stack, with Google's REAL sign-in script: no stand-in.
 // /cuenta is both the account page and the Microsoft redirect target. Google's script must load on
 // a plain visit, and never during a page view that loaded as a Microsoft callback, even after the

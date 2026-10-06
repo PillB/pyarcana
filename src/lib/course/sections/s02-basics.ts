@@ -30,7 +30,7 @@ export const section02: CourseSection = {
     { text: 'Explicar identidad vs. igualdad, mutabilidad y conservar copias/valores originales' },
     { text: 'Evaluar aritmética y comparaciones respetando precedencia' },
     { text: 'Calcular montos en soles con Decimal y redondeo a 2 decimales' },
-    { text: 'Capturar texto con `input()`, la función que lee lo escrito; mostrar resultados con `print()`; y crear f-strings, textos que incrustan valores entre llaves' },
+    { text: 'Capturar con `input()` el texto que una persona escribe; mostrar resultados con `print()`; y crear f-strings, textos que incrustan valores entre llaves' },
     { text: 'Seguir una captura sintética desde el texto original hasta valores limpios y conversiones válidas, sin sobrescribir el original' },
   ],
   theory: [
@@ -42,13 +42,13 @@ export const section02: CourseSection = {
         "La secuencia que se repite en toda la sección es **valor → significado → operación permitida**, y se lee en ese orden. Cuando algo no funciona, el primer sospechoso no es la operación: es que el valor no era del tipo que suponías. Digo *primer* sospechoso a propósito, porque no es el único. En T2 y T3 verás que un tipo correcto no evita todos los fallos. Por precedencia, `-3**2` da `-9`. Con valores `int`, `//` redondea hacia abajo y no hacia cero. Además, un nombre mal escrito lanza `NameError` antes de que intervenga ningún tipo. El tipo explica la mayoría de las sorpresas de esta sección; la precedencia y el nombre explican el resto.",
         "Hay un punto donde esto deja de ser teoría y se vuelve dinero. Los `float` no representan de forma exacta la mayoría de los decimales, así que `0.1 + 0.2` no da `0.3` sino algo con un residuo minúsculo. Para dibujar un gráfico da igual; para sumar montos en soles, no. Por eso los montos usan `Decimal` y no `float`, y por eso lo vas a ver desde el principio en vez de aprenderlo después de un descuadre.",
         "Y hay un contrato que arrastrarás durante todo el curso: conservar el **texto original (`raw`)** y trabajar por separado con el **texto limpio (`clean`)**. Conserva intacto el valor tal como llegó. Guarda el texto limpio aparte. Suena a exceso de cuidado hasta la primera vez que alguien pregunta por qué un registro quedó así y la única respuesta posible es mirar el original.",
-        "**La pregunta que atraviesa la sección es directa:** ¿qué es esto realmente y qué puedo hacer con ello sin mentir? El hilo conductor será un registro sintético de cliente. Sus nombres, apellidos, datos de contacto, dirección, edad y monto son ficticios. Ese registro representa una **captura inicial (`intake`)**. Más adelante construirás un **parser**, el código que transforma el texto capturado en campos interpretados; en S02 prepararás sus piezas básicas sin adelantar condicionales, bucles, funciones ni recuperación de errores.",
+        "**La pregunta que atraviesa la sección es directa:** ¿qué es esto realmente y qué puedo hacer con ello sin mentir? El hilo conductor será un registro sintético de cliente. Sus nombres, apellidos, datos de contacto, dirección, edad y monto son ficticios. Ese registro representa una **captura inicial (`intake`)**. En S02 conservarás el texto recibido, limpiarás sus bordes, convertirás los valores válidos y observarás por separado qué ocurre con un texto que no se puede convertir.",
       ],
       callout: {
         type: 'info',
         title: 'Qué NO es el foco de esta sección',
         content:
-          'Todavía no usaremos condicionales ni bucles. Tampoco definiremos funciones; una función es un bloque reutilizable de instrucciones. En S02 reconoces tipos, asignas nombres, aplicas operadores, trabajas con `Decimal` y practicas entrada/salida. Más adelante reunirás esas piezas en un parser.',
+          'Todavía no elegiremos entre caminos ni repetiremos instrucciones. Tampoco definiremos funciones; una función es un bloque reutilizable de instrucciones. En S02 reconoces tipos, asignas nombres, aplicas operadores, trabajas con `Decimal` y practicas entrada/salida. Más adelante reunirás esas piezas en código que interprete los textos recibidos.',
       },
      },
      {
@@ -58,33 +58,10 @@ export const section02: CourseSection = {
         "Bloque de referencia. Orden de los subtemas, ritmo y alcance.",
         "**Orden de los subtemas.** T1 trata los valores: literales, inspección y conversión. T2 pasa a los nombres: asignación, convenciones PEP 8, identidad y copias. T3 cubre los operadores: precedencia y `Decimal` para dinero. T4 cierra con la entrada y salida: f-strings —cadenas con valores incrustados— y la lectura de datos. La recuperación de errores se estudia en S09.",
         "**Ritmo orientativo (unas 9 horas).** De esas, dos o tres para el núcleo: al terminarlo ya sabes leer un valor y decir de qué tipo es antes de operar con él. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
-        "**Criterio de cierre.** Puedes explicar el tipo de un valor, convertir texto válido, conservar el texto original, calcular con `Decimal` y presentar el resultado. La recuperación de entradas inválidas llegará cuando estudies excepciones en S09.",
-        "**Fuera de alcance por ahora.** Elegir entre distintos caminos y repetir instrucciones se estudiará en secciones posteriores. Allí también aprenderás a definir funciones, bloques reutilizables de instrucciones, cuando el modelo de valores y tipos ya esté firme.",
+        "**Criterio de cierre.** Puedes explicar el tipo de un valor, convertir texto válido, conservar el texto original, calcular con `Decimal` y presentar el resultado. En S02 observarás qué ocurre al intentar una conversión inválida; en S09 aprenderás a impedir que ese fallo detenga el resto del trabajo.",
+        "**Fuera de alcance por ahora.** En S02 ejecutarás cada ejemplo con valores concretos. Las secciones posteriores enseñarán a elegir caminos, repetir instrucciones y reunir pasos para volver a usarlos.",
         "**Límites.** Solo datos sintéticos (`example.com`, teléfonos inventados). Nunca información personal identificable real en el repositorio.",
       ],
-      code: {
-        language: 'python',
-        title: 's02_map_contract.py',
-        code: `def section_contract():
-    return {
-        "case": "CASO-LIM-002",
-        "gates": ["types_before_ops", "decimal_for_money", "raw_preserved", "no_real_pii"],
-        "focus": "values_types_ops_io",
-        "if_for_as_support_syntax": True,
-        "real_pii_ok": False,
-    }
-
-c = section_contract()
-print("case", c["case"])
-print("focus", c["focus"])
-print("if_for_as_support_syntax", c["if_for_as_support_syntax"])
-print("real_pii_ok", c["real_pii_ok"])
-`,
-        output: `case CASO-LIM-002
-focus values_types_ops_io
-if_for_as_support_syntax True
-real_pii_ok False`,
-      },
       callout: {
         type: 'info',
         title: 'Mapa de S02',
@@ -95,16 +72,31 @@ real_pii_ok False`,
      {
       heading: 'Una secuencia que permite encontrar el cambio',
       paragraphs: [
-        'Un dato rara vez pasa del formulario al resultado en un solo salto. Primero llega como texto, después se limpia y luego se interpreta. Una **pipeline** es esa secuencia ordenada: la salida de un paso se convierte en la entrada del siguiente.',
-        'La secuencia existe para que puedas señalar dónde cambió el dato. Con una edad escrita como `" 19 "`, el primer paso conserva el texto original. El segundo obtiene `"19"` sin los espacios de los bordes y el tercero obtiene el número `19`. Si aparece un problema, sabes en qué paso buscarlo.',
-        'Practica con `" 28 "`. Escribe tres resultados antes de continuar: original, texto sin espacios y número interpretado. Lo correcto es `" 28 "`, `"28"` y `28`; el primero debe permanecer intacto.',
-        'Cuando llegues a T1-B, ejecuta la conversión y comprueba esos tres resultados. Después explica la pipeline sin usar su nombre: “conservo, limpio e interpreto”. Si puedes señalar qué recibe y qué entrega cada paso, entendiste la relación y no solo la palabra.',
+        'Un dato rara vez pasa del formulario al resultado en un solo salto. Primero llega como texto, después se limpia y luego se interpreta. Una **pipeline** es una secuencia ordenada de pasos: cada paso recibe un valor, hace un cambio concreto y entrega el resultado al paso siguiente.',
+        'Esta secuencia resuelve un problema práctico: permite señalar dónde cambió el dato. Con una edad escrita como `" 19 "`, el primer paso conserva ese texto. El segundo obtiene `"19"` sin los espacios de los bordes. El tercero obtiene el número `19`.',
+        'Observa el ejemplo y predice sus tres líneas antes de ejecutarlo. `edad_raw` conserva lo recibido, `edad_clean` guarda el texto sin espacios y `edad` guarda el número interpretado.',
+        'Ahora repite los tres pasos con `" 28 "`. Debes obtener `" 28 "`, `"28"` y `28`, sin cambiar `edad_raw`. Como comprobación final, explica la secuencia sin decir pipeline: “conservo el texto, quito los espacios de los bordes y lo convierto en número”.',
       ],
+      code: {
+        language: 'python',
+        title: 'pipeline_edad.py',
+        code: `edad_raw = " 19 "
+edad_clean = edad_raw.strip()
+edad = int(edad_clean)
+
+print("raw: |" + edad_raw + "|")
+print("clean:", edad_clean)
+print("edad:", edad)
+`,
+        output: `raw: | 19 |
+clean: 19
+edad: 19`,
+      },
       callout: {
         type: 'info',
         title: 'No es una caja misteriosa',
         content:
-          'Una pipeline no garantiza que el dato sea correcto. Solo ordena los pasos y permite observar qué recibió y qué produjo cada uno.',
+          'Una pipeline no decide si el dato es correcto. Ordena transformaciones observables para que puedas comparar qué recibió y qué produjo cada paso.',
       },
      },
      {
@@ -150,6 +142,35 @@ False`,
       },
     },
     {
+      heading: 'Ver el valor con `repr()`',
+      paragraphs: [
+        'Al revisar una captura, `42`, `"42"` y `" 42 "` pueden parecer casi iguales en la pantalla. **`repr()`** produce un texto que muestra el valor de forma precisa: conserva las comillas de los textos y hace visibles los espacios de sus bordes.',
+        '`repr()` no cambia el valor original. En el ejemplo, el número `42` aparece sin comillas, el texto `"42"` aparece con comillas y el texto con espacios conserva esos espacios dentro de las comillas.',
+        'Predice las tres líneas antes de ejecutar. Después cambia `texto_con_bordes` por `"42 "` y comprueba que la salida deja un solo espacio antes de la comilla final.',
+      ],
+      code: {
+        language: 'python',
+        title: 'ver_valores_con_repr.py',
+        code: `valor_numero = 42
+valor_texto = "42"
+texto_con_bordes = " 42 "
+
+print(repr(valor_numero))
+print(repr(valor_texto))
+print(repr(texto_con_bordes))
+`,
+        output: `42
+'42'
+' 42 '`,
+      },
+      callout: {
+        type: 'tip',
+        title: 'Mirar no es transformar',
+        content:
+          '`repr()` ayuda a inspeccionar un valor; no quita espacios ni convierte texto en número. Usa `strip()` o `int()` cuando quieras producir otro valor.',
+      },
+    },
+    {
       heading: 'Tres resultados que viajan juntos',
       paragraphs: [
         'Una conversión puede necesitar comunicar tres hechos: si funcionó, qué valor produjo y qué problema encontró. Una **tupla** reúne varios valores en un orden fijo. Se escribe entre paréntesis, como `(True, 19, None)`, y sirve para trasladar esos hechos juntos sin confundir sus posiciones.',
@@ -184,7 +205,7 @@ None`,
         'En una hoja de inscripción, `" 19 "` no es todavía una edad: es una secuencia de caracteres que *podría* representar una edad. **Puente desde T1-A:** reconocer el tipo describe el presente; convertir y validar decide si ese dato puede cruzar la puerta del sistema.',
         '**`type(x)`** responde “¿qué es esto ahora?”. **`isinstance(x, int)`** comprueba si `x` pertenece al tipo `int` o a uno de sus subtipos. Por eso `isinstance(True, int)` produce `True`: en Python, `bool` es subtipo de `int`. Conserva ese dato como una advertencia; los ejemplos de conversión que siguen trabajan con texto y no usan `isinstance` para aceptar edades.',
         'La conversión explícita usa **`int()`**, **`float()`** y **`str()`** para intentar producir un valor del tipo indicado. El texto de formularios puede traer espacios en los bordes: **`valor.strip()`** produce el texto sin esos espacios. La forma `x.metodo()` pide al valor `x` ejecutar una operación propia. `int(" 19 ")` funciona.',
-        'En cambio, `int("19.5")` e `int("abc")` terminan con **`ValueError`**. `"19.5"` representa un número, pero no un entero. `"abc"` no es una orden ni un nombre especial de Python: es solo un texto de prueba formado por tres letras. `ValueError` indica que el contenido no puede convertirse al tipo solicitado. Nunca uses `eval()` con texto recibido de una persona: podría ejecutar código incluido en esa entrada.',
+        'En cambio, `int("19.5")` e `int("abc")` detienen la ejecución porque ninguno de esos textos representa un entero válido. `"19.5"` contiene una parte decimal y `"abc"` contiene letras. Ejecuta cada caso por separado para observar el mensaje de Python. En S09 aprenderás qué clase de error es y cómo continuar después de encontrarlo. Nunca uses `eval()` con texto recibido de una persona: podría ejecutar código incluido en esa entrada.',
         'Avanza con ejemplos separados. Primero convierte `" 19 "`: `strip` produce `"19"` e `int` produce `19`. Después ejecuta `int("abc")` por separado y observa el `ValueError`: la ejecución se detiene en esa línea. En S09 aprenderás a capturar ese error y continuar; S02 se limita a distinguir una conversión válida de una inválida sin ocultar el fallo.',
         '**Modelo mental:** `strip` limpia los extremos; `int` intenta interpretar el contenido como entero. Predice el resultado de `int("19")` y el error de `int("diecinueve")` antes de probarlos. En T2 aprenderás a dar nombres claros a los valores.',
       ],
@@ -211,6 +232,30 @@ edad: 19
         title: 'No eval, no silent pass',
         content:
           '`eval()` no es una herramienta de conversión segura para texto recibido de una persona. Usa `int()`, `float()` o `str()` según el significado del campo. Si `int()` recibe letras, deja visible el `ValueError`; aprenderás a recuperarte de ese error en S09.',
+      },
+    },
+    {
+      heading: 'Comprobar una expectativa con `assert`',
+      paragraphs: [
+        'Después de convertir un valor, necesitas comprobar que el resultado coincide con lo que esperabas. **`assert`** comprueba la comparación que escribes después de la palabra mientras practicas.',
+        'Si la comparación es `True`, `assert` no muestra nada y el programa continúa. En el ejemplo, la única salida procede de `print`; el `assert` pasa en silencio porque `edad` vale `19`.',
+        'Si cambias la comprobación por `assert edad == 20`, la comparación es `False`. Python se detiene y la última línea del mensaje muestra `AssertionError`; la línea `print` que viene después ya no se ejecuta.',
+        'Usa `assert` para comprobar tu propio resultado, no para responder a una entrada inválida de una persona. S03 retomará estas comprobaciones junto a las decisiones y S09 enseñará a responder a errores sin ocultarlos.',
+      ],
+      code: {
+        language: 'python',
+        title: 'comprobar_edad.py',
+        code: `edad = 19
+assert edad == 19
+print("edad comprobada:", edad)
+`,
+        output: `edad comprobada: 19`,
+      },
+      callout: {
+        type: 'info',
+        title: 'Mapa de `assert`',
+        content:
+          'Lee de izquierda a derecha: `assert comparación` → `True` → continúa sin mostrar nada; `assert comparación` → `False` → muestra `AssertionError` y se detiene.',
       },
     },
     {
@@ -254,7 +299,7 @@ False`,
       figure: {
         id: "S02-truthiness",
         caption:
-          "Un if desnudo funde ausente, cero y vacío en la misma rama. Por eso la ausencia se pregunta con `is None`.",
+          "Ausencia, cero y texto vacío son valores distintos. Para preguntar específicamente por ausencia, compara con `None` mediante `is None`.",
         alt:
           "Cuatro guardas evaluadas en orden: is None da ausente; == 0 y == vacío dan presente; el resto, presente.",
       },
@@ -299,7 +344,7 @@ True`,
         type: 'danger',
         title: 'Alias en listas de errores o campos',
         content:
-          'Si haces `clean = raw` cuando `raw` es un dict/list mutable y luego mutas `clean`, corrompes el original. Copia o construye un dict nuevo con claves `*_raw` y normalizados.',
+          'Si haces `clean = raw` cuando `raw` es una lista y luego modificas `clean`, también cambia el contenido que ves mediante `raw`. Usa `raw.copy()` antes de modificar la lista de trabajo y comprueba que ambos nombres ya no señalan el mismo objeto.',
       },
     },
     {
@@ -390,6 +435,7 @@ subtotal 100.00 IGV 18.00 total 118.00`,
       paragraphs: [
         'Un mensaje suele mezclar texto fijo con valores que cambian. Escribir cada parte por separado vuelve difícil ver el resultado completo. Una **f-string** es un texto que comienza con `f` y contiene espacios entre llaves donde Python coloca valores.',
         'En `f"Cliente: {nombre} | Monto: S/ {monto:.2f}"`, `Cliente:` y `Monto:` permanecen iguales. Python sustituye `{nombre}` por `José` y muestra `{monto:.2f}` con dos posiciones decimales. La f-string resuelve un problema de presentación: no cambia el valor guardado en `nombre` ni en `monto`.',
+        'Dentro de una f-string, **`{valor!r}`** muestra la misma representación que `repr(valor)`. Por eso `f"raw={raw!r}"` deja visibles las comillas y los espacios del texto recibido, sin cambiar `raw`.',
         'Haz una modificación guiada: cambia `nombre` por `"Ana"` y `monto` por `Decimal("7")`. Antes de ejecutar, escribe el mensaje completo. Lo correcto es `Cliente: Ana | Monto: S/ 7.00`.',
         'Comprueba también el papel de la letra `f`: ejecuta `print("Cliente: {nombre}")`. Si aparecen las llaves y la palabra `nombre`, Python trató el contenido como texto ordinario. Añade la `f`, ejecuta otra vez y confirma que aparece el valor.',
       ],
@@ -400,10 +446,13 @@ subtotal 100.00 IGV 18.00 total 118.00`,
 
 nombre = "José"
 monto = Decimal("99.5")
+raw = " 42 "
 mensaje = f"Cliente: {nombre} | Monto: S/ {monto:.2f}"
 print(mensaje)
+print(f"raw={raw!r}")
 `,
-        output: `Cliente: José | Monto: S/ 99.50`,
+        output: `Cliente: José | Monto: S/ 99.50
+raw=' 42 '`,
       },
       callout: {
         type: 'tip',
@@ -420,7 +469,7 @@ print(mensaje)
         '**`input(mensaje)`** siempre devuelve **`str`**, aunque la persona escriba dígitos; `mensaje` es el texto que se muestra antes de esperar la respuesta. En las demostraciones asignaremos entradas de ejemplo a variables para repetir la misma comprobación sin escribirlas de nuevo. Para mostrar varios valores usa argumentos concretos, por ejemplo `print("a", "b", sep=" | ")`; `sep` indica qué texto coloca `print` entre ellos.',
         'Las **f-strings** son textos precedidos por `f` que incrustan valores entre llaves, como `f"Monto: {monto:.2f}"`. La parte `.2f` muestra dos posiciones decimales. Después de T3-B, todo monto de negocio continúa como `Decimal`: formatearlo con `.2f` no requiere convertirlo a `float`. Las preguntas mostradas por `input()` y los mensajes para la persona van en **español claro**.',
         'Primero **captura** el texto recibido. Luego **interpreta** ese texto al convertirlo al tipo necesario. Por último, **reporta** el resultado en un mensaje. Así puedes comprobar cada conversión con valores conocidos, sin depender de lo que alguien escriba en la consola. Un resumen de cliente con cuatro o cinco campos permite practicar la secuencia completa.',
-        '**Predicción útil:** si una persona escribe `34`, ¿qué mostrará `type(input(...)).__name__`? Responde antes de ejecutar. Luego explica por qué convertir dentro de la función de captura dificultaría probar el parser. T4-B reunirá las tres capas en un contrato con errores observables.',
+        '**Predicción útil:** si una persona escribe `34`, ¿qué mostrará `type(input(...)).__name__`? Responde antes de ejecutar. Luego explica por qué conviene conservar primero el texto recibido y convertirlo en un paso separado. T4-B reunirá las tres capas en una secuencia observable.',
       ],
       code: {
         language: 'python',
@@ -499,30 +548,24 @@ apellido_clean: Ñahui`,
         code: {
           language: 'python',
           title: 'S02-T1-A-DEMO — literales_cliente',
-          code: `def s02_ido_1():
-    # Cliente sintético (no es persona real)
-    nombres = "María José"
-    apellido_paterno = "Quispe"
-    edad = 34
-    monto_soles = 150.5
-    activo = True
-    referencia = None
+          code: `# Cliente sintético (no es persona real)
+nombres = "María José"
+apellido_paterno = "Quispe"
+edad = 34
+monto_soles = 150.5
+activo = True
+referencia = None
 
-    campos = [
-        ("nombres", nombres),
-        ("apellido_paterno", apellido_paterno),
-        ("edad", edad),
-        ("monto_soles", monto_soles),
-        ("activo", activo),
-        ("referencia", referencia),
-    ]
-    for label, valor in campos:
-        print(f"{label}: valor={valor!r} type={type(valor).__name__}")
+print(f"nombres: valor={nombres!r} type={type(nombres).__name__}")
+print(f"apellido_paterno: valor={apellido_paterno!r} type={type(apellido_paterno).__name__}")
+print(f"edad: valor={edad!r} type={type(edad).__name__}")
+print(f"monto_soles: valor={monto_soles!r} type={type(monto_soles).__name__}")
+print(f"activo: valor={activo!r} type={type(activo).__name__}")
+print(f"referencia: valor={referencia!r} type={type(referencia).__name__}")
 
-    print("type(42)=", type(42).__name__)
-    print("type('42')=", type("42").__name__)
-    print("42 == '42' →", 42 == "42")
-s02_ido_1()
+print("type(42)=", type(42).__name__)
+print("type('42')=", type("42").__name__)
+print("42 == '42' →", 42 == "42")
 `,
           output: `nombres: valor='María José' type=str
 apellido_paterno: valor='Quispe' type=str
@@ -542,70 +585,63 @@ type('42')= str
         demoId: 'S02-T1-B-DEMO',
         subtopicId: 'S02-T1-B',
         environment: 'browser-pyodide',
-        description: 'safe_int unificado: vacío, OK y ValueError con mensaje por campo',
+        description: 'Conversión visible: texto original, texto limpio y entero',
         preamble:
-          'En formularios y CSV casi todo llega como texto. Esta demo fija el contrato único de `safe_int`: vacío tras `strip`, entero válido o texto no convertible con mensaje por campo. **Predicción:** para `" 19 "`, `"abc"` y `"  "`, escribe primero las tres tuplas que esperas. Después recorre la función de arriba abajo y localiza el punto exacto en que cada caso toma un camino distinto. Datos sintéticos; no uses `eval`.',
+          'En formularios y CSV una edad suele llegar como texto. **Predicción:** para `" 19 "`, escribe qué conservará `edad_raw`, qué producirá `strip()` y qué producirá `int()`. Después compara tu predicción con cada línea. Los textos `"abc"` y `"  "` quedan al final para ejecutarlos por separado y observar dónde se detiene Python.',
         code: {
           language: 'python',
-          title: 'S02-T1-B-DEMO — safe_int_contrato',
-          code: `def safe_int(campo: str, valor: str):
-    texto = valor.strip()
-    if texto == "":
-        return False, None, f"ERROR en '{campo}': valor vacío"
-    try:
-        return True, int(texto), None
-    except ValueError:
-        return False, None, f"ERROR en '{campo}': no se pudo convertir {valor!r} a int"
+          title: 'S02-T1-B-DEMO — conversion_visible',
+          code: `edad_raw = " 19 "
+edad_clean = edad_raw.strip()
+edad = int(edad_clean)
 
-for v in [" 19 ", "abc", "  "]:
-    print(repr(v), "→", safe_int("edad", v))
-print("isinstance(19, int) →", isinstance(19, int))
-print("isinstance('19', int) →", isinstance("19", int))`,
-          output: `' 19 ' → (True, 19, None)
-'abc' → (False, None, "ERROR en 'edad': no se pudo convertir 'abc' a int")
-'  ' → (False, None, "ERROR en 'edad': valor vacío")
-isinstance(19, int) → True
-isinstance('19', int) → False`,
+print("raw:", repr(edad_raw))
+print("clean:", repr(edad_clean))
+print("edad:", edad)
+print("tipo:", type(edad).__name__)
+
+# Ejecuta una línea por vez para observar el mensaje de error:
+# int("abc")
+# int("  ")`,
+          output: `raw: ' 19 '
+clean: '19'
+edad: 19
+tipo: int`,
         },
-        why: 'El contrato de tres ramas (vacío / OK / basura) es el mismo del pipeline de dos campos, de la demo T4-B y del You Do. `isinstance` separa “ya es `int`” de “sigue siendo texto”. El mensaje siempre nombra el campo y el valor recibido.',
+        why: '`edad_raw`, `edad_clean` y `edad` hacen visible cada etapa. `strip()` produce otro texto; `int()` produce el entero `19`. Un texto con letras o sin dígitos no produce un entero y detiene esa ejecución; S09 enseñará a continuar después.',
         retrospective:
-          'Tres salidas posibles (OK / vacío / basura) y mensaje con nombre de campo: eso es validación profesional. El error clásico es tragar el fallo o convertir sin `strip`. Autochequeo: ¿puedes nombrar las tres salidas de `safe_int` sin mirar el código? Reutilizarás este contrato en el pipeline de dos campos y en el You Do.',
+          'Predice qué nombre conserva los espacios, cuál contiene `"19"` y cuál contiene `19`. Después comprueba los tres tipos. Si ejecutas `int("abc")` por separado, señala la línea exacta donde Python se detiene y explica por qué el texto original sigue disponible para investigarlo.',
       },
       {
         demoId: 'S02-T2-A-DEMO',
         subtopicId: 'S02-T2-A',
         environment: 'browser-pyodide',
-        description: 'Renombrar a snake_case y usar == en comparaciones',
+        description: 'Renombrar a snake_case y comparar con ==',
         preamble:
-          'En una revisión de código, los nombres y `=` frente a `==` se entienden antes que el algoritmo. Esta demo muestra `snake_case`, una constante `UPPER_CASE` y una comparación con `==` (no asignación). **Predicción:** con `edad = 25` y `EDAD_MINIMA = 18`, ¿qué rama se ejecuta y por qué? Lee después los nombres comentados como señales de deuda, no como modelos que debas copiar.',
+          'En una revisión de código, los nombres y `=` frente a `==` se entienden antes que cualquier decisión posterior. Esta demo muestra `snake_case`, una constante `UPPER_CASE` y el resultado de una comparación. **Predicción:** con `edad = 25` y `EDAD_MINIMA = 18`, ¿la comparación producirá `True` o `False`?',
         code: {
           language: 'python',
           title: 'S02-T2-A-DEMO — nombres_y_comparacion',
-          code: `def s02_ido_3():
-    # Mal estilo (comentado a propósito):
-    # NombreCliente = "Ana"; AP = "García"; l = 1
+          code: `nombres_cliente = "Ana"
+apellido_paterno = "García"
+EDAD_MINIMA = 18
+edad = 25
 
-    nombres_cliente = "Ana"
-    apellido_paterno = "García"
-    EDAD_MINIMA = 18
-    edad = 25
-
-    if edad == EDAD_MINIMA:
-        print("edad mínima exacta")
-    else:
-        print(f"edad={edad}, mínima={EDAD_MINIMA}")
-
-    print("nombres_cliente=", nombres_cliente)
-    print("apellido_paterno=", apellido_paterno)
-s02_ido_3()
+print("edad mínima exacta:", edad == EDAD_MINIMA)
+print("edad=", edad)
+print("mínima=", EDAD_MINIMA)
+print("nombres_cliente=", nombres_cliente)
+print("apellido_paterno=", apellido_paterno)
 `,
-          output: `edad=25, mínima=18
+          output: `edad mínima exacta: False
+edad= 25
+mínima= 18
 nombres_cliente= Ana
 apellido_paterno= García`,
         },
-        why: 'Code review junior en Perú mira nombres y `=` vs `==` antes que algoritmos. `snake_case` + constantes `UPPER_CASE` + `==` en el `if` es el contrato mínimo de legibilidad para el schema de intake.',
+        why: '`=` liga un nombre a un valor y `==` compara dos valores. La palabra `if` abre una decisión: ejecuta un bloque solo cuando una comparación produce `True`. S03 enseñará a construir y seguir esas decisiones; aquí solo haces visible el resultado de `==`.',
         retrospective:
-          'Asignar es `=`; preguntar igualdad es `==` — mezclarlos es `SyntaxError` o lógica rota. `snake_case` y constantes `UPPER_CASE` reducen `NameError` en review. El error clásico es “el código se ve bien” con CamelCase y `if x = 1`. En We Do renombrarás variables y corregirás tres `if` rotos.',
+          'Asignar es `=`; preguntar igualdad es `==`. Predice el resultado antes de ejecutar y después cambia `edad` a `18`. Comprueba que solo cambia la primera línea. Si aparece `NameError`, rastrea cada nombre desde su asignación hasta el `print` que intenta leerlo.',
       },
       {
         demoId: 'S02-T2-B-DEMO',
@@ -617,25 +653,23 @@ apellido_paterno= García`,
         code: {
           language: 'python',
           title: 'S02-T2-B-DEMO — raw_y_alias',
-          code: `def s02_ido_4():
-    raw_nombre = "  José Ñahui  "
-    clean_nombre = raw_nombre.strip()
-    print("raw=", repr(raw_nombre))
-    print("clean=", repr(clean_nombre))
-    print("raw is clean?", raw_nombre is clean_nombre)
+          code: `raw_nombre = "  José Ñahui  "
+clean_nombre = raw_nombre.strip()
+print("raw=", repr(raw_nombre))
+print("clean=", repr(clean_nombre))
+print("raw is clean?", raw_nombre is clean_nombre)
 
-    a = [1, 2, 3]
-    b = a
-    c = a.copy()
-    b.append(4)
-    print("a after alias mutate:", a)
-    print("c unchanged:", c)
-    print("a is b?", a is b)
-    print("a is c?", a is c)
+a = [1, 2, 3]
+b = a
+c = a.copy()
+b.append(4)
+print("a after alias mutate:", a)
+print("c unchanged:", c)
+print("a is b?", a is b)
+print("a is c?", a is c)
 
-    x = None
-    print("x is None →", x is None)
-s02_ido_4()
+x = None
+print("x is None →", x is None)
 `,
           output: `raw= '  José Ñahui  '
 clean= 'José Ñahui'
@@ -648,7 +682,7 @@ x is None → True`,
         },
         why: 'El texto original debe sobrevivir a `strip`. En una lista, un alias permite cambiar el mismo contenido mediante dos nombres; `copy()` crea una lista exterior distinta. Las listas aquí son solo un adelanto de mutabilidad: se estudiarán a fondo en S06.',
         retrospective:
-          'Strings limpios no deben sobrescribir el raw. En mutables, copia antes de mutar. `is` es para identidad (sobre todo `None`); `==` es para valor. We Do te pedirá romper el alias y diseñar un dict con `*_raw`.',
+          'El texto limpio no debe sobrescribir el original. En una lista, copia antes de modificar. `is` pregunta si dos nombres señalan el mismo objeto; `==` pregunta si sus valores son iguales. En la práctica guiada romperás el alias y comprobarás que la lista original permanece intacta.',
       },
       {
         demoId: 'S02-T3-A-DEMO',
@@ -660,20 +694,20 @@ x is None → True`,
         code: {
           language: 'python',
           title: 'S02-T3-A-DEMO — operadores_precedencia',
-          code: `def s02_ido_5():
-    a, b, c = 10, 3, 2
-    print("10 // 3 =", a // b)
-    print("10 % 3  =", a % b)
-    print("3 ** 2  =", b ** c)
-    print("a + b * c =", a + b * c)
-    print("(a + b) * c =", (a + b) * c)
-    print("-3**2 =", -3**2)
-    print("(-3)**2 =", (-3)**2)
-    # Precio con IGV 18% (expresión; dinero exacto → Decimal en T3-B)
-    base = 100
-    total = base * (1 + 0.18)
-    print("total con IGV (float demo) =", total)
-s02_ido_5()
+          code: `a = 10
+b = 3
+c = 2
+print("10 // 3 =", a // b)
+print("10 % 3  =", a % b)
+print("3 ** 2  =", b ** c)
+print("a + b * c =", a + b * c)
+print("(a + b) * c =", (a + b) * c)
+print("-3**2 =", -3**2)
+print("(-3)**2 =", (-3)**2)
+# Precio con IGV 18% (expresión; dinero exacto → Decimal en T3-B)
+base = 100
+total = base * (1 + 0.18)
+print("total con IGV (float demo) =", total)
 `,
           output: `10 // 3 = 3
 10 % 3  = 1
@@ -698,19 +732,17 @@ total con IGV (float demo) = 118.0`,
         code: {
           language: 'python',
           title: 'S02-T3-B-DEMO — decimal_igv',
-          code: `def s02_ido_6():
-    from decimal import Decimal, ROUND_HALF_EVEN
+          code: `from decimal import Decimal, ROUND_HALF_EVEN
 
-    print("float 0.1+0.2 =", 0.1 + 0.2)
-    print("Decimal =", Decimal("0.1") + Decimal("0.2"))
+print("float 0.1+0.2 =", 0.1 + 0.2)
+print("Decimal =", Decimal("0.1") + Decimal("0.2"))
 
-    subtotal = Decimal("100.00")
-    igv = (subtotal * Decimal("0.18")).quantize(
-        Decimal("0.01"), rounding=ROUND_HALF_EVEN
-    )
-    total = (subtotal + igv).quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
-    print(f"subtotal={subtotal} IGV={igv} total={total}")
-s02_ido_6()
+subtotal = Decimal("100.00")
+igv = (subtotal * Decimal("0.18")).quantize(
+    Decimal("0.01"), rounding=ROUND_HALF_EVEN
+)
+total = (subtotal + igv).quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
+print(f"subtotal={subtotal} IGV={igv} total={total}")
 `,
           output: `float 0.1+0.2 = 0.30000000000000004
 Decimal = 0.3
@@ -730,15 +762,13 @@ subtotal=100.00 IGV=18.00 total=118.00`,
         code: {
           language: 'python',
           title: 'S02-T4-A-DEMO — reporte_fstring',
-          code: `def s02_ido_7():
-    from decimal import Decimal
+          code: `from decimal import Decimal
 
-    # Simula input() con variables (testeable en Pyodide/CI)
-    nombres = "María José"
-    monto = Decimal("150.50")
-    print(f"Cliente: {nombres} | Monto: S/ {monto:.2f}")
-    print("OK", "intake", sep=" · ")
-s02_ido_7()
+# Simula input() con valores conocidos.
+nombres = "María José"
+monto = Decimal("150.50")
+print(f"Cliente: {nombres} | Monto: S/ {monto:.2f}")
+print("OK", "intake", sep=" · ")
 `,
           output: `Cliente: María José | Monto: S/ 150.50
 OK · intake`,
@@ -751,86 +781,43 @@ OK · intake`,
         demoId: 'S02-T4-B-DEMO',
         subtopicId: 'S02-T4-B',
         environment: 'browser-pyodide',
-        description: 'Parser mínimo: raw, clean, errors; 3 casos de prueba',
+        description: 'Recorrido visible: original, limpio, convertido y fallo observado',
         preamble:
-          'El gate del parser no es “imprimió algo”: son asserts sobre raw, Unicode y errores accionables. Esta demo reúne el schema del You Do (CP-N1-A): `*_raw`, campos limpios, `errors` y `safe_int` para edad. **Predicción:** para el caso feliz, el vacío y `"abc"`, anota qué clave debe conservar el original y qué lista debe cambiar. Luego sigue cada valor desde argumento hasta assert. Solo datos sintéticos.',
+          'Esta demostración sigue una captura sin esconder ninguna etapa. **Predicción:** decide qué originales conservarán espacios o un cero inicial, qué textos cambiarán con `strip()` y qué valor terminará como `int`. El texto vacío y la edad inválida se muestran sin intentar continuar después del fallo.',
         code: {
           language: 'python',
-          title: 'S02-T4-B-DEMO — parse_cliente_min',
-          code: `def safe_int(campo: str, valor: str):
-    texto = valor.strip()
-    if texto == "":
-        return False, None, f"ERROR en '{campo}': valor vacío"
-    try:
-        return True, int(texto), None
-    except ValueError:
-        return False, None, f"ERROR en '{campo}': no se pudo convertir {valor!r} a int"
+          title: 'S02-T4-B-DEMO — recorrido_captura',
+          code: `nombres_raw = "  María Ñahui  "
+contacto_raw = "0999000111"
+edad_raw = " 34 "
+vacio_raw = "   "
+edad_invalida_raw = "abc"
 
-def parse_client(
-    nombres: str,
-    apellido_paterno: str,
-    apellido_materno: str,
-    contacto: str,
-    direccion: str,
-    edad=None,
-) -> dict:
-    errors: list[str] = []
-    rec = {
-        "nombres_raw": nombres,
-        "apellido_paterno_raw": apellido_paterno,
-        "apellido_materno_raw": apellido_materno,
-        "contacto_raw": contacto,
-        "direccion_raw": direccion,
-        "edad_raw": edad,
-        "nombres": None,
-        "apellido_paterno": None,
-        "apellido_materno": None,
-        "contacto": None,
-        "direccion": None,
-        "edad": None,
-        "errors": errors,
-    }
+nombres_clean = nombres_raw.strip()
+contacto_clean = contacto_raw.strip()
+edad_clean = edad_raw.strip()
+vacio_clean = vacio_raw.strip()
+edad = int(edad_clean)
 
-    def clean_required(campo, valor):
-        if valor is None or str(valor).strip() == "":
-            errors.append(f"ERROR en '{campo}': vacío (raw={valor!r})")
-            return None
-        return str(valor).strip()
+print(f"raw nombre: |{nombres_raw}|")
+print("clean nombre:", nombres_clean)
+print("contacto:", contacto_clean, type(contacto_clean).__name__)
+print("edad:", edad, type(edad).__name__)
+print("vacío después de strip:", vacio_clean == "")
+print("edad inválida original:", edad_invalida_raw)
 
-    rec["nombres"] = clean_required("nombres", nombres)
-    rec["apellido_paterno"] = clean_required("apellido_paterno", apellido_paterno)
-    rec["apellido_materno"] = clean_required("apellido_materno", apellido_materno)
-    rec["contacto"] = clean_required("contacto", contacto)
-    rec["direccion"] = clean_required("direccion", direccion)
-    if edad is not None:
-        ok, n, err = safe_int("edad", edad)
-        if ok:
-            rec["edad"] = n
-        else:
-            errors.append(err)
-    return rec
-
-# 1) Unicode feliz
-r1 = parse_client("María", "Quispe", "Ñahui", "999000111", "Lima", "34")
-assert r1["apellido_materno_raw"] == "Ñahui" and r1["errors"] == []
-# 2) Vacío
-r2 = parse_client("", "Quispe", "Ñahui", "999", "Lima")
-assert r2["nombres_raw"] == "" and any("nombres" in e for e in r2["errors"])
-# 3) Número inválido
-r3 = parse_client("Ana", "Ramos", "Díaz", "999", "Cusco", "abc")
-assert r3["edad_raw"] == "abc" and any("edad" in e for e in r3["errors"])
-print("3 tests OK")
-print(r1)
-print(r2["errors"])
-print(r3["errors"])`,
-          output: `3 tests OK
-{'nombres_raw': 'María', 'apellido_paterno_raw': 'Quispe', 'apellido_materno_raw': 'Ñahui', 'contacto_raw': '999000111', 'direccion_raw': 'Lima', 'edad_raw': '34', 'nombres': 'María', 'apellido_paterno': 'Quispe', 'apellido_materno': 'Ñahui', 'contacto': '999000111', 'direccion': 'Lima', 'edad': 34, 'errors': []}
-["ERROR en 'nombres': vacío (raw='')"]
-["ERROR en 'edad': no se pudo convertir 'abc' a int"]`,
+# Ejecuta esta línea por separado para observar ValueError:
+# int(edad_invalida_raw)`,
+          output: `raw nombre: |  María Ñahui  |
+clean nombre: María Ñahui
+contacto: 0999000111 str
+edad: 34 int
+vacío después de strip: True
+edad inválida original: abc`,
         },
-        why: 'El schema de salida fija claves `*_raw`, campos limpios y `errors`. `clean_required` valida texto obligatorio; `safe_int` cubre edad opcional (vacío / OK / basura). Los asserts demuestran Unicode, vacío y número inválido sin depender de “mirar la consola”.',
+        why: 'Cada nombre corresponde a una etapa visible. `strip()` produce texto limpio sin alterar el original; `int()` convierte solo la edad válida; el contacto conserva su cero porque sigue siendo texto. La conversión inválida queda separada para que su `ValueError` sea observable sin exigir recuperación.',
         retrospective:
-          'Tres invariantes: raw siempre presente, Unicode round-trip, número inválido no revienta el proceso. El mensaje nombra campo y valor (`!r`). We Do construirá cada pieza y al final la suite completa; el You Do es este contrato con `main` y tests fijos.',
+          'Narra el recorrido de cada campo: qué llegó, qué cambió y qué tipo quedó. Si puedes señalar por qué el contacto no se convierte y dónde se detiene `int("abc")`, ya puedes revisar una captura con las herramientas de S02.',
       },
     ],
   },
@@ -847,11 +834,11 @@ print(r3["errors"])`,
           '- **Contexto:** en un lote de intake sintético (CASO-LIM-002) el primer control de calidad es saber qué tipo trae cada literal.\n- **Meta:** practicar `repr` + `type(...).__name__` sobre cinco valores base.\n- **Éxito:** cinco líneas en este orden de tipos: `int`, `float`, `str`, `bool`, `NoneType` (p. ej. `0 → int`).\n- **Límites:** no conviertas valores; no uses `eval`; solo datos del starter.',
         id: 'S02-T1-A-E1',
         instruction:
-          '1. Revisa la lista `literales` del starter.\n2. En el `for`, completa los dos huecos del `print`.\n3. Ejecuta y compara con la salida esperada (cinco líneas).',
-        hint: 'Recorre una lista de literales con un for. Usa type(x).__name__ para un nombre legible (int, float, str, bool, NoneType).',
+          '1. Revisa los cinco valores asignados en el starter.\n2. Completa cada `print` con el nombre del tipo correspondiente.\n3. Ejecuta y compara las cinco líneas con la salida esperada.',
+        hint: 'Usa `type(valor).__name__` en cada línea para obtener `int`, `float`, `str`, `bool` o `NoneType`.',
         hints: [
-          'Recorre una lista de literales con un for. Usa type(x).__name__ para un nombre legible (int, float, str, bool, NoneType).',
-          'None imprime type NoneType, no "None". False es bool, no str. 0 es int, no bool.',
+          'Escribe una línea para cada valor; la repetición es deliberada y permite comparar los cinco casos.',
+          '`None` produce el nombre de tipo `NoneType`. `False` es `bool`, no texto; `0` es `int`, no `bool`.',
         ],
         edgeCases: [
           'None es tipo NoneType',
@@ -866,19 +853,33 @@ print(r3["errors"])`,
           language: 'python',
           title: 'clasificar_literales.py',
           code: `# CASO-LIM-002 · T1-A-E1
-# Completa el cuerpo del bucle: imprime repr(lit) y el nombre del tipo.
-literales = [0, 3.14, "Lima", False, None]
+# Completa cada línea con el valor indicado y su tipo.
+entero = 0
+decimal = 3.14
+texto = "Lima"
+bandera = False
+ausencia = None
 
-for lit in literales:
-    print(____, "→", ____)`,
+print(repr(entero), "→", ____)
+print(repr(decimal), "→", ____)
+print(repr(texto), "→", ____)
+print(repr(bandera), "→", ____)
+print(repr(ausencia), "→", ____)`,
         },
         solutionCode: {
           language: 'python',
           title: 'clasificar_literales.py',
-          code: `literales = [0, 3.14, "Lima", False, None]
+          code: `entero = 0
+decimal = 3.14
+texto = "Lima"
+bandera = False
+ausencia = None
 
-for lit in literales:
-    print(repr(lit), "→", type(lit).__name__)`,
+print(repr(entero), "→", type(entero).__name__)
+print(repr(decimal), "→", type(decimal).__name__)
+print(repr(texto), "→", type(texto).__name__)
+print(repr(bandera), "→", type(bandera).__name__)
+print(repr(ausencia), "→", type(ausencia).__name__)`,
           output: `0 → int
 3.14 → float
 'Lima' → str
@@ -944,66 +945,67 @@ Nota: bool es subtipo de int; en intake no trates True/False como montos.`,
       {
         subtopicId: 'S02-T1-A',
         kind: 'transfer',
-        title: 'Tipar campos del cliente de intake',
+        title: 'Tipar campos de una captura inicial',
         preamble:
-          '- **Contexto:** el schema del registro sintético fija tipos antes de cualquier cálculo.\n- **Meta:** elegir literales y tipos esperados por semántica de campo (no “lo que Excel infiera”).\n- **Éxito:** seis campos con `ok=True`; `contacto` es `str` (teléfono), `edad` `int`, `activo` `bool`.\n- **Límites:** teléfono **no** como `int`; Unicode permitido en nombres/apellidos; sin PII real.',
+          '- **Contexto:** un registro sintético necesita tipos elegidos por el significado de cada campo.\n- **Meta:** escribir seis valores y comprobar sus tipos de forma explícita.\n- **Éxito:** las seis líneas terminan en `True`; `contacto` es `str`, `edad` es `int` y `activo` es `bool`.\n- **Límites:** teléfono **no** como `int`; se permiten ñ y tildes; sin información personal real.',
         id: 'S02-T1-A-E3',
         instruction:
-          '1. Completa cada par `(valor, tipo)` en el dict `campos`.\n2. Asegura `contacto` como string de dígitos entre comillas.\n3. Ejecuta el `for` de verificación; todas las líneas deben mostrar `ok=True`.',
-        hint: 'contacto = "999000111" (str), no 999000111 (int). Apellidos con ñ/tildes son str Unicode.',
+          '1. Completa los seis valores, uno por nombre.\n2. Escribe `contacto` como texto de dígitos entre comillas.\n3. Ejecuta las seis comprobaciones; todas deben terminar en `True`.',
+        hint: '`contacto = "999000111"`, no `contacto = 999000111`: un teléfono identifica, no mide.',
         hints: [
-          'contacto = "999000111" (str), no 999000111 (int). Apellidos con ñ/tildes son str Unicode.',
-          'Puedes guardar tuplas (valor, tipo_esperado) en un dict y validar type(v) is t en un for. Eso no contradice isinstance: type is t comprueba clase exacta; isinstance acepta subtipos.',
+          '`contacto = "999000111"`, no `contacto = 999000111`: un teléfono identifica, no mide.',
+          'Comprueba cada nombre por separado con `type(nombre) is tipo_esperado`.',
         ],
         edgeCases: [
-          'teléfono como str no int',
-          'Unicode en nombres/apellidos (Ñahui)',
+          'teléfono como `str`, no como `int`',
+          'ñ y tildes conservadas en los textos',
         ],
-        tests: 'Rúbrica: 6 campos; contacto str; edad int; activo bool; todos type checks True.',
+        tests: 'Las seis comprobaciones imprimen `True`; contacto es `str`, edad es `int` y activo es `bool`.',
         feedback:
-          'Si `contacto` quedó entre comillas y todos los `ok=True`, elegiste tipos por semántica de campo, no por “lo que Excel infiere”. Teléfono no es cantidad. Llevas este schema al dict del You Do.',
+          'Si las seis líneas terminan en `True`, elegiste cada tipo por el significado del campo. Un teléfono sigue siendo texto aunque contenga solo dígitos, porque no representa una cantidad.',
         retrospective:
-          'Elegir tipo es diseñar un schema, no describir cómo “se ve” el dato. Identificadores como teléfonos y códigos son `str` porque no tiene sentido sumarlos. Si pusiste el contacto como `int`, imagina un código `"007"` y observa qué información perderías. `type(v) is t` comprueba clase exacta; en validación preferirás `isinstance` (T1-B). Llevarás esta decisión al dict del You Do.',
+          'Predice qué ocurriría con el contacto `"007"` si quitaras las comillas. Perderías los ceros que forman parte del identificador y además permitirías sumarlo como si fuera una cantidad. Explica después por qué nombres y apellidos son textos, por qué edad es un entero y por qué activo solo admite `True` o `False`.',
         starterCode: {
           language: 'python',
           title: 'campos_intake_tipados.py',
           code: `# CASO-LIM-002 · T1-A-E3
-# Completa valor y tipo esperado (int, float, str, bool).
-# El teléfono (contacto) DEBE ser str, no int.
-campos = {
-    "nombres": ("____", str),
-    "apellido_paterno": ("____", str),
-    "apellido_materno": ("____", str),
-    "contacto": ("____", str),  # teléfono
-    "edad": (____, int),
-    "activo": (____, bool),
-}
+# Completa cada valor con el tipo que exige su significado.
+nombres = "____"
+apellido_paterno = "____"
+apellido_materno = "____"
+contacto = "____"
+edad = ____
+activo = ____
 
-for k, (v, t) in campos.items():
-    ok = type(v) is t
-    print(f"{k}: {v!r} esperado={t.__name__} ok={ok}")`,
+print("nombres:", type(nombres) is str)
+print("apellido_paterno:", type(apellido_paterno) is str)
+print("apellido_materno:", type(apellido_materno) is str)
+print("contacto:", type(contacto) is str)
+print("edad:", type(edad) is int)
+print("activo:", type(activo) is bool)`,
         },
         solutionCode: {
           language: 'python',
           title: 'campos_intake_tipados.py',
-          code: `campos = {
-    "nombres": ("María José", str),
-    "apellido_paterno": ("Quispe", str),
-    "apellido_materno": ("Ñahui", str),
-    "contacto": ("999000111", str),
-    "edad": (28, int),
-    "activo": (True, bool),
-}
+          code: `nombres = "María José"
+apellido_paterno = "Quispe"
+apellido_materno = "Ñahui"
+contacto = "999000111"
+edad = 28
+activo = True
 
-for k, (v, t) in campos.items():
-    ok = type(v) is t
-    print(f"{k}: {v!r} esperado={t.__name__} ok={ok}")`,
-          output: `nombres: 'María José' esperado=str ok=True
-apellido_paterno: 'Quispe' esperado=str ok=True
-apellido_materno: 'Ñahui' esperado=str ok=True
-contacto: '999000111' esperado=str ok=True
-edad: 28 esperado=int ok=True
-activo: True esperado=bool ok=True`,
+print("nombres:", type(nombres) is str)
+print("apellido_paterno:", type(apellido_paterno) is str)
+print("apellido_materno:", type(apellido_materno) is str)
+print("contacto:", type(contacto) is str)
+print("edad:", type(edad) is int)
+print("activo:", type(activo) is bool)`,
+          output: `nombres: True
+apellido_paterno: True
+apellido_materno: True
+contacto: True
+edad: True
+activo: True`,
         },
       },
       // ——— S02-T1-B ———
@@ -1026,7 +1028,7 @@ activo: True esperado=bool ok=True`,
         feedback:
           '`int` sin `strip` a veces “funciona” con espacios, pero el hábito falla en vacíos y en mensajes. Orden: limpiar → construir → reportar tipo. Sin `eval`.',
         retrospective:
-          '`strip` + `int` es el mínimo de un campo numérico que llega como texto. El error clásico es pensar que limpiar y validar son lo mismo: `strip` quita bordes, pero no convierte `"veintiuno"`. Predice ahora qué excepción produciría ese valor y dónde deberías capturarla. Siguiente: envolver OK, vacío y basura en `safe_int`.',
+          '`strip` + `int` cubre una conversión válida, pero limpiar y convertir no son lo mismo: `strip` quita los espacios de los bordes y no transforma `"veintiuno"` en un número. Predice en qué línea se detendrá Python y ejecuta esa conversión por separado. Comprueba que `raw` conserva el texto recibido. En S09 aprenderás a continuar el programa después de ese fallo.',
         starterCode: {
           language: 'python',
           title: 'int_con_strip.py',
@@ -1049,137 +1051,122 @@ print(edad, type(edad).__name__)`,
       {
         subtopicId: 'S02-T1-B',
         kind: 'independent',
-        title: 'Implementar `safe_int` con tres ramas',
+        title: 'Convertir dos textos y comprobar sus tipos',
         preamble:
-          '- **Contexto:** el parser de intake no puede morir en el primer campo basura.\n- **Meta:** devolver `(ok, valor|None, mensaje|None)` con mensaje accionable.\n- **Éxito:** cuatro casos `" 21 "`, `""`, `"abc"`, `"  "` como en la solución (OK / vacío / basura / vacío).\n- **Límites:** sin `eval`; sin `except: pass`; mensaje con nombre de campo y `!r` del valor.',
+          '- **Contexto:** una edad y una cantidad llegan como texto, con espacios o ceros iniciales.\n- **Meta:** conservar ambos textos, limpiarlos y convertirlos en enteros.\n- **Éxito:** la salida muestra los originales intactos, valores `21` y `4`, tipos `int` y total `25`.\n- **Límites:** no sobrescribas los nombres terminados en `_raw`; ejecuta la conversión inválida solo por separado.',
         id: 'S02-T1-B-E2',
         instruction:
-          '1. Completa el cuerpo de `safe_int` (vacío tras strip → error; `try int`; `ValueError` → mensaje).\n2. Deja el `for` de prueba tal cual.\n3. Ejecuta y compara las cuatro líneas con la solución.',
-        hint: 'Tras strip, si texto == "", error de vacío. try/except ValueError para letras.',
+          '1. Obtén cada texto limpio con `strip()`.\n2. Convierte los dos textos limpios con `int()`.\n3. Ejecuta y compara las tres líneas con la solución. Después ejecuta `int("abc")` por separado y localiza la línea donde Python se detiene.',
+        hint: 'Conserva `edad_raw` y `asistentes_raw`; crea nombres nuevos para el texto limpio y para cada entero.',
         hints: [
-          'Tras strip, si texto == "", error de vacío. try/except ValueError para letras.',
-          'Mensaje accionable: incluye el nombre del campo y el valor recibido con !r (repr).',
+          'Primero usa `strip()` y después `int()`.',
+          'Si sumas los textos antes de convertirlos, obtendrás texto unido en vez del número `25`.',
         ],
-        edgeCases: ['vacío', 'solo espacios', 'letras'],
-        tests: 'devuelve (ok, valor|None, msg); 4 casos como en la demo de solución.',
+        edgeCases: ['espacios alrededor de la edad', 'cero inicial', 'texto no convertible observado por separado'],
+        tests: 'Imprime originales intactos, `21 int`, `4 int` y `total 25`.',
         feedback:
-          'Vacío y basura son errores distintos: el mensaje debe decirlo y nombrar el campo. Sin `eval` ni `except: pass`. Si las cuatro líneas coinciden con la solución, ya tienes el contrato reutilizable del parser.',
+          'Los nombres `_raw` conservan lo recibido. Los nombres nuevos guardan el texto limpio y los enteros. Si el total no es `25`, revisa que convertiste antes de sumar.',
         retrospective:
-          'Una función `safe_*` reutilizable concentra una decisión: tres ramas y un mensaje accionable con `!r`. Si vacío y `"abc"` devolvieron el mismo mensaje, perdiste información útil para quien corrige el formulario. Explica la diferencia sin código y después reutiliza exactamente esta firma en el pipeline de dos campos y en el You Do.',
+          'La conversión válida produce enteros con los que puedes sumar. `int("abc")` no produce un entero: Python muestra `ValueError` y se detiene en esa línea. La diferencia importa porque el texto `"12"` solo parece un número: sigue siendo texto hasta que `int()` lo convierte. Convertir de forma deliberada te permite saber si tienes un valor con el que puedes calcular o un texto que no sirve para ese cálculo. Predice qué tipo mostrará `type("12")` antes de ejecutarlo. En S09 aprenderás a continuar después de ese fallo.',
         starterCode: {
           language: 'python',
-          title: 'safe_int.py',
+          title: 'dos_conversiones.py',
           code: `# CASO-LIM-002 · T1-B-E2
-# Implementa safe_int: vacío tras strip → error; int OK → (True, n, None);
-# ValueError → (False, None, msg accionable con nombre de campo).
-def safe_int(campo: str, valor: str):
-    texto = valor.strip()
-    # 1) si texto == "" → (False, None, mensaje de vacío)
-    # 2) try int(texto) → (True, n, None)
-    # 3) except ValueError → (False, None, mensaje con valor!r)
-    pass
+edad_raw = " 21 "
+asistentes_raw = "04"
 
-for v in [" 21 ", "", "abc", "  "]:
-    print(repr(v), "→", safe_int("edad", v))`,
+edad_texto = ____
+asistentes_texto = ____
+edad = ____
+asistentes = ____
+
+print(f"edad raw=|{edad_raw}| valor={edad} tipo={type(edad).__name__}")
+print(f"asistentes raw=|{asistentes_raw}| valor={asistentes} tipo={type(asistentes).__name__}")
+print("total", edad + asistentes)
+
+# Ejecuta por separado para observar ValueError:
+# int("abc")`,
         },
         solutionCode: {
           language: 'python',
-          title: 'safe_int.py',
-          code: `def safe_int(campo: str, valor: str):
-    texto = valor.strip()
-    if texto == "":
-        return (False, None, f"ERROR en '{campo}': valor vacío")
-    try:
-        return (True, int(texto), None)
-    except ValueError:
-        return (False, None, f"ERROR en '{campo}': no se pudo convertir {valor!r} a int")
+          title: 'dos_conversiones.py',
+          code: `edad_raw = " 21 "
+asistentes_raw = "04"
 
-for v in [" 21 ", "", "abc", "  "]:
-    print(repr(v), "→", safe_int("edad", v))`,
-          output: `' 21 ' → (True, 21, None)
-'' → (False, None, "ERROR en 'edad': valor vacío")
-'abc' → (False, None, "ERROR en 'edad': no se pudo convertir 'abc' a int")
-'  ' → (False, None, "ERROR en 'edad': valor vacío")`,
+edad_texto = edad_raw.strip()
+asistentes_texto = asistentes_raw.strip()
+edad = int(edad_texto)
+asistentes = int(asistentes_texto)
+
+print(f"edad raw=|{edad_raw}| valor={edad} tipo={type(edad).__name__}")
+print(f"asistentes raw=|{asistentes_raw}| valor={asistentes} tipo={type(asistentes).__name__}")
+print("total", edad + asistentes)`,
+          output: `edad raw=| 21 | valor=21 tipo=int
+asistentes raw=|04| valor=4 tipo=int
+total 25`,
         },
       },
       {
         subtopicId: 'S02-T1-B',
         kind: 'transfer',
-        title: 'Pipeline de dos enteros con raw/errors',
+        title: 'Interpretar tres campos sin perder el original',
         preamble:
-          '- **Contexto:** un registro real tiene varios campos; uno puede fallar y el otro seguir OK.\n- **Meta:** armar dict `raw` / `clean` / `errors` reutilizando `safe_int` dos veces.\n- **Éxito:** tres escenarios impresos — ambos OK; edad inválida; anios inválidos — con raw intacto.\n- **Límites:** solo enteros (sin float/Decimal aún); raw siempre con los strings de entrada.',
+          '- **Contexto:** una captura trae un código postal, una cantidad y un precio como texto.\n- **Meta:** elegir qué texto debe seguir siendo texto y qué valores sí representan cantidades.\n- **Éxito:** el código conserva `007`, la cantidad es `12`, el precio es `3.5` y el subtotal es `42.0`.\n- **Límites:** conserva cada nombre `_raw`; no conviertas el código postal en número.',
         id: 'S02-T1-B-E3',
         instruction:
-          '1. Implementa `pipeline(edad_txt, anios_txt)`.\n2. Llama `safe_int` para `"edad"` y `"anios_cliente"`; acumula errores.\n3. Si falla, `clean[campo] = None` pero `raw` conserva el texto.\n4. Ejecuta los tres `print` del starter.',
-        hint: 'Reutiliza safe_int dos veces. Acumula mensajes en errors[]. clean[campo] = None si falla, pero raw sigue con el string de entrada.',
+          '1. Conserva `codigo_postal_raw` como texto.\n2. Limpia y convierte la cantidad con `int()` y el precio con `float()`.\n3. Calcula el subtotal y ejecuta las cuatro comprobaciones impresas.',
+        hint: 'Una cantidad admite aritmética; un código postal identifica una zona y puede empezar con cero.',
         hints: [
-          'Llama safe_int("edad", ...) y safe_int("anios_cliente", ...); no uses float ni Decimal aquí.',
-          'clean["edad"] = None si falla, pero raw["edad"] sigue siendo el string de entrada.',
+          'Usa `int(cantidad_raw.strip())` y `float(precio_raw.strip())`.',
+          'El subtotal sale de multiplicar los dos valores ya convertidos.',
         ],
-        edgeCases: ['un campo falla otro ok', 'raw siempre presente'],
-        tests: 'Contrato: 3 escenarios; raw intacto; ambos campos int cuando OK; cero float/Decimal.',
+        edgeCases: ['código con cero inicial', 'espacios en una cantidad', 'originales intactos'],
+        tests: 'Código `007` de tipo `str`, cantidad `12`, precio `3.5`, subtotal `42.0` y originales intactos.',
         feedback:
-          'Este es el embrión del `parse_client` del You Do: multi-campo, errores parciales, raw intacto. Si un campo falla, no pises `raw` al dejar clean en `None`. Decimal para montos se entrena en T3-B.',
+          'Convertir todo por igual es un error: `007` perdería información si se volviera entero. La operación que necesitas decide el tipo adecuado.',
         retrospective:
-          'Errores parciales + raw intacto es el embrión de `parse_client`: un campo defectuoso no borra el éxito del vecino. Si edad falla y años del cliente pasa, señala en el resultado dónde viven ambos hechos. No “arregles” nada pisando el original. En T3-B aplicarás el mismo patrón `(ok, valor, error)` a montos con `Decimal`.',
+          'Los tres campos llegaron como texto, pero no significan lo mismo. La cantidad y el precio participan en un cálculo; el código postal conserva su forma. La decisión depende del uso que tendrá cada valor: convertir permite operar, mientras conservar el texto protege su forma. Explica esa diferencia antes de mirar los tipos impresos.',
         starterCode: {
           language: 'python',
-          title: 'pipeline_dos_campos.py',
+          title: 'tres_campos.py',
           code: `# CASO-LIM-002 · T1-B-E3
-# Pipeline de dos enteros (edad + anios_cliente). Sin Decimal aún.
+codigo_postal_raw = "007"
+cantidad_raw = " 12 "
+precio_raw = "3.50"
 
-def safe_int(campo: str, valor: str):
-    texto = valor.strip()
-    if texto == "":
-        return (False, None, f"ERROR en '{campo}': valor vacío")
-    try:
-        return (True, int(texto), None)
-    except ValueError:
-        return (False, None, f"ERROR en '{campo}': no se pudo convertir {valor!r} a int")
+codigo_postal = ____
+cantidad = ____
+precio = ____
+subtotal = ____
 
-def pipeline(edad_txt: str, anios_txt: str) -> dict:
-    # Completa: raw, clean, errors con safe_int para ambos campos
-    pass
-
-print(pipeline(" 28 ", "3"))
-print(pipeline("xx", "5"))
-print(pipeline("30", "nope"))`,
+print(codigo_postal, type(codigo_postal).__name__)
+print(cantidad, type(cantidad).__name__)
+print(precio, type(precio).__name__)
+print("subtotal", subtotal)
+print("raw intactos", codigo_postal_raw == "007" and cantidad_raw == " 12 " and precio_raw == "3.50")`,
         },
         solutionCode: {
           language: 'python',
-          title: 'pipeline_dos_campos.py',
-          code: `def safe_int(campo: str, valor: str):
-    texto = valor.strip()
-    if texto == "":
-        return (False, None, f"ERROR en '{campo}': valor vacío")
-    try:
-        return (True, int(texto), None)
-    except ValueError:
-        return (False, None, f"ERROR en '{campo}': no se pudo convertir {valor!r} a int")
+          title: 'tres_campos.py',
+          code: `codigo_postal_raw = "007"
+cantidad_raw = " 12 "
+precio_raw = "3.50"
 
-def pipeline(edad_txt: str, anios_txt: str) -> dict:
-    errors: list[str] = []
-    clean: dict = {}
-    ok, val, msg = safe_int("edad", edad_txt)
-    clean["edad"] = val if ok else None
-    if not ok:
-        errors.append(msg)
-    ok, val, msg = safe_int("anios_cliente", anios_txt)
-    clean["anios_cliente"] = val if ok else None
-    if not ok:
-        errors.append(msg)
-    return {
-        "raw": {"edad": edad_txt, "anios_cliente": anios_txt},
-        "clean": clean,
-        "errors": errors,
-    }
+codigo_postal = str(codigo_postal_raw)
+cantidad = int(cantidad_raw.strip())
+precio = float(precio_raw.strip())
+subtotal = cantidad * precio
 
-print(pipeline(" 28 ", "3"))
-print(pipeline("xx", "5"))
-print(pipeline("30", "nope"))`,
-          output: `{'raw': {'edad': ' 28 ', 'anios_cliente': '3'}, 'clean': {'edad': 28, 'anios_cliente': 3}, 'errors': []}
-{'raw': {'edad': 'xx', 'anios_cliente': '5'}, 'clean': {'edad': None, 'anios_cliente': 5}, 'errors': ["ERROR en 'edad': no se pudo convertir 'xx' a int"]}
-{'raw': {'edad': '30', 'anios_cliente': 'nope'}, 'clean': {'edad': 30, 'anios_cliente': None}, 'errors': ["ERROR en 'anios_cliente': no se pudo convertir 'nope' a int"]}`,
+print(codigo_postal, type(codigo_postal).__name__)
+print(cantidad, type(cantidad).__name__)
+print(precio, type(precio).__name__)
+print("subtotal", subtotal)
+print("raw intactos", codigo_postal_raw == "007" and cantidad_raw == " 12 " and precio_raw == "3.50")`,
+          output: `007 str
+12 int
+3.5 float
+subtotal 42.0
+raw intactos True`,
         },
       },
       // ——— S02-T2-A ———
@@ -1233,128 +1220,114 @@ print(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)`,
       {
         subtopicId: 'S02-T2-A',
         kind: 'independent',
-        title: 'Corregir `=` por `==` en tres `if`',
+        title: 'Corregir `=` por `==` en tres comparaciones',
         preamble:
-          '- **Contexto:** `if x = 1` es `SyntaxError` y el bug de novato más citado en review.\n- **Meta:** distinguir asignación de comparación en condicionales.\n- **Éxito:** el archivo corre e imprime exactamente tres líneas: `ok estado`, `ok codigo`, `ok flag`.\n- **Límites:** no uses `:=` (morsa); en S02 basta con cambiar los tres usos de `=` por `==`.',
+          '- **Contexto:** tres líneas intentan preguntar si un valor coincide, pero usan el signo que asigna.\n- **Meta:** distinguir asignación de comparación sin adelantar decisiones de S03.\n- **Éxito:** el archivo corre e imprime `True` tres veces.\n- **Límites:** cambia solo el operador equivocado; no cambies los valores.',
         id: 'S02-T2-A-E2',
         instruction:
-          '1. Localiza las tres comparaciones rotas con `=`.\n2. Corrígelas para que sean comparaciones válidas.\n3. Ejecuta y confirma las tres líneas `ok`.',
-        hint: 'En cada if, cambia = por ==. No uses el operador walrus := en S02.',
+          '1. Ejecuta el archivo y lee el mensaje y la línea que Python señala. En este archivo, Python se detiene en la primera comparación rota antes de ejecutar nada.\n2. Sustituye ese `=` por `==`, sin cambiar los valores.\n3. Vuelve a ejecutar y repite el proceso hasta obtener tres resultados `True`.',
+        hint:
+          '`=` guarda un valor en un nombre; `==` compara dos valores. En cada ejecución, este archivo muestra primero una sola comparación rota.',
         hints: [
-          'En cada if, cambia = por ==. No uses el operador walrus := en S02.',
-          'Prefiere `if flag:` (PEP 8 desaconseja `if flag == True`). Aquí basta con corregir `=` → `==` en las tres comparaciones.',
+          '`=` guarda un valor en un nombre; `==` compara dos valores. En cada ejecución, este archivo muestra primero una sola comparación rota.',
+          'Lee cada expresión como una pregunta: “¿estado es igual a activo?”, “¿código es igual a diez?” y “¿nivel es igual a tres?”.',
         ],
-        edgeCases: ['SyntaxError con if x = 1', 'confundir asignación con comparación'],
-        tests: 'corre sin SyntaxError; tres prints ok.',
+        edgeCases: ['confundir asignación con comparación', 'cambiar un valor para forzar el resultado'],
+        tests: 'El archivo corre e imprime tres líneas que terminan en `True`.',
         feedback:
-          'Detectar `=` vs `==` en revisión de código es habilidad de producción, no de examen de memoria. Preferir `if flag:` a `if flag == True` es estilo; el bug principal era la asignación en el `if`.',
+          'Las tres comparaciones deben conservar sus valores y producir `True`. Si cambiaste un valor en vez del operador, ocultaste el defecto en lugar de corregirlo.',
         retrospective:
-          '`=` guarda; `==` pregunta. Antes de ejecutar, lee cada `if` en voz alta: “¿estado *es igual a* activo?”; esa traducción revela el operador que necesitas. Si el archivo aún falla, usa la línea del `SyntaxError` como coordenada, no como veredicto. Preferir `if flag:` es estilo; distinguir asignación de comparación es el concepto. En E3 mapearás encabezados CSV a identificadores estables.',
+          'Predice qué línea señalará Python en cada ejecución y explica por qué no muestra los tres errores a la vez. Después de cada arreglo, comprueba si el mensaje avanza hasta la comparación siguiente. Por último, lee las tres preguntas en voz alta y relaciona cada resultado con los valores originales, sin cambiar esos valores para obtener `True`.',
         starterCode: {
           language: 'python',
           title: 'eq_vs_assign.py',
           code: `# CASO-LIM-002 · T2-A-E2
 # Bug hunt: tres comparaciones usan = en lugar de ==.
-# Corrígelas para que el archivo corra e imprima tres líneas ok.
+# Corrige el error señalado, ejecuta de nuevo y repite.
 estado = "activo"
 codigo = 10
-flag = True
+nivel = 3
 
-if estado = "activo":
-    print("ok estado")
-if codigo = 10:
-    print("ok codigo")
-if flag = True:
-    print("ok flag")`,
+print("estado activo?", (estado = "activo"))
+print("código diez?", (codigo = 10))
+print("nivel tres?", (nivel = 3))`,
         },
         solutionCode: {
           language: 'python',
           title: 'eq_vs_assign.py',
           code: `estado = "activo"
 codigo = 10
-flag = True
+nivel = 3
 
-if estado == "activo":
-    print("ok estado")
-if codigo == 10:
-    print("ok codigo")
-if flag:
-    print("ok flag")`,
-          output: `ok estado
-ok codigo
-ok flag`,
+print("estado activo?", estado == "activo")
+print("código diez?", codigo == 10)
+print("nivel tres?", nivel == 3)`,
+          output: `estado activo? True
+código diez? True
+nivel tres? True`,
         },
       },
       {
         subtopicId: 'S02-T2-A',
         kind: 'transfer',
-        title: 'Mapear encabezados CSV a snake_case',
+        title: 'Nombrar seis campos con `snake_case`',
         preamble:
-          '- **Contexto:** un CSV de intake llega con encabezados con espacios y tildes.\n- **Meta:** proponer nombres Python estables (`apellido_paterno` / `apellido_materno` incluidos).\n- **Éxito:** dict con 6 claves; cada encabezado imprime su `snake_case` (sin `???`). Preferido: teléfono → `contacto`, dirección → `direccion` (alineado al schema del You Do).\n- **Límites:** identificadores sin espacios ni tildes; no inventes sinónimos si ya hay nombre de schema.',
+          '- **Contexto:** una tabla de texto trae encabezados con espacios y tildes.\n- **Meta:** crear nombres Python estables para sus seis campos.\n- **Éxito:** el archivo corre con `nombres`, `apellido_paterno`, `apellido_materno`, `contacto`, `direccion` y `edad`.\n- **Límites:** los nombres Python no llevan espacios ni tildes; conserva los valores sintéticos dados.',
         id: 'S02-T2-A-E3',
         instruction:
-          '1. Completa `mapeo` original → snake_case para los seis encabezados.\n2. Incluye `apellido_paterno` y `apellido_materno`; usa `contacto` y `direccion` para teléfono y dirección.\n3. Ejecuta el `for` de impresión del mapeo.',
-        hint: 'Minúsculas, guiones bajos, sin espacios ni tildes en el identificador Python.',
+          '1. Sustituye cada `____` por el nombre Python correspondiente.\n2. Usa `apellido_paterno`, `apellido_materno`, `contacto` y `direccion` donde corresponda.\n3. Ejecuta y comprueba las seis líneas.',
+        hint: 'Los nombres Python usan minúsculas y guiones bajos: `apellido_paterno`.',
         hints: [
-          'Minúsculas, guiones bajos, sin espacios ni tildes en el identificador Python.',
-          'Ejemplos: "Apellido Paterno" → apellido_paterno; "Teléfono / Cel" → contacto; "Dirección" → direccion.',
+          'Los nombres Python usan minúsculas y guiones bajos: `apellido_paterno`.',
+          'Para “Teléfono / Cel” usa `contacto`; para “Dirección” usa `direccion`.',
         ],
-        edgeCases: ['apellido_paterno', 'sin espacios en identificadores'],
-        tests: 'rúbrica de nombres: 6 claves; snake_case; incluye apellido_paterno y apellido_materno.',
+        edgeCases: ['dos apellidos con nombres distintos', 'cero inicial conservado en contacto'],
+        tests: 'El archivo usa los seis nombres pedidos y conserva los seis valores sintéticos.',
         feedback:
-          'Renombrar columnas es el primer `commit` de un pipeline real. La consistencia gana a la creatividad: `contacto` y `direccion` ya son el contrato del schema de intake.',
+          'La consistencia gana a la creatividad: cada campo conserva el mismo nombre en todo el archivo. `contacto` permanece como texto y no pierde el cero inicial.',
         retrospective:
-          'Renombrar columnas es una promesa para todo el pipeline: el mismo concepto conservará el mismo identificador. Si inventaste `telefono_cliente` cuando el contrato ya dice `contacto`, tu nombre puede ser razonable y aun así romper la integración. Los apellidos son campos de texto, no parentesco real. Lleva este mapeo estable al schema del You Do.',
+          'Comprueba si cada nombre permite anticipar el valor sin mirar la asignación. Si escribiste `telefono_cliente` donde el acuerdo usa `contacto`, el nombre puede sonar razonable y aun así romper el trabajo de otra persona. Explica por qué los dos apellidos necesitan nombres distintos y por qué `direccion` no lleva tilde en el código.',
         starterCode: {
           language: 'python',
-          title: 'schema_intake_nombres.py',
+          title: 'campos_snake_case.py',
           code: `# CASO-LIM-002 · T2-A-E3
-# Completa el dict mapeo: encabezado original → nombre snake_case.
-encabezados = [
-    "Nombres",
-    "Apellido Paterno",
-    "Apellido Materno",
-    "Teléfono / Cel",
-    "Dirección",
-    "Edad (años)",
-]
+# Sustituye cada ____ por un nombre Python estable.
+____ = "Ana"
+____ = "Quispe"
+____ = "Ñahui"
+____ = "0999000111"
+____ = "Av. Ejemplo 123"
+____ = 28
 
-mapeo = {
-    # "Nombres": "nombres",
-}
-
-for orig in encabezados:
-    print(f"{orig!r} → {mapeo.get(orig, '???')}")`,
+print("nombres:", nombres)
+print("apellido_paterno:", apellido_paterno)
+print("apellido_materno:", apellido_materno)
+print("contacto:", contacto)
+print("direccion:", direccion)
+print("edad:", edad)`,
         },
         solutionCode: {
           language: 'python',
-          title: 'schema_intake_nombres.py',
-          code: `encabezados = [
-    "Nombres",
-    "Apellido Paterno",
-    "Apellido Materno",
-    "Teléfono / Cel",
-    "Dirección",
-    "Edad (años)",
-]
+          title: 'campos_snake_case.py',
+          code: `nombres = "Ana"
+apellido_paterno = "Quispe"
+apellido_materno = "Ñahui"
+contacto = "0999000111"
+direccion = "Av. Ejemplo 123"
+edad = 28
 
-mapeo = {
-    "Nombres": "nombres",
-    "Apellido Paterno": "apellido_paterno",
-    "Apellido Materno": "apellido_materno",
-    "Teléfono / Cel": "contacto",
-    "Dirección": "direccion",
-    "Edad (años)": "edad",
-}
-
-for orig in encabezados:
-    print(f"{orig!r} → {mapeo[orig]}")`,
-          output: `'Nombres' → nombres
-'Apellido Paterno' → apellido_paterno
-'Apellido Materno' → apellido_materno
-'Teléfono / Cel' → contacto
-'Dirección' → direccion
-'Edad (años)' → edad`,
+print("nombres:", nombres)
+print("apellido_paterno:", apellido_paterno)
+print("apellido_materno:", apellido_materno)
+print("contacto:", contacto)
+print("direccion:", direccion)
+print("edad:", edad)`,
+          output: `nombres: Ana
+apellido_paterno: Quispe
+apellido_materno: Ñahui
+contacto: 0999000111
+direccion: Av. Ejemplo 123
+edad: 28`,
         },
       },
       // ——— S02-T2-B ———
@@ -1367,9 +1340,9 @@ for orig in encabezados:
         id: 'S02-T2-B-E1',
         instruction:
           '1. Completa cada `____` con la expresión correspondiente.\n2. Ejecuta y verifica la tabla de bools.\n3. Escribe un comentario de una línea: cuándo `is` vs cuándo `==`.',
-        hint: 'Listas nuevas no son el mismo objeto: [] is [] es False. Usa is para None.',
+        hint: 'Listas nuevas no son el mismo objeto: `[] is []` es `False`. Usa `is` para `None`.',
         hints: [
-          'Listas nuevas no son el mismo objeto: [] is [] es False. Usa is para None.',
+          'Listas nuevas no son el mismo objeto: `[] is []` es `False`. Usa `is` para `None`.',
           '1 == True es True (bool subtipo int), pero 1 is True es False: no uses is para igualdad numérica.',
         ],
         edgeCases: ['is None idiom', '[] is [] es False'],
@@ -1456,62 +1429,55 @@ mismo objeto? False`,
       {
         subtopicId: 'S02-T2-B',
         kind: 'transfer',
-        title: 'Dict raw/clean que sobrevive a mutar',
+        title: 'Conservar una lista original al modificar una copia',
         preamble:
-          '- **Contexto:** auditoría de intake exige el texto original aunque el clean se normalice.\n- **Meta:** `make_record` con `*_raw` y campos strip; luego mutar clean sin tocar raw.\n- **Éxito:** asserts de raw intacto tras `.upper()` en clean; print final `raw preserved OK`.\n- **Límites:** no reutilices el mismo nombre para raw y clean; Unicode (María) debe sobrevivir.',
+          '- **Contexto:** necesitas conservar dos valores recibidos y trabajar sobre una lista separada.\n- **Meta:** reconocer un alias, crear una copia y modificar solo la copia.\n- **Éxito:** `alias_raw is raw` produce `True`, `trabajo is raw` produce `False` y `raw` conserva sus dos elementos.\n- **Límites:** usa `.copy()` y `append()`; las listas se estudiarán a fondo en S06.',
         id: 'S02-T2-B-E3',
         instruction:
-          '1. Implementa `make_record` devolviendo las cuatro claves.\n2. Corre el bloque que muta `rec["nombres"]`.\n3. Confirma que los asserts de raw pasan.',
-        hint: 'Guarda el string original en *_raw antes de strip. No reutilices el mismo nombre para ambos.',
+          '1. Haz que `alias_raw` señale la lista original.\n2. Crea `trabajo` como una copia y añade `"revisado"` solo allí.\n3. Ejecuta el archivo y usa `is` para comprobar cuáles de `alias_raw`, `trabajo` y `raw` comparten la lista original; después, revisa qué contiene cada lista.',
+        hint: '`alias_raw = raw` conserva el mismo objeto; `trabajo = raw.copy()` crea una lista exterior distinta.',
         hints: [
-          'Guarda el string original en *_raw antes de strip. No reutilices el mismo nombre para ambos.',
-          'Tras upper() en clean, assert rec["nombres_raw"] == entrada_original.',
+          '`alias_raw = raw` conserva el mismo objeto; `trabajo = raw.copy()` crea una lista exterior distinta.',
+          'Después de `trabajo.append("revisado")`, `raw` todavía debe contener solo los dos textos recibidos.',
         ],
-        edgeCases: ['no perder raw en fail', 'Unicode en raw (María)'],
-        tests: 'assert raw keys; clean puede cambiar; raw idéntico al input.',
+        edgeCases: ['confundir copia con alias', 'modificar la lista original'],
+        tests: '`raw` queda intacta; el alias señala `raw`; la copia contiene un tercer elemento.',
         feedback:
-          'Tras `.upper()` en clean, si `nombres_raw` sigue con espacios y tildes, el assert de auditoría pasó. No hace falta mutar el string original: `str` es inmutable; el riesgo real es reutilizar el mismo nombre o clave.',
+          'Si `raw` conserva dos elementos y `trabajo` contiene tres, modificaste una copia. Las comprobaciones con `is` muestran por qué: el alias comparte objeto con `raw`, pero `trabajo` no.',
         retrospective:
-          'El contrato raw/clean permite responder dos preguntas a la vez: “¿qué recibimos?” y “¿qué usaremos?”. Si solo puedes contestar la segunda, perdiste trazabilidad. El assert no celebra un truco de sintaxis: demuestra que normalizar no reescribe la evidencia. Este par de respuestas será central en el You Do y en el gate CP-N1-A.',
+          'Dibuja una flecha desde cada nombre antes de ejecutar. `raw` y `alias_raw` deben terminar en la misma lista; `trabajo`, en otra. Comprueba luego el dibujo con `is`. Si el texto `"revisado"` aparece también en `raw`, no borres el último elemento: corrige el momento en que creaste la copia.',
         starterCode: {
           language: 'python',
-          title: 'raw_clean_record.py',
+          title: 'raw_lista_y_copia.py',
           code: `# CASO-LIM-002 · T2-B-E3
-# Devuelve dict con *_raw y campos limpios (strip). Luego el test muta clean.
-def make_record(nombres: str, contacto: str) -> dict:
-    # Completa: nombres_raw, contacto_raw, nombres, contacto
-    pass
+raw = ["  María  ", " 999 "]
+alias_raw = ____
+trabajo = ____
+trabajo.append("revisado")
 
-entrada_nombres = "  María  "
-entrada_contacto = " 999 "
-rec = make_record(entrada_nombres, entrada_contacto)
-rec["nombres"] = rec["nombres"].upper()
-print(rec)
-assert rec["nombres_raw"] == entrada_nombres
-assert rec["contacto_raw"] == entrada_contacto
-print("raw preserved OK")`,
+print("raw:", raw)
+print("alias comparte raw:", alias_raw is raw)
+print("trabajo comparte raw:", trabajo is raw)
+print("trabajo:", trabajo)
+assert raw == ["  María  ", " 999 "]`,
         },
         solutionCode: {
           language: 'python',
-          title: 'raw_clean_record.py',
-          code: `def make_record(nombres: str, contacto: str) -> dict:
-    return {
-        "nombres_raw": nombres,
-        "contacto_raw": contacto,
-        "nombres": nombres.strip() if nombres else None,
-        "contacto": contacto.strip() if contacto else None,
-    }
+          title: 'raw_lista_y_copia.py',
+          code: `raw = ["  María  ", " 999 "]
+alias_raw = raw
+trabajo = raw.copy()
+trabajo.append("revisado")
 
-entrada_nombres = "  María  "
-entrada_contacto = " 999 "
-rec = make_record(entrada_nombres, entrada_contacto)
-rec["nombres"] = rec["nombres"].upper()
-print(rec)
-assert rec["nombres_raw"] == entrada_nombres
-assert rec["contacto_raw"] == entrada_contacto
-print("raw preserved OK")`,
-          output: `{'nombres_raw': '  María  ', 'contacto_raw': ' 999 ', 'nombres': 'MARÍA', 'contacto': '999'}
-raw preserved OK`,
+print("raw:", raw)
+print("alias comparte raw:", alias_raw is raw)
+print("trabajo comparte raw:", trabajo is raw)
+print("trabajo:", trabajo)
+assert raw == ["  María  ", " 999 "]`,
+          output: `raw: ['  María  ', ' 999 ']
+alias comparte raw: True
+trabajo comparte raw: False
+trabajo: ['  María  ', ' 999 ', 'revisado']`,
         },
       },
       // ——— S02-T3-A ———
@@ -1767,59 +1733,72 @@ OK`,
       {
         subtopicId: 'S02-T3-B',
         kind: 'transfer',
-        title: '`parse_monto` con Decimal y errores',
+        title: 'Cuantizar tres montos escritos como texto',
         preamble:
-          '- **Contexto:** el monto llega como texto de formulario (`"150.50"`); el parser no puede explotar.\n- **Meta:** `(ok, Decimal|None, error|None)` con strip, vacío, `InvalidOperation` y quantize `0.01`.\n- **Éxito:** cuatro casos del starter (OK, OK quantize `20.10`, vacío, `abc`) con mensajes accionables.\n- **Límites:** convención **punto** decimal (no coma); sin float; raw en el mensaje con `!r`.',
+          '- **Contexto:** tres montos llegan como texto y deben quedar con dos decimales.\n- **Meta:** construir cada `Decimal` desde texto y aplicar la misma regla de redondeo.\n- **Éxito:** obtienes `150.50`, `20.10` y `0.00`; las tres comparaciones imprimen `True`.\n- **Límites:** sin `float`; conserva los textos originales; prueba un formato inválido por separado.',
         id: 'S02-T3-B-E3',
         instruction:
-          '1. Implementa `parse_monto`: strip → vacío → `Decimal` → `quantize(0.01)` → `except InvalidOperation`.\n2. Rechaza vacío antes de construir Decimal; mensaje con `!r` del raw.\n3. Ejecuta el `for` de cuatro strings y compara salidas.',
-        hint: 'try/except InvalidOperation. raw en el mensaje con !r.',
+          '1. Limpia cada texto con `strip()`.\n2. Construye cada `Decimal` y usa `quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)`.\n3. Ejecuta las comparaciones. Después prueba `Decimal("150,50")` por separado y observa dónde se detiene Python.',
+        hint: 'Repite para cada monto la secuencia texto → `strip()` → `Decimal` → `quantize`.',
         hints: [
-          'try/except InvalidOperation. raw en el mensaje con !r.',
-          'from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation. Si strip vacío → error antes de Decimal.',
+          'Construye desde texto, nunca desde `float`.',
+          '`ROUND_HALF_EVEN` lleva `0.005` a `0.00` porque el último dígito conservado es par.',
         ],
-        edgeCases: ['vacío', 'coma vs punto — documentar punto', 'quantize .01'],
-        tests: 'OK 150.50; vacío y abc con error; sin float',
+        edgeCases: ['espacios', 'un solo decimal', 'empate de redondeo', 'coma observada por separado'],
+        tests: 'Imprime `150.50 20.10 0.00` y tres líneas `True`.',
         feedback:
-          'Este `parse_monto` se conecta al parser de intake cuando el CSV traiga un monto. Mismo contrato `(ok, valor, error)` que `safe_int`, con `InvalidOperation` en lugar de `ValueError`.',
+          'Las tres cantidades siguen una sola regla visible. Si aparece una cola de dígitos, revisa que no hayas construido un `Decimal` desde `float`.',
         retrospective:
-          'El contrato sigue siendo ok / valor / error; cambia la clase de fallo porque cambió el constructor. Si `""` y `"abc"` llegan al mismo `except`, pierdes la distinción entre ausencia y formato inválido: rechaza el vacío primero. Conecta este helper al intake cuando aparezca un monto y conserva el raw; no uses `float` como atajo.',
+          'Un formato válido produce un monto cuantizado. `Decimal("150,50")` no acepta la coma en este ejercicio y detiene la ejecución. S09 enseñará a continuar después de ese fallo. Antes de convertir, el texto debe tener la forma que `Decimal` acepta; cambiar la coma por un punto cambia el formato, no el monto. Predice qué ocurre con `Decimal("150.50")` y comprueba la respuesta.',
         starterCode: {
           language: 'python',
-          title: 'parse_monto.py',
+          title: 'tres_montos.py',
           code: `# CASO-LIM-002 · T3-B-E3
-# parse_monto: strip, vacío, Decimal desde str, quantize 0.01, error accionable.
-from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation
+from decimal import Decimal, ROUND_HALF_EVEN
 
-def parse_monto(texto: str):
-    # Devuelve (ok, Decimal|None, error|None)
-    pass
+monto_a_raw = "150.50"
+monto_b_raw = " 20.1 "
+monto_c_raw = "0.005"
 
-for s in ["150.50", "  20.1 ", "", "abc"]:
-    print(repr(s), "→", parse_monto(s))`,
+monto_a = ____
+monto_b = ____
+monto_c = ____
+
+print(monto_a, monto_b, monto_c)
+print(monto_a == Decimal("150.50"))
+print(monto_b == Decimal("20.10"))
+print(monto_c == Decimal("0.00"))
+
+# Ejecuta por separado para observar el fallo:
+# Decimal("150,50")`,
         },
         solutionCode: {
           language: 'python',
-          title: 'parse_monto.py',
-          code: `from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation
+          title: 'tres_montos.py',
+          code: `from decimal import Decimal, ROUND_HALF_EVEN
 
-def parse_monto(texto: str):
-    raw = texto
-    t = texto.strip()
-    if not t:
-        return False, None, f"ERROR en 'monto': vacío (raw={raw!r})"
-    try:
-        d = Decimal(t).quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
-        return True, d, None
-    except (InvalidOperation, ValueError):
-        return False, None, f"ERROR en 'monto': no se pudo parsear {raw!r} a Decimal"
+monto_a_raw = "150.50"
+monto_b_raw = " 20.1 "
+monto_c_raw = "0.005"
 
-for s in ["150.50", "  20.1 ", "", "abc"]:
-    print(repr(s), "→", parse_monto(s))`,
-          output: `'150.50' → (True, Decimal('150.50'), None)
-'  20.1 ' → (True, Decimal('20.10'), None)
-'' → (False, None, "ERROR en 'monto': vacío (raw='')")
-'abc' → (False, None, "ERROR en 'monto': no se pudo parsear 'abc' a Decimal")`,
+monto_a = Decimal(monto_a_raw.strip()).quantize(
+    Decimal("0.01"), rounding=ROUND_HALF_EVEN
+)
+monto_b = Decimal(monto_b_raw.strip()).quantize(
+    Decimal("0.01"), rounding=ROUND_HALF_EVEN
+)
+monto_c = Decimal(monto_c_raw.strip()).quantize(
+    Decimal("0.01"), rounding=ROUND_HALF_EVEN
+)
+
+print(monto_a, monto_b, monto_c)
+print(monto_a == Decimal("150.50"))
+print(monto_b == Decimal("20.10"))
+print(monto_c == Decimal("0.00"))`,
+          output: `150.50 20.10 0.00
+True
+True
+True`,
         },
       },
       // ——— S02-T4-A ———
@@ -1927,57 +1906,66 @@ monto: S/ 99.50`,
         kind: 'transfer',
         title: 'Simular prompts sin `input()` real',
         preamble:
-          '- **Contexto:** en Pyodide/CI no hay consola interactiva confiable; los tests necesitan funciones puras.\n- **Meta:** `simular_intake(...)` devuelve campos str + subdict `types` con `__name__`.\n- **Éxito:** `types["edad"]` y `types["nombres"]` son `"str"`; print `OK`.\n- **Límites:** **no** llames `input()`; no conviertas tipos aún (eso es el parse).',
+          '- **Contexto:** una comprobación automática no puede detenerse para esperar que alguien escriba en la consola. Por eso, tres textos conocidos ocupan el lugar de las respuestas.\n- **Meta:** conservar cada respuesta como texto y comprobar su tipo por separado.\n- **Éxito:** los tres nombres terminados en `_tipo` contienen `"str"` y el programa imprime `OK`.\n- **Límites:** **no** llames `input()` ni conviertas los textos todavía.',
         id: 'S02-T4-A-E3',
         instruction:
-          '1. Implementa el dict de retorno con campos y `types`.\n2. Usa `type(...).__name__` para cada campo (sin comprehensions si evitas complejidad).\n3. Corre asserts del starter.',
-        hint: 'No uses input(). Los parámetros ya simulan las respuestas del usuario.',
+          '1. Completa `nombres_tipo`, `contacto_tipo` y `edad_tipo` con el nombre del tipo de cada valor.\n2. Imprime los tres valores entre barras y después imprime los tres nombres de tipo.\n3. Comprueba con `assert` que cada nombre de tipo sea `"str"`.',
+        hint: 'No uses `input()`. Los tres textos ya están asignados a nombres para que puedas repetir exactamente la misma comprobación.',
         hints: [
-          'No uses input(). Los parámetros ya simulan las respuestas del usuario.',
-          'Construye types a mano: "nombres": type(nombres).__name__, etc. (sin comprehensions).',
+          'No uses `input()`. Los tres textos ya están asignados a nombres para que puedas repetir exactamente la misma comprobación.',
+          'Para obtener el nombre del tipo de `nombres`, escribe `type(nombres).__name__`. Repite la misma forma con los otros dos valores.',
         ],
-        edgeCases: ['todo str', 'testeable sin consola interactiva'],
-        tests: 'la función recibe parámetros con valores; todos los tipos son str.',
+        edgeCases: ['espacios conservados', 'edad escrita como texto', 'tres comprobaciones explícitas'],
+        tests: 'Los tres valores permanecen intactos y cada nombre terminado en `_tipo` contiene `"str"`.',
         feedback:
-          'Si el intake es una función pura de str→dict, los tests del parser (T4-B) son triviales de automatizar. `types["edad"] == "str"` aunque el usuario “escribió un número”.',
+          '`input()` entrega texto incluso cuando alguien escribe `34`. Aquí los valores conocidos sustituyen solo la escritura en la consola. Los nombres terminados en `_tipo` guardan la palabra `"str"`; no guardan el valor original ni lo convierten.',
         retrospective:
-          'Una función `str → dict` pura convierte una conversación con el teclado en datos reproducibles. Si `types["edad"]` no es `"str"`, probablemente adelantaste una conversión y mezclaste captura con parse. Conserva la frontera: primero recibe, luego interpreta, después reporta. T4-B hará visible cualquier fallo de interpretación.',
+          'Predice qué cambiaría si `edad` fuera el número `34` en vez del texto `"34"`. Luego explica por qué, en esta práctica, los tres valores deben seguir siendo `str`. Comprueba cada nombre terminado en `_tipo`: si uno no contiene `"str"`, mezclaste la captura con la conversión. ¿Qué ventaja ofrece separar esos dos momentos antes de automatizar la lectura?',
         starterCode: {
           language: 'python',
           title: 'simular_intake.py',
           code: `# CASO-LIM-002 · T4-A-E3
-# No llames input(). Devuelve campos + types (type(...).__name__ de cada uno).
-def simular_intake(nombres: str, contacto: str, edad: str) -> dict:
-    # Completa: dict con nombres, contacto, edad y subdict types
-    pass
+# No llames input(). Los textos conocidos simulan tres respuestas repetibles.
+nombres = "  Ana  "
+contacto = "999"
+edad = "34"
 
-r = simular_intake("  Ana  ", "999", "34")
-print(r)
-assert r["types"]["edad"] == "str"
-assert r["types"]["nombres"] == "str"
+nombres_tipo = ____
+contacto_tipo = ____
+edad_tipo = ____
+
+print(f"nombres: |{nombres}|")
+print(f"contacto: |{contacto}|")
+print(f"edad: |{edad}|")
+print("tipos:", nombres_tipo, contacto_tipo, edad_tipo)
+assert nombres_tipo == "str"
+assert contacto_tipo == "str"
+assert edad_tipo == "str"
 print("OK")`,
         },
         solutionCode: {
           language: 'python',
           title: 'simular_intake.py',
-          code: `def simular_intake(nombres: str, contacto: str, edad: str) -> dict:
-    return {
-        "nombres": nombres,
-        "contacto": contacto,
-        "edad": edad,
-        "types": {
-            "nombres": type(nombres).__name__,
-            "contacto": type(contacto).__name__,
-            "edad": type(edad).__name__,
-        },
-    }
+          code: `nombres = "  Ana  "
+contacto = "999"
+edad = "34"
 
-r = simular_intake("  Ana  ", "999", "34")
-print(r)
-assert r["types"]["edad"] == "str"
-assert r["types"]["nombres"] == "str"
+nombres_tipo = type(nombres).__name__
+contacto_tipo = type(contacto).__name__
+edad_tipo = type(edad).__name__
+
+print(f"nombres: |{nombres}|")
+print(f"contacto: |{contacto}|")
+print(f"edad: |{edad}|")
+print("tipos:", nombres_tipo, contacto_tipo, edad_tipo)
+assert nombres_tipo == "str"
+assert contacto_tipo == "str"
+assert edad_tipo == "str"
 print("OK")`,
-          output: `{'nombres': '  Ana  ', 'contacto': '999', 'edad': '34', 'types': {'nombres': 'str', 'contacto': 'str', 'edad': 'str'}}
+          output: `nombres: |  Ana  |
+contacto: |999|
+edad: |34|
+tipos: str str str
 OK`,
         },
       },
@@ -1985,60 +1973,58 @@ OK`,
       {
         subtopicId: 'S02-T4-B',
         kind: 'guided',
-        title: 'Parse de nombres vacíos con raw/errors',
+        title: 'Hacer visible un texto vacío sin borrar el original',
         preamble:
-          '- **Contexto:** el caso vacío es el primero que rompe demos “felices” de intake.\n- **Meta:** `parse_nombres` con `nombres_raw`, clean o `None`, y `errors` accionable.\n- **Éxito:** con `""` → raw `""`, `nombres is None`, errors menciona nombres; print `OK`.\n- **Límites:** guarda raw **antes** de strip; no borres el original.',
+          '- **Contexto:** un campo puede contener solo espacios, mientras otro contiene un apellido válido.\n- **Meta:** conservar ambos originales, limpiarlos y comprobar qué quedó vacío.\n- **Éxito:** el primer original sigue mostrando tres espacios, su texto limpio está vacío y `Ñahui` conserva la `Ñ`.\n- **Límites:** no sobrescribas los nombres `_raw`; todavía no elijas caminos distintos.',
         id: 'S02-T4-B-E1',
         instruction:
-          '1. Completa `parse_nombres`.\n2. Si vacío tras strip, agrega error y deja clean en `None`.\n3. Ejecuta asserts del starter.',
-        hint: 'Siempre guarda raw = valor original antes de strip.',
+          '1. Crea `nombres_clean` y `apellido_clean` con `strip()`.\n2. Imprime cada original entre barras para hacer visibles los espacios.\n3. Comprueba con `== ""` que el primer texto limpio quedó vacío.',
+        hint: 'El texto original y el texto limpio necesitan nombres distintos.',
         hints: [
-          'Siempre guarda raw = valor original antes de strip.',
-          "errors.append(f\"ERROR en 'nombres': vacío (raw={valor!r})\")",
+          '`nombres_clean = nombres_raw.strip()` conserva `nombres_raw`.',
+          'Las barras de `|{nombres_raw}|` permiten ver los espacios en la salida.',
         ],
-        edgeCases: ['mensaje accionable', "raw '' se conserva"],
-        tests: 'caso vacío: raw==""; errors no vacío; nombres is None',
+        edgeCases: ['solo espacios', 'Unicode', 'original intacto'],
+        tests: 'Muestra tres espacios en el original, vacío `True` y `Ñahui` intacto.',
         feedback:
-          'El caso vacío es el primero que rompe demos “felices”. Si pasa el assert, el contrato raw/errors ya nació: clean puede ser `None` sin borrar el original.',
+          'La comparación hace visible el estado del campo sin decidir todavía qué hacer con él. Si desaparecieron los espacios del nombre `_raw`, sobrescribiste la evidencia.',
         retrospective:
-          'Raw siempre está, aunque clean sea `None`: un fallo de interpretación no borra el hecho observado. Si tu mensaje solo dice “inválido”, quien corrige el dato aún no sabe qué campo ni qué llegó; `!r` vuelve visibles incluso los espacios. Este microcontrato se repetirá en todos los campos requeridos del You Do.',
+          'Limpiar y decidir son trabajos distintos. S02 puede mostrar que un texto quedó vacío; S03 enseñará a elegir una acción según esa comparación. Separar ambos trabajos permite observar primero el valor y usar después el resultado sin confundir la limpieza con la elección. Comprueba con `print()` y `type()` que el valor limpio sigue siendo texto, incluso cuando está vacío.',
         starterCode: {
           language: 'python',
-          title: 'parse_vacio.py',
+          title: 'observar_vacio.py',
           code: `# CASO-LIM-002 · T4-B-E1
-# Completa parse_nombres: nombres_raw, nombres (strip o None), errors.
-def parse_nombres(valor: str) -> dict:
-    # Si vacío tras strip → error accionable; raw siempre = valor original
-    pass
+nombres_raw = "   "
+apellido_raw = "  Ñahui  "
 
-r = parse_nombres("")
-print(r)
-assert r["nombres_raw"] == ""
-assert r["nombres"] is None
-assert any("nombres" in e.lower() for e in r["errors"])
-print("OK")`,
+nombres_clean = ____
+apellido_clean = ____
+
+print(f"nombres raw: |{nombres_raw}|")
+print("nombres vacío:", nombres_clean == "")
+print(f"apellido raw: |{apellido_raw}|")
+print("apellido clean:", apellido_clean)
+print("raw intactos:", nombres_raw == "   " and apellido_raw == "  Ñahui  ")`,
         },
         solutionCode: {
           language: 'python',
-          title: 'parse_vacio.py',
-          code: `def parse_nombres(valor: str) -> dict:
-    errors: list[str] = []
-    clean = valor.strip() if valor else ""
-    if not clean:
-        errors.append(f"ERROR en 'nombres': vacío (raw={valor!r})")
-        clean_val = None
-    else:
-        clean_val = clean
-    return {"nombres_raw": valor, "nombres": clean_val, "errors": errors}
+          title: 'observar_vacio.py',
+          code: `nombres_raw = "   "
+apellido_raw = "  Ñahui  "
 
-r = parse_nombres("")
-print(r)
-assert r["nombres_raw"] == ""
-assert r["nombres"] is None
-assert any("nombres" in e.lower() for e in r["errors"])
-print("OK")`,
-          output: `{'nombres_raw': '', 'nombres': None, 'errors': ["ERROR en 'nombres': vacío (raw='')"]}
-OK`,
+nombres_clean = nombres_raw.strip()
+apellido_clean = apellido_raw.strip()
+
+print(f"nombres raw: |{nombres_raw}|")
+print("nombres vacío:", nombres_clean == "")
+print(f"apellido raw: |{apellido_raw}|")
+print("apellido clean:", apellido_clean)
+print("raw intactos:", nombres_raw == "   " and apellido_raw == "  Ñahui  ")`,
+          output: `nombres raw: |   |
+nombres vacío: True
+apellido raw: |  Ñahui  |
+apellido clean: Ñahui
+raw intactos: True`,
         },
       },
       {
@@ -2091,256 +2077,153 @@ Unicode OK`,
       {
         subtopicId: 'S02-T4-B',
         kind: 'transfer',
-        title: 'Suite `parse_client`: Unicode, vacío, edad',
+        title: 'Recorrido completo de una captura válida',
         preamble:
-          '- **Contexto:** este ejercicio es el corazón del You Do (CP-N1-A) en miniatura.\n- **Meta:** `safe_int` + `parse_client` con `*_raw`, limpios y `errors`.\n- **Éxito:** tres asserts pasan — Ñahui raw OK y sin errors; nombres vacío con error; edad `"abc"` con `edad_raw` intacto — y print `3 tests OK`.\n- **Límites:** no dejes escapar `ValueError`; raw siempre presente; solo datos sintéticos.',
+          '- **Contexto:** una captura combina texto con espacios, Unicode, un contacto con cero inicial y una edad escrita como texto.\n- **Meta:** conservar cada original, limpiar los textos y convertir solo la edad.\n- **Éxito:** el resumen conserva `Ñahui`, el contacto sigue siendo texto, la edad es `int` y las cuatro comprobaciones imprimen `True`.\n- **Límites:** usa nombres separados; una edad inválida se observa por separado porque S02 todavía no recupera la ejecución.',
         id: 'S02-T4-B-E3',
         instruction:
-          '1. Implementa `safe_int` (vacío / OK / basura) con el contrato de la sección.\n2. Implementa `parse_client`: todas las claves `*_raw`, limpios, `edad`, `errors`; edad opcional con `safe_int`.\n3. No modifiques los tres bloques de assert; ejecuta hasta `3 tests OK`.',
-        hint: 'Reutiliza el patrón de la demo T4-B. No dejes que ValueError se escape.',
+          '1. Completa los cuatro nombres `_clean` sin cambiar los originales.\n2. Convierte `edad_clean` con `int()` y construye el resumen con una f-string.\n3. Ejecuta las cuatro comprobaciones. Después prueba la conversión comentada por separado.',
+        hint: 'Los campos de texto usan `strip()`; solo `edad_clean` pasa por `int()`.',
         hints: [
-          'Reutiliza el patrón de la demo T4-B. No dejes que ValueError se escape.',
-          'assert r["edad_raw"]=="abc" y any("edad" in e.lower() for e in errors). raw siempre presente.',
+          'El contacto debe seguir siendo `str` para conservar el cero inicial.',
+          'Compara cada original con su texto inicial para demostrar que no lo sobrescribiste.',
         ],
-        edgeCases: ['raw conservado', '3 pruebas pasan', 'lista de errores'],
-        tests: '3 pruebas pasan (unicode, vacío, edad inválida)',
+        edgeCases: ['Unicode', 'cero inicial', 'espacios', 'edad inválida observada por separado'],
+        tests: 'Resumen exacto y cuatro comprobaciones `True`.',
         feedback:
-          'Esta suite es el corazón del You Do en miniatura. Si pasa en local y en Pyodide, el incremento CP-N1-A de S02 está listo para el portafolio — pero el You Do aún pide `mostrar_resumen`, `main` y un cuarto caso.',
+          'El recorrido es correcto cuando cada nombre cuenta una etapa: recibido, limpio o convertido. Si el contacto pierde el cero, convertiste un identificador como si fuera una cantidad.',
         retrospective:
-          'Una suite verde demuestra invariantes concretas: Unicode sobrevive, vacío se explica y número inválido no derriba el proceso. Nombra qué assert protege cada una; “tres tests OK” sin esa correspondencia es solo una luz verde. El You Do añade `mostrar_resumen`, `main` y un **cuarto** caso de edad en blanco: úsalo para demostrar transferencia, no para copiar esta miniatura.',
+          'Este recorrido integra valores, tipos, conversión y presentación sin ocultar el original. La conversión comentada muestra el límite: S02 observa el fallo; S09 enseñará a recuperarse. Conservar el texto original permite revisar qué valor recibió `input()` y qué cambio intentó `int()` o `float()` antes de detenerse. Predice qué valor impreso conserva su tipo y comprueba la predicción con `type()`.',
         starterCode: {
           language: 'python',
-          title: 'parse_client_suite.py',
+          title: 'captura_valida.py',
           code: `# CASO-LIM-002 · T4-B-E3
-# Implementa safe_int (vacío + strip + int) y parse_client con el esquema completo.
-# Claves del dict: nombres_raw, apellido_paterno_raw, apellido_materno_raw,
-# contacto_raw, direccion_raw, edad_raw, nombres, apellido_paterno,
-# apellido_materno, contacto, direccion, edad, errors.
-# Completa ambas funciones antes de ejecutar los tres bloques de prueba.
-def safe_int(campo: str, valor: str):
-    # vacío tras strip → error; int OK; ValueError → mensaje accionable
-    pass
+nombres_raw = "  María José  "
+apellido_raw = "  Ñahui  "
+contacto_raw = "0999000111"
+edad_raw = " 34 "
 
-def parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None):
-    # *_raw, limpios, errors; edad opcional con safe_int
-    pass
+nombres_clean = ____
+apellido_clean = ____
+contacto_clean = ____
+edad_clean = ____
+edad = ____
 
-# tests
-r = parse_client("María José", "Quispe", "Ñahui", "999000111", "Lima", edad="34")
-assert r["apellido_materno_raw"] == "Ñahui"
-assert r["errors"] == []
+resumen = ____
+print(resumen)
+print("raw intactos", nombres_raw == "  María José  " and apellido_raw == "  Ñahui  ")
+print("Unicode intacto", apellido_clean == "Ñahui")
+print("contacto str", type(contacto_clean).__name__ == "str" and contacto_clean == "0999000111")
+print("edad int", type(edad).__name__ == "int" and edad == 34)
 
-r2 = parse_client("", "Quispe", "Ñahui", "999", "Lima")
-assert r2["nombres_raw"] == ""
-assert any("nombres" in e.lower() for e in r2["errors"])
-
-r3 = parse_client("Ana", "Ramos", "Díaz", "999", "Cusco", edad="abc")
-assert r3["edad_raw"] == "abc"
-assert any("edad" in e.lower() for e in r3["errors"])
-print("3 tests OK")`,
+edad_invalida_raw = "abc"
+# Ejecuta por separado para observar ValueError:
+# int(edad_invalida_raw)`,
         },
         solutionCode: {
           language: 'python',
-          title: 'parse_client_suite.py',
-          code: `def safe_int(campo: str, valor: str):
-    texto = valor.strip()
-    if texto == "":
-        return False, None, f"ERROR en '{campo}': valor vacío"
-    try:
-        return True, int(texto), None
-    except ValueError:
-        return False, None, f"ERROR en '{campo}': no se pudo convertir {valor!r} a int"
+          title: 'captura_valida.py',
+          code: `nombres_raw = "  María José  "
+apellido_raw = "  Ñahui  "
+contacto_raw = "0999000111"
+edad_raw = " 34 "
 
-def parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None):
-    errors: list[str] = []
-    rec = {
-        "nombres_raw": nombres,
-        "apellido_paterno_raw": apellido_paterno,
-        "apellido_materno_raw": apellido_materno,
-        "contacto_raw": contacto,
-        "direccion_raw": direccion,
-        "edad_raw": edad,
-        "nombres": None,
-        "apellido_paterno": None,
-        "apellido_materno": None,
-        "contacto": None,
-        "direccion": None,
-        "edad": None,
-        "errors": errors,
-    }
+nombres_clean = nombres_raw.strip()
+apellido_clean = apellido_raw.strip()
+contacto_clean = contacto_raw.strip()
+edad_clean = edad_raw.strip()
+edad = int(edad_clean)
 
-    def clean_required(campo, valor):
-        if valor is None or str(valor).strip() == "":
-            errors.append(f"ERROR en '{campo}': vacío (raw={valor!r})")
-            return None
-        return str(valor).strip()
-
-    rec["nombres"] = clean_required("nombres", nombres)
-    rec["apellido_paterno"] = clean_required("apellido_paterno", apellido_paterno)
-    rec["apellido_materno"] = clean_required("apellido_materno", apellido_materno)
-    rec["contacto"] = clean_required("contacto", contacto)
-    rec["direccion"] = clean_required("direccion", direccion)
-    if edad is not None:
-        ok, n, err = safe_int("edad", edad)
-        if ok:
-            rec["edad"] = n
-        else:
-            errors.append(err)
-    return rec
-
-r = parse_client("María José", "Quispe", "Ñahui", "999000111", "Lima", edad="34")
-assert r["apellido_materno_raw"] == "Ñahui"
-assert r["errors"] == []
-
-r2 = parse_client("", "Quispe", "Ñahui", "999", "Lima")
-assert r2["nombres_raw"] == ""
-assert any("nombres" in e.lower() for e in r2["errors"])
-
-r3 = parse_client("Ana", "Ramos", "Díaz", "999", "Cusco", edad="abc")
-assert r3["edad_raw"] == "abc"
-assert any("edad" in e.lower() for e in r3["errors"])
-print("3 tests OK")`,
-          output: `3 tests OK`,
+resumen = f"Cliente: {nombres_clean} {apellido_clean} | contacto={contacto_clean} | edad={edad}"
+print(resumen)
+print("raw intactos", nombres_raw == "  María José  " and apellido_raw == "  Ñahui  ")
+print("Unicode intacto", apellido_clean == "Ñahui")
+print("contacto str", type(contacto_clean).__name__ == "str" and contacto_clean == "0999000111")
+print("edad int", type(edad).__name__ == "int" and edad == 34)`,
+          output: `Cliente: María José Ñahui | contacto=0999000111 | edad=34
+raw intactos True
+Unicode intacto True
+contacto str True
+edad int True`,
         },
       },
     ],
   },
   youDo: {
-    title: 'Parser de intake — registro sintético de cliente',
+    title: 'Recorrido de una captura — registro sintético de cliente',
     context:
-      'Hasta aquí resolviste piezas aisladas; ahora deben colaborar sin perder sus contratos. Imagina el mismo formulario en una oficina, en una tableta y dentro de un proceso por lotes. La interfaz cambia. La obligación del parser no: debe conservar el original, normalizarlo con cuidado y explicar cada fallo del mismo modo. En este incremento del capstone CP-N1-A construirás el **esqueleto de un parser de intake** para un cliente sintético. Antes de programar, dibuja tres columnas —`raw`, `clean`, `errors`— y sigue por ellas un caso feliz, uno vacío y una edad inválida. Solo después implementa `safe_int`, `parse_client` y `mostrar_resumen`. Éxito operativo: `_run_tests()` imprime `tests OK` y `main()` muestra un resumen; los asserts fijos no se modifican y nunca se usa PII real.',
+      'Hasta aquí resolviste piezas aisladas; ahora deben colaborar sin perder sus contratos. En este incremento del mismo proyecto trabajarás con una captura sintética completa. Antes de programar, dibuja tres columnas —`raw`, `clean`, `valor`— y sigue por ellas un caso feliz. Conserva cada original, limpia los espacios de los campos de texto, convierte la edad y fija el monto a céntimos con la regla enseñada en T3-B. Al final muestra una entrada problemática y predice en qué línea se detendría su conversión. No intentes continuar después del fallo: esa recuperación se estudia en S09.',
     objectives: [
-      'Capturar o recibir nombres, apellido_paterno, apellido_materno, contacto y dirección',
-      'Conservar el valor original (raw) de cada campo',
-      'Normalizar de forma mínima (strip) sin perder raw',
-      'Validar al menos un campo numérico opcional (edad) con mensaje accionable',
-      'Cubrir casos: vacío, Unicode (p.ej. Ñahui), número inválido',
-      'Imprimir resumen con f-strings',
+      'Recibir nombres, apellidos, contacto, dirección, edad y monto como textos conocidos',
+      'Conservar el valor original (`raw`) de cada campo',
+      'Crear por separado cada texto limpio con `strip()`',
+      'Convertir una edad válida con `int()` y fijar un monto válido a céntimos con `Decimal`',
+      'Conservar Unicode y el cero inicial del contacto',
+      'Imprimir un resumen con una f-string y comprobaciones reproducibles',
     ],
     requirements: [
-      'Función parse_client(...) devuelve estructura con *_raw y campos limpios o None',
-      'Campo vacío → error accionable; no borrar raw',
-      'Unicode (p.ej. José Ñahui) round-trip en raw y clean',
-      'Número inválido no lanza traceback no capturado; error listado',
-      'safe_int trata vacío (tras strip) y ValueError con mensaje por campo',
-      'Comprobaciones automáticas con `assert` —instrucciones que detienen la ejecución si una condición es falsa— documentadas y reproducibles',
-      'Sin PII real; datos sintéticos (example.com si hay email)',
-      'Incluye una función `main()` y el guard `if __name__ == "__main__"`',
+      'Cada campo conserva un nombre terminado en `_raw`',
+      'Cada texto limpio usa otro nombre terminado en `_clean`',
+      'El contacto sigue siendo `str` y conserva su cero inicial',
+      'La edad convertida es `int` y el monto usa `quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)`',
+      'Las comprobaciones con `assert` —instrucciones que detienen la ejecución cuando una comparación es falsa— demuestran que los originales siguen intactos',
+      'El archivo muestra una entrada problemática sin intentar ocultar su fallo',
+      'Solo se usan datos sintéticos; nunca información personal real',
+      'Al ejecutar el archivo aparecen el resumen y cinco comprobaciones correctas',
     ],
-    starterCode: `"""parse_client_intake.py — incremento CP-N1-A
+    starterCode: `"""captura_cliente.py — incremento de S02
 Datos sintéticos únicamente. No uses información real de clientes.
-
-Tu trabajo: implementar safe_int, parse_client y mostrar_resumen.
-Los asserts de _run_tests no se modifican: deben pasar con tu código.
-Pistas: reutiliza el patrón de la demo T4-B y del E3 de T4-B (no copies
-la solución a ciegas: diseña el dict, luego llena cada clave).
 """
 
-from __future__ import annotations
+from decimal import Decimal, ROUND_HALF_EVEN
 
+nombres_raw = "  María José  "
+apellido_paterno_raw = "  Quispe "
+apellido_materno_raw = " Ñahui  "
+contacto_raw = "0999000111"
+direccion_raw = " Av. Ejemplo 123 "
+edad_raw = " 28 "
+monto_raw = " 150.505 "
 
-def safe_int(campo: str, valor: str) -> tuple[bool, int | None, str | None]:
-    """Convierte a int con strip. Devuelve (ok, valor|None, error|None).
+nombres_clean = ____
+apellido_paterno_clean = ____
+apellido_materno_clean = ____
+contacto_clean = ____
+direccion_clean = ____
+edad_clean = ____
+monto_clean = ____
 
-    Contrato unificado de esta sección:
-    - vacío tras strip → (False, None, "ERROR en '{campo}': valor vacío")
-    - int OK → (True, n, None)
-    - ValueError → (False, None, "ERROR en '{campo}': no se pudo convertir …")
-    """
-    # 1) texto = valor.strip()
-    # 2) si texto == "" → error de vacío
-    # 3) try int(texto) / except ValueError → mensaje con valor!r
-    raise NotImplementedError
+edad = ____
+monto = Decimal(monto_clean).quantize(____, rounding=ROUND_HALF_EVEN)
 
+resumen = ____
+print(resumen)
+print("nombres raw intacto", nombres_raw == "  María José  ")
+print("apellido Unicode", apellido_materno_clean == "Ñahui")
+print("contacto str", type(contacto_clean).__name__ == "str")
+print("edad int", type(edad).__name__ == "int" and edad == 28)
+print("monto", monto == Decimal("150.50"))
 
-def parse_client(
-    nombres: str,
-    apellido_paterno: str,
-    apellido_materno: str,
-    contacto: str,
-    direccion: str,
-    edad: str | None = None,
-) -> dict:
-    """Parsea un registro de intake: *_raw, limpios, errors.
+assert nombres_raw == "  María José  "
+assert apellido_materno_raw == " Ñahui  "
+assert contacto_clean == "0999000111"
+assert edad == 28
+assert monto == Decimal("150.50")
 
-    Claves esperadas (todas deben existir en el dict devuelto):
-    nombres_raw, apellido_paterno_raw, apellido_materno_raw,
-    contacto_raw, direccion_raw, edad_raw,
-    nombres, apellido_paterno, apellido_materno, contacto, direccion, edad,
-    errors (list[str]).
-
-    Orden sugerido:
-    1) crea errors = [] y rec con todas las claves *_raw = argumentos
-    2) limpia campos requeridos (strip; vacío → error + None en clean)
-    3) si edad is not None, usa safe_int y rellena rec["edad"] o errors
-    """
-    raise NotImplementedError
-
-
-def mostrar_resumen(resultado: dict) -> None:
-    """Imprime un resumen legible con f-strings (raw/clean/errors)."""
-    # Ejemplo de forma (ajusta etiquetas): print(f"nombres: {resultado['nombres']}")
-    # Incluye apellidos, contacto, direccion, edad y la lista errors.
-    raise NotImplementedError
-
-
-def _run_tests() -> None:
-    # Caso feliz + Unicode — errors debe estar vacío de verdad
-    r = parse_client(
-        "María José",
-        "Quispe",
-        "Ñahui",
-        "999000111",
-        "Av. Ejemplo 123, Lima",
-        edad="34",
-    )
-    assert r["apellido_materno_raw"] == "Ñahui"
-    assert r["apellido_materno"] == "Ñahui"
-    assert r["errors"] == []
-
-    # Vacío
-    r2 = parse_client("", "Quispe", "Ñahui", "999", "Lima")
-    assert any("nombres" in e.lower() or "vac" in e.lower() for e in r2["errors"])
-    assert r2["nombres_raw"] == ""
-
-    # Número inválido
-    r3 = parse_client("Ana", "Ramos", "Díaz", "999", "Cusco", edad="abc")
-    assert r3["edad_raw"] == "abc"
-    assert any("edad" in e.lower() for e in r3["errors"])
-
-    # Edad vacía (contrato safe_int unificado)
-    r4 = parse_client("Ana", "Ramos", "Díaz", "999", "Cusco", edad="  ")
-    assert r4["edad_raw"] == "  "
-    assert any("edad" in e.lower() for e in r4["errors"])
-
-    print("tests OK")
-
-
-def main() -> None:
-    _run_tests()
-    demo = parse_client(
-        "  María José  ",
-        "Quispe",
-        "Ñahui",
-        "999000111",
-        "Av. Ejemplo 123, Lima",
-        edad=" 28 ",
-    )
-    mostrar_resumen(demo)
-
-
-if __name__ == "__main__":
-    main()
+edad_invalida_raw = "abc"
+print("entrada problemática:", edad_invalida_raw)
+# Ejecuta esta línea por separado para observar dónde se detiene Python:
+# int(edad_invalida_raw)
 `,
     portfolioNote:
-      'Este esqueleto no destaca por tener muchas líneas, sino por hacer promesas verificables: tipos explícitos, conversión segura, nombres PEP 8, `raw` preservado y errores accionables. Es tu primer artefacto de datos defendible en un portafolio. En una entrevista, no digas solo “hice un parser”: muestra un input problemático, señala el assert que lo contiene y explica por qué el original sobrevive. Extensiones como más campos, `Decimal` o lectura de CSV son valiosas únicamente si respetan el contrato raw/clean/errors. Súbelo a tu repositorio de práctica **sin datos reales**.',
+      'Este archivo hace promesas verificables: conserva cada original, separa la limpieza de la conversión, protege el cero inicial del contacto y fija el monto a céntimos con `Decimal`. En una entrevista, muestra una entrada problemática, señala el `assert` que protege el original y explica por qué el fallo se ejecuta por separado. Súbelo a tu repositorio de práctica **sin datos reales**.',
     retrospective:
-      'Antes de marcarlo listo, reconstruye el recorrido sin mirar la solución: entrada → raw → limpieza → conversión → error o valor → resumen. Después responde: (1) ¿qué invariante protege cada assert? (2) ¿qué dato conservarías para investigar un fallo sin exponer PII? (3) ¿qué pasaría si mañana agregas monto con `Decimal`? (4) ¿qué decisión explicarías en 30 segundos a otra persona? Si una respuesta depende de “porque el test lo pide”, vuelve al modelo mental. El README debe describir el problema, el contrato y una evidencia reproducible, no prometer impacto que aún no mediste.',
+      'Antes de marcarlo listo, reconstruye el recorrido sin mirar la solución: entrada → `raw` → texto limpio → valor convertido → resumen. Después responde: (1) ¿qué original protege cada `assert`? (2) ¿por qué el contacto sigue siendo texto? (3) ¿por qué `"150.505"` termina en `Decimal("150.50")`? (4) ¿dónde se detendría `int("abc")`? Si una respuesta depende de “porque el test lo pide”, vuelve a los valores, tipos y reglas que cada nombre conserva.',
     rubric: [
-      { criterion: 'Parse y tipos correctos (correctness)', weight: '30%' },
-      { criterion: 'Vacíos / Unicode / inválidos cubiertos (robustness)', weight: '25%' },
-      { criterion: 'Nombres y mensajes claros (maintainability)', weight: '25%' },
-      { criterion: 'Datos sintéticos, sin PII, sin afirmaciones de parentesco (responsible_use)', weight: '20%' },
+      { criterion: 'Valores, tipos y conversiones correctos', weight: '30%' },
+      { criterion: 'Originales, Unicode y cero inicial preservados', weight: '25%' },
+      { criterion: 'Nombres y recorrido raw/clean/valor claros', weight: '25%' },
+      { criterion: 'Datos sintéticos, sin información personal real', weight: '20%' },
     ],
   },
   selfCheck: {
@@ -2374,8 +2257,8 @@ if __name__ == "__main__":
           '`b = a` crea otro nombre para la misma lista, no una copia. Por eso `append` aparece al mirar desde ambos nombres. `copy()` o `[:]` crea una lista independiente cuando esa es la intención.',
       },
       {
-        question: '¿Cuál es el idioma correcto para comprobar ausencia de valor?',
-        options: ['if x == None:', 'if x is None:', 'if x === null:', 'if not x == None:'],
+        question: '¿Qué expresión comprueba específicamente que `x` contiene el valor ausente `None`?',
+        options: ['x == None', 'x is None', 'x === null', 'not x == None'],
         correctIndex: 1,
         explanation:
           'PEP 8 recomienda `is None` / `is not None` porque se comprueba la identidad del único objeto `None`. `=== null` no es sintaxis de Python; las formas con `== None` pueden parecer funcionar, pero expresan la pregunta equivocada.',
@@ -2402,11 +2285,11 @@ if __name__ == "__main__":
           '`input()` devuelve `str` aunque la persona escriba dígitos. La apariencia no cambia el tipo: primero capturas texto y después decides si corresponde convertirlo con `int` o `Decimal`.',
       },
       {
-        question: 'En el parser de intake, si edad="abc", ¿qué debe ocurrir?',
-        options: ['El programa termina con traceback no capturado', 'errors lista el campo; edad_raw sigue siendo "abc"', 'Se borra edad_raw para ocultar el fallo', 'Se convierte silenciosamente a 0'],
+        question: 'En S02, ¿cómo compruebas qué ocurre con `edad_raw = "abc"`?',
+        options: ['Borras `edad_raw` antes de convertir', 'Ejecutas `int(edad_raw)` por separado y observas dónde se detiene', 'Inventas la edad `0`', 'Supones que las letras se convierten solas'],
         correctIndex: 1,
         explanation:
-          'El contrato conserva `edad_raw == "abc"` y agrega un error que nombra el campo; así el proceso continúa y el fallo se puede investigar. Terminar con traceback, borrar el raw o inventar `0` destruye información.',
+          'S02 conserva `edad_raw` y ejecuta la conversión problemática por separado. Python se detiene porque `"abc"` no representa un entero. S09 enseñará a continuar después del fallo sin borrar ni inventar datos.',
       },
       {
         question: 'Tras `raw = "  Ñahui  "` y `clean = raw.strip()`, ¿qué debe cumplirse?',

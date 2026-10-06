@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import * as Icons from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { InlineText } from './RichText'
 import { useProgressStore, SUB_STEPS, type SubStep } from '@/lib/progress-store'
 import type { CourseSection } from '@/lib/types'
 import { useI18n, t } from '@/lib/i18n'
@@ -212,7 +213,7 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
                       {section.shortTitle}
                     </div>
                     <div className="truncate text-xs text-muted-foreground">
-                      {section.tagline}
+                      <InlineText text={section.tagline} />
                     </div>
                   </div>
 

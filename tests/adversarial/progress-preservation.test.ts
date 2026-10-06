@@ -262,7 +262,15 @@ describe('migration preserves completed work and is idempotent', () => {
       completedSubSteps: { setup: ['theory'] },
       quizScores: { setup: 100 },
     }
-    const withMedia = { ...base, /* media not in contract */ }
+    // Media is not in the progress contract, so these are the unknown, additive fields a newer
+    // client could persist. The object used to spread `base` and add nothing, so this test
+    // round-tripped plain progress and could not see media at all.
+    const withMedia = {
+      ...base,
+      mediaWatched: { setup: ['intro-video'] },
+      audioPositionSeconds: { setup: 42 },
+      completedSections: base.completedSections,
+    } as typeof base
     const rt = roundTripProgress(withMedia)
     assert.deepEqual(rt.completedSections, base.completedSections)
     assert.deepEqual(rt.completedSubSteps, base.completedSubSteps)

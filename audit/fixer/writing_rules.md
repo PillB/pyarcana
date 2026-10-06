@@ -106,3 +106,13 @@ ones to read a passage against by eye before returning it.
 - **G4 — A green gate is not evidence a passage survived.** Every gated measure is a section
   aggregate; the Orbiter damage was FH −24.7 at paragraph scale and 0.6 → 0.6 at section
   scale. Read the passage.
+
+## H. Local colour *(gated; S17 concepts round, 2026-09-22)*
+
+- **H1 — Peruvian place names are case flavour, never filler.** `tests/adversarial/
+  test_over_localized_language.py` caps them at **55 per section file**, counted over all
+  prose outside `CASO-` fixture lines, and a breach fails the round and restores the section.
+  Three rounds have now been thrown away on this, every one of them writing in the house
+  style with no way to know the cap existed. Sections near the cap are already saturated:
+  reach for a role (`region norte`, `sucursal B`, `la sede`) or an existing fixture id
+  instead of naming another city. The concepts prompt states the file's remaining headroom.

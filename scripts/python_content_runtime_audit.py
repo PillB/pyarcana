@@ -20,10 +20,14 @@ import re
 import subprocess
 import sys
 import tempfile
+from collections import Counter
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
 
+# Writes a shared course-state report, so it must not run while a gate is measuring.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import report_lock  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 SECTIONS_DIR = ROOT / "src/lib/course/sections"
 OUT = ROOT / "course-state/python_runtime_audit_report.json"
@@ -738,6 +742,9 @@ def audit_section_file(path: Path) -> dict:
         "section_id": results[0]["section_id"] if results else path.stem,
         "artifact_count": len(results),
         "counts": counts,
+        "skip_reasons": dict(sorted(Counter(
+            str(r["result"].get("reason")) for r in results if r["result"]["status"] == "skip"
+        ).items())),
         "results": results,
     }
 
@@ -775,7 +782,48 @@ def list_section_files(only: str | None, shard: str | None) -> list[Path]:
     return files
 
 
+#: Skips that are not a gap: the snippet is not Python, or it is a CLI that needs arguments.
+EXPECTED_SKIP_PREFIXES = ("non_python:", "needs_cli_argv")
+#: Lesson code that imports something the declared environment does not provide, so its output
+#: is never checked. Owed, not accepted, and two-sided like the test ratchets: a new one fails,
+#: and so does paying one off without lowering this number.
+#: 2026-10-03: 54, measured where CI measures - requirements-content.txt installed alone. By the
+#: first import that fails: openpyxl 25 (rag, stdlib-deep), matplotlib 9 (databases-orm), jinja2 8,
+#: python-docx 5, pymupdf 3, pypdf 1 and Pillow 1 (fastapi), playwright 1 (computer-vision),
+#: fastapi 1 (llm-finetuning). The first value set here, 6, was measured in a local .venv-content
+#: that has most of those packages installed without declaring them; CI caught it.
+MISSING_DEPENDENCY_OWED = 54
+
+
+def skip_verdict(section_reports: list[dict], enforce_lower_bound: bool) -> dict:
+    """Every skip by reason, and whether each is one the run could not have avoided.
+
+    Skips used to be a per-section count that `ok` ignored, so lesson code whose import failed
+    read exactly like a shell command: on 2026-10-03, 54 of 72 skips in CI were lesson code that
+    never ran. The upper bound holds everywhere. The lower bound needs a full run in exactly the
+    declared environment - a shard holds fewer by construction, and a local environment carrying
+    undeclared packages runs code CI cannot - so `main()` enforces it only for a full run in CI.
+    """
+    skipped = [(s["section_id"], r) for s in section_reports for r in s["results"]
+               if r["result"]["status"] == "skip"]
+    by_reason = Counter(str(r["result"].get("reason")) for _, r in skipped)
+    missing = [f"{sid} {r['artifact_id']}: {r['result'].get('stderr', '').strip()[-80:]}"
+               for sid, r in skipped if r["result"].get("reason") == "missing_dependency"]
+    problems = [f"{n} snippets skipped as {reason}" for reason, n in sorted(by_reason.items())
+                if not reason.startswith(EXPECTED_SKIP_PREFIXES) and reason != "missing_dependency"]
+    if len(missing) > MISSING_DEPENDENCY_OWED:
+        problems.append(f"{len(missing)} missing_dependency skips, more than the "
+                        f"{MISSING_DEPENDENCY_OWED} owed - lesson code now imports something "
+                        "requirements-content.txt does not provide")
+    elif enforce_lower_bound and len(missing) < MISSING_DEPENDENCY_OWED:
+        problems.append(f"only {len(missing)} missing_dependency skips remain - lower "
+                        f"MISSING_DEPENDENCY_OWED to {len(missing)} so the ratchet keeps what was fixed")
+    return {"status": "fail" if problems else "ok", "problems": problems,
+            "by_reason": dict(sorted(by_reason.items())), "missing_dependency": missing}
+
+
 def main() -> int:
+    report_lock.refuse_if_busy(__file__)
     ap = argparse.ArgumentParser()
     ap.add_argument("--shard", default=None, help="k/n")
     ap.add_argument("--only", default=None)
@@ -817,6 +865,9 @@ def main() -> int:
 
     dependency_visibility = probe_dependency_visibility()
     version_drift = probe_version_drift()
+    full_run = not (args.only or args.shard or args.limit)
+    skips = skip_verdict(section_reports,
+                         enforce_lower_bound=full_run and os.environ.get("CI") == "true")
 
     report = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -835,15 +886,20 @@ def main() -> int:
         # mismatched. Four such phantom failures were once baselined as real, and a
         # valid `zip(..., strict=True)` was recorded as a P0 regression. Neither a
         # pass nor a fail means anything until the interpreter matches the pins.
+        #
+        # A skip is not a pass either: only the reasons that mean "nothing to run" are free.
         "ok": len(p0) == 0
         and len(p1) == 0
         and dependency_visibility["status"] == "ok"
-        and version_drift["status"] == "ok",
+        and version_drift["status"] == "ok"
+        and skips["status"] == "ok",
+        "skips": skips,
         "sections_detail": [
             {
                 "file": s["file"],
                 "section_id": s["section_id"],
                 "counts": s["counts"],
+                "skip_reasons": s["skip_reasons"],
                 "artifact_count": s["artifact_count"],
             }
             for s in section_reports
@@ -893,6 +949,7 @@ def main() -> int:
                 "core_modules_missing": dependency_visibility["core_modules_missing"],
                 "environment_matches_pins": version_drift["status"],
                 "totals": totals,
+                "skips": {"status": skips["status"], "by_reason": skips["by_reason"]},
                 "p0": len(p0),
                 "p1": len(p1),
                 "out": str(OUT.relative_to(ROOT)),
@@ -900,6 +957,8 @@ def main() -> int:
             indent=2,
         )
     )
+    for problem in skips["problems"]:
+        print(f"SKIP PROBLEM: {problem}", file=sys.stderr)
     if version_drift["status"] == "drifted":
         drift = ", ".join(
             f"{d['package']} {d['installed']} (declared {d['declared']})"

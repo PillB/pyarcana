@@ -2092,7 +2092,7 @@ if __name__ == "__main__":
       },
       {
         question: "1.2 km entre dos entidades sintéticas implica…",
-        options: ["Parentesco automático", "Fraude confirmado", "Borrar el ER score", "Una geoseñal de relación, no un veredicto"],
+        options: ["Parentesco automático", "Fraude confirmado", "Borrar la puntuación de relación", "Una geoseñal de relación, no un veredicto"],
         correctIndex: 3,
         explanation:
           "Haversine alimenta `relationship_signal_score` (el score de relación); no es kinship (parentesco) ni fraude automático.",
