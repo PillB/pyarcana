@@ -578,7 +578,7 @@ const git: SetupPart = {
       os: WIN,
       title: 'Descarga Git',
       body: [
-        'Abre `https://git-scm.com/downloads/win` y haz clic en el enlace de descarga para `x64`. Abre el archivo que se descarga.',
+        'Abre `https://git-scm.com/downloads/win` y haz clic en `Click here to download` (haz clic aquí para descargar). Abre el archivo que se descarga.',
         'El instalador tiene muchas pantallas. Pulsa `Next` en todas, menos en la que explica el paso siguiente.',
       ],
       shot: 'git-win-download',
@@ -1270,9 +1270,10 @@ export const SETUP_SHOTS: readonly ShotSpec[] = [
     os: 'windows',
     source: 'browser-script',
     url: 'https://git-scm.com/downloads/win',
-    selector: 'main a[href$="64-bit.exe"]',
-    brief: 'Página de descarga de Git para Windows en git-scm.com. Recuadro en el enlace del instalador de 64 bits.',
-    alt: 'Página Download for Windows de git-scm.com. Un enlace resaltado lleva al instalador Git for Windows de 64 bits.',
+    // The page's own id for its main link (git/git-scm.com content/install/windows.html, read 6 Oct 2026).
+    selector: '#auto-download-link',
+    brief: 'Página de descarga de Git para Windows en git-scm.com. Recuadro en el enlace «Click here to download».',
+    alt: 'Página de descarga de Git para Windows en git-scm.com. Resaltado, el enlace Click here to download, que baja la versión x64 más reciente de Git for Windows.',
     caption: 'El enlace del instalador para la mayoría de computadoras con Windows.',
   },
   {

@@ -341,3 +341,25 @@ test('the first commit happens on the computer before any GitHub sign-in, and th
   const local = ['conectar.init', 'conectar.status', 'conectar.clonar'].map((id) => ALL_STEPS.find((s) => s.id === id)!)
   for (const s of local) assert.match(s.expect!.text, /En español dice/, `${s.id}: no Spanish wording`)
 })
+
+// --- adding an own capture --------------------------------------------------------------------
+
+import { ownRecord, pixelBoxToPercent, pngSize as pngSizeOf } from '../../../../scripts/setup_shot_add.mjs'
+
+test('a pixel box becomes percentages of the real picture, and one that spills out is refused', () => {
+  // A Retina capture is twice the points: the box is in the PNG's own pixels, whatever the screen.
+  assert.deepEqual(pixelBoxToPercent('130, 760, 360, 40', 1316, 822), { x: 9.9, y: 92.5, w: 27.4, h: 4.9 })
+  assert.throws(() => pixelBoxToPercent('1300,10,40,10', 1316, 822), /does not fit/)
+  assert.throws(() => pixelBoxToPercent('10,10,40', 1316, 822), /four numbers/)
+  assert.throws(() => pixelBoxToPercent('10,10,0,5', 1316, 822), /does not fit/)
+  assert.ok(validShotBox(pixelBoxToPercent('0,0,1316,822', 1316, 822)))
+})
+
+test('an own capture is a plain record: no credit, so the page says "Comprobado el"', () => {
+  const r = ownRecord('win-py-installer-done', 658, 408, '2026-10-12', { x: 80, y: 88, w: 15, h: 8 })
+  assert.ok(validShotRecord(r))
+  assert.equal('credit' in r, false)
+  assert.ok(validShotRecord(ownRecord('a', 10, 10, '2026-10-12')))
+  assert.throws(() => pngSizeOf(Buffer.from('GIF89a-not-a-png-at-all-really')), /not a PNG/)
+  assert.deepEqual(pngSizeOf(readFileSync('src/assets/setup/gh-2fa-setup.png')), [725, 446])
+})

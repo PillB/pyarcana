@@ -38,21 +38,33 @@ export function percentBox(rect, vp = VIEWPORT) {
 }
 
 /**
+ * The box around the spec's selector, or undefined with a warning when it cannot be measured.
+ * Pages change: a picture without a box is still true, a box around the wrong thing is not, and a
+ * capture that throws leaves nothing at all. Look at every capture before committing it.
+ */
+async function measureBox(page, spec) {
+  const el = page.locator(spec.selector).first()
+  if ((await el.count()) === 0) return warnNoBox(spec, 'matches nothing on the page')
+  await el.scrollIntoViewIfNeeded()
+  const rect = await el.boundingBox()
+  if (!rect) return warnNoBox(spec, 'is not visible')
+  if (rect.y < 0 || rect.y + rect.height > VIEWPORT.height) return warnNoBox(spec, 'does not fit in the window')
+  return percentBox(rect)
+}
+
+function warnNoBox(spec, why) {
+  console.warn(`WARN  ${spec.id}: selector ${spec.selector} ${why}; captured without a box. Check the page and fix the selector in content.ts.`)
+  return undefined
+}
+
+/**
  * Capture one spec on an open page. Writes `<outDir>/<id>.png` and returns its record.
- * Fails (throws) when the selector is missing or off screen: a box around nothing is worse than none.
  */
 export async function captureShot(page, spec, { outDir = SHOT_DIR, today, url = spec.url } = {}) {
   await page.setViewportSize(VIEWPORT)
   await page.goto(url, { waitUntil: 'networkidle', timeout: 45_000 })
   let box
-  if (spec.selector) {
-    const el = page.locator(spec.selector).first()
-    await el.scrollIntoViewIfNeeded()
-    const rect = await el.boundingBox()
-    if (!rect) throw new Error(`${spec.id}: ${spec.selector} is not visible`)
-    if (rect.y < 0 || rect.y + rect.height > VIEWPORT.height) throw new Error(`${spec.id}: ${spec.selector} is outside the viewport`)
-    box = percentBox(rect)
-  }
+  if (spec.selector) box = await measureBox(page, spec)
   await page.screenshot({ path: path.join(outDir, `${spec.id}.png`) })
   return { id: spec.id, checkedOn: today, width: VIEWPORT.width, height: VIEWPORT.height, ...(box ? { box } : {}) }
 }

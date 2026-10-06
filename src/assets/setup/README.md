@@ -11,40 +11,62 @@ record in `shots.json` (the date it was checked, its size, the box around what t
 node --import tsx scripts/setup_screenshots.mjs --report
 ```
 
-## Browser pages (`source: 'browser-script'`)
-
-```bash
-node --import tsx scripts/setup_screenshots.mjs --take            # all of them
-node --import tsx scripts/setup_screenshots.mjs --take --only gh-signup-form
-```
-
-The script opens the page at 1280×800, finds the spec's `selector`, saves `<id>.png`, measures the
-box, writes the record with today's date and regenerates `index.ts`. **Look at every picture before
-committing it**: a page can change under a selector that still matches.
-
 ## Installers and desktop apps (`source: 'owner-capture'`)
 
-On a real Windows 11 or macOS machine, in Spanish where the system offers it:
+**Before you start (prevents the usual retakes):**
+- **Spanish system, light theme, default zoom.** The page is in Spanish, and learners compare
+  colours and positions with yours.
+- **A clean machine shows the screens a beginner sees.** Your own computer already has Python, Git
+  and VS Code, so some screens never appear there:
+  - Windows 11 Pro: use **Windows Sandbox** (enable it under "Activar o desactivar las
+    características de Windows"). It is a fresh, throwaway Windows.
+  - Otherwise use a new local user account, or a spare laptop.
+  - The macOS Git prompt (`mac-clt-prompt`) appears only on a Mac without the Command Line Tools,
+    so use another Mac or a fresh user on a Mac that never installed them.
+- **Privacy.** Use a test GitHub account for anything GitHub shows. No real email, QR code or
+  recovery code may appear. A device code expires in 15 minutes, so a capture of one is harmless
+  once it has expired.
+- **Capture the window, not the screen.**
+  - Windows 11: Win+Shift+S, then "Ventana", then click the window. The Snipping Tool saves a PNG
+    in Imágenes > Capturas de pantalla.
+  - macOS: Cmd+Shift+4, then Space, then **hold Option** while you click the window. Option leaves
+    out the drop shadow. The PNG lands on the Desktop.
+- **Size.** A Retina Mac saves at twice the size. Keep pictures at 1600 px wide or less. The add
+  script warns, and tells you the one-line fix: `sips -Z 1600 "file.png"` on a Mac, or Paint >
+  Cambiar tamaño on Windows.
 
-1. Put the screen in the state the spec's `brief` describes. Use a test account for anything that
-   shows a personal detail: no real email, QR code or recovery code may appear.
-2. Capture the window only (Windows: Win+Shift+S, window mode; macOS: Cmd+Shift+4, then Space).
-3. Save it as `src/assets/setup/<id>.png`, with the spec's id as the name.
-4. Add its record to `shots.json`:
-   ```json
-   { "id": "win-py-installer-path", "checkedOn": "2026-10-12", "width": 1316, "height": 822,
-     "box": { "x": 4.1, "y": 78.5, "w": 38.0, "h": 6.2 } }
-   ```
-   `width` and `height` are the PNG's pixels. `box` is the rectangle around what to click, in
-   percent of the width and height (x and y are its top-left corner). Leave `box` out when the
-   picture shows a result rather than something to click.
-5. Run `node scripts/setup_shots_index.mjs`. Then run the unit tests
-   (`node scripts/run_billing_tests.mjs --only client`): they refuse a picture without a record, a
-   record without a picture, and a box that runs off the image.
-6. Open `/empezar` and check that the box sits on the right control, in light and dark mode.
+**The box around what to click.** Choose one way:
+- **Draw it yourself** with the capture tool's markup, one rectangle on exactly one control:
+  - macOS: open the PNG, Markup, Shapes, rectangle;
+  - Windows: Snipping Tool's shapes, if your version has them, or Paint's rectangle.
+  - Then add the picture without `--box`.
+- **Or give its pixels**, and the page draws the box, which survives a theme change:
+  - Windows: open the PNG in Paint. The bar at the bottom shows the cursor position. Note the
+    top-left corner of the control, then its width and height.
+  - Pass them as `--box left,top,width,height`.
+  - Measure on the final file. If you shrink it later, measure again.
 
-Retake a capture when its installer or page changes, and at the latest when `--report` calls it
-stale (older than 120 days).
+**Add it, one command per picture** (the path can contain spaces; keep the quotes):
+
+```bash
+node --import tsx scripts/setup_shot_add.mjs <id> "<path to the PNG>" [--box left,top,width,height]
+node scripts/run_billing_tests.mjs --only client   # refuses a broken record or a box off the image
+```
+
+Then open `/empezar` (`npm run dev`, or a static build) on the right system track, and check the
+picture and its box in light and dark mode. Adding your own capture for an id that had a reused
+picture replaces it, credit included.
+
+## Browser pages (`source: 'browser-script'`), on your own computer
+
+```bash
+npx playwright install chromium          # once, if Playwright has no browser yet
+node --import tsx scripts/setup_screenshots.mjs --take
+```
+
+It captures `py-release-files`, `git-win-download` and `gh-signup-form` at 1280×800, logged out.
+If a page changed and a selector no longer matches, it still saves the picture, without a box, and
+prints `WARN`. Look at every new PNG before committing it.
 
 ## Reusing a screenshot from official documentation
 
