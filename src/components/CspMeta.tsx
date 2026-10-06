@@ -10,5 +10,7 @@ import { CLOUD_CONFIG } from '@/lib/cloud/config'
  * full policy, frame-ancestors included, as a header (_headers).
  */
 export function CspMeta() {
-  return <meta httpEquiv="Content-Security-Policy" content={metaCsp(CLOUD_CONFIG)} />
+  // `next dev` alone runs with NODE_ENV=development, and its runtime needs eval (metaCsp).
+  const devServer = process.env.NODE_ENV === 'development'
+  return <meta httpEquiv="Content-Security-Policy" content={metaCsp(CLOUD_CONFIG, { devServer })} />
 }

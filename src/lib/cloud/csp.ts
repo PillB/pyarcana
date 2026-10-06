@@ -102,10 +102,16 @@ const HEADER_ONLY = new Set(['frame-ancestors', 'report-uri', 'sandbox'])
 /**
  * The policy as the <meta http-equiv> copy carries it: buildCsp minus the header-only directives.
  * The Cloudflare build sends the full policy as a header (_headers), where they take effect.
+ *
+ * `devServer` adds 'unsafe-eval' to script-src for `next dev` only. Its runtime (React Refresh,
+ * eval source maps) evaluates strings, so under the strict policy nothing hydrates and every page
+ * stays as the server rendered it (the Next.js CSP guide makes the same exception). A build never
+ * passes it, and the header copy (buildCsp) has no such option.
  */
-export function metaCsp(cfg: CloudConfig): string {
-  return buildCsp(cfg)
+export function metaCsp(cfg: CloudConfig, opts: { devServer?: boolean } = {}): string {
+  const directives = buildCsp(cfg)
     .split('; ')
     .filter((d) => !HEADER_ONLY.has(d.split(' ')[0]))
-    .join('; ')
+  if (!opts.devServer) return directives.join('; ')
+  return directives.map((d) => (d.startsWith('script-src ') ? `${d} 'unsafe-eval'` : d)).join('; ')
 }
