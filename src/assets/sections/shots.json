@@ -1,0 +1,128 @@
+[
+  {
+    "id": "s01-compare-pr-banner",
+    "checkedOn": "2026-10-06",
+    "width": 1600,
+    "height": 142,
+    "credit": {
+      "source": "GitHub Docs",
+      "url": "https://github.com/github/docs/blob/main/assets/images/help/pull_requests/pull-request-compare-pull-request.png",
+      "licence": "CC BY 4.0",
+      "changes": "reducida de 1824 a 1600 px de ancho"
+    },
+    "alt": "Banner amarillo de GitHub con el texto «octo-repo had recent pushes less than a minute ago» y el botón verde «Compare & pull request» a la derecha.",
+    "caption": "Tras publicar la rama, GitHub muestra este aviso sobre la lista de archivos. En tu repositorio dirá «feat/hello-env» en lugar de «octo-repo».",
+    "guide": {
+      "label": "la guía de GitHub Docs para crear un pull request",
+      "url": "https://docs.github.com/es/pull-requests/how-tos/create-pull-requests/creating-a-pull-request"
+    }
+  },
+  {
+    "id": "s01-pr-files-changed-tab",
+    "checkedOn": "2026-10-06",
+    "width": 1308,
+    "height": 122,
+    "credit": {
+      "source": "GitHub Docs",
+      "url": "https://github.com/github/docs/blob/main/assets/images/help/pull_requests/pull-request-tabs-changed-files.png",
+      "licence": "CC BY 4.0"
+    },
+    "alt": "Pestañas de un Pull Request en GitHub: «Conversation», «Commits», «Checks» y «Files changed», con «Files changed» recuadrada en naranja.",
+    "caption": "La pestaña «Files changed» lista cada archivo del PR. En tu caso el contador debe marcar 2, no 24 como en el ejemplo.",
+    "guide": {
+      "label": "la guía de GitHub Docs para revisar los cambios de un pull request",
+      "url": "https://docs.github.com/es/pull-requests/how-tos/review-pull-requests/reviewing-proposed-changes-in-a-pull-request"
+    }
+  },
+  {
+    "id": "s01-new-repository-menu",
+    "checkedOn": "2026-10-06",
+    "width": 732,
+    "height": 516,
+    "credit": {
+      "source": "GitHub Docs",
+      "url": "https://github.com/github/docs/blob/main/assets/images/help/repository/repo-create-global-nav-update.png",
+      "licence": "CC BY 4.0"
+    },
+    "alt": "Menú «+» abierto en la barra superior de GitHub, con la opción «New repository» recuadrada en naranja sobre «Import repository», «New codespace», «New gist» y «New organization».",
+    "caption": "El botón «+» está en la esquina superior derecha de GitHub, junto a tu foto de perfil. Ábrelo y elige «New repository».",
+    "guide": {
+      "label": "la guía de GitHub Docs para crear un repositorio",
+      "url": "https://docs.github.com/es/repositories/creating-and-managing-repositories/creating-a-new-repository"
+    }
+  },
+  {
+    "id": "s01-vscode-extensions-python",
+    "checkedOn": "2026-10-06",
+    "width": 520,
+    "height": 535,
+    "credit": {
+      "source": "Documentación de VS Code (Microsoft)",
+      "url": "https://github.com/microsoft/vscode-docs/blob/main/docs/getstarted/images/overview/extensions-search-python.png",
+      "licence": "CC BY 3.0 US",
+      "changes": "recortada a la barra lateral y la lista de extensiones, sin la barra de título con el logotipo de VS Code"
+    },
+    "alt": "Vista «EXTENSIONS: MARKETPLACE» de VS Code con «Python» en el buscador. En la barra de la izquierda está activo el icono de Extensions, cuatro cuadrados. El primer resultado, «Python» de Microsoft con marca de verificación, tiene el botón «Install» recuadrado en rojo.",
+    "caption": "Abre Extensions con el icono de cuadrados de la barra izquierda y busca «Python». Instala la de Microsoft, con la marca de verificación, y repite con «Ruff». Las cifras de descargas que veas serán distintas.",
+    "guide": {
+      "label": "la guía oficial de extensiones de VS Code (en inglés)",
+      "url": "https://code.visualstudio.com/docs/configure/extensions/extension-marketplace"
+    }
+  },
+  {
+    "id": "s01-ruff-quickfix-f401",
+    "checkedOn": "2026-10-06",
+    "width": 908,
+    "height": 200,
+    "credit": {
+      "source": "README de ruff-vscode, © 2022 Charles Marsh",
+      "url": "https://github.com/astral-sh/ruff-vscode/blob/main/README.md",
+      "licence": "MIT",
+      "licenceUrl": "https://github.com/astral-sh/ruff-vscode/blob/main/LICENSE",
+      "changes": "fotograma 20 de 60 de su animación, recortado a las líneas 1 a 10; el código mostrado es de FastAPI (MIT)"
+    },
+    "alt": "Editor VS Code con un import subrayado en amarillo en la línea 7. Un menú «Quick Fix...» ofrece la opción «Ruff: Fix F401».",
+    "caption": "Ruff subraya el nombre importado que nadie usa y nombra la regla F401. En S01 no uses el arreglo automático: borra tú el import sobrante y vuelve a ejecutar la comprobación.",
+    "guide": {
+      "label": "el README de la extensión Ruff para VS Code (en inglés)",
+      "url": "https://github.com/astral-sh/ruff-vscode#readme"
+    }
+  },
+  {
+    "id": "s23-trace-viewer",
+    "checkedOn": "2026-10-06",
+    "width": 1600,
+    "height": 779,
+    "credit": {
+      "source": "Documentación de Playwright, © Microsoft Corporation",
+      "url": "https://github.com/microsoft/playwright/blob/main/docs/src/images/getting-started/trace-viewer-failed-test.png",
+      "licence": "Apache-2.0",
+      "licenceUrl": "https://github.com/microsoft/playwright/blob/main/LICENSE",
+      "changes": "recortada sin la barra de pestañas ni la de direcciones del navegador, y reducida a 1600 px de ancho"
+    },
+    "alt": "Captura de Playwright Trace Viewer. Arriba, una línea de tiempo con miniaturas de la página. A la izquierda, la lista Actions con el paso Click getByRole('link', { name: 'star' }) marcado en rojo. Al centro, la instantánea de la página con pestañas Action, Before y After. Abajo, la pestaña Errors abierta muestra «strict mode violation»: el locator resolvió a 5 elementos.",
+    "caption": "Así se ve una prueba fallida en Trace Viewer: el paso en rojo, la página en ese instante y el error del locator en la pestaña Errors. La imagen oficial usa una prueba en JavaScript; desde Python, el visor es el mismo.",
+    "guide": {
+      "label": "la guía oficial de Trace Viewer para Python (en inglés)",
+      "url": "https://playwright.dev/python/docs/trace-viewer"
+    }
+  },
+  {
+    "id": "s44-merge-blocked",
+    "checkedOn": "2026-10-06",
+    "width": 1600,
+    "height": 388,
+    "credit": {
+      "source": "GitHub Docs",
+      "url": "https://github.com/github/docs/blob/main/assets/images/help/code-quality/code-quality-merge-block.png",
+      "licence": "CC BY 4.0",
+      "changes": "reducida a 1600 px de ancho"
+    },
+    "alt": "Recuadro de fusión de un pull request en GitHub. Arriba, con check verde: «All checks have passed», «4 successful checks». Debajo, con alerta roja: «Merging is blocked». Al pie, el botón «Merge pull request» aparece gris y desactivado.",
+    "caption": "Así se ve una regla de rama en acción: aunque los checks pasen, GitHub desactiva el botón de fusión. Aquí la causa es un hallazgo de calidad de código; con revisiones requeridas, el bloqueo se ve igual.",
+    "guide": {
+      "label": "la guía de GitHub Docs sobre ramas protegidas",
+      "url": "https://docs.github.com/es/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches"
+    }
+  }
+]

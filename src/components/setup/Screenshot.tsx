@@ -22,7 +22,7 @@ import { REUSE_LICENCES, formatCheckedOn, type ShotRecord, type ShotSpec } from 
  * replaced by a drawing that looks like one (owner's order: never fake a screenshot); the step
  * text carries the instruction alone until the capture lands.
  */
-export function Screenshot({ spec, record, image }: { spec: ShotSpec; record?: ShotRecord; image?: StaticImageData }) {
+export function Screenshot({ spec, record, image }: { spec: Pick<ShotSpec, 'id' | 'alt' | 'caption'>; record?: ShotRecord; image?: StaticImageData }) {
   if (!record || !image) return null
   const b = record.box
   return (
@@ -89,7 +89,7 @@ function Credit({ record }: { record: ShotRecord }) {
         {c.source}
       </a>
       ,{' '}
-      <a href={REUSE_LICENCES[c.licence]} className={link} target="_blank" rel="noopener noreferrer license">
+      <a href={c.licenceUrl ?? REUSE_LICENCES[c.licence]} className={link} target="_blank" rel="noopener noreferrer license">
         {c.licence}
       </a>
       {c.changes ? `, ${c.changes}` : ''}. Consultada el {formatCheckedOn(record.checkedOn)}.

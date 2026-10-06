@@ -53,16 +53,30 @@ export interface ShotSpec {
  * (`validReuse`). Shown as-is beside our text, it is part of a collection, which share-alike does
  * not reach (Creative Commons FAQ, "adaptations"); a crop or an overlay could make it an
  * adaptation. Owner decision D6 in audit/session-0/PLAN.md.
+ *
+ * MIT and Apache-2.0 (added 6 Oct 2026, decision D19 in audit/fixer/decisions.md): some tools
+ * publish their documentation pictures inside a code repository under its software licence,
+ * not under Creative Commons (the Ruff extension's README, MIT; Playwright's docs, Apache-2.0).
+ * Both allow commercial reuse and modification. Both make the copy carry a notice: MIT its
+ * copyright and permission notice, Apache-2.0 a copy of the licence, the NOTICE attributions
+ * and a statement of changes (§4). So a credit under either must link the source's own licence
+ * file (`licenceUrl`), which holds the copyright line, and name the holder in `source`.
+ * NonCommercial and NoDerivatives licences stay absent: Pro is paid, and a crop is a change.
  */
 export const REUSE_LICENCES = {
   'CC BY 4.0': 'https://creativecommons.org/licenses/by/4.0/deed.es',
   'CC BY 3.0 US': 'https://creativecommons.org/licenses/by/3.0/us/deed.es',
   'CC BY-SA 4.0': 'https://creativecommons.org/licenses/by-sa/4.0/deed.es',
   'PSF License v2': 'https://docs.python.org/3/license.html',
+  MIT: 'https://opensource.org/license/mit',
+  'Apache-2.0': 'https://www.apache.org/licenses/LICENSE-2.0',
 } as const
 
 /** Licences under which the picture must be shown exactly as published. */
 const UNMODIFIED_ONLY: readonly string[] = ['CC BY-SA 4.0']
+
+/** Licences whose notice lives in the source's own licence file, which the credit must link. */
+const NOTICE_IN_SOURCE: readonly string[] = ['MIT', 'Apache-2.0']
 
 export type ReuseLicence = keyof typeof REUSE_LICENCES
 
@@ -73,6 +87,11 @@ export interface ShotCredit {
   /** The page or file it was taken from. */
   url: string
   licence: ReuseLicence
+  /**
+   * The source's own licence file, linked instead of the generic text. Required for MIT and
+   * Apache-2.0, whose copyright notice is in that file (NOTICE_IN_SOURCE).
+   */
+  licenceUrl?: string
   /** What we changed, if anything, in Spanish: "recortada". CC BY requires saying so. */
   changes?: string
 }
@@ -119,8 +138,14 @@ export function validShotCredit(c: unknown): c is ShotCredit {
     typeof r.source === 'string' && r.source.length > 2 &&
     typeof r.url === 'string' && r.url.startsWith('https://') &&
     typeof r.licence === 'string' && r.licence in REUSE_LICENCES &&
-    (r.changes === undefined || typeof r.changes === 'string')
+    (r.changes === undefined || typeof r.changes === 'string') &&
+    validLicenceUrl(r.licence, r.licenceUrl)
   )
+}
+
+function validLicenceUrl(licence: string, url: unknown): boolean {
+  if (url === undefined) return !NOTICE_IN_SOURCE.includes(licence)
+  return typeof url === 'string' && url.startsWith('https://')
 }
 
 export function validShotBox(b: unknown): b is ShotBox {

@@ -36,6 +36,13 @@ export interface Figure {
   alt: string
 }
 
+export interface SectionScreenshot {
+  /** Record id in src/assets/sections/shots.json, also the PNG's file name. */
+  id: string
+  /** What the picture follows: a paragraph by index, the block's code, or its callout. */
+  after: number | 'code' | 'callout'
+}
+
 export interface TheoryBlock {
   heading: string
   paragraphs: string[]
@@ -46,6 +53,12 @@ export interface TheoryBlock {
    * the words it explains (spatial contiguity) rather than in a gallery.
    */
   figure?: Figure
+  /**
+   * Real screenshots of an interface the learner will operate. Only the seven the owner
+   * approved exist (decision D19; D4 still rules out any other). Each sits right after the
+   * prose it illustrates; its credit, alt, caption and guide live in its record, not here.
+   */
+  screenshots?: SectionScreenshot[]
   /** V3 stable id, e.g. S01-T1-A */
   subtopicId?: string
   /**
