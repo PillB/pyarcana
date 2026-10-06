@@ -278,6 +278,9 @@ ok
         'Después de instalar, **verifica en la terminal**: no des por hecho que el instalador terminó bien. El bloque siguiente es la lista de comprobación del día 1. Python debe responder con 3.12.x o una versión superior. Git debe mostrar su versión y el editor debe abrir desde `code` o desde el menú de VS Code. Solo entonces crea `.venv` y usa `python -m pip`. Si un comando falla, repara esa pieza antes de seguir. No encadenes instalaciones a ciegas.',
         'Un **notebook** es un archivo que alterna explicaciones con espacios de código que puedes ejecutar uno por uno y cuyo resultado aparece junto a cada espacio. Jupyter es el complemento que permite trabajar con esos archivos en VS Code. No tendrás que crear un notebook en S01; solo reconocer el nombre cuando aparezca en una opción o en una regla de Ruff.',
       ],
+      screenshots: [
+        { id: 's01-vscode-extensions-python', after: 'code' },
+      ],
       code: {
         language: 'bash',
         title: 'Orden del stack: verificar lo instalado',
@@ -510,6 +513,10 @@ docs: agregar README inicial
         'Publica la rama y abre **Compare & pull request** en GitHub. Elige `main` como destino y `feat/hello-env` como origen. Escribe `feat: agregar smoke hello_env`, resume los dos archivos y añade el comando de prueba. Correcto significa que la comparación solo muestra los cambios esperados y que aún no has integrado nada.',
         'Antes de crear el PR, abre **Files changed**, la vista de archivos cambiados. Comprueba que no aparecen `.env`, `.venv/` ni datos reales y que el destino sigue siendo `main`. Si aparece un archivo inesperado, corrige la rama y publica la corrección antes de pedir revisión.',
       ],
+      screenshots: [
+        { id: 's01-compare-pr-banner', after: 2 },
+        { id: 's01-pr-files-changed-tab', after: 3 },
+      ],
     },
     {
       heading: 'Ramas, Pull Requests y recuperación segura',
@@ -521,6 +528,9 @@ docs: agregar README inicial
         'Publica primero `main` y después tu rama. Al abrir el repositorio en GitHub aparecerá **Compare & pull request** para la rama recién publicada: revisa el diff, explica qué cambiaste y crea el PR. El PR no es otro archivo ni otro commit; es la conversación de revisión alrededor de una comparación entre ramas.',
         'Un **conflicto** aparece cuando dos ramas editaron las mismas líneas. Git marca el archivo; tú eliges el contenido final, lo seleccionas con `git add` y guardas la resolución en un commit. En S01 no necesitas resolver conflictos complejos: sí necesitas no entrar en pánico ni “arreglarlos” con historial destructivo. La regla de oro de este curso es **no hacer `git push --force` a `main`**. Reescribe historial solo en ramas tuyas no compartidas y con permiso del equipo; en inducción, ni eso.',
         'Recuperación **no destructiva** del día a día: `git restore archivo` descarta cambios *sin commit* en el working tree (vuelve a la última versión confirmada o staged, según el caso). `git stash` guarda por omisión las modificaciones de archivos que Git ya sigue; los archivos nuevos no rastreados permanecen. Usa `git stash -u` solo cuando decidas incluir también esos archivos y comprueba el resultado con `git status`; `git stash pop` recupera lo guardado. Prefiere restore/stash a `reset --hard` como primer reflejo: hard borra trabajo sin commit de forma fácil de lamentar. Aprende primero a no perder trabajo; después, a reescribir con cuidado.',
+      ],
+      screenshots: [
+        { id: 's01-new-repository-menu', after: 1 },
       ],
       code: {
         language: 'bash',
@@ -574,6 +584,9 @@ git push -u origin feat/hello-env
         'En una imprenta, la corrección tipográfica no decide si una idea es verdadera, pero evita que errores baratos distraigan de ella. VS Code y **Ruff** cumplen ese papel: no sustituyen pensar, pero detectan imports sin usar, sintaxis sospechosa y orden inconsistente antes de pedir tiempo a un revisor. La meta del día 1 no es una configuración perfecta; es un ciclo compartido y repetible: comprobar, corregir y comprobar otra vez.',
         'La configuración mínima vive en **`pyproject.toml`** en la raíz del proyecto, sección `[tool.ruff]` y opcionalmente `[tool.ruff.lint]`. Valores sensatos para empezar: `line-length = 88`, `target-version` acorde a tu Python, y `select = ["E", "F", "I"]` (pycodestyle errores, pyflakes, isort). Instala el CLI en el venv: `python -m pip install ruff`. Ejecuta: `python -m ruff check ruta/` o un archivo. `ruff format` formatea; en S01 el foco es **`ruff check`**.',
         'Flujo: escribes código → `ruff check` reporta (ej. **F401** import sin usar) → corriges o, en casos justificados avanzados, documentas un `noqa` (en S01 prefiere corregir). No habilites `select = ["ALL"]` el primer día: el ruido abruma y nadie arregla 200 reglas a la vez. Un mínimo que el equipo respeta vale más que un máximo que todos ignoran.',
+      ],
+      screenshots: [
+        { id: 's01-ruff-quickfix-f401', after: 'callout' },
       ],
       code: {
         language: 'toml',
