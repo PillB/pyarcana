@@ -16,7 +16,9 @@ from __future__ import annotations
 import json
 import re
 import sys
+import unittest
 from pathlib import Path
+from script_case import assert_main_passes
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 
@@ -78,6 +80,13 @@ def main():
 
     print(f"PASS: test_final_capstone_supplementary_gap — engine enforces supplementary for all gap-affected badges")
     return 0
+
+
+class MainPasses(unittest.TestCase):
+    """Discovery collects TestCases, so as a bare script this check never ran in CI."""
+
+    def test_main(self) -> None:
+        assert_main_passes(self, main)
 
 
 if __name__ == "__main__":

@@ -34,8 +34,12 @@ test('S05 You Do executes every promised boundary oracle', () => {
   assert.match(youDo, /is_idempotent\(normalize_email/)
   assert.match(youDo, /is_idempotent\(normalize_telefono/)
   assert.match(youDo, /is_idempotent\(normalize_direccion/)
-  assert.match(youDo, /normalize_email\("sin-arroba"\)/)
-  assert.match(youDo, /raise AssertionError\("normalize_email debe rechazar entradas sin @"\)/)
+  // The boundary oracle stays; its construct changed. It used to be try/except/else around
+  // `normalize_email("sin-arroba")`, which D10 keeps out of every section before S09, so the
+  // You Do now asks the same question through the section's own predicate. Pinning the check,
+  // not the catch: what must never disappear is that the starter verifies the rejection.
+  assert.match(youDo, /"sin-arroba"/)
+  assert.match(youDo, /assert not \w*email\w*\("sin-arroba"\)/)
   assert.match(youDo, /"direccion": "JR UNIÓN 1"/)
 })
 

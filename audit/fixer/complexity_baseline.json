@@ -1,12 +1,12 @@
 {
  "ceiling": 15,
- "over_ceiling": 33,
+ "over_ceiling": 32,
  "worst": 78,
  "worst_offenders": [
   {
    "score": 78,
    "file": "src/components/course/Dashboard.tsx",
-   "line": 76
+   "line": 78
   },
   {
    "score": 43,

@@ -29,8 +29,25 @@ class Section04TextFirstProseTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.source = SECTION.read_text(encoding="utf-8")
 
+    @staticmethod
+    def _normalised(text: str) -> str:
+        """Case and spacing folded away, because neither carries the teaching idea.
+
+        These anchors pin that a mental model is present, not how its sentence is punctuated.
+        S04's concepts round split one sentence in two, so ", el índice es innecesario" became
+        ". El índice es innecesario" - the same words, a capital E - and a case-sensitive
+        `assertIn` failed a round that had taken the section from 60 surprising uses to 21 and
+        the course from 268 to 229. A test that pins authored prose has to pin the phrase, not
+        the typography, or every legitimate rewrite is a false alarm.
+
+        Scoped to the anchors on purpose: the subtopicId assertion below reads the raw text,
+        because there the exact casing IS the contract.
+        """
+        return re.sub(r"\s+", " ", text).casefold()
+
     def test_theory_uses_decision_first_mental_models_across_all_topics(self) -> None:
         theory = _between(self.source, "  theory: [", "  iDo: {")
+        prose = self._normalised(theory)
 
         for anchor in (
             "Imagina una cinta transportadora",
@@ -44,7 +61,7 @@ class Section04TextFirstProseTests(unittest.TestCase):
             "Dos programas pueden imprimir el mismo resumen",
         ):
             with self.subTest(anchor=anchor):
-                self.assertIn(anchor, theory)
+                self.assertIn(self._normalised(anchor), prose)
 
         self.assertEqual(
             set(re.findall(r'subtopicId: "(S04-T[1-4]-[AB])"', theory)),

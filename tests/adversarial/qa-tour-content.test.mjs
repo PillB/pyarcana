@@ -37,11 +37,25 @@ test('every section the tutorial names actually exists', () => {
 test('the missing-prerequisite example really is missing a prerequisite', () => {
   // The whole point of the case is that the tool it demands is taught later.
   // If someone reorders the curriculum, this stops being true silently.
+  // Each claim the example makes is read from its text and checked against the course; this
+  // used to end in `assert.ok(15 > 6)`, which compared two literals and could not fail.
+  // The claim appears more than once (the taxonomy example and the exercise), so every
+  // occurrence is checked - a first-match read missed a wrong citation in the second.
   const known = sections()
-  assert.match(CONTENT, /En S06 el ejercicio pide/, 'the prerequisite example moved; re-verify it')
-  assert.match(known.get(6), /Colecciones/, 'S06 is no longer the collections section')
-  assert.match(known.get(15), /Pandas/, 'S15 is no longer where pandas is introduced')
-  assert.ok(15 > 6, 'the cited prerequisite must come after the exercise')
+  const exercises = [...CONTENT.matchAll(/(?:En S(\d{2}) el ejercicio|ejercicio de S(\d{2})) pide/g)]
+    .map((m) => Number(m[1] ?? m[2]))
+  const citations = [...CONTENT.matchAll(/pandas se enseña por primera vez en S(\d{2})/g)].map((m) => Number(m[1]))
+  assert.ok(exercises.length && citations.length, 'the prerequisite example moved; re-verify it')
+  const pandasFirst = Math.min(...[...known].filter(([, title]) => /Pandas/.test(title)).map(([n]) => n))
+  for (const n of exercises) assert.match(known.get(n), /Colecciones/, `S${n} is no longer the collections section`)
+  for (const n of citations) assert.equal(n, pandasFirst, `a citation names S${n}, but pandas starts in S${pandasFirst}`)
+  const exercise = exercises[0]
+  const cited = citations[0]
+  assert.ok(cited > exercise, 'the cited prerequisite must come after the exercise')
+  // The sentence is split across a string concatenation in the source: `secciones ' + 'más`.
+  const words = ['', 'una', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve', 'diez']
+  assert.match(CONTENT, new RegExp(`\\b${words[cited - exercise]} secciones[\\s'+]*más adelante`),
+    'the example states a different distance than the course has')
 })
 
 test('every exercise marks exactly one option correct, and explains the rest', () => {

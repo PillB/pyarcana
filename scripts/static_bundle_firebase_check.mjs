@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * D16 proof: the static builds leave Firebase out, and nothing a visitor sees changes.
+ * D18 proof: the static builds leave Firebase out, and nothing a visitor sees changes.
  *
  * "Before" is a git ref (default HEAD) built in a temporary worktree with Firebase included
  * (PYARCANA_FIREBASE_STUB=0 switches off the stand-ins older refs had; a ref without them ignores

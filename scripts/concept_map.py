@@ -29,6 +29,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+# Writes a shared course-state report, so it must not run while a gate is measuring.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import report_lock  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 EVENTS = ROOT / ".fixer/events.json"
 OUT_JSON = ROOT / "course-state/concept_map.json"
@@ -64,6 +67,35 @@ TEACHING_KINDS = {
 }
 
 
+#: A local import in TypeScript: `... from './x'`, `export ... from '../y'`, or `import './z'`.
+IMPORT = re.compile(r"""(?:\bfrom|^\s*import)\s+['"]([^'"]+)['"]""", re.M)
+RESOLVE = ("", ".ts", ".mts", ".tsx", "/index.ts")
+
+
+def extractor_inputs(entry: Path | None = None) -> set[Path]:
+    """Every file the extractor imports, followed transitively from its own imports.
+
+    The watch list was written by hand, and it went stale as soon as the definition rules moved
+    into concept_detector.mts: editing only the rules left the map built from events made under
+    the old ones (Codex review on #79). concept_syntax.mts had never been on the list at all.
+    Reading the imports keeps the list true for the next module too. Packages are skipped:
+    node_modules is not the course.
+    """
+    todo = [entry or ROOT / "scripts/course_event_extractor.mts"]
+    seen: set[Path] = set()
+    while todo:
+        path = todo.pop().resolve()
+        if path in seen or not path.is_file():
+            continue
+        seen.add(path)
+        for spec in IMPORT.findall(path.read_text(encoding="utf-8")):
+            base = path.parent / spec if spec.startswith(".") else (
+                ROOT / "src" / spec[2:] if spec.startswith("@/") else None)
+            if base is not None:
+                todo += [Path(f"{base}{suffix}") for suffix in RESOLVE]
+    return seen
+
+
 def sources_newer_than_cache() -> bool:
     """Has anything the extractor reads changed since the cache was written?
 
@@ -76,10 +108,7 @@ def sources_newer_than_cache() -> bool:
     if not EVENTS.exists():
         return True
     cached = EVENTS.stat().st_mtime
-    watched = list((ROOT / "src/lib/course/sections").glob("*.ts"))
-    watched += [ROOT / "src/lib/glossary/terms.ts", ROOT / "src/lib/course/index.ts",
-                ROOT / "scripts/course_event_extractor.mts"]
-    return any(p.exists() and p.stat().st_mtime > cached for p in watched)
+    return any(p.stat().st_mtime > cached for p in extractor_inputs())
 
 
 def load_events() -> dict:
@@ -95,11 +124,21 @@ def load_events() -> dict:
     return json.loads(proc.stdout)
 
 
-def main() -> int:
-    payload = load_events()
+def section_tags(payload: dict) -> tuple[list[str], dict[str, str]]:
+    """The live section ids in course order, and the SXX tag each one carries."""
     slugs = payload["active_section_ids"]
+    return slugs, {s: f"S{i+1:02d}" for i, s in enumerate(slugs)}
+
+
+def build_concepts(payload: dict) -> dict[str, dict]:
+    """Every term's uses, definitions and depth, computed from one extractor payload.
+
+    It reads and writes nothing, so a test can build the map from a fresh extraction of the
+    course being committed instead of trusting the report on disk - CI never regenerates
+    that report, so a ratchet reading it would guard whatever the last local run left.
+    """
+    slugs, tag = section_tags(payload)
     order = {s: i for i, s in enumerate(slugs)}
-    tag = {s: f"S{i+1:02d}" for i, s in enumerate(slugs)}
     terms = {t["id"]: t for t in payload["terms"]}
 
     events = sorted(
@@ -188,6 +227,14 @@ def main() -> int:
                 0, int(fd["section"][1:]) - int(fu["section"][1:]))
         else:
             c["explanation_lag_sections"] = None
+    return concepts
+
+
+def main() -> int:
+    report_lock.refuse_if_busy(__file__)
+    payload = load_events()
+    slugs, tag = section_tags(payload)
+    concepts = build_concepts(payload)
 
     OUT_JSON.write_text(json.dumps(concepts, indent=1, ensure_ascii=False), encoding="utf-8")
     OUT_DIR.mkdir(parents=True, exist_ok=True)

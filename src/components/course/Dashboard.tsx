@@ -31,6 +31,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { ProgressRing } from './ProgressRing'
+import { InlineText } from './RichText'
 import { useProgressStore } from '@/lib/progress-store'
 import type { CourseSection, CourseMeta } from '@/lib/types'
 import * as Icons from 'lucide-react'
@@ -38,6 +39,7 @@ import { cn } from '@/lib/utils'
 import { IS_STATIC_SITE, siteAsset } from '@/lib/runtime-mode'
 import { t, useI18n } from '@/lib/i18n'
 import { riseIn } from '@/lib/entrance'
+import { SetupIntroLink } from '@/components/setup/SetupIntroLink'
 import { useIsSignedIn } from '@/components/account/useIsSignedIn'
 import { ProgressStorageNotice } from '@/components/account/ProgressStorageNotice'
 import { StaticSiteNoticeText } from '@/components/account/StaticSiteNoticeText'
@@ -177,6 +179,10 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
               {meta.totalHours}h {english ? 'estimated (provisional plan)' : 'estimadas (plan provisional)'} · {meta.totalSections} {english ? 'sections' : 'secciones'}
             </div>
           </div>
+
+          {/* The way to Sesión 0, before Section 1. Shown to everyone: a returning learner on a
+              new computer needs it as much as a first-timer. */}
+          <SetupIntroLink className="mt-5 max-w-2xl" />
 
           {/* What can I learn here? */}
           <div className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -323,7 +329,7 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
                   {english ? 'CONTINUE WHERE YOU LEFT OFF' : 'CONTINÚA DONDE LO DEJASTE'}
                 </div>
                 <h3 className="mt-1 text-lg font-bold">{nextSection.title}</h3>
-                <p className="text-sm text-muted-foreground">{nextSection.tagline}</p>
+                <p className="text-sm text-muted-foreground"><InlineText text={nextSection.tagline} /></p>
               </div>
               <Button onClick={() => onSelectSection(nextSection.id)} className="gap-2">
                 {english ? 'Continue' : 'Continuar'}
@@ -395,7 +401,7 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
                     {english ? 'Section' : 'Sección'} {section.index}
                   </div>
                   <h3 className="text-base font-bold leading-tight">{section.shortTitle}</h3>
-                  <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{section.tagline}</p>
+                  <p className="mt-1 text-xs text-muted-foreground line-clamp-2"><InlineText text={section.tagline} /></p>
                 </div>
 
                 {/* Bottom */}

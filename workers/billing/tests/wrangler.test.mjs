@@ -164,11 +164,20 @@ test("the site's emailSignIn equals whether the worker sends email codes (privac
   assert.equal(match[1] === "true", provider !== "", `emailSignIn=${match[1]} but EMAIL_PROVIDER="${provider}"`);
 });
 
-test("one origin: no workers.dev or preview URL, the deploy owns both custom domains, and TERMS_VERSION matches the site", () => {
+test("one origin: no workers.dev or preview URL, the worker binds only the canonical host, and TERMS_VERSION matches the site", () => {
   assert.match(TOML, /^workers_dev = false$/m);
   assert.match(TOML, /^preview_urls = false$/m);
-  assert.match(TOML, /\{ pattern = "pyarcana\.dev", custom_domain = true \}/);
-  assert.match(TOML, /\{ pattern = "www\.pyarcana\.dev", custom_domain = true \}/);
+  // Static files are served before the worker runs, so any other bound host would get the whole
+  // course with accounts silently off: the client turns them on only on the canonical origin, and
+  // ALLOWED_ORIGINS names only it. www and pyarcana.com are zone redirect rules (README, step 5).
+  const routes = /^routes = \[\n([\s\S]*?)^\]$/m.exec(TOML);
+  assert.ok(routes, "routes is declared");
+  const patterns = [...routes[1].matchAll(/pattern = "([^"]+)"/g)].map((m) => m[1]);
+  const canonicalHost = new URL(unquote(section(TOML, "vars").CANONICAL_ORIGIN)).host;
+  assert.deepEqual(patterns, [canonicalHost]);
+  assert.match(routes[1], /\{ pattern = "pyarcana\.dev", custom_domain = true \}/);
+  const readme = readFileSync(new URL("README.md", ROOT), "utf8");
+  assert.match(readme, /www\.pyarcana\.dev[^\n]*Redirect Rule|Redirect Rule[^\n]*www\.pyarcana\.dev/, "the README tells the operator to redirect www");
   const config = readFileSync(fileURLToPath(new URL("../../src/lib/cloud/config.ts", ROOT)), "utf8");
   const site = /^ {2}termsVersion: '([^']*)',$/m.exec(config);
   assert.ok(site, "CLOUD_CONFIG.termsVersion is set");

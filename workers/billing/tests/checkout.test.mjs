@@ -248,6 +248,24 @@ test("already_subscribed: a renewing, a still-paid cancelled, a young pending or
   }
 });
 
+test("concurrent checkouts for one account: one reaches the provider, the others are already_subscribed", async () => {
+  // Both used to pass the open-checkout read before either inserted, so a double click made two
+  // preapprovals, two checkouts and two pending subscriptions. The open checkout is now claimed in
+  // one statement, before the provider call.
+  for (const provider of ["mercadopago", "creem"]) {
+    const h = await learner();
+    const cf = provider === "creem" ? { country: "US" } : { country: "PE" };
+    const results = await Promise.all([1, 2, 3].map(() => checkout(h, { provider, plan: "pro_monthly", ...TERMS }, { cf })));
+    assert.deepEqual(results.map((r) => r.status).sort(), [200, 409, 409], provider);
+    for (const r of results.filter((x) => x.status === 409)) {
+      assert.equal(r.body.reason, "already_subscribed");
+    }
+    assert.equal(h.fake.calls.filter((c) => c.method === "POST").length, 1, `${provider}: one provider call`);
+    assert.equal(await count(h.env, "FROM checkouts"), 1);
+    assert.equal(await count(h.env, "FROM subscriptions"), provider === "mercadopago" ? 1 : 0);
+  }
+});
+
 test("not blocked: an old pending, an old open checkout, or a cancelled subscription whose paid time is over", async () => {
   const h = await learner();
   await seedSub(h.env, h.who.account.id, { id: "sub_old", status: "pending", createdAt: NOW - 7200 });

@@ -67,8 +67,15 @@ class Section01IndependentRecoveryTests(unittest.TestCase):
     def test_first_use_definitions_are_inline_and_git_initializes_main(self) -> None:
         lesson = SECTION.read_text(encoding="utf-8")
 
+        # Re-pinned 2026-10-02. The tagline used to read «asociado a un intérprete Python —el
+        # programa que…—», which put «Python» between the term and its gloss, so the course could
+        # not attach them and `intérprete` counted as used before it was explained — in the very
+        # sentence that explains it. The order changed; the guard did not, and it now pins BOTH
+        # halves it always meant: the venv definition is inline, and the interpreter is glossed
+        # where the learner first meets it.
+        self.assertIn("entorno virtual (`venv`) es un directorio aislado", lesson)
         self.assertIn(
-            "entorno virtual (`venv`) es un directorio aislado, asociado a un intérprete Python",
+            "**intérprete** —el programa que lee tus instrucciones y las convierte en acciones—",
             lesson,
         )
         self.assertIn("**Git** es el sistema que conserva el historial de cambios", lesson)

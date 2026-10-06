@@ -80,52 +80,70 @@ function useTourGeometry(open: boolean, target: string | undefined, overlayRef: 
   return geo && geo.target === target ? geo : null
 }
 
-/**
- * The overlay's, slot's and panel's layout for a placement. Centred (no control, or not measured
- * yet): the overlay dims and centres the panel, as before. Otherwise the spotlight dims, and the
- * panel sits in a slot on one side of the control.
- */
-function tourLayout(placement: TourPlacement | undefined): {
-  overlay: string
-  slotClass: string
-  slot: CSSProperties | undefined
-  panel: CSSProperties | undefined
-} {
-  if (!placement || placement.kind === 'center') {
-    return { overlay: 'flex items-center justify-center bg-black/40 p-3 sm:p-4', slotClass: 'contents', slot: undefined, panel: undefined }
-  }
-  const side = placement.kind === 'below' ? { top: placement.top } : { bottom: placement.bottom }
-  return { overlay: '', slotClass: 'absolute inset-x-0 flex justify-center px-3 sm:px-4', slot: side, panel: { maxHeight: placement.maxHeight } }
-}
-
-/** The step's geometry and layout, for QATour (kept out of it to hold its complexity at 15). */
-function useTourStage(open: boolean, step: QATourStep | undefined, overlayRef: RefObject<HTMLDivElement | null>) {
-  const geo = useTourGeometry(open, step?.target, overlayRef)
-  return { spot: geo?.spot, layout: tourLayout(geo?.placement) }
-}
-
-/** The ring around the highlighted control; its shadow dims everything else in the workspace. */
-function TourSpotlight({ spot }: { spot: TourBox | undefined }) {
-  if (!spot) return null
-  return (
-    <div
-      aria-hidden="true"
-      data-testid="qa-tour-spotlight"
-      className="pointer-events-none absolute rounded-md"
-      style={{
-        top: spot.top - SPOT_PAD,
-        left: spot.left - SPOT_PAD,
-        width: spot.right - spot.left + 2 * SPOT_PAD,
-        height: spot.bottom - spot.top + 2 * SPOT_PAD,
-        boxShadow: '0 0 0 3px var(--primary), 0 0 0 9999px rgb(0 0 0 / 0.4)',
-      }}
-    />
-  )
+/** The panel's position for a placement: centred by the overlay, or on one side of the control. */
+function panelSlot(placement: TourPlacement | undefined): { slot: CSSProperties | undefined; panel: CSSProperties | undefined } {
+  if (!placement || placement.kind === 'center') return { slot: undefined, panel: undefined }
+  const panel = { maxHeight: placement.maxHeight }
+  if (placement.kind === 'below') return { slot: { top: placement.top }, panel }
+  return { slot: { bottom: placement.bottom }, panel }
 }
 
 /** Body copy with its **bold** spans rendered as bold, not as asterisks. */
 function Rich({ text }: { text: string }) {
   return <>{boldParts(text).map((p, i) => (p.bold ? <strong key={i} className="font-semibold text-foreground">{p.text}</strong> : p.text))}</>
+}
+
+/** The step's classification exercise: the options, the feedback for the one picked, and the rule once it is right. */
+function TourExercise({ ex, picked, onPick }: { ex: NonNullable<QATourStep['exercise']>; picked: string | null; onPick: (value: string) => void }) {
+  const chosen = picked ? ex.options.find((o) => o.value === picked) : undefined
+  const isRight = picked === ex.correct
+  return (
+    <div className="mt-4 rounded-lg border border-border bg-muted/40 p-4">
+      <p className="text-sm"><span className="font-medium">Caso:</span> {ex.symptom}</p>
+      <p className="mt-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        ¿Qué {ex.fieldLabel.toLowerCase()} corresponde?
+      </p>
+      <div className="mt-2 grid gap-2">
+        {ex.options.map((opt) => {
+          const isPicked = picked === opt.value
+          const showRight = isPicked && opt.value === ex.correct
+          const showWrong = isPicked && opt.value !== ex.correct
+          return (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => onPick(opt.value)}
+              data-testid={`qa-tour-option-${opt.value}`}
+              className={`min-h-11 rounded-md border px-3 py-2 text-left text-sm transition ${
+                showRight ? 'border-primary bg-primary/10'
+                : showWrong ? 'border-destructive/60 bg-destructive/5'
+                : 'border-border hover:bg-muted'
+              }`}
+            >
+              <span className="flex items-center gap-2">
+                {showRight && <Check className="h-4 w-4 shrink-0 text-primary" />}
+                {opt.label}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+      {chosen && (
+        <p
+          className="mt-3 text-sm leading-relaxed"
+          role="status"
+          data-testid="qa-tour-feedback"
+        >
+          {chosen.feedback}
+        </p>
+      )}
+      {isRight && (
+        <p className="mt-3 rounded-md border border-border bg-background p-3 text-sm leading-relaxed">
+          <span className="font-medium">Regla: </span>{ex.rule}
+        </p>
+      )}
+    </div>
+  )
 }
 
 /**
@@ -190,13 +208,12 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
 
   // Highlight the field the step is about, so the words attach to a control: a ring around it, the
   // rest of the workspace dimmed, and the panel beside it rather than over it.
-  const { spot, layout } = useTourStage(open, step, overlayRef)
+  const geo = useTourGeometry(open, step?.target, overlayRef)
+  const { slot, panel } = panelSlot(geo?.placement)
 
   if (!open || !step) return null
 
   const ex = step.exercise
-  const chosen = ex && picked ? ex.options.find((o) => o.value === picked) : undefined
-  const isRight = !!ex && picked === ex.correct
 
   return (
     <div
@@ -208,19 +225,32 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
       // With a control to point at, the dimming comes from the spotlight's shadow, which leaves a
       // hole over the control; overflow-hidden keeps that shadow inside the workspace.
       ref={overlayRef}
-      className={`absolute inset-0 z-[60] overflow-hidden ${layout.overlay}`}
+      className={`absolute inset-0 z-[60] overflow-hidden ${geo ? '' : 'flex items-center justify-center bg-black/40 p-3 sm:p-4'}`}
       role="dialog"
       aria-modal="true"
       aria-label="Tutorial de QA"
       data-testid="qa-tour"
       data-target={step.target}
     >
-      <TourSpotlight spot={spot} />
-      <div className={layout.slotClass} style={layout.slot}>
+      {geo && (
+        <div
+          aria-hidden="true"
+          data-testid="qa-tour-spotlight"
+          className="pointer-events-none absolute rounded-md"
+          style={{
+            top: geo.spot.top - SPOT_PAD,
+            left: geo.spot.left - SPOT_PAD,
+            width: geo.spot.right - geo.spot.left + 2 * SPOT_PAD,
+            height: geo.spot.bottom - geo.spot.top + 2 * SPOT_PAD,
+            boxShadow: '0 0 0 3px var(--primary), 0 0 0 9999px rgb(0 0 0 / 0.4)',
+          }}
+        />
+      )}
+      <div className={slot ? 'absolute inset-x-0 flex justify-center px-3 sm:px-4' : 'contents'} style={slot}>
       <div
         ref={panelRef}
         tabIndex={-1}
-        style={layout.panel}
+        style={panel}
         // Three rows: header, a body that scrolls, and a footer pinned to the
         // bottom. Letting the whole panel scroll was not enough -- on step 2 a
         // correct answer adds both the feedback and the rule, and the Siguiente
@@ -277,53 +307,7 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
           </dl>
         )}
 
-        {ex && (
-          <div className="mt-4 rounded-lg border border-border bg-muted/40 p-4">
-            <p className="text-sm"><span className="font-medium">Caso:</span> {ex.symptom}</p>
-            <p className="mt-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              ¿Qué {ex.fieldLabel.toLowerCase()} corresponde?
-            </p>
-            <div className="mt-2 grid gap-2">
-              {ex.options.map((opt) => {
-                const isPicked = picked === opt.value
-                const showRight = isPicked && opt.value === ex.correct
-                const showWrong = isPicked && opt.value !== ex.correct
-                return (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => setPicked(opt.value)}
-                    data-testid={`qa-tour-option-${opt.value}`}
-                    className={`min-h-11 rounded-md border px-3 py-2 text-left text-sm transition ${
-                      showRight ? 'border-primary bg-primary/10'
-                      : showWrong ? 'border-destructive/60 bg-destructive/5'
-                      : 'border-border hover:bg-muted'
-                    }`}
-                  >
-                    <span className="flex items-center gap-2">
-                      {showRight && <Check className="h-4 w-4 shrink-0 text-primary" />}
-                      {opt.label}
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
-            {chosen && (
-              <p
-                className="mt-3 text-sm leading-relaxed"
-                role="status"
-                data-testid="qa-tour-feedback"
-              >
-                {chosen.feedback}
-              </p>
-            )}
-            {isRight && (
-              <p className="mt-3 rounded-md border border-border bg-background p-3 text-sm leading-relaxed">
-                <span className="font-medium">Regla: </span>{ex.rule}
-              </p>
-            )}
-          </div>
-        )}
+        {ex && <TourExercise ex={ex} picked={picked} onPick={setPicked} />}
 
         </div>
 

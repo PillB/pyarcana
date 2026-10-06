@@ -1,7 +1,7 @@
 /**
  * Firebase client configuration, read from NEXT_PUBLIC_FIREBASE_* without importing the Firebase
  * SDK. Code that only asks "is Firebase configured?" (the static site's notice) imports this
- * module, so the static build never pulls the SDK in (decision D16). client.ts re-exports both
+ * module, so the static build never pulls the SDK in (decision D18). client.ts re-exports both
  * functions, so its API is unchanged.
  */
 

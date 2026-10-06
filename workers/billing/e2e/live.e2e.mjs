@@ -2,7 +2,7 @@
 // The easy way: workers/billing/e2e/live.sh runs the setup and every step below, guided.
 //
 //   node live.e2e.mjs                 anonymous checks: health, sign-in methods, JWKS, pages, ads,
-//                                     robots.txt, ads.txt, the pyarcana.com redirect
+//                                     robots.txt, ads.txt, the pyarcana.com and www redirects
 //   node live.e2e.mjs --login         opens YOUR installed Chrome (a throwaway profile, not driven by
 //                                     automation, so Google accepts the sign-in) on the home page:
 //                                     sign in yourself (Google is needed for admin), then press Enter
@@ -210,6 +210,12 @@ if (ANON) await flow('domain', async () => {
   const r = await com.get('https://pyarcana.com/precios?x=1', { maxRedirects: 0 }).catch(() => null)
   const loc = r?.headers().location ?? ''
   record('pyarcana.com redirects (301) to pyarcana.dev with path and query', r?.status() === 301 && loc === `${BASE}/precios?x=1`, `status=${r?.status()} location=${loc}`)
+  // 85dc9ee (6 Oct 2026): www.pyarcana.dev is no longer bound to the worker, which served the
+  // course there with accounts silently off. It must be a zone Redirect Rule (README, setup step 5);
+  // without one www does not resolve, and this fails.
+  const w = await com.get('https://www.pyarcana.dev/empezar?x=1', { maxRedirects: 0 }).catch((e) => ({ error: e.message }))
+  const wloc = w?.headers?.().location ?? ''
+  record('www.pyarcana.dev redirects (301) to pyarcana.dev with path and query', w?.status?.() === 301 && wloc === `${BASE}/empezar?x=1`, w?.error ? `error=${w.error.split('\n')[0]}` : `status=${w?.status?.()} location=${wloc}`)
   // Handback 5 Oct 2026, item 3: Cloudflare's automatic RUM injects its beacon at the edge, and only
   // into what looks like a browser page load: the request must say it accepts HTML. Asked without
   // that header (the first version of this check, and `curl`), the page comes back clean even when
@@ -256,7 +262,7 @@ if (ANON) await flow('pyodide', async () => {
 if (ANON) await flow('anonymous pages', async () => {
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'es-PE' })
   await ctx.addInitScript(() => { try { localStorage.setItem('pyarcana:tourCompleted', '1') } catch {} })
-  for (const path of ['/', '/#setup', '/precios', '/suscripcion', '/cuenta', '/qa', '/privacy', '/cookies', '/terms', '/data-rights']) {
+  for (const path of ['/', '/#setup', '/precios', '/suscripcion', '/cuenta', '/qa', '/privacy', '/cookies', '/terms', '/data-rights', '/empezar']) {
     const before = errors.length
     const page = await open(ctx, path, 'anon')
     record(`anonymous ${path} renders cleanly`, errors.length === before, errors.slice(before).join(' | '))

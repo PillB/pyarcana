@@ -329,9 +329,15 @@ class TestCpFinalIntegration(unittest.TestCase):
 
     def test_demo_exits_zero(self):
         import subprocess
+        # The backup goes to a temporary directory: the one in evidence_backups/ is committed,
+        # and every run used to rewrite it - identical bytes today, a silent re-baseline the day
+        # the integration output changes.
+        backups = tempfile.TemporaryDirectory()
+        self.addCleanup(backups.cleanup)
         r = subprocess.run(
             [sys.executable, str(CAPSTONE_DIR / "demo.py")],
             capture_output=True, text=True,
+            env=dict(os.environ, CP_FINAL_BACKUP_DIR=backups.name),
         )
         self.assertEqual(r.returncode, 0, f"demo exited {r.returncode}: {r.stderr}")
         self.assertIn("METRICS_JSON:", r.stdout)

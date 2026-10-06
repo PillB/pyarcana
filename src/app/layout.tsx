@@ -71,7 +71,9 @@ export default function RootLayout({
             name= meta (what metadata.other renders) is ignored by browsers. Next's static export
             hydrates with inline scripts, so script-src keeps 'unsafe-inline' (their hashes change on
             every build and differ per page; replacing it is its own round), and Pyodide needs
-            'wasm-unsafe-eval' to compile WebAssembly. What the policy gives: object-src 'none',
+            'wasm-unsafe-eval' to compile WebAssembly. Under `next dev` alone script-src also gets
+            'unsafe-eval', which the dev runtime needs to hydrate (metaCsp); builds never do.
+            What the policy gives: object-src 'none',
             base-uri 'self', form-action 'self', script-src and connect-src self + the Pyodide
             folder on jsDelivr only (src/lib/pyodide.ts), style-src self + fonts.googleapis.com.
             No Firebase hosts: the static builds never configure Firebase (D4 audit, P4).
