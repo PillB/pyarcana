@@ -49,3 +49,16 @@ shift:      0    │ new │    +1     │ new │   +2     │ new │    +3
   positional claims with the industry catalog synced, the S18 and glossary edits.
 - **Untaught claims** (deep learning, fine-tuning, graph-RAG): teaching debts, never dropped.
 - Still open: Gate B (before the renumber) and Gate C (claim text).
+
+## Round 5, the cap, on the ruled placement (2026-10-06)
+- The anti-challenge re-cast design G to the ruled placement (`round5/recast_design_before_review.md`).
+- The VP and the red team reviewed it once more (`round5/review_A.json`, `review_B.json`): 3 blocking
+  issues, all narrow — a sense guard that the owner-ruled titles would fail; the teaching-debt guard
+  (O18) with no defined input; S20's You Do leaning on the reports factory taught three sections later.
+- The anti-challenge conceded all three and revised (`design_ruled_final.md`, the design of record).
+- A closure check, not a sixth round (`round5/closure_check.json`), found all three resolved, no owner
+  decision contradicted, and five small factual slips. The lead corrected all five in the design of
+  record; each correction is marked "corrected after the closure check".
+- Two consecutive quiet rounds were **not** reached within the cap of five: 7 → 5 → 4 → 3 → 3 blocking,
+  each round narrower than the last. The record is the closure check plus those corrections.
+- The design of record lists the Gate B decisions (§5) and the Gate C text sign-offs.
