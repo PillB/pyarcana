@@ -59,14 +59,14 @@
   {
     "id": "git-win-download",
     "checkedOn": "2026-10-06",
-    "width": 1600,
-    "height": 1000,
-    "illustration": {
-      "by": "Paquete de ilustraciones de referencia de PyArcana (6 oct 2026)",
-      "basis": "Etiquetas en inglés de la anotación quitadas por Claude Code; versión puesta al día con la etiqueta v2.56.0.windows.2 de git-for-windows (5 oct 2026) y el texto del enlace de git/git-scm.com."
-    },
-    "alt": "Ilustración de la página de descarga de Git para Windows en git-scm.com. Recuadrado en rojo, el enlace Click here to download, que baja la versión x64 más reciente.",
-    "caption": "Haz clic en el enlace recuadrado. En tu pantalla el número de versión será otro, más nuevo."
+    "width": 1280,
+    "height": 800,
+    "box": {
+      "x": 34.5,
+      "y": 29.2,
+      "w": 15.7,
+      "h": 3.2
+    }
   },
   {
     "id": "mac-clt-prompt",
