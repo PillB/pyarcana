@@ -152,7 +152,7 @@ worktree of `e161435`.
 | `npm run test:python-content` | not run | needs `.venv-content` (Python 3.12), absent in this sandbox; no lesson snippet changed |
 | `node scripts/setup_shots_index.mjs --check` | pass | 0 captures, consistent |
 | `python3 scripts/setup_intro_prose_audit.py` | pass | 0 hard failures |
-| `workers/billing/e2e/setup.e2e.mjs` | pass, 28/28 | static export with base path `/pyarcana` and one fixture capture (§4) |
+| `workers/billing/e2e/setup.e2e.mjs` | pass, 33/33 | static export with base path `/pyarcana`; 8 real screenshots; axe in light, dark and the blocked-storage state (6 Oct) |
 
 ## 5. MUST items: stand-ins, blocks and unverified steps
 
@@ -277,7 +277,8 @@ from source code or docs, not read on a live screen. Confirm each during the han
 - ~~VS Code's `Shell Command: Install 'code' command in PATH` wording, and the trust dialog's
   button text~~: both confirmed by the VS Code docs' screenshots (MUST 1);
 - the Ubuntu apt prompt `¿Desea continuar? [S/n]` (on a Spanish-locale Ubuntu);
-- `gh auth status` showing `(keyring)`.
+- `gh auth status` showing `(keyring)`;
+- the GitHub API errors `Name already exists on this account` and `Could not resolve to a Repository` (GraphQL messages, not in the `gh` source).
 
 **MUST 4. Example values in commands and outputs.** These are not stand-ins for missing data. They
 are examples the learner is told to replace:
@@ -389,6 +390,18 @@ the screen, and that the MUST 3 strings are right.
 These fail identically on the base commit `e161435` (checked in a worktree of it):
 - **`node scripts/complexity_gate.mjs`:** 34 functions over the ceiling against a baseline of 33,
   worst 78. This round adds none: the count is the same before and after.
+  - **Root cause (6 Oct):** found by diffing the ESLint offender lists at the baseline commit
+    `0878225` and at HEAD. The only new one is `QATour` (`src/components/course/QATour.tsx`,
+    complexity 18), since `ac4f4ad` (5 Oct).
+  - A separate task to split it is queued for Pablo. The fix is not to re-baseline.
+- **`scripts/a11y.spec.ts`, "a course section…":** `color-contrast` (serious, 2 elements:
+  `.text-amber-700` and a `summary`) on S01. Identical on a static build of the base commit.
+  - Probably `CodePlayground`'s amber status line, which appears because the sandbox blocks
+    Pyodide's CDN. Unconfirmed: check it on a machine that loads Pyodide.
+  - The other 10 tests of that spec pass on this branch.
+  - The spec needs `launchOptions.executablePath: '/opt/pw-browsers/chromium'` in this sandbox. Its
+    first run "failed" 11/11 only because Playwright could not find its own browser build.
+    lessons.md now records that trap.
 - **`npm run test:first-use-all`:** 70 issues (16 definition after requirement, 12 no visible
   definition, 42 use before definition), all in section files.
 - **`npm run test:no-identifiers`:** 8 DNI-shaped values in `s03-decisions-rules.ts` and

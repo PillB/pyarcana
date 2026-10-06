@@ -196,13 +196,31 @@ Rank 6, Git Bash vs PowerShell, is avoided: the page names one shell per system.
 
 ## 6. Signing in: `gh auth login`, not GitHub Desktop
 
-**Decision:** one route for all three systems:
-1. install `gh`;
-2. `gh auth login` (GitHub.com → HTTPS → Y → Login with a web browser);
-3. `gh repo create practica-pyarcana --public --add-readme --clone`;
-4. edit `README.md` in VS Code;
-5. `git status`, `git add`, `git commit -m`, `git push`;
-6. `gh repo view --web`.
+**Decision:** one route for all three systems, **local first** (revised 6 Oct, RESEARCH.md §8.4 (3)):
+1. `mkdir practica-pyarcana`, `cd`, `git init`;
+2. create `README.md` in VS Code;
+3. `git status`, `git add`, `git commit -m`: the first commit exists before any sign-in;
+4. install `gh`, then `gh auth login` (GitHub.com → HTTPS → Y → Login with a web browser);
+5. `gh repo create practica-pyarcana --public --source . --push`;
+6. `gh repo view --web`;
+7. `cd ..` then `gh repo clone practica-pyarcana practica-copia`.
+
+**Why local first:**
+- The first version created the repository on GitHub before the first commit. A failed sign-in then
+  took the whole part with it.
+- The Carpentries and GitHub's own beginner journey commit locally and publish last, each with its
+  own success signal (RESEARCH.md §8.4).
+- The final clone keeps "clone" in Sesión 0, as the handover asks; S01 never teaches it. It also
+  proves the push worked: the copy comes from GitHub, not from the disk.
+
+**Where the strings come from:**
+- Every Git output shown is the real output of `git 2.43.0`, run in this sandbox.
+- The `gh` strings (`Created repository … on github.com`, `Added remote`, `Pushed commits to`,
+  `current directory is not a git repository`, owner defaulting to the signed-in user) were read
+  from `cli/cli` `pkg/cmd/repo/create/create.go` and `clone/clone.go`.
+- Git answers in the system's language (Git for Windows and Ubuntu follow it), so each Git
+  checkpoint names the Spanish wording too, taken from Git's own `po/es.po`: `En la rama`,
+  `No hay commits todavía`, `Archivos sin seguimiento`, `Clonando en`.
 
 **Options:**
 - **GitHub Desktop**, which the research recommended as primary. GitHub's own 2026 beginner journey
@@ -403,8 +421,21 @@ read of the Spanish is a SHOULD item in `PLAN.md`.
   runs the course's static contrast checks.
   - The amber box over screenshots is a fixed colour on purpose, because it sits on a picture, not
     on the theme.
-  - **Not done:** an axe-core run against `/empezar` (the course's readability spec walks sections
-    only).
+  - **axe-core** (WCAG 2.2 A/AA tags, as `scripts/a11y.spec.ts` uses them) now runs in
+    `setup.e2e.mjs`:
+    - in light and dark, with every "Si no funciona" open;
+    - on the storage-blocked warning, which exists only in that state.
+    - The run found one real violation, `scrollable-region-focusable`. The long
+      `git config … user.email` command overflowed its code block, and the scroll area could not be
+      reached by keyboard (WCAG 2.1.1).
+    - **Root cause:** the shared `CodeBlock`, so every course code block wider than its column had
+      it.
+    - **Fix:** `useScrollRegion` (`src/hooks/use-scroll-region.ts`). Following Adrian Roselli's
+      "Keyboard-Only Scrolling Areas", the box gets `tabindex="0"`, `role="region"` and a name, but
+      only while it overflows, so short blocks add no tab stops. On S01 at 1280 px: 0 of 11 blocks
+      overflow, so 0 new tab stops.
+    - A green axe run means no machine-detectable violation, not "accessible" (a11y.spec.ts's own
+      caveat).
 
 ## 12. Hand-off to Section 1: what S01 no longer needs to repeat (proposal only)
 
@@ -415,6 +446,7 @@ S01 was changed.
 |---|---|---|
 | "Componentes del stack que vamos a instalar" ¶4 (how to open the terminal on each system) | Replace with one line: "Si nunca abriste la terminal, empieza por la Sesión 0" plus a link | Sesión 0 Part 1 teaches it with a picture and a checkpoint |
 | Same block ¶5 (installing Git and `gh`, the download URLs, `gh --version`) | Shorten to the verification only (`git --version`, `gh auth status`) | Parts 5 and 6 install and sign in |
+| T3's first repository (`git init -b main`, `README.md`, `git status`, first commit) | Keep, and add one line: "ya lo hiciste una vez en la Sesión 0; ahora entenderás cada pieza" | Sesión 0 Part 6 is the same sequence as a guided rehearsal; S01 is where it is explained |
 | The verification code block (Python, Git, `gh`, `code`, extensions) | Keep, but point at Sesión 0 Part 7 as the same check | It is S01's own contract and stays useful |
 | "Add python.exe to PATH" mentioned in passing (T1-A ¶2 and its callout) | Keep the one-line reminder; drop "marca Add python.exe to PATH" from the callout | Taught as a step in Part 2 |
 | The Windows/macOS/Linux mapping table | Keep | It is about venv activation and exit codes, which Sesión 0 does not teach |
