@@ -51,8 +51,43 @@ raw.githubusercontent.com instead.
   in the static export under `/pyarcana`: loaded, from `_next/static/media`, not upscaled, alt
   over 40 characters, caption is not the alt, credit present, guide link text not "aquí".
   Axe is scoped to those five pictures and their guide lines; the whole S01 page is the
-  existing test just above it. Removing one emitted PNG made it fail
-  with the image's name.
+  existing test just above it. Removing one emitted PNG made it fail with the image's name.
+
+## Gates
+
+Run on 2026-10-06. "Base" is `775a3a7` (this branch's start), "branch" is the tested code of
+`af5bb52`. Commits after it change only documentation.
+
+| Gate | Base | Branch | Note |
+|---|---|---|---|
+| `npm run test:v3` | pass | pass | |
+| `npm run test:ux-gates` | **fail** | **fail** | Stops at `first-use-all`, on both. |
+| `npm run test:first-use-all` | **fail** | **fail** | Already failing on base. Report identical to base's. |
+| `npm run test:no-identifiers` | **fail** | **fail** | Already failing on base (S03, S09). Report identical. |
+| `npm run test:course-complete` | pass | pass | |
+| `node scripts/complexity_gate.mjs` | **fail** 34/33 | **fail** 34/33 | Already failing on base (`QATour`). Same offender list; nothing added. |
+| `python3 scripts/prose_quality_audit.py` | pass | pass | Output identical. It does not read `shots.json`, so captions were checked by hand: no sentence over 28 words (D1). |
+| `npm run lint` | pass, 0 errors, 7 warnings | pass, the same 7 warnings | One run showed 41 errors. They came from my untracked copy of the built site (`.ci-static/`), which `eslint .` walked. After deleting it: clean. |
+| `npx tsc --noEmit` | pass | pass | Needs `npx prisma generate` first in a fresh container. |
+| `node scripts/run_billing_tests.mjs --only client` | pass, 507 | pass, 507 | |
+| `python3 tools/fixer/ledger.py --check` | **fail** | **fail** | Already failing on base: "LEDGER.md is stale". |
+| `npm run test:adversarial:node` | not run | pass, 366 tests, billing 1117 | Includes the 19 new tests. |
+| `npm run test:adversarial:py` | not run | pass, 322 tests | |
+| `node scripts/preservation_sentinel.mjs` | n/a | OK | Run with `PRESERVATION_BASE=775a3a7`: 0 unauthorised deletions. Without it the script falls back to `HEAD~1`, because `origin/main` is not fetched here. |
+| `scripts/a11y.spec.ts`, static export under `/pyarcana` | n/a | 12/12 pass | See below. |
+| `npm run test:python-content` | not run | not run | No `.venv-content` (Python 3.12) in this container, and the audit refuses a verdict under 3.13. No code block changed. |
+
+- **Reports:** the nine `course-state/*.json` reports these gates rewrite were regenerated from
+  base and from the branch. Ignoring timestamps, they are identical. They differ from the
+  versions committed at HEAD only because those are stale; for example, the committed v3 report
+  still lists the old section ids. They were not committed: refreshing them is unrelated work.
+- **The S01 axe contrast failure did not reproduce.** The order lists it as already failing on
+  base. Here the whole-S01 test passes on the branch. `audit/session-0/PLAN.md` puts that failure
+  on CodePlayground's amber status line, which appears when the sandbox blocks Pyodide's CDN.
+  This container reaches the network. That fits, but it is not confirmed, and base was not run
+  through axe here.
+- **Browser runs need** `launchOptions.executablePath: '/opt/pw-browsers/chromium'` in this
+  sandbox, through a local config file that was not committed.
 
 ## Trade-offs
 
@@ -65,8 +100,9 @@ raw.githubusercontent.com instead.
     with a verb, "Así se ve…".
 - **"(se abre en otra pestaña)"** is screen-reader-only text, as in Sesión 0, not visible text.
   The order asked for "the line Sesión 0 uses", and that is how Sesión 0 prints it.
-- **No dark variant.** These are raster captures. Five are light-theme GitHub screens, and on
-  the dark site they stay light. D4 named this cost, and the owner accepted it in D19.
+- **No theme variant.** These are raster captures: the four GitHub screens and Trace Viewer are
+  light, the two VS Code captures are dark, and none follows the site's theme. D4 named this
+  cost, and the owner accepted it in D19.
 - **No upscaling.** A picture is never wider than its own pixels (`maxWidth: width`). The
   732 px menu and the 520 px VS Code crop were stretched and blurred at full column width.
   The cost is that they now render narrower than the text column.
