@@ -218,23 +218,36 @@ if (process.env.EXPECT_SHOT) {
           const img = fig.querySelector('img')
           if (!img.complete) await new Promise((r) => img.addEventListener('load', r, { once: true }))
           const credit = fig.querySelector('[data-testid="setup-shot-credit"]')
+          const kind = fig.getAttribute('data-kind')
+          const badge = fig.querySelector('[data-testid="setup-shot-illustration"]')?.textContent ?? ''
           return {
             id: fig.getAttribute('data-shot-id'), src: img.getAttribute('src'), natural: img.naturalWidth, alt: img.alt,
             box: !!fig.querySelector('svg rect'), caption: fig.querySelector('figcaption').textContent,
             licence: credit ? [...credit.querySelectorAll('a')].map((a) => a.getAttribute('href')) : null,
+            kind, badge,
           }
         })
         boxes += info.box ? 1 : 0
         const served = info.src.startsWith(`${base}/_next/static/media/`) && info.natural > 0
-        const dated = /(Comprobado|Consultada) el \d+ \w+ \d{4}/.test(info.caption)
-        // A reused picture links its source and its licence (CC BY 4.0 §3(a)); our own says when it was checked.
-        const attributed = info.licence ? info.licence.length === 2 && info.licence.every((h) => h?.startsWith('https://')) : /Comprobado/.test(info.caption)
+        const dated = /(Comprobado|Consultada|Ilustración revisada) el \d+ \w+ \d{4}/.test(info.caption)
+        // A reused picture links its source and licence (CC BY 4.0 §3(a)); an illustration says so above
+        // the picture and in its alt; our own capture says when it was checked.
+        const attributed =
+          info.kind === 'illustration' ? /no es una captura real/.test(info.badge) && /^Ilustración/.test(info.alt)
+          : info.licence ? info.licence.length === 2 && info.licence.every((h) => h?.startsWith('https://'))
+          : /Comprobado/.test(info.caption)
         if (!(served && info.alt.length > 40 && dated && attributed)) bad.push(`${info.id}: ${JSON.stringify(info).slice(0, 200)}`)
         await shot.screenshot({ path: `${OUT}setup-shot-${info.id}.png` })
       }
       const track = ua === UA.mac ? 'macOS' : 'Windows'
       record(`screenshots (${track}): ${n} served from _next/static under the base path, with alt, date and attribution`, n > 0 && bad.length === 0, bad.join(' | '))
       record(`screenshots (${track}): at least one carries a box drawn over it`, boxes > 0, `${boxes} of ${n}`)
+      // Every picture is followed by the product's own current guide, opening in a new tab.
+      const guides = await page.$$eval('[data-testid="setup-step"]', (steps) => steps.filter((s) => s.querySelector('[data-testid="setup-shot"]')).map((s) => {
+        const a = s.querySelector('[data-testid="setup-guide-link"]')
+        return a ? { ok: a.getAttribute('target') === '_blank' && /noopener/.test(a.getAttribute('rel') ?? '') && a.href.startsWith('https://'), id: s.getAttribute('data-step-id') } : { ok: false, id: s.getAttribute('data-step-id') }
+      }))
+      record(`screenshots (${track}): each picture is followed by its official guide`, guides.length === n && guides.every((g) => g.ok), guides.filter((g) => !g.ok).map((g) => g.id).join(', '))
     } catch (e) {
       record('screenshots', false, e.message)
     }

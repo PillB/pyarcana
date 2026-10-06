@@ -15,6 +15,9 @@ import { REUSE_LICENCES, formatCheckedOn, type ShotRecord, type ShotSpec } from 
  * was taken (CC BY 4.0 §3(a)); it also brings its own alt and caption, because it shows someone
  * else's folder or version, not exactly the screen the spec describes.
  *
+ * An illustration (record.illustration) is a drawn recreation of the screen. It says so in a band
+ * above the picture and in its alt, so nobody mistakes it for the real thing.
+ *
  * With no capture yet the component renders nothing. A picture that does not exist is not
  * replaced by a drawing that looks like one (owner's order: never fake a screenshot); the step
  * text carries the instruction alone until the capture lands.
@@ -23,7 +26,13 @@ export function Screenshot({ spec, record, image }: { spec: ShotSpec; record?: S
   if (!record || !image) return null
   const b = record.box
   return (
-    <figure data-testid="setup-shot" data-shot-id={spec.id} className="my-3 overflow-hidden rounded-lg border border-border bg-card">
+    <figure data-testid="setup-shot" data-shot-id={spec.id} data-kind={kindOf(record)} className="my-3 overflow-hidden rounded-lg border border-border bg-card">
+      {record.illustration && (
+        // Above the picture, not only in the caption: it must be read before the picture is trusted.
+        <p className="border-b border-border bg-muted px-3 py-1.5 text-xs font-medium text-foreground" data-testid="setup-shot-illustration">
+          Ilustración aproximada, no es una captura real: tu pantalla puede verse algo distinta.
+        </p>
+      )}
       <div className="relative">
         {/* A plain <img>: the static export serves files as built (images.unoptimized), and
             next/image would add nothing here but a wrapper. */}
@@ -51,10 +60,23 @@ export function Screenshot({ spec, record, image }: { spec: ShotSpec; record?: S
       </div>
       <figcaption className="border-t border-border px-3 py-2 text-[13px] leading-relaxed text-muted-foreground">
         {record.caption ?? spec.caption}{' '}
-        {record.credit ? <Credit record={record} /> : <span className="whitespace-nowrap">Comprobado el {formatCheckedOn(record.checkedOn)}.</span>}
+        <Provenance record={record} />
       </figcaption>
     </figure>
   )
+}
+
+function kindOf(record: ShotRecord): 'capture' | 'reused' | 'illustration' {
+  if (record.illustration) return 'illustration'
+  return record.credit ? 'reused' : 'capture'
+}
+
+/** The line after the caption: who made the picture and when it was checked. */
+function Provenance({ record }: { record: ShotRecord }) {
+  if (record.credit) return <Credit record={record} />
+  const when = formatCheckedOn(record.checkedOn)
+  if (record.illustration) return <span>Ilustración revisada el {when}.</span>
+  return <span className="whitespace-nowrap">Comprobado el {when}.</span>
 }
 
 function Credit({ record }: { record: ShotRecord }) {

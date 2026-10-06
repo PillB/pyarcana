@@ -77,6 +77,13 @@ export interface ShotCredit {
   changes?: string
 }
 
+/** Who drew an illustration, and what it was checked against. */
+export interface ShotIllustration {
+  by: string
+  /** The sources its labels and layout were checked against, and any edits made to it. */
+  basis: string
+}
+
 /** What a capture adds to its spec: written by the script, or by hand for an owner capture. */
 export interface ShotRecord {
   id: string
@@ -91,6 +98,12 @@ export interface ShotRecord {
   box?: ShotBox
   /** Set when the picture is someone else's, reused under an open licence. */
   credit?: ShotCredit
+  /**
+   * Set when the picture is a drawn recreation of the screen, not a capture of it (owner's pack,
+   * 6 Oct 2026). The page labels it as such on top of the image, and the report keeps counting it
+   * as due for a real capture.
+   */
+  illustration?: ShotIllustration
   /**
    * A reused picture rarely shows exactly what the spec asks for (another folder name, another
    * Python version), so it carries its own alt and caption, which say what it really shows.
@@ -135,10 +148,21 @@ function validReuse(rec: Record<string, unknown>): boolean {
   return !UNMODIFIED_ONLY.includes(rec.credit.licence) || (rec.credit.changes === undefined && rec.box === undefined)
 }
 
+/**
+ * An illustration says so in its own words: an alt that starts "Ilustración", its own caption,
+ * and what it was checked against. It is never also a reused capture.
+ */
+function validIllustration(rec: Record<string, unknown>): boolean {
+  if (rec.illustration === undefined) return true
+  const ill = rec.illustration as Record<string, unknown>
+  const said = typeof rec.alt === 'string' && rec.alt.startsWith('Ilustración') && typeof rec.caption === 'string' && rec.caption.length > 15
+  return rec.credit === undefined && said && typeof ill.by === 'string' && ill.by.length > 2 && typeof ill.basis === 'string' && ill.basis.length > 10
+}
+
 export function validShotRecord(r: unknown): r is ShotRecord {
   if (!r || typeof r !== 'object') return false
   const rec = r as Record<string, unknown>
-  return validCore(rec) && validReuse(rec)
+  return validCore(rec) && validReuse(rec) && validIllustration(rec)
 }
 
 /** How old a capture may get before the retake routine flags it (DESIGN.md §7). */

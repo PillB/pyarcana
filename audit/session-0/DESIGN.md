@@ -321,6 +321,14 @@ Rank 6, Git Bash vs PowerShell, is avoided: the page names one shell per system.
     instructional screenshots of their products. This is a SHOULD item for Pablo in `PLAN.md`. The
     reused images come with a copyright licence, which is not a trademark licence.
 
+- **Illustrations (owner's pack, 6 Oct).** A picture can also be a drawn recreation (`record.illustration`).
+  - It is labelled in a band above it, in its alt and in its caption, and it stays on the retake
+    list.
+  - Being honestly labelled is what separates an illustration from the fake the original order
+    forbids.
+  - The trade-off: a recreation can differ from the learner's screen. Each step therefore links the
+    product's own current guide (see `PLAN.md` MUST 1a).
+
 **Blocked, stated (AGENTS.md: a blocked dependency is a stop):**
 - The sandbox's network policy refused python.org, git-scm.com, code.visualstudio.com and
   github.com pages. Both curl and Chromium were refused: `ERR_TUNNEL_CONNECTION_FAILED`, then a 403

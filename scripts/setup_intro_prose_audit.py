@@ -40,6 +40,7 @@ for (const p of SETUP_PARTS) {
     add(p.id, s.title); s.body.forEach((t) => add(p.id, t, true))
     if (s.expect) add(p.id, s.expect.text)
     for (const f of s.fixes ?? []) { add(p.id, f.symptom); f.steps.forEach((t) => add(p.id, t)) }
+    if (s.guide) add(p.id, s.guide.label)
   }
 }
 for (const s of SETUP_SHOTS) { add('shots', s.alt); add('shots', s.caption) }

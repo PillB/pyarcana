@@ -28,6 +28,12 @@ export interface SetupStep {
   figure?: string
   /** «Si no funciona». */
   fixes?: readonly SetupFix[]
+  /**
+   * The product's own, current guide for this step. Screens change; the official guide is where
+   * the latest version lives. `label` is the link text and names the guide, never "aquí" (WCAG
+   * 2.4.4: a link list read out of context must still say where each link goes).
+   */
+  guide?: { label: string; url: string }
 }
 
 export interface SetupPart {

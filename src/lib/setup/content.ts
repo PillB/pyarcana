@@ -61,6 +61,7 @@ const terminal: SetupPart = {
       id: 'terminal.win.abrir',
       os: WIN,
       title: 'Abre la terminal',
+      guide: { label: 'la guía oficial de Terminal Windows, de Microsoft', url: 'https://learn.microsoft.com/es-es/windows/terminal/install' },
       body: [
         'Pulsa la tecla Windows, la que tiene el logo de cuatro cuadros. Escribe `terminal` y pulsa Enter.',
         'En Windows 10 puede que no aparezca. En ese caso escribe `powershell` y pulsa Enter: sirve igual.',
@@ -84,6 +85,7 @@ const terminal: SetupPart = {
       id: 'terminal.mac.abrir',
       os: MAC,
       title: 'Abre la terminal',
+      guide: { label: 'el manual oficial de Terminal, de Apple', url: 'https://support.apple.com/es-es/guide/terminal/welcome/mac' },
       body: [
         'Pulsa a la vez las teclas Command y barra espaciadora. Se abre un buscador en el centro de la pantalla.',
         'Escribe `Terminal` y pulsa Enter.',
@@ -171,6 +173,7 @@ const python: SetupPart = {
       id: 'python.win.descargar',
       os: WIN,
       title: 'Descarga el instalador de Python 3.12',
+      guide: { label: 'la guía oficial de Python 3.12 para Windows', url: 'https://docs.python.org/es/3.12/using/windows.html' },
       body: [
         `Abre esta página en tu navegador: \`${PYTHON_RELEASE_URL}\`. Baja hasta la tabla **Files**, al final.`,
         'Haz clic en `Windows installer (64-bit)`. El archivo se guarda en tu carpeta Descargas.',
@@ -191,6 +194,7 @@ const python: SetupPart = {
       id: 'python.win.path',
       os: WIN,
       title: 'Marca la casilla del PATH',
+      guide: { label: 'la guía oficial de Python 3.12 para Windows', url: 'https://docs.python.org/es/3.12/using/windows.html' },
       body: [
         'Abre el archivo que descargaste. En la primera pantalla, abajo, hay una casilla que dice `Add python.exe to PATH` (añadir python.exe al PATH).',
         '**Márcala.** Viene desmarcada, y es el error más común de toda la instalación: sin ella, la terminal no encontrará Python.',
@@ -212,9 +216,11 @@ const python: SetupPart = {
       id: 'python.win.instalar',
       os: WIN,
       title: 'Instala',
+      guide: { label: 'la guía oficial de Python 3.12 para Windows', url: 'https://docs.python.org/es/3.12/using/windows.html' },
       body: [
         'Haz clic en `Install Now` (instalar ahora). Si Windows pregunta si permites que la aplicación haga cambios, responde **Sí**.',
         'Espera a que la barra termine. Puede tardar unos minutos.',
+        'Al final puede aparecer el botón `Disable path length limit` (quitar el límite de longitud de las rutas). No hace falta pulsarlo para este curso.',
       ],
       shot: 'win-py-installer-done',
       expect: { text: 'Una pantalla que dice `Setup was successful`. Haz clic en `Close`.' },
@@ -232,6 +238,7 @@ const python: SetupPart = {
       id: 'python.win.alias',
       os: WIN,
       title: 'Apaga el atajo de Python de la Microsoft Store',
+      guide: { label: 'la guía oficial de Python 3.12 para Windows', url: 'https://docs.python.org/es/3.12/using/windows.html' },
       body: [
         'Windows trae un atajo llamado `python` que no es Python: abre la Microsoft Store. Si queda activo, puede ganarle al Python que instalaste.',
         'Abre Configuración y entra a Aplicaciones, luego a Configuración avanzada de aplicaciones y luego a **Alias de ejecución de aplicaciones**. Apaga los dos interruptores de `Instalador de aplicación` que dicen `python.exe` y `python3.exe`.',
@@ -262,6 +269,7 @@ const python: SetupPart = {
       id: 'python.win.verificar',
       os: WIN,
       title: 'Pregúntale a Python su versión',
+      guide: { label: 'la guía oficial de Python 3.12 para Windows', url: 'https://docs.python.org/es/3.12/using/windows.html' },
       body: [
         'En Windows, Python responde a dos nombres: `python` y `py`. El segundo es un **lanzador**, un programa pequeño que busca los Python instalados. En este curso escribirás `python`.',
       ],
@@ -298,6 +306,7 @@ const python: SetupPart = {
       id: 'python.mac.descargar',
       os: MAC,
       title: 'Descarga el instalador de Python 3.12',
+      guide: { label: 'la guía oficial de Python 3.12 para macOS', url: 'https://docs.python.org/es/3.12/using/mac.html' },
       body: [
         `Abre esta página en tu navegador: \`${PYTHON_RELEASE_URL}\`. Baja hasta la tabla **Files**, al final.`,
         'Haz clic en `macOS 64-bit universal2 installer`. Sirve para todos los Mac, con chip Intel o Apple.',
@@ -309,6 +318,7 @@ const python: SetupPart = {
       id: 'python.mac.instalar',
       os: MAC,
       title: 'Instala',
+      guide: { label: 'la guía oficial de Python 3.12 para macOS', url: 'https://docs.python.org/es/3.12/using/mac.html' },
       body: [
         'Abre el archivo descargado. Haz clic en `Continue` en cada pantalla, luego en `Agree` y al final en `Install`.',
         'El Mac te pedirá tu contraseña: es la misma con la que entras a la computadora.',
@@ -329,6 +339,7 @@ const python: SetupPart = {
       id: 'python.mac.certificados',
       os: MAC,
       title: 'Instala los certificados',
+      guide: { label: 'la guía oficial de Python 3.12 para macOS', url: 'https://docs.python.org/es/3.12/using/mac.html' },
       body: [
         'En la ventana de la carpeta `Python 3.12`, haz doble clic en `Install Certificates.command`.',
         'Los **certificados** permiten que Python compruebe que una página segura es quien dice ser. Sin ellos, descargar datos desde internet fallará más adelante.',
@@ -356,6 +367,7 @@ const python: SetupPart = {
       id: 'python.mac.verificar',
       os: MAC,
       title: 'Pregúntale a Python su versión',
+      guide: { label: 'la guía oficial de Python 3.12 para macOS', url: 'https://docs.python.org/es/3.12/using/mac.html' },
       body: [
         'En macOS, el nombre de Python en la terminal es `python3`, con el 3 al final. El nombre `python` solo no existe.',
       ],
@@ -476,6 +488,7 @@ const vscode: SetupPart = {
       id: 'vscode.win.instalar',
       os: WIN,
       title: 'Descarga e instala VS Code',
+      guide: { label: 'la guía oficial para instalar VS Code en Windows (en inglés)', url: 'https://code.visualstudio.com/docs/setup/windows' },
       body: [
         'Abre `https://code.visualstudio.com/` y haz clic en `Download for Windows`. Abre el archivo que se descarga.',
         'Acepta el acuerdo y pulsa `Next` en cada pantalla. En `Select Additional Tasks`, deja marcada la casilla `Add to PATH`. Al final pulsa `Install`.',
@@ -487,6 +500,7 @@ const vscode: SetupPart = {
       id: 'vscode.mac.instalar',
       os: MAC,
       title: 'Descarga VS Code y muévelo a Aplicaciones',
+      guide: { label: 'la guía oficial para instalar VS Code en macOS (en inglés)', url: 'https://code.visualstudio.com/docs/setup/mac' },
       body: [
         'Abre `https://code.visualstudio.com/` y haz clic en `Download for macOS`. Si la página te deja elegir, elige `Universal`: sirve para cualquier Mac. Se descarga una aplicación llamada `Visual Studio Code`.',
         'Abre Finder, entra a Descargas y arrastra `Visual Studio Code` a la carpeta Aplicaciones. Luego ábrela desde ahí.',
@@ -497,6 +511,7 @@ const vscode: SetupPart = {
       id: 'vscode.mac.code',
       os: MAC,
       title: 'Activa la orden `code`',
+      guide: { label: 'la guía oficial para instalar VS Code en macOS (en inglés)', url: 'https://code.visualstudio.com/docs/setup/mac' },
       body: [
         'Pulsa Command, Shift y P a la vez. Arriba aparece la **paleta de comandos**, un buscador de todas las acciones de VS Code.',
         "Escribe `shell command` y elige `Shell Command: Install 'code' command in PATH`.",
@@ -508,6 +523,7 @@ const vscode: SetupPart = {
       id: 'vscode.linux.instalar',
       os: LINUX,
       title: 'Instala VS Code',
+      guide: { label: 'la guía oficial para instalar VS Code en Linux (en inglés)', url: 'https://code.visualstudio.com/docs/setup/linux' },
       body: [
         'En la terminal, escribe esta orden. Instala VS Code desde la tienda de aplicaciones de Ubuntu.',
       ],
@@ -532,6 +548,7 @@ const vscode: SetupPart = {
     {
       id: 'vscode.abrir-carpeta',
       title: 'Abre la carpeta en VS Code',
+      guide: { label: 'la guía oficial sobre carpetas de confianza en VS Code (en inglés)', url: 'https://code.visualstudio.com/docs/editing/workspaces/workspace-trust' },
       body: [
         'En VS Code, abre el menú `File` (Archivo) y elige `Open Folder` (Abrir carpeta). Entra a tu carpeta personal, elige `pyarcana` y confirma.',
         'VS Code pregunta si confías en los autores de los archivos. La carpeta es tuya: responde `Yes, I trust the authors`.',
@@ -542,6 +559,7 @@ const vscode: SetupPart = {
     {
       id: 'vscode.terminal',
       title: 'Abre la terminal integrada',
+      guide: { label: 'la guía oficial de la terminal integrada de VS Code (en inglés)', url: 'https://code.visualstudio.com/docs/terminal/getting-started' },
       body: [
         'Abre el menú `Terminal` y elige `New Terminal` (Nuevo terminal). Se abre un panel abajo.',
         'Escribe `pwd` y pulsa Enter. La terminal integrada ya empieza dentro de tu carpeta de trabajo.',
@@ -577,6 +595,7 @@ const git: SetupPart = {
       id: 'git.win.descargar',
       os: WIN,
       title: 'Descarga Git',
+      guide: { label: 'el capítulo «Instalación de Git» del libro oficial Pro Git', url: 'https://git-scm.com/book/es/v2/Inicio---Sobre-el-Control-de-Versiones-Instalaci%C3%B3n-de-Git' },
       body: [
         'Abre `https://git-scm.com/downloads/win` y haz clic en `Click here to download` (haz clic aquí para descargar). Abre el archivo que se descarga.',
         'El instalador tiene muchas pantallas. Pulsa `Next` en todas, menos en la que explica el paso siguiente.',
@@ -588,6 +607,7 @@ const git: SetupPart = {
       id: 'git.win.editor',
       os: WIN,
       title: 'Elige VS Code como editor de Git',
+      guide: { label: 'el capítulo «Instalación de Git» del libro oficial Pro Git', url: 'https://git-scm.com/book/es/v2/Inicio---Sobre-el-Control-de-Versiones-Instalaci%C3%B3n-de-Git' },
       body: [
         'En la pantalla `Choosing the default editor used by Git`, abre la lista y elige `Use Visual Studio Code as Git\'s default editor`.',
         'El editor que viene elegido, Vim, es difícil de cerrar si nunca lo usaste. Git lo abriría cada vez que necesite que escribas un mensaje.',
@@ -640,6 +660,7 @@ const git: SetupPart = {
       id: 'git.mac.instalar',
       os: MAC,
       title: 'Instala Git con las herramientas de Apple',
+      guide: { label: 'el capítulo «Instalación de Git» del libro oficial Pro Git', url: 'https://git-scm.com/book/es/v2/Inicio---Sobre-el-Control-de-Versiones-Instalaci%C3%B3n-de-Git' },
       body: [
         'En la terminal integrada, escribe esta orden. Si Git no está instalado, el Mac ofrece instalar las **herramientas de línea de comandos** de Apple, que lo incluyen.',
         'Pulsa `Install` y luego `Agree`. La descarga puede tardar más de diez minutos.',
@@ -654,6 +675,7 @@ const git: SetupPart = {
       id: 'git.linux.instalar',
       os: LINUX,
       title: 'Instala Git',
+      guide: { label: 'el capítulo «Instalación de Git» del libro oficial Pro Git', url: 'https://git-scm.com/book/es/v2/Inicio---Sobre-el-Control-de-Versiones-Instalaci%C3%B3n-de-Git' },
       body: ['En la terminal integrada, escribe esta orden. Luego comprueba con `git --version`.'],
       command: 'sudo apt install git',
       expect: { text: 'Al escribir `git --version`, una línea que empieza con `git version 2.`. Ubuntu 24.04 trae esta:', output: 'git version 2.43.0' },
@@ -661,6 +683,7 @@ const git: SetupPart = {
     {
       id: 'git.config.nombre',
       title: 'Dile a Git tu nombre',
+      guide: { label: 'el capítulo «Configurando Git por primera vez» del libro oficial Pro Git', url: 'https://git-scm.com/book/es/v2/Inicio---Sobre-el-Control-de-Versiones-Configurando-Git-por-primera-vez' },
       body: [
         'Git firma cada commit con un nombre. Usa tu nombre real, el que pondrías en tu CV; no tiene que coincidir con tu usuario de GitHub. Cambia `Ana Quispe` por el tuyo y deja las comillas.',
       ],
@@ -761,6 +784,7 @@ const github: SetupPart = {
     {
       id: 'github.registro',
       title: 'Crea la cuenta',
+      guide: { label: 'la guía oficial de GitHub para crear una cuenta', url: 'https://docs.github.com/es/account-and-profile/how-tos/account-management/creating-an-account-on-github' },
       body: [
         'Abre `https://github.com/signup`. Escribe tu correo, una contraseña y el usuario que elegiste.',
         'Luego GitHub te pide resolver un pequeño acertijo, para comprobar que eres una persona.',
@@ -785,6 +809,7 @@ const github: SetupPart = {
     {
       id: 'github.2fa',
       title: 'Activa la verificación en dos pasos',
+      guide: { label: 'la guía oficial de GitHub sobre la verificación en dos pasos', url: 'https://docs.github.com/es/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication' },
       body: [
         'La **verificación en dos pasos** pide, además de tu contraseña, un código que solo aparece en tu celular. GitHub la exige en cuanto empiezas a contribuir código, y la recomienda a todos. Actívala desde hoy.',
         'Instala en tu celular una aplicación de códigos, como Microsoft Authenticator o Google Authenticator. Luego, en GitHub, abre tu foto arriba a la derecha y entra a `Settings`.',
@@ -815,6 +840,7 @@ const github: SetupPart = {
     {
       id: 'github.correo-privado',
       title: 'Copia tu correo privado de GitHub',
+      guide: { label: 'la guía oficial de GitHub sobre el correo de tus commits', url: 'https://docs.github.com/es/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address' },
       body: [
         'Cada commit lleva un correo, y en GitHub cualquiera puede leerlo. GitHub te da una dirección privada para usar en su lugar.',
         'En `Settings`, entra a `Emails`. Marca `Keep my email addresses private` si no está marcada. Debajo aparece tu dirección privada: cópiala y pégala en un archivo de notas.',
@@ -997,6 +1023,7 @@ const conectar: SetupPart = {
     {
       id: 'conectar.login',
       title: 'Inicia sesión en GitHub desde la terminal',
+      guide: { label: 'la guía oficial de inicio rápido de GitHub CLI', url: 'https://docs.github.com/es/github-cli/github-cli/quickstart' },
       body: [
         'Escribe esta orden. Te hará cuatro preguntas en inglés; muévete con las flechas y confirma con Enter.',
         'Responde así: `GitHub.com`, luego `HTTPS`, luego `Y` y luego `Login with a web browser`.',

@@ -363,3 +363,31 @@ test('an own capture is a plain record: no credit, so the page says "Comprobado 
   assert.throws(() => pngSizeOf(Buffer.from('GIF89a-not-a-png-at-all-really')), /not a PNG/)
   assert.deepEqual(pngSizeOf(readFileSync('src/assets/setup/gh-2fa-setup.png')), [725, 446])
 })
+
+// --- illustrations and official guides ----------------------------------------------------------
+
+test('an illustration says it is one, in its alt and caption, and is never passed off as a capture', () => {
+  const words = { alt: 'Ilustración de una ventana de prueba con su botón recuadrado en rojo.', caption: 'Una ilustración de prueba.' }
+  const ill = { by: 'PyArcana', basis: 'checked against the vendor docs' }
+  assert.ok(validShotRecord({ id: 'x', checkedOn: '2026-10-06', width: 1, height: 1, illustration: ill, ...words }))
+  assert.ok(!validShotRecord({ id: 'x', checkedOn: '2026-10-06', width: 1, height: 1, illustration: ill, ...words, alt: 'Una ventana de prueba con su botón recuadrado en rojo, sin decirlo.' }), 'alt must say "Ilustración"')
+  assert.ok(!validShotRecord({ id: 'x', checkedOn: '2026-10-06', width: 1, height: 1, illustration: ill, ...words, credit: { source: 'GitHub Docs', url: 'https://github.com/x', licence: 'CC BY 4.0' } }), 'not both')
+  const drawn = (shotRecords as unknown[]).filter(validShotRecord).filter((r) => r.illustration)
+  for (const r of drawn) assert.match(r.alt!, /^Ilustración/, r.id)
+})
+
+test('the retake report keeps an illustration on the list until a real capture replaces it', () => {
+  const rows = report([{ id: 'a', source: 'owner-capture' }], [{ id: 'a', checkedOn: '2026-10-06', illustration: { by: 'x', basis: 'y' } }], '2026-10-06', 120)
+  assert.equal(rows[0].state, 'illustration')
+})
+
+const OFFICIAL = /^https:\/\/(docs\.python\.org|learn\.microsoft\.com|support\.apple\.com|code\.visualstudio\.com|docs\.github\.com|git-scm\.com)\//
+test('every step that shows a picture links the product\'s own current guide, named, on its official site', () => {
+  for (const s of ALL_STEPS) {
+    if (s.shot) assert.ok(s.guide, `${s.id}: a picture can go stale; link the official guide`)
+    if (!s.guide) continue
+    assert.match(s.guide.url, OFFICIAL, `${s.id}: not an official site`)
+    // WCAG 2.4.4: the link text says where it goes; "aquí" or "clic" read alone in a link list says nothing.
+    assert.ok(!/\b(aqu[ií]|clic|click)\b/i.test(s.guide.label) && s.guide.label.length > 15, `${s.id}: "${s.guide.label}"`)
+  }
+})

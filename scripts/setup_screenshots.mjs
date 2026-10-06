@@ -82,6 +82,8 @@ export function report(specs, records, today, maxAgeDays) {
   return specs.map((s) => {
     const r = byId.get(s.id)
     if (!r) return { id: s.id, source: s.source, state: 'missing' }
+    // A drawn recreation is a stand-in: it stays on the list until a real capture replaces it.
+    if (r.illustration) return { id: s.id, source: s.source, state: 'illustration' }
     const age = Math.floor((Date.parse(`${today}T00:00:00Z`) - Date.parse(`${r.checkedOn}T00:00:00Z`)) / 86_400_000)
     return { id: s.id, source: s.source, state: age > maxAgeDays ? 'stale' : 'ok', age }
   })
@@ -122,7 +124,8 @@ async function main() {
   const rows = report(SETUP_SHOTS, stored, today, SHOT_MAX_AGE_DAYS)
   for (const r of rows) console.log(`${r.state.padEnd(8)} ${r.source.padEnd(15)} ${r.id}${r.age !== undefined ? `  (${r.age} days)` : ''}`)
   const due = rows.filter((r) => r.state !== 'ok').length
-  console.log(`\n${rows.length - due} of ${rows.length} captures current; ${due} missing or older than ${SHOT_MAX_AGE_DAYS} days.`)
+  const drawn = rows.filter((r) => r.state === 'illustration').length
+  console.log(`\n${rows.length - due} of ${rows.length} captures current; ${due} due (${drawn} of them illustrations awaiting a real capture, the rest missing or older than ${SHOT_MAX_AGE_DAYS} days).`)
 }
 
 // No top-level await: the unit tests import this file through tsx, which loads it as CommonJS.

@@ -1,4 +1,4 @@
-STATUS: COMPLETE 34406499 — page, tests and pipeline built; 8 of 19 screenshots in place, reused from official docs and Django Girls under open licences; 11 still missing (blocked: sandbox network for 3, a real Windows/Mac for 8). See §5, MUST 1.
+STATUS: COMPLETE (sha in git log) — page, tests and pipeline built; all 19 picture slots filled: 8 real screenshots reused under open licences, 11 labelled illustrations from the owner's pack awaiting real captures (§5, MUST 1).
 
 # Sesión 0: plan, state and hand-off
 
@@ -158,6 +158,58 @@ worktree of `e161435`.
 
 AGENTS.md: "Report every stub, placeholder, stand-in or fake … as a MUST item: where it is, why it
 exists, what it hides, and the decision needed."
+
+**MUST 1a. 11 picture slots hold illustrations, not screenshots (6 Oct 2026).**
+
+- **What happened:** Pablo supplied a pack of 11 PNGs and described them himself as "illustrative
+  recreations … not literal captures". Using them is his decision.
+- **What it changes:** the earlier "never fake a screenshot" rule now means *never pass one off as
+  real*.
+- **How the page shows them:**
+  - a band **above** the picture: "Ilustración aproximada, no es una captura real: tu pantalla
+    puede verse algo distinta";
+  - an alt that starts "Ilustración";
+  - a caption that names how the real screen differs;
+  - "Ilustración revisada el …" in place of "Comprobado el …".
+- **The report still counts them as due.** `--report` lists them as `illustration` until a real
+  capture replaces them through `setup_shot_add.mjs`.
+- **Each picture was checked against evidence before use:**
+  - Python's 3.12 installer strings (`Default.wxl`);
+  - Git for Windows tags: the pack's "2.55.0(5)" was already stale; 2.56.0(2) came out on 5 Oct;
+  - git-scm.com's template;
+  - the Carpentries' macOS Git text, which confirms the "Get Xcode" button.
+- **First pass, revised on Pablo's challenge:** I first rejected 6 of the 11. Judged again by "does
+  it mislead a learner, and can it be fixed", only one defect was serious.
+  - **The serious one:** `py-release-files` boxed the "Python install manager", the route the page
+    avoids. Fixed: that block removed; the Windows row labelled as python.org labels it.
+  - **Fixed, not significant:** the stale version, the overlapping labels and the overflowing
+    dialog text.
+  - **Moved into the text:** "Disable path length limit" is now in the step text, true with any
+    picture.
+  - **Answered in the caption:** the missing "Get Xcode" button.
+  - **Withdrawn:** my claim about the device page's eight boxes was never verified.
+- **Edits are reproducible:** `clean_pack.py` and `clean_pack2.py`, kept in the session scratchpad
+  and summarised in each record's `illustration.basis`. Every edited image was looked at after
+  editing. That review found and fixed three defects introduced by the edits themselves:
+  - a red fill over the prompts;
+  - an invisible copyright line;
+  - a heading collision.
+- **Decision for Pablo (D7):**
+  - (a) keep the illustrations until real captures exist (recommended: every one is labelled, and
+    each step also links the official guide);
+  - (b) remove any of them by deleting its row in `shots.json` and its PNG.
+
+**Official guides, every step with a picture (Pablo's request, 6 Oct 2026).**
+- 26 steps link the product's own current guide, after the line "La pantalla puede haber cambiado
+  un poco con el tiempo. Para ver la versión más reciente, consulta …".
+- **Link text names the guide** ("la guía oficial de Python 3.12 para Windows"), never "AQUÍ". A
+  screen reader's list of links reads each one out of context (WCAG 2.4.4), and a test refuses
+  "aquí" or "clic".
+- **Paths verified** against the docs' source repositories: `github/docs`,
+  `microsoft/vscode-docs`, `MicrosoftDocs/terminal`, `python/cpython`, `git/git-scm.com`.
+- **Not verified** (the sites are blocked here): the Apple Terminal manual URL, and that the
+  translated pages exist at `docs.python.org/es/3.12/…` (the translation repository has a `3.12`
+  branch) and `docs.github.com/es/…`. Click each once.
 
 **MUST 1. 11 of 19 screenshots are still missing; 8 are reused under open licences.**
 
