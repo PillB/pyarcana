@@ -7,7 +7,9 @@ defined in:
   - industry_alignment/credential_architecture.md
   - industry_alignment/eligibility_state_machine.md
   - industry_alignment/assessment_validity_report.md  (Phase 7)
-  - industry_alignment/badge_catalog.json              (v1.0.0)
+  - src/lib/eligibility/badge_catalog.json             (the live catalog; until
+    2026-10-05 this read industry_alignment/badge_catalog.json, a copy that had
+    drifted from it on eight fields. test_badge_catalog_copies.py keeps them equal.)
 
 It contains:
 
@@ -41,7 +43,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 ROOT = Path(__file__).resolve().parents[2]
-CATALOG_PATH = ROOT / "industry_alignment" / "badge_catalog.json"
+CATALOG_PATH = ROOT / "src" / "lib" / "eligibility" / "badge_catalog.json"
 
 
 # =============================================================================

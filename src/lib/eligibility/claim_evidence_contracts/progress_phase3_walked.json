@@ -1,6 +1,6 @@
 {
   "credential_id": "progress_phase3_walked",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "active",
   "credential_class": "A",
   "credential_class_name": "Learning Milestone",
@@ -23,8 +23,7 @@
     "S48",
     "S49",
     "S50",
-    "S51",
-    "S52"
+    "S51"
   ],
   "required_activities": [
     "S40-YOUDO",
@@ -39,7 +38,6 @@
     "S49-YOUDO",
     "S50-YOUDO",
     "S51-YOUDO",
-    "S52-YOUDO",
     "S40-EXAM",
     "S41-EXAM",
     "S42-EXAM",
@@ -51,12 +49,11 @@
     "S48-EXAM",
     "S49-EXAM",
     "S50-EXAM",
-    "S51-EXAM",
-    "S52-EXAM"
+    "S51-EXAM"
   ],
   "critical_gates": [],
   "non_compensatory": false,
   "minimum_overall_score": 0,
   "verification_mode": "local_only",
-  "specification_hash": "sha256:progress_phase3_walked:1.1.0"
+  "specification_hash": "sha256:progress_phase3_walked:1.2.0"
 }
