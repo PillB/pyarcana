@@ -282,3 +282,13 @@ first, then the fix that worked.
   does not have. Fix: a throwaway config that spreads `playwright.config.ts` and sets
   `use.launchOptions.executablePath: '/opt/pw-browsers/chromium'`. Read the first error before
   counting failures: "11 failed" was 11 launch errors and zero findings.
+- **Codex in the cloud sandbox: device sign-in, once the hosts are allowed.** `npm i -g
+  @openai/codex` works, because the npm registry is reachable. A sandbox has no browser for the
+  default `codex login` and its `localhost` callback, so use `codex login --device-auth`: it
+  prints a URL and a one-time code, and the owner approves on any device. The alternative is
+  `printenv OPENAI_API_KEY | codex login --with-api-key`, with the key stored as an environment
+  secret and never pasted into chat. Both need `auth.openai.com`, `api.openai.com` and
+  `chatgpt.com` in the environment's allowed domains. On 6 Oct 2026 they were refused
+  ("error sending request for url (https://auth.openai.com/api/accounts/deviceauth/usercode)").
+  Codex then runs under the same network policy as Claude, so it can fetch only what the sandbox
+  can reach.
