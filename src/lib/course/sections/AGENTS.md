@@ -48,7 +48,8 @@ values, a guided step, a check the learner can run.
 
 - No Peruvian DNI or identifier-shaped value in synthetic data (D2). Use `CLI-0001`.
 - Figures are inline SVG from the archetypes in `src/components/course/figures/`; motion
-  honours `useReducedMotion`; no screenshots (D4). Each figure removes work the prose was
+  honours `useReducedMotion`; no screenshots (D4), except the seven the owner approved in
+  D19 (a block's `screenshots` field). Each figure removes work the prose was
   doing badly, or it is not added (D5).
 - Spanish follows `audit/fixer/writing_rules.md`. Repair the defect, not the paragraph.
 - Structural counts are floors that catch loss, not ceilings on teaching (D6).
