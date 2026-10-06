@@ -14,7 +14,9 @@ PyArcana has acquired `pyarcana.dev` and `pyarcana.com` plus a mailing service, 
 >   operator steps are in `workers/billing/README.md` ("Setup order": `scripts/setup.sh`, then
 >   `scripts/deploy.sh`). Section 2's A records pointing to a server IP no longer apply.
 > - **DNS.** The nameservers of `pyarcana.dev` and `pyarcana.com` move to Cloudflare (free plan).
->   Registration stays at Hostinger. `pyarcana.com` and `www` redirect to `https://pyarcana.dev`.
+>   Registration stays at Hostinger. `pyarcana.com` and `www` redirect to `https://pyarcana.dev`
+>   with Cloudflare Redirect Rules (`workers/billing/README.md`, setup step 5). `www` is never
+>   bound to the Worker.
 >   If DNSSEC is on at Hostinger, turn it off before switching.
 > - **Sign-in email.** Codes are sent with Cloudflare Email Sending from `no-reply@pyarcana.dev`
 >   (Workers Paid). Its records live on the `cf-bounce` subdomain. The Worker never uses Hostinger

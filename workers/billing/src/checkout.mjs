@@ -19,8 +19,11 @@
  *   409 already_subscribed     a renewing subscription, a cancelled one still
  *                              inside paid time, or a pending subscription or
  *                              open checkout younger than an hour
- * Then a checkouts row is inserted and the provider is called; a failure is
- * 502 provider_unavailable with the checkout expired. On success the
+ * Then the open checkouts row is claimed (inserted only if the account has
+ * no open checkout younger than an hour, in one statement, so of two
+ * concurrent requests one gets 409 already_subscribed and never reaches the
+ * provider) and the provider is called; a failure is 502
+ * provider_unavailable with the checkout expired. On success the
  * checkout gets its provider_ref and, for Mercado Pago, a PENDING
  * subscription row (never entitling) in the same batch.
  *
@@ -214,10 +217,20 @@ export async function handleCheckout(ctx) {
     return pre.error;
   }
   const p = { ...pre, id: randomId("chk"), price: priceFor(ctx.env, pre.provider, pre.plan) };
-  await ctx.db
-    .prepare("INSERT INTO checkouts (id, account_id, provider, plan, amount_minor, currency, country, created_at, status) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, 'open')")
-    .bind(p.id, ctx.account.id, p.provider, p.plan, p.price.amountMinor, p.price.currency, p.country, ctx.now)
+  // The claim: precheck's read cannot stop a concurrent request that passed it too, so the open
+  // checkout is inserted only if none younger than an hour exists, in one statement. Whoever
+  // inserts nothing never reaches the provider.
+  const claimed = await ctx.db
+    .prepare(
+      `INSERT INTO checkouts (id, account_id, provider, plan, amount_minor, currency, country, created_at, status)
+       SELECT ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, 'open'
+       WHERE NOT EXISTS (SELECT 1 FROM checkouts WHERE account_id = ?2 AND status = 'open' AND created_at > ?9)`
+    )
+    .bind(p.id, ctx.account.id, p.provider, p.plan, p.price.amountMinor, p.price.currency, p.country, ctx.now, ctx.now - CHECKOUT_PENDING_SECONDS)
     .run();
+  if (claimed.meta.changes !== 1) {
+    return refuse(409, "already_subscribed");
+  }
   const args = { checkoutId: p.id, accountId: ctx.account.id, plan: p.plan, amountMinor: p.price.amountMinor, currency: p.price.currency, payerEmail: p.email, customerEmail: p.email, backUrl: returnUrl(ctx.env, p.id) };
   const started = await ctx.providers[p.provider].startCheckout(ctx, args);
   if (!started.ok) {
