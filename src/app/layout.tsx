@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/Providers";
 import { QAFooterBridge } from "@/components/course/QAFooterBridge";
 import { SITE_BASE_PATH } from "@/lib/runtime-mode";
+import { CspMeta } from "@/components/CspMeta";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -43,34 +44,6 @@ export const metadata: Metadata = {
     shortcut: `${SITE_BASE_PATH}/favicon.svg`,
     apple: `${SITE_BASE_PATH}/logo.svg`,
   },
-  // Content-Security-Policy via <meta> tag. GitHub Pages doesn't support
-  // custom HTTP headers, so a <meta> tag is the only way to ship a CSP on the
-  // static export. Next.js static export uses inline scripts for hydration,
-  // so 'unsafe-inline' is required for script-src (this is a known Next.js
-  // limitation — see next.js discussion #91816). We still gain:
-  //   - object-src 'none': blocks Flash/Java/plugin-based XSS
-  //   - base-uri 'self': blocks <base> tag injection
-  //   - frame-ancestors 'none': blocks clickjacking (the site is not meant
-  //     to be framed)
-  //   - form-action 'self': blocks form submissions to external origins
-  //   - img-src/style-src/font-src restricted to self + the Pyodide CDN
-  //   - connect-src 'self' + Firebase + Pyodide CDN + GitHub Pages origin
-  // When the dynamic LMS ships, replace unsafe-inline with nonces/hashes.
-  other: {
-    "Content-Security-Policy": [
-      "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "img-src 'self' data: https:",
-      "font-src 'self' data:",
-      "connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://cdn.jsdelivr.net",
-      "object-src 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
-      "frame-ancestors 'none'",
-      "upgrade-insecure-requests",
-    ].join("; "),
-  },
   openGraph: {
     title: "PyArcana · De cero a Data Analyst/Scientist",
     description: "PyArcana — curso online de Python para Data Analysis y Data Science en español peruano.",
@@ -92,6 +65,23 @@ export default function RootLayout({
   return (
     <html lang="es-PE" suppressHydrationWarning>
       <head>
+        <CspMeta />
+        {/* Content-Security-Policy as <meta http-equiv> (src/components/CspMeta.tsx). GitHub Pages
+            cannot send headers, so this meta is the policy there; it must be http-equiv, since a
+            name= meta (what metadata.other renders) is ignored by browsers. Next's static export
+            hydrates with inline scripts, so script-src keeps 'unsafe-inline' (their hashes change on
+            every build and differ per page; replacing it is its own round), and Pyodide needs
+            'wasm-unsafe-eval' to compile WebAssembly. Under `next dev` alone script-src also gets
+            'unsafe-eval', which the dev runtime needs to hydrate (metaCsp); builds never do.
+            What the policy gives: object-src 'none',
+            base-uri 'self', form-action 'self', script-src and connect-src self + the Pyodide
+            folder on jsDelivr only (src/lib/pyodide.ts), style-src self + fonts.googleapis.com.
+            No Firebase hosts: the static builds never configure Firebase (D4 audit, P4).
+            frame-ancestors is IGNORED in a meta policy (CSP3), so metaCsp leaves it out; the
+            Cloudflare build sends it as a header through _headers (src/lib/cloud/headers.ts, plus X-Frame-Options DENY). Built
+            from the public cloud config (src/lib/cloud/csp.ts): the shipped config (stage off)
+            yields LEGACY_CSP byte for byte (minus frame-ancestors here), which tests pin. When the dynamic LMS ships,
+            replace unsafe-inline with nonces/hashes. */}
         {/* ChunkLoadError guard — inlined directly in <head> so it runs BEFORE
             any Next.js bundle. On a static export, next/script's
             "beforeInteractive" strategy loads via the Next.js runtime, which

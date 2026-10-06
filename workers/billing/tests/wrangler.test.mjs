@@ -1,0 +1,192 @@
+/**
+ * wrangler.toml is public (committed): every public var is present with its
+ * documented default, no secret is ever assigned a value, no personal address
+ * is published, and the cron strings match the code that dispatches them.
+ */
+
+import assert from "node:assert/strict";
+import test from "node:test";
+import { existsSync, readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+
+import { DAILY_CRON, HOURLY_CRON } from "../src/retention.mjs";
+
+const ROOT = new URL("../", import.meta.url);
+const TOML = readFileSync(new URL("wrangler.toml", ROOT), "utf8");
+
+const SECRETS = [
+  "SERVER_PEPPER",
+  "ADMIN_EMAILS",
+  "RESEND_API_KEY",
+  "BREVO_API_KEY",
+  "MAILERSEND_API_KEY",
+  "MP_ACCESS_TOKEN",
+  "MP_WEBHOOK_SECRET",
+  "CREEM_API_KEY",
+  "CREEM_WEBHOOK_SECRET",
+  // Stage 2c: the licence signing key (scripts/generate-keys.mjs).
+  "LICENSE_PRIVATE_KEY_PKCS8_B64"
+];
+
+const PUBLIC_VARS = {
+  // DESIGN-v3 §K/§L: the owner's domain, prefilled (public, safe to commit).
+  ALLOWED_ORIGINS: "https://pyarcana.dev",
+  CANONICAL_ORIGIN: "https://pyarcana.dev",
+  SITE_PATH: "",
+  TERMS_VERSION: null,
+  CONTROLLER_NAME: null,
+  TRIAL_DAYS: "7",
+  GRACE_DAYS: "7",
+  SESSION_MAX_DAYS: "180",
+  GOOGLE_CLIENT_ID: "432743649609-a450e9saoe4akd98dt3gsnous80vblj4.apps.googleusercontent.com",
+  MICROSOFT_CLIENT_ID: "171fb4ff-f112-46b2-9043-92ecb97f56fe",
+  // Owner decision 2026-10-01: the beta starts on Workers Free, email codes OFF (Google and
+  // Microsoft only). D-USER-04's Cloudflare Email Sending is one uncommenting away.
+  EMAIL_PROVIDER: "",
+  EMAIL_FROM: "no-reply@pyarcana.dev",
+  EMAIL_FROM_NAME: "PyArcana",
+  EMAIL_DAILY_CAP: "90",
+  REPORT_ATTACHMENTS_CAP_MB: "200",
+  REPORT_TEXT_CAP_MB: "100",
+  PRICE_PE_MONTHLY_MINOR: "1990",
+  PRICE_PE_YEARLY_MINOR: "11990",
+  PRICE_US_MONTHLY_MINOR: "799",
+  PRICE_US_YEARLY_MINOR: "4900",
+  CREEM_API_BASE: "https://api.creem.io",
+  CREEM_PRODUCT_PRO_MONTHLY: "",
+  CREEM_PRODUCT_PRO_YEARLY: "",
+  MP_API_BASE: "https://api.mercadopago.com",
+  // Stage 2c (DESIGN-v3-delta D-ORCH-03; DESIGN-v3 §F): licence and measurement.
+  LICENSE_KEY_ID: "k1",
+  LICENSE_TTL_SECONDS: "259200",
+  LICENSE_PREV_PUBLIC_JWK: "",
+  EXPERIMENTS_ENABLED: "",
+  EVENTS_ENABLED: "true"
+};
+
+/**
+ * Parse `KEY = "value"` lines of one [section] (enough TOML for this file).
+ * @param {string} text File text.
+ * @param {string} section Section name.
+ * @returns {Object} Key/value strings.
+ */
+function section(text, section) {
+  const out = {};
+  let inside = false;
+  for (const line of text.split("\n")) {
+    const header = /^\s*\[+([^\]]+)\]+\s*$/.exec(line);
+    if (header) {
+      inside = header[1].trim() === section;
+      continue;
+    }
+    const pair = /^\s*([A-Za-z0-9_]+)\s*=\s*(.+?)\s*$/.exec(line);
+    if (inside && pair) {
+      out[pair[1]] = pair[2];
+    }
+  }
+  return out;
+}
+
+/**
+ * Unquote a TOML basic string.
+ * @param {string} raw Raw value.
+ * @returns {string} Value.
+ */
+function unquote(raw) {
+  return JSON.parse(raw);
+}
+
+test("the worker entry, D1 binding and compatibility date are declared", () => {
+  const top = section(`[top]\n${TOML}`, "top");
+  assert.equal(unquote(top.name), "pyarcana-billing");
+  assert.equal(unquote(top.main), "src/index.mjs");
+  assert.equal(unquote(top.compatibility_date), "2025-09-01");
+  assert.ok(existsSync(fileURLToPath(new URL("src/index.mjs", ROOT))));
+  const d1 = section(TOML, "d1_databases");
+  assert.equal(unquote(d1.binding), "DB");
+  assert.equal(unquote(d1.database_name), "pyarcana-accounts");
+  assert.equal(unquote(d1.database_id), "TODO_REPLACE_WITH_D1_DATABASE_ID");
+});
+
+test("every public var is present with its documented default", () => {
+  const vars = section(TOML, "vars");
+  for (const [name, expected] of Object.entries(PUBLIC_VARS)) {
+    assert.ok(name in vars, `missing var ${name}`);
+    if (expected !== null) {
+      assert.equal(unquote(vars[name]), expected, name);
+    }
+  }
+});
+
+test("no secret is assigned a value anywhere, and each is documented for wrangler secret put", () => {
+  for (const name of SECRETS) {
+    assert.ok(!new RegExp(`^\\s*${name}\\s*=`, "m").test(TOML), `${name} must not be assigned in wrangler.toml`);
+    assert.ok(new RegExp(`wrangler secret put ${name}\\b`).test(TOML), `${name} is documented`);
+  }
+});
+
+test("no personal gmail address is published", () => {
+  assert.ok(!/@gmail\.com/i.test(TOML));
+});
+
+test("crons match the code's dispatch table, and observability is on", () => {
+  const triggers = section(TOML, "triggers");
+  assert.deepEqual(JSON.parse(triggers.crons), [DAILY_CRON, HOURLY_CRON]);
+  assert.equal(section(TOML, "observability").enabled, "true");
+});
+
+test("DESIGN-v3 §A: the static export is served from the same worker, the API path runs the worker first", () => {
+  const assets = section(TOML, "assets");
+  assert.equal(unquote(assets.directory), "../../out");
+  assert.equal(unquote(assets.binding), "ASSETS");
+  assert.deepEqual(JSON.parse(assets.run_worker_first), ["/api/*"]);
+  assert.equal(unquote(assets.not_found_handling), "404-page");
+  assert.ok(existsSync(fileURLToPath(new URL("../../package.json", ROOT))), "../../ resolves to the repository root, where next build writes out/");
+});
+
+test("Workers Free: no send_email binding is deployed, and the commented one may send only from EMAIL_FROM", () => {
+  // A binding that cannot work on Workers Free is never deployed (owner decision 2026-10-01).
+  assert.equal((TOML.match(/^\[\[send_email\]\]$/gm) || []).length, 0);
+  // Turning it on is uncommenting three lines: they must still say the right thing (D-USER-04).
+  const vars = section(TOML, "vars");
+  assert.match(TOML, /^# \[\[send_email\]\]$/m);
+  assert.match(TOML, /^# name = "EMAIL"$/m);
+  const sender = /^# allowed_sender_addresses = (\[.*\])$/m.exec(TOML);
+  assert.ok(sender, "the commented binding names its allowed sender");
+  assert.deepEqual(JSON.parse(sender[1]), [unquote(vars.EMAIL_FROM)]);
+});
+
+test("the site's emailSignIn equals whether the worker sends email codes (privacy page names the sender only then)", () => {
+  const config = readFileSync(fileURLToPath(new URL("../../src/lib/cloud/config.ts", ROOT)), "utf8");
+  const match = /^ {2}emailSignIn: (true|false),$/m.exec(config);
+  assert.ok(match, "CLOUD_CONFIG.emailSignIn is set");
+  const provider = unquote(section(TOML, "vars").EMAIL_PROVIDER);
+  assert.equal(match[1] === "true", provider !== "", `emailSignIn=${match[1]} but EMAIL_PROVIDER="${provider}"`);
+});
+
+test("one origin: no workers.dev or preview URL, the worker binds only the canonical host, and TERMS_VERSION matches the site", () => {
+  assert.match(TOML, /^workers_dev = false$/m);
+  assert.match(TOML, /^preview_urls = false$/m);
+  // Static files are served before the worker runs, so any other bound host would get the whole
+  // course with accounts silently off: the client turns them on only on the canonical origin, and
+  // ALLOWED_ORIGINS names only it. www and pyarcana.com are zone redirect rules (README, step 5).
+  const routes = /^routes = \[\n([\s\S]*?)^\]$/m.exec(TOML);
+  assert.ok(routes, "routes is declared");
+  const patterns = [...routes[1].matchAll(/pattern = "([^"]+)"/g)].map((m) => m[1]);
+  const canonicalHost = new URL(unquote(section(TOML, "vars").CANONICAL_ORIGIN)).host;
+  assert.deepEqual(patterns, [canonicalHost]);
+  assert.match(routes[1], /\{ pattern = "pyarcana\.dev", custom_domain = true \}/);
+  const readme = readFileSync(new URL("README.md", ROOT), "utf8");
+  assert.match(readme, /www\.pyarcana\.dev[^\n]*Redirect Rule|Redirect Rule[^\n]*www\.pyarcana\.dev/, "the README tells the operator to redirect www");
+  const config = readFileSync(fileURLToPath(new URL("../../src/lib/cloud/config.ts", ROOT)), "utf8");
+  const site = /^ {2}termsVersion: '([^']*)',$/m.exec(config);
+  assert.ok(site, "CLOUD_CONFIG.termsVersion is set");
+  assert.equal(unquote(section(TOML, "vars").TERMS_VERSION), site[1], "sign-in must echo the exact terms version the site shows");
+});
+
+test("CONTROLLER_NAME equals the site's legal.sellerName: the notice names the holder exactly when sign-up opens", () => {
+  const config = readFileSync(fileURLToPath(new URL("../../src/lib/cloud/config.ts", ROOT)), "utf8");
+  const site = /legal: \{ sellerName: '([^']*)'/.exec(config);
+  assert.ok(site, "CLOUD_CONFIG.legal.sellerName is set");
+  assert.equal(unquote(section(TOML, "vars").CONTROLLER_NAME), site[1]);
+});

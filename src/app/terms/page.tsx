@@ -1,4 +1,5 @@
 import { LegalPage } from '@/components/legal/LegalPage'
+import { CloudLegalSection } from '@/components/account/CloudLegalSection'
 import Link from 'next/link'
 
 export default function TermsPage() {
@@ -52,6 +53,7 @@ export default function TermsPage() {
         o consulta el{' '}
         <Link href="/privacy" className="font-medium text-foreground underline-offset-2 hover:underline">Aviso de Privacidad</Link>.
       </p>
+      <CloudLegalSection kind="terms" />
     </LegalPage>
   )
 }

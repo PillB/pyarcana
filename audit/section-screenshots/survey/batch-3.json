@@ -1,0 +1,20 @@
+{
+  "batch": 3,
+  "sections_reviewed": ["S27","S28","S29","S30","S31","S32","S33","S34","S35","S36","S37","S38","S39"],
+  "candidates": [],
+  "considered_and_rejected": [
+    {"section": "S27", "where": "s27-async-concurrency.ts, all theory blocks (pytest discovery, fixtures, coverage S27-T4-A)", "reason": "The learner works only with code and pytest terminal output. Coverage is taught as branch/risk reasoning in code, not via an htmlcov report. Terminal output stays as text (WCAG 1.4.5)."},
+    {"section": "S28", "where": "s28-llm-agents.ts, 'Flakes, determinismo y CI' (S28-T4-B) and 'Integración, E2E y testcontainers (concepto)'", "reason": "CI is described as a pipeline order (lint -> unit -> property -> integration) and testcontainers as a concept. No CI web UI (e.g. GitHub Actions) is named or operated; a screenshot would introduce a product the block does not teach."},
+    {"section": "S29", "where": "s29-mlops.ts, 'Cardinalidad, NULL y planes' and 'ACID y transacciones en el lab'", "reason": "Query plans and transactions are shown as SQL text and printed output. No database GUI (pgAdmin, DB Browser) is used; EXPLAIN output is text."},
+    {"section": "S30", "where": "s30-security-infra.ts, 'calibración, cola clerical y consistencia de cluster'", "reason": "The clerical review queue is modelled as Python data structures. No real labelling tool or UI is operated."},
+    {"section": "S31", "where": "s31-streaming-data.ts, 'Visualización, escalabilidad, privacidad y evidencia por arista' (S31-T4-B), reviewer storyboard ('Al hacer clic en cada hop, ve records, ts y source')", "reason": "Closest call in the batch. The clicks happen in a hypothetical course reviewer workbench (CASO-LIM-031), not in a real product. A screenshot of a third-party graph tool (Gephi, Neo4j Browser) would misrepresent the interface and could show unmasked labels, contradicting the block's PII rule."},
+    {"section": "S32", "where": "s32-microservices.ts, all blocks (feature pipelines, leakage, train-serve skew)", "reason": "Notebooks are mentioned only as a metaphor for ad-hoc training code. No GUI is operated; all content is code."},
+    {"section": "S33", "where": "s33-advanced-models.ts, 'Pipeline y tracking mínimo' (S33-T4-A)", "reason": "Run tracking is modelled with a dict (run_id, params, metrics). No tracking UI such as MLflow is introduced, so a screenshot would teach a tool the section does not use."},
+    {"section": "S34", "where": "s34-cv-ai-integration.ts, 'dashboard'/'panel ejecutivo' mentions in metrics blocks", "reason": "'Dashboard' is a figure of speech for misleading reported metrics, not an interface the learner opens. Confusion matrices and reliability curves are concepts or plots, not GUIs."},
+    {"section": "S35", "where": "s35-system-design.ts, 'Model card y contestabilidad'", "reason": "Model cards are written documents. No interface is operated."},
+    {"section": "S36", "where": "s36-ai-apis-advanced.ts, 'PCA y visualización exploratoria'", "reason": "The output is a projection plot computed with fixed weights, not a GUI layout. Plots are already covered by figures or the code itself; rule 1 (layout is the information) does not hold."},
+    {"section": "S37", "where": "s37-dbt-bigquery.ts, 'Wall, CPU y profiling de memoria' (S37-T1-A)", "reason": "Profiling uses perf_counter, process_time, tracemalloc and cProfile programmatically, with text output. No visual profiler (snakeviz, speedscope) is named; adding one is scope creep, and an S37-percentiles SVG figure already exists."},
+    {"section": "S38", "where": "s38-performance-extreme.ts, 'Logs, metrics y traces' (S38-T3-A) and 'Correlation, redacción y SLI/SLO'", "reason": "The block says explicitly: 'No usamos OpenTelemetry real en el ejercicio; modelamos el contrato con dicts locales'. A trace viewer or Grafana screenshot would show a tool the learner never opens."},
+    {"section": "S39", "where": "s39-integrator-phase2.ts, 'Cola, evidence packet y explicación usable'", "reason": "The block states 'La UI didáctica puede ser un dict en CLI: lo importante es la estructura.' No graphical interface is operated."}
+  ]
+}
