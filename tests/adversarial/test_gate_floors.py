@@ -29,10 +29,18 @@ SCRUBBED = ("PYARCANA_REPORT_LOCK_PATH", "PYARCANA_REPORT_LOCK")
 STYLESHEET = (ROOT / "src/app/globals.css").read_text(encoding="utf-8")
 
 
-def run_gate(script: str, files: dict[str, str], *, also: tuple[str, ...] = ()) -> subprocess.CompletedProcess:
-    """Run scripts/<script> (and copies of `also`) from a temporary root holding `files`."""
+def run_gate(script: str, files: dict[str, str], *, also: tuple[str, ...] = (),
+             links: tuple[str, ...] = ()) -> subprocess.CompletedProcess:
+    """Run scripts/<script> (and copies of `also`) from a temporary root holding `files`.
+
+    `links` are symlinked from the repository rather than copied: node_modules, for a gate that
+    runs the real extractor through `npx tsx`.
+    """
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
+        for rel in links:
+            (root / rel).parent.mkdir(parents=True, exist_ok=True)
+            (root / rel).symlink_to(ROOT / rel)
         for rel in (f"scripts/{script}", *also):
             (root / rel).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / rel, root / rel)
@@ -243,31 +251,62 @@ def glossary_course(early: int, missing: int) -> dict[str, str]:
     }
 
 
-#: The intro audit reads the extractor's learner-visible events, and the extraction needs the
-#: whole course. As in FirstUseAllFloor, the verdict over the events does not: this stand-in for
-#: `concept_map` hands the real gate script the events the test writes.
-EVENTS_STUB = """import json
-from pathlib import Path
+#: The intro audit reads the learner-visible events of the real extractor, through the real
+#: concept_map: its content-digest cache, then `npx tsx scripts/course_event_extractor.mts`. Until
+#: 2026-10-06 this test replaced concept_map with a stub that read a hand-written events file, which
+#: hid the extraction itself. AGENTS.md now sends every stand-in to the owner and asks for the root
+#: cause first, and this one had a real fix: the course below is synthetic DATA, and every line of
+#: code that reads it is the repository's own -- the extractor and its two modules, concept_map, and
+#: terms.ts with only its term list replaced.
+PIPELINE = ("scripts/glossary_first_use.py", "scripts/concept_map.py", "scripts/report_lock.py",
+            "scripts/course_event_extractor.mts", "scripts/concept_detector.mts",
+            "scripts/concept_syntax.mts")
 
 
-def load_events():
-    path = Path(__file__).resolve().parents[1] / ".fixer/events.json"
-    return json.loads(path.read_text(encoding="utf-8"))
-"""
+def terms_module(names: list[str], home: str) -> str:
+    """The real terms.ts, with GLOSSARY_TERMS replaced by one entry per name, each homed at `home`."""
+    source = (ROOT / "src/lib/glossary/terms.ts").read_text(encoding="utf-8")
+    head = "export const GLOSSARY_TERMS: GlossaryTerm[] = [\n"
+    assert source.count(head) == 1, "terms.ts no longer declares GLOSSARY_TERMS the way this test expects"
+    start = source.index(head) + len(head)
+    end = source.index("\n]\n", start) + 1
+    entries = "".join(
+        f"  {{ id: 't-{n}', term: '{n}', aliases: [], category: 'Python', definition: '{n}',"
+        f" firstSectionId: '{home}' }},\n" for n in names)
+    return source[:start] + entries + source[end:]
 
 
-def glossary_events(early: int, *, control_visible_in_alpha: bool = False) -> dict[str, str]:
-    """glossary_course's two sections as the learner sees them. Alpha also carries the control
-    term in a HIDDEN event -- a solution, say -- which must not count as its first use."""
-    files = glossary_course(early, 0)
+def section_module(number: str, sid: str, visible: str, hidden: str) -> str:
+    """A section in the shape the extractor walks: `visible` as a theory paragraph, `hidden` as a We
+    Do solution, the one surface the extractor marks learner_visible: false."""
+    return (f"export const section{number} = {{\n"
+            f"  id: '{sid}', index: {int(number)}, title: '{sid}',\n"
+            "  learningOutcomes: [],\n"
+            f"  theory: [{{ heading: 'Tema', paragraphs: [{json.dumps(visible)}] }}],\n"
+            "  iDo: { intro: '', steps: [] },\n"
+            f"  weDo: {{ intro: '', steps: [{{ id: '{sid}-e1', title: 'Ejercicio',"
+            f" solutionCode: {{ code: {json.dumps(hidden)} }} }}] }},\n"
+            "  youDo: { context: '', objectives: [], requirements: [], rubric: [], starterCode: '' },\n"
+            "  selfCheck: { questions: [] },\n"
+            "  resources: { docs: [] },\n"
+            "}\n")
+
+
+def glossary_events_course(early: int, *, control_visible_in_alpha: bool = False) -> dict[str, str]:
+    """Sections alpha then beta, glossary terms all introduced in beta: `early` of them used in
+    alpha's visible text first (forward references), and a control term, `presente`, that alpha
+    carries in its hidden solution -- or in its visible text, when asked."""
     names = [f"temprana{i}" for i in range(early)]
-    files[".fixer/events.json"] = json.dumps({"active_section_ids": ["alpha", "beta"], "events": [
-        {"section_id": "alpha", "learner_visible": True, "text": " ".join(names)},
-        {"section_id": "alpha", "learner_visible": control_visible_in_alpha, "text": "presente"},
-        {"section_id": "beta", "learner_visible": True, "text": " ".join([*names, "presente"])},
-    ]})
-    files["scripts/concept_map.py"] = EVENTS_STUB
-    return files
+    alpha_visible = " ".join([*names, *(["presente"] if control_visible_in_alpha else [])])
+    alpha_hidden = "" if control_visible_in_alpha else "presente = True"
+    return {
+        "src/lib/course/index.ts": ("import { section01 } from './sections/s01-alpha'\n"
+                                    "import { section02 } from './sections/s02-beta'\n"
+                                    "export const COURSE_SECTIONS = [section01, section02]\n"),
+        "src/lib/course/sections/s01-alpha.ts": section_module("01", "alpha", alpha_visible, alpha_hidden),
+        "src/lib/course/sections/s02-beta.ts": section_module("02", "beta", " ".join([*names, "presente"]), ""),
+        "src/lib/glossary/terms.ts": terms_module([*names, "presente"], "beta"),
+    }
 
 
 class GlossaryRatchets(unittest.TestCase):
@@ -276,14 +315,17 @@ class GlossaryRatchets(unittest.TestCase):
 
     def run_intro(self, early: int, *, owed_as: int | None = None,
                   control_visible_in_alpha: bool = False) -> subprocess.CompletedProcess:
-        files = glossary_events(early, control_visible_in_alpha=control_visible_in_alpha)
+        files = glossary_events_course(early, control_visible_in_alpha=control_visible_in_alpha)
         if owed_as is not None:
             source = (ROOT / "scripts/glossary_intro_audit.py").read_text(encoding="utf-8")
             patched, n = re.subn(r"^FORWARD_REFS_OWED = \d+$", f"FORWARD_REFS_OWED = {owed_as}",
                                  source, flags=re.M)
             self.assertEqual(n, 1, "glossary_intro_audit.py must declare FORWARD_REFS_OWED once")
             files["scripts/glossary_intro_audit.py"] = patched
-        return run_gate("glossary_intro_audit.py", files, also=("scripts/glossary_first_use.py",))
+        result = run_gate("glossary_intro_audit.py", files, also=PIPELINE, links=("node_modules",))
+        self.assertNotIn("extractor failed", result.stdout + result.stderr,
+                         "the real extractor must run on the synthetic course")
+        return result
 
     def run_coverage(self, missing: int) -> subprocess.CompletedProcess:
         return run_gate("glossary_coverage_audit.py", glossary_course(0, missing))
