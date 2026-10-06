@@ -1,4 +1,4 @@
-STATUS: COMPLETE (sha in git log) — page, tests and pipeline built; all 19 picture slots filled: 8 real screenshots reused under open licences, 11 labelled illustrations from the owner's pack awaiting real captures (§5, MUST 1).
+STATUS: COMPLETE 5476efbe — page, tests and pipeline built; all 19 picture slots filled: 8 real screenshots reused under open licences, 11 labelled illustrations from the owner's pack awaiting real captures (§5, MUST 1).
 
 # Sesión 0: plan, state and hand-off
 
