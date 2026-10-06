@@ -1,4 +1,4 @@
-STATUS: COMPLETE 5476efbe — page, tests and pipeline built; all 19 picture slots filled: 8 real screenshots reused under open licences, 11 labelled illustrations from the owner's pack awaiting real captures (§5, MUST 1).
+STATUS: COMPLETE 5476efbe — page, tests and pipeline built; 19 picture slots: 10 real screenshots (8 reused under open licences, 2 captured), 9 labelled illustrations awaiting real captures (§5, MUST 1a).
 
 # Sesión 0: plan, state and hand-off
 
@@ -198,6 +198,24 @@ exists, what it hides, and the decision needed."
   - (a) keep the illustrations until real captures exist (recommended: every one is labelled, and
     each step also links the official guide);
   - (b) remove any of them by deleting its row in `shots.json` and its PNG.
+
+**Update, 6 Oct 2026, after the environment's network allowlist was widened.**
+- **Two illustrations replaced by real captures** taken here with `setup_screenshots.mjs --take`:
+  - `py-release-files` (python.org 3.12.10);
+  - `git-win-download` (git-scm.com: "2.56.0(2)", released 2026-10-05). Its first attempt got a
+    "Host not in allowlist" page minutes after the change; one retry succeeded.
+- **The python.org capture exposed a real gap.** A yellow "Download Python install manager" button
+  sits above the files table. The Windows step now says to take the "Windows installer (64-bit)"
+  row marked Recommended, and not that button.
+- **`gh-signup-form` stays an illustration.** GitHub served its bot-protection page ("El acceso
+  está restringido temporalmente") to the automated browser. Working around bot protection is not
+  something this project does; take that capture by hand, logged out.
+- **All 15 official-guide URLs (26 uses) return 200,** and their page titles were read on
+  2026-10-06. That includes the three that were unverified: Apple's "Manual de uso de Terminal para
+  Mac", the Spanish Python 3.12 docs (now at 3.12.15) and the Spanish GitHub Docs.
+- The remaining 9 illustrations are OS and installer screens. No official page publishes them
+  (checked: VS Code's Windows setup page, Microsoft's Python page), so they need a real Windows or
+  Mac.
 
 **Official guides, every step with a picture (Pablo's request, 6 Oct 2026).**
 - 26 steps link the product's own current guide, after the line "La pantalla puede haber cambiado

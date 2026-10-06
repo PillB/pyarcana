@@ -292,3 +292,9 @@ first, then the fix that worked.
   ("error sending request for url (https://auth.openai.com/api/accounts/deviceauth/usercode)").
   Codex then runs under the same network policy as Claude, so it can fetch only what the sandbox
   can reach.
+- **A network allowlist change is not instant, and it belongs in the environment.** The
+  claude.ai account setting (Settings → Capabilities → Domain allowlist) does not govern Claude
+  Code cloud sessions; the environment's own Network access setting does. After the environment
+  changed, curl passed within minutes while Chromium still got "Host not in allowlist" once. Retry
+  a refused capture once before calling it blocked. GitHub separately serves a bot-protection page
+  to automated browsers; capture GitHub's own pages by hand rather than working around it.
