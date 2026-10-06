@@ -5,7 +5,7 @@
   "credential_class": "A",
   "credential_class_name": "Learning Milestone",
   "public_name": "Phase 3 — Integrated Synthesis",
-  "capability_statement": "The learner has completed all 13 sections of PyArcana Phase 3 (Integrated Mastery): S40 through S52, including the You Do project, self-check, and section exam for each section.",
+  "capability_statement": "The learner has completed every PyArcana Phase 3 (Integrated Mastery) section before the section containing the final capstone, including each section's You Do project, self-check, and section exam.",
   "boundary": "This assertion covers the capabilities and assessment conditions shown in its verification record.",
   "market_task_mappings": [],
   "prerequisites": [
