@@ -40,14 +40,24 @@ Python, or they are text, or they are the learner's own product. The reason for 
 
 ## Caveats the insertion must carry
 
+All seven were inserted on 2026-10-06 under owner decision D19 (`audit/fixer/decisions.md`). Where
+each one went, and the trade-offs, are in [`INSERTED.md`](INSERTED.md). The app copies are in
+`src/assets/sections/`; their captions in `shots.json` carry the caveats below, and
+`tests/adversarial/section-screenshots.test.ts` fails if one is dropped.
+
 - **`s01-vscode-extensions-python.png`:**
   - The crop removes the VS Code logo, which is a Microsoft trademark the licence does not cover.
-  - The version number shown will differ from the learner's.
+    The credit's `changes` says so.
+  - The VS Code version number shown will differ from the learner's. The crop also removed the
+    detail pane where the version (v2024.12.3) was printed, so the caption names what is still
+    visible and will differ: the download counts.
 - **`s01-ruff-quickfix-f401.png`:**
   - This is one frame of the GIF in the ruff-vscode README. The GIF is hosted on
     user-images.githubusercontent.com, not committed to the repository tree.
   - The code shown is FastAPI's (MIT).
   - The block teaches the learner to delete the import, not to use the automatic fix. The caption says so.
+    It says "borra tú el import sobrante" rather than the survey's "borrando la línea": line 7 in
+    the picture imports two names, and deleting that whole line would remove one still in use.
 - **`s23-trace-viewer.png`:** the official test is JavaScript (`example.spec.ts`). The viewer is
   the same from Python. The caption says so.
 - **`s44-merge-blocked.png`:** here the blocking rule is code quality, not required reviews. The

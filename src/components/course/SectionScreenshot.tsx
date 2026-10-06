@@ -23,7 +23,10 @@ export function SectionScreenshot({ id }: { id: string }) {
   if (!record || !image) return null
   return (
     <div data-testid="section-shot" data-shot-id={id}>
-      <Screenshot spec={{ id, alt: record.alt, caption: record.caption }} record={record} image={image} />
+      {/* Never wider than the capture: a 520 px crop stretched to the column blurs its text. */}
+      <div style={{ maxWidth: record.width }}>
+        <Screenshot spec={{ id, alt: record.alt, caption: record.caption }} record={record} image={image} />
+      </div>
       <OfficialGuide guide={record.guide} afterPicture />
     </div>
   )
