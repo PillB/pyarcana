@@ -278,6 +278,35 @@ home. No learner holds these badges, so nothing is withdrawn from anyone.
 **Retire when:** each of the three has a teaching home with practice and assessment, and the guard
 reports none owed.
 
+### O19 — Gate B: the renumber's design decisions
+**Scope:** the design of record, `audit/fixer/renumber_g0/design_ruled_final.md` §5. **Status:** live.
+
+Answered 2026-10-06, each the recommendation:
+- **Teaching-debt guard (decision 17).** A home is a section whose title or a learning outcome
+  names the skill, with at least one We Do or You Do practising it and one selfCheck,
+  topic-evaluation or exam item assessing it. The guard covers every credential that claims a
+  skill. **The 5 `local_achievement` progress markers are exempt**: their `non_claims` already say
+  they prove no competency, so they claim walking the sections, not a skill. (The design proposed
+  covering them too; the owner chose the narrower scope.)
+- **CP-N2-B (8a).** One gate at S23 for the six-section arc S18–S23, no sub-gate. It gains two
+  criteria: every claim from a sample cites n, a CI and an effect size, with tests only on
+  pre-declared comparisons and Holm across them; and the experiment readout passes
+  `validar_readout`. The capstone count stays 13.
+- **S19's title (12).** The ruled title stays. A guard requires the lesson text to say «contraste de
+  hipótesis»; the title is exempt.
+- **The rest, as a package:** a new badge `applied_statistical_inference` (S18–S20); skill-node
+  additions to the capstone and role badges, with Codex claim text returning at Gate C; the
+  declared statistics boundary (§2 of the design); S35's increment for CP-N3-B (8b); a pilot-plan
+  deliverable for CP-N3-C (8c); model-based IPW as a worked example in S38 (18); one S36 exercise
+  printing odds ratios (19); and the sense guard split into an alias rule and a body-prose rule (20).
+
+**Still open, asked before the renumber PR:** 4 (defer 2SLS and do-calculus), 9 (which roadmap is
+authoritative), 10 (homonym list), 11 (one learner notice; the certificado threshold becomes 55/55,
+which touches the progress document's legal constraints), 13 (amending `AGENTS.md` and
+`course_requirements.json`), 15 (parallel work).
+
+**Retire when:** every item has landed or been superseded by a later decision.
+
 ---
 
 ## Archive
