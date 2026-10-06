@@ -176,7 +176,8 @@ const python: SetupPart = {
       guide: { label: 'la guía oficial de Python 3.12 para Windows', url: 'https://docs.python.org/es/3.12/using/windows.html' },
       body: [
         `Abre esta página en tu navegador: \`${PYTHON_RELEASE_URL}\`. Baja hasta la tabla **Files**, al final.`,
-        'Haz clic en `Windows installer (64-bit)`. El archivo se guarda en tu carpeta Descargas.',
+        'Haz clic en `Windows installer (64-bit)`, la fila marcada `Recommended`. El archivo se guarda en tu carpeta Descargas.',
+        'Más arriba hay un botón amarillo, `Download Python install manager`. No lo uses: es otra forma de instalar Python que este curso no sigue, y mezclar las dos causa conflictos.',
       ],
       shot: 'py-release-files',
       expect: { text: 'Un archivo llamado `python-3.12.10-amd64.exe` en Descargas.' },
@@ -309,7 +310,7 @@ const python: SetupPart = {
       guide: { label: 'la guía oficial de Python 3.12 para macOS', url: 'https://docs.python.org/es/3.12/using/mac.html' },
       body: [
         `Abre esta página en tu navegador: \`${PYTHON_RELEASE_URL}\`. Baja hasta la tabla **Files**, al final.`,
-        'Haz clic en `macOS 64-bit universal2 installer`. Sirve para todos los Mac, con chip Intel o Apple.',
+        'Haz clic en `macOS 64-bit universal2 installer`. Sirve para todos los Mac, con chip Intel o Apple. El botón amarillo de macOS, más arriba, descarga el mismo archivo.',
       ],
       shot: 'py-release-files',
       expect: { text: 'Un archivo llamado `python-3.12.10-macos11.pkg` en tu carpeta Descargas.' },
@@ -1217,8 +1218,8 @@ export const SETUP_SHOTS: readonly ShotSpec[] = [
     url: PYTHON_RELEASE_URL,
     selector: 'table',
     brief: 'Página de la versión 3.12.10 en python.org, desplazada hasta la tabla Files. Recuadro en la tabla.',
-    alt: 'Tabla Files de la página de Python 3.12.10 en python.org. Sus filas incluyen macOS 64-bit universal2 installer, Windows installer (64-bit) y Windows installer (ARM64).',
-    caption: 'La tabla Files, al final de la página. Elige la fila de tu sistema.',
+    alt: 'Parte final de la página de Python 3.12.10 en python.org. Arriba, tres botones amarillos: Download macOS 64-bit universal2 installer, Download Python install manager y Download XZ compressed source tarball. Debajo, resaltada, la tabla de archivos, con filas como macOS 64-bit universal2 installer, Windows installer (64-bit), marcada Recommended, y Windows installer (ARM64).',
+    caption: 'La tabla de archivos, resaltada. En Windows elige la fila Windows installer (64-bit), no el botón amarillo del install manager.',
   },
   {
     id: 'win-py-installer-path',

@@ -146,14 +146,14 @@
   {
     "id": "py-release-files",
     "checkedOn": "2026-10-06",
-    "width": 1600,
-    "height": 805,
-    "illustration": {
-      "by": "Paquete de ilustraciones de referencia de PyArcana (6 oct 2026)",
-      "basis": "Página de la versión 3.12.10 de python.org. Claude Code quitó un bloque que recuadraba el «Python install manager» (otra ruta de instalación) y nombró la fila de Windows como la nombra python.org."
-    },
-    "alt": "Ilustración de la página de Python 3.12.10 en python.org: la tabla Files, con filas para el código fuente, macOS 64-bit universal2 installer y Windows installer (64-bit).",
-    "caption": "En la tabla Files, elige la fila de tu sistema: Windows installer (64-bit) o macOS 64-bit universal2 installer."
+    "width": 1280,
+    "height": 800,
+    "box": {
+      "x": 4.4,
+      "y": 27.6,
+      "w": 91.2,
+      "h": 44.9
+    }
   },
   {
     "id": "vscode-terminal",
