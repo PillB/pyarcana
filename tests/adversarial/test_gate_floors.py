@@ -9,9 +9,6 @@ background colour it made up, so a green run could mean that nothing was measure
 from __future__ import annotations
 
 import ast
-import contextlib
-import importlib.util
-import io
 import json
 import os
 import re
@@ -21,7 +18,6 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
-from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 #: A gate run's lock must not reach a gate running in a temporary root of its own.
@@ -30,11 +26,12 @@ STYLESHEET = (ROOT / "src/app/globals.css").read_text(encoding="utf-8")
 
 
 def run_gate(script: str, files: dict[str, str], *, also: tuple[str, ...] = (),
-             links: tuple[str, ...] = ()) -> subprocess.CompletedProcess:
+             links: tuple[str, ...] = (), collect: tuple[str, ...] = ()) -> subprocess.CompletedProcess:
     """Run scripts/<script> (and copies of `also`) from a temporary root holding `files`.
 
     `links` are symlinked from the repository rather than copied: node_modules, for a gate that
-    runs the real extractor through `npx tsx`.
+    runs the real extractor through `npx tsx`. `collect` names files the gate writes; their text is
+    read before the root is deleted and returned as `result.collected`.
     """
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -50,8 +47,11 @@ def run_gate(script: str, files: dict[str, str], *, also: tuple[str, ...] = (),
         (root / "course-state").mkdir(exist_ok=True)
         interpreter = "node" if script.endswith(".mjs") else sys.executable
         env = {k: v for k, v in os.environ.items() if k not in SCRUBBED}
-        return subprocess.run([interpreter, str(root / "scripts" / script)], cwd=root, env=env,
-                              capture_output=True, text=True, check=False)
+        result = subprocess.run([interpreter, str(root / "scripts" / script)], cwd=root, env=env,
+                                capture_output=True, text=True, check=False)
+        result.collected = {rel: (root / rel).read_text(encoding="utf-8")
+                            for rel in collect if (root / rel).exists()}
+        return result
 
 
 def printed(result: subprocess.CompletedProcess) -> dict:
@@ -182,46 +182,47 @@ class SyntheticIdentifierFloor(unittest.TestCase):
         self.assertEqual(printed(result)["unreadable"], ["src/lib/course/sections/s02-gone.ts"])
 
 
-def event(order: int, *, mentions: tuple[str, ...] = (), defines: tuple[str, ...] = ()) -> dict:
-    return {"section_id": "s01", "display_order": order, "learner_visible": True,
-            "kind": "theory.paragraph", "location": f"s01.theory[{order}].p1",
-            "mentions": list(mentions), "defines": list(defines), "requires": []}
+#: Two sentences the repository's own definition detector reads the way the names say. Checked
+#: against concept_detector.mts: the first defines `variable`, the second only uses it.
+DEFINES_VARIABLE = "Una variable es un nombre que apunta a un valor en memoria."
+USES_VARIABLE = "Usa la variable para sumar dos montos."
 
 
 class FirstUseAllFloor(unittest.TestCase):
-    """The extraction itself needs the whole course; the verdict over it does not."""
+    """The first-use gate on the real extractor, over a synthetic course.
 
-    def verdict(self, payload: dict) -> tuple[int, dict]:
-        spec = importlib.util.spec_from_file_location("first_use_all_audit",
-                                                      ROOT / "scripts/first_use_all_audit.py")
-        mod = importlib.util.module_from_spec(spec)
-        assert spec.loader
-        spec.loader.exec_module(mod)
-        with tempfile.TemporaryDirectory() as tmp:
-            out = Path(tmp) / "course-state/first_use_all_report.json"
-            with mock.patch.object(mod, "build_events", return_value=payload), \
-                    mock.patch.object(mod, "ROOT", Path(tmp)), mock.patch.object(mod, "OUT", out), \
-                    contextlib.redirect_stdout(io.StringIO()):
-                code = mod.main()
-            return code, json.loads(out.read_text(encoding="utf-8"))
+    Until 2026-10-06 this mocked `build_events` with a hand-written payload, so the extraction the
+    gate depends on never ran here (an AGENTS.md stand-in). It now runs the real extractor through
+    the gate's own `build_events`, in a temporary root built like the intro audit's.
+    """
 
-    def payload(self, *events: dict) -> dict:
-        return {"active_section_ids": ["s01"], "terms": [{"id": "variable", "firstSectionId": "s01"}],
-                "events": list(events)}
+    def verdict(self, paragraphs: list[str], *, terms: bool = True) -> tuple[int, dict]:
+        sections = [section_module("01", "alpha", paragraphs, "")] if paragraphs else []
+        files = {
+            "src/lib/course/index.ts": (
+                ("import { section01 } from './sections/s01-alpha'\n" if sections else "")
+                + f"export const COURSE_SECTIONS = [{'section01' if sections else ''}]\n"),
+            "src/lib/glossary/terms.ts": terms_module(["variable"] if terms else [], "alpha"),
+            **({"src/lib/course/sections/s01-alpha.ts": sections[0]} if sections else {}),
+        }
+        report = "course-state/first_use_all_report.json"
+        result = run_gate("first_use_all_audit.py", files, also=PIPELINE, links=("node_modules",),
+                          collect=(report,))
+        self.assertNotIn("extractor.mts failed", result.stdout + result.stderr)
+        self.assertIn(report, result.collected, result.stdout + result.stderr)
+        return result.returncode, json.loads(result.collected[report])
 
     def test_a_term_defined_before_its_use_passes(self) -> None:
-        code, report = self.verdict(self.payload(
-            event(0, mentions=("variable",), defines=("variable",)), event(1, mentions=("variable",))))
+        code, report = self.verdict([DEFINES_VARIABLE, USES_VARIABLE])
         self.assertEqual(code, 0, report["issues"])
 
     def test_a_use_before_the_definition_fails(self) -> None:
-        code, report = self.verdict(self.payload(
-            event(0, mentions=("variable",)), event(1, mentions=("variable",), defines=("variable",))))
+        code, report = self.verdict([USES_VARIABLE, DEFINES_VARIABLE])
         self.assertEqual(code, 1)
         self.assertEqual([i["code"] for i in report["issues"]], ["USE_BEFORE_DEFINITION"])
 
     def test_an_empty_extraction_fails(self) -> None:
-        code, report = self.verdict({"active_section_ids": [], "terms": [], "events": []})
+        code, report = self.verdict([], terms=False)
         self.assertEqual(code, 1)
         self.assertEqual(report["empty_populations"], ["active_section_ids", "terms", "events"])
 
@@ -276,13 +277,14 @@ def terms_module(names: list[str], home: str) -> str:
     return source[:start] + entries + source[end:]
 
 
-def section_module(number: str, sid: str, visible: str, hidden: str) -> str:
-    """A section in the shape the extractor walks: `visible` as a theory paragraph, `hidden` as a We
+def section_module(number: str, sid: str, visible: str | list[str], hidden: str) -> str:
+    """A section in the shape the extractor walks: `visible` as theory paragraphs, `hidden` as a We
     Do solution, the one surface the extractor marks learner_visible: false."""
+    paragraphs = [visible] if isinstance(visible, str) else visible
     return (f"export const section{number} = {{\n"
             f"  id: '{sid}', index: {int(number)}, title: '{sid}',\n"
             "  learningOutcomes: [],\n"
-            f"  theory: [{{ heading: 'Tema', paragraphs: [{json.dumps(visible)}] }}],\n"
+            f"  theory: [{{ heading: 'Tema', paragraphs: {json.dumps(paragraphs, ensure_ascii=False)} }}],\n"
             "  iDo: { intro: '', steps: [] },\n"
             f"  weDo: {{ intro: '', steps: [{{ id: '{sid}-e1', title: 'Ejercicio',"
             f" solutionCode: {{ code: {json.dumps(hidden)} }} }}] }},\n"
