@@ -328,3 +328,16 @@ test('no DNI-shaped number in anything the learner reads (rule D2)', () => {
   const text = JSON.stringify([SETUP_PARTS, SETUP_SHOTS.map((s) => [s.alt, s.caption]), SETUP_FIGURES])
   assert.deepEqual(text.match(/(?<!\d)\d{8}(?!\d)/g) ?? [], [])
 })
+
+test('the first commit happens on the computer before any GitHub sign-in, and the clone proves the push', () => {
+  // RESEARCH.md §8.4 (3): a failed sign-in must not take the learner's first commit with it.
+  for (const os of SETUP_OS) {
+    const ids = setupStepIds(os)
+    const at = (id: string) => ids.indexOf(id)
+    assert.ok(at('conectar.commit') >= 0 && at('conectar.commit') < at('conectar.login'), `${os}: commit after login`)
+    assert.ok(at('conectar.login') < at('conectar.publicar') && at('conectar.publicar') < at('conectar.clonar'), `${os}: publish order`)
+  }
+  // Git answers in the system's language: each local Git checkpoint names the Spanish wording too.
+  const local = ['conectar.init', 'conectar.status', 'conectar.clonar'].map((id) => ALL_STEPS.find((s) => s.id === id)!)
+  for (const s of local) assert.match(s.expect!.text, /En español dice/, `${s.id}: no Spanish wording`)
+})

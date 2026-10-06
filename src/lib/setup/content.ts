@@ -192,17 +192,18 @@ const python: SetupPart = {
       os: WIN,
       title: 'Marca la casilla del PATH',
       body: [
-        'Abre el archivo que descargaste. En la primera pantalla, abajo, hay una casilla que dice `Add python.exe to PATH`.',
+        'Abre el archivo que descargaste. En la primera pantalla, abajo, hay una casilla que dice `Add python.exe to PATH` (añadir python.exe al PATH).',
         '**Márcala.** Viene desmarcada, y es el error más común de toda la instalación: sin ella, la terminal no encontrará Python.',
       ],
       shot: 'win-py-installer-path',
       expect: { text: 'La casilla `Add python.exe to PATH` con su visto bueno.' },
       fixes: [
         {
-          symptom: 'Tu cuenta de Windows no es de administrador y no tienes la contraseña.',
+          symptom: 'Windows pide la contraseña de un administrador, y tú no la tienes.',
           steps: [
-            'Desmarca la otra casilla, `Use admin privileges when installing py.exe`.',
-            'Así Python se instala solo para tu usuario y no pide permisos de administrador.',
+            'Pulsa `No` y vuelve a la primera pantalla del instalador.',
+            'Si la casilla `Use admin privileges when installing py.exe` se puede desmarcar, desmárcala: así Python se instala solo para tu usuario.',
+            'Si esa casilla está en gris, déjala como está. Pide a quien administra la computadora que escriba su contraseña.',
           ],
         },
       ],
@@ -212,7 +213,7 @@ const python: SetupPart = {
       os: WIN,
       title: 'Instala',
       body: [
-        'Haz clic en `Install Now`. Si Windows pregunta si permites que la aplicación haga cambios, responde **Sí**.',
+        'Haz clic en `Install Now` (instalar ahora). Si Windows pregunta si permites que la aplicación haga cambios, responde **Sí**.',
         'Espera a que la barra termine. Puede tardar unos minutos.',
       ],
       shot: 'win-py-installer-done',
@@ -487,7 +488,7 @@ const vscode: SetupPart = {
       os: MAC,
       title: 'Descarga VS Code y muévelo a Aplicaciones',
       body: [
-        'Abre `https://code.visualstudio.com/` y haz clic en `Download for macOS`. Se descarga una aplicación llamada `Visual Studio Code`.',
+        'Abre `https://code.visualstudio.com/` y haz clic en `Download for macOS`. Si la página te deja elegir, elige `Universal`: sirve para cualquier Mac. Se descarga una aplicación llamada `Visual Studio Code`.',
         'Abre Finder, entra a Descargas y arrastra `Visual Studio Code` a la carpeta Aplicaciones. Luego ábrela desde ahí.',
       ],
       expect: { text: 'El Mac pregunta si quieres abrir una aplicación descargada de internet. Responde `Open` (Abrir) y VS Code se abre.' },
@@ -661,7 +662,7 @@ const git: SetupPart = {
       id: 'git.config.nombre',
       title: 'Dile a Git tu nombre',
       body: [
-        'Git firma cada commit con un nombre. Usa tu nombre real, el que pondrías en tu CV. Cambia `Ana Quispe` por el tuyo y deja las comillas.',
+        'Git firma cada commit con un nombre. Usa tu nombre real, el que pondrías en tu CV; no tiene que coincidir con tu usuario de GitHub. Cambia `Ana Quispe` por el tuyo y deja las comillas.',
       ],
       command: 'git config --global user.name "Ana Quispe"',
       expect: { text: 'Nada: vuelve el prompt. `--global` significa que esta configuración vale para todos tus proyectos.' },
@@ -833,15 +834,120 @@ const RELOGIN = [
 
 const conectar: SetupPart = {
   id: 'conectar',
-  title: 'Conecta tu computadora con GitHub',
-  goal: 'Al terminar esta parte habrás enviado tu primer cambio desde tu computadora a GitHub.',
+  title: 'Tu primer proyecto, de tu computadora a GitHub',
+  goal: 'Al terminar esta parte habrás guardado tu primer commit en tu computadora y lo habrás publicado en GitHub.',
   intro: [
-    'GitHub no acepta tu contraseña desde la terminal. En su lugar, pide una **credencial**: una llave que identifica a tu computadora y que puedes revocar cuando quieras.',
-    'La herramienta `gh`, de GitHub, consigue esa credencial por ti a través del navegador. Luego crearás un proyecto de práctica y enviarás tu primer cambio.',
+    'Primero trabajarás solo en tu computadora: crearás un proyecto de práctica y guardarás tu primer commit. Eso no necesita internet ni cuenta.',
+    'Después lo publicarás. GitHub no acepta tu contraseña desde la terminal; pide una **credencial**, una llave que identifica a tu computadora y que puedes revocar cuando quieras. La herramienta `gh`, de GitHub, consigue esa credencial por ti a través del navegador.',
     'Si la computadora es compartida, recuerda que la credencial queda guardada en ella. Quien la use después entraría a GitHub como tú. Al terminar, escribe `gh auth logout`.',
+    'Git responde en el idioma de tu sistema. Si lo ves en español, cada paso te dice también qué frase buscar.',
   ],
   figure: 'setup-local-remote',
   steps: [
+    {
+      id: 'conectar.carpeta',
+      title: 'Crea la carpeta del proyecto',
+      body: [
+        'En la terminal integrada de VS Code, que ya está en tu carpeta `pyarcana`, crea una carpeta para practicar.',
+      ],
+      command: 'mkdir practica-pyarcana',
+      expect: { text: 'Nada: vuelve el prompt. En el panel **Explorer** aparece `practica-pyarcana`.' },
+    },
+    {
+      id: 'conectar.entrar',
+      title: 'Entra a la carpeta del proyecto',
+      body: ['La orden `cd` mueve la terminal a otra carpeta. Llévala a la que acabas de crear.'],
+      command: 'cd practica-pyarcana',
+      expect: { text: 'El prompt ahora termina en `practica-pyarcana`.' },
+    },
+    {
+      id: 'conectar.init',
+      title: 'Convierte la carpeta en un repositorio',
+      body: [
+        'Un **repositorio** es una carpeta cuya historia sigue Git. `git init` prepara esa historia dentro de la carpeta. No publica nada en internet.',
+      ],
+      command: 'git init',
+      expect: {
+        text: 'Una línea que confirma el repositorio nuevo. En español dice `Inicializado repositorio Git vacío`.',
+        output: 'Initialized empty Git repository in …/practica-pyarcana/.git/',
+      },
+      fixes: [
+        {
+          symptom: 'Dice `Reinitialized existing Git repository`.',
+          steps: ['Ya habías hecho este paso. No pasa nada: sigue con el siguiente.'],
+        },
+      ],
+    },
+    {
+      id: 'conectar.readme',
+      title: 'Crea el archivo README.md',
+      body: [
+        'Un **README** es el archivo que GitHub muestra como portada de un proyecto. En el panel **Explorer**, haz clic derecho sobre `practica-pyarcana` y elige `New File` (Nuevo archivo). Llámalo `README.md`.',
+        'Escribe dos líneas, por ejemplo `# Práctica PyArcana` y `Hola, soy Ana y empiezo PyArcana.` Guarda con Ctrl y S, o con Command y S en Mac.',
+      ],
+      expect: { text: 'En la pestaña del archivo desaparece el punto blanco que indica cambios sin guardar.' },
+      fixes: [
+        {
+          symptom: 'El archivo quedó fuera de `practica-pyarcana`.',
+          steps: ['Arrástralo en el **Explorer** hasta dentro de la carpeta `practica-pyarcana`.'],
+        },
+      ],
+    },
+    {
+      id: 'conectar.status',
+      title: 'Pregúntale a Git qué hay de nuevo',
+      body: ['`git status` compara tus archivos con el último commit y te dice qué cambió.'],
+      command: 'git status',
+      expect: {
+        text: 'Git ve el archivo, pero todavía no lo sigue. En español dice `No hay commits todavía` y `Archivos sin seguimiento`.',
+        output: 'On branch main\n\nNo commits yet\n\nUntracked files:\n  (use "git add <file>..." to include in what will be committed)\n\tREADME.md',
+      },
+      fixes: [
+        {
+          symptom: 'Dice `fatal: not a git repository`.',
+          steps: ['La terminal no está en la carpeta del proyecto. Repite el paso de `cd practica-pyarcana`.'],
+        },
+        {
+          symptom: 'No aparece `README.md`.',
+          steps: ['El archivo está en otra carpeta o no se guardó. Revisa el paso anterior.'],
+        },
+      ],
+    },
+    {
+      id: 'conectar.add',
+      title: 'Elige el archivo que irá en el commit',
+      body: [
+        '`git add` marca qué archivos entran en la próxima foto. Así puedes guardar algunos cambios y dejar otros para después.',
+      ],
+      command: 'git add README.md',
+      expect: { text: 'Nada: vuelve el prompt. Si repites `git status`, verás `README.md` bajo `Changes to be committed` (en español, `Cambios a ser confirmados`).' },
+    },
+    {
+      id: 'conectar.commit',
+      title: 'Guarda la foto con un mensaje',
+      body: [
+        '`git commit` crea el commit. Lo que va entre comillas después de `-m` es el mensaje: una frase corta que dice qué cambiaste.',
+        'Este commit ya existe en tu computadora, aunque todavía no esté en GitHub.',
+      ],
+      command: 'git commit -m "Mi primer commit"',
+      expect: {
+        text: 'Una línea con el mensaje y un resumen. El código de siete letras y números será otro en tu caso.',
+        output: '[main (root-commit) 3171ea7] Mi primer commit\n 1 file changed, 3 insertions(+)\n create mode 100644 README.md',
+      },
+      fixes: [
+        {
+          symptom: 'Dice `Author identity unknown` o `Please tell me who you are` (en español, `Identidad del autor desconocido`).',
+          steps: ['Git no tiene tu nombre o tu correo. Repite los pasos de la Parte 5 que los configuran, y luego este.'],
+        },
+        {
+          symptom: 'Dice `[master (root-commit)…` en lugar de `main`.',
+          steps: [
+            'Falta el paso de la Parte 5 que llama `main` a la rama principal. Hazlo ahora.',
+            'Luego escribe `git branch -m main` para renombrar la rama de este proyecto.',
+          ],
+        },
+      ],
+    },
     {
       id: 'conectar.win.gh',
       os: WIN,
@@ -918,105 +1024,71 @@ const conectar: SetupPart = {
       ],
     },
     {
-      id: 'conectar.crear',
-      title: 'Crea tu proyecto de práctica',
+      id: 'conectar.publicar',
+      title: 'Publica tu proyecto en GitHub',
       body: [
-        'Un **repositorio** es un proyecto que Git sigue: una carpeta con su historia de commits. Esta orden crea uno en GitHub y lo **clona**, es decir, baja una copia a tu carpeta `pyarcana`.',
+        'Esta orden crea el repositorio en tu cuenta de GitHub y le envía tu commit. `--source .` significa «a partir de esta carpeta», y `--push` significa «envía los commits».',
         '`--public` lo deja visible en tu perfil. Si prefieres que solo tú lo veas, cambia esa palabra por `--private`.',
       ],
-      command: 'gh repo create practica-pyarcana --public --add-readme --clone',
+      command: 'gh repo create practica-pyarcana --public --source . --push',
       expect: {
-        text: 'Una línea que confirma el repositorio y otra que dice que lo está clonando.',
-        output: "✓ Created repository ana-quispe/practica-pyarcana on github.com\nCloning into 'practica-pyarcana'...",
+        text: 'Tres líneas con el visto bueno: el repositorio creado, el **remoto** (la dirección del repositorio en GitHub) y el envío de tus commits.',
+        output: '✓ Created repository ana-quispe/practica-pyarcana on github.com\n  https://github.com/ana-quispe/practica-pyarcana\n✓ Added remote https://github.com/ana-quispe/practica-pyarcana.git\n✓ Pushed commits to https://github.com/ana-quispe/practica-pyarcana.git',
       },
-    },
-    {
-      id: 'conectar.entrar',
-      title: 'Entra a la carpeta del proyecto',
-      body: [
-        'La orden `cd` mueve la terminal a otra carpeta. Llévala a la carpeta que acabas de clonar.',
-      ],
-      command: 'cd practica-pyarcana',
-      expect: { text: 'El prompt ahora termina en `practica-pyarcana`.' },
-    },
-    {
-      id: 'conectar.editar',
-      title: 'Cambia el archivo README.md',
-      body: [
-        'En el panel **Explorer** de VS Code, abre la carpeta `practica-pyarcana` y haz clic en `README.md`. Un **README** es el archivo que GitHub muestra como portada de un proyecto.',
-        'Añade al final una línea, por ejemplo: `Hola, soy Ana y empiezo PyArcana.` Guarda con Ctrl y S, o con Command y S en Mac.',
-      ],
-      expect: { text: 'En la pestaña del archivo desaparece el punto blanco que indica cambios sin guardar.' },
-    },
-    {
-      id: 'conectar.status',
-      title: 'Pregúntale a Git qué cambió',
-      body: ['`git status` compara tus archivos con el último commit y te dice qué cambió.'],
-      command: 'git status',
-      expect: { text: 'Git nota el archivo cambiado.', output: 'On branch main\nChanges not staged for commit:\n        modified:   README.md' },
       fixes: [
         {
-          symptom: 'Dice `fatal: not a git repository`.',
-          steps: ['La terminal no está en la carpeta del proyecto. Repite el paso de `cd practica-pyarcana`.'],
+          symptom: 'Dice `current directory is not a git repository`.',
+          steps: ['La terminal no está en la carpeta del proyecto. Escribe `cd practica-pyarcana` y repite este paso.'],
         },
-      ],
-    },
-    {
-      id: 'conectar.add',
-      title: 'Elige el cambio que irá en el commit',
-      body: [
-        '`git add` marca qué archivos entran en la próxima foto. Así puedes guardar algunos cambios y dejar otros para después.',
-      ],
-      command: 'git add README.md',
-      expect: { text: 'Nada: vuelve el prompt.' },
-    },
-    {
-      id: 'conectar.commit',
-      title: 'Guarda la foto con un mensaje',
-      body: [
-        '`git commit` crea el commit. Lo que va entre comillas después de `-m` es el mensaje: una frase corta que dice qué cambiaste.',
-      ],
-      command: 'git commit -m "Mi primer cambio"',
-      expect: { text: 'Una línea con el mensaje y un resumen.', output: '[main 3f2a1c9] Mi primer cambio\n 1 file changed, 2 insertions(+)' },
-      fixes: [
         {
-          symptom: 'Dice `Author identity unknown` o `Please tell me who you are`.',
-          steps: ['Git no tiene tu nombre o tu correo. Repite los pasos de la Parte 5 que los configuran, y luego este.'],
+          symptom: 'Dice `Name already exists on this account`.',
+          steps: [
+            'Ya tienes un repositorio con ese nombre, quizá de un intento anterior. Usa otro, por ejemplo `practica-pyarcana-2`.',
+            'Escribe ese mismo nombre en los pasos siguientes.',
+          ],
         },
-      ],
-    },
-    {
-      id: 'conectar.push',
-      title: 'Envía el commit a GitHub',
-      body: [
-        'Hasta ahora, el commit solo existe en tu computadora. `git push` envía a GitHub los commits que GitHub todavía no tiene.',
-      ],
-      command: 'git push',
-      expect: { text: 'Al final, una línea que muestra que `main` se envió a `main`.', output: 'To https://github.com/ana-quispe/practica-pyarcana.git\n   8b1e0d4..3f2a1c9  main -> main' },
-      fixes: [
         {
           symptom: 'Dice `Password authentication is not supported` o te pide usuario y contraseña.',
-          steps: ['Git no está usando la credencial de `gh`. Escribe `gh auth setup-git` y pulsa Enter.', 'Luego repite `git push`.'],
+          steps: ['Git no está usando la credencial de `gh`. Escribe `gh auth setup-git` y pulsa Enter.', 'Luego escribe `git push -u origin main`.'],
         },
         {
           symptom: 'Dice `Permission denied (publickey)`.',
-          steps: [...RELOGIN, 'Luego repite `git push`.'],
+          steps: [...RELOGIN, 'Luego escribe `git push -u origin main`.'],
         },
         {
           symptom: 'Dice `GH007: Your push would publish a private email address`.',
           steps: [
             'Git firmó el commit con tu correo real. Repite el paso del correo en la Parte 5 con tu dirección privada.',
-            'Escribe `git commit --amend --reset-author --no-edit` para volver a firmar el commit. Luego repite `git push`.',
+            'Escribe `git commit --amend --reset-author --no-edit` para volver a firmar el commit. Luego escribe `git push -u origin main`.',
           ],
         },
       ],
     },
     {
       id: 'conectar.ver',
-      title: 'Mira tu cambio en GitHub',
+      title: 'Mira tu proyecto en GitHub',
       body: ['Esta orden abre la página del proyecto en tu navegador.'],
       command: 'gh repo view --web',
-      expect: { text: 'La página de `practica-pyarcana` en GitHub, con tu línea nueva debajo del título.' },
+      expect: { text: 'La página de `practica-pyarcana` en GitHub, con tu README debajo de la lista de archivos.' },
+    },
+    {
+      id: 'conectar.clonar',
+      title: 'Descarga una copia desde GitHub',
+      body: [
+        '**Clonar** es descargar un repositorio de GitHub con toda su historia. Es lo que harás con cada proyecto que no empieces tú. Además, comprueba que GitHub guardó tu commit.',
+        'La primera orden sube a la carpeta `pyarcana`. La segunda descarga tu proyecto en una carpeta nueva llamada `practica-copia`.',
+      ],
+      command: 'cd ..\ngh repo clone practica-pyarcana practica-copia',
+      expect: {
+        text: 'Git descarga la copia. En español dice `Clonando en`. En el **Explorer** aparece `practica-copia`, con tu `README.md` dentro.',
+        output: "Cloning into 'practica-copia'...",
+      },
+      fixes: [
+        {
+          symptom: 'Dice `Could not resolve to a Repository`.',
+          steps: ['El nombre no coincide con el de tu repositorio. Escribe el que usaste al publicarlo.'],
+        },
+      ],
     },
   ],
 }

@@ -11,9 +11,12 @@
 //      course's progress key (`python-ds-progress`) stays untouched;
 //   5. a browser that refuses storage gets told its ticks won't stay, and the page still works;
 //   6. a phone gets the "you need a computer" note;
-//   7. with EXPECT_SHOT=1 (a build carrying a capture), the screenshot loads from the hashed
+//   7. axe finds no WCAG 2.2 A/AA violation, in light and dark, with every recovery box open
+//      (a green run means no machine-detectable violation, never "accessible": scripts/a11y.spec.ts);
+//   8. with EXPECT_SHOT=1 (a build carrying a capture), the screenshot loads from the hashed
 //      _next/static path under the base path, with its box and its dated caption.
 import { chromium } from 'playwright'
+import AxeBuilder from '@axe-core/playwright'
 import { sandboxTrustArgs } from './sandbox-trust.mjs'
 import { existsSync, mkdirSync } from 'node:fs'
 
@@ -125,6 +128,9 @@ for (const vp of [{ width: 1280, height: 800, ua: UA.mac, name: 'desktop' }, { w
     const warned = await page.isVisible('[data-testid="setup-save-failed"]')
     const after = await page.textContent('[data-testid="setup-progress"]')
     record('blocked storage: the tick still shows, and the page says it will not stay', warned && /\b1 de\b/.test(after ?? '') && errors.length === 0, `${after} ${errors.join(' | ')}`)
+    // The warning only exists in this state, so the axe runs above never saw its colours.
+    const { violations } = await new AxeBuilder({ page }).include('[data-testid="setup-save-failed"]').withTags(['wcag2aa']).analyze()
+    record('blocked storage: the warning passes axe colour contrast', violations.length === 0, violations.map((v) => v.id).join(', '))
   } catch (e) {
     record('blocked storage', false, e.message)
   }
@@ -145,6 +151,23 @@ for (const vp of [{ width: 1280, height: 800, ua: UA.mac, name: 'desktop' }, { w
   await ctx.close()
 }
 
+// axe, as scripts/a11y.spec.ts runs it on the course, with the same WCAG tags.
+for (const scheme of ['light', 'dark']) {
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 }, userAgent: UA.win, locale: 'es-PE', colorScheme: scheme })
+  await ctx.addInitScript((s) => { try { localStorage.setItem('theme', s) } catch {} }, scheme)
+  try {
+    const { page } = await open(ctx)
+    // Open every "Si no funciona": closed <details> content is skipped by axe's contrast rule.
+    await page.$$eval('details', (ds) => ds.forEach((d) => { d.open = true }))
+    const { violations } = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze()
+    const summary = violations.map((v) => `${v.id} (${v.impact}, ${v.nodes.length}x) at ${v.nodes.slice(0, 3).map((n) => n.target[0]).join(', ')}`).join(' | ')
+    record(`axe (${scheme}): no WCAG 2.2 A/AA violation on /empezar`, violations.length === 0, summary)
+  } catch (e) {
+    record(`axe (${scheme})`, false, e.message)
+  }
+  await ctx.close()
+}
+
 // The ways in: the dashboard and the top of Section 1 (and only Section 1).
 {
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 }, locale: 'es-PE' })
@@ -154,14 +177,20 @@ for (const vp of [{ width: 1280, height: 800, ua: UA.mac, name: 'desktop' }, { w
     await page.goto(`${BASE}/`, { waitUntil: 'networkidle' })
     const home = page.locator('[data-testid="setup-intro-link"]')
     record('dashboard: the Sesión 0 link is there', await home.isVisible())
-    await page.goto(`${BASE}/#setup`, { waitUntil: 'networkidle' })
-    await page.locator('[data-testid="section-root"][data-section-id="setup"]').waitFor({ timeout: 20_000 })
+    // Each section is a full page load (via about:blank), never a hash-only change: a hash change
+    // that lands before hydration can be missed, the likely cause of one timeout here right after a
+    // heavy build (5 Oct; not reproduced in three reruns).
+    const openSection = async (id) => {
+      await page.goto('about:blank')
+      await page.goto(`${BASE}/#${id}`, { waitUntil: 'networkidle' })
+      await page.locator(`[data-testid="section-root"][data-section-id="${id}"]`).waitFor({ timeout: 20_000 })
+    }
+    await openSection('setup')
     const inS01 = page.locator('[data-testid="section-root"] [data-testid="setup-intro-link"]')
     record('Section 1: the Sesión 0 link is at the top', await inS01.isVisible())
-    await page.goto(`${BASE}/#basics`, { waitUntil: 'networkidle' })
-    await page.locator('[data-testid="section-root"][data-section-id="basics"]').waitFor({ timeout: 20_000 })
+    await openSection('basics')
     record('Section 2: no Sesión 0 link', (await page.locator('[data-testid="section-root"] [data-testid="setup-intro-link"]').count()) === 0)
-    await page.goto(`${BASE}/#setup`, { waitUntil: 'networkidle' })
+    await openSection('setup')
     await inS01.locator('a').click()
     await page.locator('[data-testid="setup-intro"]').waitFor({ timeout: 20_000 })
     record('Section 1 → Sesión 0: the link opens /empezar', /\/empezar$/.test(new URL(page.url()).pathname), page.url())
