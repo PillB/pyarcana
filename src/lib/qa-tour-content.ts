@@ -228,7 +228,7 @@ export const QA_TOUR_STEPS: QATourStep[] = [
     title: 'Cómo entrar, salir y no perder lo escrito',
     target: '[data-testid="qa-tour-open"]',
     body:
-      'El workspace se abre desde **QA interna** en el pie o con **Ctrl/⌘ + Alt + Q**. Escape lo '
+      'El workspace se abre desde **QA interna** en el pie o con **Ctrl + Alt + Q** (en Mac, **⌘ + Option + Q**). Escape lo '
       + 'cierra. Mientras señalas un elemento, Escape cancela solo la puntería y el borrador '
       + 'sigue donde estaba. Cada control tiene una explicación corta: pasa el ratón por encima, '
       + 'o tócalo si estás en pantalla táctil. Este tutorial vuelve desde el botón **Tutorial**, '
