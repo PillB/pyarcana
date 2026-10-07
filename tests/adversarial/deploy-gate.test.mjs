@@ -29,15 +29,26 @@ describe('deploy gate', () => {
   })
 
   it('builds only a successful push run on main', () => {
-    const condition = /^ {2}build:\n {4}if: >-\n((?: {6}.+\n)+)/m.exec(CODE)?.[1] ?? ''
+    // Blank lines allowed between `build:` and `if:`: CODE keeps a stripped comment as one.
+    const condition = /^ {2}build:\n(?:[ \t]*\n)* {4}if: >-\n((?: {6}.+\n)+)/m.exec(CODE)?.[1] ?? ''
+    assert.ok(condition, 'build has no `if: >-` condition block')
     for (const clause of [
       "github.event.workflow_run.conclusion == 'success'",
       "github.event.workflow_run.event == 'push'",
       "github.event.workflow_run.head_branch == 'main'",
+      'github.event.workflow_run.head_repository.full_name == github.repository',
     ]) {
       assert.ok(condition.includes(clause), `build condition lacks ${clause}`)
     }
     assert.doesNotMatch(condition, /\|\|/, 'an `or` would let one clause bypass the others')
+  })
+
+  it('never cancels a deployment in progress, and a skipping run cannot either', () => {
+    // Every Tests completion on main starts this workflow, including runs that will skip.
+    // Workflow-level concurrency applies before the jobs' `if`, so `cancel-in-progress: true`
+    // there let such a run cancel a good deployment midway (docs check, 2026-10-07).
+    assert.doesNotMatch(CODE, /^concurrency:/m, 'concurrency belongs on the deploy job, not the workflow')
+    assert.match(CODE, /^ {2}deploy:\n(?: {4}.+\n)*? {4}concurrency:\n {6}group: pages\n {6}cancel-in-progress: false\n/m)
   })
 
   it('checks out, stamps and deploys the tested commit, never github.sha', () => {

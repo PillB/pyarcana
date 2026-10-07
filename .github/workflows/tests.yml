@@ -3,8 +3,9 @@ name: Tests
 on:
   # curriculum/55 carries the 52 -> 55 renumber until all three new sections are written, because a
   # renumber cannot be staged across merges to main (owner decision O17). It needs CI on its own
-  # pushes and on the PRs that target it; its first push sends a null `before`, which the sentinel
-  # resolves to where the branch left main.
+  # pushes and on the PRs that target it. Its first push creates the branch (`github.event.created`
+  # is true) and sends forty zeros as `before`, which the sentinel resolves to where the branch
+  # left main.
   push:
     branches: [main, develop, curriculum/55]
   pull_request:

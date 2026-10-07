@@ -18,16 +18,23 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: pages
-  cancel-in-progress: true
+# No workflow-level concurrency. Under `workflow_run` every Tests completion on main starts this
+# workflow, including runs that will skip (a failed Tests run, a commit no longer at the tip).
+# Workflow-level concurrency applies before the jobs' `if`, so with `cancel-in-progress: true`
+# such a run could cancel a good deployment midway. The group sits on the deploy job, and an
+# in-progress deployment is never cancelled -- GitHub's own Pages starter workflow does the same
+# ("do NOT cancel in-progress runs as we want to allow these production deployments to complete",
+# actions/starter-workflows pages/static.yml). A newer deploy still replaces a pending one.
 
 jobs:
   build:
+    # head_repository: defence in depth. A push run on main is always this repository's own, but
+    # the check costs nothing and keeps a fork's run out even if the other conditions change.
     if: >-
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'push' &&
-      github.event.workflow_run.head_branch == 'main'
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: ubuntu-latest
     outputs:
       current: ${{ steps.tip.outputs.current }}
@@ -83,6 +90,9 @@ jobs:
   deploy:
     needs: build
     if: needs.build.outputs.current == 'true'
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     environment:
       name: github-pages
