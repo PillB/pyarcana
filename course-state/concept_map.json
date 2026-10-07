@@ -49334,7 +49334,7 @@
  },
  "return": {
   "id": "return",
-  "declared_first_section": "functions-contracts",
+  "declared_first_section": "decisions-rules",
   "uses": [
    {
     "section": "S03",
@@ -84379,24 +84379,6 @@
   "declared_first_section": "async-concurrency",
   "uses": [
    {
-    "section": "S24",
-    "location": "rpa-advanced.S24-T4-A-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
-    "section": "S24",
-    "location": "rpa-advanced.S24-T4-A-E3.starter",
-    "kind": "wedo.starter",
-    "visible": true
-   },
-   {
-    "section": "S27",
-    "location": "async-concurrency.theory[1].p1",
-    "kind": "theory.paragraph",
-    "visible": true
-   },
-   {
     "section": "S27",
     "location": "async-concurrency.S27-T4-A.p0",
     "kind": "theory.paragraph",
@@ -84537,12 +84519,6 @@
   ],
   "definitions": [
    {
-    "section": "S24",
-    "location": "rpa-advanced.S24-T4-A-E3.preamble",
-    "kind": "wedo.preamble",
-    "visible": true
-   },
-   {
     "section": "S27",
     "location": "async-concurrency.S27-T4-A.p0",
     "kind": "theory.paragraph",
@@ -84574,22 +84550,21 @@
   "headings": [],
   "figures": [],
   "first_use": {
-   "section": "S24",
-   "location": "rpa-advanced.S24-T4-A-E3.preamble",
-   "kind": "wedo.preamble",
+   "section": "S27",
+   "location": "async-concurrency.S27-T4-A.p0",
+   "kind": "theory.paragraph",
    "visible": true
   },
   "first_definition": {
-   "section": "S24",
-   "location": "rpa-advanced.S24-T4-A-E3.preamble",
-   "kind": "wedo.preamble",
+   "section": "S27",
+   "location": "async-concurrency.S27-T4-A.p0",
+   "kind": "theory.paragraph",
    "visible": true
   },
   "reinforcements": [],
   "depth": "L1",
   "surprising_uses": [],
   "sections_used": [
-   "S24",
    "S27",
    "S30",
    "S50"
@@ -138328,8 +138303,158 @@
  },
  "data-leakage": {
   "id": "data-leakage",
-  "declared_first_section": "databases-orm",
+  "declared_first_section": "packaging",
   "uses": [
+   {
+    "section": "S17",
+    "location": "packaging.outcome[7]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.theory[2].p3",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T3-A.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T4-B.heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T4-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T4-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T4-B.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T4-B.callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.iDo.intro",
+    "kind": "ido.intro",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T4-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T4-B-DEMO.description",
+    "kind": "ido.description",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T4-B-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.weDo.intro",
+    "kind": "wedo.intro",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T4-A-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T4-B-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T4-B-E2.title",
+    "kind": "wedo.title",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T4-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T4-B-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.S17-T4-B-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.youDo.context",
+    "kind": "youdo.context",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.youDo.objective[5]",
+    "kind": "youdo.objective",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.youDo.requirement[5]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.youDo.rubric[4]",
+    "kind": "youdo.rubric",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.selfCheck[4].q",
+    "kind": "selfcheck.question",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.selfCheck[4].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
    {
     "section": "S19",
     "location": "databases-orm.S19-T4-B.p5",
@@ -138343,15 +138468,711 @@
     "visible": true
    },
    {
+    "section": "S30",
+    "location": "security-infra.outcome[6]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S30",
+    "location": "security-infra.S30-T3-A.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S30",
+    "location": "security-infra.S30-T3-B.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S30",
+    "location": "security-infra.S30-T4-A.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S30",
+    "location": "security-infra.S30-T4-A.callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S30",
+    "location": "security-infra.S30-T4-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S30",
+    "location": "security-infra.S30-T4-A-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S30",
+    "location": "security-infra.S30-T3-B-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S30",
+    "location": "security-infra.S30-T4-A-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S30",
+    "location": "security-infra.S30-T4-A-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S30",
+    "location": "security-infra.youDo.objective[3]",
+    "kind": "youdo.objective",
+    "visible": true
+   },
+   {
+    "section": "S30",
+    "location": "security-infra.youDo.rubric[7]",
+    "kind": "youdo.rubric",
+    "visible": true
+   },
+   {
+    "section": "S30",
+    "location": "security-infra.selfCheck[5].opt[3]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.theory[0].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.theory[0].callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.theory[2].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T1-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T2-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T2-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T3-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-A.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-B.heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-B.callout",
+    "kind": "theory.callout",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.iDo.intro",
+    "kind": "ido.intro",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T1-B-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T2-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T2-B-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T2-B-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.weDo.intro",
+    "kind": "wedo.intro",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T2-B-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-A-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-A-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-A-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-A-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-B-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-B-E2.title",
+    "kind": "wedo.title",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-B-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.youDo.context",
+    "kind": "youdo.context",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.youDo.objective[3]",
+    "kind": "youdo.objective",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.youDo.rubric[0]",
+    "kind": "youdo.rubric",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.selfCheck[0].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.selfCheck[2].opt[2]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.selfCheck[3].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.selfCheck[4].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.resources.doc[3]",
+    "kind": "resource",
+    "visible": true
+   },
+   {
     "section": "S32",
     "location": "microservices.resources.doc[6]",
     "kind": "resource",
     "visible": true
    },
    {
+    "section": "S33",
+    "location": "advanced-models.S33-T2-B.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T2-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T2-B#6.p4",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T4-B.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T2-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T4-B-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.selfCheck[3].opt[1]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
     "section": "S34",
     "location": "cv-ai-integration.selfCheck[1].opt[3]",
     "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.outcome[6]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-E1.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.youDo.requirement[1]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.selfCheck[4].opt[3]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T1-A.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T2-B.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T2-B-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T2-B-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.S39-T2-B-E3.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.youDo.objective[3]",
+    "kind": "youdo.objective",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.outcome[4]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A.p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A.p1",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-DEMO.preamble",
+    "kind": "ido.preamble",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-DEMO.description",
+    "kind": "ido.description",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-DEMO.why",
+    "kind": "ido.why",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-DEMO.retrospective",
+    "kind": "ido.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E1.title",
+    "kind": "wedo.title",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E1.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E1.hint",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E1.hint[0]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E1.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E1.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E1.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E2.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E2.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E2.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E2.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E3.preamble",
+    "kind": "wedo.preamble",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E3.hint[1]",
+    "kind": "wedo.hint",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E3.starter",
+    "kind": "wedo.starter",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E3.solution",
+    "kind": "solution",
+    "visible": false
+   },
+   {
+    "section": "S47",
+    "location": "opensource.youDo.starter",
+    "kind": "youdo.starter",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.selfCheck[5].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.selfCheck[5].opt[1]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.selfCheck[5].explanation",
+    "kind": "selfcheck.explanation",
     "visible": true
    },
    {
@@ -138363,6 +139184,24 @@
   ],
   "definitions": [
    {
+    "section": "S17",
+    "location": "packaging.outcome[7]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.iDo.intro",
+    "kind": "ido.intro",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.youDo.context",
+    "kind": "youdo.context",
+    "visible": true
+   },
+   {
     "section": "S19",
     "location": "databases-orm.S19-T4-B.p5",
     "kind": "theory.paragraph",
@@ -138373,45 +139212,259 @@
     "location": "databases-orm.S19-T4-B.p6",
     "kind": "theory.paragraph",
     "visible": true
+   },
+   {
+    "section": "S30",
+    "location": "security-infra.outcome[6]",
+    "kind": "outcome",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.theory[0].p0",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T2-B.p2",
+    "kind": "theory.paragraph",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A.p0",
+    "kind": "theory.paragraph",
+    "visible": true
    }
   ],
-  "examples": [],
-  "exercises": [],
+  "examples": [
+   {
+    "section": "S33",
+    "location": "advanced-models.S33-T2-B.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A.code",
+    "kind": "theory.code",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-DEMO.code",
+    "kind": "ido.code",
+    "visible": true
+   }
+  ],
+  "exercises": [
+   {
+    "section": "S17",
+    "location": "packaging.youDo.objective[5]",
+    "kind": "youdo.objective",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.youDo.requirement[5]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S30",
+    "location": "security-infra.youDo.objective[3]",
+    "kind": "youdo.objective",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.youDo.objective[3]",
+    "kind": "youdo.objective",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.youDo.requirement[1]",
+    "kind": "youdo.requirement",
+    "visible": true
+   },
+   {
+    "section": "S39",
+    "location": "integrator-phase2.youDo.objective[3]",
+    "kind": "youdo.objective",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E1.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.S47-T3-A-E2.instruction",
+    "kind": "wedo.instruction",
+    "visible": true
+   }
+  ],
   "self_checks": [
+   {
+    "section": "S17",
+    "location": "packaging.selfCheck[4].q",
+    "kind": "selfcheck.question",
+    "visible": true
+   },
+   {
+    "section": "S17",
+    "location": "packaging.selfCheck[4].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
+    "section": "S30",
+    "location": "security-infra.selfCheck[5].opt[3]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.selfCheck[0].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.selfCheck[2].opt[2]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.selfCheck[3].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.selfCheck[4].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
+   },
+   {
+    "section": "S33",
+    "location": "advanced-models.selfCheck[3].opt[1]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
    {
     "section": "S34",
     "location": "cv-ai-integration.selfCheck[1].opt[3]",
     "kind": "selfcheck.option",
     "visible": true
+   },
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.selfCheck[4].opt[3]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.selfCheck[5].opt[0]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.selfCheck[5].opt[1]",
+    "kind": "selfcheck.option",
+    "visible": true
+   },
+   {
+    "section": "S47",
+    "location": "opensource.selfCheck[5].explanation",
+    "kind": "selfcheck.explanation",
+    "visible": true
    }
   ],
-  "headings": [],
+  "headings": [
+   {
+    "section": "S17",
+    "location": "packaging.S17-T4-B.heading",
+    "kind": "theory.heading",
+    "visible": true
+   },
+   {
+    "section": "S32",
+    "location": "microservices.S32-T4-B.heading",
+    "kind": "theory.heading",
+    "visible": true
+   }
+  ],
   "figures": [],
   "first_use": {
-   "section": "S19",
-   "location": "databases-orm.S19-T4-B.p5",
-   "kind": "theory.paragraph",
+   "section": "S17",
+   "location": "packaging.outcome[7]",
+   "kind": "outcome",
    "visible": true
   },
   "first_definition": {
-   "section": "S19",
-   "location": "databases-orm.S19-T4-B.p5",
-   "kind": "theory.paragraph",
+   "section": "S17",
+   "location": "packaging.outcome[7]",
+   "kind": "outcome",
    "visible": true
   },
-  "reinforcements": [],
-  "depth": "L1",
+  "reinforcements": [
+   {
+    "section": "S36",
+    "location": "ai-apis-advanced.S36-T4-A-E2.retrospective",
+    "kind": "wedo.retrospective",
+    "visible": true
+   }
+  ],
+  "depth": "L2",
   "surprising_uses": [],
   "sections_used": [
+   "S17",
    "S19",
+   "S30",
    "S32",
+   "S33",
    "S34",
+   "S36",
+   "S39",
+   "S47",
    "S49"
   ],
-  "load_bearing": false,
-  "figure_target": 1,
+  "load_bearing": true,
+  "figure_target": 5,
   "figure_count": 0,
-  "figure_gap": 1,
+  "figure_gap": 5,
   "explanation_lag_sections": 0
  },
  "pyodide": {

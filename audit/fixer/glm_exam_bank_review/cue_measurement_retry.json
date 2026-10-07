@@ -1,0 +1,121 @@
+{
+ "summary": "I measured everything in scratch only, under /private/tmp/claude-501/-Users-pabloillescas-Documents-GitHub-pyarcana/7ce613dd-3e23-4ed3-b165-9bffbd388440/scratchpad/glm-bank/cue-measurement-retry/. There are four audit runs there: before (HEAD audit, HEAD seed, HEAD sections), newaudit_headseed (new audit on the HEAD seed), after_headsections, and after (working-tree audit, seed and sections). The measurement script is measure.py and the full output is measure_out.json. I wrote nothing in the owner's tree.\n\nHeadline: the uncommitted bank work lowers the length cue. Measured the way the ratchet measures it, the count drops from 1125 to 1079. Over all 1248 questions, the key is the unique longest option in 1156 before and 1107 after. All of the drop comes from 5 banks: functions-contracts, files-ingestion, exceptions-logging, modules-packaging-cli and oop-domain. These are banks that the ratchet's own regex cannot name. The 11 perfectly predictable banks are untouched. Position bias is still severe: B is correct in 952 of 1248 questions before and 916 after, and 29 banks are still all-B (0,24,0,0).\n\nThe repairs shortened the correct answer in 90 questions (1956 characters in total). The length-cue test's own docstring forbids this: \"never trim the key\".\n\nLONGEST_IS_CORRECT_OWED = 1125 lives in tests/adversarial/test_exam_length_cue.py:33, added by commit 5f36c888 (2026-09-29). That commit is in origin/main. It is not in HEAD 29f0af20 and not in local main. Its test_repairs_are_kept is an equality check, so after the change it fails with 1079 != 1125. CI therefore goes red once the branch carries origin/main's test, until the constant is lowered to 1079.\n\nnpm run test:exam-pedagogy stays green for every variant: exit 0, ok:true, p0=0, p1=0. The new D15 checks emit only P2 issues. They flag 1283 issues on the HEAD seed and 1164 on the working-tree seed. The committed report keeps only the first 300.",
+ "findings": [
+  {
+   "id": "F1",
+   "severity": "major",
+   "claim": "The length-cue ratchet's own measure drops from 1125 to 1079 (a fall of 46). LONGEST_IS_CORRECT_OWED must be lowered to 1079, or test_repairs_are_kept fails.",
+   "evidence": "The constant is LONGEST_IS_CORRECT_OWED = 1125 at tests/adversarial/test_exam_length_cue.py:33 (git show 5f36c888:tests/adversarial/test_exam_length_cue.py). I ran that test in scratch/lengthtest with python3.12 -m unittest. On the HEAD seed it passes 5/5. On the working-tree seed it fails with 'AssertionError: 1079 != 1125 : only 1079 remain - lower LONGEST_IS_CORRECT_OWED to 1079'. test_the_length_cue_does_not_grow still passes. PERFECT_CUE_BANKS_OWED stays at 11, so that test passes."
+  },
+  {
+   "id": "F2",
+   "severity": "major",
+   "claim": "The length-cue test, and with it the ratchet, is not in the owner's branch. Committing at base 29f0af20 keeps CI green. CI goes red when origin/main is merged, unless the constant is lowered in the same change.",
+   "evidence": "git merge-base --is-ancestor 5f36c888 HEAD returns NOT_IN_HEAD. It is also NOT_IN_MAIN (local main), but IN_ORIGIN_MAIN. In origin/main, CI runs it through tests.yml:120 'npm run test:adversarial', which calls scripts/run_adversarial_py.py. git diff HEAD origin/main -- prisma/seed.ts is empty, so the seed itself will not conflict on merge."
+  },
+  {
+   "id": "F3",
+   "severity": "major",
+   "claim": "In 90 repaired questions the correct option was made shorter (1956 characters removed in total). This breaks the ratchet's documented repair rule, 'Lengthen the distractors; never trim the key'.",
+   "evidence": "measure.py repair_diff compares HEAD and the working tree per bank, aligned by order. 1130 questions are unchanged, 7 are permuted only, and 111 changed text. All 111 changed the key text: key_trimmed=90 and key_grew=21, distractors_lengthened=97. Example from functions-contracts/def-call-return: the key went from 88 to 49 characters ('El pipeline necesita el valor para componer y testear; ...' => '`return` entrega un valor que puede reutilizarse.'). Whether these trims lost precision is a pedagogy judgment, so it is UNDETERMINED here."
+  },
+  {
+   "id": "F4",
+   "severity": "major",
+   "claim": "The repairs touch only 5 banks: S05 functions-contracts, files-ingestion, exceptions-logging, modules-packaging-cli and oop-domain. The other 47 banks are unchanged, including all 11 perfect-cue banks.",
+   "evidence": "Per bank: questions changed / stems changed / keys trimmed / unique-longest count before->after. functions-contracts 24/23/18, 21->9. files-ingestion 23/9/13, 22->18. exceptions-logging 24/10/22, 23->18. modules-packaging-cli 23/23/16, 22->7. oop-domain 24/23/21, 22->9. The unique-longest drop in all other banks is 0. The perfect-cue bank list is identical before and after: apis-sql-geo, architecture-ddd-decisions, career-strategy, evidence-dashboard, packaging, rag, rapidfuzz-entity, rpa-advanced, security, security-infra, wxpython-gui. 88 question stems changed (compared on their first 120 characters)."
+  },
+  {
+   "id": "F5",
+   "severity": "major",
+   "claim": "The bias in correct-answer position is barely reduced. Overall the correct options by position A/B/C/D go from 138/952/82/76 to 150/916/94/88. Only 2 banks were rebalanced: modules-packaging-cli and oop-domain, from (0,24,0,0) to (6,6,6,6).",
+   "evidence": "measure.py positions_head / positions_wt. Banks with the (0,24,0,0) pattern go from 31 to 29. Banks with (6,6,6,6) go from 11 to 13. The other patterns are unchanged: (1,23,0,0)x2, (4,20,0,0), (8,16,0,0), (11,13,0,0), (10,14,0,0), (18,6,0,0), (7,17,0,0), (5,6,8,5), (7,4,8,5). max_position_share_in_any_bank is still 1.0. Banks where the key is the unique longest option in 20 or more of 24 questions: 50 before, 45 after."
+  },
+  {
+   "id": "F6",
+   "severity": "minor",
+   "claim": "The ratchet regex cannot see 8 of the 52 active banks by name, because their keys are not single-quoted. setup and basics (48 questions) are not counted at all. The other 6 are counted under a neighbouring quoted bank, so the ratchet's per-bank numbers are mislabelled. Its own docstring says 1200 questions, not 1248.",
+   "evidence": "_BANK = r\"^  '([a-z0-9-]+)': \\[\" at test_exam_length_cue.py, line 40 of that file. At HEAD, prisma/seed.ts has 'setup: [' at :23, 'basics: [' at :363 and 'collections: [' at :1686, all unquoted. The first quoted key is 'decisions-rules' at :645. The ratchet measure reports 44 banks and 1200 questions. The audit's parser finds 52 banks and 1248 questions. On the full 1248, key-is-longest counting ties is 1165 before and 1119 after (unique 1156/1107, tied 9/12). This gap is why the 49-question repair shows up as -46 in the ratchet."
+  },
+  {
+   "id": "F7",
+   "severity": "info",
+   "claim": "The new D15 checks find only P2 issues on both seeds. They separate what the new checks detect from what the repairs fixed: on the HEAD seed they flag 1283 issues, and on the working-tree seed 1164 (119 fewer).",
+   "evidence": "Untruncated, using the new module's parse_question_bank_sections and bank_balance_issues. HEAD seed: bank_option_length_band 1119 and bank_stimulus_length_spread 164, in 52 banks. Working-tree seed: 1017 and 147, in 47 banks. band_too_short is 0 in both; only the too-long side ever fires. No P1 issues on either seed: bank_concept_variants_ne_3, bank_cosmetic_rewording and bank_concepts_lt_8 never fire. No P0 bank_missing or bank_coverage_below_floor issues: coverage is 52 of 52, floor 52. The worst banks have 24 of 24 band hits before and after (apis-sql-geo, evidence-dashboard, wxpython-gui, rag, rapidfuzz-entity, rpa-advanced, security-infra, llm-finetuning, opensource, career-strategy)."
+  },
+  {
+   "id": "F8",
+   "severity": "minor",
+   "claim": "The audit report truncates issues to 300 (issues[:300] at scripts/exam_selfcheck_pedagogy_audit.py:398). The committed report therefore shows 300 of 1164 D15 issues and no total. The 300 shown are 264 option-band issues and 36 stimulus-spread issues.",
+   "evidence": "run_after: issues_in_report=300, reasons P2:bank_option_length_band 264 and P2:bank_stimulus_length_spread 36. run_newaudit_headseed: 269 and 31. The report header has no issue-total field; only p0 and p1 are counted."
+  },
+  {
+   "id": "F9",
+   "severity": "minor",
+   "claim": "Three D15 checks are weaker than they look. Stems are truncated to 120 characters before the stimulus-length-spread and cosmetic-rewording checks. The 'median' of 4 options is sorted()[1], the lower middle value. The audit also writes the floor file as a side effect.",
+   "evidence": "parse_seed_questions stores question[:120] at :178. 17 working-tree stems are longer than 120 characters, so their lengths are clamped in the check at :228-231. The median is med = sorted(opts)[1] at :235. FLOOR.write_text at :352 runs whenever covered > floor. course-state/exam_bank_coverage_floor.json is untracked, so on a clean CI checkout the floor starts at 0 and the file is rewritten (no failure). I checked the naive bracket matcher at :198-205: no single-quoted strings with unbalanced [ ] in either seed, so it parses correctly today."
+  },
+  {
+   "id": "F10",
+   "severity": "info",
+   "claim": "test:exam-pedagogy stays green in every variant. The section-file edits in the working tree do not change the audit's output. test:v3-counts does not appear to read the seed.",
+   "evidence": "All four runs exit 0 and print ok:true, seed_q 1248, concepts 416, p0 0, p1 0. after and after_headsections give identical reports. CI wiring: package.json:40 'test:exam-pedagogy' and package.json:51 'test:unit'. .github/workflows/tests.yml:112 'npm run test:exam-pedagogy && npm run test:v3-counts' at HEAD; :123 on origin/main. scripts/v3_regression_counts.test.mjs has no match for seed.ts or QUESTION_BANK. No test file references exam_selfcheck. The old audit (HEAD) on the HEAD seed reports 0 issues; its report has no bank_coverage key."
+  }
+ ],
+ "numbers": {
+  "ratchet_measure_head": 1125,
+  "ratchet_measure_wt": 1079,
+  "LONGEST_IS_CORRECT_OWED": 1125,
+  "required_new_OWED": 1079,
+  "PERFECT_CUE_BANKS_OWED": 11,
+  "perfect_banks_head": 11,
+  "perfect_banks_wt": 11,
+  "ratchet_total_questions_seen": 1200,
+  "ratchet_banks_seen_by_name": 44,
+  "questions_parsed_audit": 1248,
+  "question_colon_occurrences": 1250,
+  "unique_longest_head": 1156,
+  "unique_longest_wt": 1107,
+  "tied_longest_head": 9,
+  "tied_longest_wt": 12,
+  "key_is_shortest_head": 14,
+  "key_is_shortest_wt": 31,
+  "positions_ABCD_head": [
+   138,
+   952,
+   82,
+   76
+  ],
+  "positions_ABCD_wt": [
+   150,
+   916,
+   94,
+   88
+  ],
+  "banks_all_B_head": 31,
+  "banks_all_B_wt": 29,
+  "banks_balanced_6666_head": 11,
+  "banks_balanced_6666_wt": 13,
+  "d15_issues_newaudit_on_head_seed": 1283,
+  "d15_option_band_head": 1119,
+  "d15_stimulus_spread_head": 164,
+  "d15_issues_newaudit_on_wt_seed": 1164,
+  "d15_option_band_wt": 1017,
+  "d15_stimulus_spread_wt": 147,
+  "d15_banks_with_issues_head": 52,
+  "d15_banks_with_issues_wt": 47,
+  "report_issues_cap": 300,
+  "bank_coverage": "52/52 floor 52",
+  "questions_unchanged": 1130,
+  "questions_permuted_only": 7,
+  "questions_text_changed": 111,
+  "keys_trimmed": 90,
+  "keys_trim_chars_total": 1956,
+  "keys_grown": 21,
+  "stems_changed": 88,
+  "banks_touched": 5,
+  "exam_pedagogy_exit_all_variants": 0,
+  "length_cue_test_exit_head_seed": 0,
+  "length_cue_test_exit_wt_seed": 1
+ }
+}

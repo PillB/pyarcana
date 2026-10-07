@@ -792,7 +792,19 @@ EXPECTED_SKIP_PREFIXES = ("non_python:", "needs_cli_argv")
 #: python-docx 5, pymupdf 3, pypdf 1 and Pillow 1 (fastapi), playwright 1 (computer-vision),
 #: fastapi 1 (llm-finetuning). The first value set here, 6, was measured in a local .venv-content
 #: that has most of those packages installed without declaring them; CI caught it.
-MISSING_DEPENDENCY_OWED = 54
+#: 2026-10-04: 54 -> 6, paid down by owner decision O15. requirements-content.txt now declares the
+#: eight packages the snippets already imported -- matplotlib, openpyxl, jinja2, Pillow, pymupdf,
+#: pypdf, python-docx, playwright -- each pinned to the version .venv-content is verified against.
+#: CI's count fell 54 -> 6 and now matches the local count exactly, which is what O15's "retire
+#: when" asked for. The runtime audit went green on the same run: 3311 pass, 0 fail, p0 0, p1 0.
+#: The 6 that remain are the same KIND of gap, not accepted: 5 in `fastapi` (S21, "Documentos,
+#: plantillas y reportes trazables") import `reportlab`, and 1 in `llm-finetuning` (S41, "APIs con
+#: FastAPI y contratos HTTP") imports `fastapi` -- in both cases the package IS the section's
+#: subject. They are left owed rather than declared in the same breath because declaring them is
+#: only safe once their snippets are shown to PASS rather than fail: a snippet that starts an ASGI
+#: server turns a skip into a hang, which is worse than an honest skip. That needs a measured run
+#: in an environment with both installed, and it is its own change.
+MISSING_DEPENDENCY_OWED = 6
 
 
 def skip_verdict(section_reports: list[dict], enforce_lower_bound: bool) -> dict:

@@ -49,10 +49,10 @@ Per section: [S01](S01.md) · [S02](S02.md) · [S03](S03.md) · [S04](S04.md) ·
 | 🟢 `conventional-commits` | L1 | S01 · theory[18].p0 | S01 · theory[18].p0 | 0 | 0 | 4 | 2 | · | 0/1 ⚠ | 1 |
 | 🟢 `correlaci-n` | L2 | S18 · jobRelevance | S18 · jobRelevance | 0 | 1 | 1 | 4 | · | 0/5 ⚠ | 5 |
 | 🟢 `counter` | L2 | S08 · S08-T2-B-E3.instruction | S08 · S08-T2-B-E3.instruction | 0 | 3 | 5 | 0 | · | 0/5 ⚠ | 5 |
-| 🟢 `coverage` | L1 | S24 · S24-T4-A-E3.preamble | S24 · S24-T4-A-E3.preamble | 0 | 0 | 3 | 0 | · | 0/1 ⚠ | 4 |
+| 🟢 `coverage` | L1 | S27 · S27-T4-A.p0 | S27 · S27-T4-A.p0 | 0 | 0 | 3 | 0 | · | 0/1 ⚠ | 3 |
 | 🟢 `cross-validation` | L1 | S33 · outcome[7] | S33 · outcome[7] | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 2 |
 | 🟢 `cuartil` | L3 | S16 · theory[8].heading | S16 · theory[8].p1 | 0 | 5 | 3 | 0 | · | 1/5 ⚠ | 3 |
-| 🟢 `data-leakage` | L1 | S19 · S19-T4-B.p5 | S19 · S19-T4-B.p5 | 0 | 0 | 0 | 1 | · | 0/1 ⚠ | 4 |
+| 🟢 `data-leakage` | L2 | S17 · outcome[7] | S17 · outcome[7] | 0 | 5 | 9 | 13 | · | 0/5 ⚠ | 10 |
 | 🟢 `dataframe` | L3 | S15 · outcome[0] | S15 · outcome[0] | 0 | 50 | 7 | 7 | · | 1/5 ⚠ | 7 |
 | 🟢 `decorador` | L1 | S04 · theory[0].callout | S04 · theory[0].callout | 0 | 0 | 0 | 0 | · | 0/1 ⚠ | 2 |
 | 🟢 `defaultdict` | L2 | S30 · S30-T2-A.p3 | S30 · S30-T2-A.p3 | 0 | 13 | 1 | 0 | · | 0/5 ⚠ | 4 |

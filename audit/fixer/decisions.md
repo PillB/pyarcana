@@ -383,3 +383,212 @@ the exercise print only `accept` would be watering down.
 **Why this is the owner's and not a round's.** It changes what a graded exercise claims to
 teach. Granted 2026-09-25 as a standing standard, so every round inherits it rather than
 re-asking per section.
+
+## D15 — ADR-7: the static edition may run accounts and billing when configured (2026-09-29)
+*Decided by the repo owner (D-USER-02, D-USER-03), recorded 2026-09-29 during the client fix round.*
+
+Until now the contract was "the GitHub Pages edition is content-only; login, payments and admin
+are never rendered there" (DEPLOY.md). The owner changed it:
+
+- **Contract.** The static export (`bun run build:static`) CAN show accounts, progress sync, the
+  Pro gate, checkout, the QA reporting subsite and the admin window, but only when the public
+  config (`src/lib/cloud/config.ts`) turns them on AND the page is served from the canonical
+  origin (`effectiveStage`). The shipped config keeps `launchStage: 'off'`, so the published
+  site is unchanged, and nothing account-related is prerendered into `out/index.html` at any
+  stage (prerender tests and `test_static_export_guard`).
+- **Where.** One Cloudflare Worker serves the static assets and the API at
+  `https://pyarcana.dev/api/v1/...` (DESIGN-v3 §A, §K). GitHub Pages keeps deploying the same
+  code with the stage always off; it shows the moved banner only once `movedToCanonical` is set.
+- **Why.** The owner wants accounts, a 7-day trial, Pro gifts, QA reports and Google plus
+  Microsoft sign-in on the public course (D-USER-02), on domains he bought for it (D-USER-03).
+
+The owner decisions this rests on, for reference (full text in the design notes of the build):
+
+- **D-USER-01** — the attached billing report is binding: ES256 licence token; prices PE
+  S/ 19.90 a month or S/ 119.90 a year, elsewhere US$ 7.99 or US$ 49; refunds "según la ley
+  aplicable y, en compras internacionales, los términos de Creem".
+- **D-USER-02** — ads for free users and in QA mode; a researched Free/Pro split measured by
+  experiments; a 7-day opt-in trial without a card; indefinite or fixed Pro gifts and testers;
+  QA menu and reports visible to admins and testers; Google and Microsoft sign-in.
+- **D-USER-03** — canonical origin `https://pyarcana.dev`; `legal.supportEmail`
+  `soporte@pyarcana.dev`; `pyarcana.com` and `www` redirect there.
+- **D-USER-04** — sign-in codes go out through Cloudflare Email Sending (`send_email` binding);
+  the Hostinger SMTP provider is dropped.
+- **D-USER-05** — Microsoft sign-in uses the `common` authority (personal plus work and school
+  accounts); a tenant that blocks the app is explained and Google or an email code is offered.
+- Standing instruction (relayed): **no promise the law does not require** — no voluntary refund
+  window, no renewal-reminder promise, no cancel-confirmation email promise.
+
+Client rules fixed in the same round, binding on later work (tests in
+`src/lib/cloud/__tests__/client-fixes.test.ts` and `a11y-render.test.ts`):
+
+- **Consent record contract (for the worker).** After sign-in, and after a choice made while
+  signed in, the client sends `POST /v1/me/consents {kind: 'measurement', value: 'granted'|'denied',
+  version: <int>, at: <ISO time>}` (session required) and expects any 2xx. It sends each
+  (account, choice) once; a 404 or network failure is retried on the next signed-in load. The
+  worker route and its `consents` table (account_id, kind, value, version, at) are NOT built yet.
+- **Consent text version 2.** "Sí" authorises an identifier plus activity events (for example a
+  completed section or a trial start) and, on sign-in, their link to the account. Any change to
+  `consent.text` bumps `CONSENT_VERSION`, which asks everyone again; the test pins the text hash.
+- **Credit is counted in whole days, rounded down.** No screen may promise a day the learner does
+  not have.
+- **The rail is EthicalAds-only.** Where it cannot show EthicalAds (narrow screen, no publisher
+  id, another provider) it renders nothing; one house promo per view stays the rule.
+- **A price button never leads to a form without a price.** Signed-out visitors go to `/precios`.
+- **A survey says "Gracias" only after the worker stored the answer.**
+- **Every "escríbenos" names the address** (`legal.supportEmail`).
+
+## D16 — Progress lives in the browser and in D1, not Firestore; the free tier is metered and guarded (2026-10-04)
+
+Owner request: progress must not rely on `localStorage` alone (kept as the offline fallback), the
+account copy must cost as little as possible, and the site must stay under the free limits.
+
+- **D1, not Firestore.** The Firebase project serves only the older server-rendered edition
+  (`src/lib/firebase`, `src/app/api`), which the static site and the worker cannot use. Firestore
+  from the static site would add a second login system, a second database and a second processor.
+  D1 Free (5,000,000 rows read and 100,000 written per UTC day, read in Cloudflare's docs
+  repository on this date) is deployed and already disclosed. Firestore's own free quota was not
+  verified (its docs were unreachable from this environment). The Firebase code is left untouched.
+- **The server copy needs an identity.** Without sign-in there is none; the browser is asked once
+  to keep the data (`navigator.storage.persist()`), and signed-out learners with three or more
+  completed steps are invited to sign in (snoozed a week by "Ahora no"). A same-origin backup link
+  through the `#import=` handoff was **not** built: that import feeds the gate's grandfather
+  snapshot, so opening it to every visitor needs a decision about gated stages first.
+- **Client sync is frugal** (`progress-sync.ts`): no upload of an unchanged document, a debounce
+  capped at 60 s, focus pulls throttled to one a minute, capped backoff with jitter that honours the
+  server's `retryAfter`, the server's `syncHint`, and a flush on `online`.
+- **The worker meters and guards** (`workers/billing/src/usage.mjs`): green < 60 %, amber < 85 %,
+  red from 85 % of either daily limit; red defers progress writes to 00:05 UTC without data loss
+  (client status `deferred`) and stops event storage. Measured rows per request are in the worker
+  README, "Progress and the free tier".
+- **Stated limits:** the meter can undercount by up to one flush interval per isolate, the cron is
+  not metered, and the exact figure is Cloudflare's analytics (GraphQL needs an Analytics-Read
+  token; not wired).
+
+## D17 — D4 audit: a true privacy notice before sign-up opens; sign-up waits for a named holder (2026-10-05)
+
+The setup thread's signed-out audit of pyarcana.dev (3 Oct 2026; 95 pass, 3 fail, 3 warn) asked
+for the privacy notice, security.txt and retention to ship with the go-live redeploy.
+
+- **The notice is chosen by the build**, so the prerendered HTML is the whole notice:
+  - GitHub Pages: no accounts; GitHub Pages and jsDelivr see an IP address.
+  - pyarcana.dev: the account edition.
+  - Server-rendered edition: keeps its 2025 text, unchanged in `DynamicEditionPrivacy`, until it ships.
+- **Holder of the data bank.** Ley 29733 art. 18 requires its identity and address before
+  collecting data. The owner chose to form a legal entity first, so the page says it is being
+  formed. Until `CONTROLLER_NAME` is set, the worker lets only `ADMIN_EMAILS` create an account
+  (403 `signup_closed`); existing accounts are never locked out. The RNPD shows "en trámite" until
+  `legal.rnpd` holds the number.
+- **Owner wording choices:**
+  - inactive accounts "podemos eliminar" after 2 years, with no sweep;
+  - breach notice to the ANPD within 48 h and to people "sin demora indebida" (no promise beyond
+    the regulation);
+  - report text kept 1 year after closing or 2 years at most.
+- **Retention now swept:**
+  - report text (above);
+  - `audit_log` after 2 years;
+  - sign-in records (sessions, no IP) 2 years after expiry, up from 7 days, as the setup thread
+    asked for traceability.
+- **Billing rows** have no rule yet. None exist while payments are off; the rule is a stated
+  prerequisite for payments.
+- **Unverified here:** the 20/10 business-day ARCO deadlines and the 48 h rule come from the setup
+  thread and DS 016-2024-JUS summaries. The lawyer check (task 13) covers them.
+- **CSP, extra headers and `/v1/health`** (P4–P6) wait for the deploy after go-live, as sequenced.
+
+## D18 — Firebase is left out of the static builds for real; no stand-ins (2026-10-05)
+
+The static builds (GitHub Pages and pyarcana.dev) shipped about 0.5 MB of minified Firebase that
+never ran. Every guard reads "not configured" in both builds, and the CSP blocks Firebase's hosts.
+The owner asked to remove it only with proof that nothing changes.
+
+- **First version (superseded the same day):** two stand-in modules (`client.static.ts`,
+  `auth.static.ts`) swapped in by webpack. The owner's rule is that no stand-ins are kept, so they
+  were replaced by the real fix below and deleted (DCR-2026-10-05-firebase-static-stand-ins:
+  owner and independent verifier approved).
+- **Root cause:** `src/app/page.tsx` imported the old Firebase sign-in (`AuthModal`, `UserMenu`)
+  directly, and `AuthModal` and `StaticSiteNoticeText` imported the Firebase SDK.
+- **On the static site that UI is unreachable:**
+  - `UserMenu` returns null without Firebase settings;
+  - the Dashboard sign-up and `PricingPage` are `!IS_STATIC_SITE`;
+  - `ExamView`, the only other opener, needs a next-auth session, which the static build never
+    has (`Providers.tsx` passes `session={null}`).
+- **Fix, part 1:** `page.tsx` requires the Firebase sign-in only when
+  `process.env.NEXT_PUBLIC_STATIC_SITE !== '1'`. It is written as the literal env comparison so
+  webpack folds it at build time and drops the module. In the server edition the require is
+  synchronous, so nothing changes there.
+- **Fix, part 2:** `StaticSiteNoticeText` reads the settings from the SDK-free
+  `src/lib/firebase/config.ts`. `client.ts` re-exports it, so its API and the 4 protected tests are
+  unchanged.
+- **Proof** (`scripts/static_bundle_firebase_check.mjs --before=HEAD`; "before" is ac5e2e5 built
+  with Firebase included):
+  - both builds: 19 pages, the same pages, identical visible text, files carrying Firebase 3 → 0;
+  - JavaScript 10,954,420 → 10,418,118 bytes (Pages) and 10,954,082 → 10,417,774 (root), about
+    536 KB less each.
+  - Mutation: with the condition broken, the static build ships Firebase again (3 files).
+- **Narrowing, unchanged:** a static build can no longer turn Firebase on by configuration. The CSP
+  already forbade it.
+
+## D19 — QA sessions are measured, and admin sees and downloads QA (2026-10-05)
+
+The owner asked to see and download, in admin, what the QA tester dashboard knows. Before this,
+the dashboard recorded no session data, and admin had no aggregate and no download.
+
+- **Measured, in the tester's tab (local first):**
+  - active time, counted in 15 s ticks only while the tab is visible and focused and there was
+    input in the last 60 s, and never more than 30 s per tick;
+  - time per section;
+  - issues created and sent;
+  - the build and the browser family.
+  It is kept in sessionStorage (`pyarcana:qa-session-stats:v1`) and added to the exported package.
+- **Sent only by signed-in testers and admins** to `POST /v1/qa/sessions`:
+  - every 5 minutes when it changed, and when the tab is hidden;
+  - an idempotent upsert that a stale copy can never lower;
+  - stored in migration 9 (`qa_sessions`);
+  - kept 1 year after the last activity, deleted with the account, and part of the account
+    export;
+  - disclosed in the privacy notice and the browser-key list.
+- **Admin, the "QA" tab:**
+  - reports by severity, status, section, tester, cause, build and day;
+  - active time, coverage (sections with at least 1 minute, out of 52), issues per active hour,
+    and one row per tester.
+- **Admin downloads:**
+  - **CSV:** every cell quoted and protected against spreadsheet formulas, with a UTF-8 BOM for
+    Excel.
+  - **JSON:** the testers' own `pyarcana.qa.v1` package, so it opens in the QA workspace with
+    "Importar". The file is kept under the importer's 16 MiB limit, measured in characters of
+    the final file (base64 included). When reports or screenshots are left out, the file says
+    so (`partial`). The `tester` field is empty, so importing does not rename the importer.
+  - 10 downloads per hour, audited.
+- **Hotkeys:** Ctrl/⌘ + Alt/Option + Q and S. They are matched on the physical key when the
+  typed character changed, which covers macOS Option and Windows Ctrl+Alt. AltGr typing (for
+  example `@` on a German keyboard) is left alone. Those layouts keep the footer button.
+- **Forced save (button and Ctrl/⌘+Alt+S):**
+  - sends no request when nothing changed;
+  - at most one every 10 s;
+  - a save that flips back to an earlier state (checking and unchecking a box) gets 30 s, then
+    2 min, then 10 min, reset after 10 quiet minutes;
+  - never bypasses the server's backoff, and autosave is untouched. One exception is asked, not
+    assumed: the budget saver's wait lasts until 00:05 UTC, so a forced sync may spend one read
+    (at most once per 10 s) to ask whether the server is still red, and sends only if the
+    server's own answer says it is not.
+  - The old button sent a GET and two PUTs per click and ignored the backoff; that is gone.
+
+## D20 — Google's script on /cuenta: decided by the page load, not the path (2026-10-05)
+
+/cuenta is the account page and the Microsoft redirect target. The rule "no Google script on
+/cuenta" kept GIS off the callback, but it also hid the Google button from every ordinary visit
+(handback 5 Oct 2026, item 1).
+
+- **Rule now:** GIS may load unless this page view began as a Microsoft callback, meaning
+  /cuenta with code, state or error in the fragment.
+- **When it is decided:** the location is read once, when `runtime.ts` is first evaluated. That is
+  before any component renders, so before AccountPage strips the fragment with replaceState.
+- **Why the whole page view:** the decision holds for the whole page view, because the PKCE
+  verifier sits in this origin's storage until the code is redeemed. A useState initializer at
+  mount could already see the cleaned URL, which is why the decision is not read there.
+- **Proof:** unit cases in `oidc.test.ts`, and `e2e/cuenta.e2e.mjs` in Chromium.
+  - A plain /cuenta requests the script once and renders the button.
+  - A callback load strips the fragment, never requests the script, and never adds a script
+    element. Its sign-in panel shows the refusal line, which proves the button was mounted.
+- **Not chosen:** a separate callback route (/cuenta/microsoft/). It needs a new Entra redirect
+  URI, and the load-time rule gives the same protection without one.

@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
 import { MuchaHalo, DividerVine } from '@/components/ornaments/Ornaments'
 import {
   Sparkles,
@@ -40,6 +39,11 @@ import { cn } from '@/lib/utils'
 import { IS_STATIC_SITE, siteAsset } from '@/lib/runtime-mode'
 import { t, useI18n } from '@/lib/i18n'
 import { riseIn } from '@/lib/entrance'
+import { SetupIntroLink } from '@/components/setup/SetupIntroLink'
+import { useIsSignedIn } from '@/components/account/useIsSignedIn'
+import { ProgressStorageNotice } from '@/components/account/ProgressStorageNotice'
+import { StaticSiteNoticeText } from '@/components/account/StaticSiteNoticeText'
+import { DashboardTrialCard } from '@/components/account/TrialSoftCard'
 
 interface DashboardProps {
   /**
@@ -73,7 +77,6 @@ interface DashboardProps {
  */
 export function Dashboard({ animateEntrance, meta, sections, onSelectSection, onOpenAuth }: DashboardProps) {
   const { completedSections, completedSubSteps, quizScores, lastVisited, startDate, setStartDate } = useProgressStore()
-  const { data: session } = useSession()
   const [mounted, setMounted] = useState(false)
   const lang = useI18n((state) => state.lang)
   const tr = (key: string) => t(key, lang)
@@ -100,7 +103,7 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
 
   const nextSection = sections.find((s) => !safeCompletedSections.includes(s.id)) || sections[0]
   const isReturning = safeLastVisited !== null
-  const isSignedIn = !!session?.user
+  const isSignedIn = useIsSignedIn()
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
@@ -177,6 +180,10 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
             </div>
           </div>
 
+          {/* The way to Sesión 0, before Section 1. Shown to everyone: a returning learner on a
+              new computer needs it as much as a first-timer. */}
+          <SetupIntroLink className="mt-5 max-w-2xl" />
+
           {/* What can I learn here? */}
           <div className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
             <LearnCard
@@ -236,70 +243,7 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
           </div>
 
           {/* Where is my progress stored? — role-aware notice */}
-          {!isSignedIn ? (
-            <div
-              className="mt-6 max-w-2xl rounded-xl border border-gold/50 bg-background/75 px-4 py-3 text-xs text-foreground/80 backdrop-blur"
-              data-testid="progress-storage-notice"
-            >
-              <div className="flex items-start gap-2">
-                <Lock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
-                <div className="space-y-1">
-                  <p>
-                    <strong>{english ? 'Where is your progress stored?' : '¿Dónde se guarda tu progreso?'}</strong>{' '}
-                    {english
-                      ? 'Right now, only in this browser (localStorage — esto es, una base de datos interna del navegador que tú controlas).'
-                      : 'Por ahora, solo en este navegador (localStorage — esto es, una base de datos interna del navegador que tú controlas).'}
-                  </p>
-                  <p>
-                    {english
-                      ? 'If you create an account, your progress also syncs to our servers so you can resume on another device. We do not sell or share your data.'
-                      : 'Si creas una cuenta, tu progreso también se sincroniza con nuestros servidores para que puedas retomarlo en otro dispositivo. No vendemos ni compartimos tus datos.'}{' '}
-                    <Link
-                      href="/privacy"
-                      className="font-medium text-foreground underline-offset-2 hover:underline"
-                    >
-                      {english ? 'Read the Privacy Notice' : 'Lee el Aviso de Privacidad'}
-                    </Link>{' '}
-                    ·{' '}
-                    <Link
-                      href="/cookies"
-                      className="font-medium text-foreground underline-offset-2 hover:underline"
-                    >
-                      {english ? 'Local-storage notice' : 'Aviso de almacenamiento local'}
-                    </Link>
-                  </p>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div
-              className="mt-6 max-w-2xl rounded-xl border border-emerald-500/40 bg-emerald-500/5 px-4 py-3 text-xs text-foreground/80"
-              data-testid="progress-storage-notice"
-            >
-              <div className="flex items-start gap-2">
-                <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600 dark:text-emerald-300" />
-                <div className="space-y-1">
-                  <p>
-                    <strong>{english ? 'Signed in' : 'Sesión iniciada'}</strong>{' '}
-                    {english
-                      ? '— your progress is syncing to your cloud account, so it follows you across devices.'
-                      : '— tu progreso se está sincronizando con tu cuenta en la nube, así te sigue entre dispositivos.'}
-                  </p>
-                  <p>
-                    {english
-                      ? 'Browser-local progress remains the fast first read; the cloud copy is the source of truth when you switch devices.'
-                      : 'El progreso del navegador sigue siendo la lectura rápida inicial; la copia en la nube es la fuente de verdad cuando cambias de dispositivo.'}{' '}
-                    <Link
-                      href="/data-rights"
-                      className="font-medium text-foreground underline-offset-2 hover:underline"
-                    >
-                      {english ? 'Manage your data' : 'Gestiona tus datos'}
-                    </Link>
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
+          <ProgressStorageNotice isSignedIn={isSignedIn} english={english} />
 
           {/* Static-edition notice, in plain words */}
           {IS_STATIC_SITE && (
@@ -308,9 +252,7 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
               data-testid="static-site-notice"
             >
               <strong>Edición pública / Public edition:</strong>{' '}
-              {english
-                ? 'This page is a read-only snapshot hosted on GitHub Pages. Account creation and cloud sync are available when Firebase is configured; otherwise, your progress stays in this browser only.'
-                : 'Esta página es una versión de solo lectura publicada en GitHub Pages. Crear cuenta y sincronizar en la nube están disponibles cuando Firebase está configurado; de lo contrario, tu progreso se queda únicamente en este navegador.'}
+              <StaticSiteNoticeText lang={lang} />
             </div>
           )}
         </div>
@@ -397,6 +339,8 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
           </Card>
         </motion.div>
       )}
+
+      <DashboardTrialCard sections={sections} />
 
       {/* Badges — what they prove and what they don't */}
       <BadgeExplainer isSignedIn={isSignedIn} english={english} />

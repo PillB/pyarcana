@@ -23,6 +23,7 @@ definition. That is the failure this map exists to make visible.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import subprocess
@@ -67,6 +68,11 @@ TEACHING_KINDS = {
 }
 
 
+#: Written beside the cache: the digest of every input the extractor reads, as of the run that
+#: produced it. Compared by content, never by mtime -- see cache_is_current().
+EVENTS_INPUTS = ROOT / ".fixer/events.inputs.sha256"
+
+
 #: A local import in TypeScript: `... from './x'`, `export ... from '../y'`, or `import './z'`.
 IMPORT = re.compile(r"""(?:\bfrom|^\s*import)\s+['"]([^'"]+)['"]""", re.M)
 RESOLVE = ("", ".ts", ".mts", ".tsx", "/index.ts")
@@ -96,24 +102,59 @@ def extractor_inputs(entry: Path | None = None) -> set[Path]:
     return seen
 
 
-def sources_newer_than_cache() -> bool:
-    """Has anything the extractor reads changed since the cache was written?
+def inputs_digest() -> str:
+    """A content hash of everything the extractor imports, in a stable order.
 
-    The cache used to be trusted whenever it existed, so a map could describe a course
-    that no longer existed: the 2026-09-17 gap round built its dossiers from an
-    events.json eight hours older than the sections it was diagnosing, and two of the
-    entries it diagnosed had already been fixed. `gate.py` refreshes the file on every
-    run; nothing else did.
+    Path and content both go in, so renaming a module changes the digest as surely as editing one.
+
+    Composed 2026-10-04 from two halves of the same bug. #78 replaced the hand-written watch LIST
+    with `extractor_inputs()`, which follows the import graph -- the list had gone stale the moment
+    the definition rules moved into concept_detector.mts, and `concept_syntax.mts` had never been on
+    it. This branch replaced the COMPARISON, because mtime is ordering rather than identity. Each
+    fix leaves the other's failure open, so both are kept.
     """
-    if not EVENTS.exists():
-        return True
-    cached = EVENTS.stat().st_mtime
-    return any(p.stat().st_mtime > cached for p in extractor_inputs())
+    h = hashlib.sha256()
+    for p in sorted(extractor_inputs()):
+        h.update(p.relative_to(ROOT).as_posix().encode())
+        h.update(b"\0")
+        h.update(p.read_bytes())
+        h.update(b"\0")
+    return h.hexdigest()
 
 
-def load_events() -> dict:
-    if not sources_newer_than_cache():
-        return json.loads(EVENTS.read_text(encoding="utf-8"))
+def cache_is_current() -> bool:
+    """Is `.fixer/events.json` the extraction of the tree as it stands right now?
+
+    This asked `any(source.st_mtime > events.st_mtime)`. That is ordering, not identity, and this
+    branch's adversarial verification exploited it in both directions:
+
+      - Any write to events.json that is not a fresh extraction gives the cache the newest mtime and
+        permanently re-blinds every reader. `tools/fixer/run_concepts.sh:24` does exactly that in
+        its restore list, and `test_round_restore_is_complete.py:67` asserts it does. Measured: a
+        forward reference sat on disk with rc=0 and forward_refs 0, flipping to rc=1 only after a
+        content-free `touch`.
+      - A source whose mtime is OLDER than the cache is invisible -- `cp -p`, `rsync -t`, `tar -xp`,
+        `unzip`, clock skew, or checking out an older revision.
+
+    A digest has neither failure mode. Deletion needs no special case: `extractor_inputs()` returns
+    only existing files, and a deleted module either changes the hash of whatever imports it or
+    breaks extraction loudly.
+    """
+    return (EVENTS.exists() and EVENTS_INPUTS.exists()
+            and EVENTS_INPUTS.read_text(encoding="utf-8").strip() == inputs_digest())
+
+
+def sources_newer_than_cache() -> bool:
+    """Kept as the name other scripts import; the question is now identity, not age."""
+    return not cache_is_current()
+
+
+def extract_events() -> dict:
+    """Run the extractor, write the cache, and record the digest of what produced it.
+
+    Both are written here, so no caller can leave a cache without the fingerprint saying which tree
+    it describes.
+    """
     proc = subprocess.run(["npx", "tsx", "scripts/course_event_extractor.mts"],
                           cwd=ROOT, capture_output=True, text=True)
     if proc.returncode != 0:
@@ -121,7 +162,14 @@ def load_events() -> dict:
         raise SystemExit("extractor failed")
     EVENTS.parent.mkdir(parents=True, exist_ok=True)
     EVENTS.write_text(proc.stdout, encoding="utf-8")
+    EVENTS_INPUTS.write_text(inputs_digest() + "\n", encoding="utf-8")
     return json.loads(proc.stdout)
+
+
+def load_events() -> dict:
+    if cache_is_current():
+        return json.loads(EVENTS.read_text(encoding="utf-8"))
+    return extract_events()
 
 
 def section_tags(payload: dict) -> tuple[list[str], dict[str, str]]:
