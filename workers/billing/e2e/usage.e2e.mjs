@@ -13,7 +13,7 @@
 //    headers, a slim /v1/health and the admin's configuration list.
 // E2E_WORKER_DIR (set by run.sh) is the worker folder whose local D1 is used.
 import { chromium } from 'playwright'
-import { sandboxTrustArgs } from './sandbox-trust.mjs'
+import { launchOptions } from './sandbox-trust.mjs'
 import { execFileSync } from 'node:child_process'
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 
@@ -23,7 +23,7 @@ const WORKER_DIR = process.env.E2E_WORKER_DIR
 const WRANGLER = new URL('./node_modules/.bin/wrangler', import.meta.url).pathname
 mkdirSync(OUT, { recursive: true })
 const tokens = JSON.parse(readFileSync(new URL('./tokens.json', import.meta.url)))
-const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium', headless: true, args: sandboxTrustArgs() })
+const browser = await chromium.launch(launchOptions())
 const results = []
 const today = new Date().toISOString().slice(0, 10)
 

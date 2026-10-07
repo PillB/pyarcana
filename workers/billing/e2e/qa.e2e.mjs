@@ -8,14 +8,14 @@
 //    no upload; autosave still saves the change.
 // 4. Admin → QA: the counts, then the CSV and JSON downloads; the JSON opens in the QA workspace.
 import { chromium } from 'playwright'
-import { sandboxTrustArgs } from './sandbox-trust.mjs'
+import { launchOptions } from './sandbox-trust.mjs'
 import { mkdirSync, readFileSync } from 'node:fs'
 
 const BASE = 'http://localhost:8787'
 const OUT = new URL('./shots/', import.meta.url).pathname
 mkdirSync(OUT, { recursive: true })
 const tokens = JSON.parse(readFileSync(new URL('./tokens.json', import.meta.url)))
-const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium', headless: true, args: sandboxTrustArgs() })
+const browser = await chromium.launch(launchOptions())
 const results = []
 
 function record(name, ok, detail = '') {

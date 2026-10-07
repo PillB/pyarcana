@@ -110,7 +110,9 @@ const WORKER_SUITES = [
   // Stage 2d: the owner's operator scripts (setup.sh, deploy.sh) and their helper; the second
   // runs both scripts under a real pty (util-linux `script`) against a fake wrangler.
   ["ops", 7],
-  ["operator-scripts", 15]
+  ["operator-scripts", 24],
+  // Which browser the e2e suites launch (7 Oct 2026: they hard-coded the sandbox path).
+  ["e2e-launch", 3]
 ].map(([name, floor]) => ({ group: "worker", file: `${WORKER_TESTS}/${name}.test.mjs`, floor }));
 
 /**

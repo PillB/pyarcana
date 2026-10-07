@@ -3,7 +3,7 @@
 // http://localhost:8787). Seeded people come from seed.mjs. Each flow records PASS/FAIL and the
 // run continues, so one failure does not hide the rest. Screenshots go to ./shots/flows-*.png.
 import { chromium } from 'playwright'
-import { sandboxTrustArgs } from './sandbox-trust.mjs'
+import { launchOptions } from './sandbox-trust.mjs'
 import { readFileSync, mkdirSync } from 'node:fs'
 
 const BASE = 'http://localhost:8787'
@@ -11,7 +11,7 @@ const OUT = new URL('./shots/', import.meta.url).pathname
 const LOG = new URL('./wrangler.log', import.meta.url).pathname
 mkdirSync(OUT, { recursive: true })
 const tokens = JSON.parse(readFileSync(new URL('./tokens.json', import.meta.url)))
-const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium', headless: true, args: sandboxTrustArgs() })
+const browser = await chromium.launch(launchOptions())
 const results = []
 const errors = []
 const IGNORED = /cdn\.jsdelivr\.net|ERR_TUNNEL_CONNECTION_FAILED|ERR_ABORTED|status of 401|favicon/i

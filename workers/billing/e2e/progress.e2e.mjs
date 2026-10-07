@@ -6,7 +6,7 @@
 //   W10  a change made right before the tab closes still reaches the account (pagehide flush).
 // Real page, real clicks, real worker and D1. The right answers come from the course data itself.
 import { chromium } from 'playwright'
-import { sandboxTrustArgs } from './sandbox-trust.mjs'
+import { launchOptions } from './sandbox-trust.mjs'
 import { readFileSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
 
@@ -17,7 +17,7 @@ const answers = execFileSync('node', ['--import', 'tsx', '-e',
   'import("./src/lib/course/index.ts").then((m) => { const c = m.COURSE_SECTIONS || m.default.COURSE_SECTIONS; console.log(JSON.stringify(c[0].selfCheck.questions.map((q) => q.correctIndex))) })'],
   { cwd: REPO }).toString().trim()
 const RIGHT = JSON.parse(answers)
-const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium', headless: true, args: sandboxTrustArgs() })
+const browser = await chromium.launch(launchOptions())
 const results = []
 
 function record(name, ok, detail = '') {

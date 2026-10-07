@@ -15,7 +15,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { spawn, spawnSync } from "node:child_process";
 import { webcrypto } from "node:crypto";
-import { chmodSync, cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -38,15 +38,28 @@ test.after(() => cfFake.kill());
 const FAKE = path.join(BILLING, "tests", "wrangler-fake.mjs");
 const UUID = "0f6c2d9e-4a1b-4c7d-9e2f-3a4b5c6d7e8f";
 
-// The fake bun mirrors scripts/build_static_export.mjs's basePath rule. "fixed": an EMPTY
-// NEXT_PUBLIC_BASE_PATH builds at the root (scripts/static_base_path.mjs). "current": `||
-// '/pyarcana'`, the rule at commit 29200ca, under which an empty value still builds at /pyarcana.
+// The fake static build stands in for root/scripts/build_static_export.mjs and mirrors its basePath
+// rule. "fixed": an EMPTY NEXT_PUBLIC_BASE_PATH builds at the root (scripts/static_base_path.mjs).
+// "current": \`|| '/pyarcana'\`, the rule at commit 29200ca, under which an empty value still builds
+// at /pyarcana.
+const FAKE_BUILD = `import { appendFileSync, mkdirSync, writeFileSync } from "node:fs";
+const env = process.env.NEXT_PUBLIC_BASE_PATH;
+appendFileSync(process.env.FAKE_LOG, "static-build base=" + (env === undefined ? "UNSET" : env) + "\\n");
+if (process.env.FAKE_BUILD_FAIL === "1") { console.error("build failed"); process.exit(1); }
+const base = process.env.FAKE_BUILD_MODE === "current" ? (env || "/pyarcana") : (env ?? "/pyarcana");
+mkdirSync("out", { recursive: true });
+writeFileSync("out/index.html", "<html></html>");
+writeFileSync("out/deployment.json", JSON.stringify({ schema_version: 1, base_path: base }, null, 2) + "\\n");
+`;
+
+// bun on PATH is a tripwire: the build must not need it. On 7 Oct 2026 \`bun run\` died on the
+// owner's Mac with CouldntReadCurrentDirectory (it opens every parent folder; oven-sh/bun#28220).
+// \`bun install\` (redeploy.sh step 3) is allowed: it worked there, and it does not walk the folders.
 const FAKE_BUN = `#!/bin/sh
-echo "bun $* base=\${NEXT_PUBLIC_BASE_PATH-UNSET}" >> "$FAKE_LOG"
-[ "\${FAKE_BUN_FAIL:-}" = 1 ] && { echo "build failed" >&2; exit 1; }
-if [ "\${FAKE_BUN_MODE:-fixed}" = current ]; then base="\${NEXT_PUBLIC_BASE_PATH:-/pyarcana}"; else base="\${NEXT_PUBLIC_BASE_PATH-/pyarcana}"; fi
-mkdir -p out && echo '<html></html>' > out/index.html
-printf '{\\n  "schema_version": 1,\\n  "base_path": "%s"\\n}\\n' "$base" > out/deployment.json
+echo "bun $*" >> "$FAKE_LOG"
+[ "$1" = install ] && exit 0
+echo "bun must not be called by the deploy" >&2
+exit 1
 `;
 
 const FAKE_HEADERS = `import { appendFileSync, writeFileSync } from "node:fs";
@@ -72,6 +85,7 @@ function tree(state = {}, options = {}) {
   if (options.headers !== false) {
     writeFileSync(path.join(root, "scripts", "cloud-headers.mjs"), FAKE_HEADERS);
   }
+  writeFileSync(path.join(root, "scripts", "build_static_export.mjs"), FAKE_BUILD);
   const bin = path.join(root, ".bin");
   mkdirSync(bin);
   writeFileSync(path.join(bin, "bun"), FAKE_BUN);
@@ -219,21 +233,24 @@ test("setup.sh first run: creates D1, writes its id locally, pipes three secrets
   assert.equal(r.state.secrets.ADMIN_EMAILS, "admin@example.com,backup@example.org");
   assertNotPrinted(r.out, r.state.secrets.LICENSE_PRIVATE_KEY_PKCS8_B64, "the licence private key");
   assertNotPrinted(r.out, r.state.secrets.SERVER_PEPPER, "SERVER_PEPPER");
-  assert.match(r.log, /^bun run build:static base=$/m, "the static build runs with an empty (root) base path");
+  assert.match(r.log, /^static-build base=$/m, "the static build runs with an empty (root) base path");
   assert.match(r.out, /src\/lib\/cloud\/config\.ts/);
   assert.match(r.out, /do not commit/i);
   rmSync(t.root, { recursive: true, force: true });
 });
 
-test("setup.sh is idempotent: a second run reuses D1 and every secret, and Enter keeps ADMIN_EMAILS", () => {
+test("setup.sh is idempotent: a second run reuses D1 and every secret; Enter re-applies the saved ADMIN_EMAILS", () => {
   const t = tree();
   const first = run(t, "setup.sh", { input: "admin@example.com\n" });
   assert.equal(first.status, 0, first.out);
   const r = run(t, "setup.sh", { input: "\n" });
   assert.equal(r.status, 0, r.out);
   const second = commands(r.state).slice(commands(first.state).length);
-  assert.deepEqual(second, ["d1 list", "secret list", "deploy"]);
-  assert.deepEqual(r.state.secrets, first.state.secrets, "no secret was replaced");
+  // Owner request 7 Oct 2026: the saved list is offered and Enter stores exactly what was shown,
+  // so the stored secret can never drift from the list on screen. The key and pepper are kept.
+  assert.deepEqual(second, ["d1 list", "secret list", "secret put ADMIN_EMAILS", "deploy"]);
+  assert.match(r.out, /Use these admin addresses\? \[Y\/n\]/);
+  assert.deepEqual(r.state.secrets, first.state.secrets, "every secret holds the same value");
   assert.equal(r.state.dbs.length, 1);
   assert.equal(printedJwks(r.out).length, 0, "no new key, so no new public JWK");
   assert.match(r.out, /--rotate-key/);
@@ -279,6 +296,80 @@ test("setup.sh refuses a malformed ADMIN_EMAILS before storing anything", () => 
   rmSync(t.root, { recursive: true, force: true });
 });
 
+// Owner request, 7 Oct 2026: the admin list is typed once, saved on this computer (never in the
+// repository), and offered with Y/n afterwards, so a typo cannot lock the owner out of /admin.
+const adminFile = (t) => path.join(t.root, ".config", "pyarcana", "admin-emails");
+
+test("setup.sh saves a confirmed admin list privately on this computer and offers it next time", () => {
+  const t = tree();
+  const first = run(t, "setup.sh", { input: " Admin@Example.com , backup@example.org\ny\n" });
+  assert.equal(first.status, 0, first.out);
+  assert.match(first.out, /These addresses:\s+admin@example\.com\s+backup@example\.org/, "shown back normalised before storing");
+  assert.equal(readFileSync(adminFile(t), "utf8"), "admin@example.com,backup@example.org\n");
+  assert.equal(statSync(adminFile(t)).mode & 0o777, 0o600, "only the owner can read the file");
+  assert.equal(statSync(path.dirname(adminFile(t))).mode & 0o777, 0o700);
+  assert.equal(first.state.secrets.ADMIN_EMAILS, "admin@example.com,backup@example.org");
+
+  const second = run(t, "setup.sh", { input: "\n" });
+  assert.equal(second.status, 0, second.out);
+  assert.match(second.out, /Saved on this computer:\s+admin@example\.com\s+backup@example\.org\s+Use these admin addresses\? \[Y\/n\]/);
+  assert.doesNotMatch(second.out, /Comma-separated list/, "nothing to type when the saved list is accepted");
+  assert.equal(second.state.secrets.ADMIN_EMAILS, "admin@example.com,backup@example.org");
+  rmSync(t.root, { recursive: true, force: true });
+});
+
+test("setup.sh: 'n' to the saved list takes a new one, which replaces the file and the secret", () => {
+  const t = tree();
+  assert.equal(run(t, "setup.sh", { input: "old@example.com\ny\n" }).status, 0);
+  const r = run(t, "setup.sh", { input: "n\nnew@example.com\ny\n" });
+  assert.equal(r.status, 0, r.out);
+  assert.equal(readFileSync(adminFile(t), "utf8"), "new@example.com\n");
+  assert.equal(r.state.secrets.ADMIN_EMAILS, "new@example.com");
+  rmSync(t.root, { recursive: true, force: true });
+});
+
+test("setup.sh: 'n' at «Store them?» asks again, and three refusals store nothing", () => {
+  const t = tree();
+  const again = run(t, "setup.sh", { input: "tyop@example.com\nn\ntypo-fixed@example.com\ny\n" });
+  assert.equal(again.status, 0, again.out);
+  assert.equal(again.state.secrets.ADMIN_EMAILS, "typo-fixed@example.com");
+  rmSync(t.root, { recursive: true, force: true });
+
+  const never = tree();
+  const r = run(never, "setup.sh", { input: "a@example.com\nn\nb@example.com\nn\nc@example.com\nn\n" });
+  assert.notEqual(r.status, 0);
+  assert.match(r.out, /No admin list was confirmed/);
+  assert.deepEqual(r.state.secretPuts, []);
+  assert.deepEqual(r.state.deploys, []);
+  assert.equal(existsSync(adminFile(never)), false, "nothing was saved either");
+  rmSync(never.root, { recursive: true, force: true });
+});
+
+test("setup.sh never offers a malformed saved list, and Enter then keeps the stored secret", () => {
+  const configured = { dbs: [{ uuid: UUID, name: "pyarcana-accounts" }], workerExists: true, hasSubdomain: true, secrets: { LICENSE_PRIVATE_KEY_PKCS8_B64: "k", SERVER_PEPPER: "p", ADMIN_EMAILS: "admin@example.com" } };
+  const t = tree(configured);
+  mkdirSync(path.dirname(adminFile(t)), { recursive: true });
+  writeFileSync(adminFile(t), "admin@example.com pablo\n");
+  const r = run(t, "setup.sh", { input: "\n" });
+  assert.equal(r.status, 0, r.out);
+  assert.match(r.out, /is not valid, so it is not offered/);
+  assert.doesNotMatch(r.out, /Use these admin addresses/);
+  assert.match(r.out, /ADMIN_EMAILS: kept\./);
+  assert.deepEqual(r.state.secretPuts, []);
+  rmSync(t.root, { recursive: true, force: true });
+});
+
+test("setup.sh keeps the admin file where PYARCANA_ADMIN_FILE or XDG_CONFIG_HOME says", () => {
+  const t = tree();
+  const own = path.join(t.root, "elsewhere", "admins");
+  assert.equal(run(t, "setup.sh", { input: "admin@example.com\ny\n", env: { PYARCANA_ADMIN_FILE: own } }).status, 0);
+  assert.equal(readFileSync(own, "utf8"), "admin@example.com\n");
+  const xdg = path.join(t.root, "xdg");
+  assert.equal(run(t, "setup.sh", { input: "admin@example.com\ny\n", env: { XDG_CONFIG_HOME: xdg } }).status, 0);
+  assert.equal(readFileSync(path.join(xdg, "pyarcana", "admin-emails"), "utf8"), "admin@example.com\n");
+  rmSync(t.root, { recursive: true, force: true });
+});
+
 test("setup.sh --rotate-key <kid>: replaces only the licence key, updates LICENSE_KEY_ID, says what to keep", async () => {
   const configured = { dbs: [{ uuid: UUID, name: "pyarcana-accounts" }], workerExists: true, hasSubdomain: true, secrets: { LICENSE_PRIVATE_KEY_PKCS8_B64: "old-key", SERVER_PEPPER: "old-pepper", ADMIN_EMAILS: "admin@example.com" } };
   for (const args of [["--rotate-key"], ["--rotate-key", "k1"], ["--rotate-key", "bad kid"]]) {
@@ -307,7 +398,7 @@ test("deploy.sh: root static build, then cloud-headers, then an interactive wran
   const t = tree({ dbs: [{ uuid: UUID, name: "pyarcana-accounts" }], workerExists: true }, { toml: (s) => s.replace("TODO_REPLACE_WITH_D1_DATABASE_ID", UUID) });
   const r = run(t, "deploy.sh");
   assert.equal(r.status, 0, r.out);
-  assert.deepEqual(r.log.trim().split("\n"), ["bun run build:static base=", "cloud-headers out", "wrangler deploy"]);
+  assert.deepEqual(r.log.trim().split("\n"), ["static-build base=", "cloud-headers out", "wrangler deploy"]);
   assert.deepEqual(r.state.deploys, [{ interactive: true, placeholder: false, assets: true, secrets: [] }]);
   assert.ok(existsSync(path.join(t.root, "out", "_headers")));
   rmSync(t.root, { recursive: true, force: true });
@@ -329,13 +420,13 @@ test("deploy.sh refuses a placeholder, a failed build, and a build that came out
   mkdirSync(path.join(failed.root, "out"));
   writeFileSync(path.join(failed.root, "out", "index.html"), "<html>stale</html>");
   writeFileSync(path.join(failed.root, "out", "deployment.json"), '{"base_path": ""}\n');
-  const f = run(failed, "deploy.sh", { env: { FAKE_BUN_FAIL: "1" } });
+  const f = run(failed, "deploy.sh", { env: { FAKE_BUILD_FAIL: "1" } });
   assert.notEqual(f.status, 0);
   assert.deepEqual(f.state.deploys, []);
   rmSync(failed.root, { recursive: true, force: true });
 
   const based = tree({}, withId);
-  const b = run(based, "deploy.sh", { env: { FAKE_BUN_MODE: "current" } });
+  const b = run(based, "deploy.sh", { env: { FAKE_BUILD_MODE: "current" } });
   assert.notEqual(b.status, 0);
   assert.match(b.out, /\/pyarcana/);
   assert.match(b.out, /build_static_export\.mjs/);
@@ -348,7 +439,7 @@ test("deploy.sh without scripts/cloud-headers.mjs says so and still deploys", ()
   const r = run(t, "deploy.sh");
   assert.equal(r.status, 0, r.out);
   assert.match(r.out, /cloud-headers\.mjs/);
-  assert.deepEqual(r.log.trim().split("\n"), ["bun run build:static base=", "wrangler deploy"]);
+  assert.deepEqual(r.log.trim().split("\n"), ["static-build base=", "wrangler deploy"]);
   rmSync(t.root, { recursive: true, force: true });
 });
 
@@ -409,7 +500,8 @@ test("setup.sh asks for a missing token and account id with visible prompts; typ
   const r = await runTyped(t, [
     [/Cloudflare account ID/, "0123456789abcdef0123456789abcdef"],
     [/Paste your Cloudflare API token/, TOKEN],
-    [/Comma-separated list/, "admin@example.com"]
+    [/Comma-separated list/, "admin@example.com"],
+    [/Store them\? \[Y\/n\]/, "y"]
   ], { CLOUDFLARE_API_TOKEN: undefined, CLOUDFLARE_ACCOUNT_ID: undefined });
   assert.equal(r.status, 0, r.out);
   assert.match(r.out, /Paste your Cloudflare API token and press Enter.*typing stays hidden/);

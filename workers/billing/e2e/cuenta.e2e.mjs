@@ -6,14 +6,14 @@
 // the sandbox proxy's CA (sandbox-trust.mjs). When Google cannot be reached, the real-script checks
 // report SKIP with the reason, never PASS.
 import { chromium } from 'playwright'
-import { sandboxTrustArgs } from './sandbox-trust.mjs'
+import { launchOptions, sandboxTrustArgs } from './sandbox-trust.mjs'
 import { mkdirSync } from 'node:fs'
 
 const BASE = 'http://localhost:8787'
 const OUT = new URL('./shots/', import.meta.url).pathname
 mkdirSync(OUT, { recursive: true })
 const GIS = 'https://accounts.google.com/gsi/client'
-const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium', headless: true, args: sandboxTrustArgs() })
+const browser = await chromium.launch(launchOptions())
 const results = []
 
 function record(name, ok, detail = '') {

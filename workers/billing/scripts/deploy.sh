@@ -7,7 +7,8 @@
 #
 # Steps:
 #   1. refuse while workers/billing/wrangler.toml still holds a TODO_ placeholder (run setup.sh);
-#   2. `NEXT_PUBLIC_BASE_PATH= bun run build:static` at the repository root (writes out/), and
+#   2. `NEXT_PUBLIC_BASE_PATH= node scripts/build_static_export.mjs` at the repository root (writes
+#      out/; it is what `bun run build:static` runs, minus bun's folder walk, below), and
 #      refuse unless out/deployment.json says the site was built at the root;
 #   3. `node scripts/cloud-headers.mjs out` when that script exists (out/_headers, out/ads.txt);
 #   4. `wrangler deploy` from workers/billing/.
@@ -34,10 +35,11 @@ Run workers/billing/scripts/setup.sh first: it writes this account's ids into yo
 fi
 
 cd "$ROOT"
-command -v bun >/dev/null 2>&1 || die "bun is not installed (https://bun.sh); the static build needs it."
-
 say "Static build at the root (NEXT_PUBLIC_BASE_PATH empty)"
-NEXT_PUBLIC_BASE_PATH= bun run build:static || die "The static build failed. Nothing was deployed."
+# node, not `bun run build:static` (the same script): `bun run` opens every folder above this one
+# and stops with CouldntReadCurrentDirectory when macOS has not let the terminal open one of them,
+# as with ~/Documents on 7 Oct 2026 (oven-sh/bun#28220). The build itself never needed bun.
+NEXT_PUBLIC_BASE_PATH= node scripts/build_static_export.mjs || die "The static build failed. Nothing was deployed."
 [ -f out/index.html ] || die "The build wrote no out/index.html. Nothing was deployed."
 
 # The one-origin site must be built for the root. Read the base path the build recorded instead of

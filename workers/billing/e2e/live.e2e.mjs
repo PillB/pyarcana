@@ -200,6 +200,14 @@ if (ANON) await flow('worker', async () => {
   record('signed out, /v1/me answers 401', me.status() === 401, `status=${me.status()}`)
 })
 
+/** One host must answer 301 to the same path and query on BASE. Kept out of the flow for its complexity. */
+async function checkRedirect(ctx, host, url, pathAndQuery) {
+  const r = await ctx.get(url, { maxRedirects: 0 }).catch((e) => ({ error: e.message }))
+  const loc = r.error ? '' : r.headers().location ?? ''
+  const detail = r.error ? `error=${r.error.split('\n')[0]}` : `status=${r.status()} location=${loc}`
+  record(`${host} redirects (301) to pyarcana.dev with path and query`, !r.error && r.status() === 301 && loc === `${BASE}${pathAndQuery}`, detail)
+}
+
 if (ANON) await flow('domain', async () => {
   const robots = await api.get('/robots.txt')
   const text = robots.ok() ? await robots.text() : ''
@@ -207,15 +215,11 @@ if (ANON) await flow('domain', async () => {
   const adsTxt = await api.get('/ads.txt')
   record('ads.txt: 404 until an AdSense id is set, text/plain once it is', adsTxt.status() === 404 || /text\/plain/.test(adsTxt.headers()['content-type'] ?? ''), `status=${adsTxt.status()}`)
   const com = await pwRequest.newContext()
-  const r = await com.get('https://pyarcana.com/precios?x=1', { maxRedirects: 0 }).catch(() => null)
-  const loc = r?.headers().location ?? ''
-  record('pyarcana.com redirects (301) to pyarcana.dev with path and query', r?.status() === 301 && loc === `${BASE}/precios?x=1`, `status=${r?.status()} location=${loc}`)
+  await checkRedirect(com, 'pyarcana.com', 'https://pyarcana.com/precios?x=1', '/precios?x=1')
   // 85dc9ee (6 Oct 2026): www.pyarcana.dev is no longer bound to the worker, which served the
   // course there with accounts silently off. It must be a zone Redirect Rule (README, setup step 5);
   // without one www does not resolve, and this fails.
-  const w = await com.get('https://www.pyarcana.dev/empezar?x=1', { maxRedirects: 0 }).catch((e) => ({ error: e.message }))
-  const wloc = w?.headers?.().location ?? ''
-  record('www.pyarcana.dev redirects (301) to pyarcana.dev with path and query', w?.status?.() === 301 && wloc === `${BASE}/empezar?x=1`, w?.error ? `error=${w.error.split('\n')[0]}` : `status=${w?.status?.()} location=${wloc}`)
+  await checkRedirect(com, 'www.pyarcana.dev', 'https://www.pyarcana.dev/empezar?x=1', '/empezar?x=1')
   // Handback 5 Oct 2026, item 3: Cloudflare's automatic RUM injects its beacon at the edge, and only
   // into what looks like a browser page load: the request must say it accepts HTML. Asked without
   // that header (the first version of this check, and `curl`), the page comes back clean even when

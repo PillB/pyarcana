@@ -69,7 +69,8 @@ revoke it afterwards.
 `scripts/deploy.sh`:
 
 1. Refuses while a `TODO_` placeholder is in `wrangler.toml`.
-2. Runs `NEXT_PUBLIC_BASE_PATH= bun run build:static` at the repository root, then refuses unless
+2. Runs `NEXT_PUBLIC_BASE_PATH= node scripts/build_static_export.mjs` (what `bun run build:static`
+   runs, without bun's walk over the parent folders) at the repository root, then refuses unless
    `out/deployment.json` records base path `""`. `scripts/static_base_path.mjs` makes an empty
    value mean the root; the check guards against any build that would still land under `/pyarcana`.
 3. Runs `node scripts/cloud-headers.mjs out` (`out/_headers`, `out/ads.txt`) when the script
