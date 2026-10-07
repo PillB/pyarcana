@@ -87,7 +87,12 @@ await flow('email sign-in and sign-out', async () => {
   await shot(page, 'cuenta-signed-in')
   // Wait for the logout itself rather than a fixed delay, and say what happened when it fails.
   const logout = page.waitForResponse((r) => r.url().includes('/v1/auth/logout'), { timeout: 10000 }).catch(() => null)
-  await page.getByTestId('account-signout').first().click()
+  // Scroll first: after the full-page screenshot above, Chromium's click on a button below the fold
+  // reached nothing at all (no pointer event; 0 of 4 runs vs 4 of 4 when scrolled, 7 Oct 2026;
+  // microsoft/playwright#30770). That, not the site, was the "one run in three" sign-out failure.
+  const signout = page.getByTestId('account-signout').first()
+  await signout.scrollIntoViewIfNeeded()
+  await signout.click()
   const lr = await logout
   const after = await api(page, 'GET', '/v1/me')
   record('sign-out ends the session (me answers 401)', after.status === 401, `status=${after.status}; logout ${lr ? `answered ${lr.status()}` : 'never requested'}`)
