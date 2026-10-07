@@ -13,6 +13,12 @@ const CFG = {
   termsVersion: '1.0',
 }
 const ID_TOKEN = 'eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ4In0.c2ln'
+// The access token the token endpoint returns, which must never be posted. It was 'AT', and the
+// leak check was `doesNotMatch(posted, /AT/)` -- but `posted` carries the nonce preimage, 43 random
+// base64url characters, and about 1 run in 100 they contain "AT" (measured 0.97% over 400,000
+// draws). The test failed with no leak. A value random base64url cannot produce keeps the check
+// exact.
+const ACCESS_TOKEN = 'access-token-that-must-never-be-posted'
 
 test('the pending sign-in records its purpose; missing means sign-in, anything else is refused', async () => {
   const s = createMemoryStorage()
@@ -45,7 +51,7 @@ function deps(session: KeyValueStorage, hash: string, o: { tokenBody?: unknown; 
   const fetchImpl = (async (url: string, init: RequestInit) => {
     fetched.push({ url, init })
     if (o.tokenThrows) throw new TypeError('network')
-    return new Response(JSON.stringify(o.tokenBody ?? { id_token: ID_TOKEN, access_token: 'AT' }), { status: o.tokenStatus ?? 200 })
+    return new Response(JSON.stringify(o.tokenBody ?? { id_token: ID_TOKEN, access_token: ACCESS_TOKEN }), { status: o.tokenStatus ?? 200 })
   }) as unknown as typeof fetch
   const post = async (path: string, body: unknown) => {
     posted.push({ path, body })
@@ -70,7 +76,7 @@ test('a good callback redeems the code with PKCE and posts only the id_token and
   assert.equal(form.get('code_verifier'), pending.verifier)
   assert.equal(form.get('redirect_uri'), 'https://pyarcana.example/cuenta')
   assert.deepEqual(posted, [{ path: '/v1/auth/microsoft', body: { idToken: ID_TOKEN, noncePreimage: pending.noncePreimage, ageConfirmed: true, termsVersion: '1.0' } }])
-  assert.doesNotMatch(JSON.stringify(posted), /AT/, 'the access token is discarded')
+  assert.ok(!JSON.stringify(posted).includes(ACCESS_TOKEN), 'the access token is discarded')
   assert.equal(session.getItem(MS_PENDING_KEY), null, 'single use')
 })
 
@@ -117,7 +123,7 @@ test('token endpoint failures and a missing id_token stop before the worker', as
     assert.equal(posted.length, 0)
   }
   const { session, state } = await setup()
-  const { d, posted } = deps(session, `#code=C&state=${state}`, { tokenBody: { access_token: 'AT' } })
+  const { d, posted } = deps(session, `#code=C&state=${state}`, { tokenBody: { access_token: ACCESS_TOKEN } })
   assert.equal(((await completeMicrosoftCallback(d)) as { reason: string }).reason, 'no_id_token')
   assert.equal(posted.length, 0)
 })
