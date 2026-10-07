@@ -85,10 +85,12 @@ await flow('email sign-in and sign-out', async () => {
   const me = await api(page, 'GET', '/v1/me')
   record('signed in through the UI: /v1/me knows the new account', me.status === 200 && me.body.account.email === email, `status=${me.status}`)
   await shot(page, 'cuenta-signed-in')
+  // Wait for the logout itself rather than a fixed delay, and say what happened when it fails.
+  const logout = page.waitForResponse((r) => r.url().includes('/v1/auth/logout'), { timeout: 10000 }).catch(() => null)
   await page.getByTestId('account-signout').first().click()
-  await page.waitForTimeout(1500)
+  const lr = await logout
   const after = await api(page, 'GET', '/v1/me')
-  record('sign-out ends the session (me answers 401)', after.status === 401, `status=${after.status}`)
+  record('sign-out ends the session (me answers 401)', after.status === 401, `status=${after.status}; logout ${lr ? `answered ${lr.status()}` : 'never requested'}`)
   await page.waitForTimeout(800)
   const panelBack = await page.getByTestId('cuenta-signin').isVisible().catch(() => false) || await page.getByTestId('signin-panel').isVisible().catch(() => false)
   record('after sign-out /cuenta offers sign-in again', panelBack)
