@@ -31,7 +31,7 @@ export const section17: CourseSection = {
  { text: "Agregar con groupby/agg (resúmenes) y transform (features a nivel fila)" },
  { text: "Construir ventanas rolling, fechas ordenadas y cohortes por primera observación" },
  { text: "Reconciliar denominadores y totales (diff, residual, tolerancia eps)" },
- { text: "Controlar leakage temporal con cutoff/as-of y reportar el delta de leakage" }
+ { text: "Controlar leakage temporal —el uso de datos posteriores a la fecha de corte— con cutoff/as-of y reportar el delta de leakage" }
  ],
  theory: [
  {

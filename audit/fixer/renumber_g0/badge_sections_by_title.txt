@@ -1,0 +1,293 @@
+
+progress_phase0_walked  [foundation]  skills=['python_core', 'python_idioms', 'git_workflow', 'packaging_reproducibility', 'pandas_numpy', 'data_cleaning', 'data_validation', 'descriptive_stats', 'classical_ml', 'model_evaluation', 'python_visualization', 'bi_tools', 'testing_discipline', 'performance_tuning', 'python_rpa_browser', 'process_analysis', 'exception_handling_rpa', 'code_review_literacy', 'security_mindset']
+   S01  slug=setup                    title=Entorno reproducible y trabajo seguro
+   S02  slug=basics                   title=Valores, tipos, operadores e I/O
+   S03  slug=decisions-rules          title=Decisiones y reglas de validación
+   S04  slug=iteration-summaries      title=Iteración y resúmenes transaccionales
+   S05  slug=functions-contracts      title=Funciones, contratos y descomposición
+   S06  slug=collections              title=Colecciones y estructuras de datos
+   S07  slug=text-unicode-regex       title=Texto, Unicode y expresiones regulares
+   S08  slug=files-ingestion          title=Archivos, CSV, JSON y contratos de ingesta
+   S09  slug=exceptions-logging       title=Excepciones, debugging y logging seguro
+   S10  slug=modules-packaging-cli    title=Módulos, packaging y CLI profesional
+   S11  slug=oop-domain               title=OOP y modelo de dominio
+   S12  slug=apis-sql-geo             title=APIs, SQL y geodatos responsables
+   S13  slug=evidence-dashboard       title=Familiarity Evidence Dashboard y cierre de nivel
+
+progress_phase1_walked  [independent_practitioner]  skills=['security_mindset', 'python_core', 'python_idioms', 'packaging_reproducibility', 'stakeholder_management', 'ci_cd', 'data_cleaning', 'data_validation', 'pandas_numpy', 'sql_fundamentals', 'llmops', 'system_design', 'testing_discipline', 'deep_learning', 'classical_ml', 'python_rpa_browser', 'selector_design', 'exception_handling_rpa', 'python_visualization', 'bi_tools', 'business_framing', 'process_analysis', 'stakeholder_translation']
+   S14  slug=security                 title=NumPy y cómputo vectorizado
+   S15  slug=stdlib-deep              title=Pandas: ingesta, selección y tipos
+   S16  slug=wxpython-gui             title=Calidad, limpieza y contratos de datos
+   S17  slug=packaging                title=Joins, reshape, groupby y cierre analítico
+   S18  slug=data-engineering         title=EDA, estadística descriptiva e incertidumbre
+   S19  slug=databases-orm            title=Visualización y comunicación accesible
+   S20  slug=rag                      title=Automatización robusta de Excel
+   S21  slug=fastapi                  title=Documentos, plantillas y reportes trazables
+   S22  slug=rapidfuzz-entity         title=Email, identidad y aprobación humana
+   S23  slug=computer-vision          title=Browser RPA con Playwright
+   S24  slug=rpa-advanced             title=OCR y Document AI
+   S25  slug=streamlit-dashboards     title=Endpoints de IA, Hugging Face y prompting evaluado
+   S26  slug=integrator-phase1        title=Orquestación y VP RPA + AI Analyst
+
+progress_phase2_walked  [advanced_applied]  skills=['python_async', 'async_testing', 'llmops', 'mlops_pipelines', 'model_deployment', 'drift_monitoring', 'security_mindset', 'observability', 'cloud_platform', 'data_cleaning', 'system_design', 'classical_ml', 'deep_learning', 'uncertainty_quantification', 'architecture_leadership', 'tradeoff_articulation', 'performance_tuning', 'sql_fundamentals', 'sql_window_ctes', 'data_validation', 'business_framing', 'metric_design', 'stakeholder_translation']
+   S27  slug=async-concurrency        title=Estrategia de pruebas con pytest
+   S28  slug=llm-agents               title=Pruebas de datos, propiedades e integración
+   S29  slug=mlops                    title=SQL avanzado y modelado relacional
+   S30  slug=security-infra           title=Entity resolution probabilístico
+   S31  slug=streaming-data           title=Grafos y evidencia relacional
+   S32  slug=microservices            title=Feature engineering y pipelines sin leakage
+   S33  slug=advanced-models          title=ML supervisado y baselines responsables
+   S34  slug=cv-ai-integration        title=Métricas, desbalance, calibración y umbrales
+   S35  slug=system-design            title=Explicabilidad, equidad e incertidumbre
+   S36  slug=ai-apis-advanced         title=Clustering, anomalías y validación temporal
+   S37  slug=dbt-bigquery             title=Profiling, algoritmos y rendimiento
+   S38  slug=performance-extreme      title=Concurrencia, observabilidad y workflows resilientes
+   S39  slug=integrator-phase2        title=Responsible ML Case Triage y cierre de nivel
+
+progress_phase3_walked  [integrated_mastery]  skills=['architecture_leadership', 'system_design', 'code_review_literacy', 'deep_learning', 'llmops', 'mlops_pipelines', 'drift_monitoring', 'observability', 'data_cleaning', 'python_core', 'ci_cd', 'cloud_platform', 'docker', 'kubernetes', 'performance_tuning', 'git_workflow', 'mentoring', 'security_mindset', 'ai_code_review_literacy', 'stakeholder_management', 'data_validation', 'stakeholder_translation', 'oral_communication', 'written_communication', 'business_framing', 'tradeoff_articulation']
+   S40  slug=architecture-ddd         title=Arquitectura, DDD y decisiones técnicas
+   S41  slug=llm-finetuning           title=APIs con FastAPI y contratos HTTP
+   S42  slug=graph-rag                title=Schemas, seguridad y privacidad de servicios
+   S43  slug=llmops                   title=Contenedores y reproducibilidad operativa
+   S44  slug=multimodal               title=CI/CD y seguridad de la cadena de suministro
+   S45  slug=iac                      title=Cloud, almacenamiento, colas e infraestructura
+   S46  slug=gpu-computing            title=Ingeniería de datos y orquestación de producción
+   S47  slug=opensource               title=MLOps: experimentos, registro y serving
+   S48  slug=ai-governance            title=LLM applications y RAG con evidencia
+   S49  slug=data-contracts           title=Agentes, herramientas y context engineering
+   S50  slug=tech-leadership          title=Evals, red teaming y fiabilidad de IA
+   S51  slug=integrator-final         title=Observabilidad, gobernanza y UX del copiloto
+
+progress_journey_completed  [integrated_mastery]  skills=[]
+   S01  slug=setup                    title=Entorno reproducible y trabajo seguro
+   S02  slug=basics                   title=Valores, tipos, operadores e I/O
+   S03  slug=decisions-rules          title=Decisiones y reglas de validación
+   S04  slug=iteration-summaries      title=Iteración y resúmenes transaccionales
+   S05  slug=functions-contracts      title=Funciones, contratos y descomposición
+   S06  slug=collections              title=Colecciones y estructuras de datos
+   S07  slug=text-unicode-regex       title=Texto, Unicode y expresiones regulares
+   S08  slug=files-ingestion          title=Archivos, CSV, JSON y contratos de ingesta
+   S09  slug=exceptions-logging       title=Excepciones, debugging y logging seguro
+   S10  slug=modules-packaging-cli    title=Módulos, packaging y CLI profesional
+   S11  slug=oop-domain               title=OOP y modelo de dominio
+   S12  slug=apis-sql-geo             title=APIs, SQL y geodatos responsables
+   S13  slug=evidence-dashboard       title=Familiarity Evidence Dashboard y cierre de nivel
+   S14  slug=security                 title=NumPy y cómputo vectorizado
+   S15  slug=stdlib-deep              title=Pandas: ingesta, selección y tipos
+   S16  slug=wxpython-gui             title=Calidad, limpieza y contratos de datos
+   S17  slug=packaging                title=Joins, reshape, groupby y cierre analítico
+   S18  slug=data-engineering         title=EDA, estadística descriptiva e incertidumbre
+   S19  slug=databases-orm            title=Visualización y comunicación accesible
+   S20  slug=rag                      title=Automatización robusta de Excel
+   S21  slug=fastapi                  title=Documentos, plantillas y reportes trazables
+   S22  slug=rapidfuzz-entity         title=Email, identidad y aprobación humana
+   S23  slug=computer-vision          title=Browser RPA con Playwright
+   S24  slug=rpa-advanced             title=OCR y Document AI
+   S25  slug=streamlit-dashboards     title=Endpoints de IA, Hugging Face y prompting evaluado
+   S26  slug=integrator-phase1        title=Orquestación y VP RPA + AI Analyst
+   S27  slug=async-concurrency        title=Estrategia de pruebas con pytest
+   S28  slug=llm-agents               title=Pruebas de datos, propiedades e integración
+   S29  slug=mlops                    title=SQL avanzado y modelado relacional
+   S30  slug=security-infra           title=Entity resolution probabilístico
+   S31  slug=streaming-data           title=Grafos y evidencia relacional
+   S32  slug=microservices            title=Feature engineering y pipelines sin leakage
+   S33  slug=advanced-models          title=ML supervisado y baselines responsables
+   S34  slug=cv-ai-integration        title=Métricas, desbalance, calibración y umbrales
+   S35  slug=system-design            title=Explicabilidad, equidad e incertidumbre
+   S36  slug=ai-apis-advanced         title=Clustering, anomalías y validación temporal
+   S37  slug=dbt-bigquery             title=Profiling, algoritmos y rendimiento
+   S38  slug=performance-extreme      title=Concurrencia, observabilidad y workflows resilientes
+   S39  slug=integrator-phase2        title=Responsible ML Case Triage y cierre de nivel
+   S40  slug=architecture-ddd         title=Arquitectura, DDD y decisiones técnicas
+   S41  slug=llm-finetuning           title=APIs con FastAPI y contratos HTTP
+   S42  slug=graph-rag                title=Schemas, seguridad y privacidad de servicios
+   S43  slug=llmops                   title=Contenedores y reproducibilidad operativa
+   S44  slug=multimodal               title=CI/CD y seguridad de la cadena de suministro
+   S45  slug=iac                      title=Cloud, almacenamiento, colas e infraestructura
+   S46  slug=gpu-computing            title=Ingeniería de datos y orquestación de producción
+   S47  slug=opensource               title=MLOps: experimentos, registro y serving
+   S48  slug=ai-governance            title=LLM applications y RAG con evidencia
+   S49  slug=data-contracts           title=Agentes, herramientas y context engineering
+   S50  slug=tech-leadership          title=Evals, red teaming y fiabilidad de IA
+   S51  slug=integrator-final         title=Observabilidad, gobernanza y UX del copiloto
+   S52  slug=career-strategy          title=Enterprise Relationship & Operations Intelligence Platform: capstone final
+
+python_data_foundations  [foundation]  skills=['python_core', 'python_idioms', 'git_workflow', 'packaging_reproducibility', 'testing_discipline', 'code_review_literacy', 'security_mindset', 'data_validation']
+   S01  slug=setup                    title=Entorno reproducible y trabajo seguro
+   S02  slug=basics                   title=Valores, tipos, operadores e I/O
+   S03  slug=decisions-rules          title=Decisiones y reglas de validación
+   S04  slug=iteration-summaries      title=Iteración y resúmenes transaccionales
+   S05  slug=functions-contracts      title=Funciones, contratos y descomposición
+
+independent_data_preparation  [foundation]  skills=['pandas_numpy', 'descriptive_stats', 'data_cleaning', 'data_validation']
+   S06  slug=collections              title=Colecciones y estructuras de datos
+   S07  slug=text-unicode-regex       title=Texto, Unicode y expresiones regulares
+   S08  slug=files-ingestion          title=Archivos, CSV, JSON y contratos de ingesta
+   S18  slug=data-engineering         title=EDA, estadística descriptiva e incertidumbre
+
+applied_analytical_reasoning  [foundation]  skills=['python_visualization', 'bi_tools', 'classical_ml', 'model_evaluation']
+   S09  slug=exceptions-logging       title=Excepciones, debugging y logging seguro
+   S10  slug=modules-packaging-cli    title=Módulos, packaging y CLI profesional
+
+reliable_automation_development  [foundation]  skills=['python_rpa_browser', 'process_analysis', 'exception_handling_rpa', 'selector_design']
+   S13  slug=evidence-dashboard       title=Familiarity Evidence Dashboard y cierre de nivel
+   S24  slug=rpa-advanced             title=OCR y Document AI
+
+applied_sql_query_development  [independent_practitioner]  skills=['sql_fundamentals', 'sql_window_ctes']
+   S19  slug=databases-orm            title=Visualización y comunicación accesible
+   S37  slug=dbt-bigquery             title=Profiling, algoritmos y rendimiento
+
+production_python_delivery_foundations  [independent_practitioner]  skills=['packaging_reproducibility', 'ci_cd', 'python_core', 'python_idioms', 'system_design', 'testing_discipline']
+   S15  slug=stdlib-deep              title=Pandas: ingesta, selección y tipos
+   S17  slug=packaging                title=Joins, reshape, groupby y cierre analítico
+   S21  slug=fastapi                  title=Documentos, plantillas y reportes trazables
+
+responsible_machine_learning_evaluation  [independent_practitioner]  skills=['classical_ml', 'model_evaluation', 'deep_learning']
+   S10  slug=modules-packaging-cli    title=Módulos, packaging y CLI profesional
+   S23  slug=computer-vision          title=Browser RPA con Playwright
+
+applied_rag_llm_service_development  [independent_practitioner]  skills=['llmops', 'python_core', 'system_design', 'testing_discipline']
+   S20  slug=rag                      title=Automatización robusta de Excel
+   S21  slug=fastapi                  title=Documentos, plantillas y reportes trazables
+
+reliable_async_python_development  [advanced_applied]  skills=['python_async', 'async_testing', 'llmops', 'observability', 'data_cleaning']
+   S27  slug=async-concurrency        title=Estrategia de pruebas con pytest
+   S28  slug=llm-agents               title=Pruebas de datos, propiedades e integración
+   S31  slug=streaming-data           title=Grafos y evidencia relacional
+
+applied_mlops_pipeline_delivery  [advanced_applied]  skills=['mlops_pipelines', 'model_deployment', 'drift_monitoring', 'observability', 'llmops']
+   S29  slug=mlops                    title=SQL avanzado y modelado relacional
+   S43  slug=llmops                   title=Contenedores y reproducibilidad operativa
+
+production_python_hardening_practice  [advanced_applied]  skills=['security_mindset', 'observability', 'cloud_platform', 'system_design', 'python_async', 'performance_tuning']
+   S30  slug=security-infra           title=Entity resolution probabilístico
+   S32  slug=microservices            title=Feature engineering y pipelines sin leakage
+   S38  slug=performance-extreme      title=Concurrencia, observabilidad y workflows resilientes
+
+applied_deep_learning_practice  [advanced_applied]  skills=['classical_ml', 'deep_learning', 'uncertainty_quantification', 'python_core']
+   S33  slug=advanced-models          title=ML supervisado y baselines responsables
+   S34  slug=cv-ai-integration        title=Métricas, desbalance, calibración y umbrales
+
+architecture_decision_practice  [integrated_mastery]  skills=['system_design', 'architecture_leadership', 'tradeoff_articulation', 'code_review_literacy']
+   S35  slug=system-design            title=Explicabilidad, equidad e incertidumbre
+   S40  slug=architecture-ddd         title=Arquitectura, DDD y decisiones técnicas
+
+llmops_production_delivery  [integrated_mastery]  skills=['deep_learning', 'llmops', 'mlops_pipelines', 'drift_monitoring', 'observability', 'data_cleaning', 'python_core']
+   S41  slug=llm-finetuning           title=APIs con FastAPI y contratos HTTP
+   S42  slug=graph-rag                title=Schemas, seguridad y privacidad de servicios
+   S43  slug=llmops                   title=Contenedores y reproducibilidad operativa
+
+container_platform_engineering_practice  [integrated_mastery]  skills=['ci_cd', 'cloud_platform', 'docker', 'kubernetes', 'deep_learning', 'performance_tuning']
+   S45  slug=iac                      title=Cloud, almacenamiento, colas e infraestructura
+   S46  slug=gpu-computing            title=Ingeniería de datos y orquestación de producción
+
+ai_governance_code_review_practice  [integrated_mastery]  skills=['code_review_literacy', 'git_workflow', 'mentoring', 'security_mindset', 'ai_code_review_literacy', 'data_validation', 'data_cleaning', 'stakeholder_translation']
+   S47  slug=opensource               title=MLOps: experimentos, registro y serving
+   S48  slug=ai-governance            title=LLM applications y RAG con evidencia
+   S49  slug=data-contracts           title=Agentes, herramientas y context engineering
+
+integrated_data_analyst_practice  [independent_practitioner]  skills=['python_core', 'python_idioms', 'git_workflow', 'packaging_reproducibility', 'pandas_numpy', 'descriptive_stats', 'data_cleaning', 'data_validation', 'python_visualization', 'bi_tools', 'classical_ml', 'model_evaluation', 'sql_fundamentals', 'sql_window_ctes', 'business_framing', 'stakeholder_translation', 'written_communication']
+   S06  slug=collections              title=Colecciones y estructuras de datos
+   S07  slug=text-unicode-regex       title=Texto, Unicode y expresiones regulares
+   S08  slug=files-ingestion          title=Archivos, CSV, JSON y contratos de ingesta
+   S09  slug=exceptions-logging       title=Excepciones, debugging y logging seguro
+   S10  slug=modules-packaging-cli    title=Módulos, packaging y CLI profesional
+   S19  slug=databases-orm            title=Visualización y comunicación accesible
+   S37  slug=dbt-bigquery             title=Profiling, algoritmos y rendimiento
+
+integrated_data_science_practice  [independent_practitioner]  skills=['python_core', 'python_idioms', 'git_workflow', 'packaging_reproducibility', 'pandas_numpy', 'descriptive_stats', 'data_cleaning', 'data_validation', 'python_visualization', 'bi_tools', 'classical_ml', 'model_evaluation', 'deep_learning', 'sql_fundamentals', 'sql_window_ctes', 'business_framing', 'stakeholder_translation', 'written_communication', 'metric_design']
+   S06  slug=collections              title=Colecciones y estructuras de datos
+   S07  slug=text-unicode-regex       title=Texto, Unicode y expresiones regulares
+   S08  slug=files-ingestion          title=Archivos, CSV, JSON y contratos de ingesta
+   S09  slug=exceptions-logging       title=Excepciones, debugging y logging seguro
+   S10  slug=modules-packaging-cli    title=Módulos, packaging y CLI profesional
+   S19  slug=databases-orm            title=Visualización y comunicación accesible
+   S23  slug=computer-vision          title=Browser RPA con Playwright
+   S37  slug=dbt-bigquery             title=Profiling, algoritmos y rendimiento
+
+integrated_ml_engineering_practice  [advanced_applied]  skills=['python_core', 'python_idioms', 'git_workflow', 'packaging_reproducibility', 'classical_ml', 'model_evaluation', 'deep_learning', 'llmops', 'system_design', 'testing_discipline', 'ci_cd', 'mlops_pipelines', 'model_deployment', 'drift_monitoring', 'observability', 'business_framing', 'stakeholder_translation', 'metric_design']
+   S09  slug=exceptions-logging       title=Excepciones, debugging y logging seguro
+   S10  slug=modules-packaging-cli    title=Módulos, packaging y CLI profesional
+   S20  slug=rag                      title=Automatización robusta de Excel
+   S21  slug=fastapi                  title=Documentos, plantillas y reportes trazables
+   S23  slug=computer-vision          title=Browser RPA con Playwright
+   S29  slug=mlops                    title=SQL avanzado y modelado relacional
+   S43  slug=llmops                   title=Contenedores y reproducibilidad operativa
+
+integrated_automation_engineering_practice  [independent_practitioner]  skills=['python_core', 'python_idioms', 'git_workflow', 'packaging_reproducibility', 'python_rpa_browser', 'process_analysis', 'exception_handling_rpa', 'selector_design', 'llmops', 'system_design', 'testing_discipline', 'business_framing', 'stakeholder_translation']
+   S13  slug=evidence-dashboard       title=Familiarity Evidence Dashboard y cierre de nivel
+   S20  slug=rag                      title=Automatización robusta de Excel
+   S21  slug=fastapi                  title=Documentos, plantillas y reportes trazables
+   S24  slug=rpa-advanced             title=OCR y Document AI
+
+integrated_production_python_practice  [advanced_applied]  skills=['python_core', 'python_idioms', 'git_workflow', 'packaging_reproducibility', 'ci_cd', 'system_design', 'testing_discipline', 'python_async', 'async_testing', 'observability', 'security_mindset', 'cloud_platform', 'performance_tuning', 'business_framing', 'stakeholder_translation', 'metric_design']
+   S15  slug=stdlib-deep              title=Pandas: ingesta, selección y tipos
+   S17  slug=packaging                title=Joins, reshape, groupby y cierre analítico
+   S21  slug=fastapi                  title=Documentos, plantillas y reportes trazables
+   S27  slug=async-concurrency        title=Estrategia de pruebas con pytest
+   S28  slug=llm-agents               title=Pruebas de datos, propiedades e integración
+   S30  slug=security-infra           title=Entity resolution probabilístico
+   S32  slug=microservices            title=Feature engineering y pipelines sin leakage
+   S38  slug=performance-extreme      title=Concurrencia, observabilidad y workflows resilientes
+
+integrated_python_ai_capstone_foundations  [foundation]  skills=['python_core', 'python_idioms', 'git_workflow', 'packaging_reproducibility', 'pandas_numpy', 'descriptive_stats', 'data_cleaning', 'data_validation', 'python_visualization', 'bi_tools', 'classical_ml', 'model_evaluation', 'testing_discipline', 'performance_tuning', 'python_rpa_browser', 'process_analysis', 'exception_handling_rpa', 'code_review_literacy', 'security_mindset']
+   S01  slug=setup                    title=Entorno reproducible y trabajo seguro
+   S02  slug=basics                   title=Valores, tipos, operadores e I/O
+   S03  slug=decisions-rules          title=Decisiones y reglas de validación
+   S04  slug=iteration-summaries      title=Iteración y resúmenes transaccionales
+   S05  slug=functions-contracts      title=Funciones, contratos y descomposición
+   S06  slug=collections              title=Colecciones y estructuras de datos
+   S07  slug=text-unicode-regex       title=Texto, Unicode y expresiones regulares
+   S08  slug=files-ingestion          title=Archivos, CSV, JSON y contratos de ingesta
+   S09  slug=exceptions-logging       title=Excepciones, debugging y logging seguro
+   S10  slug=modules-packaging-cli    title=Módulos, packaging y CLI profesional
+   S11  slug=oop-domain               title=OOP y modelo de dominio
+   S12  slug=apis-sql-geo             title=APIs, SQL y geodatos responsables
+   S13  slug=evidence-dashboard       title=Familiarity Evidence Dashboard y cierre de nivel
+
+integrated_python_ai_capstone_independent  [independent_practitioner]  skills=['security_mindset', 'python_core', 'python_idioms', 'packaging_reproducibility', 'stakeholder_management', 'ci_cd', 'data_cleaning', 'data_validation', 'pandas_numpy', 'sql_fundamentals', 'sql_window_ctes', 'llmops', 'system_design', 'testing_discipline', 'deep_learning', 'classical_ml', 'python_rpa_browser', 'selector_design', 'exception_handling_rpa', 'python_visualization', 'bi_tools', 'business_framing', 'process_analysis', 'stakeholder_translation']
+   S14  slug=security                 title=NumPy y cómputo vectorizado
+   S15  slug=stdlib-deep              title=Pandas: ingesta, selección y tipos
+   S16  slug=wxpython-gui             title=Calidad, limpieza y contratos de datos
+   S17  slug=packaging                title=Joins, reshape, groupby y cierre analítico
+   S18  slug=data-engineering         title=EDA, estadística descriptiva e incertidumbre
+   S19  slug=databases-orm            title=Visualización y comunicación accesible
+   S20  slug=rag                      title=Automatización robusta de Excel
+   S21  slug=fastapi                  title=Documentos, plantillas y reportes trazables
+   S22  slug=rapidfuzz-entity         title=Email, identidad y aprobación humana
+   S23  slug=computer-vision          title=Browser RPA con Playwright
+   S24  slug=rpa-advanced             title=OCR y Document AI
+   S25  slug=streamlit-dashboards     title=Endpoints de IA, Hugging Face y prompting evaluado
+   S26  slug=integrator-phase1        title=Orquestación y VP RPA + AI Analyst
+
+integrated_python_ai_capstone_advanced_applied  [advanced_applied]  skills=['python_async', 'async_testing', 'llmops', 'mlops_pipelines', 'model_deployment', 'drift_monitoring', 'security_mindset', 'observability', 'cloud_platform', 'data_cleaning', 'system_design', 'classical_ml', 'deep_learning', 'uncertainty_quantification', 'architecture_leadership', 'tradeoff_articulation', 'performance_tuning', 'sql_fundamentals', 'sql_window_ctes', 'data_validation', 'business_framing', 'metric_design', 'stakeholder_translation']
+   S27  slug=async-concurrency        title=Estrategia de pruebas con pytest
+   S28  slug=llm-agents               title=Pruebas de datos, propiedades e integración
+   S29  slug=mlops                    title=SQL avanzado y modelado relacional
+   S30  slug=security-infra           title=Entity resolution probabilístico
+   S31  slug=streaming-data           title=Grafos y evidencia relacional
+   S32  slug=microservices            title=Feature engineering y pipelines sin leakage
+   S33  slug=advanced-models          title=ML supervisado y baselines responsables
+   S34  slug=cv-ai-integration        title=Métricas, desbalance, calibración y umbrales
+   S35  slug=system-design            title=Explicabilidad, equidad e incertidumbre
+   S36  slug=ai-apis-advanced         title=Clustering, anomalías y validación temporal
+   S37  slug=dbt-bigquery             title=Profiling, algoritmos y rendimiento
+   S38  slug=performance-extreme      title=Concurrencia, observabilidad y workflows resilientes
+   S39  slug=integrator-phase2        title=Responsible ML Case Triage y cierre de nivel
+
+integrated_python_ai_capstone_integrated_mastery  [integrated_mastery]  skills=['architecture_leadership', 'system_design', 'code_review_literacy', 'deep_learning', 'llmops', 'mlops_pipelines', 'drift_monitoring', 'observability', 'data_cleaning', 'python_core', 'ci_cd', 'cloud_platform', 'docker', 'kubernetes', 'performance_tuning', 'git_workflow', 'mentoring', 'security_mindset', 'ai_code_review_literacy', 'stakeholder_management', 'data_validation', 'stakeholder_translation', 'oral_communication', 'written_communication', 'business_framing', 'tradeoff_articulation']
+   S40  slug=architecture-ddd         title=Arquitectura, DDD y decisiones técnicas
+   S41  slug=llm-finetuning           title=APIs con FastAPI y contratos HTTP
+   S42  slug=graph-rag                title=Schemas, seguridad y privacidad de servicios
+   S43  slug=llmops                   title=Contenedores y reproducibilidad operativa
+   S44  slug=multimodal               title=CI/CD y seguridad de la cadena de suministro
+   S45  slug=iac                      title=Cloud, almacenamiento, colas e infraestructura
+   S46  slug=gpu-computing            title=Ingeniería de datos y orquestación de producción
+   S47  slug=opensource               title=MLOps: experimentos, registro y serving
+   S48  slug=ai-governance            title=LLM applications y RAG con evidencia
+   S49  slug=data-contracts           title=Agentes, herramientas y context engineering
+   S50  slug=tech-leadership          title=Evals, red teaming y fiabilidad de IA
+   S51  slug=integrator-final         title=Observabilidad, gobernanza y UX del copiloto
+
+evidence_grounded_ai_systems_capstone  [integrated_mastery]  skills=['business_framing', 'oral_communication', 'written_communication', 'stakeholder_management']
+   S52  slug=career-strategy          title=Enterprise Relationship & Operations Intelligence Platform: capstone final

@@ -58,20 +58,10 @@ HOST_SPECIFIC = (
 #: pinned to the code it was granted for (a sha256 prefix): while that code is unchanged its
 #: snippet may match or mismatch, because the output is noise, and any other mismatch still fails
 #: --check. Editing the snippet, which is the fix, fails until the entry is removed here.
-#: 2026-10-04: S33's XOR demo. XOR is symmetric, so the best linear logistic model is exactly
-#: p = 0.5, and 4000 steps reach it: the logits end as rounding noise (|z| < 4e-16), and
-#: `(p > 0.5)` reads the sign of that noise. Which noise depends on the BLAS kernel and numpy's
-#: SIMD math path, both picked for the CPU at run time, and GitHub's runners vary in CPU: CI's
-#: first run printed [0, 0, 1, 0], its second the declared [0, 0, 0, 0]. Owing it "until it
-#: matches in CI" assumed a stable platform result and failed on the second run.
-#: The fix is in the fixer session's #80: the snippet prints the probabilities, [0.5, 0.5, 0.5,
-#: 0.5], instead of a tie broken by noise. When #80 and this entry meet, the pin fails; delete the
-#: entry (and these lines). The tests use a synthetic entry, so nothing else changes.
-KNOWN_MISMATCHES = {
-    ("src/lib/course/sections/s33-advanced-models.ts", "code-block-4"): (
-        "b15faa81c708",
-        "thresholds a probability that is rounding noise at XOR's symmetric optimum"),
-}
+#: 2026-10-04: empty. Its one entry, S33's XOR demo, was removed when #80 met it: the snippet
+#: now prints the probabilities [0.5, 0.5, 0.5, 0.5] instead of thresholding a tie broken by
+#: rounding noise, so its output no longer depends on the runner's BLAS kernel or SIMD path.
+KNOWN_MISMATCHES: dict[tuple[str, str], tuple[str, str]] = {}
 
 
 def code_digest(code: str) -> str:
