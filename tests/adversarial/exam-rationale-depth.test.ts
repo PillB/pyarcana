@@ -183,7 +183,10 @@ test('self-check explanations, which learners read, stay at exactly their owed t
   const fixed = SELFCHECK_THIN_OWED.filter((k) => !found.includes(k))
   assert.deepEqual(added, [], `new thin self-check explanations:\n  ${thin.filter((t) => added.includes(`${t.slug}[${t.index}]`)).map(describe).join('\n  ')}`)
   assert.deepEqual(fixed, [], `repaired - strike them from SELFCHECK_THIN_OWED: ${fixed.join(', ')}`)
-  assert.equal(COURSE_SECTIONS.reduce((n, s) => n + s.selfCheck.questions.length, 0), 395, 'the self-checks were not all read')
+  // A floor, not an exact count: a section that adds a question must not fail here (Codex P2 on
+  // #89). It catches a read that lost questions; a new thin one is caught by `added` above.
+  const read = COURSE_SECTIONS.reduce((n, s) => n + s.selfCheck.questions.length, 0)
+  assert.ok(read >= 395, `only ${read} self-check questions were read, of at least 395`)
 })
 
 const bankOf = (banks: Bank[], slug: string): Bank => {
