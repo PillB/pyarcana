@@ -374,6 +374,11 @@ jobs:
         env:
           PYARCANA_SNIPPET_TIMEOUT: '30'
 
+      # The facts behind audit/fixer/known_false_claims.json that need scikit-learn. The rest
+      # (stdlib only) run in adversarial-unit as tests/adversarial/test_taught_claims_hold.py.
+      - name: Facts behind the known-false-claims registry (scikit-learn)
+        run: python3 -m unittest discover -s tests/content_facts -p 'test_*.py' -v
+
       - name: Upload audit reports
         if: always()
         uses: actions/upload-artifact@v4
