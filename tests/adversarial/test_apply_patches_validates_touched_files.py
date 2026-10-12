@@ -95,12 +95,51 @@ class ApplyPatchesValidatesTouchedFiles(unittest.TestCase):
         bad = anchor.replace("'Python'", "'Estadística'")
         # The gap, recreated: the old validator's probe loads the sections and accepts this.
         (self.tmp / TERMS).write_text(self.pristine[TERMS].decode("utf-8").replace(anchor, bad, 1), encoding="utf-8")
+        module = self.copy_module()
+        with module.scratch_dir() as scratch:
+            self.assertTrue(module.sections_load(scratch)[0], "the recreation no longer shows the tsx-only gap")
+        (self.tmp / TERMS).write_bytes(self.pristine[TERMS])
+        self.assertRefused(TERMS, anchor, bad, "GlossaryCategory")
+
+    def copy_module(self):
+        """apply_patches.py from the temporary copy, so its ROOT is the copy."""
         spec = importlib.util.spec_from_file_location("apply_copy", self.tmp / "tools/fixer/apply_patches.py")
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        self.assertTrue(module.sections_load()[0], "the recreation no longer shows the tsx-only gap")
-        (self.tmp / TERMS).write_bytes(self.pristine[TERMS])
-        self.assertRefused(TERMS, anchor, bad, "GlossaryCategory")
+        return module
+
+    def test_two_validations_at_once_check_their_own_files(self) -> None:
+        """Codex P1 on #86. Fixer rounds can run side by side, and the scratch tsconfig had a fixed
+        name: a second round writing it between the first round's write and its `tsc` made the
+        first round type-check the second's files and pass its own broken patch. Here the second
+        validation runs exactly in that window, every time."""
+        anchor = "    category: 'Python',\n    " + DEFINITION
+        bad = self.pristine[TERMS].decode("utf-8").replace(anchor, anchor.replace("'Python'", "'Estadística'"), 1)
+        (self.tmp / TERMS).write_text(bad, encoding="utf-8")
+        module = self.copy_module()
+        section = module.ROOT / "src/lib/course/sections/s01-setup.ts"
+        real_run, nested, state = module._run, [], {"done": False}
+
+        def interleaving_run(cmd):
+            if cmd[:2] == ["npx", "tsc"] and not state["done"]:
+                state["done"] = True
+                nested.append(module.validate({section: section.read_text(encoding="utf-8")}))
+            return real_run(cmd)
+
+        module._run = interleaving_run
+        ok, err = module.validate({module.ROOT / TERMS: self.pristine[TERMS].decode("utf-8")})
+        self.assertTrue(state["done"], "the second validation never ran inside the first")
+        self.assertEqual(nested[0], (True, ""), "the second validation should pass: its file is unchanged")
+        self.assertFalse(ok, "the first validation passed a glossary with a category that does not exist")
+        self.assertIn("GlossaryCategory", err)
+        self.assertEqual(list((self.tmp / ".fixer").glob("validate-*")), [], "scratch directories were left behind")
+
+    def test_a_seed_patch_outside_the_bank_is_refused(self) -> None:
+        """Codex P2 on #86. seed.ts is never type-checked (CI has no Prisma client), so a patch to
+        main() that still parses - the insert loop naming an undefined variable - would apply."""
+        loop = "Object.entries(QUESTION_BANK)"
+        self.assertEqual(self.pristine[SEED].decode("utf-8").count(loop), 1, "fixture anchor not unique")
+        self.assertRefused(SEED, loop, "Object.entries(QUESTION_BANKS)", "outside QUESTION_BANK")
 
     def test_an_answer_key_out_of_range_is_refused(self) -> None:
         self.assertRefused(SEED, KEY, KEY.replace("correctIndex: 0", "correctIndex: 4"), "out of range")

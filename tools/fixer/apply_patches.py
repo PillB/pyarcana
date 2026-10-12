@@ -12,8 +12,12 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import shutil
 import subprocess
 import sys
+import tempfile
+from collections.abc import Iterator
+from contextlib import contextmanager
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -56,41 +60,60 @@ def _run(cmd: list[str]) -> tuple[bool, str]:
     return False, (r.stderr or r.stdout)[-1500:]
 
 
-def _scratch(name: str, text: str) -> Path:
-    path = ROOT / ".fixer" / name
-    path.parent.mkdir(parents=True, exist_ok=True)
+#: Every scratch directory sits two levels below ROOT: .fixer/validate-XXXX/.
+UP = "../.."
+
+
+@contextmanager
+def scratch_dir() -> Iterator[Path]:
+    """A directory of its own for one validation, removed afterwards.
+
+    The probes and the tsconfig used to have fixed names under .fixer/, so two fixer rounds
+    validating at once could overwrite each other's tsconfig between the write and the `tsc` that
+    reads it, and one round would type-check the other's files and pass its own broken patch."""
+    base = ROOT / ".fixer"
+    base.mkdir(parents=True, exist_ok=True)
+    path = Path(tempfile.mkdtemp(prefix="validate-", dir=base))
+    try:
+        yield path
+    finally:
+        shutil.rmtree(path, ignore_errors=True)
+
+
+def _scratch(scratch: Path, name: str, text: str) -> Path:
+    path = scratch / name
     path.write_text(text, encoding="utf-8")
     return path
 
 
-def sections_load() -> tuple[bool, str]:
+def sections_load(scratch: Path) -> tuple[bool, str]:
     """The 52 sections still import and evaluate. tsx strips types without checking them, so this
     catches what breaks at load time and nothing else; `tsc_touched` is the type check."""
-    probe = _scratch("_verify.mts",
-                     "import { COURSE_SECTIONS } from '../src/lib/course/index'\n"
+    probe = _scratch(scratch, "_verify.mts",
+                     f"import {{ COURSE_SECTIONS }} from '{UP}/src/lib/course/index'\n"
                      "if (COURSE_SECTIONS.length !== 52) throw new Error('section count changed')\n"
                      "process.stdout.write('ok')\n")
     return _run(["npx", "tsx", str(probe.relative_to(ROOT))])
 
 
-def tsc_touched(files: list[Path]) -> tuple[bool, str]:
+def tsc_touched(scratch: Path, files: list[Path]) -> tuple[bool, str]:
     """A real type check of the touched files and what they import, under the repo's tsconfig.
 
     The validator this replaced was named `typechecks` and ran `tsx`, which strips types: a
     glossary entry with `category: 'Estadística'` (not a GlossaryCategory) applied cleanly."""
-    config = _scratch("tsconfig.touched.json", json.dumps({
-        "extends": "../tsconfig.json",
+    config = _scratch(scratch, "tsconfig.touched.json", json.dumps({
+        "extends": f"{UP}/tsconfig.json",
         "compilerOptions": {"noEmit": True, "incremental": False},
-        "files": [f"../{f.relative_to(ROOT)}" for f in files],
+        "files": [f"{UP}/{f.relative_to(ROOT)}" for f in files],
         "include": [],
     }))
     return _run(["npx", "tsc", "-p", str(config.relative_to(ROOT))])
 
 
 _GLOSSARY_PROBE = """\
-import { GLOSSARY_TERMS as now } from '../src/lib/glossary/terms'
+import { GLOSSARY_TERMS as now } from '../../src/lib/glossary/terms'
 import { GLOSSARY_TERMS as before } from './_terms_before'
-import { COURSE_SECTIONS } from '../src/lib/course/index'
+import { COURSE_SECTIONS } from '../../src/lib/course/index'
 const sections = new Set(COURSE_SECTIONS.map((s) => s.id))
 function problems(terms: typeof now): string[] {
   const out: string[] = []
@@ -110,11 +133,11 @@ process.stdout.write(JSON.stringify([...problems(now).filter((p) => !old.has(p))
 """
 
 
-def glossary_keeps_its_shape(before: str) -> tuple[bool, str]:
+def glossary_keeps_its_shape(scratch: Path, before: str) -> tuple[bool, str]:
     """No new problem in GLOSSARY_TERMS: no duplicate id, empty definition, unknown section, and no
     term removed. Problems the file already had before the patch are not the patch's."""
-    _scratch("_terms_before.ts", before)
-    probe = _scratch("_glossary_verify.mts", _GLOSSARY_PROBE)
+    _scratch(scratch, "_terms_before.ts", before)
+    probe = _scratch(scratch, "_glossary_verify.mts", _GLOSSARY_PROBE)
     ok, out = _run(["npx", "tsx", str(probe.relative_to(ROOT))])
     if not ok:
         return False, out
@@ -122,10 +145,11 @@ def glossary_keeps_its_shape(before: str) -> tuple[bool, str]:
     return not new, "glossary: " + "; ".join(new) if new else ""
 
 
-def _bank(path: Path) -> tuple[list[dict] | None, str]:
+def _bank(path: Path) -> tuple[dict | None, str]:
+    """The extractor's report on a seed file: banks, and a digest of everything outside the bank."""
     ok, out = _run(["npx", "tsx", "scripts/learner_text_extractor.mts", "--question-bank",
                     str(path.relative_to(ROOT))])
-    return (json.loads(out)["banks"], "") if ok else (None, out)
+    return (json.loads(out), "") if ok else (None, out)
 
 
 def _shape(banks: list[dict]) -> list[tuple[str, int]]:
@@ -146,17 +170,24 @@ def _bank_problems(banks: list[dict]) -> set[str]:
     return out
 
 
-def bank_keeps_its_shape(before: str) -> tuple[bool, str]:
-    """The exam bank still parses as a plain literal (syntax included), keeps every bank and every
-    question count, and gains no malformed question. Read by scripts/lib/learner_text.mts, the
-    same reader the exam gates use; seed.ts is never type-checked here because CI has no
-    generated Prisma client."""
-    now, err = _bank(SEED)
-    if now is None:
+def bank_keeps_its_shape(scratch: Path, before: str) -> tuple[bool, str]:
+    """A seed patch may change the exam bank and nothing else, and must leave it well formed.
+
+    The bank still parses as a plain literal (syntax included), keeps every bank and question
+    count, and gains no malformed question; and the code outside QUESTION_BANK is byte for byte
+    what it was. seed.ts is never type-checked here (CI has no generated Prisma client), so a
+    patch to `main()` - say, the insert loop naming an undefined variable - would otherwise be
+    reported applied while the seed no longer runs. Read by scripts/lib/learner_text.mts, the
+    same reader the exam gates use."""
+    report, err = _bank(SEED)
+    if report is None:
         return False, f"prisma/seed.ts: {err}"
-    old, err = _bank(_scratch("_seed_before.ts", before))
-    if old is None:
+    old_report, err = _bank(_scratch(scratch, "_seed_before.ts", before))
+    if old_report is None:
         return False, f"the bank before the patch could not be read: {err}"
+    if report["outsideBankSha256"] != old_report["outsideBankSha256"]:
+        return False, "prisma/seed.ts: the patch changes code outside QUESTION_BANK; seed patches may only edit the bank"
+    now, old = report["banks"], old_report["banks"]
     if _shape(now) != _shape(old):
         changed = sorted(set(_shape(now)) ^ set(_shape(old)))
         return False, f"prisma/seed.ts: banks or question counts changed: {changed}"
@@ -169,14 +200,14 @@ def _claim_counts(args: list[str]) -> tuple[dict | None, str]:
     return (json.loads(out), "") if ok else (None, out)
 
 
-def claims_do_not_grow(touched: dict[Path, str]) -> tuple[bool, str]:
+def claims_do_not_grow(scratch: Path, touched: dict[Path, str]) -> tuple[bool, str]:
     """No touched file gains a statement already found false (audit/fixer/known_false_claims.json).
 
     The registry exists because a false claim found once came back in later rewrites; a patch is
     where it would come back. Counted before and after, so a file that still owes a claim can be
     patched as long as the patch does not add one."""
     rels = [str(p.relative_to(ROOT)) for p in touched]
-    before_args = [f"{rel}={_scratch('_claims_before/' + rel.replace('/', '__'), text).relative_to(ROOT)}"
+    before_args = [f"{rel}={_scratch(scratch, 'claims_before__' + rel.replace('/', '__'), text).relative_to(ROOT)}"
                    for rel, text in zip(rels, touched.values())]
     before, err = _claim_counts(before_args)
     after, err2 = _claim_counts(rels)
@@ -193,23 +224,24 @@ def claims_do_not_grow(touched: dict[Path, str]) -> tuple[bool, str]:
 def validate(touched: dict[Path, str]) -> tuple[bool, str]:
     """Check every file the patches changed, each by what it is. `touched` maps each to its text
     before the patches. A file type with no validator is refused rather than waved through."""
-    unknown =[p for p in touched if p.suffix not in TS_SUFFIXES]
+    unknown = [p for p in touched if p.suffix not in TS_SUFFIXES]
     if unknown:
         return False, "no validator for " + ", ".join(str(p.relative_to(ROOT)) for p in unknown)
     checks = []
     typed = sorted(p for p in touched if p != SEED)
     if typed:
-        checks.append(lambda: tsc_touched(typed))
+        checks.append(lambda s: tsc_touched(s, typed))
     checks.append(sections_load)
     if GLOSSARY in touched:
-        checks.append(lambda: glossary_keeps_its_shape(touched[GLOSSARY]))
+        checks.append(lambda s: glossary_keeps_its_shape(s, touched[GLOSSARY]))
     if SEED in touched:
-        checks.append(lambda: bank_keeps_its_shape(touched[SEED]))
-    checks.append(lambda: claims_do_not_grow(touched))
-    for check in checks:
-        ok, err = check()
-        if not ok:
-            return False, err
+        checks.append(lambda s: bank_keeps_its_shape(s, touched[SEED]))
+    checks.append(lambda s: claims_do_not_grow(s, touched))
+    with scratch_dir() as scratch:
+        for check in checks:
+            ok, err = check(scratch)
+            if not ok:
+                return False, err
     return True, ""
 
 
