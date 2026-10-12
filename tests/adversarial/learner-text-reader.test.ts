@@ -18,7 +18,9 @@ import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 
 import { COURSE_SECTIONS } from '../../src/lib/course'
-import { keyCensus, literalsFromSource, NonLiteralBank, readQuestionBank } from '../../scripts/lib/learner_text.mts'
+import {
+  keyCensus, literalsFromSource, NonLiteralBank, readQuestionBank, readSeedQuestionBank,
+} from '../../scripts/lib/learner_text.mts'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..')
 const SEED_PATH = join(ROOT, 'prisma/seed.ts')
@@ -109,6 +111,10 @@ test('the real seed: two independent counts and the course agree', () => {
   const census = keyCensus(banks)
   assert.ok(census.identifier > 0 && census.single > 0 && census.double > 0,
     `this seed mixes all three key styles; one vanished from the read: ${JSON.stringify(census)}`)
+})
+
+test('readSeedQuestionBank, the loader consumers use, reads exactly this file', () => {
+  assert.deepEqual(readSeedQuestionBank(ROOT), readQuestionBank(SEED, 'prisma/seed.ts'))
 })
 
 test('the CLI prints the same banks, and exits 2 on a refusal', () => {
