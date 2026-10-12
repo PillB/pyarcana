@@ -19,7 +19,7 @@ import { fileURLToPath } from 'node:url'
 
 import { COURSE_SECTIONS } from '../../src/lib/course'
 import {
-  keyCensus, literalsFromSource, NonLiteralBank, readQuestionBank, readSeedQuestionBank,
+  bankSpan, keyCensus, literalsFromSource, NonLiteralBank, readQuestionBank, readSeedQuestionBank,
 } from '../../scripts/lib/learner_text.mts'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..')
@@ -86,8 +86,21 @@ test('refuses what it cannot read as a literal, naming the line', () => {
     })
   }
   assert.throws(() => readQuestionBank('const QUESTION_BANK = {\n  [k]: [],\n}\n'), /computed or numeric/)
-  assert.throws(() => readQuestionBank("const QUESTION_BANK = {\n  setup: [],\n  'setup': [],\n}\n"), /declared twice/)
+  const one = q('a', `'w', 'x', 'y', 'z'`)
+  assert.throws(() => readQuestionBank(`const QUESTION_BANK = {\n  setup: [\n${one}  ],\n  'setup': [\n${one}  ],\n}\n`), /declared twice/)
   assert.throws(() => readQuestionBank('const OTHER = {}\n'), /found 0/)
+  // An empty bank is valid TypeScript and would read as "no questions, no problems" (Codex P2, #86).
+  assert.throws(() => readQuestionBank('const QUESTION_BANK = {}\n'), /has no banks/)
+  assert.throws(() => readQuestionBank('const QUESTION_BANK = {\n  setup: [],\n}\n'), /bank "setup" has no questions/)
+})
+
+test('bankSpan cuts out exactly the literal, so code around the bank can be compared', () => {
+  const [start, end] = bankSpan(MIXED)
+  assert.ok(MIXED.slice(start).startsWith('{\n  setup: ['))
+  assert.equal(MIXED.slice(end), '\n')
+  const edited = MIXED.replace("'uno'", "'UNO'")
+  const [s2, e2] = bankSpan(edited)
+  assert.equal(edited.slice(0, s2) + edited.slice(e2), MIXED.slice(0, start) + MIXED.slice(end))
 })
 
 test('the real seed: two independent counts and the course agree', () => {

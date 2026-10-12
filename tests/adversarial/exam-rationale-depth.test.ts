@@ -38,9 +38,10 @@
  * explanation like «loc es por etiqueta; iloc por posición.» (39) contrasts the key with a
  * distractor and is flagged by (a) alone.
  *
- * Not covered here yet: the self-check explanations learners do see. By this definition 2 of 395
- * are thin (data-engineering selfCheck[1], streaming-data selfCheck[1]), so an absolute gate would
- * be red today, and a ratchet on learner-facing text needs the owner's decision.
+ * The self-check explanations learners do see are held to the same definition at exactly their
+ * owed set: 2 of 395 are thin (data-engineering selfCheck[1], streaming-data selfCheck[1]), so the
+ * absolute 0 the plan asked for would be red today. Repairing them is learner-facing Spanish, for
+ * Codex in those sections' rounds.
  *
  * The bank is read with `readSeedQuestionBank` (the TypeScript AST reader), never with a regex over
  * seed.ts: three regex readers each saw a different subset of the bank's three key styles.
@@ -50,6 +51,7 @@ import { dirname, join } from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 
+import { COURSE_SECTIONS } from '../../src/lib/course'
 import { type Bank, type BankQuestion, readQuestionBank, readSeedQuestionBank } from '../../scripts/lib/learner_text.mts'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..')
@@ -166,6 +168,23 @@ function namesADistractor(item: Item): boolean {
 }
 
 const describe = (t: Thin): string => `${t.slug}[${t.index}] (${t.rules.join(', ')}): ${t.explanation}`
+
+/**
+ * Self-check explanations, which learners do read, that are thin by the same definition. Exactly
+ * these two, measured 2026-10-12; repair them in their sections' rounds and strike them here. A
+ * ratchet, not the absolute 0 the plan asked for, because the tree is at 2.
+ */
+const SELFCHECK_THIN_OWED = ['data-engineering[1]', 'streaming-data[1]']
+
+test('self-check explanations, which learners read, stay at exactly their owed thin set', () => {
+  const thin = COURSE_SECTIONS.flatMap((s) => thinIn(s.id, s.selfCheck.questions))
+  const found = thin.map((t) => `${t.slug}[${t.index}]`).sort()
+  const added = found.filter((k) => !SELFCHECK_THIN_OWED.includes(k))
+  const fixed = SELFCHECK_THIN_OWED.filter((k) => !found.includes(k))
+  assert.deepEqual(added, [], `new thin self-check explanations:\n  ${thin.filter((t) => added.includes(`${t.slug}[${t.index}]`)).map(describe).join('\n  ')}`)
+  assert.deepEqual(fixed, [], `repaired - strike them from SELFCHECK_THIN_OWED: ${fixed.join(', ')}`)
+  assert.equal(COURSE_SECTIONS.reduce((n, s) => n + s.selfCheck.questions.length, 0), 395, 'the self-checks were not all read')
+})
 
 const bankOf = (banks: Bank[], slug: string): Bank => {
   const bank = banks.find((b) => b.slug === slug)
