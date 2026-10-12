@@ -80,6 +80,32 @@ export function compilePattern(pattern: string): RegExp {
   return new RegExp(src, 'u')
 }
 
+/**
+ * Every occurrence of the entry in the text, as [start, end) spans of the normalized text. All
+ * patterns, both views (they have the same length), every match; spans that overlap are merged,
+ * so one sentence two patterns both match counts once, and a sentence written twice counts twice.
+ * Counting one hit per string let a patch add a second copy of a claim to a string that already
+ * had one without changing any count (Codex P1 on #88).
+ */
+export function occurrences(entry: Pick<Entry, 'patterns'>, text: string): Array<[number, number]> {
+  const spans: Array<[number, number]> = []
+  for (const view of views(text)) {
+    for (const p of entry.patterns) {
+      for (const m of view.matchAll(new RegExp(compilePattern(p).source, 'gu'))) {
+        if (m[0].length) spans.push([m.index, m.index + m[0].length])
+      }
+    }
+  }
+  spans.sort((a, b) => a[0] - b[0] || a[1] - b[1])
+  const merged: Array<[number, number]> = []
+  for (const [start, end] of spans) {
+    const last = merged.at(-1)
+    if (last && start < last[1]) last[1] = Math.max(last[1], end)
+    else merged.push([start, end])
+  }
+  return merged
+}
+
 /** The first match of any of the entry's patterns in either view of the text, or null. */
 export function firstMatch(entry: Pick<Entry, 'patterns'>, text: string): RegExpExecArray | null {
   for (const view of views(text)) {
@@ -152,23 +178,26 @@ export function courseUnits(root: string, capstoneFiles: string[]): Unit[] {
   ]
 }
 
-function excerpt(text: string, m: RegExpExecArray): string {
-  const flat = normalize(text).replace(/\s+/g, ' ')
-  const at = Math.max(0, flat.indexOf(m[0].replace(/\s+/g, ' ').slice(0, 20)))
-  return flat.slice(Math.max(0, at - 60), at + m[0].length + 60).trim()
+function excerpt(flat: string, [start, end]: [number, number]): string {
+  return flat.slice(Math.max(0, start - 60), end + 60).replace(/\s+/g, ' ').trim()
 }
 
-/** Every hit of every entry in its scopes, each marked allowed when an allow entry covers it. */
+/**
+ * One hit per occurrence of every entry in its scopes, each marked allowed when an allow entry
+ * covers it. An allow entry covers a whole unit, so every occurrence in it.
+ */
 export function scan(entries: Entry[], units: Unit[]): Hit[] {
   const hits: Hit[] = []
   for (const entry of entries) {
     for (const unit of units) {
       if (!entry.scope.includes(unit.scope)) continue
-      const m = firstMatch(entry, unit.text)
-      if (!m) continue
+      const spans = occurrences(entry, unit.text)
+      if (!spans.length) continue
       const flat = normalize(unit.text)
       const allowed = entry.allow.some((a) => a.file === unit.file && flat.includes(normalize(a.excerpt)))
-      hits.push({ id: entry.id, file: unit.file, line: unit.line, excerpt: excerpt(unit.text, m), allowed })
+      for (const span of spans) {
+        hits.push({ id: entry.id, file: unit.file, line: unit.line, excerpt: excerpt(flat, span), allowed })
+      }
     }
   }
   return hits

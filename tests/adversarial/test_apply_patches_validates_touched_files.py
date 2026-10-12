@@ -160,6 +160,14 @@ class ApplyPatchesValidatesTouchedFiles(unittest.TestCase):
         self.assertRefused(TERMS, DEFINITION, DEFINITION.replace("se infiere.", f"se infiere. {claim}"),
                            "KFC-003 0 -> 1")
 
+    def test_a_second_copy_of_a_claim_in_the_same_string_is_refused(self) -> None:
+        """Codex P1 on #88: the scan counted one hit per string, so doubling a claim inside a
+        string that already held it changed no count and applied."""
+        claim = "Probabilidad de observar el resultado si la hipótesis nula es cierta."
+        anchor = f"definition: '{claim}"
+        self.assertEqual(self.pristine[TERMS].decode("utf-8").count(anchor), 1, "fixture anchor not unique")
+        self.assertRefused(TERMS, anchor, f"definition: '{claim} {claim}", "KFC-001 2 -> 3")
+
     def test_a_file_that_still_owes_a_claim_can_be_patched_elsewhere(self) -> None:
         """The glossary owes KFC-001 (the p-value hover); an unrelated edit must still apply."""
         code, report = self.apply(TERMS, DEFINITION, DEFINITION.replace("en memoria", "guardado en memoria"))

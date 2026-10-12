@@ -24,7 +24,7 @@ import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 
 import {
-  CAPSTONES, compilePattern, courseUnits, firstMatch, loadRegistry, normalize, scan, unitsFromText,
+  CAPSTONES, compilePattern, courseUnits, firstMatch, loadRegistry, normalize, occurrences, scan, unitsFromText,
   type Entry, type Hit,
 } from '../../scripts/lib/false_claims.mts'
 
@@ -39,7 +39,7 @@ const CAPSTONE_FILES = readdirSync(join(ROOT, CAPSTONES)).sort().map((f) => `${C
  * el import circular"): whichever of #85 and this lands second re-measures 003 and 004.
  */
 const OWED: Record<string, number> = {
-  'KFC-001': 1, // glossary p-value hover (terms.ts:840) - S18 round, design step 0b-7
+  'KFC-001': 2, // glossary p-value hover (terms.ts:840): the definition, and the 0.05 cut-off - S18 round, 0b-7
   'KFC-002': 10, // S18 bootstrap advice, including the pinned output of :229 - S18 round
   'KFC-003': 4, // S10 :69, :98, :821 and the S10 exam key - S10 round (O20)
   'KFC-004': 2, // S10 :71, :751 - S10 round (O20)
@@ -136,20 +136,34 @@ const DISGUISES: Array<[string, (s: string) => string]> = [
   ['upper case', (s) => s.toUpperCase()],
 ]
 
-test('(c) each original statement is found again in every container and disguise, at its line', () => {
+test('(c) each original statement is found again in every container and disguise, as often, at its line', () => {
   for (const e of ENTRIES) {
     for (const original of e.examples.positive) {
+      const expected = occurrences(e, original).length
+      assert.ok(expected >= 1, `${e.id}: its own positive has no occurrence`)
       for (const [how, disguise] of DISGUISES) {
         for (const c of containers(disguise(original))) {
           if (!e.scope.includes(c.scope)) continue
           const hits = scan([e], unitsFromText(c.file, c.scope, c.raw))
           const label = `${e.id} | ${how} | ${c.file} (${c.scope}) | ${original.slice(0, 60)}`
-          assert.equal(hits.length, 1, `not found once: ${label}\n${c.raw}`)
-          assert.equal(hits[0].line, c.line, `wrong line: ${label}`)
+          assert.equal(hits.length, expected, `found ${hits.length} times, expected ${expected}: ${label}\n${c.raw}`)
+          for (const h of hits) assert.equal(h.line, c.line, `wrong line: ${label}`)
         }
       }
     }
   }
+})
+
+test('every occurrence counts: a claim written twice in one string is two hits, one sentence is one', () => {
+  const e = ENTRIES.find((x) => x.id === 'KFC-003')!
+  const once = e.examples.positive[0]
+  const units = (text: string) => unitsFromText('src/lib/course/sections/sXX.ts', 'sections', `const s = "${text.replace(/"/g, '\\"')}"\n`)
+  assert.equal(scan([e], units(once)).length, 1)
+  assert.equal(scan([e], units(`${once} ${once}`)).length, 2, 'a second copy in the same string must raise the count')
+  // Both KFC-003 patterns match this sentence (it says "sin pelear con sys.path" and "evita ... cwd"):
+  const both = 'Con `python -m` corres sin pelear con sys.path y evitas depender del cwd.'
+  assert.ok(e.patterns.every((p) => firstMatch({ patterns: [p] }, both)), 'fixture no longer matches both patterns')
+  assert.equal(occurrences(e, both).length, 1, 'overlapping matches of two patterns are one occurrence')
 })
 
 test('an allow entry covers exactly the hit it names, and a stale one is caught', () => {
