@@ -76,6 +76,16 @@ export function staticString(node: ts.Expression): string | undefined {
   return undefined
 }
 
+/**
+ * Where the QUESTION_BANK literal starts and ends in the text, so a caller can tell an edit to the
+ * bank from an edit to the code around it (seed patches may only touch the bank).
+ */
+export function bankSpan(text: string, fileName = 'seed.ts'): [number, number] {
+  const sf = parse(text, fileName)
+  const literal = findBankLiteral(sf)
+  return [literal.getStart(sf), literal.getEnd()]
+}
+
 function findBankLiteral(sf: ts.SourceFile): ts.ObjectLiteralExpression {
   const found: ts.VariableDeclaration[] = []
   for (const stmt of sf.statements) {
@@ -178,6 +188,7 @@ function readBank(sf: ts.SourceFile, prop: ts.ObjectLiteralElementLike): Bank {
     perConcept.set(q.concept, variant)
     return { ...q, variant }
   })
+  if (!questions.length) throw new NonLiteralBank(`bank "${slug}" has no questions`, lineOf(sf, prop))
   return { slug, keyStyle: style, line: lineOf(sf, prop), questions }
 }
 
@@ -198,14 +209,17 @@ export function readQuestionBank(text: string, fileName = 'seed.ts'): Bank[] {
   const broken = firstSyntaxError(text, fileName)
   if (broken) throw broken
   const sf = parse(text, fileName)
+  const literal = findBankLiteral(sf)
   const banks: Bank[] = []
   const slugs = new Set<string>()
-  for (const prop of findBankLiteral(sf).properties) {
+  for (const prop of literal.properties) {
     const bank = readBank(sf, prop)
     if (slugs.has(bank.slug)) throw new NonLiteralBank(`bank "${bank.slug}" is declared twice`, bank.line)
     slugs.add(bank.slug)
     banks.push(bank)
   }
+  // An empty bank is a broken seed, not a quiet one: every gate iterating it would pass over nothing.
+  if (!banks.length) throw new NonLiteralBank('QUESTION_BANK has no banks', lineOf(sf, literal))
   return banks
 }
 

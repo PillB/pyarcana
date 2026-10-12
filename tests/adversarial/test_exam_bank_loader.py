@@ -7,6 +7,7 @@ Python gate built on it pass over an empty bank.
 from __future__ import annotations
 
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -47,6 +48,18 @@ class ExamBankLoader(unittest.TestCase):
         with self.assertRaises(exam_bank.BankReadError) as caught:
             exam_bank.load_banks(broken)
         self.assertIn("syntax error", str(caught.exception))
+
+    def test_an_empty_bank_raises_instead_of_reading_as_no_problems(self) -> None:
+        """`const QUESTION_BANK = {}` is valid TypeScript. Read as [], every gate built on this
+        wrapper would pass over zero questions (Codex P2 on #86)."""
+        with tempfile.TemporaryDirectory() as tmp:
+            for body, why in (("const QUESTION_BANK = {}\n", "has no banks"),
+                              ("const QUESTION_BANK = {\n  setup: [],\n}\n", "has no questions")):
+                seed = Path(tmp) / f"seed-{len(body)}.ts"
+                seed.write_text(body, encoding="utf-8")
+                with self.assertRaises(exam_bank.BankReadError) as caught:
+                    exam_bank.load_banks(seed)
+                self.assertIn(why, str(caught.exception))
 
 
 if __name__ == "__main__":
