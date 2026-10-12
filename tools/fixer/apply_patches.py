@@ -4,7 +4,8 @@
 Every patch must name an anchor that appears exactly once in the current file.
 A patch whose anchor is missing or ambiguous is rejected and its findings stay
 open - silently applying it to the wrong place is the one outcome worth avoiding.
-After patching, the file must still import cleanly or the whole batch is rolled back.
+After patching, every touched file must pass `validate()` - a real type check, plus the
+glossary's and the exam bank's own shape checks - or the failing patches are rolled back.
 """
 from __future__ import annotations
 
@@ -41,18 +42,152 @@ def section_file(slug: str) -> Path:
     raise SystemExit(f"no section file for slug {slug!r}")
 
 
-def typechecks() -> tuple[bool, str]:
-    probe = ROOT / ".fixer/_verify.mts"
-    probe.parent.mkdir(parents=True, exist_ok=True)
-    probe.write_text(
-        "import { COURSE_SECTIONS } from '../src/lib/course/index'\n"
-        "if (COURSE_SECTIONS.length !== 52) throw new Error('section count changed')\n"
-        "process.stdout.write('ok')\n",
-        encoding="utf-8",
-    )
-    r = subprocess.run(["npx", "tsx", str(probe.relative_to(ROOT))],
-                       cwd=ROOT, capture_output=True, text=True)
-    return r.returncode == 0, (r.stderr or r.stdout)[-1500:]
+TS_SUFFIXES = (".ts", ".tsx", ".mts")
+SEED = ROOT / "prisma/seed.ts"
+GLOSSARY = ROOT / "src/lib/glossary/terms.ts"
+
+
+def _run(cmd: list[str]) -> tuple[bool, str]:
+    """(True, all of stdout) on success; (False, the tail of the error) on failure. Success must
+    not be truncated or swapped for stderr: the extractor's stdout is the bank, as JSON."""
+    r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
+    if r.returncode == 0:
+        return True, r.stdout
+    return False, (r.stderr or r.stdout)[-1500:]
+
+
+def _scratch(name: str, text: str) -> Path:
+    path = ROOT / ".fixer" / name
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8")
+    return path
+
+
+def sections_load() -> tuple[bool, str]:
+    """The 52 sections still import and evaluate. tsx strips types without checking them, so this
+    catches what breaks at load time and nothing else; `tsc_touched` is the type check."""
+    probe = _scratch("_verify.mts",
+                     "import { COURSE_SECTIONS } from '../src/lib/course/index'\n"
+                     "if (COURSE_SECTIONS.length !== 52) throw new Error('section count changed')\n"
+                     "process.stdout.write('ok')\n")
+    return _run(["npx", "tsx", str(probe.relative_to(ROOT))])
+
+
+def tsc_touched(files: list[Path]) -> tuple[bool, str]:
+    """A real type check of the touched files and what they import, under the repo's tsconfig.
+
+    The validator this replaced was named `typechecks` and ran `tsx`, which strips types: a
+    glossary entry with `category: 'Estadística'` (not a GlossaryCategory) applied cleanly."""
+    config = _scratch("tsconfig.touched.json", json.dumps({
+        "extends": "../tsconfig.json",
+        "compilerOptions": {"noEmit": True, "incremental": False},
+        "files": [f"../{f.relative_to(ROOT)}" for f in files],
+        "include": [],
+    }))
+    return _run(["npx", "tsc", "-p", str(config.relative_to(ROOT))])
+
+
+_GLOSSARY_PROBE = """\
+import { GLOSSARY_TERMS as now } from '../src/lib/glossary/terms'
+import { GLOSSARY_TERMS as before } from './_terms_before'
+import { COURSE_SECTIONS } from '../src/lib/course/index'
+const sections = new Set(COURSE_SECTIONS.map((s) => s.id))
+function problems(terms: typeof now): string[] {
+  const out: string[] = []
+  const seen = new Set<string>()
+  for (const t of terms) {
+    if (seen.has(t.id)) out.push(`duplicate id ${t.id}`)
+    seen.add(t.id)
+    if (!t.definition?.trim()) out.push(`empty definition: ${t.id}`)
+    if (!sections.has(t.firstSectionId)) out.push(`unknown firstSectionId ${t.firstSectionId}: ${t.id}`)
+  }
+  return out
+}
+const ids = new Set(now.map((t) => t.id))
+const lost = before.filter((t) => !ids.has(t.id)).map((t) => `term removed: ${t.id}`)
+const old = new Set(problems(before))
+process.stdout.write(JSON.stringify([...problems(now).filter((p) => !old.has(p)), ...lost]))
+"""
+
+
+def glossary_keeps_its_shape(before: str) -> tuple[bool, str]:
+    """No new problem in GLOSSARY_TERMS: no duplicate id, empty definition, unknown section, and no
+    term removed. Problems the file already had before the patch are not the patch's."""
+    _scratch("_terms_before.ts", before)
+    probe = _scratch("_glossary_verify.mts", _GLOSSARY_PROBE)
+    ok, out = _run(["npx", "tsx", str(probe.relative_to(ROOT))])
+    if not ok:
+        return False, out
+    new = json.loads(out)
+    return not new, "glossary: " + "; ".join(new) if new else ""
+
+
+def _bank(path: Path) -> tuple[list[dict] | None, str]:
+    ok, out = _run(["npx", "tsx", "scripts/learner_text_extractor.mts", "--question-bank",
+                    str(path.relative_to(ROOT))])
+    return (json.loads(out)["banks"], "") if ok else (None, out)
+
+
+def _shape(banks: list[dict]) -> list[tuple[str, int]]:
+    return [(b["slug"], len(b["questions"])) for b in banks]
+
+
+def _bank_problems(banks: list[dict]) -> set[str]:
+    out: set[str] = set()
+    for b in banks:
+        for q in b["questions"]:
+            where = f"{b['slug']}:{q['concept']}:{q['variant']}"
+            if len(q["options"]) != 4:
+                out.add(f"{where} has {len(q['options'])} options")
+            if not 0 <= q["correctIndex"] < len(q["options"]):
+                out.add(f"{where} correctIndex {q['correctIndex']} is out of range")
+            if not q["explanation"].strip():
+                out.add(f"{where} has no explanation")
+    return out
+
+
+def bank_keeps_its_shape(before: str) -> tuple[bool, str]:
+    """The exam bank still parses as a plain literal (syntax included), keeps every bank and every
+    question count, and gains no malformed question. Read by scripts/lib/learner_text.mts, the
+    same reader the exam gates use; seed.ts is never type-checked here because CI has no
+    generated Prisma client."""
+    now, err = _bank(SEED)
+    if now is None:
+        return False, f"prisma/seed.ts: {err}"
+    old, err = _bank(_scratch("_seed_before.ts", before))
+    if old is None:
+        return False, f"the bank before the patch could not be read: {err}"
+    if _shape(now) != _shape(old):
+        changed = sorted(set(_shape(now)) ^ set(_shape(old)))
+        return False, f"prisma/seed.ts: banks or question counts changed: {changed}"
+    new = sorted(_bank_problems(now) - _bank_problems(old))
+    return not new, "prisma/seed.ts: " + "; ".join(new) if new else ""
+
+
+def validate(touched: dict[Path, str]) -> tuple[bool, str]:
+    """Check every file the patches changed, each by what it is. `touched` maps each to its text
+    before the patches. A file type with no validator is refused rather than waved through."""
+    unknown =[p for p in touched if p.suffix not in TS_SUFFIXES]
+    if unknown:
+        return False, "no validator for " + ", ".join(str(p.relative_to(ROOT)) for p in unknown)
+    checks = []
+    typed = sorted(p for p in touched if p != SEED)
+    if typed:
+        checks.append(lambda: tsc_touched(typed))
+    checks.append(sections_load)
+    if GLOSSARY in touched:
+        checks.append(lambda: glossary_keeps_its_shape(touched[GLOSSARY]))
+    if SEED in touched:
+        checks.append(lambda: bank_keeps_its_shape(touched[SEED]))
+    for check in checks:
+        ok, err = check()
+        if not ok:
+            return False, err
+    return True, ""
+
+
+def _touched(landed: list[tuple[dict, Path]], originals: dict[Path, str]) -> dict[Path, str]:
+    return {target: originals[target] for _, target in landed}
 
 
 def write_subset(landed: list[tuple[dict, Path]], originals: dict[Path, str]) -> None:
@@ -66,22 +201,22 @@ def write_subset(landed: list[tuple[dict, Path]], originals: dict[Path, str]) ->
 
 def find_bad_patches(landed: list[tuple[dict, Path]],
                      originals: dict[Path, str]) -> list[tuple[dict, Path]]:
-    """Which patches stop the file parsing, found by bisection.
+    """Which patches fail validation, found by bisection.
 
     One bad patch used to cost the whole round: S39 lost 48 good patches twice to a single
     replacement that embedded an unescaped quote. Anchors are independent and each matches once,
-    so a subset can be tested on its own. Costs ~log2(n) typechecks, and only after a failure.
+    so a subset can be tested on its own. Costs ~log2(n) validations, and only after a failure.
     """
     if not landed:
         return []
     if len(landed) == 1:
         write_subset(landed, originals)
-        return [] if typechecks()[0] else landed
+        return [] if validate(_touched(landed, originals))[0] else landed
     mid = len(landed) // 2
     bad: list[tuple[dict, Path]] = []
     for half in (landed[:mid], landed[mid:]):
         write_subset(half, originals)
-        if not typechecks()[0]:
+        if not validate(_touched(half, originals))[0]:
             bad += find_bad_patches(half, originals)
     return bad
 
@@ -273,7 +408,7 @@ def main() -> int:
         for target, content in buffers.items():
             if content != originals[target]:
                 target.write_text(content, encoding="utf-8")
-        ok, err = typechecks()
+        ok, err = validate(_touched(landed, originals))
         report["typecheck_ok"] = ok
 
         if not ok and len(landed) > 1:
@@ -281,13 +416,13 @@ def main() -> int:
             if culprits and len(culprits) < len(landed):
                 keep = [x for x in landed if not any(x[0] is c[0] for c in culprits)]
                 write_subset(keep, originals)
-                ok, err = typechecks()
+                ok, err = validate(_touched(keep, originals))
                 if ok:
                     for c, _ in culprits:
                         rejected.append({
                             "finding_ids": c.get("finding_ids", []),
                             "field_path": c.get("field_path", ""),
-                            "reason": "this patch stopped the file parsing; the rest of the "
+                            "reason": "this patch failed validation; the rest of the "
                                       "batch was kept",
                         })
                     applied = [a for a, (p, _) in zip(applied, landed)
@@ -316,7 +451,7 @@ def main() -> int:
             # the runner printed "applied 32", the gate compared an unchanged file to itself
             # and passed, and record_rejections.py only ever reads `rejections`.
             report["rolled_back_patches"] = [
-                {**a, "reason": "typecheck failed after apply; whole batch rolled back"}
+                {**a, "reason": "validation failed after apply; whole batch rolled back"}
                 for a in applied
             ]
             report["applied"] = 0
