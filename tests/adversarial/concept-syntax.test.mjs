@@ -76,3 +76,39 @@ test('property: the book title alone never makes an event mention `for`', () => 
     .map((e) => e.location)
   assert.deepEqual(wrong, [])
 })
+
+/**
+ * `cobertura de ramas de negocio` is not a use of `cobertura de ramas`.
+ *
+ * S27 contrasts two things that share a word on purpose: the glossary term means code-branch
+ * coverage ("mide si cada rama `if`/`else` se ejecutó"), while "ramas de negocio" are the business
+ * branches `auto_match` / `review` / `non_match` whose risk the section says to prioritise. The
+ * greedy alias matched the business phrase, so S27's roadmap paragraph read as a use of the term
+ * 49 events before S27-T4-A defines it.
+ *
+ * The guard's own rule: add a name only with a test showing its words still count everywhere else.
+ * That is what the control half below is for.
+ */
+test('the business-branch phrase is blanked, and real branch coverage still counts', () => {
+  const term = GLOSSARY_TERMS.find((t) => t.id === 'coverage')
+  assert.ok(term, 'the coverage term is gone; this test needs rewriting')
+  const alias = term.aliases.find((a) => /^cobertura de ramas$/i.test(a))
+  assert.ok(alias, 'the `cobertura de ramas` alias is gone; drop this test or re-point it')
+  const rx = new RegExp(`(?<![\\p{L}\\d_])${alias}(?![\\p{L}\\d_])`, 'iu')
+
+  // The business phrase must not survive the blanking as a match...
+  for (const t of [
+    'T4 cierra con cobertura de ramas de negocio.',
+    'Reportar cobertura de rama de negocio priorizando el riesgo.',
+  ]) assert.equal(rx.test(blankProperNames(t)), false, t)
+
+  // ...while the term itself still counts wherever it genuinely means code branches.
+  for (const t of [
+    'La **cobertura de ramas** mide si cada rama (`if`/`else`) se ejecutó.',
+    'Sube la cobertura de ramas antes de mirar la de líneas.',
+  ]) assert.equal(rx.test(blankProperNames(t)), true, t)
+
+  // And blanking preserves offsets, which the whole guard depends on.
+  const sentence = 'T4 cierra con cobertura de ramas de negocio.'
+  assert.equal(blankProperNames(sentence).length, sentence.length)
+})

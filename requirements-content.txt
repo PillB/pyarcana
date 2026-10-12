@@ -18,3 +18,41 @@ numpy==2.2.6
 pandas==3.0.5
 scikit-learn==1.6.1
 scipy==1.13.1
+
+# ── Added 2026-10-04, closing OPEN_QUESTIONS Q7 ──────────────────────────────
+# These eight were installed in .venv-content and never declared here. The
+# consequence was a local/CI split that made the runtime audit lie by omission:
+# the snippets importing them ran locally and SKIPPED in CI, 6 missing-dependency
+# skips measured locally against 54 in CI. A skipped snippet is an unverified
+# `output:` promise, so the audit reported a green it had not earned.
+#
+# The owner's call was to declare them rather than rewrite the snippets, and that
+# is the right half: the snippets are correct Python, .venv-content proves they
+# run, and the manifest is simply what fell behind the content. Bending working
+# lesson code to fit a stale manifest would be the measure driving the course.
+#
+# Each is imported by the section whose subject it is, which is why none of them
+# is optional:
+#   matplotlib   S19  Visualizacion y comunicacion accesible
+#   openpyxl     S20  Automatizacion robusta de Excel
+#   jinja2       S21  Documentos, plantillas y reportes trazables
+#   Pillow       S21  (image handling in the same reporting chain)
+#   pymupdf      S21
+#   pypdf        S21
+#   python-docx  S21
+#   playwright   S23  Browser RPA con Playwright
+#
+# Pinned to the versions .venv-content is already verified against, for the same
+# reason as the four above: a floating version can change a printed value, and
+# every `output:` block is a promise about what the learner sees. Transitive
+# dependencies (lxml, markupsafe, et_xmlfile, contourpy, kiwisolver, fonttools,
+# cycler, pyparsing, greenlet, pyee) are deliberately NOT pinned here -- pip
+# resolves them, and naming them would freeze choices this course never makes.
+matplotlib==3.11.1
+openpyxl==3.1.5
+jinja2==3.1.6
+Pillow==12.3.0
+pymupdf==1.28.2
+pypdf==6.16.2
+python-docx==1.2.0
+playwright==1.62.0

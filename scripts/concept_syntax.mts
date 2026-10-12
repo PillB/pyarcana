@@ -36,8 +36,16 @@
  * language, so an English token in Spanish prose is almost always the concept; inside an English
  * title it is not. Add a name only with a test showing its words still count everywhere else.
  */
+// `cobertura de ramas de negocio` added 2026-10-04. S27 deliberately contrasts two things that
+// share a word: `cobertura de ramas` is a glossary term meaning code-branch coverage, "mide si cada
+// rama (`if`/`else`) se ejecutó", and "ramas de negocio" are the business branches
+// (`auto_match` / `review` / `non_match`) whose risk the section tells you to prioritise. The
+// greedy alias matched the business phrase, so S27's own roadmap paragraph read as a use of
+// code-branch coverage 49 events before the section defines it. The prose is right; the match was
+// not. Same shape as `identificador de correlación`: a compound whose meaning is not the meaning of
+// the term inside it.
 const PROPER_NAMES =
-  /Python for Everybody|identificador(?:es)? de correlaci[oó]n/gi
+  /Python for Everybody|identificador(?:es)? de correlaci[oó]n|cobertura de ramas? de negocio/gi
 
 /** The text with proper names blanked to spaces, so every match offset still fits the original. */
 export function blankProperNames(text: string): string {
