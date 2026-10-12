@@ -9,7 +9,8 @@
  * Two proofs. The exact one walks every sequence of values the RNG could return, for n = 1..6:
  * every run must ask for the bounds n, n-1, ..., 2 (so each sequence has probability 1/n! under a
  * uniform RNG), and the n! sequences must give n! distinct permutations. Together: uniform. The
- * statistical one runs the real secureRandomInt and checks where a key at B ends up.
+ * statistical one runs presentQuestion with the real secureRandomInt and checks where a key stored
+ * at B ends up.
  *
  * Run: node --import tsx --test tests/adversarial/exam-draw.test.ts
  */
@@ -17,7 +18,7 @@ import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import type { QuestionBank } from '@prisma/client'
 
-import { drawOnePerConcept, shuffledOrder } from '../../src/lib/exam-draw.ts'
+import { drawOnePerConcept, presentQuestion, shuffledOrder } from '../../src/lib/exam-draw.ts'
 import { secureRandomInt } from '../../src/lib/exam-rng.ts'
 
 type Rng = (bound: number) => number
@@ -74,12 +75,33 @@ describe('shuffledOrder: exact, over every sequence the RNG could return', () =>
   }
 })
 
-describe('shuffledOrder: statistical, with the real secureRandomInt', () => {
-  it("moves a 4-option key at B to each displayed position equally often (chi-square, 3 df)", () => {
+describe('presentQuestion: a 4-option question with its key stored at B', () => {
+  const row = {
+    id: 'q', concept: 'c', variant: 1, question: '¿?', correctIndex: 1, explanation: '',
+    options: JSON.stringify(['w', 'KEY', 'y', 'z']),
+  }
+
+  it('reaches each of the 24 orders through one run each, the key moving with its text', () => {
+    const runs = everyRun((rng) => {
+      const item = presentQuestion(row, rng)
+      assert.equal(item.options[item.correctIndex], 'KEY')
+      return item.optionOrder!
+    })
+    for (const run of runs) assert.deepEqual(run.bounds, [4, 3, 2])
+    assert.equal(runs.length, 24)
+    assert.equal(new Set(runs.map((r) => r.result.join())).size, 24)
+  })
+
+  it('moves the key to each displayed position equally often with the real secureRandomInt (chi-square, 3 df)', () => {
     const SHUFFLES = 40_000
-    const KEY = 1
     const counts = [0, 0, 0, 0]
-    for (let t = 0; t < SHUFFLES; t++) counts[shuffledOrder(4, secureRandomInt).indexOf(KEY)]! += 1
+    let keyLost = 0
+    for (let t = 0; t < SHUFFLES; t++) {
+      const item = presentQuestion(row, secureRandomInt)
+      if (item.options[item.correctIndex] !== 'KEY') keyLost += 1
+      counts[item.correctIndex]! += 1
+    }
+    assert.equal(keyLost, 0)
     const expected = SHUFFLES / 4
     const chiSquare = counts.reduce((sum, c) => sum + (c - expected) ** 2 / expected, 0)
     // 30.66 is the 3-df critical value at alpha 1e-6: a uniform shuffle fails one run in a

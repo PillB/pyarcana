@@ -14,9 +14,9 @@ import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
 import { useI18n, t } from '@/lib/i18n'
 
+/** A question as exam/start sends it: options in this attempt's order, and no key or concept. */
 interface ExamQuestion {
   id: string
-  concept: string
   question: string
   options: string[]
 }

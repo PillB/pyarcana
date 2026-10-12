@@ -16,9 +16,11 @@ import {
   nextAttemptNumber,
   redactAttemptsForLearner,
   submissionDeadline,
-  toFormItem,
+  toLearnerQuestion,
+  InvalidBankRow,
+  type FormItem,
 } from '@/lib/exam-scoring'
-import { drawOnePerConcept } from '@/lib/exam-draw'
+import { drawOnePerConcept, presentQuestion } from '@/lib/exam-draw'
 import { secureRandomInt } from '@/lib/exam-rng'
 import type { ExamAttempt, QuestionBank } from '@prisma/client'
 
@@ -94,6 +96,14 @@ export async function POST(request: Request) {
     // An attempt that has to include one of them is taken and graded, but is not evidence.
     const exposedItems = selectedQuestions.filter((q) => seenKeys.has(itemKey(q.concept, q.variant))).length
 
+    // The questions as this attempt shows them, options in an order drawn for it, with their key.
+    // Built before the attempt exists, so a bank row that cannot be shown uses up no attempt; and
+    // one object feeds both the saved form and the response, so the two cannot disagree.
+    const items = presentDrawn(selectedQuestions)
+    if (!items) {
+      return NextResponse.json({ error: 'Error interno' }, { status: 500 })
+    }
+
     // Create the attempt record (started, not completed), with the questions exactly as shown
     // and their key, which submit grades against.
     const attempt = await db.examAttempt.create({
@@ -105,23 +115,18 @@ export async function POST(request: Request) {
         score: 0,
         variantSeed: JSON.stringify(variantSeed),
         exposedItems,
-        form: { create: { items: JSON.stringify(selectedQuestions.map(toFormItem)) } },
+        form: { create: { items: JSON.stringify(items) } },
       },
     })
 
     void syncExamAttempt(attempt)
 
-    // Return questions (without answers) + attempt ID
+    // The questions as shown, without key, concept or option order, + attempt ID
     return NextResponse.json({
       attemptId: attempt.id,
       // The position among counted attempts, which is what "Intento n de 3" means to the learner.
       attemptNumber: counted.length + 1,
-      questions: selectedQuestions.map((q) => ({
-        id: q.id,
-        concept: q.concept,
-        question: q.question,
-        options: JSON.parse(q.options),
-      })),
+      questions: items.map(toLearnerQuestion),
       totalAttemptsAllowed: MAX_EXAM_ATTEMPTS,
       attemptsUsed: counted.length,
       timeLimitSec: EXAM_TIME_LIMIT_SEC,
@@ -152,6 +157,20 @@ async function closeExpiredAttempts(attempts: ExamAttempt[], now: Date): Promise
   const closed = await db.examAttempt.findMany({ where: { id: { in: [...ids] } } })
   for (const a of closed) void syncExamAttempt(a)
   return attempts.map((a) => closed.find((c) => c.id === a.id) ?? a)
+}
+
+/**
+ * The drawn questions as this attempt shows them, or null when a bank row cannot be shown. The
+ * row's id goes to the log, so the bank can be fixed; the learner gets a 500 and uses up nothing.
+ */
+function presentDrawn(selected: QuestionBank[]): FormItem[] | null {
+  try {
+    return selected.map((q) => presentQuestion(q, secureRandomInt))
+  } catch (error) {
+    if (!(error instanceof InvalidBankRow)) throw error
+    console.error(`Exam start: bank row ${error.questionId} cannot be shown:`, error.message)
+    return null
+  }
 }
 
 /** The section's bank under all its ids, one copy of each (concept, variant). */

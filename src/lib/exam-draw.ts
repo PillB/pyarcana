@@ -1,11 +1,11 @@
 /**
- * How exam/start draws an attempt: which variant of each concept, and in what order. The
- * randomness is a parameter, `rng(n)`, an integer in [0, n): exam/start passes secureRandomInt
- * (exam-rng.ts), and the tests pass a replay or a seeded generator so a draw can be enumerated or
- * repeated.
+ * How exam/start draws an attempt: which variant of each concept, in what order, and in what order
+ * each question's options appear. The randomness is a parameter, `rng(n)`, an integer in [0, n):
+ * exam/start passes secureRandomInt (exam-rng.ts), and the tests pass a replay or a seeded
+ * generator so a draw can be enumerated or repeated.
  */
 import type { ExamAttempt, QuestionBank } from '@prisma/client'
-import { itemKey } from './exam-scoring'
+import { bankOptions, itemKey, toFormItem, type BankRow, type FormItem } from './exam-scoring'
 
 /** An integer in [0, n), every value equally likely. */
 export type Rng = (n: number) => number
@@ -24,6 +24,17 @@ export function shuffledOrder(n: number, rng: Rng): number[] {
     ;[order[i], order[j]] = [order[j]!, order[i]!]
   }
   return order
+}
+
+/**
+ * A bank row as this attempt shows it, its options in an order drawn for it (owner decision O20):
+ * in 31 banks every key is option B, so stored order let a learner pass by answering B throughout.
+ * A cue in the options' text, such as the key being the longest, survives any order; the banks
+ * that still carry one are counted in exam-strategy-simulation.test.ts. Throws InvalidBankRow
+ * (exam-scoring.ts) for a row that cannot be shown.
+ */
+export function presentQuestion(q: BankRow, rng: Rng): FormItem {
+  return toFormItem(q, shuffledOrder(bankOptions(q).length, rng))
 }
 
 /**

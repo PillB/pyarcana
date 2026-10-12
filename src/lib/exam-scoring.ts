@@ -381,7 +381,10 @@ export function nextAttemptNumber(attempts: ReadonlyArray<{ attemptNumber: numbe
   return attempts.reduce((max, a) => Math.max(max, a.attemptNumber), 0) + 1
 }
 
-/** One question as exam/start showed it, with its key: an entry of ExamAttemptForm.items. */
+/**
+ * One question as exam/start showed it, with its key: an entry of ExamAttemptForm.items. `options`
+ * and `correctIndex` are in the order the learner saw.
+ */
 export type FormItem = {
   questionId: string
   concept: string
@@ -390,9 +393,15 @@ export type FormItem = {
   options: string[]
   correctIndex: number
   explanation: string
+  /**
+   * Server-only. Shown option k is the bank's option optionOrder[k]. Forms saved before options
+   * were shuffled (owner decision O20) have none: they were shown in stored order.
+   */
+  optionOrder?: number[]
 }
 
-export function toFormItem(q: {
+/** A QuestionBank row as exam/start reads it. */
+export type BankRow = {
   id: string
   concept: string
   variant: number
@@ -400,21 +409,93 @@ export function toFormItem(q: {
   options: string
   correctIndex: number
   explanation: string
-}): FormItem {
+}
+
+/** A bank row that cannot be shown as a question: exam/start refuses before creating an attempt. */
+export class InvalidBankRow extends Error {
+  readonly questionId: string
+
+  constructor(questionId: string, reason: string) {
+    super(`question ${questionId}: ${reason}`)
+    this.name = 'InvalidBankRow'
+    this.questionId = questionId
+  }
+}
+
+const isOptionList = (v: unknown): v is string[] =>
+  Array.isArray(v) && v.length >= 2 && v.every((o) => typeof o === 'string')
+
+const isIndexInto = (i: unknown, n: number): i is number =>
+  Number.isInteger(i) && (i as number) >= 0 && (i as number) < n
+
+/** True when `order` holds each of 0..n-1 exactly once. */
+export function isPermutationOf(order: unknown, n: number): order is number[] {
+  if (!Array.isArray(order) || order.length !== n) return false
+  const seen = new Set<number>()
+  for (const i of order) {
+    if (!isIndexInto(i, n) || seen.has(i)) return false
+    seen.add(i)
+  }
+  return true
+}
+
+/** A bank row's options: a JSON list of at least two strings, or InvalidBankRow. */
+export function bankOptions(q: Pick<BankRow, 'id' | 'options'>): string[] {
+  let options: unknown
+  try {
+    options = JSON.parse(q.options)
+  } catch {
+    throw new InvalidBankRow(q.id, 'options are not JSON')
+  }
+  if (!isOptionList(options)) throw new InvalidBankRow(q.id, 'options are not a list of two or more strings')
+  return options
+}
+
+/**
+ * A bank row as one attempt shows it: shown option k is the bank's option order[k], and the key
+ * moves with its text. Throws InvalidBankRow when the row's options or key cannot be shown, or
+ * `order` is not a permutation of its options.
+ */
+export function toFormItem(q: BankRow, order: readonly number[]): FormItem {
+  const options = bankOptions(q)
+  if (!isIndexInto(q.correctIndex, options.length)) {
+    throw new InvalidBankRow(q.id, `correctIndex ${q.correctIndex} is not one of its ${options.length} options`)
+  }
+  if (!isPermutationOf(order, options.length)) {
+    throw new InvalidBankRow(q.id, `option order ${JSON.stringify(order)} is not a permutation of its options`)
+  }
   return {
     questionId: q.id,
     concept: q.concept,
     variant: q.variant,
     question: q.question,
-    options: parseOptions(q.options) ?? [],
-    correctIndex: q.correctIndex,
+    options: order.map((i) => options[i]!),
+    correctIndex: order.indexOf(q.correctIndex),
     explanation: q.explanation,
+    optionOrder: [...order],
   }
 }
 
+/** A question as the learner receives it: no key, no explanation, no concept, no option order. */
+export function toLearnerQuestion(item: FormItem): { id: string; question: string; options: string[] } {
+  return { id: item.questionId, question: item.question, options: [...item.options] }
+}
+
+/** Why a stored form item could not have been shown and graded, or null when it could. */
+function formItemProblem(it: Partial<FormItem> | null): string | null {
+  if (!it || typeof it.questionId !== 'string') return 'no question id'
+  if (!isOptionList(it.options)) return 'options are not a list of two or more strings'
+  if (!isIndexInto(it.correctIndex, it.options.length)) return 'correctIndex is not one of its options'
+  if (it.optionOrder !== undefined && !isPermutationOf(it.optionOrder, it.options.length)) {
+    return 'optionOrder is not a permutation of its options'
+  }
+  return null
+}
+
 /**
- * The key an attempt's form holds, by question id, or null when the form cannot be read. Null is
- * a refusal, not a cue to grade against the live bank: the form is what the learner saw.
+ * The key an attempt's form holds, by question id, or null when the form cannot be read or holds an
+ * item that could not have been shown and graded (formItemProblem), or the same question twice.
+ * Null is a refusal, not a cue to grade against the live bank: the form is what the learner saw.
  */
 export function parseFormItems(raw: string): Map<string, QuestionKey> | null {
   let items: unknown
@@ -425,13 +506,15 @@ export function parseFormItems(raw: string): Map<string, QuestionKey> | null {
   }
   if (!Array.isArray(items) || items.length === 0) return null
   const byId = new Map<string, QuestionKey>()
-  for (const it of items as Partial<FormItem>[]) {
-    if (!it || typeof it.questionId !== 'string' || !Number.isInteger(it.correctIndex)) return null
+  for (const entry of items as Array<Partial<FormItem> | null>) {
+    if (formItemProblem(entry) !== null) return null
+    const it = entry as FormItem
+    if (byId.has(it.questionId)) return null
     byId.set(it.questionId, {
       id: it.questionId,
       concept: it.concept,
       variant: it.variant,
-      correctIndex: it.correctIndex as number,
+      correctIndex: it.correctIndex,
       explanation: it.explanation,
       question: it.question,
       options: it.options,
