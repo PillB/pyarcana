@@ -26,7 +26,7 @@
  */
 import { before, beforeEach, describe, it, mock } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { NextRequest } from 'next/server'
 import { COURSE_SECTIONS } from '../../src/lib/course/index.ts'
@@ -615,5 +615,53 @@ describe('K6: what production verifies', () => {
 
   it('writes no Credential row yet, so the standing store blocker is on', () => {
     assert.equal(productionStorePersists(), false)
+  })
+})
+
+// ── K7 ──
+
+/**
+ * A NEXT_PUBLIC_ name is inlined into the browser bundle at build time (Next.js 16.4 docs,
+ * nextjs.org/docs/app/guides/environment-variables, "Bundling Environment Variables for the
+ * Browser"), so a signing key read under one is published. ADR 5 removed the only one this
+ * project had: HMAC is symmetric, and its verification key is its signing key.
+ * Over-matches on purpose (DESIGN contains SIGN): a false positive costs an entry below.
+ */
+const PUBLIC_SECRET_NAME = /\bNEXT_PUBLIC_[A-Z0-9_]*(?:KEY|SECRET|SIGN|TOKEN|PASSWORD|PRIVATE)[A-Z0-9_]*/g
+
+/** Public by design, each with the source that says so. */
+const PUBLIC_BY_DESIGN: Record<string, string> = {
+  // "API keys for Firebase services only identify your Firebase project and app to those
+  // services" (firebase.google.com/docs/projects/api-keys). Data is guarded by Security Rules.
+  NEXT_PUBLIC_FIREBASE_API_KEY: 'firebase.google.com/docs/projects/api-keys',
+}
+
+function sourceFiles(dir: string): string[] {
+  return readdirSync(join(REPO_ROOT, dir), { recursive: true, encoding: 'utf8' })
+    .filter((f) => /\.(?:[cm]?[jt]sx?)$/.test(f))
+    .map((f) => join(dir, f))
+}
+
+describe('K7: no signing key is published to the browser', () => {
+  it('the pattern catches the names it is meant to, and passes the public ones', () => {
+    const names = (text: string) => text.match(PUBLIC_SECRET_NAME) ?? []
+    assert.deepEqual(names('process.env.NEXT_PUBLIC_CREDENTIAL_VERIFY_KEY'), ['NEXT_PUBLIC_CREDENTIAL_VERIFY_KEY'])
+    assert.deepEqual(names('NEXT_PUBLIC_HMAC_SIGNING_SECRET'), ['NEXT_PUBLIC_HMAC_SIGNING_SECRET'])
+    assert.deepEqual(names('NEXT_PUBLIC_SIGNATURE'), ['NEXT_PUBLIC_SIGNATURE'])
+    assert.deepEqual(names('process.env.NEXT_PUBLIC_STATIC_SITE, NEXT_PUBLIC_BASE_PATH'), [])
+    assert.deepEqual(names('process.env.CREDENTIAL_SIGNING_KEY'), [])
+  })
+
+  it('no file under src/ names a NEXT_PUBLIC_ key, secret, token or signing value', () => {
+    const files = sourceFiles('src')
+    assert.ok(files.length > 100, `only ${files.length} source files found under src/`)
+
+    const found = files.flatMap((file) =>
+      (readFileSync(join(REPO_ROOT, file), 'utf8').match(PUBLIC_SECRET_NAME) ?? [])
+        .filter((name) => !(name in PUBLIC_BY_DESIGN))
+        .map((name) => `${file}: ${name}`)
+    )
+
+    assert.deepEqual(found, [])
   })
 })
