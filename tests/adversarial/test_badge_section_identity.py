@@ -12,7 +12,10 @@ on three things:
   are not its span, derived from the sections' `phase`; the final section is outside phase 3.
   The final capstone (evidence_grounded_ai_systems_capstone) is positional too: it requires the
   last section, whatever number that has (design §4.2: S52 today, S55 after the renumber). Every
-  class A and class D badge must have such a rule, so a new one cannot escape the check;
+  class A and class D badge must have such a rule, so a new one cannot escape the check.
+  A positional badge's required_activities must be exactly the kinds the manifest lists
+  (positional_activity_kinds: YOUDO and EXAM, as today) for each section of the span, so a marker
+  cannot lose, gain or repeat an activity while its section list stays right;
 - a skill node claimed while its role is unbound, or bound to a section the manifest lacks.
 
 The roles stay unbound (section_index null) until Gate B binds them at the renumber, so today no
@@ -74,6 +77,22 @@ def _token_violations(manifest: dict, catalog: dict) -> list[str]:
     return problems
 
 
+def _one_span_problems(badge_id: str, badge: dict, rule: dict, manifest: dict) -> list[str]:
+    """The sections and the activities one positional badge must require, against what it does."""
+    span = span_for(rule, manifest["sections"])
+    if not span:
+        return [f"{badge_id}: its span is empty, so its rule matches no section"]
+    sections = [f"S{n:02d}" for n in span]
+    activities = sorted(f"{s}-{kind}" for s in sections for kind in manifest["positional_activity_kinds"])
+    problems = []
+    if badge.get("required_sections", []) != sections:
+        problems.append(f"{badge_id}: required_sections are not its span {sections[0]}..{sections[-1]}")
+    if sorted(badge.get("required_activities", [])) != activities:
+        kinds = "+".join(manifest["positional_activity_kinds"])
+        problems.append(f"{badge_id}: required_activities are not {kinds} of each section in its span")
+    return problems
+
+
 def _span_violations(manifest: dict, catalog: dict) -> list[str]:
     badges = {b["badge_id"]: b for b in catalog["badges"]}
     problems = []
@@ -83,10 +102,8 @@ def _span_violations(manifest: dict, catalog: dict) -> list[str]:
     for badge_id, rule in manifest["positional_badges"].items():
         if badge_id not in badges:
             problems.append(f"{badge_id}: positional rule names a badge the catalog lacks")
-            continue
-        expected = [f"S{n:02d}" for n in span_for(rule, manifest["sections"])]
-        if badges[badge_id].get("required_sections", []) != expected:
-            problems.append(f"{badge_id}: required_sections are not its span {expected[0]}..{expected[-1]}")
+        else:
+            problems += _one_span_problems(badge_id, badges[badge_id], rule, manifest)
     return problems
 
 
@@ -167,6 +184,42 @@ class BadgeSectionIdentity(unittest.TestCase):
         del manifest["positional_badges"]["progress_phase2_walked"]
         problems = identity_violations(manifest, self.catalog)
         self.assertTrue(any("progress_phase2_walked" in p and "positional rule" in p for p in problems), problems)
+
+    def _positional(self, badge_id: str) -> tuple[dict, dict]:
+        catalog = copy.deepcopy(self.catalog)
+        return catalog, next(b for b in catalog["badges"] if b["badge_id"] == badge_id)
+
+    def test_a_progress_marker_that_loses_an_activity_is_red(self) -> None:
+        """The span check read required_sections only, so a marker could lose a You Do or an exam."""
+        catalog, badge = self._positional("progress_phase1_walked")
+        badge["required_activities"].pop()
+        problems = identity_violations(self.manifest, catalog)
+        self.assertTrue(any("progress_phase1_walked" in p and "required_activities" in p for p in problems), problems)
+
+    def test_a_positional_badge_with_an_extra_or_repeated_activity_is_red(self) -> None:
+        for extra in ("S14-SELFCHECK", "S14-EXAM"):
+            with self.subTest(extra=extra):
+                catalog, badge = self._positional("progress_phase1_walked")
+                badge["required_activities"].append(extra)
+                problems = identity_violations(self.manifest, catalog)
+                self.assertTrue(
+                    any("progress_phase1_walked" in p and "required_activities" in p for p in problems), problems
+                )
+
+    def test_a_level_capstone_that_loses_an_exam_is_red(self) -> None:
+        catalog, badge = self._positional("integrated_python_ai_capstone_foundations")
+        badge["required_activities"].remove("S01-EXAM")
+        problems = identity_violations(self.manifest, catalog)
+        self.assertTrue(
+            any("integrated_python_ai_capstone_foundations" in p and "required_activities" in p for p in problems),
+            problems,
+        )
+
+    def test_an_empty_span_is_reported_not_a_crash(self) -> None:
+        manifest = copy.deepcopy(self.manifest)
+        manifest["positional_badges"]["progress_phase0_walked"] = {"phase": 9}
+        problems = identity_violations(manifest, self.catalog)
+        self.assertTrue(any("progress_phase0_walked" in p and "span" in p for p in problems), problems)
 
     def test_the_final_capstone_stays_on_the_final_section(self) -> None:
         """Design §4.2: evidence_grounded resolves to the last section, whatever number that has.

@@ -2,6 +2,10 @@
   "version": "1.0.0",
   "source": "src/lib/course/index.ts COURSE_SECTIONS (active imports; the inactive legacy files are excluded)",
   "note": "Badge tokens (S01, S01-YOUDO) resolve through index to slug. Titles are fingerprinted by sha256 of the exact title string. Roles are unbound (section_index null) until the renumber binds them at Gate B.",
+  "positional_activity_kinds": [
+    "YOUDO",
+    "EXAM"
+  ],
   "positional_badges": {
     "progress_phase0_walked": {
       "phase": 0
