@@ -303,6 +303,36 @@ def key_position_issues(banks: list[dict]) -> list[dict]:
     return issues
 
 
+#: Wording that names another option by its place or label: "todas las anteriores", "opción A",
+#: "A y B". The option shuffle moves options, so such a reference lands on the wrong text. The
+#: letters after "y" must stand alone, so the variables of a statement ("A~B y B~C") do not match.
+POSITION_REFERENCE = re.compile(
+    r"(?i:\btodas\s+las\s+anteriores\b|\bninguna\s+de\s+las\s+anteriores\b"
+    r"|\b(?:opci[oó]n|alternativa)\s+[a-dA-D]\b)"
+    r"|(?<![\w~])[A-D]\s+y\s+[A-D](?![\w~])"
+)
+
+
+def position_reference_issues(banks: list[dict]) -> list[dict]:
+    """P0 for an option that names another option. None exist in the seed today; the check keeps
+    it that way, because the per-attempt shuffle would make the reference point at the wrong text."""
+    issues: list[dict] = []
+    for bank in banks:
+        for q in bank["questions"]:
+            for option in q["options"]:
+                found = POSITION_REFERENCE.search(option)
+                if found:
+                    issues.append({
+                        "severity": "P0",
+                        "reason": "option_names_another_option",
+                        "bank": bank["slug"],
+                        "concept": q["concept"],
+                        "matched": found.group(0),
+                        "option": option[:80],
+                    })
+    return issues
+
+
 def build_report(qs: list[dict], issues: list[dict], selfcheck_issues: int, generated_at: str) -> dict:
     """Every issue, with counts by severity and by reason. Nothing is cut: a report that keeps the
     first 300 issues hides the 301st with no sign that it exists."""
@@ -337,7 +367,13 @@ def main(argv: list[str] | None = None) -> int:
     banks = exam_bank.load_banks()
     qs = flatten(banks)
     sc_issues = parse_selfchecks()
-    issues = [*question_issues(qs), *concept_variant_issues(qs), *key_position_issues(banks), *sc_issues]
+    issues = [
+        *question_issues(qs),
+        *concept_variant_issues(qs),
+        *key_position_issues(banks),
+        *position_reference_issues(banks),
+        *sc_issues,
+    ]
     report = build_report(qs, issues, len(sc_issues), datetime.now(timezone.utc).isoformat())
     args.out.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
     print(

@@ -71,6 +71,36 @@ class KeyPositionIsChecked(unittest.TestCase):
         self.assertEqual(issues[0]["chi_square"], 36.0)
 
 
+def _option_bank(option: str) -> dict:
+    """A synthetic bank whose first question carries the given option."""
+    return {"slug": "probe", "questions": [
+        {"concept": "c", "question": "q", "options": [option, "uno", "dos", "tres"],
+         "correctIndex": 0, "explanation": "e"},
+    ]}
+
+
+class OptionsDoNotNameOtherOptions(unittest.TestCase):
+    def test_each_reference_form_is_flagged_as_p0(self):
+        """Recreates the references a per-attempt shuffle would break."""
+        for option in ("todas las anteriores", "Ninguna de las anteriores", "Opción A",
+                       "la alternativa b", "A y B"):
+            with self.subTest(option=option):
+                issues = audit.position_reference_issues([_option_bank(option)])
+                self.assertEqual(len(issues), 1)
+                self.assertEqual(issues[0]["severity"], "P0")
+
+    def test_a_statement_about_variables_is_not_a_reference(self):
+        """Recreates the false positive found on the tree: 'A~B y B~C' names variables, not
+        options. A check that flags it would fail a clean bank."""
+        self.assertEqual(audit.position_reference_issues([_option_bank("A~B y B~C no digan nada de A~C")]), [])
+
+    def test_a_plain_option_is_not_flagged(self):
+        self.assertEqual(audit.position_reference_issues([_option_bank("Se ordena de menor a mayor")]), [])
+
+    def test_the_seed_names_no_other_option(self):
+        self.assertEqual(audit.position_reference_issues(exam_bank.load_banks()), [])
+
+
 class RealTreeKeyPositions(unittest.TestCase):
     def test_the_flagged_banks_are_exactly_the_owed_set(self):
         flagged = {issue["bank"] for issue in audit.key_position_issues(exam_bank.load_banks())}
