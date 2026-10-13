@@ -333,6 +333,59 @@ def position_reference_issues(banks: list[dict]) -> list[dict]:
     return issues
 
 
+#: A bank is a stand-in when at least this many of the four signals hold (A5).
+STAND_IN_SIGNALS_NEEDED = 2
+_TEMPLATE_STEM = re.compile(r"^\[S\d{2}/[A-C]\]")
+_QUOTED_TERM = re.compile(r"«[^»]*»")
+
+
+def _key_text(q: dict) -> str:
+    options = q["options"]
+    return options[q["correctIndex"]] if 0 <= q["correctIndex"] < len(options) else ""
+
+
+def stand_in_signals(bank: dict) -> dict[str, bool]:
+    """The four signals of a bank written from one template rather than item by item (A5).
+
+    templated_stems: a stem carries a template label such as [S12/A], or the stems are one sentence
+        once the quoted term is masked (at most two distinct).
+    few_distinct_options: under half the option texts are distinct. The S12/S13 stand-ins measure
+        0.11; every other bank measures 0.98 or more.
+    slug_in_key: the item's own hyphenated concept slug appears in its key, in at least half the items.
+    explanations_per_concept: no more distinct explanations than concepts, so one is shared per concept.
+    """
+    qs = bank["questions"]
+    stems = [q["question"] for q in qs]
+    masked = {_QUOTED_TERM.sub("«»", s) for s in stems}
+    options = [o for q in qs for o in q["options"]]
+    slug_keys = sum(1 for q in qs if "-" in q["concept"] and q["concept"] in _key_text(q))
+    return {
+        "templated_stems": any(_TEMPLATE_STEM.match(s) for s in stems) or len(masked) <= 2,
+        "few_distinct_options": len(set(options)) < len(options) / 2,
+        "slug_in_key": bool(qs) and slug_keys * 2 >= len(qs),
+        "explanations_per_concept": len({q["explanation"] for q in qs}) <= len({q["concept"] for q in qs}),
+    }
+
+
+def is_stand_in(bank: dict) -> bool:
+    return sum(stand_in_signals(bank).values()) >= STAND_IN_SIGNALS_NEEDED
+
+
+def stand_in_issues(banks: list[dict]) -> list[dict]:
+    """P1 for a bank that reads as one template with the content swapped in. A learner can pass it by
+    recognising the template, without the concept it is meant to test."""
+    return [
+        {
+            "severity": "P1",
+            "reason": "stand_in_bank",
+            "bank": bank["slug"],
+            "signals": sorted(name for name, held in stand_in_signals(bank).items() if held),
+        }
+        for bank in banks
+        if is_stand_in(bank)
+    ]
+
+
 def build_report(qs: list[dict], issues: list[dict], selfcheck_issues: int, generated_at: str) -> dict:
     """Every issue, with counts by severity and by reason. Nothing is cut: a report that keeps the
     first 300 issues hides the 301st with no sign that it exists."""
@@ -372,6 +425,7 @@ def main(argv: list[str] | None = None) -> int:
         *concept_variant_issues(qs),
         *key_position_issues(banks),
         *position_reference_issues(banks),
+        *stand_in_issues(banks),
         *sc_issues,
     ]
     report = build_report(qs, issues, len(sc_issues), datetime.now(timezone.utc).isoformat())
