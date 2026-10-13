@@ -12,8 +12,9 @@ DATE="2026-09-10"
 # registry says so (tools/fixer/numbering.py reads these two stamps), so a renumber cannot make a finding
 # filed under "S20" read as if it were about the section that is S20 afterwards. Both stamps are the
 # SOURCES' epoch, a fact of the audits and not of today's course: `numbering_epoch` is the numbering of
-# each finding's `section`, and `text_numbering_epoch` is the numbering of the section numbers and
-# finding ids written inside the findings' own text.
+# each finding's `section`, which tools/fixer/restamp.py re-keys when the course is renumbered, and
+# `text_numbering_epoch` is the numbering of the section numbers and finding ids written inside the
+# findings' own text, which nothing re-keys (the briefs tell Codex how to read it).
 SOURCE_NUMBERING_EPOCH=52
 
 SEV=("P0","P1","P2","UNSPEC")

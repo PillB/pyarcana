@@ -52,7 +52,8 @@ def main() -> None:
     # By slug, through the registry's epoch stamp: a finding filed under "S20" is this section's only
     # while the registry and the epoch agree on what S20 is.
     findings = list(numbering.registry_findings(ROOT, epoch)[slug])
-    order ={"P0": 0, "P1": 1, "P2": 2, "UNSPEC": 3}
+    note = numbering.text_epoch_note(ROOT, epoch)    # empty until a renumber leaves the findings' text behind
+    order = {"P0": 0, "P1": 1, "P2": 2, "UNSPEC": 3}
     findings.sort(key=lambda f: order.get(f["severity"], 9))
 
     # Vocabulary the learner has actually met before this section, and the gaps here.
@@ -119,6 +120,8 @@ text. Only after revising, fill `self_critique`:
 
 A patch whose critique says "nothing could confuse anyone" for a paragraph you
 substantially rewrote will be read as a skipped step, not as a clean result.""",
+
+        block("HOW TO READ SECTION NUMBERS INSIDE THE FINDINGS", note) if note else "",
 
         block(f"FINDINGS TO FIX ({len(findings)})", json.dumps([
             {k: f.get(k) for k in

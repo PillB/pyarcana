@@ -171,6 +171,26 @@ class EachReaderGetsItsOwnSectionsFindings(NumberingFixture):
                    EVENTS=self.root / ".fixer/events.json",
                    FIRST_USE=self.root / "course-state/first_use_all_report.json")
 
+    def test_both_briefs_tell_codex_how_to_read_old_numbers_inside_the_findings(self) -> None:
+        """Restamping re-keys where a finding is filed, not what its text says. Once the text counts sections
+        the old way, each brief that carries the text says how to read it; until then it adds nothing."""
+        for brief, argv, extra in (
+                (build_prompt, ["S02"], {"CONTRACTS": [], "EVENTS": self.root / ".fixer/events.json",
+                                         "FIRST_USE": self.root / "course-state/first_use_all_report.json"}),
+                (build_concept_prompt, ["S02"], {})):
+            with self.subTest(brief=brief.__name__):
+                self.assertNotIn("S01 is now", run_in(self.root, brief, argv, **extra))
+        build(self.root, previous={2: ["beta", "alpha"]})
+        registry(self.root, ROUND_FILED, stamp=3, text_stamp=2)
+        for brief, argv, extra in (
+                (build_prompt, ["S02"], {"CONTRACTS": [], "EVENTS": self.root / ".fixer/events.json",
+                                         "FIRST_USE": self.root / "course-state/first_use_all_report.json"}),
+                (build_concept_prompt, ["S02"], {})):
+            with self.subTest(brief=brief.__name__, text_epoch=2):
+                text = run_in(self.root, brief, argv, **extra)
+                self.assertIn("written when the course had 2 sections", text)
+                self.assertIn("S01 is now S02", text)
+
     def test_build_concept_prompt_lists_only_the_sections_vocabulary_findings(self) -> None:
         text = run_in(self.root, build_concept_prompt, ["S02"])
         self.assertEqual(set(re.findall(r'"finding_id": "(S\d+-F\d+)"', text)),

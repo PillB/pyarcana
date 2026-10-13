@@ -74,6 +74,60 @@ class EpochAndTags(NumberingFixture):
         self.assertEqual(numbering.resolve("alpha", epoch), "alpha")
 
 
+class PreviousEpochs(NumberingFixture):
+    """The epoch file remembers the tables of the epochs it replaced, which is what lets state stamped with
+    one of them be carried to the current numbering instead of being refused for good."""
+
+    def rewrite(self, **changes) -> None:
+        path = self.root / "audit/fixer/numbering_epoch.json"
+        data = json.loads(path.read_text(encoding="utf-8"))
+        data.update(changes)
+        path.write_text(json.dumps(data), encoding="utf-8")
+
+    def test_an_earlier_epochs_table_is_read_back(self) -> None:
+        build(self.root, previous={2: ["alpha", "beta"]})
+        epoch = numbering.load_epoch(self.root)
+        self.assertEqual(epoch.previous_table(2), ("alpha", "beta"))
+        self.assertIsNone(epoch.previous_table(9))
+
+    def test_an_epoch_with_no_history_has_no_previous_table(self) -> None:
+        build(self.root)
+        self.assertIsNone(numbering.load_epoch(self.root).previous_table(2))
+
+    def test_a_table_whose_label_is_not_its_count_is_refused(self) -> None:
+        build(self.root)
+        self.rewrite(previous_epochs={"5": ["alpha", "beta"]})
+        with self.assertRaisesRegex(NumberingError, "label must be that count"):
+            numbering.load_epoch(self.root)
+
+    def test_the_current_epoch_cannot_also_be_a_previous_one(self) -> None:
+        build(self.root)
+        self.rewrite(previous_epochs={"3": ["alpha", "beta", "gamma"]})
+        with self.assertRaisesRegex(NumberingError, "lists the current epoch"):
+            numbering.load_epoch(self.root)
+
+    def test_a_table_with_a_repeated_slug_is_refused(self) -> None:
+        build(self.root)
+        self.rewrite(previous_epochs={"2": ["alpha", "alpha"]})
+        with self.assertRaisesRegex(NumberingError, "unique"):
+            numbering.load_epoch(self.root)
+
+    def test_history_that_is_not_a_map_is_refused(self) -> None:
+        build(self.root)
+        self.rewrite(previous_epochs=["alpha"])
+        with self.assertRaisesRegex(NumberingError, "must map an epoch label"):
+            numbering.load_epoch(self.root)
+
+    def test_the_refusal_of_old_state_names_the_command_only_when_it_can_work(self) -> None:
+        build(self.root, previous={2: ["alpha", "beta"]})
+        epoch = numbering.load_epoch(self.root)
+        known = numbering.stale_stamp("x.json", 2, epoch)
+        unknown = numbering.stale_stamp("x.json", 9, epoch)
+        self.assertIn("restamp.py", known)
+        self.assertNotIn("keeps no table", known)
+        self.assertIn("keeps no table for epoch 9", unknown)
+
+
 class EpochAgainstRoadmapAndCourse(NumberingFixture):
     def test_a_consistent_tree_has_no_problems(self) -> None:
         build(self.root)
