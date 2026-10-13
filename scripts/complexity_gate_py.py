@@ -10,13 +10,21 @@ policy: ceiling 15, measured per function, enforced as a ratchet, and failing cl
   * A file the gate cannot parse fails the gate, and the message names path:line.
   * A missing baseline fails the gate. `--init` creates one, and refuses to overwrite one.
 
-Counting follows ESLint 9.39.2's complexity rule and NIST SP 500-235 section 4.1, so 15 means
-the same in both languages: 1 per function, plus 1 for each `if`/`elif`, conditional
-expression, loop, `except` clause, `assert` and `match` case that is not an irrefutable
-pattern, plus 1 for each `and`/`or` operator, and 1 for each comprehension clause and each
-`if` in it. A nested def or lambda is scored on its own. Module-level code is not a function
-and is not scored, as ESLint does not score the program. tests/adversarial/complexity_parity_corpus.json
-pins the counting against radon 6.0.1 and names where it departs from radon.
+Counting follows ESLint 9.39.2's complexity rule where Python has the same control flow, and
+NIST SP 500-235 section 4.1 otherwise. Section 4.1 warns that constructs which look alike in two
+languages may not share control flow, so the count follows the control flow. It is 1 per
+function, plus 1 for each `if`/`elif`, conditional expression, loop, `except` clause, `assert`
+and `match` case that is not an irrefutable pattern, plus 1 for each `and`/`or` operator, and 1
+for each comprehension clause and each `if` in it. A nested def or lambda is scored on its own,
+except that its parameter defaults run where it is defined, so they count toward the function
+that contains it. Three departures from ESLint are deliberate, and tests/adversarial/
+test_complexity_gate_py.py pins each one. A parameter default is not counted: ESLint counts it,
+but a Python default is evaluated once, when the def runs, not on each call. `assert` and
+comprehension clauses are counted: ESLint has no node for them, and radon counts them. A default
+inside a nested def counts toward its enclosing function, where it runs; ESLint attributes it to
+the nested function. Module-level code is not a function and is not scored, as ESLint does not
+score the program. tests/adversarial/complexity_parity_corpus.json pins the counting against
+radon 6.0.1 and names where it departs from radon.
 
   python3 scripts/complexity_gate_py.py              # check, and tighten the baseline if debt fell
   python3 scripts/complexity_gate_py.py --init       # create the baseline (refuses if one exists)

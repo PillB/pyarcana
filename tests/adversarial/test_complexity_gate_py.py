@@ -115,6 +115,23 @@ class CountingRules(unittest.TestCase):
         self.assertEqual(score(with_branches(15), "f"), 16)
 
 
+class ParameterDefaults(unittest.TestCase):
+    """Two deliberate departures from ESLint, pinned so that a silent change fails. ESLint counts a
+    parameter default (AssignmentPattern) because a JavaScript default runs on each call; a Python
+    default runs once, when the def runs, so the gate does not count it. Counting them would move
+    97 of 1909 functions and push two over the ceiling, so changing this is an owner decision."""
+
+    def test_a_parameter_default_adds_nothing_to_its_own_function(self):
+        source = "def f(x=1, *, y=(2 if x else 3)):\n    return x\n"
+        self.assertEqual(score(source, "f"), 1)
+
+    def test_a_default_inside_a_nested_def_counts_toward_the_enclosing_function(self):
+        """It runs where the nested def is defined, so the outer function pays for it."""
+        source = "def outer(a, b):\n    def g(x=a or b):\n        return x\n    return g\n"
+        self.assertEqual(score(source, "outer"), 2)
+        self.assertEqual(score(source, "g"), 1)
+
+
 CORPUS = json.loads((ROOT / "tests/adversarial/complexity_parity_corpus.json").read_text(encoding="utf-8"))
 
 
