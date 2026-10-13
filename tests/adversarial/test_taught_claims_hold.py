@@ -90,8 +90,20 @@ class TaughtClaimsHold(unittest.TestCase):
         boot5, t5 = _coverage(5, reps=1000, resamples=400, rng=rng)
         boot40, t40 = _coverage(40, reps=1000, resamples=400, rng=rng)
         self.assertLess(boot5, 0.90, f"bootstrap coverage at n=5: {boot5}")
+        # S18 teaches the figure itself ("unas 81 veces de cada 100"); hold the lesson to it.
+        self.assertAlmostEqual(boot5, 0.81, delta=0.03)
         self.assertGreaterEqual(t5 - boot5, 0.05, f"t {t5} vs bootstrap {boot5} at n=5")
         self.assertLess(abs(t40 - boot40), 0.03, f"t {t40} vs bootstrap {boot40} at n=40 (the control)")
+
+    def test_five_values_allow_at_most_51_bootstrap_means(self) -> None:
+        """KFC-002, exercise S18-T2-B-E3: resampling five values recombines the same five numbers,
+        so however large B is, x = [10, 12, 11, 13, 50] admits only 51 distinct means (126
+        multisets of size 5, many sharing a mean). Raising B adds resamples, not observations."""
+        import itertools
+        x = [10.0, 12.0, 11.0, 13.0, 50.0]
+        multisets = list(itertools.combinations_with_replacement(x, 5))
+        self.assertEqual(len(multisets), 126)
+        self.assertEqual(len({round(sum(m) / 5, 10) for m in multisets}), 51)
 
     def test_python_m_puts_the_working_directory_first(self) -> None:
         """KFC-003. `-m` puts the current directory first on sys.path - it depends on it - and runs

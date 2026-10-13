@@ -23,6 +23,8 @@ class SklearnClaims(unittest.TestCase):
         """KFC-009. With an integer cv and a classifier, scikit-learn already stratifies; it is
         the default for classification, not an extra obligation - and plain KFold otherwise."""
         self.assertIsInstance(check_cv(5, y=[0, 1] * 10, classifier=True), StratifiedKFold)
+        # ...and also when cv is left unset (the hover says "o no le indicas nada").
+        self.assertIsInstance(check_cv(None, y=[0, 1] * 10, classifier=True), StratifiedKFold)
         self.assertIsInstance(check_cv(5, y=[0.5, 1.5] * 10, classifier=False), KFold)
 
 
