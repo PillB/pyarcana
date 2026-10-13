@@ -12,6 +12,10 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import numbering  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
 REGISTRY = ROOT / "audit/consolidated/registry.json"
 EVENTS = ROOT / ".fixer/events.json"
@@ -37,9 +41,10 @@ def section_file(slug: str) -> Path:
 
 def main() -> None:
     tag = sys.argv[1]                      # e.g. S01
-    num = int(tag.lstrip("Ss"))
+    epoch = numbering.load_epoch(ROOT)
+    num = numbering.number_of_tag(tag)
+    slug = numbering.slug_for_tag(tag, epoch)
     payload = json.loads(EVENTS.read_text(encoding="utf-8"))
-    slug = payload["active_section_ids"][num - 1]
     path = section_file(slug)
 
     findings = [f for f in json.loads(REGISTRY.read_text(encoding="utf-8"))["findings"]
@@ -50,7 +55,7 @@ def main() -> None:
     # Vocabulary the learner has actually met before this section, and the gaps here.
     seen_before = sorted({
         t for e in payload["events"]
-        if e["learner_visible"] and payload["active_section_ids"].index(e["section_id"]) < num - 1
+        if e["learner_visible"] and numbering.number_of_slug(e["section_id"], epoch) < num
         for t in e["defines"]
     })
     gaps = [i for i in json.loads(FIRST_USE.read_text(encoding="utf-8"))["issues"]
@@ -68,7 +73,7 @@ def main() -> None:
         return f"\n\n===== {title} =====\n{body}"
 
     prompt = [
-        f"""You are writing course content for PyArcana, a 52-section Python curriculum in
+        f"""You are writing course content for PyArcana, a {epoch.count}-section Python curriculum in
 Peruvian Spanish. You are fixing section {tag} ("{slug}").
 
 Read this file for the exact current text: {path.relative_to(ROOT)}

@@ -27,6 +27,7 @@ ROOT = Path(__file__).resolve().parents[2]
 COPY = [
     "src", "prisma/seed.ts", "tsconfig.json", "package.json",
     "scripts/learner_text_extractor.mts", "scripts/lib", "tools/fixer/apply_patches.py",
+    "tools/fixer/numbering.py", "audit/fixer/numbering_epoch.json",
 ]
 TERMS = "src/lib/glossary/terms.ts"
 SEED = "prisma/seed.ts"
