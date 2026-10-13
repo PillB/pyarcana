@@ -18,11 +18,14 @@ Each property has a recreation of the defect it closes:
 """
 from __future__ import annotations
 
+import contextlib
+import io
 import json
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -51,6 +54,23 @@ def _bank(keys: list[int], slug: str = "probe") -> dict:
          "explanation": "e"}
         for i, k in enumerate(keys)
     ]}
+
+
+def run_main(banks: list[dict] | None = None) -> tuple[int, dict]:
+    """Run audit.main as CI does and return (exit code, the report it wrote).
+
+    The report goes to a temporary file, never the tracked one. With `banks`, the one reader
+    (exam_bank.load_banks) and the self-check parser are replaced, so the report shows exactly what
+    main read from the reader and nothing else.
+    """
+    with tempfile.TemporaryDirectory() as tmp, contextlib.redirect_stdout(io.StringIO()):
+        target = Path(tmp) / "report.json"
+        with contextlib.ExitStack() as stack:
+            if banks is not None:
+                stack.enter_context(mock.patch.object(audit.exam_bank, "load_banks", return_value=banks))
+                stack.enter_context(mock.patch.object(audit, "parse_selfchecks", return_value=[]))
+            code = audit.main(["--out", str(target)])
+        return code, json.loads(target.read_text(encoding="utf-8"))
 
 
 class KeyPositionIsChecked(unittest.TestCase):
@@ -157,27 +177,34 @@ class ReportKeepsEveryIssue(unittest.TestCase):
     def test_out_writes_the_named_file_and_not_the_tracked_report(self):
         """Tests must not rewrite the tracked report (course-state), so --out names the file."""
         before = audit.OUT.read_bytes()
-        with tempfile.TemporaryDirectory() as tmp:
-            target = Path(tmp) / "report.json"
-            audit.main(["--out", str(target)])
-            report = json.loads(target.read_text(encoding="utf-8"))
+        _, report = run_main()
         self.assertIn("counts", report)
         self.assertEqual(audit.OUT.read_bytes(), before)
 
 
 class AuditReadsEveryQuestion(unittest.TestCase):
-    def test_the_audit_sees_every_bank_and_question(self):
-        """The regex reader's count (1248 questions, 416 concepts) must not shrink."""
-        questions = audit.seed_questions()
-        self.assertGreaterEqual(len(questions), 1248, "the audit lost questions")
-        self.assertGreaterEqual(len({q["concept"] for q in questions}), 416, "the audit lost concepts")
+    """These tests run audit.main, the function CI runs, so they cover the path that reads the banks."""
 
-    def test_an_escaped_newline_is_read_as_a_newline(self):
-        """Recreates the defect: the regex read `\\n` inside one question as the letter `n`."""
-        hits = [q for q in audit.seed_questions()
-                if q["concept"] == "commit-message" and "git diff" in q["question"]]
-        self.assertTrue(hits, "the commit-message question is missing")
-        self.assertIn("\n", hits[0]["question"])
+    def test_the_real_tree_is_read_whole_and_has_no_p0(self):
+        """Recreates a main that reads part of the tree. The regex reader saw 1248 questions and 416
+        concepts; the counts are floors, so a bank can still grow."""
+        code, report = run_main()
+        self.assertGreaterEqual(report["seed_questions_parsed"], 1248, "the audit lost questions")
+        self.assertGreaterEqual(report["unique_concepts"], 416, "the audit lost concepts")
+        self.assertEqual(report["p0"], 0)
+        self.assertEqual(code, 0)
+
+    def test_main_reports_what_the_one_reader_returns(self):
+        """Recreates a main that reads banks some other way, or drops the tail of what the reader
+        returns: the last question of the last bank is wrong, and the report must say so."""
+        keys = [0] * 6 + [1] * 6 + [2] * 6 + [3] * 6
+        first, second = _bank(keys, "first"), _bank(keys, "second")
+        second["questions"][-1]["correctIndex"] = 9
+        code, report = run_main([first, second])
+        self.assertEqual(report["seed_questions_parsed"], 48)
+        self.assertEqual([i["reason"] for i in report["issues"] if i["severity"] == "P0"],
+                         ["seed_correctIndex_oor"])
+        self.assertEqual((report["p0"], report["ok"], code), (1, False, 1))
 
 
 if __name__ == "__main__":

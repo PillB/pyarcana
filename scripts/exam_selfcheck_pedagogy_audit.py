@@ -143,15 +143,6 @@ def _find_key_int(text: str, key: str, start: int, end: int | None = None) -> tu
     return int(m.group(1)), start + m.end()
 
 
-def seed_questions() -> list[dict]:
-    """Every question of every bank, read by the TypeScript parser through scripts/exam_bank.py.
-
-    The regex parser this replaced could not see a key's quote style, and it turned an escaped
-    newline inside one question into a plain letter. Nothing here truncates a field.
-    """
-    return [q for bank in exam_bank.load_banks() for q in bank["questions"]]
-
-
 def parse_selfchecks() -> list[dict]:
     """Parse selfCheck (and quiz-like) question blocks in section files."""
     issues: list[dict] = []
@@ -428,6 +419,9 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Audit every bank of the exam seed, read through scripts/exam_bank.py (the TypeScript parser),
+    and the section self-checks. The regex reader this replaced could not see a key's quote style,
+    and it turned an escaped newline inside one question into a plain letter. Exit 1 on any P0."""
     args = parse_args(argv)
     banks = exam_bank.load_banks()
     qs = flatten(banks)
