@@ -29,59 +29,11 @@ interface VerificationResult {
   error?: string
   /** Set by the client when the API is unreachable (static deployment). */
   unavailable?: boolean
-  /** Set by the client when the response signature failed re-verification. */
-  signatureFailed?: boolean
 }
 
-/**
- * Client-side re-verification of the credential signature.
- *
- * The server's /api/credentials/verify endpoint checks the HMAC signature
- * using CREDENTIAL_SIGNING_KEY (server-held). But on the static deployment
- * the endpoint is absent (503), and even on the dynamic deployment a learner
- * with DevTools can intercept the fetch and return a spoofed {valid:true}
- * payload. To make that spoof trivially detectable, we re-check the signature
- * client-side using a PUBLIC verification key (NEXT_PUBLIC_CREDENTIAL_VERIFY_KEY).
- *
- * - If NEXT_PUBLIC_CREDENTIAL_VERIFY_KEY is set, we compute the HMAC of the
- *   returned credential fields (minus signature) and compare to the returned
- *   signature. A spoofed response without a valid signature is flagged.
- * - If the env var is NOT set (e.g. the dynamic LMS hasn't shipped the public
- *   key yet), we cannot re-verify; we mark the result as "unverified by
- *   client" and show a warning banner, but still display the server's verdict
- *   so the page remains usable.
- *
- * Note: HMAC is symmetric, so shipping the verification key to the client
- * effectively ships the signing key too. For true asymmetric integrity, the
- * issuer should switch to Ed25519 (private signs, public verifies). This
- * client-side check is defense-in-depth against naive fetch interception,
- * not a full cryptographic guarantee.
- */
-const CLIENT_VERIFY_KEY = process.env.NEXT_PUBLIC_CREDENTIAL_VERIFY_KEY
-
-async function reverifySignature(result: VerificationResult): Promise<boolean | null> {
-  if (!result.signature) return null // no signature to check
-  if (!CLIENT_VERIFY_KEY) return null // client not configured to re-verify
-  try {
-    const { signature, valid, revoked, superseded, revocationReason, error, unavailable, signatureFailed, ...rest } = result as any
-    const payload = JSON.stringify(rest, Object.keys(rest).sort())
-    const enc = new TextEncoder()
-    const keyData = await crypto.subtle.importKey(
-      'raw',
-      enc.encode(CLIENT_VERIFY_KEY),
-      { name: 'HMAC', hash: 'SHA-256' },
-      false,
-      ['sign']
-    )
-    const expected = await crypto.subtle.sign('HMAC', keyData, enc.encode(payload))
-    const expectedHex = Array.from(new Uint8Array(expected))
-      .map((b) => b.toString(16).padStart(2, '0'))
-      .join('')
-    return expectedHex === signature
-  } catch {
-    return null
-  }
-}
+// The signature is checked on the server only (ADR 5, docs/implementation/ADRS.md): it is an
+// HMAC, so the key that would check it here is the key that signs it, and a NEXT_PUBLIC_ key is
+// inlined into the bundle. This page shows the server's verdict.
 
 function VerifyContent() {
   const searchParams = useSearchParams()
@@ -109,13 +61,6 @@ function VerifyContent() {
         return
       }
       const data: VerificationResult = await res.json()
-      // Re-verify the signature client-side if the server returned one.
-      if (data.valid && data.signature) {
-        const ok = await reverifySignature(data)
-        if (ok === false) {
-          data.signatureFailed = true
-        }
-      }
       setResult(data)
     } catch {
       setResult({
@@ -178,20 +123,6 @@ function VerifyContent() {
 
       {result && (
         <Card className="mt-6 p-6">
-          {result.signatureFailed && (
-            <div className="mb-4 flex items-start gap-2 rounded-md border border-rose-500/40 bg-rose-500/5 p-3 text-xs text-rose-700 dark:text-rose-300">
-              <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0" />
-              <div>
-                <p className="font-semibold">Firma no válida</p>
-                <p className="mt-1">
-                  La respuesta del servidor no pasó la verificación criptográfica
-                  client-side. Esto puede indicar que la petición fue
-                  interceptada y la respuesta falsificada. NO confíes en este
-                  resultado.
-                </p>
-              </div>
-            </div>
-          )}
           {result.valid ? (
             <div className="space-y-4">
               <div className="flex items-center gap-2">
@@ -215,13 +146,6 @@ function VerifyContent() {
                 <p className="font-semibold">Capacidad demostrada:</p>
                 <p className="mt-1 text-muted-foreground">{result.capabilityStatement}</p>
               </div>
-              {!CLIENT_VERIFY_KEY && (
-                <p className="text-xs text-muted-foreground">
-                  Nota: la firma no fue re-verificada en el cliente (clave
-                  pública de verificación no configurada). Para máxima
-                  confianza, verifica directamente en el LMS dinámico.
-                </p>
-              )}
             </div>
           ) : (
             <div className="space-y-2">
