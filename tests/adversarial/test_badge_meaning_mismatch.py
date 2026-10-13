@@ -136,10 +136,13 @@ def lexicon_gaps(catalog: dict, lexicon: dict) -> list[str]:
 
 
 class MeaningMismatchRatchet(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.surfaces = surfaces_of(source_sections())  # reads 52 large files; read-only below
+
     def setUp(self) -> None:
         self.catalog = load(CATALOG)
         self.lexicon = load(LEXICON)
-        self.surfaces = surfaces_of(source_sections())
 
     def test_the_lexicon_obeys_the_anti_gaming_rules(self) -> None:
         self.assertEqual(term_rejections(self.lexicon, self.surfaces), [])

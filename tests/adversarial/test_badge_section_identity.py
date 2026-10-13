@@ -354,10 +354,14 @@ class RenumberedWorld(unittest.TestCase):
 
 
 class SectionTitleFingerprints(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.live_sections = source_sections()  # reads 52 large files once
+
     def setUp(self) -> None:
         self.manifest = load(MANIFEST)
         self.catalog = load(CATALOG)
-        self.sections = source_sections()
+        self.sections = self.live_sections
 
     def test_every_live_title_matches_its_fingerprint(self) -> None:
         self.assertEqual(title_violations(self.manifest, self.sections, self.catalog), [])
