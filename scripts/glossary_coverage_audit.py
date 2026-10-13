@@ -39,7 +39,9 @@ OUT = ROOT / "course-state/glossary_coverage_report.json"
 #: (evidence-dashboard), eda (wxpython-gui), distribuci-n-normal and estimando
 #: (data-engineering), shap (advanced-models), hyperparameter-tuning (ai-apis-advanced),
 #: namedtuple (architecture-ddd-decisions).
-MISSING_PROSE_OWED = 9
+#: 2026-10-13: 9 -> 8. estimando (data-engineering): the S18 round (#94) defines it in S18-T2-B's
+#: prose and names it in that block's code.
+MISSING_PROSE_OWED = 8
 
 terms = []
 for m in re.finditer(
