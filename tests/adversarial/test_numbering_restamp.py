@@ -232,6 +232,49 @@ class TheCommandIsIdempotentAndRefusalsChangeNothing(RenumberedTree):
         self.assertIn("usage", out.getvalue())
 
 
+class TheTwoEpochFilesTellOneStory(RenumberedTree):
+    """audit/safe-agent/renumber_epoch.json (the guards' window switch) and numbering_epoch.json (the
+    fixer's table) are separate files that describe one event. When both exist they must agree on which
+    sections the renumber added."""
+
+    def window(self, new_slugs) -> None:
+        write(self.root, numbering.RENUMBER_EPOCH_FILE,
+              json.dumps({"schema": "renumber_epoch/1", "renumber_sha": "0" * 40, "new_slugs": new_slugs}))
+
+    def test_while_the_window_file_does_not_exist_nothing_is_checked(self) -> None:
+        self.advance()
+        self.assertEqual(numbering.check_epoch(self.root), [])
+
+    def test_agreeing_files_pass(self) -> None:
+        self.advance()
+        self.window([{"slug": "fresh", "index": 2}])
+        self.assertEqual(numbering.check_epoch(self.root), [])
+
+    def test_a_window_file_that_names_another_section_is_a_problem(self) -> None:
+        self.advance()
+        self.window([{"slug": "other", "index": 2}])
+        problems = numbering.check_epoch(self.root)
+        self.assertEqual(len(problems), 1, problems)
+        self.assertIn("says the renumber added", problems[0])
+
+    def test_a_window_file_that_gives_the_wrong_number_is_a_problem(self) -> None:
+        self.advance()
+        self.window([{"slug": "fresh", "index": 3}])
+        self.assertTrue(numbering.check_epoch(self.root))
+
+    def test_a_window_file_with_no_earlier_table_in_the_epoch_is_a_problem(self) -> None:
+        """A renumber is recorded but the table never moved: the state would still be refused."""
+        self.window([{"slug": "fresh", "index": 2}])
+        problems = [p for p in numbering.check_epoch(self.root) if "renumber_epoch" in p]
+        self.assertEqual(len(problems), 1, problems)
+        self.assertIn("keeps no table of the numbering before it", problems[0])
+
+    def test_a_window_file_that_is_not_json_is_a_problem(self) -> None:
+        self.advance()
+        write(self.root, numbering.RENUMBER_EPOCH_FILE, "{not json")
+        self.assertTrue(any("not valid JSON" in p for p in numbering.check_epoch(self.root)))
+
+
 class AtTheSizeOfTheRealRenumber(unittest.TestCase):
     """The real epoch, cycle records, redaction list, registry and rename map, with a course that has three
     new sections inserted at S19, S20 and S35, as the design's renumber does (52 -> 55 while the real epoch

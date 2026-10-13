@@ -17,6 +17,17 @@ keeps the old epoch's table in the epoch file's `previous_epochs`, and re-keys t
 redaction list and the finding registry to the new numbers. The tree is red between the renumber and
 that command, and green after it.
 
+Two files are called an epoch, and they answer different questions.
+  * audit/fixer/numbering_epoch.json (this module, the fixer) says which slug each number names now. It
+    exists for the life of the course and moves with every renumber, keeping the old tables.
+  * audit/safe-agent/renumber_epoch.json (the preservation guards G-11 and G-15; schema renumber_epoch/1)
+    says a renumber commit happened: its sha, and the sections that commit added. It does not exist until
+    that commit, and its presence arms the guards, so it is a window's switch and not a table.
+They are kept apart because the window closes and the table does not, and because folding the sha into
+the table would make the guards' dormancy depend on a fixer file. When the window file exists the two
+must agree: the sections it says were added are exactly the slugs this epoch has and the epoch before it
+did not (renumber_epoch_problems, run by check_epoch). Dormant while the window file is absent.
+
     python3 tools/fixer/numbering.py     # check the epoch against the roadmap, the course and the state
 """
 from __future__ import annotations
@@ -35,6 +46,7 @@ RENAMES_FILE = "src/lib/section-id-migrations.ts"
 CYCLES_DIR = "audit/fixer/cycles"
 REDACTION_FILE = "audit/fixer/redaction_applied.json"
 REGISTRY_FILE = "audit/consolidated/registry.json"
+RENUMBER_EPOCH_FILE = "audit/safe-agent/renumber_epoch.json"
 
 TAG = re.compile(r"[Ss](\d+)")
 ROADMAP_HEADING = re.compile(r"^### S(\d+) — ", re.M)
@@ -383,6 +395,31 @@ def course_problems(epoch: Epoch, headings: list[int], order: list[tuple[str, in
     return problems
 
 
+def renumber_epoch_problems(root: Path, epoch: Epoch) -> list[str]:
+    """Where the renumber window's epoch file and this epoch tell different stories. Empty while the
+    window file does not exist (it is written by the renumber commit), and when they agree."""
+    path = root / RENUMBER_EPOCH_FILE
+    if not path.exists():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        return [f"{RENUMBER_EPOCH_FILE} is not valid JSON: {e}"]
+    rows = data.get("new_slugs") if isinstance(data, dict) else None
+    if not isinstance(rows, list) or not all(isinstance(r, dict) for r in rows):
+        return [f"{RENUMBER_EPOCH_FILE} lists no new_slugs"]
+    if not epoch.previous:
+        return [f"{RENUMBER_EPOCH_FILE} records a renumber, but {EPOCH_FILE} keeps no table of the numbering "
+                f"before it; `{RESTAMP_COMMAND} advance` writes that table"]
+    earlier = set(max(epoch.previous)[1])
+    added = {(slug, number) for number, slug in enumerate(epoch.slugs, 1) if slug not in earlier}
+    declared = {(row.get("slug"), row.get("index")) for row in rows}
+    if declared != added:
+        return [f"{RENUMBER_EPOCH_FILE} says the renumber added {sorted(declared, key=str)}, but {EPOCH_FILE} "
+                f"added {sorted(added)} (slug, number) since epoch {max(epoch.previous)[0]}"]
+    return []
+
+
 def check_epoch(root: Path = ROOT) -> list[str]:
     """Every way the epoch, the roadmap, the course and the fixer state disagree. Empty when they agree."""
     try:
@@ -395,7 +432,7 @@ def check_epoch(root: Path = ROOT) -> list[str]:
             registry_findings(root, epoch)
     except (NumberingError, json.JSONDecodeError) as e:
         return [str(e)]
-    return course_problems(epoch, headings, order)
+    return course_problems(epoch, headings, order) + renumber_epoch_problems(root, epoch)
 
 
 def main() -> int:
