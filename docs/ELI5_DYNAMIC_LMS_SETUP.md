@@ -358,6 +358,12 @@ firebase deploy --only firestore:indexes
 - A 403 today is expected: the server records exam attempts only, and a capstone credential
   also needs self-checks, You Do rubrics, the integrator project, the defense and prerequisite
   badges (`unverifiedRequirements` in the response). Exam scores alone never issue one.
+- `blockers` in the response lists every check that refused it, each with a `kind`: a requirement
+  with no server verifier (`unverified`), an eligibility-engine gate that failed (`unmet`) or that
+  the engine never reached (`not_evaluated`), and `CREDENTIAL_STORE_NOT_IMPLEMENTED` (`standing`),
+  which holds until issuance writes a `Credential` row (`src/lib/credential-blockers.ts`)
+- `specificationVersion` in the request must be the badge's own catalog `version`; the credential
+  is signed with that version, never the request's (`SPEC_VERSION_MISMATCH` otherwise)
 - `passedSections` / `requiredSections` count the exams of the badge's own `required_sections`
   (`src/lib/eligibility/badge_catalog.json`) with a best score of at least 85
   (`provisional_floors.section_exam_pct`, not the exam pass mark of 70)

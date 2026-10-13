@@ -195,6 +195,32 @@ def bank_keeps_its_shape(scratch: Path, before: str) -> tuple[bool, str]:
     return not new, "prisma/seed.ts: " + "; ".join(new) if new else ""
 
 
+def _claim_counts(args: list[str]) -> tuple[dict | None, str]:
+    ok, out = _run(["npx", "tsx", "scripts/false_claims_scan.mts", *args])
+    return (json.loads(out), "") if ok else (None, out)
+
+
+def claims_do_not_grow(scratch: Path, touched: dict[Path, str]) -> tuple[bool, str]:
+    """No touched file gains a statement already found false (audit/fixer/known_false_claims.json).
+
+    The registry exists because a false claim found once came back in later rewrites; a patch is
+    where it would come back. Counted before and after, so a file that still owes a claim can be
+    patched as long as the patch does not add one."""
+    rels = [str(p.relative_to(ROOT)) for p in touched]
+    before_args = [f"{rel}={_scratch(scratch, 'claims_before__' + rel.replace('/', '__'), text).relative_to(ROOT)}"
+                   for rel, text in zip(rels, touched.values())]
+    before, err = _claim_counts(before_args)
+    after, err2 = _claim_counts(rels)
+    if before is None or after is None:
+        return False, f"the false-claims scan failed: {err or err2}"
+    grown = [f"{rel}: {cid} {before[rel].get(cid, 0)} -> {n}"
+             for rel in rels for cid, n in after[rel].items() if n > before[rel].get(cid, 0)]
+    if grown:
+        return False, ("adds a statement already found false (see audit/fixer/known_false_claims.json "
+                       "for the correct form): " + "; ".join(grown))
+    return True, ""
+
+
 def validate(touched: dict[Path, str]) -> tuple[bool, str]:
     """Check every file the patches changed, each by what it is. `touched` maps each to its text
     before the patches. A file type with no validator is refused rather than waved through."""
@@ -210,6 +236,7 @@ def validate(touched: dict[Path, str]) -> tuple[bool, str]:
         checks.append(lambda s: glossary_keeps_its_shape(s, touched[GLOSSARY]))
     if SEED in touched:
         checks.append(lambda s: bank_keeps_its_shape(s, touched[SEED]))
+    checks.append(lambda s: claims_do_not_grow(s, touched))
     with scratch_dir() as scratch:
         for check in checks:
             ok, err = check(scratch)
