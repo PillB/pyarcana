@@ -2480,15 +2480,15 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'correlation-ids-pii-redaction',
-      question: 'Una excepción incluye una dirección completa. ¿Qué registras con `log.exception`?',
+      question: 'Un fallo está relacionado con una dirección y usarás `log.exception`. ¿Cómo preparas la excepción?',
       options: [
-        'La dirección completa',
-        'La dirección repetida en el mensaje',
-        'Un motivo seguro y `address=***`',
-        'Ningún error del proceso',
+        'Enmascaras el mensaje del log, pero mantienes la dirección en la excepción',
+        'Descartas el traceback y registras únicamente un mensaje con motivo seguro',
+        'Excluyes la dirección y lanzas la excepción con un motivo seguro',
+        'Incluyes la dirección porque el nivel `DEBUG` mantiene el dato restringido',
       ],
       correctIndex: 2,
-      explanation: '`log.exception` también imprime el mensaje de la excepción. Usa un motivo seguro y registra la dirección solo como `***`.',
+      explanation: '`log.exception` también escribe el mensaje de la excepción, así que la dirección debe quedar fuera de la excepción y del log. Lanza la excepción con un motivo seguro y, si hace falta, un identificador interno que no revele la dirección.',
     },
     {
       concept: 'failfast-vs-continue',
