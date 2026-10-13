@@ -264,6 +264,45 @@ def concept_variant_issues(qs: list[dict]) -> list[dict]:
     ]
 
 
+#: Pearson chi-square critical value: 4 key positions, 3 degrees of freedom, alpha 0.001.
+KEY_POSITION_CHI2_CRITICAL = 16.27
+
+
+def chi_square_equal(counts: list[int]) -> float:
+    """Pearson chi-square of observed counts against equal expected counts."""
+    total = sum(counts)
+    if total == 0:
+        return 0.0
+    expected = total / len(counts)
+    return sum((observed - expected) ** 2 / expected for observed in counts)
+
+
+def key_position_issues(banks: list[dict]) -> list[dict]:
+    """P1 for a bank whose key sits in some of the four positions more often than chance allows.
+
+    The rule is the item-writing one to "vary the location of the right answer" (Haladyna, Downing
+    & Rodriguez 2002), and key-position bias is a measurable property of an item set (Attali &
+    Bar-Hillel 2003). Exam options are shuffled per attempt since #91, so a stored position does not
+    reach a learner in an exam. The check still guards the self-check banks and any static use of a
+    bank, so a finding is a record of what the stored bank looks like, not a learner-facing defect.
+    """
+    issues: list[dict] = []
+    for bank in banks:
+        positions = Counter(q["correctIndex"] for q in bank["questions"] if 0 <= q["correctIndex"] < 4)
+        stat = chi_square_equal([positions.get(i, 0) for i in range(4)])
+        if stat > KEY_POSITION_CHI2_CRITICAL:
+            issues.append({
+                "severity": "P1",
+                "reason": "key_position_imbalanced",
+                "bank": bank["slug"],
+                "counts": dict(sorted(positions.items())),
+                "chi_square": round(stat, 2),
+                "critical": KEY_POSITION_CHI2_CRITICAL,
+                "n": sum(positions.values()),
+            })
+    return issues
+
+
 def build_report(qs: list[dict], issues: list[dict], selfcheck_issues: int, generated_at: str) -> dict:
     """Every issue, with counts by severity and by reason. Nothing is cut: a report that keeps the
     first 300 issues hides the 301st with no sign that it exists."""
@@ -298,7 +337,7 @@ def main(argv: list[str] | None = None) -> int:
     banks = exam_bank.load_banks()
     qs = flatten(banks)
     sc_issues = parse_selfchecks()
-    issues = [*question_issues(qs), *concept_variant_issues(qs), *sc_issues]
+    issues = [*question_issues(qs), *concept_variant_issues(qs), *key_position_issues(banks), *sc_issues]
     report = build_report(qs, issues, len(sc_issues), datetime.now(timezone.utc).isoformat())
     args.out.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
     print(
