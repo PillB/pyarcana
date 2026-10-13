@@ -80,6 +80,17 @@ test('a concept with two variants instead of three is named', () => {
   assert.match(problems[0]!, /bank "basics" concept "basics-c0" has variants \[1, 2\]/)
 })
 
+// The headline rule: exactly 8 concepts. It is checked from both sides, so a rule that refused only
+// "too few" (or only "too many") passes one of these two and fails the other. Every concept has all
+// three variants here, so the concept count is the only thing wrong.
+for (const concepts of [7, 9]) {
+  test(`a bank with ${concepts} concepts instead of 8 is named`, () => {
+    const banks = withBank(complete(), 'basics', () => bankOf('basics', { concepts }))
+    const problems = coverageProblems(banks, SECTION_IDS, SECTION_ID_RENAMES)
+    assert.deepEqual(problems, [`bank "basics" has ${concepts} concepts, want 8`])
+  })
+}
+
 test('a question with three options instead of four is named', () => {
   const banks = withBank(complete(), 'setup', (b) => patched(b, 5, { options: ['a', 'b', 'c'] }))
   const problems = coverageProblems(banks, SECTION_IDS, SECTION_ID_RENAMES)
