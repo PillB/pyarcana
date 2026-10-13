@@ -7,7 +7,7 @@
   {"root": "tests", "suffixes": [".ts", ".mjs"]}
  ],
  "GATE_EXCLUSIONS": [
-  {"path": "workers/billing/", "reason": "Cloudflare billing worker with its own test runner (scripts/run_billing_tests.mjs). Neither gate measures it yet. Work left undone: add workers/ to the TypeScript scope once its functions are baselined."},
+  {"path": "workers/billing/", "reason": "Cloudflare billing worker. Its complexity is checked by the lint group of scripts/run_billing_tests.mjs: ESLint's complexity rule at 15, with no ratchet, so a function already over 15 fails there rather than being baselined. Neither ratchet here measures it. Work left undone: move it into the TypeScript scope with a baseline, or give the runner a ratchet."},
   {"path": "course-state/capstones/", "reason": "Learner-facing capstone starters and reference solutions, graded by the CP-* pytest jobs in tests.yml. Course content, not tooling; the gate must not baseline it."},
   {"path": "course-state/newbie_walkthrough/", "reason": "Generated walkthrough evidence and one-off solver scripts for a recorded run. Regenerated, not maintained. The walkthrough runner, scripts/newbie_walkthrough_runner.py, is in scope."},
   {"path": "course-state/curriculum_hardening/", "reason": "One-off hardening scratch scripts that are not tooling. Work left undone: move any reusable audit into scripts/."},
