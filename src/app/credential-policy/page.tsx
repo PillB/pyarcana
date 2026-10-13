@@ -8,8 +8,8 @@ export default function CredentialPolicyPage() {
     <LegalPage
       title="Política de credenciales e insignias"
       subtitle="Qué significa cada tipo de credencial PyArcana y cómo se verifica."
-      version="2.0"
-      effectiveDate="2026-07-31"
+      version="2.1"
+      effectiveDate="2026-10-13"
     >
       <div className="prose prose-sm dark:prose-invert max-w-none space-y-6">
         <section>

@@ -4,7 +4,7 @@ import { ProgressWhere } from '@/components/account/ProgressWhere'
 
 export default function BadgeNoticePage() {
   return (
-    <LegalPage title="Aviso sobre insignias y credenciales" version="1.0" effectiveDate="2026-07-29">
+    <LegalPage title="Aviso sobre insignias y credenciales" version="1.1" effectiveDate="2026-10-13">
       <h2 className="text-lg font-semibold">Marcador de finalización vs insignia de competencia</h2>
       <p>En el panel, «Hecho» indica que terminaste los pasos de una sección y «Siguiente» marca la sección que sigue. Nadie comprueba «Hecho» y esa etiqueta no mide tu dominio. Ningún estudiante recibe una insignia de competencia.</p>
       <ExamGradingNote />
