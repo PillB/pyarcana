@@ -37,6 +37,18 @@ export function openHistory(cwd) {
       if (run.status === 1) return false
       throw new Error(`git cannot say whether ${ancestor} is an ancestor of ${descendant}`)
     },
+    /** Every tracked path at `rev`. Throws when git cannot list them. */
+    listAt(rev) {
+      const out = attempt(['ls-tree', '-r', '--name-only', rev])
+      if (out === null) throw new Error(`git cannot list the files at ${rev}`)
+      return out.split('\n').filter(Boolean)
+    },
+    /** The last commit reachable from `rev` that touched `path`, or null when none did. Throws when unreadable. */
+    lastCommitTouching(rev, path) {
+      const out = attempt(['log', '-n', '1', '--format=%H', rev, '--', path])
+      if (out === null) throw new Error(`git cannot read the history of ${path} at ${rev}`)
+      return out.trim() || null
+    },
     /** `git diff --name-status -M a b`, or null when git cannot produce it. */
     nameStatus(a, b) {
       return attempt(['diff', '--name-status', '-M', a, b])

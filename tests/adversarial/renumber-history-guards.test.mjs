@@ -12,7 +12,7 @@
 import { after, describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -21,6 +21,11 @@ import {
   ROADMAP_PATH,
   roadmapSectionCount,
 } from '../../scripts/preservation/roadmap_section_count.mjs'
+import {
+  EXAM_BANK_PATTERN,
+  FROZEN_PATHS,
+  sectionFieldsOf,
+} from '../../scripts/preservation/curriculum55_freeze_guard.mjs'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..')
 const SENTINEL = join(ROOT, 'scripts/preservation_sentinel.mjs')
@@ -555,5 +560,185 @@ describe('renumber guard: the good renumber, and each bad state red', () => {
     const run = runGuard(scenario({ branchEdits: [edit], mergeToMain: true }).dir)
     assert.equal(run.status, 0, run.err)
     assert.match(run.out, /G-11\(d\)/)
+  })
+})
+
+// ---------------------------------------------------------------------------------------------
+// G-14: scripts/preservation/curriculum55_freeze_guard.mjs
+// ---------------------------------------------------------------------------------------------
+
+const FREEZE = join(ROOT, 'scripts/preservation/curriculum55_freeze_guard.mjs')
+const BANK = 'course-state/s19_phase5_exam_bank.json'
+
+function freezeWindow(branchPoint, { status = 'open', overrides = [], renumberSha } = {}) {
+  const body = { schema: 'curriculum55_window/1', status, branch: BRANCH, branch_point_sha: branchPoint, overrides, ledger: [] }
+  if (renumberSha !== undefined) body.renumber_sha = renumberSha
+  return JSON.stringify(body, null, 2) + '\n'
+}
+
+/**
+ * Main, with the window opened on it (branch point: the commit before the window), then `mainEdits`
+ * committed on main. The guard runs at HEAD, which is main.
+ */
+function freezeScenario({ mainEdits = null, window = {}, windowOn = true } = {}) {
+  const dir = newRepo()
+  writeTree(dir, preTree())
+  const pre = commitAll(dir, 'curriculum 52, pre-window')
+  if (windowOn) {
+    applyEdits(dir, new Map([[WINDOW, freezeWindow(pre, window)]]))
+    commitAll(dir, 'open the window')
+  }
+  if (mainEdits !== null) {
+    applyEdits(dir, mainEdits)
+    commitAll(dir, 'main edit')
+  }
+  return { dir, pre }
+}
+
+function runFreeze(dir) {
+  const env = { ...process.env }
+  for (const key of ['GIT_DIR', 'GIT_WORK_TREE', 'GIT_INDEX_FILE']) delete env[key]
+  const run = spawnSync(process.execPath, [FREEZE], { cwd: dir, encoding: 'utf8', env })
+  return { status: run.status, out: run.stdout, err: run.stderr }
+}
+
+describe('freeze guard: the real tree and its pure rules', () => {
+  it('names only frozen paths that exist, so the freeze cannot silently cover nothing', () => {
+    for (const path of FROZEN_PATHS) assert.ok(existsSync(join(ROOT, path)), `missing frozen path ${path}`)
+  })
+
+  it('matches every real exam bank, and no other course-state file', () => {
+    const banks = readdirSync(join(ROOT, 'course-state')).filter((f) => EXAM_BANK_PATTERN.test(`course-state/${f}`))
+    assert.ok(banks.length >= 52, `expected at least 52 exam banks, found ${banks.length}`)
+    assert.equal(EXAM_BANK_PATTERN.test('course-state/s19_phase5_exam_bank.json.bak'), false)
+    assert.equal(EXAM_BANK_PATTERN.test('course-state/s1_phase5_exam_bank.json'), false)
+  })
+
+  it('reads the fields a section freezes: id, index, title, phase, exercise ids and figure ids', () => {
+    const text = [
+      'export const section = {',
+      "  id: 'demo',",
+      '  index: 19,',
+      '  title: "Título con comillas",',
+      '  phase: 1,',
+      '  weDo: { steps: [ { id: \'S19-T1-A-E1\' }, { id: \'S19-T1-A-E1\' }, { id: \'S19-T2-B-E3\' } ] },',
+      '  figure: { id: "S19-fig" },',
+      '}',
+    ].join('\n')
+    assert.deepEqual(sectionFieldsOf(text), {
+      id: 'demo',
+      index: '19',
+      title: 'Título con comillas',
+      phase: '1',
+      exerciseIds: ['S19-T1-A-E1', 'S19-T2-B-E3'],
+      figureIds: ['S19-fig'],
+    })
+  })
+})
+
+describe('freeze guard: dormant, and the window cannot disappear quietly', () => {
+  it('prints DORMANT when no window file has ever been committed', () => {
+    const run = runFreeze(freezeScenario({ windowOn: false }).dir)
+    assert.equal(run.status, 0, run.err)
+    assert.match(run.out, /DORMANT/)
+  })
+
+  it('fails WINDOW_REMOVED when the window file was committed and is now gone', () => {
+    const run = runFreeze(freezeScenario({ mainEdits: new Map([[WINDOW, null]]) }).dir)
+    assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'WINDOW_REMOVED'), run.err)
+  })
+})
+
+describe('freeze guard: while open, main may not change what the renumber rewrites', () => {
+  it('passes an open window with no change to a frozen item', () => {
+    const run = runFreeze(freezeScenario({ mainEdits: new Map([['docs/nota.md', 'texto libre\n']]) }).dir)
+    assert.equal(run.status, 0, run.err)
+    assert.match(run.out, /FREEZE GUARD OK/)
+  })
+
+  it('fails FROZEN_CHANGED when a roadmap changes on main with no override', () => {
+    const run = runFreeze(freezeScenario({ mainEdits: new Map([['learning_roadmap.md', 'cambio\n']]) }).dir)
+    assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'FROZEN_CHANGED'), run.err)
+    assert.match(run.err, /learning_roadmap\.md/)
+  })
+
+  it('passes the same change once an owner override names its path, reason and approval', () => {
+    const window = { overrides: [{ path: 'learning_roadmap.md', reason: 'erratum de la hoja', owner_approval: 'O17' }] }
+    const run = runFreeze(freezeScenario({ mainEdits: new Map([['learning_roadmap.md', 'cambio\n']]), window }).dir)
+    assert.equal(run.status, 0, run.err)
+  })
+
+  it('does not count an override that lacks its owner approval', () => {
+    const window = { overrides: [{ path: 'learning_roadmap.md', reason: 'erratum de la hoja' }] }
+    const run = runFreeze(freezeScenario({ mainEdits: new Map([['learning_roadmap.md', 'cambio\n']]), window }).dir)
+    assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'OVERRIDE_INVALID'), run.err)
+    assert.ok(withFindingCode(run, 'FROZEN_CHANGED'), run.err)
+  })
+
+  it('fails FROZEN_SECTION_FIELD_CHANGED when section 19 changes its title on main', () => {
+    const edit = sectionFile({ slug: 'oldnineteen', index: 19, suffixes: OLD_SUFFIXES, title: 'Título nuevo' })
+    const run = runFreeze(freezeScenario({ mainEdits: new Map([[sectionPath('s19-oldnineteen'), edit]]) }).dir)
+    assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'FROZEN_SECTION_FIELD_CHANGED'), run.err)
+    assert.match(run.err, /"title"/)
+  })
+
+  it('passes a prose-only edit to a frozen section (its fields are unchanged)', () => {
+    const prose = sectionFile({ slug: 'oldnineteen', index: 19, suffixes: OLD_SUFFIXES }) + '// una nota de redacción\n'
+    const run = runFreeze(freezeScenario({ mainEdits: new Map([[sectionPath('s19-oldnineteen'), prose]]) }).dir)
+    assert.equal(run.status, 0, run.err)
+  })
+
+  it('passes a change to section 18, which is below the frozen range', () => {
+    const edit = sectionFile({ slug: 'eighteen', index: 18, suffixes: OLD_SUFFIXES, title: 'Otro título' })
+    const run = runFreeze(freezeScenario({ mainEdits: new Map([[sectionPath('s18-eighteen'), edit]]) }).dir)
+    assert.equal(run.status, 0, run.err)
+  })
+
+  it('fails EXAM_BANK_SET_CHANGED when an exam bank file appears on main with no override', () => {
+    const run = runFreeze(freezeScenario({ mainEdits: new Map([[BANK, '{}\n']]) }).dir)
+    assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'EXAM_BANK_SET_CHANGED'), run.err)
+  })
+})
+
+describe('freeze guard: closing the window needs the renumber sha', () => {
+  it('fails WINDOW_CLOSED_WITHOUT_RENUMBER for a closed window with no renumber_sha', () => {
+    const run = runFreeze(freezeScenario({ window: { status: 'closed' } }).dir)
+    assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'WINDOW_CLOSED_WITHOUT_RENUMBER'), run.err)
+  })
+
+  it('passes a closed window whose renumber_sha HEAD contains', () => {
+    const { dir, pre } = freezeScenario({ windowOn: false })
+    applyEdits(dir, new Map([[WINDOW, freezeWindow(pre, { status: 'closed', renumberSha: pre })]]))
+    commitAll(dir, 'close the window')
+    const run = runFreeze(dir)
+    assert.equal(run.status, 0, run.err)
+  })
+
+  it('fails HISTORY_MISSING on a shallow checkout rather than reporting DORMANT', () => {
+    const { dir } = freezeScenario({ windowOn: false })
+    const clone = mkdtempSync(join(tmpdir(), 'freeze-shallow-'))
+    tempDirs.push(clone)
+    execFileSync('git', ['clone', '-q', '--depth', '1', `file://${dir}`, clone])
+    const run = runFreeze(clone)
+    assert.equal(run.status, 1)
+    assert.match(run.err, /shallow/)
+  })
+
+  it('fails HISTORY_MISSING when the window names a branch point git cannot read', () => {
+    const dir = newRepo()
+    writeTree(dir, preTree())
+    commitAll(dir, 'curriculum 52')
+    applyEdits(dir, new Map([[WINDOW, freezeWindow('f'.repeat(40))]]))
+    commitAll(dir, 'open the window on a missing branch point')
+    const run = runFreeze(dir)
+    assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'HISTORY_MISSING'), run.err)
+    assert.match(run.err, /branch_point_sha is unreadable/)
   })
 })
