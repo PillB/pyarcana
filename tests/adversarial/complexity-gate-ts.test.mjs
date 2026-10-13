@@ -115,3 +115,48 @@ test('an unparseable file fails the gate and names path:line', () => withTree((r
   assert.equal(done.status, 1, output(done))
   assert.match(output(done), /src\/a\.ts:1:/)
 }))
+
+/** The three roots the TypeScript gate measures, in one fresh tree, then removed. */
+function withScopes(body) {
+  const root = mkdtempSync(join(tmpdir(), 'ts-complexity-scope-'))
+  for (const dir of ['src', 'scripts', join('tests', 'adversarial')]) mkdirSync(join(root, dir), { recursive: true })
+  try {
+    return body(root)
+  } finally {
+    rmSync(root, { recursive: true, force: true })
+  }
+}
+
+/** fnWith in plain JavaScript, for a .mjs file, which takes no type annotations. */
+function jsFnWith(name, score) {
+  const body = Array.from({ length: score - 1 }, (_, i) => `  if (x === ${i}) return ${i}`).join('\n')
+  return `export function ${name}(x) {\n${body}\n  return -1\n}\n`
+}
+
+test('the TypeScript scope reaches scripts/ and tests/, not only src/', () => withScopes((root) => {
+  writeFileSync(join(root, 'scripts', 'probe.mts'), fnWith('g', 16))
+  writeFileSync(join(root, 'tests', 'adversarial', 'probe.test.mjs'), jsFnWith('h', 16))
+  assert.equal(gate(root, '--init').status, 0)
+  assert.deepEqual(baseline(root).offenders, {
+    'scripts/probe.mts::g': 16,
+    'tests/adversarial/probe.test.mjs::h': 16,
+  })
+}))
+
+test('a new function over 15 under scripts/ fails the ratchet', () => withScopes((root) => {
+  writeFileSync(join(root, 'scripts', 'probe.mts'), fnWith('g', 3))
+  assert.equal(gate(root, '--init').status, 0)
+  writeFileSync(join(root, 'scripts', 'probe.mts'), fnWith('g', 3) + fnWith('k', 16))
+  const done = gate(root)
+  assert.equal(done.status, 1, output(done))
+  assert.match(output(done), /NEW OVER\s+16 scripts\/probe\.mts::k/)
+}))
+
+test('a new function over 15 under tests/ fails the ratchet', () => withScopes((root) => {
+  writeFileSync(join(root, 'tests', 'adversarial', 'probe.test.mjs'), jsFnWith('h', 3))
+  assert.equal(gate(root, '--init').status, 0)
+  writeFileSync(join(root, 'tests', 'adversarial', 'probe.test.mjs'), jsFnWith('h', 3) + jsFnWith('k', 16))
+  const done = gate(root)
+  assert.equal(done.status, 1, output(done))
+  assert.match(output(done), /NEW OVER\s+16 tests\/adversarial\/probe\.test\.mjs::k/)
+}))
