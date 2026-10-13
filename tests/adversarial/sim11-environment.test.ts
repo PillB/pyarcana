@@ -22,11 +22,13 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { InteractivePlaygroundDemo } from '../../src/components/course/SectionView.tsx'
 import {
   LOCAL_PYTHON_NOTE,
+  LOCAL_RUN_COMMAND,
   importedModules,
   pinnedImport,
   pinnedModules,
   playgroundMode,
 } from '../../src/lib/playground-environment.ts'
+import { readBindings } from '../../scripts/course_bindings.mjs'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const PLAYGROUND_ENVIRONMENTS = new Set(['browser-pyodide', 'local-python'])
@@ -166,6 +168,15 @@ function playgroundMarkup(slug: string): string {
   return renderToStaticMarkup(createElement(InteractivePlaygroundDemo, { sectionId: slug, sectionTitle: slug }))
 }
 const runButton = (slug: string): string => `data-testid="demo-run-${slug}-run"`
+/** What a reader sees: the tags gone and the entities React writes turned back into characters. */
+const visibleText = (html: string): string =>
+  html
+    .replace(/<[^>]+>/g, '')
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
 const htmlEscaped = (text: string): string =>
   text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;')
 
@@ -182,6 +193,27 @@ describe('SIM-11 the rendered block follows the declared environment', () => {
       assert.ok(!html.includes(`data-testid="demo-run-${ex.name}"`), `${ex.name} is local-python but renders the playground`)
       assert.ok(html.includes(htmlEscaped(LOCAL_PYTHON_NOTE.title)), `${ex.name} shows no local-only notice`)
       assert.ok(html.includes(htmlEscaped(LOCAL_PYTHON_NOTE.body)), `${ex.name} shows no local-only notice body`)
+    }
+  })
+
+  it('a local-only example shows the command that launches a saved script, and S01 taught that command', () => {
+    const local = playground.filter((e) => e.environment === 'local-python')
+    for (const ex of local) {
+      assert.ok(visibleText(playgroundMarkup(ex.name)).includes(LOCAL_RUN_COMMAND), `${ex.name} shows no run command`)
+    }
+    const setup = readBindings(ROOT).find((b) => b.id === 'setup')
+    assert.ok(setup, 'no bound section has the slug setup')
+    const s01 = fs.readFileSync(path.join(ROOT, 'src/lib/course/sections', `${setup.stem}.ts`), 'utf-8')
+    assert.ok(s01.includes(`\`${LOCAL_RUN_COMMAND}\``), `S01 never shows the learner ${LOCAL_RUN_COMMAND}, so the command is new here`)
+  })
+
+  it('no local-only example comments that the library loads by itself or that the browser runs it', () => {
+    const claims = /se carga|carga autom|pyodide|navegador|browser/i
+    const local = playground.filter((e) => e.environment === 'local-python')
+    for (const ex of local) {
+      const comments = ex.code.split('\n').filter((line) => line.trim().startsWith('#'))
+      assert.ok(comments.length > 0, `${ex.name} has no comment line: the check would pass on nothing`)
+      for (const line of comments) assert.ok(!claims.test(line), `${ex.name} comments: ${line}`)
     }
   })
 

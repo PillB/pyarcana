@@ -21,6 +21,9 @@ export const LOCAL_PYTHON_NOTE = {
   body: 'Este ejemplo usa una biblioteca cuya versión fija el curso, pero el navegador tiene otra; por eso, el resultado puede diferir del que aparece impreso en el curso. Para ejecutarlo como lo muestra el curso, guarda el código en un archivo y ejecútalo en tu propio entorno, con las bibliotecas en las versiones fijadas por el curso.',
 } as const
 
+/** The command shown under a local-only example, after the learner has saved the code in a file. Written by Codex (run sim11-demo). */
+export const LOCAL_RUN_COMMAND = 'python archivo.py'
+
 /**
  * The import names of each pinned package whose import name differs from the package name. One
  * package can be imported under more than one name: PyMuPDF 1.28 is imported as `pymupdf`, and

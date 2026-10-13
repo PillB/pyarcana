@@ -68,7 +68,7 @@ import { ProgressRing } from './ProgressRing'
 import { ExamView } from './ExamView'
 import { CodePlayground } from './CodePlayground'
 import { t, useI18n } from '@/lib/i18n'
-import { playgroundMode, LOCAL_PYTHON_NOTE, type PlaygroundEnvironment } from '@/lib/playground-environment'
+import { playgroundMode, LOCAL_PYTHON_NOTE, LOCAL_RUN_COMMAND, type PlaygroundEnvironment } from '@/lib/playground-environment'
 import { popIn, riseIn } from '@/lib/entrance'
 
 interface SectionViewProps {
@@ -1346,7 +1346,7 @@ fatal: required_fields vacío`,
     'modules-packaging-cli': {
       environment: 'local-python',
       title: 'Practica scikit-learn',
-      code: `# Practica scikit-learn (se carga automaticamente)
+      code: `# Práctica: entrena un clasificador de regresión logística con scikit-learn sobre datos sintéticos y muestra la exactitud y la validación cruzada.
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import accuracy_score
@@ -1382,7 +1382,7 @@ CV Accuracy: 96.00% ± 3.74%`,
     'oop-domain': {
       environment: 'local-python',
       title: 'Practica testing con asserts',
-      code: `# Practica testing con asserts (simulando pytest)
+      code: `# Práctica de pruebas con assert y try/except.
 import numpy as np
 
 # Funcion a testear
@@ -4263,7 +4263,7 @@ print(f"  Overlap: {overlap}/{total} ({overlap/total:.0%})")`,
             {LOCAL_PYTHON_NOTE.body}
           </Callout>
           <CodeBlock code={demo.code} language="python" title={demo.title} />
-          <CodeBlock code="python3 archivo.py" language="bash" />
+          <CodeBlock code={LOCAL_RUN_COMMAND} language="bash" />
         </>
       )}
     </div>
