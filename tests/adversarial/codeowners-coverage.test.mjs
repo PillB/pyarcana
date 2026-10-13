@@ -76,7 +76,7 @@ function ownersOf(path) {
 function agentsProtectedPaths() {
   const start = AGENTS.indexOf('## Protected paths')
   const legacy = AGENTS.indexOf('Inactive legacy files', start)
-  if (start < 0 || legacy < 0) throw new Error('AGENTS.md protected-path section not found')
+  if (start < 0 || legacy < 0) return []
   const section = AGENTS.slice(start, legacy)
   const names = [...section.matchAll(/`([^`]+)`/g)].map((m) => m[1])
   return /this file/.test(section) ? [...names, 'AGENTS.md'] : names
@@ -89,11 +89,13 @@ function agentsEntryRegExp(entry) {
 }
 
 describe('CODEOWNERS covers AGENTS.md protected paths', () => {
+  // Nothing in this describe body may throw: Node 24 reports a throw here as a failed suite and
+  // still exits 0. The parser returns an empty list instead, and the floor test below fails on it.
   const entries = agentsProtectedPaths()
 
   it('reads the protected-path list, so a parser that found nothing cannot pass', () => {
     // A floor, not a ceiling: AGENTS.md lists 13 entries today, and removing one is itself ask-first.
-    assert.ok(entries.length >= 13, `found ${entries.length} protected-path entries`)
+    assert.ok(entries.length >= 13, `found ${entries.length} protected-path entries; is the "## Protected paths" heading still there?`)
   })
 
   for (const entry of entries) {
