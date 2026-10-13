@@ -1,11 +1,13 @@
 /**
- * G-7: the three roadmaps and the capstone table count the course from the bindings, not from 52.
+ * G-7: the three roadmaps and the capstone table count the course from the bindings, not from a literal.
  *
  * The V3 roadmap at the root is read by CI; its copy under upload/ is read only by the Playwright
  * spec scripts/v3_regression.spec.ts, which CI does not run. learning_roadmap.md is a third file
- * with its own count of 52. A renumber that moves the sections must move every roadmap, so each
+ * with its own count of sections. A renumber that moves the sections must move every roadmap, so each
  * roadmap's headers are checked here, in the adversarial suite CI runs, against the bindings and
- * the capstone catalogue. Each defect is recreated on the real roadmap text.
+ * the capstone catalogue. Each defect is recreated on the real roadmap text, and every number a
+ * recreation expects (a count, a section number, a level) is read from that text or from the
+ * bindings, so the renumber moves the expectations with the course and edits no test.
  */
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
@@ -35,6 +37,7 @@ const countOf = (text: string, re: RegExp): number => (text.match(re) ?? []).len
 const sameSequence = (found: readonly number[], expected: readonly number[]): boolean =>
   found.length === expected.length && found.every((v, i) => v === expected[i])
 const range = (n: number): number[] => Array.from({ length: n }, (_, i) => i + 1)
+const EXAM_SPEC = /^### Auto-evaluación — Requisitos detallados del examen$/gm
 
 /** One line per disagreement between a roadmap and the bindings. An empty list means they agree. */
 export function roadmapFailures(input: RoadmapInput): string[] {
@@ -63,7 +66,7 @@ export function roadmapFailures(input: RoadmapInput): string[] {
   if (!sameSequence(sections, range(n))) {
     out.push(`learning_roadmap.md has ${sections.length} section headers, bindings ${n}`)
   }
-  const examSpecs = countOf(learningRoadmap, /^### Auto-evaluación — Requisitos detallados del examen$/gm)
+  const examSpecs = countOf(learningRoadmap, EXAM_SPEC)
   if (examSpecs !== n) out.push(`learning_roadmap.md has ${examSpecs} exam-spec headers, bindings ${n}`)
   const fases = numbersOf(learningRoadmap, /^## Fase (\d+) —/gm)
   if (!sameSequence(fases, fasePhases)) {
@@ -94,13 +97,44 @@ describe('G-7 roadmap counts on the real tree', () => {
   })
 })
 
+/** Roadmaps of a course that binds `n` sections in two levels: the guard must not care what n is. */
+function syntheticInput(n: number): RoadmapInput {
+  const bindings = range(n).map((number) => ({ number, phase: number <= n / 2 ? 0 : 1 }))
+  const v3 = [
+    '## Nivel 1 — Base',
+    '## Nivel 2 — Avance',
+    ...range(n).map((k) => `### S${String(k).padStart(2, '0')} — Tema ${k}`),
+    'Capstone CP-N1-A',
+  ].join('\n')
+  const learningRoadmap = [
+    '## Fase 1 — Avance',
+    ...range(n).flatMap((k) => [`## ${k}. Tema ${k}`, '### Auto-evaluación — Requisitos detallados del examen']),
+  ].join('\n')
+  return { bindings, v3, v3Upload: v3, learningRoadmap, capstoneIds: ['CP-N1-A'] }
+}
+
+describe('G-7 holds at any course size: the guard has no count of its own', () => {
+  for (const size of [7, 61]) {
+    it(`a ${size}-section course with matching roadmaps passes, and one lost header is named`, () => {
+      const input = syntheticInput(size)
+      assert.deepEqual(roadmapFailures(input), [])
+      const dropped = input.learningRoadmap.replace(`## ${size}. Tema ${size}\n`, '')
+      assert.deepEqual(roadmapFailures({ ...input, learningRoadmap: dropped }), [
+        `learning_roadmap.md has ${size - 1} section headers, bindings ${size}`,
+      ])
+    })
+  }
+})
+
 describe('G-7 recreations on the real roadmaps', () => {
-  it('a learning roadmap with one section header dropped is named', () => {
+  it('a learning roadmap with its last section header dropped is named', () => {
     const base = realInput()
-    const dropped = base.learningRoadmap.replace(/^## 52\. .*\n/m, '')
+    const found = numbersOf(base.learningRoadmap, /^## (\d+)\. /gm)
+    const last = found[found.length - 1]
+    const dropped = base.learningRoadmap.replace(new RegExp(`^## ${last}\\. .*\\n`, 'm'), '')
     assert.deepEqual(
       roadmapFailures({ ...base, learningRoadmap: dropped }),
-      ['learning_roadmap.md has 51 section headers, bindings 52']
+      [`learning_roadmap.md has ${found.length - 1} section headers, bindings ${base.bindings.length}`]
     )
   })
 
@@ -115,26 +149,35 @@ describe('G-7 recreations on the real roadmaps', () => {
 
   it('a V3 section heading renumbered out of order is named', () => {
     const base = realInput()
-    const renumbered = base.v3.replace('### S27 — ', '### S28 — ')
+    const n = base.bindings.length
+    const middle = Math.floor(n / 2)
+    const label = (k: number) => `### S${String(k).padStart(2, '0')} — `
+    const renumbered = base.v3.replace(label(middle), label(middle + 1))
+    assert.notEqual(renumbered, base.v3, `the recreation found no ${label(middle)} heading to renumber`)
     const failures = roadmapFailures({ ...base, v3: renumbered, v3Upload: renumbered })
-    assert.ok(failures.includes('learning_roadmap_52_V3.md has 52 ### S headings, bindings 52'), failures.join('\n'))
+    assert.ok(failures.includes(`learning_roadmap_52_V3.md has ${n} ### S headings, bindings ${n}`), failures.join('\n'))
   })
 
   it('an exam-spec header lost from learning_roadmap.md is named', () => {
     const base = realInput()
+    const specs = countOf(base.learningRoadmap, EXAM_SPEC)
     const lost = base.learningRoadmap.replace(/^### Auto-evaluación — Requisitos detallados del examen\n/m, '')
     assert.deepEqual(
       roadmapFailures({ ...base, learningRoadmap: lost }),
-      ['learning_roadmap.md has 51 exam-spec headers, bindings 52']
+      [`learning_roadmap.md has ${specs - 1} exam-spec headers, bindings ${base.bindings.length}`]
     )
   })
 
-  it('a Fase header for phase 0 is named: phase 0 is implicit in S01 to S13', () => {
+  it('a Fase header for phase 0 is named: phase 0 is implicit in its first sections', () => {
     const base = realInput()
-    const added = base.learningRoadmap.replace(/^## Fase 1 —/m, '## Fase 0 —\n\n## Fase 1 —')
+    const fasePhases = phasesOf(base.bindings).filter((p) => p > 0)
+    const added = base.learningRoadmap.replace(
+      new RegExp(`^## Fase ${fasePhases[0]} —`, 'm'),
+      `## Fase 0 —\n\n## Fase ${fasePhases[0]} —`
+    )
     const failures = roadmapFailures({ ...base, learningRoadmap: added })
     assert.ok(
-      failures.includes('learning_roadmap.md has Fase headers [0,1,2,3], phases [1,2,3]'),
+      failures.includes(`learning_roadmap.md has Fase headers [0,${fasePhases.join(',')}], phases [${fasePhases.join(',')}]`),
       failures.join('\n')
     )
   })
@@ -147,10 +190,15 @@ describe('G-7 recreations on the real roadmaps', () => {
     assert.ok(failures.includes('learning_roadmap_52_V3.md omits capstone CP-FINAL'), failures.join('\n'))
   })
 
-  it('a V3 roadmap with one Nivel heading missing is named', () => {
+  it('a V3 roadmap with its last Nivel heading missing is named', () => {
     const base = realInput()
-    const dropped = base.v3.replace(/^## Nivel 4 —.*\n/m, '')
+    const levels = phasesOf(base.bindings).length
+    const dropped = base.v3.replace(new RegExp(`^## Nivel ${levels} —.*\\n`, 'm'), '')
+    assert.notEqual(dropped, base.v3, `the recreation found no Nivel ${levels} heading to drop`)
     const failures = roadmapFailures({ ...base, v3: dropped, v3Upload: dropped })
-    assert.ok(failures.includes('learning_roadmap_52_V3.md has 3 ## Nivel headings, phases 4'), failures.join('\n'))
+    assert.ok(
+      failures.includes(`learning_roadmap_52_V3.md has ${levels - 1} ## Nivel headings, phases ${levels}`),
+      failures.join('\n')
+    )
   })
 })
