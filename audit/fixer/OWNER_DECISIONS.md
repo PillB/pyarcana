@@ -377,8 +377,10 @@ Answered 2026-10-13, closing O19's open list:
 - **10.** The homonym list as proposed in the design.
 - **11.** One learner notice when the course becomes 55 sections. The certificado de finalización
   needs 55 of 55 from then on. Nothing already issued or earned is changed retroactively.
-- **13.** `AGENTS.md` (line 131) and `course_requirements.json` are amended in the renumber PR, with
-  the numbering they describe.
+- **13.** `AGENTS.md` and `course_requirements.json` are amended in the renumber PR, with the
+  numbering they describe. In `AGENTS.md` that is the first bullet under "## Invariants", which
+  reads «52 active sections, unique stable IDs; exercise IDs `Sxx-Ty-Z-En` stay present.» (named
+  by its text, because line numbers drift).
 - **15.** Work runs in parallel where the design allows it.
 
 **Retire when:** the renumber has merged to main and the learner notice is published.
