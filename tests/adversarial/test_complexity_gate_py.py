@@ -247,6 +247,27 @@ def function_with_score(name: str, score: int) -> str:
     return f"def {name}(x):\n{body}    return -1\n"
 
 
+class Verdict(unittest.TestCase):
+    """The ceiling as the process reports it: a function at 15 is green, one at 16 is red."""
+
+    def check(self, score: int) -> subprocess.CompletedProcess:
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "x.py"
+            target.write_text(function_with_score("f", score), encoding="utf-8")
+            return run_gate("--files", str(target))
+
+    def test_a_function_at_fifteen_is_green(self):
+        done = self.check(15)
+        self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
+        self.assertIn("new code: 0 function(s) above 15", done.stdout)
+
+    def test_a_function_at_sixteen_is_red_and_named_with_its_score(self):
+        done = self.check(16)
+        self.assertEqual(done.returncode, 1, done.stdout + done.stderr)
+        self.assertIn("OVER  16 ", done.stdout)
+        self.assertIn(" f\n", done.stdout)
+
+
 class Ratchet(unittest.TestCase):
     """Per-function ratchet: new code meets the ceiling, baselined debt may not grow, falling
     debt tightens the baseline, and a missing baseline fails. Runs in a temporary tree."""
