@@ -89,6 +89,67 @@ function evidenceTierMinimum(spec: BadgeSpec): number {
 }
 
 // ---------------------------------------------------------------------------
+// Gates
+// ---------------------------------------------------------------------------
+
+/**
+ * The gates `evaluate()` checks, in its order (the `Gate N` comments in it).
+ *
+ * /api/credentials/issue refuses a credential until each of these is reported passed, so a gate
+ * added to `evaluate()` must be added here and to GATE_REQUIREMENTS; credential-blockers.ts then
+ * fails to type-check until the new gate has a blocker.
+ */
+export const ENGINE_GATES = [
+  'badge_status',
+  'prerequisite_badges',
+  'required_activities',
+  'required_projects',
+  'component_floors',
+  'critical_competencies',
+  'supplementary_exercises',
+  'overall_weighted_average',
+  'edition',
+] as const
+
+export type EngineGate = (typeof ENGINE_GATES)[number]
+
+/** One requirement a gate reports, and the item it is about when the gate checks several. */
+export interface GateRequirement {
+  requirement_id: string
+  item?: string
+}
+
+/**
+ * The `requirement_id`s `evaluate()` reports for each gate of a badge, in the order it reports
+ * them. The edition gate reports none: it sets the report's state instead (`awarded` on the
+ * dynamic edition). The engine stops at the first failing gate among 1-4, and after 5-7 when any
+ * of them fails, so a requirement can be missing from a report because it was never evaluated.
+ */
+export const GATE_REQUIREMENTS: Record<EngineGate, (spec: BadgeSpec) => GateRequirement[]> = {
+  badge_status: () => [{ requirement_id: 'badge_status' }],
+  prerequisite_badges: () => [{ requirement_id: 'prerequisite_badges' }],
+  required_activities: () => [{ requirement_id: 'required_activities' }],
+  required_projects: () => [{ requirement_id: 'required_projects' }],
+  component_floors: (spec) =>
+    spec.components.map((c) => ({
+      requirement_id: `component:${c.component_id}`,
+      item: c.component_id,
+    })),
+  critical_competencies: (spec) =>
+    spec.critical_competencies.map((id) => ({
+      requirement_id: `critical_competency:${id}`,
+      item: id,
+    })),
+  supplementary_exercises: (spec) =>
+    spec.gap_affected_competencies.map((id) => ({
+      requirement_id: `supplementary_exercise:${id}`,
+      item: id,
+    })),
+  overall_weighted_average: () => [{ requirement_id: 'overall_weighted_average' }],
+  edition: () => [],
+}
+
+// ---------------------------------------------------------------------------
 // Engine
 // ---------------------------------------------------------------------------
 
