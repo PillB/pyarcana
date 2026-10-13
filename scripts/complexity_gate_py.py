@@ -29,7 +29,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CEILING = 15
 CI_PYTHON = (3, 12)  # the only interpreter a verdict is reported under (CI runs 3.12)
 BASELINE = ROOT / "audit/fixer/complexity_baseline_py.json"
-SCOPES = ("scripts", "tools")
+SCOPE_FILE = ROOT / "audit/fixer/complexity_scope.json"
 UNITS = (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)
 #: Each adds one decision point to the function that contains it. `assert` is a conditional
 #: raise (`if not cond: raise`), so it counts as the `if` it stands for.
@@ -138,9 +138,20 @@ def measure(paths: list[Path]) -> tuple[list[dict], list[str]]:
     return rows, problems
 
 
-def python_files() -> list[Path]:
-    return sorted(p for scope in SCOPES for p in (ROOT / scope).rglob("*.py")
-                  if "__pycache__" not in p.parts)
+def excluded(rel: str, exclusions: list[dict]) -> bool:
+    """True when a repository-relative path is under an exclusion's path (a directory ends in /)."""
+    return any(rel == e["path"] or (e["path"].endswith("/") and rel.startswith(e["path"]))
+               for e in exclusions)
+
+
+def python_files(root: Path = ROOT) -> list[Path]:
+    """Every .py file under the Python scope roots that no exclusion names."""
+    scope = json.loads(SCOPE_FILE.read_text(encoding="utf-8"))
+    py = scope["python"]
+    found = [p for r in py["roots"] for p in (root / r).rglob("*")
+             if p.suffix in py["suffixes"] and "__pycache__" not in p.parts
+             and not excluded(p.relative_to(root).as_posix(), scope["GATE_EXCLUSIONS"])]
+    return sorted(found)
 
 
 def check_files(paths: list[str]) -> int:

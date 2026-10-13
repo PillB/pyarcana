@@ -1,0 +1,32 @@
+{
+ "about": "Which tracked code each complexity gate measures, and what is excluded with a reason. Read by scripts/complexity_gate_py.py, scripts/complexity_gate.mjs and tests/adversarial/test_gate_scope_inventory.py, so the gates and the inventory cannot disagree. A new code file must sit under a scope root or under an exclusion; the inventory test fails otherwise.",
+ "python": {"roots": ["scripts", "tools", "tests"], "suffixes": [".py"]},
+ "typescript": [
+  {"root": "src", "suffixes": [".ts", ".tsx"]},
+  {"root": "scripts", "suffixes": [".mjs", ".mts", ".ts"]},
+  {"root": "tests", "suffixes": [".ts", ".mjs"]}
+ ],
+ "GATE_EXCLUSIONS": [
+  {"path": "workers/billing/", "reason": "Cloudflare billing worker with its own test runner (scripts/run_billing_tests.mjs). Neither gate measures it yet. Work left undone: add workers/ to the TypeScript scope once its functions are baselined."},
+  {"path": "course-state/capstones/", "reason": "Learner-facing capstone starters and reference solutions, graded by the CP-* pytest jobs in tests.yml. Course content, not tooling; the gate must not baseline it."},
+  {"path": "course-state/newbie_walkthrough/", "reason": "Generated walkthrough evidence and one-off solver scripts for a recorded run. Regenerated, not maintained. The walkthrough runner, scripts/newbie_walkthrough_runner.py, is in scope."},
+  {"path": "course-state/curriculum_hardening/", "reason": "One-off hardening scratch scripts that are not tooling. Work left undone: move any reusable audit into scripts/."},
+  {"path": "audit/session-0/", "reason": "Archived illustration scripts from session 0."},
+  {"path": "audit/fixer/rca/", "reason": "Archived root-cause-analysis simulations from past fixer rounds."},
+  {"path": "audit/fixer/renumber_g0/", "reason": "Roadmap render script for the renumber campaign's design of record. One-off and archival, not run by CI."},
+  {"path": "expert_audit/", "reason": "One-off grammar and metrics scripts from expert review rounds. Archival."},
+  {"path": "industry_alignment/", "reason": "Research-phase build scripts for the industry-alignment work. CI does not run them. Work left undone."},
+  {"path": "examples/websocket/", "reason": "Example code shipped with a lesson, not tooling."},
+  {"path": "eslint.config.mjs", "reason": "ESLint configuration, read by ESLint."},
+  {"path": "next.config.ts", "reason": "Next.js configuration, read by Next.js."},
+  {"path": "playwright.config.ts", "reason": "Playwright configuration, read by Playwright."},
+  {"path": "postcss.config.mjs", "reason": "PostCSS configuration, read by PostCSS."},
+  {"path": "tailwind.config.ts", "reason": "Tailwind configuration, read by Tailwind."},
+  {"path": "prisma/seed.ts", "reason": "Seed script run by db:seed. Neither gate measures it yet. Work left undone."},
+  {"path": "parse_epubs.py", "reason": "One-off ingestion script at the repository root. Work left undone: move it under scripts/ so the Python gate measures it."},
+  {"path": "public/chunk-guard.js", "reason": "Static browser asset served from public/, a protected path. Not tooling."},
+  {"path": "scripts/extract_roadmap.js", "reason": "CommonJS script. The TypeScript scope names .mjs, .mts and .ts only. Work left undone: measure it."},
+  {"path": "scripts/generate_roadmap.js", "reason": "CommonJS script. The TypeScript scope names .mjs, .mts and .ts only. Work left undone: measure it."},
+  {"path": "scripts/generate_test_excel.js", "reason": "CommonJS script. The TypeScript scope names .mjs, .mts and .ts only. Work left undone: measure it."}
+ ]
+}

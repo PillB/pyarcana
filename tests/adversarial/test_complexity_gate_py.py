@@ -202,5 +202,27 @@ class InterpreterGuard(unittest.TestCase):
         self.assertIn("new code: 0 function(s) above 15", done.stdout)
 
 
+class Scope(unittest.TestCase):
+    """The Python gate measures scripts, tools and tests, and honours the shared exclusions."""
+
+    def measured(self) -> set[str]:
+        return {p.relative_to(ROOT).as_posix() for p in GATE_MODULE.python_files()}
+
+    def test_it_measures_tests_as_well_as_scripts_and_tools(self):
+        measured = self.measured()
+        self.assertIn("scripts/complexity_gate_py.py", measured)
+        self.assertIn("tools/fixer/ledger.py", measured)
+        self.assertIn("tests/adversarial/test_complexity_gate_py.py", measured)
+
+    def test_excluded_course_content_is_not_measured(self):
+        self.assertEqual([m for m in self.measured() if m.startswith("course-state/")], [])
+
+    def test_a_directory_exclusion_covers_its_files_and_nothing_else(self):
+        rules = [{"path": "course-state/capstones/", "reason": "learner content"}]
+        self.assertTrue(GATE_MODULE.excluded("course-state/capstones/CP-N4-C/a.py", rules))
+        self.assertFalse(GATE_MODULE.excluded("course-state/capstones-old/a.py", rules))
+        self.assertFalse(GATE_MODULE.excluded("scripts/a.py", rules))
+
+
 if __name__ == "__main__":
     unittest.main()
