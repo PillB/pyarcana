@@ -305,7 +305,7 @@ def key_position_issues(banks: list[dict]) -> list[dict]:
 
 #: Wording that names another option by its place or label: "todas las anteriores", "opción A",
 #: "A y B". The option shuffle moves options, so such a reference lands on the wrong text. The
-#: letters after "y" must stand alone, so the variables of a statement ("A~B y B~C") do not match.
+#: letters must stand alone, not be part of a variable, so a statement ("A~B y B~C") does not match.
 POSITION_REFERENCE = re.compile(
     r"(?i:\btodas\s+las\s+anteriores\b|\bninguna\s+de\s+las\s+anteriores\b"
     r"|\b(?:opci[oó]n|alternativa)\s+[a-dA-D]\b)"

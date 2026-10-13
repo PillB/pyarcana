@@ -11,6 +11,8 @@ Each property has a recreation of the defect it closes:
   Exam options are shuffled per attempt since #91, so a stored position does not reach a learner
   in an exam. The check still guards self-check banks and any static use, so its owed set is a
   record of the stored banks, not a learner-facing defect.
+- The audit flags an option that names another option ("todas las anteriores", "opción A", "A y B")
+  as P0: the option shuffle would make the reference point at the wrong text.
 """
 from __future__ import annotations
 
