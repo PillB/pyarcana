@@ -184,8 +184,11 @@ class ParityCorpus(unittest.TestCase):
 
     def test_the_nist_fig_4_4_port_scores_six_as_the_document_states(self):
         """Figure 4-4 of NIST SP 500-235 is a C module the document says has complexity 6: two
-        `if`s, a `while`, and two `&&`s, starting from 1. The entry is a line-for-line Python port
-        of that listing, and radon agrees that it scores six."""
+        `if`s, a `while`, and two `&&`s, starting from 1. The entry is a Python reconstruction of
+        that listing from the PDF's text layer, which is garbled in places (`&&` reads as `ss` and
+        `i--` as `i~`). Its structure follows the listing's line numbers 42 to 51 and is checked
+        against the document's stated count of 6; it was not compared with the page image. radon
+        agrees that it scores six."""
         entry = next(e for e in CORPUS["entries"] if e["id"] == "nist_fig44_port")
         self.assertEqual(entry["expected"], 6)
         self.assertEqual(entry["radon"], 6)
