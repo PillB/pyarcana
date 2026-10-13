@@ -1,0 +1,345 @@
+{
+  "schema": "exercise_meaning_ledger/1",
+  "rows": [
+    {
+      "row": 1,
+      "id": "S01-T1-B-E2",
+      "kind": "historical",
+      "from_fp": "4d9053b3f5988115d607e09d634fc7ccd507f74ce48f523b034b6321c2f4c63c",
+      "to_fp": "92c2a4ee916cd0daa804792ad566fec0647303df618ac2bc69d2ef3e65ff1449",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.205, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 2,
+      "id": "S02-T1-A-E3",
+      "kind": "historical",
+      "from_fp": "7c706bfe1f3c2fc5995361d00cbbc15037f874984f88e4a974862fbdd0927cec",
+      "to_fp": "690562aa84baf4dd77601d7e584e2efdd422d27fee298be66a98180ce8786639",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.449, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 3,
+      "id": "S02-T1-B-E2",
+      "kind": "historical",
+      "from_fp": "4a2b7bdd92c4d5cd04ed7b645187b7c1a6138e50ca1515b89e06b3bfa0c2b625",
+      "to_fp": "e3634026063811f50dd013eb0828b6bafbd4c3ee29a30542fe8e3cd074fc17dc",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.13, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 4,
+      "id": "S02-T1-B-E3",
+      "kind": "historical",
+      "from_fp": "e7216439e67394adaf5676d88518a032ce85abfc4a97e234b59d6c47ebc0f238",
+      "to_fp": "a0a743fae9d615a98086306a069660c94dfe8fec4345618358588f39e08401ab",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.125, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 5,
+      "id": "S02-T2-A-E2",
+      "kind": "historical",
+      "from_fp": "8525cb251eab72222b94bdb8b629f9ce27c28440599c78d87e95b5f8e0aa3450",
+      "to_fp": "49e284f428aa0acba84ebb09c86101c0cbd3923049e52bec07ff5b35d9f08f12",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.393, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 6,
+      "id": "S02-T2-A-E3",
+      "kind": "historical",
+      "from_fp": "dfd49a2a6596fc4f0f677f2b1279329378a4cd7af5b27097818c298d490e8019",
+      "to_fp": "bee966a1c3ab1149a0c1ac848df04eb78a21a37e8fc88a54bc9c6f13af219de6",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.18, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 7,
+      "id": "S02-T2-B-E3",
+      "kind": "historical",
+      "from_fp": "1d2c12777db1ccb9b47811b7647b35c851f5742c8300387bbd0fadb392fd51bf",
+      "to_fp": "f72944dadd8dea57d452e6459ef9da2b79e7d01028c5d6fa9ba3e15fca70c7ce",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.1, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 8,
+      "id": "S02-T3-B-E3",
+      "kind": "historical",
+      "from_fp": "fe29e826a63139ee7151b3ae784511149180a4ddefadc277f3574a9484c3d8ce",
+      "to_fp": "b0ff8cd2247349381b008f57a2c18099f8935d5a1fc04a6e7ab1562a67101402",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.261, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 9,
+      "id": "S02-T4-A-E3",
+      "kind": "historical",
+      "from_fp": "befcbe37813393831fdbba7e63f0e94bb221c0283d8408ed9c318c77d2b3acdc",
+      "to_fp": "1b971292346ab7996a6d5d648494e690b0b5ed96c324431467223dc35a0af632",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.426, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 10,
+      "id": "S02-T4-B-E1",
+      "kind": "historical",
+      "from_fp": "be93cc7c71b4586936e5280b740e8794f0f90392cae3e291cd9441ae2e3fa927",
+      "to_fp": "bb3bbe7aa836d08e562ffe537336b100e1b8e0360aa1e08927a52e685aa12dc5",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.15, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 11,
+      "id": "S02-T4-B-E3",
+      "kind": "historical",
+      "from_fp": "a694744e1c32724cccf4852ab32edd02fc34dd6a78a5e16c2013654040fd7775",
+      "to_fp": "dbc6468d9c7fd7991a84f1c96c176ca05abc80a37bbee8f75723f2069edfdcef",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.163, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 12,
+      "id": "S03-T1-A-E2",
+      "kind": "historical",
+      "from_fp": "e84992fff2815cbeac415f43e5544df8fcd20646d4c8dc41bbaf9c9fb18eaf28",
+      "to_fp": "e3a46a2fa5adcde31a905d03001673fc5e25fee70a9c2ff525063acd7e5741b2",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.242, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 13,
+      "id": "S03-T1-A-E3",
+      "kind": "historical",
+      "from_fp": "e84912d0c5cab65d21d2b8836131e8537b2c98b5a73c689bb5b47dba4ae1b0eb",
+      "to_fp": "3db0f06132d7432a646d4b7433bf87395c3cefb65364aef57c7934287a729347",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.1, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 14,
+      "id": "S03-T1-B-E1",
+      "kind": "historical",
+      "from_fp": "de6c12d462e25063396956cd991eae9a00a5daba1d04d50802cacf9b84a378f4",
+      "to_fp": "965f66c8861700952fec2b6afb490eb708a05e5ecde5bc7a9faffc54851e1722",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.095, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 15,
+      "id": "S03-T1-B-E2",
+      "kind": "historical",
+      "from_fp": "fb1d0e59bf48efc185597ec2141770f268223043965614d5236c5b7fe8e8791a",
+      "to_fp": "63de6e5041417d30e9dab872b2706a21f2ee0997b71a47ffb3e7c5ab7e072dad",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.083, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 16,
+      "id": "S03-T1-B-E3",
+      "kind": "historical",
+      "from_fp": "364801f3dd304fc1898b5edabdbf4ae02a95a0be30c5e3bdc13c9d40f67deee5",
+      "to_fp": "b8d051fda6c19e1e52fc05691bf400df43b848a2914bf03a5e4a239a787d9921",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.344, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 17,
+      "id": "S03-T2-A-E1",
+      "kind": "historical",
+      "from_fp": "d0fb9737aa46090be7505e6090a6c624e38c0dd8afe48abd94b806b947dfcfb1",
+      "to_fp": "644c94ca4562f97e2742add7f3fe175ca85e3564b52021470e5aa8ef2a90fd36",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.438, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 18,
+      "id": "S03-T2-A-E2",
+      "kind": "historical",
+      "from_fp": "cde43706c59cbd8dc1ab03c50973eb809d73e98fc708cf681dcf770f9b830e00",
+      "to_fp": "f8207e2424cd585e1112e207ded035a2a0bf3609d56f47812e2c02a20ad8f529",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.304, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 19,
+      "id": "S03-T2-A-E3",
+      "kind": "historical",
+      "from_fp": "735586756154214186f33954d98ab3bf5b08295a190db06db2027e7db556407a",
+      "to_fp": "5b7bd2bf958bc22ea44f615ccd95d46637715bc27f34e823f22441bc5136dbfa",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.368, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 20,
+      "id": "S03-T2-B-E1",
+      "kind": "historical",
+      "from_fp": "9e8ea1b212caac8a4d046363affcdcef2ef78553954e067295b5afc2e206435c",
+      "to_fp": "bc29c8ae3043ec696a341c1ec4bb053d2bbe33e98bf3e448d6be426367ea5222",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.396, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 21,
+      "id": "S03-T2-B-E2",
+      "kind": "historical",
+      "from_fp": "06ef759c00da27bb2abef5847e33abc6989ef671a61f806bf0b029ef2aa0fcba",
+      "to_fp": "3459d1b1635c49797a5212268047dd1ae27d26127d5b7f90971ef1330fb1ab26",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.211, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 22,
+      "id": "S03-T2-B-E3",
+      "kind": "historical",
+      "from_fp": "ecc69dec1d65a87f7aced26cba0c1285beb66d12978af3f009fbe676b56ea3cc",
+      "to_fp": "9a5b1207f8f88d7a7c7a840273ea5d405170a175a2ecdf82e964806dc24e8ae8",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.345, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 23,
+      "id": "S03-T3-A-E1",
+      "kind": "historical",
+      "from_fp": "b07709628d974ab4fe9bdaf96c2bb9aaefb7f6cc8a22264657b0b74d4caa4c3c",
+      "to_fp": "ed9ae67e55c9430016b485f09b8e67e2188d2411cabce9ff66dd0cbadbfd595d",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.163, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 24,
+      "id": "S03-T3-A-E2",
+      "kind": "historical",
+      "from_fp": "21fca0325fcd650c35c80c5994d94dcbf41bf4ed56bd62aaadbcdf190eccf546",
+      "to_fp": "120b33a1e397a1429f5e099b623de65ac168ab9b06477d1335e726b0f76cd29d",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.208, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 25,
+      "id": "S03-T3-A-E3",
+      "kind": "historical",
+      "from_fp": "da99d55337ce6b6c773994daf3df16575562be99dad903401545aadf887b34f8",
+      "to_fp": "d44995bc3cd81664e93d15516c817e2d89289e64397ed56c4477251f7752ee07",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.121, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 26,
+      "id": "S03-T3-B-E1",
+      "kind": "historical",
+      "from_fp": "f14c49a7444009696de0ddefa2a0add738c977ccd4bbc8c03be0b0b131aebe44",
+      "to_fp": "8add70f04d1636becdf9ac1428d91e1e05eff3a94bb55b4602a0d58cc7c745b7",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.229, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 27,
+      "id": "S03-T3-B-E2",
+      "kind": "historical",
+      "from_fp": "142d2bb8073943273f05b68889ecfa1ff36ea6f348edbb43abeb0f993d6ac73a",
+      "to_fp": "93f60e6b6618cfd7de86aac6bca1ad067eecdd04334a7a949c77654719e4f5f8",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.32, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 28,
+      "id": "S03-T3-B-E3",
+      "kind": "historical",
+      "from_fp": "ecaa23a359427ce64550bf498ff1cb953106a691cb48937aad96651e28d28ca9",
+      "to_fp": "8579d9e1ff04d8c1af0a6fba003168a84d546bf2f05c7fac9dc669f5d53ffd73",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.209, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 29,
+      "id": "S03-T4-A-E1",
+      "kind": "historical",
+      "from_fp": "15713ada6a87ebbbb42d475c08c931a17fa473484fefecab94b3c7fc60136d77",
+      "to_fp": "49e424242e1406d4e129639ea74c4e4504cecb66ea5187e1be0d6c38fa49128f",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.236, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 30,
+      "id": "S03-T4-A-E2",
+      "kind": "historical",
+      "from_fp": "6a17b805ba633f17b3609cbcba315c9adc7e28461ee8dc2b6a03a5c57bcbacf2",
+      "to_fp": "66d3d3ac31cf93877cddfc9f900fe46e53c93eb17dd4feda7ae570a5100d372c",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.167, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 31,
+      "id": "S03-T4-A-E3",
+      "kind": "historical",
+      "from_fp": "27e792fe1c11022995160a2c319525970c200ba70539b2e19f11d8027abe33cf",
+      "to_fp": "6b70290224557d1f989cf33f28db0ad3ae87321655d89f7f696429f01902bdb9",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.299, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 32,
+      "id": "S03-T4-B-E1",
+      "kind": "historical",
+      "from_fp": "e88ed2ac6fdb38d885d7eef0f57d9cd32beee8af13a8d1432f6a1ddb1f48d3db",
+      "to_fp": "f0612c2baaf2e8d6880dc992989093f38e5fbeafc3eb86866dc5c8f9a99aaba2",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.211, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 33,
+      "id": "S03-T4-B-E2",
+      "kind": "historical",
+      "from_fp": "7e8db460604dd96c413be83ef10e2cf88a1b649e51705e3d69386d41fe7bd332",
+      "to_fp": "97f71b35753a7e3784dfd0ef2725f40d28219654df481937f0809b3a0d1e0277",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.161, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 34,
+      "id": "S03-T4-B-E3",
+      "kind": "historical",
+      "from_fp": "73d20fc6ade0d0cedc6eaf5bfaf31732b371a4d881b9e9deef17e4a81f0abef9",
+      "to_fp": "08ddeada16c265fcdb1b910fdda119369e722e3ce18aad63428788aee4b72f99",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.105, below 0.5). Measured by the B11 baseline before the anchors existed; no decision is recorded here.",
+      "decided_by": "measured: scripts/exercise_meaning.mjs against commit 35d19637",
+      "date": "2026-10-13"
+    }
+  ]
+}

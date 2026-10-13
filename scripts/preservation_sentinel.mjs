@@ -27,6 +27,7 @@ import {
   parseSectionIdRenames,
 } from './section_id_renames.mjs'
 import { ROADMAP_PATH, roadmapSectionCount } from './preservation/roadmap_section_count.mjs'
+import { ANCHORS_PATH, ledgerFindings, readAnchorState } from './exercise_meaning.mjs'
 
 const ROOT = process.cwd()
 const ALLOWLIST_PATH = join(ROOT, 'audit/safe-agent/deletion-allowlist.json')
@@ -283,6 +284,33 @@ function testsAndMigrations(treeish) {
   }
 }
 
+/**
+ * B11: every exercise anchor that changes between base and head needs a ledger row added after the
+ * base's rows, and an old row is never edited (scripts/exercise_meaning.mjs). A base without anchors
+ * is the commit that introduces them, which has nothing to compare with. Before the anchors exist
+ * the check is dormant, like the renumber guards; once the base had them, their absence at HEAD is a
+ * deletion, which fails.
+ */
+function compareExerciseMeaning(base, head, failures) {
+  const before = readAnchorState(ROOT, base)
+  const after = readAnchorState(ROOT, head)
+  if (after.anchors === null) {
+    if (before.anchors !== null) {
+      failures.push({ code: 'EXERCISE_ANCHORS_REMOVED', path: ANCHORS_PATH, message: `${ANCHORS_PATH} existed at the base and is gone at HEAD` })
+    }
+    return
+  }
+  const findings = ledgerFindings({
+    baseAnchors: before.anchors,
+    headAnchors: after.anchors,
+    baseRows: before.rows,
+    headRows: after.rows,
+  })
+  for (const finding of findings) {
+    failures.push({ ...finding, code: 'EXERCISE_MEANING_LEDGER', rule: finding.code })
+  }
+}
+
 function main() {
   const args = process.argv.slice(2)
   const baseIdx = args.indexOf('--base')
@@ -334,6 +362,7 @@ function main() {
     attempt('TESTS_MIGRATIONS_UNCOMPARABLE', failures,
       () => compareTestsAndMigrations(base, head, allowlist, failures))
     attempt('PROGRESS_FIELDS_UNCOMPARABLE', failures, () => checkProgressFields(head, failures))
+    attempt('EXERCISE_MEANING_UNCOMPARABLE', failures, () => compareExerciseMeaning(base, head, failures))
   }
 
   const result = {
