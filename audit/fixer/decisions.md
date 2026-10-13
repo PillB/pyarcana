@@ -666,26 +666,75 @@ activities, the overall score (plan of 2026-10-12, C13).
   are removed (ADR 5: an HMAC key in the bundle is the signing key). A test now fails on any
   `NEXT_PUBLIC_*` name containing KEY, SECRET, SIGN, TOKEN, PASSWORD or PRIVATE.
 
-## D23 — Fixer state is keyed by slug; a section number is read from the numbering epoch (2026-10-13)
+## D23 — Fixer state is keyed by slug; a section number is read from the numbering epoch, and a renumber carries the state with one command (2026-10-13)
 
 A section's number belongs to a numbering epoch, not to the section. The fixer kept its state
-under numbers, and its number-to-slug map was a gitignored cache indexed by position. The
-Sept 16 id rename (a492d8eab) showed the cost: eight cycle records still named the old ids
-while the numbers they belonged to had not moved.
+under numbers: cycle records as `SXX.json`, the redaction list as tags, and the 2,124 findings
+in `audit/consolidated/registry.json` as `section: "S20"`. Its number-to-slug map was a
+gitignored cache (`.fixer/events.json`) indexed by position, so a stale copy could name a
+different section than the committed course did.
 
-- **Rule now:** cycle records and the redaction list carry `numbering_epoch` and a `slug`.
-  Every number and slug is read through `tools/fixer/numbering.py`, from
-  `audit/fixer/numbering_epoch.json`, which names the roadmap of record and lists the slugs in
-  order. No fixer tool types a section count (guard: `tests/adversarial/test_fixer_section_counts.py`).
+The 16 Sept 2026 id rename (a492d8ea) showed the cost. It was a pure rename: `git show
+--name-status` reports R096 for `s03-data-structures.ts` to `s03-decisions-rules.ts`, a
+37-line change, and R099 for ten more. It changed eleven ids (S03 to S13) and moved no
+number. Six cycle records (S03 to S08) still named the old ids afterwards; S01 and S02 were
+never renamed, and no record reaches S09.
+
+- **Rule now:** every cycle record carries `numbering_epoch` and `slug`, the redaction list
+  carries `numbering_epoch`, and the registry carries `numbering_epoch` (the numbering of each
+  finding's `section`) and `text_numbering_epoch` (the numbering of the section numbers and
+  finding ids written inside the findings' own text). Every number and slug is read through
+  `tools/fixer/numbering.py`, from `audit/fixer/numbering_epoch.json`, which names the roadmap
+  of record and lists the slugs in order. Only `numbering.py` opens the registry; a tool asks
+  for a section's findings by slug. No fixer tool types a section count. The guards are
+  `tests/adversarial/test_numbering_epoch.py`, `test_numbering_registry.py`,
+  `test_fixer_state_numbering.py`, `test_fixer_section_counts.py` (its scan follows the epoch's
+  count, so after the renumber it catches a typed 55, not only a typed 52) and
+  `test_fixer_tool_boundaries.py`.
 - **An old slug:** the app's own rename map (`src/lib/section-id-migrations.ts`) carries it to
   today's slug, applied once. A record keeps `slug_at_record` as provenance.
-- **Why not a new key:** the epoch label is the count, so a renumber writes a new epoch and a
-  record from another epoch is refused, not reread. Cycle files keep their tag names, because
-  `safe_commit.py` stages them by name and the rename would delete tracked paths.
+- **State from another epoch is refused, not reread**, because a number read under the wrong
+  epoch names the wrong section. The way through is
+  `python3 tools/fixer/restamp.py advance --roadmap <the new roadmap>`, run after the renumber
+  has changed the course and the roadmap. It writes the next epoch from the course, keeps the
+  old table in the epoch file's `previous_epochs`, and carries each record by its slug: cycle
+  records are re-keyed, the redaction list is stamped, and the registry's findings are re-keyed
+  and stamped. It plans and checks everything before it writes, so a refusal changes nothing,
+  and a second run changes nothing. It refuses a record whose slug disagrees with its old number,
+  a section the new course no longer lists, an epoch with no table, and a renumber that keeps
+  the section count (the label is the count, so it could not be told from the last epoch).
+- **The findings' text is not rewritten.** Finding ids (`S28-F04`) stay as ids, and the prose of
+  a finding still cites the numbers its auditors used. `text_numbering_epoch` keeps saying so,
+  and the two briefs that carry finding text tell Codex how to read an old number once the
+  numbering has moved (`numbering.text_epoch_note`).
+- **Two epoch files, kept apart.** `numbering_epoch.json` is the fixer's table, which slug each
+  number names now, for the life of the course. `audit/safe-agent/renumber_epoch.json` (guards
+  G-11 and G-15, schema `renumber_epoch/1`) is the renumber window's switch: the renumber
+  commit writes it, it names the commit and the sections that commit added, and its presence
+  arms those guards. The window closes and the table does not, and folding the sha into the table
+  would make the guards' dormancy depend on a fixer file. While the window file exists, its
+  `new_slugs` must equal the sections the table added since the previous epoch
+  (`numbering.renumber_epoch_problems`, run by `check_epoch`). `numbering_epoch.json` decides
+  which slug every fixer number names, so it belongs with the renumber guard inputs that need
+  the owner's review; 0b-2 owns that list (CODEOWNERS and the AGENTS.md ask-first line).
+- **Trade-offs, stated.** (1) Cycle files keep their tag names, because `safe_commit.py` stages
+  them by name. A restamp therefore renames a cycle file when its section's number moves
+  (git records a rename; no content is removed), and removes the file of a number that nothing
+  now uses. Today no record is at S19 or later, so none would move. (2) The epoch label is the
+  section count, so a renumber that keeps the count needs a different label scheme first.
+  (3) `course-state/concept_map.json` and `prose_quality_report.json` are keyed by tag too, but
+  the gate regenerates them from the course, so a restamp leaves them; run `ledger.py` and the
+  gate after it. (4) The registry's `section` is re-keyed in place rather than copied, so the
+  file is rewritten whole (2,124 findings, none changed but `section`).
 - **Expert standard:** Kimball, *The Data Warehouse Toolkit* (surrogate keys for rows whose
-  natural label changes), and Google AIP-122 (resource IDs are stable; display names are not).
-- **Open, for the owner:** `audit/fixer/cycles/S03.json` closed findings against
-  `s03-data-structures.ts`. Commit a492d8eab, the id-rename commit, replaced that file with
-  `s03-decisions-rules.ts`: git reports a delete and an add, because the content changed by more
-  than half. The record now maps to decisions-rules through the rename map. Whether those findings
-  still count for the rewritten section is a decision for the owner, not the fixer.
+  natural label changes); Google AIP-122 (resource IDs are stable; display names are not); and
+  Sadalage and Ambler, *Refactoring Databases* (a change that moves keys is a scripted,
+  repeatable migration that runs once and is checked after, never a hand edit).
+- **Open, for the owner:** `audit/fixer/cycles/S03.json` closed 12 findings against
+  `s03-data-structures.ts` as it stood when the record was written on 14 Sept. The 16 Sept
+  rename did not change that file's content (R096, 37 lines). It grew from 2,511 to 4,330
+  lines afterwards: `03474115` (1 Oct, the GLM lane's rebuild) added 3,318 lines and removed
+  1,637, and eight smaller commits touched it between (`fb27fcd8`, `8f6fcd8b`, `07688cd1`,
+  `da66393b`, `37819cd9`, `504c10e3`, `7c20497e`, `bf5eb503`). The record maps to
+  `decisions-rules` through the rename map and is read as written. Whether those 12 closed
+  findings still count for the rewritten section is a decision for the owner, not the fixer.

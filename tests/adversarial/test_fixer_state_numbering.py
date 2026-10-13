@@ -92,6 +92,23 @@ class ProductsCarryTheEpochCount(unittest.TestCase):
         self.assertEqual(set(totals), {count})
 
 
+class TheDecisionIsRecordedUnderItsOwnNumber(unittest.TestCase):
+    def test_decision_numbers_are_unique(self) -> None:
+        """Two branches each took D21 and the merge put both in one file. Every brief injects this file as
+        'binding', and a reader cannot tell which D21 a later record means. Mutation: a second `## D21`
+        heading fails this."""
+        numbers = re.findall(r"^## D(\d+)\b", (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8"), re.M)
+        duplicated = sorted({n for n in numbers if numbers.count(n) > 1}, key=int)
+        self.assertEqual(duplicated, [], f"decision numbers used twice: D{duplicated}")
+
+    def test_the_fixer_state_decision_names_the_files_and_the_command_it_depends_on(self) -> None:
+        text = (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")
+        record = text.split("## D23", 1)[1].split("\n## D", 1)[0]
+        for needed in ("numbering_epoch.json", "renumber_epoch.json", "restamp.py advance", "previous_epochs",
+                       "text_numbering_epoch"):
+            self.assertIn(needed, record)
+
+
 class ProgressListsOnlyWhatIsStillOpen(unittest.TestCase):
     def test_the_heaviest_list_skips_sections_already_done_and_is_capped_at_eight(self) -> None:
         """progress.py's "heaviest untouched" list must not name a section a cycle already closed, and must
