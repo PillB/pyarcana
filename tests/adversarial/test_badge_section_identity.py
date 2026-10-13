@@ -16,57 +16,28 @@ The roles stay unbound (section_index null) until Gate B binds them at the renum
 badge may claim the nodes under them. Expert standard: the Phase 6 badge architecture (catalog
 spec, §Identity) and the constructive-alignment rule that a credential's evidence must come from
 the section that teaches it (Biggs and Tang, Teaching for Quality Learning at University).
+
+Section titles are fingerprinted (C12a): a retitled section that a badge cites is named, and the
+change has to pass through the manifest.
 """
 from __future__ import annotations
 
 import copy
 import hashlib
-import json
-import re
+import sys
 import unittest
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
-MANIFEST = ROOT / "src/lib/eligibility/section_manifest.json"
-CATALOG = ROOT / "src/lib/eligibility/badge_catalog.json"
-COURSE_INDEX = ROOT / "src/lib/course/index.ts"
-SECTIONS_DIR = ROOT / "src/lib/course/sections"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-TOKEN = re.compile(r"^S(\d{2})(?:-[A-Z]+)?$")
-QUOTED = r"""['"]((?:[^'"\\]|\\.)*)['"]"""
-
-
-def load(path: Path) -> dict:
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def _field(head: str, name: str, value: str) -> str | None:
-    match = re.search(rf"^\s+{name}:\s*{value}", head, re.M)
-    return match.group(1) if match else None
-
-
-def source_sections(course_index: Path = COURSE_INDEX, sections_dir: Path = SECTIONS_DIR) -> list[dict]:
-    """The active sections, in COURSE_SECTIONS order, read from their own source files."""
-    text = course_index.read_text(encoding="utf-8")
-    block = re.search(r"export const COURSE_SECTIONS[^=]*=\s*\[(.*?)\n\]", text, re.S).group(1)
-    imports = dict(re.findall(r"import \{ (section\d\d) \} from '\./sections/([^']+)'", text))
-    out = []
-    for position, var in enumerate(re.findall(r"\b(section\d\d)\b", block), start=1):
-        path = sections_dir / (imports[var] + ".ts")
-        head = "\n".join(path.read_text(encoding="utf-8").splitlines()[:60])
-        out.append({
-            "position": position,
-            "index": int(_field(head, "index", r"(\d+)")),
-            "slug": _field(head, "id", QUOTED),
-            "phase": int(_field(head, "phase", r"(\d)")),
-            "title": _field(head, "title", QUOTED),
-        })
-    return out
-
-
-def token_number(token: str) -> int | None:
-    match = TOKEN.match(token)
-    return int(match.group(1)) if match else None
+from badge_sources import (  # noqa: E402
+    CATALOG,
+    MANIFEST,
+    cited_numbers,
+    load,
+    source_sections,
+    token_number,
+)
 
 
 def span_for(rule: dict, sections: list[dict]) -> list[int]:
@@ -132,11 +103,6 @@ def identity_violations(manifest: dict, catalog: dict) -> list[str]:
 
 def title_fingerprint(title: str | None) -> str:
     return hashlib.sha256((title or "").encode("utf-8")).hexdigest()
-
-
-def cited_numbers(badge: dict) -> set[int]:
-    tokens = list(badge.get("required_sections", [])) + list(badge.get("required_activities", []))
-    return {n for n in (token_number(t) for t in tokens) if n is not None}
 
 
 def title_violations(manifest: dict, sections: list[dict], catalog: dict) -> list[str]:
@@ -233,6 +199,44 @@ class SectionTitleFingerprints(unittest.TestCase):
         next(s for s in sections if s["index"] == 5)["title"] = None
         problems = title_violations(self.manifest, sections, self.catalog)
         self.assertTrue(any("S05" in p for p in problems), problems)
+
+
+class SourceReader(unittest.TestCase):
+    """The reader that feeds every badge guard. Fixtures are real files in a temporary course."""
+
+    INDEX = (
+        "export const COURSE_SECTIONS: CourseSection[] = [\n"
+        "  section01,\n"
+        "]\n"
+        "import { section01 } from './sections/s01-quotes'\n"
+    )
+    SECTION = (
+        "export const section01: CourseSection = {\n"
+        "  id: \"quotes\",\n"
+        "  index: 1,\n"
+        "  title: \"Python's first title\",\n"
+        "  phase: 0,\n"
+        "  learningOutcomes: [\n"
+        "    { text: \"Explain 'quotes' inside double-quoted text\" },\n"
+        "    { text: 'Schema {columna: n} inside single-quoted text' },\n"
+        "  ],\n"
+        "}\n"
+    )
+
+    def test_a_string_holding_the_other_quote_mark_is_read_whole(self) -> None:
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "sections").mkdir()
+            (root / "index.ts").write_text(self.INDEX, encoding="utf-8")
+            (root / "sections" / "s01-quotes.ts").write_text(self.SECTION, encoding="utf-8")
+            (section,) = source_sections(root / "index.ts", root / "sections")
+        self.assertEqual(section["title"], "Python's first title")
+        self.assertEqual(section["slug"], "quotes")
+        self.assertEqual(section["outcomes"], [
+            "Explain 'quotes' inside double-quoted text",
+            "Schema {columna: n} inside single-quoted text",
+        ])
 
 
 if __name__ == "__main__":
