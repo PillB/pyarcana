@@ -423,7 +423,10 @@ the recommendation was taken, and each says so.
   claim text changes gets a version bump.
 - **Run button on S10 and S11 demos** (no preference; recommendation taken). The demos that import
   numpy or scikit-learn show a notice to run them locally instead of a Run button, because the
-  in-browser Python cannot load the course's pinned versions.
+  in-browser Python cannot load the course's pinned versions. *Correction, same day:* the question
+  overstated S11. Its demo imports numpy and never uses it, so its output cannot drift; it keeps
+  its Run button. Only S10's demo (scikit-learn) shows the notice, and the notice shows the
+  expected output so the learner can compare.
 - **34 exercise-meaning changes accepted as history** (no preference; recommendation taken). The S01
   to S03 exercise ids whose meaning changed since 35d19637 go into the exercise-meaning ledger as
   historical rows decided by this entry. Every later change needs its own ledger row.
@@ -444,7 +447,18 @@ Asked the same day, all four answered as recommended:
   `src/lib/eligibility/skill_node_terms.json` against the lessons and proposes changes; the owner
   sees the final list in the PR diff before the ratchet becomes final (badge-manifest PR).
 
-**Retire when:** all eight changes have landed and S03's round has re-checked the 12 findings.
+A third batch, the same day, all four answered as recommended:
+- **The Python complexity gate goes into "Done means these pass".** One line under the TypeScript
+  gate in `AGENTS.md` and `CLAUDE.md` (b10 PR).
+- **Delete `auth.demoDesc` too.** Rendered nowhere; promises «rendir exámenes» (copy PR).
+- **Badge-claim debt held as a ratchet.** 92 (badge, skill) pairs over 21 badges, measured on
+  section titles and outcomes as the module documents, plus 5 prerequisite inversions, are owed
+  exactly; nothing may grow, and the Phase 1 re-key pays them down (badge-manifest PR).
+- **Rebound and removed exercise ids are ledgered.** The renumber tool writes a `renumbered` row
+  (old id -> new id, same fingerprint) for each rebound id; a removed id needs a `removed` row
+  naming the owner's decision. The renumber PR is not exempt (history-guards PR).
+
+**Retire when:** all twelve changes have landed and S03's round has re-checked the 12 findings.
 
 ---
 
