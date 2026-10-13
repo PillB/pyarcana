@@ -530,9 +530,20 @@ describe('K4: the server signs the badge version, never the client one', () => {
     const { status, body } = await requestCredential(MASTERY, '1.1.0')
     assert.equal(status, 201)
     assert.equal(body.credential.specificationVersion, '1.1.0')
-    assert.match(body.credential.capabilityStatement, /Assessment Specification 1\.1\.0,/)
+
+    // The signed statement claims only what the catalog's public claim makes, and it is built from
+    // the badge's own entry: the statement helper is the one source of it.
+    const statement: string = body.credential.capabilityStatement
+    for (const phrase of UNBACKED_STATEMENT_CLAIMS) {
+      assert.doesNotMatch(statement, new RegExp(phrase, 'i'), `the signed statement claims "${phrase}"`)
+    }
+    const { capabilityStatement } = await import('../../src/lib/credential-statement.ts')
+    assert.equal(statement, capabilityStatement(credentialSpec(MASTERY)!))
   })
 })
+
+/** Claims the route signed before the catalog's public claim was the source. None is in the catalog. */
+const UNBACKED_STATEMENT_CLAIMS = ['critical evidence', 'hidden validation', 'independent review']
 
 // ── K5 ──
 
