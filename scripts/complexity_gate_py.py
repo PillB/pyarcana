@@ -7,6 +7,9 @@ policy: ceiling 15, measured per function, enforced as a ratchet, and failing cl
   * A function new to the codebase must meet the ceiling.
   * A function already over it is baselined by key (path::Qual.name) with its score. Its score
     may fall and may not rise. A function that falls to the ceiling or below leaves the baseline.
+    A lambda is keyed by the name it is assigned to or the call it is handed to
+    (`<kw key of sorted>`), and only an unbound one is `<lambda>`, numbered #2, #3 by order, so
+    adding an unrelated lambda cannot renumber a baselined key.
   * A file the gate cannot parse fails the gate, and the message names path:line.
   * A missing baseline fails the gate. `--init` creates one, and refuses to overwrite one.
 
@@ -100,25 +103,56 @@ def score_of(unit: ast.AST) -> int:
     return total
 
 
-def qualname(node: ast.AST, prefix: str) -> str:
-    name = "<lambda>" if isinstance(node, ast.Lambda) else node.name
+def dotted(expr: ast.AST) -> str:
+    """`a`, `a.b`, `a().b`: an assignment target or callee as written, call arguments left out."""
+    if isinstance(expr, ast.Name):
+        return expr.id
+    if isinstance(expr, ast.Attribute):
+        return f"{dotted(expr.value)}.{expr.attr}"
+    if isinstance(expr, ast.Call):
+        return f"{dotted(expr.func)}()"
+    return "…"
+
+
+def lambda_label(node: ast.Lambda, parent: ast.AST | None, grandparent: ast.AST | None) -> str:
+    """A lambda has no name, so it is named by what it is bound to (`key = lambda ...` is `key`) or
+    by the call it is handed to (`<kw key of sorted>`, `<arg 0 of map>`). Only a lambda that is
+    neither, such as one in a list, is `<lambda>`, and then the gate numbers it #2, #3 by order.
+    An ordinal alone moves whenever an earlier lambda is added, which turns a baselined lambda
+    into NEW OVER without it having grown."""
+    if isinstance(parent, ast.Assign) and len(parent.targets) == 1:
+        target = parent.targets[0]
+    else:
+        target = parent.target if isinstance(parent, ast.AnnAssign) else None
+    if isinstance(target, (ast.Name, ast.Attribute)):
+        return dotted(target)
+    if isinstance(parent, ast.Call):
+        place = [i for i, arg in enumerate(parent.args) if arg is node]
+        return f"<arg {place[0]} of {dotted(parent.func)}>" if place else "<lambda>"
+    if isinstance(parent, ast.keyword) and parent.arg and isinstance(grandparent, ast.Call):
+        return f"<kw {parent.arg} of {dotted(grandparent.func)}>"
+    return "<lambda>"
+
+
+def qualname(node: ast.AST, prefix: str, parent: ast.AST | None, grandparent: ast.AST | None) -> str:
+    name = lambda_label(node, parent, grandparent) if isinstance(node, ast.Lambda) else node.name
     return f"{prefix}.{name}" if prefix else name
 
 
 def units(tree: ast.AST) -> list[Unit]:
     found: list[Unit] = []
 
-    def visit(node: ast.AST, prefix: str) -> None:
+    def visit(node: ast.AST, parent: ast.AST | None, prefix: str) -> None:
         for child in ast.iter_child_nodes(node):
             if isinstance(child, (ast.ClassDef, *UNITS)):
-                qual = qualname(child, prefix)
+                qual = qualname(child, prefix, node, parent)
                 if isinstance(child, UNITS):
                     found.append(Unit(qual, child.lineno, child.col_offset, score_of(child)))
-                visit(child, qual)
+                visit(child, node, qual)
             else:
-                visit(child, prefix)
+                visit(child, node, prefix)
 
-    visit(tree, "")
+    visit(tree, None, "")
     return sorted(found, key=lambda u: (u.line, u.col))
 
 

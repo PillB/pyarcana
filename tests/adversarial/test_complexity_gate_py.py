@@ -100,7 +100,7 @@ class CountingRules(unittest.TestCase):
     def test_a_lambda_is_scored_on_its_own_and_not_into_its_enclosing_function(self):
         source = "def f(xs):\n    return sorted(xs, key=lambda x: 0 if x else 1)\n"
         self.assertEqual(score(source, "f"), 1)
-        self.assertEqual(score(source, "<lambda>"), 2)
+        self.assertEqual(score(source, "<kw key of sorted>"), 2)
 
     def test_a_match_wildcard_case_is_not_a_branch(self):
         source = ("def f(c):\n    match c:\n        case 1:\n            return 'a'\n"
@@ -264,6 +264,11 @@ def function_with_score(name: str, score: int) -> str:
     return f"def {name}(x):\n{body}    return -1\n"
 
 
+def lambda_chain(score: int) -> str:
+    """The body of a lambda that scores exactly `score`: `score` operands joined by `or`."""
+    return " or ".join(f"x == {i}" for i in range(score))
+
+
 class Verdict(unittest.TestCase):
     """The ceiling as the process reports it: a function at 15 is green, one at 16 is red."""
 
@@ -371,6 +376,59 @@ class Ratchet(unittest.TestCase):
         self.gate("--init")
         self.assertEqual(self.baseline()["offenders"],
                          {"scripts/a.py::f": 16, "scripts/a.py::f#2": 17})
+
+    def test_an_unrelated_lambda_added_earlier_does_not_turn_a_baselined_one_into_new_over(self):
+        """The ordinal keying that bit the TypeScript gate: `<lambda>#2` moved when `<lambda>` was added."""
+        big = f"big = lambda x: {lambda_chain(20)}\n"
+        self.put("small = lambda x: x\n" + big)
+        self.assertEqual(self.gate("--init").returncode, 0)
+        self.put("zed = lambda x: x\nsmall = lambda x: x\n" + big)
+        done = self.gate()
+        self.assertEqual(done.returncode, 0, done.stdout)
+        self.assertEqual(self.baseline()["offenders"], {"scripts/a.py::big": 20})
+
+    def test_a_baselined_callback_lambda_keeps_its_key_when_others_are_added_before_it(self):
+        build = ("def build(rows):\n"
+                 f"    return sorted(rows, key=lambda x: {lambda_chain(20)})\n")
+        self.put(build)
+        self.assertEqual(self.gate("--init").returncode, 0)
+        key = "scripts/a.py::build.<kw key of sorted>"
+        self.assertEqual(self.baseline()["offenders"], {key: 20})
+        self.put("early = lambda x: x\ndef first(rows):\n    return sorted(rows, key=lambda x: x)\n" + build)
+        done = self.gate()
+        self.assertEqual(done.returncode, 0, done.stdout)
+        self.assertEqual(self.baseline()["offenders"], {key: 20})
+
+    def test_a_baselined_lambda_that_grows_still_fails_under_the_same_key(self):
+        self.put(f"big = lambda x: {lambda_chain(20)}\n")
+        self.gate("--init")
+        self.put(f"early = lambda x: x\nbig = lambda x: {lambda_chain(21)}\n")
+        done = self.gate()
+        self.assertEqual(done.returncode, 1, done.stdout)
+        self.assertIn("GREW  20 ->  21 scripts/a.py::big", done.stdout)
+
+    def test_lambdas_are_keyed_by_the_name_they_are_assigned_to_or_the_call_they_are_given_to(self):
+        chain = lambda_chain(16)
+        self.put("\n".join([
+            f"named = lambda x: {chain}",
+            f"annotated: object = lambda x: {chain}",
+            f"holder.slot = lambda x: {chain}",
+            f"mapped = list(map(lambda x: {chain}, []))",
+            f"keyed = sorted([], key=lambda x: {chain})",
+            f"loose = [lambda x: {chain}]",
+            f"def f(rows):\n    return rows.sort(key=lambda x: {chain})",
+            "",
+        ]))
+        self.gate("--init")
+        self.assertEqual(sorted(self.baseline()["offenders"]), [
+            "scripts/a.py::<arg 0 of map>",
+            "scripts/a.py::<kw key of sorted>",
+            "scripts/a.py::<lambda>",
+            "scripts/a.py::annotated",
+            "scripts/a.py::f.<kw key of rows.sort>",
+            "scripts/a.py::holder.slot",
+            "scripts/a.py::named",
+        ])
 
     def test_an_unparseable_file_fails_the_ratchet_and_names_it(self):
         self.put("def f(:\n")
