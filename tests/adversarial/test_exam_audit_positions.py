@@ -11,8 +11,10 @@ Each property has a recreation of the defect it closes:
   Exam options are shuffled per attempt since #91, so a stored position does not reach a learner
   in an exam. The check still guards self-check banks and any static use, so its owed set is a
   record of the stored banks, not a learner-facing defect.
-- The audit flags an option that names another option ("todas las anteriores", "opción A", "A y B")
-  as P0: the option shuffle would make the reference point at the wrong text.
+- The audit flags an option whose whole meaning is a pointer to other options ("todas las
+  anteriores", "opción A", "A y B") as P0: the option shuffle would make the reference point at the
+  wrong text. It does not flag ordinary Spanish ("una alternativa a pandas") or notation ("los grupos
+  A y B"), because P0 blocks CI.
 """
 from __future__ import annotations
 
@@ -83,18 +85,43 @@ def _option_bank(option: str) -> dict:
 
 class OptionsDoNotNameOtherOptions(unittest.TestCase):
     def test_each_reference_form_is_flagged_as_p0(self):
-        """Recreates the references a per-attempt shuffle would break."""
-        for option in ("todas las anteriores", "Ninguna de las anteriores", "Opción A",
-                       "la alternativa b", "A y B"):
+        """Recreates the references a per-attempt shuffle would break: an option whose whole meaning
+        is a pointer to other options, exactly or at its start."""
+        for option in ("todas las anteriores", "Todas las anteriores son correctas",
+                       "Ninguna de las anteriores", "Opción A", "La opción C es la correcta",
+                       "la alternativa B", "A y B", "Solo A y B", "Tanto A como B son correctas",
+                       "A o B"):
             with self.subTest(option=option):
                 issues = audit.position_reference_issues([_option_bank(option)])
                 self.assertEqual(len(issues), 1)
                 self.assertEqual(issues[0]["severity"], "P0")
 
-    def test_a_statement_about_variables_is_not_a_reference(self):
-        """Recreates the false positive found on the tree: 'A~B y B~C' names variables, not
-        options. A check that flags it would fail a clean bank."""
-        self.assertEqual(audit.position_reference_issues([_option_bank("A~B y B~C no digan nada de A~C")]), [])
+    def test_ordinary_spanish_is_not_a_reference(self):
+        """Recreates the false positives the review found: the preposition 'a' read as option A, and
+        'A y B' read as two options inside a sentence. P0 blocks CI, so a clean bank must not hit it."""
+        for option in ("Polars es una alternativa a pandas",
+                       "Usar una opción a corto plazo",
+                       "Alternativa a pandas para tablas que no caben en memoria",
+                       "Opción a corto plazo: aplazar la migración",
+                       "Combinar la tabla A y B con merge",
+                       # A phrase inside a sentence is content, not a pointer: the scenario in the
+                       # stem may label its own choices, and "anteriores" may qualify a noun.
+                       "Elegir la opción A del plan (SQLite) porque basta un archivo local",
+                       "Probar todas las anteriores versiones del paquete en el CI"):
+            with self.subTest(option=option):
+                self.assertEqual(audit.position_reference_issues([_option_bank(option)]), [])
+
+    def test_math_notation_is_not_a_reference(self):
+        """'A y B' names sets, events or groups in the statistics sections. Only an option that is
+        nothing but 'A y B' (with solo, tanto, or 'son correctas') is a pointer. 'A~B y B~C' is the
+        false positive found on the tree: it names variables, not options."""
+        for option in ("A~B y B~C no digan nada de A~C",
+                       "los grupos A y B tienen igual varianza",
+                       "A y B son independientes si P(A ∩ B) = P(A)·P(B)",
+                       "Los conjuntos A y B no comparten elementos",
+                       "Calcular la unión de A o B antes de filtrar"):
+            with self.subTest(option=option):
+                self.assertEqual(audit.position_reference_issues([_option_bank(option)]), [])
 
     def test_a_plain_option_is_not_flagged(self):
         self.assertEqual(audit.position_reference_issues([_option_bank("Se ordena de menor a mayor")]), [])

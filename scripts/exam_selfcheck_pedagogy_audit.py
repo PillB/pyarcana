@@ -303,13 +303,25 @@ def key_position_issues(banks: list[dict]) -> list[dict]:
     return issues
 
 
-#: Wording that names another option by its place or label: "todas las anteriores", "opción A",
-#: "A y B". The option shuffle moves options, so such a reference lands on the wrong text. The
-#: letters must stand alone, not be part of a variable, so a statement ("A~B y B~C") does not match.
+#: An option whose whole meaning is a pointer to other options, so the per-attempt shuffle would make
+#: it point at the wrong text. It is anchored to the start of the option; a phrase inside a sentence
+#: is ordinary Spanish or notation ("una alternativa a pandas", "los grupos A y B"), and P0 blocks CI.
+#: Three forms:
+#:   - "todas las anteriores" / "ninguna de las anteriores", exactly or at the start;
+#:   - "opción A" / "alternativa B" (with an optional "la" or "lo"), exactly or at the start. The letter
+#:     is upper case, so the preposition in "alternativa a pandas" or "opción a corto plazo" is not option A;
+#:   - "A y B", "A o B", "solo A y B", "tanto A como B", optionally followed by "son correctas": the
+#:     WHOLE option. Any other text after "A y B" makes it a statement about sets, events or groups
+#:     ("A y B son independientes"), which the statistics sections use.
+#: Residual ambiguity, accepted: an option that is only "A y B" in a question about events named A and B
+#: is flagged; write the option out ("Los eventos A y B") to clear it.
 POSITION_REFERENCE = re.compile(
-    r"(?i:\btodas\s+las\s+anteriores\b|\bninguna\s+de\s+las\s+anteriores\b"
-    r"|\b(?:opci[oó]n|alternativa)\s+[a-dA-D]\b)"
-    r"|(?<![\w~])[A-D]\s+y\s+[A-D](?![\w~])"
+    r"^\s*(?:"
+    r"(?i:(?:todas|ninguna\s+de)\s+las\s+anteriores)\b"
+    r"|(?i:(?:la\s+|lo\s+)?(?:opci[oó]n|alternativa))\s+(?-i:[A-D])\b"
+    r"|(?i:(?:solo\s+|tanto\s+)?)(?-i:[A-D])\s+(?i:y|o|como)\s+(?-i:[A-D])"
+    r"(?i:\s+son\s+(?:correctas|ciertas|verdaderas))?\W*$"
+    r")"
 )
 
 
