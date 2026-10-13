@@ -431,7 +431,20 @@ the recommendation was taken, and each says so.
   which a later commit replaced. Nothing is awarded retroactively: S03's next round re-checks the 12
   against the current file.
 
-**Retire when:** the four changes have landed and S03's round has re-checked the 12 findings.
+Asked the same day, all four answered as recommended:
+- **Delete `progress.createAccountDesc`.** It is rendered nowhere and promises anti-plagiarism exams
+  the site does not run; removed from es-PE, es-ES and en (copy PR).
+- **Rewrite the credential policy's «Política de IA».** It promises a declaration and an oral defense
+  the server records neither of; Codex rewrites it to the current rule, and the owner sees the
+  diff before merge (copy PR).
+- **`agentic-architecture` goes into the rename map.** S40's pre-V3 slug maps to
+  `architecture-ddd-decisions` in `SECTION_ID_RENAMES`, with its database migration, so old
+  progress and links keep working (number-guards PR).
+- **The skill-term lexicon is checked by Codex.** Codex reviews each term in
+  `src/lib/eligibility/skill_node_terms.json` against the lessons and proposes changes; the owner
+  sees the final list in the PR diff before the ratchet becomes final (badge-manifest PR).
+
+**Retire when:** all eight changes have landed and S03's round has re-checked the 12 findings.
 
 ---
 
