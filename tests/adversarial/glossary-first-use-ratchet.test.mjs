@@ -43,7 +43,7 @@ import { COURSE_SECTIONS } from '../../src/lib/course'
  */
 const DECLARED_LATE_OWED = 13
 /** Terms no alias of which appears anywhere: dead entries, or an alias that is simply wrong. */
-const NEVER_APPEARS_OWED = 5
+const NEVER_APPEARS_OWED = 4
 
 function survey() {
   const order = new Map(COURSE_SECTIONS.map((s, i) => [s.id, i + 1]))
