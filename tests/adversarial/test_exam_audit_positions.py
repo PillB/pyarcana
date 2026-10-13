@@ -2,8 +2,9 @@
 
 Each property has a recreation of the defect it closes:
 
-- The audit reads the bank through scripts/exam_bank.py. The regex it used to carry saw only some
-  key styles, and it turned an escaped newline inside one question into a plain letter.
+- The audit reads the bank through scripts/exam_bank.py. The regex it used to carry matched
+  questions by their `concept:` fields, so it saw all 1248; it turned an escaped newline inside one
+  question into a plain letter. (The key-style blindness was the length-cue test's reader.)
 - The audit reports every issue. It used to keep 300 and cut the thin-concept list at 50, so a
   large finding could vanish from the report with no sign that it had.
 - The audit checks key positions per bank with a chi-square test (Haladyna, Downing & Rodriguez
@@ -110,7 +111,9 @@ class OptionsDoNotNameOtherOptions(unittest.TestCase):
         for option in ("todas las anteriores", "Todas las anteriores son correctas",
                        "Ninguna de las anteriores", "Opción A", "La opción C es la correcta",
                        "la alternativa B", "A y B", "Solo A y B", "Tanto A como B son correctas",
-                       "A o B"):
+                       "A o B",
+                       # The review of the fix: the draft flagged this, and the anchored rewrite did not.
+                       "Las opciones A y B son correctas", "Opciones B o C"):
             with self.subTest(option=option):
                 issues = audit.position_reference_issues([_option_bank(option)])
                 self.assertEqual(len(issues), 1)
@@ -127,7 +130,8 @@ class OptionsDoNotNameOtherOptions(unittest.TestCase):
                        # A phrase inside a sentence is content, not a pointer: the scenario in the
                        # stem may label its own choices, and "anteriores" may qualify a noun.
                        "Elegir la opción A del plan (SQLite) porque basta un archivo local",
-                       "Probar todas las anteriores versiones del paquete en el CI"):
+                       "Probar todas las anteriores versiones del paquete en el CI",
+                       "Las opciones A y B del menú se combinan en un solo flujo"):
             with self.subTest(option=option):
                 self.assertEqual(audit.position_reference_issues([_option_bank(option)]), [])
 

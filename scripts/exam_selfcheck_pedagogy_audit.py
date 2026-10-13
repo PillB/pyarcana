@@ -314,7 +314,7 @@ POSITION_REFERENCE = re.compile(
     r"^\s*(?:"
     r"(?i:(?:todas|ninguna\s+de)\s+las\s+anteriores)\b"
     r"|(?i:(?:la\s+|lo\s+)?(?:opci[oó]n|alternativa))\s+(?-i:[A-D])\b"
-    r"|(?i:(?:solo\s+|tanto\s+)?)(?-i:[A-D])\s+(?i:y|o|como)\s+(?-i:[A-D])"
+    r"|(?i:(?:solo\s+|tanto\s+|(?:las\s+)?opciones\s+)?)(?-i:[A-D])\s+(?i:y|o|como)\s+(?-i:[A-D])"
     r"(?i:\s+son\s+(?:correctas|ciertas|verdaderas))?\W*$"
     r")"
 )
@@ -424,8 +424,9 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
 
 def main(argv: list[str] | None = None) -> int:
     """Audit every bank of the exam seed, read through scripts/exam_bank.py (the TypeScript parser),
-    and the section self-checks. The regex reader this replaced could not see a key's quote style,
-    and it turned an escaped newline inside one question into a plain letter. Exit 1 on any P0."""
+    and the section self-checks. The regex reader this replaced matched questions by their
+    `concept:` fields, so it did see every bank; its defect was turning an escaped newline inside
+    one question into a plain letter. Exit 1 on any P0."""
     args = parse_args(argv)
     banks = exam_bank.load_banks()
     qs = flatten(banks)
