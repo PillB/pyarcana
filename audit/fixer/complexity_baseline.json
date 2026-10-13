@@ -1,57 +1,49 @@
 {
  "ceiling": 15,
- "over_ceiling": 32,
+ "convention": "per function; the ESLint complexity rule, which counts a function the way NIST SP 500-235 4.1 does for these constructs; ceiling 15",
+ "eslint": "9.39.2",
+ "over_ceiling": 40,
  "worst": 78,
- "worst_offenders": [
-  {
-   "score": 78,
-   "file": "src/components/course/Dashboard.tsx",
-   "line": 78
-  },
-  {
-   "score": 43,
-   "file": "src/lib/eligibility/engine.ts",
-   "line": 112
-  },
-  {
-   "score": 42,
-   "file": "src/lib/familiarity.ts",
-   "line": 169
-  },
-  {
-   "score": 40,
-   "file": "src/app/page.tsx",
-   "line": 69
-  },
-  {
-   "score": 33,
-   "file": "src/components/course/RichText.tsx",
-   "line": 167
-  },
-  {
-   "score": 29,
-   "file": "src/lib/admin-analytics.ts",
-   "line": 104
-  },
-  {
-   "score": 26,
-   "file": "src/components/course/ExamView.tsx",
-   "line": 82
-  },
-  {
-   "score": 26,
-   "file": "src/components/course/QAHarness.tsx",
-   "line": 138
-  },
-  {
-   "score": 26,
-   "file": "src/lib/admin-analytics.ts",
-   "line": 200
-  },
-  {
-   "score": 24,
-   "file": "src/app/api/feedback/route.ts",
-   "line": 29
-  }
- ]
+ "offenders": {
+  "scripts/code_rendering.spec.ts::<async arrow function>": 24,
+  "scripts/concept_detector.mts::definesTerm": 36,
+  "scripts/figure_render_probe.mjs::<arrow function>#8": 67,
+  "scripts/modal_responsive_probe.mjs::<arrow function>#5": 19,
+  "scripts/playwright_visible_paragraphs.mjs::analyzeUnit": 21,
+  "scripts/qa_picker_explore.mjs::<arrow function>#12": 17,
+  "scripts/qa_picker_explore.mjs::pickAt": 27,
+  "src/app/api/cohorts/[id]/invite/route.ts::POST": 23,
+  "src/app/api/feedback/route.ts::POST": 24,
+  "src/app/api/invitations/[id]/route.ts::POST": 16,
+  "src/app/api/subscription/checkout/route.ts::POST": 18,
+  "src/app/page.tsx::Home": 40,
+  "src/app/verify/page.tsx::VerifyContent": 19,
+  "src/components/course/AuthModal.tsx::AuthModal": 16,
+  "src/components/course/AuthModal.tsx::UserMenu": 24,
+  "src/components/course/CodeBlock.tsx::CodeBlock": 21,
+  "src/components/course/CodePlayground.tsx::CodePlayground": 20,
+  "src/components/course/Dashboard.tsx::BadgeExplainer": 20,
+  "src/components/course/Dashboard.tsx::Dashboard": 78,
+  "src/components/course/ExamView.tsx::ExamView": 26,
+  "src/components/course/FamiliarityDashboard.tsx::PairDetail": 20,
+  "src/components/course/InteractiveTour.tsx::InteractiveTour": 17,
+  "src/components/course/PricingPage.tsx::<arrow function>#7": 22,
+  "src/components/course/QAHarness.tsx::QAHarness": 26,
+  "src/components/course/ResourcesPage.tsx::<arrow function>#11": 17,
+  "src/components/course/RichText.tsx::parseBlocks": 33,
+  "src/components/course/SectionView.tsx::<arrow function>#25": 20,
+  "src/components/course/Sidebar.tsx::<arrow function>#4": 21,
+  "src/components/ui/chart.tsx::<arrow function>#5": 16,
+  "src/components/ui/chart.tsx::<arrow function>#6": 20,
+  "src/lib/admin-analytics.ts::<arrow function>#3": 29,
+  "src/lib/admin-analytics.ts::buildAnalyticsPayload": 26,
+  "src/lib/element-selector.ts::uniqueSelector": 23,
+  "src/lib/eligibility/engine.ts::evaluate": 43,
+  "src/lib/familiarity.ts::computeFamiliarity": 21,
+  "src/lib/familiarity.ts::scorePair": 42,
+  "src/lib/qa-session.ts::isQaContext": 16,
+  "src/lib/qa-session.ts::isQaIssue": 20,
+  "src/lib/subscription-plans.ts::detectCountry": 17,
+  "tests/e2e_max/badge_eligibility.spec.ts::fullProgressForCompetencyBadge": 19
+ }
 }
