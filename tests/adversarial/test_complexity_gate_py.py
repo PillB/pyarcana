@@ -220,6 +220,13 @@ class FailClosed(unittest.TestCase):
         done = run_gate("--files")
         self.assertEqual(done.returncode, 2, done.stdout + done.stderr)
 
+    def test_a_flag_without_its_value_is_a_usage_error_not_a_run_on_the_default(self):
+        for flag in ("--root", "--scope"):
+            with self.subTest(flag=flag):
+                done = run_gate(flag)
+                self.assertNotEqual(done.returncode, 0, done.stdout + done.stderr)
+                self.assertIn(f"{flag} needs a value", done.stderr)
+
     def test_an_unreadable_file_fails_and_is_named_as_unreadable(self):
         with tempfile.TemporaryDirectory() as tmp:
             missing = Path(tmp) / "gone.py"
@@ -267,8 +274,30 @@ class Scope(unittest.TestCase):
         self.assertIn("tools/fixer/ledger.py", measured)
         self.assertIn("tests/adversarial/test_complexity_gate_py.py", measured)
 
-    def test_excluded_course_content_is_not_measured(self):
-        self.assertEqual([m for m in self.measured() if m.startswith("course-state/")], [])
+    def test_an_exclusion_inside_a_root_takes_that_file_out_of_the_measure(self):
+        """No exclusion in the real scope lies inside a root, so the filter has no work to do there
+        and a test on the real tree cannot tell whether it works. This one builds a scope that
+        does: `scripts/skip/` is excluded and holds a 30; with the exclusion it is not measured,
+        and without it (the control) it is, which is what makes the first half mean something."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "scripts" / "skip").mkdir(parents=True)
+            (root / "scripts" / "keep.py").write_text(function_with_score("small", 3), encoding="utf-8")
+            (root / "scripts" / "skip" / "big.py").write_text(function_with_score("huge", 30), encoding="utf-8")
+            python = {"roots": ["scripts"], "suffixes": [".py"]}
+            skip = [{"path": "scripts/skip/", "reason": "an exclusion inside a root"}]
+
+            def baselined(exclusions: list[dict]) -> dict:
+                scope = root / "scope.json"
+                scope.write_text(json.dumps({"python": python, "typescript": [], "GATE_EXCLUSIONS": exclusions}),
+                                 encoding="utf-8")
+                (root / Ratchet.BASELINE).unlink(missing_ok=True)
+                done = run_gate("--root", str(root), "--scope", str(scope), "--init")
+                self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
+                return json.loads((root / Ratchet.BASELINE).read_text(encoding="utf-8"))["offenders"]
+
+            self.assertEqual(baselined([]), {"scripts/skip/big.py::huge": 30}, "control: it is measured")
+            self.assertEqual(baselined(skip), {}, "excluded: it is not")
 
     def test_a_directory_exclusion_covers_its_files_and_nothing_else(self):
         rules = [{"path": "course-state/capstones/", "reason": "learner content"}]

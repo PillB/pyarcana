@@ -250,6 +250,33 @@ test('keys name what a function is bound to, and the path of what encloses it', 
   ])
 }))
 
+test('an exclusion inside a root takes that file out of the measure, and the control proves it', () => withTree((root) => {
+  // No exclusion in the real scope lies inside a root, so the filter has no work to do on the real
+  // tree and a test there cannot tell whether it works. This scope excludes src/skip/, which holds a 30.
+  mkdirSync(join(root, 'src', 'skip'))
+  put(root, fnWith('small', 3), 'keep.ts')
+  writeFileSync(join(root, 'src', 'skip', 'big.ts'), fnWith('huge', 30))
+  const baselined = (exclusions) => {
+    const scope = join(root, 'scope.json')
+    writeFileSync(scope, JSON.stringify({ typescript: [{ root: 'src', suffixes: ['.ts'] }], GATE_EXCLUSIONS: exclusions }))
+    rmSync(join(root, BASELINE), { force: true })
+    const done = gate(root, '--scope', scope, '--init')
+    assert.equal(done.status, 0, output(done))
+    return baseline(root).offenders
+  }
+  assert.deepEqual(baselined([]), { 'src/skip/big.ts::huge': 30 }, 'control: it is measured')
+  assert.deepEqual(baselined([{ path: 'src/skip/', reason: 'an exclusion inside a root' }]), {}, 'excluded: it is not')
+}))
+
+test('a flag without its value is a usage error, not a run on the default', () => withTree((root) => {
+  put(root, fnWith('f', 3))
+  for (const flag of ['--root', '--scope']) {
+    const done = spawnSync(process.execPath, [GATE, ...(flag === '--scope' ? ['--root', root] : []), flag], { encoding: 'utf8' })
+    assert.notEqual(done.status, 0, `${flag}: ${output(done)}`)
+    assert.match(output(done), new RegExp(`${flag} needs a value`))
+  }
+}))
+
 /** A fresh tree with workers/billing/src, where the billing worker keeps its code. */
 function withWorker(body) {
   const root = mkdtempSync(join(tmpdir(), 'ts-complexity-worker-'))

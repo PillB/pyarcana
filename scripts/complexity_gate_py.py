@@ -33,6 +33,7 @@ counting against radon 6.0.1 and names, with a reason, every place it departs fr
   python3 scripts/complexity_gate_py.py --init       # create the baseline (refuses if one exists)
   python3 scripts/complexity_gate_py.py --files a.py b.py   # new code: every function <= 15
   python3 scripts/complexity_gate_py.py --root DIR   # measure another tree (used by the tests)
+  python3 scripts/complexity_gate_py.py --scope FILE # read another scope file (used by the tests)
 """
 from __future__ import annotations
 
@@ -228,9 +229,9 @@ def excluded(rel: str, exclusions: list[dict]) -> bool:
                for e in exclusions)
 
 
-def python_files(root: Path = ROOT) -> list[Path]:
+def python_files(root: Path = ROOT, scope_file: Path = SCOPE_FILE) -> list[Path]:
     """Every .py file under the Python scope roots that no exclusion names."""
-    scope = json.loads(SCOPE_FILE.read_text(encoding="utf-8"))
+    scope = json.loads(scope_file.read_text(encoding="utf-8"))
     py = scope["python"]
     found = [p for r in py["roots"] if (root / r).is_dir() for p in (root / r).rglob("*")
              if p.suffix in py["suffixes"] and "__pycache__" not in p.parts
@@ -261,12 +262,12 @@ def write_baseline(path: Path, data: dict) -> None:
     path.write_text(json.dumps(data, indent=1) + "\n", encoding="utf-8")
 
 
-def init(root: Path) -> int:
+def init(root: Path, scope_file: Path) -> int:
     path = root / BASELINE_NAME
     if path.exists():
         print(f"REFUSED {BASELINE_NAME} exists; delete it first, so the re-baseline shows in the diff")
         return 1
-    rows, problems = measure(python_files(root), root)
+    rows, problems = measure(python_files(root, scope_file), root)
     if problems:
         report_problems(problems)
         return 1
@@ -279,9 +280,9 @@ def init(root: Path) -> int:
     return 0
 
 
-def ratchet(root: Path) -> int:
+def ratchet(root: Path, scope_file: Path) -> int:
     path = root / BASELINE_NAME
-    rows, problems = measure(python_files(root), root)
+    rows, problems = measure(python_files(root, scope_file), root)
     if problems:
         report_problems(problems)
         return 1
@@ -322,6 +323,16 @@ def refusal() -> str | None:
             "a result here would not be comparable. Run with python3.12.")
 
 
+def option(args: list[str], flag: str) -> str | None:
+    """The value after `flag`, None when the flag is absent. A flag with no value is a usage error."""
+    if flag not in args:
+        return None
+    at = args.index(flag) + 1
+    if at >= len(args):
+        raise SystemExit(f"FAIL {flag} needs a value")
+    return args[at]
+
+
 def main() -> int:
     why = refusal()
     if why:
@@ -330,10 +341,11 @@ def main() -> int:
     args = sys.argv[1:]
     if "--files" in args:
         return check_files(args[args.index("--files") + 1:])
-    root = Path(args[args.index("--root") + 1]).resolve() if "--root" in args else ROOT
+    root = Path(option(args, "--root") or ROOT).resolve()
+    scope_file = Path(option(args, "--scope") or SCOPE_FILE)
     if "--init" in args:
-        return init(root)
-    return ratchet(root)
+        return init(root, scope_file)
+    return ratchet(root, scope_file)
 
 
 if __name__ == "__main__":

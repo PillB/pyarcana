@@ -19,6 +19,7 @@
  *   node scripts/complexity_gate.mjs              # check, and tighten the baseline if debt fell
  *   node scripts/complexity_gate.mjs --init       # create the baseline (refuses if one exists)
  *   node scripts/complexity_gate.mjs --root DIR   # measure another tree (used by the tests)
+ *   node scripts/complexity_gate.mjs --scope FILE # read another scope file (used by the tests)
  *
  * Counting is ESLint 9.39.2's `complexity` rule, run with a threshold of 0 so that every function
  * reports its score, wrapped by scripts/complexity_gate.rule.mjs so each report carries the identity
@@ -57,8 +58,8 @@ export function excluded(rel, exclusions) {
 }
 
 /** Every function in scope, measured. `problems` lists any file that cannot be measured. */
-export async function measure(root) {
-  const scope = JSON.parse(readFileSync(SCOPE_FILE, 'utf8'))
+export async function measure(root, scopeFile = SCOPE_FILE) {
+  const scope = JSON.parse(readFileSync(scopeFile, 'utf8'))
   const patterns = scope.typescript.flatMap(({ root: dir, suffixes }) => suffixes.map((s) => `${dir}/**/*${s}`))
   const eslint = new ESLint({ cwd: root, overrideConfigFile: CONFIG, errorOnUnmatchedPattern: false })
   const rows = []
@@ -120,13 +121,13 @@ const reportProblems = (problems) => {
   for (const p of problems) console.log(`  UNPARSEABLE ${p}`)
 }
 
-async function init(root) {
+async function init(root, scopeFile) {
   const path = join(root, BASELINE_NAME)
   if (existsSync(path)) {
     console.log(`REFUSED ${BASELINE_NAME} exists; delete it first, so the re-baseline shows in the diff`)
     return 1
   }
-  const { rows, problems } = await measure(root)
+  const { rows, problems } = await measure(root, scopeFile)
   if (problems.length) return reportProblems(problems), 1
   if (rows.length === 0) return console.log('FAIL the scope measured no functions; check audit/fixer/complexity_scope.json'), 1
   const fresh = payload(overCeiling(keyed(rows)))
@@ -135,9 +136,9 @@ async function init(root) {
   return 0
 }
 
-async function ratchet(root) {
+async function ratchet(root, scopeFile) {
   const path = join(root, BASELINE_NAME)
-  const { rows, problems } = await measure(root)
+  const { rows, problems } = await measure(root, scopeFile)
   if (problems.length) return reportProblems(problems), 1
   if (rows.length === 0) return console.log('FAIL the scope measured no functions; check audit/fixer/complexity_scope.json'), 1
   if (!existsSync(path)) return console.log(`FAIL no baseline at ${BASELINE_NAME}; create it with --init and commit it`), 1
@@ -162,6 +163,17 @@ async function ratchet(root) {
   return 0
 }
 
-const at = process.argv.indexOf('--root')
-const root = at === -1 ? REPO : resolve(process.argv[at + 1])
-process.exitCode = process.argv.includes('--init') ? await init(root) : await ratchet(root)
+/** The value after `flag`, or `fallback` when the flag is absent. A flag with no value is a usage error. */
+function option(flag, fallback) {
+  const at = process.argv.indexOf(flag)
+  if (at === -1) return fallback
+  if (at + 1 >= process.argv.length) {
+    console.error(`FAIL ${flag} needs a value`)
+    process.exit(2)
+  }
+  return resolve(process.argv[at + 1])
+}
+
+const root = option('--root', REPO)
+const scopeFile = option('--scope', SCOPE_FILE)
+process.exitCode = process.argv.includes('--init') ? await init(root, scopeFile) : await ratchet(root, scopeFile)
