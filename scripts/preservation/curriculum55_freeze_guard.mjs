@@ -18,7 +18,8 @@
  *     catalog, the figure registry, PdfReport.tsx, section_ledger), and the set of exam-bank files;
  *   - in sections S19..S52 at the branch point, the parsed id, index, title, phase, exercise-id set
  *     and figure ids. Prose, exercise bodies, the manifest, tools/fixer and the glossary are not frozen.
- * A window closes only with a renumber_sha that is an ancestor of HEAD (WINDOW_CLOSED_WITHOUT_RENUMBER).
+ * A window closes only with the renumber_sha that renumber_epoch.json records, when that commit is an
+ * ancestor of HEAD (WINDOW_CLOSED_WITHOUT_RENUMBER). A window that names some other ancestor does not close.
  *
  * Usage (from the repository root): node scripts/preservation/curriculum55_freeze_guard.mjs
  */
@@ -26,7 +27,7 @@ import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { openHistory } from './history.mjs'
 import { INDEX_PATH, SECTIONS_DIR } from './curriculum_snapshot.mjs'
-import { WINDOW_PATH, readState } from './window_state.mjs'
+import { EPOCH_PATH, WINDOW_PATH, readState } from './window_state.mjs'
 
 export const FROZEN_PATHS = [
   'src/lib/course/index.ts',
@@ -145,29 +146,34 @@ function openWindowVerdict({ history, window, main }) {
   return verdict(findings, { frozen_items: FROZEN_PATHS.length, branch_point: bp })
 }
 
-/** The window once closed: it must name a renumber sha that HEAD contains. */
-function closedWindowVerdict(history, window) {
-  if (typeof window.renumber_sha !== 'string' || !SHA.test(window.renumber_sha)) {
-    return verdict([fail('WINDOW_CLOSED_WITHOUT_RENUMBER')])
-  }
-  if (history.commit(window.renumber_sha) === null || !history.isAncestor(window.renumber_sha, 'HEAD')) {
-    return verdict([fail('WINDOW_CLOSED_WITHOUT_RENUMBER', { renumber_sha: window.renumber_sha })])
-  }
+/**
+ * The window once closed. It must name the renumber sha that renumber_epoch.json records, and HEAD
+ * must contain that commit. A window that names any other ancestor closes the freeze without the
+ * renumber, so each of the three conditions fails on its own.
+ */
+function closedWindowVerdict({ history, window, epoch }) {
+  const sha = window.renumber_sha
+  const refuse = (reason) => verdict([fail('WINDOW_CLOSED_WITHOUT_RENUMBER', { reason, renumber_sha: sha ?? null })])
+  if (typeof sha !== 'string' || !SHA.test(sha)) return refuse('the closed window names no renumber_sha')
+  if (epoch === null) return refuse(`${EPOCH_PATH} is absent, so no renumber is recorded`)
+  if (epoch.renumber_sha !== sha) return refuse(`the window's renumber_sha is not the one ${EPOCH_PATH} records`)
+  if (history.commit(sha) === null) return refuse('renumber_sha is not a commit git can read')
+  if (!history.isAncestor(sha, 'HEAD')) return refuse('renumber_sha is not an ancestor of HEAD')
   return verdict([], { window: 'closed' })
 }
 
 /**
- * The guard. `window` is the parsed window file, or null while absent. `main` is the commit main
- * points at. Returns { state: 'DORMANT' | 'OK' | 'FAIL', findings, ... }.
+ * The guard. `window` and `epoch` are the parsed state files, or null while absent. `main` is the
+ * commit main points at. Returns { state: 'DORMANT' | 'OK' | 'FAIL', findings, ... }.
  */
-export function checkFreeze({ history, window, main }) {
+export function checkFreeze({ history, window, epoch = null, main }) {
   if (history.isShallow()) return verdict([fail('HISTORY_MISSING', { reason: 'the repository is shallow' })])
   if (window === null) {
     const everCommitted = history.lastCommitTouching('HEAD', WINDOW_PATH)
     if (everCommitted !== null) return verdict([fail('WINDOW_REMOVED', { path: WINDOW_PATH, last_commit: everCommitted })])
     return { state: 'DORMANT', findings: [] }
   }
-  if (window.status === 'closed') return closedWindowVerdict(history, window)
+  if (window.status === 'closed') return closedWindowVerdict({ history, window, epoch })
   if (window.status !== 'open') return verdict([fail('WINDOW_STATUS_INVALID', { status: window.status ?? null })])
   if (main === null) return verdict([fail('HISTORY_MISSING', { reason: 'neither origin/main nor main is readable' })])
   return openWindowVerdict({ history, window, main })
@@ -176,8 +182,10 @@ export function checkFreeze({ history, window, main }) {
 function main() {
   const root = process.cwd()
   let window
+  let epoch
   try {
     window = readState(root, WINDOW_PATH)
+    epoch = readState(root, EPOCH_PATH)
   } catch (e) {
     console.error(`CURRICULUM55 FREEZE GUARD FAILED: ${e.message}`)
     process.exit(1)
@@ -186,7 +194,7 @@ function main() {
   let result
   try {
     const mainTip = history.commit('origin/main') ?? history.commit('main')
-    result = checkFreeze({ history, window, main: mainTip })
+    result = checkFreeze({ history, window, epoch, main: mainTip })
   } catch (e) {
     result = verdict([fail('HISTORY_MISSING', { reason: e.message })])
   }

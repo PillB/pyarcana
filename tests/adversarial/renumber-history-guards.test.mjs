@@ -595,6 +595,33 @@ function freezeScenario({ mainEdits = null, window = {}, windowOn = true } = {})
   return { dir, pre }
 }
 
+const epochNaming = (sha) => ({ schema: 'renumber_epoch/1', renumber_sha: sha, new_slugs: [] })
+
+/**
+ * A repository whose window is closed. `renumber` is the commit the epoch records; with `onSide` it
+ * sits on a side branch that HEAD never merges. `windowSha` and `epoch` take that sha and return what
+ * the window names and what the epoch holds (null: no epoch file).
+ */
+function closedScenario({ epoch = epochNaming, windowSha = (sha) => sha, onSide = false } = {}) {
+  const { dir, pre } = freezeScenario({ windowOn: false })
+  let renumber
+  if (onSide) {
+    git(dir, 'switch', '-q', '-c', 'side', pre)
+    applyEdits(dir, new Map([['docs/lado.md', 'renumber en otra rama\n']]))
+    renumber = commitAll(dir, 'renumber on a side branch')
+    git(dir, 'switch', '-q', 'main')
+  } else {
+    applyEdits(dir, new Map([['docs/renumber.md', 'renumber por f\n']]))
+    renumber = commitAll(dir, 'renumber by f')
+  }
+  const edits = new Map([[WINDOW, freezeWindow(pre, { status: 'closed', renumberSha: windowSha(renumber) })]])
+  const state = epoch(renumber)
+  if (state !== null) edits.set(EPOCH, JSON.stringify(state, null, 2) + '\n')
+  applyEdits(dir, edits)
+  commitAll(dir, 'close the window')
+  return { dir, renumber }
+}
+
 function runFreeze(dir) {
   const env = { ...process.env }
   for (const key of ['GIT_DIR', 'GIT_WORK_TREE', 'GIT_INDEX_FILE']) delete env[key]
@@ -712,12 +739,39 @@ describe('freeze guard: closing the window needs the renumber sha', () => {
     assert.ok(withFindingCode(run, 'WINDOW_CLOSED_WITHOUT_RENUMBER'), run.err)
   })
 
-  it('passes a closed window whose renumber_sha HEAD contains', () => {
-    const { dir, pre } = freezeScenario({ windowOn: false })
-    applyEdits(dir, new Map([[WINDOW, freezeWindow(pre, { status: 'closed', renumberSha: pre })]]))
-    commitAll(dir, 'close the window')
-    const run = runFreeze(dir)
+  it('passes a closed window whose renumber_sha the epoch records and HEAD contains', () => {
+    const run = runFreeze(closedScenario().dir)
     assert.equal(run.status, 0, run.err)
+    assert.match(run.out, /FREEZE GUARD OK/)
+  })
+
+  it('fails a closed window that names an old ancestor when no epoch file records a renumber', () => {
+    const run = runFreeze(closedScenario({ epoch: () => null }).dir)
+    assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'WINDOW_CLOSED_WITHOUT_RENUMBER'), run.err)
+    assert.match(run.err, /renumber_epoch\.json is absent/)
+  })
+
+  it('fails a closed window whose renumber_sha is not the one the epoch records', () => {
+    const run = runFreeze(closedScenario({ epoch: () => epochNaming('e'.repeat(40)) }).dir)
+    assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'WINDOW_CLOSED_WITHOUT_RENUMBER'), run.err)
+    assert.match(run.err, /not the one .* records/)
+  })
+
+  it('fails a closed window whose recorded renumber is on a side branch HEAD does not contain', () => {
+    const run = runFreeze(closedScenario({ onSide: true }).dir)
+    assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'WINDOW_CLOSED_WITHOUT_RENUMBER'), run.err)
+    assert.match(run.err, /not an ancestor of HEAD/)
+  })
+
+  it('fails a closed window whose recorded renumber_sha is no commit git can read', () => {
+    const missing = 'f'.repeat(40)
+    const run = runFreeze(closedScenario({ windowSha: () => missing, epoch: () => epochNaming(missing) }).dir)
+    assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'WINDOW_CLOSED_WITHOUT_RENUMBER'), run.err)
+    assert.match(run.err, /not a commit git can read/)
   })
 
   it('fails HISTORY_MISSING on a shallow checkout rather than reporting DORMANT', () => {
