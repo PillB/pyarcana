@@ -73,6 +73,22 @@ jobs:
             exit 1
           }
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # The Python ratchet, same policy as the TypeScript one above. It fails closed: an
+      # unparseable file, a missing baseline, or a function that grew fails the job, and it
+      # refuses to give a verdict under any Python but 3.12.
+      - name: Complexity ratchet, Python (cyclomatic ceiling 15)
+        run: |
+          python3 scripts/complexity_gate_py.py
+          git diff --exit-code audit/fixer/complexity_baseline_py.json || {
+            echo "::error::complexity debt fell; commit the tightened audit/fixer/complexity_baseline_py.json that python3 scripts/complexity_gate_py.py writes"
+            exit 1
+          }
+
   typecheck:
     runs-on: ubuntu-latest
     steps:
