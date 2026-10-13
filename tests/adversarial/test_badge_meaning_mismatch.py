@@ -9,7 +9,9 @@ may not rise.
 
 Not counted here:
 - a skill that no section teaches (deep_learning, kubernetes, mentoring, ...). That is a teaching
-  debt under owner decision O18, guarded by G-16, not a mismatch;
+  debt under owner decision O18, guarded by G-16, not a mismatch. It is pinned exactly as
+  NODES_WITHOUT_HOME_OWED, because a skill that loses its home (an emptied or removed lexicon entry)
+  stops counting as a mismatch and would lower the owed pair count with no claim fixed;
 - progress markers (class A, exempt per O19) and level capstones (class D, positional per O17).
 
 Homes come from src/lib/eligibility/skill_node_terms.json. Anti-gaming rules: a term shorter than
@@ -46,6 +48,17 @@ COMPETENCY_CLASSES = ("B", "C")
 #: them and the test then asks for the lower number; a new mismatch raises the count and fails.
 MISMATCH_PAIRS_OWED = 92
 MISMATCH_BADGES_OWED = 21
+#: Competency-claimed skills that no section teaches through the lexicon, measured the same day. Owed
+#: teaching debt (O18; G-16 owns it from Phase 1a). Pinned both ways: a skill that gains a home must
+#: leave this list, and a skill that loses one (an emptied or removed lexicon entry) fails here, so
+#: the pair count above cannot be lowered by hiding a skill from the lexicon.
+NODES_WITHOUT_HOME_OWED = (
+    "ai_code_review_literacy",
+    "code_review_literacy",
+    "deep_learning",
+    "kubernetes",
+    "mentoring",
+)
 
 
 def surfaces_of(sections: list[dict]) -> dict[int, str]:
@@ -101,6 +114,12 @@ def mismatch_pairs(catalog: dict, lexicon: dict, surfaces: dict[int, str]) -> li
     return pairs
 
 
+def homeless_nodes(catalog: dict, lexicon: dict, surfaces: dict[int, str]) -> list[str]:
+    """The skills a competency badge claims that no section teaches by the lexicon (teaching debt)."""
+    claimed = {node for _, node in competency_claims(catalog)}
+    return sorted(node for node in claimed if not homes(node, lexicon, surfaces))
+
+
 def lexicon_gaps(catalog: dict, lexicon: dict) -> list[str]:
     """A competency skill with no entry is teaching debt, not a pass. Listing it is required."""
     entries = lexicon["nodes"]
@@ -119,6 +138,35 @@ class MeaningMismatchRatchet(unittest.TestCase):
 
     def test_every_competency_skill_is_in_the_lexicon(self) -> None:
         self.assertEqual(lexicon_gaps(self.catalog, self.lexicon), [])
+
+    def test_the_lexicon_states_the_rules_this_test_enforces(self) -> None:
+        """The thresholds live here, in a protected test. The lexicon repeats them so a reader sees
+        what is enforced; it cannot loosen them, and it cannot claim a different rule."""
+        rules = self.lexicon["rules"]
+        self.assertEqual(rules["min_term_length"], MIN_TERM_LENGTH)
+        self.assertEqual(rules["max_sections_per_term"], MAX_SECTIONS_PER_TERM)
+
+    def test_the_skills_no_section_teaches_are_exactly_the_owed_set(self) -> None:
+        """Teaching debt under O18, not mismatches. Pinned both ways, because a node that loses its
+        home stops being counted as a mismatch and the owed count falls without a claim being fixed."""
+        self.assertEqual(homeless_nodes(self.catalog, self.lexicon, self.surfaces), list(NODES_WITHOUT_HOME_OWED))
+
+    def test_a_skill_that_gains_a_home_must_leave_the_owed_list(self) -> None:
+        surfaces = {**self.surfaces, 99: "introduccion a kubernetes en produccion"}
+        found = homeless_nodes(self.catalog, self.lexicon, surfaces)
+        self.assertNotIn("kubernetes", found)
+        self.assertNotEqual(found, list(NODES_WITHOUT_HOME_OWED), "the owed list is exact, so it must shrink with it")
+
+    def test_emptying_a_lexicon_entry_lowers_the_pair_count_but_is_seen(self) -> None:
+        """The review's scenario: git_workflow = [] drops 92 pairs to 87 and, before the pin, nothing failed."""
+        lexicon = copy.deepcopy(self.lexicon)
+        lexicon["nodes"]["git_workflow"] = []
+        pairs = mismatch_pairs(self.catalog, lexicon, self.surfaces)
+        self.assertLess(len(pairs), MISMATCH_PAIRS_OWED, "the cheap way to lower the owed count")
+        self.assertEqual(term_rejections(lexicon, self.surfaces), [], "the term rules do not object")
+        self.assertEqual(lexicon_gaps(self.catalog, lexicon), [], "the entry is present, only empty")
+        grown = homeless_nodes(self.catalog, lexicon, self.surfaces)
+        self.assertEqual(sorted(set(grown) - set(NODES_WITHOUT_HOME_OWED)), ["git_workflow"])
 
     def test_the_mismatch_count_is_exactly_the_owed_count(self) -> None:
         pairs = mismatch_pairs(self.catalog, self.lexicon, self.surfaces)
