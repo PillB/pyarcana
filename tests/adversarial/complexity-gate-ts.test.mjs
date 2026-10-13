@@ -230,6 +230,7 @@ test('keys name what a function is bound to, and the path of what encloses it', 
     '}',
     `export default (x: number) => {\n${big('  ')}\n  return -1\n}`,
     `export function outer() {\n  const inner = (x: number) => {\n${big('    ')}\n    return -1\n  }\n  return inner\n}`,
+    `export const once = ((x: number) => {\n${big('  ')}\n  return -1\n})(1)`,
     '',
   ].join('\n')
   put(root, file)
@@ -237,6 +238,7 @@ test('keys name what a function is bound to, and the path of what encloses it', 
   const done = gate(root, '--init')
   assert.equal(done.status, 0, output(done))
   assert.deepEqual(Object.keys(baseline(root).offenders).sort(), [
+    'src/a.ts::<arrow function>',
     'src/a.ts::Box.<static block>',
     'src/a.ts::Box.field',
     'src/a.ts::Box.get v',

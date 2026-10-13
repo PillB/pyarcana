@@ -78,9 +78,8 @@ export function bindingName(node) {
 /** `<arg 0 of items.map>` for a function passed to a call, `<prop onClick>` for a JSX handler. */
 function usageLabel(node) {
   const { child, parent } = boundTo(node)
-  if (parent.type === 'CallExpression' || parent.type === 'NewExpression') {
-    return `<arg ${parent.arguments.indexOf(child)} of ${dotted(parent.callee)}>`
-  }
+  const place = parent.arguments?.indexOf(child) ?? -1 // -1: the callee itself, as in `(() => {})()`
+  if (place !== -1) return `<arg ${place} of ${dotted(parent.callee)}>`
   const attribute = parent.type === 'JSXExpressionContainer' ? parent.parent : null
   return attribute?.type === 'JSXAttribute' && attribute.name.type === 'JSXIdentifier' ? `<prop ${attribute.name.name}>` : null
 }
