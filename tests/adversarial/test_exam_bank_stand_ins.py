@@ -46,15 +46,28 @@ def template_bank(slug: str = "probe-template") -> dict:
     return {"slug": slug, "questions": questions}
 
 
+#: Stem shapes that differ in wording and not in the «term»: masking the term leaves one sentence each.
+TERM_STEM_SHAPES = (
+    "Sobre «{term}», ¿cuál es la práctica correcta?",
+    "En el caso de «{term}», ¿qué hace el proceso?",
+    "Respecto de «{term}», ¿qué conviene hacer primero?",
+)
+
+
 def written_bank(slug: str = "probe-written", label: bool = False, shared_options: bool = False,
-                 slug_keys: bool = False, shared_explanations: bool = False) -> dict:
+                 slug_keys: bool = False, shared_explanations: bool = False,
+                 term_stem_shapes: int = 0) -> dict:
     """24 items written one at a time, with a stem, options and an explanation of their own. The
-    flags turn one signal on at a time, so each test changes exactly the thing it recreates."""
+    flags turn one signal on at a time, so each test changes exactly the thing it recreates.
+    `term_stem_shapes` replaces the stems by that many sentences with no template label, which
+    differ only inside the «term»."""
     fixed = ["Uno correcto", "Otro distractor", "Un tercer distractor", "El cuarto distractor"]
     questions = []
     for i in range(24):
         concept = f"tema-{i // 3}-practica"
         stem = f"Caso {i}: un archivo de ventas llega con la columna {i} vacía. ¿Qué hace el proceso?"
+        if term_stem_shapes:
+            stem = TERM_STEM_SHAPES[i % term_stem_shapes].format(term=f"columna {i}")
         if label:
             stem = f"[S01/{'ABC'[i % 3]}] " + stem
         options = list(fixed) if shared_options else [
@@ -103,6 +116,18 @@ class EachSignalAlone(unittest.TestCase):
 
     def test_templated_stems_alone(self):
         self._alone(written_bank(label=True), "templated_stems")
+
+    def test_templated_stems_by_masked_term_alone(self):
+        """The second branch of the signal: no template label, but the stems are one or two
+        sentences once the «term» is masked. Recreates a template with the label left out."""
+        self._alone(written_bank(term_stem_shapes=1), "templated_stems")
+        self._alone(written_bank(term_stem_shapes=2), "templated_stems")
+
+    def test_three_stem_shapes_are_not_templated(self):
+        """The limit is two distinct stems once masked: three shapes read as written."""
+        signals = audit.stand_in_signals(written_bank(term_stem_shapes=3))
+        self.assertFalse(signals["templated_stems"], signals)
+        self.assertEqual(sum(signals.values()), 0, signals)
 
     def test_few_distinct_options_alone(self):
         self._alone(written_bank(shared_options=True), "few_distinct_options")
