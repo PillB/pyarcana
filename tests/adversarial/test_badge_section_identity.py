@@ -20,6 +20,7 @@ the section that teaches it (Biggs and Tang, Teaching for Quality Learning at Un
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import re
 import unittest
@@ -129,6 +130,33 @@ def identity_violations(manifest: dict, catalog: dict) -> list[str]:
     return _token_violations(manifest, catalog) + _span_violations(manifest, catalog) + _role_violations(manifest, catalog)
 
 
+def title_fingerprint(title: str | None) -> str:
+    return hashlib.sha256((title or "").encode("utf-8")).hexdigest()
+
+
+def cited_numbers(badge: dict) -> set[int]:
+    tokens = list(badge.get("required_sections", [])) + list(badge.get("required_activities", []))
+    return {n for n in (token_number(t) for t in tokens) if n is not None}
+
+
+def title_violations(manifest: dict, sections: list[dict], catalog: dict) -> list[str]:
+    """Each badge that cites a section whose live title no longer matches the manifest's fingerprint.
+
+    A retitled section changes what the badge's S-number means to a learner, so the change has to
+    pass through the manifest, where the owner sees it. A missing or unnamed section counts as drift.
+    """
+    live = {s["index"]: s["title"] for s in sections}
+    drifted = {
+        s["index"] for s in manifest["sections"]
+        if title_fingerprint(live.get(s["index"])) != s["title_sha256"]
+    }
+    return [
+        f"{badge['badge_id']}: cites S{n:02d}, whose title changed without a manifest update"
+        for badge in catalog["badges"]
+        for n in sorted(cited_numbers(badge) & drifted)
+    ]
+
+
 class BadgeSectionIdentity(unittest.TestCase):
     def setUp(self) -> None:
         self.manifest = load(MANIFEST)
@@ -179,6 +207,32 @@ class BadgeSectionIdentity(unittest.TestCase):
         badge["skill_nodes"].append("experimental_design")
         problems = identity_violations(manifest, catalog)
         self.assertTrue(any("no manifest slug" in p for p in problems), problems)
+
+
+class SectionTitleFingerprints(unittest.TestCase):
+    def setUp(self) -> None:
+        self.manifest = load(MANIFEST)
+        self.catalog = load(CATALOG)
+        self.sections = source_sections()
+
+    def test_every_live_title_matches_its_fingerprint(self) -> None:
+        self.assertEqual(title_violations(self.manifest, self.sections, self.catalog), [])
+
+    def test_retitling_a_section_a_badge_cites_names_those_badges(self) -> None:
+        sections = copy.deepcopy(self.sections)
+        next(s for s in sections if s["index"] == 34)["title"] = "retitled for the fixture"
+        problems = title_violations(self.manifest, sections, self.catalog)
+        named = {p.split(":", 1)[0] for p in problems}
+        self.assertIn("applied_deep_learning_practice", named, problems)
+        self.assertIn("integrated_python_ai_capstone_advanced_applied", named, problems)
+        self.assertNotIn("python_data_foundations", named, "a badge that does not cite S34 is not named")
+        self.assertTrue(all("S34" in p for p in problems), problems)
+
+    def test_a_section_with_no_title_is_drift_not_a_pass(self) -> None:
+        sections = copy.deepcopy(self.sections)
+        next(s for s in sections if s["index"] == 5)["title"] = None
+        problems = title_violations(self.manifest, sections, self.catalog)
+        self.assertTrue(any("S05" in p for p in problems), problems)
 
 
 if __name__ == "__main__":
