@@ -253,4 +253,97 @@ describe('preservation sentinel CLI: a comparison that cannot run fails', () => 
     assert.equal(status, 1)
     assert.ok(result.failures.some((f) => f.code === 'BASE_UNREADABLE'), JSON.stringify(result.failures))
   })
+
+  /** A repository whose first commit is a 52-section curriculum the sentinel can read. */
+  function curriculumRepo() {
+    const dir = mkdtempSync(join(tmpdir(), 'sentinel-compare-'))
+    tempDirs.push(dir)
+    const git = (...args) => execFileSync('git', ['-c', 'user.name=sentinel-test',
+      '-c', 'user.email=sentinel-test@example.invalid', '-c', 'commit.gpgsign=false', ...args],
+    { cwd: dir, encoding: 'utf8' }).trim()
+    git('init', '-q')
+    const pad = (i) => String(i).padStart(2, '0')
+    mkdirSync(join(dir, 'src/lib/course/sections'), { recursive: true })
+    const numbers = Array.from({ length: 52 }, (_, i) => pad(i + 1))
+    writeFileSync(join(dir, 'src/lib/course/index.ts'),
+      numbers.map((n) => `import { section${n} } from './sections/s${n}'`).join('\n') + '\n')
+    for (const n of numbers) {
+      writeFileSync(join(dir, `src/lib/course/sections/s${n}.ts`),
+        `export const section${n} = {\n  id: 'section-${n}',\n  index: ${Number(n)},\n}\n`)
+    }
+    writeFileSync(join(dir, 'src/lib/progress-sanitize.ts'),
+      `export const PROGRESS_FIELDS = ${JSON.stringify(PROGRESS_FIELDS)}\n`)
+    writeFileSync(join(dir, 'NOTES.md'), 'a tracked file a later commit may delete\n')
+    const commit = (message) => {
+      git('add', '-A')
+      git('commit', '-q', '-m', message)
+      return git('rev-parse', 'HEAD')
+    }
+    return { dir, git, commit, base: commit('52 sections') }
+  }
+
+  it('fails when the curriculum cannot be read, even though nothing was deleted', () => {
+    // Moving index.ts is the obvious first step of inserting sections into its ordered list.
+    // `git diff --diff-filter=D` reads the move as a rename, so no file counts as deleted, and
+    // the curriculum compare threw into a warning: the sentinel exited 0 having compared no
+    // section and no exercise id.
+    const { dir, git, commit, base } = curriculumRepo()
+    git('mv', 'src/lib/course/index.ts', 'src/lib/course/course-index.ts')
+    commit('move the index')
+    assert.match(git('diff', '--name-status', `${base}...HEAD`), /^R\d*\tsrc\/lib\/course\/index\.ts/m,
+      'the fixture must be a rename, the case the deletion check cannot see')
+    const { status, result } = run(dir, ['--base', base])
+    assert.equal(status, 1)
+    assert.deepEqual(result.failures.map((f) => f.code), ['CURRICULUM_UNCOMPARABLE'])
+  })
+
+  describe('a push that created the branch', () => {
+    // GitHub sends forty zeros as `before` when a push creates the branch. That is not a commit:
+    // `git diff 0000…...HEAD` failed with BASE_UNREADABLE on the first push of every new branch.
+    const ZEROS = '0'.repeat(40)
+    const withBase = (base) => ({ PRESERVATION_BASE: base })
+
+    function runEnv(dir, extraEnv) {
+      const env = { ...process.env }
+      for (const key of ['PRESERVATION_BASE', 'GITHUB_BASE_SHA', 'GIT_DIR', 'GIT_WORK_TREE', 'GIT_INDEX_FILE']) {
+        delete env[key]
+      }
+      const done = spawnSync(process.execPath, [SENTINEL], { cwd: dir, encoding: 'utf8', env: { ...env, ...extraEnv } })
+      const resultPath = join(dir, 'audit/safe-agent/preservation-sentinel-result.json')
+      return { status: done.status, result: JSON.parse(readFileSync(resultPath, 'utf8')) }
+    }
+
+    it('compares against where the branch left origin/main', () => {
+      const { dir, git, commit, base } = curriculumRepo()
+      git('update-ref', 'refs/remotes/origin/main', base)
+      writeFileSync(join(dir, 'README.md'), 'a change on the new branch\n')
+      commit('branch work')
+      const { status, result } = runEnv(dir, withBase(ZEROS))
+      assert.deepEqual(result.failures, [])
+      assert.equal(status, 0)
+      assert.equal(result.base, base)
+    })
+
+    it('still sees a deletion two commits back, which HEAD~1 would miss', () => {
+      const { dir, git, commit, base } = curriculumRepo()
+      git('update-ref', 'refs/remotes/origin/main', base)
+      git('rm', '-q', 'NOTES.md')
+      commit('delete a tracked file')
+      writeFileSync(join(dir, 'README.md'), 'a later, innocent commit\n')
+      commit('branch work')
+      const { status, result } = runEnv(dir, withBase(ZEROS))
+      assert.equal(status, 1)
+      assert.equal(result.base, base)
+      assert.deepEqual(result.failures.map((f) => f.code), ['UNAUTHORIZED_DELETE'])
+    })
+
+    it('fails unresolved when there is no origin/main, rather than settling for HEAD~1', () => {
+      const { dir, commit } = curriculumRepo()
+      writeFileSync(join(dir, 'README.md'), 'a change\n')
+      commit('branch work')
+      const { status, result } = runEnv(dir, withBase(ZEROS))
+      assert.equal(status, 1)
+      assert.deepEqual(result.failures.map((f) => f.code), ['BASE_UNRESOLVED'])
+    })
+  })
 })
