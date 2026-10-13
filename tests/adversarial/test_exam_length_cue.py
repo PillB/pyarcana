@@ -17,8 +17,11 @@ gate that is red on every round says nothing about the round. The debt is counte
 grow, and it must be lowered as it is paid. The same shape as
 `glossary-first-use-ratchet.test.mjs`.
 
-Writing distractors as long as the key is the fix, never trimming the key: a key trimmed to match
-three short distractors loses the precision that makes it correct.
+Two moves pay it down, both from the NBME Item-Writing Guide (6th ed.): write the distractors as
+long and as specific as the key, and "remove language used for teaching points and rationales"
+from the key. Never trim the detail that makes the key correct: a key cut to match three short
+distractors has lost the precision it was written to test (owner decision O20, 2026-10-07; this
+docstring said "never trim the key" until then, which forbade the guide's own remedy).
 """
 from __future__ import annotations
 
@@ -30,7 +33,10 @@ ROOT = Path(__file__).resolve().parents[2]
 SEED = ROOT / "prisma/seed.ts"
 
 #: Questions whose correct option is the longest. Lower this as banks are repaired.
-LONGEST_IS_CORRECT_OWED = 1125
+#: 2026-10-07: 1125 -> 1081. 110 of the GLM lane's rewrites in S05 and S08-S11 (O20); the other 8
+#: go back to Codex. Measured by this file's _BANK, which reads only single-quoted keys -- 1200 of
+#: the 1248 questions. Widening it is its own change, with its own mutation proof.
+LONGEST_IS_CORRECT_OWED = 1081
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 PERFECT_CUE_BANKS_OWED = 11

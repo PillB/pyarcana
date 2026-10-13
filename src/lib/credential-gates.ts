@@ -9,7 +9,9 @@
  *
  * Only exam evidence is recorded on this server. Self-checks, You Do rubrics, the integrator
  * project, the defense and prerequisite badges are not, so a credential is not issued until each
- * of them has a verifier here: the catalog forbids a claim beyond the evidence collected.
+ * of them has a verifier here: the catalog forbids a claim beyond the evidence collected. Which
+ * requirements have one is credential-verifiers.ts; what refuses a credential is
+ * credential-blockers.ts.
  *
  * Pure (no DB / session): the route and the adversarial tests run the same code.
  */
@@ -27,8 +29,8 @@ import { sectionIdAliases, withCanonicalSectionIds } from './section-id-migratio
  */
 export const CREDENTIAL_EXAM_FLOOR: number = badgeCatalog.provisional_floors.section_exam_pct
 
-/** The one assessment component this server can verify. */
-const EXAM_COMPONENT = 'section_exams'
+/** The requirement a badge's prerequisite badges are verified under, beside its components. */
+export const PREREQUISITES_REQUIREMENT = 'prerequisite_badges'
 
 /** The catalog entry for a capstone credential, or undefined for any other badge id. */
 export function credentialSpec(badgeId: string): BadgeSpec | undefined {
@@ -61,25 +63,46 @@ export interface ExamAttemptEvidence {
 }
 
 /**
+ * The best completed score of each of the badge's required sections that has one, keyed by its
+ * catalog tag (`S04`). A section retaken several times, or stored under two slugs, has one entry.
+ */
+export function bestRequiredSectionScores(
+  spec: BadgeSpec,
+  attempts: ExamAttemptEvidence[]
+): Map<string, number> {
+  const completed = attempts.filter((a) => a.completedAt !== null)
+  const best = bestScoreBySection(withCanonicalSectionIds(completed))
+  const ids = requiredSectionIds(spec)
+  const scores = new Map<string, number>()
+  spec.required_sections.forEach((tag, i) => {
+    const score = best[ids[i]]
+    if (score !== undefined) scores.set(tag, score)
+  })
+  return scores
+}
+
+/**
  * How many of the badge's required sections have a completed attempt whose best score meets the
  * floor. A section retaken several times, or stored under two slugs, still counts once.
  */
 export function countPassedSections(spec: BadgeSpec, attempts: ExamAttemptEvidence[]): number {
-  const completed = attempts.filter((a) => a.completedAt !== null)
-  const best = bestScoreBySection(withCanonicalSectionIds(completed))
-  return requiredSectionIds(spec).filter((id) => {
-    const score = best[id]
-    return score !== undefined && score >= CREDENTIAL_EXAM_FLOOR
-  }).length
+  const scores = [...bestRequiredSectionScores(spec, attempts).values()]
+  return scores.filter((score) => score >= CREDENTIAL_EXAM_FLOOR).length
+}
+
+/** What the badge requires beyond its gates: each assessment component, and its prerequisites. */
+export function credentialRequirements(spec: BadgeSpec): string[] {
+  const components = spec.components.map((c) => c.component_id)
+  return spec.prerequisite_badges.length > 0 ? [...components, PREREQUISITES_REQUIREMENT] : components
 }
 
 /**
- * The badge's requirements this server cannot verify: every assessment component except the
- * exams, and its prerequisite badges. Any entry here means no credential is issued.
+ * The badge's requirements this server cannot verify: those with no verifier among `verified`
+ * (the keys of credential-verifiers.ts SERVER_VERIFIERS, which today is the exams alone). Any
+ * entry here means no credential is issued, but an empty list does not open issuance:
+ * credential-blockers.ts also requires every eligibility-engine gate to pass.
  */
-export function unverifiedRequirements(spec: BadgeSpec): string[] {
-  const components = spec.components
-    .map((c) => c.component_id)
-    .filter((id) => id !== EXAM_COMPONENT)
-  return spec.prerequisite_badges.length > 0 ? [...components, 'prerequisite_badges'] : components
+export function unverifiedRequirements(spec: BadgeSpec, verified: Iterable<string>): string[] {
+  const has = new Set(verified)
+  return credentialRequirements(spec).filter((id) => !has.has(id))
 }

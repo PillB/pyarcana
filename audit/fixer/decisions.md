@@ -592,3 +592,76 @@ the dashboard recorded no session data, and admin had no aggregate and no downlo
     element. Its sign-in panel shows the refusal line, which proves the button was mounted.
 - **Not chosen:** a separate callback route (/cuenta/microsoft/). It needs a new Entra redirect
   URI, and the load-time rule gives the same protection without one.
+
+## D21 — Exam banks: the GLM lane's rewrites land, options shuffle per attempt, keys lose teaching but not precision (owner decision, 2026-10-07)
+
+A second agent lane (a glm-5.3-flash orchestrator routing Codex) rewrote the exam banks of S05 and
+S08–S11 and recorded the work as its own "D15" in an uncommitted copy of this file. That number is
+already D15 here (ADR-7), and its root cause was wrong, so the decision is recorded here as D21. The
+review that tested it is in `audit/fixer/glm_exam_bank_review/` (PR #80); the owner's rulings are
+O20 in `audit/fixer/OWNER_DECISIONS.md`.
+
+- **Root cause, corrected.** The lane's D15 said QUESTION_BANK covered 47 of 52 sections and that
+  S05, S08, S09, S10 and S11 had no questions. `prisma/seed.ts` has had 24 questions for each since
+  a492d8ea (2026-09-16). Their keys are double-quoted, and parsers that read only single-quoted keys
+  missed them. Whether the deployed database was reseeded after a492d8ea is undetermined; if it was
+  not, those exams did return 404, and the reseed below fixes that.
+- **What was wrong with those five banks.** Their questions existed but were weak: every answer in
+  S10 and S11 sat at position B, so always choosing B scored 100%, and the key was usually the
+  longest option.
+- **What lands.** 110 of the lane's 118 rewrites. A slot-by-slot review found 0 wrong keys and 0
+  reorder failures. Codex redoes the other 8 (S05#16, S08#7, S09#9, S09#20, S09#21, S09#22, S10#23,
+  S11#22) and, in the same round, the S10 lesson lines on `python -m` and the working directory
+  (the current Python docs say `-m` adds the current directory to `sys.path`) and on circular
+  imports, so key and lesson agree.
+- **Positions.** Options are shuffled when an attempt starts, and the permuted key is stored with
+  the attempt in `ExamAttemptForm`. This replaces the lane's static per-section position cycle: the
+  cycle was keyed to section numbers, which the 52 → 55 renumber shifts. Owed until the shuffle
+  ships: 29 banks still keep every answer at B in stored order.
+- **Length.** From the NBME Item-Writing Guide (6th ed.): make distractors as long and as specific
+  as the key, and remove teaching points and rationale from the key. Never remove the detail that
+  makes the key correct. `test_exam_length_cue.py` moves 1125 → 1081 with this change.
+- **Still binding from the lane's D15:** a bank question uses only what the section and earlier
+  sections teach, distractors included; variants are parallel in skill and demand, not cosmetic
+  rewordings; each question has one best answer; the writing rules apply to stems, options and
+  explanations; reseeding stored attempts stays ask-first.
+- **Tooling.** Both of the lane's scripts are retired. The position rebalancer is superseded by the
+  shuffle; the repair applier could not repair a bank's last question and had no tests. Codex's
+  question fixes go through `tools/fixer/apply_patches.py`.
+- **Reseed.** Once, after these 110 and the 8 redos are both on main. The owner runs it. Attempts
+  in progress keep their own questions and key in `ExamAttemptForm`.
+- **The real gap.** S12 and S13 hold 48 questions built from one template ("[S12/A] Sobre «…»,
+  ¿cuál es la práctica correcta…") with options repeated across variants. They are written next.
+- **Research closed.** The lane's D15 recorded its psychometric research as blocked. It is now
+  done: the NBME Item-Writing Guide (6th ed.) and Haladyna, Downing and Rodriguez (2002) both ask
+  for a varied key position and options of about equal length.
+
+## D22 — Credential issuance fails closed: every check blocks until the server shows it passed (2026-10-12)
+
+The 403 on every capstone credential is the owner's gate (EXAM-01, AV3-2, O17) and stays. What
+changes is how it is held shut. `unverifiedRequirements(spec)` listed what was known to be
+missing, so it would have opened once each listed item got a verifier, without the engine checks
+it never named: critical competencies at 100%, supplementary exercises, CP projects, required
+activities, the overall score (plan of 2026-10-12, C13).
+
+- **Rule now:** `issuanceBlockers()` (`src/lib/credential-blockers.ts`) is the switch. It is
+  empty only when every requirement has a registered server verifier that passes it
+  (`src/lib/credential-verifiers.ts`, which today registers `section_exams` alone), the real
+  eligibility engine awards on what those verifiers report and nothing else, the request names
+  the badge's own version, and no standing blocker remains.
+- **A gate the engine never reached blocks** (`not_evaluated`): the engine stops at its first
+  failing gate, so "not reported failed" is not "passed".
+- **Standing blocker:** `CREDENTIAL_STORE_NOT_IMPLEMENTED` until issuance writes a `Credential`
+  row. The route still writes a Notification.
+- **Signed version:** the catalog's `spec.version`, never the client's.
+- **Adding a verifier** is how a requirement opens. It never opens issuance by itself, and
+  `credential-blockers.test.ts` holds the production registry to exactly `['section_exams']`.
+- **Replaces** EXAM-01's "`unverifiedRequirements()` as the closed switch". The function stays
+  for the response's `unverifiedRequirements` field.
+- **Proof:** `tests/adversarial/credential-blockers.test.ts`. With all five listed requirements
+  verified, issuance is still refused. One case per engine gate. With everything verified by
+  test fakes and the store blocker lifted, it issues (201), so the refusals are not "always
+  403". The fakes are test-only stand-ins; no real verifier exists for them.
+- **Also:** the browser HMAC re-check on `/verify` and its `NEXT_PUBLIC_CREDENTIAL_VERIFY_KEY`
+  are removed (ADR 5: an HMAC key in the bundle is the signing key). A test now fails on any
+  `NEXT_PUBLIC_*` name containing KEY, SECRET, SIGN, TOKEN, PASSWORD or PRIVATE.

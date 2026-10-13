@@ -8,6 +8,7 @@ import {
   EXAM_TIME_LIMIT_SEC,
   GRADED_AS_EVIDENCE,
   GRADING_VERSION,
+  InvalidBankRow,
   PASS_THRESHOLD,
   UNANSWERED,
   bestScoreBySection,
@@ -27,6 +28,7 @@ import {
   redactAttemptsForLearner,
   submissionDeadline,
   toFormItem,
+  toLearnerQuestion,
 } from '../../src/lib/exam-scoring.ts'
 
 const bank = new Map([
@@ -449,7 +451,7 @@ describe('attempt form — the questions as shown, with their key', () => {
   const q = { id: 'q1', concept: 'venv', variant: 2, question: '¿Q?', options: '["a","b","c"]', correctIndex: 2, explanation: 'porque' }
 
   it('round-trips a bank row into the key submit grades against', () => {
-    const key = parseFormItems(JSON.stringify([toFormItem(q)]))!
+    const key = parseFormItems(JSON.stringify([toFormItem(q, [0, 1, 2])]))!
     assert.deepEqual(key.get('q1'), {
       id: 'q1', concept: 'venv', variant: 2, correctIndex: 2, explanation: 'porque', question: '¿Q?', options: ['a', 'b', 'c'],
     })
@@ -457,11 +459,80 @@ describe('attempt form — the questions as shown, with their key', () => {
     assert.equal(r.score, 100)
   })
 
+  it('shows the options in the order given, and the key follows its text', () => {
+    // Shown position k holds the bank's option order[k].
+    const item = toFormItem(q, [2, 0, 1])
+    assert.deepEqual(item.options, ['c', 'a', 'b'])
+    assert.equal(item.options[item.correctIndex], 'c', 'the key is still the text the bank marks correct')
+    assert.deepEqual(item.optionOrder, [2, 0, 1])
+    const key = parseFormItems(JSON.stringify([item]))!
+    const grade = (selectedIndex: number) => gradeExamAnswers([{ questionId: 'q1', selectedIndex }], key, ['q1']).score
+    assert.equal(grade(0), 100, 'the key as shown')
+    assert.equal(grade(2), 0, "the bank's index, which now shows 'b'")
+  })
+
+  describe('refuses, with InvalidBankRow, an order that is not a permutation of the options', () => {
+    for (const order of [[0, 0, 1], [0, 1], [0, 1, 2, 3], [0, 1, 3], [0, 1, -1], [0, 1, 1.5]]) {
+      it(`[${order}]`, () => assert.throws(() => toFormItem(q, order), InvalidBankRow))
+    }
+  })
+
+  describe('refuses, with InvalidBankRow naming the row, a bank row that cannot be shown', () => {
+    // Each row breaks one rule and nothing else, so each case proves its own check.
+    const rows: Record<string, [typeof q, number[]]> = {
+      'options that are not JSON': [{ ...q, options: 'not json' }, [0, 1, 2]],
+      'options that are not a list': [{ ...q, options: '"abc"' }, [0, 1, 2]],
+      'a single option': [{ ...q, options: '["a"]', correctIndex: 0 }, [0]],
+      'options that are not strings': [{ ...q, options: '[1,2,3]' }, [0, 1, 2]],
+      'a key past the last option': [{ ...q, correctIndex: 3 }, [0, 1, 2]],
+      'a negative key': [{ ...q, correctIndex: -1 }, [0, 1, 2]],
+      'a key that is not an integer': [{ ...q, correctIndex: 1.5 }, [0, 1, 2]],
+    }
+    for (const [label, [row, order]] of Object.entries(rows)) {
+      it(label, () => assert.throws(() => toFormItem(row, order),
+        (e: unknown) => e instanceof InvalidBankRow && e.questionId === 'q1'))
+    }
+  })
+
+  it('gives the learner the id, the question and the options as shown, and nothing else', () => {
+    const shown = toLearnerQuestion(toFormItem(q, [2, 0, 1]))
+    assert.deepEqual(shown, { id: 'q1', question: '¿Q?', options: ['c', 'a', 'b'] })
+  })
+
   it('returns null for a form that cannot be read, rather than an empty key', () => {
     assert.equal(parseFormItems('not json'), null)
     assert.equal(parseFormItems('[]'), null)
     assert.equal(parseFormItems(JSON.stringify([{ questionId: 'q1' }])), null)
     assert.equal(parseFormItems(JSON.stringify([{ questionId: 'q1', correctIndex: '0' }])), null)
+  })
+
+  describe('returns null for a form whose items could not have been shown or graded', () => {
+    const good = toFormItem(q, [2, 0, 1])
+    const form = (...items: unknown[]) => JSON.stringify(items)
+    const malformed: Record<string, string> = {
+      'no options': form({ ...good, options: undefined }),
+      'one option': form({ ...good, options: ['c'], correctIndex: 0, optionOrder: [0] }),
+      'options that are not strings': form({ ...good, options: [1, 2, 3] }),
+      'a key past the last option': form({ ...good, correctIndex: 3 }),
+      'a negative key': form({ ...good, correctIndex: -1 }),
+      'the same question twice': form(good, { ...good, correctIndex: 1 }),
+      'an order with a repeat': form({ ...good, optionOrder: [2, 2, 1] }),
+      'an order of the wrong length': form({ ...good, optionOrder: [1, 0] }),
+      'an order past the options': form({ ...good, optionOrder: [0, 1, 5] }),
+      'an order that is not a list': form({ ...good, optionOrder: '201' }),
+    }
+    it('reads the same item when nothing is wrong with it', () => {
+      assert.equal(parseFormItems(form(good))!.get('q1')!.correctIndex, 0)
+    })
+    for (const [label, raw] of Object.entries(malformed)) {
+      it(label, () => assert.equal(parseFormItems(raw), null))
+    }
+  })
+
+  it('still reads a form saved before options were shuffled, which has no optionOrder', () => {
+    const { optionOrder: _optionOrder, ...older } = toFormItem(q, [0, 1, 2])
+    const key = parseFormItems(JSON.stringify([older]))!
+    assert.equal(key.get('q1')!.correctIndex, 2)
   })
 })
 
