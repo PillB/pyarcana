@@ -11,6 +11,7 @@ scripts/course_event_extractor.mts (via scripts/first_use_all_audit.py).
 """
 from __future__ import annotations
 
+import argparse
 import json
 import subprocess
 import sys
@@ -43,7 +44,62 @@ def load_events() -> dict:
     return json.loads(EVENTS.read_text(encoding="utf-8"))
 
 
-def main() -> int:
+def section_number(tag: str) -> int | None:
+    """`S14` or `s14` to 14; anything else to None."""
+    try:
+        return int(str(tag).lstrip("Ss"))
+    except ValueError:
+        return None
+
+
+def prerequisite_inversions(badges: list[dict]) -> list[dict]:
+    """A prerequisite badge must not depend on material taught later than the badge that needs it.
+
+    Compares the last section each badge requires. Equal last sections are not an inversion: the
+    prerequisite may finish in the section where the badge begins. A prerequisite missing from the
+    catalog is skipped here; the audit reports it as UNKNOWN_PREREQUISITE_BADGE.
+    """
+    by_id = {b["badge_id"]: b for b in badges}
+    found = []
+    for badge in badges:
+        nums = [n for n in (section_number(s) for s in badge.get("required_sections", [])) if n]
+        for pre in badge.get("prerequisite_badges", []):
+            prerequisite = by_id.get(pre)
+            if prerequisite is None:
+                continue
+            pnums = [n for n in (section_number(s) for s in prerequisite.get("required_sections", [])) if n]
+            if pnums and nums and max(pnums) > max(nums):
+                found.append({
+                    "badge": badge["badge_id"], "code": "PREREQUISITE_TAUGHT_LATER",
+                    "detail": f"{pre} needs S{max(pnums):02d}, after this badge's S{max(nums):02d}",
+                })
+    return found
+
+
+def check(owed: int) -> int:
+    """Read-only. Exit 0 only when the prerequisite inversions number exactly `owed`.
+
+    Writes nothing and needs no course events, so it can run while a gate is measuring. A count
+    that falls must lower the owed number, and a count that rises must be fixed: both directions fail.
+    """
+    catalog = json.loads(CATALOG.read_text(encoding="utf-8"))
+    found = prerequisite_inversions(catalog["badges"])
+    print(json.dumps({"inversions": len(found), "owed": owed, "items": found}, indent=2, ensure_ascii=False))
+    return 0 if len(found) == owed else 1
+
+
+def parse_args(argv: list[str] | None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Badge readiness audit.")
+    parser.add_argument("--check", action="store_true",
+                        help="read-only: report prerequisite inversions and exit 0 only if they equal --owed")
+    parser.add_argument("--owed", type=int, default=0, help="the exact inversion count owed (with --check)")
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+    if args.check:
+        return check(args.owed)
     report_lock.refuse_if_busy(__file__)
     payload = load_events()
     slugs = payload["active_section_ids"]                 # display order
@@ -80,19 +136,13 @@ def main() -> int:
     warnings: list[dict] = []
     rows = []
 
-    def sec_num(tag: str) -> int | None:
-        try:
-            return int(str(tag).lstrip("Ss"))
-        except ValueError:
-            return None
-
     for b in badges:
         bid = b["badge_id"]
         req_sections = [s for s in b.get("required_sections", [])]
-        nums = [n for n in (sec_num(s) for s in req_sections) if n]
+        nums = [n for n in (section_number(s) for s in req_sections) if n]
 
         for tag in req_sections:
-            n = sec_num(tag)
+            n = section_number(tag)
             if n is None or n not in by_num:
                 failures.append({"badge": bid, "code": "UNKNOWN_REQUIRED_SECTION", "detail": tag})
 
@@ -101,7 +151,7 @@ def main() -> int:
             if not isinstance(act, str) or "-" not in act:
                 continue
             tag, _, kind = act.partition("-")
-            n = sec_num(tag)
+            n = section_number(tag)
             if n is None or n not in by_num:
                 continue
             slug = by_num[n]
@@ -111,18 +161,9 @@ def main() -> int:
                     "detail": f"{act} but {slug} has no {kind.lower()}",
                 })
 
-        # a prerequisite badge must not depend on material taught later than this one
         for pre in b.get("prerequisite_badges", []):
             if pre not in badge_ids:
                 failures.append({"badge": bid, "code": "UNKNOWN_PREREQUISITE_BADGE", "detail": pre})
-                continue
-            pb = next(x for x in badges if x["badge_id"] == pre)
-            pnums = [n for n in (sec_num(s) for s in pb.get("required_sections", [])) if n]
-            if pnums and nums and max(pnums) > max(nums):
-                failures.append({
-                    "badge": bid, "code": "PREREQUISITE_TAUGHT_LATER",
-                    "detail": f"{pre} needs S{max(pnums):02d}, after this badge's S{max(nums):02d}",
-                })
 
         # the pedagogical check: vocabulary the badge's own sections make the learner act on
         blocking = []
@@ -145,11 +186,13 @@ def main() -> int:
             "blocking_term_gaps": len(blocking),
         })
 
+    failures.extend(prerequisite_inversions(badges))
+
     # capstones: the gate section must exist, and the capstone must be formally ready
     caps = json.loads(CAPSTONES.read_text(encoding="utf-8"))
     cap_rows = []
     for c in caps.get("capstones", []):
-        n = sec_num(c.get("gate_section", ""))
+        n = section_number(c.get("gate_section", ""))
         slug = by_num.get(n) if n else None
         if slug is None:
             failures.append({"badge": c["id"], "code": "UNKNOWN_CAPSTONE_GATE", "detail": c.get("gate_section")})
