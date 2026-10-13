@@ -443,12 +443,33 @@ describe('git paths: names with a space, an accent, a quote or a backslash', () 
   })
 })
 
-describe('renumber guard: dormant until the epoch exists', () => {
+describe('renumber guard: dormant until the epoch exists, and the epoch cannot disappear quietly', () => {
   it('prints DORMANT and passes on a history with no epoch file', () => {
     const { dir } = scenario({ epoch: null })
     const run = runGuard(dir)
     assert.equal(run.status, 0, run.err)
     assert.match(run.out, /DORMANT/)
+  })
+
+  it('fails EPOCH_REMOVED, never DORMANT, when the epoch was committed and is now gone', () => {
+    const { dir } = scenario()
+    applyEdits(dir, new Map([[EPOCH, null]]))
+    commitAll(dir, 'delete the epoch to switch the guard off')
+    const run = runGuard(dir)
+    assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'EPOCH_REMOVED'), run.err)
+    assert.doesNotMatch(run.out, /DORMANT/)
+  })
+
+  it('fails HISTORY_MISSING, never DORMANT, on a shallow checkout that has no epoch file', () => {
+    const { dir } = scenario({ epoch: null })
+    const clone = mkdtempSync(join(tmpdir(), 'renumber-shallow-dormant-'))
+    tempDirs.push(clone)
+    execFileSync('git', ['clone', '-q', '--depth', '1', '--branch', BRANCH, `file://${dir}`, clone])
+    const run = runGuard(clone)
+    assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'HISTORY_MISSING'), run.err)
+    assert.doesNotMatch(run.out, /DORMANT/)
   })
 })
 

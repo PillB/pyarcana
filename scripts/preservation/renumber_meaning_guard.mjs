@@ -3,8 +3,9 @@
  * G-11 and G-15: the renumber must not change what an exercise id means.
  * Design: audit/fixer/renumber_g0/design_ruled_final.md §4.2-§4.3, design_G_round4.md §4.
  *
- * Dormant while audit/safe-agent/renumber_epoch.json is absent (it prints DORMANT). Once the epoch
- * exists the guard never skips. A history it cannot read is HISTORY_MISSING. It checks the renumber
+ * Dormant while audit/safe-agent/renumber_epoch.json is absent and was never committed (it prints
+ * DORMANT). Once the epoch exists the guard never skips: an epoch that was committed and is gone is
+ * EPOCH_REMOVED. A history it cannot read is HISTORY_MISSING. It checks the renumber
  * commit R (the epoch's renumber_sha) against its parent P:
  *   (b) R is an ancestor of HEAD, so a squash or rebase of the renumber is caught;
  *   (c) each old slug keeps every (slug, suffix) pair, and each of its ids is bound to f(index);
@@ -213,11 +214,28 @@ function verdict(findings, retired = []) {
 }
 
 /**
+ * No epoch file at HEAD. That is DORMANT only if no epoch was ever committed: a file that existed in
+ * HEAD's history and is gone is EPOCH_REMOVED (deleting it must not switch G-11 and G-15 off, the
+ * same loophole G-14's WINDOW_REMOVED closes). A shallow checkout cannot tell the two apart, so it
+ * is HISTORY_MISSING, never DORMANT.
+ */
+function absentEpochVerdict(history) {
+  if (history.isShallow()) return verdict([fail('HISTORY_MISSING', { reason: 'the repository is shallow' })])
+  try {
+    const lastCommit = history.lastCommitTouching('HEAD', EPOCH_PATH)
+    if (lastCommit !== null) return verdict([fail('EPOCH_REMOVED', { path: EPOCH_PATH, last_commit: lastCommit })])
+  } catch (e) {
+    return verdict([fail('HISTORY_MISSING', { reason: e.message })])
+  }
+  return { state: 'DORMANT', findings: [], retired: [] }
+}
+
+/**
  * The guard. `history` is an openHistory() handle, `epoch` and `window` are the parsed state files
  * (null while absent). Returns { state: 'DORMANT' | 'OK' | 'FAIL', findings, retired }.
  */
 export function checkRenumberMeaning({ history, epoch, window }) {
-  if (epoch === null) return { state: 'DORMANT', findings: [], retired: [] }
+  if (epoch === null) return absentEpochVerdict(history)
   const problems = epochProblems(epoch)
   if (problems.length > 0) return verdict([fail('EPOCH_INVALID', { problems })])
   if (history.isShallow()) return verdict([fail('HISTORY_MISSING', { reason: 'the repository is shallow' })])
