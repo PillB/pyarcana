@@ -54,10 +54,9 @@ function unscoredReason(a: AttemptSummary): string | null {
   return scoreCounts(a) ? null : 'exam.exposedAttempt'
 }
 
-/** A graded answer from exam/submit. The correct option and the explanation are never sent. */
+/** A graded answer from exam/submit. The correct option, the explanation and the concept are never sent. */
 interface ReviewedAnswer {
   questionId: string
-  concept: string
   question: string
   options: string[]
   selectedIndex: number

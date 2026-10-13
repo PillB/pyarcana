@@ -284,6 +284,12 @@ describe('exam/submit grades the questions the attempt drew', () => {
     assert.equal(body.detailedAnswers[0].question, 'setup question 5.1')
     // An attempt without a form was shown its options in stored order, and is graded in it.
     assert.deepEqual(body.detailedAnswers[0].options, ['5.1:a', '5.1:b', '5.1:c', '5.1:d'])
+    // Exactly these fields reach the learner: not the key, not the explanation, and not the
+    // concept or variant. A concept slug names the key in banks whose key contains it (S12 and
+    // S13), so sending it after attempt 1 handed out attempts 2 and 3.
+    for (const a of body.detailedAnswers) {
+      assert.deepEqual(Object.keys(a).sort(), ['correct', 'options', 'question', 'questionId', 'selectedIndex'])
+    }
 
     // The graded row reaches the mirror, which strips the key from it (firebase-mirror.test.ts).
     assert.deepEqual(mirrored.map((r) => [r.id, r.score]), [['att-1', 75]])
@@ -296,6 +302,8 @@ describe('exam/submit grades the questions the attempt drew', () => {
     const saved = JSON.parse(row.answers as string)
     assert.equal(saved.length, 8)
     assert.equal(saved[0].correctIndex, question('setup-c5-v1').correctIndex)
+    // ...and the concept and variant, which the next draw reads to avoid repeating an item.
+    assert.deepEqual([saved[0].concept, saved[0].variant], ['concept-5', 1])
   })
 
   it('refuses with 409 an attempt whose draw cannot be read, rather than grading the ids sent', async () => {

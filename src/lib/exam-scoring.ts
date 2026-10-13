@@ -325,10 +325,18 @@ export function gradeExamAnswers(
  * parallel versions shared by every learner, and a key that circulates stops them measuring
  * anything. The learner still sees the option they chose and whether it was right.
  */
-export type LearnerGradedAnswer = Omit<GradedAnswer, 'correctIndex' | 'explanation'>
+/**
+ * What a learner may see of a graded answer: no key, no explanation, and not which concept or
+ * variant it was. The concept slug names the answer in banks whose key contains it (S12 and S13
+ * today), so returning it after attempt 1 handed out the keys for attempts 2 and 3; the stored
+ * copy keeps both, because the draw reads them to avoid repeating an item.
+ */
+export type LearnerGradedAnswer = Omit<GradedAnswer, 'correctIndex' | 'explanation' | 'concept' | 'variant'>
 
 export function withoutAnswerKey(answer: GradedAnswer): LearnerGradedAnswer {
-  const { correctIndex: _correctIndex, explanation: _explanation, ...rest } = answer
+  const {
+    correctIndex: _correctIndex, explanation: _explanation, concept: _concept, variant: _variant, ...rest
+  } = answer
   return rest
 }
 
