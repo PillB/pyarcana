@@ -22,7 +22,7 @@ import { DatabaseSync } from 'node:sqlite'
 
 import { COURSE_SECTIONS } from '../../src/lib/course'
 import { readSeedQuestionBank, type Bank } from '../../scripts/lib/learner_text.mts'
-import { check, openBankDatabase, type Outcome, type SectionStatus } from '../../scripts/exam_bank_db_check.mts'
+import { check, formatReport, openBankDatabase, type Outcome, type SectionStatus } from '../../scripts/exam_bank_db_check.mts'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..')
 const BANKS: Bank[] = readSeedQuestionBank(ROOT)
@@ -183,6 +183,23 @@ test('rows only under a pre-rename slug are alias-only for the renamed section',
   assert.deepEqual(notFresh(outcome), [['apis-sql-geo', 'alias-only']])
   // The old slug is not a section, so it is not reported as one.
   assert.equal(statusesOf(outcome).has('performance'), false)
+})
+
+test('rows left under the old slug beside the current id\'s rows are counted, and do not fail the check', async () => {
+  // The rename migration keeps twins. exam/start keeps one copy of each (concept, variant) and prefers
+  // the current id's, so twins of the same rows change nothing a learner sees.
+  const rowsInBank = BANKS.find((b) => b.slug === 'apis-sql-geo')!.questions.length
+  const path = bankDatabase()
+  edit(path, 'INSERT INTO "QuestionBank" ("id","sectionId","concept","variant","question","options","correctIndex","explanation") '
+    + 'SELECT "id" || \'-old\', ?, "concept", "variant", "question", "options", "correctIndex", "explanation" '
+    + 'FROM "QuestionBank" WHERE "sectionId" = ?', ['performance', 'apis-sql-geo'])
+  const outcome = await check(path)
+  assert.equal(outcome.exitCode, 0)
+  assert.deepEqual(notFresh(outcome), [])
+  const report = outcome.reports.find((r) => r.id === 'apis-sql-geo')!
+  assert.deepEqual([report.status, report.rows, report.aliasRows], ['fresh', rowsInBank, rowsInBank])
+  // The count is on the printed line, so the owner sees the leftover rows.
+  assert.match(formatReport('test.sqlite', outcome), new RegExp(`^fresh\\s+apis-sql-geo\\s+${rowsInBank}\\s+${rowsInBank}\\s`, 'm'))
 })
 
 test('an extra variant makes only its section wrong-shape', async () => {
