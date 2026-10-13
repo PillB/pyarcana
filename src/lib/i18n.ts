@@ -260,7 +260,7 @@ const translations: Record<Language, Dict> = {
     'feedback.error': 'No se pudo enviar. Intenta de nuevo.',
 
     'footer.tagline': 'PyArcana · Curso online autónomo de Python aplicado a datos, automatización e IA',
-    'footer.method': 'Método I Do / We Do / You Do · 52 secciones · Exámenes con anti-plagio · Español peruano',
+    'footer.method': 'Método I Do / We Do / You Do · 52 secciones · Español peruano',
 
     'common.close': 'Cerrar',
     'common.loading': 'Cargando...',
@@ -1293,7 +1293,7 @@ const translations: Record<Language, Dict> = {
     'feedback.error': 'No se pudo enviar. Inténtalo de nuevo.',
 
     'footer.tagline': 'PyArcana · Curso online autónomo de Python aplicado a datos, automatización e IA',
-    'footer.method': 'Método I Do / We Do / You Do · 52 secciones · Exámenes con anti-plagio · Español',
+    'footer.method': 'Método I Do / We Do / You Do · 52 secciones · Español',
 
     'common.close': 'Cerrar',
     'common.loading': 'Cargando...',
@@ -2326,7 +2326,7 @@ const translations: Record<Language, Dict> = {
     'feedback.error': 'Could not send. Please try again.',
 
     'footer.tagline': 'PyArcana · Autonomous online Python course for data, automation and AI',
-    'footer.method': 'I Do / We Do / You Do method · 52 sections · Anti-plagiarism exams',
+    'footer.method': 'I Do / We Do / You Do method · 52 sections',
 
     'common.close': 'Close',
     'common.loading': 'Loading...',
