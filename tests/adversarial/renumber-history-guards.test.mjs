@@ -355,6 +355,11 @@ function runGuard(dir) {
 
 const withFindingCode = (run, code) => new RegExp(`"code": "${code}"`).test(run.err)
 
+/** The findings a failed guard printed: its stderr is a heading line, then the JSON verdict. */
+function findingsOf(run) {
+  return JSON.parse(run.err.slice(run.err.indexOf('{'))).findings
+}
+
 describe('renumber guard: the pure rules', () => {
   it('maps every section by f: 1..18 stay, 19..32 move +2, 33..52 move +3', async () => {
     const { mapSectionNumber } = await import('../../scripts/preservation/curriculum_snapshot.mjs')
@@ -534,6 +539,41 @@ describe('renumber guard: the good renumber, and each bad state red', () => {
     const run = runGuard(scenario({ post }).dir)
     assert.equal(run.status, 1)
     assert.ok(withFindingCode(run, 'GRID_INCOMPLETE'), run.err)
+  })
+
+  it('fails SLUG_MISSING, and nothing else, when an old section disappears in the renumber', () => {
+    // Old section 33 is dropped from the index and its file removed; the roadmap declares the six that remain.
+    const stems = ['s01-alpha', 's18-eighteen', 's21-oldnineteen', 's19-inference', 's20-design', 's35-regression']
+    const post = postTree({ overrides: new Map([[sectionPath('s36-thirtythree'), null]]), roadmap: roadmapWith(seq(6)) })
+    post.set('src/lib/course/index.ts', indexFile(stems))
+    const run = runGuard(scenario({ post }).dir)
+    assert.equal(run.status, 1)
+    assert.deepEqual(findingsOf(run).map((f) => [f.code, f.slug]), [['SLUG_MISSING', 'thirtythree']])
+  })
+
+  it('fails NEW_SLUG_NUMBER, and nothing else, when a declared new section sits at another index', () => {
+    // Declared at 19, written at index 22; its ids keep S19, so the index is the only thing off.
+    const text = sectionFile({ slug: 'inference', index: 22, suffixes: GRID_SUFFIXES }).replaceAll('S22-', 'S19-')
+    const post = postTree({ overrides: new Map([[sectionPath('s19-inference'), text]]) })
+    const run = runGuard(scenario({ post }).dir)
+    assert.equal(run.status, 1)
+    assert.deepEqual(findingsOf(run).map((f) => [f.code, f.slug, f.expected, f.found]), [['NEW_SLUG_NUMBER', 'inference', 19, 22]])
+  })
+
+  it('fails GRID_INCOMPLETE listing the extra id when a new section writes one of its 24 ids twice', () => {
+    const doubled = sectionFile({ slug: 'design', index: 20, suffixes: [...GRID_SUFFIXES, 'T1-A-E1'] })
+    const run = runGuard(scenario({ post: postTree({ overrides: new Map([[sectionPath('s20-design'), doubled]]) }) }).dir)
+    assert.equal(run.status, 1)
+    const grid = findingsOf(run).filter((f) => f.code === 'GRID_INCOMPLETE')
+    assert.deepEqual(grid.map((f) => [f.slug, f.missing, f.extra]), [['design', [], ['S20-T1-A-E1']]])
+  })
+
+  it('fails GRID_INCOMPLETE listing both the missing and the extra id when a foreign id replaces one', () => {
+    const foreign = sectionFile({ slug: 'design', index: 20, suffixes: GRID_SUFFIXES }).replace("id: 'S20-T4-B-E3'", "id: 'S21-T1-A-E1'")
+    const run = runGuard(scenario({ post: postTree({ overrides: new Map([[sectionPath('s20-design'), foreign]]) }) }).dir)
+    assert.equal(run.status, 1)
+    const grid = findingsOf(run).filter((f) => f.code === 'GRID_INCOMPLETE')
+    assert.deepEqual(grid.map((f) => [f.slug, f.missing, f.extra]), [['design', ['S20-T4-B-E3'], ['S21-T1-A-E1']]])
   })
 
   it('fails UNDECLARED_SLUG for a section the epoch does not name', () => {
