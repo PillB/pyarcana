@@ -48,10 +48,20 @@ import exam_bank  # noqa: E402
 #: parser, every bank is seen: 1081 over the 1200 the old reader saw, plus +22 for `setup` and +18
 #: for `basics`, which have unquoted keys the regex never matched. 1121 of 1248.
 #: Another open round (the S10 round) lowers this count; whichever lands second re-measures.
+#:
+#: The 1081 -> 1121 move is a one-time measurement, recorded here and not asserted. Measured on
+#: 2026-10-13 on `prisma/seed.ts` blob 4a31ae3b (origin/main a75a0875), with is_longest below: over
+#: the 52 banks except `setup` and `basics` (1200 questions, the ones the old reader saw) the count
+#: is 1081, the old figure exactly; `setup` adds 22 of 24 and `basics` 18 of 24; 1121 of 1248. To
+#: repeat it on that blob, from the repository root:
+#:     python3 -c "import sys; sys.path[:0]=['scripts','tests/adversarial']; import exam_bank;
+#:     from test_exam_length_cue import is_longest; b=exam_bank.load_banks();
+#:     print(sum(is_longest(q) for x in b if x['slug'] not in ('setup','basics') for q in x['questions']))"
+#: It is not a test, because it would go red on the first repair outside those two banks, and the
+#: only way to clear it would be to edit a constant whose comment says it is what the old reader
+#: counted. What guards the reader instead: test_the_measure_still_sees_the_banks (a reader that
+#: drops banks or questions falls under its floors) and the ratchet below.
 LONGEST_IS_CORRECT_OWED = 1121
-#: What the old single-quote reader counted: every bank except the two unquoted ones below.
-OLD_READER_LONGEST = 1081
-UNSEEN_BY_OLD_READER = frozenset({"setup", "basics"})
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.
@@ -95,12 +105,6 @@ class ExamLengthCue(unittest.TestCase):
         """The cue is measured over four options. Another size would be measured wrongly."""
         sizes = {len(q["options"]) for bank in self.banks for q in bank["questions"]}
         self.assertEqual(sizes, {4})
-
-    def test_the_figure_reconciles_with_the_old_reader(self):
-        """Restricted to the questions the old reader saw, the measure gives the old figure."""
-        seen = [q for bank in self.banks if bank["slug"] not in UNSEEN_BY_OLD_READER
-                for q in bank["questions"]]
-        self.assertEqual(sum(is_longest(q) for q in seen), OLD_READER_LONGEST)
 
     def test_the_length_cue_does_not_grow(self):
         self.assertLessEqual(
