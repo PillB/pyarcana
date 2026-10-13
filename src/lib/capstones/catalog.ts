@@ -8,6 +8,8 @@
  *
  * Level names are curricular proficiency descriptors — NOT workplace titles.
  */
+import { COURSE_SECTIONS } from '@/lib/course'
+
 export type LevelId = 1 | 2 | 3 | 4
 
 export interface LevelDescriptor {
@@ -23,17 +25,32 @@ export interface CapstoneDescriptor {
   finalIntegrationInterface: string; criticalFailures: string[]; isFinal?: boolean
 }
 
+/**
+ * The span a phase covers, e.g. 'S14–S26': its first and last section by index, read from the
+ * course so a renumber moves it (design G-8). A phase with no section has no span, so it throws
+ * rather than printing an empty one.
+ */
+export function phaseSpan(
+  phase: 0 | 1 | 2 | 3,
+  sections: ReadonlyArray<{ readonly index: number; readonly phase?: 0 | 1 | 2 | 3 }> = COURSE_SECTIONS,
+): string {
+  const indices = sections.filter((s) => s.phase === phase).map((s) => s.index)
+  if (indices.length === 0) throw new Error(`no section in phase ${phase}`)
+  const label = (n: number) => `S${String(n).padStart(2, '0')}`
+  return `${label(Math.min(...indices))}–${label(Math.max(...indices))}`
+}
+
 export const LEVELS: LevelDescriptor[] = [
-  { id: 1, stableId: 'L1', name: 'Fundamentos Guiados', band: 'Principiante → principiante avanzado', sections: 'S01–S13', gates: ['S04','S08','S13'],
+  { id: 1, stableId: 'L1', name: 'Fundamentos Guiados', band: 'Principiante → principiante avanzado', sections: phaseSpan(0), gates: ['S04','S08','S13'],
     exitCapability: 'Seguir, modificar, probar y explicar programas acotados de procesamiento de datos con apoyo.',
     doesNotEstablish: 'No establece antigüedad laboral, licencia profesional ni nivel de empleo.' },
-  { id: 2, stableId: 'L2', name: 'Práctica Aplicada Independiente', band: 'Principiante avanzado → práctica independiente guiada', sections: 'S14–S26', gates: ['S17','S21','S26'],
+  { id: 2, stableId: 'L2', name: 'Práctica Aplicada Independiente', band: 'Principiante avanzado → práctica independiente guiada', sections: phaseSpan(1), gates: ['S17','S21','S26'],
     exitCapability: 'Completar trabajo analítico, de reportes y automatización definido, usando métodos establecidos y revisiones explícitas.',
     doesNotEstablish: 'No certifica título laboral ni garantiza empleabilidad.' },
-  { id: 3, stableId: 'L3', name: 'Integración y Evaluación Avanzada', band: 'Práctica independiente → capacidad integrada avanzada', sections: 'S27–S39', gates: ['S30','S34','S39'],
+  { id: 3, stableId: 'L3', name: 'Integración y Evaluación Avanzada', band: 'Práctica independiente → capacidad integrada avanzada', sections: phaseSpan(2), gates: ['S30','S34','S39'],
     exitCapability: 'Diseñar y evaluar flujos de resolución de entidades, grafos, datos y ML bajo ambigüedad, incertidumbre y revisión humana.',
     doesNotEstablish: 'No constituye nivel “senior”, “staff” ni “experto” organizacional.' },
-  { id: 4, stableId: 'L4', name: 'Sistemas de Producción Gobernados', band: 'Capacidad integrada avanzada → dominio de sistemas a nivel curricular', sections: 'S40–S52', gates: ['S43','S47','S51'],
+  { id: 4, stableId: 'L4', name: 'Sistemas de Producción Gobernados', band: 'Capacidad integrada avanzada → dominio de sistemas a nivel curricular', sections: phaseSpan(3), gates: ['S43','S47','S51'],
     exitCapability: 'Integrar, desplegar, observar, asegurar y defender un sistema acotado de datos e IA estilo producción.',
     doesNotEstablish: 'No otorga título de “arquitecto”, “master” ni certificación profesional externa.' },
 ]
