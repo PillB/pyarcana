@@ -725,7 +725,9 @@ never renamed, and no record reaches S09.
   (3) `course-state/concept_map.json` and `prose_quality_report.json` are keyed by tag too, but
   the gate regenerates them from the course, so a restamp leaves them; run `ledger.py` and the
   gate after it. (4) The registry's `section` is re-keyed in place rather than copied, so the
-  file is rewritten whole (2,124 findings, none changed but `section`).
+  file is rewritten whole (2,124 findings, none changed but `section`). (5) The audit's own
+  rendering of the registry (`audit/consolidated/INDEX.md`, `findings.csv` and `sections/S*.md`)
+  stays at the numbering the auditors used and is not restamped; no tool reads it.
 - **Expert standard:** Kimball, *The Data Warehouse Toolkit* (surrogate keys for rows whose
   natural label changes); Google AIP-122 (resource IDs are stable; display names are not); and
   Sadalage and Ambler, *Refactoring Databases* (a change that moves keys is a scripted,
