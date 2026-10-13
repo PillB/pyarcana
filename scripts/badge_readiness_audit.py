@@ -28,6 +28,8 @@ CAPSTONES = ROOT / "course-state/capstones/INDEX.json"
 EVENTS = ROOT / ".fixer/events.json"
 FIRST_USE = ROOT / "course-state/first_use_all_report.json"
 OUT = ROOT / "course-state/badge_readiness_report.json"
+#: Term gaps that leave a learner without a definition before they must use the term.
+BLOCKING_GAP_CODES = {"DEFINITION_AFTER_REQUIREMENT", "NO_VISIBLE_DEFINITION"}
 
 
 def load_events() -> dict:
@@ -96,18 +98,9 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def main(argv: list[str] | None = None) -> int:
-    args = parse_args(argv)
-    if args.check:
-        return check(args.owed)
-    report_lock.refuse_if_busy(__file__)
-    payload = load_events()
-    slugs = payload["active_section_ids"]                 # display order
-    snum = {slug: i + 1 for i, slug in enumerate(slugs)}  # slug -> 1..52
-    by_num = {i + 1: slug for i, slug in enumerate(slugs)}
-
-    # what each section actually offers, straight from the event stream
-    offers: dict[str, set[str]] = {s: set() for s in slugs}
+def offers_by_slug(payload: dict) -> dict[str, set[str]]:
+    """What each section actually offers, straight from the event stream."""
+    offers: dict[str, set[str]] = {s: set() for s in payload["active_section_ids"]}
     for e in payload["events"]:
         k = e["kind"]
         if k.startswith("youdo."):
@@ -118,98 +111,133 @@ def main(argv: list[str] | None = None) -> int:
             offers[e["section_id"]].add("WEDO")
         elif k.startswith("ido."):
             offers[e["section_id"]].add("IDO")
+    return offers
 
-    catalog = json.loads(CATALOG.read_text(encoding="utf-8"))
-    badges = catalog["badges"]
-    badge_ids = {b["badge_id"] for b in badges}
 
-    # term gaps, bucketed by the section where the learner is let down
+def term_gaps_by_slug(offers: dict[str, set[str]]) -> dict[str, list[dict]]:
+    """Term gaps, bucketed by the section where the learner is let down."""
     gaps: dict[str, list[dict]] = {}
     if FIRST_USE.exists():
         for issue in json.loads(FIRST_USE.read_text(encoding="utf-8"))["issues"]:
-            loc = issue.get("location") or ""
-            sec = loc.split(".", 1)[0]
+            sec = (issue.get("location") or "").split(".", 1)[0]
             if sec in offers:
                 gaps.setdefault(sec, []).append(issue)
+    return gaps
 
+
+def blocking(issues: list[dict]) -> list[dict]:
+    return [i for i in issues if i["code"] in BLOCKING_GAP_CODES]
+
+
+def section_failures(badge: dict, by_num: dict[int, str], offers: dict[str, set[str]]) -> list[dict]:
+    """Required sections must exist, and the activities a badge names must really be delivered."""
+    bid = badge["badge_id"]
+    failures = [
+        {"badge": bid, "code": "UNKNOWN_REQUIRED_SECTION", "detail": tag}
+        for tag in badge.get("required_sections", [])
+        if section_number(tag) not in by_num
+    ]
+    # required_activities such as S01-YOUDO / S01-EXAM must exist to be done
+    for act in badge.get("required_activities", []):
+        if not isinstance(act, str) or "-" not in act:
+            continue
+        tag, _, kind = act.partition("-")
+        n = section_number(tag)
+        if n is None or n not in by_num:
+            continue
+        slug = by_num[n]
+        if kind in {"YOUDO", "EXAM"} and kind not in offers[slug]:
+            failures.append({
+                "badge": bid, "code": "ACTIVITY_NOT_DELIVERED",
+                "detail": f"{act} but {slug} has no {kind.lower()}",
+            })
+    return failures
+
+
+def vocabulary_gaps(nums: list[int], by_num: dict[int, str], gaps: dict[str, list[dict]]) -> list[dict]:
+    """The blocking term gaps in the sections a badge requires, each tagged with its section."""
+    found = []
+    for n in nums:
+        slug = by_num.get(n)
+        found.extend({"section": slug, **issue} for issue in blocking(gaps.get(slug, [])))
+    return found
+
+
+def badge_report(badges: list[dict], by_num: dict[int, str], offers: dict[str, set[str]],
+                 gaps: dict[str, list[dict]]) -> tuple[list[dict], list[dict], list[dict]]:
+    """Failures, warnings and report rows for every badge: the pedagogical check runs here too."""
+    badge_ids = {b["badge_id"] for b in badges}
     failures: list[dict] = []
     warnings: list[dict] = []
-    rows = []
-
+    rows: list[dict] = []
     for b in badges:
         bid = b["badge_id"]
-        req_sections = [s for s in b.get("required_sections", [])]
+        req_sections = list(b.get("required_sections", []))
         nums = [n for n in (section_number(s) for s in req_sections) if n]
-
-        for tag in req_sections:
-            n = section_number(tag)
-            if n is None or n not in by_num:
-                failures.append({"badge": bid, "code": "UNKNOWN_REQUIRED_SECTION", "detail": tag})
-
-        # required_activities such as S01-YOUDO / S01-EXAM must exist to be done
-        for act in b.get("required_activities", []):
-            if not isinstance(act, str) or "-" not in act:
-                continue
-            tag, _, kind = act.partition("-")
-            n = section_number(tag)
-            if n is None or n not in by_num:
-                continue
-            slug = by_num[n]
-            if kind in {"YOUDO", "EXAM"} and kind not in offers[slug]:
-                failures.append({
-                    "badge": bid, "code": "ACTIVITY_NOT_DELIVERED",
-                    "detail": f"{act} but {slug} has no {kind.lower()}",
-                })
-
-        for pre in b.get("prerequisite_badges", []):
-            if pre not in badge_ids:
-                failures.append({"badge": bid, "code": "UNKNOWN_PREREQUISITE_BADGE", "detail": pre})
-
-        # the pedagogical check: vocabulary the badge's own sections make the learner act on
-        blocking = []
-        for n in nums:
-            slug = by_num.get(n)
-            for issue in gaps.get(slug, []):
-                if issue["code"] in {"DEFINITION_AFTER_REQUIREMENT", "NO_VISIBLE_DEFINITION"}:
-                    blocking.append({"section": slug, **issue})
-        if blocking:
+        failures.extend(section_failures(b, by_num, offers))
+        failures.extend(
+            {"badge": bid, "code": "UNKNOWN_PREREQUISITE_BADGE", "detail": pre}
+            for pre in b.get("prerequisite_badges", []) if pre not in badge_ids
+        )
+        found = vocabulary_gaps(nums, by_num, gaps)
+        if found:
             warnings.append({
                 "badge": bid, "code": "CLAIMS_UNTAUGHT_VOCABULARY",
-                "count": len(blocking),
-                "terms": sorted({i["term_id"] for i in blocking})[:12],
+                "count": len(found),
+                "terms": sorted({i["term_id"] for i in found})[:12],
             })
-
         rows.append({
             "badge": bid,
             "credential_type": b.get("credential_type"),
             "sections": req_sections,
-            "blocking_term_gaps": len(blocking),
+            "blocking_term_gaps": len(found),
         })
+    return failures, warnings, rows
 
-    failures.extend(prerequisite_inversions(badges))
 
-    # capstones: the gate section must exist, and the capstone must be formally ready
-    caps = json.loads(CAPSTONES.read_text(encoding="utf-8"))
-    cap_rows = []
-    for c in caps.get("capstones", []):
+def capstone_report(capstones: list[dict], by_num: dict[int, str],
+                    gaps: dict[str, list[dict]]) -> tuple[list[dict], list[dict], list[dict]]:
+    """The gate section must exist, and the capstone must be formally ready."""
+    failures: list[dict] = []
+    warnings: list[dict] = []
+    rows: list[dict] = []
+    for c in capstones:
         n = section_number(c.get("gate_section", ""))
         slug = by_num.get(n) if n else None
         if slug is None:
             failures.append({"badge": c["id"], "code": "UNKNOWN_CAPSTONE_GATE", "detail": c.get("gate_section")})
             continue
-        blocking = [
-            i for i in gaps.get(slug, [])
-            if i["code"] in {"DEFINITION_AFTER_REQUIREMENT", "NO_VISIBLE_DEFINITION"}
-        ]
+        found = blocking(gaps.get(slug, []))
         if not c.get("formally_ready", False):
             failures.append({"badge": c["id"], "code": "CAPSTONE_NOT_READY", "detail": c.get("execution_status")})
-        if blocking:
+        if found:
             warnings.append({
                 "badge": c["id"], "code": "CAPSTONE_GATE_VOCABULARY_GAP",
-                "count": len(blocking),
-                "terms": sorted({i["term_id"] for i in blocking})[:12],
+                "count": len(found),
+                "terms": sorted({i["term_id"] for i in found})[:12],
             })
-        cap_rows.append({"id": c["id"], "gate_section": slug, "blocking_term_gaps": len(blocking)})
+        rows.append({"id": c["id"], "gate_section": slug, "blocking_term_gaps": len(found)})
+    return failures, warnings, rows
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+    if args.check:
+        return check(args.owed)
+    report_lock.refuse_if_busy(__file__)
+    payload = load_events()
+    by_num = {i + 1: slug for i, slug in enumerate(payload["active_section_ids"])}  # 1..52
+    offers = offers_by_slug(payload)
+    gaps = term_gaps_by_slug(offers)
+
+    badges = json.loads(CATALOG.read_text(encoding="utf-8"))["badges"]
+    failures, warnings, rows = badge_report(badges, by_num, offers, gaps)
+    failures.extend(prerequisite_inversions(badges))
+
+    capstones = json.loads(CAPSTONES.read_text(encoding="utf-8")).get("capstones", [])
+    cap_failures, cap_warnings, cap_rows = capstone_report(capstones, by_num, gaps)
+    failures.extend(cap_failures)
+    warnings.extend(cap_warnings)
 
     report = {
         "ok": not failures,
