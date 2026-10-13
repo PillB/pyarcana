@@ -8,7 +8,7 @@
 import { after, describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -232,6 +232,26 @@ describe('ledgerAnchorFindings: the newest row of an id names its anchor', () =>
 
   it('does not examine an id that has no row', () => {
     assert.deepEqual(ledgerAnchorFindings({ [ID]: anchorOf(SHA_A) }, []), [])
+  })
+})
+
+describe('CODEOWNERS: the B11 guard and its state are the owner\'s files', () => {
+  const owners = readFileSync(join(ROOT, '.github/CODEOWNERS'), 'utf8')
+    .split('\n')
+    .map((line) => line.trim().split(/\s+/))
+    .filter(([pattern]) => pattern && !pattern.startsWith('#'))
+  const ownerOf = (path) => owners.find(([pattern]) => pattern === `/${path}`)?.slice(1)
+
+  it('lists the exercise-meaning script and the fingerprint collector, each with an owner', () => {
+    for (const path of ['scripts/exercise_meaning.mjs', 'scripts/exercise_fingerprints.mts']) {
+      assert.ok(existsSync(join(ROOT, path)), `${path} must exist`)
+      assert.deepEqual(ownerOf(path), ['@PillB'], `${path} needs its own CODEOWNERS line`)
+    }
+  })
+
+  it('covers the anchors and the ledger through /audit/safe-agent/, which must keep an owner', () => {
+    assert.ok(existsSync(join(ROOT, ANCHORS_PATH)) && existsSync(join(ROOT, LEDGER_PATH)))
+    assert.deepEqual(ownerOf('audit/safe-agent/'), ['@PillB'])
   })
 })
 

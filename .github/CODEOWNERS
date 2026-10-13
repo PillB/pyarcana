@@ -8,6 +8,8 @@
 /scripts/preservation_sentinel.mjs @PillB
 /scripts/generate_preservation_manifest.mjs @PillB
 /scripts/preservation/ @PillB
+/scripts/exercise_meaning.mjs @PillB
+/scripts/exercise_fingerprints.mts @PillB
 
 # CI and deployment
 /.github/workflows/ @PillB
