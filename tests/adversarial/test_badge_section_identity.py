@@ -9,7 +9,10 @@ on three things:
   src/lib/eligibility/section_manifest.json to a section that exists in the course source under
   that slug;
 - a positional badge (a progress marker, the journey, a level capstone) whose required_sections
-  are not its span, derived from the sections' `phase`; the final section is outside phase 3;
+  are not its span, derived from the sections' `phase`; the final section is outside phase 3.
+  The final capstone (evidence_grounded_ai_systems_capstone) is positional too: it requires the
+  last section, whatever number that has (design §4.2: S52 today, S55 after the renumber). Every
+  class A and class D badge must have such a rule, so a new one cannot escape the check;
 - a skill node claimed while its role is unbound, or bound to a section the manifest lacks.
 
 The roles stay unbound (section_index null) until Gate B binds them at the renumber, so today no
@@ -40,11 +43,18 @@ from badge_sources import (  # noqa: E402
 )
 
 
+#: A progress marker (A) and a level capstone (D) take their sections from their position, so
+#: each must have a rule in the manifest; a competency badge (B, C) names sections by judgement.
+POSITIONAL_CLASSES = ("A", "D")
+
+
 def span_for(rule: dict, sections: list[dict]) -> list[int]:
-    """The section numbers a positional badge must require, derived from `phase`."""
+    """The section numbers a positional badge must require, derived from `phase` or position."""
     if rule.get("all_sections"):
         return [s["index"] for s in sections]
     last = max(s["index"] for s in sections)
+    if rule.get("last_section"):
+        return [last]
     members = [s["index"] for s in sections if s["phase"] == rule["phase"]]
     if rule.get("drop_final"):
         members = [n for n in members if n != last]
@@ -68,8 +78,8 @@ def _span_violations(manifest: dict, catalog: dict) -> list[str]:
     badges = {b["badge_id"]: b for b in catalog["badges"]}
     problems = []
     for badge_id, badge in badges.items():
-        if badge["credential_type"] == "local_achievement" and badge_id not in manifest["positional_badges"]:
-            problems.append(f"{badge_id}: progress marker has no positional rule in the manifest")
+        if badge["credential_class"] in POSITIONAL_CLASSES and badge_id not in manifest["positional_badges"]:
+            problems.append(f"{badge_id}: class {badge['credential_class']} badge has no positional rule in the manifest")
     for badge_id, rule in manifest["positional_badges"].items():
         if badge_id not in badges:
             problems.append(f"{badge_id}: positional rule names a badge the catalog lacks")
@@ -157,6 +167,39 @@ class BadgeSectionIdentity(unittest.TestCase):
         del manifest["positional_badges"]["progress_phase2_walked"]
         problems = identity_violations(manifest, self.catalog)
         self.assertTrue(any("progress_phase2_walked" in p and "positional rule" in p for p in problems), problems)
+
+    def test_the_final_capstone_stays_on_the_final_section(self) -> None:
+        """Design §4.2: evidence_grounded resolves to the last section, whatever number that has.
+
+        Before the renumber the badge says S52; after it, S55. A token that still reads S52 would
+        resolve, to a different section, and every other check would stay green.
+        """
+        last = max(s["index"] for s in self.manifest["sections"])
+        catalog = copy.deepcopy(self.catalog)
+        badge = next(b for b in catalog["badges"] if b["badge_id"] == "evidence_grounded_ai_systems_capstone")
+        before = last - 1
+        badge["required_sections"] = [f"S{before:02d}"]
+        badge["required_activities"] = [f"S{before:02d}-YOUDO", f"S{before:02d}-EXAM"]
+        problems = identity_violations(self.manifest, catalog)
+        self.assertTrue(
+            any("evidence_grounded_ai_systems_capstone" in p and "span" in p for p in problems), problems
+        )
+
+    def test_a_level_capstone_without_a_positional_rule_is_red(self) -> None:
+        manifest = copy.deepcopy(self.manifest)
+        del manifest["positional_badges"]["evidence_grounded_ai_systems_capstone"]
+        problems = identity_violations(manifest, self.catalog)
+        self.assertTrue(
+            any("evidence_grounded_ai_systems_capstone" in p and "positional rule" in p for p in problems),
+            problems,
+        )
+
+    def test_the_last_section_rule_follows_the_section_count(self) -> None:
+        rule = {"last_section": True}
+        three = [{"index": n, "phase": 0} for n in (1, 2, 3)]
+        fifty_five = [{"index": n, "phase": 0} for n in range(1, 56)]
+        self.assertEqual(span_for(rule, three), [3])
+        self.assertEqual(span_for(rule, fifty_five), [55])
 
     def test_a_node_claimed_while_its_role_is_unbound_is_red(self) -> None:
         catalog = copy.deepcopy(self.catalog)

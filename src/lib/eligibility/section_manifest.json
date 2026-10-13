@@ -31,6 +31,9 @@
     "integrated_python_ai_capstone_integrated_mastery": {
       "phase": 3,
       "drop_final": true
+    },
+    "evidence_grounded_ai_systems_capstone": {
+      "last_section": true
     }
   },
   "roles": {
