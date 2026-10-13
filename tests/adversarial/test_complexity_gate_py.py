@@ -146,13 +146,14 @@ class ParityCorpus(unittest.TestCase):
                     self.assertNotEqual(entry["expected"], entry["radon"])
                     self.assertTrue(entry["divergence"].strip())
 
-    def test_the_nist_fig_4_4_stand_in_scores_six(self):
-        """The figure's text could not be retrieved; this is a stand-in built from the NIST 4.1
-        definition (v(G) = decision points + 1), and radon agrees that it scores six."""
+    def test_the_nist_fig_4_4_port_scores_six_as_the_document_states(self):
+        """Figure 4-4 of NIST SP 500-235 is a C module the document says has complexity 6: two
+        `if`s, a `while`, and two `&&`s, starting from 1. The entry is a line-for-line Python port
+        of that listing, and radon agrees that it scores six."""
         entry = next(e for e in CORPUS["entries"] if e["id"] == "nist_fig44_port")
         self.assertEqual(entry["expected"], 6)
         self.assertEqual(entry["radon"], 6)
-        self.assertEqual(score_by_qualname(entry["source"], "nist_fig44_grade"), 6)
+        self.assertEqual(score_by_qualname(entry["source"], entry["function"]), 6)
 
 
 class Unparseable(unittest.TestCase):

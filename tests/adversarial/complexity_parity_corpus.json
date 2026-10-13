@@ -268,8 +268,8 @@
   },
   {
    "id": "nist_fig44_port",
-   "function": "nist_fig44_grade",
-   "source": "def nist_fig44_grade(points, bonus, names):\n    if points < 0:\n        return \"invalid\"\n    elif points >= 90:\n        mark = \"A\"\n    else:\n        mark = \"B\"\n    count = 0\n    for name in names:\n        if name:\n            count += 1\n    return f\"{mark}{count}\" if bonus else mark\n",
+   "function": "complexity6",
+   "source": "def complexity6(i, j):\n    if i > 0 and j > 0:\n        while i > j:\n            if i % 2 and j % 2:\n                print(i)\n            else:\n                print(j)\n            i -= 1\n",
    "radon": 6,
    "expected": 6,
    "divergence": null
