@@ -1,4 +1,6 @@
 import { LegalPage } from '@/components/legal/LegalPage'
+import { CloudLegalSection } from '@/components/account/CloudLegalSection'
+import { ThirdPartyClaim } from '@/components/account/ThirdPartyClaim'
 
 export default function CookiesPage() {
   return (
@@ -12,11 +14,15 @@ export default function CookiesPage() {
       <h2 className="text-lg font-semibold">Cookies de preferencias</h2>
       <p>Guardamos tu preferencia de idioma (español/inglés) y tema (claro/oscuro) en localStorage. Estas preferencias no contienen información personal.</p>
       
-      <h2 className="text-lg font-semibold">Sin cookies de terceros</h2>
-      <p>No usamos Google Analytics, Facebook Pixel ni otras cookies de seguimiento de terceros. No vendemos ni compartimos datos de navegación.</p>
+      {/* Shown only while it is true: the build's config enables no Google sign-in and no ad network. */}
+      <ThirdPartyClaim>
+        <h2 className="text-lg font-semibold">Sin cookies de terceros</h2>
+        <p>No usamos Google Analytics, Facebook Pixel ni otras cookies de seguimiento de terceros. No vendemos ni compartimos datos de navegación.</p>
+      </ThirdPartyClaim>
       
       <h2 className="text-lg font-semibold">Cómo limpiar tus datos</h2>
       <p>Puedes eliminar todos los datos almacenados por PyArcana en cualquier momento borrando el almacenamiento local de tu navegador o usando la función "Eliminar mi cuenta" si tienes una cuenta registrada.</p>
+      <CloudLegalSection kind="cookies" />
     </LegalPage>
   )
 }

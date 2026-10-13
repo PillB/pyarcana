@@ -1,0 +1,43 @@
+{
+  "batch": 4,
+  "sections_reviewed": ["S40","S41","S42","S43","S44","S45","S46","S47","S48","S49","S50","S51","S52"],
+  "candidates": [
+    {
+      "section": "S44",
+      "file": "s44-multimodal.ts",
+      "section_title": "CI/CD y seguridad de la cadena de suministro",
+      "block_heading": "branch/review policy y release notes",
+      "subtopicId": "S44-T4-A",
+      "anchor_quote": "La **protección de la rama** `main` exige revisiones y comprobaciones aprobadas antes de integrar cambios: es el primer control humano y automatizado de la cadena de suministro, incluso antes de publicar.",
+      "ui": "GitHub pull request merge box with merging blocked by a repository rule",
+      "why": "The section only models branch protection as a predicate. A learner who meets it in real GitHub needs to recognise its effect: a greyed-out Merge button and a 'Merging is blocked' notice, even when every check is green.",
+      "image": "img/S44-merge-block.png",
+      "image_source_url": "https://github.com/github/docs/blob/main/assets/images/help/code-quality/code-quality-merge-block.png",
+      "licence": "CC BY 4.0 (github/docs: CC BY 4.0 for content in the assets, content and data folders; MIT for code)",
+      "licence_file_url": "https://github.com/github/docs/blob/main/LICENSE",
+      "image_shows": "The bottom of a GitHub pull request. Row 1: green tick, 'All checks have passed', '4 successful checks'. Row 2: red warning icon, 'Merging is blocked', 'Code quality findings with severity of warning or above were detected.' Footer: a disabled grey 'Merge pull request' button and 'You can also merge this with the command line. View command line instructions.' No personal data.",
+      "crop_suggestion": null,
+      "alt_es": "Recuadro de fusión de un pull request en GitHub. Arriba, con check verde: 'All checks have passed', '4 successful checks'. Debajo, con alerta roja: 'Merging is blocked'. Al pie, el botón 'Merge pull request' aparece gris y desactivado.",
+      "caption_es": "Así se ve una regla de rama en acción: aunque los checks pasen, GitHub desactiva el botón de fusión. Aquí la causa es un hallazgo de calidad de código; con revisiones requeridas el bloqueo se ve igual.",
+      "confidence": "medium"
+    }
+  ],
+  "considered_and_rejected": [
+    {"section":"S40","where":"S40-T4-A Diagramas C4, flujo y ADRs","reason":"Diagrams and ADR text, not a GUI; the section already uses SVG figures."},
+    {"section":"S41","where":"S41-T2-B Validación, serialización y documentación (FastAPI /docs, Swagger UI)","reason":"The section states it models the contract with stdlib 'sin levantar servidor'; no block asks the learner to open /docs. A Swagger UI shot would be decorative here."},
+    {"section":"S42","where":"Whole section (Pydantic, authz, secrets)","reason":"All code/contract content; no GUI to operate."},
+    {"section":"S43","where":"Docker blocks (Dockerfile, layers, health checks)","reason":"Docker work is CLI and text output; existing SVG figures cover image/container/layers. Docker Desktop is not used."},
+    {"section":"S44","where":"S44-T3-A environments y approvals (GitHub environments / required reviewers)","reason":"Only official image found (assets/images/help/actions/environments.png) shows a repo sidebar with real contributors' avatar photos and does not show the approval UI; prose does not ask the learner to use the UI."},
+    {"section":"S44","where":"S44-T4-A, alternative images","reason":"pr-reviews-in-merge-box.png shows an ENABLED merge button despite 'Changes requested', which would teach the opposite of protection; view-branch-rules.png (shield icon on main) and rulesets-settings.png (settings sidebar) are navigation-only and weaker than the blocked merge box."},
+    {"section":"S44","where":"S44-T2-A pinning y secret scanning","reason":"Workflow YAML and SHA pins are text; already shown as code blocks."},
+    {"section":"S45","where":"Cloud, colas, IAM","reason":"Provider-neutral and modeled in stdlib; a cloud-console screenshot would bind to one vendor and be decorative."},
+    {"section":"S46","where":"S46-T2-A DAG, assets y dependencias (Airflow/Dagster UI)","reason":"Orchestrators appear only in resources; the learner does not operate their UI and the DAG concept is covered by prose and code."},
+    {"section":"S47","where":"S47-T1-A tracking de experiment runs (MLflow UI)","reason":"Prose explicitly warns that reproducibility is not 'el dashboard se ve bien'; the learner never opens MLflow UI in the section; would be decorative."},
+    {"section":"S48","where":"RAG blocks","reason":"No GUI; existing SVG figures cover chunk layers and citation graphs."},
+    {"section":"S49","where":"Agents/tools blocks","reason":"No GUI; SVG figures cover tool schema and budgets."},
+    {"section":"S50","where":"Evals/red teaming","reason":"No GUI; grader graph SVG exists."},
+    {"section":"S51","where":"S51-T1-A Traces ('el on-call debe ver en el dashboard la traza tr-moq-51')","reason":"Existing SVG figure already shows the span tree; a vendor trace UI (Jaeger/Langfuse) would add a product the course never uses."},
+    {"section":"S51","where":"S51-T4-B Accesibilidad (contraste del panel)","reason":"Panel is fictional and modeled by numbers; no real UI to show."},
+    {"section":"S52","where":"S52-T4-B READMEs, cards, licencia, video","reason":"Artifacts are text documents; a rendered README screenshot would be an image of text."}
+  ]
+}

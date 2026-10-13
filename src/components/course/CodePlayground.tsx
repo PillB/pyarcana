@@ -5,11 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Play, Loader2, RotateCcw, Terminal, CheckCircle2, XCircle, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { PYODIDE_CDN } from '@/lib/pyodide'
 
 // Pyodide is loaded from CDN — only once per session
 let pyodidePromise: Promise<any> | null = null
-const PYODIDE_VERSION = '0.26.2'
-const PYODIDE_CDN = `https://cdn.jsdelivr.net/pyodide/v${PYODIDE_VERSION}/full/`
 
 function loadPyodide(): Promise<any> {
   if (pyodidePromise) return pyodidePromise

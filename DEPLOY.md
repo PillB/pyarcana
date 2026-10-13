@@ -1,6 +1,8 @@
 # PyArcana deployment guide
 
-PyArcana has two explicit products: a content-only GitHub Pages edition and a dynamic Node.js LMS. Choose the mode before configuring infrastructure; the public static site must not be presented as if accounts or server persistence exist.
+PyArcana has two explicit products: a static edition (the export built by `bun run build:static`) and a dynamic Node.js LMS. Choose the mode before configuring infrastructure.
+
+**Static-edition contract (owner decisions D-USER-02 and D-USER-03, recorded as ADR-7 / D13 in `audit/fixer/decisions.md`).** The static edition CAN show accounts, progress sync, the Pro trial and gate, checkout, the QA reporting subsite and the admin window when the public config in `src/lib/cloud/config.ts` turns them on and the page is served from the canonical origin (`https://pyarcana.dev`, one Cloudflare Worker serving the export and the API at `/api/v1/...`). With the shipped config (`launchStage: 'off'`) none of that renders, and the site must not be presented as if accounts or server persistence exist. Nothing account-related is ever prerendered into `out/index.html`. GitHub Pages builds the same code and always runs with accounts off.
 
 ## GitHub Pages (public content edition)
 
@@ -21,7 +23,7 @@ NEXT_PUBLIC_BASE_PATH=/pyarcana bun run build:static
 The export is built in a disposable temporary copy. The tracked API directory and `next.config.ts` are not moved or rewritten. In this mode:
 
 - lesson content, local autochecks, bookmarks, and browser-local progress work;
-- login, registration, payments, private feedback, server exams, and admin controls are not rendered;
+- login, registration, payments, private feedback, server exams, and admin controls are not rendered (accounts never run on github.io; on the canonical origin they appear only when configured, see the contract above);
 - the local `/pyarcana/logo.svg` is used for branding and favicon assets;
 - generated assets use the `/pyarcana` base path.
 

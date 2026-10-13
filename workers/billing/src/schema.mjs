@@ -1,0 +1,557 @@
+/**
+ * D1 schema as numbered migrations (DESIGN-v2 §2 + DESIGN-v3 roles/reports).
+ *
+ * `migrate(db)` reads schema_meta.version and applies every pending migration
+ * in ONE `db.batch` (one transaction), bumping the version in the same batch.
+ * Each pending migration first inserts a `migration:<n>` marker row: two
+ * isolates that race on a cold database both try it, the second one's batch
+ * fails on that primary key and rolls back whole, and it then re-reads the
+ * version and finds the work done. So an `ALTER TABLE` in a later migration
+ * can never run twice.
+ *
+ * Conventions: times are INTEGER epoch seconds, money is INTEGER minor units
+ * (enforced by CHECK typeof = 'integer'). Enum CHECKs are used only where the
+ * set is fixed by the design; statuses owned by later stages are validated in
+ * code, because changing a CHECK in SQLite needs a table rebuild.
+ *
+ * The src directory stays flat: .gitignore ignores unanchored `db/`.
+ */
+
+const INT_MONEY = (column) => `${column} INTEGER NOT NULL CHECK (typeof(${column}) = 'integer')`;
+
+/** Migration 1: every table the design needs, created together. */
+const MIGRATION_1 = [
+  `CREATE TABLE IF NOT EXISTS schema_meta (
+     key TEXT PRIMARY KEY,
+     value TEXT NOT NULL
+   )`,
+
+  // email_normalized is set only for an address someone proved (email code,
+  // Google email_verified) or an admin typed; a Microsoft-only account keeps
+  // its claimed address in `email` for display with email_normalized NULL, so
+  // an unproven claim can never occupy (pre-hijack) somebody's address.
+  `CREATE TABLE IF NOT EXISTS accounts (
+     id TEXT PRIMARY KEY,
+     email TEXT,
+     email_normalized TEXT,
+     email_verified INTEGER NOT NULL DEFAULT 0,
+     display_name TEXT,
+     locale TEXT,
+     created_at INTEGER NOT NULL,
+     updated_at INTEGER NOT NULL,
+     first_signin_at INTEGER,
+     terms_version TEXT,
+     age_confirmed_at INTEGER,
+     trial_used_at INTEGER,
+     disabled_at INTEGER,
+     disabled_reason TEXT,
+     deleted_at INTEGER,
+     email_hmac TEXT
+   )`,
+  `CREATE UNIQUE INDEX IF NOT EXISTS ux_accounts_email_live
+     ON accounts (email_normalized) WHERE deleted_at IS NULL`,
+
+  `CREATE TABLE IF NOT EXISTS identities (
+     provider TEXT NOT NULL CHECK (provider IN ('google', 'microsoft', 'email')),
+     subject TEXT NOT NULL,
+     account_id TEXT NOT NULL REFERENCES accounts (id),
+     email_at_link TEXT,
+     created_at INTEGER NOT NULL,
+     PRIMARY KEY (provider, subject)
+   )`,
+  `CREATE INDEX IF NOT EXISTS idx_identities_account ON identities (account_id)`,
+
+  `CREATE TABLE IF NOT EXISTS sessions (
+     id TEXT PRIMARY KEY,
+     account_id TEXT NOT NULL REFERENCES accounts (id),
+     token_hash TEXT NOT NULL UNIQUE,
+     method TEXT NOT NULL CHECK (method IN ('google', 'microsoft', 'email')),
+     created_at INTEGER NOT NULL,
+     renewed_at INTEGER NOT NULL,
+     expires_at INTEGER NOT NULL,
+     revoked_at INTEGER
+   )`,
+  `CREATE INDEX IF NOT EXISTS idx_sessions_account ON sessions (account_id)`,
+  `CREATE INDEX IF NOT EXISTS idx_sessions_expires ON sessions (expires_at)`,
+
+  `CREATE TABLE IF NOT EXISTS login_codes (
+     id TEXT PRIMARY KEY,
+     email_normalized TEXT NOT NULL,
+     code_hmac TEXT NOT NULL,
+     created_at INTEGER NOT NULL,
+     expires_at INTEGER NOT NULL,
+     consumed_at INTEGER,
+     attempts INTEGER NOT NULL DEFAULT 0
+   )`,
+  `CREATE INDEX IF NOT EXISTS idx_login_codes_email ON login_codes (email_normalized, created_at)`,
+
+  // Survives account deletion on purpose (anti-abuse); the privacy page says so.
+  `CREATE TABLE IF NOT EXISTS trial_claims (
+     key TEXT PRIMARY KEY,
+     claimed_at INTEGER NOT NULL
+   )`,
+
+  // days NULL = indefinite (DESIGN-v3): runs until revoked.
+  `CREATE TABLE IF NOT EXISTS grants (
+     id TEXT PRIMARY KEY,
+     account_id TEXT NOT NULL REFERENCES accounts (id),
+     kind TEXT NOT NULL CHECK (kind IN ('trial', 'gift', 'tester')),
+     days INTEGER CHECK (days IS NULL OR (typeof(days) = 'integer' AND days BETWEEN 1 AND 3650)),
+     created_at INTEGER NOT NULL,
+     note TEXT,
+     issued_by TEXT,
+     request_id TEXT,
+     revoked_at INTEGER,
+     revoked_by TEXT,
+     revoke_reason TEXT,
+     CHECK (kind <> 'trial' OR days IS NOT NULL),
+     UNIQUE (issued_by, request_id)
+   )`,
+  `CREATE INDEX IF NOT EXISTS idx_grants_account ON grants (account_id)`,
+  `CREATE INDEX IF NOT EXISTS idx_grants_kind_created ON grants (kind, created_at)`,
+
+  `CREATE TABLE IF NOT EXISTS checkouts (
+     id TEXT PRIMARY KEY,
+     account_id TEXT NOT NULL REFERENCES accounts (id),
+     provider TEXT NOT NULL,
+     plan TEXT NOT NULL,
+     ${INT_MONEY("amount_minor")},
+     currency TEXT NOT NULL,
+     provider_ref TEXT,
+     country TEXT,
+     created_at INTEGER NOT NULL,
+     status TEXT NOT NULL DEFAULT 'open' CHECK (status IN ('open', 'completed', 'expired')),
+     UNIQUE (provider, provider_ref)
+   )`,
+  `CREATE INDEX IF NOT EXISTS idx_checkouts_account ON checkouts (account_id)`,
+
+  `CREATE TABLE IF NOT EXISTS subscriptions (
+     id TEXT PRIMARY KEY,
+     account_id TEXT NOT NULL REFERENCES accounts (id),
+     provider TEXT NOT NULL,
+     provider_ref TEXT NOT NULL,
+     plan TEXT NOT NULL,
+     ${INT_MONEY("amount_minor")},
+     currency TEXT NOT NULL,
+     status TEXT NOT NULL,
+     cancel_at_period_end INTEGER NOT NULL DEFAULT 0,
+     first_active_at INTEGER,
+     provider_updated_at INTEGER,
+     created_at INTEGER NOT NULL,
+     updated_at INTEGER NOT NULL,
+     checkout_id TEXT REFERENCES checkouts (id),
+     UNIQUE (provider, provider_ref)
+   )`,
+  `CREATE INDEX IF NOT EXISTS idx_subscriptions_account ON subscriptions (account_id)`,
+
+  `CREATE TABLE IF NOT EXISTS charges (
+     id TEXT PRIMARY KEY,
+     provider TEXT NOT NULL,
+     provider_charge_id TEXT NOT NULL,
+     subscription_id TEXT REFERENCES subscriptions (id),
+     account_id TEXT REFERENCES accounts (id),
+     ${INT_MONEY("amount_minor")},
+     currency TEXT NOT NULL,
+     status TEXT NOT NULL,
+     approved_at INTEGER,
+     period_start INTEGER,
+     period_end INTEGER,
+     refunded_at INTEGER,
+     charged_back_at INTEGER,
+     flag TEXT,
+     created_at INTEGER NOT NULL,
+     updated_at INTEGER NOT NULL,
+     UNIQUE (provider, provider_charge_id)
+   )`,
+  `CREATE INDEX IF NOT EXISTS idx_charges_subscription ON charges (subscription_id)`,
+  `CREATE INDEX IF NOT EXISTS idx_charges_account ON charges (account_id)`,
+
+  `CREATE TABLE IF NOT EXISTS subscription_events (
+     id INTEGER PRIMARY KEY AUTOINCREMENT,
+     subscription_id TEXT,
+     account_id TEXT,
+     provider TEXT NOT NULL,
+     kind TEXT NOT NULL,
+     detail TEXT,
+     created_at INTEGER NOT NULL
+   )`,
+  `CREATE INDEX IF NOT EXISTS idx_subscription_events_sub ON subscription_events (subscription_id)`,
+
+  // Kept indefinitely: Creem signatures carry no timestamp (replay window).
+  `CREATE TABLE IF NOT EXISTS webhook_events (
+     provider TEXT NOT NULL,
+     event_id TEXT NOT NULL,
+     received_at INTEGER NOT NULL,
+     processed_at INTEGER,
+     PRIMARY KEY (provider, event_id)
+   )`,
+
+  `CREATE TABLE IF NOT EXISTS progress (
+     account_id TEXT PRIMARY KEY REFERENCES accounts (id),
+     rev INTEGER NOT NULL,
+     doc TEXT NOT NULL,
+     size_bytes INTEGER NOT NULL,
+     updated_at INTEGER NOT NULL
+   )`,
+
+  // bucket = HMAC(pepper, name): no email or IP is stored in clear.
+  `CREATE TABLE IF NOT EXISTS rate_limits (
+     bucket TEXT PRIMARY KEY,
+     count INTEGER NOT NULL,
+     window_start INTEGER NOT NULL
+   )`,
+
+  `CREATE TABLE IF NOT EXISTS audit_log (
+     id INTEGER PRIMARY KEY AUTOINCREMENT,
+     actor_account_id TEXT,
+     action TEXT NOT NULL,
+     target_account_id TEXT,
+     target_id TEXT,
+     detail TEXT,
+     created_at INTEGER NOT NULL
+   )`,
+  `CREATE INDEX IF NOT EXISTS idx_audit_target ON audit_log (target_account_id)`,
+  `CREATE INDEX IF NOT EXISTS idx_audit_created ON audit_log (created_at)`,
+
+  // Admin is NOT a stored role (ADMIN_EMAILS + fresh Google session).
+  `CREATE TABLE IF NOT EXISTS account_roles (
+     account_id TEXT NOT NULL REFERENCES accounts (id),
+     role TEXT NOT NULL,
+     granted_by TEXT,
+     created_at INTEGER NOT NULL,
+     expires_at INTEGER,
+     revoked_at INTEGER,
+     revoked_by TEXT,
+     revoke_reason TEXT,
+     note TEXT,
+     PRIMARY KEY (account_id, role, created_at)
+   )`,
+  `CREATE INDEX IF NOT EXISTS idx_account_roles_role ON account_roles (role)`,
+
+  `CREATE TABLE IF NOT EXISTS reports (
+     id TEXT PRIMARY KEY,
+     created_at INTEGER NOT NULL,
+     updated_at INTEGER NOT NULL,
+     account_id TEXT REFERENCES accounts (id),
+     reporter_alias TEXT,
+     contact_email TEXT,
+     source TEXT NOT NULL,
+     category TEXT,
+     cause TEXT,
+     severity TEXT,
+     status TEXT NOT NULL DEFAULT 'new',
+     title TEXT NOT NULL,
+     description TEXT,
+     steps TEXT,
+     expected TEXT,
+     actual TEXT,
+     context TEXT,
+     admin_note TEXT,
+     duplicate_of TEXT,
+     client_issue_id TEXT,
+     UNIQUE (account_id, client_issue_id)
+   )`,
+  `CREATE INDEX IF NOT EXISTS idx_reports_status_created ON reports (status, created_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_reports_account ON reports (account_id)`,
+
+  `CREATE TABLE IF NOT EXISTS report_attachments (
+     id TEXT PRIMARY KEY,
+     report_id TEXT NOT NULL REFERENCES reports (id),
+     mime TEXT NOT NULL CHECK (mime IN ('image/png', 'image/jpeg', 'image/webp')),
+     bytes BLOB NOT NULL CHECK (length(bytes) <= 1048576),
+     created_at INTEGER NOT NULL
+   )`,
+  `CREATE INDEX IF NOT EXISTS idx_report_attachments_report ON report_attachments (report_id)`
+];
+
+/**
+ * Migration 2: the QA harness's "improvement" field (what the tester
+ * suggests), which DESIGN-v3's reports table left out; without it a sent
+ * issue would lose part of what the tester wrote.
+ */
+const MIGRATION_2 = ["ALTER TABLE reports ADD COLUMN improvement TEXT"];
+
+/**
+ * Migration 3 (review round 1):
+ * - used_nonces (DESIGN-v3 §B): single-use OIDC nonces. The key is
+ *   HMAC(pepper, nonce); a row lives until its token could no longer verify
+ *   (exp + skew), then the daily sweep drops it.
+ * - sessions.identity_subject: WHICH identity (of the session's `method`
+ *   provider) created the session, so the admin rule can require the admin's
+ *   own Google identity rather than any Google identity linked to the account.
+ * - identities.email_authoritative: for GOOGLE identities, 1 when Google is
+ *   authoritative for email_at_link (@gmail.com, or a Workspace `hd`
+ *   address); only those addresses count for admin and trial claims. Other
+ *   providers keep 0 and never read it: an email identity is proven by
+ *   construction (its subject is the address), Microsoft never proves one.
+ */
+const MIGRATION_3 = [
+  `CREATE TABLE IF NOT EXISTS used_nonces (
+     hash TEXT PRIMARY KEY,
+     expires_at INTEGER NOT NULL
+   )`,
+  `CREATE INDEX IF NOT EXISTS idx_used_nonces_expires ON used_nonces (expires_at)`,
+  "ALTER TABLE sessions ADD COLUMN identity_subject TEXT",
+  "ALTER TABLE identities ADD COLUMN email_authoritative INTEGER NOT NULL DEFAULT 0"
+];
+
+/**
+ * Migration 4 (review round 2): reports.text_bytes, the bytes a report is
+ * charged against the report text budgets and the REPORT_TEXT_CAP_MB
+ * ceiling: the UTF-8 size of its text columns plus a fixed 256-byte row
+ * overhead (reports.mjs REPORT_ROW_OVERHEAD_BYTES). Existing rows are
+ * backfilled from what SQLite stores (CAST AS BLOB gives UTF-8 bytes; length
+ * of a TEXT gives characters). The index lets the ceiling's SUM scan a
+ * narrow covering index instead of every report row's text.
+ * Written out literally: a shipped migration never changes.
+ */
+const MIGRATION_4 = [
+  "ALTER TABLE reports ADD COLUMN text_bytes INTEGER NOT NULL DEFAULT 0",
+  `UPDATE reports SET text_bytes = 256
+     + COALESCE(length(CAST(title AS BLOB)), 0) + COALESCE(length(CAST(description AS BLOB)), 0)
+     + COALESCE(length(CAST(steps AS BLOB)), 0) + COALESCE(length(CAST(expected AS BLOB)), 0)
+     + COALESCE(length(CAST(actual AS BLOB)), 0) + COALESCE(length(CAST(improvement AS BLOB)), 0)
+     + COALESCE(length(CAST(reporter_alias AS BLOB)), 0) + COALESCE(length(CAST(contact_email AS BLOB)), 0)
+     + COALESCE(length(CAST(context AS BLOB)), 0) + COALESCE(length(CAST(client_issue_id AS BLOB)), 0)`,
+  "CREATE INDEX IF NOT EXISTS idx_reports_text_bytes ON reports (text_bytes)"
+];
+
+/**
+ * Migration 5 (stage 2b, payments): reconciled_at on checkouts and
+ * subscriptions, when the scheduled reconciliation last re-read the row at
+ * the provider (retention.mjs). Each run takes the least recently reconciled
+ * rows first under a per-run cap, so every row gets its turn.
+ */
+const MIGRATION_5 = [
+  "ALTER TABLE checkouts ADD COLUMN reconciled_at INTEGER",
+  "ALTER TABLE subscriptions ADD COLUMN reconciled_at INTEGER",
+  "CREATE INDEX IF NOT EXISTS idx_subscriptions_status ON subscriptions (status, reconciled_at)",
+  "CREATE INDEX IF NOT EXISTS idx_checkouts_status ON checkouts (status, created_at)"
+];
+
+/**
+ * Migration 6 (stage 2c, DESIGN-v3 §F/§G): measurement, surveys, consents.
+ * - events: anonymous allowlisted events under cid_hash = HMAC(pepper, cid);
+ *   qa = 1 when the client flagged QA mode. Kept 180 days.
+ * - experiment_arms: the FIRST arm per (subject, experiment) (intent to
+ *   treat). subject is a cid_hash (subject_kind 'cid') or an account id
+ *   ('account', copied from a bound id). Kept 180 days.
+ * - experiment_bindings: which account an id signed in as (first binding
+ *   wins). Kept 180 days.
+ * - consents: the signed-in record of a measurement choice (kind, value,
+ *   the text version answered, the client's time, when it was stored).
+ * - survey_responses: satisfaction answers, anonymous or signed-in. Kept 2 years.
+ */
+const MIGRATION_6 = [
+  `CREATE TABLE IF NOT EXISTS events (
+     id INTEGER PRIMARY KEY AUTOINCREMENT,
+     received_at INTEGER NOT NULL,
+     day TEXT NOT NULL,
+     cid_hash TEXT NOT NULL,
+     name TEXT NOT NULL,
+     experiment TEXT,
+     arm TEXT,
+     surface TEXT,
+     section_idx INTEGER,
+     qa INTEGER NOT NULL DEFAULT 0 CHECK (qa IN (0, 1))
+   )`,
+  "CREATE INDEX IF NOT EXISTS idx_events_cid ON events (cid_hash, received_at)",
+  "CREATE INDEX IF NOT EXISTS idx_events_received ON events (received_at)",
+  `CREATE TABLE IF NOT EXISTS experiment_arms (
+     subject TEXT NOT NULL,
+     subject_kind TEXT NOT NULL CHECK (subject_kind IN ('cid', 'account')),
+     experiment TEXT NOT NULL,
+     arm TEXT NOT NULL,
+     first_at INTEGER NOT NULL,
+     PRIMARY KEY (subject, experiment)
+   )`,
+  "CREATE INDEX IF NOT EXISTS idx_experiment_arms_experiment ON experiment_arms (experiment, subject_kind, arm)",
+  `CREATE TABLE IF NOT EXISTS experiment_bindings (
+     cid_hash TEXT PRIMARY KEY,
+     account_id TEXT NOT NULL,
+     created_at INTEGER NOT NULL
+   )`,
+  "CREATE INDEX IF NOT EXISTS idx_experiment_bindings_account ON experiment_bindings (account_id)",
+  `CREATE TABLE IF NOT EXISTS consents (
+     id INTEGER PRIMARY KEY AUTOINCREMENT,
+     account_id TEXT NOT NULL,
+     kind TEXT NOT NULL CHECK (kind IN ('measurement')),
+     value TEXT NOT NULL CHECK (value IN ('granted', 'denied')),
+     version INTEGER NOT NULL,
+     client_at TEXT,
+     created_at INTEGER NOT NULL
+   )`,
+  "CREATE INDEX IF NOT EXISTS idx_consents_account ON consents (account_id, created_at)",
+  `CREATE TABLE IF NOT EXISTS survey_responses (
+     id TEXT PRIMARY KEY,
+     created_at INTEGER NOT NULL,
+     account_id TEXT,
+     cid_hash TEXT,
+     kind TEXT NOT NULL CHECK (kind IN ('section_csat', 'nps', 'gate_reason', 'cancel_reason')),
+     score INTEGER,
+     reason_code TEXT,
+     text TEXT,
+     section_idx INTEGER
+   )`,
+  "CREATE INDEX IF NOT EXISTS idx_survey_responses_kind ON survey_responses (kind, created_at)",
+  "CREATE INDEX IF NOT EXISTS idx_survey_responses_account ON survey_responses (account_id)",
+  "CREATE INDEX IF NOT EXISTS idx_survey_responses_cid ON survey_responses (cid_hash)"
+];
+
+/**
+ * Ads per account (owner decision 2026-10-01, ads.mjs): the admin's off switch lives on the account
+ * so it outlives any grant or subscription. 0 = the default policy, 1 = no ads.
+ */
+const MIGRATION_7 = ["ALTER TABLE accounts ADD COLUMN ads_disabled INTEGER NOT NULL DEFAULT 0 CHECK (ads_disabled IN (0, 1))"];
+
+/**
+ * D1 free-tier meter (usage.mjs, owner request 2026-10-04): rows read and written per UTC day and
+ * per source (route), flushed by each isolate at most every 5 minutes. WITHOUT ROWID on the
+ * (day, source) key, so an upsert writes one row and no separate index row.
+ */
+const MIGRATION_8 = [
+  `CREATE TABLE IF NOT EXISTS usage_daily (
+     day TEXT NOT NULL,
+     source TEXT NOT NULL,
+     rows_read INTEGER NOT NULL DEFAULT 0,
+     rows_written INTEGER NOT NULL DEFAULT 0,
+     updated_at INTEGER NOT NULL,
+     PRIMARY KEY (day, source)
+   ) WITHOUT ROWID`
+];
+
+/**
+ * QA session summaries (qa-sessions.mjs, owner request 2026-10-05): one row per tester session,
+ * upserted with running totals. Kept 1 year after last activity (retention.mjs).
+ */
+const MIGRATION_9 = [
+  `CREATE TABLE IF NOT EXISTS qa_sessions (
+     account_id TEXT NOT NULL REFERENCES accounts (id),
+     session_id TEXT NOT NULL,
+     alias TEXT,
+     started_at INTEGER NOT NULL,
+     last_active_at INTEGER NOT NULL,
+     active_seconds INTEGER NOT NULL DEFAULT 0,
+     sections TEXT NOT NULL DEFAULT '{}',
+     issues_created INTEGER NOT NULL DEFAULT 0,
+     issues_sent INTEGER NOT NULL DEFAULT 0,
+     deployment_sha TEXT,
+     browser TEXT NOT NULL CHECK (browser IN ('chromium', 'firefox', 'safari', 'other')),
+     updated_at INTEGER NOT NULL,
+     PRIMARY KEY (account_id, session_id)
+   ) WITHOUT ROWID`,
+  "CREATE INDEX IF NOT EXISTS idx_qa_sessions_last_active ON qa_sessions (last_active_at)"
+];
+
+/** Every migration, in order. Append only; never edit a shipped one. */
+export const MIGRATIONS = [
+  { version: 1, statements: MIGRATION_1 },
+  { version: 2, statements: MIGRATION_2 },
+  { version: 3, statements: MIGRATION_3 },
+  { version: 4, statements: MIGRATION_4 },
+  { version: 5, statements: MIGRATION_5 },
+  { version: 6, statements: MIGRATION_6 },
+  { version: 7, statements: MIGRATION_7 },
+  { version: 8, statements: MIGRATION_8 },
+  { version: 9, statements: MIGRATION_9 }
+];
+
+/** The version a fully migrated database reports. */
+export const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1].version;
+
+const META_TABLE = "CREATE TABLE IF NOT EXISTS schema_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL)";
+
+/**
+ * The schema version stored in the database (0 before any migration).
+ * @param {Object} db D1 binding.
+ * @returns {Promise<number>} Version.
+ */
+export async function currentVersion(db) {
+  try {
+    const value = await db.prepare("SELECT value FROM schema_meta WHERE key = 'version'").first("value");
+    return Number(value) || 0;
+  } catch (error) {
+    if (/no such table/i.test(String(error && error.message))) {
+      return 0;
+    }
+    throw error;
+  }
+}
+
+/**
+ * Build the one batch that applies the pending migrations.
+ * @param {Object} db D1 binding.
+ * @param {Object[]} pending Migrations to apply.
+ * @param {number} target Version after the batch.
+ * @returns {Object[]} Prepared statements.
+ */
+function buildBatch(db, pending, target) {
+  const statements = [db.prepare(META_TABLE)];
+  for (const migration of pending) {
+    statements.push(
+      db
+        .prepare("INSERT INTO schema_meta (key, value) VALUES (?1, CAST(strftime('%s', 'now') AS TEXT))")
+        .bind(`migration:${migration.version}`)
+    );
+    for (const sql of migration.statements) {
+      statements.push(db.prepare(sql));
+    }
+  }
+  statements.push(
+    db
+      .prepare("INSERT INTO schema_meta (key, value) VALUES ('version', ?1) ON CONFLICT (key) DO UPDATE SET value = excluded.value")
+      .bind(String(target))
+  );
+  return statements;
+}
+
+/**
+ * Apply every pending migration in one batch (no memo).
+ * @param {Object} db D1 binding.
+ * @param {Object[]} [migrations] Migration list (tests pass their own).
+ * @returns {Promise<{from: number, to: number}>} Versions.
+ */
+export async function applyMigrations(db, migrations = MIGRATIONS) {
+  const target = migrations[migrations.length - 1].version;
+  const from = await currentVersion(db);
+  const pending = migrations.filter((m) => m.version > from);
+  if (!pending.length) {
+    return { from, to: from };
+  }
+  try {
+    await db.batch(buildBatch(db, pending, target));
+  } catch (error) {
+    // Another isolate may have won the race; its batch did the work.
+    if ((await currentVersion(db)) >= target) {
+      return { from, to: target };
+    }
+    throw error;
+  }
+  return { from, to: target };
+}
+
+/** Isolate-local memo: one in-flight or finished migration per binding. */
+let memo = new WeakMap();
+
+/**
+ * Make sure the schema is current. Cheap after the first call per isolate.
+ * @param {Object} db D1 binding.
+ * @returns {Promise<void>} Resolves when the schema is current.
+ */
+export async function migrate(db) {
+  let pending = memo.get(db);
+  if (!pending) {
+    pending = applyMigrations(db);
+    memo.set(db, pending);
+    pending.catch(() => memo.delete(db));
+  }
+  await pending;
+}
+
+/**
+ * Forget the memo (tests simulate a fresh isolate with this).
+ * @returns {void}
+ */
+export function resetSchemaMemo() {
+  memo = new WeakMap();
+}

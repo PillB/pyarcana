@@ -83,6 +83,10 @@ Order, never skipped silently — anything unfinished goes to `audit/fixer/OPEN_
 - Small patches. TDD for material defects: red → green → refactor → re-run → sentinel.
 - Validate untrusted input at boundaries; fail closed; never invent missing values.
 - State every trade-off. Name work left undone.
+- Report every stub, placeholder, stand-in or fake, in code or tests, to the owner as a **MUST**
+  item: where it is, why it exists, what it hides, and the decision needed. None is kept without
+  the owner's decision. Find the root cause first: a stand-in is never the fix for an
+  environment problem that can be solved for real (owner rule, 5 Oct 2026).
 - Record a decision that binds later rounds in `audit/fixer/decisions.md`.
 
 ## Ask first

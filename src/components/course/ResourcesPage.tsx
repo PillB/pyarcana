@@ -36,6 +36,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import type { Resources } from '@/lib/types'
 import { LegalDisclaimer } from './LegalDisclaimer'
+import { AdSlot } from '@/components/account/AdSlot'
 import { cn } from '@/lib/utils'
 import { riseIn } from '@/lib/entrance'
 
@@ -2122,6 +2123,8 @@ export function ResourcesPage({ animateEntrance, sections }: ResourcesPageProps)
           ))}
         </div>
       </section>
+
+      <AdSlot placement="resources_end" />
 
       {/* Legal & security disclaimers */}
       <LegalDisclaimer animateEntrance={animateEntrance} />

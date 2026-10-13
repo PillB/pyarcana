@@ -28,6 +28,37 @@
       "requested_at": "2026-09-19",
       "human_approval": null,
       "verifier_approval": null
+    },
+    {
+      "id": "DCR-2026-10-05-firebase-static-stand-ins",
+      "status": "approved",
+      "paths": [
+        "src/lib/firebase/client.static.ts",
+        "src/lib/firebase/auth.static.ts"
+      ],
+      "change": "Delete the two Firebase stand-in modules and the webpack swap in next.config.ts that pointed the static build at them.",
+      "reason": "Owner rule (5 Oct 2026): no stand-ins are kept. The static build now leaves Firebase out for real: src/app/page.tsx requires AuthModal/UserMenu only when NEXT_PUBLIC_STATIC_SITE !== '1' (folded at build time), and StaticSiteNoticeText reads the Firebase settings from the SDK-free src/lib/firebase/config.ts. Nothing imports the stand-ins any more.",
+      "obsolescence_evidence": [
+        "Both files were added in commit 03d8838 (this week, this branch) solely as stand-ins; they were never part of any other edition.",
+        "git grep 'client.static\\|auth.static' finds no importer after the change (only decisions.md history and this register).",
+        "scripts/static_bundle_firebase_check.mjs against HEAD: same 19 pages and identical visible text in both static builds, Firebase files 3 -> 0, about 536 KB less JavaScript."
+      ],
+      "alternatives": [
+        "Keep them unused and mark them INACTIVE_PRESERVED: no code path, so they would be dead files that look live.",
+        "Keep the stand-ins as the mechanism: rejected by the owner (no stand-ins)."
+      ],
+      "user_data_impact": "None. Build-time modules; no stored data, no learner-visible change (proved by the visible-text comparison).",
+      "rollback": "git revert of the removal commit restores both files and the webpack swap.",
+      "tests": [
+        "node scripts/static_bundle_firebase_check.mjs --before=HEAD (both static builds)",
+        "bun run build (server edition still bundles the real Firebase client)",
+        "npm run test:adversarial:node (the protected Firebase tests)",
+        "npx tsc --noEmit, npm run lint, node scripts/run_billing_tests.mjs"
+      ],
+      "requested_by": "Claude (session for claude/gifted-lamport-8ddc84)",
+      "requested_at": "2026-10-05",
+      "human_approval": "Pablo (owner), in the session on 2026-10-05: 'Real fix, delete the 2 files'.",
+      "verifier_approval": "Independent read-only verifier agent, 2026-10-05: APPROVE. No importer outside history (decisions.md, this register); client.ts exports unchanged (its only importer is AuthModal.tsx; no protected test imports it); the old Firebase dialog cannot be opened on the static site (UserMenu returns null without Firebase settings, Dashboard sign-up and PricingPage are !IS_STATIC_SITE, ExamView needs a next-auth session that is null in static); server edition unchanged (synchronous require, same props). The verifier did not rebuild; the build evidence is the requester's (static_bundle_firebase_check against HEAD, server build, adversarial suite)."
     }
   ]
 }

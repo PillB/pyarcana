@@ -5,8 +5,9 @@ and lost all 48 - twice. `find_bad_patches` bisects after a typecheck failure to
 culprits and keep the rest. Anchors are independent and each matches exactly once, so a subset
 can be tested on its own.
 
-This exercises the bisection directly with a fake typechecker, because reproducing it against a
-live codex batch means waiting for a model to make the same mistake again.
+This exercises the bisection directly with a fake validator, because reproducing it against a
+live codex batch means waiting for a model to make the same mistake again. The real validator
+is tested in tests/adversarial/test_apply_patches_validates_touched_files.py.
 """
 from __future__ import annotations
 
@@ -25,14 +26,18 @@ class FindBadPatchesTests(unittest.TestCase):
         self.target = Path("/tmp/pyarcana-salvage-probe.ts")
         self.original = "".join(f"const v{i} = 'ok{i}';\n" for i in range(12))
         self.originals = {self.target: self.original}
-        self._real_typechecks = apply_patches.typechecks
-        # "Parses" unless the poison string is on disk - stands in for the esbuild failure.
-        apply_patches.typechecks = lambda: (
-            "POISON" not in self.target.read_text(encoding="utf-8"), "fake"
-        )
+        self._real_validate = apply_patches.validate
+        self.validated: list[dict] = []
+
+        # "Valid" unless the poison string is on disk - stands in for the esbuild failure.
+        def fake_validate(touched):
+            self.validated.append(touched)
+            return "POISON" not in self.target.read_text(encoding="utf-8"), "fake"
+
+        apply_patches.validate = fake_validate
 
     def tearDown(self) -> None:
-        apply_patches.typechecks = self._real_typechecks
+        apply_patches.validate = self._real_validate
         self.target.unlink(missing_ok=True)
 
     def _landed(self, poison_at):
@@ -51,7 +56,9 @@ class FindBadPatchesTests(unittest.TestCase):
         keep = [x for x in landed if not any(x[0] is c[0] for c in bad)]
         self.assertEqual(len(keep), 11, "the eleven good patches must survive")
         apply_patches.write_subset(keep, self.originals)
-        self.assertTrue(apply_patches.typechecks()[0], "the salvaged set must parse")
+        self.assertTrue(apply_patches.validate({})[0], "the salvaged set must parse")
+        self.assertTrue(all(t == {self.target: self.original} for t in self.validated[:-1]),
+                        "each bisection step validates the file it touched, against its original")
         text = self.target.read_text(encoding="utf-8")
         self.assertIn("new0", text)
         self.assertIn("ok7", text, "the rejected patch's field keeps its original text")

@@ -93,18 +93,31 @@ export function FigureFrame({ figure }: { figure: FigureData }) {
   }
 
   return (
+    <FigureShell figure={figure}>
+      {Drawing ? (
+        <Drawing title={figure.alt} />
+      ) : drawingData ? (
+        <ArchetypeFigure title={figure.alt} data={drawingData} id={figure.id} />
+      ) : null}
+    </FigureShell>
+  )
+}
+
+/**
+ * The frame alone: border, scroll container, caption and the screen-reader copy of the alt.
+ *
+ * Split out of FigureFrame so a page outside the 52 sections (Sesión 0, /empezar) can draw its
+ * diagrams in the same family without registering them in FIGURE_DATA, whose entries must each
+ * hang on a section (tests/adversarial/figure-data-schema.test.mjs).
+ */
+export function FigureShell({ figure, children }: { figure: FigureData; children: ReactNode }) {
+  return (
     <figure
       data-testid="course-figure"
       data-figure-id={figure.id}
       className="my-5 rounded-lg border border-border bg-card/40 p-3 sm:p-4"
     >
-      <div className="overflow-x-auto">
-        {Drawing ? (
-          <Drawing title={figure.alt} />
-        ) : drawingData ? (
-          <ArchetypeFigure title={figure.alt} data={drawingData} id={figure.id} />
-        ) : null}
-      </div>
+      <div className="overflow-x-auto">{children}</div>
       <figcaption className="mt-3 text-[13px] leading-relaxed text-muted-foreground">
         {figure.caption}
       </figcaption>

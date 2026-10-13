@@ -3,11 +3,12 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
+import { resolveStaticBasePath } from './static_base_path.mjs'
 
 const scriptDir = dirname(fileURLToPath(import.meta.url))
 const projectRoot = join(scriptDir, '..')
 const nodeModules = join(projectRoot, 'node_modules')
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '/pyarcana'
+const basePath = resolveStaticBasePath(process.env)
 const deploySha = process.env.PYARCANA_DEPLOY_SHA || execFileSync(
   'git', ['rev-parse', 'HEAD'], { cwd: projectRoot, encoding: 'utf8' }
 ).trim()

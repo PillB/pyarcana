@@ -5,6 +5,12 @@
 
 import { z } from 'zod'
 
+// The site's CSP allows WebAssembly compilation but not JavaScript eval (D4 audit P4c). Zod 4
+// otherwise probes `Function("")` on its first object parse to decide whether to compile fast
+// validators: the probe is refused, logs a CSP violation on every page, and Zod falls back to
+// this same interpreted mode. Choosing it up front keeps the console clean; results are identical.
+z.config({ jitless: true })
+
 export const PASS_THRESHOLD = 70
 
 /** Counted attempts per learner and section; exam/start enforces it. */

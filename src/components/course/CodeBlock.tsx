@@ -4,6 +4,7 @@ import { Fragment, useState } from 'react'
 import { Check, Copy, Terminal } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { highlightCode } from '@/lib/code-highlighting'
+import { useScrollRegion } from '@/hooks/use-scroll-region'
 
 interface CodeBlockProps {
   code: string
@@ -37,6 +38,9 @@ export function CodeBlock({
   reveal,
 }: CodeBlockProps) {
   const [copied, setCopied] = useState(false)
+  // Keyboard reach for a line wider than the column (WCAG 2.1.1); see the hook.
+  const [attachCode, codeScroll] = useScrollRegion<HTMLDivElement>('Código', title)
+  const [attachOutput, outputScroll] = useScrollRegion<HTMLPreElement>('Salida', title)
 
   const copy = async () => {
     try {
@@ -110,7 +114,7 @@ export function CodeBlock({
           )}
         </button>
       </div>
-      <div className="code-block code-block-dark overflow-x-auto scroll-area-thin">
+      <div ref={attachCode} {...codeScroll} className="code-block code-block-dark overflow-x-auto scroll-area-thin focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
         <pre className="p-4">
           {isRevealing ? (
             /*
@@ -172,7 +176,9 @@ export function CodeBlock({
             Output
           </div>
           <pre
-            className="code-block code-block-dark overflow-x-auto p-4 pt-0"
+            ref={attachOutput}
+            {...outputScroll}
+            className="code-block code-block-dark overflow-x-auto p-4 pt-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             style={
               isRevealing && !revealOutputVisible
                 ? { filter: 'blur(6px)', userSelect: 'none' }

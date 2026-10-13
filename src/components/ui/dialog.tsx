@@ -76,11 +76,14 @@ function DialogContent({
   className,
   children,
   showCloseButton = true,
+  closeLabel = 'Close',
   size = 'md',
   suspended = false,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean
+  /** The close button's accessible name; pass the page language's word ('Close' by default). */
+  closeLabel?: string
   /**
    * How wide this dialog is allowed to get. Always clamped to the viewport
    * with a 2rem gutter, so no size can produce a horizontally scrolling page.
@@ -125,7 +128,7 @@ function DialogContent({
             className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground text-muted-foreground hover:text-foreground absolute top-4 right-4 -m-3.5 rounded-xs p-3.5 transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
           >
             <XIcon />
-            <span className="sr-only">Close</span>
+            <span className="sr-only">{closeLabel}</span>
           </DialogPrimitive.Close>
         )}
       </DialogPrimitive.Content>

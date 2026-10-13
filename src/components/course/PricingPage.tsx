@@ -16,6 +16,8 @@ import {
   SUBSCRIPTION_PLANS,
   detectCountry,
   formatPrice,
+  annualSavingPercentOf,
+  getPlanByCode,
   type PlanCode,
   type BillingCycle,
   type CountryCode,
@@ -41,10 +43,17 @@ const PLAN_ICONS: Record<PlanCode, React.ElementType> = {
   team: Crown,
 }
 
+/** The annual badge: what Pro's yearly price saves in this market, computed from the prices. */
+function proSavingFor(country: CountryCode): number {
+  const p = getPlanByCode('pro')?.pricing[country]
+  return p ? annualSavingPercentOf(p.monthly, p.yearly) : 0
+}
+
 export function PricingPage({ currentPlan, onSelectPlan, onOpenAuth, isAuthenticated }: PricingPageProps) {
   const [cycle, setCycle] = useState<BillingCycle>('MONTHLY')
   // Lazy init avoids setState-in-effect (SSR-safe: detectCountry falls back if needed)
   const [country, setCountry] = useState<CountryCode>(() => detectCountry())
+  const proSaving = proSavingFor(country)
 
   const handleSelect = (code: PlanCode) => {
     if (!isAuthenticated) {
@@ -107,7 +116,7 @@ export function PricingPage({ currentPlan, onSelectPlan, onOpenAuth, isAuthentic
             )}
           >
             Anual
-            <Badge className="ml-1.5 bg-green-600 text-white text-[10px] h-4 px-1">-17%</Badge>
+            <Badge className="ml-1.5 bg-green-600 text-white text-[10px] h-4 px-1">-{proSaving}%</Badge>
           </button>
         </div>
       </div>
@@ -174,7 +183,7 @@ export function PricingPage({ currentPlan, onSelectPlan, onOpenAuth, isAuthentic
                   )}
                   {!isFree && cycle === 'MONTHLY' && pricing.yearly > 0 && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      o {formatPrice(pricing.yearly, pricing.currencySymbol)}/año (ahorra 17%)
+                      o {formatPrice(pricing.yearly, pricing.currencySymbol)}/año (ahorras {annualSavingPercentOf(pricing.monthly, pricing.yearly)}%)
                     </p>
                   )}
                 </div>

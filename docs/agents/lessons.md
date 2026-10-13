@@ -232,3 +232,69 @@ functions are worst so the choice is informed.
 **The trade-off, stated:** a ratchet tolerates existing debt indefinitely if nobody
 touches it. It buys enforceability at the cost of never forcing the 90 down. Reducing
 `Dashboard.tsx` is real work that this gate schedules but does not do.
+
+## Traps of the Claude Code cloud sandbox, and how to avoid them (Sesión 0, 5–6 Oct 2026)
+
+Each one cost at least one failed attempt while building `/empezar`; several recurred. Root cause
+first, then the fix that worked.
+
+- **`bun install` fails with 403 on every tarball.** `bun.lock` pins tarball URLs to
+  `registry.npmjs.com`. The sandbox proxy lets `registry.npmjs.org` through and refuses the `.com`
+  alias. Fix: back up `bun.lock`, rewrite `registry.npmjs.com` to `registry.npmjs.org` in it, run
+  `BUN_CONFIG_REGISTRY=https://registry.npmjs.org bun install --frozen-lockfile`, then copy the
+  backup back. Check `git status` shows `bun.lock` unchanged. Never commit the rewritten lockfile.
+- **`pkill -f <pattern>` kills your own shell** when the pattern also appears in the command line
+  that runs it (AGENTS.md already warns about `pgrep -f`). It struck again with
+  `pkill -f serve.mjs`, and the background job died with exit 144. Fix: keep the PID when you start
+  a process (`cmd & echo $! > pid`) and `kill "$(cat pid)"`.
+- **Top-level `await` in a `.mjs` script breaks the unit tests that import it.** `node --import
+  tsx` loads an imported `.mjs` as CommonJS, and esbuild refuses top-level await in CJS. `npx tsx -e`
+  evals are CJS too. It struck twice (`scripts/setup_screenshots.mjs`, the prose-audit dump). Fix:
+  end a script with `main().catch(…)` behind an "am I the entry point" check, and use static
+  imports in `tsx -e` code.
+- **A scratch script outside the repo cannot import `playwright`.** Node resolves packages from the
+  script's own directory upwards, and the scratchpad has no `node_modules`. It struck three times.
+  Fix: write throwaway scripts into the repo (`scripts/.name.mjs`, deleted after use), or run them
+  with the repo as the working directory and an absolute import path.
+- **Images from `raw.githubusercontent.com` can be 130-byte text files.** Repositories that keep
+  images in Git LFS (`microsoft/vscode-docs`) serve a pointer there. Fix: fetch
+  `https://media.githubusercontent.com/media/<owner>/<repo>/<branch>/<path>`, and check every
+  download with `file` before using it.
+- **Most documentation websites are blocked, their source repositories are not.** python.org,
+  docs.github.com, learn.microsoft.com, code.visualstudio.com and git-scm.com refused the proxy
+  CONNECT; `git clone`, raw GitHub and the LFS media host worked. Read the docs and the programs'
+  own strings (installer `.wxl`, `gh` Go sources, Git's `po/es.po`) from GitHub instead of
+  guessing, and mark anything read only from a search snippet as such.
+- **A bare `npx tsc --noEmit` does not know `import x from './a.png'`.** Next's image module types
+  come from `next-env.d.ts`, which is generated and gitignored. Fix: `src/types/next-image-types.d.ts`
+  references `next/image-types/global`.
+- **A chained gate hides everything after its first failure.** `npm run test:ux-gates` stops at
+  `test:first-use-all`, which fails before any change of yours. Run the rest one by one before
+  reporting, and compare each failure with a clean worktree of the base commit before calling it
+  pre-existing.
+- **A ratchet gate that is already red stops being read.** `complexity_gate.mjs` failed from 5 Oct
+  (34 against a baseline of 33), and every later round reported it as "pre-existing". Root cause,
+  found by diffing the offender lists at the baseline commit and at HEAD: `QATour` reached 18 in
+  `ac4f4ad`. When a gate is red at base, name the function and the commit, so the red gets fixed
+  instead of inherited.
+- **`npx playwright test` reports every test failed when Playwright cannot find its own Chromium
+  build.** The repo's `@playwright/test` wants `chromium_headless_shell-<rev>`, which the sandbox
+  does not have. Fix: a throwaway config that spreads `playwright.config.ts` and sets
+  `use.launchOptions.executablePath: '/opt/pw-browsers/chromium'`. Read the first error before
+  counting failures: "11 failed" was 11 launch errors and zero findings.
+- **Codex in the cloud sandbox: device sign-in, once the hosts are allowed.** `npm i -g
+  @openai/codex` works, because the npm registry is reachable. A sandbox has no browser for the
+  default `codex login` and its `localhost` callback, so use `codex login --device-auth`: it
+  prints a URL and a one-time code, and the owner approves on any device. The alternative is
+  `printenv OPENAI_API_KEY | codex login --with-api-key`, with the key stored as an environment
+  secret and never pasted into chat. Both need `auth.openai.com`, `api.openai.com` and
+  `chatgpt.com` in the environment's allowed domains. On 6 Oct 2026 they were refused
+  ("error sending request for url (https://auth.openai.com/api/accounts/deviceauth/usercode)").
+  Codex then runs under the same network policy as Claude, so it can fetch only what the sandbox
+  can reach.
+- **A network allowlist change is not instant, and it belongs in the environment.** The
+  claude.ai account setting (Settings → Capabilities → Domain allowlist) does not govern Claude
+  Code cloud sessions; the environment's own Network access setting does. After the environment
+  changed, curl passed within minutes while Chromium still got "Host not in allowlist" once. Retry
+  a refused capture once before calling it blocked. GitHub separately serves a bot-protection page
+  to automated browsers; capture GitHub's own pages by hand rather than working around it.

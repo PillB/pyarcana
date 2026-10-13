@@ -1,0 +1,49 @@
+{
+  "batch": 2,
+  "sections_reviewed": ["S14","S15","S16","S17","S18","S19","S20","S21","S22","S23","S24","S25","S26"],
+  "candidates": [
+    {
+      "section": "S23",
+      "file": "s23-computer-vision.ts",
+      "section_title": "Browser RPA con Playwright",
+      "block_heading": "Trace, screenshot y logs",
+      "subtopicId": "S23-T3-A",
+      "anchor_quote": "En Playwright real activas tracing alrededor del flujo crítico y abres el zip en Trace Viewer; en el lab modelamos las mismas keys.",
+      "ui": "Playwright Trace Viewer (web app local que abre el trace.zip)",
+      "why": "El lab solo modela las keys del paquete; el estudiante nunca ve qué ofrece el zip al abrirlo. Sin ver el layout (lista de acciones, snapshot Before/After, pestañas Errors/Console/Network) no sabe dónde buscar si la falla fue de selector, red o timeout, que es justo la decisión que pide el bloque.",
+      "image": "img/S23-trace-viewer-failed-test.png",
+      "image_source_url": "https://github.com/microsoft/playwright/blob/main/docs/src/images/getting-started/trace-viewer-failed-test.png",
+      "licence": "Apache-2.0",
+      "licence_file_url": "https://github.com/microsoft/playwright/blob/main/LICENSE",
+      "image_shows": "Playwright Trace Viewer in a browser tab (localhost:9323/trace). Top: timeline with filmstrip thumbnails. Left: Actions/Metadata tabs with steps (Before Hooks, Navigate to \"/\", Click getByRole('link', { name: 'star' }) highlighted in red, After Hooks, Attach \"error-context\", Worker Cleanup) with durations. Centre: Action/Before/After tabs with a DOM snapshot of playwright.dev. Bottom: tabs Locator, Call, Log, Errors (1), Console, Network (31), Source, Attachments (1); the Errors tab is open showing 'Error: locator.click: Error: strict mode violation: getByRole('link', { name: 'star' }) resolved to 5 elements' with the candidate elements listed. The test file is JavaScript (example.spec.ts), not Python.",
+      "crop_suggestion": "Crop away the outer browser chrome (tab strip and address bar, roughly the top 120 px at displayed scale / ~240 px original), which also removes a tiny user avatar icon at top right; keep from the black 'Playwright' header to the bottom of the error panel. 4032x2244 original: downscale to ~1600 px wide.",
+      "alt_es": "Captura de Playwright Trace Viewer. Arriba, una línea de tiempo con miniaturas de la página. A la izquierda, la lista Actions con el paso Click getByRole('link', { name: 'star' }) marcado en rojo. Al centro, la instantánea de la página con pestañas Action, Before y After. Abajo, la pestaña Errors abierta muestra «strict mode violation»: el locator resolvió a 5 elementos.",
+      "caption_es": "Trace Viewer de Playwright con una prueba fallida: el paso en rojo, la página en ese instante y el error del locator en la pestaña Errors. La imagen oficial usa un test en JavaScript; con Python el visor es el mismo.",
+      "confidence": "high"
+    }
+  ],
+  "alternates": [
+    {
+      "section": "S23",
+      "image": "img/S23-trace-viewer.png",
+      "image_source_url": "https://github.com/microsoft/playwright/blob/main/docs/src/images/getting-started/trace-viewer.png",
+      "licence": "Apache-2.0",
+      "note": "Same viewer on a passing test, Source tab open. Not preferred: the block is about failures, and the Source panel shows a local path containing a person's name ('/Users/debbieobrien/...'), which would need cropping."
+    }
+  ],
+  "considered_and_rejected": [
+    {"section":"S14","where":"whole section (NumPy)","reason":"No graphical interface; all outputs are printed arrays, which stay as text."},
+    {"section":"S15","where":"whole section (pandas ingesta)","reason":"No GUI step; 'abrir Excel' in the intro is a contrast, not an instruction to operate Excel."},
+    {"section":"S16","where":"whole section (calidad de datos)","reason":"No GUI; existing SVG figures cover the concepts."},
+    {"section":"S17","where":"whole section (joins/reshape)","reason":"No GUI; existing SVG figures cover merge and melt/pivot."},
+    {"section":"S18","where":"S18-T4-B Notebook reproducible y data notes","reason":"The block is about reproducibility contracts, not about operating Jupyter; a notebook screenshot would be decorative."},
+    {"section":"S19","where":"S19-T3-A Filtros, tooltips y vista interactiva","reason":"The block explicitly says no Plotly or Streamlit is needed and models the view as a data spec; no UI to operate."},
+    {"section":"S20","where":"S20 intro and S20-T1-B/T3-A (Excel)","reason":"The point is that the script must not need Excel opened; the existing SVG covers sheet layout. An Excel screenshot would be decorative, and Microsoft UI images have no permissive licence."},
+    {"section":"S21","where":"S21-T2-A DOCX / S21-T4-B render visual","reason":"Verification is programmatic (ZIP signature, extracted headings, rendered PNG); 'se veía bien en Word' is cited as non-evidence. No UI step."},
+    {"section":"S22","where":"S22-T2-A OAuth, service account y scopes","reason":"Lab uses synthetic capabilities and states it is not a real OAuth flow; a Google consent-screen screenshot would mislead, and Google UI images are not under an allowed licence."},
+    {"section":"S23","where":"S23-T1-A DOM y locators (Pick locator / codegen)","reason":"Playwright's codegen/pick-locator images (Apache-2.0) exist, but the block never asks the learner to use those tools; adding them would introduce a tool the prose does not teach."},
+    {"section":"S24","where":"whole section (OCR)","reason":"No GUI; OCR outputs are text/JSON and preprocessing is covered by SVG figures."},
+    {"section":"S25","where":"S25-T1-B Model cards, licencias y decisión local o cloud ('lee la model card')","reason":"A Hub model-page screenshot would help, but the official images live in the huggingface/documentation-images dataset, licensed cc-by-nc-sa-4.0 (NonCommercial). hub-docs repo (Apache-2.0) has no such image in-repo. Blocked by licence."},
+    {"section":"S26","where":"S26-T1-A DAG y estados / S26-T3-A HITL","reason":"Implemented 'sin Prefect/Airflow instalado'; the dashboard is described, not operated. Existing SVG S26-dag-states covers the states. An orchestrator UI screenshot would show a tool the learner does not use."}
+  ]
+}

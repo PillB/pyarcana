@@ -1,0 +1,233 @@
+{
+  "py-release-files": {
+    "file": "py-release-files.png",
+    "width": 1600,
+    "height": 1000,
+    "box_px": {
+      "left": 105,
+      "top": 335,
+      "width": 1345,
+      "height": 170
+    },
+    "box_pct": {
+      "left": 6.562,
+      "top": 33.5,
+      "width": 84.062,
+      "height": 17.0
+    },
+    "date": "2026-10-06",
+    "type": "illustrative_recreation",
+    "source_basis": "Python.org Python 3.12.10 release page verified 2026-10-06.",
+    "description": "Python 3.12.10 Files area."
+  },
+  "git-win-download": {
+    "file": "git-win-download.png",
+    "width": 1600,
+    "height": 1000,
+    "box_px": {
+      "left": 135,
+      "top": 390,
+      "width": 1240,
+      "height": 65
+    },
+    "box_pct": {
+      "left": 8.438,
+      "top": 39.0,
+      "width": 77.5,
+      "height": 6.5
+    },
+    "date": "2026-10-06",
+    "type": "illustrative_recreation",
+    "source_basis": "Official git-scm.com Windows install page verified 2026-10-06.",
+    "description": "Git Windows main x64 download link."
+  },
+  "gh-signup-form": {
+    "file": "gh-signup-form.png",
+    "width": 1600,
+    "height": 1000,
+    "box_px": {
+      "left": 410,
+      "top": 315,
+      "width": 780,
+      "height": 585
+    },
+    "box_pct": {
+      "left": 25.625,
+      "top": 31.5,
+      "width": 48.75,
+      "height": 58.5
+    },
+    "date": "2026-10-06",
+    "type": "illustrative_recreation",
+    "source_basis": "GitHub signup labels verified 2026-10-06.",
+    "description": "GitHub sign-up form."
+  },
+  "win-terminal-open": {
+    "file": "win-terminal-open.png",
+    "width": 1600,
+    "height": 1000,
+    "box_px": {
+      "left": 135,
+      "top": 315,
+      "width": 425,
+      "height": 60
+    },
+    "box_pct": {
+      "left": 8.438,
+      "top": 31.5,
+      "width": 26.562,
+      "height": 6.0
+    },
+    "date": "2026-10-06",
+    "type": "illustrative_recreation",
+    "source_basis": "Generated generic Windows Terminal/PowerShell recreation.",
+    "description": "PowerShell prompt."
+  },
+  "win-py-installer-done": {
+    "file": "win-py-installer-done.png",
+    "width": 1600,
+    "height": 1000,
+    "box_px": {
+      "left": 1050,
+      "top": 745,
+      "width": 215,
+      "height": 100
+    },
+    "box_pct": {
+      "left": 65.625,
+      "top": 74.5,
+      "width": 13.438,
+      "height": 10.0
+    },
+    "date": "2026-10-06",
+    "type": "illustrative_recreation",
+    "source_basis": "Python installer success wording cross-checked with published screenshots.",
+    "description": "Python setup success Close button."
+  },
+  "win-app-aliases": {
+    "file": "win-app-aliases.png",
+    "width": 1600,
+    "height": 1000,
+    "box_px": {
+      "left": 395,
+      "top": 230,
+      "width": 1060,
+      "height": 270
+    },
+    "box_pct": {
+      "left": 24.688,
+      "top": 23.0,
+      "width": 66.25,
+      "height": 27.0
+    },
+    "date": "2026-10-06",
+    "type": "illustrative_recreation",
+    "source_basis": "Windows 11 App execution aliases behavior cross-checked with Microsoft/Windows guidance.",
+    "description": "python.exe and python3.exe aliases disabled."
+  },
+  "win-vscode-tasks": {
+    "file": "win-vscode-tasks.png",
+    "width": 1600,
+    "height": 1000,
+    "box_px": {
+      "left": 415,
+      "top": 575,
+      "width": 620,
+      "height": 70
+    },
+    "box_pct": {
+      "left": 25.938,
+      "top": 57.5,
+      "width": 38.75,
+      "height": 7.0
+    },
+    "date": "2026-10-06",
+    "type": "illustrative_recreation",
+    "source_basis": "VS Code installer Additional Tasks screen cross-checked with published setup screenshots.",
+    "description": "VS Code Add to PATH option."
+  },
+  "win-git-editor": {
+    "file": "win-git-editor.png",
+    "width": 1600,
+    "height": 1000,
+    "box_px": {
+      "left": 375,
+      "top": 365,
+      "width": 815,
+      "height": 95
+    },
+    "box_pct": {
+      "left": 23.438,
+      "top": 36.5,
+      "width": 50.938,
+      "height": 9.5
+    },
+    "date": "2026-10-06",
+    "type": "illustrative_recreation",
+    "source_basis": "Git installer recreation; VS Code core.editor support documented by Git.",
+    "description": "Git default editor dropdown."
+  },
+  "mac-terminal-open": {
+    "file": "mac-terminal-open.png",
+    "width": 1600,
+    "height": 1000,
+    "box_px": {
+      "left": 205,
+      "top": 292,
+      "width": 380,
+      "height": 58
+    },
+    "box_pct": {
+      "left": 12.812,
+      "top": 29.2,
+      "width": 23.75,
+      "height": 5.8
+    },
+    "date": "2026-10-06",
+    "type": "illustrative_recreation",
+    "source_basis": "Generated generic macOS Terminal recreation.",
+    "description": "zsh-style shell prompt."
+  },
+  "mac-clt-prompt": {
+    "file": "mac-clt-prompt.png",
+    "width": 1600,
+    "height": 1000,
+    "box_px": {
+      "left": 930,
+      "top": 580,
+      "width": 170,
+      "height": 90
+    },
+    "box_pct": {
+      "left": 58.125,
+      "top": 58.0,
+      "width": 10.625,
+      "height": 9.0
+    },
+    "date": "2026-10-06",
+    "type": "illustrative_recreation",
+    "source_basis": "macOS Command Line Tools prompt wording cross-checked against published Git install screenshots.",
+    "description": "Command Line Tools Install button."
+  },
+  "gh-device-code": {
+    "file": "gh-device-code.png",
+    "width": 1600,
+    "height": 1000,
+    "box_px": {
+      "left": 490,
+      "top": 370,
+      "width": 620,
+      "height": 120
+    },
+    "box_pct": {
+      "left": 30.625,
+      "top": 37.0,
+      "width": 38.75,
+      "height": 12.0
+    },
+    "date": "2026-10-06",
+    "type": "illustrative_recreation",
+    "source_basis": "GitHub device flow and github.com/login/device verified from GitHub Docs 2026-10-06.",
+    "description": "GitHub one-time device code field."
+  }
+}

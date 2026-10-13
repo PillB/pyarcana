@@ -1,0 +1,8 @@
+{
+  "name": "pyarcana-billing",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node ../../scripts/run_billing_tests.mjs --only worker"
+  }
+}

@@ -1,0 +1,263 @@
+[
+  {
+    "id": "gh-2fa-setup",
+    "checkedOn": "2026-10-05",
+    "width": 725,
+    "height": 446,
+    "credit": {
+      "source": "GitHub Docs",
+      "url": "https://github.com/github/docs/blob/main/assets/images/help/2fa/ghes-3.8-and-higher-2fa-wizard-app-click-code.png",
+      "licence": "CC BY 4.0"
+    },
+    "alt": "Pantalla Setup authenticator app de GitHub. Muestra un texto sobre las aplicaciones de códigos, el título Scan the QR code, un código QR cuadrado y, debajo, para quien no puede escanear, el enlace setup key, recuadrado.",
+    "caption": "Escanea el código cuadrado con la aplicación de tu celular. Si no puedes, el enlace recuadrado, setup key, muestra una clave para escribirla a mano."
+  },
+  {
+    "id": "gh-device-code",
+    "checkedOn": "2026-10-06",
+    "width": 1600,
+    "height": 1000,
+    "illustration": {
+      "by": "Paquete de ilustraciones de referencia de PyArcana (6 oct 2026)",
+      "basis": "Etiquetas en inglés de la anotación quitadas por Claude Code; flujo según la documentación de GitHub CLI."
+    },
+    "alt": "Ilustración de la página Device Activation de GitHub, en github.com/login/device, con el campo del código recuadrado en rojo y el botón verde Continue.",
+    "caption": "Pega aquí el código de ocho caracteres que te dio la terminal. La página real puede mostrarlo en casillas separadas."
+  },
+  {
+    "id": "gh-noreply-email",
+    "checkedOn": "2026-10-05",
+    "width": 1760,
+    "height": 205,
+    "box": {
+      "x": 15,
+      "y": 54,
+      "w": 40,
+      "h": 27
+    },
+    "credit": {
+      "source": "GitHub Docs",
+      "url": "https://github.com/github/docs/blob/main/assets/images/help/settings/email-primary.png",
+      "licence": "CC BY 4.0",
+      "changes": "recortada"
+    },
+    "alt": "Sección Primary email address de la página Emails de GitHub. Dice que, con la privacidad del correo activada, la dirección 101839405+octocat@users.noreply.github.com se usará para las operaciones de Git. Esa dirección está resaltada.",
+    "caption": "Con la privacidad activada, GitHub muestra tu dirección privada: la que termina en users.noreply.github.com. En la imagen es la de la cuenta de ejemplo octocat."
+  },
+  {
+    "id": "gh-signup-form",
+    "checkedOn": "2026-10-06",
+    "width": 1600,
+    "height": 1000,
+    "illustration": {
+      "by": "Paquete de ilustraciones de referencia de PyArcana (6 oct 2026)",
+      "basis": "Etiquetas en inglés de la anotación quitadas por Claude Code; segundo título repetido quitado; campos según la página de registro revisada por el autor del paquete."
+    },
+    "alt": "Ilustración del formulario de registro de GitHub, recuadrado en rojo: los campos Email, Password, Username y Your Country/Region, y el botón verde Create account.",
+    "caption": "Los datos que pide el registro. GitHub cambia este formulario a menudo: busca los mismos campos aunque el orden sea otro."
+  },
+  {
+    "id": "git-win-download",
+    "checkedOn": "2026-10-06",
+    "width": 1280,
+    "height": 800,
+    "box": {
+      "x": 34.5,
+      "y": 29.2,
+      "w": 15.7,
+      "h": 3.2
+    }
+  },
+  {
+    "id": "mac-clt-prompt",
+    "checkedOn": "2026-10-06",
+    "width": 1600,
+    "height": 1000,
+    "illustration": {
+      "by": "Paquete de ilustraciones de referencia de PyArcana (6 oct 2026)",
+      "basis": "Etiquetas en inglés de la anotación quitadas por Claude Code; título reajustado dentro del aviso; usuario de ejemplo ana. El aviso real tiene el botón Get Xcode (instrucciones de The Carpentries)."
+    },
+    "alt": "Ilustración del aviso de macOS que aparece al escribir git --version: dice que la orden git necesita las herramientas de desarrollo de línea de comandos. El botón Install está recuadrado en rojo.",
+    "caption": "Pulsa Install. El aviso real tiene además el botón Get Xcode: no lo elijas, porque descarga muchos gigas que no necesitas."
+  },
+  {
+    "id": "mac-py-certificates",
+    "checkedOn": "2026-10-05",
+    "width": 800,
+    "height": 691,
+    "box": {
+      "x": 4,
+      "y": 91.5,
+      "w": 24,
+      "h": 5.5
+    },
+    "credit": {
+      "source": "Documentación de Python (Python Software Foundation)",
+      "url": "https://github.com/python/cpython/blob/main/Doc/using/mac_installer_08_install_certificates.png",
+      "licence": "PSF License v2"
+    },
+    "alt": "En un Mac, la carpeta Python 3.13 con el archivo Install Certificates.command seleccionado. Delante, una ventana de Terminal muestra cómo se instala certifi y termina con la línea [Process completed], que está resaltada.",
+    "caption": "Al terminar, la ventana dice [Process completed]. La imagen es de Python 3.13; en tu Mac la carpeta se llama Python 3.12, y lo demás se ve igual."
+  },
+  {
+    "id": "mac-py-installer-done",
+    "checkedOn": "2026-10-05",
+    "width": 800,
+    "height": 483,
+    "credit": {
+      "source": "Documentación de Python (Python Software Foundation)",
+      "url": "https://github.com/python/cpython/blob/main/Doc/using/mac_installer_07_applications.png",
+      "licence": "PSF License v2"
+    },
+    "alt": "Ventana de Finder de la carpeta Python 3.13, con los archivos IDLE, Install Certificates.command, License.rtf, Python Documentation.html, Python Launcher, ReadMe.rtf y Update Shell Profile.command. Una flecha roja señala Install Certificates.command.",
+    "caption": "La carpeta que se abre al terminar la instalación. La flecha señala el archivo del paso siguiente. La imagen es de Python 3.13; la tuya dirá Python 3.12."
+  },
+  {
+    "id": "mac-terminal-open",
+    "checkedOn": "2026-10-06",
+    "width": 1600,
+    "height": 1000,
+    "illustration": {
+      "by": "Paquete de ilustraciones de referencia de PyArcana (6 oct 2026)",
+      "basis": "Etiquetas en inglés de la anotación quitadas por Claude Code; usuario de ejemplo ana."
+    },
+    "alt": "Ilustración de la Terminal de macOS recién abierta. La línea ana@MacBook ~ % está recuadrada en rojo.",
+    "caption": "La línea recuadrada es el prompt. En tu Mac dirá tu usuario y el nombre de tu computadora."
+  },
+  {
+    "id": "mac-vscode-shell-command",
+    "checkedOn": "2026-10-05",
+    "width": 618,
+    "height": 100,
+    "box": {
+      "x": 1,
+      "y": 37,
+      "w": 98,
+      "h": 24
+    },
+    "credit": {
+      "source": "Documentación de VS Code (Microsoft)",
+      "url": "https://github.com/microsoft/vscode-docs/blob/main/docs/setup/images/mac/shell-command.png",
+      "licence": "CC BY 3.0 US"
+    },
+    "alt": "Paleta de comandos de VS Code con el texto shell command. Debajo, dos opciones: Shell Command: Install 'code' command in PATH, resaltada, y Shell Command: Uninstall 'code' command from PATH.",
+    "caption": "Elige la primera opción, la que instala la orden code. No la segunda, que la desinstala."
+  },
+  {
+    "id": "py-release-files",
+    "checkedOn": "2026-10-06",
+    "width": 1280,
+    "height": 800,
+    "box": {
+      "x": 4.4,
+      "y": 27.6,
+      "w": 91.2,
+      "h": 44.9
+    }
+  },
+  {
+    "id": "vscode-terminal",
+    "checkedOn": "2026-10-05",
+    "width": 1687,
+    "height": 905,
+    "box": {
+      "x": 29,
+      "y": 55,
+      "w": 70.5,
+      "h": 40
+    },
+    "credit": {
+      "source": "Documentación de VS Code (Microsoft)",
+      "url": "https://github.com/microsoft/vscode-docs/blob/main/docs/editing/images/getting-started/terminal-new-file.png",
+      "licence": "CC BY 3.0 US"
+    },
+    "alt": "Ventana de VS Code en Windows. A la izquierda, el panel Explorer con la carpeta VSCODE101 y tres archivos. Abajo a la derecha, resaltado, el panel TERMINAL con PowerShell y el prompt C:\\temp\\vscode101>.",
+    "caption": "La terminal integrada ocupa la parte de abajo y empieza dentro de la carpeta abierta. En la imagen la carpeta se llama vscode101; la tuya se llamará pyarcana."
+  },
+  {
+    "id": "vscode-trust",
+    "checkedOn": "2026-10-05",
+    "width": 1687,
+    "height": 1057,
+    "credit": {
+      "source": "Documentación de VS Code (Microsoft)",
+      "url": "https://github.com/microsoft/vscode-docs/blob/main/docs/editing/images/getting-started/workspace-trust.png",
+      "licence": "CC BY 3.0 US"
+    },
+    "alt": "Diálogo de VS Code con un escudo y la pregunta «Do you trust the authors of the files in this folder», es decir, si confías en los autores de los archivos. Abajo, dos botones: Yes, I trust the authors, enmarcado en rojo, y No, I don't trust the authors.",
+    "caption": "El recuadro rojo de la imagen marca el botón que debes pulsar: Yes, I trust the authors."
+  },
+  {
+    "id": "win-app-aliases",
+    "checkedOn": "2026-10-06",
+    "width": 1600,
+    "height": 1000,
+    "illustration": {
+      "by": "Paquete de ilustraciones de referencia de PyArcana (6 oct 2026)",
+      "basis": "Etiquetas en inglés de la anotación quitadas por Claude Code; «Instalador de aplicaciones» corregido a «Instalador de aplicación», el nombre que usa el paso."
+    },
+    "alt": "Ilustración de la Configuración de Windows, en Alias de ejecución de aplicaciones. Recuadradas en rojo, dos filas Instalador de aplicación, python.exe y python3.exe, con sus interruptores en Desactivado.",
+    "caption": "Los dos atajos de Python, apagados. Tu lista tendrá otras aplicaciones además de estas."
+  },
+  {
+    "id": "win-git-editor",
+    "checkedOn": "2026-10-06",
+    "width": 1600,
+    "height": 1000,
+    "illustration": {
+      "by": "Paquete de ilustraciones de referencia de PyArcana (6 oct 2026)",
+      "basis": "Etiquetas en inglés de la anotación quitadas por Claude Code; versión del título puesta al día (2.56.0)."
+    },
+    "alt": "Ilustración de la pantalla Choosing the default editor used by Git del instalador de Git. Recuadrada en rojo, la lista con Use Visual Studio Code as Git's default editor elegido.",
+    "caption": "Elige VS Code en la lista recuadrada y pulsa Next. La pantalla real tiene más texto y los botones abajo."
+  },
+  {
+    "id": "win-py-installer-done",
+    "checkedOn": "2026-10-06",
+    "width": 1600,
+    "height": 1000,
+    "illustration": {
+      "by": "Paquete de ilustraciones de referencia de PyArcana (6 oct 2026)",
+      "basis": "Etiquetas en inglés de la anotación quitadas por Claude Code; texto según el instalador 3.12.10 (Default.wxl)."
+    },
+    "alt": "Ilustración de la última pantalla del instalador de Python 3.12.10 para Windows, con el título Setup was successful y el botón Close recuadrado en rojo.",
+    "caption": "Pulsa Close. El instalador real muestra además el logo de Python y puede ofrecer el botón Disable path length limit."
+  },
+  {
+    "id": "win-py-installer-path",
+    "checkedOn": "2026-10-05",
+    "width": 658,
+    "height": 408,
+    "credit": {
+      "source": "Django Girls Tutorial",
+      "url": "https://github.com/DjangoGirls/tutorial/blob/master/en/python_installation/images/python-installation-options.png",
+      "licence": "CC BY-SA 4.0"
+    },
+    "alt": "Primera pantalla del instalador de Python 3.12.2 para Windows. Arriba, Install Now y Customize installation. Abajo, dos casillas: Use admin privileges when installing py.exe, y Add python.exe to PATH, marcada y enmarcada en verde.",
+    "caption": "La casilla Add python.exe to PATH, marcada: es el clic que más se olvida. La imagen es de Python 3.12.2; la tuya dirá 3.12.10, y lo demás se ve igual."
+  },
+  {
+    "id": "win-terminal-open",
+    "checkedOn": "2026-10-06",
+    "width": 1600,
+    "height": 1000,
+    "illustration": {
+      "by": "Paquete de ilustraciones de referencia de PyArcana (6 oct 2026)",
+      "basis": "Etiquetas en inglés de la anotación quitadas por Claude Code; línea de copyright en español, como la muestra Windows en español; usuario de ejemplo ana."
+    },
+    "alt": "Ilustración de una ventana de Windows PowerShell recién abierta. La línea PS C:\\Users\\ana> está recuadrada en rojo.",
+    "caption": "La línea recuadrada es el prompt. En tu computadora dirá tu propio nombre de usuario."
+  },
+  {
+    "id": "win-vscode-tasks",
+    "checkedOn": "2026-10-06",
+    "width": 1600,
+    "height": 1000,
+    "illustration": {
+      "by": "Paquete de ilustraciones de referencia de PyArcana (6 oct 2026)",
+      "basis": "Etiquetas en inglés de la anotación quitadas por Claude Code; fila «Register Code as an editor» redibujada porque la etiqueta la tapaba."
+    },
+    "alt": "Ilustración de la pantalla Select Additional Tasks del instalador de VS Code. Recuadrada en rojo, la casilla marcada Add to PATH (requires shell restart).",
+    "caption": "Deja marcada Add to PATH. El instalador real puede mostrar más casillas, por ejemplo para crear un icono en el escritorio."
+  }
+]

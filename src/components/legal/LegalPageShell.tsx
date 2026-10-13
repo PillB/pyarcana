@@ -15,6 +15,7 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { ArrowLeft, FileWarning, ScrollText } from 'lucide-react'
+import { CloudRelatedLinks } from '@/components/account/CloudRelatedLinks'
 
 export interface LegalPageMeta {
   /** URL slug, e.g. "privacy" */
@@ -42,6 +43,9 @@ const RELATED_PAGES: { slug: string; label: string }[] = [
   { slug: 'data-rights', label: 'Derechos ARCO' },
   { slug: 'security', label: 'Seguridad' },
 ]
+
+const RELATED_LINK_CLASS =
+  'inline-flex items-center rounded-full border border-border bg-background px-3 py-1 text-xs text-foreground/80 hover:border-primary/40 hover:text-foreground'
 
 export function LegalPageShell({
   meta,
@@ -92,14 +96,12 @@ export function LegalPageShell({
         <ul className="mt-3 flex flex-wrap gap-2">
           {RELATED_PAGES.filter((p) => p.slug !== meta.slug).map((p) => (
             <li key={p.slug}>
-              <Link
-                href={`/${p.slug}`}
-                className="inline-flex items-center rounded-full border border-border bg-background px-3 py-1 text-xs text-foreground/80 hover:border-primary/40 hover:text-foreground"
-              >
+              <Link href={`/${p.slug}`} className={RELATED_LINK_CLASS}>
                 {p.label}
               </Link>
             </li>
           ))}
+          <CloudRelatedLinks className={RELATED_LINK_CLASS} />
         </ul>
       </nav>
 
