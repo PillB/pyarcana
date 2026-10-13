@@ -115,7 +115,7 @@ describe('"No procedure revokes a credential or marks it as an older version"', 
 describe('"/verify checks an identifier only in the dynamic LMS"', () => {
   it('the policy names the LMS and the label the verify page shows', () => {
     const page = flat(POLICY)
-    assert.ok(page.includes('En el LMS dinámico, puedes comprobar una credencial verificada en /verify'), 'the policy no longer names the LMS')
+    assert.match(page, /En el LMS dinámico \([^)]+\), puedes comprobar una credencial verificada en \/verify/, 'the policy no longer names the LMS')
     assert.ok(page.includes('«Capacidad demostrada»'))
   })
 
