@@ -114,19 +114,35 @@ describe('CODEOWNERS covers AGENTS.md protected paths', () => {
  * file is placed. Each probe is a path the input may take; each must have an owner.
  */
 const GUARD_INPUTS = [
-  { name: 'src/lib/eligibility/ (the manifest)', probes: ['src/lib/eligibility/engine.ts', 'src/lib/eligibility/manifest.json'] },
-  { name: 'curriculum55_window.json', probes: ['curriculum55_window.json', 'audit/renumber/curriculum55_window.json'] },
-  { name: 'renumber_epoch.json', probes: ['renumber_epoch.json', 'audit/renumber/renumber_epoch.json'] },
-  { name: 'renumber_edit_ledger.json', probes: ['renumber_edit_ledger.json', 'audit/renumber/renumber_edit_ledger.json'] },
-  { name: 'authoring_pending.json', probes: ['authoring_pending.json', 'audit/renumber/authoring_pending.json'] },
+  { token: 'src/lib/eligibility/', probes: ['src/lib/eligibility/engine.ts', 'src/lib/eligibility/manifest.json'] },
+  { token: 'curriculum55_window.json', probes: ['curriculum55_window.json', 'audit/renumber/curriculum55_window.json'] },
+  { token: 'renumber_epoch.json', probes: ['renumber_epoch.json', 'audit/renumber/renumber_epoch.json'] },
+  { token: 'renumber_edit_ledger.json', probes: ['renumber_edit_ledger.json', 'audit/renumber/renumber_edit_ledger.json'] },
+  { token: 'authoring_pending.json', probes: ['authoring_pending.json', 'audit/renumber/authoring_pending.json'] },
 ]
 
 describe('CODEOWNERS covers the renumber guard inputs', () => {
   for (const input of GUARD_INPUTS) {
-    it(`gives ${input.name} an owner wherever it is placed`, () => {
+    it(`gives ${input.token} an owner wherever it is placed`, () => {
       for (const probe of input.probes) {
         assert.ok(ownersOf(probe).length > 0, `${probe} has no CODEOWNERS owner`)
       }
     })
   }
+})
+
+/** The ask-first section's bullets, each starting at its `- ` marker. */
+function askFirstBullets() {
+  const start = AGENTS.indexOf('## Ask first')
+  if (start < 0) throw new Error('AGENTS.md has no "## Ask first" section')
+  const next = AGENTS.indexOf('\n## ', start + 1)
+  return AGENTS.slice(start, next < 0 ? undefined : next).split(/\n(?=- )/)
+}
+
+describe('AGENTS.md ask-first names the renumber guard inputs', () => {
+  it('has one ask-first bullet that names the manifest and every guard input', () => {
+    const bullet = askFirstBullets().find((b) =>
+      /\bmanifest\b/.test(b) && GUARD_INPUTS.every((input) => b.includes(input.token)))
+    assert.ok(bullet, `no ask-first bullet names the manifest and all of: ${GUARD_INPUTS.map((i) => i.token).join(', ')}`)
+  })
 })

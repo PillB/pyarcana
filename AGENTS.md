@@ -98,6 +98,7 @@ Order, never skipped silently — anything unfinished goes to `audit/fixer/OPEN_
 - Changing what a credential claims (`badge_catalog.json`), or relaxing a gate threshold.
 - Restructuring a practice layer or moving a project between sections.
 - Changing a protected path.
+- Changing a renumber guard input: the manifest and `src/lib/eligibility/`, `curriculum55_window.json`, `renumber_epoch.json`, `renumber_edit_ledger.json` or `authoring_pending.json`.
 
 ## Never
 
