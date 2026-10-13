@@ -1,5 +1,8 @@
 {
  "section": "S03",
+ "numbering_epoch": 52,
+ "slug": "decisions-rules",
+ "slug_at_record": "data-structures",
  "recorded_at": "2026-09-14T15:21:43+00:00",
  "commit": "86a09ad0cad3c07ca8a92f6540c6c8de8aded348",
  "file": "src/lib/course/sections/s03-data-structures.ts",

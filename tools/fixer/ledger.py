@@ -11,10 +11,13 @@ section source - so the ledger cannot claim a step is done when it is not.
 from __future__ import annotations
 
 import json
-import re
 import subprocess
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import numbering  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "audit/fixer/LEDGER.md"
@@ -38,15 +41,18 @@ def load(path: Path, default):
 
 
 def main() -> int:
+    epoch = numbering.load_epoch(ROOT)
     events = load(ROOT / ".fixer/events.json", {})
-    slugs = events.get("active_section_ids") or []
-    if not slugs:
+    # The event cache is gitignored and can be stale: re-extract when its course order is not the epoch's.
+    if events.get("active_section_ids") != list(epoch.slugs):
         proc = subprocess.run(["npx", "tsx", "scripts/course_event_extractor.mts"],
                               cwd=ROOT, capture_output=True, text=True)
         (ROOT / ".fixer").mkdir(exist_ok=True)
         (ROOT / ".fixer/events.json").write_text(proc.stdout, encoding="utf-8")
         events = json.loads(proc.stdout)
-        slugs = events["active_section_ids"]
+        if events.get("active_section_ids") != list(epoch.slugs):
+            raise SystemExit("the course's section order disagrees with the numbering epoch; "
+                             "run tools/fixer/numbering.py to see where")
 
     registry = load(ROOT / "audit/consolidated/registry.json", {"findings": []})["findings"]
     first_use = load(ROOT / "course-state/first_use_all_report.json", {"issues": []})
@@ -70,19 +76,19 @@ def main() -> int:
                          "NO_VISIBLE_DEFINITION"}:
             vocab_bad.add(loc)
     for f in ids_rep.get("findings", []):
-        m = re.search(r"/s(\d{2})-", f["file"])
-        if m:
-            ids_bad.add(f"S{int(m.group(1)):02d}")
+        slug = numbering.slug_for_section_file(f.get("file", ""), ROOT)
+        if slug:
+            ids_bad.add(slug)
 
     runtime_clean = runtime.get("ok") is True
-    redaction_applied = set(
-        load(ROOT / "audit/fixer/redaction_applied.json", {}).get("sections", []))
+    redaction_applied = numbering.redacted_slugs(ROOT, epoch)
+    cycles = numbering.cycle_records(ROOT, epoch)
 
     rows, done_counts = [], {k: 0 for k, _ in STEPS}
 
-    for i, slug in enumerate(slugs, 1):
-        tag = f"S{i:02d}"
-        cycle = load(ROOT / f"audit/fixer/cycles/{tag}.json", None)
+    for number, slug in enumerate(epoch.slugs, 1):
+        tag = numbering.tag_of(number)
+        cycle = cycles.get(slug)
         total = len({f["finding_id"] for f in registry
                      if f["section"] == tag and f["finding_id"]})
         closed = len(cycle["findings_closed"]) if cycle else 0
@@ -90,7 +96,7 @@ def main() -> int:
         # so this column read 8/52 in the worktree holding those artefacts and 0/52 in CI, and
         # `--check` could never pass there. A ledger whose number depends on untracked state is the
         # dead-measure shape wearing the campaign's own badge. The evidence is committed now.
-        redacted = tag in redaction_applied
+        redacted = slug in redaction_applied
         p = prose.get(tag, {})
 
         state = {
@@ -99,7 +105,7 @@ def main() -> int:
             "concepts": False,   # judged per section; no automatic proxy yet
             "figures": figures.get(slug, 0) >= 2,
             "vocab": slug not in vocab_bad,
-            "ids": tag not in ids_bad,
+            "ids": slug not in ids_bad,
             "runtime": runtime_clean,
         }
         for k, v in state.items():
@@ -114,7 +120,7 @@ def main() -> int:
          "`python3 tools/fixer/ledger.py`; `--check` fails if it is stale.", "",
          "| step | meaning | done |", "|---|---|---:|"]
     for k, meaning in STEPS:
-        L.append(f"| `{k}` | {meaning} | {done_counts[k]}/52 |")
+        L.append(f"| `{k}` | {meaning} | {done_counts[k]}/{epoch.count} |")
     L += ["", "## Sections", "",
           "| sec | findings | figs | run-ons | " + " | ".join(k for k, _ in STEPS) + " |",
           "|---|---|---:|---:|" + "---|" * len(STEPS)]
@@ -152,7 +158,7 @@ def main() -> int:
     OUT.write_text(text, encoding="utf-8")
     print(f"wrote {OUT.relative_to(ROOT)}")
     for k, _ in STEPS:
-        print(f"  {k:10s} {done_counts[k]:2d}/52")
+        print(f"  {k:10s} {done_counts[k]:2d}/{epoch.count}")
     return 0
 
 

@@ -3,36 +3,36 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import numbering  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
-CYCLES = ROOT / "audit/fixer/cycles"
 
 
 def main() -> None:
+    epoch = numbering.load_epoch(ROOT)
     reg = json.loads((ROOT / "audit/consolidated/registry.json").read_text(encoding="utf-8"))
     findings = reg["findings"]
     per_section: dict[str, list] = {}
     for f in findings:
         per_section.setdefault(f["section"], []).append(f)
 
-    done, questions, total_closed = [], 0, 0
-    for i in range(1, 53):
-        tag = f"S{i:02d}"
-        c = CYCLES / f"{tag}.json"
-        if not c.exists():
-            continue
-        d = json.loads(c.read_text(encoding="utf-8"))
-        done.append(d)
-        total_closed += len(d["findings_closed"])
-        questions += len(d["unresolved_questions"])
+    # Records in course order, each read through its slug; a record that cannot be placed refuses the read.
+    records = numbering.cycle_records(ROOT, epoch)
+    done = [records[slug] for slug in epoch.slugs if slug in records]
+    total_closed = sum(len(d["findings_closed"]) for d in done)
+    questions = sum(len(d["unresolved_questions"]) for d in done)
 
     remaining = sum(len(v) for k, v in per_section.items()
                     if k not in {d["section"] for d in done})
 
-    print(f"sections fixed : {len(done)}/52")
+    print(f"sections fixed : {len(done)}/{epoch.count}")
     print(f"findings closed: {total_closed}")
-    print(f"findings left  : ~{remaining} across {52 - len(done)} untouched sections")
+    print(f"findings left  : ~{remaining} across {epoch.count - len(done)} untouched sections")
     print(f"questions open : {questions}")
     print()
     print(f"{'sec':5s} {'closed':>7s} {'open':>5s} {'rej':>4s} {'Qs':>3s}")
