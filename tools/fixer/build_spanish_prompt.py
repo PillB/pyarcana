@@ -15,6 +15,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/fixer"))
 
+from false_claims import brief_block as false_claims_block  # noqa: E402
+
 
 def main() -> int:
     tag = sys.argv[1]
@@ -113,7 +115,8 @@ understand it, and does every backticked word really appear in the code? Revise,
 
 ===== DISTILLED WRITING RULES (binding) =====
 {rules}
-""")
+
+{false_claims_block()}""")
     return 0
 
 

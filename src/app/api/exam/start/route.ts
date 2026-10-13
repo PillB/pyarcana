@@ -16,8 +16,12 @@ import {
   nextAttemptNumber,
   redactAttemptsForLearner,
   submissionDeadline,
-  toFormItem,
+  toLearnerQuestion,
+  InvalidBankRow,
+  type FormItem,
 } from '@/lib/exam-scoring'
+import { drawOnePerConcept, presentQuestion } from '@/lib/exam-draw'
+import { secureRandomInt } from '@/lib/exam-rng'
 import type { ExamAttempt, QuestionBank } from '@prisma/client'
 
 const startSchema = z.object({
@@ -83,9 +87,22 @@ export async function POST(request: Request) {
         select: { answers: true },
       })
     )
-    const { selectedQuestions, variantSeed } = drawOnePerConcept(allQuestions, existingAttempts, seenKeys)
+    const { selectedQuestions, variantSeed } = drawOnePerConcept(
+      allQuestions,
+      existingAttempts,
+      seenKeys,
+      secureRandomInt
+    )
     // An attempt that has to include one of them is taken and graded, but is not evidence.
     const exposedItems = selectedQuestions.filter((q) => seenKeys.has(itemKey(q.concept, q.variant))).length
+
+    // The questions as this attempt shows them, options in an order drawn for it, with their key.
+    // Built before the attempt exists, so a bank row that cannot be shown uses up no attempt; and
+    // one object feeds both the saved form and the response, so the two cannot disagree.
+    const items = presentDrawn(selectedQuestions)
+    if (!items) {
+      return NextResponse.json({ error: 'Error interno' }, { status: 500 })
+    }
 
     // Create the attempt record (started, not completed), with the questions exactly as shown
     // and their key, which submit grades against.
@@ -98,23 +115,18 @@ export async function POST(request: Request) {
         score: 0,
         variantSeed: JSON.stringify(variantSeed),
         exposedItems,
-        form: { create: { items: JSON.stringify(selectedQuestions.map(toFormItem)) } },
+        form: { create: { items: JSON.stringify(items) } },
       },
     })
 
     void syncExamAttempt(attempt)
 
-    // Return questions (without answers) + attempt ID
+    // The questions as shown, without key, concept or option order, + attempt ID
     return NextResponse.json({
       attemptId: attempt.id,
       // The position among counted attempts, which is what "Intento n de 3" means to the learner.
       attemptNumber: counted.length + 1,
-      questions: selectedQuestions.map((q) => ({
-        id: q.id,
-        concept: q.concept,
-        question: q.question,
-        options: JSON.parse(q.options),
-      })),
+      questions: items.map(toLearnerQuestion),
       totalAttemptsAllowed: MAX_EXAM_ATTEMPTS,
       attemptsUsed: counted.length,
       timeLimitSec: EXAM_TIME_LIMIT_SEC,
@@ -147,6 +159,20 @@ async function closeExpiredAttempts(attempts: ExamAttempt[], now: Date): Promise
   return attempts.map((a) => closed.find((c) => c.id === a.id) ?? a)
 }
 
+/**
+ * The drawn questions as this attempt shows them, or null when a bank row cannot be shown. The
+ * row's id goes to the log, so the bank can be fixed; the learner gets a 500 and uses up nothing.
+ */
+function presentDrawn(selected: QuestionBank[]): FormItem[] | null {
+  try {
+    return selected.map((q) => presentQuestion(q, secureRandomInt))
+  } catch (error) {
+    if (!(error instanceof InvalidBankRow)) throw error
+    console.error(`Exam start: bank row ${error.questionId} cannot be shown:`, error.message)
+    return null
+  }
+}
+
 /** The section's bank under all its ids, one copy of each (concept, variant). */
 async function loadSectionBank(sectionId: string, aliases: string[]): Promise<QuestionBank[]> {
   // Get all questions for this section from the bank
@@ -161,61 +187,4 @@ async function loadSectionBank(sectionId: string, aliases: string[]): Promise<Qu
     if (!byKey.has(key) || q.sectionId === sectionId) byKey.set(key, q)
   }
   return Array.from(byKey.values())
-}
-
-/**
- * One question per concept, in shuffled order. Per concept it prefers, in turn: a variant whose key
- * the learner never saw and that no earlier attempt drew; one whose key they never saw; one no
- * earlier attempt drew; any. A key seen before the fix is worse than a variant met again without
- * it, so reuse comes before exposure.
- */
-function drawOnePerConcept(allQuestions: QuestionBank[], earlier: ExamAttempt[], seenKeys: Set<string>) {
-  // Group questions by concept.
-  // V3 exam model: N concepts × 1 variant per attempt (full sections: N=8).
-  // Question count is dynamic — not hardcoded. Expanding the seed/bank to more
-  // concepts automatically yields more questions without changing this sampler.
-  const byConcept = new Map<string, QuestionBank[]>()
-  for (const q of allQuestions) {
-    if (!byConcept.has(q.concept)) byConcept.set(q.concept, [])
-    byConcept.get(q.concept)!.push(q)
-  }
-
-  // For each concept, select ONE variant randomly, avoiding variants used in previous attempts
-  const usedVariants = new Set<string>()
-  for (const att of earlier) {
-    try {
-      const seed = JSON.parse(att.variantSeed) as { concept: string; variant: number }[]
-      for (const s of seed) usedVariants.add(`${s.concept}-${s.variant}`)
-    } catch {}
-  }
-
-  const selectedQuestions: QuestionBank[] = []
-  const variantSeed: { concept: string; variant: number; questionId: string }[] = []
-
-  // One question per distinct concept present in the bank for this section
-  for (const [concept, variants] of byConcept.entries()) {
-    // Filter out already-used variants for this concept, and variants whose key was seen
-    const fresh = (list: QuestionBank[]) =>
-      list.filter((v) => !usedVariants.has(`${concept}-${v.variant}`))
-    const unseen = variants.filter((v) => !seenKeys.has(itemKey(concept, v.variant)))
-
-    // If all variants used (after 3 attempts), reset to allow reuse; exposure is the last resort
-    const available = [fresh(unseen), unseen, fresh(variants), variants].find((t) => t.length > 0)!
-
-    // Random selection
-    const selected = available[Math.floor(Math.random() * available.length)]
-    selectedQuestions.push(selected)
-    variantSeed.push({
-      concept: selected.concept,
-      variant: selected.variant,
-      questionId: selected.id,
-    })
-  }
-
-  // Shuffle question order (anti-cheating)
-  for (let i = selectedQuestions.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[selectedQuestions[i], selectedQuestions[j]] = [selectedQuestions[j], selectedQuestions[i]]
-  }
-  return { selectedQuestions, variantSeed }
 }

@@ -31,6 +31,9 @@ SANCTIONED = {
     "tests/adversarial/test_apply_patches_validates_touched_files.py",
     "tests/adversarial/test_exam_bank_loader.py",
     "tests/adversarial/test_seed_readers.py",
+    # The known-false-claims scan: reads the bank through readQuestionBank.
+    "scripts/lib/false_claims.mts",
+    "tests/adversarial/known-false-claims.test.ts",
 }
 
 #: Still reading the bank with a private parser. Strike each one as it moves to exam_bank.py.

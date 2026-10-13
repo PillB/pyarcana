@@ -134,7 +134,8 @@ before(async () => {
   ;({ GET: getProgress } = await import('../../src/app/api/progress/route.ts'))
 })
 
-// Two sections, 8 concepts x 3 variants each, as prisma/seed.ts builds the bank.
+// Two sections, 8 concepts x 3 variants each, as prisma/seed.ts builds the bank. Every question's
+// options are its own text, so options moved from one question to another cannot go unnoticed.
 function bank(sectionId: string, idPrefix = sectionId): Row[] {
   return Array.from({ length: 24 }, (_, n) => {
     const concept = Math.floor(n / 3)
@@ -145,7 +146,7 @@ function bank(sectionId: string, idPrefix = sectionId): Row[] {
       concept: `concept-${concept}`,
       variant,
       question: `${sectionId} question ${concept}.${variant}`,
-      options: JSON.stringify(['A', 'B', 'C', 'D']),
+      options: JSON.stringify(['a', 'b', 'c', 'd'].map((o) => `${concept}.${variant}:${o}`)),
       correctIndex: (concept + variant) % 4,
       explanation: `why ${concept}.${variant}`,
     }
@@ -183,7 +184,16 @@ const graded = (id: string, n: number, variant: number, extra: Row = {}) =>
   attempt(id, n, variant, { completedAt: minutesAgo(30), score: 60, gradingVersion: 1, ...extra })
 
 const question = (id: string) => store.questions.find((q) => q.id === id)!
+const bankOptions = (id: string) => JSON.parse(question(id).options as string) as string[]
+/** The text of the option the bank marks correct. */
+const keyText = (id: string) => bankOptions(id)[question(id).correctIndex as number]!
+/** By the bank's index: right only for an attempt shown in stored order (one without a form). */
 const right = (id: string) => ({ questionId: id, selectedIndex: question(id).correctIndex as number })
+/** What a learner who knows the answer picks: the key's text, wherever this attempt shows it. */
+const rightAsShown = (q: Row) => ({
+  questionId: q.id as string,
+  selectedIndex: (q.options as string[]).indexOf(keyText(q.id as string)),
+})
 const wrong = (id: string) => ({
   questionId: id,
   selectedIndex: ((question(id).correctIndex as number) + 1) % 4,
@@ -272,7 +282,14 @@ describe('exam/submit grades the questions the attempt drew', () => {
       answers.map((a, n) => [a.selectedIndex, n < 6])
     )
     assert.equal(body.detailedAnswers[0].question, 'setup question 5.1')
-    assert.deepEqual(body.detailedAnswers[0].options, ['A', 'B', 'C', 'D'])
+    // An attempt without a form was shown its options in stored order, and is graded in it.
+    assert.deepEqual(body.detailedAnswers[0].options, ['5.1:a', '5.1:b', '5.1:c', '5.1:d'])
+    // Exactly these fields reach the learner: not the key, not the explanation, and not the
+    // concept or variant. A concept slug names the key in banks whose key contains it (S12 and
+    // S13), so sending it after attempt 1 handed out attempts 2 and 3.
+    for (const a of body.detailedAnswers) {
+      assert.deepEqual(Object.keys(a).sort(), ['correct', 'options', 'question', 'questionId', 'selectedIndex'])
+    }
 
     // The graded row reaches the mirror, which strips the key from it (firebase-mirror.test.ts).
     assert.deepEqual(mirrored.map((r) => [r.id, r.score]), [['att-1', 75]])
@@ -285,6 +302,8 @@ describe('exam/submit grades the questions the attempt drew', () => {
     const saved = JSON.parse(row.answers as string)
     assert.equal(saved.length, 8)
     assert.equal(saved[0].correctIndex, question('setup-c5-v1').correctIndex)
+    // ...and the concept and variant, which the next draw reads to avoid repeating an item.
+    assert.deepEqual([saved[0].concept, saved[0].variant], ['concept-5', 1])
   })
 
   it('refuses with 409 an attempt whose draw cannot be read, rather than grading the ids sent', async () => {
@@ -353,6 +372,21 @@ describe('the answer key never reaches the learner', () => {
     }
   })
 
+  it('names no concept anywhere a learner reads: start, submit, exam/attempts, progress', async () => {
+    // The concept slug names the key in banks whose key contains it (S12 and S13), so every
+    // learner-facing representation must omit it - including the attempt's variantSeed, which
+    // maps each drawn question to its concept (Codex P1 on #91).
+    const bodies: unknown[] = []
+    bodies.push((await post('att-1', drawn(1).map(wrong))).body)
+    bodies.push(await listed())
+    bodies.push(await (await getProgress()).json())
+    store.attempts = []
+    bodies.push((await startExam()).body)
+    bodies.push(await listed())
+    const leaks = bodies.map((b) => JSON.stringify(b)).filter((s) => /concept-\d/.test(s))
+    assert.deepEqual(leaks.map((s) => s.match(/.{40}concept-\d.{20}/)?.[0]), [])
+  })
+
   it("is absent from exam/start's refusal at the attempt cap", async () => {
     const withKey = JSON.stringify([
       { questionId: 'setup-c0-v1', correctIndex: 1, explanation: 'x', correct: false },
@@ -375,13 +409,21 @@ describe('exam/start keeps the questions as shown, and submit grades against the
     assert.equal(body.timeLimitSec, 3600)
     const items = JSON.parse(store.forms.find((f) => f.attemptId === body.attemptId)!.items as string)
     assert.deepEqual(items.map((i: Row) => i.questionId), body.questions.map((q: Row) => q.id))
-    assert.ok(items.every((i: Row) => i.correctIndex === question(i.questionId as string).correctIndex))
+    // Each question keeps its own options and its key's text; only their order is the attempt's,
+    // and the form records it, so what was shown can be traced back to the bank.
+    items.forEach((i: { questionId: string; options: string[]; correctIndex: number; optionOrder: number[] }, k: number) => {
+      const stored = bankOptions(i.questionId)
+      assert.equal(i.options[i.correctIndex], keyText(i.questionId), i.questionId)
+      assert.deepEqual([...i.options].sort(), [...stored].sort(), i.questionId)
+      assert.deepEqual(i.options, i.optionOrder.map((n) => stored[n]), i.questionId)
+      assert.deepEqual(body.questions[k].options, i.options, 'the learner sees the form as saved')
+    })
   })
 
   it('grades against the form after the bank is reseeded with new ids and moved keys', async () => {
     store.attempts = []
     const { body } = await startExam()
-    const answers = body.questions.map((q: Row) => right(q.id as string))
+    const answers = body.questions.map(rightAsShown)
     // prisma/seed.ts deletes the bank and recreates it: new ids, and here every key moves too.
     store.questions = bank('setup', 'reseeded').map((q) => ({
       ...q,
@@ -396,9 +438,71 @@ describe('exam/start keeps the questions as shown, and submit grades against the
     store.attempts = []
     const { body } = await startExam()
     store.forms.find((f) => f.attemptId === body.attemptId)!.items = '{"broken"'
-    const res = await post(body.attemptId, body.questions.map((q: Row) => right(q.id as string)))
+    const res = await post(body.attemptId, body.questions.map(rightAsShown))
     assert.equal(res.status, 409)
     assert.equal(stored(body.attemptId).completedAt, null)
+  })
+})
+
+describe('exam/start shows each attempt its own option order (owner decision O20)', () => {
+  const answerB = (q: Row) => ({ questionId: q.id as string, selectedIndex: 1 })
+
+  it('a bank with every key at B is not passed by answering B throughout', async () => {
+    // 31 banks in prisma/seed.ts are keyed this way; in stored order this strategy scores 100.
+    store.questions = bank('setup').map((q) => ({ ...q, correctIndex: 1 }))
+    const scores: number[] = []
+    for (let n = 0; n < 200; n++) {
+      store.attempts = []
+      store.forms = []
+      const { body } = await startExam()
+      const res = await post(body.attemptId, body.questions.map(answerB))
+      assert.equal(res.status, 200)
+      scores.push(res.body.score)
+    }
+    // A uniform shuffle leaves the key at B a quarter of the time: the mean is 25 (sd about 1.1).
+    const mean = scores.reduce((sum, s) => sum + s, 0) / scores.length
+    assert.ok(mean < 50, `mean score ${mean} over ${scores.length} attempts`)
+  })
+
+  it('a learner who picks the key scores 100, and the questions carry nothing but what is shown', async () => {
+    store.attempts = []
+    const { status, body } = await startExam()
+    assert.equal(status, 200)
+    // No concept (in two banks its slug is part of every key) and no option order.
+    for (const q of body.questions) assert.deepEqual(Object.keys(q).sort(), ['id', 'options', 'question'])
+    const res = await post(body.attemptId, body.questions.map(rightAsShown))
+    assert.equal(res.status, 200)
+    assert.equal(res.body.score, 100)
+  })
+
+  const unshowable: Array<[string, Row]> = [
+    ['options that are not JSON', { options: '{broken' }],
+    ['a single option', { options: JSON.stringify(['only']) }],
+    ['options that are not strings', { options: JSON.stringify([1, 2, 3, 4]) }],
+    ['a key past the last option', { correctIndex: 4 }],
+    ['a negative key', { correctIndex: -1 }],
+  ]
+  for (const [label, broken] of unshowable) {
+    it(`answers 500 for a bank row with ${label}, and uses up no attempt`, async (t) => {
+      const logged = t.mock.method(console, 'error', () => {})
+      store.attempts = []
+      // Every variant of one concept, so the draw cannot avoid it.
+      store.questions = bank('setup').map((q) => (q.concept === 'concept-3' ? { ...q, ...broken } : q))
+      const { status } = await startExam()
+      assert.equal(status, 500)
+      assert.deepEqual([store.attempts.length, store.forms.length, mirrored.length], [0, 0, 0])
+      // The log names the row, so the bank can be fixed.
+      const text = logged.mock.calls.map((c) => c.arguments.map(String).join(' ')).join('\n')
+      assert.match(text, /setup-c3-v[123]/)
+    })
+  }
+
+  it('answers 404 for a section with no bank, and uses up no attempt', async () => {
+    store.attempts = []
+    store.questions = bank('basics')
+    const { status } = await startExam()
+    assert.equal(status, 404)
+    assert.equal(store.attempts.length, 0)
   })
 })
 
@@ -513,7 +617,7 @@ describe('questions whose key the learner saw before the fix', () => {
     const { body } = await startExam()
     assert.equal(body.exposedItems, 8)
     assert.equal(body.attemptsUsed, 0)
-    const res = await post(body.attemptId, body.questions.map((q: Row) => right(q.id as string)))
+    const res = await post(body.attemptId, body.questions.map(rightAsShown))
     assert.equal(res.status, 200)
     assert.equal(res.body.score, 100)
 
