@@ -362,10 +362,12 @@ export function redactStoredAnswers(stored: string): string {
  * `legacy` on an attempt graded before GRADING_VERSION, which the page lists but does not count
  * toward the 3, and `evidence` (isEvidence), which says whether its score counts.
  */
-export function redactAttemptsForLearner<T extends GradingFields & { answers: string }>(
-  rows: T[]
-): Array<T & { legacy: boolean; evidence: boolean }> {
-  return rows.map((r) => ({
+export function redactAttemptsForLearner<
+  T extends GradingFields & { answers: string; variantSeed?: string | null },
+>(rows: T[]): Array<Omit<T, 'variantSeed'> & { legacy: boolean; evidence: boolean }> {
+  // variantSeed maps each drawn question to its concept, and a concept slug names the key in
+  // banks whose key contains it; the learner needs none of it (the draw reads it server-side).
+  return rows.map(({ variantSeed: _seed, ...r }) => ({
     ...r,
     answers: redactStoredAnswers(r.answers),
     legacy: isLegacyAttempt(r),

@@ -372,6 +372,21 @@ describe('the answer key never reaches the learner', () => {
     }
   })
 
+  it('names no concept anywhere a learner reads: start, submit, exam/attempts, progress', async () => {
+    // The concept slug names the key in banks whose key contains it (S12 and S13), so every
+    // learner-facing representation must omit it - including the attempt's variantSeed, which
+    // maps each drawn question to its concept (Codex P1 on #91).
+    const bodies: unknown[] = []
+    bodies.push((await post('att-1', drawn(1).map(wrong))).body)
+    bodies.push(await listed())
+    bodies.push(await (await getProgress()).json())
+    store.attempts = []
+    bodies.push((await startExam()).body)
+    bodies.push(await listed())
+    const leaks = bodies.map((b) => JSON.stringify(b)).filter((s) => /concept-\d/.test(s))
+    assert.deepEqual(leaks.map((s) => s.match(/.{40}concept-\d.{20}/)?.[0]), [])
+  })
+
   it("is absent from exam/start's refusal at the attempt cap", async () => {
     const withKey = JSON.stringify([
       { questionId: 'setup-c0-v1', correctIndex: 1, explanation: 'x', correct: false },
