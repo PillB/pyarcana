@@ -38,7 +38,6 @@ SANCTIONED = {
 
 #: Still reading the bank with a private parser. Strike each one as it moves to exam_bank.py.
 SEED_TEXT_READERS_OWED = {
-    "scripts/exam_selfcheck_pedagogy_audit.py",
     "scripts/v3_invariant_validator.py",
     "tests/adversarial/s05_curriculum_integrity.test.mjs",
     "tests/adversarial/test_s01_independent_recovery.py",

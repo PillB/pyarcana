@@ -8,8 +8,9 @@ from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
+import exam_bank
+
 ROOT = Path(__file__).resolve().parents[1]
-SEED = ROOT / "prisma/seed.ts"
 SECTIONS = ROOT / "src/lib/course/sections"
 OUT = ROOT / "course-state/exam_selfcheck_pedagogy_report.json"
 
@@ -141,47 +142,13 @@ def _find_key_int(text: str, key: str, start: int, end: int | None = None) -> tu
     return int(m.group(1)), start + m.end()
 
 
-def parse_seed_questions(text: str) -> list[dict]:
-    """Parse question objects in seed.ts with string-aware options arrays."""
-    qs: list[dict] = []
-    for m in re.finditer(r"\bconcept\s*:\s*", text):
-        start = m.start()
-        concept_got = _find_key_string(text, "concept", start, start + 80)
-        if concept_got is None:
-            continue
-        concept, pos = concept_got
-        # Bound the object: next concept or a reasonable window
-        next_concept = re.search(r"\bconcept\s*:\s*", text[pos : pos + 4000])
-        obj_end = pos + (next_concept.start() if next_concept else 4000)
+def seed_questions() -> list[dict]:
+    """Every question of every bank, read by the TypeScript parser through scripts/exam_bank.py.
 
-        q_got = _find_key_string(text, "question", pos, obj_end)
-        if q_got is None:
-            continue
-        question, pos = q_got
-
-        opts_got = _find_key_array(text, "options", pos, obj_end)
-        if opts_got is None:
-            continue
-        options, pos = opts_got
-
-        ci_got = _find_key_int(text, "correctIndex", pos, obj_end)
-        if ci_got is None:
-            continue
-        correct_index, pos = ci_got
-
-        exp_got = _find_key_string(text, "explanation", pos, obj_end)
-        explanation = exp_got[0] if exp_got else ""
-
-        qs.append(
-            {
-                "concept": concept,
-                "question": question[:120],
-                "options": options,
-                "correctIndex": correct_index,
-                "explanation": explanation[:80],
-            }
-        )
-    return qs
+    The regex parser this replaced could not see a key's quote style, and it turned an escaped
+    newline inside one question into a plain letter. Nothing here truncates a field.
+    """
+    return [q for bank in exam_bank.load_banks() for q in bank["questions"]]
 
 
 def parse_selfchecks() -> list[dict]:
@@ -257,8 +224,7 @@ def parse_selfchecks() -> list[dict]:
 
 
 def main() -> int:
-    seed_text = SEED.read_text(encoding="utf-8", errors="replace")
-    qs = parse_seed_questions(seed_text)
+    qs = seed_questions()
     issues: list[dict] = []
     by_concept = Counter(q["concept"] for q in qs)
     for q in qs:
