@@ -101,8 +101,8 @@ class TestS09ObservabilityContract(unittest.TestCase):
 
     def test_pdf_label_matches_exceptions_scope(self) -> None:
         pdf = PDF_REPORT.read_text(encoding="utf-8")
-        self.assertIn('"exceptions-logging": \'9. Excepciones\'', pdf)
-        self.assertNotIn('"exceptions-logging": \'9. Viz\'', pdf)
+        self.assertIn('"exceptions-logging": \'Excepciones\'', pdf)
+        self.assertNotIn('"exceptions-logging": \'Viz\'', pdf)
 
     def test_authenticated_bank_balances_positions_and_attempts(self) -> None:
         seed = SEED.read_text(encoding="utf-8")

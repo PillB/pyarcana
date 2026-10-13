@@ -143,8 +143,8 @@ class TestSection02IndependentContract(unittest.TestCase):
 
     def test_pdf_label_matches_the_visible_spanish_identity(self) -> None:
         pdf = PDF_REPORT.read_text(encoding="utf-8")
-        self.assertIn("basics: '2. Valores y tipos'", pdf)
-        self.assertNotIn("basics: '2. Basics'", pdf)
+        self.assertIn("basics: 'Valores y tipos'", pdf)
+        self.assertNotIn("basics: 'Basics'", pdf)
 
     def test_authenticated_bank_is_balanced_by_concept_and_attempt(self) -> None:
         seed = SEED.read_text(encoding="utf-8")

@@ -29,8 +29,8 @@ class Section04IndependentContractTests(unittest.TestCase):
         self.assertIn('id: "iteration-summaries"', lesson)
         self.assertIn('index: 4', lesson)
         self.assertIn('title: "Iteración y resúmenes transaccionales"', lesson)
-        self.assertIn('"iteration-summaries": \'4. Iteración\'', pdf)
-        self.assertNotIn('"iteration-summaries": \'4. Functions\'', pdf)
+        self.assertIn('"iteration-summaries": \'Iteración\'', pdf)
+        self.assertNotIn('"iteration-summaries": \'Functions\'', pdf)
 
     def test_playground_is_section_owned_and_output_is_executable(self) -> None:
         source = SECTION_VIEW.read_text(encoding="utf-8")

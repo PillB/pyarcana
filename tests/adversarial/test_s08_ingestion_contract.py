@@ -155,8 +155,8 @@ class TestS08IngestionContract(unittest.TestCase):
 
     def test_pdf_label_matches_files_and_etl_scope(self) -> None:
         pdf = PDF_REPORT.read_text(encoding="utf-8")
-        self.assertIn('"files-ingestion": \'8. Archivos & ETL\'', pdf)
-        self.assertNotIn('"files-ingestion": \'8. Pandas\'', pdf)
+        self.assertIn('"files-ingestion": \'Archivos & ETL\'', pdf)
+        self.assertNotIn('"files-ingestion": \'Pandas\'', pdf)
 
 
 if __name__ == "__main__":

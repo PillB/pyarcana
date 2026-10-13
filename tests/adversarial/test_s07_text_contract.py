@@ -118,8 +118,8 @@ class TestS07TextContract(unittest.TestCase):
         self.assertNotIn("Counter", mapping)
 
         pdf = PDF_REPORT.read_text(encoding="utf-8")
-        self.assertIn("\"text-unicode-regex\": '7. Texto & Unicode'", pdf)
-        self.assertNotIn("\"text-unicode-regex\": '7. Data Acq'", pdf)
+        self.assertIn("\"text-unicode-regex\": 'Texto & Unicode'", pdf)
+        self.assertNotIn("\"text-unicode-regex\": 'Data Acq'", pdf)
 
 
 if __name__ == "__main__":
