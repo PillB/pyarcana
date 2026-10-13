@@ -267,12 +267,11 @@ def main() -> int:
     # prerequisites - the audits already named many of these gaps in their own words.
     VOCAB = ("WIDOW", "TERM", "PREREQUISITE", "FUTURE_KNOWLEDGE", "JARGON", "UNDEFINED",
              "UNEXPLAINED", "ACRONYM", "OUTCOME_NOT_TAUGHT", "VOCAB", "GLOSS", "DEFIN")
-    registry = json.loads((ROOT / "audit/consolidated/registry.json").read_text(encoding="utf-8"))["findings"]
+    registry = numbering.registry_findings(ROOT, epoch)[slug]
     audit_findings = [
         {k: f.get(k) for k in ("finding_id", "severity", "category", "title", "evidence", "fix")}
         for f in registry
-        if f["section"] == tag and any(v in (f.get("category") or "").upper() + (f.get("title") or "").upper()
-                                       for v in VOCAB)
+        if any(v in (f.get("category") or "").upper() + (f.get("title") or "").upper() for v in VOCAB)
     ][:25]
 
     print(f"""You are teaching the concepts that PyArcana section {tag} ("{slug}") currently uses

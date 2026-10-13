@@ -54,7 +54,7 @@ def main() -> int:
             raise SystemExit("the course's section order disagrees with the numbering epoch; "
                              "run tools/fixer/numbering.py to see where")
 
-    registry = load(ROOT / "audit/consolidated/registry.json", {"findings": []})["findings"]
+    registry = numbering.registry_findings(ROOT, epoch)
     first_use = load(ROOT / "course-state/first_use_all_report.json", {"issues": []})
     ids_rep = load(ROOT / "course-state/synthetic_identifier_report.json", {"findings": []})
     prose = load(ROOT / "course-state/prose_quality_report.json", {})
@@ -89,8 +89,7 @@ def main() -> int:
     for number, slug in enumerate(epoch.slugs, 1):
         tag = numbering.tag_of(number)
         cycle = cycles.get(slug)
-        total = len({f["finding_id"] for f in registry
-                     if f["section"] == tag and f["finding_id"]})
+        total = len({f["finding_id"] for f in registry[slug] if f["finding_id"]})
         closed = len(cycle["findings_closed"]) if cycle else 0
         # 2026-10-03: was `(ROOT / f".fixer/{tag}r.result.json").exists()`. `.fixer/` is gitignored,
         # so this column read 8/52 in the worktree holding those artefacts and 0/52 in CI, and

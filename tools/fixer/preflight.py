@@ -113,12 +113,14 @@ def snapshot_dirty() -> None:
 
 
 def check_registry() -> None:
-    reg = ROOT / "audit/consolidated/registry.json"
-    if not reg.exists():
-        problems.append("audit/consolidated/registry.json missing - nothing to fix from")
+    """The findings exist and are numbered under the current epoch. Read through numbering, like every reader."""
+    try:
+        held = sum(len(found) for found in numbering.registry_findings(ROOT).values())
+    except numbering.NumberingError as e:
+        if str(e) not in problems:    # check_numbering reports a stamp problem first; say it once
+            problems.append(str(e))
         return
-    n = len(json.loads(reg.read_text(encoding="utf-8"))["findings"])
-    notes.append(f"registry holds {n} findings")
+    notes.append(f"registry holds {held} findings, numbered under the current epoch")
 
 
 def main() -> int:

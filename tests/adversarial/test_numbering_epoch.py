@@ -13,64 +13,17 @@ one edit to numbering.py (for example, make `resolve` return an unknown tag unch
 from __future__ import annotations
 
 import json
-import shutil
 import sys
-import tempfile
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/fixer"))
+sys.path.insert(0, str(ROOT / "tests/adversarial"))
 
 import numbering  # noqa: E402
 from numbering import NumberingError  # noqa: E402
-
-
-def write(root: Path, rel: str, text: str) -> None:
-    path = root / rel
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(text, encoding="utf-8")
-
-
-def build(root: Path, slugs=("alpha", "beta", "gamma"), label=None, roadmap_numbers=None,
-          course_order=None, index_fields=None, renames=None) -> None:
-    """A repository with one section file per slug, imported by index.ts in `course_order`.
-
-    Defaults are a consistent three-section course: epoch label 3, roadmap S1..S3, course order
-    equal to the epoch, and each section's `index` equal to its position."""
-    count = len(slugs)
-    epoch = {"numbering_epoch": count if label is None else label, "roadmap": "roadmap.md",
-             "sections": [{"number": i, "slug": s} for i, s in enumerate(slugs, 1)]}
-    write(root, "audit/fixer/numbering_epoch.json", json.dumps(epoch))
-    numbers = roadmap_numbers if roadmap_numbers is not None else range(1, count + 1)
-    write(root, "roadmap.md", "".join(f"### S{n} — Titulo {n}\n" for n in numbers))
-    for i, slug in enumerate(slugs, 1):
-        index_value = (index_fields or {}).get(slug, i)
-        write(root, f"src/lib/course/sections/s{i:02d}-{slug}.ts",
-              "export const section%d: CourseSection = {\n  id: '%s',\n  index: %s,\n  title: 'x',\n}\n"
-              % (i, slug, index_value))
-    order = course_order if course_order is not None else list(slugs)
-    imports = "".join(
-        f"import {{ section{slugs.index(s) + 1} }} from './sections/s{slugs.index(s) + 1:02d}-{s}'\n"
-        for s in order)
-    body = "".join(f"  section{slugs.index(s) + 1},\n" for s in order)
-    write(root, "src/lib/course/index.ts",
-          imports + "export const COURSE_SECTIONS: CourseSection[] = [\n" + body + "]\n")
-    pairs = renames or {}
-    rows = "".join(f"  '{old}': '{new}',\n" for old, new in pairs.items())
-    write(root, "src/lib/section-id-migrations.ts",
-          "export const SECTION_ID_RENAMES: Readonly<Record<string, string>> = {\n" + rows + "}\n")
-
-
-def cycle(root: Path, tag: str, **fields) -> None:
-    record = {"section": tag, "numbering_epoch": 3, "slug": fields.pop("slug", None), **fields}
-    write(root, f"audit/fixer/cycles/{tag}.json", json.dumps(record))
-
-
-class NumberingFixture(unittest.TestCase):
-    def setUp(self) -> None:
-        self.root = Path(tempfile.mkdtemp(prefix="pyarcana-numbering-"))
-        self.addCleanup(shutil.rmtree, self.root, True)
+from numbering_fixture import NumberingFixture, build, cycle, write  # noqa: E402
 
 
 class EpochAndTags(NumberingFixture):

@@ -28,6 +28,7 @@ SECTIONS_DIR = "src/lib/course/sections"
 RENAMES_FILE = "src/lib/section-id-migrations.ts"
 CYCLES_DIR = "audit/fixer/cycles"
 REDACTION_FILE = "audit/fixer/redaction_applied.json"
+REGISTRY_FILE = "audit/consolidated/registry.json"
 
 TAG = re.compile(r"[Ss](\d+)")
 ROADMAP_HEADING = re.compile(r"^### S(\d+) — ", re.M)
@@ -236,6 +237,56 @@ def redacted_slugs(root: Path = ROOT, epoch: Epoch | None = None) -> set[str]:
     return slugs
 
 
+def _read_registry(root: Path) -> dict:
+    path = root / REGISTRY_FILE
+    if not path.exists():
+        raise NumberingError(f"{REGISTRY_FILE} is missing: there are no findings to number")
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        raise NumberingError(f"{REGISTRY_FILE} is not valid JSON: {e}") from e
+    return data
+
+
+def registry_problems(registry: object, epoch: Epoch) -> list[str]:
+    """Why a parsed registry cannot be read under this epoch. Empty when it can.
+
+    A finding names its section by number, so the file as a whole must say which numbering those
+    numbers belong to, and it must be the current one. An unstamped registry would be read as current
+    and brief Codex with another section's findings the day a renumber moves the sections."""
+    findings = registry.get("findings") if isinstance(registry, dict) else None
+    if not isinstance(findings, list) or not all(isinstance(f, dict) for f in findings):
+        return [f"{REGISTRY_FILE} holds no list of findings"]
+    stamp = registry.get("numbering_epoch")
+    if stamp is None:
+        return [f"{REGISTRY_FILE} has no numbering_epoch: its findings name sections by number, and a "
+                f"number means nothing without the numbering it was written under"]
+    if stamp != epoch.label:
+        return [f"{REGISTRY_FILE} is keyed by epoch {stamp!r}, but the current epoch is {epoch.label}"]
+    tags = {tag_of(n) for n in range(1, epoch.count + 1)}
+    stray = sorted({str(f.get("section")) for f in findings} - tags)
+    if stray:
+        return [f"{REGISTRY_FILE} files findings under {stray[:5]}, which the epoch does not number"]
+    return []
+
+
+def registry_findings(root: Path = ROOT, epoch: Epoch | None = None) -> dict[str, list[dict]]:
+    """The registry's findings keyed by slug, every slug of the epoch present, in epoch order.
+
+    The one place the registry is read. A tool that wants a section's findings asks for its slug here
+    rather than filtering `f["section"] == tag`, which is right only while the tag still names the same
+    section."""
+    epoch = epoch or load_epoch(root)
+    registry = _read_registry(root)
+    problems = registry_problems(registry, epoch)
+    if problems:
+        raise NumberingError("; ".join(problems))
+    by_slug: dict[str, list[dict]] = {slug: [] for slug in epoch.slugs}
+    for finding in registry["findings"]:
+        by_slug[epoch.slugs[number_of_tag(finding["section"]) - 1]].append(finding)
+    return by_slug
+
+
 def check_epoch(root: Path = ROOT) -> list[str]:
     """Every way the epoch, the roadmap, the course and the fixer state disagree. Empty when they agree."""
     try:
@@ -244,6 +295,8 @@ def check_epoch(root: Path = ROOT) -> list[str]:
         order = course_order(root)
         cycle_records(root, epoch)
         redacted_slugs(root, epoch)
+        if (root / REGISTRY_FILE).exists():
+            registry_findings(root, epoch)
     except (NumberingError, json.JSONDecodeError) as e:
         return [str(e)]
     problems = []

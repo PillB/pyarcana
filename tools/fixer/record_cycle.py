@@ -66,8 +66,8 @@ def main() -> int:
     app = json.loads(applied.read_text(encoding="utf-8"))
     epoch = numbering.load_epoch(ROOT)
 
-    registry = json.loads((ROOT / "audit/consolidated/registry.json").read_text(encoding="utf-8"))
-    section_ids = {f["finding_id"] for f in registry["findings"] if f["section"] == tag and f["finding_id"]}
+    section = numbering.registry_findings(ROOT, epoch)[numbering.slug_for_tag(tag, epoch)]
+    section_ids = {f["finding_id"] for f in section if f["finding_id"]}
 
     sha = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
                          capture_output=True, text=True).stdout.strip()

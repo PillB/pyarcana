@@ -15,11 +15,9 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def main() -> None:
     epoch = numbering.load_epoch(ROOT)
-    reg = json.loads((ROOT / "audit/consolidated/registry.json").read_text(encoding="utf-8"))
-    findings = reg["findings"]
-    per_section: dict[str, list] = {}
-    for f in findings:
-        per_section.setdefault(f["section"], []).append(f)
+    # Findings by slug, through the registry's epoch stamp; tags below are only the display of those slugs.
+    by_slug = numbering.registry_findings(ROOT, epoch)
+    per_section = {numbering.tag_for_slug(slug, epoch): found for slug, found in by_slug.items()}
 
     # Records in course order, each read through its slug; a record that cannot be placed refuses the read.
     records = numbering.cycle_records(ROOT, epoch)
@@ -27,8 +25,7 @@ def main() -> None:
     total_closed = sum(len(d["findings_closed"]) for d in done)
     questions = sum(len(d["unresolved_questions"]) for d in done)
 
-    remaining = sum(len(v) for k, v in per_section.items()
-                    if k not in {d["section"] for d in done})
+    remaining = sum(len(found) for slug, found in by_slug.items() if slug not in records)
 
     print(f"sections fixed : {len(done)}/{epoch.count}")
     print(f"findings closed: {total_closed}")

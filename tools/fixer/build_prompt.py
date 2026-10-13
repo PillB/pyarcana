@@ -20,8 +20,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/fixer"))
 
 from false_claims import brief_block as false_claims_block  # noqa: E402
-REGISTRY = ROOT / "audit/consolidated/registry.json"
-EVENTS = ROOT / ".fixer/events.json"
+EVENTS =ROOT / ".fixer/events.json"
 FIRST_USE = ROOT / "course-state/first_use_all_report.json"
 CONTRACTS = [
     ROOT / "ReviewerFixer/Solarized Website Content Comprehension Auditor & Rewriter.md",
@@ -50,9 +49,10 @@ def main() -> None:
     payload = json.loads(EVENTS.read_text(encoding="utf-8"))
     path = section_file(slug)
 
-    findings = [f for f in json.loads(REGISTRY.read_text(encoding="utf-8"))["findings"]
-                if f["section"] == tag]
-    order = {"P0": 0, "P1": 1, "P2": 2, "UNSPEC": 3}
+    # By slug, through the registry's epoch stamp: a finding filed under "S20" is this section's only
+    # while the registry and the epoch agree on what S20 is.
+    findings = list(numbering.registry_findings(ROOT, epoch)[slug])
+    order ={"P0": 0, "P1": 1, "P2": 2, "UNSPEC": 3}
     findings.sort(key=lambda f: order.get(f["severity"], 9))
 
     # Vocabulary the learner has actually met before this section, and the gaps here.
