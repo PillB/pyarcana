@@ -300,16 +300,18 @@ Answered 2026-10-06, each the recommendation:
   deliverable for CP-N3-C (8c); model-based IPW as a worked example in S38 (18); one S36 exercise
   printing odds ratios (19); and the sense guard split into an alias rule and a body-prose rule (20).
 
-**Still open, asked before the renumber PR:** 4 (defer 2SLS and do-calculus), 9 (which roadmap is
-authoritative), 10 (homonym list), 11 (one learner notice; the certificado threshold becomes 55/55,
-which touches the progress document's legal constraints), 13 (amending `AGENTS.md` and
-`course_requirements.json`), 15 (parallel work).
+**Asked before the renumber PR, answered 2026-10-13 (see O22):** 4 (defer 2SLS and do-calculus), 9
+(which roadmap is authoritative), 10 (homonym list), 11 (one learner notice; the certificado
+threshold becomes 55/55, which touches the progress document's legal constraints), 13 (amending
+`AGENTS.md` and `course_requirements.json`), 15 (parallel work).
 
 **Retire when:** every item has landed or been superseded by a later decision.
 
 ### O20 — Exam banks: adopt the GLM lane's rewrites, shuffle per attempt, trim teaching not precision
 **Scope:** `prisma/seed.ts` QUESTION_BANK, the exam start route, the length-cue ratchet.
-**Status:** live, owed. Evidence: `audit/fixer/glm_exam_bank_review/`.
+**Status:** live, partly paid. Evidence: `audit/fixer/glm_exam_bank_review/`. Landed 2026-10-13:
+the 110 rewrites (#85), the per-attempt shuffle (#91), D21. Owed: the 8 redos with the S10 lesson
+lines, the reseed, the S12 and S13 banks.
 
 Answered 2026-10-07, each the recommendation:
 - **Content.** Land 110 of the GLM lane's 118 rewritten questions (S05, S08–S11; 0 wrong keys, 0
@@ -337,6 +339,77 @@ Answered 2026-10-07, each the recommendation:
 
 **Retire when:** the 110 and the 8 are on main and reseeded, the shuffle is live, D21 is recorded,
 and S12 and S13 have real banks.
+
+---
+
+## 2026-10-12 and 13 — the A/B/C fix plan, Gate B's carry-overs, and how work lands
+
+Asked while planning the fixes for review findings A1–A7, B8–B11 and C12–C13 (plan of 2026-10-12),
+and while closing Gate B. Each answer is the recommendation unless it says otherwise.
+
+### O21 — The A/B/C fix plan: four rulings
+**Scope:** the complexity gate, the S18 round (design step 0b-7), the self-checks. **Status:** live.
+
+Answered 2026-10-12:
+- **The Python complexity script.** The owner's `scripts/complexity_gate_py.py` is committed as the
+  owner wrote it, in its own commit; the fixes go on top in later commits (fail closed, a
+  per-function baseline, no skipped files). The agent never rewrites it in place of the original.
+- **How Python counts.** Like the TypeScript gate (ESLint's `complexity` rule; NIST SP 500-235
+  §4.1): `and`/`or`, conditional expressions and comprehension `if`s each add 1, and a nested def
+  is scored on its own. So the ceiling of 15 means the same thing in both languages. (mccabe and
+  ruff C901 count fewer.)
+- **Four more glossary hovers in the S18 round.** Correlation, train/test split, ROC-AUC and
+  StratifiedKFold carry the same defect as the p-value hover, so the same round fixes them, each
+  with a registry entry (KFC-006 to KFC-009) and a fact test.
+- **Self-checks.** Options shuffle on every attempt. Below 70% the learner sees the score and the
+  subtopics to revisit, with no key, no explanation and no per-question mark; at 70% or more, the
+  full review. Learners below 70 lose item-level feedback until they pass; that is the accepted cost.
+
+Landed: the self-checks (#90), the registry (#88). **Retire when:** the Python gate is on main and
+the S18 round has merged.
+
+### O22 — Gate B carry-overs: all six as recommended
+**Scope:** the renumber PR and its window (design of record §5). **Status:** live.
+
+Answered 2026-10-13, closing O19's open list:
+- **4.** Two-stage least squares and do-calculus are deferred: this renumber does not teach them.
+- **9.** The V3 roadmap is authoritative for section titles and order.
+- **10.** The homonym list as proposed in the design.
+- **11.** One learner notice when the course becomes 55 sections. The certificado de finalización
+  needs 55 of 55 from then on. Nothing already issued or earned is changed retroactively.
+- **13.** `AGENTS.md` and `course_requirements.json` are amended in the renumber PR, with the
+  numbering they describe. In `AGENTS.md` that is the first bullet under "## Invariants", which
+  reads «52 active sections, unique stable IDs; exercise IDs `Sxx-Ty-Z-En` stay present.» (named
+  by its text, because line numbers drift).
+- **15.** Work runs in parallel where the design allows it.
+
+**Retire when:** the renumber has merged to main and the learner notice is published.
+
+### O23 — Placeholder scaffolds for S19, S20 and S35
+**Scope:** the `curriculum/55` branch only. **Status:** live.
+
+Answered 2026-10-13: the renumber may land placeholder sections for S19, S20 and S35 so the numbering
+is whole while they are written, on `curriculum/55` only and behind guard G-13, which blocks merge to
+main and deploy while any placeholder is unwritten. A placeholder never reaches a learner.
+
+**Retire when:** S19, S20 and S35 are written and G-13 passes.
+
+### O24 — How work lands: merging, the owner's files, and two sign-offs
+**Scope:** every PR of the A/B/C plan and the renumber. **Status:** live.
+
+Answered 2026-10-13:
+- **Merging.** The agent merges its own PRs when CI is green and every review finding (Codex's
+  P1/P2 included) is fixed. The branch rule asks for one approving review, which the
+  owner's account cannot give to its own PRs, so these merges use the admin override. The owner
+  still sees the diff first where a decision says so (the copy PR below).
+- **The owner's uncommitted files.** The agent brings them in on branches, unchanged in their own
+  commit: `scripts/complexity_gate_py.py`, the two-line `AGENTS.md` edit, and the roadmap diff.
+- **#82's claim text.** Signed off as written.
+- **Copy that promises what does not exist (plan PR 13).** All three items: the "anti-plagio" exam
+  copy, the credential UI's promises, and the signed statement's "independent review". Codex
+  rewrites each to state what is true; the owner sees the diff before merge.
+
+**Retire when:** the renumber has merged to main.
 
 ---
 
