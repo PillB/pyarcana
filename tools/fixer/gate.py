@@ -33,7 +33,7 @@ CONTENT_PY = ROOT / ".venv-content/bin/python"
 
 def section_stem(tag: str) -> str:
     """The file stem of a tag's section (for example "s01-setup"), read from the committed epoch and course."""
-    return Path(numbering.section_rel(numbering.slug_for_tag(tag, numbering.load_epoch()))).stem
+    return Path(numbering.section_rel(numbering.slug_for_tag(tag, numbering.load_epoch(ROOT)), ROOT)).stem
 
 
 def sh(cmd: list[str], timeout: int = 1800) -> subprocess.CompletedProcess:
@@ -193,7 +193,7 @@ def assemble_measures(tag: str, cmap: dict, prose: dict, cs: dict, fu: dict, ids
     surprising_total = sum(len(c["surprising_uses"]) for c in cmap.values())
     here = sum(1 for c in cmap.values() for u in c["surprising_uses"] if u["section"] == tag)
     # By the section's own file, not its number prefix: "s07-" also prefixes the inactive s07-pandas.ts.
-    section_path = numbering.section_rel(numbering.slug_for_tag(tag, numbering.load_epoch()))
+    section_path = numbering.section_rel(numbering.slug_for_tag(tag, numbering.load_epoch(ROOT)), ROOT)
     ids_here = sum(1 for f in ids.get("findings", []) if f.get("file") == section_path)
 
     return {
