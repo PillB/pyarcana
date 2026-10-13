@@ -1,0 +1,423 @@
+{
+  "version": "1.0.0",
+  "source": "src/lib/course/index.ts COURSE_SECTIONS (active imports; the inactive legacy files are excluded)",
+  "note": "Badge tokens (S01, S01-YOUDO) resolve through index to slug. Titles are fingerprinted by sha256 of the exact title string. Roles are unbound (section_index null) until the renumber binds them at Gate B.",
+  "positional_badges": {
+    "progress_phase0_walked": {
+      "phase": 0
+    },
+    "progress_phase1_walked": {
+      "phase": 1
+    },
+    "progress_phase2_walked": {
+      "phase": 2
+    },
+    "progress_phase3_walked": {
+      "phase": 3,
+      "drop_final": true
+    },
+    "progress_journey_completed": {
+      "all_sections": true
+    },
+    "integrated_python_ai_capstone_foundations": {
+      "phase": 0
+    },
+    "integrated_python_ai_capstone_independent": {
+      "phase": 1
+    },
+    "integrated_python_ai_capstone_advanced_applied": {
+      "phase": 2
+    },
+    "integrated_python_ai_capstone_integrated_mastery": {
+      "phase": 3,
+      "drop_final": true
+    }
+  },
+  "roles": {
+    "inference": {
+      "section_index": null,
+      "nodes": [
+        "hypothesis_testing"
+      ]
+    },
+    "design": {
+      "section_index": null,
+      "nodes": [
+        "experimental_design"
+      ]
+    },
+    "regression": {
+      "section_index": null,
+      "nodes": [
+        "regression",
+        "causal_inference"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "index": 1,
+      "slug": "setup",
+      "phase": 0,
+      "title": "Entorno reproducible y trabajo seguro",
+      "title_sha256": "940685f468c30fb0e81832123429f99b87a0fbb46dc57a1fb0dbeccf1dbc9666"
+    },
+    {
+      "index": 2,
+      "slug": "basics",
+      "phase": 0,
+      "title": "Valores, tipos, operadores e I/O",
+      "title_sha256": "5017ebbed689b8f1c73f3e726542ecab26f979669ab97474570ee61232bd1073"
+    },
+    {
+      "index": 3,
+      "slug": "decisions-rules",
+      "phase": 0,
+      "title": "Decisiones y reglas de validación",
+      "title_sha256": "0b622fae1c5b9c89084ef811839fcdaffe7498e74b3bb1d976533dd7649b4814"
+    },
+    {
+      "index": 4,
+      "slug": "iteration-summaries",
+      "phase": 0,
+      "title": "Iteración y resúmenes transaccionales",
+      "title_sha256": "004e1128a84362dc2dc1069a9fc222d7faad1bd12ea5193e94fd9e5e8328a5be"
+    },
+    {
+      "index": 5,
+      "slug": "functions-contracts",
+      "phase": 0,
+      "title": "Funciones, contratos y descomposición",
+      "title_sha256": "9cd44d76729c11fa2ac66b0423ea3711d423ce9cad901a8ee29160b11675c3ae"
+    },
+    {
+      "index": 6,
+      "slug": "collections",
+      "phase": 0,
+      "title": "Colecciones y estructuras de datos",
+      "title_sha256": "6173ccfe9099154e6a949dfea5bebe602269000dfb9989105efb5535289c80a2"
+    },
+    {
+      "index": 7,
+      "slug": "text-unicode-regex",
+      "phase": 0,
+      "title": "Texto, Unicode y expresiones regulares",
+      "title_sha256": "61d50e44be608d376c0e050959e416efc096fe63c31b4fa402a4b44d679f3aed"
+    },
+    {
+      "index": 8,
+      "slug": "files-ingestion",
+      "phase": 0,
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "title_sha256": "509a96a7f26b95527770204fb84001fcb205db905d7b336dae92b21876e79257"
+    },
+    {
+      "index": 9,
+      "slug": "exceptions-logging",
+      "phase": 0,
+      "title": "Excepciones, debugging y logging seguro",
+      "title_sha256": "ffa332b04b418f8196fbf3a2571cc2022aac0625fc4eeb2ca63615244ef2576f"
+    },
+    {
+      "index": 10,
+      "slug": "modules-packaging-cli",
+      "phase": 0,
+      "title": "Módulos, packaging y CLI profesional",
+      "title_sha256": "ff77cdfa6ac740da4f73f5c0d77a01c28a5f3adda3c35b82a9e34eae47b9c92f"
+    },
+    {
+      "index": 11,
+      "slug": "oop-domain",
+      "phase": 0,
+      "title": "OOP y modelo de dominio",
+      "title_sha256": "082ab4538a003ec2de5d637a9f7c8332df417ce16b1ee083be2e6c3557d9c9cb"
+    },
+    {
+      "index": 12,
+      "slug": "apis-sql-geo",
+      "phase": 0,
+      "title": "APIs, SQL y geodatos responsables",
+      "title_sha256": "c013aeb33f542863675935d11be356a5a43bfbc2106cb01507ce118adafdaf4b"
+    },
+    {
+      "index": 13,
+      "slug": "evidence-dashboard",
+      "phase": 0,
+      "title": "Familiarity Evidence Dashboard y cierre de nivel",
+      "title_sha256": "fb3c9ea24cd679252d0f2359572f24aacaee00e73cf966e02bc2f30cedf1f7b7"
+    },
+    {
+      "index": 14,
+      "slug": "security",
+      "phase": 1,
+      "title": "NumPy y cómputo vectorizado",
+      "title_sha256": "a80bc9d03797e30bfe625424ebcb1d4cb6d67fe316119ea3d1e97c1b0981feb3"
+    },
+    {
+      "index": 15,
+      "slug": "stdlib-deep",
+      "phase": 1,
+      "title": "Pandas: ingesta, selección y tipos",
+      "title_sha256": "3bf68e3cf4054cc00949ed6450d4c58cbe1a493cc348f68375565be576e130b4"
+    },
+    {
+      "index": 16,
+      "slug": "wxpython-gui",
+      "phase": 1,
+      "title": "Calidad, limpieza y contratos de datos",
+      "title_sha256": "4a7fed396ba619e03473576faa138eeb76c7765eff9224f1b29c8df19593464f"
+    },
+    {
+      "index": 17,
+      "slug": "packaging",
+      "phase": 1,
+      "title": "Joins, reshape, groupby y cierre analítico",
+      "title_sha256": "2de392b7177f4d532b900c2c033cf574f37f3b951e2320f015eaf840077b8b8c"
+    },
+    {
+      "index": 18,
+      "slug": "data-engineering",
+      "phase": 1,
+      "title": "EDA, estadística descriptiva e incertidumbre",
+      "title_sha256": "fdac2050049f1fa78c1cf7126a0912b7c4f9b650b5237ca4752e7fbba6e24985"
+    },
+    {
+      "index": 19,
+      "slug": "databases-orm",
+      "phase": 1,
+      "title": "Visualización y comunicación accesible",
+      "title_sha256": "34a71cbb5b7bfa7b14a8697a9e44046aa2290575ccd2cc2d4966629dda939171"
+    },
+    {
+      "index": 20,
+      "slug": "rag",
+      "phase": 1,
+      "title": "Automatización robusta de Excel",
+      "title_sha256": "c40e906c8ef7c018507dd8940a926663aef324eabb3ba45ef27252106b2ba5d2"
+    },
+    {
+      "index": 21,
+      "slug": "fastapi",
+      "phase": 1,
+      "title": "Documentos, plantillas y reportes trazables",
+      "title_sha256": "986c22cd9481eff93f44166f4eb2edfd5b2345ca2a670ccc2718038b81ffa310"
+    },
+    {
+      "index": 22,
+      "slug": "rapidfuzz-entity",
+      "phase": 1,
+      "title": "Email, identidad y aprobación humana",
+      "title_sha256": "d0f97ea91065035e600a8f672dbbee4c5c0e8fa736d6b8fe12c9c568c29dd2c0"
+    },
+    {
+      "index": 23,
+      "slug": "computer-vision",
+      "phase": 1,
+      "title": "Browser RPA con Playwright",
+      "title_sha256": "8be335f90fe69fa3c62ea8d7f49da7a92cc06a61b59980a6419fd79c706cb6c2"
+    },
+    {
+      "index": 24,
+      "slug": "rpa-advanced",
+      "phase": 1,
+      "title": "OCR y Document AI",
+      "title_sha256": "8217a5069464f68fbfe34dc7890ad5f0f34c62e8630d740fa51b27bea8bfd7b6"
+    },
+    {
+      "index": 25,
+      "slug": "streamlit-dashboards",
+      "phase": 1,
+      "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+      "title_sha256": "7ff968510f6e7bc373d696514f90578309128542d8a6a7b19b2205f28f37ca03"
+    },
+    {
+      "index": 26,
+      "slug": "integrator-phase1",
+      "phase": 1,
+      "title": "Orquestación y VP RPA + AI Analyst",
+      "title_sha256": "593a1bfb069c62dd7c48e7c01d67c446b0e5379a790836e7888b11ac797a566d"
+    },
+    {
+      "index": 27,
+      "slug": "async-concurrency",
+      "phase": 2,
+      "title": "Estrategia de pruebas con pytest",
+      "title_sha256": "a890ddc3f00074c61e801d18664b54f19bd429e9cf3edff84b68d7d13caa3a65"
+    },
+    {
+      "index": 28,
+      "slug": "llm-agents",
+      "phase": 2,
+      "title": "Pruebas de datos, propiedades e integración",
+      "title_sha256": "e320c3d647933d72a20ef16a9028ba53b17e9bd1e3ffc9c96dbc999a3e881eac"
+    },
+    {
+      "index": 29,
+      "slug": "mlops",
+      "phase": 2,
+      "title": "SQL avanzado y modelado relacional",
+      "title_sha256": "0b5ad47ff9d21fab2fcf55a1ec1a31282b1632c63ef831a31f7426d59ca292df"
+    },
+    {
+      "index": 30,
+      "slug": "security-infra",
+      "phase": 2,
+      "title": "Entity resolution probabilístico",
+      "title_sha256": "e3348101abc03bfcdc9e1f8fe3da808879768bfefee4d3d1bad2968c2e954e3f"
+    },
+    {
+      "index": 31,
+      "slug": "streaming-data",
+      "phase": 2,
+      "title": "Grafos y evidencia relacional",
+      "title_sha256": "08dd93cb92ec92d7f6e1b53b78273967a81d8d8abab6b4cb250259b36cebd849"
+    },
+    {
+      "index": 32,
+      "slug": "microservices",
+      "phase": 2,
+      "title": "Feature engineering y pipelines sin leakage",
+      "title_sha256": "a441f8acd4c14f44004cecc98f6dbb663cde523c3840b36ab0e76f430cfd769b"
+    },
+    {
+      "index": 33,
+      "slug": "advanced-models",
+      "phase": 2,
+      "title": "ML supervisado y baselines responsables",
+      "title_sha256": "f4bc64de8a25751f6ac53f0996e3d57f89aaf69d1e52ee630b2753acf3dc15cf"
+    },
+    {
+      "index": 34,
+      "slug": "cv-ai-integration",
+      "phase": 2,
+      "title": "Métricas, desbalance, calibración y umbrales",
+      "title_sha256": "cb752ba519c1c181eb553c4b0e72e3637970bd70b82a980580da1b4200d16eea"
+    },
+    {
+      "index": 35,
+      "slug": "system-design",
+      "phase": 2,
+      "title": "Explicabilidad, equidad e incertidumbre",
+      "title_sha256": "544232faaa4421e4459cec8d51af0493c07e5025cabab0e4d286f4cc230afe9d"
+    },
+    {
+      "index": 36,
+      "slug": "ai-apis-advanced",
+      "phase": 2,
+      "title": "Clustering, anomalías y validación temporal",
+      "title_sha256": "c2691148f47e8f8c6b3b3d091af7b36be5d224df3dd02e9e7134334af37ca62a"
+    },
+    {
+      "index": 37,
+      "slug": "dbt-bigquery",
+      "phase": 2,
+      "title": "Profiling, algoritmos y rendimiento",
+      "title_sha256": "e07eed2265e0f869db75acae783368da39179fa33faf41cff3353a180249e951"
+    },
+    {
+      "index": 38,
+      "slug": "performance-extreme",
+      "phase": 2,
+      "title": "Concurrencia, observabilidad y workflows resilientes",
+      "title_sha256": "05a56e21583ea481c0ab9cbb880e0966dbad683a1b1a8c9a74b6f7cbc8c93d8f"
+    },
+    {
+      "index": 39,
+      "slug": "integrator-phase2",
+      "phase": 2,
+      "title": "Responsible ML Case Triage y cierre de nivel",
+      "title_sha256": "3e803c9a884c74c6645824fb1f4962b8654b048daa2dba03f67f01fa03404b73"
+    },
+    {
+      "index": 40,
+      "slug": "architecture-ddd-decisions",
+      "phase": 3,
+      "title": "Arquitectura, DDD y decisiones técnicas",
+      "title_sha256": "039a64bb9c9dbddbeb1f4b0b575e6accd84009e54f51b6eb967be381d5072d7e"
+    },
+    {
+      "index": 41,
+      "slug": "llm-finetuning",
+      "phase": 3,
+      "title": "APIs con FastAPI y contratos HTTP",
+      "title_sha256": "9049b093d529480a377205920524ea4346558c4861197c3b4c0a5f31a74cca31"
+    },
+    {
+      "index": 42,
+      "slug": "graph-rag",
+      "phase": 3,
+      "title": "Schemas, seguridad y privacidad de servicios",
+      "title_sha256": "13e2d80a7846214bf784446656193ec68814d880218814f12a1e32518d830a9c"
+    },
+    {
+      "index": 43,
+      "slug": "llmops",
+      "phase": 3,
+      "title": "Contenedores y reproducibilidad operativa",
+      "title_sha256": "88f3c3b552f5ca4a4ec9875936289b3a1adcfca28ba6a558d21ae908d0a2a053"
+    },
+    {
+      "index": 44,
+      "slug": "multimodal",
+      "phase": 3,
+      "title": "CI/CD y seguridad de la cadena de suministro",
+      "title_sha256": "d136e01c37e53fb1864b6f1a6413343d4ce0df968547309f79f18c237a424a02"
+    },
+    {
+      "index": 45,
+      "slug": "iac",
+      "phase": 3,
+      "title": "Cloud, almacenamiento, colas e infraestructura",
+      "title_sha256": "10eef8ffe1cdecc349250499113756e9153688b24c2bed80ab95f987b6849689"
+    },
+    {
+      "index": 46,
+      "slug": "gpu-computing",
+      "phase": 3,
+      "title": "Ingeniería de datos y orquestación de producción",
+      "title_sha256": "fa8d6f174ee1b8df019583f44b59d943e982078f9078aad9db12b63a1b1ed9e9"
+    },
+    {
+      "index": 47,
+      "slug": "opensource",
+      "phase": 3,
+      "title": "MLOps: experimentos, registro y serving",
+      "title_sha256": "20e0d59a2cec2816301d01b37cfdba55667ef20ce373f7fb893c4324f9ea5a0e"
+    },
+    {
+      "index": 48,
+      "slug": "ai-governance",
+      "phase": 3,
+      "title": "LLM applications y RAG con evidencia",
+      "title_sha256": "470748d8f6b32934cc33ed210077ea07bee5ac87fb2234da9ffb242e5bd51c53"
+    },
+    {
+      "index": 49,
+      "slug": "data-contracts",
+      "phase": 3,
+      "title": "Agentes, herramientas y context engineering",
+      "title_sha256": "32e7e81a56577c5e1d622409a4c8a81b36bd51230a45ccf7e47c027a3eca44b8"
+    },
+    {
+      "index": 50,
+      "slug": "tech-leadership",
+      "phase": 3,
+      "title": "Evals, red teaming y fiabilidad de IA",
+      "title_sha256": "0db9b1250b82df8eb1d5bce31ed877c79201e55984df9f7b3e75115e465d031e"
+    },
+    {
+      "index": 51,
+      "slug": "integrator-final",
+      "phase": 3,
+      "title": "Observabilidad, gobernanza y UX del copiloto",
+      "title_sha256": "0d1c6f05e28099628d6139198205ebede3961d7070af0219c5150be92ae806c9"
+    },
+    {
+      "index": 52,
+      "slug": "career-strategy",
+      "phase": 3,
+      "title": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
+      "title_sha256": "5591328844689122c69b5b1c7f8a2d7282896742a8971a7354a5df5065d19641"
+    }
+  ]
+}
