@@ -156,10 +156,13 @@ class BadgeSectionIdentity(unittest.TestCase):
     def setUp(self) -> None:
         self.manifest = load(MANIFEST)
         self.catalog = load(CATALOG)
+        #: Fixtures name the last section by position and others by slug, never by a number that
+        #: the renumber will change (design G-4 and G-9: derived counts, slug sets).
+        self.last = max(s["index"] for s in self.manifest["sections"])
 
     def test_the_manifest_is_the_course_source(self) -> None:
         source = source_sections()
-        self.assertEqual(len(source), 52, "the course has 52 active sections")
+        self.assertEqual([s["index"] for s in source], list(range(1, len(source) + 1)), "sections are numbered 1..N")
         expected = [(s["index"], s["slug"], s["phase"], s["title"]) for s in source]
         actual = [(s["index"], s["slug"], s["phase"], s["title"]) for s in self.manifest["sections"]]
         self.assertEqual(actual, expected, "manifest drifted from src/lib/course/index.ts")
@@ -168,16 +171,17 @@ class BadgeSectionIdentity(unittest.TestCase):
         self.assertEqual(identity_violations(self.manifest, self.catalog), [])
 
     def test_a_token_that_resolves_to_no_section_is_red(self) -> None:
+        past_the_end = f"S{self.last + 1:02d}"
         catalog = copy.deepcopy(self.catalog)
         badge = next(b for b in catalog["badges"] if b["badge_id"] == "progress_phase0_walked")
-        badge["required_sections"].append("S53")
+        badge["required_sections"].append(past_the_end)
         problems = identity_violations(self.manifest, catalog)
-        self.assertTrue(any("progress_phase0_walked" in p and "S53" in p for p in problems), problems)
+        self.assertTrue(any("progress_phase0_walked" in p and past_the_end in p for p in problems), problems)
 
     def test_a_positional_badge_off_its_span_is_red(self) -> None:
         catalog = copy.deepcopy(self.catalog)
         badge = next(b for b in catalog["badges"] if b["badge_id"] == "progress_journey_completed")
-        badge["required_sections"].remove("S52")
+        badge["required_sections"].remove(f"S{self.last:02d}")
         problems = identity_violations(self.manifest, catalog)
         self.assertTrue(any("progress_journey_completed" in p and "span" in p for p in problems), problems)
 
@@ -212,7 +216,8 @@ class BadgeSectionIdentity(unittest.TestCase):
         self.assertTrue(any("progress_phase1_walked" in p and "required_activities" in p for p in problems), problems)
 
     def test_a_positional_badge_with_an_extra_or_repeated_activity_is_red(self) -> None:
-        for extra in ("S14-SELFCHECK", "S14-EXAM"):
+        first = self._positional("progress_phase1_walked")[1]["required_sections"][0]
+        for extra in (f"{first}-SELFCHECK", f"{first}-EXAM"):
             with self.subTest(extra=extra):
                 catalog, badge = self._positional("progress_phase1_walked")
                 badge["required_activities"].append(extra)
@@ -223,7 +228,8 @@ class BadgeSectionIdentity(unittest.TestCase):
 
     def test_a_level_capstone_that_loses_an_exam_is_red(self) -> None:
         catalog, badge = self._positional("integrated_python_ai_capstone_foundations")
-        badge["required_activities"].remove("S01-EXAM")
+        self.assertTrue(badge["required_activities"][-1].endswith("-EXAM"), "the last activity is an exam")
+        badge["required_activities"].pop()
         problems = identity_violations(self.manifest, catalog)
         self.assertTrue(
             any("integrated_python_ai_capstone_foundations" in p and "required_activities" in p for p in problems),
@@ -242,10 +248,9 @@ class BadgeSectionIdentity(unittest.TestCase):
         Before the renumber the badge says S52; after it, S55. A token that still reads S52 would
         resolve, to a different section, and every other check would stay green.
         """
-        last = max(s["index"] for s in self.manifest["sections"])
         catalog = copy.deepcopy(self.catalog)
         badge = next(b for b in catalog["badges"] if b["badge_id"] == "evidence_grounded_ai_systems_capstone")
-        before = last - 1
+        before = self.last - 1
         badge["required_sections"] = [f"S{before:02d}"]
         badge["required_activities"] = [f"S{before:02d}-YOUDO", f"S{before:02d}-EXAM"]
         problems = identity_violations(self.manifest, catalog)
@@ -278,12 +283,74 @@ class BadgeSectionIdentity(unittest.TestCase):
 
     def test_a_bound_role_with_no_manifest_slug_is_red(self) -> None:
         manifest = copy.deepcopy(self.manifest)
-        manifest["roles"]["design"]["section_index"] = 99
+        manifest["roles"]["design"]["section_index"] = self.last + 1
         catalog = copy.deepcopy(self.catalog)
         badge = next(b for b in catalog["badges"] if b["badge_id"] == "python_data_foundations")
         badge["skill_nodes"].append("experimental_design")
         problems = identity_violations(manifest, catalog)
         self.assertTrue(any("no manifest slug" in p for p in problems), problems)
+
+
+class RenumberedWorld(unittest.TestCase):
+    """G-3a on a course that has gained sections, built from the live one by inserting sections.
+
+    The renumber adds three sections and moves everything after them. These tests build that world
+    from whatever the live manifest is, so they name no number the renumber changes: two sections go
+    in after the 18th and one after the 34th. A guard that read a literal 52 would not survive it.
+    """
+
+    INSERTIONS = ((18, 2), (34, 1))
+
+    def setUp(self) -> None:
+        self.manifest = load(MANIFEST)
+        self.catalog = load(CATALOG)
+
+    def _moved(self, n: int) -> int:
+        return n + sum(count for after, count in self.INSERTIONS if n > after)
+
+    def _grown_manifest(self) -> dict:
+        manifest = copy.deepcopy(self.manifest)
+        sections = [{**s, "index": self._moved(s["index"])} for s in manifest["sections"]]
+        phase_of = {s["index"]: s["phase"] for s in self.manifest["sections"]}
+        for after, count in self.INSERTIONS:
+            for i in range(count):
+                sections.append({
+                    "index": self._moved(after) + 1 + i, "slug": f"inserted-after-{after}-{i}",
+                    "phase": phase_of[after], "title": "inserted", "title_sha256": "0" * 64,
+                })
+        manifest["sections"] = sorted(sections, key=lambda s: s["index"])
+        return manifest
+
+    def _grown_catalog(self, manifest: dict) -> dict:
+        """Every badge's tags moved with their sections; a positional badge re-derived from its rule."""
+        catalog = copy.deepcopy(self.catalog)
+        for badge in catalog["badges"]:
+            rule = manifest["positional_badges"].get(badge["badge_id"])
+            if rule:
+                span = [f"S{n:02d}" for n in span_for(rule, manifest["sections"])]
+                kinds = manifest["positional_activity_kinds"]
+                badge["required_sections"] = span
+                badge["required_activities"] = [f"{s}-{kind}" for kind in kinds for s in span]
+                continue
+            for field in ("required_sections", "required_activities"):
+                badge[field] = [f"S{self._moved(int(t[1:3])):02d}{t[3:]}" for t in badge[field]]
+        return catalog
+
+    def test_a_correctly_renumbered_catalog_passes(self) -> None:
+        manifest = self._grown_manifest()
+        self.assertGreater(len(manifest["sections"]), len(self.manifest["sections"]))
+        self.assertEqual(identity_violations(manifest, self._grown_catalog(manifest)), [])
+
+    def test_a_catalog_left_on_the_old_numbers_is_red_though_every_tag_still_resolves(self) -> None:
+        """The failure G-3a exists to catch: the final capstone's old tag still names a real section."""
+        manifest = self._grown_manifest()
+        old_last = max(s["index"] for s in self.manifest["sections"])
+        self.assertIn(old_last, {s["index"] for s in manifest["sections"]}, "the stale tag still resolves")
+        problems = identity_violations(manifest, self.catalog)
+        self.assertFalse(any("does not resolve" in p for p in problems), problems)
+        named = {p.split(":", 1)[0] for p in problems}
+        self.assertIn("evidence_grounded_ai_systems_capstone", named, problems)
+        self.assertIn("progress_journey_completed", named, problems)
 
 
 class SectionTitleFingerprints(unittest.TestCase):
@@ -295,21 +362,28 @@ class SectionTitleFingerprints(unittest.TestCase):
     def test_every_live_title_matches_its_fingerprint(self) -> None:
         self.assertEqual(title_violations(self.manifest, self.sections, self.catalog), [])
 
+    def _section(self, sections: list[dict], slug: str) -> dict:
+        """A section by slug. A slug survives the renumber; the number it has does not."""
+        return next(s for s in sections if s["slug"] == slug)
+
     def test_retitling_a_section_a_badge_cites_names_those_badges(self) -> None:
         sections = copy.deepcopy(self.sections)
-        next(s for s in sections if s["index"] == 34)["title"] = "retitled for the fixture"
+        cited = self._section(sections, "cv-ai-integration")
+        cited["title"] = "retitled for the fixture"
+        tag = f"S{cited['index']:02d}"
         problems = title_violations(self.manifest, sections, self.catalog)
         named = {p.split(":", 1)[0] for p in problems}
         self.assertIn("applied_deep_learning_practice", named, problems)
         self.assertIn("integrated_python_ai_capstone_advanced_applied", named, problems)
-        self.assertNotIn("python_data_foundations", named, "a badge that does not cite S34 is not named")
-        self.assertTrue(all("S34" in p for p in problems), problems)
+        self.assertNotIn("python_data_foundations", named, "a badge that does not cite the section is not named")
+        self.assertTrue(all(tag in p for p in problems), problems)
 
     def test_a_section_with_no_title_is_drift_not_a_pass(self) -> None:
         sections = copy.deepcopy(self.sections)
-        next(s for s in sections if s["index"] == 5)["title"] = None
+        untitled = self._section(sections, "functions-contracts")
+        untitled["title"] = None
         problems = title_violations(self.manifest, sections, self.catalog)
-        self.assertTrue(any("S05" in p for p in problems), problems)
+        self.assertTrue(any(f"S{untitled['index']:02d}" in p for p in problems), problems)
 
 
 class SourceReader(unittest.TestCase):

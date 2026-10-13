@@ -222,14 +222,17 @@ class ClaimDigests(unittest.TestCase):
     def _badge(self, catalog: dict, badge_id: str = "progress_phase0_walked") -> dict:
         return next(b for b in catalog["badges"] if b["badge_id"] == badge_id)
 
-    @staticmethod
-    def _moved(n: int) -> int:
-        """The design's mapping f (section 1): 1-18 stay, 19-32 move +2, 33-52 move +3."""
-        return n if n <= 18 else n + 2 if n <= 32 else n + 3
+    #: Every section after the tenth moves two places. The real renumber is the design's mapping f
+    #: (1-18 stay, 19-32 move +2, 33-52 move +3); the property under test holds for any relabel, so
+    #: the fixture names no number that the renumber itself will change.
+    KEEP_UP_TO, SHIFT = 10, 2
+
+    def _moved(self, n: int) -> int:
+        return n if n <= self.KEEP_UP_TO else n + self.SHIFT
 
     def _renumbered(self) -> tuple[dict, dict[int, str]]:
-        """The catalog and the manifest's number-to-slug table after a pure renumber by f: every
-        section and every tag that cites it move together. No section is added, so no claim changes."""
+        """The catalog and the manifest's number-to-slug table after a pure relabel: every section
+        and every tag that cites it move together. No section is added, so no claim changes."""
         catalog = copy.deepcopy(self.catalog)
         for badge in catalog["badges"]:
             for field in TAG_FIELDS:
@@ -245,18 +248,20 @@ class ClaimDigests(unittest.TestCase):
     def test_moving_a_tag_without_moving_its_section_is_a_retarget_and_changes_the_digest(self) -> None:
         catalog, _ = self._renumbered()
         named = {p.split(":", 1)[0] for p in digest_violations(catalog, self.records["records"], self.slugs)}
-        cites_past_s18 = {
+        cites_moved_sections = {
             b["badge_id"] for b in self.catalog["badges"]
-            if any(int(t[1:3]) > 18 for field in TAG_FIELDS for t in b[field])
+            if any(int(t[1:3]) > self.KEEP_UP_TO for field in TAG_FIELDS for t in b[field])
         }
-        self.assertEqual(named, cites_past_s18)
-        self.assertGreater(len(named), 20)
+        self.assertEqual(named, cites_moved_sections)
+        self.assertGreater(len(named), 0, "the fixture must move at least one badge's tags")
 
     def test_a_badge_retargeted_to_another_section_changes_its_digest(self) -> None:
         catalog = copy.deepcopy(self.catalog)
         badge = self._badge(catalog, "applied_deep_learning_practice")
-        self.assertIn("S34", badge["required_sections"])
-        badge["required_sections"] = ["S35" if t == "S34" else t for t in badge["required_sections"]]
+        cited = badge["required_sections"][-1]
+        elsewhere = f"S{int(cited[1:]) + 1:02d}"
+        self.assertNotIn(elsewhere, badge["required_sections"], "a section this badge does not cite")
+        badge["required_sections"] = [elsewhere if t == cited else t for t in badge["required_sections"]]
         self.assertEqual(
             digest_violations(catalog, self.records["records"], self.slugs),
             ["applied_deep_learning_practice: claim changed without a version bump (version 1.0.0)"],

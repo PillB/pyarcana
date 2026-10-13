@@ -15,8 +15,10 @@ Not counted here:
 - progress markers (class A, exempt per O19) and level capstones (class D, positional per O17).
 
 Homes come from src/lib/eligibility/skill_node_terms.json. Anti-gaming rules: a term shorter than
-4 characters, or matching more than 17 of the 52 sections, is rejected and gives its node no home.
-Without the second rule one generic word would home every skill and hide every mismatch.
+4 characters, or matching more than a third of the sections (rounded down: 17 of 52 today, 18 of 55
+after the renumber), is rejected and gives its node no home. Without the second rule one generic
+word would home every skill and hide every mismatch. The cap is derived from the section count, as
+the design asks of every count (G-4, G-9), so the renumber does not tighten it by accident.
 
 Expert standard: constructive alignment (Biggs and Tang, Teaching for Quality Learning at
 University), where a credential's assessed evidence must be taught in the sections it names.
@@ -42,7 +44,8 @@ from badge_sources import (  # noqa: E402
 
 LEXICON = ROOT / "src/lib/eligibility/skill_node_terms.json"
 MIN_TERM_LENGTH = 4
-MAX_SECTIONS_PER_TERM = 17
+#: A term may match at most one section in this many, rounded down. It replaces the literal 17.
+MAX_SECTION_SHARE_DIVISOR = 3
 COMPETENCY_CLASSES = ("B", "C")
 #: Owed counts, measured on 2026-10-13 over the live catalog and lexicon. A ratchet: a fix lowers
 #: them and the test then asks for the lower number; a new mismatch raises the count and fails.
@@ -70,6 +73,11 @@ def term_sections(term: str, surfaces: dict[int, str]) -> set[int]:
     return {n for n, text in surfaces.items() if pattern.search(text)}
 
 
+def max_sections_per_term(total: int) -> int:
+    """The most sections an accepted term may match, for a course of `total` sections."""
+    return total // MAX_SECTION_SHARE_DIVISOR
+
+
 def term_rejections(lexicon: dict, surfaces: dict[int, str]) -> list[str]:
     total = len(surfaces)
     problems = []
@@ -77,7 +85,7 @@ def term_rejections(lexicon: dict, surfaces: dict[int, str]) -> list[str]:
         for term in terms:
             if len(term) < MIN_TERM_LENGTH:
                 problems.append(f"{node}: term {term!r} is shorter than {MIN_TERM_LENGTH} characters")
-            elif len(term_sections(term, surfaces)) > MAX_SECTIONS_PER_TERM:
+            elif len(term_sections(term, surfaces)) > max_sections_per_term(total):
                 hits = len(term_sections(term, surfaces))
                 problems.append(f"{node}: term {term!r} matches {hits} of {total} sections")
     return problems
@@ -89,7 +97,7 @@ def homes(node: str, lexicon: dict, surfaces: dict[int, str]) -> set[int]:
     for term in lexicon["nodes"].get(node, []):
         if len(term) >= MIN_TERM_LENGTH:
             hits = term_sections(term, surfaces)
-            if len(hits) <= MAX_SECTIONS_PER_TERM:
+            if len(hits) <= max_sections_per_term(len(surfaces)):
                 found |= hits
     return found
 
@@ -144,7 +152,7 @@ class MeaningMismatchRatchet(unittest.TestCase):
         what is enforced; it cannot loosen them, and it cannot claim a different rule."""
         rules = self.lexicon["rules"]
         self.assertEqual(rules["min_term_length"], MIN_TERM_LENGTH)
-        self.assertEqual(rules["max_sections_per_term"], MAX_SECTIONS_PER_TERM)
+        self.assertEqual(rules["max_section_share_divisor"], MAX_SECTION_SHARE_DIVISOR)
 
     def test_the_skills_no_section_teaches_are_exactly_the_owed_set(self) -> None:
         """Teaching debt under O18, not mismatches. Pinned both ways, because a node that loses its
@@ -174,17 +182,34 @@ class MeaningMismatchRatchet(unittest.TestCase):
         self.assertEqual(len(pairs), MISMATCH_PAIRS_OWED, f"pairs now: {pairs}")
         self.assertEqual(len(badges), MISMATCH_BADGES_OWED, f"badges now: {sorted(badges)}")
 
-    def test_a_term_matching_exactly_seventeen_sections_is_kept(self) -> None:
-        surfaces = {n: ("zetaword " if n <= 17 else "") for n in range(1, 53)}
-        self.assertEqual(term_rejections({"nodes": {"n": ["zetaword"]}}, surfaces), [])
+    @staticmethod
+    def _course(total: int, matching: int, text: str = "zetaword") -> dict[int, str]:
+        """A course of `total` sections, `matching` of which hold `text`."""
+        return {n: (f"{text} " if n <= matching else "") for n in range(1, total + 1)}
 
-    def test_a_term_matching_eighteen_sections_is_rejected(self) -> None:
-        surfaces = {n: ("zetaword " if n <= 18 else "") for n in range(1, 53)}
-        problems = term_rejections({"nodes": {"n": ["zetaword"]}}, surfaces)
-        self.assertTrue(any("matches 18 of 52" in p for p in problems), problems)
+    def test_the_cap_is_a_third_of_the_sections_rounded_down(self) -> None:
+        self.assertEqual([max_sections_per_term(n) for n in (52, 55, 3, 2)], [17, 18, 1, 0])
+
+    def test_a_term_matching_exactly_the_cap_is_kept_and_one_more_is_rejected(self) -> None:
+        """Checked at today's 52 sections and at 55, so the cap follows the count (17, then 18)."""
+        for total in (52, 55):
+            cap = max_sections_per_term(total)
+            with self.subTest(total=total, cap=cap):
+                at_cap = term_rejections({"nodes": {"n": ["zetaword"]}}, self._course(total, cap))
+                self.assertEqual(at_cap, [])
+                over = term_rejections({"nodes": {"n": ["zetaword"]}}, self._course(total, cap + 1))
+                self.assertTrue(any(f"matches {cap + 1} of {total}" in p for p in over), over)
+
+    def test_a_term_over_the_cap_gives_its_node_no_home(self) -> None:
+        lexicon = {"nodes": {"n": ["zetaword"]}}
+        for total in (52, 55):
+            cap = max_sections_per_term(total)
+            with self.subTest(total=total, cap=cap):
+                self.assertEqual(len(homes("n", lexicon, self._course(total, cap))), cap)
+                self.assertEqual(homes("n", lexicon, self._course(total, cap + 1)), set())
 
     def test_a_term_of_three_characters_is_rejected_and_four_is_kept(self) -> None:
-        surfaces = {1: "abcd abc"}
+        surfaces = {n: ("abcd abc" if n == 1 else "") for n in range(1, 53)}
         problems = term_rejections({"nodes": {"n": ["abc", "abcd"]}}, surfaces)
         self.assertEqual(len(problems), 1, problems)
         self.assertIn("'abc'", problems[0])

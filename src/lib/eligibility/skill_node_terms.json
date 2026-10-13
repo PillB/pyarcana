@@ -1,9 +1,9 @@
 {
   "rules": {
     "min_term_length": 4,
-    "max_sections_per_term": 17,
+    "max_section_share_divisor": 3,
     "surface": "each section's title and learning outcomes, accents removed and lower-cased; a term matches a word that starts with it",
-    "use": "A term is accepted only if it is at least min_term_length characters and matches at most max_sections_per_term sections. A skill node is taught by the sections its accepted terms match. tests/adversarial/test_badge_meaning_mismatch.py measures the claims against these homes (C12b, owner O19 scope)."
+    "use": "A term is accepted only if it is at least min_term_length characters and matches at most total_sections divided by max_section_share_divisor sections, rounded down (17 of 52 today, 18 of 55 after the renumber). A skill node is taught by the sections its accepted terms match. tests/adversarial/test_badge_meaning_mismatch.py measures the claims against these homes (C12b, owner O19 scope) and holds the thresholds; this block repeats them for the reader and cannot change them."
   },
   "nodes": {
     "ai_code_review_literacy": ["code review", "revision de codigo", "codigo generado"],
