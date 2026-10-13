@@ -41,6 +41,7 @@ from badge_sources import (  # noqa: E402
     MANIFEST,
     cited_numbers,
     load,
+    section_number,
     source_sections,
     token_number,
 )
@@ -68,12 +69,13 @@ def _token_violations(manifest: dict, catalog: dict) -> list[str]:
     by_index = {s["index"]: s for s in manifest["sections"]}
     problems = []
     for badge in catalog["badges"]:
-        tokens = list(badge.get("required_sections", [])) + list(badge.get("required_activities", []))
-        for token in tokens:
-            number = token_number(token)
-            section = by_index.get(number) if number is not None else None
-            if section is None or not section["slug"]:
-                problems.append(f"{badge['badge_id']}: token {token} does not resolve to a manifest slug")
+        for field, number_of in (("required_sections", section_number), ("required_activities", token_number)):
+            for token in badge.get(field, []):
+                number = number_of(token)
+                if number is None:
+                    problems.append(f"{badge['badge_id']}: {field} token {token} is not shaped like a {field} tag")
+                elif not by_index.get(number, {}).get("slug"):
+                    problems.append(f"{badge['badge_id']}: token {token} does not resolve to a manifest slug")
     return problems
 
 
@@ -178,6 +180,19 @@ class BadgeSectionIdentity(unittest.TestCase):
         badge["required_sections"].remove("S52")
         problems = identity_violations(self.manifest, catalog)
         self.assertTrue(any("progress_journey_completed" in p and "span" in p for p in problems), problems)
+
+    def test_a_required_section_must_be_a_bare_section_tag(self) -> None:
+        """credential-gates.ts requiredSectionIds() accepts /^S\\d{2}$/ and throws on anything else."""
+        for token in ("S01-YOUDO", "S1", "S001", "s01"):
+            with self.subTest(token=token):
+                catalog = copy.deepcopy(self.catalog)
+                badge = next(b for b in catalog["badges"] if b["badge_id"] == "python_data_foundations")
+                badge["required_sections"].append(token)
+                problems = identity_violations(self.manifest, catalog)
+                self.assertTrue(
+                    any("python_data_foundations" in p and "required_sections" in p and token in p for p in problems),
+                    problems,
+                )
 
     def test_a_progress_marker_without_a_positional_rule_is_red(self) -> None:
         manifest = copy.deepcopy(self.manifest)

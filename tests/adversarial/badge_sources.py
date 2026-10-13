@@ -19,6 +19,9 @@ CATALOG = ROOT / "src/lib/eligibility/badge_catalog.json"
 COURSE_INDEX = ROOT / "src/lib/course/index.ts"
 SECTIONS_DIR = ROOT / "src/lib/course/sections"
 
+#: A required section is a bare tag: credential-gates.ts requiredSectionIds() reads /^S(\d{2})$/
+#: and throws on anything else. A required activity may carry a kind (S13-YOUDO, S13-EXAM).
+SECTION_TOKEN = re.compile(r"^S(\d{2})$")
 TOKEN = re.compile(r"^S(\d{2})(?:-[A-Z]+)?$")
 #: A TypeScript string literal in either quote style. Two groups; exactly one is set.
 STRING = r"""(?:"((?:[^"\\]|\\.)*)"|'((?:[^'\\]|\\.)*)')"""
@@ -70,9 +73,15 @@ def source_sections(course_index: Path = COURSE_INDEX, sections_dir: Path = SECT
     return out
 
 
-def token_number(token: str) -> int | None:
-    match = TOKEN.match(token)
+def token_number(token: str, pattern: re.Pattern = TOKEN) -> int | None:
+    """The section number in a catalog tag, or None when the tag is not shaped like one."""
+    match = pattern.match(token)
     return int(match.group(1)) if match else None
+
+
+def section_number(token: str) -> int | None:
+    """The section number in a required_sections tag, which must be a bare `Sxx`."""
+    return token_number(token, SECTION_TOKEN)
 
 
 def cited_numbers(badge: dict) -> set[int]:

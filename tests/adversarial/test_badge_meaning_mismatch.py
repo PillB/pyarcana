@@ -34,8 +34,8 @@ from badge_sources import (  # noqa: E402
     ROOT,
     load,
     normalise,
+    section_number,
     source_sections,
-    token_number,
 )
 
 LEXICON = ROOT / "src/lib/eligibility/skill_node_terms.json"
@@ -93,7 +93,7 @@ def mismatch_pairs(catalog: dict, lexicon: dict, surfaces: dict[int, str]) -> li
     """Each (badge, node) where the node is taught but no required section of the badge teaches it."""
     pairs = []
     for badge in [b for b in catalog["badges"] if b["credential_class"] in COMPETENCY_CLASSES]:
-        required = {token_number(t) for t in badge.get("required_sections", [])}
+        required = {section_number(t) for t in badge.get("required_sections", [])}
         for node in badge.get("skill_nodes", []):
             taught = homes(node, lexicon, surfaces)
             if taught and not (taught & required):
