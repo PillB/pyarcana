@@ -195,7 +195,8 @@ bias_pp {'Lima': 0.25, 'Madrid': -0.09, 'Bogota': -0.16}`,
  subtopicId: "S18-T2-B",
  paragraphs: [
  "Un **intervalo de confianza** aproximado para la media con n grande y colas razonables: media ± z·(s/√n) (z≈1.96 para 95%). El IC habla de un **parámetro** (p. ej. media poblacional) bajo un modelo de muestreo: **no** significa “el 95% de los datos cae en el intervalo” ni “quedó probado al 95% que la media es el punto central”.",
- "Con **n pequeño**, **colas pesadas** o montos lognormales (como tickets de T1), la aproximación z es tosca: reporta n, considera un **bootstrap simple** (remuestrear con reemplazo y tomar percentiles 2.5/97.5 de la media) y evita lenguaje de certeza. No pegues 1.96·s/√n a montos muy sesgados sin advertir el supuesto.",
+ "Con **n pequeño**, **colas pesadas** o montos lognormales (como tickets de T1), la aproximación z es tosca: no pegues 1.96·s/√n sin advertir el supuesto. El **bootstrap simple** muestra la dispersión de un **estimador** de una muestra a otra, y su asimetría, sin depender de una fórmula. Un estimador es la regla que convierte la muestra en un número que aproxima el parámetro; aquí, la regla es «calcula la media». Remuestrea los datos con reemplazo, calcula la media de cada remuestra y toma los percentiles 2.5 y 97.5 de esas medias.",
+ "El bootstrap tampoco rescata una muestra pequeña ni una cola pesada: imagina repetir el estudio muchas veces, cada vez con cinco tickets nuevos, no con remuestras de los mismos cinco. El rótulo 95% promete que unos 95 de cada 100 intervalos contendrían la media poblacional. En esta simulación reproducible de 400 estudios por tamaño, el código imprime una cobertura de 0.81 (81 de cada 100) con n=5 y 0.94 con n=40, cerca del 0.95 prometido. Ningún intervalo fabrica la información que la muestra no contiene: reporta n y evita lenguaje de certeza.",
  "El **tamaño de efecto** (d de Cohen ≈ (μ₁−μ₀)/s_pooled, o diferencia de medianas en PEN) comunica **magnitud**, no solo “significativo”. Contrato de lenguaje: di “compatible con” / “en la muestra” y reporta n + IC; nunca “probado” con un solo IC. Caso sintético: media B ~108 vs. A ~94, d≈1.1 — magnitud + incertidumbre, no veredicto causal de campaña. Sin PII real ni afirmaciones de fraude.",
  ],
  code: {
@@ -217,6 +218,7 @@ bias_pp {'Lima': 0.25, 'Madrid': -0.09, 'Bogota': -0.16}`,
     print("mean_a", round(ma, 2), "mean_b", round(mb, 2))
     print("ic95_b", (round(float(ic[0]), 2), round(float(ic[1]), 2)))
     print("cohens_d", round(float(d), 3))
+    print("n_a", len(a), "n_b", len(b))
     # bootstrap simple: remuestrear b con reemplazo y percentiles 2.5/97.5 de la media
     B = 200
     boot_means = np.empty(B)
@@ -224,23 +226,45 @@ bias_pp {'Lima': 0.25, 'Madrid': -0.09, 'Bogota': -0.16}`,
         sample = rng.choice(b, size=len(b), replace=True)
         boot_means[i] = sample.mean()
     lo, hi = np.quantile(boot_means, [0.025, 0.975])
-    print("boot_n", B)
+    print("remuestras_B", B)
     print("boot_ic95", (round(float(lo), 2), round(float(hi), 2)))
-    print("nota_ic", "z_approx; bootstrap si colas pesadas o n chico")
+    print("nota_ic", "z_approx_y_bootstrap_describen_incertidumbre; reportar_n")
+
+    media_poblacional = np.exp(3.0 + 0.5**2 / 2)
+    R, B = 400, 600
+
+    def cobertura(n):
+        contiene = 0
+        for _ in range(R):
+            x = rng.lognormal(mean=3.0, sigma=0.5, size=n)
+            medias = rng.choice(x, size=(B, len(x)), replace=True).mean(axis=1)
+            lo, hi = np.percentile(medias, [2.5, 97.5])
+            contiene += lo <= media_poblacional <= hi
+        return contiene / R
+
+    cobertura_n40 = cobertura(40)
+    cobertura_n5 = cobertura(5)
+    print("media_poblacional", round(float(media_poblacional), 2))
+    print("cobertura_n5", round(float(cobertura_n5), 2))
+    print("cobertura_n40", round(float(cobertura_n40), 2))
 
 s18_th_4()`,
  output: `mean_a 94.07 mean_b 108.64
 ic95_b (104.39, 112.88)
 cohens_d 1.118
-boot_n 200
+n_a 40 n_b 40
+remuestras_B 200
 boot_ic95 (104.47, 112.43)
-nota_ic z_approx; bootstrap si colas pesadas o n chico`,
+nota_ic z_approx_y_bootstrap_describen_incertidumbre; reportar_n
+media_poblacional 22.76
+cobertura_n5 0.81
+cobertura_n40 0.94`,
  },
  callout: {
  type: "tip",
  title: "Efecto + incertidumbre",
  content:
- "Reporta diferencia puntual, IC y n. El IC no es el rango del 95% de los datos. Con colas pesadas, documenta bootstrap o límites de la aproximación z.",
+ "Reporta diferencia puntual, IC y n. El IC no es el rango del 95% de los datos. El bootstrap muestra la dispersión y la asimetría del estimador; no corrige n pequeño ni colas pesadas. Si usas la aproximación z con n pequeño o montos sesgados, declara ese límite.",
  },
  },
  {
@@ -248,7 +272,7 @@ nota_ic z_approx; bootstrap si colas pesadas o n chico`,
  subtopicId: "S18-T2-B",
  paragraphs: [
  "Acabas de medir una diferencia entre dos grupos, d≈1.1, y un intervalo alrededor de la media de B. Fíjate en qué cubre ese intervalo: la media de B, no la diferencia entre A y B, y tampoco la propia d. Cada una de esas tres cantidades necesita su propio intervalo, y confundirlas es cómo una diferencia frágil termina reportada como firme. Falta la pregunta que decide si esa diferencia significa algo más que “B y A salieron distintos”: **¿cómo se formaron los grupos?** Si B son los comercios que se inscribieron solos al plan nuevo y A los que no, la diferencia mezcla dos cosas que ninguna aritmética posterior puede separar: lo que el plan hizo, y lo que ya era distinto en quien decidió inscribirse. Un intervalo más estrecho no arregla eso; solo estima con más precisión un número que responde a otra pregunta.",
- "La pregunta causal se formula sobre un **contrafactual**: ¿cuánto habría facturado *este mismo* comercio si no hubiera tenido el plan? Ese número no está en tus datos —nadie vive las dos historias— y por eso aquí el diseño pesa más que el cálculo. Para escribirla con precisión, nombra la **unidad** (el comercio), el **tratamiento** (tener el plan), el **control** (no tenerlo) y el **resultado** (ticket promedio del mes). Luego fija **la cantidad exacta que quieres estimar**: “diferencia promedio de ticket entre tener y no tener el plan, en comercios como estos, durante un mes”. Si no logras escribir esa cantidad en una frase, todavía no tienes una pregunta, tienes una intuición.",
+ "La pregunta causal se formula sobre un **contrafactual**: ¿cuánto habría facturado *este mismo* comercio si no hubiera tenido el plan? Ese número no está en tus datos —nadie vive las dos historias— y por eso aquí el diseño pesa más que el cálculo. Para escribirla con precisión, nombra la **unidad** (el comercio), el **tratamiento** (tener el plan), el **control** (no tenerlo) y el **resultado** (ticket promedio del mes). Luego fija el **estimando**, la cantidad exacta que quieres estimar: “diferencia promedio de ticket entre tener y no tener el plan, en comercios como estos, durante un mes”. Si no logras escribir esa cantidad en una frase, todavía no tienes una pregunta, tienes una intuición.",
  "La **asignación aleatoria** es el mecanismo que vuelve comparables a los dos grupos. Lanzas una moneda por comercio: la moneda no sabe cuánto facturaba antes, en qué región opera ni qué variables olvidaste medir. Por eso reparte todas esas características —**incluidas las que nunca observaste**— de forma pareja *en promedio* entre tratamiento y control. Vale la pena detenerse en ese *en promedio*. Aleatorizar no vuelve idénticos a los dos grupos; lo que garantiza es que su diferencia esperada, antes de aplicar el tratamiento, sea cero. Con n chico un sorteo puede salir desbalanceado por azar, y el intervalo que reportas ya carga esa incertidumbre.",
  "En `CASO-LIM-018` el efecto real del plan es 5.00 PEN y el confusor es el volumen previo del comercio. Con **autoselección** —se inscribe quien ya facturaba más de 110— la diferencia observada es **41.35**: ocho veces el efecto verdadero, y el volumen medio de cada grupo delata por qué (124.7 contra 89.0). Con **asignación aleatoria** sobre la misma población y el mismo efecto, la diferencia baja a **5.50** con IC 95% (1.18, 9.82), y los volúmenes medios quedan en 100.3 y 99.1: parecidos, no iguales. El experimento no entregó un número más bonito; entregó un número que responde la pregunta que hiciste.",
  ],
@@ -261,17 +285,17 @@ nota_ic z_approx; bootstrap si colas pesadas o n chico`,
     rng = np.random.default_rng(18)
     n = 400
     volumen = rng.normal(100, 20, n)   # confusor: volumen previo del comercio
-    efecto_real = 5.0                  # PEN que el plan realmente agrega
+    efecto_real = 5.0                  # estimando: diferencia promedio entre tener y no tener el plan
 
     # (1) Autoselección: se inscribe quien ya facturaba más
     adopta = volumen > 110
     y_obs = volumen + efecto_real * adopta + rng.normal(0, 5, n)
-    dif_obs = y_obs[adopta].mean() - y_obs[~adopta].mean()
+    dif_obs = y_obs[adopta].mean() - y_obs[~adopta].mean()  # estimación sesgada del estimando
 
     # (2) Asignación aleatoria: la moneda ignora el volumen previo
     trata = rng.random(n) < 0.5
     y_exp = volumen + efecto_real * trata + rng.normal(0, 5, n)
-    dif_exp = y_exp[trata].mean() - y_exp[~trata].mean()
+    dif_exp = y_exp[trata].mean() - y_exp[~trata].mean()  # estimación del estimando por asignación aleatoria
     se = np.sqrt(y_exp[trata].var(ddof=1) / trata.sum()
                  + y_exp[~trata].var(ddof=1) / (~trata).sum())
 
@@ -462,9 +486,9 @@ ids_anom [7]`,
  title: "qhe_template.py",
  code: `def s18_th_7():
     # plantilla de traza hallazgo → cálculo (sintético)
-    pregunta = "¿El ticket mediano en Madrid supera 25 PEN?"
+    pregunta = "¿El ticket mediano en Lima supera 25 PEN?"
     metrica = "median(monto | region==Lima)"
-    resultado = {"n": 40, "median": 27.5, "ic95_z_or_boot": (24.0, 31.0)}
+    resultado = {"n": 40, "median": 27.5, "ic95_boot": (24.0, 31.0)}
     limite = "muestra de canal web, no incluye tienda física"
     print("pregunta:", pregunta)
     print("metrica:", metrica)
@@ -473,9 +497,9 @@ ids_anom [7]`,
     print("no_es_decision:", "no lanzar campaña aún")
 
 s18_th_7()`,
- output: `pregunta: ¿El ticket mediano en Madrid supera 25 PEN?
+ output: `pregunta: ¿El ticket mediano en Lima supera 25 PEN?
 metrica: median(monto | region==Lima)
-resultado: {'n': 40, 'median': 27.5, 'ic95_z_or_boot': (24.0, 31.0)}
+resultado: {'n': 40, 'median': 27.5, 'ic95_boot': (24.0, 31.0)}
 limite: muestra de canal web, no incluye tienda física
 no_es_decision: no lanzar campaña aún`,
  },
@@ -676,7 +700,7 @@ boot_diff_ic95 (-2.11, 6.7)
 nota z_approx_y_bootstrap; no_probado`,
  },
  why:
-  "El IC habla del parámetro bajo un modelo de muestreo, no del rango donde cae el 95% de los tickets. Bootstrap ayuda con n chico o colas; d de Cohen comunica tamaño de efecto. Ninguno es causalidad ni “probado al 95%”. Siempre reporta magnitud + intervalo + n y lenguaje “compatible con”.",
+  "El IC habla del parámetro bajo un modelo de muestreo, no del rango donde cae el 95% de los tickets. El bootstrap muestra la dispersión y la asimetría del estimador sin una fórmula, pero no corrige n pequeño ni colas pesadas; la d de Cohen comunica el tamaño de efecto. Ninguno de los tres demuestra causalidad ni deja algo “probado al 95%”. Siempre reporta magnitud + intervalo + n y lenguaje “compatible con”.",
  retrospective:
   "Si el IC de la diferencia incluye 0, no vendas certeza de efecto. Siempre n + magnitud + intervalo. We Do: margen SE, d con orden B−A, bootstrap de la media.",
  },
@@ -772,10 +796,10 @@ sin_claim_causal True`,
  code: `def s18_ido_7():
     evidencia = {
      "pregunta": "¿Hay diferencia de ticket mediano Madrid vs. Bogota?",
-     "hipotesis": "mediana_Lima > mediana_Bogota en canal web junio",
+     "hipotesis": "mediana_Madrid > mediana_Bogota en canal web junio",
      "calculo": "median por region, n>=30",
-     "resultado": {"Lima": 28.0, "Bogota": 22.5, "n_Lima": 40, "n_Bogota": 32},
-     "incertidumbre": "IC z aproximado; bootstrap si colas pesadas; muestra web-only",
+     "resultado": {"Madrid": 28.0, "Bogota": 22.5, "n_Madrid": 40, "n_Bogota": 32},
+     "incertidumbre": "IC por bootstrap de la diferencia de medianas; reportar n por región; muestra web-only",
      "decision": None,
     }
     print(evidencia["pregunta"])
@@ -784,7 +808,7 @@ sin_claim_causal True`,
 
 s18_ido_7()`,
  output: `¿Hay diferencia de ticket mediano Madrid vs. Bogota?
-hallazgo {'Lima': 28.0, 'Bogota': 22.5, 'n_Lima': 40, 'n_Bogota': 32}
+hallazgo {'Madrid': 28.0, 'Bogota': 22.5, 'n_Madrid': 40, 'n_Bogota': 32}
 decision_es_none True`,
  },
  why:
@@ -1282,7 +1306,7 @@ print("margen", round(margen, 3))`,
  feedback:
   "Si inviertes A y B, el signo de d se voltea y el relato de “efecto” miente. El contrato usa B − A; d habla de magnitud, no de “probado”.",
  retrospective:
-  "d habla de magnitud estandarizada, no de decisión de campaña ni de “probado”. Invertir grupos voltea el relato del efecto. Pregunta: con d=1.5 y n chico, ¿qué más reportas además del punto? Luego (E3): bootstrap cuando z es dudoso.",
+  "d habla de magnitud estandarizada, no de decisión de campaña ni de “probado”. Invertir grupos voltea el relato del efecto. Pregunta: con d=1.5 y n pequeño, ¿qué más reportas además del punto? Luego (E3): remuestrea con bootstrap para ver cuánto varía la media de cinco montos y hacia qué lado, y cuenta cuántas medias distintas pueden salir de ellos.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1304,22 +1328,23 @@ print("d", round(d, 2))`,
  id: "S18-T2-B-E3",
  subtopicId: "S18-T2-B",
  kind: "transfer",
- title: "Bootstrap simple de la media",
+ title: "Bootstrap de la media: asimetría y n fijo",
  preamble:
-  "- **Contexto:** con montos de cola pesada y n chico, 1.96·s/√n es tosco; el portafolio pide bootstrap documentado.\n- **Meta:** remuestrear con reemplazo B=100 (seed fija), percentiles 2.5/97.5 de la media.\n- **Éxito:** `boot_ic95 (10.89, 31.17)`, `n 5`, `nota bootstrap_simple`.\n- **Límites:** no reinicies el rng en el bucle; no uses z aquí; el IC no es el rango del 95% de x.",
+  "- **Contexto:** con montos de cola pesada y n chico, 1.96·s/√n es tosco. El bootstrap deja ver cómo varía la media al remuestrear los cinco montos, pero repetir el proceso B veces no agrega observaciones originales.\n- **Meta:** construir B=100 remuestras con seed fija, calcular el intervalo percentil, ver hacia qué lado se extiende más y contar cuántas medias distintas produce.\n- **Éxito:** `boot_ic95 (10.89, 31.17)`, `asimetria mayor_hacia_arriba`, `n_original 5 n_por_remuestra 5 B 100` y `medias_distintas 34 de 100`.\n- **Límites:** no reinicies el rng en el bucle; no uses z; el intervalo describe la media, no el rango donde cae el 95% de los montos, y no repara n=5.",
  instruction:
- "1. Completa el bloque de boots (starter imprime None).\n2. B medias con `rng.choice(..., replace=True)`.\n3. `np.quantile(..., [0.025, 0.975])` redondeado a 2.\n4. Imprime n y nota exacta `bootstrap_simple`.",
- hint: "Para i en range(B): rng.choice(x, size=len(x), replace=True).mean(); luego np.quantile(..., [0.025, 0.975]).",
+ "1. Genera B medias de remuestras con `rng.choice(..., replace=True)` y deja la última remuestra en `remuestra`.\n2. Calcula el intervalo percentil con `np.quantile`, que recibe proporciones entre 0 y 1 (0.025 es el percentil 2.5); imprime cada extremo con `round(float(lo), 2)`.\n3. Compara `hi - media` con `media - lo` (media = media de x) e imprime `asimetria` seguido de `mayor_hacia_arriba`, `mayor_hacia_abajo` o `simetrica`.\n4. Imprime el tamaño de `remuestra` y cuántas medias distintas guardaste, con `np.unique(boots).size`.",
+ hint: "Crea `boots = np.empty(B)`; para i en range(B): `remuestra = rng.choice(x, size=len(x), replace=True)` y guarda `remuestra.mean()` en `boots[i]`.",
  hints: [
- "Para i en range(B): rng.choice(x, size=len(x), replace=True).mean(); luego np.quantile(..., [0.025, 0.975]).",
- "No vuelvas a crear `rng` dentro del bucle; usa el `rng` del starter.",
+ "Crea `boots = np.empty(B)`; para i en range(B): `remuestra = rng.choice(x, size=len(x), replace=True)` y guarda `remuestra.mean()` en `boots[i]`.",
+ "Compara `hi - media` con `media - lo`. Si obtienes 10.9 en vez de 10.89, redondeaste un `np.float64`: conviértelo con `float()` antes de `round`.",
+ "Cada remuestra tiene `len(x)` montos: B repeticiones producen más medias, no más observaciones originales.",
  ],
- edgeCases: ["B=1 inútil", "x vacío"],
+ edgeCases: ["B=100 todavía mueve los extremos de una seed a otra", "x vacío: cada remuestra sale vacía y su media es nan"],
  tests: "salida coincide con solution output",
  feedback:
-  "Bootstrap = remuestrear con reemplazo y percentiles de la estadística. No es z·s/√n ni el rango del 95% de los tickets crudos: estima incertidumbre del *estimador*.",
+  "El intervalo y `mayor_hacia_arriba` resumen cien medias remuestreadas: el lado superior se estira más porque cada copia del 50 sube la media unos 8. La fórmula media ± 1.96·s/√n es simétrica por construcción y no puede mostrar ese lado más largo. Con B=100 ese resumen todavía es tosco: otra seed mueve los extremos. `medias_distintas 34 de 100` muestra que las cien remuestras recombinan los mismos cinco montos; subir B calcula más medias remuestreadas, pero no agrega observaciones originales ni información.",
  retrospective:
-  "Bootstrap estima la incertidumbre del *estimador*, no el intervalo donde viven el 95% de los tickets. Seed fija hace auditable el notebook. Puente a T3: asociación sin vender causa.",
+  "El bootstrap muestra cómo varía el estimador; no señala dónde vive el 95% de los tickets ni convierte cinco observaciones en más información. La cobertura insuficiente con n=5 se demostró en la comprobación de estudios repetidos del bloque de teoría, no con este conteo. La seed fija vuelve auditable la comparación. Puente a T3: asociación sin vender causa.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1328,10 +1353,12 @@ import numpy as np
 x = np.array([10.0, 12.0, 11.0, 13.0, 50.0])
 rng = np.random.default_rng(42)
 B = 100
-# Completa: B medias remuestreadas; percentiles 2.5 y 97.5
+# Completa: B remuestras con reemplazo; guarda la media de cada una y deja la última en \`remuestra\`
+# Completa: percentiles 2.5/97.5 y comparación de ambos lados de la media
 print("boot_ic95", None)
-print("n", len(x))
-print("nota", "???")`,
+print("asimetria", "???")
+print("n_original", len(x), "n_por_remuestra", None, "B", B)
+print("medias_distintas", None, "de", B)`,
  },
  solutionCode: {
  language: 'python',
@@ -1342,14 +1369,26 @@ rng = np.random.default_rng(42)
 B = 100
 boots = np.empty(B)
 for i in range(B):
-    boots[i] = rng.choice(x, size=len(x), replace=True).mean()
+    remuestra = rng.choice(x, size=len(x), replace=True)
+    boots[i] = remuestra.mean()
 lo, hi = np.quantile(boots, [0.025, 0.975])
+media = float(x.mean())
+arriba = hi - media
+abajo = media - lo
+if arriba > abajo:
+    lado = "mayor_hacia_arriba"
+elif abajo > arriba:
+    lado = "mayor_hacia_abajo"
+else:
+    lado = "simetrica"
 print("boot_ic95", (round(float(lo), 2), round(float(hi), 2)))
-print("n", len(x))
-print("nota", "bootstrap_simple")`,
+print("asimetria", lado)
+print("n_original", len(x), "n_por_remuestra", len(remuestra), "B", B)
+print("medias_distintas", np.unique(boots).size, "de", B)`,
  output: `boot_ic95 (10.89, 31.17)
-n 5
-nota bootstrap_simple`,
+asimetria mayor_hacia_arriba
+n_original 5 n_por_remuestra 5 B 100
+medias_distintas 34 de 100`,
  },
  },
  {
@@ -1887,7 +1926,7 @@ print(note)`,
  "Sin secretos ni credenciales",
  "Español profesional (es-PE)",
  "Salida mínima auditable: (1) resumen tabular, (2) bias_pp + cobertura, (3) ic95_z o boot_ic95 o d + n, (4) etiqueta no-causal, (5) nota de datos en JSON",
- "Si usas z sobre montos lognormales, declara el límite; si hay colas, documenta bootstrap",
+ "Si usas z sobre montos lognormales, declara los límites de z; si usas bootstrap, imprime `boot_ic95` de la media junto a n y recuerda que remuestrear no compensa la cola pesada",
  "Si comparas dos grupos, una frase debe decir cómo se formaron (sorteo o autoselección) antes de cualquier verbo causal",
  ],
  starterCode: `import hashlib
@@ -1942,7 +1981,7 @@ s = float(df["monto"].std(ddof=1))
 # se = s / np.sqrt(n_final)
 # ic95_z = (round(m - 1.96 * se, 2), round(m + 1.96 * se, 2))
 print("ic95_z", "(completa se e imprime el intervalo)")
-print("nota_ic", "z_approx_en_lognormal_limitada; preferir_bootstrap_si_colas")
+print("nota_ic", "z_approx_en_lognormal_limitada; bootstrap_describe_variacion_de_la_media; reportar_n")
 
 # --- Checkpoint 5: asociación / segmentos sin afirmación causal ---
 # Ejemplo: Pearson monto~visitas + etiqueta; o flags Tukey por región.
@@ -1958,7 +1997,7 @@ note = {
     "filtros": ["monto > 0"],
     "seed": 18,
     "sha1_8": hashlib.sha1(payload).hexdigest()[:8],
-    "limites": "muestra sintética sesgada a Madrid; no generalizar a todo el Perú",
+    "limites": "muestra sintética con sobremuestreo de una región; no generalizar a las demás regiones",
     "etica": "flags_y_correlacion_no_son_fraude_ni_causa",
 }
 print(json.dumps(note, ensure_ascii=False))
