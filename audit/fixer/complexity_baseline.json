@@ -17,7 +17,7 @@
   "src/app/api/invitations/[id]/route.ts::POST": 16,
   "src/app/api/subscription/checkout/route.ts::POST": 18,
   "src/app/page.tsx::Home": 40,
-  "src/app/verify/page.tsx::VerifyContent": 19,
+  "src/app/verify/page.tsx::VerifyContent": 17,
   "src/components/course/AuthModal.tsx::AuthModal": 16,
   "src/components/course/AuthModal.tsx::UserMenu": 24,
   "src/components/course/CodeBlock.tsx::CodeBlock": 21,
