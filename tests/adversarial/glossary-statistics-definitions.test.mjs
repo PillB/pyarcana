@@ -24,6 +24,8 @@ const EXTREMENESS = /(al menos tan|igual o m[aá]s|tan o m[aá]s) (extrem|grande
 const UNDER_NULL = /(hip[oó]tesis nula|\bH0\b|\bH₀\b|ning[uú]n efecto|sin efecto)/i
 const THRESHOLD = /0[.,]05|significativ/i
 const EXTREMENESS_EN = /at least as extreme/i
+const UNDER_NULL_EN = /null hypothesis|\bH0\b|\bH₀\b|no effect/i
+const THRESHOLD_EN = /0[.,]05|significan/i
 
 /**
  * Why an entry's English field fails, or null. `definitionEn` is the hover BODY in English mode
@@ -50,7 +52,13 @@ function problems(entry) {
   if (THRESHOLD.test(entry.definition)) out.push('teaches the 0.05 cut-off or "significativo" as the meaning')
   if (!entry.definitionEn?.trim()) out.push('no English definition')
   else if (englishFieldProblem(entry)) out.push(englishFieldProblem(entry))
-  else if (!EXTREMENESS_EN.test(entry.definitionEn)) out.push('the English definition lacks "at least as extreme"')
+  else {
+    // The English body is what an English-mode learner reads, so it carries the same three
+    // safeguards as the Spanish one (Codex P2 on #94: only the first was checked).
+    if (!EXTREMENESS_EN.test(entry.definitionEn)) out.push('the English definition lacks "at least as extreme"')
+    if (!UNDER_NULL_EN.test(entry.definitionEn)) out.push('the English definition does not say it is computed under the null (or no effect)')
+    if (THRESHOLD_EN.test(entry.definitionEn)) out.push('the English definition teaches the 0.05 cut-off or "significant" as the meaning')
+  }
   return out
 }
 
@@ -73,6 +81,12 @@ test('the checks fail the definition that was shipped, and pass a correct one', 
   // The first fix written for this entry put the English NAME in the field; it must fail.
   assert.deepEqual(problems({ ...correct, definitionEn: 'p-value' }), [
     'definitionEn is the term\'s name, not a definition: "p-value"',
+  ])
+  // The misconception, restored in English only: the Spanish body is correct, so every check
+  // that reads only the Spanish passes it.
+  assert.deepEqual(problems({ ...correct, definitionEn: 'The probability of a result at least as extreme as the one observed; p < 0.05 is significant.' }), [
+    'the English definition does not say it is computed under the null (or no effect)',
+    'the English definition teaches the 0.05 cut-off or "significant" as the meaning',
   ])
 })
 
