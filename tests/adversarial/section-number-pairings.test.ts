@@ -2,12 +2,15 @@
  * G-10 (the ledger and exam-bank part): a stored section slug pairs with the section number it
  * sits under, and every bound section has one exam bank.
  *
- * section_ledger.json and the 52 course-state/sNN_phase5_exam_bank.json files are keyed by number
- * and carry the section's slug. A renumber moves a section's number; a row or bank left at the
- * old number pairs a slug with the wrong section, and no count notices. The rule for a slug at a
- * number: it is that section's id now, or a pre-V3 id the rename map (section-id-migrations.ts)
- * carries for it, or a pre-V3 id named in UNMAPPED_LEGACY_IDS. The last list is the owner's to
- * shrink: it holds the one pre-V3 id the rename map does not yet carry (S40, see the PR report).
+ * section_ledger.json and the course-state/sNN_phase5_exam_bank.json files (one per bound section)
+ * are keyed by number and carry the section's slug. A renumber moves a section's number; a row or
+ * bank left at the old number pairs a slug with the wrong section, and no count notices. The rule
+ * for a slug at a number: it is that section's id now, or a pre-V3 id the rename map
+ * (section-id-migrations.ts) carries for it, or a pre-V3 id named in UNMAPPED_LEGACY_IDS. The last
+ * list is the owner's to shrink: it holds the one pre-V3 id the rename map does not yet carry (see
+ * the PR report). An entry names the section it belongs to by id, never by number, so it follows
+ * that section through a renumber. No expectation below pins a section number: each is read from
+ * the bindings by slug.
  */
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
@@ -20,9 +23,9 @@ import { readBindings } from '../../scripts/course_bindings.mjs'
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const BANK_FILE = /^s(\d\d)_phase5_exam_bank\.json$/
 
-/** A pre-V3 slug the rename map does not carry, the number it sat under, and the id that section has now. */
-export const UNMAPPED_LEGACY_IDS: readonly { slug: string; number: number; id: string }[] = [
-  { slug: 'agentic-architecture', number: 40, id: 'architecture-ddd-decisions' },
+/** A pre-V3 slug the rename map does not carry, and the id of the section that holds it now. */
+export const UNMAPPED_LEGACY_IDS: readonly { slug: string; id: string }[] = [
+  { slug: 'agentic-architecture', id: 'architecture-ddd-decisions' },
 ]
 
 interface Bound {
@@ -46,7 +49,7 @@ export function slugPairs(bindings: readonly Bound[], number: number, slug: stri
   const bound = bindings.find((b) => b.number === number)?.id
   if (bound === undefined || bound === null) return false
   if (renameSectionId(slug) === bound) return true
-  return UNMAPPED_LEGACY_IDS.some((u) => u.slug === slug && u.number === number && u.id === bound)
+  return UNMAPPED_LEGACY_IDS.some((u) => u.slug === slug && u.id === bound)
 }
 
 const pad = (n: number): string => String(n).padStart(2, '0')
@@ -111,43 +114,76 @@ describe('G-10 ledger and exam-bank pairings on the real tree', () => {
     assert.deepEqual(bankFailures(readBindings(ROOT), realBanks()), [])
   })
 
-  it('the unmapped list holds the one named exception, and nothing else', () => {
+  it('the unmapped list holds the one named exception, and it names a bound section', () => {
     assert.equal(UNMAPPED_LEGACY_IDS.length, 1, 'the owner decides this list; it may only shrink')
     assert.equal(UNMAPPED_LEGACY_IDS[0].slug, 'agentic-architecture')
+    assert.ok(
+      readBindings(ROOT).some((b) => b.id === UNMAPPED_LEGACY_IDS[0].id),
+      `${UNMAPPED_LEGACY_IDS[0].id} is bound to no section: the exception would never apply`
+    )
   })
 })
 
 describe('G-10 recreations on the real bindings', () => {
   const bindings = readBindings(ROOT)
+  /** The number the bindings give a section, by its slug: the only way a number enters a recreation. */
+  const numberOf = (id: string): number => {
+    const bound = bindings.find((b) => b.id === id)
+    if (!bound) throw new Error(`no bound section has the slug ${id}`)
+    return bound.number
+  }
+  const tag = (n: number): string => `S${pad(n)}`
+  const bankFile = (n: number): string => `s${pad(n)}_phase5_exam_bank.json`
 
   it('a ledger row that moved to another number with its slug is named', () => {
-    const rows = [{ id: 'S19', section_id: 'setup' }]
-    assert.deepEqual(ledgerFailures(bindings, rows), ["section_ledger S19 stores 'setup', but section 19 is 'databases-orm'"])
+    const n = numberOf('databases-orm')
+    const rows = [{ id: tag(n), section_id: 'setup' }]
+    assert.deepEqual(ledgerFailures(bindings, rows), [
+      `section_ledger ${tag(n)} stores 'setup', but section ${n} is 'databases-orm'`,
+    ])
   })
 
   it('a pre-V3 slug the rename map carries, at its own number, is accepted: the positive control', () => {
-    assert.deepEqual(ledgerFailures(bindings, [{ id: 'S03', section_id: 'data-structures' }]), [])
+    const n = numberOf(renameSectionId('data-structures'))
+    assert.deepEqual(ledgerFailures(bindings, [{ id: tag(n), section_id: 'data-structures' }]), [])
   })
 
-  it('the named S40 exception is accepted at 40 and named at any other number', () => {
-    assert.deepEqual(ledgerFailures(bindings, [{ id: 'S40', section_id: 'agentic-architecture' }]), [])
-    assert.deepEqual(
-      ledgerFailures(bindings, [{ id: 'S41', section_id: 'agentic-architecture' }]),
-      ["section_ledger S41 stores 'agentic-architecture', but section 41 is 'llm-finetuning'"]
-    )
+  it('the named exception is accepted at its own section and named at the section after it', () => {
+    const { slug, id } = UNMAPPED_LEGACY_IDS[0]
+    const n = numberOf(id)
+    const next = bindings.find((b) => b.number === n + 1)
+    assert.ok(next, `${id} is the last section: the recreation needs a section after it`)
+    assert.deepEqual(ledgerFailures(bindings, [{ id: tag(n), section_id: slug }]), [])
+    assert.deepEqual(ledgerFailures(bindings, [{ id: tag(next.number), section_id: slug }]), [
+      `section_ledger ${tag(next.number)} stores '${slug}', but section ${next.number} is '${next.id}'`,
+    ])
+  })
+
+  it('the exception follows its section when a renumber moves it: no number is stored with it', () => {
+    // Fixture: the section moved from slot 4 to slot 6 and another section took slot 4.
+    const { slug, id } = UNMAPPED_LEGACY_IDS[0]
+    const moved = [
+      { number: 4, id: 'newcomer' },
+      { number: 6, id },
+    ]
+    assert.equal(slugPairs(moved, 6, slug), true)
+    assert.equal(slugPairs(moved, 4, slug), false)
   })
 
   it('a bank whose section field disagrees with its file name is named', () => {
-    const banks = [{ file: 's19_phase5_exam_bank.json', section: 'S21', section_id: 'databases-orm' }]
+    const file = numberOf('databases-orm')
+    const field = numberOf('fastapi')
+    const banks = [{ file: bankFile(file), section: tag(field), section_id: 'databases-orm' }]
     const failures = bankFailures(bindings, banks)
-    assert.ok(failures.includes('s19_phase5_exam_bank.json says section S21, but its name says S19'), failures.join('\n'))
+    assert.ok(failures.includes(`${bankFile(file)} says section ${tag(field)}, but its name says ${tag(file)}`), failures.join('\n'))
   })
 
   it('a bank whose slug belongs to another section is named', () => {
-    const banks = [{ file: 's19_phase5_exam_bank.json', section: 'S19', section_id: 'fastapi' }]
+    const n = numberOf('databases-orm')
+    const banks = [{ file: bankFile(n), section: tag(n), section_id: 'fastapi' }]
     const failures = bankFailures(bindings, banks)
     assert.ok(
-      failures.includes("s19_phase5_exam_bank.json stores section_id 'fastapi', but section 19 is 'databases-orm'"),
+      failures.includes(`${bankFile(n)} stores section_id 'fastapi', but section ${n} is 'databases-orm'`),
       failures.join('\n')
     )
   })
