@@ -93,6 +93,17 @@ function notFresh(outcome: Outcome): Array<[string, SectionStatus]> {
 
 const sha256 = (path: string) => createHash('sha256').update(readFileSync(path)).digest('hex')
 
+const SETUP_DOC = join(ROOT, 'docs/ELI5_DYNAMIC_LMS_SETUP.md')
+
+/** The setup doc's section on this check, from its heading to the next horizontal rule. */
+function docSection(): string {
+  const text = readFileSync(SETUP_DOC, 'utf8')
+  const start = text.indexOf('## Check the exam bank in the database')
+  assert.notEqual(start, -1, 'the setup doc lost its section on the exam bank check')
+  const end = text.indexOf('\n---', start)
+  return text.slice(start, end === -1 ? undefined : end)
+}
+
 test('a database built from the real migrations and this checkout\'s bank is fresh in every section', async () => {
   const outcome = await check(bankDatabase())
   assert.equal(outcome.error, undefined, outcome.error)
@@ -268,5 +279,14 @@ test('the command line leaves the database byte-identical and exits 0 on a fresh
   // Hashes and counts, never question text: no question in the bank may appear in the output.
   const leaked = BANKS.flatMap((b) => b.questions).filter((q) => res.stdout.includes(q.question))
   assert.deepEqual(leaked.map((q) => q.question), [])
-  assert.match(res.stdout, /fresh\s+52/)
+  // Every section of the course is fresh and nothing else is: the count is the course's, not a literal.
+  assert.match(
+    res.stdout,
+    new RegExp(`^summary: fresh ${COURSE_SECTIONS.length}, stale 0, missing 0, malformed 0, alias-only 0, wrong-shape 0$`, 'm'),
+  )
+})
+
+test('the setup doc describes the check without a section count that the course will outgrow', () => {
+  // The course gains sections; a count written into the doc goes stale without any test noticing.
+  assert.doesNotMatch(docSection(), /\b\d+\s+(course\s+)?sections\b/i)
 })

@@ -341,7 +341,7 @@ cd /var/www/pyarcana
 node --import tsx scripts/exam_bank_db_check.mts --db /path/to/pyarcana.db
 ```
 
-The command opens the file read-only and writes nothing. For each of the 52 sections it prints a status, the row counts, and two SHA-256 digests (the database's rows and the checkout's bank). It never prints question text.
+The command opens the file read-only and writes nothing. For each course section in the checkout it prints a status, the row counts, and two SHA-256 digests (the database's rows and the checkout's bank). It never prints question text.
 
 - `fresh`: the rows match the bank.
 - `stale`: the rows are well formed and of the right shape, but their content differs. Reseed.
