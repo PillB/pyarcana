@@ -92,7 +92,9 @@ def section_tags_of(slugs, root: Path = ROOT) -> list[str]:
 
 # Opening values measured at commit c3057a30 (2026-10-02), after `leakage` was added to
 # data-leakage's aliases. Lower each as its debt is paid; raise only with a dated reason.
-NEVER_EXPLAINED_OWED = 7
+# 2026-10-13, S18 round (design step 0b-7): 7 -> 6. `estimando` is now defined in S18-T2-B and
+# named in that block's code, so it is explained AND exemplified; UNEXEMPLIFIED stays at 35.
+NEVER_EXPLAINED_OWED = 6
 UNEXEMPLIFIED_CONCEPTS_OWED = 35
 # The DEFICIT in figures, summed, not the number of concepts short of one. 103 concepts
 # are short; they owe 274 figures between them. Counting concepts hid a lost figure.
