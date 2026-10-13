@@ -6,18 +6,29 @@
  */
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
-import { LEVELS, phaseSpan } from '../../src/lib/capstones/catalog.ts'
+import { LEVELS } from '../../src/lib/capstones/catalog.ts'
 import { COURSE_SECTIONS } from '../../src/lib/course/index.ts'
 
-describe('level spans come from the course phases (design G-8)', () => {
+/**
+ * The span a phase covers, e.g. 'S14–S26': its first and last section by index. The guard lives
+ * here, not in catalog.ts: the catalogue is reachable from cloud code, and the course chunk must
+ * not be (src/lib/cloud/__tests__/import-boundary.test.ts). So the catalogue keeps typed spans and
+ * this test holds each one to the course.
+ */
+export function phaseSpan(
+  phase: 0 | 1 | 2 | 3,
+  sections: ReadonlyArray<{ readonly index: number; readonly phase?: 0 | 1 | 2 | 3 }> = COURSE_SECTIONS,
+): string {
+  const indices = sections.filter((s) => s.phase === phase).map((s) => s.index)
+  if (indices.length === 0) throw new Error(`no section in phase ${phase}`)
+  const label = (n: number) => `S${String(n).padStart(2, '0')}`
+  return `${label(Math.min(...indices))}–${label(Math.max(...indices))}`
+}
+
+describe('level spans match the course phases (design G-8)', () => {
   it('every level shows the span of the course sections in its phase', () => {
     for (const level of LEVELS) {
-      const phase = level.id - 1
-      const indices = COURSE_SECTIONS.filter((s) => s.phase === phase).map((s) => s.index)
-      const first = Math.min(...indices)
-      const last = Math.max(...indices)
-      const pad = (n: number) => `S${String(n).padStart(2, '0')}`
-      assert.equal(level.sections, `${pad(first)}–${pad(last)}`, level.stableId)
+      assert.equal(level.sections, phaseSpan((level.id - 1) as 0 | 1 | 2 | 3), level.stableId)
     }
   })
 
