@@ -196,7 +196,7 @@ bias_pp {'Lima': 0.25, 'Madrid': -0.09, 'Bogota': -0.16}`,
  paragraphs: [
  "Un **intervalo de confianza** aproximado para la media con n grande y colas razonables: media ± z·(s/√n) (z≈1.96 para 95%). El IC habla de un **parámetro** (p. ej. media poblacional) bajo un modelo de muestreo: **no** significa “el 95% de los datos cae en el intervalo” ni “quedó probado al 95% que la media es el punto central”.",
  "Con **n pequeño**, **colas pesadas** o montos lognormales (como tickets de T1), la aproximación z es tosca: no pegues 1.96·s/√n sin advertir el supuesto. El **bootstrap simple** muestra la dispersión de un **estimador** de una muestra a otra, y su asimetría, sin depender de una fórmula. Un estimador es la regla que convierte la muestra en un número que aproxima el parámetro; aquí, la regla es «calcula la media». Remuestrea los datos con reemplazo, calcula la media de cada remuestra y toma los percentiles 2.5 y 97.5 de esas medias.",
- "El bootstrap tampoco rescata una muestra pequeña ni una cola pesada: imagina repetir el estudio muchas veces, cada vez con cinco tickets nuevos, no con remuestras de los mismos cinco. El rótulo 95% promete que unos 95 de cada 100 intervalos contendrían la media poblacional. Con tickets lognormales como los de T1, el intervalo percentil la contiene solo unas 81 veces de cada 100: sale demasiado estrecho. Ningún intervalo fabrica la información que la muestra no contiene: reporta n y evita lenguaje de certeza.",
+ "El bootstrap tampoco rescata una muestra pequeña ni una cola pesada: imagina repetir el estudio muchas veces, cada vez con cinco tickets nuevos, no con remuestras de los mismos cinco. El rótulo 95% promete que unos 95 de cada 100 intervalos contendrían la media poblacional. En esta simulación reproducible de 400 estudios por tamaño, el código imprime una cobertura de 0.81 (81 de cada 100) con n=5 y 0.94 con n=40, cerca del 0.95 prometido. Ningún intervalo fabrica la información que la muestra no contiene: reporta n y evita lenguaje de certeza.",
  "El **tamaño de efecto** (d de Cohen ≈ (μ₁−μ₀)/s_pooled, o diferencia de medianas en PEN) comunica **magnitud**, no solo “significativo”. Contrato de lenguaje: di “compatible con” / “en la muestra” y reporta n + IC; nunca “probado” con un solo IC. Caso sintético: media B ~108 vs. A ~94, d≈1.1 — magnitud + incertidumbre, no veredicto causal de campaña. Sin PII real ni afirmaciones de fraude.",
  ],
  code: {
@@ -230,6 +230,24 @@ bias_pp {'Lima': 0.25, 'Madrid': -0.09, 'Bogota': -0.16}`,
     print("boot_ic95", (round(float(lo), 2), round(float(hi), 2)))
     print("nota_ic", "z_approx_y_bootstrap_describen_incertidumbre; reportar_n")
 
+    media_poblacional = np.exp(3.0 + 0.5**2 / 2)
+    R, B = 400, 600
+
+    def cobertura(n):
+        contiene = 0
+        for _ in range(R):
+            x = rng.lognormal(mean=3.0, sigma=0.5, size=n)
+            medias = rng.choice(x, size=(B, len(x)), replace=True).mean(axis=1)
+            lo, hi = np.percentile(medias, [2.5, 97.5])
+            contiene += lo <= media_poblacional <= hi
+        return contiene / R
+
+    cobertura_n40 = cobertura(40)
+    cobertura_n5 = cobertura(5)
+    print("media_poblacional", round(float(media_poblacional), 2))
+    print("cobertura_n5", round(float(cobertura_n5), 2))
+    print("cobertura_n40", round(float(cobertura_n40), 2))
+
 s18_th_4()`,
  output: `mean_a 94.07 mean_b 108.64
 ic95_b (104.39, 112.88)
@@ -237,7 +255,10 @@ cohens_d 1.118
 n_a 40 n_b 40
 remuestras_B 200
 boot_ic95 (104.47, 112.43)
-nota_ic z_approx_y_bootstrap_describen_incertidumbre; reportar_n`,
+nota_ic z_approx_y_bootstrap_describen_incertidumbre; reportar_n
+media_poblacional 22.76
+cobertura_n5 0.81
+cobertura_n40 0.94`,
  },
  callout: {
  type: "tip",
@@ -1321,9 +1342,9 @@ print("d", round(d, 2))`,
  edgeCases: ["B=100 todavía mueve los extremos de una seed a otra", "x vacío: cada remuestra sale vacía y su media es nan"],
  tests: "salida coincide con solution output",
  feedback:
-  "El intervalo y `mayor_hacia_arriba` resumen cien medias remuestreadas: el lado superior se estira más porque cada copia del 50 sube la media unos 8. La fórmula media ± 1.96·s/√n es simétrica por construcción y no puede mostrar ese lado más largo. Con B=100 ese resumen todavía es tosco: otra seed mueve los extremos. `medias_distintas 34 de 100` muestra el límite: el remuestreo solo recombina los mismos cinco montos, que admiten como mucho 51 medias distintas; subir B no agrega observaciones.",
+  "El intervalo y `mayor_hacia_arriba` resumen cien medias remuestreadas: el lado superior se estira más porque cada copia del 50 sube la media unos 8. La fórmula media ± 1.96·s/√n es simétrica por construcción y no puede mostrar ese lado más largo. Con B=100 ese resumen todavía es tosco: otra seed mueve los extremos. `medias_distintas 34 de 100` muestra que las cien remuestras recombinan los mismos cinco montos; subir B calcula más medias remuestreadas, pero no agrega observaciones originales ni información.",
  retrospective:
-  "El bootstrap muestra cómo varía el estimador; no señala dónde vive el 95% de los tickets ni rescata n=5: con muestras tan pequeñas, su intervalo sale demasiado estrecho. La seed fija vuelve auditable la comparación. Puente a T3: asociación sin vender causa.",
+  "El bootstrap muestra cómo varía el estimador; no señala dónde vive el 95% de los tickets ni convierte cinco observaciones en más información. La cobertura insuficiente con n=5 se demostró en la comprobación de estudios repetidos del bloque de teoría, no con este conteo. La seed fija vuelve auditable la comparación. Puente a T3: asociación sin vender causa.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
